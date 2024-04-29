@@ -16,6 +16,8 @@ import {
 } from '@instana/types';
 
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
+import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
+import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import { createSloEventFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
@@ -33,6 +35,12 @@ export default function TrafficKpiCard({ configuration }: TrafficKpiCardProps) {
   const { entity } = configuration;
   const timeConfig = useTimeConfig();
   const { primaryMetricConfiguration, companionMetricConfiguration } = useMetricConfiguration(entity, timeConfig);
+  const { timeWindows } = useSloTimeWindowContext();
+  const hasMatchingTimeWindows = timeWindows.length > 0;
+
+  if (!hasMatchingTimeWindows)
+    return <NoValueKpiCard title={t('in-service-levels:sloDashboard.components.trafficKpiCard.title')} />;
+
   const { primaryFormatter, companionFormatter } = getFormatters(entity);
 
   return (

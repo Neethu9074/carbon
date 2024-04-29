@@ -223,7 +223,7 @@
     "eventName": "Event Name",
     "returnCode": "Return Code",
     "errorMessage": "Error Message",
-    "actionContent": "Action Content",
+    "action": "Action",
     "host": "Host",
     "log": "Log",
     "success": "Success",
@@ -236,13 +236,13 @@
     "inputParameters": "Input Parameters",
     "feedbackTab": "Feedback",
     "properties": "Properties",
-    "filterNameOrActionInstanceId": "Filter by  Name, Event Name or Action Instance ID",
+    "filter": "Filter",
     "inputPrompt": "Tell us about your experience with this action:",
-    "unhappyFeedback": "I am extremely unhappy",
+    "unhappyFeedback": "I am extremely dissatisfied",
     "dissatisfiedFeedback": "I am dissatisfied",
     "neutralFeedback": "I am neutral",
-    "satisfiedFeedback": "I was satisfied",
-    "verySatisfiedFeedback": "I was extremely satisfied",
+    "satisfiedFeedback": "I am satisfied",
+    "verySatisfiedFeedback": "I am extremely satisfied",
     "additionalFeedback": "Additional Comments (optional)",
     "feedbackError": "An error occured while saving your feedback. Please try again later.",
     "feedbackNotSelectedError": "Please select an option before submitting.",
@@ -255,7 +255,10 @@
     "submitted": "Submitted",
     "timeout": "Timeout",
     "issueUrl": "Issue url",
-    "taskUrl": "Task url"
+    "taskUrl": "Task url",
+    "output": "Output",
+    "user": "User",
+    "apiToken": "API Token"
   },
   "actionLanes": {
     "buttonInvestigate": "Investigate"
@@ -288,7 +291,6 @@
     "custom": "Custom",
     "event": "Event",
     "entityType": "Entity type",
-    "properties": "Properties",
     "applicationSmartAlert": "Application Smart Alert",
     "globalApplicationSmartAlert": "Global Application Smart Alert",
     "infraSmartAlert": "Infrastructure Smart Alert",
@@ -308,6 +310,7 @@
     "manualAutomatic": "Manual, Automatic",
     "policyType": "Policy Type",
     "noPolicies": "There are no policies configured.",
+    "filterApplied": "Filter Applied",
     "createDialog": {
       "success": {
         "title": "Policy was created successfully.",
@@ -315,7 +318,17 @@
       },
       "failure": {
         "title": "Failed to created policy.",
-        "content": "There was a problem creating this policy: \"{{name}}\"."
+        "content": "There was a problem creating this policy: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "Policy was updated successfully.",
+        "content": "Policy \"{{name}}\" has been updated successfully."
+      },
+      "failure": {
+        "title": "Failed to update policy.",
+        "content": "There was a problem updating this policy: {{errorMessage}}"
       }
     },
     "createBulkDialog": {
@@ -329,7 +342,7 @@
       },
       "failure": {
         "title": "Failed to create policies.",
-        "content": "There was a problem creating the policies:{{error}}"
+        "content": "There was a problem creating the policies: {{error}}"
       }
     },
     "deleteDialog": {

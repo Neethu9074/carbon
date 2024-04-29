@@ -59,12 +59,9 @@ describe('in-custom-dashboards/widgets/Apdex/components/ConfigurationSelector/Co
     );
 
     // Then
-    expect(
-      wrapper
-        .find('option')
-        .first()
-        .text()
-    ).toEqual(t('in-custom-dashboards:widgets.apdex.configurationSelector.pleaseSelect'));
+    expect(wrapper.find('option').first().text()).toEqual(
+      t('in-custom-dashboards:widgets.apdex.configurationSelector.pleaseSelect')
+    );
   });
 
   it('renders a notice if no config is available and disables select element', () => {
@@ -86,22 +83,9 @@ describe('in-custom-dashboards/widgets/Apdex/components/ConfigurationSelector/Co
     ).dive();
 
     // Then
-    expect(
-      wrapper
-        .find('Section')
-        .children()
-        .first()
-        .dive()
-        .find('select')
-        .prop('disabled')
-    ).toBeTruthy();
-    expect(
-      wrapper
-        .find('AdditionalSectionContent')
-        .dive()
-        .children()
-        .first()
-        .text()
-    ).toEqual(t('in-custom-dashboards:widgets.apdex.configurationSelector.noneAvailCreateOne'));
+    expect(wrapper.find('Section').children().find('.cds--select--disabled')).toBeTruthy();
+    expect(wrapper.find('AdditionalSectionContent').dive().children().first().text()).toEqual(
+      t('in-custom-dashboards:widgets.apdex.configurationSelector.noneAvailCreateOne')
+    );
   });
 });

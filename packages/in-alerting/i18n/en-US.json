@@ -426,7 +426,7 @@
         "thresholdFormBaselineIsEmpty": "baseline is empty"
       },
       "simple": {
-        "simpleAlertStep1Headline": "What do you want to be alerted on?",
+        "simpleAlertStep1Headline": "Choose the issue that you want to be alerted on",
         "simpleAlertStep2Headline": "Where do you want the alert to trigger?",
         "step1Title": "Step 1: Select Alert",
         "step2Title": "Step 2: Select Scope",
@@ -434,7 +434,9 @@
       },
       "components": {
         "createSmartAlert": "Add Smart Alert",
+        "createSmartAlertNew": "Add Smart Alert (New)",
         "createGlobalSmartAlert": "Add Global Smart Alert",
+        "createGlobalSmartAlertNew": "Add Global Smart Alert (New)",
         "provideLogMessageSelectLogMessage": "Select Log Message",
         "provideLogMessageLogLevel": "Log Level",
         "provideLogMessageErrorMessage": "Error Message",
@@ -485,8 +487,62 @@
         "step2Title": "Define the scope",
         "step3Title": "Define when to get alerted",
         "step4Title": "Define alert properties and channels",
-        "step5Title": "Logs",
-        "step6Title": "Choose actions"
+        "callsInScope": {
+          "title": "Choose calls in scope ",
+          "description": "This determines which services or endpoints are available for selection."
+        },
+        "includeHiddenCalls": {
+          "title": "Include hidden calls (optional) ",
+          "description": "Hidden calls do not appear in built-in dashboards."
+        },
+        "serviceEndPointSelection": "Services or endpoints for selected calls",
+        "AlertPropertiesTitle": "What properties do you want to set for this alert?",
+        "AlertChannelTitle": "Where do you want to be notified for alert?",
+        "inboundOutboundCalls": {
+          "config": {
+            "inbound": {
+              "text": "Inbound Calls",
+              "dashboard": "For detecting issues as perceived by consumers of this application",
+              "overrideDefault": "The default scope for this application is Inbound Calls only. You can change this in Configuration."
+            },
+            "all": {
+              "text": "All Calls",
+              "dashboard": "For detecting issues in any service or endpoint within this application.",
+              "overrideDefault": "The default scope for this application is All Calls. You can change this in Configuration."
+            }
+          }
+        },
+        "hiddenCalls": {
+          "config": {
+            "includeInternal": {
+              "text": "Internal calls are work done inside a service and correspond to intermediate spans in custom tracing"
+            },
+            "includeSynthetic": {
+              "text": "Synthetic calls have a synthetic endpoint as their destination, such as calls to health-check endpoints"
+            }
+          }
+        },
+        "threshold": {
+          "title": "Set a value for the violation threshold",
+          "description": "Choose metric, violation threshold and time window to evaluate the violation."
+        },
+        "staticOrAdaptive": {
+          "config": {
+            "adaptive": {
+              "description": "A threshold value that automatically adapts to the changes of the underlying metric is applied."
+            },
+            "static": {
+              "description": "A constant threshold value is applied and it does not change over time."
+            }
+          }
+        },
+        "alertChart": {
+          "title": "Alerts preview",
+          "description": "Shows how alerts would have triggered based on historical metric data."
+        },
+        "alertProperties": {
+          "previewTitle": "Alert preview"
+        }
       }
     },
     "details": {
@@ -595,7 +651,8 @@
         "sharedListTooltip": "{{typeName}} is not available anymore",
         "clearTagFilterExpressionButton": "Clear",
         "baselineErrorMessageComputedOnApproximateData": "The baseline is computed based on approximate data due to data retention settings. Therefore, it might not be accurate in case there are few calls matching selected filters.",
-        "baselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <em>Static Threshold</em> instead.",
+        "baselineValidationMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <em>Static Threshold</em> instead.",
+        "baselineGenericErrorMessage": "Failed to retrieve baseline. Please select <em>Static Threshold</em> instead.",
         "pleaseContactSupportToRiseLimit": "Please contact us via our <supportLink>{{instanaSupportPortal}}</supportLink> to request an increase of this limit.",
         "adaptiveBaselineErrorMessage": "Threshold preview is currently unavailable.<br />This Smart Alert can still be saved.",
         "adaptiveBaselineErrorMessageNotAvailable": "Adaptive threshold is currently unavailable.",
@@ -1066,9 +1123,21 @@
         "views": "Views",
         "customEventBlueprintConfigMetricLabel": "Occurrences",
         "sessions": "Sessions",
+        "crashAffectedSessionRate": "Crash Affected Session Rate",
+        "crashFreeSessionRate": "Crash Free Session Rate",
+        "crashAffectedSessionCount": "Crash Affected Session Count",
+        "crashFreeSessionCount": "Crash Free Session Count",
+        "crashAffectedUserRate": "Crash Affected User Rate",
+        "crashFreeUserRate": "Crash Free User Rate",
+        "crashAffectedUserCount": "Crash Affected User Count",
+        "crashFreeUserCount": "Crash Free User Count",
         "statusCodeBlueprintConfigName": "HTTP Status Codes",
         "throughputBlueprintConfigName": "Throughput",
         "customEventBlueprintConfigName": "Custom Events",
+        "crashBlueprintConfigName": "Crashes",
+        "crashBlueprintConfigHeadline": "Automatic Alerts for Crashes",
+        "crashBlueprintConfigText": "Receive an alert when selected crash metric is higher or lower than expected.",
+        "crashBlueprintSelectMetric": "Select Crash Metric",
         "statusCodeBlueprintConfigHeadline": "Automatic Alerts for HTTP Status Codes",
         "statusCodeBlueprintConfigText": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
         "throughputBlueprintConfigHeadline": "Automatic Alerts for Mobile App Views",
@@ -1134,7 +1203,10 @@
         "ruleMetricNameOptionThroughputSessions": "Sessions",
         "ruleMetricNameOptionThroughputViews": "Views",
         "errorPleaseProvideCustomEventName": "Please provide a custom event name",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0"
+        "titlePlaceholderCrashSimpleHighOperator": "{{metricLabel}} is anomalously high",
+        "titlePlaceholderCrashSimpleLowOperator": "{{metricLabel}} is anomalously low",
+        "descriptionPlaceholderCrashSimpleAboveOperator": "{{metricLabel}} is above the expectation.",
+        "descriptionPlaceholderCrashSimpleBelowOperator": "{{metricLabel}} is below the expectation."
       },
       "customEvent": {
         "noCustomEventsFound": "No custom events found",
@@ -1201,7 +1273,7 @@
         "staticThresholdHigherEqualsOperatorText": "The number of {{metricLabel}} higher or equal to {{thresholdValue}}.",
         "staticThresholdLowerOperatorText": "The number of {{metricLabel}} lower than {{thresholdValue}}.",
         "staticThresholdLowerEqualsOperatorText": "The number of {{metricLabel}} lower or equal to {{thresholdValue}}.",
-        "thresholdHigherOperatorText": "The number of {{metricLabel}}is higher than expected.",
+        "thresholdHigherOperatorText": "The number of {{metricLabel}} is higher than expected.",
         "thresholdHigherEqualsOperatorText": "The number of {{metricLabel}} higher or equal to expected.",
         "thresholdLowerOperatorText": "The number of {{metricLabel}} lower than expected.",
         "thresholdLowerEqualsOperatorText": "The number of {{metricLabel}} lower or equal to expected."

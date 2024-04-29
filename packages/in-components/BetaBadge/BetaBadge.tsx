@@ -6,9 +6,9 @@
 
 import React from 'react';
 
+import { Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 export default function BetaBadge() {

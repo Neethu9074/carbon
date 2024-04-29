@@ -20,10 +20,7 @@
       flex-direction: column;
       align-items: flex-end;
       list-style: none;
-    }
-
-    li:not(:last-child) {
-      margin-bottom: @spacing;
+      row-gap: @spacing;
     }
   }
 
@@ -61,7 +58,6 @@
   }
 
   .dropdown {
-    position: absolute;
     transition: all ease-in-out 0.25s;
     overflow: hidden;
     bottom: 4rem;

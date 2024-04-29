@@ -8,7 +8,6 @@ import React, { Fragment } from 'react';
 
 import WorkProcessListMetric from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/WorkProcessListMetric';
 import DBConnectionProvider from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DBConnectionProvider';
-import DiskHourDataStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DiskHourDataStats';
 import FileSystemMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/FileSystemMetrics';
 import BufferStatistics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/BufferStatistics';
 import DatabaseHitList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DatabaseHitList';
@@ -69,7 +68,6 @@ export default function Detailed({ timeConfig, data: sap }) {
       <DBConnectionProvider snapshotId={snapshotId} timeConfig={timeConfig} />
       <DatabaseHitList snapshotId={snapshotId} timeConfig={timeConfig} />
       <FileSystemMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
-      <DiskHourDataStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <DumpStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <LockEntryList snapshotId={snapshotId} />
     </Fragment>

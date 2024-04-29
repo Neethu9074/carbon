@@ -36,6 +36,8 @@ import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import config from 'in-services/config';
 
+import locals from './QueryBuilderWorkspace.mless';
+
 export default function WebsiteQueryBuilderWorkspace(props) {
   const {
     formModel,
@@ -124,7 +126,7 @@ export default function WebsiteQueryBuilderWorkspace(props) {
             />
           </Sections>
           {!isValid && !isLoading && (
-            <Message type="error" withIcon small>
+            <Message className={locals.message} inline type="error" withIcon small>
               The query configuration is invalid. Please address the validation failures before continuing.
             </Message>
           )}

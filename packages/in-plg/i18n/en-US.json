@@ -13,6 +13,8 @@
     "buyNowBtn": "Buy on AWS",
     "alreadyHaveLicense": "Already have a license? Activate it on <linkToDocker>Docker</linkToDocker> or <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Get answers",
+    "share": "Share",
+    "shareTooltip":"Share this page with colleagues and invite them to collaborate in Instana.",
     "titleDetail": {
       "trial": "Trial",
       "sandboxTrial": "Sandbox trial"
@@ -592,7 +594,37 @@
   },
   "assistme": {
     "dataSearchContext": {
-      "gettingStarted": "Getting Started"
+    "gettingStarted": "getting started",
+    "websites": "websites",
+    "mobileApps":"mobile app",
+    "businessMonitoring": "business monitoring",
+    "application":"application",
+    "smartAlerts": "smart alerts",
+    "infrastructureMap": "map",
+    "cloudFoundry": "monitoring cloud foundry",
+    "powerHmc": " monitoring IBM power",
+    "kubernetes":"kubernetes",
+    "sap": "monitoring SAP",
+    "synthetic": "synthetic monitoring",
+    "syntheticAlerts": "synthetic alerts",
+    "syntheticPop":"synthetic PoP",
+    "serviceLevel": "service level",
+    "installAgent": "install agent",
+    "analyzeCalls": "analyzing traces and calls",
+    "settingsTab": "managing user access",
+    "userSettings": "user settings",
+    "authSettings": "configuring authentication",
+    "auditLogs": "viewing audit logs",
+    "automation": "managing actions",
+    "customEvents":"defining custom events",
+    "configuringAlerts": "configuring alerts",
+    "alertChannel": "alert channels",
+    "maintenanceWindow":"scheduling",
+    "customPayload": "custom payload",
+    "eventsPage": "managing events",
+    "logManagement": "logging",
+    "configuringAndMonitoring":"configuring and monitoring",
+    "customDashboard": "custom dashboard"
     }
   }
 }

@@ -22,7 +22,7 @@ interface AlertingTearSheetFooterProps {
   form: MapForm<SA_FORM_DATA>;
 }
 
-export function AlertingTearSheetFooter({
+export default function AlertingTearSheetFooter({
   form,
   formId,
   actions,
@@ -42,7 +42,7 @@ export function AlertingTearSheetFooter({
           {leftAction.map(
             (action: AlertingFooterActions) =>
               action.kind === 'ghost' && (
-                <CancelButton key={action.label} onClick={() => action.onClick}>
+                <CancelButton key={action.label} href={action.href}>
                   {action.label}
                 </CancelButton>
               )
@@ -55,7 +55,11 @@ export function AlertingTearSheetFooter({
           {rightAction.map((action: AlertingFooterActions) => (
             <>
               {action.kind === 'secondary' && (
-                <PreviousButton key={action.label} onClick={() => action.onClick(step)} isDisabled={step === 0}>
+                <PreviousButton
+                  key={action.label}
+                  onClick={() => action.onClick && action.onClick(step)}
+                  isDisabled={step === 0}
+                >
                   {action.label}
                 </PreviousButton>
               )}

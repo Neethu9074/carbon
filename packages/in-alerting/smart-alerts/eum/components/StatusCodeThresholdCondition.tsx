@@ -15,7 +15,7 @@ import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/
 import { BluePrint as MobileAppBluePrint } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { BluePrint as WebsiteBluePrint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/ThresholdTypeSelection';
-import { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { Option } from 'in-components/ComboBox';

@@ -8,6 +8,7 @@ import React, { useState, useContext } from 'react';
 import { Field, MapForm } from 'formalistic';
 
 import { Link, Spacer, Typography, Toggle } from '@instana/components';
+import { Select } from '@instana/components';
 
 import {
   putApiKeyFields,
@@ -97,9 +98,9 @@ import FormGroup from 'in-settings/components/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import TextArea from 'in-components/form/TextArea';
 import Code from 'in-components/form/Code/Code';
-import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
@@ -225,7 +226,12 @@ const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'for
         </FormGroup>
       ))}
       <FormGroup>
-        <TagsTable form={form} setForm={setForm} onChange={onChange} />
+        <TagsTable
+          form={form}
+          setForm={setForm}
+          isEditable={!isNotEditable && role?.canConfigureAutomationActions}
+          onChange={onChange}
+        />
       </FormGroup>
     </>
   );

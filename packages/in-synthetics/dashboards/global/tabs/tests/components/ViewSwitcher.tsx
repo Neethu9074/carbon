@@ -14,7 +14,7 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 import PopDeployButton from 'in-synthetics/dashboards/global/tabs/tests/components/PopDeployButton';
 import getPoPInstallationProperties from 'in-synthetics/subscriptions/getPoPInstallationProperties';
 import NewLocationButton from 'in-synthetics/createLocation/NewLocationButton';
-import { syntheticUpdateDeployPoPEnabled } from 'in-services/featureFlags';
+import { syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import * as paths from 'in-synthetics/navigation/paths';
@@ -69,14 +69,14 @@ export default function ViewSwitcher() {
           </SecondLevelNavigation>
           {!popProperties.progress.loading &&
             role?.canConfigureSyntheticLocations &&
-            !syntheticUpdateDeployPoPEnabled && (
+            !syntheticInstanaHostedPoPEnabled && (
               <PopDeployButton
                 downloadKey={popProperties.data?.downloadKey || ''}
                 agentKey={popProperties.data?.agentKey || ''}
                 syntheticAcceptorURL={popProperties.data?.syntheticAcceptorURL || ''}
               />
             )}
-          {role?.canConfigureSyntheticLocations && syntheticUpdateDeployPoPEnabled && <NewLocationButton />}
+          {role?.canConfigureSyntheticLocations && syntheticInstanaHostedPoPEnabled && <NewLocationButton />}
         </div>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />

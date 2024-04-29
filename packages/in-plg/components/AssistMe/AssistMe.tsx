@@ -9,13 +9,14 @@ import React from 'react';
 import { LicenseBannerButton } from '@instana/components';
 
 import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/isCarbonShellEnabled';
+import AssistMeSearchKeyword from 'in-plg/components/AssistMe/AssistMeDynamicSearch';
 import IconButton from 'in-components/IconButton/IconButton';
 import { activeLanguage, t } from 'in-i18n';
 
 export default function AssistMe() {
   if (isCarbonShellEnabled()) {
     return (
-      <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
+      <div data-search-context={AssistMeSearchKeyword()}>
         <LicenseBannerButton
           id="wm-getanswers"
           kind="ghost"
@@ -29,7 +30,7 @@ export default function AssistMe() {
     );
   }
   return (
-    <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
+    <div data-search-context={AssistMeSearchKeyword()}>
       <IconButton buttonType="button" kind="secondary" type="lib_help_error_help_outline" onClick={openAssistMe} />
     </div>
   );

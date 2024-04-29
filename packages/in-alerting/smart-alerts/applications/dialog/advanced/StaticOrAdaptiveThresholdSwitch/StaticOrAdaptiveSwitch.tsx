@@ -27,22 +27,29 @@ interface Props {
     updateForm: (form: MapForm<any>) => void,
     trackThresholdTypeChanged: (trackingObject: any) => void
   ) => void;
+  isTearSheet?: boolean;
 }
 
-export default function StaticOrAdaptiveSwitch({ form, setForm, onThresholdTypeChange }: Props) {
+export default function StaticOrAdaptiveSwitch({ form, setForm, onThresholdTypeChange, isTearSheet }: Props) {
   const thresholdType = ((form.get('threshold') as MapForm<any>)?.get('type') as Field<ThresholdType>)?.value;
   const currentType = thresholdType === ADAPTIVE_BASELINE ? types.adaptive : types.static;
 
   return (
     <Row className={locals.verticalAlignedCells}>
       <Col lg={6}>
-        <StaticOrAdaptiveOption currentType={currentType} onChange={updateThresholdType} baselineType={types.static} />
+        <StaticOrAdaptiveOption
+          currentType={currentType}
+          onChange={updateThresholdType}
+          baselineType={types.static}
+          isTearSheet={isTearSheet}
+        />
       </Col>
       <Col lg={6} className={locals.staticOrAdaptiveOption}>
         <StaticOrAdaptiveOption
           currentType={currentType}
           onChange={updateThresholdType}
           baselineType={types.adaptive}
+          isTearSheet={isTearSheet}
         />
       </Col>
     </Row>

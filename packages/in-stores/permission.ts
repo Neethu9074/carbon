@@ -11,7 +11,6 @@ import {
   pcfEnabled,
   phmcEnabled,
   sapEnabled,
-  syntheticsKeystoreEnabled,
   syntheticsEnabled,
   vsphereEnabled,
   zhmcEnabled,
@@ -691,16 +690,6 @@ export function getProductPermissions(): Array<ProductPermission> {
       Capability.CAN_VIEW_SYNTHETIC_TESTS,
       Capability.CAN_VIEW_SYNTHETIC_LOCATIONS,
       Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
-      Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
-      Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
-    ]);
-
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return !syntheticCapabilities.has(keyForGroupApi);
-    });
-  } else if (!syntheticsKeystoreEnabled) {
-    //Synthetic credential is controlled by syntheticsKeystoreEnabled FF
-    const syntheticCapabilities: Set<CapabilityType> = new Set([
       Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
       Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
     ]);

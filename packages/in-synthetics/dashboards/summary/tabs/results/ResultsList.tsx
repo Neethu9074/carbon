@@ -8,6 +8,7 @@ import React from 'react';
 
 import { OrderDirection, TagFilter, TagFilterExpression, TestResultListItem, TimeConfig } from '@instana/types';
 import { formatDateTime, fromNow } from '@instana/format-date';
+import { Message } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error Could not find declaration type
@@ -33,11 +34,13 @@ import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
+import { hours } from 'in-services/time/time';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/results/ResultsList.mless';
 
@@ -96,7 +99,7 @@ function StartTimeColumnContent(item: TestResultListItem) {
   );
 }
 
-const columnDefinitions = [
+let columnDefinitions: ColumnDefinition<TestResultListItem>[] = [
   {
     id: 'start_time',
     label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
@@ -152,19 +155,10 @@ const urlStateDefinition = {
   })
 };
 
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  Renderer: withEmptyTableState({
-    columnDefinitions,
-    title: t('in-synthetics:dashboard.noDataAvailable.resultsTitle'),
-    description: t('in-synthetics:dashboard.noDataAvailable.resultsDescription')
-  }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters, resultsFilterUrlStateDefinition.bind],
-  columnDefinitions,
-  defaultOrderBy: 'response_time',
-  defaultOrderDirection: 'DESC',
-  pathSegment,
-  matrixPrefix
-});
+const daysRemainingColumnContent = (item: TestResultListItem) => {
+  const daysRemaining = get(item, ['metrics', 'synthetic.customMetrics.daysRemaining', 0, 1]);
+  return <span className={locals.metricLabel}>{daysRemaining}</span>;
+};
 
 interface ResultListProps {
   test: TestResponse;
@@ -173,8 +167,10 @@ interface ResultListProps {
 export default function ResultsList({ test }: ResultListProps) {
   const timeConfig = useTimeConfig();
   const location = useLocation();
+  const timeFrameSelectedInHours = Math.floor(timeConfig.windowSize / hours.toMillis(1));
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   testType = test.data?.configuration?.syntheticType || '';
+  const isSSLCertificate = testType === 'SSLCertificate';
   const locationDisplayLabels: string[] =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels')?.split(',') ?? [];
 
@@ -189,7 +185,43 @@ export default function ResultsList({ test }: ResultListProps) {
     />
   );
 
-  return (
+  let columnDefinitionsBasedOnType = columnDefinitions;
+  if (isSSLCertificate) {
+    columnDefinitionsBasedOnType = columnDefinitions.filter(
+      columnDefinition => columnDefinition.id !== 'response_size'
+    );
+    columnDefinitionsBasedOnType.push({
+      id: 'days_remaining',
+      sortable: false,
+      label: t('in-synthetics:dashboard.resultsListPage.daysRemaining'),
+      getContent: daysRemainingColumnContent
+    });
+  }
+
+  const ServerTableWithUrlState = createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
+      columnDefinitions: columnDefinitionsBasedOnType,
+      title: t('in-synthetics:dashboard.noDataAvailable.resultsTitle'),
+      description: t('in-synthetics:dashboard.noDataAvailable.resultsDescription')
+    }),
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, resultsFilterUrlStateDefinition.bind],
+    columnDefinitions: columnDefinitionsBasedOnType,
+    defaultOrderBy: 'response_time',
+    defaultOrderDirection: 'DESC',
+    pathSegment,
+    matrixPrefix
+  });
+
+  const isSSLCertificateTimeFrame: boolean = isSSLCertificate && timeFrameSelectedInHours < 24;
+
+  return isSSLCertificateTimeFrame ? (
+    <Message
+      withIcon
+      title={t('in-synthetics:dashboard.resultsListPage.smallerTimeFrameTitle')}
+      description={t('in-synthetics:dashboard.resultsListPage.smallerTimeFrameDescription')}
+      bold
+    />
+  ) : (
     <>
       <ServerTableWithUrlState
         get={getSynthTableData}
@@ -225,6 +257,10 @@ function getSynthTableData({
   status = [],
   locationLabels = []
 }: GetList) {
+  if (testType === 'SSLCertificate') {
+    metrics.push('custom_metrics');
+    metrics.splice(metrics.indexOf('response_size'), 1);
+  }
   let baseTagFilters: TagFilter[] = [
     {
       stringValue: testId,

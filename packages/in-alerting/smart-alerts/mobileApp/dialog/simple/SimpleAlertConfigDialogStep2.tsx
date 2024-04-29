@@ -7,6 +7,10 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import {
+  AlertConfigDialogPresenterProps,
+  MainDialogControl
+} from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/mobileApp/dialog/simple/SimpleAlertConfigDialogChart';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
@@ -30,8 +34,9 @@ export default function SimpleAlertConfigDialogStep2({
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
-  QueryBuilderComponent
-}: SimpleAlertConfigDialogStep2Props) {
+  QueryBuilderComponent,
+  thresholdResult
+}: AlertConfigDialogPresenterProps & MainDialogControl & SimpleAlertConfigDialogStep2Props) {
   const mobileAppId = form.get('mobileAppId')?.value;
   const [mobileApp] = useMobileApp(mobileAppId);
   return (
@@ -53,6 +58,7 @@ export default function SimpleAlertConfigDialogStep2({
           form={form}
           onChartViewConfigChange={onChartViewConfigChange}
           selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+          thresholdResult={thresholdResult}
         />
       </div>
     </SimpleModeStepContentWrapper>

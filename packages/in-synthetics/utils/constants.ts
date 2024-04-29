@@ -17,7 +17,8 @@ import {
   TestResultSubtransaction,
   Error,
   PoPInstallationProperties,
-  TestResultMetadata
+  TestResultMetadata,
+  SyntheticDatacenter
 } from 'in-types';
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
@@ -37,6 +38,7 @@ export const apiSimpleTest = 'API Simple';
 export const apiScriptTest = 'API Script';
 export const browserSimpleTest = 'Browser Simple';
 export const browserScriptTest = 'Browser Script';
+export const SSLCertificateTest = 'Certificate Check';
 export const expectStatus = 'Expect Status';
 export const expectJson = 'Expect JSON';
 export const expectMatch = 'Expect Match';
@@ -45,6 +47,14 @@ export const scriptTestType = (fileExtension: string, syntheticType: string) => 
   if (fileExtension === 'js' || fileExtension === 'zip') return 'BrowserScript';
   if (fileExtension === 'side') return 'WebpageScript';
   return syntheticType;
+};
+
+export const dummySyntheticDatacenter: SyntheticDatacenter = {
+  cityName: '',
+  code: '',
+  countryName: '',
+  label: '',
+  provider: ''
 };
 
 export const dummyLocations = {
@@ -414,12 +424,6 @@ export interface AdvancedModeProps {
   setInvalidCustomProperty: React.Dispatch<React.SetStateAction<Invalid>>;
   invalidTimeout: Invalid;
   setInvalidTimeout: React.Dispatch<React.SetStateAction<Invalid>>;
-  certificateCheckHostNameError: InvalidCertificateParams;
-  setCertificateCheckHostNameError: React.Dispatch<React.SetStateAction<InvalidCertificateParams>>;
-  certificateCheckPortError: InvalidCertificateParams;
-  setCertificateCheckPortError: React.Dispatch<React.SetStateAction<InvalidCertificateParams>>;
-  certificateCheckDaysRemainingError: InvalidCertificateParams;
-  setCertificateCheckDaysRemainingError: React.Dispatch<React.SetStateAction<InvalidCertificateParams>>;
 }
 
 export interface SlideInConfig {
@@ -511,9 +515,14 @@ export interface SimpleOrScript {
   script: boolean;
 }
 
+interface Simple {
+  simple: boolean;
+}
+
 export interface TestTypeSelected {
   api: SimpleOrScript;
   browser: SimpleOrScript;
+  ssl: Simple;
 }
 
 export interface Invalid {
@@ -579,7 +588,3 @@ export const retriesObject: { label: string; value: number }[] = [
 ];
 
 export const datacenterProviderMap = new Map([['aws', 'AWS']]);
-
-export interface InvalidCertificateParams extends Invalid {
-  touched: boolean;
-}

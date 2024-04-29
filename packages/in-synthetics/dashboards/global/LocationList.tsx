@@ -8,14 +8,14 @@ import React from 'react';
 
 import { OrderDirection, TagFilter, TagFilterExpression, TimeConfig } from '@instana/types';
 
-// @ts-expect-error Module needs to be translated to TS
-import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import {
   CurrentLocationsState,
   FilterLocationState,
   filterLocationTypesUrlStateDefinition,
   locationTypesUrlParameter
 } from 'in-synthetics/utils/constants';
+// @ts-expect-error Module needs to be translated to TS
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error Module needs to be translated to TS
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/locations/components/columnDefinitions';

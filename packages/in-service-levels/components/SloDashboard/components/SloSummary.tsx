@@ -6,6 +6,9 @@
 
 import React, { useEffect } from 'react';
 
+import { Message } from '@instana/components';
+import { t } from '@instana/i18n-react';
+
 import MatchingSloTimeWindowsCard from 'in-service-levels/components/SloDashboard/components/MatchingSloTimeWindowsCard';
 import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import ErrorBudgetKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/ErrorBudgetKpiCard';
@@ -14,6 +17,7 @@ import SloStatusKpiCard from 'in-service-levels/components/SloDashboard/componen
 import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/TrafficKpiCard';
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
 import TimeWindowCard from 'in-service-levels/components/SloDashboard/components/TimeWindowCard';
+import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { SLO_SUMMARY_VIEW } from 'in-services/tracking/eventNames';
@@ -37,6 +41,9 @@ export default function SloSummary({ data }: SloSummaryWrapperProps) {
 function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { configuration } = data;
 
+  const { timeWindows } = useSloTimeWindowContext();
+  const hasMatchingTimeWindows = timeWindows.length > 0;
+
   const track = useSloTrackers();
   useEffect(() => {
     const { indicator, timeWindow, entity } = configuration;
@@ -50,6 +57,13 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   }, [track, configuration]);
   return (
     <>
+      {!hasMatchingTimeWindows && (
+        <Row>
+          <Col xs={12}>
+            <Message type="warning">{t('in-service-levels:general.noMatchingTimeWindows')}</Message>
+          </Col>
+        </Row>
+      )}
       <Row>
         <Col xs={6}>
           <TimeWindowCard configuration={configuration} />

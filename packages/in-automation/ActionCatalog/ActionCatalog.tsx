@@ -113,7 +113,7 @@ const columnDefinition: ColumnDefinition<Action>[] = [
     width: 5,
     getContent: function Content(action) {
       const navigateToActionDetails = useNavigateToActionDetails();
-      const hasPermisson = role?.canConfigureAutomationPolicies || role?.canRunAutomationActions;
+      const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
       if (!hasPermisson) return null;
       return (
         <Stack align="end">

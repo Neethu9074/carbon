@@ -3,9 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+@import '~in-themes/mixins.less';
+
 :local {
   .shadowModule {
     height: 2rem;
     background: linear-gradient(180deg, #00000015, transparent 40%);
+
+    .print(none);
   }
 }

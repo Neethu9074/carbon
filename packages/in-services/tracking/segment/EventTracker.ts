@@ -8,14 +8,8 @@ import { find } from 'lodash';
 
 import { combineLatest } from '@instana/observables';
 
-import {
-  commomMilestoneVersion,
-  customRealmName,
-  productCode,
-  productCodeType,
-  productTitle,
-  ut30
-} from 'in-services/util/constants';
+import { customRealmName, productCode, productCodeType, productTitle, ut30 } from 'in-services/util/constants';
+import { PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED } from 'in-services/tracking/eventNames';
 //@ts-expect-error
 import { Segment } from 'in-services/tracking/segment/SegmentInit';
 import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
@@ -41,13 +35,17 @@ interface UsageInfoProps {
 
 let productPlanType: string;
 let instanceId: string;
-let tenantName: string;
 let tenantUnitName: string;
 let userId: string;
+
 const segment = Segment();
-const url = window.location.href;
-const path = window.location.pathname;
+
 export const eventTracker = ({ eventName, parentProductArea, parentPageName }: EventTrackerProps) => {
+  const url = window.location.href;
+  const path = window.location.pathname;
+  const userSelfDefinedRole =
+    window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
+
   combineLatest([getTenantsWithUnits(), getUsageInfo({})]).once(([tenantWithUnits, usageInfo]) => {
     const usageInfoWithType = usageInfo as unknown as UsageInfoProps;
     const tenantWithUnitsWithType = tenantWithUnits as unknown as TenantsWithUnits;
@@ -61,24 +59,27 @@ export const eventTracker = ({ eventName, parentProductArea, parentPageName }: E
     if (currentUnit) {
       instanceId = currentUnit.tenantUnitId;
       tenantUnitName = currentUnit.tenantUnitName;
-      tenantName = currentUnit.tenantName;
     }
     userId = customRealmName + '-' + instanceId;
     segment.track(eventName, {
-      url,
-      path,
-      parentProductArea,
-      parentPageName,
-      productPlanType,
-      instanceId,
-      userId,
-      tenantName,
-      tenantUnitName,
-      productTitle,
-      ut30,
-      productCodeType,
-      productCode,
-      commomMilestoneVersion
+      CTA: PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED,
+      UT30: ut30,
+      instanceId: instanceId,
+      instanceName: tenantUnitName,
+      parentPageCategory: parentProductArea,
+      parentPageName: parentPageName,
+      path: path,
+      productCode: productCode,
+      productCodeType: productCodeType,
+      productPlanType: productPlanType,
+      productTitle: productTitle,
+      tenantId: instanceId,
+      url: url,
+      user: {
+        bluemixId: userId,
+        role: userSelfDefinedRole,
+        tenantId: instanceId
+      }
     });
   });
   return null; // SegmentEventTracker does not render anything

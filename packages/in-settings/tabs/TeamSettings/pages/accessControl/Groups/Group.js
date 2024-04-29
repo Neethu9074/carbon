@@ -23,7 +23,6 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import InlineEditorRow from 'in-settings/tabs/TeamSettings/components/InlineEditorRow';
 import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Users';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -203,7 +202,7 @@ function getPermissionSetWithApFilters(permissionSet, form) {
 }
 
 function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = noop }) {
-  const isRestrictedFilter = applicationContributionFilterEnabled && form.get('tagFilterExpression').value?.length > 0;
+  const isRestrictedFilter = form.get('tagFilterExpression').value?.length > 0;
   let permissionSet = form.get('permissionSet').value;
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));

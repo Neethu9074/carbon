@@ -9,7 +9,11 @@ import React from 'react';
 import { MobileAppAlertConfig } from '@instana/types';
 import { Button } from '@instana/legacy';
 
-import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import {
+  getBlueprintConfig,
+  MetricName,
+  MobileAlertType
+} from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 // @ts-expect-error Missing exact typings
 import { defaultGroupings } from 'in-mobile-apps/tags';
@@ -62,7 +66,7 @@ export default function AnalyzeMobileAppEventButton({
   );
 }
 
-function getGrouping(alertType: string, metricName: string) {
+function getGrouping(alertType: MobileAlertType, metricName: string) {
   switch (alertType) {
     case 'statusCode':
       return defaultGroupings.httpRequest;
@@ -70,16 +74,19 @@ function getGrouping(alertType: string, metricName: string) {
       return metricName === 'sessions' ? defaultGroupings.sessionStart : defaultGroupings.viewChange;
     case 'customEvent':
       return defaultGroupings.custom;
+    case 'crash':
+      return defaultGroupings.crash;
     default:
       throw Error('Unsupported alert type');
   }
 }
 
-function getChartedMetrics(alertType: string) {
+function getChartedMetrics(alertType: MobileAlertType) {
   switch (alertType) {
     case 'statusCode':
     case 'throughput':
     case 'customEvent':
+    case 'crash':
       return [
         {
           metricId: 'beaconCount',
@@ -91,7 +98,7 @@ function getChartedMetrics(alertType: string) {
   }
 }
 
-function getIcon(alertType: string) {
+function getIcon(alertType: MobileAlertType) {
   switch (alertType) {
     case 'statusCode':
       return 'lib_mobile_app_request';
@@ -99,12 +106,14 @@ function getIcon(alertType: string) {
       return 'lib_mobile_app_view';
     case 'customEvent':
       return 'lib_mobile_app_custom_event';
+    case 'crash':
+      return 'lib_mobile_app_crash';
     default:
       throw Error('Unsupported alert type');
   }
 }
 
-function getLinkTitle(alertType: string, metricName: string) {
+function getLinkTitle(alertType: MobileAlertType, metricName: string) {
   switch (alertType) {
     case 'statusCode':
       return t('in-events:titleAnalyzeHTTPRequests');
@@ -114,6 +123,8 @@ function getLinkTitle(alertType: string, metricName: string) {
         : t('in-events:titleAnalyzeViewTransitions');
     case 'customEvent':
       return t('in-events:titleAnalyzeCustomEvents');
+    case 'crash':
+      return t('in-events:titleAnalyzeCrash');
     default:
       throw Error('Unsupported alert type');
   }

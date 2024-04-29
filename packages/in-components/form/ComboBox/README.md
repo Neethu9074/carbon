@@ -41,7 +41,7 @@ const options = Object.freeze([
 
 ```js
 import React, { useState } from 'react';
-import Select from 'in-components/form/Select';
+import { Select } from '@instana/components';
 import { t } from 'in-i18n';
 
 const [value, setValue] = useState('INFO');

@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { get } from 'lodash';
 
 import { Spacer as SpacerComponent } from '@instana/components';
+import { Select } from '@instana/components';
 import { Link } from '@instana/components';
 import { Button } from '@instana/legacy';
 
@@ -19,7 +20,6 @@ import { close } from 'in-components/DialogPresenter/store';
 import InputComponent from 'in-components/form/Input';
 import Dialog from 'in-components/Dialog/Dialog';
 import CodeComponent from 'in-components/Code';
-import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
 import { region } from 'in-services/config';
 import { t, Trans } from 'in-i18n';

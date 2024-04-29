@@ -7,7 +7,7 @@
 import { MapFormItems } from 'formalistic';
 import React from 'react';
 
-import { Stack, StackItem, Typography } from '@instana/components';
+import { Stack, StackItem } from '@instana/components';
 
 import {
   AreaRole,
@@ -29,15 +29,11 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
-import { t } from 'in-i18n';
 
 interface AccessAllPanelProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
   entityPermissionKey?: string;
   role?: AreaRoleWithCustomType;
   roleTooltipText?: string | React.ReactElement;
-  description: string;
-  title?: string;
   onChangeRole?: (role: AreaRoleType | AreaRoleWithContributorType) => void;
   productArea: ProductAreaType;
   contributionFilterConfigured?: boolean;
@@ -50,8 +46,6 @@ export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
   onChangeRole,
   entityPermissionKey,
   roleTooltipText,
-  description,
-  title,
   productArea,
   contributionFilterConfigured,
   form,
@@ -59,10 +53,7 @@ export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
   setValid,
   editMode
 }: AccessAllPanelProps<FORM_TYPE>) {
-  const isContributor =
-    applicationContributionFilterEnabled &&
-    entityPermissionKey === 'applicationIds' &&
-    role === AreaRoleWithContributor.CONTRIBUTOR;
+  const isContributor = entityPermissionKey === 'applicationIds' && role === AreaRoleWithContributor.CONTRIBUTOR;
   const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
     productArea,
     ScopedPermissionItem.ACCESS_ALL,
@@ -74,14 +65,11 @@ export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
         {roleTooltipText && onChangeRole && entityPermissionKey && (
           <RoleFormGroup
             htmlFor={`${entityPermissionKey}-role-select`}
-            tooltipText={roleTooltipText}
             value={role}
             defaultRole={AreaRole.VIEWER}
             roleDescription={rolePermissionMessage}
             onChange={onChangeRole}
-            {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
-              ? { options: AreaRolesWithContributor }
-              : {})}
+            {...(entityPermissionKey === 'applicationIds' ? { options: AreaRolesWithContributor } : {})}
           />
         )}
         {entityPermissionKey === 'applicationIds' && (
@@ -92,35 +80,21 @@ export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
   };
   return (
     <Stack direction="vertical">
-      {applicationContributionFilterEnabled ? (
-        <StackItem>
-          <ConfigurationSummary accessLevelType={ScopedPermissionItem.ACCESS_ALL} accessLevelMsg={accessLevelMessage}>
-            {isContributor && contributionFilterConfigured ? <ContributorFilterWarning /> : null}
-            <RoleSelectionSection />
-            {isContributor && (
-              <ContributionFilterWrapper
-                form={form}
-                setForm={setForm}
-                isContributorRole={isContributor}
-                setValid={setValid}
-                editMode={editMode}
-              />
-            )}
-          </ConfigurationSummary>
-        </StackItem>
-      ) : (
-        <>
-          <StackItem>
-            <Typography variant="heading-200" component="div">
-              {title ?? t('in-settings:permissionScope.description_access_all')}
-            </Typography>
-            <Typography variant="body-regular" component="div">
-              {description}
-            </Typography>
-          </StackItem>
+      <StackItem>
+        <ConfigurationSummary accessLevelType={ScopedPermissionItem.ACCESS_ALL} accessLevelMsg={accessLevelMessage}>
+          {isContributor && contributionFilterConfigured ? <ContributorFilterWarning /> : null}
           <RoleSelectionSection />
-        </>
-      )}
+          {isContributor && (
+            <ContributionFilterWrapper
+              form={form}
+              setForm={setForm}
+              isContributorRole={isContributor}
+              setValid={setValid}
+              editMode={editMode}
+            />
+          )}
+        </ConfigurationSummary>
+      </StackItem>
     </Stack>
   );
 }

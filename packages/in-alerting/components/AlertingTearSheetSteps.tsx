@@ -7,7 +7,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import classNames from 'classnames';
 
-import { Spacer } from '@instana/components';
+import { Spacer, Typography } from '@instana/components';
 
 import { AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingTearSheet';
 import { t } from 'in-i18n';
@@ -34,13 +34,16 @@ export default function AlertingTearSheetSteps(props: {
             onClick={() => setStep(idx)}
             key={idx}
           >
-            <span className={locals.inline}>
-              <span>{idx + 1}. </span>
-              <Spacer horizontal="xsmall" />
-              {stepConfig.title}
-            </span>
+            <Typography variant="body-regular">
+              <span className={locals.inline}>
+                <span className={locals.index}>{`${idx + 1}.`} </span>
+                <Spacer horizontal="xsmall" />
+                {stepConfig.title}
+              </span>
+            </Typography>
             {stepConfig.isOptional && <p className={locals.optional}>{t('in-alerting:components.optional')}</p>}
           </div>
+
           <div
             className={classNames({
               [locals.tabSelected]: idx === step

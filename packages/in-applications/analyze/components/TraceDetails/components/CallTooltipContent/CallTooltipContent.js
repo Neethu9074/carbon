@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Pill } from '@instana/components';
+
 import {
   TOTAL_TIME_LABEL,
   NETWORK_TIME_LABEL,
@@ -19,7 +21,6 @@ import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { latencyFixed } from 'in-services/formatters/number';
 import { shorten } from 'in-services/util/string';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './CallTooltipContent.mless';

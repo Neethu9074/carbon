@@ -8,6 +8,7 @@ import { Field, MapForm } from 'formalistic';
 import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Select } from '@instana/components';
 import { Stack } from '@instana/components';
 
 //@ts-expect-error needs ts migration
@@ -24,7 +25,6 @@ import { getTagCatalog } from 'in-logging/api/catalog';
 import Section from 'in-components/workspace/Section';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
-import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

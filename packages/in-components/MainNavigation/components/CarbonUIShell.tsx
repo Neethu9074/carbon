@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { UIShell, MenuItem } from '@instana/components';
+import { UIShell, MenuItem, SideNavMenu, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
@@ -83,6 +83,7 @@ import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 // @ts-expect-error no declaration file
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
+import { isAnalyzeView as isLogsAnalyzeView, logsPathWithDataSource } from 'in-logging/navigation/paths';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
@@ -92,7 +93,6 @@ import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/
 import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
-import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { isBizOpsView, businessProcessPath } from 'in-bizops/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -236,94 +236,6 @@ function Applications() {
   );
 }
 
-function Platforms() {
-  const { matchLocation, createHrefToPath } = useNavigation();
-
-  let numPlatformsAvailable = 0;
-  if (hasOpenStackAccess) numPlatformsAvailable++;
-  if (hasPCFAccess) numPlatformsAvailable++;
-  if (hasPHMCAccess) numPlatformsAvailable++;
-  if (hasPowerVcAccess) numPlatformsAvailable++;
-  if (hasZHMCAccess) numPlatformsAvailable++;
-  if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (hasVSphereAccess) numPlatformsAvailable++;
-  if (hasSAPAccess) numPlatformsAvailable++;
-  if (numPlatformsAvailable === 0) {
-    return null;
-  }
-
-  return (
-    <MenuItem icon="lib_platforms_inverted" label={t('in-components:mainNavigation.viewSwitcherLabelPlatforms')}>
-      {/* Keep the list of platforms sorted alphabetically */}
-      {hasPCFAccess && (
-        <MenuItem
-          id="main-nav-cloudfoundry"
-          label={t('in-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
-          href={createHrefToPath(cloudfoundryApplicationList)}
-          isActive={matchLocation(cloudfoundry)}
-        />
-      )}
-      {hasOpenStackAccess && !playwithEnabled && (
-        <MenuItem
-          id="main-nav-openstack"
-          label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
-          href={createHrefToPath(regionListFullyQualified)}
-          isActive={matchLocation(openstack)}
-        />
-      )}
-      {hasPHMCAccess && !playwithEnabled && (
-        <MenuItem
-          id="main-nav-phmc"
-          label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
-          href={createHrefToPath(phmcListFullyQualified)}
-          isActive={matchLocation(ibmp)}
-        />
-      )}
-      {hasPowerVcAccess && !playwithEnabled && (
-        <MenuItem
-          id="main-nav-powervc"
-          label={t('in-components:mainNavigation.viewSwitcherLabelPowervc')}
-          href={createHrefToPath(powervcRegionListFullyQualified)}
-          isActive={matchLocation(powervc)}
-        />
-      )}
-      {hasZHMCAccess && !playwithEnabled && (
-        <MenuItem
-          id="main-nav-zhmc"
-          label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
-          href={createHrefToPath(zhmcListFullyQualified)}
-          isActive={matchLocation(ibmz)}
-        />
-      )}
-      {hasKubernetesAccess && (
-        <MenuItem
-          id="main-nav-kubernetes"
-          label={t('in-components:mainNavigation.viewSwitcherLabelKubernetes')}
-          href={createHrefToPath(kubernetesClusterList)}
-          isActive={matchLocation(kubernetes)}
-        />
-      )}
-      {hasSAPAccess && !playwithEnabled && (
-        <MenuItem
-          id="main-nav-sap"
-          label={t('in-components:mainNavigation.viewSwitcherLabelSap')}
-          href={createHrefToPath(sapSystemList)}
-          isActive={matchLocation(sap)}
-          infoTag={t('in-components:featureFeedback.labelBETA')}
-        />
-      )}
-      {hasVSphereAccess && !playwithEnabled && (
-        <MenuItem
-          id="main-nav-vsphere"
-          label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}
-          href={createHrefToPath(datacenterListFullyQualified)}
-          isActive={matchLocation(vsphere)}
-        />
-      )}
-    </MenuItem>
-  );
-}
-
 function Infrastructure() {
   const { matchLocation, createHrefToPath } = useNavigation();
   const isTableViewActive = useObservable(isTableView('physical'), []);
@@ -346,7 +258,7 @@ function Infrastructure() {
 }
 
 function Analyze() {
-  const { matchLocation } = useNavigation();
+  const { matchLocation, createHrefToPath } = useNavigation();
   const isActiveLegacy = useObservable(
     any(isWebsiteAnalyzeView, isMobileAppAnalyzeView, isProfileAnalyzeView, isLogsAnalyzeView, isInfraExploreView()),
     []
@@ -360,7 +272,7 @@ function Analyze() {
   const getLinkToMobileAppAnalyze = useLinkToMobileAppAnalyze();
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
-  if (!hasAnalyzeAccess) {
+  if (!hasAnalyzeAccess && !role?.canViewLogs) {
     return null;
   }
 
@@ -384,6 +296,8 @@ function Analyze() {
               )
             ),
           hasWebsitesAccess && just(analyzeHref),
+          // eslint-disable-next-line no-console
+          role?.canViewLogs && just(createHrefToPath(logsPathWithDataSource)),
           hasMobileAppsAccess &&
             just(
               getLinkToMobileAppAnalyze({
@@ -517,12 +431,11 @@ function signOut() {
 }
 
 // Settings and "More" dropdown
-function SettingsAndMore({ onViewSwitched }: CarbonUIShellProps) {
+function SettingsAndMore() {
   const { matchLocation, createHrefToPath } = useNavigation();
   if (playwithEnabled) {
     return null;
   }
-  const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
   return (
     <>
       <MenuItem
@@ -533,7 +446,133 @@ function SettingsAndMore({ onViewSwitched }: CarbonUIShellProps) {
         href={createHrefToPath(settingsPath)}
       />
       <InternalView />
-      <MenuItem icon="lib_menu_additional_resources" label={t('in-components:mainNavigation.viewSwitcherLabelMore')}>
+    </>
+  );
+}
+
+function HeaderContent() {
+  return (
+    <>
+      {playwithEnabled || playWithReleaseEnabled ? <NewPlayWithHeader /> : null}
+      <NotificationBarSticky />
+    </>
+  );
+}
+
+type CarbonUIShellProps = {
+  onViewSwitched: (e: React.MouseEvent<HTMLElement>, label: string) => void;
+};
+
+export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
+  const titleDetail = useUIShellTitleDetail();
+  const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
+  const { matchLocation, createHrefToPath } = useNavigation();
+
+  let numPlatformsAvailable = 0;
+  if (hasOpenStackAccess) numPlatformsAvailable++;
+  if (hasPCFAccess) numPlatformsAvailable++;
+  if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasPowerVcAccess) numPlatformsAvailable++;
+  if (hasZHMCAccess) numPlatformsAvailable++;
+  if (hasKubernetesAccess) numPlatformsAvailable++;
+  if (hasVSphereAccess) numPlatformsAvailable++;
+  if (hasSAPAccess) numPlatformsAvailable++;
+  if (numPlatformsAvailable === 0) {
+    return null;
+  }
+
+  return (
+    <UIShell onSideNavClick={internalToggleClick} titleDetail={titleDetail} headerContent={<HeaderContent />}>
+      <HomeLink />
+      <WebsiteMobileAppView />
+      <BizOps />
+      <Applications />
+      <SideNavMenu
+        renderIcon={() => <SvgIcon color="white" size="s" type="lib_platforms_inverted" />}
+        title={t('in-components:mainNavigation.viewSwitcherLabelPlatforms')}
+      >
+        {/* Keep the list of platforms sorted alphabetically */}
+        {hasPCFAccess && (
+          <MenuItem
+            id="main-nav-cloudfoundry"
+            label={t('in-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
+            href={createHrefToPath(cloudfoundryApplicationList)}
+            isActive={matchLocation(cloudfoundry)}
+          />
+        )}
+        {hasOpenStackAccess && !playwithEnabled && (
+          <MenuItem
+            id="main-nav-openstack"
+            label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
+            href={createHrefToPath(regionListFullyQualified)}
+            isActive={matchLocation(openstack)}
+          />
+        )}
+        {hasPHMCAccess && !playwithEnabled && (
+          <MenuItem
+            id="main-nav-phmc"
+            label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
+            href={createHrefToPath(phmcListFullyQualified)}
+            isActive={matchLocation(ibmp)}
+          />
+        )}
+        {hasPowerVcAccess && !playwithEnabled && (
+          <MenuItem
+            id="main-nav-powervc"
+            label={t('in-components:mainNavigation.viewSwitcherLabelPowervc')}
+            href={createHrefToPath(powervcRegionListFullyQualified)}
+            isActive={matchLocation(powervc)}
+          />
+        )}
+        {hasZHMCAccess && !playwithEnabled && (
+          <MenuItem
+            id="main-nav-zhmc"
+            label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
+            href={createHrefToPath(zhmcListFullyQualified)}
+            isActive={matchLocation(ibmz)}
+          />
+        )}
+        {hasKubernetesAccess && (
+          <MenuItem
+            id="main-nav-kubernetes"
+            label={t('in-components:mainNavigation.viewSwitcherLabelKubernetes')}
+            href={createHrefToPath(kubernetesClusterList)}
+            isActive={matchLocation(kubernetes)}
+          />
+        )}
+        {hasSAPAccess && !playwithEnabled && (
+          <MenuItem
+            id="main-nav-sap"
+            label={t('in-components:mainNavigation.viewSwitcherLabelSap')}
+            href={createHrefToPath(sapSystemList)}
+            isActive={matchLocation(sap)}
+            infoTag={t('in-components:featureFeedback.labelBETA')}
+          />
+        )}
+        {hasVSphereAccess && !playwithEnabled && (
+          <MenuItem
+            id="main-nav-vsphere"
+            label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}
+            href={createHrefToPath(datacenterListFullyQualified)}
+            isActive={matchLocation(vsphere)}
+          />
+        )}
+      </SideNavMenu>
+      <Infrastructure />
+      <MenuItem isDivider />
+      {welcomePageV2Enabled && <CustomDashboards />}
+      <Synthetics />
+      <Analyze />
+      <Incidents />
+      <AutomationMenu />
+      <SloDashboard />
+      <MenuItem isDivider />
+      <SettingsAndMore />
+      <SideNavMenu
+        renderIcon={() => <SvgIcon color="white" size="s" type="lib_menu_additional_resources" />}
+        title={t('in-components:mainNavigation.viewSwitcherLabelMore')}
+        isSideNavExpanded
+      >
         {tenantSwitcherEnabled && (
           <MenuItem
             id="main-nav-tenants"
@@ -591,44 +630,7 @@ function SettingsAndMore({ onViewSwitched }: CarbonUIShellProps) {
             }
           />
         </div>
-      </MenuItem>
-    </>
-  );
-}
-
-function HeaderContent() {
-  return (
-    <>
-      {playwithEnabled || playWithReleaseEnabled ? <NewPlayWithHeader /> : null}
-      <NotificationBarSticky />
-    </>
-  );
-}
-
-type CarbonUIShellProps = {
-  onViewSwitched: (e: React.MouseEvent<HTMLElement>, label: string) => void;
-};
-
-export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
-  const titleDetail = useUIShellTitleDetail();
-
-  return (
-    <UIShell onSideNavClick={internalToggleClick} titleDetail={titleDetail} headerContent={<HeaderContent />}>
-      <HomeLink />
-      <WebsiteMobileAppView />
-      <BizOps />
-      <Applications />
-      <Platforms />
-      <Infrastructure />
-      <MenuItem isDivider />
-      {welcomePageV2Enabled && <CustomDashboards />}
-      <Synthetics />
-      <Analyze />
-      <Incidents />
-      <AutomationMenu />
-      <SloDashboard />
-      <MenuItem isDivider />
-      <SettingsAndMore onViewSwitched={onViewSwitched} />
+      </SideNavMenu>
     </UIShell>
   );
 }

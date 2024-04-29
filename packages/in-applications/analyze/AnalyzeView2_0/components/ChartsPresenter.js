@@ -51,6 +51,14 @@ const validateTagFilterValue = metricConfiguration => {
   });
 };
 
+const transformMetricTagFilterValues = tagFilterExpression => {
+  // check if it is a metric filter and if a value is given.
+  // This prevents e.g. the value "Tag not present" from being transformed.
+  return tagFilterExpression.name === 'call.metric' && tagFilterExpression.value
+    ? { ...tagFilterExpression, value: Number(tagFilterExpression.value) }
+    : tagFilterExpression;
+};
+
 export function ChartsPresenter(props) {
   const {
     hiddenCalls,
@@ -76,7 +84,7 @@ export function ChartsPresenter(props) {
           validateTagFilterValue(metricConfiguration);
           return {
             ...metricConfiguration,
-            tagFilterExpression: metricConfiguration.tagFilterExpression,
+            tagFilterExpression: transformMetricTagFilterValues(metricConfiguration.tagFilterExpression),
             dataSource,
             queryPrecision: fastQueryModeEnabled ? 'APPROXIMATE' : 'FULL',
             ...hiddenCalls

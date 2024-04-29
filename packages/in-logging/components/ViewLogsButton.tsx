@@ -17,6 +17,7 @@ import {
 import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { Config as BigNumberConfig } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { TagFilterExpressionElementUnion, UnifiedMetricConfiguration } from 'in-types';
+import { customWidgetSeeInLogsClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { ChartConfig } from 'in-components/Chart/types';
 import Tooltip from 'in-components/Tooltip';
@@ -35,7 +36,17 @@ export function ViewLogsButton({ config, className = '' }: { config: MetricsConf
 
   return (
     <Tooltip content={t('in-forge:plugins.docker.dashboard.seeLogsInAnalyze')}>
-      <a className={className} href={link}>
+      <a
+        href={link}
+        className={className}
+        onClick={() =>
+          customWidgetSeeInLogsClicked({
+            source: `See logs in Analyze - Custom Dashboard`,
+            navigationLink: link,
+            filters
+          })
+        }
+      >
         <SvgIcon size="s" type="lib_analyze" />
       </a>
     </Tooltip>

@@ -13,11 +13,11 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/packages/in-test/setup.js'],
   testMatch: ['**/*_test.js', '**/*_test.ts', '**/*_test.tsx'],
   fakeTimers: {
-    enableGlobally: false,
+    enableGlobally: false
   },
   snapshotFormat: {
-     escapeString: true,
-     printBasicPrototype: true
+    escapeString: true,
+    printBasicPrototype: true
   },
   transformIgnorePatterns: [
     '.jest/register-context.js',
@@ -35,6 +35,7 @@ module.exports = {
     '\\.less$': '<rootDir>/packages/in-test/styleMock.js',
     '\\.mless$': '<rootDir>/packages/in-test/styleMock.js',
     '\\.css$': '<rootDir>/packages/in-test/styleMock.js',
+    '\\.yaml$': '<rootDir>/packages/in-test/styleMock.js',
     '\\.scss$': '<rootDir>/packages/in-test/styleMock.js'
   }
 };

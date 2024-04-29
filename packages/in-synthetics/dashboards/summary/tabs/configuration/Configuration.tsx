@@ -24,8 +24,6 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailabl
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
-import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import Header from 'in-components/workspace/Header/Header';
@@ -65,8 +63,6 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
       </Card>
     );
   }
-
-  const isBrowserTest: boolean = isBrowserTestType(test.data?.configuration?.syntheticType || '');
 
   const testLabel: string = test.data?.label;
 
@@ -210,6 +206,9 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
     case 'WebpageScript':
       testType = 'Webpage Script';
       break;
+    case 'SSLCertificate':
+      testType = 'Certificate Check';
+      break;
   }
   return (
     <Card
@@ -220,13 +219,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
           })}
         </Header>
       }
-      rightHeaderContent={
-        !isBrowserTest
-          ? renderActionButton()
-          : isBrowserTest && syntheticBrowserScriptEnabled
-          ? renderActionButton()
-          : undefined
-      }
+      rightHeaderContent={renderActionButton()}
     >
       <TestType test={test.data} />
       <ConfigSection test={test.data} />

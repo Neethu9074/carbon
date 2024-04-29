@@ -11,11 +11,14 @@ import {
   HTTPMethods,
   createZipScriptConfigurationForm
 } from 'in-synthetics/createTests/form/createSyntheticTestForm';
+import urlValidator, {
+  checkForInvalidHost,
+  checkForInvalidPort
+} from 'in-synthetics/createTests/validators/urlValidator';
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
 import { regExpValidator, statusCodeValidator } from 'in-synthetics/createTests/validators/configValidators';
 import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import urlValidator from 'in-synthetics/createTests/validators/urlValidator';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
@@ -35,17 +38,22 @@ export function updateForm(savedState: Record<string, any>) {
       : createAdvancedBrowserActionConfigurationForm(savedState?.configuration);
   };
 
+  const getConfigurationToRender = () => {
+    let config;
+    if (['HTTPScript', 'WebpageScript', 'BrowserScript'].includes(savedState?.configuration?.syntheticType)) {
+      config = config = getScriptConfiguration();
+    } else if (['HTTPAction', 'WebpageAction'].includes(savedState?.configuration?.syntheticType)) {
+      config = getActionConfiguration();
+    } else {
+      config = createAdvancedSSLCertificateConfigurationForm(savedState?.configuration);
+    }
+    return config;
+  };
+
   return createMapForm({
     validator: notUndefinedValidator
   })
-    .put(
-      'configuration',
-      savedState?.configuration?.syntheticType === 'HTTPScript' ||
-        savedState?.configuration?.syntheticType === 'WebpageScript' ||
-        savedState?.configuration?.syntheticType === 'BrowserScript'
-        ? getScriptConfiguration()
-        : getActionConfiguration()
-    )
+    .put('configuration', getConfigurationToRender())
     .put(
       'response',
       createField({
@@ -254,13 +262,6 @@ function createScriptFileConfigurationForm(configuration: Record<string, any>) {
         value: configuration?.markSyntheticCall,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
-    )
-    .put(
-      'certificateCheck',
-      createField({
-        value: configuration?.certificateCheck,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
-      })
     );
 
   if (configuration?.retryInterval) {
@@ -377,4 +378,55 @@ function createAdvancedBrowserActionConfigurationForm(configuration: Record<stri
   } else {
     return actionConfig;
   }
+}
+
+function createAdvancedSSLCertificateConfigurationForm(savedState?: Record<string, any>) {
+  return createMapForm()
+    .put(
+      'syntheticType',
+      createField({
+        value: savedState?.syntheticType,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'hostname',
+      createField({
+        value: savedState?.hostname,
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          checkForInvalidHost
+        )
+      })
+    )
+    .put(
+      'port',
+      createField({
+        value: savedState?.port,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0), checkForInvalidPort)
+      })
+    )
+    .put(
+      'daysRemainingCheck',
+      createField({
+        value: savedState?.daysRemainingCheck,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+      })
+    )
+    .put(
+      'timeout',
+      createField({
+        value: savedState?.timeout,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'retries',
+      createField({
+        value: savedState?.retries,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+      })
+    );
 }

@@ -6,12 +6,12 @@
 import React from 'react';
 
 import { Ul, Li, ColumnizedContent, KeyValue, SvgIcon } from '@instana/components';
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
 import Gravatar from 'in-components/Gravatar';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';

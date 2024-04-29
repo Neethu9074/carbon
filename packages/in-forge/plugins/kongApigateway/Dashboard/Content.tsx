@@ -25,7 +25,6 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import WorkerLuaVM from 'in-forge/plugins/kongApigateway/Dashboard/WorkerLuaVM';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import BandWidth from 'in-forge/plugins/kongApigateway/Dashboard/BandWidth';
-import { valueOrDash } from 'in-forge/plugins/kongApigateway/valueOrDash';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { number } from 'in-services/formatters/number';
@@ -42,77 +41,99 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.database')}>{data.get('database')}</KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongDatastoreReachable')}>
-          {yesOrNo(data.get('datastoreReachable'))}
-        </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.totalNumberofDB')}>
-          {valueOrDash(data.get('totalNumberofDB'))}
-        </KpiKeyValue>
+        {data.get('database') != null && (
+          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.database')}>{data.get('database')}</KpiKeyValue>
+        )}
+        {data.get('datastoreReachable') != null && (
+          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongDatastoreReachable')}>
+            {yesOrNo(data.get('datastoreReachable'))}
+          </KpiKeyValue>
+        )}
+        {data.get('totalNumberofDB') != null && (
+          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.totalNumberofDB')}>
+            {data.get('totalNumberofDB')}
+          </KpiKeyValue>
+        )}
       </KpiSection>
 
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongDbEntitiesTotal')}>
-          {valueOrDash(data.get('kongDbEntitiesTotal'))}
-        </KpiKeyValue>
-
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongNgnixMetricErrors')}>
-          {valueOrDash(data.get('kongNginxMetricErrorsTotal'))}
-        </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.errorsInLic')}>
-          {valueOrDash(data.get('kongEnterpriseLicenseErrors'))}
-        </KpiKeyValue>
+        {data.get('kongDbEntitiesTotal') != null && (
+          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongDbEntitiesTotal')}>
+            {data.get('kongDbEntitiesTotal')}
+          </KpiKeyValue>
+        )}
+        {data.get('kongNginxMetricErrorsTotal') != null && (
+          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongNgnixMetricErrors')}>
+            {String(data.get('kongNginxMetricErrorsTotal'))}
+          </KpiKeyValue>
+        )}
+        {data.get('kongEnterpriseLicenseErrors') != null && (
+          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.errorsInLic')}>
+            {data.get('kongEnterpriseLicenseErrors')}
+          </KpiKeyValue>
+        )}
       </KpiSection>
+
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.prometheusEnabled')}>
-          {yesOrNo(data.get('prometheusEnabled'))}
-        </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerConsistency')}>
-          {data.get('workerConsistency')}
-        </KpiKeyValue>
-
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerStateUpdateFrequency')}>
-          {data.get('workerStateUpdateFrequency')}
-        </KpiKeyValue>
+        {data.get('prometheusEnabled') != null && (
+          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.prometheusEnabled')}>
+            {yesOrNo(data.get('prometheusEnabled'))}
+          </KpiKeyValue>
+        )}
+        {data.get('workerConsistency') != null && (
+          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerConsistency')}>
+            {data.get('workerConsistency')}
+          </KpiKeyValue>
+        )}
+        {data.get('workerStateUpdateFrequency') != null && (
+          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerStateUpdateFrequency')}>
+            {data.get('workerStateUpdateFrequency')}
+          </KpiKeyValue>
+        )}
       </KpiSection>
 
-      <DashboardSection title={t('in-forge:plugins.kongApigateway.dashboard.kongNginxTimers')}>
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: number.compact,
-            metrics: ['nginxTimers.running', 'nginxTimers.pending'],
-            labels: [t('in-forge:plugins.kongApigateway.running'), t('in-forge:plugins.kongApigateway.pending')],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
+      {data.get('nginxCheck') && (
+        <DashboardSection title={t('in-forge:plugins.kongApigateway.dashboard.kongNginxTimers')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: ['nginxTimers.running', 'nginxTimers.pending'],
+              labels: [t('in-forge:plugins.kongApigateway.running'), t('in-forge:plugins.kongApigateway.pending')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      )}
 
-      <DashboardSection title={t('in-forge:plugins.kongApigateway.totalTraffic')}>
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: number.compact,
-            metrics: [
-              'totalTraffic.status2xx',
-              'totalTraffic.status3xx',
-              'totalTraffic.status4xx',
-              'totalTraffic.status5xx'
-            ],
-            labels: [
-              t('in-forge:plugins.kongApigateway.status2xx'),
-              t('in-forge:plugins.kongApigateway.status3xx'),
-              t('in-forge:plugins.kongApigateway.status4xx'),
-              t('in-forge:plugins.kongApigateway.status5xx')
-            ],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
+      {data.get('statusCheck') && (
+        <DashboardSection title={t('in-forge:plugins.kongApigateway.totalTraffic')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: [
+                'totalTraffic.status2xx',
+                'totalTraffic.status3xx',
+                'totalTraffic.status4xx',
+                'totalTraffic.status5xx'
+              ],
+              labels: [
+                t('in-forge:plugins.kongApigateway.status2xx'),
+                t('in-forge:plugins.kongApigateway.status3xx'),
+                t('in-forge:plugins.kongApigateway.status4xx'),
+                t('in-forge:plugins.kongApigateway.status5xx')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      )}
+
       <BandWidth snapshotId={snapshotId} timeConfig={timeConfig} />
       <SharedDictionary snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalConnections snapshotId={snapshotId} timeConfig={timeConfig} />

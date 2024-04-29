@@ -68,6 +68,10 @@ interface UnifiedMetricsChartProps extends BaseChartConfig {
   onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
 }
 
-interface MetricData {
-  [id: string]: [number, number][];
+type MetricTimestamp = number;
+type MetricValue = number;
+export type MetricBucket = [MetricTimestamp, MetricValue];
+
+export interface MetricData {
+  [id: string]: MetricBucket[];
 }

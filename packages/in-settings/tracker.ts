@@ -49,7 +49,11 @@ import {
   SETTINGS_ALERT_CHANNEL_CLICK,
   SETTINGS_ALERT_CHANNEL_DELETE,
   SETTINGS_ALERT_CHANNEL_EDIT,
-  SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT
+  SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT,
+  SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_CLICKED,
+  SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUCCESS,
+  SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_ERROR,
+  SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUBMITTED
 } from 'in-services/tracking/tracking';
 
 export const submitInviteUserTracker = (e: Object) => track(SETTINGS_USER_INVITE_SUBMIT, e);
@@ -89,6 +93,14 @@ export const trackerEventEnabled = (e: Object) => track(SETTINGS_EVENT_ENABLE, e
 export const trackerEventDisabled = (e: Object) => track(SETTINGS_EVENT_DISABLE, e);
 export const trackerEventDeleted = (e: Object) => track(SETTINGS_EVENT_DELETED, e);
 export const trackerEventDeleteTrigger = (e: Object) => track(SETTINGS_EVENT_DELETE_TRIGGER, e);
+
+export const logManagementDeleteLogsClickedTracker = (e: Object) =>
+  track(SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_CLICKED, e);
+export const logManagementDeleteLogsSubmittedTracker = (e: Object) =>
+  track(SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUBMITTED, e);
+export const logManagementDeleteLogsSuccessTracker = (e: Object) =>
+  track(SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUCCESS, e);
+export const logManagementDeleteLogsErrorTracker = (e: Object) => track(SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_ERROR, e);
 
 export const newMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_NEW, e);
 export const removeMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_REMOVE, e);

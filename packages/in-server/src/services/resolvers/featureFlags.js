@@ -276,21 +276,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticBrowserScriptEnabled',
-    instanaCtlKey: 'feature.synthetic.browser.script.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticBrowserCreateTestEnabled',
-    instanaCtlKey: 'feature.synthetic.browser.create.test.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticsKeystoreEnabled',
-    instanaCtlKey: 'feature.synthetics.keystore.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'websiteBeaconQueryOptimizationEnabled',
     instanaCtlKey: 'feature.website.beacon.query.optimization.enabled',
     defaultValue: true
@@ -381,11 +366,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticRbacEnabled',
-    instanaCtlKey: 'feature.synthetic.rbac.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'syntheticCustomDashboardEnabled',
     instanaCtlKey: 'feature.synthetic.custom.dashboard.enabled',
     defaultValue: false
@@ -393,11 +373,6 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticInstanaHostedPoPEnabled',
     instanaCtlKey: 'feature.synthetic.instana.hosted.pop.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticUpdateDeployPoPEnabled',
-    instanaCtlKey: 'feature.synthetic.update.deploy.pop.enabled',
     defaultValue: false
   },
   {
@@ -481,11 +456,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'applicationContributionFilterEnabled',
-    instanaCtlKey: 'feature.application.contribution.filter.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'multiGroupTimeSeriesEnabled',
     instanaCtlKey: 'feature.multigroup.timeseries.enabled',
     defaultValue: false
@@ -526,8 +496,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonButtonEnabled',
+    instanaCtlKey: 'feature.carbon.button.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonAccordionEnabled',
     instanaCtlKey: 'feature.carbon.accordion.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonSelectEnabled',
+    instanaCtlKey: 'feature.carbon.select.enabled',
     defaultValue: false
   },
   {
@@ -556,6 +536,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'shareAndInviteEnabled',
+    instanaCtlKey: 'feature.share.and.invite.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'serviceNowAutoCloseAndCustomPayloadsEnabled',
     instanaCtlKey: 'feature.service.now.auto.close.and.custom.payloads.enabled',
     defaultValue: false
@@ -570,4 +555,19 @@ module.exports = exports = [
     instanaCtlKey: 'feature.carbon.tabs.enabled',
     defaultValue: false
   },
+  {
+    uiClientKey: 'automationActionInstanceFeedbackEnabled',
+    instanaCtlKey: 'automation.action.instance.feedback.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'infraExploreFilterEmptyValueEnabled',
+    instanaCtlKey: 'feature.infrastructure.explore.filter.empty.value.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'orbitalEnabled',
+    instanaCtlKey: 'feature.orbital.enabled',
+    defaultValue: false
+  }
 ];

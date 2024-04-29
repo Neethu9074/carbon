@@ -89,7 +89,11 @@ export default class MainNavigation extends React.Component {
     const { isExpanded, expandedSubMenu } = this.state;
 
     if (isCarbonShellEnabled()) {
-      return <CarbonUIShell onViewSwitched={this.onViewSwitched} />;
+      return (
+        <div className={locals.carbonUIShell}>
+          <CarbonUIShell onViewSwitched={this.onViewSwitched} />
+        </div>
+      );
     }
 
     return (

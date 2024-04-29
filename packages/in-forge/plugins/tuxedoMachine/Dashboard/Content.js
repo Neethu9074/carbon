@@ -6,9 +6,9 @@
 
 import React from 'react';
 
-import QueuesTableSorted from 'in-forge/plugins/tuxedoMachine/Dashboard/QueuesTableSorted';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import QueuesTable from 'in-forge/plugins/tuxedoMachine/Dashboard/QueuesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, zeroDecimalPlaces } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
@@ -79,7 +79,7 @@ export default function TuxedoMachineDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <ServersTable snapshot={snapshot} />
-      <QueuesTableSorted snapshot={snapshot} timeConfig={timeConfig} />
+      <QueuesTable snapshot={snapshot} timeConfig={timeConfig} snapshotId={snapshotId} />
     </div>
   );
 }

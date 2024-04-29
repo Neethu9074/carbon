@@ -85,6 +85,7 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
   const tagFilterField = form.getIn(['scope', 'tagFilterExpression']);
   const nameField = form.getIn(['nameTags', 'name']);
   const targetField = form.getIn(['objective', 'target']);
+  const indicatorForm = form.get('indicator');
   const thresholdField = form.getIn(['indicator', 'threshold']);
   const dateField = form.getIn(['objective', 'startTimestamp', 'date']);
   const timeField = form.getIn(['objective', 'startTimestamp', 'time']);
@@ -93,6 +94,7 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
   const isNameValid = isFieldValid(nameField);
   const isTargetFieldValid = isFieldValid(targetField);
   const isThresholdValid = isFieldValid(thresholdField);
+  const isIndicatorValid = isFieldValid(indicatorForm);
   const isDateFieldValid = isFieldValid(dateField);
   const isTimeFieldValid = isFieldValid(timeField);
   const tagFilterFieldValid = isFieldValid(tagFilterField);
@@ -117,7 +119,7 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
       label: t('in-service-levels:createSloDialog.selectIndicatorNavItem'),
       scrollId: '3-select-indicator',
       title: t('in-service-levels:createSloDialog.selectIndicatorNavItem'),
-      valid: isThresholdValid
+      valid: isIndicatorValid && isThresholdValid
     },
     {
       content: <SloObjectiveSection />,
@@ -144,7 +146,7 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
 
   return (
     <SloFormContext.Provider
-      value={{ form, mode, onChange: (path, fn) => updateForm(form.updateIn(path, fn) as SloForm) }}
+      value={{ form, mode, onChange: (path, fn) => updateForm(form.updateIn(path, fn) as SloForm), setForm }}
     >
       <ConfigDialogTimeConfigContextModification>
         <ConfigDialog

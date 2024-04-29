@@ -12,6 +12,7 @@ import { number, bytesTwoDecimalPlaces, seconds } from 'in-services/formatters/n
 import TableSpaceTable from 'in-forge/plugins/oTelDatabase/Dashboard/TableSpaceTable';
 import LockCountTable from 'in-forge/plugins/oTelDatabase/Dashboard/LockCountTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import DatabaseTable from 'in-forge/plugins/oTelDatabase/Dashboard/DatabaseTable';
 import CacheHitTable from 'in-forge/plugins/oTelDatabase/Dashboard/CacheHitTable';
 import LockTimeTable from 'in-forge/plugins/oTelDatabase/Dashboard/LockTimeTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -254,6 +255,41 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
         )}
       </Columize>
 
+      <Columize>
+        {metricIds.includes('db.disk.read.count') === true && (
+          <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.diskReadCount')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: ['db.disk.read.count'],
+                labels: [t('in-forge:plugins.oTelDatabase.dashboard.diskReadCount')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        )}
+        {metricIds.includes('db.disk.write.count') === true && (
+          <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.diskWriteCount')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: ['db.disk.write.count'],
+                labels: [t('in-forge:plugins.oTelDatabase.dashboard.diskWriteCount')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        )}
+      </Columize>
+
       <DiskTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <ElapsedTimeTable snapshot={snapshot} timeConfig={timeConfig} />
@@ -265,6 +301,8 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
       <CacheHitTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <TableSpaceTable snapshot={snapshot} timeConfig={timeConfig} />
+
+      <DatabaseTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <CustomMetricsV2
         snapshot={snapshot}

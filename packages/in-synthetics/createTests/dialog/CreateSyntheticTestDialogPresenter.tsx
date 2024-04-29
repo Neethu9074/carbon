@@ -12,6 +12,7 @@ import { t } from '@instana/i18n-react';
 
 import {
   Code,
+  SSLCertificateTest,
   SlideInConfig,
   SlideInHeader,
   SliderState,
@@ -30,7 +31,6 @@ import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeCont
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import getDefaultHeaders from 'in-synthetics/createTests/utils/getDefaultHeaders';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
-import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { isNotBlank } from 'in-services/util/string';
 import { Error as ScriptError } from 'in-types';
@@ -92,32 +92,13 @@ const CreateSyntheticTestDialogPresenter = ({
     title: null,
     onClose: null
   });
-  const [selectedBlueprint, setSelectedBlueprint] = useState(
-    getSimpleBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
-  );
+  const [selectedBlueprint, setSelectedBlueprint] = useState(getSimpleBlueprintConfig()[0]);
   const [headers, setHeaders] = useState(getDefaultHeaders(form));
   const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
   const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
   const [invalidTimeout, setInvalidTimeout] = useState({ invalid: false, message: '' });
   const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties(form));
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
-
-  // Certificate Check API Script
-  const [certificateCheckHostNameError, setCertificateCheckHostNameError] = useState({
-    invalid: true,
-    message: '',
-    touched: false
-  });
-  const [certificateCheckDaysRemainingError, setCertificateCheckDaysRemainingError] = useState({
-    invalid: true,
-    message: '',
-    touched: false
-  });
-  const [certificateCheckPortError, setCertificateCheckPortError] = useState({
-    invalid: false,
-    message: '',
-    touched: false
-  });
 
   /**
    * A single form is being rendered in multiple pages in the simple mode
@@ -191,17 +172,6 @@ const CreateSyntheticTestDialogPresenter = ({
     );
   };
 
-  const certificateCheckErrorExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
-    const certificateCheckField = configForm.get('certificateCheck') as Field<boolean>;
-    return (
-      syntheticTypeField.value === 'HTTPScript' &&
-      certificateCheckField.value &&
-      (certificateCheckHostNameError.invalid ||
-        certificateCheckDaysRemainingError.invalid ||
-        certificateCheckPortError.invalid)
-    );
-  };
-
   const isProceedDisabledAdvanced = () => {
     const configForm = form.get('configuration') as MapForm<any>;
     const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
@@ -220,7 +190,6 @@ const CreateSyntheticTestDialogPresenter = ({
       HTTPActionErrorsExist(configForm, syntheticTypeField) ||
       // for HTTPScript, WebpageScript, and BrowserScript
       scriptErrorExist(configForm, syntheticTypeField) ||
-      certificateCheckErrorExist(configForm, syntheticTypeField) ||
       !syntheticTypeField.valid ||
       locationsField.value.length === 0 ||
       !frequencyField.valid ||
@@ -259,6 +228,7 @@ const CreateSyntheticTestDialogPresenter = ({
     if (selectedBlueprint.type === apiScriptTest) return { ...prevState, api: { simple: false, script: true } };
     if (selectedBlueprint.type === browserSimpleTest) return { ...prevState, browser: { simple: true, script: false } };
     if (selectedBlueprint.type === browserScriptTest) return { ...prevState, browser: { simple: false, script: true } };
+    if (selectedBlueprint.type === SSLCertificateTest) return { ...prevState, ssl: { simple: true } };
   };
 
   return (
@@ -363,12 +333,6 @@ const CreateSyntheticTestDialogPresenter = ({
             setInvalidCustomProperty={setInvalidCustomProperty}
             invalidTimeout={invalidTimeout}
             setInvalidTimeout={setInvalidTimeout}
-            certificateCheckHostNameError={certificateCheckHostNameError}
-            setCertificateCheckHostNameError={setCertificateCheckHostNameError}
-            certificateCheckPortError={certificateCheckPortError}
-            setCertificateCheckPortError={setCertificateCheckPortError}
-            certificateCheckDaysRemainingError={certificateCheckDaysRemainingError}
-            setCertificateCheckDaysRemainingError={setCertificateCheckDaysRemainingError}
           />
         )}
       </div>

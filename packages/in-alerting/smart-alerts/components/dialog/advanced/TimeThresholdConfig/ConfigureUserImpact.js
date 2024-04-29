@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Toggle } from '@instana/legacy';
+import { Toggle } from '@instana/components';
 
 import {
   putUsersField,
@@ -26,6 +27,7 @@ import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/TimeThresholdConfig.mless';
+import toogleLocals from 'in-alerting/smart-alerts/components/dialog/advanced/Toogle.mless';
 
 export default function ConfigureUserImpact({ form, onChange, updateForm }) {
   const timeThresholdForm = form.get('timeThreshold');
@@ -101,9 +103,12 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
           </div>
           <Toggle
             name="alertByNumberOfUsersChecked"
-            className={locals.toggle}
+            className={classNames({
+              [locals.toggle]: true,
+              [toogleLocals.toggleDialogUsage]: true
+            })}
             checked={alertByNumberOfUsersChecked}
-            onChange={() => {
+            onToggle={() => {
               let updatedTimeThresholdForm = timeThresholdForm;
               if (!alertByNumberOfUsersChecked && alertByPercentageOfUsersChecked) {
                 updatedTimeThresholdForm = putUsersField(updatedTimeThresholdForm);
@@ -170,9 +175,12 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
           </div>
           <Toggle
             name={'alertByPercentageOfImpactedUsersEnabled'}
-            className={locals.toggle}
+            className={classNames({
+              [locals.toggle]: true,
+              [toogleLocals.toggleDialogUsage]: true
+            })}
             checked={alertByPercentageOfUsersChecked}
-            onChange={() => {
+            onToggle={() => {
               let updatedTimeThresholdForm = timeThresholdForm;
               if (!alertByPercentageOfUsersChecked && alertByNumberOfUsersChecked) {
                 updatedTimeThresholdForm = putUserPercentageField(updatedTimeThresholdForm);

@@ -9,6 +9,7 @@ import rpt from 'prop-types';
 import { useObservable } from '@instana/hooks';
 
 import { EQUALS, IS_BLANK, IS_EMPTY, NOT_EMPTY, STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
+import { BOOLEAN, KEY_NUMBER_PAIR, KEY_VALUE_PAIR, NUMBER } from 'in-components/QueryBuilder/tagFilter/types';
 import { CONJUNCTION, joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { removeFacetTag, tagFiltersFromFacets } from 'in-components/AnalyzeView/FacetedFilters/facets';
@@ -17,7 +18,6 @@ import { custom as customType, metric as metricType } from 'in-components/Analyz
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-components/tracker';
 import { ua2FacetsChangedTracker, ua2FormModelChangedTracker } from 'in-applications/tracker';
-import { BOOLEAN, KEY_VALUE_PAIR, NUMBER } from 'in-components/QueryBuilder/tagFilter/types';
 import { isValid as isValidGrouping } from 'in-components/GroupingConfigurator/validation';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
@@ -642,7 +642,10 @@ export function addGroupingCriteriaToFormModel(
       key: groupBy.groupbyTagSecondLevelKey,
       entity: groupBy.groupbyTagEntity
     };
-  } else if (groupByTagType === KEY_VALUE_PAIR && !groupBy.groupbyTagSecondLevelKey) {
+  } else if (
+    (groupByTagType === KEY_VALUE_PAIR || groupByTagType === KEY_NUMBER_PAIR) &&
+    !groupBy.groupbyTagSecondLevelKey
+  ) {
     newTagFilter = {
       type: TAG,
       operator: NOT_EMPTY,

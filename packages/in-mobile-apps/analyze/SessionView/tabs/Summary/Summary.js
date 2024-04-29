@@ -74,6 +74,8 @@ export default function Summary({ beacons, sessionLabel, sessionId, detailId }) 
         <Row>
           <Col lg={12}>
             <Message
+              className={locals.message}
+              inline
               type="warning"
               title={t('in-mobile-apps:sessionView.tabsSummary.clockProblemTitle')}
               description={t('in-mobile-apps:sessionView.tabsSummary.clockProblemDesc')}

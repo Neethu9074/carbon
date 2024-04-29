@@ -13,3 +13,7 @@ export const ut30 = '30AO8';
 export const productCodeType = 'PID';
 export const productCode = '5900-AG5';
 export const commomMilestoneVersion = '2024-03-08 00:01:00';
+
+//Event Names
+export const CTA_CLICKED = 'CTA Clicked';
+export const PAGE_VIEWED = 'Page Viewed';

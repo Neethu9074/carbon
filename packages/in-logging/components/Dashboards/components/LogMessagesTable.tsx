@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link, Pill } from '@instana/components';
 
 //@ts-expect-error Needs TS migration
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
@@ -27,7 +27,6 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
 import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
-import {Pill} from '@instana/components';
 
 import locals from 'in-logging/components/Dashboards/components/MessagesTable.mless';
 import { ApplicationBoundaryScope, LogMessageItem, OrderDirection, Result, TimeConfig } from '@instana/types';

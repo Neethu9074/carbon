@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Card, Message, Link } from '@instana/components';
+import { Card, Message, Link, Pill } from '@instana/components';
 import { LoadingSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
@@ -16,7 +16,6 @@ import CreateApplicationQueryBuilder from 'in-applications/creation/components/C
 import ContributionFilterDropdown from 'in-applications/creation/components/ContributionFilterDropdown';
 import { getGroupInfoByRestrictingApplicationId } from 'in-settings/tabs/TeamSettings/api/groups';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { getApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -27,7 +26,6 @@ import { getColor } from 'in-applications/endpointTypes';
 import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
-import Pill from 'in-components/Pill';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
@@ -98,7 +96,7 @@ export default connectTo(
                       <strong>{t('in-applications:forms.newApplication.descriptionOperatorsCreationEnabled')}</strong>
                     </DescriptionText>
                     <div className={locals.queryBuilder}>
-                      {applicationContributionFilterEnabled && appConfig.data && appConfig.data.contributionFilter && (
+                      {appConfig.data && appConfig.data.contributionFilter && (
                         <div className={locals.contributionFilter}>
                           <ContributionFilterDropdown
                             userRestrictedApplications={createUserRestrictedApplication(appConfig.data)}

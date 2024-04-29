@@ -104,8 +104,8 @@ export default function CustomEventsList({
             tagFilterExpression: toBackendQueryModel(expression) as TagFilterExpression,
             timeConfig
           })
-            .filter((tableData: Result<PaginatedResult<MobileAppPaginatedBeaconGroupsItem>>) => tableData.data)
-            .map((tableData: Result<PaginatedResult<MobileAppPaginatedBeaconGroupsItem>>) => tableData.data?.items)
+            .filter((tableData: Result<PaginatedResult<MobileAppPaginatedBeaconGroupsItem>>) => !!tableData.data)
+            .map((tableData: Result<PaginatedResult<MobileAppPaginatedBeaconGroupsItem>>) => tableData.data!.items)
         }
         pageSize={10}
         noDataMessage={t('in-alerting:smartAlerts.mobileApp.customEvent.noCustomEventsFound')}

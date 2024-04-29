@@ -6,9 +6,8 @@
 
 import { useObservable } from '@instana/hooks';
 
-//@ts-expect-error TS migration
-import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { FetchedState } from 'in-hooks/utils/types';
 import { MobileApp, Result } from 'in-types';
 

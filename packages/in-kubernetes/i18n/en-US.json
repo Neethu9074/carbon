@@ -223,6 +223,8 @@
       "servicesDescription": "There were no services retrieved for the selected time range.",
       "persistentVolumesTitle": "No persistent volumes available",
       "persistentVolumesDescription": "There were no persistent volumes retrieved for the selected time range.",
+      "prometheusMetricsTitle": "No prometheus metrics available",
+      "prometheusMetricsDescription": "There were no prometheus metrics retrieved for the selected endpoint.",
       "conditionsTitle": "No conditions available",
       "conditionsDescription": "There were no conditions retrieved for the selected time range.",
       "cronjobsTitle": "No cronjobs available",

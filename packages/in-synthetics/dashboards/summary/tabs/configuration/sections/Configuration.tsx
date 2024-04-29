@@ -10,7 +10,8 @@ import {
   SyntheticTest,
   HttpActionConfiguration,
   HttpScriptConfiguration,
-  SyntheticTypeConfigurationUnion
+  SyntheticTypeConfigurationUnion,
+  SSLCertificateConfiguration
 } from '@instana/types';
 import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
@@ -274,6 +275,34 @@ const renderWebpageActionTestTypeContent = (configuration: HttpActionConfigurati
   );
 };
 
+const renderSSLCertificateTestTypeContent = (configuration: SSLCertificateConfiguration) => {
+  const content = [
+    <Row key={'hostname'} className={locals.configRow}>
+      <Col xs={4}>
+        <KeyValue
+          label={t('in-synthetics:dashboard.configuration.hostname')}
+          value={
+            <Tooltip content={configuration.hostname}>
+              <div className={locals.urlConfig}>{configuration.hostname}</div>
+            </Tooltip>
+          }
+        />
+      </Col>
+      <Col xs={4}>
+        <KeyValue label={t('in-synthetics:dashboard.configuration.port')} value={configuration.port} />
+      </Col>
+      <Col xs={4}>
+        <KeyValue
+          label={t('in-synthetics:dashboard.configuration.daysRemaining')}
+          value={configuration.daysRemainingCheck}
+        />
+      </Col>
+    </Row>,
+    showTimeoutAndRetryOptions(configuration)
+  ];
+  return content;
+};
+
 const ConfigSection = ({ test }: Props) => {
   const { configuration } = test;
   let content = null;
@@ -283,6 +312,9 @@ const ConfigSection = ({ test }: Props) => {
       break;
     case 'WebpageAction':
       content = renderWebpageActionTestTypeContent(configuration as HttpActionConfiguration);
+      break;
+    case 'SSLCertificate':
+      content = renderSSLCertificateTestTypeContent(configuration as SSLCertificateConfiguration);
       break;
     default:
       content = renderScriptTestTypeContent(configuration as HttpScriptConfiguration);

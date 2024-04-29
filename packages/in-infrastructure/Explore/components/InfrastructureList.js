@@ -36,6 +36,7 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
+import { tag_not_present_group } from '../constants';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
@@ -276,16 +277,17 @@ function getTableData({
     metrics: Object.fromEntries(
       metrics
         .filter(({ metric, removeFromTable }) => metric !== undefined && metric !== null && !removeFromTable)
-        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex }) => {
+        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex, filterEmptyValue }) => {
           const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
           const kpiGranularity = timeConfig.windowSize;
+          const required = filterEmptyValue || undefined;
           return [
-            [id, { metric, granularity: kpiGranularity, aggregation, regex, crossSeriesAggregation }],
-            [getSeriesKey(id), { metric, granularity, aggregation, regex, crossSeriesAggregation }]
+            [id, { metric, granularity: kpiGranularity, aggregation, regex, crossSeriesAggregation, required }],
+            [getSeriesKey(id), { metric, granularity, aggregation, regex, crossSeriesAggregation, required }]
           ];
         })
     ),
-    missingPlaceholder: 'tag_not_present_group'
+    missingPlaceholder: tag_not_present_group
   });
 }
 
@@ -301,7 +303,15 @@ function getLabelColumn(onNavigateToEntity, isPreview, timeConfig) {
             <EntityLink
               label={item.label}
               plugin={item.plugin}
-              href$={isPreview ? undefined : getDashboardLink(item.snapshotId, { pathname: '/physical/dashboard', to: time, focusedMoment: time })}
+              href$={
+                isPreview
+                  ? undefined
+                  : getDashboardLink(item.snapshotId, {
+                      pathname: '/physical/dashboard',
+                      to: time,
+                      focusedMoment: time
+                    })
+              }
               onClick={
                 isPreview
                   ? noop

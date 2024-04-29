@@ -15,21 +15,21 @@ import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } fr
 /* eslint-disable no-restricted-imports */
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import {
-  defaultInfraExploreViewParams,
-  useLinkToExplore as useLinkToInfraEntityExplore
-} from 'in-infrastructure/navigation/paths';
-import {
+  hasAnalyzeAccess,
   hasApplicationsAccess,
   hasInfrastructureAccess,
   hasMobileAppsAccess,
   hasWebsitesAccess
 } from 'in-stores/permission';
+import {
+  defaultInfraExploreViewParams,
+  useLinkToExplore as useLinkToInfraEntityExplore
+} from 'in-infrastructure/navigation/paths';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { infraExploreDataEnabled, loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { useLinkToAnalyze as useLinkToProfileAnalyze } from 'in-components/Profiling/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
-import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
@@ -38,6 +38,7 @@ import { analyzeViewSelected } from 'in-analyze/components/AnalyzeHeader/tracker
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
@@ -263,7 +264,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
     },
     {
       productArea: 'profiles',
-      hasAccess: true,
+      hasAccess: hasAnalyzeAccess,
       dataSources: [
         {
           dataSource: 'profiles',

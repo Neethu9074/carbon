@@ -4,14 +4,21 @@
  */
 
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
+  .carbonUIShell {
+    .print(none);
+  }
+
   .navigation,
   .background {
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
+
+    .print();
   }
 
   .backPlane {

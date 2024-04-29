@@ -18,12 +18,12 @@ import {
   teamSettingsAccessControlUsers,
   teamSettingsAccessControlApiTokens
 } from 'in-settings/navigation/paths';
-import { isAnsible, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
+import { isAnsible, isGithub, isGitlab, isJira, isExternal } from 'in-automation/ActionCatalog/shared';
 import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionDetails';
-import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { clickTurboLinkForDetailsTracker } from 'in-automation/tracker';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -31,7 +31,9 @@ import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { Action, ActionInstance, ActorType } from 'in-types';
+import IconButton from 'in-components/IconButton/IconButton';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
+import CopyToClipboard from 'in-components/CopyToClipboard';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { eventsPath } from 'in-events/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -94,6 +96,7 @@ export default function DetailTab({
     type,
     actorType,
     actorName,
+    output,
     actorId
   } = properties;
 
@@ -108,17 +111,22 @@ export default function DetailTab({
   );
   const tableData = [
     {
-      label: t('in-automation:actionHistory.status'),
-      value: status ? getStatus(status) : t('in-automation:actionHistory.unknown'),
+      label: t('in-automation:actionHistory.errorMessage'),
+      value: errorMessage,
+      showCondition: errorMessage,
       actionLane: inActionLane
     },
-    { label: t('in-automation:actionHistory.errorMessage'), value: errorMessage, showCondition: errorMessage },
     {
       label: t('in-automation:actionHistory.log'),
       value: t('in-automation:actionHistory.viewLog'),
       isLink: true,
       actionLane: inActionLane,
-      stringLink: link
+      stringLink: link,
+      showCondition:
+        (output === null || output?.trim().length === 0) &&
+        status !== 'SUBMITTED' &&
+        status !== 'TIMEOUT' &&
+        !isExternal(type)
     },
     {
       label: t('in-automation:actionHistory.startTime'),
@@ -166,7 +174,7 @@ export default function DetailTab({
       actionLane: inActionLane
     },
     {
-      label: t('in-automation:actionHistory.actionContent'),
+      label: t('in-automation:actionHistory.action'),
       value: actionName,
       isLink: true,
       isObservable: true,
@@ -182,13 +190,29 @@ export default function DetailTab({
         ),
       actionLane: inActionLane
     },
-    { label: t('in-automation:actionHistory.actionInstanceId'), value: id }
-  ];
-
-  if (isAnsible(type)) {
-    tableData.push({
+    {
+      label: t('in-automation:actionHistory.actionInstanceId'),
+      value: (
+        <div className={locals.manualContentMarkdown}>
+          {id}
+          <CopyToClipboard getText={() => id ?? ''}>
+            {refSetter => (
+              <span ref={refSetter}>
+                <IconButton
+                  color={themes.default.ids.color.option.blue['500']}
+                  onClick={stopPropagationAndPreventDefault}
+                  type="lib_actions_copy"
+                />
+              </span>
+            )}
+          </CopyToClipboard>
+        </div>
+      )
+    },
+    {
       label: t('in-automation:actionHistory.hostsLimit'),
       actionLane: false,
+      showCondition: isAnsible(type),
       value: (
         <Ul framed={false}>
           {(() => {
@@ -201,7 +225,9 @@ export default function DetailTab({
           })()}
         </Ul>
       )
-    });
+    }
+  ];
+  if (isAnsible(type)) {
     const ansibleUrl = metadata?.find(data => data.name === 'ansibleUrl');
     const ansibleJobId = metadata?.find(data => data.name === 'ansibleJobId');
     if (ansibleUrl && ansibleJobId) {
@@ -269,35 +295,37 @@ export default function DetailTab({
   };
 
   return (
-    <table
-      className={classNames({
-        [locals.ActionInstanceDetailsTable]: true,
-        [locals.ActionLaneTable]: inActionLane
-      })}
-    >
-      <thead className={locals.headerRow}>
-        <tr>
-          <th>{t('in-automation:actionHistory.property')}</th>
-          <th>{t('in-automation:actionHistory.value')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {tableData.map(
-          ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false, onClick }) =>
-            renderRow(
-              label,
-              value,
-              isLink,
-              ObservableLink,
-              stringLink,
-              showCondition,
-              actionLane,
-              inActionLane,
-              onClick
-            )
-        )}
-      </tbody>
-    </table>
+    <div className={locals.instanceTabContent}>
+      <table
+        className={classNames({
+          [locals.ActionInstanceDetailsTable]: true,
+          [locals.ActionLaneTable]: inActionLane
+        })}
+      >
+        <thead className={locals.headerRow}>
+          <tr>
+            <th>{t('in-automation:actionHistory.property')}</th>
+            <th>{t('in-automation:actionHistory.value')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map(
+            ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false, onClick }) =>
+              renderRow(
+                label,
+                value,
+                isLink,
+                ObservableLink,
+                stringLink,
+                showCondition,
+                actionLane,
+                inActionLane,
+                onClick
+              )
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }
 

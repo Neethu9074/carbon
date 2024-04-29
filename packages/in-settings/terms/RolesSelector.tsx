@@ -6,10 +6,11 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { Select } from '@instana/components';
+
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { roles } from 'in-settings/terms/rolesConfig';
 import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';

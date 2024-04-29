@@ -7,7 +7,6 @@
 import React from 'react';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 
 import locals from 'in-alerting/smart-alerts/components/pageHeaderTemplate/AlertingPageHeader.mless';
@@ -21,7 +20,6 @@ export default function AlertingPageHeader({ title }: { title: string }) {
             <div>{title}</div>
           </SubViewHeader>
         </HorizontalFlexWrapper>
-        <DashboardHeaderShadowModule />
       </>
     </div>
   );

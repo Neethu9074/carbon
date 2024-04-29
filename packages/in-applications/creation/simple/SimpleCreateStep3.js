@@ -52,7 +52,7 @@ export default function SimpleCreateStep3({
         </FormGroup>
         <TouchedMessages field={labelField} />
         {errorMessage && (
-          <Message type="error" withIcon small>
+          <Message type="error" withIcon small fullInlineWidth>
             {errorMessage}
           </Message>
         )}

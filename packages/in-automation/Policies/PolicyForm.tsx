@@ -27,6 +27,18 @@ import {
   scopeAll,
   scopeDfq
 } from 'in-automation/Policies/types';
+import {
+  Action,
+  ApplicationAlertConfigWithMetadata,
+  EventSpecificationInfo,
+  GlobalApplicationsAlertConfigWithMetadata,
+  InfraAlertConfigWithMetadata,
+  LogAlertConfigWithMetadata,
+  MobileAppAlertConfigWithMetadata,
+  SyntheticAlertConfigWithMetadata,
+  TriggerType,
+  WebsiteAlertConfigWithMetadata
+} from 'in-types';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -34,31 +46,39 @@ import TabSelect, {
   TabSelectPanel,
   TabSelectPanels
 } from 'in-components/TabSelect';
-// @ts-expect-error
-import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { isAnsible, isScript, isWebhook, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
-import EvaluationTypeColumn from 'in-alerting/smart-alerts/applications/list/columns/EvaluationTypeColumn';
-import { Action, ApplicationAlertConfigWithMetadata, EventSpecificationInfo, TriggerType } from 'in-types';
+import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
+import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/list/columns/ListEntityNameColumn';
 import { EntityType, EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
 import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
 import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
 import { descriptionColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
+import useMobileAppLabel from 'in-alerting/smart-alerts/mobileApp/hooks/useMobileAppLabel';
+import SyntheticsScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
+import InfraScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
+import MobileAppScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
+import WebsiteScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import useNavigateToPolicies from 'in-automation/Policies/useNavigateToPolicies';
+import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import LogScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -70,6 +90,7 @@ import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { TagsFilter } from 'in-automation/components/tableFilters';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -183,6 +204,7 @@ function DetailsSection({
             id="policy-name"
             type="text"
             value={field.value}
+            disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form => form!.updateIn(['name'], item => item.setValue(e.target.value).setTouched(true)))
             }
@@ -204,6 +226,7 @@ function DetailsSection({
           <TextArea
             id="policy-description"
             value={field.value}
+            disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form =>
                 form!.updateIn(['description'], item =>
@@ -223,6 +246,7 @@ function DetailsSection({
         <TagsTable
           form={form}
           setForm={setForm}
+          isEditable={role?.canConfigureAutomationPolicies}
           onChange={(fieldName, value) =>
             //@ts-expect-error
             setForm(form => form!.updateIn([fieldName], item => item.setValue(value).setTouched(true)))
@@ -260,6 +284,7 @@ function ScopeSection({
                 id="policy-applyOn"
                 value={field.value}
                 isClearable={false}
+                disabled={!role?.canConfigureAutomationPolicies}
                 onChange={e =>
                   setForm(form =>
                     form!.updateIn(['scope', 'applyOn'], item =>
@@ -283,6 +308,7 @@ function ScopeSection({
               <Label hasError={!scope.valid && field.touched}>{t('in-automation:policies.dynamicFocusQuery')}</Label>
               <DfqSearchBar
                 theme="light"
+                disabled={!role?.canConfigureAutomationPolicies}
                 onQueryValueChange={value => {
                   setForm(form => form!.updateIn(['scope', 'query'], item => item.setValue(value).setTouched(true)));
                 }}
@@ -321,6 +347,7 @@ function TypeSection({
           <CheckboxFancy
             label={t('in-automation:policies.manual')}
             checked={type.get('manual').value}
+            disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form =>
                 form!
@@ -334,6 +361,7 @@ function TypeSection({
           <CheckboxFancy
             label={t('in-automation:policies.automatic')}
             checked={type.get('automatic').value}
+            disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form =>
                 form!
@@ -404,7 +432,7 @@ const triggerNameColumn: ColumnDefinition<TriggerSpecification> = {
 
     return <NameColumnCell config={item} getSubtitle={config => getSubtitleLog(config.threshold)} />;
   },
-  width: 23
+  width: 25
 };
 
 const triggerDescriptionColumn: ColumnDefinition<TriggerSpecification> = {
@@ -415,21 +443,97 @@ const triggerDescriptionColumn: ColumnDefinition<TriggerSpecification> = {
       <Typography variant="body-regular">{item.description}</Typography>
     </FourLineWrapper>
   ),
-  width: 23
+  width: 25
 };
 
-const evalutationTypeColumn: ColumnDefinition<ApplicationAlertConfigWithMetadata> = {
-  id: 'properties',
-  label: t('in-automation:policies.properties'),
-  getContent: item => <EvaluationTypeColumn config={item} isGlobalSmartAlertConfig={false} />,
-  width: 23
+const appFilterAppliedColumn: ColumnDefinition<
+  ApplicationAlertConfigWithMetadata | GlobalApplicationsAlertConfigWithMetadata
+> = {
+  id: 'filterApplied',
+  label: t('in-automation:policies.filterApplied'),
+  getContent: item => {
+    const { tagFilterExpression, rule, threshold, applications } = item;
+    const backendModelTagFilterExpression = fromBackendModel(tagFilterExpression);
+    const isGlobalSmartAlertConfig = isGlobalApplicationSmartAlert(item);
+    return (
+      <HorizontalFlexWrapper>
+        <ListEntityNameColumn applications={applications} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />
+        <Spacer horizontal="small" />
+        {backendModelTagFilterExpression.length > 0 && (
+          <ListFilterColumn tagFilterExpression={backendModelTagFilterExpression} rule={rule} threshold={threshold} />
+        )}
+      </HorizontalFlexWrapper>
+    );
+  },
+  ellipsis: true,
+  sortable: false
+};
+
+const websiteFilterAppliedColumn: ColumnDefinition<WebsiteAlertConfigWithMetadata> = {
+  id: 'filterApplied',
+  label: t('in-automation:policies.filterApplied'),
+  getContent: function Content(item) {
+    const websiteLabel = useWebsiteLabel(item.websiteId);
+    if (!websiteLabel) return <LoadingIndicator size="s" />;
+    return <WebsiteScopeColumn config={item} websiteLabel={websiteLabel} />;
+  },
+  ellipsis: true,
+  sortable: false
+};
+
+const mobileAppFilterAppliedColumn: ColumnDefinition<MobileAppAlertConfigWithMetadata> = {
+  id: 'filterApplied',
+  label: t('in-automation:policies.filterApplied'),
+  getContent: function Content(item) {
+    const mobileAppLabel = useMobileAppLabel(item.mobileAppId);
+    if (!mobileAppLabel) return <LoadingIndicator size="s" />;
+    return <MobileAppScopeColumn config={item} mobileAppLabel={mobileAppLabel} />;
+  },
+  ellipsis: true,
+  sortable: false
+};
+
+const infraFilterAppliedColumn: ColumnDefinition<InfraAlertConfigWithMetadata> = {
+  id: 'filterApplied',
+  label: t('in-automation:policies.filterApplied'),
+  getContent: item => <InfraScopeColumn config={item} />,
+  ellipsis: true,
+  sortable: false
+};
+
+const syntheticFilterAppliedColumn: ColumnDefinition<SyntheticAlertConfigWithMetadata> = {
+  id: 'filterApplied',
+  label: t('in-synthetics:dashboard.alertList.filterApplied'),
+  getContent: item => (
+    <HorizontalFlexWrapper>
+      <DefaultCell
+        title={t('in-synthetics:dashboard.alertList.testsCount', {
+          testsCount: item.syntheticTestIds.length
+        })}
+        subtitle={t('in-synthetics:dashboard.alertList.testsApplied')}
+      />
+      <Spacer horizontal="small" />
+      <SyntheticsScopeColumn config={item} />
+    </HorizontalFlexWrapper>
+  ),
+  ellipsis: true,
+  sortable: false
+};
+
+const logsFilterAppliedColumn: ColumnDefinition<LogAlertConfigWithMetadata> = {
+  id: 'filterApplied',
+  label: t('in-automation:policies.filterApplied'),
+  getContent: item => <LogScopeColumn config={item} />,
+  ellipsis: true,
+  sortable: false
 };
 
 const entityTypeColumn: ColumnDefinition<EventSpecificationInfo> = {
   id: 'entityType',
   label: t('in-automation:policies.entityType'),
   getContent: item => <EntityType entity={item} />,
-  width: 23
+  ellipsis: true,
+  sortable: false
 };
 
 function SelectTrigger({
@@ -458,7 +562,13 @@ function SelectTrigger({
     : listSuccess(selectedTrigger ? [selectedTrigger] : []);
   const columnDefinitions: ColumnDefinition<TriggerSpecification>[] = [triggerNameColumn, triggerDescriptionColumn];
 
-  if (triggerType.value === 'applicationSmartAlert') columnDefinitions.push(evalutationTypeColumn);
+  if (triggerType.value === 'applicationSmartAlert' || triggerType.value === 'globalApplicationSmartAlert')
+    columnDefinitions.push(appFilterAppliedColumn);
+  if (triggerType.value === 'websiteSmartAlert') columnDefinitions.push(websiteFilterAppliedColumn);
+  if (triggerType.value === 'mobileAppSmartAlert') columnDefinitions.push(mobileAppFilterAppliedColumn);
+  if (triggerType.value === 'infraSmartAlert') columnDefinitions.push(infraFilterAppliedColumn);
+  if (triggerType.value === 'syntheticsSmartAlert') columnDefinitions.push(syntheticFilterAppliedColumn);
+  if (triggerType.value === 'logSmartAlert') columnDefinitions.push(logsFilterAppliedColumn);
   if (triggerType.value === 'builtinEvent' || triggerType.value === 'customEvent')
     columnDefinitions.push(entityTypeColumn);
 
@@ -478,13 +588,15 @@ function SelectTrigger({
           <Label hasError={!triggerId.valid && triggerId.touched}>{t('in-automation:policies.eventTrigger')}</Label>
         }
         rightHeader={
-          <Button
-            kind="action"
-            onClick={() => addActiveDialog(<SelectTriggerDialog form={form} setForm={setForm} triggers={triggers} />)}
-            icon="lib_openclose_add_circle_outline"
-          >
-            {t('in-automation:policies.addEventTrigger')}
-          </Button>
+          role?.canConfigureAutomationPolicies && (
+            <Button
+              kind="action"
+              onClick={() => addActiveDialog(<SelectTriggerDialog form={form} setForm={setForm} triggers={triggers} />)}
+              icon="lib_openclose_add_circle_outline"
+            >
+              {t('in-automation:policies.addEventTrigger')}
+            </Button>
+          )
         }
         fixedLayout
       />
@@ -562,7 +674,13 @@ function SelectTriggerDialog({
     triggerDescriptionColumn
   ];
 
-  if (selectedTab === 'applicationSmartAlert') columnDefinitions.push(evalutationTypeColumn);
+  if (selectedTab === 'applicationSmartAlert' || selectedTab === 'globalApplicationSmartAlert')
+    columnDefinitions.push(appFilterAppliedColumn);
+  if (selectedTab === 'websiteSmartAlert') columnDefinitions.push(websiteFilterAppliedColumn);
+  if (selectedTab === 'mobileAppSmartAlert') columnDefinitions.push(mobileAppFilterAppliedColumn);
+  if (selectedTab === 'infraSmartAlert') columnDefinitions.push(infraFilterAppliedColumn);
+  if (selectedTab === 'syntheticsSmartAlert') columnDefinitions.push(syntheticFilterAppliedColumn);
+  if (selectedTab === 'logSmartAlert') columnDefinitions.push(logsFilterAppliedColumn);
   if (selectedTab === 'event') columnDefinitions.push(entityTypeColumn);
 
   const table = (
@@ -591,7 +709,7 @@ function SelectTriggerDialog({
       withoutBodyPadding
     >
       <div className={locals.selectDialog}>
-        <TabSelect activePanelId={selectedTab} onChange={setSelectedTab}>
+        <TabSelect menuWidth="20%" panelsWidth="80%" activePanelId={selectedTab} onChange={setSelectedTab}>
           <TabSelectHeader>
             <Typography variant="heading-200" noWrap>
               {t('in-automation:policies.selectEventTrigger')}
@@ -707,7 +825,7 @@ function SelectAction({
     isGithub(selectedAction?.type) ||
     isGitlab(selectedAction?.type) ||
     isJira(selectedAction?.type);
-  if (executableAction) {
+  if (executableAction && role?.canConfigureAutomationPolicies) {
     columnDefinitions.push({
       id: 'configure',
       label: '',
@@ -754,13 +872,15 @@ function SelectAction({
         columnDefinitions={columnDefinitions}
         result={result}
         rightHeader={
-          <Button
-            kind="action"
-            onClick={() => addActiveDialog(<SelectActionDialog setForm={setForm} actions={actions} form={form} />)}
-            icon="lib_openclose_add_circle_outline"
-          >
-            {t('in-automation:policies.addAction')}
-          </Button>
+          role?.canConfigureAutomationPolicies && (
+            <Button
+              kind="action"
+              onClick={() => addActiveDialog(<SelectActionDialog setForm={setForm} actions={actions} form={form} />)}
+              icon="lib_openclose_add_circle_outline"
+            >
+              {t('in-automation:policies.addAction')}
+            </Button>
+          )
         }
         fixedLayout
       />

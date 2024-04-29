@@ -55,6 +55,18 @@ export default [
     formatter: number
   },
   {
+    metrics: ['ism.activeTests', 'ism.scheduledTasks', 'ism.completedTasks', 'ism.queueDepth'],
+    labels: [
+      t('in-forge:plugins.syntheticPoP.active'),
+      t('in-forge:plugins.syntheticPoP.scheduled'),
+      t('in-forge:plugins.syntheticPoP.completed'),
+      t('in-forge:plugins.syntheticPoP.queueDepth')
+    ],
+    min: 0,
+    category: [t('in-forge:plugins.syntheticPoP.ism')],
+    formatter: number
+  },
+  {
     metrics: ['resultQueueDepth'],
     labels: [t('in-forge:plugins.syntheticPoP.resultQueueDepth')],
     min: 0,

@@ -14,7 +14,8 @@ export const actionCatalogFullyQualified = `${automationRoot}${actionCatalog}` a
 export const actionDetails = '/details';
 export const actionDetailsFullyQualified = `${actionCatalogFullyQualified}${actionDetails}` as const;
 
-export const actionHistoryPath = '/actionHistory';
+export const actionHistory = '/actionHistory';
+export const actionHistoryPath = `${automationRoot}${actionHistory}` as const;
 
 export const policies = '/policies';
 export const policiesFullyQualified = `${automationRoot}${policies}` as const;

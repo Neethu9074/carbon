@@ -5,14 +5,12 @@
 
 import React from 'react';
 
-import { TimeConfig, TagFilter, MobileAppPaginatedBeaconGroupsItem } from '@instana/types';
+import { TimeConfig, TagFilter, MobileAppPaginatedBeaconGroupsItem, OrderDirection } from '@instana/types';
 import { Link } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 // @ts-expect-error Could not find a declaration file for module
 import { mobileAppIdUrlParameter, tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
-// @ts-expect-error Could not find a declaration file for module
-import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 // @ts-expect-error Could not find a declaration file for module
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 // @ts-expect-error Could not find a declaration file for module
@@ -27,6 +25,7 @@ import { viewIdUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
 import changeExplanation from 'in-mobile-apps/emptyListExplanation';
 // @ts-expect-error Could not find a declaration file for module
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
+import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { useLinkToAnalyze, useLinkToHttpRequest } from 'in-mobile-apps/navigation/paths';
@@ -212,7 +211,7 @@ interface GetTableDataProp {
   page: number;
   pageSize: number;
   orderBy: string;
-  orderDirection: string;
+  orderDirection: OrderDirection;
   timeConfig: TimeConfig;
   tagFilters: TagFilter[];
 }

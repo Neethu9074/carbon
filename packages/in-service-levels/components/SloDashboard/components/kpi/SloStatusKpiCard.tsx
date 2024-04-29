@@ -10,6 +10,8 @@ import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { t } from '@instana/i18n-react';
 
+import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
+import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { createSloPercentageFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { sloMetrics } from 'in-service-levels/metrics';
@@ -23,6 +25,10 @@ export default function SloStatusKpiCard({ configuration }: SloStatusKpiCardProp
   const { id, target } = configuration;
   const formatter = useMemo(() => createSloPercentageFormatter(target), [target]);
   const timeConfig = useTimeConfig();
+  const { timeWindows } = useSloTimeWindowContext();
+  const hasMatchingTimeWindows = timeWindows.length > 0;
+
+  if (!hasMatchingTimeWindows) return <NoValueKpiCard title={sloMetrics.status.label} />;
 
   return (
     <BigNumberKpiCard

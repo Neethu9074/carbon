@@ -7,28 +7,22 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
-interface KongInfoProps {
-  snapshot: SnapshotData;
-}
-interface SnapshotData {
-  data: KongSnapshot;
-}
-interface KongSnapshot {
-  hostName: string;
-  nodeId: string;
-  luaVersion: string;
-  kongVersion: string;
-}
-
-export default function KongInfo({ snapshot: { data: kong } }: KongInfoProps): JSX.Element {
+export default function IbmApiConnectInfo({ snapshot }: { snapshot: SnapshotData }) {
+  const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.kongApigateway.hostName')}>{kong.hostName}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.kongApigateway.nodeId')}>{kong.nodeId}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.kongApigateway.luaVersion')}>{kong.luaVersion}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.kongApigateway.kongVersion')}>{kong.kongVersion}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kongApigateway.hostName')}>{data.get('name')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kongApigateway.nodeId')}>{data.get('nodeId')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kongApigateway.luaVersion')}>
+        {data.get('luaVersion')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kongApigateway.kongVersion')}>
+        {data.get('kongVersion')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kongApigateway.role')}>{data.get('role')}</DescriptionItem>
     </DescriptionList>
   );
 }

@@ -18,7 +18,8 @@ export default function SimpleAlertConfigDialogStep2({
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
   initialConfiguredApplications = {},
-  isGlobalSmartAlert
+  isGlobalSmartAlert,
+  thresholdResult
 }) {
   return (
     <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.applications.simple.simpleAlertStep2Headline')}>
@@ -37,6 +38,7 @@ export default function SimpleAlertConfigDialogStep2({
           form={form}
           onChartViewConfigChange={onChartViewConfigChange}
           selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+          thresholdResult={thresholdResult}
         />
       </div>
     </SimpleModeStepContentWrapper>

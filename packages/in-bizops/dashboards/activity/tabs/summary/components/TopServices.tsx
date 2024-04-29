@@ -6,13 +6,18 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 // @ts-expect-error Could not find a declaration file for module
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 // @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
+import { businessActivityServiceListPath, businessActivitySummaryPath } from 'in-bizops/navigation/paths';
 import getActivityServices from 'in-bizops/subscriptions/getActivityServices';
 import { millis, number, percentage } from 'in-services/formatters/number';
-import { businessActivitySummaryPath } from 'in-bizops/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { Service, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
@@ -36,6 +41,7 @@ export default function TopServices({ businessActivityId }: TopServicesProps) {
       title={t('in-bizops:dashboards.activity.widgets.topServices')}
       labels={labels}
       formatters={[millis.fixedCompact, number.compact, percentage.detailed]}
+      ViewAll={ViewAll}
       timeConfig={timeConfig}
       businessActivityId={businessActivityId}
       getList={getList}
@@ -43,6 +49,22 @@ export default function TopServices({ businessActivityId }: TopServicesProps) {
       Label={Label}
       urlMatrixParamConfig={{ path: businessActivitySummaryPath, paramTab: 'latencyTab' }}
     />
+  );
+}
+
+interface viewAllProps {
+  className: string;
+}
+
+// className styling provided by chart component
+function ViewAll({ className }: viewAllProps) {
+  const { createHrefToPath } = useNavigation();
+
+  const viewAllPath: string = createHrefToPath(businessActivityServiceListPath);
+  return (
+    <Link className={className} href={viewAllPath}>
+      {t('in-bizops:dashboards.activity.widgets.viewAll')}
+    </Link>
   );
 }
 
@@ -94,11 +116,17 @@ type LabelProps = {
 // Forms each row in the service chart, including the URL.
 // item is each element returned from the query made in getList
 function Label({ item }: LabelProps) {
+  const { location, createHref } = useNavigation();
+
+  location.pathname = serviceDashboard;
+  setOrDeleteMatrixKey(location, serviceDashboard, 'serviceId', item.service?.id);
+
   let serviceName: string;
   if (item.service?.label) {
     serviceName = item.service?.label;
   } else {
     serviceName = t('in-bizops:lists.unnamedService');
   }
-  return serviceName;
+
+  return <Link href={createHref(location)}>{serviceName}</Link>;
 }

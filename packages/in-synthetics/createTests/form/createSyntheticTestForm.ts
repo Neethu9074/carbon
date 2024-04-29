@@ -5,14 +5,23 @@
 
 import { createMapForm, createField } from 'formalistic';
 
+import {
+  apiScriptTest,
+  apiSimpleTest,
+  browserScriptTest,
+  browserSimpleTest,
+  SSLCertificateTest
+} from 'in-synthetics/utils/constants';
+import urlValidator, {
+  checkForInvalidHost,
+  checkForInvalidPort
+} from 'in-synthetics/createTests/validators/urlValidator';
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
-import { apiScriptTest, apiSimpleTest, browserScriptTest, browserSimpleTest } from 'in-synthetics/utils/constants';
 import { regExpValidator, statusCodeValidator } from 'in-synthetics/createTests/validators/configValidators';
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/validator';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import urlValidator from 'in-synthetics/createTests/validators/urlValidator';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
@@ -37,8 +46,6 @@ export function createForm(
 ) {
   // @ts-expect-error testType does not exist in advanced mode blueprint
   const advancedModeBlueprintTestType: string = selectedBlueprint?.testType;
-  const advancedModeBlueprintType: string | undefined = selectedBlueprint?.type;
-
   const wizardModeBlueprintTestType: string | undefined = selectedBlueprint?.type;
   let config: any;
 
@@ -46,10 +53,9 @@ export function createForm(
 
   const getApiScriptTestConfig = () => {
     return !savedState?.script
-    ? createAdvancedScriptConfigurationForm(advancedModeBlueprintType, savedState)
-    : createScriptConfigurationForm(simpleMode, savedState);
+      ? createAdvancedScriptConfigurationForm(savedState)
+      : createScriptConfigurationForm(simpleMode, savedState);
   };
-
   if (simpleMode) {
     switch (wizardModeBlueprintTestType) {
       case apiScriptTest:
@@ -84,6 +90,9 @@ export function createForm(
       case browserSimpleTest:
         config = createAdvancedWebpageActionConfigurationForm(savedState);
         break;
+      case 'SSLCertificate':
+      case SSLCertificateTest:
+        config = createAdvancedSSLCertificateConfigurationForm(savedState);
     }
   }
 
@@ -305,9 +314,8 @@ function createWebpageActionConfigurationForm(savedState?: Record<string, any>) 
     );
 }
 
-function createAdvancedScriptConfigurationForm(type: string | undefined, savedState?: Record<string, any>) {
-  const checkCertificate: boolean = type === 'Certificate Check' ? true : false;
-  let configuration = createMapForm()
+function createAdvancedScriptConfigurationForm(savedState?: Record<string, any>) {
+  return createMapForm()
     .put(
       'syntheticType',
       createField({
@@ -335,24 +343,7 @@ function createAdvancedScriptConfigurationForm(type: string | undefined, savedSt
         value: savedState?.markSyntheticCall ?? true,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
-    )
-    .put(
-      'certificateCheck',
-      createField({
-        value: savedState?.certificateCheck ?? checkCertificate,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
-      })
     );
-  if (checkCertificate) {
-    return configuration.put(
-      'script',
-      createField({
-        value: savedState?.script,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
-    );
-  }
-  return configuration;
 }
 
 export function createZipScriptConfigurationForm(bundle: string, scriptFile: string) {
@@ -502,6 +493,64 @@ function createAdvancedWebpageActionConfigurationForm(savedState?: Record<string
           notBlankValidator,
           urlValidator
         )
+      })
+    )
+    .put(
+      'timeout',
+      createField({
+        value: savedState?.timeout ?? '0m',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'retries',
+      createField({
+        value: savedState?.retries ?? 0,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+      })
+    )
+    .put(
+      'markSyntheticCall',
+      createField({
+        value: savedState?.markSyntheticCall ?? true,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    );
+}
+
+function createAdvancedSSLCertificateConfigurationForm(savedState?: Record<string, any>) {
+  return createMapForm()
+    .put(
+      'syntheticType',
+      createField({
+        value: savedState?.syntheticType ?? 'SSLCertificate',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'hostname',
+      createField({
+        value: savedState?.hostname ?? '',
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          checkForInvalidHost
+        )
+      })
+    )
+    .put(
+      'port',
+      createField({
+        value: savedState?.port ?? 443,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0), checkForInvalidPort)
+      })
+    )
+    .put(
+      'daysRemainingCheck',
+      createField({
+        value: savedState?.daysRemainingCheck ?? '',
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
       })
     )
     .put(

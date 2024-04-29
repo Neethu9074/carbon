@@ -40,9 +40,10 @@ const defaultFeedbackState = { thumbsDown: false, thumbsUp: false };
 
 export default function AIEventListRow({ title, incident, incidentHasRCAProperty, latestSnapshot }) {
   // Holds map of { snapshot_ID: [event_id, event_id] }
+  const isLegacy = incident.hasIn(['metadata', 'probableRootCause']);
   const rcaSnapshotMap = useMemo(
-    () => extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled),
-    [incident, incidentHasRCAProperty]
+    () => extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled, isLegacy),
+    [incident, incidentHasRCAProperty, isLegacy]
   );
 
   // gets an array of snapshot_IDs [snapshot_ID_1, snapshot_ID_2 ...]
@@ -80,12 +81,17 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
       <Stack direction="vertical" gap="xsmall">
         <div className={locals.timeline}>
           <RootCauseEntityDetails
-            selectedSnapshotMetadata={incident
-              .get('metadata')
-              .get('probableRootCauseSnapshotMetadata')
-              .get(currentRCAEntity)}
+            selectedSnapshotMetadata={
+              isLegacy
+                ? incident.get('metadata').get('probableRootCauseSnapshotMetadata').get(currentRCAEntity)
+                : incident.getIn(['metadata', 'rootCause', 'probableRootCauseSnapshotMetadata', currentRCAEntity], null)
+            }
             eventsRelatedToEntity={eventsRelatedToEntity}
-            probabilityScore={extractProbabilityScoreForProbableRootCause(incident.get('metadata'), currentRCAEntity)}
+            probabilityScore={extractProbabilityScoreForProbableRootCause(
+              incident.get('metadata'),
+              currentRCAEntity,
+              isLegacy
+            )}
             relatedAPID={
               incident.get('metadata').has('app20ApplicationId')
                 ? incident.get('metadata').get('app20ApplicationId')
@@ -216,38 +222,60 @@ function extractFeedbackMetadataFromIncident(incident, snapshotMetadata) {
 
 // Eventually should be directly retrieved once all RCA inclusive events don't use the old data structure anymore
 // See https://github.ibm.com/instana/ui-client/pull/13705
-function extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled) {
+function extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled, isLegacy) {
   if (!rcaUIEnabled || !incidentHasRCAProperty) return null;
-  const probableRootCauseFromIncident = incident.get('metadata').get('probableRootCause');
-  if (Array.isArray(probableRootCauseFromIncident)) {
-    return probableRootCauseFromIncident;
-  } else if (List.isList(probableRootCauseFromIncident)) {
-    let probableRootCauseWithSnapshotIDsAsKeys = Map();
-
-    probableRootCauseFromIncident.forEach(snapshot => {
-      if (!snapshot || !snapshot.has('RCASnapshotID') || !snapshot.has('rcaEvents')) return null;
-
-      const rcaEvents = snapshot.get('rcaEvents').toArray();
-      let snapshotID = '';
-
-      if (List.isList(snapshot.get('RCASnapshotID'))) {
-        snapshotID = snapshot.get('RCASnapshotID').first();
-      } else if (snapshot.get('RCASnapshotID') instanceof String || typeof snapshot.get('RCASnapshotID') === 'string') {
-        snapshotID = snapshot.get('RCASnapshotID');
-      }
-      probableRootCauseWithSnapshotIDsAsKeys = probableRootCauseWithSnapshotIDsAsKeys.set(snapshotID, rcaEvents);
-    });
-    return probableRootCauseWithSnapshotIDsAsKeys;
+  if (isLegacy) {
+    const legacyProbableRootCauseFromIncident = incident.getIn(['metadata', 'probableRootCause'], null);
+    if (Array.isArray(legacyProbableRootCauseFromIncident)) {
+      return legacyProbableRootCauseFromIncident;
+    } else if (List.isList(legacyProbableRootCauseFromIncident)) {
+      return iterateThroughRCAEventsAndReturnMapOfIDWithEvents(legacyProbableRootCauseFromIncident, isLegacy);
+    }
+  } else {
+    const probableRootCauseEvents = incident.getIn(['metadata', 'rootCause', 'rcaSnapshotsEvents'], null);
+    if (probableRootCauseEvents)
+      return iterateThroughRCAEventsAndReturnMapOfIDWithEvents(probableRootCauseEvents, isLegacy);
   }
+  return {};
 }
 
-function extractProbabilityScoreForProbableRootCause(incidentMetadata, selectedSnapshot) {
-  const probableRootCauseArray = incidentMetadata.get('probableRootCause');
+function iterateThroughRCAEventsAndReturnMapOfIDWithEvents(rcaEventsList, isLegacy) {
+  let probableRootCauseWithSnapshotIDsAsKeys = Map();
+  const snapshotIDKey = isLegacy ? 'RCASnapshotID' : 'rcaSnapshotID';
+  const rcaEventsKey = 'rcaEvents';
+  rcaEventsList.forEach(snapshot => {
+    if (!snapshot || !snapshot.has(snapshotIDKey) || !snapshot.has(rcaEventsKey)) return null;
+
+    const rcaEvents = snapshot.get(rcaEventsKey).toArray();
+    let snapshotID = '';
+
+    if (List.isList(snapshot.get(snapshotIDKey))) {
+      snapshotID = snapshot.get(snapshotIDKey).first();
+    } else if (snapshot.get(snapshotIDKey) instanceof String || typeof snapshot.get(snapshotIDKey) === 'string') {
+      snapshotID = snapshot.get(snapshotIDKey);
+    }
+    probableRootCauseWithSnapshotIDsAsKeys = probableRootCauseWithSnapshotIDsAsKeys.set(snapshotID, rcaEvents);
+  });
+  return probableRootCauseWithSnapshotIDsAsKeys;
+}
+
+function extractProbabilityScoreForProbableRootCause(incidentMetadata, selectedSnapshot, isLegacy) {
+  let probableRootCauseArray;
+
+  if (!isLegacy) {
+    probableRootCauseArray = incidentMetadata.getIn(['rootCause', 'rcaSnapshotsEvents']);
+  } else {
+    probableRootCauseArray = incidentMetadata.getIn(['probableRootCause'], null);
+  }
+
+  const snapshotIDKey = isLegacy ? 'RCASnapshotID' : 'rcaSnapshotID';
+  const rcaProbKey = 'rcaProbFailure';
+
   if (List.isList(probableRootCauseArray)) {
     const foundSnapshot = probableRootCauseArray.find(
-      snapshotData => snapshotData.get('RCASnapshotID') === selectedSnapshot
+      snapshotData => snapshotData.get(snapshotIDKey) === selectedSnapshot
     );
-    if (foundSnapshot && foundSnapshot.get('rcaProbFailure')) return foundSnapshot.get('rcaProbFailure');
+    if (foundSnapshot && foundSnapshot.get(rcaProbKey)) return foundSnapshot.get(rcaProbKey);
   }
   return null;
 }

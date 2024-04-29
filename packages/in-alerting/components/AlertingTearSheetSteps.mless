@@ -7,10 +7,8 @@
 :local {
   .label {
     display: flex;
-    align-items: center;
     margin: 1.5rem 0;
     color: var(--ids-color-option-neutral-600);
-    font-size: var(--ids-font-size-option-body-regular);
     line-height: 1.5rem;
 
     &:hover {
@@ -42,5 +40,9 @@
   .inline {
     display: flex;
     align-items: baseline;
+  }
+
+  .index {
+    word-break: auto-phrase;
   }
 }

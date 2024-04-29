@@ -24,7 +24,6 @@ import {
 import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { Capability, CapabilityType, PermissionsUnion } from 'in-stores/permission';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -86,38 +85,58 @@ export function setFieldValue<T>(field: Item, value: T, isTouched = false): Fiel
 
 export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
   const { id, name, members, permissionSet } = apiResult?.result.group || {};
-
-  if (!applicationContributionFilterEnabled) {
-    return form
-      .put(
-        'id',
-        createField({
-          value: id
-        })
-      )
-      .put(
-        'name',
-        createField({
-          value: name,
-          validator: notBlankValidator
-        })
-      )
-      .put(
-        'members',
-        createField({
-          value: members
-        })
-      )
-      .put(
-        'permissionSet',
-        createField({
-          value: permissionSet,
-          validator: dfqFilterValidator
-        })
-      );
-  } else {
-    return createFilterForm(form, apiResult);
-  }
+  const applicationConfig = getDefaultApplicationConfig(name);
+  const applicationScope = permissionSet?.restrictedApplicationFilter?.scope || applicationConfig.scope;
+  const label = permissionSet?.restrictedApplicationFilter?.label || applicationConfig?.label;
+  const tagFilterExpression =
+    fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) ||
+    applicationConfig.tagFilterExpression;
+  return form
+    .put(
+      'id',
+      createField({
+        value: id
+      })
+    )
+    .put(
+      'name',
+      createField({
+        value: name,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'label',
+      createField({
+        value: label,
+        validator: contributionFilterNameValidator
+      })
+    )
+    .put(
+      'members',
+      createField({
+        value: members
+      })
+    )
+    .put(
+      'permissionSet',
+      createField({
+        value: permissionSet,
+        validator: dfqFilterValidator
+      })
+    )
+    .put(
+      'scope',
+      createField({
+        value: applicationScope
+      })
+    )
+    .put(
+      'tagFilterExpression',
+      createField({
+        value: tagFilterExpression
+      })
+    );
 }
 
 // Returns the AreaRole that matches the specified permissions
@@ -134,11 +153,7 @@ export function getAreaRoleFromPermissionSet(
     const hasAllCapabilities = capabilities.every(permission => permissionSet.permissions.includes(permission));
 
     // Contributor role is only available for Application
-    if (
-      applicationContributionFilterEnabled &&
-      productArea === ProductArea.APPLICATION &&
-      permissionSet.restrictedApplicationFilter
-    ) {
+    if (productArea === ProductArea.APPLICATION && permissionSet.restrictedApplicationFilter) {
       return AreaRoleWithContributor.CONTRIBUTOR;
     }
     if (hasAllCapabilities) return AreaRole.OWNER;
@@ -228,62 +243,6 @@ function addPermissionsByRoleForProductArea(
   }
 
   return newPermissions;
-}
-
-function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
-  const { id, name, members, permissionSet } = apiResult?.result.group || {};
-  const applicationConfig = getDefaultApplicationConfig(name);
-  const applicationScope = permissionSet?.restrictedApplicationFilter?.scope || applicationConfig.scope;
-  const label = permissionSet?.restrictedApplicationFilter?.label || applicationConfig?.label;
-  const tagFilterExpression =
-    fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) ||
-    applicationConfig.tagFilterExpression;
-  return form
-    .put(
-      'id',
-      createField({
-        value: id
-      })
-    )
-    .put(
-      'name',
-      createField({
-        value: name,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'label',
-      createField({
-        value: label,
-        validator: contributionFilterNameValidator
-      })
-    )
-    .put(
-      'members',
-      createField({
-        value: members
-      })
-    )
-    .put(
-      'permissionSet',
-      createField({
-        value: permissionSet,
-        validator: dfqFilterValidator
-      })
-    )
-    .put(
-      'scope',
-      createField({
-        value: applicationScope
-      })
-    )
-    .put(
-      'tagFilterExpression',
-      createField({
-        value: tagFilterExpression
-      })
-    );
 }
 
 export const getDefaultApplicationConfig = (applicationContributionfilterName: string | undefined) => {

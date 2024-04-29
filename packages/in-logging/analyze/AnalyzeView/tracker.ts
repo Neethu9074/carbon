@@ -16,6 +16,7 @@ import {
   ANALYZE_LOGGING_TIME_SPENT,
   LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK,
   ANALYZE_LOGGING_LOG_GETLOGS_FILTERS,
+  ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED,
   track
 } from 'in-services/tracking/tracking';
 
@@ -33,3 +34,4 @@ export const logsCallwithFilters = (e: {
   timeConfig: TimeConfig;
   tagFilterExpression: TagFilterExpression | TagFilterExpressionElementUnion;
 }) => track(ANALYZE_LOGGING_LOG_GETLOGS_FILTERS, e);
+export const customWidgetSeeInLogsClicked = (e: any) => track(ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED, e);

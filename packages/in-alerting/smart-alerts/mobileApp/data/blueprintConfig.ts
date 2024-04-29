@@ -18,11 +18,10 @@ import {
 
 import getMobileAppMetricThresholdSuggestion from 'in-alerting/smart-alerts/mobileApp/subscriptions/getMobileAppMetricsThresholdSuggestion';
 import getMobileAppMetricAlertsPreview from 'in-alerting/smart-alerts/mobileApp/subscriptions/getMobileAppMetricAlertsPreview';
-//@ts-expect-error needs TS migration
-import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { number, NumberFormatter, percentage } from 'in-services/formatters/number';
+import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 //@ts-expect-error
@@ -36,8 +35,20 @@ import { t } from 'in-i18n';
 
 export type ThresholdTypeOptions = readonly Option[];
 
-export type MetricName = 'httpxxx' | 'beaconRate' | 'sessions' | 'views' | 'beaconCount';
-
+export type MetricName =
+  | 'httpxxx'
+  | 'beaconRate'
+  | 'sessions'
+  | 'views'
+  | 'beaconCount'
+  | 'crashAffectedUserCount'
+  | 'crashAffectedSessionRate'
+  | 'crashFreeSessionCount'
+  | 'crashFreeUserRate'
+  | 'crashFreeUserCount'
+  | 'crashFreeSessionRate'
+  | 'crashAffectedSessionCount'
+  | 'crashAffectedUserRate';
 const statusCodeMetricLabelsByName: Record<string, string> = Object.freeze({
   httpxxx: t('in-alerting:smartAlerts.mobileApp.data.statusCodeCount'),
   beaconRate: t('in-alerting:smartAlerts.mobileApp.data.beaconRate')
@@ -46,6 +57,17 @@ const statusCodeMetricLabelsByName: Record<string, string> = Object.freeze({
 const throughputMetricLabelsByName: Record<string, string> = Object.freeze({
   sessions: t('in-alerting:smartAlerts.mobileApp.data.sessions'),
   views: t('in-alerting:smartAlerts.mobileApp.data.views')
+});
+
+const crashMetricLabelsByName: Record<string, string> = Object.freeze({
+  crashAffectedSessionRate: t('in-alerting:smartAlerts.mobileApp.data.crashAffectedSessionRate'),
+  crashFreeSessionRate: t('in-alerting:smartAlerts.mobileApp.data.crashFreeSessionRate'),
+  crashAffectedSessionCount: t('in-alerting:smartAlerts.mobileApp.data.crashAffectedSessionCount'),
+  crashFreeSessionCount: t('in-alerting:smartAlerts.mobileApp.data.crashFreeSessionCount'),
+  crashFreeUserRate: t('in-alerting:smartAlerts.mobileApp.data.crashFreeUserRate'),
+  crashAffectedUserRate: t('in-alerting:smartAlerts.mobileApp.data.crashAffectedUserRate'),
+  crashAffectedUserCount: t('in-alerting:smartAlerts.mobileApp.data.crashAffectedUserCount'),
+  crashFreeUserCount: t('in-alerting:smartAlerts.mobileApp.data.crashFreeUserCount')
 });
 
 interface BluePrintBase {
@@ -81,7 +103,7 @@ export interface BluePrint extends BluePrintBase {
   readonly type: MobileAlertType;
   readonly defaultMetric: MetricName;
   readonly headline?: string;
-  readonly text?: string;
+  readonly text: string;
   readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
   readonly baselineEnabled: boolean;
   readonly getMetricName: (alertRule: MobileAppAlertRule) => string;
@@ -186,10 +208,34 @@ const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   baselineEnabled: true
 });
 
+const crashBlueprintConfig: Readonly<BluePrint> = Object.freeze({
+  ...baseBlueprint,
+  type: 'crash',
+  name: t('in-alerting:smartAlerts.mobileApp.data.crashBlueprintConfigName'),
+  defaultMetric: 'crashAffectedSessionRate',
+  headline: t('in-alerting:smartAlerts.mobileApp.data.crashBlueprintConfigHeadline'),
+  text: t('in-alerting:smartAlerts.mobileApp.data.crashBlueprintConfigText'),
+  getBeaconType: () => 'crash',
+  getMetricFormat: (metricName: MetricName) =>
+    rateMetricsForCrashBlueprint.has(metricName) ? percentage : number.forcedCompact,
+  getAggregation: (alertRule: MobileAppAlertRule) =>
+    rateMetricsForCrashBlueprint.has((alertRule as StatusCodeMobileAppAlertRule).metricName)
+      ? 'MEAN'
+      : 'DISTINCT_COUNT',
+  getMetricName: (alertRule: MobileAppAlertRule) => alertRule.metricName,
+  getMetricLabel: (metricName: MetricName) => crashMetricLabelsByName[metricName],
+  getAvailableTags: () => getIncludedTags(availableFilterTags.crash),
+  isRuleComplete: () => true,
+  getMaxMetricValue: (metricName: MetricName) =>
+    rateMetricsForCrashBlueprint.has(metricName) ? 100 : Number.MAX_SAFE_INTEGER,
+  baselineEnabled: true
+});
+
 export const blueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
   statusCodeBlueprintConfig,
   throughputBlueprintConfig,
-  customEventBlueprintConfig
+  customEventBlueprintConfig,
+  crashBlueprintConfig
 ]);
 
 export const simpleModeBlueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
@@ -219,7 +265,25 @@ export const simpleModeBlueprintConfigs: readonly Readonly<BluePrint>[] = Object
     },
     isSelected: (alertThreshold: ThresholdConfig) => alertThreshold.operator === '<=' || alertThreshold.operator === '<'
   },
-  customEventBlueprintConfig
+  customEventBlueprintConfig,
+  crashBlueprintConfig
+]);
+
+export const rateMetricsForCrashBlueprint = new Set([
+  'crashAffectedSessionRate',
+  'crashFreeUserRate',
+  'crashFreeSessionRate',
+  'crashAffectedUserRate'
+]);
+export const crashBlueprintMetrics = new Set([
+  'crashAffectedUserCount',
+  'crashAffectedSessionRate',
+  'crashFreeSessionCount',
+  'crashFreeUserRate',
+  'crashFreeUserCount',
+  'crashFreeSessionRate',
+  'crashAffectedSessionCount',
+  'crashAffectedUserRate'
 ]);
 
 export function getBlueprintConfig(alertType: MobileAlertType): BluePrint {
@@ -235,10 +299,17 @@ export function getSimpleModeBlueprintConfig(
   alertThreshold: ThresholdConfig,
   metricName: MetricName
 ): BluePrint | undefined {
-  return simpleModeBlueprintConfigs
-    .filter(blueprint => blueprint.type === alertType)
-    .filter(blueprint => blueprint.defaultMetric === metricName)
-    .find(blueprint => !blueprint.isSelected || blueprint.isSelected(alertThreshold));
+  return (
+    simpleModeBlueprintConfigs
+      .filter(blueprint => blueprint.type === alertType)
+      // we allow all metrics from crash blueprint in simple mode.
+      .filter(
+        blueprint =>
+          blueprint.defaultMetric === metricName ||
+          (blueprint.type === 'crash' && crashBlueprintMetrics.has(metricName))
+      )
+      .find(blueprint => !blueprint.isSelected || blueprint.isSelected(alertThreshold))
+  );
 }
 
 function isCustomRateMetric(metricName: MetricName | string): boolean {

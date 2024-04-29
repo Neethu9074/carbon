@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { CreateInfraSmartAlertFloatingButtons } from 'in-infrastructure/smartAlertView/CreateInfraSmartAlertFloatingButtons';
 //@ts-expect-error
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
 //@ts-expect-error
@@ -20,16 +21,19 @@ import { t } from 'in-i18n';
 export default function SmartAlertView() {
   useOldBackgroundColor();
   return (
-    <InfraPageHeaderWithTabs>
-      <ViewTrackingMeta
-        data={{
-          productArea: productAreas.infrastructure,
-          pageRootName: pageNames.infra_smart_alerts
-        }}
-      />
+    <>
+      <InfraPageHeaderWithTabs>
+        <ViewTrackingMeta
+          data={{
+            productArea: productAreas.infrastructure,
+            pageRootName: pageNames.infra_smart_alerts
+          }}
+        />
 
-      <Title title={t('in-infrastructure:smartAlertView.smartAlertTab')} />
-      <Alerts />
-    </InfraPageHeaderWithTabs>
+        <Title title={t('in-infrastructure:smartAlertView.smartAlertTab')} />
+        <Alerts />
+      </InfraPageHeaderWithTabs>
+      <CreateInfraSmartAlertFloatingButtons />
+    </>
   );
 }

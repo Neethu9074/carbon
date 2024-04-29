@@ -13,9 +13,14 @@ import { t } from 'in-i18n';
 
 interface DisabledTagFilterButtonProps {
   width?: string;
+  noCustomTitle?: boolean;
 }
-export default function DisabledTagFilterButton({ width }: DisabledTagFilterButtonProps) {
-  return (
+export default function DisabledTagFilterButton({ width, noCustomTitle }: DisabledTagFilterButtonProps) {
+  return noCustomTitle ? (
+    <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
+      {t('in-components:queryBuilder.components.filterButtonAddFilter')}
+    </Button>
+  ) : (
     <Section title={t('in-service-levels:createSloDialog.customFilter')} titleWidth={width}>
       <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
         {t('in-components:queryBuilder.components.filterButtonAddFilter')}

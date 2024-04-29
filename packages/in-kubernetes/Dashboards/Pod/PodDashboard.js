@@ -19,11 +19,11 @@ import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsF
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
 import { kubernetesTimeShiftSelectTracker, podTabChange } from 'in-kubernetes/tracker';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
-import PageTracker from 'in-services/tracking/segment/PageTracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -54,12 +54,19 @@ export default function PodDashboard({ location }) {
 
   const prometheusEndpoints =
     useObservable(() => getKubernetesPrometheusMetricsWithDefaults({ podId, timeConfig }), [podId]) ?? pendingResult;
+  const { loading } = prometheusEndpoints.progress;
+
+  if (loading) {
+    return <LoadingIndicator />;
+  }
 
   const hasPrometheusEndpoints = prometheusEndpoints?.data?.items.length > 0;
+  const allTabs = hasPrometheusEndpoints
+    ? tabs
+    : tabs.filter(tab => tab.label !== t('in-kubernetes:dashboards.prometheusMetrics'));
 
   return (
     <>
-      <PageTracker parentProductArea={productAreas.kubernetes} parentPageName={pageNames.pod_summary} />
       <ViewTrackingMeta
         data={{
           productArea: productAreas.kubernetes,
@@ -88,7 +95,7 @@ export default function PodDashboard({ location }) {
         })}
         HeaderComponent={Header}
         location={location}
-        tabs={hasPrometheusEndpoints ? tabs : tabs.slice(0, -1)}
+        tabs={allTabs}
         tabChangeTracker={podTabChange}
         props={props}
         renderErrors={errors => (

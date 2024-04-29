@@ -29,3 +29,4 @@ export const defaultOrder = {
   by: 'label',
   direction: 'ASC' as OrderDirection
 };
+export const tag_not_present_group = 'tag_not_present_group';

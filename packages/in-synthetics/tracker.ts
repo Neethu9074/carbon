@@ -10,7 +10,9 @@ import {
   SYNTHETIC_TAB_INAPP_CLICK,
   SYNTHETIC_TEST_CLICK,
   SYNTHETIC_ADVANCED_CREATE_BUTTON_CLICK,
+  SYNTHETIC_WIZARD__CREATE_TEST_TYPE_SWITCH,
   SYNTHETIC_CREATE_ADVANCED_BUTTON_CLICK,
+  SYNTHETIC_ADVANCED__CREATE_TEST_TYPE_SWITCH,
   SYNTHETIC_CREATE_BUTTON_CLICK,
   SYNTHETIC_WIZARD_CREATE_BUTTON_CLICK,
   SYNTHETIC_RESULTS_TAB_CLICK,
@@ -28,8 +30,12 @@ export const clickSyntheticMonitoringTestTracker = (e: SyntheticTrackerProps) =>
 export const clickSyntheticMonitoringTabInApplicationsTracker = (e: SyntheticTrackerProps) =>
   track(SYNTHETIC_TAB_INAPP_CLICK, e);
 export const syntheticCreateButtonClick = (e: SyntheticTrackerProps) => track(SYNTHETIC_CREATE_BUTTON_CLICK, e);
+export const syntheticWizardCreateTestTypeSwitch = (e: SyntheticTrackerProps) =>
+  track(SYNTHETIC_WIZARD__CREATE_TEST_TYPE_SWITCH, e);
 export const syntheticCreateAdvancedButtonClick = (e: SyntheticTrackerProps) =>
   track(SYNTHETIC_CREATE_ADVANCED_BUTTON_CLICK, e);
+export const syntheticAdvancedCreateTestTypeSwitch = (e: SyntheticTrackerProps) =>
+  track(SYNTHETIC_ADVANCED__CREATE_TEST_TYPE_SWITCH, e);
 export const syntheticAdvancedCreateButtonClick = (e: SyntheticTrackerProps) =>
   track(SYNTHETIC_ADVANCED_CREATE_BUTTON_CLICK, e);
 export const syntheticWizardCreateButtonClick = (e: SyntheticTrackerProps) =>

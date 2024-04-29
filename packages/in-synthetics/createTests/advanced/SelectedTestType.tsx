@@ -11,12 +11,11 @@ import { generateUniqueShortId } from '@instana/utils';
 import { Button } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
+import { Code, ConfigItem, SSLCertificateTest, TestTypeSelected } from 'in-synthetics/utils/constants';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
 import SimpleOrScriptOption from 'in-synthetics/createTests/advanced/SimpleOrScriptOption';
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
-import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
-import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import { Col, Row } from 'in-components/layout/Grid';
 import { isBlank } from 'in-services/util/string';
 
@@ -86,7 +85,7 @@ const SelectedTestType = ({
 }: SelectedTestTypeProps) => {
   const populateCommonAttributes = () => {
     commonAttributes['url'] = '';
-    commonAttributes['testFrequency'] = form.get('testFrequency').value;
+    commonAttributes['testFrequency'] = selectedBlueprint.type === SSLCertificateTest ? 120 : 15;
     commonAttributes['locations'] = form.get('locations').value;
     commonAttributes['label'] = form.get('label').value;
     commonAttributes['description'] = form.get('description').value;
@@ -152,6 +151,7 @@ const SelectedTestType = ({
             if (testTypeSelected?.api.script) selectedBlueprint.testType = 'HTTPScript';
             if (testTypeSelected?.browser.simple) selectedBlueprint.testType = 'WebpageAction';
             if (testTypeSelected?.browser.script) selectedBlueprint.testType = 'BrowserScript';
+            if (testTypeSelected?.ssl.simple) selectedBlueprint.testType = 'SSLCertificate';
             populateCommonAttributes();
             setRenderSectionsCounter(v => v + 1);
             setHeaders([
@@ -195,7 +195,7 @@ const RenderCertificateCheck = ({
   isUpdateConfig,
   setScriptDetails
 }: RenderCertificateCheckProps) => {
-  const script: boolean = commonAttributes.syntheticType === 'HTTPScript' ? true : false;
+  const simple: boolean = commonAttributes.syntheticType === 'SSLCertificate' ? true : false;
   return (
     <>
       <h3 className={locals.headline}>
@@ -205,15 +205,15 @@ const RenderCertificateCheck = ({
       <Row>
         <Col lg={6} className={locals.column}>
           <SimpleOrScriptOption
-            checked={!testTypeSelected?.api.script ? script : testTypeSelected?.api.script}
+            checked={!testTypeSelected?.ssl.simple ? simple : testTypeSelected?.ssl.simple}
             title={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.certificateCheckTitle')}
             description={certificateCheckDescription}
             onChange={() => {
               //@ts-expect-error
               setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
-                return { ...prevState, api: { simple: false, script: true } };
+                return { ...prevState, ssl: { simple: true } };
               });
-              setCommonAttributes({ ...commonAttributes, script: '', syntheticType: 'HTTPScript' });
+              setCommonAttributes({ ...commonAttributes, script: '', syntheticType: 'SSLCertificate' });
               setScriptDetails({ modified: false, name: '' });
             }}
             disabled={isUpdateConfig}
@@ -246,8 +246,7 @@ const RenderHttpTests = ({
 }: RenderHttpTestsProps) => {
   const simple: boolean = commonAttributes.syntheticType === 'HTTPAction' ? true : false;
   const script: boolean = commonAttributes.syntheticType === 'HTTPScript' ? true : false;
-  const isCertificateCheckScript: boolean =
-    selectedBlueprint.type === 'Certificate Check' && syntheticCertificateCheckEnabled;
+
   return (
     <>
       <h3 className={locals.headline}>
@@ -274,7 +273,6 @@ const RenderHttpTests = ({
             }}
             disabled={isUpdateConfig}
             asRadioButton
-            isCertificateCheckScript={isCertificateCheckScript}
           />
         </Col>
         <Col lg={6} className={locals.column}>
@@ -296,7 +294,6 @@ const RenderHttpTests = ({
             }}
             disabled={isUpdateConfig}
             asRadioButton
-            isCertificateCheckScript={isCertificateCheckScript}
           />
         </Col>
       </Row>

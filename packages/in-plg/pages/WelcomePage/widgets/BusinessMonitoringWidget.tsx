@@ -7,7 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { BusinessProcessItem, Result, TimeConfig } from '@instana/types';
+import { BusinessDataQuery, BusinessProcessItem, Result, TagFilterExpression, TimeConfig } from '@instana/types';
 import { Link, Stack, SvgIcon, Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -15,9 +15,11 @@ import { t } from '@instana/i18n-react';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import { businessProcessDashboard, summaryTab, businessProcessPath } from 'in-bizops/navigation/paths';
-import { getBusinessProcessListData } from 'in-bizops/lists/businessProcess/BusinessProcessList';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
+import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+import getBusinessProcesses from 'in-bizops/subscriptions/getBusinessProcesses';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -26,10 +28,65 @@ import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
 import { Location } from 'in-stores/navigation/types';
 import { timeConfig$ } from 'in-stores/time/config';
-import DatatableWrapper from './DatatableWrapper';
 
-function getBusinessData(params: any) {
-  return getBusinessProcessListData(params);
+interface GetBusinessDataProps {
+  timeConfig: TimeConfig;
+  query: string;
+}
+
+function getBusinessData({ timeConfig, query: search }: GetBusinessDataProps) {
+  let tagFilterExpression: TagFilterExpression = {
+    type: 'EXPRESSION',
+    logicalOperator: 'AND',
+    elements: []
+  };
+
+  // Don't include processes with blank names
+  tagFilterExpression.elements.push({
+    name: 'bpm_process_definition_name',
+    operator: 'NOT_EQUAL',
+    value: '',
+    entity: NOT_APPLICABLE,
+    type: 'TAG_FILTER'
+  });
+
+  // Filter result by user's search query
+  if (search && search.length > 0) {
+    tagFilterExpression.elements.push({
+      name: 'bpm_process_definition_name',
+      operator: 'CONTAINS',
+      stringValue: search,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    });
+  }
+
+  const query: BusinessDataQuery = {
+    dataType: 'PROCESS',
+    metrics: {
+      started_processes_total: {
+        metric: 'started_processes',
+        granularity: 0,
+        aggregation: 'DISTINCT_COUNT'
+      },
+      started_processes_array: {
+        metric: 'started_processes',
+        granularity: getChartGranularity(timeConfig),
+        aggregation: 'DISTINCT_COUNT'
+      }
+    },
+    order: {
+      by: 'process_name',
+      direction: 'ASC'
+    },
+    pagination: {
+      page: 1,
+      pageSize: 5
+    },
+    tagFilterExpression,
+    timeConfig: timeConfig
+  };
+  return getBusinessProcesses(query);
 }
 
 export default connectTo(() => ({
@@ -79,7 +136,7 @@ export default connectTo(() => ({
     {
       key: 'activities',
       getContent({ item }) {
-        return <Typography variant="body-regular">{item?.businessProcess?.activitiesCount}</Typography>;
+        return <Typography variant="body-regular">{item?.metrics?.activities_count[0][1]}</Typography>;
       }
     },
     {
@@ -98,8 +155,8 @@ export default connectTo(() => ({
             loading={result?.progress?.loading}
             rollup={getChartGranularity(timeConfig)}
             timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
-            metrics={item?.metrics?.started_processes}
-            metric={item?.metrics?.started_processes?.[0] && item?.metrics?.started_processes[0][1]}
+            metrics={item?.metrics?.started_processes_array}
+            metric={item?.metrics?.started_processes_total?.[0][1]}
             tooltipFormatter={number.compact}
           />
         );

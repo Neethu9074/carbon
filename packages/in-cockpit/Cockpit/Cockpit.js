@@ -50,7 +50,6 @@ import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { setSingle, settings$ } from 'in-services/settings/settings';
-import PageTracker from 'in-services/tracking/segment/PageTracker';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -167,7 +166,6 @@ function CockpitInner({ settings, width }) {
     () => (
       <>
         <Title title={t('in-cockpit:cockpit.home')} />
-        <PageTracker parentProductArea={productAreas.home} parentPageName={pageNames.home} />
         <ViewTrackingMeta
           data={{
             productArea: productAreas.home,

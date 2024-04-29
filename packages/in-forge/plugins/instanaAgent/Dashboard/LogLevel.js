@@ -5,13 +5,13 @@
 
 import React from 'react';
 
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { setLogLevel } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
 import Dialog from 'in-components/Dialog/Dialog';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';

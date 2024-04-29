@@ -13,3 +13,4 @@ export const STRING_SET: TagType = 'STRING_SET';
 // Ordered list.
 export const STRING_LIST: TagType = 'STRING_LIST';
 export const KEY_VALUE_PAIR: TagType = 'KEY_VALUE_PAIR';
+export const KEY_NUMBER_PAIR: TagType = 'KEY_NUMBER_PAIR';

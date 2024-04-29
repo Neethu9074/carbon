@@ -6,11 +6,18 @@
 
 import React, { SetStateAction, useState } from 'react';
 
-import { DeleteLogsHistoryResult } from '@instana/types/typeDefinitions';
+import { DeleteLogsResult } from '@instana/types/typeDefinitions';
+import { DateFormatterOutput } from '@instana/format-date';
 import { SvgIcon, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { Button } from '@instana/legacy';
 
+import {
+  logManagementDeleteLogsClickedTracker,
+  logManagementDeleteLogsErrorTracker,
+  logManagementDeleteLogsSubmittedTracker,
+  logManagementDeleteLogsSuccessTracker
+} from 'in-settings/tracker';
 import { ModalNotification } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/ModalNotification';
 import useDeleteLogsForm from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/useDeleteLogsForm';
 import { DeletionTable } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeletionTable';
@@ -21,6 +28,7 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { parseDateTime } from 'in-services/formatters/date';
+import { emptyObject } from 'in-services/fixedObjects';
 import DateInput from 'in-components/form/DateInput';
 import Dialog from 'in-components/Dialog/Dialog';
 import TimeInput from 'in-components/TimeInput';
@@ -54,7 +62,11 @@ const localisationStrings = {
 export default function DeleteLogs() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const openConfirmationDialog = () => setShowConfirmation(true);
+  const [retryCount, setRetryCount] = useState(0);
+  const openConfirmationDialog = () => {
+    logManagementDeleteLogsClickedTracker(emptyObject);
+    setShowConfirmation(true);
+  };
 
   return (
     <>
@@ -76,6 +88,8 @@ export default function DeleteLogs() {
           setShowConfirmation={setShowConfirmation}
           setIsDeleting={setIsDeleting}
           isDeleting={isDeleting}
+          setRetryCount={setRetryCount}
+          retryCount={retryCount}
         />
       )}
     </>
@@ -86,9 +100,17 @@ interface DeleteLogsDialogProps {
   setShowConfirmation: React.Dispatch<React.SetStateAction<boolean>>;
   setIsDeleting: React.Dispatch<SetStateAction<boolean>>;
   isDeleting: boolean;
+  setRetryCount: React.Dispatch<React.SetStateAction<number>>;
+  retryCount: number;
 }
 
-function DeleteLogsDialog({ setShowConfirmation, setIsDeleting, isDeleting }: DeleteLogsDialogProps) {
+function DeleteLogsDialog({
+  setShowConfirmation,
+  setIsDeleting,
+  isDeleting,
+  setRetryCount,
+  retryCount
+}: DeleteLogsDialogProps) {
   const [notification, setNotification] = useState<NotificationState>({ show: false });
   const {
     reasonInputValue,
@@ -114,19 +136,25 @@ function DeleteLogsDialog({ setShowConfirmation, setIsDeleting, isDeleting }: De
   };
 
   const handleSubmit = () => {
-    const deleteLogs$ = deleteLogs({
+    const entity: DeleteLogsRequest = {
       reason: reasonInputValue,
       triggeredByUser: user?.email!,
       upToTime: parseDateTime(String(`${dateInputValue} ${timeInputValue}`)).getTime()
-    });
-
+    };
+    const deleteLogs$ = deleteLogs(entity);
+    entity.retryCount = retryCount;
+    entity.upToTimeDateFormat = `${dateInputValue} ${timeInputValue}`;
     setIsDeleting(true);
+    logManagementDeleteLogsSubmittedTracker(entity);
     setNotification({ show: false });
     resetForm();
 
-    deleteLogs$.once(() => {
+    deleteLogs$.once(data => {
+      entity.rowsToDelete = data.body.rowsToDelete;
+      entity.status = data.statusText;
       setNotification({ show: true, variant: 'success' });
       setIsDeleting(false);
+      logManagementDeleteLogsSuccessTracker(entity);
       addMessage(
         {
           type: 'info',
@@ -141,9 +169,13 @@ function DeleteLogsDialog({ setShowConfirmation, setIsDeleting, isDeleting }: De
         },
         'logsDeleted'
       );
+      setRetryCount(0);
     });
 
-    deleteLogs$.errors().once(() => {
+    deleteLogs$.errors().once(error => {
+      entity.errorMessage = error.message;
+      logManagementDeleteLogsErrorTracker(entity);
+      setRetryCount(retryCount => retryCount + 1);
       setNotification({ show: true, variant: 'failure' });
       setIsDeleting(false);
       addMessage(
@@ -248,9 +280,14 @@ interface DeleteLogsRequest {
   triggeredByUser: string;
   reason: string;
   upToTime: number;
+  upToTimeDateFormat?: DateFormatterOutput;
+  rowsToDelete?: number;
+  status?: string;
+  retryCount?: number;
+  errorMessage?: string;
 }
 export function deleteLogs(params: DeleteLogsRequest) {
-  return http<DeleteLogsHistoryResult>({
+  return http<DeleteLogsResult>({
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),

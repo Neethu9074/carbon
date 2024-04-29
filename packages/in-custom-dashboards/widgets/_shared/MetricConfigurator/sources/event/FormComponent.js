@@ -111,7 +111,6 @@ export default function FormComponent({
         >
           <option value="eventCount">{t('in-custom-dashboards:widgets.srcEvent.formComponent.eventCount')}</option>
         </SelectInSection>
-
         {withAggregationInMetrics && (
           <SelectInSection
             label={t('in-custom-dashboards:widgets.srcEvent.formComponent.aggregation')}

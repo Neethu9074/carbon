@@ -8,12 +8,14 @@ import React from 'react';
 
 import { create, Disposable } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
-
+import classNames from 'classnames';
 import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/isCarbonShellEnabled';
 import { stickyWrapperClassName } from 'in-components/Sticky/scrolling';
 import createSideEffectHook from 'in-hooks/createSideEffectHook';
 import { debouncedResize$ } from 'in-services/browser';
 import { getCoords } from 'in-services/util/dom';
+
+import locals from './Sticky.mless';
 
 interface StickyProps {
   header?: React.ReactElement;
@@ -127,7 +129,12 @@ export default class Sticky extends React.Component<StickyProps> {
 
   render() {
     return (
-      <section ref={r => this.setWrapper(r!)} className={stickyWrapperClassName}>
+      <section
+        ref={r => this.setWrapper(r!)}
+        className={classNames(stickyWrapperClassName, {
+          [locals.stickyWrapper]: true
+        })}
+      >
         <Header setHeader={r => this.setHeader(r)} setOrder={o => this.setOrder(o)}>
           {this.props.header}
         </Header>

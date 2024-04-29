@@ -103,3 +103,11 @@
   padding-left: 0;
   padding-top: 0;
 }
+
+.print(@display: block, @margin: 0, @padding: 0) {
+  @media print {
+    display: @display;
+    margin: @margin !important;
+    padding: @padding !important;
+  }
+}

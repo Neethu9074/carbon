@@ -69,6 +69,9 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     browser: {
       simple: syntheticType === 'WebpageAction',
       script: syntheticType === 'BrowserScript' || syntheticType === 'WebpageScript'
+    },
+    ssl: {
+      simple: syntheticType === 'SSLCertificate'
     }
   });
   const [customSlideInHeaderConfig, setCustomSlideInHeaderConfig] = useState<SlideInHeader>({
@@ -148,22 +151,6 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
   const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties());
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
 
-  // Certificate Check API Script
-  const [certificateCheckHostNameError, setCertificateCheckHostNameError] = useState({
-    invalid: false,
-    message: '',
-    touched: false
-  });
-  const [certificateCheckDaysRemainingError, setCertificateCheckDaysRemainingError] = useState({
-    invalid: false,
-    message: '',
-    touched: false
-  });
-  const [certificateCheckPortError, setCertificateCheckPortError] = useState({
-    invalid: false,
-    message: '',
-    touched: false
-  });
   const formId = 'create-synthetics-test-form';
 
   const setSliderState = ({ slideInConfig, isVisible }: SliderState) => {
@@ -194,17 +181,6 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
       }
     );
   }
-
-  const certificateCheckErrorExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
-    const certificateCheckField = configForm.get('certificateCheck') as Field<boolean>;
-    return (
-      syntheticTypeField.value === 'HTTPScript' &&
-      certificateCheckField.value &&
-      (certificateCheckHostNameError.invalid ||
-        certificateCheckDaysRemainingError.invalid ||
-        certificateCheckPortError.invalid)
-    );
-  };
 
   const isProceedDisabledAdvanced = () => {
     const configForm = form.get('configuration') as MapForm<any>;
@@ -248,8 +224,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           (!property.error.name.invalid && property.error.value.invalid)
       ).length > 0 ||
       invalidCustomProperty.invalid ||
-      invalidTimeout.invalid ||
-      certificateCheckErrorExist(configForm, syntheticTypeField)
+      invalidTimeout.invalid
     ) {
       return true;
     }
@@ -272,11 +247,21 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     </FormFooter>
   );
 
+  const getDialogTitle = () => {
+    if (testTypeSelected.browser.simple || testTypeSelected.browser.script) {
+      return 'Browser';
+    } else if (testTypeSelected.api.simple || testTypeSelected.api.script) {
+      return 'API';
+    } else {
+      return 'SSL Certificate';
+    }
+  };
+
   return (
     <DialogWithSlideInView
       footer={footer}
       title={t('in-synthetics:dialog.updateTest.dialogTitle', {
-        syntheticType: testTypeSelected.browser.simple || testTypeSelected.browser.script ? 'Browser' : 'API'
+        syntheticType: getDialogTitle()
       })}
       slideInViewTitle={customSlideInHeaderConfig?.title ?? slideInConfig?.title}
       onSlideInViewTitleClick={() =>
@@ -326,12 +311,6 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           setInvalidCustomProperty={setInvalidCustomProperty}
           invalidTimeout={invalidTimeout}
           setInvalidTimeout={setInvalidTimeout}
-          certificateCheckHostNameError={certificateCheckHostNameError}
-          setCertificateCheckHostNameError={setCertificateCheckHostNameError}
-          certificateCheckPortError={certificateCheckPortError}
-          setCertificateCheckPortError={setCertificateCheckPortError}
-          certificateCheckDaysRemainingError={certificateCheckDaysRemainingError}
-          setCertificateCheckDaysRemainingError={setCertificateCheckDaysRemainingError}
         />
       </form>
     </DialogWithSlideInView>

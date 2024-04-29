@@ -83,18 +83,8 @@
     margin-bottom: 0.5rem;
   }
 
-  .top {
-    margin-top: 1rem;
-  }
-
   .alignText {
     display: flex;
     align-items: center;
-  }
-
-  .outerBox {
-    border: 0.0625rem solid var(--ids-color-option-neutral-300);
-    padding: 0.625rem;
-    margin-bottom: 2%;
   }
 }

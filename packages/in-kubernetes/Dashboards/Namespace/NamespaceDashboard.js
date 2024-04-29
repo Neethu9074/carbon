@@ -20,7 +20,6 @@ import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { kubernetesTimeShiftSelectTracker } from 'in-kubernetes/tracker';
 import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
-import PageTracker from 'in-services/tracking/segment/PageTracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { NamespaceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -49,7 +48,6 @@ export default function NamespaceDashboard({ location }) {
 
   return (
     <>
-      <PageTracker parentProductArea={productAreas.kubernetes} parentPageName={pageNames.namespace_summary} />
       <ViewTrackingMeta
         data={{
           productArea: productAreas.kubernetes,

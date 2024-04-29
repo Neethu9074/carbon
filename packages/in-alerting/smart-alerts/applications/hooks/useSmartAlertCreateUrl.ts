@@ -6,14 +6,14 @@
 
 import { useCallback } from 'react';
 
+import { applicationId, alertsCategory, isMigration } from 'in-applications/navigation/matrix';
+import { smartAlertPath, applicationDashboard } from 'in-applications/navigation/paths';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { returnUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
-import { returnUrl } from 'in-alerting/smart-alerts/components/list/constants';
-import { applicationId, alertsCategory, isMigration } from 'in-applications/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
-import { smartAlertPath, applicationDashboard } from 'in-applications/navigation/paths';
 
 export function useSmartAlertCreateUrl(): ({
   isGlobal,

@@ -165,7 +165,8 @@
     "doneButton": "Done"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "Name"
+    "nameColumnHead": "Name",
+    "contributionFilterColumnHead": "Contribution filter"
   },
   "permissionScope": {
     "access_level": "Access level",
@@ -191,7 +192,6 @@
     "description_no_access_bizops": "Access to business monitoring is denied.",
     "description_access_all_except_contributor": "Access all - except the ones accessed as contributor",
     "role": "Select a role",
-    "roleSelection": "Role",
     "role_owner": "Owner",
     "role_viewer": "Viewer",
     "role_custom": "Custom",
@@ -444,6 +444,7 @@
     "someEmailsHaveFailedToSend": "Some emails have failed to send",
     "inviteUserToTenant": "Invite user to {{tenant}}",
     "anotherUser": "Another user",
+    "inviteUsertoDefaultGroup": "You don’t have enough permissions to select a group for the invitation. Invited user will be added to the default group.",
     "permissionEntityLabel": "permission {{entityLabel}}",
     "addToAGroup": "Add to a group",
     "failedToAddUserToGroups": "Failed to add user to groups: {{err}}",
@@ -543,7 +544,7 @@
     "applicationPerspectiveEntityLabel": "Application Perspective {{entityLabel}}",
     "keyEquals": "key equals",
     "selectTag": "Select Tag",
-    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Each key/value pair will be included as additional payload to each Issue or Incident alert notification. Please refer to the <docLink>Custom Payload documentation</docLink> for more details.",
+    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Each key/value pair will be included as additional payload to each Issue or Incident alert notification. Please refer to the <docLink>Custom Payload documentation </docLink> for more details.",
     "anErrorOccurredPleaseTryAgain": "An error occurred, please try again.",
     "custom": "Custom",
     "theValueMustNotBeBlank": "The value must not be blank.",
@@ -778,7 +779,7 @@
     "noGroupMapping": "There are no mappings configured between Identity Provider and Instana",
     "denyUserWithNoGroup": "Deny access when no mapping is found. If unchecked, users with no group mappings and no groups found will be added to the Default group.",
     "denyUserWithNoGroupDocs": "Identity Provider configuration can always be deleted through API using a token with enough permissions. See <authLink>configuring authentication</authLink> for details.",
-    "groupMappingInfoText": "A mapping rule conists of a key, value, and an Instana group. The key and value refer to the Identity Provider attribute and its corresponding value that you map from. For example, you want to map every user that has the value \"SRE\" in the key \"Department\" to the Instana Owner Group.",
+    "groupMappingInfoText": "A mapping rule consists of a key, value, and an Instana group. The key and value refer to the Identity Provider attribute and its corresponding value that you map from. For example, you want to map every user that has the value \"SRE\" in the key \"Department\" to the Instana Owner Group.",
     "ownerGroupMemberNotLimitable": "User is member of the Owner group and will not be limited by other group memberships.",
     "mergedPermissionWithCombinationOfLimitedAndUnlimited": "Effective set of permissions is the sum for the most permissive, granted through different group assignments. However, the sum of limited access scopes determines the effective scope for the user.",
     "users": "Users",

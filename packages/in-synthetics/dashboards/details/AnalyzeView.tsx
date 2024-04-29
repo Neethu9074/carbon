@@ -39,7 +39,6 @@ import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
@@ -69,7 +68,7 @@ const AnalyzeView = () => {
   const finishTime: number = startTime + responseTime;
   const testType: string = getMatrixParameter(location, syntheticDetailsPath, 'type') ?? '';
   const isHTTPActionType: boolean = testType === 'HTTPAction';
-  const isBrowserTest: boolean = isBrowserTestType(testType) && syntheticBrowserScriptEnabled;
+  const isBrowserTest: boolean = isBrowserTestType(testType);
   const responseSize = getMatrixParameter(location, syntheticDetailsPath, 'responseSize');
   const resultsLabel: string = getMatrixParameter(location, syntheticDetailsPath, 'resultsLabel') ?? '';
 

@@ -5,10 +5,10 @@
 
 import React, { useState } from 'react';
 
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 
 import locals from './DiagnosticCommandOverlayPresenter.mless';

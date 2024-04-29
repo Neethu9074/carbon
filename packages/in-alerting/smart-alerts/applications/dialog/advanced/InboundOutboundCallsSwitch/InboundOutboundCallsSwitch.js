@@ -30,6 +30,7 @@ export default function InboundOutboundCallsSwitch({ form, updateForm, isGlobalS
             boundaryScope={boundaryScope}
             onBoundaryStateChange={() => handleChangeToInboundCalls()}
             scope={boundaryScopes.inbound}
+            boundaryScopes={boundaryScopes}
           />
         </Col>
         <Col lg={6}>
@@ -37,6 +38,7 @@ export default function InboundOutboundCallsSwitch({ form, updateForm, isGlobalS
             boundaryScope={boundaryScope}
             onBoundaryStateChange={() => updateBoundaryScope(boundaryScopes.all)}
             scope={boundaryScopes.all}
+            boundaryScopes={boundaryScopes}
           />
         </Col>
       </Row>

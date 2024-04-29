@@ -92,8 +92,13 @@ export function getBusinessProcessListData({
   pageSize = 20
 }: GetBusinessProcessListProps) {
   const sparkChartGranularity = getChartGranularity(timeConfig);
+  const started_processes_total: MetricConfiguration = {
+    metric: 'started_processes',
+    granularity: 0,
+    aggregation: 'DISTINCT_COUNT'
+  };
 
-  const startedProcesses: MetricConfiguration = {
+  const started_processes_array: MetricConfiguration = {
     metric: 'started_processes',
     granularity: sparkChartGranularity,
     aggregation: 'DISTINCT_COUNT'
@@ -145,7 +150,8 @@ export function getBusinessProcessListData({
     },
     dataType: 'PROCESS',
     metrics: {
-      startedProcesses: startedProcesses
+      started_processes_total: started_processes_total,
+      started_processes_array: started_processes_array
     },
     timeConfig,
     tagFilterExpression

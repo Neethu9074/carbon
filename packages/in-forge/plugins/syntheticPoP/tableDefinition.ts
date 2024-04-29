@@ -109,6 +109,22 @@ export default {
           return 'mean';
         }
       }
+    },
+    {
+      title: t('in-forge:plugins.syntheticPoP.ismActive'),
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row: Row) {
+          return row.snapshotId;
+        },
+        getMetricName() {
+          return 'ism.activeTests';
+        },
+        getContent: number.compact,
+        getTimeWindowAggregation() {
+          return 'mean';
+        }
+      }
     }
   ]
 };

@@ -5,9 +5,8 @@
 
 import React, { CSSProperties } from 'react';
 
-import { Link } from '@instana/components';
+import { Link, Pill } from '@instana/components';
 
-import Pill from 'in-components/Pill/Pill';
 import { t } from 'in-i18n';
 
 import locals from './FeatureFeedback.mless';

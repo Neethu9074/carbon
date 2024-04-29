@@ -20,6 +20,7 @@ import {
   alertDetailsFullyQualifiedPath as detailsPath,
   alertsFullyQualifiedPath as listPath
 } from 'in-logging/navigation/paths';
+import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
@@ -35,32 +36,35 @@ import { role } from 'in-stores/user';
 export default function AlertDetails() {
   const timeConfig = useTimeConfig();
   return (
-    <LogsAlertsTabHeader>
-      <LeftRightPadding>
-        <Alert
-          timeConfig={timeConfig}
-          paths={{
-            detailsPath,
-            listPath,
-            alertsTabSegment
-          }}
-          matrix={{ alertIdParam, alertCreatedParam }}
-          getConfig={(id: string, created: number) =>
-            created ? getAlertConfigByIdAndTimestamp(id, created) : getLatestAlertConfig(id)
-          }
-          getConfigVersions={(id: string) => getAllVersionsOfAlertConfig(id)}
-          enableConfig={enableAlertConfig}
-          disableConfig={disableAlertConfig}
-          deleteConfig={deleteAlertConfig}
-          restoreConfig={restoreAlertConfigVersion}
-          renderSmartAlertDialog={(props: SmartAlertDialogWrapperProps) => <SmartAlertDialogWrapper {...props} />}
-          renderAlertConfiguration={renderAlertConfiguration}
-          getAllowedPlaceholders={() => []}
-          isGlobalSmartAlert
-          canConfigureGlobalAlertConfigs={role?.canConfigureGlobalLogSmartAlerts}
-        />
-      </LeftRightPadding>
-    </LogsAlertsTabHeader>
+    <>
+      <LogsAlertsTabHeader>
+        <LeftRightPadding>
+          <Alert
+            timeConfig={timeConfig}
+            paths={{
+              detailsPath,
+              listPath,
+              alertsTabSegment
+            }}
+            matrix={{ alertIdParam, alertCreatedParam }}
+            getConfig={(id: string, created: number) =>
+              created ? getAlertConfigByIdAndTimestamp(id, created) : getLatestAlertConfig(id)
+            }
+            getConfigVersions={(id: string) => getAllVersionsOfAlertConfig(id)}
+            enableConfig={enableAlertConfig}
+            disableConfig={disableAlertConfig}
+            deleteConfig={deleteAlertConfig}
+            restoreConfig={restoreAlertConfigVersion}
+            renderSmartAlertDialog={(props: SmartAlertDialogWrapperProps) => <SmartAlertDialogWrapper {...props} />}
+            renderAlertConfiguration={renderAlertConfiguration}
+            getAllowedPlaceholders={() => []}
+            isGlobalSmartAlert
+            canConfigureGlobalAlertConfigs={role?.canConfigureGlobalLogSmartAlerts}
+          />
+        </LeftRightPadding>
+      </LogsAlertsTabHeader>
+      <CreateLogsSmartAlertFloatingButton />
+    </>
   );
 }
 function renderAlertConfiguration({ alertConfig }: { alertConfig: LogAlertConfigWithMetadata }) {

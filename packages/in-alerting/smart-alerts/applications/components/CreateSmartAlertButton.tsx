@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { Button } from '@instana/legacy';
-import classNames from 'classnames';
 
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 
@@ -17,19 +17,22 @@ export default function CreateSmartAlertButton({
   isGlobal,
   buttonName,
   isFloatingButton,
-  isMigrate = false
+  isMigrate = false,
+  isMenuItem = false
 }: {
   isGlobal: boolean;
   buttonName: string;
   isFloatingButton?: boolean;
   isMigrate?: boolean;
+  isMenuItem?: boolean;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
   const createSmartAlertPath = getLinkToCreateSmartAlert({ isGlobal: isGlobal, migration: isMigrate });
   return (
     <Button
       className={classNames({
-        [locals.floatingButton]: isFloatingButton
+        [locals.floatingButton]: isFloatingButton,
+        [locals.menuItem]: isMenuItem
       })}
       icon="lib_alerts_create"
       kind={isFloatingButton ? 'primaryv2' : 'secondaryDarker'}

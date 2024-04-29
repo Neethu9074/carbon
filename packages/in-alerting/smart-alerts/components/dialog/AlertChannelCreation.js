@@ -7,6 +7,7 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Message } from '@instana/components';
+import { Select } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import AlertChannelModificationForm, {
@@ -19,7 +20,6 @@ import { createAlertChannel, getAlertChannel } from 'in-api/alertChannels';
 import AlertSection from 'in-alerting/components/AlertSection';
 import Sections from 'in-components/workspace/Sections';
 import SaveButton from 'in-components/form/SaveButton';
-import Select from 'in-components/form/Select';
 import { t } from 'in-i18n';
 
 import locals from './AlertChannelCreation.mless';

@@ -261,6 +261,11 @@ export const SETTINGS_MAINTENANCE_WINDOW_SCHEDULED_TAB = 'settings.maintenance.t
 export const SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB = 'settings.maintenance.tab.expired';
 export const SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT = 'settings.maintenance.feedback.submit';
 
+export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_CLICKED = 'settings.logsManagement.deleteLogs.clicked';
+export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUBMITTED = 'settings.logsManagement.deleteLogs.submitted';
+export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUCCESS = 'settings.logsManagement.deleteLogs.success';
+export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_ERROR = 'settings.logsManagement.deleteLogs.error';
+
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
 export const ONBOARDING_HELP_AND_SUPPORT_CLICKED = 'onboardingNewUnit.helpAndSupport.clicked';
@@ -370,6 +375,7 @@ export const LOGGING_LOGDNA_BUTTON_CLICKED = 'logging.logDna.clicked';
 export const ANALYZE_LOGGING_SORTING_CHANGED = 'analyze.logging.sorting.changed';
 export const LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK = 'analyze.logging.applications.perspective.link.clicked';
 export const ANALYZE_LOGGING_LOG_GETLOGS_FILTERS = 'analyze.logging.log.getLogs.filters';
+export const ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED = 'analyze.custom.widget.see.in.logs.clicked';
 
 // ENTERPRISE
 export const ENTERPRISE_IDP_MAPPING_FIRST = 'enterprise.idp.mapping.first';
@@ -433,7 +439,9 @@ export const SYNTHETIC_TEST_CLICK = 'synthetic.monitoring.test.click';
 export const SYNTHETIC_TAB_INAPP_CLICK = 'synthetic.monitoring.application.test.click';
 
 export const SYNTHETIC_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.create.click';
+export const SYNTHETIC_WIZARD__CREATE_TEST_TYPE_SWITCH = 'synthetic.monitoring.test.create.wizard.type.switch';
 export const SYNTHETIC_CREATE_ADVANCED_BUTTON_CLICK = 'synthetic.monitoring.test.create.advanced.click';
+export const SYNTHETIC_ADVANCED__CREATE_TEST_TYPE_SWITCH = 'synthetic.monitoring.test.create.advanced.type.switch';
 export const SYNTHETIC_ADVANCED_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.advanced.create.click';
 export const SYNTHETIC_WIZARD_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.wizard.create.click';
 

@@ -21,25 +21,27 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
+import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
-import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 import FilterInfo from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/FilterInfo';
-import { calculateEventGraphGranularity } from 'in-service-levels/utils/time';
+import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
+import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
+import { calculateEventGraphGranularity } from 'in-service-levels/utils/time';
+import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { MetricDataSeries } from 'in-components/Chart/types';
+import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
-import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
-import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 
 const goodEventsMetricId = 'goodEvents';
 const badEventsMetricId = 'badEvents';
@@ -48,20 +50,9 @@ export default function EventBasedIndicatorChart({
   indicator
 }: IndicatorChartProps<ServiceLevelIndicatorUnion>) {
   const sloZoomInAction = useSloZoomInAction();
-  const [goodFilterExpression, badFilterExpression] = useTagFilterExpressions(entity, indicator);
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateEventGraphGranularity(timeConfig);
-  const result: Result<UnifiedMetricsResult[]> =
-    useObservable(
-      () =>
-        getUnifiedMetrics({
-          metrics: {
-            [goodEventsMetricId]: getMetricConfiguration(entity, goodFilterExpression, granularity, timeConfig),
-            [badEventsMetricId]: getMetricConfiguration(entity, badFilterExpression, granularity, timeConfig)
-          }
-        }),
-      [generateStableHash({ goodFilterExpression, badFilterExpression, timeConfig }), entity, granularity]
-    ) ?? pendingResult;
+  const result = useEventBasedIndicatorMetrics({ entity, indicator, granularity, timeConfig });
 
   const goodEventsMetricResult = result.data?.find(res => res.id === goodEventsMetricId);
   const badEventsMetricResult = result.data?.find(res => res.id === badEventsMetricId);
@@ -91,6 +82,39 @@ export default function EventBasedIndicatorChart({
       }}
       result={result}
     />
+  );
+}
+
+interface UseEventBasedIndicatorMetricsProps extends IndicatorChartProps<ServiceLevelIndicatorUnion> {
+  granularity: number;
+  timeConfig: TimeConfig;
+}
+function useEventBasedIndicatorMetrics({
+  entity,
+  indicator,
+  timeConfig,
+  granularity
+}: UseEventBasedIndicatorMetricsProps): Result<UnifiedMetricsResult[]> {
+  const [goodFilterExpression, badFilterExpression] = useTagFilterExpressions(entity, indicator);
+  const { timeWindows } = useSloTimeWindowContext();
+  const hasMatchingTimeWindows = timeWindows.length > 0;
+
+  return (
+    useObservable(() => {
+      if (!hasMatchingTimeWindows) return successObservable([]);
+
+      return getUnifiedMetrics({
+        metrics: {
+          [goodEventsMetricId]: getMetricConfiguration(entity, goodFilterExpression, granularity, timeConfig),
+          [badEventsMetricId]: getMetricConfiguration(entity, badFilterExpression, granularity, timeConfig)
+        }
+      });
+    }, [
+      generateStableHash({ goodFilterExpression, badFilterExpression, timeConfig }),
+      entity,
+      granularity,
+      hasMatchingTimeWindows
+    ]) ?? pendingResult
   );
 }
 

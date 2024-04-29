@@ -7,10 +7,12 @@ import { Item, MapForm, Field } from 'formalistic';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Toggle } from '@instana/legacy';
+import { Toggle } from '@instana/components';
 
 import AlertSection from 'in-alerting/components/AlertSection';
 import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/components/dialog/advanced/Toogle.mless';
 
 interface TriggersIncidentRowProps {
   form: MapForm<any>;
@@ -24,11 +26,10 @@ export default function TriggersIncidentRow({ form, onChange }: TriggersIncident
         icon="lib_events_incident"
       >
         <Toggle
+          className={locals.toggleDialogUsage}
           checked={Boolean(form.get('triggering')?.value)}
-          onChange={e => {
-            onChange(['triggering'], field =>
-              (field as Field<boolean>).setValue(e.target.checked || false).setTouched(true)
-            );
+          onToggle={e => {
+            onChange(['triggering'], field => (field as Field<boolean>).setValue(e || false).setTouched(true));
           }}
         />
       </AlertSection>

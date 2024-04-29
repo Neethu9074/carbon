@@ -6,11 +6,11 @@
 
 import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
-import { SvgIcon, Stack, StackItem, Typography, Spacer } from '@instana/components';
+import { SvgIcon, Stack, StackItem, Typography, Toggle } from '@instana/components';
 import { PermissionSet } from '@instana/types';
 import { Link } from '@instana/components';
-import { Toggle } from '@instana/legacy';
 
 import {
   ConfigurationSummary,
@@ -129,16 +129,18 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
             </Link>
           </Typography>
         </StackItem>
-        <HorizontalFlexWrapper>
+        <HorizontalFlexWrapper className={locals.infraDfqToggle}>
           <Toggle
             checked={isDfqVisible}
-            onChange={e => {
-              setIsDfqVisible(e.target.checked);
-              const infraScope = { scopeId: e.target.checked ? undefined : '', scopeRoleId: '-1' };
+            className={classNames({
+              [locals.toggleDialogUsage]: true
+            })}
+            onToggle={e => {
+              setIsDfqVisible(e);
+              const infraScope = { scopeId: e ? undefined : '', scopeRoleId: '-1' };
               updatePermissionSet({ ...(permissionSet as PermissionSet), [entityPermissionKey]: infraScope });
             }}
           />
-          <Spacer horizontal="xxsmall" />
           <Label className={locals.dfqToggleLabel}>
             {t('in-settings:PermissionSection.infrastructureDfqToggleLabel')}
           </Label>

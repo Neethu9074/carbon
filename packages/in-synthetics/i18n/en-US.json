@@ -98,7 +98,7 @@
         },
         "certificateCheck": {
           "whenToUse": {
-            "line1": "Check whether the website certificate is going to expire or not using this script"
+            "line1": "Check whether the web server certificate is going to expire or not using this test."
           }
         }
       },
@@ -257,9 +257,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "Successfully deleted the location",
-      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "failureMesssage": "{{errorMessage}}",
       "successMessageDeactivate": "Successfully deactivated the location",
-      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
+      "successMessageActivate": "Successfully activated the location"
     },
     "updateTest": {
       "dialogTitle": "Edit {{syntheticType}} Test",
@@ -323,7 +323,10 @@
           "warningMessage": "Deactivating is not deleting. The location will be available and can be activated again. To completely remove the managed location, delete the location once its status changes to Offline.",
           "activeStatus": "Active",
           "deactivateButton": "Deactivate"
-        }
+        },
+        "activate": "Activate",
+        "okay": "Okay",
+        "activateLocation": "Activate Location"
       },
       "validators": {
         "theValueMustNotBeEmpty": "At least one datacenter needs to be selected"
@@ -458,7 +461,14 @@
       "totalRuns": "{{totalRuns}} total runs",
       "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
       "smartAlertsTab": "Smart Alerts",
-      "configurationTab": "Configuration"
+      "configurationTab": "Configuration",
+      "isCertificateValid": "Last run - Certificate is Valid",
+      "certificateValid": "Yes",
+      "certificateNotValid": "No",
+      "daysRemaining": "Last run - Days Remaining",
+      "dateOfExpiry": "Last run - Date of Expiry",
+      "smallerTimeFrameTitle": "No results for this time frame",
+      "smallerTimeFrameDescription": "Please pick a bigger time frame, as SSL Certificate test run every 24 hours"
     },
     "resultsListPage": {
       "startedColumn": "Started",
@@ -470,7 +480,10 @@
       "locationLabel": "Location",
       "failures": "Failures",
       "status": "Status",
-      "success": "Success"
+      "success": "Success",
+      "daysRemaining": "Days Remaining",
+      "smallerTimeFrameTitle": "No results for this time frame",
+      "smallerTimeFrameDescription": "Please pick a bigger time frame, as SSL Certificate test run every 24 hours"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Live Mode is not applicable in Synthetic test result detail page",
@@ -669,7 +682,10 @@
       "retryIntervalFieldLabel": "Retry Interval",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} second",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} seconds",
-      "markSyntheticCall": "Mark Synthetic Call"
+      "markSyntheticCall": "Mark Synthetic Call",
+      "hostname": "Hostname",
+      "port": "Port",
+      "daysRemaining": "Days Remaining"
     }
   }
 }

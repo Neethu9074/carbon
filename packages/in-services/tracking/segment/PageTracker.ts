@@ -8,12 +8,11 @@ import { useEffect } from 'react';
 
 import { combineLatest } from '@instana/observables';
 
-import { commomMilestoneVersion, productCode, productCodeType, productTitle, ut30 } from 'in-services/util/constants';
+import { productCode, productCodeType, productTitle, ut30 } from 'in-services/util/constants';
 //@ts-expect-error
 import { Segment } from 'in-services/tracking/segment/SegmentInit';
 import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
 import { customRealmName } from 'in-services/util/constants';
-import { playwithEnabled } from 'in-services/featureFlags';
 import getUsageInfo from 'in-subscription/getUsageInfo';
 import { getTenantsWithUnits } from 'in-api/account';
 import { TenantsWithUnits } from 'in-api/account';
@@ -34,7 +33,6 @@ interface currentUnitProps {
 
 let productPlanType: string;
 let instanceId: string;
-let tenantName: string;
 let tenantUnitName: string;
 let userId: string;
 interface UsageInfoProps {
@@ -43,15 +41,14 @@ interface UsageInfoProps {
 const segment = Segment();
 const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerProps) => {
   useEffect(() => {
-    if (!playwithEnabled) {
-      return;
-    }
     if (!segment) {
       return;
     }
 
     const url = window.location.href;
     const path = window.location.pathname;
+    const userSelfDefinedRole =
+      window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
 
     combineLatest([getTenantsWithUnits(), getUsageInfo({})]).once(([tenantWithUnits, usageInfo]) => {
       const usageInfoWithType = usageInfo as unknown as UsageInfoProps;
@@ -66,24 +63,26 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
       if (currentUnit) {
         instanceId = currentUnit.tenantUnitId;
         tenantUnitName = currentUnit.tenantUnitName;
-        tenantName = currentUnit.tenantName;
       }
       userId = customRealmName + '-' + instanceId;
-      segment.page('', parentPageName, {
-        url,
-        path,
-        parentProductArea,
-        parentPageName,
-        productPlanType,
-        instanceId,
-        userId,
-        tenantName,
-        tenantUnitName,
-        productTitle,
-        ut30,
-        productCodeType,
-        productCode,
-        commomMilestoneVersion
+      segment.track('Page Viewed', {
+        UT30: ut30,
+        instanceId: instanceId,
+        instanceName: tenantUnitName,
+        parentPageCategory: parentProductArea,
+        parentPageName: parentPageName,
+        path: path,
+        productCode: productCode,
+        productCodeType: productCodeType,
+        productPlanType: productPlanType,
+        productTitle: productTitle,
+        tenantId: instanceId,
+        url: url,
+        user: {
+          bluemixId: userId,
+          role: userSelfDefinedRole,
+          tenantId: instanceId
+        }
       });
     });
   }, [parentProductArea, parentPageName]);
