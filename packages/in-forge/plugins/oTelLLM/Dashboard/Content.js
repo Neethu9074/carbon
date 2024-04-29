@@ -150,8 +150,8 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
               formatter: millis.detailed,
               metrics: durations ? durations : [],
               labels: durations?.map(matric => {
-                if (matric.split('.').length > 4) {
-                  return matric.split('.')[4];
+                if (matric.split('.').length > 3) {
+                  return matric.split('.')[3];
                 }
                 return t('in-forge:plugins.oTelLLM.dashboard.duration');
               }),
