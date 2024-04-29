@@ -13,16 +13,22 @@ import { AggregationType } from '@instana/types';
 import AggregationSelectorInput from 'in-service-levels/components/Shared/AggregationSelectorInput/AggregationSelectorInput';
 import { SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import { timeAggregationOptions } from 'in-service-levels/constants';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import { TimeAggregationOptions } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 interface IndicatorAggregationFieldProps {
+  availableOptions?: TimeAggregationOptions[];
   disabled?: boolean;
   field: Field<AggregationType>;
   onChange: SloFormOnChange;
 }
 
+const defaultAvailableOptions = Object.keys(timeAggregationOptions) as TimeAggregationOptions[];
+
 export default function IndicatorAggregationField({
+  availableOptions = defaultAvailableOptions,
   disabled = false,
   field,
   onChange
@@ -35,6 +41,7 @@ export default function IndicatorAggregationField({
         {t('in-service-levels:general.aggregation')}
       </Typography>
       <AggregationSelectorInput
+        availableOptions={availableOptions}
         disabled={disabled}
         hasError={!isAggregationValid}
         handleChange={({ target }) =>

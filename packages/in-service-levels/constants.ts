@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import { AggregationType, BlueprintType, SloEntityType } from '@instana/types';
+import { BlueprintType, SloEntityType } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+import { SloAggregationOptions } from 'in-service-levels/types';
 import { deepFreeze } from 'in-services/util/object';
 
 export const SLO_TARGET_DECIMAL_PRECISION = 2;
@@ -40,23 +41,18 @@ export const ServiceLevelErrors = Object.freeze({
   UNSUPPORTED_TIME_WINDOW_TYPE: 'unsupported time window type'
 });
 
-type TimeAggregationOptions = {
-  value: AggregationType;
-  label: string;
-}[];
-
-export const timeAggregationOptions: TimeAggregationOptions = deepFreeze([
-  { value: 'MEAN', label: t('in-service-levels:general.indicator.aggregation_MEAN') },
-  { value: 'MIN', label: t('in-service-levels:general.indicator.aggregation_MIN') },
-  { value: 'P25', label: t('in-service-levels:general.indicator.aggregation_P25') },
-  { value: 'P50', label: t('in-service-levels:general.indicator.aggregation_P50') },
-  { value: 'P75', label: t('in-service-levels:general.indicator.aggregation_P75') },
-  { value: 'P90', label: t('in-service-levels:general.indicator.aggregation_P90') },
-  { value: 'P95', label: t('in-service-levels:general.indicator.aggregation_P95') },
-  { value: 'P98', label: t('in-service-levels:general.indicator.aggregation_P98') },
-  { value: 'P99', label: t('in-service-levels:general.indicator.aggregation_P99') },
-  { value: 'MAX', label: t('in-service-levels:general.indicator.aggregation_MAX') }
-]);
+export const timeAggregationOptions: Partial<SloAggregationOptions> = Object.freeze({
+  MEAN: t('in-service-levels:general.indicator.aggregation_MEAN'),
+  MIN: t('in-service-levels:general.indicator.aggregation_MIN'),
+  P25: t('in-service-levels:general.indicator.aggregation_P25'),
+  P50: t('in-service-levels:general.indicator.aggregation_P50'),
+  P75: t('in-service-levels:general.indicator.aggregation_P75'),
+  P90: t('in-service-levels:general.indicator.aggregation_P90'),
+  P95: t('in-service-levels:general.indicator.aggregation_P95'),
+  P98: t('in-service-levels:general.indicator.aggregation_P98'),
+  P99: t('in-service-levels:general.indicator.aggregation_P99'),
+  MAX: t('in-service-levels:general.indicator.aggregation_MAX')
+});
 
 export const defaultBlueprint: BlueprintType = 'availability';
 
