@@ -99,29 +99,31 @@ export default function DatatableWrapper({
   ];
 
   return (
-    <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
-      <DashboardTable
-        headers={headers}
-        rows={processedItems}
-        searchPlaceholder={t('in-plg:welcomepage.search')}
-        viewLabel={t('in-plg:welcomepage.viewAll')}
-        iconColor={themes.default.ids.color.option.white}
-        hasAddMore={hasAddMore ? true : false}
-        viewAll={viewAll ? true : false}
-        addMore={addMore}
-        addData={addData}
-        href={href}
-        header={getNoDataHeader(label)}
-        description={getNoDataDescription(label)}
-        buttonName={!exclusionArray.includes(label) ? getNoDataButton(label) : undefined}
-        searchLabel={t('in-plg:welcomepage.ariaLabel.searchButton')}
-        addLabel={t('in-plg:welcomepage.ariaLabel.addButton')}
-        onSearch={(searchQuery: string) => {
-          setQuery(searchQuery);
-        }}
-        iconDescription={`${t('in-plg:welcomepage.addMore')} ${header}`}
-      />
-    </DashboardTile>
+    <section aria-label={dashboardTileProps.sectionLabel} role="region">
+      <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
+        <DashboardTable
+          headers={headers}
+          rows={processedItems}
+          searchPlaceholder={t('in-plg:welcomepage.search')}
+          viewLabel={t('in-plg:welcomepage.viewAll')}
+          iconColor={themes.default.ids.color.option.white}
+          hasAddMore={hasAddMore ? true : false}
+          viewAll={viewAll ? true : false}
+          addMore={addMore}
+          addData={addData}
+          href={href}
+          header={getNoDataHeader(label)}
+          description={getNoDataDescription(label)}
+          buttonName={!exclusionArray.includes(label) ? getNoDataButton(label) : undefined}
+          searchLabel={`${t('in-plg:welcomepage.ariaLabel.search')} ${header}`}
+          addLabel={`${t('in-plg:welcomepage.ariaLabel.add')} ${header}`}
+          onSearch={(searchQuery: string) => {
+            setQuery(searchQuery);
+          }}
+          iconDescription={`${t('in-plg:welcomepage.addMore')} ${header}`}
+        />
+      </DashboardTile>
+    </section>
   );
 }
 

@@ -81,6 +81,7 @@ export interface DashboardTileParamProps {
   dragAndDropConfigs?: DraggableProvidedDragHandleProps;
   toggles?: string[];
   toggleCallback?: (index: number) => void;
+  sectionLabel?: string;
 }
 
 function getPlatformsTitle() {
@@ -304,7 +305,8 @@ function RenderTable() {
                       key: +_config.id,
                       header: ele.label,
                       icon: ele.icon,
-                      dragAndDropConfigs: provided.dragHandleProps
+                      dragAndDropConfigs: provided.dragHandleProps,
+                      sectionLabel: ele.label
                     };
 
                     return ele?.label == t('in-plg:welcomepage.component.eventWidget.label') ? (
@@ -333,76 +335,78 @@ function RenderEvents({ dashboardTileProps }: { dashboardTileProps: DashboardTil
   const EventsfullListViewHref = useObservable(getEventsViewFilteredBy({}), []);
 
   return (
-    <DashboardTile
-      {...dashboardTileProps}
-      handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')}
-      size="xs"
-      rightHeaderContent={
-        EventsfullListViewHref && (
-          <DashboardButton kind="ghost" size="lg" href={EventsfullListViewHref}>
-            {t('in-plg:welcomepage.viewAll')}
-          </DashboardButton>
-        )
-      }
-    >
-      <div className={locals.dashboardTilesWrapper}>
-        <ChartWidget
-          config={{
-            y1: {
-              colors: [carbonAlert.orange40, carbonAlert.red60, carbonAlert.yellow30],
-              outlineForColor: outlineForColor,
-              formatter: 'number.compact',
-              renderer: 'stackedBar',
-              metrics: [
+    <section aria-label={dashboardTileProps.sectionLabel} role="region">
+      <DashboardTile
+        {...dashboardTileProps}
+        handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')}
+        size="xs"
+        rightHeaderContent={
+          EventsfullListViewHref && (
+            <DashboardButton kind="ghost" size="lg" href={EventsfullListViewHref}>
+              {t('in-plg:welcomepage.viewAll')}
+            </DashboardButton>
+          )
+        }
+      >
+        <div className={locals.dashboardTilesWrapper}>
+          <ChartWidget
+            config={{
+              y1: {
+                colors: [carbonAlert.orange40, carbonAlert.red60, carbonAlert.yellow30],
+                outlineForColor: outlineForColor,
+                formatter: 'number.compact',
+                renderer: 'stackedBar',
+                metrics: [
+                  {
+                    dynamicFocusQuery: 'event.type:incident ',
+                    metric: 'eventCount',
+                    timeShift: 0,
+                    aggregation: 'DISTINCT_COUNT',
+                    label: t('in-plg:welcomepage.component.eventWidget.incidents'),
+                    source: 'EVENT'
+                  },
+                  {
+                    dynamicFocusQuery: 'event.severity:10 event.type:issue ',
+                    metric: 'eventCount',
+                    timeShift: 0,
+                    aggregation: 'DISTINCT_COUNT',
+                    label: t('in-plg:welcomepage.component.eventWidget.critical'),
+                    source: 'EVENT'
+                  },
+                  {
+                    dynamicFocusQuery: 'event.severity:5 event.type:issue ',
+                    metric: 'eventCount',
+                    timeShift: 0,
+                    aggregation: 'DISTINCT_COUNT',
+                    label: t('in-plg:welcomepage.component.eventWidget.warning'),
+                    source: 'EVENT'
+                  }
+                ]
+              },
+              y2: {
+                formatter: 'number.compact',
+                renderer: 'line',
+                metrics: []
+              },
+              type: 'TIME_SERIES',
+              primaryContextMenuAction: 'showEvents',
+              additionalContextMenuButtons: [
                 {
-                  dynamicFocusQuery: 'event.type:incident ',
-                  metric: 'eventCount',
-                  timeShift: 0,
-                  aggregation: 'DISTINCT_COUNT',
-                  label: t('in-plg:welcomepage.component.eventWidget.incidents'),
-                  source: 'EVENT'
-                },
-                {
-                  dynamicFocusQuery: 'event.severity:10 event.type:issue ',
-                  metric: 'eventCount',
-                  timeShift: 0,
-                  aggregation: 'DISTINCT_COUNT',
-                  label: t('in-plg:welcomepage.component.eventWidget.critical'),
-                  source: 'EVENT'
-                },
-                {
-                  dynamicFocusQuery: 'event.severity:5 event.type:issue ',
-                  metric: 'eventCount',
-                  timeShift: 0,
-                  aggregation: 'DISTINCT_COUNT',
-                  label: t('in-plg:welcomepage.component.eventWidget.warning'),
-                  source: 'EVENT'
+                  name: 'showEvents',
+                  icon: 'lib_events_inverted',
+                  label: t('in-plg:welcomepage.component.eventWidget.viewEvents'),
+                  getHref$: (highlightedTime: any) =>
+                    getEventsViewFilteredBy({
+                      timeConfig: highlightedTime
+                    })
                 }
               ]
-            },
-            y2: {
-              formatter: 'number.compact',
-              renderer: 'line',
-              metrics: []
-            },
-            type: 'TIME_SERIES',
-            primaryContextMenuAction: 'showEvents',
-            additionalContextMenuButtons: [
-              {
-                name: 'showEvents',
-                icon: 'lib_events_inverted',
-                label: t('in-plg:welcomepage.component.eventWidget.viewEvents'),
-                getHref$: (highlightedTime: any) =>
-                  getEventsViewFilteredBy({
-                    timeConfig: highlightedTime
-                  })
-              }
-            ]
-          }}
-          customHeight={250}
-        />
-      </div>
-    </DashboardTile>
+            }}
+            customHeight={250}
+          />
+        </div>
+      </DashboardTile>
+    </section>
   );
 }
 
