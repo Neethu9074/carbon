@@ -10,6 +10,7 @@ import React from 'react';
 import { TimeConfig } from '@instana/types';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelDatabase/constants';
 import { number, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -40,7 +41,7 @@ const sizeCol = {
       return 'mean';
     },
     getWindowForLatest() {
-      return 130;
+      return WINDOW_FOR_LATEST_METRIC;
     }
   }
 };
@@ -60,7 +61,7 @@ const usedCol = {
       return 'mean';
     },
     getWindowForLatest() {
-      return 130;
+      return WINDOW_FOR_LATEST_METRIC;
     }
   }
 };
@@ -80,7 +81,7 @@ const utilizationCol = {
       return 'mean';
     },
     getWindowForLatest() {
-      return 130;
+      return WINDOW_FOR_LATEST_METRIC;
     }
   }
 };
@@ -100,7 +101,7 @@ const maxCol = {
       return 'mean';
     },
     getWindowForLatest() {
-      return 130;
+      return WINDOW_FOR_LATEST_METRIC;
     }
   }
 };

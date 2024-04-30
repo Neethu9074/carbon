@@ -19,6 +19,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { isWindows, isZos, isLinux } from 'in-forge/plugins/otelHost/hostUtils';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/otelHost/constants';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DisksTable from 'in-forge/plugins/otelHost/Dashboard/DisksTable';
@@ -39,7 +40,7 @@ export default function OtelHostDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             metric="cpu.user"
             formatter={percentageTwoDecimalPlaces}
-            windowForLatest={130}
+            windowForLatest={WINDOW_FOR_LATEST_METRIC}
           />
         </KpiKeyValue>
 
@@ -48,7 +49,7 @@ export default function OtelHostDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             metric="memory.used"
             formatter={bytesTwoDecimalPlaces}
-            windowForLatest={130}
+            windowForLatest={WINDOW_FOR_LATEST_METRIC}
           />
         </KpiKeyValue>
 
@@ -58,7 +59,7 @@ export default function OtelHostDashboard({ snapshot, timeConfig }) {
               snapshotId={snapshot.get('id')}
               metric="load.avg_1m"
               formatter={twoDecimalPlaces}
-              windowForLatest={130}
+              windowForLatest={WINDOW_FOR_LATEST_METRIC}
             />
           </KpiKeyValue>
         )}

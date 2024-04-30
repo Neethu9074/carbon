@@ -8,6 +8,7 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelDatabase/constants';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { seconds } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -48,7 +49,7 @@ const cols = [
         return 'mean';
       },
       getWindowForLatest() {
-        return 130;
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   }

@@ -10,6 +10,7 @@ import React from 'react';
 import { TimeConfig } from '@instana/types';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelDatabase/constants';
 import { number, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
@@ -41,7 +42,7 @@ const cols = [
         return 'mean';
       },
       getWindowForLatest() {
-        return 130;
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -60,7 +61,7 @@ const cols = [
         return 'mean';
       },
       getWindowForLatest() {
-        return 130;
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   }
