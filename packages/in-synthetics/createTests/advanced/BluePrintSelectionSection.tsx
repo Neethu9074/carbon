@@ -106,7 +106,12 @@ const SelectionMenu = ({
   setHeaders
 }: SelectionMenuProps) => {
   return (
-    <div className={classNames(locals.container, { [locals.disabled]: isUpdateConfig })}>
+    <div
+      className={classNames(locals.container, {
+        [locals.disabled]: isUpdateConfig,
+        [locals.testTypeGrid]: syntheticCertificateCheckEnabled
+      })}
+    >
       <Menu
         items={getAdvancedBlueprintConfig(syntheticCertificateCheckEnabled)}
         addRightSeparator

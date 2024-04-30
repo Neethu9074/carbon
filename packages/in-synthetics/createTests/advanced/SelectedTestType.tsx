@@ -203,7 +203,7 @@ const RenderCertificateCheck = ({
       </h3>
       <DangerousHtmlPresenter className={locals.text} html={selectedBlueprint.description.text} />
       <Row>
-        <Col lg={6} className={locals.column}>
+        <Col lg={8} className={locals.column}>
           <SimpleOrScriptOption
             checked={!testTypeSelected?.ssl.simple ? simple : testTypeSelected?.ssl.simple}
             title={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.certificateCheckTitle')}
@@ -218,6 +218,7 @@ const RenderCertificateCheck = ({
             }}
             disabled={isUpdateConfig}
             asRadioButton
+            isSSLCertificate
           />
         </Col>
       </Row>

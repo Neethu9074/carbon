@@ -74,22 +74,6 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.usePercent'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: MemoryStatsRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: MemoryStatsRow) {
-        return `bufferMetrics.${row.key}.usePercent`;
-      },
-      getContent: percentagePlain.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.request'),
     type: 'metric',
     typeArgs: {
@@ -121,12 +105,45 @@ const cols = [
       }
     }
   },
+
+  {
+    title: t('in-sap:dashboards.hitRatio'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: MemoryStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: MemoryStatsRow) {
+        return `bufferMetrics.${row.key}.hitRatio`;
+      },
+      getContent: number.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
   {
     title: t('in-sap:dashboards.swap'),
     type: 'string',
     typeArgs: {
       getValue(row: MemoryStatsRow) {
         return row.memoryStats.get('swap');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.usedPercentage'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: MemoryStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: MemoryStatsRow) {
+        return `bufferMetrics.${row.key}.usePercent`;
+      },
+      getContent: percentagePlain.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   }
@@ -212,7 +229,7 @@ export default function BufferStatistics({ snapshotId, timeConfig }: MemoryStats
       cardTitle={t('in-sap:dashboards.bufferStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={3}
+      initialSortColumn={6}
       initialSortDirection="desc"
       getRowDetails={getDetails}
     />

@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 
 import { Card, LoadingSkeleton, Message, Stack, SvgIcon, Typography } from '@instana/components';
@@ -23,6 +24,7 @@ import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sectio
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { TestResponse } from 'in-synthetics/utils/constants';
@@ -166,10 +168,17 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   };
 
   const ActionButtons = ({ test }: ActionButtonProps) => {
+    const disableEditAction =
+      test?.configuration?.syntheticType === 'SSLCertificate' && !syntheticCertificateCheckEnabled;
     return (
       <Stack gap="normal" direction="horizontal">
         <Tooltip content={t('in-synthetics:dashboard.configuration.configurationEditAction')} delay={500}>
-          <SvgIcon color={'#00B3B3'} type={'lib_actions_edit'} onClick={() => openEditConfigDialog(test)} />
+          <SvgIcon
+            color={'#00B3B3'}
+            type={'lib_actions_edit'}
+            onClick={() => openEditConfigDialog(test)}
+            className={classNames({ [locals.disabled]: disableEditAction })}
+          />
         </Tooltip>
         {/* <SvgIcon type={'lib_actions_copy'} /> */}
         <Tooltip content={t('in-synthetics:dashboard.configuration.configurationDeleteAction')} delay={500}>

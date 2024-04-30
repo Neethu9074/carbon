@@ -16,6 +16,7 @@ import GarbageCollectionStatsList from 'in-forge/plugins/sapHana/Dashboard/Garba
 import SqlPlanCacheStatsList from 'in-forge/plugins/sapHana/Dashboard/SqlPlanCacheStats';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import LockWaitStatsList from 'in-forge/plugins/sapHana/Dashboard/LockWaitStats';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import AlertsTable from './AlertsTable';
@@ -247,6 +248,7 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
       <GarbageCollectionStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ExpensiveStatementStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <SqlPlanCacheStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <LockWaitStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <AlertsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );

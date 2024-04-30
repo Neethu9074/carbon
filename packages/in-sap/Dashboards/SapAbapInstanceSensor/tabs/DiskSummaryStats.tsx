@@ -42,6 +42,22 @@ const cols = [
     }
   },
   {
+    title: t('in-sap:dashboards.kbPerSec'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DiskStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DiskStatsRow) {
+        return `diskSummaryStats.${row.key}.kbPerSec`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: t('in-sap:dashboards.operationsPerSec'),
     type: 'metric',
     typeArgs: {
@@ -106,17 +122,32 @@ export default function DiskSummaryStats({ snapshotId, timeConfig }: DiskSummary
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: [`diskSummaryStats.${row.key}.avgQueueLength`, `diskSummaryStats.${row.key}.response`],
-                labels: [t('in-sap:dashboards.avgQueueLength'), t('in-sap:dashboards.response')],
+                metrics: [`diskSummaryStats.${row.key}.avgQueueLength`],
+                labels: [t('in-sap:dashboards.avgQueueLength')],
                 type: 'line',
                 formatter: number.compact
               }}
-              y2={{
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+          <DashboardSection title={t('in-sap:dashboards.opersationsTimings')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
                 min: 0,
-                metrics: [`diskSummaryStats.${row.key}.avgWaitTime`],
-                labels: [t('in-sap:dashboards.avgWaitTime')],
-                type: 'line',
-                formatter: seconds.detailed
+                formatter: seconds.detailed,
+                metrics: [
+                  `diskSummaryStats.${row.key}.response`,
+                  `diskSummaryStats.${row.key}.avgServiceTime`,
+                  `diskSummaryStats.${row.key}.avgWaitTime`
+                ],
+                labels: [
+                  t('in-sap:dashboards.response'),
+                  t('in-sap:dashboards.serviceTime'),
+                  t('in-sap:dashboards.avgWaitTime')
+                ],
+                type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
@@ -145,7 +176,7 @@ export default function DiskSummaryStats({ snapshotId, timeConfig }: DiskSummary
       cardTitle={t('in-sap:dashboards.diskSummaryStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={1}
+      initialSortColumn={2}
       initialSortDirection="desc"
       getRowDetails={getDetails}
     />

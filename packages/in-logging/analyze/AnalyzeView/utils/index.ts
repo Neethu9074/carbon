@@ -7,6 +7,7 @@
 import {
   LogGroupItem,
   LogItem,
+  TagFilter,
   TagFilterExpression,
   TagFilterExpressionElementUnion,
   TimeConfig
@@ -29,9 +30,26 @@ export function isLogItem(log: any): log is LogItem {
 }
 export const defaultChartedMetrics = [{ metricId: 'logs_distribution', aggregationId: 'SUM' }];
 
-export const handleLogCallsWithFilters = (payload: {
+export const handleLogCallsWithFilters = ({
+  timeConfig,
+  tagFilterExpression
+}: {
   timeConfig: TimeConfig;
   tagFilterExpression: TagFilterExpression | TagFilterExpressionElementUnion;
 }) => {
-  logsCallwithFilters(payload);
+  logsCallwithFilters({ timeConfig, tags: extractTagNames(tagFilterExpression) });
 };
+
+function extractTagNames(expression: TagFilterExpressionElementUnion): string[] {
+  const tagNames: string[] = [];
+
+  if (expression.type === 'TAG_FILTER') {
+    tagNames.push((expression as TagFilter).name);
+  } else if (expression.type === 'EXPRESSION') {
+    (expression as TagFilterExpression).elements.forEach(element => {
+      tagNames.push(...extractTagNames(element));
+    });
+  }
+
+  return [...new Set(tagNames)];
+}

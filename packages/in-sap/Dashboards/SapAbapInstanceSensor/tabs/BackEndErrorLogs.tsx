@@ -106,11 +106,29 @@ export default function BackEndErrorLogs({ snapshotId, timeConfig }: GatewayBack
         <Columize>
           <DashboardSection>
             <label>{t('in-sap:dashboards.transactionId')} : </label>
-            <Code code={formatSql(row.gatewayErrorStats.get('transactionId'))} lang="sql" softWrap />
+            <Code
+              code={formatSql(
+                row.gatewayErrorStats.get('transactionId') == null ? '' : row.gatewayErrorStats.get('transactionId')
+              )}
+              lang="sql"
+              softWrap
+            />
             <label>{t('in-sap:dashboards.errorPackage')} : </label>
-            <Code code={formatSql(row.gatewayErrorStats.get('errorPackage'))} lang="sql" softWrap />
+            <Code
+              code={formatSql(
+                row.gatewayErrorStats.get('errorPackage') == null ? '' : row.gatewayErrorStats.get('errorPackage')
+              )}
+              lang="sql"
+              softWrap
+            />
             <label>{t('in-sap:dashboards.sourceProgram')} : </label>
-            <Code code={formatSql(row.gatewayErrorStats.get('sourceProgram'))} lang="sql" softWrap />
+            <Code
+              code={formatSql(
+                row.gatewayErrorStats.get('sourceProgram') == null ? '' : row.gatewayErrorStats.get('sourceProgram')
+              )}
+              lang="sql"
+              softWrap
+            />
           </DashboardSection>
           <DashboardSection>
             <Chart
