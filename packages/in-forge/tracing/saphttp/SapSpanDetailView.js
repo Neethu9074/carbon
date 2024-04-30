@@ -20,7 +20,7 @@ export default function SapSpanDetailView({ span }) {
 export function SapSpanDetailViewDescriptionList({ span }) {
   return (
     <>
-      <Di title={t('in-forge:tracing.sap.type')}>{span.getIn(['data', 'sap', 'type'])}</Di>
+      <Di title={t('in-forge:tracing.sap.callType')}>{span.getIn(['data', 'sap', 'type'])}</Di>
       <Di title={t('in-forge:tracing.sap.tcode')}>{span.getIn(['data', 'sap', 'tcode'])}</Di>
       <Di title={t('in-forge:tracing.sap.user')}>{span.getIn(['data', 'sap', 'user'])}</Di>
       <Di title={t('in-forge:tracing.sap.system')}>{span.getIn(['data', 'sap', 'system'])}</Di>

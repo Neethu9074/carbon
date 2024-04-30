@@ -15975,6 +15975,7 @@
       "baggage": "Baggage"
     },
     "sap": {
+      "callType": "Call Report",
       "type": "Type",
       "tcode": "TCODE",
       "user": "User",
