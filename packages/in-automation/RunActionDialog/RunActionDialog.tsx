@@ -38,6 +38,7 @@ import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnaps
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
 import { Action, Event, ParameterValue, VolatileId, Policy } from 'in-types';
+import { runActionTracker, testActionTracker } from 'in-automation/tracker';
 import { refresh } from 'in-automation/AutomationCard/useScoredActions';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -45,7 +46,6 @@ import { Option, Options } from 'in-components/ComboBox/ComboBox';
 import { hasError, isLoading } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { runActionTracker } from 'in-automation/tracker';
 import { NewPolicy } from 'in-automation/Policies/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -138,7 +138,8 @@ export default function RunActionDialog({
                   event,
                   policy,
                   handleSave,
-                  executePolicy
+                  executePolicy,
+                  test
                 })
               }
             />
@@ -251,6 +252,7 @@ interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   policy?: NewPolicy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
   executePolicy?: Policy;
+  test?: boolean;
 }
 
 function onSave({
@@ -264,7 +266,8 @@ function onSave({
   event,
   policy,
   handleSave,
-  executePolicy
+  executePolicy,
+  test
 }: OnSaveParams) {
   // when user have single turbonomic agent we just show it as static text and run action. we do not have any form.valid case in that scenario.
   // when user have multiple turbonomic agents, we show dropdown with agents and, we have to execute below code in that scenario.
@@ -273,10 +276,18 @@ function onSave({
     return;
   }
   setIsSaving(true);
-  runActionTracker({
-    actionType: action.type,
-    actionName: action.name
-  });
+  if (test) {
+    testActionTracker({
+      actionType: action.type,
+      actionName: action.name
+    });
+  } else {
+    runActionTracker({
+      actionType: action.type,
+      actionName: action.name
+    });
+  }
+
   const targetAgent = form?.get('targetAgent') as Field<string>;
   const parameters = form?.get('parameters') as MapForm<any>;
   const inputParameters = parameters.reduce<ParameterValue[]>((acc, parameter, key) => {

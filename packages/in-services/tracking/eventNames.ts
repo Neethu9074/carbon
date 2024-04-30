@@ -405,7 +405,11 @@ export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.histor
 export const CLICK_TURBO_LINK_FOR_DETAILS = 'click.turbo.link.for.details';
 export const VIEW_TURBO_ACTION = 'view.turbo.action';
 export const AUTOMATION_POLICY_CREATE = 'automation.policy.create';
+export const AUTOMATION_POLICY_BULK_CREATE = 'bulk.automation.policy.create';
 export const AUTOMATION_POLICY_EDIT = 'automation.policy.edit';
+export const RECOMMENDED_ACTIONS_TAB_CLICK = 'recommended.actions.tab.click';
+export const CREATE_POLICY_FROM_RECOMMENDED_ACTIONS = 'create.policy.from.recommended.actions';
+export const TEST_ACTION_RUN = 'test.action.run';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 
