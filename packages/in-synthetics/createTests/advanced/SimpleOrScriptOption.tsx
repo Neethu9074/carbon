@@ -7,6 +7,7 @@
 import React, { forwardRef } from 'react';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 
 import locals from 'in-synthetics/createTests/advanced/SimpleOrScriptOption.mless';
 
@@ -16,6 +17,7 @@ interface SimpleOrScriptOptionProps {
   title: string;
   description: JSX.Element;
   asRadioButton?: boolean;
+  isSSLCertificate?: boolean;
   onChange: (checked: boolean) => void;
 }
 
@@ -25,6 +27,7 @@ const SimpleOrScriptOption = ({
   title,
   description,
   asRadioButton,
+  isSSLCertificate,
   onChange
 }: SimpleOrScriptOptionProps) => {
   return (
@@ -34,6 +37,7 @@ const SimpleOrScriptOption = ({
       title={title}
       description={description}
       asRadioButton={asRadioButton}
+      isSSLCertificate={isSSLCertificate}
       onChange={onChange}
     />
   );
@@ -45,17 +49,19 @@ interface OptionBoxProps {
   title: string;
   description: JSX.Element;
   asRadioButton?: boolean;
+  isSSLCertificate?: boolean;
   onChange: (checked: boolean) => void;
 }
 
 const OptionBoxWithRef = forwardRef(function OptionBox(
-  { checked, disabled, title, description, onChange, asRadioButton }: OptionBoxProps,
+  { checked, disabled, title, description, onChange, asRadioButton, isSSLCertificate }: OptionBoxProps,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
   const labelContent = (
     <div className={locals.content}>
       <div className={locals.title}>
         <span>{title}</span>
+        {isSSLCertificate ? <BetaBadge /> : null}
       </div>
       <div className={locals.description}>{description}</div>
     </div>

@@ -23,4 +23,8 @@
   .disabled {
     pointer-events: none;
   }
+
+  .testTypeGrid {
+    grid-template-columns: 2fr 2fr 2fr;
+  }
 }
