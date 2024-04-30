@@ -8,8 +8,7 @@ import React from 'react';
 
 import { create } from '@instana/observables';
 
-import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
-import { getInfraGranularity, getMetricsForTimeframe } from 'in-stores/metric';
+import { getMetricsForTimeframe } from 'in-stores/metric';
 import createDataHolder from 'in-components/Chart/data/dataHolder';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -77,7 +76,6 @@ class InfrastructureMetricChartBehavior extends React.Component {
       y1,
       y2,
       customHeight,
-      minRollup,
       renderLegend,
       primaryContextMenuAction,
       additionalContextMenuButtons,
@@ -292,10 +290,6 @@ function mapAxis(axis) {
     minPixelsPerBlock: axis.minPixelsPerBlock || 5,
     aggregations: axis.metrics.map(() => axis.aggregation?.toUpperCase() || 'MEAN')
   };
-}
-
-function getChartCanvasWidth({ width = 0 }) {
-  return width;
 }
 
 function isDynamicallyAggregated(axis) {
