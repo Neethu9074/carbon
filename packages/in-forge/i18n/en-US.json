@@ -8803,7 +8803,11 @@
         "schemaName":"Schema Name",
         "executionCount":"Execution Count",
         "avgExecutionTime":"Average Execution Time",
-        "sqlPlanCacheStats" :"Sql Plan Cache Statistics"
+        "sqlPlanCacheStats" :"Sql Plan Cache Statistics",
+        "lockWaitStats" :"Lock Wait Statistics",
+        "lockType":"Lock Type",
+        "totalLockWaits": "Total Lock Waits",
+        "totalLockWaitTime":"Total Lock Wait Time"
       },
       "systemId": "System ID",
       "databaseName": "Database Name",
