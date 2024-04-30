@@ -242,7 +242,7 @@ const AnalyzeView = () => {
               {getTestResultListStatus(resultList) !== 1 && (
                 <Row>
                   <Col xs>
-                    <FailedRun resultList={resultList} />
+                    <FailedRun resultList={resultList} isSSLCertificate={isSSLCertificate} />
                   </Col>
                 </Row>
               )}
