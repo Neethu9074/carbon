@@ -121,7 +121,7 @@ const getActionColumn = (
     }
     if (!role?.canConfigureAutomationPolicies || isExternal(action.type)) return null;
     return (
-      <Tooltip content={t('in-automation:associateActionWithName', { actionName: action.name })} delay={500}>
+      <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
         <IconButton
           kind="primaryv2"
           type="lib_openclose_add_circle_outline"

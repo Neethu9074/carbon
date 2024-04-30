@@ -44,7 +44,7 @@
   "description": "Description",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
-  "associateActionWithName": "Associate action {{actionName}}",
+  "createPolicyWithName": "Create policy with {{actionName}}",
   "deletePolicyWithName": "Delete policy {{actionName}}",
   "jobTemplate": "Job Template",
   "hostsLimit": "Hosts Limit (optional)",
