@@ -15116,7 +15116,19 @@
       "dbConnection": "DB Connection",
       "sentData": "Send Data",
       "receivedData": "Received Data",
-      "rfcStats": "RFC Calls"
+      "rfcStats": "RFC Calls",
+      "userTotal": "User",
+      "systemTotal": "System",
+      "idleTotal": "Idle",
+      "cpuMetrics": "CPU Metrics",
+      "interrupts": "Interrupts",
+      "systemCalls": "System Calls",
+      "contextSwitch": "Context Switch",
+      "cpuCalls": "CPU Calls",
+      "loadAvg1": "1 minute",
+      "loadAvg5": "5 minutes",
+      "loadAvg15": "15 minutes",
+      "loadAverage": "Load Average"
     },
     "syntheticPoP": {
       "redisTLSNotEnabledIssueDescription": "Synthetic PoP Redis TLS is not enabled, it is recommended that Synthetic PoP Redis TLS should be enabled in production environment. Please check TLS configuration in Synthetic PoP deployment and set in agent configuration.",

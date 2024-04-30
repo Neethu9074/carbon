@@ -106,11 +106,29 @@ export default function FrontEndErrorLogs({ snapshotId, timeConfig }: GatewayErr
         <Columize>
           <DashboardSection>
             <label>Transaction ID : </label>
-            <Code code={formatSql(row.gatewayErrorStats.get('transactionId'))} lang="sql" softWrap />
+            <Code
+              code={formatSql(
+                row.gatewayErrorStats.get('transactionId') == null ? '' : row.gatewayErrorStats.get('transactionId')
+              )}
+              lang="sql"
+              softWrap
+            />
             <label>Error Package : </label>
-            <Code code={formatSql(row.gatewayErrorStats.get('errorPackage'))} lang="sql" softWrap />
+            <Code
+              code={formatSql(
+                row.gatewayErrorStats.get('errorPackage') == null ? '' : row.gatewayErrorStats.get('errorPackage')
+              )}
+              lang="sql"
+              softWrap
+            />
             <label>Source Program : </label>
-            <Code code={formatSql(row.gatewayErrorStats.get('sourceProgram'))} lang="sql" softWrap />
+            <Code
+              code={formatSql(
+                row.gatewayErrorStats.get('sourceProgram') == null ? '' : row.gatewayErrorStats.get('sourceProgram')
+              )}
+              lang="sql"
+              softWrap
+            />
           </DashboardSection>
           <DashboardSection>
             <Chart

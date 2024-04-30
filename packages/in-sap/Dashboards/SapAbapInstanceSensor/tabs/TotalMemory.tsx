@@ -31,6 +31,33 @@ interface TotalMemoryProps {
 
 const cols = [
   {
+    title: t('in-sap:dashboards.account'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: TotalMemoryRow) {
+        return row.memoryStats.get('account');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.client'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: TotalMemoryRow) {
+        return row.memoryStats.get('client');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.taskType'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: TotalMemoryRow) {
+        return row.memoryStats.get('taskType');
+      }
+    }
+  },
+  {
     title: t('in-sap:dashboards.entryID'),
     type: 'string',
     typeArgs: {
