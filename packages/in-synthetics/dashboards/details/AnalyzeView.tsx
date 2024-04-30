@@ -27,6 +27,7 @@ import {
   ResultDetailsResponse,
   ResultMetadataResponse
 } from 'in-synthetics/utils/constants';
+import SSLCertificateDetails from 'in-synthetics/dashboards/details/components/SSLCertificateDetails';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import getTestResultListStatus from 'in-synthetics/subscriptions/getTestResultListStatus';
@@ -38,6 +39,7 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
+import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
@@ -51,6 +53,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { getTestResultMetadata } from 'in-synthetics/api';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Sticky from 'in-components/Sticky';
@@ -69,8 +72,10 @@ const AnalyzeView = () => {
   const testType: string = getMatrixParameter(location, syntheticDetailsPath, 'type') ?? '';
   const isHTTPActionType: boolean = testType === 'HTTPAction';
   const isBrowserTest: boolean = isBrowserTestType(testType);
+  const isSSLCertificate: boolean = testType === 'SSLCertificate';
   const responseSize = getMatrixParameter(location, syntheticDetailsPath, 'responseSize');
   const resultsLabel: string = getMatrixParameter(location, syntheticDetailsPath, 'resultsLabel') ?? '';
+  const isSSLCertificateTest: boolean = testType === 'SSLCertificate' && syntheticCertificateCheckEnabled;
 
   const testResultMetadata: ResultMetadataResponse =
     useObservable<any, [number]>(() => getTestResultMetadata(testId, resultId, startTime), [0]) || dummyResultMetadata;
@@ -130,7 +135,7 @@ const AnalyzeView = () => {
             pageSize
           },
           order: { by: 'errors', direction: 'DESC' },
-          syntheticMetrics: ['errors', 'status', 'start_time', 'response_size'],
+          syntheticMetrics: ['errors', 'status', 'start_time', 'response_size', 'custom_metrics'],
           filter: {
             //timeConfig is ignored in synthetics-reader CH query
             //since given a testId and testResultId, the entry should be unique
@@ -145,6 +150,9 @@ const AnalyzeView = () => {
         }),
       [0]
     ) || dummyTestResultList;
+  const renderMetaInformation = () => {
+    return isSSLCertificateTest ? <BetaBadge /> : null;
+  };
 
   return (
     <>
@@ -155,6 +163,7 @@ const AnalyzeView = () => {
               title={t('in-synthetics:dashboard.testList.mainLabel')}
               label={resultsLabel}
               withBorderBottom
+              renderMetaInformation={renderMetaInformation}
               contextConfigurations={useSyntheticContextConfiguration()}
               liveModeDisabled
               liveModeDisabledTooltip={t('in-synthetics:dashboard.detailsPage.detailLiveModeDisabled')}
@@ -196,37 +205,61 @@ const AnalyzeView = () => {
                     renderValue={meanLatency.detailed}
                   />
                 </Col>
-                <Col
-                  xs
-                  style={{
-                    display: get(timelineDetails, ['errors', 0, 'code'], '') === 'NOT_FOUND' ? 'none' : 'block'
-                  }}
-                >
-                  <KpiCard
-                    title={t('in-synthetics:dashboard.summary.requests')}
-                    value={getTestTypeRequestsCount(isBrowserTest, timelineDetails)}
-                  />
-                </Col>
-
-                <Col xs>
-                  <KpiCard
-                    title={t('in-synthetics:dashboard.summary.responseSize')}
-                    value={getResponseSize(responseSize, location, resultList.data?.items[0])}
-                    renderValue={bytes.detailed}
-                  />
-                </Col>
+                {!isSSLCertificate && (
+                  <Col
+                    xs
+                    style={{
+                      display: get(timelineDetails, ['errors', 0, 'code'], '') === 'NOT_FOUND' ? 'none' : 'block'
+                    }}
+                  >
+                    <KpiCard
+                      title={t('in-synthetics:dashboard.summary.requests')}
+                      value={getTestTypeRequestsCount(isBrowserTest, timelineDetails)}
+                    />
+                  </Col>
+                )}
+                {!isSSLCertificate && (
+                  <Col xs>
+                    <KpiCard
+                      title={t('in-synthetics:dashboard.summary.responseSize')}
+                      value={getResponseSize(responseSize, location, resultList.data?.items[0])}
+                      renderValue={bytes.detailed}
+                    />
+                  </Col>
+                )}
+                {isSSLCertificate && (
+                  <Col xs>
+                    <KpiCard
+                      title={t('in-synthetics:dashboard.summary.isCertificateValid')}
+                      value={
+                        get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.valid', 0, 1], 0) === 1
+                          ? t('in-synthetics:dashboard.summary.certificateValid')
+                          : t('in-synthetics:dashboard.summary.certificateNotValid')
+                      }
+                    />
+                  </Col>
+                )}
               </Row>
-              {getTestResultListStatus(resultList) !== 1 && (
+              {isSSLCertificate && (
                 <Row>
                   <Col xs>
-                    <FailedRun resultList={resultList} />
+                    <SSLCertificateDetails resultList={resultList} />
                   </Col>
                 </Row>
               )}
-              <Row>
-                <Col lg={12}>{getTestTypeTimeline(isBrowserTest, timelineDetails, startTime, finishTime)}</Col>
-              </Row>
-              {!isHTTPActionType && (
+              {getTestResultListStatus(resultList) !== 1 && (
+                <Row>
+                  <Col xs>
+                    <FailedRun resultList={resultList} isSSLCertificate={isSSLCertificate} />
+                  </Col>
+                </Row>
+              )}
+              {!isSSLCertificate && (
+                <Row>
+                  <Col lg={12}>{getTestTypeTimeline(isBrowserTest, timelineDetails, startTime, finishTime)}</Col>
+                </Row>
+              )}
+              {!isHTTPActionType && !isSSLCertificate && (
                 <Row>
                   <Col lg={12}>
                     <Logs

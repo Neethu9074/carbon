@@ -20,6 +20,18 @@ interface Props {
 }
 
 const Schedule = ({ test }: Props) => {
+  const getFrequencyDescription = () => {
+    if (test.testFrequency && test.testFrequency > 1 && test.testFrequency <= 1440) {
+      return t('in-synthetics:dashboard.configuration.frequencyPluralValue', {
+        minutes: test.testFrequency
+      });
+    } else {
+      return t('in-synthetics:dashboard.configuration.frequencySingleValue', {
+        minutes: test.testFrequency
+      });
+    }
+  };
+
   return (
     <ExpandableLightCard
       className={locals.expandableCard}
@@ -40,15 +52,7 @@ const Schedule = ({ test }: Props) => {
         <Col xs={3}>
           <KeyValue
             label={t('in-synthetics:dashboard.configuration.frequencyTitle')}
-            value={
-              test.testFrequency && test.testFrequency > 1
-                ? t('in-synthetics:dashboard.configuration.frequencyPluralValue', {
-                    minutes: test.testFrequency
-                  })
-                : t('in-synthetics:dashboard.configuration.frequencySingleValue', {
-                    minutes: test.testFrequency
-                  })
-            }
+            value={getFrequencyDescription()}
           />
         </Col>
       </Row>

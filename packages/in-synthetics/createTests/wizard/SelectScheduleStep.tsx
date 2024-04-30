@@ -33,6 +33,8 @@ const marksToRender: Shape[] = [1, 15, 30, 45, 60, 75, 90, 105, 120].map(min => 
 }));
 
 export default function SelectScheduleStep({ form, updateForm, simpleMode }: Props) {
+  const configForm = form.get('configuration') as MapForm<any>;
+  const syntheticType = configForm.get('syntheticType') as Field<string>;
   const frequencyField = form.get('testFrequency') as Field<number>;
 
   if (simpleMode) {
@@ -57,7 +59,7 @@ export default function SelectScheduleStep({ form, updateForm, simpleMode }: Pro
           <Description>
             {t('in-synthetics:dialog.createTest.advancedMode.frequency', { frequencyValue: frequencyField.value })}
           </Description>
-          {displaySlider(frequencyField, marksToRender, form, updateForm)}
+          {syntheticType.value != 'SSLCertificate' && displaySlider(frequencyField, marksToRender, form, updateForm)}
         </FormGroup>
       </Section>
     );

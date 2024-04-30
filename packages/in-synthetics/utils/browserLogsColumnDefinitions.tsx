@@ -20,7 +20,20 @@ interface LogLevelColumnProps {
   timestamp: number;
 }
 
-type PillType = 'red' | 'yellow' | 'blue';
+type PillType =
+  | 'red'
+  | 'blue'
+  | 'magenta'
+  | 'purple'
+  | 'cyan'
+  | 'teal'
+  | 'green'
+  | 'gray'
+  | 'cool-gray'
+  | 'warm-gray'
+  | 'high-contrast'
+  | 'outline'
+  | undefined;
 
 export const logLevelColumn = {
   id: 'logLevel',
@@ -29,7 +42,7 @@ export const logLevelColumn = {
   getContent: function Content({ item }: LogLevelColumnProps) {
     const logPillColorMap = new Map<string, string>([
       ['severe', 'red'],
-      ['warning', 'yellow'],
+      ['warning', 'high-contrast'],
       ['info', 'blue']
     ]);
     return (

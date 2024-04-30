@@ -402,10 +402,14 @@ export const AUTOMATION_ACTION_RUN = 'automation.action.run';
 export const AUTOMATION_ACTION_HISTORY_VIEW = 'automation.action.history.view';
 export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.history.instance.view';
 export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.history.feedback.used';
-export const CLICK_TURBO_LINK_FOR_DETAILS = 'click.turbo.link.for.details';
-export const VIEW_TURBO_ACTION = 'view.turbo.action';
+export const AUTOMATION_CLICK_TURBO_LINK_FOR_DETAILS = 'click.turbo.link.for.details';
+export const AUTOMATION_VIEW_TURBO_ACTION = 'view.turbo.action';
 export const AUTOMATION_POLICY_CREATE = 'automation.policy.create';
+export const AUTOMATION_POLICY_BULK_CREATE = 'automation.bulk.automation.policy.create';
 export const AUTOMATION_POLICY_EDIT = 'automation.policy.edit';
+export const AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK = 'automation.recommended.actions.tab.click';
+export const AUTOMATION_CREATE_POLICY_FROM_RECOMMENDED_ACTIONS = 'automation.create.policy.from.recommended.actions';
+export const AUTOMATION_TEST_ACTION_RUN = 'automation.test.action.run';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 

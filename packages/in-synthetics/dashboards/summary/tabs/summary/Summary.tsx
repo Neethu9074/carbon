@@ -34,7 +34,6 @@ import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { testIdTagName } from 'in-synthetics/tags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { hours } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
 interface SummaryProps {
@@ -45,7 +44,6 @@ export default function Summary({ test }: SummaryProps) {
   const page = 1;
   const pageSize = 1;
   const timeConfig = useTimeConfig();
-  const timeFrameSelectedInHours = Math.floor(timeConfig.windowSize / hours.toMillis(1));
   const timeShiftConfig: TimeShift = useTimeShiftConfig();
   const location: Location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
@@ -120,16 +118,18 @@ export default function Summary({ test }: SummaryProps) {
     );
   };
 
-  const isSSLCertificateTimeFrame: boolean = isSSLCertificate && timeFrameSelectedInHours < 24;
-
-  return isSSLCertificateTimeFrame ? (
-    <Message
-      withIcon
-      title={t('in-synthetics:dashboard.summary.smallerTimeFrameTitle')}
-      description={t('in-synthetics:dashboard.summary.smallerTimeFrameDescription')}
-      bold
-    />
-  ) : (
+  const totalHits = resultList.data?.totalHits ?? 0;
+  if (totalHits === 0 && isSSLCertificate) {
+    return (
+      <Message
+        withIcon
+        title={t('in-synthetics:dashboard.summary.smallerTimeFrameTitle')}
+        description={t('in-synthetics:dashboard.summary.smallerTimeFrameDescription')}
+        bold
+      />
+    );
+  }
+  return (
     <Fragment>
       <Row>
         <Col xs>

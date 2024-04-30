@@ -22,6 +22,7 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import useNavigateToActionDetails from 'in-automation/ActionCatalog/useNavigateToActionDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
+import { createPolicyFromRecommendedActionsTracker } from 'in-automation/tracker';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
@@ -36,7 +37,6 @@ import { ScoredAction, saveNewPolicy } from 'in-automation/api';
 import { isExternal } from 'in-automation/ActionCatalog/shared';
 import { Action, VolatileId, Event, Result } from 'in-types';
 import IconButton from 'in-components/IconButton/IconButton';
-import { createPolicyTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { mapData } from 'in-services/util/result';
 import { role } from 'in-stores/user';
@@ -76,7 +76,7 @@ function onCreate(event: Event, action: Action, setActiveKey: SetActiveKey) {
   saveNewPolicy(policy).once(
     () => {
       onCreateSuccess(policy.name);
-      createPolicyTracker({
+      createPolicyFromRecommendedActionsTracker({
         name: policy.name,
         triggerName: event.problem?.problemText,
         actionName: action.name,

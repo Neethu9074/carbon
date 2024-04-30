@@ -73,12 +73,18 @@ const cols = [
   },
   {
     title: t('in-sap:abapsensor.severity'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: DumpStatsRow) {
-        return row.dumpStats.get('E2E_SEVERITY');
+      getSnapshotId(row: DumpStatsRow) {
+        return row.snapshotId;
       },
-      getContent: number.compact
+      getMetricName(row: DumpStatsRow) {
+        return `abapdumpstats.${row.key}.E2E_SEVERITY`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {

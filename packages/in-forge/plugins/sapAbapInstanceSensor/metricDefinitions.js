@@ -730,5 +730,50 @@ export default [
     category: [t('in-forge:plugins.sapAbapInstanceSensor.rfcStats')],
     min: 0,
     formatter: bytes.compact
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('cpuMetricStats', 'usrTotal', t('in-forge:plugins.sapAbapInstanceSensor.userTotal')),
+      getDynamicMetricMatch('cpuMetricStats', 'sysTotal', t('in-forge:plugins.sapAbapInstanceSensor.systemTotal')),
+      getDynamicMetricMatch('cpuMetricStats', 'idleTotal', t('in-forge:plugins.sapAbapInstanceSensor.idleTotal'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapAbapInstanceSensor.userTotal'),
+      t('in-forge:plugins.sapAbapInstanceSensor.systemTotal'),
+      t('in-forge:plugins.sapAbapInstanceSensor.idleTotal')
+    ],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.cpuMetrics')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('cpuMetricStats', 'intSec', t('in-forge:plugins.sapAbapInstanceSensor.interrupts')),
+      getDynamicMetricMatch('cpuMetricStats', 'syscSec', t('in-forge:plugins.sapAbapInstanceSensor.systemCalls')),
+      getDynamicMetricMatch('cpuMetricStats', 'csSec', t('in-forge:plugins.sapAbapInstanceSensor.contextSwitch'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapAbapInstanceSensor.interrupts'),
+      t('in-forge:plugins.sapAbapInstanceSensor.systemCalls'),
+      t('in-forge:plugins.sapAbapInstanceSensor.contextSwitch')
+    ],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.cpuCalls')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('cpuMetricStats', 'loadAvg1', t('in-forge:plugins.sapAbapInstanceSensor.loadAvg1')),
+      getDynamicMetricMatch('cpuMetricStats', 'loadAvg5', t('in-forge:plugins.sapAbapInstanceSensor.loadAvg5')),
+      getDynamicMetricMatch('cpuMetricStats', 'loadAvg15', t('in-forge:plugins.sapAbapInstanceSensor.loadAvg15'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapAbapInstanceSensor.loadAvg1'),
+      t('in-forge:plugins.sapAbapInstanceSensor.loadAvg5'),
+      t('in-forge:plugins.sapAbapInstanceSensor.loadAvg15')
+    ],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.loadAverage')],
+    min: 0,
+    formatter: number
   }
 ];

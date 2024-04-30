@@ -86,3 +86,8 @@
     color: var(--ids-color-option-pink-500);
   }
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}

@@ -134,10 +134,10 @@
           "browserTypeText": "Browser synthetic testing is a method of monitoring web application performance by simulating user interactions with a website through a script in a web browser, providing valuable insights into issues that affect user experience and ensuring website functionality.",
           "browserSimpleTitle": "Browser Simple Test",
           "browserScriptTitle": "Browser Script Test",
-          "certificateCheckTitle": "Certificate Check",
-          "certificateCheckLabel": "SSL Certificate Check",
-          "certificateCheckHeadline": "SSL Certificate Check Headline",
-          "certificateCheckText": "SSL Certificate Check Text"
+          "certificateCheckTitle": "SSL Certificate Check",
+          "certificateCheckLabel": "SSL Certificate",
+          "certificateCheckHeadline": "SSL Certificate Check Test",
+          "certificateCheckText": "SSL Certificate check testing is a method to test the expiration for a SSL certificate in a web application by checking the remaining days on a issued certificate."
         },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration: How will this test work?",
@@ -223,7 +223,7 @@
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "Browser",
-          "certificateCheckName": "SSL Certificate Check"
+          "certificateCheckName": "SSL Certificate"
         },
         "customProperties": {
           "property": "Property",
@@ -462,13 +462,13 @@
       "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
       "smartAlertsTab": "Smart Alerts",
       "configurationTab": "Configuration",
-      "isCertificateValid": "Last run - Certificate is Valid",
+      "isCertificateValid": "Last Run - Certificate is Valid",
       "certificateValid": "Yes",
       "certificateNotValid": "No",
-      "daysRemaining": "Last run - Days Remaining",
-      "dateOfExpiry": "Last run - Date of Expiry",
+      "daysRemaining": "Last Run - Days Remaining",
+      "dateOfExpiry": "Last Run - Date of Expiry",
       "smallerTimeFrameTitle": "No results for this time frame",
-      "smallerTimeFrameDescription": "Please pick a bigger time frame, as SSL Certificate test run every 24 hours"
+      "smallerTimeFrameDescription": "Please select a longer time frame to see results for SSL Certificate Check tests."
     },
     "resultsListPage": {
       "startedColumn": "Started",
@@ -481,9 +481,7 @@
       "failures": "Failures",
       "status": "Status",
       "success": "Success",
-      "daysRemaining": "Days Remaining",
-      "smallerTimeFrameTitle": "No results for this time frame",
-      "smallerTimeFrameDescription": "Please pick a bigger time frame, as SSL Certificate test run every 24 hours"
+      "daysRemaining": "Days Remaining"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Live Mode is not applicable in Synthetic test result detail page",
@@ -608,6 +606,11 @@
         "imageButton": "Image",
         "ScreenshotsLoadingMessage": "Loading Screenshots",
         "noScreenshotsAvailableMessage": "Screenshots not available for this test result"
+      },
+      "sslCertificate": {
+        "daysRemaining": "Days Remaining",
+        "dateOfIssue": "Date of Issue",
+        "dateOfExpiry": "Date of Expiry"
       }
     },
     "noDataAvailable": {
