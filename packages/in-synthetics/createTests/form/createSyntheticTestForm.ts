@@ -518,7 +518,7 @@ function createAdvancedWebpageActionConfigurationForm(savedState?: Record<string
     );
 }
 
-function createAdvancedSSLCertificateConfigurationForm(savedState?: Record<string, any>) {
+export function createAdvancedSSLCertificateConfigurationForm(savedState?: Record<string, any>) {
   return createMapForm()
     .put(
       'syntheticType',
