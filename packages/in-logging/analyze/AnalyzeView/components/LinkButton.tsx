@@ -34,6 +34,9 @@ export function LinkButton({ itemId, time, groupKey, className }: LinkButtonProp
             ref={copyToClipboardRef}
             iconSize={'xs'}
             type="lib_actions_interface_link"
+            onClick={e => {
+              e.stopPropagation();
+            }}
           />
         )}
       </CopyToClipboard>

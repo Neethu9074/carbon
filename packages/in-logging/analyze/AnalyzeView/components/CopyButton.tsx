@@ -21,7 +21,15 @@ export function CopyButton({ message, className }: CopyColumnProps) {
     <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
       <CopyToClipboard getText={() => message}>
         {(copyToClipboardRef: React.ForwardedRef<HTMLButtonElement>) => (
-          <IconButton className={className} ref={copyToClipboardRef} iconSize={'xs'} type="lib_actions_copy" />
+          <IconButton
+            className={className}
+            ref={copyToClipboardRef}
+            iconSize={'xs'}
+            type="lib_actions_copy"
+            onClick={e => {
+              e.stopPropagation();
+            }}
+          />
         )}
       </CopyToClipboard>
     </Tooltip>
