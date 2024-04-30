@@ -15976,7 +15976,6 @@
     },
     "sap": {
       "callType": "Call Report",
-      "type": "Type",
       "tcode": "TCODE",
       "user": "User",
       "system": "System",
