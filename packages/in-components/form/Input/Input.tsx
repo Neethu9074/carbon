@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+// Implementation moved to ui-foundataion
 import type { InputProps } from '@instana/components';
 import { Input } from '@instana/components';
 
