@@ -13,6 +13,7 @@ import useScoredActions, { useRecommendedScoredActions } from 'in-automation/Aut
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
+import { recommendedActionsTabClickTracker } from 'in-automation/tracker';
 import usePolicies from 'in-automation/AutomationCard/usePolicies';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
@@ -39,7 +40,10 @@ function AutomationCardButtonGroup({ activeKey, setActiveKey }: AutomationCardBu
     {
       text: t('in-automation:recommendedActions'),
       key: 'recommendedActions',
-      onClick: () => setActiveKey('recommendedActions')
+      onClick: () => {
+        setActiveKey('recommendedActions');
+        recommendedActionsTabClickTracker();
+      }
     }
   ];
 
