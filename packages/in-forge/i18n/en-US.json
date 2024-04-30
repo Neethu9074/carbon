@@ -2747,6 +2747,16 @@
   "tracingTypeName_wordpress_0": "Wordpresses",
   "tracingTypeName_wordpress_1": "Wordpress",
   "tracingTypeName_wordpress_2": "Wordpresses",
+  "tracingTypeName_saprfc": "SAP RFC Call",
+  "tracingTypeName_saprfc_plural": "SAP RFC calls",
+  "tracingTypeName_saprfc_0": "SAP RFC calls",
+  "tracingTypeName_saprfc_1": "SAP RFC calls",
+  "tracingTypeName_saprfc_2": "SAP RFC calls",
+  "tracingTypeName_saphttp": "SAP HTTP Call",
+  "tracingTypeName_saphttp_plural": "SAP HTTP calls",
+  "tracingTypeName_saphttp_0": "SAP HTTP calls",
+  "tracingTypeName_saphttp_1": "SAP HTTP calls",
+  "tracingTypeName_saphttp_2": "SAP HTTP calls",
   "tracingTypeName_wsgi": "WSGI",
   "tracingTypeName_wsgi_plural": "WSGI Calls",
   "tracingTypeName_wsgi_0": "WSGI Calls",
@@ -2792,7 +2802,8 @@
     "logger": "logger",
     "missing": "missing",
     "xray": "xray",
-    "bpm": "bpm"
+    "bpm": "bpm",
+    "rfc": "RFC"
   },
   "plugins": {
     "titleARN": "ARN",
@@ -15983,6 +15994,16 @@
       "callType": "Call Type",
       "parameters": "Parameters",
       "baggage": "Baggage"
+    },
+    "sap": {
+      "callType": "Call Report",
+      "tcode": "TCODE",
+      "user": "User",
+      "system": "System",
+      "totalResTime": "Total Response Time (ms)",
+      "procTime": "Processing Time (ms)",
+      "dbProcTime": "DB processing Time (ms)",
+      "dbWpTime": "DB Waiting Time (ms)"
     },
     "s3": {
       "region": "Region",
