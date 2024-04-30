@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import IconButton from 'in-components/IconButton/IconButton';
+import { IconButton } from '@instana/components';
+
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

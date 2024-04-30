@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { ColumnizedContent, Li, Link, Ul } from '@instana/components';
+import { ColumnizedContent, Li, Link, Ul, IconButton } from '@instana/components';
 import { LogTag, TagFilter } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
@@ -42,7 +42,6 @@ import { columnDefinitions } from 'in-logging/analyze/AnalyzeView/components/Log
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
 import { logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
-import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import IconLink from 'in-components/IconButton/IconLink';
 import HealthDot from 'in-components/health/HealthDot';
