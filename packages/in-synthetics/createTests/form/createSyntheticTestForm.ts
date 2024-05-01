@@ -543,14 +543,19 @@ export function createAdvancedSSLCertificateConfigurationForm(savedState?: Recor
       'port',
       createField({
         value: savedState?.port ?? 443,
-        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0), checkForInvalidPort)
+        validator: composeAndShortCircuitOnError(
+          notBlankValidator,
+          numberValidator,
+          minValidator(1),
+          checkForInvalidPort
+        )
       })
     )
     .put(
       'daysRemainingCheck',
       createField({
         value: savedState?.daysRemainingCheck ?? '',
-        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+        validator: composeAndShortCircuitOnError(notBlankValidator, numberValidator, minValidator(0))
       })
     )
     .put(

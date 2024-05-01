@@ -148,6 +148,14 @@ const CreateSyntheticTestDialogPresenter = ({
       : undefined;
   };
 
+  const SSLCertificateErrorsExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
+    return syntheticTypeField.value === 'SSLCertificate'
+      ? (configForm.get('hostname') && !configForm.get('hostname').valid) ||
+          (configForm.get('port') && !configForm.get('port').valid) ||
+          (configForm.get('daysRemainingCheck') && !configForm.get('daysRemainingCheck').valid)
+      : undefined;
+  };
+
   const scriptErrorExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
     return syntheticTypeField.value === 'HTTPScript' ||
       syntheticTypeField.value === 'WebpageScript' ||
@@ -190,6 +198,8 @@ const CreateSyntheticTestDialogPresenter = ({
       HTTPActionErrorsExist(configForm, syntheticTypeField) ||
       // for HTTPScript, WebpageScript, and BrowserScript
       scriptErrorExist(configForm, syntheticTypeField) ||
+      // for SSL Certificate
+      SSLCertificateErrorsExist(configForm, syntheticTypeField) ||
       !syntheticTypeField.valid ||
       locationsField.value.length === 0 ||
       !frequencyField.valid ||

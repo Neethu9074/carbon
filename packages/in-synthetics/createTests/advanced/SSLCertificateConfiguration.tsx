@@ -23,6 +23,7 @@ import { minValidator } from 'in-services/validators/number';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label/Label';
+import { isBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
@@ -83,7 +84,9 @@ export default function SSLCertificateConfiguration({
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                 updateForm(
                   form.updateIn(['configuration', 'port'], (field: Item) =>
-                    (field as Field<number>).setValue(+target.value).setTouched(true)
+                    (field as Field<number | string>)
+                      .setValue(isBlank(target.value) || isNaN(+target.value) ? target.value : +target.value)
+                      .setTouched(true)
                   )
                 );
               }}
@@ -103,7 +106,9 @@ export default function SSLCertificateConfiguration({
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                 updateForm(
                   form.updateIn(['configuration', 'daysRemainingCheck'], (field: Item) =>
-                    (field as Field<number>).setValue(+target.value).setTouched(true)
+                    (field as Field<number | string>)
+                      .setValue(isBlank(target.value) || isNaN(+target.value) ? target.value : +target.value)
+                      .setTouched(true)
                   )
                 );
               }}
