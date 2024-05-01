@@ -119,7 +119,7 @@ export default function Summary({ test }: SummaryProps) {
   };
 
   const totalHits = resultList.data?.totalHits ?? 0;
-  if (totalHits === 0 && isSSLCertificate) {
+  if (!resultList.progress.loading && totalHits === 0 && isSSLCertificate) {
     return (
       <Message
         withIcon
