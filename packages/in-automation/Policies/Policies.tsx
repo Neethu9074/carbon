@@ -119,6 +119,8 @@ export default function Policies() {
         }
       : undefined;
 
+  const totalHits = result?.totalHits;
+
   return (
     <AutomationTabs>
       <ServerTablePresenter<PolicyTableEntity, ServerTablePresenterProps<PolicyTableEntity>>
@@ -127,7 +129,7 @@ export default function Policies() {
         page={actualPage}
         searchPlaceholder={t('in-automation:policies.searchPolicies')}
         onRowClick={item => navigateToPolicyDetails(item, false)}
-        cardTitle={t('in-automation:policies.policies')}
+        cardTitle={t('in-automation:policies.policiesWithCount', { count: totalHits })}
         rightHeader={
           <>
             {role?.canConfigureAutomationPolicies && (
