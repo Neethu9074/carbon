@@ -5,12 +5,14 @@
  */
 
 import {
+  AggregationType,
   AvailabilityBlueprintIndicator,
   CustomBlueprintIndicator,
   LatencyBlueprintIndicator,
   ServiceLevelIndicatorUnion
 } from '@instana/types';
-import { SloTimeWindowTypes } from 'in-service-levels/constants';
+
+import { SloTimeWindowTypes, timeAggregationOptions } from 'in-service-levels/constants';
 
 export type AggregatedServiceLevelIndicator = AvailabilityBlueprintIndicator | LatencyBlueprintIndicator;
 
@@ -38,9 +40,7 @@ export function isCustomBlueprintIndicator(
   return indicator.blueprint === 'custom';
 }
 
-export function isAvailableTimeWindowType(
-  timeWindowType: any
-): timeWindowType is AvailableTimeWindowTypes {
+export function isAvailableTimeWindowType(timeWindowType: any): timeWindowType is AvailableTimeWindowTypes {
   return timeWindowType && Object.values(SloTimeWindowTypes).includes(timeWindowType);
 }
 
@@ -52,3 +52,6 @@ export interface LabeledEntity {
 }
 
 export type SloBeaconTypes = 'httpRequest' | 'pageLoad' | 'custom';
+
+export type SloAggregationOptions = Record<AggregationType, string>;
+export type TimeAggregationOptions = keyof typeof timeAggregationOptions;
