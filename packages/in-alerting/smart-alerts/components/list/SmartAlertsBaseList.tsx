@@ -7,9 +7,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { ColumnizedContent, Li, Ul, Stack } from '@instana/components';
-import { create, just } from '@instana/observables';
+import { ColumnizedDefinition } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
+import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { create } from '@instana/observables';
 
 import {
   categoryGlobal,
@@ -18,16 +20,21 @@ import {
   isCategoryLocal
 } from 'in-alerting/smart-alerts/components/list/constants';
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
+import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
+import { SortOption } from 'in-components/SortingConfigurator/SortingConfigurator';
+import { hasError, isLoading, successObservable } from 'in-services/util/result';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { emptyArray, pendingResult } from 'in-services/fixedObjects';
-import { hasError, isLoading } from 'in-services/util/result';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { pendingResult } from 'in-services/fixedObjects';
+import { Error, OrderDirection, Result } from 'in-types';
+import { Location } from 'in-stores/navigation/types';
 import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
 import ListTitle from 'in-components/lists/Title';
@@ -37,7 +44,8 @@ import locals from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList
 
 const defaultPageSize = 15;
 
-const defaultState = {
+export type TableState = Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns' | 'pageSize'>;
+const defaultState: TableState = {
   orderBy: 'name',
   orderDirection: 'ASC',
   page: 1,
@@ -50,7 +58,28 @@ export function refreshSmartAlertConfigsList() {
   refreshSignal.emit(true);
 }
 
-export default function SmartAlertsBaseList({
+type AlertFetchFunction<AlertConfig extends AlertConfigType> = () => Observable<Result<AlertConfig[]>>;
+
+type ExtraSearchAttributes<AlertConfig extends AlertConfigType> = ((entity: AlertConfig) => string)[];
+
+export interface SmartAlertsBaseListProps<AlertConfig extends AlertConfigType> {
+  getLocalAlertConfigsFetchFunction: AlertFetchFunction<AlertConfig>;
+  getGlobalAlertConfigFetchFunction?: AlertFetchFunction<AlertConfig>;
+  getLocalAlertConfigTitle: (numberOfAlerts: number) => string;
+  getGlobalAlertConfigTitle?: (numberOfAlerts: number) => string;
+  columnDefinitions: ColumnizedDefinition[];
+  pageSize?: number;
+  createRowLinkLocation?: (config: AlertConfig, location: Location) => Location;
+  configsCategory?: 'global' | 'local';
+  setConfigsCategory?: (a: string) => void;
+  sortOptions: SortOption[];
+  extraSearchAttributes?: ExtraSearchAttributes<AlertConfig>;
+  onNoData?: () => void;
+  externalState: TableState;
+  setExternalState: (state: Partial<TableState>) => void;
+}
+
+export default function SmartAlertsBaseList<AlertConfig extends AlertConfigType>({
   onNoData,
   getGlobalAlertConfigFetchFunction,
   getLocalAlertConfigsFetchFunction,
@@ -64,9 +93,9 @@ export default function SmartAlertsBaseList({
   configsCategory = categoryLocal,
   setConfigsCategory,
   sortOptions,
-  extraSearchAttributes = emptyArray,
+  extraSearchAttributes = [],
   ...remainingProps
-}) {
+}: SmartAlertsBaseListProps<AlertConfig>) {
   const [{ orderBy, orderDirection, page, query }, setState] = useOptionalExternalState(
     externalState,
     setExternalState
@@ -113,7 +142,7 @@ export default function SmartAlertsBaseList({
   const until = offset + pageSize;
 
   const { location, createHref } = useNavigation();
-  const hasSingleCategory = !getGlobalAlertConfigFetchFunction;
+  const hasSingleCategory = !getGlobalAlertConfigFetchFunction || !setConfigsCategory || !getGlobalAlertConfigTitle;
   return (
     <>
       <ViewTrackingMeta
@@ -187,12 +216,12 @@ export default function SmartAlertsBaseList({
             })}
           {searchResultsSelected.length === 0 ? (
             loading ? (
-              <LoadingList numSkeletonRows="3" />
+              <LoadingList numSkeletonRows={3} />
             ) : (
               <SmartAlertsNoDataAvailable text={getNoAlertConfiguredLabel(query)} />
             )
           ) : null}
-          {hasError({ errors }) && <ErrorList className={locals.list} errors={errors} />}
+          {hasError({ errors } as Result<AlertConfig>) && <ErrorList className={locals.list} errors={errors} />}
         </Ul>
         <Pagination
           currentPage={page}
@@ -204,7 +233,17 @@ export default function SmartAlertsBaseList({
   );
 }
 
-function getSearchResults({ query, fetchedGlobalAlerts, fetchedLocalAlerts, extraSearchAttributes }) {
+function getSearchResults<AlertConfig extends AlertConfigType>({
+  query,
+  fetchedGlobalAlerts,
+  fetchedLocalAlerts,
+  extraSearchAttributes
+}: {
+  query: string;
+  fetchedGlobalAlerts: FetchedConfigs<AlertConfig>;
+  fetchedLocalAlerts: FetchedConfigs<AlertConfig>;
+  extraSearchAttributes: ExtraSearchAttributes<AlertConfig>;
+}) {
   const globalConfigs = fetchedGlobalAlerts.configs;
   const localConfigs = fetchedLocalAlerts.configs;
   const globalSearchResults = getResultsToDisplay(globalConfigs, query, extraSearchAttributes);
@@ -213,7 +252,15 @@ function getSearchResults({ query, fetchedGlobalAlerts, fetchedLocalAlerts, extr
   return { globalSearchResults, localSearchResults };
 }
 
-function getConfigByCategory({ configsCategory, fetchedGlobalAlerts, fetchedLocalAlerts }) {
+function getConfigByCategory<AlertConfig extends AlertConfigType>({
+  configsCategory,
+  fetchedGlobalAlerts,
+  fetchedLocalAlerts
+}: {
+  configsCategory: 'local' | 'global';
+  fetchedGlobalAlerts: FetchedConfigs<AlertConfig>;
+  fetchedLocalAlerts: FetchedConfigs<AlertConfig>;
+}): { configs: AlertConfig[]; loading: boolean; errors: Error[] } {
   if (isCategoryGlobal(configsCategory)) {
     return {
       configs: fetchedGlobalAlerts.configs,
@@ -233,11 +280,19 @@ function getConfigByCategory({ configsCategory, fetchedGlobalAlerts, fetchedLoca
   return { configs: [], loading: true, errors: [] };
 }
 
-function useSmartAlertConfigs(getAlertConfigFetchFunction = () => just([])) {
+type FetchedConfigs<AlertConfig extends AlertConfigType> = {
+  configs: AlertConfig[];
+  isLoading: boolean;
+  errors: Error[];
+};
+
+function useSmartAlertConfigs<AlertConfig extends AlertConfigType>(
+  getAlertConfigFetchFunction: AlertFetchFunction<AlertConfig> = () => successObservable<AlertConfig[]>([])
+): FetchedConfigs<AlertConfig> {
   const result =
     useObservable(() => {
       return refreshSignal.flatMap(getAlertConfigFetchFunction);
-    }, []) ?? pendingResult;
+    }, []) ?? (pendingResult as Result<AlertConfig[]>);
 
   return {
     configs: result?.data ?? [],
@@ -246,7 +301,15 @@ function useSmartAlertConfigs(getAlertConfigFetchFunction = () => just([])) {
   };
 }
 
-function useOnNoData({ fetchedGlobalAlerts, fetchedLocalAlerts, onNoData }) {
+function useOnNoData<AlertConfig extends AlertConfigType>({
+  fetchedGlobalAlerts,
+  fetchedLocalAlerts,
+  onNoData
+}: {
+  fetchedGlobalAlerts: FetchedConfigs<AlertConfig>;
+  fetchedLocalAlerts: FetchedConfigs<AlertConfig>;
+  onNoData?: () => void;
+}) {
   const numberGlobalSmartAlertConfigs = fetchedGlobalAlerts.configs?.length ?? 0;
   const numberLocalSmartAlertConfigs = fetchedLocalAlerts.configs?.length ?? 0;
   const isLoadingGlobalConfigs = fetchedGlobalAlerts.isLoading;
@@ -262,15 +325,15 @@ function useOnNoData({ fetchedGlobalAlerts, fetchedLocalAlerts, onNoData }) {
   }, [loadingFinished, hasNoConfigsForEveryCategory, onNoData]);
 }
 
-function sortBy(orderBy, orderDirection) {
-  return (a, b) => {
+function sortBy<AlertConfig extends AlertConfigType>(orderBy: string, orderDirection: OrderDirection) {
+  return (a: AlertConfig, b: AlertConfig) => {
     if (orderBy === 'name') {
       return orderDirection === 'ASC' ? compareIgnoreCase(a.name, b.name) : compareIgnoreCase(b.name, a.name);
     }
     if (orderBy === 'blueprint') {
       return orderDirection === 'ASC'
-        ? compareIgnoreCase(a.rule?.alertType, b.rule?.alertType)
-        : compareIgnoreCase(b.rule?.alertType, a.rule?.alertType);
+        ? compareIgnoreCase(a.rule?.alertType ?? '', b.rule?.alertType ?? '')
+        : compareIgnoreCase(b.rule?.alertType ?? '', a.rule?.alertType ?? '');
     }
     if (orderBy === 'severity') {
       return orderDirection === 'ASC' ? a.severity - b.severity : b.severity - a.severity;
@@ -282,27 +345,30 @@ function sortBy(orderBy, orderDirection) {
       return orderDirection === 'ASC' ? a.initialCreated - b.initialCreated : b.initialCreated - a.initialCreated;
     }
     if (orderBy === 'enabled') {
-      return orderDirection === 'ASC' ? b.enabled - a.enabled : a.enabled - b.enabled;
+      return orderDirection === 'ASC' ? Number(b.enabled) - Number(a.enabled) : Number(a.enabled) - Number(b.enabled);
     }
     if (orderBy === 'disabled') {
-      return orderDirection === 'ASC' ? a.enabled - b.enabled : b.enabled - a.enabled;
+      return orderDirection === 'ASC' ? Number(a.enabled) - Number(b.enabled) : Number(b.enabled) - Number(a.enabled);
     }
+    return orderDirection === 'ASC'
+      ? compareIgnoreCase(a.toString(), b.toString())
+      : compareIgnoreCase(b.toString(), a.toString());
   };
 }
 
-function getNoAlertConfiguredLabel(query) {
+function getNoAlertConfiguredLabel(query: string) {
   return query
     ? t('in-alerting:smartAlerts.titleNoSmartAlertsConfiguredForSearchQuery')
     : t('in-alerting:smartAlerts.titleNoSmartAlertsConfigured');
 }
 
-function useOptionalExternalState(externalState, setExternalState) {
+function useOptionalExternalState(externalState: TableState, setExternalState: (state: Partial<TableState>) => void) {
   const [state, defaultSetState] = useState(defaultState);
-  const setState = newState => defaultSetState({ ...state, ...newState });
+  const setState = (newState: Partial<TableState>) => defaultSetState({ ...state, ...newState });
   if (setExternalState) {
-    return [externalState, setExternalState];
+    return [externalState, setExternalState] as const;
   }
-  return [state, setState];
+  return [state, setState] as const;
 }
 
 SmartAlertsBaseList.propTypes = {
