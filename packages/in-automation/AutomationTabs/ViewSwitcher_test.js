@@ -1,0 +1,73 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import { render, fireEvent } from '@testing-library/react';
+import React from 'react';
+
+import * as NavigationHooks from 'in-stores/navigation/hooks/useNavigation';
+import { actionHistoryTracker } from 'in-automation/tracker';
+import ViewSwitcher from './ViewSwitcher';
+import { t } from 'in-i18n';
+
+jest.mock('in-i18n', () => ({
+  t: jest.fn(key => key)
+}));
+jest.mock('in-stores/navigation/hooks/useNavigation', () => ({
+  useNavigation: jest.fn()
+}));
+jest.mock('in-automation/tracker', () => ({
+  actionHistoryTracker: jest.fn()
+}));
+
+const role = {
+  canViewAutomationActionInstances: true
+};
+
+const mockMatchLocation = jest.fn();
+const mockCreateHrefToPath = jest.fn();
+
+beforeEach(() => {
+  // Reset all implementations
+  t.mockClear();
+  actionHistoryTracker.mockClear();
+  mockMatchLocation.mockReset();
+  mockCreateHrefToPath.mockReset();
+
+  // Setup default implementations
+  NavigationHooks.useNavigation.mockImplementation(() => ({
+    matchLocation: mockMatchLocation,
+    createHrefToPath: mockCreateHrefToPath
+  }));
+
+  // Example paths
+  mockMatchLocation.mockImplementation(path => path === 'expectedActivePath');
+  mockCreateHrefToPath.mockImplementation(path => `href-${path}`);
+});
+
+// Test cases
+describe('ViewSwitcher Component', () => {
+  test('renders correctly with initial props', () => {
+    const { getByText } = render(<ViewSwitcher />);
+    expect(getByText('in-automation:automation')).toBeInTheDocument();
+    expect(getByText('in-automation:ActionCatalog.actionCatalog')).toBeInTheDocument();
+    expect(getByText('in-automation:actionHistory.actionHistory')).toBeInTheDocument();
+    expect(getByText('in-automation:policies.policies')).toBeInTheDocument();
+  });
+
+  test('click on action history link triggers the history tracker', () => {
+    role.canViewAutomationActionInstances = true;
+    const { getByText } = render(<ViewSwitcher />);
+    const actionHistoryLink = getByText('in-automation:actionHistory.actionHistory');
+    fireEvent.click(actionHistoryLink);
+    expect(actionHistoryTracker).toHaveBeenCalled();
+  });
+
+  test('action history link not rendered for users without permission', () => {
+    role.canViewAutomationActionInstances = false;
+    const { queryByText } = render(<ViewSwitcher />);
+    expect(queryByText('Action History')).toBeNull();
+  });
+});
