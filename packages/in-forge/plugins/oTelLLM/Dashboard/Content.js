@@ -11,9 +11,9 @@ import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import TotalUsageBigNumber from 'in-forge/plugins/oTelLLM/Dashboard/TotalUsageBigNumber';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import TopListByModel from 'in-forge/plugins/oTelLLM/Dashboard/TopListByModel';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { days, hours, minutes, seconds } from 'in-services/time';
 import { number, millis } from 'in-services/formatters/number';
@@ -28,6 +28,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
   const costs = metricIds.filter(metric => metric.includes('llm.usage.cost')).toArray();
   const count = metricIds.filter(metric => metric.includes('llm.request.count')).toArray();
   const durations = metricIds.filter(metric => metric.includes('llm.response.duration')).toArray();
+  const getDashboardLink = useGetDashboardLink();
 
   const instanceId = snapshot.get('data').get('resource.service.instance.id');
 
@@ -197,7 +198,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
                 <Td>
                   <EntityLink
                     label={'Calls'}
-                    href$={getDashboardLink(snapshot.get('id'), {
+                    href={getDashboardLink(snapshot.get('id'), {
                       pathname: '#/analyze;dataSource=calls',
                       to: timeConfig.to,
                       focusedMoment: timeConfig.to

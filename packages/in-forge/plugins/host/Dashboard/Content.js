@@ -20,6 +20,7 @@ import AgentManagementButton from 'in-forge/plugins/host/Dashboard/AgentManageme
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -38,6 +39,7 @@ import locals from './Content.mless';
 
 export default function HostDashboard({ snapshot, timeConfig }) {
   const gpuInfoAvailable = snapshot.getIn(['data', 'gpu.count']);
+  const getDashboardLink = useGetDashboardLink();
   var memoryUsedMetrics = ['memory.used'];
   var memoryUsedMetricsLabels = [t('in-forge:plugins.host.dashboard.used')];
   if (isAixOs(snapshot)) {
@@ -336,7 +338,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             </div>
 
             <div>
-              <AgentManagementButton snapshot={snapshot} />
+              <AgentManagementButton snapshot={snapshot} getDashboardLink={getDashboardLink} />
             </div>
           </div>
         </DashboardSection>

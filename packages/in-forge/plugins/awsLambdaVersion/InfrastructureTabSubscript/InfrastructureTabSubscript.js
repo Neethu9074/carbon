@@ -10,7 +10,7 @@ import { Link } from '@instana/components';
 
 import getRegionForAwsLambdaVersion from 'in-subscription/getRegionForAwsLambdaVersion';
 import getLambdaFunctionForVersion from 'in-subscription/getLambdaFunctionForVersion';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { Trans, t } from 'in-i18n';
 
@@ -27,7 +27,7 @@ function InfrastructureTabSubscript({ snapshot, time }) {
   const snapshotId = snapshot.get('id');
   const awsLambdaFunctionSnapshotId = useObservable(getLambdaFunctionForVersionObservable, [snapshotId, time]);
   const regionSnapshotId = useObservable(getRegionForAwsLambdaVersionObservable, [snapshotId, time]);
-
+  const getDashboardLink = useGetDashboardLink();
   const versionLabel = snapshot.getIn(['data', 'version'], '$LATEST');
   const functionName = snapshot.getIn(['data', 'name'], '?');
   const region = snapshot.getIn(['data', 'aws_grouping_zone'], '?');
@@ -37,14 +37,11 @@ function InfrastructureTabSubscript({ snapshot, time }) {
     region,
     snapshotId,
     awsLambdaFunctionSnapshotId,
-    regionSnapshotId
+    regionSnapshotId,
+    getDashboardLink
   );
 
   return <div className={locals.infrastructureTabSubscript}>{subscriptText}</div>;
-}
-
-function subscriptLink(snapshotId) {
-  return getDashboardLink(snapshotId, { pathname: '/physical/dashboard' });
 }
 
 function getLambdaFunctionForVersionObservable([snapshotId, time]) {
@@ -67,21 +64,27 @@ function getRegionForAwsLambdaVersionObservable([snapshotId, time]) {
   );
 }
 
-function getSubscriptionText(verLabel, funcName, region, verId, funcId, regionId) {
+function getSubscriptionText(verLabel, funcName, region, verId, funcId, regionId, getDashboardLink) {
   let contextId = '';
   let components = {};
 
   if (verId) {
     contextId = 'VerId';
-    components.versionLink = <Link href={subscriptLink(verId)} className={locals.entityLink} />;
+    components.versionLink = (
+      <Link href={getDashboardLink(verId, { pathname: '/physical/dashboard' })} className={locals.entityLink} />
+    );
   }
   if (funcId) {
     contextId = contextId + 'FuncId';
-    components.functionLink = <Link href={subscriptLink(funcId)} className={locals.entityLink} />;
+    components.functionLink = (
+      <Link href={getDashboardLink(funcId, { pathname: '/physical/dashboard' })} className={locals.entityLink} />
+    );
   }
   if (regionId) {
     contextId = contextId + 'RegionId';
-    components.regionLink = <Link href={subscriptLink(regionId)} className={locals.entityLink} />;
+    components.regionLink = (
+      <Link href={getDashboardLink(regionId, { pathname: '/physical/dashboard' })} className={locals.entityLink} />
+    );
   }
 
   return verId || funcId || regionId ? (

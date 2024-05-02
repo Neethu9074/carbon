@@ -7,7 +7,6 @@ import React from 'react';
 
 import { Button } from '@instana/legacy';
 
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { isEntityOnline } from 'in-stores/snapshot';
@@ -19,7 +18,7 @@ export default connectTo(
   props => {
     return {
       isOnline: isEntityOnline(props.snapshot.get('id')),
-      href: getAgentSnapshotId(props.snapshot).flatMap(getDashboardLink)
+      href: getAgentSnapshotId(props.snapshot).flatMap(props.getDashboardLink)
     };
   },
   function EnableSelfMonitoringButton({ isOnline, href }) {

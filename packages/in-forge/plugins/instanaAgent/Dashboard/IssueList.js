@@ -10,7 +10,7 @@ import { Link } from '@instana/components';
 
 import getMonitoringIssuesForAgentSnapshot from 'in-subscription/getMonitoringIssuesForAgentSnapshot';
 import getIssueDefinitionForSnapshotAndCode from 'in-sdk/agentMonitoringIssueDefinition';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { formatDateTime } from 'in-services/formatters/date';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -23,6 +23,26 @@ import { t } from 'in-i18n';
 
 import locals from './IssueList.mless';
 
+const DashBoardLink = row => {
+  console.log('Render IssueList');
+
+  const getDashboardLink = useGetDashboardLink();
+  return getDashboardLink(row.key).map(href => {
+    const label = row.snapshot ? getLabel(row.snapshot) : `Unknown at ${formatDateTime(row.timestamp)}`;
+    return {
+      value: label,
+      content: (
+        <div className={locals.wrapper}>
+          {row.snapshot && <SvgIcon className={locals.icon} type={getIconType(row.snapshot)} />}
+          <Link href={href} className={locals.link}>
+            {label}
+          </Link>
+        </div>
+      )
+    };
+  });
+};
+
 const cols = [
   {
     title: t('in-forge:plugins.instanaAgent.dashboard.on'),
@@ -30,20 +50,7 @@ const cols = [
     typeArgs: {
       comparator: compareIgnoreCase,
       get$(row) {
-        return getDashboardLink(row.key).map(href => {
-          const label = row.snapshot ? getLabel(row.snapshot) : `Unknown at ${formatDateTime(row.timestamp)}`;
-          return {
-            value: label,
-            content: (
-              <div className={locals.wrapper}>
-                {row.snapshot && <SvgIcon className={locals.icon} type={getIconType(row.snapshot)} />}
-                <Link href={href} className={locals.link}>
-                  {label}
-                </Link>
-              </div>
-            )
-          };
-        });
+        return <DashBoardLink row={row} />;
       }
     }
   },
