@@ -35,6 +35,7 @@ import { startTimeTagName, testIdTagName, testResultIdTagName } from 'in-synthet
 import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
@@ -232,7 +233,9 @@ const AnalyzeView = () => {
                     <KpiCard
                       title={t('in-synthetics:dashboard.summary.isCertificateValid')}
                       value={
-                        get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.valid', 0, 1], 0) === 1
+                        !get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.valid', 0, 1])
+                          ? valueMissingPlaceholder
+                          : get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.valid', 0, 1]) === 1
                           ? t('in-synthetics:dashboard.summary.certificateValid')
                           : t('in-synthetics:dashboard.summary.certificateNotValid')
                       }
@@ -240,13 +243,14 @@ const AnalyzeView = () => {
                   </Col>
                 )}
               </Row>
-              {isSSLCertificate && (
-                <Row>
-                  <Col xs>
-                    <SSLCertificateDetails resultList={resultList} />
-                  </Col>
-                </Row>
-              )}
+              {isSSLCertificate &&
+                get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.valid', 0, 1]) && (
+                  <Row>
+                    <Col xs>
+                      <SSLCertificateDetails resultList={resultList} />
+                    </Col>
+                  </Row>
+                )}
               {getTestResultListStatus(resultList) !== 1 && (
                 <Row>
                   <Col xs>
