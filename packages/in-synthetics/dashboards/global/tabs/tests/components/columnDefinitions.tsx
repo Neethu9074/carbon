@@ -8,9 +8,8 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { LocationStatus, TestResultListItem, TimeConfig } from '@instana/types';
+import { Link, SvgIcon } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -33,7 +32,7 @@ import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
 
-interface testListProps extends ServerTablePresenterProps<TestResultListItem> {
+interface TestListProps extends ServerTablePresenterProps<TestResultListItem> {
   timeConfig: TimeConfig;
 }
 
@@ -136,7 +135,7 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
   );
 }
 
-let columnDefinitions: ColumnDefinition<TestResultListItem, testListProps>[] = [
+let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
   {
     id: 'test_name',
     defaultOrderDirection: 'ASC',

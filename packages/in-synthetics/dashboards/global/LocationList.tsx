@@ -62,6 +62,16 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 interface PresenterProps {
   locationTypes: string[];
+  isFilterAllowed: boolean;
+  setFilter: (change: Partial<{ locationTypes: string[] }>) => void;
+}
+
+function Filter({ locationTypes, isFilterAllowed, setFilter }: PresenterProps) {
+  if (!isFilterAllowed) {
+    return undefined;
+  } else {
+    return <Filters setFilter={setFilter} locationTypes={locationTypes} />;
+  }
 }
 
 export default function LocationList() {
@@ -69,13 +79,7 @@ export default function LocationList() {
   const [{ locationTypes }, setFilter] = useUrlState(urlStateDefinition);
 
   function useFilterHeader(isFilterAllowed: boolean) {
-    return function Filter({ locationTypes }: PresenterProps) {
-      if (!isFilterAllowed) {
-        return undefined;
-      } else {
-        return <Filters setFilter={setFilter} locationTypes={locationTypes} />;
-      }
-    };
+    return Filter({ locationTypes, isFilterAllowed, setFilter });
   }
 
   const rightHeader = useFilterHeader(true);

@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { dummyPoPProperties, PoPInstallationPropertiesResponse } from 'in-synthetics/utils/constants';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -38,7 +38,7 @@ export default function ViewSwitcher() {
     label: t('in-synthetics:dashboard.testList.mainLabel'),
     title: t('in-synthetics:dashboard.testList.mainLabel'),
     showHistoricDataWarning: false,
-    liveModeDisabled: isLocationsActive && true,
+    liveModeDisabled: isLocationsActive,
     liveModeDisabledTooltip: t('in-synthetics:dashboard.locationList.locationLiveModeDisabled')
   };
 

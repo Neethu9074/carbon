@@ -8,8 +8,7 @@ import React from 'react';
 
 import { LocationListItem, TimeConfig } from '@instana/types';
 import { formatDateTime } from '@instana/format-date';
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
 
 // @ts-expect-error Could not find declaration type
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
@@ -29,7 +28,7 @@ import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
 
-interface locationListProps extends ServerTablePresenterProps<LocationListItem> {
+interface LocationListProps extends ServerTablePresenterProps<LocationListItem> {
   timeConfig: TimeConfig;
   setReload: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -38,25 +37,7 @@ function LocationLabelContent({ item }: { item: LocationListItem }) {
   const entityHealthInfo = item.entityHealthInfo;
   const locationDescription = item.description ?? '';
 
-  return locationDescription === '' ? (
-    //If no PoP Sensor installed, Location Name is not clickable
-    entityHealthInfo === undefined ? (
-      <SeverityAwareEntityLink
-        severity={item.entityHealthInfo?.maxSeverity}
-        icon={'lib_synthetic_location'}
-        label={item.label}
-      />
-    ) : (
-      <SeverityAwareEntityLink
-        severity={item.entityHealthInfo?.maxSeverity}
-        icon={'lib_synthetic_location'}
-        label={item.label}
-        href$={getDashboardLink(item.popSnapshotId ?? '', {
-          pathname: physicalDashboardPath
-        })}
-      />
-    )
-  ) : entityHealthInfo === undefined ? (
+  return entityHealthInfo === undefined ? (
     <SeverityAwareEntityLink
       severity={item.entityHealthInfo?.maxSeverity}
       icon={'lib_synthetic_location'}
@@ -76,7 +57,7 @@ function LocationLabelContent({ item }: { item: LocationListItem }) {
   );
 }
 
-let columnDefinitions: ColumnDefinition<LocationListItem, locationListProps>[] = [
+let columnDefinitions: ColumnDefinition<LocationListItem, LocationListProps>[] = [
   {
     id: 'location_name',
     sortable: true,
