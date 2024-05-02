@@ -70,7 +70,7 @@ export interface SmartAlertsBaseListProps<AlertConfig extends AlertConfigType> {
   columnDefinitions: ColumnizedDefinition[];
   pageSize?: number;
   createRowLinkLocation?: (config: AlertConfig, location: Location) => Location;
-  configsCategory?: 'global' | 'local';
+  configsCategory?: typeof categoryLocal | typeof categoryGlobal;
   setConfigsCategory?: (a: string) => void;
   sortOptions: SortOption[];
   extraSearchAttributes?: ExtraSearchAttributes<AlertConfig>;
@@ -257,7 +257,7 @@ function getConfigByCategory<AlertConfig extends AlertConfigType>({
   fetchedGlobalAlerts,
   fetchedLocalAlerts
 }: {
-  configsCategory: 'local' | 'global';
+  configsCategory: typeof categoryLocal | typeof categoryGlobal;
   fetchedGlobalAlerts: FetchedConfigs<AlertConfig>;
   fetchedLocalAlerts: FetchedConfigs<AlertConfig>;
 }): { configs: AlertConfig[]; loading: boolean; errors: Error[] } {
