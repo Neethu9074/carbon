@@ -526,6 +526,10 @@
           "title": "Set a value for the violation threshold",
           "description": "Choose metric, violation threshold and time window to evaluate the violation."
         },
+        "timeThreshold": {
+          "title": "Set when violations trigger alerts",
+          "description": "Specify the alert and persistence type and then set the alert trigger."
+        },
         "staticOrAdaptive": {
           "config": {
             "adaptive": {
