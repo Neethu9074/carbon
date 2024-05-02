@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Spacer, Ul, Li, KeyValue } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Ul, Li, KeyValue, Toggle } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
@@ -71,7 +70,7 @@ function SettingsContent({
           inverted
         />
         <Spacer horizontal="xxsmall" />
-        <Toggle checked={selfTimeHighlighted} onChange={() => setSelfTimeHighlighted(!selfTimeHighlighted)} />
+        <Toggle checked={selfTimeHighlighted} onToggle={() => setSelfTimeHighlighted(!selfTimeHighlighted)} />
       </Li>
       <Li>
         <KeyValue value={t('in-profiling:cpuGraph')} label={t('in-profiling:showCpuOverTime')} accentuated inverted />

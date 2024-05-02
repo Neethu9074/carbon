@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Toggle } from '@instana/components';
 
 import { timeShifts, defaultTimeShift, previousHourTimeShift } from 'in-stores/time/shifting';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -108,9 +108,9 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
                 id={`metic-configurator-${index}-time-shift-comparison`}
                 checked={compareToTimeShiftedField.value}
                 disabled={disabled}
-                onChange={e =>
+                onToggle={e =>
                   onChange([axisName, 'metrics', indexInAxis, 'compareToTimeShifted'], field =>
-                    field.setValue(e.target.checked).setTouched(true)
+                    field.setValue(e).setTouched(true)
                   )
                 }
               />
