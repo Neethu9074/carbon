@@ -8,7 +8,6 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "Thanks for exploring Instana! You have reached the end of your trial and can no longer access the product."
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "Request a quote",
     "buyNowBtn": "Buy on AWS",
     "alreadyHaveLicense": "Already have a license? Activate it on <linkToDocker>Docker</linkToDocker> or <linkToKubernetes>Kubernetes</linkToKubernetes>.",
@@ -21,7 +20,6 @@
     }
   },
   "playwithinstana": {
-    "title": "Play with Instana",
     "content": "Ready to monitor your own environment",
     "bookdemo": " Book a demo",
     "freetrial": " Free trial",

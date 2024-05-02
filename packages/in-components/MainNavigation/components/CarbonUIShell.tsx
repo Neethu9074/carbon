@@ -459,11 +459,7 @@ function HeaderContent() {
   );
 }
 
-type CarbonUIShellProps = {
-  onViewSwitched: (e: React.MouseEvent<HTMLElement>, label: string) => void;
-};
-
-export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
+export default function CarbonUIShell() {
   const titleDetail = useUIShellTitleDetail();
   const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
   const { matchLocation, createHrefToPath } = useNavigation();
@@ -591,9 +587,8 @@ export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
         {releaseNotesEnabled && (
           <MenuItem
             id="main-nav-release-notes"
-            onClick={e => {
+            onClick={() => {
               showReleaseNotes();
-              onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes'));
             }}
             label={t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes')}
           />
@@ -612,9 +607,8 @@ export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
         />
         <MenuItem
           id="main-nav-about"
-          onClick={e => {
+          onClick={() => {
             addActiveDialog(<AboutInstanaDialog />);
-            onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelAboutInstana'));
           }}
           label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
         />
