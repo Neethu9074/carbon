@@ -3,6 +3,7 @@
 // define global vars for use in later stages
 def branchName          = env.BRANCH_NAME
 def isDeliveryBranch    = null
+def isLTSRBranch        = null
 def gitCommitId         = null
 def gitCommitAuthor     = null
 def gitCommitAuthorName = null
@@ -56,6 +57,7 @@ pipeline {
           }
 
           isDeliveryBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isDeliveryBranch.js") == 'true'
+          isLTSRBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isLTSRBranch.js") == 'true'
           latestReleaseBranch = getLatestReleaseBranch()
           instanaUiClientVersion = getVersion('ui-client', branchName)
           majorReleaseVersion = instanaUiClientVersion.tokenize('.')[1].toInteger()
@@ -142,8 +144,8 @@ pipeline {
           timeout(time: 45, unit: 'MINUTES') {
             timestamps {
               script {
-                if (isDeliveryBranch) {
-                  instanaImageVersion = sh(returnStdout: true, script: "ci-shared-tools component-versions get-instana-image-version ${branchName}").trim() + "-0"
+                if (isDeliveryBranch || isLTSRBranch) {
+                  instanaImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getInstanaImageVersion.js ${branchName}").trim() + "-0"
                   buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaUiClientVersion, instanaImageVersion)
                 }
               }
@@ -161,10 +163,14 @@ pipeline {
           timeout(time: 60, unit: 'MINUTES') {
             timestamps {
               script {
+                def path = "int-docker-backend-local"
+                if (isLTSRBranch) {
+                    path = "int-docker-backend-lts-local"
+                }
                 if (isDeliveryBranch) {
-                   backendRepoPath = "delivery.instana.io/int-docker-backend-local/backend"
+                   backendRepoPath = "delivery.instana.io/${path}/backend"
                 } else {
-                   backendRepoPath = "delivery.instana.io/int-docker-backend-local/backend/dev/${branchName}"
+                   backendRepoPath = "delivery.instana.io/${path}/backend/dev/${branchName}"
                 }
                 if (isDeliveryBranch) {
                   rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion, backendRepoPath)
