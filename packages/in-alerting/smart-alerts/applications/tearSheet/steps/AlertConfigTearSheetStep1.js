@@ -4,24 +4,22 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
-import classNames from 'classnames';
-
-import { Typography } from '@instana/components';
+import React from 'react';
 
 import {
   getSimpleModeBlueprintConfig,
   simpleModeBlueprintConfigs
 } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import ProvideLogMessage from 'in-alerting/smart-alerts/applications/tearSheet/components/LogMessages/ProvideLogMessage';
+import LogMessages from 'in-alerting/smart-alerts/applications/tearSheet/components/LogMessages/LogMessages';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
-import ProvideLogMessage from 'in-alerting/smart-alerts/applications/components/ProvideLogMessage';
 import ProvideStatusCode from 'in-alerting/smart-alerts/applications/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
+import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
-import IconButton from 'in-components/IconButton/IconButton';
 import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
@@ -39,16 +37,6 @@ export default function AlertConfigTearSheetStep1({ form, updateForm }) {
       ? simpleModeBlueprintConfigs
       : simpleModeBlueprintConfigs.filter(config => config.type !== 'logs');
 
-  const [slideInConfig, setSlideInConfig] = useState(null);
-  const [slideInViewVisible, setSlideInViewVisible] = useState(false);
-
-  const setSliderState = ({ slideInConfig, isVisible }) => {
-    if (slideInConfig) {
-      setSlideInConfig(slideInConfig);
-    }
-    setSlideInViewVisible(isVisible);
-  };
-
   return (
     <TearSheetStepContentWrapper headline={t('in-alerting:smartAlerts.applications.simple.simpleAlertStep1Headline')}>
       <div className={locals.container}>
@@ -65,38 +53,29 @@ export default function AlertConfigTearSheetStep1({ form, updateForm }) {
           alertType={alertType}
           renderLogs={() => (
             <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta}>
-              {!slideInViewVisible ? (
+              <ExpandableLightCard
+                title={t('in-alerting:smartAlerts.applications.logMessages.messageColumn')}
+                useMaxAvailableHeight={false}
+                openByDefault
+                darkFrame
+              >
+                <LogMessages
+                  form={form}
+                  updateForm={updateForm}
+                  timeConfig={{
+                    windowSize: alertingDialogItemPickerTimeframe
+                  }}
+                />
+
                 <ProvideLogMessage
                   form={form}
                   updateForm={updateForm}
-                  onSelectLogMessage={setSliderState}
                   mode="Simple"
                   timeConfig={{
                     windowSize: alertingDialogItemPickerTimeframe
                   }}
                 />
-              ) : (
-                <>
-                  <div
-                    className={classNames({
-                      [locals.header]: true
-                    })}
-                  >
-                    <span className={locals.titleContainer}>
-                      <IconButton
-                        iconSize="regular"
-                        type="lib_arrow_left"
-                        onClick={() => setSlideInViewVisible(false)}
-                        alignment="left"
-                      />
-                      <Typography variant="heading-200">
-                        {t('in-alerting:smartAlerts.applications.logMessages.selectLogMessageTitle')}
-                      </Typography>
-                    </span>
-                  </div>
-                  <div className={locals.slideIn}>{slideInConfig?.component}</div>
-                </>
-              )}
+              </ExpandableLightCard>
             </SelectedBlueprintPresenter>
           )}
           renderSlowness={() => <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta} />}
