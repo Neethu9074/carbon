@@ -35,13 +35,32 @@ export default function AlertingTearSheetSteps(props: {
             key={idx}
           >
             <Typography variant="body-regular">
-              <span className={locals.inline}>
+              <span
+                className={classNames({
+                  [locals.inline]: true,
+                  [locals.lightColor]: idx === step,
+                  [locals.color600]: idx !== step
+                })}
+              >
                 <span className={locals.index}>{`${idx + 1}.`} </span>
                 <Spacer horizontal="xsmall" />
                 {stepConfig.title}
               </span>
             </Typography>
-            {stepConfig.isOptional && <p className={locals.optional}>{t('in-alerting:components.optional')}</p>}
+            {stepConfig.isOptional && (
+              <span className={locals.optional}>
+                <Typography variant="body-small">
+                  <span
+                    className={classNames({
+                      [locals.lightColor]: idx === step,
+                      [locals.color600]: idx !== step
+                    })}
+                  >
+                    {t('in-alerting:components.optional')}
+                  </span>
+                </Typography>
+              </span>
+            )}
           </div>
 
           <div
