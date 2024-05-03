@@ -3,128 +3,125 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import { NumberInput } from '@instana/components';
+import { NumberInput, TextInput, PasswordInput, FormLabel, Stack, Form, Select } from '@instana/components';
 
-import ValidationBlock from 'in-components/form/ValidationBlock';
-import ComboBox from 'in-components/ComboBox/ComboBox';
 import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
-import Label from 'in-components/form/Label';
-import Input from 'in-components/form/Input';
 
 export default {
   component: FormGroup
 };
 
-export function InputStory() {
-  const p = { type: 'text', onChange: () => {} };
+function InputStory(size) {
+  const sz = size === 'sm' ? 'small' : 'default - medium';
+  const p = { onChange: () => {} };
   return (
-    <>
-      <h2>Carbon number input field</h2>
-      <FormGroup>
-        <NumberInput label="Field" size="sm" value={5} min={5} max={100} />
-      </FormGroup>
+    <div style={{ width: '50%' }}>
+      <h2 style={{ paddingBottom: '1rem' }}>{`Carbon input form - ${sz}`}</h2>
+      <Form>
+        <FormGroup>
+          <Stack gap="medium">
+            <NumberInput label="Number field" value={5} min={5} max={100} size={size} />
+            <TextInput {...p} labelText="Text field" placeholder="Some copy" size={size} />
+          </Stack>
+        </FormGroup>
 
-      <h2>Default-Prefilled</h2>
-      <FormGroup>
-        <Label>Field label</Label>
-        <Input {...p} placeholder="Some copy" />
-      </FormGroup>
+        <FormGroup>
+          <TextInput {...p} labelText="Another text field" value="Some copy" size={size} />
+        </FormGroup>
 
-      <h2>Default</h2>
-      <FormGroup>
-        <Label>Field label</Label>
-        <Input {...p} value="Some copy" />
-      </FormGroup>
+        <FormGroup>
+          <TextInput {...p} labelText="Focus here" value="Some copy" autoFocus size={size} />
+        </FormGroup>
 
-      <h2>Focus</h2>
-      <FormGroup>
-        <Label>Field label</Label>
-        <Input {...p} value="Some copy" autoFocus />
-      </FormGroup>
+        <FormGroup>
+          <FormLabel>The field below is read only</FormLabel>
+          <TextInput {...p} label="Info only" value="Some copy" readOnly size={size} />
+        </FormGroup>
 
-      <h2>Disabled</h2>
-      <FormGroup>
-        <Label disabled>Field label</Label>
-        <Input {...p} value="Some copy" disabled />
-      </FormGroup>
+        <FormGroup>
+          <FormLabel>The field below is disabled</FormLabel>
+          <TextInput {...p} label="Info only" value="Some copy" disabled size={size} />
+        </FormGroup>
 
-      <h2>Feedback</h2>
-      <FormGroup>
-        <Label>Field label</Label>
-        <Input {...p} value="Some copy" />
-        <ValidationBlock hasError>Error message</ValidationBlock>
-      </FormGroup>
-    </>
+        <FormGroup>
+          <FormLabel>Illustrate an error</FormLabel>
+          <PasswordInput
+            {...p}
+            labelText="Password field"
+            value="secret"
+            invalid
+            invalidText="Error message"
+            helperText="Follow password rules"
+            size={size}
+          />
+        </FormGroup>
+      </Form>
+    </div>
   );
+}
+
+export function InputStoryRegular() {
+  return InputStory('md');
+}
+
+export function InputStorySmall() {
+  return InputStory('sm');
 }
 
 export function SelectStory() {
   return (
-    <>
-      <h2>Default</h2>
-
-      <p>
+    <div style={{ width: '50%' }}>
+      <h2>Carbon select form</h2>
+      <p style={{ marginBottom: '1rem' }}>
         A plain HTML select box. This component is slowly being phased out. See
         <code>ComboBox</code> for a more modern equivalents.
       </p>
 
-      <FormGroup>
-        <Label>Field label</Label>
-        <Select onChange={() => {}} autoComplete="off">
-          <option value="foo">foo</option>
-          <option value="bar">bar</option>
-          <option value="baz">baz</option>
-        </Select>
-      </FormGroup>
+      <Form>
+        <Stack gap="large">
+          <FormGroup>
+            <Select labelText="Field label" noLabel={false} onChange={() => {}} autoComplete="off" carbonVariant>
+              <option value="foo">foo</option>
+              <option value="bar">bar</option>
+              <option value="baz">baz</option>
+            </Select>
+          </FormGroup>
 
-      <h2>Disabled</h2>
-      <FormGroup>
-        <Label>Field label</Label>
-        <Select disabled onChange={() => {}} autoComplete="off">
-          <option value="foo">foo</option>
-          <option value="bar">bar</option>
-          <option value="baz">baz</option>
-        </Select>
-      </FormGroup>
-    </>
-  );
-}
+          <FormGroup>
+            <FormLabel>Disabled</FormLabel>
+            <Select
+              labelText="Field label"
+              noLabel={false}
+              carbonVariant
+              disabled
+              onChange={() => {}}
+              autoComplete="off"
+            >
+              <option value="foo">foo</option>
+              <option value="bar">bar</option>
+              <option value="baz">baz</option>
+            </Select>
+          </FormGroup>
 
-export function ComboBoxStory() {
-  const [value, setValue] = useState(null);
-  const options = [
-    { value: 'foo', label: 'foo' },
-    { value: 'bar', label: 'bar' },
-    { value: 'baz', label: 'baz' }
-  ];
-
-  return (
-    <>
-      <h2>Default</h2>
-      <FormGroup>
-        <Label>Field label</Label>
-        <ComboBox
-          value={value}
-          options={options}
-          onChange={e => (e ? setValue(e.value) : setValue(null))}
-          placeholder="Type…"
-        />
-      </FormGroup>
-
-      <h2>Disabled</h2>
-      <FormGroup>
-        <Label>Field label</Label>
-        <ComboBox
-          disabled
-          value={value}
-          options={options}
-          onChange={e => (e ? setValue(e.value) : setValue(null))}
-          placeholder="Type…"
-        />
-      </FormGroup>
-    </>
+          <FormGroup>
+            <FormLabel>Read only</FormLabel>
+            <Select
+              carbonVariant
+              labelText="Field label"
+              noLabel={false}
+              readOnly
+              onChange={() => {}}
+              autoComplete="off"
+            >
+              <option value="foo">foo</option>
+              <option value="bar">bar</option>
+              <option value="baz">baz</option>
+            </Select>
+          </FormGroup>
+        </Stack>
+      </Form>
+    </div>
   );
 }
