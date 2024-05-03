@@ -10,9 +10,19 @@
     padding: 0.625rem 1rem;
     .ellipsis();
     position: relative;
-    background: var(--ids-color-option-white);
     border-radius: var(--ids-border-radius-option-large);
-    box-shadow: var(--ids-shadow-option-subtle);
+  }
+
+  .kpibody {
+    padding: 0;
+  }
+
+  .kpiheader {
+    padding: 0;
+  }
+
+  :global(.cds--tile) {
+    border-radius: 0;
   }
 
   .borderless {
@@ -40,7 +50,7 @@
     justify-content: space-between;
     align-items: center;
 
-    min-height: 1.75rem;
+    min-height: 1.9rem;
 
     color: var(--ids-color-option-neutral-700);
     font-size: 1rem;
