@@ -28,7 +28,7 @@ import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPres
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { default as TagLabel } from 'in-infrastructure/Explore/components/TagLabel';
 import { default as TagValue } from 'in-infrastructure/Explore/components/TagValue';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
@@ -290,38 +290,49 @@ function getTableData({
     missingPlaceholder: tag_not_present_group
   });
 }
+const DashboardLink = ({ item, isPreview, timeConfig, onNavigateToEntity }) => {
+  const time = item.time < timeConfig.to ? item.time : undefined;
+  const getDashboardLink = useGetDashboardLink();
+  return (
+    <SeverityIndicatorCellContentWrapper severity={item.entityHealthInfo?.maxSeverity}>
+      <div className={locals.entityLink}>
+        <EntityLink
+          label={item.label}
+          plugin={item.plugin}
+          href={
+            isPreview
+              ? undefined
+              : getDashboardLink(item.snapshotId, {
+                  pathname: '/physical/dashboard',
+                  to: time,
+                  focusedMoment: time
+                })
+          }
+          onClick={
+            isPreview
+              ? noop
+              : () => {
+                  onNavigateToEntity?.(item.plugin);
+                }
+          }
+        />
+      </div>
+    </SeverityIndicatorCellContentWrapper>
+  );
+};
 
 function getLabelColumn(onNavigateToEntity, isPreview, timeConfig) {
   return {
     id: 'label',
     label: t('in-infrastructure:explore.name'),
     getContent(item) {
-      const time = item.time < timeConfig.to ? item.time : undefined;
       return (
-        <SeverityIndicatorCellContentWrapper severity={item.entityHealthInfo?.maxSeverity}>
-          <div className={locals.entityLink}>
-            <EntityLink
-              label={item.label}
-              plugin={item.plugin}
-              href$={
-                isPreview
-                  ? undefined
-                  : getDashboardLink(item.snapshotId, {
-                      pathname: '/physical/dashboard',
-                      to: time,
-                      focusedMoment: time
-                    })
-              }
-              onClick={
-                isPreview
-                  ? noop
-                  : () => {
-                      onNavigateToEntity?.(item.plugin);
-                    }
-              }
-            />
-          </div>
-        </SeverityIndicatorCellContentWrapper>
+        <DashboardLink
+          item={item}
+          isPreview={isPreview}
+          timeConfig={timeConfig}
+          onNavigateToEntity={onNavigateToEntity}
+        />
       );
     }
   };

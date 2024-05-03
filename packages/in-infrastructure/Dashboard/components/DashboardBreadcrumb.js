@@ -8,7 +8,7 @@ import React from 'react';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import PhysicalHierarchyBreadcrumb from 'in-infrastructure/Dashboard/components/PhysicalHierarchyBreadcrumb';
 import CollapsedEntitiesBreadcrumb from 'in-infrastructure/Dashboard/components/CollapsedEntitiesBreadcrumb';
-import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { selectedSnapshotId$, getPhysicalHierarchy } from 'in-stores/snapshot';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
@@ -29,16 +29,16 @@ export default connectTo(
       return _physicalHierarchy;
     }),
     selectedSnapshotId: selectedSnapshotId$,
-    closeDashboardLink: getCloseDashboardLink(),
     agent: isInternalVisible$
       .flatMap(enabled => (enabled ? getAgentSnapshotId(props.snapshot) : alwaysNull))
       // get snapshot to ensure that the agent snapshot can be found
       .flatMap(snapshotId => (snapshotId ? getSnapshot(snapshotId) : alwaysNull))
   }),
-  function DashboardBreadcrumb({ physicalHierarchy, selectedSnapshotId, snapshotId, closeDashboardLink, agent }) {
+  function DashboardBreadcrumb({ physicalHierarchy, selectedSnapshotId, snapshotId, agent }) {
+    const getCloseDashboardLink = useGetCloseDashboardLink();
     const homeBreadcrumb = (
-      <Breadcrumb className={locals.homeBreadcrumb} href={closeDashboardLink}>
-        {getHomeBreadcrumb(closeDashboardLink)}
+      <Breadcrumb className={locals.homeBreadcrumb} href={getCloseDashboardLink}>
+        {getHomeBreadcrumb(getCloseDashboardLink)}
       </Breadcrumb>
     );
 
