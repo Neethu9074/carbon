@@ -14,6 +14,8 @@ export const PER_AP_ENDPOINT: AlertEvaluationType = 'PER_AP_ENDPOINT';
 export type Info = {
   selectionText: string;
   globalSelectionText: string;
+  tearSheetSelectionText: string;
+  tearSheetDescription: string;
   columnText: string;
   shortText: string;
   description: string;
@@ -31,6 +33,12 @@ const alertEvaluationTypes: AlertEvaluationInfos = Object.freeze({
     globalSelectionText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.globalSelectionText'
     ),
+    tearSheetSelectionText: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.tearSheetSelectionText'
+    ),
+    tearSheetDescription: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.tearSheetDescription'
+    ),
     enabledForAdaptiveThreshold: true,
     columnText: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.columnText'),
     shortText: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.shortText'),
@@ -45,6 +53,12 @@ const alertEvaluationTypes: AlertEvaluationInfos = Object.freeze({
     ),
     globalSelectionText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.globalSelectionText'
+    ),
+    tearSheetSelectionText: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.tearSheetSelectionText'
+    ),
+    tearSheetDescription: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.tearSheetDescription'
     ),
     enabledForAdaptiveThreshold: true,
     columnText: t(
@@ -64,6 +78,12 @@ const alertEvaluationTypes: AlertEvaluationInfos = Object.freeze({
     ),
     globalSelectionText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.globalSelectionText'
+    ),
+    tearSheetSelectionText: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.tearSheetSelectionText'
+    ),
+    tearSheetDescription: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.tearSheetDescription'
     ),
     enabledForAdaptiveThreshold: perEndpointAdaptiveBaselineEnabled,
     columnText: t(

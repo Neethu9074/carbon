@@ -161,7 +161,9 @@
             "shortText": "Per Application Perspective",
             "columnText": "aggregated",
             "description": "Alert individually for this Application Perspective",
-            "globalDescription": "Alert individually per Application Perspective"
+            "globalDescription": "Alert individually per Application Perspective",
+            "tearSheetSelectionText": "Group by application",
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of one group. When there is a violation, a single alert notification gets sent for this entire application perspective. "
           },
           "evaluationTypePERAPSERVICE": {
             "selectionText": "per Service for this Application Perspective",
@@ -169,7 +171,9 @@
             "shortText": "Per Service",
             "columnText": "per Service",
             "description": "Alert individually per Service for this Application Perspective",
-            "globalDescription": "Alert individually per Service in the context of each Application Perspective"
+            "globalDescription": "Alert individually per Service in the context of each Application Perspective",
+            "tearSheetSelectionText": "Group by service",
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of 8 groups - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group."
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "per Endpoint for this Application Perspective",
@@ -177,7 +181,9 @@
             "shortText": "Per Endpoint",
             "columnText": "per Endpoint",
             "description": "Alert individually per Endpoint for this Application Perspective",
-            "globalDescription": "Alert individually per Endpoint in the context of each Application Perspective"
+            "globalDescription": "Alert individually per Endpoint in the context of each Application Perspective",
+            "tearSheetSelectionText": "Group by endpoint",
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of 47 groups - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group."
           }
         },
         "inboundOutboundCalls": {
@@ -485,8 +491,13 @@
       "tearSheet": {
         "step1Title": "Pick a template",
         "step2Title": "Define the scope",
-        "step3Title": "Define when to get alerted",
-        "step4Title": "Define alert properties and channels",
+        "step3Title": "Define grouping",
+        "step4Title": "Define when to get alerted",
+        "step5Title": "Define alert properties and channels",
+        "grouping": {
+          "title": "Group calls",
+          "description": "Calls in each group are evaluated separately"
+        },
         "callsInScope": {
           "title": "Choose calls in scope ",
           "description": "This determines which services or endpoints are available for selection."

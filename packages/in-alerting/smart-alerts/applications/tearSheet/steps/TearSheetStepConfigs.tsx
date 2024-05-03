@@ -8,6 +8,8 @@ import React from 'react';
 
 //@ts-expect-error TS migration
 import AlertConfigTearSheetStep4 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep4';
+//@ts-expect-error TS migration
+import AlertConfigTearSheetStep3 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep3';
 //@ts-expect-error
 import AlertConfigTearSheetStep1 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep1';
 import { AlertConfigTearSheetWithThresholdProps } from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheetWithThreshold';
@@ -36,6 +38,11 @@ export const stepConfigs = [
     title: t('in-alerting:smartAlerts.applications.tearSheet.step4Title'),
     validateIntermediately: [],
     isOptional: true
+  },
+  {
+    title: t('in-alerting:smartAlerts.applications.tearSheet.step5Title'),
+    validateIntermediately: [],
+    isOptional: true
   }
 ];
 
@@ -52,15 +59,19 @@ export const getStepRenderers = (props: AlertConfigTearSheetWithThresholdProps) 
   ),
   () => (
     <AlertingTearSheetContent title={stepConfigs[2].title}>
-      <AlertConfigTearSheetStep4 {...props} />
+      <AlertConfigTearSheetStep3 {...props} />
     </AlertingTearSheetContent>
   ),
   () => (
     <AlertingTearSheetContent title={stepConfigs[3].title}>
-      <AlertConfigTearSheetStep5 {...props} />
+      <AlertConfigTearSheetStep4 {...props} />
     </AlertingTearSheetContent>
   ),
-  () => <AlertingTearSheetContent title={stepConfigs[4].title}>{''}</AlertingTearSheetContent>
+  () => (
+    <AlertingTearSheetContent title={stepConfigs[4].title}>
+      <AlertConfigTearSheetStep5 {...props} />
+    </AlertingTearSheetContent>
+  )
 ];
 
 export const getFooterActions = (
