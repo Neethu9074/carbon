@@ -569,5 +569,10 @@ module.exports = exports = [
     uiClientKey: 'orbitalEnabled',
     instanaCtlKey: 'feature.orbital.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonTileEnabled',
+    instanaCtlKey: 'feature.carbon.tile.enabled',
+    defaultValue: false
   }
 ];
