@@ -6,6 +6,8 @@
 import { Item } from 'formalistic';
 import React from 'react';
 
+import { Form as BaseForm } from '@instana/components';
+
 import { FormContext } from 'in-components/form/binding/FormContext';
 
 interface FormProps {
@@ -36,10 +38,10 @@ export default function Form({
         disabled
       }}
     >
-      <form
+      <BaseForm
         id={formId}
         aria-label={ariaLabel}
-        onSubmit={event => {
+        onSubmit={(event: Event) => {
           event.preventDefault();
           event.stopPropagation();
 
@@ -52,7 +54,7 @@ export default function Form({
         }}
       >
         {children}
-      </form>
+      </BaseForm>
     </FormContext.Provider>
   );
 }
