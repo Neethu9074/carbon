@@ -7,7 +7,7 @@
 :local {
   .thresholdConditionItem {
     display: grid;
-    grid-column-gap: 0.5rem;
+    grid-column-gap: 2rem;
     grid-row-gap: 0.5rem;
     align-items: center;
     justify-items: start;
@@ -36,7 +36,7 @@
   }
 
   .displayInTwoColumns {
-    grid-template-columns: 10% 40%;
+    grid-template-columns: 10% 90%;
   }
 
   .icon {

@@ -20,6 +20,7 @@ import ResponseSize from 'in-synthetics/dashboards/summary/tabs/summary/componen
 import Failures from 'in-synthetics/dashboards/summary/tabs/summary/components/Failures';
 import { bytes, meanLatency, number, percentage } from 'in-services/formatters/number';
 import { TestResponse, dummyTestResultList } from 'in-synthetics/utils/constants';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -89,13 +90,18 @@ export default function Summary({ test }: SummaryProps) {
 
   const getSSLCertificateKPICards = () => {
     const resultListItem = resultList.data?.items[0];
+    const daysRemaining = get(resultListItem, ['metrics', 'synthetic.customMetrics.daysRemaining', 0, 1]);
+    const expDate = get(resultListItem, ['metrics', 'synthetic.customMetrics.validTo', 0, 1]);
+
     return (
       <Row>
         <Col xs>
           <KpiCard
             title={t('in-synthetics:dashboard.summary.isCertificateValid')}
             value={
-              get(resultListItem, ['metrics', 'synthetic.customMetrics.valid', 0, 1], 0) === 1
+              !daysRemaining
+                ? valueMissingPlaceholder
+                : get(resultListItem, ['metrics', 'synthetic.customMetrics.valid', 0, 1]) === 1
                 ? t('in-synthetics:dashboard.summary.certificateValid')
                 : t('in-synthetics:dashboard.summary.certificateNotValid')
             }
@@ -104,22 +110,29 @@ export default function Summary({ test }: SummaryProps) {
         <Col xs>
           <KpiCard
             title={t('in-synthetics:dashboard.summary.daysRemaining')}
-            value={get(resultListItem, ['metrics', 'synthetic.customMetrics.daysRemaining', 0, 1], 0)}
+            value={daysRemaining ?? valueMissingPlaceholder}
           />
         </Col>
-        <Col xs>
-          <KpiCard
-            title={t('in-synthetics:dashboard.summary.dateOfExpiry')}
-            value={get(resultListItem, ['metrics', 'synthetic.customMetrics.validTo', 0, 1], 0)}
-            renderValue={formatDate}
-          />
-        </Col>
+        {daysRemaining && (
+          <Col xs>
+            <KpiCard
+              title={t('in-synthetics:dashboard.summary.dateOfExpiry')}
+              value={expDate}
+              renderValue={formatDate}
+            />
+          </Col>
+        )}
+        {!daysRemaining && (
+          <Col xs>
+            <KpiCard title={t('in-synthetics:dashboard.summary.dateOfExpiry')} value={valueMissingPlaceholder} />
+          </Col>
+        )}
       </Row>
     );
   };
 
   const totalHits = resultList.data?.totalHits ?? 0;
-  if (totalHits === 0 && isSSLCertificate) {
+  if (!resultList.progress.loading && totalHits === 0 && isSSLCertificate) {
     return (
       <Message
         withIcon

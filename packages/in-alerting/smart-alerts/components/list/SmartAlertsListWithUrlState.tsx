@@ -5,11 +5,15 @@
 
 import React from 'react';
 
-import SmartAlertsBaseList from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
+import SmartAlertsBaseList, {
+  SmartAlertsBaseListProps,
+  TableState
+} from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
+import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
-import useUrlState from 'in-hooks/useUrlState';
+import useUrlState, { Options } from 'in-hooks/useUrlState';
 
-const urlStateDefinition = alertsTab => {
+const urlStateDefinition = (alertsTab: string): Options<TableState> => {
   return {
     bind: [
       {
@@ -56,7 +60,9 @@ const urlStateDefinition = alertsTab => {
   };
 };
 
-export default function SmartAlertsListWithUrlState(props) {
+export default function SmartAlertsListWithUrlState<AlertConfig extends AlertConfigType>(
+  props: Omit<SmartAlertsBaseListProps<AlertConfig>, 'externalState' | 'setExternalState'> & { alertsTab: string }
+) {
   const [state, setState] = useUrlState(urlStateDefinition(props.alertsTab));
 
   return <SmartAlertsBaseList {...props} externalState={state} setExternalState={setState} />;

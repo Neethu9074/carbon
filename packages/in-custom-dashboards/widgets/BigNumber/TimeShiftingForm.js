@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Toggle } from '@instana/components';
 
 import ComparisonColorSelect from 'in-custom-dashboards/widgets/BigNumber/ComparisonColorSelect';
 import { timeShifts, defaultTimeShift, previousHourTimeShift } from 'in-stores/time/shifting';
@@ -32,9 +31,9 @@ export default function TimeShiftingForm({ form, onChange }) {
           <Toggle
             id="metric-configurator-time-shift-enabler"
             checked={isEnabled}
-            onChange={e => {
+            onToggle={e => {
               let newOffset = defaultTimeShift.offset;
-              if (e.target.checked) {
+              if (e) {
                 newOffset = previousHourTimeShift.offset;
               }
               onChange(['metricConfiguration', 'timeShift'], field => field.setValue(newOffset).setTouched(true));

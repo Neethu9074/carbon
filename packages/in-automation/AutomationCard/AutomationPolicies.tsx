@@ -487,6 +487,8 @@ export default function AutomationPolicies({ event, volatileId, actions, trigger
     policies: filteredPolicies
   });
 
+  const totalHits = paginatedPolicies?.data?.totalHits;
+
   const columnDefinitionsToShow = [...columnDefinitions];
   if (role?.canRunAutomationActions) {
     columnDefinitionsToShow.push(getExecuteColumn(volatileId, event));
@@ -500,7 +502,11 @@ export default function AutomationPolicies({ event, volatileId, actions, trigger
     <ServerTablePresenter<Policy, ServerTablePresenterProps<Policy>>
       columnDefinitions={columnDefinitionsToShow}
       fixedLayout
-      leftHeader={<Typography variant="heading-300">{t('in-automation:automationPolicies')}</Typography>}
+      leftHeader={
+        <Typography variant="heading-300">
+          {t('in-automation:automationPoliciesWithCount', { count: totalHits })}
+        </Typography>
+      }
       onChange={setServerTableUrlState}
       onRowClick={policy => navigateToPolicyDetails(policy)}
       orderBy={orderBy}

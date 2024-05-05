@@ -45,8 +45,6 @@ export default function LogHealthColumn({ tags, onSelectTagHref }: Props) {
       {
         <Pill
           className={carbonPillEnabled ? locals.pill : locals.pill + ' ' + locals.pillExtaMargin}
-          // @ts-expect-error the type definition in ui-foundation is not correct,
-          // yellow is not accepted since 3.x
           type={color}
           lightenOpacity={0}
         >

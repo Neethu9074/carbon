@@ -10,7 +10,7 @@ import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/Alerts
 export default function getResultsToDisplay<AlertConfig extends AlertConfigType>(
   configs: AlertConfig[],
   query: string,
-  extraSearchAttributes: [(config: AlertConfig) => string]
+  extraSearchAttributes: ((config: AlertConfig) => string)[]
 ) {
   const getConfigName = (config: AlertConfig) => config.name;
   const getDescription = (config: AlertConfig) => config.description;

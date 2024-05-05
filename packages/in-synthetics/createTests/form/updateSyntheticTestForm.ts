@@ -380,19 +380,19 @@ function createAdvancedBrowserActionConfigurationForm(configuration: Record<stri
   }
 }
 
-function createAdvancedSSLCertificateConfigurationForm(savedState?: Record<string, any>) {
-  return createMapForm()
+function createAdvancedSSLCertificateConfigurationForm(configuration?: Record<string, any>) {
+  const sslConfig = createMapForm()
     .put(
       'syntheticType',
       createField({
-        value: savedState?.syntheticType,
+        value: configuration?.syntheticType,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(
       'hostname',
       createField({
-        value: savedState?.hostname,
+        value: configuration?.hostname,
         validator: composeAndShortCircuitOnError(
           notUndefinedValidator,
           stringValidator,
@@ -404,29 +404,46 @@ function createAdvancedSSLCertificateConfigurationForm(savedState?: Record<strin
     .put(
       'port',
       createField({
-        value: savedState?.port,
-        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0), checkForInvalidPort)
+        value: configuration?.port,
+        validator: composeAndShortCircuitOnError(
+          notBlankValidator,
+          numberValidator,
+          minValidator(1),
+          checkForInvalidPort
+        )
       })
     )
     .put(
       'daysRemainingCheck',
       createField({
-        value: savedState?.daysRemainingCheck,
-        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+        value: configuration?.daysRemainingCheck,
+        validator: composeAndShortCircuitOnError(notBlankValidator, numberValidator, minValidator(0))
       })
     )
     .put(
       'timeout',
       createField({
-        value: savedState?.timeout,
+        value: configuration?.timeout,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(
       'retries',
       createField({
-        value: savedState?.retries,
+        value: configuration?.retries,
         validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
       })
     );
+
+  if (configuration?.retryInterval) {
+    return sslConfig.put(
+      'retryInterval',
+      createField({
+        value: configuration?.retryInterval,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(1))
+      })
+    );
+  } else {
+    return sslConfig;
+  }
 }

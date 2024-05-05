@@ -22,6 +22,7 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import useNavigateToActionDetails from 'in-automation/ActionCatalog/useNavigateToActionDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
+import { createPolicyFromRecommendedActionsTracker } from 'in-automation/tracker';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
@@ -36,7 +37,6 @@ import { ScoredAction, saveNewPolicy } from 'in-automation/api';
 import { isExternal } from 'in-automation/ActionCatalog/shared';
 import { Action, VolatileId, Event, Result } from 'in-types';
 import IconButton from 'in-components/IconButton/IconButton';
-import { createPolicyTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { mapData } from 'in-services/util/result';
 import { role } from 'in-stores/user';
@@ -76,7 +76,7 @@ function onCreate(event: Event, action: Action, setActiveKey: SetActiveKey) {
   saveNewPolicy(policy).once(
     () => {
       onCreateSuccess(policy.name);
-      createPolicyTracker({
+      createPolicyFromRecommendedActionsTracker({
         name: policy.name,
         triggerName: event.problem?.problemText,
         actionName: action.name,
@@ -121,7 +121,7 @@ const getActionColumn = (
     }
     if (!role?.canConfigureAutomationPolicies || isExternal(action.type)) return null;
     return (
-      <Tooltip content={t('in-automation:associateActionWithName', { actionName: action.name })} delay={500}>
+      <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
         <IconButton
           kind="primaryv2"
           type="lib_openclose_add_circle_outline"
@@ -179,13 +179,18 @@ export default function RecommendedActions({
     setServerTableUrlState
   });
 
+  const totalHits = result?.data?.totalHits;
   const navigateToActionDetails = useNavigateToActionDetails();
 
   return (
     <ServerTablePresenter<ScoredAction, ServerTablePresenterProps<ScoredAction>>
       columnDefinitions={[...columnDefinitions, getActionColumn(volatileId, event, setActiveKey)]}
       fixedLayout
-      leftHeader={<Typography variant="heading-300">{t('in-automation:recommendedActions')}</Typography>}
+      leftHeader={
+        <Typography variant="heading-300">
+          {t('in-automation:recommendedActionsWithCount', { count: totalHits })}
+        </Typography>
+      }
       onChange={setServerTableUrlState}
       onRowClick={action => {
         if (isExternal(action.type)) {

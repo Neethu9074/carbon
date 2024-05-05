@@ -5,10 +5,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import { Spacer } from '@instana/components';
-import { Select } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Toggle, Select} from '@instana/components';
 
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -83,7 +80,7 @@ export default function GroupingConfiguration({
                       className={locals.toggle}
                       id="select-top-groups-display-sum-others"
                       checked={grouping.includeOthers}
-                      onChange={e => onIncludeOthersChange(e.target.checked)}
+                      onToggle={e => onIncludeOthersChange(e)}
                     />
                     <Spacer horizontal="xxsmall" />
                     {t('in-custom-dashboards:widgets.metricConfig.groupingConfig.showRemainingGroupsAggregOther')}

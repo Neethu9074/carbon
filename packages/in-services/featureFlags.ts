@@ -46,7 +46,6 @@ export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
-export const carbonShellEnabled = isFeatureFlagEnabled('carbonShellEnabled');
 export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const carbonMessageEnabled = isFeatureFlagEnabled('carbonMessageEnabled');
 export const carbonIconButtonEnabled = isFeatureFlagEnabled('carbonIconButtonEnabled');
@@ -56,6 +55,7 @@ export const carbonContentSwitcherEnabled = isFeatureFlagEnabled('carbonContentS
 export const carbonTextAreaEnabled = isFeatureFlagEnabled('carbonTextAreaEnabled');
 export const carbonTabsEnabled = isFeatureFlagEnabled('carbonTabsEnabled');
 export const carbonButtonEnabled = isFeatureFlagEnabled('carbonButtonEnabled', false);
+export const carbonTileEnabled = isFeatureFlagEnabled('carbonTileEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');

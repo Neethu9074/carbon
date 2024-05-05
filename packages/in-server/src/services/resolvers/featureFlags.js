@@ -476,11 +476,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonShellEnabled',
-    instanaCtlKey: 'feature.carbon.shell.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonContentSwitcherEnabled',
     instanaCtlKey: 'feature.carbon.content.switcher.enabled',
     defaultValue: false
@@ -578,6 +573,11 @@ module.exports = exports = [
   {
     uiClientKey: 'orbitalEnabled',
     instanaCtlKey: 'feature.orbital.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonTileEnabled',
+    instanaCtlKey: 'feature.carbon.tile.enabled',
     defaultValue: false
   }
 ];

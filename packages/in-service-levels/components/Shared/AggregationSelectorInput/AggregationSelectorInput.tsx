@@ -10,15 +10,18 @@ import { AggregationType } from '@instana/types';
 import { Select } from '@instana/components';
 
 import { timeAggregationOptions } from 'in-service-levels/constants';
+import { TimeAggregationOptions } from 'in-service-levels/types';
 
 interface AggregationSelectorInputProps {
   disabled?: boolean;
   hasError?: boolean;
   handleChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   value: AggregationType;
+  availableOptions: TimeAggregationOptions[];
 }
 
 export default function AggregationSelectorInput({
+  availableOptions,
   disabled = false,
   hasError = false,
   value,
@@ -26,11 +29,14 @@ export default function AggregationSelectorInput({
 }: AggregationSelectorInputProps) {
   return (
     <Select disabled={disabled} hasError={hasError} onChange={handleChange} value={value}>
-      {timeAggregationOptions.map(({ label, value }) => (
-        <option value={value} key={value}>
-          {label}
-        </option>
-      ))}
+      {availableOptions.map(value => {
+        const label = timeAggregationOptions[value];
+        return (
+          <option value={value} key={value}>
+            {label}
+          </option>
+        );
+      })}
     </Select>
   );
 }

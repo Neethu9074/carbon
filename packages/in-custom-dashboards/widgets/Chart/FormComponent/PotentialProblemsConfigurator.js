@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { Stack, Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Toggle } from '@instana/components';
 
 import {
   addFieldsForPotentialProblems,
@@ -54,9 +54,9 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
                 id="potential-problems-configurator"
                 checked={potentialProblemsEnabled}
                 disabled={disabled && !potentialProblemsEnabled}
-                onChange={e => {
+                onToggle={e => {
                   onChange([], form => {
-                    if (e.target.checked) {
+                    if (e) {
                       return addFieldsForPotentialProblems(form, {
                         potentialProblems: {}
                       });
