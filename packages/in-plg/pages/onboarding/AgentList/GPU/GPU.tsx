@@ -131,20 +131,6 @@ export default function GPU({
           />
         </LayoutSection>
 
-        <LayoutSection title={t('in-plg:agentDetails.gpu.instructions.opentelemetryOperator')}>
-          <Code
-            {...getOCB({
-              id: id,
-              clusterName: clusterName,
-              downloadKey: downloadKey,
-              agentKey: agentKey,
-              instanaDomain: instanaDomain,
-              agentEndpoint: agentEndpoint,
-              agentEndpointPort: agentEndpointPort
-            })}
-          />
-        </LayoutSection>
-
         <LayoutSection title={t('in-plg:agentDetails.gpu.instructions.dcgmExporterEndpoint')}>
           <Stack direction="horizontal">
             <KeyValue
@@ -161,19 +147,35 @@ export default function GPU({
         </LayoutSection>
 
         <LayoutSection title={t('in-plg:agentDetails.gpu.instructions.opentelemetryCollector')}>
-          <Code
-            {...getOCBPipeline({
-              id: id,
-              dcgmExporterEndpoint: dcgmExporterEndpoint,
-              agentServiceEndpoint: agentServiceEndpoint,
-              clusterName: clusterName,
-              downloadKey: downloadKey,
-              agentKey: agentKey,
-              instanaDomain: instanaDomain,
-              agentEndpoint: agentEndpoint,
-              agentEndpointPort: agentEndpointPort
-            })}
-          />
+          <Stack>
+            <Code
+              {...getOCB({
+                id: id,
+                clusterName: clusterName,
+                downloadKey: downloadKey,
+                agentKey: agentKey,
+                instanaDomain: instanaDomain,
+                agentEndpoint: agentEndpoint,
+                agentEndpointPort: agentEndpointPort
+              })}
+            />
+            <Typography variant="body-regular">
+              <Trans i18nKey="in-plg:agentDetails.gpu.instructions.opentelemetryPipeline" components={{ 1: <br /> }} />
+            </Typography>
+            <Code
+              {...getOCBPipeline({
+                id: id,
+                dcgmExporterEndpoint: dcgmExporterEndpoint,
+                agentServiceEndpoint: agentServiceEndpoint,
+                clusterName: clusterName,
+                downloadKey: downloadKey,
+                agentKey: agentKey,
+                instanaDomain: instanaDomain,
+                agentEndpoint: agentEndpoint,
+                agentEndpointPort: agentEndpointPort
+              })}
+            />
+          </Stack>
         </LayoutSection>
 
         <GetDeployedAgents agent="gpu" fromOnboarding={fromOnboarding} />

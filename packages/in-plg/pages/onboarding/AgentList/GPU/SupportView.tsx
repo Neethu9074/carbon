@@ -9,7 +9,7 @@ import React from 'react';
 import { Stack } from '@instana/components';
 
 //@ts-expect-error
-import customResourceFile from 'in-plg/pages/onboarding/AgentList/GPU/content/opentelemetry_collector.yaml';
+import customResourceFile from 'in-plg/pages/onboarding/AgentList/GPU/content/opentelemetry_collector_pipeline.yaml';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import { CodeProps } from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
@@ -169,8 +169,7 @@ export const getOCB = ({ id }: BashCodeProps): CodeProps => {
     default: {
       let content = [];
       content.push(
-        'kubectl apply -f \\',
-        '   https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml '
+        'docker/podman run -d -p 4317:4317 -v $(pwd)/config-nvidia-dcgm.yaml:/etc/otelcol-contrib/config.yaml otel/opentelemetry-collector-contrib:0.97.0'
       );
 
       return {
