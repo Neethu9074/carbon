@@ -41,6 +41,7 @@ packages/in-events/components/ImpactedBusinessProcesses @Instana-IBM-GitHub-Ente
 
 # Shared ownership
 packages/in-forge                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-alerting/i18n               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection @instana/eng-service-levels
 
 # Deliberately mentioning packages/in-forge/i18n without any code owners. This is intended to reduce code review requests triggered by changes in these files.
 packages/in-forge/i18n

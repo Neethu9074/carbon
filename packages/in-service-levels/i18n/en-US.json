@@ -1,6 +1,7 @@
 {
   "general": {
-    "addButtonLabel": "Add",
+    "addSloButtonLabel": "Add ServiceLevel Objective",
+    "addSmartAlertButtonLabel": "Add Smart Alert",
     "aggregation": "Aggregation",
     "availability": "Availability",
     "beacon": "Beacon",

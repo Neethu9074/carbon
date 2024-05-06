@@ -88,7 +88,7 @@ module.exports = {
   sliCHClusterAccessEnabled: true,
   sloV2Enabled: true,
   sloEnabled: true,
-  sloSmartAlertsEnabled: false,
+  sloSmartAlertsEnabled: true,
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
   infraSmartAlertsEnabled: true,
