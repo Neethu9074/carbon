@@ -7,8 +7,7 @@ import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { Stack, Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Stack, Spacer, Toggle } from '@instana/components';
 
 import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput
@@ -154,8 +153,9 @@ function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFi
         </div>
         <Spacer horizontal="xxsmall" />
         <Toggle
+          className={locals.toggleDialogUsage}
           checked={filterBySelectionState}
-          onChange={() => {
+          onToggle={() => {
             setFilterBySelectionState(_showInteractedItemsOnly => !_showInteractedItemsOnly);
           }}
         />
