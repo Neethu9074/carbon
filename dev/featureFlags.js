@@ -123,5 +123,6 @@ module.exports = {
   automationActionInstanceFeedbackEnabled: false,
   infraExploreFilterEmptyValueEnabled: true,
   orbitalEnabled: false,
-  carbonTileEnabled: true
+  carbonTileEnabled: true,
+  thresholdCustomDashboardsEnabled: false
 };

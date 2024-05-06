@@ -294,6 +294,12 @@
         "decreaseColor": "Decrease Color",
         "timeShift": "Time Shift"
       },
+      "thresholdForm": {
+        "addThresholdColorization": "Add threshold based colorization",
+        "threshold": "Threshold",
+        "critical": "Critical when latency",
+        "warning": "Warning when latency"
+      },
       "bigNumber": "Big Number"
     },
     "chart": {

@@ -29,6 +29,7 @@ export default function MetricConfigurator({
   updateForm,
   formatterSection,
   timeShiftConfiguration,
+  thresholdConfiguration,
   disabledDataSources = emptyArray,
   axisForm,
   axisName,
@@ -155,6 +156,7 @@ export default function MetricConfigurator({
         labelSection={labelSection}
         formatterSection={formatterSection}
         timeShiftConfiguration={timeShiftConfiguration}
+        thresholdConfiguration={thresholdConfiguration}
         axisForm={axisForm}
         axisName={axisName}
         withGrouping={withGrouping}

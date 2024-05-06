@@ -4,6 +4,7 @@
  */
 
 import React, { ReactNode } from 'react';
+import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
 
@@ -15,26 +16,27 @@ interface ThresholdConditionFormGroupPros {
   children?: ReactNode;
   iconType?: string;
   label?: string;
+  shouldIncreaseColumns?: boolean;
+  hasWhiteBackground?: boolean;
 }
 export default function ThresholdConditionFormGroup({
   children,
   iconType = 'lib_alerting_threshold_icon',
-  label = t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold')
+  label = t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold'),
+  shouldIncreaseColumns = false,
+  hasWhiteBackground = false
 }: ThresholdConditionFormGroupPros) {
   return (
-    <div className={locals.thresholdConditionItem}>
+    <div
+      className={classNames({
+        [locals.thresholdConditionItem]: true,
+        [locals.increasedColumns]: shouldIncreaseColumns,
+        [locals.whiteBackground]: hasWhiteBackground
+      })}
+    >
       <SvgIcon className={locals.icon} type={iconType} />
       <span className={locals.label}>{label}</span>
-      <div
-        style={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center'
-        }}
-      >
-        {children}
-      </div>
+      <div className={locals.content}>{children}</div>
     </div>
   );
 }
