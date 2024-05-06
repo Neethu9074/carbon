@@ -41,7 +41,7 @@ export interface MetricItem {
   metric: string;
   formatter: string;
   formatterSelected: boolean;
-  crossSeriesAggregation: string;
+  crossSeriesAggregation: AggregationType;
   metricLabel: string;
   label: string;
   regex: boolean;
@@ -257,6 +257,7 @@ function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
   const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(
     ({
       aggregation,
+      crossSeriesAggregation,
       metric,
       formatter,
       formatterSelected: isFormatterSelected,
@@ -266,6 +267,7 @@ function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
       lastValue
     }) => ({
       aggregation,
+      crossSeriesAggregation,
       formatterId: formatter,
       label: label !== '' ? label : metricLabel,
       metricLabel,
