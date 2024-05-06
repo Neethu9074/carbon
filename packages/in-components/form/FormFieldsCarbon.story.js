@@ -5,9 +5,17 @@
 
 import React from 'react';
 
-import { NumberInput, TextInput, PasswordInput, FormLabel, Stack, Form, Select } from '@instana/components';
-
-import FormGroup from 'in-components/form/FormGroup';
+import {
+  NumberInput,
+  TextInput,
+  PasswordInput,
+  FormLabel,
+  Stack,
+  Form,
+  FormGroup,
+  Select,
+  TextArea
+} from '@instana/components';
 
 export default {
   component: FormGroup
@@ -56,6 +64,23 @@ function InputStory(size) {
             helperText="Follow password rules"
             size={size}
           />
+        </FormGroup>
+        <FormGroup>
+          <TextArea labelText="Multiple line text input" carbonVariant />
+        </FormGroup>
+        <FormGroup>
+          <Select
+            labelText="Field label"
+            noLabel={false}
+            onChange={() => {}}
+            autoComplete="off"
+            carbonVariant
+            size={size}
+          >
+            <option value="foo">foo</option>
+            <option value="bar">bar</option>
+            <option value="baz">baz</option>
+          </Select>
         </FormGroup>
       </Form>
     </div>
