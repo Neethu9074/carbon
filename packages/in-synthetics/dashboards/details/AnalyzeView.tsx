@@ -40,7 +40,6 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
-import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
@@ -54,7 +53,6 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { getTestResultMetadata } from 'in-synthetics/api';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Sticky from 'in-components/Sticky';
@@ -76,7 +74,6 @@ const AnalyzeView = () => {
   const isSSLCertificate: boolean = testType === 'SSLCertificate';
   const responseSize = getMatrixParameter(location, syntheticDetailsPath, 'responseSize');
   const resultsLabel: string = getMatrixParameter(location, syntheticDetailsPath, 'resultsLabel') ?? '';
-  const isSSLCertificateTest: boolean = testType === 'SSLCertificate' && syntheticCertificateCheckEnabled;
 
   const testResultMetadata: ResultMetadataResponse =
     useObservable<any, [number]>(() => getTestResultMetadata(testId, resultId, startTime), [0]) || dummyResultMetadata;
@@ -151,9 +148,6 @@ const AnalyzeView = () => {
         }),
       [0]
     ) || dummyTestResultList;
-  const renderMetaInformation = () => {
-    return isSSLCertificateTest ? <BetaBadge /> : null;
-  };
 
   return (
     <>
@@ -164,7 +158,6 @@ const AnalyzeView = () => {
               title={t('in-synthetics:dashboard.testList.mainLabel')}
               label={resultsLabel}
               withBorderBottom
-              renderMetaInformation={renderMetaInformation}
               contextConfigurations={useSyntheticContextConfiguration()}
               liveModeDisabled
               liveModeDisabledTooltip={t('in-synthetics:dashboard.detailsPage.detailLiveModeDisabled')}

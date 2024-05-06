@@ -218,7 +218,6 @@ const RenderCertificateCheck = ({
             }}
             disabled={isUpdateConfig}
             asRadioButton
-            isSSLCertificate
           />
         </Col>
       </Row>
