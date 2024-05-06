@@ -99,7 +99,7 @@ export default function Summary({ test }: SummaryProps) {
           <KpiCard
             title={t('in-synthetics:dashboard.summary.isCertificateValid')}
             value={
-              !daysRemaining
+              !expDate
                 ? valueMissingPlaceholder
                 : get(resultListItem, ['metrics', 'synthetic.customMetrics.valid', 0, 1]) === 1
                 ? t('in-synthetics:dashboard.summary.certificateValid')
@@ -110,23 +110,16 @@ export default function Summary({ test }: SummaryProps) {
         <Col xs>
           <KpiCard
             title={t('in-synthetics:dashboard.summary.daysRemaining')}
-            value={daysRemaining ?? valueMissingPlaceholder}
+            value={expDate ? daysRemaining : valueMissingPlaceholder}
           />
         </Col>
-        {daysRemaining && (
-          <Col xs>
-            <KpiCard
-              title={t('in-synthetics:dashboard.summary.dateOfExpiry')}
-              value={expDate}
-              renderValue={formatDate}
-            />
-          </Col>
-        )}
-        {!daysRemaining && (
-          <Col xs>
-            <KpiCard title={t('in-synthetics:dashboard.summary.dateOfExpiry')} value={valueMissingPlaceholder} />
-          </Col>
-        )}
+        <Col xs>
+          <KpiCard
+            title={t('in-synthetics:dashboard.summary.dateOfExpiry')}
+            value={expDate ?? valueMissingPlaceholder}
+            renderValue={expDate ? formatDate : undefined}
+          />
+        </Col>
       </Row>
     );
   };

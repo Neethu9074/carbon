@@ -226,7 +226,7 @@ const AnalyzeView = () => {
                     <KpiCard
                       title={t('in-synthetics:dashboard.summary.isCertificateValid')}
                       value={
-                        !get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.valid', 0, 1])
+                        !get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.validTo', 0, 1])
                           ? valueMissingPlaceholder
                           : get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.valid', 0, 1]) === 1
                           ? t('in-synthetics:dashboard.summary.certificateValid')
@@ -237,7 +237,7 @@ const AnalyzeView = () => {
                 )}
               </Row>
               {isSSLCertificate &&
-                get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.valid', 0, 1]) && (
+                get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.validTo', 0, 1]) && (
                   <Row>
                     <Col xs>
                       <SSLCertificateDetails resultList={resultList} />
