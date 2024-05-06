@@ -10,7 +10,7 @@ import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import TotalUsageBigNumber from 'in-forge/plugins/oTelLLM/Dashboard/TotalUsageBigNumber';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehaviorLLM';
+import Chart from 'in-forge/plugins/oTelLLM/Dashboard/AggregatedMetricChart';
 import TopListByModel from 'in-forge/plugins/oTelLLM/Dashboard/TopListByModel';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';

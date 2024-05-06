@@ -8,7 +8,8 @@ import React from 'react';
 
 import { create } from '@instana/observables';
 
-import { getMetricsForTimeframe } from 'in-stores/metric';
+import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
+import { getInfraGranularity, getMetricsForTimeframe } from 'in-stores/metric';
 import createDataHolder from 'in-components/Chart/data/dataHolder';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -22,8 +23,8 @@ import { days, hours, minutes, seconds } from 'in-services/time';
 // componentDidUpdate call. There we can create subscriptions. Bar charts for instance rely on having a proper width
 // defined. Also this reduces the number of unneeded backend subscriptions because of this missing information
 // inside the componentDidMount
-class InfrastructureMetricChartBehavior extends React.Component {
-  static displayName = 'InfrastructureMetricChartBehavior';
+class AggregatedMetricChart extends React.Component {
+  static displayName = 'AggregatedMetricChart';
 
   constructor(props) {
     super(props);
@@ -70,12 +71,31 @@ class InfrastructureMetricChartBehavior extends React.Component {
     return propsChangeShouldTriggerRedraw;
   }
 
+  getAggregationGranularty(timeConfig) {
+    let granularity = 10000;
+    if (timeConfig.windowSize >= days.toMillis(7)) {
+      granularity = days.toMillis(1);
+    } else if (timeConfig.windowSize >= hours.toMillis(24)) {
+      granularity = hours.toMillis(1);
+    } else if (timeConfig.windowSize >= hours.toMillis(6)) {
+      granularity = minutes.toMillis(5);
+    } else if (timeConfig.windowSize >= hours.toMillis(1)) {
+      granularity = minutes.toMillis(1);
+    } else if (timeConfig.windowSize >= minutes.toMillis(30)) {
+      granularity = seconds.toMillis(30);
+    } else {
+      granularity = seconds.toMillis(10);
+    }
+    return granularity;
+  }
+
   mapProps = props => {
     let {
       timeConfig,
       y1,
       y2,
       customHeight,
+      minRollup,
       renderLegend,
       primaryContextMenuAction,
       additionalContextMenuButtons,
@@ -91,19 +111,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
     const timeSkew = 10000;
 
     this.timeConfig = timeConfigWithShift(timeConfig, timeSkew);
-    if (timeConfig.windowSize >= days.toMillis(7)) {
-      this.granularity = days.toMillis(1);
-    } else if (timeConfig.windowSize >= hours.toMillis(24)) {
-      this.granularity = hours.toMillis(1);
-    } else if (timeConfig.windowSize >= hours.toMillis(6)) {
-      this.granularity = minutes.toMillis(5);
-    } else if (timeConfig.windowSize >= hours.toMillis(1)) {
-      this.granularity = minutes.toMillis(1);
-    } else if (timeConfig.windowSize >= minutes.toMillis(30)) {
-      this.granularity = seconds.toMillis(30);
-    } else {
-      this.granularity = seconds.toMillis(10);
-    }
+    this.granularity = this.getAggregationGranularty(this.timeConfig);
     this.primaryContextMenuAction = primaryContextMenuAction;
     this.additionalContextMenuButtons = additionalContextMenuButtons;
     this.customHeight = customHeight;
@@ -292,15 +300,19 @@ function mapAxis(axis) {
   };
 }
 
+function getChartCanvasWidth({ width = 0 }) {
+  return width;
+}
+
 function isDynamicallyAggregated(axis) {
   return !!(axis?.maxDataPoints || axis?.aggregation);
 }
 
-export default function InfrastructureMetricChartBehaviorWrapper(props) {
+export default function AggregatedMetricChartWrapper(props) {
   const { ref, ...dimensions } = useResizeObserverCustom();
   return (
     <div ref={ref}>
-      <InfrastructureMetricChartBehavior {...props} {...dimensions} />
+      <AggregatedMetricChart {...props} {...dimensions} />
     </div>
   );
 }
