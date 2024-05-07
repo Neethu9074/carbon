@@ -20,7 +20,9 @@ export default function SloNameColumnContent({ item }: Props) {
   const { configuration, status } = item;
   const { name, target } = configuration;
   return (
-    <SeverityIndicatorCellContentWrapper severity={status ? calculateSeverity({ status, target }) : undefined}>
+    <SeverityIndicatorCellContentWrapper
+      severity={status !== undefined ? calculateSeverity({ status, target }) : undefined}
+    >
       <Typography variant="body-regular">{name}</Typography>
     </SeverityIndicatorCellContentWrapper>
   );
