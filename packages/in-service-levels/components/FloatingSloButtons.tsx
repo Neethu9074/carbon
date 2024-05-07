@@ -30,7 +30,7 @@ export default function FloatingSloButtons() {
     return (
       <FloatingActionButtons>
         <FloatingActionButton icon="lib_openclose_add" onClick={openCreateSloDialog}>
-          {t('in-service-levels:general.addSloButtonLabel')}
+          {t('in-service-levels:general.addButtonLabel')}
         </FloatingActionButton>
       </FloatingActionButtons>
     );
@@ -39,10 +39,10 @@ export default function FloatingSloButtons() {
     <FloatingActionButtons>
       <FloatingActionButtonMenu>
         <Button icon="lib_openclose_add" kind="primaryv2" onClick={openCreateSloDialog}>
-          {t('in-service-levels:general.addSloButtonLabel')}
+          {t('in-service-levels:general.addButtonLabel', { context: 'slo' })}
         </Button>
         <Button icon="lib_alerts_create" kind="primaryv2" onClick={openCreateSmartAlertDialog}>
-          {t('in-service-levels:general.addSmartAlertButtonLabel')}
+          {t('in-service-levels:general.addButtonLabel', { context: 'smartAlert' })}
         </Button>
       </FloatingActionButtonMenu>
     </FloatingActionButtons>
