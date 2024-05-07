@@ -240,7 +240,7 @@ function CustomEventDeprecatedWarning({ legacyAlertConfigStats }) {
   const deprecatedCustomEvents = legacyAlertConfigStats.data?.deprecatedCustomEvents;
 
   return (
-    <Message type="warning" className={locals.customEventDeprecatedWarning} withIcon>
+    <Message type="warning" inline className={locals.customEventDeprecatedWarning} withIcon fullInlineWidth dismissible>
       <MessageContentModernDesign>
         <Trans
           i18nKey="in-cockpit:cockpit.customEventDeprecatedWarning"
