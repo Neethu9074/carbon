@@ -63,7 +63,7 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
         tenantUnitName = currentUnit.tenantUnitName;
       }
       userId = customRealmName + '-' + instanceId;
-      segment.track('Page Viewed', {
+      segment.page('Page Viewed', {
         UT30: ut30,
         instanceId: instanceId,
         instanceName: tenantUnitName,
