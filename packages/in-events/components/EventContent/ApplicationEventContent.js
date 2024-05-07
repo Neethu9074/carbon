@@ -34,9 +34,9 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import { getEventType, getServiceIds } from 'in-stores/events';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Col, Row } from 'in-components/layout/Grid';
+import { getEventType } from 'in-stores/events';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationEventContent.mless';
@@ -77,7 +77,6 @@ export default function ApplicationEventContent({ event, snapshot }) {
   const isEndpointType = event.get('entityType') === 'Endpoint20';
 
   const eventType = getEventType(event);
-  const serviceIds = getServiceIds(event);
 
   return (
     <>
@@ -153,7 +152,11 @@ export default function ApplicationEventContent({ event, snapshot }) {
 
       {!isEndpointType && <AffectedEntitiesRow alertConfig={alertConfig} event={event} eventEntity={eventEntity} />}
       <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
-      <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
+      <ImpactedBusinessProcesses
+        eventType={eventType}
+        entityType={event?.get('entityType', undefined)}
+        entityId={event?.get('entityId', undefined)}
+      />
     </>
   );
 }

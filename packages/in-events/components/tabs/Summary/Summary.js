@@ -51,11 +51,11 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import EventSummarization from 'in-events/components/legacy/EventSummarization';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
-import { getEventType, EVENT_TYPES, getServiceIds } from 'in-stores/events';
 import { pageNumberUrlParameter } from '../../../navigation/urlParameters';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import IncidentEventListRows from 'in-events/components/legacy/EventList';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
+import { getEventType, EVENT_TYPES, getEvent } from 'in-stores/events';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -67,7 +67,6 @@ import EventChart from 'in-events/components/EventChart';
 import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import useUrlState from 'in-hooks/useUrlState';
-import { getEvent } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -153,7 +152,6 @@ const EventContent = connectTo(
     const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
     const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
     const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
-    const serviceIds = getServiceIds(event);
 
     return (
       <>
@@ -235,7 +233,11 @@ const EventContent = connectTo(
         {isIssue && hasEventSpec && (
           <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
         )}
-        <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
+        <ImpactedBusinessProcesses
+          eventType={eventType}
+          entityType={event?.get('entityType', undefined)}
+          entityId={event?.get('entityId', undefined)}
+        />
       </>
     );
   }
