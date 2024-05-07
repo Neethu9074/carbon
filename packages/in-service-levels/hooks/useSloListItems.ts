@@ -50,7 +50,7 @@ export default function useSloListItems({
   return [
     {
       ...configurationPage!,
-      items: configurations.map(configuration => buildSloListItem({ configuration, labels, metrics, timeConfig })) ?? []
+      items: configurations.map(configuration => buildSloListItem({ configuration, labels, metrics, timeConfig }))
     },
     'resolved',
     errors,
