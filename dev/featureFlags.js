@@ -122,6 +122,7 @@ module.exports = {
   shareAndInviteEnabled: false,
   automationActionInstanceFeedbackEnabled: false,
   infraExploreFilterEmptyValueEnabled: true,
+  weaselSubresourceIntegrityEnabled: true,
   orbitalEnabled: false,
   carbonTileEnabled: true,
   thresholdCustomDashboardsEnabled: false

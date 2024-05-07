@@ -141,6 +141,8 @@ export const lastValueForNonTimeSeriesWidgetEnabled = isFeatureFlagEnabled('last
 
 export const logSmartAlertsEnabled = isFeatureFlagEnabled('logSmartAlertsEnabled');
 
+export const weaselSubresourceIntegrityEnabled = isFeatureFlagEnabled('weaselSubresourceIntegrityEnabled');
+
 //New Smart alert Design implementation
 
 export const applicationSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(

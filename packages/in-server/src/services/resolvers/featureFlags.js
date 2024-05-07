@@ -576,6 +576,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'weaselSubresourceIntegrityEnabled',
+    instanaCtlKey: 'feature.weasel.subresource.integrity.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonTileEnabled',
     instanaCtlKey: 'feature.carbon.tile.enabled',
     defaultValue: false
