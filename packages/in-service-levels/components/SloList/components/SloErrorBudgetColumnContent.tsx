@@ -9,7 +9,6 @@ import React from 'react';
 import { Stack } from '@instana/components';
 
 import ErrorBudgetInfo from 'in-service-levels/components/SloList/components/ErrorBudgetInfo';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import { minutes, number } from 'in-services/formatters/number';
 import SparkChart from 'in-components/SparkChart';
@@ -33,11 +32,8 @@ export default function SloErrorBudgetColumnContent({ item, showSparkChart }: Sl
           tooltipFormatter={configuration.indicator.type === 'timeBased' ? minutes.fixedCompact : number.compact}
         />
       )}
-      {remainingBudget ? (
-        <ErrorBudgetInfo configuration={configuration} remainingErrorBudget={remainingBudget} />
-      ) : (
-        <>{valueMissingPlaceholder}</>
-      )}
+
+      <ErrorBudgetInfo configuration={configuration} remainingErrorBudget={remainingBudget} />
     </Stack>
   );
 }
