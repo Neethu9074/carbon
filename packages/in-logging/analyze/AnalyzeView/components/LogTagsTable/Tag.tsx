@@ -85,7 +85,7 @@ export function TagValue({
                 type="lib_group_by"
                 href={getHrefToGroupedView(createGroupingTag(tag.name, tag.key))}
                 onClick={() => trackGroupClick(resolvedValue)}
-                className={classNames(locals.squareHover)}
+                className={locals.squareHover}
               />
             </Tooltip>
           )}
