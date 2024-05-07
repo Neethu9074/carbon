@@ -169,7 +169,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
                   <h1 className={locals.label}>{label}</h1>
                 </Tooltip>
               ) : (
-                <h1 className={locals.label}>{label}</h1>
+                <span className={locals.label}>{label}</span>
               ))}
             {renderMetaInformation && renderMetaInformation(props)}
             {isBeta && <BetaBadge />}

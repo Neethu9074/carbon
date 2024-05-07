@@ -10,5 +10,13 @@
 
   .lettering {
     filter: brightness(0.1);
+    margin-bottom: 0;
+  }
+
+  .normalText {
+    display: inline;
+    font-size: 1em;
+    font-weight: normal;
+    margin-bottom: 0;
   }
 }
