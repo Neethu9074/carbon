@@ -46,7 +46,7 @@ export interface MetricItem {
   label: string;
   regex: boolean;
   lastValue?: boolean;
-  filterEmptyValue?: boolean;
+  required?: boolean;
 }
 
 export default function InfrastructureTableWidget(props: TableWidgetProps) {
@@ -265,7 +265,7 @@ function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
       metricLabel,
       regex,
       lastValue,
-      filterEmptyValue
+      required
     }) => ({
       aggregation,
       formatterId: formatter,
@@ -275,7 +275,7 @@ function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
       isFormatterSelected,
       regex,
       lastValue,
-      filterEmptyValue
+      required
     })
   );
 
