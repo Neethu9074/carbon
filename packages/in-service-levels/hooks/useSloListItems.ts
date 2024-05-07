@@ -50,10 +50,7 @@ export default function useSloListItems({
   return [
     {
       ...configurationPage!,
-      items:
-        configurationPage?.items?.map(configuration =>
-          buildSloListItem({ configuration, labels, metrics, timeConfig })
-        ) ?? []
+      items: configurations.map(configuration => buildSloListItem({ configuration, labels, metrics, timeConfig })) ?? []
     },
     'resolved',
     errors,
@@ -75,8 +72,8 @@ function buildSloListItem({
   const { remainingBudgetSpark } = metrics?.[configuration.id!] ?? {};
   const timeConfig = applyAdjustedTimeframe(tc, remainingBudgetSpark?.adjustedTimeframe);
   const granularity = remainingBudgetSpark?.granularity ?? calculateSloGranularity(timeConfig);
-  const status = getSingleNumberMetricValue(metrics?.[configuration.id!]?.status) ?? undefined;
-  const remainingBudget = getSingleNumberMetricValue(metrics?.[configuration.id!]?.remainingBudget) ?? 0;
+  const status = getSingleNumberMetricValue(metrics?.[configuration.id!]?.status);
+  const remainingBudget = getSingleNumberMetricValue(metrics?.[configuration.id!]?.remainingBudget);
 
   return {
     configuration,

@@ -9,7 +9,6 @@ import React, { useMemo } from 'react';
 import { KeyValue, Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import { formatSloStatus } from 'in-service-levels/utils/format';
 import { calculateSeverity } from 'in-service-levels/utils/math';
@@ -30,9 +29,9 @@ export default function SloStatusColumnContent({ item }: SloStatusColumnContentP
       {status && <HealthDot severity={calculateSeverity({ status, target })} />}
       <KeyValue
         label={t('in-service-levels:sloList.components.sloStatusColumnContent.target', {
-          target: sloTarget ?? valueMissingPlaceholder
+          target: sloTarget
         })}
-        value={sloStatus ?? valueMissingPlaceholder}
+        value={sloStatus}
         inverted
       />
     </Stack>

@@ -20,7 +20,7 @@ interface SloErrorBudgetColumnContentProps {
 }
 
 export default function SloErrorBudgetColumnContent({ item, showSparkChart }: SloErrorBudgetColumnContentProps) {
-  const { configuration, remainingBudget, burnDown, metricGranularity, metricTimeConfig, status } = item;
+  const { configuration, remainingBudget, burnDown, metricGranularity, metricTimeConfig } = item;
 
   return (
     <Stack direction="horizontal" align="center">
@@ -33,7 +33,7 @@ export default function SloErrorBudgetColumnContent({ item, showSparkChart }: Sl
           tooltipFormatter={configuration.indicator.type === 'timeBased' ? minutes.fixedCompact : number.compact}
         />
       )}
-      {status ? (
+      {remainingBudget ? (
         <ErrorBudgetInfo configuration={configuration} remainingErrorBudget={remainingBudget} />
       ) : (
         <>{valueMissingPlaceholder}</>
