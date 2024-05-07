@@ -108,14 +108,14 @@ export default function MetricCatalogConfiguratorOverlay({
         return null;
       },
 
-      items: values.map(({ metric, aggregation, crossSeriesAggregation, label, filterEmptyValue }) =>
-        getMetricItem({ metric, aggregation, crossSeriesAggregation, label, filterEmptyValue })
+      items: values.map(({ metric, aggregation, crossSeriesAggregation, label, required }) =>
+        getMetricItem({ metric, aggregation, crossSeriesAggregation, label, required })
       )
     });
   }
 
   function getMetricItem(props) {
-    const { metric, aggregation, crossSeriesAggregation, label, filterEmptyValue } = props;
+    const { metric, aggregation, crossSeriesAggregation, label, required } = props;
     return createMapForm({
       validator: ({ metric, aggregation }) => {
         if (!metric.valid || !aggregation.valid) {
@@ -138,8 +138,8 @@ export default function MetricCatalogConfiguratorOverlay({
           value: crossSeriesAggregation,
           validator: composeAndShortCircuitOnError(stringValidator, notBlankValidator)
         }),
-        filterEmptyValue: createField({
-          value: filterEmptyValue,
+        required: createField({
+          value: required,
           validator: composeAndShortCircuitOnError(booleanValidator)
         }),
         label: createField({
