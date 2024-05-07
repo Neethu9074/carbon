@@ -57,8 +57,8 @@ export default function AlertingTearSheetFooter({
 
       {rightAction.length > 0 && (
         <div>
-          {rightAction.map((action: AlertingFooterActions) => (
-            <>
+          {rightAction.map((action: AlertingFooterActions, i: number) => (
+            <span key={i}>
               {action.kind === 'secondary' && (
                 <PreviousButton
                   key={action.label}
@@ -90,7 +90,7 @@ export default function AlertingTearSheetFooter({
                   {isLastStep ? action.label : t('in-components:blueprintFormMultistep.buttonNext')}
                 </SaveButton>
               )}
-            </>
+            </span>
           ))}
         </div>
       )}

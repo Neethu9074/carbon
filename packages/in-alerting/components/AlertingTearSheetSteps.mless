@@ -20,12 +20,12 @@
   }
   .optional {
     line-height: var(--ids-line-height-option-heading-500);
+    color: var(--ids-color-option-neutral-500);
     padding-left: 1.25rem;
     margin-bottom: 0;
   }
   .tabSelected {
     border-bottom: 0.188rem solid var(--ids-color-option-teal-400);
-    padding-bottom: 0.25rem;
   }
 
   .inline {

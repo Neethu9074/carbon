@@ -27,7 +27,7 @@ export default function AlertingTearSheetSteps(props: {
   return (
     <div className={locals.rightSeparator}>
       {stepConfigs.map((stepConfig: AlertingTearSheetStepConfigs, idx: number) => (
-        <>
+        <span key={idx}>
           <div
             className={classNames({
               [locals.label]: true,
@@ -58,14 +58,7 @@ export default function AlertingTearSheetSteps(props: {
             {stepConfig.isOptional && (
               <span className={locals.optional}>
                 <Typography variant="body-small">
-                  <span
-                    className={classNames({
-                      [locals.lightColor]: idx === step,
-                      [locals.color600]: idx !== step
-                    })}
-                  >
-                    {t('in-alerting:components.optional')}
-                  </span>
+                  <span className={locals.color600}>{t('in-alerting:components.optional')}</span>
                 </Typography>
               </span>
             )}
@@ -76,7 +69,7 @@ export default function AlertingTearSheetSteps(props: {
               [locals.tabSelected]: idx === step
             })}
           />
-        </>
+        </span>
       ))}
     </div>
   );

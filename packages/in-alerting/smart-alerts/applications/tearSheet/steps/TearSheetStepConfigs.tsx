@@ -53,27 +53,27 @@ export const stepConfigs = [
 
 export const APStepRenderers = [
   (props: AlertConfigTearSheetWithThresholdProps) => (
-    <AlertingTearSheetContent title={stepConfigs[0].title}>
+    <AlertingTearSheetContent title={stepConfigs[0].title} key={0}>
       <AlertConfigTearSheetStep1 setLogMessagesListVisible {...props} />
     </AlertingTearSheetContent>
   ),
   (props: AlertConfigTearSheetWithThresholdProps) => (
-    <AlertingTearSheetContent title={stepConfigs[1].title}>
+    <AlertingTearSheetContent title={stepConfigs[1].title} key={1}>
       <AlertConfigTearSheetStep2 {...props} />
     </AlertingTearSheetContent>
   ),
   (props: AlertConfigTearSheetWithThresholdProps) => (
-    <AlertingTearSheetContent title={stepConfigs[2].title}>
+    <AlertingTearSheetContent title={stepConfigs[2].title} key={2}>
       <AlertConfigTearSheetStep3 {...props} />
     </AlertingTearSheetContent>
   ),
   (props: AlertConfigTearSheetWithThresholdProps) => (
-    <AlertingTearSheetContent title={stepConfigs[3].title}>
+    <AlertingTearSheetContent title={stepConfigs[3].title} key={3}>
       <AlertConfigTearSheetStep4 {...props} />
     </AlertingTearSheetContent>
   ),
   (props: AlertConfigTearSheetWithThresholdProps) => (
-    <AlertingTearSheetContent title={stepConfigs[4].title}>
+    <AlertingTearSheetContent title={stepConfigs[4].title} key={4}>
       <AlertConfigTearSheetStep5 {...props} />
     </AlertingTearSheetContent>
   )
