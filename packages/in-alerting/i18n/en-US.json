@@ -489,7 +489,7 @@
         "eventsCriticalIcon": "Events critical icon"
       },
       "tearSheet": {
-        "step1Title": "Pick a template",
+        "step1Title": "Pick an alert template",
         "step2Title": "Define the scope",
         "step3Title": "Define grouping",
         "step4Title": "Define when to get alerted",

@@ -9,7 +9,7 @@ import { useCallback } from 'react';
 import { applicationId, alertsCategory, isMigration } from 'in-applications/navigation/matrix';
 import { smartAlertPath, applicationDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { returnUrl } from 'in-alerting/smart-alerts/components/list/constants';
+import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
@@ -49,7 +49,7 @@ function updateCreatePathMetrixParams(
 
   if (applicationId && !isGlobal) setOrDeleteMatrixKey(location, smartAlertPath, applicationId, appId);
   setOrDeleteMatrixKey(location, smartAlertPath, alertsCategory, configsCategory);
-  setOrDeleteMatrixKey(location, smartAlertPath, returnUrl, returnUrlWithParams);
+  setOrDeleteMatrixKey(location, smartAlertPath, cancelUrl, returnUrlWithParams);
   setOrDeleteMatrixKey(location, smartAlertPath, isMigration, String(migration));
   location.pathname = smartAlertPath;
 }
