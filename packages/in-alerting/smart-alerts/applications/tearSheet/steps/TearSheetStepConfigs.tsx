@@ -22,22 +22,27 @@ import { t } from 'in-i18n';
 export const stepConfigs = [
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step1Title'),
-    validateIntermediately: []
+    validateIntermediately: [
+      ['rule', 'message'],
+      ['rule', 'statusCode'], // fail when from > to (comparison)
+      ['rule', 'statusCode', 'statusCodeStart'], // fail on empty start field
+      ['rule', 'statusCode', 'statusCodeEnd'], // fail on empty end field
+      ['rule', 'level']
+    ]
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step2Title'),
-    validateIntermediately: [],
-    isOptional: true
+    isOptional: true,
+    validateIntermediately: [['applications']]
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step3Title'),
-    validateIntermediately: [],
     isOptional: true
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step4Title'),
-    validateIntermediately: [],
-    isOptional: true
+    isOptional: true,
+    validateIntermediately: [['threshold', 'value']]
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step5Title'),
@@ -46,28 +51,28 @@ export const stepConfigs = [
   }
 ];
 
-export const getStepRenderers = (props: AlertConfigTearSheetWithThresholdProps) => [
-  () => (
+export const APStepRenderers = [
+  (props: AlertConfigTearSheetWithThresholdProps) => (
     <AlertingTearSheetContent title={stepConfigs[0].title}>
       <AlertConfigTearSheetStep1 setLogMessagesListVisible {...props} />
     </AlertingTearSheetContent>
   ),
-  () => (
+  (props: AlertConfigTearSheetWithThresholdProps) => (
     <AlertingTearSheetContent title={stepConfigs[1].title}>
       <AlertConfigTearSheetStep2 {...props} />
     </AlertingTearSheetContent>
   ),
-  () => (
+  (props: AlertConfigTearSheetWithThresholdProps) => (
     <AlertingTearSheetContent title={stepConfigs[2].title}>
       <AlertConfigTearSheetStep3 {...props} />
     </AlertingTearSheetContent>
   ),
-  () => (
+  (props: AlertConfigTearSheetWithThresholdProps) => (
     <AlertingTearSheetContent title={stepConfigs[3].title}>
       <AlertConfigTearSheetStep4 {...props} />
     </AlertingTearSheetContent>
   ),
-  () => (
+  (props: AlertConfigTearSheetWithThresholdProps) => (
     <AlertingTearSheetContent title={stepConfigs[4].title}>
       <AlertConfigTearSheetStep5 {...props} />
     </AlertingTearSheetContent>

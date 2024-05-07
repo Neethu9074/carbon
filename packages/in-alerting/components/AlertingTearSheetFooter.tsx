@@ -7,8 +7,12 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import {
+  AlertingFooterActions,
+  AlertingTearSheetStepConfigs,
+  SA_FORM_DATA
+} from 'in-alerting/components/AlertingTearSheet';
 import { CancelButton, PreviousButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import { AlertingFooterActions, SA_FORM_DATA } from 'in-alerting/components/AlertingTearSheet';
 import { t } from 'in-i18n';
 
 import locals from './AlertingTearSheetFooter.mless';
@@ -16,10 +20,11 @@ import locals from './AlertingTearSheetFooter.mless';
 interface AlertingTearSheetFooterProps {
   step: number;
   actions: AlertingFooterActions[];
-  stepConfigs: Object[];
+  stepConfigs: AlertingTearSheetStepConfigs[];
   formId: string;
   isSaving: boolean;
   form: MapForm<SA_FORM_DATA>;
+  setForm: (form: MapForm<any>) => void;
 }
 
 export default function AlertingTearSheetFooter({
@@ -28,12 +33,12 @@ export default function AlertingTearSheetFooter({
   actions,
   isSaving,
   step,
-  stepConfigs
+  stepConfigs,
+  setForm
 }: AlertingTearSheetFooterProps) {
   const leftAction = actions.filter((action: AlertingFooterActions) => action.isLeftAlign);
   const rightAction = actions.filter((action: AlertingFooterActions) => !action.isLeftAlign);
-
-  const primaryActionDisabled = false; // TODO add validation
+  const isLastStep = step === stepConfigs.length - 1;
 
   return (
     <div className={locals.formFooter}>
@@ -67,15 +72,22 @@ export default function AlertingTearSheetFooter({
                 <SaveButton
                   type="submit"
                   kind="primary"
-                  form={form}
                   formId={formId}
                   isSaving={isSaving}
-                  onClick={action.onClick}
-                  disabled={primaryActionDisabled}
+                  onClick={() => {
+                    if (!action.onClick) {
+                      return;
+                    }
+                    // trigger validation if only at final step
+                    if (form && !form.hierarchyValid && isLastStep) {
+                      setForm?.(form.setTouched(true, { recurse: true }));
+                      return;
+                    }
+                    action.onClick();
+                  }}
+                  disabled={isLastStep && isSaving}
                 >
-                  {step === stepConfigs.length - 1
-                    ? action.label
-                    : t('in-components:blueprintFormMultistep.buttonNext')}
+                  {isLastStep ? action.label : t('in-components:blueprintFormMultistep.buttonNext')}
                 </SaveButton>
               )}
             </>

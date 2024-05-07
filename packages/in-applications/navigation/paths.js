@@ -490,3 +490,15 @@ function fillAlertTabSpecificValues(params, applicationId, alertConfigId, alertC
   setOrDeleteMatrixKey(params, alertsTab, alertIdMatrixParam, alertConfigId);
   setOrDeleteMatrixKey(params, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
 }
+
+export function useNavigationToGlobalAlertConfigWithoutAPDashboard() {
+  const { location, navigate } = useNavigation();
+
+  return alertConfigId => {
+    location.pathname = globalAlertDetails;
+    fillAlertTabSpecificValues(location, null, alertConfigId, null);
+    setOrDeleteMatrixKey(location, alertsTab, alertsCategoryMatrixParam, categoryGlobal);
+
+    navigate(location);
+  };
+}
