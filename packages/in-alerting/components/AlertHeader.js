@@ -278,31 +278,32 @@ export default function AlertHeader({
         <Message
           withIcon
           className={classNames({
-            [locals.bottomSpace]: true,
-            [locals.whiteSpace]: true
+            [locals.bottomSpace]: true
           })}
         >
-          <Trans
-            i18nKey="in-alerting:components.alertHeaderIsNotLatestRevisionMessage"
-            values={{ description: alertRevision.description }}
-            components={{
-              latestRevisionButton: (
-                <Button className={locals.latestButton} kind="action" onClick={() => setRevision(null)} noAutoMargin>
-                  {null /* Children will be injected via react i18n */}
-                </Button>
-              ),
-              restoreRevisionButton: (
-                <Button
-                  className={locals.latestButton}
-                  kind="action"
-                  onClick={() => openRestoreConfirmationDialog(alertRevision, doRestore)}
-                  noAutoMargin
-                >
-                  {null /* Children will be injected via react i18n */}
-                </Button>
-              )
-            }}
-          />
+          <span>
+            <Trans
+              i18nKey="in-alerting:components.alertHeaderIsNotLatestRevisionMessage"
+              values={{ description: alertRevision.description }}
+              components={{
+                latestRevisionButton: (
+                  <Button className={locals.latestButton} kind="action" onClick={() => setRevision(null)} noAutoMargin>
+                    {null /* Children will be injected via react i18n */}
+                  </Button>
+                ),
+                restoreRevisionButton: (
+                  <Button
+                    className={locals.latestButton}
+                    kind="action"
+                    onClick={() => openRestoreConfirmationDialog(alertRevision, doRestore)}
+                    noAutoMargin
+                  >
+                    {null /* Children will be injected via react i18n */}
+                  </Button>
+                )
+              }}
+            />
+          </span>
         </Message>
       )}
     </div>
