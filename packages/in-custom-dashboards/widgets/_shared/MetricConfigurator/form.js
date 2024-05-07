@@ -166,9 +166,9 @@ export function createForm(
 
   if (withEmptyValueFilter) {
     form = form.put(
-      'filterEmptyValue',
+      'required',
       createField({
-        value: (savedState && savedState.filterEmptyValue) || false,
+        value: (savedState && savedState.required) || false,
         validator: composeAndShortCircuitOnError(booleanValidator)
       })
     );
@@ -207,7 +207,7 @@ function getConfigFromExistingForm(form) {
   const colorField = form.get('color');
   const isPotentialProblemValidator = form.validator === potentialProblemsOnDatasetValidator;
   const formatter = form.get('formatter');
-  const withEmptyValueFilter = form.get('filterEmptyValue');
+  const withEmptyValueFilter = form.get('required');
 
   return {
     withLabelConfiguration: !!labelField,

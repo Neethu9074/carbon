@@ -39,7 +39,7 @@ export function fromUrlMetrics({
       crossSeriesAggregation: m.crossSeriesAggregation,
       regex: m.regex ?? false,
       label: m.label,
-      filterEmptyValue: Boolean(m.filterEmptyValue)
+      required: Boolean(m.required)
     }))
     .filter(m => Boolean(m.metric));
 }
