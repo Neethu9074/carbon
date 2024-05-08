@@ -14,7 +14,9 @@ import {
   Form,
   FormGroup,
   Select,
-  TextArea
+  TextArea,
+  HelpText,
+  ValidationBlock
 } from '@instana/components';
 
 export default {
@@ -28,6 +30,10 @@ function InputStory(size) {
     <div style={{ width: '50%' }}>
       <h2 style={{ paddingBottom: '1rem' }}>{`Carbon input form - ${sz}`}</h2>
       <Form>
+        <HelpText carbonVariant>Helper text that should be moved as a property of individual imput components</HelpText>
+        <ValidationBlock>
+          This is block of validation text that should be moved as a property of individual input components
+        </ValidationBlock>
         <FormGroup>
           <Stack gap="medium">
             <NumberInput label="Number field" value={5} min={5} max={100} size={size} />

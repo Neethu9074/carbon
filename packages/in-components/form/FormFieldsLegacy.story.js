@@ -10,6 +10,7 @@ import { Select } from '@instana/components';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import FormGroup from 'in-components/form/FormGroup';
+import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
@@ -20,8 +21,9 @@ export default {
 export function InputStory() {
   const p = { type: 'text', onChange: () => {} };
   return (
-    <>
+    <form>
       <h2>Default-Prefilled</h2>
+      <HelpText>Helper text</HelpText>
       <FormGroup>
         <Label>Field label</Label>
         <Input {...p} placeholder="Some copy" />
@@ -51,7 +53,9 @@ export function InputStory() {
         <Input {...p} value="Some copy" />
         <ValidationBlock hasError>Error message</ValidationBlock>
       </FormGroup>
-    </>
+
+      <ValidationBlock>This is block of validation text</ValidationBlock>
+    </form>
   );
 }
 
