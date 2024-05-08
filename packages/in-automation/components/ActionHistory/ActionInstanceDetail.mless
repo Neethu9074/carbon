@@ -65,6 +65,7 @@
     .detailsLink {
       display: flex;
       align-items: center;
+      color: var(--cds-link-primary);
     }
 
     .singleHostLimit {
