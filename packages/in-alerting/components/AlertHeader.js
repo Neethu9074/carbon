@@ -11,6 +11,8 @@ import { Message, Spacer, Pill } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/legacy';
 
+import { useSmartAlertCreateUrl as useSmartAlertEditUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
+import { playwithEnabled, applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -18,7 +20,6 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import RevisionDropdown from 'in-alerting/components/RevisionDropdown';
 import IconButton from 'in-components/IconButton/IconButton';
-import { playwithEnabled } from 'in-services/featureFlags';
 import BackButton from 'in-components/BackButton';
 import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
@@ -43,7 +44,8 @@ export default function AlertHeader({
   allowActionButtons = true,
   onConfigDeleteTrigger,
   displayEditAction,
-  displayDuplicateAction
+  displayDuplicateAction,
+  isGlobalSmartAlert = false
 }) {
   const { goToPath, createHrefToPath } = useNavigation();
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
@@ -59,6 +61,12 @@ export default function AlertHeader({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
 
+  const getLinkToEditSmartAlert = useSmartAlertEditUrl();
+  const editSmartAlertPath = getLinkToEditSmartAlert({
+    isGlobal: isGlobalSmartAlert,
+    alertId: alertConfig.id,
+    alertConfigCreated: alertConfig.created
+  });
   const doToggleEnabled = () => {
     setIsToggling(true);
 
@@ -260,6 +268,15 @@ export default function AlertHeader({
                   />
                 </Tooltip>
               )}
+              {displayEditAction && applicationSmartAlertFullScreenDesignEnabled && (
+                <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip') + ' (New)'} delay={500}>
+                  <IconButton
+                    kind="primaryv2"
+                    type="lib_actions_edit"
+                    onClick={() => goToPath(editSmartAlertPath.slice(2))}
+                  />
+                </Tooltip>
+              )}
             </>
           )}
         </div>
@@ -335,7 +352,8 @@ AlertHeader.propTypes = {
   allowActionButtons: PropTypes.bool,
   onConfigDeleteTrigger: PropTypes.func,
   displayEditAction: PropTypes.bool,
-  displayDuplicateAction: PropTypes.bool
+  displayDuplicateAction: PropTypes.bool,
+  isGlobalSmartAlert: PropTypes.bool
 };
 
 function openRestoreConfirmationDialog(alertRevision, doRestore) {
