@@ -54,8 +54,7 @@ export default class extends React.PureComponent<MetricValueProps> {
         snapshotId: props.snapshotId,
         metric: props.metric,
         timeWindowAggregation: props.timeWindowAggregation,
-        timeConfig: props.timeConfig,
-        windowForLatest: props.windowForLatest
+        timeConfig: props.timeConfig
       });
     }
 
@@ -65,8 +64,7 @@ export default class extends React.PureComponent<MetricValueProps> {
           return getTimeWindowBasedMetricAggregation({
             snapshotId: props.snapshotId,
             metric: props.metric,
-            timeWindowAggregation: props.optionalTimeWindowAggregation,
-            windowForLatest: props.windowForLatest
+            timeWindowAggregation: props.optionalTimeWindowAggregation
           }).distinct();
         }
 
@@ -84,7 +82,8 @@ export default class extends React.PureComponent<MetricValueProps> {
       return getHistoricMetric({
         snapshotId: props.snapshotId,
         metric: props.metric,
-        timeConfig: getTimeConfigAtMoment(props.time)
+        timeConfig: getTimeConfigAtMoment(props.time),
+        windowForLatest: props.windowForLatest
       })
         .map((v: [number, number]) => v[1])
         .distinct();
@@ -92,7 +91,8 @@ export default class extends React.PureComponent<MetricValueProps> {
 
     return getMetricForFocusedMoment({
       snapshotId: props.snapshotId,
-      metric: props.metric
+      metric: props.metric,
+      windowForLatest: props.windowForLatest
     })
       .map((v: [number, number]) => v[1])
       .distinct();
