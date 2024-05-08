@@ -145,7 +145,6 @@ function Header(props) {
 function renderButtonLine(props) {
   const { applicationId, timeConfig, boundaryScope, location } = props;
   const isGlobalAlertConfig = getMatrixParameter(location, alertsList, alertsCategory) === categoryGlobal;
-
   const addSmartAlertButton = isGlobalAlertConfig ? (
     <CreateGlobalSmartAlertButton location={location} />
   ) : (
@@ -170,6 +169,8 @@ function renderButtonLine(props) {
       buttonName={t('in-alerting:smartAlerts.applications.components.createSmartAlertNew')}
       isFloatingButton
       isMenuItem
+      boundaryScope={boundaryScope}
+      defaultBoundaryScope={props.result.data.boundaryScope}
     />
   );
 

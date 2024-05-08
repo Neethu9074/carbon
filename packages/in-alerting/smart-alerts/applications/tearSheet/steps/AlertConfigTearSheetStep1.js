@@ -43,7 +43,7 @@ export default function AlertConfigTearSheetStep1({ form, updateForm }) {
         <Menu
           items={blueprintConfigList}
           onItemClick={item => {
-            updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, true));
+            updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, false));
           }}
           initialItemSelected={blueprintConfig}
           addRightSeparator
