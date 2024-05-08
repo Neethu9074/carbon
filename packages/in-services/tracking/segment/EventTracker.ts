@@ -25,6 +25,7 @@ interface EventTrackerProps {
 }
 
 interface currentUnitProps {
+  tenantId: string;
   tenantUnitId: string;
   tenantUnitName: string;
   tenantName: string;
@@ -37,6 +38,7 @@ let productPlanType: string;
 let instanceId: string;
 let tenantUnitName: string;
 let userId: string;
+let tenantId: string;
 
 const segment = Segment();
 
@@ -57,6 +59,7 @@ export const eventTracker = ({ eventName, parentProductArea, parentPageName }: E
     }
     const currentUnit: currentUnitProps = find(units, unit => unit.tenantUnitName === config.tenantUnit)!;
     if (currentUnit) {
+      tenantId = currentUnit.tenantId;
       instanceId = currentUnit.tenantUnitId;
       tenantUnitName = currentUnit.tenantUnitName;
     }
@@ -73,13 +76,10 @@ export const eventTracker = ({ eventName, parentProductArea, parentPageName }: E
       productCodeType: productCodeType,
       productPlanType: productPlanType,
       productTitle: productTitle,
-      tenantId: instanceId,
+      tenantId: tenantId,
       url: url,
-      user: {
-        bluemixId: userId,
-        role: userSelfDefinedRole,
-        tenantId: instanceId
-      }
+      'user.bluemixId': userId,
+      'user.role': userSelfDefinedRole
     });
   });
   return null; // SegmentEventTracker does not render anything

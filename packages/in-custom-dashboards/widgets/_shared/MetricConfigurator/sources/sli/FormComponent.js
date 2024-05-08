@@ -34,6 +34,7 @@ export default function FormComponent({
   dataSourceSection,
   labelSection,
   formatterSection,
+  thresholdConfiguration,
   timeShiftConfiguration
 }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -166,6 +167,7 @@ export default function FormComponent({
           </Sections>
         ))}
       {timeShiftConfiguration}
+      {thresholdConfiguration}
       {labelSection}
     </Stack>
   );

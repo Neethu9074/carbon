@@ -22,12 +22,14 @@ export default function AlertConfigTearSheetStep2({
   form,
   updateForm,
   isGlobalSmartAlert,
-  initialConfiguredApplications = {}
+  initialConfiguredApplications = {},
+  editMode
 }: {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   isGlobalSmartAlert?: boolean;
   initialConfiguredApplications?: object;
+  editMode?: boolean;
 }) {
   return (
     <>
@@ -59,6 +61,7 @@ export default function AlertConfigTearSheetStep2({
           <ScopeConfig
             form={form}
             updateForm={updateForm}
+            editMode={editMode}
             isGlobalSmartAlert={isGlobalSmartAlert}
             initialConfiguredApplications={initialConfiguredApplications}
             headerTransparent

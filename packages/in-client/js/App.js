@@ -29,6 +29,8 @@ import locals from './App.mless';
 
 export default function App() {
   const currentTheme = getThemeOverride() ?? 'default';
+  // If the space ID is not found via server config then use prod space ID
+  const orbitalSpaceID = window.instana.config.orbitalSpaceID ?? '9WaNpjuleRmP';
   return (
     <ErrorBoundary name="app">
       <LocationStateProvider>
@@ -41,7 +43,7 @@ export default function App() {
         }
         <GlobalTheme>
           <ThemeProvider theme={currentTheme}>
-            <OrbitalProvider spaceId={window.instana.config.orbitalSpaceID ?? ''}>
+            <OrbitalProvider spaceId={orbitalSpaceID}>
               <ScrollTrackingWrapper>
                 <GlobalTimeConfig>
                   <ErrorBoundary name="main-navigation">

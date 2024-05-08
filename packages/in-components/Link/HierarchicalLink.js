@@ -10,9 +10,8 @@ import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
+import { useGetDashboardLink, useGetLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
-import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { stopPropagation } from 'in-services/util/function';
@@ -40,14 +39,13 @@ export default function HierarchicalLink({
     );
   }, [snapshotId, originalTimeConfig]);
 
-  const href = useObservable(() => {
-    return useSnapshotLink
-      ? getLinkToSnapshotInCurrentView(snapshotId, { timeConfig: timeConfig })
-      : getDashboardLink(snapshotId, {
-          pathname: pathname,
-          timeConfig: timeConfig
-        });
-  }, [snapshotId, pathname, timeConfig]);
+  const dashboardLink = useGetDashboardLink()(snapshotId, {
+    pathname: pathname,
+    timeConfig: timeConfig
+  });
+  const snapshotLink = useGetLinkToSnapshotInCurrentView(snapshotId, { timeConfig: timeConfig });
+
+  const href = useSnapshotLink ? snapshotLink : dashboardLink;
 
   const $hierarchy = useMemo(
     () => (calculateHierarchy ? getPhysicalHierarchy({ snapshotId, includeCluster: false, timeConfig }) : alwaysNull),

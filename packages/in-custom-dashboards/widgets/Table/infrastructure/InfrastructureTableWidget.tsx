@@ -41,12 +41,12 @@ export interface MetricItem {
   metric: string;
   formatter: string;
   formatterSelected: boolean;
-  crossSeriesAggregation: string;
+  crossSeriesAggregation: AggregationType;
   metricLabel: string;
   label: string;
   regex: boolean;
   lastValue?: boolean;
-  filterEmptyValue?: boolean;
+  required?: boolean;
 }
 
 export default function InfrastructureTableWidget(props: TableWidgetProps) {
@@ -258,6 +258,7 @@ function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
   const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(
     ({
       aggregation,
+      crossSeriesAggregation,
       metric,
       formatter,
       formatterSelected: isFormatterSelected,
@@ -265,9 +266,10 @@ function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
       metricLabel,
       regex,
       lastValue,
-      filterEmptyValue
+      required
     }) => ({
       aggregation,
+      crossSeriesAggregation,
       formatterId: formatter,
       label: label !== '' ? label : metricLabel,
       metricLabel,
@@ -275,7 +277,7 @@ function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
       isFormatterSelected,
       regex,
       lastValue,
-      filterEmptyValue
+      required
     })
   );
 

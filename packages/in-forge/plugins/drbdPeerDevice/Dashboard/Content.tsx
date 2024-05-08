@@ -8,8 +8,6 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
-// @ts-expect-error Module needs to be translated to TS
-import MetricValue from 'in-components/MetricValue';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -17,6 +15,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { number } from 'in-services/formatters/number';
+import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 export default function PeerDashboard({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig }) {

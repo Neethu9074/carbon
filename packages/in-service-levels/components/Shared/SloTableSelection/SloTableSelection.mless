@@ -22,10 +22,3 @@
     pointer-events: none;
   }
 }
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem;
-  background: var(--ids-color-option-neutral-200);
-}

@@ -102,8 +102,8 @@ function getColumnDefinitions({
 export interface SloListItem {
   configuration: ServiceLevelObjectiveConfiguration;
   entity: LabeledEntity;
-  status: number;
-  remainingBudget: number;
+  status?: number;
+  remainingBudget?: number;
   burnDown: MetricDataSeries;
   metricTimeConfig: TimeConfig;
   metricGranularity: number;
@@ -136,7 +136,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
   });
   const [{ tags, entityType }, setFilter] = useSloListFilterUrlState({ pathSegment, matrixPrefix });
 
-  const [result, , sloErrors, sloProgress] = useSloListItems({
+  const [result, , , sloProgress] = useSloListItems({
     page,
     pageSize,
     orderBy,
@@ -145,13 +145,12 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
     tags,
     entityType
   });
-  const [availableTags, , tagsErrors, tagsProgress] = useSloTags();
+  const [availableTags, , , tagsProgress] = useSloTags();
   const navigateToSloDashboard = useNavigateToSloDashboard();
 
   const actualPage = result?.page ?? page;
   const actualPageSize = result?.pageSize ?? pageSize;
   const progress = all(sloProgress, tagsProgress);
-  const errors = [...sloErrors, ...tagsErrors];
 
   return (
     <ServerTablePresenter<SloListItem, ServerTablePresenterProps<SloListItem>>
@@ -164,7 +163,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
       columnDefinitions={getColumnDefinitions({ isMediumWidth, isSmallWidth })}
       result={{
         progress,
-        errors,
+        errors: [],
         data: result
       }}
       onChange={setServerTableState}

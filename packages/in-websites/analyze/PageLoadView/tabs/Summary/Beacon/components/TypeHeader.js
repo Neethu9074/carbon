@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Pill } from '@instana/components';
+
 import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 
 import locals from './TypeHeader.mless';
 

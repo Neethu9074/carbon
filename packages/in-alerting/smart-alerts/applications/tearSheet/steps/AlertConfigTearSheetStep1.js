@@ -51,6 +51,7 @@ export default function AlertConfigTearSheetStep1({ form, updateForm }) {
 
         <AlertTypeSwitch
           alertType={alertType}
+          blueprintConfig={blueprintConfig}
           renderLogs={() => (
             <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta}>
               <ExpandableLightCard

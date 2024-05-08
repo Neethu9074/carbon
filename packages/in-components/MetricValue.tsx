@@ -6,35 +6,40 @@
 /* eslint-disable react/no-unused-prop-types */
 
 import invariant from 'invariant';
-import rpt from 'prop-types';
 import React from 'react';
 
+import { Disposable, Observable } from '@instana/observables';
+import { TimeConfig } from '@instana/types';
+
 import { getMetricForFocusedMoment, getHistoricMetric, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+//@ts-expect-error Needs TS migration
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
+import { FormatterFn } from 'in-stores/metric/formatters';
 
-export default class extends React.PureComponent {
+interface MetricValueProps {
+  className?: string;
+  createMetricValueStream?: (snapshotId: string) => Observable<any>;
+  formatter: (v: number) => string;
+  initialValue?: string;
+  metric: string;
+  optionalTimeWindowAggregation?: string;
+  snapshotId: string;
+  timeWindowAggregation?: string;
+  timeConfig?: TimeConfig;
+  time?: number;
+  tooltipFormatter?: FormatterFn;
+}
+export default class extends React.PureComponent<MetricValueProps> {
   static displayName = 'MetricValue';
-
-  static propTypes = {
-    createMetricValueStream: rpt.func,
-    snapshotId: rpt.string.isRequired,
-    timeWindowAggregation: rpt.string,
-    timeConfig: rpt.object,
-    optionalTimeWindowAggregation: rpt.string,
-    initialValue: rpt.string,
-    time: rpt.number,
-    className: rpt.string,
-    formatter: rpt.func,
-    metric: rpt.string
-  };
-
+  node: HTMLElement | null = null;
+  subscription: Disposable | null | undefined;
+  stream: Observable<any> | undefined;
   componentDidMount() {
     this.establishSubscription(this.getStream(this.props));
   }
-
-  getStream = props => {
+  getStream = (props: MetricValueProps) => {
     if (props.createMetricValueStream) {
       return props.createMetricValueStream(this.props.snapshotId).distinct();
     }
@@ -53,7 +58,7 @@ export default class extends React.PureComponent {
     }
 
     if (props.optionalTimeWindowAggregation) {
-      return showAggregations$.flatMap(showAggregations => {
+      return showAggregations$.flatMap((showAggregations: boolean) => {
         if (showAggregations) {
           return getTimeWindowBasedMetricAggregation({
             snapshotId: props.snapshotId,
@@ -66,7 +71,7 @@ export default class extends React.PureComponent {
           snapshotId: props.snapshotId,
           metric: props.metric
         })
-          .map(v => v[1])
+          .map((v: [number, number]) => v[1])
           .distinct();
       });
     }
@@ -77,7 +82,7 @@ export default class extends React.PureComponent {
         metric: props.metric,
         timeConfig: getTimeConfigAtMoment(props.time)
       })
-        .map(v => v[1])
+        .map((v: [number, number]) => v[1])
         .distinct();
     }
 
@@ -85,20 +90,24 @@ export default class extends React.PureComponent {
       snapshotId: props.snapshotId,
       metric: props.metric
     })
-      .map(v => v[1])
+      .map((v: [number, number]) => v[1])
       .distinct();
   };
 
-  establishSubscription = stream => {
-    if (this.props.initialValue) {
-      this.node.textContent = this.props.initialValue;
-    } else {
-      this.node.textContent = valueMissingPlaceholder;
+  establishSubscription = (stream: Observable<any>) => {
+    if (this.node) {
+      if (this.props.initialValue) {
+        this.node.textContent = this.props.initialValue;
+      } else {
+        this.node.textContent = valueMissingPlaceholder;
+      }
     }
 
     this.stream = stream;
-    this.subscription = stream.subscribe(v => {
-      this.node.textContent = v == null ? this.props.initialValue || '' : this.format(v);
+    this.subscription = stream.subscribe((v: number) => {
+      if (this.node) {
+        this.node.textContent = v == null ? this.props.initialValue || '' : this.format(v);
+      }
     });
   };
 
@@ -121,11 +130,11 @@ export default class extends React.PureComponent {
     }
   };
 
-  format = v => {
+  format = (v: number): string => {
     if (v !== undefined && this.props.formatter) {
       return this.props.formatter(v);
     }
-    return v;
+    return String(v);
   };
 
   render() {

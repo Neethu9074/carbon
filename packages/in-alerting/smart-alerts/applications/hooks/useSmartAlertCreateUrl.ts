@@ -6,10 +6,10 @@
 
 import { useCallback } from 'react';
 
-import { applicationId, alertsCategory, isMigration } from 'in-applications/navigation/matrix';
+import { applicationId, alertsCategory, isMigration, alertId, alertCreated } from 'in-applications/navigation/matrix';
 import { smartAlertPath, applicationDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { returnUrl } from 'in-alerting/smart-alerts/components/list/constants';
+import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
@@ -17,19 +17,40 @@ import { Location } from 'in-stores/navigation/types';
 
 export function useSmartAlertCreateUrl(): ({
   isGlobal,
-  migration
+  migration,
+  alertId,
+  alertConfigCreated
 }: {
   isGlobal: boolean;
-  migration: boolean;
+  migration?: boolean;
+  alertId?: string;
+  alertConfigCreated?: number;
 }) => string {
   const { createHref, location } = useNavigation();
   const currentLocation = useLocation();
 
   return useCallback(
-    ({ isGlobal, migration }: { isGlobal: boolean; migration: boolean }) => {
+    ({
+      isGlobal,
+      migration,
+      alertId,
+      alertConfigCreated
+    }: {
+      isGlobal: boolean;
+      migration?: boolean;
+      alertId?: string;
+      alertConfigCreated?: number;
+    }) => {
       const returnUrlWithParams = createHref(currentLocation);
       const clonedLocation = cloneLocation(location);
-      updateCreatePathMetrixParams(clonedLocation, isGlobal, returnUrlWithParams, migration);
+      updateCreatePathMetrixParams(
+        clonedLocation,
+        isGlobal,
+        returnUrlWithParams,
+        migration,
+        alertId,
+        alertConfigCreated
+      );
       return createHref({
         ...clonedLocation
       });
@@ -42,14 +63,18 @@ function updateCreatePathMetrixParams(
   location: Location,
   isGlobal: boolean,
   returnUrlWithParams: string,
-  migration: boolean
+  migration?: boolean,
+  alertConfigId?: string,
+  alertConfigCreated?: number
 ) {
   const appId = getMatrixParameter(location, applicationDashboard, 'appId') ?? undefined;
   const configsCategory = isGlobal ? 'global' : 'local';
 
   if (applicationId && !isGlobal) setOrDeleteMatrixKey(location, smartAlertPath, applicationId, appId);
   setOrDeleteMatrixKey(location, smartAlertPath, alertsCategory, configsCategory);
-  setOrDeleteMatrixKey(location, smartAlertPath, returnUrl, returnUrlWithParams);
-  setOrDeleteMatrixKey(location, smartAlertPath, isMigration, String(migration));
+  setOrDeleteMatrixKey(location, smartAlertPath, cancelUrl, returnUrlWithParams);
+  if (alertConfigId) setOrDeleteMatrixKey(location, smartAlertPath, alertId, String(alertConfigId));
+  if (alertConfigCreated) setOrDeleteMatrixKey(location, smartAlertPath, alertCreated, alertConfigCreated);
+  if (migration) setOrDeleteMatrixKey(location, smartAlertPath, isMigration, String(migration));
   location.pathname = smartAlertPath;
 }

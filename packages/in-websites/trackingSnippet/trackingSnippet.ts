@@ -4,11 +4,29 @@
  */
 
 import { useInstanaSaasEumTrackingUrlEnabled } from 'in-services/featureFlags';
+import { weaselSubresourceIntegrityEnabled } from 'in-services/featureFlags';
 import config, { region } from 'in-services/config';
+
+interface SnippetProps {
+  setTrackSessions: (value: string) => void;
+  key: string;
+  additionalScript: string | null;
+  trackSessions: boolean;
+  urlWeaselVersion: string;
+  selectSRIOption: string;
+  shaValue: string;
+}
 
 const undefinedTrackingUrlPlaceholder = '<trackingBaseUrl>';
 
-export function getTrackingSnippet({ key, additionalScript = null, trackSessions = false }) {
+export function getTrackingSnippet({
+  key,
+  additionalScript = null,
+  trackSessions = false,
+  urlWeaselVersion,
+  selectSRIOption,
+  shaValue
+}: SnippetProps) {
   const lines = [`<script>`];
 
   if (!useInstanaSaasEumTrackingUrlEnabled) {
@@ -38,7 +56,7 @@ export function getTrackingSnippet({ key, additionalScript = null, trackSessions
   }
 
   if (additionalScript) {
-    additionalScript.split('\n').forEach(line => {
+    additionalScript.split('\n').forEach((line: string) => {
       lines.push(`  ${line}`);
     });
   }
@@ -46,10 +64,19 @@ export function getTrackingSnippet({ key, additionalScript = null, trackSessions
   lines.push(`</script>`);
 
   let scriptSrc = config?.websiteScriptSource || 'https://eum.instana.io/eum.min.js';
+  if (weaselSubresourceIntegrityEnabled && selectSRIOption === 'Enable') {
+    scriptSrc = scriptSrc.replace('eum.min.js', `${urlWeaselVersion}/eum.min.js`);
+  }
+
   if (!useInstanaSaasEumTrackingUrlEnabled) {
     scriptSrc = `${undefinedTrackingUrlPlaceholder}/eum.min.js`;
   }
-  lines.push(`<script defer crossorigin="anonymous" src="${scriptSrc}"></script>`);
+
+  lines.push(
+    weaselSubresourceIntegrityEnabled && selectSRIOption === 'Enable'
+      ? `<script defer crossorigin="anonymous" src="${scriptSrc}" integrity="${shaValue}"></script>`
+      : `<script defer crossorigin="anonymous" src="${scriptSrc}"></script>`
+  );
 
   return lines.join('\n');
 }

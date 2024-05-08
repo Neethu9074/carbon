@@ -364,7 +364,7 @@ export function createZipScriptConfigurationForm(bundle: string, scriptFile: str
     );
 }
 
-function createAdvancedActionConfigurationForm(savedState?: Record<string, any>) {
+export function createAdvancedActionConfigurationForm(savedState?: Record<string, any>) {
   return createMapForm()
     .put(
       'syntheticType',

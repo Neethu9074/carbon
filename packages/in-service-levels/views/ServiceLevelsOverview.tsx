@@ -10,7 +10,7 @@ import { t } from '@instana/i18n-react';
 
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { SloTrackerProvider, sloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
-import FloatingAddSloButton from 'in-service-levels/components/FloatingAddSloButton';
+import FloatingSloButtons from 'in-service-levels/components/FloatingSloButtons';
 import { serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import SloList from 'in-service-levels/components/SloList/SloList';
@@ -43,7 +43,7 @@ export default function ServiceLevelsOverview() {
           <SloList pathSegment={serviceLevelsOverview} />
         </SloTrackerProvider>
       </LeftRightPadding>
-      <FloatingAddSloButton />
+      <FloatingSloButtons />
     </Sticky>
   );
 }

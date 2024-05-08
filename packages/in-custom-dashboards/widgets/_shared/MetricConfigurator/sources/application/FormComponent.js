@@ -43,6 +43,7 @@ export default function FormComponent({
   labelSection,
   formatterSection,
   timeShiftConfiguration,
+  thresholdConfiguration,
   withAggregationInMetrics = true,
   withPotentialProblemsConfiguration,
   withGrouping = true,
@@ -249,6 +250,8 @@ export default function FormComponent({
       />
 
       {timeShiftConfiguration}
+
+      {thresholdConfiguration}
 
       {withPotentialProblemsConfiguration && potentialProblemsEnabled && (
         <PotentialProblemsConfigurator

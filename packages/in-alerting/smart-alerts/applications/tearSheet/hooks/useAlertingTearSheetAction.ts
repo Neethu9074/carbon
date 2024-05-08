@@ -5,7 +5,7 @@
  */
 
 import { smartAlertPath, applicationsList } from 'in-applications/navigation/paths';
-import { returnUrl } from 'in-alerting/smart-alerts/components/list/constants';
+import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 
@@ -13,7 +13,7 @@ export default function useAlertingTearSheetAction() {
   const { location } = useNavigation();
 
   const cancelTearSheet = (): string => {
-    return getMatrixParameter(location, smartAlertPath, returnUrl) ?? applicationsList;
+    return getMatrixParameter(location, smartAlertPath, cancelUrl) ?? applicationsList;
   };
 
   return { cancelTearSheet };
