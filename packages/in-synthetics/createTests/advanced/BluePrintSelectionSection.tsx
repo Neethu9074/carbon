@@ -116,11 +116,12 @@ const SelectionMenu = ({
         items={getAdvancedBlueprintConfig(syntheticCertificateCheckEnabled)}
         addRightSeparator
         onItemClick={item => {
+          const isSSLCertificate = item.name === 'SSL Certificate';
           // Tracker
           syntheticAdvancedCreateTestTypeSwitch({
             detail: `Switched to create ${item.type} test section from advanced mode`
           });
-          setCommonAttributes({ ...commonAttributes, syntheticType: '' });
+          setCommonAttributes({ ...commonAttributes, syntheticType: isSSLCertificate ? 'SSLCertificate' : '' });
           setSelectedBlueprint(item as AdvancedBluePrint);
           //@ts-expect-error
           setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
@@ -128,7 +129,7 @@ const SelectionMenu = ({
               ...prevState,
               api: { simple: false, script: false },
               browser: { simple: false, script: false },
-              ssl: { simple: false }
+              ssl: { simple: isSSLCertificate }
             };
           });
           setRenderSectionsCounter(0);
