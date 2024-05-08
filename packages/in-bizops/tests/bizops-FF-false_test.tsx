@@ -4,11 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { render } from '@testing-library/react';
-import React from 'react';
-
-// @ts-expect-error module need to be translated to TS
-import ViewSwitcher from 'in-components/MainNavigation/components/ViewSwitcher/';
 import { hasBizOpsAccess, AreaPermissions, productAreaPermissions } from 'in-stores/permission';
 
 jest.mock('in-services/featureFlags', () => ({
@@ -25,12 +20,5 @@ describe('in-stores/permissions.ts', () => {
     expect(productAreaPermissions).not.toEqual(
       expect.arrayContaining([expect.objectContaining({ label: 'Business Processes' })])
     );
-  });
-});
-
-describe('packages/in-components/MainNavigation/components/ViewSwitcher', () => {
-  it('Checks the BizOps link is NOT in the main navigation pane when the feature flag is off', () => {
-    const { container } = render(<ViewSwitcher />);
-    expect(container.querySelector('#main-nav-bizops')).toBeNull();
   });
 });

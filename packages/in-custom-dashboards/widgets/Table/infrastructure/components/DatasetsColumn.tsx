@@ -48,7 +48,7 @@ export default function DatasetsColumn({
         const metric = metricForm.get('metric')?.value;
         const aggregation = metricForm.get('aggregation')?.value;
         const formatters = getFormatter(source, metric, aggregation);
-        const filterEmptyValue = metricForm.get('filterEmptyValue')?.value ?? false;
+        const required = metricForm.get('required')?.value ?? false;
 
         return (
           <MetricConfiguration
@@ -75,12 +75,14 @@ export default function DatasetsColumn({
                 onChange={e =>
                   updateForm(
                     form
-                      // @ts-expect-error
+                      // @ts-ignore-error
                       .updateIn([datasets, metricsPath, i, formatterPath], field =>
+                        // @ts-ignore-error
                         field.setValue(e.target.value).setTouched(true)
                       )
-                      // @ts-expect-error
+                      // @ts-ignore-error
                       .updateIn([datasets, metricsPath, i, 'formatterSelected'], field =>
+                        // @ts-ignore-error
                         field.setValue(true).setTouched(true)
                       )
                   )
@@ -101,11 +103,12 @@ export default function DatasetsColumn({
                 <Section title={t('in-custom-dashboards:widgets.table.form.infrastructure.filterEmptyValues')}>
                   <Stack direction="horizontal" align="center" distribution="stretch" gap="large">
                     <CheckboxFancy
-                      checked={filterEmptyValue}
+                      checked={required}
                       onChange={({ target }) =>
                         updateForm(
-                          // @ts-expect-error
-                          form.updateIn([datasets, metricsPath, i, 'filterEmptyValue'], field =>
+                          // @ts-ignore-error
+                          form.updateIn([datasets, metricsPath, i, 'required'], field =>
+                            // @ts-ignore-error
                             field.setValue(target.checked).setTouched(true)
                           )
                         )

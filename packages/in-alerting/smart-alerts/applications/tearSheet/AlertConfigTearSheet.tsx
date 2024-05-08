@@ -8,11 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 
-import {
-  ApplicationAlertConfigWithMetadata,
-  GlobalApplicationsAlertConfigWithMetadata,
-  ScopeMigrationDetails
-} from '@instana/types';
+import { ApplicationAlertConfigWithMetadata, GlobalApplicationsAlertConfigWithMetadata } from '@instana/types';
 import { createLogger } from '@instana/logger';
 
 import {
@@ -20,57 +16,96 @@ import {
   enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError
 } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import {
+  smartAlertPath,
+  useNavigationToAlertConfig,
+  useNavigationToGlobalAlertConfigWithoutAPDashboard
+} from 'in-applications/navigation/paths';
+import {
   createGlobalAlertConfig,
   updateGlobalAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
-import {
-  smartAlertPath,
-  useLinkToAlertConfig,
-  useLinkToGlobalAlertConfigWithoutAPDashboard
-} from 'in-applications/navigation/paths';
 //@ts-expect-error
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
+import {
+  applicationId as applicationIdFromURL,
+  boundaryScope as boundaryScopeFromURL
+} from 'in-applications/navigation/matrix';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheetWithThreshold';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import AlertingPageHeader from 'in-alerting/smart-alerts/components/pageHeaderTemplate/AlertingPageHeader';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
+import useGetSmartAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetSmartAlertConfig';
+import { alertsCategory, isMigration, alertId, alertCreated } from 'in-applications/navigation/matrix';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
+import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
-import { alertsCategory, isMigration } from 'in-applications/navigation/matrix';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 const logger = createLogger('in-alerting/smart-alerts/applications/dialog/AlertConfigDialogWithThreshold');
 const initialChartConfigIndex = 0;
 
-export default function AlertConfigTearSheet({
-  onClose,
-  scopeMigrationDetails
-}: {
-  onClose: VoidFunction;
-  scopeMigrationDetails?: ScopeMigrationDetails;
-}) {
+export default function AlertConfigTearSheet() {
+  const location = useLocation();
+  const isGlobalSmartAlert = getMatrixParameter(location, smartAlertPath, alertsCategory) === 'global';
+
+  const alertConfigId = getMatrixParameter(location, smartAlertPath, alertId) ?? '';
+  const alertConfigCreated = Number(getMatrixParameter(location, smartAlertPath, alertCreated)) ?? '';
+  const boundaryScope = getMatrixParameter(location, smartAlertPath, boundaryScopeFromURL);
+  const applicationId = getMatrixParameter(location, smartAlertPath, applicationIdFromURL);
+
+  // Get alertconfig data from API in editmode
+  const { alertConfig, alertConfigErrors } = useGetSmartAlertConfig(
+    alertConfigId,
+    alertConfigCreated,
+    isGlobalSmartAlert
+  );
+
+  const editMode = alertConfigId ? true : false;
+  const applicationAlertConfig = editMode
+    ? alertConfig
+    : generateAlertConfig(isGlobalSmartAlert, applicationId, boundaryScope);
+
+  if (alertConfigErrors?.length) {
+    return <ErroneousResultPresenter errors={[...alertConfigErrors]} />;
+  } else if (!applicationAlertConfig) {
+    return <DefaultLoadingDashboard />;
+  } else {
+    return (
+      <AlertConfigTearSheetContent
+        alertConfig={
+          applicationAlertConfig as unknown as
+            | GlobalApplicationsAlertConfigWithMetadata
+            | ApplicationAlertConfigWithMetadata
+        }
+        editMode={editMode}
+      />
+    );
+  }
+}
+
+interface AlertConfigTearSheetContentProps {
+  alertConfig: GlobalApplicationsAlertConfigWithMetadata | ApplicationAlertConfigWithMetadata;
+  editMode: boolean;
+}
+
+function AlertConfigTearSheetContent({ alertConfig, editMode }: AlertConfigTearSheetContentProps) {
   const location = useLocation();
 
   const migrationMode = getMatrixParameter(location, smartAlertPath, isMigration) === 'true';
-  const isGlobalSmartAlert = getMatrixParameter(location, smartAlertPath, alertsCategory) === 'global';
-
-  const editMode = false; //TODO get this value from URL
-
-  const alertConfig = generateAlertConfig();
-
-  //-- Fetch the global/local alert config ---
-  // const alertConfigCreated = Number(getMatrixParameter(location, smartAlertPath, alertCreatedParam));
-  // const getAlertConfig = isGlobalSmartAlert
-  //   ? getGlobalAlertConfigByIdAndTimestamp(alertConfigId, alertConfigCreated)
-  //   : getAlertConfigByIdAndTimestamp(alertConfigId, alertConfigCreated);
+  const isGlobalSmartAlert = getMatrixParameter(location, smartAlertPath, alertsCategory) === categoryGlobal;
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const duplicateFrom = (alertConfig as any)?.duplicateFrom; // TODO logic need to be added
@@ -80,8 +115,8 @@ export default function AlertConfigTearSheet({
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<EnrichedError[]>([]);
-  const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
-  const getLinkToAlertConfig = useLinkToAlertConfig();
+  const navigateToGlobalAlertConfigWithoutAPDashboard = useNavigationToGlobalAlertConfigWithoutAPDashboard();
+  const navigateToAlertConfig = useNavigationToAlertConfig();
 
   useEffect(() => {
     if (migrationMode) {
@@ -95,6 +130,11 @@ export default function AlertConfigTearSheet({
     }
   }, [migrationMode]);
 
+  useEffect(() => {
+    setForm(createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editMode]);
+
   const withTrackCreate = () => {
     if (isEmpty(form.get('applications').value)) {
       addActiveDialog(
@@ -106,17 +146,17 @@ export default function AlertConfigTearSheet({
           confirmButtonLabel={t('in-alerting:components.labelConfirm')}
           confirmButtonKind="danger"
           onSubmit={() => {
+            close();
             createOrSaveAlert({
               form,
               setForm,
-              onClose,
               editMode,
               migrationMode,
               isGlobalSmartAlert,
               setIsSaving,
               setMessages,
-              getLinkToGlobalAlertConfigWithoutAPDashboard,
-              getLinkToAlertConfig,
+              navigateToGlobalAlertConfigWithoutAPDashboard,
+              navigateToAlertConfig,
               duplicateFrom
             });
           }}
@@ -127,26 +167,25 @@ export default function AlertConfigTearSheet({
     createOrSaveAlert({
       form,
       setForm,
-      onClose,
       editMode,
       migrationMode,
       isGlobalSmartAlert,
       setIsSaving,
       setMessages,
-      getLinkToGlobalAlertConfigWithoutAPDashboard,
-      getLinkToAlertConfig,
+      navigateToGlobalAlertConfigWithoutAPDashboard,
+      navigateToAlertConfig,
       duplicateFrom
     });
   };
 
   return (
     <>
-      <AlertingPageHeader title={getHeaderTitle(isGlobalSmartAlert, migrationMode)} />
+      <AlertingPageHeader title={getHeaderTitle(isGlobalSmartAlert, editMode, migrationMode)} />
       <AlertConfigTearSheetWithThreshold
         isGlobalSmartAlert={isGlobalSmartAlert}
         editMode={editMode}
         migrationMode={migrationMode}
-        scopeMigrationDetails={scopeMigrationDetails}
+        scopeMigrationDetails={{} as any} //TODO add migration
         form={form}
         updateForm={updateForm}
         granularity={form.get('granularity').value}
@@ -155,7 +194,7 @@ export default function AlertConfigTearSheet({
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         setForm={setForm}
         timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
-        withTrackClose={() => onClose()}
+        withTrackClose={() => undefined} // TODO add mixpanel tracking
         withTrackCreate={withTrackCreate}
         isSaving={isSaving}
         messages={messages}
@@ -165,15 +204,18 @@ export default function AlertConfigTearSheet({
   );
 }
 
-function getHeaderTitle(isGlobalSmartAlert: boolean, isMigration: boolean) {
+function getHeaderTitle(isGlobalSmartAlert: boolean, editMode: boolean, isMigration: boolean) {
   if (isMigration) {
     return t('in-alerting:smartAlerts.migration.migrateButton');
   } else if (isGlobalSmartAlert) {
-    return t(
-      'in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert_Global'
-    );
+    return editMode
+      ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert_Global')
+      : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert_Global');
+  } else {
+    return editMode
+      ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert_Local')
+      : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert_Local');
   }
-  return t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert_Local');
 }
 
 function fromAlertConfig(alertConfig: any) {
@@ -200,11 +242,31 @@ function mapStatusCodeConfig(alertConfig: any) {
   };
 }
 
-function generateAlertConfig() {
+function generateAlertConfig(
+  isGlobalSmartAlert: boolean,
+  applicationId: string | Nullish,
+  boundaryScope: string | Nullish,
+  includeSynthetic?: boolean,
+  serviceId: string | undefined = undefined,
+  endpointId: string | undefined = undefined
+) {
+  if (isGlobalSmartAlert) {
+    return {
+      threshold: {
+        type: STATIC_THRESHOLD
+      }
+    };
+  }
   return {
+    boundaryScope: boundaryScope,
     threshold: {
-      type: STATIC_THRESHOLD
-    }
+      type: HISTORIC_BASELINE,
+      value: 0.0,
+      seasonality: DAILY
+    },
+    calculateThresholdOnBackend: true,
+    includeSynthetic,
+    applications: applicationId && getEntitySelection(applicationId, serviceId, endpointId)
   };
 }
 
@@ -216,23 +278,21 @@ interface createOrSaveAlertProps {
   isGlobalSmartAlert?: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
-  getLinkToGlobalAlertConfigWithoutAPDashboard: (alertConfigId: string) => string;
-  getLinkToAlertConfig: (alertConfigId: string, alertConfigVersion: number, applicationId: string) => string;
-  onClose: (config?: ApplicationAlertConfigWithMetadata | GlobalApplicationsAlertConfigWithMetadata) => void;
+  navigateToGlobalAlertConfigWithoutAPDashboard: (alertConfigId: string) => void;
+  navigateToAlertConfig: (alertConfigId: string, alertConfigVersion: number, applicationId: string) => void;
   duplicateFrom?: string;
 }
 
 function createOrSaveAlert({
   form,
   setForm,
-  onClose,
   editMode,
   migrationMode,
   isGlobalSmartAlert,
   setIsSaving,
   setMessages,
-  getLinkToGlobalAlertConfigWithoutAPDashboard,
-  getLinkToAlertConfig,
+  navigateToGlobalAlertConfigWithoutAPDashboard,
+  navigateToAlertConfig,
   duplicateFrom
 }: createOrSaveAlertProps) {
   setIsSaving(true);
@@ -265,10 +325,12 @@ function createOrSaveAlert({
       form.get('id').value
     ).once(
       config => {
-        onClose(config);
         showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
         //@ts-expect-error
         trackAlertUpdated(alertConfig);
+        return isEffectivelyGlobalSmartAlert
+          ? navigateToGlobalAlertConfigWithoutAPDashboard(config.id)
+          : navigateToAlertConfig(config.id, config.created, (config as any)?.applicationId);
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
@@ -282,14 +344,12 @@ function createOrSaveAlert({
       : //@ts-expect-error
         createAlertConfig)(alertConfig).once(
       config => {
-        onClose(config);
-        const href = isEffectivelyGlobalSmartAlert
-          ? getLinkToGlobalAlertConfigWithoutAPDashboard(config.id)
-          : getLinkToAlertConfig(config.id, 0, (config as any)?.applicationId);
-
-        showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
         const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
         trackAlertSaved(newConfig, false);
+        // redirect user to details page
+        return isEffectivelyGlobalSmartAlert
+          ? navigateToGlobalAlertConfigWithoutAPDashboard(config.id)
+          : navigateToAlertConfig(config.id, config.created, (config as any)?.applicationId);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

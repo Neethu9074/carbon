@@ -121,7 +121,7 @@ const getActionColumn = (
     }
     if (!role?.canConfigureAutomationPolicies || isExternal(action.type)) return null;
     return (
-      <Tooltip content={t('in-automation:associateActionWithName', { actionName: action.name })} delay={500}>
+      <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
         <IconButton
           kind="primaryv2"
           type="lib_openclose_add_circle_outline"
@@ -179,13 +179,18 @@ export default function RecommendedActions({
     setServerTableUrlState
   });
 
+  const totalHits = result?.data?.totalHits;
   const navigateToActionDetails = useNavigateToActionDetails();
 
   return (
     <ServerTablePresenter<ScoredAction, ServerTablePresenterProps<ScoredAction>>
       columnDefinitions={[...columnDefinitions, getActionColumn(volatileId, event, setActiveKey)]}
       fixedLayout
-      leftHeader={<Typography variant="heading-300">{t('in-automation:recommendedActions')}</Typography>}
+      leftHeader={
+        <Typography variant="heading-300">
+          {t('in-automation:recommendedActionsWithCount', { count: totalHits })}
+        </Typography>
+      }
       onChange={setServerTableUrlState}
       onRowClick={action => {
         if (isExternal(action.type)) {

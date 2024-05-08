@@ -8,7 +8,7 @@
   .container {
     display: grid;
     height: calc(100vh - 7.75rem); // removing height of the carbon header (3rem)+ page header (4.75 rem)
-    grid-template-columns: 14.5rem 1fr;
+    grid-template-columns: 16rem 1fr;
     grid-template-rows: 1fr 4rem;
     grid-template-areas:
       'sidebar content'
@@ -19,7 +19,7 @@
   .sidebar {
     grid-area: sidebar;
     border-right: 1px solid var(--ids-color-option-neutral-300);
-    padding: 2rem 0 2rem 2rem;
+    padding: 2rem 0 2rem 2.25rem;
     overflow-y: auto;
     max-height: calc(100vh - 5rem);
   }

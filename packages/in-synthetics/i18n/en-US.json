@@ -688,7 +688,7 @@
       "markSyntheticCall": "Mark Synthetic Call",
       "hostname": "Hostname",
       "port": "Port",
-      "daysRemaining": "Days Remaining"
+      "daysRemaining": "Days before expiration when the test should fail"
     }
   }
 }

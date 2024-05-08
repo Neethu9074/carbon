@@ -43,7 +43,7 @@ module.exports = {
   logWidgetsEnabled: true,
   carbonShellEnabled: true,
   carbonPillEnabled: true,
-  carbonMessageEnabled: false,
+  carbonMessageEnabled: true,
   carbonAccordionEnabled: true,
   carbonSelectEnabled: true,
   carbonContentSwitcherEnabled: true,
@@ -88,7 +88,7 @@ module.exports = {
   sliCHClusterAccessEnabled: true,
   sloV2Enabled: true,
   sloEnabled: true,
-  sloSmartAlertsEnabled: false,
+  sloSmartAlertsEnabled: true,
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
   infraSmartAlertsEnabled: true,
@@ -113,7 +113,7 @@ module.exports = {
   agentInstallationV2Enabled: true,
   lastValueForNonTimeSeriesWidgetEnabled: true,
   logSmartAlertsEnabled: true,
-  applicationSmartAlertFullScreenDesignEnabled: false,
+  applicationSmartAlertFullScreenDesignEnabled: true,
   welcomePageV2Enabled: false,
   infrastructureExploreTagColumnsEnabled: true,
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
@@ -122,5 +122,8 @@ module.exports = {
   shareAndInviteEnabled: false,
   automationActionInstanceFeedbackEnabled: false,
   infraExploreFilterEmptyValueEnabled: true,
-  orbitalEnabled: false
+  weaselSubresourceIntegrityEnabled: true,
+  orbitalEnabled: false,
+  carbonTileEnabled: true,
+  thresholdCustomDashboardsEnabled: false
 };

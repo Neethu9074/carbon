@@ -10,10 +10,10 @@ import { interval } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import SloViolationsChart from 'in-internal/components/SloViolationsChart';
 import { getSnapshots, getPhysicalHierarchy } from 'in-stores/snapshot';
 import { formatDurationAccurately } from 'in-services/formatters/date';
@@ -111,6 +111,7 @@ const ViolationsForEntity = connect(({ snapshotId }) => ({
     )
     .filter(c => c.mostSpecific)
 }))(function ViolationsForEntity({ context, events }) {
+  const getDashboardLink = useGetDashboardLink();
   if (!context) {
     return <LoadingIndicator />;
   }

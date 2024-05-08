@@ -18,6 +18,7 @@ import {
 } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import GetTearSheetLink from 'in-alerting/smart-alerts/applications/components/GetTearSheetLink';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { trackAlertDeleteConfirm } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -105,6 +106,18 @@ export function actionHandlers(isGlobalSmartAlertConfig) {
     },
     handleEdit: function (config) {
       handleEdit(config, isGlobalSmartAlertConfig);
+    },
+    handleEditNew: function (config) {
+      const { created, id } = config;
+      return (
+        <GetTearSheetLink
+          buttonIcon="lib_actions_edit"
+          buttonName={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
+          isGlobal={isGlobalSmartAlertConfig}
+          alertId={id}
+          alertConfigCreated={created}
+        />
+      );
     },
     handleToggleEnabled: function (enabled, id, setIsSaving) {
       handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig);

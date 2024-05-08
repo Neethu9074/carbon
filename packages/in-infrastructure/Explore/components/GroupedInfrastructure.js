@@ -483,10 +483,9 @@ export function getGroups({
     metrics: Object.fromEntries(
       metrics
         .filter(({ metric }) => metric !== undefined && metric !== null)
-        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex, filterEmptyValue }) => {
+        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex, required }) => {
           const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
           const kpiGranularity = timeConfig.windowSize;
-          const required = filterEmptyValue || undefined;
           return [
             [
               id,

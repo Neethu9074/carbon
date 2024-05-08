@@ -391,6 +391,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'thresholdCustomDashboardsEnabled',
+    instanaCtlKey: 'feature.threshold.custom.dashboards.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'playwithTestEnabled',
     instanaCtlKey: 'feature.playwithTestEnabled.enabled',
     defaultValue: false
@@ -473,11 +478,6 @@ module.exports = exports = [
   {
     uiClientKey: 'enableCarbonIcons',
     instanaCtlKey: 'feature.carbon.icons.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonShellEnabled',
-    instanaCtlKey: 'feature.carbon.shell.enabled',
     defaultValue: true
   },
   {
@@ -573,6 +573,16 @@ module.exports = exports = [
   {
     uiClientKey: 'orbitalEnabled',
     instanaCtlKey: 'feature.orbital.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'weaselSubresourceIntegrityEnabled',
+    instanaCtlKey: 'feature.weasel.subresource.integrity.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonTileEnabled',
+    instanaCtlKey: 'feature.carbon.tile.enabled',
     defaultValue: false
   }
 ];

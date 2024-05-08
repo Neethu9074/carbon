@@ -1,6 +1,8 @@
 {
   "general": {
     "addButtonLabel": "Add",
+    "addButtonLabel_slo": "Add Service Level Objective",
+    "addButtonLabel_smartAlert": "Add Smart Alert",
     "aggregation": "Aggregation",
     "availability": "Availability",
     "beacon": "Beacon",
@@ -269,7 +271,8 @@
   "sloDashboard": {
     "tabs": {
       "summaryLabel": "Summary",
-      "configurationLabel": "Configuration"
+      "configurationLabel": "Configuration",
+      "smartAlertsLabel": "Smart Alerts"
     },
     "timeWindowSelection": {
       "timeWindow": "Unknown Selection",

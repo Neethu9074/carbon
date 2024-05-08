@@ -50,8 +50,6 @@ import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
-import locals from './GlobalCustomPayload.mless';
-
 const logger = createLogger('customPayloadConfig');
 
 export default function GlobalCustomPayloadPage() {
@@ -105,19 +103,21 @@ export function GlobalCustomPayload(props) {
       <Title title={t('in-settings:tabs.configureCustomPayloadForAlerts')} />
       <SubViewHeader>{t('in-settings:tabs.configureCustomPayload')}</SubViewHeader>
       <Section>
-        <Message withIcon small className={locals.whiteSpace}>
-          <Trans
-            i18nKey="in-settings:tabs.eachKeyValuePairWillBeIncludedAsAdditionalPayload"
-            components={{
-              docLink: (
-                <Link
-                  size={carbonMessageEnabled ? 'md' : 'sm'}
-                  href="https://ibm.biz/alerts-custom-payloads"
-                  external
-                />
-              )
-            }}
-          />
+        <Message withIcon small>
+          <span>
+            <Trans
+              i18nKey="in-settings:tabs.eachKeyValuePairWillBeIncludedAsAdditionalPayload"
+              components={{
+                docLink: (
+                  <Link
+                    size={carbonMessageEnabled ? 'md' : 'sm'}
+                    href="https://ibm.biz/alerts-custom-payloads"
+                    external
+                  />
+                )
+              }}
+            />
+          </span>
         </Message>
       </Section>
       {!canConfigureGlobalAlertPayload && (

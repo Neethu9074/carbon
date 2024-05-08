@@ -6,8 +6,8 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
+import { Link, SvgIcon, Card } from '@instana/components';
 import { Button, ButtonKinds } from '@instana/legacy';
-import { Link, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
@@ -117,7 +117,7 @@ export default function KpiCard({
   }
 
   return (
-    <div
+    <Card
       className={classNames({
         [locals.wrapper]: true,
         [locals.borderless]: borderless,
@@ -126,6 +126,8 @@ export default function KpiCard({
         [locals.modal]: isInModal,
         [locals.useMaxAvailableHeight]: useMaxAvailableHeight
       })}
+      bodyClassName={locals.kpibody}
+      headerClassName={locals.kpiheader}
     >
       <div
         className={classNames({
@@ -177,6 +179,6 @@ export default function KpiCard({
         <span className={locals.titleText}>{content}</span>
       )}
       {companionValue && <span className={locals.companion}>{companionValue}</span>}
-    </div>
+    </Card>
   );
 }

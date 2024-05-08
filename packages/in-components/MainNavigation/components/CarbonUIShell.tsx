@@ -459,11 +459,7 @@ function HeaderContent() {
   );
 }
 
-type CarbonUIShellProps = {
-  onViewSwitched: (e: React.MouseEvent<HTMLElement>, label: string) => void;
-};
-
-export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
+export default function CarbonUIShell() {
   const titleDetail = useUIShellTitleDetail();
   const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
   const { matchLocation, createHrefToPath } = useNavigation();
@@ -477,9 +473,6 @@ export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
   if (hasKubernetesAccess) numPlatformsAvailable++;
   if (hasVSphereAccess) numPlatformsAvailable++;
   if (hasSAPAccess) numPlatformsAvailable++;
-  if (numPlatformsAvailable === 0) {
-    return null;
-  }
 
   return (
     <UIShell onSideNavClick={internalToggleClick} titleDetail={titleDetail} headerContent={<HeaderContent />}>
@@ -487,77 +480,79 @@ export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
       <WebsiteMobileAppView />
       <BizOps />
       <Applications />
-      <SideNavMenu
-        renderIcon={() => <SvgIcon color="white" size="s" type="lib_platforms_inverted" />}
-        title={t('in-components:mainNavigation.viewSwitcherLabelPlatforms')}
-      >
-        {/* Keep the list of platforms sorted alphabetically */}
-        {hasPCFAccess && (
-          <MenuItem
-            id="main-nav-cloudfoundry"
-            label={t('in-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
-            href={createHrefToPath(cloudfoundryApplicationList)}
-            isActive={matchLocation(cloudfoundry)}
-          />
-        )}
-        {hasOpenStackAccess && !playwithEnabled && (
-          <MenuItem
-            id="main-nav-openstack"
-            label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
-            href={createHrefToPath(regionListFullyQualified)}
-            isActive={matchLocation(openstack)}
-          />
-        )}
-        {hasPHMCAccess && !playwithEnabled && (
-          <MenuItem
-            id="main-nav-phmc"
-            label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
-            href={createHrefToPath(phmcListFullyQualified)}
-            isActive={matchLocation(ibmp)}
-          />
-        )}
-        {hasPowerVcAccess && !playwithEnabled && (
-          <MenuItem
-            id="main-nav-powervc"
-            label={t('in-components:mainNavigation.viewSwitcherLabelPowervc')}
-            href={createHrefToPath(powervcRegionListFullyQualified)}
-            isActive={matchLocation(powervc)}
-          />
-        )}
-        {hasZHMCAccess && !playwithEnabled && (
-          <MenuItem
-            id="main-nav-zhmc"
-            label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
-            href={createHrefToPath(zhmcListFullyQualified)}
-            isActive={matchLocation(ibmz)}
-          />
-        )}
-        {hasKubernetesAccess && (
-          <MenuItem
-            id="main-nav-kubernetes"
-            label={t('in-components:mainNavigation.viewSwitcherLabelKubernetes')}
-            href={createHrefToPath(kubernetesClusterList)}
-            isActive={matchLocation(kubernetes)}
-          />
-        )}
-        {hasSAPAccess && !playwithEnabled && (
-          <MenuItem
-            id="main-nav-sap"
-            label={t('in-components:mainNavigation.viewSwitcherLabelSap')}
-            href={createHrefToPath(sapSystemList)}
-            isActive={matchLocation(sap)}
-            infoTag={t('in-components:featureFeedback.labelBETA')}
-          />
-        )}
-        {hasVSphereAccess && !playwithEnabled && (
-          <MenuItem
-            id="main-nav-vsphere"
-            label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}
-            href={createHrefToPath(datacenterListFullyQualified)}
-            isActive={matchLocation(vsphere)}
-          />
-        )}
-      </SideNavMenu>
+      {numPlatformsAvailable > 0 && (
+        <SideNavMenu
+          renderIcon={() => <SvgIcon color="white" size="s" type="lib_platforms_inverted" />}
+          title={t('in-components:mainNavigation.viewSwitcherLabelPlatforms')}
+        >
+          {/* Keep the list of platforms sorted alphabetically */}
+          {hasPCFAccess && (
+            <MenuItem
+              id="main-nav-cloudfoundry"
+              label={t('in-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
+              href={createHrefToPath(cloudfoundryApplicationList)}
+              isActive={matchLocation(cloudfoundry)}
+            />
+          )}
+          {hasOpenStackAccess && !playwithEnabled && (
+            <MenuItem
+              id="main-nav-openstack"
+              label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
+              href={createHrefToPath(regionListFullyQualified)}
+              isActive={matchLocation(openstack)}
+            />
+          )}
+          {hasPHMCAccess && !playwithEnabled && (
+            <MenuItem
+              id="main-nav-phmc"
+              label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
+              href={createHrefToPath(phmcListFullyQualified)}
+              isActive={matchLocation(ibmp)}
+            />
+          )}
+          {hasPowerVcAccess && !playwithEnabled && (
+            <MenuItem
+              id="main-nav-powervc"
+              label={t('in-components:mainNavigation.viewSwitcherLabelPowervc')}
+              href={createHrefToPath(powervcRegionListFullyQualified)}
+              isActive={matchLocation(powervc)}
+            />
+          )}
+          {hasZHMCAccess && !playwithEnabled && (
+            <MenuItem
+              id="main-nav-zhmc"
+              label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
+              href={createHrefToPath(zhmcListFullyQualified)}
+              isActive={matchLocation(ibmz)}
+            />
+          )}
+          {hasKubernetesAccess && (
+            <MenuItem
+              id="main-nav-kubernetes"
+              label={t('in-components:mainNavigation.viewSwitcherLabelKubernetes')}
+              href={createHrefToPath(kubernetesClusterList)}
+              isActive={matchLocation(kubernetes)}
+            />
+          )}
+          {hasSAPAccess && !playwithEnabled && (
+            <MenuItem
+              id="main-nav-sap"
+              label={t('in-components:mainNavigation.viewSwitcherLabelSap')}
+              href={createHrefToPath(sapSystemList)}
+              isActive={matchLocation(sap)}
+              infoTag={t('in-components:featureFeedback.labelBETA')}
+            />
+          )}
+          {hasVSphereAccess && !playwithEnabled && (
+            <MenuItem
+              id="main-nav-vsphere"
+              label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}
+              href={createHrefToPath(datacenterListFullyQualified)}
+              isActive={matchLocation(vsphere)}
+            />
+          )}
+        </SideNavMenu>
+      )}
       <Infrastructure />
       <MenuItem isDivider />
       {welcomePageV2Enabled && <CustomDashboards />}
@@ -592,9 +587,8 @@ export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
         {releaseNotesEnabled && (
           <MenuItem
             id="main-nav-release-notes"
-            onClick={e => {
+            onClick={() => {
               showReleaseNotes();
-              onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes'));
             }}
             label={t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes')}
           />
@@ -613,9 +607,8 @@ export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
         />
         <MenuItem
           id="main-nav-about"
-          onClick={e => {
+          onClick={() => {
             addActiveDialog(<AboutInstanaDialog />);
-            onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelAboutInstana'));
           }}
           label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
         />

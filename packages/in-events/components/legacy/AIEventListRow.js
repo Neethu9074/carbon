@@ -76,6 +76,8 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
     setCurrentRCAEntity(snapshots[pageNum - 1]);
   }, [pageNum, snapshots]);
 
+  if (rcaSnapshotMap.size <= 0 || !currentRCAEntity) return null;
+
   return (
     <ProbableRootCauseCard title={title} incident={incident} currentRCAEntity={currentRCAEntity}>
       <Stack direction="vertical" gap="xsmall">

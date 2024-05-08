@@ -5,20 +5,38 @@
  */
 
 import { buildJsonParser, buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { serviceLevelsObjective } from 'in-service-levels/navigation/path';
+import { serviceLevelsObjective, serviceLevelsObjectiveAlerts } from 'in-service-levels/navigation/path';
 import { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { AvailableTimeWindowTypes } from 'in-service-levels/types';
 
+export interface SloUrlState {
+  sloId: string;
+  alertId: string;
+  timeWindowType: string;
+}
+
 export const defaultServiceLevelObjectiveUrlParameters = {
   sloId: createSloIdUrlParameter(serviceLevelsObjective),
-  timeWindowType: createTimeWindowTypeUrlParameter(serviceLevelsObjective),
+  timeWindowType: createTimeWindowTypeUrlParameter(serviceLevelsObjective)
+};
+
+export const sloSmartAlertsUrlParameters = {
+  alertId: createSloAlertIdUrlParameter(serviceLevelsObjectiveAlerts)
 };
 
 export function setTimeWindowTypeUrlParameter(location: Location, timeWindowType: AvailableTimeWindowTypes) {
-  setOrDeleteMatrixKey(location, defaultServiceLevelObjectiveUrlParameters.timeWindowType.path ?? '', defaultServiceLevelObjectiveUrlParameters.timeWindowType.name, timeWindowType)
+  setOrDeleteMatrixKey(
+    location,
+    defaultServiceLevelObjectiveUrlParameters.timeWindowType.path ?? '',
+    defaultServiceLevelObjectiveUrlParameters.timeWindowType.name,
+    timeWindowType
+  );
 }
 
-export function createTimeWindowTypeUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
+export function createTimeWindowTypeUrlParameter(
+  pathSegment: string,
+  matrixPrefix: string = ''
+): ParameterDefinition<string> {
   return {
     path: pathSegment,
     name: `${matrixPrefix}timeWindowType`,
@@ -53,5 +71,16 @@ export function createTagsUrlParameter(pathSegment: string, matrixPrefix: string
     initialState: [],
     parser: buildJsonParser([]),
     serializer: buildJsonSerializer()
+  };
+}
+
+export function createSloAlertIdUrlParameter(
+  pathSegment: string,
+  matrixPrefix: string = ''
+): ParameterDefinition<string> {
+  return {
+    path: pathSegment,
+    name: `${matrixPrefix}alertId`,
+    as: 'alertId'
   };
 }

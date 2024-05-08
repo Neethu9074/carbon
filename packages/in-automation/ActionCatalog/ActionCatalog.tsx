@@ -61,6 +61,7 @@ export default function ActionCatalog() {
   const paginatedActions = usePaginatedActions({ actions, serverTableUrlState, setServerTableUrlState, type, tags });
 
   const availableTags = [...new Set(actions?.data?.flatMap(({ tags }) => tags ?? []))];
+  const totalHits = paginatedActions.data?.totalHits;
 
   const navigateToActionDetails = useNavigateToActionDetails();
   return (
@@ -71,7 +72,7 @@ export default function ActionCatalog() {
         page={page}
         searchPlaceholder={t('in-automation:searchActions')}
         onRowClick={item => navigateToActionDetails(item, false)}
-        cardTitle={t('in-automation:ActionCatalog.actionCatalog')}
+        cardTitle={t('in-automation:ActionCatalog.actionCatalogWithCount', { count: totalHits })}
         rightHeader={
           <>
             {role?.canConfigureAutomationActions && (

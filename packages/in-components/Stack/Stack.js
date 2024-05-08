@@ -19,7 +19,7 @@ import {
   useLinkToServiceDashboard
 } from 'in-applications/navigation/paths';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import getEndpoint from 'in-applications/subscriptions/getEndpoint';
@@ -49,7 +49,8 @@ function getSelfEntity({
   productArea,
   getLinkToApplicationDashboard,
   getLinkToServiceDashboard,
-  getLinkToEndpointDashboard
+  getLinkToEndpointDashboard,
+  getDashboardLink
 }) {
   switch (productArea) {
     case 'application':
@@ -69,7 +70,7 @@ function getSelfEntity({
         }
       }).map(result => resolveEndpointResult(result, applicationId, getLinkToEndpointDashboard));
     default:
-      return getSnapshot(id, timeConfig).map(resolveSnapshotResult);
+      return getSnapshot(id, timeConfig).map(result => resolveSnapshotResult(result, getDashboardLink));
   }
 }
 
@@ -97,6 +98,7 @@ export default function Stack({
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+  const getDashboardLink = useGetDashboardLink();
 
   const selfEntity =
     useObservable(
@@ -107,7 +109,8 @@ export default function Stack({
         productArea,
         getLinkToApplicationDashboard,
         getLinkToServiceDashboard,
-        getLinkToEndpointDashboard
+        getLinkToEndpointDashboard,
+        getDashboardLink
       }),
       [
         id,
@@ -116,7 +119,8 @@ export default function Stack({
         productArea,
         getLinkToApplicationDashboard,
         getLinkToServiceDashboard,
-        getLinkToEndpointDashboard
+        getLinkToEndpointDashboard,
+        getDashboardLink
       ]
     ) ?? pendingResult;
 
@@ -172,13 +176,13 @@ function resolveEndpointResult(result, applicationId, getLinkToEndpointDashboard
   };
 }
 
-function resolveSnapshotResult(result) {
+function resolveSnapshotResult(result, getDashboardLink) {
   if (!result) {
     return undefined;
   }
   return {
     icon: getIconType(result),
     label: result.get('label'),
-    href$: getDashboardLink(result.get('id'), { pathname: '/physical/dashboard' })
+    href: getDashboardLink(result.get('id'), { pathname: '/physical/dashboard' })
   };
 }

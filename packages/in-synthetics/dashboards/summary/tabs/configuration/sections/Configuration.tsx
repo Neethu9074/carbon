@@ -288,7 +288,7 @@ const renderSSLCertificateTestTypeContent = (configuration: SSLCertificateConfig
           }
         />
       </Col>
-      <Col xs={4}>
+      <Col xs={2}>
         <KeyValue label={t('in-synthetics:dashboard.configuration.port')} value={configuration.port} />
       </Col>
       <Col xs={4}>

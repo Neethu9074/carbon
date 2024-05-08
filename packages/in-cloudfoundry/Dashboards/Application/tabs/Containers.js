@@ -14,32 +14,36 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { applicationIdUrlParameter } from 'in-cloudfoundry/navigation/urlParameters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { bytes, percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 const pathSegment = '/summary';
 const matrixPrefix = 'container.';
 
+const DashboardLink = ({ item, timeConfig }) => {
+  const href = useGetDashboardLink()(item.container.id, {
+    pathname: '/physical/dashboard',
+    to: timeConfig.to,
+    focusedMoment: timeConfig.to
+  });
+
+  return (
+    <SeverityAwareEntityLink
+      icon="lib_cloudfoundry"
+      label={item.container.label}
+      href={href}
+      severity={item.entityHealthInfo.maxSeverity}
+    />
+  );
+};
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-cloudfoundry:dashboards.name'),
-    getContent(item, { timeConfig }) {
-      return (
-        <SeverityAwareEntityLink
-          icon="lib_cloudfoundry"
-          label={item.container.label}
-          href$={getDashboardLink(item.container.id, {
-            pathname: '/physical/dashboard',
-            to: timeConfig.to,
-            focusedMoment: timeConfig.to
-          })}
-          severity={item.entityHealthInfo.maxSeverity}
-        />
-      );
-    }
+    getContent: (item, { timeConfig }) => <DashboardLink item={item} timeConfig={timeConfig} />
   },
   {
     id: 'cfInstanceIndex',

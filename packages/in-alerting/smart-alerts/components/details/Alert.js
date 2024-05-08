@@ -101,6 +101,7 @@ export default function Alert({
           alertConfig={alertConfig}
           alertConfigVersions={alertConfigVersions}
           setRevision={setRevision}
+          isGlobalSmartAlert={isGlobalSmartAlert}
           openDialog={({ isCopy }) => {
             addActiveDialog(
               renderSmartAlertDialog({

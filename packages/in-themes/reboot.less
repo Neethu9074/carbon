@@ -97,6 +97,14 @@ hr {
   overflow: visible; // 2
 }
 
+// Resets for issues caused with @carbon/styles
+h4 {
+  font-size: inherit;
+}
+th {
+  vertical-align: middle;
+}
+
 //
 // Typography
 //
@@ -124,6 +132,9 @@ h6 {
 p {
   margin-top: 0;
   margin-bottom: 1rem;
+
+  // Fix required from carbon style import
+  font-size: inherit;
 }
 
 // Abbreviations

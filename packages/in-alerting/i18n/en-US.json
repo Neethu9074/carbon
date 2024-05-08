@@ -161,7 +161,9 @@
             "shortText": "Per Application Perspective",
             "columnText": "aggregated",
             "description": "Alert individually for this Application Perspective",
-            "globalDescription": "Alert individually per Application Perspective"
+            "globalDescription": "Alert individually per Application Perspective",
+            "tearSheetSelectionText": "Group by application",
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of one group. When there is a violation, a single alert notification gets sent for this entire application perspective. "
           },
           "evaluationTypePERAPSERVICE": {
             "selectionText": "per Service for this Application Perspective",
@@ -169,7 +171,9 @@
             "shortText": "Per Service",
             "columnText": "per Service",
             "description": "Alert individually per Service for this Application Perspective",
-            "globalDescription": "Alert individually per Service in the context of each Application Perspective"
+            "globalDescription": "Alert individually per Service in the context of each Application Perspective",
+            "tearSheetSelectionText": "Group by service",
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of 8 groups - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group."
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "per Endpoint for this Application Perspective",
@@ -177,7 +181,9 @@
             "shortText": "Per Endpoint",
             "columnText": "per Endpoint",
             "description": "Alert individually per Endpoint for this Application Perspective",
-            "globalDescription": "Alert individually per Endpoint in the context of each Application Perspective"
+            "globalDescription": "Alert individually per Endpoint in the context of each Application Perspective",
+            "tearSheetSelectionText": "Group by endpoint",
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of 47 groups - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group."
           }
         },
         "inboundOutboundCalls": {
@@ -483,10 +489,15 @@
         "eventsCriticalIcon": "Events critical icon"
       },
       "tearSheet": {
-        "step1Title": "Pick a template",
+        "step1Title": "Pick an alert template",
         "step2Title": "Define the scope",
-        "step3Title": "Define when to get alerted",
-        "step4Title": "Define alert properties and channels",
+        "step3Title": "Define grouping",
+        "step4Title": "Define when to get alerted",
+        "step5Title": "Define alert properties and channels",
+        "grouping": {
+          "title": "Group calls",
+          "description": "Calls in each group are evaluated separately"
+        },
         "callsInScope": {
           "title": "Choose calls in scope ",
           "description": "This determines which services or endpoints are available for selection."
@@ -525,6 +536,10 @@
         "threshold": {
           "title": "Set a value for the violation threshold",
           "description": "Choose metric, violation threshold and time window to evaluate the violation."
+        },
+        "timeThreshold": {
+          "title": "Set when violations trigger alerts",
+          "description": "Specify the alert and persistence type and then set the alert trigger."
         },
         "staticOrAdaptive": {
           "config": {
@@ -1436,6 +1451,47 @@
         "noDataForSelectedGroup": "There is no data available for the specified filters and grouping combination."
       },
       "logCount": "Log count"
+    },
+    "slo": {
+      "validators": {
+        "noEmptySloIds": "Please select at least one SLO.",
+        "notLessThanOrEqualToZero": "Please set a value that is greater than 0."
+      },
+      "advancedModeContainer": {
+        "stepLabel": "",
+        "stepTitle": "",
+        "stepLabel_sloTarget": "Targets",
+        "stepTitle_sloTarget": "Targets: Which SLOs do you want be alerted on?",
+        "stepLabel_trigger": "Trigger",
+        "stepTitle_trigger": "Trigger: What do you want to be alerted on?",
+        "stepLabel_timeThreshold": "Time Threshold",
+        "stepTitle_timeThreshold": "Time Threshold: When do you want be alerted?",
+        "stepLabel_alertChannels": "Alert Channels",
+        "stepTitle_alertChannels": "Alert Channels: Who needs to be alerted?",
+        "stepLabel_alertProperties": "Alert Properties",
+        "stepTitle_alertProperties": "Alert Properties: What should the alert notification include?",
+        "stepLabel_customPayload": "Custom Payload",
+        "stepTitle_customPayload": "Custom Payload",
+        "selectSloHeadline": "Select SLOs",
+        "blueprintSectionTitle": "Selected Blueprint",
+        "blueprint": "",
+        "blueprint_SERVICE_LEVELS_OBJECTIVE": "Status",
+        "blueprint_ERROR_BUDGET": "Error Budget",
+        "blueprintDescription": "",
+        "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "Receive an alert when the SLO status falls below a threshold.",
+        "blueprintDescription_ERROR_BUDGET": "Receive an alert when a percentage of the error budget is burned.",
+        "thresholdTitle": "Threshold: When do you want to be alerted?",
+        "thresholdInputDescription": "",
+        "thresholdInputDescription_ERROR_BUDGET": "percent of error budget is burned",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "percent is the SLO target or less",
+        "timeThresholdType_gracePeriod": "When the condition persists over a specified amount of time",
+        "timeThresholdTypeTitle_gracePeriod": "Alert when the condition is violated for consecutive $t(in-components:time.minutes, {\"count\": {{minutes}} })",
+        "alertProperties_entityLabel": "SLO-name",
+        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO Status is low",
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO Status is less than or equal to {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Error Budget Remaining is low",
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Error Budget Remaining is less than or equal to {{percentage}}."
+      }
     }
   }
 }

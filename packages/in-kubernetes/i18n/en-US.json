@@ -225,6 +225,7 @@
       "persistentVolumesDescription": "There were no persistent volumes retrieved for the selected time range.",
       "prometheusMetricsTitle": "No prometheus metrics available",
       "prometheusMetricsDescription": "There were no prometheus metrics retrieved for the selected endpoint.",
+      "prometheusMetricsNoData": "There are no prometheus endpoints for this pod.",
       "conditionsTitle": "No conditions available",
       "conditionsDescription": "There were no conditions retrieved for the selected time range.",
       "cronjobsTitle": "No cronjobs available",

@@ -53,6 +53,16 @@ describe('SSLCertificateConfiguration', () => {
     expect(container.getElementsByTagName('input')[1]).toHaveValue('443');
     // Days Remaining
     expect(container.getElementsByTagName('input')[2]).toHaveValue('');
+
+    // Timeout
+    expect((screen.getByLabelText('minutes (m)') as HTMLInputElement).checked).toBe(true);
+    expect((screen.getByLabelText('seconds (s)') as HTMLInputElement).checked).toBe(false);
+    expect((screen.getByLabelText('milliseconds (ms)') as HTMLInputElement).checked).toBe(false);
+
+    // Retry strategy
+    expect((screen.getByLabelText('None') as HTMLInputElement).checked).toBe(true);
+    expect((screen.getByLabelText('Retry once') as HTMLInputElement).checked).toBe(false);
+    expect((screen.getByLabelText('Retry twice') as HTMLInputElement).checked).toBe(false);
   });
 
   it('Displays validation error for invalid host name', () => {
