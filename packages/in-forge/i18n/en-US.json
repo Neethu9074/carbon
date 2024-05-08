@@ -11014,9 +11014,6 @@
       },
       "name": "IBM i",
       "memoryPool": "Memory Pool",
-      "activeJobsInfo": "Active Jobs Information",
-      "diskInfo": "Disk Information",
-      "networkInfo": "Network Information",
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
       "troubleshootingDocs": "Troubleshooting docs"
     },
