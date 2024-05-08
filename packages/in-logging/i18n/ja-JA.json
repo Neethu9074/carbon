@@ -53,5 +53,6 @@
   "process": "プロセス",
   "host": "ホスト",
   "fileOnHost": "オン",
-  "file": "ファイル"
+  "file": "ファイル",
+  "logExpiration":"まで保持"
 }
