@@ -26,6 +26,7 @@ interface SegmentEventTrackerProps {
 }
 
 interface currentUnitProps {
+  tenantId: string;
   tenantUnitId: string;
   tenantUnitName: string;
   tenantName: string;
@@ -35,6 +36,8 @@ let productPlanType: string;
 let instanceId: string;
 let tenantUnitName: string;
 let userId: string;
+let tenantId: string;
+
 interface UsageInfoProps {
   activeLicenseType: string;
 }
@@ -61,6 +64,7 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
       }
       const currentUnit: currentUnitProps = find(units, unit => unit.tenantUnitName === config.tenantUnit)!;
       if (currentUnit) {
+        tenantId = currentUnit.tenantId;
         instanceId = currentUnit.tenantUnitId;
         tenantUnitName = currentUnit.tenantUnitName;
       }
@@ -76,13 +80,10 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
         productCodeType: productCodeType,
         productPlanType: productPlanType,
         productTitle: productTitle,
-        tenantId: instanceId,
+        tenantId: tenantId,
         url: url,
-        user: {
-          bluemixId: userId,
-          role: userSelfDefinedRole,
-          tenantId: instanceId
-        }
+        'user.bluemixId': userId,
+        'user.role': userSelfDefinedRole
       });
     });
   }, [parentProductArea, parentPageName]);
