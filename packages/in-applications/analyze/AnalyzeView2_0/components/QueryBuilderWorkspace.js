@@ -62,7 +62,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
     children,
     dataSource,
     groupBy,
-    orderBy,
+    orderByGroups,
     onGroupByChange,
     useLastValidStateWhenErroneous,
     CustomAction,
@@ -160,7 +160,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
                     group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
                     hiddenCalls={hiddenCalls}
                     metrics={getMetricsAsApi()}
-                    order={orderBy}
+                    order={orderByGroups}
                     backendQueryModel={backendQueryModel}
                     backendQueryModelWithFacets={backendQueryModelWithFacets}
                     tracking={{
