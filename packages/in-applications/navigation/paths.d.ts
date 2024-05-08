@@ -78,6 +78,8 @@ export function useAlertConfig(): (alertConfigId: string, applicationId: string)
 
 export function useLinkToGlobalAlertConfigWithoutAPDashboard(): (alertConfigId: string) => string;
 
+export function useNavigationToGlobalAlertConfigWithoutAPDashboard(): (alertConfigId: string) => string;
+
 export function useLinkToGlobalAlertConfigWithAPDashboard(): (
   alertConfigId: string,
   alertConfigVersion: number,

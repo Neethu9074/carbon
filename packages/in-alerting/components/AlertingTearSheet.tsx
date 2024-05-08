@@ -25,10 +25,11 @@ export type AlertingFooterActions = {
 
 export type AlertingTearSheetStepConfigs = {
   title: string;
-  validateIntermediately?: string[];
+  validateIntermediately?: string[][];
   optional?: boolean;
   isBeta?: boolean;
   isOptional?: boolean;
+  valid?: boolean;
 };
 
 export type SA_FORM_DATA = AP_FORM_DATA;
@@ -43,13 +44,26 @@ export interface AlertingTearSheetProps {
   children: ReactNode;
   form: MapForm<SA_FORM_DATA>;
   handleSubmit: () => void;
-  isTagFilterFormModelValid?: boolean;
   migrationMode?: boolean;
   thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null;
+  additionalValidationCheck: boolean;
+  setForm: (form: MapForm<any>) => void;
 }
 
 export default function AlertingTearSheet(props: AlertingTearSheetProps) {
-  const { form, actions, stepConfigs, step, setStep, formId, isSaving, children, handleSubmit } = props;
+  const {
+    form,
+    actions,
+    stepConfigs,
+    step,
+    setStep,
+    formId,
+    isSaving,
+    children,
+    handleSubmit,
+    additionalValidationCheck,
+    setForm
+  } = props;
 
   return (
     <div data-testid="tearsheet">
@@ -57,13 +71,15 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
         id={formId}
         onSubmit={e => {
           e.preventDefault();
-          handleSubmit();
+          if (additionalValidationCheck) {
+            handleSubmit();
+          }
         }}
       >
         <section>
           <div className={locals.container}>
             <div className={locals.sidebar}>
-              <AlertingTearSheetSteps stepConfigs={stepConfigs} step={step} setStep={setStep} />
+              <AlertingTearSheetSteps stepConfigs={stepConfigs} step={step} setStep={setStep} form={form} />
             </div>
             <div className={locals.content}>{children}</div>
             <div className={locals.footer}>
@@ -74,6 +90,7 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
                 isSaving={isSaving}
                 step={step}
                 stepConfigs={stepConfigs}
+                setForm={setForm}
               />
             </div>
           </div>

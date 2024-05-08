@@ -16,7 +16,10 @@ export default function OrbitalProvider({ children, spaceId }: PropsWithChildren
   const [sdk, setSdk] = useState<OrbitalSdk | undefined>(undefined);
 
   useEffect(() => {
-    if (orbitalEnabled) orbital(spaceId).then(setSdk);
+    if (orbitalEnabled && spaceId)
+      orbital(spaceId)
+        .then(setSdk)
+        .catch(e => e);
   }, [spaceId]);
   useEffect(() => {
     if (sdk) {

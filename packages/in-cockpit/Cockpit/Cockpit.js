@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import DashboardSwitcherComponent from 'promise-loader?global,customdashboard!in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import React, { useMemo, useState, useEffect } from 'react';
 import classNames from 'classnames';
@@ -39,11 +40,12 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import BusinessMonitoringTopList from 'in-cockpit/Cockpit/components/BusinessMonitoringTopList';
 import WebsitesAndMobileTopList from 'in-cockpit/Cockpit/components/WebsitesAndMobileTopList';
-import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import InfrastructureTopList from 'in-cockpit/Cockpit/components/InfrastructureTopList';
 import ApplicationsTopList from 'in-cockpit/Cockpit/components/ApplicationsTopList';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { createAsyncComponent } from 'in-components/routing/createAsyncComponent';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import PlatformsTopList from 'in-cockpit/Cockpit/components/PlatformsTopList';
 import EventChartCard from 'in-cockpit/Cockpit/components/EventChartCard';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
@@ -184,6 +186,10 @@ function CockpitInner({ settings, width }) {
 function Header() {
   const { createHrefToPath } = useNavigation();
 
+  const DashboardSwitcher = createAsyncComponent(
+    <LoadingIndicator size="xs" style={{ height: '16px' }} />,
+    DashboardSwitcherComponent
+  );
   return (
     <>
       <DashboardHeader
@@ -240,7 +246,7 @@ function CustomEventDeprecatedWarning({ legacyAlertConfigStats }) {
   const deprecatedCustomEvents = legacyAlertConfigStats.data?.deprecatedCustomEvents;
 
   return (
-    <Message type="warning" className={locals.customEventDeprecatedWarning} withIcon>
+    <Message type="warning" inline className={locals.customEventDeprecatedWarning} withIcon fullInlineWidth dismissible>
       <MessageContentModernDesign>
         <Trans
           i18nKey="in-cockpit:cockpit.customEventDeprecatedWarning"

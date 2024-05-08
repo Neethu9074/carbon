@@ -13,7 +13,7 @@ export interface KubernetesListItemWithCursor {
 }
 export interface KubernetesClusterListItem {
   clusterLabel: string;
-  snapshotId: number;
+  snapshotId: string;
   label: string;
   clusterDistribution?: string;
   namespaces?: number;

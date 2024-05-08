@@ -8,11 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 
-import {
-  ApplicationAlertConfigWithMetadata,
-  GlobalApplicationsAlertConfigWithMetadata,
-  ScopeMigrationDetails
-} from '@instana/types';
+import { ApplicationAlertConfigWithMetadata } from '@instana/types';
 import { createLogger } from '@instana/logger';
 
 import {
@@ -20,14 +16,14 @@ import {
   enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError
 } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import {
+  smartAlertPath,
+  useLinkToAlertConfig,
+  useNavigationToGlobalAlertConfigWithoutAPDashboard
+} from 'in-applications/navigation/paths';
+import {
   createGlobalAlertConfig,
   updateGlobalAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
-import {
-  smartAlertPath,
-  useLinkToAlertConfig,
-  useLinkToGlobalAlertConfigWithoutAPDashboard
-} from 'in-applications/navigation/paths';
 //@ts-expect-error
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheetWithThreshold';
@@ -41,22 +37,16 @@ import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/us
 import { alertsCategory, isMigration } from 'in-applications/navigation/matrix';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { t } from 'in-i18n';
 
 const logger = createLogger('in-alerting/smart-alerts/applications/dialog/AlertConfigDialogWithThreshold');
 const initialChartConfigIndex = 0;
 
-export default function AlertConfigTearSheet({
-  onClose,
-  scopeMigrationDetails
-}: {
-  onClose: VoidFunction;
-  scopeMigrationDetails?: ScopeMigrationDetails;
-}) {
+export default function AlertConfigTearSheet() {
   const location = useLocation();
 
   const migrationMode = getMatrixParameter(location, smartAlertPath, isMigration) === 'true';
@@ -80,7 +70,7 @@ export default function AlertConfigTearSheet({
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<EnrichedError[]>([]);
-  const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
+  const getLinkToGlobalAlertConfigWithoutAPDashboard = useNavigationToGlobalAlertConfigWithoutAPDashboard();
   const getLinkToAlertConfig = useLinkToAlertConfig();
 
   useEffect(() => {
@@ -106,10 +96,10 @@ export default function AlertConfigTearSheet({
           confirmButtonLabel={t('in-alerting:components.labelConfirm')}
           confirmButtonKind="danger"
           onSubmit={() => {
+            close();
             createOrSaveAlert({
               form,
               setForm,
-              onClose,
               editMode,
               migrationMode,
               isGlobalSmartAlert,
@@ -127,7 +117,6 @@ export default function AlertConfigTearSheet({
     createOrSaveAlert({
       form,
       setForm,
-      onClose,
       editMode,
       migrationMode,
       isGlobalSmartAlert,
@@ -146,7 +135,7 @@ export default function AlertConfigTearSheet({
         isGlobalSmartAlert={isGlobalSmartAlert}
         editMode={editMode}
         migrationMode={migrationMode}
-        scopeMigrationDetails={scopeMigrationDetails}
+        scopeMigrationDetails={{} as any} //TODO add migration
         form={form}
         updateForm={updateForm}
         granularity={form.get('granularity').value}
@@ -155,7 +144,7 @@ export default function AlertConfigTearSheet({
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         setForm={setForm}
         timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
-        withTrackClose={() => onClose()}
+        withTrackClose={() => undefined} // TODO add mixpanel tracking
         withTrackCreate={withTrackCreate}
         isSaving={isSaving}
         messages={messages}
@@ -218,14 +207,12 @@ interface createOrSaveAlertProps {
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
   getLinkToGlobalAlertConfigWithoutAPDashboard: (alertConfigId: string) => string;
   getLinkToAlertConfig: (alertConfigId: string, alertConfigVersion: number, applicationId: string) => string;
-  onClose: (config?: ApplicationAlertConfigWithMetadata | GlobalApplicationsAlertConfigWithMetadata) => void;
   duplicateFrom?: string;
 }
 
 function createOrSaveAlert({
   form,
   setForm,
-  onClose,
   editMode,
   migrationMode,
   isGlobalSmartAlert,
@@ -265,7 +252,6 @@ function createOrSaveAlert({
       form.get('id').value
     ).once(
       config => {
-        onClose(config);
         showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
         //@ts-expect-error
         trackAlertUpdated(alertConfig);
@@ -282,14 +268,12 @@ function createOrSaveAlert({
       : //@ts-expect-error
         createAlertConfig)(alertConfig).once(
       config => {
-        onClose(config);
-        const href = isEffectivelyGlobalSmartAlert
-          ? getLinkToGlobalAlertConfigWithoutAPDashboard(config.id)
-          : getLinkToAlertConfig(config.id, 0, (config as any)?.applicationId);
-
-        showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
         const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
         trackAlertSaved(newConfig, false);
+        // redirect user to details page
+        return isEffectivelyGlobalSmartAlert
+          ? getLinkToGlobalAlertConfigWithoutAPDashboard(config.id)
+          : getLinkToAlertConfig(config.id, 0, (config as any)?.applicationId);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

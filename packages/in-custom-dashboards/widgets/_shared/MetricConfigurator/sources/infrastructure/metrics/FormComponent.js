@@ -61,6 +61,7 @@ export default function FormComponent({
   labelSection,
   formatterSection,
   timeShiftConfiguration,
+  thresholdConfiguration,
   withGrouping = true,
   withFiltering = true,
   type: baseType,
@@ -329,6 +330,8 @@ export default function FormComponent({
       />
 
       {timeShiftConfiguration}
+
+      {thresholdConfiguration}
 
       {labelSection}
 

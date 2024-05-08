@@ -12,6 +12,8 @@ import { MetricConfiguration, OrderDirection, TagFilterExpression, TimeConfig } 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error Module needs to be translated to TS
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+// @ts-expect-error Module needs to be translated to TS
+import { isServiceEntity } from 'in-services/entityUtils';
 import { processColumnDefinitions } from 'in-bizops/lists/businessProcess/columnDefinitions';
 import getBusinessProcessList from 'in-bizops/subscriptions/getBusinessProcessList';
 import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -26,15 +28,15 @@ import { t } from 'in-i18n';
 
 interface ImpactedBusinessProcessesProps {
   eventType: number; // Used to determine the table card title
-  serviceIds: string[]; // The array of serviceIds that are affected in the event, used to fetch impacted business processes
+  entityType: string; // Used to check if entity is Service20. We only support showing IBPs for service impacts (currently at least)
+  entityId: string; // The ID of the impacted entity
 }
 
-export default function ImpactedBusinessProcesses({ eventType, serviceIds }: ImpactedBusinessProcessesProps) {
+export default function ImpactedBusinessProcesses({ eventType, entityType, entityId }: ImpactedBusinessProcessesProps) {
   const timeConfig = useTimeConfig();
 
-  // Don't display the table at all if there are no services impacted since there will not be any impacted
-  // business processes
-  if (serviceIds.length === 0) {
+  // Don't display the table at all if there are no services impacted
+  if (!isServiceEntity(entityType) || !entityId) {
     return null;
   }
 
@@ -51,7 +53,7 @@ export default function ImpactedBusinessProcesses({ eventType, serviceIds }: Imp
         <ServerTableWithUrlState
           get={getBusinessProcessListData}
           timeConfig={timeConfig}
-          serviceIds={serviceIds}
+          serviceId={entityId}
           cardTitle={cardTitle}
         />
       </Col>
@@ -75,7 +77,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 interface GetBusinessProcessListProps {
   timeConfig: TimeConfig;
-  serviceIds: string[];
+  serviceId: string;
   orderBy?: string;
   orderDirection?: OrderDirection;
   page: number;
@@ -85,7 +87,7 @@ interface GetBusinessProcessListProps {
 
 export function getBusinessProcessListData({
   timeConfig,
-  serviceIds,
+  serviceId,
   orderBy = 'process_name',
   orderDirection = 'ASC',
   page = 1,
@@ -119,25 +121,13 @@ export function getBusinessProcessListData({
     type: 'TAG_FILTER'
   });
 
-  let serviceIdsTagFilterExpression: TagFilterExpression = {
-    type: 'EXPRESSION',
-    logicalOperator: 'OR',
-    elements: []
-  };
-
-  serviceIds.forEach(serviceId => {
-    serviceIdsTagFilterExpression.elements.push({
-      name: 'service_id',
-      operator: EQUALS,
-      value: serviceId,
-      entity: NOT_APPLICABLE,
-      type: 'TAG_FILTER'
-    });
+  tagFilterExpression.elements.push({
+    name: 'service_id',
+    operator: EQUALS,
+    value: serviceId,
+    entity: NOT_APPLICABLE,
+    type: 'TAG_FILTER'
   });
-
-  if (serviceIdsTagFilterExpression.elements.length !== 0) {
-    tagFilterExpression.elements.push(serviceIdsTagFilterExpression);
-  }
 
   return getBusinessProcessList({
     pagination: {

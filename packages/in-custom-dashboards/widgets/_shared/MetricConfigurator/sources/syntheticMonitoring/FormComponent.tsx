@@ -15,9 +15,11 @@ import { Stack } from '@instana/components';
 // @ts-expect-error module needs to be translated to TS
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 // @ts-expect-error module needs to be translated to TS
-import { isRequiringGroupingConfiguration, onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
-// @ts-expect-error module needs to be translated to TS
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
+// @ts-expect-error module needs to be translated to TS
+import { isRequiringGroupingConfiguration } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+// @ts-expect-error module needs to be translated to TS
+import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 // @ts-expect-error module needs to be translated to TS
 import { aggregationLabels } from 'in-stores/metric/metric';
 import syntheticsGroupingConfigurator from 'in-synthetics/utils/syntheticsGroupingConfigurator';
@@ -38,6 +40,7 @@ interface SyntheticFormComponentProps {
   dataSourceSection: JSX.Element;
   formatterSection: JSX.Element;
   timeShiftConfiguration: JSX.Element;
+  thresholdConfiguration: JSX.Element;
   withAggregationInMetrics: boolean;
   withGrouping: boolean;
   maxGrouping: number;
@@ -50,6 +53,7 @@ const FormComponent = ({
   dataSourceSection,
   formatterSection,
   timeShiftConfiguration,
+  thresholdConfiguration,
   withAggregationInMetrics = true,
   withGrouping = true,
   maxGrouping = 20,
@@ -193,6 +197,8 @@ const FormComponent = ({
       />
 
       {timeShiftConfiguration}
+
+      {thresholdConfiguration}
 
       {labelSection}
     </Stack>

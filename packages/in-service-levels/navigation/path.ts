@@ -19,4 +19,7 @@ export const serviceLevelsObjectiveSummaryFullyQualified = `${serviceLevelsObjec
 export const serviceLevelsObjectiveConfiguration = `/configuration`;
 export const serviceLevelsObjectiveConfigurationFullyQualified = `${serviceLevelsObjectiveFullyQualified}${serviceLevelsObjectiveConfiguration}`;
 
+export const serviceLevelsObjectiveAlerts = `/alerts`;
+export const serviceLevelsObjectiveAlertsFullyQualified = `${serviceLevelsObjectiveFullyQualified}${serviceLevelsObjectiveAlerts}`;
+
 export const isSloView = getRootPathPredicate(serviceLevelsRoot);

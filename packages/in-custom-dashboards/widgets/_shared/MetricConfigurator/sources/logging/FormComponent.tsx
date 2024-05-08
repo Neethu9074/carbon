@@ -33,6 +33,7 @@ interface FormComponentProps {
   formatterSection: JSX.Element;
   labelSection: JSX.Element;
   timeShiftConfiguration: JSX.Element;
+  thresholdConfiguration: JSX.Element;
   form: MapForm<any>;
   onChange: any;
 }
@@ -45,6 +46,7 @@ export default function FormComponent({
   form,
   onChange,
   timeShiftConfiguration,
+  thresholdConfiguration,
   labelSection
 }: FormComponentProps) {
   const timeConfig = useTimeConfig();
@@ -104,8 +106,10 @@ export default function FormComponent({
             </option>
           ))}
         </SelectInSection>
+
+        {formatterSection}
       </Sections>
-      <Sections>{formatterSection}</Sections>
+
       <Sections>
         <QueryBuilderSection
           value={tagFilterExpression}
@@ -118,8 +122,12 @@ export default function FormComponent({
           }
         />
       </Sections>
-      <Sections>{timeShiftConfiguration}</Sections>
-      <Sections>{labelSection}</Sections>
+
+      {timeShiftConfiguration}
+
+      {thresholdConfiguration}
+
+      {labelSection}
     </Stack>
   );
 }

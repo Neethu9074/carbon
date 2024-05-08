@@ -2037,10 +2037,10 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@ibm/telemetry-js/-/telemetry-js-1.3.0.tgz#321f2ed4bbbc78d69dc1ee9cb6f83d2d2af9baef"
   integrity sha512-9gIkyF2B9RizWN6rsdQN76DN6D+/Xbr4HGTwm6EUujfXvEVtWbf4jzxDFwKvZkeTC2tjHpkUNJQKdivbMKt8yg==
 
-"@instana/components@3.11.0", "@instana/components@^3.11.0":
-  version "3.11.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-3.11.0.tgz#0fe51a6e6f027db7ea46f54e09db5d860f4d3a55"
-  integrity sha512-ab2odmBhiaCJ9UKe04uDBEKXLV1xj0M5xWF/zbYo5ohbbDHh+edOV76qpUyGWz4SrlzZVsp13kWJonp2NZFOqg==
+"@instana/components@3.12.0", "@instana/components@^3.12.0":
+  version "3.12.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-3.12.0.tgz#bd71f333287d3403fb9ea99a2559aab08e2c9270"
+  integrity sha512-9I0U4UfUJ8HXY856DDGdZ9vvuD5cMAvF0+CVxBhegyM8vzcpgSkC8DsT6dAEZbA/FpgZbmGuGGQCDA/YJ6wpZQ==
   dependencies:
     "@carbon/icons-react" "11.39.0"
     "@carbon/react" "1.55.0"
@@ -2132,12 +2132,12 @@
   dependencies:
     import-sort "^6.0.0"
 
-"@instana/legacy@3.4.21":
-  version "3.4.21"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/legacy/-/@instana/legacy-3.4.21.tgz#e91b73611c1287c93ce7e6b571f56dc7220085b5"
-  integrity sha512-PJu2DBm/n/heWdsoU7SI58XKgsakk9DNKNbtuI1Vm7lBGGlVtUrerEEuI7GVv25MePD4IKloQPKBbClM7nliXw==
+"@instana/legacy@3.4.22":
+  version "3.4.22"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/legacy/-/@instana/legacy-3.4.22.tgz#6c0547393135b6a0c75c45f7ac4e560eba73b09e"
+  integrity sha512-Dfz/M8no878tUNXpc4VsURcw+0SFofOn0W4bXsW/V0on1bLPxBhpAoVMdoZ9bCGowR0FYa9eD/JXdJPAfIRPcA==
   dependencies:
-    "@instana/components" "^3.11.0"
+    "@instana/components" "^3.12.0"
     "@instana/design-tokens" "^1.26.0"
     "@instana/format-date" "^1.6.7"
     "@instana/format-numbers" "^1.5.5"
@@ -2173,10 +2173,10 @@
     "@instana/logger" "^1.3.3"
     "@instana/observables" "^1.7.6"
 
-"@instana/types@1.274.71":
-  version "1.274.71"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.274.71.tgz#434b296a686081e35b54b392510852ddd04cbd68"
-  integrity sha512-YIBcrJrIi18iSwvd93fltupiIZnfMUKhfTaEXjHw7K3S7+Nctts/9Bl+rO8WzBjxNMIItyPy04HiqUlMh7d40g==
+"@instana/types@1.274.215":
+  version "1.274.215"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.274.215.tgz#46eb29d78167c8453bdf375b713de10e65e02de5"
+  integrity sha512-nOdxa0pXRGAEFGBJgwWfNTZ/JHAgr0LwuOgq9mtSYO5KRggk9jnhw4n2hxQe2GXCA30/8fwvq7ZcM1UExXw0zA==
 
 "@instana/utils@^1.3.1", "@instana/utils@^1.4.5":
   version "1.4.5"

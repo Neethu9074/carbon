@@ -121,6 +121,8 @@ export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
 export const customWidgetEventsTableEnabled = isFeatureFlagEnabled('customWidgetEventsTableEnabled');
 export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled('customWidgetTableInfraDataSourceEnabled');
 
+export const thresholdCustomDashboardsEnabled = isFeatureFlagEnabled('thresholdCustomDashboardsEnabled');
+
 // Infrastructure Smart Alerts
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
 export const infraPredictiveDetectionEnabled = isFeatureFlagEnabled('infraPredictiveDetectionEnabled');
@@ -139,6 +141,8 @@ export const zoomWidgetEnabled = isFeatureFlagEnabled('zoomWidgetEnabled');
 export const lastValueForNonTimeSeriesWidgetEnabled = isFeatureFlagEnabled('lastValueForNonTimeSeriesWidgetEnabled');
 
 export const logSmartAlertsEnabled = isFeatureFlagEnabled('logSmartAlertsEnabled');
+
+export const weaselSubresourceIntegrityEnabled = isFeatureFlagEnabled('weaselSubresourceIntegrityEnabled');
 
 //New Smart alert Design implementation
 
