@@ -85,6 +85,7 @@ export const KUBERNETES_NAMESPACE_SNAPSHOT_ID = 'id.kubernetesNamespace';
 export const LOG_EXCEPTION_TYPE = 'log.exception.type';
 export const LOG_EXCEPTION_MESSAGE = 'log.exception.message';
 export const LOG_EXCEPTION_STACK_TRACE = 'log.exception.stackTrace';
+export const LOG_RETENTION_TIME = 'expiration.ts.seconds';
 
 export const LOG_CUSTOM_KEY_SERVICE_ID = 'service_id';
 export const LOG_CUSTOM_KEY_ENDPOINT_ID = 'endpoint_id';
@@ -148,6 +149,7 @@ export const logTableTags = [
   PROCESS_ID,
   HOST_NAME,
   LOG_FILE_PATH,
+  LOG_RETENTION_TIME,
   ...containerSnapshotIds,
   ...containerIds,
   ...kubernetesTags
