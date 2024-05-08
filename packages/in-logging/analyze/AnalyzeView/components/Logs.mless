@@ -37,7 +37,7 @@
   }
 
   .squareHover:before {
-    border-radius: var(--ids-border-radius-option-small);
+    border-radius: var(--ids-border-radius-option-small) !important;
   }
 
   .centeredCopyButtonWrapper {
