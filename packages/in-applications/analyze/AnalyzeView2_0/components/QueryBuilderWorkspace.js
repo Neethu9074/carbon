@@ -62,12 +62,13 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
     children,
     dataSource,
     groupBy,
-    orderByGroups,
+    orderBy,
     onGroupByChange,
     useLastValidStateWhenErroneous,
     CustomAction,
     chartedMetrics,
-    hiddenCalls
+    hiddenCalls,
+    orderByGroups
   } = props;
 
   const { hasError, errors } = validate(formModel);
@@ -78,7 +79,6 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
       return t('in-applications:tracesLiveModeDisabled');
     }
   };
-
   const timeConfig = useTimeConfig();
   const docCallOrTrace = dataSource === 'calls' ? 'getCallGroup' : 'getTraceGroups';
   const getEndpointCallOrTrace = () => {
@@ -160,7 +160,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
                     group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
                     hiddenCalls={hiddenCalls}
                     metrics={getMetricsAsApi()}
-                    order={orderByGroups}
+                    order={isGrouped ? orderByGroups : orderBy}
                     backendQueryModel={backendQueryModel}
                     backendQueryModelWithFacets={backendQueryModelWithFacets}
                     tracking={{
