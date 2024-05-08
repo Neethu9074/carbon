@@ -16,9 +16,9 @@ import tabs, {
   isApplicationSloTabData,
   SloTabData
 } from 'in-service-levels/components/SloDashboard/tabs';
+import { defaultServiceLevelObjectiveUrlParameters, SloUrlState } from 'in-service-levels/navigation/urlParameters';
 import SloTimeWindowProvider from 'in-service-levels/components/SloDashboard/components/SloTimeWindowProvider';
 import SloDashboardHeader from 'in-service-levels/components/SloDashboard/components/SloDashboardHeader';
-import { defaultServiceLevelObjectiveUrlParameters } from 'in-service-levels/navigation/urlParameters';
 import SloMetaInfoHeader from 'in-service-levels/components/SloDashboard/components/SloMetaInfoHeader';
 import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
 import { SloTrackerProvider, sloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
@@ -36,17 +36,13 @@ import { LabeledEntity } from 'in-service-levels/types';
 import useUrlState from 'in-hooks/useUrlState';
 import { all } from 'in-hooks/utils/progress';
 
-interface UrlState {
-  sloId: string;
-}
-
 interface ResultWithIdentifier<I> extends Result<I> {
   subscriptionIdentifier: string;
 }
 
 export default function ServiceLevelsObjectiveDashboard() {
   const location = useLocation();
-  const [{ sloId }] = useUrlState<UrlState>({
+  const [{ sloId }] = useUrlState<SloUrlState>({
     bind: [defaultServiceLevelObjectiveUrlParameters.sloId]
   });
 
