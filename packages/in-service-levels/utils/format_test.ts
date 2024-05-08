@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { formatSloStatus } from 'in-service-levels/utils/format';
 
 describe('in-service-levels/utils', () => {
@@ -17,8 +18,8 @@ describe('in-service-levels/utils', () => {
       const { sloStatus, sloTarget } = formatSloStatus({ status, target });
 
       // Then
-      expect(sloStatus).toBeUndefined();
-      expect(sloTarget).toBeUndefined();
+      expect(sloStatus).toEqual(valueMissingPlaceholder);
+      expect(sloTarget).toEqual(valueMissingPlaceholder);
     });
 
     it('should return undefined for sloStatus and sloTarget if target is undefined', () => {
@@ -30,8 +31,8 @@ describe('in-service-levels/utils', () => {
       const { sloStatus, sloTarget } = formatSloStatus({ status, target });
 
       // Then
-      expect(sloStatus).toBeUndefined();
-      expect(sloTarget).toBeUndefined();
+      expect(sloStatus).toEqual(valueMissingPlaceholder);
+      expect(sloTarget).toEqual(valueMissingPlaceholder);
     });
 
     it.each`
