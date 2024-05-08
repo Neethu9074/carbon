@@ -41,6 +41,7 @@ import {
   teamSettingsLogManagementElk,
   teamSettingsLogManagementHumio,
   teamSettingsLogManagementLogDna,
+  teamSettingsLogManagementRetentionPeriod,
   teamSettingsLogManagementSplunk
 } from 'in-settings/navigation/paths';
 import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
@@ -55,6 +56,7 @@ import {
 } from 'in-services/featureFlags';
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
+import RetentionPeriodPage from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import ApiTokenFormDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenFormDialog';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
@@ -291,6 +293,11 @@ function navigationTreeForRole(role, isAnyIDPActive) {
   }
 
   const logManagementPages = [
+    {
+      path: teamSettingsLogManagementRetentionPeriod,
+      label: 'Retention Period',
+      component: RetentionPeriodPage
+    },
     {
       path: teamSettingsLogManagementCoralogix,
       label: t('in-settings:tabs.coralogix'),
