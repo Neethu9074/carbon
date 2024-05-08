@@ -339,8 +339,13 @@
       "days": "days",
       "typeToConfirm": "Type CHANGE RETENTION to confirm change",
       "changeError": "Error! Retention change could not be changed try again",
-      "changeSuccess": "Success! Log retention period changed to {{value}} days"
-
+      "changeSuccess": "Success! Log retention period changed to {{value}} days",
+      "historyChanges": "To view the retention history changes, leverage the {{actionLog}} and search for log retention.",
+      "actionLog": "Action Log",
+      "toastTitleSuccesful": "Change Log Retention successful",
+      "toastMessageSuccesful": "The Log retention changed successfuly.",
+      "toastTitleFailed": "Change Log Retention failed",
+      "toastMessageFailed": "Retention period could not be changed. Please try again."
     },
     "deleteLogs": {
       "deleteLogs": "Delete logs",

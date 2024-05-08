@@ -8,6 +8,8 @@ import React, { SetStateAction, useState } from 'react';
 
 import { Button, Input, Typography } from '@instana/components';
 
+// eslint-disable-next-line no-restricted-imports
+import { ModalNotification, NotificationState } from './ModalNotification';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
 import Select from 'in-components/form/Select/Select';
@@ -28,12 +30,17 @@ const localisationStrings = {
   cancel: t('in-settings:tabs.cancel'),
   typeToConfirm: t('in-settings:tabs.retentionPeriod.typeToConfirm'),
   changeError: t('in-settings:tabs.retentionPeriod.changeError'),
-  changeSuccess: t('in-settings:tabs.retentionPeriod.changeSuccess')
+  changeSuccess: t('in-settings:tabs.retentionPeriod.changeSuccess'),
+  toastTitleSuccesful: t('in-settings:tabs.retentionPeriod.toastTitleSuccesful'),
+  toastMessageSuccesful: t('in-settings:tabs.retentionPeriod.toastMessageSuccesful'),
+  toastTitleFailed: t('in-settings:tabs.retentionPeriod.toastTitleFailed'),
+  toastMessageFailed: t('in-settings:tabs.retentionPeriod.toastMessageFailed')
 };
 
 export default function RententionPeriod() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
   return (
     <>
       <SettingsDetailPage>
@@ -67,6 +74,8 @@ interface RetentionPeriodDialogProps {
 
 function RetentionPeriodDialog({ setShowConfirmation, setIsDeleting, isDeleting }: RetentionPeriodDialogProps) {
   // const [daysDropdownValue, setDaysDropdownValue] = useState('0')
+  const [notification, setNotification] = useState<NotificationState>({ show: false });
+
   const daysDropdownValues = [7, 20, 30, 60, 90];
 
   const ConfirmationButtons = (
@@ -105,6 +114,7 @@ function RetentionPeriodDialog({ setShowConfirmation, setIsDeleting, isDeleting 
           {localisationStrings.typeToConfirm}
           <Input disabled={isDeleting} name="typingValidation" />
         </Label>
+        <ModalNotification onClick={() => setNotification({ show: false })} variant={notification.variant} />
       </section>
       <section className={locals.buttons}>{ConfirmationButtons}</section>
     </Dialog>
