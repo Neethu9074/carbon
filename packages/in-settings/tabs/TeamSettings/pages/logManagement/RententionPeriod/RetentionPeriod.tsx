@@ -19,7 +19,7 @@ import { t } from 'in-i18n';
 import locals from './RetentionPeriod.mless';
 
 const localisationStrings = {
-  rententionPeriod: t('in-settings:tabs.retentionPeriod.rententionPeriod'),
+  retentionPeriod: t('in-settings:tabs.retentionPeriod.retentionPeriod'),
   retentionDialogDescription: t('in-settings:tabs.retentionPeriod.retentionDialogDescription'),
   changeRetentionPeriod: t('in-settings:tabs.retentionPeriod.changeRetentionPeriod'),
   logRetentionPeriod: t('in-settings:tabs.retentionPeriod.logRetentionPeriod'),
@@ -37,9 +37,9 @@ export default function RententionPeriod() {
   return (
     <>
       <SettingsDetailPage>
-        <Title title="Rentention Period" />
+        <Title title={localisationStrings.retentionPeriod} />
         <section className={locals.titleSection}>
-          <SubViewHeaderComponent>{localisationStrings.rententionPeriod}</SubViewHeaderComponent>
+          <SubViewHeaderComponent>{localisationStrings.retentionPeriod}</SubViewHeaderComponent>
           <Button onClick={() => setShowConfirmation(true)} kind="danger">
             Change retention period
           </Button>
