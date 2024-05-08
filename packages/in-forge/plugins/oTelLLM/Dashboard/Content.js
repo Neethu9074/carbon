@@ -10,7 +10,7 @@ import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import TotalUsageBigNumber from 'in-forge/plugins/oTelLLM/Dashboard/TotalUsageBigNumber';
-import Chart from 'in-forge/plugins/oTelLLM/Dashboard/AggregatedMetricChart';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TopListByModel from 'in-forge/plugins/oTelLLM/Dashboard/TopListByModel';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -19,6 +19,8 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import EntityLink from 'in-components/EntityLink';
 import { t } from 'in-i18n';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { timeConfigWithShift } from 'in-stores/time/config';
+import { days, hours, minutes, seconds } from 'in-services/time';
 
 export default function OTelLLMDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -29,6 +31,25 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
   const durations = metricIds.filter(metric => metric.includes('llm.response.duration')).toArray();
 
   const instanceId = snapshot.get('data').get('resource.service.instance.id');
+
+  const timeSkew = 10000;
+  let granularity = seconds.toMillis(10);
+  let shiftTimeConfig = timeConfigWithShift(timeConfig, timeSkew);
+  if (shiftTimeConfig.windowSize >= days.toMillis(91)) {
+    granularity = days.toMillis(7);
+  } else if (shiftTimeConfig.windowSize >= days.toMillis(7)) {
+    granularity = days.toMillis(1);
+  } else if (shiftTimeConfig.windowSize >= hours.toMillis(24)) {
+    granularity = hours.toMillis(1);
+  } else if (shiftTimeConfig.windowSize >= hours.toMillis(12)) {
+    granularity = minutes.toMillis(10);
+  } else if (shiftTimeConfig.windowSize >= hours.toMillis(6)) {
+    granularity = minutes.toMillis(5);
+  } else if (shiftTimeConfig.windowSize >= hours.toMillis(1)) {
+    granularity = minutes.toMillis(1);
+  } else if (shiftTimeConfig.windowSize >= minutes.toMillis(30)) {
+    granularity = seconds.toMillis(30);
+  }
 
   return (
     <div>
@@ -79,6 +100,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            granularity={granularity}
             y1={{
               min: 0,
               formatter: number.detailed,
@@ -101,6 +123,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            granularity={granularity}
             y1={{
               min: 0,
               formatter: number.detailed,
@@ -123,6 +146,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            granularity={granularity}
             y1={{
               min: 0,
               formatter: number.detailed,
@@ -145,6 +169,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            granularity={granularity}
             y1={{
               min: 0,
               formatter: millis.detailed,
