@@ -118,7 +118,8 @@ export default function LogAlertChartWrapper({
   // window endtime or return the adjustedWindowSize, so we'll patch the return values.
   // NB: We should only zerofill log metrics which are aggregated by sum(count, message size, etc)
   const windowEnd = metricChartProps.result.time - (metricChartProps.result.time % granularity);
-  const updatedResult = { ...metricChartProps.result, time: windowEnd, adjustedWindowSize: timeConfig.windowSize };
+  const adjustedWindowSize = timeConfig.windowSize - (timeConfig.windowSize % granularity);
+  const updatedResult = { ...metricChartProps.result, time: windowEnd, adjustedWindowSize };
   const zeroFilledResult = applyPostProcessing(updatedResult, zeroFillAndClipMetric, granularity);
 
   return (
