@@ -44,6 +44,7 @@ const getInitialFormState = () => {
 };
 export default function useRetentionPeriodForm() {
   const [form, setForm] = useState(getInitialFormState());
+  const [sumbmitted, setSubmitted] = useState(false);
   const onChange = (name: RetentionPeriodFormFields, value: string) => {
     setForm(form.updateIn([name], field => field.setValue(value).setTouched(true)) as MapForm<any>);
   };
@@ -56,9 +57,13 @@ export default function useRetentionPeriodForm() {
   const retentionPeriodInputValue = form.get('retentionPeriod').value;
 
   const validationValidationMessage =
-    form.get('validation').valid || !form.get('validation').touched ? null : form.get('validation').messages[0].message;
+    form.get('validation').valid || (!form.get('validation').touched && !sumbmitted)
+      ? null
+      : form.get('validation').messages[0].message;
   const reasonValidationMessage =
-    form.get('reason').valid || !form.get('reason').touched ? null : form.get('reason').messages[0].message;
+    form.get('reason').valid || (!form.get('reason').touched && !sumbmitted)
+      ? null
+      : form.get('reason').messages[0].message;
 
   const canSubmit = form.hierarchyValid;
   const resetForm = () => setForm(getInitialFormState);
@@ -66,6 +71,7 @@ export default function useRetentionPeriodForm() {
   return {
     onChange,
     form,
+    setSubmitted,
     setReasonInputValue,
     setRetentionPeriodInputValue,
     setValidationInputValue,

@@ -87,16 +87,18 @@ function RetentionPeriodDialog({ setShowConfirmation, setIsDeleting, isDeleting 
     setValidationInputValue,
     setRetentionPeriodInputValue,
     setReasonInputValue,
+    setSubmitted,
     validationValidationMessage,
     reasonValidationMessage,
     canSubmit,
     resetForm
   } = useRetentionPeriodForm();
 
-  const isDeleteDisabled = !canSubmit || isDeleting;
-
   const handleSubmit = () => {
-    resetForm();
+    setSubmitted(true);
+    if (canSubmit) {
+      resetForm();
+    }
   };
 
   const ConfirmationButtons = (
@@ -104,7 +106,7 @@ function RetentionPeriodDialog({ setShowConfirmation, setIsDeleting, isDeleting 
       <Button kind="secondary" onClick={() => closeConfirmationDialog()}>
         {localisationStrings.cancel}
       </Button>
-      <Button onClick={handleSubmit} disabled={isDeleteDisabled} kind="danger">
+      <Button onClick={handleSubmit} kind="danger">
         {localisationStrings.changeRetentionPeriod}
       </Button>
     </>
