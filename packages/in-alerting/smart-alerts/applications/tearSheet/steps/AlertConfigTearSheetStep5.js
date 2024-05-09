@@ -105,6 +105,7 @@ export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, 
           setSliderState={() => undefined}
           setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
           numberOfAlertChannelListRows={7}
+          isTearSheet
         />
       </TearSheetStepContentWrapper>
     </>

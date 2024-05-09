@@ -16,4 +16,5 @@ export interface ConfigureAlertChannelProps {
   setSliderState: (state: SliderState) => void;
   setCustomSlideInHeaderConfig: (state: { title: string | null; onClose: (() => void) | null }) => void;
   numberOfAlertChannelListRows?: number;
+  isTearSheet?: boolean;
 }
