@@ -53,6 +53,5 @@
   "process": "处理",
   "host": "主机",
   "fileOnHost": "于",
-  "file": "文件",
-  "logExpiration":"保留至"
+  "file": "文件"
 }
