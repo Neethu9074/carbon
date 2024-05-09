@@ -50,6 +50,7 @@ export interface Role {
   canConfigureAgents: boolean;
   canConfigureApiTokens: boolean;
   canDeleteLogs: boolean;
+  canViewLogVolume: boolean;
   canConfigureIntegrations: boolean;
   canConfigureMobileAppMonitoring: boolean;
   canManuallyCloseIssue: boolean;

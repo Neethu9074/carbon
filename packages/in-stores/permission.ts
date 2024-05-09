@@ -87,6 +87,7 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_SESSION_SETTINGS: 'CAN_CONFIGURE_SESSION_SETTINGS',
   CAN_VIEW_LOGS: 'CAN_VIEW_LOGS',
   CAN_DELETE_LOGS: 'CAN_DELETE_LOGS',
+  CAN_VIEW_LOG_VOLUME: 'CAN_VIEW_LOG_VOLUME',
   CAN_VIEW_TRACE_DETAILS: 'CAN_VIEW_TRACE_DETAILS',
   CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
@@ -570,6 +571,14 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     label: t('in-stores:permissionCanDeleteLogsLabel'),
     description: t('in-stores:permissionCanDeleteLogsDescription'),
     category: t('in-stores:permissionCanDeleteLogsCategory'),
+    isOwnerPermission: true
+  },
+  [Capability.CAN_VIEW_LOG_VOLUME]: {
+    keyForGroupApi: Capability.CAN_VIEW_LOG_VOLUME,
+    keyForApiTokenApi: 'canViewLogVolume',
+    label: t('in-stores:permissionCanViewLogVolume'),
+    description: t('in-stores:permissionCanViewLogVolumeDescription'),
+    category: t('in-stores:permissionCanViewLogVolumeCategory'),
     isOwnerPermission: true
   },
   [Capability.CAN_VIEW_TRACE_DETAILS]: {

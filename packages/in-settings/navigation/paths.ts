@@ -106,6 +106,7 @@ export const teamSettingsAlertingIntegrations = `${alerting}/integrations`;
 export const logManagement = `${teamSettings}/logManagement`;
 export const teamSettingsLogManagementCoralogix = `${logManagement}/coralogixConfiguration`;
 export const teamSettingsLogManagementDeleteLogs = `${logManagement}/deleteLogs`;
+export const teamSettingsLogManagementLogVolume = `${logManagement}/logVolume`;
 export const teamSettingsLogManagementLogDna = `${logManagement}/logdnaConfiguration`;
 export const teamSettingsLogManagementSplunk = `${logManagement}/splunkConfiguration`;
 export const teamSettingsLogManagementHumio = `${logManagement}/humioConfiguration`;
