@@ -69,6 +69,7 @@ export function TagValue({
   const value = tag.stringValue || '';
   const resolvedValue = useResolvedValue(uniqueTagName, tag);
   const entitySnapshotId = getSnapshotId(tag, item);
+  const iconColor = 'var(--ids-color-option-neutral-900)';
 
   return (
     <div className={locals.tagValue}>
@@ -81,6 +82,7 @@ export function TagValue({
           {allowedTagsForGrouping?.has(tag.name || '') && getHrefToGroupedView && (
             <Tooltip content={t('in-logging:tooltipAddAsGroup')}>
               <IconButton
+                color={iconColor}
                 iconSize={'xs'}
                 type="lib_group_by"
                 href={getHrefToGroupedView(createGroupingTag(tag.name, tag.key))}
@@ -92,6 +94,7 @@ export function TagValue({
           {onSelectTagHref && (
             <Tooltip content={t('in-logging:tooltipAddAsFilter')}>
               <IconButton
+                color={iconColor}
                 iconSize={'xs'}
                 type="lib_actions_filter"
                 href={onSelectTagHref(createTagFilter(value, item.tags, tag.name, tag.key) as TagFilter)}
@@ -104,6 +107,7 @@ export function TagValue({
             <CopyToClipboard getText={() => resolvedValue}>
               {copyToClipboardRef => (
                 <IconButton
+                  color={iconColor}
                   className={locals.squareHover}
                   ref={copyToClipboardRef}
                   iconSize={'xs'}
