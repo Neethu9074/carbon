@@ -14,10 +14,13 @@ import { ModalNotification, NotificationState } from './ModalNotification';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import Select from 'in-components/form/Select/Select';
 import Label from 'in-components/form/Label/Label';
 import Dialog from 'in-components/Dialog/Dialog';
 import Title from 'in-components/Title/Title';
+import http from 'in-services/http/http';
 import { t } from 'in-i18n';
 
 import locals from './RetentionPeriod.mless';
@@ -41,8 +44,19 @@ const localisationStrings = {
 
 export default function RententionPeriod() {
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isChangingRetention, setIsChangingRetention] = useState(false);
+  const [retentionValue, setRetentionValue] = useState<number | undefined>(() => {
+    const getRetentionPeriod$ = retentionLogsGET();
+    let initialValue: number | undefined;
 
+    getRetentionPeriod$.once(data => {
+      // console.log('Value Endpoint', data);
+      initialValue = data.body.retention;
+      setRetentionValue(data.body.retention); // Actualiza el estado con el valor obtenido
+    });
+
+    return initialValue;
+  });
   return (
     <>
       <SettingsDetailPage>
@@ -53,15 +67,18 @@ export default function RententionPeriod() {
             Change retention period
           </Button>
         </section>
-        {/* <main>
-
-      </main> */}
+        {
+          retentionValue /* <main>
+      
+      </main> */
+        }
       </SettingsDetailPage>
       {showConfirmation && (
         <RetentionPeriodDialog
           setShowConfirmation={setShowConfirmation}
-          setIsDeleting={setIsDeleting}
-          isDeleting={isDeleting}
+          setIsChangingRetention={setIsChangingRetention}
+          isChangingRetention={isChangingRetention}
+          setRentionValue={setRetentionValue}
         />
       )}
     </>
@@ -70,11 +87,17 @@ export default function RententionPeriod() {
 
 interface RetentionPeriodDialogProps {
   setShowConfirmation: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsDeleting: React.Dispatch<SetStateAction<boolean>>;
-  isDeleting: boolean;
+  setIsChangingRetention: React.Dispatch<SetStateAction<boolean>>;
+  isChangingRetention: boolean;
+  setRentionValue: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
-function RetentionPeriodDialog({ setShowConfirmation, setIsDeleting, isDeleting }: RetentionPeriodDialogProps) {
+function RetentionPeriodDialog({
+  setShowConfirmation,
+  setIsChangingRetention,
+  isChangingRetention,
+  setRentionValue
+}: RetentionPeriodDialogProps) {
   // const [daysDropdownValue, setDaysDropdownValue] = useState('0')
   const [notification, setNotification] = useState<NotificationState>({ show: false });
 
@@ -96,7 +119,54 @@ function RetentionPeriodDialog({ setShowConfirmation, setIsDeleting, isDeleting 
 
   const handleSubmit = () => {
     setSubmitted(true);
+
+    const queryParams: RetentionLogsRequest = {
+      reason: reasonInputValue,
+      retention: parseInt(retentionPeriodInputValue)
+    };
+    const postRetentionLogs$ = retentionLogsPOST(queryParams);
+
+    postRetentionLogs$.once(_ => {
+      //200
+      setNotification({ show: true, variant: 'success' });
+      setIsChangingRetention(false);
+      addMessage(
+        {
+          type: 'info',
+          icon: 'lib_help_error_info_outline',
+          content: (
+            <section className={locals.toast}>
+              <Typography variant="heading-200">{localisationStrings.toastTitleSuccesful}</Typography>
+              <Typography variant="body-regular">{localisationStrings.toastMessageSuccesful}</Typography>
+            </section>
+          ),
+          timeout: 5000
+        },
+        'logsRetentionChanged'
+      );
+    });
+
+    postRetentionLogs$.errors().once(_ => {
+      //400
+      setNotification({ show: true, variant: 'failure' });
+      setIsChangingRetention(false);
+      addMessage(
+        {
+          type: 'danger',
+          icon: 'lib_help_error_info_outline',
+          content: (
+            <section className={locals.toast}>
+              <Typography variant="heading-200">{localisationStrings.toastTitleFailed}</Typography>
+              <Typography variant="body-regular">{localisationStrings.toastMessageFailed}</Typography>
+            </section>
+          ),
+          timeout: 5000
+        },
+        'logsRetentionChanged'
+      );
+    });
     if (canSubmit) {
+      setRentionValue(validationInputValue);
       resetForm();
     }
   };
@@ -114,7 +184,7 @@ function RetentionPeriodDialog({ setShowConfirmation, setIsDeleting, isDeleting 
 
   const closeConfirmationDialog = () => {
     setShowConfirmation(false);
-    setIsDeleting(false);
+    setIsChangingRetention(false);
   };
 
   return (
@@ -132,7 +202,7 @@ function RetentionPeriodDialog({ setShowConfirmation, setIsDeleting, isDeleting 
         <Label htmlFor="reason">
           {localisationStrings.changeReason}
           <Input
-            disabled={isDeleting}
+            disabled={isChangingRetention}
             value={reasonInputValue}
             hasError={!!reasonValidationMessage}
             onChange={e => setReasonInputValue(e.target.value)}
@@ -143,7 +213,7 @@ function RetentionPeriodDialog({ setShowConfirmation, setIsDeleting, isDeleting 
         <Label htmlFor="typingValidation">
           {localisationStrings.typeToConfirm}
           <Input
-            disabled={isDeleting}
+            disabled={isChangingRetention}
             value={validationInputValue}
             hasError={!!validationValidationMessage}
             onChange={e => setValidationInputValue(e.target.value)}
@@ -156,4 +226,30 @@ function RetentionPeriodDialog({ setShowConfirmation, setIsDeleting, isDeleting 
       <section className={locals.buttons}>{ConfirmationButtons}</section>
     </Dialog>
   );
+}
+
+interface RetentionLogsRequest {
+  retention: number;
+  reason: string;
+}
+
+export function retentionLogsPOST(params: RetentionLogsRequest) {
+  return http<any>({
+    //I'd love to type the response, we have it completly? I'd like to see it in live.
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `/api/logging/retention/v1`,
+    queryParams: { ...params }
+  });
+}
+
+export function retentionLogsGET() {
+  return http<any>({
+    //I'd love to type the response, we have it completly? I'd like to see it in live.
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `/api/logging/retention/v1`
+  });
 }
