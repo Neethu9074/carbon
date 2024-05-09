@@ -171,6 +171,7 @@ function renderButtonLine(props) {
       isMenuItem
       boundaryScope={boundaryScope}
       defaultBoundaryScope={props.result.data.boundaryScope}
+      applicationId={applicationId}
     />
   );
 
