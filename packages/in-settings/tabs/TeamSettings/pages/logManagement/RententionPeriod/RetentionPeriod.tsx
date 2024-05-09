@@ -8,8 +8,10 @@ import React, { SetStateAction, useState } from 'react';
 
 import { Button, Input, Typography } from '@instana/components';
 
+import useRetentionPeriodForm from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/useRetentionPeriodForm';
 // eslint-disable-next-line no-restricted-imports
 import { ModalNotification, NotificationState } from './ModalNotification';
+import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
 import Select from 'in-components/form/Select/Select';
@@ -76,14 +78,33 @@ function RetentionPeriodDialog({ setShowConfirmation, setIsDeleting, isDeleting 
   // const [daysDropdownValue, setDaysDropdownValue] = useState('0')
   const [notification, setNotification] = useState<NotificationState>({ show: false });
 
-  const daysDropdownValues = [7, 20, 30, 60, 90];
+  const daysDropdownValues = ['7', '20', '30', '60', '90'];
+
+  const {
+    reasonInputValue,
+    validationInputValue,
+    retentionPeriodInputValue,
+    setValidationInputValue,
+    setRetentionPeriodInputValue,
+    setReasonInputValue,
+    validationValidationMessage,
+    reasonValidationMessage,
+    canSubmit,
+    resetForm
+  } = useRetentionPeriodForm();
+
+  const isDeleteDisabled = !canSubmit || isDeleting;
+
+  const handleSubmit = () => {
+    resetForm();
+  };
 
   const ConfirmationButtons = (
     <>
       <Button kind="secondary" onClick={() => closeConfirmationDialog()}>
         {localisationStrings.cancel}
       </Button>
-      <Button disabled kind="danger">
+      <Button onClick={handleSubmit} disabled={isDeleteDisabled} kind="danger">
         {localisationStrings.changeRetentionPeriod}
       </Button>
     </>
@@ -100,7 +121,7 @@ function RetentionPeriodDialog({ setShowConfirmation, setIsDeleting, isDeleting 
         <Typography variant="body-regular">{localisationStrings.retentionDialogDescription}</Typography>
         <Label htmlFor="LogRetentionPeriod">
           {localisationStrings.logRetentionPeriod}
-          <Select>
+          <Select value={retentionPeriodInputValue} onChange={e => setRetentionPeriodInputValue(e.target.value)}>
             {daysDropdownValues.map(val => (
               <option value={val}>{`${val} days`}</option>
             ))}
@@ -108,11 +129,25 @@ function RetentionPeriodDialog({ setShowConfirmation, setIsDeleting, isDeleting 
         </Label>
         <Label htmlFor="reason">
           {localisationStrings.changeReason}
-          <Input disabled={isDeleting} name="reason" />
+          <Input
+            disabled={isDeleting}
+            value={reasonInputValue}
+            hasError={!!reasonValidationMessage}
+            onChange={e => setReasonInputValue(e.target.value)}
+            name="reason"
+          />
+          {reasonValidationMessage && <ValidationBlock>{reasonValidationMessage}</ValidationBlock>}
         </Label>
         <Label htmlFor="typingValidation">
           {localisationStrings.typeToConfirm}
-          <Input disabled={isDeleting} name="typingValidation" />
+          <Input
+            disabled={isDeleting}
+            value={validationInputValue}
+            hasError={!!validationValidationMessage}
+            onChange={e => setValidationInputValue(e.target.value)}
+            name="typingValidation"
+          />
+          {validationValidationMessage && <ValidationBlock>{validationValidationMessage}</ValidationBlock>}
         </Label>
         <ModalNotification onClick={() => setNotification({ show: false })} variant={notification.variant} />
       </section>
