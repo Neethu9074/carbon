@@ -50,7 +50,7 @@ export default function App() {
                     <CarbonUIShell />
                   </ErrorBoundary>
 
-                  <div className={locals.content}>
+                  <div className={locals.content} role="main">
                     <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
                   </div>
 

@@ -213,7 +213,7 @@ const RenderCertificateCheck = ({
               setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
                 return { ...prevState, ssl: { simple: true } };
               });
-              setCommonAttributes({ ...commonAttributes, script: '', syntheticType: 'SSLCertificate' });
+              setCommonAttributes({ ...commonAttributes, script: '', syntheticType: commonAttributes.syntheticType });
               setScriptDetails({ modified: false, name: '' });
             }}
             disabled={isUpdateConfig}

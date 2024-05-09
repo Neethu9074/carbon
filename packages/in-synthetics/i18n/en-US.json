@@ -39,6 +39,7 @@
         "labelName": "Name of the test",
         "labelDescription": "Description",
         "labelFrequency": "Frequency (minute)",
+        "labelFrequencyHour": "Frequency (hour)",
         "labelApplications": "Select an Application"
       },
       "bluePrint": {
@@ -149,6 +150,8 @@
         "identifyTitle": "Identify: What is the test going to do?",
         "customPropertiesTitle": "Custom Properties",
         "frequency": "This test will run every {{frequencyValue}} minutes.",
+        "frequencyHours": "This test will run every {{frequencyHours}} hours.",
+        "frequencyHoursAndMinutes": "This test will run every {{frequencyHours}} hours and {{frequencyMinutes}} minutes.",
         "simultaneous": "Simultaneous",
         "simultaneousDescription": "This test will run simultaneously on each location(s) selected.",
         "configStep": {

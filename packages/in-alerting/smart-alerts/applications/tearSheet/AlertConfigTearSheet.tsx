@@ -26,24 +26,32 @@ import {
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 //@ts-expect-error
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
+import {
+  applicationId as applicationIdFromURL,
+  boundaryScope as boundaryScopeFromURL
+} from 'in-applications/navigation/matrix';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheetWithThreshold';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import AlertingPageHeader from 'in-alerting/smart-alerts/components/pageHeaderTemplate/AlertingPageHeader';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import useGetSmartAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetSmartAlertConfig';
 import { alertsCategory, isMigration, alertId, alertCreated } from 'in-applications/navigation/matrix';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
+import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 const logger = createLogger('in-alerting/smart-alerts/applications/dialog/AlertConfigDialogWithThreshold');
@@ -55,7 +63,10 @@ export default function AlertConfigTearSheet() {
 
   const alertConfigId = getMatrixParameter(location, smartAlertPath, alertId) ?? '';
   const alertConfigCreated = Number(getMatrixParameter(location, smartAlertPath, alertCreated)) ?? '';
-  //-- Fetch the global/local alert config from API in Edit mode ---
+  const boundaryScope = getMatrixParameter(location, smartAlertPath, boundaryScopeFromURL);
+  const applicationId = getMatrixParameter(location, smartAlertPath, applicationIdFromURL);
+
+  // Get alertconfig data from API in editmode
   const { alertConfig, alertConfigErrors } = useGetSmartAlertConfig(
     alertConfigId,
     alertConfigCreated,
@@ -63,7 +74,9 @@ export default function AlertConfigTearSheet() {
   );
 
   const editMode = alertConfigId ? true : false;
-  const applicationAlertConfig = editMode ? alertConfig : generateAlertConfig();
+  const applicationAlertConfig = editMode
+    ? alertConfig
+    : generateAlertConfig(isGlobalSmartAlert, applicationId, boundaryScope);
 
   if (alertConfigErrors?.length) {
     return <ErroneousResultPresenter errors={[...alertConfigErrors]} />;
@@ -92,7 +105,7 @@ function AlertConfigTearSheetContent({ alertConfig, editMode }: AlertConfigTearS
   const location = useLocation();
 
   const migrationMode = getMatrixParameter(location, smartAlertPath, isMigration) === 'true';
-  const isGlobalSmartAlert = getMatrixParameter(location, smartAlertPath, alertsCategory) === 'global';
+  const isGlobalSmartAlert = getMatrixParameter(location, smartAlertPath, alertsCategory) === categoryGlobal;
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const duplicateFrom = (alertConfig as any)?.duplicateFrom; // TODO logic need to be added
@@ -229,11 +242,31 @@ function mapStatusCodeConfig(alertConfig: any) {
   };
 }
 
-function generateAlertConfig() {
+function generateAlertConfig(
+  isGlobalSmartAlert: boolean,
+  applicationId: string | Nullish,
+  boundaryScope: string | Nullish,
+  includeSynthetic?: boolean,
+  serviceId: string | undefined = undefined,
+  endpointId: string | undefined = undefined
+) {
+  if (isGlobalSmartAlert) {
+    return {
+      threshold: {
+        type: STATIC_THRESHOLD
+      }
+    };
+  }
   return {
+    boundaryScope: boundaryScope,
     threshold: {
-      type: STATIC_THRESHOLD
-    }
+      type: HISTORIC_BASELINE,
+      value: 0.0,
+      seasonality: DAILY
+    },
+    calculateThresholdOnBackend: true,
+    includeSynthetic,
+    applications: applicationId && getEntitySelection(applicationId, serviceId, endpointId)
   };
 }
 

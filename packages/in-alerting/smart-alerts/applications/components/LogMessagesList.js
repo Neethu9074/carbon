@@ -52,7 +52,8 @@ export default function LogMessagesList({
   slideOut,
   pageSize = 10,
   logsTearsheetColumns = [],
-  header = null
+  header = null,
+  rule = null
 }) {
   return (
     <List
@@ -74,7 +75,8 @@ export default function LogMessagesList({
               includeInternal,
               includeSynthetic,
               tagFilterExpression,
-              timeConfig
+              timeConfig,
+              rule
             })
       }
       pageSize={pageSize ?? 10}
@@ -99,10 +101,14 @@ LogMessagesList.propTypes = {
   timeConfig: propTypeTimeConfig.isRequired,
   pageSize: PropTypes.number,
   logsTearsheetColumns: PropTypes.array,
-  header: PropTypes.element
+  header: PropTypes.element,
+  rule: PropTypes.object
 };
 
 function getTableData(kvArgs) {
+  const rule = kvArgs.rule;
+  delete kvArgs.rule; // deleting the `rule` prop from the arg because this rule is not required to pass to the WS call.
+
   const warnMessages = getLogMessages({
     logLevel: 'WARN',
     ...kvArgs
@@ -124,6 +130,8 @@ function getTableData(kvArgs) {
       .map(result => result.flatMap(r => r.data?.items).filter(Boolean))
       // sort messages by amount of calls, this is done client side because the order is lost when combining the observables
       .map(r => r.sort((l, r) => r.metrics['calls_SUM'][0][1] - l.metrics['calls_SUM'][0][1]))
+      // sort the selected message to the top of the list
+      .map(r => (rule ? sortSelectedMessageToTop(r, rule) : r))
   );
 }
 
@@ -203,4 +211,15 @@ function LogRow(item) {
 
 function getColumnDefinition(logsTearsheetColumns, columnDefinitions) {
   return [...logsTearsheetColumns, columnDefinitions];
+}
+
+function sortSelectedMessageToTop(result, rule) {
+  const level = rule?.get('level')?.value;
+  const message = rule?.get('message')?.value;
+  if (message) {
+    result.sort(({ message: a, level: c }, { message: b, level: d }) =>
+      a === message && c === level ? -1 : b === message && d === level ? +1 : a - b
+    );
+  }
+  return result;
 }
