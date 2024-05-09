@@ -9,6 +9,7 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelDatabase/constants';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -37,6 +38,9 @@ const cols = [
       getContent: number.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   }

@@ -12,6 +12,7 @@ import { number, bytesTwoDecimalPlaces, seconds } from 'in-services/formatters/n
 import TableSpaceTable from 'in-forge/plugins/oTelDatabase/Dashboard/TableSpaceTable';
 import LockCountTable from 'in-forge/plugins/oTelDatabase/Dashboard/LockCountTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelDatabase/constants';
 import DatabaseTable from 'in-forge/plugins/oTelDatabase/Dashboard/DatabaseTable';
 import CacheHitTable from 'in-forge/plugins/oTelDatabase/Dashboard/CacheHitTable';
 import LockTimeTable from 'in-forge/plugins/oTelDatabase/Dashboard/LockTimeTable';
@@ -39,8 +40,19 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
               t('in-forge:plugins.oTelDatabase.dashboard.instance')
             }
           >
-            <MetricValue snapshotId={snapshotId} metric="db.instance.active.count" formatter={number.compact} /> /{' '}
-            <MetricValue snapshotId={snapshotId} metric="db.instance.count" formatter={number.compact} />
+            <MetricValue
+              snapshotId={snapshotId}
+              metric="db.instance.active.count"
+              formatter={number.compact}
+              windowForLatest={WINDOW_FOR_LATEST_METRIC}
+            />
+            &nbsp;/&nbsp;
+            <MetricValue
+              snapshotId={snapshotId}
+              metric="db.instance.count"
+              formatter={number.compact}
+              windowForLatest={WINDOW_FOR_LATEST_METRIC}
+            />
           </KpiKeyValue>
         )}
         {metricIds.includes('db.session.active.count') && metricIds.includes('db.session.count') === true && (
@@ -51,30 +63,61 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
               t('in-forge:plugins.oTelDatabase.dashboard.session')
             }
           >
-            <MetricValue snapshotId={snapshotId} metric="db.session.active.count" formatter={number.compact} /> /{' '}
-            <MetricValue snapshotId={snapshotId} metric="db.session.count" formatter={number.compact} />
+            <MetricValue
+              snapshotId={snapshotId}
+              metric="db.session.active.count"
+              formatter={number.compact}
+              windowForLatest={WINDOW_FOR_LATEST_METRIC}
+            />
+            &nbsp;/&nbsp;
+            <MetricValue
+              snapshotId={snapshotId}
+              metric="db.session.count"
+              formatter={number.compact}
+              windowForLatest={WINDOW_FOR_LATEST_METRIC}
+            />
           </KpiKeyValue>
         )}
       </KpiSection>
       <KpiSection>
         {metricIds.includes('db.transaction.count') === true && (
           <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.transaction')}>
-            <MetricValue snapshotId={snapshotId} metric="db.transaction.count" formatter={number.compact} />
+            <MetricValue
+              snapshotId={snapshotId}
+              metric="db.transaction.count"
+              formatter={number.compact}
+              windowForLatest={WINDOW_FOR_LATEST_METRIC}
+            />
           </KpiKeyValue>
         )}
         {metricIds.includes('db.transaction.rate') === true && (
           <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.tps')}>
-            <MetricValue snapshotId={snapshotId} metric="db.transaction.rate" formatter={number.detailed} />
+            <MetricValue
+              snapshotId={snapshotId}
+              metric="db.transaction.rate"
+              formatter={number.detailed}
+              windowForLatest={WINDOW_FOR_LATEST_METRIC}
+            />
           </KpiKeyValue>
         )}
         {metricIds.includes('db.sql.count') === true && (
           <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.sql')}>
-            <MetricValue snapshotId={snapshotId} metric="db.sql.count" formatter={number.compact} />
+            <MetricValue
+              snapshotId={snapshotId}
+              metric="db.sql.count"
+              formatter={number.compact}
+              windowForLatest={WINDOW_FOR_LATEST_METRIC}
+            />
           </KpiKeyValue>
         )}
         {metricIds.includes('db.sql.rate') === true && (
           <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.sqlPerSecond')}>
-            <MetricValue snapshotId={snapshotId} metric="db.sql.rate" formatter={number.detailed} />
+            <MetricValue
+              snapshotId={snapshotId}
+              metric="db.sql.rate"
+              formatter={number.detailed}
+              windowForLatest={WINDOW_FOR_LATEST_METRIC}
+            />
           </KpiKeyValue>
         )}
       </KpiSection>
