@@ -336,6 +336,7 @@
       "retentionDialogDescription": "Changes to log retention period will impact cost and duration of log data available for analytics and custom dashboards",
       "logRetentionPeriod": "Log retention period",
       "changeReason": "Change reason",
+      "currentRetentionPeriod": "Current retention period",
       "days": "days",
       "typeToConfirm": "Type CHANGE RETENTION to confirm change",
       "typeToContinue": "Type CHANGE RETENTION to continue",

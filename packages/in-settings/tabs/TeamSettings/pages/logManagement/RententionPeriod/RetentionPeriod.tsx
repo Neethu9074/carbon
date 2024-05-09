@@ -6,7 +6,7 @@
 
 import React, { SetStateAction, useState } from 'react';
 
-import { Button, Input, Typography } from '@instana/components';
+import { Button, Card, Input, Typography } from '@instana/components';
 
 import useRetentionPeriodForm from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/useRetentionPeriodForm';
 // eslint-disable-next-line no-restricted-imports
@@ -24,6 +24,7 @@ import locals from './RetentionPeriod.mless';
 
 const localisationStrings = {
   retentionPeriod: t('in-settings:tabs.retentionPeriod.retentionPeriod'),
+  currentRetentionPeriod: t('in-settings:tabs.retentionPeriod.currentRetentionPeriod'),
   retentionDialogDescription: t('in-settings:tabs.retentionPeriod.retentionDialogDescription'),
   changeRetentionPeriod: t('in-settings:tabs.retentionPeriod.changeRetentionPeriod'),
   logRetentionPeriod: t('in-settings:tabs.retentionPeriod.logRetentionPeriod'),
@@ -53,9 +54,16 @@ export default function RententionPeriod() {
             Change retention period
           </Button>
         </section>
-        {/* <main>
-
-      </main> */}
+        <main>
+          <Card className={locals.card}>
+            <div className={locals.title}>
+              <span>{localisationStrings.currentRetentionPeriod}</span>
+            </div>
+            <div className={locals.body}>
+              <span className={locals.number}>7</span> {localisationStrings.days}
+            </div>
+          </Card>
+        </main>
       </SettingsDetailPage>
       {showConfirmation && (
         <RetentionPeriodDialog
