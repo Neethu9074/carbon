@@ -59,9 +59,6 @@ export default function CustomDashboardPresenter(props) {
     }
   }
 
-  //eslint-disable-next-line no-console
-  console.log('=====check skeleton loading: CustomDashboardPresenter');
-
   const loadingSection = result?.progress?.loading && <DefaultLoadingDashboard />;
 
   const errorSection =
