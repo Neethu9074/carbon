@@ -53,5 +53,6 @@
   "process": "Processo",
   "host": "Host",
   "fileOnHost": "su",
-  "file": "File"
+  "file": "File",
+  "logExpiration":"Conservato fino al"
 }
