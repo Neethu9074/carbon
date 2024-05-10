@@ -31,7 +31,6 @@ import AwsEks from 'in-plg/pages/onboarding/AgentList/Aws/AwsEks';
 import Azure from 'in-plg/pages/onboarding/AgentList/Azure/Azure';
 import MacOs from 'in-plg/pages/onboarding/AgentList/Mac/MacOs';
 import Unix from 'in-plg/pages/onboarding/AgentList/Unix/Unix';
-import GPU from 'in-plg/pages/onboarding/AgentList/GPU/GPU';
 import { t } from 'in-i18n';
 
 export function getEntriesForFreeTrial() {
@@ -447,19 +446,6 @@ export function getEntriesForFreeTrial() {
         label: t('in-waiting-for-deployment:content.elasticComputingEc2Windows64Bit'),
         keyWords: 'elasticcomputeec2windows',
         Content: WindowsEC2
-      }
-    },
-    {
-      id: 'gpu',
-      title: 'GPU - Yaml',
-      pageName: 'gpu', // tracking data
-      label: t('in-waiting-for-deployment:content.gpu'),
-      category: t('in-waiting-for-deployment:content.chip'),
-      icon: '',
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.gpuPlatform'),
-        keyWords: 'gpu',
-        Content: GPU
       }
     }
   ];
