@@ -331,7 +331,7 @@ const Content = function Content({ itemOrder, applicationId, width }) {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                             >
-                              <InView>
+                              <InView triggerOnce>
                                 {({ inView, ref }) => (
                                   <div ref={ref}>
                                     {inView && (
