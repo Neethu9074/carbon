@@ -53,6 +53,5 @@
   "process": "程序",
   "host": "主機",
   "fileOnHost": "於",
-  "file": "檔案",
-  "logExpiration":"保留至"
+  "file": "檔案"
 }

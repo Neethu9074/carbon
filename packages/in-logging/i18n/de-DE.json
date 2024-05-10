@@ -53,6 +53,5 @@
   "process": "Prozess",
   "host": "Host",
   "fileOnHost": "ein",
-  "file": "Datei",
-  "logExpiration":"Behalten bis"
+  "file": "Datei"
 }

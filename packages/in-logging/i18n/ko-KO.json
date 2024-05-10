@@ -53,6 +53,5 @@
   "process": "프로세스",
   "host": "호스트",
   "fileOnHost": "켜짐",
-  "file": "파일",
-  "logExpiration":"보관 기간:"
+  "file": "파일"
 }
