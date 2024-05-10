@@ -21,12 +21,6 @@
     }
   }
 
-  :global(.g10) {
-    .sectionHeading {
-      color: var(--cds-text-secondary);
-    }
-  }
-
   .sectionHeadingWithoutTopPadding {
     padding-top: 0;
   }
