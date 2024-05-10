@@ -44,13 +44,13 @@
   }
 
   .highProbabilityText {
-    color: var(--ids-color-option-green-500);
+    color: var(--ids-color-option-green-800);
   }
   .moderateProbabilityText {
-    color: var(--ids-color-option-yellow-500);
+    color: var(--ids-color-option-yellow-800);
   }
   .lowProbabilityText {
-    color: var(--ids-color-option-red-500);
+    color: var(--ids-color-option-red-700);
   }
   .naProbabilityText {
     color: var(--ids-color-option-neutral-800);
