@@ -506,6 +506,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonLoadingSkeletonFeatureEnabled',
+    instanaCtlKey: 'feature.carbon.loading.skeleton.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonAccordionEnabled',
     instanaCtlKey: 'feature.carbon.accordion.enabled',
     defaultValue: false
