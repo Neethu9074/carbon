@@ -12579,10 +12579,10 @@
         "powerUsage": "GPU Power Usage (W)",
         "smClocks": "GPU SM Clocks (HZ)",
         "memoryClocks": "GPU Memory Clocks (HZ)",
-        "gpuUtil": "GPU Utilization (%)",
-        "memoryCpyUtil": "GPU Memory Cpy Utilization (%)",
-        "frambufferMemUsed": "GPU Framebuffer Memory Used (MiB)",
-        "frambufferMemFree": "GPU Framebuffer Memory Free (MiB)"
+        "gpuUtil": "GPU Utilization",
+        "memoryCpyUtil": "GPU Memory Cpy Utilization",
+        "frambufferMemUsed": "GPU Framebuffer Memory Used",
+        "frambufferMemFree": "GPU Framebuffer Memory Free"
       },
       "container":{
         "containerName": "Container Name",

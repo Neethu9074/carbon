@@ -11,7 +11,7 @@ import { TimeConfig } from '@instana/types';
 
 //// @ts-expect-error Module needs to be translated to TS
 //import MetricValue from 'in-components/MetricValue';
-import { number, percentage } from 'in-services/formatters/number';
+import { number, percentage, bytes } from 'in-services/formatters/number';
 //import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 // @ts-expect-error Module needs to be translated to TS
@@ -87,6 +87,7 @@ export default function oTelDcgmDashboard({
                 return t('in-forge:plugins.oTelDcgm.dashboard.powerUsage');
               }),
               type: 'area',
+              aggregation: 'MEAN',
               min: 0
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -109,6 +110,7 @@ export default function oTelDcgmDashboard({
                   return t('in-forge:plugins.oTelDcgm.dashboard.smClocks');
                 }),
                 type: 'area',
+                aggregation: 'MEAN',
                 min: 0
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -130,6 +132,7 @@ export default function oTelDcgmDashboard({
                   return t('in-forge:plugins.oTelDcgm.dashboard.memoryClocks');
                 }),
                 type: 'area',
+                aggregation: 'MEAN',
                 min: 0
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -153,6 +156,7 @@ export default function oTelDcgmDashboard({
                   return t('in-forge:plugins.oTelDcgm.dashboard.gpuUtil');
                 }),
                 type: 'area',
+                aggregation: 'MEAN',
                 min: 0
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -173,7 +177,8 @@ export default function oTelDcgmDashboard({
                   }
                   return t('in-forge:plugins.oTelDcgm.dashboard.memoryCpyUtil');
                 }),
-                type: 'area'
+                type: 'area',
+                aggregation: 'MEAN'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
@@ -202,7 +207,7 @@ export default function oTelDcgmDashboard({
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: number.detailed,
+                formatter: bytes.detailed,
                 metrics: DCGM_FI_DEV_FB_USED.length > 0 ? DCGM_FI_DEV_FB_USED : [],
                 labels: DCGM_FI_DEV_FB_USED.map((metric: string) => {
                   if (metric.split('.').length > 1) {
@@ -223,7 +228,7 @@ export default function oTelDcgmDashboard({
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: number.detailed,
+                formatter: bytes.detailed,
                 metrics: DCGM_FI_DEV_FB_FREE.length > 0 ? DCGM_FI_DEV_FB_FREE : [],
                 labels: DCGM_FI_DEV_FB_FREE.map((metric: string) => {
                   if (metric.split('.').length > 1) {
