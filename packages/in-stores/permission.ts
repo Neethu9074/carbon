@@ -85,6 +85,7 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_SESSION_SETTINGS: 'CAN_CONFIGURE_SESSION_SETTINGS',
   CAN_VIEW_LOGS: 'CAN_VIEW_LOGS',
   CAN_DELETE_LOGS: 'CAN_DELETE_LOGS',
+  CAN_CHANGE_LOG_RETENTION_PERIOD: 'CAN_CHANGE_LOG_RETENTION_PERIOD',
   CAN_VIEW_TRACE_DETAILS: 'CAN_VIEW_TRACE_DETAILS',
   CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
@@ -549,7 +550,7 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     label: t('in-stores:permissionCanViewLogsLabel'),
     description: t('in-stores:permissionCanViewLogsDescription'),
     category: t('in-stores:permissionCanViewLogsCategory'),
-    isOwnerPermission: false
+    isOwnerPermission: true
   },
   [Capability.CAN_DELETE_LOGS]: {
     keyForGroupApi: Capability.CAN_DELETE_LOGS,
@@ -558,6 +559,14 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     description: t('in-stores:permissionCanDeleteLogsDescription'),
     category: t('in-stores:permissionCanDeleteLogsCategory'),
     isOwnerPermission: true
+  },
+  [Capability.CAN_CHANGE_LOG_RETENTION_PERIOD]: {
+    keyForGroupApi: Capability.CAN_CHANGE_LOG_RETENTION_PERIOD,
+    keyForApiTokenApi: '', // indicates that this is not a permission for a token
+    label: t('in-stores:permissionCanChangeLogRetentionPeriodLabel'),
+    description: t('in-stores:permissionCanChangeLogRetentionPeriodDescription'),
+    category: t('in-stores:permissionCanChangeLogRetentionPeriodCategory'),
+    isOwnerPermission: false
   },
   [Capability.CAN_VIEW_TRACE_DETAILS]: {
     keyForGroupApi: Capability.CAN_VIEW_TRACE_DETAILS,

@@ -74,7 +74,9 @@ export default function RententionPeriod() {
               <span>{localisationStrings.currentRetentionPeriod}</span>
             </div>
             <div className={locals.body}>
-              <span className={locals.number}>{retentionValue}</span> {localisationStrings.days}
+              <p>
+                <span className={locals.number}>{retentionValue}</span> {localisationStrings.days}
+              </p>
             </div>
           </Card>
         </main>

@@ -185,7 +185,8 @@ export const mixedCapabilities: Array<CapabilityType> = [
 export const logCapabilities: Array<CapabilityType> = [
   Capability.CAN_VIEW_LOGS,
   Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
-  Capability.CAN_DELETE_LOGS
+  Capability.CAN_DELETE_LOGS,
+  Capability.CAN_CHANGE_LOG_RETENTION_PERIOD
 ];
 
 export const customDashboardCapabilities: Array<CapabilityType> = [
