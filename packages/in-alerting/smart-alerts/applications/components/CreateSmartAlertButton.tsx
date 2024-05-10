@@ -20,7 +20,10 @@ export default function CreateSmartAlertButton({
   isMigrate = false,
   isMenuItem = false,
   boundaryScope,
-  defaultBoundaryScope
+  defaultBoundaryScope,
+  serviceId,
+  applicationId,
+  endpointId
 }: {
   isGlobal: boolean;
   buttonName: string;
@@ -29,12 +32,18 @@ export default function CreateSmartAlertButton({
   isMenuItem?: boolean;
   boundaryScope?: string;
   defaultBoundaryScope?: string;
+  serviceId?: string;
+  applicationId?: string;
+  endpointId?: string;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
   const createSmartAlertPath = getLinkToCreateSmartAlert({
     isGlobal: isGlobal,
     migration: isMigrate,
-    boundaryScope: boundaryScope || defaultBoundaryScope
+    boundaryScope: boundaryScope || defaultBoundaryScope,
+    serviceId: serviceId,
+    applicationId: applicationId,
+    endpointId: endpointId
   });
   return (
     <Button

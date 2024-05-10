@@ -63,4 +63,8 @@
     display: flex;
     justify-content: space-between;
   }
+
+  .logsLink {
+    color: var(--cds-link-primary);
+  }
 }

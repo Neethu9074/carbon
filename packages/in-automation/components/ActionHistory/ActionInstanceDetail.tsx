@@ -19,6 +19,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import getActionInstance from 'in-automation/subscriptions/getActionInstance';
 import DetailTab from 'in-automation/components/ActionHistory/DetailTab';
 import Feedback from 'in-automation/components/ActionHistory/Feedback';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { close } from 'in-components/DialogPresenter/store';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -113,23 +114,25 @@ export default function ActionInstanceDetail({ id, title }: { id?: string; title
           <ErroneousResultPresenter errors={[...errors]} />
         ) : (
           <div>
-            <SecondLevelNavigation>
-              {Object.keys(tabs).map(key => (
-                <SecondLevelNavigationItem
-                  key={key}
-                  isActive={currentTab === key}
-                  // @ts-ignore
-                  label={tabs[key].label}
-                  onClick={() => {
-                    if (currentTab === 'feedbackTab' && hasStaleFeedback) {
-                      setHasStaleFeedback(false);
-                      setReload(Math.random());
-                    }
-                    setCurrentTab(key);
-                  }}
-                />
-              ))}
-            </SecondLevelNavigation>
+            <LeftRightPadding>
+              <SecondLevelNavigation>
+                {Object.keys(tabs).map(key => (
+                  <SecondLevelNavigationItem
+                    key={key}
+                    isActive={currentTab === key}
+                    // @ts-ignore
+                    label={tabs[key].label}
+                    onClick={() => {
+                      if (currentTab === 'feedbackTab' && hasStaleFeedback) {
+                        setHasStaleFeedback(false);
+                        setReload(Math.random());
+                      }
+                      setCurrentTab(key);
+                    }}
+                  />
+                ))}
+              </SecondLevelNavigation>
+            </LeftRightPadding>
             <DashboardHeaderShadowModule />
             {/* @ts-ignore */}
             {tabs[currentTab].component()}

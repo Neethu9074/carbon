@@ -7,35 +7,46 @@
 import { useCallback } from 'react';
 
 import {
-  applicationId,
+  applicationId as applicationIdFromURL,
   boundaryScope as boundaryScopeFromURL,
   alertsCategory,
   isMigration,
   alertId,
-  alertCreated
+  alertCreated,
+  serviceId as serviceIdFromURL,
+  endpointId as endpointIdFromURL
 } from 'in-applications/navigation/matrix';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/components/list/constants';
-import { smartAlertPath, applicationDashboard } from 'in-applications/navigation/paths';
-import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
+import { smartAlertPath } from 'in-applications/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
+import {} from 'in-applications/navigation/matrix';
+
+interface AlertURLProps {
+  isGlobal: boolean;
+  migration?: boolean;
+  boundaryScope?: string;
+  alertId?: string;
+  alertConfigCreated?: number;
+  serviceId?: string;
+  applicationId?: string;
+  endpointId?: string;
+}
 
 export function useSmartAlertCreateUrl(): ({
   isGlobal,
   migration,
   alertId,
   alertConfigCreated,
-  boundaryScope
-}: {
-  isGlobal: boolean;
-  migration?: boolean;
-  alertId?: string;
-  alertConfigCreated?: number;
-  boundaryScope?: string;
-}) => string {
+  boundaryScope,
+  serviceId,
+  applicationId,
+  endpointId
+}: AlertURLProps) => string {
   const { createHref, location } = useNavigation();
   const currentLocation = useLocation();
 
@@ -45,14 +56,11 @@ export function useSmartAlertCreateUrl(): ({
       migration,
       boundaryScope,
       alertId,
-      alertConfigCreated
-    }: {
-      isGlobal: boolean;
-      migration?: boolean;
-      boundaryScope?: string;
-      alertId?: string;
-      alertConfigCreated?: number;
-    }) => {
+      alertConfigCreated,
+      serviceId,
+      applicationId,
+      endpointId
+    }: AlertURLProps) => {
       const returnUrlWithParams = createHref(currentLocation);
       const clonedLocation = cloneLocation(location);
       updateCreatePathMetrixParams(
@@ -62,7 +70,10 @@ export function useSmartAlertCreateUrl(): ({
         migration,
         boundaryScope,
         alertId,
-        alertConfigCreated
+        alertConfigCreated,
+        serviceId,
+        applicationId,
+        endpointId
       );
       return createHref({
         ...clonedLocation
@@ -79,16 +90,20 @@ function updateCreatePathMetrixParams(
   migration?: boolean,
   boundaryScope?: string,
   alertConfigId?: string,
-  alertConfigCreated?: number
+  alertConfigCreated?: number,
+  serviceId?: string,
+  applicationId?: string,
+  endpointId?: string
 ) {
-  const appId = getMatrixParameter(location, applicationDashboard, applicationId) ?? undefined;
   const configsCategory = isGlobal ? categoryGlobal : categoryLocal;
 
-  if (applicationId && !isGlobal) setOrDeleteMatrixKey(location, smartAlertPath, applicationId, appId);
+  if (applicationId && !isGlobal) setOrDeleteMatrixKey(location, smartAlertPath, applicationIdFromURL, applicationId);
   if (boundaryScope) setOrDeleteMatrixKey(location, smartAlertPath, boundaryScopeFromURL, boundaryScope);
   if (alertConfigId) setOrDeleteMatrixKey(location, smartAlertPath, alertId, String(alertConfigId));
   if (alertConfigCreated) setOrDeleteMatrixKey(location, smartAlertPath, alertCreated, alertConfigCreated);
   if (migration) setOrDeleteMatrixKey(location, smartAlertPath, isMigration, String(migration));
+  if (serviceId) setOrDeleteMatrixKey(location, smartAlertPath, serviceIdFromURL, serviceId);
+  if (endpointId) setOrDeleteMatrixKey(location, smartAlertPath, endpointIdFromURL, endpointId);
   setOrDeleteMatrixKey(location, smartAlertPath, alertsCategory, configsCategory);
   setOrDeleteMatrixKey(location, smartAlertPath, cancelUrl, returnUrlWithParams);
   setOrDeleteMatrixKey(location, smartAlertPath, isMigration, String(migration));

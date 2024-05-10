@@ -33,6 +33,7 @@ import {
 } from 'in-applications/navigation/matrix';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheetWithThreshold';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
+import { serviceId as serviceIdFromURL, endpointId as endpointIdFromURL } from 'in-applications/navigation/matrix';
 import AlertingPageHeader from 'in-alerting/smart-alerts/components/pageHeaderTemplate/AlertingPageHeader';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import useGetSmartAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetSmartAlertConfig';
@@ -65,6 +66,8 @@ export default function AlertConfigTearSheet() {
   const alertConfigCreated = Number(getMatrixParameter(location, smartAlertPath, alertCreated)) ?? '';
   const boundaryScope = getMatrixParameter(location, smartAlertPath, boundaryScopeFromURL);
   const applicationId = getMatrixParameter(location, smartAlertPath, applicationIdFromURL);
+  const serviceId = getMatrixParameter(location, smartAlertPath, serviceIdFromURL) ?? undefined;
+  const endpointId = getMatrixParameter(location, smartAlertPath, endpointIdFromURL) ?? undefined;
 
   // Get alertconfig data from API in editmode
   const { alertConfig, alertConfigErrors } = useGetSmartAlertConfig(
@@ -76,7 +79,7 @@ export default function AlertConfigTearSheet() {
   const editMode = alertConfigId ? true : false;
   const applicationAlertConfig = editMode
     ? alertConfig
-    : generateAlertConfig(isGlobalSmartAlert, applicationId, boundaryScope);
+    : generateAlertConfig(isGlobalSmartAlert, applicationId, boundaryScope, serviceId, endpointId);
 
   if (alertConfigErrors?.length) {
     return <ErroneousResultPresenter errors={[...alertConfigErrors]} />;
@@ -246,9 +249,9 @@ function generateAlertConfig(
   isGlobalSmartAlert: boolean,
   applicationId: string | Nullish,
   boundaryScope: string | Nullish,
-  includeSynthetic?: boolean,
-  serviceId: string | undefined = undefined,
-  endpointId: string | undefined = undefined
+  serviceId: string | undefined,
+  endpointId: string | undefined,
+  includeSynthetic?: boolean
 ) {
   if (isGlobalSmartAlert) {
     return {
