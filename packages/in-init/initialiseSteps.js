@@ -14,7 +14,7 @@ export default function initialiseSteps(initializationSteps) {
 
     // Using simple concatenation so that Webpack can properly analyze
     // this require statement for require.context creation.
-    const mod = require('./steps/' + initializationSteps[index] + '.js');
+    const mod = require('./steps/' + initializationSteps[index]);
     if (!mod || !mod.init) {
       nextStep(index + 1);
       return;
