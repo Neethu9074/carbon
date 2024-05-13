@@ -266,7 +266,7 @@ function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }) {
 
 function getGroupedView(dataSource) {
   return {
-    defaultOrderBy: dataSource === 'calls' ? `${dataSource}` : `${dataSource}_SUM`,
+    defaultOrderBy: `${dataSource}_SUM`,
     defaultOrderDirection: 'DESC',
     timestampName: timestampNames[dataSource].grouped,
     orderByGroupName: 'group',

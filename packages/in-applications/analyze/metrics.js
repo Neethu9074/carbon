@@ -114,7 +114,7 @@ export const dataSourceConstants = {
       { metric: 'errors', aggregation: 'MEAN' }
     ],
     defaultOrderByGroups: {
-      by: 'calls',
+      by: 'calls_SUM_Agg',
       direction: 'DESC'
     },
     defaultGrouping: {

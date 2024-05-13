@@ -377,11 +377,11 @@ function AnalyzeStateManagement({
         return field.customFieldId;
       }
       if (field.type === metricType) {
-        return dataSource === 'calls' ? field.metricId : getSingleNumberMetricId(field);
+        return getSingleNumberMetricId(field);
       }
       return null;
     },
-    [dataSource, timestampName]
+    [timestampName]
   );
 
   // Eventually we might wanna store this within the URL. This might become a lot more interesting when

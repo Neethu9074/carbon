@@ -160,7 +160,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
                     group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
                     hiddenCalls={hiddenCalls}
                     metrics={getMetricsAsApi()}
-                    order={isGrouped ? orderByGroups : orderBy}
+                    order={isGrouped ? removeAggregation(orderByGroups, dataSource) : orderBy}
                     backendQueryModel={backendQueryModel}
                     backendQueryModelWithFacets={backendQueryModelWithFacets}
                     tracking={{
@@ -196,3 +196,13 @@ function validate(formModel) {
     : emptyArray;
   return { hasError, errors };
 }
+
+const removeAggregation = (order, dataSource) => {
+  if (dataSource === 'calls') {
+    return {
+      ...order,
+      by: order.by.includes('_') ? order.by.split('_')[0] : order.by
+    };
+  }
+  return order;
+};
