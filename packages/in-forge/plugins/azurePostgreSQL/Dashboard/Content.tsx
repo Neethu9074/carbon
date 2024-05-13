@@ -197,7 +197,7 @@ export default function AzurePostgreSQLDashboard({
       </Columize>
 
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.azurePostgreSQL.dashboard.titleStorage')}>
+        <DashboardSection title={t('in-forge:plugins.azurePostgreSQL.dashboard.titleStorageUsed')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}

@@ -5873,7 +5873,8 @@
         "titleLogicalReplicationDelay": "Logical Replication Delay",
         "titleIops": "IOPS",
         "titleNetwork": "Network",
-        "titleStorage": "Storage"
+        "titleStorage": "Storage",
+        "titleStorageUsed": "Storage Used"
       }
     },
     "beeInstana": {
