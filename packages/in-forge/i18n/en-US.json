@@ -906,6 +906,11 @@
   "pluginName_ibmiDiskInfo_1": "Disk Information on IBM i",
   "pluginName_ibmiDiskInfo_2": "Disk Information on IBM i",
   "pluginName_ibmiDiskInfo": "Disk Information on IBM i",
+  "pluginName_ibmInfosphereCdc_plural": "IBM Infosphere CDCs",
+  "pluginName_ibmInfosphereCdc_0": "IBM Infosphere CDCs",
+  "pluginName_ibmInfosphereCdc_1": "IBM Infosphere CDCs",
+  "pluginName_ibmInfosphereCdc_2": "IBM Infosphere CDCs",
+  "pluginName_ibmInfosphereCdc": "IBM Infosphere CDC",
   "pluginName_ibmIOs_plural": "IBM i",
   "pluginName_ibmIOs_0": "IBM i",
   "pluginName_ibmIOs_1": "IBM i",
@@ -10779,7 +10784,7 @@
       "ibmInfosphereCdc": "IBM Infosphere CDC",
       "host": "Host",
       "port": "Port",
-      "subscriptions": "Subscriptions"   
+      "subscriptions": "Subscriptions"
     },
     "ibmInfosphereSubscription": {
       "ibmInfosphereSubscription": "Subscription",
@@ -10791,7 +10796,7 @@
       "postFilterDeletes": "Source post-filter deletes",
       "databaseBytesProcessed": "Source database bytes processed",
       "physicalBytesRead": "Physical bytes read",
-      "threadCpu": "Thread CPU",  
+      "threadCpu": "Thread CPU",
       "diskWrites": "Disk writes",
       "diskReads": "Disk reads",
       "diskSize": "Disk size",

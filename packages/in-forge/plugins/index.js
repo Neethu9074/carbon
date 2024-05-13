@@ -133,6 +133,7 @@ import './azureFunctionApp';
 import './ibmMqMftTransfer';
 import './sapWebDispatcher';
 import './azureDataFactory';
+import './ibmInfosphereCdc';
 import './azureServiceBus';
 import './azureManagedHSM';
 import './ibmMqMftMonitor';
