@@ -62,7 +62,8 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
     children,
     handleSubmit,
     additionalValidationCheck,
-    setForm
+    setForm,
+    migrationMode
   } = props;
 
   return (
@@ -91,6 +92,7 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
                 step={step}
                 stepConfigs={stepConfigs}
                 setForm={setForm}
+                migrationMode={migrationMode}
               />
             </div>
           </div>

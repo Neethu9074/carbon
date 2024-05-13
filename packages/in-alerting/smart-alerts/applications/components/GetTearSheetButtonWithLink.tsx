@@ -18,7 +18,7 @@ interface GetTearSheetLinkProps {
   alertConfigCreated: number;
 }
 
-export default function GetTearSheetLink({
+export default function GetTearSheetButtonWithLink({
   buttonIcon,
   buttonName,
   isGlobal,
@@ -33,7 +33,7 @@ export default function GetTearSheetLink({
   });
   return (
     <MoreMenuButton icon={buttonIcon} href={editSmartAlertPath}>
-      {buttonName}(New)
+      {buttonName}
     </MoreMenuButton>
   );
 }

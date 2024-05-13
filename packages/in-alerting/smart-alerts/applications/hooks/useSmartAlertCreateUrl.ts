@@ -12,17 +12,18 @@ import {
   alertsCategory,
   isMigration,
   alertId,
+  eventId,
   alertCreated,
   serviceId as serviceIdFromURL,
   endpointId as endpointIdFromURL
 } from 'in-applications/navigation/matrix';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/components/list/constants';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
+import { smartAlertPath } from 'in-applications/navigation/paths';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
-import { smartAlertPath } from 'in-applications/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
 import {} from 'in-applications/navigation/matrix';
 
@@ -35,6 +36,7 @@ interface AlertURLProps {
   serviceId?: string;
   applicationId?: string;
   endpointId?: string;
+  eventSpecificationId?: string;
 }
 
 export function useSmartAlertCreateUrl(): ({
@@ -45,7 +47,8 @@ export function useSmartAlertCreateUrl(): ({
   boundaryScope,
   serviceId,
   applicationId,
-  endpointId
+  endpointId,
+  eventSpecificationId
 }: AlertURLProps) => string {
   const { createHref, location } = useNavigation();
   const currentLocation = useLocation();
@@ -59,7 +62,8 @@ export function useSmartAlertCreateUrl(): ({
       alertConfigCreated,
       serviceId,
       applicationId,
-      endpointId
+      endpointId,
+      eventSpecificationId
     }: AlertURLProps) => {
       const returnUrlWithParams = createHref(currentLocation);
       const clonedLocation = cloneLocation(location);
@@ -73,7 +77,8 @@ export function useSmartAlertCreateUrl(): ({
         alertConfigCreated,
         serviceId,
         applicationId,
-        endpointId
+        endpointId,
+        eventSpecificationId
       );
       return createHref({
         ...clonedLocation
@@ -93,7 +98,8 @@ function updateCreatePathMetrixParams(
   alertConfigCreated?: number,
   serviceId?: string,
   applicationId?: string,
-  endpointId?: string
+  endpointId?: string,
+  eventSpecificationId?: string
 ) {
   const configsCategory = isGlobal ? categoryGlobal : categoryLocal;
 
@@ -101,6 +107,7 @@ function updateCreatePathMetrixParams(
   if (boundaryScope) setOrDeleteMatrixKey(location, smartAlertPath, boundaryScopeFromURL, boundaryScope);
   if (alertConfigId) setOrDeleteMatrixKey(location, smartAlertPath, alertId, String(alertConfigId));
   if (alertConfigCreated) setOrDeleteMatrixKey(location, smartAlertPath, alertCreated, alertConfigCreated);
+  if (eventSpecificationId && migration) setOrDeleteMatrixKey(location, smartAlertPath, eventId, eventSpecificationId);
   if (migration) setOrDeleteMatrixKey(location, smartAlertPath, isMigration, String(migration));
   if (serviceId) setOrDeleteMatrixKey(location, smartAlertPath, serviceIdFromURL, serviceId);
   if (endpointId) setOrDeleteMatrixKey(location, smartAlertPath, endpointIdFromURL, endpointId);

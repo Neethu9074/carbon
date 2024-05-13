@@ -26,6 +26,7 @@ export const alertId = 'alertId';
 export const alertCreated = 'alertCreated';
 export const alertsCategory = 'configsCategory';
 export const isMigration = 'isMigration';
+export const eventId = 'eventSpecificationId';
 
 export const dataSourceMatrixParameter = {
   path: '/analyze',
