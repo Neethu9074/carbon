@@ -242,3 +242,4 @@ export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
   false
 );
 export const orbitalEnabled = isFeatureFlagEnabled('orbitalEnabled', false);
+export const carbonStepProgressBarEnabled = isFeatureFlagEnabled('carbonStepProgressBarEnabled', false);

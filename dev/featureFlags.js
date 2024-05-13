@@ -125,6 +125,7 @@ module.exports = {
   weaselSubresourceIntegrityEnabled: true,
   orbitalEnabled: false,
   carbonTileEnabled: true,
+  carbonStepProgressBarEnabled: true,
   thresholdCustomDashboardsEnabled: false,
   carbonPaginationEnabled: true
 };
