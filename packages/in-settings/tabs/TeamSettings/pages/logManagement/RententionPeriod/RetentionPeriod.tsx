@@ -6,11 +6,13 @@
 
 import React, { SetStateAction, useState } from 'react';
 
-import { Button, Card, Input, Typography } from '@instana/components';
+import { Button, Card, Input, Link, Typography } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import useRetentionPeriodForm from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/useRetentionPeriodForm';
 // eslint-disable-next-line no-restricted-imports
 import { ModalNotification, NotificationState } from './ModalNotification';
+import { getEntityIdView, teamSettingsActionLog } from 'in-settings/navigation/paths';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
@@ -34,6 +36,9 @@ const localisationStrings = {
   changeReason: t('in-settings:tabs.retentionPeriod.changeReason'),
   days: t('in-settings:tabs.retentionPeriod.days'),
   cancel: t('in-settings:tabs.cancel'),
+  historyChanges: t('in-settings:tabs.retentionPeriod.historyChanges'),
+  logAction: t('in-settings:tabs.retentionPeriod.logAction'),
+  historyChanges2: t('in-settings:tabs.retentionPeriod.historyChanges2'),
   typeToConfirm: t('in-settings:tabs.retentionPeriod.typeToConfirm'),
   changeError: t('in-settings:tabs.retentionPeriod.changeError'),
   changeSuccess: t('in-settings:tabs.retentionPeriod.changeSuccess'),
@@ -53,11 +58,14 @@ export default function RententionPeriod() {
     getRetentionPeriod$.once(data => {
       // console.log('Value Endpoint', data);
       initialValue = data.body.retention;
-      setRetentionValue(data.body.retention); // Actualiza el estado con el valor obtenido
+      setRetentionValue(data.body.retention);
     });
 
     return initialValue ?? 5;
   });
+
+  const logActionHref = useObservable(getEntityIdView(teamSettingsActionLog, ''), []);
+
   return (
     <>
       <SettingsDetailPage>
@@ -79,6 +87,11 @@ export default function RententionPeriod() {
               </p>
             </div>
           </Card>
+          <section className={locals.typo}>
+            <Typography variant={'body-regular'}>{localisationStrings.historyChanges + ' '}</Typography>
+            <Link href={logActionHref || ''}>{localisationStrings.logAction + ' '}</Link>
+            <Typography variant={'body-regular'}>{localisationStrings.historyChanges2}</Typography>
+          </section>
         </main>
       </SettingsDetailPage>
       {showConfirmation && (
