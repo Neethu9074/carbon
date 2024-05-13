@@ -76,7 +76,6 @@ export default function RententionPeriod() {
           <SubViewHeaderComponent>
             {localisationStrings.retentionPeriod}
             <Link external className={locals.link} href="">
-              {' '}
               {/* add in link when it has been supplied */}
               {localisationStrings.readDocs}
             </Link>
