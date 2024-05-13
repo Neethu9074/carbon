@@ -5,8 +5,8 @@
 
 /* global require:false */
 
-export default function initialiseSteps(initializationSteps) {
-  function nextStep(index) {
+export default function initialiseSteps(initializationSteps: string[]): void {
+  function nextStep(index: number): void {
     if (index >= initializationSteps.length) {
       // initialization process finished. yay!
       return;

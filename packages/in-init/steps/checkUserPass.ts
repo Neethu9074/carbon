@@ -5,7 +5,7 @@
 
 import { skipOnboardingDialog } from 'in-services/featureFlags';
 
-export default function checkIfUserCanPass(hasEntities) {
+export default function checkIfUserCanPass(hasEntities: boolean | undefined): boolean | undefined {
   if (skipOnboardingDialog) {
     return true;
   }
