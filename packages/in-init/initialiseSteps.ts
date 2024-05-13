@@ -5,8 +5,8 @@
 
 /* global require:false */
 
-export default function initialiseSteps(initializationSteps) {
-  function nextStep(index) {
+export default function initialiseSteps(initializationSteps: string[]): void {
+  function nextStep(index: number): void {
     if (index >= initializationSteps.length) {
       // initialization process finished. yay!
       return;
@@ -14,7 +14,7 @@ export default function initialiseSteps(initializationSteps) {
 
     // Using simple concatenation so that Webpack can properly analyze
     // this require statement for require.context creation.
-    const mod = require('./steps/' + initializationSteps[index] + '.js');
+    const mod = require('./steps/' + initializationSteps[index]);
     if (!mod || !mod.init) {
       nextStep(index + 1);
       return;
