@@ -10775,6 +10775,33 @@
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
       "troubleshootingDocs": "Troubleshooting docs"
     },
+    "ibmInfosphereCdc": {
+      "ibmInfosphereCdc": "IBM Infosphere CDC",
+      "host": "Host",
+      "port": "Port",
+      "subscriptions": "Subscriptions"   
+    },
+    "ibmInfosphereSubscription": {
+      "ibmInfosphereSubscription": "Subscription",
+      "preFilterInserts": "Source pre-filter inserts",
+      "preFilterUpdates": "Source pre-filter updates",
+      "preFilterDeletes": "Source pre-filter deletes",
+      "postFilterInserts": "Source post-filter inserts",
+      "postFilterUpdates": "Source post-filter updates",
+      "postFilterDeletes": "Source post-filter deletes",
+      "databaseBytesProcessed": "Source database bytes processed",
+      "physicalBytesRead": "Physical bytes read",
+      "threadCpu": "Thread CPU",  
+      "diskWrites": "Disk writes",
+      "diskReads": "Disk reads",
+      "diskSize": "Disk size",
+      "applyInserts": "Target apply inserts",
+      "applyUpdates": "Target apply updates",
+      "applyDeletes": "Target apply deletes",
+      "targetSourceInserts": "Target source inserts",
+      "targetSourceUpdates": "Target source updates",
+      "targetSourceDeletes": "Target source deletes"
+    },
     "ibmMqChannel": {
       "dashboard": {
         "messagesSent": "Messages Sent/Received",
