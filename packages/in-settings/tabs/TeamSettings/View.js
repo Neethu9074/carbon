@@ -294,11 +294,6 @@ function navigationTreeForRole(role, isAnyIDPActive) {
 
   const logManagementPages = [
     {
-      path: teamSettingsLogManagementRetentionPeriod,
-      label: 'Retention Period',
-      component: RetentionPeriodPage
-    },
-    {
       path: teamSettingsLogManagementCoralogix,
       label: t('in-settings:tabs.coralogix'),
       component: CoralogixPage
@@ -331,6 +326,12 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     component: DeleteLogsPage
   };
 
+  const retentionPeriodPage = {
+    path: teamSettingsLogManagementRetentionPeriod,
+    label: 'Retention Period',
+    component: RetentionPeriodPage
+  };
+
   if (role.canDeleteLogs || role.canConfigureLogManagement) {
     let pages = [];
 
@@ -340,6 +341,10 @@ function navigationTreeForRole(role, isAnyIDPActive) {
 
     if (role.canDeleteLogs) {
       pages.push(deleteLogsPage);
+    }
+    if (role.canChangeLogRetentionPeriod || role.canViewLogs) {
+      // role.canViewLogs to be removed
+      pages.unshift(retentionPeriodPage);
     }
 
     navigationTree.push({

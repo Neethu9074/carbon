@@ -23,6 +23,7 @@ import Label from 'in-components/form/Label/Label';
 import Dialog from 'in-components/Dialog/Dialog';
 import Title from 'in-components/Title/Title';
 import http from 'in-services/http/http';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './RetentionPeriod.mless';
@@ -35,6 +36,7 @@ const localisationStrings = {
   logRetentionPeriod: t('in-settings:tabs.retentionPeriod.logRetentionPeriod'),
   changeReason: t('in-settings:tabs.retentionPeriod.changeReason'),
   days: t('in-settings:tabs.retentionPeriod.days'),
+  readDocs: t('in-settings:tabs.retentionPeriod.readDocs'),
   cancel: t('in-settings:tabs.cancel'),
   historyChanges: t('in-settings:tabs.retentionPeriod.historyChanges'),
   logAction: t('in-settings:tabs.retentionPeriod.logAction'),
@@ -71,7 +73,14 @@ export default function RententionPeriod() {
       <SettingsDetailPage>
         <Title title={localisationStrings.retentionPeriod} />
         <section className={locals.titleSection}>
-          <SubViewHeaderComponent>{localisationStrings.retentionPeriod}</SubViewHeaderComponent>
+          <SubViewHeaderComponent>
+            {localisationStrings.retentionPeriod}
+            <Link external className={locals.link} href="">
+              {' '}
+              {/* add in link when it has been supplied */}
+              {localisationStrings.readDocs}
+            </Link>
+          </SubViewHeaderComponent>
           <Button onClick={() => setShowConfirmation(true)} kind="danger">
             Change retention period
           </Button>
@@ -87,11 +96,15 @@ export default function RententionPeriod() {
               </p>
             </div>
           </Card>
-          <section className={locals.typo}>
-            <Typography variant={'body-regular'}>{localisationStrings.historyChanges + ' '}</Typography>
-            <Link href={logActionHref || ''}>{localisationStrings.logAction + ' '}</Link>
-            <Typography variant={'body-regular'}>{localisationStrings.historyChanges2}</Typography>
-          </section>
+          {role?.canViewAuditLog ? (
+            <section className={locals.typo}>
+              <Typography variant={'body-regular'}>{localisationStrings.historyChanges + ' '}</Typography>
+              <Link href={logActionHref || ''}>{localisationStrings.logAction + ' '}</Link>
+              <Typography variant={'body-regular'}>{localisationStrings.historyChanges2}</Typography>
+            </section>
+          ) : (
+            ''
+          )}
         </main>
       </SettingsDetailPage>
       {showConfirmation && (

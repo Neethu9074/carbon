@@ -10,6 +10,9 @@
     align-items: center;
     justify-content: space-between;
   }
+  .link {
+    margin-left: 0.5rem;
+  }
   .confirmationDialogContent {
     display: flex;
     flex-direction: column;

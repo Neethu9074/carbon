@@ -338,6 +338,7 @@
       "changeReason": "Change reason",
       "currentRetentionPeriod": "Current retention period",
       "days": "days",
+      "readDocs": "Read docs",
       "typeToConfirm": "Type CHANGE RETENTION to confirm change",
       "typeToContinue": "Type CHANGE RETENTION to continue",
       "reasonValidationMessage": "Change retention reason cannot be empty",
