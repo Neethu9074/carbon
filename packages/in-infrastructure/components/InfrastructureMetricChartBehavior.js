@@ -73,7 +73,6 @@ class InfrastructureMetricChartBehavior extends React.Component {
   mapProps = props => {
     let {
       timeConfig,
-      granularity,
       y1,
       y2,
       customHeight,
@@ -94,20 +93,16 @@ class InfrastructureMetricChartBehavior extends React.Component {
 
     this.timeConfig = timeConfigWithShift(timeConfig, timeSkew);
     const defaultGranularity = getInfraGranularity(this.timeConfig, minRollup);
-    if (granularity) {
-      this.granularity = granularity;
-    } else {
-      this.granularity = props.minPixelsPerBlock
-        ? getPredefinedBlockSizeMillisForBlockSize(
-            getBlockSizeMillis({
-              windowSize: timeConfig.windowSize,
-              minPixelsPerBlock: props.minPixelsPerBlock,
-              width: getChartCanvasWidth(props),
-              rollup: defaultGranularity
-            })
-          )
-        : defaultGranularity;
-    }
+    this.granularity = props.minPixelsPerBlock
+      ? getPredefinedBlockSizeMillisForBlockSize(
+          getBlockSizeMillis({
+            windowSize: timeConfig.windowSize,
+            minPixelsPerBlock: props.minPixelsPerBlock,
+            width: getChartCanvasWidth(props),
+            rollup: defaultGranularity
+          })
+        )
+      : defaultGranularity;
     this.primaryContextMenuAction = primaryContextMenuAction;
     this.additionalContextMenuButtons = additionalContextMenuButtons;
     this.customHeight = customHeight;

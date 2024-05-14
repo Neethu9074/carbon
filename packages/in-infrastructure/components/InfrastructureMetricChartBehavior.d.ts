@@ -21,7 +21,6 @@ interface InfrastructureMetricChartProps {
   snapshotId?: string;
   snapshotIds?: string[];
   timeConfig: TimeConfig;
-  granularity?: number;
   y1: Axis;
   y2?: Axis;
   customHeight?: number;

@@ -18,7 +18,6 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { days, hours, minutes, seconds } from 'in-services/time';
 import { number, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { timeConfigWithShift } from 'in-stores/time/config';
 import EntityLink from 'in-components/EntityLink';
 import { t } from 'in-i18n';
 
@@ -32,23 +31,21 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
 
   const instanceId = snapshot.get('data').get('resource.service.instance.id');
 
-  const timeSkew = 10000;
-  let granularity = seconds.toMillis(10);
-  let shiftTimeConfig = timeConfigWithShift(timeConfig, timeSkew);
-  if (shiftTimeConfig.windowSize >= days.toMillis(91)) {
-    granularity = days.toMillis(7);
-  } else if (shiftTimeConfig.windowSize >= days.toMillis(7)) {
-    granularity = days.toMillis(1);
-  } else if (shiftTimeConfig.windowSize >= hours.toMillis(24)) {
-    granularity = hours.toMillis(1);
-  } else if (shiftTimeConfig.windowSize >= hours.toMillis(12)) {
-    granularity = minutes.toMillis(10);
-  } else if (shiftTimeConfig.windowSize >= hours.toMillis(6)) {
-    granularity = minutes.toMillis(5);
-  } else if (shiftTimeConfig.windowSize >= hours.toMillis(1)) {
-    granularity = minutes.toMillis(1);
-  } else if (shiftTimeConfig.windowSize >= minutes.toMillis(30)) {
-    granularity = seconds.toMillis(30);
+  let minRollup = seconds.toMillis(10);
+  if (timeConfig.windowSize >= days.toMillis(91)) {
+    minRollup = days.toMillis(7);
+  } else if (timeConfig.windowSize >= days.toMillis(7)) {
+    minRollup = days.toMillis(1);
+  } else if (timeConfig.windowSize >= hours.toMillis(24)) {
+    minRollup = hours.toMillis(1);
+  } else if (timeConfig.windowSize >= hours.toMillis(12)) {
+    minRollup = minutes.toMillis(10);
+  } else if (timeConfig.windowSize >= hours.toMillis(6)) {
+    minRollup = minutes.toMillis(5);
+  } else if (timeConfig.windowSize >= hours.toMillis(1)) {
+    minRollup = minutes.toMillis(1);
+  } else if (timeConfig.windowSize >= minutes.toMillis(30)) {
+    minRollup = seconds.toMillis(30);
   }
 
   return (
@@ -100,7 +97,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
-            granularity={granularity}
+            minRollup={minRollup}
             y1={{
               min: 0,
               formatter: number.detailed,
@@ -123,7 +120,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
-            granularity={granularity}
+            minRollup={minRollup}
             y1={{
               min: 0,
               formatter: number.detailed,
@@ -146,7 +143,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
-            granularity={granularity}
+            minRollup={minRollup}
             y1={{
               min: 0,
               formatter: number.detailed,
@@ -169,7 +166,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
-            granularity={granularity}
+            minRollup={minRollup}
             y1={{
               min: 0,
               formatter: millis.detailed,
