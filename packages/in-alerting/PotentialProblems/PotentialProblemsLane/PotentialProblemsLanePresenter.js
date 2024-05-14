@@ -106,6 +106,12 @@ export default function PotentialProblemsLanePresenter({
         alertRules={alertRules}
         alerts={alerts}
         thresholds={thresholds}
+        getPotentialProblemConfig={dialogProps => {
+          return {
+            ...remainingProps,
+            ...dialogProps
+          };
+        }}
         renderSmartAlertDialogComponent={dialogProps => {
           const { applicationLabel } = remainingProps;
           return (

@@ -18,7 +18,8 @@ import {
   alertCreated,
   eventId,
   serviceId as serviceIdFromURL,
-  endpointId as endpointIdFromURL
+  endpointId as endpointIdFromURL,
+  isPotentialProblem
 } from 'in-applications/navigation/matrix';
 import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import {
@@ -69,6 +70,7 @@ export default function AlertConfigTearSheet() {
   const location = useLocation();
 
   const migrationMode = getMatrixParameter(location, smartAlertPath, isMigration) === 'true';
+  const potentialProblemMode = getMatrixParameter(location, smartAlertPath, isPotentialProblem) === 'true';
   const isGlobalSmartAlert = getMatrixParameter(location, smartAlertPath, alertsCategory) === 'global';
 
   const alertConfigId = getMatrixParameter(location, smartAlertPath, alertId) ?? '';
@@ -98,6 +100,8 @@ export default function AlertConfigTearSheet() {
     ? alertConfig
     : migrationMode
     ? migrateAlertConfig
+    : potentialProblemMode
+    ? getPotentialPropbelmConfig()
     : generateAlertConfig(isGlobalSmartAlert, applicationId, boundaryScope, serviceId, endpointId);
 
   if (alertConfigErrors?.length) {
@@ -307,6 +311,12 @@ function generateAlertConfig(
     includeSynthetic,
     applications: applicationId && getEntitySelection(applicationId, serviceId, endpointId)
   };
+}
+
+function getPotentialPropbelmConfig() {
+  const config = JSON.parse(localStorage.getItem('potentialProblemConfig') as string);
+  localStorage.removeItem('potentialProblemConfig');
+  return config;
 }
 
 interface createOrSaveAlertProps {
