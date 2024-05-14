@@ -12,15 +12,15 @@ import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/Cu
 import TotalUsageBigNumber from 'in-forge/plugins/oTelLLM/Dashboard/TotalUsageBigNumber';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TopListByModel from 'in-forge/plugins/oTelLLM/Dashboard/TopListByModel';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { days, hours, minutes, seconds } from 'in-services/time';
 import { number, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { timeConfigWithShift } from 'in-stores/time/config';
 import EntityLink from 'in-components/EntityLink';
 import { t } from 'in-i18n';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { timeConfigWithShift } from 'in-stores/time/config';
-import { days, hours, minutes, seconds } from 'in-services/time';
 
 export default function OTelLLMDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
