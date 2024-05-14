@@ -16,7 +16,7 @@ import { getEntityIdView, teamSettingsActionLog } from 'in-settings/navigation/p
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
-import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+// import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import Select from 'in-components/form/Select/Select';
 import Label from 'in-components/form/Label/Label';
@@ -27,6 +27,7 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './RetentionPeriod.mless';
+import { errorFeedback, succesFeedback } from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/MockHelpers';
 
 const localisationStrings = {
   retentionPeriod: t('in-settings:tabs.retentionPeriod.retentionPeriod'),
@@ -50,10 +51,14 @@ const localisationStrings = {
   toastMessageFailed: t('in-settings:tabs.retentionPeriod.toastMessageFailed')
 };
 
+const useMock = true; // Activate mock response 
+
 export default function RententionPeriod() {
+
+
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isChangingRetention, setIsChangingRetention] = useState(false);
-  const [retentionValue, setRetentionValue] = useState<number | undefined>(() => {
+  const [retentionValue, setRetentionValue] = useState<number | undefined | string>(() => {
     const getRetentionPeriod$ = retentionLogsGET();
     let initialValue: number | undefined;
 
@@ -63,8 +68,10 @@ export default function RententionPeriod() {
       setRetentionValue(data.body.retention);
     });
 
-    return initialValue ?? mockData().retention;
+    return !useMock ? initialValue ?? 'No data from server': mockData().retention ;
   });
+
+  
 
   const logActionHref = useObservable(getEntityIdView(teamSettingsActionLog, ''), []);
 
@@ -120,7 +127,7 @@ interface RetentionPeriodDialogProps {
   setShowConfirmation: React.Dispatch<React.SetStateAction<boolean>>;
   setIsChangingRetention: React.Dispatch<SetStateAction<boolean>>;
   isChangingRetention: boolean;
-  setRentionValue: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setRentionValue: React.Dispatch<React.SetStateAction<number | undefined | string>>;
 }
 
 function RetentionPeriodDialog({
@@ -131,6 +138,17 @@ function RetentionPeriodDialog({
 }: RetentionPeriodDialogProps) {
   // const [daysDropdownValue, setDaysDropdownValue] = useState('0')
   const [notification, setNotification] = useState<NotificationState>({ show: false });
+
+  const handlePostRequest = async (payload: RetentionLogsRequest) => {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      //We can modify this to make any test case 
+      if (!payload.reason || ![7, 20, 30, 60, 90].includes(payload.retention)) {
+        return 400;
+      }
+
+      return 200;
+  };
 
   const daysDropdownValues = [7, 20, 30, 60, 90];
 
@@ -148,57 +166,38 @@ function RetentionPeriodDialog({
     resetForm
   } = useRetentionPeriodForm();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setSubmitted(true);
-    if (canSubmit) {
+    if (canSubmit && !useMock) {
+      
       setRentionValue(+retentionPeriodInputValue);
       resetForm();
 
       const queryParams: RetentionLogsRequest = {
         reason: reasonInputValue,
-        retention: parseInt(retentionPeriodInputValue)
+        retention: +retentionPeriodInputValue
       };
       const postRetentionLogs$ = retentionLogsPOST(queryParams);
 
-      postRetentionLogs$.once(_ => {
-        //200
-        setNotification({ show: true, variant: 'success' });
-        setIsChangingRetention(false);
-        addMessage(
-          {
-            type: 'info',
-            icon: 'lib_help_error_info_outline',
-            content: (
-              <section className={locals.toast}>
-                <Typography variant="heading-200">{localisationStrings.toastTitleSuccesful}</Typography>
-                <Typography variant="body-regular">{localisationStrings.toastMessageSuccesful}</Typography>
-              </section>
-            ),
-            timeout: 5000
-          },
-          'logsRetentionChanged'
-        );
-      });
+      postRetentionLogs$.once(_ => succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings));
 
-      postRetentionLogs$.errors().once(_ => {
-        //400
-        setNotification({ show: true, variant: 'failure' });
-        setIsChangingRetention(false);
-        addMessage(
-          {
-            type: 'danger',
-            icon: 'lib_help_error_info_outline',
-            content: (
-              <section className={locals.toast}>
-                <Typography variant="heading-200">{localisationStrings.toastTitleFailed}</Typography>
-                <Typography variant="body-regular">{localisationStrings.toastMessageFailed}</Typography>
-              </section>
-            ),
-            timeout: 5000
-          },
-          'logsRetentionChanged'
-        );
-      });
+      postRetentionLogs$.errors().once(_ => errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings));
+    }else{ // MOCK POST
+      const queryParams: RetentionLogsRequest = {
+        reason: reasonInputValue,
+        retention: +retentionPeriodInputValue
+      };
+
+      const postRetentionStatusNumber = await handlePostRequest(queryParams);
+
+      if(postRetentionStatusNumber === 200){
+        succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings)
+        setRentionValue(+retentionPeriodInputValue);
+        resetForm();
+      }else{
+        errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings)
+      }
+
     }
   };
 
@@ -289,6 +288,6 @@ export function retentionLogsGET() {
 
 function mockData() {
   return {
-    retention: 7
+    retention: 5
   };
 }
