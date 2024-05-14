@@ -237,8 +237,8 @@
         "certificateCheck": {
           "inputHostName": "Host Name",
           "inputPortNumber": "Port",
-          "inputDaysLine1": "Test will fail when there are",
-          "inputDaysLine2": "days remaining before expiration."
+          "failureConfigLabel": "Failure Configuration",
+          "failureConfigText": "Test will fail when certificate validity has <certificateValidityDays/> days remaining until expiration."
         }
       }
     },
