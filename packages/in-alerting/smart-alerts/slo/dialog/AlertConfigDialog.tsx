@@ -11,7 +11,7 @@ import { Observable } from '@instana/observables';
 
 import {
   createSloAlertConfiguration,
-  editSloAlertConfiguration
+  updateSloAlertConfiguration
 } from 'in-alerting/smart-alerts/slo/api/sloAlertConfig';
 import SloAlertFormProvider, { CreateSloAlertDialogMode } from 'in-alerting/smart-alerts/slo/form/SloAlertFormProvider';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
@@ -111,9 +111,9 @@ function getFormSubmitAction(mode: CreateSloAlertDialogMode, sloALertConfigId: s
     case 'NEW':
       return createSloAlertConfiguration;
     case 'EDIT':
-      return sloAlertConfig => editSloAlertConfiguration(sloAlertConfig, sloALertConfigId);
+      return sloAlertConfig => updateSloAlertConfiguration(sloAlertConfig, sloALertConfigId);
     case 'CLONE':
-      return createSloAlertConfiguration;
+      throw Error(`${mode} mode is currently not yet implemented for SLO smart alerts`);
   }
 }
 

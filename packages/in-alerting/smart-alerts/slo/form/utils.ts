@@ -21,7 +21,7 @@ export function formToSloAlertConfiguration(form: SloAlertForm): ServiceLevelsAl
   const threshold = form.getIn(['threshold']).value ?? 0;
   const timeThreshold = form.getIn(['timeThreshold']).toJS();
   const triggering = form.getIn(['triggering']).value;
-  const operator = rule.metric === 'STATUS' ? '<=' : '>=';
+  const operator = form.getIn(['operator']).value;
   return {
     alertChannelIds,
     customPayloadFields,
@@ -33,7 +33,7 @@ export function formToSloAlertConfiguration(form: SloAlertForm): ServiceLevelsAl
     threshold: {
       type: 'staticThreshold',
       value: threshold,
-      operator: operator,
+      operator,
       lastUpdated: Date.now()
     },
     timeThreshold,

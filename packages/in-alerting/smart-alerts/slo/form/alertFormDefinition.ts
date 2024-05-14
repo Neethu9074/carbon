@@ -12,14 +12,15 @@ import {
   ServiceLevelsAlertConfig,
   ServiceLevelsAlertConfigWithMetadata,
   ServiceLevelsAlertRuleUnion,
-  ServiceLevelsObjectiveAlertMetric
+  ServiceLevelsObjectiveAlertMetric,
+  ThresholdOperator
 } from '@instana/types';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { noEmptySloIds, notLessThanOrEqualToZero } from 'in-alerting/smart-alerts/slo/form/validators';
+import { isServiceLevelAlertConfigWithMetaData } from 'in-alerting/smart-alerts/slo/types';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { notBlankValidator } from 'in-services/validators/string';
-import { isServiceLevelAlertConfigWithMetaData } from '../types';
 
 export type SloAlertRuleFormFields = {
   alertType: Field<ServiceLevelsAlertRuleUnion['alertType']>;
@@ -32,6 +33,7 @@ export type SloAlertFormFields = {
   sloIds: Field<string[]>;
   rule: MapForm<SloAlertRuleFormFields>;
   threshold: Field<number | undefined>;
+  operator: Field<ThresholdOperator>;
   timeThreshold: MapForm<SloAlertTimeThresholdFields>;
   alertChannelIds: Field<string[]>;
   severity: Field<number>;
@@ -85,6 +87,7 @@ export function createSloAlertForm(
         value: alertConfig.threshold.value,
         validator: positiveNumberValidator
       }),
+      operator: createField({ value: alertConfig.threshold.operator }),
       timeThreshold: createSloAlertTimeThresholdForm(alertConfig),
       alertChannelIds: createField({
         value: alertConfig.alertChannelIds

@@ -29,14 +29,14 @@ export function createSloAlertConfiguration(
   });
 }
 
-export function editSloAlertConfiguration(
+export function updateSloAlertConfiguration(
   sloAlertConfig: ServiceLevelsAlertConfig,
   id: string
 ): Observable<Result<ServiceLevelsAlertConfigWithMetadata>> {
   return http<ServiceLevelsAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,
-    url: `api/events/settings/global-alert-configs/service-levels/${encodeURIComponent(id)}`,
+    url: `/api/events/settings/global-alert-configs/service-levels/${encodeURIComponent(id)}`,
     headers: getCsrfHeader(),
     data: sloAlertConfig,
     treat400AsError: true,
