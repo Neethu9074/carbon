@@ -95,14 +95,12 @@ export default function RententionPeriod() {
               </p>
             </div>
           </Card>
-          {role?.canViewAuditLog ? (
+          {role?.canViewAuditLog && (
             <section className={locals.typo}>
               <Typography variant={'body-regular'}>{localisationStrings.historyChanges + ' '}</Typography>
               <Link href={logActionHref || ''}>{localisationStrings.logAction + ' '}</Link>
               <Typography variant={'body-regular'}>{localisationStrings.historyChanges2}</Typography>
             </section>
-          ) : (
-            ''
           )}
         </main>
       </SettingsDetailPage>
