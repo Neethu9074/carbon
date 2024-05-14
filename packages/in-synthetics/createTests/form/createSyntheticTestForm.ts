@@ -474,7 +474,7 @@ export function createAdvancedActionConfigurationForm(savedState?: Record<string
     );
 }
 
-function createAdvancedWebpageActionConfigurationForm(savedState?: Record<string, any>) {
+export function createAdvancedWebpageActionConfigurationForm(savedState?: Record<string, any>) {
   return createMapForm()
     .put(
       'syntheticType',

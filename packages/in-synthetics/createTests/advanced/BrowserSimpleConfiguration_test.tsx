@@ -8,11 +8,11 @@ import { render, screen } from '@testing-library/react';
 import { createMapForm } from 'formalistic';
 import React from 'react';
 
-import { createAdvancedActionConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
+import { createAdvancedWebpageActionConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/BrowserSimpleConfiguration';
 
 describe('BrowserSimpleConfiguration', () => {
-  const form = createMapForm().put('configuration', createAdvancedActionConfigurationForm());
+  const form = createMapForm().put('configuration', createAdvancedWebpageActionConfigurationForm());
   const invalidTimeout = { invalid: false, message: '' };
   const updateForm = jest.fn();
   const setInvalidTimeout = jest.fn();
