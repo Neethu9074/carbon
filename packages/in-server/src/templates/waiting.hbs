@@ -30,9 +30,17 @@
   <script nonce="{{nonce}}">
     (function(c,e,f,k,g,h,b,a,d){c[g]||(c[g]=h,b=c[h]=function(){
     b.q.push(arguments)},b.q=[],b.l=1*new Date,a=e.createElement(f),a.async=1,
-    a.src=k,a.setAttribute('crossorigin', 'anonymous'),d=e.getElementsByTagName(f)[0],
-    d.parentNode.insertBefore(a,d))})(window,document,'script',
-    '//{{eumRetrievalDomain}}/eum.min.js','InstanaEumObject','ineum');
+    a.src=k,a.setAttribute('crossorigin', 'anonymous'),
+    {{#if eumEnableSri}}
+    a.setAttribute('integrity', '{{eumAgentSri}}'),
+    {{/if}}
+    d=e.getElementsByTagName(f)[0],
+    d.parentNode.insertBefore(a,d))})
+    {{#if eumEnableSri}}
+    (window,document,'script','//{{eumRetrievalDomain}}/{{eumAgentVersion}}/eum.min.js','InstanaEumObject','ineum');
+    {{else}}
+    (window,document,'script','//{{eumRetrievalDomain}}/eum.min.js','InstanaEumObject','ineum');
+    {{/if}}
     ineum('key', '{{eumTrackingApiKey}}');
     ineum('reportingUrl', '//{{eumTrackingDomain}}');
     ineum('beaconBatchingTime', 3000);
