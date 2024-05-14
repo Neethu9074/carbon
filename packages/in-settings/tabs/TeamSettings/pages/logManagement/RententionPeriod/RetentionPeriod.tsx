@@ -63,7 +63,7 @@ export default function RententionPeriod() {
       setRetentionValue(data.body.retention);
     });
 
-    return initialValue ?? 5;
+    return initialValue ?? mockData().retention;
   });
 
   const logActionHref = useObservable(getEntityIdView(teamSettingsActionLog, ''), []);
@@ -134,7 +134,7 @@ function RetentionPeriodDialog({
   // const [daysDropdownValue, setDaysDropdownValue] = useState('0')
   const [notification, setNotification] = useState<NotificationState>({ show: false });
 
-  const daysDropdownValues = ['7', '20', '30', '60', '90'];
+  const daysDropdownValues = [7, 20, 30, 60, 90];
 
   const {
     reasonInputValue,
@@ -152,55 +152,55 @@ function RetentionPeriodDialog({
 
   const handleSubmit = () => {
     setSubmitted(true);
-
-    const queryParams: RetentionLogsRequest = {
-      reason: reasonInputValue,
-      retention: parseInt(retentionPeriodInputValue)
-    };
-    const postRetentionLogs$ = retentionLogsPOST(queryParams);
-
-    postRetentionLogs$.once(_ => {
-      //200
-      setNotification({ show: true, variant: 'success' });
-      setIsChangingRetention(false);
-      addMessage(
-        {
-          type: 'info',
-          icon: 'lib_help_error_info_outline',
-          content: (
-            <section className={locals.toast}>
-              <Typography variant="heading-200">{localisationStrings.toastTitleSuccesful}</Typography>
-              <Typography variant="body-regular">{localisationStrings.toastMessageSuccesful}</Typography>
-            </section>
-          ),
-          timeout: 5000
-        },
-        'logsRetentionChanged'
-      );
-    });
-
-    postRetentionLogs$.errors().once(_ => {
-      //400
-      setNotification({ show: true, variant: 'failure' });
-      setIsChangingRetention(false);
-      addMessage(
-        {
-          type: 'danger',
-          icon: 'lib_help_error_info_outline',
-          content: (
-            <section className={locals.toast}>
-              <Typography variant="heading-200">{localisationStrings.toastTitleFailed}</Typography>
-              <Typography variant="body-regular">{localisationStrings.toastMessageFailed}</Typography>
-            </section>
-          ),
-          timeout: 5000
-        },
-        'logsRetentionChanged'
-      );
-    });
     if (canSubmit) {
-      setRentionValue(validationInputValue);
+      setRentionValue(+retentionPeriodInputValue);
       resetForm();
+
+      const queryParams: RetentionLogsRequest = {
+        reason: reasonInputValue,
+        retention: parseInt(retentionPeriodInputValue)
+      };
+      const postRetentionLogs$ = retentionLogsPOST(queryParams);
+
+      postRetentionLogs$.once(_ => {
+        //200
+        setNotification({ show: true, variant: 'success' });
+        setIsChangingRetention(false);
+        addMessage(
+          {
+            type: 'info',
+            icon: 'lib_help_error_info_outline',
+            content: (
+              <section className={locals.toast}>
+                <Typography variant="heading-200">{localisationStrings.toastTitleSuccesful}</Typography>
+                <Typography variant="body-regular">{localisationStrings.toastMessageSuccesful}</Typography>
+              </section>
+            ),
+            timeout: 5000
+          },
+          'logsRetentionChanged'
+        );
+      });
+
+      postRetentionLogs$.errors().once(_ => {
+        //400
+        setNotification({ show: true, variant: 'failure' });
+        setIsChangingRetention(false);
+        addMessage(
+          {
+            type: 'danger',
+            icon: 'lib_help_error_info_outline',
+            content: (
+              <section className={locals.toast}>
+                <Typography variant="heading-200">{localisationStrings.toastTitleFailed}</Typography>
+                <Typography variant="body-regular">{localisationStrings.toastMessageFailed}</Typography>
+              </section>
+            ),
+            timeout: 5000
+          },
+          'logsRetentionChanged'
+        );
+      });
     }
   };
 
@@ -254,7 +254,9 @@ function RetentionPeriodDialog({
           />
           {validationValidationMessage && <ValidationBlock>{validationValidationMessage}</ValidationBlock>}
         </Label>
-        <ModalNotification onClick={() => setNotification({ show: false })} variant={notification.variant} />
+        {notification.show && (
+          <ModalNotification onClick={() => setNotification({ show: false })} variant={notification.variant} />
+        )}
       </section>
       <section className={locals.buttons}>{ConfirmationButtons}</section>
     </Dialog>
@@ -285,4 +287,10 @@ export function retentionLogsGET() {
     headers: getCsrfHeader(),
     url: `/api/logging/retention/v1`
   });
+}
+
+function mockData() {
+  return {
+    retention: 7
+  };
 }
