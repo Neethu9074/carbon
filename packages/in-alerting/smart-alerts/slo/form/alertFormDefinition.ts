@@ -10,12 +10,15 @@ import {
   CustomPayloadFieldUnion,
   ErrorBudgetAlertMetric,
   ServiceLevelsAlertConfig,
+  ServiceLevelsAlertConfigWithMetadata,
   ServiceLevelsAlertRuleUnion,
-  ServiceLevelsObjectiveAlertMetric
+  ServiceLevelsObjectiveAlertMetric,
+  ThresholdOperator
 } from '@instana/types';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { noEmptySloIds, notLessThanOrEqualToZero } from 'in-alerting/smart-alerts/slo/form/validators';
+import { isServiceLevelAlertConfigWithMetaData } from 'in-alerting/smart-alerts/slo/types';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { notBlankValidator } from 'in-services/validators/string';
 
@@ -30,6 +33,7 @@ export type SloAlertFormFields = {
   sloIds: Field<string[]>;
   rule: MapForm<SloAlertRuleFormFields>;
   threshold: Field<number | undefined>;
+  operator: Field<ThresholdOperator>;
   timeThreshold: MapForm<SloAlertTimeThresholdFields>;
   alertChannelIds: Field<string[]>;
   severity: Field<number>;
@@ -37,6 +41,7 @@ export type SloAlertFormFields = {
   description: Field<string>;
   triggering: Field<boolean>;
   customPayloadFields: ListForm<Field<CustomPayloadFieldUnion>[]>;
+  id: Field<string>;
 };
 export type SloAlertFormPath = MapPath<SloAlertFormFields>;
 export interface SloAlertForm extends MapForm<SloAlertFormFields> {}
@@ -67,7 +72,10 @@ export function createSloAlertTimeThresholdForm(
   });
 }
 
-export function createSloAlertForm(alertConfig: ServiceLevelsAlertConfig): SloAlertForm {
+export function createSloAlertForm(
+  alertConfig: ServiceLevelsAlertConfig | ServiceLevelsAlertConfigWithMetadata
+): SloAlertForm {
+  const id = isServiceLevelAlertConfigWithMetaData(alertConfig) ? alertConfig.id : '';
   const form = createMapForm<SloAlertFormFields>({
     items: {
       sloIds: createField({
@@ -79,6 +87,7 @@ export function createSloAlertForm(alertConfig: ServiceLevelsAlertConfig): SloAl
         value: alertConfig.threshold.value,
         validator: positiveNumberValidator
       }),
+      operator: createField({ value: alertConfig.threshold.operator }),
       timeThreshold: createSloAlertTimeThresholdForm(alertConfig),
       alertChannelIds: createField({
         value: alertConfig.alertChannelIds
@@ -97,7 +106,8 @@ export function createSloAlertForm(alertConfig: ServiceLevelsAlertConfig): SloAl
       triggering: createField({
         value: alertConfig.triggering
       }),
-      customPayloadFields: createListFormForCustomPayloads(alertConfig.customPayloadFields, false)
+      customPayloadFields: createListFormForCustomPayloads(alertConfig.customPayloadFields, false),
+      id: createField({ value: id })
     }
   });
   return form;
