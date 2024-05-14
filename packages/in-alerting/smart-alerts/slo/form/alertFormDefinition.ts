@@ -10,6 +10,7 @@ import {
   CustomPayloadFieldUnion,
   ErrorBudgetAlertMetric,
   ServiceLevelsAlertConfig,
+  ServiceLevelsAlertConfigWithMetadata,
   ServiceLevelsAlertRuleUnion,
   ServiceLevelsObjectiveAlertMetric
 } from '@instana/types';
@@ -18,6 +19,7 @@ import { createForm as createListFormForCustomPayloads } from 'in-alerting/compo
 import { noEmptySloIds, notLessThanOrEqualToZero } from 'in-alerting/smart-alerts/slo/form/validators';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { notBlankValidator } from 'in-services/validators/string';
+import { isServiceLevelAlertConfigWithMetaData } from '../types';
 
 export type SloAlertRuleFormFields = {
   alertType: Field<ServiceLevelsAlertRuleUnion['alertType']>;
@@ -37,6 +39,7 @@ export type SloAlertFormFields = {
   description: Field<string>;
   triggering: Field<boolean>;
   customPayloadFields: ListForm<Field<CustomPayloadFieldUnion>[]>;
+  id: Field<string>;
 };
 export type SloAlertFormPath = MapPath<SloAlertFormFields>;
 export interface SloAlertForm extends MapForm<SloAlertFormFields> {}
@@ -67,7 +70,10 @@ export function createSloAlertTimeThresholdForm(
   });
 }
 
-export function createSloAlertForm(alertConfig: ServiceLevelsAlertConfig): SloAlertForm {
+export function createSloAlertForm(
+  alertConfig: ServiceLevelsAlertConfig | ServiceLevelsAlertConfigWithMetadata
+): SloAlertForm {
+  const id = isServiceLevelAlertConfigWithMetaData(alertConfig) ? alertConfig.id : '';
   const form = createMapForm<SloAlertFormFields>({
     items: {
       sloIds: createField({
@@ -97,7 +103,8 @@ export function createSloAlertForm(alertConfig: ServiceLevelsAlertConfig): SloAl
       triggering: createField({
         value: alertConfig.triggering
       }),
-      customPayloadFields: createListFormForCustomPayloads(alertConfig.customPayloadFields, false)
+      customPayloadFields: createListFormForCustomPayloads(alertConfig.customPayloadFields, false),
+      id: createField({ value: id })
     }
   });
   return form;
