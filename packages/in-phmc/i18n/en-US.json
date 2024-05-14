@@ -90,7 +90,6 @@
   "virtualSlotNumber": "Virtual Slot N.o",
   "localPartitionID": "LPAR ID",
   "portVlanID": "Port VLAN ID",
-  "portVlanIdPriority": "Port VLAN ID Priority",
   "macAddress": "MAC Address",
   "osDeviceName": "OS Device",
   "desiredMode": "Desired Mode",
