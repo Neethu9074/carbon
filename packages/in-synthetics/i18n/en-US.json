@@ -691,7 +691,9 @@
       "markSyntheticCall": "Mark Synthetic Call",
       "hostname": "Hostname",
       "port": "Port",
-      "daysRemaining": "Days before expiration when the test should fail"
+      "daysRemaining": "Test will fail when certificate validity has",
+      "day": "day remaining until expiration",
+      "days": "days remaining until expiration"
     }
   }
 }
