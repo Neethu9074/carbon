@@ -10784,6 +10784,7 @@
       "ibmInfosphereCdc": "IBM Infosphere CDC",
       "host": "Host",
       "port": "Port",
+      "name": "Name",
       "subscriptions": "Subscriptions"
     },
     "ibmInfosphereSubscription": {

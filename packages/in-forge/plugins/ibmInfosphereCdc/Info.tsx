@@ -14,8 +14,12 @@ export default function IbmInfosphereCdcInfo({ snapshot }: { snapshot: SnapshotD
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdc.host')}>{data.get('host')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdc.port')}>{data.get('port')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdc.host')}>
+        {data.get('availabilityZone')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdc.port')}>
+        {data.get('remoteMonitoring')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }
