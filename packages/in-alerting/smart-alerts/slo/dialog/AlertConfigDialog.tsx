@@ -112,8 +112,6 @@ function getFormSubmitAction(mode: CreateSloAlertDialogMode, sloALertConfigId: s
       return createSloAlertConfiguration;
     case 'EDIT':
       return sloAlertConfig => updateSloAlertConfiguration(sloAlertConfig, sloALertConfigId);
-    case 'CLONE':
-      throw Error(`${mode} mode is currently not yet implemented for SLO smart alerts`);
   }
 }
 
