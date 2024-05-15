@@ -53,6 +53,10 @@
     font-weight: 400;
     color: var(--ids-color-text-primary-on-light);
   }
+  .validationMessage {
+    margin-top: 0;
+    font-size: 0.75rem;
+  }
 
   .typo {
     padding: 0.5rem 0 0.25rem;

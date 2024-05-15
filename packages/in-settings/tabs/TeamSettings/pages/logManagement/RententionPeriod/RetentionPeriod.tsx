@@ -9,15 +9,19 @@ import React, { SetStateAction, useState } from 'react';
 import { Button, Card, Input, Link, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+// import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import useRetentionPeriodForm from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/useRetentionPeriodForm';
+import {
+  errorFeedback,
+  succesFeedback
+} from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/MockHelpers';
 // eslint-disable-next-line no-restricted-imports
 import { ModalNotification, NotificationState } from './ModalNotification';
 import { getEntityIdView, teamSettingsActionLog } from 'in-settings/navigation/paths';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
-// import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import Select from 'in-components/form/Select/Select';
 import Label from 'in-components/form/Label/Label';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -27,7 +31,6 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './RetentionPeriod.mless';
-import { errorFeedback, succesFeedback } from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/MockHelpers';
 
 const localisationStrings = {
   retentionPeriod: t('in-settings:tabs.retentionPeriod.retentionPeriod'),
@@ -51,11 +54,9 @@ const localisationStrings = {
   toastMessageFailed: t('in-settings:tabs.retentionPeriod.toastMessageFailed')
 };
 
-const useMock = true; // Activate mock response 
+const useMock = true; // Activate mock response
 
 export default function RententionPeriod() {
-
-
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isChangingRetention, setIsChangingRetention] = useState(false);
   const [retentionValue, setRetentionValue] = useState<number | undefined | string>(() => {
@@ -68,10 +69,8 @@ export default function RententionPeriod() {
       setRetentionValue(data.body.retention);
     });
 
-    return !useMock ? initialValue ?? 'No data from server': mockData().retention ;
+    return !useMock ? initialValue ?? 'No data from server' : mockData().retention;
   });
-
-  
 
   const logActionHref = useObservable(getEntityIdView(teamSettingsActionLog, ''), []);
 
@@ -140,14 +139,14 @@ function RetentionPeriodDialog({
   const [notification, setNotification] = useState<NotificationState>({ show: false });
 
   const handlePostRequest = async (payload: RetentionLogsRequest) => {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-      //We can modify this to make any test case 
-      if (!payload.reason || ![7, 20, 30, 60, 90].includes(payload.retention)) {
-        return 400;
-      }
+    //We can modify this to make any test case
+    if (!payload.reason || ![7, 20, 30, 60, 90].includes(payload.retention)) {
+      return 400;
+    }
 
-      return 200;
+    return 200;
   };
 
   const daysDropdownValues = [7, 20, 30, 60, 90];
@@ -169,7 +168,7 @@ function RetentionPeriodDialog({
   const handleSubmit = async () => {
     setSubmitted(true);
     if (canSubmit && !useMock) {
-      
+      setSubmitted(false);
       setRentionValue(+retentionPeriodInputValue);
       resetForm();
 
@@ -179,10 +178,15 @@ function RetentionPeriodDialog({
       };
       const postRetentionLogs$ = retentionLogsPOST(queryParams);
 
-      postRetentionLogs$.once(_ => succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings));
+      postRetentionLogs$.once(_ =>
+        succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings)
+      );
 
-      postRetentionLogs$.errors().once(_ => errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings));
-    }else{ // MOCK POST
+      postRetentionLogs$
+        .errors()
+        .once(_ => errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings));
+    } else {
+      // MOCK POST
       const queryParams: RetentionLogsRequest = {
         reason: reasonInputValue,
         retention: +retentionPeriodInputValue
@@ -190,14 +194,14 @@ function RetentionPeriodDialog({
 
       const postRetentionStatusNumber = await handlePostRequest(queryParams);
 
-      if(postRetentionStatusNumber === 200){
-        succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings)
+      if (postRetentionStatusNumber === 200) {
+        succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
         setRentionValue(+retentionPeriodInputValue);
+        setSubmitted(false);
         resetForm();
-      }else{
-        errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings)
+      } else {
+        errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
       }
-
     }
   };
 
@@ -238,7 +242,9 @@ function RetentionPeriodDialog({
             onChange={e => setReasonInputValue(e.target.value)}
             name="reason"
           />
-          {reasonValidationMessage && <ValidationBlock>{reasonValidationMessage}</ValidationBlock>}
+          {reasonValidationMessage && (
+            <ValidationBlock className={locals.validationMessage}>{reasonValidationMessage}</ValidationBlock>
+          )}
         </Label>
         <Label htmlFor="typingValidation">
           {localisationStrings.typeToConfirm}
@@ -249,7 +255,9 @@ function RetentionPeriodDialog({
             onChange={e => setValidationInputValue(e.target.value)}
             name="typingValidation"
           />
-          {validationValidationMessage && <ValidationBlock>{validationValidationMessage}</ValidationBlock>}
+          {validationValidationMessage && (
+            <ValidationBlock className={locals.validationMessage}>{validationValidationMessage}</ValidationBlock>
+          )}
         </Label>
         {notification.show && (
           <ModalNotification onClick={() => setNotification({ show: false })} variant={notification.variant} />

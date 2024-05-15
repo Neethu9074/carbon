@@ -56,6 +56,8 @@ import {
 } from 'in-services/featureFlags';
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
+// eslint-disable-next-line no-restricted-imports
+import { logRetentionPageEnabled } from '../../../../dev/featureFlags';
 import RetentionPeriodPage from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import ApiTokenFormDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenFormDialog';
@@ -342,8 +344,8 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     if (role.canDeleteLogs) {
       pages.push(deleteLogsPage);
     }
-    if (role.canChangeLogRetentionPeriod || role.canViewLogs) {
-      // role.canViewLogs to be removed
+    if (role.canChangeLogRetentionPeriod || logRetentionPageEnabled) {
+      // logRetentionPageEnabled to be removed
       pages.unshift(retentionPeriodPage);
     }
 
