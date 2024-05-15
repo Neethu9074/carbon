@@ -21,7 +21,7 @@ const cols = [
       getValue(row) {
         return row.vnicDedicatedDetails.get('virtualSlotNumber');
       },
-      getContent: number.detailed
+      getContent: number.compact
     }
   },
   {
@@ -31,7 +31,7 @@ const cols = [
       getValue(row) {
         return row.vnicDedicatedDetails.get('localPartitionID');
       },
-      getContent: number.detailed
+      getContent: number.compact
     }
   },
   {
@@ -50,7 +50,7 @@ const cols = [
       getValue(row) {
         return row.vnicDedicatedDetails.get('portVlanID');
       },
-      getContent: number.detailed
+      getContent: number.compact
     }
   },
   {
@@ -124,7 +124,7 @@ const cols = [
       getValue(row) {
         return row.vnicDedicatedDetails.get('relatedSriovAdapterID');
       },
-      getContent: number.detailed
+      getContent: number.compact
     }
   },
   {
@@ -134,7 +134,7 @@ const cols = [
       getValue(row) {
         return row.vnicDedicatedDetails.get('relatedSriovPhysicalPortID');
       },
-      getContent: number.detailed
+      getContent: number.compact
     }
   }
 ];

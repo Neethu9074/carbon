@@ -87,7 +87,7 @@
   "temperatureReading": "Temperature Reading",
   "maxCpuUtilzation": "Maximum CPU Capacity Utilization (%)",
   "dynamicReconfig": "Dynamic Reconfig ID",
-  "virtualSlotNumber": "Virtual Slot N.o",
+  "virtualSlotNumber": "Virtual Slot Number",
   "localPartitionID": "LPAR ID",
   "portVlanID": "Port VLAN ID",
   "macAddress": "MAC Address",
