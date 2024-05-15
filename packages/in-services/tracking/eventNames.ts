@@ -426,7 +426,7 @@ export const ALERTING_RESUMED = 'smartalert.resumed';
 export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
 
 // Business Monitoring Tracking
-export const BIZOPS_PROCESSES_TABS_CLICK = 'bizops.processes.tabs.click';
+export const BIZOPS_TABS_CLICK = 'bizops.tabs.click';
 export const BIZOPS_PROCESSES_LIST_SELECT = 'bizops.processes.list.select';
 
 export const BIZOPS_PROCESS_TABS_CLICK = 'bizops.process.tabs.click';
