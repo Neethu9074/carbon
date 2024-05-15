@@ -195,7 +195,10 @@ function useAgentSnapShots({ action }: { action: Action }) {
   else if (isGitlab(action.type)) query = 'entity.agent.capability:action-gitlab';
   else if (isJira(action.type)) query = 'entity.agent.capability:action-jira';
   else if (isExternal(action.type)) query = 'entity.agent.capability:turbonomic-action';
-  const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
+  const agentSnapShots: OUT | null | undefined = useObservable(
+    () => getAgentSnapshotsInTimeframe({ timeConfig, query }),
+    [timeConfig]
+  );
 
   if (isAnsible(action.type)) {
     const hostId = getAnsibleHostIdFromFields(action.fields).value;

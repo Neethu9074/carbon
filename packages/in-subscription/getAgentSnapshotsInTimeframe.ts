@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import createSubscription from 'in-subscription/subscription';
+import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { Result, AgentSnapshot, TimeConfig } from 'in-types';
 
 interface IN {
@@ -19,6 +19,6 @@ interface Data {
 
 export type OUT = Result<Data>;
 
-export default createSubscription<IN, OUT>({
+export default createResultSubscriptionFactory<IN, OUT>({
   eventId: 'getAgentSnapshotsInTimeframe'
 });
