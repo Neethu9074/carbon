@@ -466,6 +466,7 @@
       "smartAlertsTab": "Smart Alerts",
       "configurationTab": "Configuration",
       "isCertificateValid": "Last Run - Certificate is Valid",
+      "resultsCertificateValid": "Certificate is Valid",
       "certificateValid": "Yes",
       "certificateNotValid": "No",
       "daysRemaining": "Last Run - Days Remaining",
