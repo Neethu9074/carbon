@@ -91,7 +91,7 @@ import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import Stan from 'in-components/MainNavigation/components/Stan';
-import { isAnalyzeView } from 'in-analyze/navigation/paths';
+import { isAnalyzeView } from 'in-analyze/navigation/constants';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { eventsPath } from 'in-events/navigation/paths';
