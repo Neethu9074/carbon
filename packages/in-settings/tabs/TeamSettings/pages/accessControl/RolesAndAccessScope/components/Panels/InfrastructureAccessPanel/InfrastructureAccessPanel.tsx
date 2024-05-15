@@ -6,22 +6,22 @@
 
 import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
-import classNames from 'classnames';
 
 import { SvgIcon, Stack, StackItem, Typography, Toggle } from '@instana/components';
 import { PermissionSet } from '@instana/types';
 import { Link } from '@instana/components';
 
 import {
-  ConfigurationSummary,
-  getConfigurationSummaryMsg
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
-import {
   AreaRole,
   ScopedPermissionItem,
   ProductArea,
-  ScopedPermissionType
+  ScopedPermissionType,
+  infrastructureDefaultCapabilities
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import {
+  ConfigurationSummary,
+  getConfigurationSummaryMsg
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
 import {
   getField,
   updateFormField,
@@ -29,9 +29,9 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import { CapabilityType, getInfrastructurePermissions } from 'in-stores/permission';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import { getInfrastructurePermissions } from 'in-stores/permission';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import FormGroup from 'in-settings/components/FormGroup';
 import Label from 'in-components/form/Label';
@@ -51,9 +51,14 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
 }: InfrastructureAccessPanelProps<FORM_TYPE>) {
   const productArea = ProductArea.INFRASTRUCTURE;
   const entityPermissionKey = 'infraDfqFilter';
+  const limitedPermissions = getInfrastructurePermissions().filter(permission =>
+    infrastructureDefaultCapabilities.includes(permission.key as CapabilityType)
+  );
+
   const area = {
     header: productArea,
-    capabilities: getInfrastructurePermissions()
+    capabilities:
+      scopedPermissionItem === ScopedPermissionItem.ACCESS_ALL ? getInfrastructurePermissions() : limitedPermissions
   };
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
@@ -132,9 +137,7 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
         <HorizontalFlexWrapper className={locals.infraDfqToggle}>
           <Toggle
             checked={isDfqVisible}
-            className={classNames({
-              [locals.toggleDialogUsage]: true
-            })}
+            className={locals.toggleDialogUsage}
             onToggle={e => {
               setIsDfqVisible(e);
               const infraScope = { scopeId: e ? undefined : '', scopeRoleId: '-1' };

@@ -6,12 +6,14 @@
 
 import React, { useContext } from 'react';
 
-import { Typography } from '@instana/components';
+import { Typography, Ul } from '@instana/components';
 
+import { CapabilitySubsection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
 import { getAreaData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { Capability } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
 export const MobileSectionFullAccessContent = () => {
@@ -24,6 +26,14 @@ export const MobileSectionFullAccessContent = () => {
       firstColumnHeadline={areaColumnHeadline}
       firstColumnLabel={t('in-settings:productAreas.title_mobileApps')}
       disabled={isDisabled}
+      subList={
+        <Ul>
+          <CapabilitySubsection
+            capabilities={[Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS]}
+            headerText={t('in-settings:productAreas.additionalPermissions')}
+          />
+        </Ul>
+      }
     >
       <Typography variant="body-small">{t('in-settings:productAreas.allMobileApps')}</Typography>
     </AreaExpandableListItem>
