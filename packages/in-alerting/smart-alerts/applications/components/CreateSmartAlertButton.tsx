@@ -18,16 +18,36 @@ export default function CreateSmartAlertButton({
   buttonName,
   isFloatingButton,
   isMigrate = false,
-  isMenuItem = false
+  isMenuItem = false,
+  boundaryScope,
+  defaultBoundaryScope,
+  serviceId,
+  applicationId,
+  endpointId,
+  eventSpecificationId
 }: {
   isGlobal: boolean;
   buttonName: string;
   isFloatingButton?: boolean;
   isMigrate?: boolean;
   isMenuItem?: boolean;
+  boundaryScope?: string;
+  defaultBoundaryScope?: string;
+  serviceId?: string;
+  applicationId?: string;
+  endpointId?: string;
+  eventSpecificationId?: string;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
-  const createSmartAlertPath = getLinkToCreateSmartAlert({ isGlobal: isGlobal, migration: isMigrate });
+  const createSmartAlertPath = getLinkToCreateSmartAlert({
+    isGlobal: isGlobal,
+    migration: isMigrate,
+    boundaryScope: boundaryScope || defaultBoundaryScope,
+    serviceId: serviceId,
+    applicationId: applicationId,
+    endpointId: endpointId,
+    eventSpecificationId: eventSpecificationId
+  });
   return (
     <Button
       className={classNames({

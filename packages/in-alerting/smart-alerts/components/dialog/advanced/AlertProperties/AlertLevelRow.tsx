@@ -6,8 +6,9 @@
 import { MapForm, Item, Field } from 'formalistic';
 import React from 'react';
 
+import { Select } from '@instana/components';
+
 import AlertSection from 'in-alerting/components/AlertSection';
-import Select from 'in-components/form/Select/Select';
 import { t } from 'in-i18n';
 
 const severityWarning = 5;

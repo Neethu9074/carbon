@@ -31,7 +31,8 @@ export default function ConfigureAlertChannel({
   onChange,
   setSliderState,
   setCustomSlideInHeaderConfig,
-  numberOfAlertChannelListRows = 5
+  numberOfAlertChannelListRows = 5,
+  isTearSheet = false
 }) {
   return (
     <>
@@ -42,36 +43,38 @@ export default function ConfigureAlertChannel({
         renderNoDataAvailable={() => <NoChannelSelected />}
         tableActions={alertChannelSelectionTableActions(form, onChange)}
         rightHeader={
-          <Button
-            className={locals.selectButton}
-            kind="action"
-            onClick={() =>
-              setSliderState({
-                slideInConfig: {
-                  component: (
-                    <SelectListDialogContent
-                      form={form}
-                      onSubmit={selectedIds => {
-                        const currentAlertChannelIds = form.get('alertChannelIds').value ?? [];
-                        onChange(['alertChannelIds'], field =>
-                          field.setValue(currentAlertChannelIds.concat(selectedIds)).setTouched(true)
-                        );
-                        setSliderState({ isVisible: false });
-                      }}
-                      numberOfAlertChannelListRows={numberOfAlertChannelListRows}
-                      setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                      setSliderState={setSliderState}
-                    />
-                  ),
-                  title: t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButtonTitle')
-                },
-                isVisible: true
-              })
-            }
-            icon="lib_openclose_add_circle_outline"
-          >
-            {t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButton')}
-          </Button>
+          !isTearSheet && (
+            <Button
+              className={locals.selectButton}
+              kind="action"
+              onClick={() =>
+                setSliderState({
+                  slideInConfig: {
+                    component: (
+                      <SelectListDialogContent
+                        form={form}
+                        onSubmit={selectedIds => {
+                          const currentAlertChannelIds = form.get('alertChannelIds').value ?? [];
+                          onChange(['alertChannelIds'], field =>
+                            field.setValue(currentAlertChannelIds.concat(selectedIds)).setTouched(true)
+                          );
+                          setSliderState({ isVisible: false });
+                        }}
+                        numberOfAlertChannelListRows={numberOfAlertChannelListRows}
+                        setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                        setSliderState={setSliderState}
+                      />
+                    ),
+                    title: t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButtonTitle')
+                  },
+                  isVisible: true
+                })
+              }
+              icon="lib_openclose_add_circle_outline"
+            >
+              {t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButton')}
+            </Button>
+          )
         }
       />
       <TouchedMessages field={form.get('alertChannelIds')} />
@@ -191,5 +194,6 @@ ConfigureAlertChannel.propTypes = {
   onChange: PropTypes.func.isRequired,
   setSliderState: PropTypes.func.isRequired,
   setCustomSlideInHeaderConfig: PropTypes.func.isRequired,
-  numberOfAlertChannelListRows: PropTypes.number
+  numberOfAlertChannelListRows: PropTypes.number,
+  isTearSheet: PropTypes.bool
 };

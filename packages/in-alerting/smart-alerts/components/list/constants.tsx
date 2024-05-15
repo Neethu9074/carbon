@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 export const categoryLocal = 'local';
 export const categoryGlobal = 'global';
-export const returnUrl = 'returnUrl';
+export const cancelUrl = 'cancelUrl';
 export const sortOptions = deepFreeze([
   { label: t('in-alerting:smartAlerts.sortOptions.name'), value: 'name' },
   { label: t('in-alerting:smartAlerts.sortOptions.blueprint'), value: 'blueprint' },

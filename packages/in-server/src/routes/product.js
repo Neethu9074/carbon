@@ -177,6 +177,8 @@ router.get('/', async (req, res) => {
     clientConfig.walkmeUuid = loggedUser;
     clientConfig.segmentKey = getSegmentKey();
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
+    const injectWalkMeScript =
+      clientConfig.featureFlags?.playwithEnabled || clientConfig.featureFlags?.playWithReleaseEnabled;
     const isAssistMeEnabled =
       !clientConfig.featureFlags?.playwithEnabled && !clientConfig.featureFlags?.playWithReleaseEnabled;
     res.set('Content-Security-Policy', getCsp(nonce, isAssistMeEnabled));
@@ -190,14 +192,15 @@ router.get('/', async (req, res) => {
         eumTrackingDomain: serverConfig.eum.domain,
         eumTrackingApiKey: serverConfig.eum.apiKey,
         eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
+        eumEnableSri: serverConfig.eum.enableSri,
+        eumAgentVersion: serverConfig.eum.agentVersion,
+        eumAgentSri: serverConfig.eum.agentSri,
         backendTraceId: req.get('x-instana-t') || '',
         prefetchItems,
         user: userStr,
         permissions: permissions,
         config: JSON.stringify(clientConfig),
-        playwithinstanaEnabled: clientConfig.featureFlags?.playwithEnabled && clientConfig.featureFlags.playwithEnabled,
         playwithTestEnabled: clientConfig.featureFlags?.playwithTestEnabled ?? false,
-        playWithReleaseEnabled: clientConfig.featureFlags?.playWithReleaseEnabled ?? false,
         build: stringifiedBuildInformation,
         searchFields: searchFieldsStr,
         settings: userSettings,
@@ -208,6 +211,7 @@ router.get('/', async (req, res) => {
         termsAndPrivacyAccepted,
         reportingData,
         starredItems,
+        injectWalkMeScript,
         isAssistMeEnabled
       })
     );

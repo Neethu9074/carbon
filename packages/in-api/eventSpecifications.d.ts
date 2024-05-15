@@ -13,5 +13,6 @@ export function getCustomEventSpecificationMutable(
   eventSpecificationId: string
 ): Observable<CustomEventSpecificationWithMetadata>;
 export function getEventSpecificationByIds(eventSpecificationIds: string[]): Observable<EventSpecificationInfo[]>;
+export function disableMigratedCustomEventSpecification(eventSpecificationId: string, applicationAlertConfigId: string);
 export function getEventSpecifications(eventSpecificationIds?: string[]): Observable<EventSpecificationInfo[]>;
 export function getEventSpecificationsMutable(): Observable<EventSpecificationInfo[]>;

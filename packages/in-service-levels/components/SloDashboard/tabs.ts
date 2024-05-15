@@ -9,10 +9,13 @@ import { t } from '@instana/i18n-react';
 
 import {
   serviceLevelsObjectiveSummaryFullyQualified,
-  serviceLevelsObjectiveConfigurationFullyQualified
+  serviceLevelsObjectiveConfigurationFullyQualified,
+  serviceLevelsObjectiveAlertsFullyQualified
 } from 'in-service-levels/navigation/path';
 import SloConfigurationDetails from 'in-service-levels/components/SloDashboard/components/SloConfigurationDetails';
+import SloSmartAlerts from 'in-service-levels/components/SloDashboard/components/SloSmartAlerts';
 import SloSummary from 'in-service-levels/components/SloDashboard/components/SloSummary';
+import { sloSmartAlertsEnabled } from 'in-services/featureFlags';
 import { Tab } from 'in-components/LocationAwareTabView/types';
 import { LabeledEntity } from 'in-service-levels/types';
 
@@ -31,7 +34,7 @@ export function isApplicationSloTabData(data: SloTabData): data is ApplicationSl
   return Boolean(service || endpoint);
 }
 
-const tabs: Tab<SloTabData, {}>[] = [
+const defaultTabs: Tab<SloTabData, {}>[] = [
   {
     label: t('in-service-levels:sloDashboard.tabs.summaryLabel'),
     path: serviceLevelsObjectiveSummaryFullyQualified,
@@ -46,4 +49,11 @@ const tabs: Tab<SloTabData, {}>[] = [
   }
 ];
 
-export default tabs;
+const sloAlertingTab = {
+  label: t('in-service-levels:sloDashboard.tabs.smartAlertsLabel'),
+  path: serviceLevelsObjectiveAlertsFullyQualified,
+  component: SloSmartAlerts,
+  hideTabLabelWhenAlone: true
+};
+
+export default !sloSmartAlertsEnabled ? defaultTabs : [...defaultTabs, sloAlertingTab];

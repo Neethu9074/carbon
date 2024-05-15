@@ -30,6 +30,7 @@ export default function FormComponent({
   labelSection,
   formatterSection,
   timeShiftConfiguration,
+  thresholdConfiguration,
   withAggregationInMetrics = true,
   displayDFQ = true
 }) {
@@ -135,6 +136,8 @@ export default function FormComponent({
       </Sections>
 
       {timeShiftConfiguration}
+
+      {thresholdConfiguration}
 
       {labelSection}
     </Stack>

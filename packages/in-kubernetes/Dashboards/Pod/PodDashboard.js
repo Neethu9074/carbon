@@ -7,9 +7,6 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
-
-import { getKubernetesPrometheusMetricsWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesPrometheusMetrics';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
@@ -19,7 +16,6 @@ import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsF
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
 import { kubernetesTimeShiftSelectTracker, podTabChange } from 'in-kubernetes/tracker';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
-import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
@@ -36,7 +32,6 @@ import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { pendingResult } from 'in-services/fixedObjects';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
@@ -51,19 +46,6 @@ export default function PodDashboard({ location }) {
   };
 
   const { podId, timeConfig } = props;
-
-  const prometheusEndpoints =
-    useObservable(() => getKubernetesPrometheusMetricsWithDefaults({ podId, timeConfig }), [podId]) ?? pendingResult;
-  const { loading } = prometheusEndpoints.progress;
-
-  if (loading) {
-    return <LoadingIndicator />;
-  }
-
-  const hasPrometheusEndpoints = prometheusEndpoints?.data?.items.length > 0;
-  const allTabs = hasPrometheusEndpoints
-    ? tabs
-    : tabs.filter(tab => tab.label !== t('in-kubernetes:dashboards.prometheusMetrics'));
 
   return (
     <>
@@ -95,7 +77,7 @@ export default function PodDashboard({ location }) {
         })}
         HeaderComponent={Header}
         location={location}
-        tabs={allTabs}
+        tabs={tabs}
         tabChangeTracker={podTabChange}
         props={props}
         renderErrors={errors => (

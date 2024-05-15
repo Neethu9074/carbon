@@ -57,6 +57,14 @@ export const dummySyntheticDatacenter: SyntheticDatacenter = {
   provider: ''
 };
 
+export const dummyResultSynDatacenter: Result<SyntheticDatacenter[]> = {
+  data: {} as SyntheticDatacenter[],
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
 export const dummyLocations = {
   data: [],
   errors: [],
@@ -170,6 +178,13 @@ export const defaultUrlState: UrlState = {
 
 export interface TestResponse {
   data: SyntheticTest;
+  errors: Error[];
+  progress: Progress;
+  time?: number;
+}
+
+export interface DatacenterResponse {
+  data: SyntheticDatacenter[];
   errors: Error[];
   progress: Progress;
   time?: number;

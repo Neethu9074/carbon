@@ -35,7 +35,7 @@ export default function ScopeMigrationMessage({ scopeMigrationDetails }: Props):
   const showQuery = queryApplyOn === scopeDfq;
 
   return (
-    <Message type={iconType} small withIcon>
+    <Message type={iconType} small withIcon fullInlineWidth>
       <>
         {content}
         {showQuery && <pre className={locals.scope}>{scopeMigrationDetails.query}</pre>}

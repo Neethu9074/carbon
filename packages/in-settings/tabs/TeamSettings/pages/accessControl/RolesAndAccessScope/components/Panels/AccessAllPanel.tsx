@@ -8,6 +8,7 @@ import { MapFormItems } from 'formalistic';
 import React from 'react';
 
 import { Stack, StackItem } from '@instana/components';
+import { t } from '@instana/i18n-react';
 
 import {
   AreaRole,
@@ -17,16 +18,15 @@ import {
   AreaRoleWithCustomType,
   AreaRolesWithContributor,
   ProductAreaType,
-  ScopedPermissionItem,
-  applicationAdditionalCapabilities
+  ScopedPermissionItem
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import AdditionalPermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/AdditionalPermissionSection/AdditionalPermissionSection';
 import ContributionFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
 import { ContributorFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributorFilterWarning/ContributorFilterWarning';
 import {
   ConfigurationSummary,
   getConfigurationSummaryMsg
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
+import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
 
@@ -72,9 +72,14 @@ export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
             {...(entityPermissionKey === 'applicationIds' ? { options: AreaRolesWithContributor } : {})}
           />
         )}
-        {entityPermissionKey === 'applicationIds' && (
-          <AdditionalPermissionSection form={form} setForm={setForm} capabilities={applicationAdditionalCapabilities} />
-        )}
+        <PermissionSelection
+          title={t('in-settings:productAreas.additionalPermissions')}
+          productAreas={[productArea]}
+          icon="lib_actions_settings"
+          form={form}
+          setForm={setForm}
+          hasAdditionalCapabilities
+        />
       </>
     );
   };

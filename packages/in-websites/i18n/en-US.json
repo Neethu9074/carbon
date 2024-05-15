@@ -341,7 +341,13 @@
   },
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "Track Sessions",
-    "trackingSnippetPresenterTooltip": "Learn more about session tracking and the privacy implications."
+    "trackingSnippetPresenterTooltip": "Learn more about session tracking and the privacy implications.",
+    "trackingSnippetSRITooltip": "Subresource Integrity (SRI) is a security feature which ensures that browsers can verify the resources they fetch. Disabling it might cause security issues. If you decide to disable it, ensure you are in a secure network environment.",
+    "trackingSnippetPresenterLabelSRI": "Subresource Integrity (SRI) Version",
+    "trackingSnippetPresenterLabelAgentVersion": "Select Agent Version",
+    "trackingSnippetPresenterEnableSRI": "Enabled",
+    "trackingSnippetPresenterDisableSRI": "Disabled",
+    "trackingSnippetPresenterAgentVersion": "Version"
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "Websites & Mobile Apps",

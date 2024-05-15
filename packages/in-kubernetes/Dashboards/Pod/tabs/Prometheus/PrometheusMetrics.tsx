@@ -33,9 +33,17 @@ export default function PrometheusMetrics({ podId, timeConfig }: Readonly<Promet
   const prometheusEndpoints: Result<PaginatedResult<KubernetesPrometheusMetricListItem>> =
     useObservable(() => getKubernetesPrometheusMetricsWithDefaults({ podId, timeConfig }), [podId]) ?? pendingResult;
   const isLoading = prometheusEndpoints && get(prometheusEndpoints, ['progress', 'loading']);
+  const hasNoDataAvailable = prometheusEndpoints?.data?.items?.length === 0 || isLoading;
+  const hasErrors = prometheusEndpoints?.errors.length > 0;
 
-  if (isLoading) {
-    return <LoadingIndicator />;
+  if (hasNoDataAvailable || hasErrors) {
+    return (
+      <NoDataAvailable
+        title={t('in-kubernetes:dashboards.noDataAvailable.prometheusMetricsTitle')}
+        text={t('in-kubernetes:dashboards.noDataAvailable.prometheusMetricsNoData')}
+        height={140}
+      />
+    );
   }
 
   const navigationTree = getNavigationTree(prometheusEndpoints);

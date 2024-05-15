@@ -39,6 +39,7 @@
         "labelName": "Name of the test",
         "labelDescription": "Description",
         "labelFrequency": "Frequency (minute)",
+        "labelFrequencyHour": "Frequency (hour)",
         "labelApplications": "Select an Application"
       },
       "bluePrint": {
@@ -149,6 +150,8 @@
         "identifyTitle": "Identify: What is the test going to do?",
         "customPropertiesTitle": "Custom Properties",
         "frequency": "This test will run every {{frequencyValue}} minutes.",
+        "frequencyHours": "This test will run every {{frequencyHours}} hours.",
+        "frequencyHoursAndMinutes": "This test will run every {{frequencyHours}} hours and {{frequencyMinutes}} minutes.",
         "simultaneous": "Simultaneous",
         "simultaneousDescription": "This test will run simultaneously on each location(s) selected.",
         "configStep": {
@@ -234,8 +237,8 @@
         "certificateCheck": {
           "inputHostName": "Host Name",
           "inputPortNumber": "Port",
-          "inputDaysLine1": "Test will fail when there are",
-          "inputDaysLine2": "days remaining before expiration."
+          "failureConfigLabel": "Failure Configuration",
+          "failureConfigText": "Test will fail when certificate validity has <certificateValidityDays/> days remaining until expiration."
         }
       }
     },
@@ -688,7 +691,9 @@
       "markSyntheticCall": "Mark Synthetic Call",
       "hostname": "Hostname",
       "port": "Port",
-      "daysRemaining": "Days before expiration when the test should fail"
+      "daysRemaining": "Test will fail when certificate validity has",
+      "day": "day remaining until expiration",
+      "days": "days remaining until expiration"
     }
   }
 }

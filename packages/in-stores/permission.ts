@@ -115,7 +115,8 @@ export const Capability = Object.freeze({
 export const InfrastructureCapability = Object.freeze({
   [AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE]: AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE,
   CAN_CREATE_HEAP_DUMP: 'CAN_CREATE_HEAP_DUMP',
-  CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP'
+  CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP',
+  CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS'
 } as const);
 
 export type CapabilityType = keyof typeof Capability;
@@ -751,7 +752,16 @@ export const getInfrastructurePermissions = (): {
     key: InfrastructureCapability.CAN_CREATE_THREAD_DUMP,
     label: t('in-stores:permissionCanCreateThreadDumpLabel'),
     description: t('in-stores:permissionCanCreateThreadDumpDescription')
-  }
+  },
+  ...(infraSmartAlertsEnabled
+    ? [
+        {
+          key: Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS,
+          label: t('in-stores:permissionCanConfigureGlobalInfraSmartAlertsLabel'),
+          description: t('in-stores:permissionCanConfigureGlobalInfraSmartAlertsDescription')
+        }
+      ]
+    : [])
 ];
 
 export const productAreaPermissions = getProductAreaPermissions();

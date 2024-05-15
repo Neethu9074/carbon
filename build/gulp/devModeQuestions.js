@@ -36,7 +36,7 @@ exports.askQuestions = cb => {
     return;
   }
 
-  inquirer.prompt(getQuestions(), answers => {
+  inquirer.prompt(getQuestions()).then(answers => {
     if (answers.targetConfig.custom) {
       selectTarget(
         devModeOptions,
@@ -134,7 +134,7 @@ function getQuestions() {
       type: 'input',
       when: isLocalEnvironmentSelected,
       name: 'localTarget',
-      message: 'Host where dev-env is runnig (default: localhost)',
+      message: 'Host where dev-env is running (default: localhost)',
       default: 'localhost'
     },
     {

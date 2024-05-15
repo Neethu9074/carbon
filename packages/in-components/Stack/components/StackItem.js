@@ -17,8 +17,8 @@ import {
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { useDashboardForEntity as useDashboardForK8sEntity } from 'in-kubernetes/navigation/paths';
 import getProfilesAvailable from 'in-components/Profiling/subscriptions/getProfilesAvailable';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import SEVERITY_MAP from 'in-components/Stack/severity.json';
 import EntityWithIcon from 'in-components/EntityWithIcon';
@@ -46,6 +46,7 @@ export default function StackItem({
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+  const getDashboardLink = useGetDashboardLink();
   const linkForK8sEntity = useDashboardForK8sEntity(id, type);
 
   const { link, link$ } = dashboardLink(
@@ -58,6 +59,7 @@ export default function StackItem({
     getLinkToApplicationDashboard,
     getLinkToServiceDashboard,
     getLinkToEndpointDashboard,
+    getDashboardLink,
     linkForK8sEntity
   );
 
@@ -102,6 +104,7 @@ const dashboardLink = (
   getLinkToApplicationDashboard,
   getLinkToServiceDashboard,
   getLinkToEndpointDashboard,
+  getDashboardLink,
   linkForK8sEntity
 ) => {
   if (type === 'application') {
@@ -131,7 +134,7 @@ const dashboardLink = (
 
   return linkForK8sEntity
     ? { link: linkForK8sEntity }
-    : { link$: getDashboardLink(id, { pathname: physicalDashboardPath }) };
+    : { link: getDashboardLink(id, { pathname: physicalDashboardPath }) };
 };
 
 const ProfileIndicator = connectTo(

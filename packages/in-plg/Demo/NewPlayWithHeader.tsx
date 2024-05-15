@@ -16,6 +16,7 @@ import {
 } from 'in-services/tracking/tracking';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { CTA_CLICKED } from 'in-services/util/constants';
 import { t } from 'in-i18n';
 
@@ -39,6 +40,8 @@ export function getPageType(pathname = '/') {
 }
 
 export default function NewPlayWithHeader() {
+  const location = useLocation();
+  const pathName = location.pathname;
   return (
     <div className={classNames(locals.newPlayWithInstana)}>
       <span className={classNames(locals.message)}>
@@ -57,7 +60,8 @@ export default function NewPlayWithHeader() {
             eventTracker({
               eventName: CTA_CLICKED,
               parentProductArea,
-              parentPageName
+              parentPageName,
+              pathName
             });
           }
           track(PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED, getPageType(location.pathname));

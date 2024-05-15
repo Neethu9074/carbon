@@ -13,6 +13,7 @@ import IncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/appl
 import TearSheetInboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/TearSheetInboundOutboundCallsSwitch';
 //@ts-expect-error TS migration
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
+import { ScopeMigrationDetailsType } from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheet';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
 import { t } from 'in-i18n';
 
@@ -22,12 +23,18 @@ export default function AlertConfigTearSheetStep2({
   form,
   updateForm,
   isGlobalSmartAlert,
-  initialConfiguredApplications = {}
+  initialConfiguredApplications = {},
+  editMode,
+  migrationMode,
+  scopeMigrationDetails
 }: {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   isGlobalSmartAlert?: boolean;
   initialConfiguredApplications?: object;
+  editMode?: boolean;
+  migrationMode?: boolean;
+  scopeMigrationDetails?: ScopeMigrationDetailsType;
 }) {
   return (
     <>
@@ -59,6 +66,9 @@ export default function AlertConfigTearSheetStep2({
           <ScopeConfig
             form={form}
             updateForm={updateForm}
+            editMode={editMode}
+            migrationMode={migrationMode}
+            scopeMigrationDetails={scopeMigrationDetails}
             isGlobalSmartAlert={isGlobalSmartAlert}
             initialConfiguredApplications={initialConfiguredApplications}
             headerTransparent

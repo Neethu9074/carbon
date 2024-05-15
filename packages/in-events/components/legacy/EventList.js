@@ -13,11 +13,11 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import AIEventListRow from 'in-events/components/legacy/AIEventListRow';
 import EventListItem from 'in-events/components/legacy/EventListItem';
-import { getEventType, getServiceIds } from 'in-stores/events';
 import { emptyList } from 'in-services/fixedImmutables';
 import { rcaUIEnabled } from 'in-services/featureFlags';
 import { Row, Col } from 'in-components/layout/Grid';
 import Pagination from 'in-components/Pagination';
+import { getEventType } from 'in-stores/events';
 import { getEvent } from 'in-stores/events';
 import { t } from 'in-i18n';
 
@@ -56,7 +56,6 @@ export default function IncidentEventList({
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 
   const eventType = getEventType(incident);
-  const serviceIds = getServiceIds(incident);
   const pageSize = 10;
 
   if (!triggeringEvent) return <ListRow title={t('in-events:titleTriggerEvent')} />;
@@ -97,7 +96,11 @@ export default function IncidentEventList({
         highlightEventOnHover={highlightEventOnHover}
       />
       <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
-      <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
+      <ImpactedBusinessProcesses
+        eventType={eventType}
+        entityType={incident?.get('entityType', undefined)}
+        entityId={incident?.get('entityId', undefined)}
+      />
     </>
   );
 }

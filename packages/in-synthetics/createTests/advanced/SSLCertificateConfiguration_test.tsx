@@ -30,7 +30,7 @@ describe('SSLCertificateConfiguration', () => {
     );
     expect(screen.getByText('Host Name')).toBeInTheDocument();
     expect(screen.getByText('Port')).toBeInTheDocument();
-    expect(screen.getByText('Test will fail when there are')).toBeInTheDocument();
+    expect(screen.getByText('Failure Configuration')).toBeInTheDocument();
     expect(screen.getByText('Timeout')).toBeInTheDocument();
     expect(screen.getByText('Retry Strategy')).toBeInTheDocument();
   });
@@ -48,11 +48,22 @@ describe('SSLCertificateConfiguration', () => {
     );
     expect(container.getElementsByTagName('input').length).toBe(10);
     // Host Name
-    expect(container.getElementsByTagName('input')[0]).toHaveValue('');
+    expect(screen.getByTestId('host-name')).toHaveValue('');
     // Port
-    expect(container.getElementsByTagName('input')[1]).toHaveValue('443');
+    expect(screen.getByTestId('port-number')).toHaveValue('443');
+
     // Days Remaining
-    expect(container.getElementsByTagName('input')[2]).toHaveValue('');
+    expect(screen.getByTestId('days-remaining')).toHaveValue('');
+
+    // Timeout
+    expect((screen.getByLabelText('minutes (m)') as HTMLInputElement).checked).toBe(true);
+    expect((screen.getByLabelText('seconds (s)') as HTMLInputElement).checked).toBe(false);
+    expect((screen.getByLabelText('milliseconds (ms)') as HTMLInputElement).checked).toBe(false);
+
+    // Retry strategy
+    expect((screen.getByLabelText('None') as HTMLInputElement).checked).toBe(true);
+    expect((screen.getByLabelText('Retry once') as HTMLInputElement).checked).toBe(false);
+    expect((screen.getByLabelText('Retry twice') as HTMLInputElement).checked).toBe(false);
   });
 
   it('Displays validation error for invalid host name', () => {

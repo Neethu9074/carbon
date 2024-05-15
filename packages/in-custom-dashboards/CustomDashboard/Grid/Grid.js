@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { memo, useEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
-import React, { useEffect, useState } from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -113,7 +113,7 @@ function Grid({
     >
       {config.widgets.map(widget => {
         const content = widgets[widget.type] ? (
-          <WidgetContent
+          <MemoizedWidgetContent
             widget={widget}
             isConfigurable={isConfigurable}
             onEditWidget={onEditWidget}
@@ -226,6 +226,8 @@ function WidgetContent({
 
   return content;
 }
+
+const MemoizedWidgetContent = memo(WidgetContent);
 
 function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onCopyWidget, onZoomWidget, onRemoveWidget }) {
   return (

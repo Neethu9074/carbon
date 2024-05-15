@@ -459,6 +459,7 @@
         "getSubtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
         "getSubtitleForAdaptiveThreshold": "Adaptive Threshold, {{metricLabel}}",
         "labelActionButtonEdit": "Edit",
+        "labelActionButtonEditNew": "Edit (New)",
         "labelActionButtonDuplicate": "Duplicate",
         "labelActionButtonDelete": "Delete",
         "labelAlertFilters": "Filters",
@@ -489,7 +490,7 @@
         "eventsCriticalIcon": "Events critical icon"
       },
       "tearSheet": {
-        "step1Title": "Pick a template",
+        "step1Title": "Pick an alert template",
         "step2Title": "Define the scope",
         "step3Title": "Define grouping",
         "step4Title": "Define when to get alerted",
@@ -1024,6 +1025,7 @@
     },
     "migration": {
       "migrateButton": "Migrate to Smart Alert",
+      "migrateButtonNew": "Migrate to Smart Alert (New)",
       "migrateButtonTooltip": "Opens a Smart Alert config dialog pre–filled with the migrated values from the current event to the best extent we can. Please double check the result carefully!",
       "markAsMigratedButton": "Mark as migrated",
       "markAsMigratedButtonTooltip": "Marks the Event as migrated. Please use this in case you have already configured a Smart Alert which will replace this Event.",
@@ -1451,6 +1453,56 @@
         "noDataForSelectedGroup": "There is no data available for the specified filters and grouping combination."
       },
       "logCount": "Log count"
+    },
+    "slo": {
+      "validators": {
+        "noEmptySloIds": "Please select at least one SLO.",
+        "notLessThanOrEqualToZero": "Please set a value that is greater than 0."
+      },
+      "advancedModeContainer": {
+        "stepLabel": "",
+        "stepTitle": "",
+        "stepLabel_sloTarget": "Targets",
+        "stepTitle_sloTarget": "Targets: Which SLOs do you want be alerted on?",
+        "stepLabel_trigger": "Trigger",
+        "stepTitle_trigger": "Trigger: What do you want to be alerted on?",
+        "stepLabel_timeThreshold": "Time Threshold",
+        "stepTitle_timeThreshold": "Time Threshold: When do you want be alerted?",
+        "stepLabel_alertChannels": "Alert Channels",
+        "stepTitle_alertChannels": "Alert Channels: Who needs to be alerted?",
+        "stepLabel_alertProperties": "Alert Properties",
+        "stepTitle_alertProperties": "Alert Properties: What should the alert notification include?",
+        "stepLabel_customPayload": "Custom Payload",
+        "stepTitle_customPayload": "Custom Payload",
+        "selectSloHeadline": "Select SLOs",
+        "blueprintSectionTitle": "Select Blueprint",
+        "blueprint": "",
+        "blueprint_SERVICE_LEVELS_OBJECTIVE": "Status",
+        "blueprint_ERROR_BUDGET": "Error Budget",
+        "blueprintDescription": "",
+        "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "Receive an alert when the SLO status falls below a threshold.",
+        "blueprintDescription_ERROR_BUDGET": "Receive an alert when a percentage of the error budget is burned.",
+        "thresholdTitle": "Threshold: When do you want to be alerted?",
+        "thresholdInputDescription": "",
+        "thresholdInputDescription_ERROR_BUDGET": "percent of error budget is burned",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "percent is the SLO target or less",
+        "timeThresholdType_gracePeriod": "When the condition persists over a specified amount of time",
+        "timeThresholdTypeTitle_gracePeriod": "Alert when the condition is violated for consecutive $t(in-components:time.minutes, {\"count\": {{minutes}} })",
+        "alertProperties_entityLabel": "SLO-name",
+        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO Status is low",
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO Status is less than or equal to {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Error Budget Remaining is low",
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Error Budget Remaining is less than or equal to {{percentage}}."
+      },
+      "details": {
+        "alertConfigurationTitle": "Alert Configuration",
+        "sloHeader": "SLOs",
+        "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
+        "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
+        "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
+        "blueprintLabel": "Blueprint",
+        "thresholdLabel": "Threshold"
+      }
     }
   }
 }

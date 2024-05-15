@@ -32,10 +32,7 @@ export default function TimeShiftingForm({ form, onChange }) {
             id="metric-configurator-time-shift-enabler"
             checked={isEnabled}
             onToggle={e => {
-              let newOffset = defaultTimeShift.offset;
-              if (e) {
-                newOffset = previousHourTimeShift.offset;
-              }
+              const newOffset = e ? previousHourTimeShift.offset : defaultTimeShift.offset;
               onChange(['metricConfiguration', 'timeShift'], field => field.setValue(newOffset).setTouched(true));
             }}
           />

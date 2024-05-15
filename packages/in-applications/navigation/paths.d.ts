@@ -78,6 +78,8 @@ export function useAlertConfig(): (alertConfigId: string, applicationId: string)
 
 export function useLinkToGlobalAlertConfigWithoutAPDashboard(): (alertConfigId: string) => string;
 
+export function useNavigationToGlobalAlertConfigWithoutAPDashboard(): (alertConfigId: string) => void;
+
 export function useLinkToGlobalAlertConfigWithAPDashboard(): (
   alertConfigId: string,
   alertConfigVersion: number,
@@ -89,6 +91,12 @@ export function useLinkToAlertConfig(): (
   alertConfigVersion: number,
   applicationId: string
 ) => string;
+
+export function useNavigationToAlertConfig(): (
+  alertConfigId: string,
+  alertConfigVersion: number,
+  applicationId: string
+) => void;
 
 interface UseDashboardProps {
   applicationId?: string;

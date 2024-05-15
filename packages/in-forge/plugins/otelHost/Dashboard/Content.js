@@ -19,6 +19,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { isWindows, isZos, isLinux } from 'in-forge/plugins/otelHost/hostUtils';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/otelHost/constants';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DisksTable from 'in-forge/plugins/otelHost/Dashboard/DisksTable';
@@ -35,16 +36,31 @@ export default function OtelHostDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.otelHost.dashboard.cpuUsage')}>
-          <MetricValue snapshotId={snapshot.get('id')} metric="cpu.user" formatter={percentageTwoDecimalPlaces} />
+          <MetricValue
+            snapshotId={snapshot.get('id')}
+            metric="cpu.user"
+            formatter={percentageTwoDecimalPlaces}
+            windowForLatest={WINDOW_FOR_LATEST_METRIC}
+          />
         </KpiKeyValue>
 
         <KpiKeyValue label={t('in-forge:plugins.otelHost.dashboard.memoryUsage')}>
-          <MetricValue snapshotId={snapshot.get('id')} metric="memory.used" formatter={bytesTwoDecimalPlaces} />
+          <MetricValue
+            snapshotId={snapshot.get('id')}
+            metric="memory.used"
+            formatter={bytesTwoDecimalPlaces}
+            windowForLatest={WINDOW_FOR_LATEST_METRIC}
+          />
         </KpiKeyValue>
 
         {!(isWindows(snapshot) || isZos(snapshot)) && (
           <KpiKeyValue label={t('in-forge:plugins.otelHost.dashboard.cpuLoad')}>
-            <MetricValue snapshotId={snapshot.get('id')} metric="load.avg_1m" formatter={twoDecimalPlaces} />
+            <MetricValue
+              snapshotId={snapshot.get('id')}
+              metric="load.avg_1m"
+              formatter={twoDecimalPlaces}
+              windowForLatest={WINDOW_FOR_LATEST_METRIC}
+            />
           </KpiKeyValue>
         )}
       </KpiSection>

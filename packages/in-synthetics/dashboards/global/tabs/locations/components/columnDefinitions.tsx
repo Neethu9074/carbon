@@ -20,7 +20,7 @@ import { useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { role } from 'in-stores/user';
@@ -36,6 +36,9 @@ interface LocationListProps extends ServerTablePresenterProps<LocationListItem> 
 function LocationLabelContent({ item }: { item: LocationListItem }) {
   const entityHealthInfo = item.entityHealthInfo;
   const locationDescription = item.description ?? '';
+  const href = useGetDashboardLink()(item.popSnapshotId ?? '', {
+    pathname: physicalDashboardPath
+  });
 
   return entityHealthInfo === undefined ? (
     <SeverityAwareEntityLink
@@ -50,9 +53,7 @@ function LocationLabelContent({ item }: { item: LocationListItem }) {
       icon={'lib_synthetic_location'}
       label={item.label}
       tooltip={locationDescription}
-      href$={getDashboardLink(item.popSnapshotId ?? '', {
-        pathname: physicalDashboardPath
-      })}
+      href={href}
     />
   );
 }

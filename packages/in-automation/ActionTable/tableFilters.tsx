@@ -17,6 +17,7 @@ import {
   SCRIPT_TYPE,
   WEBHOOK_TYPE
 } from 'in-automation/ActionCatalog/shared';
+import { compareIgnoreCase } from 'in-services/util/string';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import { t } from 'in-i18n';
 
@@ -40,7 +41,7 @@ interface TypeFilterProps {
 }
 
 export function TypeFilter({ type, setType, showExternal = false }: TypeFilterProps) {
-  const options = [...baseOptions];
+  const options = [...baseOptions].sort((a, b) => compareIgnoreCase(a.label, b.label));
   if (showExternal) options.push(externalOption);
 
   return (

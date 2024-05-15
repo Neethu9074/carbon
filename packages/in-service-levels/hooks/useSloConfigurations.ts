@@ -12,6 +12,7 @@ import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStat
 import { FetchedState } from 'in-hooks/utils/types';
 
 export default function useSloConfigurations({
+  ids,
   page,
   pageSize,
   query,
@@ -23,6 +24,7 @@ export default function useSloConfigurations({
   const result = useObservable(
     () =>
       getAllSloConfigurations({
+        ids,
         page,
         pageSize,
         query,

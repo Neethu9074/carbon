@@ -91,7 +91,7 @@ function List(props) {
             [locals.widgetCard]: isCustomDashboard
           })}
         >
-          <Table fixedLayout>
+          <Table fixedLayout={!isCustomDashboard}>
             <Thead>
               <Tr size="compact">
                 <Th useMinimumAmountOfHorizontalSpace />

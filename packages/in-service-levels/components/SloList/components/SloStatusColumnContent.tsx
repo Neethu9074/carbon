@@ -26,7 +26,7 @@ export default function SloStatusColumnContent({ item }: SloStatusColumnContentP
 
   return (
     <Stack direction="horizontal" align="center">
-      <HealthDot severity={calculateSeverity({ status, target })} />
+      {status != null && <HealthDot severity={calculateSeverity({ status, target })} />}
       <KeyValue
         label={t('in-service-levels:sloList.components.sloStatusColumnContent.target', {
           target: sloTarget

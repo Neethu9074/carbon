@@ -36,7 +36,6 @@ import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid'
 import { k8sPodAndServiceChart } from 'in-kubernetes/components/K8sChartColors';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { summaryTab, usePodDashboard } from 'in-kubernetes/navigation/paths';
-// @ts-expect-error
 import MetricValue from 'in-components/MetricValue';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';

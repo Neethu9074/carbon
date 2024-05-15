@@ -12,7 +12,7 @@ import { ApplicationAlertConfig, TimeConfig } from '@instana/types';
 //@ts-expect-error TS migration
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
 import {
-  getStepRenderers,
+  APStepRenderers,
   stepConfigs,
   getFooterActions
 } from 'in-alerting/smart-alerts/applications/tearSheet/steps/TearSheetStepConfigs';
@@ -24,9 +24,11 @@ import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-aler
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import useAlertingTearSheetAction from 'in-alerting/smart-alerts/applications/tearSheet/hooks/useAlertingTearSheetAction';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import useAlertConfigValidation from 'in-alerting/smart-alerts/applications/hooks/useAlertConfigValidation';
 import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertingTearSheet, { AlertingFooterActions } from 'in-alerting/components/AlertingTearSheet';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { MessageType } from 'in-components/MessageStack/MessageStack';
 import { days } from 'in-services/time/time';
 
 // import { useObservable } from '@instana/hooks';
@@ -59,9 +61,9 @@ export interface AlertConfigTearSheetWithThresholdProps {
   setForm: (form: MapForm<any>) => void;
   timeConfig: TimeConfig;
   withTrackClose: () => void; // TODO check typedef once redirection is implemented
-  withTrackCreate: (simpleMode: boolean) => void;
+  withTrackCreate: () => void;
   isSaving: boolean;
-  messages: EnrichedError[];
+  messages: MessageType[] | EnrichedError[];
   initialConfiguredApplications?: object;
 }
 
@@ -141,29 +143,36 @@ function SmartAlertConfigTearSheetWithQueryValidation({
 
   const { cancelTearSheet } = useAlertingTearSheetAction();
 
-  // const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);  // TODO use this validation
   //@ts-expect-error
   const actions: AlertingFooterActions[] = getFooterActions(editMode, backOrCancel, cancelTearSheet);
 
-  const stepRenderers = getStepRenderers(props);
+  const stepRenderers = APStepRenderers;
+
+  const navItems = useAlertConfigValidation(
+    stepConfigs,
+    blueprintConfig,
+    form,
+    isTagFilterFormModelValid,
+    thresholdResult
+  );
 
   return (
     <AlertingTearSheet
       step={step}
       setStep={setStep}
       actions={actions}
-      stepConfigs={stepConfigs}
+      stepConfigs={navItems}
       isSaving={isSaving}
       formId={FORM_ID}
       form={form}
-      isTagFilterFormModelValid={isTagFilterFormModelValid}
       migrationMode={migrationMode}
       handleSubmit={handleSubmit}
       thresholdResult={thresholdResult}
+      additionalValidationCheck={step === 2 ? isTagFilterFormModelValid : true}
+      setForm={updateForm}
     >
-      {stepRenderers.map((renderer: (props: AlertConfigTearSheetWithThresholdProps) => JSX.Element, idx: number) => {
-        return step === idx && renderer(props);
-        // return step === idx && <Renderer {...props} key={idx} />; // TODO check why this is having rerender issues
+      {stepRenderers.map((Renderer: (props: AlertConfigTearSheetWithThresholdProps) => JSX.Element, idx: number) => {
+        return step === idx && <Renderer {...props} key={idx} />;
       })}
     </AlertingTearSheet>
   );

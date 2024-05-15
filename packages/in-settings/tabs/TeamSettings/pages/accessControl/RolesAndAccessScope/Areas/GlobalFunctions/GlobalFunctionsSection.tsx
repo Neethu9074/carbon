@@ -15,7 +15,8 @@ import {
   mixedCapabilities,
   logCapabilities,
   accessControlCapabilities,
-  ProductArea
+  ProductArea,
+  eventAndAlertCapabilities
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getCapabilitiesSectionData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getCapabilitiesSectionData';
 import { CapabilitySubsection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
@@ -36,6 +37,10 @@ export const GlobalFunctionsSection = () => {
   const subListContent = (
     <Ul>
       <CapabilitySubsection capabilities={mixedCapabilities} headerText={t('in-settings:productAreas.permissions')} />
+      <CapabilitySubsection
+        capabilities={eventAndAlertCapabilities}
+        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.EVENT })}
+      />
       <CapabilitySubsection
         capabilities={logCapabilities}
         headerText={t('in-settings:productAreas.permissions', { context: ProductArea.LOGS })}

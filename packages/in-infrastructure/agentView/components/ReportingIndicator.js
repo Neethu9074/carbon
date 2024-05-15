@@ -76,7 +76,7 @@ function getTooltipText(row) {
 
     return (
       <div>
-        <span>{t('in-infrastructure:agentView.issueReported', { count: monitoringIssuesTotalCount })}</span>
+        <span>{t('in-infrastructure:agentView.monitoringIssueReported', { count: monitoringIssuesTotalCount })}</span>
         {rows}
       </div>
     );

@@ -148,11 +148,9 @@ function Content({
         ))}
       </Col>
       {infraExploreFilterEmptyValueEnabled && (
-        <FilterEmptyValuesToggle
+        <RequiredToggle
           metric={metric}
-          onChange={filterEmptyValue =>
-            onChange([i, 'filterEmptyValue'], field => field.setValue(filterEmptyValue).setTouched(true))
-          }
+          onChange={required => onChange([i, 'required'], field => field.setValue(required).setTouched(true))}
         />
       )}
       {MetricCatalogConfiguratorHint && (
@@ -164,12 +162,12 @@ function Content({
   );
 }
 
-function FilterEmptyValuesToggle({ metric, onChange }) {
-  var filterEmptyValue = metric.get('filterEmptyValue').map(field => field.value);
+function RequiredToggle({ metric, onChange }) {
+  var required = metric.get('required').map(field => field.value);
   return (
     <Tooltip content={t('in-components:metricConfigurator.labelFilterEmptyValue')} delay={500}>
       <span>
-        <Toggle checked={filterEmptyValue} onToggle={onChange} />
+        <Toggle checked={required} onToggle={onChange} />
       </span>
     </Tooltip>
   );

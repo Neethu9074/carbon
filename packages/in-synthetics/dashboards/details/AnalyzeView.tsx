@@ -35,12 +35,10 @@ import { startTimeTagName, testIdTagName, testResultIdTagName } from 'in-synthet
 import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
-import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
@@ -54,7 +52,6 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { getTestResultMetadata } from 'in-synthetics/api';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Sticky from 'in-components/Sticky';
@@ -76,7 +73,6 @@ const AnalyzeView = () => {
   const isSSLCertificate: boolean = testType === 'SSLCertificate';
   const responseSize = getMatrixParameter(location, syntheticDetailsPath, 'responseSize');
   const resultsLabel: string = getMatrixParameter(location, syntheticDetailsPath, 'resultsLabel') ?? '';
-  const isSSLCertificateTest: boolean = testType === 'SSLCertificate' && syntheticCertificateCheckEnabled;
 
   const testResultMetadata: ResultMetadataResponse =
     useObservable<any, [number]>(() => getTestResultMetadata(testId, resultId, startTime), [0]) || dummyResultMetadata;
@@ -151,9 +147,6 @@ const AnalyzeView = () => {
         }),
       [0]
     ) || dummyTestResultList;
-  const renderMetaInformation = () => {
-    return isSSLCertificateTest ? <BetaBadge /> : null;
-  };
 
   return (
     <>
@@ -164,7 +157,6 @@ const AnalyzeView = () => {
               title={t('in-synthetics:dashboard.testList.mainLabel')}
               label={resultsLabel}
               withBorderBottom
-              renderMetaInformation={renderMetaInformation}
               contextConfigurations={useSyntheticContextConfiguration()}
               liveModeDisabled
               liveModeDisabledTooltip={t('in-synthetics:dashboard.detailsPage.detailLiveModeDisabled')}
@@ -228,23 +220,9 @@ const AnalyzeView = () => {
                     />
                   </Col>
                 )}
-                {isSSLCertificate && (
-                  <Col xs>
-                    <KpiCard
-                      title={t('in-synthetics:dashboard.summary.isCertificateValid')}
-                      value={
-                        !get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.valid', 0, 1])
-                          ? valueMissingPlaceholder
-                          : get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.valid', 0, 1]) === 1
-                          ? t('in-synthetics:dashboard.summary.certificateValid')
-                          : t('in-synthetics:dashboard.summary.certificateNotValid')
-                      }
-                    />
-                  </Col>
-                )}
               </Row>
               {isSSLCertificate &&
-                get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.valid', 0, 1]) && (
+                get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.validTo', 0, 1]) && (
                   <Row>
                     <Col xs>
                       <SSLCertificateDetails resultList={resultList} />

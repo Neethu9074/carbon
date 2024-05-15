@@ -22,9 +22,11 @@ interface EventTrackerProps {
   parentProductArea: string;
   parentPageName: string;
   eventName: string;
+  pathName: string;
 }
 
 interface currentUnitProps {
+  tenantId: string;
   tenantUnitId: string;
   tenantUnitName: string;
   tenantName: string;
@@ -37,12 +39,13 @@ let productPlanType: string;
 let instanceId: string;
 let tenantUnitName: string;
 let userId: string;
+let tenantId: string;
+let tenantName: string;
 
 const segment = Segment();
 
-export const eventTracker = ({ eventName, parentProductArea, parentPageName }: EventTrackerProps) => {
+export const eventTracker = ({ eventName, parentProductArea, parentPageName, pathName }: EventTrackerProps) => {
   const url = window.location.href;
-  const path = window.location.pathname;
   const userSelfDefinedRole =
     window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
 
@@ -57,29 +60,30 @@ export const eventTracker = ({ eventName, parentProductArea, parentPageName }: E
     }
     const currentUnit: currentUnitProps = find(units, unit => unit.tenantUnitName === config.tenantUnit)!;
     if (currentUnit) {
+      tenantName = currentUnit.tenantName;
+      tenantId = currentUnit.tenantId;
       instanceId = currentUnit.tenantUnitId;
       tenantUnitName = currentUnit.tenantUnitName;
     }
     userId = customRealmName + '-' + instanceId;
+
     segment.track(eventName, {
       CTA: PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED,
       UT30: ut30,
       instanceId: instanceId,
       instanceName: tenantUnitName,
+      tenantId: tenantId,
+      tenantName: tenantName,
       parentPageCategory: parentProductArea,
       parentPageName: parentPageName,
-      path: path,
+      path: pathName,
       productCode: productCode,
       productCodeType: productCodeType,
       productPlanType: productPlanType,
       productTitle: productTitle,
-      tenantId: instanceId,
       url: url,
-      user: {
-        bluemixId: userId,
-        role: userSelfDefinedRole,
-        tenantId: instanceId
-      }
+      'user.bluemixId': userId,
+      'user.role': userSelfDefinedRole
     });
   });
   return null; // SegmentEventTracker does not render anything

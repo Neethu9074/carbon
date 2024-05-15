@@ -17,13 +17,6 @@ export default function OTelLLMInfo({ snapshot }: { snapshot: SnapshotData }) {
       <DescriptionItem title={t('in-forge:plugins.oTelLLM.entityType')}>
         {data.get('resource.llm.entity.type')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.oTelLLM.platform')}>
-        {data.get('resource.llm.platform')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.oTelLLM.address')}>
-        {data.get('resource.server.address')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.oTelLLM.port')}>{data.get('resource.server.port')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.oTelLLM.serviceName')}>
         {data.get('resource.server.name')}
       </DescriptionItem>

@@ -17,6 +17,8 @@ export interface ClientConfig {
   agentInstallDomain?: string;
   butlerDomain?: string;
   serverlessEndpoint?: string;
+  websiteScriptSource?: string;
+  websiteEndpoint?: string;
 }
 
 export interface BuildInfo {

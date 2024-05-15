@@ -53,6 +53,7 @@ export default function LogMessages({
             <Typography variant="body-small">Optional</Typography>
           </div>
         }
+        rule={form.get('rule')}
       />
     </FormGroup>
   );

@@ -5873,7 +5873,8 @@
         "titleLogicalReplicationDelay": "Logical Replication Delay",
         "titleIops": "IOPS",
         "titleNetwork": "Network",
-        "titleStorage": "Storage"
+        "titleStorage": "Storage",
+        "titleStorageUsed": "Storage Used"
       }
     },
     "beeInstana": {
@@ -11014,9 +11015,6 @@
       },
       "name": "IBM i",
       "memoryPool": "Memory Pool",
-      "activeJobsInfo": "Active Jobs Information",
-      "diskInfo": "Disk Information",
-      "networkInfo": "Network Information",
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
       "troubleshootingDocs": "Troubleshooting docs"
     },
@@ -12540,10 +12538,7 @@
       }
     },
     "oTelLLM": {
-      "platform": "Platform",
       "oTelLLM": "OTEL LLM",
-      "address": "Address",
-      "port": "Port",
       "kind": "Kind",
       "serviceName": "Service Name",
       "entityType": "Entity Type",

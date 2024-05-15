@@ -135,7 +135,7 @@ const cols = [
   {
     title: t('in-infrastructure:agentView.status'),
     type: 'custom',
-    width: 120,
+    width: 240,
     typeArgs: {
       comparator: (a, b) => {
         // Compare first on high-level status OFFLINE | DEGRADED | ONLINE, then for DEGRADED compare on issue count.
