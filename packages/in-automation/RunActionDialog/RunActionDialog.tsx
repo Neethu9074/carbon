@@ -36,7 +36,7 @@ import RunActionContent, {
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import { ResolvedDynamicParamValue, resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
-import { Action, Event, ParameterValue, VolatileId, Policy, Snapshot } from 'in-types';
+import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from 'in-types';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
 import { runActionTracker, testActionTracker } from 'in-automation/tracker';
@@ -172,16 +172,19 @@ const getTitle = ({ action, error, actionInstanceId, test, policy }: GetTitlePar
   return t('in-automation:chosenToRun', { actionName });
 };
 
-function filteragentSnapShotsArray(hostId: string, agents?: any) {
+function filterAgentSnapShotsArray(hostId: string, agents: OUT | null | undefined): OUT | null | undefined {
+  if (!agents || !agents.data || !agents.data.online) {
+    return agents;
+  }
+
   return {
     ...agents,
     data: {
-      ...agents?.data,
-      online: agents?.data?.online.filter((agent: Snapshot) => agent?.volatileId?.host_id === hostId)
+      ...agents.data,
+      online: agents.data.online.filter((agent: AgentSnapshot) => agent?.volatileId?.host_id === hostId)
     }
   };
 }
-
 function useAgentSnapShots({ action }: { action: Action }) {
   const timeConfig = useTimeConfig();
   let query = '';
@@ -197,7 +200,7 @@ function useAgentSnapShots({ action }: { action: Action }) {
   if (isAnsible(action.type)) {
     const hostId = getAnsibleHostIdFromFields(action.fields).value;
     // filtering agent snapshot with host id (show only the agent that the action definition is associated with)
-    return hostId ? filteragentSnapShotsArray(hostId, agentSnapShots) : agentSnapShots;
+    return hostId ? filterAgentSnapShotsArray(hostId, agentSnapShots) : agentSnapShots;
   }
   return agentSnapShots;
 }
