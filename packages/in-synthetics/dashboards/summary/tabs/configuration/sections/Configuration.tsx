@@ -295,10 +295,14 @@ const renderSSLCertificateTestTypeContent = (configuration: SSLCertificateConfig
       <Col xs={2}>
         <KeyValue label={t('in-synthetics:dashboard.configuration.port')} value={configuration.port} />
       </Col>
-      <Col xs={4}>
+    </Row>,
+    <Row key={'daysRemaining'} className={locals.configRow}>
+      <Col xs={12}>
         <KeyValue
           label={t('in-synthetics:dashboard.configuration.daysRemaining')}
-          value={`${configuration.daysRemainingCheck} ${daysOrDayRemainingLabel}`}
+          value={`${t('in-synthetics:dashboard.configuration.daysRemainingCommonText')} ${
+            configuration.daysRemainingCheck
+          } ${daysOrDayRemainingLabel}`}
         />
       </Col>
     </Row>,
