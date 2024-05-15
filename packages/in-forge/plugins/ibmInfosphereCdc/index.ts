@@ -7,14 +7,12 @@
 import metricDefinitions from 'in-forge/plugins/ibmInfosphereCdc/metricDefinitions';
 //@ts-expect-error
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import kpiDefinitions from 'in-forge/plugins/ibmInfosphereCdc/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.ibmInfosphereCdc,
 
-  kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
     label: t('in-forge:plugins.ibmInfosphereCdc.ibmInfosphereCdc')

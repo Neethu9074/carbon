@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -16,6 +16,7 @@ export default function IbmInfosphereSubscriptionInfo({ snapshot }: { snapshot: 
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.ibmInfosphereSubscription.subscription')}>
         {data.get('name')}
+        Hello
       </DescriptionItem>
     </DescriptionList>
   );

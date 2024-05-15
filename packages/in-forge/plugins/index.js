@@ -35,6 +35,7 @@ import './ibmDataPowerSqlDatasource';
 import './jettyApplicationContainer';
 import './openshiftDeploymentConfig';
 import './ibmCloudContainerRegistry';
+import './ibmInfosphereSubscription';
 import './ibmDataPowerQueueManager';
 import './phmcSharedProcessorPool';
 import './tuxedoAppTuxedoService';

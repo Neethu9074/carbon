@@ -571,7 +571,7 @@ export const fullyQualifiedPlugins = {
   ibmiDiskInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.diskInfo.IbmiDiskInfo',
   ibmInfosphereCdc: 'com.instana.forge.infrastructure.datareplication.ibminfosphere.IbmInfosphereCdc',
   ibmInfosphereSubscription:
-    'com.instana.forge.infrastructure.datareplication.ibminfosphere.derivedentity.subscription.IbmInfosphereSubscription',
+    'com.instana.forge.infrastructure.datareplication.ibminfosphere.derivedentity.subscription.IbmInfosphereCdcSubscription',
   ibmiNetworkInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.networkInfo.IbmiNetworkInfo',
   ibmMqCluster: 'com.instana.forge.infrastructure.messaging.ibmmq.IbmMqCluster',
   ibmMqQueueManager: 'com.instana.forge.infrastructure.messaging.ibmmq.derivedentity.queuemanager.IbmMqQueueManager',
