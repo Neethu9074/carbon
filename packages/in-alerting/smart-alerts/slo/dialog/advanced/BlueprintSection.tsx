@@ -36,6 +36,9 @@ export default function BlueprintSection() {
           .updateIn(['rule', 'alertType'], alertTypeField => alertTypeField.setValue(newAlertType).setTouched(true))
           .updateIn(['rule', 'metric'], metricField =>
             metricField.setValue(newAlertType === 'ERROR_BUDGET' ? 'BURNED_PERCENTAGE' : 'STATUS').setTouched(true)
+          )
+          .updateIn(['operator'], operatorField =>
+            operatorField.setValue(newAlertType === 'ERROR_BUDGET' ? '>=' : '<=').setTouched(true)
           );
         updateForm(updateSloAlertNameAndDescription(updatedForm));
       }}

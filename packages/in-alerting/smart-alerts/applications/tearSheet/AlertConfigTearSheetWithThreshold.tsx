@@ -28,6 +28,7 @@ import useAlertConfigValidation from 'in-alerting/smart-alerts/applications/hook
 import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertingTearSheet, { AlertingFooterActions } from 'in-alerting/components/AlertingTearSheet';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { MessageType } from 'in-components/MessageStack/MessageStack';
 import { days } from 'in-services/time/time';
 
 // import { useObservable } from '@instana/hooks';
@@ -62,7 +63,7 @@ export interface AlertConfigTearSheetWithThresholdProps {
   withTrackClose: () => void; // TODO check typedef once redirection is implemented
   withTrackCreate: () => void;
   isSaving: boolean;
-  messages: EnrichedError[];
+  messages: MessageType[] | EnrichedError[];
   initialConfiguredApplications?: object;
 }
 

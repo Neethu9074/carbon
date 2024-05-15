@@ -12,10 +12,6 @@
     color: var(--ids-color-option-teal-500);
   }
 
-  :global(.g10) a:not([href]):not([tabindex]).createNewButton {
-    color: var(--cds-link-primary);
-  }
-
   .selectCheckbox {
     padding-top: 0.95rem !important;
     flex-direction: row;

@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import { serviceLevelsObjective, serviceLevelsObjectiveAlertDetails } from 'in-service-levels/navigation/path';
 import { buildJsonParser, buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { serviceLevelsObjective, serviceLevelsObjectiveAlerts } from 'in-service-levels/navigation/path';
 import { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { AvailableTimeWindowTypes } from 'in-service-levels/types';
 
@@ -16,12 +16,13 @@ export interface SloUrlState {
 }
 
 export const defaultServiceLevelObjectiveUrlParameters = {
-  sloId: createSloIdUrlParameter(serviceLevelsObjective),
-  timeWindowType: createTimeWindowTypeUrlParameter(serviceLevelsObjective)
+  sloId: createSloUrlParameter('sloId', serviceLevelsObjective),
+  timeWindowType: createSloUrlParameter('timeWindowType', serviceLevelsObjective)
 };
 
-export const sloSmartAlertsUrlParameters = {
-  alertId: createSloAlertIdUrlParameter(serviceLevelsObjectiveAlerts)
+export const sloSmartAlertDetailsUrlParameters = {
+  alertId: createSloUrlParameter('alertId', serviceLevelsObjectiveAlertDetails),
+  alertCreated: createSloUrlParameter('alertCreated', serviceLevelsObjectiveAlertDetails)
 };
 
 export function setTimeWindowTypeUrlParameter(location: Location, timeWindowType: AvailableTimeWindowTypes) {
@@ -33,34 +34,11 @@ export function setTimeWindowTypeUrlParameter(location: Location, timeWindowType
   );
 }
 
-export function createTimeWindowTypeUrlParameter(
-  pathSegment: string,
-  matrixPrefix: string = ''
-): ParameterDefinition<string> {
-  return {
-    path: pathSegment,
-    name: `${matrixPrefix}timeWindowType`,
-    as: 'timeWindowType'
-  };
-}
-
-export function createSloIdUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
-  return {
-    path: pathSegment,
-    name: `${matrixPrefix}sloId`,
-    as: 'sloId'
-  };
-}
-
 export function createEntityIdUrlParameter(
   pathSegment: string,
   matrixPrefix: string = ''
 ): ParameterDefinition<string> {
-  return {
-    path: pathSegment,
-    name: `${matrixPrefix}entityType`,
-    as: 'entityType'
-  };
+  return createSloUrlParameter('entityType', pathSegment, matrixPrefix);
 }
 
 export function createTagsUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string[]> {
@@ -74,13 +52,14 @@ export function createTagsUrlParameter(pathSegment: string, matrixPrefix: string
   };
 }
 
-export function createSloAlertIdUrlParameter(
+export function createSloUrlParameter(
+  parameterName: string,
   pathSegment: string,
   matrixPrefix: string = ''
 ): ParameterDefinition<string> {
   return {
     path: pathSegment,
-    name: `${matrixPrefix}alertId`,
-    as: 'alertId'
+    name: `${matrixPrefix}${parameterName}`,
+    as: parameterName
   };
 }

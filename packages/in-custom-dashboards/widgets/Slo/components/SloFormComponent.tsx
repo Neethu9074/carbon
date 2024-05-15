@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
+import { Select } from '@instana/components';
 import { Stack } from '@instana/components';
 import { Button } from '@instana/legacy';
 
@@ -46,7 +47,6 @@ import HelpAction from 'in-components/workspace/HelpAction';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
-import Select from 'in-components/form/Select/Select';
 import DateInput from 'in-components/form/DateInput';
 import Input from 'in-components/form/Input/Input';
 import { Nullish } from 'in-types';

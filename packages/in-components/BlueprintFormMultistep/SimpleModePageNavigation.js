@@ -6,9 +6,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { StepProgressBar } from '@instana/components';
+
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import StepProgressBar from 'in-components/StepProgressBar/StepProgressBar';
 
 import locals from './SimpleModePageNavigation.mless';
 

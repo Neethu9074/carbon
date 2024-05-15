@@ -12,9 +12,11 @@ import {
   alertsCategory,
   isMigration,
   alertId,
+  eventId,
   alertCreated,
   serviceId as serviceIdFromURL,
-  endpointId as endpointIdFromURL
+  endpointId as endpointIdFromURL,
+  isPotentialProblem
 } from 'in-applications/navigation/matrix';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/components/list/constants';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
@@ -35,6 +37,8 @@ interface AlertURLProps {
   serviceId?: string;
   applicationId?: string;
   endpointId?: string;
+  eventSpecificationId?: string;
+  potentialProblem?: string;
 }
 
 export function useSmartAlertCreateUrl(): ({
@@ -45,7 +49,9 @@ export function useSmartAlertCreateUrl(): ({
   boundaryScope,
   serviceId,
   applicationId,
-  endpointId
+  endpointId,
+  eventSpecificationId,
+  potentialProblem
 }: AlertURLProps) => string {
   const { createHref, location } = useNavigation();
   const currentLocation = useLocation();
@@ -59,7 +65,9 @@ export function useSmartAlertCreateUrl(): ({
       alertConfigCreated,
       serviceId,
       applicationId,
-      endpointId
+      endpointId,
+      eventSpecificationId,
+      potentialProblem
     }: AlertURLProps) => {
       const returnUrlWithParams = createHref(currentLocation);
       const clonedLocation = cloneLocation(location);
@@ -73,7 +81,9 @@ export function useSmartAlertCreateUrl(): ({
         alertConfigCreated,
         serviceId,
         applicationId,
-        endpointId
+        endpointId,
+        eventSpecificationId,
+        potentialProblem
       );
       return createHref({
         ...clonedLocation
@@ -93,7 +103,9 @@ function updateCreatePathMetrixParams(
   alertConfigCreated?: number,
   serviceId?: string,
   applicationId?: string,
-  endpointId?: string
+  endpointId?: string,
+  eventSpecificationId?: string,
+  potentialProblem?: string
 ) {
   const configsCategory = isGlobal ? categoryGlobal : categoryLocal;
 
@@ -101,11 +113,12 @@ function updateCreatePathMetrixParams(
   if (boundaryScope) setOrDeleteMatrixKey(location, smartAlertPath, boundaryScopeFromURL, boundaryScope);
   if (alertConfigId) setOrDeleteMatrixKey(location, smartAlertPath, alertId, String(alertConfigId));
   if (alertConfigCreated) setOrDeleteMatrixKey(location, smartAlertPath, alertCreated, alertConfigCreated);
+  if (eventSpecificationId && migration) setOrDeleteMatrixKey(location, smartAlertPath, eventId, eventSpecificationId);
   if (migration) setOrDeleteMatrixKey(location, smartAlertPath, isMigration, String(migration));
   if (serviceId) setOrDeleteMatrixKey(location, smartAlertPath, serviceIdFromURL, serviceId);
   if (endpointId) setOrDeleteMatrixKey(location, smartAlertPath, endpointIdFromURL, endpointId);
   setOrDeleteMatrixKey(location, smartAlertPath, alertsCategory, configsCategory);
   setOrDeleteMatrixKey(location, smartAlertPath, cancelUrl, returnUrlWithParams);
-  setOrDeleteMatrixKey(location, smartAlertPath, isMigration, String(migration));
+  if (potentialProblem) setOrDeleteMatrixKey(location, smartAlertPath, isPotentialProblem, String(potentialProblem));
   location.pathname = smartAlertPath;
 }

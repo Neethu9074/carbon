@@ -112,6 +112,7 @@
 
   .pillFixer {
     z-index: 2;
+    min-width: fit-content;
   }
 
   .dashedLine {

@@ -44,6 +44,7 @@ export default function AlertHeader({
   allowActionButtons = true,
   onConfigDeleteTrigger,
   displayEditAction,
+  displayEditActionNew,
   displayDuplicateAction,
   isGlobalSmartAlert = false
 }) {
@@ -268,7 +269,7 @@ export default function AlertHeader({
                   />
                 </Tooltip>
               )}
-              {displayEditAction && applicationSmartAlertFullScreenDesignEnabled && (
+              {displayEditActionNew && applicationSmartAlertFullScreenDesignEnabled && (
                 <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip') + ' (New)'} delay={500}>
                   <IconButton
                     kind="primaryv2"
@@ -352,6 +353,7 @@ AlertHeader.propTypes = {
   allowActionButtons: PropTypes.bool,
   onConfigDeleteTrigger: PropTypes.func,
   displayEditAction: PropTypes.bool,
+  displayEditActionNew: PropTypes.bool,
   displayDuplicateAction: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool
 };

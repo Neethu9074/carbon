@@ -14,7 +14,7 @@ import {
 } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import { createNewAlertConfig } from 'in-alerting/smart-alerts/slo/data/sloAlertConfig';
 
-export type CreateSloAlertDialogMode = 'NEW' | 'EDIT' | 'CLONE';
+export type CreateSloAlertDialogMode = 'NEW' | 'EDIT';
 export type SloAlertFormOnChange = (path: SloAlertFormPath, updater: (i: Item) => Item) => void;
 export interface SloAlertFormContext {
   form: SloAlertForm;

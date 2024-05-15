@@ -43,7 +43,8 @@ module.exports = {
   logWidgetsEnabled: true,
   carbonShellEnabled: true,
   carbonPillEnabled: true,
-  carbonMessageEnabled: true,
+  carbonMessageEnabled: false,
+  carbonIconButtonEnabled: true,
   carbonAccordionEnabled: true,
   carbonSelectEnabled: true,
   carbonContentSwitcherEnabled: true,
@@ -126,5 +127,7 @@ module.exports = {
   weaselSubresourceIntegrityEnabled: true,
   orbitalEnabled: false,
   carbonTileEnabled: true,
-  thresholdCustomDashboardsEnabled: false
+  carbonStepProgressBarEnabled: true,
+  thresholdCustomDashboardsEnabled: false,
+  carbonPaginationEnabled: true
 };

@@ -9,12 +9,15 @@ import React, { useState } from 'react';
 import { Result, ServiceLevelsAlertConfig, ServiceLevelsAlertConfigWithMetadata } from '@instana/types';
 import { Observable } from '@instana/observables';
 
+import {
+  createSloAlertConfiguration,
+  updateSloAlertConfiguration
+} from 'in-alerting/smart-alerts/slo/api/sloAlertConfig';
 import SloAlertFormProvider, { CreateSloAlertDialogMode } from 'in-alerting/smart-alerts/slo/form/SloAlertFormProvider';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
 import { SloAlertForm, createSloAlertForm } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/slo/dialog/advanced/AdvancedModeContainer';
-import { createSloAlertConfiguration } from 'in-alerting/smart-alerts/slo/api/sloAlertConfig';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { formToSloAlertConfiguration } from 'in-alerting/smart-alerts/slo/form/utils';
 import { trackAlertSaved } from 'in-alerting/smart-alerts/components/tracker';
@@ -41,9 +44,12 @@ const FORM_ID = 'slo-smart-alert-editor';
 export default function AlertConfigDialog({ onClose, editMode, alertConfig }: AlertConfigDialogProps) {
   const mode = editMode ? 'EDIT' : 'NEW';
   const timeConfig = useTimeConfig();
+
   const [form, setForm] = useState(() => createSloAlertForm(alertConfig));
+  const sloALertConfigId = form.getIn(['id']).value;
+
   const [submitStatus, doSubmit] = useFormSubmission<ServiceLevelsAlertConfig, ServiceLevelsAlertConfigWithMetadata>(
-    getFormSubmitAction(mode)
+    getFormSubmitAction(mode, sloALertConfigId)
   );
 
   return (
@@ -100,13 +106,12 @@ export default function AlertConfigDialog({ onClose, editMode, alertConfig }: Al
   );
 }
 
-function getFormSubmitAction(mode: CreateSloAlertDialogMode): SloAlertFormSubmissionAction {
+function getFormSubmitAction(mode: CreateSloAlertDialogMode, sloALertConfigId: string): SloAlertFormSubmissionAction {
   switch (mode) {
     case 'NEW':
       return createSloAlertConfiguration;
-    case 'CLONE':
     case 'EDIT':
-      throw Error(`${mode} mode is currently not yet implemented for SLO smart alerts`);
+      return sloAlertConfig => updateSloAlertConfiguration(sloAlertConfig, sloALertConfigId);
   }
 }
 

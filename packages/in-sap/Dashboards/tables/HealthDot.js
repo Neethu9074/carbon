@@ -12,7 +12,6 @@ import { themes } from '@instana/design-tokens';
 
 import SapThresholdTooltip from './SapThresholdTooltip';
 import Tooltip from 'in-components/Tooltip';
-import oldTheme from 'in-themes';
 
 import locals from 'in-kubernetes/Dashboards/CronJob/CronJob.mless';
 
@@ -23,7 +22,7 @@ export function HealthDot({
   redToYellow,
   yellowToRed,
   unit,
-  color = oldTheme.lib.colors.fadedTeal800, //No alternative available
+  color = '#BAE6FF', // We don't have a alternative ids color for fadedTeal800
   explanation,
   iconSize,
   className
