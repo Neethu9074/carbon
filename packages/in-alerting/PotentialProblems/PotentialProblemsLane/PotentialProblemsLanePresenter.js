@@ -3,21 +3,24 @@
  * (c) Copyright Instana Inc.
  */
 
+import PotentialProblemsDialogPresenter from 'promise-loader?global,potentialProblems!in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter';
+import AlertConfigDialog from 'promise-loader?global,potentialProblems!in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import PotentialProblemsDialogPresenter from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter';
 import PotentialProblemsHoverArea from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsHoverArea';
 import { potentialProblemsLaneAlertsPropType } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
 import PotentialProblemMarker from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemMarker';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
-import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { trackMarkerClicked, trackMarkerHovered } from 'in-alerting/PotentialProblems/tracker';
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getTitle } from 'in-alerting/PotentialProblems/textUtil';
 import { t } from 'in-i18n';
 
+const DeferredPotentialProblemsDialogPresenter = createAsyncViewComponent(PotentialProblemsDialogPresenter);
+const DeferredAlertConfigDialog = createAsyncViewComponent(AlertConfigDialog);
 export default function PotentialProblemsLanePresenter({
   potentialProblems,
   alertRules,
@@ -101,7 +104,7 @@ export default function PotentialProblemsLanePresenter({
 
   const defaultClickHandler = ({ alerts, thresholds }) => {
     addActiveDialog(
-      <PotentialProblemsDialogPresenter
+      <DeferredPotentialProblemsDialogPresenter
         {...remainingProps}
         alertRules={alertRules}
         alerts={alerts}
@@ -109,7 +112,7 @@ export default function PotentialProblemsLanePresenter({
         renderSmartAlertDialogComponent={dialogProps => {
           const { applicationLabel } = remainingProps;
           return (
-            <AlertConfigDialog
+            <DeferredAlertConfigDialog
               applicationLabel={applicationLabel}
               alertConfig={{
                 ...remainingProps,

@@ -36,6 +36,7 @@ module.exports = {
     '\\.mless$': '<rootDir>/packages/in-test/styleMock.js',
     '\\.css$': '<rootDir>/packages/in-test/styleMock.js',
     '\\.yaml$': '<rootDir>/packages/in-test/styleMock.js',
-    '\\.scss$': '<rootDir>/packages/in-test/styleMock.js'
+    '\\.scss$': '<rootDir>/packages/in-test/styleMock.js',
+    '^promise-loader?(.*)!(.*)': '$2'
   }
 };
