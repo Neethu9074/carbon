@@ -568,69 +568,71 @@ export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
       <SloDashboard />
       <MenuItem isDivider />
       <SettingsAndMore />
-      <SideNavMenu
-        renderIcon={() => <SvgIcon color="white" size="s" type="lib_menu_additional_resources" />}
-        title={t('in-components:mainNavigation.viewSwitcherLabelMore')}
-        isSideNavExpanded
-      >
-        {tenantSwitcherEnabled && (
+      {!playwithEnabled && (
+        <SideNavMenu
+          renderIcon={() => <SvgIcon color="white" size="s" type="lib_menu_additional_resources" />}
+          title={t('in-components:mainNavigation.viewSwitcherLabelMore')}
+          isSideNavExpanded
+        >
+          {tenantSwitcherEnabled && (
+            <MenuItem
+              id="main-nav-tenants"
+              label={t('in-components:mainNavigation.viewSwitcherLabelTenants')}
+              openInNewTab
+              href={tenantSwitcherLink}
+            />
+          )}
+          {role?.canConfigureAgents && (
+            <MenuItem
+              id="main-nav-agents"
+              label={t('in-components:mainNavigation.viewSwitcherLabelAgents')}
+              href={createHrefToPath(agentsPath)}
+              isActive={matchLocation(agentsPath)}
+            />
+          )}
+          {releaseNotesEnabled && (
+            <MenuItem
+              id="main-nav-release-notes"
+              onClick={e => {
+                showReleaseNotes();
+                onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes'));
+              }}
+              label={t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes')}
+            />
+          )}
           <MenuItem
-            id="main-nav-tenants"
-            label={t('in-components:mainNavigation.viewSwitcherLabelTenants')}
+            id="main-nav-documentation"
+            label={t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}
             openInNewTab
-            href={tenantSwitcherLink}
+            href="https://www.ibm.com/docs/en/obi/current"
           />
-        )}
-        {role?.canConfigureAgents && (
           <MenuItem
-            id="main-nav-agents"
-            label={t('in-components:mainNavigation.viewSwitcherLabelAgents')}
-            href={createHrefToPath(agentsPath)}
-            isActive={matchLocation(agentsPath)}
+            id="main-nav-support"
+            label={t('in-components:mainNavigation.viewSwitcherLabelSupport')}
+            openInNewTab
+            href="https://www.ibm.com/mysupport/s/?language=en_US"
           />
-        )}
-        {releaseNotesEnabled && (
           <MenuItem
-            id="main-nav-release-notes"
+            id="main-nav-about"
             onClick={e => {
-              showReleaseNotes();
-              onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes'));
+              addActiveDialog(<AboutInstanaDialog />);
+              onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelAboutInstana'));
             }}
-            label={t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes')}
+            label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
           />
-        )}
-        <MenuItem
-          id="main-nav-documentation"
-          label={t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}
-          openInNewTab
-          href="https://www.ibm.com/docs/en/obi/current"
-        />
-        <MenuItem
-          id="main-nav-support"
-          label={t('in-components:mainNavigation.viewSwitcherLabelSupport')}
-          openInNewTab
-          href="https://www.ibm.com/mysupport/s/?language=en_US"
-        />
-        <MenuItem
-          id="main-nav-about"
-          onClick={e => {
-            addActiveDialog(<AboutInstanaDialog />);
-            onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelAboutInstana'));
-          }}
-          label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
-        />
-        <div className={local.signOutButton}>
-          <MenuItem
-            onClick={signOut}
-            label={
-              <>
-                <div>{t('in-components:mainNavigation.viewSwitcherButtonSignOut')}</div>
-                <div className={local.emailAddress}>{user?.email}</div>
-              </>
-            }
-          />
-        </div>
-      </SideNavMenu>
+          <div className={local.signOutButton}>
+            <MenuItem
+              onClick={signOut}
+              label={
+                <>
+                  <div>{t('in-components:mainNavigation.viewSwitcherButtonSignOut')}</div>
+                  <div className={local.emailAddress}>{user?.email}</div>
+                </>
+              }
+            />
+          </div>
+        </SideNavMenu>
+      )}
     </UIShell>
   );
 }
