@@ -12538,10 +12538,7 @@
       }
     },
     "oTelLLM": {
-      "platform": "Platform",
       "oTelLLM": "OTEL LLM",
-      "address": "Address",
-      "port": "Port",
       "kind": "Kind",
       "serviceName": "Service Name",
       "entityType": "Entity Type",
