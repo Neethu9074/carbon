@@ -180,6 +180,7 @@ export default function RecommendedActions({
   });
 
   const totalHits = result?.data?.totalHits;
+
   const navigateToActionDetails = useNavigateToActionDetails();
 
   return (
@@ -188,7 +189,9 @@ export default function RecommendedActions({
       fixedLayout
       leftHeader={
         <Typography variant="heading-300">
-          {t('in-automation:recommendedActionsWithCount', { count: totalHits })}
+          {result?.progress.loading
+            ? t('in-automation:recommendedActions')
+            : t('in-automation:recommendedActionsWithCount', { count: totalHits })}
         </Typography>
       }
       onChange={setServerTableUrlState}

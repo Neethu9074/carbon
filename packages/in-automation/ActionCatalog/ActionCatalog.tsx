@@ -72,7 +72,11 @@ export default function ActionCatalog() {
         page={page}
         searchPlaceholder={t('in-automation:searchActions')}
         onRowClick={item => navigateToActionDetails(item, false)}
-        cardTitle={t('in-automation:ActionCatalog.actionCatalogWithCount', { count: totalHits })}
+        cardTitle={
+          paginatedActions?.progress.loading
+            ? t('in-automation:ActionCatalog.actionCatalog')
+            : t('in-automation:ActionCatalog.actionCatalogWithCount', { count: totalHits })
+        }
         rightHeader={
           <>
             {role?.canConfigureAutomationActions && (

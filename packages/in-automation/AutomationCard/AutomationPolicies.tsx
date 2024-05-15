@@ -504,7 +504,9 @@ export default function AutomationPolicies({ event, volatileId, actions, trigger
       fixedLayout
       leftHeader={
         <Typography variant="heading-300">
-          {t('in-automation:automationPoliciesWithCount', { count: totalHits })}
+          {paginatedPolicies?.progress.loading
+            ? t('in-automation:automationPolicies')
+            : t('in-automation:automationPoliciesWithCount', { count: totalHits })}
         </Typography>
       }
       onChange={setServerTableUrlState}
