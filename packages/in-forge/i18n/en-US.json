@@ -12534,7 +12534,13 @@
         "disk": "Disk",
         "diskPath": "Disk Path",
         "diskUsage": "Disk Usage",
-        "diskUtilization": "Disk Utilization"
+        "diskUtilization": "Disk Utilization",
+        "overflowLockCount": "Overflow Lock Count",
+        "overflowUserCount": "Overflow User Count",
+        "overflowTransactionCount": "Overflow Transaction Count",
+        "seqScanCount": "Sequential Scan Count",
+        "seqScanTableCount": "Number of Tables having Sequential Scans",
+        "tableName": "Table Name"
       }
     },
     "oTelLLM": {
