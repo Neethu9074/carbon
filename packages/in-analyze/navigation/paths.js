@@ -55,19 +55,12 @@ import { setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
-import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import { analyze } from 'in-analyze/navigation/constants';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
 
-export const analyze = '/analyze';
-export const analyzeRaw = `${analyze}/raw`;
-export const traceDetail = `/trace`;
-export const traceDetailFullyQualified = `${analyze}/trace`;
-
 export const TAG_CALL_HTTP_STATUS = 'call.http.status';
-
-export const isAnalyzeView = getRootPathPredicate(analyze);
 
 export function createGroupBy(groupbyTag, groupbyTagEntity) {
   return { groupbyTag, ...(groupbyTagEntity && { groupbyTagEntity }) };
