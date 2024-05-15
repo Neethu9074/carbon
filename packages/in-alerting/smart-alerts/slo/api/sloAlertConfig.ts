@@ -46,3 +46,49 @@ export function updateSloAlertConfiguration(
     return res;
   });
 }
+
+export function getSloAlertConfiguration(
+  alertId: string,
+  created?: number
+): Observable<Result<ServiceLevelsAlertConfigWithMetadata>> {
+  return http<ServiceLevelsAlertConfigWithMetadata>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/events/settings/global-alert-configs/service-levels/${encodeURI(alertId)}`,
+    headers: getCsrfHeader(),
+    queryParams: {
+      validOn: created
+    },
+    treat400AsError: true,
+    mapToResultObject: true
+  });
+}
+
+export function getSloAlertConfigurationVersion(
+  alertId: string,
+  created: number
+): Observable<Result<ServiceLevelsAlertConfigWithMetadata>> {
+  return http<ServiceLevelsAlertConfigWithMetadata>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/events/settings/global-alert-configs/service-levels/${encodeURI(alertId)}/versions/${encodeURI(
+      `${created}`
+    )}`,
+    headers: getCsrfHeader(),
+    treat400AsError: true,
+    mapToResultObject: true
+  });
+}
+
+export function getAllSloAlertConfigurationVersions(
+  alertId: string
+): Observable<Result<ServiceLevelsAlertConfigWithMetadata>> {
+  return http<ServiceLevelsAlertConfigWithMetadata>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/events/settings/global-alert-configs/service-levels/${encodeURI(alertId)}/versions`,
+    headers: getCsrfHeader(),
+    treat400AsError: true,
+    mapToResultObject: true
+  });
+}

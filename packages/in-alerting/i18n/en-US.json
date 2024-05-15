@@ -1475,7 +1475,7 @@
         "stepLabel_customPayload": "Custom Payload",
         "stepTitle_customPayload": "Custom Payload",
         "selectSloHeadline": "Select SLOs",
-        "blueprintSectionTitle": "Selected Blueprint",
+        "blueprintSectionTitle": "Select Blueprint",
         "blueprint": "",
         "blueprint_SERVICE_LEVELS_OBJECTIVE": "Status",
         "blueprint_ERROR_BUDGET": "Error Budget",
@@ -1493,6 +1493,15 @@
         "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO Status is less than or equal to {{percentage}}.",
         "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Error Budget Remaining is low",
         "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Error Budget Remaining is less than or equal to {{percentage}}."
+      },
+      "details": {
+        "alertConfigurationTitle": "Alert Configuration",
+        "sloHeader": "SLOs",
+        "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
+        "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
+        "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
+        "blueprintLabel": "Blueprint",
+        "thresholdLabel": "Threshold"
       }
     }
   }

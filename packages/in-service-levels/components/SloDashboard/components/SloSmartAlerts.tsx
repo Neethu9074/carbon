@@ -7,18 +7,16 @@
 import React from 'react';
 
 import SloSmartAlertDetails from 'in-service-levels/components/SloDashboard/components/SloSmartAlertDetails';
-import { SloUrlState, sloSmartAlertsUrlParameters } from 'in-service-levels/navigation/urlParameters';
+import { serviceLevelsObjectiveAlertDetailsFullyQualified } from 'in-service-levels/navigation/path';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { sloSmartAlertsEnabled } from 'in-services/featureFlags';
-import useUrlState from 'in-hooks/useUrlState';
 
 export default function SloSmartAlerts() {
-  const [{ alertId }] = useUrlState<SloUrlState>({
-    bind: [sloSmartAlertsUrlParameters.alertId]
-  });
+  const { matchLocation } = useNavigation();
 
   if (!sloSmartAlertsEnabled) return <></>;
 
-  if (alertId) return <SloSmartAlertDetails />;
+  if (matchLocation(serviceLevelsObjectiveAlertDetailsFullyQualified)) return <SloSmartAlertDetails />;
 
   return <>SLO Smart Alert List</>;
 }
