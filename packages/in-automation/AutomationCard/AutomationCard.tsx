@@ -43,12 +43,16 @@ function AutomationCardButtonGroup({
 }: AutomationCardButtonGroupProps) {
   const buttonProps = [
     {
-      text: t('in-automation:automationPoliciesWithCount', { count: policyCount ?? '' }),
+      text: policyCount
+        ? t('in-automation:automationPoliciesWithCount', { count: policyCount })
+        : t('in-automation:automationPolicies'),
       key: 'automationPolicies',
       onClick: () => setActiveKey('automationPolicies')
     },
     {
-      text: t('in-automation:recommendedActionsWithCount', { count: recommendedActionsCount ?? '' }),
+      text: recommendedActionsCount
+        ? t('in-automation:recommendedActionsWithCount', { count: recommendedActionsCount })
+        : t('in-automation:recommendedActions'),
       key: 'recommendedActions',
       onClick: () => {
         setActiveKey('recommendedActions');
@@ -59,7 +63,9 @@ function AutomationCardButtonGroup({
 
   if (role?.canViewAutomationActionInstances) {
     buttonProps.push({
-      text: t('in-automation:actionHistory.actionHistoryWithCount', { count: actionHistoryCount ?? '' }),
+      text: actionHistoryCount
+        ? t('in-automation:actionHistory.actionHistoryWithCount', { count: actionHistoryCount })
+        : t('in-automation:actionHistory.actionHistory'),
       key: 'actionHistory',
       onClick: () => setActiveKey('actionHistory')
     });
