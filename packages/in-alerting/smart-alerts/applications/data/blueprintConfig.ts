@@ -90,6 +90,8 @@ export interface BluePrint extends BluePrintBase {
   readonly name: string;
   readonly headline?: string;
   readonly text?: string;
+  readonly tearSheetHeadline?: string;
+  readonly tearSheetDescription?: string;
   readonly subType?: string;
   readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
 
@@ -147,6 +149,8 @@ const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze<BluePrint>({
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.name'),
   headline: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.headline'),
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.text'),
+  tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.tearSheetHeadline'),
+  tearSheetDescription: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.tearSheetDescription'),
   baselineEnabled: true,
   defaultMetric: 'latency',
   getMetricName: () => 'latency',
@@ -169,6 +173,8 @@ const errorsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.name'),
   headline: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.headline'),
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.text'),
+  tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.tearSheetHeadline'),
+  tearSheetDescription: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.tearSheetDescription'),
   baselineEnabled: false,
   enrichWithDefaultThresholdValues: enrichWithDefaultStaticThresholdValues,
   defaultMetric: 'errors',
@@ -190,6 +196,8 @@ const logsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.name'),
   headline: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.headline'),
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.text'),
+  tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.headline'),
+  tearSheetDescription: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.text'),
   isBeta: true,
   baselineEnabled: false,
   enrichWithDefaultThresholdValues: enrichWithDefaultStaticThresholdValues,
@@ -213,6 +221,8 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.name'),
   headline: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.headline'),
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.text'),
+  tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.tearSheetHeadline'),
+  tearSheetDescription: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.tearSheetDescription'),
   baselineEnabled: true,
   defaultMetric: 'calls',
   getMetricName: (alertRule: ApplicationAlertRule) => alertRule.metricName,
@@ -243,6 +253,8 @@ const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.name'),
   headline: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.headline'),
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.text'),
+  tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.tearSheetHeadline'),
+  tearSheetDescription: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.tearSheetDescription'),
   baselineEnabled: true,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',

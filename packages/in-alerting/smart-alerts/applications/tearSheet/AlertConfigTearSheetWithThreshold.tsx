@@ -27,8 +27,10 @@ import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applicatio
 import useAlertConfigValidation from 'in-alerting/smart-alerts/applications/hooks/useAlertConfigValidation';
 import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertingTearSheet, { AlertingFooterActions } from 'in-alerting/components/AlertingTearSheet';
+import { blueprintConfigs } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { MessageType } from 'in-components/MessageStack/MessageStack';
+import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import { days } from 'in-services/time/time';
 
 // import { useObservable } from '@instana/hooks';
@@ -75,12 +77,18 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
   const alertConfigWithFormModel = form.toJS() as unknown as ApplicationAlertConfig;
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
+  const blueprintConfigList =
+    smartAlertsLogsBlueprintEnabled || blueprintConfig?.type === 'logs'
+      ? blueprintConfigs
+      : blueprintConfigs.filter(config => config?.type !== 'logs');
+
   return (
     <SmartAlertConfigTearSheetWithQueryValidation
       {...props}
       alertConfigWithFormModel={alertConfigWithFormModel}
       blueprintConfig={blueprintConfig}
       isGlobalSmartAlert={isGlobalSmartAlert}
+      blueprintConfigList={blueprintConfigList}
     />
   );
 }
@@ -88,6 +96,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
 export interface TearSheetWithQueryValidationProps extends AlertConfigTearSheetWithThresholdProps {
   alertConfigWithFormModel: ApplicationAlertConfig;
   blueprintConfig: BluePrint;
+  blueprintConfigList: any;
 }
 
 export interface SlideInConfig {

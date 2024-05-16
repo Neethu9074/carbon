@@ -6,36 +6,26 @@
 
 import React from 'react';
 
-import {
-  getSimpleModeBlueprintConfig,
-  simpleModeBlueprintConfigs
-} from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import SelectedBlueprintPresenter from 'in-alerting/smart-alerts/components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import ProvideLogMessage from 'in-alerting/smart-alerts/applications/tearSheet/components/LogMessages/ProvideLogMessage';
 import LogMessages from 'in-alerting/smart-alerts/applications/tearSheet/components/LogMessages/LogMessages';
-import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import ProvideStatusCode from 'in-alerting/smart-alerts/applications/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
+import { blueprintConfigs } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
-import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
-import Menu from 'in-components/Menu';
+import Menu from 'in-alerting/smart-alerts/components/Menu';
 import { t } from 'in-i18n';
 
 import locals from './AlertConfigTearSheetStep1.mless';
 
-export default function AlertConfigTearSheetStep1({ form, updateForm }) {
+export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintConfigList }) {
   const alertType = form.get('rule').get('alertType').value;
 
-  const alertThreshold = form.get('threshold').toJS();
-  const blueprintConfig = getSimpleModeBlueprintConfig(alertType, alertThreshold);
-  const { headline, isBeta, text, type } = blueprintConfig;
-
-  const blueprintConfigList =
-    smartAlertsLogsBlueprintEnabled || type === 'logs'
-      ? simpleModeBlueprintConfigs
-      : simpleModeBlueprintConfigs.filter(config => config.type !== 'logs');
+  const blueprintConfig = blueprintConfigs.find(item => item.type === alertType);
+  const { tearSheetHeadline, isBeta, tearSheetDescription } = blueprintConfig;
 
   return (
     <TearSheetStepContentWrapper headline={t('in-alerting:smartAlerts.applications.simple.simpleAlertStep1Headline')}>
@@ -51,9 +41,9 @@ export default function AlertConfigTearSheetStep1({ form, updateForm }) {
 
         <AlertTypeSwitch
           alertType={alertType}
-          blueprintConfig={blueprintConfig}
           renderLogs={() => (
-            <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta}>
+            <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta}>
+              <div className={locals.oneGap} />
               <ExpandableLightCard
                 title={t('in-alerting:smartAlerts.applications.logMessages.messageColumn')}
                 useMaxAvailableHeight={false}
@@ -75,18 +65,25 @@ export default function AlertConfigTearSheetStep1({ form, updateForm }) {
                   timeConfig={{
                     windowSize: alertingDialogItemPickerTimeframe
                   }}
+                  tearSheetView
                 />
               </ExpandableLightCard>
             </SelectedBlueprintPresenter>
           )}
-          renderSlowness={() => <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta} />}
-          renderErrorRate={() => <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta} />}
+          renderSlowness={() => (
+            <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta} />
+          )}
+          renderErrorRate={() => (
+            <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta} />
+          )}
           renderStatusCode={() => (
-            <SelectedBlueprintPresenter title={headline} description={text}>
-              <ProvideStatusCode form={form} updateForm={updateForm} />
+            <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription}>
+              <ProvideStatusCode form={form} updateForm={updateForm} tearSheetView />
             </SelectedBlueprintPresenter>
           )}
-          renderThroughput={() => <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta} />}
+          renderThroughput={() => (
+            <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta} />
+          )}
         />
       </div>
     </TearSheetStepContentWrapper>

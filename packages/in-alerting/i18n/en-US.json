@@ -285,12 +285,16 @@
         "slowness": {
           "name": "Slow Calls",
           "headline": "Automatic Alerts for Slow Calls",
-          "text": "Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual."
+          "text": "Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual.",
+          "tearSheetHeadline": "Alerts for calls count",
+          "tearSheetDescription": "Automatic alerts when calls to selected services and endpoints of this Application Perspective are slower than the threshold."
         },
         "errors": {
           "name": "Erroneous Calls",
           "headline": "Automatic Alerts for Erroneous Calls",
-          "text": "Receive an alert when the rate or count of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal."
+          "text": "Receive an alert when the rate or count of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal.",
+          "tearSheetHeadline": "Automatic alerts for erroneous calls",
+          "tearSheetDescription": "Receive an alert when the rate or count of erroneous calls for selected services and endpoints of this Application Perspective exceeds the threshold value."
         },
         "logs": {
           "name": "Logs",
@@ -303,13 +307,17 @@
           "name": "HTTP Status Codes",
           "headline": "Automatic Alerts for HTTP Status Codes",
           "text": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
-          "incompleteRuleMessage": "Please select a Status Code to see when this alert triggers"
+          "incompleteRuleMessage": "Please select a Status Code to see when this alert triggers",
+          "tearSheetHeadline": "Automatic alerts for HTTP status codes",
+          "tearSheetDescription": "Receive an alert when matching HTTP Status Codes occur more often than the threshold."
         },
         "throughput": {
           "name": "Throughput",
           "headline": "Automatic Alerts for Calls Count",
           "text": "Automatic alerts on anomalously low or high number of calls for selected services and endpoints of this Application Perspective.",
-          "metricLabel": "Calls"
+          "metricLabel": "Calls",
+          "tearSheetHeadline": "Automatic alerts for page views",
+          "tearSheetDescription": "Automatic alerts on an unusually low or high number of calls for selected services and endpoints of this Application Perspective."
         },
         "simpleMode": {
           "unexpectedDrop": {
@@ -322,7 +330,8 @@
             "headline": "Automatic Alerts on Anomalously High Number of Calls",
             "text": "Receive an alert when the number of calls is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the application."
           }
-        }
+        },
+        "variantMessage": "The given initialItemSelected with type {{type}} is not present in the list of items."
       },
       "formUtils": {
         "titlePlaceholder": {

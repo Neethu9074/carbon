@@ -13,9 +13,9 @@ import locals from './AlertingTearSheetContent.mless';
 export default function AlertingTearSheetContent({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div>
-      <div>
-        <Typography variant="heading-600">{title}</Typography>
-      </div>
+      <Typography variant="heading-600" noMargin>
+        {title}
+      </Typography>
 
       <div className={locals.contentArea}>{children}</div>
     </div>
