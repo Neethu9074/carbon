@@ -177,14 +177,22 @@ function filterAgentSnapShotsArray(hostId: string, agents: OUT | null | undefine
     return agents;
   }
 
+  const filteredOnline = agents.data.online.filter((agent: AgentSnapshot) => agent?.volatileId?.host_id === hostId);
+
+  // If no agent is found with the specified hostId, return the original agents to show the list of ansible agents
+  if (filteredOnline.length === 0) {
+    return agents;
+  }
+
   return {
     ...agents,
     data: {
       ...agents.data,
-      online: agents.data.online.filter((agent: AgentSnapshot) => agent?.volatileId?.host_id === hostId)
+      online: filteredOnline
     }
   };
 }
+
 function useAgentSnapShots({ action }: { action: Action }) {
   const timeConfig = useTimeConfig();
   let query = '';
