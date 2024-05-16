@@ -155,7 +155,8 @@ export const dataSourceConstants = {
       calls: ['SUM', 'PER_SECOND'],
       latency: ['P25', 'P50', 'P95', 'SUM', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MIN', 'MAX', 'DISTRIBUTION'],
       erroneousCalls: ['SUM', 'PER_SECOND'],
-      errors: ['MEAN']
+      errors: ['MEAN'],
+      'call.metric': ['SUM', 'MEAN', 'MIN', 'MAX']
     },
     latencyTag: 'call.latency',
     getData: getCalls,

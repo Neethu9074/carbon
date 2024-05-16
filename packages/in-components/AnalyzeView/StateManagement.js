@@ -195,6 +195,7 @@ function AnalyzeStateManagement({
   urlStateDefinition,
   dataSourceConfigurations,
   getCustomGroupingTagFilter,
+  getMetricTagSuggestions,
   children
 }) {
   const timeConfig = useTimeConfig();
@@ -259,6 +260,24 @@ function AnalyzeStateManagement({
   const metricTemplatesResult =
     useObservable(() => getMetricTemplates() || noResultObservable(), [getMetricTemplates]) ?? pendingResult;
 
+  // TODO: make this independent of call.metric (by passing it via dataSourceConfigurations?)
+  const metricTagSuggestionsResult =
+    useObservable(
+      () =>
+        getMetricTagSuggestions?.({
+          tagName: 'call.metric',
+          timeConfig,
+          formModel
+        }),
+      [getMetricTagSuggestions, timeConfig, formModel]
+    ) ?? pendingResult;
+  // console.log('metricTagSuggestionsResult', metricTagSuggestionsResult);
+
+  const metricTagSuggestions = useMemo(() => {
+    return metricTagSuggestionsResult?.data?.suggestions?.map(suggestion => ({ value: suggestion, label: suggestion }));
+  }, [metricTagSuggestionsResult?.data?.suggestions]);
+  // console.log('metricTagSuggestions', metricTagSuggestions);
+
   const chartedMetricsTemplates = useMemo(() => {
     if (metricTemplatesResult?.progress.loading) {
       return;
@@ -291,6 +310,10 @@ function AnalyzeStateManagement({
   } else {
     chartedMetrics = chartedMetricData;
   }
+  // console.groupCollapsed('StateManagement');
+  // console.log('chartedMetricData', chartedMetricData);
+  // console.log('chartedMetrics', chartedMetrics);
+  // console.groupEnd();
 
   const filteringTagCatalogResult =
     useObservable(
@@ -327,10 +350,26 @@ function AnalyzeStateManagement({
 
   const chartableMetricCatalog = useMemo(() => {
     if (chartableMetricCatalogTransformer != null) {
-      return metricCatalogResult?.data?.map(chartableMetricCatalogTransformer).filter(Boolean);
+      const catalog = metricCatalogResult?.data?.map(chartableMetricCatalogTransformer).filter(Boolean);
+      if (catalog && metricTagSuggestions) {
+        const customMetricDefinition = catalog?.find(metric => metric.metricId === 'call.metric');
+        // console.log('customMetricDefinition', customMetricDefinition);
+        if (customMetricDefinition) {
+          catalog.find(metric => metric.metricId === 'call.metric').metricTagSuggestions = metricTagSuggestions;
+          catalog.find(metric => metric.metricId === 'call.metric').secondLevelMetricId =
+            chartedMetrics?.[0]?.secondLevelMetricId || metricTagSuggestions[0].value;
+        }
+      }
+      return catalog;
     }
     return metricCatalog;
-  }, [metricCatalog, metricCatalogResult, chartableMetricCatalogTransformer]);
+  }, [
+    chartableMetricCatalogTransformer,
+    chartedMetrics,
+    metricCatalog,
+    metricCatalogResult?.data,
+    metricTagSuggestions
+  ]);
 
   const backendQueryModel = useMemo(() => {
     return toBackendQueryModel(formModel);

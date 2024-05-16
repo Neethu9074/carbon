@@ -26,15 +26,23 @@ export default function ChartingConfiguratorForm({
 }) {
   const activeTemplate = options?.templates?.find(({ templateId }) => templateId === value.templateId);
 
-  let activeAggregation, activeRenderer;
+  let activeAggregation, activeRenderer, activeMetricTagSuggestion;
 
   let activeMetric = getActiveChartMetric(options, value);
+  // console.groupCollapsed('ChartingConfiguratorForm');
+  // console.log('value', value);
+  // console.log('options', options);
+  // console.log('activeMetric', activeMetric);
+  // console.groupEnd();
 
   if (!activeTemplate) {
     activeAggregation =
       activeMetric?.aggregations?.find(({ id }) => id === value.aggregationId) || activeMetric?.aggregations?.[0];
     activeRenderer =
       activeAggregation?.renderers?.find(({ id }) => id === value.rendererId) || activeAggregation?.renderers?.[0];
+    activeMetricTagSuggestion =
+      activeMetric?.metricTagSuggestions?.find(({ label }) => label === activeMetric.secondLevelMetricId) ||
+      activeMetric?.metricTagSuggestions?.[0];
   }
 
   const multipleMetricsAndTemplates = Object.values(options).reduce((acc, curr) => (acc += curr?.length ?? 0), 0);
@@ -68,6 +76,30 @@ export default function ChartingConfiguratorForm({
         </div>
       )}
 
+      {activeMetric?.customMetric && (
+        <ComboBoxBehavior
+          options={activeMetric.metricTagSuggestions}
+          value={activeMetricTagSuggestion?.label}
+          onChange={secondLevelMetricId => {
+            const change = {
+              ...value,
+              metricId: `${activeMetric.metricId}.${secondLevelMetricId}`,
+              secondLevelMetricId
+            };
+            onChange(change);
+          }}
+          requiresCustomInteractivity
+          disableAutomaticOptionSorting
+          aria-label={'tag'}
+        >
+          {({ elementProps }) => (
+            <div {...elementProps} className={locals.metric}>
+              {activeMetricTagSuggestion?.label}
+            </div>
+          )}
+        </ComboBoxBehavior>
+      )}
+
       {multipleAggregations && !activeTemplate ? (
         <ComboBoxBehavior
           options={activeMetric?.aggregations
@@ -85,7 +117,6 @@ export default function ChartingConfiguratorForm({
             if (!renderer) {
               change.rendererId = aggregation?.renderers?.[0]?.id;
             }
-
             onChange(change);
           }}
           requiresCustomInteractivity

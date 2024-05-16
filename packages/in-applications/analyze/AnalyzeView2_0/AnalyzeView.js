@@ -28,6 +28,7 @@ import {
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED, UNSPECIFIED_LABEL } from 'in-analyze/components/GroupedTraces/Group';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import FacetedFilterHiddenCalls from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHiddenCalls';
 import { createTableTimestampColumnDefinition } from 'in-components/AnalyzeView/commonTableColumnDefinitions';
 import { createListTimestampColumnDefinition } from 'in-components/AnalyzeView/commonListColumnDefinitions';
@@ -198,6 +199,7 @@ export default function ApplicationsAnalyzeView() {
       getMetricTemplates={getMetricTemplates}
       dataSourceConfigurations={dataSourceConfigurations}
       getCustomGroupingTagFilter={getCustomGroupingTagFilter}
+      getMetricTagSuggestions={getMetricTagSuggestions}
     >
       {opts =>
         opts.isGrouped ? (
@@ -376,9 +378,10 @@ function createChartableMetricCatalogTransformer(dataSource) {
       label:
         dataSource === 'traces'
           ? t('in-applications:metrics.traces', { context: metricDefinition.metricId })
-          : t('in-applications:metrics.calls', { context: metricDefinition.metricId }),
+          : t('in-applications:metrics.calls', { context: metricDefinition.metricId.replace('.', '_') }),
       aggregations: supportedMetrics[metricDefinition.metricId],
-      formatter: metricFormatter(metricDefinition)
+      formatter: metricFormatter(metricDefinition),
+      groupLabel: metricDefinition.customMetric ? 'Call metrics' : undefined
     };
   };
 }
@@ -388,6 +391,19 @@ function metricFormatter({ metricId, formatter }) {
     return 'LATENCY';
   }
   return formatter;
+}
+
+function getMetricTagSuggestions({ tagName, timeConfig, formModel }) {
+  const backendQuery = toBackendQueryModel(formModel) ?? EMPTY_EXPRESSION;
+
+  return getTagSuggestions({
+    tagFilterExpression: backendQuery,
+    tagName,
+    filter: {
+      timeConfig
+    },
+    requestingSecondaryKeySuggestions: false
+  });
 }
 
 function orderByValue(suggestions) {
