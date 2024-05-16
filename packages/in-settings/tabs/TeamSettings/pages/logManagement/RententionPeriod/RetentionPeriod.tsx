@@ -6,8 +6,9 @@
 
 import React, { SetStateAction, useState } from 'react';
 
-import { Button, Card, Input, Link, Typography } from '@instana/components';
+import { Card, Input, Link, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/legacy';
 
 // import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -45,6 +46,7 @@ const localisationStrings = {
   historyChanges: t('in-settings:tabs.retentionPeriod.historyChanges'),
   logAction: t('in-settings:tabs.retentionPeriod.logAction'),
   historyChanges2: t('in-settings:tabs.retentionPeriod.historyChanges2'),
+  modalTitle: t('in-settings:tabs.retentionPeriod.modalTitle'),
   typeToConfirm: t('in-settings:tabs.retentionPeriod.typeToConfirm'),
   changeError: t('in-settings:tabs.retentionPeriod.changeError'),
   changeSuccess: t('in-settings:tabs.retentionPeriod.changeSuccess'),
@@ -171,13 +173,12 @@ function RetentionPeriodDialog({
       reason: reasonInputValue,
       retention: +retentionPeriodInputValue
     };
-    
+
     if (canSubmit && !useMock) {
       setSubmitted(false);
       setRentionValue(+retentionPeriodInputValue);
       resetForm();
 
-      
       const postRetentionLogs$ = retentionLogsPOST(queryParams);
 
       postRetentionLogs$.once(_ =>
@@ -209,10 +210,10 @@ function RetentionPeriodDialog({
 
   const ConfirmationButtons = (
     <>
-      <Button kind="secondary" onClick={() => closeConfirmationDialog()}>
+      <Button className={locals.changeRetentionButton} kind="secondary" onClick={() => closeConfirmationDialog()}>
         {localisationStrings.cancel}
       </Button>
-      <Button onClick={handleSubmit} kind="danger">
+      <Button className={locals.changeRetentionButton} onClick={handleSubmit} kind="danger">
         {localisationStrings.changeRetentionPeriod}
       </Button>
     </>
@@ -224,14 +225,21 @@ function RetentionPeriodDialog({
   };
 
   return (
-    <Dialog title="Change log retention period" onClose={closeConfirmationDialog}>
+    <Dialog className={locals.modalTitle} title={localisationStrings.modalTitle} onClose={closeConfirmationDialog}>
       <section className={locals.confirmationDialogContent}>
-        <Typography variant="body-regular">{localisationStrings.retentionDialogDescription}</Typography>
+        <Typography variant="body-regular">
+          {localisationStrings.retentionDialogDescription.split('\n').map((line, index) => (
+            <span key={index}>
+              {line}
+              <br />
+            </span>
+          ))}
+        </Typography>
         <Label htmlFor="LogRetentionPeriod">
           {localisationStrings.logRetentionPeriod}
           <Select value={retentionPeriodInputValue} onChange={e => setRetentionPeriodInputValue(e.target.value)}>
             {daysDropdownValues.map(val => (
-              <option value={val}>{`${val} days`}</option>
+              <option value={val}>{`${val} ${localisationStrings.days}`}</option>
             ))}
           </Select>
         </Label>

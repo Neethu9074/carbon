@@ -331,7 +331,7 @@
     "retentionPeriod":{
       "retentionPeriod": "Retention Period",
       "changeRetentionPeriod": "Change retention period",
-      "retentionDialogDescription": "Changes to log retention period will impact cost and duration of log data available for analytics and custom dashboards",
+      "retentionDialogDescription": "Changes to log retention period will impact cost and duration of \n log data available for analytics and custom dashboards",
       "logRetentionPeriod": "Log retention period",
       "changeReason": "Change reason",
       "currentRetentionPeriod": "Current retention period",
@@ -345,6 +345,7 @@
       "historyChanges": "To view the retention history changes, leverage the",
       "logAction": "Log Action",
       "historyChanges2": "and search for log retention",
+      "modalTitle": "Change log retention period",
       "toastTitleSuccesful": "Change Log Retention successful",
       "toastMessageSuccesful": "The Log retention changed successfuly.",
       "toastTitleFailed": "Change Log Retention failed",
