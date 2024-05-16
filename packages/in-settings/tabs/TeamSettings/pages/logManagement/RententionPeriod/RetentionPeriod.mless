@@ -30,11 +30,11 @@
       gap: 0.25rem;
     }
   }
-  .changeRetentionButton{
+  .changeRetentionButton {
     font-weight: bold;
   }
 
-  .retentionContent{
+  .retentionContent {
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -51,7 +51,6 @@
   }
   .title,
   .body {
-    line-height: 1.5rem;
     color: var(--ids-color-option-neutral-700);
     font-size: 1rem;
     font-weight: 300;
