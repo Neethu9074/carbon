@@ -18,6 +18,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-components/tracker';
+import { useCustomMetricSuggestions } from 'in-applications/hooks/useCustomMetricSuggestions';
 import { ua2FacetsChangedTracker, ua2FormModelChangedTracker } from 'in-applications/tracker';
 import { isValid as isValidGrouping } from 'in-components/GroupingConfigurator/validation';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -186,6 +187,9 @@ TimeFixatingAnalyzeStateManagement.propTypes = {
   children: rpt.func.isRequired
 };
 
+// TODO: pass via props
+const supportedCustomMetrics = ['call.metric', 'call.meta_metrics'];
+
 function AnalyzeStateManagement({
   refreshFixatedTimeConfig,
   defaultDataSource,
@@ -195,7 +199,6 @@ function AnalyzeStateManagement({
   urlStateDefinition,
   dataSourceConfigurations,
   getCustomGroupingTagFilter,
-  getMetricTagSuggestions,
   children
 }) {
   const timeConfig = useTimeConfig();
@@ -261,22 +264,12 @@ function AnalyzeStateManagement({
     useObservable(() => getMetricTemplates() || noResultObservable(), [getMetricTemplates]) ?? pendingResult;
 
   // TODO: make this independent of call.metric (by passing it via dataSourceConfigurations?)
-  const metricTagSuggestionsResult =
-    useObservable(
-      () =>
-        getMetricTagSuggestions?.({
-          tagName: 'call.metric',
-          timeConfig,
-          formModel
-        }),
-      [getMetricTagSuggestions, timeConfig, formModel]
-    ) ?? pendingResult;
-  // console.log('metricTagSuggestionsResult', metricTagSuggestionsResult);
+  const customMetricSuggestionsResult = useCustomMetricSuggestions(supportedCustomMetrics, timeConfig, formModel);
 
-  const metricTagSuggestions = useMemo(() => {
-    return metricTagSuggestionsResult?.data?.suggestions?.map(suggestion => ({ value: suggestion, label: suggestion }));
-  }, [metricTagSuggestionsResult?.data?.suggestions]);
-  // console.log('metricTagSuggestions', metricTagSuggestions);
+  const customMetricSuggestions = useMemo(
+    () => customMetricSuggestionsResult?.data,
+    [customMetricSuggestionsResult?.data]
+  );
 
   const chartedMetricsTemplates = useMemo(() => {
     if (metricTemplatesResult?.progress.loading) {
@@ -310,10 +303,6 @@ function AnalyzeStateManagement({
   } else {
     chartedMetrics = chartedMetricData;
   }
-  // console.groupCollapsed('StateManagement');
-  // console.log('chartedMetricData', chartedMetricData);
-  // console.log('chartedMetrics', chartedMetrics);
-  // console.groupEnd();
 
   const filteringTagCatalogResult =
     useObservable(
@@ -351,14 +340,8 @@ function AnalyzeStateManagement({
   const chartableMetricCatalog = useMemo(() => {
     if (chartableMetricCatalogTransformer != null) {
       const catalog = metricCatalogResult?.data?.map(chartableMetricCatalogTransformer).filter(Boolean);
-      if (catalog && metricTagSuggestions) {
-        const customMetricDefinition = catalog?.find(metric => metric.metricId === 'call.metric');
-        // console.log('customMetricDefinition', customMetricDefinition);
-        if (customMetricDefinition) {
-          catalog.find(metric => metric.metricId === 'call.metric').metricTagSuggestions = metricTagSuggestions;
-          catalog.find(metric => metric.metricId === 'call.metric').secondLevelMetricId =
-            chartedMetrics?.[0]?.secondLevelMetricId || metricTagSuggestions[0].value;
-        }
+      if (catalog && customMetricSuggestions) {
+        addCustomMetricProps(customMetricSuggestions, catalog, chartedMetrics);
       }
       return catalog;
     }
@@ -368,7 +351,7 @@ function AnalyzeStateManagement({
     chartedMetrics,
     metricCatalog,
     metricCatalogResult?.data,
-    metricTagSuggestions
+    customMetricSuggestions
   ]);
 
   const backendQueryModel = useMemo(() => {
@@ -563,6 +546,18 @@ function AnalyzeStateManagement({
       )
     };
   }
+}
+
+function addCustomMetricProps(customMetricSuggestions, catalog, chartedMetrics) {
+  customMetricSuggestions.forEach(({ metricId, suggestions }) => {
+    const customMetricDefinition = catalog?.find(metric => metric.metricId === metricId);
+    if (customMetricDefinition) {
+      const metricTagSuggestions = suggestions.map(suggestion => ({ label: suggestion, value: suggestion }));
+      catalog.find(metric => metric.metricId === metricId).metricTagSuggestions = metricTagSuggestions;
+      catalog.find(metric => metric.metricId === metricId).secondLevelMetricId =
+        chartedMetrics?.[0]?.secondLevelMetricId || metricTagSuggestions[0].value;
+    }
+  });
 }
 
 function getOrderById({ metricCatalog, field }) {
