@@ -11,7 +11,7 @@ import { Message, Spacer, Pill } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/legacy';
 
-import { useSmartAlertCreateUrl as useSmartAlertEditUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
+import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { playwithEnabled, applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
@@ -44,12 +44,20 @@ export default function AlertHeader({
   allowActionButtons = true,
   onConfigDeleteTrigger,
   displayEditAction,
-  displayEditActionNew,
+  displayTearSheetActions,
   displayDuplicateAction,
   isGlobalSmartAlert = false
 }) {
   const { goToPath, createHrefToPath } = useNavigation();
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
+
+  const getLinkToDuplicateSmartAlert = useSmartAlertTearSheetUrl();
+  const duplicateSmartAlertPath = getLinkToDuplicateSmartAlert({
+    isGlobal: isGlobalSmartAlert,
+    alertId: alertConfig.id,
+    alertConfigCreated: alertConfig.created,
+    duplicateMode: true
+  });
 
   const alertRevision =
     extendedAlertConfigVersions.find(({ created }) => alertConfig.created === created) ?? alertConfig;
@@ -62,11 +70,12 @@ export default function AlertHeader({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
 
-  const getLinkToEditSmartAlert = useSmartAlertEditUrl();
+  const getLinkToEditSmartAlert = useSmartAlertTearSheetUrl();
   const editSmartAlertPath = getLinkToEditSmartAlert({
     isGlobal: isGlobalSmartAlert,
     alertId: alertConfig.id,
-    alertConfigCreated: alertConfig.created
+    alertConfigCreated: alertConfig.created,
+    editMode: true
   });
   const doToggleEnabled = () => {
     setIsToggling(true);
@@ -269,12 +278,23 @@ export default function AlertHeader({
                   />
                 </Tooltip>
               )}
-              {displayEditActionNew && applicationSmartAlertFullScreenDesignEnabled && (
-                <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip') + ' (New)'} delay={500}>
+              {displayTearSheetActions && applicationSmartAlertFullScreenDesignEnabled && (
+                <Tooltip content={t('in-alerting:components.alertHeaderEditTooltipNew')} delay={500}>
                   <IconButton
                     kind="primaryv2"
                     type="lib_actions_edit"
                     onClick={() => goToPath(editSmartAlertPath.slice(2))}
+                    alignment="right"
+                  />
+                </Tooltip>
+              )}
+              {displayTearSheetActions && applicationSmartAlertFullScreenDesignEnabled && (
+                <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltipNew')} delay={500}>
+                  <IconButton
+                    kind="primaryv2"
+                    type="lib_actions_copy"
+                    onClick={() => goToPath(duplicateSmartAlertPath.slice(2))}
+                    alignment="right"
                   />
                 </Tooltip>
               )}
@@ -353,7 +373,7 @@ AlertHeader.propTypes = {
   allowActionButtons: PropTypes.bool,
   onConfigDeleteTrigger: PropTypes.func,
   displayEditAction: PropTypes.bool,
-  displayEditActionNew: PropTypes.bool,
+  displayTearSheetActions: PropTypes.bool,
   displayDuplicateAction: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool
 };

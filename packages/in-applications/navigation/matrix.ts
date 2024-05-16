@@ -28,6 +28,8 @@ export const alertsCategory = 'configsCategory';
 export const isMigration = 'isMigration';
 export const eventId = 'eventSpecificationId';
 export const isPotentialProblem = 'isPotentialProblem';
+export const isDuplicateMode = 'isDuplicateMode';
+export const isEditMode = 'isEditMode';
 
 export const dataSourceMatrixParameter = {
   path: '/analyze',

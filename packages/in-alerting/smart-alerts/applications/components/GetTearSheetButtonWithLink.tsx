@@ -16,6 +16,8 @@ interface GetTearSheetLinkProps {
   isGlobal: boolean;
   alertId: string;
   alertConfigCreated: number;
+  duplicateMode?: string;
+  editMode?: string;
 }
 
 export default function GetTearSheetButtonWithLink({
@@ -23,13 +25,17 @@ export default function GetTearSheetButtonWithLink({
   buttonName,
   isGlobal,
   alertId,
-  alertConfigCreated
+  alertConfigCreated,
+  duplicateMode,
+  editMode
 }: GetTearSheetLinkProps) {
   const getLinkToEditSmartAlert = useSmartAlertEditUrl();
   const editSmartAlertPath = getLinkToEditSmartAlert({
     isGlobal: isGlobal,
     alertId: alertId,
-    alertConfigCreated: alertConfigCreated
+    alertConfigCreated: alertConfigCreated,
+    duplicateMode: duplicateMode,
+    editMode: editMode
   });
   return (
     <MoreMenuButton icon={buttonIcon} href={editSmartAlertPath}>

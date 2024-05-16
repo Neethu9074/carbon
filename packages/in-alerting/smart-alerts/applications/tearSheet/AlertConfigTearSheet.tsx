@@ -19,6 +19,8 @@ import {
   eventId,
   serviceId as serviceIdFromURL,
   endpointId as endpointIdFromURL,
+  isDuplicateMode,
+  isEditMode,
   isPotentialProblem
 } from 'in-applications/navigation/matrix';
 import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
@@ -45,6 +47,7 @@ import AlertingPageHeader from 'in-alerting/smart-alerts/components/pageHeaderTe
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import useGetSmartAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetSmartAlertConfig';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
@@ -70,6 +73,8 @@ export default function AlertConfigTearSheet() {
   const location = useLocation();
 
   const migrationMode = getMatrixParameter(location, smartAlertPath, isMigration) === 'true';
+  const editMode = getMatrixParameter(location, smartAlertPath, isEditMode) === 'true';
+  const duplicateMode = getMatrixParameter(location, smartAlertPath, isDuplicateMode) === 'true';
   const potentialProblemMode = getMatrixParameter(location, smartAlertPath, isPotentialProblem) === 'true';
   const isGlobalSmartAlert = getMatrixParameter(location, smartAlertPath, alertsCategory) === 'global';
 
@@ -87,13 +92,13 @@ export default function AlertConfigTearSheet() {
     isGlobalSmartAlert
   );
 
-  const editMode = alertConfigId ? true : false;
   //-- Fetch the global/local alert config from API in Edit mode ---
   const { alertConfig, alertConfigErrors } = useGetSmartAlertConfig(
     alertConfigId,
     alertConfigCreated,
     isGlobalSmartAlert,
-    editMode
+    editMode,
+    duplicateMode
   );
 
   const applicationSmartAlertConfig = editMode
@@ -102,6 +107,8 @@ export default function AlertConfigTearSheet() {
     ? migrateAlertConfig
     : potentialProblemMode
     ? getPotentialPropbelmConfig()
+    : duplicateMode
+    ? alertConfig && duplicateAlertConfig(alertConfig)
     : generateAlertConfig(isGlobalSmartAlert, applicationId, boundaryScope, serviceId, endpointId);
 
   if (alertConfigErrors?.length) {

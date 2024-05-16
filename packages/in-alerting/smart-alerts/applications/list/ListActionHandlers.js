@@ -101,6 +101,19 @@ export function actionHandlers(isGlobalSmartAlertConfig) {
     handleClone: function (config) {
       handleClone(config, isGlobalSmartAlertConfig);
     },
+    handleCloneNew: function (config) {
+      const { created, id } = config;
+      return (
+        <GetTearSheetButtonWithLink
+          buttonIcon="lib_actions_copy"
+          buttonName={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicateNew')}
+          isGlobal={isGlobalSmartAlertConfig}
+          alertId={id}
+          alertConfigCreated={created}
+          duplicateMode
+        />
+      );
+    },
     handleDelete: function (id, setIsSaving, configName) {
       handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig);
     },
@@ -116,6 +129,7 @@ export function actionHandlers(isGlobalSmartAlertConfig) {
           isGlobal={isGlobalSmartAlertConfig}
           alertId={id}
           alertConfigCreated={created}
+          editMode
         />
       );
     },
