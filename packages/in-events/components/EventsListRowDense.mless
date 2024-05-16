@@ -25,14 +25,6 @@
     .ellipsis();
   }
 
-  .label:hover {
-    display: block;
-    max-width: 100%;
-    text-overflow: clip;
-    white-space: normal;
-    word-break: break-all;
-  }
-
   .secondRow {
     display: flex;
     justify-content: space-between;
