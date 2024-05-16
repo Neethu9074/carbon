@@ -29,11 +29,6 @@ export default function ChartingConfiguratorForm({
   let activeAggregation, activeRenderer, activeMetricTagSuggestion;
 
   let activeMetric = getActiveChartMetric(options, value);
-  // console.groupCollapsed('ChartingConfiguratorForm');
-  // console.log('value', value);
-  // console.log('options', options);
-  // console.log('activeMetric', activeMetric);
-  // console.groupEnd();
 
   if (!activeTemplate) {
     activeAggregation =
