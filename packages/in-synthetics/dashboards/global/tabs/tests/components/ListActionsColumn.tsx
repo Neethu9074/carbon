@@ -8,12 +8,12 @@ import React, { useState } from 'react';
 
 import { SyntheticTest, TestResultListItem } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { IconButton } from '@instana/components';
 
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
 import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
-import IconButton from 'in-components/IconButton/IconButton';
 import { getTest, updateTest } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
