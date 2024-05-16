@@ -74,7 +74,7 @@ export function getTrackingSnippet({
 
   lines.push(
     weaselSubresourceIntegrityEnabled && selectSRIOption === 'Enable'
-      ? `<script defer crossorigin="anonymous" src="${scriptSrc}" integrity="${shaValue}"></script>`
+      ? `<script defer crossorigin="anonymous" src="${scriptSrc}" \n integrity="${shaValue}"></script>`
       : `<script defer crossorigin="anonymous" src="${scriptSrc}"></script>`
   );
 

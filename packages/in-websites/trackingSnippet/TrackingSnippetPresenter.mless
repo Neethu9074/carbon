@@ -17,6 +17,7 @@
     column-gap: 0.25rem;
     align-items: center;
     height: 2.5rem;
+    font-size: var(--ids-font-size-option-body-small);
   }
 
   .sriOption {
