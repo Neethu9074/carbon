@@ -33,20 +33,20 @@ interface DatabaseHitListProps {
 
 const cols = [
   {
-    title: t('in-sap:dashboards.account'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: DatabaseHitListRow) {
-        return row.dataStats.get('account');
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.client'),
     type: 'string',
     typeArgs: {
       getValue(row: DatabaseHitListRow) {
         return row.dataStats.get('client');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.userName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: DatabaseHitListRow) {
+        return row.dataStats.get('account');
       }
     }
   },

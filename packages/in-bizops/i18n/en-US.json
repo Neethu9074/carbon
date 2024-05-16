@@ -2,12 +2,14 @@
   "labelBizOps": "Processes",
   "labelSmartAlerts": "Smart Alerts",
   "labelActivities": "Activities",
+  "labelPerspectives": "Perspectives",
   "components": {
     "count": "Count"
   },
   "lists": {
     "pageTitle": "Business Monitoring",
     "cardTitle": "Business Processes",
+    "perspectives": "Business Perspectives",
     "activityLabel": "Activities",
     "nameLabel": "Name",
     "countLabel": "Count",

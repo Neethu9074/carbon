@@ -39,6 +39,7 @@
         "labelName": "Name of the test",
         "labelDescription": "Description",
         "labelFrequency": "Frequency (minute)",
+        "labelFrequencyHour": "Frequency (hour)",
         "labelApplications": "Select an Application"
       },
       "bluePrint": {
@@ -149,6 +150,8 @@
         "identifyTitle": "Identify: What is the test going to do?",
         "customPropertiesTitle": "Custom Properties",
         "frequency": "This test will run every {{frequencyValue}} minutes.",
+        "frequencyHours": "This test will run every {{frequencyHours}} hours.",
+        "frequencyHoursAndMinutes": "This test will run every {{frequencyHours}} hours and {{frequencyMinutes}} minutes.",
         "simultaneous": "Simultaneous",
         "simultaneousDescription": "This test will run simultaneously on each location(s) selected.",
         "configStep": {
@@ -234,8 +237,8 @@
         "certificateCheck": {
           "inputHostName": "Host Name",
           "inputPortNumber": "Port",
-          "inputDaysLine1": "Test will fail when there are",
-          "inputDaysLine2": "days remaining before expiration."
+          "failureConfigLabel": "Failure Configuration",
+          "failureConfigText": "Test will fail when certificate validity has <certificateValidityDays/> days remaining until expiration."
         }
       }
     },
@@ -463,6 +466,7 @@
       "smartAlertsTab": "Smart Alerts",
       "configurationTab": "Configuration",
       "isCertificateValid": "Last Run - Certificate is Valid",
+      "resultsCertificateValid": "Certificate is Valid",
       "certificateValid": "Yes",
       "certificateNotValid": "No",
       "daysRemaining": "Last Run - Days Remaining",
@@ -688,7 +692,9 @@
       "markSyntheticCall": "Mark Synthetic Call",
       "hostname": "Hostname",
       "port": "Port",
-      "daysRemaining": "Days before expiration when the test should fail"
+      "daysRemaining": "Failure Configuration",
+      "day": "Test will fail when certificate validity has {{daysRemainingCheck}} day remaining until expiration",
+      "days": "Test will fail when certificate validity has {{daysRemainingCheck}} days remaining until expiration"
     }
   }
 }

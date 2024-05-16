@@ -4,6 +4,16 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ServiceLevelsAlertRuleUnion } from '@instana/types';
+import {
+  ServiceLevelsAlertConfig,
+  ServiceLevelsAlertConfigWithMetadata,
+  ServiceLevelsAlertRuleUnion
+} from '@instana/types';
 
 export type SloAlertTypes = ServiceLevelsAlertRuleUnion['alertType'];
+
+export function isServiceLevelAlertConfigWithMetaData(
+  sloAlertConfig: ServiceLevelsAlertConfig | ServiceLevelsAlertConfigWithMetadata
+): sloAlertConfig is ServiceLevelsAlertConfigWithMetadata {
+  return 'id' in sloAlertConfig && sloAlertConfig.id != null;
+}

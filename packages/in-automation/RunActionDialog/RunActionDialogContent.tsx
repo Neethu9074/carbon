@@ -126,6 +126,7 @@ export default function RunActionDialogContent({
       </>
     );
   }
+
   if (actionInstanceId) {
     return (
       <Typography variant="body-small">
@@ -139,8 +140,17 @@ export default function RunActionDialogContent({
           <Trans
             i18nKey={'in-automation:linkToActionHistory'}
             components={{
-              // @ts-expect-error
-              logsLink: <Link target="_blank" onClick={close} href={getLinkToActionHistory(actionInstanceId)} />
+              logsLink: (
+                <Link
+                  className={locals.logsLink}
+                  target="_blank"
+                  onClick={close}
+                  href={getLinkToActionHistory(actionInstanceId)}
+                >
+                  {' '}
+                  &nbsp;
+                </Link>
+              )
             }}
           />
         ) : (
@@ -148,7 +158,7 @@ export default function RunActionDialogContent({
             i18nKey={'in-automation:linkToActionLogs'}
             components={{
               // @ts-expect-error
-              logsLink: <Link target="_blank" onClick={close} href={logLink} />
+              logsLink: <Link target="_blank" className={locals.logsLink} onClick={close} href={logLink} />
             }}
           />
         )}

@@ -183,7 +183,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       )
     },
     {
-      scrollId: '4.5-bizops',
+      scrollId: '5-bizops',
       label: t('in-settings:productAreas.title_businessMonitoring'),
       title: t('in-settings:productAreas.title_businessMonitoring'),
       valid: true,
@@ -202,7 +202,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       )
     },
     {
-      scrollId: '5-applications',
+      scrollId: '6-applications',
       label: t('in-settings:productAreas.title_applications'),
       title: t('in-settings:productAreas.title_applications'),
       valid: true,
@@ -228,14 +228,14 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       )
     },
     {
-      scrollId: '6-platforms',
+      scrollId: '7-platforms',
       label: platformTitle,
       title: platformTitle,
       valid: true,
       content: <PlatformsEditSelection {...formControlProps} {...slideControlProps} />
     },
     {
-      scrollId: '7-infrastructure',
+      scrollId: '8-infrastructure',
       label: t('in-settings:productAreas.title_infrastructure'),
       title: t('in-settings:productAreas.title_infrastructure'),
       valid: true,
@@ -254,7 +254,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
     ? [
         ...navItems,
         {
-          scrollId: '8-synthetics',
+          scrollId: '9-synthetics',
           label: t('in-settings:productAreas.title_syntheticMonitoring'),
           title: t('in-settings:productAreas.title_syntheticMonitoring'),
           valid: true,
@@ -275,23 +275,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           )
         },
         {
-          scrollId: '10-eventsAndAlerts',
-          label: t('in-settings:productAreas.title_events_and_alerts'),
-          title: t('in-settings:productAreas.title_events_and_alerts'),
-          valid: true,
-          content: (
-            <PermissionSelection
-              title={t('in-settings:productAreas.title_events_and_alerts')}
-              description={t('in-settings:PermissionSection.description_events_and_alerts')}
-              productAreas={[ProductArea.EVENT]}
-              icon="lib_events_inverted"
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        },
-        {
-          scrollId: '11-globalFunctions',
+          scrollId: '10-globalFunctions',
           label: t('in-settings:productAreas.title_global_functions'),
           title: t('in-settings:productAreas.title_global_functions'),
           valid: true,
@@ -300,6 +284,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
               title={t('in-settings:productAreas.title_global_functions')}
               productAreas={[
                 ProductArea.MIXED,
+                ProductArea.EVENT,
                 ProductArea.LOGS,
                 ProductArea.DASHBOARD,
                 ProductArea.AUTOMATION,
@@ -308,7 +293,6 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
               ]}
               icon="lib_actions_settings"
               {...formControlProps}
-              {...slideControlProps}
             />
           )
         }
@@ -316,23 +300,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
     : [
         ...navItems,
         {
-          scrollId: '9-eventsAndAlerts',
-          label: t('in-settings:productAreas.title_events_and_alerts'),
-          title: t('in-settings:productAreas.title_events_and_alerts'),
-          valid: true,
-          content: (
-            <PermissionSelection
-              title={t('in-settings:productAreas.title_events_and_alerts')}
-              description={t('in-settings:PermissionSection.description_events_and_alerts')}
-              productAreas={[ProductArea.EVENT]}
-              icon="lib_events_inverted"
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        },
-        {
-          scrollId: '10-globalFunctions',
+          scrollId: '9-globalFunctions',
           label: t('in-settings:productAreas.title_global_functions'),
           title: t('in-settings:productAreas.title_global_functions'),
           valid: true,
@@ -350,7 +318,6 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
               ]}
               icon="lib_actions_settings"
               {...formControlProps}
-              {...slideControlProps}
             />
           )
         }

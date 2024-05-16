@@ -33,6 +33,7 @@ export const pageNames = Object.freeze({
   endpoint_summary: 'Endpoint > Summary',
   bizops: 'BizOps',
   bizops_processes: 'Business Processes',
+  bizops_perspectives: 'Business Perspectives',
   bizops_activities: 'Business Activities',
   bizops_activity_summary: 'Business Activity > Summary',
   bizops_process_summary: 'Business Process > Summary',

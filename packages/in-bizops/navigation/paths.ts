@@ -16,6 +16,7 @@ export const activitiesPath = '/bizopsActivities';
 export const smartAlertsPath = '/bizopsSmartAlerts';
 export const businessActivityPath = '/businessActivity';
 export const businessProcessDashboard = '/businessProcess';
+export const businessPerspectivesPath = '/businessPerspectives';
 export const businessActivityDashboard = `${businessProcessDashboard}${businessActivityPath}`;
 export const businessProcessAlertListPath = `${businessProcessDashboard}${alertsTab}`;
 export const businessProcessSummaryPath = `${businessProcessDashboard}${summaryTab}`;
@@ -25,6 +26,7 @@ export const businessActivityServiceListPath = `${businessActivityDashboard}${se
 
 export const isBizOpsView = getRootPathPredicate(
   businessProcessPath,
+  businessPerspectivesPath,
   activitiesPath,
   smartAlertsPath,
   businessProcessSummaryPath,

@@ -5,6 +5,8 @@
  */
 
 // @ts-expect-error module need to be translated to TS
+import BusinessPerspectivesList from 'promise-loader?global,bizops!in-bizops/lists/businessPerspectives/BusinessPerspectivesList';
+// @ts-expect-error module need to be translated to TS
 import BusinessProcessesList from 'promise-loader?global,bizops!in-bizops/lists/businessProcess/BusinessProcessList';
 // @ts-expect-error module need to be translated to TS
 import BizActivitiesList from 'promise-loader?global,bizops!in-bizops/lists/BizActivitiesList';
@@ -17,13 +19,19 @@ import BusinessProcessSummaryDashboard from 'promise-loader?global,bizops!in-biz
 import { Route } from 'react-router-dom';
 import React from 'react';
 
+import {
+  businessActivityDashboard,
+  businessProcessDashboard,
+  businessProcessPath,
+  businessPerspectivesPath
+} from 'in-bizops/navigation/paths';
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { businessActivityDashboard, businessProcessDashboard, businessProcessPath } from 'in-bizops/navigation/paths';
+import { bizopsPerspectivesEnabled } from 'in-services/featureFlags';
 import { smartAlertsPath } from 'in-bizops/navigation/paths';
 import { activitiesPath } from 'in-bizops/navigation/paths';
 
-export default [
+let routes = [
   <Route key="BusinessProcessesList" exact path={businessProcessPath}>
     {renderAsyncRouteChildren(BusinessProcessesList)}
   </Route>,
@@ -40,3 +48,13 @@ export default [
     {renderAsyncRouteChildren(BusinessProcessSummaryDashboard)}
   </Route>
 ];
+
+if (bizopsPerspectivesEnabled) {
+  routes.push(
+    <Route key="BusinessPerspectivesList" exact path={businessPerspectivesPath}>
+      {renderAsyncRouteChildren(BusinessPerspectivesList)}
+    </Route>
+  );
+}
+
+export default routes;

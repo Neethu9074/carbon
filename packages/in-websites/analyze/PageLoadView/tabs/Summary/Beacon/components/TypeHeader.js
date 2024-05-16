@@ -18,7 +18,7 @@ export default function TypeHeader({ beacon }) {
 
   return (
     <Tooltip content={typeDefinition.long} align="rightMiddle">
-      <Pill color={typeDefinition.color} className={locals.type}>
+      <Pill type={typeDefinition.pillType} className={locals.type}>
         {typeDefinition.badgeLabel}
       </Pill>
     </Tooltip>

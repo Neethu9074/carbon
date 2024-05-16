@@ -9,6 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0 0 1rem 0;
   }
   .link {
     margin-left: 0.5rem;
@@ -28,6 +29,17 @@
       flex-direction: column;
       gap: 0.25rem;
     }
+  }
+  .changeRetentionButton{
+    font-weight: bold;
+  }
+
+  .retentionContent{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: baseline;
   }
   .card {
     max-width: fit-content;

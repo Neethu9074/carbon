@@ -276,6 +276,11 @@ const renderWebpageActionTestTypeContent = (configuration: HttpActionConfigurati
 };
 
 const renderSSLCertificateTestTypeContent = (configuration: SSLCertificateConfiguration) => {
+  const daysRemainingCheck = configuration.daysRemainingCheck;
+  const isZeroOrOneDayRemaining: boolean = [0, 1].includes(daysRemainingCheck);
+  const daysOrDayRemainingLabel: string = isZeroOrOneDayRemaining
+    ? t('in-synthetics:dashboard.configuration.day', { daysRemainingCheck })
+    : t('in-synthetics:dashboard.configuration.days', { daysRemainingCheck });
   const content = [
     <Row key={'hostname'} className={locals.configRow}>
       <Col xs={4}>
@@ -291,10 +296,12 @@ const renderSSLCertificateTestTypeContent = (configuration: SSLCertificateConfig
       <Col xs={2}>
         <KeyValue label={t('in-synthetics:dashboard.configuration.port')} value={configuration.port} />
       </Col>
-      <Col xs={4}>
+    </Row>,
+    <Row key={'daysRemaining'} className={locals.configRow}>
+      <Col xs={12}>
         <KeyValue
           label={t('in-synthetics:dashboard.configuration.daysRemaining')}
-          value={configuration.daysRemainingCheck}
+          value={`${daysOrDayRemainingLabel}`}
         />
       </Col>
     </Row>,

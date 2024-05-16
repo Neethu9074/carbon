@@ -58,7 +58,7 @@ export default function useSloListItems({
   ];
 }
 
-function buildSloListItem({
+export function buildSloListItem({
   configuration,
   labels,
   metrics,

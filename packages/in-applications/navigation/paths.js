@@ -502,3 +502,15 @@ export function useNavigationToGlobalAlertConfigWithoutAPDashboard() {
     navigate(location);
   };
 }
+
+export function useNavigationToAlertConfig() {
+  const { location, navigate } = useNavigation();
+
+  return (alertConfigId, alertConfigVersion, applicationId) => {
+    location.pathname = alertsTabDetailsFullyQualified;
+    fillAlertTabSpecificValues(location, applicationId, alertConfigId, alertConfigVersion);
+    setOrDeleteMatrixKey(location, alertsTab, alertsCategoryMatrixParam, categoryLocal);
+
+    navigate(location);
+  };
+}

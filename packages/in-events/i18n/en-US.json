@@ -189,7 +189,8 @@
     "errorDescription": "No summarization could be created for this event",
     "summarizationHelpfulText": "Was this summarization helpful?",
     "alertChannelTableTitle": "Alert Channels Associated with Incident",
-    "noDataAlertChannels": "No alert channels could be associated with this incident"
+    "noDataAlertChannels": "No alert channels could be associated with this incident",
+    "actionText": "In the past <strong>{{timeWindow}} {{timeWindowFormat}}</strong> days, for Event Configuration <strong>{{eventSpecId}}</strong> associated with the incident, <strong>{{actionStats}}</strong> action(s) were run of type - <strong>ANSIBLE/SCRIPT/HTTP</strong>"
   },
   "feedback": {
     "skip": "Skip",

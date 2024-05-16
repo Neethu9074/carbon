@@ -11,6 +11,7 @@ import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import { sslCertificateTestFrequencyDescription } from 'in-synthetics/utils/testFrequencyUtil';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
@@ -22,9 +23,13 @@ interface Props {
 const Schedule = ({ test }: Props) => {
   const getFrequencyDescription = () => {
     if (test.testFrequency && test.testFrequency > 1 && test.testFrequency <= 1440) {
-      return t('in-synthetics:dashboard.configuration.frequencyPluralValue', {
-        minutes: test.testFrequency
-      });
+      if (test.configuration.syntheticType != 'SSLCertificate') {
+        return t('in-synthetics:dashboard.configuration.frequencyPluralValue', {
+          minutes: test.testFrequency
+        });
+      } else {
+        return sslCertificateTestFrequencyDescription(test.testFrequency);
+      }
     } else {
       return t('in-synthetics:dashboard.configuration.frequencySingleValue', {
         minutes: test.testFrequency

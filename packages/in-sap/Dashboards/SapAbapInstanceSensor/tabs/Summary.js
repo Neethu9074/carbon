@@ -119,7 +119,7 @@ export default function Summary({ timeConfig, data: sap }) {
               icon: 'lib_sap_jobCancelled'
             }}
             snapshotId={snapshotId}
-            metric="sapMetricsStats.cancelledJobCount"
+            metric="sapMetricsStats.cancelJobs"
             formatter={number.compact}
           />
         </Col>
@@ -173,29 +173,29 @@ export default function Summary({ timeConfig, data: sap }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title={t('in-sap:dashboards.processMaxRequestTime')}>
+        <DashboardSection title={t('in-sap:dashboards.dispatcherRequestQueues')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: [
-                'queueStats.nowpWait',
                 'queueStats.dialogWait',
                 'queueStats.updateWait',
                 'queueStats.enqueueWait',
                 'queueStats.btcWait',
                 'queueStats.spoolWait',
-                'queueStats.update2Wait'
+                'queueStats.update2Wait',
+                'queueStats.nowpWait'
               ],
               labels: [
-                t('in-sap:dashboards.nowpWait'),
                 t('in-sap:dashboards.dialogWait'),
                 t('in-sap:dashboards.updateWait'),
                 t('in-sap:dashboards.enqueue'),
                 t('in-sap:dashboards.background'),
                 t('in-sap:dashboards.spoolWait'),
-                t('in-sap:dashboards.update2Wait')
+                t('in-sap:dashboards.update2Wait'),
+                t('in-sap:dashboards.nowpWait')
               ],
               type: 'line',
               formatter: number
@@ -213,22 +213,22 @@ export default function Summary({ timeConfig, data: sap }) {
               min: 0,
               metrics: [
                 'workloadcounts.numberOfDialogProcess',
-                'workloadcounts.numberOfSpoolProcess',
-                'workloadcounts.numberOfBatchProcess',
-                'workloadcounts.numberOfEnqueueProcess',
                 'workloadcounts.numberOfUpdateProcess',
+                'workloadcounts.numberOfEnqueueProcess',
+                'workloadcounts.numberOfBatchProcess',
+                'workloadcounts.numberOfSpoolProcess',
                 'workloadcounts.numberOfUpdate2Process'
               ],
               labels: [
                 t('in-sap:dashboards.numberOfDialogProcess'),
-                t('in-sap:dashboards.numberOfSpoolProcess'),
-                t('in-sap:dashboards.numberOfBatchProcess'),
-                t('in-sap:dashboards.numberOfEnqueueProcess'),
                 t('in-sap:dashboards.numberOfUpdateProcess'),
+                t('in-sap:dashboards.numberOfEnqueueProcess'),
+                t('in-sap:dashboards.numberOfBatchProcess'),
+                t('in-sap:dashboards.numberOfSpoolProcess'),
                 t('in-sap:dashboards.numberOfUpdate2Process')
               ],
               type: 'stackedBar',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -241,8 +241,22 @@ export default function Summary({ timeConfig, data: sap }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['workloadcounts.onHold', 'workloadcounts.running', 'workloadcounts.waiting'],
-              labels: [t('in-sap:dashboards.onHold'), t('in-sap:dashboards.running'), t('in-sap:dashboards.waiting')],
+              metrics: [
+                'workloadcounts.waiting',
+                'workloadcounts.running',
+                'workloadcounts.onHold',
+                'workloadcounts.stopped',
+                'workloadcounts.shutdown',
+                'workloadcounts.reserviert'
+              ],
+              labels: [
+                t('in-sap:dashboards.waiting'),
+                t('in-sap:dashboards.running'),
+                t('in-sap:dashboards.onHold'),
+                t('in-sap:dashboards.stopped'),
+                t('in-sap:dashboards.shutdown'),
+                t('in-sap:dashboards.reserved')
+              ],
               type: 'line',
               formatter: number
             }}
@@ -270,7 +284,7 @@ export default function Summary({ timeConfig, data: sap }) {
                 t('in-sap:dashboards.abortedOrCancelledJob')
               ],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -314,7 +328,7 @@ export default function Summary({ timeConfig, data: sap }) {
               metrics: ['pagingStats.pageIn', 'pagingStats.pageOut'],
               labels: [t('in-sap:dashboards.pageIn'), t('in-sap:dashboards.pageOut')],
               type: 'line',
-              formatter: number
+              formatter: kiloBytes.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />

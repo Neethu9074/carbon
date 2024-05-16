@@ -39,6 +39,7 @@ import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFoot
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
 import { Action, Event, ParameterValue, VolatileId, Policy } from 'in-types';
 import { runActionTracker, testActionTracker } from 'in-automation/tracker';
+import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import { refresh } from 'in-automation/AutomationCard/useScoredActions';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -96,7 +97,7 @@ export default function RunActionDialog({
       className={locals.dialog}
       titleIconType={isManual(action.type) ? undefined : 'lib_help_error_error_circle'}
       title={getTitle({ action, error, actionInstanceId, test, policy })}
-      onClose={close}
+      onClose={() => onClose({ error, actionInstanceId })}
       withoutBodyPadding
     >
       <>
@@ -150,6 +151,12 @@ export default function RunActionDialog({
   );
 }
 
+function onClose({ error, actionInstanceId }: { error?: string; actionInstanceId?: string }) {
+  if (error || actionInstanceId) {
+    refreshHistory();
+  }
+  close();
+}
 interface GetTitleParams extends Pick<RunActionDialogProps, 'action' | 'test' | 'policy'> {
   actionInstanceId: string;
   error: string;
@@ -449,7 +456,13 @@ function RunActionFooter({
 }: RunActionFooterProps) {
   if (error || actionInstanceId) {
     return (
-      <Button kind="primary" onClick={close}>
+      <Button
+        kind="primary"
+        onClick={() => {
+          refreshHistory();
+          close();
+        }}
+      >
         {t('in-automation:ok')}
       </Button>
     );

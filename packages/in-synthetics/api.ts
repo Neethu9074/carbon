@@ -49,6 +49,16 @@ export function getLocation(locationId: string): Observable<unknown> {
   }).map(response => deepFreeze(response));
 }
 
+export function getDatacenter(locationLabel: string): Observable<unknown> {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: '/api/synthetics/settings/datacenters' + `?filter={locationLabel=${locationLabel}}`,
+    mapToResultObject: true
+  }).map(response => deepFreeze(response));
+}
+
 export function deleteLocation(locationId: string): Observable<unknown> {
   return http({
     method: 'DELETE',

@@ -5,9 +5,8 @@
 
 import React, { useState } from 'react';
 
+import { StepProgressBar } from '@instana/components';
 import { Button } from '@instana/legacy';
-
-import StepProgressBar from 'in-components/StepProgressBar/StepProgressBar';
 
 export default {
   component: StepProgressBar

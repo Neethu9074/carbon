@@ -126,9 +126,14 @@ const mobileAppCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_M
 export const bizopsCapabilities: Array<CapabilityType> = [];
 export const applicationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_APPLICATIONS];
 
+export const applicationAlertCapabilities: Array<CapabilityType> = [
+  Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS,
+  Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS
+];
 export const applicationAdditionalCapabilities: Array<CapabilityType> = [
   Capability.CAN_VIEW_TRACE_DETAILS,
-  Capability.CAN_CONFIGURE_SERVICE_MAPPING
+  Capability.CAN_CONFIGURE_SERVICE_MAPPING,
+  ...applicationAlertCapabilities
 ];
 
 export const syntheticViewCapabilities: Array<CapabilityType> = [
@@ -149,28 +154,26 @@ export const syntheticAdditionalDefaultCapabilities: Array<CapabilityType> = [
   ...syntheticOtherCapabilities
 ];
 
-export const infrastructureOtherCapabilities: Array<CapabilityType> = [
+export const infrastructureDefaultCapabilities: Array<CapabilityType> = [
   Capability.CAN_CREATE_HEAP_DUMP,
   Capability.CAN_CREATE_THREAD_DUMP
 ];
 
+export const infrastructureOtherCapabilities: Array<CapabilityType> = [
+  ...[AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE as CapabilityType],
+  ...(infraSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS] : [])
+];
+
 export const infrastructureAdditionalCapabilities: Array<CapabilityType> = [
   ...infrastructureOtherCapabilities,
-  ...[AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE as CapabilityType]
+  ...infrastructureDefaultCapabilities
 ];
 
 export const analyticsCapabilities: Array<CapabilityType> = [Capability.CAN_VIEW_TRACE_DETAILS];
 
-export const eventCapabilities: Array<CapabilityType> = [
+export const eventAndAlertCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_EVENTS_AND_ALERTS,
   Capability.CAN_CONFIGURE_MAINTENANCE_WINDOWS,
-  Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS,
-  Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS,
-  Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS,
-  Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS,
-  Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS,
-  ...(infraSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS] : []),
-  ...(logSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS] : []),
   Capability.CAN_CONFIGURE_INTEGRATIONS,
   Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD,
   Capability.CAN_MANUALLY_CLOSE_ISSUE
@@ -186,7 +189,8 @@ export const logCapabilities: Array<CapabilityType> = [
   Capability.CAN_VIEW_LOGS,
   Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
   Capability.CAN_DELETE_LOGS,
-  Capability.CAN_CHANGE_LOG_RETENTION_PERIOD
+  Capability.CAN_CHANGE_LOG_RETENTION_PERIOD,
+  ...(logSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS] : [])
 ];
 
 export const customDashboardCapabilities: Array<CapabilityType> = [
@@ -227,12 +231,12 @@ export const automationCapabilities: Array<CapabilityType> = [
 
 export const unionGlobalCapabilities: Array<CapabilityType> = [
   ...mixedCapabilities,
+  ...eventAndAlertCapabilities,
   ...logCapabilities,
   ...customDashboardCapabilities,
-  ...(syntheticsEnabled ? [] : [...syntheticMonitoringCapabilities]),
+  ...automationCapabilities,
   ...agentsCapabilities,
-  ...accessControlCapabilities,
-  ...automationCapabilities
+  ...accessControlCapabilities
 ];
 
 interface ProductAreaAccess {
@@ -248,12 +252,14 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.WEBSITE]: {
     limitation: LimitedAccessScope.LIMITED_WEBSITES_SCOPE,
     permission: AreaPermission.ACCESS_WEBSITES,
-    capabilities: websiteCapabilities
+    capabilities: websiteCapabilities,
+    additionalCapabilities: [Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS] as Array<CapabilityType>
   },
   [ProductArea.MOBILE_APP]: {
     limitation: LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE,
     permission: AreaPermission.ACCESS_MOBILE_APPS,
-    capabilities: mobileAppCapabilities
+    capabilities: mobileAppCapabilities,
+    additionalCapabilities: [Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS] as Array<CapabilityType>
   },
   [ProductArea.BIZOPS]: {
     capabilities: bizopsCapabilities,
@@ -319,7 +325,7 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
     additionalCapabilities: syntheticAdditionalDefaultCapabilities
   },
   [ProductArea.ANALYTICS]: { capabilities: analyticsCapabilities },
-  [ProductArea.EVENT]: { capabilities: eventCapabilities },
+  [ProductArea.EVENT]: { capabilities: eventAndAlertCapabilities },
   [ProductArea.MIXED]: { capabilities: mixedCapabilities },
   [ProductArea.LOGS]: { capabilities: logCapabilities },
   [ProductArea.DASHBOARD]: { capabilities: customDashboardCapabilities },

@@ -1,5 +1,0 @@
-:local {
-  .clickable {
-    cursor: pointer;
-  }
-}

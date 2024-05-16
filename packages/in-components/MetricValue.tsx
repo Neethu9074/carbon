@@ -29,6 +29,7 @@ interface MetricValueProps {
   timeWindowAggregation?: string;
   timeConfig?: TimeConfig;
   time?: number;
+  windowForLatest?: number;
   tooltipFormatter?: FormatterFn;
 }
 export default class extends React.PureComponent<MetricValueProps> {
@@ -69,7 +70,8 @@ export default class extends React.PureComponent<MetricValueProps> {
 
         return getMetricForFocusedMoment({
           snapshotId: props.snapshotId,
-          metric: props.metric
+          metric: props.metric,
+          windowForLatest: props.windowForLatest
         })
           .map((v: [number, number]) => v[1])
           .distinct();
@@ -80,7 +82,8 @@ export default class extends React.PureComponent<MetricValueProps> {
       return getHistoricMetric({
         snapshotId: props.snapshotId,
         metric: props.metric,
-        timeConfig: getTimeConfigAtMoment(props.time)
+        timeConfig: getTimeConfigAtMoment(props.time),
+        windowForLatest: props.windowForLatest
       })
         .map((v: [number, number]) => v[1])
         .distinct();
@@ -88,7 +91,8 @@ export default class extends React.PureComponent<MetricValueProps> {
 
     return getMetricForFocusedMoment({
       snapshotId: props.snapshotId,
-      metric: props.metric
+      metric: props.metric,
+      windowForLatest: props.windowForLatest
     })
       .map((v: [number, number]) => v[1])
       .distinct();

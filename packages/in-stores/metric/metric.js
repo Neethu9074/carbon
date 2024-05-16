@@ -153,9 +153,9 @@ function resolveRollup(rollup, timeConfig) {
 }
 
 export const getMetric = memoize(
-  ({ snapshotId, metric, timeWindowAggregation, forceTimeWindowAggregation, timeConfig, rollup }) => {
+  ({ snapshotId, metric, timeWindowAggregation, forceTimeWindowAggregation, timeConfig, rollup, windowForLatest }) => {
     if (!timeWindowAggregation) {
-      return getMetricForFocusedMoment({ snapshotId, metric });
+      return getMetricForFocusedMoment({ snapshotId, metric, windowForLatest });
     }
 
     return showAggregations$
@@ -169,9 +169,9 @@ export const getMetric = memoize(
         }
 
         if (timeConfig) {
-          return getHistoricMetric({ snapshotId, metric, timeConfig, rollup }).map(v => v[1]);
+          return getHistoricMetric({ snapshotId, metric, timeConfig, rollup, windowForLatest }).map(v => v[1]);
         }
-        return getMetricForFocusedMoment({ snapshotId, metric }).map(v => v[1]);
+        return getMetricForFocusedMoment({ snapshotId, metric, windowForLatest }).map(v => v[1]);
       })
       .distinct();
   },
@@ -186,17 +186,18 @@ export const getMetric = memoize(
 );
 
 export const getMetricForFocusedMoment = memoize(
-  ({ snapshotId, metric }) => {
+  ({ snapshotId, metric, windowForLatest }) => {
     return getLatestMetrics({
       snapshotId,
-      metric
+      metric,
+      windowForLatest
     });
   },
   ({ snapshotId, metric }) => snapshotId + metric,
   500
 );
 
-export function getHistoricMetric({ snapshotId, metric, timeConfig, rollup }) {
+export function getHistoricMetric({ snapshotId, metric, timeConfig, rollup, windowForLatest }) {
   let rollup$;
   if (arguments.length == 3 || rollup == undefined || rollup == null) {
     rollup$ = getInfraGranularity(timeConfig);
@@ -208,7 +209,8 @@ export function getHistoricMetric({ snapshotId, metric, timeConfig, rollup }) {
     snapshotId,
     metric,
     rollup: rollup$,
-    timeConfig
+    timeConfig,
+    windowForLatest
   });
 }
 

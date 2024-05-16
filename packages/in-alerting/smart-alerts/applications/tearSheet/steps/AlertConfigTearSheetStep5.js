@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Typography } from '@instana/components';
 
@@ -23,14 +23,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep5.mless';
 
-export default function AlertConfigTearSheetStep5({
-  form,
-  updateForm,
-  onChange,
-  setSliderState,
-  setCustomSlideInHeaderConfig,
-  applicationLabel
-}) {
+export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, applicationLabel }) {
   const evaluationType = form.get('evaluationType').value;
   const description = form.get('description').value;
   const severity = Number(form.get('severity').value);
@@ -38,6 +31,13 @@ export default function AlertConfigTearSheetStep5({
   const boundaryScope = form.get('boundaryScope')?.value || 'ALL';
   const applications = form.get('applications')?.value || {};
   const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
+
+  const [, setCustomSlideInHeaderConfig] = useState({
+    title: null,
+    onClose: null
+  });
+  // TODO remove this code while implementing channel selection
+
   return (
     <>
       <TearSheetStepContentWrapper
@@ -102,9 +102,10 @@ export default function AlertConfigTearSheetStep5({
         <ConfigureAlertChannel
           form={form}
           onChange={onChange}
-          setSliderState={setSliderState}
+          setSliderState={() => undefined}
           setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
           numberOfAlertChannelListRows={7}
+          isTearSheet
         />
       </TearSheetStepContentWrapper>
     </>

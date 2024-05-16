@@ -5873,7 +5873,8 @@
         "titleLogicalReplicationDelay": "Logical Replication Delay",
         "titleIops": "IOPS",
         "titleNetwork": "Network",
-        "titleStorage": "Storage"
+        "titleStorage": "Storage",
+        "titleStorageUsed": "Storage Used"
       }
     },
     "beeInstana": {
@@ -12533,14 +12534,17 @@
         "disk": "Disk",
         "diskPath": "Disk Path",
         "diskUsage": "Disk Usage",
-        "diskUtilization": "Disk Utilization"
+        "diskUtilization": "Disk Utilization",
+        "overflowLockCount": "Overflow Lock Count",
+        "overflowUserCount": "Overflow User Count",
+        "overflowTransactionCount": "Overflow Transaction Count",
+        "seqScanCount": "Sequential Scan Count",
+        "seqScanTableCount": "Number of Tables having Sequential Scans",
+        "tableName": "Table Name"
       }
     },
     "oTelLLM": {
-      "platform": "Platform",
       "oTelLLM": "OTEL LLM",
-      "address": "Address",
-      "port": "Port",
       "kind": "Kind",
       "serviceName": "Service Name",
       "entityType": "Entity Type",

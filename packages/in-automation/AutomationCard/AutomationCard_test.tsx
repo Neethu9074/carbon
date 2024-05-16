@@ -54,24 +54,23 @@ describe('AutomationCard', () => {
 
   it('initializes with automationPolicies as the default active key', () => {
     render(<AutomationCard {...props} />);
-    const allMatches = screen.getAllByText(t('in-automation:automationPolicies'));
-    expect(allMatches.length).toBe(1);
+    const allMatches = screen.getAllByText('Automation Policies');
     fireEvent.click(allMatches[0]);
-    const heading = screen.getByText('Automation Policies ()', { selector: 'h2' });
+    const heading = screen.getByText('Automation Policies', { selector: 'h2' });
     expect(heading).toBeInTheDocument();
   });
 
   it('updates to show recommendedActions content when active key is changed', () => {
     render(<AutomationCard {...props} />);
-    const allMatches = screen.getAllByText(t('in-automation:recommendedActions'));
+    const allMatches = screen.getAllByText('Recommended Actions');
     fireEvent.click(allMatches[0]);
-    const heading = screen.getByText('Recommended Actions ()', { selector: 'h2' });
+    const heading = screen.getByText('Recommended Actions', { selector: 'h2' });
     expect(heading).toBeInTheDocument();
   });
 
   it('updates to show action history content when active key is changed', () => {
     render(<AutomationCard {...props} />);
-    const allMatches = screen.getAllByText(t('in-automation:actionHistory.actionHistory'));
+    const allMatches = screen.getAllByText(t('Action History'));
     fireEvent.click(allMatches[0]);
     const heading = screen.getByText('Action History', { selector: 'h1' });
     expect(heading).toBeInTheDocument();

@@ -6,7 +6,7 @@
 
 import {
   track,
-  BIZOPS_PROCESSES_TABS_CLICK,
+  BIZOPS_TABS_CLICK,
   BIZOPS_PROCESSES_LIST_SELECT,
   BIZOPS_PROCESS_TABS_CLICK,
   BIZOPS_PROCESS_ANALYZEINSTANCES_CLICK,
@@ -31,7 +31,7 @@ interface ActivityTrackerProps {
   activityName: string;
 }
 
-export const clickBizopsProcessesTabsTracker = (e: TabTrackerProps) => track(BIZOPS_PROCESSES_TABS_CLICK, e);
+export const clickBizopsTabsTracker = (e: TabTrackerProps) => track(BIZOPS_TABS_CLICK, e);
 export const selectBizopsListProcessTracker = (e: ProcessTrackerProps) => track(BIZOPS_PROCESSES_LIST_SELECT, e);
 
 export const clickBizopsProcessTabsTracker = (e: TabTrackerProps) => track(BIZOPS_PROCESS_TABS_CLICK, e);

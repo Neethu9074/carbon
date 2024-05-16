@@ -316,6 +316,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'bizopsPerspectivesEnabled',
+    instanaCtlKey: 'feature.bizops.perspectives.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
     instanaCtlKey: 'feature.trace.limit.visible.nesting.levels.enabled',
     defaultValue: false
@@ -511,6 +516,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonIconButtonEnabled',
+    instanaCtlKey: 'feature.carbon.iconbutton.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonAccordionEnabled',
     instanaCtlKey: 'feature.carbon.accordion.enabled',
     defaultValue: false
@@ -518,6 +528,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonSelectEnabled',
     instanaCtlKey: 'feature.carbon.select.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonPaginationEnabled',
+    instanaCtlKey: 'feature.carbon.pagination.enabled',
     defaultValue: false
   },
   {
@@ -583,11 +598,16 @@ module.exports = exports = [
   {
     uiClientKey: 'weaselSubresourceIntegrityEnabled',
     instanaCtlKey: 'feature.weasel.subresource.integrity.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonTileEnabled',
     instanaCtlKey: 'feature.carbon.tile.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonStepProgressBarEnabled',
+    instanaCtlKey: 'feature.carbon.stepprogressbar.enabled',
     defaultValue: false
   }
 ];

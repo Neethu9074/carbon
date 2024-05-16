@@ -11,11 +11,11 @@ import { useObservable } from '@instana/hooks';
 
 // import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import useRetentionPeriodForm from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/useRetentionPeriodForm';
 import {
   errorFeedback,
   succesFeedback
 } from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/MockHelpers';
+import useRetentionPeriodForm from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/useRetentionPeriodForm';
 // eslint-disable-next-line no-restricted-imports
 import { ModalNotification, NotificationState } from './ModalNotification';
 import { getEntityIdView, teamSettingsActionLog } from 'in-settings/navigation/paths';
@@ -86,8 +86,8 @@ export default function RententionPeriod() {
               {localisationStrings.readDocs}
             </Link>
           </SubViewHeaderComponent>
-          <Button onClick={() => setShowConfirmation(true)} kind="danger">
-            Change retention period
+          <Button className={locals.changeRetentionButton} onClick={() => setShowConfirmation(true)} kind="danger">
+            {localisationStrings.changeRetentionPeriod}
           </Button>
         </section>
         <main>
@@ -96,7 +96,7 @@ export default function RententionPeriod() {
               <span>{localisationStrings.currentRetentionPeriod}</span>
             </div>
             <div className={locals.body}>
-              <p>
+              <p className={locals.retentionContent}>
                 <span className={locals.number}>{retentionValue}</span> {localisationStrings.days}
               </p>
             </div>
@@ -167,15 +167,17 @@ function RetentionPeriodDialog({
 
   const handleSubmit = async () => {
     setSubmitted(true);
+    const queryParams: RetentionLogsRequest = {
+      reason: reasonInputValue,
+      retention: +retentionPeriodInputValue
+    };
+    
     if (canSubmit && !useMock) {
       setSubmitted(false);
       setRentionValue(+retentionPeriodInputValue);
       resetForm();
 
-      const queryParams: RetentionLogsRequest = {
-        reason: reasonInputValue,
-        retention: +retentionPeriodInputValue
-      };
+      
       const postRetentionLogs$ = retentionLogsPOST(queryParams);
 
       postRetentionLogs$.once(_ =>

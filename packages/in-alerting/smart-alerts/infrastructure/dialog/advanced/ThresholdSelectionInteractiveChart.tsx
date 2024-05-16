@@ -90,6 +90,7 @@ export default function ThresholdSelectionInteractiveChart({
         updateForm={updateForm}
         percentageMetric={percentageMetric}
         metricUnitPostfix={metricUnitPostfix}
+        groupBy={groupBy}
       />
       <ChartViewConfigurator
         chartViewConfigs={chartViewConfigs}

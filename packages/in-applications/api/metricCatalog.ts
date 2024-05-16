@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { isTroubleshootingModeEnabled$ } from 'in-applications/isTroubleshootingModeEnabled';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { minutes } from 'in-services/time/time';
@@ -11,11 +12,16 @@ import http from 'in-services/http';
 export const getMetricCatalog = memoize(getMetricCatalogInternal, () => '', minutes.toMillis(10));
 
 function getMetricCatalogInternal() {
-  return createObservable(
-    http({
-      method: 'GET',
-      maxRetries: 3,
-      url: '/api/application-monitoring/catalog/metrics'
-    })
-  );
+  return isTroubleshootingModeEnabled$.flatMap(includeInternalTags => {
+    return createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: '/api/application-monitoring/catalog/metrics',
+        queryParams: {
+          includeInternalMetrics: includeInternalTags
+        }
+      })
+    );
+  });
 }

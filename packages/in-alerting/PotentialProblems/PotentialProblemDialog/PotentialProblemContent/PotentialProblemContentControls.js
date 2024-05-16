@@ -36,10 +36,11 @@ export default function PotentialProblemContentControls({
   alert,
   rule,
   threshold,
+  getPotentialProblemConfig,
   renderSmartAlertDialogComponent
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
-  const smartAlertCreatePath = getLinkToCreateSmartAlert({ isGlobal: false, migration: false });
+  const smartAlertCreatePath = getLinkToCreateSmartAlert({ isGlobal: false, migration: false, potentialProblem: true });
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const linkToUnboundAnalytics = getLinkToUnboundAnalytics(
     {
@@ -105,6 +106,19 @@ export default function PotentialProblemContentControls({
               kind="secondaryDarker"
               href={smartAlertCreatePath}
               onClick={e => {
+                localStorage.setItem(
+                  'potentialProblemConfig',
+                  JSON.stringify(
+                    getPotentialProblemConfig({
+                      rule,
+                      threshold,
+                      applicationLabel,
+                      boundaryScope,
+                      granularity: defaultGranularity
+                    })
+                  )
+                );
+
                 e.stopPropagation();
                 close();
               }}
@@ -135,6 +149,7 @@ PotentialProblemContentControls.propTypes = {
   applicationLabel: PropTypes.string,
   applications: applicationsItemTreePropType,
   boundaryScope: PropTypes.string,
+  getPotentialProblemConfig: PropTypes.func.isRequired,
   renderSmartAlertDialogComponent: PropTypes.func.isRequired,
   tagFilterExpression: PropTypes.object.isRequired,
   includeSynthetic: PropTypes.bool,

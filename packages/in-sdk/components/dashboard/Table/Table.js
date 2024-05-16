@@ -11,6 +11,7 @@ import { Card } from '@instana/components';
 import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';
 import { createStore } from 'in-sdk/components/dashboard/Table/stores/content';
 import Row from 'in-sdk/components/dashboard/Table/components/Row';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { shallowEquals } from 'in-services/util/object';
 import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
@@ -93,13 +94,13 @@ export default class Table extends React.Component {
     const supportsRowDetails = this.props.getRowDetails != null;
     const toggleRowDetails = supportsRowDetails ? this.store.toggleExpanded : null;
     const colCount = supportsRowDetails ? cols.length + 1 : cols.length;
-
     const rows = [];
+    const title = t('in-sdk:dashboard.table.no') + this.props.cardTitle + t('in-sdk:dashboard.table.dataAvailable');
     if (data.rows.length === 0) {
       rows.push(
         <tr key="no-data">
           <td colSpan={colCount} className={cellElement}>
-            {this.props.noDataText || t('in-sdk:dashboard.table.tableNoData')}
+            <NoDataAvailable text={title} />
           </td>
         </tr>
       );

@@ -43,7 +43,7 @@ describe('in-websites/trackingSnippet', () => {
   ineum('reportingUrl', '<trackingBaseUrl>');
   ineum('key', '123');
 </script>
-<script defer crossorigin="anonymous" src="https://eum.instana.io/1.6.6/eum.min.js" integrity="sha384-fakeSHAValue"></script>
+<script defer crossorigin="anonymous" src="https://eum.instana.io/1.6.6/eum.min.js" \n integrity="sha384-fakeSHAValue"></script>
 `.trim()
         );
       });
@@ -142,7 +142,7 @@ describe('in-websites/trackingSnippet', () => {
   ineum('reportingUrl', '<trackingBaseUrl>');
   ineum('key', '123');
 </script>
-<script defer crossorigin="anonymous" src="<trackingBaseUrl>/eum.min.js" integrity="sha384-fakeSHAValue"></script>
+<script defer crossorigin="anonymous" src="<trackingBaseUrl>/eum.min.js" \n integrity="sha384-fakeSHAValue"></script>
 `.trim()
         );
       });

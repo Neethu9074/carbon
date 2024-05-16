@@ -5,7 +5,8 @@
 
 import DashboardSwitcherComponent from 'promise-loader?global,customdashboard!in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, memo } from 'react';
+import { InView } from 'react-intersection-observer';
 import classNames from 'classnames';
 
 import { Link, Message, SvgIcon } from '@instana/components';
@@ -319,6 +320,8 @@ const Content = function Content({ itemOrder, applicationId, width }) {
                         return null;
                       }
 
+                      const MemoizedWidget = memo(Widget);
+
                       return (
                         <Draggable key={_config.id} draggableId={_config.id} index={i}>
                           {provided => (
@@ -328,14 +331,27 @@ const Content = function Content({ itemOrder, applicationId, width }) {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                             >
-                              <Widget
-                                applicationId={applicationId}
-                                dragAndDropConfig={provided.dragHandleProps}
-                                config={{
-                                  ...configEnrichmentLookUpTable[_config.id],
-                                  dragAndDropConfig: provided.dragHandleProps
-                                }}
-                              />
+                              <InView triggerOnce>
+                                {({ inView, ref }) => (
+                                  <div ref={ref}>
+                                    {inView && (
+                                      <MemoizedWidget
+                                        applicationId={applicationId}
+                                        dragAndDropConfig={provided.dragHandleProps}
+                                        config={{
+                                          ...configEnrichmentLookUpTable[_config.id],
+                                          dragAndDropConfig: provided.dragHandleProps
+                                        }}
+                                      />
+                                    )}
+                                    {!inView && (
+                                      <div {...provided.dragHandleProps}>
+                                        <LoadingIndicator />
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </InView>
                             </div>
                           )}
                         </Draggable>
