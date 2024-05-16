@@ -28,6 +28,12 @@
     max-width: 15rem;
   }
 
+  .title:hover {
+    text-overflow: clip;
+    white-space: normal;
+    word-break: break-all;
+  }
+
   @media @min-medium-screen {
     .title {
       max-width: 40rem;
