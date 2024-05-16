@@ -48,7 +48,8 @@ function Filters({
   endpointName,
   boundaryScope,
   groupBy,
-  query
+  query,
+  callTypes
 }) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
@@ -106,7 +107,7 @@ function Filters({
           groupBy,
           boundaryScope,
           contextScope,
-          formModel: joinExpressions({ expressions: [queryFilter, endpointFilters, technologyFilters] })
+          formModel: joinExpressions({ expressions: [queryFilter, endpointFilters, technologyFilters, callTypes] })
         })}
       >
         {buttonLabel}
