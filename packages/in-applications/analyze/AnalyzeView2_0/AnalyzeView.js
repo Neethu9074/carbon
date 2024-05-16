@@ -28,7 +28,6 @@ import {
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED, UNSPECIFIED_LABEL } from 'in-analyze/components/GroupedTraces/Group';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import FacetedFilterHiddenCalls from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHiddenCalls';
 import { createTableTimestampColumnDefinition } from 'in-components/AnalyzeView/commonTableColumnDefinitions';
 import { createListTimestampColumnDefinition } from 'in-components/AnalyzeView/commonListColumnDefinitions';
@@ -199,7 +198,6 @@ export default function ApplicationsAnalyzeView() {
       getMetricTemplates={getMetricTemplates}
       dataSourceConfigurations={dataSourceConfigurations}
       getCustomGroupingTagFilter={getCustomGroupingTagFilter}
-      getMetricTagSuggestions={getMetricTagSuggestions}
     >
       {opts =>
         opts.isGrouped ? (
@@ -248,6 +246,7 @@ function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }) {
       fixedFields: fixedFields.calls,
       defaultSelectableFields,
       defaultChartedMetrics: defaultChartedMetrics['calls'],
+      supportedCustomMetrics: dataSourceConstants.calls.supportedCustomMetrics,
       // the metric catalog from the backend currently provides only a single formatter per metric type,
       // we have to override the default formatter if aggregation type 'PER_SECOND' is used
       getCustomMetricUiFormatterName: (_metricId, aggregationId) =>
@@ -391,19 +390,6 @@ function metricFormatter({ metricId, formatter }) {
     return 'LATENCY';
   }
   return formatter;
-}
-
-function getMetricTagSuggestions({ tagName, timeConfig, formModel }) {
-  const backendQuery = toBackendQueryModel(formModel) ?? EMPTY_EXPRESSION;
-
-  return getTagSuggestions({
-    tagFilterExpression: backendQuery,
-    tagName,
-    filter: {
-      timeConfig
-    },
-    requestingSecondaryKeySuggestions: false
-  });
 }
 
 function orderByValue(suggestions) {

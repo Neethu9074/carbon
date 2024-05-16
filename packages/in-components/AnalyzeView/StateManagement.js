@@ -187,9 +187,6 @@ TimeFixatingAnalyzeStateManagement.propTypes = {
   children: rpt.func.isRequired
 };
 
-// TODO: pass via props
-const supportedCustomMetrics = ['call.metric', 'call.meta_metrics'];
-
 function AnalyzeStateManagement({
   refreshFixatedTimeConfig,
   defaultDataSource,
@@ -213,7 +210,8 @@ function AnalyzeStateManagement({
     defaultSelectableFields = emptyArray,
     defaultChartedMetrics = emptyArray,
     metricCatalogTransformer,
-    chartableMetricCatalogTransformer
+    chartableMetricCatalogTransformer,
+    supportedCustomMetrics
   } = dataSourceConfigurations[dataSource];
 
   const formModel = useStableObjectInstance(urlState.formModel);
@@ -263,9 +261,7 @@ function AnalyzeStateManagement({
   const metricTemplatesResult =
     useObservable(() => getMetricTemplates() || noResultObservable(), [getMetricTemplates]) ?? pendingResult;
 
-  // TODO: make this independent of call.metric (by passing it via dataSourceConfigurations?)
   const customMetricSuggestionsResult = useCustomMetricSuggestions(supportedCustomMetrics, timeConfig, formModel);
-
   const customMetricSuggestions = useMemo(
     () => customMetricSuggestionsResult?.data,
     [customMetricSuggestionsResult?.data]

@@ -158,6 +158,7 @@ export const dataSourceConstants = {
       errors: ['MEAN'],
       'call.metric': ['SUM', 'MEAN', 'MIN', 'MAX']
     },
+    supportedCustomMetrics: ['call.metric'],
     latencyTag: 'call.latency',
     getData: getCalls,
     getGroupData: getCallGroups,
