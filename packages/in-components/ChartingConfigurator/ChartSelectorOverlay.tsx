@@ -130,10 +130,10 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
   }
 
   const overlayOnChange = (input: ChartMetric | ChartTemplate) => {
-    let change = { ...value } as ChartValue;
+    let change: ChartValue = { ...value };
 
-    // If we previously displayed a template, discard all previous values
-    if (value?.templateId) {
+    // If we previously displayed a template or custom metric, discard all previous values
+    if (value?.templateId || value?.secondLevelMetricId) {
       change = {};
     }
 
