@@ -39,5 +39,6 @@
   "sonarlint.connectedMode.project": {
     "projectKey": "ui-client"
   },
+  "wcaForGP.enable": true,
   "typescript.tsdk": "node_modules/typescript/lib"
 }
