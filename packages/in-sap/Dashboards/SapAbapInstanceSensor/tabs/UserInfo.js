@@ -18,21 +18,11 @@ import locals from './RawTableFormat.mless';
 
 const cols = [
   {
-    title: t('in-sap:dashboards.tID'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.userDetail.get('TID');
-      },
-      getContent: number.compact
-    }
-  },
-  {
-    title: t('in-sap:dashboards.mandt'),
+    title: t('in-sap:dashboards.client'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.userDetail.get('GUIVERSION');
+        return row.userDetail.get('MANDT');
       },
       getContent(args) {
         return <Args args={shorten(args, 128)} />;
@@ -40,7 +30,7 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.name'),
+    title: t('in-sap:dashboards.userName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -49,6 +39,16 @@ const cols = [
       getContent(args) {
         return <Args args={shorten(args, 128)} />;
       }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.tID'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.userDetail.get('TID');
+      },
+      getContent: number.compact
     }
   },
   {

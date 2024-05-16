@@ -79,11 +79,18 @@ export default connectTo(
               y1={{
                 min: 0,
                 metrics: [
+                  'combinedMetrics.' + row.key + '.totalResponseTimePerUser',
                   'combinedMetrics.' + row.key + '.totalCpuTimePerUser',
-                  'combinedMetrics.' + row.key + '.totalIOWaitTimePerUser'
+                  'combinedMetrics.' + row.key + '.totalQueueTimePerUser',
+                  'combinedMetrics.' + row.key + '.totalRollWaitTimePerUser'
                 ],
 
-                labels: [t('in-sap:dashboards.combinedCpuTime'), t('in-sap:dashboards.combinedIOWaitTime')],
+                labels: [
+                  t('in-sap:dashboards.combinedResponseTime'),
+                  t('in-sap:dashboards.combinedCpuTime'),
+                  t('in-sap:dashboards.combinedQueueTime'),
+                  t('in-sap:dashboards.combinedRollWaitTime')
+                ],
                 type: 'line',
                 formatter: millis.detailed
               }}

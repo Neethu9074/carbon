@@ -31,7 +31,7 @@ interface TotalMemoryProps {
 
 const cols = [
   {
-    title: t('in-sap:dashboards.account'),
+    title: t('in-sap:dashboards.userName'),
     type: 'string',
     typeArgs: {
       getValue(row: TotalMemoryRow) {

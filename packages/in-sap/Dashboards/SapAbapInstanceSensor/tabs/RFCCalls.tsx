@@ -36,7 +36,19 @@ interface RFCCallsProps {
 
 const cols = [
   {
-    title: t('in-sap:dashboards.account'),
+    title: t('in-sap:dashboards.client'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: RFCCallsRow) {
+        return row.rfcDetails.get('client');
+      },
+      getContent(args: any) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.userName'),
     type: 'string',
     typeArgs: {
       getValue(row: RFCCallsRow) {
@@ -163,7 +175,7 @@ export default function RFCCalls({ snapshotId, timeConfig }: RFCCallsProps) {
       cardTitle={t('in-sap:dashboards.rfcStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={1}
+      initialSortColumn={2}
       initialSortDirection="asc"
       getRowDetails={getDetails}
     />
