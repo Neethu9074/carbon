@@ -64,7 +64,6 @@ describe('in-stores/permission.ts', () => {
 
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_RUN_AUTOMATION_ACTIONS]);
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]);
     });
 
@@ -87,7 +86,6 @@ describe('in-stores/permission.ts', () => {
 
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_RUN_AUTOMATION_ACTIONS]);
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]);
     });
 
@@ -110,9 +108,6 @@ describe('in-stores/permission.ts', () => {
 
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS]);
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_RUN_AUTOMATION_ACTIONS]);
-      expect(productPermissions).not.toContain(
-        productPermissionsObject[Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]
-      );
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]);
     });
 
@@ -135,9 +130,6 @@ describe('in-stores/permission.ts', () => {
 
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS]);
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_RUN_AUTOMATION_ACTIONS]);
-      expect(productPermissions).not.toContain(
-        productPermissionsObject[Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]
-      );
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]);
     });
 

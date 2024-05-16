@@ -6,14 +6,14 @@
 
 import React from 'react';
 
-import { actionCatalogFullyQualified, actionHistoryPath, policiesFullyQualified } from 'in-automation/navigation/paths';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
+
+import { actionCatalogFullyQualified, actionHistoryPath, policiesFullyQualified } from 'in-automation/navigation/paths';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { actionHistoryTracker } from 'in-automation/tracker';
 import DashboardHeader from 'in-components/DashboardHeader';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const dashboardHeaderProps = {
@@ -38,16 +38,14 @@ export default function ViewSwitcher() {
             label={t('in-automation:ActionCatalog.actionCatalog')}
             isActive={isCatalogActive}
           />
-          {role?.canViewAutomationActionInstances && (
-            <SecondLevelNavigationItem
-              href={createHrefToPath(actionHistoryPath)}
-              label={t('in-automation:actionHistory.actionHistory')}
-              isActive={isHistoryActive}
-              onClick={() => {
-                actionHistoryTracker();
-              }}
-            />
-          )}
+          <SecondLevelNavigationItem
+            href={createHrefToPath(actionHistoryPath)}
+            label={t('in-automation:actionHistory.actionHistory')}
+            isActive={isHistoryActive}
+            onClick={() => {
+              actionHistoryTracker();
+            }}
+          />
           <SecondLevelNavigationItem
             href={createHrefToPath(policiesFullyQualified)}
             label={t('in-automation:policies.policies')}

@@ -15,12 +15,6 @@ jest.mock('in-services/featureFlags', () => ({
   actionAutomationEnabled: true
 }));
 
-jest.mock('in-stores/user', () => ({
-  role: {
-    canViewAutomationActionInstances: true
-  }
-}));
-
 interface AutomationCardProps {
   volatileId: VolatileId;
   event: Event;

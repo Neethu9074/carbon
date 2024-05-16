@@ -65,6 +65,7 @@
   },
   "productAreas": {
     "allApplications": "All applications",
+    "allActions": "All actions",
     "allWebsites": "All websites",
     "allMobileApps": "All mobile apps",
     "businessMonitoringAccessAllMessage": "All business processes",
@@ -112,7 +113,8 @@
     "title_platforms": "Platforms",
     "title_websites": "Websites",
     "title_businessMonitoring": "Business Monitoring",
-    "title_syntheticMonitoring": "Synthetic Monitoring"
+    "title_syntheticMonitoring": "Synthetic Monitoring",
+    "title_automation": "Automation"
   },
   "headingSection": {
     "title": "Role and access scope",
@@ -151,6 +153,9 @@
     "addButton_syntheticTests": "Select Synthetic Tests",
     "descriptionAccessAll_synthetics": "All Synthetic Tests can be accessed with the selected role.",
     "descriptionLimitedAccess_synthetics": "Select the role and add Synthetic Tests below to grant access.",
+    "addButton_actions": "Select Actions",
+    "descriptionAccessAll_automation": "All actions can be accessed with the selected role.",
+    "descriptionLimitedAccess_automation": "Select the role and add actions below to grant access.",
     "contribution_filter": "Contribution filter",
     "contributionFilter_description": "The contribution filter is applied when creating new application configurations. On the application configuration, the contribution filter can be refined with filter tags after an {{logicalOperator}} operator. An application perspective using the contribution filter tags is automatically created once you save.",
     "contributionFilter_downstreamCalls": "Determine the maximum level of additional information that can be included in the application perspectives",
@@ -183,6 +188,7 @@
     "description_no_access_kubernetes": "No access to namespaces and clusters.",
     "description_no_access_infrastructure": "No access: Access to infrastructure is denied.",
     "description_no_access_synthetics": "No access: Access to synthetic monitoring is denied.",
+    "description_no_access_automation": "No access: Access to automation is denied.",
     "description_access_all": "Access all without limitation",
     "title_access_all_bizops": "Unlimited access",
     "title_no_access_bizops": "Access Denied",
@@ -267,6 +273,16 @@
       },
       "role_permissions_owner": "Create, view and delete websites.",
       "role_permissions_viewer": "View websites."
+    },
+    "automation": {
+      "access_all": {
+        "access_level": "Access all the automation actions and policies with the selected access type and any additional permissions."
+      },
+      "limited_access": {
+        "access_level": "Access only the listed automation actions and policies with the selected access type and any additional permissions."
+      },
+      "role_permissions_owner": "Create, configure, view, delete automation actions and view action history.",
+      "role_permissions_viewer": "View automation actions, policies and history."
     }
   },
   "cardTitle_Area": "Area",

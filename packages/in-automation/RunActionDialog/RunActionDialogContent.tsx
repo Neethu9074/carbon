@@ -42,7 +42,6 @@ import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/Paramet
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { actionHistoryPath, actionHistory } from 'in-automation/navigation/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { Action, Parameter, VolatileId, DynamicFieldValue } from 'in-types';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
@@ -56,7 +55,6 @@ import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { ResolvedDynamicParamValue } from 'in-automation/api';
 import IconButton from 'in-components/IconButton/IconButton';
-import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -65,11 +63,9 @@ import { toHtml } from 'in-services/formatters/markdown';
 import { NewPolicy } from 'in-automation/Policies/types';
 import { Col } from 'in-components/layout/Grid/Grid';
 import { Row } from 'in-components/layout/Grid/Grid';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import { getSnapshot } from 'in-stores/snapshot';
-import { role } from 'in-stores/user';
 import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
@@ -104,7 +100,6 @@ export default function RunActionDialogContent({
   resolvedDynamicParameters,
   policy
 }: RunActionDialogContentProps) {
-  const timeConfig = useTimeConfig();
   const { createHref, location } = useNavigation();
   function getLinkToActionHistory(id: string) {
     const path = location;
@@ -112,10 +107,6 @@ export default function RunActionDialogContent({
     setOrDeleteMatrixKey(path, actionHistory, 'query', id);
     return createHref(path);
   }
-
-  const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
-
-  const logLink = useLinkToLogs({ tagFilterExpression: [tagFilterExpression], timeConfig });
 
   if (!form) return <LoadingIndicator size="xxl" />;
   if (error && !actionInstanceId) {
@@ -136,32 +127,22 @@ export default function RunActionDialogContent({
             <Spacer horizontal="xsmall" />
           </>
         )}
-        {role?.canViewAutomationActionInstances ? (
-          <Trans
-            i18nKey={'in-automation:linkToActionHistory'}
-            components={{
-              logsLink: (
-                <Link
-                  className={locals.logsLink}
-                  target="_blank"
-                  onClick={close}
-                  href={getLinkToActionHistory(actionInstanceId)}
-                >
-                  {' '}
-                  &nbsp;
-                </Link>
-              )
-            }}
-          />
-        ) : (
-          <Trans
-            i18nKey={'in-automation:linkToActionLogs'}
-            components={{
-              // @ts-expect-error
-              logsLink: <Link target="_blank" className={locals.logsLink} onClick={close} href={logLink} />
-            }}
-          />
-        )}
+        <Trans
+          i18nKey={'in-automation:linkToActionHistory'}
+          components={{
+            logsLink: (
+              <Link
+                className={locals.logsLink}
+                target="_blank"
+                onClick={close}
+                href={getLinkToActionHistory(actionInstanceId)}
+              >
+                {' '}
+                &nbsp;
+              </Link>
+            )
+          }}
+        />
       </Typography>
     );
   }

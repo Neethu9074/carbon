@@ -37,7 +37,8 @@ export const LimitedAccessScope = Object.freeze({
   LIMITED_ZHMC_SCOPE: 'LIMITED_ZHMC_SCOPE',
   LIMITED_PCF_SCOPE: 'LIMITED_PCF_SCOPE',
   LIMITED_OPENSTACK_SCOPE: 'LIMITED_OPENSTACK_SCOPE',
-  LIMITED_SAP_SCOPE: 'LIMITED_SAP_SCOPE'
+  LIMITED_SAP_SCOPE: 'LIMITED_SAP_SCOPE',
+  LIMITED_AUTOMATION_SCOPE: 'LIMITED_AUTOMATION_SCOPE'
 } as const);
 export type LimitedAccessScopeType = keyof typeof LimitedAccessScope;
 export const LimitedAccessScopes = Object.freeze(Object.values(LimitedAccessScope));
@@ -57,7 +58,8 @@ export const AreaPermission = Object.freeze({
   ACCESS_OPENSTACK: 'ACCESS_OPENSTACK',
   ACCESS_INFRASTRUCTURE_ANALYZE: 'ACCESS_INFRASTRUCTURE_ANALYZE',
   ACCESS_SAP: 'ACCESS_SAP',
-  ACCESS_BIZOPS: 'ACCESS_BIZOPS'
+  ACCESS_BIZOPS: 'ACCESS_BIZOPS',
+  ACCESS_AUTOMATION: 'ACCESS_AUTOMATION'
 } as const);
 export type AreaPermissionType = keyof typeof AreaPermission;
 export const AreaPermissions = Object.freeze(Object.values(AreaPermission));
@@ -89,7 +91,6 @@ export const Capability = Object.freeze({
   CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
   CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS',
-  CAN_VIEW_AUTOMATION_ACTION_INSTANCES: 'CAN_VIEW_AUTOMATION_ACTION_INSTANCES',
   CAN_CONFIGURE_AUTOMATION_POLICIES: 'CAN_CONFIGURE_AUTOMATION_POLICIES',
   CAN_CONFIGURE_SYNTHETIC_TESTS: 'CAN_CONFIGURE_SYNTHETIC_TESTS',
   CAN_CONFIGURE_SYNTHETIC_LOCATIONS: 'CAN_CONFIGURE_SYNTHETIC_LOCATIONS',
@@ -220,6 +221,10 @@ export const hasEventsAccess =
 export const hasBizOpsAccess =
   businessObservabilityEnabled && hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS);
 
+export const hasAutomationAccess =
+  actionAutomationEnabled &&
+  hasPermission(LimitedAccessScope.LIMITED_AUTOMATION_SCOPE, AreaPermission.ACCESS_AUTOMATION);
+
 interface AreaPermissionProps {
   value: AreaPermissionType;
   label: string;
@@ -284,6 +289,13 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
     areaPermissions.push({
       value: AreaPermission.ACCESS_BIZOPS,
       label: t('in-stores:permissionAccessBizOpsLabel')
+    });
+  }
+
+  if (actionAutomationEnabled) {
+    areaPermissions.push({
+      value: AreaPermission.ACCESS_AUTOMATION,
+      label: t('in-stores:permissionAccessAutomationLabel')
     });
   }
   return areaPermissions;
@@ -591,17 +603,10 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     description: t('in-stores:permissionCanRunAutomationActionsDescription'),
     category: t('in-stores:permissionCanRunAutomationActionsCategory')
   },
-  [Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]: {
-    keyForGroupApi: Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
-    keyForApiTokenApi: 'canViewAutomationActionInstances',
-    label: t('in-stores:permissionCanViewActionHistory'),
-    description: t('in-stores:permissionCanViewActionHistoryDescription'),
-    category: t('in-stores:permissionCanViewActionHistoryCategory')
-  },
   [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_AUTOMATION_POLICIES,
     keyForApiTokenApi: 'canConfigureAutomationPolicies',
-    label: t('in-stores:permissionCanConfigureAutomationPolicies'),
+    label: t('in-stores:permissionCanConfigureAutomationPoliciesLabel'),
     description: t('in-stores:permissionCanConfigureAutomationPoliciesDescription'),
     category: t('in-stores:permissionCanConfigureAutomationPoliciesCategory')
   },
@@ -704,7 +709,6 @@ export function getProductPermissions(): Array<ProductPermission> {
     const automationCapabilities: Set<CapabilityType> = new Set([
       Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
       Capability.CAN_RUN_AUTOMATION_ACTIONS,
-      Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
       Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
     ]);
 

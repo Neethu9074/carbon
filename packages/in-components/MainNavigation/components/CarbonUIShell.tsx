@@ -28,7 +28,8 @@ import {
   hasZHMCAccess,
   hasSAPAccess,
   hasSloAccess,
-  hasInfrastructureAnalyzeAccess
+  hasInfrastructureAnalyzeAccess,
+  hasAutomationAccess
 } from 'in-stores/permission';
 import {
   useLinkToAnalyze as useLinkToMobileAppAnalyze,
@@ -48,12 +49,6 @@ import {
   isApplicationsView,
   useLinkToAnalyze as useLinkToApplicationAnalyze
 } from 'in-applications/navigation/paths';
-import {
-  playwithEnabled,
-  playWithReleaseEnabled,
-  actionAutomationEnabled,
-  welcomePageV2Enabled
-} from 'in-services/featureFlags';
 import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
@@ -83,6 +78,7 @@ import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 // @ts-expect-error no declaration file
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
+import { playwithEnabled, playWithReleaseEnabled, welcomePageV2Enabled } from 'in-services/featureFlags';
 import { isAnalyzeView as isLogsAnalyzeView, logsPathWithDataSource } from 'in-logging/navigation/paths';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
@@ -341,7 +337,7 @@ function Incidents() {
 function AutomationMenu() {
   const { matchLocation, createHrefToPath } = useNavigation();
 
-  if (!actionAutomationEnabled) {
+  if (!hasAutomationAccess) {
     return null;
   }
 

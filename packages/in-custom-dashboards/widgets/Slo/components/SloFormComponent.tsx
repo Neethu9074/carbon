@@ -6,8 +6,8 @@
 import React, { useEffect, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Stack } from '@instana/components';
 import { Select } from '@instana/components';
+import { Stack } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {

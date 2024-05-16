@@ -98,6 +98,7 @@ export type LimitableProductArea = Extract<
   | 'OPENSTACK'
   | 'SYNTHETICS'
   | 'SAP'
+  | 'AUTOMATION'
 >;
 
 export const PermissionAreas = Object.freeze<Array<keyof PermissionSet>>([
@@ -221,10 +222,11 @@ export const accessControlCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SESSION_SETTINGS
 ];
 
-export const automationCapabilities: Array<CapabilityType> = [
-  Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
-  Capability.CAN_RUN_AUTOMATION_ACTIONS,
-  Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
+export const automationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS];
+
+export const automationViewCapabilities: Array<CapabilityType> = [Capability.CAN_RUN_AUTOMATION_ACTIONS];
+export const automationAdditionalCapabilities: Array<CapabilityType> = [
+  ...automationViewCapabilities,
   Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
 ];
 
@@ -330,6 +332,11 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.DASHBOARD]: { capabilities: customDashboardCapabilities },
   [ProductArea.AGENTS]: { capabilities: agentsCapabilities },
   [ProductArea.ACCESS_CONTROL]: { capabilities: accessControlCapabilities },
-  [ProductArea.AUTOMATION]: { capabilities: automationCapabilities },
+  [ProductArea.AUTOMATION]: {
+    limitation: LimitedAccessScope.LIMITED_AUTOMATION_SCOPE,
+    permission: AreaPermission.ACCESS_AUTOMATION,
+    capabilities: automationCapabilities,
+    additionalCapabilities: automationAdditionalCapabilities
+  },
   [ProductArea.GLOBAL]: { capabilities: unionGlobalCapabilities }
 } as const);

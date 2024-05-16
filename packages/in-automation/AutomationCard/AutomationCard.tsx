@@ -15,12 +15,11 @@ import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions'
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
 import { recommendedActionsTabClickTracker } from 'in-automation/tracker';
 import usePolicies from 'in-automation/AutomationCard/usePolicies';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
 import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
+import { hasAutomationAccess } from 'in-stores/permission';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { Event, VolatileId } from 'in-types';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export type ButtonKey = 'automationPolicies' | 'recommendedActions' | 'actionHistory';
@@ -58,18 +57,15 @@ function AutomationCardButtonGroup({
         setActiveKey('recommendedActions');
         recommendedActionsTabClickTracker();
       }
-    }
-  ];
-
-  if (role?.canViewAutomationActionInstances) {
-    buttonProps.push({
+    },
+    {
       text: actionHistoryCount
         ? t('in-automation:actionHistory.actionHistoryWithCount', { count: actionHistoryCount })
         : t('in-automation:actionHistory.actionHistory'),
       key: 'actionHistory',
       onClick: () => setActiveKey('actionHistory')
-    });
-  }
+    }
+  ];
 
   return (
     <Stack gap="xxsmall">
@@ -120,9 +116,7 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
               recommendedActions={recommendedActions}
             />
           )}
-          {activeKey === 'actionHistory' && role?.canViewAutomationActionInstances && (
-            <ActionHistoryTable eventId={event.id} />
-          )}
+          {activeKey === 'actionHistory' && <ActionHistoryTable eventId={event.id} />}
         </Card>
       </Col>
     </Row>
@@ -130,6 +124,6 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
 }
 
 export default function AutomationCardWrapper({ volatileId, event }: AutomationCardProps) {
-  if (!actionAutomationEnabled) return null;
+  if (!hasAutomationAccess) return null;
   return <AutomationCard volatileId={volatileId} event={event} />;
 }
