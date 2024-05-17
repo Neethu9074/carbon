@@ -13,10 +13,11 @@ import {
   SyntheticTypeConfigurationUnion,
   SSLCertificateConfiguration
 } from '@instana/types';
-import { KeyValue } from '@instana/components';
+import { Card, KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import CodeInput from 'in-synthetics/packages/Code/CodeInput';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -323,8 +324,21 @@ const ConfigSection = ({ test }: Props) => {
     case 'SSLCertificate':
       content = renderSSLCertificateTestTypeContent(configuration as SSLCertificateConfiguration);
       break;
-    default:
+    case 'HTTPScript':
+    case 'BrowserScript':
+    case 'WebpageScript':
       content = renderScriptTestTypeContent(configuration as HttpScriptConfiguration);
+      break;
+    default:
+      content = (
+        <Card>
+          <NoDataAvailable
+            type="lib_synthetic"
+            height={160}
+            text={t('in-synthetics:dashboard.noDataAvailable.configurationTab', { component: 'Configuration' })}
+          />
+        </Card>
+      );
   }
 
   return (

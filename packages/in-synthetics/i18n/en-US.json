@@ -681,6 +681,7 @@
       },
       "configurationEditAction": "Edit",
       "configurationDeleteAction": "Delete",
+      "configurationUnsupported": "Unsupported test type.",
       "timeoutLabel": "Timeout",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "Retry Strategy",
