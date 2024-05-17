@@ -377,6 +377,18 @@
       "toastErrorTitle": "Log deletion failed",
       "toastErrorMessage": "Logs could not be deleted. Please try again."
     },
+    "logVolume": {
+      "logVolume": "Log Volume",
+      "timeRange": "Time Range",
+      "months_1": "Current month",
+      "months_3": "Past 3 months",
+      "months_6": "Past 6 months",
+      "months_9": "Past 9 months",
+      "months_12": "Past 12 months",
+      "days_7": "7 Days",
+      "days_20": "20 Days",
+      "days_30": "30 Days"
+    },
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",
     "IdPMetadataLargerThanTwoMega": "IdP Metadata file can't be larger than 2 megabytes",
