@@ -26,6 +26,7 @@ import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { SLO_SUMMARY_VIEW } from 'in-services/tracking/eventNames';
+import { sloSmartAlertsEnabled } from 'in-services/featureFlags';
 import { Col, Row } from 'in-components/layout/Grid';
 import { Nullish } from 'in-types';
 
@@ -100,11 +101,13 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
           <TrafficChart configuration={configuration} />
         </Col>
       </Row>
-      <FloatingActionButtons>
-        <FloatingActionButton icon="lib_alerts_create" kind="primaryv2" onClick={openCreateSmartAlertDialog}>
-          {t('in-service-levels:general.addButtonLabel', { context: 'smartAlert' })}
-        </FloatingActionButton>
-      </FloatingActionButtons>
+      {sloSmartAlertsEnabled && (
+        <FloatingActionButtons>
+          <FloatingActionButton icon="lib_alerts_create" kind="primaryv2" onClick={openCreateSmartAlertDialog}>
+            {t('in-service-levels:general.addButtonLabel', { context: 'smartAlert' })}
+          </FloatingActionButton>
+        </FloatingActionButtons>
+      )}
     </>
   );
 }
