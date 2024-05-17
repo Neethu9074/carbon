@@ -85,6 +85,8 @@ export const getPlaybookFileNameFromFields = (fields: Field[] | undefined): Fiel
   getFieldsByNames(fields)?.playbookFileName ?? { value: '', encoding: 'ascii', name: 'playbookFileName' };
 export const getAnsibleUrlFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.ansibleUrl ?? { value: '', encoding: 'ascii', name: 'ansibleUrl' };
+export const getAnsibleHostIdFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.hostId ?? { value: '', encoding: 'ascii', name: 'hostId' };
 export const getGithubOwnerFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.owner ?? { value: '', encoding: 'ascii', name: 'owner' };
 export const getGithubRepoFromFields = (fields: Field[] | undefined): Field =>

@@ -12,14 +12,6 @@ import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
 
-import RunActionContent, {
-  shouldHideParameter,
-  TRIGGERING_AGENT,
-  TRIGGERING_HOST_FQDN,
-  TRIGGERING_HOST_FQDN_OPTION,
-  TRIGGERING_HOST_IP,
-  TRIGGERING_HOST_IP_OPTION
-} from 'in-automation/RunActionDialog/RunActionDialogContent';
 import {
   getTimeoutFromFields,
   isAnsible,
@@ -31,13 +23,22 @@ import {
   parseVaultParameter,
   isGithub,
   isGitlab,
-  isManual
+  isManual,
+  getAnsibleHostIdFromFields
 } from 'in-automation/ActionCatalog/shared';
+import RunActionContent, {
+  shouldHideParameter,
+  TRIGGERING_AGENT,
+  TRIGGERING_HOST_FQDN,
+  TRIGGERING_HOST_FQDN_OPTION,
+  TRIGGERING_HOST_IP,
+  TRIGGERING_HOST_IP_OPTION
+} from 'in-automation/RunActionDialog/RunActionDialogContent';
 import { ResolvedDynamicParamValue, resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
+import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from 'in-types';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
-import { Action, Event, ParameterValue, VolatileId, Policy } from 'in-types';
 import { runActionTracker, testActionTracker } from 'in-automation/tracker';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import { refresh } from 'in-automation/AutomationCard/useScoredActions';
@@ -171,6 +172,27 @@ const getTitle = ({ action, error, actionInstanceId, test, policy }: GetTitlePar
   return t('in-automation:chosenToRun', { actionName });
 };
 
+function filterAgentSnapShotsArray(hostId: string, agents: OUT | null | undefined): OUT | null | undefined {
+  if (!agents || !agents.data || !agents.data.online) {
+    return agents;
+  }
+
+  const filteredOnline = agents.data.online.filter((agent: AgentSnapshot) => agent?.volatileId?.host_id === hostId);
+
+  // If no agent is found with the specified hostId, return the original agents to show the list of ansible agents
+  if (filteredOnline.length === 0) {
+    return agents;
+  }
+
+  return {
+    ...agents,
+    data: {
+      ...agents.data,
+      online: filteredOnline
+    }
+  };
+}
+
 function useAgentSnapShots({ action }: { action: Action }) {
   const timeConfig = useTimeConfig();
   let query = '';
@@ -181,7 +203,16 @@ function useAgentSnapShots({ action }: { action: Action }) {
   else if (isGitlab(action.type)) query = 'entity.agent.capability:action-gitlab';
   else if (isJira(action.type)) query = 'entity.agent.capability:action-jira';
   else if (isExternal(action.type)) query = 'entity.agent.capability:turbonomic-action';
-  const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
+  const agentSnapShots: OUT | null | undefined = useObservable(
+    () => getAgentSnapshotsInTimeframe({ timeConfig, query }),
+    [timeConfig]
+  );
+
+  if (isAnsible(action.type)) {
+    const hostId = getAnsibleHostIdFromFields(action.fields).value;
+    // filtering agent snapshot with host id (show only the agent that the action definition is associated with)
+    return hostId ? filterAgentSnapShotsArray(hostId, agentSnapShots) : agentSnapShots;
+  }
   return agentSnapShots;
 }
 
