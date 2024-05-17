@@ -14,11 +14,11 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { close } from 'in-components/DialogPresenter/store';
 
 interface CreateSmartAlertDialogProps {
-  sloId?: string;
+  preselectedSloId?: string;
 }
-export default function CreateSmartAlertDialog({ sloId }: CreateSmartAlertDialogProps) {
+export default function CreateSmartAlertDialog({ preselectedSloId }: CreateSmartAlertDialogProps) {
   const location = useLocation();
-  const alertConfig = createNewAlertConfig(sloId);
+  const alertConfig = createNewAlertConfig(preselectedSloId);
 
   return (
     <AlertConfigDialog

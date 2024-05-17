@@ -48,7 +48,8 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
 
   const { timeWindows } = useSloTimeWindowContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;
-  const openCreateSmartAlertDialog = () => addActiveDialog(<CreateSmartAlertDialog sloId={configuration.id} />);
+  const openCreateSmartAlertDialog = () =>
+    addActiveDialog(<CreateSmartAlertDialog preselectedSloId={configuration.id} />);
   const track = useSloTrackers();
   useEffect(() => {
     const { indicator, timeWindow, entity } = configuration;
