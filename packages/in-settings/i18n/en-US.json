@@ -114,7 +114,12 @@
     "title_websites": "Websites",
     "title_businessMonitoring": "Business Monitoring",
     "title_syntheticMonitoring": "Synthetic Monitoring",
-    "title_automation": "Automation"
+    "title_event": "Events and alerts",
+    "title_logs": "Logs",
+    "title_dashboard": "Custom dashboards",
+    "title_automation": "Automation",
+    "title_agents": "Agents",
+    "title_access_control": "Access control"
   },
   "headingSection": {
     "title": "Role and access scope",
