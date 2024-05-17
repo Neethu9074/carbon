@@ -6,11 +6,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { List, Map } from 'immutable';
 
-import { Card, Stack, Typography, Pill } from '@instana/components';
+import { Card, Stack, Typography, Pill, IconButton } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
 
 import {
   RCAFeedbackClosedManuallyTracker,
@@ -88,6 +87,11 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
                 ? incident.get('metadata').get('probableRootCauseSnapshotMetadata').get(currentRCAEntity)
                 : incident.getIn(['metadata', 'rootCause', 'probableRootCauseSnapshotMetadata', currentRCAEntity], null)
             }
+            explainabilityMetadata={
+              isLegacy
+                ? undefined
+                : incident.getIn(['metadata', 'rootCause', 'explainability', currentRCAEntity], undefined)
+            }
             eventsRelatedToEntity={eventsRelatedToEntity}
             probabilityScore={extractProbabilityScoreForProbableRootCause(
               incident.get('metadata'),
@@ -117,6 +121,7 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
           title={t('in-events:RCA.relatedEventsLabel', {
             number_of_events: Array.isArray(eventsRelatedToEntity) ? eventsRelatedToEntity.length : 0
           })}
+          darkFrame
         >
           {eventsRelatedToEntity?.map(_event => (
             <div onClick={expandedRCAEventCardTracker}>
@@ -151,28 +156,19 @@ function FeedbackComponent({ feedbackState, setFeedbackState, incident, snapshot
       );
     }
   }, [feedbackState, incident, snapshotMetadata, currentEntity]);
-  /*
-{'default': {thumbsUp: false, thumbsDown: false}}
-*/
+
   return (
     <Stack direction="horizontal" gap="small" align="center">
       {feedbackState[currentEntity]?.thumbsDown || feedbackState[currentEntity]?.thumbsUp ? (
-        <Typography variant="body-small">{t('in-events:RCA.thankYouForYourFeedback')}</Typography>
+        <Typography variant="body-regular">{t('in-events:RCA.thankYouForYourFeedback')}</Typography>
       ) : (
-        <Typography variant="body-small">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
+        <Typography variant="body-regular">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
       )}
-      <Button
-        kind="subtle"
-        // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
-        //TODO: Find an alternative to this (i.e. bring in a filled in thumbs up icon)
-        style={
-          feedbackState[currentEntity]?.thumbsUp
-            ? { background: themes.default.ids.color.option.neutral['300'] }
-            : undefined
-        }
-        size="compact"
-        icon="lib_thumbs_up"
-        iconSize="s"
+      <IconButton
+        kind="action"
+        size="l"
+        type="lib_thumbs_up"
+        iconSize="xs"
         onClick={() => {
           helpfulRCASuggestionTracker();
           if (feedbackState[currentEntity]?.thumbsUp) {
@@ -182,18 +178,11 @@ function FeedbackComponent({ feedbackState, setFeedbackState, incident, snapshot
           }
         }}
       />
-      <Button
-        kind="subtle"
-        // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
-        //TODO: Find an alternative to this (i.e. bring in a filled in thumbs down icon)
-        style={
-          feedbackState[currentEntity]?.thumbsDown
-            ? { background: themes.default.ids.color.option.neutral['300'] }
-            : undefined
-        }
-        size="compact"
-        iconSize="s"
-        icon="lib_thumbs_down"
+      <IconButton
+        kind="action"
+        size="l"
+        type="lib_thumbs_down"
+        iconSize="xs"
         onClick={() => {
           unhelpfulRCASuggestionTracker();
           if (feedbackState[currentEntity]?.thumbsDown) {
@@ -292,23 +281,18 @@ function ProbableRootCauseCard({ title, incident, currentRCAEntity, children }) 
   return (
     <Row withoutSideMargin>
       <Col xs>
+        <div className={locals.cardIndicator} />
         <Card
           title={title}
           leftHeaderContent={
-            <Stack direction="horizontal">
+            <Stack direction="horizontal" gap="xxsmall">
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-                <Pill
-                  kind="primary"
-                  color={themes.default.ids.color.option.blue['400']}
-                  className={locals.techPreviewPill}
-                >
-                  <Typography variant="body-small" onDark>
-                    {t('in-events:RCA.techPreview')}
-                  </Typography>
+                <Pill type="blue" className={locals.techPreviewPill}>
+                  {t('in-events:RCA.techPreview')}
                 </Pill>
               </Tooltip>
-              <Pill color={'#8257D933'} className={locals.rcaAIPill}>
-                <Typography variant="body-small">{t('in-events:RCA.AIGenBadgeText')}</Typography>
+              <Pill type="purple" className={locals.rcaAIPill}>
+                {t('in-events:RCA.AIGenBadgeText')}
               </Pill>
             </Stack>
           }
