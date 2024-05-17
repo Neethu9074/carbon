@@ -6,6 +6,7 @@
 
 import React, { SetStateAction, useState } from 'react';
 
+import { RetentionLogsResponse } from '@instana/types/typeDefinitions';
 import { Card, Input, Link, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
@@ -65,10 +66,10 @@ export default function RententionPeriod() {
     const getRetentionPeriod$ = retentionLogsGET();
     let initialValue: number | undefined;
 
-    getRetentionPeriod$.once(data => {
+    getRetentionPeriod$.once(response => {
       // console.log('Value Endpoint', data);
-      initialValue = data.body.retention;
-      setRetentionValue(data.body.retention);
+      initialValue = response.body.retention;
+      setRetentionValue(response.body.retention);
     });
 
     return !useMock ? initialValue ?? 'No data from server' : mockData().retention;
@@ -291,8 +292,7 @@ interface RetentionLogsRequest {
 }
 
 export function retentionLogsPOST(params: RetentionLogsRequest) {
-  return http<any>({
-    //I'd love to type the response, we have it completly? I'd like to see it in live.
+  return http<void>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -302,8 +302,7 @@ export function retentionLogsPOST(params: RetentionLogsRequest) {
 }
 
 export function retentionLogsGET() {
-  return http<any>({
-    //I'd love to type the response, we have it completly? I'd like to see it in live.
+  return http<RetentionLogsResponse>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
