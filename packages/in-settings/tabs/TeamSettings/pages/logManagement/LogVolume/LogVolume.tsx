@@ -32,7 +32,7 @@ const localisationStrings = {
 };
 
 function LogVolume() {
-  const [timePeriod, setTimePeriod] = useState<number>(3);
+  const [timePeriod, setTimePeriod] = useState<number>(1);
 
   const result = useObservable(
     ([timePeriod]) => {
