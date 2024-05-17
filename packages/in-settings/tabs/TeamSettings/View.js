@@ -46,18 +46,17 @@ import {
 } from 'in-settings/navigation/paths';
 import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
 import RecurrentMaintenanceWindowFormPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
-import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
-import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
-import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import {
   alertsHubEnabled,
   disableInvitesWithIdpEnabled,
-  recurrentMaintenanceWindowEnabled
+  recurrentMaintenanceWindowEnabled,
+  logRetentionPageEnabled
 } from 'in-services/featureFlags';
+import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
+import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
+import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
-// eslint-disable-next-line no-restricted-imports
-import { logRetentionPageEnabled } from '../../../../dev/featureFlags';
 import RetentionPeriodPage from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import ApiTokenFormDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenFormDialog';
@@ -334,7 +333,7 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     component: RetentionPeriodPage
   };
 
-  if (role.canDeleteLogs || role.canConfigureLogManagement) {
+  if (role.canDeleteLogs || role.canConfigureLogManagement || role.canChangeLogRetentionPeriod) {
     let pages = [];
 
     if (role.canConfigureLogManagement) {
@@ -345,7 +344,7 @@ function navigationTreeForRole(role, isAnyIDPActive) {
       pages.push(deleteLogsPage);
     }
     if (role.canChangeLogRetentionPeriod || logRetentionPageEnabled) {
-      // logRetentionPageEnabled to be removed
+      // OR for now until we figure out the permission
       pages.unshift(retentionPeriodPage);
     }
 

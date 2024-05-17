@@ -551,7 +551,7 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     label: t('in-stores:permissionCanViewLogsLabel'),
     description: t('in-stores:permissionCanViewLogsDescription'),
     category: t('in-stores:permissionCanViewLogsCategory'),
-    isOwnerPermission: true
+    isOwnerPermission: false
   },
   [Capability.CAN_DELETE_LOGS]: {
     keyForGroupApi: Capability.CAN_DELETE_LOGS,
@@ -567,7 +567,7 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     label: t('in-stores:permissionCanChangeLogRetentionPeriodLabel'),
     description: t('in-stores:permissionCanChangeLogRetentionPeriodDescription'),
     category: t('in-stores:permissionCanChangeLogRetentionPeriodCategory'),
-    isOwnerPermission: false
+    isOwnerPermission: true
   },
   [Capability.CAN_VIEW_TRACE_DETAILS]: {
     keyForGroupApi: Capability.CAN_VIEW_TRACE_DETAILS,

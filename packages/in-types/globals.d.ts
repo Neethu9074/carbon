@@ -39,6 +39,7 @@ export interface Role {
   canConfigureAutomationPolicies: boolean;
   canViewAutomationActionInstances: boolean;
   canViewLogs: boolean;
+  canChangeLogRetentionPeriod: boolean;
   canViewAuditLog: boolean;
   canConfigureSyntheticLocations: boolean;
   canConfigureSyntheticTests: boolean;

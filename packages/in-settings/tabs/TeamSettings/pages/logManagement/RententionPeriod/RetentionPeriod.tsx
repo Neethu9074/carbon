@@ -11,8 +11,6 @@ import { Card, Input, Link, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
 
-// import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import {
   errorFeedback,
   succesFeedback
@@ -24,6 +22,7 @@ import { getEntityIdView, teamSettingsActionLog } from 'in-settings/navigation/p
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import Select from 'in-components/form/Select/Select';
 import Label from 'in-components/form/Label/Label';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -67,7 +66,6 @@ export default function RententionPeriod() {
     let initialValue: number | undefined;
 
     getRetentionPeriod$.once(response => {
-      // console.log('Value Endpoint', data);
       initialValue = response.body.retention;
       setRetentionValue(response.body.retention);
     });
@@ -141,7 +139,6 @@ function RetentionPeriodDialog({
   setRentionValue,
   retentionValue
 }: RetentionPeriodDialogProps) {
-  // const [daysDropdownValue, setDaysDropdownValue] = useState('0')
   const [notification, setNotification] = useState<NotificationState>({ show: false });
 
   const handlePostRequest = async (payload: RetentionLogsRequest) => {
