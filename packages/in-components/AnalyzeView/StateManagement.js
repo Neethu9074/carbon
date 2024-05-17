@@ -4,6 +4,7 @@
  */
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
+import pickBy from 'lodash/pickBy';
 import rpt from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
@@ -437,7 +438,7 @@ function AnalyzeStateManagement({
     isGrouped,
     groupBy,
     selectedGroup,
-    onGroupByChange: groupBy => onChange({ groupBy }),
+    onGroupByChange: groupBy => onChange({ groupBy: pickBy(groupBy, val => !!val) }),
     getHrefToUngroupedView(groupValue) {
       return getChangeAsUrl({
         ...(groupValue != null ? getStateChangeForUngroupedView(groupValue) : { groupBy: emptyObject }),
