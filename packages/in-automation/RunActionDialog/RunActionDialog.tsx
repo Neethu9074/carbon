@@ -291,7 +291,8 @@ function onSave({
   } else {
     runActionTracker({
       actionType: action.type,
-      actionName: action.name
+      actionName: action.name,
+      AIGeneratedAction: action?.metadata?.builtIn && action?.metadata?.ai !== null ? true : false
     });
   }
 

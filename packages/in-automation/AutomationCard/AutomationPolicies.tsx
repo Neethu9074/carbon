@@ -216,6 +216,7 @@ const getExecuteColumn = (volatileId: VolatileId, event: Event): ColumnDefinitio
             addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
             runActionTracker({
               actionType: action.type,
+              AIGeneratedAction: action?.metadata?.builtIn && action?.metadata?.ai !== null ? true : false,
               actionName: action.name,
               policyId: item.id,
               policyName: item.name
