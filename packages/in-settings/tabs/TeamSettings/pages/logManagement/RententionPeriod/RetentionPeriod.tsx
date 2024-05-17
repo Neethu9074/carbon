@@ -118,6 +118,7 @@ export default function RententionPeriod() {
           setIsChangingRetention={setIsChangingRetention}
           isChangingRetention={isChangingRetention}
           setRentionValue={setRetentionValue}
+          retentionValue={retentionValue}
         />
       )}
     </>
@@ -129,13 +130,15 @@ interface RetentionPeriodDialogProps {
   setIsChangingRetention: React.Dispatch<SetStateAction<boolean>>;
   isChangingRetention: boolean;
   setRentionValue: React.Dispatch<React.SetStateAction<number | undefined | string>>;
+  retentionValue: number | undefined | string;
 }
 
 function RetentionPeriodDialog({
   setShowConfirmation,
   setIsChangingRetention,
   isChangingRetention,
-  setRentionValue
+  setRentionValue,
+  retentionValue
 }: RetentionPeriodDialogProps) {
   // const [daysDropdownValue, setDaysDropdownValue] = useState('0')
   const [notification, setNotification] = useState<NotificationState>({ show: false });
@@ -239,7 +242,7 @@ function RetentionPeriodDialog({
           {localisationStrings.logRetentionPeriod}
           <Select value={retentionPeriodInputValue} onChange={e => setRetentionPeriodInputValue(e.target.value)}>
             {daysDropdownValues.map(val => (
-              <option value={val}>{`${val} ${localisationStrings.days}`}</option>
+              <option key={val} value={val}>{`${val} ${localisationStrings.days}`}</option>
             ))}
           </Select>
         </Label>
@@ -270,7 +273,11 @@ function RetentionPeriodDialog({
           )}
         </Label>
         {notification.show && (
-          <ModalNotification onClick={() => setNotification({ show: false })} variant={notification.variant} />
+          <ModalNotification
+            onClick={() => setNotification({ show: false })}
+            variant={notification.variant}
+            valueDays={retentionValue}
+          />
         )}
       </section>
       <section className={locals.buttons}>{ConfirmationButtons}</section>

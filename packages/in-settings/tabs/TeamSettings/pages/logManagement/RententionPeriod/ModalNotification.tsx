@@ -19,6 +19,7 @@ type Variant = 'success' | 'failure';
 interface ModalNotificationProps {
   variant?: Variant;
   onClick?: () => void;
+  valueDays: number | undefined | string;
 }
 
 export interface NotificationState {
@@ -26,10 +27,10 @@ export interface NotificationState {
   variant?: Variant;
 }
 
-export const ModalNotification = ({ variant = 'success', onClick = () => {} }: ModalNotificationProps) => {
+export const ModalNotification = ({ variant = 'success', onClick = () => {}, valueDays }: ModalNotificationProps) => {
   const localisationStrings = {
-    deletionSuccess: t('in-settings:tabs.retentionPeriod.changeSuccess'),
-    deletionError: t('in-settings:tabs.retentionPeriod.changeError')
+    changeSuccess: t('in-settings:tabs.retentionPeriod.changeSuccess', { value: valueDays }),
+    changeError: t('in-settings:tabs.retentionPeriod.changeError')
   };
 
   const isSuccess = variant === 'success';
@@ -42,7 +43,7 @@ export const ModalNotification = ({ variant = 'success', onClick = () => {} }: M
         <SvgIcon type="lib_help_error_error_circle" color="#FF4040" />
       )}
       <Typography variant="body-small">
-        {isSuccess ? localisationStrings.deletionSuccess : localisationStrings.deletionError}
+        {isSuccess ? localisationStrings.changeSuccess : localisationStrings.changeError}
       </Typography>
       <Button onClick={onClick} kind="subtle">
         <SvgIcon type="lib_openclose_cancel" />
