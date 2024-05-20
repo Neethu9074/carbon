@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Card, Spacer, Stack } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
@@ -86,6 +86,11 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
   const trigger = useTrigger({ event });
   const actions = useScoredActions({ event, trigger });
   const recommendedActions = useRecommendedScoredActions({ actions, policies });
+  useEffect(() => {
+    if (policies?.data?.length === 0) {
+      setActiveKey('recommendedActions');
+    }
+  }, [policies]);
 
   return (
     <Row withoutSideMargin>
