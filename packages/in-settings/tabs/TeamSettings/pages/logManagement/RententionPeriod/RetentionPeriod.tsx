@@ -35,16 +35,17 @@ import locals from './RetentionPeriod.mless';
 
 const localisationStrings = {
   retentionPeriod: t('in-settings:tabs.retentionPeriod.retentionPeriod'),
+  aboutRetentionPeriod: t('in-settings:tabs.retentionPeriod.aboutRetentionPeriod'),
   currentRetentionPeriod: t('in-settings:tabs.retentionPeriod.currentRetentionPeriod'),
   retentionDialogDescription: t('in-settings:tabs.retentionPeriod.retentionDialogDescription'),
   changeRetentionPeriod: t('in-settings:tabs.retentionPeriod.changeRetentionPeriod'),
   logRetentionPeriod: t('in-settings:tabs.retentionPeriod.logRetentionPeriod'),
   changeReason: t('in-settings:tabs.retentionPeriod.changeReason'),
   days: t('in-settings:tabs.retentionPeriod.days'),
-  readDocs: t('in-settings:tabs.retentionPeriod.readDocs'),
+  learnMore: t('in-settings:tabs.retentionPeriod.learnMore'),
   cancel: t('in-settings:tabs.cancel'),
   historyChanges: t('in-settings:tabs.retentionPeriod.historyChanges'),
-  logAction: t('in-settings:tabs.retentionPeriod.logAction'),
+  actionLog: t('in-settings:tabs.retentionPeriod.actionLog'),
   historyChanges2: t('in-settings:tabs.retentionPeriod.historyChanges2'),
   modalTitle: t('in-settings:tabs.retentionPeriod.modalTitle'),
   typeToConfirm: t('in-settings:tabs.retentionPeriod.typeToConfirm'),
@@ -80,13 +81,16 @@ export default function RententionPeriod() {
       <SettingsDetailPage>
         <Title title={localisationStrings.retentionPeriod} />
         <section className={locals.titleSection}>
-          <SubViewHeaderComponent>
-            {localisationStrings.retentionPeriod}
-            <Link external className={locals.link} href="">
-              {/* add in link when it has been supplied */}
-              {localisationStrings.readDocs}
-            </Link>
-          </SubViewHeaderComponent>
+          <div>
+            <SubViewHeaderComponent>{localisationStrings.retentionPeriod}</SubViewHeaderComponent>
+            <Typography variant="body-regular">
+              {localisationStrings.aboutRetentionPeriod}
+              <Link external href="">
+                {/* add in link when it has been supplied */}
+                {localisationStrings.learnMore}
+              </Link>
+            </Typography>
+          </div>
           <Button className={locals.changeRetentionButton} onClick={() => setShowConfirmation(true)} kind="danger">
             {localisationStrings.changeRetentionPeriod}
           </Button>
@@ -105,7 +109,7 @@ export default function RententionPeriod() {
           {role?.canViewAuditLog && (
             <section className={locals.typo}>
               <Typography variant={'body-regular'}>{localisationStrings.historyChanges + ' '}</Typography>
-              <Link href={logActionHref || ''}>{localisationStrings.logAction + ' '}</Link>
+              <Link href={logActionHref || ''}>{localisationStrings.actionLog + ' '}</Link>
               <Typography variant={'body-regular'}>{localisationStrings.historyChanges2}</Typography>
             </section>
           )}

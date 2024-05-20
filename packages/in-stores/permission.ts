@@ -563,7 +563,7 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
   },
   [Capability.CAN_CHANGE_LOG_RETENTION_PERIOD]: {
     keyForGroupApi: Capability.CAN_CHANGE_LOG_RETENTION_PERIOD,
-    keyForApiTokenApi: '', // indicates that this is not a permission for a token
+    keyForApiTokenApi: 'canChangeLogRetentionPeriod',
     label: t('in-stores:permissionCanChangeLogRetentionPeriodLabel'),
     description: t('in-stores:permissionCanChangeLogRetentionPeriodDescription'),
     category: t('in-stores:permissionCanChangeLogRetentionPeriodCategory'),
