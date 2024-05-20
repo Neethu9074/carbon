@@ -6,7 +6,6 @@
 
 import React, { SetStateAction, useState } from 'react';
 
-import { RetentionLogsResponse } from '@instana/types/typeDefinitions';
 import { Card, Input, Link, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
@@ -91,7 +90,7 @@ export default function RententionPeriod() {
               </Link>
             </Typography>
           </div>
-          <Button className={locals.changeRetentionButton} onClick={() => setShowConfirmation(true)} kind="danger">
+          <Button className={locals.changeRetentionButton} onClick={() => setShowConfirmation(true)} kind="primary">
             {localisationStrings.changeRetentionPeriod}
           </Button>
         </section>
@@ -120,7 +119,7 @@ export default function RententionPeriod() {
           setShowConfirmation={setShowConfirmation}
           setIsChangingRetention={setIsChangingRetention}
           isChangingRetention={isChangingRetention}
-          setRentionValue={setRetentionValue}
+          setRetentionValue={setRetentionValue}
           retentionValue={retentionValue}
         />
       )}
@@ -132,7 +131,7 @@ interface RetentionPeriodDialogProps {
   setShowConfirmation: React.Dispatch<React.SetStateAction<boolean>>;
   setIsChangingRetention: React.Dispatch<SetStateAction<boolean>>;
   isChangingRetention: boolean;
-  setRentionValue: React.Dispatch<React.SetStateAction<number | undefined | string>>;
+  setRetentionValue: React.Dispatch<React.SetStateAction<number | undefined | string>>;
   retentionValue: number | undefined | string;
 }
 
@@ -140,7 +139,7 @@ function RetentionPeriodDialog({
   setShowConfirmation,
   setIsChangingRetention,
   isChangingRetention,
-  setRentionValue,
+  setRetentionValue,
   retentionValue
 }: RetentionPeriodDialogProps) {
   const [notification, setNotification] = useState<NotificationState>({ show: false });
@@ -179,36 +178,30 @@ function RetentionPeriodDialog({
       retention: +retentionPeriodInputValue
     };
 
-    if (canSubmit && !useMock) {
+    if (canSubmit) {
       setSubmitted(false);
-      setRentionValue(+retentionPeriodInputValue);
+      setRetentionValue(+retentionPeriodInputValue);
       resetForm();
 
-      const postRetentionLogs$ = retentionLogsPOST(queryParams);
+      if (!useMock) {
+        const postRetentionLogs$ = retentionLogsPOST(queryParams);
 
-      postRetentionLogs$.once(_ =>
-        succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings)
-      );
+        postRetentionLogs$.once(_ =>
+          succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings)
+        );
 
-      postRetentionLogs$
-        .errors()
-        .once(_ => errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings));
-    } else {
-      // MOCK POST
-      const queryParams: RetentionLogsRequest = {
-        reason: reasonInputValue,
-        retention: +retentionPeriodInputValue
-      };
-
-      const postRetentionStatusNumber = await handlePostRequest(queryParams);
-
-      if (postRetentionStatusNumber === 200) {
-        succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
-        setRentionValue(+retentionPeriodInputValue);
-        setSubmitted(false);
-        resetForm();
+        postRetentionLogs$
+          .errors()
+          .once(_ => errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings));
       } else {
-        errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
+        // MOCK POST
+        const postRetentionStatusNumber = await handlePostRequest(queryParams);
+
+        if (postRetentionStatusNumber === 200) {
+          succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
+        } else {
+          errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
+        }
       }
     }
   };
@@ -218,7 +211,7 @@ function RetentionPeriodDialog({
       <Button className={locals.changeRetentionButton} kind="secondary" onClick={() => closeConfirmationDialog()}>
         {localisationStrings.cancel}
       </Button>
-      <Button className={locals.changeRetentionButton} onClick={handleSubmit} kind="danger">
+      <Button className={locals.changeRetentionButton} onClick={handleSubmit} kind="primary">
         {localisationStrings.changeRetentionPeriod}
       </Button>
     </>
@@ -290,6 +283,10 @@ function RetentionPeriodDialog({
 interface RetentionLogsRequest {
   retention: number;
   reason: string;
+}
+
+interface RetentionLogsResponse {
+  retention: number;
 }
 
 export function retentionLogsPOST(params: RetentionLogsRequest) {
