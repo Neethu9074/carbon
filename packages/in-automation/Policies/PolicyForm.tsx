@@ -1005,7 +1005,13 @@ function useActionFilters({
       value: tags
     }
   ];
+
   const filteredActions = actions.filter(action => {
+    // Filter OOTB wastsonx actions
+    if (action.metadata?.builtIn && action.metadata?.ai !== null) {
+      return false;
+    }
+
     let shouldInclude = true;
     filters.forEach(filter => {
       const nonEmptyFilter = filter.value?.length;
@@ -1015,8 +1021,10 @@ function useActionFilters({
         shouldInclude = shouldInclude && (action.tags?.some(tag => filter.value.includes(tag)) ?? false);
       }
     });
+
     return shouldInclude;
   });
+
   return {
     filteredActions,
     type,
