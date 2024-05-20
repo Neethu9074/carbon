@@ -9991,7 +9991,7 @@
         "cpu": "CPU",
         "individualCpuUsage": "Individual CPU Usage",
         "device": "Device",
-        "mount": "Mount",
+        "mounts": "Mounts",
         "options": "Options",
         "type": "Type",
         "capacity": "Capacity",
