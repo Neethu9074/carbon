@@ -10,7 +10,13 @@ import { Link } from '@instana/components';
 
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 
-export const DashboardLink = ({ snapshotId, label, className }) => {
+interface Props {
+  snapshotId: string;
+  label: string;
+  className: string;
+}
+
+export const DashboardLink = ({ snapshotId, label, className }: Props): JSX.Element => {
   const getDashboardLink = useGetDashboardLink();
 
   return (
