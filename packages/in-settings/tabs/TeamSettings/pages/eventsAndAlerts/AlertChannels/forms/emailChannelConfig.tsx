@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField } from 'formalistic';
+import { createMapForm, createField, MapFormItems, Field, MapForm, ValidationMessage } from 'formalistic';
 import { List } from 'immutable';
 import React from 'react';
 
@@ -14,14 +14,35 @@ import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList'
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
 import FormGroup from 'in-settings/components/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
-import './Forms.less';
+import locals from './ChannelForm.mless';
 
-const block = 'in-alert-channel-config-form';
+interface EmailAlertChannel {
+  emails: string[];
+  name: string;
+  kind: string;
+}
+
+interface EmailAlertChannelMapForm extends MapFormItems {
+  name: Field<string>;
+  kind: Field<string>;
+  emails: Field<List<string>>;
+}
+
+interface EmailValidationResult extends ValidationMessage {
+  mailIndex?: string | number;
+  type?: string;
+}
+
+interface ComponentProps {
+  form: MapForm<EmailAlertChannelMapForm>;
+  onChange: OnEntityChange<EmailAlertChannelMapForm>;
+}
 
 const name = 'EMAIL';
 const label = t('in-settings:tabs.email');
@@ -49,12 +70,12 @@ export default {
     return parameters;
   },
 
-  enrichAlertChannelObject(alertChannel) {
+  enrichAlertChannelObject(alertChannel: EmailAlertChannel) {
     alertChannel.emails = [''];
   },
 
-  createDetails(alertChannel) {
-    const emails = alertChannel.get('emails');
+  createDetails(alertChannel: Map<string, string | List<string> | List<string[]>>): JSX.Element | null {
+    const emails = alertChannel.get('emails') as List<string>;
     if (!emails || emails.size === 0) {
       return null;
     }
@@ -70,7 +91,8 @@ export default {
     );
   },
 
-  createForm(alertChannel) {
+  // Return type here should be MapForm<EmailAlertChannelMapForm> However due to the way put works we cannot do this
+  createForm(alertChannel: Map<string, string | List<string> | List<string[]>>) {
     return createMapForm()
       .put(
         'kind',
@@ -88,13 +110,16 @@ export default {
       .put(
         'emails',
         createField({
-          value: alertChannel ? alertChannel.get('emails') : List(['']),
+          value: alertChannel && alertChannel.has('emails') ? (alertChannel.get('emails') as List<string>) : List(['']),
           validator: emails
         })
       );
   },
 
-  createEntity(alertChannel, form) {
+  createEntity(
+    alertChannel: Map<string, string | List<string> | List<string[]>>,
+    form: MapForm<EmailAlertChannelMapForm>
+  ) {
     return {
       id: alertChannel ? alertChannel.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
@@ -106,7 +131,7 @@ export default {
   Form
 };
 
-function emails(emails) {
+function emails(emails: List<string>): EmailValidationResult[] {
   if (emails.size === 0) {
     return [
       {
@@ -116,11 +141,11 @@ function emails(emails) {
       }
     ];
   }
-  const errors = [];
+  const errors = [] as EmailValidationResult[];
   for (let i = 0, length = emails.size; i < length; i++) {
     const email = emails.get(i);
     const error = notBlankValidator(email);
-    if (error?.length > 0) {
+    if (error && error.length > 0) {
       errors.push({
         mailIndex: i,
         severity: 'error',
@@ -131,17 +156,17 @@ function emails(emails) {
   return errors;
 }
 
-function Form({ form, onChange }) {
+function Form({ form, onChange }: ComponentProps): JSX.Element {
   return (
     <fieldset>
       {form.get('name').map(field => (
-        <FormGroup className={block}>
+        <FormGroup>
           <Label htmlFor="name" hasError={!field.valid && field.touched}>
             {t('in-settings:tabs.name')}
           </Label>
           <Input
             id="name"
-            className={`${block}__input`}
+            className={locals.input}
             type="text"
             placeholder={t('in-settings:tabs.emailAlertChannel')}
             value={field.value}
@@ -158,15 +183,11 @@ function Form({ form, onChange }) {
             {t('in-settings:tabs.emails')}
           </Label>
           {field.touched
-            ? field.messages.map((message, i) => {
+            ? field.messages.map((message: EmailValidationResult, i: number) => {
                 if (message.type !== 'no_mail') {
                   return null;
                 }
-                return (
-                  <ValidationBlock hasError key={i}>
-                    {message.message}
-                  </ValidationBlock>
-                );
+                return <ValidationBlock key={i}>{message.message}</ValidationBlock>;
               })
             : null}
         </>
@@ -175,37 +196,29 @@ function Form({ form, onChange }) {
         const emails = field.value;
         return emails.map((email, i) => (
           <div key={i}>
-            <div className={`${block}__input-delete-wrapper`}>
+            <div className={locals.inputDeleteWrapper}>
               <Input
-                className={`${block}__input`}
+                className={locals.input}
                 id={`email_${email}`}
                 type="email"
                 placeholder="ops@company.org"
                 value={email}
                 onChange={e => onChangeEmail(e, form, onChange, i)}
               />
-              <Button
-                className={`${block}__delete-button`}
-                kind="danger"
-                onClick={() => removeEmail(form, onChange, i)}
-              >
+              <Button className={locals.deleteButton} kind="danger" onClick={() => removeEmail(form, onChange, i)}>
                 {t('in-settings:tabs.remove')}
               </Button>
             </div>
             {field.touched
               ? field.messages
-                  .filter(msg => msg.mailIndex === i)
-                  .map((message, i) => (
-                    <ValidationBlock hasError key={i}>
-                      {message.message}
-                    </ValidationBlock>
-                  ))
+                  .filter((msg: EmailValidationResult) => msg.mailIndex === i)
+                  .map((message, i) => <ValidationBlock key={i}>{message.message}</ValidationBlock>)
               : null}
           </div>
         ));
       })}
-      <div className={`${block}__add-button-wrapper`}>
-        <span className={`${block}__add-link`} onClick={() => addEmail(form, onChange)}>
+      <div className={locals.addButtonWrapper}>
+        <span className={locals.addLink} onClick={() => addEmail(form, onChange)}>
           {t('in-settings:tabs.addEmail')}
         </span>
       </div>
@@ -213,18 +226,27 @@ function Form({ form, onChange }) {
   );
 }
 
-function onChangeEmail(e, form, onChange, index) {
+function onChangeEmail(
+  e: React.ChangeEvent<HTMLInputElement>,
+  form: MapForm<EmailAlertChannelMapForm>,
+  onChange: OnEntityChange<EmailAlertChannelMapForm>,
+  index: number | undefined
+) {
   const emails = form.get('emails').value.setIn([index], e.target.value);
   onChange('emails', emails);
 }
 
-function addEmail(form, onChange) {
+function addEmail(form: MapForm<EmailAlertChannelMapForm>, onChange: OnEntityChange<EmailAlertChannelMapForm>) {
   let emails = form.get('emails').value;
   emails = emails.push('');
   onChange('emails', emails);
 }
 
-function removeEmail(form, onChange, index) {
+function removeEmail(
+  form: MapForm<EmailAlertChannelMapForm>,
+  onChange: OnEntityChange<EmailAlertChannelMapForm>,
+  index: number | undefined
+) {
   const emails = form.get('emails').value.deleteIn([index]);
   onChange('emails', emails);
 }
