@@ -39,7 +39,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { rawTraceDownloadEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
 import DropdownButton from 'in-components/Button/DropdownButton';
@@ -366,7 +365,7 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
 
   return (
     <>
-      {rawTraceDownloadEnabled && (isTroubleshootingModeEnabled || isInternalVisible) ? (
+      {isTroubleshootingModeEnabled || isInternalVisible ? (
         <Overlay withoutWrapper content={DownloadTraceOptions} align="bottomMiddle">
           {({ toggle, refSetter }) => (
             <DropdownButton kind="secondary" icon="lib_actions_download" onClick={toggle} refSetter={refSetter}>
