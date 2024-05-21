@@ -25,4 +25,7 @@
     border: 1px solid var(--ids-color-option-neutral-300);
     border-radius: var(--ids-border-radius-option-small);
   }
+  .gap {
+    padding: 1.5rem;
+  }
 }
