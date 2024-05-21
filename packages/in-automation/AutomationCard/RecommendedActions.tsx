@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Button, Spacer, Stack, Typography } from '@instana/components';
+import { Button, Spacer, Stack, Typography, IconButton } from '@instana/components';
 
 import {
   nameColumn,
@@ -36,7 +36,6 @@ import { refresh } from 'in-automation/AutomationCard/usePolicies';
 import { ScoredAction, saveNewPolicy } from 'in-automation/api';
 import { isExternal } from 'in-automation/ActionCatalog/shared';
 import { Action, VolatileId, Event, Result } from 'in-types';
-import IconButton from 'in-components/IconButton/IconButton';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { mapData } from 'in-services/util/result';
 import { role } from 'in-stores/user';

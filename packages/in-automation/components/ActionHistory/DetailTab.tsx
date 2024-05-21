@@ -7,8 +7,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Li, Link, Ul, IconButton } from '@instana/components';
 import { Observable, just } from '@instana/observables';
-import { Li, Link, Ul } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
@@ -31,7 +31,6 @@ import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { Action, ActionInstance, ActorType } from 'in-types';
-import IconButton from 'in-components/IconButton/IconButton';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';

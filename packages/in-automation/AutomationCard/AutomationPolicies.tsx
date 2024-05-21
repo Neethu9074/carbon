@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Button, Typography, Spacer, Stack } from '@instana/components';
+import { Button, Typography, Spacer, Stack, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import {
@@ -51,7 +51,6 @@ import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { Policy, VolatileId, Event, Result, Error } from 'in-types';
 import { TagsFilter } from 'in-automation/components/tableFilters';
-import IconButton from 'in-components/IconButton/IconButton';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { mapData } from 'in-services/util/result';
 import Dialog from 'in-components/Dialog/Dialog';

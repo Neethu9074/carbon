@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Link, Spacer, Stack, Typography } from '@instana/components';
+import { Link, Spacer, Stack, Typography, IconButton } from '@instana/components';
 import { TextArea } from '@instana/components';
 import { Button } from '@instana/legacy';
 
@@ -96,7 +96,6 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import TagsTable from 'in-automation/ActionCatalog/TagsTable';
-import IconButton from 'in-components/IconButton/IconButton';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { merge } from 'in-services/util/resultMerger';

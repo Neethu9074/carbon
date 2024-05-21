@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Typography, Spacer, Link } from '@instana/components';
+import { Typography, Spacer, Link, IconButton } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -54,7 +54,6 @@ import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { ResolvedDynamicParamValue } from 'in-automation/api';
-import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
