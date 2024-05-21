@@ -91,6 +91,8 @@
     border-radius: var(--ids-border-radius-option-small) !important;
   }
   .squareHover:focus {
+    border-top: 0.313rem solid;
+    border-bottom: 0.313rem solid;
     border-radius: var(--ids-border-radius-option-small);
     border-color: var(--cds-link-primary);
     box-shadow: inset 0 0 0 1px var(--cds-link-primary);
