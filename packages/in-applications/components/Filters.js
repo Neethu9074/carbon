@@ -49,7 +49,7 @@ function Filters({
   boundaryScope,
   groupBy,
   query,
-  callTypes
+  callTypes = []
 }) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 

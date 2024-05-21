@@ -217,11 +217,10 @@ export default function ServicesList({
   plugin
 }) {
   tagFilters = tagFilters ? tagFilters.map(tagFilter => ({ ...tagFilter, stringValue: tagFilter.value })) : [];
-
   const { location, createHref } = useNavigation();
   const [callTypes, setCallTypes] = useState(null);
   const service = useObservable(
-    contextScope
+    contextScope && serviceId
       ? getService({
           id: serviceId,
           filter: {
