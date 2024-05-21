@@ -17,11 +17,8 @@
     display: flex;
     align-items: center;
   }
-  .description {
-    color: var(--ids-color-option-neutral-600);
-  }
 
-  .color900 {
-    color: var(--ids-color-option-neutral-900);
+  .block {
+    display: flex;
   }
 }

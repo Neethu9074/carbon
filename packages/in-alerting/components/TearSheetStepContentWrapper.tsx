@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Typography } from '@instana/components';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 
 import locals from './TearSheetStepContentWrapper.mless';
 
@@ -23,14 +23,11 @@ export default function TearSheetStepContentWrapper({
 }: TearSheetStepContentWrapperProps) {
   return (
     <div className={locals.container}>
-      <Typography variant="heading-300" noMargin>
-        <span className={locals.color900}> {headline}</span>
-        {description && (
-          <Typography variant="body-small">
-            <div className={locals.description}>{description} </div>
-          </Typography>
-        )}
-      </Typography>
+      <AlertTypography variant={'heading-300'} color={'color900'} content={headline} noMargin>
+        <span className={locals.block}>
+          <AlertTypography variant={'body-small'} color={'color600'} content={description} noMargin />
+        </span>
+      </AlertTypography>
       <>{children}</>
     </div>
   );

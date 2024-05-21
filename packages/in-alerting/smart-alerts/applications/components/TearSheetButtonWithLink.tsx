@@ -10,7 +10,7 @@ import { useSmartAlertCreateUrl as useSmartAlertEditUrl } from 'in-alerting/smar
 //@ts-expect-error
 import { MoreMenuButton } from 'in-components/MoreMenu';
 
-interface GetTearSheetLinkProps {
+interface TearSheetLinkProps {
   buttonIcon: string;
   buttonName: string;
   isGlobal: boolean;
@@ -20,7 +20,7 @@ interface GetTearSheetLinkProps {
   editMode?: string;
 }
 
-export default function GetTearSheetButtonWithLink({
+export default function TearSheetButtonWithLink({
   buttonIcon,
   buttonName,
   isGlobal,
@@ -28,7 +28,7 @@ export default function GetTearSheetButtonWithLink({
   alertConfigCreated,
   duplicateMode,
   editMode
-}: GetTearSheetLinkProps) {
+}: TearSheetLinkProps) {
   const getLinkToEditSmartAlert = useSmartAlertEditUrl();
   const editSmartAlertPath = getLinkToEditSmartAlert({
     isGlobal: isGlobal,

@@ -36,12 +36,7 @@
   .index {
     word-break: auto-phrase;
   }
-  .lightColor {
-    color: var(--ids-color-text-primary-on-light);
-  }
-  .color600 {
-    color: var(--ids-color-option-neutral-600);
-  }
+
   .alignIcon {
     position: relative;
     width: 1.25rem;

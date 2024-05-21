@@ -7,11 +7,12 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Pill, Typography } from '@instana/components';
 import { TimeConfig } from '@instana/types';
+import { Pill } from '@instana/components';
 
 //@ts-expect-error
 import LogMessagesList from 'in-alerting/smart-alerts/applications/components/LogMessagesList';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
@@ -49,8 +50,18 @@ export default function LogMessages({
         logsTearsheetColumns={columnDefinition}
         header={
           <div className={locals.title}>
-            <Typography variant="body-bold">Select Log Message</Typography>
-            <Typography variant="body-small">Optional</Typography>
+            <AlertTypography
+              variant={'body-bold'}
+              color="color900"
+              content={t('in-alerting:smartAlerts.applications.components.provideLogMessageSelectLogMessage')}
+              noMargin
+            />
+            <AlertTypography
+              variant={'body-small'}
+              color="color600"
+              content={t('in-alerting:components.optional')}
+              noMargin
+            />
           </div>
         }
         rule={form.get('rule')}

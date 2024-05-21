@@ -12,6 +12,7 @@ import { Spacer, SvgIcon, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import { AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingTearSheet';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
 import locals from './AlertingTearSheetSteps.mless';
@@ -57,9 +58,7 @@ export default function AlertingTearSheetSteps(props: {
             </Typography>
             {stepConfig.isOptional && (
               <span className={locals.optional}>
-                <Typography variant="body-small">
-                  <span className={locals.color600}>{t('in-alerting:components.optional')}</span>
-                </Typography>
+                <AlertTypography variant={'body-small'} content={t('in-alerting:components.optional')} noMargin />
               </span>
             )}
           </div>
