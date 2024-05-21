@@ -9,19 +9,31 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
-//// @ts-expect-error Module needs to be translated to TS
-//import MetricValue from 'in-components/MetricValue';
-import { number, percentage, bytes } from 'in-services/formatters/number';
-//import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import GPUUtilTable from 'in-forge/plugins/oTelDcgm/Dashboard/GPUUtilTable';
+import { number, percentage, bytes } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
+
+// Utility function to filter metric IDs
+function filterMetrics(metricIds: any, filterString: string) {
+  return metricIds.filter((metric: string) => metric.includes(filterString)).toArray();
+}
+
+// Utility function to generate labels
+function generateLabels(metrics: string[], defaultLabel: string) {
+  return metrics.map((metric: string) => {
+    if (metric.split('.').length > 1) {
+      return 'GPU ' + metric.split('.')[1];
+    }
+    return defaultLabel;
+  });
+}
 
 export default function oTelDcgmDashboard({
   snapshot,
@@ -33,217 +45,135 @@ export default function oTelDcgmDashboard({
   const snapshotId = snapshot.get('id');
   const metricIds = snapshot.get('metricIds');
 
-  const DCGM_FI_DEV_GPU_TEMP = metricIds.filter((metric: string) => metric.includes('DCGM_FI_DEV_GPU_TEMP')).toArray();
-  const DCGM_FI_DEV_POWER_USAGE = metricIds
-    .filter((metric: string) => metric.includes('DCGM_FI_DEV_POWER_USAGE'))
-    .toArray();
-  const DCGM_FI_DEV_SM_CLOCK = metricIds.filter((metric: string) => metric.includes('DCGM_FI_DEV_SM_CLOCK')).toArray();
-  const DCGM_FI_DEV_MEM_CLOCK = metricIds
-    .filter((metric: string) => metric.includes('DCGM_FI_DEV_MEM_CLOCK'))
-    .toArray();
-  const DCGM_FI_DEV_GPU_UTIL = metricIds.filter((metric: string) => metric.includes('DCGM_FI_DEV_GPU_UTIL')).toArray();
-  const DCGM_FI_DEV_MEM_COPY_UTIL = metricIds
-    .filter((metric: string) => metric.includes('DCGM_FI_DEV_MEM_COPY_UTIL'))
-    .toArray();
-  const DCGM_FI_DEV_FB_USED = metricIds.filter((metric: string) => metric.includes('DCGM_FI_DEV_FB_USED')).toArray();
-  const DCGM_FI_DEV_FB_FREE = metricIds.filter((metric: string) => metric.includes('DCGM_FI_DEV_FB_FREE')).toArray();
+  const metricsConfig = [
+    {
+      key: 'DCGM_FI_DEV_GPU_TEMP',
+      label: t('in-forge:plugins.oTelDcgm.dashboard.gpuTemp'),
+      formatter: number.detailed
+    },
+    {
+      key: 'DCGM_FI_DEV_POWER_USAGE',
+      label: t('in-forge:plugins.oTelDcgm.dashboard.powerUsage'),
+      formatter: number.detailed
+    },
+    {
+      key: 'DCGM_FI_DEV_SM_CLOCK',
+      label: t('in-forge:plugins.oTelDcgm.dashboard.smClocks'),
+      formatter: number.compact
+    },
+    {
+      key: 'DCGM_FI_DEV_MEM_CLOCK',
+      label: t('in-forge:plugins.oTelDcgm.dashboard.memoryClocks'),
+      formatter: number.compact
+    },
+    {
+      key: 'DCGM_FI_DEV_GPU_UTIL',
+      label: t('in-forge:plugins.oTelDcgm.dashboard.gpuUtil'),
+      formatter: percentage.detailed
+    },
+    {
+      key: 'DCGM_FI_DEV_MEM_COPY_UTIL',
+      label: t('in-forge:plugins.oTelDcgm.dashboard.memoryCpyUtil'),
+      formatter: percentage.detailed
+    },
+    {
+      key: 'DCGM_FI_DEV_FB_USED',
+      label: t('in-forge:plugins.oTelDcgm.dashboard.frambufferMemUsed'),
+      formatter: bytes.detailed
+    },
+    {
+      key: 'DCGM_FI_DEV_FB_FREE',
+      label: t('in-forge:plugins.oTelDcgm.dashboard.frambufferMemFree'),
+      formatter: bytes.detailed
+    }
+  ];
+
+  const groupedMetricsConfig = [
+    ['DCGM_FI_DEV_GPU_TEMP'],
+    ['DCGM_FI_DEV_POWER_USAGE'],
+    ['DCGM_FI_DEV_SM_CLOCK', 'DCGM_FI_DEV_MEM_CLOCK'],
+    ['DCGM_FI_DEV_GPU_UTIL', 'DCGM_FI_DEV_MEM_COPY_UTIL']
+  ];
+
+  const groupedFBMetricsConfig = [['DCGM_FI_DEV_FB_USED', 'DCGM_FI_DEV_FB_FREE']];
+
+  const commonProps = {
+    type: 'area',
+    aggregation: 'MEAN',
+    min: 0
+  };
 
   return (
     <>
-      <Columize>
-        <DashboardSection title={t('in-forge:plugins.oTelDcgm.dashboard.gpuTemp')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: number.detailed,
-              metrics: DCGM_FI_DEV_GPU_TEMP.length > 0 ? DCGM_FI_DEV_GPU_TEMP : [],
-              labels: DCGM_FI_DEV_GPU_TEMP.map((metric: string) => {
-                if (metric.split('.').length > 1) {
-                  return 'GPU ' + metric.split('.')[1];
-                }
-                return t('in-forge:plugins.oTelDcgm.dashboard.gpuTemp');
-              }),
-              type: 'area',
-              aggregation: 'MEAN',
-              min: 0
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
-      <Columize>
-        <DashboardSection title={t('in-forge:plugins.oTelDcgm.dashboard.powerUsage')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: number.detailed,
-              metrics: DCGM_FI_DEV_POWER_USAGE.length > 0 ? DCGM_FI_DEV_POWER_USAGE : [],
-              labels: DCGM_FI_DEV_POWER_USAGE.map((metric: string) => {
-                if (metric.split('.').length > 1) {
-                  return 'GPU ' + metric.split('.')[1];
-                }
-                return t('in-forge:plugins.oTelDcgm.dashboard.powerUsage');
-              }),
-              type: 'area',
-              aggregation: 'MEAN',
-              min: 0
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
-      <Columize>
-        <Columize>
-          <DashboardSection title={t('in-forge:plugins.oTelDcgm.dashboard.smClocks')}>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: number.compact,
-                metrics: DCGM_FI_DEV_SM_CLOCK.length > 0 ? DCGM_FI_DEV_SM_CLOCK : [],
-                labels: DCGM_FI_DEV_SM_CLOCK.map((metric: string) => {
-                  if (metric.split('.').length > 1) {
-                    return 'GPU ' + metric.split('.')[1];
-                  }
-                  return t('in-forge:plugins.oTelDcgm.dashboard.smClocks');
-                }),
-                type: 'area',
-                aggregation: 'MEAN',
-                min: 0
-              }}
-              renderPostChartContent={PluginDashboardsMarkerLanes}
-            />
-          </DashboardSection>
+      {groupedMetricsConfig.map((group, index) => (
+        <Columize key={index}>
+          {group.map(metricKey => {
+            const metricConfig = metricsConfig.find(config => config.key === metricKey);
+            if (!metricConfig) return null;
+
+            const metrics = filterMetrics(metricIds, metricConfig.key);
+            const labels = generateLabels(metrics, metricConfig.label);
+
+            return (
+              <DashboardSection title={metricConfig.label} key={metricConfig.key}>
+                <Chart
+                  snapshotId={snapshotId}
+                  timeConfig={timeConfig}
+                  y1={{
+                    formatter: metricConfig.formatter,
+                    metrics: metrics.length > 0 ? metrics : [],
+                    labels,
+                    ...commonProps
+                  }}
+                  renderPostChartContent={PluginDashboardsMarkerLanes}
+                />
+              </DashboardSection>
+            );
+          })}
         </Columize>
-        <Columize>
-          <DashboardSection title={t('in-forge:plugins.oTelDcgm.dashboard.memoryClocks')}>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: number.compact,
-                metrics: DCGM_FI_DEV_MEM_CLOCK.length > 0 ? DCGM_FI_DEV_MEM_CLOCK : [],
-                labels: DCGM_FI_DEV_MEM_CLOCK.map((metric: string) => {
-                  if (metric.split('.').length > 1) {
-                    return 'GPU ' + metric.split('.')[1];
-                  }
-                  return t('in-forge:plugins.oTelDcgm.dashboard.memoryClocks');
-                }),
-                type: 'area',
-                aggregation: 'MEAN',
-                min: 0
-              }}
-              renderPostChartContent={PluginDashboardsMarkerLanes}
-            />
-          </DashboardSection>
-        </Columize>
-      </Columize>
-      <Columize>
-        <Columize>
-          <DashboardSection title={t('in-forge:plugins.oTelDcgm.dashboard.gpuUtil')}>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: percentage.detailed,
-                metrics: DCGM_FI_DEV_GPU_UTIL.length > 0 ? DCGM_FI_DEV_GPU_UTIL : [],
-                labels: DCGM_FI_DEV_GPU_UTIL.map((metric: string) => {
-                  if (metric.split('.').length > 1) {
-                    return 'GPU ' + metric.split('.')[1];
-                  }
-                  return t('in-forge:plugins.oTelDcgm.dashboard.gpuUtil');
-                }),
-                type: 'area',
-                aggregation: 'MEAN',
-                min: 0
-              }}
-              renderPostChartContent={PluginDashboardsMarkerLanes}
-            />
-          </DashboardSection>
-        </Columize>
-        <Columize>
-          <DashboardSection title={t('in-forge:plugins.oTelDcgm.dashboard.memoryCpyUtil')}>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: percentage.detailed,
-                metrics: DCGM_FI_DEV_MEM_COPY_UTIL.length > 0 ? DCGM_FI_DEV_MEM_COPY_UTIL : [],
-                labels: DCGM_FI_DEV_MEM_COPY_UTIL.map((metric: string) => {
-                  if (metric.split('.').length > 1) {
-                    return 'GPU ' + metric.split('.')[1];
-                  }
-                  return t('in-forge:plugins.oTelDcgm.dashboard.memoryCpyUtil');
-                }),
-                type: 'area',
-                aggregation: 'MEAN'
-              }}
-              renderPostChartContent={PluginDashboardsMarkerLanes}
-            />
-          </DashboardSection>
-        </Columize>
-      </Columize>
+      ))}
 
       <GPUUtilTable
         snapshot={snapshot}
         timeConfig={timeConfig}
-        metric={DCGM_FI_DEV_GPU_UTIL}
+        metric={filterMetrics(metricIds, 'DCGM_FI_DEV_GPU_UTIL')}
         keyName="DCGM_FI_DEV_GPU_UTIL"
       />
 
       <GPUUtilTable
         snapshot={snapshot}
         timeConfig={timeConfig}
-        metric={DCGM_FI_DEV_MEM_COPY_UTIL}
+        metric={filterMetrics(metricIds, 'DCGM_FI_DEV_MEM_COPY_UTIL')}
         keyName="DCGM_FI_DEV_MEM_COPY_UTIL"
       />
 
-      <Columize>
-        <Columize>
-          <DashboardSection title={t('in-forge:plugins.oTelDcgm.dashboard.frambufferMemUsed')}>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: bytes.detailed,
-                metrics: DCGM_FI_DEV_FB_USED.length > 0 ? DCGM_FI_DEV_FB_USED : [],
-                labels: DCGM_FI_DEV_FB_USED.map((metric: string) => {
-                  if (metric.split('.').length > 1) {
-                    return 'GPU ' + metric.split('.')[1];
-                  }
-                  return t('in-forge:plugins.oTelDcgm.dashboard.frambufferMemUsed');
-                }),
-                type: 'area',
-                min: 0
-              }}
-              renderPostChartContent={PluginDashboardsMarkerLanes}
-            />
-          </DashboardSection>
+      {groupedFBMetricsConfig.map((group, index) => (
+        <Columize key={index}>
+          {group.map(metricKey => {
+            const metricConfig = metricsConfig.find(config => config.key === metricKey);
+            if (!metricConfig) return null;
+
+            const metrics = filterMetrics(metricIds, metricConfig.key);
+            const labels = generateLabels(metrics, metricConfig.label);
+
+            return (
+              <DashboardSection title={metricConfig.label} key={metricConfig.key}>
+                <Chart
+                  snapshotId={snapshotId}
+                  timeConfig={timeConfig}
+                  y1={{
+                    formatter: metricConfig.formatter,
+                    metrics: metrics.length > 0 ? metrics : [],
+                    labels,
+                    ...commonProps
+                  }}
+                  renderPostChartContent={PluginDashboardsMarkerLanes}
+                />
+              </DashboardSection>
+            );
+          })}
         </Columize>
-        <Columize>
-          <DashboardSection title={t('in-forge:plugins.oTelDcgm.dashboard.frambufferMemFree')}>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: bytes.detailed,
-                metrics: DCGM_FI_DEV_FB_FREE.length > 0 ? DCGM_FI_DEV_FB_FREE : [],
-                labels: DCGM_FI_DEV_FB_FREE.map((metric: string) => {
-                  if (metric.split('.').length > 1) {
-                    return 'GPU ' + metric.split('.')[1];
-                  }
-                  return t('in-forge:plugins.oTelDcgm.dashboard.frambufferMemFree');
-                }),
-                type: 'area',
-                min: 0
-              }}
-              renderPostChartContent={PluginDashboardsMarkerLanes}
-            />
-          </DashboardSection>
-        </Columize>
-      </Columize>
+      ))}
 
       <CustomMetricsV2
         snapshot={Map({ id: snapshotId })}

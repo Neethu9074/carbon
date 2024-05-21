@@ -14,12 +14,23 @@ import { percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
+interface Row {
+  gpu: string;
+  namespace: string;
+  pod: string;
+  container: string;
+  keyName: string;
+  key: string;
+  snapshotId: any;
+  timeConfig: TimeConfig;
+}
+
 const containerCol = {
   title: t('in-forge:plugins.oTelDcgm.container.containerName'),
   type: 'string',
   typeArgs: {
-    getValue(row: any) {
-      return row.CONTAINER;
+    getValue(row: Row) {
+      return row.container;
     }
   }
 };
@@ -28,8 +39,8 @@ const podCol = {
   title: t('in-forge:plugins.oTelDcgm.container.podName'),
   type: 'string',
   typeArgs: {
-    getValue(row: any) {
-      return row.POD;
+    getValue(row: Row) {
+      return row.pod;
     }
   }
 };
@@ -38,8 +49,8 @@ const namespaceCol = {
   title: t('in-forge:plugins.oTelDcgm.container.namespaceName'),
   type: 'string',
   typeArgs: {
-    getValue(row: any) {
-      return row.NAMESPACE;
+    getValue(row: Row) {
+      return row.namespace;
     }
   }
 };
@@ -48,8 +59,8 @@ const gpuNumberCol = {
   title: t('in-forge:plugins.oTelDcgm.container.gpuNumber'),
   type: 'string',
   typeArgs: {
-    getValue(row: any) {
-      return row.GPU;
+    getValue(row: Row) {
+      return row.gpu;
     }
   }
 };
@@ -58,11 +69,11 @@ const gpuUtilCol = {
   title: t('in-forge:plugins.oTelDcgm.container.util'),
   type: 'metric',
   typeArgs: {
-    getSnapshotId(row: any) {
+    getSnapshotId(row: Row) {
       return row.snapshotId;
     },
-    getMetricName(row: any) {
-      return row.KEYNAME + '.' + row.key;
+    getMetricName(row: Row) {
+      return `${row.keyName}.${row.key}`;
     },
     getContent: percentage.detailed,
     getTimeWindowAggregation() {
@@ -85,15 +96,15 @@ export default function GPUUtilTable({
   const snapshotId = snapshot.get('id') as string;
 
   const rows = metric.map(metric => {
-    const { containerKey, GPU, NAMESPACE, POD, CONTAINER } = parseMetricIdentifier(metric, keyName);
+    const { containerKey, gpu, namespace, pod, container } = parseMetricIdentifier(metric, keyName);
     return {
       key: containerKey,
       name: containerKey,
-      KEYNAME: keyName,
-      GPU,
-      NAMESPACE,
-      POD,
-      CONTAINER,
+      keyName: keyName,
+      gpu,
+      namespace,
+      pod,
+      container,
       timeConfig,
       snapshot,
       snapshotId
@@ -104,6 +115,7 @@ export default function GPUUtilTable({
     return null;
   }
   const cols = [containerCol, podCol, namespaceCol, gpuNumberCol, gpuUtilCol];
+  window.console.log(cols);
   return (
     <Table
       withoutPadding
@@ -120,7 +132,7 @@ export default function GPUUtilTable({
   );
 }
 
-function getRowDetails(row: any) {
+function getRowDetails(row: Row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
@@ -128,9 +140,9 @@ function getRowDetails(row: any) {
       y1={{
         min: 0,
         formatter: percentage.detailed,
-        metrics: [row.KEYNAME + '.' + row.key],
+        metrics: [`${row.keyName}.${row.key}`],
         labels: [
-          row.KEYNAME === 'DCGM_FI_DEV_GPU_UTIL'
+          row.keyName === 'DCGM_FI_DEV_GPU_UTIL'
             ? t('in-forge:plugins.oTelDcgm.container.gpuUtil')
             : t('in-forge:plugins.oTelDcgm.container.memoryCpyUtil')
         ],
@@ -142,17 +154,14 @@ function getRowDetails(row: any) {
 
 function parseMetricIdentifier(metric: string, key: string) {
   const trimmedMetric = metric.replace(key + '.', '');
-  const parts = trimmedMetric.split('_');
-  const containerKey = trimmedMetric;
 
-  if (parts.length >= 3) {
-    const GPU = parts[0];
-    const NAMESPACE = parts[1];
-    const POD = parts.slice(2, -1).join('_');
-    const CONTAINER = parts[parts.length - 1];
+  const regex = /^([^_]+)_([^_]+)_(.+)_([^_]+)$/;
+  const match = trimmedMetric.match(regex);
 
-    return { containerKey, GPU, NAMESPACE, POD, CONTAINER };
+  if (match) {
+    const [, gpu, namespace, pod, container] = match;
+    return { containerKey: trimmedMetric, gpu, namespace, pod, container };
   } else {
-    return { containerKey: '', GPU: '', NAMESPACE: '', POD: '', CONTAINER: '' };
+    return { containerKey: '', gpu: '', namespace: '', pod: '', container: '' };
   }
 }
