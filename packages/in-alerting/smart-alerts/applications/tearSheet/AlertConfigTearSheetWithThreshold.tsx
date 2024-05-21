@@ -29,8 +29,8 @@ import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/applicat
 import AlertingTearSheet, { AlertingFooterActions } from 'in-alerting/components/AlertingTearSheet';
 import { blueprintConfigs } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { MessageType } from 'in-components/MessageStack/MessageStack';
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
+import { MessageType } from 'in-components/MessageStack/MessageStack';
 import { days } from 'in-services/time/time';
 
 // import { useObservable } from '@instana/hooks';
@@ -66,6 +66,7 @@ export interface AlertConfigTearSheetWithThresholdProps {
   withTrackCreate: () => void;
   isSaving: boolean;
   messages: MessageType[] | EnrichedError[];
+  headerWithMsg: boolean;
   initialConfiguredApplications?: object;
 }
 
@@ -109,8 +110,17 @@ function SmartAlertConfigTearSheetWithQueryValidation({
   blueprintConfig,
   ...props
 }: TearSheetWithQueryValidationProps) {
-  const { migrationMode, form, updateForm, editMode, withTrackCreate, withTrackClose, isSaving, isGlobalSmartAlert } =
-    props;
+  const {
+    migrationMode,
+    form,
+    updateForm,
+    editMode,
+    withTrackCreate,
+    withTrackClose,
+    headerWithMsg,
+    isSaving,
+    isGlobalSmartAlert
+  } = props;
 
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
@@ -177,6 +187,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       migrationMode={migrationMode}
       handleSubmit={handleSubmit}
       thresholdResult={thresholdResult}
+      headerWithMsg={headerWithMsg}
       additionalValidationCheck={step === 2 ? isTagFilterFormModelValid : true}
       setForm={updateForm}
     >

@@ -194,7 +194,10 @@ function AlertConfigTearSheetContent({ alertConfig, scopeMigrationDetails }: Ale
 
   return (
     <>
-      <AlertingPageHeader title={getHeaderTitle(isGlobalSmartAlert, editMode, migrationMode)} />
+      <AlertingPageHeader
+        title={getHeaderTitle(isGlobalSmartAlert, editMode, migrationMode)}
+        messageData={messages[0]}
+      />
       <AlertConfigTearSheetWithThreshold
         isGlobalSmartAlert={isGlobalSmartAlert}
         editMode={editMode}
@@ -212,6 +215,7 @@ function AlertConfigTearSheetContent({ alertConfig, scopeMigrationDetails }: Ale
         withTrackCreate={withTrackCreate}
         isSaving={isSaving}
         messages={messages}
+        headerWithMsg={Boolean(messages.length)}
         initialConfiguredApplications={(alertConfig as any)?.applications ?? {}}
       />
     </>
