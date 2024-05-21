@@ -39,6 +39,10 @@ export const defaultSloAlertConfig = Object.freeze({
   triggering: false
 } as ServiceLevelsAlertConfig);
 
-export function createNewAlertConfig(): ServiceLevelsAlertConfig {
-  return deepCopy(defaultSloAlertConfig);
+export function createNewAlertConfig(sloId?: string): ServiceLevelsAlertConfig {
+  const sloAlertConfig = deepCopy(defaultSloAlertConfig);
+  if (sloId) {
+    return { ...sloAlertConfig, sloIds: [sloId] };
+  }
+  return sloAlertConfig;
 }
