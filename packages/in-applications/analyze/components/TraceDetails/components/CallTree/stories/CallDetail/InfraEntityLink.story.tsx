@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+// @ts-expect-error import InfrastructureEntityLinkPresenter from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/InfrastructureEntityLink/InfrastructureEntityLink';
 import InfrastructureEntityLinkPresenter from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/InfrastructureEntityLink/InfrastructureEntityLink';
 
 export default {

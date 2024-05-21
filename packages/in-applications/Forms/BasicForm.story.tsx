@@ -7,7 +7,9 @@ import React from 'react';
 
 import { just } from '@instana/observables';
 
+// @ts-expect-error import Steps from 'in-applications/Forms/components/Steps';
 import Steps from 'in-applications/Forms/components/Steps';
+// @ts-expect-error import BasicForm from 'in-applications/Forms/BasicForm';
 import BasicForm from 'in-applications/Forms/BasicForm';
 
 export default {

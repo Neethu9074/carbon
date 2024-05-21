@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+// @ts-expect-error import { SourceLocation } from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/LocationComponents';
 import { SourceLocation } from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/LocationComponents';
 
 export default {

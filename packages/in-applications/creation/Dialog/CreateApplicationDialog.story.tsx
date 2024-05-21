@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+// @ts-expect-error import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 import { boundaryScopes } from 'in-applications/constants';
 

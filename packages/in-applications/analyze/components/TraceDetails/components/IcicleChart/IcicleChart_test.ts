@@ -5,7 +5,9 @@
 
 import { expect } from 'chai';
 
+// @ts-expect-error import { isOverlappedWith } from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/TimeRangeHelper';
 import { isOverlappedWith } from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/TimeRangeHelper';
+// @ts-expect-error import { applyLayout } from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/IcicleLayout';
 import { applyLayout } from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/IcicleLayout';
 /* eslint-env node */
 import { deepFreeze } from 'in-services/util/object';

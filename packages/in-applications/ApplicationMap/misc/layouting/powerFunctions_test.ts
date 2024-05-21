@@ -6,6 +6,7 @@
 /* eslint-env node */
 import { expect } from 'chai';
 
+// @ts-expect-error import getPowerFunctions from 'in-applications/ApplicationMap/misc/layouting/powerFunctions';
 import getPowerFunctions from 'in-applications/ApplicationMap/misc/layouting/powerFunctions';
 
 describe('in-applications/ApplicationMap/misc/layouting/powerFunctions', () => {

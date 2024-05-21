@@ -5,6 +5,8 @@
 
 import { expect } from 'chai';
 
+// @ts-expect-error import { updateLatencyFilters, getLatencySelectionFromFilters } from 'in-applications/analyze/utils/latencyUtils';
+import { updateLatencyFilters, getLatencySelectionFromFilters } from 'in-applications/analyze/utils/latencyUtils';
 import {
   GREATER_OR_EQUAL_THAN,
   LESS_OR_EQUAL_THAN,
@@ -13,7 +15,6 @@ import {
   NOT_EQUAL,
   EQUALS
 } from 'in-components/QueryBuilder/tagFilter/operators';
-import { updateLatencyFilters, getLatencySelectionFromFilters } from 'in-applications/analyze/utils/latencyUtils';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 
 describe('in-applications/analyze/utils/latencyUtils', () => {

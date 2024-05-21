@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import forceLayout from 'in-applications/ApplicationMap/misc/layouting/FruchtermannReingold';
+// @ts-expect-error import flowLayout from 'in-applications/ApplicationMap/misc/layouting/Vizceral';
 import flowLayout from 'in-applications/ApplicationMap/misc/layouting/Vizceral';
+import forceLayout from 'in-applications/ApplicationMap/misc/layouting/FruchtermannReingold';
 
-self.onmessage = function(e) {
+self.onmessage = function (e) {
   const [layouter, props] = e.data;
 
   let layouterImpl = forceLayout;

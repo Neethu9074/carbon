@@ -6,6 +6,7 @@
 /* eslint-env node */
 import { expect } from 'chai';
 
+// @ts-expect-error import { parse, build, validate } from 'in-applications/Forms/validator/urlPath';
 import { parse, build, validate } from 'in-applications/Forms/validator/urlPath';
 
 describe('in-applications/Forms/validator/urlPath', () => {

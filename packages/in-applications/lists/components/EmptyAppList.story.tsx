@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+// @ts-expect-error import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
 
 export default {

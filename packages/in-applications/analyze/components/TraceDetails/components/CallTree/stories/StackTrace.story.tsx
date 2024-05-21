@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+// @ts-expect-error import StackTraceBehavior from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTraceBehavior';
 import StackTraceBehavior from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTraceBehavior';
 
 export default {
