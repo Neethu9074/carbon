@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { combineLatest } from '@instana/observables';
+import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
@@ -23,24 +23,26 @@ export function useCustomMetricSuggestions(
   const tagFilterExpression = toBackendQueryModel(formModel) ?? EMPTY_EXPRESSION;
   const results = useObservable(
     () =>
-      combineLatest(
-        supportedCustomMetrics.map(tagName =>
-          getTagSuggestions({
-            entity: NOT_APPLICABLE,
-            tagFilterExpression,
-            tagName,
-            filter: {
-              timeConfig,
-              includeInternalCalls: false,
-              includeSyntheticCalls: false,
-              useLongTermDataOnly: false
-            },
-            requestingSecondaryKeySuggestions: false
-          }).map(result => {
-            return result.data ? { ...result, data: { metricId: tagName, ...result.data } } : pendingResult;
-          })
-        )
-      ),
+      supportedCustomMetrics
+        ? combineLatest(
+            supportedCustomMetrics.map(tagName =>
+              getTagSuggestions({
+                entity: NOT_APPLICABLE,
+                tagFilterExpression,
+                tagName,
+                filter: {
+                  timeConfig,
+                  includeInternalCalls: false,
+                  includeSyntheticCalls: false,
+                  useLongTermDataOnly: false
+                },
+                requestingSecondaryKeySuggestions: false
+              }).map(result => {
+                return result.data ? { ...result, data: { metricId: tagName, ...result.data } } : pendingResult;
+              })
+            )
+          )
+        : just([]),
     [timeConfig, formModel, supportedCustomMetrics]
   ) ?? [pendingResult];
 

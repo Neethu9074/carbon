@@ -369,7 +369,7 @@ function createChartableMetricCatalogTransformer(dataSource) {
   // For chartable metrics (unifiedMetricsQuery) the 'traces' dataSource uses 'calls' metric instead of 'traces'
   const supportedMetrics = dataSourceConstants.calls.metricCatalogSupportedChartableMetrics;
   return metricDefinition => {
-    if (!supportedMetrics[metricDefinition.metricId]) {
+    if (!supportedMetrics[metricDefinition.metricId] || (dataSource === 'traces' && metricDefinition.customMetric)) {
       return null;
     }
     return {
