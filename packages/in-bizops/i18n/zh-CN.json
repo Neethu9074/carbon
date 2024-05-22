@@ -15,6 +15,7 @@
     "noData": "无可用数据",
     "healthLabel": "运行状况",
     "startLabel": "开始",
+    "latencyLabel": "等待时间",
     "unnamedActivity": "（未命名的活动）{{activityType}}",
     "unnamedService": "(未命名服务)"
   },
@@ -42,12 +43,14 @@
     "activity": {
       "pageTitle": "业务活动",
       "summaryTab": "摘要",
+      "servicesTab": "服务",
       "widgets": {
         "duration": "持续时间",
         "activityCount": "计数",
         "activityErrors": "错误",
         "topServices": "排名靠前的服务",
-        "activityLatency": "等待时间"
+        "activityLatency": "等待时间",
+        "viewAll": "查看所有服务"
       },
       "timespans": {
         "minute": "1 分钟",

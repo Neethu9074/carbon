@@ -1,6 +1,8 @@
 {
   "general": {
     "addButtonLabel": "Aggiungi",
+    "addButtonLabel_slo": "Aggiungi obiettivo del livello di servizio",
+    "addButtonLabel_smartAlert": "Aggiungi avviso smart",
     "aggregation": "Aggregazione",
     "availability": "Disponibilità",
     "beacon": "Beacon",
@@ -18,6 +20,7 @@
     "noSelection": "Non è stata operata alcuna selezione",
     "loadMore": "Carica altro",
     "noData": "Nessun dato disponibile",
+    "noMatchingTimeWindows": "Non esiste alcuna finestra temporale corrispondente per il periodo selezionato. Ciò di solito si verifica se la finestra temporale selezionata è precedente alla data di creazione dello SLO.",
     "serverErrors": {
       "sloLimitReachedError": "È stato raggiunto il numero massimo di configurazioni dell'obiettivo del livello di servizio ({{0}}). Si prega di contattare l'assistenza Instana per richiedere un aumento per questo limite."
     },
@@ -124,18 +127,22 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "Filtro personalizzato (facoltativo)",
+    "customFilter": "Filtro personalizzato",
+    "custom": "Personalizzato",
+    "customDescription": "Impostare un filtro personalizzato per selezionare i servizi e/o gli endpoint",
     "title": "Crea SLO (Service Level Objective)",
     "selectIndicator": "Seleziona blueprint",
     "selectEntityNavItem": "Imposta entità",
     "selectEntityTitle": "Selezionare un'entità a cui aggiungere SLO:",
     "selectScopeNavItem": "Imposta ambito",
+    "SelectServiceandEndpoint": "Seleziona servizio e endpoint",
     "selectIndicatorNavItem": "Imposta indicatore",
     "beaconTypes": {
       "beaconLabel_httpRequest": "Richieste HTTP",
       "beaconLabel_pageLoad": "Caricamenti pagine di siti web",
       "beaconLabel_custom": "Eventi personalizzati di siti web"
     },
+    "serviceAndEndpoint": "Servizio & endpoint",
     "selectObjectiveTitle": "Imposta obiettivo",
     "sloTarget": "Obiettivo SLO",
     "timeWindow": "Finestra temporale",
@@ -151,6 +158,8 @@
     "errorTimeWindowMin": "La finestra temporale deve avere una lunghezza di almeno un giorno",
     "errorInvalidExpression": "I filtri immessi non sono validi",
     "errorBlankEntity": "Selezionare un'entità dall'elenco",
+    "errorEmptyGoodFilter": "È necessario definire un filtro valido",
+    "errorEqualTagFilter": "I filtri buono e cattivo non devono essere identici",
     "nameAndTagsTitle": "Imposta dettagli",
     "sloNameLabel": "Nome SLO",
     "sloNamePlaceholder": "Immettere il nome",
@@ -262,7 +271,8 @@
   "sloDashboard": {
     "tabs": {
       "summaryLabel": "Riepilogo",
-      "configurationLabel": "Configurazione"
+      "configurationLabel": "Configurazione",
+      "smartAlertsLabel": "Avvisi smart"
     },
     "timeWindowSelection": {
       "timeWindow": "Selezione sconosciuta",

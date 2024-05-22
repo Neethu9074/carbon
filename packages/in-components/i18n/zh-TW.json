@@ -439,7 +439,8 @@
     "aggregation_DISTINCTCOUNT": "個別的計數",
     "aggregation_SUM": "總和",
     "aggregation_DISTRIBUTION": "分佈",
-    "aggregation_PERSECOND": "每秒"
+    "aggregation_PERSECOND": "每秒",
+    "labelFilterEmptyValue": "過濾空值"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "已用",

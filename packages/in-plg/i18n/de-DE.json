@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "Vielen Dank, dass Sie Instana erkunden! Sie haben das Ende Ihrer Testversion erreicht und keinen Zugriff mehr auf das Produkt."
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "Angebot anfordern",
     "buyNowBtn": "Bei AWS kaufen",
     "alreadyHaveLicense": "Sie haben bereits eine Lizenz? Aktivieren Sie sie unter <linkToDocker>Docker</linkToDocker> oder <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Antworten erhalten",
+    "share": "Gemeinsam nutzen",
+    "shareTooltip": "Teilen Sie diese Seite mit Kollegen und laden Sie sie zur Zusammenarbeit in Instana ein.",
     "titleDetail": {
       "trial": "Test",
       "sandboxTrial": "Sandbox-Test"
     }
   },
   "playwithinstana": {
-    "title": "Mit Instana spielen",
     "content": "Bereit zur Überwachung Ihrer eigenen Umgebung",
     "bookdemo": " Demo buchen",
     "freetrial": " Kostenloser Test",
@@ -578,9 +578,9 @@
       }
     },
     "ariaLabel": {
+      "search": "Suchen",
       "shareButton": "Schaltfläche 'Freigeben'",
-      "searchButton": "Suchen, Schaltfläche",
-      "addButton": "Schaltfläche 'Hinzufügen'",
+      "add": "Hinzufügen",
       "handleButton": "Schaltfläche 'Handle'"
     }
   },
@@ -592,7 +592,37 @@
   },
   "assistme": {
     "dataSearchContext": {
-      "gettingStarted": "Erste Schritte"
+      "gettingStarted": "Erste Schritte",
+      "websites": "Websites",
+      "mobileApps": "Mobile App",
+      "businessMonitoring": "Business Monitoring",
+      "application": "Anwendung",
+      "smartAlerts": "Smart Alerts",
+      "infrastructureMap": "Karte",
+      "cloudFoundry": "Cloud Foundry überwachen",
+      "powerHmc": " IBM Power überwachen",
+      "kubernetes": "Kubernetes",
+      "sap": "SAP überwachen",
+      "synthetic": "Überwachung der synthetischen Transaktionen",
+      "syntheticAlerts": "synthetische Alerts",
+      "syntheticPop": "Synthetischer PoP",
+      "serviceLevel": "Service-Level",
+      "installAgent": "Agenten installieren",
+      "analyzeCalls": "Analysieren von Traces und Aufrufen",
+      "settingsTab": "Benutzerzugriff verwalten",
+      "userSettings": "Benutzereinstellungen",
+      "authSettings": "Authentifizierung konfigurieren",
+      "auditLogs": "Prüfprotokolle anzeigen",
+      "automation": "Aktionen verwalten",
+      "customEvents": "benutzerdefinierte Ereignisse definieren",
+      "configuringAlerts": "Alerts konfigurieren",
+      "alertChannel": "Alertkanäle",
+      "maintenanceWindow": "planen",
+      "customPayload": "Angepasste Nutzdaten",
+      "eventsPage": "Ereignisse verwalten",
+      "logManagement": "logging",
+      "configuringAndMonitoring": "konfigurieren und überwachen",
+      "customDashboard": "angepasstes Dashboard"
     }
   }
 }

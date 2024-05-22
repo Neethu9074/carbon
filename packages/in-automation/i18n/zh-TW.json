@@ -4,6 +4,7 @@
   "delete": "刪除",
   "test": "測試",
   "recommendedActions": "建議的動作",
+  "recommendedActionsWithCount": "建議動作 ({{count}})",
   "validVaultParameter": "標示為選用的儲存庫參數必須同時空白或兩者都不是空白。",
   "newAction": "新增動作",
   "ok": "確定",
@@ -44,7 +45,7 @@
   "description": "說明",
   "automation": "自動化",
   "failedToResolveDynamicParameters": "無法解析動態參數。",
-  "associateActionWithName": "關聯動作 {{actionName}}",
+  "createPolicyWithName": "使用動作 {{actionName}} 建立原則",
   "deletePolicyWithName": "刪除原則 {{actionName}}",
   "jobTemplate": "工作範本",
   "hostsLimit": "主機限制（選用）",
@@ -81,6 +82,7 @@
   "value": "值",
   "type": "類型",
   "automationPolicies": "自動化原則",
+  "automationPoliciesWithCount": "自動化原則 ({{count}})",
   "copyOf": "（副本）{{name}}",
   "searchActions": "搜尋動作",
   "hostsLimitHelpText": "將執行限制為指定的目標主機。 選取符合 Ansible 庫存中系統呈現方式的值，或輸入 Ansible 限制語法所支援的字串。",
@@ -93,6 +95,7 @@
   "actions": "動作",
   "ActionCatalog": {
     "actionCatalog": "動作型錄",
+    "actionCatalogWithCount": "動作型錄 ({{count}})",
     "action": "動作",
     "newAction": "新增動作",
     "createANewAction": "建立新動作",
@@ -223,7 +226,7 @@
     "eventName": "事件名稱",
     "returnCode": "回覆碼",
     "errorMessage": "錯誤訊息",
-    "actionContent": "動作內容",
+    "action": "動作",
     "host": "主機",
     "log": "日誌",
     "success": "成功",
@@ -236,9 +239,9 @@
     "inputParameters": "輸入參數",
     "feedbackTab": "意見",
     "properties": "內容",
-    "filterNameOrActionInstanceId": "依名稱、事件名稱或動作實例 ID 過濾",
+    "filter": "過濾器",
     "inputPrompt": "請告訴我們您使用此動作的經驗：",
-    "unhappyFeedback": "我非常不開心",
+    "unhappyFeedback": "我非常不滿意",
     "dissatisfiedFeedback": "我不滿意",
     "neutralFeedback": "我中立",
     "satisfiedFeedback": "我很滿意",
@@ -255,13 +258,17 @@
     "submitted": "已提交",
     "timeout": "逾時",
     "issueUrl": "問題 URL",
-    "taskUrl": "作業 URL"
+    "taskUrl": "作業 URL",
+    "output": "輸出",
+    "user": "使用者",
+    "apiToken": "API 記號"
   },
   "actionLanes": {
     "buttonInvestigate": "調查"
   },
   "policies": {
     "policies": "原則",
+    "policiesWithCount": "原則 ({{count}})",
     "newPolicy": "新建原則",
     "selectEventTrigger": "選取事件觸發程式",
     "actionName": "動作名稱",
@@ -288,7 +295,6 @@
     "custom": "自訂",
     "event": "事件",
     "entityType": "實體類型",
-    "properties": "內容",
     "applicationSmartAlert": "應用程式智慧型警示",
     "globalApplicationSmartAlert": "廣域應用程式智慧型警示",
     "infraSmartAlert": "基礎架構智慧型警示",
@@ -308,6 +314,7 @@
     "manualAutomatic": "手動，自動",
     "policyType": "原則類型",
     "noPolicies": "未配置任何原則。",
+    "filterApplied": "已套用過濾器",
     "createDialog": {
       "success": {
         "title": "已順利建立原則。",
@@ -315,7 +322,17 @@
       },
       "failure": {
         "title": "無法建立原則。",
-        "content": "建立此原則時發生問題：\"{{name}}\"。"
+        "content": "建立此原則時發生問題：{{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "已順利更新原則。",
+        "content": "已順利更新原則 \"{{name}}\"。"
+      },
+      "failure": {
+        "title": "無法更新原則。",
+        "content": "更新此原則時發生問題：{{errorMessage}}"
       }
     },
     "createBulkDialog": {

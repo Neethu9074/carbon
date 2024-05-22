@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "Crear nuevo grupo",
-    "dialogTitle_edit": "Editar ámbito de acceso",
+    "dialogTitle_edit": "Editar configuración de acceso",
     "editButton": "Editar",
     "productArea": "Configuración de acceso para {{tenantUnit}}-{{tenant}}"
   },
@@ -82,17 +82,16 @@
     "role_permissions_contributor_and_viewer": "Acceso de visor {{quantityOfAreas}} y Acceso de colaborador {{quantityOfAreasContributor}}",
     "no_access": "Sin acceso",
     "platform_permissions": "Acceder a {{quantityOfAreas}}",
-    "analyticsContentMessage": "Puede ver datos de analítica definidos por el ámbito de acceso en sitios web, aplicaciones móviles, aplicaciones, plataformas e infraestructura",
     "infrastructureContentMessage": "Puede ver entidades definidas por ámbito de acceso en aplicaciones, plataformas, infraestructura y, opcionalmente, por DFQ",
     "infrastructureAccessAllMessage": "Todas las entidades",
-    "eventsAndAlertsContentMessage": "Puede ver sucesos y alertas según el ámbito de acceso definido en sitios web, aplicaciones móviles, aplicaciones, supervisión sintética, plataformas e infraestructura",
     "permissions": "Permisos",
     "additionalPermissions": "Permisos adicionales",
     "permissions_DASHBOARD": "Permisos del panel de control personalizado",
     "permissions_SYNTHETICS": "Permisos de supervisión sintética",
-    "permissions_AGENTS": "Permisos de agente",
+    "permissions_AGENTS": "Permisos de despliegue de agente",
     "permissions_ACCESS_CONTROL": "Permisos de control de acceso",
     "permissions_AUTOMATION": "Permisos de automatización",
+    "permissions_EVENT": "Permisos de sucesos y alertas",
     "permissions_LOGS": "Permisos de registro",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power HMC",
@@ -107,7 +106,6 @@
     "obsoleteEntityDescription": "Actualmente no hay datos disponibles; todavía se está otorgando el acceso.",
     "title_analytics": "Analítica",
     "title_applications": "Aplicaciones",
-    "title_events_and_alerts": "Sucesos y alertas",
     "title_global_functions": "Funciones globales",
     "title_infrastructure": "Infraestructura",
     "title_mobileApps": "Apps móviles",
@@ -165,7 +163,8 @@
     "doneButton": "Hecho"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "Nombre"
+    "nameColumnHead": "Nombre",
+    "contributionFilterColumnHead": "Filtro de contribución"
   },
   "permissionScope": {
     "access_level": "Nivel de acceso",
@@ -191,7 +190,6 @@
     "description_no_access_bizops": "Se ha denegado el acceso a la supervisión empresarial.",
     "description_access_all_except_contributor": "Acceder a todos, excepto a los que se accede como colaborador",
     "role": "Seleccionar un rol",
-    "roleSelection": "Rol",
     "role_owner": "Propietario (Owner)",
     "role_viewer": "Visor",
     "role_custom": "Personalizar",
@@ -444,6 +442,7 @@
     "someEmailsHaveFailedToSend": "Algunos correos electrónicos no se han podido enviar",
     "inviteUserToTenant": "Invitar al usuario a {{tenant}}",
     "anotherUser": "Otro usuario",
+    "inviteUsertoDefaultGroup": "No tiene permisos suficientes para seleccionar un grupo para la invitación. El usuario invitado se añadirá al grupo predeterminado.",
     "permissionEntityLabel": "permiso {{entityLabel}}",
     "addToAGroup": "Añadir a un grupo",
     "failedToAddUserToGroups": "No se ha podido añadir el usuario a los grupos: {{err}}",
@@ -543,7 +542,7 @@
     "applicationPerspectiveEntityLabel": "Perspectiva de aplicación {{entityLabel}}",
     "keyEquals": "clave igual a",
     "selectTag": "Seleccionar código",
-    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Cada par de clave/valor se incluirá como carga útil adicional para cada notificación de alerta de problema o incidencia. Consulte la <docLink>Documentación de carga útil personalizada</docLink> para obtener más detalles.",
+    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Cada par de clave/valor se incluirá como carga útil adicional para cada notificación de alerta de problema o incidencia. Consulte la <docLink>documentación de carga útil personalizada</docLink> para obtener más información.",
     "anErrorOccurredPleaseTryAgain": "Se ha producido un error, inténtelo de nuevo.",
     "custom": "Personalizar",
     "theValueMustNotBeBlank": "El valor no debe estar en blanco.",
@@ -737,6 +736,16 @@
     "timeoutsSuccessfullySaved": "Los tiempos de espera se han guardado correctamente.",
     "disableTwoFactor": "Inhabilitar bifactorial",
     "saveToken": "Guardar señal",
+    "profile": {
+      "pageName": "Perfil",
+      "email": "Correo electrónico",
+      "emailHint": "El correo electrónico para identificar la cuenta de usuario en Instana. No puede cambiar el correo electrónico después de crear la cuenta de usuario.",
+      "name": "Nombre",
+      "nameHint": "Especifique su nombre (nombre) y apellido (apellido) sin coma.",
+      "saving": "Guardando nuevo nombre",
+      "saved": "Nombre nuevo guardado",
+      "failed": "No se ha podido guardar el nuevo nombre"
+    },
     "twoFactorAuthentication": "Autenticación de dos factores",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "La autenticación bifactorial está inhabilitada actualmente para este usuario.",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "Especifique la señal 2FA desde la aplicación de autenticación para completar la configuración:",
@@ -1165,7 +1174,12 @@
     "createIDPConfirmationDescription": "Las invitaciones pendientes se suprimirán. Los usuarios se suministran automáticamente desde el proveedor de identidad (IdP).",
     "revokeInvitationForUserWithEmail": "Revocar la invitación para unirse al arrendatario {{tenant}} para {{email}}",
     "invitationValidUntil": "Invitación válida hasta",
-    "invitedBy": "Invitado por"
+    "invitedBy": "Invitado por",
+    "accessAll": "Acceder a todos",
+    "access": "Acceso",
+    "accessForTenantUnit": "Acceso para {{tenantUnit}}-{{tenant}}",
+    "numberOfMembers": "Número de miembros",
+    "groupEntityName": "grupo {{entityName}}"
   },
   "languageSelection": {
     "language": "Idioma",

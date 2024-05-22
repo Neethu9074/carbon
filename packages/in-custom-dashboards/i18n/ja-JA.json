@@ -294,6 +294,12 @@
         "decreaseColor": "減少の色",
         "timeShift": "タイムシフト"
       },
+      "thresholdForm": {
+        "addThresholdColorization": "しきい値を基準にした色分けの追加",
+        "threshold": "しきい値",
+        "critical": "待ち時間が長い場合はクリティカル",
+        "warning": "待ち時間が長い場合は警告"
+      },
       "bigNumber": "重要な数値"
     },
     "chart": {
@@ -823,7 +829,9 @@
           },
           "formatter": "フォーマッター",
           "searchPlaceholder": "検索",
-          "countGroup": "グループ・カウントの表示"
+          "countGroup": "グループ・カウントの表示",
+          "showGroupsWithMissingTags": "タグが欠落しているグループを表示",
+          "filterEmptyValues": "空の値をフィルタリング"
         }
       },
       "dataSource": {

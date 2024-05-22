@@ -53,7 +53,8 @@
       "create": "Criar",
       "delete": "Excluir",
       "close": "Fechar",
-      "submit": "Enviar"
+      "submit": "Enviar",
+      "previous": "Prévio"
     },
     "states": {
       "saving": "Salvando…"

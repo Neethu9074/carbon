@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "Merci d'avoir exploré Instana ! Vous avez atteint la fin de votre essai et vous ne pouvez plus accéder au produit."
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "Demander un devis",
     "buyNowBtn": "Acheter sur AWS",
     "alreadyHaveLicense": "Vous possédez déjà une licence ? Activez-la sous <linkToDocker>Docker</linkToDocker> ou <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Obtenir des réponses",
+    "share": "Partager",
+    "shareTooltip": "Partagez cette page avec vos collègues et invitez-les à collaborer dans Instana.",
     "titleDetail": {
       "trial": "Essai",
       "sandboxTrial": "Version d'évaluation de bac à sable"
     }
   },
   "playwithinstana": {
-    "title": "Play with Instana",
     "content": "Prêt à surveiller votre propre environnement",
     "bookdemo": " Réservez une démo",
     "freetrial": " Essai gratuit",
@@ -578,9 +578,9 @@
       }
     },
     "ariaLabel": {
+      "search": "Rechercher",
       "shareButton": "Bouton Partager",
-      "searchButton": "Bouton Rechercher",
-      "addButton": "Bouton Ajouter",
+      "add": "Ajouter",
       "handleButton": "Bouton Traiter"
     }
   },
@@ -592,7 +592,37 @@
   },
   "assistme": {
     "dataSearchContext": {
-      "gettingStarted": "Mise en route"
+      "gettingStarted": "mise en route",
+      "websites": "sites Web",
+      "mobileApps": "application mobile",
+      "businessMonitoring": "surveillance métier",
+      "application": "application",
+      "smartAlerts": "alertes intelligentes",
+      "infrastructureMap": "mappe",
+      "cloudFoundry": "surveillance de Cloud Foundry",
+      "powerHmc": " surveillance d'IBM Power",
+      "kubernetes": "kubernetes",
+      "sap": "surveillance de SAP",
+      "synthetic": "surveillance synthétique",
+      "syntheticAlerts": "alertes synthétiques",
+      "syntheticPop": "PoP synthétique",
+      "serviceLevel": "niveau de service",
+      "installAgent": "agent d'installation",
+      "analyzeCalls": "analyse des traces et des appels",
+      "settingsTab": "gestion des accès utilisateur",
+      "userSettings": "paramètres utilisateur",
+      "authSettings": "Configuration de l'authentification",
+      "auditLogs": "affichage des journaux d'audit",
+      "automation": "gestion des actions",
+      "customEvents": "définition d'événements personnalisés",
+      "configuringAlerts": "configuration d'alertes",
+      "alertChannel": "canaux d'alerte",
+      "maintenanceWindow": "planification",
+      "customPayload": "contenu personnalisé",
+      "eventsPage": "gestion des événements",
+      "logManagement": "logging",
+      "configuringAndMonitoring": "configuration et surveillance",
+      "customDashboard": "tableau de bord personnalisé"
     }
   }
 }

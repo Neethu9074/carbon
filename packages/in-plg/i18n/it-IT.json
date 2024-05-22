@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "Grazie per aver esplorato Instana! Il periodo di prova è giunto alla fine e non è più possibile accedere al prodotto."
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "Richiedi un preventivo",
     "buyNowBtn": "Acquista su AWS",
     "alreadyHaveLicense": "Si dispone già di una licenza? Attivarla su <linkToDocker>Docker</linkToDocker> o <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Ottieni risposte",
+    "share": "Condividi",
+    "shareTooltip": "Condividere questa pagina con i colleghi e invitarli a collaborare in Instana.",
     "titleDetail": {
       "trial": "Versione di prova",
       "sandboxTrial": "Versione di prova sandbox"
     }
   },
   "playwithinstana": {
-    "title": "Play with Instana",
     "content": "Pronto a monitorare il tuo ambiente",
     "bookdemo": " Prenota una demo",
     "freetrial": " Versione di prova gratuita",
@@ -578,9 +578,9 @@
       }
     },
     "ariaLabel": {
+      "search": "Ricerca",
       "shareButton": "Pulsante di condivisione",
-      "searchButton": "Pulsante Ricerca",
-      "addButton": "Pulsante Aggiungi",
+      "add": "Aggiungi",
       "handleButton": "Pulsante Gestisci"
     }
   },
@@ -592,7 +592,37 @@
   },
   "assistme": {
     "dataSearchContext": {
-      "gettingStarted": "Guida introduttiva"
+      "gettingStarted": "introduzione",
+      "websites": "siti web",
+      "mobileApps": "app per dispositivi mobili",
+      "businessMonitoring": "monitoraggio aziendale",
+      "application": "applicazione",
+      "smartAlerts": "avvisi smart",
+      "infrastructureMap": "mappa",
+      "cloudFoundry": "monitoraggio di Cloud Foundry",
+      "powerHmc": " monitoraggio della potenza di IBM",
+      "kubernetes": "kubernetes",
+      "sap": "monitoraggio SAP",
+      "synthetic": "monitoraggio sintetico",
+      "syntheticAlerts": "avvisi sintetici",
+      "syntheticPop": "PoP sintetico",
+      "serviceLevel": "livello di servizio",
+      "installAgent": "installa agent",
+      "analyzeCalls": "analisi di tracce e chiamate",
+      "settingsTab": "gestione dell'accesso utente",
+      "userSettings": "impostazioni utente",
+      "authSettings": "configurazione autorizzazione",
+      "auditLogs": "visualizzazione dei log di controllo",
+      "automation": "gestione delle azioni",
+      "customEvents": "definizione di eventi personalizzati",
+      "configuringAlerts": "configurazione degli avvisi",
+      "alertChannel": "canali di avviso",
+      "maintenanceWindow": "pianificazione",
+      "customPayload": "payload personalizzato",
+      "eventsPage": "gestione di eventi",
+      "logManagement": "registrazione",
+      "configuringAndMonitoring": "configurazione e monitoraggio",
+      "customDashboard": "dashboard personalizzato"
     }
   }
 }
