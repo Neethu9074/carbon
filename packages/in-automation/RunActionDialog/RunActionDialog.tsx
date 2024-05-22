@@ -597,7 +597,7 @@ function RunActionFooter({
         onClick={onSave}
       >
         {policy
-          ? 'Save'
+          ? t('in-automation:actionHistory.saveButton')
           : test
           ? t('in-automation:testAction')
           : viewRecommendedAction
