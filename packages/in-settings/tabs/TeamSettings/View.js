@@ -333,7 +333,7 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     component: RetentionPeriodPage
   };
 
-  if (role.canDeleteLogs || role.canConfigureLogManagement || role.canChangeLogRetentionPeriod) {
+  if (role.canDeleteLogs || role.canConfigureLogManagement || role.canConfigureLogRetentionPeriod) {
     let pages = [];
 
     if (role.canConfigureLogManagement) {
@@ -343,7 +343,7 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     if (role.canDeleteLogs) {
       pages.push(deleteLogsPage);
     }
-    if (role.canChangeLogRetentionPeriod || logRetentionPageEnabled) {
+    if (role.canConfigureLogRetentionPeriod || logRetentionPageEnabled) {
       // OR for now until we figure out the permission
       pages.unshift(retentionPeriodPage);
     }
