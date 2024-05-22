@@ -265,5 +265,23 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://ibm.biz/BdvTVF`
+  },
+  jvm_permission_issue: {
+    issueDescription: {
+      Component: function jvmPermissionIssue() {
+        return (
+          <span>
+            <Trans
+              i18nKey="in-forge:plugins.process.portUnavailableIssueDescription"
+              components={{
+                code: <code />
+              }}
+            />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
+    explanationLinkHref: `https://ibm.biz/insta-unabletoexecutefilejspawnhelper`
   }
 };
