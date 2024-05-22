@@ -42,6 +42,7 @@ import { columnDefinitions } from 'in-logging/analyze/AnalyzeView/components/Log
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
 import { logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import HealthDot from 'in-components/health/HealthDot';
 import Overlay from 'in-components/overlays/Overlay';
@@ -71,6 +72,8 @@ export function TagValue({
   const entitySnapshotId = getSnapshotId(tag, item);
   const iconColor = 'var(--ids-color-option-neutral-900)';
 
+  const { location, navigate } = useNavigation();
+
   return (
     <div className={locals.tagValue}>
       <div className={locals.tagLink}>
@@ -85,8 +88,11 @@ export function TagValue({
                 color={iconColor}
                 iconSize={'xs'}
                 type="lib_group_by"
-                href={getHrefToGroupedView(createGroupingTag(tag.name, tag.key))}
-                onClick={() => trackGroupClick(resolvedValue)}
+                onClick={() => {
+                  location.pathname += getHrefToGroupedView(createGroupingTag(tag.name, tag.key));
+                  trackGroupClick(resolvedValue);
+                  navigate(location);
+                }}
                 className={locals.squareHover}
               />
             </Tooltip>
@@ -97,8 +103,13 @@ export function TagValue({
                 color={iconColor}
                 iconSize={'xs'}
                 type="lib_actions_filter"
-                href={onSelectTagHref(createTagFilter(value, item.tags, tag.name, tag.key) as TagFilter)}
-                onClick={() => trackFilterClick(tag, value)}
+                onClick={() => {
+                  location.pathname += onSelectTagHref(
+                    createTagFilter(value, item.tags, tag.name, tag.key) as TagFilter
+                  );
+                  trackFilterClick(tag, value);
+                  navigate(location);
+                }}
                 className={locals.squareHover}
               />
             </Tooltip>
