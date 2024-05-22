@@ -268,15 +268,10 @@ export default {
   },
   jvm_permission_issue: {
     issueDescription: {
-      Component: function jvmPermissionIssue() {
+      Component: function jvmPermissionIssue({ path }) {
         return (
           <span>
-            <Trans
-              i18nKey="in-forge:plugins.process.portUnavailableIssueDescription"
-              components={{
-                code: <code />
-              }}
-            />
+            <Trans i18nKey="in-forge:plugins.instanaAgent.jspawnhelperPermissionIssueDescription" values={{ path }} />
           </span>
         );
       }

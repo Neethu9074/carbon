@@ -8220,7 +8220,6 @@
       "rubySensorNotInstalledIssueDescription": "The <code>instana</code> gem is not installed in this Ruby application, or the <code>instana</code> gem cannot announce itself to the host agent, for example due to networking issues.",
       "prometheusRemoteWriteHighDelayIssueDescription": "The host agent is ingesting Prometheus metrics on the <code>remote_write</code> endpoint, but these metrics are being received with a high delay of {{metricDelayMs}} ms. Please check the Prometheus <code>batch_send_deadline</code> configuration option to limit the delay, or consult our docs for more information.",
       "cppCollectorNotInstalledIssueDescription": "The <code>libinstana_sensor.so</code> library is not installed in this C++ application, or it cannot announce itself to the host agent, for example due to networking issues.",
-      "jspawnhelperPermissionIssueDescription": "The agent is not able to execute file jspawnhelper in the JVM path /instana-agent/jvm/jre/lib/sparcv9/jspawnhelper. Please provide necessary permissions.",
       "dashboard": {
         "cpuUsage": "CPU Usage",
         "user": "User",
@@ -11680,7 +11679,8 @@
       "sensors": "Sensors",
       "hostname": "Hostname",
       "startType": "Start Type",
-      "turbonomicSensorException": "Turbonomic sensor produced the following exception : <code>{{e}}</code>."
+      "turbonomicSensorException": "Turbonomic sensor produced the following exception : <code>{{e}}</code>.",
+      "jspawnhelperPermissionIssueDescription": "The agent is not able to execute file jspawnhelper in the JVM path <code>{{path}}</code> . Please provide necessary permissions."
     },
     "sparkStandalone": {
       "titleApplicationId": "Application Id",
