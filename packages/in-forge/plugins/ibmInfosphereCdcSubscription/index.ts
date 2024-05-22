@@ -4,18 +4,18 @@
  * Copyright IBM Corp. 2024
  */
 
-import metricDefinitions from 'in-forge/plugins/ibmInfosphereSubscription/metricDefinitions';
+import metricDefinitions from 'in-forge/plugins/ibmInfosphereCdcSubscription/metricDefinitions';
 //@ts-expect-error
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
-  plugin: plugins.ibmInfosphereSubscription,
+  plugin: plugins.ibmInfosphereCdcSubscription,
 
   metricDefinitions,
   technologyDescriptor: {
-    label: t('in-forge:plugins.ibmInfosphereSubscription.ibmInfosphereSubscription')
+    label: t('in-forge:plugins.ibmInfosphereCdcSubscription.ibmInfosphereSubscription')
   },
   getIconType: () => 'ibmInfosphere'
 });

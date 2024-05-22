@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Collapsible } from '@instana/components';
 
-import Info from 'in-forge/plugins/ibmInfosphereSubscription/Info';
+import Info from 'in-forge/plugins/ibmInfosphereCdcSubscription/Info';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
@@ -21,7 +21,7 @@ const IbmInfosphereSubscritpionSidebar = ({ snapshot }: IbmInfosphereSubscritpio
     <div>
       <Collapsible initiallyOpen>
         <Collapsible.Header>
-          {t('in-forge:plugins.ibmInfosphereSubscription.ibmInfosphereSubscription')}
+          {t('in-forge:plugins.ibmInfosphereCdcSubscription.ibmInfosphereSubscription')}
         </Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

@@ -14,9 +14,11 @@ export default function IbmInfosphereSubscriptionInfo({ snapshot }: { snapshot: 
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.ibmInfosphereSubscription.subscription')}>
+      <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdcSubscription.subscriptionName')}>
         {data.get('name')}
-        Hello
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdcSubscription.datastore')}>
+        {data.get('dataStore')}
       </DescriptionItem>
     </DescriptionList>
   );

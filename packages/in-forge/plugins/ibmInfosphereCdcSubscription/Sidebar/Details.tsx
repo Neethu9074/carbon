@@ -4,5 +4,5 @@
  * Copyright IBM Corp. 2024
  */
 
-import Details from 'in-forge/plugins/ibmInfosphereSubscription/Dashboard/Sidebar';
+import Details from 'in-forge/plugins/ibmInfosphereCdcSubscription/Dashboard/Sidebar';
 export default Details;
