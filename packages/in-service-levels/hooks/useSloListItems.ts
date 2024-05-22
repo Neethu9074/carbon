@@ -6,7 +6,7 @@
 
 import { PaginatedResult, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
-import useSloListMetrics, { SloMetricsResult } from 'in-service-levels/hooks/useSloListMetrics';
+import useSloListMetrics, { SloMetricResult } from 'in-service-levels/hooks/useSloListMetrics';
 import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/configuration';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
@@ -42,10 +42,9 @@ export default function useSloListItems({
   const configurations = configurationPage?.items ?? [];
 
   const [labels, , labelsErrors, labelsProgress] = useSloEntitiesLabels(configurations);
-  const [metrics, , metricErrors, metricProgress] = useSloListMetrics(configurations, timeConfig);
-
+  const [metrics, , , metricProgress] = useSloListMetrics(configurations, timeConfig);
   const progress = allProgress(configurationProgress, labelsProgress, metricProgress);
-  const errors = [...configurationErrors, ...labelsErrors, ...metricErrors];
+  const errors = [...configurationErrors, ...labelsErrors];
 
   return [
     {
@@ -66,15 +65,18 @@ export function buildSloListItem({
 }: {
   configuration: ServiceLevelObjectiveConfiguration;
   labels?: Record<string, LabeledEntity>;
-  metrics?: Record<string, SloMetricsResult>;
+  metrics?: Record<string, SloMetricResult>;
   timeConfig: TimeConfig;
 }): SloListItem {
-  const { remainingBudgetSpark } = metrics?.[configuration.id!] ?? {};
+  const {
+    remainingBudgetSpark,
+    status: statusValues,
+    remainingBudget: remainingBudgetValues
+  } = metrics?.[configuration.id!]?.[configuration.id!] ?? {};
   const timeConfig = applyAdjustedTimeframe(tc, remainingBudgetSpark?.adjustedTimeframe);
   const granularity = remainingBudgetSpark?.granularity ?? calculateSloGranularity(timeConfig);
-  const status = getSingleNumberMetricValue(metrics?.[configuration.id!]?.status);
-  const remainingBudget = getSingleNumberMetricValue(metrics?.[configuration.id!]?.remainingBudget);
-
+  const status = getSingleNumberMetricValue(statusValues);
+  const remainingBudget = getSingleNumberMetricValue(remainingBudgetValues);
   return {
     configuration,
     entity: labels?.[configuration.id!] ?? { label: '' },
