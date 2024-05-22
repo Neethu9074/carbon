@@ -88,7 +88,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               form={form}
               onChartViewConfigChange={onChartViewConfigChange}
               selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-              // @ts-expect-error updateForm is required
               updateForm={updateForm}
               tagCatalog={tagCatalog}
               regex={isRegex}

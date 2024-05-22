@@ -16,7 +16,7 @@ import locals from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAler
 
 export interface SimpleAlertConfigDialogStep2Props {
   form: MapForm<any>;
-  updateForm?: (form: MapForm<any>) => void;
+  updateForm: (form: MapForm<any>) => void;
   QueryBuilderComponent: QueryBuilderComponent;
   headerTransparent?: boolean;
 }
