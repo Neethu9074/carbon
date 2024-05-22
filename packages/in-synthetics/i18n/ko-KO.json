@@ -39,6 +39,7 @@
         "labelName": "테스트 이름",
         "labelDescription": "설명",
         "labelFrequency": "빈도(분)",
+        "labelFrequencyHour": "빈도(시간)",
         "labelApplications": "애플리케이션을 선택하십시오"
       },
       "bluePrint": {
@@ -95,6 +96,11 @@
             "line3": "3단계: 테스트 빈도를 선택하십시오(1~120분).",
             "line4": "4단계: 테스트 이름 및 설명 섹션에서, 테스트에 대한 의미 있는 이름을 이름 필드에 입력하십시오. 테스트 목적에 대한 설명을 설명 필드에 추가하십시오."
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "웹 서버 인증서가 이 테스트를 사용하여 만료되는지 여부를 확인하십시오."
+          }
         }
       },
       "validators": {
@@ -128,7 +134,11 @@
           "browserTypeHeadline": "브라우저 합성 테스트",
           "browserTypeText": "브라우저 합성 테스트는 웹 브라우저의 스크립트를 통해 웹 사이트와의 사용자 상호작용을 시뮬레이션하여 웹 애플리케이션 성능을 모니터링하는 방법으로, 사용자 환경에 영향을 미치는 문제에 대한 유용한 통찰력을 제공하고 웹 사이트가 제대로 기능하는 데 도움이 됩니다.",
           "browserSimpleTitle": "브라우저 단순 테스트",
-          "browserScriptTitle": "브라우저 스크립트 테스트"
+          "browserScriptTitle": "브라우저 스크립트 테스트",
+          "certificateCheckTitle": "SSL 인증서 검사",
+          "certificateCheckLabel": "SSL 인증서",
+          "certificateCheckHeadline": "SSL 인증서 검사 테스트",
+          "certificateCheckText": "SSL 인증서 검사 테스트는 발행된 인증서의 남은 일 수를 검사하여 웹 애플리케이션에서 SSL 인증서의 만기를 테스트하는 방법입니다."
         },
         "configurationLabel": "구성",
         "configurationTitle": "구성: 이 테스트는 어떻게 작동하나요?",
@@ -140,6 +150,8 @@
         "identifyTitle": "식별: 테스트는 무엇을 하나요?",
         "customPropertiesTitle": "사용자 정의 특성",
         "frequency": "이 테스트는 {{frequencyValue}}분마다 실행됩니다.",
+        "frequencyHours": "이 테스트는 {{frequencyHours}}시간마다 실행됩니다.",
+        "frequencyHoursAndMinutes": "이 테스트는 {{frequencyHours}}시간 {{frequencyMinutes}}분마다 실행됩니다.",
         "simultaneous": "동시",
         "simultaneousDescription": "이 테스트는 선택한 각 위치에서 동시에 실행됩니다.",
         "configStep": {
@@ -213,13 +225,20 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "브라우저"
+          "browserName": "브라우저",
+          "certificateCheckName": "SSL 인증서"
         },
         "customProperties": {
           "property": "특성",
           "propertyValue": "값",
           "addProperty": "특성 추가",
           "propertyNameMustBeUnique": "특성 이름은 고유해야 합니다."
+        },
+        "certificateCheck": {
+          "inputHostName": "호스트 이름",
+          "inputPortNumber": "포트",
+          "failureConfigLabel": "실패 구성",
+          "failureConfigText": "인증서 유효성이 만료될 때까지 <certificateValidityDays/>일이 남아 있으면 테스트가 실패합니다."
         }
       }
     },
@@ -241,9 +260,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "위치가 성공적으로 삭제됨",
-      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "failureMesssage": "{{errorMessage}}",
       "successMessageDeactivate": "위치를 비활성화했습니다.",
-      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
+      "successMessageActivate": "위치를 활성화했습니다."
     },
     "updateTest": {
       "dialogTitle": "{{syntheticType}} 테스트 편집",
@@ -307,7 +326,10 @@
           "warningMessage": "비활성화가 삭제되지 않습니다. 위치를 사용할 수 있으며 다시 활성화할 수 있습니다. 관리 위치를 완전히 제거하려면 상태가 오프라인으로 변경된 위치를 삭제하십시오.",
           "activeStatus": "활성",
           "deactivateButton": "비활성화"
-        }
+        },
+        "activate": "활성화",
+        "okay": "확인",
+        "activateLocation": "위치 활성화"
       },
       "validators": {
         "theValueMustNotBeEmpty": "하나 이상의 데이터 센터를 선택해야 함"
@@ -442,7 +464,14 @@
       "totalRuns": "{{totalRuns}}개의 총 실행",
       "meanLatencyFor90th": "90번째: {{meanLatencyDetail}}",
       "smartAlertsTab": "스마트 경보",
-      "configurationTab": "구성"
+      "configurationTab": "구성",
+      "isCertificateValid": "마지막 실행 - 인증서가 올바름",
+      "certificateValid": "예",
+      "certificateNotValid": "아니오",
+      "daysRemaining": "마지막 실행 - 남은 일 수",
+      "dateOfExpiry": "마지막 실행 - 만기 날짜",
+      "smallerTimeFrameTitle": "이 시간 범위에 대한 결과 없음",
+      "smallerTimeFrameDescription": "SSL 인증서 검사 테스트의 결과를 보려면 더 긴 시간 프레임을 선택하십시오."
     },
     "resultsListPage": {
       "startedColumn": "시작됨",
@@ -454,7 +483,8 @@
       "locationLabel": "위치",
       "failures": "실패",
       "status": "상태",
-      "success": "성공"
+      "success": "성공",
+      "daysRemaining": "남은 일 수"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "합성 테스트 결과 세부사항 페이지에서는 라이브 모드를 적용할 수 없음",
@@ -579,6 +609,11 @@
         "imageButton": "이미지",
         "ScreenshotsLoadingMessage": "스크린샷 로드 중",
         "noScreenshotsAvailableMessage": "이 테스트 결과에 대해 스크린샷을 사용할 수 없습니다."
+      },
+      "sslCertificate": {
+        "daysRemaining": "남은 일 수",
+        "dateOfIssue": "발행일",
+        "dateOfExpiry": "만기 날짜"
       }
     },
     "noDataAvailable": {
@@ -653,7 +688,12 @@
       "retryIntervalFieldLabel": "재시도 간격",
       "retryIntervalSecondDescription": "{{retryIntervalValue}}초",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}}초",
-      "markSyntheticCall": "합성 호출 표시"
+      "markSyntheticCall": "합성 호출 표시",
+      "hostname": "호스트 이름",
+      "port": "포트",
+      "daysRemaining": "인증서 유효성 검증이 완료되면 테스트가 실패함",
+      "day": "만기까지 남은 일 수",
+      "days": "만기까지 남은 일 수"
     }
   }
 }

@@ -39,6 +39,7 @@
         "labelName": "Nome do teste",
         "labelDescription": "Descrição",
         "labelFrequency": "Frequência (minuto)",
+        "labelFrequencyHour": "Frequência (hora)",
         "labelApplications": "Selecionar um aplicativo"
       },
       "bluePrint": {
@@ -95,6 +96,11 @@
             "line3": "Etapa 3: escolha a frequência de teste (1 ~ 120 minutos).",
             "line4": "Etapa 4: na seção Nome do teste e Descrição, insira um nome significativo para seu teste no campo Nome. Inclua uma descrição do propósito de seu teste no campo Descrição."
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "Verifique se o certificado do servidor web expirará ou não está usando esse teste."
+          }
         }
       },
       "validators": {
@@ -128,7 +134,11 @@
           "browserTypeHeadline": "Testes sintéticos do navegador",
           "browserTypeText": "O teste sintético do navegador é um método de monitoramento do desempenho do aplicativo da web ao simular as interações do usuário com um website por meio de um script em um navegador da web, fornecer insights valiosos sobre os problemas que afetam a experiência do usuário e assegurar a funcionalidade do website.",
           "browserSimpleTitle": "Teste Simples de Navegador",
-          "browserScriptTitle": "Teste de Script de Navegador"
+          "browserScriptTitle": "Teste de Script de Navegador",
+          "certificateCheckTitle": "Verificação de certificado SSL",
+          "certificateCheckLabel": "Certificado SSL",
+          "certificateCheckHeadline": "Teste de cerificação de certificado SSL",
+          "certificateCheckText": "O teste de verificação de certificado SSL é um método para testar a expiração de um certificado SSL em um aplicativo da Web verificando os dias restantes em um certificado emitido."
         },
         "configurationLabel": "Configuração",
         "configurationTitle": "Configuração: como esse teste funcionará?",
@@ -140,6 +150,8 @@
         "identifyTitle": "Identificar: o que o teste vai fazer?",
         "customPropertiesTitle": "Propriedades customizadas",
         "frequency": "Esse teste será executado a cada {{frequencyValue}} minutos.",
+        "frequencyHours": "Este teste será executado a cada {{frequencyHours}} horas.",
+        "frequencyHoursAndMinutes": "Esse teste será executado a cada {{frequencyHours}} horas e {{frequencyMinutes}} minutos.",
         "simultaneous": "Simultânea",
         "simultaneousDescription": "Esse teste será executado simultaneamente em cada local selecionado.",
         "configStep": {
@@ -213,13 +225,20 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Navegador"
+          "browserName": "Navegador",
+          "certificateCheckName": "Certificado SSL"
         },
         "customProperties": {
           "property": "Propriedade",
           "propertyValue": "Valor",
           "addProperty": "Incluir Propriedade",
           "propertyNameMustBeUnique": "O nome da propriedade deve ser exclusivo."
+        },
+        "certificateCheck": {
+          "inputHostName": "Nome do host",
+          "inputPortNumber": "Porta",
+          "failureConfigLabel": "Configuração de falha",
+          "failureConfigText": "O teste falhará quando a validade do certificado tiver <certificateValidityDays/> dias restantes até a expiração."
         }
       }
     },
@@ -241,9 +260,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "O local foi excluído com sucesso",
-      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "failureMesssage": "{{errorMessage}}",
       "successMessageDeactivate": "Local desativado com sucesso",
-      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
+      "successMessageActivate": "O local foi ativado com sucesso"
     },
     "updateTest": {
       "dialogTitle": "Editar teste de {{syntheticType}}",
@@ -307,7 +326,10 @@
           "warningMessage": "A desativação não está sendo excluída. O local estará disponível e poderá ser ativado novamente. Para remover completamente o local gerenciado, exclua o local quando seu status mudar para Off-line.",
           "activeStatus": "Ativo",
           "deactivateButton": "Desativar"
-        }
+        },
+        "activate": "Ativar",
+        "okay": "Ok",
+        "activateLocation": "Ativar local"
       },
       "validators": {
         "theValueMustNotBeEmpty": "Pelo menos um data center precisa ser selecionado"
@@ -442,7 +464,14 @@
       "totalRuns": "{{totalRuns}} total de execuções",
       "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º",
       "smartAlertsTab": "Alertas inteligentes",
-      "configurationTab": "Configuração"
+      "configurationTab": "Configuração",
+      "isCertificateValid": "Última execução: certificado é válido",
+      "certificateValid": "True",
+      "certificateNotValid": "Não",
+      "daysRemaining": "Última execução: dias restantes",
+      "dateOfExpiry": "Última execução: data de expiração",
+      "smallerTimeFrameTitle": "Não há nenhum resultado para este período de tempo",
+      "smallerTimeFrameDescription": "Selecione um prazo mais longo para consultar os resultados para testes de verificação de certificado SSL."
     },
     "resultsListPage": {
       "startedColumn": "Iniciado",
@@ -454,7 +483,8 @@
       "locationLabel": "Posição",
       "failures": "Falhas",
       "status": "Status",
-      "success": "Sucesso"
+      "success": "Sucesso",
+      "daysRemaining": "Dias restantes"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "O Modo Ativo não é aplicável na página de detalhes do resultado de teste do Synthetic",
@@ -579,6 +609,11 @@
         "imageButton": "Imagem",
         "ScreenshotsLoadingMessage": "Carregando capturas de tela",
         "noScreenshotsAvailableMessage": "As capturas de tela não estão disponíveis para este resultado de teste"
+      },
+      "sslCertificate": {
+        "daysRemaining": "Dias restantes",
+        "dateOfIssue": "Data do problema",
+        "dateOfExpiry": "Data de expiração"
       }
     },
     "noDataAvailable": {
@@ -653,7 +688,12 @@
       "retryIntervalFieldLabel": "Intervalo de novas tentativas",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} segundo",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} segundos",
-      "markSyntheticCall": "Marcar chamada sintética"
+      "markSyntheticCall": "Marcar chamada sintética",
+      "hostname": "Nome do Host",
+      "port": "Porta",
+      "daysRemaining": "O teste falhará quando a validade do certificado tiver",
+      "day": "dia restante até a expiração",
+      "days": "dias restantes até a expiração"
     }
   }
 }

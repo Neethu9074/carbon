@@ -341,7 +341,13 @@
   },
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "Controlar sessões",
-    "trackingSnippetPresenterTooltip": "Saiba mais sobre o rastreamento de sessão e as implicações de privacidade."
+    "trackingSnippetPresenterTooltip": "Saiba mais sobre o rastreamento de sessão e as implicações de privacidade.",
+    "trackingSnippetSRITooltip": "O SRI (Sub Resource Integrity) é um recurso de segurança que garante que os navegadores possam verificar os recursos que eles buscam. A desativação disso pode causar problemas de segurança. Se decidir desativá-la, garanta que esteja em um ambiente de rede seguro.",
+    "trackingSnippetPresenterLabelSRI": "Versão SRI (Sub Resource Integrity)",
+    "trackingSnippetPresenterLabelAgentVersion": "Selecionar versão do agente",
+    "trackingSnippetPresenterEnableSRI": "Ativado",
+    "trackingSnippetPresenterDisableSRI": "Desativado",
+    "trackingSnippetPresenterAgentVersion": "Versão"
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "Websites e aplicativos móveis",

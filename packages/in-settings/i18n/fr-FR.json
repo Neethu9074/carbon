@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "Créer un groupe",
-    "dialogTitle_edit": "Editer la portée d'accès",
+    "dialogTitle_edit": "Editer la configuration de l'accès",
     "editButton": "Editer",
     "productArea": "Configuration de l'accès pour {{tenantUnit}}-{{tenant}}"
   },
@@ -82,17 +82,16 @@
     "role_permissions_contributor_and_viewer": "Accès Afficheur à {{quantityOfAreas}} et accès Contributeur à {{quantityOfAreasContributor}}",
     "no_access": "Aucun accès",
     "platform_permissions": "Accès {{quantityOfAreas}}",
-    "analyticsContentMessage": "Peut afficher des données dans l'analyse définie par la portée d'accès dans les sites Web, les applications mobiles, les applications, les plateformes et l'infrastructure",
     "infrastructureContentMessage": "Peut afficher les entités définies par la portée d'accès dans Applications, Platforms, Infrastructure et éventuellement par DFQ",
     "infrastructureAccessAllMessage": "Toutes les entités",
-    "eventsAndAlertsContentMessage": "Peut afficher des événements et des alertes en fonction de la portée d'accès définie dans les sites Web, les applications mobiles, les applications, la surveillance synthétique, les plateformes et l'infrastructure",
     "permissions": "Droits",
     "additionalPermissions": "Droits supplémentaires",
     "permissions_DASHBOARD": "Droits d'accès aux tableaux de bord personnalisés",
     "permissions_SYNTHETICS": "Droits d'accès pour la surveillance synthétique",
-    "permissions_AGENTS": "Droits d'accès à l'agent",
+    "permissions_AGENTS": "Droits de déploiement d'agent",
     "permissions_ACCESS_CONTROL": "Droits de contrôle d'accès",
     "permissions_AUTOMATION": "Droits d'automatisation",
+    "permissions_EVENT": "Droits d'accès aux événements et aux alertes",
     "permissions_LOGS": "Droits d'accès aux journaux",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power HMC",
@@ -107,7 +106,6 @@
     "obsoleteEntityDescription": "Actuellement, aucune donnée n'est disponible - l'accès est toujours accordé.",
     "title_analytics": "Analyse",
     "title_applications": "Application",
-    "title_events_and_alerts": "Evénements et alertes",
     "title_global_functions": "Fonctions globales",
     "title_infrastructure": "Infrastructure",
     "title_mobileApps": "Applications mobiles",
@@ -165,7 +163,8 @@
     "doneButton": "Terminé"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "Nom"
+    "nameColumnHead": "Nom",
+    "contributionFilterColumnHead": "Filtre de contribution"
   },
   "permissionScope": {
     "access_level": "Niveau d'accès",
@@ -191,7 +190,6 @@
     "description_no_access_bizops": "L'accès à la surveillance métier est refusé.",
     "description_access_all_except_contributor": "Tous les accès, sauf les accès Contributeur",
     "role": "Sélectionner un rôle",
-    "roleSelection": "Rôle",
     "role_owner": "Propriétaire",
     "role_viewer": "Visualiseur",
     "role_custom": "Personnalisé",
@@ -444,6 +442,7 @@
     "someEmailsHaveFailedToSend": "Echec de l'envoi de certains courriers électroniques",
     "inviteUserToTenant": "Inviter l'utilisateur dans {{tenant}}",
     "anotherUser": "Autre utilisateur",
+    "inviteUsertoDefaultGroup": "Vous ne disposez pas de droits suffisants pour sélectionner un groupe pour l'invitation. L'utilisateur invité sera ajouté au groupe par défaut.",
     "permissionEntityLabel": "autorisation {{entityLabel}}",
     "addToAGroup": "Ajouter à un groupe",
     "failedToAddUserToGroups": "Échec de l'ajout de l'utilisateur aux groupes: {{err}}",
@@ -543,7 +542,7 @@
     "applicationPerspectiveEntityLabel": "Perspective d'application {{entityLabel}}",
     "keyEquals": "clé égale",
     "selectTag": "Sélectionner une étiquette",
-    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Chaque paire clé/valeur sera incluse comme contenu supplémentaire dans chaque notification d'alerte de problème ou d'incident. Reportez-vous à la <docLink>Documentation sur le contenu personnalisé</docLink> pour plus d'informations.",
+    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Chaque paire clé/valeur sera incluse comme contenu supplémentaire dans chaque notification d'alerte de problème ou d'incident. Voir la <docLink>documentation sur le contenu personnalisé</docLink> pour plus de détails.",
     "anErrorOccurredPleaseTryAgain": "Une erreur s'est produite. Veuillez réessayer.",
     "custom": "Personnalisé",
     "theValueMustNotBeBlank": "Vous devez définir une valeur.",
@@ -737,6 +736,16 @@
     "timeoutsSuccessfullySaved": "Les dépassements de délai d'attente ont été sauvegardés.",
     "disableTwoFactor": "Désactiver deux facteurs",
     "saveToken": "Sauvegarder le jeton",
+    "profile": {
+      "pageName": "Profil",
+      "email": "E-mail",
+      "emailHint": "Adresse électronique permettant d'identifier le compte utilisateur sur Instana. Vous ne pouvez pas modifier l'adresse électronique une fois le compte utilisateur créé.",
+      "name": "Nom",
+      "nameHint": "Entrez votre prénom et votre nom de famille, sans virgule.",
+      "saving": "Sauvegarde du nouveau nom",
+      "saved": "Nouveau nom sauvegardé",
+      "failed": "Echec de la sauvegarde du nouveau nom"
+    },
     "twoFactorAuthentication": "Authentification à deux facteurs",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "L'authentification à deux facteurs est actuellement désactivée pour cet utilisateur.",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "Entrez le jeton 2FA de votre application d'authentification pour terminer la configuration:",
@@ -767,7 +776,7 @@
     "noGroupMapping": "Aucun mappage n'est configuré entre le fournisseur d'identité et Instana.",
     "denyUserWithNoGroup": "Refuser l'accès lorsqu'aucun mappage n'est trouvé. Si cette option n'est pas cochée, les utilisateurs sans mappages de groupes et aucun groupe trouvé sont ajoutés au groupe par défaut.",
     "denyUserWithNoGroupDocs": "La configuration du fournisseur d'identité peut toujours être supprimée via l'API à l'aide d'un jeton disposant de droits suffisants. Pour plus de détails, voir <authLink>Configuration de l'authentification</authLink>.",
-    "groupMappingInfoText": "Une règle de mappage contient une clé, une valeur et un groupe Instana. La clé et la valeur font référence à l'attribut de fournisseur d'identité et à sa valeur correspondante, à partir de laquelle vous effectuez le mappage. Par exemple, vous souhaitez mapper tous les utilisateurs ayant la valeur \"SRE\" dans la clé \"Department\" avec le groupe de propriétaires Instana.",
+    "groupMappingInfoText": "Une règle de mappage se compose d'une clé, d'une valeur et d'un groupe Instana. La clé et la valeur font référence à l'attribut de fournisseur d'identité et à sa valeur correspondante, à partir de laquelle vous effectuez le mappage. Par exemple, vous souhaitez mapper tous les utilisateurs ayant la valeur \"SRE\" dans la clé \"Department\" avec le groupe de propriétaires Instana.",
     "ownerGroupMemberNotLimitable": "L'utilisateur est membre du groupe Propriétaire et ne sera pas limité par les autres membres du groupe.",
     "mergedPermissionWithCombinationOfLimitedAndUnlimited": "L'ensemble effectif des droits d'accès est la somme des droits d'accès les plus permissif, accordés par le biais de différentes affectations de groupe. Toutefois, la somme des portées d'accès limité détermine la portée effective pour l'utilisateur.",
     "users": "Utilisateurs",
@@ -1165,7 +1174,12 @@
     "createIDPConfirmationDescription": "Les invitations en attente seront supprimées. Les utilisateurs sont mis à disposition automatiquement à partir de votre fournisseur d'identité.",
     "revokeInvitationForUserWithEmail": "Révoquer l'invitation à rejoindre le titulaire {{tenant}} pour {{email}}",
     "invitationValidUntil": "Invitation valide jusqu'au",
-    "invitedBy": "Invité par"
+    "invitedBy": "Invité par",
+    "accessAll": "Accéder à tout",
+    "access": "Accès",
+    "accessForTenantUnit": "Accès pour {{tenantUnit}}-{{tenant}}",
+    "numberOfMembers": "Nombre de membres",
+    "groupEntityName": "groupe {{entityName}}"
   },
   "languageSelection": {
     "language": "Langue",

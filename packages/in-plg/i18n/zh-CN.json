@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "感谢您探索 Instana！ 您的试用结束时间已到，无法再访问该产品。"
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "请求报价",
     "buyNowBtn": "在 AWS 上购买",
     "alreadyHaveLicense": "已有许可证？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上将其激活。",
     "getAnswers": "获取答案",
+    "share": "共享",
+    "shareTooltip": "与同事共享此页面，并邀请他们在 Instana 中进行协作。",
     "titleDetail": {
       "trial": "试用",
       "sandboxTrial": "Sandbox 试用版"
     }
   },
   "playwithinstana": {
-    "title": "使用 Instana",
     "content": "准备好监视您自己的环境",
     "bookdemo": " 预定演示",
     "freetrial": " 免费试用",
@@ -578,9 +578,9 @@
       }
     },
     "ariaLabel": {
+      "search": "搜索",
       "shareButton": "“共享”按钮",
-      "searchButton": "“搜索”按钮",
-      "addButton": "\"添加\"按钮",
+      "add": "添加",
       "handleButton": "“手柄”按钮"
     }
   },
@@ -592,7 +592,37 @@
   },
   "assistme": {
     "dataSearchContext": {
-      "gettingStarted": "入门"
+      "gettingStarted": "入门",
+      "websites": "网站",
+      "mobileApps": "移动应用",
+      "businessMonitoring": "业务监视",
+      "application": "应用程序",
+      "smartAlerts": "智能警报",
+      "infrastructureMap": "映射",
+      "cloudFoundry": "监视 Cloud Foundry",
+      "powerHmc": " 监视 IBM Power",
+      "kubernetes": "Kubernetes",
+      "sap": "监视 SAP",
+      "synthetic": "合成监视",
+      "syntheticAlerts": "合成警报",
+      "syntheticPop": "合成 PoP",
+      "serviceLevel": "服务级别",
+      "installAgent": "安装代理程序",
+      "analyzeCalls": "分析跟踪和调用",
+      "settingsTab": "管理用户访问权",
+      "userSettings": "用户设置",
+      "authSettings": "配置认证",
+      "auditLogs": "查看审计日志",
+      "automation": "管理操作",
+      "customEvents": "定义定制事件",
+      "configuringAlerts": "配置警报",
+      "alertChannel": "警报通道",
+      "maintenanceWindow": "调度",
+      "customPayload": "定制有效内容",
+      "eventsPage": "管理事件",
+      "logManagement": "日志记录",
+      "configuringAndMonitoring": "配置和监视",
+      "customDashboard": "定制仪表板"
     }
   }
 }

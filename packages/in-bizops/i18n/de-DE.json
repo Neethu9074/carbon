@@ -15,6 +15,7 @@
     "noData": "Keine Daten verfügbar",
     "healthLabel": "Status",
     "startLabel": "Gestartet",
+    "latencyLabel": "Latenzzeit",
     "unnamedActivity": "(Nicht benannte Aktivität) {{activityType}}",
     "unnamedService": "(Nicht benannter Service)"
   },
@@ -42,12 +43,14 @@
     "activity": {
       "pageTitle": "Geschäftsaktivität",
       "summaryTab": "Zusammenfassung",
+      "servicesTab": "Services",
       "widgets": {
         "duration": "Dauer",
         "activityCount": "Anzahl",
         "activityErrors": "Fehler",
         "topServices": "Wichtigste Services",
-        "activityLatency": "Latenzzeit"
+        "activityLatency": "Latenzzeit",
+        "viewAll": "Alle Services anzeigen"
       },
       "timespans": {
         "minute": "1 Minute",

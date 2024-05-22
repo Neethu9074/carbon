@@ -53,7 +53,8 @@
       "create": "Erstellen",
       "delete": "Löschen",
       "close": "Schließen",
-      "submit": "Übergeben"
+      "submit": "Übergeben",
+      "previous": "Zurück"
     },
     "states": {
       "saving": "Speichervorgang läuft..."

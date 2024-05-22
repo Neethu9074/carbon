@@ -294,6 +294,12 @@
         "decreaseColor": "Diminuir cor",
         "timeShift": "Deslocamento de tempo"
       },
+      "thresholdForm": {
+        "addThresholdColorization": "Incluir colorização com base em limites",
+        "threshold": "Limite",
+        "critical": "Crítico quando a latência",
+        "warning": "Aviso quando a latência"
+      },
       "bigNumber": "Número grande"
     },
     "chart": {
@@ -823,7 +829,9 @@
           },
           "formatter": "Formatador",
           "searchPlaceholder": "Procura",
-          "countGroup": "Mostrar contagem de grupos"
+          "countGroup": "Mostrar contagem de grupos",
+          "showGroupsWithMissingTags": "Mostrar grupos com tags ausentes",
+          "filterEmptyValues": "Filtrar valores vazios"
         }
       },
       "dataSource": {

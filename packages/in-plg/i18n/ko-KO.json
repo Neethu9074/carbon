@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "Instancea를 탐색해 주셔서 감사합니다! 평가판이 종료되어 더 이상 제품에 액세스할 수 없습니다."
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "견적 요청",
     "buyNowBtn": "AWS에서 구매",
     "alreadyHaveLicense": "이미 라이센스가 있습니까? <linkToDocker>Docker</linkToDocker> 또는 <linkToKubernetes>Kubernetes</linkToKubernetes>에서 활성화하십시오.",
     "getAnswers": "답변 받기",
+    "share": "공유",
+    "shareTooltip": "이 페이지를 동료와 공유하고 Instana에서 협업하도록 초대하십시오.",
     "titleDetail": {
       "trial": "평가판",
       "sandboxTrial": "샌드박스 평가판"
     }
   },
   "playwithinstana": {
-    "title": "Instana로 재생",
     "content": "자체 환경을 모니터링할 준비가 되었습니다.",
     "bookdemo": " 데모 예약",
     "freetrial": " 무료 평가판",
@@ -578,9 +578,9 @@
       }
     },
     "ariaLabel": {
+      "search": "검색",
       "shareButton": "공유 단추",
-      "searchButton": "검색 단추",
-      "addButton": "추가 단추",
+      "add": "추가",
       "handleButton": "처리 단추"
     }
   },
@@ -592,7 +592,37 @@
   },
   "assistme": {
     "dataSearchContext": {
-      "gettingStarted": "시작하기"
+      "gettingStarted": "시작하기",
+      "websites": "웹 사이트",
+      "mobileApps": "모바일 앱(mobile app)",
+      "businessMonitoring": "비즈니스 모니터링",
+      "application": "애플리케이션",
+      "smartAlerts": "스마트 경보",
+      "infrastructureMap": "맵",
+      "cloudFoundry": "Cloud Foundry 모니터링",
+      "powerHmc": " IBM 전원 모니터링",
+      "kubernetes": "kubernetes",
+      "sap": "SAP 모니터링",
+      "synthetic": "합성 모니터링",
+      "syntheticAlerts": "합성 경보",
+      "syntheticPop": "합성 PoP",
+      "serviceLevel": "서비스 레벨",
+      "installAgent": "에이전트 설치",
+      "analyzeCalls": "추적 및 호출 분석",
+      "settingsTab": "사용자 액세스 관리",
+      "userSettings": "사용자 설정",
+      "authSettings": "인증 구성",
+      "auditLogs": "감사 로그 보기",
+      "automation": "조치 관리",
+      "customEvents": "사용자 정의 이벤트 정의",
+      "configuringAlerts": "경보 구성",
+      "alertChannel": "경보 채널",
+      "maintenanceWindow": "스케줄링",
+      "customPayload": "사용자 정의 페이로드",
+      "eventsPage": "이벤트 관리",
+      "logManagement": "로깅",
+      "configuringAndMonitoring": "구성 및 모니터링",
+      "customDashboard": "사용자 정의 대시보드"
     }
   }
 }

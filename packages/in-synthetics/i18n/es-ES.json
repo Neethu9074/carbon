@@ -39,6 +39,7 @@
         "labelName": "Nombre de la prueba",
         "labelDescription": "Descripción",
         "labelFrequency": "Frecuencia (minutos)",
+        "labelFrequencyHour": "Frecuencia (hora)",
         "labelApplications": "Seleccionar una aplicación"
       },
       "bluePrint": {
@@ -95,6 +96,11 @@
             "line3": "Paso 3: Elija la frecuencia de prueba (1 ~ 120 minutos).",
             "line4": "Paso 4: En la sección Nombre de la prueba y descripción, especifique un nombre significativo para la prueba en el campo Nombre. Añada una descripción de la finalidad de la prueba al campo Descripción."
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "Compruebe si el certificado de servidor web va a caducar o no está utilizando esta prueba."
+          }
         }
       },
       "validators": {
@@ -128,7 +134,11 @@
           "browserTypeHeadline": "Pruebas sintéticas de navegador",
           "browserTypeText": "La prueba sintética del navegador es un método para supervisar el rendimiento de las aplicaciones web simulando las interacciones del usuario con un sitio web a través de un script en un navegador web, proporcionando información valiosa sobre los problemas que afectan a la experiencia del usuario y garantizando la funcionalidad del sitio web.",
           "browserSimpleTitle": "Prueba simple de navegador",
-          "browserScriptTitle": "Prueba de script de navegador"
+          "browserScriptTitle": "Prueba de script de navegador",
+          "certificateCheckTitle": "Comprobación de certificado SSL",
+          "certificateCheckLabel": "Certificado SSL",
+          "certificateCheckHeadline": "Prueba de comprobación de certificado SSL",
+          "certificateCheckText": "La comprobación de certificados SSL es un método para probar la caducidad de un certificado SSL en una aplicación web comprobando los días restantes en un certificado emitido."
         },
         "configurationLabel": "Configuración",
         "configurationTitle": "Configuración: ¿Cómo funcionará esta prueba?",
@@ -140,6 +150,8 @@
         "identifyTitle": "Identificar: ¿Qué va a hacer la prueba?",
         "customPropertiesTitle": "Propiedades personalizadas",
         "frequency": "Esta prueba se ejecutará cada {{frequencyValue}} minutos.",
+        "frequencyHours": "Esta prueba se ejecutará cada {{frequencyHours}} horas.",
+        "frequencyHoursAndMinutes": "Esta prueba se ejecutará cada {{frequencyHours}} horas y {{frequencyMinutes}} minutos.",
         "simultaneous": "Simultáneo",
         "simultaneousDescription": "Esta prueba se ejecutará simultáneamente en casa una de las ubicaciones seleccionadas.",
         "configStep": {
@@ -213,13 +225,20 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Navegador"
+          "browserName": "Navegador",
+          "certificateCheckName": "Certificado SSL"
         },
         "customProperties": {
           "property": "Propiedad",
           "propertyValue": "Valor",
           "addProperty": "Añadir propiedad",
           "propertyNameMustBeUnique": "El nombre de propiedad debe ser exclusivo."
+        },
+        "certificateCheck": {
+          "inputHostName": "Nombre de host",
+          "inputPortNumber": "Puerto",
+          "failureConfigLabel": "Configuración de anomalía",
+          "failureConfigText": "La prueba fallará cuando queden <certificateValidityDays/> días de validez del certificado hasta la caducidad."
         }
       }
     },
@@ -241,9 +260,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "La ubicación se ha suprimido correctamente",
-      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "failureMesssage": "{{errorMessage}}",
       "successMessageDeactivate": "La ubicación se ha desactivado correctamente",
-      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
+      "successMessageActivate": "Se ha activado correctamente la ubicación"
     },
     "updateTest": {
       "dialogTitle": "Editar prueba {{syntheticType}}",
@@ -307,7 +326,10 @@
           "warningMessage": "La desactivación no se está suprimiendo. La ubicación estará disponible y se podrá activar de nuevo. Para eliminar completamente la ubicación gestionada, suprima la ubicación una vez que su estado cambie a Fuera de línea.",
           "activeStatus": "Activo",
           "deactivateButton": "Desactivar"
-        }
+        },
+        "activate": "Activar",
+        "okay": "Correcto",
+        "activateLocation": "Activar ubicación"
       },
       "validators": {
         "theValueMustNotBeEmpty": "Es necesario seleccionar al menos un centro de datos"
@@ -442,7 +464,14 @@
       "totalRuns": "{{totalRuns}} ejecuciones en total",
       "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º",
       "smartAlertsTab": "Alertas inteligentes",
-      "configurationTab": "Configuración"
+      "configurationTab": "Configuración",
+      "isCertificateValid": "Última ejecución: el certificado es válido",
+      "certificateValid": "Sí",
+      "certificateNotValid": "No",
+      "daysRemaining": "Última ejecución: días restantes",
+      "dateOfExpiry": "Última ejecución: fecha de caducidad",
+      "smallerTimeFrameTitle": "No hay resultados para este periodo de tiempo",
+      "smallerTimeFrameDescription": "Seleccione un intervalo de tiempo más largo para ver los resultados de las pruebas de comprobación de certificados SSL."
     },
     "resultsListPage": {
       "startedColumn": "Iniciado",
@@ -454,7 +483,8 @@
       "locationLabel": "Ubicación",
       "failures": "Anomalías",
       "status": "Estado",
-      "success": "Éxito"
+      "success": "Éxito",
+      "daysRemaining": "Días restantes"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "La modalidad activa no es aplicable en la página de detalles del resultado de la prueba sintética",
@@ -579,6 +609,11 @@
         "imageButton": "Imagen",
         "ScreenshotsLoadingMessage": "Cargando capturas de pantalla",
         "noScreenshotsAvailableMessage": "Capturas de pantalla no disponibles para este resultado de prueba"
+      },
+      "sslCertificate": {
+        "daysRemaining": "Días restantes",
+        "dateOfIssue": "Fecha de emisión",
+        "dateOfExpiry": "Fecha de caducidad"
       }
     },
     "noDataAvailable": {
@@ -653,7 +688,12 @@
       "retryIntervalFieldLabel": "Intervalo de reintentos",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} segundo",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} segundos",
-      "markSyntheticCall": "Marcar llamada sintética"
+      "markSyntheticCall": "Marcar llamada sintética",
+      "hostname": "Nombre de host",
+      "port": "Puerto",
+      "daysRemaining": "La prueba fallará cuando la validez del certificado tenga",
+      "day": "día restante hasta la caducidad",
+      "days": "días restantes hasta la caducidad"
     }
   }
 }

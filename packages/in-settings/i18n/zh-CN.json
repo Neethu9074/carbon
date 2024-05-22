@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "创建新组",
-    "dialogTitle_edit": "编辑访问作用域",
+    "dialogTitle_edit": "编辑访问权配置",
     "editButton": "编辑",
     "productArea": "{{tenantUnit}}-{{tenant}} 的访问配置"
   },
@@ -82,17 +82,16 @@
     "role_permissions_contributor_and_viewer": "查看者访问权 {{quantityOfAreas}} & 添加者访问权 {{quantityOfAreasContributor}}",
     "no_access": "无访问权",
     "platform_permissions": "访问 {{quantityOfAreas}}",
-    "analyticsContentMessage": "可以在 Web 站点、移动应用程序、应用程序、平台和基础架构中的访问范围定义的分析中查看数据",
     "infrastructureContentMessage": "可以在应用程序、平台和基础结构中查看由访问作用域定义的实体，也可以通过 DFQ 查看（可选）",
     "infrastructureAccessAllMessage": "所有实体",
-    "eventsAndAlertsContentMessage": "可以根据 Web 站点、移动应用程序、应用程序、合成监控、平台和基础架构中定义的访问作用域来查看事件和警报",
     "permissions": "许可权",
     "additionalPermissions": "其他许可权",
     "permissions_DASHBOARD": "定制仪表板许可权",
     "permissions_SYNTHETICS": "合成监视许可权",
-    "permissions_AGENTS": "代理程序许可权",
+    "permissions_AGENTS": "代理程序部署许可权",
     "permissions_ACCESS_CONTROL": "访问控制许可权",
     "permissions_AUTOMATION": "自动化许可权",
+    "permissions_EVENT": "事件和警报许可权",
     "permissions_LOGS": "日志许可权",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power HMC",
@@ -107,7 +106,6 @@
     "obsoleteEntityDescription": "当前没有可用的数据 - 仍在授予访问权。",
     "title_analytics": "分析",
     "title_applications": "应用程序",
-    "title_events_and_alerts": "事件和警报",
     "title_global_functions": "全局函数",
     "title_infrastructure": "基础架构",
     "title_mobileApps": "移动应用程序",
@@ -165,7 +163,8 @@
     "doneButton": "完成"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "名称"
+    "nameColumnHead": "名称",
+    "contributionFilterColumnHead": "添加项过滤器"
   },
   "permissionScope": {
     "access_level": "访问级别",
@@ -191,7 +190,6 @@
     "description_no_access_bizops": "对业务监视的访问遭到拒绝。",
     "description_access_all_except_contributor": "全部访问 - 作为添加者访问的对象除外",
     "role": "选择一个角色",
-    "roleSelection": "角色",
     "role_owner": "所有者",
     "role_viewer": "查看者",
     "role_custom": "定制",
@@ -444,6 +442,7 @@
     "someEmailsHaveFailedToSend": "某些电子邮件已发送失败",
     "inviteUserToTenant": "邀请用户加入 {{tenant}}",
     "anotherUser": "其他用户",
+    "inviteUsertoDefaultGroup": "您没有选择要邀请的组所需的足够许可权。 将邀请的用户添加到缺省组。",
     "permissionEntityLabel": "许可权 {{entityLabel}}",
     "addToAGroup": "添加到组",
     "failedToAddUserToGroups": "未能将用户添加到组：{{err}}",
@@ -543,7 +542,7 @@
     "applicationPerspectiveEntityLabel": "应用程序透视图 {{entityLabel}}",
     "keyEquals": "键等于",
     "selectTag": "选择标记",
-    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "每个密钥/值对将作为附加有效内容包含在每个问题或突发事件警报通知中。请参阅<docLink>定制有效内容文档</docLink>以获取更多详细信息。",
+    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "每个密钥/值对将作为附加有效内容包含在每个问题或突发事件警报通知中。 请参阅<docLink>定制有效内容文档</docLink>以获取更多详细信息。",
     "anErrorOccurredPleaseTryAgain": "发生错误，请重试。",
     "custom": "定制",
     "theValueMustNotBeBlank": "值不能为空。",
@@ -737,6 +736,16 @@
     "timeoutsSuccessfullySaved": "已成功保存超时。",
     "disableTwoFactor": "禁用双因子",
     "saveToken": "保存令牌",
+    "profile": {
+      "pageName": "概要文件",
+      "email": "电子邮件",
+      "emailHint": "用于标识 Instana 上的用户账户的电子邮件。 创建用户账户后，就无法更改此电子邮件。",
+      "name": "名称",
+      "nameHint": "输入您的名字和姓氏，不带逗号。",
+      "saving": "正在保存新名称",
+      "saved": "已保存新名称",
+      "failed": "无法保存新名称"
+    },
     "twoFactorAuthentication": "双因子认证",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "当前对此用户禁用了双因子认证。",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "从认证程序应用程序输入 2FA 令牌以完成配置:",
@@ -767,7 +776,7 @@
     "noGroupMapping": "在身份提供者和 Instana 之间未配置映射",
     "denyUserWithNoGroup": "找不到映射时拒绝访问。如果未选中此项，那么没有组映射且找不到组的用户将添加到缺省组。",
     "denyUserWithNoGroupDocs": "始终可以使用具有足够许可权的令牌通过 API 删除身份提供者配置。 请参阅<authLink>配置认证</authLink>以获取详细信息。",
-    "groupMappingInfoText": "密钥、值和 Instana 组的映射规则的集合。 键和值指的是身份提供者属性及其映射的相应值。 例如，要将键“Department”中值为“SRE”的每个用户映射到 Instana 所有者组。",
+    "groupMappingInfoText": "映射规则由键、值和 Instana 组构成。 键和值指的是身份提供者属性及其映射的相应值。 例如，要将键“Department”中值为“SRE”的每个用户映射到 Instana 所有者组。",
     "ownerGroupMemberNotLimitable": "用户是“所有者”组的成员，不受其他组成员资格限制。",
     "mergedPermissionWithCombinationOfLimitedAndUnlimited": "有效的许可权集是通过不同组分配授予的最宽松许可权的总和。 但是，受限访问作用域的总和决定了用户的有效作用域。",
     "users": "用户",
@@ -1165,7 +1174,12 @@
     "createIDPConfirmationDescription": "将删除暂挂邀请。 将从身份提供者 (IdP) 自动供应用户。",
     "revokeInvitationForUserWithEmail": "撤销加入 {{email}} 的 {{tenant}} 租户的邀请",
     "invitationValidUntil": "邀请截止日期",
-    "invitedBy": "邀请者"
+    "invitedBy": "邀请者",
+    "accessAll": "全部访问",
+    "access": "访问权",
+    "accessForTenantUnit": "{{tenantUnit}}-{{tenant}} 的访问权",
+    "numberOfMembers": "成员数",
+    "groupEntityName": "组 {{entityName}}"
   },
   "languageSelection": {
     "language": "语言",
