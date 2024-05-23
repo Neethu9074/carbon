@@ -1334,5 +1334,27 @@
     "newMaintenanceWindowDefaultName": "New Maintenance Configuration"
   },
   "settings": "Settings",
-  "testAlertChannelSuccess": "Test Alert sent to {{channel}} Alert Channel"
+  "testAlertChannelSuccess": "Test Alert sent to {{channel}} Alert Channel",
+  "ShareAndInviteDialogBox": {
+    "share": "Share",
+    "inviteYourColleagues": "Invite your colleagues to Instana",
+    "emailAddress": "Email address",
+    "add": "Add",
+    "addUser": "Add User",
+    "youCanEditThisMessage": "You can edit this message.",
+    "group": "Group",
+    "groupToolTip": "The group controls the user access <br>across the tenant. For different <br>access, you can later add the user to <links>more groups</links>.",
+    "newGroup": "New group",
+    "emailMessage": "Email message (optional)",
+    "defaultEmailMessage": "Add a note here if you want to ask for help or provide any relevant information about the page you're sharing.",
+    "pageLink": "Page Link",
+    "currentTimeRange": "Current time range",
+    "fixateTime": "Lock current time range",
+    "agentKey": "Agent key",
+    "cancel": "Cancel",
+    "send": "Send",
+    "invitationSend": "Invitation Sent",
+    "somethingWentWrong": "Something went wrong.",
+    "failedToSendInvitation": "Your invitation was not delivered. Try again."
+  }
 }

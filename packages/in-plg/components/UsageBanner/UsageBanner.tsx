@@ -4,12 +4,16 @@
  * Copyright IBM Corp. 2023
  */
 
+// @ts-expect-error
+import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
 import React from 'react';
 
 import { Link, LicenseBannerButton, SvgIcon, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
+//@ts-expect-error missing typescript migration
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 //@ts-expect-error missing typescript migration
 import { getQueuedLicensesAsResultObservable } from 'in-amp/api/account';
 //@ts-expect-error missing typescript migration
@@ -46,6 +50,9 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const noQueuedLicense =
     !isLoading(queuedLicenseDetails) && queuedUpLicense !== 'paidPerUse' && queuedUpLicense !== 'hostBasedPaid';
   const needToShowReminder = isRemainingDaysLimited && isPaidLicenseUsage && noQueuedLicense;
+
+  const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
+
   return (
     <Stack align="center" direction="horizontal" gap="small">
       {(isTrial || (isFreeNotForResale && isRemainingDaysLimited) || needToShowReminder) && (
@@ -123,6 +130,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
                   icon="lib_actions_share"
                   iconColor="var(--cds-link-primary)"
                   target="_blank"
+                  onClick={() => addActiveDialog(<DeferredShareAndInviteDialogBox />)}
                 >
                   {t('in-plg:licenseBanner.share')}
                 </LicenseBannerButton>

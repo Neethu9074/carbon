@@ -3,13 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
+// @ts-expect-error
+import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
 import React from 'react';
 
+//@ts-expect-error missing typescript migration
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
 import { getPendingInvitations, PendingInvitation, revokeInvitation } from 'in-api/users';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { USER_INVITE, track } from 'in-services/tracking/tracking';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import Gravatar from 'in-components/Gravatar/Gravatar';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -69,6 +74,8 @@ const Invites = () => {
     );
   };
 
+  const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
+
   return (
     <List
       title={t('in-settings:tabs.pendingInvitations')}
@@ -79,7 +86,7 @@ const Invites = () => {
       initialOrderBy="email"
       onCreateNew={() => {
         track(USER_INVITE, emptyObject);
-        addActiveDialog(<InviteUserDialog />);
+        addActiveDialog(shareAndInviteEnabled ? <DeferredShareAndInviteDialogBox inviteOnly /> : <InviteUserDialog />);
       }}
       labelNew={t('in-settings:tabs.inviteUser')}
       searchAttributes={['email', 'groupName', 'invitedBy']}

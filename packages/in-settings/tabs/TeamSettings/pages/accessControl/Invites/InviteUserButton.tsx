@@ -12,7 +12,7 @@ import InviteUserDialog, {
   InviteSentState,
   UserInvite,
   UserSentStateStatus
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
 import { createInviteForm } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteForm';
 import { teamSettingsAccessControlInvites } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -60,7 +60,7 @@ export function onDoInviteUser(
   const invitationResult$ = sendInvitations(
     invitations
       .filter(i => i.userSentState === InviteSentState.notSentYet)
-      .map(({ email, groupId }) => ({ email, groupId }))
+      .map(({ email, groupId, message, path, pageName }) => ({ email, groupId, message, path, pageName }))
   );
   invitationResult$.once((data: any) => {
     const failed = data.body.invitationResults.filter(
@@ -68,10 +68,13 @@ export function onDoInviteUser(
     );
     if (failed?.length > 0) {
       const previousResult: UserInvite[] = failed.map((userInvitationResult: UserInvitationResult): UserInvite => {
-        const maybeGroupId = invitations.find(i => i.email === userInvitationResult.userEmail)?.groupId;
+        const invitation = invitations.find(i => i.email === userInvitationResult.userEmail);
         return {
-          groupId: maybeGroupId as string,
+          groupId: invitation?.groupId as string,
           email: userInvitationResult.userEmail,
+          message: invitation?.message,
+          path: invitation?.path,
+          pageName: invitation?.pageName,
           userSentState: InviteSentState[userInvitationResult.invitationStatus]
         };
       });
