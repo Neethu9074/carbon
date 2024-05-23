@@ -3,9 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+// @ts-expect-error needs migration
 import TraceGroupingConfigurator from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
+// @ts-expect-error needs migration
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
+// @ts-expect-error needs migration
 import { newTimeMetric, wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
+// @ts-expect-error needs migration
 import TraceQueryBuilder from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { callClickedTracker, traceClickedTracker } from 'in-analyze/tracker';
@@ -17,6 +21,7 @@ import getCalls from 'in-applications/subscriptions/getCalls';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { isNotBlank } from 'in-services/util/string';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 export const CALLS = 'CALLS';
@@ -69,21 +74,21 @@ const latency = {
 
 export const availableMetrics = [calls, latency, erroneousCalls, errorRate];
 
-export const isPotentialProblemsSupportedByMetric = metric => ['calls', 'latency', 'errors'].includes(metric);
+export const isPotentialProblemsSupportedByMetric = (metric: string) => ['calls', 'latency', 'errors'].includes(metric);
 
-export const chartMetricKey = (metric, aggregation) => `${metric}_${aggregation}`;
-export const sparkChartMetricKey = (metric, aggregation) => `${metric}_${aggregation}_Spark`;
-export const aggregateMetricKey = (metric, aggregation) => `${metric}_${aggregation}_Agg`;
+export const chartMetricKey = (metric: string, aggregation: string) => `${metric}_${aggregation}`;
+export const sparkChartMetricKey = (metric: string, aggregation: string) => `${metric}_${aggregation}_Spark`;
+export const aggregateMetricKey = (metric: string, aggregation: string) => `${metric}_${aggregation}_Agg`;
 
-export const getMetricAndAggregationFromMetricKey = key => {
+export const getMetricAndAggregationFromMetricKey = (key: string | Nullish) => {
   if (isNotBlank(key)) {
-    const [metric, aggregation] = key.split('_');
+    const [metric, aggregation] = key!.split('_');
     return [{ metric: metric, aggregation: aggregation }];
   }
   return null;
 };
 
-export const getTypeTextByCount = (type, count) => {
+export const getTypeTextByCount = (type: string, count: number) => {
   switch (type) {
     case 'call':
       return t('in-applications:analyze.typeCall', { count: count });
