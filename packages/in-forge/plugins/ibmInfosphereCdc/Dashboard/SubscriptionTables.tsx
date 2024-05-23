@@ -12,6 +12,7 @@ import { TimeConfig } from '@instana/types';
 import getSubscriptionforCdc from 'in-forge/plugins/ibmInfosphereCdc/subscriptions/getSubscriptionforCdc';
 // @ts-expect-error needs TS migration
 import { getSnapshots } from 'in-stores/snapshot';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { SnapshotData } from 'in-stores/snapshot';
@@ -36,6 +37,38 @@ const cols = [
     typeArgs: {
       getSnapshotId(row: SubscriptionRow) {
         return row.key;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmInfosphereCdcSubscription.postFilterInserts'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: SubscriptionRow) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'postFilterInserts';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmInfosphereCdcSubscription.postFilterInserts'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: SubscriptionRow) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'preFilterInserts';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   }
