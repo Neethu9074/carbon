@@ -175,14 +175,14 @@ const ExpandedLogWithLogging = (props: ExpandedLogWithLoggingProps) => {
 
       {/* <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}> */}
       <Typography variant="heading-02">{t('in-analyze:logDetails.titleTags')}</Typography>
-      <SidebarTagList tags={tags} />
+      <SidebarTagList tags={tags} noMargin />
       {/* </ExpandableGroup> */}
 
       {parameterTags.length > 0 && (
         // <ExpandableGroup title={t('in-analyze:logDetails.titleParameters')}>
         <>
           <Typography variant="heading-02">{t('in-analyze:logDetails.titleParameters')}</Typography>
-          <SidebarTagList tags={parameterTags} />
+          <SidebarTagList tags={parameterTags} noMargin />
         </>
         // </ExpandableGroup>
       )}
