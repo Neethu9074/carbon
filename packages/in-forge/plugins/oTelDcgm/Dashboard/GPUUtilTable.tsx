@@ -21,7 +21,7 @@ interface Row {
   container: string;
   keyName: string;
   key: string;
-  snapshotId: any;
+  snapshotId: string;
   timeConfig: TimeConfig;
 }
 
