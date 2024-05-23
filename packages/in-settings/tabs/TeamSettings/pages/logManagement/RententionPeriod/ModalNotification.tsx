@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon, Typography } from '@instana/components';
+import { Link, SvgIcon, Typography } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { t } from 'in-i18n';
@@ -45,6 +45,7 @@ export const ModalNotification = ({ variant = 'success', onClick = () => {}, val
       <Typography variant="body-small">
         {isSuccess ? localisationStrings.changeSuccess : localisationStrings.changeError}
       </Typography>
+      {isSuccess && <Link>{t('in-settings:tabs.retentionPeriod.contactSupport')}</Link>}
       <Button onClick={onClick} kind="subtle">
         <SvgIcon type="lib_openclose_cancel" />
       </Button>

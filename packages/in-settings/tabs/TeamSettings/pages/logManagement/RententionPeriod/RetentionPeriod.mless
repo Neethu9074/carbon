@@ -44,6 +44,11 @@
     }
   }
 
+  .newLine {
+    display: block;
+    margin-top: 1rem;
+  }
+
   .retentionContent {
     display: flex;
     flex-direction: row;

@@ -369,7 +369,6 @@
       "historyChanges2": "and search for log retention",
       "modalTitle": "Change log retention period",
       "toastTitleSuccesful": "Log retention period successfully changed",
-      "toastMessageSuccesful": "The Log retention changed successfuly.",
       "toastTitleFailed": "Change Log Retention failed",
       "toastMessageFailed": "The retention period could not be changed. Please try again or contact support.",
       "contactSupport": "Contact support"
