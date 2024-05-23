@@ -51,9 +51,9 @@ const localisationStrings = {
   changeError: t('in-settings:tabs.retentionPeriod.changeError'),
   changeSuccess: t('in-settings:tabs.retentionPeriod.changeSuccess'),
   toastTitleSuccesful: t('in-settings:tabs.retentionPeriod.toastTitleSuccesful'),
-  toastMessageSuccesful: t('in-settings:tabs.retentionPeriod.toastMessageSuccesful'),
   toastTitleFailed: t('in-settings:tabs.retentionPeriod.toastTitleFailed'),
-  toastMessageFailed: t('in-settings:tabs.retentionPeriod.toastMessageFailed')
+  toastMessageFailed: t('in-settings:tabs.retentionPeriod.toastMessageFailed'),
+  contactSupport: t('in-settings:tabs.retentionPeriod.contactSupport')
 };
 
 const useMock = true; // Activate mock response
@@ -198,7 +198,7 @@ function RetentionPeriodDialog({
         const postRetentionStatusNumber = await handlePostRequest(queryParams);
 
         if (postRetentionStatusNumber === 200) {
-          succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
+          errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
         } else {
           errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
         }
