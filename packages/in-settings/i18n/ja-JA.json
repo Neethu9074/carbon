@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "新規グループの作成",
-    "dialogTitle_edit": "アクセス権の範囲の編集",
+    "dialogTitle_edit": "アクセス構成の編集",
     "editButton": "編集",
     "productArea": "{{tenantUnit}} のアクセス構成 - {{tenant}}"
   },
@@ -82,17 +82,16 @@
     "role_permissions_contributor_and_viewer": "ビューアー権限 {{quantityOfAreas}} &コントリビューター権限 {{quantityOfAreasContributor}}",
     "no_access": "アクセス権なし",
     "platform_permissions": "アクセス {{quantityOfAreas}}",
-    "analyticsContentMessage": "Web サイト、モバイル・アプリケーション、アプリケーション、プラットフォーム & インフラストラクチャーのアクセス・スコープによって定義された分析でデータを表示できる",
     "infrastructureContentMessage": "アプリケーション、プラットフォーム、インフラストラクチャー、およびオプションで DFQ のアクセス・スコープによって定義されたエンティティーを表示できる",
     "infrastructureAccessAllMessage": "すべてのエンティティー",
-    "eventsAndAlertsContentMessage": "Web サイト、モバイル・アプリケーション、アプリケーション、合成モニタリング、プラットフォーム & インフラストラクチャーで定義されているアクセス・スコープに従って、イベントおよびアラートを表示できる",
     "permissions": "権限",
     "additionalPermissions": "追加の権限",
     "permissions_DASHBOARD": "カスタム・ダッシュボードの権限",
     "permissions_SYNTHETICS": "シンセティック・モニターの権限",
-    "permissions_AGENTS": "エージェントの権限",
+    "permissions_AGENTS": "エージェント・デプロイメントの権限",
     "permissions_ACCESS_CONTROL": "アクセス制御の権限",
     "permissions_AUTOMATION": "自動化の権限",
+    "permissions_EVENT": "イベントおよびアラートの権限",
     "permissions_LOGS": "ログ・アクセス権",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power HMC",
@@ -107,7 +106,6 @@
     "obsoleteEntityDescription": "現在、使用可能なデータはありません。アクセス権限はまだ付与されています。",
     "title_analytics": "分析",
     "title_applications": "アプリケーション",
-    "title_events_and_alerts": "イベントおよびアラート",
     "title_global_functions": "グローバル関数",
     "title_infrastructure": "インフラストラクチャー",
     "title_mobileApps": "モバイル・アプリ",
@@ -165,7 +163,8 @@
     "doneButton": "完了"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "名前"
+    "nameColumnHead": "名前",
+    "contributionFilterColumnHead": "コントリビューション・フィルター"
   },
   "permissionScope": {
     "access_level": "アクセス・レベル",
@@ -191,7 +190,6 @@
     "description_no_access_bizops": "ビジネス・モニターへのアクセスが拒否されました。",
     "description_access_all_except_contributor": "すべてにアクセス-コントリビューターとしてアクセスされるものを除く",
     "role": "役割の選択",
-    "roleSelection": "役割",
     "role_owner": "所有者",
     "role_viewer": "ビューア―",
     "role_custom": "カスタム",
@@ -444,6 +442,7 @@
     "someEmailsHaveFailedToSend": "一部の E メールの送信に失敗しました",
     "inviteUserToTenant": "{{tenant}} にユーザーを招待",
     "anotherUser": "別のユーザー",
+    "inviteUsertoDefaultGroup": "招待のためのグループを選択するための十分な権限がありません。 招待されたユーザーはデフォルト・グループに追加されます。",
     "permissionEntityLabel": "権限 {{entityLabel}}",
     "addToAGroup": "グループに追加",
     "failedToAddUserToGroups": "ユーザーをグループに追加できませんでした: {{err}}",
@@ -543,7 +542,7 @@
     "applicationPerspectiveEntityLabel": "アプリケーション・パースペクティブ {{entityLabel}}",
     "keyEquals": "同等のキー",
     "selectTag": "タグの選択",
-    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "各キー/値ペアは、各問題または各インシデントのアラート通知に追加のペイロードとして組み込まれます。 詳しくは、<docLink>カスタム・ペイロードの資料</docLink>を参照してください。",
+    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "各キー/値ペアは、各問題または各インシデントのアラート通知に追加のペイロードとして含められます。 詳しくは、<docLink>カスタム・ペイロードの資料</docLink>を参照してください。",
     "anErrorOccurredPleaseTryAgain": "エラーが発生しました。再試行してください。",
     "custom": "カスタム",
     "theValueMustNotBeBlank": "値をブランクにすることはできません。",
@@ -737,6 +736,16 @@
     "timeoutsSuccessfullySaved": "タイムアウトが正常に保存されました。",
     "disableTwoFactor": "2 要素の無効化",
     "saveToken": "トークンの保存",
+    "profile": {
+      "pageName": "プロファイル",
+      "email": "E メール",
+      "emailHint": "Instanaのユーザー・アカウントを特定するためのメール・アドレス。 ユーザー・アカウントの作成後にメール・アドレスを変更することはできません。",
+      "name": "名前",
+      "nameHint": "名前 (姓名の名) と姓 (姓名の姓) をコンマを入れずに入力してください。",
+      "saving": "新しい名前を保存しています",
+      "saved": "保存された新規名",
+      "failed": "新規名の保存に失敗しました"
+    },
     "twoFactorAuthentication": "2 要素認証",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "このユーザーの 2 要素認証は現在無効になっています。",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "オーセンティケーター・アプリケーションから 2FA トークンを入力して構成を完了してください:",
@@ -767,7 +776,7 @@
     "noGroupMapping": "ID プロバイダーと Instana の間にマッピングが構成されていません",
     "denyUserWithNoGroup": "マッピングが見つからない場合はアクセスを拒否する。チェックを外すと、グループマッピングがなく、グループが見つからないユーザーがデフォルト・グループに追加されます。",
     "denyUserWithNoGroupDocs": "ID プロバイダー構成は、十分な許可を持つトークンを使用して、API を介していつでも削除できます。 詳しくは、<authLink>認証の構成</authLink> を参照してください。",
-    "groupMappingInfoText": "マッピング・ルールはキー、値、および Instana グループから構成されます。 キーと値は、マップ元のアイデンティティー・プロバイダー属性とそれに対応する値を参照します。 例えば、キー「Department」の値「SRE」を持つすべてのユーザーを Instana 所有者グループにマップするとします。",
+    "groupMappingInfoText": "マッピング・ルールは、キー、値、およびInstanaグループから構成されます。 キーと値は、マップ元のアイデンティティー・プロバイダー属性とそれに対応する値を参照します。 例えば、キー「Department」の値「SRE」を持つすべてのユーザーを Instana 所有者グループにマップするとします。",
     "ownerGroupMemberNotLimitable": "ユーザーは所有者グループのメンバーであり、他のグループ・メンバーシップによって制限されることはありません。",
     "mergedPermissionWithCombinationOfLimitedAndUnlimited": "有効な許可のセットは、さまざまなグループ割り当てによって付与される、最も許容度の高い許可の合計です。 ただし、制限されたアクセス・スコープの合計によって、ユーザーの有効なスコープが決まります。",
     "users": "ユーザー",
@@ -1165,7 +1174,12 @@
     "createIDPConfirmationDescription": "保留中の招待は削除されます。 ユーザーは、IDプロバイダー(IdP)から自動的にプロビジョンされます。",
     "revokeInvitationForUserWithEmail": "{{email}} の {{tenant}} テナントへの参加の招待を取り消します",
     "invitationValidUntil": "招待の有効期限",
-    "invitedBy": "招待者"
+    "invitedBy": "招待者",
+    "accessAll": "すべてにアクセス",
+    "access": "アクセス",
+    "accessForTenantUnit": "{{tenantUnit}}{{tenant}}に対するアクセス権限",
+    "numberOfMembers": "メンバー数",
+    "groupEntityName": "グループ {{entityName}}"
   },
   "languageSelection": {
     "language": "言語",

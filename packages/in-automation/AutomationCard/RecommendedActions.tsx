@@ -12,84 +12,30 @@ import {
   nameColumn,
   aiEngineColumn,
   scoreColumn,
-  descriptionColumn,
-  handleTurboTracking
+  descriptionColumn
 } from 'in-automation/ActionTable/columnDefinitions';
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import useNavigateToActionDetails from 'in-automation/ActionCatalog/useNavigateToActionDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
-import { createPolicyFromRecommendedActionsTracker } from 'in-automation/tracker';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
-import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { TagsFilter } from 'in-automation/components/tableFilters';
-import { refresh } from 'in-automation/AutomationCard/usePolicies';
-import { ScoredAction, saveNewPolicy } from 'in-automation/api';
 import { isExternal } from 'in-automation/ActionCatalog/shared';
-import { Action, VolatileId, Event, Result } from 'in-types';
-import IconButton from 'in-components/IconButton/IconButton';
-import Tooltip from 'in-components/Tooltip/Tooltip';
+import { VolatileId, Event, Result } from 'in-types';
 import { mapData } from 'in-services/util/result';
+import { ScoredAction } from 'in-automation/api';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const pathSegment = '/recommendedActions';
 const matrixPrefix = '';
-
-function onCreateSuccess(name: string) {
-  addMessage(
-    {
-      type: 'info',
-      timeout: 2000,
-      title: t('in-automation:policies.createDialog.success.title'),
-      content: t('in-automation:policies.createDialog.success.content', {
-        name
-      })
-    },
-    'policy-success-info'
-  );
-}
-
-function onCreateFailed(name: string) {
-  addMessage(
-    {
-      type: 'danger',
-      timeout: 3000,
-      title: t('in-automation:policies.createDialog.failure.title'),
-      content: t('in-automation:policies.createDialog.failure.content', { name })
-    },
-    'policy-fail-error'
-  );
-}
-
-function onCreate(event: Event, action: Action, setActiveKey: SetActiveKey) {
-  const policy = createBasePolicy(event, action);
-  saveNewPolicy(policy).once(
-    () => {
-      onCreateSuccess(policy.name);
-      createPolicyFromRecommendedActionsTracker({
-        name: policy.name,
-        triggerName: event.problem?.problemText,
-        actionName: action.name,
-        type: 'manual'
-      });
-      refresh();
-      setActiveKey('automationPolicies');
-    },
-    () => {
-      onCreateFailed(policy.name);
-    }
-  );
-}
 
 const getActionColumn = (
   volatileId: VolatileId,
@@ -121,16 +67,25 @@ const getActionColumn = (
     }
     if (!role?.canConfigureAutomationPolicies || isExternal(action.type)) return null;
     return (
-      <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
-        <IconButton
-          kind="primaryv2"
-          type="lib_openclose_add_circle_outline"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            onCreate(event, action, setActiveKey);
-          }}
-        />
-      </Tooltip>
+      <Button
+        kind="action"
+        icon="lib_views_show"
+        onClick={e => {
+          stopPropagationAndPreventDefault(e);
+          addActiveDialog(
+            <RunActionDialog
+              action={action}
+              volatileId={volatileId}
+              event={event}
+              setActiveKey={setActiveKey}
+              viewRecommendedAction
+            />
+          );
+        }}
+        noAutoMargin
+      >
+        {t('in-automation:ActionCatalog.view')}
+      </Button>
     );
   }
 });
@@ -181,8 +136,6 @@ export default function RecommendedActions({
 
   const totalHits = result?.data?.totalHits;
 
-  const navigateToActionDetails = useNavigateToActionDetails();
-
   return (
     <ServerTablePresenter<ScoredAction, ServerTablePresenterProps<ScoredAction>>
       columnDefinitions={[...columnDefinitions, getActionColumn(volatileId, event, setActiveKey)]}
@@ -195,14 +148,6 @@ export default function RecommendedActions({
         </Typography>
       }
       onChange={setServerTableUrlState}
-      onRowClick={action => {
-        if (isExternal(action.type)) {
-          handleTurboTracking(action.name);
-          window.open(action.name, '_blank')?.focus();
-        } else {
-          navigateToActionDetails(action);
-        }
-      }}
       orderBy={orderBy}
       orderDirection={orderDirection}
       page={page}

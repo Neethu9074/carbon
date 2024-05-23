@@ -6,10 +6,9 @@
 
 import React, { useState } from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, IconButton } from '@instana/components';
 
 import Input, { InputProps } from 'in-components/form/Input/Input';
-import IconButton from 'in-components/IconButton/IconButton';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 

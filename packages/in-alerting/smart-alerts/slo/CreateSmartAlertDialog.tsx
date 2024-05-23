@@ -13,9 +13,12 @@ import { serviceLevelsObjectiveAlerts } from 'in-service-levels/navigation/path'
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { close } from 'in-components/DialogPresenter/store';
 
-export default function CreateSmartAlertDialog() {
+interface CreateSmartAlertDialogProps {
+  preselectedSloId?: string;
+}
+export default function CreateSmartAlertDialog({ preselectedSloId }: CreateSmartAlertDialogProps) {
   const location = useLocation();
-  const alertConfig = createNewAlertConfig();
+  const alertConfig = createNewAlertConfig(preselectedSloId);
 
   return (
     <AlertConfigDialog

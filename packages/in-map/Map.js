@@ -28,6 +28,7 @@ import 'in-map/stores/statisticsStore';
 import { t } from 'in-i18n';
 
 import locals from 'in-map/Map.mless';
+import useOpenDashboardOnEntityDoubleClick from 'in-map/useOpenDashboardOnEntityDoubleClick';
 
 export default function Map() {
   const antialias = useObservable(getAntiAliasObservable, []);
@@ -36,6 +37,7 @@ export default function Map() {
   const ref = useRef();
 
   useDisabledBodyScroll();
+  useOpenDashboardOnEntityDoubleClick();
 
   useLayoutEffect(() => {
     if (!ref.current) {

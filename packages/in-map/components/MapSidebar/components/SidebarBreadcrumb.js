@@ -7,13 +7,12 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
-import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
-import { getPhysicalHierarchy } from 'in-stores/snapshot';
+import { getPhysicalHierarchy, getSnapshot } from 'in-stores/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
 import { entitySelectedTracker } from 'in-map/tracker';
 import { getPluginName } from 'in-sdk/pluginName';
-import { getSnapshot } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -28,6 +27,7 @@ const Crumb = connectTo(
     };
   },
   function Crumb({ snapshot, selectedSnapshotId, snapshotId }) {
+    const snapshotRef = useGetLinkToSnapshotInCurrentView(snapshotId);
     if (!snapshot) {
       return null;
     }
@@ -45,7 +45,7 @@ const Crumb = connectTo(
       <Tooltip content={tooltip} align="rightMiddle">
         <li className={locals.crumb}>
           <Link
-            href={getLinkToSnapshotInCurrentView(snapshotId)}
+            href={snapshotRef}
             title={t('in-map:selectThisEntity')}
             className={locals.crumbLink}
             onClick={() => {

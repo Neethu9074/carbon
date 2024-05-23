@@ -294,6 +294,12 @@
         "decreaseColor": "Weniger Farbe",
         "timeShift": "Zeitverschiebung"
       },
+      "thresholdForm": {
+        "addThresholdColorization": "Schwellenwertbasierte Farbgebung hinzufügen",
+        "threshold": "Schwellenwert",
+        "critical": "Kritisch bei Latenzzeit",
+        "warning": "Warnung bei Latenzzeit"
+      },
       "bigNumber": "Große Zahl"
     },
     "chart": {
@@ -823,7 +829,9 @@
           },
           "formatter": "Formatierung",
           "searchPlaceholder": "Suchen",
-          "countGroup": "Gruppenanzahl anzeigen"
+          "countGroup": "Gruppenanzahl anzeigen",
+          "showGroupsWithMissingTags": "Gruppen mit fehlenden Tags anzeigen",
+          "filterEmptyValues": "Leere Werte filtern"
         }
       },
       "dataSource": {

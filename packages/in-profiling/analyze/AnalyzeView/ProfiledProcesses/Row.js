@@ -8,9 +8,9 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { Tr, Td } from '@instana/components';
 
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { useLinkToProfiles } from 'in-components/Profiling/navigation/paths';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 
@@ -35,6 +35,7 @@ export default function Row({ item }) {
 }
 
 function HostInformation({ hostSnapshotPreview }) {
+  const getDashboardLink = useGetDashboardLink();
   if (!hostSnapshotPreview) {
     return valueMissingPlaceholder;
   }
@@ -43,7 +44,7 @@ function HostInformation({ hostSnapshotPreview }) {
     <EntityLink
       plugin={hostSnapshotPreview.plugin}
       label={hostSnapshotPreview.label}
-      href$={getDashboardLink(hostSnapshotPreview.id, { pathname: '/physical/dashboard' })}
+      href={getDashboardLink(hostSnapshotPreview.id, { pathname: '/physical/dashboard' })}
     />
   );
 }

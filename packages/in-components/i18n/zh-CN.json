@@ -439,7 +439,8 @@
     "aggregation_DISTINCTCOUNT": "不同项计数",
     "aggregation_SUM": "总和",
     "aggregation_DISTRIBUTION": "分发",
-    "aggregation_PERSECOND": "每秒"
+    "aggregation_PERSECOND": "每秒",
+    "labelFilterEmptyValue": "过滤空值"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "已用",

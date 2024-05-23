@@ -120,7 +120,6 @@ module.exports = {
   welcomePageV2Enabled: false,
   infrastructureExploreTagColumnsEnabled: true,
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
-  rawTraceDownloadEnabled: false,
   carbonTabsEnabled: true,
   shareAndInviteEnabled: false,
   automationActionInstanceFeedbackEnabled: false,
@@ -130,5 +129,6 @@ module.exports = {
   carbonTileEnabled: true,
   carbonStepProgressBarEnabled: true,
   thresholdCustomDashboardsEnabled: false,
-  carbonPaginationEnabled: true
+  carbonPaginationEnabled: true,
+  logVolumePageEnabled: true
 };

@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Link, Spacer, Stack, Typography } from '@instana/components';
+import { Link, Spacer, Stack, Typography, IconButton } from '@instana/components';
 import { TextArea } from '@instana/components';
 import { Button } from '@instana/legacy';
 
@@ -96,7 +96,6 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import TagsTable from 'in-automation/ActionCatalog/TagsTable';
-import IconButton from 'in-components/IconButton/IconButton';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { merge } from 'in-services/util/resultMerger';
@@ -1005,7 +1004,13 @@ function useActionFilters({
       value: tags
     }
   ];
+
   const filteredActions = actions.filter(action => {
+    // Filter OOTB wastsonx actions
+    if (action.metadata?.builtIn && action.metadata?.ai !== null) {
+      return false;
+    }
+
     let shouldInclude = true;
     filters.forEach(filter => {
       const nonEmptyFilter = filter.value?.length;
@@ -1015,8 +1020,10 @@ function useActionFilters({
         shouldInclude = shouldInclude && (action.tags?.some(tag => filter.value.includes(tag)) ?? false);
       }
     });
+
     return shouldInclude;
   });
+
   return {
     filteredActions,
     type,

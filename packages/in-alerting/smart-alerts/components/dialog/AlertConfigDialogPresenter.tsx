@@ -43,7 +43,7 @@ export interface AlertConfigDialogPresenterProps {
   ) => JSX.Element;
   footer?: ReactNode;
   trackModeSwitch?: (simpleMode: boolean, simpleModeStep: number, form: MapForm<any>) => void;
-  updateForm?: (form: MapForm<any>) => void;
+  updateForm: (form: MapForm<any>) => void;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   withTrackClose: (step: number | false | undefined) => void;
   withTrackCreate: () => void;

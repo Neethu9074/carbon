@@ -20,8 +20,7 @@
   }
   .optional {
     line-height: var(--ids-line-height-option-heading-500);
-    color: var(--ids-color-option-neutral-500);
-    padding-left: 1.25rem;
+    padding-left: 8%;
     margin-bottom: 0;
   }
   .tabSelected {
@@ -36,20 +35,15 @@
   .index {
     word-break: auto-phrase;
   }
-  .lightColor {
-    color: var(--ids-color-text-primary-on-light);
-  }
-  .color600 {
-    color: var(--ids-color-option-neutral-600);
-  }
+
   .alignIcon {
     position: relative;
     width: 1.25rem;
     height: 1.25rem;
   }
-  .twoColumns {
+  .threeColumns {
     display: grid;
-    grid-template-columns: 90% 5%;
+    grid-template-columns: 8% 82% 10%;
     width: 100%;
   }
 }

@@ -212,6 +212,11 @@ export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
 export const SETTINGS_ROLE_OPEN_SUBMIT_FORM = 'settings.role.new';
 
+export const SHARE_AND_INVITE_SUBMIT = 'shareAndInvite.submit';
+export const SHARE_AND_INVITE_CLOSED = 'shareAndInvite.closed';
+export const SHARE_AND_INVITE_TRIGGERED = 'shareAndInvite.triggered';
+export const SHARE_AND_INVITE_INVITEE_JOINED = 'shareAndInvite.invitee.joined';
+
 // Owned by Team Alert Response
 // Tracking all team owned components
 export const SETTINGS_ALERT_CHANNEL_CREATE = 'settings.alertChannel.create';

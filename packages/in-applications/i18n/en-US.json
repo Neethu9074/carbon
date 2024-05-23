@@ -627,6 +627,7 @@
     "calls_latency": "Latency",
     "calls_erroneousCalls": "Erroneous Calls",
     "calls_errors": "Erroneous Calls Rate",
+    "calls_call_metric": "Numeric call metrics",
     "traces_calls": "Traces",
     "traces_traces": "Traces",
     "traces_latency": "Latency",

@@ -216,7 +216,8 @@ function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = n
       ProductArea.MOBILE_APP,
       ProductArea.APPLICATION,
       ProductArea.INFRASTRUCTURE,
-      ProductArea.SYNTHETICS
+      ProductArea.SYNTHETICS,
+      ProductArea.AUTOMATION
     ],
     permissionSet
   );

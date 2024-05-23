@@ -20,10 +20,11 @@ export default [
     min: 0
   },
   {
-    metrics: ['active_connections', 'aborted_connections'],
+    metrics: ['active_connections', 'aborted_connections', 'total_connections'],
     labels: [
       t('in-forge:plugins.azureMySql.labelActiveConnections'),
-      t('in-forge:plugins.azureMySql.labelAbortedConnections')
+      t('in-forge:plugins.azureMySql.labelAbortedConnections'),
+      t('in-forge:plugins.azureMySql.labelTotalConnections')
     ],
     formatter: zeroDecimalPlaces,
     min: 0
@@ -48,6 +49,40 @@ export default [
       t('in-forge:plugins.azureMySql.labelStoragePercent')
     ],
     formatter: percentagePlainTwoDecimalPlaces,
+    min: 0
+  },
+  {
+    metrics: [
+      'queries',
+      'slow_queries',
+      'com_alter_table',
+      'com_create_db',
+      'com_create_table',
+      'com_delete',
+      'com_drop_db',
+      'com_drop_table',
+      'com_insert',
+      'com_select',
+      'com_update'
+    ],
+    labels: [
+      t('in-forge:plugins.azureMySql.labelCpuPercent'),
+      t('in-forge:plugins.azureMySql.labelMemoryPercent'),
+      t('in-forge:plugins.azureMySql.labelIoConsumptionPercent'),
+      t('in-forge:plugins.azureMySql.labelStoragePercent'),
+      t('in-forge:plugins.azureMySql.labelQueries'),
+      t('in-forge:plugins.azureMySql.labelSlowQueries'),
+      t('in-forge:plugins.azureMySql.labelAlterTable'),
+      t('in-forge:plugins.azureMySql.labelCreateDB'),
+      t('in-forge:plugins.azureMySql.labelCreateTable'),
+      t('in-forge:plugins.azureMySql.labelDelete'),
+      t('in-forge:plugins.azureMySql.labelDropDB'),
+      t('in-forge:plugins.azureMySql.labelDropTable'),
+      t('in-forge:plugins.azureMySql.labelInsert'),
+      t('in-forge:plugins.azureMySql.labelSelect'),
+      t('in-forge:plugins.azureMySql.labelUpdate')
+    ],
+    formatter: zeroDecimalPlaces,
     min: 0
   }
 ];

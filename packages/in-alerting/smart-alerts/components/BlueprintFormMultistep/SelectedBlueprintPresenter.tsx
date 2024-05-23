@@ -6,8 +6,7 @@
 
 import React from 'react';
 
-import { Typography } from '@instana/components';
-
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 
 import locals from './SelectedBlueprintPresenter.mless';
@@ -22,16 +21,13 @@ interface Props {
 export default function SelectedBlueprintPresenter({ title, description, isBeta, children }: Props) {
   return (
     <div>
-      <Typography variant="heading-200" noMargin>
-        <span className={locals.color900}> {title} </span>
+      <AlertTypography variant={'heading-200'} color={'color900'} content={title} noMargin>
         {isBeta && <BetaBadge />}
-      </Typography>
+      </AlertTypography>
       <div className={locals.gap} />
-      {description && (
-        <Typography variant="body-large">
-          <span className={locals.color600}>{description}</span>
-        </Typography>
-      )}
+      <AlertTypography variant={'body-large'} color={'color600'} content={description} noMargin>
+        {isBeta && <BetaBadge />}
+      </AlertTypography>
       {children}
     </div>
   );

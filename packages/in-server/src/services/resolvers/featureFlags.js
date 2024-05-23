@@ -188,6 +188,11 @@ module.exports = exports = [
   {
     uiClientKey: 'logRetentionPageEnabled',
     instanaCtlKey: 'feature.log.retention.enabled',
+    defaultValue: false,
+  },
+  {
+    uiClientKey: 'logVolumePageEnabled',
+    instanaCtlKey: 'feature.log.volume.enabled',
     defaultValue: false
   },
   {
@@ -568,11 +573,6 @@ module.exports = exports = [
   {
     uiClientKey: 'serviceNowAutoCloseAndCustomPayloadsEnabled',
     instanaCtlKey: 'feature.service.now.auto.close.and.custom.payloads.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'rawTraceDownloadEnabled',
-    instanaCtlKey: 'feature.application.raw.trace.download.enabled',
     defaultValue: false
   },
   {

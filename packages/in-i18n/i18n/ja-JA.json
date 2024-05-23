@@ -53,7 +53,8 @@
       "create": "作成",
       "delete": "削除",
       "close": "閉じる",
-      "submit": "実行依頼"
+      "submit": "実行依頼",
+      "previous": "前へ"
     },
     "states": {
       "saving": "保存中…"

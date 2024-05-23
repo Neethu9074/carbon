@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
-import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import { groupsColorPool } from 'in-services/util/ColorGenerator';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -25,6 +25,8 @@ export default connectTo(
     };
   },
   function ZoneTag({ zoneSnapshot }) {
+    const href = useGetLinkToSnapshotInCurrentView(zoneSnapshot?.get('id'));
+
     if (!zoneSnapshot) {
       return null;
     }
@@ -32,7 +34,7 @@ export default connectTo(
     const background = groupsColorPool.getColorHex(zoneSnapshot.get('id'));
 
     return (
-      <Link className={block} href={getLinkToSnapshotInCurrentView(zoneSnapshot.get('id'))} style={{ background }}>
+      <Link className={block} href={href} style={{ background }}>
         {getLabel(zoneSnapshot)}
       </Link>
     );

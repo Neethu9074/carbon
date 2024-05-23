@@ -21,6 +21,7 @@
   "titleIncidentTimeline": "Vorfallszeitachse",
   "titleIncidentTriggeredBy": "Vorfall ausgelöst durch:",
   "titleAnalyzeCustomEvents": "Angepasste Ereignisse analysieren",
+  "titleAnalyzeCrash": "Abstürze analysieren",
   "titleAnalyzeHTTPRequests": "HTTP-Anforderungen analysieren",
   "titleAnalyzeJsErrors": "JS-Fehler analysieren",
   "titleAnalyzePageLoads": "Seitenladevorgänge analysieren",

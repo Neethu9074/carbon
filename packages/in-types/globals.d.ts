@@ -37,7 +37,6 @@ export interface Role {
   canConfigureAutomationActions: boolean;
   canRunAutomationActions: boolean;
   canConfigureAutomationPolicies: boolean;
-  canViewAutomationActionInstances: boolean;
   canViewLogs: boolean;
   canConfigureLogRetentionPeriod: boolean;
   canViewAuditLog: boolean;
@@ -53,6 +52,7 @@ export interface Role {
   canConfigureAgents: boolean;
   canConfigureApiTokens: boolean;
   canDeleteLogs: boolean;
+  canViewLogVolume: boolean;
   canConfigureIntegrations: boolean;
   canConfigureMobileAppMonitoring: boolean;
   canManuallyCloseIssue: boolean;

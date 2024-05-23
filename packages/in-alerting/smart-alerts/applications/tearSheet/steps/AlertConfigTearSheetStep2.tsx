@@ -10,14 +10,14 @@ import React from 'react';
 //@ts-expect-error TS migration
 import IncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/IncludeInternalOrSyntheticCallsSwitch';
 //@ts-expect-error TS migration
-import TearSheetInboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/TearSheetInboundOutboundCallsSwitch';
+import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 //@ts-expect-error TS migration
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { ScopeMigrationDetailsType } from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheet';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAlertConfigDialogStep2.mless';
+import locals from './AlertConfigTearSheetStep2.mless';
 
 export default function AlertConfigTearSheetStep2({
   form,
@@ -42,10 +42,11 @@ export default function AlertConfigTearSheetStep2({
         headline={t('in-alerting:smartAlerts.applications.tearSheet.callsInScope.title')}
         description={t('in-alerting:smartAlerts.applications.tearSheet.callsInScope.description')}
       >
-        <TearSheetInboundOutboundCallsSwitch
+        <InboundOutboundCallsSwitch
           form={form}
           updateForm={updateForm}
           isGlobalSmartAlert={isGlobalSmartAlert}
+          tearSheetView
         />
       </TearSheetStepContentWrapper>
       <TearSheetStepContentWrapper
@@ -56,13 +57,13 @@ export default function AlertConfigTearSheetStep2({
           form={form}
           updateForm={updateForm}
           isGlobalSmartAlert={isGlobalSmartAlert}
-          isTearsheet
+          tearSheetView
         />
       </TearSheetStepContentWrapper>
       <TearSheetStepContentWrapper
         headline={t('in-alerting:smartAlerts.applications.tearSheet.serviceEndPointSelection')}
       >
-        <div className={locals.alertLocationFiltersWrapper}>
+        <div className={locals.top75}>
           <ScopeConfig
             form={form}
             updateForm={updateForm}
@@ -72,6 +73,7 @@ export default function AlertConfigTearSheetStep2({
             isGlobalSmartAlert={isGlobalSmartAlert}
             initialConfiguredApplications={initialConfiguredApplications}
             headerTransparent
+            tearSheetView
           />
         </div>
       </TearSheetStepContentWrapper>

@@ -1,6 +1,8 @@
 {
   "general": {
     "addButtonLabel": "新增",
+    "addButtonLabel_slo": "新增服務水準目標",
+    "addButtonLabel_smartAlert": "新增智慧型警示",
     "aggregation": "聚集",
     "availability": "可用性",
     "beacon": "信標",
@@ -18,6 +20,7 @@
     "noSelection": "未選取任何項目",
     "loadMore": "載入更多",
     "noData": "沒有可用的資料",
+    "noMatchingTimeWindows": "所選期間沒有相符的時間範圍。 如果選取的時間範圍早於 SLO 的建立日期，則通常會發生此情況。",
     "serverErrors": {
       "sloLimitReachedError": "已達到服務水準目標配置數目上限 ({{0}})。 請聯絡 Instana 支援中心，以要求增加此限制。"
     },
@@ -124,18 +127,22 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "自訂過濾器（選用）",
+    "customFilter": "自訂過濾器",
+    "custom": "自訂",
+    "customDescription": "設定自訂過濾器以選取服務及/或端點",
     "title": "建立服務水準目標 (SLO)",
     "selectIndicator": "選取藍圖",
     "selectEntityNavItem": "設定實體",
     "selectEntityTitle": "選取要新增 SLO 的實體：",
     "selectScopeNavItem": "設定範圍",
+    "SelectServiceandEndpoint": "選取服務及端點",
     "selectIndicatorNavItem": "設定指示器",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP 要求",
       "beaconLabel_pageLoad": "網站頁面載入",
       "beaconLabel_custom": "網站自訂事件"
     },
+    "serviceAndEndpoint": "服務與端點",
     "selectObjectiveTitle": "設定目標",
     "sloTarget": "SLO 目標",
     "timeWindow": "時間範圍",
@@ -151,6 +158,8 @@
     "errorTimeWindowMin": "時間範圍必須至少為一天",
     "errorInvalidExpression": "輸入的過濾器無效",
     "errorBlankEntity": "請從清單中選取實體",
+    "errorEmptyGoodFilter": "必須定義良好的過濾器",
+    "errorEqualTagFilter": "好的和壞的過濾器不能完全相同",
     "nameAndTagsTitle": "設定明細",
     "sloNameLabel": "SLO 名稱",
     "sloNamePlaceholder": "輸入名稱",
@@ -262,7 +271,8 @@
   "sloDashboard": {
     "tabs": {
       "summaryLabel": "摘要",
-      "configurationLabel": "配置"
+      "configurationLabel": "配置",
+      "smartAlertsLabel": "智慧型警示"
     },
     "timeWindowSelection": {
       "timeWindow": "不明選項",

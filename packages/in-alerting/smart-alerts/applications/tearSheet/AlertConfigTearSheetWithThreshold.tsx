@@ -66,6 +66,7 @@ export interface AlertConfigTearSheetWithThresholdProps {
   withTrackCreate: () => void;
   isSaving: boolean;
   messages: MessageType[] | EnrichedError[];
+  headerWithMsg: boolean;
   initialConfiguredApplications?: object;
 }
 
@@ -109,8 +110,17 @@ function SmartAlertConfigTearSheetWithQueryValidation({
   blueprintConfig,
   ...props
 }: TearSheetWithQueryValidationProps) {
-  const { migrationMode, form, updateForm, editMode, withTrackCreate, withTrackClose, isSaving, isGlobalSmartAlert } =
-    props;
+  const {
+    migrationMode,
+    form,
+    updateForm,
+    editMode,
+    withTrackCreate,
+    withTrackClose,
+    headerWithMsg,
+    isSaving,
+    isGlobalSmartAlert
+  } = props;
 
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
@@ -177,6 +187,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       migrationMode={migrationMode}
       handleSubmit={handleSubmit}
       thresholdResult={thresholdResult}
+      headerWithMsg={headerWithMsg}
       additionalValidationCheck={step === 2 ? isTagFilterFormModelValid : true}
       setForm={updateForm}
     >

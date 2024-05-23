@@ -21,8 +21,4 @@
     display: grid;
     margin-top: 1rem;
   }
-
-  .color700 {
-    color: var(--ids-color-option-neutral-700);
-  }
 }

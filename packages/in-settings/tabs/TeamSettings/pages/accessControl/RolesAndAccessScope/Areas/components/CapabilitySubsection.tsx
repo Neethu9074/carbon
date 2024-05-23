@@ -26,7 +26,7 @@ interface CapabilitySubsectionProps {
 export const CapabilitySubsection = ({ capabilities, headerText, areaPermissions }: CapabilitySubsectionProps) => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
 
-  if (capabilities.length === 0 && areaPermissions?.length === 0) return null;
+  if (capabilities.length === 0 && (!areaPermissions || areaPermissions.length === 0)) return null;
 
   const capabilitiesUserHas = filterPermissionSet({
     permissionsSet,
@@ -40,7 +40,9 @@ export const CapabilitySubsection = ({ capabilities, headerText, areaPermissions
       areaPermissions
     });
 
-  if (capabilitiesUserHas.length === 0 && areaPermissionsUserHas?.length === 0) return null;
+  if (capabilitiesUserHas.length === 0 && (!areaPermissionsUserHas || areaPermissionsUserHas.length === 0)) {
+    return null;
+  }
   return (
     <>
       {headerText && <SubsectionHeader headerText={headerText} />}

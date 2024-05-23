@@ -22,10 +22,6 @@ jest.mock('in-automation/tracker', () => ({
   actionHistoryTracker: jest.fn()
 }));
 
-const role = {
-  canViewAutomationActionInstances: true
-};
-
 const mockMatchLocation = jest.fn();
 const mockCreateHrefToPath = jest.fn();
 
@@ -58,16 +54,9 @@ describe('ViewSwitcher Component', () => {
   });
 
   test('click on action history link triggers the history tracker', () => {
-    role.canViewAutomationActionInstances = true;
     const { getByText } = render(<ViewSwitcher />);
     const actionHistoryLink = getByText('in-automation:actionHistory.actionHistory');
     fireEvent.click(actionHistoryLink);
     expect(actionHistoryTracker).toHaveBeenCalled();
-  });
-
-  test('action history link not rendered for users without permission', () => {
-    role.canViewAutomationActionInstances = false;
-    const { queryByText } = render(<ViewSwitcher />);
-    expect(queryByText('Action History')).toBeNull();
   });
 });

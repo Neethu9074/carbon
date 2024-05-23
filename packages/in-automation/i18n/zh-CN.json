@@ -4,6 +4,7 @@
   "delete": "删除",
   "test": "测试",
   "recommendedActions": "建议的操作",
+  "recommendedActionsWithCount": "建议的操作 ({{count}})",
   "validVaultParameter": "标记为可选的保险库文件参数必须同时为空白或同时为非空白。",
   "newAction": "新建操作",
   "ok": "确定",
@@ -44,7 +45,7 @@
   "description": "描述",
   "automation": "自动化",
   "failedToResolveDynamicParameters": "未能解析动态参数。",
-  "associateActionWithName": "关联操作 {{actionName}}",
+  "createPolicyWithName": "使用操作 {{actionName}} 创建策略",
   "deletePolicyWithName": "删除策略 {{actionName}}",
   "jobTemplate": "作业模板",
   "hostsLimit": "主机限制（可选）",
@@ -81,6 +82,7 @@
   "value": "值",
   "type": "Type",
   "automationPolicies": "自动化策略",
+  "automationPoliciesWithCount": "自动化策略（{{count}} 个）",
   "copyOf": "{{name}}（的副本）",
   "searchActions": "搜索操作",
   "hostsLimitHelpText": "将执行限制为指定的目标主机。 选择与系统在 Ansible 清单中的表示方式相匹配的值，或者输入 Ansible 限制语法支持的字符串。",
@@ -93,6 +95,7 @@
   "actions": "操作",
   "ActionCatalog": {
     "actionCatalog": "操作目录",
+    "actionCatalogWithCount": "操作目录（{{count}} 个）",
     "action": "操作",
     "newAction": "新建操作",
     "createANewAction": "创建新操作",
@@ -223,7 +226,7 @@
     "eventName": "事件名称",
     "returnCode": "返回码",
     "errorMessage": "错误消息",
-    "actionContent": "操作内容",
+    "action": "操作",
     "host": "主机",
     "log": "日志",
     "success": "成功",
@@ -236,12 +239,12 @@
     "inputParameters": "输入参数",
     "feedbackTab": "反馈",
     "properties": "属性",
-    "filterNameOrActionInstanceId": "按名称、事件名称或操作实例标识过滤",
+    "filter": "过滤",
     "inputPrompt": "告诉我们您使用此操作的经验：",
-    "unhappyFeedback": "我非常不开心",
+    "unhappyFeedback": "我非常不满意",
     "dissatisfiedFeedback": "我不满意",
     "neutralFeedback": "我保持中立",
-    "satisfiedFeedback": "我很满意",
+    "satisfiedFeedback": "我感到满意",
     "verySatisfiedFeedback": "我非常满意",
     "additionalFeedback": "其他注释（可选）",
     "feedbackError": "保存反馈时发生错误。 请稍后重试。",
@@ -255,13 +258,17 @@
     "submitted": "已提交",
     "timeout": "超时",
     "issueUrl": "问题 URL",
-    "taskUrl": "任务 URL"
+    "taskUrl": "任务 URL",
+    "output": "输出",
+    "user": "用户",
+    "apiToken": "API 令牌"
   },
   "actionLanes": {
     "buttonInvestigate": "调查"
   },
   "policies": {
     "policies": "策略",
+    "policiesWithCount": "策略（{{count}} 个）",
     "newPolicy": "新策略",
     "selectEventTrigger": "选择事件触发器",
     "actionName": "操作名称",
@@ -288,7 +295,6 @@
     "custom": "定制",
     "event": "事件",
     "entityType": "实体类型",
-    "properties": "属性",
     "applicationSmartAlert": "应用程序智能警报",
     "globalApplicationSmartAlert": "全局应用程序智能警报",
     "infraSmartAlert": "基础架构智能警报",
@@ -308,6 +314,7 @@
     "manualAutomatic": "手动，自动",
     "policyType": "策略类型",
     "noPolicies": "未配置任何策略。",
+    "filterApplied": "已应用的过滤器",
     "createDialog": {
       "success": {
         "title": "已成功创建策略。",
@@ -315,7 +322,17 @@
       },
       "failure": {
         "title": "未能创建策略。",
-        "content": "创建此策略时发生问题: \"{{name}}\"。"
+        "content": "创建此策略时发生问题：{{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "已成功更新策略。",
+        "content": "已成功更新策略“{{name}}”。"
+      },
+      "failure": {
+        "title": "未能更新策略。",
+        "content": "更新此策略时发生问题：{{errorMessage}}"
       }
     },
     "createBulkDialog": {
@@ -329,7 +346,7 @@
       },
       "failure": {
         "title": "未能创建策略。",
-        "content": "创建策略时发生问题:{{error}}"
+        "content": "创建策略时发生问题：{{error}}"
       }
     },
     "deleteDialog": {

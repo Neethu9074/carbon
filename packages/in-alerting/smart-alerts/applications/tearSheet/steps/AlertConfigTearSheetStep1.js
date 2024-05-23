@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { Typography } from '@instana/components';
+
 import SelectedBlueprintPresenter from 'in-alerting/smart-alerts/components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import ProvideLogMessage from 'in-alerting/smart-alerts/applications/tearSheet/components/LogMessages/ProvideLogMessage';
 import LogMessages from 'in-alerting/smart-alerts/applications/tearSheet/components/LogMessages/LogMessages';
@@ -45,7 +47,11 @@ export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintC
             <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta}>
               <div className={locals.oneGap} />
               <ExpandableLightCard
-                title={t('in-alerting:smartAlerts.applications.logMessages.messageColumn')}
+                title={
+                  <Typography variant="heading-100" noMargin>
+                    {t('in-alerting:smartAlerts.applications.logMessages.messageColumn')}
+                  </Typography>
+                }
                 useMaxAvailableHeight={false}
                 openByDefault
                 darkFrame

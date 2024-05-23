@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { Message, Spacer, Pill } from '@instana/components';
+import { Message, Spacer, Pill, IconButton } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/legacy';
 
@@ -19,7 +19,6 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import RevisionDropdown from 'in-alerting/components/RevisionDropdown';
-import IconButton from 'in-components/IconButton/IconButton';
 import BackButton from 'in-components/BackButton';
 import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
@@ -209,7 +208,7 @@ export default function AlertHeader({
           )}
 
           {allowActionButtons && !alertConfig.readOnly && showActionButton && !playwithEnabled && (
-            <>
+            <div className={locals.iconsConatiner}>
               <Tooltip
                 content={
                   alertConfig.enabled ? t('in-alerting:smartAlerts.disable') : t('in-alerting:smartAlerts.enable')
@@ -298,7 +297,7 @@ export default function AlertHeader({
                   />
                 </Tooltip>
               )}
-            </>
+            </div>
           )}
         </div>
       </div>

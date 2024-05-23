@@ -8,8 +8,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
 
-import { Typography } from '@instana/components';
-
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { t } from 'in-i18n';
@@ -55,22 +54,20 @@ export default function Menu<T extends MenuItem>({
             <CheckboxFancy
               key={i}
               label={
-                <Typography
+                <AlertTypography
                   variant={
                     itemSelected.type === item.type && itemSelected.subType === item.subType
                       ? 'body-bold'
                       : 'body-regular'
                   }
+                  color={itemSelected.type !== item.type ? 'color700' : ''}
+                  content={
+                    <>
+                      {item.name} {item.isBeta && <BetaBadge />}
+                    </>
+                  }
                   noMargin
-                >
-                  <span
-                    className={classNames({
-                      [locals.color700]: itemSelected.type !== item.type
-                    })}
-                  >
-                    {item.name} {item.isBeta && <BetaBadge />}
-                  </span>
-                </Typography>
+                />
               }
               checked={itemSelected.type === item.type && itemSelected.subType === item.subType}
               onChange={() => {

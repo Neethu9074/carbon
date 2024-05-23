@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import { List, Map } from 'immutable';
 
-import { Link, LoadingSkeleton, Stack, SvgIcon, Typography } from '@instana/components';
+import { Button, Link, LoadingSkeleton, Stack, SvgIcon, Typography } from '@instana/components';
 import { Application, Endpoint, ServiceLabel, TimeConfig } from '@instana/types';
 import { Observable, combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
@@ -18,7 +18,6 @@ import { t } from '@instana/i18n-react';
 import { SnapshotData, getPhysicalHierarchy, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { ENDPOINT, SERVICE, entityTypes, operators } from 'in-analyze/applicationFilter';
-import EventListPagination from 'in-components/EventListPagination/EventListPagination';
 import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
@@ -32,6 +31,7 @@ import locals from 'in-events/components/legacy/EventList.mless';
 
 interface RootCauseEntityDetailsParams {
   selectedSnapshotMetadata: Map<string, string>;
+  explainabilityMetadata: List<Map<string, number | string>> | undefined;
   probabilityScore: number | null | undefined;
   relatedAPID: string | null;
   pageNum: number;
@@ -57,6 +57,7 @@ interface NonAppDataEntityPathProps {
 
 export default function RootCauseEntityDetails({
   selectedSnapshotMetadata,
+  explainabilityMetadata,
   probabilityScore,
   relatedAPID,
   pageNum,
@@ -183,38 +184,103 @@ export default function RootCauseEntityDetails({
   return (
     <div className={locals.entityDescription}>
       <Stack gap="small">
-        <Stack direction="horizontal" gap="small" align="center">
-          <Typography variant="body-bold">{t('in-events:RCA.probableRootCauseLabel')}</Typography>
-          {entityInformation !== null && entityType !== 'infrastructure' && entityType !== 'process' && (
-            <Link href={urlForEntity}>
-              <EntityPath
-                relatedApplicationInformation={relatedApplicationInformation}
-                entityInformation={entityInformation}
-                serviceLabelInformation={serviceLabelInformation}
-                entityType={entityType}
-              />
-            </Link>
-          )}
-          {entityInformation !== null &&
-            hierarchySnapshots &&
-            (entityType === 'infrastructure' || entityType === 'process') && (
+        <Stack direction="horizontal">
+          <Stack gap="xxsmall">
+            <Typography variant="body-bold">{t('in-events:RCA.probableRootCauseLabel')}</Typography>
+            {entityInformation !== null && entityType !== 'infrastructure' && entityType !== 'process' && (
               <Link href={urlForEntity}>
-                <NonAppDataEntityPath
+                <EntityPath
                   relatedApplicationInformation={relatedApplicationInformation}
-                  hierarchySnapshots={hierarchySnapshots}
                   entityInformation={entityInformation}
                   serviceLabelInformation={serviceLabelInformation}
                   entityType={entityType}
                 />
               </Link>
             )}
-          {entityInformation === null && <LoadingSkeleton className={locals.loadingEntity} />}
+            {entityInformation !== null &&
+              hierarchySnapshots &&
+              (entityType === 'infrastructure' || entityType === 'process') && (
+                <Link href={urlForEntity}>
+                  <NonAppDataEntityPath
+                    relatedApplicationInformation={relatedApplicationInformation}
+                    hierarchySnapshots={hierarchySnapshots}
+                    entityInformation={entityInformation}
+                    serviceLabelInformation={serviceLabelInformation}
+                    entityType={entityType}
+                  />
+                </Link>
+              )}
+            {entityInformation === null && <LoadingSkeleton className={locals.loadingEntity} />}
+          </Stack>
           <AIProbabilityBadge probabilityScore={probabilityScore} loading={entityInformation === null} />
         </Stack>
-        <EventListPagination pageNum={pageNum} numPages={numOfSnapshots || 1} setPageNum={setPageNum} />
+        {explainabilityMetadata && (
+          <Stack gap="xxsmall">
+            <Typography variant="body-bold">{'Evidence'}</Typography>
+            <Typography variant="body-regular">
+              {t('in-events:RCA.evidenceTextFailed', {
+                root_cause_entity_type: entityType,
+                root_cause_entity_name: Map.isMap(entityInformation)
+                  ? entityInformation?.get('label')
+                  : entityInformation?.label,
+                rca_error_percent: extractAggregatedErrorRateFromExplainability(
+                  explainabilityMetadata,
+                  'percentageFailedThroughRC'
+                )
+              })}
+            </Typography>
+            <Typography variant="body-regular">
+              {t('in-events:RCA.evidenceTextNotFailed', {
+                root_cause_entity_type: entityType,
+                root_cause_entity_name: Map.isMap(entityInformation)
+                  ? entityInformation?.get('label')
+                  : entityInformation?.label,
+                non_rca_error_rate: extractAggregatedErrorRateFromExplainability(
+                  explainabilityMetadata,
+                  'percentageFailedNotThroughRC'
+                )
+              })}
+            </Typography>
+          </Stack>
+        )}
+
+        <Button
+          onClick={() => {
+            if (!numOfSnapshots) return;
+
+            if (pageNum < numOfSnapshots) {
+              setPageNum(pageNum + 1);
+            } else {
+              setPageNum(1);
+            }
+          }}
+          disabled={!numOfSnapshots || numOfSnapshots <= 1}
+          icon="lib_actions_sync"
+          iconSize="s"
+          className={locals.regenerateButton}
+        >
+          {t('in-events:RCA.regenerateProbableRootCause')}
+        </Button>
       </Stack>
     </div>
   );
+}
+
+function extractAggregatedErrorRateFromExplainability(
+  explainabilityMetadata: List<Map<string, number | string>> | undefined,
+  error_rate_key: string
+) {
+  if (!explainabilityMetadata) return undefined;
+
+  const aggreagatedInfo = explainabilityMetadata.find(service => service?.get('connectedServiceId') === 'all');
+  let errorPercentage = aggreagatedInfo.get(error_rate_key) as number;
+
+  if (typeof errorPercentage === 'number') {
+    errorPercentage = errorPercentage * 100;
+    return errorPercentage.toFixed(2);
+  } else {
+    return NaN;
+  }
 }
 
 function EntityPath({
