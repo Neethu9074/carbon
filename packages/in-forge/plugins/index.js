@@ -288,6 +288,7 @@ import './tibcoEMS';
 import './phmcLPAR';
 import './phmcVIOS';
 import './bpm/jbpm';
+import './oTelDcgm';
 import './oTelLLM';
 import './bpm/baw';
 import './zhmcCpc';
