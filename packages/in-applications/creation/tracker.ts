@@ -17,13 +17,14 @@ import {
   APPLICATION_CREATION_SCOPE_SELECT
 } from 'in-services/tracking/tracking';
 
-export const applicationCreationOpenDialogClick = e => track(APPLICATION_CREATION_OPEN_DIALOG_CLICK, e);
-export const applicationCreationCloseDialogClick = e => track(APPLCATION_CREATION_CLOSE_DIALOG_CLICK, e);
-export const applicationCreationStepSwitch = e => track(APPLICATION_CREATION_STEP_SWITCH, e);
-export const applicationCreationModeSwitch = e => track(APPLICATION_CREATION_MODE_SWITCH, e);
-export const applicationCreationCreateClick = e => track(APPLICATION_CREATION_CREATE_CLICK, e);
-export const applicationCreationSelectedBlueprint = e => track(APPLICATION_CREATION_SELECTED_BLUEPRINT, e);
-export const applicationCreationAddTag = e => track(APPLICATION_CREATION_ADD_TAG, e);
-export const applicationCreationRemoveTag = e => track(APPLICATION_CREATION_REMOVE_TAG, e);
-export const applicationCreationBoundaryScopeSelect = e => track(APPLICATION_CREATION_BOUNDARY_SCOPE_SELECT, e);
-export const applicationCreationScopeSelect = e => track(APPLICATION_CREATION_SCOPE_SELECT, e);
+export const applicationCreationOpenDialogClick = (e: Object) => track(APPLICATION_CREATION_OPEN_DIALOG_CLICK, e);
+export const applicationCreationCloseDialogClick = (e: Object) => track(APPLCATION_CREATION_CLOSE_DIALOG_CLICK, e);
+export const applicationCreationStepSwitch = (e: Object) => track(APPLICATION_CREATION_STEP_SWITCH, e);
+export const applicationCreationModeSwitch = (e: Object) => track(APPLICATION_CREATION_MODE_SWITCH, e);
+export const applicationCreationCreateClick = (e: Object) => track(APPLICATION_CREATION_CREATE_CLICK, e);
+export const applicationCreationSelectedBlueprint = (e: Object) => track(APPLICATION_CREATION_SELECTED_BLUEPRINT, e);
+export const applicationCreationAddTag = (e: Object) => track(APPLICATION_CREATION_ADD_TAG, e);
+export const applicationCreationRemoveTag = (e: Object) => track(APPLICATION_CREATION_REMOVE_TAG, e);
+export const applicationCreationBoundaryScopeSelect = (e: Object) =>
+  track(APPLICATION_CREATION_BOUNDARY_SCOPE_SELECT, e);
+export const applicationCreationScopeSelect = (e: Object) => track(APPLICATION_CREATION_SCOPE_SELECT, e);

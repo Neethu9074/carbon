@@ -7,7 +7,6 @@ import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import InboundOrAllCallsChoiceVertical from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceVertical';
-//@ts-expect-error Need to migrate to TS
 import { applicationCreationBoundaryScopeSelect } from 'in-applications/creation/tracker';
 import FormGroup from 'in-components/form/FormGroup';
 
