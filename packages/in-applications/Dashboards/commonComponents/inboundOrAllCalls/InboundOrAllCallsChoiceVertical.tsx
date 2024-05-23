@@ -8,7 +8,14 @@ import React from 'react';
 import InboundOrAllCallsOptionBox from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsOptionBox';
 import { boundaryScopes } from 'in-applications/constants';
 
-export default function InboundOrAllCallsChoiceVertical({ boundaryScope, onBoundaryStateChange }) {
+interface InboundOrAllCallsChoiceVerticalProps {
+  boundaryScope: string;
+  onBoundaryStateChange: (value: { boundaryScope: string }) => void;
+}
+export default function InboundOrAllCallsChoiceVertical({
+  boundaryScope,
+  onBoundaryStateChange
+}: InboundOrAllCallsChoiceVerticalProps): JSX.Element {
   return (
     <>
       <InboundOrAllCallsOptionBox
