@@ -39,6 +39,10 @@
     white-space: normal;
   }
 
+  .tagLinkFilePath {
+    display: block;
+  }
+
   .li {
     min-height: 2rem;
 

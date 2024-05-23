@@ -73,7 +73,7 @@ export function TagValue({
 
   return (
     <div className={locals.tagValue}>
-      <div className={locals.tagLink}>
+      <div className={tag.name === LOG_FILE_PATH ? locals.tagLinkFilePath : locals.tagLink}>
         {entitySnapshotId && <EntityHealthDot snapshotId={entitySnapshotId} />}
         <ResolvedLink tag={tag} item={item} resolvedValue={resolvedValue} uniqueTagName={uniqueTagName} />
       </div>
@@ -161,7 +161,7 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
           {tag.name === LOG_FILE_PATH && (
             <>
               <div className={locals.value}>{tag.stringValue}</div>
-              <span>{t('in-logging:fileOnHost')}</span>
+              <span>{' ' + t('in-logging:fileOnHost') + ' '}</span>
             </>
           )}
           <Link
