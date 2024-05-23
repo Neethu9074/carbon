@@ -200,9 +200,6 @@ function BizOps() {
   if (!hasBizOpsAccess) {
     return null;
   }
-  if (playwithEnabled) {
-    return null;
-  }
   return (
     <MenuItem
       id="main-nav-bizops"
