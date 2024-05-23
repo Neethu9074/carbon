@@ -17,6 +17,7 @@ import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { CodeProps } from 'in-plg/components/Code/Code';
 import Code from 'in-plg/components/Code/Code';
@@ -75,6 +76,8 @@ const Windows64BitUnattended = ({
       openByDefault: false
     }
   ];
+
+  if (shareAndInviteEnabled) sideCardData.pop();
 
   const cmdLine = (): CodeProps => {
     return {
