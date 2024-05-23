@@ -6,7 +6,13 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { PaginatedResult, Result, ServiceLevelObjectiveConfiguration, SloEntityUnion } from '@instana/types';
+import {
+  PaginatedResult,
+  Result,
+  ServiceLevelObjectiveConfiguration,
+  SloEntityType,
+  SloEntityUnion
+} from '@instana/types';
 import { Progress } from '@instana/components/types/util/dataRetrieval';
 import { combineLatest } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
@@ -38,7 +44,12 @@ export interface SloData {
   entityType: SloEntityUnion['type'];
 }
 
-export default function SloListSelection() {
+interface SloListSelectionProps {
+  entity: SloEntityType;
+}
+export default function SloListSelection({ entity }: SloListSelectionProps) {
+  // eslint-disable-next-line no-console
+  console.log('entity', entity);
   const { form, onChange } = useSloAlertFormContext();
   const sloIdsField = form.getIn(['sloIds']);
   const { loadMore, query, selected, setQuery, sloList, page, totalHits, progress } = useSloList(sloIdsField.value);

@@ -4,7 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useState } from 'react';
+
+import { SloEntityType } from '@instana/types';
 
 import {
   AlertConfigDialogPresenterProps,
@@ -52,13 +54,17 @@ export default function AdvancedModeContainer({
   const isDescriptionValid = isFieldValid(descriptionField);
   const isTimeThresholdValid = isFieldValid(timeThresholdField);
   const isCustomPayloadFieldsValid = isFieldValid(customPayloadFieldsField);
+  const [targetEntity, setTargetEntity] = useState('application' as SloEntityType);
+  const setTargetData = (data: SloEntityType) => {
+    setTargetEntity(data);
+  };
 
   const navItems: Array<NavItem> = [
     {
       scrollId: '0-slo-target',
       label: t('in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel', { context: 'sloTarget' }),
       title: t('in-alerting:smartAlerts.slo.advancedModeContainer.stepTitle', { context: 'sloTarget' }),
-      content: <SloTargetSection />,
+      content: <SloTargetSection setTargetData={setTargetData} />,
       valid: sloIdsFieldValid
     },
     {
@@ -91,7 +97,7 @@ export default function AdvancedModeContainer({
       scrollId: '4-alert-properties',
       label: t('in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel', { context: 'alertProperties' }),
       title: t('in-alerting:smartAlerts.slo.advancedModeContainer.stepTitle', { context: 'alertProperties' }),
-      content: <AlertPropertiesSection />,
+      content: <AlertPropertiesSection targetEntity={targetEntity} />,
       valid: isNameValid && isDescriptionValid
     },
     {

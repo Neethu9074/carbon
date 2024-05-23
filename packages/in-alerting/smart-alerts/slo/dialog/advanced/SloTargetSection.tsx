@@ -4,10 +4,28 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
+import { SloEntityType } from '@instana/types';
+
+import SloEntityTypeSelector from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTypeSelector';
 import SloListSelection from 'in-alerting/smart-alerts/slo/components/SloListSelection';
 
-export default function SloTargetSection() {
-  return <SloListSelection />;
+interface SloTargetSectionProps {
+  setTargetData: (data: SloEntityType) => void;
+}
+export default function SloTargetSection({ setTargetData }: SloTargetSectionProps) {
+  const [entity, setEntity] = useState('application' as SloEntityType);
+  return (
+    <>
+      <SloEntityTypeSelector
+        onChange={type => {
+          setEntity(type);
+          setTargetData(type);
+        }}
+        value={entity}
+      />
+      <SloListSelection entity={entity} />
+    </>
+  );
 }

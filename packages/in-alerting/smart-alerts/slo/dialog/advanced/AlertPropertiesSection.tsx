@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { SloEntityType } from '@instana/types';
+import { Message } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -13,19 +15,28 @@ import {
   AlertPreviewHeadline
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
+import AlertDescriptionRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertDescriptionRow';
+import TriggersIncidentRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/TriggersIncidentRow';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
+import AlertLevelRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertLevelRow';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
+import { getDescriptionPlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
+import Section from 'in-components/workspace/Section/Section';
+
+// import Section from 'in-settings/components/Section';
 
 type OnChangeType = Parameters<typeof AlertProperties>[0]['onChange'];
+interface AlertPropertiesSectionProps {
+  targetEntity: SloEntityType;
+}
 
-export default function AlertPropertiesSection() {
+export default function AlertPropertiesSection({ targetEntity }: AlertPropertiesSectionProps) {
   const { form, onChange } = useSloAlertFormContext();
-
   const alertConfigTitle = form.getIn(['name']).value;
   const alertType = form.getIn(['rule', 'alertType']).value;
   const threshold = form.getIn(['threshold']).value;
-
+  const isApplication = targetEntity === 'application';
   const titlePlaceholder = t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesTitlePlaceholder', {
     context: alertType,
     percentage: threshold
@@ -38,23 +49,36 @@ export default function AlertPropertiesSection() {
     }
   );
   const previewTitle = alertConfigTitle ? alertConfigTitle : titlePlaceholder;
-
+  // const incidentSubTitle = t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesIncidentWarning');
   return (
     <AlertPropertiesContainer
       renderAlertProperties={() => (
-        <AlertProperties
-          form={form}
-          onChange={onChange as OnChangeType}
-          getDescriptionPlaceholder={() => descriptionPlaceholder}
-          renderAlertPropertiesTitleRow={() => (
-            <AlertPropertiesTitleRow
-              form={form}
-              placeholders={[]}
-              onChange={onChange as OnChangeType}
-              getTitlePlaceholder={() => titlePlaceholder}
-            />
+        <>
+          <AlertPropertiesTitleRow
+            form={form}
+            placeholders={[]}
+            onChange={onChange as OnChangeType}
+            getTitlePlaceholder={() => titlePlaceholder}
+          />
+          <AlertLevelRow onChange={onChange as OnChangeType} form={form} />
+          {isApplication ? (
+            <TriggersIncidentRow form={form} onChange={onChange as OnChangeType} />
+          ) : (
+            <Section
+              title={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesTriggersIncident')}
+              icon="lib_events_incident"
+            >
+              <Message type="warning">
+                {t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesIncidentWarning')}
+              </Message>
+            </Section>
           )}
-        />
+          <AlertDescriptionRow
+            form={form}
+            getDescriptionPlaceholder={getDescriptionPlaceholder}
+            onChange={onChange as OnChangeType}
+          />
+        </>
       )}
       renderAlertPreview={() => (
         <AlertPreview
