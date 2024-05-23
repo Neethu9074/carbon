@@ -66,13 +66,10 @@ function LogDetailsWithNoAccess() {
   return (
     <aside className={locals.logDetails}>
       <Stack direction="vertical" gap="normal">
-        <ExpandableGroup title="Message" defaultExpanded>
-          {t('in-analyze:logDetails.restrictedAccessExpl')}
-        </ExpandableGroup>
-
-        <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}>
-          {t('in-analyze:logDetails.restrictedAccessExpl')}
-        </ExpandableGroup>
+        <Typography variant="heading-02">{t('in-analyze:logDetails.message')}</Typography>
+        {t('in-analyze:logDetails.restrictedAccessExpl')}
+        <Typography variant="heading-02">{t('in-analyze:logDetails.titleTags')}</Typography>
+        {t('in-analyze:logDetails.restrictedAccessExpl')}
       </Stack>
     </aside>
   );
@@ -168,23 +165,15 @@ const ExpandedLogWithLogging = (props: ExpandedLogWithLoggingProps) => {
 
   return (
     <Stack direction="vertical" gap="normal">
-      {/* <ExpandableGroup title="Message" defaultExpanded> */}
-      <Typography variant="heading-02">Message</Typography>
+      <Typography variant="heading-02">{t('in-analyze:logDetails.message')}</Typography>
       <LogMessage {...loggingLog} />
-      {/* </ExpandableGroup> */}
-
-      {/* <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}> */}
       <Typography variant="heading-02">{t('in-analyze:logDetails.titleTags')}</Typography>
       <SidebarTagList tags={tags} noMargin />
-      {/* </ExpandableGroup> */}
-
       {parameterTags.length > 0 && (
-        // <ExpandableGroup title={t('in-analyze:logDetails.titleParameters')}>
         <>
           <Typography variant="heading-02">{t('in-analyze:logDetails.titleParameters')}</Typography>
           <SidebarTagList tags={parameterTags} noMargin />
         </>
-        // </ExpandableGroup>
       )}
 
       {stackTrace && stackTrace.length > 0 && (
@@ -204,11 +193,8 @@ const ExpandedLogWithoutLogging = (props: LogDetailsSwitchProps) => {
 
   const content = (
     <>
-      {/* <ExpandableGroup title="Message" defaultExpanded> */}
-      <Typography variant="heading-02">Message</Typography>
+      <Typography variant="heading-02">{t('in-analyze:logDetails.message')}</Typography>
       <LogMessage tags={[]} message={message} />
-      {/* </ExpandableGroup> */}
-
       {hasStackTrace && <LogStackTrace stackTrace={stackTrace} processSnapshotId={processSnapshotId} />}
     </>
   );

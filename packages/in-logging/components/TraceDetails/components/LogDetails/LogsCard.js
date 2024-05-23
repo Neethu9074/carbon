@@ -34,6 +34,7 @@ import ExpandableGroup from 'in-components/ExpandableGroup';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import getLogs from 'in-logging/subscriptions/getLogs';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const LogsCard = ({ call, processSnapshotId }) => {
@@ -78,7 +79,9 @@ const LogsCard = ({ call, processSnapshotId }) => {
               </>
             ))}
       </ExpandableGroup>
-      {!isToggled && <LogDetails callId={call.id} justTitle callLog={logs[0]} processSnapshotId={processSnapshotId} />}
+      {!isToggled && role.canViewLogs && (
+        <LogDetails callId={call.id} justTitle callLog={logs[0]} processSnapshotId={processSnapshotId} />
+      )}
     </ErrorBoundary>
   );
 };
