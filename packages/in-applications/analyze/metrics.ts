@@ -4,12 +4,11 @@
  */
 
 // @ts-expect-error needs migration
-import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
-// @ts-expect-error needs migration
 import { newTimeMetric, wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
 // @ts-expect-error needs migration
 import TraceQueryBuilder from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import TraceGroupingConfigurator from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
+import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { callClickedTracker, traceClickedTracker } from 'in-analyze/tracker';
 import { millis, number, percentage } from 'in-services/formatters/number';
