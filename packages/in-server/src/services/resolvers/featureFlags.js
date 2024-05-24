@@ -593,7 +593,7 @@ module.exports = exports = [
   {
     uiClientKey: 'orbitalEnabled',
     instanaCtlKey: 'feature.orbital.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'weaselSubresourceIntegrityEnabled',
