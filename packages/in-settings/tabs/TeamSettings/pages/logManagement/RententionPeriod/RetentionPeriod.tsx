@@ -198,7 +198,7 @@ function RetentionPeriodDialog({
         const postRetentionStatusNumber = await handlePostRequest(queryParams);
 
         if (postRetentionStatusNumber === 200) {
-          errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
+          succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
         } else {
           errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
         }
