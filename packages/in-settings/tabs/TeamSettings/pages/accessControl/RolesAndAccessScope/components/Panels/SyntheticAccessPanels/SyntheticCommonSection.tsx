@@ -11,45 +11,42 @@ import { SvgIcon, Stack, StackItem, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { PermissionSet } from '@instana/types';
 
+import {
+  AreaRole,
+  AreaRoleWithCustomType,
+  ProductArea
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { Capability, productPermissionsObject } from 'in-stores/permission';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import { Capability } from 'in-stores/permission';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './SyntheticCommonSection.mless';
 
+interface SyntheticCredentialSectionProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
+  role?: AreaRoleWithCustomType;
+}
+
 export default function SyntheticCredentialSection<FORM_TYPE extends MapFormItems>({
   form,
-  setForm
-}: FormControlProps<FORM_TYPE>) {
+  setForm,
+  role
+}: SyntheticCredentialSectionProps<FORM_TYPE>) {
   const productArea = ProductArea.SYNTHETICS;
-  const useCredentialLabel = t('in-stores:permissionCanUseSyntheticCredentialsLabel');
-  const configCredentialLabel = t('in-stores:permissionCanConfigureSyntheticCredentialsLabel');
-  const configLocationLabel = t('in-stores:permissionCanConfigureSyntheticLocationsLabel');
   const area = {
     header: productArea,
-    capabilities: [
-      {
-        keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
-        label: configLocationLabel,
-        description: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: configLocationLabel })
-      },
-      {
-        keyForGroupApi: Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
-        label: useCredentialLabel,
-        description: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: useCredentialLabel })
-      },
-      {
-        keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS,
-        label: configCredentialLabel,
-        description: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: configCredentialLabel })
-      }
-    ]
+    capabilities: [productPermissionsObject[Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS]]
   };
-
+  if (role === AreaRole.OWNER) {
+    area.capabilities = [
+      productPermissionsObject[Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS],
+      productPermissionsObject[Capability.CAN_USE_SYNTHETIC_CREDENTIALS],
+      productPermissionsObject[Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS],
+      ...area.capabilities
+    ];
+  }
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
 

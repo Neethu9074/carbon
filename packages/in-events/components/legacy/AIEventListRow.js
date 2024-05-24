@@ -6,11 +6,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { List, Map } from 'immutable';
 
-import { Card, Stack, Typography, Pill } from '@instana/components';
+import { Card, Stack, Typography, Pill, IconButton } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
 
 import {
   RCAFeedbackClosedManuallyTracker,
@@ -40,9 +39,10 @@ const defaultFeedbackState = { thumbsDown: false, thumbsUp: false };
 
 export default function AIEventListRow({ title, incident, incidentHasRCAProperty, latestSnapshot }) {
   // Holds map of { snapshot_ID: [event_id, event_id] }
+  const isLegacy = incident.hasIn(['metadata', 'probableRootCause']);
   const rcaSnapshotMap = useMemo(
-    () => extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled),
-    [incident, incidentHasRCAProperty]
+    () => extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled, isLegacy),
+    [incident, incidentHasRCAProperty, isLegacy]
   );
 
   // gets an array of snapshot_IDs [snapshot_ID_1, snapshot_ID_2 ...]
@@ -75,17 +75,29 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
     setCurrentRCAEntity(snapshots[pageNum - 1]);
   }, [pageNum, snapshots]);
 
+  if (rcaSnapshotMap.size <= 0 || !currentRCAEntity) return null;
+
   return (
     <ProbableRootCauseCard title={title} incident={incident} currentRCAEntity={currentRCAEntity}>
       <Stack direction="vertical" gap="xsmall">
         <div className={locals.timeline}>
           <RootCauseEntityDetails
-            selectedSnapshotMetadata={incident
-              .get('metadata')
-              .get('probableRootCauseSnapshotMetadata')
-              .get(currentRCAEntity)}
+            selectedSnapshotMetadata={
+              isLegacy
+                ? incident.get('metadata').get('probableRootCauseSnapshotMetadata').get(currentRCAEntity)
+                : incident.getIn(['metadata', 'rootCause', 'probableRootCauseSnapshotMetadata', currentRCAEntity], null)
+            }
+            explainabilityMetadata={
+              isLegacy
+                ? undefined
+                : incident.getIn(['metadata', 'rootCause', 'explainability', currentRCAEntity], undefined)
+            }
             eventsRelatedToEntity={eventsRelatedToEntity}
-            probabilityScore={extractProbabilityScoreForProbableRootCause(incident.get('metadata'), currentRCAEntity)}
+            probabilityScore={extractProbabilityScoreForProbableRootCause(
+              incident.get('metadata'),
+              currentRCAEntity,
+              isLegacy
+            )}
             relatedAPID={
               incident.get('metadata').has('app20ApplicationId')
                 ? incident.get('metadata').get('app20ApplicationId')
@@ -109,6 +121,7 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
           title={t('in-events:RCA.relatedEventsLabel', {
             number_of_events: Array.isArray(eventsRelatedToEntity) ? eventsRelatedToEntity.length : 0
           })}
+          darkFrame
         >
           {eventsRelatedToEntity?.map(_event => (
             <div onClick={expandedRCAEventCardTracker}>
@@ -143,28 +156,19 @@ function FeedbackComponent({ feedbackState, setFeedbackState, incident, snapshot
       );
     }
   }, [feedbackState, incident, snapshotMetadata, currentEntity]);
-  /*
-{'default': {thumbsUp: false, thumbsDown: false}}
-*/
+
   return (
     <Stack direction="horizontal" gap="small" align="center">
       {feedbackState[currentEntity]?.thumbsDown || feedbackState[currentEntity]?.thumbsUp ? (
-        <Typography variant="body-small">{t('in-events:RCA.thankYouForYourFeedback')}</Typography>
+        <Typography variant="body-regular">{t('in-events:RCA.thankYouForYourFeedback')}</Typography>
       ) : (
-        <Typography variant="body-small">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
+        <Typography variant="body-regular">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
       )}
-      <Button
-        kind="subtle"
-        // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
-        //TODO: Find an alternative to this (i.e. bring in a filled in thumbs up icon)
-        style={
-          feedbackState[currentEntity]?.thumbsUp
-            ? { background: themes.default.ids.color.option.neutral['300'] }
-            : undefined
-        }
-        size="compact"
-        icon="lib_thumbs_up"
-        iconSize="s"
+      <IconButton
+        kind="action"
+        size="l"
+        type="lib_thumbs_up"
+        iconSize="xs"
         onClick={() => {
           helpfulRCASuggestionTracker();
           if (feedbackState[currentEntity]?.thumbsUp) {
@@ -174,18 +178,11 @@ function FeedbackComponent({ feedbackState, setFeedbackState, incident, snapshot
           }
         }}
       />
-      <Button
-        kind="subtle"
-        // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
-        //TODO: Find an alternative to this (i.e. bring in a filled in thumbs down icon)
-        style={
-          feedbackState[currentEntity]?.thumbsDown
-            ? { background: themes.default.ids.color.option.neutral['300'] }
-            : undefined
-        }
-        size="compact"
-        iconSize="s"
-        icon="lib_thumbs_down"
+      <IconButton
+        kind="action"
+        size="l"
+        type="lib_thumbs_down"
+        iconSize="xs"
         onClick={() => {
           unhelpfulRCASuggestionTracker();
           if (feedbackState[currentEntity]?.thumbsDown) {
@@ -216,38 +213,60 @@ function extractFeedbackMetadataFromIncident(incident, snapshotMetadata) {
 
 // Eventually should be directly retrieved once all RCA inclusive events don't use the old data structure anymore
 // See https://github.ibm.com/instana/ui-client/pull/13705
-function extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled) {
+function extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled, isLegacy) {
   if (!rcaUIEnabled || !incidentHasRCAProperty) return null;
-  const probableRootCauseFromIncident = incident.get('metadata').get('probableRootCause');
-  if (Array.isArray(probableRootCauseFromIncident)) {
-    return probableRootCauseFromIncident;
-  } else if (List.isList(probableRootCauseFromIncident)) {
-    let probableRootCauseWithSnapshotIDsAsKeys = Map();
-
-    probableRootCauseFromIncident.forEach(snapshot => {
-      if (!snapshot || !snapshot.has('RCASnapshotID') || !snapshot.has('rcaEvents')) return null;
-
-      const rcaEvents = snapshot.get('rcaEvents').toArray();
-      let snapshotID = '';
-
-      if (List.isList(snapshot.get('RCASnapshotID'))) {
-        snapshotID = snapshot.get('RCASnapshotID').first();
-      } else if (snapshot.get('RCASnapshotID') instanceof String || typeof snapshot.get('RCASnapshotID') === 'string') {
-        snapshotID = snapshot.get('RCASnapshotID');
-      }
-      probableRootCauseWithSnapshotIDsAsKeys = probableRootCauseWithSnapshotIDsAsKeys.set(snapshotID, rcaEvents);
-    });
-    return probableRootCauseWithSnapshotIDsAsKeys;
+  if (isLegacy) {
+    const legacyProbableRootCauseFromIncident = incident.getIn(['metadata', 'probableRootCause'], null);
+    if (Array.isArray(legacyProbableRootCauseFromIncident)) {
+      return legacyProbableRootCauseFromIncident;
+    } else if (List.isList(legacyProbableRootCauseFromIncident)) {
+      return iterateThroughRCAEventsAndReturnMapOfIDWithEvents(legacyProbableRootCauseFromIncident, isLegacy);
+    }
+  } else {
+    const probableRootCauseEvents = incident.getIn(['metadata', 'rootCause', 'rcaSnapshotsEvents'], null);
+    if (probableRootCauseEvents)
+      return iterateThroughRCAEventsAndReturnMapOfIDWithEvents(probableRootCauseEvents, isLegacy);
   }
+  return {};
 }
 
-function extractProbabilityScoreForProbableRootCause(incidentMetadata, selectedSnapshot) {
-  const probableRootCauseArray = incidentMetadata.get('probableRootCause');
+function iterateThroughRCAEventsAndReturnMapOfIDWithEvents(rcaEventsList, isLegacy) {
+  let probableRootCauseWithSnapshotIDsAsKeys = Map();
+  const snapshotIDKey = isLegacy ? 'RCASnapshotID' : 'rcaSnapshotID';
+  const rcaEventsKey = 'rcaEvents';
+  rcaEventsList.forEach(snapshot => {
+    if (!snapshot || !snapshot.has(snapshotIDKey) || !snapshot.has(rcaEventsKey)) return null;
+
+    const rcaEvents = snapshot.get(rcaEventsKey).toArray();
+    let snapshotID = '';
+
+    if (List.isList(snapshot.get(snapshotIDKey))) {
+      snapshotID = snapshot.get(snapshotIDKey).first();
+    } else if (snapshot.get(snapshotIDKey) instanceof String || typeof snapshot.get(snapshotIDKey) === 'string') {
+      snapshotID = snapshot.get(snapshotIDKey);
+    }
+    probableRootCauseWithSnapshotIDsAsKeys = probableRootCauseWithSnapshotIDsAsKeys.set(snapshotID, rcaEvents);
+  });
+  return probableRootCauseWithSnapshotIDsAsKeys;
+}
+
+function extractProbabilityScoreForProbableRootCause(incidentMetadata, selectedSnapshot, isLegacy) {
+  let probableRootCauseArray;
+
+  if (!isLegacy) {
+    probableRootCauseArray = incidentMetadata.getIn(['rootCause', 'rcaSnapshotsEvents']);
+  } else {
+    probableRootCauseArray = incidentMetadata.getIn(['probableRootCause'], null);
+  }
+
+  const snapshotIDKey = isLegacy ? 'RCASnapshotID' : 'rcaSnapshotID';
+  const rcaProbKey = 'rcaProbFailure';
+
   if (List.isList(probableRootCauseArray)) {
     const foundSnapshot = probableRootCauseArray.find(
-      snapshotData => snapshotData.get('RCASnapshotID') === selectedSnapshot
+      snapshotData => snapshotData.get(snapshotIDKey) === selectedSnapshot
     );
-    if (foundSnapshot && foundSnapshot.get('rcaProbFailure')) return foundSnapshot.get('rcaProbFailure');
+    if (foundSnapshot && foundSnapshot.get(rcaProbKey)) return foundSnapshot.get(rcaProbKey);
   }
   return null;
 }
@@ -262,23 +281,18 @@ function ProbableRootCauseCard({ title, incident, currentRCAEntity, children }) 
   return (
     <Row withoutSideMargin>
       <Col xs>
+        <div className={locals.cardIndicator} />
         <Card
           title={title}
           leftHeaderContent={
-            <Stack direction="horizontal">
+            <Stack direction="horizontal" gap="xxsmall">
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-                <Pill
-                  kind="primary"
-                  color={themes.default.ids.color.option.blue['400']}
-                  className={locals.techPreviewPill}
-                >
-                  <Typography variant="body-small" onDark>
-                    {t('in-events:RCA.techPreview')}
-                  </Typography>
+                <Pill type="blue" className={locals.techPreviewPill}>
+                  {t('in-events:RCA.techPreview')}
                 </Pill>
               </Tooltip>
-              <Pill color={'#8257D933'} className={locals.rcaAIPill}>
-                <Typography variant="body-small">{t('in-events:RCA.AIGenBadgeText')}</Typography>
+              <Pill type="purple" className={locals.rcaAIPill}>
+                {t('in-events:RCA.AIGenBadgeText')}
               </Pill>
             </Stack>
           }

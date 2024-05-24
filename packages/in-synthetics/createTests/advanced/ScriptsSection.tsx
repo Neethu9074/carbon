@@ -252,8 +252,8 @@ export default function ScriptsSection({
     return updatedForm;
   };
 
-  return (
-    <>
+  const getScriptSection = () => {
+    return (
       <List
         getHeader={() => t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptLabel')}
         columnDefinitions={columnDefinition}
@@ -323,6 +323,12 @@ export default function ScriptsSection({
         isSearchable={false}
         loadEntities={loadEntities}
       />
+    );
+  };
+
+  return (
+    <>
+      {getScriptSection()}
       <div className={locals.configContainer}>
         <FormGroup className={locals.descriptionInput}>
           <Label className={locals.timeoutLabel}>

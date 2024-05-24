@@ -23,6 +23,10 @@
     cursor: pointer;
   }
 
+  .wrapper.shareAndInvite {
+    top: 3rem;
+  }
+
   .dialog {
     min-width: 25rem;
     max-width: 90vw;

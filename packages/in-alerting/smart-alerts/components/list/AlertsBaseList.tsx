@@ -10,7 +10,6 @@ import { Observable } from '@instana/observables';
 import { Card } from '@instana/components';
 import { Result } from '@instana/types';
 
-//@ts-expect-error
 import SmartAlertsListWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsListWithUrlState';
 import { ListActionsColumn } from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
@@ -49,6 +48,7 @@ export interface AlertConfigType {
   id: string;
   created: number;
   initialCreated: number;
+  rule?: { alertType?: string };
 }
 
 export interface ColumnDefinition<AlertConfig extends AlertConfigType> {

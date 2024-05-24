@@ -5,11 +5,11 @@
 
 import React, { Fragment } from 'react';
 
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { getContextForDropwizard } from 'in-internal/monitoringUnit/dataRetrieval';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Select from 'in-components/form/Select';
 import connect from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';

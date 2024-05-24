@@ -1,32 +1,29 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
 
 import { Card } from '@instana/components';
 
-import {
-  LogsChartInteractionWrapper,
-  andQuery,
-  tagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
-import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
+import { percentage, zeroDecimalPlaces } from 'in-services/formatters/number';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { k8sNodeChart } from 'in-kubernetes/components/K8sChartColors';
 import { useNodeDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { capitalizeValue } from 'in-components/Capitalize';
-import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
+import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 export default function SummaryWithoutTimeShift({ timeConfig, data: node }) {
@@ -34,7 +31,7 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: node }) {
 
   const { capacity, limits, requests, usage } = k8sNodeChart;
 
-  const nodeTagId = tagEquals('id.kubernetesNode', snapshotId);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.node', snapshotId, timeConfig);
   const viewAllHref = useNodeDashboard(snapshotId, { tab: '/conditions' });
 
   return (
@@ -170,7 +167,7 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: node }) {
       </Row>
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={andQuery(nodeTagId)} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
       <Row>

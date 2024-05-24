@@ -6,14 +6,13 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, Pill } from '@instana/components';
 import { Link } from '@instana/components';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toHtml } from 'in-services/formatters/markdown';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './Issue.mless';

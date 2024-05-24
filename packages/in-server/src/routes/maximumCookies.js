@@ -23,6 +23,9 @@ router.get('/maximumCookies', (req, res) => {
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
       eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
+      eumEnableSri: serverConfig.eum.enableSri,
+      eumAgentVersion: serverConfig.eum.agentVersion,
+      eumAgentSri: serverConfig.eum.agentSri,
       backendTraceId: req.get('x-instana-t') || ''
     })
   );

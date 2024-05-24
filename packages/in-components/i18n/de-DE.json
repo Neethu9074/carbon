@@ -415,6 +415,7 @@
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Plattformen",
     "viewSwitcherButtonSignOut": "Abmelden",
+    "viewSwitcherCustomDashboards": "Angepasste Dashboards",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Neue Version der Instana-Benutzerschnittstelle verfügbar",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Erneut laden zum Aktualisieren"
   },
@@ -438,7 +439,8 @@
     "aggregation_DISTINCTCOUNT": "eindeutige Anzahl",
     "aggregation_SUM": "Summe",
     "aggregation_DISTRIBUTION": "Verteilung",
-    "aggregation_PERSECOND": "pro Sekunde"
+    "aggregation_PERSECOND": "pro Sekunde",
+    "labelFilterEmptyValue": "Leere Werte filtern"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Verwendet",

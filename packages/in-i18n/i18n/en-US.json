@@ -53,7 +53,8 @@
       "create": "Create",
       "delete": "Delete",
       "close": "Close",
-      "submit": "Submit"
+      "submit": "Submit",
+      "previous": "Previous"
     },
     "states": {
       "saving": "Saving…"

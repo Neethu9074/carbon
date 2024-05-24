@@ -37,7 +37,6 @@ export interface Role {
   canConfigureAutomationActions: boolean;
   canRunAutomationActions: boolean;
   canConfigureAutomationPolicies: boolean;
-  canViewAutomationActionInstances: boolean;
   canViewLogs: boolean;
   canConfigureSyntheticLocations: boolean;
   canConfigureSyntheticTests: boolean;
@@ -47,9 +46,11 @@ export interface Role {
   canConfigureGlobalLogSmartAlerts: boolean;
   canViewSyntheticTests: boolean;
   canConfigureUsers: boolean;
+  canConfigureTeams: boolean;
   canConfigureAgents: boolean;
   canConfigureApiTokens: boolean;
   canDeleteLogs: boolean;
+  canViewLogVolume: boolean;
   canConfigureIntegrations: boolean;
   canConfigureMobileAppMonitoring: boolean;
   canManuallyCloseIssue: boolean;
@@ -60,7 +61,6 @@ export interface User {
   role?: Role;
   tenants: Tenant[];
 }
-
 declare interface InstanaGlobals {
   user?: User;
   settings?: UiSettings;
@@ -68,6 +68,7 @@ declare interface InstanaGlobals {
   dev: any;
   tags: Tag[];
   permissions: string[];
+  termsAndPrivacySettings: Record<string, any>;
 }
 
 declare global {

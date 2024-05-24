@@ -31,7 +31,8 @@ export function createForm(
     withEnablePotentialProblems = false,
     withColorConfiguration = false,
     withMandatoryGrouping = false,
-    withMetricFormatter = false
+    withMetricFormatter = false,
+    withEmptyValueFilter = false
   } = {}
 ) {
   let form = createMapForm(
@@ -163,6 +164,16 @@ export function createForm(
     form = sources[form.get('source').value].createForm(form, savedState);
   }
 
+  if (withEmptyValueFilter) {
+    form = form.put(
+      'required',
+      createField({
+        value: (savedState && savedState.required) || false,
+        validator: composeAndShortCircuitOnError(booleanValidator)
+      })
+    );
+  }
+
   return form;
 }
 
@@ -196,6 +207,7 @@ function getConfigFromExistingForm(form) {
   const colorField = form.get('color');
   const isPotentialProblemValidator = form.validator === potentialProblemsOnDatasetValidator;
   const formatter = form.get('formatter');
+  const withEmptyValueFilter = form.get('required');
 
   return {
     withLabelConfiguration: !!labelField,
@@ -203,7 +215,8 @@ function getConfigFromExistingForm(form) {
     withColorConfiguration: !!colorField,
     withEnablePotentialProblems: isPotentialProblemValidator,
     withMandatoryGrouping: isRequiringGroupingConfiguration(form),
-    withMetricFormatter: !!formatter
+    withMetricFormatter: !!formatter,
+    withEmptyValueFilter: !!withEmptyValueFilter
   };
 }
 

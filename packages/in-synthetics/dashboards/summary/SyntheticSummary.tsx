@@ -184,7 +184,7 @@ const RenderButtonLine = ({ test, setReloadCount }: RenderButtonLineProps) => {
       kind="primary"
       icon={isActive ? 'lib_actions_pause' : 'lib_actions_play'}
       onClick={() => pauseOrResume(test.data)}
-      disabled={(totalLocations <= 0)}
+      disabled={totalLocations <= 0}
     >
       {isActive ? t('in-synthetics:dashboard.testList.pause') : t('in-synthetics:dashboard.testList.resume')}
     </Button>

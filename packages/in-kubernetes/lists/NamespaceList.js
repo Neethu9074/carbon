@@ -19,7 +19,6 @@ import { namespaceList, useNamespaceDashboard } from 'in-kubernetes/navigation/p
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
-import PageTracker from 'in-services/tracking/segment/PageTracker';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -124,7 +123,6 @@ export default connectTo(
     return (
       <>
         <Title title={t('in-kubernetes:namespaces')} />
-        <PageTracker parentProductArea={productAreas.kubernetes} parentPageName={pageNames.kubernetes_namespaces} />
         <ViewTrackingMeta
           data={{
             productArea: productAreas.kubernetes,

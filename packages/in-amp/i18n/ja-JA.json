@@ -53,7 +53,12 @@
       "apmHosts": "APM ホスト",
       "purchased": "購入済み",
       "infrastructureUsage": "インフラストラクチャー使用量",
-      "iqmHosts": "IQM ホスト"
+      "iqmHosts": "IQM ホスト",
+      "syntheticPops": "シンセティック・マネージド PoPs",
+      "resourceUnits": "リソース・ユニット",
+      "consumedUnits": "消費済みユニット",
+      "addons": "アドオン",
+      "helperText": "各タイプのアクションによって消費されたリソース単位の数。 単位は、単純テストの場合は 0.025、API テストの場合は 0.042、ブラウザー・テストの場合は 1.000 の係数で計算されます。"
     },
     "activationAdoption": {
       "activationAdoption": "アクティブ化 & 導入",

@@ -6,6 +6,7 @@
 import React, { Fragment } from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Select } from '@instana/components';
 
 import { analysisTypes } from 'in-internal/monitoringUnit/units/UnitList/analysisModes';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -15,7 +16,6 @@ import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getSnapshots } from 'in-stores/snapshot';
-import Select from 'in-components/form/Select';
 import useUrlState from 'in-hooks/useUrlState';
 import search from 'in-subscription/search';
 import { t } from 'in-i18n';

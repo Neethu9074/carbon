@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Pill } from '@instana/components';
+
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 
 import locals from './BatchIndicator.mless';
 

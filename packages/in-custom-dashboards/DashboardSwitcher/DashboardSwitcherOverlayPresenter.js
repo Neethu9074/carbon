@@ -248,6 +248,7 @@ function DashboardList({
     <>
       {items.map(({ id, title, titleElement, href, href$, isDefault }, index) => (
         <Li
+          id={id}
           key={id}
           href={href}
           href$={href$}

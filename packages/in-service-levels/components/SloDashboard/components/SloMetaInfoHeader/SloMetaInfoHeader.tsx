@@ -7,6 +7,7 @@
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
+import { ButtonGroup } from '@instana/components';
 import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -15,7 +16,6 @@ import AdditionalDashboardHeader from 'in-components/AdditionalDashboardHeader/A
 import tabs, { ApplicationSloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { SloTimeWindowTypes } from 'in-service-levels/constants';
-import ButtonGroup from 'in-components/ButtonGroup/ButtonGroup';
 
 import locals from './SloMetaInfoHeader.mless';
 

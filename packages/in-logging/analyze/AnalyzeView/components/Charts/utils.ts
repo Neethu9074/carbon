@@ -4,14 +4,16 @@
  * Copyright IBM Corp. 2023
  */
 
-import { LogGroupItem, TagFilterExpression } from '@instana/types';
+import { LogGroupItem, TagFilter, TagFilterExpression } from '@instana/types';
 
 import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
-import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
+import { getValueMatchTagFilter, LOG_CUSTOM, LOG_LEVEL } from 'in-logging/queryBuilder';
+import { NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { Config, Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { ChartedMetric } from 'in-components/AnalyzeView/StateManagement';
 import { capitalize } from 'in-services/formatters/string';
 import { outlineForColor } from 'in-themes/chartColors';
+import { Mutable } from 'in-types';
 import { t } from 'in-i18n';
 
 export const getLogsChartConfig = (
@@ -112,16 +114,30 @@ export function getMetricConfig({
   backendQueryModelWithFacets,
   metric,
   tag,
-  value,
+  value: valueProp,
   label,
   key
 }: GetMetricParams): Metric {
+  let value: string | null = valueProp;
+
+  const metricTagFilterExpression = getValueMatchTagFilter({ name: tag, key, value }) as Mutable<TagFilter>;
+
+  if (tag === LOG_CUSTOM) {
+    if (!key) {
+      metricTagFilterExpression.operator = NOT_EMPTY;
+      delete metricTagFilterExpression.value;
+    } else {
+      metricTagFilterExpression.key = key;
+      metricTagFilterExpression.value = value;
+    }
+  }
+
   return {
     metric: metric.metricId,
     aggregation: metric.aggregationId,
     label: label ?? value,
     source: 'LOG',
-    metricTagFilterExpression: getValueMatchTagFilter({ name: tag, key, value }),
+    metricTagFilterExpression: metricTagFilterExpression,
     tagFilterExpression: backendQueryModelWithFacets
 
     // granularity and timeConfig are send automatically by the chart impl

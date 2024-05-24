@@ -53,7 +53,8 @@
       "create": "Crea",
       "delete": "Elimina",
       "close": "Chiudi",
-      "submit": "Inoltra"
+      "submit": "Inoltra",
+      "previous": "Precedente"
     },
     "states": {
       "saving": "Salvataggio in corso..."

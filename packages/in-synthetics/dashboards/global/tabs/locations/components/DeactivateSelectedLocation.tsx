@@ -122,7 +122,7 @@ const DeactivateSelectedLocation = ({ item }: Props) => {
         pageSize={1}
         initialOrderBy="label"
       />
-      <Message withIcon type="neutral" className={locals.message}>
+      <Message withIcon type="neutral" className={locals.message} inline>
         {t('in-synthetics:dialog.createLocation.managedLocation.deactivateDatacenter.warningMessage')}
       </Message>
     </BaseDialog>

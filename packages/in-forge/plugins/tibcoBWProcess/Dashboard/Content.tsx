@@ -8,17 +8,22 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
-// @ts-expect-error Module needs to be translated to TS
-import MetricValue from 'in-components/MetricValue';
 import ActivitiesTable from 'in-forge/plugins/tibcoBWProcess/Dashboard/ActivitiesTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { millis, number } from 'in-services/formatters/number';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
-export default function TibcoBWAppProcessDashboard({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig; }) {
+export default function TibcoBWAppProcessDashboard({
+  snapshot,
+  timeConfig
+}: {
+  snapshot: SnapshotData;
+  timeConfig: TimeConfig;
+}) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
@@ -43,12 +48,12 @@ export default function TibcoBWAppProcessDashboard({ snapshot, timeConfig }: { s
           y1={{
             metrics: ['totExec', 'avgExec', 'recntExec', 'minExec', 'maxExec'],
             labels: [
-                      t('in-forge:plugins.tibcoBWProcess.total'),
-                      t('in-forge:plugins.tibcoBWProcess.average'),
-                      t('in-forge:plugins.tibcoBWProcess.recent'),
-                      t('in-forge:plugins.tibcoBWProcess.min'),
-                      t('in-forge:plugins.tibcoBWProcess.max')
-                    ],
+              t('in-forge:plugins.tibcoBWProcess.total'),
+              t('in-forge:plugins.tibcoBWProcess.average'),
+              t('in-forge:plugins.tibcoBWProcess.recent'),
+              t('in-forge:plugins.tibcoBWProcess.min'),
+              t('in-forge:plugins.tibcoBWProcess.max')
+            ],
             type: 'line',
             formatter: millis.fixedCompact
           }}
@@ -61,12 +66,12 @@ export default function TibcoBWAppProcessDashboard({ snapshot, timeConfig }: { s
           y1={{
             metrics: ['totElap', 'avgElap', 'recntElap', 'minElap', 'maxElap'],
             labels: [
-                      t('in-forge:plugins.tibcoBWProcess.total'),
-                      t('in-forge:plugins.tibcoBWProcess.average'),
-                      t('in-forge:plugins.tibcoBWProcess.recent'),
-                      t('in-forge:plugins.tibcoBWProcess.min'),
-                      t('in-forge:plugins.tibcoBWProcess.max')
-                    ],
+              t('in-forge:plugins.tibcoBWProcess.total'),
+              t('in-forge:plugins.tibcoBWProcess.average'),
+              t('in-forge:plugins.tibcoBWProcess.recent'),
+              t('in-forge:plugins.tibcoBWProcess.min'),
+              t('in-forge:plugins.tibcoBWProcess.max')
+            ],
             type: 'line',
             formatter: millis.fixedCompact
           }}

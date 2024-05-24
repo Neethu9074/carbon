@@ -41,6 +41,7 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { carbonMessageEnabled } from 'in-services/featureFlags';
 import { isLoading, hasError } from 'in-services/util/result';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
@@ -103,12 +104,20 @@ export function GlobalCustomPayload(props) {
       <SubViewHeader>{t('in-settings:tabs.configureCustomPayload')}</SubViewHeader>
       <Section>
         <Message withIcon small>
-          <Trans
-            i18nKey="in-settings:tabs.eachKeyValuePairWillBeIncludedAsAdditionalPayload"
-            components={{
-              docLink: <Link size="sm" href="https://ibm.biz/alerts-custom-payloads" external />
-            }}
-          />
+          <span>
+            <Trans
+              i18nKey="in-settings:tabs.eachKeyValuePairWillBeIncludedAsAdditionalPayload"
+              components={{
+                docLink: (
+                  <Link
+                    size={carbonMessageEnabled ? 'md' : 'sm'}
+                    href="https://ibm.biz/alerts-custom-payloads"
+                    external
+                  />
+                )
+              }}
+            />
+          </span>
         </Message>
       </Section>
       {!canConfigureGlobalAlertPayload && (

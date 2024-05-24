@@ -9,18 +9,18 @@
     "tooltip1": "エージェントは、選択した時刻範囲では報告を行いましたが、選択した時刻には報告を行っていません。 ",
     "tooltip2": "エージェントは {{startTime}} に始動し、引き続き報告を行っています。",
     "tooltip3": "エージェントが報告を行った時間: {{startTime}} から {{toTime}} まで。",
-    "issueReported": "{{count}} 件の問題が報告されました:",
-    "issueReported_plural": "{{count}} 件の問題が報告されました:",
-    "issueReported_0": "{{count}} 件の問題が報告されました:",
-    "issueReported_1": "{{count}} 件の問題が報告されました:",
-    "issueReported_2": "{{count}} 件の問題が報告されました:",
+    "monitoringIssueReported": "{{count}}件のモニタリングの問題が報告されました:",
+    "monitoringIssueReported_plural": "{{count}}件のモニタリングの問題が報告されました:",
+    "monitoringIssueReported_0": "{{count}}件のモニタリングの問題が報告されました:",
+    "monitoringIssueReported_1": "{{count}}件のモニタリングの問題が報告されました:",
+    "monitoringIssueReported_2": "{{count}}件のモニタリングの問題が報告されました:",
     "reporting": "報告中",
     "notReporting": "報告なし",
-    "issues": "{{count}} 件の問題",
-    "issues_plural": "{{count}} 件の問題",
-    "issues_0": "{{count}} 件の問題",
-    "issues_1": "{{count}} 件の問題",
-    "issues_2": "{{count}} 件の問題",
+    "reportingMonitoringIssues": "報告、{{count}}件のモニタリングの問題",
+    "reportingMonitoringIssues_plural": "報告、{{count}}件のモニタリングの問題",
+    "reportingMonitoringIssues_0": "報告、{{count}}件のモニタリングの問題",
+    "reportingMonitoringIssues_1": "報告、{{count}}件のモニタリングの問題",
+    "reportingMonitoringIssues_2": "報告、{{count}}件のモニタリングの問題",
     "agents": "エージェント",
     "updateAllAgents": "すべてのエージェントの更新",
     "resetAllAgents": "すべてのエージェントのリセット",
@@ -79,6 +79,7 @@
   "explore": {
     "analyzeInfrastructure": "インフラストラクチャーの分析",
     "focusOnThisGroup": "このグループにフォーカス",
+    "tagNotPresent": "タグが存在しない",
     "theQueryConfigurationIsInvalid": "照会構成が無効です。 続行する前に検証の失敗に対処してください。",
     "allInfrastructure": "すべてのインフラストラクチャー",
     "emptyInfrastructure": "対象タイプを選択",
@@ -132,5 +133,10 @@
   },
   "smartAlertView": {
     "smartAlertTab": "インフラストラクチャー・スマート・アラート"
+  },
+  "tagConfigurator": {
+    "buttonSelectTags": "タグの選択",
+    "titleAddATag": "タグの追加",
+    "messagePleaseSelectAtMostTags": "最大 {{maximumNumberOfTags}} 個のタグを選択してください。"
   }
 }

@@ -10,10 +10,9 @@ import { Collapsible } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import TagList from 'in-sdk/components/sidebar/TagList';
-// @ts-expect-error Module needs to be translated to TS
-import List from 'in-sdk/components/sidebar/List';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
+import List from 'in-sdk/components/sidebar/List';
 import { t } from 'in-i18n';
 import Info from '../Info';
 

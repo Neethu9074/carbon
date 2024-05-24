@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { Select } from '@instana/components';
+
 import { green, red, yellow, orange, blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import Badge from 'in-custom-dashboards/widgets/BigNumber/Badge';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 
 import locals from './ComparisonColorSelect.mless';

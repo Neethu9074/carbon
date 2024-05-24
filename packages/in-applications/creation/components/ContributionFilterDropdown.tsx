@@ -15,7 +15,6 @@ import { t } from '@instana/i18n-react';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import { updateTagFilterExpressionValidator } from 'in-applications/creation/form/createApplicationForm';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -168,7 +167,7 @@ function hasNoRestrictions(userRestrictedApplications: UserGroupRestrictions[]):
 }
 
 export function showContributionFilterDropdown(userRestrictedApplications: UserGroupRestrictions[]) {
-  return applicationContributionFilterEnabled && userRestrictedApplications.some(r => r.filter);
+  return userRestrictedApplications.some(r => r.filter);
 }
 
 function limitScope(scope: ApiApplicationScope, groupScope: ApiApplicationScope): ApiApplicationScope {

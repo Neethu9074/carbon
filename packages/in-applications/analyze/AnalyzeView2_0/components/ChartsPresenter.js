@@ -7,8 +7,14 @@ import React from 'react';
 
 import { themes } from '@instana/design-tokens';
 
+import {
+  EMPTY_EXPRESSION,
+  containsTagName,
+  isTagFilter,
+  isTagFilterExpression,
+  toBackendQueryModel
+} from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import LatencyDistributionChart from 'in-applications/analyze/components/ChartingPresenter/LatencyDistributionChart';
-import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { ua2ChartChangedTracker, ua2ChartRemovedTracker } from 'in-applications/tracker';
 import { metricRenderers } from 'in-applications/analyze/AnalyzeView2_0/metrics';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
@@ -51,6 +57,19 @@ const validateTagFilterValue = metricConfiguration => {
   });
 };
 
+const transformMetricTagFilterValues = tagFilterExpression => {
+  if (containsTagName(tagFilterExpression, 'call.metric')) {
+    // check if it is a metric filter and if a value is given.
+    // This prevents e.g. the value "Tag not present" from being transformed.
+    if (isTagFilter(tagFilterExpression) && typeof tagFilterExpression.value === 'string') {
+      tagFilterExpression = { ...tagFilterExpression, value: Number(tagFilterExpression.value) };
+    } else if (isTagFilterExpression(tagFilterExpression) && tagFilterExpression.elements?.length > 0) {
+      tagFilterExpression.elements = tagFilterExpression.elements.map(transformMetricTagFilterValues);
+    }
+  }
+  return tagFilterExpression;
+};
+
 export function ChartsPresenter(props) {
   const {
     hiddenCalls,
@@ -76,7 +95,7 @@ export function ChartsPresenter(props) {
           validateTagFilterValue(metricConfiguration);
           return {
             ...metricConfiguration,
-            tagFilterExpression: metricConfiguration.tagFilterExpression,
+            tagFilterExpression: transformMetricTagFilterValues(metricConfiguration.tagFilterExpression),
             dataSource,
             queryPrecision: fastQueryModeEnabled ? 'APPROXIMATE' : 'FULL',
             ...hiddenCalls

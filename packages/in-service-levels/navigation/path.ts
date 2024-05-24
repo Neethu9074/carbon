@@ -6,7 +6,7 @@
 
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 
-const serviceLevelsRoot = '/slo';
+export const serviceLevelsRoot = '/slo';
 
 export const serviceLevelsOverview = serviceLevelsRoot;
 
@@ -18,5 +18,12 @@ export const serviceLevelsObjectiveSummaryFullyQualified = `${serviceLevelsObjec
 
 export const serviceLevelsObjectiveConfiguration = `/configuration`;
 export const serviceLevelsObjectiveConfigurationFullyQualified = `${serviceLevelsObjectiveFullyQualified}${serviceLevelsObjectiveConfiguration}`;
+
+export const serviceLevelsObjectiveAlerts = `/alerts`;
+export const serviceLevelsObjectiveAlertsFullyQualified = `${serviceLevelsObjectiveFullyQualified}${serviceLevelsObjectiveAlerts}`;
+
+export const serviceLevelsObjectiveAlertDetailsSegment = `/details`;
+export const serviceLevelsObjectiveAlertDetails = `${serviceLevelsObjectiveAlerts}${serviceLevelsObjectiveAlertDetailsSegment}`;
+export const serviceLevelsObjectiveAlertDetailsFullyQualified = `${serviceLevelsObjectiveFullyQualified}${serviceLevelsObjectiveAlertDetails}`;
 
 export const isSloView = getRootPathPredicate(serviceLevelsRoot);

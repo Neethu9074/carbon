@@ -22,6 +22,7 @@ export interface TableFormConfiguration {
   datasets?: any;
   sorting?: Order;
   countGroup?: boolean;
+  showGroupsWithMissingTags?: boolean;
 }
 
 export interface TableWidgetProps {

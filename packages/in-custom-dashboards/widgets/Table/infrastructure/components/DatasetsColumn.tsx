@@ -7,12 +7,17 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 // @ts-expect-error
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
 import { formatterPath, metricsPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
+import Sections from 'in-components/workspace/Sections/Sections';
+import Section from 'in-components/workspace/Section';
 import { MetricSource } from 'in-types';
 import { datasets } from '../form';
 import { t } from 'in-i18n';
@@ -43,6 +48,7 @@ export default function DatasetsColumn({
         const metric = metricForm.get('metric')?.value;
         const aggregation = metricForm.get('aggregation')?.value;
         const formatters = getFormatter(source, metric, aggregation);
+        const required = metricForm.get('required')?.value ?? false;
 
         return (
           <MetricConfiguration
@@ -69,12 +75,14 @@ export default function DatasetsColumn({
                 onChange={e =>
                   updateForm(
                     form
-                      // @ts-expect-error
+                      // @ts-ignore-error
                       .updateIn([datasets, metricsPath, i, formatterPath], field =>
+                        // @ts-ignore-error
                         field.setValue(e.target.value).setTouched(true)
                       )
-                      // @ts-expect-error
+                      // @ts-ignore-error
                       .updateIn([datasets, metricsPath, i, 'formatterSelected'], field =>
+                        // @ts-ignore-error
                         field.setValue(true).setTouched(true)
                       )
                   )
@@ -90,6 +98,27 @@ export default function DatasetsColumn({
               </SelectInSection>
             }
             withLastValue
+            withEmptyValueFilterSection={
+              <Sections>
+                <Section title={t('in-custom-dashboards:widgets.table.form.infrastructure.filterEmptyValues')}>
+                  <Stack direction="horizontal" align="center" distribution="stretch" gap="large">
+                    <CheckboxFancy
+                      checked={required}
+                      onChange={({ target }) =>
+                        updateForm(
+                          // @ts-ignore-error
+                          form.updateIn([datasets, metricsPath, i, 'required'], field =>
+                            // @ts-ignore-error
+                            field.setValue(target.checked).setTouched(true)
+                          )
+                        )
+                      }
+                      size="large"
+                    />
+                  </Stack>
+                </Section>
+              </Sections>
+            }
           />
         );
       })}

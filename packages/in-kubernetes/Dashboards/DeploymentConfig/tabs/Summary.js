@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -9,24 +9,21 @@ import React from 'react';
 import { Card } from '@instana/components';
 
 import {
-  zeroDecimalPlaces,
-  twoDecimalPlaces,
   bytesTwoDecimalPlaces,
-  timeByMillisTwoDecimalPlaces
+  timeByMillisTwoDecimalPlaces,
+  twoDecimalPlaces,
+  zeroDecimalPlaces
 } from 'in-services/formatters/number';
-import {
-  LogsChartInteractionWrapper,
-  andQuery,
-  tagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { useDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { k8sChartColors } from 'in-kubernetes/components/K8sChartColors';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 const noActivity = t('in-kubernetes:dashboards.noActivity');
@@ -35,7 +32,11 @@ const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 export default function Summary({ timeConfig, data: deploymentConfig }) {
   const snapshotId = deploymentConfig.id;
   const { usage, limits, requests, pending, allocated, unscheduled, unready } = k8sChartColors;
-  const deploymentConfigTagId = tagEquals('id.kubernetesDeploymentConfig', snapshotId);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid(
+    'openshift.deploymentConfig',
+    snapshotId,
+    timeConfig
+  );
   const viewAllHref = useDeploymentConfigDashboard(snapshotId, { tab: '/conditions' });
 
   return (
@@ -156,7 +157,7 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
       </Row>
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={andQuery(deploymentConfigTagId)} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
       <Row>

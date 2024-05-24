@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "Obrigado por explorar a Instana! Você atingiu o término de sua avaliação e não pode mais acessar o produto."
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "Solicitar uma cotação",
     "buyNowBtn": "Comprar na AWS",
     "alreadyHaveLicense": "Já tem uma licença? Ative-a no <linkToDocker>Docker</linkToDocker> ou no <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Obtenha respostas",
+    "share": "Compartilhar",
+    "shareTooltip": "Compartilhe essa página com colegas e convide-os para colaborarem no Instana.",
     "titleDetail": {
       "trial": "Avaliação",
       "sandboxTrial": "Avaliação do ambiente de simulação"
     }
   },
   "playwithinstana": {
-    "title": "Executar com o Instana",
     "content": "Pronto para monitorar seu próprio ambiente",
     "bookdemo": " Agendar uma demo",
     "freetrial": " Avaliação grátis",
@@ -50,7 +50,7 @@
       "agentKey": "Chave do agente"
     },
     "common": {
-      "agentCatalog": "Catálogo do agente",
+      "agentDeployment": "Implementação de agente",
       "step1": "Etapa 1: ",
       "step2": "Etapa 2: ",
       "step3": "Etapa 3: ",
@@ -416,21 +416,24 @@
   "welcomepage": {
     "heading": "Bem-vindo",
     "viewAll": "Visualizar todos",
+    "search": "Procura",
+    "addMore": "Incluir",
+    "UrlShortener": "Encurtador de URL",
     "consumeData": {
-      "title": "Consumir dados",
-      "description": "Comece a implementar seu primeiro agente.",
+      "title": "Descobrir serviços",
+      "description": "Comece permitindo que o Instana descubra seus serviços e outros dados para monitorar.",
       "buttonName": "Implementar agente",
       "buttonType": "primária"
     },
     "inviteTeammates": {
       "title": "Convidar colegas de equipe",
       "description": "Colabore com seus colegas.",
-      "buttonName": "Enviar convite",
+      "buttonName": "Gerenciar usuários",
       "buttonType": "fazer ghost"
     },
     "nextSteps": {
       "title": "Próximas etapas",
-      "description": "Localize mais etapas de configuração clicando no símbolo ? no canto superior direito.",
+      "description": "Encontre mais tours e suporte adicional.",
       "buttonName": "Obtenha respostas",
       "buttonType": "fazer ghost"
     },
@@ -500,6 +503,24 @@
         "cpuUsage": "Uso de CPU",
         "created": "Criado em",
         "started": "Iniciado"
+      },
+      "syntheticWidget": {
+        "label": "Monitoramento sintético",
+        "na": "N/D",
+        "name": "Nome",
+        "type": "Tipo",
+        "successRate": "Taxa de sucesso",
+        "latency": "Latência",
+        "lastTestRunOn": "Última execução de teste em",
+        "version": "Versão",
+        "timeThreshold": "Limite de tempo",
+        "testsApplied": "Testes aplicados"
+      },
+      "dashboardWidget": {
+        "label": "Meus painéis customizados",
+        "name": "Nome",
+        "owner": "Proprietário",
+        "permissions": "Permissões"
       }
     },
     "noData": {
@@ -533,7 +554,75 @@
       "businessMonitoringWidget": {
         "header": "Nenhum processo de negócios",
         "description": "Ative o IBM Business Automation Workflow ou configure o Instana para capturar e armazenar dados de negócios de processos de negócios."
+      },
+      "syntheticWidget": {
+        "test": {
+          "header": "Nenhum teste sintético",
+          "description": "Configure testes sintéticos para executar em intervalos contínuos específicos.",
+          "buttonName": "Incluir teste sintético"
+        },
+        "location": {
+          "header": "Nenhum local sintético",
+          "description": "Configure o local sintético para executar em intervalos contínuos específicos."
+        },
+        "smartalerts": {
+          "header": "Nenhum smartalert sintético",
+          "description": "Configure smartalerts sintéticos para executar em intervalos contínuos específicos.",
+          "buttonName": "Incluir smartalerts sintéticos"
+        }
+      },
+      "dashboardWidget": {
+        "header": "Nenhum painel customizado",
+        "description": "Crie seu próprio painel customizado.",
+        "buttonName": "Criar painel customizado"
       }
+    },
+    "ariaLabel": {
+      "search": "Procura",
+      "shareButton": "Botão de compartilhamento",
+      "add": "Incluir",
+      "handleButton": "Botão de manipulação"
+    }
+  },
+  "Components": {
+    "AgentzoneLister": {
+      "EGEurope": "por exemplo, Europa",
+      "Add": "Incluir"
+    }
+  },
+  "assistme": {
+    "dataSearchContext": {
+      "gettingStarted": "introdução",
+      "websites": "websites",
+      "mobileApps": "app móvel",
+      "businessMonitoring": "monitoramento de negócios",
+      "application": "aplicativo",
+      "smartAlerts": "alertas inteligentes",
+      "infrastructureMap": "mapa",
+      "cloudFoundry": "monitorando o Cloud Foundry",
+      "powerHmc": " monitorando o IBM Power",
+      "kubernetes": "kubernetes",
+      "sap": "monitorando o SAP",
+      "synthetic": "monitoramento sintético",
+      "syntheticAlerts": "alertas sintéticos",
+      "syntheticPop": "PoP sintético",
+      "serviceLevel": "nível de serviço",
+      "installAgent": "agente de instalação",
+      "analyzeCalls": "analisando rastreios e chamadas",
+      "settingsTab": "gerenciando o acesso do usuário",
+      "userSettings": "configurações do usuário",
+      "authSettings": "configurando a autenticação",
+      "auditLogs": "visualizando logs de auditoria",
+      "automation": "gerenciando ações",
+      "customEvents": "definindo eventos customizados",
+      "configuringAlerts": "configurando alertas",
+      "alertChannel": "canais de alerta",
+      "maintenanceWindow": "programando",
+      "customPayload": "carga útil customizada",
+      "eventsPage": "gerenciamento de alertas",
+      "logManagement": "registro",
+      "configuringAndMonitoring": "configurando e monitorando",
+      "customDashboard": "painel customizado"
     }
   }
 }

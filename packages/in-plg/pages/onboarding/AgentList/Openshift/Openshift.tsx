@@ -21,6 +21,7 @@ import AgentzoneLister from 'in-plg/components/AgentzoneLister/AgentzoneLister';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
@@ -53,6 +54,8 @@ export default function Openshift({
       openByDefault: false
     }
   ];
+
+  if (shareAndInviteEnabled) sideCardData.pop();
 
   const updateAgentZone = (agent: string) => {
     setAgentZone(agent);

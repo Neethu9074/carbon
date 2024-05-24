@@ -3,9 +3,7 @@ CVE-2021-3807 # (also ignored in base image) part of nodejs: False positive for 
 CVE-2022-31129 # part of nodejs: moment.js
 PRISMA-2022-0039 # (also ignored in base image) part of nodejs: ReDoS in minimatch <3.0.5 -existing slack thread: #build-community https://instana.slack.com/archives/GKKKN695Y/p1645455937429659
 CVE-2022-24999 # Excluding per Slack thread https://instana.slack.com/archives/C5LCSUJGY/p1674846980294979
-CVE-2022-25883 # Excluded since rel 253. Slack thread in tech-ui-dev: https://instana.slack.com/archives/C5LCSUJGY/p1688632509354979
 CVE-2023-32002 # Excluded temporarily to unblock the release 258 build: https://instana.slack.com/archives/C5LCSUJGY/p1695915133506849
-CVE-2023-4911 # blocking release-260: https://instana.slack.com/archives/C59JUG0NB/p1696523972905179 | https://access.redhat.com/errata/RHSA-2023:5453
 CVE-2023-38545 # blocking develop build https://instana.slack.com/archives/CKKKN695Y/p1697636002983089
 CVE-2023-44487 # blocking develop build https://instana.slack.com/archives/CKKKN695Y/p1697636002983089
 CVE-2023-39331 # Blocking R261 build: https://instana.slack.com/archives/C5LCSUJGY/p1704707332255689

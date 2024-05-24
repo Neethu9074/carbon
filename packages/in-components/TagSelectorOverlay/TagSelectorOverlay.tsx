@@ -9,6 +9,7 @@ import { get } from 'lodash';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
+import { Pill } from '@instana/components';
 
 //@ts-expect-error TS migration needed
 import * as typeToLabelMapping from 'in-components/QueryBuilder/tagFilter/typeToLabelMapping';
@@ -19,7 +20,6 @@ import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
 import { Nullish, TagTreeNodeUnion, TagType } from 'in-types';
 import { emptyArray } from 'in-services/fixedObjects';
 import { settings$ } from 'in-services/settings';
-import Pill from 'in-components/Pill';
 
 import locals from './TagSelectorOverlay.mless';
 

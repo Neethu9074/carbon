@@ -17,9 +17,9 @@ interface ThresholdValueFormGroupForStaticThresholdProps {
   maxValue: number;
   metricUnitPostfix: string;
   percentageMetric: boolean;
-  hasSmallInputField: boolean;
-  isGlobalSmartAlert: boolean;
-  label: string;
+  hasSmallInputField?: boolean;
+  isGlobalSmartAlert?: boolean;
+  label?: string;
 }
 
 export default function ThresholdValueFormGroupForStaticThreshold({

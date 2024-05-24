@@ -89,7 +89,7 @@ const DeleteSelectedLocation = ({ item }: Props) => {
             />
           )}
         </Typography>
-        <Message type="warning" withIcon>
+        <Message type="warning" withIcon inline>
           {t('in-synthetics:dashboard.locationList.deleteLocationBroswerRefreshInfo')}
         </Message>
         <Label htmlFor="reason">

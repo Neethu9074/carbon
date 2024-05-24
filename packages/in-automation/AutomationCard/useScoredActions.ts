@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { create, timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
@@ -19,18 +20,28 @@ interface UseScoredActionsParams {
   trigger: Result<TriggerSpecification>;
 }
 
+const refreshSignal = create().emit(true);
+export function refreshScoredActions() {
+  timeout(1000).once(() => refreshSignal.emit(true));
+}
+
 export default function useScoredActions({ event, trigger }: UseScoredActionsParams) {
   return (
     useObservable(() => {
-      if (isLoading(trigger)) return null;
-      if (hasError(trigger)) {
-        return getAllActionsWithAISuggestions(event.problem?.problemText ?? '', '');
-      } else {
-        const { name, description = '' } = trigger.data!;
-        const { entityId } = event;
-        return getAllActionsWithAISuggestions(name, description, entityId);
+      if (isLoading(trigger)) {
+        return null;
       }
-    }, [trigger.progress.loading]) ?? (pendingResult as Result<ScoredAction[]>)
+
+      return refreshSignal.flatMap(() => {
+        if (hasError(trigger)) {
+          return getAllActionsWithAISuggestions(event.problem?.problemText ?? '', '');
+        } else {
+          const { name, description = '' } = trigger.data!;
+          const { entityId } = event;
+          return getAllActionsWithAISuggestions(name, description, entityId);
+        }
+      });
+    }, [trigger.progress.loading, refreshSignal]) ?? (pendingResult as Result<ScoredAction[]>)
   );
 }
 

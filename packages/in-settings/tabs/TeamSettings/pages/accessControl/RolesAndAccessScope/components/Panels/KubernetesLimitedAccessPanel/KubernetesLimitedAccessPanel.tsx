@@ -27,7 +27,6 @@ import {
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -62,23 +61,12 @@ export default function _KubernetesLimitedAccessPanel<FORM_TYPE extends MapFormI
 
   return (
     <Stack direction="vertical">
-      {applicationContributionFilterEnabled ? (
-        <StackItem>
-          <ConfigurationSummary
-            accessLevelType={ScopedPermissionItem.LIMITED_ACCESS}
-            accessLevelMsg={accessLevelMessage}
-          />
-        </StackItem>
-      ) : (
-        <StackItem>
-          <Typography variant="heading-200" component="div">
-            {t('in-settings:permissionScope.selection_limited_access')}
-          </Typography>
-          <Typography variant="body-regular" component="div">
-            {t('in-settings:PermissionSection.descriptionAccessLimited_kubernetes')}
-          </Typography>
-        </StackItem>
-      )}
+      <StackItem>
+        <ConfigurationSummary
+          accessLevelType={ScopedPermissionItem.LIMITED_ACCESS}
+          accessLevelMsg={accessLevelMessage}
+        />
+      </StackItem>
       <StackItem>
         <div className={locals.contentHeader}>
           <Typography variant="body-bold" component="div">

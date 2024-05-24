@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import DashboardSwitcherComponent from 'promise-loader?global,customdashboard!in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, memo } from 'react';
+import { InView } from 'react-intersection-observer';
 import classNames from 'classnames';
 
 import { Link, Message, SvgIcon } from '@instana/components';
@@ -39,18 +41,18 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import BusinessMonitoringTopList from 'in-cockpit/Cockpit/components/BusinessMonitoringTopList';
 import WebsitesAndMobileTopList from 'in-cockpit/Cockpit/components/WebsitesAndMobileTopList';
-import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import InfrastructureTopList from 'in-cockpit/Cockpit/components/InfrastructureTopList';
 import ApplicationsTopList from 'in-cockpit/Cockpit/components/ApplicationsTopList';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { createAsyncComponent } from 'in-components/routing/createAsyncComponent';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import PlatformsTopList from 'in-cockpit/Cockpit/components/PlatformsTopList';
 import EventChartCard from 'in-cockpit/Cockpit/components/EventChartCard';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { setSingle, settings$ } from 'in-services/settings/settings';
-import PageTracker from 'in-services/tracking/segment/PageTracker';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -167,7 +169,6 @@ function CockpitInner({ settings, width }) {
     () => (
       <>
         <Title title={t('in-cockpit:cockpit.home')} />
-        <PageTracker parentProductArea={productAreas.home} parentPageName={pageNames.home} />
         <ViewTrackingMeta
           data={{
             productArea: productAreas.home,
@@ -186,6 +187,10 @@ function CockpitInner({ settings, width }) {
 function Header() {
   const { createHrefToPath } = useNavigation();
 
+  const DashboardSwitcher = createAsyncComponent(
+    <LoadingIndicator size="xs" style={{ height: '16px' }} />,
+    DashboardSwitcherComponent
+  );
   return (
     <>
       <DashboardHeader
@@ -242,7 +247,7 @@ function CustomEventDeprecatedWarning({ legacyAlertConfigStats }) {
   const deprecatedCustomEvents = legacyAlertConfigStats.data?.deprecatedCustomEvents;
 
   return (
-    <Message type="warning" className={locals.customEventDeprecatedWarning} withIcon>
+    <Message type="warning" inline className={locals.customEventDeprecatedWarning} withIcon fullInlineWidth dismissible>
       <MessageContentModernDesign>
         <Trans
           i18nKey="in-cockpit:cockpit.customEventDeprecatedWarning"
@@ -315,6 +320,8 @@ const Content = function Content({ itemOrder, applicationId, width }) {
                         return null;
                       }
 
+                      const MemoizedWidget = memo(Widget);
+
                       return (
                         <Draggable key={_config.id} draggableId={_config.id} index={i}>
                           {provided => (
@@ -324,14 +331,27 @@ const Content = function Content({ itemOrder, applicationId, width }) {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                             >
-                              <Widget
-                                applicationId={applicationId}
-                                dragAndDropConfig={provided.dragHandleProps}
-                                config={{
-                                  ...configEnrichmentLookUpTable[_config.id],
-                                  dragAndDropConfig: provided.dragHandleProps
-                                }}
-                              />
+                              <InView triggerOnce>
+                                {({ inView, ref }) => (
+                                  <div ref={ref}>
+                                    {inView && (
+                                      <MemoizedWidget
+                                        applicationId={applicationId}
+                                        dragAndDropConfig={provided.dragHandleProps}
+                                        config={{
+                                          ...configEnrichmentLookUpTable[_config.id],
+                                          dragAndDropConfig: provided.dragHandleProps
+                                        }}
+                                      />
+                                    )}
+                                    {!inView && (
+                                      <div {...provided.dragHandleProps}>
+                                        <LoadingIndicator />
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </InView>
                             </div>
                           )}
                         </Draggable>

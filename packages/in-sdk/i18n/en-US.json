@@ -27,7 +27,8 @@
       "customMetricsLableRate": "Rate"
     },
     "table": {
-      "tableNoData": "No data.",
+      "no" : "No ",
+      "dataAvailable" : " Data Available",
       "tableExpandAll": "Expand All",
       "tableCollapseAll": "Collapse All"
     }

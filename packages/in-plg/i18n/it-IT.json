@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "Grazie per aver esplorato Instana! Il periodo di prova è giunto alla fine e non è più possibile accedere al prodotto."
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "Richiedi un preventivo",
     "buyNowBtn": "Acquista su AWS",
     "alreadyHaveLicense": "Si dispone già di una licenza? Attivarla su <linkToDocker>Docker</linkToDocker> o <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Ottieni risposte",
+    "share": "Condividi",
+    "shareTooltip": "Condividere questa pagina con i colleghi e invitarli a collaborare in Instana.",
     "titleDetail": {
       "trial": "Versione di prova",
       "sandboxTrial": "Versione di prova sandbox"
     }
   },
   "playwithinstana": {
-    "title": "Play with Instana",
     "content": "Pronto a monitorare il tuo ambiente",
     "bookdemo": " Prenota una demo",
     "freetrial": " Versione di prova gratuita",
@@ -50,7 +50,7 @@
       "agentKey": "Chiave agent"
     },
     "common": {
-      "agentCatalog": "Catalogo agent",
+      "agentDeployment": "Distribuzione agent",
       "step1": "Passo 1: ",
       "step2": "Passo 2: ",
       "step3": "Passo 3: ",
@@ -416,21 +416,24 @@
   "welcomepage": {
     "heading": "Benvenuti",
     "viewAll": "Visualizza tutto",
+    "search": "Ricerca",
+    "addMore": "Aggiungi",
+    "UrlShortener": "URL Shortener",
     "consumeData": {
-      "title": "Dati di consumo",
-      "description": "Inizia e distribuisci il primo agent.",
+      "title": "Rileva servizi",
+      "description": "Inizia abilitando Instana per rilevare i tuoi servizi e altri dati da monitorare.",
       "buttonName": "Distribuisci agent",
       "buttonType": "principale"
     },
     "inviteTeammates": {
       "title": "Invita membri del team",
       "description": "Collabora con i tuoi colleghi.",
-      "buttonName": "Invia invito",
+      "buttonName": "Gestisci utenti",
       "buttonType": "ghost"
     },
     "nextSteps": {
       "title": "Passi successivi",
-      "description": "Trovare ulteriori passi di configurazione facendo clic sul simbolo ? nell'angolo in alto a destra.",
+      "description": "Trova altri tour e supporto aggiuntivo.",
       "buttonName": "Ottieni risposte",
       "buttonType": "ghost"
     },
@@ -500,6 +503,24 @@
         "cpuUsage": "Utilizzo CPU",
         "created": "Creato",
         "started": "Avviato"
+      },
+      "syntheticWidget": {
+        "label": "Monitoraggio sintetico",
+        "na": "N/D",
+        "name": "Nome",
+        "type": "Immettere",
+        "successRate": "Frequenza operazioni riuscite",
+        "latency": "Latenza",
+        "lastTestRunOn": "Data/ora ultima esecuzione test",
+        "version": "Versione",
+        "timeThreshold": "Soglia temporale",
+        "testsApplied": "Test applicati"
+      },
+      "dashboardWidget": {
+        "label": "I miei dashboard personalizzati",
+        "name": "Nome",
+        "owner": "Proprietario",
+        "permissions": "Autorizzazioni"
       }
     },
     "noData": {
@@ -533,7 +554,75 @@
       "businessMonitoringWidget": {
         "header": "Nessun processo di business",
         "description": "Abilitare IBM Business Automation Workflow o configurare Instana per acquisire e memorizzare i dati di business dai processi di business."
+      },
+      "syntheticWidget": {
+        "test": {
+          "header": "Nessun test sintetico",
+          "description": "Configurare i test sintetici per l'esecuzione a intervalli continui specifici.",
+          "buttonName": "Aggiungi test sintetico"
+        },
+        "location": {
+          "header": "Nessuna ubicazione sintetica",
+          "description": "Configurare l'ubicazione sintetica da eseguire a specifici intervalli continui."
+        },
+        "smartalerts": {
+          "header": "Nessun smartalerts sintetico",
+          "description": "Configurare gli smartalert sintetici da eseguire a intervalli continui specifici.",
+          "buttonName": "Aggiungi smartalerts sintetici"
+        }
+      },
+      "dashboardWidget": {
+        "header": "Nessun dashboard personalizzato",
+        "description": "Crea il dashboard personalizzato.",
+        "buttonName": "Crea dashboard personalizzato"
       }
+    },
+    "ariaLabel": {
+      "search": "Ricerca",
+      "shareButton": "Pulsante di condivisione",
+      "add": "Aggiungi",
+      "handleButton": "Pulsante Gestisci"
+    }
+  },
+  "Components": {
+    "AgentzoneLister": {
+      "EGEurope": "ad es. Europa",
+      "Add": "Aggiungi"
+    }
+  },
+  "assistme": {
+    "dataSearchContext": {
+      "gettingStarted": "introduzione",
+      "websites": "siti web",
+      "mobileApps": "app per dispositivi mobili",
+      "businessMonitoring": "monitoraggio aziendale",
+      "application": "applicazione",
+      "smartAlerts": "avvisi smart",
+      "infrastructureMap": "mappa",
+      "cloudFoundry": "monitoraggio di Cloud Foundry",
+      "powerHmc": " monitoraggio della potenza di IBM",
+      "kubernetes": "kubernetes",
+      "sap": "monitoraggio SAP",
+      "synthetic": "monitoraggio sintetico",
+      "syntheticAlerts": "avvisi sintetici",
+      "syntheticPop": "PoP sintetico",
+      "serviceLevel": "livello di servizio",
+      "installAgent": "installa agent",
+      "analyzeCalls": "analisi di tracce e chiamate",
+      "settingsTab": "gestione dell'accesso utente",
+      "userSettings": "impostazioni utente",
+      "authSettings": "configurazione autorizzazione",
+      "auditLogs": "visualizzazione dei log di controllo",
+      "automation": "gestione delle azioni",
+      "customEvents": "definizione di eventi personalizzati",
+      "configuringAlerts": "configurazione degli avvisi",
+      "alertChannel": "canali di avviso",
+      "maintenanceWindow": "pianificazione",
+      "customPayload": "payload personalizzato",
+      "eventsPage": "gestione di eventi",
+      "logManagement": "registrazione",
+      "configuringAndMonitoring": "configurazione e monitoraggio",
+      "customDashboard": "dashboard personalizzato"
     }
   }
 }

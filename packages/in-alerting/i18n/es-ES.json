@@ -28,6 +28,7 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtros adicionales",
     "groupBy": "Agrupar por",
     "noChannelAvailable": "No hay canales de alerta disponibles",
+    "optional": "Opcional",
     "revisionDropdownButton": {
       "revision": "Revisión {{alertRevision}}",
       "pause": "Pausar",
@@ -160,7 +161,9 @@
             "shortText": "Por perspectiva de aplicación",
             "columnText": "agregado",
             "description": "Alertar de forma individual para esta perspectiva de aplicación",
-            "globalDescription": "Alertar de forma individual por perspectiva de aplicación"
+            "globalDescription": "Alertar de forma individual por perspectiva de aplicación",
+            "tearSheetSelectionText": "Agrupar por aplicación",
+            "tearSheetDescription": "Las llamadas que coinciden con el filtro se evalúan respecto al umbral de un grupo. Cuando se produce una infracción, se envía una única notificación de alerta para toda la perspectiva de aplicación. "
           },
           "evaluationTypePERAPSERVICE": {
             "selectionText": "por servicio para esta perspectiva de aplicación",
@@ -168,7 +171,9 @@
             "shortText": "Por servicio",
             "columnText": "por servicio",
             "description": "Alertar de forma individual por servicio para esta perspectiva de aplicación",
-            "globalDescription": "Alertar de forma individual por servicio en el contexto de cada perspectiva de aplicación"
+            "globalDescription": "Alertar de forma individual por servicio en el contexto de cada perspectiva de aplicación",
+            "tearSheetSelectionText": "Agrupar por servicio",
+            "tearSheetDescription": "Las llamadas que coinciden con el filtro se evalúan con el umbral de 8 grupos, uno para cada servicio, con su propio umbral. Cuando hay una infracción para un grupo, se envía una notificación de alerta para ese grupo."
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "por punto final para esta perspectiva de aplicación",
@@ -176,7 +181,9 @@
             "shortText": "Por punto final",
             "columnText": "por punto final",
             "description": "Alertar de forma individual por punto final para esta perspectiva de aplicación",
-            "globalDescription": "Alertar de forma individual por punto final en el contexto de cada perspectiva de aplicación"
+            "globalDescription": "Alertar de forma individual por punto final en el contexto de cada perspectiva de aplicación",
+            "tearSheetSelectionText": "Agrupar por punto final",
+            "tearSheetDescription": "Las llamadas que coinciden con el filtro se evalúan en el umbral de 47 grupos, uno para cada punto final, con su propio umbral. Cuando hay una infracción para un grupo, se envía una notificación de alerta para ese grupo."
           }
         },
         "inboundOutboundCalls": {
@@ -255,10 +262,6 @@
           "payloadsOptional": {
             "label": "Cargas útiles",
             "title": "Carga útil personalizada"
-          },
-          "actionsOptional": {
-            "label": "Acciones",
-            "title": "Asociaciones de acción"
           }
         }
       },
@@ -429,7 +432,7 @@
         "thresholdFormBaselineIsEmpty": "la línea base está vacía"
       },
       "simple": {
-        "simpleAlertStep1Headline": "¿Sobre qué desea que se le alerte?",
+        "simpleAlertStep1Headline": "Elija el problema sobre el que desea que se le avise",
         "simpleAlertStep2Headline": "¿Dónde desea que se active la alerta?",
         "step1Title": "Paso 1: Seleccionar alerta",
         "step2Title": "Paso 2: Seleccionar ámbito",
@@ -437,7 +440,9 @@
       },
       "components": {
         "createSmartAlert": "Añadir alerta inteligente",
+        "createSmartAlertNew": "Añadir alerta inteligente (Nuevo)",
         "createGlobalSmartAlert": "Añadir alerta inteligente global",
+        "createGlobalSmartAlertNew": "Añadir alerta inteligente global (Nuevo)",
         "provideLogMessageSelectLogMessage": "Seleccionar mensaje de registro",
         "provideLogMessageLogLevel": "Nivel de registro",
         "provideLogMessageErrorMessage": "Mensaje de error",
@@ -454,6 +459,7 @@
         "getSubtitleForStaticWeeklySeasonality": "Estacionalidad semanal estática, {{metricLabel}}",
         "getSubtitleForAdaptiveThreshold": "Umbral adaptable, {{metricLabel}}",
         "labelActionButtonEdit": "Editar",
+        "labelActionButtonEditNew": "Editar (Nuevo)",
         "labelActionButtonDuplicate": "Duplicar",
         "labelActionButtonDelete": "Suprimir",
         "labelAlertFilters": "Filtros",
@@ -482,6 +488,77 @@
         "viewAlertDetails": "Ver detalles de alerta para la configuración: {{name}}",
         "eventsWarningIcon": "Icono de aviso de sucesos",
         "eventsCriticalIcon": "Icono de sucesos críticos"
+      },
+      "tearSheet": {
+        "step1Title": "Seleccionar una plantilla de alerta",
+        "step2Title": "Definir el ámbito",
+        "step3Title": "Definir agrupación",
+        "step4Title": "Definir cuándo se debe enviar alerta",
+        "step5Title": "Definir propiedades de alerta y canales",
+        "grouping": {
+          "title": "Llamadas de grupo",
+          "description": "Las llamadas en cada grupo se evalúan por separado"
+        },
+        "callsInScope": {
+          "title": "Elegir llamadas en ámbito ",
+          "description": "Esto determina los servicios o puntos finales que se pueden seleccionar."
+        },
+        "includeHiddenCalls": {
+          "title": "Incluir llamadas ocultas (opcional) ",
+          "description": "Las llamadas ocultas no aparecen en los paneles de control incorporados."
+        },
+        "serviceEndPointSelection": "Servicios o puntos finales para llamadas seleccionadas",
+        "AlertPropertiesTitle": "¿Qué propiedades desea establecer para esta alerta?",
+        "AlertChannelTitle": "¿Dónde desea que se le notifique la alerta?",
+        "inboundOutboundCalls": {
+          "config": {
+            "inbound": {
+              "text": "Llamadas entrantes",
+              "dashboard": "Para detectar problemas percibidos por los consumidores de esta aplicación",
+              "overrideDefault": "El ámbito predeterminado para esta aplicación es de sólo llamadas entrantes. Puede cambiar esto en la Configuración."
+            },
+            "all": {
+              "text": "Todas las llamadas",
+              "dashboard": "Para detectar problemas en cualquier servicio o punto final dentro de esta aplicación.",
+              "overrideDefault": "El ámbito predeterminado para esta aplicación es Todas las llamadas. Puede cambiar esto en la Configuración."
+            }
+          }
+        },
+        "hiddenCalls": {
+          "config": {
+            "includeInternal": {
+              "text": "Las llamadas internas se realizan dentro de un servicio y corresponden a tramos intermedios en el rastreo personalizado"
+            },
+            "includeSynthetic": {
+              "text": "Las llamadas sintéticas tienen un punto final sintético como destino, como las llamadas a puntos finales de comprobación de estado"
+            }
+          }
+        },
+        "threshold": {
+          "title": "Establecer un valor para el umbral de infracción",
+          "description": "Elija la métrica, el umbral de infracción y la ventana de tiempo para evaluar la infracción."
+        },
+        "timeThreshold": {
+          "title": "Establecer cuándo las infracciones activan alertas",
+          "description": "Especifique el tipo de alerta y persistencia y luego establezca el activador de alerta."
+        },
+        "staticOrAdaptive": {
+          "config": {
+            "adaptive": {
+              "description": "Se aplica un valor de umbral que se adapta automáticamente a los cambios de la métrica subyacente."
+            },
+            "static": {
+              "description": "Se aplica un valor de umbral constante y no cambia con el tiempo."
+            }
+          }
+        },
+        "alertChart": {
+          "title": "Vista preliminar de alertas",
+          "description": "Muestra cómo se habrían activado las alertas en función de los datos de métricas históricas."
+        },
+        "alertProperties": {
+          "previewTitle": "Vista preliminar de alerta"
+        }
       }
     },
     "details": {
@@ -586,10 +663,12 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "Cancelar",
+        "previousTitle": "Anterior",
         "sharedListTooltip": "{{typeName}} ya no está disponible",
         "clearTagFilterExpressionButton": "Borrar",
         "baselineErrorMessageComputedOnApproximateData": "La línea base se calcula en función de datos aproximados debido a los valores de retención de datos. Por lo tanto, es posible que no sea precisa en el caso de que haya pocas llamadas que coincidan con los filtros seleccionados.",
-        "baselineErrorMessageInsufficientDataToCompute": "Los datos son insuficientes para calcular la línea base seleccionada. En su lugar, seleccione <em>Umbral estático</em>.",
+        "baselineValidationMessageInsufficientDataToCompute": "Los datos son insuficientes para calcular la línea base seleccionada. En su lugar, seleccione <em>Umbral estático</em>.",
+        "baselineGenericErrorMessage": "No se ha podido recuperar la línea base. En su lugar, seleccione <em>Umbral estático</em>.",
         "pleaseContactSupportToRiseLimit": "Póngase en contacto con nosotros a través de nuestro <supportLink>{{instanaSupportPortal}}</supportLink> para solicitar un aumento de este límite.",
         "adaptiveBaselineErrorMessage": "La vista previa de umbral no está disponible actualmente.<br />Esta alerta inteligente todavía se puede guardar.",
         "adaptiveBaselineErrorMessageNotAvailable": "El umbral adaptativo no está disponible actualmente.",
@@ -661,6 +740,7 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcular para cada ventana de evaluación",
         "timeThresholdConfigNumberOfViolations": "Número de violaciones de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidad de la evaluación",
+        "granularityTooltipText": "La granularidad de tiempo establecida aquí determinará la frecuencia con la que se evalúa el umbral.",
         "timeThresholdConfigNumberOfTracesThreshold": "Número de rastreos afectados",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "Número de usuarios afectados",
         "timeThresholdConfigAtLeast": "Al menos",
@@ -945,6 +1025,7 @@
     },
     "migration": {
       "migrateButton": "Migrar a alerta inteligente",
+      "migrateButtonNew": "Migrar a Alerta inteligente (Nuevo)",
       "migrateButtonTooltip": "Abre un diálogo de configuración de alerta inteligente que se rellena previamente con los valores migrados del suceso actual de la mejor manera posible. Por favor, compruebe el resultado cuidadosamente.",
       "markAsMigratedButton": "Marcar como migrado",
       "markAsMigratedButtonTooltip": "Marca el suceso como migrado. Por favor, utilice esta opción en caso de que ya haya configurado una alerta inteligente que vaya a sustituir este suceso.",
@@ -1059,9 +1140,21 @@
         "views": "Vistas",
         "customEventBlueprintConfigMetricLabel": "Apariciones",
         "sessions": "Sesiones",
+        "crashAffectedSessionRate": "Tasa de sesiones afectadas por caída",
+        "crashFreeSessionRate": "Tasa de sesiones sin caída",
+        "crashAffectedSessionCount": "Recuento de sesiones afectadas por bloqueo",
+        "crashFreeSessionCount": "Recuento de sesiones libres de bloqueo",
+        "crashAffectedUserRate": "Tasa de usuarios afectados por caída",
+        "crashFreeUserRate": "Tasa de usuarios sin caída",
+        "crashAffectedUserCount": "Recuento de usuarios afectados por bloqueo",
+        "crashFreeUserCount": "Recuento de usuarios libres de bloqueo",
         "statusCodeBlueprintConfigName": "Códigos de estado HTTP",
         "throughputBlueprintConfigName": "Rendimiento",
         "customEventBlueprintConfigName": "Sucesos personalizados",
+        "crashBlueprintConfigName": "Caídas",
+        "crashBlueprintConfigHeadline": "Alertas automáticas para bloqueos",
+        "crashBlueprintConfigText": "Recibir una alerta cuando la métrica de bloqueo seleccionada sea mayor o menor que la esperada.",
+        "crashBlueprintSelectMetric": "Seleccionar métrica de bloqueo",
         "statusCodeBlueprintConfigHeadline": "Alertas automáticas para códigos de estado HTTP",
         "statusCodeBlueprintConfigText": "Reciba una alerta cada vez que se generen códigos de estado HTTP coincidentes con más frecuencia de lo habitual.",
         "throughputBlueprintConfigHeadline": "Alertas automáticas para vistas de aplicaciones móviles",
@@ -1127,7 +1220,10 @@
         "ruleMetricNameOptionThroughputSessions": "Sesiones",
         "ruleMetricNameOptionThroughputViews": "Vistas",
         "errorPleaseProvideCustomEventName": "Proporcione un nombre de suceso personalizado",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Proporcione un número >= 0"
+        "titlePlaceholderCrashSimpleHighOperator": "{{metricLabel}} es anormalmente alto",
+        "titlePlaceholderCrashSimpleLowOperator": "{{metricLabel}} es anormalmente bajo",
+        "descriptionPlaceholderCrashSimpleAboveOperator": "{{metricLabel}} está por encima de lo esperado.",
+        "descriptionPlaceholderCrashSimpleBelowOperator": "{{metricLabel}} está por debajo de lo esperado."
       },
       "customEvent": {
         "noCustomEventsFound": "No se han encontrado sucesos personalizados",
@@ -1152,7 +1248,6 @@
         "scopeTitle": "Ámbito: ¿Dónde se está produciendo la condición?",
         "thresholdLabel": "Umbral",
         "thresholdTitle": "Umbral: ¿Cuándo se infringe la condición?",
-        "userImpactInfo": "Sólo se tienen en cuenta los usuarios autenticados en el umbral de impacto de usuario.",
         "payloadsLabel": "Cargas útiles",
         "payloadsTitle": "Cargas útiles personalizadas"
       }
@@ -1199,7 +1294,7 @@
         "staticThresholdHigherEqualsOperatorText": "El número de {{metricLabel}} es superior o igual a {{thresholdValue}}.",
         "staticThresholdLowerOperatorText": "El número de {{metricLabel}} es menor que {{thresholdValue}}.",
         "staticThresholdLowerEqualsOperatorText": "El número de {{metricLabel}} es inferior o igual a {{thresholdValue}}.",
-        "thresholdHigherOperatorText": "El número de {{metricLabel}} es superior a lo previsto.",
+        "thresholdHigherOperatorText": "El número de {{metricLabel}} es mayor de lo esperado.",
         "thresholdHigherEqualsOperatorText": "El número de {{metricLabel}} es superior o igual a lo previsto.",
         "thresholdLowerOperatorText": "El número de {{metricLabel}} es inferior a lo previsto.",
         "thresholdLowerEqualsOperatorText": "El número de {{metricLabel}} es inferior o igual a lo previsto."
@@ -1212,10 +1307,7 @@
         "alertConfigurationTitleScope": "Ámbito",
         "alertConfigurationTitleAlertChannels": "Canales de alerta",
         "alertConfigurationTitleTimeThreshold": "Umbral de tiempo",
-        "alertConfigurationTitleAlertProperties": "Propiedades de alerta",
-        "predictiveTrigger": {
-          "title": "Desencadenar la alerta de forma predictiva por adelantado"
-        }
+        "alertConfigurationTitleAlertProperties": "Propiedades de alerta"
       },
       "list": {
         "columns": {
@@ -1259,7 +1351,8 @@
           "title": "Umbral de tiempo: ¿Cuándo desea ser alertado?"
         },
         "predictiveTrigger": {
-          "title": "Desencadenante predictivo",
+          "title": "Las alertas predictivas están inhabilitadas",
+          "alertTitle": "La alerta se desencadenará {{value}} antes de la violación prevista",
           "timeToFailure": "Tiempo hasta anomalía"
         },
         "alertChannel": {
@@ -1323,11 +1416,13 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Ámbito",
-          "title": "Ámbito: ¿Dónde se está produciendo la condición?"
+          "title": "Ámbito: ¿Dónde se está produciendo la condición?",
+          "metric": "Métrica"
         },
         "threshold": {
           "label": "Umbral",
-          "title": "Umbral: ¿Cuándo se infringe la condición?"
+          "title": "Umbral: ¿Cuándo se infringe la condición?",
+          "tooltipText": "El valor de umbral definido aquí se evaluará basándose en la granularidad de tiempo especificada a continuación."
         },
         "timeThreshold": {
           "label": "Umbral de tiempo",
@@ -1345,8 +1440,8 @@
           },
           "alertPropertiesTitlePlaceholder": "Alerta inteligente de registros",
           "descriptionPlaceholder": {
-            "logsCount_higherThan": "El recuento de registros es superior a {{value}}.",
-            "logsCount_higherEqual": "El recuento de registros es mayor o igual que {{value}}.",
+            "logsCount_higherThan": "El recuento de registros es mayor que {{value}}.",
+            "logsCount_higherEqual": "El recuento de registros es mayor que o igual a {{value}}.",
             "logsCount_lowerThan": "El recuento de registros es inferior a {{value}}.",
             "logsCount_lowerEqual": "El recuento de registros es inferior o igual a {{value}}."
           }
@@ -1359,9 +1454,59 @@
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Proporcione un número >= 0",
-        "noMetricSelected": "No se ha seleccionado ninguna métrica"
+        "noDataForSelectedGroup": "No hay datos disponibles para los filtros y la combinación de agrupación especificados."
       },
-      "logs": "Registros"
+      "logCount": "Recuento de registros"
+    },
+    "slo": {
+      "validators": {
+        "noEmptySloIds": "Seleccione al menos un SLO.",
+        "notLessThanOrEqualToZero": "Establezca un valor mayor que 0."
+      },
+      "advancedModeContainer": {
+        "stepLabel": "",
+        "stepTitle": "",
+        "stepLabel_sloTarget": "Objetivos",
+        "stepTitle_sloTarget": "Destinos: ¿Sobre qué SLO desea que se le avise?",
+        "stepLabel_trigger": "Activador",
+        "stepTitle_trigger": "Activador: ¿Sobre qué desea que se le alerte?",
+        "stepLabel_timeThreshold": "Umbral de tiempo",
+        "stepTitle_timeThreshold": "Umbral de tiempo: ¿Cuándo desea que se le avise?",
+        "stepLabel_alertChannels": "Canales de alerta",
+        "stepTitle_alertChannels": "Canales de alertas: ¿Quién necesita ser alertado?",
+        "stepLabel_alertProperties": "Propiedades de alerta",
+        "stepTitle_alertProperties": "Propiedades de alerta: ¿Qué debe incluir la notificación de alerta?",
+        "stepLabel_customPayload": "Carga útil personalizada",
+        "stepTitle_customPayload": "Carga útil personalizada",
+        "selectSloHeadline": "Seleccionar SLO",
+        "blueprintSectionTitle": "Seleccionar Blueprint",
+        "blueprint": "",
+        "blueprint_SERVICE_LEVELS_OBJECTIVE": "Estado",
+        "blueprint_ERROR_BUDGET": "Presupuesto de error",
+        "blueprintDescription": "",
+        "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "Recibir una alerta cuando el estado de SLO esté por debajo de un umbral.",
+        "blueprintDescription_ERROR_BUDGET": "Recibir una alerta cuando se haya consumido un porcentaje de la cuota de errores.",
+        "thresholdTitle": "Umbral: ¿Cuándo desea que se le avise?",
+        "thresholdInputDescription": "",
+        "thresholdInputDescription_ERROR_BUDGET": "por ciento de la cuota de errores se haya consumido",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "por ciento es el objetivo de SLO o menos",
+        "timeThresholdType_gracePeriod": "Cuando la condición persiste durante un periodo de tiempo especificado",
+        "timeThresholdTypeTitle_gracePeriod": "Alertar cuando se infrinja la condición para $t(in-components:time.minutes, consecutivos {\"count\": {{minutes}} })",
+        "alertProperties_entityLabel": "SLO-nombre",
+        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "El estado de SLO es bajo",
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "El estado de SLO es menor o igual que {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "La cuota restante de errores es baja",
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "La cuota restante de errores es menor o igual que {{percentage}}."
+      },
+      "details": {
+        "alertConfigurationTitle": "Configuración de alertas",
+        "sloHeader": "SLO",
+        "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
+        "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
+        "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
+        "blueprintLabel": "Anteproyecto",
+        "thresholdLabel": "Umbral"
+      }
     }
   }
 }

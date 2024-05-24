@@ -24,6 +24,7 @@ export const source = 'source';
 export const tableSize = 'tableSize';
 export const tagFilterExpression = 'tagFilterExpression';
 export const countGroup = 'countGroup';
+export const showGroupsWithMissingTags = 'showGroupsWithMissingTags'
 
 export function createGroupField(savedState: Partial<TableFormConfiguration>) {
   return createField({
@@ -58,4 +59,11 @@ export function createCountGroupField(savedState: Partial<TableFormConfiguration
     value: Boolean(savedState.countGroup ?? true),
     validator: composeAndShortCircuitOnError(notUndefinedValidator)
   });
+}
+
+export function createShowGroupsWithMissingTagsField(savedState: Partial<TableFormConfiguration>) {
+  return createField({
+    value: Boolean(savedState.showGroupsWithMissingTags ?? false),
+    validator: composeAndShortCircuitOnError(notUndefinedValidator)
+  })
 }

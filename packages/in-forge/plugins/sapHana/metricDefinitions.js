@@ -126,8 +126,12 @@ export default [
   },
   {
     formatter: number,
-    metrics: ['stats.runningCount', 'stats.idleCount','stats.queueingCount'],
-    labels: [t('in-forge:plugins.sapHana.dashboard.runningCount'), t('in-forge:plugins.sapHana.dashboard.idleCount'),t('in-forge:plugins.sapHana.dashboard.queueingCount')],
+    metrics: ['stats.runningCount', 'stats.idleCount', 'stats.queueingCount'],
+    labels: [
+      t('in-forge:plugins.sapHana.dashboard.runningCount'),
+      t('in-forge:plugins.sapHana.dashboard.idleCount'),
+      t('in-forge:plugins.sapHana.dashboard.queueingCount')
+    ],
     min: 0
   },
   {
@@ -201,6 +205,28 @@ export default [
     ],
     labels: [t('in-forge:plugins.sapHana.dashboard.executionCount')],
     category: [t('in-forge:plugins.sapHana.dashboard.executionCount')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('lockWaitStats', 'totalLockWaits', t('in-forge:plugins.sapHana.dashboard.totalLockWaits'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.totalLockWaits')],
+    category: [t('in-forge:plugins.sapHana.dashboard.totalLockWaits')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'lockWaitStats',
+        'totalLockWaitTime',
+        t('in-forge:plugins.sapHana.dashboard.totalLockWaitTime')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.totalLockWaitTime')],
+    category: [t('in-forge:plugins.sapHana.dashboard.totalLockWaitTime')],
     min: 0,
     formatter: millis.detailed
   }

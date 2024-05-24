@@ -44,7 +44,7 @@ export default function IndicatorWebsiteCustomFilters() {
           )}
           {!isEditMode && (
             <ClearableTagFilterQueryBuilder
-              applicationId={entityIdField.value}
+              websiteId={entityIdField.value}
               beaconType={beaconTypeField.value}
               value={goodEventsFilterExpressionField.value}
               onChange={newFilterExpression =>
@@ -69,7 +69,7 @@ export default function IndicatorWebsiteCustomFilters() {
           )}
           {!isEditMode && (
             <ClearableTagFilterQueryBuilder
-              applicationId={entityIdField.value}
+              websiteId={entityIdField.value}
               beaconType={beaconTypeField.value}
               value={badEventsFilterExpressionField.value}
               onChange={newFilterExpression =>

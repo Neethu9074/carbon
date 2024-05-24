@@ -8,11 +8,10 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "amatiasq.sort-imports",
-    "sainoba.px-to-rem",
     "dsznajder.es7-react-js-snippets",
     "suming.react-proptypes-generate",
-    "ms-vsliveshare.vsliveshare",
     "silvenon.mdx",
-    "Orta.vscode-jest"
+    "Orta.vscode-jest",
+    "genaitools.wca-at-ibm"
   ]
 }

@@ -90,6 +90,8 @@ export default function Summary({ beacons, pageLoadLabel, pageLoadId, detailId }
         <Row>
           <Col lg={12}>
             <Message
+              className={locals.message}
+              inline
               type="warning"
               title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleClockSkewProblemsDetected')}
               description={t(

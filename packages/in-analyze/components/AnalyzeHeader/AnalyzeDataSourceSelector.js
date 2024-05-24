@@ -6,7 +6,8 @@
 import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 
-import { Li, SvgIcon, Ul } from '@instana/components';
+import { Li, SvgIcon, Ul, Pill } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 /* eslint-enable no-restricted-imports */
@@ -14,21 +15,21 @@ import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } fr
 /* eslint-disable no-restricted-imports */
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import {
-  defaultInfraExploreViewParams,
-  useLinkToExplore as useLinkToInfraEntityExplore
-} from 'in-infrastructure/navigation/paths';
-import {
+  hasAnalyzeAccess,
   hasApplicationsAccess,
   hasInfrastructureAccess,
   hasMobileAppsAccess,
   hasWebsitesAccess
 } from 'in-stores/permission';
+import {
+  defaultInfraExploreViewParams,
+  useLinkToExplore as useLinkToInfraEntityExplore
+} from 'in-infrastructure/navigation/paths';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { infraExploreDataEnabled, loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { useLinkToAnalyze as useLinkToProfileAnalyze } from 'in-components/Profiling/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
-import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
@@ -37,11 +38,11 @@ import { analyzeViewSelected } from 'in-analyze/components/AnalyzeHeader/tracker
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import unwrapLink from 'in-stores/navigation/unwrapLink';
-import Pill from 'in-components/Pill';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -263,7 +264,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
     },
     {
       productArea: 'profiles',
-      hasAccess: true,
+      hasAccess: hasAnalyzeAccess,
       dataSources: [
         {
           dataSource: 'profiles',
@@ -397,7 +398,7 @@ function ProductAreaEntry({
         {getLabelByType(dataSource)}
 
         {beta && (
-          <Pill kind="primary" className={locals.betaPill}>
+          <Pill kind="primary" className={locals.betaPill} color={themes.default.ids.color.option.blue['500']}>
             {t('in-analyze:components.analyzeHeader.beta')}
           </Pill>
         )}

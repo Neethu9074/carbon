@@ -9,18 +9,18 @@
     "tooltip1": "O agente relatou o intervalo de tempo selecionado, mas não relatou no momento selecionado. ",
     "tooltip2": "O agente começou às {{startTime}} e ainda está relatando.",
     "tooltip3": "O agente relatou entre: {{startTime}} e {{toTime}}.",
-    "issueReported": "{{count}} problema relatado:",
-    "issueReported_plural": "{{count}} problemas relatados:",
-    "issueReported_0": "{{count}}s problemas relatados:",
-    "issueReported_1": "{{count}}s problemas relatados:",
-    "issueReported_2": "{{count}}s problemas relatados:",
+    "monitoringIssueReported": "{{count}} problema de monitoramento relatado:",
+    "monitoringIssueReported_plural": "{{count}} problemas de monitoramento relatados:",
+    "monitoringIssueReported_0": "{{count}}s problema de monitoramento relatado:",
+    "monitoringIssueReported_1": "{{count}}s problema de monitoramento relatado:",
+    "monitoringIssueReported_2": "{{count}}s problema de monitoramento relatado:",
     "reporting": "relatando",
     "notReporting": "não relatando",
-    "issues": "{{count}} problema",
-    "issues_plural": "{{count}} problemas",
-    "issues_0": "{{count}} problemas",
-    "issues_1": "{{count}} problemas",
-    "issues_2": "{{count}} problemas",
+    "reportingMonitoringIssues": "relatório, {{count}} problema de monitoramento",
+    "reportingMonitoringIssues_plural": "relatório, {{count}} problemas de monitoramento",
+    "reportingMonitoringIssues_0": "relatório, {{count}} problemas de monitoramento",
+    "reportingMonitoringIssues_1": "relatório, {{count}} problemas de monitoramento",
+    "reportingMonitoringIssues_2": "relatório, {{count}} problemas de monitoramento",
     "agents": "Agentes",
     "updateAllAgents": "Atualizar todos os agentes",
     "resetAllAgents": "Reconfigurar todos os agentes",
@@ -79,6 +79,7 @@
   "explore": {
     "analyzeInfrastructure": "Analisar a infraestrutura",
     "focusOnThisGroup": "Foco neste grupo",
+    "tagNotPresent": "Tag não presente",
     "theQueryConfigurationIsInvalid": "A configuração da consulta é inválida. Trate as falhas de validação antes de continuar.",
     "allInfrastructure": "Todas as infraestruturas",
     "emptyInfrastructure": "Selecionar o tipo de entidade",
@@ -132,5 +133,10 @@
   },
   "smartAlertView": {
     "smartAlertTab": "Alertas inteligentes de infraestrutura"
+  },
+  "tagConfigurator": {
+    "buttonSelectTags": "Selecionar tags",
+    "titleAddATag": "Incluir uma tag",
+    "messagePleaseSelectAtMostTags": "Selecione no máximo {{maximumNumberOfTags}} tags."
   }
 }

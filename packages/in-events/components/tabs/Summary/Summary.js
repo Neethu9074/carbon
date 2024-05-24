@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 
+import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 import { Button } from '@instana/legacy';
@@ -50,20 +51,22 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import EventSummarization from 'in-events/components/legacy/EventSummarization';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
-import { getEventType, EVENT_TYPES, getServiceIds } from 'in-stores/events';
+import { pageNumberUrlParameter } from '../../../navigation/urlParameters';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import IncidentEventListRows from 'in-events/components/legacy/EventList';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
+import { getEventType, EVENT_TYPES, getEvent } from 'in-stores/events';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
+import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { pageNames } from 'in-services/tracking/pageNames';
 import EventChart from 'in-events/components/EventChart';
 import { emptyList } from 'in-services/fixedImmutables';
-import getRecentEvents$ from 'in-events/recentEvents';
 import { Row, Col } from 'in-components/layout/Grid';
+import useUrlState from 'in-hooks/useUrlState';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -149,7 +152,6 @@ const EventContent = connectTo(
     const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
     const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
     const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
-    const serviceIds = getServiceIds(event);
 
     return (
       <>
@@ -231,7 +233,11 @@ const EventContent = connectTo(
         {isIssue && hasEventSpec && (
           <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
         )}
-        <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
+        <ImpactedBusinessProcesses
+          eventType={eventType}
+          entityType={event?.get('entityType', undefined)}
+          entityId={event?.get('entityId', undefined)}
+        />
       </>
     );
   }
@@ -246,23 +252,44 @@ function ProcessContent({ snapshot, timeConfig }) {
 
 const IncidentContent = connectTo(
   ({ incident, latestSnapshot }) => ({
-    recentEvents: getRecentEvents$(incident),
     snapshot: getSnapshot(
       incident.get('entityId'),
       getTimeConfigForSnapshotRetrieval(incident, latestSnapshot)
     ).startWith(null)
   }),
-  function IncidentContent({ incident, recentEvents, latestSnapshot, snapshot }) {
+  function IncidentContent({ incident, latestSnapshot, snapshot }) {
+    const recentEvents = incident
+      .get('recentEvents', emptyList)
+      .sort(
+        (a, b) =>
+          incident.getIn(['issueOrderMap', a], Number.MAX_SAFE_INTEGER) -
+          incident.getIn(['issueOrderMap', b], Number.MAX_SAFE_INTEGER)
+      )
+      .toArray();
+
+    const [{ relatedEventsPage }, setState] = useUrlState({
+      bind: [pageNumberUrlParameter]
+    });
+    const pageState = eventsPath && relatedEventsPage ? relatedEventsPage : 1;
+    const pageSize = 10;
+    const paginatedRecentEvents = recentEvents?.slice(pageSize * (pageState - 1), pageSize * pageState);
+
+    const recentEventsWithMetadata =
+      useObservable(combineLatest(paginatedRecentEvents.map(getEvent)).throttle(250), [incident]) ?? null;
+
     const [changesAreVisible, setChangesAreVisible] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const numChanges = getNumberOfChanges(recentEvents);
     const [expandedEventOnClickInTimeline, setExpandedEventOnClickInTimeline] = useState('');
     const [highlightEventOnHover, setHighlightEventOnHover] = useState('');
 
+    if (!recentEventsWithMetadata) return <LoadingIndicator />;
+
+    const numChanges = getNumberOfChanges(recentEventsWithMetadata);
+
     const header = (
       <>
-        {shouldRenderExpandButton(recentEvents, changesAreVisible, numChanges) && (
+        {shouldRenderExpandButton(recentEventsWithMetadata, changesAreVisible, numChanges) && (
           <Button
             type="button"
             kind={isExpanded ? 'primaryv2' : 'secondary'}
@@ -270,7 +297,7 @@ const IncidentContent = connectTo(
           >
             {isExpanded
               ? t('in-events:buttonCollapse')
-              : t('in-events:buttonExpandEvents', { eventsLength: recentEvents.length })}
+              : t('in-events:buttonExpandEvents', { eventsLength: recentEventsWithMetadata.length })}
           </Button>
         )}
         {shouldRenderShowChangesButton(numChanges) && (
@@ -304,7 +331,7 @@ const IncidentContent = connectTo(
               <Card title={t('in-events:titleIncidentTimeline')} header={header}>
                 <PopulationChart
                   incidentId={incident.get('id')}
-                  recentEvents={recentEvents}
+                  recentEvents={recentEventsWithMetadata}
                   changesAreVisible={changesAreVisible}
                   isExpanded={isExpanded}
                   setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
@@ -319,6 +346,9 @@ const IncidentContent = connectTo(
           incident={incident}
           snapshot={snapshot}
           latestSnapshot={latestSnapshot}
+          recentEvents={recentEventsWithMetadata}
+          pageState={pageState}
+          setPageURLState={setState}
           expandedEventOnClickInTimeline={expandedEventOnClickInTimeline}
           setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
           highlightEventOnHover={highlightEventOnHover}

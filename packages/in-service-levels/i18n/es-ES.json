@@ -1,6 +1,8 @@
 {
   "general": {
     "addButtonLabel": "Añada",
+    "addButtonLabel_slo": "Añadir objetivo de nivel de servicio",
+    "addButtonLabel_smartAlert": "Añadir alerta inteligente",
     "aggregation": "Agregación",
     "availability": "Disponibilidad",
     "beacon": "Baliza",
@@ -18,6 +20,7 @@
     "noSelection": "No se ha seleccionado ninguno",
     "loadMore": "Cargar más",
     "noData": "No hay datos disponibles.",
+    "noMatchingTimeWindows": "No hay ninguna ventana de tiempo coincidente para el periodo seleccionado. Esto suele suceder si la ventana de tiempo seleccionada es anterior a la fecha de creación del SLO.",
     "serverErrors": {
       "sloLimitReachedError": "Se ha alcanzado el número máximo de configuraciones de objetivo de nivel de servicio ({{0}}). Póngase en contacto con el soporte de Instana para solicitar un aumento de este límite."
     },
@@ -124,18 +127,22 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "Filtro personalizado (opcional)",
+    "customFilter": "Filtro personalizado",
+    "custom": "Personalizar",
+    "customDescription": "Establecer un filtro personalizado para seleccionar servicios y/o puntos finales",
     "title": "Crear objetivo de nivel de servicio (SLO)",
     "selectIndicator": "Seleccionar Blueprint",
     "selectEntityNavItem": "Establecer entidad",
     "selectEntityTitle": "Seleccione una entidad a la que añadir SLO:",
     "selectScopeNavItem": "Establecer ámbito",
+    "SelectServiceandEndpoint": "Seleccionar servicio y punto final",
     "selectIndicatorNavItem": "Establecer indicador",
     "beaconTypes": {
       "beaconLabel_httpRequest": "Solicitudes HTTP",
       "beaconLabel_pageLoad": "Cargas de página de sitio web",
       "beaconLabel_custom": "Eventos personalizados de sitio web"
     },
+    "serviceAndEndpoint": "Servicio y punto final",
     "selectObjectiveTitle": "Establecer objetivo",
     "sloTarget": "Destino de SLO",
     "timeWindow": "Ventana de tiempo",
@@ -151,6 +158,8 @@
     "errorTimeWindowMin": "El intervalo de tiempo debe ser como mínimo de un día",
     "errorInvalidExpression": "Los filtros especificados no son válidos",
     "errorBlankEntity": "Seleccione una entidad de la lista",
+    "errorEmptyGoodFilter": "Se debe definir un filtro adecuado",
+    "errorEqualTagFilter": "Los filtros adecuados y malos no deben ser idénticos",
     "nameAndTagsTitle": "Establecer detalles",
     "sloNameLabel": "Nombre del SLO",
     "sloNamePlaceholder": "Especificar nombre",
@@ -191,8 +200,8 @@
       "unit_plural": "calls",
       "unit_application_plural": "calls",
       "unit_website_plural": "balizas",
-      "thousandCallsFormat": "{{count}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "{{formattedCount}}K $t (in-service-levels:sloChart.sloFormatter.unit, {\"contexto\": \"{{entityType}}\", \"recuento\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t (in-service-levels:sloChart.sloFormatter.unit, {\"contexto\": \"{{entityType}}\", \"recuento\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "Estado",
@@ -218,6 +227,7 @@
     "components": {
       "sloEntityInfo": {
         "service": "Servicio: {{label}}",
+        "endpoint": "Punto final: {{label}}",
         "tooltip": "SLO de {{context}}"
       },
       "entityTypeFilter": {
@@ -261,7 +271,8 @@
   "sloDashboard": {
     "tabs": {
       "summaryLabel": "Resumen",
-      "configurationLabel": "Configuración"
+      "configurationLabel": "Configuración",
+      "smartAlertsLabel": "Alertas inteligentes"
     },
     "timeWindowSelection": {
       "timeWindow": "Selección desconocida",
@@ -292,7 +303,8 @@
           "filterInfo": {
             "goodEventFilters": "Filtros de sucesos correctos:",
             "badEventFilters": "Filtros de sucesos incorrectos:"
-          }
+          },
+          "approximateTooltip": "Los datos se han agregado. Ver una ventana de tiempo más corta para ver más detalles"
         }
       },
       "entitySection": {

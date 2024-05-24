@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 
 import { createLogger } from '@instana/logger';
 import { Toggle } from '@instana/components';
+import { Select } from '@instana/components';
 
 // to suppress warning on deprecated code temporarily
 // eslint-disable-next-line import/no-deprecated
@@ -30,7 +31,6 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import FormGroup from 'in-settings/components/FormGroup';
 import { get, save } from 'in-integrations/logging/api';
 import { Col, Row } from 'in-components/layout/Grid';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
@@ -131,7 +131,7 @@ export default function LogDna() {
           <div style={{ marginBottom: '1rem' }}>
             <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableMezmoIntegrationForInstana')}>
               <Heading text={t('in-settings:tabs.showMezmoLinkOnHosts')} htmlFor="logdn-enabled" />
-              <Toggle id="logdna-enabled" checked={enabled} onToggle={e => this.onChange('enabled', e)} />
+              <Toggle id="logdna-enabled" checked={enabled} onToggle={e => onChange('enabled', e)} />
             </HorizontalFormGroup>
           </div>
           {form.get('instanceType').map(field => (
@@ -176,7 +176,7 @@ export default function LogDna() {
             message={message}
             loading={loading || saving.saving}
             hasCancelButton={false}
-            saveEnabled={enabled && !areFieldsInvalid(form)}
+            saveEnabled={!enabled || !areFieldsInvalid(form)}
           />
         </form>
       )}

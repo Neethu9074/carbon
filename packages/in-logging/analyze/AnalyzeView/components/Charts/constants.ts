@@ -18,6 +18,7 @@ export const logLevelColors: Record<LowercaseLogLevel, string> = {
   fatal: carbonCategorical.purple50,
   trace: carbonCategorical.teal70,
   debug: carbonCategorical.teal70,
+  none: carbonCategorical.teal70,
   unknown: carbonAlert.gray60,
   nextloglevel: carbonCategorical.teal50
 };

@@ -5,11 +5,12 @@
 
 import React, { Ref, forwardRef, useState } from 'react';
 
+import { IconButton } from '@instana/components';
+
 import { unmaskApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addCopiedToClipboardMessage } from 'in-components/CopyToClipboard';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import IconButton from 'in-components/IconButton/IconButton';
 import { t } from 'in-i18n';
 
 export interface AsyncTokenCopyButtonProps {

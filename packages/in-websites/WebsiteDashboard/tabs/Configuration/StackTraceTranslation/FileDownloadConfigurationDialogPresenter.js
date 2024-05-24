@@ -6,6 +6,7 @@
 import React, { Fragment } from 'react';
 
 import { SvgIcon, Link } from '@instana/components';
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { useForm } from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogForm';
@@ -21,7 +22,6 @@ import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
 import { Trans, SecureString, t } from 'in-i18n';
 import Dialog from 'in-components/Dialog/Dialog';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 

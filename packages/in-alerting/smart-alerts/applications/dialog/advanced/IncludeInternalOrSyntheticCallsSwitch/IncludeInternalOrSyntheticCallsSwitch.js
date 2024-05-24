@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
+import LabelDescriptionWithIcon from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/LabelDescriptionWithIcon';
 import {
   hasSubEntitySelection,
   resetEntitySelection
@@ -17,24 +19,45 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/InboundOrAllCallsSwitch.mless';
 
-export default function IncludeInternalOrSyntheticCallsSwitch({ form, updateForm, isGlobalSmartAlert }) {
+export default function IncludeInternalOrSyntheticCallsSwitch({
+  form,
+  updateForm,
+  isGlobalSmartAlert,
+  tearSheetView = false
+}) {
   const includeInternal = form.get('includeInternal').value;
   const includeSynthetic = form.get('includeSynthetic').value;
   const applications = form.get('applications').value;
 
+  const includeInternalLabelContent = LabelDescriptionWithIcon(
+    'lib_application_call',
+    callLabels['includeInternal'],
+    t('in-alerting:smartAlerts.applications.tearSheet.hiddenCalls.config.includeInternal.text')
+  );
+
+  const includeSyntheticLabelContent = LabelDescriptionWithIcon(
+    'lib_synthetic',
+    callLabels['includeSynthetic'],
+    t('in-alerting:smartAlerts.applications.tearSheet.hiddenCalls.config.includeSynthetic.text')
+  );
+
   return (
-    <div className={locals.container}>
+    <div
+      className={classNames({
+        [locals.container]: !tearSheetView
+      })}
+    >
       <Row>
-        <Col lg={6} className={locals.column}>
+        <Col lg={6} md={6} className={classNames({ [locals.column]: !tearSheetView, [locals.gap]: tearSheetView })}>
           <CheckboxFancy
-            label={callLabels['includeInternal']}
+            label={tearSheetView ? includeInternalLabelContent : callLabels['includeInternal']}
             checked={includeInternal}
             onChange={() => handleChange('includeInternal', includeInternal)}
           />
         </Col>
-        <Col lg={6} className={locals.column}>
+        <Col lg={6} md={6} className={classNames({ [locals.column]: !tearSheetView, [locals.gap]: tearSheetView })}>
           <CheckboxFancy
-            label={callLabels['includeSynthetic']}
+            label={tearSheetView ? includeSyntheticLabelContent : callLabels['includeSynthetic']}
             checked={includeSynthetic}
             onChange={() => handleChange('includeSynthetic', includeSynthetic)}
           />

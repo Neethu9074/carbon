@@ -82,6 +82,8 @@ export const alertsTab = '/alerts';
 export const alertsTabListFullyQualified = `${applicationDashboard}${alertsTab}`;
 export const alertsTabDetailsFullyQualified = `${alertsTabListFullyQualified}/details`;
 
+export const smartAlertPath = '/applicationSmartalerts';
+
 export const analyzePath = '/analyze';
 
 export const analyzeTwoParameters = createParameters(analyzePath);
@@ -335,7 +337,8 @@ export const isApplicationsView = getRootPathPredicate(
   servicesList,
   serviceDashboard,
   endpointDashboard,
-  alertsList
+  alertsList,
+  smartAlertPath
 );
 
 function useLinkToList(pathName, keyPrefix) {
@@ -486,4 +489,28 @@ function fillAlertTabSpecificValues(params, applicationId, alertConfigId, alertC
   setOrDeleteMatrixKey(params, applicationDashboard, applicationIdMatrixParam, applicationId);
   setOrDeleteMatrixKey(params, alertsTab, alertIdMatrixParam, alertConfigId);
   setOrDeleteMatrixKey(params, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
+}
+
+export function useNavigationToGlobalAlertConfigWithoutAPDashboard() {
+  const { location, navigate } = useNavigation();
+
+  return alertConfigId => {
+    location.pathname = globalAlertDetails;
+    fillAlertTabSpecificValues(location, null, alertConfigId, null);
+    setOrDeleteMatrixKey(location, alertsTab, alertsCategoryMatrixParam, categoryGlobal);
+
+    navigate(location);
+  };
+}
+
+export function useNavigationToAlertConfig() {
+  const { location, navigate } = useNavigation();
+
+  return (alertConfigId, alertConfigVersion, applicationId) => {
+    location.pathname = alertsTabDetailsFullyQualified;
+    fillAlertTabSpecificValues(location, applicationId, alertConfigId, alertConfigVersion);
+    setOrDeleteMatrixKey(location, alertsTab, alertsCategoryMatrixParam, categoryLocal);
+
+    navigate(location);
+  };
 }

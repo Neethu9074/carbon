@@ -7,6 +7,7 @@ import { Field, Item, ListForm, MapForm, Path } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Message, Stack, StackItem } from '@instana/components';
+import { Select, IconButton } from '@instana/components';
 import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
@@ -23,16 +24,15 @@ import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFoo
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import { getInvitations$, getUsersAsResultObservable } from 'in-api/users';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { defaultRoleId, fallbackRoleId, role } from 'in-stores/user';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { defaultRoleId, fallbackRoleId } from 'in-stores/user';
 import { submitInviteUserTracker } from 'in-settings/tracker';
-import IconButton from 'in-components/IconButton/IconButton';
 import { close } from 'in-components/DialogPresenter/store';
+import { successObservable } from 'in-services/util/result';
 import FormGroup from 'in-settings/components/FormGroup';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';
 import Dialog from 'in-components/Dialog/Dialog';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { config } from 'in-services/config';
@@ -65,7 +65,10 @@ export interface PendingInvite {
 export default function InviteUserDialog() {
   const { goToPath } = useNavigation();
   const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string }>();
-  const groups: any = useObservable(getStrippedGroupsAsResultObservable(), []);
+  const groups: any =
+    useObservable(role?.canConfigureTeams ? getStrippedGroupsAsResultObservable : successObservable, []) ??
+    pendingResult;
+
   const usersResult = useObservable(getUsersAsResultObservable, []) ?? pendingResult;
   const users = usersResult?.data;
   const pendingInvitationResult = useObservable(getInvitations$, []) ?? pendingResult;
@@ -140,7 +143,6 @@ export default function InviteUserDialog() {
       onDoInviteUser(setMessage, invitations, setForm, setInvitationResult, goToPath);
     };
   };
-
   if (!groups || groups.progress?.loading) {
     // skip inital rendering, but render when the data has been loaded
     return null;
@@ -148,7 +150,7 @@ export default function InviteUserDialog() {
 
   let sortedGroups: ApiGroup[] | undefined;
 
-  if (groups.data) {
+  if (groups?.data) {
     sortedGroups = groups.data
       .filter((group: ApiGroup) => group.id !== fallbackRoleId)
       .map((group: ApiGroup) => {
@@ -163,7 +165,7 @@ export default function InviteUserDialog() {
 
     return (
       <Row className={locals.row} key={i}>
-        <Col xs={7}>
+        <Col xs={canSelectGroup ? 7 : 11}>
           {(invite.get('email') as Field<string>).map((field: Field<string>) => {
             return (
               <FormGroup>
@@ -187,9 +189,9 @@ export default function InviteUserDialog() {
             );
           })}
         </Col>
-        <Col xs={4}>
-          {canSelectGroup &&
-            (invite.get('groupId') as Field<string>).map((field: Field<string>) => (
+        {canSelectGroup && (
+          <Col xs={4}>
+            {(invite.get('groupId') as Field<string>).map((field: Field<string>) => (
               <FormGroup>
                 <Label htmlFor={`invitation-role_${i}`} hasError={!field.valid && field.touched}>
                   {t('in-settings:tabs.group')}
@@ -211,7 +213,8 @@ export default function InviteUserDialog() {
                 <TouchedMessages field={field} />
               </FormGroup>
             ))}
-        </Col>
+          </Col>
+        )}
         <Col xs={1}>
           <IconButton
             buttonType="button"
@@ -238,13 +241,18 @@ export default function InviteUserDialog() {
       <form onSubmit={onSubmitInvitation(canSelectGroup)}>
         <div role="form" className={locals.dialogBody}>
           <Stack direction="vertical" gap="xxsmall">
-            <StackItem>{message && <Message type={message?.type} withIcon title={message?.text} small />}</StackItem>
+            <StackItem>{message && <Message type={message?.type} title={message?.text} small withIcon />}</StackItem>
             <div className={locals.description}>
               <Typography variant="body-regular" component="div">
                 {t('in-settings:tabs.inviteDescription', { tenant: config.tenant })}
               </Typography>
               <Typography variant="body-regular" component="div">
                 {t('in-settings:tabs.inviteGroupDescription')}
+              </Typography>
+            </div>
+            <div className={locals.description}>
+              <Typography variant="body-regular" component="div">
+                {t('in-settings:tabs.inviteUsertoDefaultGroup')}
               </Typography>
             </div>
             <StackItem>

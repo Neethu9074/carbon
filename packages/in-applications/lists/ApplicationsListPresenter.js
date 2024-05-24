@@ -16,6 +16,7 @@ import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components
 import { getTimeConfigAlignedToResultTime, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
+import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import { applicationsList, useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
@@ -23,6 +24,7 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { applicationListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
+import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
@@ -252,6 +254,13 @@ export default function ApplicationsListPresenter({
           )}
 
           {role.canConfigureGlobalApplicationSmartAlerts && <CreateGlobalSmartAlertButton renderAsSimpleButton />}
+          {role.canConfigureGlobalApplicationSmartAlerts && applicationSmartAlertFullScreenDesignEnabled && (
+            <CreateSmartAlertButton
+              isGlobal
+              buttonName={t('in-alerting:smartAlerts.applications.components.createGlobalSmartAlertNew')}
+              isFloatingButton
+            />
+          )}
         </FloatingActionButtonMenu>
       </FloatingActionButtons>
     </Sticky>

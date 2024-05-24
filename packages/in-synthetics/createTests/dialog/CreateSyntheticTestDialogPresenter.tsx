@@ -12,6 +12,7 @@ import { t } from '@instana/i18n-react';
 
 import {
   Code,
+  SSLCertificateTest,
   SlideInConfig,
   SlideInHeader,
   SliderState,
@@ -30,7 +31,6 @@ import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeCont
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import getDefaultHeaders from 'in-synthetics/createTests/utils/getDefaultHeaders';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
-import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { isNotBlank } from 'in-services/util/string';
 import { Error as ScriptError } from 'in-types';
@@ -92,9 +92,7 @@ const CreateSyntheticTestDialogPresenter = ({
     title: null,
     onClose: null
   });
-  const [selectedBlueprint, setSelectedBlueprint] = useState(
-    getSimpleBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
-  );
+  const [selectedBlueprint, setSelectedBlueprint] = useState(getSimpleBlueprintConfig()[0]);
   const [headers, setHeaders] = useState(getDefaultHeaders(form));
   const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
   const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
@@ -150,6 +148,14 @@ const CreateSyntheticTestDialogPresenter = ({
       : undefined;
   };
 
+  const SSLCertificateErrorsExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
+    return syntheticTypeField.value === 'SSLCertificate'
+      ? (configForm.get('hostname') && !configForm.get('hostname').valid) ||
+          (configForm.get('port') && !configForm.get('port').valid) ||
+          (configForm.get('daysRemainingCheck') && !configForm.get('daysRemainingCheck').valid)
+      : undefined;
+  };
+
   const scriptErrorExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
     return syntheticTypeField.value === 'HTTPScript' ||
       syntheticTypeField.value === 'WebpageScript' ||
@@ -192,6 +198,8 @@ const CreateSyntheticTestDialogPresenter = ({
       HTTPActionErrorsExist(configForm, syntheticTypeField) ||
       // for HTTPScript, WebpageScript, and BrowserScript
       scriptErrorExist(configForm, syntheticTypeField) ||
+      // for SSL Certificate
+      SSLCertificateErrorsExist(configForm, syntheticTypeField) ||
       !syntheticTypeField.valid ||
       locationsField.value.length === 0 ||
       !frequencyField.valid ||
@@ -230,6 +238,7 @@ const CreateSyntheticTestDialogPresenter = ({
     if (selectedBlueprint.type === apiScriptTest) return { ...prevState, api: { simple: false, script: true } };
     if (selectedBlueprint.type === browserSimpleTest) return { ...prevState, browser: { simple: true, script: false } };
     if (selectedBlueprint.type === browserScriptTest) return { ...prevState, browser: { simple: false, script: true } };
+    if (selectedBlueprint.type === SSLCertificateTest) return { ...prevState, ssl: { simple: true } };
   };
 
   return (

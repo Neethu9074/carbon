@@ -341,7 +341,13 @@
   },
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "セッションの追跡",
-    "trackingSnippetPresenterTooltip": "セッション・トラッキングとプライバシーへの影響について詳しく説明します。"
+    "trackingSnippetPresenterTooltip": "セッション・トラッキングとプライバシーへの影響について詳しく説明します。",
+    "trackingSnippetSRITooltip": "サブリソース完全性 (SRI) は、ブラウザーが取得したリソースを検証できるセキュリティー機能です。 無効にすると、セキュリティーの問題が発生する可能性があります。 無効にする場合は、安全なネットワーク環境を使用していることを確認してください。",
+    "trackingSnippetPresenterLabelSRI": "サブリソース完全性 (SRI) バージョン",
+    "trackingSnippetPresenterLabelAgentVersion": "エージェント・バージョンの選択",
+    "trackingSnippetPresenterEnableSRI": "有効",
+    "trackingSnippetPresenterDisableSRI": "無効",
+    "trackingSnippetPresenterAgentVersion": "バージョン"
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "Web サイトおよびモバイル・アプリケーション",

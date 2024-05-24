@@ -16,7 +16,7 @@ env:
 phases:
   install:
     runtime-versions:
-      nodejs: 18
+      nodejs: 20
     commands:
       # Remove SBT repository: https://github.com/aws/aws-codebuild-docker-images/issues/449
       - rm -f /etc/apt/sources.list.d/sbt.list

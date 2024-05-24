@@ -17,6 +17,8 @@ export declare const applicationDashboard: string;
 export declare const getLinkToAlertConfig: string;
 export declare const getLinkToGlobalAlertConfigWithoutAPDashboard: string;
 export declare const globalAlertDetails: string;
+export declare const globalSmartAlertPath: string;
+export declare const smartAlertPath: string;
 
 interface ChartedMetric {
   metricId: string;
@@ -76,6 +78,8 @@ export function useAlertConfig(): (alertConfigId: string, applicationId: string)
 
 export function useLinkToGlobalAlertConfigWithoutAPDashboard(): (alertConfigId: string) => string;
 
+export function useNavigationToGlobalAlertConfigWithoutAPDashboard(): (alertConfigId: string) => void;
+
 export function useLinkToGlobalAlertConfigWithAPDashboard(): (
   alertConfigId: string,
   alertConfigVersion: number,
@@ -87,6 +91,12 @@ export function useLinkToAlertConfig(): (
   alertConfigVersion: number,
   applicationId: string
 ) => string;
+
+export function useNavigationToAlertConfig(): (
+  alertConfigId: string,
+  alertConfigVersion: number,
+  applicationId: string
+) => void;
 
 interface UseDashboardProps {
   applicationId?: string;

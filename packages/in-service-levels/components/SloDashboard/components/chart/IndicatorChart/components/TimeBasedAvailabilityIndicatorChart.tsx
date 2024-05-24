@@ -40,6 +40,7 @@ import { calculateTrafficGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
+import { successObservable } from 'in-services/util/result';
 import { percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
 
@@ -53,6 +54,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
 
   const sloZoomInAction = useSloZoomInAction();
   const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const hasMatchingTimeWindows = timeWindows.length > 0;
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateTrafficGranularity(timeConfig);
   const metricConfiguration = useSliMetricConfiguration<AvailabilityBlueprintIndicator>(
@@ -63,10 +65,10 @@ export default function TimeBasedAvailabilityIndicatorChart({
     getMetricConfig
   );
   const result: Result<UnifiedMetricsResult[]> =
-    useObservable(
-      () => getUnifiedMetrics({ metrics: metricConfiguration }),
-      [generateStableHash(metricConfiguration)]
-    ) ?? pendingResult;
+    useObservable(() => {
+      if (!hasMatchingTimeWindows) return successObservable([]);
+      return getUnifiedMetrics({ metrics: metricConfiguration });
+    }, [generateStableHash(metricConfiguration), hasMatchingTimeWindows]) ?? pendingResult;
 
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
   const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));

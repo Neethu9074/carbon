@@ -145,22 +145,19 @@ const checkAuthentication = (user_pass: string[]): ValidationResult => {
   return undefined;
 };
 
-const checkForInvalidPort = (port: string): ValidationResult => {
-  if (port != '' && port.length > 0) {
-    const portInt = parseInt(port, 10);
-    if (!/^\d+$/.test(port) || portInt <= 0 || portInt > 65535) {
-      return [
-        {
-          severity: 'error',
-          message: t('in-synthetics:dialog.createTest.validators.invalidPortValue')
-        }
-      ];
-    }
+export const checkForInvalidPort = (port: number): ValidationResult => {
+  if (!/^\d+$/.test(port.toString()) || port <= 0 || port > 65535) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.validators.invalidPortValue')
+      }
+    ];
   }
   return undefined;
 };
 
-const checkForInvalidHost = (hostName: string): ValidationResult => {
+export const checkForInvalidHost = (hostName: string): ValidationResult => {
   if (hostName === '' && options.require_host) {
     return [
       {
@@ -251,7 +248,7 @@ export default function urlValidator(value: string): ValidationResult {
     port_str = split.join(':');
   }
 
-  const checkForInvalidPortResult = checkForInvalidPort(port_str);
+  const checkForInvalidPortResult = port_str != '' && port_str.length > 0 ? checkForInvalidPort(+port_str) : undefined;
   if (checkForInvalidPortResult) {
     return checkForInvalidPortResult;
   }

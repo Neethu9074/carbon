@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "Neue Gruppe erstellen",
-    "dialogTitle_edit": "Zugriffsbereich bearbeiten",
+    "dialogTitle_edit": "Zugriffskonfiguration bearbeiten",
     "editButton": "Bearbeiten",
     "productArea": "Zugriffskonfiguration für {{tenantUnit}}-{{tenant}}"
   },
@@ -67,10 +67,10 @@
     "allApplications": "Alle Anwendungen",
     "allWebsites": "Alle Websites",
     "allMobileApps": "Alle mobilen Apps",
+    "businessMonitoringAccessAllMessage": "Alle Geschäftsprozesse",
     "kubernetes": "Kubernetes",
     "allSynthetics": "Alle synthetischen Tests",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}} Berechtigungen",
-    "role": "Angepasst",
     "role_owner": "Eigner",
     "role_viewer": "Anzeigeberechtigter",
     "role_permissions": "Unbekannt - Zugriff auf {{quantityOfAreas}}",
@@ -82,16 +82,16 @@
     "role_permissions_contributor_and_viewer": "Anzeigeberechtigter – Zugriff auf {{quantityOfAreas}} & Beitragender – Zugriff auf {{quantityOfAreasContributor}}",
     "no_access": "Kein Zugriff",
     "platform_permissions": "Zugriff auf {{quantityOfAreas}}",
-    "analyticsContentMessage": "Kann Daten in Analytics anzeigen, die durch den Zugriffsbereich in Websites, mobilen Apps, Anwendungen, Plattformen und Infrastruktur definiert sind",
     "infrastructureContentMessage": "Kann Entitäten anzeigen, die durch den Zugriffsbereich in Anwendungen, Plattformen, Infrastruktur und optional durch DFQ definiert sind",
-    "eventsAndAlertsContentMessage": "Kann Ereignisse und Alerts entsprechend dem Zugriffsbereich anzeigen, der in Websites, mobilen Apps, Anwendungen, synthetischer Überwachung, Plattformen und Infrastruktur definiert ist",
+    "infrastructureAccessAllMessage": "Alle Entitäten",
     "permissions": "Berechtigungen",
     "additionalPermissions": "Zusätzliche Berechtigungen",
     "permissions_DASHBOARD": "Berechtigungen für angepasste Dashboards",
     "permissions_SYNTHETICS": "Berechtigungen für synthetische Überwachung",
-    "permissions_AGENTS": "Berechtigungen für Agenten",
+    "permissions_AGENTS": "Berechtigungen für die Agentenimplementierung",
     "permissions_ACCESS_CONTROL": "Berechtigungen für Zugriffssteuerung",
     "permissions_AUTOMATION": "Berechtigungen für Automatisierung",
+    "permissions_EVENT": "Berechtigungen für Ereignisse und Alerts",
     "permissions_LOGS": "Protokollberechtigungen",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power HMC",
@@ -106,12 +106,12 @@
     "obsoleteEntityDescription": "Derzeit sind keine Daten verfügbar - Zugriff wird noch erteilt.",
     "title_analytics": "Analyse",
     "title_applications": "Anwendungen",
-    "title_events_and_alerts": "Ereignisse und Alerts",
     "title_global_functions": "Globale Funktionen",
     "title_infrastructure": "Infrastruktur",
     "title_mobileApps": "Mobile Apps",
     "title_platforms": "Plattformen",
     "title_websites": "Websites",
+    "title_businessMonitoring": "Business Monitoring",
     "title_syntheticMonitoring": "Überwachung der synthetischen Transaktionen"
   },
   "headingSection": {
@@ -136,11 +136,11 @@
     "descriptionLimitedAccess_applications": "Wählen Sie die Rolle aus und fügen Sie unten Anwendungen hinzu, um Zugriff zu erteilen.",
     "descriptionAccessAll_applications": "Auf alle Anwendungen kann mit der ausgewählten Rolle zugegriffen werden.",
     "deleteButton": "{{name}} aus Liste entfernen",
-    "infrastructureAccessScope": "Zugriffsbereich",
     "infrastructureDfqHeader": "Abfrage des dynamischen Fokus (DFQ)",
     "infrastructureDfqUse": "Außerdem können Sie die folgende Abfrage des dynamischen Fokus verwenden, um Zugriff auf die Infrastruktur zu erteilen.",
     "infrastructureDfqMore": "Weitere Informationen.",
-    "descriptionViewerAccess_infrastructure": "Es können alle Entitätsdashboards angezeigt werden, die sich auf den Zugriff für Anwendungen und Plattformen beziehen.",
+    "infrastructureDfqToggleLabel": "Zusätzlicher Zugriff mit Dynamic Focus Query (DFQ)",
+    "infrastructureDfq_mayNotBeBlank": "Der Wert darf nicht leer sein.",
     "descriptionAccessAll_kubernetes": "Alle Namensbereiche und Cluster können angezeigt werden.",
     "descriptionAccessNo_kubernetes": "Kein Zugriff auf Namensbereiche und Cluster.",
     "descriptionAccessLimited_kubernetes": "Wählen Sie die Namensbereiche und Cluster unten aus, um Zugriff zu erteilen.",
@@ -152,7 +152,7 @@
     "descriptionAccessAll_synthetics": "Auf alle synthetischen Tests kann mit der ausgewählten Rolle zugegriffen werden.",
     "descriptionLimitedAccess_synthetics": "Wählen Sie die Rolle aus und fügen Sie unten synthetische Tests hinzu, um Zugriff zu erteilen.",
     "contribution_filter": "Filter für Beiträge",
-    "contributionFilter_description": "Der Beitragsfilter wird beim Erstellen neuer Anwendungskonfigurationen angewendet. In der Anwendungskonfiguration kann der Beitragsfilter mit Filtertags nach einem Operator {{logicalOperator}} eingegrenzt werden",
+    "contributionFilter_description": "Der Beitragsfilter wird beim Erstellen neuer Anwendungskonfigurationen angewendet. In der Anwendungskonfiguration kann der Beitragsfilter mit Filtertags nach einem Operator {{logicalOperator}} optimiert werden. Eine Anwendungsperspektive, die die Ergänzungsfiltertags verwendet, wird nach dem Speichern automatisch erstellt.",
     "contributionFilter_downstreamCalls": "Bestimmen Sie die maximale Ebene zusätzlicher Informationen, die in die Anwendungsperspektiven eingebunden werden können",
     "contributionFilter_name": "Name",
     "contributionFilter_name_mayNotBeBlank": "Der Name des Beitragsfilters darf nicht leer sein.",
@@ -163,7 +163,8 @@
     "doneButton": "Erledigt"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "Name"
+    "nameColumnHead": "Name",
+    "contributionFilterColumnHead": "Filter für Beiträge"
   },
   "permissionScope": {
     "access_level": "Zugriffsebene",
@@ -183,9 +184,12 @@
     "description_no_access_infrastructure": "Kein Zugriff: Zugriff auf Infrastruktur verweigert.",
     "description_no_access_synthetics": "Kein Zugriff: Der Zugriff auf die synthetische Überwachung wird verweigert.",
     "description_access_all": "Zugriff auf alle ohne Einschränkung",
+    "title_access_all_bizops": "Unbegrenzter Zugriff",
+    "title_no_access_bizops": "Zugriff verweigert",
+    "description_access_all_bizops": "Alle Funktionen von Business Monitoring sind ohne Einschränkung zugänglich.",
+    "description_no_access_bizops": "Der Zugriff auf Business Monitoring wird verweigert.",
     "description_access_all_except_contributor": "Zugriff auf alles (mit Ausnahme derjenigen, auf die als Beitragender zugegriffen wird)",
     "role": "Rolle auswählen",
-    "roleSelection": "Rolle",
     "role_owner": "Eigner",
     "role_viewer": "Anzeigeberechtigter",
     "role_custom": "Angepasst",
@@ -197,9 +201,10 @@
     "roleTooltip_synthetics": "Viewer: Möglichkeit zum Anzeigen von Dashboards für synthetische Tests (Konfiguration kann nicht angezeigt werden). <br /> Eigner: Möglichkeit zum Erstellen neuer synthetischer Tests. Sie können synthetische Tests anzeigen, konfigurieren und löschen sowie synthetische Positionen anzeigen und löschen.",
     "contribution_filter_accessScope": "Bereich mit eingeschränktem Zugriff (Anzeigeberechtigter)",
     "contribution_filter_warning": {
-      "firstParagraph": "Jede Änderung, die Sie speichern, aktualisiert alle Anwendungsperspektiven, die diesen Beitragsfilter verwenden.",
-      "secondParagraph": "Wenn Sie den Zugriffstyp ändern, wird der Beitragsfilter gelöscht. Alle Anwendungsperspektiven, die den Beitragsfilter verwenden, können von jedem Benutzer mit Eignerzugriff im Abschnitt \"Anwendungen\" bearbeitet werden."
-    }
+      "firstParagraph": "Jede Änderung, die Sie speichern, wirkt sich auf alle Anwendungsperspektiven aus, die diesen Beitragsfilter verwenden, sowie auf die Anwendungsperspektive, die automatisch mit Beitragsfiltertags erstellt wird.",
+      "secondParagraph": "Wenn Sie den Zugriffstyp ändern, wird der Beitragsfilter gelöscht. Die Beitragsfiltertags für alle zugehörigen Konfigurationen der Anwendungsperspektive können von allen Benutzern mit Eigentümerzugriff auf den Abschnitt \"Anwendungen\" bearbeitet werden."
+    },
+    "applicationCreatedUsingContributionFilter": "Diese Anwendungsperspektive wird mithilfe des Beitragsfilters automatisch erstellt und aktualisiert."
   },
   "configurationSummary": {
     "application": {
@@ -210,16 +215,18 @@
       "limited_access": {
         "access_level": "Nur auf die aufgelisteten Anwendungen mit dem ausgewählten Zugriffstyp und alle zusätzlichen Berechtigungen zugreifen.",
         "access_level_contributor": "Sie finden die Anwendungen mit Entwicklerzugriff im Teilfenster für die Zugriffskonfiguration für die Benutzer-oder Gruppendetails. <br /><br />Greifen Sie auf die Anwendungsperspektiven mit dem Beitragsfilter zu, der als Mitarbeiter angewendet wird. <br />Auf die ausgewählten Anwendungsperspektiven als Viewer zugreifen",
-        "role_permissions_contributor": "Erstellen Sie Anwendungsdashboards mit angewendetem Beitragsfilter. Sie können diese Anwendungsdashboards anzeigen, konfigurieren und löschen, die für den Beitragsfilter erstellt wurden."
+        "role_permissions_contributor": "Erstellen Sie Anwendungsperspektiven mit angewendetem Beitragsfilter. Sie können diese für den Beitragsfilter erstellten Anwendungsperspektiven anzeigen, konfigurieren und löschen."
       },
       "role_permissions_owner": "Erstellen, konfigurieren, anzeigen und löschen Sie Anwendungsperspektiven.",
       "role_permissions_viewer": "Anwendungsperspektiven und ihre Konfiguration anzeigen."
     },
     "infrastructure": {
-      "limited_access": {
-        "access_level": "Greifen Sie auf alle Entitätsdashboards unter dieser Einheit zu, die sich auf den Zugriff für Anwendungen und Plattformen beziehen."
+      "access_all": {
+        "access_level": "Greifen Sie auf alle Entitätsdashboards mit den ausgewählten Berechtigungen zu."
       },
-      "role_permissions_owner": "Entitätsdashboards anzeigen.",
+      "limited_access": {
+        "access_level": "Greifen Sie nur auf die Entitäten zu, die über den Zugriff angezeigt werden können, der für die anderen Instanzerschnitte erteilt wurde."
+      },
       "role_permissions_viewer": "Entitätsdashboards anzeigen."
     },
     "kubernetes": {
@@ -293,7 +300,7 @@
     "backToParentViewName": "Zurück zu {{parentViewName}}",
     "search": "Suchen...",
     "confirmRemoveItem": "Sind Sie sicher, dass Sie <strong>{{itemName}}</strong> entfernen möchten?",
-    "confirmSaveGroup": "Durch Speichern dieser Aktualisierungen wird der Beitragsfilter aus {{numberOfContributorAPs}} Anwendungsperspektiven entfernt und inaktiviert",
+    "confirmSaveGroup": "Beim Speichern dieser Aktualisierungen wird der Beitragsfilter gelöscht.<br/>Die Beitragsfiltertags in <strong>{{numberOfContributorAPs}}</strong> Konfigurationen der Anwendungsperspektive werden von allen Benutzern mit Eignerzugriff im Abschnitt \"Anwendungen\" bearbeitbar.<br/><br/>Stellen Sie sicher, dass Sie Anwendungsperspektiven ausgewählt haben, um Zugriff im Falle eines eingeschränkten Zugriffsbereichs zu erteilen.",
     "enable": "Aktivieren",
     "disable": "Inaktivieren",
     "deleteEntity": "{{entity}} löschen.",
@@ -435,6 +442,7 @@
     "someEmailsHaveFailedToSend": "Einige E-Mails konnten nicht gesendet werden",
     "inviteUserToTenant": "Benutzer zu {{tenant}} einladen",
     "anotherUser": "Anderer Benutzer",
+    "inviteUsertoDefaultGroup": "Sie haben nicht genügend Berechtigungen, um eine Gruppe für die Einladung auszuwählen. Der eingeladene Benutzer wird zur Standardgruppe hinzugefügt.",
     "permissionEntityLabel": "Berechtigung {{entityLabel}}",
     "addToAGroup": "Zu einer Gruppe hinzufügen",
     "failedToAddUserToGroups": "Benutzer konnte nicht zu Gruppen hinzugefügt werden: {{err}}",
@@ -487,23 +495,13 @@
     "alertChannels": "Alertkanäle",
     "alertChannelEntityName": "Alertkanal {{entityName}}",
     "noEventsSelected": "Keine Ereignisse ausgewählt",
-    "noActionsSelected": "Keine Aktionen ausgewählt",
-    "addActions": "Aktionen hinzufügen",
     "addEvents": "Ereignisse hinzufügen",
     "pleaseSelectAtLeastOneEvent": "Wählen Sie mindestens ein Ereignis aus.",
-    "pleaseSelectAtLeastOneAction": "Wählen Sie mindestens eine Aktion aus.",
     "addNumberOfItemsEvent": "{{count}} Ereignis hinzufügen",
     "addNumberOfItemsEvent_plural": "{{count}} Ereignisse hinzufügen",
-    "addNumberOfItemsAction": "Aktion {{count}} hinzufügen",
-    "addNumberOfItemsAction_plural": "{{count}} Aktionen hinzufügen",
-    "addNumberOfItemsAction_0": "{{count}} Aktionen hinzufügen",
-    "addNumberOfItemsAction_1": "{{count}} Aktionen hinzufügen",
-    "addNumberOfItemsAction_2": "{{count}} Aktionen hinzufügen",
     "addNumberOfItemsEvent_0": "{{count}} Ereignisse hinzufügen",
     "addNumberOfItemsEvent_1": "{{count}} Ereignisse hinzufügen",
     "addNumberOfItemsEvent_2": "{{count}} Ereignisse hinzufügen",
-    "actionAssociationsStep": "{{step}}. Aktionszuordnungen",
-    "ActionAssociations": "Aktionszuordnungen",
     "allEventsThatMatchTheEventTypesWillEnterTheNotificationStream": "<strong>Vorsicht!</strong> Alle Ereignisse, die den Ereignistypen entsprechen, gehen in den Benachrichtigungsdatenstrom ein.",
     "dfqFormDesc": "Eine <strong>nicht leere</strong> Filterabfrage, die definiert, für welche Entitäten die Konfiguration angewendet wird. Wählen Sie <em>\"Anwenden auf: Alle verfügbaren Entitäten\"</em> aus, wenn Sie möchten, dass diese Regel auf alle Entitäten angewendet wird. Weitere Informationen zur Syntax finden Sie in unserer <docLink>Dokumentation</docLink>.",
     "addNumberOfItemsApplicationPerspective": "{{count}} Anwendungsperspektive hinzufügen",
@@ -738,6 +736,16 @@
     "timeoutsSuccessfullySaved": "Zeitlimitüberschreitungen wurden erfolgreich gespeichert.",
     "disableTwoFactor": "Zwei-Faktor-Authentifizierung inaktivieren",
     "saveToken": "Token speichern",
+    "profile": {
+      "pageName": "Profil",
+      "email": "E-Mail",
+      "emailHint": "Die E-Mail zur Identifizierung des Benutzerkontos in Instana. Sie können die E-Mail nicht ändern, nachdem das Benutzerkonto erstellt wurde.",
+      "name": "Name",
+      "nameHint": "Geben Sie Ihren Vornamen (Vorname) und Nachnamen (Nachname) ohne Komma ein.",
+      "saving": "Neuer Name wird gespeichert",
+      "saved": "Neuer Name gespeichert",
+      "failed": "Neuer Name konnte nicht gespeichert werden"
+    },
     "twoFactorAuthentication": "Zwei-Faktor-Authentifizierung",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "Die Zwei-Faktor-Authentifizierung ist für diesen Benutzer derzeit inaktiviert.",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "Geben Sie das 2FA-Token von Ihrer Authentifikator-App in die vollständige Konfiguration ein:",
@@ -768,7 +776,7 @@
     "noGroupMapping": "Es sind keine Zuordnungen zwischen dem Identitätsprovider und Instana konfiguriert",
     "denyUserWithNoGroup": "Zugriff verweigern, wenn keine Zuordnung gefunden wird. Ist diese Option nicht ausgewählt, werden ermittelte Benutzer ohne Gruppenzuordnungen und ohne Gruppen der Standardgruppe zugeordnet.",
     "denyUserWithNoGroupDocs": "Die Konfiguration des Identitätsproviders kann jederzeit unter Verwendung eines Tokens mit ausreichenden Berechtigungen gelöscht werden. Weitere Details finden Sie unter <authLink>Authentifizierung konfigurieren</authLink>.",
-    "groupMappingInfoText": "Eine Zuordnungsregel besteht aus einem Schlüssel, einem Wert und einer Instana-Gruppe. Der Schlüssel und der Wert beziehen sich auf das Attribut für den Identitätsprovider und dessen entsprechenden Wert, von dem aus Sie die Zuordnung vornehmen. Sie möchten beispielsweise alle Benutzer, bei denen der Schlüssel \"Abteilung\" den Wert \"SRE\" aufweist, der Gruppe der Instana-Eigner zuordnen.",
+    "groupMappingInfoText": "Eine Zuordnungsregel besteht aus einem Schlüssel, einem Wert und einer Instanzergruppe. Der Schlüssel und der Wert beziehen sich auf das Attribut für den Identitätsprovider und dessen entsprechenden Wert, von dem aus Sie die Zuordnung vornehmen. Sie möchten beispielsweise alle Benutzer, bei denen der Schlüssel \"Abteilung\" den Wert \"SRE\" aufweist, der Gruppe der Instana-Eigner zuordnen.",
     "ownerGroupMemberNotLimitable": "Benutzer ist Mitglied der Eignergruppe und wird nicht durch andere Gruppenzugehörigkeiten eingeschränkt.",
     "mergedPermissionWithCombinationOfLimitedAndUnlimited": "Die effektive Gruppe von Berechtigungen ist die Summe der Berechtigungen, die über verschiedene Gruppenzuordnungen erteilt werden. Die Summe der begrenzten Zugriffsbereiche bestimmt jedoch den effektiven Bereich für den Benutzer.",
     "users": "Benutzer",
@@ -801,7 +809,8 @@
     "groupDeleteTooltip_Default": "Die Standardgruppe ist eine integrierte Gruppe und kann nicht gelöscht oder umbenannt werden.",
     "groupDeleteTooltip_Owner": "Eignergruppe ist eine integrierte Gruppe und kann nicht gelöscht oder umbenannt werden.",
     "deleteGroupMessage": "Möchten Sie <strong>{{groupName}}</strong> wirklich aus allen Einheiten in diesem Tenant entfernen?",
-    "thisWillRemoveContributionFilterMessage": "Dadurch wird der Beitragsfilter aus <strong>{{apCount}}</strong> Anwendungsperspektiven entfernt und inaktiviert",
+    "thisWillRemoveContributionFilterMessage": "Dadurch wird <strong>{{apCount}}</strong> Anwendungsperspektiven aus dem Beitragsfilter entfernt",
+    "thisWillRemoveContributionFilterFromOtherUnits": "Dadurch werden <strong>{{apCount}}</strong> Anwendungsperspektiven aus dem Beitragsfilter und allen Beitragsfiltern, die in anderen Einheiten definiert sind, entfernt",
     "addGroup": "Neue Gruppe",
     "pendingInvitations": "Anstehende Einladungen",
     "revoke": "Widerrufen",
@@ -1123,6 +1132,7 @@
     "serviceNow": "ServiceNow",
     "serviceNowAlertChannel": "ServiceNow-Alertkanal",
     "serviceNowUsernameTooltip": "Benutzername und Kennwort sollten für einen ServiceNow-Benutzer mit Berechtigung zum Erstellen von Vorfällen gelten.",
+    "autoCloseIncidents": "Vorfälle automatisch schließen",
     "showPasswordTooltip": "Kennwort anzeigen",
     "hidePasswordTooltip": "Kennwort verbergen",
     "scope": "Umfang",
@@ -1164,7 +1174,12 @@
     "createIDPConfirmationDescription": "Anstehende Einladungen werden gelöscht. Benutzer werden automatisch von Ihrem Identitätsprovider (IdP) bereitgestellt.",
     "revokeInvitationForUserWithEmail": "Einladung zur Teilnahme am {{tenant}}-Tenant für {{email}} widerrufen",
     "invitationValidUntil": "Einladung gültig bis",
-    "invitedBy": "Eingeladen von"
+    "invitedBy": "Eingeladen von",
+    "accessAll": "Auf alle zugreifen",
+    "access": "Zugriff",
+    "accessForTenantUnit": "Zugriff auf {{tenantUnit}}-{{tenant}}",
+    "numberOfMembers": "Anzahl Member",
+    "groupEntityName": "Gruppe {{entityName}}"
   },
   "languageSelection": {
     "language": "Sprache",

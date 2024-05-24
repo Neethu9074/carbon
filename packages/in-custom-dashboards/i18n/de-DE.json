@@ -149,6 +149,7 @@
       "formComponent": {
         "metric": "Messwert",
         "eventCount": "Ereignisanzahl",
+        "unnamedLog": "Nicht benannte Protokollmetrik",
         "aggregation": "Aggregation",
         "pleaseSelectMetric": "Wählen Sie einen Messwert aus",
         "pleaseSelect": "Bitte auswählen",
@@ -181,7 +182,7 @@
       "regexMetricSelectorOverlay": {
         "inputPlaceholder": "Metrikmuster (z. B. metric_.*)",
         "done": "Erledigt",
-        "help": "## Kurztipps\nApache Lucene flavored regex wird mit den folgenden Operatoren unterstützt.\n###.\nEntspricht einem beliebigen Zeichen. Beispiel:\n\n ab. # entspricht 'aba', 'abb', 'abz' usw.\n###? + *\nWiederholen Sie das vorhergehende Zeichen so oft wie möglich. Beispiel:\n\n abc? # 'c' einmal oder null Mal wiederholen. entspricht 'ab' und 'abc'\n ab+ # 'b' mindestens einmal wiederholen. stimmt mit 'ab', 'abb', 'abbb' usw. überein\n    ab * # 'b' null oder mehrmals wiederholen. steht für 'a', 'ab', 'abb', 'abbb' usw.\n### |\n Operator OR. Die Übereinstimmung ist erfolgreich, wenn das längste Muster auf der linken Seite ODER auf der rechten Seite übereinstimmt. Beispiel:\n\n    abc|xyz # entspricht 'abc' und 'xyz'\n ### (...)\nBildet eine Gruppe. Sie können eine Gruppe verwenden, um einen Teil des Ausdrucks als einzelnes Zeichen zu behandeln. Beispiel:\n\n    abc (def)? # entspricht 'abc' und 'abcdef ', aber nicht' abcd ' \n### [...]\nSteht für eines der Zeichen in den Klammern. Beispiel:\n\n [abc] # stimmt mit 'a', 'b', ' c' überein\nInnerhalb der eckigen Klammern gibt `-` einen Bereich an, es sei denn, `-` ist das erste Zeichen oder ein Escapezeichen. Beispiel:\n\n    [a-c] # entspricht 'a', 'b' oder 'c'\n [-abc] #'-' ist das erste Zeichen. Übereinstimmung mit '-', 'a', 'b' oder 'c'\n [abc\\-] # Escapezeichen'-'. Übereinstimmung mit 'a', 'b', 'c' oder '-'\nEin '^' vor einem Zeichen in Klammern negiert das Zeichen oder den Bereich. Beispiel:\n\n    [^ abc] # entspricht einem beliebigen Zeichen mit Ausnahme von 'a', 'b' oder 'c'\n [^ a-c] # entspricht einem beliebigen Zeichen mit Ausnahme von' a ',' b 'oder' c'\n [^-abc] # entspricht einem beliebigen Zeichen mit Ausnahme von '-', 'a', 'b' oder 'c'\n [^ abc\\-] # entspricht einem beliebigen Zeichen mit Ausnahme von' a ',' b ',' c 'oder'-'\n\nBeachten Sie, dass PCRE-Zeichenklassen wie \"\\w\" oder \"\\S\" derzeit nicht unterstützt werden. Beachten Sie auch, dass Ankeroperatoren wie ` ^ ` und ` $` nicht unterstützt werden. Der Ausdruck muss mit der gesamten Zeichenfolge übereinstimmen.\n## Weitere Informationen\n zur vollständigen Syntax finden Sie in der [Dokumentation] ({{documentationLink}})."
+        "help": "## Kurztipps\nApache Lucene flavored regex wird mit den folgenden Operatoren unterstützt.\n###.\nEntspricht einem beliebigen Zeichen. Beispiel:\n\n ab. # entspricht 'aba', 'abb', 'abz' usw.\n###? + *\nWiederholen Sie das vorhergehende Zeichen so oft wie möglich. Beispiel:\n\n abc? # 'c' einmal oder null Mal wiederholen. entspricht 'ab' und 'abc'\n ab+ # 'b' mindestens einmal wiederholen. stimmt mit 'ab', 'abb', 'abbb' usw. überein\n    ab * # 'b' null oder mehrmals wiederholen. steht für 'a', 'ab', 'abb', 'abbb' usw.\n### |\n Operator OR. Die Übereinstimmung ist erfolgreich, wenn das längste Muster auf der linken Seite ODER auf der rechten Seite übereinstimmt. Beispiel:\n\n    abc|xyz # entspricht 'abc' und 'xyz'\n ### (...)\nBildet eine Gruppe. Sie können eine Gruppe verwenden, um einen Teil des Ausdrucks als einzelnes Zeichen zu behandeln. Beispiel:\n\n    abc (def)? # entspricht 'abc' und 'abcdef ', aber nicht' abcd ' \n### [...]\nSteht für eines der Zeichen in den Klammern. Beispiel:\n\n [abc] # stimmt mit 'a', 'b', ' c' überein\nInnerhalb der eckigen Klammern gibt `-` einen Bereich an, es sei denn, `-` ist das erste Zeichen oder ein Escapezeichen. Beispiel:\n\n    [a-c] # entspricht 'a', 'b' oder 'c'\n [-abc] #'-' ist das erste Zeichen. Übereinstimmung mit '-', 'a', 'b' oder 'c'\n [abc\\-] # Escapezeichen'-'. Übereinstimmung mit 'a', 'b', 'c' oder '-'\nEin '^' vor einem Zeichen in Klammern negiert das Zeichen oder den Bereich. Beispiel:\n\n    [^ abc] # entspricht einem beliebigen Zeichen mit Ausnahme von 'a', 'b' oder 'c'\n [^ a-c] # entspricht einem beliebigen Zeichen mit Ausnahme von' a ',' b 'oder' c'\n [^-abc] # entspricht einem beliebigen Zeichen mit Ausnahme von '-', 'a', 'b' oder 'c'\n [^ abc\\-] # entspricht einem beliebigen Zeichen mit Ausnahme von' a ',' b ',' c 'oder'-'\n\nBeachten Sie, dass PCRE-Zeichenklassen wie \"\\w\" oder \"\\S\" derzeit nicht unterstützt werden. Beachten Sie auch, dass Ankeroperatoren wie ` ^ ` und ` $` nicht unterstützt werden. Der Ausdruck muss mit der gesamten Zeichenfolge übereinstimmen."
       },
       "regexMetricsList": {
         "noRegex": "Regex-Abfrage eingeben",
@@ -252,6 +253,20 @@
         "syntheticMonitoring": "Überwachung der synthetischen Transaktionen"
       }
     },
+    "srcLogging": {
+      "index": {
+        "logging": "Protokolle"
+      },
+      "formComponent": {
+        "onlyMetric": "Die einzige verfügbare Metrik für Protokolle",
+        "metrics": {
+          "count": "Anzahl"
+        },
+        "metric": "Metrik",
+        "aggregation": "Aggregation",
+        "pleaseSelect": "Bitte auswählen"
+      }
+    },
     "metricConfigurator": {
       "ds": "Datenquelle",
       "pleaseSelect": "Bitte auswählen",
@@ -278,6 +293,12 @@
         "increaseColor": "Mehr Farbe",
         "decreaseColor": "Weniger Farbe",
         "timeShift": "Zeitverschiebung"
+      },
+      "thresholdForm": {
+        "addThresholdColorization": "Schwellenwertbasierte Farbgebung hinzufügen",
+        "threshold": "Schwellenwert",
+        "critical": "Kritisch bei Latenzzeit",
+        "warning": "Warnung bei Latenzzeit"
       },
       "bigNumber": "Große Zahl"
     },
@@ -808,7 +829,9 @@
           },
           "formatter": "Formatierung",
           "searchPlaceholder": "Suchen",
-          "countGroup": "Gruppenanzahl anzeigen"
+          "countGroup": "Gruppenanzahl anzeigen",
+          "showGroupsWithMissingTags": "Gruppen mit fehlenden Tags anzeigen",
+          "filterEmptyValues": "Leere Werte filtern"
         }
       },
       "dataSource": {

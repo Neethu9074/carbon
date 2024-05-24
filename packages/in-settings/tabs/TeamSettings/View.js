@@ -41,18 +41,20 @@ import {
   teamSettingsLogManagementElk,
   teamSettingsLogManagementHumio,
   teamSettingsLogManagementLogDna,
+  teamSettingsLogManagementLogVolume,
   teamSettingsLogManagementSplunk
 } from 'in-settings/navigation/paths';
 import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
 import RecurrentMaintenanceWindowFormPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
-import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
-import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
-import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import {
   alertsHubEnabled,
   disableInvitesWithIdpEnabled,
+  logVolumePageEnabled,
   recurrentMaintenanceWindowEnabled
 } from 'in-services/featureFlags';
+import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
+import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
+import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
@@ -64,6 +66,7 @@ import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/A
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 import DeleteLogsPage from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeleteLogs';
+import LogVolumePage from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/LogVolume';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/Coralogix';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
@@ -324,7 +327,13 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     component: DeleteLogsPage
   };
 
-  if (role.canDeleteLogs || role.canConfigureLogManagement) {
+  const logVolumePage = {
+    path: teamSettingsLogManagementLogVolume,
+    label: t('in-settings:tabs.logVolume.logVolume'),
+    component: LogVolumePage
+  };
+
+  if (role.canDeleteLogs || role.canConfigureLogManagement || role.canViewLogVolume) {
     let pages = [];
 
     if (role.canConfigureLogManagement) {
@@ -333,6 +342,10 @@ function navigationTreeForRole(role, isAnyIDPActive) {
 
     if (role.canDeleteLogs) {
       pages.push(deleteLogsPage);
+    }
+
+    if (role.canViewLogVolume && logVolumePageEnabled) {
+      pages.push(logVolumePage);
     }
 
     navigationTree.push({

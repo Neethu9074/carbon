@@ -39,6 +39,7 @@
         "labelName": "Nome del test",
         "labelDescription": "Descrizione",
         "labelFrequency": "Frequenza (minuti)",
+        "labelFrequencyHour": "Frequenza (ora)",
         "labelApplications": "Selezionare un'applicazione"
       },
       "bluePrint": {
@@ -95,6 +96,11 @@
             "line3": "Passo 3: Scegliere la frequenza di test (1 ~ 120 minuti).",
             "line4": "Passo 4: Nella sezione Nome del test e Descrizione, immettere un nome significativo per il test nel campo Nome. Aggiungere una descrizione dello scopo del test al campo Descrizione."
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "Controllare se il certificato del server Web sta per scadere o meno utilizzando questo test."
+          }
         }
       },
       "validators": {
@@ -128,7 +134,11 @@
           "browserTypeHeadline": "Test sintetici del browser",
           "browserTypeText": "Il test sintetico del browser è un metodo di monitoraggio delle prestazioni delle applicazioni Web simulando le interazioni dell'utente con un sito Web tramite uno script in un browser Web, fornendo informazioni preziose sui problemi che influenzano l'esperienza dell'utente e garantendo la funzionalità del sito Web.",
           "browserSimpleTitle": "Test semplice del browser",
-          "browserScriptTitle": "Test di script del browser"
+          "browserScriptTitle": "Test di script del browser",
+          "certificateCheckTitle": "Controllo certificato SSL",
+          "certificateCheckLabel": "Certificato SSL",
+          "certificateCheckHeadline": "Verifica certificato SSL",
+          "certificateCheckText": "La verifica del certificato SSL è un metodo per verificare la scadenza di un certificato SSL in una applicazione Web controllando i giorni rimanenti su un certificato emesso."
         },
         "configurationLabel": "Configurazione",
         "configurationTitle": "Configurazione: come funzionerà questo test?",
@@ -140,6 +150,8 @@
         "identifyTitle": "Identificazione: cosa farà il test?",
         "customPropertiesTitle": "Proprietà personalizzate",
         "frequency": "Questo test verrà eseguito ogni {{frequencyValue}} minuti.",
+        "frequencyHours": "Questo test verrà eseguito ogni {{frequencyHours}} ore.",
+        "frequencyHoursAndMinutes": "Questo test verrà eseguito ogni {{frequencyHours}} ore e {{frequencyMinutes}} minuti.",
         "simultaneous": "Simultanea",
         "simultaneousDescription": "Questo test verrà eseguito simultaneamente in ogni ubicazione selezionata.",
         "configStep": {
@@ -213,13 +225,20 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Browser"
+          "browserName": "Browser",
+          "certificateCheckName": "Certificato SSL"
         },
         "customProperties": {
           "property": "Proprietà",
           "propertyValue": "Valore",
           "addProperty": "Aggiungi proprietà",
           "propertyNameMustBeUnique": "Il nome della proprietà deve essere univoco."
+        },
+        "certificateCheck": {
+          "inputHostName": "Nome Host",
+          "inputPortNumber": "Porta",
+          "failureConfigLabel": "Configurazione errore",
+          "failureConfigText": "Il test avrà esito negativo quando la validità del certificato ha <certificateValidityDays/> giorni rimanenti fino alla scadenza."
         }
       }
     },
@@ -237,11 +256,13 @@
       "failureTitle": "Non riuscito.",
       "failureMessageCreate": "Impossibile creare il test sintetico: {{errorMessage}}",
       "failureMessageUpdate": "Impossibile aggiornare il test sintetico: {{errorMessage}}",
-      "failuteMesssageDelete": "Impossibile eliminare il test sintetico. Riprovare successivamente"
+      "failureMesssageDelete": "Impossibile eliminare il test sintetico: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "Ubicazione eliminata correttamente",
-      "failureMesssageDelete": "Impossibile eliminare l'ubicazione. Riprovare più tardi"
+      "failureMesssage": "{{errorMessage}}",
+      "successMessageDeactivate": "L'ubicazione è stata disattivata correttamente",
+      "successMessageActivate": "Ubicazione attivata correttamente"
     },
     "updateTest": {
       "dialogTitle": "Modifica test {{syntheticType}}",
@@ -279,21 +300,36 @@
         "datacenterCode": "Codice data center",
         "datacenterName": "Nome data center",
         "provider": "Provider",
-        "locationName": "Nome di visualizzazione ubicazione",
+        "locationName": "Nome ubicazione",
+        "displayName": "Nome di visualizzazione",
+        "locationStatus": "Stato",
         "status": "Stato di attivazione",
-        "datacentersSubtitle": "Attivare un'ubicazione gestita da Instana in uno dei data center disponibili. Per ulteriori informazioni, consultare <linkDatacenters>Distribuzione PoP sintetico</linkDatacenters>.",
+        "datacentersSubtitle": "Attivare un'ubicazione gestita da Instana in uno dei data center disponibili. Per ulteriori informazioni, fare riferimento a <linkDatacenters>Utilizzo di un host PoPInstana</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Le ubicazioni sono in fase di distribuzione",
-          "message": "Stiamo configurando le nuove ubicazioni presso i data center seguenti. Attendere mentre completiamo la distribuzione automatica. Una volta terminata, è possibile trovare le nuove ubicazioni nella scheda Ubicazioni. <strong>Questa operazione può richiedere fino a 10 minuti.</strong>",
+          "message": "Stiamo configurando le nuove ubicazioni presso i data center seguenti. Attendere mentre completiamo la distribuzione automatica. Una volta terminata, è possibile trovare le nuove ubicazioni nella scheda Ubicazioni. <strong>Questa operazione può richiedere fino a 10 minuti per ogni datacenter selezionato.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Codice data center",
               "datacenterName": "Nome data center",
-              "locationName": "Nome di visualizzazione ubicazione",
+              "locationName": "Nome ubicazione",
               "datacenterStatus": "Stato di attivazione"
             }
-          }
-        }
+          },
+          "activateLocationLoadingMessage": "Attivazione dei datacenter",
+          "activationRejectedMessageSingleDatacenter": "La richiesta di attivazione per {{rejectedDatacentersList}} non può essere elaborata poiché è già stata attivata",
+          "activationRejectedMessageMultipleDatacenters": "La richiesta di attivazione per {{rejectedDatacentersList}} non può essere elaborata poiché sono già state attivate"
+        },
+        "deactivateDatacenter": {
+          "title": "Disattiva ubicazione",
+          "deactivateMessage": "Si desidera disattivare l'ubicazione <strong>{{locationDisplayLabel}}</strong>?<br/><br/>La disattivazione di un'ubicazione può richiedere fino a 10 minuti. Si prega di essere pazienti mentre si annulla la fornitura per voi. Una volta terminato, lo stato dell'ubicazione sarà Non in linea.<br/>",
+          "warningMessage": "La disattivazione non è in corso. L'ubicazione sarà disponibile e potrà essere riattivata. Per rimuovere completamente l'ubicazione gestita, eliminare l'ubicazione una volta che lo stato diventa Non in linea.",
+          "activeStatus": "Attivo",
+          "deactivateButton": "Disattiva"
+        },
+        "activate": "Attiva",
+        "okay": "OK",
+        "activateLocation": "Attiva ubicazione"
       },
       "validators": {
         "theValueMustNotBeEmpty": "È necessario selezionare almeno un data center"
@@ -329,7 +365,7 @@
         "simpleTab": "Semplice",
         "redisTab": "TLS Redis",
         "title": "Comandi PoP sintetici",
-        "subTitle": "Utilizzare questi modelli di codice come riferimento. Per ulteriori informazioni, consultare <documentationLink>Synthetic PoP Deployment</documentationLink>",
+        "subTitle": "Utilizzare questi modelli di codice come riferimento. Per ulteriori informazioni, vedi <documentationLink>Distribuzione di un host PoP</documentationLink>",
         "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
         "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
         "tlsInstructions": "Se si desidera abilitare Redis TLS, è necessario disporre della propria coppia certificato-chiave X.509 (`tls.crt`, `tls.key`) e il file del certificato root CA (`ca.crt`).\n\nSe non si dispone dei file chiave/cert, è anche possibile utilizzare il comando openssl per generarne di nuovi, fare riferimento agli esempi seguenti:",
@@ -383,9 +419,10 @@
       "success": "Riuscito",
       "failure": "Non riuscito",
       "popVersion": "Versione",
-      "noActionsAllowed": "NA",
-      "deleteRestrictedDescription": "Le ubicazioni gestite non possono essere eliminate.",
-      "deleteLocationBroswerRefreshInfo": "Ci vorrà del tempo prima che l'ubicazione scompaia dall'elenco delle ubicazioni e potrebbe essere necessario un aggiornamento del browser."
+      "deleteLocationBroswerRefreshInfo": "Ci vorrà del tempo prima che l'ubicazione scompaia dall'elenco delle ubicazioni e potrebbe essere necessario un aggiornamento del browser.",
+      "deactivateLocation": {
+        "deactivate": "Disattiva"
+      }
     },
     "summary": {
       "successRate": "Frequenza operazioni riuscite",
@@ -427,7 +464,14 @@
       "totalRuns": "Numero totale di esecuzioni: {{totalRuns}}",
       "meanLatencyFor90th": "{{meanLatencyDetail}} per 90esimo",
       "smartAlertsTab": "Avvisi smart",
-      "configurationTab": "Configurazione"
+      "configurationTab": "Configurazione",
+      "isCertificateValid": "Ultima esecuzione - Certificato valido",
+      "certificateValid": "Sì",
+      "certificateNotValid": "No",
+      "daysRemaining": "Ultima esecuzione - Giorni rimanenti",
+      "dateOfExpiry": "Ultima esecuzione - Data di scadenza",
+      "smallerTimeFrameTitle": "Nessun risultato per questo intervallo di tempo",
+      "smallerTimeFrameDescription": "Selezionare un intervallo di tempo più lungo per visualizzare i risultati per i test di verifica del certificato SSL."
     },
     "resultsListPage": {
       "startedColumn": "Avviato",
@@ -439,7 +483,8 @@
       "locationLabel": "Ubicazione",
       "failures": "Errori",
       "status": "Stato",
-      "success": "Riuscito"
+      "success": "Riuscito",
+      "daysRemaining": "Giorni rimanenti"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "La modalità attiva non è applicabile nella pagina dei dettagli del risultato del test sintetico",
@@ -564,6 +609,11 @@
         "imageButton": "Immagine",
         "ScreenshotsLoadingMessage": "Caricamento degli screenshot",
         "noScreenshotsAvailableMessage": "Screenshot non disponibili per questo risultato del test"
+      },
+      "sslCertificate": {
+        "daysRemaining": "Giorni rimanenti",
+        "dateOfIssue": "Data di emissione",
+        "dateOfExpiry": "Data di scadenza"
       }
     },
     "noDataAvailable": {
@@ -638,7 +688,12 @@
       "retryIntervalFieldLabel": "Intervallo tentativi",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} secondo",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} secondi",
-      "markSyntheticCall": "Contrassegna chiamata sintetica"
+      "markSyntheticCall": "Contrassegna chiamata sintetica",
+      "hostname": "Nome Host",
+      "port": "Porta",
+      "daysRemaining": "Il test avrà esito negativo quando la validità del certificato ha",
+      "day": "giorno rimanente fino alla scadenza",
+      "days": "giorni rimanenti fino alla scadenza"
     }
   }
 }

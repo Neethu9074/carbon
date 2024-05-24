@@ -18,9 +18,10 @@ import locals from 'in-synthetics/dashboards/details/components/FailedRun.mless'
 
 interface FailedRunProps {
   resultList: Result<PaginatedResult<TestResultListItem>>;
+  isSSLCertificate: boolean;
 }
 
-export default function FailedRun({ resultList }: FailedRunProps) {
+export default function FailedRun({ resultList, isSSLCertificate }: FailedRunProps) {
   let errMsg: string;
   let stacktraceMsg: string;
 
@@ -35,8 +36,12 @@ export default function FailedRun({ resultList }: FailedRunProps) {
     let start: number = getErrors(resultList).search('errorMessage=');
     let end: number = getErrors(resultList).search('stackTrace=');
     let len: number = getErrors(resultList)?.length;
-    errMsg = getErrors(resultList).slice(start + 'errorMessage='.length, end - '  '.length);
-    stacktraceMsg = getErrors(resultList).slice(end + 'stacktrace='.length, len - '}'.length);
+    errMsg = !isSSLCertificate
+      ? getErrors(resultList).slice(start + 'errorMessage='.length, end - '  '.length)
+      : getErrors(resultList).slice(start + 'errorMessage='.length, len - 1);
+    stacktraceMsg = !isSSLCertificate
+      ? getErrors(resultList).slice(end + 'stacktrace='.length, len - '}'.length)
+      : undefined;
   }
 
   return (
@@ -55,7 +60,7 @@ export default function FailedRun({ resultList }: FailedRunProps) {
       >
         {stacktraceMsg ? (
           <span className={locals.stacktraceMessage}>
-            {stacktraceMsg.split('\n').map(function(msg: any, i: any) {
+            {stacktraceMsg.split('\n').map(function (msg: any, i: any) {
               return <div key={i}>{msg}</div>;
             })}
           </span>

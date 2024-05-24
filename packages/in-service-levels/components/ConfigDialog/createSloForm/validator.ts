@@ -7,13 +7,15 @@
 import { ValidationResult } from 'formalistic';
 
 import { ServiceLevelIndicatorType } from '@instana/types';
+import { generateStableHash } from '@instana/utils';
 
 import {
   CustomBlueprintType,
+  SloIndicatorFields,
   SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { maxValidator, minValidator, numericValidator, positiveNumberValidator } from 'in-services/validators/number';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { isEmptyExpression, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
@@ -89,7 +91,10 @@ export function createThresholdFieldValidator(
 export const targetFieldValidator = composeAndShortCircuitOnError(inputNotUndefinedValidator);
 export const timeFieldValidator = composeAndShortCircuitOnError(timeValidator, notBlankValidator);
 export const dateFieldValidator = composeAndShortCircuitOnError(notBlankValidator, dateValidator);
-
+export const indicatorFormValidator = composeAndShortCircuitOnError(
+  noEmptyCustomGoodFilterExpressions,
+  noEqualCustomTagFilterExpressions
+);
 export const timeWindowValidator = composeAndShortCircuitOnError(validateTimeWindow);
 
 export function noInvalidTagFilterExpression(tagFilterExpression: FormModelElement[]): ValidationResult {
@@ -116,4 +121,35 @@ export function noBlankEntitySelection(entityId: string): ValidationResult {
       message: t('in-service-levels:createSloDialog.errorBlankEntity')
     }
   ];
+}
+
+export function noEmptyCustomGoodFilterExpressions(form: SloIndicatorFields): ValidationResult {
+  const isCustomBlueprint = form.blueprint.value === 'custom';
+  const isEmptyGoodEventsFilter = isEmptyExpression(toBackendQueryModel(form.goodEventsFilter.value));
+
+  if (isCustomBlueprint && isEmptyGoodEventsFilter)
+    return [
+      {
+        severity: 'error',
+        message: t('in-service-levels:createSloDialog.errorEmptyGoodFilter')
+      }
+    ];
+
+  return undefined;
+}
+
+export function noEqualCustomTagFilterExpressions(form: SloIndicatorFields): ValidationResult {
+  const isCustomBlueprint = form.blueprint.value === 'custom';
+  const badEventsFilter = generateStableHash(form.badEventsFilter.value);
+  const goodEventsFilter = generateStableHash(form.goodEventsFilter.value);
+
+  if (isCustomBlueprint && badEventsFilter === goodEventsFilter)
+    return [
+      {
+        severity: 'error',
+        message: t('in-service-levels:createSloDialog.errorEqualTagFilter')
+      }
+    ];
+
+  return undefined;
 }

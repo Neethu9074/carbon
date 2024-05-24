@@ -12,6 +12,7 @@ import { setTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 
 export const logsPath = '/logs';
+export const logsPathWithDataSource = '/logs;dataSource=logs';
 export const alertsPath = '/alerts';
 export const alertsDetailsPath = '/details';
 export const alertsFullyQualifiedPath = `${logsPath}${alertsPath}`;

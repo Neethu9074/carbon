@@ -21,7 +21,6 @@ import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import EntityWithTypeAndIcon from 'in-components/EntityWithTypeAndIcon';
-import PageTracker from 'in-services/tracking/segment/PageTracker';
 import { clusterDashboard } from 'in-kubernetes/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -51,7 +50,6 @@ export default function ClusterDashboard({ location }) {
 
   return (
     <>
-      <PageTracker parentProductArea={productAreas.kubernetes} parentPageName={pageNames.cluster_summary} />
       <ViewTrackingMeta
         data={{
           productArea: productAreas.kubernetes,

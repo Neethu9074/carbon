@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "Instana をご検討いただき、ありがとうございます。 試用期間が終了し、製品にアクセスできなくなりました。"
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "見積もり依頼",
     "buyNowBtn": "AWS で購入",
     "alreadyHaveLicense": "ライセンスをお持ちですか? <linkToDocker>Docker</linkToDocker> または <linkToKubernetes>Kubernetes</linkToKubernetes>でアクティブにします。",
     "getAnswers": "回答を見る",
+    "share": "共有",
+    "shareTooltip": "このページを同僚と共有し、Instanaでの共同作業に招待しましょう。",
     "titleDetail": {
       "trial": "トライアル",
       "sandboxTrial": "Sandbox 評価版"
     }
   },
   "playwithinstana": {
-    "title": "Instana で再生",
     "content": "独自の環境をモニターする準備ができました",
     "bookdemo": " デモを予約する",
     "freetrial": " 無料トライアル",
@@ -50,7 +50,7 @@
       "agentKey": "エージェント・キー"
     },
     "common": {
-      "agentCatalog": "エージェント・カタログ",
+      "agentDeployment": "エージェントのデプロイメント",
       "step1": "ステップ 1: ",
       "step2": "ステップ 2: ",
       "step3": "ステップ 3: ",
@@ -416,21 +416,24 @@
   "welcomepage": {
     "heading": "ようこそ",
     "viewAll": "すべて表示",
+    "search": "検索",
+    "addMore": "追加",
+    "UrlShortener": "URL 短縮形",
     "consumeData": {
-      "title": "データの取り込み",
-      "description": "開始して最初のエージェントをデプロイします。",
+      "title": "サービスのディスカバー",
+      "description": "まず、Instana がモニター対象のサービスやその他のデータをディスカバーできるようにします。",
       "buttonName": "エージェントのデプロイ",
       "buttonType": "1 次"
     },
     "inviteTeammates": {
       "title": "チームメイトの招待",
       "description": "同僚とコラボレーションします。",
-      "buttonName": "招待を送信する",
+      "buttonName": "ユーザーの管理",
       "buttonType": "ghost"
     },
     "nextSteps": {
       "title": "次のステップ",
-      "description": "「?」をクリックすると、セットアップ・ステップがさらに表示されます。 右上隅に表示されます。",
+      "description": "その他のツアーや追加のサポートをご覧ください。",
       "buttonName": "回答を見る",
       "buttonType": "ghost"
     },
@@ -500,6 +503,24 @@
         "cpuUsage": "CPU 使用率",
         "created": "作成日",
         "started": "開始済み"
+      },
+      "syntheticWidget": {
+        "label": "シンセティック・モニタリング",
+        "na": "該当なし",
+        "name": "名前",
+        "type": "タイプ",
+        "successRate": "成功率",
+        "latency": "待ち時間",
+        "lastTestRunOn": "最終テスト実行日",
+        "version": "バージョン",
+        "timeThreshold": "時間しきい値",
+        "testsApplied": "適用されるテスト"
+      },
+      "dashboardWidget": {
+        "label": "マイ・カスタム・ダッシュボード",
+        "name": "名前",
+        "owner": "所有者",
+        "permissions": "権限"
       }
     },
     "noData": {
@@ -533,7 +554,75 @@
       "businessMonitoringWidget": {
         "header": "ビジネス・プロセスがありません",
         "description": "IBM Business Automation Workflow を有効にするか、Instana を構成してビジネス・プロセスからビジネス・データを収集して保管します。"
+      },
+      "syntheticWidget": {
+        "test": {
+          "header": "シンセティック・テストなし",
+          "description": "特定の連続間隔で実行するようにシンセティック・テストを構成します。",
+          "buttonName": "シンセティック・テストの追加"
+        },
+        "location": {
+          "header": "シンセティック・ロケーションがありません",
+          "description": "特定の連続した間隔で実行するようにシンセティック・ロケーションを構成します。"
+        },
+        "smartalerts": {
+          "header": "ノー・シンセティック・スマートルツ",
+          "description": "特定の連続した間隔で実行するように、シンセティック・スマート・バーツを構成します。",
+          "buttonName": "合成スマート・バーツの追加"
+        }
+      },
+      "dashboardWidget": {
+        "header": "カスタム・ダッシュボードがありません",
+        "description": "独自のカスタム・ダッシュボードを作成します。",
+        "buttonName": "カスタム・ダッシュボードの作成"
       }
+    },
+    "ariaLabel": {
+      "search": "検索",
+      "shareButton": "「共有」ボタン",
+      "add": "追加",
+      "handleButton": "「ハンドル」ボタン"
+    }
+  },
+  "Components": {
+    "AgentzoneLister": {
+      "EGEurope": "例: ヨーロッパ",
+      "Add": "追加"
+    }
+  },
+  "assistme": {
+    "dataSearchContext": {
+      "gettingStarted": "開始しました。",
+      "websites": "Webサイト",
+      "mobileApps": "モバイル・アプリ",
+      "businessMonitoring": "ビジネス・モニタリング",
+      "application": "アプリケーション",
+      "smartAlerts": "スマート・アラート",
+      "infrastructureMap": "マップ",
+      "cloudFoundry": "Cloud Foundryのモニタリング",
+      "powerHmc": " IBM Powerのモニタリング",
+      "kubernetes": "Kubernetes",
+      "sap": "SAPのモニタリング",
+      "synthetic": "シンセティック・モニタリング",
+      "syntheticAlerts": "シンセティック・アラート",
+      "syntheticPop": "シンセティックPoP",
+      "serviceLevel": "サービス・レベル",
+      "installAgent": "エージェントのインストール",
+      "analyzeCalls": "トレースおよび呼び出しの分析",
+      "settingsTab": "ユーザー・アクセスの管理",
+      "userSettings": "ユーザー設定",
+      "authSettings": "認証の構成",
+      "auditLogs": "監査ログの表示",
+      "automation": "アクションの管理",
+      "customEvents": "カスタム・イベントの定義",
+      "configuringAlerts": "アラートの構成",
+      "alertChannel": "アラート・チャネル",
+      "maintenanceWindow": "スケジューリング",
+      "customPayload": "カスタム・ペイロード",
+      "eventsPage": "イベントの管理",
+      "logManagement": "logging",
+      "configuringAndMonitoring": "構成およびモニタリング",
+      "customDashboard": "カスタム・ダッシュボード"
     }
   }
 }

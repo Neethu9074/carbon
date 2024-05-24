@@ -9,11 +9,12 @@ import React, { useState, useEffect } from 'react';
 import { OrderDirection, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
-import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import {
+  ExtractContributionFilterNameFunction,
   ExtractIdFunction,
   ExtractNameFunction
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
+import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import SelectItemForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/SelectItemForm';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -29,6 +30,7 @@ interface SelectEntitiesFormProps<I extends Object> {
   onClickSave: (mobileAppIds: Array<string>) => void;
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
+  extractContributionFilterName?: ExtractContributionFilterNameFunction<I>;
 }
 
 export default function SelectEntitiesForm<I extends Object>({
@@ -37,23 +39,27 @@ export default function SelectEntitiesForm<I extends Object>({
   onClickCancel,
   onClickSave,
   extractId,
-  extractName
+  extractName,
+  extractContributionFilterName
 }: SelectEntitiesFormProps<I>) {
   const [
     allVisibleRowsSelected,
     setAllVisibleRowsSelected,
     selectedIds,
     setSelectedIds,
-    nameQuery,
-    setNameQuery,
+    searchQuery,
+    setSearchQuery,
     filteredEntities,
     orderDirection,
-    setOrderDirection
+    setOrderDirection,
+    orderBy,
+    setOrderBy
   ] = useSelectEntities({
     preselectedIds,
     observable,
     extractId,
-    extractName
+    extractName,
+    extractContributionFilterName
   });
 
   const onClickItem = (entity: I) => {
@@ -86,7 +92,8 @@ export default function SelectEntitiesForm<I extends Object>({
    */
   const resetForm = () => {
     setOrderDirection('ASC');
-    setNameQuery('');
+    setSearchQuery('');
+    setOrderBy('name');
   };
 
   return (
@@ -103,15 +110,22 @@ export default function SelectEntitiesForm<I extends Object>({
     >
       <EntityTable
         fetchedConfigState={filteredEntities}
-        onChange={({ query, orderDirection: newState }) => {
-          setNameQuery(query ?? '');
+        onChange={({ query, orderDirection: newState, orderBy }) => {
+          setSearchQuery(query ?? '');
           setOrderDirection(newState ?? orderDirection);
+          setOrderBy(orderBy ?? 'name');
         }}
-        query={nameQuery}
-        orderBy="name"
+        query={searchQuery}
+        orderBy={orderBy}
         orderDirection={orderDirection}
         onClickItem={onClickItem}
-        columnDefinition={getColumnDefinition({ selectedIds, onClickItem, extractId, extractName })}
+        columnDefinition={getColumnDefinition({
+          selectedIds,
+          onClickItem,
+          extractId,
+          extractName,
+          extractContributionFilterName
+        })}
         allRowsAreSelected={allVisibleRowsSelected}
         setSelectedStateForRows={onSelectAll}
         isSearchable
@@ -125,6 +139,7 @@ interface UseSelectEntitiesProps<I> {
   observable: () => Observable<Result<I[]>>;
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
+  extractContributionFilterName?: ExtractContributionFilterNameFunction<I>;
 }
 
 type UseSelectEntitiesResponse<I> = [
@@ -136,22 +151,35 @@ type UseSelectEntitiesResponse<I> = [
   React.Dispatch<React.SetStateAction<string>>,
   FetchedState<Array<I>>,
   OrderDirection,
-  React.Dispatch<React.SetStateAction<OrderDirection>>
+  React.Dispatch<React.SetStateAction<OrderDirection>>,
+  string,
+  React.Dispatch<React.SetStateAction<string>>
 ];
 
 function useSelectEntities<I>({
   preselectedIds,
   observable,
   extractId,
-  extractName
+  extractName,
+  extractContributionFilterName
 }: UseSelectEntitiesProps<I>): UseSelectEntitiesResponse<I> {
   const [allVisibleRowsSelected, setAllVisibleRowsSelected] = useState(false);
   const [selectedIds, setSelectedIds] = useState(preselectedIds);
-  const [nameQuery, setNameQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
+  const [orderBy, setOrderBy] = useState('name');
   const fetchedState = useFetchedStateObservable(observable);
+  const extractField =
+    (orderBy === 'restrictingApplicationName' ? extractContributionFilterName : extractName) ?? extractName;
   const withoutPreselectedState = filterByPreselection(fetchedState, preselectedIds, extractId);
-  const filteredEntities = filterByName(withoutPreselectedState, nameQuery, extractName, orderDirection);
+  const filteredEntities = filterByName(
+    withoutPreselectedState,
+    searchQuery,
+    orderDirection,
+    extractField,
+    extractName,
+    extractContributionFilterName
+  );
 
   useEffect(() => {
     // Ensure selectedIds is updated when preselectedIds changes,
@@ -164,11 +192,13 @@ function useSelectEntities<I>({
     setAllVisibleRowsSelected,
     selectedIds,
     setSelectedIds,
-    nameQuery,
-    setNameQuery,
+    searchQuery,
+    setSearchQuery,
     filteredEntities,
     orderDirection,
-    setOrderDirection
+    setOrderDirection,
+    orderBy,
+    setOrderBy
   ];
 }
 
@@ -186,24 +216,28 @@ function filterByPreselection<I>(
 
 function filterByName<I>(
   fetchedState: FetchedState<I[]>,
-  nameQuery: string,
+  searchQuery: string,
+  orderDirection: OrderDirection,
+  extractField: (entity: I) => string,
   extractName: ExtractNameFunction<I>,
-  orderDirection: OrderDirection
+  extractContributionFilterName?: ExtractContributionFilterNameFunction<I>
 ): FetchedState<I[]> {
   const [entities, status, ...rest] = fetchedState;
   if (!entities || status !== 'resolved') return fetchedState;
 
   const sortedEntities = [...entities].sort((a, b) => {
-    if (orderDirection === 'ASC') return compareIgnoreCase(extractName(a), extractName(b));
-    return compareIgnoreCase(extractName(b), extractName(a));
+    if (orderDirection === 'ASC') return compareIgnoreCase(extractField(a), extractField(b));
+    return compareIgnoreCase(extractField(b), extractField(a));
   });
-  if (!nameQuery) return [sortedEntities, status, ...rest];
+  if (!searchQuery?.trim()) return [sortedEntities, status, ...rest];
 
-  const lowerCaseQuery = nameQuery.toLowerCase();
-
+  const lowerCaseQuery = searchQuery?.trim().toLowerCase();
   const filteredEntities = sortedEntities.filter(entity => {
     const name = extractName(entity);
-    return name.toLowerCase().includes(lowerCaseQuery);
+    const contributionFilterName = extractContributionFilterName && extractContributionFilterName(entity);
+    return (
+      name.toLowerCase().includes(lowerCaseQuery) || contributionFilterName?.toLowerCase().includes(lowerCaseQuery)
+    );
   });
 
   return [filteredEntities, status, ...rest];
@@ -214,6 +248,7 @@ interface GetColumnDefinition<I> {
   onClickItem: (item: I) => void;
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
+  extractContributionFilterName?: ExtractContributionFilterNameFunction<I>;
 }
 
 type SelectEntitiesColumnDefinitions<I extends Object> = Array<ColumnDefinition<I>>;
@@ -222,7 +257,8 @@ function getColumnDefinition<I extends Object>({
   selectedIds,
   onClickItem,
   extractId,
-  extractName
+  extractName,
+  extractContributionFilterName
 }: GetColumnDefinition<I>): SelectEntitiesColumnDefinitions<I> {
   return [
     {
@@ -244,6 +280,19 @@ function getColumnDefinition<I extends Object>({
         const name = extractName(entity);
         return <>{name}</>;
       }
-    }
+    },
+    ...(extractContributionFilterName
+      ? [
+          {
+            id: 'restrictingApplicationName',
+            sortable: true,
+            label: t('in-settings:selectEntityDialog.contributionFilterColumnHead'),
+            getContent(entity: I) {
+              const contributionFilterName = extractContributionFilterName(entity);
+              return <>{contributionFilterName}</>;
+            }
+          }
+        ]
+      : [])
   ];
 }

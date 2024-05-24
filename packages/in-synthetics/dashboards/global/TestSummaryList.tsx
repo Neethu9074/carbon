@@ -153,10 +153,9 @@ const TestSummaryList = () => {
       <LeftRightPadding>
         <ViewTrackingMeta
           data={{
-            pageName: pageNames.synthetic_monitoring_tests,
             pagePath: location?.pathname,
             productArea: productAreas.synthetic_monitoring,
-            pageRootName: pageNames.synthetic_monitoring
+            pageRootName: pageNames.synthetic_monitoring_tests
           }}
         />
         <ServerTableWithUrlState

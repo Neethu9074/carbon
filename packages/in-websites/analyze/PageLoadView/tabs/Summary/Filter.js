@@ -8,12 +8,12 @@ import { sortedUniqBy } from 'lodash';
 import classNames from 'classnames';
 
 import { themes } from '@instana/design-tokens';
+import { Select } from '@instana/components';
 
 import { types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { compareIgnoreCase, isNotBlank } from 'in-services/util/string';
 import SearchInput from 'in-components/SearchInput';
-import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

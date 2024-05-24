@@ -7,12 +7,11 @@ import { createMapForm, createField, Field, MapForm, MapFormItems } from 'formal
 import React, { useState } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Stack } from '@instana/components';
+import { Stack, IconButton } from '@instana/components';
 
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
-import IconButton from 'in-components/IconButton/IconButton';
 import FormGroup from 'in-settings/components/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Input from 'in-components/form/Input';

@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import { get } from 'lodash';
@@ -10,8 +10,8 @@ import React from 'react';
 import { AggregationType, KubernetesCluster, ResultType, TimeConfig } from '@instana/types';
 
 import {
-  LogsChartInteractionWrapper,
   andQuery,
+  LogsChartInteractionWrapper,
   tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
@@ -19,7 +19,7 @@ import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/
 import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonComponents/KubernetesTimeShiftChartPresenter';
 // @ts-expect-error
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
-import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces, percentage, twoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 // @ts-expect-error
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 // @ts-expect-error
@@ -30,14 +30,15 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { k8sChartColors, k8sClusterChart } from 'in-kubernetes/components/K8sChartColors';
 // @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
-import { useClusterDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+import { summaryTab, useClusterDashboard } from 'in-kubernetes/navigation/paths';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { k8sClusterUsageEnabled } from 'in-services/featureFlags';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { getChartGranularity } from 'in-stores/metric';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
@@ -50,6 +51,8 @@ interface SummaryProps {
 export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = cluster.id;
+
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.cluster', snapshotId, timeConfig);
 
   const { running, limits, requests, usage } = k8sChartColors;
   const { pending, capacity, allocated } = k8sClusterChart;
@@ -322,7 +325,7 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
 
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={[clusterTagId]} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
 

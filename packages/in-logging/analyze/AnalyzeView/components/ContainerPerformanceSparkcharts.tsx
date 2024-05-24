@@ -10,9 +10,8 @@ import { Stack } from '@instana/components';
 
 // @ts-expect-error
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
-// @ts-expect-error
-import MetricValue from 'in-components/MetricValue';
 import { percentage } from 'in-services/formatters/number';
+import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 import locals from './ContainerPerformanceSparkcharts.mless';

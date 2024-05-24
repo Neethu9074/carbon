@@ -13,6 +13,7 @@ import { t } from '@instana/i18n-react';
 
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
+import SSLCertificateConfiguration from 'in-synthetics/createTests/advanced/SSLCertificateConfiguration';
 import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/BrowserSimpleConfiguration';
 import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePrintSelectionSection';
 import CustomPropertiesSection from 'in-synthetics/createTests/advanced/CustomPropertiesSection';
@@ -21,7 +22,7 @@ import ConfigureLocations from 'in-synthetics/createTests/advanced/ConfigureLoca
 import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
 import IdentifySection from 'in-synthetics/createTests/advanced/IdentifySection';
 import ScriptsSection from 'in-synthetics/createTests/advanced/ScriptsSection';
-import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
+import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
@@ -56,10 +57,17 @@ const AdvancedMode = ({
   setInvalidTimeout
 }: AdvancedModeProps) => {
   const EMPTY = [] as SyntheticLocation[];
+  const getSelectedBlueprintIndex = () => {
+    if (testTypeSelected.browser.simple || testTypeSelected.browser.script) {
+      return 1;
+    } else if (testTypeSelected.api.simple || testTypeSelected.api.script) {
+      return 0;
+    } else {
+      return 2;
+    }
+  };
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
-    getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)[
-      testTypeSelected.browser.simple || testTypeSelected.browser.script ? 1 : 0
-    ]
+    getAdvancedBlueprintConfig(syntheticCertificateCheckEnabled)[getSelectedBlueprintIndex()]
   );
   const timeConfig = useTimeConfig();
   const applications: Result<GroupPermissionEntity[]> =
@@ -114,6 +122,15 @@ const AdvancedMode = ({
       case 'WebpageAction':
         return (
           <BrowserSimpleConfiguration
+            form={form}
+            updateForm={updateForm}
+            invalidTimeout={invalidTimeout}
+            setInvalidTimeout={setInvalidTimeout}
+          />
+        );
+      case 'SSLCertificate':
+        return (
+          <SSLCertificateConfiguration
             form={form}
             updateForm={updateForm}
             invalidTimeout={invalidTimeout}

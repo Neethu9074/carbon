@@ -41,11 +41,12 @@ export interface MetricItem {
   metric: string;
   formatter: string;
   formatterSelected: boolean;
-  crossSeriesAggregation: string;
+  crossSeriesAggregation: AggregationType;
   metricLabel: string;
   label: string;
   regex: boolean;
   lastValue?: boolean;
+  required?: boolean;
 }
 
 export default function InfrastructureTableWidget(props: TableWidgetProps) {
@@ -70,7 +71,8 @@ function InfrastructureTable(props: TableWidgetProps) {
     sorting = defaultOrder,
     tableSize = 5,
     tagFilterExpression: baseTagFilterExpression,
-    countGroup: isCounterVisible = true
+    countGroup: isCounterVisible = true,
+    showGroupsWithMissingTags
   } = config;
 
   const isGroup = groupBy && groupBy?.length > 0;
@@ -136,7 +138,8 @@ function InfrastructureTable(props: TableWidgetProps) {
     metrics,
     group: {} as Group,
     groupBy,
-    tagFilterExpression: fromBackendModel(tagFilterExpression as TagFilterExpressionElementUnion)
+    tagFilterExpression: fromBackendModel(tagFilterExpression as TagFilterExpressionElementUnion),
+    showGroupsWithMissingTags
   });
 
   return (
@@ -201,14 +204,13 @@ function InfrastructureTable(props: TableWidgetProps) {
             retrievalSize={tableSize}
             order={order}
             setOrder={setOrder}
-            tagFilterExpression={[]}
             type={type}
             query={debouncedQuery.value}
             onQueryChange={debouncedQuery.onChange}
+            showGroupsWithMissingTags={showGroupsWithMissingTags}
           />
         ) : (
           <InfrastructureList
-            tagFilterExpression={[tagFilterExpression]}
             backendQueryModel={tagFilterExpression}
             displayChart={false}
             getTotalItems={setTotalItemsCount}
@@ -256,22 +258,26 @@ function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
   const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(
     ({
       aggregation,
+      crossSeriesAggregation,
       metric,
       formatter,
       formatterSelected: isFormatterSelected,
       label,
       metricLabel,
       regex,
-      lastValue
+      lastValue,
+      required
     }) => ({
       aggregation,
+      crossSeriesAggregation,
       formatterId: formatter,
       label: label !== '' ? label : metricLabel,
       metricLabel,
       metric,
       isFormatterSelected,
       regex,
-      lastValue
+      lastValue,
+      required
     })
   );
 

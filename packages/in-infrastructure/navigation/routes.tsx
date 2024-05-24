@@ -21,12 +21,9 @@ import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncCompo
 // @ts-expect-error module need to be translated to TS
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
 import { containerPath, physicalPath, tablePath, infraSmartAlerts } from 'in-stores/navigation/paths/mainPaths';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { infraAlertDetailsFullyQualifiedPath } from 'in-stores/navigation/paths/mainPaths';
-import CreateSmartAlert from 'in-alerting/smart-alerts/infrastructure/CreateSmartAlert';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
-import { role } from 'in-stores/user';
 
 const infrastructureRoutes = [
   <Route key="infraPhysical" path={physicalPath}>
@@ -35,12 +32,10 @@ const infrastructureRoutes = [
   // Note: `infraAlertDetails` route needs to be added before `infraSmartAlert` route or else it will always display the SA list
   <Route key="infraAlertDetails" path={infraAlertDetailsFullyQualifiedPath}>
     {renderAsyncRouteChildren(SmartAlertDetailsView)}
-    {infraSmartAlertFloatingButton()}
   </Route>,
   infraSmartAlertsEnabled && (
     <Route key="infraSmartAlert" path={infraSmartAlerts}>
       {renderAsyncRouteChildren(SmartAlertView)}
-      {infraSmartAlertFloatingButton()}
     </Route>
   ),
   <Route key="infraContainer" path={containerPath}>
@@ -59,13 +54,3 @@ if (hasInfrastructureAnalyzeAccess) {
 }
 
 export default infrastructureRoutes;
-
-function infraSmartAlertFloatingButton() {
-  return (
-    role?.canConfigureGlobalInfraSmartAlerts && (
-      <FloatingActionButtons>
-        <CreateSmartAlert />
-      </FloatingActionButtons>
-    )
-  );
-}

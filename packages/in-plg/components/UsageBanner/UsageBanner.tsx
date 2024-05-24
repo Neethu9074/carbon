@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+// @ts-expect-error
+import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
 import React from 'react';
 
 import { Link, LicenseBannerButton, SvgIcon, Stack } from '@instana/components';
@@ -11,17 +13,20 @@ import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
 //@ts-expect-error missing typescript migration
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+//@ts-expect-error missing typescript migration
 import { getQueuedLicensesAsResultObservable } from 'in-amp/api/account';
 //@ts-expect-error missing typescript migration
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
 import { BUY_NOW_BUTTON_CLICKED, REQUEST_QUOTE_BUTTON_CLICKED, track } from 'in-services/tracking/tracking';
+import { onPremLicenseInformationEnabled, shareAndInviteEnabled } from 'in-services/featureFlags';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 import { isLoading } from 'in-services/util/result';
+import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
 
 import locals from './UsageBanner.mless';
@@ -45,6 +50,9 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const noQueuedLicense =
     !isLoading(queuedLicenseDetails) && queuedUpLicense !== 'paidPerUse' && queuedUpLicense !== 'hostBasedPaid';
   const needToShowReminder = isRemainingDaysLimited && isPaidLicenseUsage && noQueuedLicense;
+
+  const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
+
   return (
     <Stack align="center" direction="horizontal" gap="small">
       {(isTrial || (isFreeNotForResale && isRemainingDaysLimited) || needToShowReminder) && (
@@ -113,7 +121,23 @@ export function UsageBanner({ message }: UsageBannerProps) {
               <div className={locals.verticalLine} />
             </>
           )}
-
+          {shareAndInviteEnabled && (
+            <>
+              <Tooltip align="bottomMiddle" content={t('in-plg:licenseBanner.shareTooltip')}>
+                <LicenseBannerButton
+                  id="shareButton"
+                  kind="ghost"
+                  icon="lib_actions_share"
+                  iconColor="var(--cds-link-primary)"
+                  target="_blank"
+                  onClick={() => addActiveDialog(<DeferredShareAndInviteDialogBox />)}
+                >
+                  {t('in-plg:licenseBanner.share')}
+                </LicenseBannerButton>
+              </Tooltip>
+              <div className={locals.verticalLine} />
+            </>
+          )}
           <AssistMe />
         </>
       )}
@@ -123,7 +147,6 @@ export function UsageBanner({ message }: UsageBannerProps) {
 
 function getPageType(pathname = '/') {
   const pageName = pathname.split('/')[1];
-
   switch (pageName) {
     case 'physical':
       return { pageName: 'Infrastructure' };

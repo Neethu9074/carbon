@@ -3,14 +3,29 @@
  * (c) Copyright Instana Inc.
  */
 
+@import '~in-themes/mixins.less';
+
 :local {
-  .content {
-    position: relative;
-    margin-left: 4.5rem;
+  :global(.shell-wrapper) {
+    .print(none);
   }
-  .contentCarbon {
+
+  .content {
     position: relative;
     margin-left: 48px;
     margin-top: 48px;
+
+    .print();
+  }
+
+  @media print {
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      background: var(--ids-color-option-white);
+    }
   }
 }

@@ -21,6 +21,7 @@ import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { spreadTimeConfig, concatQueries } from 'in-events/utils';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import RedirectWithHash from 'in-components/RedirectWithHash';
@@ -163,29 +164,4 @@ function EventViewComponent(props) {
       )}
     </Sticky>
   );
-}
-
-export function concatQueries(userQuery, eventFilter) {
-  const explicitEventFilter = getExplicitEventFilter(eventFilter);
-
-  if (userQuery) {
-    return `(${userQuery}) AND (${explicitEventFilter})`;
-  }
-  return explicitEventFilter;
-}
-
-function getExplicitEventFilter(eventFilter) {
-  if (!eventFilter) {
-    // If no eventFilter is set, this means "All" events selected but should filter Monitoring Events
-    return `!event.type:agent_monitoring_issue`;
-  } else if (eventFilter === 'change') {
-    return 'event.type:changeAndPresence';
-  } else {
-    return `event.type:${eventFilter}`;
-  }
-}
-
-export function spreadTimeConfig(staticTimeConfigToUseForTable, timeConfig) {
-  timeConfig = staticTimeConfigToUseForTable ?? timeConfig;
-  return [timeConfig.to, timeConfig.windowSize, timeConfig.autoRefresh, timeConfig.focusedMoment];
 }

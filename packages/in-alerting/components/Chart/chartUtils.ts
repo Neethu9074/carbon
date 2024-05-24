@@ -5,7 +5,9 @@
 
 import { clamp } from 'lodash';
 
+import { MetricData, MetricBucket } from 'in-custom-dashboards/widgets/Chart/types';
 import { EventOrMap } from 'in-events/types';
+import { Result } from 'in-types';
 
 export interface AdjustedTimeframe {
   to: number;
@@ -13,13 +15,10 @@ export interface AdjustedTimeframe {
   numBuckets: number;
 }
 
-type Metrics = { data?: Record<string, Metric[]>; time: number; adjustedWindowSize: number };
-type Metric = [MetricTimestamp, MetricValue];
-type MetricTimestamp = number;
-type MetricValue = number;
+export type Metrics = Result<MetricData> & { data?: MetricData; time: number; adjustedWindowSize: number };
 
 type MetricPostProcessor =
-  | ((metric: Metric[], granularity: number, adjustedTo: number, adjustedWindowSize: number) => Metric[])
+  | ((metric: MetricBucket[], granularity: number, adjustedTo: number, adjustedWindowSize: number) => MetricBucket[])
   | false
   | undefined;
 
@@ -29,8 +28,8 @@ export function applyPostProcessing<T extends Metrics>(
   granularity: number
 ): T {
   if (postProcessMetric && metricsResult.data) {
-    const processedMetricsData: Record<string, Metric[]> = Object.entries(metricsResult.data).reduce(
-      (resultMap: Record<string, Metric[]>, [metricName, metrics]) => {
+    const processedMetricsData: Record<string, MetricBucket[]> = Object.entries(metricsResult.data).reduce(
+      (resultMap: Record<string, MetricBucket[]>, [metricName, metrics]) => {
         resultMap[metricName] = postProcessMetric(
           metrics,
           granularity,

@@ -10,6 +10,4 @@ export interface UserSettings {
   collationLanguage?: string;
 }
 
-// userSettings does not exist in the waiting mode of the Instana UI
-// @ts-expect-error
 export const userSettings: UserSettings = (process.env.IS_TEST ? {} : window.instana.termsAndPrivacySettings) || {};

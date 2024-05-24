@@ -13,7 +13,7 @@ import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dia
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/ThresholdTypeSelection';
-import { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';

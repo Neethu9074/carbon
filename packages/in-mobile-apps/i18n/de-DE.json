@@ -7,6 +7,26 @@
     "crash": "Absturz"
   },
   "analyzeView": {
+    "eumTags": {
+      "viewTransition": {
+        "android": {
+          "activityScreenName": "Aktivitätsname",
+          "activityClassName": "Name der Aktivitätsklasse",
+          "activityLocalPathName": "Lokaler Pfad der Aktivität",
+          "fragmentScreenName": "Fragmentname",
+          "fragmentClassName": "Fragmentklassenname",
+          "fragmentLocalPathName": "Lokaler Fragmentpfad",
+          "activeFragmentList": "Aktive Fragmentliste",
+          "activityResumeTime": "Aktivitätswiederaufnahmezeit",
+          "fragmentResumeTime": "Fragmentwiederaufnahmezeit"
+        },
+        "ios": {
+          "accessibilityLabel": "Beschriftung für Eingabehilfen",
+          "navigationItemTitle": "Navigationselementtitel",
+          "className": "Klassenname"
+        }
+      }
+    },
     "uniqueUsers": "Eindeutige Benutzer",
     "metrics": {
       "timestampMetricName": "Zeitmarke",

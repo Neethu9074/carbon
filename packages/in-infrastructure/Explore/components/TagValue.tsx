@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { tag_not_present_group } from '../constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 
 import locals from './TagValue.mless';
@@ -14,7 +15,7 @@ export default function TagValue({ value }: { value: string | undefined }) {
   if (!value) {
     return null;
   }
-  const displayedValue = value.replace('tag_not_present_group', '-');
+  const displayedValue = value.replace(tag_not_present_group, '-');
   const valueSpan = (
     <span className={locals.value}>
       <bdi>{displayedValue}</bdi>

@@ -441,7 +441,8 @@
     "aggregation_DISTINCTCOUNT": "distinct count",
     "aggregation_SUM": "sum",
     "aggregation_DISTRIBUTION": "distribution",
-    "aggregation_PERSECOND": "per second"
+    "aggregation_PERSECOND": "per second",
+    "labelFilterEmptyValue": "Filter empty values"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Used",

@@ -118,8 +118,8 @@ export default function RequestQueue({ snapshotId, timeConfig }: RequestQueuePro
             y1={{
               min: 0,
               formatter: number.compact,
-              metrics: [`requestQueueList.${row.key}.requestsWritten`, `requestQueueList.${row.key}.requestsRead`],
-              labels: [t('in-sap:dashboards.requestsWritten'), t('in-sap:dashboards.requestsRead')],
+              metrics: [`requestQueueList.${row.key}.requestsRead`, `requestQueueList.${row.key}.requestsWritten`],
+              labels: [t('in-sap:dashboards.requestsRead'), t('in-sap:dashboards.requestsWritten')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

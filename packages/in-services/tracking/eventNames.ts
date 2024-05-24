@@ -212,6 +212,11 @@ export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
 export const SETTINGS_ROLE_OPEN_SUBMIT_FORM = 'settings.role.new';
 
+export const SHARE_AND_INVITE_SUBMIT = 'shareAndInvite.submit';
+export const SHARE_AND_INVITE_CLOSED = 'shareAndInvite.closed';
+export const SHARE_AND_INVITE_TRIGGERED = 'shareAndInvite.triggered';
+export const SHARE_AND_INVITE_INVITEE_JOINED = 'shareAndInvite.invitee.joined';
+
 // Owned by Team Alert Response
 // Tracking all team owned components
 export const SETTINGS_ALERT_CHANNEL_CREATE = 'settings.alertChannel.create';
@@ -260,6 +265,11 @@ export const SETTINGS_MAINTENANCE_WINDOW_ACTIVE_TAB = 'settings.maintenance.tab.
 export const SETTINGS_MAINTENANCE_WINDOW_SCHEDULED_TAB = 'settings.maintenance.tab.scheduled';
 export const SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB = 'settings.maintenance.tab.expired';
 export const SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT = 'settings.maintenance.feedback.submit';
+
+export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_CLICKED = 'settings.logsManagement.deleteLogs.clicked';
+export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUBMITTED = 'settings.logsManagement.deleteLogs.submitted';
+export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUCCESS = 'settings.logsManagement.deleteLogs.success';
+export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_ERROR = 'settings.logsManagement.deleteLogs.error';
 
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
@@ -370,6 +380,7 @@ export const LOGGING_LOGDNA_BUTTON_CLICKED = 'logging.logDna.clicked';
 export const ANALYZE_LOGGING_SORTING_CHANGED = 'analyze.logging.sorting.changed';
 export const LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK = 'analyze.logging.applications.perspective.link.clicked';
 export const ANALYZE_LOGGING_LOG_GETLOGS_FILTERS = 'analyze.logging.log.getLogs.filters';
+export const ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED = 'analyze.custom.widget.see.in.logs.clicked';
 
 // ENTERPRISE
 export const ENTERPRISE_IDP_MAPPING_FIRST = 'enterprise.idp.mapping.first';
@@ -396,10 +407,14 @@ export const AUTOMATION_ACTION_RUN = 'automation.action.run';
 export const AUTOMATION_ACTION_HISTORY_VIEW = 'automation.action.history.view';
 export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.history.instance.view';
 export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.history.feedback.used';
-export const CLICK_TURBO_LINK_FOR_DETAILS = 'click.turbo.link.for.details';
-export const VIEW_TURBO_ACTION = 'view.turbo.action';
+export const AUTOMATION_CLICK_TURBO_LINK_FOR_DETAILS = 'click.turbo.link.for.details';
+export const AUTOMATION_VIEW_TURBO_ACTION = 'view.turbo.action';
 export const AUTOMATION_POLICY_CREATE = 'automation.policy.create';
+export const AUTOMATION_POLICY_BULK_CREATE = 'automation.bulk.automation.policy.create';
 export const AUTOMATION_POLICY_EDIT = 'automation.policy.edit';
+export const AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK = 'automation.recommended.actions.tab.click';
+export const AUTOMATION_CREATE_POLICY_FROM_RECOMMENDED_ACTIONS = 'automation.create.policy.from.recommended.actions';
+export const AUTOMATION_TEST_ACTION_RUN = 'automation.test.action.run';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 
@@ -416,7 +431,7 @@ export const ALERTING_RESUMED = 'smartalert.resumed';
 export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
 
 // Business Monitoring Tracking
-export const BIZOPS_PROCESSES_TABS_CLICK = 'bizops.processes.tabs.click';
+export const BIZOPS_TABS_CLICK = 'bizops.tabs.click';
 export const BIZOPS_PROCESSES_LIST_SELECT = 'bizops.processes.list.select';
 
 export const BIZOPS_PROCESS_TABS_CLICK = 'bizops.process.tabs.click';
@@ -433,7 +448,9 @@ export const SYNTHETIC_TEST_CLICK = 'synthetic.monitoring.test.click';
 export const SYNTHETIC_TAB_INAPP_CLICK = 'synthetic.monitoring.application.test.click';
 
 export const SYNTHETIC_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.create.click';
+export const SYNTHETIC_WIZARD__CREATE_TEST_TYPE_SWITCH = 'synthetic.monitoring.test.create.wizard.type.switch';
 export const SYNTHETIC_CREATE_ADVANCED_BUTTON_CLICK = 'synthetic.monitoring.test.create.advanced.click';
+export const SYNTHETIC_ADVANCED__CREATE_TEST_TYPE_SWITCH = 'synthetic.monitoring.test.create.advanced.type.switch';
 export const SYNTHETIC_ADVANCED_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.advanced.create.click';
 export const SYNTHETIC_WIZARD_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.wizard.create.click';
 

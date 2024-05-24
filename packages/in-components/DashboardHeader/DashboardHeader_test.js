@@ -145,7 +145,7 @@ describe('in-components/DashboardHeader/DashboardHeader', () => {
     expect(
       wrapper.containsMatchingElement(
         <Tooltip content={label}>
-          <span className={locals.label}>{label}</span>
+          <h1 className={locals.label}>{label}</h1>
         </Tooltip>
       )
     ).toBeTruthy();
@@ -164,7 +164,7 @@ describe('in-components/DashboardHeader/DashboardHeader', () => {
     expect(
       leftContent.containsMatchingElement(
         <Tooltip content={label}>
-          <span className={locals.label}>{label}</span>
+          <h1 className={locals.label}>{label}</h1>
         </Tooltip>
       )
     ).not.toBeTruthy();

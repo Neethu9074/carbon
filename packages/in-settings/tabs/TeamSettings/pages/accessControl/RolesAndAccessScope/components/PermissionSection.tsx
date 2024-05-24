@@ -30,6 +30,11 @@ import {
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import {
+  ExtractContributionFilterNameFunction,
+  ExtractIdFunction,
+  ExtractNameFunction
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -38,16 +43,11 @@ import TabSelect, {
   TabSelectPanels
 } from 'in-components/TabSelect';
 import LimitedAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/LimitedAccessPanel';
-import {
-  ExtractIdFunction,
-  ExtractNameFunction
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
 import AccessAllPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/AccessAllPanel';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { t } from 'in-i18n';
 
@@ -64,6 +64,7 @@ export interface PermissionSectionProps<I extends Object, FORM_TYPE extends MapF
   observable: () => Observable<Result<I[]>>;
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
+  extractContributionFilterName?: ExtractContributionFilterNameFunction<I>;
   productArea: LimitableProductArea;
   icon: string;
   entityPermissionKey: EntityPermissionKey;
@@ -73,8 +74,6 @@ export interface PermissionSectionProps<I extends Object, FORM_TYPE extends MapF
 
 export default function PermissionSection<I extends Object, FORM_TYPE extends MapFormItems>({
   title,
-  accessAllDescription,
-  limitedAccessDescription,
   addButtonLabel,
   roleTooltipText,
   productArea,
@@ -83,6 +82,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   observable,
   extractId,
   extractName,
+  extractContributionFilterName,
   form,
   setForm,
   setSubSlideConfig,
@@ -109,7 +109,6 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   });
 
   const isAppContributionFilterConfigured =
-    applicationContributionFilterEnabled &&
     permissionSet?.restrictedApplicationFilter?.tagFilterExpression?.type !== undefined;
 
   const updateEntityIds = (
@@ -120,7 +119,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     contributionFilterName: string | undefined
   ) => {
     // Application
-    if (applicationContributionFilterEnabled && productArea === ProductArea.APPLICATION) {
+    if (productArea === ProductArea.APPLICATION) {
       let newEntityIds: ScopeBinding[] = [];
       // Only show applications with contributor access for access all
       if (limitation === ScopedPermissionItem.ACCESS_ALL && role === AreaRoleWithContributor.CONTRIBUTOR) {
@@ -180,7 +179,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
       limitation,
       selected
     );
-    if (applicationContributionFilterEnabled && productArea === ProductArea.APPLICATION) {
+    if (productArea === ProductArea.APPLICATION) {
       if (selected === AreaRoleWithContributor.CONTRIBUTOR && limitation !== ScopedPermissionItem.NO_ACCESS) {
         label = editMode ? initialApplicationConfig.label : defaultApplicationConfig.label;
         tagFilterExpression = initialApplicationConfig.tagFilterExpression;
@@ -210,10 +209,9 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     const newPermissionSet = {
       ...restPermissionSet,
       [entityPermissionKey]: newEntityIds,
-      ...(applicationContributionFilterEnabled &&
-        productArea === ProductArea.APPLICATION && {
-          ['restrictedApplicationFilter']: tagFilterExpression ? restrictedApplicationFilter : undefined
-        })
+      ...(productArea === ProductArea.APPLICATION && {
+        ['restrictedApplicationFilter']: tagFilterExpression ? restrictedApplicationFilter : undefined
+      })
     };
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
   };
@@ -246,7 +244,6 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                   onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.ACCESS_ALL)}
                   entityPermissionKey={entityPermissionKey}
                   roleTooltipText={roleTooltipText}
-                  description={accessAllDescription}
                   productArea={productArea}
                   contributionFilterConfigured={isAppContributionFilterConfigured}
                   form={form}
@@ -259,7 +256,6 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
             {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel productArea={productArea} />}
             {context === ScopedPermissionItem.LIMITED_ACCESS && (
               <LimitedAccessPanel
-                description={limitedAccessDescription}
                 addButtonLabel={addButtonLabel}
                 entityPermissionKey={entityPermissionKey}
                 role={role}
@@ -267,6 +263,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                 observable={observable}
                 extractId={extractId}
                 extractName={extractName}
+                extractContributionFilterName={extractContributionFilterName}
                 setForm={setForm}
                 roleTooltipText={roleTooltipText}
                 onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.LIMITED_ACCESS)}

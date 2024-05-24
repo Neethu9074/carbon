@@ -33,6 +33,7 @@ export const pageNames = Object.freeze({
   endpoint_summary: 'Endpoint > Summary',
   bizops: 'BizOps',
   bizops_processes: 'Business Processes',
+  bizops_perspectives: 'Business Perspectives',
   bizops_activities: 'Business Activities',
   bizops_activity_summary: 'Business Activity > Summary',
   bizops_process_summary: 'Business Process > Summary',
@@ -114,7 +115,11 @@ export const pageNames = Object.freeze({
   powervc_hypervisors: 'RegionOne > Hypervisors',
   powervc_regions: 'regions',
   powervc_compute_Instances: 'Compute Instances',
-  powervc: 'PowerVC'
+  powervc: 'PowerVC',
+  service_levels: 'Service Levels',
+  service_level_objective: 'Service Level Objective',
+  slo_summary: 'Service Level Objective > Summary',
+  slo_config: 'Service Level Objective > Configuration'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];

@@ -19,10 +19,9 @@ import {
   isSyntheticsSmartAlert,
   isWebsiteSmartAlert
 } from 'in-automation/Policies/types';
-// @ts-expect-error
-import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
 import { createTagsUrlParameter, createTypeUrlParameter } from 'in-automation/navigation/urlParameters';
 import { ActionInstance, PaginatedResult, Policy, EventSpecificationInfo, Trigger } from 'in-types';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
@@ -119,6 +118,7 @@ export default function Policies() {
           })
         }
       : undefined;
+  const totalHits = result?.totalHits;
 
   return (
     <AutomationTabs>
@@ -128,7 +128,11 @@ export default function Policies() {
         page={actualPage}
         searchPlaceholder={t('in-automation:policies.searchPolicies')}
         onRowClick={item => navigateToPolicyDetails(item, false)}
-        cardTitle={t('in-automation:policies.policies')}
+        cardTitle={
+          policiesProgress.loading
+            ? t('in-automation:policies.policies')
+            : t('in-automation:policies.policiesWithCount', { count: totalHits })
+        }
         rightHeader={
           <>
             {role?.canConfigureAutomationPolicies && (

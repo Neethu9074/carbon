@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { ColumnizedContent, Li, Link, Ul } from '@instana/components';
+import { ColumnizedContent, Li, Link, Ul, IconButton } from '@instana/components';
 import { LogTag, TagFilter } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
@@ -42,9 +42,7 @@ import { columnDefinitions } from 'in-logging/analyze/AnalyzeView/components/Log
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
 import { logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
-import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
-import IconLink from 'in-components/IconButton/IconLink';
 import HealthDot from 'in-components/health/HealthDot';
 import Overlay from 'in-components/overlays/Overlay';
 import Header from 'in-components/Dialog/Header';
@@ -71,6 +69,7 @@ export function TagValue({
   const value = tag.stringValue || '';
   const resolvedValue = useResolvedValue(uniqueTagName, tag);
   const entitySnapshotId = getSnapshotId(tag, item);
+  const iconColor = 'var(--ids-color-option-neutral-900)';
 
   return (
     <div className={locals.tagValue}>
@@ -82,27 +81,39 @@ export function TagValue({
         <div className={locals.tagActions}>
           {allowedTagsForGrouping?.has(tag.name || '') && getHrefToGroupedView && (
             <Tooltip content={t('in-logging:tooltipAddAsGroup')}>
-              <IconLink
+              <IconButton
+                color={iconColor}
                 iconSize={'xs'}
                 type="lib_group_by"
                 href={getHrefToGroupedView(createGroupingTag(tag.name, tag.key))}
                 onClick={() => trackGroupClick(resolvedValue)}
+                className={locals.squareHover}
               />
             </Tooltip>
           )}
           {onSelectTagHref && (
             <Tooltip content={t('in-logging:tooltipAddAsFilter')}>
-              <IconLink
+              <IconButton
+                color={iconColor}
                 iconSize={'xs'}
                 type="lib_actions_filter"
                 href={onSelectTagHref(createTagFilter(value, item.tags, tag.name, tag.key) as TagFilter)}
                 onClick={() => trackFilterClick(tag, value)}
+                className={locals.squareHover}
               />
             </Tooltip>
           )}
           <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
             <CopyToClipboard getText={() => resolvedValue}>
-              {copyToClipboardRef => <IconButton ref={copyToClipboardRef} iconSize={'xs'} type="lib_actions_copy" />}
+              {copyToClipboardRef => (
+                <IconButton
+                  color={iconColor}
+                  className={locals.squareHover}
+                  ref={copyToClipboardRef}
+                  iconSize={'xs'}
+                  type="lib_actions_copy"
+                />
+              )}
             </CopyToClipboard>
           </Tooltip>
         </div>

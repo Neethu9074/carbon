@@ -12,4 +12,8 @@
   .column {
     padding: 1rem 1rem 1rem 1.5rem;
   }
+
+  .gap {
+    padding: 1.5rem;
+  }
 }

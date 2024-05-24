@@ -27,10 +27,10 @@ import { createSloConfiguration, updateSloConfiguration } from 'in-service-level
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { CreateSloDialogMode } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { SloForm, createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloTrackingMeta, trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import useSloFormSideEffects from 'in-service-levels/hooks/useSloFormSideEffects';
 import { close as closeDialog } from 'in-components/DialogPresenter/store';
-import { trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import ConfigDialog from 'in-service-levels/components/ConfigDialog';
@@ -42,20 +42,24 @@ import { t } from 'in-i18n';
 interface CreateSloDialogProps {
   mode: CreateSloDialogMode;
   configuration?: ServiceLevelObjectiveConfiguration;
+  trackingMeta: SloTrackingMeta;
 }
 
 interface CreateModeProps {
   mode: 'NEW';
+  trackingMeta: SloTrackingMeta;
 }
 
 interface CloneModeProps {
   mode: 'CLONE';
   configuration: ServiceLevelObjectiveConfiguration;
+  trackingMeta: SloTrackingMeta;
 }
 
 interface EditModeProps {
   mode: 'EDIT';
   configuration: ServiceLevelObjectiveConfiguration;
+  trackingMeta: SloTrackingMeta;
 }
 
 type SloFormSubmissionAction = (
@@ -65,19 +69,23 @@ type SloFormSubmissionAction = (
 export default function CreateSloDialog(props: CreateModeProps): JSX.Element;
 export default function CreateSloDialog(props: CloneModeProps): JSX.Element;
 export default function CreateSloDialog(props: EditModeProps): JSX.Element;
-export default function CreateSloDialog({ configuration, mode }: CreateSloDialogProps): JSX.Element {
+export default function CreateSloDialog({ configuration, mode, trackingMeta }: CreateSloDialogProps): JSX.Element {
   const [form, setForm] = useState(createSloForm({ entityType: 'application', sloConfig: configuration }));
   const updateForm = useSloFormSideEffects(form, setForm);
   const [submitStatus, doSubmit] = useFormSubmission(getFormSubmitAction(mode));
 
   useEffect(() => {
-    trackSloEvent(SLO_CONFIG_DIALOG_OPEN, undefined);
-  }, []);
+    trackSloEvent(SLO_CONFIG_DIALOG_OPEN, {
+      productArea: trackingMeta.productArea,
+      pageName: trackingMeta.pageName
+    });
+  }, [trackingMeta]);
 
   const entityIdField = form.getIn(['entity', 'entityId']);
   const tagFilterField = form.getIn(['scope', 'tagFilterExpression']);
   const nameField = form.getIn(['nameTags', 'name']);
   const targetField = form.getIn(['objective', 'target']);
+  const indicatorForm = form.get('indicator');
   const thresholdField = form.getIn(['indicator', 'threshold']);
   const dateField = form.getIn(['objective', 'startTimestamp', 'date']);
   const timeField = form.getIn(['objective', 'startTimestamp', 'time']);
@@ -86,6 +94,7 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
   const isNameValid = isFieldValid(nameField);
   const isTargetFieldValid = isFieldValid(targetField);
   const isThresholdValid = isFieldValid(thresholdField);
+  const isIndicatorValid = isFieldValid(indicatorForm);
   const isDateFieldValid = isFieldValid(dateField);
   const isTimeFieldValid = isFieldValid(timeField);
   const tagFilterFieldValid = isFieldValid(tagFilterField);
@@ -110,7 +119,7 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
       label: t('in-service-levels:createSloDialog.selectIndicatorNavItem'),
       scrollId: '3-select-indicator',
       title: t('in-service-levels:createSloDialog.selectIndicatorNavItem'),
-      valid: isThresholdValid
+      valid: isIndicatorValid && isThresholdValid
     },
     {
       content: <SloObjectiveSection />,
@@ -137,14 +146,17 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
 
   return (
     <SloFormContext.Provider
-      value={{ form, mode, onChange: (path, fn) => updateForm(form.updateIn(path, fn) as SloForm) }}
+      value={{ form, mode, onChange: (path, fn) => updateForm(form.updateIn(path, fn) as SloForm), setForm }}
     >
       <ConfigDialogTimeConfigContextModification>
         <ConfigDialog
           title={t('in-service-levels:createSloDialog.title')}
           navItems={navItems}
           onClose={() => {
-            trackSloEvent(SLO_CONFIG_DIALOG_CLOSE, undefined);
+            trackSloEvent(SLO_CONFIG_DIALOG_CLOSE, {
+              productArea: trackingMeta.productArea,
+              pageName: trackingMeta.pageName
+            });
             closeDialog();
           }}
           noHeader
@@ -157,8 +169,8 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
 
             doSubmit({
               payload: formToSloConfiguration(form, configuration?.id),
-              onSuccess: (result: Result<ServiceLevelObjectiveConfiguration>) => onSuccess(mode, result),
-              onError: (result?: Result<ServiceLevelObjectiveConfiguration>) => onError(mode, result)
+              onSuccess: (result: Result<ServiceLevelObjectiveConfiguration>) => onSuccess(mode, result, trackingMeta),
+              onError: (result?: Result<ServiceLevelObjectiveConfiguration>) => onError(mode, trackingMeta, result)
             });
           }}
         />
@@ -167,7 +179,11 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
   );
 }
 
-function onSuccess(mode: CreateSloDialogMode, { data }: Result<ServiceLevelObjectiveConfiguration>) {
+function onSuccess(
+  mode: CreateSloDialogMode,
+  { data }: Result<ServiceLevelObjectiveConfiguration>,
+  trackingMeta: SloTrackingMeta
+) {
   if (!data) throw Error(ServiceLevelErrors.UNEXPECTED_SLO_CREATION_ERROR);
 
   const { name, id, entity, indicator, timeWindow } = data;
@@ -187,7 +203,9 @@ function onSuccess(mode: CreateSloDialogMode, { data }: Result<ServiceLevelObjec
     blueprint: indicator.blueprint,
     indicatorType: indicator.type,
     entityType: entity.type,
-    timeWindowType: timeWindow.type
+    timeWindowType: timeWindow.type,
+    productArea: trackingMeta.productArea,
+    pageName: trackingMeta.pageName
   });
 
   closeDialog();
@@ -198,9 +216,18 @@ const errorMessageHeader = {
   title: t('in-service-levels:createSloDialog.messages.creationFailedTitle')
 } as const;
 
-function onError(mode: CreateSloDialogMode, result?: Result<ServiceLevelObjectiveConfiguration>) {
+function onError(
+  mode: CreateSloDialogMode,
+  trackingMeta: SloTrackingMeta,
+  result?: Result<ServiceLevelObjectiveConfiguration>
+) {
   if (result && result.errors.length !== 0) {
-    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, { mode, code: 'API_ERROR' });
+    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, {
+      mode,
+      code: 'API_ERROR',
+      productArea: trackingMeta.productArea,
+      pageName: trackingMeta.pageName
+    });
 
     return result.errors.forEach(error =>
       addMessage({
@@ -212,7 +239,12 @@ function onError(mode: CreateSloDialogMode, result?: Result<ServiceLevelObjectiv
   }
 
   if (!result?.data) {
-    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, { mode, code: 'UNEXPECTED_ERROR' });
+    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, {
+      mode,
+      code: 'UNEXPECTED_ERROR',
+      productArea: trackingMeta.productArea,
+      pageName: trackingMeta.pageName
+    });
 
     return addMessage({
       ...errorMessageHeader,
@@ -223,7 +255,12 @@ function onError(mode: CreateSloDialogMode, result?: Result<ServiceLevelObjectiv
 
   const { name } = result.data;
 
-  trackSloEvent(SLO_CONFIG_DIALOG_ERROR, { mode, code: 'INVALID_SLO_CONFIG' });
+  trackSloEvent(SLO_CONFIG_DIALOG_ERROR, {
+    mode,
+    code: 'INVALID_SLO_CONFIG',
+    productArea: trackingMeta.productArea,
+    pageName: trackingMeta.pageName
+  });
 
   return addMessage({
     ...errorMessageHeader,

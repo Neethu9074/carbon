@@ -9,8 +9,8 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import { number, seconds, bytes, percentage } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { number, seconds, bytes } from 'in-services/formatters/number';
 import getAgentResponse from 'in-subscription/agentResponse';
 import { pendingResult } from 'in-services/fixedObjects';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -71,7 +71,7 @@ const cols = [
       getValue(row) {
         return Number(row.estimate);
       },
-      getContent: seconds.fixedDetailed
+      getContent: seconds.detailed
     }
   },
   {
@@ -81,7 +81,7 @@ const cols = [
       getValue(row) {
         return Number(row.elapsed);
       },
-      getContent: seconds.fixedDetailed
+      getContent: seconds.detailed
     }
   },
   {
@@ -91,7 +91,7 @@ const cols = [
       getValue(row) {
         return Number(row.progress);
       },
-      getContent: number.detailed
+      getContent: percentage.compact
     }
   },
   {

@@ -69,6 +69,9 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     browser: {
       simple: syntheticType === 'WebpageAction',
       script: syntheticType === 'BrowserScript' || syntheticType === 'WebpageScript'
+    },
+    ssl: {
+      simple: syntheticType === 'SSLCertificate'
     }
   });
   const [customSlideInHeaderConfig, setCustomSlideInHeaderConfig] = useState<SlideInHeader>({
@@ -179,6 +182,14 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     );
   }
 
+  const SSLCertificateErrorsExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
+    return syntheticTypeField.value === 'SSLCertificate'
+      ? (configForm.get('hostname') && !configForm.get('hostname').valid) ||
+          (configForm.get('port') && !configForm.get('port').valid) ||
+          (configForm.get('daysRemainingCheck') && !configForm.get('daysRemainingCheck').valid)
+      : undefined;
+  };
+
   const isProceedDisabledAdvanced = () => {
     const configForm = form.get('configuration') as MapForm<any>;
     const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
@@ -212,6 +223,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           // validating zip file if 'scripts' is present
           (configForm.get('scripts') &&
             (!configForm.getIn(['scripts', 'bundle']).valid || !configForm.getIn(['scripts', 'scriptFile']).valid)))) ||
+      // for SSL Certificate
+      SSLCertificateErrorsExist(configForm, syntheticTypeField) ||
       !syntheticTypeField.valid ||
       !frequencyField.valid ||
       !labelField.valid ||
@@ -244,11 +257,21 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     </FormFooter>
   );
 
+  const getDialogTitle = () => {
+    if (testTypeSelected.browser.simple || testTypeSelected.browser.script) {
+      return 'Browser';
+    } else if (testTypeSelected.api.simple || testTypeSelected.api.script) {
+      return 'API';
+    } else {
+      return 'SSL Certificate';
+    }
+  };
+
   return (
     <DialogWithSlideInView
       footer={footer}
       title={t('in-synthetics:dialog.updateTest.dialogTitle', {
-        syntheticType: testTypeSelected.browser.simple || testTypeSelected.browser.script ? 'Browser' : 'API'
+        syntheticType: getDialogTitle()
       })}
       slideInViewTitle={customSlideInHeaderConfig?.title ?? slideInConfig?.title}
       onSlideInViewTitleClick={() =>

@@ -16,6 +16,7 @@ import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { region } from 'in-services/config';
 import { t } from 'in-i18n';
@@ -76,6 +77,8 @@ const Windows64Bit = ({
       openByDefault: false
     }
   ];
+
+  if (shareAndInviteEnabled) sideCardData.pop();
 
   useEffect(() => {
     let option = `exe64${jvmVendor === jvmVendorOptions[0] ? '' : 'j9'}${

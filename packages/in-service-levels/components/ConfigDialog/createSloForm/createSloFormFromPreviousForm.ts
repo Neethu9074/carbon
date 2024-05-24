@@ -15,7 +15,10 @@ import {
   getIndicatorFieldsFromForm,
   getNameTagFieldsFromForm
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromForm';
-import { timeWindowValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
+import {
+  indicatorFormValidator,
+  timeWindowValidator
+} from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 
 export default function createSloFormFromPreviousForm(previousForm: SloForm): SloForm {
@@ -27,7 +30,8 @@ export default function createSloFormFromPreviousForm(previousForm: SloForm): Sl
         items: getDefaultEntityFields(entityType)
       }),
       indicator: createMapForm({
-        items: getIndicatorFieldsFromForm(previousForm)
+        items: getIndicatorFieldsFromForm(previousForm),
+        validator: indicatorFormValidator
       }),
       scope: createMapForm({
         items: getDefaultScopeFields()

@@ -7,16 +7,20 @@
 import React, { useEffect, useState } from 'react';
 
 import { LocationListItem } from '@instana/types';
+import { useObservable } from '@instana/hooks';
+import { IconButton } from '@instana/components';
 
 import DeactivateSelectedLocation from 'in-synthetics/dashboards/global/tabs/locations/components/DeactivateSelectedLocation';
+import ActivateSelectedLocation from 'in-synthetics/dashboards/global/tabs/locations/components/ActivateSelectedLocation';
 // @ts-expect-error Could not find a declaration file
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
+import { DatacenterResponse, dummyResultSynDatacenter, dummySyntheticDatacenter } from 'in-synthetics/utils/constants';
 import DeleteSelectedLocation from 'in-synthetics/dashboards/global/tabs/locations/components/DeleteSelectedLocation';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
+import { getDatacenter } from 'in-synthetics/api';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/dashboards/global/tabs/locations/components/LocationListActionsColumn.mless';
@@ -27,15 +31,18 @@ interface LocationListActionsColumnProps {
 }
 
 const LocationListActionsColumn = ({ item, isLoading }: LocationListActionsColumnProps) => {
+  const datacenterResponse: DatacenterResponse =
+    useObservable<any, []>(() => getDatacenter(item.label), []) || dummyResultSynDatacenter;
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
   const isDeleteEnable = item.type === 'Private' || (item.type === 'Managed' && item.status === 'Offline');
   const isDeactiveEnable = item.type === 'Managed' && (item.status === 'Online' || item.status === 'Unlicensed');
+  const isActivateEnable = item.type === 'Managed' && item.status === 'Offline';
 
   useEffect(() => {
     if (!isLoading && isMoreMenuSaving) {
       setIsMoreMenuSaving(false);
     }
-    // We only want to fire the hook when is loading changes to ensure that we
+    // We only want to fire the hook when isLoading changes to ensure that we
     // reset the loading spinner when the new entities are loaded from backend
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
@@ -46,6 +53,12 @@ const LocationListActionsColumn = ({ item, isLoading }: LocationListActionsColum
 
   const showDeactivateDialog = () => {
     return addActiveDialog(<DeactivateSelectedLocation item={item} />);
+  };
+
+  const showActivateDialog = () => {
+    return addActiveDialog(
+      <ActivateSelectedLocation datacenter={datacenterResponse?.data || dummySyntheticDatacenter} onClose={close} />
+    );
   };
 
   return (
@@ -63,6 +76,11 @@ const LocationListActionsColumn = ({ item, isLoading }: LocationListActionsColum
           />
         )}
       >
+        {isActivateEnable && (
+          <MoreMenuButton icon="lib_actions_unlock" onClick={showActivateDialog}>
+            {'Activate'}
+          </MoreMenuButton>
+        )}
         {isDeleteEnable && (
           <MoreMenuButton icon="lib_actions_delete" onClick={showDeleteDialog}>
             {t('in-synthetics:dashboard.locationList.deleteLocation')}

@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "新規グループの作成",
-    "dialogTitle_edit": "アクセス権の範囲の編集",
+    "dialogTitle_edit": "アクセス構成の編集",
     "editButton": "編集",
     "productArea": "{{tenantUnit}} のアクセス構成 - {{tenant}}"
   },
@@ -67,10 +67,10 @@
     "allApplications": "すべてのアプリケーション",
     "allWebsites": "すべてのWebサイト",
     "allMobileApps": "すべてのモバイル・アプリ",
+    "businessMonitoringAccessAllMessage": "すべてのビジネス・プロセス",
     "kubernetes": "Kubernetes",
     "allSynthetics": "すべてのシンセティック・テスト",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}}/{{totalNumberOfAreaCapabilities}}の許可",
-    "role": "カスタム",
     "role_owner": "所有者",
     "role_viewer": "ビューア―",
     "role_permissions": "不明 - アクセス {{quantityOfAreas}}",
@@ -82,16 +82,16 @@
     "role_permissions_contributor_and_viewer": "ビューアー権限 {{quantityOfAreas}} &コントリビューター権限 {{quantityOfAreasContributor}}",
     "no_access": "アクセス権なし",
     "platform_permissions": "アクセス {{quantityOfAreas}}",
-    "analyticsContentMessage": "Web サイト、モバイル・アプリケーション、アプリケーション、プラットフォーム & インフラストラクチャーのアクセス・スコープによって定義された分析でデータを表示できる",
     "infrastructureContentMessage": "アプリケーション、プラットフォーム、インフラストラクチャー、およびオプションで DFQ のアクセス・スコープによって定義されたエンティティーを表示できる",
-    "eventsAndAlertsContentMessage": "Web サイト、モバイル・アプリケーション、アプリケーション、合成モニタリング、プラットフォーム & インフラストラクチャーで定義されているアクセス・スコープに従って、イベントおよびアラートを表示できる",
+    "infrastructureAccessAllMessage": "すべてのエンティティー",
     "permissions": "権限",
     "additionalPermissions": "追加の権限",
     "permissions_DASHBOARD": "カスタム・ダッシュボードの権限",
     "permissions_SYNTHETICS": "シンセティック・モニターの権限",
-    "permissions_AGENTS": "エージェントの権限",
+    "permissions_AGENTS": "エージェント・デプロイメントの権限",
     "permissions_ACCESS_CONTROL": "アクセス制御の権限",
     "permissions_AUTOMATION": "自動化の権限",
+    "permissions_EVENT": "イベントおよびアラートの権限",
     "permissions_LOGS": "ログ・アクセス権",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power HMC",
@@ -106,12 +106,12 @@
     "obsoleteEntityDescription": "現在、使用可能なデータはありません。アクセス権限はまだ付与されています。",
     "title_analytics": "分析",
     "title_applications": "アプリケーション",
-    "title_events_and_alerts": "イベントおよびアラート",
     "title_global_functions": "グローバル関数",
     "title_infrastructure": "インフラストラクチャー",
     "title_mobileApps": "モバイル・アプリ",
     "title_platforms": "プラットフォーム",
     "title_websites": "Web サイト",
+    "title_businessMonitoring": "ビジネス・モニタリング",
     "title_syntheticMonitoring": "シンセティック・モニタリング"
   },
   "headingSection": {
@@ -136,11 +136,11 @@
     "descriptionLimitedAccess_applications": "役割を選択し、以下のアプリケーションを追加してアクセス権限を付与します。",
     "descriptionAccessAll_applications": "選択した役割ですべてのアプリケーションにアクセスできます。",
     "deleteButton": "リストから {{name}} を削除",
-    "infrastructureAccessScope": "アクセス・スコープ",
     "infrastructureDfqHeader": "動的フォーカス照会 (DFQ)",
     "infrastructureDfqUse": "さらに、以下の動的フォーカス照会を使用して、インフラストラクチャーへのアクセス権限を付与できます。",
     "infrastructureDfqMore": "詳しくは、こちらを参照してください。",
-    "descriptionViewerAccess_infrastructure": "すべてのエンティティー・ダッシュボードを表示できます。これらは、アプリケーションおよびプラットフォームに付与されたアクセス権限に関連しています。",
+    "infrastructureDfqToggleLabel": "動的フォーカス照会 (DFQ) を使用した追加アクセス",
+    "infrastructureDfq_mayNotBeBlank": "値をブランクにすることはできません。",
     "descriptionAccessAll_kubernetes": "すべての名前空間とクラスターを表示できます。",
     "descriptionAccessNo_kubernetes": "名前空間およびクラスターへのアクセス権限がありません。",
     "descriptionAccessLimited_kubernetes": "以下の名前空間とクラスターを選択してアクセス権限を付与します。",
@@ -152,7 +152,7 @@
     "descriptionAccessAll_synthetics": "選択した役割ですべてのシンセティック・テストにアクセスできます。",
     "descriptionLimitedAccess_synthetics": "役割を選択し、以下のシンセティック・テストを追加してアクセス権限を付与します。",
     "contribution_filter": "コントリビューション・フィルター",
-    "contributionFilter_description": "コントリビューション・フィルターは、新規アプリケーション構成の作成時に適用されます。 アプリケーション構成では、{{logicalOperator}} オペレーターの後にフィルター・タグを使用してコントリビューション・フィルターを絞り込むことができます",
+    "contributionFilter_description": "コントリビューション・フィルターは、新規アプリケーション構成の作成時に適用されます。 アプリケーション構成では、{{logicalOperator}} オペレーターの後にフィルター・タグを使用してコントリビューション・フィルターを絞り込むことができます。 コントリビューション・フィルター・タグを使用するアプリケーション・パースペクティブは、保存すると自動的に作成されます。",
     "contributionFilter_downstreamCalls": "アプリケーション・パースペクティブに組み込むことができる追加情報の最大レベルを決定します。",
     "contributionFilter_name": "名前",
     "contributionFilter_name_mayNotBeBlank": "コントリビューション・フィルター名をブランクにすることはできません。",
@@ -163,7 +163,8 @@
     "doneButton": "完了"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "名前"
+    "nameColumnHead": "名前",
+    "contributionFilterColumnHead": "コントリビューション・フィルター"
   },
   "permissionScope": {
     "access_level": "アクセス・レベル",
@@ -183,9 +184,12 @@
     "description_no_access_infrastructure": "アクセスなし: インフラストラクチャーへのアクセスは拒否されます。",
     "description_no_access_synthetics": "アクセスなし: シンセティック・モニターへのアクセスが拒否されます。",
     "description_access_all": "制限なしですべてにアクセス",
+    "title_access_all_bizops": "無制限のアクセス",
+    "title_no_access_bizops": "アクセスが拒否されました。",
+    "description_access_all_bizops": "ビジネス・モニターのすべての機能に制限なくアクセスできます。",
+    "description_no_access_bizops": "ビジネス・モニターへのアクセスが拒否されました。",
     "description_access_all_except_contributor": "すべてにアクセス-コントリビューターとしてアクセスされるものを除く",
     "role": "役割の選択",
-    "roleSelection": "役割",
     "role_owner": "所有者",
     "role_viewer": "ビューア―",
     "role_custom": "カスタム",
@@ -197,9 +201,10 @@
     "roleTooltip_synthetics": "ビューアー: シンセティック・テスト・ダッシュボードを表示する機能 (構成は表示できません)。 <br /> 所有者: 新しいシンセティック・テストの作成、シンセティック・テストの表示、構成、削除、シンセティック・ロケーションの表示と削除を行うことができます。",
     "contribution_filter_accessScope": "制限付きアクセス・スコープ(ビューアー)",
     "contribution_filter_warning": {
-      "firstParagraph": "変更を保存すると、このコントリビューション・フィルターを使用するすべてのアプリケーション・パースペクティブが更新されます。",
-      "secondParagraph": "アクセス・タイプを変更すると、コントリビューション・フィルターが削除されます。 コントリビューション・フィルターを使用するすべてのアプリケーション・パースペクティブは、「アプリケーション」セクションで所有者権限を持つ任意のユーザーが編集できます。"
-    }
+      "firstParagraph": "保存する変更は、このコントリビューション・フィルターを使用するすべてのアプリケーション・パースペクティブ、およびコントリビューション・フィルター・タグを使用して自動的に作成されるアプリケーション・パースペクティブに影響します。",
+      "secondParagraph": "アクセス・タイプを変更すると、コントリビューション・フィルターが削除されます。 関連するすべてのアプリケーション・パースペクティブ構成のコントリビューション・フィルター・タグは、「アプリケーション」セクションで所有者権限を持つすべてのユーザーによって編集可能になります。"
+    },
+    "applicationCreatedUsingContributionFilter": "このアプリケーション・パースペクティブは、コントリビューション・フィルターを使用して自動的に作成および更新されます。"
   },
   "configurationSummary": {
     "application": {
@@ -210,16 +215,18 @@
       "limited_access": {
         "access_level": "選択したアクセス・タイプおよび追加の権限を持つ、リストされたアプリケーションのみにアクセスします。",
         "access_level_contributor": "投稿者権限を持つアプリケーションは、ユーザーまたはグループの詳細のアクセス構成ペインにあります。 <br /><br />コントリビューターとして適用されたコントリビューション・フィルターを使用して、アプリケーション・パースペクティブにアクセスします。 <br />選択したアプリケーション・パースペクティブにビューアーとしてアクセスします",
-        "role_permissions_contributor": "コントリビューション・フィルターが適用されたアプリケーション・ダッシュボードを作成します。コントリビューション・フィルター用に作成されたこれらのアプリケーション・ダッシュボードを表示、構成、および削除します。"
+        "role_permissions_contributor": "コントリビューション・フィルターが適用されたアプリケーション・パースペクティブを作成します。コントリビューション・フィルター用に作成されたこれらのアプリケーション・パースペクティブを表示、構成、および削除します。"
       },
       "role_permissions_owner": "アプリケーション・パースペクティブを作成、構成、表示、および削除します。",
       "role_permissions_viewer": "アプリケーション・パースペクティブとその構成を表示します。"
     },
     "infrastructure": {
-      "limited_access": {
-        "access_level": "このユニットの下にあるすべてのエンティティー・ダッシュボード (アプリケーションおよびプラットフォームに付与されたアクセス権に関連するもの) にアクセスします。"
+      "access_all": {
+        "access_level": "選択した権限を持つすべてのエンティティー・ダッシュボードにアクセスします。"
       },
-      "role_permissions_owner": "エンティティー・ダッシュボードを表示します。",
+      "limited_access": {
+        "access_level": "他の Instana セクションで付与されたアクセス権限を介して表示できるエンティティーのみにアクセスします。"
+      },
       "role_permissions_viewer": "エンティティー・ダッシュボードを表示します。"
     },
     "kubernetes": {
@@ -293,7 +300,7 @@
     "backToParentViewName": "{{parentViewName}} に戻る",
     "search": "検索...",
     "confirmRemoveItem": "<strong>{{itemName}}</strong> を削除しますか?",
-    "confirmSaveGroup": "これらの更新を保存すると、{{numberOfContributorAPs}} アプリケーション・パースペクティブからコントリビューション・フィルターが削除され、無効になります",
+    "confirmSaveGroup": "これらの更新を保存すると、コントリビューション・フィルターが削除されます。<br/> <strong>{{numberOfContributorAPs}}</strong> アプリケーション・パースペクティブ構成のコントリビューション・フィルター・タグは、「アプリケーション」セクションに対する所有者権限を持つすべてのユーザーによって編集可能になります。<br/><br/>アクセス範囲が限定されている場合に、アクセス権限を付与するアプリケーション・パースペクティブが選択されていることを確認してください。",
     "enable": "有効にする",
     "disable": "無効化",
     "deleteEntity": "{{entity}} を削除します。",
@@ -435,6 +442,7 @@
     "someEmailsHaveFailedToSend": "一部の E メールの送信に失敗しました",
     "inviteUserToTenant": "{{tenant}} にユーザーを招待",
     "anotherUser": "別のユーザー",
+    "inviteUsertoDefaultGroup": "招待のためのグループを選択するための十分な権限がありません。 招待されたユーザーはデフォルト・グループに追加されます。",
     "permissionEntityLabel": "権限 {{entityLabel}}",
     "addToAGroup": "グループに追加",
     "failedToAddUserToGroups": "ユーザーをグループに追加できませんでした: {{err}}",
@@ -487,23 +495,13 @@
     "alertChannels": "アラート・チャネル",
     "alertChannelEntityName": "アラート・チャネル {{entityName}}",
     "noEventsSelected": "イベントが選択されていません",
-    "noActionsSelected": "アクションが選択されていません",
-    "addActions": "アクションの追加",
     "addEvents": "イベントの追加",
     "pleaseSelectAtLeastOneEvent": "イベントを少なくとも 1 つ選択してください。",
-    "pleaseSelectAtLeastOneAction": "少なくとも 1 つのアクションを選択してください。",
     "addNumberOfItemsEvent": "{{count}} 個のイベントを追加",
     "addNumberOfItemsEvent_plural": "{{count}} 個のイベントを追加",
-    "addNumberOfItemsAction": "{{count}} 個のアクションの追加",
-    "addNumberOfItemsAction_plural": "{{count}} 個のアクションの追加",
-    "addNumberOfItemsAction_0": "{{count}} 個のアクションの追加",
-    "addNumberOfItemsAction_1": "{{count}} 個のアクションの追加",
-    "addNumberOfItemsAction_2": "{{count}} 個のアクションの追加",
     "addNumberOfItemsEvent_0": "{{count}} 個のイベントを追加",
     "addNumberOfItemsEvent_1": "{{count}} 個のイベントを追加",
     "addNumberOfItemsEvent_2": "{{count}} 個のイベントを追加",
-    "actionAssociationsStep": "{{step}}. アクションの関連付け",
-    "ActionAssociations": "アクションの関連付け",
     "allEventsThatMatchTheEventTypesWillEnterTheNotificationStream": "<strong>注意:</strong> イベント・タイプに一致するすべてのイベントが通知ストリームに入ります。",
     "dfqFormDesc": "構成が適用されるエンティティーを定義する、<strong>空でない</strong>フィルター・クエリー。 このルールをすべてのエンティティーに適用する場合は、<em>「適用対象: 使用可能なすべてのエンティティー」</em> を選択します。 構文について詳しくは、 <docLink>資料</docLink>を参照してください。",
     "addNumberOfItemsApplicationPerspective": "{{count}} 件のアプリケーション・パースペクティブを追加",
@@ -544,7 +542,7 @@
     "applicationPerspectiveEntityLabel": "アプリケーション・パースペクティブ {{entityLabel}}",
     "keyEquals": "同等のキー",
     "selectTag": "タグの選択",
-    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "各キー/値ペアは、各問題または各インシデントのアラート通知に追加のペイロードとして組み込まれます。 詳しくは、<docLink>カスタム・ペイロードの資料</docLink>を参照してください。",
+    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "各キー/値ペアは、各問題または各インシデントのアラート通知に追加のペイロードとして含められます。 詳しくは、<docLink>カスタム・ペイロードの資料</docLink>を参照してください。",
     "anErrorOccurredPleaseTryAgain": "エラーが発生しました。再試行してください。",
     "custom": "カスタム",
     "theValueMustNotBeBlank": "値をブランクにすることはできません。",
@@ -738,6 +736,16 @@
     "timeoutsSuccessfullySaved": "タイムアウトが正常に保存されました。",
     "disableTwoFactor": "2 要素の無効化",
     "saveToken": "トークンの保存",
+    "profile": {
+      "pageName": "プロファイル",
+      "email": "E メール",
+      "emailHint": "Instanaのユーザー・アカウントを特定するためのメール・アドレス。 ユーザー・アカウントの作成後にメール・アドレスを変更することはできません。",
+      "name": "名前",
+      "nameHint": "名前 (姓名の名) と姓 (姓名の姓) をコンマを入れずに入力してください。",
+      "saving": "新しい名前を保存しています",
+      "saved": "保存された新規名",
+      "failed": "新規名の保存に失敗しました"
+    },
     "twoFactorAuthentication": "2 要素認証",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "このユーザーの 2 要素認証は現在無効になっています。",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "オーセンティケーター・アプリケーションから 2FA トークンを入力して構成を完了してください:",
@@ -768,7 +776,7 @@
     "noGroupMapping": "ID プロバイダーと Instana の間にマッピングが構成されていません",
     "denyUserWithNoGroup": "マッピングが見つからない場合はアクセスを拒否する。チェックを外すと、グループマッピングがなく、グループが見つからないユーザーがデフォルト・グループに追加されます。",
     "denyUserWithNoGroupDocs": "ID プロバイダー構成は、十分な許可を持つトークンを使用して、API を介していつでも削除できます。 詳しくは、<authLink>認証の構成</authLink> を参照してください。",
-    "groupMappingInfoText": "マッピング・ルールはキー、値、および Instana グループから構成されます。 キーと値は、マップ元のアイデンティティー・プロバイダー属性とそれに対応する値を参照します。 例えば、キー「Department」の値「SRE」を持つすべてのユーザーを Instana 所有者グループにマップするとします。",
+    "groupMappingInfoText": "マッピング・ルールは、キー、値、およびInstanaグループから構成されます。 キーと値は、マップ元のアイデンティティー・プロバイダー属性とそれに対応する値を参照します。 例えば、キー「Department」の値「SRE」を持つすべてのユーザーを Instana 所有者グループにマップするとします。",
     "ownerGroupMemberNotLimitable": "ユーザーは所有者グループのメンバーであり、他のグループ・メンバーシップによって制限されることはありません。",
     "mergedPermissionWithCombinationOfLimitedAndUnlimited": "有効な許可のセットは、さまざまなグループ割り当てによって付与される、最も許容度の高い許可の合計です。 ただし、制限されたアクセス・スコープの合計によって、ユーザーの有効なスコープが決まります。",
     "users": "ユーザー",
@@ -801,7 +809,8 @@
     "groupDeleteTooltip_Default": "Default グループは組み込みグループであり、削除したり名前変更したりすることができません。",
     "groupDeleteTooltip_Owner": "Owner グループは組み込みグループであり、削除したり名前変更したりすることができません。",
     "deleteGroupMessage": "このテナントのすべてのユニットから <strong>{{groupName}}</strong> を削除しますか?",
-    "thisWillRemoveContributionFilterMessage": "これにより、<strong>{{apCount}}</strong> 個のアプリケーション・パースペクティブからコントリビューション・フィルターが削除され、無効になります",
+    "thisWillRemoveContributionFilterMessage": "これにより、コントリビューション・フィルターから <strong>{{apCount}}</strong> 個のアプリケーション・パースペクティブが削除されます",
+    "thisWillRemoveContributionFilterFromOtherUnits": "これにより、コントリビューション・フィルターおよび他のユニットで定義されているコントリビューション・フィルターから <strong>{{apCount}}</strong> 個のアプリケーション・パースペクティブが削除されます",
     "addGroup": "新規グループ",
     "pendingInvitations": "保留中の招待",
     "revoke": "取り消し",
@@ -1123,6 +1132,7 @@
     "serviceNow": "ServiceNow",
     "serviceNowAlertChannel": "ServiceNow のアラート・チャネル",
     "serviceNowUsernameTooltip": "ユーザー名とパスワードは、インシデントを作成する権限を持つ ServiceNow ユーザーのものでなければなりません。",
+    "autoCloseIncidents": "インシデントの自動クローズ",
     "showPasswordTooltip": "パスワードを表示する",
     "hidePasswordTooltip": "パスワードを非表示にする",
     "scope": "範囲",
@@ -1164,7 +1174,12 @@
     "createIDPConfirmationDescription": "保留中の招待は削除されます。 ユーザーは、IDプロバイダー(IdP)から自動的にプロビジョンされます。",
     "revokeInvitationForUserWithEmail": "{{email}} の {{tenant}} テナントへの参加の招待を取り消します",
     "invitationValidUntil": "招待の有効期限",
-    "invitedBy": "招待者"
+    "invitedBy": "招待者",
+    "accessAll": "すべてにアクセス",
+    "access": "アクセス",
+    "accessForTenantUnit": "{{tenantUnit}}{{tenant}}に対するアクセス権限",
+    "numberOfMembers": "メンバー数",
+    "groupEntityName": "グループ {{entityName}}"
   },
   "languageSelection": {
     "language": "言語",

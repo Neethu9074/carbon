@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { combineLatest, just } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import {
   getEventType,
@@ -15,11 +16,13 @@ import {
 } from 'in-stores/events';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
-import getRecentEvents$ from 'in-events/recentEvents';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { Row, Col } from 'in-components/layout/Grid';
 import { serverTime$ } from 'in-stores/serverTime';
 import KpiCard from 'in-components/KpiCard';
+import { getEvents } from 'in-events/api';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -50,55 +53,41 @@ function EventKPIs({ event }) {
   );
 }
 
-const IncidentKPIs = connectTo(
-  ({ event }) => {
-    const recentEvents$ = getRecentEvents$(event).startWith([]);
-    return {
-      recentEvents: recentEvents$,
-      openEvents: recentEvents$.flatMap(_events =>
-        combineLatest(
-          _events.map(_event =>
-            fireCallbacksForEventAtFocusedMomentAsStream(
-              _event,
-              () => true,
-              () => false
-            )
-          )
-        )
-      )
-    };
-  },
-  function IncidentKPIs({ event, recentEvents, openEvents }) {
-    const changes = recentEvents.filter(e => getEventType(e) === EVENT_TYPES.CHANGE);
-    const numOpenEvents = openEvents ? openEvents.filter(Boolean).length : '';
-    const affectedEnties = {};
-    recentEvents.forEach(e => (affectedEnties[e.getIn(['entityId'])] = true));
+function IncidentKPIs({ event }) {
+  const recentEvents = useObservable(getEvents(event.get('recentEvents', emptyList).toArray()), [event]) ?? null;
 
-    return (
-      <Row withoutSideMargin>
-        <Col xs>
-          <DateTimeKpiCard title={t('in-events:titleTriggered')} time={event.get('start')} />
-        </Col>
-        <Col xs>
-          <Ended event={event} />
-        </Col>
-        <Col xs>
-          <Duration event={event} />
-        </Col>
-        <Severity event={event} />
-        <Col xs>
-          <KpiCard title={t('in-events:titleActive')} value={`${numOpenEvents}/${recentEvents.length}`} raw />
-        </Col>
-        <Col xs>
-          <KpiCard title={t('in-events:titleChanges')} value={`${changes.length}`} raw />
-        </Col>
-        <Col xs>
-          <KpiCard title={t('in-events:titleAffectedEntities')} value={`${Object.keys(affectedEnties).length}`} raw />
-        </Col>
-      </Row>
-    );
-  }
-);
+  if (!recentEvents) return <LoadingIndicator />;
+  const openEvents = recentEvents.map(event => event.state === 'open');
+
+  const changes = recentEvents.filter(e => getEventType(e) === EVENT_TYPES.CHANGE);
+  const numOpenEvents = openEvents ? openEvents.filter(Boolean).length : '';
+  const affectedEnties = {};
+  recentEvents.forEach(e => (affectedEnties[e.snapshotId] = true));
+
+  return (
+    <Row withoutSideMargin>
+      <Col xs>
+        <DateTimeKpiCard title={t('in-events:titleTriggered')} time={event.get('start')} />
+      </Col>
+      <Col xs>
+        <Ended event={event} />
+      </Col>
+      <Col xs>
+        <Duration event={event} />
+      </Col>
+      <Severity event={event} />
+      <Col xs>
+        <KpiCard title={t('in-events:titleActive')} value={`${numOpenEvents}/${recentEvents.length}`} raw />
+      </Col>
+      <Col xs>
+        <KpiCard title={t('in-events:titleChanges')} value={`${changes.length}`} raw />
+      </Col>
+      <Col xs>
+        <KpiCard title={t('in-events:titleAffectedEntities')} value={`${Object.keys(affectedEnties).length}`} raw />
+      </Col>
+    </Row>
+  );
+}
 
 const Ended = connectTo(
   ({ event }) => {

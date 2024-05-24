@@ -186,6 +186,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'logVolumePageEnabled',
+    instanaCtlKey: 'feature.log.volume.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'enableTroubleshootingMode',
     instanaCtlKey: 'feature.troubleshooting.mode.enabled',
     defaultValue: false
@@ -276,21 +281,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticBrowserScriptEnabled',
-    instanaCtlKey: 'feature.synthetic.browser.script.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticBrowserCreateTestEnabled',
-    instanaCtlKey: 'feature.synthetic.browser.create.test.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticsKeystoreEnabled',
-    instanaCtlKey: 'feature.synthetics.keystore.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'websiteBeaconQueryOptimizationEnabled',
     instanaCtlKey: 'feature.website.beacon.query.optimization.enabled',
     defaultValue: true
@@ -326,9 +316,9 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'bizopsRbacEnabled',
-    instanaCtlKey: 'feature.bizops.rbac.enabled',
-    defaultValue: true
+    uiClientKey: 'bizopsPerspectivesEnabled',
+    instanaCtlKey: 'feature.bizops.perspectives.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
@@ -386,11 +376,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticRbacEnabled',
-    instanaCtlKey: 'feature.synthetic.rbac.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'syntheticCustomDashboardEnabled',
     instanaCtlKey: 'feature.synthetic.custom.dashboard.enabled',
     defaultValue: false
@@ -398,11 +383,6 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticInstanaHostedPoPEnabled',
     instanaCtlKey: 'feature.synthetic.instana.hosted.pop.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticUpdateDeployPoPEnabled',
-    instanaCtlKey: 'feature.synthetic.update.deploy.pop.enabled',
     defaultValue: false
   },
   {
@@ -418,6 +398,11 @@ module.exports = exports = [
   {
     uiClientKey: 'customWidgetTableInfraDataSourceEnabled',
     instanaCtlKey: 'feature.custom.widget.infrastructure.table.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'thresholdCustomDashboardsEnabled',
+    instanaCtlKey: 'feature.threshold.custom.dashboards.enabled',
     defaultValue: false
   },
   {
@@ -443,7 +428,7 @@ module.exports = exports = [
   {
     uiClientKey: 'regexMetricSelectionEnabled',
     instanaCtlKey: 'feature.regex.metric.selection.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'rcaUIEnabled',
@@ -486,11 +471,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'applicationContributionFilterEnabled',
-    instanaCtlKey: 'feature.application.contribution.filter.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'multiGroupTimeSeriesEnabled',
     instanaCtlKey: 'feature.multigroup.timeseries.enabled',
     defaultValue: false
@@ -511,9 +491,14 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonShellEnabled',
-    instanaCtlKey: 'feature.carbon.shell.enabled',
-    defaultValue: true
+    uiClientKey: 'carbonContentSwitcherEnabled',
+    instanaCtlKey: 'feature.carbon.content.switcher.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonTextAreaEnabled',
+    instanaCtlKey: 'feature.carbon.text.area.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'carbonPillEnabled',
@@ -526,8 +511,28 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonButtonEnabled',
+    instanaCtlKey: 'feature.carbon.button.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonIconButtonEnabled',
+    instanaCtlKey: 'feature.carbon.iconbutton.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonAccordionEnabled',
     instanaCtlKey: 'feature.carbon.accordion.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonSelectEnabled',
+    instanaCtlKey: 'feature.carbon.select.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonPaginationEnabled',
+    instanaCtlKey: 'feature.carbon.pagination.enabled',
     defaultValue: false
   },
   {
@@ -546,8 +551,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'applicationSmartAlertFullScreenDesignEnabled',
+    instanaCtlKey: 'application.smart.alerts.full.screen.design.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'welcomePageV2Enabled',
     instanaCtlKey: 'feature.welcomepage.v2.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'shareAndInviteEnabled',
+    instanaCtlKey: 'feature.share.and.invite.enabled',
     defaultValue: false
   },
   {
@@ -556,8 +571,38 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'rawTraceDownloadEnabled',
-    instanaCtlKey: 'feature.application.raw.trace.download.enabled',
+    uiClientKey: 'carbonTabsEnabled',
+    instanaCtlKey: 'feature.carbon.tabs.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'automationActionInstanceFeedbackEnabled',
+    instanaCtlKey: 'automation.action.instance.feedback.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'infraExploreFilterEmptyValueEnabled',
+    instanaCtlKey: 'feature.infrastructure.explore.filter.empty.value.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'orbitalEnabled',
+    instanaCtlKey: 'feature.orbital.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'weaselSubresourceIntegrityEnabled',
+    instanaCtlKey: 'feature.weasel.subresource.integrity.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'carbonTileEnabled',
+    instanaCtlKey: 'feature.carbon.tile.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonStepProgressBarEnabled',
+    instanaCtlKey: 'feature.carbon.stepprogressbar.enabled',
     defaultValue: false
   }
 ];

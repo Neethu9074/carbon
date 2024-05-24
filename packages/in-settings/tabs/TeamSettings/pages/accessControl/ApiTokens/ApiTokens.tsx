@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import { generateUniqueShortId } from '@instana/utils';
 import { Link, Message } from '@instana/components';
 import { createLogger } from '@instana/logger';
-import { useObservable } from '@instana/hooks';
 
 import {
   getEntityHref,
@@ -24,9 +23,9 @@ import {
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
 import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
+import { useTenantUnitsInfo } from 'in-settings/hooks/useTenantUnitsInfo';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { apiTokenDialogEnabled } from 'in-services/featureFlags';
-import { getTenantsWithUnits } from 'in-api/account';
 import { config } from 'in-services/config';
 import { Trans, t } from 'in-i18n';
 
@@ -36,14 +35,12 @@ const logger = createLogger('ApiTokens');
 
 export default function ApiTokens() {
   const { goToPath } = useNavigation();
-
-  const tenantWithUnits = useObservable(getTenantsWithUnits, []);
-  const unitsData = tenantWithUnits?.[config.tenant] || [];
+  const { showTenantInfo } = useTenantUnitsInfo();
 
   return (
     <>
-      {unitsData.length > 1 && (
-        <Message type={'neutral'} withIcon>
+      {showTenantInfo && (
+        <Message className={locals.message} type={'neutral'} inline withIcon>
           <Trans
             i18nKey="in-settings:tabs.apiTokenUnits"
             values={{ tenantUnit: config.tenantUnit, tenant: config.tenant }}

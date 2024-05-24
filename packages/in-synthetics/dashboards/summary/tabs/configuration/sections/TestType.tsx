@@ -20,7 +20,7 @@ interface Props {
 }
 
 type SyntheticMapping = {
-  testType: 'API' | 'Browser' | 'Webpage' | 'DNS' | '';
+  testType: 'API' | 'Browser' | 'Webpage' | 'DNS' | 'SSL Certificate' | '';
   subTestType: 'Simple' | 'Script' | '';
 };
 
@@ -37,6 +37,7 @@ const TestTypeSection = ({ test }: Props) => {
       WebpageAction: { testType: 'Webpage', subTestType: 'Simple' },
       WebpageScript: { testType: 'Webpage', subTestType: 'Script' },
       DNSAction: { testType: 'DNS', subTestType: 'Simple' },
+      SSLCertificate: { testType: 'SSL Certificate', subTestType: '' },
       NotConfigured: { testType: '', subTestType: '' }
     };
 
@@ -65,12 +66,14 @@ const TestTypeSection = ({ test }: Props) => {
             value={mapSyntheticType(configuration.syntheticType).testType}
           />
         </Col>
-        <Col xs={3}>
-          <KeyValue
-            label={t('in-synthetics:dashboard.configuration.subType')}
-            value={mapSyntheticType(configuration.syntheticType).subTestType}
-          />
-        </Col>
+        {configuration.syntheticType != 'SSLCertificate' && (
+          <Col xs={3}>
+            <KeyValue
+              label={t('in-synthetics:dashboard.configuration.subType')}
+              value={mapSyntheticType(configuration.syntheticType).subTestType}
+            />
+          </Col>
+        )}
       </Row>
     </ExpandableLightCard>
   );

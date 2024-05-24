@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { Stack, StackItem } from '@instana/components';
+import { ButtonGroup } from '@instana/components';
 
 import {
   PER_AP_SERVICE,
@@ -18,7 +19,6 @@ import { ShowApplicationSelection } from 'in-alerting/smart-alerts/applications/
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import ButtonGroup from 'in-components/ButtonGroup';
 import { days } from 'in-services/time';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator.mless';

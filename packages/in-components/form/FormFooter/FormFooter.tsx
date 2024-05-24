@@ -4,15 +4,16 @@
  */
 
 import React, { forwardRef, ReactElement } from 'react';
+import { MapFormItems } from 'formalistic';
 import classNames from 'classnames';
 
 import SaveButtonComponent, { SaveButtonProps as OriginSaveButtonProps } from 'in-components/form/SaveButton';
+import PreviousButtonComponent, { PreviousButtonProps } from 'in-components/form/PreviousButton';
 import CancelButtonComponent, { CancelButtonProps } from 'in-components/form/CancelButton';
 import DeleteButtonComponent, { DeleteButtonProps } from 'in-components/form/DeleteButton';
 import { t } from 'in-i18n';
 
 import locals from './FormFooter.mless';
-import { MapFormItems } from 'formalistic';
 
 export interface FormFooterProps {
   className?: string;
@@ -52,6 +53,10 @@ export function CancelButton(props: CancelButtonProps) {
       {props.children || t('forms.actions.cancel')}
     </CancelButtonComponent>
   );
+}
+
+export function PreviousButton(props: PreviousButtonProps) {
+  return <PreviousButtonComponent className={locals.button} {...props} />;
 }
 
 interface ExtendedDeleteButtonProps<FORM_TYPE extends MapFormItems> extends DeleteButtonProps<FORM_TYPE> {

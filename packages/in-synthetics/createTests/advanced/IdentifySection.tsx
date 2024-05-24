@@ -8,6 +8,7 @@ import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { GroupPermissionEntity, Result } from '@instana/types';
+import { TextArea } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
@@ -17,7 +18,6 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import TextArea from 'in-components/form/TextArea/TextArea';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';

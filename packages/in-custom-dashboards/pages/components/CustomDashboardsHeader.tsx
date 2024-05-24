@@ -17,7 +17,7 @@ import locals from 'in-custom-dashboards/pages/components/CustomDashboardsHeader
 export default function CustomDashboardsHeader() {
   return (
     <div className={locals.container}>
-      <Stack direction="horizontal" distribution="spaceBetween">
+      <Stack direction="horizontal" distribution="spaceBetween" align="center">
         <div className={locals.tile}>
           <Stack direction="horizontal" align="center" gap="xsmall">
             <SvgIcon

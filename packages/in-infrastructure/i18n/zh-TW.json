@@ -9,18 +9,18 @@
     "tooltip1": "代理程式已在選取的時間範圍內報告，但是卻未在選取的時刻報告。",
     "tooltip2": "代理程式已在 {{startTime}} 時啟動，且仍在報告中。",
     "tooltip3": "代理程式已在 {{startTime}} 到 {{toTime}} 之間進行報告。",
-    "issueReported": "已報告 {{count}} 個問題：",
-    "issueReported_plural": "已報告 {{count}} 個問題：",
-    "issueReported_0": "已報告 {{count}} 個問題：",
-    "issueReported_1": "已報告 {{count}} 個問題：",
-    "issueReported_2": "已報告 {{count}} 個問題：",
+    "monitoringIssueReported": "已報告 {{count}} 個監視問題：",
+    "monitoringIssueReported_plural": "已報告 {{count}} 個監視問題：",
+    "monitoringIssueReported_0": "已報告 {{count}} 個監視問題：",
+    "monitoringIssueReported_1": "已報告 {{count}} 個監視問題：",
+    "monitoringIssueReported_2": "已報告 {{count}} 個監視問題：",
     "reporting": "產生報告",
     "notReporting": "未產生報告",
-    "issues": "{{count}} 個問題",
-    "issues_plural": "{{count}} 個問題",
-    "issues_0": "{{count}} 個問題",
-    "issues_1": "{{count}} 個問題",
-    "issues_2": "{{count}} 個問題",
+    "reportingMonitoringIssues": "正在報告，{{count}} 個監視問題",
+    "reportingMonitoringIssues_plural": "正在報告，{{count}} 個監視問題",
+    "reportingMonitoringIssues_0": "正在報告，{{count}} 個監視問題",
+    "reportingMonitoringIssues_1": "正在報告，{{count}} 個監視問題",
+    "reportingMonitoringIssues_2": "正在報告，{{count}} 個監視問題",
     "agents": "代理程式",
     "updateAllAgents": "更新所有代理程式",
     "resetAllAgents": "重設所有代理程式",
@@ -79,6 +79,7 @@
   "explore": {
     "analyzeInfrastructure": "分析基礎架構",
     "focusOnThisGroup": "聚焦於此群組",
+    "tagNotPresent": "標籤不存在",
     "theQueryConfigurationIsInvalid": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
     "allInfrastructure": "所有基礎架構",
     "emptyInfrastructure": "選取實體類型",
@@ -132,5 +133,10 @@
   },
   "smartAlertView": {
     "smartAlertTab": "基礎架構智慧型警示"
+  },
+  "tagConfigurator": {
+    "buttonSelectTags": "選取標籤",
+    "titleAddATag": "新增標籤",
+    "messagePleaseSelectAtMostTags": "請最多選取 {{maximumNumberOfTags}} 個標籤。"
   }
 }

@@ -6,9 +6,10 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Pill } from '@instana/components';
+
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 
 import locals from './BatchingIndicator.mless';
 
@@ -20,6 +21,7 @@ export default function BatchingIndicator({ batchCount, tooltipContent, tooltipA
   return (
     <Tooltip content={tooltipContent} align={tooltipAlign}>
       <Pill
+        type="gray"
         kind="lighter"
         className={classNames({
           [locals.pill]: true,

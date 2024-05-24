@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 import { Button } from '@instana/legacy';
 
@@ -15,7 +16,9 @@ import {
   applicationsAlertingDeprecatedEventMigrateFinished
 } from 'in-alerting/smart-alerts/applications/tracker';
 import getAlertConfigFromLegacyEvent from 'in-alerting/migration/subscriptions/getAlertConfigFromLegacyEvent';
+import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
+import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
@@ -37,7 +40,12 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
   const [migrationInProgress, setMigrationInProgress] = useState(false);
 
   const onSuccess = () => goToPath(teamSettingsAlertingEvents);
-
+  const isGlobalSmartAlertConfig = useObservable(
+    getAlertConfigFromLegacyEvent({ eventSpecificationId }).map(({ data }) => {
+      return data && data.globalSmartAlert;
+    }),
+    [eventSpecificationId]
+  );
   return (
     <Stack direction="horizontal" gap="xsmall">
       <Tooltip content={t('in-alerting:smartAlerts.migration.markAsMigratedButtonTooltip')} delay={500}>
@@ -66,6 +74,15 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
           {t('in-alerting:smartAlerts.migration.migrateButton')}
         </Button>
       </Tooltip>
+      {applicationSmartAlertFullScreenDesignEnabled && (
+        <CreateSmartAlertButton
+          isGlobal={isGlobalSmartAlertConfig}
+          isFloatingButton={false}
+          buttonName={t('in-alerting:smartAlerts.migration.migrateButtonNew')}
+          isMigrate
+          eventSpecificationId={eventSpecificationId}
+        />
+      )}
     </Stack>
   );
 }
@@ -113,6 +130,12 @@ function doMigration(eventSpecificationId, setMigrating, migrationInProgress, se
       },
       () => setMigrationInProgress(false)
     );
+}
+
+export function doMigrationInTearSheet(eventSpecificationId) {
+  return getAlertConfigFromLegacyEvent({ eventSpecificationId })
+    .filter(res => !isLoading(res))
+    .map(({ data }) => data);
 }
 
 function showSmartAlertDialog({

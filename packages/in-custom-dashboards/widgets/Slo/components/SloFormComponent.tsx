@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
+import { Select } from '@instana/components';
 import { Stack } from '@instana/components';
 import { Button } from '@instana/legacy';
 
@@ -41,10 +42,11 @@ import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { productAreas } from 'in-services/tracking/productAreas';
 import HelpAction from 'in-components/workspace/HelpAction';
+import { pageNames } from 'in-services/tracking/pageNames';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
-import Select from 'in-components/form/Select/Select';
 import DateInput from 'in-components/form/DateInput';
 import Input from 'in-components/form/Input/Input';
 import { Nullish } from 'in-types';
@@ -68,9 +70,8 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
   });
 
   const track = useSloTrackers();
-
   useEffect(() => {
-    track(SLO_WIDGET_EDIT_START, undefined);
+    track(SLO_WIDGET_EDIT_START, {});
   }, [track]);
 
   const entityIdField = form.get(entityId) as Field<string>;
@@ -98,7 +99,9 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
   const timeField = (form.get(timeWindowStart) as MapForm<any>)?.get('time') as Field<string>;
 
   function activateManageSliSlideIn() {
-    track(SLI_MANAGEMENT_VIEW, { entityType: entityTypeValue });
+    track(SLI_MANAGEMENT_VIEW, {
+      entityType: entityTypeValue
+    });
     return setSlideInView({
       renderTitle(showCreateFormState) {
         if (!showCreateFormState) {
@@ -111,13 +114,18 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
       slideOutHandler(slideOut, [showCreateFormState, setShowCreateFormState]) {
         if (showCreateFormState) return () => setShowCreateFormState(undefined);
         return () => {
-          track(SLI_MANAGEMENT_EXIT, { entityType: entityTypeValue });
+          track(SLI_MANAGEMENT_EXIT, {
+            entityType: entityTypeValue
+          });
           slideOut();
         };
       },
       getContent({ slideOut, subSlideState: [showCreateFormState, setShowCreateFormState] }) {
         return (
-          <SloTrackerProvider value={sliWidgetTrackers}>
+          <SloTrackerProvider
+            trackers={sliWidgetTrackers}
+            meta={{ productArea: productAreas.custom_dashboard, pageName: pageNames.custom_dashboard }}
+          >
             <SliManageList
               entityType={entityTypeValue}
               entityId={entityIdValue}

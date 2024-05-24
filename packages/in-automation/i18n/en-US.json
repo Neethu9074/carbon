@@ -3,6 +3,7 @@
   "edit": "Edit",
   "delete": "Delete",
   "test": "Test",
+  "recommendedActionsWithCount": "Recommended Actions ({{count}})",
   "recommendedActions": "Recommended Actions",
   "validVaultParameter": "Vault parameters marked as optional must be either both blank or both not blank.",
   "newAction": "New Action",
@@ -15,6 +16,7 @@
   "targetAgentDescription": "An Agent encapsulates 1..* Sensors, who in turn are able to raise Events to the Instana backend. A triggering Agent contains the Sensor that raised this particular Event.",
   "chosenToRun": "You have chosen to run {{actionName}} from your Action Catalog.",
   "viewManualAction": "View Manual Action {{actionName}}",
+  "viewRecommendedAction": "View Recommended Action {{actionName}}",
   "chosenToTest": "You have chosen to test {{actionName}} from your Action Catalog.",
   "failedToInitiate": "{{actionName}} failed to initiate.",
   "hasBeenInitiated": "{{actionName}} has been initiated.",
@@ -39,12 +41,10 @@
   "parameters": "Parameters",
   "noParametersTitle": "No parameters",
   "noParametersText": "This action does not have any parameters.",
-  "linkToActionLogs": "The output of this action can be viewed in <logsLink>Analytics > Logs.</logsLink>",
   "linkToActionHistory": "The output of this action instance can be viewed in <logsLink>Action History page.</logsLink>",
   "description": "Description",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
-  "associateActionWithName": "Associate action {{actionName}}",
   "deletePolicyWithName": "Delete policy {{actionName}}",
   "jobTemplate": "Job Template",
   "hostsLimit": "Hosts Limit (optional)",
@@ -80,6 +80,7 @@
   "noTagsConfigured": "No Tags Configured",
   "value": "Value",
   "type": "Type",
+  "automationPoliciesWithCount": "Automation Policies ({{count}})",
   "automationPolicies": "Automation Policies",
   "copyOf": "(Copy of) {{name}}",
   "searchActions": "Search Actions",
@@ -91,8 +92,11 @@
   "tag": "Tag",
   "noTagsAvailable": "No tags available",
   "actions": "Actions",
+  "createPolicy": "Create Policy",
+  "titleUrl": "URL",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
+    "actionCatalogWithCount": "Action Catalog ({{count}})",
     "action": "action",
     "newAction": "New Action",
     "createANewAction": "Create A New Action",
@@ -223,7 +227,7 @@
     "eventName": "Event Name",
     "returnCode": "Return Code",
     "errorMessage": "Error Message",
-    "actionContent": "Action Content",
+    "action": "Action",
     "host": "Host",
     "log": "Log",
     "success": "Success",
@@ -236,13 +240,13 @@
     "inputParameters": "Input Parameters",
     "feedbackTab": "Feedback",
     "properties": "Properties",
-    "filterNameOrActionInstanceId": "Filter by  Name, Event Name or Action Instance ID",
+    "filter": "Filter",
     "inputPrompt": "Tell us about your experience with this action:",
-    "unhappyFeedback": "I am extremely unhappy",
+    "unhappyFeedback": "I am extremely dissatisfied",
     "dissatisfiedFeedback": "I am dissatisfied",
     "neutralFeedback": "I am neutral",
-    "satisfiedFeedback": "I was satisfied",
-    "verySatisfiedFeedback": "I was extremely satisfied",
+    "satisfiedFeedback": "I am satisfied",
+    "verySatisfiedFeedback": "I am extremely satisfied",
     "additionalFeedback": "Additional Comments (optional)",
     "feedbackError": "An error occured while saving your feedback. Please try again later.",
     "feedbackNotSelectedError": "Please select an option before submitting.",
@@ -255,13 +259,17 @@
     "submitted": "Submitted",
     "timeout": "Timeout",
     "issueUrl": "Issue url",
-    "taskUrl": "Task url"
+    "taskUrl": "Task url",
+    "output": "Output",
+    "user": "User",
+    "apiToken": "API Token"
   },
   "actionLanes": {
     "buttonInvestigate": "Investigate"
   },
   "policies": {
     "policies": "Policies",
+    "policiesWithCount": "Policies ({{count}})",
     "newPolicy": "New Policy",
     "selectEventTrigger": "Select Event trigger",
     "actionName": "Action Name",
@@ -288,7 +296,6 @@
     "custom": "Custom",
     "event": "Event",
     "entityType": "Entity type",
-    "properties": "Properties",
     "applicationSmartAlert": "Application Smart Alert",
     "globalApplicationSmartAlert": "Global Application Smart Alert",
     "infraSmartAlert": "Infrastructure Smart Alert",
@@ -308,6 +315,7 @@
     "manualAutomatic": "Manual, Automatic",
     "policyType": "Policy Type",
     "noPolicies": "There are no policies configured.",
+    "filterApplied": "Filter Applied",
     "createDialog": {
       "success": {
         "title": "Policy was created successfully.",
@@ -315,7 +323,17 @@
       },
       "failure": {
         "title": "Failed to created policy.",
-        "content": "There was a problem creating this policy: \"{{name}}\"."
+        "content": "There was a problem creating this policy: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "Policy was updated successfully.",
+        "content": "Policy \"{{name}}\" has been updated successfully."
+      },
+      "failure": {
+        "title": "Failed to update policy.",
+        "content": "There was a problem updating this policy: {{errorMessage}}"
       }
     },
     "createBulkDialog": {
@@ -329,7 +347,7 @@
       },
       "failure": {
         "title": "Failed to create policies.",
-        "content": "There was a problem creating the policies:{{error}}"
+        "content": "There was a problem creating the policies: {{error}}"
       }
     },
     "deleteDialog": {

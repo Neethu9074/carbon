@@ -6,8 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Toggle } from '@instana/components';
 
 import { HighlightedPlaceholders } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import AlertSection from 'in-alerting/components/AlertSection';

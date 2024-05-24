@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+// @ts-expect-error
+import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -14,9 +16,15 @@ import {
   PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED,
   PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED
 } from 'in-services/tracking/tracking';
+//@ts-expect-error missing typescript migration
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
-import { productAreas } from 'in-services/tracking/productAreas';
-import { pageNames } from 'in-services/tracking/pageNames';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
+import { CTA_CLICKED } from 'in-services/util/constants';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './PlayWithHeader.mless';
@@ -38,7 +46,11 @@ export function getPageType(pathname = '/') {
   }
 }
 
+const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
+
 export default function NewPlayWithHeader() {
+  const location = useLocation();
+  const pathName = location.pathname;
   return (
     <div className={classNames(locals.newPlayWithInstana)}>
       <span className={classNames(locals.message)}>
@@ -52,11 +64,15 @@ export default function NewPlayWithHeader() {
         target="_blank"
         href="https://www.ibm.com/account/reg/us-en/signup?formid=urx-52345&utm_source=playwith"
         onClick={() => {
-          eventTracker({
-            eventName: PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED,
-            parentProductArea: productAreas.home,
-            parentPageName: pageNames.home
-          });
+          const { parentPageName, parentProductArea } = getViewTrackingMetaData();
+          if (parentPageName && parentProductArea) {
+            eventTracker({
+              eventName: CTA_CLICKED,
+              parentProductArea,
+              parentPageName,
+              pathName
+            });
+          }
           track(PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED, getPageType(location.pathname));
         }}
         icon="lib_arrow_short_right"
@@ -74,6 +90,23 @@ export default function NewPlayWithHeader() {
       >
         {t('in-plg:playwithinstana.bookdemo')}
       </LicenseBannerButton>
+      {shareAndInviteEnabled && (
+        <>
+          <Tooltip align="bottomMiddle" content={t('in-plg:licenseBanner.shareTooltip')}>
+            <LicenseBannerButton
+              id="shareButton"
+              kind="ghost"
+              icon="lib_actions_share"
+              iconColor="var(--cds-link-primary)"
+              target="_blank"
+              onClick={() => addActiveDialog(<DeferredShareAndInviteDialogBox />)}
+            >
+              {t('in-plg:licenseBanner.share')}
+            </LicenseBannerButton>
+          </Tooltip>
+          <div className={locals.verticalLine} />
+        </>
+      )}
       <LicenseBannerButton
         id="take_tour"
         kind="ghost"

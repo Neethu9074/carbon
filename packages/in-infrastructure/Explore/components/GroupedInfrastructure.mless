@@ -25,4 +25,8 @@
   .wordBreak {
     word-break: break-word;
   }
+
+  .italic {
+    font-style: italic;
+  }
 }

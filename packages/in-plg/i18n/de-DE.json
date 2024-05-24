@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "Vielen Dank, dass Sie Instana erkunden! Sie haben das Ende Ihrer Testversion erreicht und keinen Zugriff mehr auf das Produkt."
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "Angebot anfordern",
     "buyNowBtn": "Bei AWS kaufen",
     "alreadyHaveLicense": "Sie haben bereits eine Lizenz? Aktivieren Sie sie unter <linkToDocker>Docker</linkToDocker> oder <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Antworten erhalten",
+    "share": "Gemeinsam nutzen",
+    "shareTooltip": "Teilen Sie diese Seite mit Kollegen und laden Sie sie zur Zusammenarbeit in Instana ein.",
     "titleDetail": {
       "trial": "Test",
       "sandboxTrial": "Sandbox-Test"
     }
   },
   "playwithinstana": {
-    "title": "Mit Instana spielen",
     "content": "Bereit zur Überwachung Ihrer eigenen Umgebung",
     "bookdemo": " Demo buchen",
     "freetrial": " Kostenloser Test",
@@ -50,7 +50,7 @@
       "agentKey": "Agentenschlüssel"
     },
     "common": {
-      "agentCatalog": "Agentenkatalog",
+      "agentDeployment": "Agentenimplementierung",
       "step1": "Schritt 1: ",
       "step2": "Schritt 2: ",
       "step3": "Schritt 3: ",
@@ -416,21 +416,24 @@
   "welcomepage": {
     "heading": "Willkommen",
     "viewAll": "Alle anzeigen",
+    "search": "Suchen",
+    "addMore": "Hinzufügen",
+    "UrlShortener": "URL Kürzer",
     "consumeData": {
-      "title": "Daten verarbeiten",
-      "description": "Beginnen Sie und implementieren Sie Ihren ersten Agenten.",
+      "title": "Services erkennen",
+      "description": "Starten Sie, indem Sie Instana ermöglichen, Ihre Services und andere zu überwachende Daten zu erkennen.",
       "buttonName": "Agenten implementieren",
       "buttonType": "primary"
     },
     "inviteTeammates": {
       "title": "Teammitglieder einladen",
       "description": "Arbeiten Sie mit Ihren Kollegen zusammen.",
-      "buttonName": "Einladung senden",
+      "buttonName": "Benutzer verwalten",
       "buttonType": "ghost"
     },
     "nextSteps": {
       "title": "Nächste Schritte",
-      "description": "Weitere Konfigurationsschritte durch Klicken auf? Symbol in der rechten oberen Ecke.",
+      "description": "Hier finden Sie weitere Touren und zusätzlichen Support.",
       "buttonName": "Antworten erhalten",
       "buttonType": "ghost"
     },
@@ -500,6 +503,24 @@
         "cpuUsage": "CPU-Auslastung",
         "created": "Erstellt",
         "started": "Gestartet"
+      },
+      "syntheticWidget": {
+        "label": "Überwachung der synthetischen Transaktionen",
+        "na": "Nicht zutreffend",
+        "name": "Name",
+        "type": "Typ",
+        "successRate": "Erfolgsquote",
+        "latency": "Latenzzeit",
+        "lastTestRunOn": "Letzter Testlauf am",
+        "version": "Version",
+        "timeThreshold": "Zeitschwellenwert",
+        "testsApplied": "Angewendete Tests"
+      },
+      "dashboardWidget": {
+        "label": "Eigene angepasste Dashboards",
+        "name": "Name",
+        "owner": "Eigner",
+        "permissions": "Berechtigungen"
       }
     },
     "noData": {
@@ -533,7 +554,75 @@
       "businessMonitoringWidget": {
         "header": "Keine Geschäftsprozesse",
         "description": "Aktivieren Sie IBM Business Automation Workflow oder konfigurieren Sie Instana zum Erfassen und Speichern von Geschäftsdaten aus Geschäftsprozessen."
+      },
+      "syntheticWidget": {
+        "test": {
+          "header": "Keine synthetischen Tests",
+          "description": "Konfigurieren Sie synthetische Tests für die Ausführung in bestimmten fortlaufenden Intervallen.",
+          "buttonName": "Synthetischen Test hinzufügen"
+        },
+        "location": {
+          "header": "Keine synthetische Position",
+          "description": "Konfigurieren Sie die synthetische Position für die Ausführung in bestimmten fortlaufenden Intervallen."
+        },
+        "smartalerts": {
+          "header": "Keine synthetischen Smartalerts",
+          "description": "Konfigurieren Sie synthetische Smartalerts so, dass sie in bestimmten fortlaufenden Intervallen ausgeführt werden.",
+          "buttonName": "Synthetische Smartalerts hinzufügen"
+        }
+      },
+      "dashboardWidget": {
+        "header": "Keine angepassten Dashboards",
+        "description": "Erstellen Sie Ihr eigenes angepasstes Dashboard.",
+        "buttonName": "Angepasste Statusübersicht erstellen"
       }
+    },
+    "ariaLabel": {
+      "search": "Suchen",
+      "shareButton": "Schaltfläche 'Freigeben'",
+      "add": "Hinzufügen",
+      "handleButton": "Schaltfläche 'Handle'"
+    }
+  },
+  "Components": {
+    "AgentzoneLister": {
+      "EGEurope": "z. B. Europa",
+      "Add": "Hinzufügen"
+    }
+  },
+  "assistme": {
+    "dataSearchContext": {
+      "gettingStarted": "Erste Schritte",
+      "websites": "Websites",
+      "mobileApps": "Mobile App",
+      "businessMonitoring": "Business Monitoring",
+      "application": "Anwendung",
+      "smartAlerts": "Smart Alerts",
+      "infrastructureMap": "Karte",
+      "cloudFoundry": "Cloud Foundry überwachen",
+      "powerHmc": " IBM Power überwachen",
+      "kubernetes": "Kubernetes",
+      "sap": "SAP überwachen",
+      "synthetic": "Überwachung der synthetischen Transaktionen",
+      "syntheticAlerts": "synthetische Alerts",
+      "syntheticPop": "Synthetischer PoP",
+      "serviceLevel": "Service-Level",
+      "installAgent": "Agenten installieren",
+      "analyzeCalls": "Analysieren von Traces und Aufrufen",
+      "settingsTab": "Benutzerzugriff verwalten",
+      "userSettings": "Benutzereinstellungen",
+      "authSettings": "Authentifizierung konfigurieren",
+      "auditLogs": "Prüfprotokolle anzeigen",
+      "automation": "Aktionen verwalten",
+      "customEvents": "benutzerdefinierte Ereignisse definieren",
+      "configuringAlerts": "Alerts konfigurieren",
+      "alertChannel": "Alertkanäle",
+      "maintenanceWindow": "planen",
+      "customPayload": "Angepasste Nutzdaten",
+      "eventsPage": "Ereignisse verwalten",
+      "logManagement": "logging",
+      "configuringAndMonitoring": "konfigurieren und überwachen",
+      "customDashboard": "angepasstes Dashboard"
     }
   }
 }

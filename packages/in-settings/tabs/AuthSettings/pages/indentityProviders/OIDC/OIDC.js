@@ -7,6 +7,7 @@
 import React, { useState, useEffect } from 'react';
 import { createField } from 'formalistic';
 
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
@@ -26,7 +27,6 @@ import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import { shorten } from 'in-services/util/string';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';

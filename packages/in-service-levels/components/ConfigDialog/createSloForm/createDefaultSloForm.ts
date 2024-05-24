@@ -14,7 +14,8 @@ import {
   dateFieldValidator,
   timeWindowValidator,
   noInvalidTagFilterExpression,
-  noBlankEntitySelection
+  noBlankEntitySelection,
+  indicatorFormValidator
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import {
   SloEntityFields,
@@ -90,7 +91,8 @@ export const createDefaultSloForm = (entityType: SloEntityType): SloForm => {
         items: getDefaultScopeFields()
       }),
       indicator: createMapForm({
-        items: getDefaultIndicatorFields()
+        items: getDefaultIndicatorFields(),
+        validator: indicatorFormValidator
       }),
       objective: createMapForm({
         items: getDefaultObjectiveFields(),

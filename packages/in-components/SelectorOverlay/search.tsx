@@ -12,7 +12,7 @@ import { Options } from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import nodeLocals from './Node.mless';
 
 // Taken from docs at https://github.com/farzher/fuzzysort#how-to-go-fast--performance-tips
-const RANGE = 200;
+const RANGE = 1000;
 const FUZZY_SEARCH_THRESHOLD = (1 + 2 + 3 + 4 + 5 + 6) * RANGE;
 const KEYS = ['label', 'description', 'parentLabels.0', 'parentLabels.1', 'keywords', 'tagName'];
 
@@ -73,7 +73,7 @@ function highlight(matchResult: Fuzzysort.KeysResult<Options>): Options {
   var label = highlightResult(matchResult[0]);
   var description = highlightResult(matchResult[1]);
   let parentLabels = [];
-  if (matchResult.obj.parentLabels.length > 0) {
+  if (matchResult.obj.parentLabels?.length > 0) {
     const parentLabel0Highlighted = highlightResult(matchResult[2]);
     parentLabels.push((parentLabel0Highlighted && <>{parentLabel0Highlighted}</>) || matchResult.obj.parentLabels[0]);
     if (matchResult.obj.parentLabels.length > 1) {

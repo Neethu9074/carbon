@@ -7,6 +7,7 @@
 import { facetedSearchItems } from 'in-logging/analyze/AnalyzeView/utils/facetedSearchItems';
 import { PillTypeColors } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 import { defaultChartedMetrics } from 'in-logging/analyze/AnalyzeView/utils/index';
+import { carbonPillEnabled } from 'in-services/featureFlags';
 
 export const dataSourceConfigurations = {
   logs: {
@@ -27,6 +28,6 @@ export const dataSourceConfigurations = {
 export const logPillColorMap: Record<string, PillTypeColors> = {
   error: 'red',
   warn: 'yellow',
-  info: 'cyan',
+  info: carbonPillEnabled ? 'cyan' : 'blue',
   fatal: 'purple'
 };

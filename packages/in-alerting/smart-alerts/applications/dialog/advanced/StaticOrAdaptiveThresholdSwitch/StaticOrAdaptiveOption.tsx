@@ -8,7 +8,8 @@ import React from 'react';
 
 import {
   StaticOrAdaptiveType,
-  staticOrAdaptiveThresholds
+  staticOrAdaptiveThresholds,
+  tearSheetStaticOrAdaptiveThresholds
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/config';
 import OptionBox from 'in-applications/components/OptionBox';
 
@@ -18,10 +19,13 @@ interface Props {
   currentType: StaticOrAdaptiveType;
   baselineType: StaticOrAdaptiveType;
   onChange: (baselineType: StaticOrAdaptiveType) => void;
+  isTearSheet?: boolean;
 }
 
-export default function StaticOrAdaptiveOption({ currentType, baselineType, onChange }: Props) {
-  const { icon, title, description, featureFeedbackLink } = staticOrAdaptiveThresholds.info[baselineType];
+export default function StaticOrAdaptiveOption({ currentType, baselineType, onChange, isTearSheet }: Props) {
+  const { icon, title, description, featureFeedbackLink } = isTearSheet
+    ? tearSheetStaticOrAdaptiveThresholds.info[baselineType]
+    : staticOrAdaptiveThresholds.info[baselineType];
 
   return (
     <OptionBox

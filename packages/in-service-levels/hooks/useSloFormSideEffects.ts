@@ -12,6 +12,7 @@ import {
   getDefaultScopeFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
 import { createIndicatorThresholdField } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import { indicatorFormValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import useFormSideEffects, { CHANGE_TYPES, Effect } from 'in-hooks/useFormSideEffects';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { getMaxTimeWindowDurationValue } from 'in-service-levels/utils/time';
@@ -35,7 +36,12 @@ function resetEntity(form: SloForm): SloForm {
 }
 
 function resetIndicatorForm(form: SloForm): SloForm {
-  return form.updateIn(['indicator'], () => createMapForm({ items: getDefaultIndicatorFields() }));
+  return form.updateIn(['indicator'], () =>
+    createMapForm({
+      items: getDefaultIndicatorFields(),
+      validator: indicatorFormValidator
+    })
+  );
 }
 
 function resetIndicatorFormAndPreserveBlueprint(form: SloForm) {

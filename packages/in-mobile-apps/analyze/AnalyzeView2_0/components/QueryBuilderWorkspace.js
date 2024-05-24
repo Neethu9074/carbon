@@ -36,6 +36,8 @@ import Sticky from 'in-components/Sticky';
 import config from 'in-services/config';
 import { t } from 'in-i18n';
 
+import locals from './QueryBuilderWorkspace.mless';
+
 export default function MobileAppsQueryBuilderWorkspace(props) {
   const {
     formModel,
@@ -124,7 +126,7 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
             />
           </Sections>
           {!isValid && !isLoading && (
-            <Message type="error" withIcon small>
+            <Message className={locals.message} inline type="error" withIcon small>
               {t('in-mobile-apps:queryInvalid')}
             </Message>
           )}

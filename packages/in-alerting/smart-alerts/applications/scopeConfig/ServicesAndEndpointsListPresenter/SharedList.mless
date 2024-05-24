@@ -29,6 +29,10 @@
     background: var(--ids-color-option-neutral-100);
   }
 
+  .lightBgListItem {
+    background: var(--ids-color-option-white);
+  }
+
   .emptyListPlaceholderMessage {
     width: 100%;
   }
@@ -39,5 +43,9 @@
 
   .viewOnly {
     cursor: not-allowed;
+  }
+
+  .greyBackground {
+    background-color: var(--ids-color-option-neutral-50);
   }
 }

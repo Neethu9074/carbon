@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "Merci d'avoir exploré Instana ! Vous avez atteint la fin de votre essai et vous ne pouvez plus accéder au produit."
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "Demander un devis",
     "buyNowBtn": "Acheter sur AWS",
     "alreadyHaveLicense": "Vous possédez déjà une licence ? Activez-la sous <linkToDocker>Docker</linkToDocker> ou <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Obtenir des réponses",
+    "share": "Partager",
+    "shareTooltip": "Partagez cette page avec vos collègues et invitez-les à collaborer dans Instana.",
     "titleDetail": {
       "trial": "Essai",
       "sandboxTrial": "Version d'évaluation de bac à sable"
     }
   },
   "playwithinstana": {
-    "title": "Play with Instana",
     "content": "Prêt à surveiller votre propre environnement",
     "bookdemo": " Réservez une démo",
     "freetrial": " Essai gratuit",
@@ -50,7 +50,7 @@
       "agentKey": "Clé d'agent"
     },
     "common": {
-      "agentCatalog": "Catalogue d'agents",
+      "agentDeployment": "Déploiement d'agent",
       "step1": "Etape 1 : ",
       "step2": "Étape 2 : ",
       "step3": "Étape 3 : ",
@@ -416,21 +416,24 @@
   "welcomepage": {
     "heading": "Bienvenue",
     "viewAll": "Afficher tout",
+    "search": "Rechercher",
+    "addMore": "Ajouter",
+    "UrlShortener": "Raccourci d'URL",
     "consumeData": {
-      "title": "Consommer des données",
-      "description": "Démarrez et déployez votre premier agent.",
+      "title": "Reconnaître les services",
+      "description": "Commencez par permettre à Instana de reconnaître vos services et les autres données à surveiller.",
       "buttonName": "Déployer l'agent",
       "buttonType": "principal"
     },
     "inviteTeammates": {
       "title": "Inviter des coéquipiers",
       "description": "Collaborez avec vos collègues.",
-      "buttonName": "Envoyer une invitation",
+      "buttonName": "Gérer les utilisateurs",
       "buttonType": "ghost"
     },
     "nextSteps": {
       "title": "Etapes suivantes",
-      "description": "Vous trouverez d'autres étapes de configuration en cliquant sur le ? dans le coin supérieur droit.",
+      "description": "Découvrez d'autres visites et un support supplémentaire.",
       "buttonName": "Obtenir des réponses",
       "buttonType": "ghost"
     },
@@ -500,6 +503,24 @@
         "cpuUsage": "Utilisation de l'UC",
         "created": "Créé",
         "started": "Démarré"
+      },
+      "syntheticWidget": {
+        "label": "Surveillance synthétique",
+        "na": "Non disponible",
+        "name": "Nom",
+        "type": "Type",
+        "successRate": "Taux de réussite",
+        "latency": "Temps d'attente",
+        "lastTestRunOn": "Dernière exécution de test le",
+        "version": "Version",
+        "timeThreshold": "Seuil de temps",
+        "testsApplied": "Tests appliqués"
+      },
+      "dashboardWidget": {
+        "label": "Mes tableaux de bord personnalisés",
+        "name": "Nom",
+        "owner": "Propriétaire",
+        "permissions": "Droits"
       }
     },
     "noData": {
@@ -533,7 +554,75 @@
       "businessMonitoringWidget": {
         "header": "Aucun processus technique",
         "description": "Activez IBM Business Automation Workflow ou configurez Instana pour capturer et stocker des données métier à partir de processus métier."
+      },
+      "syntheticWidget": {
+        "test": {
+          "header": "Aucun test synthétique",
+          "description": "Configurez les tests synthétiques pour qu'ils s'exécutent à des intervalles continus spécifiques.",
+          "buttonName": "Ajouter un test synthétique"
+        },
+        "location": {
+          "header": "Aucun emplacement synthétique",
+          "description": "Configurez l'emplacement synthétique pour qu'il s'exécute à des intervalles continus spécifiques."
+        },
+        "smartalerts": {
+          "header": "Aucune alerte intelligente de Synthetics",
+          "description": "Configurez les alertes intelligentes de Synthetics pour qu'elles s'exécutent à des intervalles continus spécifiques.",
+          "buttonName": "Ajouter des alertes intelligentes de Synthetics"
+        }
+      },
+      "dashboardWidget": {
+        "header": "Aucun tableau de bord personnalisé",
+        "description": "Créez votre propre tableau de bord personnalisé.",
+        "buttonName": "Créer un tableau de bord personnalisé"
       }
+    },
+    "ariaLabel": {
+      "search": "Rechercher",
+      "shareButton": "Bouton Partager",
+      "add": "Ajouter",
+      "handleButton": "Bouton Traiter"
+    }
+  },
+  "Components": {
+    "AgentzoneLister": {
+      "EGEurope": "par exemple, Europe",
+      "Add": "Ajouter"
+    }
+  },
+  "assistme": {
+    "dataSearchContext": {
+      "gettingStarted": "mise en route",
+      "websites": "sites Web",
+      "mobileApps": "application mobile",
+      "businessMonitoring": "surveillance métier",
+      "application": "application",
+      "smartAlerts": "alertes intelligentes",
+      "infrastructureMap": "mappe",
+      "cloudFoundry": "surveillance de Cloud Foundry",
+      "powerHmc": " surveillance d'IBM Power",
+      "kubernetes": "kubernetes",
+      "sap": "surveillance de SAP",
+      "synthetic": "surveillance synthétique",
+      "syntheticAlerts": "alertes synthétiques",
+      "syntheticPop": "PoP synthétique",
+      "serviceLevel": "niveau de service",
+      "installAgent": "agent d'installation",
+      "analyzeCalls": "analyse des traces et des appels",
+      "settingsTab": "gestion des accès utilisateur",
+      "userSettings": "paramètres utilisateur",
+      "authSettings": "Configuration de l'authentification",
+      "auditLogs": "affichage des journaux d'audit",
+      "automation": "gestion des actions",
+      "customEvents": "définition d'événements personnalisés",
+      "configuringAlerts": "configuration d'alertes",
+      "alertChannel": "canaux d'alerte",
+      "maintenanceWindow": "planification",
+      "customPayload": "contenu personnalisé",
+      "eventsPage": "gestion des événements",
+      "logManagement": "logging",
+      "configuringAndMonitoring": "configuration et surveillance",
+      "customDashboard": "tableau de bord personnalisé"
     }
   }
 }

@@ -1,6 +1,8 @@
 {
   "general": {
     "addButtonLabel": "Add",
+    "addButtonLabel_slo": "Add Service Level Objective",
+    "addButtonLabel_smartAlert": "Add Smart Alert",
     "aggregation": "Aggregation",
     "availability": "Availability",
     "beacon": "Beacon",
@@ -18,6 +20,7 @@
     "noSelection": "None selected",
     "loadMore": "Load more",
     "noData": "No data available",
+    "noMatchingTimeWindows": "There is no matching time window for the selected period. This usually happens if the selected time window is prior the creation date of the SLO.",
     "serverErrors": {
       "sloLimitReachedError": "The maximum number of service level objective configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit."
     },
@@ -124,18 +127,22 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "Custom Filter (optional)",
+    "customFilter": "Custom Filter",
+    "custom": "Custom",
+    "customDescription": "Set a custom filter to select services and/or endpoints",
     "title": "Create Service Level Objective (SLO)",
     "selectIndicator": "Select Blueprint",
     "selectEntityNavItem": "Set Entity",
     "selectEntityTitle": "Select an entity to add SLO to:",
     "selectScopeNavItem": "Set Scope",
+    "SelectServiceandEndpoint": "Select Service and Endpoint",
     "selectIndicatorNavItem": "Set Indicator",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP Requests",
       "beaconLabel_pageLoad": "Website Page Loads",
       "beaconLabel_custom": "Website Custom Events"
     },
+    "serviceAndEndpoint": "Service & Endpoint",
     "selectObjectiveTitle": "Set Objective",
     "sloTarget": "SLO Target",
     "timeWindow": "Time Window",
@@ -151,6 +158,8 @@
     "errorTimeWindowMin": "The time window must be at least one day long",
     "errorInvalidExpression": "The filters entered are not valid",
     "errorBlankEntity": "Please select an entity from the list",
+    "errorEmptyGoodFilter": "A good filter must be defined",
+    "errorEqualTagFilter": "Good and bad filters must not be identical",
     "nameAndTagsTitle": "Set Details",
     "sloNameLabel": "SLO Name",
     "sloNamePlaceholder": "Enter name",
@@ -262,7 +271,8 @@
   "sloDashboard": {
     "tabs": {
       "summaryLabel": "Summary",
-      "configurationLabel": "Configuration"
+      "configurationLabel": "Configuration",
+      "smartAlertsLabel": "Smart Alerts"
     },
     "timeWindowSelection": {
       "timeWindow": "Unknown Selection",

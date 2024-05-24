@@ -21,10 +21,11 @@ export const userSettingsCommunication = `${userSettings}/communications`;
 export const userSettingsPersonalApiTokens = `${userSettings}/personal-api-tokens`;
 export const userSettingsPasswordChange = `${userSettings}/password/change`;
 export const userSettingsTwoFactor = `${userSettings}/2fa`;
+export const userSettingsProfile = `${userSettings}/profile`;
 
 export const teamSettings = `${settingsPath}/team`;
 
-const accessControl = `${teamSettings}/accessControl`;
+export const accessControl = `${teamSettings}/accessControl`;
 export const teamSettingsAccessControlUsers = `${accessControl}/users`;
 export const teamSettingsAccessControlUserEdit = `${accessControl}/users/:id`;
 export const teamSettingsAccessControlInvites = `${accessControl}/invites`;
@@ -102,15 +103,16 @@ export const teamSettingsAlertingIntegrationEdit = `${alerting}/integrations/:id
 export const teamSettingsAlertingIntegrationNew = `${alerting}/integrations/new`;
 export const teamSettingsAlertingIntegrations = `${alerting}/integrations`;
 
-const logManagement = `${teamSettings}/logManagement`;
+export const logManagement = `${teamSettings}/logManagement`;
 export const teamSettingsLogManagementCoralogix = `${logManagement}/coralogixConfiguration`;
 export const teamSettingsLogManagementDeleteLogs = `${logManagement}/deleteLogs`;
+export const teamSettingsLogManagementLogVolume = `${logManagement}/logVolume`;
 export const teamSettingsLogManagementLogDna = `${logManagement}/logdnaConfiguration`;
 export const teamSettingsLogManagementSplunk = `${logManagement}/splunkConfiguration`;
 export const teamSettingsLogManagementHumio = `${logManagement}/humioConfiguration`;
 export const teamSettingsLogManagementElk = `${logManagement}/elkConfiguration`;
 
-const audit = `${teamSettings}/audit`;
+export const audit = `${teamSettings}/audit`;
 export const teamSettingsActionLog = `${audit}/actionlog`;
 export const teamSettingsAccessLog = `${audit}/accessLog`;
 

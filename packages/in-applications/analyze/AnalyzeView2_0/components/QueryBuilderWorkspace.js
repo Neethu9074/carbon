@@ -67,7 +67,8 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
     useLastValidStateWhenErroneous,
     CustomAction,
     chartedMetrics,
-    hiddenCalls
+    hiddenCalls,
+    orderByGroups
   } = props;
 
   const { hasError, errors } = validate(formModel);
@@ -78,7 +79,6 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
       return t('in-applications:tracesLiveModeDisabled');
     }
   };
-
   const timeConfig = useTimeConfig();
   const docCallOrTrace = dataSource === 'calls' ? 'getCallGroup' : 'getTraceGroups';
   const getEndpointCallOrTrace = () => {
@@ -160,7 +160,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
                     group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
                     hiddenCalls={hiddenCalls}
                     metrics={getMetricsAsApi()}
-                    order={orderBy}
+                    order={isGrouped ? removeAggregation(orderByGroups, dataSource) : orderBy}
                     backendQueryModel={backendQueryModel}
                     backendQueryModelWithFacets={backendQueryModelWithFacets}
                     tracking={{
@@ -175,7 +175,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
             />
           </Sections>
           {!isValid && !isLoading && (
-            <Message type="error" withIcon small>
+            <Message type="error" withIcon small fullInlineWidth>
               {t('in-applications:analyze.invalidQueryConfig')}
             </Message>
           )}
@@ -196,3 +196,13 @@ function validate(formModel) {
     : emptyArray;
   return { hasError, errors };
 }
+
+const removeAggregation = (order, dataSource) => {
+  if (dataSource === 'calls') {
+    return {
+      ...order,
+      by: order.by.includes('_') ? order.by.split('_')[0] : order.by
+    };
+  }
+  return order;
+};

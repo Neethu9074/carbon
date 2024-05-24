@@ -28,3 +28,27 @@ export const boundaryScopes = {
     }
   }
 } as const;
+
+export const tearSheetBoundaryScopes = {
+  inbound: 'INBOUND',
+  all: 'ALL',
+
+  info: {
+    INBOUND: {
+      text: t('in-alerting:smartAlerts.applications.tearSheet.inboundOutboundCalls.config.inbound.text'),
+      icon: 'lib_application_boundary_inbound_calls',
+      dashboard: t('in-alerting:smartAlerts.applications.tearSheet.inboundOutboundCalls.config.inbound.dashboard'),
+      overrideDefault: t(
+        'in-alerting:smartAlerts.applications.tearSheet.inboundOutboundCalls.config.inbound.overrideDefault'
+      )
+    },
+    ALL: {
+      text: t('in-alerting:smartAlerts.applications.tearSheet.inboundOutboundCalls.config.all.text'),
+      icon: 'lib_application_boundary_all_calls',
+      dashboard: t('in-alerting:smartAlerts.applications.tearSheet.inboundOutboundCalls.config.all.dashboard'),
+      overrideDefault: t(
+        'in-alerting:smartAlerts.applications.tearSheet.inboundOutboundCalls.config.all.overrideDefault'
+      )
+    }
+  }
+} as const;

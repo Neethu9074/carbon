@@ -21,6 +21,19 @@ export const ruleMetricNameOptions = Object.freeze({
       value: 'views',
       label: t('in-alerting:smartAlerts.mobileApp.form.ruleMetricNameOptionThroughputViews')
     }
+  ],
+  crash: [
+    { value: 'crashAffectedSessionRate', label: t('in-alerting:smartAlerts.mobileApp.data.crashAffectedSessionRate') },
+    { value: 'crashFreeSessionRate', label: t('in-alerting:smartAlerts.mobileApp.data.crashFreeSessionRate') },
+    {
+      value: 'crashAffectedSessionCount',
+      label: t('in-alerting:smartAlerts.mobileApp.data.crashAffectedSessionCount')
+    },
+    { value: 'crashFreeSessionCount', label: t('in-alerting:smartAlerts.mobileApp.data.crashFreeSessionCount') },
+    { value: 'crashFreeUserRate', label: t('in-alerting:smartAlerts.mobileApp.data.crashFreeUserRate') },
+    { value: 'crashAffectedUserRate', label: t('in-alerting:smartAlerts.mobileApp.data.crashAffectedUserRate') },
+    { value: 'crashAffectedUserCount', label: t('in-alerting:smartAlerts.mobileApp.data.crashAffectedUserCount') },
+    { value: 'crashFreeUserCount', label: t('in-alerting:smartAlerts.mobileApp.data.crashFreeUserCount') }
   ]
 });
 

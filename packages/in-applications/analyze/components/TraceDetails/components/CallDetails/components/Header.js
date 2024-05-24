@@ -7,14 +7,13 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { LoadingSkeleton } from '@instana/components';
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, Pill } from '@instana/components';
 
 import { isUnknownTypeSpan } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import ErrorIndicator from 'in-applications/analyze/components/TraceDetails/components/ErrorIndicator';
 import { getColor as getColorForEndpointType } from 'in-applications/endpointTypes';
 import { hasError, isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './Header.mless';
@@ -57,7 +56,7 @@ export default function Header({ call }) {
           </Tooltip>
         )}
         {!isUnknownTypeSpan(call) && endpoint && !isLogSpan && (
-          <Pill kind="light" color={getColorForEndpointType(endpoint.type)}>
+          <Pill kind="light" className={locals.pillWidth} color={getColorForEndpointType(endpoint.type)}>
             {endpoint.type}
           </Pill>
         )}

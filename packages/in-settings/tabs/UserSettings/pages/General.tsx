@@ -5,9 +5,10 @@
 
 import React from 'react';
 
-import { getThemeOverride, Link, setThemeOverride, Spacer, Stack } from '@instana/components';
-import { Toggle, Button } from '@instana/legacy';
+import { getThemeOverride, Link, setThemeOverride, Spacer, Stack, Toggle } from '@instana/components';
 import { themes } from '@instana/design-tokens';
+import { Select } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { t, Trans, supportedLanguages, activeLanguage, collationLanguage } from 'in-i18n';
@@ -21,7 +22,6 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { saveUserSettings } from 'in-services/userSettings';
-import Select from 'in-components/form/Select';
 import Title from 'in-components/Title';
 
 import locals from './UiConfig.mless';
@@ -33,7 +33,6 @@ export default function UiConfigGeneralPage() {
     return null;
   }
 
-  const currentShell = localStorage.getItem('ids-override-shell') || 'default';
   const currentTheme = getThemeOverride() ?? 'default';
   // eslint-disable-next-line no-console
   console.log('currentTheme', currentTheme);
@@ -50,7 +49,7 @@ export default function UiConfigGeneralPage() {
         <Toggle
           id="maintenance-notes"
           checked={settings['showMaintenanceNotes']}
-          onChange={e => saveSetting('showMaintenanceNotes', e.target.checked)}
+          onToggle={e => saveSetting('showMaintenanceNotes', e)}
         />
       </HorizontalFormGroup>
       <HorizontalFormGroup
@@ -62,7 +61,7 @@ export default function UiConfigGeneralPage() {
         <Toggle
           id="chart-quality"
           checked={settings['charts_adaptToDevicePixelRatio']}
-          onChange={e => saveSetting('charts_adaptToDevicePixelRatio', e.target.checked)}
+          onToggle={e => saveSetting('charts_adaptToDevicePixelRatio', e)}
         />
       </HorizontalFormGroup>
       <HorizontalFormGroup
@@ -101,7 +100,7 @@ export default function UiConfigGeneralPage() {
         <Toggle
           id="format-time"
           checked={settings['formatTimestampsAsUtc']}
-          onChange={e => saveSetting('formatTimestampsAsUtc', e.target.checked)}
+          onToggle={e => saveSetting('formatTimestampsAsUtc', e)}
         />
       </HorizontalFormGroup>
       <HorizontalFormGroup
@@ -118,7 +117,7 @@ export default function UiConfigGeneralPage() {
         <Toggle
           id="format-numbers"
           checked={settings['formatNumbersAccordingToEnUs'] || false}
-          onChange={e => saveSetting('formatNumbersAccordingToEnUs', e.target.checked)}
+          onToggle={e => saveSetting('formatNumbersAccordingToEnUs', e)}
         />
       </HorizontalFormGroup>
       <HorizontalFormGroup noHelpTextSpacer>
@@ -232,61 +231,6 @@ export default function UiConfigGeneralPage() {
                   {t('in-settings:tabs.theme', { context: theme })}
                 </option>
               ))}
-          </Select>
-        </HorizontalFormGroup>
-      )}
-      {userSettingsThemeEnabled && (
-        <HorizontalFormGroup
-          // Temporary feature behind a feature flag.
-          // It does not need translation as it is only available internally.
-          helpText={
-            <>
-              <span className={locals.warning}>{t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}</span>
-              <br />
-              This will set the shell for the local browser. It will not affect other users or browser windows.
-              <br />
-              <br />
-              This setting will be kept until it is reset again.
-            </>
-          }
-          isWarning
-        >
-          <Heading
-            text={
-              <Stack direction="horizontal" align="center">
-                {/* no need for translation */}
-                <span>UI Shell</span>
-                <Spacer horizontal="normal" />
-              </Stack>
-            }
-            htmlFor="shell-option"
-          />
-          <Select
-            id="shell-option"
-            name="shell"
-            value={currentShell}
-            onChange={event => {
-              const selectedShell = event.target?.value;
-              if (currentShell !== selectedShell) {
-                if (selectedShell === 'default') {
-                  localStorage.removeItem('ids-override-shell');
-                } else {
-                  localStorage.setItem('ids-override-shell', selectedShell);
-                }
-                window.location.reload();
-              }
-            }}
-          >
-            {/* no need for translation */}
-            <option key="default" value="default">
-              Default
-            </option>
-            <option key="instana" value="instana">
-              Instana
-            </option>
-            <option key="carbon" value="carbon">
-              Carbon
-            </option>
           </Select>
         </HorizontalFormGroup>
       )}

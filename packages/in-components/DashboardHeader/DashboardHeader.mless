@@ -8,6 +8,7 @@
 :local {
   .dashboardHeader {
     padding: 0 1.5rem;
+    .print(none);
   }
 
   .borderBottom {
@@ -92,6 +93,7 @@
     line-height: 2rem;
     font-weight: 500;
     .ellipsis();
+    margin-bottom: 0; //cancel h1 margin
   }
 
   .context {

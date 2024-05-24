@@ -11,3 +11,4 @@ export interface GroupApiResult {
 }
 export type ExtractIdFunction<I> = (entity: I) => string;
 export type ExtractNameFunction<I> = (entity: I) => string;
+export type ExtractContributionFilterNameFunction<I> = (entity: I) => string;

@@ -15,7 +15,9 @@
     "noData": "Keine Daten verfügbar",
     "healthLabel": "Status",
     "startLabel": "Gestartet",
-    "unnamedActivity": "(Nicht benannte Aktivität) {{activityType}}"
+    "latencyLabel": "Latenzzeit",
+    "unnamedActivity": "(Nicht benannte Aktivität) {{activityType}}",
+    "unnamedService": "(Nicht benannter Service)"
   },
   "navigation": {
     "businessMonitoring": "Business Monitoring"
@@ -27,21 +29,28 @@
       "summaryTab": "Zusammenfassung",
       "activitiesTab": "Aktivitäten",
       "widgets": {
-        "topActivities": "Häufigste Aktivitäten (Anzahl)",
+        "topActivities": "Größte Aktivitäten",
         "infrastructureIssuesAndChanges": "Infrastrukturprobleme und -änderungen",
         "viewAll": "Alle Aktivitäten anzeigen",
         "processCount": "Anzahl",
         "processCountTotal": "Summe",
-        "processErrors": "Fehler"
+        "processErrors": "Fehler",
+        "processLatency": "Latenzzeit",
+        "processCalls": "Aufrufe",
+        "processErroneous": "Rate fehlerhafter Aufrufe"
       }
     },
     "activity": {
       "pageTitle": "Geschäftsaktivität",
       "summaryTab": "Zusammenfassung",
+      "servicesTab": "Services",
       "widgets": {
         "duration": "Dauer",
         "activityCount": "Anzahl",
-        "activityErrors": "Fehler"
+        "activityErrors": "Fehler",
+        "topServices": "Wichtigste Services",
+        "activityLatency": "Latenzzeit",
+        "viewAll": "Alle Services anzeigen"
       },
       "timespans": {
         "minute": "1 Minute",

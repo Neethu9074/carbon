@@ -5,16 +5,16 @@
 
 import React from 'react';
 
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import { dummyPoPProperties, PoPInstallationPropertiesResponse } from 'in-synthetics/utils/constants';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import PopDeployButton from 'in-synthetics/dashboards/global/tabs/tests/components/PopDeployButton';
 import getPoPInstallationProperties from 'in-synthetics/subscriptions/getPoPInstallationProperties';
 import NewLocationButton from 'in-synthetics/createLocation/NewLocationButton';
-import { syntheticUpdateDeployPoPEnabled } from 'in-services/featureFlags';
+import { syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import * as paths from 'in-synthetics/navigation/paths';
@@ -38,7 +38,7 @@ export default function ViewSwitcher() {
     label: t('in-synthetics:dashboard.testList.mainLabel'),
     title: t('in-synthetics:dashboard.testList.mainLabel'),
     showHistoricDataWarning: false,
-    liveModeDisabled: isLocationsActive && true,
+    liveModeDisabled: isLocationsActive,
     liveModeDisabledTooltip: t('in-synthetics:dashboard.locationList.locationLiveModeDisabled')
   };
 
@@ -69,14 +69,14 @@ export default function ViewSwitcher() {
           </SecondLevelNavigation>
           {!popProperties.progress.loading &&
             role?.canConfigureSyntheticLocations &&
-            !syntheticUpdateDeployPoPEnabled && (
+            !syntheticInstanaHostedPoPEnabled && (
               <PopDeployButton
                 downloadKey={popProperties.data?.downloadKey || ''}
                 agentKey={popProperties.data?.agentKey || ''}
                 syntheticAcceptorURL={popProperties.data?.syntheticAcceptorURL || ''}
               />
             )}
-          {role?.canConfigureSyntheticLocations && syntheticUpdateDeployPoPEnabled && <NewLocationButton />}
+          {role?.canConfigureSyntheticLocations && syntheticInstanaHostedPoPEnabled && <NewLocationButton />}
         </div>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />

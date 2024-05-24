@@ -11,7 +11,7 @@ import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/shared
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
+import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { ThresholdType, WebsiteAlertConfigWithMetadata } from 'in-types';

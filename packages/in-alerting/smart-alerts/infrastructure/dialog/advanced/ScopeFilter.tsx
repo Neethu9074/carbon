@@ -9,7 +9,6 @@ import React from 'react';
 
 import { TagCatalog } from '@instana/types';
 
-//@ts-expect-error
 import { handleChangeTagFilterExpressionChange } from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 //@ts-expect-error
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
@@ -17,7 +16,7 @@ import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuild
 
 interface ScopeFilterProps {
   form: MapForm<any>;
-  updateForm?: (form: MapForm<any>) => void;
+  updateForm: (form: MapForm<any>) => void;
   tagCatalog: TagCatalog | undefined;
   setTagFilterValid?: React.Dispatch<React.SetStateAction<boolean>>;
 }

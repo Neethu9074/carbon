@@ -1,6 +1,8 @@
 {
   "general": {
     "addButtonLabel": "追加",
+    "addButtonLabel_slo": "サービス・レベル目標の追加",
+    "addButtonLabel_smartAlert": "スマート・アラートの追加",
     "aggregation": "集約",
     "availability": "アベイラビリティー",
     "beacon": "ビーコン",
@@ -18,6 +20,7 @@
     "noSelection": "選択なし",
     "loadMore": "さらにロード",
     "noData": "表示可能なデータがありません",
+    "noMatchingTimeWindows": "選択された期間に一致する時間枠がありません。 これは通常、選択された時間枠がSLOの作成日より前である場合に発生します。",
     "serverErrors": {
       "sloLimitReachedError": "サービス・レベル目標構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。"
     },
@@ -124,18 +127,22 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "カスタム・フィルター (オプション)",
+    "customFilter": "カスタム・フィルター",
+    "custom": "カスタム",
+    "customDescription": "サービスまたはエンドポイント (あるいはその両方) を選択するためのカスタム・フィルターを設定します",
     "title": "サービス・レベル目標 (SLO) の作成",
     "selectIndicator": "ブループリントの選択",
     "selectEntityNavItem": "エンティティーの設定",
     "selectEntityTitle": "SLO を追加するエンティティーの選択:",
     "selectScopeNavItem": "スコープの設定",
+    "SelectServiceandEndpoint": "サービスおよびエンドポイントの選択",
     "selectIndicatorNavItem": "インジケーターの設定",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP 要求",
       "beaconLabel_pageLoad": "Web サイト・ページのロード",
       "beaconLabel_custom": "Web サイトのカスタム・イベント"
     },
+    "serviceAndEndpoint": "サービスおよびエンドポイント",
     "selectObjectiveTitle": "目標の設定",
     "sloTarget": "SLO ターゲット",
     "timeWindow": "時間枠",
@@ -151,6 +158,8 @@
     "errorTimeWindowMin": "時間枠は少なくとも 1 日の長さでなければなりません",
     "errorInvalidExpression": "入力されたフィルターは無効です",
     "errorBlankEntity": "リストからエンティティーを選択してください",
+    "errorEmptyGoodFilter": "適切なフィルターを定義する必要があります",
+    "errorEqualTagFilter": "適切なフィルターと不適切なフィルターは同一であってはなりません",
     "nameAndTagsTitle": "詳細の設定",
     "sloNameLabel": "SLO 名",
     "sloNamePlaceholder": "名前の入力",
@@ -191,7 +200,7 @@
       "unit_plural": "呼び出し",
       "unit_application_plural": "呼び出し",
       "unit_website_plural": "ビーコン",
-      "thousandCallsFormat": "{{count}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
       "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
@@ -218,6 +227,7 @@
     "components": {
       "sloEntityInfo": {
         "service": "サービス: {{label}}",
+        "endpoint": "エンドポイント: {{label}}",
         "tooltip": "{{context}} SLO"
       },
       "entityTypeFilter": {
@@ -261,7 +271,8 @@
   "sloDashboard": {
     "tabs": {
       "summaryLabel": "サマリー",
-      "configurationLabel": "構成"
+      "configurationLabel": "構成",
+      "smartAlertsLabel": "スマート・アラート"
     },
     "timeWindowSelection": {
       "timeWindow": "不明な選択",
@@ -292,7 +303,8 @@
           "filterInfo": {
             "goodEventFilters": "良好イベント・フィルター:",
             "badEventFilters": "不良イベント・フィルター:"
-          }
+          },
+          "approximateTooltip": "データが集約されます。 より短い時間枠を表示して詳細を表示"
         }
       },
       "entitySection": {

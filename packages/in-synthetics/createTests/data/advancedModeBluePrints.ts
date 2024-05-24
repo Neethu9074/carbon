@@ -35,11 +35,22 @@ const browserBlueprint: AdvancedBluePrint = {
   }
 };
 
+const certificateCheckBlueprint: AdvancedBluePrint = {
+  type: 'Certificate Check',
+  name: t('in-synthetics:dialog.createTest.advancedMode.advancedBluePrint.certificateCheckName'),
+  label: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.certificateCheckLabel'),
+  description: {
+    headline: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.certificateCheckHeadline'),
+    text: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.certificateCheckText')
+  },
+  testType: ''
+};
+
 const advancedBluePrintConfig: readonly Readonly<AdvancedBluePrint>[] = Object.freeze([]);
 
-export const getAdvancedBlueprintConfig = (isBrowserEnabled: boolean) => {
-  if (isBrowserEnabled) {
-    return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint);
+export const getAdvancedBlueprintConfig = (isCertificateCheckEnabled: boolean) => {
+  if (isCertificateCheckEnabled) {
+    return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint, certificateCheckBlueprint);
   }
-  return advancedBluePrintConfig.concat(apiBlueprint);
+  return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint);
 };

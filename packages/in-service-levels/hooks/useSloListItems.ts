@@ -14,7 +14,6 @@ import { getSingleNumberMetricValue } from 'in-service-levels/utils/format';
 import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import { applyAdjustedTimeframe } from 'in-service-levels/utils/time';
-import { all as allStatus } from 'in-hooks/utils/fetchStatus';
 import { all as allProgress } from 'in-hooks/utils/progress';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { LabeledEntity } from 'in-service-levels/types';
@@ -31,7 +30,7 @@ export default function useSloListItems({
   orderDirection
 }: GetAllSloConfigurationsArguments): FetchedState<PaginatedResult<SloListItem>> {
   const timeConfig = useTimeConfig();
-  const [configurationPage, configurationStatus, configurationErrors, configurationProgress] = useSloConfigurations({
+  const [configurationPage, , configurationErrors, configurationProgress] = useSloConfigurations({
     page,
     pageSize,
     query,
@@ -42,32 +41,24 @@ export default function useSloListItems({
   });
   const configurations = configurationPage?.items ?? [];
 
-  const [labels, labelsStatus, labelsErrors, labelsProgress] = useSloEntitiesLabels(configurations);
-  const [metrics, metricStatus, metricErrors, metricProgress] = useSloListMetrics(configurations, timeConfig);
+  const [labels, , labelsErrors, labelsProgress] = useSloEntitiesLabels(configurations);
+  const [metrics, , metricErrors, metricProgress] = useSloListMetrics(configurations, timeConfig);
 
-  const status = allStatus(configurationStatus, labelsStatus, metricStatus);
   const progress = allProgress(configurationProgress, labelsProgress, metricProgress);
   const errors = [...configurationErrors, ...labelsErrors, ...metricErrors];
-
-  if (status !== 'resolved') {
-    return [undefined, status, errors, progress];
-  }
 
   return [
     {
       ...configurationPage!,
-      items:
-        configurationPage!.items.map(configuration =>
-          buildSloListItem({ configuration, labels, metrics, timeConfig })
-        ) ?? []
+      items: configurations.map(configuration => buildSloListItem({ configuration, labels, metrics, timeConfig }))
     },
-    status,
+    'resolved',
     errors,
     progress
   ];
 }
 
-function buildSloListItem({
+export function buildSloListItem({
   configuration,
   labels,
   metrics,
@@ -81,8 +72,8 @@ function buildSloListItem({
   const { remainingBudgetSpark } = metrics?.[configuration.id!] ?? {};
   const timeConfig = applyAdjustedTimeframe(tc, remainingBudgetSpark?.adjustedTimeframe);
   const granularity = remainingBudgetSpark?.granularity ?? calculateSloGranularity(timeConfig);
-  const status = getSingleNumberMetricValue(metrics?.[configuration.id!]?.status) ?? 0;
-  const remainingBudget = getSingleNumberMetricValue(metrics?.[configuration.id!]?.remainingBudget) ?? 0;
+  const status = getSingleNumberMetricValue(metrics?.[configuration.id!]?.status);
+  const remainingBudget = getSingleNumberMetricValue(metrics?.[configuration.id!]?.remainingBudget);
 
   return {
     configuration,

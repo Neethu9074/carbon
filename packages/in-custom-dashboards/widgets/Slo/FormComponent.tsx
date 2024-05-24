@@ -8,10 +8,15 @@ import React from 'react';
 
 import SloFormComponent, { FormComponentProps } from 'in-custom-dashboards/widgets/Slo/components/SloFormComponent';
 import { SloTrackerProvider, sliWidgetTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 
 export default function FormComponent(props: FormComponentProps) {
   return (
-    <SloTrackerProvider value={sliWidgetTrackers}>
+    <SloTrackerProvider
+      trackers={sliWidgetTrackers}
+      meta={{ productArea: productAreas.custom_dashboard, pageName: pageNames.custom_dashboard }}
+    >
       <SloFormComponent {...props} />
     </SloTrackerProvider>
   );

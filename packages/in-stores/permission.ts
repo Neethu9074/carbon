@@ -11,14 +11,12 @@ import {
   pcfEnabled,
   phmcEnabled,
   sapEnabled,
-  syntheticsKeystoreEnabled,
   syntheticsEnabled,
   vsphereEnabled,
   zhmcEnabled,
   sloV2Enabled,
   powervcEnabled,
   infraSmartAlertsEnabled,
-  bizopsRbacEnabled,
   logSmartAlertsEnabled,
   manuallyCloseEventEnabled
 } from 'in-services/featureFlags';
@@ -39,7 +37,8 @@ export const LimitedAccessScope = Object.freeze({
   LIMITED_ZHMC_SCOPE: 'LIMITED_ZHMC_SCOPE',
   LIMITED_PCF_SCOPE: 'LIMITED_PCF_SCOPE',
   LIMITED_OPENSTACK_SCOPE: 'LIMITED_OPENSTACK_SCOPE',
-  LIMITED_SAP_SCOPE: 'LIMITED_SAP_SCOPE'
+  LIMITED_SAP_SCOPE: 'LIMITED_SAP_SCOPE',
+  LIMITED_AUTOMATION_SCOPE: 'LIMITED_AUTOMATION_SCOPE'
 } as const);
 export type LimitedAccessScopeType = keyof typeof LimitedAccessScope;
 export const LimitedAccessScopes = Object.freeze(Object.values(LimitedAccessScope));
@@ -59,7 +58,8 @@ export const AreaPermission = Object.freeze({
   ACCESS_OPENSTACK: 'ACCESS_OPENSTACK',
   ACCESS_INFRASTRUCTURE_ANALYZE: 'ACCESS_INFRASTRUCTURE_ANALYZE',
   ACCESS_SAP: 'ACCESS_SAP',
-  ACCESS_BIZOPS: 'ACCESS_BIZOPS'
+  ACCESS_BIZOPS: 'ACCESS_BIZOPS',
+  ACCESS_AUTOMATION: 'ACCESS_AUTOMATION'
 } as const);
 export type AreaPermissionType = keyof typeof AreaPermission;
 export const AreaPermissions = Object.freeze(Object.values(AreaPermission));
@@ -87,11 +87,11 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_SESSION_SETTINGS: 'CAN_CONFIGURE_SESSION_SETTINGS',
   CAN_VIEW_LOGS: 'CAN_VIEW_LOGS',
   CAN_DELETE_LOGS: 'CAN_DELETE_LOGS',
+  CAN_VIEW_LOG_VOLUME: 'CAN_VIEW_LOG_VOLUME',
   CAN_VIEW_TRACE_DETAILS: 'CAN_VIEW_TRACE_DETAILS',
   CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
   CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS',
-  CAN_VIEW_AUTOMATION_ACTION_INSTANCES: 'CAN_VIEW_AUTOMATION_ACTION_INSTANCES',
   CAN_CONFIGURE_AUTOMATION_POLICIES: 'CAN_CONFIGURE_AUTOMATION_POLICIES',
   CAN_CONFIGURE_SYNTHETIC_TESTS: 'CAN_CONFIGURE_SYNTHETIC_TESTS',
   CAN_CONFIGURE_SYNTHETIC_LOCATIONS: 'CAN_CONFIGURE_SYNTHETIC_LOCATIONS',
@@ -117,7 +117,8 @@ export const Capability = Object.freeze({
 export const InfrastructureCapability = Object.freeze({
   [AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE]: AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE,
   CAN_CREATE_HEAP_DUMP: 'CAN_CREATE_HEAP_DUMP',
-  CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP'
+  CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP',
+  CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS'
 } as const);
 
 export type CapabilityType = keyof typeof Capability;
@@ -219,8 +220,11 @@ export const hasEventsAccess =
   hasSyntheticsAccess;
 
 export const hasBizOpsAccess =
-  businessObservabilityEnabled &&
-  (!bizopsRbacEnabled || hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS));
+  businessObservabilityEnabled && hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS);
+
+export const hasAutomationAccess =
+  actionAutomationEnabled &&
+  hasPermission(LimitedAccessScope.LIMITED_AUTOMATION_SCOPE, AreaPermission.ACCESS_AUTOMATION);
 
 interface AreaPermissionProps {
   value: AreaPermissionType;
@@ -286,6 +290,13 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
     areaPermissions.push({
       value: AreaPermission.ACCESS_BIZOPS,
       label: t('in-stores:permissionAccessBizOpsLabel')
+    });
+  }
+
+  if (actionAutomationEnabled) {
+    areaPermissions.push({
+      value: AreaPermission.ACCESS_AUTOMATION,
+      label: t('in-stores:permissionAccessAutomationLabel')
     });
   }
   return areaPermissions;
@@ -562,6 +573,14 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     category: t('in-stores:permissionCanDeleteLogsCategory'),
     isOwnerPermission: true
   },
+  [Capability.CAN_VIEW_LOG_VOLUME]: {
+    keyForGroupApi: Capability.CAN_VIEW_LOG_VOLUME,
+    keyForApiTokenApi: 'canViewLogVolume',
+    label: t('in-stores:permissionCanViewLogVolume'),
+    description: t('in-stores:permissionCanViewLogVolumeDescription'),
+    category: t('in-stores:permissionCanViewLogVolumeCategory'),
+    isOwnerPermission: true
+  },
   [Capability.CAN_VIEW_TRACE_DETAILS]: {
     keyForGroupApi: Capability.CAN_VIEW_TRACE_DETAILS,
     keyForApiTokenApi: '', // indicates that this is not a permission for a token
@@ -593,17 +612,10 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     description: t('in-stores:permissionCanRunAutomationActionsDescription'),
     category: t('in-stores:permissionCanRunAutomationActionsCategory')
   },
-  [Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]: {
-    keyForGroupApi: Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
-    keyForApiTokenApi: 'canViewAutomationActionInstances',
-    label: t('in-stores:permissionCanViewActionHistory'),
-    description: t('in-stores:permissionCanViewActionHistoryDescription'),
-    category: t('in-stores:permissionCanViewActionHistoryCategory')
-  },
   [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_AUTOMATION_POLICIES,
     keyForApiTokenApi: 'canConfigureAutomationPolicies',
-    label: t('in-stores:permissionCanConfigureAutomationPolicies'),
+    label: t('in-stores:permissionCanConfigureAutomationPoliciesLabel'),
     description: t('in-stores:permissionCanConfigureAutomationPoliciesDescription'),
     category: t('in-stores:permissionCanConfigureAutomationPoliciesCategory')
   },
@@ -700,23 +712,12 @@ export function getProductPermissions(): Array<ProductPermission> {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return !syntheticCapabilities.has(keyForGroupApi);
     });
-  } else if (!syntheticsKeystoreEnabled) {
-    //Synthetic credential is controlled by syntheticsKeystoreEnabled FF
-    const syntheticCapabilities: Set<CapabilityType> = new Set([
-      Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
-      Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
-    ]);
-
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return !syntheticCapabilities.has(keyForGroupApi);
-    });
   }
 
   if (!actionAutomationEnabled) {
     const automationCapabilities: Set<CapabilityType> = new Set([
       Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
       Capability.CAN_RUN_AUTOMATION_ACTIONS,
-      Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
       Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
     ]);
 
@@ -764,7 +765,16 @@ export const getInfrastructurePermissions = (): {
     key: InfrastructureCapability.CAN_CREATE_THREAD_DUMP,
     label: t('in-stores:permissionCanCreateThreadDumpLabel'),
     description: t('in-stores:permissionCanCreateThreadDumpDescription')
-  }
+  },
+  ...(infraSmartAlertsEnabled
+    ? [
+        {
+          key: Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS,
+          label: t('in-stores:permissionCanConfigureGlobalInfraSmartAlertsLabel'),
+          description: t('in-stores:permissionCanConfigureGlobalInfraSmartAlertsDescription')
+        }
+      ]
+    : [])
 ];
 
 export const productAreaPermissions = getProductAreaPermissions();

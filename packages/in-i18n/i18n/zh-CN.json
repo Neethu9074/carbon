@@ -53,7 +53,8 @@
       "create": "创建",
       "delete": "删除",
       "close": "关闭",
-      "submit": "提交"
+      "submit": "提交",
+      "previous": "上一步"
     },
     "states": {
       "saving": "正在保存..."

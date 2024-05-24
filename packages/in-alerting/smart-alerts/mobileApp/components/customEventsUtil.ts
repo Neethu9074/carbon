@@ -6,10 +6,8 @@
 
 import { MobileAppPaginatedBeaconGroupsItem } from '@instana/types';
 
-//@ts-expect-error TS migartion needed
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { TagFilterExpression, TimeConfig } from 'in-types';
 import { number } from 'in-services/formatters/number';
 
@@ -56,8 +54,7 @@ export function getTableData({
       collation: 'en-US'
     },
     group: {
-      groupbyTag: 'mobileBeacon.customEvent.name',
-      groupbyTagEntity: NOT_APPLICABLE
+      groupbyTag: 'mobileBeacon.customEvent.name'
     },
     metrics: {
       occurrencesAgg: {

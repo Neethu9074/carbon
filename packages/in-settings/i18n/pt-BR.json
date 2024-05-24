@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "Criar novo grupo",
-    "dialogTitle_edit": "Editar escopo de acesso",
+    "dialogTitle_edit": "Editar configuração de acesso",
     "editButton": "Editar",
     "productArea": "Acessar configuração para {{tenantUnit}}-{{tenant}}"
   },
@@ -67,10 +67,10 @@
     "allApplications": "Todos os Aplicativos",
     "allWebsites": "Todos os websites",
     "allMobileApps": "Todos os aplicativos móveis",
+    "businessMonitoringAccessAllMessage": "Todos os processos de negócios",
     "kubernetes": "Kubernetes",
     "allSynthetics": "Todos os testes sintéticos",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}} permissões",
-    "role": "Customizado",
     "role_owner": "Proprietário",
     "role_viewer": "Visualizador",
     "role_permissions": "Desconhecido - Acesso {{quantityOfAreas}}",
@@ -82,16 +82,16 @@
     "role_permissions_contributor_and_viewer": "Acesso de visualizador {{quantityOfAreas}} & acesso de contribuidor {{quantityOfAreasContributor}}",
     "no_access": "Sem acesso",
     "platform_permissions": "Acessar {{quantityOfAreas}}",
-    "analyticsContentMessage": "Pode visualizar dados no Analytics definidos pelo escopo de acesso em websites, apps móveis, aplicativos, plataformas e infraestrutura",
     "infrastructureContentMessage": "Pode visualizar entidades definidas pelo escopo de acesso em aplicativos, plataformas, infraestrutura e, opcionalmente, por DFQ",
-    "eventsAndAlertsContentMessage": "Pode visualizar Eventos e Alertas de acordo com o escopo de acesso definido em Websites, Aplicativos Móveis, Aplicativos, Monitoramento Sintético, Plataformas e Infraestrutura",
+    "infrastructureAccessAllMessage": "Todas as entidades",
     "permissions": "Permissões",
     "additionalPermissions": "Permissões adicionais",
     "permissions_DASHBOARD": "Permissões do painel customizado",
     "permissions_SYNTHETICS": "Permissões de monitoramento sintético",
-    "permissions_AGENTS": "Permissões do agente",
+    "permissions_AGENTS": "Permissões de implementação do agente",
     "permissions_ACCESS_CONTROL": "Permissões de controle de acesso",
     "permissions_AUTOMATION": "Permissões de automação",
+    "permissions_EVENT": "Permissões de eventos e alertas",
     "permissions_LOGS": "Permissões de log",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power HMC",
@@ -106,12 +106,12 @@
     "obsoleteEntityDescription": "Atualmente não há dados disponíveis - o acesso ainda está sendo concedido.",
     "title_analytics": "Analítica",
     "title_applications": "Aplicativos",
-    "title_events_and_alerts": "Eventos e alertas",
     "title_global_functions": "Funções globais",
     "title_infrastructure": "Infraestrutura",
     "title_mobileApps": "Apps móveis",
     "title_platforms": "Plataformas",
     "title_websites": "Websites",
+    "title_businessMonitoring": "Monitoramento de negócios",
     "title_syntheticMonitoring": "Monitoramento sintético"
   },
   "headingSection": {
@@ -136,11 +136,11 @@
     "descriptionLimitedAccess_applications": "Selecione a função e inclua apps abaixo para conceder acesso.",
     "descriptionAccessAll_applications": "Todas as aplicações podem ser acessadas com a função selecionada.",
     "deleteButton": "Remover {{name}} da lista",
-    "infrastructureAccessScope": "Escopo de acesso",
     "infrastructureDfqHeader": "Consulta de foco dinâmico (DFQ)",
     "infrastructureDfqUse": "Além disso, é possível usar a consulta de foco dinâmico abaixo para conceder acesso à infraestrutura.",
     "infrastructureDfqMore": "Saiba mais.",
-    "descriptionViewerAccess_infrastructure": "Todos os painéis de entidade que estão relacionados ao acesso concedido a aplicativos e plataformas, podem ser visualizados.",
+    "infrastructureDfqToggleLabel": "Acesso adicional usando consulta de foco dinâmico (DFQ)",
+    "infrastructureDfq_mayNotBeBlank": "O valor não deve ficar em branco.",
     "descriptionAccessAll_kubernetes": "Todos os namespaces e clusters podem ser visualizados.",
     "descriptionAccessNo_kubernetes": "Não há acesso a namespaces e clusters.",
     "descriptionAccessLimited_kubernetes": "Selecione os namespaces e clusters abaixo para conceder acesso.",
@@ -152,7 +152,7 @@
     "descriptionAccessAll_synthetics": "Todos os testes do Synthetic podem ser acessados com a função selecionada.",
     "descriptionLimitedAccess_synthetics": "Selecione a função e inclua os testes do Synthetic abaixo para conceder acesso.",
     "contribution_filter": "Filtro de contribuição",
-    "contributionFilter_description": "O filtro de contribuição é aplicado ao criar novas configurações de aplicativo. Na configuração do aplicativo, o filtro de contribuição pode ser refinado com tags de filtro após um operador {{logicalOperator}}",
+    "contributionFilter_description": "O filtro de contribuição é aplicado ao criar novas configurações de aplicativo. Na configuração de aplicativo, o filtro de contribuição pode ser refinado com tags de filtro após um operador {{logicalOperator}}. Uma perspectiva de aplicativo usando as tags de filtro de contribuição é criada automaticamente depois de salvar.",
     "contributionFilter_downstreamCalls": "Determinar o nível máximo de informações adicionais que podem ser incluídas nas perspectivas de aplicativo",
     "contributionFilter_name": "Nome",
     "contributionFilter_name_mayNotBeBlank": "O nome do filtro de contribuição não deve estar em branco.",
@@ -163,7 +163,8 @@
     "doneButton": "Concluído"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "Nome"
+    "nameColumnHead": "Nome",
+    "contributionFilterColumnHead": "Filtro de contribuição"
   },
   "permissionScope": {
     "access_level": "Nível de acesso",
@@ -183,9 +184,12 @@
     "description_no_access_infrastructure": "Sem acesso: o acesso à infraestrutura é negado.",
     "description_no_access_synthetics": "Sem acesso: o acesso ao monitoramento sintético é negado.",
     "description_access_all": "Acessar tudo sem limitação",
+    "title_access_all_bizops": "Acesso ilimitado",
+    "title_no_access_bizops": "Acesso negado",
+    "description_access_all_bizops": "Todos os recursos de monitoramento de negócios são acessíveis, sem limitação.",
+    "description_no_access_bizops": "O acesso ao monitoramento de negócios foi negado.",
     "description_access_all_except_contributor": "Acessar todos, exceto aqueles acessados como contribuidor",
     "role": "Selecionar uma função",
-    "roleSelection": "Função",
     "role_owner": "Proprietário",
     "role_viewer": "Visualizador",
     "role_custom": "Customizado",
@@ -197,9 +201,10 @@
     "roleTooltip_synthetics": "Visualizador: capacidade de visualizar painéis de teste sintético (a configuração não pode ser visualizada). <br /> Proprietário: capacidade de criar novos testes sintéticos; visualizar, configurar e excluir testes sintéticos e visualizar e excluir localizações sintéticas.",
     "contribution_filter_accessScope": "Escopo de acesso limitado (visualizador)",
     "contribution_filter_warning": {
-      "firstParagraph": "Qualquer mudança salva atualizará todas as perspectivas de aplicativo que usam esse filtro de contribuição.",
-      "secondParagraph": "Se você mudar o tipo de acesso, o filtro de contribuição será excluído. Todas as perspectivas do aplicativo que usam o filtro de contribuição podem ser editadas por qualquer usuário com acesso de proprietário à seção Aplicativos."
-    }
+      "firstParagraph": "Qualquer mudança salva afeta todas as perspectivas de aplicativo que usam esse filtro de contribuição, bem como a perspectiva de aplicativo, que é criada automaticamente usando tags de filtro de contribuição.",
+      "secondParagraph": "Se você mudar o tipo de acesso, o filtro de contribuição será excluído. As tags de filtro de contribuição em todas as configurações de perspectiva de aplicativo relacionadas se tornam editáveis por qualquer usuário com acesso de proprietário na seção Aplicativos."
+    },
+    "applicationCreatedUsingContributionFilter": "Essa perspectiva de aplicativo é criada e atualizada automaticamente usando o filtro de contribuição."
   },
   "configurationSummary": {
     "application": {
@@ -210,16 +215,18 @@
       "limited_access": {
         "access_level": "Acessar apenas os aplicativos listados com o tipo de acesso selecionado e quaisquer permissões adicionais.",
         "access_level_contributor": "É possível localizar os aplicativos com acesso de contribuidor na área de janela de configuração de acesso nos detalhes do usuário ou do grupo. <br /><br />Acessar as perspectivas do aplicativo com o filtro de contribuição aplicado como contribuidor. <br />Acessar as perspectivas do aplicativo selecionado como visualizador",
-        "role_permissions_contributor": "Crie painéis de aplicativo com o filtro de contribuição aplicado; visualize, configure e exclua esses painéis de aplicativo que são criados para o filtro de contribuição."
+        "role_permissions_contributor": "Crie perspectivas de aplicativo com o filtro de contribuição aplicado; visualize, configure e exclua essas perspectivas de aplicativo criadas para o filtro de contribuição."
       },
       "role_permissions_owner": "Criar, configurar, visualizar e excluir perspectivas de aplicativo.",
       "role_permissions_viewer": "Visualizar as perspectivas do aplicativo e suas configurações."
     },
     "infrastructure": {
-      "limited_access": {
-        "access_level": "Acessar todos os painéis de entidade nessa unidade, que estão relacionados ao acesso concedido a aplicativos e plataformas."
+      "access_all": {
+        "access_level": "Acesse todos os painéis de entidade com as permissões selecionadas."
       },
-      "role_permissions_owner": "Visualize os painéis de entidade.",
+      "limited_access": {
+        "access_level": "Acesse apenas as entidades que podem ser visualizadas por meio do acesso concedido nas outras seções do Instana."
+      },
       "role_permissions_viewer": "Visualize os painéis de entidade."
     },
     "kubernetes": {
@@ -293,7 +300,7 @@
     "backToParentViewName": "Voltar para {{parentViewName}}",
     "search": "Procurar...",
     "confirmRemoveItem": "Tem certeza de que deseja remover <strong>{{itemName}}</strong>?",
-    "confirmSaveGroup": "O salvamento dessas atualizações removerá o filtro de contribuição das perspectivas do aplicativo {{numberOfContributorAPs}} e se tornará desativado",
+    "confirmSaveGroup": "Salvar essas atualizações excluirá o filtro de contribuição.<br/>As tags de filtro de contribuição nas configurações de perspectiva de aplicativo <strong>{{numberOfContributorAPs}}</strong> tornam-se editáveis por qualquer usuário com acesso de proprietário na seção Aplicativos.<br/><br/>Certifique-se de ter selecionado as perspectivas de aplicativo para conceder acesso no caso de escopo de acesso limitado.",
     "enable": "Ativar",
     "disable": "Desativar",
     "deleteEntity": "Excluir {{entity}}.",
@@ -435,6 +442,7 @@
     "someEmailsHaveFailedToSend": "Alguns e-mails falharam ao enviar",
     "inviteUserToTenant": "Convidar usuário para {{tenant}}",
     "anotherUser": "Outro usuário",
+    "inviteUsertoDefaultGroup": "Você não possui permissões suficientes para selecionar um grupo para o convite. O usuário convidado será incluído ao grupo padrão.",
     "permissionEntityLabel": "permissão {{entityLabel}}",
     "addToAGroup": "Incluir em um grupo",
     "failedToAddUserToGroups": "Falha ao incluir usuário em grupos: {{err}}",
@@ -487,23 +495,13 @@
     "alertChannels": "Canais de alerta",
     "alertChannelEntityName": "canal de alerta {{entityName}}",
     "noEventsSelected": "Nenhum evento selecionado",
-    "noActionsSelected": "Nenhuma ação selecionada",
-    "addActions": "Incluir ações",
     "addEvents": "Incluir eventos",
     "pleaseSelectAtLeastOneEvent": "Selecione pelo menos um evento.",
-    "pleaseSelectAtLeastOneAction": "Selecione pelo menos uma ação.",
     "addNumberOfItemsEvent": "Incluir {{count}} evento",
     "addNumberOfItemsEvent_plural": "Incluir {{count}} eventos",
-    "addNumberOfItemsAction": "Incluir {{count}} ação",
-    "addNumberOfItemsAction_plural": "Incluir {{count}} ações",
-    "addNumberOfItemsAction_0": "Incluir {{count}} ações",
-    "addNumberOfItemsAction_1": "Incluir {{count}} ações",
-    "addNumberOfItemsAction_2": "Incluir {{count}} ações",
     "addNumberOfItemsEvent_0": "Incluir {{count}} eventos",
     "addNumberOfItemsEvent_1": "Incluir {{count}} eventos",
     "addNumberOfItemsEvent_2": "Incluir {{count}} eventos",
-    "actionAssociationsStep": "{{step}}. Associações de ação",
-    "ActionAssociations": "Associações de ação",
     "allEventsThatMatchTheEventTypesWillEnterTheNotificationStream": "<strong>Cuidado!</strong> Todos os eventos que correspondem aos tipos de eventos entrarão no fluxo de notificação.",
     "dfqFormDesc": "Uma consulta de filtro <strong>não vazia</strong> que define para quais entidades a configuração será aplicada. Selecione <em>\"Aplicar em: todas as entidades disponíveis\"</em> para que esta regra seja aplicada em todas as entidades. Para obter mais informações sobre a sintaxe, consulte nossa <docLink>documentação</docLink>.",
     "addNumberOfItemsApplicationPerspective": "Incluir {{count}} perspectiva de aplicativo",
@@ -544,7 +542,7 @@
     "applicationPerspectiveEntityLabel": "Perspectiva de aplicativo {{entityLabel}}",
     "keyEquals": "chave igual a",
     "selectTag": "Selecionar tag",
-    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Cada par de chave/valor será incluído como uma carga útil adicional em cada notificação de alerta de problema ou incidente. Consulte a <docLink>documentação Carga útil customizada</docLink> para obter mais detalhes.",
+    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Cada par de chave/valor será incluído como uma carga útil adicional em cada notificação de alerta de problema ou incidente. Consulte a <docLink>documentação de carga útil customizada</docLink> para obter mais detalhes.",
     "anErrorOccurredPleaseTryAgain": "Ocorreu um erro, tente novamente.",
     "custom": "Customizado",
     "theValueMustNotBeBlank": "O valor não deve ficar em branco.",
@@ -738,6 +736,16 @@
     "timeoutsSuccessfullySaved": "Tempos limite salvos com sucesso.",
     "disableTwoFactor": "Desativar dois fatores",
     "saveToken": "Salvar token",
+    "profile": {
+      "pageName": "Perfil",
+      "email": "E-mail",
+      "emailHint": "O e-mail para identificar a conta do usuário no Instana. Não será possível mudar o e-mail depois que a conta do usuário for criada.",
+      "name": "Nome",
+      "nameHint": "Insira seu primeiro nome (primeiro nome) e sobrenome (nome de família) sem uma vírgula.",
+      "saving": "Salvando novo nome",
+      "saved": "Novo nome salvo",
+      "failed": "Falha ao salvar novo nome"
+    },
     "twoFactorAuthentication": "Autenticação de dois fatores",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "A autenticação de dois fatores está atualmente desativada para este usuário.",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "Insira o token 2FA do seu aplicativo autenticador para a configuração completa:",
@@ -768,7 +776,7 @@
     "noGroupMapping": "Não há nenhum mapeamento configurados entre o provedor de identidade e o Instana",
     "denyUserWithNoGroup": "Negar acesso quando nenhum mapeamento for encontrado. Se desmarcado, os usuários sem mapeamentos de grupo e nenhum grupo encontrado serão adicionados ao grupo Padrão.",
     "denyUserWithNoGroupDocs": "A configuração do provedor de identidade sempre pode ser excluída por meio da API usando um token com permissões suficientes. Para obter detalhes, consulte <authLink>configurando a autenticação</authLink>.",
-    "groupMappingInfoText": "Uma regra de mapeamento consiste de uma chave, um valor e um grupo Instana. A chave e o valor referem-se ao atributo Identity Provider e seu valor correspondente do qual você mapeia. Por exemplo, ao mapear cada usuário que tenha o valor \"SRE\" na chave \"Department\" para o grupo de proprietários Instana.",
+    "groupMappingInfoText": "Uma regra de mapeamento consiste em uma chave, um valor e um grupo Instana. A chave e o valor referem-se ao atributo Identity Provider e seu valor correspondente do qual você mapeia. Por exemplo, ao mapear cada usuário que tenha o valor \"SRE\" na chave \"Department\" para o grupo de proprietários Instana.",
     "ownerGroupMemberNotLimitable": "O usuário é membro do grupo de Proprietários e não será limitado por outras associações ao grupo.",
     "mergedPermissionWithCombinationOfLimitedAndUnlimited": "O conjunto efetivo de permissões é a soma do mais permissivo, concedido por meio de diferentes designações de grupo. No entanto, a soma de escopos de acesso limitados determina o escopo efetivo do usuário.",
     "users": "Usuários",
@@ -801,7 +809,8 @@
     "groupDeleteTooltip_Default": "O grupo padrão é um grupo integrado e não pode ser excluído ou renomeado.",
     "groupDeleteTooltip_Owner": "O grupo proprietário é um grupo integrado e não pode ser excluído ou renomeado.",
     "deleteGroupMessage": "Tem certeza de que deseja remover <strong>{{groupName}}</strong> de todas as unidades neste locatário?",
-    "thisWillRemoveContributionFilterMessage": "Isso removerá o filtro de Contribuição das perspectivas do aplicativo <strong>{{apCount}}</strong> e se tornará desativado",
+    "thisWillRemoveContributionFilterMessage": "Isso removerá o número <strong>{{apCount}}</strong> de perspectivas de aplicativo do filtro de contribuição",
+    "thisWillRemoveContributionFilterFromOtherUnits": "Isso removerá o número <strong>{{apCount}}</strong> de perspectivas de aplicativo do filtro de contribuição e quaisquer filtros de contribuição definidos em outras unidades",
     "addGroup": "Novo Grupo",
     "pendingInvitations": "Convites pendentes",
     "revoke": "Revogar",
@@ -1123,6 +1132,7 @@
     "serviceNow": "ServiceNow",
     "serviceNowAlertChannel": "Canal de alerta de ServiceNow",
     "serviceNowUsernameTooltip": "O nome do usuário e a senha devem ser para um usuário do ServiceNow com permissão para criar incidentes.",
+    "autoCloseIncidents": "Fechar automaticamente incidentes",
     "showPasswordTooltip": "Mostrar senha",
     "hidePasswordTooltip": "Ocultar senha",
     "scope": "Escopo",
@@ -1164,7 +1174,12 @@
     "createIDPConfirmationDescription": "Convites pendentes serão excluídos. Os usuários são provisionados automaticamente de seu provedor de identidade (IdP).",
     "revokeInvitationForUserWithEmail": "Revogue o convite para associar o locatário {{tenant}} para {{email}}",
     "invitationValidUntil": "Convite válido até",
-    "invitedBy": "Convidado por"
+    "invitedBy": "Convidado por",
+    "accessAll": "Acessar todos",
+    "access": "Acesso",
+    "accessForTenantUnit": "Acesso para {{tenantUnit}}-{{tenant}}",
+    "numberOfMembers": "Número de membros",
+    "groupEntityName": "grupo {{entityName}}"
   },
   "languageSelection": {
     "language": "Idioma",

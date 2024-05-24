@@ -6,7 +6,8 @@
 import { Field } from 'formalistic';
 import React from 'react';
 
-import { Toggle, Button } from '@instana/legacy';
+import { Toggle } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 // @ts-expect-error needs migration to typescript
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList';
@@ -87,9 +88,9 @@ export default function ApiTokenForm({ form, onChange, disabled, createNewToken 
                 <Toggle
                   id={`permission-${productOwnerPermission.keyForApiTokenApi}`}
                   checked={form.get(productOwnerPermission.keyForApiTokenApi).value}
-                  onChange={e => {
+                  onToggle={e => {
                     // check if value is currently false -> user sets permission to true
-                    if (e.target.checked) {
+                    if (e) {
                       addActiveDialog(
                         <ConfirmationDialog onChange={() => onChange(productOwnerPermission.keyForApiTokenApi, true)} />
                       );
@@ -118,7 +119,7 @@ export default function ApiTokenForm({ form, onChange, disabled, createNewToken 
                 <Toggle
                   id={`permission-${entity.keyForApiTokenApi}`}
                   checked={form.get(entity.keyForApiTokenApi).map((field: Field<string>) => field.value)}
-                  onChange={e => onChange(entity.keyForApiTokenApi, e.target.checked)}
+                  onToggle={e => onChange(entity.keyForApiTokenApi, e)}
                   disabled={!role?.canConfigureApiTokens}
                 />
               );

@@ -11,6 +11,20 @@
     justify-content: space-between;
   }
 
+  .buttonContent {
+    display: grid;
+    grid-template-columns: 9.375rem 8.125rem;
+    column-gap: 0.25rem;
+    align-items: center;
+    height: 2.5rem;
+    font-size: var(--ids-font-size-option-body-small);
+  }
+
+  .sriOption {
+    display: flex;
+    align-items: center;
+  }
+
   .snippet {
     flex-grow: 1;
     margin: 0 1rem 0 0;
@@ -23,7 +37,7 @@
   .option {
     display: flex;
     justify-content: flex-start;
-    margin-bottom: 12px;
+    margin-bottom: 0.75rem;
   }
 
   .label {
@@ -32,6 +46,12 @@
     align-items: center;
     color: var(--ids-color-option-blue-700);
     font-size: var(--ids-font-size-option-body-small);
+  }
+
+  .gridContainer {
+    margin: 0.25rem;
+    align-items: center;
+    width: 18.75rem;
   }
 
   .helpWrapper {
@@ -49,5 +69,10 @@
 
   .help {
     fill: var(--ids-color-option-blue-500);
+    margin-left: 0.25rem;
+  }
+
+  .optionText {
+    display: flex;
   }
 }

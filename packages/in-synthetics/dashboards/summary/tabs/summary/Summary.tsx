@@ -4,6 +4,12 @@
  */
 
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
+
+import { PaginatedResult, Result, TestResultListItem } from '@instana/types/typeDefinitions';
+import { formatDate } from '@instana/format-date';
+import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 
 import MarkerLanesSynthetic from 'in-synthetics/dashboards/summary/tabs/summary/components/MarkerLanesSynthetic';
 import ResultsTopList from 'in-synthetics/dashboards/summary/tabs/summary/components/ResultsTopList';
@@ -13,18 +19,22 @@ import ResponseTime from 'in-synthetics/dashboards/summary/tabs/summary/componen
 import ResponseSize from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseSize';
 import Failures from 'in-synthetics/dashboards/summary/tabs/summary/components/Failures';
 import { bytes, meanLatency, number, percentage } from 'in-services/formatters/number';
+import { TestResponse, dummyTestResultList } from 'in-synthetics/utils/constants';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { TestResponse } from 'in-synthetics/utils/constants';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { TimeShift } from 'in-components/Chart/types';
 import { Location } from 'in-stores/navigation/types';
 import { Col, Row } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import { testIdTagName } from 'in-synthetics/tags';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 interface SummaryProps {
@@ -32,14 +42,18 @@ interface SummaryProps {
 }
 
 export default function Summary({ test }: SummaryProps) {
+  const page = 1;
+  const pageSize = 1;
+  const timeConfig = useTimeConfig();
   const timeShiftConfig: TimeShift = useTimeShiftConfig();
   const location: Location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
-  const testType: boolean = getMatrixParameter(location, syntheticsDashboard, 'type') === 'HTTPAction' ? true : false;
+  const testType = getMatrixParameter(location, syntheticsDashboard, 'type');
+  const isHTTPAction: boolean = testType === 'HTTPAction';
+  const isSSLCertificate = testType === 'SSLCertificate';
   const locationDisplayLabels: string =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels') ?? '';
   const locationIds: string = getMatrixParameter(location, syntheticsDashboard, 'locationIds') ?? '';
-
   const tagFilters = [
     {
       stringValue: testId,
@@ -52,6 +66,75 @@ export default function Summary({ test }: SummaryProps) {
 
   const MarkerLanes = MarkerLanesSynthetic({ testId });
 
+  const resultList: Result<PaginatedResult<TestResultListItem>> =
+    useObservable<any, [number]>(
+      () =>
+        getTestResultList({
+          pagination: {
+            page,
+            pageSize
+          },
+          order: { by: 'start_time', direction: 'DESC' },
+          syntheticMetrics: ['custom_metrics'],
+          filter: {
+            timeConfig,
+            includeInternalCalls: false,
+            includeSyntheticCalls: false,
+            useLongTermDataOnly: false
+          },
+          // @ts-expect-error tagFilters do not fully match the TagFilter type
+          tagFilters: tagFilters //tagFilters only has test_id.
+        }),
+      [0]
+    ) || dummyTestResultList;
+
+  const getSSLCertificateKPICards = () => {
+    const resultListItem = resultList.data?.items[0];
+    const daysRemaining = get(resultListItem, ['metrics', 'synthetic.customMetrics.daysRemaining', 0, 1]);
+    const expDate = get(resultListItem, ['metrics', 'synthetic.customMetrics.validTo', 0, 1]);
+
+    return (
+      <Row>
+        <Col xs>
+          <KpiCard
+            title={t('in-synthetics:dashboard.summary.isCertificateValid')}
+            value={
+              !expDate
+                ? valueMissingPlaceholder
+                : get(resultListItem, ['metrics', 'synthetic.customMetrics.valid', 0, 1]) === 1
+                ? t('in-synthetics:dashboard.summary.certificateValid')
+                : t('in-synthetics:dashboard.summary.certificateNotValid')
+            }
+          />
+        </Col>
+        <Col xs>
+          <KpiCard
+            title={t('in-synthetics:dashboard.summary.daysRemaining')}
+            value={expDate ? daysRemaining : valueMissingPlaceholder}
+          />
+        </Col>
+        <Col xs>
+          <KpiCard
+            title={t('in-synthetics:dashboard.summary.dateOfExpiry')}
+            value={expDate ?? valueMissingPlaceholder}
+            renderValue={expDate ? formatDate : undefined}
+          />
+        </Col>
+      </Row>
+    );
+  };
+
+  const totalHits = resultList.data?.totalHits ?? 0;
+  if (!resultList.progress.loading && totalHits === 0 && isSSLCertificate) {
+    return (
+      <Message
+        withIcon
+        title={t('in-synthetics:dashboard.summary.smallerTimeFrameTitle')}
+        description={t('in-synthetics:dashboard.summary.smallerTimeFrameDescription')}
+        bold
+      />
+    );
+  }
   return (
     <Fragment>
       <Row>
@@ -138,27 +221,30 @@ export default function Summary({ test }: SummaryProps) {
             }}
           />
         </Col>
-        <Col xs>
-          <BigNumberKpiCard
-            title={t('in-synthetics:dashboard.summary.avgResponseSize')}
-            formatter={bytes.detailed}
-            useMaxAvailableHeight
-            config={{
-              metricConfiguration: {
-                aggregation: 'MEAN',
-                metric: 'response_size',
-                source: 'SYNTHETICS',
-                tagFilters: tagFilters,
-                // @ts-expect-error
-                timeShift: timeShiftConfig.offset
-              },
-              // Need to add the companion metric config
-              comparisonDecreaseColor: 'redish',
-              comparisonIncreaseColor: 'greenish'
-            }}
-          />
-        </Col>
+        {!isSSLCertificate && (
+          <Col xs>
+            <BigNumberKpiCard
+              title={t('in-synthetics:dashboard.summary.avgResponseSize')}
+              formatter={bytes.detailed}
+              useMaxAvailableHeight
+              config={{
+                metricConfiguration: {
+                  aggregation: 'MEAN',
+                  metric: 'response_size',
+                  source: 'SYNTHETICS',
+                  tagFilters: tagFilters,
+                  // @ts-expect-error
+                  timeShift: timeShiftConfig.offset
+                },
+                // Need to add the companion metric config
+                comparisonDecreaseColor: 'redish',
+                comparisonIncreaseColor: 'greenish'
+              }}
+            />
+          </Col>
+        )}
       </Row>
+      {isSSLCertificate && !resultList.progress.loading && getSSLCertificateKPICards()}
       <Row>
         <Col xs>
           <Failures
@@ -169,6 +255,11 @@ export default function Summary({ test }: SummaryProps) {
             renderPostChartContent={MarkerLanes}
           />
         </Col>
+        {isSSLCertificate && (
+          <Col xs>
+            <ResultsTopList testId={testId} />
+          </Col>
+        )}
         <Col xs>
           <ResponseTime
             testId={testId}
@@ -178,7 +269,7 @@ export default function Summary({ test }: SummaryProps) {
             renderPostChartContent={MarkerLanes}
           />
         </Col>
-        {testType && !test.progress.loading && (
+        {isHTTPAction && !test.progress.loading && (
           <Col xs>
             <NetworkTimings
               testId={testId}
@@ -193,21 +284,25 @@ export default function Summary({ test }: SummaryProps) {
       <Row>
         {!test.progress.loading && (
           <>
-            <Col lg={testType ? 4 : 6}>
-              <ResponseSize
-                testId={testId}
-                locationIds={locationIds}
-                locationDisplayLabels={locationDisplayLabels}
-                timeShiftConfig={timeShiftConfig}
-                renderPostChartContent={MarkerLanes}
-              />
-            </Col>
-            <Col lg={testType ? 4 : 6}>
-              <ResultsTopList testId={testId} />
-            </Col>
+            {!isSSLCertificate && (
+              <>
+                <Col lg={isHTTPAction ? 4 : 6}>
+                  <ResponseSize
+                    testId={testId}
+                    locationIds={locationIds}
+                    locationDisplayLabels={locationDisplayLabels}
+                    timeShiftConfig={timeShiftConfig}
+                    renderPostChartContent={MarkerLanes}
+                  />
+                </Col>
+                <Col lg={isHTTPAction ? 4 : 6}>
+                  <ResultsTopList testId={testId} />
+                </Col>
+              </>
+            )}
           </>
         )}
-        {testType && (
+        {isHTTPAction && (
           <Col lg={4}>
             <ResponseStatus test={test} />
           </Col>

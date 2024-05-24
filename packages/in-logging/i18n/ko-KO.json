@@ -6,6 +6,8 @@
   "logsOverTime_ERROR": "오류",
   "logsOverTime_WARN": "경고 ",
   "logsOverTime_INFO": "정보",
+  "logsOverTime_FATAL": "심각",
+  "logsOverTime_NEXTLOGLEVEL": "{{label}}",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "조회 구성이 올바르지 않습니다. 계속하기 전에 유효성 검증 실패를 해결하십시오.",
   "addAsFilter": "필터로 추가",
   "addAsGroup": "그룹으로 추가",
@@ -50,6 +52,6 @@
   "warn_plural": "{{count}}개 경고",
   "process": "프로세스",
   "host": "호스트",
-  "fileOnHost":"켜기",
+  "fileOnHost": "켜짐",
   "file": "파일"
 }

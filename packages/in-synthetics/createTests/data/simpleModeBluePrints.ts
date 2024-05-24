@@ -110,9 +110,6 @@ export interface BluePrint {
   description: { headline: string; htmlContent: string }[];
 }
 
-export const getSimpleBlueprintConfig = (isBrowserEnabled: boolean) => {
-  if (isBrowserEnabled) {
-    return blueprintConfig.concat(apiSimple, apiScript, browserSimple, browserScript);
-  }
-  return blueprintConfig.concat(apiSimple, apiScript);
+export const getSimpleBlueprintConfig = () => {
+  return blueprintConfig.concat(apiSimple, apiScript, browserSimple, browserScript);
 };

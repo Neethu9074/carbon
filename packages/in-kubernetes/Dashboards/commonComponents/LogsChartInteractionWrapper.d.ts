@@ -9,7 +9,7 @@ import { TimeConfig } from '@instana/types';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
 interface LogsChartInteractionWrapperProps {
-  tagFilterExpression: FormModelElement[];
+  tagFilterExpression?: FormModelElement[];
   timeConfig: TimeConfig;
 }
 export function LogsChartInteractionWrapper({

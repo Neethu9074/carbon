@@ -13,7 +13,8 @@ import {
   userSettingsCommunication,
   userSettingsPersonalApiTokens,
   userSettingsPasswordChange,
-  userSettingsTwoFactor
+  userSettingsTwoFactor,
+  userSettingsProfile
 } from 'in-settings/navigation/paths';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import { isAvailable as fetchChangePasswordAvailable } from 'in-settings/tabs/UserSettings/api/changePassword';
@@ -22,6 +23,7 @@ import PersonalApiTokensPage from 'in-settings/tabs/UserSettings/pages/PersonalA
 import ChangePasswordPage from 'in-settings/tabs/UserSettings/pages/ChangePassword';
 import Communication from 'in-settings/tabs/UserSettings/pages/Communication';
 import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
+import ProfilePage from 'in-settings/tabs/UserSettings/pages/Profile';
 import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';
 import Privacy from 'in-settings/tabs/UserSettings/pages/Privacy';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
@@ -74,6 +76,11 @@ const navigationTree = showPassword => {
     {
       title: t('in-settings:tabs.personalSettings'),
       pages: [
+        {
+          path: userSettingsProfile,
+          label: t('in-settings:tabs.profile.pageName'),
+          component: ProfilePage
+        },
         ...password,
         {
           path: userSettingsTwoFactor,

@@ -39,6 +39,7 @@
         "labelName": "Nome do teste",
         "labelDescription": "Descrição",
         "labelFrequency": "Frequência (minuto)",
+        "labelFrequencyHour": "Frequência (hora)",
         "labelApplications": "Selecionar um aplicativo"
       },
       "bluePrint": {
@@ -95,6 +96,11 @@
             "line3": "Etapa 3: escolha a frequência de teste (1 ~ 120 minutos).",
             "line4": "Etapa 4: na seção Nome do teste e Descrição, insira um nome significativo para seu teste no campo Nome. Inclua uma descrição do propósito de seu teste no campo Descrição."
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "Verifique se o certificado do servidor web expirará ou não está usando esse teste."
+          }
         }
       },
       "validators": {
@@ -128,7 +134,11 @@
           "browserTypeHeadline": "Testes sintéticos do navegador",
           "browserTypeText": "O teste sintético do navegador é um método de monitoramento do desempenho do aplicativo da web ao simular as interações do usuário com um website por meio de um script em um navegador da web, fornecer insights valiosos sobre os problemas que afetam a experiência do usuário e assegurar a funcionalidade do website.",
           "browserSimpleTitle": "Teste Simples de Navegador",
-          "browserScriptTitle": "Teste de Script de Navegador"
+          "browserScriptTitle": "Teste de Script de Navegador",
+          "certificateCheckTitle": "Verificação de certificado SSL",
+          "certificateCheckLabel": "Certificado SSL",
+          "certificateCheckHeadline": "Teste de cerificação de certificado SSL",
+          "certificateCheckText": "O teste de verificação de certificado SSL é um método para testar a expiração de um certificado SSL em um aplicativo da Web verificando os dias restantes em um certificado emitido."
         },
         "configurationLabel": "Configuração",
         "configurationTitle": "Configuração: como esse teste funcionará?",
@@ -140,6 +150,8 @@
         "identifyTitle": "Identificar: o que o teste vai fazer?",
         "customPropertiesTitle": "Propriedades customizadas",
         "frequency": "Esse teste será executado a cada {{frequencyValue}} minutos.",
+        "frequencyHours": "Este teste será executado a cada {{frequencyHours}} horas.",
+        "frequencyHoursAndMinutes": "Esse teste será executado a cada {{frequencyHours}} horas e {{frequencyMinutes}} minutos.",
         "simultaneous": "Simultânea",
         "simultaneousDescription": "Esse teste será executado simultaneamente em cada local selecionado.",
         "configStep": {
@@ -213,13 +225,20 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Navegador"
+          "browserName": "Navegador",
+          "certificateCheckName": "Certificado SSL"
         },
         "customProperties": {
           "property": "Propriedade",
           "propertyValue": "Valor",
           "addProperty": "Incluir Propriedade",
           "propertyNameMustBeUnique": "O nome da propriedade deve ser exclusivo."
+        },
+        "certificateCheck": {
+          "inputHostName": "Nome do host",
+          "inputPortNumber": "Porta",
+          "failureConfigLabel": "Configuração de falha",
+          "failureConfigText": "O teste falhará quando a validade do certificado tiver <certificateValidityDays/> dias restantes até a expiração."
         }
       }
     },
@@ -237,11 +256,13 @@
       "failureTitle": "Falhou!",
       "failureMessageCreate": "Falha ao criar o teste sintético: {{errorMessage}}",
       "failureMessageUpdate": "Falha ao atualizar o teste sintético: {{errorMessage}}",
-      "failuteMesssageDelete": "Falha ao excluir o teste sintético. Tente novamente mais tarde"
+      "failureMesssageDelete": "Falha ao excluir o teste sintético: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "O local foi excluído com sucesso",
-      "failureMesssageDelete": "Falha ao excluir o local. Tente novamente mais tarde"
+      "failureMesssage": "{{errorMessage}}",
+      "successMessageDeactivate": "Local desativado com sucesso",
+      "successMessageActivate": "O local foi ativado com sucesso"
     },
     "updateTest": {
       "dialogTitle": "Editar teste de {{syntheticType}}",
@@ -279,21 +300,36 @@
         "datacenterCode": "Código do data center",
         "datacenterName": "Nome do data center",
         "provider": "Provedor",
-        "locationName": "Nome de exibição do local",
+        "locationName": "Nome do local",
+        "displayName": "Nome de exibição",
+        "locationStatus": "Status",
         "status": "Status da ativação",
-        "datacentersSubtitle": "Ative um local gerenciado pela Instana em um dos data centers disponíveis. Para obter mais informações, consulte <linkDatacenters>Implementação de PoP sintético</linkDatacenters>.",
+        "datacentersSubtitle": "Ative um local gerenciado pela Instana em um dos data centers disponíveis. Para obter mais informações, consulte <linkDatacenters>Usando um PoP hospedado pelo Instana</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Os locais estão sendo implementados",
-          "message": "Estamos configurando seus novos locais nos data centers a seguir. Seja paciente enquanto implementamos automaticamente isso para você. Quando isso for concluído, será possível localizar seus novos locais na guia de locais. <strong>Isso pode demorar até 10 minutos.</strong>",
+          "message": "Estamos configurando seus novos locais nos data centers a seguir. Seja paciente enquanto implementamos automaticamente isso para você. Quando isso for concluído, será possível localizar seus novos locais na guia de locais. <strong>Isso pode levar até 10 minutos para cada data center selecionado.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Código do data center",
               "datacenterName": "Nome do data center",
-              "locationName": "Nome de exibição do local",
+              "locationName": "Nome do local",
               "datacenterStatus": "Status da ativação"
             }
-          }
-        }
+          },
+          "activateLocationLoadingMessage": "Ativando data centers",
+          "activationRejectedMessageSingleDatacenter": "A solicitação de ativação para {{rejectedDatacentersList}} não pode ser processada porque ela já foi ativada",
+          "activationRejectedMessageMultipleDatacenters": "A solicitação de ativação para {{rejectedDatacentersList}} não pode ser processada porque elas já foram ativadas"
+        },
+        "deactivateDatacenter": {
+          "title": "Desativar local",
+          "deactivateMessage": "Tem certeza de que deseja desativar o local <strong>{{locationDisplayLabel}}</strong>?<br/><br/>Desativar um local pode demorar até 10 minutos. Aguarde enquanto removemos essa provisão para você. Quando isso for concluído, o status do local será Off-line.<br/>",
+          "warningMessage": "A desativação não está sendo excluída. O local estará disponível e poderá ser ativado novamente. Para remover completamente o local gerenciado, exclua o local quando seu status mudar para Off-line.",
+          "activeStatus": "Ativo",
+          "deactivateButton": "Desativar"
+        },
+        "activate": "Ativar",
+        "okay": "Ok",
+        "activateLocation": "Ativar local"
       },
       "validators": {
         "theValueMustNotBeEmpty": "Pelo menos um data center precisa ser selecionado"
@@ -329,7 +365,7 @@
         "simpleTab": "Simples",
         "redisTab": "Redis TLS",
         "title": "Comandos PoP sintéticos",
-        "subTitle": "Use esses modelos de código como referência. Para obter mais informações, consulte <documentationLink>Implementação sintética do PoP</documentationLink>",
+        "subTitle": "Use esses modelos de código como referência. Para obter mais informações, consulte <documentationLink>Implementando um PoP auto-hospedado</documentationLink>",
         "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
         "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
         "tlsInstructions": "Se você desejar ativar o TLS do Redis, será necessário ter o seu par de chaves do certificado X.509 (`tls.crt`, `tls.key`) e o arquivo de certificado raiz da autoridade de certificação (`ca.crt`)).\n\nSe você não tiver seus arquivos de chave/certificado, também será possível usar o comando openssl para gerar novos, consulte os exemplos abaixo:",
@@ -383,9 +419,10 @@
       "success": "Sucesso",
       "failure": "Com falha",
       "popVersion": "Versão",
-      "noActionsAllowed": "NA",
-      "deleteRestrictedDescription": "Os locais gerenciados não poderão ser excluídos.",
-      "deleteLocationBroswerRefreshInfo": "Levará algum tempo para que o local desapareça da lista de locais e isso pode requerer uma atualização do navegador."
+      "deleteLocationBroswerRefreshInfo": "Levará algum tempo para que o local desapareça da lista de locais e isso pode requerer uma atualização do navegador.",
+      "deactivateLocation": {
+        "deactivate": "Desativar"
+      }
     },
     "summary": {
       "successRate": "Taxa de sucesso",
@@ -427,7 +464,14 @@
       "totalRuns": "{{totalRuns}} total de execuções",
       "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º",
       "smartAlertsTab": "Alertas inteligentes",
-      "configurationTab": "Configuração"
+      "configurationTab": "Configuração",
+      "isCertificateValid": "Última execução: certificado é válido",
+      "certificateValid": "True",
+      "certificateNotValid": "Não",
+      "daysRemaining": "Última execução: dias restantes",
+      "dateOfExpiry": "Última execução: data de expiração",
+      "smallerTimeFrameTitle": "Não há nenhum resultado para este período de tempo",
+      "smallerTimeFrameDescription": "Selecione um prazo mais longo para consultar os resultados para testes de verificação de certificado SSL."
     },
     "resultsListPage": {
       "startedColumn": "Iniciado",
@@ -439,7 +483,8 @@
       "locationLabel": "Posição",
       "failures": "Falhas",
       "status": "Status",
-      "success": "Sucesso"
+      "success": "Sucesso",
+      "daysRemaining": "Dias restantes"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "O Modo Ativo não é aplicável na página de detalhes do resultado de teste do Synthetic",
@@ -564,6 +609,11 @@
         "imageButton": "Imagem",
         "ScreenshotsLoadingMessage": "Carregando capturas de tela",
         "noScreenshotsAvailableMessage": "As capturas de tela não estão disponíveis para este resultado de teste"
+      },
+      "sslCertificate": {
+        "daysRemaining": "Dias restantes",
+        "dateOfIssue": "Data do problema",
+        "dateOfExpiry": "Data de expiração"
       }
     },
     "noDataAvailable": {
@@ -638,7 +688,12 @@
       "retryIntervalFieldLabel": "Intervalo de novas tentativas",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} segundo",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} segundos",
-      "markSyntheticCall": "Marcar chamada sintética"
+      "markSyntheticCall": "Marcar chamada sintética",
+      "hostname": "Nome do Host",
+      "port": "Porta",
+      "daysRemaining": "O teste falhará quando a validade do certificado tiver",
+      "day": "dia restante até a expiração",
+      "days": "dias restantes até a expiração"
     }
   }
 }

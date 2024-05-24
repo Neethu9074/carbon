@@ -6,7 +6,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { get } from 'lodash';
 
-import { Message, SvgIcon, Link } from '@instana/components';
+import { Message, SvgIcon, Link, Pill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 import { Button } from '@instana/legacy';
@@ -39,7 +39,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { rawTraceDownloadEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
 import DropdownButton from 'in-components/Button/DropdownButton';
@@ -53,13 +52,11 @@ import { getColor } from 'in-applications/endpointTypes';
 import { getChartGranularity } from 'in-stores/metric';
 import Overlay from 'in-components/overlays/Overlay';
 import { chartColors } from 'in-themes/chartColors';
-import ButtonGroup from 'in-components/ButtonGroup';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hours, seconds } from 'in-services/time';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './TraceDetailView.mless';
@@ -223,7 +220,7 @@ function Header(props) {
 
 function LoadingDashboard({ traceId, retry }) {
   if (retry === 0) {
-    return <DefaultLoadingDashboard lightMode />;
+    return <DefaultLoadingDashboard lightMode fullInlineWidth />;
   }
 
   let customLoadingTitle = t('in-applications:traceDetail.components.loadingDashboard.defaultTitle');
@@ -236,7 +233,7 @@ function LoadingDashboard({ traceId, retry }) {
     description: t('in-applications:traceDetail.components.loadingDashboard.loadingMessage', { traceId })
   };
 
-  return <DefaultLoadingDashboard lightMode customLoadingMessage={customLoadingMessage} />;
+  return <DefaultLoadingDashboard lightMode customLoadingMessage={customLoadingMessage} fullInlineWidth />;
 }
 
 function RetryErrorMessage({ traceId }) {
@@ -248,6 +245,7 @@ function RetryErrorMessage({ traceId }) {
         bold
         withIcon
         className={locals.errorMessage}
+        fullInlineWidth
       >
         <div className={locals.errorReasons}>
           <span>{t('in-applications:traceDetail.components.retryErrorMessage.reasonHeader')}</span>
@@ -337,37 +335,37 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
     `/raw?retrievalSize=100&offset=0&ingestionTimestamp=${Date.now()}`;
 
   const DownloadTraceOptions = ({ close }) => (
-    <ButtonGroup
-      segmented
-      buttonPropsList={[
-        {
-          text: t('in-applications:linkDownloadCalls'),
-          key: 'downloadTrace',
-          onClick: () => {
-            downloadTraceClickedTracker({ rawTrace: false });
-            close();
-            window.open(traceDownloadUrl, '_blank');
-          },
-          className: locals.downloadOption
-        },
-        {
-          text: t('in-applications:linkDownloadRawTrace'),
-          key: 'downloadRawTrace',
-          onClick: () => {
-            downloadTraceClickedTracker({ rawTrace: true });
-            close();
-            window.open(rawTraceDownloadUrl, '_blank');
-          },
-          className: locals.downloadOption
-        }
-      ]}
-      className={locals.downloadDropdown}
-    />
+    <div className={locals.downloadDropdown}>
+      <Button
+        kind="secondary"
+        noAutoMargin
+        className={locals.downloadOption}
+        onClick={() => {
+          downloadTraceClickedTracker({ rawTrace: false });
+          close();
+          window.open(traceDownloadUrl, '_blank');
+        }}
+      >
+        {t('in-applications:linkDownloadCalls')}
+      </Button>
+      <Button
+        kind="secondary"
+        noAutoMargin
+        className={locals.downloadOption}
+        onClick={() => {
+          downloadTraceClickedTracker({ rawTrace: true });
+          close();
+          window.open(rawTraceDownloadUrl, '_blank');
+        }}
+      >
+        {t('in-applications:linkDownloadRawTrace')}
+      </Button>
+    </div>
   );
 
   return (
     <>
-      {rawTraceDownloadEnabled && (isTroubleshootingModeEnabled || isInternalVisible) ? (
+      {isTroubleshootingModeEnabled || isInternalVisible ? (
         <Overlay withoutWrapper content={DownloadTraceOptions} align="bottomMiddle">
           {({ toggle, refSetter }) => (
             <DropdownButton kind="secondary" icon="lib_actions_download" onClick={toggle} refSetter={refSetter}>

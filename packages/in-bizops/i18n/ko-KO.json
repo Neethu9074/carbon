@@ -15,7 +15,9 @@
     "noData": "사용 가능한 데이터 없음",
     "healthLabel": "상태",
     "startLabel": "시작됨",
-    "unnamedActivity": "(이름 지정되지 않은 활동){{activityType}}"
+    "latencyLabel": "대기 시간",
+    "unnamedActivity": "(이름 지정되지 않은 활동){{activityType}}",
+    "unnamedService": "(이름 지정되지 않은 서비스)"
   },
   "navigation": {
     "businessMonitoring": "비즈니스 모니터링"
@@ -27,21 +29,28 @@
       "summaryTab": "요약",
       "activitiesTab": "활동",
       "widgets": {
-        "topActivities": "상위 활동(개수)",
+        "topActivities": "최상위 활동",
         "infrastructureIssuesAndChanges": "인프라 문제 및 변경사항",
         "viewAll": "모든 활동 보기",
         "processCount": "개수",
         "processCountTotal": "총계",
-        "processErrors": "오류"
+        "processErrors": "오류",
+        "processLatency": "대기 시간",
+        "processCalls": "호출",
+        "processErroneous": "잘못된 호출 비율"
       }
     },
     "activity": {
       "pageTitle": "비즈니스 활동",
       "summaryTab": "요약",
+      "servicesTab": "서비스",
       "widgets": {
         "duration": "지속 기간",
         "activityCount": "개수",
-        "activityErrors": "오류"
+        "activityErrors": "오류",
+        "topServices": "상위 서비스",
+        "activityLatency": "대기 시간",
+        "viewAll": "모든 서비스 보기"
       },
       "timespans": {
         "minute": "1분",

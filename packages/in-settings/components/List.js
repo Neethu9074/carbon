@@ -9,10 +9,10 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
+import { SvgIcon, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { createLogger } from '@instana/logger';
 import { create } from '@instana/observables';
-import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -22,7 +22,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { listSuccess, loading } from 'in-services/util/result';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import IconButton from 'in-components/IconButton/IconButton';
 import Delete from 'in-settings/components/actions/Delete';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { identity } from 'in-services/util/function';
@@ -503,22 +502,40 @@ function addDeleteAction(
         ? customDeleteTooltipMessage(entity)
         : t('in-settings:components.deleteEntity', { entity: getEntityName(entity) });
 
-      return (
-        <div className={locals.deleteWrapper}>
+      if (disabled) {
+        // Only show icon for disabled delete
+        return (
           <Tooltip content={tooltipContent} delay={500}>
-            <Delete
-              {...actionDefinition}
-              disabled={disabled}
-              entity={entity}
-              getEntityName={getEntityName}
-              doDelete={doDelete}
-              setErrorMessage={setErrorMessage}
-              dialogMessage={customDialogMessage}
-              confirmLabel={customDialogConfirmLabel}
-            />
+            <div className={locals.deleteIcon}>
+              <SvgIcon
+                className={classNames({
+                  [locals.icon]: true,
+                  [locals.disabled]: disabled
+                })}
+                type="lib_actions_delete"
+                data-testid="deleteIcon"
+              />
+            </div>
           </Tooltip>
-        </div>
-      );
+        );
+      } else {
+        return (
+          <div className={locals.deleteWrapper}>
+            <Tooltip content={tooltipContent} delay={500}>
+              <Delete
+                {...actionDefinition}
+                disabled={disabled}
+                entity={entity}
+                getEntityName={getEntityName}
+                doDelete={doDelete}
+                setErrorMessage={setErrorMessage}
+                dialogMessage={customDialogMessage}
+                confirmLabel={customDialogConfirmLabel}
+              />
+            </Tooltip>
+          </div>
+        );
+      }
     }
   });
 }

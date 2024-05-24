@@ -91,9 +91,13 @@ function sendWaitingIndex(req, res, nonce, butlerDomain, reportingEndpoints, csr
         token: csrf
       }),
       mixpanelToken: serverConfig.mixpanelToken,
+      orbitalSpaceID: serverConfig.orbitalSpaceID,
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
       eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
+      eumEnableSri: serverConfig.eum.enableSri,
+      eumAgentVersion: serverConfig.eum.agentVersion,
+      eumAgentSri: serverConfig.eum.agentSri,
       backendTraceId: req.get('x-instana-t') || '',
       build: stringifiedBuildInformation,
       numberLocale: getNumberLocaleDefinition(req),

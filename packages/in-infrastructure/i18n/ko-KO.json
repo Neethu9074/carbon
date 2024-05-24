@@ -9,18 +9,18 @@
     "tooltip1": "에이전트가 선택된 시간 범위에서 보고되었지만 선택한 순간에서 보고되지 않았습니다. ",
     "tooltip2": "에이전트가 {{startTime}}에 시작했으며 아직 보고 중입니다.",
     "tooltip3": "에이전트가 {{startTime}} 및 {{toTime}} 사이에 보고했습니다.",
-    "issueReported": "{{count}}개 문제 보고됨:",
-    "issueReported_plural": "{{count}}개 문제 보고됨:",
-    "issueReported_0": "{{count}}개 문제 보고됨:",
-    "issueReported_1": "{{count}}개 문제 보고됨:",
-    "issueReported_2": "{{count}}개 문제 보고됨:",
+    "monitoringIssueReported": "{{count}}개의 보고된 모니터링 문제:",
+    "monitoringIssueReported_plural": "{{count}}개의 보고된 모니터링 문제:",
+    "monitoringIssueReported_0": "{{count}}개의 보고된 모니터링 문제:",
+    "monitoringIssueReported_1": "{{count}}개의 보고된 모니터링 문제:",
+    "monitoringIssueReported_2": "{{count}}개의 보고된 모니터링 문제:",
     "reporting": "보고",
     "notReporting": "보고하지 않음",
-    "issues": "{{count}}개 문제",
-    "issues_plural": "{{count}}개 문제",
-    "issues_0": "{{count}}개 문제",
-    "issues_1": "{{count}}개 문제",
-    "issues_2": "{{count}}개 문제",
+    "reportingMonitoringIssues": "보고, {{count}}개의 모니터링 문제",
+    "reportingMonitoringIssues_plural": "보고, {{count}}개의 모니터링 문제",
+    "reportingMonitoringIssues_0": "보고, {{count}}개의 모니터링 문제",
+    "reportingMonitoringIssues_1": "보고, {{count}}개의 모니터링 문제",
+    "reportingMonitoringIssues_2": "보고, {{count}}개의 모니터링 문제",
     "agents": "에이전트",
     "updateAllAgents": "모든 에이전트 업데이트",
     "resetAllAgents": "모든 에이전트 재설정",
@@ -79,6 +79,7 @@
   "explore": {
     "analyzeInfrastructure": "인프라 분석",
     "focusOnThisGroup": "이 그룹에 초점 지정",
+    "tagNotPresent": "태그가 없음",
     "theQueryConfigurationIsInvalid": "조회 구성이 올바르지 않습니다. 계속하기 전에 유효성 검증 실패를 해결하십시오.",
     "allInfrastructure": "모든 인프라",
     "emptyInfrastructure": "엔티티 유형 선택",
@@ -132,5 +133,10 @@
   },
   "smartAlertView": {
     "smartAlertTab": "인프라 스마트 경보"
+  },
+  "tagConfigurator": {
+    "buttonSelectTags": "태그 선택",
+    "titleAddATag": "태그 추가",
+    "messagePleaseSelectAtMostTags": "최대 {{maximumNumberOfTags}}개의 태그를 선택하십시오."
   }
 }

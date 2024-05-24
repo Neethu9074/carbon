@@ -7,6 +7,26 @@
     "crash": "Arresto anomalo"
   },
   "analyzeView": {
+    "eumTags": {
+      "viewTransition": {
+        "android": {
+          "activityScreenName": "Nome dell'attività",
+          "activityClassName": "Nome classe attività",
+          "activityLocalPathName": "Percorso locale attività",
+          "fragmentScreenName": "Nome frammento",
+          "fragmentClassName": "Nome classe frammento",
+          "fragmentLocalPathName": "Percorso locale frammento",
+          "activeFragmentList": "Elenco frammenti attivi",
+          "activityResumeTime": "Tempo di ripresa attività",
+          "fragmentResumeTime": "Tempo di ripresa frammento"
+        },
+        "ios": {
+          "accessibilityLabel": "Etichetta accessibilità",
+          "navigationItemTitle": "Titolo elemento di navigazione",
+          "className": "Nome classe"
+        }
+      }
+    },
     "uniqueUsers": "Utenti univoci",
     "metrics": {
       "timestampMetricName": "data/ora",

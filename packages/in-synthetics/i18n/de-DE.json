@@ -39,6 +39,7 @@
         "labelName": "Name des Tests",
         "labelDescription": "Beschreibung",
         "labelFrequency": "Häufigkeit (Minute)",
+        "labelFrequencyHour": "Häufigkeit (Stunde)",
         "labelApplications": "Anwendung auswählen"
       },
       "bluePrint": {
@@ -95,6 +96,11 @@
             "line3": "Schritt 3: Wählen Sie die Testfrequenz aus (1 ~ 120 Minuten).",
             "line4": "Schritt 4: Geben Sie im Abschnitt mit dem Namen des Tests und der Beschreibung einen aussagekräftigen Namen für Ihren Test in das Feld 'Name' ein. Fügen Sie im Feld \"Beschreibung\" eine Beschreibung des Testzwecks hinzu."
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "Überprüfen Sie, ob das Web-Server-Zertifikat abläuft oder nicht verwendet wird."
+          }
         }
       },
       "validators": {
@@ -128,7 +134,11 @@
           "browserTypeHeadline": "Synthetische Browsertests",
           "browserTypeText": "Synthetische Browsertests sind eine Methode zur Überwachung der Leistung von Webanwendungen durch Simulation von Benutzerinteraktionen mit einer Website über ein Script in einem Web-Browser. Sie bieten wertvolle Einblicke in Probleme, die sich auf die Benutzererfahrung auswirken, und stellen die Funktionalität der Website sicher.",
           "browserSimpleTitle": "Browser-Simple-Test",
-          "browserScriptTitle": "Browser-Script-Test"
+          "browserScriptTitle": "Browser-Script-Test",
+          "certificateCheckTitle": "SSL-Zertifikatsprüfung",
+          "certificateCheckLabel": "SSL-Zertifikat",
+          "certificateCheckHeadline": "Test der SSL-Zertifikatsprüfung",
+          "certificateCheckText": "Der Test der SSL-Zertifikatsprüfung ist eine Methode zum Testen des Ablaufs eines SSL-Zertifikats in einer Webanwendung, indem die verbleibenden Tage eines ausgestellten Zertifikats überprüft werden."
         },
         "configurationLabel": "Konfiguration",
         "configurationTitle": "Konfiguration: Wie funktioniert dieser Test?",
@@ -140,6 +150,8 @@
         "identifyTitle": "Ermitteln: Was wird der Test tun?",
         "customPropertiesTitle": "Angepasste Eigenschaften",
         "frequency": "Dieser Test wird alle {{frequencyValue}} Minuten ausgeführt.",
+        "frequencyHours": "Dieser Test wird alle {{frequencyHours}} Stunden ausgeführt.",
+        "frequencyHoursAndMinutes": "Dieser Test wird alle {{frequencyHours}} Stunden und {{frequencyMinutes}} Minuten ausgeführt.",
         "simultaneous": "Simultan",
         "simultaneousDescription": "Dieser Test wird gleichzeitig an jeder ausgewählten Position ausgeführt.",
         "configStep": {
@@ -213,13 +225,20 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Browser"
+          "browserName": "Browser",
+          "certificateCheckName": "SSL-Zertifikat"
         },
         "customProperties": {
           "property": "Eigenschaft",
           "propertyValue": "Wert",
           "addProperty": "Eigenschaft hinzufügen",
           "propertyNameMustBeUnique": "Der Eigenschaftsname muss eindeutig sein."
+        },
+        "certificateCheck": {
+          "inputHostName": "Hostname",
+          "inputPortNumber": "Port",
+          "failureConfigLabel": "Fehlerkonfiguration",
+          "failureConfigText": "Der Test schlägt fehl, wenn für die Zertifikatsgültigkeit noch <certificateValidityDays/> Tage bis zum Ablauf verbleiben."
         }
       }
     },
@@ -237,11 +256,13 @@
       "failureTitle": "Fehlgeschlagen!",
       "failureMessageCreate": "Erstellen des synthetischen Tests fehlgeschlagen: {{errorMessage}}",
       "failureMessageUpdate": "Aktualisieren des synthetischen Tests fehlgeschlagen: {{errorMessage}}",
-      "failuteMesssageDelete": "Der synthetische Test konnte nicht gelöscht werden. Versuchen Sie es später erneut."
+      "failureMesssageDelete": "Löschen des synthetischen Tests fehlgeschlagen: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "Position erfolgreich gelöscht",
-      "failureMesssageDelete": "Löschen der Position fehlgeschlagen. Wiederholen Sie den Versuch zu einem späteren Zeitpunkt"
+      "failureMesssage": "{{errorMessage}}",
+      "successMessageDeactivate": "Position erfolgreich deaktiviert",
+      "successMessageActivate": "Position erfolgreich aktiviert"
     },
     "updateTest": {
       "dialogTitle": "Test {{syntheticType}} bearbeiten",
@@ -279,21 +300,36 @@
         "datacenterCode": "Rechenzentrumscode",
         "datacenterName": "Rechenzentrumsname",
         "provider": "Provider",
-        "locationName": "Anzeigename des Standorts",
+        "locationName": "Standortname",
+        "displayName": "Anzeigename",
+        "locationStatus": "Status",
         "status": "Aktivierungsstatus",
-        "datacentersSubtitle": "Aktivieren Sie ein Exemplar einer verwalteten Position in einem der verfügbaren Rechenzentren. Weitere Informationen finden Sie unter <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>.",
+        "datacentersSubtitle": "Aktivieren Sie ein Exemplar einer verwalteten Position in einem der verfügbaren Rechenzentren. Weitere Informationen finden Sie unter <linkDatacenters>Instanziiertes PoP</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Standorte werden implementiert",
-          "message": "Wir richten Ihre neuen Standorte in den folgenden Rechenzentren ein. Bitte haben Sie etwas Geduld, während wir dies automatisch für Sie bereitstellen. Wenn dies abgeschlossen ist, können Sie Ihre neuen Standorte auf der Registerkarte \"Standorte\" finden. <strong>Dies kann bis zu 10 Minuten dauern.</strong>",
+          "message": "Wir richten Ihre neuen Standorte in den folgenden Rechenzentren ein. Bitte haben Sie etwas Geduld, während wir dies automatisch für Sie bereitstellen. Wenn dies abgeschlossen ist, können Sie Ihre neuen Standorte auf der Registerkarte \"Standorte\" finden. <strong>Dies kann bis zu 10 Minuten für jedes ausgewählte Rechenzentrum dauern.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Rechenzentrumscode",
               "datacenterName": "Rechenzentrumsname",
-              "locationName": "Anzeigename des Standorts",
+              "locationName": "Standortname",
               "datacenterStatus": "Aktivierungsstatus"
             }
-          }
-        }
+          },
+          "activateLocationLoadingMessage": "Rechenzentren aktivieren",
+          "activationRejectedMessageSingleDatacenter": "Aktivierungsanforderung für {{rejectedDatacentersList}} kann nicht bearbeitet werden, da sie bereits aktiviert wurde",
+          "activationRejectedMessageMultipleDatacenters": "Aktivierungsanforderung für {{rejectedDatacentersList}} kann nicht bearbeitet werden, da sie bereits aktiviert wurden"
+        },
+        "deactivateDatacenter": {
+          "title": "Position deaktivieren",
+          "deactivateMessage": "Möchten Sie die Position <strong>{{locationDisplayLabel}}</strong> wirklich deaktivieren?<br/><br/>Die Inaktivierung einer Position kann bis zu 10 Minuten dauern. Bitte haben Sie Geduld, während wir die Bereitstellung für Sie zurücknehmen. Wenn dieser Vorgang abgeschlossen ist, lautet der Standortstatus \"Offline\".<br/>",
+          "warningMessage": "Die Inaktivierung wird nicht gelöscht. Die Position ist verfügbar und kann wieder aktiviert werden. Um den verwalteten Standort vollständig zu löschen, löschen Sie den Standort, sobald sich sein Status in \"Offline\" ändert.",
+          "activeStatus": "Aktiv",
+          "deactivateButton": "Deaktivieren"
+        },
+        "activate": "Aktivieren",
+        "okay": "OK",
+        "activateLocation": "Standort aktivieren"
       },
       "validators": {
         "theValueMustNotBeEmpty": "Mindestens ein Rechenzentrum muss ausgewählt werden"
@@ -329,7 +365,7 @@
         "simpleTab": "Einfach",
         "redisTab": "Redis-TLS",
         "title": "Synthetische PoP-Befehle",
-        "subTitle": "Verwenden Sie diese Codevorlagen als Referenz. Weitere Informationen finden Sie unter <documentationLink>Synthetic PoP Deployment</documentationLink>",
+        "subTitle": "Verwenden Sie diese Codevorlagen als Referenz. Weitere Informationen finden Sie unter <documentationLink>Selbst gehosteten PoP</documentationLink>",
         "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
         "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
         "tlsInstructions": "Wenn Sie Redis TLS aktivieren möchten, benötigen Sie Ihr X.509-Zertifikatsschlüsselpaar (`tls.crt`, `tls.key`) und die CA-Stammzertifikatsdatei (`ca.crt`).\n\nWenn Sie Ihre Schlüssel-/Zertifikatsdateien nicht haben, können Sie auch den Befehl 'openssl' verwenden, um neue Dateien zu generieren (siehe die folgenden Beispiele):",
@@ -383,9 +419,10 @@
       "success": "Erfolgreich",
       "failure": "Fehlgeschlagen",
       "popVersion": "Version",
-      "noActionsAllowed": "Nicht verfügbar",
-      "deleteRestrictedDescription": "Verwaltete Standorte können nicht gelöscht werden.",
-      "deleteLocationBroswerRefreshInfo": "Es dauert einige Zeit, bis die Position aus der Liste der Positionen entfernt wird und eine Browseraktualisierung erforderlich ist."
+      "deleteLocationBroswerRefreshInfo": "Es dauert einige Zeit, bis die Position aus der Liste der Positionen entfernt wird und eine Browseraktualisierung erforderlich ist.",
+      "deactivateLocation": {
+        "deactivate": "Deaktivieren"
+      }
     },
     "summary": {
       "successRate": "Erfolgsquote",
@@ -427,7 +464,14 @@
       "totalRuns": "{{totalRuns}} Ausführungen insgesamt",
       "meanLatencyFor90th": "{{meanLatencyDetail}} für 90.",
       "smartAlertsTab": "Smart Alerts",
-      "configurationTab": "Konfiguration"
+      "configurationTab": "Konfiguration",
+      "isCertificateValid": "Letzte Ausführung-Zertifikat ist gültig",
+      "certificateValid": "Ja",
+      "certificateNotValid": "Nein",
+      "daysRemaining": "Letzte Ausführung - Tage verbleibend",
+      "dateOfExpiry": "Letzte Ausführung - Ablaufdatum",
+      "smallerTimeFrameTitle": "Keine Ergebnisse für diesen Zeitrahmen",
+      "smallerTimeFrameDescription": "Wählen Sie einen längeren Zeitrahmen aus, um Ergebnisse für SSL-Zertifikatsprüfungstests anzuzeigen."
     },
     "resultsListPage": {
       "startedColumn": "Gestartet",
@@ -439,7 +483,8 @@
       "locationLabel": "Position",
       "failures": "Fehler",
       "status": "Status",
-      "success": "Erfolgreich"
+      "success": "Erfolgreich",
+      "daysRemaining": "Verbleibende Tage"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Der Livemodus ist auf der Detailseite des Ergebnisses des synthetischen Tests nicht anwendbar.",
@@ -564,6 +609,11 @@
         "imageButton": "Image",
         "ScreenshotsLoadingMessage": "Screenshots werden geladen",
         "noScreenshotsAvailableMessage": "Für dieses Testergebnis sind keine Screenshots verfügbar"
+      },
+      "sslCertificate": {
+        "daysRemaining": "Verbleibende Tage",
+        "dateOfIssue": "Ausstellungsdatum",
+        "dateOfExpiry": "Ablaufdatum"
       }
     },
     "noDataAvailable": {
@@ -638,7 +688,12 @@
       "retryIntervalFieldLabel": "Wiederholungsintervall",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} Sekunde",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} Sekunden",
-      "markSyntheticCall": "Synthetischen Aufruf markieren"
+      "markSyntheticCall": "Synthetischen Aufruf markieren",
+      "hostname": "Hostname",
+      "port": "Port",
+      "daysRemaining": "Der Test schlägt fehl, wenn die Zertifikatsgültigkeit",
+      "day": "Tag verbleibend bis Ablauf",
+      "days": "Verbleibende Tage bis zum Ablauf"
     }
   }
 }

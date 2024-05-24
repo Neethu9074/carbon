@@ -29,14 +29,15 @@ import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smar
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/dialog/advanced/TimeThresholdConfig';
+import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
-import { onThresholdTypeChange } from 'in-alerting/smart-alerts/websites/form/thresholdTypeForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
+import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -68,6 +69,7 @@ export default function AdvancedModeContainer(props) {
 
   const isSpecificJsErrorBlueprint = blueprintConfig.type === 'specificJsError';
   const isCustomEvent = blueprintConfig.type === 'customEvent';
+  const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
 
   const resetChartConfigSelectionWhenAdaptiveBaseline = updatedForm => {
     if (isAdaptiveBaselineConfig(updatedForm.get('threshold').toJS())) {
@@ -107,7 +109,7 @@ export default function AdvancedModeContainer(props) {
                   <StaticOrAdaptiveSwitch
                     form={form}
                     setForm={resetChartConfigSelectionWhenAdaptiveBaseline}
-                    onThresholdTypeChange={onThresholdTypeChange}
+                    onThresholdTypeChange={websiteOnThresholdTypeChange}
                   />
                 </LightCard>
               )}

@@ -7,6 +7,8 @@
   "labelCall": "Appel",
   "labelTrace": "Trace",
   "linkDownload": "Télécharger",
+  "linkDownloadCalls": "Télécharger les appels",
+  "linkDownloadRawTrace": "Télécharger la trace brute",
   "labelCalls": "Appels",
   "labelCallsPerSecondFull": "Appels par seconde",
   "labelTraces": "Traces",
@@ -520,6 +522,8 @@
       "stepTitleApplicationScope": "Portée de l'application.",
       "stepTitleApplicationUsesBoundaryScope": "Cette perspective d'application utilise <strong>{{boundaryScope}}</strong>",
       "readOnlyApplicationConfiguration": "Vous visualisez cette configuration de perspective d'application en mode lecture seule.",
+      "readOnlyRestrictingApplication": "Cette perspective de l'application est automatiquement créée et mise à jour par le filtre de contribution défini dans <linkToGroupConfig>{{groupConfigLabel}}</linkToGroupConfig>.",
+      "accessConfiguration": "configuration de l'accès",
       "stepTitleBuiltInSmartAlertsScope": "Portée des alertes intelligentes intégrées.",
       "noBuiltInSmartAlertsActive": "Aucune alerte intelligente intégrée n'est active pour cette perspective d'application.",
       "optionNoDownstreamServices": "Aucun service en aval",
@@ -600,7 +604,19 @@
       "callTreeLoadingOfParentFailed": "L'appel parent ne peut pas être chargé pour le moment",
       "callTreeLoadingOfCallsFailed": "Les appels ne peuvent pas être chargés pour le moment",
       "retry": "Réessayer",
-      "treeHeaderLatency": "Temps d'attente de l'appels racine"
+      "treeHeaderLatency": "Temps d'attente de l'appels racine",
+      "loadingDashboard": {
+        "defaultTitle": "Cette opération prend un peu plus de temps que prévu...",
+        "retryTitle": "Tentative... {{retry}}/3",
+        "loadingMessage": "Merci de patienter. Nous avons besoin de plus de temps pour charger la trace dont l'ID est {{traceId}}."
+      },
+      "retryErrorMessage": {
+        "title": "La trace dont l'ID est {{traceId}} est introuvable.",
+        "reasonHeader": "Explications possibles :",
+        "traceDropped": "la trace a été supprimée",
+        "noInstanaTrace": "il ne s'agit pas d'une trace Instana",
+        "outsideRetention": "la trace n'est pas comprise dans la durée de conservation d'Instana"
+      }
     }
   },
   "tabs": {

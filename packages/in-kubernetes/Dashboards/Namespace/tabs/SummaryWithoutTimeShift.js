@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import { get } from 'lodash';
@@ -10,16 +10,12 @@ import React from 'react';
 import { Card } from '@instana/components';
 
 import {
-  resourceQuotaPercentage,
-  resourceQuotaNumber,
   resourceQuotaBytes,
+  resourceQuotaNumber,
+  resourceQuotaPercentage,
   resourceQuotaZeroDecimalPlaces
 } from 'in-kubernetes/formatters';
-import {
-  LogsChartInteractionWrapper,
-  andQuery,
-  tagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 import MetricFilterChart from 'in-kubernetes/Dashboards/commonComponents/MetricFilterChart';
@@ -27,13 +23,14 @@ import { k8sChartColors, k8sNamespaceChart } from 'in-kubernetes/components/K8sC
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
-import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
+import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 const resourceQuotaSet = v => v !== -1;
@@ -44,7 +41,7 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: namespace })
   const { hardLimits, hardRequests, pods } = k8sChartColors;
   const { limits, requests, usage } = k8sNamespaceChart;
 
-  const namespaceTagId = tagEquals('id.kubernetesNamespace', snapshotId);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.namespace', snapshotId, timeConfig);
 
   const allDeploymentsHrefs = useNamespaceDashboard(namespace.id, {
     tab: '/deployments'
@@ -205,7 +202,7 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: namespace })
       </Row>
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={andQuery(namespaceTagId)} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
       <Row verticallyStretchColumns>

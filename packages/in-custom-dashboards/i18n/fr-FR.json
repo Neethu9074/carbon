@@ -149,6 +149,7 @@
       "formComponent": {
         "metric": "Métrique",
         "eventCount": "Nombre d'événements",
+        "unnamedLog": "Métrique de journal sans nom",
         "aggregation": "Agrégation",
         "pleaseSelectMetric": "Sélectionnez une métrique.",
         "pleaseSelect": "Effectuez une sélection",
@@ -181,7 +182,7 @@
       "regexMetricSelectorOverlay": {
         "inputPlaceholder": "Modèle de métrique (par exemple, métrique_.*)",
         "done": "Terminé",
-        "help": "## Conseils rapides\nL'expression régulière Lucene Apache est prise en charge avec les opérateurs suivants.\n###:\nCorrespond à n'importe quel caractère. Par exemple :\n\n    ab.     # correspond à 'aba', 'abb', 'abz', etc.\n###? + *\nRépétez le caractère précédent un certain nombre de fois. Par exemple :\n\n    abc?     # répétez 'c' une ou aucune fois. correspond à 'ab' et 'abc'\n ab+ # répétez 'b' une ou plusieurs fois. correspond à 'ab', 'abb', 'abbb', etc.\n    ab* #  répétez 'b' aucune fois ou plusieurs fois. correspond à 'a', 'ab', 'abb', 'abbb', etc.\n### |\nOpérateur OR. La correspondance aboutit si le modèle le plus long se trouve sur le côté gauche OU sur le côté droit. Par exemple :\n\n    abc|xyz # correspond à 'abc' et 'xyz'\n### ( ... )\nForme un groupe. Vous pouvez utiliser un groupe pour traiter une partie de l'expression comme caractère unique. Par exemple :\n\n    abc (def)? # correspond à 'abc' et 'abcdef', mais pas à 'abcd'\n### [ ... ]\nCorrespond à l'un des caractères entre crochets. Par exemple :\n\n [ abc ] # correspond à 'a', 'b', 'c'\nEntre crochets, `-` indique une plage, sauf si `-` est le premier caractère ou un caractère avec échappement. Par exemple :\n\n    [ a-c ] # correspond à 'a', 'b' ou 'c'\n     [-abc] # '-' est le premier caractère. Correspond à '-', 'a', 'b' ou 'c'\n[abc\\-] # Met en échappement '-'. Correspond à 'a', 'b', 'c' ou '-'\nUn `^` placé avant un caractère entre crochets annule le caractère ou la plage. Par exemple :\n\n    [^abc] # correspond à tout caractère à l'exception de 'a', 'b' ou 'c '\n[^ a-c] # correspond à tout caractère à l'exception de 'a', 'b' ou 'c'\n [^-abc] # correspond à tout caractère à l'exception de '-', 'a', 'b' ou 'c'\n[^ abc\\- ] # correspond à tout caractère à l'exception de 'a', 'b', 'c' ou '-'\n\nNotez que les classes de caractères PCRE telles que `\\w` ou `\\S` ne sont pas prises en charge actuellement. Notez également que les opérateurs d'ancrage tels que `^` ou `$` ne sont pas pris en charge. L'expression doit correspondre à la chaîne entière.\n## Autre Référence\nPour la syntaxe complète, consultez notre [documentation] ({{documentationLink}})."
+        "help": "## Conseils rapides\nL'expression régulière Lucene Apache est prise en charge avec les opérateurs suivants.\n###:\nCorrespond à n'importe quel caractère. Par exemple :\n\n    ab.     # correspond à 'aba', 'abb', 'abz', etc.\n###? + *\nRépétez le caractère précédent un certain nombre de fois. Par exemple :\n\n    abc?     # répétez 'c' une ou aucune fois. correspond à 'ab' et 'abc'\n ab+ # répétez 'b' une ou plusieurs fois. correspond à 'ab', 'abb', 'abbb', etc.\n    ab* #  répétez 'b' aucune fois ou plusieurs fois. correspond à 'a', 'ab', 'abb', 'abbb', etc.\n### |\nOpérateur OR. La correspondance aboutit si le modèle le plus long se trouve sur le côté gauche OU sur le côté droit. Par exemple :\n\n    abc|xyz # correspond à 'abc' et 'xyz'\n### ( ... )\nForme un groupe. Vous pouvez utiliser un groupe pour traiter une partie de l'expression comme caractère unique. Par exemple :\n\n    abc (def)? # correspond à 'abc' et 'abcdef', mais pas à 'abcd'\n### [ ... ]\nCorrespond à l'un des caractères entre crochets. Par exemple :\n\n [ abc ] # correspond à 'a', 'b', 'c'\nEntre crochets, `-` indique une plage, sauf si `-` est le premier caractère ou un caractère avec échappement. Par exemple :\n\n    [ a-c ] # correspond à 'a', 'b' ou 'c'\n     [-abc] # '-' est le premier caractère. Correspond à '-', 'a', 'b' ou 'c'\n[abc\\-] # Met en échappement '-'. Correspond à 'a', 'b', 'c' ou '-'\nUn `^` placé avant un caractère entre crochets annule le caractère ou la plage. Par exemple :\n\n    [^abc] # correspond à tout caractère à l'exception de 'a', 'b' ou 'c '\n[^ a-c] # correspond à tout caractère à l'exception de 'a', 'b' ou 'c'\n [^-abc] # correspond à tout caractère à l'exception de '-', 'a', 'b' ou 'c'\n[^ abc\\- ] # correspond à tout caractère à l'exception de 'a', 'b', 'c' ou '-'\n\nNotez que les classes de caractères PCRE telles que `\\w` ou `\\S` ne sont pas prises en charge actuellement. Notez également que les opérateurs d'ancrage tels que `^` ou `$` ne sont pas pris en charge. L'expression doit correspondre à la chaîne entière."
       },
       "regexMetricsList": {
         "noRegex": "Entrer une requête d'expression régulière",
@@ -252,6 +253,20 @@
         "syntheticMonitoring": "Surveillance synthétique"
       }
     },
+    "srcLogging": {
+      "index": {
+        "logging": "Journaux"
+      },
+      "formComponent": {
+        "onlyMetric": "La seule métrique disponible pour les journaux",
+        "metrics": {
+          "count": "Nombre"
+        },
+        "metric": "Métrique",
+        "aggregation": "Agrégation",
+        "pleaseSelect": "Effectuez une sélection"
+      }
+    },
     "metricConfigurator": {
       "ds": "Source de donnée",
       "pleaseSelect": "Effectuez une sélection",
@@ -278,6 +293,12 @@
         "increaseColor": "Augmenter la couleur",
         "decreaseColor": "Réduire la couleur",
         "timeShift": "Rétrospective"
+      },
+      "thresholdForm": {
+        "addThresholdColorization": "Ajouter une colorisation basée sur un seuil",
+        "threshold": "Seuil",
+        "critical": "Erreur critique en cas de temps d'attente",
+        "warning": "Avertissement en cas de temps d'attente"
       },
       "bigNumber": "Grand nombre"
     },
@@ -808,7 +829,9 @@
           },
           "formatter": "Formateur",
           "searchPlaceholder": "Rechercher",
-          "countGroup": "Afficher le nombre de groupes"
+          "countGroup": "Afficher le nombre de groupes",
+          "showGroupsWithMissingTags": "Afficher les groupes dans lesquels des étiquettes manquent",
+          "filterEmptyValues": "Filtrer les valeurs vides"
         }
       },
       "dataSource": {

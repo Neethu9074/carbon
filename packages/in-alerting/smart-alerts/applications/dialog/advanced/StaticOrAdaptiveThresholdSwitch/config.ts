@@ -25,6 +25,26 @@ export const staticOrAdaptiveThresholds = {
   }
 } as const;
 
+export const tearSheetStaticOrAdaptiveThresholds = {
+  static: 'STATIC',
+  adaptive: 'ADAPTIVE',
+
+  info: {
+    STATIC: {
+      title: t('in-alerting:smartAlerts.applications.advanced.staticOrAdaptive.config.static.title'),
+      icon: '',
+      featureFeedbackLink: undefined,
+      description: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.static.description')
+    },
+    ADAPTIVE: {
+      title: t('in-alerting:smartAlerts.applications.advanced.staticOrAdaptive.config.adaptive.title'),
+      icon: '',
+      featureFeedbackLink: undefined,
+      description: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.adaptive.description')
+    }
+  }
+} as const;
+
 export type StaticOrAdaptiveType =
   | typeof staticOrAdaptiveThresholds.adaptive
   | typeof staticOrAdaptiveThresholds.static;

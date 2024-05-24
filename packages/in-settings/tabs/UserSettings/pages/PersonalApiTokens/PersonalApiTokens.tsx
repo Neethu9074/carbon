@@ -6,8 +6,8 @@
 import React from 'react';
 
 import { EventPlaceholder } from '@instana/components/types/components/SvgIcon/types';
+import { Link, Message, IconButton } from '@instana/components';
 import { Observable, create } from '@instana/observables';
-import { Link, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -21,12 +21,13 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { userSettingsPersonalApiTokens } from 'in-settings/navigation/paths';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
-import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { getTenantsWithUnits } from 'in-api/account';
 import { config } from 'in-services/config';
 import { user } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
+
+import locals from './PersonalApiTokens.mless';
 
 const loadEntities = (userId: string): Observable<PersonalApiToken[]> => {
   const observer = create<PersonalApiToken[]>();
@@ -52,7 +53,7 @@ export default function PersonalApiTokens() {
   return (
     <>
       {unitsData.length > 1 && (
-        <Message type={'neutral'} withIcon>
+        <Message className={locals.message} type={'neutral'} inline withIcon>
           <Trans
             i18nKey="in-settings:tabs.personalApiTokenUnits"
             values={{ tenantUnit: config.tenantUnit, tenant: config.tenant }}

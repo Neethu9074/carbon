@@ -1,0 +1,112 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { t } from 'in-i18n';
+
+export function getHeaderTitle(isGlobalSmartAlert, editMode, isMigration) {
+  if (isMigration) {
+    return t('in-alerting:smartAlerts.migration.migrateButton');
+  } else if (isGlobalSmartAlert) {
+    return editMode
+      ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert_Global')
+      : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert_Global');
+  } else {
+    return editMode
+      ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert_Local')
+      : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert_Local');
+  }
+}
+
+export function toAlertConfig(form) {
+  let alertConfig = form
+    .remove('hiddenFields')
+    .updateIn(['tagFilterExpression'], f =>
+      f.setValue(toBackendQueryModel(form.get('tagFilterExpression').value, false))
+    )
+    .toJS();
+
+  if (alertConfig.rule.alertType === 'statusCode') {
+    alertConfig = mapStatusCodeSelection(alertConfig);
+  }
+
+  alertConfig.applicationId = undefined;
+  alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
+  alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);
+  return alertConfig;
+}
+
+function mapStatusCodeSelection(alertConfig) {
+  const {
+    rule: {
+      statusCode: { statusCodeStart, statusCodeEnd },
+      ...remainingRule
+    }
+  } = alertConfig;
+
+  alertConfig.rule = {
+    statusCodeStart,
+    statusCodeEnd,
+    ...remainingRule
+  };
+  return alertConfig;
+}
+
+export function fromAlertConfig(alertConfig) {
+  if (alertConfig?.rule?.alertType === 'statusCode') {
+    alertConfig = mapStatusCodeConfig(alertConfig);
+  }
+  return alertConfig;
+}
+
+function mapStatusCodeConfig(alertConfig) {
+  const {
+    rule: { statusCodeStart, statusCodeEnd, ...remainingRule }
+  } = alertConfig;
+
+  return {
+    ...alertConfig,
+    rule: {
+      statusCode: {
+        statusCodeEnd,
+        statusCodeStart
+      },
+      ...remainingRule
+    }
+  };
+}
+
+export function generateAlertConfig(
+  isGlobalSmartAlert,
+  applicationId,
+  boundaryScope,
+  serviceId,
+  endpointId,
+  includeSynthetic
+) {
+  if (isGlobalSmartAlert) {
+    return {
+      threshold: {
+        type: STATIC_THRESHOLD
+      }
+    };
+  }
+  return {
+    boundaryScope: boundaryScope,
+    threshold: {
+      type: HISTORIC_BASELINE,
+      value: 0.0,
+      seasonality: DAILY
+    },
+    calculateThresholdOnBackend: true,
+    includeSynthetic,
+    applications: applicationId && getEntitySelection(applicationId, serviceId, endpointId)
+  };
+}

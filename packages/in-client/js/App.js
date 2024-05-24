@@ -8,19 +8,17 @@ import React from 'react';
 import { ThemeProvider, getThemeOverride } from '@instana/components';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
-import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/isCarbonShellEnabled';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
+import CarbonUIShell from 'in-components/MainNavigation/components/CarbonUIShell';
 import LocationStateProvider from 'in-stores/navigation/LocationStateProvider';
-import NotificationBarSticky from 'in-components/Sticky/NotificationBarSticky';
-import MainNavigation from 'in-components/MainNavigation/MainNavigation';
 import ScrollTrackingWrapper from 'in-components/ScrollTrackingWrapper';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
+import OrbitalProvider from 'in-services/orbital/OrbitalProvider';
 import DialogPresenter from 'in-components/DialogPresenter';
 import { playwithEnabled } from 'in-services/featureFlags';
-import PlayWithHeader from 'in-plg/Demo/PlayWithHeader';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import routes from 'in-client/js/routes/mainRoutes';
@@ -31,7 +29,8 @@ import locals from './App.mless';
 
 export default function App() {
   const currentTheme = getThemeOverride() ?? 'default';
-  const carbonShell = isCarbonShellEnabled();
+  // If the space ID is not found via server config then use prod space ID
+  const orbitalSpaceID = window.instana.config.orbitalSpaceID ?? '9WaNpjuleRmP';
   return (
     <ErrorBoundary name="app">
       <LocationStateProvider>
@@ -44,42 +43,37 @@ export default function App() {
         }
         <GlobalTheme>
           <ThemeProvider theme={currentTheme}>
-            <ScrollTrackingWrapper>
-              <GlobalTimeConfig>
-                {/* if carbonShell, render instead from CarbonUIShell.tsx */}
-                {carbonShell ? null : (
-                  <>
-                    <NotificationBarSticky />
-                    <PlayWithHeader />
-                  </>
-                )}
-                <ErrorBoundary name="main-navigation">
-                  <MainNavigation />
-                </ErrorBoundary>
+            <OrbitalProvider spaceId={orbitalSpaceID}>
+              <ScrollTrackingWrapper>
+                <GlobalTimeConfig>
+                  <ErrorBoundary name="main-navigation">
+                    <CarbonUIShell />
+                  </ErrorBoundary>
 
-                <div className={carbonShell ? locals.contentCarbon : locals.content}>
-                  <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
-                </div>
+                  <div className={locals.content} role="main">
+                    <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
+                  </div>
 
-                <ErrorBoundary name="dialogs">
-                  {/* for release notes */}
-                  <ReleaseNotesDialog />
-                  {/* for hints about deprecations, and required actions */}
-                  <DeprecatedCustomEventsPopUp />
-                  <TooltipPresenter />
-                  <OverlayPresenter />
-                  {/* the flyouts on the top right corner */}
-                  <MessageFlyout />
-                  {/* all the different dialogs e.g. in the settings */}
-                  <DialogPresenter />
-                </ErrorBoundary>
+                  <ErrorBoundary name="dialogs">
+                    {/* for release notes */}
+                    <ReleaseNotesDialog />
+                    {/* for hints about deprecations, and required actions */}
+                    <DeprecatedCustomEventsPopUp />
+                    <TooltipPresenter />
+                    <OverlayPresenter />
+                    {/* the flyouts on the top right corner */}
+                    <MessageFlyout />
+                    {/* all the different dialogs e.g. in the settings */}
+                    <DialogPresenter />
+                  </ErrorBoundary>
 
-                <ErrorBoundary name="floatinButtons">
-                  {/* floating action buttons at the bottom of the screen */}
-                  {!playwithEnabled && <FloatingActionButtonPresenter />}
-                </ErrorBoundary>
-              </GlobalTimeConfig>
-            </ScrollTrackingWrapper>
+                  <ErrorBoundary name="floatinButtons">
+                    {/* floating action buttons at the bottom of the screen */}
+                    {!playwithEnabled && <FloatingActionButtonPresenter />}
+                  </ErrorBoundary>
+                </GlobalTimeConfig>
+              </ScrollTrackingWrapper>
+            </OrbitalProvider>
           </ThemeProvider>
         </GlobalTheme>
       </LocationStateProvider>

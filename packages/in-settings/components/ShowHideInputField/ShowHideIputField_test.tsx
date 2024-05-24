@@ -15,7 +15,7 @@ describe('in-settings/components/ShowHideInputField', () => {
     const inputValue = container.querySelector('.local-css-input') as HTMLElement;
 
     fireEvent.change(inputValue, { target: { value: 'test' } });
-    fireEvent.click(container.querySelector('.local-css-iconButton') as HTMLElement);
+    fireEvent.click(container.querySelector('button') as HTMLElement);
 
     const input = await screen.findByRole('textbox');
     expect(input).toHaveValue('test');

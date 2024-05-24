@@ -32,6 +32,7 @@ export default function SloErrorBudgetColumnContent({ item, showSparkChart }: Sl
           tooltipFormatter={configuration.indicator.type === 'timeBased' ? minutes.fixedCompact : number.compact}
         />
       )}
+
       <ErrorBudgetInfo configuration={configuration} remainingErrorBudget={remainingBudget} />
     </Stack>
   );

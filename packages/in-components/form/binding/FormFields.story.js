@@ -5,10 +5,11 @@
 
 import React, { useState } from 'react';
 
+import { Select } from '@instana/components';
+
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 

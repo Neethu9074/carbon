@@ -33,16 +33,17 @@ import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/TimeThresholdConfig';
+import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { onThresholdTypeChange } from 'in-alerting/smart-alerts/websites/form/thresholdTypeForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { mobileAppSmartAlertsAdaptiveBaselineEnabled } from 'in-services/featureFlags';
+import mobileAppCreateRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import useMobileApp from 'in-mobile-apps/hooks/useMobileApp';
 import StepsContainer from 'in-components/StepsContainer';
@@ -72,6 +73,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
 
   const mobileAppId = form.get('mobileAppId')?.value;
   const [mobileApp] = useMobileApp(mobileAppId);
+  const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange(mobileAppCreateRuleForm);
 
   const resetChartConfigSelectionWhenAdaptiveBaseline = (updatedForm: MapForm<any>) => {
     if (isAdaptiveBaselineConfig(updatedForm.get('threshold').toJS())) {
@@ -94,7 +96,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               <BluePrintSelectionSection
                 alertType={alertType}
                 form={form}
-                //@ts-expect-error as its type is optional in shared component
                 updateForm={updateForm}
                 setSliderState={setSliderState}
               />
@@ -109,7 +110,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                   <StaticOrAdaptiveSwitch
                     form={form}
                     setForm={resetChartConfigSelectionWhenAdaptiveBaseline}
-                    onThresholdTypeChange={onThresholdTypeChange}
+                    onThresholdTypeChange={mobileAppOnThresholdTypeChange}
                   />
                 </LightCard>
               )}

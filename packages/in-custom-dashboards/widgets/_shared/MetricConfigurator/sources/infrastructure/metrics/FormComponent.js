@@ -5,8 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Spacer, Stack } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Stack, Toggle } from '@instana/components';
 
 import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay';
 import {
@@ -62,13 +61,15 @@ export default function FormComponent({
   labelSection,
   formatterSection,
   timeShiftConfiguration,
+  thresholdConfiguration,
   withGrouping = true,
   withFiltering = true,
   type: baseType,
   isTypePrefilled = false,
   withAggregationInMetrics = true,
   maxGrouping = 50,
-  withLastValue = false
+  withLastValue = false,
+  withEmptyValueFilterSection
 }) {
   const typeField = form.get('type');
   const metricField = form.get('metric');
@@ -245,7 +246,7 @@ export default function FormComponent({
                         id="metric-configurator-cross-series-aggregation"
                         checked={isSumCrossSeriesAggregation}
                         disabled={!isCrossSeriesSumAggregationToggleEnabled}
-                        onChange={e => setIsSumCrossSeriesAggregation(e.target.checked)}
+                        onToggle={e => setIsSumCrossSeriesAggregation(e)}
                       />
                     </span>
                   </Tooltip>
@@ -265,7 +266,7 @@ export default function FormComponent({
                       <Toggle
                         id="metric-configurator-use-last-value"
                         checked={isLastValue}
-                        onChange={e => setIsLastValue(e.target.checked)}
+                        onToggle={e => setIsLastValue(e)}
                       />
                     </span>
                     <Spacer horizontal="xxsmall" />
@@ -330,7 +331,11 @@ export default function FormComponent({
 
       {timeShiftConfiguration}
 
+      {thresholdConfiguration}
+
       {labelSection}
+
+      {withEmptyValueFilterSection}
     </Stack>
   );
 }

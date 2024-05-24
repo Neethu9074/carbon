@@ -6,6 +6,11 @@
 
 import React, { useEffect } from 'react';
 
+import { Message } from '@instana/components';
+import { t } from '@instana/i18n-react';
+
+// eslint-disable-next-line no-restricted-imports
+import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
 import MatchingSloTimeWindowsCard from 'in-service-levels/components/SloDashboard/components/MatchingSloTimeWindowsCard';
 import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import ErrorBudgetKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/ErrorBudgetKpiCard';
@@ -14,9 +19,14 @@ import SloStatusKpiCard from 'in-service-levels/components/SloDashboard/componen
 import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/TrafficKpiCard';
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
 import TimeWindowCard from 'in-service-levels/components/SloDashboard/components/TimeWindowCard';
-import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
+import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
-import { SLO_LIST_VIEW } from 'in-services/tracking/eventNames';
+import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { SLO_SUMMARY_VIEW } from 'in-services/tracking/eventNames';
+import { sloSmartAlertsEnabled } from 'in-services/featureFlags';
 import { Col, Row } from 'in-components/layout/Grid';
 import { Nullish } from 'in-types';
 
@@ -37,11 +47,30 @@ export default function SloSummary({ data }: SloSummaryWrapperProps) {
 function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { configuration } = data;
 
+  const { timeWindows } = useSloTimeWindowContext();
+  const hasMatchingTimeWindows = timeWindows.length > 0;
+  const openCreateSmartAlertDialog = () =>
+    addActiveDialog(<CreateSmartAlertDialog preselectedSloId={configuration.id} />);
   const track = useSloTrackers();
-  useEffect(() => track(SLO_LIST_VIEW, undefined), [track]);
-
+  useEffect(() => {
+    const { indicator, timeWindow, entity } = configuration;
+    track(SLO_SUMMARY_VIEW, {
+      id: configuration.id,
+      blueprint: indicator.blueprint,
+      indicatorType: indicator.type,
+      timeWindowType: timeWindow.type,
+      entityType: entity.type
+    });
+  }, [track, configuration]);
   return (
     <>
+      {!hasMatchingTimeWindows && (
+        <Row>
+          <Col xs={12}>
+            <Message type="warning">{t('in-service-levels:general.noMatchingTimeWindows')}</Message>
+          </Col>
+        </Row>
+      )}
       <Row>
         <Col xs={6}>
           <TimeWindowCard configuration={configuration} />
@@ -72,6 +101,13 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
           <TrafficChart configuration={configuration} />
         </Col>
       </Row>
+      {sloSmartAlertsEnabled && (
+        <FloatingActionButtons>
+          <FloatingActionButton icon="lib_alerts_create" kind="primaryv2" onClick={openCreateSmartAlertDialog}>
+            {t('in-service-levels:general.addButtonLabel', { context: 'smartAlert' })}
+          </FloatingActionButton>
+        </FloatingActionButtons>
+      )}
     </>
   );
 }

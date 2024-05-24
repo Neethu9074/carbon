@@ -6,18 +6,18 @@
 import React, { useState } from 'react';
 
 import { combineLatest, just } from '@instana/observables';
+import { ButtonGroup } from '@instana/components';
 
 import { host as hostType, container as containerType, process as processType } from 'in-cockpit/starredItems/types';
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
 import columnDefinitions from 'in-cockpit/widgets/InfrastructureTopList/columnDefinitions';
 import TopListWidget, { getFlattenedIds } from 'in-cockpit/widgets/TopListWidget';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { pendingResult } from 'in-services/fixedObjects';
 import { add, remove } from 'in-cockpit/starredItems';
-import ButtonGroup from 'in-components/ButtonGroup';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getMetric } from 'in-stores/metric';
 import search from 'in-subscription/search';
@@ -27,6 +27,7 @@ import { t } from 'in-i18n';
 export default function InfrastructureTopList({ config }) {
   const [selectedType, setSelectedType] = useState('host');
   const { location, createHref } = useNavigation();
+  const getDashboardLink = useGetDashboardLink();
   const fullListViewLocation = { ...location, pathname: physicalTablePath };
   setOrDeleteMatrixKey(fullListViewLocation, physicalTablePath, 'plugin', selectedType);
 

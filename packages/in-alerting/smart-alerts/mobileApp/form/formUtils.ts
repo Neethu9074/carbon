@@ -13,7 +13,17 @@ import {
   ThroughputMobileAppAlertRule
 } from '@instana/types';
 
-import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import {
+  getStaticThresholdHigherOrLowerOperatorText,
+  getStatusCodeSimpleAboveOrBelowOperatorText,
+  getThresholdHigherOrLowerOperatorText,
+  getThroughputSimpleHighOrLowOperatorText
+} from 'in-alerting/smart-alerts/eum/form/formUtils';
+import {
+  getBlueprintConfig,
+  MetricName,
+  rateMetricsForCrashBlueprint
+} from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { getStatusCodeLabel } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { onLoadTime, beaconRate } from 'in-alerting/smart-alerts/mobileApp/constants';
@@ -24,6 +34,9 @@ import { t } from 'in-i18n';
 export function getTitlePlaceholder(form: MapForm<any>) {
   const rule = (form.get('rule') as MapForm<any>).toJS() as unknown as MobileAppAlertRule;
   const alertType = rule.alertType;
+  const blueprintConfig = getBlueprintConfig(alertType);
+  const metricName = blueprintConfig.getMetricName(rule as MobileAppAlertRule);
+  const thresholdOperator = ((form.get('threshold') as MapForm<any>).get('operator') as Field<ThresholdOperator>).value;
 
   switch (alertType) {
     case 'statusCode': {
@@ -33,18 +46,17 @@ export function getTitlePlaceholder(form: MapForm<any>) {
       });
     }
     case 'throughput': {
-      const blueprintConfig = getBlueprintConfig(alertType);
-      const metricName = blueprintConfig!.getMetricName(rule as MobileAppAlertRule);
-      const thresholdOperator = ((form.get('threshold') as MapForm<any>).get('operator') as Field<ThresholdOperator>)
-        .value;
       return getThroughputSimpleHighOrLowOperatorText(
-        blueprintConfig!.getMetricLabel(metricName as MetricName),
+        blueprintConfig.getMetricLabel(metricName as MetricName),
         thresholdOperator
       );
     }
     case 'customEvent': {
       const customEventName = (rule as CustomEventMobileAppAlertRule).customEventName;
       return t('in-alerting:smartAlerts.eum.form.customEvents', { customEventName });
+    }
+    case 'crash': {
+      return getTitlePlaceholderForCrash(blueprintConfig.getMetricLabel(metricName as MetricName), thresholdOperator);
     }
     default:
       throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedAlertType', { alertType: alertType }));
@@ -55,8 +67,10 @@ export function getDescriptionPlaceholder(form: MapForm<any>) {
   const rule = (form.get('rule') as MapForm<any>).toJS() as unknown as MobileAppAlertRule;
   const alertType = rule.alertType;
   const thresholdForm = form.get('threshold') as MapForm<any>;
-
   const thresholdOperator = (thresholdForm.get('operator') as Field<ThresholdOperator>).value;
+  const blueprintConfig = getBlueprintConfig(alertType);
+  const metricName = blueprintConfig!.getMetricName(rule as ThroughputMobileAppAlertRule);
+  const metricLabel = blueprintConfig!.getMetricLabel(metricName as MetricName);
 
   switch (alertType) {
     case 'statusCode': {
@@ -65,9 +79,6 @@ export function getDescriptionPlaceholder(form: MapForm<any>) {
       return getStatusCodeSimpleAboveOrBelowOperatorText(getStatusCodeLabel(statusCodeString), thresholdOperator);
     }
     case 'throughput': {
-      const blueprintConfig = getBlueprintConfig(alertType);
-      const metricName = blueprintConfig!.getMetricName(rule as ThroughputMobileAppAlertRule);
-      const metricLabel = blueprintConfig!.getMetricLabel(metricName as MetricName);
       const thresholdType = (thresholdForm.get('type') as Field<ThresholdType>).value;
 
       if (thresholdType === STATIC_THRESHOLD) {
@@ -81,24 +92,27 @@ export function getDescriptionPlaceholder(form: MapForm<any>) {
 
       return t('in-alerting:smartAlerts.eum.form.customEventsText', { customEventName });
     }
+    case 'crash': {
+      return getDescriptionPlaceholderForCrash(metricLabel, thresholdOperator);
+    }
     default:
       throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedAlertType', { alertType: alertType }));
   }
 }
 
 export function getMetricUnitPostfix(metricName: string) {
-  switch (metricName) {
-    case onLoadTime:
-      return 'ms';
-    case beaconRate:
-      return '%';
-    default:
-      return '';
+  if (metricName === onLoadTime) {
+    return 'ms';
   }
+  if (isPercentageMetric(metricName)) {
+    return '%';
+  }
+
+  return '';
 }
 
 export function isPercentageMetric(metricName: string) {
-  return metricName === beaconRate;
+  return metricName === beaconRate || rateMetricsForCrashBlueprint.has(metricName);
 }
 
 function fillStatusCodeValue(statusCode: string) {
@@ -110,62 +124,16 @@ function fillStatusCodeValue(statusCode: string) {
   return statusCode;
 }
 
-function getThroughputSimpleHighOrLowOperatorText(metricLabel: string, operator: ThresholdOperator) {
+function getTitlePlaceholderForCrash(metricLabel: string, operator: ThresholdOperator) {
   return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.eum.form.throughputSimpleHighOperatorText', { metricLabel })
-    : t('in-alerting:smartAlerts.eum.form.throughputSimpleLowOperatorText', { metricLabel });
+    ? t('in-alerting:smartAlerts.mobileApp.form.titlePlaceholderCrashSimpleHighOperator', { metricLabel })
+    : t('in-alerting:smartAlerts.mobileApp.form.titlePlaceholderCrashSimpleLowOperator', { metricLabel });
 }
 
-function getStatusCodeSimpleAboveOrBelowOperatorText(statusCodeLabel: string, operator: ThresholdOperator) {
+function getDescriptionPlaceholderForCrash(metricLabel: string, operator: ThresholdOperator) {
   return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.eum.form.statusCodeSimpleAboveOperatorText', { statusCodeLabel })
-    : t('in-alerting:smartAlerts.eum.form.statusCodeSimpleBelowOperatorText', {
-        statusCodeLabel
+    ? t('in-alerting:smartAlerts.mobileApp.form.descriptionPlaceholderCrashSimpleAboveOperator', { metricLabel })
+    : t('in-alerting:smartAlerts.mobileApp.form.descriptionPlaceholderCrashSimpleBelowOperator', {
+        metricLabel
       });
-}
-
-function getStaticThresholdHigherOrLowerOperatorText(
-  metricLabel: string,
-  operator: ThresholdOperator,
-  thresholdValue: string | number
-) {
-  switch (operator) {
-    case '>':
-      return t('in-alerting:smartAlerts.eum.form.staticThresholdHigherOperatorText', {
-        metricLabel,
-        thresholdValue
-      });
-    case '>=':
-      return t('in-alerting:smartAlerts.eum.form.staticThresholdHigherEqualsOperatorText', {
-        metricLabel,
-        thresholdValue
-      });
-    case '<':
-      return t('in-alerting:smartAlerts.eum.form.staticThresholdLowerOperatorText', {
-        metricLabel,
-        thresholdValue
-      });
-    case '<=':
-      return t('in-alerting:smartAlerts.eum.form.staticThresholdLowerEqualsOperatorText', {
-        metricLabel,
-        thresholdValue
-      });
-    default:
-      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator }));
-  }
-}
-
-function getThresholdHigherOrLowerOperatorText(metricLabel: string, operator: ThresholdOperator) {
-  switch (operator) {
-    case '>':
-      return t('in-alerting:smartAlerts.eum.form.thresholdHigherOperatorText', { metricLabel });
-    case '>=':
-      return t('in-alerting:smartAlerts.eum.form.thresholdHigherEqualsOperatorText', { metricLabel });
-    case '<':
-      return t('in-alerting:smartAlerts.eum.form.thresholdLowerOperatorText', { metricLabel });
-    case '<=':
-      return t('in-alerting:smartAlerts.eum.form.thresholdLowerEqualsOperatorText', { metricLabel });
-    default:
-      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator }));
-  }
 }

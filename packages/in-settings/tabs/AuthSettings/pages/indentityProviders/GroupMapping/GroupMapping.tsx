@@ -20,6 +20,7 @@ import React, { useState } from 'react';
 import { Link, SvgIcon, Message } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {
@@ -40,26 +41,25 @@ import {
 } from 'in-settings/tabs/AuthSettings/api/groupMappings';
 // @ts-expect-error
 import { getConfigAsResultObservableNotMemoized as ldapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
-// @ts-expect-error
-import ApiItemView from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/APIItemView';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 // @ts-expect-error
 import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 // @ts-expect-error
 import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
+// @ts-expect-error
+import ApiItemView from 'in-settings/components/ApiItemView';
+import { compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
 import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import { listSuccess, loading } from 'in-services/util/result';
 import { isLoading, hasError } from 'in-services/util/result';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import { containsIgnoreCase } from 'in-services/util/string';
-import { compareIgnoreCase } from 'in-services/util/string';
 import { pendingResult } from 'in-services/fixedObjects';
+import { identity } from 'in-services/util/function';
 import FormGroup from 'in-components/form/FormGroup';
-import SearchInput from 'in-components/SearchInput';
 import { error } from 'in-services/util/result';
-import Select from 'in-components/form/Select';
 import { defaultRoleId } from 'in-stores/user';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
@@ -127,7 +127,7 @@ export default function GroupMapping() {
     });
   }
   const mappingData = getMappingData();
-  const data = useObservable(mappingData, []);
+  const data = useObservable(mappingData, []) ?? pendingResult;
 
   function render({ form, setForm }: RenderProps): JSX.Element {
     if (!form.get('hasIdp')?.value) {
@@ -170,30 +170,30 @@ export default function GroupMapping() {
       form.get(DENY_ACCESS)
     );
 
-    const groupMappings: MapForm<any>[] = form.get(GROUP_MAPPINGS) ?? [];
+    let groupMappings: MapForm<MapFormItems> = form.get(GROUP_MAPPINGS) ?? [];
+    const firstItem = (page - 1) * pageSize; // 1. => 0., 2 => 26
+    let lastItem = pageSize * page; // 1. => 25, 2. => 50
+    // @ts-expect-error invalid type
+    if (lastItem > (groupMappings.items?.length ?? 0)) {
+      // @ts-expect-error invalid type
+      lastItem = groupMappings.items.length;
+    }
 
-    let filteredItems: MapForm<any>[] = { ...groupMappings };
     if (searchQuery !== '')
-      filteredItems = {
+      groupMappings = {
         ...groupMappings,
         // @ts-expect-error invalid type
         items: groupMappings.items.filter(item => searchItem(item, ['key'], searchQuery))
       };
 
-    const firstItem = (page - 1) * pageSize; // 1. => 0., 2 => 101
-    let lastItem = pageSize * page; // 1. => 100, 2. => 200
-    // @ts-expect-error invalid type
-    if (lastItem > (filteredItems.items?.length ?? 0)) {
-      // @ts-expect-error invalid type
-      lastItem = filteredItems.items.length;
-    }
-
-    // @ts-expect-error invalid type
-    if (searchQuery !== '' && filteredItems.items?.length > 0) {
-      // @ts-expect-error invalid type
-      setPage(parseInt(filteredItems.items?.length / pageSize) + 1);
-    }
-
+    const result = arrayToResult(
+      // @ts-ignore
+      groupMappings.items?.slice(firstItem, lastItem) ?? [],
+      // @ts-ignore
+      groupMappings.items?.length ?? 0,
+      pageSize,
+      page
+    );
     return (
       <>
         <Title title={t('in-settings:tabs.configureGroupMapping')} />
@@ -229,7 +229,10 @@ export default function GroupMapping() {
           <ValidationBlock className="">{shouldShowDenyIssue[0].message}</ValidationBlock>
         )}
         <ServerTablePresenter<MapForm<any>, GroupMappingTableProps>
-          isSearchable={false}
+          fixedLayout
+          isSearchable
+          searchPlaceholder={t('in-settings:components.search')}
+          searchMaxWidth={200}
           columnDefinitions={[
             keyColumnDefinition,
             valueColumnDefinition,
@@ -239,30 +242,16 @@ export default function GroupMapping() {
           noDataMessage={t('in-settings:tabs.noGroupMapping')}
           orderBy="label"
           orderDirection="ASC"
-          rightHeader={<RightHeader addRow={addRow} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />}
+          rightHeader={<RightHeader addRow={addRow} />}
           getRowIndex={getRowIndex}
           deleteRow={deleteRow}
           updateIn={updateIn}
-          result={{
-            progress: {
-              loading: false
-            },
-            errors: [],
-            data: {
-              // @ts-expect-error
-              items: filteredItems.items?.slice(firstItem, lastItem) ?? [],
-              pageSize,
-              // @ts-expect-error
-              totalHits: filteredItems.items?.length ?? 0,
-              page
-            }
-          }}
+          result={result}
           page={page}
           pageSize={pageSize}
-          onChange={({ page: nextPage }) => {
-            if (nextPage) {
-              setPage(nextPage);
-            }
+          onChange={({ page, query }) => {
+            setPage(page ?? 1);
+            setSearchQuery(query);
           }}
         />
       </>
@@ -270,11 +259,13 @@ export default function GroupMapping() {
 
     function addRow() {
       setForm(
-        form.updateIn([GROUP_MAPPINGS], (f: Item): Item => {
-          return (f as ListForm<any>)
-            .insert((page - 1) * pageSize, newEntry({ id: null, key: '', value: '', groupId: defaultRoleId }))
-            .setTouched(true);
-        })
+        form.updateIn(
+          [GROUP_MAPPINGS],
+          (f: Item): Item =>
+            (f as ListForm<any>)
+              .unshift(newEntry({ id: null, key: '', value: '', groupId: defaultRoleId }))
+              .setTouched(true)
+        )
       );
     }
 
@@ -285,9 +276,6 @@ export default function GroupMapping() {
         setForm(
           form.updateIn([GROUP_MAPPINGS], (f: Item) => (f as ListForm<any>).remove(entryPosition).setTouched(true))
         );
-      }
-      if (page != 0 && entryPosition % pageSize == 0) {
-        setPage(entryPosition / pageSize);
       }
     }
 
@@ -315,22 +303,7 @@ export default function GroupMapping() {
   }
 
   return (
-    <ApiItemView
-      getObservables={() => ({
-        mappings: getMappings(),
-        instanaGroups: getGroupsAsResultObservable(),
-        denyCheck: getIdpRestriction(),
-        samlConfig: samlConfig(),
-        ldapConfig: ldapConfig(),
-        oidcConfig: oidcConfig()
-      })}
-      enrichForm={enrichForm}
-      onCancelClick={refresh}
-      saveItem={saveItem}
-      searchFields={['name']}
-      render={render}
-      result={data}
-    />
+    <ApiItemView enrichForm={enrichForm} onCancelClick={refresh} saveItem={saveItem} render={render} result={data} />
   );
 
   function enrichForm(_form: MapForm<any>, { result }: { result: any }) {
@@ -478,29 +451,11 @@ const deleteRowColumnDefinition = {
     DeleteMapping(item, deleteRow)
 };
 
-function RightHeader({
-  addRow,
-  searchQuery,
-  setSearchQuery
-}: {
-  addRow: () => void;
-  searchQuery: string | undefined;
-  setSearchQuery: any;
-}): JSX.Element {
+function RightHeader({ addRow }: { addRow: () => void }): JSX.Element {
   return (
-    <>
-      <Button kind="action" icon="lib_openclose_add_circle_outline" onClick={addRow}>
-        {t('in-settings:tabs.addGroupMapping')}
-      </Button>
-      <SearchInput
-        maxWidth={200}
-        placeholder={t('in-settings:components.search')}
-        query={searchQuery}
-        onChange={query => {
-          setSearchQuery(query);
-        }}
-      />
-    </>
+    <Button kind="action" icon="lib_openclose_add_circle_outline" onClick={addRow}>
+      {t('in-settings:tabs.addGroupMapping')}
+    </Button>
   );
 }
 
@@ -610,4 +565,14 @@ function internalCheckThereIsAtLeastOneGroupMappingIfDenyIsChecked(
     ] as ValidationResult;
   }
   return [];
+}
+function arrayToResult(
+  array: Array<any>,
+  totalHits: number,
+  pageSize: number,
+  page: number,
+  itemMapper = identity,
+  time = Date.now()
+) {
+  return array ? listSuccess(array.map(itemMapper), totalHits, pageSize, page, time) : loading;
 }

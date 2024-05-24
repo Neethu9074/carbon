@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
+import getAlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/getAlertTitleWithPlaceholderHighlighting';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -20,9 +20,9 @@ export function ListNameColumn({ config }) {
   return (
     <NameColumnCell
       config={config}
-      renderName={config => (
-        <AlertTitleWithPlaceholderHighlighting configName={config.name} evaluationType={config.evaluationType} />
-      )}
+      renderName={config =>
+        getAlertTitleWithPlaceholderHighlighting({ configName: config.name, evaluationType: config.evaluationType })
+      }
       getSubtitle={config => getSubtitle(config.rule, config.threshold)}
       getAdditionalContent={config => <BuiltInIndicator builtIn={config.builtIn} />}
     />

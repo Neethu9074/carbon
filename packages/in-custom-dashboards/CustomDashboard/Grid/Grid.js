@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { memo, useEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
-import React, { useEffect, useState } from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -113,7 +113,7 @@ function Grid({
     >
       {config.widgets.map(widget => {
         const content = widgets[widget.type] ? (
-          <WidgetContent
+          <MemoizedWidgetContent
             widget={widget}
             isConfigurable={isConfigurable}
             onEditWidget={onEditWidget}
@@ -210,7 +210,13 @@ function WidgetContent({
     content = (
       <InView as="div" triggerOnce root={scrollAreaDomNode}>
         {({ inView, ref }) => (
-          <div className={locals.visibilityTrackWrapper} ref={ref}>
+          <div
+            className={classNames({
+              [locals.visibilityTrackWrapper]: true,
+              [locals.notInViewport]: !inView
+            })}
+            ref={ref}
+          >
             {inView && trackVisibilityContent}
           </div>
         )}
@@ -221,6 +227,8 @@ function WidgetContent({
   return content;
 }
 
+const MemoizedWidgetContent = memo(WidgetContent);
+
 function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onCopyWidget, onZoomWidget, onRemoveWidget }) {
   return (
     <div className={locals.moreMenuContainer}>
@@ -228,36 +236,40 @@ function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onCopyWidget,
       {zoomWidgetEnabled && (
         <Tooltip content={t('in-forge:plugins.docker.dashboard.zoomTooltip')}>
           <div>
-            <SvgIcon size="s" className={locals.zoom} type="lib_actions_maximize" onClick={() => onZoomWidget(widget.id)} />
+            <SvgIcon
+              size="s"
+              className={locals.zoom}
+              type="lib_actions_maximize"
+              onClick={() => onZoomWidget(widget.id)}
+            />
           </div>
         </Tooltip>
       )}
       <Tooltip content={t('in-forge:plugins.docker.dashboard.moreTooltip')}>
-      <div>
-        <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
-          <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
-            {t('in-custom-dashboards:customDashboard.grid.grid.edit')}
-          </MoreMenuButton>
-          <CopyToClipboard
-            getText={() => onCopyWidget(widget.id)}
-            successText={t('in-custom-dashboards:customDashboard.grid.grid.copied')}
-          >
-            {copyToClipboardRef => (
-              <MoreMenuButton icon="lib_actions_copy" ref={copyToClipboardRef}>
-                {t('in-custom-dashboards:customDashboard.grid.grid.copy')}
-              </MoreMenuButton>
-            )}
-          </CopyToClipboard>
-          <MoreMenuButton icon="lib_group_by" onClick={() => onDuplicateWidget(widget.id)}>
-            {t('in-custom-dashboards:customDashboard.grid.grid.duplicate')}
-          </MoreMenuButton>
-          <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>
-            {t('in-custom-dashboards:customDashboard.grid.grid.delete')}
-          </MoreMenuButton>
-        </MoreMenu>
+        <div>
+          <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
+            <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
+              {t('in-custom-dashboards:customDashboard.grid.grid.edit')}
+            </MoreMenuButton>
+            <CopyToClipboard
+              getText={() => onCopyWidget(widget.id)}
+              successText={t('in-custom-dashboards:customDashboard.grid.grid.copied')}
+            >
+              {copyToClipboardRef => (
+                <MoreMenuButton icon="lib_actions_copy" ref={copyToClipboardRef}>
+                  {t('in-custom-dashboards:customDashboard.grid.grid.copy')}
+                </MoreMenuButton>
+              )}
+            </CopyToClipboard>
+            <MoreMenuButton icon="lib_group_by" onClick={() => onDuplicateWidget(widget.id)}>
+              {t('in-custom-dashboards:customDashboard.grid.grid.duplicate')}
+            </MoreMenuButton>
+            <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>
+              {t('in-custom-dashboards:customDashboard.grid.grid.delete')}
+            </MoreMenuButton>
+          </MoreMenu>
         </div>
       </Tooltip>
-      
     </div>
   );
 }

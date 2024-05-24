@@ -8,6 +8,7 @@ import React, { useMemo } from 'react';
 
 import { SvgIcon, Ul, Li, Stack, StackItem } from '@instana/components';
 import { getIntlDateFormatter } from '@instana/format-date';
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 // eslint-disable-next-line no-restricted-imports
@@ -18,7 +19,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Header from 'in-components/workspace/Header';
 import { compare } from 'in-services/util/number';
-import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -92,6 +92,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
                                 }
                                 hasError={!field.valid && field.touched}
                                 className={locals.timeZoneSelection}
+                                useFullWidth
                               >
                                 {supportedTimeZones.map(({ name, humanReadableOffset }) => (
                                   <option key={name} value={name}>

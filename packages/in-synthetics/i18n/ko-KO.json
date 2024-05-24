@@ -39,6 +39,7 @@
         "labelName": "테스트 이름",
         "labelDescription": "설명",
         "labelFrequency": "빈도(분)",
+        "labelFrequencyHour": "빈도(시간)",
         "labelApplications": "애플리케이션을 선택하십시오"
       },
       "bluePrint": {
@@ -95,6 +96,11 @@
             "line3": "3단계: 테스트 빈도를 선택하십시오(1~120분).",
             "line4": "4단계: 테스트 이름 및 설명 섹션에서, 테스트에 대한 의미 있는 이름을 이름 필드에 입력하십시오. 테스트 목적에 대한 설명을 설명 필드에 추가하십시오."
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "웹 서버 인증서가 이 테스트를 사용하여 만료되는지 여부를 확인하십시오."
+          }
         }
       },
       "validators": {
@@ -128,7 +134,11 @@
           "browserTypeHeadline": "브라우저 합성 테스트",
           "browserTypeText": "브라우저 합성 테스트는 웹 브라우저의 스크립트를 통해 웹 사이트와의 사용자 상호작용을 시뮬레이션하여 웹 애플리케이션 성능을 모니터링하는 방법으로, 사용자 환경에 영향을 미치는 문제에 대한 유용한 통찰력을 제공하고 웹 사이트가 제대로 기능하는 데 도움이 됩니다.",
           "browserSimpleTitle": "브라우저 단순 테스트",
-          "browserScriptTitle": "브라우저 스크립트 테스트"
+          "browserScriptTitle": "브라우저 스크립트 테스트",
+          "certificateCheckTitle": "SSL 인증서 검사",
+          "certificateCheckLabel": "SSL 인증서",
+          "certificateCheckHeadline": "SSL 인증서 검사 테스트",
+          "certificateCheckText": "SSL 인증서 검사 테스트는 발행된 인증서의 남은 일 수를 검사하여 웹 애플리케이션에서 SSL 인증서의 만기를 테스트하는 방법입니다."
         },
         "configurationLabel": "구성",
         "configurationTitle": "구성: 이 테스트는 어떻게 작동하나요?",
@@ -140,6 +150,8 @@
         "identifyTitle": "식별: 테스트는 무엇을 하나요?",
         "customPropertiesTitle": "사용자 정의 특성",
         "frequency": "이 테스트는 {{frequencyValue}}분마다 실행됩니다.",
+        "frequencyHours": "이 테스트는 {{frequencyHours}}시간마다 실행됩니다.",
+        "frequencyHoursAndMinutes": "이 테스트는 {{frequencyHours}}시간 {{frequencyMinutes}}분마다 실행됩니다.",
         "simultaneous": "동시",
         "simultaneousDescription": "이 테스트는 선택한 각 위치에서 동시에 실행됩니다.",
         "configStep": {
@@ -213,13 +225,20 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "브라우저"
+          "browserName": "브라우저",
+          "certificateCheckName": "SSL 인증서"
         },
         "customProperties": {
           "property": "특성",
           "propertyValue": "값",
           "addProperty": "특성 추가",
           "propertyNameMustBeUnique": "특성 이름은 고유해야 합니다."
+        },
+        "certificateCheck": {
+          "inputHostName": "호스트 이름",
+          "inputPortNumber": "포트",
+          "failureConfigLabel": "실패 구성",
+          "failureConfigText": "인증서 유효성이 만료될 때까지 <certificateValidityDays/>일이 남아 있으면 테스트가 실패합니다."
         }
       }
     },
@@ -237,11 +256,13 @@
       "failureTitle": "실패함",
       "failureMessageCreate": "합성 테스트를 작성하는 데 실패했습니다. {{errorMessage}}",
       "failureMessageUpdate": "합성 테스트를 업데이트하는 데 실패했습니다. {{errorMessage}}",
-      "failuteMesssageDelete": "합성 테스트를 삭제하는 데 실패했습니다. 나중에 다시 시도하십시오."
+      "failureMesssageDelete": "합성 테스트를 삭제하는 데 실패했습니다. {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "위치가 성공적으로 삭제됨",
-      "failureMesssageDelete": "위치를 삭제하는 데 실패했습니다. 나중에 다시 시도하십시오."
+      "failureMesssage": "{{errorMessage}}",
+      "successMessageDeactivate": "위치를 비활성화했습니다.",
+      "successMessageActivate": "위치를 활성화했습니다."
     },
     "updateTest": {
       "dialogTitle": "{{syntheticType}} 테스트 편집",
@@ -279,21 +300,36 @@
         "datacenterCode": "데이터 센터 코드",
         "datacenterName": "데이터 센터 이름",
         "provider": "제공자",
-        "locationName": "위치 표시 이름",
+        "locationName": "위치 이름",
+        "displayName": "표시 이름",
+        "locationStatus": "상태",
         "status": "활성화 상태",
-        "datacentersSubtitle": "사용 가능한 데이터 센터 중 하나에서 Instana 관리 위치를 활성화하십시오. 자세한 정보는 <linkDatacenters>합성 PoP 배치</linkDatacenters>를 참조하십시오.",
+        "datacentersSubtitle": "사용 가능한 데이터 센터 중 하나에서 Instana 관리 위치를 활성화하십시오. 자세한 정보는 <linkDatacenters>Instana 호스팅 PoP사용</linkDatacenters>을 참조하십시오.",
         "confirmationDialog": {
           "headline": "위치가 배치되고 있음",
-          "message": "다음 데이터 센터에서 새 위치를 설정하고 있습니다. 이를 자동으로 배치하는 동안 기다려 주십시오. 이 작업이 완료되면 위치 탭에서 새 위치를 찾을 수 있습니다. <strong>최대 10분이 소요될 수 있습니다.</strong>",
+          "message": "다음 데이터 센터에서 새 위치를 설정하고 있습니다. 이를 자동으로 배치하는 동안 기다려 주십시오. 이 작업이 완료되면 위치 탭에서 새 위치를 찾을 수 있습니다. <strong>선택한 각 데이터 센터에 대해 최대 10분이 소요될 수 있습니다.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "데이터 센터 코드",
               "datacenterName": "데이터 센터 이름",
-              "locationName": "위치 표시 이름",
+              "locationName": "위치 이름",
               "datacenterStatus": "활성화 상태"
             }
-          }
-        }
+          },
+          "activateLocationLoadingMessage": "데이터 센터 활성화",
+          "activationRejectedMessageSingleDatacenter": "{{rejectedDatacentersList}}에 대한 활성화 요청이 이미 활성화되었으므로 처리할 수 없음",
+          "activationRejectedMessageMultipleDatacenters": "{{rejectedDatacentersList}}에 대한 활성화 요청이 이미 활성화되었으므로 처리할 수 없음"
+        },
+        "deactivateDatacenter": {
+          "title": "위치 비활성화",
+          "deactivateMessage": "<strong>{{locationDisplayLabel}}</strong> 위치를 비활성화하시겠습니까?<br/><br/>위치 비활성화에는 최대 10분이 소요될 수 있습니다. 이 프로비저닝을 해제하는 동안 잠시 기다려 주십시오. 이 작업이 완료되면 위치 상태가 오프라인이 됩니다.<br/>",
+          "warningMessage": "비활성화가 삭제되지 않습니다. 위치를 사용할 수 있으며 다시 활성화할 수 있습니다. 관리 위치를 완전히 제거하려면 상태가 오프라인으로 변경된 위치를 삭제하십시오.",
+          "activeStatus": "활성",
+          "deactivateButton": "비활성화"
+        },
+        "activate": "활성화",
+        "okay": "확인",
+        "activateLocation": "위치 활성화"
       },
       "validators": {
         "theValueMustNotBeEmpty": "하나 이상의 데이터 센터를 선택해야 함"
@@ -329,7 +365,7 @@
         "simpleTab": "단순",
         "redisTab": "Redis TLS",
         "title": "합성 PoP 명령",
-        "subTitle": "이 코드 템플리트를 참조로 사용하십시오. 자세한 정보는 <documentationLink>Synthetic PoP 배치</documentationLink>를 참조하십시오.",
+        "subTitle": "이 코드 템플리트를 참조로 사용하십시오. 자세한 정보는 <documentationLink>자체 호스팅 PoP배치</documentationLink>를 참조하십시오.",
         "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
         "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
         "tlsInstructions": "Redis TLS를 사용하려면 X.509 인증서 키 쌍(`tls.crt`, `tls.key`) 및 CA 루트 인증서 파일(`ca.crt`)이 있어야 합니다.\n\n키/인증서 파일이 없는 경우, openssl 명령을 사용하여 새 파일을 생성할 수도 있습니다.",
@@ -383,9 +419,10 @@
       "success": "성공",
       "failure": "실패함",
       "popVersion": "버전",
-      "noActionsAllowed": "해당사항 없음",
-      "deleteRestrictedDescription": "관리 위치를 삭제할 수 없습니다.",
-      "deleteLocationBroswerRefreshInfo": "위치가 위치 목록에서 사라지는 데 시간이 다소 소요되며 브라우저 새로 고침이 필요할 수 있습니다."
+      "deleteLocationBroswerRefreshInfo": "위치가 위치 목록에서 사라지는 데 시간이 다소 소요되며 브라우저 새로 고침이 필요할 수 있습니다.",
+      "deactivateLocation": {
+        "deactivate": "비활성화"
+      }
     },
     "summary": {
       "successRate": "성공률",
@@ -427,7 +464,14 @@
       "totalRuns": "{{totalRuns}}개의 총 실행",
       "meanLatencyFor90th": "90번째: {{meanLatencyDetail}}",
       "smartAlertsTab": "스마트 경보",
-      "configurationTab": "구성"
+      "configurationTab": "구성",
+      "isCertificateValid": "마지막 실행 - 인증서가 올바름",
+      "certificateValid": "예",
+      "certificateNotValid": "아니오",
+      "daysRemaining": "마지막 실행 - 남은 일 수",
+      "dateOfExpiry": "마지막 실행 - 만기 날짜",
+      "smallerTimeFrameTitle": "이 시간 범위에 대한 결과 없음",
+      "smallerTimeFrameDescription": "SSL 인증서 검사 테스트의 결과를 보려면 더 긴 시간 프레임을 선택하십시오."
     },
     "resultsListPage": {
       "startedColumn": "시작됨",
@@ -439,7 +483,8 @@
       "locationLabel": "위치",
       "failures": "실패",
       "status": "상태",
-      "success": "성공"
+      "success": "성공",
+      "daysRemaining": "남은 일 수"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "합성 테스트 결과 세부사항 페이지에서는 라이브 모드를 적용할 수 없음",
@@ -564,6 +609,11 @@
         "imageButton": "이미지",
         "ScreenshotsLoadingMessage": "스크린샷 로드 중",
         "noScreenshotsAvailableMessage": "이 테스트 결과에 대해 스크린샷을 사용할 수 없습니다."
+      },
+      "sslCertificate": {
+        "daysRemaining": "남은 일 수",
+        "dateOfIssue": "발행일",
+        "dateOfExpiry": "만기 날짜"
       }
     },
     "noDataAvailable": {
@@ -638,7 +688,12 @@
       "retryIntervalFieldLabel": "재시도 간격",
       "retryIntervalSecondDescription": "{{retryIntervalValue}}초",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}}초",
-      "markSyntheticCall": "합성 호출 표시"
+      "markSyntheticCall": "합성 호출 표시",
+      "hostname": "호스트 이름",
+      "port": "포트",
+      "daysRemaining": "인증서 유효성 검증이 완료되면 테스트가 실패함",
+      "day": "만기까지 남은 일 수",
+      "days": "만기까지 남은 일 수"
     }
   }
 }

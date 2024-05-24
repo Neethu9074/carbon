@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
@@ -22,8 +22,10 @@ import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useSe
 import SloListFilters from 'in-service-levels/components/SloList/components/SloListFilters';
 import useSloListFilterUrlState from 'in-service-levels/hooks/useSloListFilterUrlState';
 import SloActions from 'in-service-levels/components/SloList/components/SloActions';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import useSloListItems from 'in-service-levels/hooks/useSloListItems';
+import { SLO_LIST_VIEW } from 'in-services/tracking/eventNames';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import useSloTags from 'in-service-levels/hooks/useSloTags';
 import { LabeledEntity } from 'in-service-levels/types';
@@ -100,8 +102,8 @@ function getColumnDefinitions({
 export interface SloListItem {
   configuration: ServiceLevelObjectiveConfiguration;
   entity: LabeledEntity;
-  status: number;
-  remainingBudget: number;
+  status?: number;
+  remainingBudget?: number;
   burnDown: MetricDataSeries;
   metricTimeConfig: TimeConfig;
   metricGranularity: number;
@@ -116,6 +118,12 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
   const isMediumWidth = useMediaQuery('(min-width: 1560px)');
   const isSmallWidth = useMediaQuery('(min-width: 1200px)');
 
+  const track = useSloTrackers();
+
+  useEffect(() => {
+    track(SLO_LIST_VIEW, {});
+  }, [track]);
+
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -128,7 +136,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
   });
   const [{ tags, entityType }, setFilter] = useSloListFilterUrlState({ pathSegment, matrixPrefix });
 
-  const [result, , sloErrors, sloProgress] = useSloListItems({
+  const [result, , , sloProgress] = useSloListItems({
     page,
     pageSize,
     orderBy,
@@ -137,13 +145,12 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
     tags,
     entityType
   });
-  const [availableTags, , tagsErrors, tagsProgress] = useSloTags();
+  const [availableTags, , , tagsProgress] = useSloTags();
   const navigateToSloDashboard = useNavigateToSloDashboard();
 
   const actualPage = result?.page ?? page;
   const actualPageSize = result?.pageSize ?? pageSize;
   const progress = all(sloProgress, tagsProgress);
-  const errors = [...sloErrors, ...tagsErrors];
 
   return (
     <ServerTablePresenter<SloListItem, ServerTablePresenterProps<SloListItem>>
@@ -156,7 +163,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
       columnDefinitions={getColumnDefinitions({ isMediumWidth, isSmallWidth })}
       result={{
         progress,
-        errors,
+        errors: [],
         data: result
       }}
       onChange={setServerTableState}

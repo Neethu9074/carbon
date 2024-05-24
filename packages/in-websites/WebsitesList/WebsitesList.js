@@ -26,7 +26,6 @@ import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import PageTracker from 'in-services/tracking/segment/PageTracker';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { playwithEnabled } from 'in-services/featureFlags';
@@ -143,7 +142,6 @@ export default connectTo(
       <Sticky header={<ViewSwitcher isWebsites />}>
         <LeftRightPadding>
           <Title title={t('in-websites:websitesList.websitesListTitleWebsites')} />
-          <PageTracker parentProductArea={productAreas.websites_mobile_apps} parentPageName={pageNames.websites} />
           <ViewTrackingMeta
             data={{
               productArea: productAreas.websites_mobile_apps,

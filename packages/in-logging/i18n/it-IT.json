@@ -6,6 +6,8 @@
   "logsOverTime_ERROR": "Errore",
   "logsOverTime_WARN": "Avvertenza ",
   "logsOverTime_INFO": "Info",
+  "logsOverTime_FATAL": "Irreversibile",
+  "logsOverTime_NEXTLOGLEVEL": "{{label}}",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "La configurazione della query non è valida. Risolvere gli errori di convalida prima di proseguire.",
   "addAsFilter": "Aggiungi come filtro",
   "addAsGroup": "Aggiungi come gruppo",

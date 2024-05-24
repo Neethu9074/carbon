@@ -7,7 +7,8 @@
 import React, { useState, useContext } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Link, Spacer, Typography, Toggle } from '@instana/components';
+import { Link, Spacer, Typography, Toggle, IconButton } from '@instana/components';
+import { TextArea, Select } from '@instana/components';
 
 import {
   putApiKeyFields,
@@ -90,16 +91,14 @@ import SectionHeading from 'in-settings/components/SectionHeading';
 import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import TagsTable from 'in-automation/ActionCatalog/TagsTable';
-import IconButton from 'in-components/IconButton/IconButton';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import TextArea from 'in-components/form/TextArea';
 import Code from 'in-components/form/Code/Code';
-import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
@@ -225,7 +224,12 @@ const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'for
         </FormGroup>
       ))}
       <FormGroup>
-        <TagsTable form={form} setForm={setForm} onChange={onChange} />
+        <TagsTable
+          form={form}
+          setForm={setForm}
+          isEditable={!isNotEditable && role?.canConfigureAutomationActions}
+          onChange={onChange}
+        />
       </FormGroup>
     </>
   );

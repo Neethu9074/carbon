@@ -1,6 +1,8 @@
 {
   "general": {
     "addButtonLabel": "Incluir",
+    "addButtonLabel_slo": "Incluir objetivo de nível de serviço",
+    "addButtonLabel_smartAlert": "Incluir alerta inteligente",
     "aggregation": "Agregação",
     "availability": "Disponibilidade",
     "beacon": "Indicador",
@@ -18,6 +20,7 @@
     "noSelection": "Nenhum(a) selecionado(a)",
     "loadMore": "Carregar mais",
     "noData": "Dados não disponíveis",
+    "noMatchingTimeWindows": "Não há nenhum período de tempo correspondente ao período selecionado. Isso geralmente acontece se o período de tempo selecionado for anterior à data de criação do SLO.",
     "serverErrors": {
       "sloLimitReachedError": "O número máximo de configurações de objetivo de nível de serviço ({{0}}) foi atingido. Entre em contato com o suporte Instana para solicitar um aumento para este limite."
     },
@@ -124,18 +127,22 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "Filtro personalizado (opcional)",
+    "customFilter": "Filtro customizado",
+    "custom": "Customizado",
+    "customDescription": "Configurar um filtro customizado para selecionar serviços e / ou terminais",
     "title": "Criar Objetivo de nível de serviço (SLO)",
     "selectIndicator": "Selecionar blueprint",
     "selectEntityNavItem": "Configurar entidade",
     "selectEntityTitle": "Selecione uma entidade na qual incluir o SLO:",
     "selectScopeNavItem": "Configurar escopo",
+    "SelectServiceandEndpoint": "Selecionar serviço e terminal",
     "selectIndicatorNavItem": "Configurar indicador",
     "beaconTypes": {
       "beaconLabel_httpRequest": "Solicitações HTTP",
       "beaconLabel_pageLoad": "Carregamentos de páginas do website",
       "beaconLabel_custom": "Eventos customizados do website"
     },
+    "serviceAndEndpoint": "Serviço e terminal",
     "selectObjectiveTitle": "Configurar objetivo",
     "sloTarget": "SLO de destino",
     "timeWindow": "Espaço de tempo",
@@ -151,6 +158,8 @@
     "errorTimeWindowMin": "O espaço de tempo deve ter pelo menos um dia de duração",
     "errorInvalidExpression": "Os filtros inseridos não são válidos",
     "errorBlankEntity": "Selecione uma entidade na lista",
+    "errorEmptyGoodFilter": "Um bom filtro deve ser definido",
+    "errorEqualTagFilter": "Filtros bons e ruins não devem ser idênticos",
     "nameAndTagsTitle": "Configurar detalhes",
     "sloNameLabel": "Nome do SLO",
     "sloNamePlaceholder": "Insira o nome",
@@ -189,9 +198,9 @@
       "unit_application": "Chamada",
       "unit_website": "indicador",
       "unit_plural": "chamadas",
-      "unit_application_plural": "Chamadas",
+      "unit_application_plural": "chamadas",
       "unit_website_plural": "indicadores",
-      "thousandCallsFormat": "{{count}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
       "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
@@ -218,6 +227,7 @@
     "components": {
       "sloEntityInfo": {
         "service": "Serviço: {{label}}",
+        "endpoint": "Terminal: {{label}}",
         "tooltip": "SLO {{context}}"
       },
       "entityTypeFilter": {
@@ -261,7 +271,8 @@
   "sloDashboard": {
     "tabs": {
       "summaryLabel": "Resumo",
-      "configurationLabel": "Configuração"
+      "configurationLabel": "Configuração",
+      "smartAlertsLabel": "Alertas inteligentes"
     },
     "timeWindowSelection": {
       "timeWindow": "Seleção desconhecida",
@@ -292,7 +303,8 @@
           "filterInfo": {
             "goodEventFilters": "Filtros de eventos válidos:",
             "badEventFilters": "Filtros de eventos inválidos:"
-          }
+          },
+          "approximateTooltip": "Os dados são agregados. Visualizar um espaço de tempo mais curto para ver mais detalhes"
         }
       },
       "entitySection": {

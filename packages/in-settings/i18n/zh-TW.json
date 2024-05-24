@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "建立新的群組",
-    "dialogTitle_edit": "編輯存取範圍",
+    "dialogTitle_edit": "編輯存取配置",
     "editButton": "編輯",
     "productArea": "{{tenantUnit}} 的存取配置 -{{tenant}}"
   },
@@ -67,10 +67,10 @@
     "allApplications": "所有應用程式",
     "allWebsites": "所有網站",
     "allMobileApps": "所有行動式應用程式",
+    "businessMonitoringAccessAllMessage": "所有商業程序",
     "kubernetes": "Kubernetes",
     "allSynthetics": "所有綜合測試",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} 個許可權（共 {{totalNumberOfAreaCapabilities}} 個）",
-    "role": "自訂",
     "role_owner": "擁有者",
     "role_viewer": "檢視器",
     "role_permissions": "不明 - 存取 {{quantityOfAreas}}",
@@ -82,16 +82,16 @@
     "role_permissions_contributor_and_viewer": "檢視者存取權 {{quantityOfAreas}} 和貢獻者存取權 {{quantityOfAreasContributor}}",
     "no_access": "不可存取",
     "platform_permissions": "存取 {{quantityOfAreas}}",
-    "analyticsContentMessage": "可以在網站、行動應用程式、應用程式、平台及基礎架構中的存取範圍所定義的 Analytics 中檢視資料",
     "infrastructureContentMessage": "可以檢視由「應用程式」、「平台」、「基礎架構」中的存取範圍所定義的實體，以及選擇性地由 DFQ 所定義的實體",
-    "eventsAndAlertsContentMessage": "可以根據網站、行動式應用程式、應用程式、綜合監視、平台及基礎架構中定義的存取範圍來檢視事件及警示",
+    "infrastructureAccessAllMessage": "所有實體",
     "permissions": "權限",
     "additionalPermissions": "其他許可權",
     "permissions_DASHBOARD": "自訂儀表板許可權",
     "permissions_SYNTHETICS": "綜合監視許可權",
-    "permissions_AGENTS": "代理程式許可權",
+    "permissions_AGENTS": "代理程式部署許可權",
     "permissions_ACCESS_CONTROL": "存取控制許可權",
     "permissions_AUTOMATION": "自動化許可權",
+    "permissions_EVENT": "事件及警示許可權",
     "permissions_LOGS": "日誌許可權",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power HMC",
@@ -106,12 +106,12 @@
     "obsoleteEntityDescription": "目前沒有可用的資料 - 仍在授與存取權。",
     "title_analytics": "分析",
     "title_applications": "應用程式",
-    "title_events_and_alerts": "事件及警示",
     "title_global_functions": "廣域函數",
     "title_infrastructure": "基礎架構",
     "title_mobileApps": "行動應用程式",
     "title_platforms": "平台",
     "title_websites": "網站",
+    "title_businessMonitoring": "商業監視",
     "title_syntheticMonitoring": "綜合監視"
   },
   "headingSection": {
@@ -136,11 +136,11 @@
     "descriptionLimitedAccess_applications": "選取角色並在下面新增應用程式以授與存取權。",
     "descriptionAccessAll_applications": "所有應用程式都可以使用選取的角色來存取。",
     "deleteButton": "從清單中移除 {{name}}",
-    "infrastructureAccessScope": "存取範圍",
     "infrastructureDfqHeader": "動態焦點查詢 (DFQ)",
     "infrastructureDfqUse": "此外，您可以使用下面的動態焦點查詢來授與對基礎架構的存取權。",
     "infrastructureDfqMore": "進一步瞭解。",
-    "descriptionViewerAccess_infrastructure": "可以檢視所有實體儀表板，這些儀表板與授與應用程式及平台的存取權相關。",
+    "infrastructureDfqToggleLabel": "使用動態焦點查詢 (DFQ) 的其他存取權",
+    "infrastructureDfq_mayNotBeBlank": "值不得空白。",
     "descriptionAccessAll_kubernetes": "可以檢視所有名稱空間及叢集。",
     "descriptionAccessNo_kubernetes": "無法存取名稱空間及叢集。",
     "descriptionAccessLimited_kubernetes": "選取下面的名稱空間及叢集以授與存取權。",
@@ -152,7 +152,7 @@
     "descriptionAccessAll_synthetics": "可以使用選取的角色來存取所有虛構測試。",
     "descriptionLimitedAccess_synthetics": "選取角色並在下面新增虛構測試以授與存取權。",
     "contribution_filter": "貢獻度過濾器",
-    "contributionFilter_description": "建立新的應用程式配置時，會套用貢獻度過濾器。 在應用程式配置上，可以使用 {{logicalOperator}} 運算子之後的過濾器標籤來精簡貢獻度過濾器",
+    "contributionFilter_description": "建立新的應用程式配置時，會套用貢獻度過濾器。 在應用程式配置中，可以使用 {{logicalOperator}} 運算子後面的過濾器標籤來精簡要素項過濾器。 儲存後，即會自動建立使用要素項過濾器標籤的應用程式視景。",
     "contributionFilter_downstreamCalls": "決定可包含在應用程式視景中的其他資訊層次上限",
     "contributionFilter_name": "名稱",
     "contributionFilter_name_mayNotBeBlank": "要素項過濾器名稱不得為空白。",
@@ -163,7 +163,8 @@
     "doneButton": "完成"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "名稱"
+    "nameColumnHead": "名稱",
+    "contributionFilterColumnHead": "貢獻度過濾器"
   },
   "permissionScope": {
     "access_level": "存取權層次",
@@ -183,9 +184,12 @@
     "description_no_access_infrastructure": "無存取權：拒絕存取基礎架構。",
     "description_no_access_synthetics": "無存取權：拒絕存取虛構監視。",
     "description_access_all": "不受限制地存取全部",
+    "title_access_all_bizops": "無限制存取",
+    "title_no_access_bizops": "拒絕存取",
+    "description_access_all_bizops": "商業監視的所有特性都可存取，不受限制。",
+    "description_no_access_bizops": "拒絕存取商業監視。",
     "description_access_all_except_contributor": "全部存取 - 除了以貢獻者身分存取的項目之外",
     "role": "選取角色",
-    "roleSelection": "角色",
     "role_owner": "擁有者",
     "role_viewer": "檢視器",
     "role_custom": "自訂",
@@ -197,9 +201,10 @@
     "roleTooltip_synthetics": "檢視器：能夠檢視虛構測試儀表板（無法檢視配置）。 <br /> 擁有者：能夠建立新的「虛構測試」；檢視、配置及刪除「虛構測試」，以及檢視及刪除「虛構位置」。",
     "contribution_filter_accessScope": "受限存取權範圍（檢視器）",
     "contribution_filter_warning": {
-      "firstParagraph": "您儲存的任何變更都會更新使用此貢獻度過濾器的所有應用程式視景。",
-      "secondParagraph": "如果您變更存取類型，則會刪除要素項過濾器。 任何具有「應用程式」區段擁有者存取權的使用者，都可以編輯所有使用要素項過濾器的應用程式視景。"
-    }
+      "firstParagraph": "您儲存的任何變更都會影響使用此要素項過濾器的所有應用程式視景，以及使用要素項過濾器標籤自動建立的應用程式視景。",
+      "secondParagraph": "如果您變更存取類型，則會刪除要素項過濾器。 所有相關應用程式視景配置上的要素項過濾器標籤，皆可由具有「應用程式」區段擁有者存取權的任何使用者編輯。"
+    },
+    "applicationCreatedUsingContributionFilter": "這個應用程式視景會使用要素項過濾器來自動建立及更新。"
   },
   "configurationSummary": {
     "application": {
@@ -210,16 +215,18 @@
       "limited_access": {
         "access_level": "使用選取的存取類型及任何其他許可權僅存取所列出的應用程式。",
         "access_level_contributor": "您可以在使用者或群組詳細資料的存取配置窗格中，找到具有要素項存取權的應用程式。 <br /><br />以貢獻者身分套用要素項過濾器來存取應用程式視景。 <br />以檢視者身分存取選取的應用程式視景",
-        "role_permissions_contributor": "建立已套用貢獻度過濾器的應用程式儀表板；檢視、配置及刪除這些針對貢獻度過濾器建立的應用程式儀表板。"
+        "role_permissions_contributor": "建立已套用要素項過濾器的應用程式視景；檢視、配置及刪除針對要素項過濾器所建立的這些應用程式視景。"
       },
       "role_permissions_owner": "建立、配置、檢視及刪除應用程式視景。",
       "role_permissions_viewer": "檢視應用程式視景及其配置。"
     },
     "infrastructure": {
-      "limited_access": {
-        "access_level": "存取此裝置下的所有實體儀表板，這些實體儀表板與授與應用程式及平台的存取權相關。"
+      "access_all": {
+        "access_level": "存取具有所選許可權的所有實體儀表板。"
       },
-      "role_permissions_owner": "檢視實體儀表板。",
+      "limited_access": {
+        "access_level": "透過其他 Instana 區段上所授與的存取權，只存取可檢視的實體。"
+      },
       "role_permissions_viewer": "檢視實體儀表板。"
     },
     "kubernetes": {
@@ -293,7 +300,7 @@
     "backToParentViewName": "回到 {{parentViewName}}",
     "search": "搜尋...",
     "confirmRemoveItem": "您確定要移除 <strong>{{itemName}}</strong> 嗎？",
-    "confirmSaveGroup": "儲存這些更新項目將從 {{numberOfContributorAPs}} 應用程式視景中移除貢獻度過濾器，並變成已停用",
+    "confirmSaveGroup": "儲存這些更新項目將會刪除要素項過濾器。<br/><strong>{{numberOfContributorAPs}}</strong> 個應用程式視景配置上的要素項過濾器標籤變成可由具有「應用程式」區段擁有者存取權的任何使用者編輯。<br/><br/>請確定您已選取要授與存取權的應用程式視景（如果存取範圍受限的話）。",
     "enable": "啟用",
     "disable": "停用",
     "deleteEntity": "刪除 {{entity}}.",
@@ -435,6 +442,7 @@
     "someEmailsHaveFailedToSend": "部分電子郵件無法傳送",
     "inviteUserToTenant": "邀請使用者加入 {{tenant}}",
     "anotherUser": "其他使用者",
+    "inviteUsertoDefaultGroup": "您沒有足夠的許可權來選取邀請的群組。 受邀使用者將新增至預設群組。",
     "permissionEntityLabel": "權限 {{entityLabel}}",
     "addToAGroup": "新增至群組",
     "failedToAddUserToGroups": "無法將使用者新增至群組：{{err}}",
@@ -487,23 +495,13 @@
     "alertChannels": "警示通道",
     "alertChannelEntityName": "警示通道 {{entityName}}",
     "noEventsSelected": "未選取事件",
-    "noActionsSelected": "未選取任何動作",
-    "addActions": "新增動作",
     "addEvents": "新增事件",
     "pleaseSelectAtLeastOneEvent": "請選取至少一個事件。",
-    "pleaseSelectAtLeastOneAction": "請至少選取一個動作。",
     "addNumberOfItemsEvent": "新增 {{count}} 個事件",
     "addNumberOfItemsEvent_plural": "新增 {{count}} 個事件",
-    "addNumberOfItemsAction": "新增 {{count}} 個動作",
-    "addNumberOfItemsAction_plural": "新增 {{count}} 個動作",
-    "addNumberOfItemsAction_0": "新增 {{count}} 個動作",
-    "addNumberOfItemsAction_1": "新增 {{count}} 個動作",
-    "addNumberOfItemsAction_2": "新增 {{count}} 個動作",
     "addNumberOfItemsEvent_0": "新增 {{count}} 個事件",
     "addNumberOfItemsEvent_1": "新增 {{count}} 個事件",
     "addNumberOfItemsEvent_2": "新增 {{count}} 個事件",
-    "actionAssociationsStep": "{{step}}. 動作關聯",
-    "ActionAssociations": "動作關聯",
     "allEventsThatMatchTheEventTypesWillEnterTheNotificationStream": "<strong>注意！</strong>符合事件類型的所有事件都將進入通知串流。",
     "dfqFormDesc": "<strong>非空的</strong>過濾器查詢，會定義將套用配置的實體。如果您想將此規則套用到所有實體上，請選取<em>「套用範圍：所有可用的實體」</em>。如需語法的相關資訊，請參閱我們的<docLink>說明文件</docLink>.",
     "addNumberOfItemsApplicationPerspective": "新增 {{count}} 個應用程式視景",
@@ -544,7 +542,7 @@
     "applicationPerspectiveEntityLabel": "應用程式視景 {{entityLabel}}",
     "keyEquals": "索引鍵等於",
     "selectTag": "選取標籤",
-    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "每一個鍵值組都會以額外的有效負載形式，包含在每一個「問題」或「事故」警示通知中。請參閱<docLink>自訂有效負載說明文件</docLink>，以取得詳細資料。",
+    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "每一個鍵值組都會以額外的有效負載形式，包含在每一個「問題」或「事故」警示通知中。 如需詳細資料，請參閱<docLink>自訂有效負載文件</docLink>。",
     "anErrorOccurredPleaseTryAgain": "發生錯誤，請重試。",
     "custom": "自訂",
     "theValueMustNotBeBlank": "值不得空白。",
@@ -738,6 +736,16 @@
     "timeoutsSuccessfullySaved": "已順利儲存逾時值。",
     "disableTwoFactor": "停用雙因素",
     "saveToken": "儲存記號",
+    "profile": {
+      "pageName": "設定",
+      "email": "電子郵件",
+      "emailHint": "用來在 Instana 上識別使用者帳戶的電子郵件。 建立使用者帳戶之後，您將無法變更電子郵件。",
+      "name": "名稱",
+      "nameHint": "輸入您的名字 (given name) 和姓氏 (family name)（不含逗點）。",
+      "saving": "正在儲存新名稱",
+      "saved": "已儲存新名稱",
+      "failed": "無法儲存新名稱"
+    },
     "twoFactorAuthentication": "雙因素鑑別",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "目前這個使用者的雙因素鑑別已停用。",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "請從鑑別器應用程式輸入 2FA 記號，以完成配置：",
@@ -768,7 +776,7 @@
     "noGroupMapping": "在身分提供者與 Instana 之間未配置對映",
     "denyUserWithNoGroup": "找不到對映時拒絕存取。如果未勾選，則沒有群組對映，且找不到群組的使用者將新增至「預設」群組。",
     "denyUserWithNoGroupDocs": "一律可以使用具有足夠許可權的記號，透過 API 來刪除身分提供者配置。 如需詳細資料，請參閱<authLink>配置鑑別</authLink>。",
-    "groupMappingInfoText": "對映規則由索引鍵、值和 Instana 群組所組成。 索引鍵和值會參照您從中對映的「身分提供者」屬性及其對應值。 例如，您想要將索引鍵 \"Department\" 中具有值 \"SRE\" 的每個使用者對映至 Instana 擁有者群組。",
+    "groupMappingInfoText": "對映規則由索引鍵、值和 Instana 群組組成。 索引鍵和值會參照您從中對映的「身分提供者」屬性及其對應值。 例如，您想要將索引鍵 \"Department\" 中具有值 \"SRE\" 的每個使用者對映至 Instana 擁有者群組。",
     "ownerGroupMemberNotLimitable": "使用者是「擁有者」群組的成員，不會受到其他群組成員資格的限制。",
     "mergedPermissionWithCombinationOfLimitedAndUnlimited": "有效許可權集是透過不同群組指派所授與之最具許可權的總和。 不過，有限存取範圍的總和會決定使用者的有效範圍。",
     "users": "使用者",
@@ -801,7 +809,8 @@
     "groupDeleteTooltip_Default": "預設群組是內建群組，無法刪除或重新命名。",
     "groupDeleteTooltip_Owner": "擁有者群組是內建群組，無法刪除或重新命名。",
     "deleteGroupMessage": "您確定要從此租戶上的所有單元移除 <strong>{{groupName}}</strong> 嗎？",
-    "thisWillRemoveContributionFilterMessage": "這會從 <strong>{{apCount}}</strong> 應用程式視景中移除貢獻度過濾器，並變成已停用",
+    "thisWillRemoveContributionFilterMessage": "這會從要素項過濾器中移除 <strong>{{apCount}}</strong> 個應用程式視景",
+    "thisWillRemoveContributionFilterFromOtherUnits": "這會從要素項過濾器及其他單元上定義的任何要素項過濾器中移除 <strong>{{apCount}}</strong> 個應用程式視景",
     "addGroup": "新建群組",
     "pendingInvitations": "擱置邀請",
     "revoke": "撤銷",
@@ -1123,6 +1132,7 @@
     "serviceNow": "ServiceNow",
     "serviceNowAlertChannel": "ServiceNow 警示通道",
     "serviceNowUsernameTooltip": "使用者名稱和密碼應該用於具有建立事件權限的 ServiceNow 使用者。",
+    "autoCloseIncidents": "自動關閉發生事件",
     "showPasswordTooltip": "顯示密碼",
     "hidePasswordTooltip": "隱藏密碼",
     "scope": "範圍",
@@ -1164,7 +1174,12 @@
     "createIDPConfirmationDescription": "將刪除擱置邀請。 使用者會從您的身分提供者 (IdP) 自動佈建。",
     "revokeInvitationForUserWithEmail": "撤銷加入 {{tenant}} 租戶的邀請，電子郵件為 {{email}}",
     "invitationValidUntil": "邀請有效截止時間",
-    "invitedBy": "邀請者："
+    "invitedBy": "邀請者：",
+    "accessAll": "全部存取",
+    "access": "存取",
+    "accessForTenantUnit": "{{tenantUnit}}-{{tenant}} 的存取權",
+    "numberOfMembers": "成員數",
+    "groupEntityName": "群組 {{entityName}}"
   },
   "languageSelection": {
     "language": "語言",

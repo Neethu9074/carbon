@@ -9,6 +9,7 @@ import React from 'react';
 import { LogAlertConfigWithMetadata, ThresholdConfigUnion } from '@instana/types';
 
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
+import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 import { alertsPath, alertDetailsFullyQualifiedPath, alertsDetailsPath } from 'in-logging/navigation/paths';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
@@ -31,20 +32,23 @@ export default function Alerts() {
   const handlers = role?.canConfigureGlobalLogSmartAlerts ? actionHandlers : {};
 
   return (
-    <LogsAlertsTabHeader>
-      <div className={locals.wrapper}>
-        <AlertBaseList<LogAlertConfigWithMetadata>
-          extraColumnDefinitions={getColumnDefinitions()}
-          actionHandlers={handlers}
-          getAlertConfigs={() => getAllAlertConfigsWithResult()}
-          getSubtitle={config => getSubtitle(config.threshold)}
-          sortOptions={sortOptions}
-          alertsTab={alertsPath}
-          createRowLinkLocation={createRowLinkLocation}
-        />
-        <Footer />
-      </div>
-    </LogsAlertsTabHeader>
+    <>
+      <LogsAlertsTabHeader>
+        <div className={locals.wrapper}>
+          <AlertBaseList<LogAlertConfigWithMetadata>
+            extraColumnDefinitions={getColumnDefinitions()}
+            actionHandlers={handlers}
+            getAlertConfigs={() => getAllAlertConfigsWithResult()}
+            getSubtitle={config => getSubtitle(config.threshold)}
+            sortOptions={sortOptions}
+            alertsTab={alertsPath}
+            createRowLinkLocation={createRowLinkLocation}
+          />
+          <Footer />
+        </div>
+      </LogsAlertsTabHeader>
+      <CreateLogsSmartAlertFloatingButton />
+    </>
   );
 }
 

@@ -15,8 +15,8 @@ import getKubernetesHostsByCluster from 'in-kubernetes/subscriptions/getKubernet
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
 import { t } from 'in-i18n';
@@ -24,25 +24,23 @@ import { t } from 'in-i18n';
 const pathSegment = '/hosts';
 const matrixPrefix = 'host.';
 
+const DashboardLink = ({ item, timeConfig }) => {
+  const snapshot = fromJS(item);
+  const href = useGetDashboardLink()(item.id, {
+    pathname: '/physical/dashboard',
+    to: timeConfig.to,
+    focusedMoment: timeConfig.to
+  });
+
+  return <EntityLink snapshot={snapshot} label={getLabel(snapshot)} href={href} />;
+};
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-kubernetes:dashboards.name'),
     sortable: false,
-    getContent(item, { timeConfig }) {
-      const snapshot = fromJS(item);
-      return (
-        <EntityLink
-          snapshot={snapshot}
-          label={getLabel(snapshot)}
-          href$={getDashboardLink(item.id, {
-            pathname: '/physical/dashboard',
-            to: timeConfig.to,
-            focusedMoment: timeConfig.to
-          })}
-        />
-      );
-    }
+    getContent: (item, { timeConfig }) => <DashboardLink item={item} timeConfig={timeConfig} />
   },
   {
     id: 'cpuUsage',

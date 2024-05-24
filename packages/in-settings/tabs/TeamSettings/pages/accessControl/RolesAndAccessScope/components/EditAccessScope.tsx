@@ -18,6 +18,7 @@ import {
   getField,
   updateFormField
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import PermissionSectionAutomation from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionAutomation';
 // @ts-expect-error not migrated to typescript yet
 import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import PlatformsEditSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection';
@@ -32,16 +33,12 @@ import PermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/GroupNameSection';
-import {
-  applicationContributionFilterEnabled,
-  syntheticRbacEnabled,
-  bizopsRbacEnabled
-} from 'in-services/featureFlags';
 import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
 import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { actionAutomationEnabled, syntheticsEnabled } from 'in-services/featureFlags';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -69,6 +66,15 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
   const groupNameField = getField<string>(form, 'name');
   const tagFilterExpression = getField<FormModelElement[]>(form, 'tagFilterExpression')?.value ?? undefined;
 
+  const globalSections = [
+    ProductArea.MIXED,
+    ProductArea.EVENT,
+    ProductArea.LOGS,
+    ProductArea.DASHBOARD,
+    ProductArea.AGENTS,
+    ProductArea.ACCESS_CONTROL
+  ];
+
   const validTagFilterExpressionResult: Result<boolean> =
     useObservable(isQueryValid, [tagFilterExpression, timeConfig]) ?? pendingResult;
 
@@ -92,9 +98,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
     }
   };
 
-  if (applicationContributionFilterEnabled) {
-    validateContributionFilter();
-  }
+  validateContributionFilter();
 
   const formControlProps: FormControlProps<FORM_TYPE> = {
     form,
@@ -105,6 +109,16 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
     setSubSlideConfig,
     setShowSubSlide
   };
+
+  const globalFunctionNavItems = globalSections
+    .filter(area => area !== ProductArea.MIXED)
+    .map(area => ({
+      scrollId: area,
+      label: t('in-settings:productAreas.title', { context: area.toLowerCase() }),
+      title: t('in-settings:productAreas.title', { context: area.toLowerCase() }),
+      valid: true,
+      content: <></>
+    }));
 
   const nameItem = !editMode
     ? [
@@ -118,11 +132,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
               value={groupNameField?.value}
               setValue={(value: string) => {
                 const updatedForm = updateFormField(form, 'name', value, true);
-                if (applicationContributionFilterEnabled) {
-                  setForm(updateFormField(updatedForm, 'label', value, true));
-                } else {
-                  setForm(updatedForm);
-                }
+                setForm(updateFormField(updatedForm, 'label', value, true));
               }}
             />
           )
@@ -193,7 +203,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       )
     },
     {
-      scrollId: '4.5-bizops',
+      scrollId: '5-bizops',
       label: t('in-settings:productAreas.title_businessMonitoring'),
       title: t('in-settings:productAreas.title_businessMonitoring'),
       valid: true,
@@ -212,7 +222,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       )
     },
     {
-      scrollId: '5-applications',
+      scrollId: '6-applications',
       label: t('in-settings:productAreas.title_applications'),
       title: t('in-settings:productAreas.title_applications'),
       valid: true,
@@ -229,6 +239,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           icon="lib_application"
           extractId={({ id }) => id}
           extractName={({ name }) => name}
+          extractContributionFilterName={({ supplementary }) => supplementary ?? ''}
           {...formControlProps}
           {...slideControlProps}
           setValid={setValidContributionFilterName}
@@ -237,14 +248,14 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       )
     },
     {
-      scrollId: '6-platforms',
+      scrollId: '7-platforms',
       label: platformTitle,
       title: platformTitle,
       valid: true,
       content: <PlatformsEditSelection {...formControlProps} {...slideControlProps} />
     },
     {
-      scrollId: '7-infrastructure',
+      scrollId: '8-infrastructure',
       label: t('in-settings:productAreas.title_infrastructure'),
       title: t('in-settings:productAreas.title_infrastructure'),
       valid: true,
@@ -259,11 +270,11 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
     }
   ];
 
-  navItems = syntheticRbacEnabled
+  navItems = syntheticsEnabled
     ? [
         ...navItems,
         {
-          scrollId: '8-synthetics',
+          scrollId: '9-synthetics',
           label: t('in-settings:productAreas.title_syntheticMonitoring'),
           title: t('in-settings:productAreas.title_syntheticMonitoring'),
           valid: true,
@@ -283,63 +294,24 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
             />
           )
         },
-        {
-          scrollId: '10-eventsAndAlerts',
-          label: t('in-settings:productAreas.title_events_and_alerts'),
-          title: t('in-settings:productAreas.title_events_and_alerts'),
-          valid: true,
-          content: (
-            <PermissionSelection
-              title={t('in-settings:productAreas.title_events_and_alerts')}
-              description={t('in-settings:PermissionSection.description_events_and_alerts')}
-              productAreas={[ProductArea.EVENT]}
-              icon="lib_events_inverted"
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        },
-        {
-          scrollId: '11-globalFunctions',
-          label: t('in-settings:productAreas.title_global_functions'),
-          title: t('in-settings:productAreas.title_global_functions'),
-          valid: true,
-          content: (
-            <PermissionSelection
-              title={t('in-settings:productAreas.title_global_functions')}
-              productAreas={[
-                ProductArea.MIXED,
-                ProductArea.LOGS,
-                ProductArea.DASHBOARD,
-                ProductArea.AUTOMATION,
-                ProductArea.AGENTS,
-                ProductArea.ACCESS_CONTROL
-              ]}
-              icon="lib_actions_settings"
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        }
-      ]
-    : [
-        ...navItems,
-        {
-          scrollId: '9-eventsAndAlerts',
-          label: t('in-settings:productAreas.title_events_and_alerts'),
-          title: t('in-settings:productAreas.title_events_and_alerts'),
-          valid: true,
-          content: (
-            <PermissionSelection
-              title={t('in-settings:productAreas.title_events_and_alerts')}
-              description={t('in-settings:PermissionSection.description_events_and_alerts')}
-              productAreas={[ProductArea.EVENT]}
-              icon="lib_events_inverted"
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        },
+        ...(actionAutomationEnabled
+          ? [
+              {
+                scrollId: '9-automation',
+                label: t('in-settings:productAreas.title_automation'),
+                title: t('in-settings:productAreas.title_automation'),
+                valid: true,
+                content: (
+                  <PermissionSectionAutomation
+                    title={t('in-settings:productAreas.title_automation')}
+                    icon="lib_automation"
+                    {...formControlProps}
+                    {...slideControlProps}
+                  />
+                )
+              }
+            ]
+          : []),
         {
           scrollId: '10-globalFunctions',
           label: t('in-settings:productAreas.title_global_functions'),
@@ -348,26 +320,53 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           content: (
             <PermissionSelection
               title={t('in-settings:productAreas.title_global_functions')}
-              productAreas={[
-                ProductArea.MIXED,
-                ProductArea.LOGS,
-                ProductArea.DASHBOARD,
-                ProductArea.SYNTHETICS,
-                ProductArea.AUTOMATION,
-                ProductArea.AGENTS,
-                ProductArea.ACCESS_CONTROL
-              ]}
+              productAreas={globalSections}
               icon="lib_actions_settings"
               {...formControlProps}
-              {...slideControlProps}
             />
           )
-        }
+        },
+        ...globalFunctionNavItems
+      ]
+    : [
+        ...navItems,
+        ...(actionAutomationEnabled
+          ? [
+              {
+                scrollId: '8-automation',
+                label: t('in-settings:productAreas.title_automation'),
+                title: t('in-settings:productAreas.title_automation'),
+                valid: true,
+                content: (
+                  <PermissionSectionAutomation
+                    title={t('in-settings:productAreas.title_automation')}
+                    icon="lib_automation"
+                    {...formControlProps}
+                    {...slideControlProps}
+                  />
+                )
+              }
+            ]
+          : []),
+        {
+          scrollId: '9-globalFunctions',
+          label: t('in-settings:productAreas.title_global_functions'),
+          title: t('in-settings:productAreas.title_global_functions'),
+          valid: true,
+          content: (
+            <PermissionSelection
+              title={t('in-settings:productAreas.title_global_functions')}
+              productAreas={globalSections}
+              icon="lib_actions_settings"
+              {...formControlProps}
+            />
+          )
+        },
+        ...globalFunctionNavItems
       ];
 
   // Filter out areas the user does not have permissions for
-  navItems = bizopsRbacEnabled ? navItems : navItems.filter(it => it.scrollId !== '4.5-bizops');
-  navItems = hasAPlatformAccess ? navItems : navItems.filter(it => it.scrollId !== '6-platforms');
+  navItems = hasAPlatformAccess ? navItems : navItems.filter(it => it.scrollId !== '7-platforms');
 
   return (
     <ConfigDialog

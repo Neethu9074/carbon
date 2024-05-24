@@ -6,8 +6,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Li, Spacer, Stack, Ul } from '@instana/components';
-import { Toggle, Button } from '@instana/legacy';
+import { Li, Spacer, Stack, Ul, Toggle } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { MetricsForAxis, Reorderer } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
 import { userSelectableRenderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
@@ -103,7 +103,7 @@ function AxisConfigurator({
   }
 
   const updateShareMaxAxisDomain = e => {
-    if (e.target.checked) {
+    if (e) {
       onChange([], form =>
         form
           .updateIn(['y1', 'max'], field => field.setValue(undefined).setTouched(true))
@@ -247,7 +247,7 @@ function AxisConfigurator({
                 <div className={locals.shareMaxValueContainer}>
                   <Toggle
                     checked={form.get('shareMaxAxisDomain').value}
-                    onChange={e => {
+                    onToggle={e => {
                       updateShareMaxAxisDomain(e);
                     }}
                   />

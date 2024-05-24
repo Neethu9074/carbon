@@ -15,11 +15,13 @@ import {
 import JsErrorsThresholdCondition from 'in-alerting/smart-alerts/websites/dialog/advanced/JsErrorsThresholdCondition';
 import SlownessThresholdCondition from 'in-alerting/smart-alerts/websites/dialog/advanced/SlownessThresholdCondition';
 import CustomEventsThresholdCondition from 'in-alerting/smart-alerts/eum/components/CustomEventsThresholdCondition';
+import CrashThresholdCondition from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/CrashThresholdCondition';
 import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/eum/components/StatusCodeThresholdCondition';
 import ThroughputThresholdCondition from 'in-alerting/smart-alerts/eum/components/ThroughputThresholdCondition';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/dialog/IncompleteChartPlaceholder';
 import { alertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
+import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
 
@@ -104,6 +106,18 @@ export default function ThresholdSelectionInteractiveChart({
             getMetricUnitPostfix={getMetricUnitPostfix}
           />
         )}
+        renderCrash={() =>
+          eumType === mobileAppEum && (
+            <CrashThresholdCondition
+              form={form}
+              blueprintConfig={blueprintConfig}
+              updateForm={updateForm}
+              editMode={editMode}
+              getMetricUnitPostfix={getMetricUnitPostfix}
+              isPercentageMetric={isPercentageMetric}
+            />
+          )
+        }
       />
 
       <ChartViewConfigurator

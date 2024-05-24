@@ -6,8 +6,8 @@
 import React, { Fragment } from 'react';
 
 import { themes } from '@instana/design-tokens';
-
-import Pill, { Kind } from 'in-components/Pill';
+import { Pill } from '@instana/components';
+import { Kind } from 'in-components/Pill';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './BadgeList.mless';

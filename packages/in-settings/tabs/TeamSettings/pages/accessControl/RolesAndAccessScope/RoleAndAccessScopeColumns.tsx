@@ -20,7 +20,6 @@ import {
   ProductArea,
   ScopeRoles
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -72,7 +71,6 @@ export default function RoleAndAccessScopeColumns<FORM_TYPE extends MapFormItems
     const currentApplicationRole = getAreaRoleFromPermissionSet(ProductArea.APPLICATION, currentPermissionSet);
     const currentTagfilter = currentPermissionSet?.restrictedApplicationFilter?.tagFilterExpression;
     if (
-      applicationContributionFilterEnabled &&
       contributorApplicationIds > 0 &&
       (currentTagfilter === undefined || currentApplicationRole !== initialApplicationRole)
     ) {

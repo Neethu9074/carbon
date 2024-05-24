@@ -11,11 +11,11 @@ import { generateUniqueShortId } from '@instana/utils';
 import { Button } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
+import { Code, ConfigItem, SSLCertificateTest, TestTypeSelected } from 'in-synthetics/utils/constants';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
 import SimpleOrScriptOption from 'in-synthetics/createTests/advanced/SimpleOrScriptOption';
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
-import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { Col, Row } from 'in-components/layout/Grid';
 import { isBlank } from 'in-services/util/string';
 
@@ -49,6 +49,13 @@ const scriptAPIDescription = (
   </>
 );
 
+const certificateCheckDescription = (
+  <>
+    <b>{t('in-synthetics:dialog.createTest.bluePrint.title')}</b>
+    <p>{t('in-synthetics:dialog.createTest.bluePrint.certificateCheck.whenToUse.line1')}</p>
+  </>
+);
+
 const simpleBrowserDescription = (
   <>
     <b>{t('in-synthetics:dialog.createTest.bluePrint.title')}</b>
@@ -78,7 +85,7 @@ const SelectedTestType = ({
 }: SelectedTestTypeProps) => {
   const populateCommonAttributes = () => {
     commonAttributes['url'] = '';
-    commonAttributes['testFrequency'] = form.get('testFrequency').value;
+    commonAttributes['testFrequency'] = selectedBlueprint.type === SSLCertificateTest ? 1440 : 15;
     commonAttributes['locations'] = form.get('locations').value;
     commonAttributes['label'] = form.get('label').value;
     commonAttributes['description'] = form.get('description').value;
@@ -105,6 +112,18 @@ const SelectedTestType = ({
         );
       case 'Internet Services':
         return <RenderInternetServices selectedBlueprint={selectedBlueprint} />;
+      case 'Certificate Check':
+        return (
+          <RenderCertificateCheck
+            selectedBlueprint={selectedBlueprint}
+            setTestTypeSelected={setTestTypeSelected}
+            testTypeSelected={testTypeSelected}
+            commonAttributes={commonAttributes}
+            setCommonAttributes={setCommonAttributes}
+            isUpdateConfig={isUpdateConfig}
+            setScriptDetails={setScriptDetails}
+          />
+        );
       default:
         return (
           <RenderHttpTests
@@ -132,6 +151,7 @@ const SelectedTestType = ({
             if (testTypeSelected?.api.script) selectedBlueprint.testType = 'HTTPScript';
             if (testTypeSelected?.browser.simple) selectedBlueprint.testType = 'WebpageAction';
             if (testTypeSelected?.browser.script) selectedBlueprint.testType = 'BrowserScript';
+            if (testTypeSelected?.ssl.simple) selectedBlueprint.testType = 'SSLCertificate';
             populateCommonAttributes();
             setRenderSectionsCounter(v => v + 1);
             setHeaders([
@@ -152,6 +172,56 @@ const SelectedTestType = ({
         </Button>
       )}
     </div>
+  );
+};
+
+// Certificate Check
+interface RenderCertificateCheckProps {
+  selectedBlueprint: AdvancedBluePrint;
+  setTestTypeSelected: (t: TestTypeSelected) => void;
+  testTypeSelected: TestTypeSelected;
+  commonAttributes: Record<string, any>;
+  setCommonAttributes: (type: Record<string, any>) => void;
+  isUpdateConfig: boolean;
+  setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
+}
+
+const RenderCertificateCheck = ({
+  selectedBlueprint,
+  setTestTypeSelected,
+  testTypeSelected,
+  commonAttributes,
+  setCommonAttributes,
+  isUpdateConfig,
+  setScriptDetails
+}: RenderCertificateCheckProps) => {
+  const simple: boolean = commonAttributes.syntheticType === 'SSLCertificate' ? true : false;
+  return (
+    <>
+      <h3 className={locals.headline}>
+        <span>{selectedBlueprint.description.headline}</span>
+      </h3>
+      <DangerousHtmlPresenter className={locals.text} html={selectedBlueprint.description.text} />
+      <Row>
+        <Col lg={8} className={locals.column}>
+          <SimpleOrScriptOption
+            checked={!testTypeSelected?.ssl.simple ? simple : testTypeSelected?.ssl.simple}
+            title={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.certificateCheckTitle')}
+            description={certificateCheckDescription}
+            onChange={() => {
+              //@ts-expect-error
+              setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
+                return { ...prevState, ssl: { simple: true } };
+              });
+              setCommonAttributes({ ...commonAttributes, script: '', syntheticType: commonAttributes.syntheticType });
+              setScriptDetails({ modified: false, name: '' });
+            }}
+            disabled={isUpdateConfig}
+            asRadioButton
+          />
+        </Col>
+      </Row>
+    </>
   );
 };
 
@@ -176,6 +246,7 @@ const RenderHttpTests = ({
 }: RenderHttpTestsProps) => {
   const simple: boolean = commonAttributes.syntheticType === 'HTTPAction' ? true : false;
   const script: boolean = commonAttributes.syntheticType === 'HTTPScript' ? true : false;
+
   return (
     <>
       <h3 className={locals.headline}>

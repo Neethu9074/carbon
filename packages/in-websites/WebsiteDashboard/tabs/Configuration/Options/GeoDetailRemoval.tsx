@@ -8,13 +8,13 @@ import React, { FormEvent, useState } from 'react';
 import { Card, Stack } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import { pendingResult } from 'in-services/fixedObjects';
 import { GeoDetailRemoval, Result } from 'in-types';
-import Select from 'in-components/form/Select';
 import { t } from 'in-i18n';
 
 const geoDetailRemovalOptions: GeoDetailRemoval[] = ['NO_REMOVAL', 'REMOVE_COORDINATES', 'REMOVE_CITY', 'REMOVE_ALL'];

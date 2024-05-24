@@ -415,6 +415,7 @@
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "平台",
     "viewSwitcherButtonSignOut": "登出",
+    "viewSwitcherCustomDashboards": "自訂儀表板",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "有新的 Instana 使用者介面版本可用",
     "newUiClientVersionAvailableButtonReloadToUpdate": "重新載入以更新"
   },
@@ -438,7 +439,8 @@
     "aggregation_DISTINCTCOUNT": "個別的計數",
     "aggregation_SUM": "總和",
     "aggregation_DISTRIBUTION": "分佈",
-    "aggregation_PERSECOND": "每秒"
+    "aggregation_PERSECOND": "每秒",
+    "labelFilterEmptyValue": "過濾空值"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "已用",

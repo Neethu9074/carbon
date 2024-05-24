@@ -8,6 +8,13 @@
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
+
+    // inside of the flexWrapper - to increase the specificity of this styling
+    // of the used Tag/Pill:
+    .fieldSeperator {
+      margin: 0.5rem;
+      min-width: 1.25rem;
+    }
   }
 
   .helpText {
@@ -44,11 +51,6 @@
   .customKeyGroup {
     min-width: 13rem;
     max-width: 13rem;
-  }
-
-  .fieldSeperator {
-    margin: 0.5rem;
-    min-width: 1.25rem;
   }
 
   .fixedOperator,

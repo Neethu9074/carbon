@@ -7,7 +7,7 @@ import { createField, createMapForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
-import { Card, Message, Spacer } from '@instana/components';
+import { Card, Message, Spacer, Pill } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
@@ -22,7 +22,6 @@ import InboundOrAllCallsChoiceVertical from 'in-applications/Dashboards/commonCo
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import ContributionFilterDropdown from 'in-applications/creation/components/ContributionFilterDropdown';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { applicationSubmitTracker } from 'in-applications/tracker';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -36,7 +35,6 @@ import { isBlank } from 'in-services/util/string';
 import { noop } from 'in-services/fixedObjects';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import Pill from 'in-components/Pill';
 import { t, Trans } from 'in-i18n';
 
 import locals from './CreateApplicationDialog.mless';
@@ -137,18 +135,15 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
                               {t('in-applications:forms.newApplication.descriptionOperatorsCreationEnabled')}
                             </strong>
                           </DescriptionText>
-                          {applicationContributionFilterEnabled &&
-                            applicationId &&
-                            appConfig.groupId &&
-                            !appConfig.contributionFilter && (
-                              <>
-                                <Message small>
-                                  <Trans i18nKey="in-applications:forms.newApplication.warningMessageForContributionFilter" />
-                                </Message>
-                                <Spacer vertical="xsmall" />
-                              </>
-                            )}
-                          {applicationContributionFilterEnabled && appConfig.contributionFilter != null && (
+                          {applicationId && appConfig.groupId && !appConfig.contributionFilter && (
+                            <>
+                              <Message small>
+                                <Trans i18nKey="in-applications:forms.newApplication.warningMessageForContributionFilter" />
+                              </Message>
+                              <Spacer vertical="xsmall" />
+                            </>
+                          )}
+                          {appConfig.contributionFilter != null && (
                             <div className={locals.contributionFilter}>
                               <ContributionFilterDropdown
                                 form={form}
@@ -261,9 +256,6 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
 }
 
 function getMaxScope(appConfig) {
-  if (!applicationContributionFilterEnabled) {
-    return 'INCLUDE_ALL_DOWNSTREAM';
-  }
   return appConfig.contributionFilter?.scope ?? 'INCLUDE_ALL_DOWNSTREAM';
 }
 

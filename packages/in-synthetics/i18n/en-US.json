@@ -39,6 +39,7 @@
         "labelName": "Name of the test",
         "labelDescription": "Description",
         "labelFrequency": "Frequency (minute)",
+        "labelFrequencyHour": "Frequency (hour)",
         "labelApplications": "Select an Application"
       },
       "bluePrint": {
@@ -95,6 +96,11 @@
             "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
             "line4": "Step 4: In the Name of the test and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "Check whether the web server certificate is going to expire or not using this test."
+          }
         }
       },
       "validators": {
@@ -128,7 +134,11 @@
           "browserTypeHeadline": "Browser Synthetic Tests",
           "browserTypeText": "Browser synthetic testing is a method of monitoring web application performance by simulating user interactions with a website through a script in a web browser, providing valuable insights into issues that affect user experience and ensuring website functionality.",
           "browserSimpleTitle": "Browser Simple Test",
-          "browserScriptTitle": "Browser Script Test"
+          "browserScriptTitle": "Browser Script Test",
+          "certificateCheckTitle": "SSL Certificate Check",
+          "certificateCheckLabel": "SSL Certificate",
+          "certificateCheckHeadline": "SSL Certificate Check Test",
+          "certificateCheckText": "SSL Certificate check testing is a method to test the expiration for a SSL certificate in a web application by checking the remaining days on a issued certificate."
         },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration: How will this test work?",
@@ -140,6 +150,8 @@
         "identifyTitle": "Identify: What is the test going to do?",
         "customPropertiesTitle": "Custom Properties",
         "frequency": "This test will run every {{frequencyValue}} minutes.",
+        "frequencyHours": "This test will run every {{frequencyHours}} hours.",
+        "frequencyHoursAndMinutes": "This test will run every {{frequencyHours}} hours and {{frequencyMinutes}} minutes.",
         "simultaneous": "Simultaneous",
         "simultaneousDescription": "This test will run simultaneously on each location(s) selected.",
         "configStep": {
@@ -213,13 +225,20 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Browser"
+          "browserName": "Browser",
+          "certificateCheckName": "SSL Certificate"
         },
         "customProperties": {
           "property": "Property",
           "propertyValue": "Value",
           "addProperty": "Add Property",
           "propertyNameMustBeUnique": "Property name must be unique."
+        },
+        "certificateCheck": {
+          "inputHostName": "Host Name",
+          "inputPortNumber": "Port",
+          "failureConfigLabel": "Failure Configuration",
+          "failureConfigText": "Test will fail when certificate validity has <certificateValidityDays/> days remaining until expiration."
         }
       }
     },
@@ -241,9 +260,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "Successfully deleted the location",
-      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "failureMesssage": "{{errorMessage}}",
       "successMessageDeactivate": "Successfully deactivated the location",
-      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
+      "successMessageActivate": "Successfully activated the location"
     },
     "updateTest": {
       "dialogTitle": "Edit {{syntheticType}} Test",
@@ -307,7 +326,10 @@
           "warningMessage": "Deactivating is not deleting. The location will be available and can be activated again. To completely remove the managed location, delete the location once its status changes to Offline.",
           "activeStatus": "Active",
           "deactivateButton": "Deactivate"
-        }
+        },
+        "activate": "Activate",
+        "okay": "Okay",
+        "activateLocation": "Activate Location"
       },
       "validators": {
         "theValueMustNotBeEmpty": "At least one datacenter needs to be selected"
@@ -442,7 +464,15 @@
       "totalRuns": "{{totalRuns}} total runs",
       "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
       "smartAlertsTab": "Smart Alerts",
-      "configurationTab": "Configuration"
+      "configurationTab": "Configuration",
+      "isCertificateValid": "Last Run - Certificate is Valid",
+      "resultsCertificateValid": "Certificate is Valid",
+      "certificateValid": "Yes",
+      "certificateNotValid": "No",
+      "daysRemaining": "Last Run - Days Remaining",
+      "dateOfExpiry": "Last Run - Date of Expiry",
+      "smallerTimeFrameTitle": "No results for this time frame",
+      "smallerTimeFrameDescription": "Please select a longer time frame to see results for SSL Certificate Check tests."
     },
     "resultsListPage": {
       "startedColumn": "Started",
@@ -454,7 +484,8 @@
       "locationLabel": "Location",
       "failures": "Failures",
       "status": "Status",
-      "success": "Success"
+      "success": "Success",
+      "daysRemaining": "Days Remaining"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Live Mode is not applicable in Synthetic test result detail page",
@@ -579,6 +610,11 @@
         "imageButton": "Image",
         "ScreenshotsLoadingMessage": "Loading Screenshots",
         "noScreenshotsAvailableMessage": "Screenshots not available for this test result"
+      },
+      "sslCertificate": {
+        "daysRemaining": "Days Remaining",
+        "dateOfIssue": "Date of Issue",
+        "dateOfExpiry": "Date of Expiry"
       }
     },
     "noDataAvailable": {
@@ -645,6 +681,7 @@
       },
       "configurationEditAction": "Edit",
       "configurationDeleteAction": "Delete",
+      "configurationUnsupported": "Unsupported test type.",
       "timeoutLabel": "Timeout",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "Retry Strategy",
@@ -653,7 +690,12 @@
       "retryIntervalFieldLabel": "Retry Interval",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} second",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} seconds",
-      "markSyntheticCall": "Mark Synthetic Call"
+      "markSyntheticCall": "Mark Synthetic Call",
+      "hostname": "Hostname",
+      "port": "Port",
+      "daysRemaining": "Failure Configuration",
+      "day": "Test will fail when certificate validity has {{daysRemainingCheck}} day remaining until expiration",
+      "days": "Test will fail when certificate validity has {{daysRemainingCheck}} days remaining until expiration"
     }
   }
 }

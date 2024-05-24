@@ -6,7 +6,7 @@
 import { createField, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Toggle } from '@instana/legacy';
+import { Toggle } from '@instana/components';
 
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
 import HorizontalFormGroup from 'in-components/form/HorizontalFormGroup';
@@ -131,12 +131,10 @@ export default function DuplicateDashboardDialog({ config }) {
             <Toggle
               id="duplicate-dashboard-sharing"
               checked={field.value}
-              onChange={e =>
+              onToggle={e =>
                 setState({
                   ...state,
-                  form: state.form.updateIn(['copySharingConfiguration'], f =>
-                    f.setValue(e.target.checked).setTouched(true)
-                  )
+                  form: state.form.updateIn(['copySharingConfiguration'], f => f.setValue(e).setTouched(true))
                 })
               }
               disabled={state.isSaving}

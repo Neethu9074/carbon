@@ -14,7 +14,8 @@ import { t } from '@instana/i18n-react';
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import SelectedTestType from 'in-synthetics/createTests/advanced/SelectedTestType';
 import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
-import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
+import { syntheticAdvancedCreateTestTypeSwitch } from 'in-synthetics/tracker';
+import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import Menu from 'in-components/Menu';
 
@@ -105,16 +106,31 @@ const SelectionMenu = ({
   setHeaders
 }: SelectionMenuProps) => {
   return (
-    <div className={classNames(locals.container, { [locals.disabled]: isUpdateConfig })}>
+    <div
+      className={classNames(locals.container, {
+        [locals.disabled]: isUpdateConfig,
+        [locals.testTypeGrid]: syntheticCertificateCheckEnabled
+      })}
+    >
       <Menu
-        items={getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)}
+        items={getAdvancedBlueprintConfig(syntheticCertificateCheckEnabled)}
         addRightSeparator
         onItemClick={item => {
-          setCommonAttributes({ ...commonAttributes, syntheticType: '' });
+          const isSSLCertificate = item.name === 'SSL Certificate';
+          // Tracker
+          syntheticAdvancedCreateTestTypeSwitch({
+            detail: `Switched to create ${item.type} test section from advanced mode`
+          });
+          setCommonAttributes({ ...commonAttributes, syntheticType: isSSLCertificate ? 'SSLCertificate' : '' });
           setSelectedBlueprint(item as AdvancedBluePrint);
           //@ts-expect-error
           setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
-            return { ...prevState, api: { simple: false, script: false }, browser: { simple: false, script: false } };
+            return {
+              ...prevState,
+              api: { simple: false, script: false },
+              browser: { simple: false, script: false },
+              ssl: { simple: isSSLCertificate }
+            };
           });
           setRenderSectionsCounter(0);
           setHeaders([

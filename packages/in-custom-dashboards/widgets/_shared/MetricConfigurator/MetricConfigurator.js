@@ -29,6 +29,7 @@ export default function MetricConfigurator({
   updateForm,
   formatterSection,
   timeShiftConfiguration,
+  thresholdConfiguration,
   disabledDataSources = emptyArray,
   axisForm,
   axisName,
@@ -42,7 +43,8 @@ export default function MetricConfigurator({
   type,
   maxGrouping,
   displayDFQ = true,
-  withLastValue = false
+  withLastValue = false,
+  withEmptyValueFilterSection
 }) {
   const sourceField = form.get('source');
   const label = form.get('label')?.value;
@@ -154,6 +156,7 @@ export default function MetricConfigurator({
         labelSection={labelSection}
         formatterSection={formatterSection}
         timeShiftConfiguration={timeShiftConfiguration}
+        thresholdConfiguration={thresholdConfiguration}
         axisForm={axisForm}
         axisName={axisName}
         withGrouping={withGrouping}
@@ -166,6 +169,7 @@ export default function MetricConfigurator({
         dataSourceSection={dataSource ? undefined : dataSourceSection}
         displayDFQ={displayDFQ}
         withLastValue={withLastValue}
+        withEmptyValueFilterSection={withEmptyValueFilterSection}
       />
     );
   }

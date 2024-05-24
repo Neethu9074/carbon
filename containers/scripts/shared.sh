@@ -16,8 +16,12 @@ BRANCH_NAME=${BRANCH_NAME:-$(git rev-parse --abbrev-ref HEAD)}
 COMMIT_ID=${COMMIT_ID:-replace-me-commit-id}
 UI_CLIENT_ROOT_DIR="${SCRIPTPATH}/../.."
 IS_DELIVERY_BRANCH=$(${UI_CLIENT_ROOT_DIR}/build/ci-shared-tools/scripts/isDeliveryBranch.js)
+IS_LTSR_BRANCH=$(${UI_CLIENT_ROOT_DIR}/build/ci-shared-tools/scripts/isLTSRBranch.js)
 
-if [ "$IS_DELIVERY_BRANCH" == "true" ]; then
+if [ "$IS_LTSR_BRANCH" == "true" ]; then
+  echo "Set IMAGE_URI for LTS Release branch build"
+  IMAGE_URI="delivery.instana.io/int-docker-backend-lts-local/backend/${CONTAINER_IMAGE_NAME}"
+elif [ "$IS_DELIVERY_BRANCH" == "true" ]; then
   echo "Set IMAGE_URI for Release branch build"
   # TODO: pushing an image which is from `ui-client` to int-docker-backend-local/backend kind of breaks
   #       https://docs.instana.club/instana-artifactory/current/creating-repos.html#repo-naming-conventions

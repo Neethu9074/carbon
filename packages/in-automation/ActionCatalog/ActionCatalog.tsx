@@ -61,6 +61,7 @@ export default function ActionCatalog() {
   const paginatedActions = usePaginatedActions({ actions, serverTableUrlState, setServerTableUrlState, type, tags });
 
   const availableTags = [...new Set(actions?.data?.flatMap(({ tags }) => tags ?? []))];
+  const totalHits = paginatedActions.data?.totalHits;
 
   const navigateToActionDetails = useNavigateToActionDetails();
   return (
@@ -71,7 +72,11 @@ export default function ActionCatalog() {
         page={page}
         searchPlaceholder={t('in-automation:searchActions')}
         onRowClick={item => navigateToActionDetails(item, false)}
-        cardTitle={t('in-automation:ActionCatalog.actionCatalog')}
+        cardTitle={
+          paginatedActions?.progress.loading
+            ? t('in-automation:ActionCatalog.actionCatalog')
+            : t('in-automation:ActionCatalog.actionCatalogWithCount', { count: totalHits })
+        }
         rightHeader={
           <>
             {role?.canConfigureAutomationActions && (
@@ -113,7 +118,7 @@ const columnDefinition: ColumnDefinition<Action>[] = [
     width: 5,
     getContent: function Content(action) {
       const navigateToActionDetails = useNavigateToActionDetails();
-      const hasPermisson = role?.canConfigureAutomationPolicies || role?.canRunAutomationActions;
+      const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
       if (!hasPermisson) return null;
       return (
         <Stack align="end">

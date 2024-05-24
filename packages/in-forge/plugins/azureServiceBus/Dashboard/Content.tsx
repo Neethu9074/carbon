@@ -14,14 +14,13 @@ import AzureServiceBusTopicsTable from 'in-forge/plugins/azureServiceBus/Dashboa
 import AzureServiceBusQueuesTable from 'in-forge/plugins/azureServiceBus/Dashboard/AzureServiceBusQueuesTable';
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-// @ts-expect-error Module needs to be translated to TSS
-import MetricValue from 'in-components/MetricValue';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 export default function AzureServiceBusDashboard({

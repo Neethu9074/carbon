@@ -20,7 +20,6 @@ import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresen
 import { clusterList, useClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
-import PageTracker from 'in-services/tracking/segment/PageTracker';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -141,7 +140,6 @@ export default connectTo(
     return (
       <>
         <Title title={t('in-kubernetes:clusters')} />
-        <PageTracker parentProductArea={productAreas.kubernetes} parentPageName={pageNames.kubernetes_clusters} />
         <ViewTrackingMeta
           data={{
             productArea: productAreas.kubernetes,

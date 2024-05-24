@@ -294,6 +294,12 @@
         "decreaseColor": "Decrease Color",
         "timeShift": "Time Shift"
       },
+      "thresholdForm": {
+        "addThresholdColorization": "Add threshold based colorization",
+        "threshold": "Threshold",
+        "critical": "Critical when latency",
+        "warning": "Warning when latency"
+      },
       "bigNumber": "Big Number"
     },
     "chart": {
@@ -823,7 +829,9 @@
           },
           "formatter": "Formatter",
           "searchPlaceholder": "Search",
-          "countGroup": "Show group count"
+          "countGroup": "Show group count",
+          "showGroupsWithMissingTags": "Show groups with missing tags",
+          "filterEmptyValues": "Filter empty values"
         }
       },
       "dataSource": {

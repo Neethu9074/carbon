@@ -39,6 +39,7 @@
         "labelName": "テストの名前",
         "labelDescription": "説明",
         "labelFrequency": "頻度 (分)",
+        "labelFrequencyHour": "頻度 (時間)",
         "labelApplications": "アプリケーションの選択"
       },
       "bluePrint": {
@@ -95,6 +96,11 @@
             "line3": "ステップ 3: テスト頻度 (1 分 ~ 120 分) を選択します。",
             "line4": "ステップ 4:「テストの名前と説明」セクションの「名前」フィールドにテストの分かりやすい名前を入力します。 テストの目的の説明を「説明」フィールドに追加します。"
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "このテストを使用して、Webサーバー証明書の有効期限が切れるかどうかを確認してください。"
+          }
         }
       },
       "validators": {
@@ -128,7 +134,11 @@
           "browserTypeHeadline": "ブラウザー・シンセティック・テスト",
           "browserTypeText": "ブラウザー・シンセティック・テストは、Web ブラウザーでスクリプトを使用して Web サイトとのユーザー対話をシミュレートすることにより、Web アプリケーションのパフォーマンスをモニターする方法です。これにより、ユーザー・エクスペリエンスに影響を与える問題に関する貴重な洞察を提供し、Web サイトの機能を確保します。",
           "browserSimpleTitle": "ブラウザー単純テスト",
-          "browserScriptTitle": "ブラウザー・スクリプト・テスト"
+          "browserScriptTitle": "ブラウザー・スクリプト・テスト",
+          "certificateCheckTitle": "SSL証明書の確認",
+          "certificateCheckLabel": "SSL 証明書",
+          "certificateCheckHeadline": "SSL証明書の確認テスト",
+          "certificateCheckText": "SSL証明書の確認テストは、発行された証明書の残り日数を確認することによって、WebアプリケーションでSSL証明書の有効期限をテストする方法です。"
         },
         "configurationLabel": "構成",
         "configurationTitle": "構成: このテストはどのように機能しますか?",
@@ -140,6 +150,8 @@
         "identifyTitle": "識別: テストは何を行いますか?",
         "customPropertiesTitle": "カスタム・プロパティー",
         "frequency": "このテストは {{frequencyValue}} 分ごとに実行されます。",
+        "frequencyHours": "このテストは、{{frequencyHours}}時間ごとに実行されます。",
+        "frequencyHoursAndMinutes": "このテストは、 {{frequencyHours}}時間と{{frequencyMinutes}}分ごとに実行されます。",
         "simultaneous": "同時",
         "simultaneousDescription": "このテストは、選択した各ロケーションで同時に実行されます。",
         "configStep": {
@@ -213,13 +225,20 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "ブラウザー"
+          "browserName": "ブラウザー",
+          "certificateCheckName": "SSL 証明書"
         },
         "customProperties": {
           "property": "プロパティー",
           "propertyValue": "値",
           "addProperty": "プロパティーの追加",
           "propertyNameMustBeUnique": "プロパティー名は固有でなければなりません。"
+        },
+        "certificateCheck": {
+          "inputHostName": "ホスト名",
+          "inputPortNumber": "ポート",
+          "failureConfigLabel": "失敗構成",
+          "failureConfigText": "証明書の有効期限が切れるまで残り<certificateValidityDays/>日の場合は、テストが失敗します。"
         }
       }
     },
@@ -237,11 +256,13 @@
       "failureTitle": "失敗",
       "failureMessageCreate": "シンセティック・テストの作成に失敗しました: {{errorMessage}}",
       "failureMessageUpdate": "シンセティック・テストの更新に失敗しました: {{errorMessage}}",
-      "failuteMesssageDelete": "シンセティック・テストの削除に失敗しました。 後で再試行してください"
+      "failureMesssageDelete": "シンセティック・テストの削除に失敗しました: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "ロケーションが正常に削除されました",
-      "failureMesssageDelete": "ロケーションの削除に失敗しました。 後で再試行してください"
+      "failureMesssage": "{{errorMessage}}",
+      "successMessageDeactivate": "ロケーションが正常に非アクティブ化されました",
+      "successMessageActivate": "ロケーションが正常にアクティブ化されました"
     },
     "updateTest": {
       "dialogTitle": "{{syntheticType}} テストの編集",
@@ -279,21 +300,36 @@
         "datacenterCode": "データ・センター・コード",
         "datacenterName": "データ・センター名",
         "provider": "プロバイダー",
-        "locationName": "ロケーション表示名",
+        "locationName": "ロケーション名",
+        "displayName": "表示名",
+        "locationStatus": "状況",
         "status": "アクティブ化ステータス",
-        "datacentersSubtitle": "使用可能なデータ・センターのいずれかで Instana 管理ロケーションをアクティブ化します。 詳しくは、<linkDatacenters>シンセティック PoP デプロイメント</linkDatacenters> を参照してください。",
+        "datacentersSubtitle": "使用可能なデータ・センターのいずれかで Instana 管理ロケーションをアクティブ化します。 詳しくは、<linkDatacenters>Instana でホストされる PoP</linkDatacenters> を参照してください。 ",
         "confirmationDialog": {
           "headline": "ロケーションをデプロイしています",
-          "message": "以下のデータ・センターで新しいロケーションをセットアップしています。 これを自動デプロイする間、しばらくお待ちください。 これが完了すると、新しいロケーションが「ロケーション」タブに表示されます。 <strong>これには最大 10 分かかる場合があります。</strong>",
+          "message": "以下のデータ・センターで新しいロケーションをセットアップしています。 これを自動デプロイする間、しばらくお待ちください。 これが完了すると、新しいロケーションが「ロケーション」タブに表示されます。 <strong>これには、選択したデータ・センターごとに最大 10 分かかる場合があります。</strong>",
           "table": {
             "heads": {
               "datacenterCode": "データ・センター・コード",
               "datacenterName": "データ・センター名",
-              "locationName": "ロケーション表示名",
+              "locationName": "ロケーション名",
               "datacenterStatus": "アクティブ化ステータス"
             }
-          }
-        }
+          },
+          "activateLocationLoadingMessage": "データ・センターのアクティブ化",
+          "activationRejectedMessageSingleDatacenter": "{{rejectedDatacentersList}} のアクティブ化要求は既にアクティブ化されているため、処理できません",
+          "activationRejectedMessageMultipleDatacenters": "{{rejectedDatacentersList}} のアクティブ化要求は、既にアクティブ化されているため、処理できません"
+        },
+        "deactivateDatacenter": {
+          "title": "ロケーションの非アクティブ化",
+          "deactivateMessage": "ロケーション <strong>{{locationDisplayLabel}}</strong> を非アクティブにしますか?<br/><br/>ロケーションの非アクティブ化には最大 10 分かかる場合があります。 これをプロビジョン解除するまで、しばらくお待ちください。 これが完了すると、ロケーションのステータスは「オフライン」になります。<br/>",
+          "warningMessage": "非アクティブ化は削除されません。 ロケーションは使用可能になり、再度アクティブ化することができます。 管理対象ロケーションを完全に削除するには、ロケーションのステータスが「オフライン」に変更されたら、そのロケーションを削除します。",
+          "activeStatus": "アクティブ",
+          "deactivateButton": "非アクティブ"
+        },
+        "activate": "アクティブ",
+        "okay": "わかった",
+        "activateLocation": "ロケーションのアクティブ化"
       },
       "validators": {
         "theValueMustNotBeEmpty": "少なくとも 1 つのデータ・センターを選択する必要があります"
@@ -329,7 +365,7 @@
         "simpleTab": "シンプル",
         "redisTab": "Redis TLS",
         "title": "シンセティック PoP コマンド",
-        "subTitle": "以下のコード・テンプレートを参考に使用してください。 詳しくは、<documentationLink>合成 PoP デプロイメント</documentationLink>を参照してください",
+        "subTitle": "以下のコード・テンプレートを参考に使用してください。 詳しくは、<documentationLink>自己ホスト型 PoP を参照してください</documentationLink>",
         "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
         "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
         "tlsInstructions": "Redis TLSを有効にする場合は、X.509証明書と鍵のペア(「tls.crt」、「tls.key」)およびCAルート証明書ファイル(「ca.crt」)が必要です。\n\n鍵/証明書ファイルがない場合は、opensslコマンドを使用して新しい鍵/証明書ファイルを生成することもできます。以下の例を参照してください。",
@@ -383,9 +419,10 @@
       "success": "成功",
       "failure": "失敗",
       "popVersion": "バージョン",
-      "noActionsAllowed": "NA",
-      "deleteRestrictedDescription": "管理対象ロケーションは削除できません。",
-      "deleteLocationBroswerRefreshInfo": "ロケーションのリストからロケーションが表示されなくなるまでに時間がかかり、ブラウザーの最新表示が必要になる場合があります。"
+      "deleteLocationBroswerRefreshInfo": "ロケーションのリストからロケーションが表示されなくなるまでに時間がかかり、ブラウザーの最新表示が必要になる場合があります。",
+      "deactivateLocation": {
+        "deactivate": "非アクティブ"
+      }
     },
     "summary": {
       "successRate": "成功率",
@@ -427,7 +464,14 @@
       "totalRuns": "{{totalRuns}}の合計実行数",
       "meanLatencyFor90th": "90 パーセンタイルでは {{meanLatencyDetail}}",
       "smartAlertsTab": "スマート・アラート",
-      "configurationTab": "構成"
+      "configurationTab": "構成",
+      "isCertificateValid": "前回の実行 - 証明書は有効です",
+      "certificateValid": "はい",
+      "certificateNotValid": "いいえ",
+      "daysRemaining": "前回の実行 - 残り日数",
+      "dateOfExpiry": "前回の実行 - 有効期限の日付",
+      "smallerTimeFrameTitle": "この時間枠の結果はありません",
+      "smallerTimeFrameDescription": "SSL証明書確認テストの結果を確認するには、より長い時間枠を選択してください。"
     },
     "resultsListPage": {
       "startedColumn": "開始済み",
@@ -439,7 +483,8 @@
       "locationLabel": "Location",
       "failures": "障害",
       "status": "状況",
-      "success": "成功"
+      "success": "成功",
+      "daysRemaining": "残り日数"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "ライブ・モードは、シンセティック・テスト結果の詳細ページには適用されません",
@@ -564,6 +609,11 @@
         "imageButton": "画像",
         "ScreenshotsLoadingMessage": "スクリーン・ショットのロード",
         "noScreenshotsAvailableMessage": "このテスト結果ではスクリーン・ショットを使用できません"
+      },
+      "sslCertificate": {
+        "daysRemaining": "残り日数",
+        "dateOfIssue": "発行日",
+        "dateOfExpiry": "有効期限の日付"
       }
     },
     "noDataAvailable": {
@@ -638,7 +688,12 @@
       "retryIntervalFieldLabel": "再試行間隔",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} 秒",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} 秒",
-      "markSyntheticCall": "マーク・シンセティック・コール"
+      "markSyntheticCall": "マーク・シンセティック・コール",
+      "hostname": "ホスト名",
+      "port": "ポート",
+      "daysRemaining": "証明書の有効期間が以下の場合、テストは失敗します",
+      "day": "日、期限切れまで残っている",
+      "days": "日、期限切れまで残っている"
     }
   }
 }

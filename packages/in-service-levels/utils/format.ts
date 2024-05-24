@@ -21,7 +21,9 @@ interface FormatSloStatusResponse {
 }
 
 export function formatSloStatus({ status, target }: { status?: number; target?: number }): FormatSloStatusResponse {
-  if (isUndefined(status) || isUndefined(target)) return {};
+  if (isUndefined(status) || isUndefined(target)) {
+    return { sloStatus: valueMissingPlaceholder, sloTarget: valueMissingPlaceholder };
+  }
   const format = createSloPercentageFormatter(target);
   return {
     sloStatus: format(status) ?? valueMissingPlaceholder,

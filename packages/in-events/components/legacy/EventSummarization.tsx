@@ -11,7 +11,7 @@ import { Button, Card, Stack, SvgIcon, Typography, Pill, Link } from '@instana/c
 import { Snapshot, TimeConfig } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { t } from '@instana/i18n-react';
+import { Trans, t } from '@instana/i18n-react';
 
 import {
   incidentSummarizationFeedbackHelpfulTracker,
@@ -41,7 +41,7 @@ interface EventSummarizationProps {
 }
 interface BulletPointSummaryListProps {
   timeConfig: TimeConfig;
-  incidentSummary: Map<string, string>;
+  incidentSummary: Map<string, string | Map<string, string>>;
   triggeringEvent: EventOrMap | null | {};
 }
 
@@ -142,6 +142,10 @@ function BulletPointSummaryList({
   timeConfig,
   triggeringEvent
 }: BulletPointSummaryListProps): JSX.Element {
+  const actionKey = 'action';
+  const hasAction = incidentSummary.has(actionKey);
+  const actionMap = incidentSummary.get(actionKey, Map()) as Map<string, string>;
+
   return (
     <div className={locals.containerForIncidentSummaryBullets}>
       <Stack gap="small">
@@ -157,14 +161,32 @@ function BulletPointSummaryList({
             </div>
           )}
         </EventSummaryCard>
-        {incidentSummary.keySeq().map(
-          summaryType =>
-            summaryType && (
-              <EventSummaryCard summaryType={summaryType}>
-                <Typography variant="body-regular">{incidentSummary.get(summaryType, '')}</Typography>
-              </EventSummaryCard>
-            )
+        {hasAction && (
+          <EventSummaryCard summaryType={actionKey}>
+            <Typography variant="body-regular">
+              <Trans
+                i18nKey={'in-events:incidentSummarization.actionText'}
+                values={{
+                  timeWindow: actionMap.get('timeWindow', 'Unknown'),
+                  timeWindowFormat: actionMap.get('timeWindowFormat', ''),
+                  eventSpecId: actionMap.get('eventSpecId', ''),
+                  actionStats: actionMap.get('actionStats', '')
+                }}
+              />
+            </Typography>
+          </EventSummaryCard>
         )}
+        {incidentSummary
+          .keySeq()
+          .filter(sType => sType !== actionKey)
+          .map(
+            summaryType =>
+              summaryType && (
+                <EventSummaryCard summaryType={summaryType}>
+                  <Typography variant="body-regular">{incidentSummary.get(summaryType, '')}</Typography>
+                </EventSummaryCard>
+              )
+          )}
       </Stack>
     </div>
   );

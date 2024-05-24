@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Toggle } from '@instana/legacy';
+import { Toggle } from '@instana/components';
 
 import {
   isTroubleshootingModeEnabled$,
@@ -49,7 +49,7 @@ export default function UiConfigAdvancedPage() {
           <Toggle
             id="scroll-direction"
             checked={settings['map_scrollDirection'] === -1}
-            onChange={e => saveSetting('map_scrollDirection', e.target.checked ? -1 : 1)}
+            onToggle={e => saveSetting('map_scrollDirection', e ? -1 : 1)}
           />
         </HorizontalFormGroup>
 
@@ -58,7 +58,7 @@ export default function UiConfigAdvancedPage() {
           <Toggle
             id="zoom-panel"
             checked={settings['zoomPanelIsActive']}
-            onChange={e => saveSetting('zoomPanelIsActive', e.target.checked)}
+            onToggle={e => saveSetting('zoomPanelIsActive', e)}
           />
         </HorizontalFormGroup>
 
@@ -67,7 +67,7 @@ export default function UiConfigAdvancedPage() {
           <Toggle
             id="host-labels"
             checked={settings['map_showHostLabels']}
-            onChange={e => saveSetting('map_showHostLabels', e.target.checked)}
+            onToggle={e => saveSetting('map_showHostLabels', e)}
           />
         </HorizontalFormGroup>
 
@@ -128,7 +128,7 @@ export default function UiConfigAdvancedPage() {
           <Toggle
             id="antialiasing"
             checked={settings['map_antialias'] === 'browserAA'}
-            onChange={e => saveSetting('map_antialias', e.target.checked ? 'browserAA' : 'off')}
+            onToggle={e => saveSetting('map_antialias', e ? 'browserAA' : 'off')}
           />
         </HorizontalFormGroup>
       </div>
@@ -140,7 +140,7 @@ export default function UiConfigAdvancedPage() {
           <Toggle
             id="kubernetes_ungrouped-pods"
             checked={get(settings, ['kubernetes_ungrouped_pods_enabled'], true)}
-            onChange={e => saveSetting('kubernetes_ungrouped_pods_enabled', e.target.checked)}
+            onToggle={e => saveSetting('kubernetes_ungrouped_pods_enabled', e)}
           />
         </HorizontalFormGroup>
       </div>
@@ -192,7 +192,7 @@ export default function UiConfigAdvancedPage() {
           <Toggle
             id="use_queryable_tags"
             checked={get(settings, ['use_queryable_tags_enabled'], true)}
-            onChange={e => saveSetting('use_queryable_tags_enabled', e.target.checked)}
+            onToggle={e => saveSetting('use_queryable_tags_enabled', e)}
           />
         </HorizontalFormGroup>
       </div>
@@ -207,7 +207,7 @@ export default function UiConfigAdvancedPage() {
               <Toggle
                 id="enable-troubleshooting-mode"
                 checked={isTroubleshootingModeEnabled}
-                onChange={e => setEnableTroubleshootingMode(e.target.checked)}
+                onToggle={e => setEnableTroubleshootingMode(e)}
               />
             </HorizontalFormGroup>
           </div>
