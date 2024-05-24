@@ -11066,7 +11066,6 @@
       "host": "Host",
       "port": "Port",
       "name": "Name",
-      "availabilityZone": "Availability Zone",
       "subscriptions": "Subscriptions"
     },
     "ibmInfosphereCdcSubscription": {
@@ -11076,7 +11075,7 @@
       "sourceEngine": "Source Engine",
       "targetApplyFilters": "Target Apply Filters",
       "targetEngineFilters": "Target Engine Filters",
-      "logParser": "Log Parser",
+      "logParser": "Log Parser (bytes)",
       "logReader": "Log Reader",
       "preFilterInserts": "Pre-filter inserts",
       "preFilterUpdates": "Pre-filter updates",
@@ -11084,18 +11083,21 @@
       "postFilterInserts": "Post-filter inserts",
       "postFilterUpdates": "Post-filter updates",
       "postFilterDeletes": "Post-filter deletes",
-      "databaseBytesProcessed": "Source database bytes processed",
-      "physicalBytesRead": "Physical bytes read",
-      "threadCpu": "Thread CPU",
+      "databaseBytesProcessed": "Source database bytes processed (bytes)",
+      "physicalBytesRead": "Physical bytes read (bytes)",
+      "threadCpu": "Thread CPU (milliseconds/second)",
       "diskWrites": "Disk writes",
       "diskReads": "Disk reads",
       "diskSize": "Disk size",
-      "targetApplyInserts": "Inserts",
-      "targetApplyUpdates": "Updates",
-      "targetApplyDeletes": "Deletes",
-      "targetEngineInserts": "Inserts",
-      "targetEngineUpdates": "Updates",
-      "targetEngineDeletes": "Deletes"
+      "targetApplyInserts": "Target apply inserts",
+      "targetApplyUpdates": "Target apply updates",
+      "targetApplyDeletes": "Target apply deletes",
+      "targetEngineInserts": "Target engine inserts",
+      "targetEngineUpdates": "Target engine updates",
+      "targetEngineDeletes": "Target engine deletes",
+      "targetInserts": "Inserts",
+      "targetUpdates": "Updates",
+      "targetDeletes": "Deletes"
     },
     "ibmMqChannel": {
       "dashboard": {

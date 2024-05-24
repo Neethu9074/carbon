@@ -60,9 +60,9 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
                   formatter: number.compact,
                   metrics: ['targetApplyInserts', 'targetApplyUpdates', 'targetApplyDeletes'],
                   labels: [
-                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetApplyInserts'),
-                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetApplyUpdates'),
-                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetApplyDeletes')
+                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetInserts'),
+                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetUpdates'),
+                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetDeletes')
                   ],
                   type: 'line'
                 }}
@@ -79,9 +79,9 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
                   formatter: number.compact,
                   metrics: ['targetEngineInserts', 'targetEngineUpdates', 'targetEngineDeletes'],
                   labels: [
-                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetEngineInserts'),
-                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetEngineUpdates'),
-                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetEngineDeletes')
+                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetInserts'),
+                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetUpdates'),
+                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetDeletes')
                   ],
                   type: 'line'
                 }}
