@@ -27,6 +27,7 @@ export function roleHasAnyTeamPermissions() {
     role.canConfigureMaintenanceWindows ||
     role.canConfigureGlobalAlertPayload ||
     role.canViewAuditLog ||
+    role.canConfigureLogRetentionPeriod ||
     role.canConfigureLogManagement ||
     role.canViewLogVolume ||
     role.canDeleteLogs

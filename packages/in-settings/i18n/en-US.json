@@ -349,6 +349,30 @@
         "unknownTag": "Unknown tag: {{tagName}}"
       }
     },
+    "retentionPeriod":{
+      "retentionPeriod": "Retention Period",
+      "changeRetentionPeriod": "Change retention period",
+      "retentionDialogDescription": "Changing the retention period for logs impacts the cost and duration of \n log data available for analytics and custom dashboards.",
+      "logRetentionPeriod": "Log retention period",
+      "changeReason": "Change reason",
+      "currentRetentionPeriod": "Current retention period",
+      "days": "days",
+      "aboutRetentionPeriod": "A retention period determines how long data is kept in Instana. ",
+      "learnMore": "Learn More.",
+      "typeToConfirm": "Type CHANGE RETENTION to confirm change",
+      "typeToContinue": "Type CHANGE RETENTION to continue",
+      "reasonValidationMessage": "Change retention reason cannot be empty",
+      "changeError": "Error! Your retention period could not be changed.\n Please try again or contact support.",
+      "changeSuccess": "Success! Your retention period is now changed to {{value}} days.",
+      "historyChanges": "To view retention history, open the",
+      "actionLog": "Action Log",
+      "historyChanges2": "and search for log retention",
+      "modalTitle": "Change log retention period",
+      "toastTitleSuccesful": "Log retention period successfully changed",
+      "toastTitleFailed": "Change Log Retention failed",
+      "toastMessageFailed": "The retention period could not be changed. Please try again or contact support.",
+      "contactSupport": "Contact support"
+    },
     "deleteLogs": {
       "deleteLogs": "Delete logs",
       "info": "If you are experiencing a leak of secure information to Instana Logs, you can proceed to delete all logs for the whole data retention period on demand.",

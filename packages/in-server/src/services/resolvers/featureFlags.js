@@ -186,6 +186,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'logRetentionPageEnabled',
+    instanaCtlKey: 'feature.log.retention.enabled',
+    defaultValue: false,
+  },
+  {
     uiClientKey: 'logVolumePageEnabled',
     instanaCtlKey: 'feature.log.volume.enabled',
     defaultValue: false

@@ -41,22 +41,25 @@ import {
   teamSettingsLogManagementElk,
   teamSettingsLogManagementHumio,
   teamSettingsLogManagementLogDna,
+  teamSettingsLogManagementRetentionPeriod,
   teamSettingsLogManagementLogVolume,
   teamSettingsLogManagementSplunk
 } from 'in-settings/navigation/paths';
-import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
-import RecurrentMaintenanceWindowFormPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
 import {
   alertsHubEnabled,
   disableInvitesWithIdpEnabled,
-  logVolumePageEnabled,
-  recurrentMaintenanceWindowEnabled
+  recurrentMaintenanceWindowEnabled,
+  logRetentionPageEnabled,
+  logVolumePageEnabled
 } from 'in-services/featureFlags';
+import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
+import RecurrentMaintenanceWindowFormPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
 import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
+import RetentionPeriodPage from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import ApiTokenFormDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenFormDialog';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
@@ -327,13 +330,23 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     component: DeleteLogsPage
   };
 
+  const retentionPeriodPage = {
+    path: teamSettingsLogManagementRetentionPeriod,
+    label: 'Retention Period',
+    component: RetentionPeriodPage
+  };
   const logVolumePage = {
     path: teamSettingsLogManagementLogVolume,
     label: t('in-settings:tabs.logVolume.logVolume'),
     component: LogVolumePage
   };
 
-  if (role.canDeleteLogs || role.canConfigureLogManagement || role.canViewLogVolume) {
+  if (
+    role.canDeleteLogs ||
+    role.canConfigureLogManagement ||
+    role.canViewLogVolume ||
+    role.canConfigureLogRetentionPeriod
+  ) {
     let pages = [];
 
     if (role.canConfigureLogManagement) {
@@ -342,6 +355,9 @@ function navigationTreeForRole(role, isAnyIDPActive) {
 
     if (role.canDeleteLogs) {
       pages.push(deleteLogsPage);
+    }
+    if (role.canConfigureLogRetentionPeriod && logRetentionPageEnabled) {
+      pages.unshift(retentionPeriodPage);
     }
 
     if (role.canViewLogVolume && logVolumePageEnabled) {
