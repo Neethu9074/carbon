@@ -16,8 +16,8 @@ import SloEntityColumnContent from 'in-service-levels/components/SloList/compone
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
 import useNavigateToSloDashboard from 'in-service-levels/navigation/hooks/useNavigateToSloDashboard';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { serviceLevelsObjectiveAlertDetailsSegment } from 'in-service-levels/navigation/path';
 import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/configuration';
+import { serviceLevelsAlertDetailsSegment } from 'in-service-levels/navigation/path';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { buildSloListItem } from 'in-service-levels/hooks/useSloListItems';
@@ -62,7 +62,7 @@ interface SelectedSloListProps {
 
 export default function SelectedSloList({ sloAlertConfig }: SelectedSloListProps) {
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = useServerTableUrlState({
-    pathSegment: serviceLevelsObjectiveAlertDetailsSegment,
+    pathSegment: serviceLevelsAlertDetailsSegment,
     matrixPrefix,
     defaultOrderBy: 'name',
     defaultPageSize: 10,

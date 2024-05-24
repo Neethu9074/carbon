@@ -9,8 +9,10 @@ import React from 'react';
 import { ServiceLevelsAlertConfigWithMetadata } from '@instana/types';
 
 import {
+  serviceLevelsAlertsFullyQualified,
   serviceLevelsObjectiveAlertDetailsFullyQualified,
-  serviceLevelsObjectiveAlertDetailsSegment,
+  serviceLevelsAlertDetailsSegment,
+  serviceLevelsAlertDetailsFullyQualified,
   serviceLevelsObjectiveAlertsFullyQualified
 } from 'in-service-levels/navigation/path';
 import {
@@ -28,16 +30,21 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/fixedObjects';
 import { Nullish } from 'in-types';
 
-export default function AlertDetails() {
+interface AlertDetailsProps {
+  sloId?: string;
+}
+export default function AlertDetails({ sloId }: AlertDetailsProps) {
   const timeConfig = useTimeConfig();
   return (
     <LeftRightPadding>
       <Alert
         timeConfig={timeConfig}
         paths={{
-          detailsPath: serviceLevelsObjectiveAlertDetailsFullyQualified,
-          listPath: serviceLevelsObjectiveAlertsFullyQualified,
-          alertsTabSegment: serviceLevelsObjectiveAlertDetailsSegment
+          detailsPath: sloId
+            ? serviceLevelsObjectiveAlertDetailsFullyQualified
+            : serviceLevelsAlertDetailsFullyQualified,
+          listPath: sloId ? serviceLevelsObjectiveAlertsFullyQualified : serviceLevelsAlertsFullyQualified,
+          alertsTabSegment: serviceLevelsAlertDetailsSegment
         }}
         matrix={{
           alertIdParam: sloSmartAlertDetailsUrlParameters.alertId.name,

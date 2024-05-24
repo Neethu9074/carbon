@@ -1519,6 +1519,18 @@
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
         "blueprintLabel": "Blueprint",
         "thresholdLabel": "Threshold"
+      },
+      "alertList": {
+        "threshold": "Threshold: {{value}}",
+        "sloApplied": "SLOs Applied",
+        "sloCount": "{{count}} SLO",
+        "sloCount_plural": "{{count}} SLOs",
+        "sloCount_0": "{{count}} SLOs",
+        "ssloCount_1": "{{count}} SLOs",
+        "sloCount_2": "{{count}} SLOs",
+        "title": "",
+        "title_ERROR_BUDGET": "Error budget burned",
+        "title_STATUS": "Status"
       }
     }
   }

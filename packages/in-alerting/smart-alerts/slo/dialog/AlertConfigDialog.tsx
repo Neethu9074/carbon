@@ -21,7 +21,6 @@ import AdvancedModeContainer from 'in-alerting/smart-alerts/slo/dialog/advanced/
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { formToSloAlertConfiguration } from 'in-alerting/smart-alerts/slo/form/utils';
 import { trackAlertSaved } from 'in-alerting/smart-alerts/components/tracker';
-import { close as closeDialog } from 'in-components/DialogPresenter/store';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -82,7 +81,7 @@ export default function AlertConfigDialog({ onClose, editMode, alertConfig }: Al
 
               doSubmit({
                 payload: formToSloAlertConfiguration(form),
-                onSuccess,
+                onSuccess: result => onSuccess(result, onClose),
                 onError
               });
             }}
@@ -115,7 +114,7 @@ function getFormSubmitAction(mode: CreateSloAlertDialogMode, sloALertConfigId: s
   }
 }
 
-function onSuccess({ data }: Result<ServiceLevelsAlertConfigWithMetadata>) {
+function onSuccess({ data }: Result<ServiceLevelsAlertConfigWithMetadata>, onClose: VoidFunction) {
   if (!data) throw Error('Unknown SLO smart-alert creation error');
 
   const { name } = data;
@@ -131,7 +130,7 @@ function onSuccess({ data }: Result<ServiceLevelsAlertConfigWithMetadata>) {
 
   trackAlertSaved(data, false);
 
-  closeDialog();
+  onClose();
 }
 
 const errorMessageHeader = {

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { serviceLevelsObjective, serviceLevelsObjectiveAlertDetails } from 'in-service-levels/navigation/path';
+import { serviceLevelsObjective, serviceLevelsAlertDetailsSegment } from 'in-service-levels/navigation/path';
 import { buildJsonParser, buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { AvailableTimeWindowTypes } from 'in-service-levels/types';
@@ -21,8 +21,8 @@ export const defaultServiceLevelObjectiveUrlParameters = {
 };
 
 export const sloSmartAlertDetailsUrlParameters = {
-  alertId: createSloUrlParameter('alertId', serviceLevelsObjectiveAlertDetails),
-  alertCreated: createSloUrlParameter('alertCreated', serviceLevelsObjectiveAlertDetails)
+  alertId: createSloUrlParameter('alertId', serviceLevelsAlertDetailsSegment),
+  alertCreated: createSloUrlParameter('alertCreated', serviceLevelsAlertDetailsSegment)
 };
 
 export function setTimeWindowTypeUrlParameter(location: Location, timeWindowType: AvailableTimeWindowTypes) {
