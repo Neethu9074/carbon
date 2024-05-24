@@ -6,7 +6,7 @@
 
 import { PaginatedResult, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
-import useSloListMetrics, { SloMetricResult } from 'in-service-levels/hooks/useSloListMetrics';
+import useSloListMetrics, { SloMetricsResultMap } from 'in-service-levels/hooks/useSloListMetrics';
 import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/configuration';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
@@ -65,18 +65,18 @@ export function buildSloListItem({
 }: {
   configuration: ServiceLevelObjectiveConfiguration;
   labels?: Record<string, LabeledEntity>;
-  metrics?: Record<string, SloMetricResult>;
+  metrics?: Record<string, SloMetricsResultMap>;
   timeConfig: TimeConfig;
 }): SloListItem {
   const {
     remainingBudgetSpark,
-    status: statusValues,
-    remainingBudget: remainingBudgetValues
+    status: statusMetrics,
+    remainingBudget: remainingBudgetMetrics
   } = metrics?.[configuration.id!]?.[configuration.id!] ?? {};
   const timeConfig = applyAdjustedTimeframe(tc, remainingBudgetSpark?.adjustedTimeframe);
   const granularity = remainingBudgetSpark?.granularity ?? calculateSloGranularity(timeConfig);
-  const status = getSingleNumberMetricValue(statusValues);
-  const remainingBudget = getSingleNumberMetricValue(remainingBudgetValues);
+  const status = getSingleNumberMetricValue(statusMetrics);
+  const remainingBudget = getSingleNumberMetricValue(remainingBudgetMetrics);
   return {
     configuration,
     entity: labels?.[configuration.id!] ?? { label: '' },

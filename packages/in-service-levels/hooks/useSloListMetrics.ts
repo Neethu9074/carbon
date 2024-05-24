@@ -27,13 +27,13 @@ export interface SloMetricsResult {
   remainingBudget: MetricResult;
   remainingBudgetSpark: MetricResult;
 }
-export type SloMetricResult = Record<string, SloMetricsResult>;
+export type SloMetricsResultMap = Record<string, SloMetricsResult>;
 const MetricResultIdMatcher = /(?<sloId>.*)-(?<metricType>(status)|(remainingBudget)|(remainingBudgetSpark))$/;
 
 export default function useSloListMetrics(
   configurations: ServiceLevelObjectiveConfiguration[],
   timeConfig: TimeConfig
-): FetchedState<Record<string, SloMetricResult>> {
+): FetchedState<Record<string, SloMetricsResultMap>> {
   const configsHash = generateStableHash(configurations.map(c => c.id));
 
   const results = useObservable(
@@ -46,7 +46,7 @@ export default function useSloListMetrics(
         )
       ),
 
-    [configsHash, timeConfig]
+    [configsHash, generateStableHash(timeConfig)]
   );
   const combinedResult = results?.reduce(
     (acc, result) => {
@@ -62,10 +62,9 @@ export default function useSloListMetrics(
         }
       };
     },
-    { progress: finishedProgress } as Result<Record<string, SloMetricResult>>
+    { progress: finishedProgress } as Result<Record<string, SloMetricsResultMap>>
   );
-  const fetchedResponse = resultToFetchedStateResponse(combinedResult);
-  return fetchedResponse;
+  return resultToFetchedStateResponse(combinedResult);
 }
 
 function getMetricConfig(
@@ -74,6 +73,7 @@ function getMetricConfig(
 ): Record<string, UnifiedMetricConfiguration> {
   // To make sure we only get a single time-window we need to limit the window-size to one hour for the metrics
   const timeConfig = { ...selectedTimeConfig, windowSize: hours.toMillis(1) };
+
   return {
     [`${configuration.id}-status`]: sloMetrics.status.singleNumber({
       configId: configuration.id!,
@@ -92,13 +92,13 @@ function getMetricConfig(
 
 export interface StructuredMetricResult {
   sloId: string;
-  metrics: SloMetricResult;
+  metrics: SloMetricsResultMap;
 }
 function structureMetricsResults(sloId: string): (result: Result<MetricResult[]>) => Result<StructuredMetricResult> {
   return result => {
     if (!result.data) return result as unknown as Result<StructuredMetricResult>;
 
-    const metrics = result.data.reduce<SloMetricResult>((acc, metricResult) => {
+    const metrics = result.data.reduce<SloMetricsResultMap>((acc, metricResult) => {
       const matches = metricResult.id.match(MetricResultIdMatcher);
 
       const metricType = matches?.groups?.metricType as keyof SloMetricsResult;
