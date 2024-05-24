@@ -72,5 +72,14 @@ export default [
     ],
     min: 0,
     formatter: number
+  },
+  {
+    metrics: ['sourceLatency', 'targetLatency'],
+    labels: [
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceEngineLatency'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.targetApplyLatency')
+    ],
+    min: 0,
+    formatter: number
   }
 ];

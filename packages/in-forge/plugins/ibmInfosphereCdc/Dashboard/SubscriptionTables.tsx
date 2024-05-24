@@ -41,14 +41,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmInfosphereCdcSubscription.postFilterInserts'),
+    title: t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceEngineLatency'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row: SubscriptionRow) {
         return row.snapshotId;
       },
       getMetricName() {
-        return 'postFilterInserts';
+        return 'sourceLatency';
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -57,14 +57,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmInfosphereCdcSubscription.postFilterInserts'),
+    title: t('in-forge:plugins.ibmInfosphereCdcSubscription.targetApplyLatency'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row: SubscriptionRow) {
         return row.snapshotId;
       },
       getMetricName() {
-        return 'preFilterInserts';
+        return 'targetLatency';
       },
       getContent: number.compact,
       getTimeWindowAggregation() {

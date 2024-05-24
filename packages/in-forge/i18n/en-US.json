@@ -11097,7 +11097,9 @@
       "targetEngineDeletes": "Target engine deletes",
       "targetInserts": "Inserts",
       "targetUpdates": "Updates",
-      "targetDeletes": "Deletes"
+      "targetDeletes": "Deletes",
+      "sourceEngineLatency": "Source engine latency",
+      "targetApplyLatency": "Target apply latency"
     },
     "ibmMqChannel": {
       "dashboard": {
