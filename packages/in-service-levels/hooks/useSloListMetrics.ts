@@ -48,7 +48,14 @@ export default function useSloListMetrics(
 
     [configsHash, generateStableHash(timeConfig)]
   );
-  const combinedResult = results?.reduce(
+  const combinedResult = resultReducer(results);
+  return resultToFetchedStateResponse(combinedResult);
+}
+
+export function resultReducer(
+  results?: Result<StructuredMetricResult>[] | null
+): Result<Record<string, SloMetricsResultMap>> | undefined {
+  return results?.reduce(
     (acc, result) => {
       if (!result.data) return acc;
       const loading = result.progress.loading || acc.progress.loading;
@@ -64,7 +71,6 @@ export default function useSloListMetrics(
     },
     { progress: finishedProgress } as Result<Record<string, SloMetricsResultMap>>
   );
-  return resultToFetchedStateResponse(combinedResult);
 }
 
 function getMetricConfig(

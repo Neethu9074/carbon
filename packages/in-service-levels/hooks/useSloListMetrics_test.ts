@@ -6,10 +6,10 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
-import { ServiceLevelObjectiveConfiguration, TimeConfig, Error } from '@instana/types';
+import { ServiceLevelObjectiveConfiguration, TimeConfig, Error, Result } from '@instana/types';
 import { just } from '@instana/observables';
 
-import useSloListMetrics from 'in-service-levels/hooks/useSloListMetrics';
+import useSloListMetrics, { StructuredMetricResult, resultReducer } from 'in-service-levels/hooks/useSloListMetrics';
 import { pendingResult } from 'in-services/fixedObjects';
 import { success, error } from 'in-services/util/result';
 import gUM from 'in-subscription/getUnifiedMetrics';
@@ -306,5 +306,172 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
         })
       })
     );
+  });
+
+  it('resultReducer should reduce the metrics data to an object with the sloId', () => {
+    // Given
+    const metricData: Result<StructuredMetricResult>[] = [
+      {
+        data: {
+          metrics: {
+            'slo-1': {
+              remainingBudget: { values: [], id: 'slo-1' },
+              remainingBudgetSpark: { values: [], id: 'slo-1' },
+              status: { values: [], id: 'slo-1' }
+            }
+          },
+          sloId: 'slo-1'
+        },
+        errors: [],
+        progress: {
+          loading: false
+        }
+      },
+      {
+        data: {
+          metrics: {
+            'slo-2': {
+              remainingBudget: { values: [], id: 'slo-2' },
+              remainingBudgetSpark: { values: [], id: 'slo-2' },
+              status: { values: [], id: 'slo-2' }
+            }
+          },
+          sloId: 'slo-2'
+        },
+        errors: [],
+        progress: {
+          loading: false
+        }
+      }
+    ];
+
+    // When
+    const result = resultReducer(metricData);
+
+    // Then
+    expect(result).toEqual({
+      data: {
+        'slo-1': {
+          'slo-1': {
+            remainingBudget: { values: [], id: 'slo-1' },
+            remainingBudgetSpark: { values: [], id: 'slo-1' },
+            status: { values: [], id: 'slo-1' }
+          }
+        },
+        'slo-2': {
+          'slo-2': {
+            remainingBudget: { values: [], id: 'slo-2' },
+            remainingBudgetSpark: { values: [], id: 'slo-2' },
+            status: { values: [], id: 'slo-2' }
+          }
+        }
+      },
+      errors: [],
+      progress: {
+        loading: false
+      }
+    });
+  });
+
+  it('resultReducer should show other SLO metrics even if there an BE exception occurs in one SLO', () => {
+    // Given
+    const metricData: Result<StructuredMetricResult>[] = [
+      {
+        data: {
+          metrics: {
+            'slo-1': {
+              remainingBudget: { values: [], id: 'slo-1' },
+              remainingBudgetSpark: { values: [], id: 'slo-1' },
+              status: { values: [], id: 'slo-1' }
+            }
+          },
+          sloId: 'slo-1'
+        },
+        errors: [],
+        progress: {
+          loading: false
+        }
+      },
+      {
+        errors: [
+          {
+            code: 'NOT_FOUND',
+            message: 'some BackEndException'
+          }
+        ],
+        progress: {
+          loading: false
+        }
+      }
+    ];
+
+    // When
+    const result = resultReducer(metricData);
+
+    // Then
+    expect(result).toEqual({
+      data: {
+        'slo-1': {
+          'slo-1': {
+            remainingBudget: { values: [], id: 'slo-1' },
+            remainingBudgetSpark: { values: [], id: 'slo-1' },
+            status: { values: [], id: 'slo-1' }
+          }
+        }
+      },
+      errors: [],
+      progress: {
+        loading: false
+      }
+    });
+  });
+
+  it('resultReducer should not show any errors even if there is any backendException', () => {
+    //  Given
+    const metricData: Result<StructuredMetricResult>[] = [
+      {
+        errors: [
+          {
+            code: 'NOT_FOUND',
+            message: 'some BackEndException'
+          }
+        ],
+        progress: {
+          loading: false
+        }
+      }
+    ];
+
+    // When
+    const result = resultReducer(metricData);
+
+    // Then
+    expect(result).toEqual({
+      progress: {
+        loading: false
+      }
+    });
+  });
+
+  it('resultReducer should reduce the metrics data to an object even if there is no data in metrics', () => {
+    //  Given
+    const metricData: Result<StructuredMetricResult>[] = [
+      {
+        errors: [],
+        progress: {
+          loading: false
+        }
+      }
+    ];
+
+    // When
+    const result = resultReducer(metricData);
+
+    // Then
+    expect(result).toEqual({
+      progress: {
+        loading: false
+      }
+    });
   });
 });
