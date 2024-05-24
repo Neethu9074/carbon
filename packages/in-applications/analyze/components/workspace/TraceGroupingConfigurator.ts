@@ -3,21 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
+// @ts-expect-error needs TS migration
 import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { TRACES } from 'in-applications/analyze/metrics';
+import { TimeConfig } from 'in-types';
 
-const {
-  getTagCatalog: getTagCatalogInternal,
-  GroupingConfigurator,
-  isGroupingConfigurationValid: isGroupingConfigurationValidInternal
-} = createGroupingConfigurator({
-  getTagCatalog: props => getApplicationTagCatalog({ dataSource: TRACES, useCase: 'GROUPING' })(props),
+const { GroupingConfigurator } = createGroupingConfigurator({
+  getTagCatalog: ({ timeConfig }: { timeConfig: TimeConfig }) =>
+    getApplicationTagCatalog({ dataSource: TRACES, useCase: 'GROUPING' })({ timeConfig }),
   getSuggestions: () => {}
 });
 
 export default GroupingConfigurator;
-
-export const getGroupingTagCatalog = getTagCatalogInternal;
-
-export const isTraceGroupingConfigurationValid = params => isGroupingConfigurationValidInternal(...params);
