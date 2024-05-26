@@ -49,7 +49,7 @@ interface SloListSelectionProps {
 }
 export default function SloListSelection({ entity }: SloListSelectionProps) {
   // eslint-disable-next-line no-console
-  console.log('entity', entity);
+  console.log(entity);
   const { form, onChange } = useSloAlertFormContext();
   const sloIdsField = form.getIn(['sloIds']);
   const { loadMore, query, selected, setQuery, sloList, page, totalHits, progress } = useSloList(sloIdsField.value);
@@ -57,7 +57,6 @@ export default function SloListSelection({ entity }: SloListSelectionProps) {
   const canLoadMore = totalHits / SloListPageSize > (page ?? 0 + 1);
 
   const isSloIdsFieldValid = isFieldValid(sloIdsField);
-
   const onSelectSlo = (sloData: SloData) => {
     const currentIds = sloIdsField.value;
     const isAlreadySelected = currentIds.includes(sloData.id);
