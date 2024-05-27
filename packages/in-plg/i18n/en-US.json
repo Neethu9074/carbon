@@ -202,6 +202,7 @@
         "runningStartupScript": "Running Startup Script",
         "uninstallingTheHostAgent": "Uninstalling the host agent",
         "awsLambdaNativeTracingForJava": "AWS Lambda Native Tracing for Java",
+        "awsLambdaNativeTracingForDotNet": "AWS Lambda Native Tracing for .NET Core",
         "awsLambdaFunctions": "AWS lambda functions",
         "monitoringAwsFargate": "Monitoring AWS Fargate",
         "monitoringAwsFargateJava": "Monitoring AWS Fargate (Java)",
