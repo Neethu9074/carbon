@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { number } from 'in-services/formatters/number';
+import { number, seconds } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -80,6 +80,6 @@ export default [
       t('in-forge:plugins.ibmInfosphereCdcSubscription.targetApplyLatency')
     ],
     min: 0,
-    formatter: number
+    formatter: seconds.fixedCompact
   }
 ];

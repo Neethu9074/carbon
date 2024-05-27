@@ -12,7 +12,7 @@ import { TimeConfig } from '@instana/types';
 import getSubscriptionforCdc from 'in-forge/plugins/ibmInfosphereCdc/subscriptions/getSubscriptionforCdc';
 // @ts-expect-error needs TS migration
 import { getSnapshots } from 'in-stores/snapshot';
-import { number } from 'in-services/formatters/number';
+import { seconds } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { SnapshotData } from 'in-stores/snapshot';
@@ -50,7 +50,7 @@ const cols = [
       getMetricName() {
         return 'sourceLatency';
       },
-      getContent: number.compact,
+      getContent: seconds.fixedCompact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -66,7 +66,7 @@ const cols = [
       getMetricName() {
         return 'targetLatency';
       },
-      getContent: number.compact,
+      getContent: seconds.fixedCompact,
       getTimeWindowAggregation() {
         return 'mean';
       }

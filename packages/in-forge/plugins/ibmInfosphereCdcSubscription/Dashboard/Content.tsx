@@ -33,7 +33,14 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['preFilterInserts', 'preFilterUpdates', 'preFilterDeletes'],
+            metrics: [
+              'preFilterInserts',
+              'preFilterUpdates',
+              'preFilterDeletes',
+              'postFilterInserts',
+              'postFilterUpdates',
+              'postFilterDeletes'
+            ],
             labels: [
               t('in-forge:plugins.ibmInfosphereCdcSubscription.preFilterInserts'),
               t('in-forge:plugins.ibmInfosphereCdcSubscription.preFilterUpdates'),
@@ -123,7 +130,7 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
             type: 'line'
           }}
           y2={{
-            formatter: number.compact,
+            formatter: number.perSecond.compact,
             metrics: ['logThreadCpu'],
             labels: [t('in-forge:plugins.ibmInfosphereCdcSubscription.threadCpu')],
             type: 'line'
