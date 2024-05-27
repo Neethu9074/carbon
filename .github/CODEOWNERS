@@ -207,6 +207,7 @@ packages/in-forge/plugins/zhmcCpc                               @Instana-IBM-Git
 packages/in-forge/plugins/zooKeeper                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 
 packages/in-forge/tracing/bpm                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-java
+packages/in-forge/tracing/oTel                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-java @instana/eng-otel
 packages/in-hoc                                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-hooks                                          @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-infrastructure                                 @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
