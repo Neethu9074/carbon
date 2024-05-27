@@ -6,19 +6,9 @@
 
 import React from 'react';
 
-import {
-  LoadingSkeleton,
-  SvgIcon,
-  Table,
-  TableLoadingSkeletonRows,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-  Typography
-} from '@instana/components';
+import { Table, TableLoadingSkeletonRows, Tbody, Td, Th, Thead, Tr } from '@instana/legacy';
 import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result } from '@instana/types';
+import { LoadingSkeleton, SvgIcon, Typography } from '@instana/components';
 import { formatDate } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
 
