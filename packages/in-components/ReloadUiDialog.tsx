@@ -21,6 +21,7 @@ export default function ReloadUiDialog({ onClose = close }) {
         onClick={() => {
           window.location.reload();
         }}
+        // @ts-expect-error Property 'autoFocus' does not exist on type 'IntrinsicAttributes & PropsType & RefAttributes<any>'.
         autoFocus
       >
         {t('in-components:reloadUiDialogReloadBtn')}
