@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { SloEntity, SloEntityType, isApplicationSloEntity } from '@instana/types';
-import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
 import { t } from '@instana/i18n-react';
@@ -42,7 +41,7 @@ export default function AlertPropertiesSection({ targetEntity }: AlertProperties
 
   const sloConfig = useObservable(() => {
     return getSloConfiguration(sloId);
-  }, [generateStableHash(sloId)]);
+  }, [sloId]);
 
   const sloEntity = sloConfig?.data?.entity;
   const titlePlaceholder = t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesTitlePlaceholder', {
