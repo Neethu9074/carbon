@@ -3426,7 +3426,6 @@
       "allQueuesMessagesEnqueue": "All Queues Messages Enqueue",
       "allTopicsMessagesEnqueue": "All Topics Messages Enqueue",
       "memoryUsage": "Memory Usage",
-      "storageUsage": "Storage Usage",
       "brokerWideQueuesMessageStats": "Broker wide queues message stats",
       "allQueuesMessagesDequeue": "All Queues Messages Dequeue",
       "brokerWideTopicsMessageStats": "Broker wide topics message stats",
