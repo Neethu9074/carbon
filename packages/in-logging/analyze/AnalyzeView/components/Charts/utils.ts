@@ -7,7 +7,7 @@
 import { LogGroupItem, TagFilter, TagFilterExpression } from '@instana/types';
 
 import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
-import { getValueMatchTagFilter, LOG_CUSTOM, LOG_LEVEL } from 'in-logging/queryBuilder';
+import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { Config, Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { ChartedMetric } from 'in-components/AnalyzeView/StateManagement';
@@ -114,19 +114,20 @@ export function getMetricConfig({
   backendQueryModelWithFacets,
   metric,
   tag,
-  value: valueProp,
+  value,
   label,
-  key
+  key,
+  type
 }: GetMetricParams): Metric {
-  let value: string | null = valueProp;
-
   const metricTagFilterExpression = getValueMatchTagFilter({ name: tag, key, value }) as Mutable<TagFilter>;
 
-  if (tag === LOG_CUSTOM) {
+  if (type === 'KEY_VALUE_PAIR') {
     if (!key) {
       metricTagFilterExpression.operator = NOT_EMPTY;
+      metricTagFilterExpression.key = value;
       delete metricTagFilterExpression.value;
     } else {
+      metricTagFilterExpression.operator = 'EQUALS';
       metricTagFilterExpression.key = key;
       metricTagFilterExpression.value = value;
     }
