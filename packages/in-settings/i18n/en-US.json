@@ -382,7 +382,6 @@
       "logs": "LOGS",
       "deletionInfo": "Deleting logs may take a while.\n Check the status in the \"Log deletion summary\" table.",
       "deletionError": "Logs couldn't be deleted",
-      "deletionSuccess": "All logs have been deleted",
       "deletionWarning": "No log data to delete for the given timeframe",
       "success": "Success",
       "failure": "Failed",

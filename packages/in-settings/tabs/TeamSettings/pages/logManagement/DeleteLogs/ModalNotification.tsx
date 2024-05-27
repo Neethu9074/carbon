@@ -12,7 +12,7 @@ import { ModalNotificationProps } from 'in-settings/tabs/TeamSettings/pages/logM
 import { t } from 'in-i18n';
 
 const localisationStrings = {
-  successMessage: t('in-settings:tabs.deleteLogs.deletionSuccess'),
+  successMessage: t('in-settings:tabs.deleteLogs.toastSuccessMessage'),
   errorMessage: t('in-settings:tabs.deleteLogs.deletionError'),
   warningMessage: t('in-settings:tabs.deleteLogs.deletionWarning'),
   success: t('in-settings:tabs.deleteLogs.success'),
