@@ -7,6 +7,8 @@ import React from 'react';
 
 import { Button } from '@instana/legacy';
 
+import Tooltip from 'in-components/Tooltip';
+
 import locals from './ActionSection.mless';
 
 export function ActionSection({ left, right }) {
@@ -20,5 +22,11 @@ export function ActionSection({ left, right }) {
 }
 
 export function Action(props) {
-  return <Button {...props} kind="subtle" size="compact" className={locals.button} />;
+  const { disabledTooltip, ...otherProps } = props;
+
+  const button = <Button {...otherProps} kind="subtle" size="compact" className={locals.button} />;
+  if (props.disabled && disabledTooltip) {
+    return <Tooltip content={disabledTooltip}>{button}</Tooltip>;
+  }
+  return button;
 }
