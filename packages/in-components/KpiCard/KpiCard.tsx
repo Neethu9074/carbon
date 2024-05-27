@@ -123,9 +123,9 @@ export default function KpiCard({
         [locals.borderless]: borderless,
         [locals.shadowless]: shadowless || isInModal,
         [locals.centerValue]: centerLabels,
-        [locals.modal]: isInModal,
-        [locals.useMaxAvailableHeight]: useMaxAvailableHeight
+        [locals.modal]: isInModal
       })}
+      useMaxAvailableHeight={useMaxAvailableHeight}
       bodyClassName={locals.kpibody}
       headerClassName={locals.kpiheader}
     >

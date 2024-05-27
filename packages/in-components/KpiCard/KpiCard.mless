@@ -41,10 +41,6 @@
     .widgetInModal();
   }
 
-  .useMaxAvailableHeight {
-    height: 100%;
-  }
-
   .title {
     display: flex;
     justify-content: space-between;
