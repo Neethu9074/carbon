@@ -17,8 +17,14 @@ import {
 } from 'in-service-levels/navigation/path';
 import {
   getAllSloAlertConfigurationVersions,
-  getSloAlertConfiguration
+  getSloAlertConfiguration,
+  restoreSloAlertConfiguration
 } from 'in-alerting/smart-alerts/slo/api/sloAlertConfig';
+import {
+  deleteAlertConfig,
+  disableAlertConfig,
+  enableAlertConfig
+} from 'in-alerting/smart-alerts/components/api/smartAlertConfig';
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
@@ -26,8 +32,8 @@ import { sloSmartAlertDetailsUrlParameters } from 'in-service-levels/navigation/
 import AlertConfiguration from 'in-alerting/smart-alerts/slo/details/AlertConfiguration';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import AlertConfigDialog from 'in-alerting/smart-alerts/slo/dialog/AlertConfigDialog';
+import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { noop } from 'in-services/fixedObjects';
 import { Nullish } from 'in-types';
 
 interface AlertDetailsProps {
@@ -52,10 +58,10 @@ export default function AlertDetails({ sloId }: AlertDetailsProps) {
         }}
         getConfig={getSloAlertConfiguration}
         getConfigVersions={getAllSloAlertConfigurationVersions}
-        enableConfig={noop}
-        disableConfig={noop}
-        deleteConfig={noop}
-        restoreConfig={noop}
+        enableConfig={(id: string) => enableAlertConfig(id, baseUrl.SLO)}
+        disableConfig={(id: string) => disableAlertConfig(id, baseUrl.SLO)}
+        deleteConfig={(id: string) => deleteAlertConfig(id, baseUrl.SLO)}
+        restoreConfig={restoreSloAlertConfiguration}
         renderSmartAlertDialog={SmartAlertDialogWrapper}
         renderAlertConfiguration={AlertConfiguration}
         getAllowedPlaceholders={() => []}

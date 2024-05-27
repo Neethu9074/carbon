@@ -28,7 +28,7 @@ import { ActionHandlers } from 'in-alerting/smart-alerts/components/list/AlertsB
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import AlertConfigDialog from 'in-alerting/smart-alerts/slo/dialog/AlertConfigDialog';
 import { trackAlertDeleteConfirm } from 'in-alerting/smart-alerts/components/tracker';
-import SLOAppliedColumn from 'in-alerting/smart-alerts/slo/list/SLOAppliedColumn';
+import SloAppliedColumn from 'in-alerting/smart-alerts/slo/list/SloAppliedColumn';
 import AlertTypeColumn from 'in-alerting/smart-alerts/slo/list/AlertTypeColumn';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -88,7 +88,7 @@ const columnDefinitions: ColumnizedDefinition[] = [
     width: '20%'
   },
   {
-    getContent: ({ config }) => <SLOAppliedColumn config={config} />,
+    getContent: ({ config }) => <SloAppliedColumn config={config} />,
     width: '20%'
   },
   {

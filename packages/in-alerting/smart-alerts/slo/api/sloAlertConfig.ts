@@ -92,6 +92,20 @@ export function getAllSloAlertConfigurationVersions(
   });
 }
 
+export function restoreSloAlertConfiguration(
+  alertId: string,
+  version: number
+): Observable<Result<ServiceLevelsAlertConfigWithMetadata>> {
+  return http<ServiceLevelsAlertConfigWithMetadata>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `${baseUrl.SLO}/${encodeURI(alertId)}/restore/${encodeURI(version.toString())}`,
+    headers: getCsrfHeader(),
+    treat400AsError: true,
+    mapToResultObject: true
+  });
+}
+
 export function getAllSloAlertConfigurations(
   sloId?: string
 ): Observable<Result<ServiceLevelsAlertConfigWithMetadata[]>> {

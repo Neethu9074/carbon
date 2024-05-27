@@ -6,15 +6,16 @@
 
 import React from 'react';
 
-import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { ServiceLevelsAlertConfigWithMetadata } from '@instana/types';
+
+import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { t } from 'in-i18n';
 
 interface AlertTypeColumnProps {
   config: ServiceLevelsAlertConfigWithMetadata;
 }
 
-export default function SLOAppliedColumn({ config }: AlertTypeColumnProps) {
+export default function SloAppliedColumn({ config }: AlertTypeColumnProps) {
   const { sloIds } = config;
   return (
     <DefaultCell
