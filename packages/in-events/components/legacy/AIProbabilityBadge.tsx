@@ -47,7 +47,6 @@ export default function AIProbabilityBadge({ probabilityScore, loading }: AIProb
         </Typography>
         {!loading && (
           <Tooltip align="topMiddle" content={getTooltipContent(probabilityThreshold)}>
-            {/* Can't switch this over to carbon pill because design specifies rectangular tag with rounded edges instead of oval */}
             <Pill
               type={
                 probabilityThreshold === HIGH

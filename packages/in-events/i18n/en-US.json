@@ -183,7 +183,10 @@
     "lowProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. Given present information, this component has a low likelihood of being unhealthy, but warrants being further investigated.",
     "naProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. Unfortunately the probability rating for this incident could not be ascertained.",
     "evidenceTextFailed": "Calls going through {{root_cause_entity_type}} {{root_cause_entity_name}} have an aggregated high error rate of: {{rca_error_percent}}%.",
-    "evidenceTextNotFailed": "Calls from the same entities that do not go through {{root_cause_entity_type}} {{root_cause_entity_name}} have a lower error rate of: {{non_rca_error_rate}}%.",
+    "evidence": "Evidence",
+    "evidenceTextNotFailedLower": "Calls from the same entities that do not go through {{root_cause_entity_type}} {{root_cause_entity_name}} have a lower error rate of: {{non_rca_error_rate}}%.",
+    "evidenceTextNotFailedHigher": "Calls from the same entities that do not go through {{root_cause_entity_type}} {{root_cause_entity_name}} have a higher error rate of: {{non_rca_error_rate}}%.",
+    "evidenceTextNotFailedSame": "Calls from the same entities that do not go through {{root_cause_entity_type}} {{root_cause_entity_name}} have an error rate of: {{non_rca_error_rate}}%.",
     "regenerateProbableRootCause": "Regenerate Probable Root Cause"
   },
   "incidentSummarization": {
