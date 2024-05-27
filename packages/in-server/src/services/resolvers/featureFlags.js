@@ -188,7 +188,7 @@ module.exports = exports = [
   {
     uiClientKey: 'logRetentionPageEnabled',
     instanaCtlKey: 'feature.log.retention.enabled',
-    defaultValue: false,
+    defaultValue: false
   },
   {
     uiClientKey: 'logVolumePageEnabled',
@@ -608,6 +608,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonStepProgressBarEnabled',
     instanaCtlKey: 'feature.carbon.stepprogressbar.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonHorizontalIndicatorEnabled',
+    instanaCtlKey: 'feature.carbon.horizontalindicator.enabled',
     defaultValue: false
   }
 ];

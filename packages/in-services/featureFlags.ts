@@ -245,3 +245,4 @@ export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
 );
 export const orbitalEnabled = isFeatureFlagEnabled('orbitalEnabled', true);
 export const carbonStepProgressBarEnabled = isFeatureFlagEnabled('carbonStepProgressBarEnabled', false);
+export const carbonHorizontalIndicatorEnabled = isFeatureFlagEnabled('carbonHorizontalIndicatorEnabled', false);

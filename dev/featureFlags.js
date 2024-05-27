@@ -130,5 +130,6 @@ module.exports = {
   carbonStepProgressBarEnabled: true,
   thresholdCustomDashboardsEnabled: false,
   carbonPaginationEnabled: true,
-  logVolumePageEnabled: true
+  logVolumePageEnabled: true,
+  carbonHorizontalIndicatorEnabled: true
 };
