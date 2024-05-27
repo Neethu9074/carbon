@@ -7,10 +7,11 @@ import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspa
 import { isIdTag } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
+import { AdditionalTagSuggestionProps } from 'in-applications/types';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { TRACES } from 'in-applications/analyze/metrics';
 
-const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagCatalogInternal } = createQueryBuilder({
+const { QueryBuilder, getTagCatalog: getTagCatalogInternal } = createQueryBuilder<AdditionalTagSuggestionProps>({
   maxExpressionDepth: DEFAULT_MAX_EXPRESSION_DEPTH,
   getTagCatalog: props => getApplicationTagCatalog({ dataSource: TRACES, useCase: 'FILTERING' })(props),
   getSuggestions: args => {
@@ -18,16 +19,18 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagC
       ? null
       : getTagSuggestions({
           entity: args.entity,
-          propose: args.propose,
           tagFilterExpression: args.tagFilterExpression,
           tagName: args.name,
-          value: args.value,
           filter: {
-            timeConfig: args.timeConfig
+            timeConfig: args.timeConfig,
+            includeInternalCalls: args.includeInternal,
+            includeSyntheticCalls: args.includeSynthetic,
+            useLongTermDataOnly: false
           },
           secondLevelKeyTagName: args.propose === 'VALUES' ? args.key : undefined,
           includeInternal: args.includeInternal,
-          includeSynthetic: args.includeSynthetic
+          includeSynthetic: args.includeSynthetic,
+          requestingSecondaryKeySuggestions: false
         });
   },
   withoutOrConjunction: true,
@@ -37,6 +40,3 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagC
 export default QueryBuilder;
 
 export const getTagCatalog = getTagCatalogInternal;
-
-export const isTraceQueryValid = ([tagFilterExpression, timeConfig]) =>
-  isQueryValidInternal(tagFilterExpression, timeConfig);
