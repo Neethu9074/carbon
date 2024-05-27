@@ -6,8 +6,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Message } from '@instana/components';
+import { SvgIcon, Message } from '@instana/components';
 
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import DropdownButton from 'in-components/Button/DropdownButton';
