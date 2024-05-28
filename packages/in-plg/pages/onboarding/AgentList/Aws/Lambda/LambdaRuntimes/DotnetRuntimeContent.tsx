@@ -100,7 +100,7 @@ export default function DotnetRuntimeContent({
       >
         <Wrapper>
           <Typography variant="body-regular">
-            {t('in-plg:agentDetails.aws.preferredMethodForEnablingTracing')}
+            {t('in-plg:agentDetails.aws.awsLambdaDotnetAutotrace')}
           </Typography>
           <Typography variant="body-regular">
             {t('in-plg:agentDetails.aws.romanStep1') + t('in-plg:agentDetails.aws.selectAwsRegion')}
@@ -144,6 +144,8 @@ export default function DotnetRuntimeContent({
                 value={<InputWithButton type="copy" inputValue={'{cf0d821e-299b-5307-a3d8-b283c03916dd}'} />}
                 withGap
             />
+          </Stack>
+          <Stack direction="horizontal">
             <KeyValue
                 label={'CORECLR_PROFILER_PATH'}
                 value={<InputWithButton type="copy" inputValue={'/opt/instana_tracing/CoreProfiler.so'} />}
@@ -182,7 +184,7 @@ export default function DotnetRuntimeContent({
               `aws --region ${awsRegion} lambda update-function-configuration \\`,
               `   --function-name ${functionName} \\`,
               `   --layers ${dotnetLayerArn} \\`,
-              `   --environment "Variables={CORECLR_ENABLE_PROFILING=1, CORECLR_PROFILER=\"{cf0d821e-299b-5307-a3d8-b283c03916dd}\", `,
+              `   --environment "Variables={CORECLR_ENABLE_PROFILING=1, CORECLR_PROFILER=\\"{cf0d821e-299b-5307-a3d8-b283c03916dd}\\", `,
               `CORECLR_PROFILER_PATH=/opt/instana_tracing/CoreProfiler.so, DOTNET_STARTUP_HOOKS=/opt/Instana.Tracing.Core.dll, `,
               `INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
             ]}
