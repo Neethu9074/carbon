@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { number, percentage } from 'in-services/formatters/number';
+import { percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -30,22 +30,6 @@ const cols = [
         return `logicalPartitions.${row.key}.processor`;
       },
       getContent: percentage.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-zhmc:dashboards.zvm'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.data.id;
-      },
-      getMetricName(row) {
-        return `logicalPartitions.${row.key}.zvmPagingRate`;
-      },
-      getContent: number.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
