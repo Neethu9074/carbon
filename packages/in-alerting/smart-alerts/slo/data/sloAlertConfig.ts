@@ -34,6 +34,7 @@ export const defaultSloAlertConfig = Object.freeze({
     operator: '>='
   },
   timeThreshold: {
+    expiry: minutes.toMillis(10),
     timeWindow: minutes.toMillis(10)
   },
   triggering: false

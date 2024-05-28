@@ -19,6 +19,7 @@ import {
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { noEmptySloIds, notLessThanOrEqualToZero } from 'in-alerting/smart-alerts/slo/form/validators';
 import { isServiceLevelAlertConfigWithMetaData } from 'in-alerting/smart-alerts/slo/types';
+import { defaultSloAlertConfig } from 'in-alerting/smart-alerts/slo/data/sloAlertConfig';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { notBlankValidator } from 'in-services/validators/string';
 
@@ -27,6 +28,7 @@ export type SloAlertRuleFormFields = {
   metric: Field<ErrorBudgetAlertMetric | ServiceLevelsObjectiveAlertMetric>;
 };
 export type SloAlertTimeThresholdFields = {
+  expiry: Field<number>;
   timeWindow: Field<number>;
 };
 export type SloAlertFormFields = {
@@ -64,6 +66,10 @@ export function createSloAlertTimeThresholdForm(
 ): MapForm<SloAlertTimeThresholdFields> {
   return createMapForm({
     items: {
+      expiry: createField({
+        value: alertConfig.timeThreshold.expiry ?? defaultSloAlertConfig.timeThreshold.expiry!,
+        validator: notLessThanOrEqualToZero
+      }),
       timeWindow: createField({
         value: alertConfig.timeThreshold.timeWindow,
         validator: notLessThanOrEqualToZero

@@ -22,6 +22,7 @@ export function formToSloAlertConfiguration(form: SloAlertForm): ServiceLevelsAl
   const timeThreshold = form.getIn(['timeThreshold']).toJS();
   const triggering = form.getIn(['triggering']).value;
   const operator = form.getIn(['operator']).value;
+
   return {
     alertChannelIds,
     customPayloadFields,

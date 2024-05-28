@@ -1505,11 +1505,12 @@
         "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "percent is the SLO target or less",
         "timeThresholdType_gracePeriod": "When the condition persists over a specified amount of time",
         "timeThresholdTypeTitle_gracePeriod": "Alert when the condition is violated for consecutive $t(in-components:time.minutes, {\"count\": {{minutes}} })",
+        "timeThresholdTypeTitle_cooldownPeriod": "At least $t(in-components:time.minutes, {\"count\": {{minutes}} }) must have passed for the event to end",
         "alertProperties_entityLabel": "SLO-name",
         "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO Status is low",
         "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO Status is less than or equal to {{percentage}}.",
         "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Error Budget Remaining is low",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Error Budget Remaining is less than or equal to {{percentage}}."
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "{{percentage}} of the error budget is burned."
       },
       "details": {
         "alertConfigurationTitle": "Alert Configuration",

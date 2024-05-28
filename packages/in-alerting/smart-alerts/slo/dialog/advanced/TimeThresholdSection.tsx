@@ -23,8 +23,10 @@ const sliderMarks = createSliderMarks([1, 5, 10, 15, 20, 30]);
 export default function TimeThresholdSection() {
   const { form, onChange } = useSloAlertFormContext();
 
-  const timeThresholdField = form.getIn(['timeThreshold', 'timeWindow']);
-  const isTimeThresholdValid = isFieldValid(timeThresholdField);
+  const timeWindowField = form.getIn(['timeThreshold', 'timeWindow']);
+  const expiryField = form.getIn(['timeThreshold', 'expiry']);
+  const isTimeWindowFieldValid = isFieldValid(timeWindowField);
+  const isExpiryFieldValid = isFieldValid(timeWindowField);
 
   return (
     <TabSelect activePanelId="gracePeriod" onChange={noop}>
@@ -37,23 +39,42 @@ export default function TimeThresholdSection() {
         <TabSelectPanel id="gracePeriod">
           <Typography variant="heading-200" component="p">
             {t('in-alerting:smartAlerts.slo.advancedModeContainer.timeThresholdTypeTitle_gracePeriod', {
-              minutes: millisecondsToMinutes(timeThresholdField.value)
+              minutes: millisecondsToMinutes(timeWindowField.value)
             })}
           </Typography>
           <RestrictedSlider
             marks={sliderMarks}
             max={sliderMarks.at(-1)!.value}
             min={0}
-            value={timeThresholdField.value}
+            value={timeWindowField.value}
             onChange={(_event, value) =>
               onChange(['timeThreshold', 'timeWindow'], () =>
-                timeThresholdField.setValue(value as number).setTouched(true)
+                timeWindowField.setValue(value as number).setTouched(true)
               )
             }
             valueLabelDisplay="off"
           />
-          {!isTimeThresholdValid &&
-            timeThresholdField.messages.map(({ message }, index) => (
+          {!isTimeWindowFieldValid &&
+            timeWindowField.messages.map(({ message }, index) => (
+              <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
+            ))}
+          <Typography variant="heading-200" component="p">
+            {t('in-alerting:smartAlerts.slo.advancedModeContainer.timeThresholdTypeTitle_cooldownPeriod', {
+              minutes: millisecondsToMinutes(expiryField.value)
+            })}
+          </Typography>
+          <RestrictedSlider
+            marks={sliderMarks}
+            max={sliderMarks.at(-1)!.value}
+            min={0}
+            value={expiryField.value}
+            onChange={(_event, value) =>
+              onChange(['timeThreshold', 'expiry'], () => expiryField.setValue(value as number).setTouched(true))
+            }
+            valueLabelDisplay="off"
+          />
+          {!isExpiryFieldValid &&
+            expiryField.messages.map(({ message }, index) => (
               <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
             ))}
         </TabSelectPanel>
