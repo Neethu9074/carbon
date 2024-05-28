@@ -182,6 +182,8 @@ export const nonServicePlugins = {
   ibmIOs: 'ibmIOs',
   ibmIms: 'ibmIms',
   ibmiNetworkInfo: 'ibmiNetworkInfo',
+  ibmInfosphereCdc: 'ibmInfosphereCdc',
+  ibmInfosphereCdcSubscription: 'ibmInfosphereCdcSubscription',
   ibmMqCluster: 'ibmMqCluster',
   ibmMqQueueManager: 'ibmMqQueueManager',
   ibmMqChannel: 'ibmMqChannel',
@@ -583,6 +585,9 @@ export const fullyQualifiedPlugins = {
   ibmIMessageQueueInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.messageQueue.IbmIMessageQueueInfo',
   ibmiDiskInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.diskInfo.IbmiDiskInfo',
+  ibmInfosphereCdc: 'com.instana.forge.infrastructure.datareplication.ibminfosphere.IbmInfosphereCdc',
+  ibmInfosphereCdcSubscription:
+    'com.instana.forge.infrastructure.datareplication.ibminfosphere.derivedentity.subscription.IbmInfosphereCdcSubscription',
   ibmiNetworkInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.networkInfo.IbmiNetworkInfo',
   ibmMqCluster: 'com.instana.forge.infrastructure.messaging.ibmmq.IbmMqCluster',
   ibmMqQueueManager: 'com.instana.forge.infrastructure.messaging.ibmmq.derivedentity.queuemanager.IbmMqQueueManager',
