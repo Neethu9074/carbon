@@ -6,10 +6,11 @@
 
 /* eslint-disable react/no-unused-prop-types */
 import React, { useCallback, useEffect, useState } from 'react';
+import classNames from 'classnames';
 
 import { LogItem, LogMessageItem, LogTag } from '@instana/types';
 import { SpanExcerpt } from '@instana/types/typeDefinitions';
-import { Stack } from '@instana/components';
+import { Stack, Typography } from '@instana/components';
 
 // @ts-expect-error not yet migrated to typescript
 import SidebarTagList from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SidebarTagList';
@@ -48,6 +49,7 @@ interface LogDetailsSwitchProps {
   processSnapshotId?: string;
   callId: string;
   loggingLog?: LogItem;
+  justTitle?: boolean;
 }
 
 export default function LogDetailsSwitch(props: LogDetailsSwitchProps) {
@@ -64,13 +66,10 @@ function LogDetailsWithNoAccess() {
   return (
     <aside className={locals.logDetails}>
       <Stack direction="vertical" gap="normal">
-        <ExpandableGroup title="Message" defaultExpanded>
-          {t('in-analyze:logDetails.restrictedAccessExpl')}
-        </ExpandableGroup>
-
-        <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}>
-          {t('in-analyze:logDetails.restrictedAccessExpl')}
-        </ExpandableGroup>
+        <Typography variant="heading-02">{t('in-analyze:logDetails.message')}</Typography>
+        {t('in-analyze:logDetails.restrictedAccessExpl')}
+        <Typography variant="heading-02">{t('in-analyze:logDetails.titleTags')}</Typography>
+        {t('in-analyze:logDetails.restrictedAccessExpl')}
       </Stack>
     </aside>
   );
@@ -78,7 +77,7 @@ function LogDetailsWithNoAccess() {
 
 function LogDetails(props: LogDetailsSwitchProps) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const { callLog, loggingLog } = props;
+  const { callLog, loggingLog, justTitle } = props;
 
   const { selectedLog } = useLogsInCallsContext();
 
@@ -110,7 +109,7 @@ function LogDetails(props: LogDetailsSwitchProps) {
   );
 
   const title = (
-    <div className={locals.title}>
+    <div className={classNames(locals.title, justTitle && locals.justTitle)}>
       <aside>
         <div
           className={logIndicatorLocals.logIndicator}
@@ -129,14 +128,18 @@ function LogDetails(props: LogDetailsSwitchProps) {
   const handleToggle = () => setIsExpanded(expanded => !expanded);
 
   return (
-    <aside ref={ref} className={locals.logDetails}>
-      <ExpandableGroup onToggle={handleToggle} expanded={isExpanded} title={title}>
-        {useLoggingData ? (
-          <ExpandedLogWithLogging {...(props as ExpandedLogWithLoggingProps)} />
-        ) : (
-          <ExpandedLogWithoutLogging {...props} />
-        )}
-      </ExpandableGroup>
+    <aside ref={ref} className={classNames(locals.logDetails, justTitle && locals.minusMargin)}>
+      {justTitle ? (
+        title
+      ) : (
+        <ExpandableGroup expanded={isExpanded} onToggle={handleToggle} title={title}>
+          {useLoggingData ? (
+            <ExpandedLogWithLogging {...(props as ExpandedLogWithLoggingProps)} />
+          ) : (
+            <ExpandedLogWithoutLogging {...props} />
+          )}
+        </ExpandableGroup>
+      )}
     </aside>
   );
 }
@@ -162,18 +165,15 @@ const ExpandedLogWithLogging = (props: ExpandedLogWithLoggingProps) => {
 
   return (
     <Stack direction="vertical" gap="normal">
-      <ExpandableGroup title="Message" defaultExpanded>
-        <LogMessage {...loggingLog} />
-      </ExpandableGroup>
-
-      <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}>
-        <SidebarTagList tags={tags} />
-      </ExpandableGroup>
-
+      <Typography variant="heading-02">{t('in-analyze:logDetails.message')}</Typography>
+      <LogMessage {...loggingLog} />
+      <Typography variant="heading-02">{t('in-analyze:logDetails.titleTags')}</Typography>
+      <SidebarTagList tags={tags} noMargin />
       {parameterTags.length > 0 && (
-        <ExpandableGroup title={t('in-analyze:logDetails.titleParameters')}>
-          <SidebarTagList tags={parameterTags} />
-        </ExpandableGroup>
+        <>
+          <Typography variant="heading-02">{t('in-analyze:logDetails.titleParameters')}</Typography>
+          <SidebarTagList tags={parameterTags} noMargin />
+        </>
       )}
 
       {stackTrace && stackTrace.length > 0 && (
@@ -193,10 +193,8 @@ const ExpandedLogWithoutLogging = (props: LogDetailsSwitchProps) => {
 
   const content = (
     <>
-      <ExpandableGroup title="Message" defaultExpanded>
-        <LogMessage tags={[]} message={message} />
-      </ExpandableGroup>
-
+      <Typography variant="heading-02">{t('in-analyze:logDetails.message')}</Typography>
+      <LogMessage tags={[]} message={message} />
       {hasStackTrace && <LogStackTrace stackTrace={stackTrace} processSnapshotId={processSnapshotId} />}
     </>
   );

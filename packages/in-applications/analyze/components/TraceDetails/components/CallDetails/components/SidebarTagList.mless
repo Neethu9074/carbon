@@ -42,4 +42,7 @@
   .tagsCard {
     margin-top: 1.5rem;
   }
+  .tagsCardNoMargin {
+    margin-top: 0;
+  }
 }

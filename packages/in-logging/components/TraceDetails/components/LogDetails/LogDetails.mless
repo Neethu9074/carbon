@@ -29,6 +29,13 @@
       }
     }
   }
+  .justTitle {
+    background-color: var(--ids-color-option-neutral-50);
+    padding: 1.5rem;
+  }
+  .minusMargin {
+    margin-top: -1.5rem;
+  }
 
   .titleLevel {
     font-weight: bold;
