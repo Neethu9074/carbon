@@ -4,44 +4,28 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
-
-import { SloEntityType } from '@instana/types';
-import { useObservable } from '@instana/hooks';
+import React from 'react';
 
 import SloEntityTypeSelector from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTypeSelector';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import SloListSelection from 'in-alerting/smart-alerts/slo/components/SloListSelection';
-import { getSloConfiguration } from 'in-service-levels/api/configuration';
 
-interface SloTargetSectionProps {
-  setTargetData: (data: SloEntityType) => void;
-}
-export default function SloTargetSection({ setTargetData }: SloTargetSectionProps) {
-  const { mode, form } = useSloAlertFormContext();
-  const sloId = form.getIn(['sloIds']).value[0];
-  const sloConfig = useObservable(() => {
-    return getSloConfiguration(sloId);
-  }, [sloId]);
-  const sloEntity = sloConfig?.data?.entity.type;
-  let hasSloId = sloEntity ?? 'application';
+export default function SloTargetSection() {
+  const { form, onChange } = useSloAlertFormContext();
 
-  const [entity, setEntity] = useState(hasSloId as SloEntityType);
-  const editMode = mode === 'EDIT';
+  const entityTypeField = form.getIn(['entityType']);
 
   return (
     <>
-      {!editMode && (
-        <SloEntityTypeSelector
-          onChange={type => {
-            setEntity(type);
-            setTargetData(type);
-          }}
-          value={entity}
-        />
-      )}
+      <SloEntityTypeSelector
+        onChange={entityType => {
+          onChange(['entityType'], () => entityTypeField.setValue(entityType).setTouched(true));
+        }}
+        value={entityTypeField.value ?? 'application'}
+        disabled={entityTypeField.value == null}
+      />
 
-      <SloListSelection entity={hasSloId} />
+      <SloListSelection />
     </>
   );
 }
