@@ -10,7 +10,9 @@ import { SloAlertForm } from 'in-alerting/smart-alerts/slo/form/alertFormDefinit
 function resetSelectedSloIds(form: SloAlertForm) {
   if (!form.getIn(['entityType']).touched) return form;
 
-  return form.updateIn(['sloIds'], field => field.setValue([]).setTouched(false));
+  return form
+    .updateIn(['sloIds'], field => field.setValue([]).setTouched(false))
+    .updateIn(['triggering'], field => field.setValue(false).setTouched(false));
 }
 
 const formSideEffects: Effect<SloAlertForm>[] = [

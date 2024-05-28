@@ -1511,7 +1511,7 @@
         "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO Status is less than or equal to {{percentage}}.",
         "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Error Budget Remaining is low",
         "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "{{percentage}} of the error budget is burned.",
-        "alertPropertiesIncidentWarning": "Incident:Applicable only to Application SLO"
+        "alertPropertiesIncidentWarning": "Incident: Applicable only to Application SLO"
       },
       "details": {
         "alertConfigurationTitle": "Alert Configuration",
