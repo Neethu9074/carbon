@@ -290,6 +290,7 @@ import './phmcVIOS';
 import './bpm/jbpm';
 import './oTelDcgm';
 import './oTelLLM';
+import './oTelJvm';
 import './bpm/baw';
 import './zhmcCpc';
 import './ibmIDb2';
