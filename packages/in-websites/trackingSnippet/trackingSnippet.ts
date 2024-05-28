@@ -9,11 +9,12 @@ import config, { region } from 'in-services/config';
 
 interface SnippetProps {
   setTrackSessions: (value: string) => void;
+  setEnableSRI: (value: string) => void;
   key: string;
   additionalScript: string | null;
   trackSessions: boolean;
+  enableSRI: boolean;
   urlWeaselVersion: string;
-  selectSRIOption: string;
   shaValue: string;
 }
 
@@ -23,8 +24,8 @@ export function getTrackingSnippet({
   key,
   additionalScript = null,
   trackSessions = false,
+  enableSRI = false,
   urlWeaselVersion,
-  selectSRIOption,
   shaValue
 }: SnippetProps) {
   const lines = [`<script>`];
@@ -64,7 +65,7 @@ export function getTrackingSnippet({
   lines.push(`</script>`);
 
   let scriptSrc = config?.websiteScriptSource || 'https://eum.instana.io/eum.min.js';
-  if (weaselSubresourceIntegrityEnabled && selectSRIOption === 'Enable') {
+  if (weaselSubresourceIntegrityEnabled && enableSRI) {
     scriptSrc = scriptSrc.replace('eum.min.js', `${urlWeaselVersion}/eum.min.js`);
   }
 
@@ -73,7 +74,7 @@ export function getTrackingSnippet({
   }
 
   lines.push(
-    weaselSubresourceIntegrityEnabled && selectSRIOption === 'Enable'
+    weaselSubresourceIntegrityEnabled && enableSRI
       ? `<script defer crossorigin="anonymous" src="${scriptSrc}" \n integrity="${shaValue}"></script>`
       : `<script defer crossorigin="anonymous" src="${scriptSrc}"></script>`
   );
