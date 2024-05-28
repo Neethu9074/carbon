@@ -13,9 +13,9 @@ import { Card } from '@instana/components';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, bytes } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
-import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 interface IbmInfosphereSubscriptionDashboardProps {
@@ -103,7 +103,7 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
+            formatter: bytes.compact,
             metrics: ['logParserDiskRead', 'logParserDiskWrite', 'logParserDiskSize'],
             labels: [
               t('in-forge:plugins.ibmInfosphereCdcSubscription.diskReads'),
@@ -121,7 +121,7 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
+            formatter: bytes.compact,
             metrics: ['logSourceDBProcessed', 'logPhysicalBytesRead'],
             labels: [
               t('in-forge:plugins.ibmInfosphereCdcSubscription.databaseBytesProcessed'),
@@ -130,7 +130,7 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
             type: 'line'
           }}
           y2={{
-            formatter: number.perSecond.compact,
+            formatter: number.compact,
             metrics: ['logThreadCpu'],
             labels: [t('in-forge:plugins.ibmInfosphereCdcSubscription.threadCpu')],
             type: 'line'

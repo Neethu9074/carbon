@@ -16,5 +16,6 @@ registerSnapshotDefinition({
   metricDefinitions,
   technologyDescriptor: {
     label: t('in-forge:plugins.ibmInfosphereCdc.ibmInfosphereCdc')
-  }
+  },
+  getIconType: () => 'ibmInfosphereCdc'
 });

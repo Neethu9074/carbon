@@ -17,5 +17,5 @@ registerSnapshotDefinition({
   technologyDescriptor: {
     label: t('in-forge:plugins.ibmInfosphereCdcSubscription.ibmInfosphereSubscription')
   },
-  getIconType: () => 'ibmInfosphere'
+  getIconType: () => 'ibmInfosphereCdc'
 });

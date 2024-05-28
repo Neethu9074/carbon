@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { number, seconds } from 'in-services/formatters/number';
+import { number, seconds, bytes } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -35,13 +35,13 @@ export default [
       t('in-forge:plugins.ibmInfosphereCdcSubscription.physicalBytesRead')
     ],
     min: 0,
-    formatter: number
+    formatter: bytes.compact
   },
   {
     metrics: ['logThreadCpu'],
     labels: [t('in-forge:plugins.ibmInfosphereCdcSubscription.threadCpu')],
     min: 0,
-    formatter: number
+    formatter: number.compact
   },
   {
     metrics: ['logParserDiskWrite', 'logParserDiskRead', 'logParserDiskSize'],
@@ -51,7 +51,7 @@ export default [
       t('in-forge:plugins.ibmInfosphereCdcSubscription.diskSize')
     ],
     min: 0,
-    formatter: number
+    formatter: bytes.compact
   },
   {
     metrics: ['targetApplyInserts', 'targetApplyUpdates', 'targetApplyDeletes'],
