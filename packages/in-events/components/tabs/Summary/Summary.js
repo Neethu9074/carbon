@@ -137,7 +137,7 @@ const EventContent = connectTo(
     }
 
     if (isSloSmartAlertEvent(event)) {
-      return <SloEventContent event={event} />;
+      return <SloEventContent event={event} snapshot={snapshot} />;
     }
 
     if (isLogSmartAlertEvent(event)) {
