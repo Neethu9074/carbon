@@ -13,6 +13,7 @@ import {
   ServiceLevelsAlertConfigWithMetadata,
   ServiceLevelsAlertRuleUnion,
   ServiceLevelsObjectiveAlertMetric,
+  SloEntityType,
   ThresholdOperator
 } from '@instana/types';
 
@@ -32,6 +33,7 @@ export type SloAlertTimeThresholdFields = {
   timeWindow: Field<number>;
 };
 export type SloAlertFormFields = {
+  entityType: Field<SloEntityType | undefined>;
   sloIds: Field<string[]>;
   rule: MapForm<SloAlertRuleFormFields>;
   threshold: Field<number | undefined>;
@@ -79,11 +81,16 @@ export function createSloAlertTimeThresholdForm(
 }
 
 export function createSloAlertForm(
-  alertConfig: ServiceLevelsAlertConfig | ServiceLevelsAlertConfigWithMetadata
+  alertConfig: ServiceLevelsAlertConfig | ServiceLevelsAlertConfigWithMetadata,
+  entityType?: SloEntityType
 ): SloAlertForm {
   const id = isServiceLevelAlertConfigWithMetaData(alertConfig) ? alertConfig.id : '';
   const form = createMapForm<SloAlertFormFields>({
     items: {
+      entityType: createField({
+        value: entityType,
+        validator: notBlankValidator
+      }),
       sloIds: createField({
         value: alertConfig.sloIds,
         validator: noEmptySloIds
