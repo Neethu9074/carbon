@@ -14,6 +14,7 @@ import PythonRuntimeContent from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/L
 import RubyRuntimeContent from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/LambdaRuntimes/RubyRuntimeContent';
 import JavaRuntimeContent from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/LambdaRuntimes/JavaRuntimeContent';
 import GoRuntimeContent from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/LambdaRuntimes/GoRuntimeContent';
+import DotnetRuntimeContent from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/LambdaRuntimes/DotnetRuntimeContent';
 import { Documentations, Prerequisites } from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/SupportView';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
@@ -26,11 +27,12 @@ import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 interface RuntimeOption {
-  key: 'Go' | 'Java' | 'NodeJs10' | 'NodeJs8' | 'Python' | 'Ruby';
+  key: 'Go' | 'Java' | 'NodeJs10' | 'NodeJs8' | 'Python' | 'Ruby' | 'Dotnet' ;
   label: string;
 }
 
 const runtimeOptions: RuntimeOption[] = [
+  { key: 'Dotnet', label: t('in-plg:agentDetails.runtime.dotnet') },
   { key: 'Go', label: t('in-plg:agentDetails.runtime.go') },
   { key: 'Java', label: t('in-plg:agentDetails.runtime.java') },
   { key: 'NodeJs10', label: t('in-plg:agentDetails.runtime.nodejs10Plus') },
@@ -73,6 +75,18 @@ export default function AwsLambda({
 
   function RenderRuntimeView(): JSX.Element {
     switch (selectedRuntime.key) {
+      case 'Dotnet':
+        return (
+          <DotnetRuntimeContent
+            {...{
+              id,
+              downloadKey,
+              agentKey,
+              instanaDomain,
+              serverlessEndpoint
+            }}
+          />
+        );
       case 'Go':
         return (
           <GoRuntimeContent

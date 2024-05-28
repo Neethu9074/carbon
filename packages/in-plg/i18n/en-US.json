@@ -171,6 +171,7 @@
       "useScriptAsUserDataForEc2Instance": "Use this script as User Data for the EC2 instance",
       "selectAgentPackagingAndRuntime": "Select the agent packaging mode and runtime",
       "awsLambdaPythonAutotrace": "The preferred way to configure AWS Lambda functions based on Python for tracing is the Instana Lambda layer with AutoTrace.",
+      "awsLambdaDotnetAutotrace": "The preferred way to configure AWS Lambda functions based on .NET Core for tracing is the Instana Lambda layer with AutoTrace.",
       "preferredMethodForNodeJsLambdaConfiguration": "The preferred way to configure AWS Lambda functions based on Node.js 8.x is to use the <lambdaManualWrapping>Instana Lambda layer with manual wrapping</lambdaManualWrapping>.",
       "imageOptions": {
         "linuxGlibcBased": "Linux (glibc - based)",
@@ -202,6 +203,7 @@
         "runningStartupScript": "Running Startup Script",
         "uninstallingTheHostAgent": "Uninstalling the host agent",
         "awsLambdaNativeTracingForJava": "AWS Lambda Native Tracing for Java",
+        "awsLambdaNativeTracingForDotNet": "AWS Lambda Native Tracing for .NET Core",
         "awsLambdaFunctions": "AWS lambda functions",
         "monitoringAwsFargate": "Monitoring AWS Fargate",
         "monitoringAwsFargateJava": "Monitoring AWS Fargate (Java)",
