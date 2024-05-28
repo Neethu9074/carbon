@@ -16,6 +16,7 @@ import ResultAwareBigNumberKpiCard, {
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import { ThresholdFn } from 'in-custom-dashboards/widgets/_shared/threshold';
 import { MetricResult, Result, UnifiedMetricConfiguration } from 'in-types';
 import { useLogsPolling } from 'in-components/KpiCard/useLogsPolling';
 import { getLogMetricsConfig } from 'in-components/KpiCard/utils';
@@ -43,6 +44,7 @@ export interface BigNumberKpiCardProps {
   dragHandle?: ReactNode;
   raw?: boolean;
   isInModal?: boolean;
+  thresholdFn?: ThresholdFn;
 }
 
 export default function BigNumberKpiCard({
@@ -54,6 +56,7 @@ export default function BigNumberKpiCard({
   config,
   actions,
   isInModal,
+  thresholdFn,
   dragHandle,
   raw
 }: BigNumberKpiCardProps) {
@@ -110,7 +113,7 @@ export default function BigNumberKpiCard({
 
   const logsPollingResult = useLogsPolling({ metrics }) ?? pendingResult;
 
-  let result = isLogsPolling ? logsPollingResult : metricsResult;
+  const result = isLogsPolling ? logsPollingResult : metricsResult;
 
   return (
     <ResultAwareBigNumberKpiCard
@@ -118,6 +121,7 @@ export default function BigNumberKpiCard({
       result={result}
       formatter={formatter}
       companionFormatter={companionFormatter}
+      thresholdFn={thresholdFn}
       useMaxAvailableHeight={useMaxAvailableHeight}
       isInModal={isInModal}
       iconAction={iconAction}

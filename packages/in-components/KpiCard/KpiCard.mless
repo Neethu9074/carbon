@@ -115,4 +115,15 @@
   .hidden {
     display: none;
   }
+
+  .major,
+  .minor {
+    &.critical {
+      color: var(--ids-color-option-red-700);
+    }
+
+    &.warning {
+      color: var(--ids-color-option-yellow-500);
+    }
+  }
 }
