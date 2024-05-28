@@ -9,6 +9,7 @@ import React from 'react';
 import { TimeConfig } from '@instana/types';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelDcgm/constants';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -78,6 +79,9 @@ const gpuUtilCol = {
     getContent: percentage.detailed,
     getTimeWindowAggregation() {
       return 'mean';
+    },
+    getWindowForLatest() {
+      return WINDOW_FOR_LATEST_METRIC;
     }
   }
 };
