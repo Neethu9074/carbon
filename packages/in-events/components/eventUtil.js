@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+// FYI this class assumes 'event' is EventOrMap
+
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 
 export function isEntityVerificationEvent(event) {
@@ -51,6 +53,14 @@ export function isSloSmartAlertEvent(event) {
 
 export function isLogSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'logSmartAlert']);
+}
+
+export function hasManualCloseFields(event) {
+  return (
+    event.hasIn(['metadata', 'manualCloseReason']) &&
+    event.hasIn(['metadata', 'manualCloseTimestamp']) &&
+    event.hasIn(['metadata', 'manualCloseUsername'])
+  );
 }
 
 export function getTimeConfigForSnapshotRetrieval(event, latestSnapshot) {

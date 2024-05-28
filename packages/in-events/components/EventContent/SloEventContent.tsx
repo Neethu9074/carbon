@@ -60,7 +60,7 @@ export default function SloEventContent({ event, snapshot }: SloEventContentProp
               entityLabel={entityLabel}
               boundaryScope={boundaryScope}
             />
-            <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
+            <ProblemDescription fixSuggestion={fixSuggestion} />
             <DescriptionButtons>
               <SloAlertConfigButton sloId={sloConfig.id!} alertConfig={alertConfig} />
               <AnalyzeSloEventButton sloConfig={sloConfig} timeConfig={timeConfig} />
