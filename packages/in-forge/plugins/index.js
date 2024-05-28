@@ -74,6 +74,7 @@ import './kubernetesReplicaSet';
 import './processingStatistics';
 import './ibmApiConnectCatalog';
 import './azureMachineLearning';
+import './ibmIMessageQueueInfo';
 import './azureSqlElasticPool';
 import './ibmCloudEventStream';
 import './ibmDataPowerCluster';

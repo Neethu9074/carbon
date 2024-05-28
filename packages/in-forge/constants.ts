@@ -177,6 +177,7 @@ export const nonServicePlugins = {
   ibmDataPowerEthernetInterface: 'ibmDataPowerEthernetInterface',
   ibmIDb2: 'ibmIDb2',
   ibmiDiskInfo: 'ibmiDiskInfo',
+  ibmIMessageQueueInfo: 'ibmIMessageQueueInfo',
   ibmiActiveJobsInfo: 'ibmiActiveJobsInfo',
   ibmIOs: 'ibmIOs',
   ibmIms: 'ibmIms',
@@ -579,6 +580,8 @@ export const fullyQualifiedPlugins = {
   ibmCtg: 'com.instana.forge.infrastructure.application.ibmzos.IbmCtg',
   ibmiActiveJobsInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.activeJobsInfo.IbmiActiveJobsInfo',
+  ibmIMessageQueueInfo:
+    'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.messageQueue.IbmIMessageQueueInfo',
   ibmiDiskInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.diskInfo.IbmiDiskInfo',
   ibmiNetworkInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.networkInfo.IbmiNetworkInfo',
   ibmMqCluster: 'com.instana.forge.infrastructure.messaging.ibmmq.IbmMqCluster',

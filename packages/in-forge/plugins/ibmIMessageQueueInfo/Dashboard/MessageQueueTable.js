@@ -15,7 +15,7 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageId'),
+    title: t('in-forge:plugins.ibmIMessageQueueInfo.dashboard.tables.messageQueue.messageId'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageQueueLibrary'),
+    title: t('in-forge:plugins.ibmIMessageQueueInfo.dashboard.tables.messageQueue.messageQueueLibrary'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -33,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageQueueName'),
+    title: t('in-forge:plugins.ibmIMessageQueueInfo.dashboard.tables.messageQueue.messageQueueName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -42,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageKey'),
+    title: t('in-forge:plugins.ibmIMessageQueueInfo.dashboard.tables.messageQueue.messageKey'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -51,7 +51,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageType'),
+    title: t('in-forge:plugins.ibmIMessageQueueInfo.dashboard.tables.messageQueue.messageType'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -67,7 +67,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.severity'),
+    title: t('in-forge:plugins.ibmIMessageQueueInfo.dashboard.tables.messageQueue.severity'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -83,7 +83,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageTimestamp'),
+    title: t('in-forge:plugins.ibmIMessageQueueInfo.dashboard.tables.messageQueue.messageTimestamp'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -126,7 +126,7 @@ export default connectTo(
         withoutPadding
         cardTitle={
           <TimeOfLastUpdateCardTitle
-            title={t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.name')}
+            title={t('in-forge:plugins.ibmIMessageQueueInfo.dashboard.tables.messageQueue.name')}
             timestamp={data.get('timestamp')}
           />
         }
@@ -145,14 +145,16 @@ function getRowDetails(row) {
     <div>
       <p>
         <label>
-          <strong>{t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageText')}</strong>
+          <strong>{t('in-forge:plugins.ibmIMessageQueueInfo.dashboard.tables.messageQueue.messageText')}</strong>
           {' : '}
         </label>
         {row.messageQueueStringData.get('messageText')}
       </p>
       <p>
         <label>
-          <strong>{t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageSecondLevelText')}</strong>
+          <strong>
+            {t('in-forge:plugins.ibmIMessageQueueInfo.dashboard.tables.messageQueue.messageSecondLevelText')}
+          </strong>
           {' : '}
         </label>
         {row.messageQueueStringData.get('messageSecondLevelText')}

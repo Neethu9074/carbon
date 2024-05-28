@@ -931,6 +931,11 @@
   "pluginName_ibmIOs_1": "IBM i",
   "pluginName_ibmIOs_2": "IBM i",
   "pluginName_ibmIOs": "IBM i",
+  "pluginName_ibmIMessageQueueInfo_plural": "Message Queue Information on IBM i",
+  "pluginName_ibmIMessageQueueInfo_0": "Message Queue Information on IBM i",
+  "pluginName_ibmIMessageQueueInfo_1": "Message Queue Information on IBM i",
+  "pluginName_ibmIMessageQueueInfo_2": "Message Queue Information on IBM i",
+  "pluginName_ibmIMessageQueueInfo": "Message Queue Information on IBM i",
   "pluginName_ibmiNetworkInfo_plural": "Network Information on IBM i",
   "pluginName_ibmiNetworkInfo_0": "Network Information on IBM i",
   "pluginName_ibmiNetworkInfo_1": "Network Information on IBM i",
@@ -10883,6 +10888,29 @@
         }
       }
     },
+    "ibmIMessageQueueInfo":{
+      "name": "Message Queue Information on IBM i",
+      "sidebar":{
+        "ibmIMessageQueue": "IBM i Info",
+        "hostName": "Host Name"
+      },
+      "dashboard":{
+        "tables":{
+          "messageQueue": {
+            "name": "Message Queue",
+            "messageId": "ID",
+            "messageType": "Type",
+            "severity": "Severity",
+            "messageQueueLibrary": "Library Name",
+            "messageQueueName": "Queue Name",
+            "messageTimestamp": "Timestamp",
+            "messageText": "Text",
+            "messageSecondLevelText": "Second Level Text",
+            "messageKey": "Key"
+          }
+        }
+      }
+    },
     "ibmIOs": {
       "sidebar": {
         "ibmIOSInfo": "IBM i Info",
@@ -11023,18 +11051,6 @@
               "releasedJobs": "Released Jobs",
               "scheduledJobs": "Scheduled Jobs"
             }
-          },
-          "messageQueue": {
-            "name": "Message Queue",
-            "messageId": "ID",
-            "messageType": "Type",
-            "severity": "Severity",
-            "messageQueueLibrary": "Library Name",
-            "messageQueueName": "Queue Name",
-            "messageTimestamp": "Timestamp",
-            "messageText": "Text",
-            "messageSecondLevelText": "Second Level Text",
-            "messageKey": "Key"
           },
           "historyLog": {
             "name": "History Log",
