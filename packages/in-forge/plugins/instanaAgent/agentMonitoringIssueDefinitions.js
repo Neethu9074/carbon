@@ -277,6 +277,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://ibm.biz/insta-unabletoexecutefilejspawnhelper`
+    explanationLinkHref: `https://ibm.biz/troubleshooting-Solaris_JVM_file_permission_issue`
   }
 };
