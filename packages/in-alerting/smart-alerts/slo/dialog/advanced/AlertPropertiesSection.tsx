@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Message } from '@instana/components';
+import { Li, Message } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -21,6 +21,7 @@ import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/
 import AlertLevelRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertLevelRow';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import { getDescriptionPlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
+import Sections from 'in-components/workspace/Sections';
 
 type OnChangeType = Parameters<typeof AlertProperties>[0]['onChange'];
 
@@ -49,7 +50,7 @@ export default function AlertPropertiesSection() {
   return (
     <AlertPropertiesContainer
       renderAlertProperties={() => (
-        <>
+        <Sections>
           <AlertPropertiesTitleRow
             form={form}
             placeholders={[]}
@@ -60,10 +61,12 @@ export default function AlertPropertiesSection() {
           {showIncident ? (
             <TriggersIncidentRow form={form} onChange={onChange as OnChangeType} />
           ) : (
-            <Message
-              type="warning"
-              title={t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesIncidentWarning')}
-            />
+            <Li>
+              <Message
+                type="warning"
+                title={t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesIncidentWarning')}
+              />
+            </Li>
           )}
 
           <AlertDescriptionRow
@@ -71,7 +74,7 @@ export default function AlertPropertiesSection() {
             getDescriptionPlaceholder={getDescriptionPlaceholder}
             onChange={onChange as OnChangeType}
           />
-        </>
+        </Sections>
       )}
       renderAlertPreview={() => (
         <AlertPreview
