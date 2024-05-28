@@ -56,7 +56,9 @@ const localisationStrings = {
   toastSuccessTitle: t('in-settings:tabs.deleteLogs.toastSuccessTitle'),
   toastSuccessMessage: t('in-settings:tabs.deleteLogs.toastSuccessMessage'),
   toastErrorTitle: t('in-settings:tabs.deleteLogs.toastErrorTitle'),
-  toastErrorMessage: t('in-settings:tabs.deleteLogs.toastErrorMessage')
+  toastErrorMessage: t('in-settings:tabs.deleteLogs.toastErrorMessage'),
+  toastNoLogsMessage: t('in-settings:tabs.deleteLogs.toastNoLogsMessage'),
+  warning: t('in-settings:tabs.deleteLogs.warning')
 };
 
 export default function DeleteLogs() {
@@ -125,7 +127,8 @@ function DeleteLogsDialog({
     reasonValidationMessage,
     dateTimeValidationMessage,
     canSubmit,
-    resetForm
+    resetForm,
+    touchForm
   } = useDeleteLogsForm();
 
   const isDeleteDisabled = !canSubmit || isDeleting;
@@ -136,6 +139,11 @@ function DeleteLogsDialog({
   };
 
   const handleSubmit = () => {
+    if (isDeleteDisabled) {
+      touchForm();
+      return;
+    }
+
     const entity: DeleteLogsRequest = {
       reason: reasonInputValue,
       triggeredByUser: user?.email!,
@@ -174,18 +182,26 @@ function DeleteLogsDialog({
 
     deleteLogs$.errors().once(error => {
       entity.errorMessage = error.message;
+
+      const isNoLogsWarning = error.message.includes('No log data');
+      const type = isNoLogsWarning ? 'warning' : 'danger';
+      const icon = isNoLogsWarning ? 'lib_help_error_warning_outline' : 'lib_help_error_info_outline';
+      const message = isNoLogsWarning ? localisationStrings.toastNoLogsMessage : localisationStrings.toastErrorMessage;
+      const heading = isNoLogsWarning ? localisationStrings.warning : localisationStrings.toastErrorTitle;
+
       logManagementDeleteLogsErrorTracker(entity);
       setRetryCount(retryCount => retryCount + 1);
-      setNotification({ show: true, variant: 'failure' });
+      setNotification({ show: true, variant: isNoLogsWarning ? 'warning' : 'error' });
       setIsDeleting(false);
+
       addMessage(
         {
-          type: 'danger',
-          icon: 'lib_help_error_info_outline',
+          type,
+          icon,
           content: (
             <section className={locals.toast}>
-              <Typography variant="heading-200">{localisationStrings.toastErrorTitle}</Typography>
-              <Typography variant="body-regular">{localisationStrings.toastErrorMessage}</Typography>
+              <Typography variant="heading-200">{heading}</Typography>
+              <Typography variant="body-regular">{message}</Typography>
             </section>
           ),
           timeout: 5000
@@ -200,7 +216,7 @@ function DeleteLogsDialog({
       <Button kind="secondary" onClick={() => closeConfirmationDialog()}>
         {localisationStrings.cancel}
       </Button>
-      <Button onClick={handleSubmit} disabled={isDeleteDisabled} kind="danger">
+      <Button onClick={handleSubmit} kind="danger">
         {localisationStrings.deleteLogs}
       </Button>
     </>
@@ -267,9 +283,7 @@ function DeleteLogsDialog({
           )}
         </Label>
         {isDeleting && <Typography variant={'body-small'}>{localisationStrings.deletionInfo}</Typography>}
-        {notification.show && (
-          <ModalNotification onClick={() => setNotification({ show: false })} variant={notification.variant} />
-        )}
+        {notification.show && <ModalNotification variant={notification.variant} />}
       </section>
       <section className={locals.buttons}>{isDeleting ? LoadingButton : ConfirmationButtons}</section>
     </Dialog>
@@ -286,6 +300,7 @@ interface DeleteLogsRequest {
   retryCount?: number;
   errorMessage?: string;
 }
+
 export function deleteLogs(params: DeleteLogsRequest) {
   return http<DeleteLogsResult>({
     method: 'DELETE',
