@@ -132,7 +132,6 @@ export default function KpiCard({
       useMaxAvailableHeight={useMaxAvailableHeight}
       bodyClassName={locals.kpibody}
       headerClassName={locals.kpiheader}
-      useMaxAvailableHeight={useMaxAvailableHeight}
     >
       <div
         className={classNames({
