@@ -129,9 +129,9 @@ export default function KpiCard({
         [locals.centerValue]: centerLabels,
         [locals.modal]: isInModal
       })}
-      useMaxAvailableHeight={useMaxAvailableHeight}
       bodyClassName={locals.kpibody}
       headerClassName={locals.kpiheader}
+      useMaxAvailableHeight={useMaxAvailableHeight}
     >
       <div
         className={classNames({

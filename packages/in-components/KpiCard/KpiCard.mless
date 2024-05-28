@@ -13,16 +13,18 @@
     border-radius: var(--ids-border-radius-option-large);
   }
 
-  .kpibody {
+  .wrapper .kpibody {
     padding: 0;
+    line-height: unset;
   }
 
-  .kpiheader {
+  .wrapper .kpiheader {
     padding: 0;
   }
 
   :global(.cds--tile) {
     border-radius: 0;
+    line-height: unset;
   }
 
   .borderless {
