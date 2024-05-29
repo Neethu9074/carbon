@@ -19,6 +19,7 @@ import TriggersIncidentRow from 'in-alerting/smart-alerts/components/dialog/adva
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import AlertLevelRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertLevelRow';
+import { getSloAlertOperatorContext } from 'in-alerting/smart-alerts/slo/components/OperatorDropdown';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import { getDescriptionPlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import Sections from 'in-components/workspace/Sections';
@@ -31,18 +32,23 @@ export default function AlertPropertiesSection() {
   const alertConfigTitle = form.getIn(['name']).value;
   const alertType = form.getIn(['rule', 'alertType']).value;
   const threshold = form.getIn(['threshold']).value;
+  const operator = form.getIn(['operator']).value;
   const entityType = form.getIn(['entityType']).value;
+
+  const operatorContext = getSloAlertOperatorContext(operator);
 
   const showIncident = entityType === 'application';
   const titlePlaceholder = t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesTitlePlaceholder', {
     context: alertType,
-    percentage: threshold
+    percentage: threshold,
+    operator: operatorContext
   });
   const descriptionPlaceholder = t(
     'in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesDescriptionPlaceholder',
     {
       context: alertType,
-      percentage: threshold
+      percentage: threshold,
+      operator: operatorContext
     }
   );
   const previewTitle = alertConfigTitle ? alertConfigTitle : titlePlaceholder;

@@ -19,7 +19,7 @@ interface AlertThresholdInfosProps {
 
 export default function AlertThresholdInfos({ threshold, rule }: AlertThresholdInfosProps) {
   const { alertType } = rule;
-  const { value } = threshold;
+  const { value, operator } = threshold;
   const thresholdValue = percentage.detailed(value);
 
   return (
@@ -29,7 +29,11 @@ export default function AlertThresholdInfos({ threshold, rule }: AlertThresholdI
         value={t('in-alerting:smartAlerts.slo.advancedModeContainer.blueprint', { context: alertType })}
         multilineLabel
       />
-      <KeyValue label={t('in-alerting:smartAlerts.slo.details.thresholdLabel')} value={thresholdValue} multilineLabel />
+      <KeyValue
+        label={t('in-alerting:smartAlerts.slo.details.thresholdLabel')}
+        value={`${operator}${thresholdValue}`}
+        multilineLabel
+      />
     </Stack>
   );
 }
