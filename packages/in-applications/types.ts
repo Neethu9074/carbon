@@ -81,3 +81,10 @@ export interface APMapGraphColumnInfo {
   nodes: TransformedAPMapNode[];
 }
 // #endregion
+
+// #region QueryBuilder & GroupingConfigurator
+export interface AdditionalTagSuggestionProps {
+  readonly includeInternal: boolean;
+  readonly includeSynthetic: boolean;
+}
+// #endregion
