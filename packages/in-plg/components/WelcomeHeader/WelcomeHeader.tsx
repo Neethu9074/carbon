@@ -15,6 +15,7 @@ import { track, URL_SHORTENER_OPEN } from 'in-services/tracking/tracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { openAssistMe } from 'in-plg/components/AssistMe/AssistMe';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay';
 import { user } from 'in-stores/user';
 
@@ -83,7 +84,7 @@ export function DatePickerHeader() {
   return (
     <div className="header">
       <Stack direction="horizontal">
-        <UrlShortener darkTheme={false} />
+        {!shareAndInviteEnabled && <UrlShortener darkTheme={false} />}
         <DatePicker darkTheme={false} />
       </Stack>
     </div>

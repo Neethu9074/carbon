@@ -32,6 +32,7 @@ import {
   shareAndInviteSubmitTracker
 } from 'in-settings/tracker';
 import { onDoInviteUser } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
+import { fixateTimeConfig, getTimeConfig, setTimeConfig, timeConfig$ } from 'in-stores/time/config';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 // @ts-expect-error file needs TS migration
@@ -46,8 +47,8 @@ import { getInvitations$, getUsersAsResultObservable } from 'in-api/users';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
-import { fixateTimeConfig, timeConfig$ } from 'in-stores/time/config';
 import { defaultRoleId, fallbackRoleId, role } from 'in-stores/user';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import TextArea from 'in-components/form/TextArea/TextArea';
@@ -58,7 +59,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import Input from 'in-components/form/Input/Input';
 import Dialog from 'in-components/Dialog/Dialog';
 import Tooltip from 'in-components/Tooltip';
-import { t, Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox.mless';
 
@@ -142,10 +143,11 @@ interface ShareAndInviteDialogBoxProps {
 }
 
 const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) => {
-  const { location, createHrefToPath } = useNavigation();
+  const { location, createHref, createHrefToPath } = useNavigation();
+  const clonedLocation = cloneLocation(location);
 
   const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string }>();
-  const [fixateTime, setFixateTime] = useState(location?.pathname.includes(agentDetailsPagePath) ? true : false);
+  const [fixateTime, setFixateTime] = useState(clonedLocation?.pathname.includes(agentDetailsPagePath) ? false : true);
 
   const getShortUrl = useShortUrl();
   const timeZone = new Date().toLocaleDateString('default', { day: '2-digit', timeZoneName: 'short' }).slice(4);
@@ -220,19 +222,17 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
         groupId: e.groupId,
         email: e.email,
         message: emailMessage,
-        path: `${location.pathname}${
-          Object.keys(location.query).length
-            ? `?${Object.entries(location.query)
-                .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value ?? '')}`)
-                .join('&')}`
-            : ''
-        }`,
+        path: inviteOnly ? '' : createHref(clonedLocation), // if invited from user section or pending invite section, the return URL should be to /home
         pageName: parentProductArea,
         userSentState: e.userSentState === InviteSentState.INTERNAL_ERROR ? InviteSentState.notSentYet : e.userSentState
       }));
       onDoInviteUser(setMessage, invitations, setForm, setInvitationResult, noop); // noop instead of goToPath since we are not redirecting anymore
     };
   };
+
+  if (fixateTime) {
+    setTimeConfig(clonedLocation, fixateTimeConfig(getTimeConfig(clonedLocation)));
+  }
 
   if (fixateTime && timeConfig) {
     timeConfig = fixateTimeConfig(timeConfig);
@@ -291,7 +291,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
         <div className={locals.title}>
           <Stack gap="disabled">
             <Typography variant="heading-400">
-              {`${t('in-settings:ShareAndInviteDialogBox.share')} ${parentProductArea ?? ''}`}
+              {`${t('in-settings:ShareAndInviteDialogBox.share')} ${parentProductArea?.toLowerCase() ?? ''}`}
             </Typography>
             <Typography variant="body-regular">
               {t('in-settings:ShareAndInviteDialogBox.inviteYourColleagues')}
@@ -312,75 +312,69 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
           */}
           {role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && (
             <>
-              {(form as any).map((invite: MapForm<any>, index: number) => (
-                <Row key={index} className={locals.emailAndGroupRow}>
-                  {(invite.get('email') as Field<string>).map((field: Field<string>) => (
-                    <Col xs={9}>
-                      <Fields helpText={index === 0 ? t('in-settings:ShareAndInviteDialogBox.emailAddress') : null}>
-                        <CreatableComboBox
-                          value={{ value: field.value, label: field.value }}
-                          options={users.map((item: UserResultProp) => ({ value: item.email, label: item.email }))}
-                          onChange={(e: any) => onChange(index, [index, 'email'], e.value, invite)}
-                          placeholder={t('in-settings:ShareAndInviteDialogBox.emailAddress')}
-                          formatCreateLabel={(inputText: string) =>
-                            `${t('in-settings:ShareAndInviteDialogBox.add')} "${inputText}"`
-                          }
-                          isClearable={false}
-                        />
-                        <TouchedMessages field={field} />
-                        {(invite.get('userSentState') as Field<string>).map((field: Field<string>) => {
-                          return <TouchedMessages field={field} />;
-                        })}
-                      </Fields>
-                    </Col>
-                  ))}
-                  {(invite.get('groupId') as Field<string>).map((field: Field<string>) => (
-                    <Col xs={3}>
-                      <Fields
-                        helpText={index === 0 ? t('in-settings:ShareAndInviteDialogBox.group') : null}
-                        helpTextIcon={
-                          index === 0 ? (
-                            <Tooltip
-                              content={
-                                <Trans
-                                  i18nKey={'in-settings:ShareAndInviteDialogBox.groupToolTip'}
-                                  components={{
-                                    links: <a href={createHrefToPath(teamSettingsAccessControlGroupNew)} />,
-                                    br: <br />
-                                  }}
-                                />
-                              }
-                              align="topMiddle"
-                            >
-                              <SvgIcon size="xxs" type="lib_help_error_info_outline" />
-                            </Tooltip>
-                          ) : null
-                        }
-                      >
-                        <Stack direction="horizontal" gap="disabled">
-                          <ComboBox
-                            value={field.value}
-                            options={sortedGroups}
-                            onChange={e => onChange(index, [index, 'groupId'], (e as Option).value, invite)}
-                            className={locals.groupComboBox}
+              <div data-testid="user-list">
+                {(form as any).map((invite: MapForm<any>, index: number) => (
+                  <Row key={index} className={locals.emailAndGroupRow}>
+                    {(invite.get('email') as Field<string>).map((field: Field<string>) => (
+                      <Col xs={9}>
+                        <Fields helpText={index === 0 ? t('in-settings:ShareAndInviteDialogBox.emailAddress') : null}>
+                          <CreatableComboBox
+                            value={{ value: field.value, label: field.value }}
+                            options={users.map((item: UserResultProp) => ({ value: item.email, label: item.email }))}
+                            onChange={(e: any) => onChange(index, [index, 'email'], e.value, invite)}
+                            placeholder={t('in-settings:ShareAndInviteDialogBox.emailAddress')}
+                            formatCreateLabel={(inputText: string) =>
+                              `${t('in-settings:ShareAndInviteDialogBox.add')} "${inputText}"`
+                            }
                             isClearable={false}
                           />
-                          <Button
-                            icon="lib_actions_delete"
-                            kind="subtle"
-                            iconSize="s"
-                            size="normal"
-                            onClick={() => onRemove(index)}
-                            disabled={form.size <= 1}
-                          >
-                            {''}
-                          </Button>
-                        </Stack>
-                      </Fields>
-                    </Col>
-                  ))}
-                </Row>
-              ))}
+                          <TouchedMessages field={field} />
+                          {(invite.get('userSentState') as Field<string>).map((field: Field<string>) => {
+                            return <TouchedMessages field={field} />;
+                          })}
+                        </Fields>
+                      </Col>
+                    ))}
+                    {(invite.get('groupId') as Field<string>).map((field: Field<string>) => (
+                      <Col xs={3}>
+                        <Fields
+                          helpText={index === 0 ? t('in-settings:ShareAndInviteDialogBox.group') : null}
+                          helpTextIcon={
+                            index === 0 ? (
+                              <Tooltip
+                                content={t('in-settings:ShareAndInviteDialogBox.groupToolTip')}
+                                align="topMiddle"
+                              >
+                                <SvgIcon size="xxs" type="lib_help_error_info_outline" />
+                              </Tooltip>
+                            ) : null
+                          }
+                        >
+                          <Stack direction="horizontal" gap="disabled">
+                            <ComboBox
+                              value={field.value}
+                              options={sortedGroups}
+                              onChange={e => onChange(index, [index, 'groupId'], (e as Option).value, invite)}
+                              className={locals.groupComboBox}
+                              isClearable={false}
+                            />
+                            <Button
+                              icon="lib_actions_delete"
+                              kind="subtle"
+                              iconSize="s"
+                              size="normal"
+                              onClick={() => onRemove(index)}
+                              disabled={form.size <= 1}
+                            >
+                              {''}
+                            </Button>
+                          </Stack>
+                        </Fields>
+                      </Col>
+                    ))}
+                  </Row>
+                ))}
+              </div>
 
               <Row className={locals.addUserAddGroup}>
                 <Col xs={9}>
@@ -431,7 +425,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
                   </Fields>
                 </Col>
               </Row>
-              {location?.pathname.includes(agentDetailsPagePath) ? (
+              {clonedLocation?.pathname.includes(agentDetailsPagePath) ? (
                 <Row>
                   <Col xs={12}>
                     <Fields

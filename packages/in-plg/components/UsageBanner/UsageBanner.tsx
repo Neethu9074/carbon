@@ -6,7 +6,7 @@
 
 // @ts-expect-error
 import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Link, LicenseBannerButton, SvgIcon, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -25,8 +25,10 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
+import { invitedUserJoined } from 'in-settings/tracker';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip';
+import { user } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './UsageBanner.mless';
@@ -52,6 +54,17 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const needToShowReminder = isRemainingDaysLimited && isPaidLicenseUsage && noQueuedLicense;
 
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
+
+  useEffect(() => {
+    if (Object.prototype.hasOwnProperty.call(location.query, 'invitedby')) {
+      invitedUserJoined({
+        invitedby: location.query.invitedby,
+        // @ts-expect-error The User type needs to be updated.
+        invitee: user?.fullName
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Stack align="center" direction="horizontal" gap="small">
