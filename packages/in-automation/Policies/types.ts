@@ -25,7 +25,8 @@ import {
   InfraAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
-  Result
+  Result,
+  ServiceLevelsAlertConfigWithMetadata
 } from 'in-types';
 import { Tag } from 'in-automation/ActionCatalog/TagsTable';
 
@@ -39,6 +40,7 @@ export type Triggers = {
   infraSmartAlert: Result<InfraAlertConfigWithMetadata[]>;
   logSmartAlert: Result<LogAlertConfigWithMetadata[]>;
   syntheticsSmartAlert: Result<SyntheticAlertConfigWithMetadata[]>;
+  sloSmartAlert: Result<ServiceLevelsAlertConfigWithMetadata[]>;
 };
 
 export type PolicyFormEntity = Policy | NewPolicy;
@@ -80,7 +82,8 @@ export type TriggerSpecification =
   | MobileAppAlertConfigWithMetadata
   | InfraAlertConfigWithMetadata
   | SyntheticAlertConfigWithMetadata
-  | LogAlertConfigWithMetadata;
+  | LogAlertConfigWithMetadata
+  | ServiceLevelsAlertConfigWithMetadata;
 
 export const isEventSpecification = (item?: TriggerSpecification): item is EventSpecificationInfo =>
   (item as EventSpecificationInfo)?.type !== undefined;
@@ -105,6 +108,9 @@ export const isSyntheticsSmartAlert = (item?: TriggerSpecification): item is Syn
 export const isInfraSmartAlert = (item?: TriggerSpecification): item is InfraAlertConfigWithMetadata =>
   (item ?? false) && 'predictiveTrigger' in (item as InfraAlertConfigWithMetadata);
 
+export const isSloSmartAlert = (item?: TriggerSpecification): item is ServiceLevelsAlertConfigWithMetadata =>
+  (item as ServiceLevelsAlertConfigWithMetadata)?.sloIds !== undefined;
+
 export const getTriggerType = (item: TriggerSpecification): TriggerType => {
   if (isApplicationSmartAlert(item)) {
     return 'applicationSmartAlert';
@@ -123,6 +129,9 @@ export const getTriggerType = (item: TriggerSpecification): TriggerType => {
   }
   if (isInfraSmartAlert(item)) {
     return 'infraSmartAlert';
+  }
+  if (isSloSmartAlert(item)) {
+    return 'sloSmartAlert';
   }
   if (isEventSpecification(item) && item.type === 'CUSTOM') {
     return 'customEvent';

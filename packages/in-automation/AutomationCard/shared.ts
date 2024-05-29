@@ -29,6 +29,9 @@ export const getTriggerTypeFromEvent = (event: Event): TriggerType => {
   if (event.metadata?.syntheticTestId) {
     return 'syntheticsSmartAlert';
   }
+  if (event.metadata?.sloId) {
+    return 'sloSmartAlert';
+  }
   if (event.metadata?.custom_issue) {
     return 'customEvent';
   }

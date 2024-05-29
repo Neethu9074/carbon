@@ -1536,7 +1536,7 @@
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLOs",
         "sloCount_0": "{{count}} SLOs",
-        "ssloCount_1": "{{count}} SLOs",
+        "sloCount_1": "{{count}} SLOs",
         "sloCount_2": "{{count}} SLOs",
         "title": "",
         "title_ERROR_BUDGET": "Error budget burned",

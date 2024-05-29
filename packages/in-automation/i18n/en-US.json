@@ -320,6 +320,7 @@
     "mobileAppSmartAlert": "Mobile Application Smart Alert",
     "syntheticsSmartAlert": "Synthetics Smart Alert",
     "logSmartAlert": "Log Smart Alert",
+    "sloSmartAlert": "Service Levels Smart Alert",
     "docLinkAndManualCantBeAutomated": "Documentation link and manual actions cannot be automated.",
     "triggeringAgent": "Triggering Agent",
     "triggeringHostFqdn": "Triggering Host FQDN",
