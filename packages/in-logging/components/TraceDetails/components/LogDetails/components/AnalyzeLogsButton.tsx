@@ -9,7 +9,12 @@ import { Li, SvgIcon, Ul } from '@instana/components';
 import { LogItem, LogTag } from '@instana/types';
 import { Button } from '@instana/legacy';
 
-import { getValueMatchTagFilter, LOG_CUSTOM, LOG_MESSAGE } from 'in-logging/queryBuilder';
+import {
+  getValueMatchTagFilter,
+  getValueMatchTagFilterWithKey,
+  LOG_CUSTOM,
+  LOG_MESSAGE
+} from 'in-logging/queryBuilder';
 import { useLinkToLogs, useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import Overlay from 'in-components/overlays/Overlay';
@@ -40,7 +45,7 @@ export default function AnalyzeLogsButton({ log }: AnalyzeLogsButtonProps) {
             <Li
               href={generateLinkToLogs({
                 tagFilterExpression: [
-                  getValueMatchTagFilter({
+                  getValueMatchTagFilterWithKey({
                     name: LOG_CUSTOM,
                     key: 'service_id',
                     value: serviceId
