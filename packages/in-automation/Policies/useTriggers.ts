@@ -14,6 +14,7 @@ import {
   LogAlertConfigWithMetadata,
   MobileAppAlertConfigWithMetadata,
   Result,
+  ServiceLevelsAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
   WebsiteAlertConfigWithMetadata
 } from 'in-types';
@@ -25,7 +26,8 @@ import {
   getMobileAppSmartAlertConfigs,
   getInfraSmartAlertConfigs,
   getLogSmartAlertConfigs,
-  getSyntheticSmartAlertConfigs
+  getSyntheticSmartAlertConfigs,
+  getSloSmartAlertConfigs
 } from 'in-automation/api';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Triggers } from 'in-automation/Policies/types';
@@ -51,6 +53,8 @@ export default function useTriggers(): Triggers {
   const syntheticsSmartAlert = useObservable(getSyntheticSmartAlertConfigs, []) as Result<
     SyntheticAlertConfigWithMetadata[]
   >;
+  const sloSmartAlert =
+    useObservable(getSloSmartAlertConfigs, []) ?? (pendingResult as Result<ServiceLevelsAlertConfigWithMetadata[]>);
 
   const customEvent = mapData(eventSpecification, data =>
     data?.reduce<EventSpecificationInfo[]>((specs, eventSpecification) => {
@@ -78,6 +82,7 @@ export default function useTriggers(): Triggers {
     mobileAppSmartAlert,
     infraSmartAlert,
     logSmartAlert,
-    syntheticsSmartAlert
+    syntheticsSmartAlert,
+    sloSmartAlert
   };
 }
