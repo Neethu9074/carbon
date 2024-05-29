@@ -13,6 +13,7 @@ import {
   getValueMatchTagFilter,
   getValueMatchTagFilterWithKey,
   LOG_CUSTOM,
+  LOG_CUSTOM_KEY_SERVICE_ID,
   LOG_MESSAGE
 } from 'in-logging/queryBuilder';
 import { useLinkToLogs, useGenerateLinkToLogs } from 'in-logging/navigation/paths';
@@ -47,7 +48,7 @@ export default function AnalyzeLogsButton({ log }: AnalyzeLogsButtonProps) {
                 tagFilterExpression: [
                   getValueMatchTagFilterWithKey({
                     name: LOG_CUSTOM,
-                    key: 'service_id',
+                    key: LOG_CUSTOM_KEY_SERVICE_ID,
                     value: serviceId
                   })
                 ]
