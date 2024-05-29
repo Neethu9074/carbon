@@ -415,6 +415,8 @@ export const AUTOMATION_POLICY_EDIT = 'automation.policy.edit';
 export const AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK = 'automation.recommended.actions.tab.click';
 export const AUTOMATION_CREATE_POLICY_FROM_RECOMMENDED_ACTIONS = 'automation.create.policy.from.recommended.actions';
 export const AUTOMATION_TEST_ACTION_RUN = 'automation.test.action.run';
+export const AUTOMATION_GENERATE_AI_BUTTON_CLICK = 'automation.generate.ai.button.click';
+export const AUTOMATION_CREATE_AI_ACTION_POLICY = 'automation.create.ai.action.policy';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 

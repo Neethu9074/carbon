@@ -2914,9 +2914,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:3.18.0, @instana/components@npm:^3.18.0":
-  version: 3.18.0
-  resolution: "@instana/components@npm:3.18.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-3.18.0.tgz"
+"@instana/components@npm:3.19.0, @instana/components@npm:^3.19.0":
+  version: 3.19.0
+  resolution: "@instana/components@npm:3.19.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-3.19.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.39.0
     "@carbon/react": 1.55.0
@@ -2937,7 +2937,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: a3602dc9c3c238b9cdc0e0bb473af6b533400d60801d6558b81ba394db30957b3d9ff739e81b07bf6af3c02a96919386b7ad603ecb4d0aea6ddddbb172f5f067
+  checksum: edc7fea73bb3e9d67c68c75f51bd48407a78be2fe9703f4fce9b78bb6e47954ed17aba2f34a049a3ee3925ad27fad80bca63438410f2ae797558def74aaf6597
   languageName: node
   linkType: hard
 
@@ -3042,11 +3042,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:3.4.29":
-  version: 3.4.29
-  resolution: "@instana/legacy@npm:3.4.29::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-3.4.29.tgz"
+"@instana/legacy@npm:3.4.30":
+  version: 3.4.30
+  resolution: "@instana/legacy@npm:3.4.30::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-3.4.30.tgz"
   dependencies:
-    "@instana/components": ^3.18.0
+    "@instana/components": ^3.19.0
     "@instana/design-tokens": ^1.27.0
     "@instana/format-date": ^1.6.7
     "@instana/format-numbers": ^1.5.5
@@ -3059,7 +3059,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 510c059999d6664bccb1200889e98839b91aa86ddf5922f4cd227f26385f1ec8074a3df263d7de0ae838a24cd545b73e62f094898c7f9231c74da0f02750a5a5
+  checksum: 2eed4e1648ba31ad8768bd3a5bd3eb92e0279d3a6daffa61c869334c89687a3a5fb7c31bd6588c69a58e7b766a77afd36a7f4ad563f0f5143692930912a27e7f
   languageName: node
   linkType: hard
 
@@ -3096,10 +3096,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/types@npm:1.275.514":
-  version: 1.275.514
-  resolution: "@instana/types@npm:1.275.514::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.275.514.tgz"
-  checksum: 200ff502cc0c61aaee0a2415212bc074beff21346d6ef8d29acfe9172a06be78e2b270679fa38f7c4726449937a8b1b350dd3b71708e5133d1b37aac98598195
+"@instana/types@npm:1.275.679":
+  version: 1.275.679
+  resolution: "@instana/types@npm:1.275.679::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.275.679.tgz"
+  checksum: d4a39b0b95df301f5f7202928cf9510eaf6a93f8d0d95de13e28e6a3b8e986545987fe04d1f4c940a8c5f7628c2d939ccebe6bf971e66d95b6ef003e9f42e86b
   languageName: node
   linkType: hard
 
@@ -22933,7 +22933,7 @@ __metadata:
     "@codemirror/state": 6.2.0
     "@codemirror/theme-one-dark": ^6.0.0
     "@codemirror/view": 6.6.0
-    "@instana/components": 3.18.0
+    "@instana/components": 3.19.0
     "@instana/design-tokens": 1.27.0
     "@instana/eslint-config-commons": 1.2.3
     "@instana/format-date": 1.6.7
@@ -22942,12 +22942,12 @@ __metadata:
     "@instana/i18n": ^1.4.1
     "@instana/i18n-react": 1.5.7
     "@instana/import-sort-style-simon": 1.3.2
-    "@instana/legacy": 3.4.29
+    "@instana/legacy": 3.4.30
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.6.1
     "@instana/pseudo-translation": ^1.3.1
     "@instana/roemitter": ^1.3.2
-    "@instana/types": 1.275.514
+    "@instana/types": 1.275.679
     "@instana/utils": ^1.3.1
     "@lezer/common": ^1.0.2
     "@lezer/generator": ^1.5.0

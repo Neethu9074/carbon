@@ -20,7 +20,9 @@ import {
   AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK,
   AUTOMATION_CREATE_POLICY_FROM_RECOMMENDED_ACTIONS,
   AUTOMATION_TEST_ACTION_RUN,
-  AUTOMATION_POLICY_BULK_CREATE
+  AUTOMATION_POLICY_BULK_CREATE,
+  AUTOMATION_GENERATE_AI_BUTTON_CLICK,
+  AUTOMATION_CREATE_AI_ACTION_POLICY
 } from 'in-services/tracking/tracking';
 
 export const runActionTracker = (e: Object) => track(AUTOMATION_ACTION_RUN, e);
@@ -37,6 +39,10 @@ export const recommendedActionsTabClickTracker = () => track(AUTOMATION_RECOMMEN
 export const createPolicyFromRecommendedActionsTracker = (e: Object) =>
   track(AUTOMATION_CREATE_POLICY_FROM_RECOMMENDED_ACTIONS, e);
 export const testActionTracker = (e: Object) => track(AUTOMATION_TEST_ACTION_RUN, e);
+
+//AI trackers
+export const generateAIButtonClickTracker = (e: Object) => track(AUTOMATION_GENERATE_AI_BUTTON_CLICK, e);
+export const createPolicyFromAIActionTracker = (e: Object) => track(AUTOMATION_CREATE_AI_ACTION_POLICY, e);
 
 //turbo trackers
 export const clickTurboLinkForDetailsTracker = (e: Object) => track(AUTOMATION_CLICK_TURBO_LINK_FOR_DETAILS, e);

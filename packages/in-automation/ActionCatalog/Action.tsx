@@ -24,7 +24,8 @@ import {
   createAction,
   createGithubFields,
   createGitlabFields,
-  createJiraFields
+  createJiraFields,
+  ScoredAction
 } from 'in-automation/api';
 import {
   API_KEY,
@@ -74,7 +75,7 @@ import locals from './Action.mless';
 
 export const isNotEditableContext = createContext(false);
 
-export type ActionFormEntity = NewAction | Action;
+export type ActionFormEntity = NewAction | Action | ScoredAction;
 
 const isAction = (action: NewAction | Action): action is Action => (action as Action).id !== undefined;
 
