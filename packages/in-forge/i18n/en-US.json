@@ -16171,10 +16171,13 @@
       "tcode": "TCODE",
       "user": "User",
       "system": "System",
-      "totalResTime": "Total Response Time (ms)",
-      "procTime": "Processing Time (ms)",
-      "dbProcTime": "DB processing Time (ms)",
-      "dbWpTime": "DB Waiting Time (ms)"
+      "totalResTime": "Response Time(ms)",
+      "dbReqTime": "DB Request Time(ms)",
+      "wpTime": "Work Process Time(ms)",
+      "rollInTime": "RollIn Time(ms)",
+      "rollOutTime":"RollOut Time(ms)",
+      "queueTime": "Queue Time(ms)",
+      "rollWaitTime":"RollWait Time(ms)"
     },
     "s3": {
       "region": "Region",
