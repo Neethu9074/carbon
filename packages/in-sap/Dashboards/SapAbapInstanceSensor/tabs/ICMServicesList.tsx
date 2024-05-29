@@ -24,11 +24,11 @@ interface ICMRow {
 
 const cols = [
   {
-    title: t('in-sap:dashboards.active'),
+    title: t('in-sap:dashboards.service'),
     type: 'string',
     typeArgs: {
       getValue(row: ICMRow) {
-        return row.icmDetail.get('ACTIVE');
+        return row.icmDetail.get('SERVICE');
       },
       getContent(args: any) {
         return <Args args={shorten(args, 128)} />;
@@ -36,11 +36,11 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.service'),
+    title: t('in-sap:dashboards.active'),
     type: 'string',
     typeArgs: {
       getValue(row: ICMRow) {
-        return row.icmDetail.get('SERVICE');
+        return row.icmDetail.get('ACTIVE');
       },
       getContent(args: any) {
         return <Args args={shorten(args, 128)} />;
@@ -147,7 +147,7 @@ export default function ICMServicesList({ snapshotId }: SnapshotData) {
       cardTitle={t('in-sap:dashboards.icmService3List')}
       cols={cols}
       rows={rows}
-      initialSortColumn={1}
+      initialSortColumn={0}
       initialSortDirection="asc"
     />
   );

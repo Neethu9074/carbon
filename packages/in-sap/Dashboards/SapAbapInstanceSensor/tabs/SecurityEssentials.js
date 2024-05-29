@@ -6,6 +6,9 @@
 
 import React, { Fragment } from 'react';
 
+import OutboundTransactionalRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/OutboundTransactionalRfcInfo';
+import OutboundQueueRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/OutboundQueueRfcInfo';
+import InboundQueueRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InboundQueueRfcInfo';
 import HttpMetricsStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/HttpMetricsStats';
 import RFCCallsMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RFCCalls';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -56,8 +59,8 @@ export default function SecurityEssentials({ timeConfig, data: sap }) {
               metrics: ['versionstats.totalRfc', 'versionstats.totalInternalRfc', 'versionstats.totalExternalRfc'],
               labels: [
                 t('in-sap:abapsensor.metrics.total'),
-                t('in-sap:dashboards.internalRfc'),
-                t('in-sap:dashboards.externalRfc')
+                t('in-sap:dashboards.internal'),
+                t('in-sap:dashboards.external')
               ],
               type: 'line',
               formatter: number.compact
@@ -127,6 +130,9 @@ export default function SecurityEssentials({ timeConfig, data: sap }) {
       </Columize>
       <UserList snapshotId={snapshotId} timeConfig={timeConfig} />
       <RFCCallsMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
+      <OutboundTransactionalRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />
+      <InboundQueueRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />
+      <OutboundQueueRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />
       <HttpMetricsStats snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>
   );

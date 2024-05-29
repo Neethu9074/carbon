@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -11,6 +12,7 @@ import { Card } from '@instana/components';
 import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';
 import { createStore } from 'in-sdk/components/dashboard/Table/stores/content';
 import Row from 'in-sdk/components/dashboard/Table/components/Row';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { shallowEquals } from 'in-services/util/object';
 import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
@@ -94,11 +96,18 @@ export default class Table extends React.Component {
     const toggleRowDetails = supportsRowDetails ? this.store.toggleExpanded : null;
     const colCount = supportsRowDetails ? cols.length + 1 : cols.length;
     const rows = [];
+    var title = t('in-sap:dashboards.no') + t('in-sap:dashboards.dataAvailable');
+    if (typeof this.props.cardTitle === 'string') {
+      title = t('in-sap:dashboards.no') + this.props.cardTitle + t('in-sap:dashboards.dataAvailable');
+    } else {
+      title = t('in-sap:dashboards.no') + this.props.cardTitle.props['title'] + t('in-sap:dashboards.dataAvailable');
+    }
+
     if (data.rows.length === 0) {
       rows.push(
         <tr key="no-data">
           <td colSpan={colCount} className={cellElement}>
-            {this.props.noDataText || t('in-sdk:dashboard.table.tableNoData')}
+            <NoDataAvailable text={title} />
           </td>
         </tr>
       );

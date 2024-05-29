@@ -17,13 +17,13 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Table from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table';
 import { number, seconds } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import Table from 'in-sdk/components/dashboard/Table';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
-import locals from './ComboBox.mless';
+import locals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ComboBox.mless';
 
 interface WorkProcessRow {
   key: string;

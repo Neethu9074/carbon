@@ -20,12 +20,12 @@ export default function Fiori({ data }: { data: SnapshotData }) {
   const snapshotId = data.id;
   return (
     <Fragment>
+      <FioriCallMetric snapshotId={snapshotId} timeConfig={timeConfig} />
+      <FioriPageVisit snapshotId={snapshotId} timeConfig={timeConfig} />
       <GatewayConnections snapshotId={snapshotId} />
       <GatewayStats snapshotId={snapshotId} />
       <FrontEndErrorLogs snapshotId={snapshotId} timeConfig={timeConfig} />
       <BackEndErrorLogs snapshotId={snapshotId} timeConfig={timeConfig} />
-      <FioriCallMetric snapshotId={snapshotId} timeConfig={timeConfig} />
-      <FioriPageVisit snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>
   );
 }

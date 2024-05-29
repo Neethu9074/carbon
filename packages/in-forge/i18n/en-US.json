@@ -15366,7 +15366,14 @@
       "loadAvg1": "1 minute",
       "loadAvg5": "5 minutes",
       "loadAvg15": "15 minutes",
-      "loadAverage": "Load Average"
+      "loadAverage": "Load Average",
+      "count": "Count",
+      "systemLogStatistics": "System Log Statistics",
+      "stopped": "Stopped",
+      "shutdown": "Shutdown",
+      "reserved": "Reserved",
+      "usedMemory": "Used Memory",
+      "totalUtilization": "Total Utilization"
     },
     "syntheticPoP": {
       "redisTLSNotEnabledIssueDescription": "Synthetic PoP Redis TLS is not enabled, it is recommended that Synthetic PoP Redis TLS should be enabled in production environment. Please check TLS configuration in Synthetic PoP deployment and set in agent configuration.",

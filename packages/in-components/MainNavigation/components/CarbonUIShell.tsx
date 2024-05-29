@@ -303,7 +303,6 @@ function platformsContent(
         label={t('in-components:mainNavigation.viewSwitcherLabelSap')}
         href={createHrefToPath(sapSystemList)}
         isActive={matchLocation(sap)}
-        infoTag={t('in-components:featureFeedback.labelBETA')}
       />
     ) : null,
     hasVSphereAccess && !playwithEnabled ? (

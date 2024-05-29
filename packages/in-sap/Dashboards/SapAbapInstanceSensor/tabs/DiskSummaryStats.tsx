@@ -42,38 +42,6 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.kbPerSec'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: DiskStatsRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: DiskStatsRow) {
-        return `diskSummaryStats.${row.key}.kbPerSec`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.operationsPerSec'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: DiskStatsRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: DiskStatsRow) {
-        return `diskSummaryStats.${row.key}.operationsPerSec`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.type'),
     type: 'string',
     typeArgs: {
@@ -88,6 +56,38 @@ const cols = [
     typeArgs: {
       getValue(row: DiskStatsRow) {
         return row.diskStats.get('subType');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.transferKB'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DiskStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DiskStatsRow) {
+        return `diskSummaryStats.${row.key}.kbPerSec`;
+      },
+      getContent: number.perSecond.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.operations'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DiskStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DiskStatsRow) {
+        return `diskSummaryStats.${row.key}.operationsPerSec`;
+      },
+      getContent: number.perSecond.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   }
@@ -130,7 +130,7 @@ export default function DiskSummaryStats({ snapshotId, timeConfig }: DiskSummary
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
-          <DashboardSection title={t('in-sap:dashboards.opersationsTimings')}>
+          <DashboardSection title={t('in-sap:dashboards.operationsTimings')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -159,9 +159,9 @@ export default function DiskSummaryStats({ snapshotId, timeConfig }: DiskSummary
               y1={{
                 min: 0,
                 metrics: [`diskSummaryStats.${row.key}.kbPerSec`, `diskSummaryStats.${row.key}.operationsPerSec`],
-                labels: [t('in-sap:dashboards.kbPerSec'), t('in-sap:dashboards.operationsPerSec')],
+                labels: [t('in-sap:dashboards.transferKB'), t('in-sap:dashboards.operations')],
                 type: 'line',
-                formatter: number.compact
+                formatter: number.perSecond.compact
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
@@ -176,7 +176,7 @@ export default function DiskSummaryStats({ snapshotId, timeConfig }: DiskSummary
       cardTitle={t('in-sap:dashboards.diskSummaryStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={2}
+      initialSortColumn={4}
       initialSortDirection="desc"
       getRowDetails={getDetails}
     />
