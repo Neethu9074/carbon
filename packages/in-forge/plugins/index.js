@@ -169,6 +169,7 @@ import './awsRedshiftNode';
 import './ibmiNetworkInfo';
 import './azureDatabricks';
 import './azurePostgreSQL';
+import './awsAutoScaling';
 import './drbdConnection';
 import './drbdPeerDevice';
 import './aceMessageFlow';

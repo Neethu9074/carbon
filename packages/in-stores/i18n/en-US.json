@@ -212,6 +212,7 @@
     "fieldsEntityAwsEcs": "AWS Elastic Container Service",
     "fieldsEntityAwsApiGateway": "AWS API Gateway",
     "fieldsEntityAwsAppSync": "AWS AppSync",
+    "fieldsEntityAwsAutoScaling": "AWS Auto Scaling",
     "fieldsEntityAwsIotCore": "AWS IoT Core",
     "fieldsEntityAzure": "Microsoft Azure",
     "fieldsEntityAzureService": "Microsoft Azure services",

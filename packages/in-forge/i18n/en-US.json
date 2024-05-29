@@ -224,6 +224,11 @@
   "pluginName_awsAppSync_1": "AWS AppSyncs",
   "pluginName_awsAppSync_2": "AWS AppSyncs",
   "pluginName_awsAppSync": "AWS AppSync",
+  "pluginName_awsAutoScaling_plural": "AWS Auto Scaling groups",
+  "pluginName_awsAutoScaling_0": "AWS Auto Scaling groups",
+  "pluginName_awsAutoScaling_1": "AWS Auto Scaling group",
+  "pluginName_awsAutoScaling_2": "AWS Auto Scaling groups",
+  "pluginName_awsAutoScaling": "AWS Auto Scaling group",
   "pluginName_azure_plural": "Azure Instances",
   "pluginName_azure_0": "Azure Instances",
   "pluginName_azure_1": "Azure Instances",
@@ -4821,6 +4826,58 @@
       "labelActiveSubscriptions": "Active Subscriptions"
     },
 
+    "awsAutoScaling": {
+      "infoTitle": {
+        "autoScalingGroupName": "Auto Scaling group name",
+        "region": "Region",
+        "groupArn": "ARN",
+        "awsAccountId": "AWS Account ID",
+        "groupCreatedTime": "Date created",
+        "groupMinSize": "Minimum capacity",
+        "groupMaxSize": "Maximum capacity",
+        "groupDesiredSize": "Desired capacity"
+      },
+      "dashboard": {
+        "titleGroupInstances": "Group Instances",
+        "titleGroupCapacity": "Group Capacity",
+        "titlePredictiveScalingForecast": "Predictive Scaling Forecast",
+        "titlePredictiveScaling": "Predictive Scaling",
+        "labelGroupInServiceInstances": "In Service",
+        "labelGroupPendingInstances": "Pending",
+        "labelGroupStandbyInstances": "Standby",
+        "labelGroupTerminatingInstances": "Terminating",
+        "labelGroupTotalInstances": "Total",
+        "labelGroupInServiceCapacity": "In Service",
+        "labelGroupPendingCapacity": "Pending",
+        "labelGroupStandbyCapacity": "Standby",
+        "labelGroupTerminatingCapacity": "Terminating",
+        "labelGroupTotalCapacity": "Total",
+        "labelPredictiveScalingLoadForecast": "Load",
+        "labelPredictiveScalingCapacityForecast": "Capacity",
+        "labelPredictiveScalingMetricPairCorrelation": "Metric Pair Correlation"
+      },
+      "category": {
+        "autoScalingGroup": "Auto Scaling group",
+        "predictiveScaling": "Predictive Scaling"
+      },
+      "labelGroupInServiceInstancesKpi": "Group Instances In Service",
+      "labelGroupTotalInstancesKpi": "Group Instances Total",
+      "headerAutoscalingInfo": "Auto Scaling Group Info",
+      "labelGroupInServiceInstances": "Group In Service Instances",
+      "labelGroupPendingInstances": "Group Pending Instances",
+      "labelGroupStandbyInstances": "Group Standing Instances",
+      "labelGroupTerminatingInstances": "Group Terminating Instances",
+      "labelGroupTotalInstances": "Group Total Instances",
+      "labelGroupInServiceCapacity": "Group In Service Capacity",
+      "labelGroupPendingCapacity": "Group Pending Capacity",
+      "labelGroupStandbyCapacity": "Group Standby Capacity",
+      "labelGroupTerminatingCapacity": "Group Terminating Capacity",
+      "labelGroupTotalCapacity": "Group Total Capacity",
+      "labelPredictiveScalingLoadForecast": "Predictive Scaling Load Forecast",
+      "labelPredictiveScalingCapacityForecast": "Predictive Scaling Capacity Forecast",
+      "labelPredictiveScalingMetricPairCorrelation": "Predictive Scaling Metric Pair Correlation"
+    },
+
     "azure": {
       "dashboard": {
         "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity."
@@ -4912,7 +4969,7 @@
       "infoLocation": "Location",
       "infoProvisioningState": "Provisioning State",
       "infoTier": "Tier",
-      "infoType":"Type",
+      "infoType": "Type",
       "labelAvailability": "Availability",
       "labelServiceApiLatency": "Service Api Latency",
       "labelServiceApiHit": "Service Api Hit",
@@ -4973,7 +5030,7 @@
       "infoLocation": "Location",
       "infoProvisioningState": "Provisioning State",
       "infoTier": "Tier",
-      "infoType":"Type",
+      "infoType": "Type",
       "labelAvailability": "Availability",
       "labelServiceApiLatency": "Service Api Latency",
       "labelServiceApiHit": "Service Api Hit",
@@ -4993,7 +5050,6 @@
       "kpi": {
         "labelServiceApiLatency": "Service Api Latency",
         "labelAvailability": "Availability"
-
       }
     },
     "azureCosmosDB": {
@@ -5035,7 +5091,7 @@
       "infoResourceGroup": "Resource Group",
       "infoLocation": "Location",
       "infoCreatedAt": "Created At",
-      "infoType":"Type",
+      "infoType": "Type",
       "infoSubscriptionID": "Subscription ID",
       "infoPurviewLabel": "Microsoft Purview",
       "labelDataMapStorageSize": "Data Map Storage Size",
@@ -5059,7 +5115,7 @@
       },
       "kpi": {
         "dataMapCapacityUnits": "Data Map Capacity Units",
-        "scansFailed" : "Scans Failed"
+        "scansFailed": "Scans Failed"
       }
     },
     "azureDataFactory": {
@@ -5154,7 +5210,7 @@
         "labelPipelineElapsedTime": "Elapsed Time"
       }
     },
-    "azureServiceBusQueues" : {
+    "azureServiceBusQueues": {
       "infoAzureServiceBusQueue": "Azure Service Bus Queue",
       "status": "Status",
       "maxSize": "Max Size",
@@ -5165,7 +5221,7 @@
       "queuesWithCount": "Queues ({{len}})",
       "name": "Queues"
     },
-    "azureServiceBusTopics" : {
+    "azureServiceBusTopics": {
       "infoAzureServiceBusTopic": "Azure Service Bus Topic",
       "status": "Status",
       "maxSize": "Max Size",
@@ -5177,10 +5233,10 @@
     },
     "azureServiceBus": {
       "infoAzureServiceBus": "Azure ServiceBus",
-      "infoName":  "Name",
-      "infoResourceGroup":"Resource Group",
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
       "infoLocation": "Location",
-      "infoSubscriptionID":"Subscription ID",
+      "infoSubscriptionID": "Subscription ID",
       "infoType": "Type",
       "infoKind": "Kind",
       "infoState": "State",
@@ -5193,21 +5249,21 @@
       "dashboard": {
         "labelNamespaceConnections": "Namespace Connections",
         "labelActiveConnections": "Active",
-        "labelConnectionsOpened":"Opened",
+        "labelConnectionsOpened": "Opened",
         "labelConnectionsClosed": "Closed",
         "labelNameSpaceRequests": "Namespace Request",
         "labelDimensionSize": "Size",
         "labelIncomingRequests": "Incoming",
-        "labelSuccessfulRequests":"Successful",
+        "labelSuccessfulRequests": "Successful",
         "labelThrottledRequests": "Throttled",
         "labelNamespaceMessages": "Namespace Messages",
         "labelIncomingMessages": "Incoming",
         "labelOutgoingMessages": "Outgoing",
-        "labelNameSpaceServer" : "Namespace Server",
+        "labelNameSpaceServer": "Namespace Server",
         "labelServerErrors": "Server Errors",
         "labelServerSendLatency": "Server Send Latency",
         "labelTotalMessages": "Total Messages",
-        "labelMessages" : "Messages",
+        "labelMessages": "Messages",
         "labelActiveMessages": "Active Messages",
         "labelDeadletteredMessages": "Deadlettered Messages",
         "labelScheduledMessages": "Scheduled Messages",
@@ -5220,11 +5276,11 @@
     },
     "azureMachineLearning": {
       "infoAzureMachineLearning": "Azure Machine Learning",
-      "infoName":  "Name",
-      "infoSubscriptionID":"Subscription ID",
+      "infoName": "Name",
+      "infoSubscriptionID": "Subscription ID",
       "infoType": "Type",
       "infoLocation": "Location",
-      "infoResourceGroup":"Resource Group",
+      "infoResourceGroup": "Resource Group",
       "infoCreatedAt": "Created At",
       "kpi": {
         "labelCpuUtilization": "CPU Utilization",
@@ -8092,7 +8148,7 @@
       "database": "Database",
       "ldapConnector": "LDAP Connector"
     },
-    "powerVCRegion":{
+    "powerVCRegion": {
       "coresUsage": "Cores Usage",
       "instanceUsage": "Instance Usage",
       "ramUsage": "RAM Usage",
@@ -8103,14 +8159,14 @@
       "availableCapacity": "Available Capacity",
       "volumeCount": "Volume Count"
     },
-    "powerVCHypervisor":{
+    "powerVCHypervisor": {
       "memoryUsage": "Memory Usage ",
       "cpuUsage": "CPU Usage ",
       "storageUsage": "Storage Usage",
       "instanceCount": "Instance Count",
-      "currentWorkload":"Current Workload"
+      "currentWorkload": "Current Workload"
     },
-    "powerVCComputeInstance":{
+    "powerVCComputeInstance": {
       "memoryUsage": "Memory Usage ",
       "cpuUsage": "CPU Usage "
     },
@@ -8697,7 +8753,7 @@
     },
     "redisEnterpriseShard": {
       "dashboard": {
-        "connectedClients":"Connected Clients",
+        "connectedClients": "Connected Clients",
         "blockedClients": "Blocked Clients",
         "redisEnterpriseShard": "Redis Enterprise Shard"
       },
@@ -8832,35 +8888,35 @@
         "finishedRequests": "Finished Requests",
         "activeRequests": "Active Requests",
         "pendingRequests": "Pending Requests",
-        "connections":"Connections",
-        "runningCount":"Running Connection Count",
-        "idleCount":"Idle Connection Count",
-        "queueingCount":"Queueing Connection Count",
+        "connections": "Connections",
+        "runningCount": "Running Connection Count",
+        "idleCount": "Idle Connection Count",
+        "queueingCount": "Queueing Connection Count",
         "garbageCollectionStats": "Garbage Collection Statistics",
-        "host":"Host",
-        "port":"Port",
-        "volumeId":"Volume ID",
+        "host": "Host",
+        "port": "Port",
+        "volumeId": "Volume ID",
         "storeType": "Store Type",
-        "historyCount":"History Count",
-        "waiterCount":"Waiter Count",
-        "startedJobs":"Started Jobs",
-        "processedJobs":"Processed Jobs",
-        "queueLoads":"Queue Loads",
-        "expensiveStatementStats":"Expensive Statements",
-        "dbUser":"DB User",
-        "startDateAndTime":"Start Date and Time",
-        "executionTime":"Statement Execution Time",
-        "errorMessage":"Could not extract the query from DB",
-        "details" : "Details",
-        "userName" :"User Name",
-        "schemaName":"Schema Name",
-        "executionCount":"Execution Count",
-        "avgExecutionTime":"Average Execution Time",
-        "sqlPlanCacheStats" :"Sql Plan Cache Statistics",
-        "lockWaitStats" :"Lock Wait Statistics",
-        "lockType":"Lock Type",
+        "historyCount": "History Count",
+        "waiterCount": "Waiter Count",
+        "startedJobs": "Started Jobs",
+        "processedJobs": "Processed Jobs",
+        "queueLoads": "Queue Loads",
+        "expensiveStatementStats": "Expensive Statements",
+        "dbUser": "DB User",
+        "startDateAndTime": "Start Date and Time",
+        "executionTime": "Statement Execution Time",
+        "errorMessage": "Could not extract the query from DB",
+        "details": "Details",
+        "userName": "User Name",
+        "schemaName": "Schema Name",
+        "executionCount": "Execution Count",
+        "avgExecutionTime": "Average Execution Time",
+        "sqlPlanCacheStats": "Sql Plan Cache Statistics",
+        "lockWaitStats": "Lock Wait Statistics",
+        "lockType": "Lock Type",
         "totalLockWaits": "Total Lock Waits",
-        "totalLockWaitTime":"Total Lock Wait Time"
+        "totalLockWaitTime": "Total Lock Wait Time"
       },
       "systemId": "System ID",
       "databaseName": "Database Name",
@@ -10779,8 +10835,8 @@
     },
     "ibmiActiveJobsInfo": {
       "name": "Active Jobs Information on IBM i",
-      "dashboard":{
-        "tables":{
+      "dashboard": {
+        "tables": {
           "activeJobs": {
             "name": "Top Active Jobs",
             "jobName": "Job Name",
@@ -10805,8 +10861,8 @@
       "sidebar": {
         "hostName": "Host Name"
       },
-      "dashboard":{
-        "tables":{
+      "dashboard": {
+        "tables": {
           "spinningDiskType": {
             "name": "Hardware Disk Drives(HDD) Info",
             "resourceName": "Resource Name",
@@ -10870,8 +10926,8 @@
       "sidebar": {
         "hostName": "Host Name"
       },
-      "dashboard":{
-        "tables":{
+      "dashboard": {
+        "tables": {
           "netstatInterfaces": {
             "name": "Netstat Interfaces",
             "internetAddress": "Internet Address",
@@ -12657,8 +12713,8 @@
         "cost": "Cost",
         "duration": "Model Latencies",
         "analytics": "Tracing",
-        "llmonitor_agent":"LLMonitor Platform",
-        "details":"Details",
+        "llmonitor_agent": "LLMonitor Platform",
+        "details": "Details",
         "count": "Request Counts",
         "totalToken": "Total Tokens",
         "totalCost": "Total Cost",
