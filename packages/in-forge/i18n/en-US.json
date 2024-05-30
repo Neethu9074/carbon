@@ -7896,7 +7896,11 @@
       "receivedBytes": "Number of bytes received by SR-IOV Adapter",
       "transferredBytes": "Number of bytes transferred by SR-IOV Adapter",
       "errorIn": "Received errors/s",
-      "errorOut": "Transmit errors/s"
+      "errorOut": "Transmit errors/s",
+      "inletTemperatureReading": "Inlet Temperature Reading",
+      "cpuTemperatureReading": "CPU Temperature Reading",
+      "baseBoardTemperatureReading": "Baseboard Temperature Reading",
+      "entityId": "entityId"
     },
     "phmcVIOS": {
       "utilizedProcUnits": "Utilized Processing Units",
