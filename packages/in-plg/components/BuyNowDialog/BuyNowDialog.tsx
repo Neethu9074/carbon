@@ -41,74 +41,74 @@ export const BuyNowDialog = () => {
         </Typography>
       }
       onClose={close}
+      withoutBodyPadding
     >
-      <Stack direction="vertical" gap="disabled">
-        <Typography noMargin variant="heading-03">
-          {t('in-plg:buyNowDialog.subHeadingPart1')}
-        </Typography>
-        <Typography noMargin variant="heading-03">
-          {t('in-plg:buyNowDialog.subHeadingPart2')}
-        </Typography>
-      </Stack>
-      <Stack direction="horizontal" gap="normal">
-        <div className={locals.mainBodyDialog}>
-          <div className={locals.mainBodyContent}>
-            <Stack direction="vertical" gap="normal">
-              <Stack direction="vertical" gap="gutter">
-                <Stack direction="vertical" gap="xsmall">
-                  <Typography variant="body-bold">{t('in-plg:buyNowDialog.mainBodyTitle1')}</Typography>
-                  <Typography variant="body-regular">{t('in-plg:buyNowDialog.mainBodyDescription1')}</Typography>
+      <div className={locals.allDialogcontent}>
+        <Stack direction="vertical" gap="disabled">
+          <Typography noMargin variant="heading-03">
+            {t('in-plg:buyNowDialog.subHeadingPart1')}
+          </Typography>
+          <Typography noMargin variant="heading-03">
+            {t('in-plg:buyNowDialog.subHeadingPart2')}
+          </Typography>
+        </Stack>
+        <Stack direction="horizontal" gap="normal">
+          <div className={locals.mainBodyDialog}>
+            <div className={locals.mainBodyContent}>
+              <Stack direction="vertical" gap="normal">
+                <Stack direction="vertical" gap="gutter">
+                  <Stack direction="vertical" gap="xsmall">
+                    <Typography variant="body-bold">{t('in-plg:buyNowDialog.mainBodyTitle1')}</Typography>
+                    <Typography variant="body-regular">{t('in-plg:buyNowDialog.mainBodyDescription1')}</Typography>
+                  </Stack>
+                  <Stack direction="vertical" gap="xsmall">
+                    <Typography variant="body-bold">{t('in-plg:buyNowDialog.mainBodyTitle2')}</Typography>
+                    <Typography variant="body-regular">{t('in-plg:buyNowDialog.mainBodyDescription2')}</Typography>
+                  </Stack>
                 </Stack>
-                <Stack direction="vertical" gap="xsmall">
-                  <Typography variant="body-bold">{t('in-plg:buyNowDialog.mainBodyTitle2')}</Typography>
-                  <Typography variant="body-regular">{t('in-plg:buyNowDialog.mainBodyDescription2')}</Typography>
-                </Stack>
+                <Ul>
+                  <Li>
+                    <KeyValue
+                      value={<Typography variant="heading-01">{t('in-plg:buyNowDialog.listTitle1')}</Typography>}
+                    />
+                    <KeyValue
+                      value={<Typography variant="heading-01">{t('in-plg:buyNowDialog.listTitle2')}</Typography>}
+                    />
+                  </Li>
+                  <Li>
+                    <KeyValue value={<Typography variant="body-01">{t('in-plg:buyNowDialog.listUnit1')}</Typography>} />
+                    <KeyValue value={<Typography variant="body-01">{t('in-plg:buyNowDialog.listCost1')}</Typography>} />
+                  </Li>
+                  <Li>
+                    <KeyValue value={<Typography variant="body-01">{t('in-plg:buyNowDialog.listUnit2')}</Typography>} />
+                    <KeyValue value={<Typography variant="body-01">{t('in-plg:buyNowDialog.listCost2')}</Typography>} />
+                  </Li>
+                </Ul>
               </Stack>
-              <Ul>
-                <Li>
-                  <KeyValue
-                    value={<Typography variant="heading-01">{t('in-plg:buyNowDialog.listTitle1')}</Typography>}
-                  />
-                  <KeyValue
-                    value={<Typography variant="heading-01">{t('in-plg:buyNowDialog.listTitle2')}</Typography>}
-                  />
-                </Li>
-                <Li>
-                  <KeyValue
-                    className={locals.dialogUnit}
-                    value={<Typography variant="body-01">{t('in-plg:buyNowDialog.listUnit1')}</Typography>}
-                  />
-                  <KeyValue value={<Typography variant="body-01">{t('in-plg:buyNowDialog.listCost1')}</Typography>} />
-                </Li>
-                <Li>
-                  <KeyValue value={<Typography variant="body-01">{t('in-plg:buyNowDialog.listUnit2')}</Typography>} />
-                  <KeyValue value={<Typography variant="body-01">{t('in-plg:buyNowDialog.listCost2')}</Typography>} />
-                </Li>
-              </Ul>
+            </div>
+          </div>
+          <div className={locals.sidePanelDialog}>
+            <Stack direction="vertical" gap="gutter">
+              <Stack direction="vertical" gap="xsmall">
+                <Typography variant="body-bold">{t('in-plg:buyNowDialog.sidePanelTitle')}</Typography>
+                <Typography variant="body-regular">{t('in-plg:buyNowDialog.sidePanelDescription')}</Typography>
+              </Stack>
+              <Link
+                linkIconType="lib_views_external_link"
+                href="https://www.ibm.com/account/reg/us-en/signup?formid=QTE-automateinstana&utm_source=instanaproduct"
+                target="_blank"
+                //@ts-expect-error id prop not defined in Link component
+                id="wm-requestaquote"
+                onClick={() => {
+                  track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(location.pathname));
+                }}
+              >
+                {t('in-plg:licenseBanner.requestQuoteBtn')}
+              </Link>
             </Stack>
           </div>
-        </div>
-        <div className={locals.sidePanelDialog}>
-          <Stack direction="vertical" gap="gutter">
-            <Stack direction="vertical" gap="xsmall">
-              <Typography variant="body-bold">{t('in-plg:buyNowDialog.sidePanelTitle')}</Typography>
-              <Typography variant="body-regular">{t('in-plg:buyNowDialog.sidePanelDescription')}</Typography>
-            </Stack>
-            <Link
-              linkIconType="lib_views_external_link"
-              href="https://www.ibm.com/account/reg/us-en/signup?formid=QTE-automateinstana&utm_source=instanaproduct"
-              target="_blank"
-              //@ts-expect-error id prop not defined in Link component
-              id="wm-requestaquote"
-              onClick={() => {
-                track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(location.pathname));
-              }}
-            >
-              {t('in-plg:licenseBanner.requestQuoteBtn')}
-            </Link>
-          </Stack>
-        </div>
-      </Stack>
+        </Stack>
+      </div>
       <Stack direction="horizontal" gap="disabled">
         <LicenseBannerButton noAutoMargin className={locals.dialogButton} kind="ghost" size="lg" onClick={close}>
           {t('in-plg:buyNowDialog.cancelbtn')}

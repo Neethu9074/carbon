@@ -6,7 +6,10 @@
 
 :local {
   .dialog {
-    width: 65%;
+    width: 63%;
+    .allDialogcontent {
+      padding: 0 1.5rem;
+    }
   }
   .mainBodyDialog {
     width: 75%;
@@ -21,7 +24,7 @@
     width: 90%;
   }
   .dialogButton {
-    width: 100%;
+    min-width: calc(100% / 3);
     height: 4rem;
   }
 }
