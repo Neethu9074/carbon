@@ -55,6 +55,7 @@ interface GetLinkToAnalyzeProps {
   timeConfig: TimeConfig;
   tagCatalog: TagCatalog;
   setOnClickNotificationMessage: (message: string) => void;
+  contextScope?: string;
 }
 
 interface UseLinkToListProps {

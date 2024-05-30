@@ -4,8 +4,8 @@
  */
 
 import React, { Fragment } from 'react';
-import { get } from 'lodash';
 
+import { TagFilter } from '@instana/types';
 import { Button } from '@instana/legacy';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
@@ -15,27 +15,14 @@ import { joinExpressions } from 'in-components/QueryBuilder/transformation/formM
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
-import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
-import getApplication from 'in-applications/subscriptions/getApplication';
+import ComboBox, { Option, Options } from 'in-components/ComboBox';
 import { entityTypes } from 'in-analyze/applicationFilter';
-import ComboBox from 'in-components/ComboBox';
-import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './Filters.mless';
+// import { get } from 'lodash';
 
-export default connect(({ applicationId, serviceId }) => {
-  const observables = {};
-  if (applicationId) {
-    observables.applicationName = getApplication({ id: applicationId }).map(getLabel);
-  }
-  if (serviceId) {
-    observables.serviceName = getServiceLabel({ id: serviceId }).map(getLabel);
-  }
-
-  return observables;
-})(Filters);
-function Filters({
+export default function Filters({
   endpointTypes,
   restrictedEndpointTypes,
   technologies,
@@ -50,10 +37,9 @@ function Filters({
   groupBy,
   query,
   callTypes = []
-}) {
+}: any) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
-
-  let queryFilter = [];
+  let queryFilter: Array<TagFilter> = [];
   if (query) {
     if (serviceName) {
       queryFilter = [
@@ -76,16 +62,15 @@ function Filters({
   // filtering by multiple call.type tag filters connected with AND is not supported, using OR as a work-around
   const endpointFilters = joinExpressions({
     logicalOperator: or,
-    expressions: endpointTypes.map(endpointTypes => ({
+    expressions: endpointTypes.map((endpointTypes: string) => ({
       type: tagFilterType,
       name: 'call.type',
       value: endpointTypes,
       operator: EQUALS
     }))
   });
-
   const technologyFilters = joinExpressions({
-    expressions: technologies.map(technology => ({
+    expressions: technologies.map((technology: string) => ({
       type: tagFilterType,
       name: 'technology',
       value: technology,
@@ -114,7 +99,11 @@ function Filters({
       </Button>
       <ComboBox
         value={endpointTypes}
-        onChange={t => setFilter({ endpointTypes: t.map(a => a.value) })}
+        onChange={(t: Option | Options | null) => {
+          if (Array.isArray(t)) {
+            return setFilter({ endpointTypes: t?.map((a: { value: string; labe: string }) => a.value) });
+          }
+        }}
         placeholder={t('in-applications:placeholderType')}
         isMulti
         options={getEndpointTypesComboBoxItems(restrictedEndpointTypes)}
@@ -122,7 +111,11 @@ function Filters({
       />
       <ComboBox
         value={technologies}
-        onChange={t => setFilter({ technologies: t.map(a => a.value) })}
+        onChange={(t: Option | Options | null) => {
+          if (Array.isArray(t)) {
+            return setFilter({ technologies: t?.map((a: any) => a.value) });
+          }
+        }}
         placeholder={t('in-applications:placeholderTechnology')}
         isMulti
         options={getTechnologyComboBoxItems(restrictedTechnologies)}
@@ -130,8 +123,4 @@ function Filters({
       />
     </Fragment>
   );
-}
-
-function getLabel(result) {
-  return get(result, ['data', 'label'], null);
 }
