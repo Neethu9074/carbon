@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Typography, Spacer, Stack } from '@instana/components';
 
+import { AIActionForm } from 'in-automation/AutomationCard/GenerateAIDialog/SimpleAIDialog';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { AIActionForm } from 'in-automation/AutomationCard/SimpleAIDialog';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TagsTable from 'in-automation/ActionCatalog/TagsTable';
 import TextArea from 'in-components/form/TextArea/TextArea';

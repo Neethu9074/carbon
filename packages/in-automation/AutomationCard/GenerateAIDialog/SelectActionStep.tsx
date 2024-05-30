@@ -14,7 +14,7 @@ import {
   createNewAIActionFormDefinition,
   setSelectedAIAction,
   AIActionForm
-} from 'in-automation/AutomationCard/SimpleAIDialog';
+} from 'in-automation/AutomationCard/GenerateAIDialog/SimpleAIDialog';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState'; // ServerTableUrlState
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getScriptFromFields, getManualContentFromFields } from 'in-automation/ActionCatalog/shared';

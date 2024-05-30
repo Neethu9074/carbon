@@ -9,9 +9,9 @@ import React from 'react';
 
 import { Typography, Spacer } from '@instana/components';
 
+import { AIActionForm } from 'in-automation/AutomationCard/GenerateAIDialog/SimpleAIDialog';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { isScript, isManual, getType } from 'in-automation/ActionCatalog/shared';
-import { AIActionForm } from 'in-automation/AutomationCard/SimpleAIDialog';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TagsTable from 'in-automation/ActionCatalog/TagsTable';
 import TextArea from 'in-components/form/TextArea/TextArea';

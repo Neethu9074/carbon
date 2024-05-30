@@ -11,22 +11,16 @@ import { isEmpty } from 'lodash';
 import { generateUniqueShortId } from '@instana/utils';
 import { Link } from '@instana/components';
 
-import {
-  createDocLinkField,
-  createScriptFields,
-  createManualField,
-  saveNewAction,
-  saveNewPolicy
-} from 'in-automation/api';
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { isScript, isManual, isDocLink, getTimeoutFromFields } from 'in-automation/ActionCatalog/shared';
+import { createScriptFields, createManualField, saveNewAction, saveNewPolicy } from 'in-automation/api';
 import { putScriptField, putManualField } from 'in-automation/ActionCatalog/ActionFormDefinition';
+import { CreatePolicyStep } from 'in-automation/AutomationCard/GenerateAIDialog/CreatePolicyStep';
+import { CopyActionStep } from 'in-automation/AutomationCard/GenerateAIDialog/CopyActionStep';
+import SelectActionStep from 'in-automation/AutomationCard/GenerateAIDialog/SelectActionStep';
 import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionDetails';
-import { CreatePolicyStep } from 'in-automation/AutomationCard/CreatePolicyStep';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
-import { CopyActionStep } from 'in-automation/AutomationCard/CopyActionStep';
-import SelectActionStep from 'in-automation/AutomationCard/SelectActionStep';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createPolicyFromAIActionTracker } from 'in-automation/tracker';
@@ -40,7 +34,7 @@ import { ScoredAction } from 'in-automation/api';
 import { noop } from 'in-services/fixedObjects';
 import { Trans, t } from 'in-i18n';
 
-import locals from './SelectAIActionsDialogPresenter.mless';
+import locals from 'in-automation/AutomationCard/GenerateAIDialog/SelectAIActionsDialogPresenter.mless';
 
 export type setSelectedAIAction = (action: ScoredAction) => void;
 
@@ -50,6 +44,7 @@ type AIActionFormItems = {
   type: FormField<string>;
   manualContent?: FormField<string>;
   script?: FormField<string>;
+  subtype?: FormField<string>;
   timeout: FormField<string>;
   parameters: FormField<MappedParameter[]>;
   tags: FormField<Tag[]>;
@@ -268,7 +263,7 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
       }),
       timeout: createField({
         value: timeout,
-        validator: (val: string) => {
+        validator: val => {
           if (val === '') return null;
           return positiveNumberValidator(val);
         }
@@ -319,7 +314,7 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
   return form;
 }
 
-function getActionSpecification(form: MapForm<any>) {
+function getActionSpecification(form: AIActionForm) {
   const name = (form.get('name') as FormField<string>).value;
   const description = (form.get('description') as FormField<string>).value;
   const type = (form.get('type') as FormField<string>).value;
@@ -327,10 +322,7 @@ function getActionSpecification(form: MapForm<any>) {
   const timeout = (form.get('timeout') as FormField<string>).value;
   const tags = (form.get('tags') as FormField<Tag[]>).value;
   const fields: Field[] = [];
-  if (isDocLink(type)) {
-    const docLink = (form.get('docLink') as FormField<string>).value;
-    fields.push(createDocLinkField(docLink));
-  } else if (isManual(type)) {
+  if (isManual(type)) {
     const content = (form.get('manualContent') as FormField<string>).value;
     fields.push(createManualField(content));
   } else if (isScript(type)) {
@@ -338,13 +330,13 @@ function getActionSpecification(form: MapForm<any>) {
     const subtype = (form.get('subtype') as FormField<string>).value;
     fields.push(...createScriptFields({ value, subtype, timeout }));
   }
-  const inputParameters = isDocLink(type) ? [] : parameters.map((parameter: MappedParameter) => parameter.value);
+  const inputParameters = isDocLink(type) ? [] : parameters.map(parameter => parameter.value);
   return {
     name,
     description,
     fields,
     type,
-    tags: tags.map((tag: Tag) => tag.value),
+    tags: tags.map(tag => tag.value),
     inputParameters
   };
 }

@@ -8,9 +8,9 @@ import React, { useState } from 'react';
 
 import { Typography, SvgIcon } from '@instana/components';
 
+import SimpleAIDialog from 'in-automation/AutomationCard/GenerateAIDialog/SimpleAIDialog';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
-import SimpleAIDialog from 'in-automation/AutomationCard/SimpleAIDialog';
 import { close } from 'in-components/DialogPresenter/store';
 import { ScoredAction } from 'in-automation/api';
 import { Event, Result } from 'in-types';
