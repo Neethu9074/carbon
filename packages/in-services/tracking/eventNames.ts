@@ -116,6 +116,8 @@ export const TOPLIST_METRIC_CHANGED = 'toplist.metricChanged';
 export const TOPLIST_ROW_NAVIGATION = 'toplist.rowNavigation';
 export const USER_INVITE = 'user.invite';
 export const BUY_NOW_BUTTON_CLICKED = 'purchaseIntent.aws';
+export const BUY_NOW_BUTTON_AWS_CLICKED = 'purchaseIntent.aws';
+export const BUY_NOW_BUTTON_IBM_CLICKED = 'purchaseIntent.ibm';
 export const PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED = 'intentToTry.Demo';
 export const PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED = 'intentToTry.Trial';
 
