@@ -117,7 +117,7 @@ export default [
     ],
     labels: [t('in-forge:plugins.phmcSystem.inletTemperatureReading')],
     min: 0,
-    formatter: number.detailed
+    formatter: number
   },
   {
     metrics: [
@@ -125,7 +125,7 @@ export default [
     ],
     labels: [t('in-forge:plugins.phmcSystem.cpuTemperatureReading')],
     min: 0,
-    formatter: number.detailed
+    formatter: number
   },
   {
     metrics: [
@@ -133,6 +133,6 @@ export default [
     ],
     labels: [t('in-forge:plugins.phmcSystem.baseBoardTemperatureReading')],
     min: 0,
-    formatter: number.detailed
+    formatter: number
   }
 ];
