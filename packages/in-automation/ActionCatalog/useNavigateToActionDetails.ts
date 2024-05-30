@@ -12,15 +12,18 @@ import { Action } from 'in-types';
 
 const idParameter = actionDetailsUrlParameters.id;
 const opParameter = actionDetailsUrlParameters.op;
+const viewParameter = actionDetailsUrlParameters.view;
 
 export default function useNavigateToActionDetails() {
   const { location, navigate } = useNavigation();
 
-  return (action?: Action, copy?: boolean) => {
+  return (action?: Action, copy?: boolean, viewType?: string) => {
     location.pathname = actionDetailsFullyQualified;
     const op = copy ? 'copy' : null;
+    const tabType = viewType ?? null;
     setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, action?.id);
     setOrDeleteMatrixKey(location, opParameter.path ?? '', opParameter.name, op);
+    setOrDeleteMatrixKey(location, viewParameter.path ?? '', viewParameter.name, tabType);
     navigate(location);
   };
 }

@@ -15,7 +15,8 @@ export const policyDetailsUrlParameters = {
 
 export const actionDetailsUrlParameters = {
   id: createIdUrlParameter(actionDetails),
-  op: createOpParameter(actionDetails)
+  op: createOpParameter(actionDetails),
+  view: createTabTypeUrlParameter(actionDetails)
 };
 
 export function createIdUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
@@ -33,6 +34,13 @@ export function createOpParameter(pathSegment: string, matrixPrefix: string = ''
     as: 'op'
   };
 }
+// export function createTabTypeParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
+//   return {
+//     path: pathSegment,
+//     name: `${matrixPrefix}view`,
+//     as: 'view'
+//   };
+// }
 
 export function createTagsUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string[]> {
   return {
@@ -50,5 +58,13 @@ export function createTypeUrlParameter(pathSegment: string, matrixPrefix: string
     path: pathSegment,
     name: `${matrixPrefix}type`,
     as: 'type'
+  };
+}
+
+export function createTabTypeUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
+  return {
+    path: pathSegment,
+    name: `${matrixPrefix}view`,
+    as: 'view'
   };
 }
