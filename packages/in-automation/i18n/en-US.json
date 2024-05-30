@@ -101,7 +101,6 @@
   "aiGenerated": "AI-generated",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
-    "actionCatalogWithCount": "Action Catalog ({{count}})",
     "action": "action",
     "newAction": "New Action",
     "createANewAction": "Create A New Action",
