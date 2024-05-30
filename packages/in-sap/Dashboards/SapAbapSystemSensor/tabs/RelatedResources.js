@@ -85,7 +85,7 @@ const columnDefinitions = [
   },
   {
     id: 'user',
-    label: t('in-sap:dashboards.users'),
+    label: t('in-sap:dashboards.userSessions'),
     sortable: false,
     getContent(item, { timeConfig }) {
       return (

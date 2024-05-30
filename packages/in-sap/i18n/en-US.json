@@ -601,7 +601,6 @@
     "logCount": "Count",
     "severity": "Severity",
     "logCount": "Count",
-    "users": "User",
     "rfcState":"RFC State",
     "functionModule": "Function Module",
     "destinations": "Destination",
@@ -614,7 +613,8 @@
     "statusUpdate": "UPDATE",
     "rfcQueueName": "RFC Queue Name",
     "no" : "No ",
-    "dataAvailable" : " Data Available"
+    "dataAvailable" : " Data Available",
+    "userSessions" : "User Session"
   },
   "viewAllEntityName_unknownEntity_plural": "all",
   "viewAllEntityName_unknownEntity_0": "all",
