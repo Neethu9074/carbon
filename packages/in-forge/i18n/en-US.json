@@ -12820,6 +12820,7 @@
         "timedwaiting": "Timed-Waiting",
         "heapMemory": "Heap Memory",
         "used": "Used",
+        "usedPercentage": "Used percentage",
         "garbageCollectionHeapMemory": "Garbage Collected Heap Memory",
         "gcBefore": "Before GC",
         "gcAfter": "After GC",

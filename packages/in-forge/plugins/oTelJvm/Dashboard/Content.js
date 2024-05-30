@@ -82,7 +82,7 @@ export default function OTelJVMDashboard({ snapshot, timeConfig }) {
           y2={{
             min: 0,
             metrics: ['jvm.memory.heap_perc'],
-            labels: [t('in-forge:plugins.oTelJvm.dashboard.used')],
+            labels: [t('in-forge:plugins.oTelJvm.dashboard.usedPercentage')],
             formatter: percentage.detailed,
             type: 'line'
           }}
