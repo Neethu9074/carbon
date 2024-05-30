@@ -95,9 +95,9 @@
   "actionsWithCount": "Actions ({{count}})",
   "createPolicy": "Create Policy",
   "titleUrl": "URL",
-  "userDefinedWithCount": "User-created({{count}})",
+  "userDefinedWithCount": "User-created ({{count}})",
   "userDefined": "User-created",
-  "aiGeneratedWithCount": "AI-generated({{count}})",
+  "aiGeneratedWithCount": "AI-generated ({{count}})",
   "aiGenerated": "AI-generated",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
