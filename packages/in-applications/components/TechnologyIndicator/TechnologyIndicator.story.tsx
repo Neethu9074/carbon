@@ -7,7 +7,6 @@ import React from 'react';
 
 // @ts-expect-error import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-// @ts-expect-error import registry from 'in-applications/technologyRegistry';
 import registry from 'in-applications/technologyRegistry';
 
 export default {
