@@ -223,5 +223,14 @@
     "comments": "Comments",
     "closeIssue": "Close Issue",
     "closedByLabel": "Closed by"
+  },
+  "notes": {
+    "openNotes": "Open notes and activity",
+    "closeNotes": "Close notes and activity",
+    "notesActivity": "Notes and activity",
+    "techPreview": "Tech preview",
+    "incidentNotes": "Incident notes",
+    "addNote": "Add note",
+    "you": "You"
   }
 }

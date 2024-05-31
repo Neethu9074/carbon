@@ -21,6 +21,7 @@ import {
   eventFeedbackSubmitTracker
 } from 'in-events/tracker';
 import { getKubernetesProblemText, getKubernetesProblemTextReplacement } from './EventContent/KubernetesEventContent';
+import { NotesAndActivity } from './NotesAndActivity/NotesAndActivity';
 import { getEventType, EVENT_TYPES, getEvent, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
@@ -45,6 +46,8 @@ import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './EventTable.mless';
+
+const isNotesAndActivityFlagSet = window?.instana?.config?.featureFlags?.notesAndActivity;
 
 /**
  * The maximum number of events the backend will return for any query,
@@ -161,7 +164,12 @@ function Header(props) {
       renderIcon={() => renderIcon(props.result.data, props.timeConfig)}
       label={getLabelText(props.result.data)}
       renderMetaInformation={renderMetaInformation}
-      renderTimeSelection={TimeSelection}
+      renderTimeSelection={() => {
+        // Pass in Event to TimeSelection for Notes and Activity usage
+        return (
+          <TimeSelection event={props.result.data} />
+        )
+      }}
       hideUrlShortener
     />
   );
@@ -260,8 +268,9 @@ function FeedbackComponents() {
   );
 }
 
-function TimeSelection() {
+function TimeSelection(props) {
   const { location, createHref } = useNavigation();
+  const { event } = props
 
   setOrDeleteMatrixKey(location, eventsPath, eventId, null);
 
@@ -278,6 +287,7 @@ function TimeSelection() {
           />
         </Tooltip>
       </Link>
+      {isNotesAndActivityFlagSet && <NotesAndActivity event={event} />}
     </Stack>
   );
 }

@@ -49,6 +49,7 @@ export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
 export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
+export const notesAndActivity = isFeatureFlagEnabled('notesAndActivity');
 export const carbonMessageEnabled = isFeatureFlagEnabled('carbonMessageEnabled');
 export const carbonIconButtonEnabled = isFeatureFlagEnabled('carbonIconButtonEnabled');
 export const carbonAccordionEnabled = isFeatureFlagEnabled('carbonAccordionEnabled');
