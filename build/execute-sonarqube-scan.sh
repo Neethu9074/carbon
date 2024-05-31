@@ -23,16 +23,16 @@ popd
 
 echo "Generate the lcov coverage report"
 echo "Starting unit tests for client with coverage {"
-yarn test:unit --coverage --detectOpenHandles --forceExit 
+yarn test:unit --coverage --detectOpenHandles --forceExit
 echo "} Ended unit tests for clientwith coverage"
 pushd packages/in-server
 echo "Starting unit tests for server with coverage {"
-yarn test --coverage --detectOpenHandles --forceExit 
+yarn test --coverage --detectOpenHandles --forceExit
 echo "} Ended unit tests for server with coverage"
 popd
 
 echo "Generate the ESLint report"
-yarn --silent test:lint -f json > eslint-report.json
+yarn run --silent test:lint -f json > eslint-report.json
 
 echo "Run SonarQube scan"
 "./sonar-scanner-$SONARQUBE_SCANNER_VERSION/bin/sonar-scanner" -Dsonar.login=$SONARQUBE_TOKEN -Dsonar.branch.name=$GIT_BRANCH
