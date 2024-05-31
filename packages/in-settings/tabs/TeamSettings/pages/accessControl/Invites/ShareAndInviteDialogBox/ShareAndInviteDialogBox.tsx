@@ -72,7 +72,7 @@ const closeModal = () => {
 };
 
 interface FieldsProps {
-  children: JSX.Element | JSX.Element[] | String;
+  children: JSX.Element | JSX.Element[] | string;
   helpText?: JSX.Element | string | null;
   helpTextIcon?: JSX.Element | null;
   className?: string;
@@ -105,14 +105,14 @@ interface UserResultProp {
   email: string;
 }
 
-interface shortUrlProps {
+interface ShortUrlProps {
   data?: { shortUrl: string };
   errors: [];
   progress: { loading: boolean };
   time?: number;
 }
 
-interface unitKeysProps {
+interface UnitKeysProps {
   agentKey: string;
   downloadKey: string;
 }
@@ -139,10 +139,10 @@ export interface UserInvite {
 }
 
 interface ShareAndInviteDialogBoxProps {
-  inviteOnly?: boolean;
+  hideShare?: boolean;
 }
 
-const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) => {
+const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) => {
   const { location, createHref, createHrefToPath } = useNavigation();
   const clonedLocation = cloneLocation(location);
 
@@ -152,14 +152,14 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
   const getShortUrl = useShortUrl();
   const timeZone = new Date().toLocaleDateString('default', { day: '2-digit', timeZoneName: 'short' }).slice(4);
 
-  const urlResult: shortUrlProps | undefined | null = useObservable(() => getShortUrl({ fixateTime }), [fixateTime]);
+  const urlResult: ShortUrlProps | undefined | null = useObservable(() => getShortUrl({ fixateTime }), [fixateTime]);
   const shortUrl = urlResult?.data?.shortUrl;
   const groups: any =
     useObservable(role?.canConfigureTeams ? getStrippedGroupsAsResultObservable : successObservable, []) ??
     pendingResult;
   let timeConfig = useObservable(timeConfig$, []);
   const usersResult = useObservable(getUsersAsResultObservable, []) ?? pendingResult;
-  const unitKeys: unitKeysProps | undefined | null = useObservable(getUnitKeys(), []);
+  const unitKeys: UnitKeysProps | undefined | null = useObservable(getUnitKeys(), []);
   const pendingInvitationResult = useObservable(getInvitations$, []) ?? pendingResult;
   const pendingInvitations = pendingInvitationResult?.data;
 
@@ -206,7 +206,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
       // use default role when user is not allowed to choose a role
       let groupId: string;
 
-      (form as ListForm<any>).map((inviteItem: Item) => {
+      form.map((inviteItem: Item) => {
         const invite: MapForm<any> = inviteItem as MapForm<any>;
         if (canSelectGroup) {
           groupId = (invite.get('groupId') as Field<string>).value;
@@ -222,7 +222,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
         groupId: e.groupId,
         email: e.email,
         message: emailMessage,
-        path: inviteOnly ? '' : createHref(clonedLocation), // if invited from user section or pending invite section, the return URL should be to /home
+        path: hideShare ? '' : createHref(clonedLocation), // if invited from user section or pending invite section, the return URL should be to /home
         pageName: parentProductArea,
         userSentState: e.userSentState === InviteSentState.INTERNAL_ERROR ? InviteSentState.notSentYet : e.userSentState
       }));
@@ -285,6 +285,8 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
 
   const canSelectGroup = sortedGroups !== undefined && sortedGroups.length !== 0;
 
+  const showInvite = role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled);
+
   return (
     <Dialog
       title={
@@ -293,9 +295,15 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
             <Typography variant="heading-400">
               {`${t('in-settings:ShareAndInviteDialogBox.share')} ${parentProductArea?.toLowerCase() ?? ''}`}
             </Typography>
-            <Typography variant="body-regular">
-              {t('in-settings:ShareAndInviteDialogBox.inviteYourColleagues')}
-            </Typography>
+            {hideShare ? (
+              <Typography variant="body-regular">
+                {t('in-settings:ShareAndInviteDialogBox.inviteYourColleagues')}
+              </Typography>
+            ) : (
+              <Typography variant="body-regular">
+                {t('in-settings:ShareAndInviteDialogBox.collaborateIfYouWantHelp')}
+              </Typography>
+            )}
           </Stack>
         </div>
       }
@@ -310,7 +318,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
               1. Does'nt have the right to invite
               2. play with is enabled
           */}
-          {role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && (
+          {showInvite && (
             <>
               <div data-testid="user-list">
                 {(form as any).map((invite: MapForm<any>, index: number) => (
@@ -320,7 +328,15 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
                         <Fields helpText={index === 0 ? t('in-settings:ShareAndInviteDialogBox.emailAddress') : null}>
                           <CreatableComboBox
                             value={{ value: field.value, label: field.value }}
-                            options={users.map((item: UserResultProp) => ({ value: item.email, label: item.email }))}
+                            options={users
+                              .filter(
+                                (item: UserResultProp) =>
+                                  !form
+                                    .toJS()
+                                    .map((e: any) => e.email)
+                                    .includes(item.email)
+                              )
+                              .map((item: UserResultProp) => ({ value: item.email, label: item.email }))}
                             onChange={(e: any) => onChange(index, [index, 'email'], e.value, invite)}
                             placeholder={t('in-settings:ShareAndInviteDialogBox.emailAddress')}
                             formatCreateLabel={(inputText: string) =>
@@ -353,7 +369,9 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
                           <Stack direction="horizontal" gap="disabled">
                             <ComboBox
                               value={field.value}
-                              options={sortedGroups}
+                              options={
+                                sortedGroups.length ? sortedGroups : [{ label: 'Default', value: defaultRoleId }]
+                              }
                               onChange={e => onChange(index, [index, 'groupId'], (e as Option).value, invite)}
                               className={locals.groupComboBox}
                               isClearable={false}
@@ -383,21 +401,23 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
                     iconSize="xs"
                     kind="action"
                     onClick={() => setForm(form.push(emptyInvite()).setTouched(true))}
-                    disabled={!(form.size < USER_LIMIT)}
+                    disabled={form.size >= USER_LIMIT}
                   >
                     {t('in-settings:ShareAndInviteDialogBox.addUser')}
                   </Button>
                 </Col>
-                <Col xs={3}>
-                  <Button
-                    icon="lib_openclose_add_circle_outline"
-                    iconSize="xs"
-                    kind="action"
-                    href={createHrefToPath(teamSettingsAccessControlGroupNew)}
-                  >
-                    {t('in-settings:ShareAndInviteDialogBox.newGroup')}
-                  </Button>
-                </Col>
+                {role?.canConfigureTeams && (
+                  <Col xs={3}>
+                    <Button
+                      icon="lib_openclose_add_circle_outline"
+                      iconSize="xs"
+                      kind="action"
+                      href={createHrefToPath(teamSettingsAccessControlGroupNew)}
+                    >
+                      {t('in-settings:ShareAndInviteDialogBox.newGroup')}
+                    </Button>
+                  </Col>
+                )}
               </Row>
 
               <Row>
@@ -416,7 +436,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
               </Row>
             </>
           )}
-          {!inviteOnly && (
+          {!hideShare && (
             <>
               <Row>
                 <Col xs={12}>
