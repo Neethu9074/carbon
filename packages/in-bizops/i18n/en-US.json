@@ -1,7 +1,5 @@
 {
   "labelBizOps": "Processes",
-  "labelSmartAlerts": "Smart Alerts",
-  "labelActivities": "Activities",
   "labelPerspectives": "Perspectives",
   "components": {
     "count": "Count"
@@ -59,6 +57,14 @@
         "hour": "1 hour",
         "day": "1 day",
         "week": "1 week"
+      }
+    },
+    "perspectives": {
+      "processes": {
+        "tabLabel": "Business processes"
+      },
+      "configuration": {
+        "tabLabel": "Configuration"
       }
     }
   }
