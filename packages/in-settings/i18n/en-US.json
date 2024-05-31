@@ -1363,7 +1363,8 @@
   "testAlertChannelSuccess": "Test Alert sent to {{channel}} Alert Channel",
   "ShareAndInviteDialogBox": {
     "share": "Share",
-    "inviteYourColleagues": "Invite your colleagues to Instana",
+    "inviteYourColleagues": "Invite your colleagues to join this Instana instance.",
+    "collaborateIfYouWantHelp": "Collaborate if you want to ask for help or share a dashboard for example.",
     "emailAddress": "Email address",
     "add": "Add",
     "addUser": "Add user",
