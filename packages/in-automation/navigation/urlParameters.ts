@@ -34,13 +34,6 @@ export function createOpParameter(pathSegment: string, matrixPrefix: string = ''
     as: 'op'
   };
 }
-// export function createTabTypeParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
-//   return {
-//     path: pathSegment,
-//     name: `${matrixPrefix}view`,
-//     as: 'view'
-//   };
-// }
 
 export function createTagsUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string[]> {
   return {

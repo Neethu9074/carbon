@@ -79,7 +79,7 @@ export type ActionFormEntity = NewAction | Action;
 const isAction = (action: NewAction | Action): action is Action => (action as Action).id !== undefined;
 
 function useActionDetailsUrlParams() {
-  const [{ id, op, view }] = useUrlState<{ id?: string; op: 'copy' | null; view?: string }>({
+  const [{ id, op }] = useUrlState<{ id?: string; op: 'copy' | null; view?: string }>({
     bind: [actionDetailsUrlParameters.id, actionDetailsUrlParameters.op, actionDetailsUrlParameters.view]
   });
   const isCopy = op === 'copy';
@@ -89,14 +89,13 @@ function useActionDetailsUrlParams() {
     id: id ?? null,
     isNew,
     isCreate,
-    isCopy,
-    view
+    isCopy
   };
 }
 
 export default function ActionDetailsWrapper() {
-  const { id, isNew, isCreate, isCopy, view } = useActionDetailsUrlParams();
-  return <ActionDetails key={String(isCopy)} id={id} isNew={isNew} isCreate={isCreate} isCopy={isCopy} view={view} />;
+  const { id, isNew, isCreate, isCopy } = useActionDetailsUrlParams();
+  return <ActionDetails key={String(isCopy)} id={id} isNew={isNew} isCreate={isCreate} isCopy={isCopy} />;
 }
 
 interface ActionDetailsProps {
@@ -104,10 +103,9 @@ interface ActionDetailsProps {
   isNew: boolean;
   isCreate: boolean;
   isCopy: boolean;
-  view?: string;
 }
 
-function ActionDetails({ id, isNew, isCreate, isCopy, view }: ActionDetailsProps) {
+function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
   const navigateToActionCatalog = useNavigateToActionCatalog();
   const entityFormParam = {
     entityId: id,
@@ -117,7 +115,7 @@ function ActionDetails({ id, isNew, isCreate, isCopy, view }: ActionDetailsProps
       getAction(actionId).map(action =>
         isCopy ? { ...action, name: t('in-automation:copyOf', { name: action.name }) } : action
       ),
-    saveEntity: (entity: ActionFormEntity, form: MapForm<any>) => save(form, id, isNew, entity, view),
+    saveEntity: (entity: ActionFormEntity, form: MapForm<any>) => save(form, id, isNew, entity),
     openEntities: () => navigateToActionCatalog()
   };
   const { entity, form, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
@@ -143,6 +141,7 @@ function ActionDetails({ id, isNew, isCreate, isCopy, view }: ActionDetailsProps
   } else {
     const isBuiltinAction = entity?.metadata?.builtIn ?? false;
     const canSaveAction = (isBuiltinAction && isCopy) || !isBuiltinAction;
+    const isAIAction = entity?.metadata?.builtIn && entity?.metadata?.ai !== null;
     content = (
       <div className={locals.actionBody}>
         <SettingsDetailPage>
@@ -163,10 +162,9 @@ function ActionDetails({ id, isNew, isCreate, isCopy, view }: ActionDetailsProps
             loading={loading}
             saveEnabled={saveEnabled}
             isCreate={isNew}
-            // listPath={actionCatalogFullyQualified}
             hasSaveButton={role?.canConfigureAutomationActions && canSaveAction}
             onClickCancelButton={() => {
-              // cancelMaintenanceWindowTracker();
+              const view = isAIAction ? 'ai' : 'user';
               navigateToActionCatalog(view);
             }}
           />
@@ -205,14 +203,16 @@ const ActionFormHeader = ({ isNew, entity }: ActionFormHeaderProps) => {
 };
 
 // TODO: Check built in
-function save(form: MapForm<any>, id: string | null, isNew: boolean, entity: ActionFormEntity | null, view?: string) {
+function save(form: MapForm<any>, id: string | null, isNew: boolean, entity: ActionFormEntity | null) {
   const actionSpecification = getActionSpecification(form, entity);
+
+  const isAIAction = entity?.metadata?.builtIn && entity?.metadata?.ai !== null;
   if (isNew) {
     createActionTracker({
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
     });
-    if (view === 'ai') {
+    if (isAIAction) {
       copyAIGenaratedActionTracker({
         actionType: actionSpecification.type,
         actionName: actionSpecification.name

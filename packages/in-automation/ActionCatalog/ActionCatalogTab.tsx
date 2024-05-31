@@ -93,7 +93,7 @@ export default function ActionCatalogTab() {
               />
               <SvgIcon type="lib_ai_slug" />
             </Stack>
-            {(activeKey === 'userDefinedActions' || activeKey === 'aiGeneratedActions') && <Spacer vertical="small" />}
+            <Spacer vertical="small" />
             {activeKey === 'userDefinedActions' && <ActionCatalog actions={userActions} actionsType="user" />}
             {activeKey === 'aiGeneratedActions' && <ActionCatalog actions={aiActions} actionsType="ai" />}
           </Card>

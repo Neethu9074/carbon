@@ -18,10 +18,9 @@ export default function useNavigateToActionCatalog() {
   return (viewType?: string) => {
     location.pathname = actionCatalogFullyQualified;
 
-    const tabType = viewType ?? 'null';
+    const tabType = viewType ?? 'user';
     setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, null);
     setOrDeleteMatrixKey(location, viewParameter.path ?? '', viewParameter.name, tabType);
-    //console.log('tessttttt,location', location);
     navigate(location);
   };
 }

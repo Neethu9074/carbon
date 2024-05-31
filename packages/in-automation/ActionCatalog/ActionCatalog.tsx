@@ -85,7 +85,7 @@ export default function ActionCatalog({
       page={page}
       searchPlaceholder={t('in-automation:searchActions')}
       onRowClick={item => {
-        navigateToActionDetails(item, false, actionsType);
+        navigateToActionDetails(item, false);
         if (!isUserActions) viewAIGenaratedActionTracker({ actionName: item.name });
       }}
       cardTitle={
@@ -157,10 +157,7 @@ const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): Co
             {role?.canConfigureAutomationActions && (
               <>
                 {isUserActions && (
-                  <MoreMenuButton
-                    icon="lib_actions_edit"
-                    onClick={() => navigateToActionDetails(action, false, 'user')}
-                  >
+                  <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToActionDetails(action, false)}>
                     {t('in-automation:edit')}
                   </MoreMenuButton>
                 )}
@@ -168,7 +165,7 @@ const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): Co
                   disabled={isAnsible(action.type)}
                   icon="lib_actions_copy"
                   onClick={() => {
-                    navigateToActionDetails(action, true, isUserActions ? 'user' : 'ai');
+                    navigateToActionDetails(action, true);
                     if (!isUserActions) clickCopyAIGenaratedActionTracker({ actionName: action.name });
                   }}
                 >

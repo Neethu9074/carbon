@@ -24,11 +24,11 @@ export default function useActions() {
   return useObservable(refreshSignal.flatMap(getActions), []) ?? (pendingResult as Result<Action[]>);
 }
 
-interface UseRecommendedScoredActionsParams {
+interface UseActionsProps {
   actions: Result<Action[]>;
 }
 
-export function useUserActions({ actions }: UseRecommendedScoredActionsParams) {
+export function useUserActions({ actions }: UseActionsProps) {
   if (isLoading(actions)) return pendingResult as Result<Action[]>;
   if (hasError(actions)) return error<Action[]>([{ message: 'Failed to load user actions.', code: 'SERVER' }]);
   return success(
@@ -39,7 +39,7 @@ export function useUserActions({ actions }: UseRecommendedScoredActionsParams) {
   );
 }
 
-export function useAIActions({ actions }: UseRecommendedScoredActionsParams) {
+export function useAIActions({ actions }: UseActionsProps) {
   if (isLoading(actions)) return pendingResult as Result<Action[]>;
   if (hasError(actions)) return error<Action[]>([{ message: 'Failed to load ai actions.', code: 'SERVER' }]);
 
