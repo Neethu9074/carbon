@@ -382,3 +382,5 @@ export const isNotEditable = (action: Action | NewAction, isCopy: boolean) =>
 export const doesParameterExist = (parameters: MappedParameter[], paramName: string) => {
   return parameters.some(param => param.value.name === paramName);
 };
+
+export const isAIAction = (action: Action | NewAction) => action?.metadata?.builtIn && action?.metadata?.ai !== null;

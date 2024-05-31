@@ -10,6 +10,7 @@ import { create } from '@instana/observables';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { error, hasError, isLoading, success } from 'in-services/util/result';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
+import { isAIAction } from 'in-automation/ActionCatalog/shared';
 import { pendingResult } from 'in-services/fixedObjects';
 import { mapData } from 'in-services/util/result';
 import { getActions } from 'in-automation/api';
@@ -33,8 +34,7 @@ export function useUserActions({ actions }: UseActionsProps) {
   if (hasError(actions)) return error<Action[]>([{ message: 'Failed to load user actions.', code: 'SERVER' }]);
   return success(
     actions.data!.filter(action => {
-      const aiMetadataExists = action.metadata?.ai && action.metadata?.builtIn;
-      return !aiMetadataExists;
+      return !isAIAction(action);
     })
   );
 }
@@ -45,9 +45,7 @@ export function useAIActions({ actions }: UseActionsProps) {
 
   return success(
     actions.data!.filter(action => {
-      const aiMetadataExists = action.metadata?.ai && action.metadata.ai.length > 0;
-
-      return action.metadata?.builtIn && aiMetadataExists;
+      return isAIAction(action);
     })
   );
 }

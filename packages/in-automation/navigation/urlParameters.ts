@@ -15,8 +15,7 @@ export const policyDetailsUrlParameters = {
 
 export const actionDetailsUrlParameters = {
   id: createIdUrlParameter(actionDetails),
-  op: createOpParameter(actionDetails),
-  view: createTabTypeUrlParameter(actionDetails)
+  op: createOpParameter(actionDetails)
 };
 
 export function createIdUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {

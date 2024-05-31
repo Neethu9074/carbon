@@ -42,16 +42,16 @@ import {
   OPEN,
   CLOSE,
   ADD_COMMENT,
-  isManual
+  isManual,
+  isAIAction
 } from 'in-automation/ActionCatalog/shared';
-// import { actionCatalogFullyQualified } from 'in-automation/navigation/paths';
-import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { createActionTracker, editActionTracker, copyAIGenaratedActionTracker } from 'in-automation/tracker';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import { actionDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
+import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import useNavigateToActionCatalog from './useNavigateToActionCatalog';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -80,7 +80,7 @@ const isAction = (action: NewAction | Action): action is Action => (action as Ac
 
 function useActionDetailsUrlParams() {
   const [{ id, op }] = useUrlState<{ id?: string; op: 'copy' | null; view?: string }>({
-    bind: [actionDetailsUrlParameters.id, actionDetailsUrlParameters.op, actionDetailsUrlParameters.view]
+    bind: [actionDetailsUrlParameters.id, actionDetailsUrlParameters.op]
   });
   const isCopy = op === 'copy';
   const isCreate = !id;
@@ -141,7 +141,6 @@ function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
   } else {
     const isBuiltinAction = entity?.metadata?.builtIn ?? false;
     const canSaveAction = (isBuiltinAction && isCopy) || !isBuiltinAction;
-    const isAIAction = entity?.metadata?.builtIn && entity?.metadata?.ai !== null;
     content = (
       <div className={locals.actionBody}>
         <SettingsDetailPage>
@@ -164,7 +163,7 @@ function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
             isCreate={isNew}
             hasSaveButton={role?.canConfigureAutomationActions && canSaveAction}
             onClickCancelButton={() => {
-              const view = isAIAction ? 'ai' : 'user';
+              const view = isAIAction(entity!) ? 'ai' : 'user';
               navigateToActionCatalog(view);
             }}
           />
@@ -205,14 +204,12 @@ const ActionFormHeader = ({ isNew, entity }: ActionFormHeaderProps) => {
 // TODO: Check built in
 function save(form: MapForm<any>, id: string | null, isNew: boolean, entity: ActionFormEntity | null) {
   const actionSpecification = getActionSpecification(form, entity);
-
-  const isAIAction = entity?.metadata?.builtIn && entity?.metadata?.ai !== null;
   if (isNew) {
     createActionTracker({
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
     });
-    if (isAIAction) {
+    if (isAIAction(entity!)) {
       copyAIGenaratedActionTracker({
         actionType: actionSpecification.type,
         actionName: actionSpecification.name
