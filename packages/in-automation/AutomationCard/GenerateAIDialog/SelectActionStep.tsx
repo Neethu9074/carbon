@@ -33,6 +33,8 @@ import { Result } from 'in-types';
 
 import locals from './SelectAIActionsDialogPresenter.mless';
 
+const pathSegment = '/recommendedActions';
+const matrixPrefix = '';
 export default function SelectActionDialog({
   actions,
   updateForm,
@@ -44,8 +46,6 @@ export default function SelectActionDialog({
   selectedAIAction: ScoredAction | null;
   setSelectedAIAction: setSelectedAIAction;
 }) {
-  const pathSegment = '/recommendedActions';
-  const matrixPrefix = '';
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,

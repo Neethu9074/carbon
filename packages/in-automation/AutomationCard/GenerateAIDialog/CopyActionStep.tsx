@@ -146,11 +146,11 @@ const ScriptSection = ({
   form: AIActionForm;
   updateForm: React.Dispatch<React.SetStateAction<AIActionForm>>;
 }) => {
-  const script = form.get('script') as FormField<string>;
+  const script = form.get('script');
 
   return (
     <>
-      {script.map(field => (
+      {script?.map(field => (
         <FormGroup>
           <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
             {t('in-automation:ActionCatalog.script')}
@@ -182,29 +182,33 @@ const ManualSection = ({
   form: AIActionForm;
   updateForm: React.Dispatch<React.SetStateAction<AIActionForm>>;
 }) => {
-  const content = form.get('manualContent') as FormField<string>;
-  return content.map(field => (
-    <FormGroup>
-      <Label htmlFor="action-content" hasError={!field.valid && field.touched}>
-        {t('in-automation:ActionCatalog.content')}
-      </Label>
-      <Code
-        lineNumbers={false}
-        mode={'markdown'}
-        value={field.value}
-        onChange={value =>
-          updateForm(
-            form =>
-              form.updateIn(['manualContent'], item =>
-                (item as FormField<string>).setValue(value).setTouched(true)
-              ) as AIActionForm
-          )
-        }
-      />
-      <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-      <HelpText className={locals.subTextFormField}>
-        {t('in-automation:ActionCatalog.manualContentDescription')}
-      </HelpText>
-    </FormGroup>
-  ));
+  const content = form.get('manualContent');
+  return (
+    <>
+      {content?.map(field => (
+        <FormGroup>
+          <Label htmlFor="action-content" hasError={!field.valid && field.touched}>
+            {t('in-automation:ActionCatalog.content')}
+          </Label>
+          <Code
+            lineNumbers={false}
+            mode={'markdown'}
+            value={field.value}
+            onChange={value =>
+              updateForm(
+                form =>
+                  form.updateIn(['manualContent'], item =>
+                    (item as FormField<string>).setValue(value).setTouched(true)
+                  ) as AIActionForm
+              )
+            }
+          />
+          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+          <HelpText className={locals.subTextFormField}>
+            {t('in-automation:ActionCatalog.manualContentDescription')}
+          </HelpText>
+        </FormGroup>
+      ))}
+    </>
+  );
 };

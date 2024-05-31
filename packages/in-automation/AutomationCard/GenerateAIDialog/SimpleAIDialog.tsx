@@ -75,61 +75,6 @@ export default function SimpleAIDialog({
   const [form, updateForm] = useState(() => {
     return createNewAIActionFormDefinition(selectedAIAction);
   });
-  const hrefToActionDetails = useHrefToActionDetails();
-  const stepConfigs = Object.freeze([
-    {
-      title: t('in-automation:simpleAIDialog.step1Title')
-    },
-    {
-      title: t('in-automation:simpleAIDialog.step2Title')
-    },
-    {
-      title: t('in-automation:simpleAIDialog.step3Title')
-    }
-  ]);
-
-  function onCreateSuccess(name: string, actionId: string) {
-    addMessage({
-      type: 'info',
-      timeout: 5000,
-      title: t('in-automation:simpleAIDialog.policy.success.title'),
-      content: (
-        <div>
-          <p>
-            <Trans
-              i18nKey={'in-automation:simpleAIDialog.policy.success.content'}
-              values={{
-                name: name
-              }}
-            />
-          </p>
-
-          <Link external href={hrefToActionDetails({ id: actionId } as Action)}>
-            {t('in-automation:simpleAIDialog.policy.success.link')}
-          </Link>
-        </div>
-      )
-    });
-    close();
-  }
-
-  function onCreateFailed(error: Error) {
-    addMessage(
-      {
-        type: 'danger',
-        timeout: 3000,
-        title: t('in-automation:policies.createDialog.failure.title'),
-        content: (
-          <Trans
-            i18nKey="in-automation:policies.createDialog.failure.content"
-            values={{ errorMessage: error.message }}
-          />
-        )
-      },
-      'policy-fail-error'
-    );
-    close();
-  }
 
   const handleCreatePolicy = () => {
     const action = getActionSpecification(form);
@@ -170,25 +115,6 @@ export default function SimpleAIDialog({
       }
     );
   };
-
-  const isStepDisabled = (step: number) => {
-    const name = (form.get('name') as FormField<string>).value;
-    const description = (form.get('description') as FormField<string>).value;
-    const type = (form.get('type') as FormField<string>).value;
-    const content = (form.get('manualContent') as FormField<string>)?.value;
-    const script = (form.get('script') as FormField<string>)?.value;
-
-    if (step === 0) return selectedAIAction !== null;
-    if (step === 1) {
-      return (
-        !(isEmpty(name) || isEmpty(description) || isEmpty(type)) &&
-        !(isManual(type) && isEmpty(content)) &&
-        !(isScript(type) && isEmpty(script))
-      );
-    }
-    return true;
-  };
-
   return (
     <div className={locals.container}>
       <SimpleModePageNavigation
@@ -227,7 +153,7 @@ export default function SimpleAIDialog({
         }}
         stepConfigs={stepConfigs}
         additionalStepCheck={(step: number) => {
-          return step >= 0 ? isStepDisabled(step) : true;
+          return step >= 0 ? isStepDisabled(step, form, selectedAIAction) : true;
         }}
         onStepChanged={noop}
         noStepCheckOnFirstStep
@@ -236,18 +162,29 @@ export default function SimpleAIDialog({
   );
 }
 
+const stepConfigs = Object.freeze([
+  {
+    title: t('in-automation:simpleAIDialog.step1Title')
+  },
+  {
+    title: t('in-automation:simpleAIDialog.step2Title')
+  },
+  {
+    title: t('in-automation:simpleAIDialog.step3Title')
+  }
+]);
+
 export function createNewAIActionFormDefinition(action: ScoredAction | null) {
   const parameters = action?.inputParameters ?? [];
   const mappedParams = parameters.map(parameter => ({ id: generateUniqueShortId(), value: parameter }));
   const timeout = action?.fields ? getTimeoutFromFields(action.fields).value : '';
   const tags = action?.tags ?? [];
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
-  const pTags: string[] = [];
-  const policyTags = pTags.map(tag => ({ value: tag, id: generateUniqueShortId() })) ?? [];
+  const policyTags = ([] as string[]).map(tag => ({ value: tag, id: generateUniqueShortId() })) ?? [];
   let form: AIActionForm = createMapForm({
     items: {
       name: createField({
-        value: action?.name !== null ? `Copy of(${action?.name})_${generateUniqueShortId()}` : 'New',
+        value: action?.name !== null ? `Copy of(${action?.name})_${generateUniqueShortId()}` : 'New Action',
         validator: notBlankValidator
       }),
       description: createField({
@@ -314,20 +251,50 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
   return form;
 }
 
+function SuccessContent({ name, actionId }: { name: string; actionId: string }) {
+  const hrefToActionDetails = useHrefToActionDetails();
+
+  return (
+    <div>
+      <p>
+        <Trans
+          i18nKey={'in-automation:simpleAIDialog.policy.success.content'}
+          values={{
+            name: name
+          }}
+        />
+      </p>
+
+      <Link external href={hrefToActionDetails({ id: actionId } as Action)}>
+        {t('in-automation:simpleAIDialog.policy.success.link')}
+      </Link>
+    </div>
+  );
+}
+
+function onCreateSuccess(name: string, actionId: string) {
+  addMessage({
+    type: 'info',
+    timeout: 5000,
+    title: t('in-automation:simpleAIDialog.policy.success.title'),
+    content: <SuccessContent name={name} actionId={actionId} />
+  });
+  close();
+}
 function getActionSpecification(form: AIActionForm) {
-  const name = (form.get('name') as FormField<string>).value;
-  const description = (form.get('description') as FormField<string>).value;
-  const type = (form.get('type') as FormField<string>).value;
-  const parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
-  const timeout = (form.get('timeout') as FormField<string>).value;
-  const tags = (form.get('tags') as FormField<Tag[]>).value;
+  const name = form.get('name').value;
+  const description = form.get('description').value;
+  const type = form.get('type').value;
+  const parameters = form.get('parameters').value;
+  const timeout = form.get('timeout').value;
+  const tags = form.get('tags').value;
   const fields: Field[] = [];
   if (isManual(type)) {
-    const content = (form.get('manualContent') as FormField<string>).value;
+    const content = form.get('manualContent')?.value ?? '';
     fields.push(createManualField(content));
   } else if (isScript(type)) {
-    const value = (form.get('script') as FormField<string>).value;
-    const subtype = (form.get('subtype') as FormField<string>).value;
+    const value = form.get('script')?.value ?? '';
+    const subtype = form.get('subtype')?.value ?? '';
     fields.push(...createScriptFields({ value, subtype, timeout }));
   }
   const inputParameters = isDocLink(type) ? [] : parameters.map(parameter => parameter.value);
@@ -340,3 +307,36 @@ function getActionSpecification(form: AIActionForm) {
     inputParameters
   };
 }
+
+function onCreateFailed(error: Error) {
+  addMessage(
+    {
+      type: 'danger',
+      timeout: 3000,
+      title: t('in-automation:policies.createDialog.failure.title'),
+      content: (
+        <Trans i18nKey="in-automation:policies.createDialog.failure.content" values={{ errorMessage: error.message }} />
+      )
+    },
+    'policy-fail-error'
+  );
+  close();
+}
+
+const isStepDisabled = (step: number, form: AIActionForm, selectedAIAction: ScoredAction | null) => {
+  const name = form.get('name').value;
+  const description = form.get('description').value;
+  const type = form.get('type').value;
+  const content = form.get('manualContent')?.value;
+  const script = form.get('script')?.value;
+
+  if (step === 0) return selectedAIAction !== null;
+  if (step === 1) {
+    return (
+      !(isEmpty(name) || isEmpty(description) || isEmpty(type)) &&
+      !(isManual(type) && isEmpty(content)) &&
+      !(isScript(type) && isEmpty(script))
+    );
+  }
+  return true;
+};
