@@ -436,32 +436,64 @@
     }
   },
   "welcomepage": {
-    "heading": "Welcome",
+    "heading": "Welcome to Instana",
+    "foldableTileTitle": "Let’s get started.",
     "viewAll": "View all",
     "search": "Search",
     "addMore": "Add",
     "UrlShortener": "URL Shortener",
-    "consumeData": {
-      "title": "Discover services",
-      "description": "Start by enabling Instana to discover your services and other data to monitor.",
-      "buttonName": "Deploy agent",
+    "startIntegrating": {
+      "title": "Start integrating data",
+      "description": "Kickstart your Instana setup and seamless data integration by installing an agent.",
+      "buttonName": "Install agents",
       "buttonType": "primary"
     },
-    "inviteTeammates": {
-      "title": "Invite teammates",
-      "description": "Collaborate with your colleagues.",
-      "buttonName": "Manage users",
+    "traceInteractions": {
+      "title": "Trace interactions",
+      "description": "Understand how your components are connected and see if you need to manually set up tracing.",
+      "buttonName": "Verify tracing",
       "buttonType": "ghost"
     },
-    "nextSteps": {
-      "title": "Next steps",
-      "description": "Find more tours and additional support.",
-      "buttonName": "Get answers",
+    "inviteUsers": {
+      "title": "Connect with your experts",
+      "description": "Get help to complete setup tasks and try out product features.",
+      "buttonName": "Invite users",
+      "buttonType": "ghost"
+    },
+    "additionalAgents": {
+      "title": "Bring in more data",
+      "description": "Expand observability throughout your architecture.",
+      "buttonName": "Install additional agents",
+      "buttonType": "ghost"
+    },
+    "appPerspective": {
+      "title": "Tailor your view",
+      "description": "Capture the information you need to optimize your applications and services.",
+      "buttonName": "Create an application perspective",
+      "buttonType": "ghost"
+    },
+    "smartAlerts": {
+      "title": "Get alerted",
+      "description": "Configure alerts easily with predefined blueprints for both simple and advanced customization.",
+      "buttonName": "Set up smart alerts",
+      "buttonType": "ghost"
+    },
+    "startMonitoring": {
+      "title": "Monitor your environment",
+      "description": "Activate alerts on your applications and websites.",
+      "buttonName": "Start monitoring",
+      "buttonType": "ghost"
+    },
+    "inviteTeammates": {
+      "title": "Bring in your team",
+      "description": "Invite your colleagues to Instana and start collaborating.",
+      "buttonName": "Invite your teammates",
       "buttonType": "ghost"
     },
     "component": {
       "applicationWidget": {
         "label": "Applications",
+        "addLabel": "Add application",
         "name": "Name",
         "calls": "Calls",
         "latency": "Latency",
@@ -508,13 +540,15 @@
         "label": "Websites",
         "name": "Name",
         "pageViews": "Page views",
-        "onLoadTimes": "OnLoad times"
+        "onLoadTimes": "OnLoad times",
+        "addLabel": "Add website"
       },
       "mobileAppsWidget": {
         "label": "Mobile Apps",
         "name": "Name",
         "sessions": "Sessions",
-        "views": "Views"
+        "views": "Views",
+        "addLabel": "Add mobile app"
       },
       "infrastructureWidget": {
         "label": "Infrastructure",
@@ -528,6 +562,7 @@
       },
       "syntheticWidget": {
         "label": "Synthetic Monitoring",
+        "addLabel": "Add synthetic monitoring",
         "na": "N/A",
         "name": "Name",
         "type": "Type",
@@ -542,7 +577,8 @@
         "label": "My custom dashboards",
         "name": "Name",
         "owner": "Owner",
-        "permissions": "Permissions"
+        "permissions": "Permissions",
+        "addLabel": "Add dashboard"
       }
     },
     "noData": {
@@ -602,7 +638,6 @@
     "ariaLabel": {
       "search": "Search",
       "shareButton": "Share button",
-      "add": "Add",
       "handleButton": "Handle button"
     }
   },
