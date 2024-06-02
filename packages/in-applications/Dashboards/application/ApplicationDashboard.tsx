@@ -6,7 +6,9 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Application, Result, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import {
   alertsList,
@@ -17,37 +19,47 @@ import {
   summaryTab,
   syntheticsTab
 } from 'in-applications/navigation/paths';
+// @ts-expect-error needs TS migration
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+// @ts-expect-error needs TS migration
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
+// @ts-expect-error needs TS migration
+import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
+// @ts-expect-error needs TS migration
+import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
+// @ts-expect-error needs TS migration
+import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+// @ts-expect-error needs TS migration
+import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
+// @ts-expect-error needs TS migration
+import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
+// @ts-expect-error needs TS migration
+import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
-import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
-import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
+// @ts-expect-error needs TS migration
+import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
-import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { clickSyntheticMonitoringTabInApplicationsTracker } from 'in-synthetics/tracker';
 import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
+import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
-import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
-import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
-import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { alertsCategory } from 'in-applications/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getApplicationConfigScopeRoleId } from 'in-api/users';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
@@ -61,7 +73,7 @@ const urlStateDefinition = {
 
 const boundaryScopeDropdownDisabledTabs = [dependencyMapTab, smartAlertsTab, syntheticsTab, configurationTab];
 
-export default function ApplicationDashboard({ location }) {
+export default function ApplicationDashboard({ location }: { location: Location }) {
   const [{ appId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
@@ -70,29 +82,33 @@ export default function ApplicationDashboard({ location }) {
       filter: {
         application: appId,
         timeConfig: timeConfig,
-        applicationBoundaryScope: boundaryScope
+        applicationBoundaryScope: boundaryScope,
+        // TODO: check if these can be passed from somewhere
+        includeInternalCalls: false,
+        includeSyntheticCalls: false,
+        useLongTermDataOnly: false
       }
     }).map(result => result?.data),
     [appId, timeConfig, boundaryScope]
   );
 
   const canConfigureApplications = useObservable(
-    role.canConfigureApplications
+    role?.canConfigureApplications
       ? getApplicationConfigScopeRoleId(appId)
           .map(result => result?.data?.toString())
           .map(data => data === ScopeRoles.Owner || data === ScopeRoles.Contributor)
-      : false,
+      : just(false),
     [appId]
   );
 
-  const props = {
+  const tabViewProps = {
     applicationId: appId,
     viewPath: applicationDashboard,
     timeConfig,
     boundaryScope: boundaryScope,
     onChange: setUrlState,
     location,
-    currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
+    currentTab: location.pathname.substring(location.pathname.lastIndexOf('/')),
     onBoundaryStateChange: setUrlState,
     endpointTypes
   };
@@ -106,18 +122,17 @@ export default function ApplicationDashboard({ location }) {
           pageRootName: pageNames.application_summary
         }}
       />
-
       <TabView
         HeaderComponent={Header}
         location={location}
         tabs={getApplicationTabs(canConfigureApplications)}
-        props={props}
-        result$={getApplication({ id: props.applicationId })}
+        props={tabViewProps}
+        result$={getApplication({ id: tabViewProps.applicationId })}
         withProps={({ result }) => ({
           applicationName: get(result, ['data', 'label'])
         })}
-        tabChangeTracker={props =>
-          props.tab === t('in-applications:labelSyntheticMonitoring')
+        tabChangeTracker={({ tab }) =>
+          tab === t('in-applications:labelSyntheticMonitoring')
             ? clickSyntheticMonitoringTabInApplicationsTracker({
                 detail: 'Synthetic Monitoring tab in Applications section'
               })
@@ -128,7 +143,9 @@ export default function ApplicationDashboard({ location }) {
   );
 }
 
-function Header(props) {
+function Header(
+  props: Omit<DashboardHeaderProps, 'icon' | 'title' | 'label' | 'renderButtonLine' | 'renderButtonLineSecondary'>
+) {
   return (
     <DashboardHeader
       {...props}
@@ -137,13 +154,20 @@ function Header(props) {
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={renderButtonLineSecondary}
-      showHistoricDataWarning={false}
     />
   );
 }
 
-function renderButtonLine(props) {
-  const { applicationId, timeConfig, boundaryScope, location } = props;
+interface ButtonLineProps {
+  applicationId: string;
+  timeConfig: TimeConfig;
+  boundaryScope: string | undefined;
+  location: Location;
+  result: Result<Application>;
+}
+
+function renderButtonLine(props: ButtonLineProps) {
+  const { applicationId, timeConfig, boundaryScope, location, result } = props;
   const isGlobalAlertConfig = getMatrixParameter(location, alertsList, alertsCategory) === categoryGlobal;
   const addSmartAlertButton = isGlobalAlertConfig ? (
     <CreateGlobalSmartAlertButton location={location} />
@@ -152,7 +176,7 @@ function renderButtonLine(props) {
       applicationId={applicationId}
       location={location}
       boundaryScope={boundaryScope}
-      defaultBoundaryScope={props.result.data.boundaryScope}
+      defaultBoundaryScope={result.data?.boundaryScope}
     />
   );
 
@@ -170,14 +194,14 @@ function renderButtonLine(props) {
       isFloatingButton
       isMenuItem
       boundaryScope={boundaryScope}
-      defaultBoundaryScope={props.result.data.boundaryScope}
+      defaultBoundaryScope={result.data?.boundaryScope}
       applicationId={applicationId}
     />
   );
 
   const allowActionButtons = isGlobalAlertConfig
-    ? role.canConfigureGlobalApplicationSmartAlerts
-    : role.canConfigureApplicationSmartAlerts;
+    ? role?.canConfigureGlobalApplicationSmartAlerts
+    : role?.canConfigureApplicationSmartAlerts;
 
   const showAlertButton = allowActionButtons && !location.pathname.includes('/application/configuration');
 
@@ -218,20 +242,26 @@ function renderButtonLine(props) {
   );
 }
 
-const disableAllCallsDropdown = currentTab => {
-  if (boundaryScopeDropdownDisabledTabs.includes(currentTab)) {
-    return true;
-  } else {
-    return false;
-  }
-};
+interface ButtonLineSecondaryProps {
+  result: Result<Application>;
+  boundaryScope: string | undefined;
+  currentTab: string;
+  onBoundaryStateChange: (state: Record<string, any>) => void;
+  timeConfig: TimeConfig;
+}
 
-function renderButtonLineSecondary({ result, boundaryScope, currentTab, onBoundaryStateChange, timeConfig }) {
+function renderButtonLineSecondary({
+  result,
+  boundaryScope,
+  currentTab,
+  onBoundaryStateChange,
+  timeConfig
+}: ButtonLineSecondaryProps) {
   return (
     <>
       <TimeShiftDropdown
         disabled={currentTab !== summaryTab}
-        onChange={offset =>
+        onChange={(offset: number) =>
           applicationTimeShiftSelectTracker({
             area: 'application',
             offset: getTimeShiftLabel({ offset: offset }),
@@ -244,7 +274,7 @@ function renderButtonLineSecondary({ result, boundaryScope, currentTab, onBounda
         data={result.data}
         boundaryScope={boundaryScope}
         onBoundaryStateChange={onBoundaryStateChange}
-        disabled={disableAllCallsDropdown(currentTab)}
+        disabled={boundaryScopeDropdownDisabledTabs.includes(currentTab)}
       />
     </>
   );

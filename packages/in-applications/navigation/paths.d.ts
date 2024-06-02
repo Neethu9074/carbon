@@ -14,11 +14,16 @@ export declare const alertsTab: string;
 export declare const alertsTabDetailsFullyQualified: string;
 export declare const alertsTabListFullyQualified: string;
 export declare const applicationDashboard: string;
+export declare const configurationTab: string;
+export declare const dependencyMapTab: string;
 export declare const getLinkToAlertConfig: string;
 export declare const getLinkToGlobalAlertConfigWithoutAPDashboard: string;
 export declare const globalAlertDetails: string;
 export declare const globalSmartAlertPath: string;
 export declare const smartAlertPath: string;
+export declare const smartAlertsTab: string;
+export declare const summaryTab: string;
+export declare const syntheticsTab: string;
 
 interface ChartedMetric {
   metricId: string;

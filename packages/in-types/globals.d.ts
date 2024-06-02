@@ -29,6 +29,7 @@ export interface Role {
   canSeeExtendedInternalMonitoring: boolean;
   limitedInfrastructureScope: boolean;
   // pre-evaluated permissions from backend
+  canConfigureApplications: boolean;
   canConfigureServiceLevelIndicators: boolean;
   canConfigureEventsAndAlerts: boolean;
   canConfigureMaintenanceWindows: boolean;
