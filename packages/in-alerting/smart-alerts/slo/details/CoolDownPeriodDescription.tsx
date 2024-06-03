@@ -30,7 +30,6 @@ export default function CoolDownPeriodDescription({ coolDownPeriod }: CoolDownPe
             value: formattedTimeToFailure
           })}
         </span>
-        <p>{}</p>
       </div>
     </div>
   );

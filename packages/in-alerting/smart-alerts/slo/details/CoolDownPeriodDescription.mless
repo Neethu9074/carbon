@@ -13,10 +13,6 @@
     line-height: 1.25rem;
 
     padding: 1rem;
-
-    p {
-      margin: 0;
-    }
   }
 
   .label {
