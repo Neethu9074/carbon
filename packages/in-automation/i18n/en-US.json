@@ -101,7 +101,7 @@
     "Step3Headline": "Specify details to create a new automation policy.",
     "step1Title": "Step 1: Select a generated action",
     "step2Title": "Step 2: Customize action",
-    "step3Title": "Step 3: Create Policy",
+    "step3Title": "Step 3: Create policy",
     "policyDetails": "Policy details",
     "policyText": "A new policy will be created for the following action and event trigger:",
     "policy": {
