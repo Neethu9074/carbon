@@ -23,6 +23,8 @@ import PercentageInput from 'in-service-levels/components/PercentageInput';
 import { SloAlertTypes } from 'in-alerting/smart-alerts/slo/types';
 import { Trans, t } from 'in-i18n';
 
+import locals from './BlueprintSection.mless';
+
 export default function BlueprintSection() {
   const { form, onChange } = useSloAlertFormContext();
 
@@ -75,6 +77,7 @@ export default function BlueprintSection() {
                   onChange={value => onChange(['threshold'], () => thresholdField.setValue(value).setTouched(true))}
                   hasError={!isThresholdFieldValid}
                   decimalPrecision={2}
+                  className={locals.percentageInput}
                 />
                 percent of error budget is burned
               </Trans>
@@ -99,6 +102,7 @@ export default function BlueprintSection() {
                   onChange={value => onChange(['threshold'], () => thresholdField.setValue(value).setTouched(true))}
                   hasError={!isThresholdFieldValid}
                   decimalPrecision={2}
+                  className={locals.percentageInput}
                 />
               </Trans>
             </Typography>
