@@ -79,7 +79,7 @@ export type ActionFormEntity = NewAction | Action;
 const isAction = (action: NewAction | Action): action is Action => (action as Action).id !== undefined;
 
 function useActionDetailsUrlParams() {
-  const [{ id, op }] = useUrlState<{ id?: string; op: 'copy' | null; view?: string }>({
+  const [{ id, op }] = useUrlState<{ id?: string; op: 'copy' | null }>({
     bind: [actionDetailsUrlParameters.id, actionDetailsUrlParameters.op]
   });
   const isCopy = op === 'copy';
