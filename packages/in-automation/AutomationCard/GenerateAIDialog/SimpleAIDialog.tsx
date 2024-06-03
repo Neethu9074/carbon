@@ -36,7 +36,7 @@ import { Trans, t } from 'in-i18n';
 
 import locals from 'in-automation/AutomationCard/GenerateAIDialog/SelectAIActionsDialogPresenter.mless';
 
-export type setSelectedAIAction = (action: ScoredAction) => void;
+export type SetSelectedAIAction = (action: ScoredAction) => void;
 
 type AIActionFormItems = {
   name: FormField<string>;
@@ -60,7 +60,7 @@ interface SimpleAIDialogProps {
   event: Event;
   setActiveKey: SetActiveKey;
   selectedAIAction: ScoredAction | null;
-  setSelectedAIAction: setSelectedAIAction;
+  setSelectedAIAction: SetSelectedAIAction;
 }
 
 export default function SimpleAIDialog({

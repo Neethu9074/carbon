@@ -12,7 +12,7 @@ import { t } from '@instana/i18n-react';
 
 import {
   createNewAIActionFormDefinition,
-  setSelectedAIAction,
+  SetSelectedAIAction,
   AIActionForm
 } from 'in-automation/AutomationCard/GenerateAIDialog/SimpleAIDialog';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState'; // ServerTableUrlState
@@ -44,7 +44,7 @@ export default function SelectActionDialog({
   actions: Result<ScoredAction[]>;
   updateForm: React.Dispatch<React.SetStateAction<AIActionForm>>;
   selectedAIAction: ScoredAction | null;
-  setSelectedAIAction: setSelectedAIAction;
+  setSelectedAIAction: SetSelectedAIAction;
 }) {
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
