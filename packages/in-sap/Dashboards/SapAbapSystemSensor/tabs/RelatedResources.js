@@ -7,10 +7,12 @@
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import { getHumanReadablePluginName } from 'in-sap/Dashboards/tables/getHumanReadablePluginName';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import { getSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import { percentage, number, percentagePlain } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getRelatedResources from 'in-sap/subscriptions/getRelatedResources';
 import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
@@ -51,6 +53,52 @@ const columnDefinitions = [
       return <Badge color={colorFormatter(item.overallRating)}>{getOverallStatus(item.overallRating)}</Badge>;
     }
   },
+  {
+    id: 'cpu',
+    label: t('in-sap:dashboards.cpuUsage'),
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={percentagePlain.compact}
+          metric="cpuMetricStats.totalUtilization"
+        />
+      );
+    }
+  },
+  {
+    id: 'memory',
+    label: t('in-sap:dashboards.memoryUsage'),
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={percentage.detailed}
+          metric="swapmemory.usedMemory"
+        />
+      );
+    }
+  },
+  {
+    id: 'user',
+    label: t('in-sap:dashboards.userSessions'),
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={number.compact}
+          metric="sapMetricsStats.userSession"
+        />
+      );
+    }
+  },
+
   {
     id: 'issues',
     label: t('in-sap:issues'),

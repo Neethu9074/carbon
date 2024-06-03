@@ -68,6 +68,7 @@ export default function EventRow({
     );
   }
 
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const start = event.start;
   const end = event.end || Date.now();
   const eventType = getEventType(event);
@@ -119,9 +120,9 @@ export default function EventRow({
           </div>
         </Td>
       )}
-      {manuallyCloseEventEnabled && role?.canManuallyCloseIssue && isDisplayColumn(headers, 'state') && (
+      {canCloseManually && isDisplayColumn(headers, 'state') && (
         <Td>
-          <span className={locals.text}>{getStateBadge(state)}</span>
+          <span className={locals.text}>{getStateBadge(event)}</span>
         </Td>
       )}
       {headers && isDisplayColumn(headers, 'duration') && (
@@ -214,7 +215,7 @@ function getLabel(entityType, entityOrSnapshot) {
 
 function getEndValue(event, isChangeEvent, end, start, headers, isPreview) {
   if (event.state === 'open') {
-    return t('in-events:active');
+    return '-';
   }
   if (isChangeEvent) {
     return formatDisplayDateTime(end, headers, isPreview);
@@ -222,32 +223,47 @@ function getEndValue(event, isChangeEvent, end, start, headers, isPreview) {
   return start !== end ? formatDisplayDateTime(end, headers, isPreview) : valueMissingPlaceholder;
 }
 
-function getColorForState(state) {
-  switch (state) {
-    case 'open':
+function getColorForState(event) {
+  if (event.state === 'open') {
+    return 'cyan';
+  }
+
+  if (event.state === 'closed') {
+    if (!event.manuallyClosed) {
       return 'gray';
-    case 'closed':
-      return 'teal';
-    case 'manually_closed':
+    } else {
       return 'green';
+    }
+  }
+
+  if (event.state === 'manually_closed') {
+    return 'green';
   }
 }
 
-function getTranslatedLabelForState(state) {
-  switch (state) {
-    case 'open':
-      return t('in-events:stateActive');
-    case 'closed':
+function getTranslatedLabelForState(event) {
+  const eventState = event.state;
+  if (eventState === 'open') {
+    return t('in-events:stateActive');
+  }
+
+  if (eventState === 'closed') {
+    if (!event.manuallyClosed) {
       return t('in-events:stateClosedByInstana');
-    case 'manually_closed':
+    } else {
       return t('in-events:stateManuallyClosed');
+    }
+  }
+
+  if (eventState === 'manually_closed') {
+    return t('in-events:stateManuallyClosed');
   }
 }
 
-function getStateBadge(state) {
+function getStateBadge(event) {
   return (
-    <Pill className={locals.badge} type={getColorForState(state)}>
-      {getTranslatedLabelForState(state)}
+    <Pill className={locals.badge} type={getColorForState(event)}>
+      {getTranslatedLabelForState(event)}
     </Pill>
   );
 }

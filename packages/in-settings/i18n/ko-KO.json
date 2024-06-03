@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "새 그룹 작성",
-    "dialogTitle_edit": "액세스 범위 편집",
+    "dialogTitle_edit": "액세스 구성 편집",
     "editButton": "편집",
     "productArea": "{{tenantUnit}}에 대한 액세스 구성-{{tenant}}"
   },
@@ -82,17 +82,16 @@
     "role_permissions_contributor_and_viewer": "뷰어 액세스 {{quantityOfAreas}} & 컨트리뷰터 액세스 {{quantityOfAreasContributor}}",
     "no_access": "액세스 권한 없음",
     "platform_permissions": "{{quantityOfAreas}} 액세스",
-    "analyticsContentMessage": "웹 사이트, 모바일 앱, 애플리케이션, 플랫폼 및 인프라에서 액세스 범위로 정의된 분석에서 데이터를 볼 수 있음",
     "infrastructureContentMessage": "애플리케이션, 플랫폼, 인프라에서 액세스 범위 및 선택적으로 DFQ로 정의된 엔티티를 볼 수 있음",
     "infrastructureAccessAllMessage": "모든 엔티티",
-    "eventsAndAlertsContentMessage": "웹 사이트, 모바일 앱, 애플리케이션, 합성 모니터링, 플랫폼 및 인프라에 정의된 액세스 범위에 따라 이벤트 및 경보를 볼 수 있음",
     "permissions": "권한",
     "additionalPermissions": "추가 권한",
     "permissions_DASHBOARD": "사용자 정의 대시보드 권한",
     "permissions_SYNTHETICS": "합성 모니터링 권한",
-    "permissions_AGENTS": "에이전트 권한",
+    "permissions_AGENTS": "에이전트 배치 권한",
     "permissions_ACCESS_CONTROL": "액세스 제어 권한",
     "permissions_AUTOMATION": "자동화 권한",
+    "permissions_EVENT": "이벤트 및 경보 권한",
     "permissions_LOGS": "로그 권한",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM 전원 HMC",
@@ -107,7 +106,6 @@
     "obsoleteEntityDescription": "현재 사용 가능한 데이터가 없습니다. 여전히 액세스가 허용되고 있습니다.",
     "title_analytics": "분석",
     "title_applications": "애플리케이션",
-    "title_events_and_alerts": "이벤트 및 경보",
     "title_global_functions": "전역 함수",
     "title_infrastructure": "인프라",
     "title_mobileApps": "모바일 앱",
@@ -165,7 +163,8 @@
     "doneButton": "완료"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "이름"
+    "nameColumnHead": "이름",
+    "contributionFilterColumnHead": "컨트리뷰션 필터"
   },
   "permissionScope": {
     "access_level": "액세스 레벨",
@@ -191,7 +190,6 @@
     "description_no_access_bizops": "비즈니스 모니터링에 대한 액세스가 거부되었습니다.",
     "description_access_all_except_contributor": "모두 액세스-컨트리뷰터로 액세스되는 항목을 제외하고 모두 액세스",
     "role": "역할 선택",
-    "roleSelection": "역할",
     "role_owner": "소유자",
     "role_viewer": "뷰어",
     "role_custom": "사용자 정의",
@@ -444,6 +442,7 @@
     "someEmailsHaveFailedToSend": "일부 이메일을 발송하는 데 실패함",
     "inviteUserToTenant": "{{tenant}}에 사용자 초대",
     "anotherUser": "다른 사용자",
+    "inviteUsertoDefaultGroup": "초대할 그룹을 선택할 수 있는 충분한 권한이 없습니다. 초대된 사용자가 기본 그룹에 추가됩니다.",
     "permissionEntityLabel": "권한 {{entityLabel}}",
     "addToAGroup": "그룹에 추가",
     "failedToAddUserToGroups": "사용자를 그룹에 추가하는 데 실패함: {{err}}",
@@ -737,6 +736,16 @@
     "timeoutsSuccessfullySaved": "제한시간이 저장되었습니다.",
     "disableTwoFactor": "2단계 사용 안함",
     "saveToken": "토큰 저장",
+    "profile": {
+      "pageName": "프로파일",
+      "email": "이메일",
+      "emailHint": "Instancea에서 사용자 계정을 식별하기 위한 이메일입니다. 사용자 계정이 작성된 후에는 이메일을 변경할 수 없습니다.",
+      "name": "이름",
+      "nameHint": "이름과 성을 쉼표 없이 입력하십시오.",
+      "saving": "새 이름 저장",
+      "saved": "저장된 새 이름",
+      "failed": "새 이름 저장 실패"
+    },
     "twoFactorAuthentication": "이중 인증",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "2단계 인증은 현재 이 사용자에 대해 사용 안함으로 설정되어 있습니다.",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "구성을 완료하려면 인증 앱에서 2FA 토큰을 입력하십시오.",
@@ -1165,7 +1174,12 @@
     "createIDPConfirmationDescription": "보류 중인 초대가 삭제됩니다. 사용자는 ID 제공자(IdP)에서 자동으로 프로비저닝됩니다.",
     "revokeInvitationForUserWithEmail": "{{email}}용 {{tenant}} 테넌트에 참여하기 위한 초대 취소",
     "invitationValidUntil": "초대 유효 기한",
-    "invitedBy": "초대한 사람"
+    "invitedBy": "초대한 사람",
+    "accessAll": "모두 액세스",
+    "access": "액세스",
+    "accessForTenantUnit": "{{tenantUnit}}-{{tenant}}에 대한 액세스",
+    "numberOfMembers": "멤버의 수",
+    "groupEntityName": "그룹 {{entityName}}"
   },
   "languageSelection": {
     "language": "언어",

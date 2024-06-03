@@ -6,7 +6,6 @@
 import React from 'react';
 
 import UserSpoolSpaceTable from 'in-forge/plugins/ibmIOs/Dashboard/UserSpoolSpaceTable';
-import MessageQueueTable from 'in-forge/plugins/ibmIOs/Dashboard/MessageQueueTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import OutputQueueTable from 'in-forge/plugins/ibmIOs/Dashboard/OutputQueueTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -168,7 +167,6 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
         <UserSpoolSpaceTable snapshotId={snapshotId} />
       </Columize>
       <JobQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
-      <MessageQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <SubsystemTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <HistoryLogTable snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>

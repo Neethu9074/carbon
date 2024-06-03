@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Result, ServiceLevelsAlertConfig, ServiceLevelsAlertConfigWithMetadata } from '@instana/types';
 import { Observable } from '@instana/observables';
@@ -16,12 +16,12 @@ import {
 import SloAlertFormProvider, { CreateSloAlertDialogMode } from 'in-alerting/smart-alerts/slo/form/SloAlertFormProvider';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
-import { SloAlertForm, createSloAlertForm } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/slo/dialog/advanced/AdvancedModeContainer';
+import useSloAlertConfigForm from 'in-alerting/smart-alerts/slo/hooks/useSloAlertConfigForm';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { formToSloAlertConfiguration } from 'in-alerting/smart-alerts/slo/form/utils';
+import { SloAlertForm } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import { trackAlertSaved } from 'in-alerting/smart-alerts/components/tracker';
-import { close as closeDialog } from 'in-components/DialogPresenter/store';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -45,7 +45,7 @@ export default function AlertConfigDialog({ onClose, editMode, alertConfig }: Al
   const mode = editMode ? 'EDIT' : 'NEW';
   const timeConfig = useTimeConfig();
 
-  const [form, setForm] = useState(() => createSloAlertForm(alertConfig));
+  const [form, updateForm] = useSloAlertConfigForm(alertConfig);
   const sloALertConfigId = form.getIn(['id']).value;
 
   const [submitStatus, doSubmit] = useFormSubmission<ServiceLevelsAlertConfig, ServiceLevelsAlertConfigWithMetadata>(
@@ -56,15 +56,15 @@ export default function AlertConfigDialog({ onClose, editMode, alertConfig }: Al
     <SloAlertFormProvider
       mode={mode}
       form={form}
-      updateForm={setForm}
-      onChange={(path, updater) => setForm(form.updateIn(path, updater) as SloAlertForm)}
+      updateForm={updateForm}
+      onChange={(path, updater) => updateForm(form.updateIn(path, updater) as SloAlertForm)}
     >
       <AlertConfigDialogPresenter
         editMode={editMode}
         form={form}
         withTrackClose={onClose}
         withTrackCreate={noop}
-        updateForm={setForm}
+        updateForm={updateForm}
         messages={[]}
         onChange={noop}
         stepConfigs={[]}
@@ -75,14 +75,14 @@ export default function AlertConfigDialog({ onClose, editMode, alertConfig }: Al
         footer={
           <AdvancedModeFooter
             form={form}
-            setForm={setForm}
+            setForm={updateForm}
             onClose={onClose}
             onCreate={() => {
               if (!form.hierarchyValid) return;
 
               doSubmit({
                 payload: formToSloAlertConfiguration(form),
-                onSuccess,
+                onSuccess: result => onSuccess(result, onClose),
                 onError
               });
             }}
@@ -115,7 +115,7 @@ function getFormSubmitAction(mode: CreateSloAlertDialogMode, sloALertConfigId: s
   }
 }
 
-function onSuccess({ data }: Result<ServiceLevelsAlertConfigWithMetadata>) {
+function onSuccess({ data }: Result<ServiceLevelsAlertConfigWithMetadata>, onClose: VoidFunction) {
   if (!data) throw Error('Unknown SLO smart-alert creation error');
 
   const { name } = data;
@@ -131,7 +131,7 @@ function onSuccess({ data }: Result<ServiceLevelsAlertConfigWithMetadata>) {
 
   trackAlertSaved(data, false);
 
-  closeDialog();
+  onClose();
 }
 
 const errorMessageHeader = {

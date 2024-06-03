@@ -94,7 +94,6 @@ export default function ServiceDashboard({ location }) {
           pageRootName: pageNames.service_summary
         }}
       />
-
       <TabView
         HeaderComponent={Header}
         location={location}
@@ -120,19 +119,17 @@ export default function ServiceDashboard({ location }) {
           />
         </FloatingActionButtons>
       )}
-      {showAlertButton && applicationSmartAlertFullScreenDesignEnabled && (
+      {showAlertButton && applicationSmartAlertFullScreenDesignEnabled && props.applicationId && (
         <FloatingActionButtons>
           <FloatingActionButtonMenu>
-            {showAlertButton && (
-              <span className={locals.floatingBtnMenu}>
-                <CreateSmartAlert
-                  serviceId={props.serviceId}
-                  applicationId={props.applicationId}
-                  location={location}
-                  boundaryScope={props.boundaryScope}
-                />
-              </span>
-            )}
+            <span className={locals.floatingBtnMenu}>
+              <CreateSmartAlert
+                serviceId={props.serviceId}
+                applicationId={props.applicationId}
+                location={location}
+                boundaryScope={props.boundaryScope}
+              />
+            </span>
 
             <CreateSmartAlertButton
               isGlobal={false}

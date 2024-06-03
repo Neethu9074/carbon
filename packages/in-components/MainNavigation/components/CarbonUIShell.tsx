@@ -200,9 +200,6 @@ function BizOps() {
   if (!hasBizOpsAccess) {
     return null;
   }
-  if (playwithEnabled) {
-    return null;
-  }
   return (
     <MenuItem
       id="main-nav-bizops"
@@ -242,6 +239,7 @@ function platformsContent(
       <MenuItem
         {...optionalProps}
         id="main-nav-cloudfoundry"
+        key="main-nav-cloudfoundry"
         label={t('in-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
         href={createHrefToPath(cloudfoundryApplicationList)}
         isActive={matchLocation(cloudfoundry)}
@@ -251,6 +249,7 @@ function platformsContent(
       <MenuItem
         {...optionalProps}
         id="main-nav-openstack"
+        key="main-nav-openstack"
         label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
         href={createHrefToPath(regionListFullyQualified)}
         isActive={matchLocation(openstack)}
@@ -260,6 +259,7 @@ function platformsContent(
       <MenuItem
         {...optionalProps}
         id="main-nav-phmc"
+        key="main-nav-phmc"
         label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
         href={createHrefToPath(phmcListFullyQualified)}
         isActive={matchLocation(ibmp)}
@@ -269,6 +269,7 @@ function platformsContent(
       <MenuItem
         {...optionalProps}
         id="main-nav-powervc"
+        key="main-nav-powervc"
         label={t('in-components:mainNavigation.viewSwitcherLabelPowervc')}
         href={createHrefToPath(powervcRegionListFullyQualified)}
         isActive={matchLocation(powervc)}
@@ -278,6 +279,7 @@ function platformsContent(
       <MenuItem
         {...optionalProps}
         id="main-nav-zhmc"
+        key="main-nav-zhmc"
         label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
         href={createHrefToPath(zhmcListFullyQualified)}
         isActive={matchLocation(ibmz)}
@@ -287,6 +289,7 @@ function platformsContent(
       <MenuItem
         {...optionalProps}
         id="main-nav-kubernetes"
+        key="main-nav-kubernetes"
         label={t('in-components:mainNavigation.viewSwitcherLabelKubernetes')}
         href={createHrefToPath(kubernetesClusterList)}
         isActive={matchLocation(kubernetes)}
@@ -296,16 +299,17 @@ function platformsContent(
       <MenuItem
         {...optionalProps}
         id="main-nav-sap"
+        key="main-nav-sap"
         label={t('in-components:mainNavigation.viewSwitcherLabelSap')}
         href={createHrefToPath(sapSystemList)}
         isActive={matchLocation(sap)}
-        infoTag={t('in-components:featureFeedback.labelBETA')}
       />
     ) : null,
     hasVSphereAccess && !playwithEnabled ? (
       <MenuItem
         {...optionalProps}
         id="main-nav-vsphere"
+        key="main-nav-vsphere"
         label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}
         href={createHrefToPath(datacenterListFullyQualified)}
         isActive={matchLocation(vsphere)}
@@ -533,6 +537,7 @@ function moreContent(matchLocation: (path: string) => boolean, createHrefToPath:
     tenantSwitcherEnabled ? (
       <MenuItem
         id="main-nav-tenants"
+        key="main-nav-tenants"
         label={t('in-components:mainNavigation.viewSwitcherLabelTenants')}
         openInNewTab
         href={tenantSwitcherLink}
@@ -541,6 +546,7 @@ function moreContent(matchLocation: (path: string) => boolean, createHrefToPath:
     role?.canConfigureAgents ? (
       <MenuItem
         id="main-nav-agents"
+        key="main-nav-agents"
         label={t('in-components:mainNavigation.viewSwitcherLabelAgents')}
         href={createHrefToPath(agentsPath)}
         isActive={matchLocation(agentsPath)}
@@ -549,6 +555,7 @@ function moreContent(matchLocation: (path: string) => boolean, createHrefToPath:
     releaseNotesEnabled ? (
       <MenuItem
         id="main-nav-release-notes"
+        key="main-nav-release-notes"
         onClick={() => {
           showReleaseNotes();
         }}
@@ -557,25 +564,29 @@ function moreContent(matchLocation: (path: string) => boolean, createHrefToPath:
     ) : null,
     <MenuItem
       id="main-nav-documentation"
+      key="main-nav-documentation"
       label={t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}
       openInNewTab
       href="https://www.ibm.com/docs/en/obi/current"
     />,
     <MenuItem
       id="main-nav-support"
+      key="main-nav-support"
       label={t('in-components:mainNavigation.viewSwitcherLabelSupport')}
       openInNewTab
       href="https://www.ibm.com/mysupport/s/?language=en_US"
     />,
     <MenuItem
       id="main-nav-about"
+      key="main-nav-about"
       onClick={() => {
         addActiveDialog(<AboutInstanaDialog />);
       }}
       label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
     />,
-    <div className={local.signOutButton}>
+    <div key="main-nav-sign-out" className={local.signOutButton}>
       <MenuItem
+        id="main-nav-sign-out"
         onClick={signOut}
         label={
           <>
@@ -638,7 +649,7 @@ export default function CarbonUIShell() {
           title={t('in-components:mainNavigation.viewSwitcherLabelMore')}
           isSideNavExpanded
         >
-          {moreContent(matchLocation, createHrefToPath)}
+          {moreContent(matchLocation, createHrefToPath).filter(Boolean)}
         </SideNavMenu>
       )}
     </UIShell>

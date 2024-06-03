@@ -7,31 +7,36 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Toggle } from '@instana/components';
 import { Link } from '@instana/components';
 
 import getJsAgentVersionsInfo from 'in-websites/subscriptions/getJsAgentVersionsInfo';
+import WeaselVersionDropdown from 'in-websites/trackingSnippet/WeaselVersionDropdown';
 import { getTrackingSnippet } from 'in-websites/trackingSnippet/trackingSnippet';
 import { weaselSubresourceIntegrityEnabled } from 'in-services/featureFlags';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import Dropdown from 'in-alerting/components/Dropdown';
 import Tooltip from 'in-components/Tooltip';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
 import locals from './TrackingSnippetPresenter.mless';
 
-export default function TrackingSnippetPresenter({ websiteId, trackSessions, setTrackSessions }) {
-  const [selectSRIOption, setSelectSRIOption] = useState('Enable');
+export default function TrackingSnippetPresenter({
+  websiteId,
+  trackSessions,
+  setTrackSessions,
+  enableSRI,
+  setEnableSRI
+}) {
   const [weaselArray, setWeaselArray] = useState([]);
   const [selectedWeaselVersion, setSelectedWeaselVersion] = useState('');
   const [urlWeaselVersion, setUrlWeaselVersion] = useState('');
   const [shaValue, setShaValue] = useState('');
   const [eumSnippet, setEumSnippet] = useState(
-    getTrackingSnippet({ key: websiteId, trackSessions, selectedWeaselVersion, selectSRIOption })
+    getTrackingSnippet({ key: websiteId, trackSessions, enableSRI, selectedWeaselVersion })
   );
 
   useEffect(() => {
-    if (selectSRIOption === 'Enable') {
+    if (enableSRI) {
       getJsAgentVersionsInfo()
         .map(r => {
           const response = r.data;
@@ -46,32 +51,15 @@ export default function TrackingSnippetPresenter({ websiteId, trackSessions, set
           }));
           const removeDuplicate = new Set(responseArray?.map(arr => JSON.stringify(arr)));
           const versionList = Array.from(removeDuplicate)?.map(str => JSON.parse(str));
-          const latestIndex = versionList.findIndex(item => item?.urlversion === latestVersion[0]);
+          const latestIndex = versionList.findIndex(item => item?.urlversion === latestVersion?.[0]);
           setWeaselArray(versionList);
           setSelectedWeaselVersion(versionList?.[latestIndex]?.label);
           setUrlWeaselVersion(versionList?.[latestIndex]?.urlversion);
           setShaValue(versionList?.[latestIndex]?.sha);
-          setEumSnippet(
-            getTrackingSnippet({
-              key: websiteId,
-              trackSessions,
-              urlWeaselVersion: versionList?.[latestIndex]?.urlversion,
-              shaValue: versionList?.[latestIndex]?.sha,
-              selectSRIOption: selectSRIOption
-            })
-          );
         })
         .subscribe();
-    } else {
-      setEumSnippet(
-        getTrackingSnippet({
-          key: websiteId,
-          trackSessions,
-          selectSRIOption: selectSRIOption
-        })
-      );
     }
-  }, [selectSRIOption, websiteId, trackSessions]);
+  }, [enableSRI]);
 
   useEffect(() => {
     setEumSnippet(
@@ -80,10 +68,10 @@ export default function TrackingSnippetPresenter({ websiteId, trackSessions, set
         trackSessions,
         urlWeaselVersion: urlWeaselVersion,
         shaValue: shaValue,
-        selectSRIOption: selectSRIOption
+        enableSRI
       })
     );
-  }, [selectSRIOption, trackSessions, urlWeaselVersion, shaValue, websiteId]);
+  }, [enableSRI, trackSessions, urlWeaselVersion, shaValue, websiteId]);
 
   const handleVersionChange = ver => {
     setSelectedWeaselVersion(ver);
@@ -91,62 +79,51 @@ export default function TrackingSnippetPresenter({ websiteId, trackSessions, set
     setShaValue(weaselArray.find(item => item.label === ver)?.sha);
   };
 
-  const handleChange = sri => {
-    setSelectSRIOption(sri);
-  };
-
   return (
     <div className={locals.snippetWrapper}>
       {weaselSubresourceIntegrityEnabled && (
-        <div className={locals.gridContainer}>
-          <div className={locals.buttonContent}>
-            {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelSRI')}&nbsp;
-            <div className={locals.sriOption}>
-              <Dropdown
-                value={selectSRIOption}
-                items={[
-                  { value: 'Enable', label: t('in-websites:trackingSnippet.trackingSnippetPresenterEnableSRI') },
-                  { value: 'Disable', label: t('in-websites:trackingSnippet.trackingSnippetPresenterDisableSRI') }
-                ]}
-                onChange={handleChange}
-              />
-              <Tooltip content={t('in-websites:trackingSnippet.trackingSnippetSRITooltip')}>
-                <SvgIcon type="lib_help_error_help_outline" size="xs" className={locals.help} />
-              </Tooltip>
-            </div>
+        <div>
+          <div className={locals.label}>
+            {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelSRI')}
+            <Tooltip content={t('in-websites:trackingSnippet.trackingSnippetSRITooltip')}>
+              <SvgIcon type="lib_help_error_info_outline" size="xs" className={locals.help} />
+            </Tooltip>
           </div>
-          {selectSRIOption === 'Enable' && (
-            <div className={locals.buttonContent}>
-              {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelAgentVersion')}&nbsp;
-              <Dropdown
-                value={selectedWeaselVersion}
-                items={
-                  weaselArray?.length > 0 &&
-                  weaselArray?.map(version => ({ value: version?.value, label: version?.label }))
-                }
-                onChange={handleVersionChange}
+          <div className={locals.toggle}>
+            <Toggle id="sri" checked={enableSRI} onToggle={e => setEnableSRI(e)} />
+            {enableSRI
+              ? t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')
+              : t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
+          </div>
+
+          {enableSRI && (
+            <div className={locals.button}>
+              <div className={locals.label}>
+                {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelAgentVersion')}
+              </div>
+              <WeaselVersionDropdown
+                selectedWeaselVersion={selectedWeaselVersion}
+                handleVersionChange={handleVersionChange}
+                weaselArray={weaselArray}
               />
             </div>
           )}
         </div>
       )}
       <div className={locals.options}>
-        <div className={locals.option}>
-          <CheckboxFancy
-            id="trackSessions"
-            checked={trackSessions}
-            label={
-              <div className={locals.label}>
-                {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelTrackSessions')}&nbsp;
-                <Tooltip content={t('in-websites:trackingSnippet.trackingSnippetPresenterTooltip')}>
-                  <Link href="https://ibm.biz/session-tracking" external className={locals.helpWrapper}>
-                    <SvgIcon type="lib_help_error_help_outline" size="xs" className={locals.help} />
-                  </Link>
-                </Tooltip>
-              </div>
-            }
-            onChange={e => setTrackSessions(e.target.checked)}
-          />
+        <div className={locals.label}>
+          {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelTrackSessions')}
+          <Tooltip content={t('in-websites:trackingSnippet.trackingSnippetPresenterTooltip')}>
+            <Link href="https://ibm.biz/session-tracking" external className={locals.helpWrapper}>
+              <SvgIcon type="lib_help_error_help_outline" size="xs" className={locals.help} />
+            </Link>
+          </Tooltip>
+        </div>
+        <div className={locals.toggle}>
+          <Toggle id="trackSessions" checked={trackSessions} onToggle={e => setTrackSessions(e)} />
+          {trackSessions
+            ? t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')
+            : t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
         </div>
       </div>
       <div className={locals.snippet}>

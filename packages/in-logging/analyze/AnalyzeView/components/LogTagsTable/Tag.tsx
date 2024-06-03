@@ -7,45 +7,33 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { ColumnizedContent, Li, Link, Ul, IconButton } from '@instana/components';
+import { ColumnizedContent, IconButton, Li, Link } from '@instana/components';
 import { LogTag, TagFilter } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import {
-  ApplicationProps,
-  ApplicationsListProps,
+  ApplicationsListTag,
+  columnDefinitions,
+  createGroupingTag,
+  createTagFilter,
+  EntityHealthDot,
   GetContentType,
+  getSnapshotId,
+  LogFilePathTag,
   ResolvedLinkProps,
   TagEntryProps,
   TagGroupHeaderProps,
-  ToggleProps
-} from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
-import {
-  createGroupingTag,
-  createTagFilter,
-  getSnapshotId,
   trackFilterClick,
   trackGroupClick
-} from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/utils';
-import {
-  containerSnapshotIds,
-  ID_HOST,
-  LOG_CUSTOM_KEY_APPLICATION_ID,
-  LOG_CUSTOM_KEY_APPLICATION_IDS,
-  LOG_FILE_PATH
-} from 'in-logging/queryBuilder';
+} from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import ContainerPerformanceSparkcharts from 'in-logging/analyze/AnalyzeView/components/ContainerPerformanceSparkcharts';
+import { containerSnapshotIds, ID_HOST, LOG_CUSTOM_KEY_APPLICATION_IDS, LOG_FILE_PATH } from 'in-logging/queryBuilder';
 import useResolvedValue, { resolveInfraLabel } from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedValue';
-// @ts-expect-error needs TS migration
-import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
-import { columnDefinitions } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/constants';
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
 import { logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import CopyToClipboard from 'in-components/CopyToClipboard';
-import HealthDot from 'in-components/health/HealthDot';
-import Overlay from 'in-components/overlays/Overlay';
-import Header from 'in-components/Dialog/Header';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -71,6 +59,8 @@ export function TagValue({
   const entitySnapshotId = getSnapshotId(tag, item);
   const iconColor = 'var(--ids-color-option-neutral-900)';
 
+  const { location, navigate } = useNavigation();
+
   return (
     <div className={locals.tagValue}>
       <div className={locals.tagLink}>
@@ -85,8 +75,11 @@ export function TagValue({
                 color={iconColor}
                 iconSize={'xs'}
                 type="lib_group_by"
-                href={getHrefToGroupedView(createGroupingTag(tag.name, tag.key))}
-                onClick={() => trackGroupClick(resolvedValue)}
+                onClick={() => {
+                  location.pathname += getHrefToGroupedView(createGroupingTag(tag.name, tag.key));
+                  trackGroupClick(resolvedValue);
+                  navigate(location);
+                }}
                 className={locals.squareHover}
               />
             </Tooltip>
@@ -97,8 +90,13 @@ export function TagValue({
                 color={iconColor}
                 iconSize={'xs'}
                 type="lib_actions_filter"
-                href={onSelectTagHref(createTagFilter(value, item.tags, tag.name, tag.key) as TagFilter)}
-                onClick={() => trackFilterClick(tag, value)}
+                onClick={() => {
+                  location.pathname += onSelectTagHref(
+                    createTagFilter(value, item.tags, tag.name, tag.key) as TagFilter
+                  );
+                  trackFilterClick(tag, value);
+                  navigate(location);
+                }}
                 className={locals.squareHover}
               />
             </Tooltip>
@@ -124,6 +122,8 @@ export function TagValue({
 
 function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkProps) {
   const idHostStringValue = item.tags.find(tag => tag.name === ID_HOST)?.stringValue as string;
+  const isApplicationsTag = tag.key === LOG_CUSTOM_KEY_APPLICATION_IDS;
+  const isLogFilePathTag = tag.name === LOG_FILE_PATH;
   const hostTag = item.tags.find(tag => tag.name === ID_HOST) as LogTag;
 
   //As long as we have to put the link and the name of the Log Id Host, we are faking the tag name and the tag object
@@ -138,47 +138,34 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
 
   const resolvedLink = useResolvedLink(universalTagName, universalTag, item);
 
-  const renderContent = () => {
-    if (tag.key === LOG_CUSTOM_KEY_APPLICATION_IDS) {
-      return (
-        <Overlay<ApplicationsListProps>
-          content={ApplicationsList}
-          props={{ applicationIds: (tag.stringValue || '').split(','), item }}
-          align="leftMiddle"
-        >
-          {({ toggle }: ToggleProps) => (
-            <span className={locals.link} onClick={toggle}>
-              {resolvedValue}
-            </span>
-          )}
-        </Overlay>
-      );
-    }
+  if (isApplicationsTag) {
+    return <ApplicationsListTag resolvedValue={resolvedValue} stringValue={tag.stringValue} item={item} />;
+  }
 
-    if (resolvedLink) {
-      return (
-        <>
-          {tag.name === LOG_FILE_PATH && (
-            <>
-              <div className={locals.value}>{tag.stringValue}</div>
-              <span>{t('in-logging:fileOnHost')}</span>
-            </>
-          )}
-          <Link
-            className={locals.value}
-            href={resolvedLink}
-            onClick={() => logMessageTagClicked({ tag: { name: tag.name, value: resolvedValue, key: tag.key } })}
-          >
-            {tag.name === LOG_FILE_PATH ? resolvedLogTagName : resolvedValue}
-          </Link>
-        </>
-      );
-    }
+  if (isLogFilePathTag && resolvedLogTagName) {
+    return (
+      <LogFilePathTag
+        resolvedLink={resolvedLink}
+        resolvedValue={resolvedValue}
+        resolvedLogTagName={resolvedLogTagName}
+        tag={tag}
+      />
+    );
+  }
 
-    return <span className={locals.value}>{resolvedValue}</span>;
-  };
+  if (resolvedLink) {
+    return (
+      <Link
+        className={locals.value}
+        href={resolvedLink}
+        onClick={() => logMessageTagClicked({ tag: { name: tag.name, value: resolvedValue, key: tag.key } })}
+      >
+        {resolvedValue}
+      </Link>
+    );
+  }
 
-  return renderContent();
+  return <span className={locals.value}>{resolvedValue}</span>;
 }
 
 export const TagGroupHeader = ({ groupLabel }: TagGroupHeaderProps) => {
@@ -188,37 +175,6 @@ export const TagGroupHeader = ({ groupLabel }: TagGroupHeaderProps) => {
     </Li>
   );
 };
-
-function ApplicationsList({ applicationIds, item }: ApplicationsListProps) {
-  return (
-    <div className={locals.applicationListOverlay}>
-      <Header title={t('in-logging:applications')} />
-      <Ul className={locals.applicationList}>
-        {applicationIds.map(applicationId => (
-          <Application key={applicationId} applicationId={applicationId} item={item} />
-        ))}
-      </Ul>
-    </div>
-  );
-}
-
-function Application({ applicationId, item }: ApplicationProps) {
-  const resolvedLink =
-    useResolvedLink(LOG_CUSTOM_KEY_APPLICATION_ID, { stringValue: applicationId }, item) || undefined;
-  const resolvedValue = useResolvedValue(LOG_CUSTOM_KEY_APPLICATION_ID, { stringValue: applicationId });
-
-  return (
-    <Li>
-      <Link
-        className={locals.value}
-        href={resolvedLink}
-        onClick={() => logMessageTagClicked({ tag: { name: LOG_CUSTOM_KEY_APPLICATION_ID, value: resolvedValue } })}
-      >
-        {resolvedValue}
-      </Link>
-    </Li>
-  );
-}
 
 export function TagEntry(props: TagEntryProps) {
   const { tag, item, uniqueTagName, tagToLabelMap, allowedTagsForGrouping, onSelectTagHref, getHrefToGroupedView } =
@@ -254,26 +210,5 @@ export function TagEntry(props: TagEntryProps) {
         )}
       </Li>
     </>
-  );
-}
-
-function EntityHealthDot({ snapshotId }: { snapshotId: string }) {
-  const snapshot = useObservable<Map<string, string | number>, []>(getHealthInfoAtFocusedMoment(snapshotId), []);
-
-  if (!snapshot) return null;
-
-  const severity = snapshot.get('maxSeverity') as number | undefined;
-  const numberOfIssues = snapshot.get('numberOfOpenEvents');
-  const tooltipText =
-    numberOfIssues === 0
-      ? t('in-logging:tooltipEntityHealthNoIssues')
-      : t('in-logging:tooltipEntityHealthIssues', { numberOfIssues });
-
-  return (
-    <Tooltip align="leftMiddle" delay={300} content={tooltipText}>
-      <div>
-        <HealthDot severity={severity} />
-      </div>
-    </Tooltip>
   );
 }

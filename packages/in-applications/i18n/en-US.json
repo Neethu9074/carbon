@@ -209,6 +209,8 @@
     "closeTraceDetail": "Close trace detail",
     "invalidQueryConfig": "The query configuration is invalid. Please address the validation failures before continuing.",
     "invalidTraceIdTagFilter": "The trace ID \"{{traceId}}\" is invalid. Please specify a valid trace ID which is either 16 or 32 characters long.",
+    "disabledApiQueryLatencyDistributionChart": "Latency distribution is not supported by the API query. Please, select a different chart first.",
+    "disabledApiQueryNoChart": "API query cannot be used without chart selection. Please, select a chart first.",
     "errorRateLabel": "Erroneous Calls (rate)",
     "errorRateCategory": "Erroneous Calls",
     "errorMetricLabel": "Erroneous Calls Rate",

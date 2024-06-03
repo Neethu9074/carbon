@@ -6,7 +6,13 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { PaginatedResult, Result, ServiceLevelObjectiveConfiguration, SloEntityUnion } from '@instana/types';
+import {
+  PaginatedResult,
+  Result,
+  ServiceLevelObjectiveConfiguration,
+  SloEntityType,
+  SloEntityUnion
+} from '@instana/types';
 import { Progress } from '@instana/components/types/util/dataRetrieval';
 import { combineLatest } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
@@ -41,7 +47,11 @@ export interface SloData {
 export default function SloListSelection() {
   const { form, onChange } = useSloAlertFormContext();
   const sloIdsField = form.getIn(['sloIds']);
-  const { loadMore, query, selected, setQuery, sloList, page, totalHits, progress } = useSloList(sloIdsField.value);
+  const entityTypeField = form.getIn(['entityType']);
+  const { loadMore, query, selected, setQuery, sloList, page, totalHits, progress } = useSloList(
+    sloIdsField.value,
+    entityTypeField.value
+  );
 
   const canLoadMore = totalHits / SloListPageSize > (page ?? 0 + 1);
 
@@ -90,6 +100,7 @@ export default function SloListSelection() {
 
 interface UseBufferedSloDataProps extends Pick<PaginatedResult<any>, 'page'> {
   query: string;
+  entityType: SloEntityType | undefined;
 }
 
 interface UseBufferedSloDataResult extends Pick<PaginatedResult<any>, 'page' | 'pageSize' | 'totalHits'> {
@@ -98,13 +109,18 @@ interface UseBufferedSloDataResult extends Pick<PaginatedResult<any>, 'page' | '
   progress: Progress;
 }
 
-function useBufferedSloData({ page, query }: UseBufferedSloDataProps): UseBufferedSloDataResult {
+function useBufferedSloData({ page, query, entityType }: UseBufferedSloDataProps): UseBufferedSloDataResult {
   const [sloList, setSloList] = useState<SloData[]>([]);
   const [data, , , progress] = useSloConfigurations({
     page,
     pageSize: SloListPageSize,
-    query
+    query,
+    entityType
   });
+
+  useEffect(() => {
+    setSloList([]);
+  }, [entityType]);
 
   useEffect(() => {
     if (!data) return;
@@ -147,7 +163,7 @@ interface UseSloListResult extends Pick<PaginatedResult<any>, 'page' | 'pageSize
   progress: Progress;
 }
 
-function useSloList(selectedIds: string[]): UseSloListResult {
+function useSloList(selectedIds: string[], entityType: SloEntityType | undefined): UseSloListResult {
   const [query, setQuery] = useState('');
   const {
     value: queryInput,
@@ -158,8 +174,12 @@ function useSloList(selectedIds: string[]): UseSloListResult {
     clear();
   });
   const [page, setPage] = useState(1);
-  const { sloList, clear, ...rawData } = useBufferedSloData({ page, query: debouncedQuery });
+  const { sloList, clear, ...rawData } = useBufferedSloData({ page, query: debouncedQuery, entityType });
   const selected = useSelectedIds(selectedIds, sloList);
+
+  useEffect(() => {
+    setPage(1);
+  }, [entityType]);
 
   return {
     clear,

@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "Instana をご検討いただき、ありがとうございます。 試用期間が終了し、製品にアクセスできなくなりました。"
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "見積もり依頼",
     "buyNowBtn": "AWS で購入",
     "alreadyHaveLicense": "ライセンスをお持ちですか? <linkToDocker>Docker</linkToDocker> または <linkToKubernetes>Kubernetes</linkToKubernetes>でアクティブにします。",
     "getAnswers": "回答を見る",
+    "share": "共有",
+    "shareTooltip": "このページを同僚と共有し、Instanaでの共同作業に招待しましょう。",
     "titleDetail": {
       "trial": "トライアル",
       "sandboxTrial": "Sandbox 評価版"
     }
   },
   "playwithinstana": {
-    "title": "Instana で再生",
     "content": "独自の環境をモニターする準備ができました",
     "bookdemo": " デモを予約する",
     "freetrial": " 無料トライアル",
@@ -578,9 +578,9 @@
       }
     },
     "ariaLabel": {
+      "search": "検索",
       "shareButton": "「共有」ボタン",
-      "searchButton": "「検索」ボタン",
-      "addButton": "「追加」ボタン",
+      "add": "追加",
       "handleButton": "「ハンドル」ボタン"
     }
   },
@@ -592,7 +592,37 @@
   },
   "assistme": {
     "dataSearchContext": {
-      "gettingStarted": "始めに"
+      "gettingStarted": "開始しました。",
+      "websites": "Webサイト",
+      "mobileApps": "モバイル・アプリ",
+      "businessMonitoring": "ビジネス・モニタリング",
+      "application": "アプリケーション",
+      "smartAlerts": "スマート・アラート",
+      "infrastructureMap": "マップ",
+      "cloudFoundry": "Cloud Foundryのモニタリング",
+      "powerHmc": " IBM Powerのモニタリング",
+      "kubernetes": "Kubernetes",
+      "sap": "SAPのモニタリング",
+      "synthetic": "シンセティック・モニタリング",
+      "syntheticAlerts": "シンセティック・アラート",
+      "syntheticPop": "シンセティックPoP",
+      "serviceLevel": "サービス・レベル",
+      "installAgent": "エージェントのインストール",
+      "analyzeCalls": "トレースおよび呼び出しの分析",
+      "settingsTab": "ユーザー・アクセスの管理",
+      "userSettings": "ユーザー設定",
+      "authSettings": "認証の構成",
+      "auditLogs": "監査ログの表示",
+      "automation": "アクションの管理",
+      "customEvents": "カスタム・イベントの定義",
+      "configuringAlerts": "アラートの構成",
+      "alertChannel": "アラート・チャネル",
+      "maintenanceWindow": "スケジューリング",
+      "customPayload": "カスタム・ペイロード",
+      "eventsPage": "イベントの管理",
+      "logManagement": "logging",
+      "configuringAndMonitoring": "構成およびモニタリング",
+      "customDashboard": "カスタム・ダッシュボード"
     }
   }
 }

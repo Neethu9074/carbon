@@ -41,11 +41,13 @@ module.exports = {
   ampEnabled: true,
   persistentVolumeSupportEnabled: true,
   loggingEnabled: true,
+  logRetentionPageEnabled: true,
   logWidgetsEnabled: true,
   carbonShellEnabled: true,
   carbonPillEnabled: true,
   carbonMessageEnabled: false,
   carbonIconButtonEnabled: true,
+  carbonSearchInputEnabled: true,
   carbonAccordionEnabled: true,
   carbonSelectEnabled: true,
   carbonContentSwitcherEnabled: true,
@@ -128,7 +130,8 @@ module.exports = {
   orbitalEnabled: false,
   carbonTileEnabled: true,
   carbonStepProgressBarEnabled: true,
-  thresholdCustomDashboardsEnabled: false,
+  thresholdCustomDashboardsEnabled: true,
   carbonPaginationEnabled: true,
-  logVolumePageEnabled: true
+  logVolumePageEnabled: true,
+  carbonHorizontalIndicatorEnabled: true
 };

@@ -46,7 +46,6 @@ import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sou
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
-import { useLogsPolling } from 'in-components/KpiCard/useLogsPolling';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import { AxisNames } from 'in-components/Chart/data/dataSearchUtils';
 import { noop, pendingResult } from 'in-services/fixedObjects';
@@ -251,8 +250,6 @@ export function useResultData(config: Config, granularity: number, timeConfig: T
 
   const stableConfig = useStableObjectInstance(config);
 
-  const logsPollingResult = useLogsPolling({ metrics });
-
   const metricResult =
     useObservable<Result<MetricResult[]>, unknown[]>(
       () => getUnifiedMetrics({ metrics }),
@@ -261,7 +258,7 @@ export function useResultData(config: Config, granularity: number, timeConfig: T
   const companionMetricResult =
     useObservable(() => getUnifiedMetrics({ metrics: companionMetrics }), [timeConfig, stableConfig]) ?? pendingResult;
 
-  let result = getResult(metricResult, logsPollingResult, metrics, widgetConfigType);
+  let result = getResult(metricResult, null, metrics, widgetConfigType);
 
   // do not execute the query while the parent component is still loading data for the chart configuration
   return {

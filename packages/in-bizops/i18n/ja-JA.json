@@ -15,6 +15,7 @@
     "noData": "表示可能なデータがありません",
     "healthLabel": "正常性",
     "startLabel": "開始済み",
+    "latencyLabel": "待ち時間",
     "unnamedActivity": "(名前なしアクティビティー) {{activityType}}",
     "unnamedService": "(無名サービス)"
   },
@@ -42,12 +43,14 @@
     "activity": {
       "pageTitle": "ビジネス・アクティビティー",
       "summaryTab": "サマリー",
+      "servicesTab": "サービス",
       "widgets": {
         "duration": "期間",
         "activityCount": "数",
         "activityErrors": "エラー",
         "topServices": "上位サービス",
-        "activityLatency": "待ち時間"
+        "activityLatency": "待ち時間",
+        "viewAll": "すべてのサービスを表示"
       },
       "timespans": {
         "minute": "1 分",

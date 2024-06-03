@@ -8,8 +8,9 @@ import React, { useState } from 'react';
 import { noop } from 'lodash';
 
 import { PaginatedResult, Result, SyntheticTest, TestResultListItem } from '@instana/types';
-import { TrProps, IconButton } from '@instana/components';
+import { IconButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { TrProps } from '@instana/legacy';
 
 import {
   columnDefinitions,

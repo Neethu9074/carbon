@@ -10,7 +10,8 @@ interface EventListItemProps {
   event: Map;
   background?: string;
   latestSnapshot: Map;
-  isRCA: boolean;
+  setBackground: string;
+  setIconColor: string;
 }
 
 export default function EventListItem(props: EventListItemProps): JSX.Element;

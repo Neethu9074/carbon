@@ -28,6 +28,7 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "Zusätzliche Filter",
     "groupBy": "Gruppieren nach",
     "noChannelAvailable": "Keine Alertkanäle verfügbar",
+    "optional": "Optional",
     "revisionDropdownButton": {
       "revision": "Überarbeitung {{alertRevision}}",
       "pause": "Pausieren",
@@ -160,7 +161,9 @@
             "shortText": "Pro Anwendungsperspektive",
             "columnText": "aggregiert",
             "description": "Alerts für diese Anwendungsperspektive",
-            "globalDescription": "Alert einzeln pro Anwendungsperspektive"
+            "globalDescription": "Alert einzeln pro Anwendungsperspektive",
+            "tearSheetSelectionText": "Nach Anwendung gruppieren",
+            "tearSheetDescription": "Aufrufe, die dem Filter entsprechen, werden mit dem Schwellenwert einer Gruppe verglichen. Bei einem Verstoß wird eine einzelne Alertbenachrichtigung für die gesamte Anwendungsperspektive gesendet. "
           },
           "evaluationTypePERAPSERVICE": {
             "selectionText": "pro Service für diese Anwendungsperspektive",
@@ -168,7 +171,9 @@
             "shortText": "Pro Service",
             "columnText": "pro Service",
             "description": "Alerts einzeln pro Service für diese Anwendungsperspektive",
-            "globalDescription": "Alert einzeln pro Service im Kontext der einzelnen Anwendungsperspektive"
+            "globalDescription": "Alert einzeln pro Service im Kontext der einzelnen Anwendungsperspektive",
+            "tearSheetSelectionText": "Nach Service gruppieren",
+            "tearSheetDescription": "Aufrufe, die mit dem Filter übereinstimmen, werden anhand des Schwellenwerts von 8 Gruppen ausgewertet - eine für jeden Service mit einem eigenen Schwellenwert. Wenn ein Verstoß für eine Gruppe vorliegt, wird eine Alertbenachrichtigung für diese Gruppe gesendet."
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "pro Endpunkt für diese Anwendungsperspektive",
@@ -176,7 +181,9 @@
             "shortText": "Pro Endpunkt",
             "columnText": "pro Endpunkt",
             "description": "Alert einzeln pro Endpunkt für diese Anwendungsperspektive",
-            "globalDescription": "Alert einzeln pro Endpunkt im Kontext der einzelnen Anwendungsperspektive"
+            "globalDescription": "Alert einzeln pro Endpunkt im Kontext der einzelnen Anwendungsperspektive",
+            "tearSheetSelectionText": "Nach Endpunkt gruppieren",
+            "tearSheetDescription": "Aufrufe, die mit dem Filter übereinstimmen, werden für den Schwellenwert von 47 Gruppen ausgewertet - eine für jeden Endpunkt mit einem eigenen Schwellenwert. Wenn ein Verstoß für eine Gruppe vorliegt, wird eine Alertbenachrichtigung für diese Gruppe gesendet."
           }
         },
         "inboundOutboundCalls": {
@@ -425,7 +432,7 @@
         "thresholdFormBaselineIsEmpty": "Vergleichsdaten sind leer"
       },
       "simple": {
-        "simpleAlertStep1Headline": "Worüber möchten Sie benachrichtigt werden?",
+        "simpleAlertStep1Headline": "Wählen Sie das Problem aus, über das Sie benachrichtigt werden möchten",
         "simpleAlertStep2Headline": "An welcher Stelle soll der Alert ausgelöst werden?",
         "step1Title": "Schritt 1: Alert auswählen",
         "step2Title": "Schritt 2: Bereich auswählen",
@@ -433,7 +440,9 @@
       },
       "components": {
         "createSmartAlert": "Smart Alert hinzufügen",
+        "createSmartAlertNew": "Intelligenten Alert hinzufügen (Neu)",
         "createGlobalSmartAlert": "Globalen Smart Alert hinzufügen",
+        "createGlobalSmartAlertNew": "Globalen intelligenten Alert hinzufügen (Neu)",
         "provideLogMessageSelectLogMessage": "Protokollnachricht auswählen",
         "provideLogMessageLogLevel": "Protokollebene",
         "provideLogMessageErrorMessage": "Fehlernachricht",
@@ -450,6 +459,7 @@
         "getSubtitleForStaticWeeklySeasonality": "Statische wöchentliche Saisonalität, {{metricLabel}}",
         "getSubtitleForAdaptiveThreshold": "Adaptiver Schwellenwert, {{metricLabel}}",
         "labelActionButtonEdit": "Bearbeiten",
+        "labelActionButtonEditNew": "Bearbeiten (Neu)",
         "labelActionButtonDuplicate": "Duplizieren",
         "labelActionButtonDelete": "Löschen",
         "labelAlertFilters": "Filter",
@@ -478,6 +488,77 @@
         "viewAlertDetails": "Alertdetails zur Konfiguration anzeigen: {{name}}",
         "eventsWarningIcon": "Symbol für Warnungsereignisse",
         "eventsCriticalIcon": "Symbol für kritische Ereignisse"
+      },
+      "tearSheet": {
+        "step1Title": "Alertvorlage auswählen",
+        "step2Title": "Geltungsbereich definieren",
+        "step3Title": "Gruppierung definieren",
+        "step4Title": "Zeitpunkt für Alertausgabe definieren",
+        "step5Title": "Alerteigenschaften und Kanäle definieren",
+        "grouping": {
+          "title": "Gruppenaufrufe",
+          "description": "Aufrufe in jeder Gruppe werden separat ausgewertet"
+        },
+        "callsInScope": {
+          "title": "Aufrufe im Bereich auswählen ",
+          "description": "Dadurch wird festgelegt, welche Services oder Endpunkte zur Auswahl verfügbar sind."
+        },
+        "includeHiddenCalls": {
+          "title": "Verdeckte Aufrufe einschließen (optional) ",
+          "description": "Ausgeblendete Aufrufe werden nicht in integrierten Dashboards angezeigt."
+        },
+        "serviceEndPointSelection": "Services oder Endpunkte für ausgewählte Aufrufe",
+        "AlertPropertiesTitle": "Welche Eigenschaften sollen für diesen Alert festgelegt werden?",
+        "AlertChannelTitle": "Wo möchten Sie über einen Alert benachrichtigt werden?",
+        "inboundOutboundCalls": {
+          "config": {
+            "inbound": {
+              "text": "Eingehende Aufrufe",
+              "dashboard": "Zur Erkennung von Problemen, die von den Verbrauchern dieser Anwendung wahrgenommen werden",
+              "overrideDefault": "Der Standardbereich für diese Anwendung ist 'Nur eingehende Aufrufe'. Sie können dies in der Konfiguration ändern."
+            },
+            "all": {
+              "text": "Alle Aufrufe",
+              "dashboard": "Für die Erkennung von Problemen in einem Service oder Endpunkt in dieser Anwendung.",
+              "overrideDefault": "Der Standardbereich für diese Anwendung ist 'Alle Aufrufe'. Sie können dies in der Konfiguration ändern."
+            }
+          }
+        },
+        "hiddenCalls": {
+          "config": {
+            "includeInternal": {
+              "text": "Interne Aufrufe sind Arbeiten, die innerhalb eines Service ausgeführt werden und temporären Bereichen in der angepassten Traceerstellung entsprechen"
+            },
+            "includeSynthetic": {
+              "text": "Synthetische Aufrufe haben einen synthetischen Endpunkt als Ziel, z. B. Aufrufe von Statusprüfungsendpunkten"
+            }
+          }
+        },
+        "threshold": {
+          "title": "Legen Sie einen Wert für den Schwellenwert für Verstöße fest",
+          "description": "Wählen Sie die Metrik, den Schwellenwert für Verstöße und das Zeitfenster aus, um den Verstoß auszuwerten."
+        },
+        "timeThreshold": {
+          "title": "Festlegen, wenn Verstöße Alerts auslösen",
+          "description": "Geben Sie den Alert- und Persistenztyp an und setzen Sie dann den Alertauslöser."
+        },
+        "staticOrAdaptive": {
+          "config": {
+            "adaptive": {
+              "description": "Es wird ein Schwellenwert angewendet, der automatisch an die Änderungen der zugrunde liegenden Metrik angepasst wird."
+            },
+            "static": {
+              "description": "Ein konstanter Schwellenwert wird angewendet und ändert sich im Laufe der Zeit nicht."
+            }
+          }
+        },
+        "alertChart": {
+          "title": "Alertvorschau",
+          "description": "Zeigt an, wie Alerts auf der Basis von Langzeitmessdaten ausgelöst wurden."
+        },
+        "alertProperties": {
+          "previewTitle": "Alertvorschau"
+        }
       }
     },
     "details": {
@@ -582,10 +663,12 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "Abbrechen",
+        "previousTitle": "Zurück",
         "sharedListTooltip": "{{typeName}} ist nicht mehr verfügbar",
         "clearTagFilterExpressionButton": "Löschen",
         "baselineErrorMessageComputedOnApproximateData": "Die Baseline wird anhand ungefährer Daten gemäß den Einstellungen für die Datenaufbewahrung berechnet. Sie sind möglicherweise nicht korrekt, wenn nur wenige Aufrufe den ausgewählten Filtern entsprechen.",
-        "baselineErrorMessageInsufficientDataToCompute": "Unzureichende Daten zur Berechnung der ausgewählten Referenzversion. Wählen Sie stattdessen <em>Statischer Schwellenwert</em> aus.",
+        "baselineValidationMessageInsufficientDataToCompute": "Unzureichende Daten zur Berechnung der ausgewählten Referenzversion. Wählen Sie stattdessen <em>Statischer Schwellenwert</em> aus.",
+        "baselineGenericErrorMessage": "Abrufen der Referenzversion fehlgeschlagen. Wählen Sie stattdessen <em>Statischer Schwellenwert</em> aus.",
         "pleaseContactSupportToRiseLimit": "Wenden Sie sich über unser <supportLink>{{instanaSupportPortal}}</supportLink> an uns, um eine Erhöhung dieses Schwellenwerts anzufordern.",
         "adaptiveBaselineErrorMessage": "Schwellenwertvorschau ist derzeit nicht verfügbar.<br />Dieser Smart Alert kann dennoch gespeichert werden.",
         "adaptiveBaselineErrorMessageNotAvailable": "Der adaptive Schwellenwert ist momentan nicht verfügbar.",
@@ -942,6 +1025,7 @@
     },
     "migration": {
       "migrateButton": "Zu Smart Alert migrieren",
+      "migrateButtonNew": "Auf Smart Alert migrieren (Neu)",
       "migrateButtonTooltip": "Öffnet einen Smart Alert-Konfigurationsdialog, der so weit wie möglich mit den migrierten Werten aus dem aktuellen Ereignis gefüllt ist. Bitte überprüfen Sie das Ergebnis sorgfältig!",
       "markAsMigratedButton": "Als migriert markieren",
       "markAsMigratedButtonTooltip": "Kennzeichnet das Ereignis als migriertes Ereignis. Verwenden Sie dies, falls Sie bereits einen Smart Alert konfiguriert haben. Das Ereignis wird dadurch ersetzt.",
@@ -1056,9 +1140,21 @@
         "views": "Ansichten",
         "customEventBlueprintConfigMetricLabel": "Vorkommen",
         "sessions": "Sitzungen",
+        "crashAffectedSessionRate": "Absturzrate betroffener Sitzungen",
+        "crashFreeSessionRate": "Absturzfreie Sitzungsrate",
+        "crashAffectedSessionCount": "Anzahl der vom Absturz betroffenen Sitzungen",
+        "crashFreeSessionCount": "Anzahl der freien Sitzungen nach Absturz",
+        "crashAffectedUserRate": "Absturzrate betroffener Benutzer",
+        "crashFreeUserRate": "Absturzfreie Benutzerrate",
+        "crashAffectedUserCount": "Anzahl der vom Absturz betroffenen Benutzer",
+        "crashFreeUserCount": "Anzahl absturzfreier Benutzer",
         "statusCodeBlueprintConfigName": "HTTP-Statuscodes",
         "throughputBlueprintConfigName": "Durchsatz",
         "customEventBlueprintConfigName": "Angepasste Ereignisse",
+        "crashBlueprintConfigName": "Abstürze",
+        "crashBlueprintConfigHeadline": "Automatische Alerts für Abstürze",
+        "crashBlueprintConfigText": "Alert empfangen, wenn die ausgewählte Absturzmetrik höher oder niedriger als erwartet ist.",
+        "crashBlueprintSelectMetric": "Absturzmetrik auswählen",
         "statusCodeBlueprintConfigHeadline": "Automatische Alerts für HTTP-Statuscodes",
         "statusCodeBlueprintConfigText": "Jedes Mal einen Alert empfangen, wenn übereinstimmende HTTP-Statuscodes häufiger auftreten als üblich.",
         "throughputBlueprintConfigHeadline": "Automatische Alerts für Ansichten mobiler Apps",
@@ -1124,7 +1220,10 @@
         "ruleMetricNameOptionThroughputSessions": "Sitzungen",
         "ruleMetricNameOptionThroughputViews": "Ansichten",
         "errorPleaseProvideCustomEventName": "Geben Sie den Namen eines angepassten Ereignisses an",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Geben Sie eine Zahl >= 0 an"
+        "titlePlaceholderCrashSimpleHighOperator": "{{metricLabel}} ist anomal hoch",
+        "titlePlaceholderCrashSimpleLowOperator": "{{metricLabel}} ist anomal niedrig",
+        "descriptionPlaceholderCrashSimpleAboveOperator": "{{metricLabel}} liegt über der Erwartung.",
+        "descriptionPlaceholderCrashSimpleBelowOperator": "{{metricLabel}} liegt unter der Erwartung."
       },
       "customEvent": {
         "noCustomEventsFound": "Keine angepassten Ereignisse gefunden",
@@ -1195,7 +1294,7 @@
         "staticThresholdHigherEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist größer oder gleich {{thresholdValue}}.",
         "staticThresholdLowerOperatorText": "Die Anzahl der {{metricLabel}} ist kleiner als {{thresholdValue}}.",
         "staticThresholdLowerEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist kleiner oder gleich {{thresholdValue}}.",
-        "thresholdHigherOperatorText": "Die Anzahl der {{metricLabel}} ist höher als erwartet.",
+        "thresholdHigherOperatorText": "Die Anzahl von {{metricLabel}} ist höher als erwartet.",
         "thresholdHigherEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist höher als erwartet oder wie erwartet.",
         "thresholdLowerOperatorText": "Die Anzahl der {{metricLabel}} ist niedriger als erwartet.",
         "thresholdLowerEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist kleiner als erwartet oder wie erwartet."
@@ -1358,6 +1457,56 @@
         "noDataForSelectedGroup": "Für die angegebene Kombination aus Filtern und Gruppierung sind keine Daten verfügbar."
       },
       "logCount": "Anzahl der Protokolle"
+    },
+    "slo": {
+      "validators": {
+        "noEmptySloIds": "Wählen Sie mindestens ein SLO aus.",
+        "notLessThanOrEqualToZero": "Legen Sie einen Wert fest, der größer als 0 ist."
+      },
+      "advancedModeContainer": {
+        "stepLabel": "",
+        "stepTitle": "",
+        "stepLabel_sloTarget": "Ziele",
+        "stepTitle_sloTarget": "Ziele: Welche SLOs sollen benachrichtigt werden?",
+        "stepLabel_trigger": "Auslöser",
+        "stepTitle_trigger": "Trigger: Worüber möchten Sie benachrichtigt werden?",
+        "stepLabel_timeThreshold": "Zeitschwellenwert",
+        "stepTitle_timeThreshold": "Zeitschwellenwert: Wann möchten Sie benachrichtigt werden?",
+        "stepLabel_alertChannels": "Alertkanäle",
+        "stepTitle_alertChannels": "Alertkanäle: Wer muss alarmiert werden?",
+        "stepLabel_alertProperties": "Alerteigenschaften",
+        "stepTitle_alertProperties": "Alerteigenschaften: Was soll die Alertbenachrichtigung enthalten?",
+        "stepLabel_customPayload": "Angepasste Nutzdaten",
+        "stepTitle_customPayload": "Angepasste Nutzdaten",
+        "selectSloHeadline": "SLOs auswählen",
+        "blueprintSectionTitle": "Blueprint auswählen",
+        "blueprint": "",
+        "blueprint_SERVICE_LEVELS_OBJECTIVE": "Status",
+        "blueprint_ERROR_BUDGET": "Fehlerbudget",
+        "blueprintDescription": "",
+        "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "Einen Alert empfangen, wenn der SLO-Status unter einen Schwellenwert fällt.",
+        "blueprintDescription_ERROR_BUDGET": "Sie erhalten einen Alert, wenn ein Prozentsatz des Fehlerbudgets verbrannt wird.",
+        "thresholdTitle": "Schwellenwert: Wann möchten Sie benachrichtigt werden?",
+        "thresholdInputDescription": "",
+        "thresholdInputDescription_ERROR_BUDGET": "Prozentsatz des Fehlerbudgets wird abgebrannt",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "Prozentsatz ist das SLO-Ziel oder weniger",
+        "timeThresholdType_gracePeriod": "Wenn die Bedingung über einen angegebenen Zeitraum bestehen bleibt",
+        "timeThresholdTypeTitle_gracePeriod": "Alert bei Verletzung der Bedingung für aufeinanderfolgende $t (in-components:time.minutes, {\"count\": {{minutes}} })",
+        "alertProperties_entityLabel": "SLO-Name",
+        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO-Status ist niedrig",
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO-Status ist kleiner-gleich {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Fehler: Verbleibendes Budget ist niedrig",
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Das verbleibende Fehlerbudget ist kleiner-gleich {{percentage}}."
+      },
+      "details": {
+        "alertConfigurationTitle": "Alertkonfiguration",
+        "sloHeader": "SLOs",
+        "timeThresholdHeader": "$t (in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
+        "alertChannelsHeader": "$t (in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
+        "alertPropertiesHeader": "$t (in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
+        "blueprintLabel": "Entwurf",
+        "thresholdLabel": "Schwellenwert"
+      }
     }
   }
 }

@@ -31,7 +31,8 @@ export default function NewWebsiteFlow() {
     saveError: null,
     saveResult: null,
     loading: false,
-    trackSessions: true
+    trackSessions: true,
+    enableSRI: true
   });
 
   const { field, websiteId, website } = state;
@@ -110,17 +111,19 @@ export default function NewWebsiteFlow() {
   };
 
   const setTrackSessions = trackSessions => setState(prevState => ({ ...prevState, trackSessions }));
+  const setEnableSRI = enableSRI => setState(prevState => ({ ...prevState, enableSRI }));
 
   let content;
   if (!websiteId) {
     content = <InputStep {...state} onChange={onChange} onSubmit={onSubmit} />;
   } else if (!website) {
-    content = <WaitStep {...state} setTrackSessions={setTrackSessions} />;
+    content = <WaitStep {...state} setTrackSessions={setTrackSessions} setEnableSRI={setEnableSRI} />;
   } else {
     content = (
       <ReadyStep
         {...state}
         setTrackSessions={setTrackSessions}
+        setEnableSRI={setEnableSRI}
         websiteLink={getLinkToWebsite(websiteId, {
           timeConfig: getWaitForEntityCreationTimeConfig()
         })}

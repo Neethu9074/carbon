@@ -3,17 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, bytes, percentage, millis } from 'in-services/formatters/number';
+import { number, bytes, percentage, millis, megaBytes, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { seconds } from 'in-services/time';
 import { t } from 'in-i18n';
 
 export default [
-  {
-    metrics: ['stats.usedMemory', 'stats.residentMemory'],
-    labels: [t('in-forge:plugins.sapHana.usedMemory'), t('in-forge:plugins.sapHana.residentMemory')],
-    formatter: number,
-    min: 0
-  },
   {
     formatter: percentage,
     metrics: ['stats.cpuUsage'],
@@ -128,8 +123,8 @@ export default [
     formatter: number,
     metrics: ['stats.runningCount', 'stats.idleCount', 'stats.queueingCount'],
     labels: [
-      t('in-forge:plugins.sapHana.dashboard.runningCount'),
-      t('in-forge:plugins.sapHana.dashboard.idleCount'),
+      t('in-forge:plugins.sapHana.dashboard.running'),
+      t('in-forge:plugins.sapHana.dashboard.idle'),
       t('in-forge:plugins.sapHana.dashboard.queueingCount')
     ],
     min: 0
@@ -178,7 +173,7 @@ export default [
       )
     ],
     labels: [t('in-forge:plugins.sapHana.dashboard.executionTime')],
-    category: [t('in-forge:plugins.sapHana.dashboard.executionTime')],
+    category: [t('in-forge:plugins.sapHana.dashboard.expensiveStatementStats')],
     min: 0,
     formatter: millis.detailed
   },
@@ -191,7 +186,7 @@ export default [
       )
     ],
     labels: [t('in-forge:plugins.sapHana.dashboard.avgExecutionTime')],
-    category: [t('in-forge:plugins.sapHana.dashboard.avgExecutionTime')],
+    category: [t('in-forge:plugins.sapHana.dashboard.expensiveStatementStats')],
     min: 0,
     formatter: millis.detailed
   },
@@ -204,7 +199,7 @@ export default [
       )
     ],
     labels: [t('in-forge:plugins.sapHana.dashboard.executionCount')],
-    category: [t('in-forge:plugins.sapHana.dashboard.executionCount')],
+    category: [t('in-forge:plugins.sapHana.dashboard.sqlPlanCacheStats')],
     min: 0,
     formatter: number
   },
@@ -213,7 +208,7 @@ export default [
       getDynamicMetricMatch('lockWaitStats', 'totalLockWaits', t('in-forge:plugins.sapHana.dashboard.totalLockWaits'))
     ],
     labels: [t('in-forge:plugins.sapHana.dashboard.totalLockWaits')],
-    category: [t('in-forge:plugins.sapHana.dashboard.totalLockWaits')],
+    category: [t('in-forge:plugins.sapHana.dashboard.lockWaitStats')],
     min: 0,
     formatter: number
   },
@@ -226,8 +221,211 @@ export default [
       )
     ],
     labels: [t('in-forge:plugins.sapHana.dashboard.totalLockWaitTime')],
-    category: [t('in-forge:plugins.sapHana.dashboard.totalLockWaitTime')],
+    category: [t('in-forge:plugins.sapHana.dashboard.lockWaitStats')],
     min: 0,
     formatter: millis.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('tableSizeStats', 'recordCount', t('in-forge:plugins.sapHana.dashboard.recordCount'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.recordCount')],
+    category: [t('in-forge:plugins.sapHana.dashboard.tableSize')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [getDynamicMetricMatch('tableSizeStats', 'tableSize', t('in-forge:plugins.sapHana.dashboard.tableSize'))],
+    labels: [t('in-forge:plugins.sapHana.dashboard.tableSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.tableSize')],
+    min: 0,
+    formatter: megaBytes.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('aggregatedCacheStats', 'entryCount', t('in-forge:plugins.sapHana.dashboard.entryCount'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.entryCount')],
+    category: [t('in-forge:plugins.sapHana.dashboard.entryCount')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('aggregatedCacheStats', 'insertCount', t('in-forge:plugins.sapHana.dashboard.insertCount'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.insertCount')],
+    category: [t('in-forge:plugins.sapHana.dashboard.aggregatedCacheStats')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'aggregatedCacheStats',
+        'invalidateCount',
+        t('in-forge:plugins.sapHana.dashboard.invalidateCount')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.invalidateCount')],
+    category: [t('in-forge:plugins.sapHana.dashboard.aggregatedCacheStats')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('aggregatedCacheStats', 'hitCount', t('in-forge:plugins.sapHana.dashboard.hitCount'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.hitCount')],
+    category: [t('in-forge:plugins.sapHana.dashboard.aggregatedCacheStats')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('aggregatedCacheStats', 'missCount', t('in-forge:plugins.sapHana.dashboard.missCount'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.missCount')],
+    category: [t('in-forge:plugins.sapHana.dashboard.aggregatedCacheStats')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('networkStats', 'requestCount', t('in-forge:plugins.sapHana.dashboard.requestCount'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.requestCount')],
+    category: [t('in-forge:plugins.sapHana.dashboard.networkStats')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [getDynamicMetricMatch('networkStats', 'sendSize', t('in-forge:plugins.sapHana.dashboard.sendSize'))],
+    labels: [t('in-forge:plugins.sapHana.dashboard.sendSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.networkStats')],
+    min: 0,
+    formatter: megaBytes.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('networkStats', 'receiveSize', t('in-forge:plugins.sapHana.dashboard.receiveSize'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.receiveSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.networkStats')],
+    min: 0,
+    formatter: megaBytes.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('networkStats', 'sendDuration', t('in-forge:plugins.sapHana.dashboard.sendDuration'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.sendDuration')],
+    category: [t('in-forge:plugins.sapHana.dashboard.networkStats')],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('networkStats', 'receiveDuration', t('in-forge:plugins.sapHana.dashboard.receiveDuration'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.receiveDuration')],
+    category: [t('in-forge:plugins.sapHana.dashboard.networkStats')],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metrics: ['stats.usedMemory', 'stats.instanceTotalMemoryPeakUsed', 'stats.allocationLimit'],
+    labels: [
+      t('in-forge:plugins.sapHana.dashboard.used'),
+      t('in-forge:plugins.sapHana.dashboard.peakUsed'),
+      t('in-forge:plugins.sapHana.dashboard.allocationLimit')
+    ],
+    category: [t('in-forge:plugins.sapHana.dashboard.hanaMemoryUsage')],
+    formatter: bytesTwoDecimalPlaces,
+    min: 0
+  },
+  {
+    metrics: ['stats.freePhysicalMemory', 'stats.usedPhysicalMemory', 'stats.totalPhysicalMemory'],
+    labels: [
+      t('in-forge:plugins.sapHana.dashboard.free'),
+      t('in-forge:plugins.sapHana.dashboard.used'),
+      t('in-forge:plugins.sapHana.dashboard.total')
+    ],
+    category: [t('in-forge:plugins.sapHana.dashboard.hostMemoryUsage')],
+    formatter: bytesTwoDecimalPlaces,
+    min: 0
+  },
+  {
+    metrics: ['stats.totalHeapAllocated', 'stats.totalHeapUsed'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.allocated'), t('in-forge:plugins.sapHana.dashboard.used')],
+    formatter: bytesTwoDecimalPlaces,
+    category: [t('in-forge:plugins.sapHana.dashboard.heapMemory')],
+    min: 0
+  },
+  {
+    metrics: ['stats.freeSwapSpace', 'stats.usedSwapSpace'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.free'), t('in-forge:plugins.sapHana.dashboard.used')],
+    category: [t('in-forge:plugins.sapHana.dashboard.swapMemory')],
+    formatter: bytesTwoDecimalPlaces,
+    min: 0
+  },
+  {
+    metrics: ['stats.totalCpuUserTime', 'stats.totalCpuSystemTime', 'stats.totalCpuIdleTime'],
+    labels: [
+      t('in-forge:plugins.sapHana.dashboard.totalCpuUserTime'),
+      t('in-forge:plugins.sapHana.dashboard.totalCpuSystemTime'),
+      t('in-forge:plugins.sapHana.dashboard.idle')
+    ],
+    category: [t('in-forge:plugins.sapHana.dashboard.cpuTimeSpent')],
+    formatter: millis.detailed,
+    min: 0
+  },
+  {
+    metrics: ['backupStats.transferredSize', 'backupStats.backupSize'],
+    labels: [
+      t('in-forge:plugins.sapHana.dashboard.transferredSize'),
+      t('in-forge:plugins.sapHana.dashboard.backupSize')
+    ],
+    category: [t('in-forge:plugins.sapHana.dashboard.backupStats')],
+    formatter: bytesTwoDecimalPlaces,
+    min: 0
+  },
+  {
+    metrics: ['backupStats.duration'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.duration')],
+    category: [t('in-forge:plugins.sapHana.dashboard.backupStats')],
+    formatter: millis.detailed,
+    min: 0
+  },
+  {
+    metrics: ['serviceDetailsStats.processCpu'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.processCpuPerc')],
+    category: [t('in-forge:plugins.sapHana.dashboard.serviceDetailsStats')],
+    formatter: percentage.detailed,
+    min: 0
+  },
+  {
+    metrics: ['serviceDetailsStats.openFileCount'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.openFileCount')],
+    category: [t('in-forge:plugins.sapHana.dashboard.serviceDetailsStats')],
+    formatter: number.compact,
+    min: 0
+  },
+  {
+    metrics: ['serviceDetailsStats.processCpuTime'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.processCpuTime')],
+    category: [t('in-forge:plugins.sapHana.dashboard.serviceDetailsStats')],
+    formatter: seconds.detailed,
+    min: 0
+  },
+  {
+    metrics: ['serviceDetailsStats.processPhysicalMemory', 'serviceDetailsStats.processMemory'],
+    labels: [
+      t('in-forge:plugins.sapHana.dashboard.processPhysicalMemory'),
+      t('in-forge:plugins.sapHana.dashboard.processMemory')
+    ],
+    category: [t('in-forge:plugins.sapHana.dashboard.serviceDetailsStats')],
+    formatter: bytesTwoDecimalPlaces,
+    min: 0
   }
 ];

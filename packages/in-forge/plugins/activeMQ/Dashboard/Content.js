@@ -53,7 +53,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label={t('in-forge:plugins.activeMQ.memoryUsage')}>
           <MetricValue snapshotId={snapshotId} metric="memoryPercentage" formatter={percentage.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.activeMQ.storageUsage')}>
+        <KpiKeyValue label={t('in-forge:plugins.activeMQ.storeUsage')}>
           <MetricValue snapshotId={snapshotId} metric="storePercentage" formatter={percentage.compact} />
         </KpiKeyValue>
       </KpiSection>

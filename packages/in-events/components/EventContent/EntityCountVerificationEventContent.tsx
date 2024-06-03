@@ -88,7 +88,7 @@ export default function EntityCountVerificationEventContent({ event, snapshot }:
               linkTimeConfig={getTimeConfigFromEvent(event as EventOrMap)}
             />
 
-            <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
+            <ProblemDescription fixSuggestion={fixSuggestion} />
 
             {hasInfrastructureAnalyzeAccess && (
               <DescriptionButtons>

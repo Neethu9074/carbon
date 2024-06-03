@@ -7,8 +7,8 @@
 import React, { useEffect, useState } from 'react';
 
 import { LocationListItem } from '@instana/types';
-import { useObservable } from '@instana/hooks';
 import { IconButton } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import DeactivateSelectedLocation from 'in-synthetics/dashboards/global/tabs/locations/components/DeactivateSelectedLocation';
 import ActivateSelectedLocation from 'in-synthetics/dashboards/global/tabs/locations/components/ActivateSelectedLocation';

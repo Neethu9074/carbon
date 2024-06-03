@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "Neue Gruppe erstellen",
-    "dialogTitle_edit": "Zugriffsbereich bearbeiten",
+    "dialogTitle_edit": "Zugriffskonfiguration bearbeiten",
     "editButton": "Bearbeiten",
     "productArea": "Zugriffskonfiguration für {{tenantUnit}}-{{tenant}}"
   },
@@ -82,17 +82,16 @@
     "role_permissions_contributor_and_viewer": "Anzeigeberechtigter – Zugriff auf {{quantityOfAreas}} & Beitragender – Zugriff auf {{quantityOfAreasContributor}}",
     "no_access": "Kein Zugriff",
     "platform_permissions": "Zugriff auf {{quantityOfAreas}}",
-    "analyticsContentMessage": "Kann Daten in Analytics anzeigen, die durch den Zugriffsbereich in Websites, mobilen Apps, Anwendungen, Plattformen und Infrastruktur definiert sind",
     "infrastructureContentMessage": "Kann Entitäten anzeigen, die durch den Zugriffsbereich in Anwendungen, Plattformen, Infrastruktur und optional durch DFQ definiert sind",
     "infrastructureAccessAllMessage": "Alle Entitäten",
-    "eventsAndAlertsContentMessage": "Kann Ereignisse und Alerts entsprechend dem Zugriffsbereich anzeigen, der in Websites, mobilen Apps, Anwendungen, synthetischer Überwachung, Plattformen und Infrastruktur definiert ist",
     "permissions": "Berechtigungen",
     "additionalPermissions": "Zusätzliche Berechtigungen",
     "permissions_DASHBOARD": "Berechtigungen für angepasste Dashboards",
     "permissions_SYNTHETICS": "Berechtigungen für synthetische Überwachung",
-    "permissions_AGENTS": "Berechtigungen für Agenten",
+    "permissions_AGENTS": "Berechtigungen für die Agentenimplementierung",
     "permissions_ACCESS_CONTROL": "Berechtigungen für Zugriffssteuerung",
     "permissions_AUTOMATION": "Berechtigungen für Automatisierung",
+    "permissions_EVENT": "Berechtigungen für Ereignisse und Alerts",
     "permissions_LOGS": "Protokollberechtigungen",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power HMC",
@@ -107,7 +106,6 @@
     "obsoleteEntityDescription": "Derzeit sind keine Daten verfügbar - Zugriff wird noch erteilt.",
     "title_analytics": "Analyse",
     "title_applications": "Anwendungen",
-    "title_events_and_alerts": "Ereignisse und Alerts",
     "title_global_functions": "Globale Funktionen",
     "title_infrastructure": "Infrastruktur",
     "title_mobileApps": "Mobile Apps",
@@ -165,7 +163,8 @@
     "doneButton": "Erledigt"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "Name"
+    "nameColumnHead": "Name",
+    "contributionFilterColumnHead": "Filter für Beiträge"
   },
   "permissionScope": {
     "access_level": "Zugriffsebene",
@@ -191,7 +190,6 @@
     "description_no_access_bizops": "Der Zugriff auf Business Monitoring wird verweigert.",
     "description_access_all_except_contributor": "Zugriff auf alles (mit Ausnahme derjenigen, auf die als Beitragender zugegriffen wird)",
     "role": "Rolle auswählen",
-    "roleSelection": "Rolle",
     "role_owner": "Eigner",
     "role_viewer": "Anzeigeberechtigter",
     "role_custom": "Angepasst",
@@ -444,6 +442,7 @@
     "someEmailsHaveFailedToSend": "Einige E-Mails konnten nicht gesendet werden",
     "inviteUserToTenant": "Benutzer zu {{tenant}} einladen",
     "anotherUser": "Anderer Benutzer",
+    "inviteUsertoDefaultGroup": "Sie haben nicht genügend Berechtigungen, um eine Gruppe für die Einladung auszuwählen. Der eingeladene Benutzer wird zur Standardgruppe hinzugefügt.",
     "permissionEntityLabel": "Berechtigung {{entityLabel}}",
     "addToAGroup": "Zu einer Gruppe hinzufügen",
     "failedToAddUserToGroups": "Benutzer konnte nicht zu Gruppen hinzugefügt werden: {{err}}",
@@ -737,6 +736,16 @@
     "timeoutsSuccessfullySaved": "Zeitlimitüberschreitungen wurden erfolgreich gespeichert.",
     "disableTwoFactor": "Zwei-Faktor-Authentifizierung inaktivieren",
     "saveToken": "Token speichern",
+    "profile": {
+      "pageName": "Profil",
+      "email": "E-Mail",
+      "emailHint": "Die E-Mail zur Identifizierung des Benutzerkontos in Instana. Sie können die E-Mail nicht ändern, nachdem das Benutzerkonto erstellt wurde.",
+      "name": "Name",
+      "nameHint": "Geben Sie Ihren Vornamen (Vorname) und Nachnamen (Nachname) ohne Komma ein.",
+      "saving": "Neuer Name wird gespeichert",
+      "saved": "Neuer Name gespeichert",
+      "failed": "Neuer Name konnte nicht gespeichert werden"
+    },
     "twoFactorAuthentication": "Zwei-Faktor-Authentifizierung",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "Die Zwei-Faktor-Authentifizierung ist für diesen Benutzer derzeit inaktiviert.",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "Geben Sie das 2FA-Token von Ihrer Authentifikator-App in die vollständige Konfiguration ein:",
@@ -767,7 +776,7 @@
     "noGroupMapping": "Es sind keine Zuordnungen zwischen dem Identitätsprovider und Instana konfiguriert",
     "denyUserWithNoGroup": "Zugriff verweigern, wenn keine Zuordnung gefunden wird. Ist diese Option nicht ausgewählt, werden ermittelte Benutzer ohne Gruppenzuordnungen und ohne Gruppen der Standardgruppe zugeordnet.",
     "denyUserWithNoGroupDocs": "Die Konfiguration des Identitätsproviders kann jederzeit unter Verwendung eines Tokens mit ausreichenden Berechtigungen gelöscht werden. Weitere Details finden Sie unter <authLink>Authentifizierung konfigurieren</authLink>.",
-    "groupMappingInfoText": "Eine Zuordnungsregel besteht aus einem Schlüssel, einem Wert und einer Instana-Gruppe. Der Schlüssel und der Wert beziehen sich auf das Attribut für den Identitätsprovider und dessen entsprechenden Wert, von dem aus Sie die Zuordnung vornehmen. Sie möchten beispielsweise alle Benutzer, bei denen der Schlüssel \"Abteilung\" den Wert \"SRE\" aufweist, der Gruppe der Instana-Eigner zuordnen.",
+    "groupMappingInfoText": "Eine Zuordnungsregel besteht aus einem Schlüssel, einem Wert und einer Instanzergruppe. Der Schlüssel und der Wert beziehen sich auf das Attribut für den Identitätsprovider und dessen entsprechenden Wert, von dem aus Sie die Zuordnung vornehmen. Sie möchten beispielsweise alle Benutzer, bei denen der Schlüssel \"Abteilung\" den Wert \"SRE\" aufweist, der Gruppe der Instana-Eigner zuordnen.",
     "ownerGroupMemberNotLimitable": "Benutzer ist Mitglied der Eignergruppe und wird nicht durch andere Gruppenzugehörigkeiten eingeschränkt.",
     "mergedPermissionWithCombinationOfLimitedAndUnlimited": "Die effektive Gruppe von Berechtigungen ist die Summe der Berechtigungen, die über verschiedene Gruppenzuordnungen erteilt werden. Die Summe der begrenzten Zugriffsbereiche bestimmt jedoch den effektiven Bereich für den Benutzer.",
     "users": "Benutzer",
@@ -1165,7 +1174,12 @@
     "createIDPConfirmationDescription": "Anstehende Einladungen werden gelöscht. Benutzer werden automatisch von Ihrem Identitätsprovider (IdP) bereitgestellt.",
     "revokeInvitationForUserWithEmail": "Einladung zur Teilnahme am {{tenant}}-Tenant für {{email}} widerrufen",
     "invitationValidUntil": "Einladung gültig bis",
-    "invitedBy": "Eingeladen von"
+    "invitedBy": "Eingeladen von",
+    "accessAll": "Auf alle zugreifen",
+    "access": "Zugriff",
+    "accessForTenantUnit": "Zugriff auf {{tenantUnit}}-{{tenant}}",
+    "numberOfMembers": "Anzahl Member",
+    "groupEntityName": "Gruppe {{entityName}}"
   },
   "languageSelection": {
     "language": "Sprache",

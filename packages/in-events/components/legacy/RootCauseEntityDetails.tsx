@@ -8,7 +8,6 @@ import React, { useEffect, useState } from 'react';
 import { List, Map } from 'immutable';
 
 import { Button, Link, LoadingSkeleton, Stack, SvgIcon, Typography } from '@instana/components';
-import { Application, Endpoint, ServiceLabel, TimeConfig } from '@instana/types';
 import { Observable, combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -17,63 +16,66 @@ import { t } from '@instana/i18n-react';
 //@ts-expect-error
 import { SnapshotData, getPhysicalHierarchy, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { ENDPOINT, SERVICE, entityTypes, operators } from 'in-analyze/applicationFilter';
+import { APPLICATION, ENDPOINT, SERVICE, entityTypes, operators } from 'in-analyze/applicationFilter';
 import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import { Application, Endpoint, ServiceLabel, TimeConfig } from 'in-types';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLinkToAnalyze } from 'in-applications/navigation/paths';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
 import { setTimeConfig } from 'in-stores/time/config';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
+export type ExplainabilityKeys =
+  | 'percentageFailedNotThroughRC'
+  | 'numCallsInAggregationNotThroughRC'
+  | 'incoming'
+  | 'relevantSnapshotID'
+  | 'numCallsInAggregationThroughRC'
+  | 'connectedServiceId'
+  | 'percentageFailedThroughRC';
+export interface ExplainabilityValues {
+  percentageFailedNotThroughRC: number;
+  numCallsInAggregationNotThroughRC: number;
+  incoming: boolean;
+  relevantSnapshotID: string;
+  numCallsInAggregationThroughRC: number;
+  connectedServiceId: string;
+  percentageFailedThroughRC: number;
+}
+
 interface RootCauseEntityDetailsParams {
-  selectedSnapshotMetadata: Map<string, string>;
-  explainabilityMetadata: List<Map<string, number | string>> | undefined;
-  probabilityScore: number | null | undefined;
+  rcaSnapshotID: string;
+  rcaEntityType: string;
+  explainabilityMetadata: List<Map<ExplainabilityKeys, ExplainabilityValues[ExplainabilityKeys]>>;
+  probabilityScore: number;
   relatedAPID: string | null;
-  pageNum: number;
-  setPageNum: React.Dispatch<React.SetStateAction<number>>;
-  numOfSnapshots: number | null;
+  setNextEntity: () => void;
+  numOfSnapshots: number;
   incidentTimeWindow: TimeConfig;
 }
 
-interface EntityPathProps {
-  relatedApplicationInformation: Application | null | undefined;
-  entityInformation: SnapshotData;
-  serviceLabelInformation: ServiceLabel | null | undefined;
-  entityType: string;
-}
-
-interface NonAppDataEntityPathProps {
-  relatedApplicationInformation: Application | null | undefined;
-  entityInformation: SnapshotData | null;
-  hierarchySnapshots: SnapshotData[] | null | undefined;
-  serviceLabelInformation: ServiceLabel | null | undefined;
-  entityType: string;
-}
-
 export default function RootCauseEntityDetails({
-  selectedSnapshotMetadata,
+  rcaSnapshotID,
+  rcaEntityType,
   explainabilityMetadata,
   probabilityScore,
   relatedAPID,
-  pageNum,
-  setPageNum,
+  setNextEntity,
   numOfSnapshots,
   incidentTimeWindow
-}: RootCauseEntityDetailsParams): JSX.Element {
+}: RootCauseEntityDetailsParams) {
   const [entityQuery, setEntityQuery] = useState<
-    Observable<SnapshotData> | Observable<Endpoint | undefined> | Observable<ServiceLabel | undefined> | null | string
+    Observable<SnapshotData> | Observable<Endpoint | undefined> | Observable<ServiceLabel | undefined> | null
   >(null);
   const [hierarchyQuery, setHierarchyQuery] = useState<Observable<List<string>> | null>(null);
   const [timeWindow, setTimeWindow] = useState(incidentTimeWindow);
-  const [serviceQuery, setServiceQuery] = useState<Observable<ServiceLabel | undefined> | null | string>(null);
+  const [serviceQuery, setServiceQuery] = useState<Observable<ServiceLabel | undefined> | null>(null);
   const { location } = useNavigation();
-  const entityType = selectedSnapshotMetadata.get('EntityType');
-  const originalID = selectedSnapshotMetadata.get('UntransformedEntityID');
 
   const relatedApplicationInformation = useObservable(
     relatedAPID
@@ -81,7 +83,7 @@ export default function RootCauseEntityDetails({
           .map(data => data.data)
           .throttle(250)
       : null,
-    [selectedSnapshotMetadata]
+    [rcaSnapshotID]
   );
 
   const hierarchySnapshots = useObservable(() => {
@@ -90,7 +92,7 @@ export default function RootCauseEntityDetails({
         combineLatest(
           item
             .toArray()
-            .filter(id => id !== originalID) //filter out selected entity to avoid duplication for hosts
+            .filter(id => id !== rcaSnapshotID) //filter out selected entity to avoid duplication for hosts
             .map(id => getSnapshot(id, timeWindow))
         )
       );
@@ -98,26 +100,15 @@ export default function RootCauseEntityDetails({
       return null;
     }
   }, [timeWindow, hierarchyQuery]);
-  // generates a list of event information based on Observables
-  //@ts-expect-error
-  const entityInformation = useObservable(entityQuery, [entityQuery], { resetStateOnObservableChange: true }) ?? null;
-  //@ts-expect-error
+
+  const entityData = useObservable(entityQuery, [entityQuery]) ?? null;
   const serviceLabelInformation = useObservable(serviceQuery, [serviceQuery]) ?? null;
 
-  const urlForEntity = useGenerateLinksForEntity(
-    entityType,
-    originalID,
-    relatedApplicationInformation,
-    entityInformation,
-    incidentTimeWindow,
-    serviceLabelInformation
-  );
-
   useEffect(() => {
-    if (entityType === 'infrastructure' || entityType === 'process') {
+    if (rcaEntityType === 'infrastructure' || rcaEntityType === 'process') {
       // Need to get snapshot versions first and then retrieve appropriate snapshot
       setEntityQuery(
-        getSnapshotVersions(originalID).map((versions: List<string>) => {
+        getSnapshotVersions(rcaSnapshotID).map((versions: List<string>) => {
           if (List.isList(versions)) {
             const snapVersions = versions.toJS();
             if (snapVersions.length > 0) {
@@ -131,55 +122,71 @@ export default function RootCauseEntityDetails({
               setTimeConfig(location, timeConfigFromSnapVersion);
               setTimeWindow(timeConfigFromSnapVersion);
               setHierarchyQuery(
-                getPhysicalHierarchy({ snapshotId: originalID, timeConfig: timeConfigFromSnapVersion })
+                getPhysicalHierarchy({ snapshotId: rcaSnapshotID, timeConfig: timeConfigFromSnapVersion })
               );
-              setEntityQuery(getSnapshot(originalID, timeConfigFromSnapVersion));
+              setEntityQuery(getSnapshot(rcaSnapshotID, timeConfigFromSnapVersion));
             }
           }
         })
       );
-    } else if (entityType === 'endpoint') {
+    } else if (rcaEntityType === 'endpoint') {
       setEntityQuery(
-        getEndpointInfo({ id: originalID })
+        getEndpointInfo({ id: rcaSnapshotID })
           .map(data => data.data)
           .throttle(250)
       );
-    } else if (entityType === 'service') {
+    } else if (rcaEntityType === 'service') {
       setEntityQuery(
-        getServiceLabel({ id: originalID })
+        getServiceLabel({ id: rcaSnapshotID })
           .map(data => data.data)
           .throttle(250)
       );
-    } else if (entityType === 'application') {
+    } else if (rcaEntityType === 'application') {
       setEntityQuery(
-        getApplication({ id: originalID })
+        getApplication({ id: rcaSnapshotID })
           .map(data => data.data)
           .throttle(250)
       );
     }
-  }, [originalID, entityType, selectedSnapshotMetadata, location]);
+  }, [rcaSnapshotID, rcaEntityType, location]);
 
   useEffect(() => {
     //what about when service query returns null and service id exists?
     if (
       !serviceQuery &&
-      entityType !== 'infrastructure' &&
-      entityType !== 'process' &&
-      entityInformation &&
-      entityInformation.serviceId
+      rcaEntityType !== 'infrastructure' &&
+      rcaEntityType !== 'process' &&
+      entityData &&
+      entityData.serviceId
     ) {
       setServiceQuery(
-        getServiceLabel({ id: entityInformation.serviceId })
+        getServiceLabel({ id: entityData.serviceId })
           .map(data => data.data)
           .throttle(250)
       );
     }
-  }, [entityInformation, originalID, serviceQuery, entityType]);
+  }, [entityData, rcaSnapshotID, serviceQuery, rcaEntityType]);
 
-  useEffect(() => {
-    if (serviceLabelInformation && entityInformation && entityInformation.serviceId !== serviceLabelInformation?.id)
-      setServiceQuery(null);
-  }, [entityInformation, serviceLabelInformation, selectedSnapshotMetadata]);
+  const urlForEntity = useGenerateLinksForEntity(
+    rcaEntityType,
+    rcaSnapshotID,
+    relatedApplicationInformation,
+    entityData,
+    incidentTimeWindow,
+    serviceLabelInformation
+  );
+
+  if (!entityData || !rcaSnapshotID) return <LoadingIndicator />;
+
+  const rcaErrorPercent = extractAggregatedErrorRateFromExplainability(
+    explainabilityMetadata,
+    'percentageFailedThroughRC'
+  );
+
+  const notThroughRCAErrorPercent = extractAggregatedErrorRateFromExplainability(
+    explainabilityMetadata,
+    'percentageFailedNotThroughRC'
+  );
 
   return (
     <div className={locals.entityDescription}>
@@ -187,73 +194,55 @@ export default function RootCauseEntityDetails({
         <Stack direction="horizontal">
           <Stack gap="xxsmall">
             <Typography variant="body-bold">{t('in-events:RCA.probableRootCauseLabel')}</Typography>
-            {entityInformation !== null && entityType !== 'infrastructure' && entityType !== 'process' && (
+            {entityData !== null && rcaEntityType !== 'infrastructure' && rcaEntityType !== 'process' && (
               <Link href={urlForEntity}>
                 <EntityPath
                   relatedApplicationInformation={relatedApplicationInformation}
-                  entityInformation={entityInformation}
+                  entityInformation={entityData}
                   serviceLabelInformation={serviceLabelInformation}
-                  entityType={entityType}
+                  entityType={rcaEntityType}
                 />
               </Link>
             )}
-            {entityInformation !== null &&
+            {entityData !== null &&
               hierarchySnapshots &&
-              (entityType === 'infrastructure' || entityType === 'process') && (
+              (rcaEntityType === 'infrastructure' || rcaEntityType === 'process') && (
                 <Link href={urlForEntity}>
                   <NonAppDataEntityPath
                     relatedApplicationInformation={relatedApplicationInformation}
                     hierarchySnapshots={hierarchySnapshots}
-                    entityInformation={entityInformation}
+                    entityInformation={entityData}
                     serviceLabelInformation={serviceLabelInformation}
-                    entityType={entityType}
+                    entityType={rcaEntityType}
                   />
                 </Link>
               )}
-            {entityInformation === null && <LoadingSkeleton className={locals.loadingEntity} />}
+            {entityData === null && <LoadingSkeleton className={locals.loadingEntity} />}
           </Stack>
-          <AIProbabilityBadge probabilityScore={probabilityScore} loading={entityInformation === null} />
+          <AIProbabilityBadge probabilityScore={probabilityScore} loading={entityData === null} />
         </Stack>
         {explainabilityMetadata && (
           <Stack gap="xxsmall">
-            <Typography variant="body-bold">{'Evidence'}</Typography>
+            <Typography variant="body-bold">{t('in-events:RCA.evidence')}</Typography>
             <Typography variant="body-regular">
               {t('in-events:RCA.evidenceTextFailed', {
-                root_cause_entity_type: entityType,
-                root_cause_entity_name: Map.isMap(entityInformation)
-                  ? entityInformation?.get('label')
-                  : entityInformation?.label,
-                rca_error_percent: extractAggregatedErrorRateFromExplainability(
-                  explainabilityMetadata,
-                  'percentageFailedThroughRC'
-                )
+                root_cause_entity_type: rcaEntityType,
+                root_cause_entity_name: Map.isMap(entityData) ? entityData?.get('label') : entityData?.label,
+                rca_error_percent: rcaErrorPercent.toFixed(2)
               })}
             </Typography>
             <Typography variant="body-regular">
-              {t('in-events:RCA.evidenceTextNotFailed', {
-                root_cause_entity_type: entityType,
-                root_cause_entity_name: Map.isMap(entityInformation)
-                  ? entityInformation?.get('label')
-                  : entityInformation?.label,
-                non_rca_error_rate: extractAggregatedErrorRateFromExplainability(
-                  explainabilityMetadata,
-                  'percentageFailedNotThroughRC'
-                )
-              })}
+              {determineWhichNotFailedTextToUse(
+                rcaErrorPercent,
+                notThroughRCAErrorPercent,
+                rcaEntityType,
+                Map.isMap(entityData) ? entityData?.get('label') : entityData?.label
+              )}
             </Typography>
           </Stack>
         )}
-
         <Button
-          onClick={() => {
-            if (!numOfSnapshots) return;
-
-            if (pageNum < numOfSnapshots) {
-              setPageNum(pageNum + 1);
-            } else {
-              setPageNum(1);
-            }
-          }}
+          onClick={setNextEntity}
           disabled={!numOfSnapshots || numOfSnapshots <= 1}
           icon="lib_actions_sync"
           iconSize="s"
@@ -266,21 +255,49 @@ export default function RootCauseEntityDetails({
   );
 }
 
-function extractAggregatedErrorRateFromExplainability(
-  explainabilityMetadata: List<Map<string, number | string>> | undefined,
-  error_rate_key: string
+function determineWhichNotFailedTextToUse(
+  rcaErrorPercent: number,
+  notThroughRCAErrorPercent: number,
+  rootCauseEntityType: string,
+  rootCauseEntityName: string
 ) {
-  if (!explainabilityMetadata) return undefined;
+  const translationDataObject = {
+    root_cause_entity_type: rootCauseEntityType,
+    root_cause_entity_name: rootCauseEntityName,
+    non_rca_error_rate: notThroughRCAErrorPercent.toFixed(2)
+  };
+
+  if (notThroughRCAErrorPercent < rcaErrorPercent) {
+    return t('in-events:RCA.evidenceTextNotFailedLower', translationDataObject);
+  } else if (notThroughRCAErrorPercent === rcaErrorPercent) {
+    return t('in-events:RCA.evidenceTextNotFailedSame', translationDataObject);
+  } else {
+    return t('in-events:RCA.evidenceTextNotFailedHigher', translationDataObject);
+  }
+}
+
+function extractAggregatedErrorRateFromExplainability(
+  explainabilityMetadata: List<Map<ExplainabilityKeys, ExplainabilityValues[ExplainabilityKeys]>>,
+  error_rate_key: ExplainabilityKeys
+) {
+  if (!explainabilityMetadata) return 0;
 
   const aggreagatedInfo = explainabilityMetadata.find(service => service?.get('connectedServiceId') === 'all');
   let errorPercentage = aggreagatedInfo.get(error_rate_key) as number;
 
   if (typeof errorPercentage === 'number') {
     errorPercentage = errorPercentage * 100;
-    return errorPercentage.toFixed(2);
+    return errorPercentage;
   } else {
     return NaN;
   }
+}
+
+interface EntityPathProps {
+  relatedApplicationInformation: Application | null | undefined;
+  entityInformation: SnapshotData;
+  serviceLabelInformation: ServiceLabel | null | undefined;
+  entityType: string;
 }
 
 function EntityPath({
@@ -314,6 +331,14 @@ function EntityPath({
       )}
     </Stack>
   );
+}
+
+interface NonAppDataEntityPathProps {
+  relatedApplicationInformation: Application | null | undefined;
+  entityInformation: SnapshotData | null;
+  hierarchySnapshots: SnapshotData[] | null | undefined;
+  serviceLabelInformation: ServiceLabel | null | undefined;
+  entityType: string;
 }
 
 function NonAppDataEntityPath({
@@ -363,55 +388,7 @@ function NonAppDataEntityPath({
   );
 }
 
-function useGenerateLinksForEntity(
-  entityType: string,
-  originalID: string,
-  relatedApplicationInformation: Application | null | undefined,
-  entityInformation: SnapshotData | null,
-  incidentTimeWindow: TimeConfig,
-  serviceLabelInformation: ServiceLabel | null
-): string | undefined {
-  const getLinkToApplicationAnalyze = useLinkToAnalyze();
-
-  //Convert entity information to json if it comes in as a map in case of getSnapshot
-  if (entityInformation && Map.isMap(entityInformation)) entityInformation = entityInformation.toJS();
-
-  if (relatedApplicationInformation && relatedApplicationInformation && entityInformation) {
-    return getLinkToApplicationAnalyze({
-      applicationName: relatedApplicationInformation.label,
-      endpointName: entityType === 'endpoint' ? entityInformation?.label : undefined,
-      serviceName: entityType === 'service' ? entityInformation?.label : undefined,
-      boundaryScope: 'ALL',
-      formModel:
-        entityType !== 'application' && entityType !== 'service'
-          ? generateFormModelForLinkToEntity(entityType, entityInformation, originalID, serviceLabelInformation) ||
-            undefined
-          : undefined,
-      timeConfig: incidentTimeWindow
-    });
-  } else if (entityInformation) {
-    if (entityType !== 'application') {
-      return getLinkToApplicationAnalyze({
-        boundaryScope: 'ALL',
-        formModel:
-          generateNonSmartAlertFormModelForLinkToEntity(
-            entityType,
-            entityInformation,
-            originalID,
-            serviceLabelInformation
-          ) || undefined,
-        timeConfig: incidentTimeWindow
-      });
-    } else if (entityType === 'application') {
-      return getLinkToApplicationAnalyze({
-        boundaryScope: 'ALL',
-        applicationName: entityInformation.label,
-        timeConfig: incidentTimeWindow
-      });
-    }
-  }
-  return undefined;
-}
+/* Utils for building links with TFEs for analytics page */
 
 function getIcon(entityType: string): string {
   if (entityType === 'infrastructure') {
@@ -427,6 +404,67 @@ function getIcon(entityType: string): string {
   } else {
     return 'lib_infra_unknownIcon';
   }
+}
+
+function useGenerateLinksForEntity(
+  entityType: string,
+  originalID: string,
+  relatedApplicationInformation: Application | null | undefined,
+  entityInformation: SnapshotData | null,
+  incidentTimeWindow: TimeConfig,
+  serviceLabelInformation: ServiceLabel | null
+): string | undefined {
+  const getLinkToApplicationAnalyze = useLinkToAnalyze();
+
+  //Convert entity information to json if it comes in as a map in case of getSnapshot
+  if (entityInformation && Map.isMap(entityInformation)) entityInformation = entityInformation.toJS();
+
+  if (relatedApplicationInformation && relatedApplicationInformation && entityInformation) {
+    return getLinkToApplicationAnalyze({
+      serviceName: entityType === 'service' ? entityInformation?.label : undefined,
+      boundaryScope: 'ALL',
+      facets: { 'call.erroneous': [true] },
+      formModel:
+        entityType !== 'application' && entityType !== 'service'
+          ? generateFormModelForLinkToEntity(
+              entityType,
+              entityInformation,
+              originalID,
+              serviceLabelInformation,
+              relatedApplicationInformation.label,
+              entityType === 'endpoint' ? entityInformation?.label : undefined
+            ) || undefined
+          : undefined,
+      timeConfig: incidentTimeWindow
+    });
+  } else if (entityInformation) {
+    if (entityType !== 'application') {
+      return getLinkToApplicationAnalyze({
+        boundaryScope: 'ALL',
+        facets: { 'call.erroneous': [true] },
+        formModel:
+          generateNonSmartAlertFormModelForLinkToEntity(
+            entityType,
+            entityInformation,
+            originalID,
+            serviceLabelInformation
+          ) || undefined,
+        timeConfig: incidentTimeWindow
+      });
+    } else if (entityType === 'application') {
+      return getLinkToApplicationAnalyze({
+        boundaryScope: 'ALL',
+        applicationName: entityInformation.label,
+        facets: { 'call.erroneous': [true] },
+        timeConfig: incidentTimeWindow
+      });
+    }
+  }
+  return undefined;
+}
+
+function isServiceLabelValid(label: string) {
+  return label !== 'UNKNOWN' && label !== 'Unspecified';
 }
 
 function generateNonSmartAlertFormModelForLinkToEntity(
@@ -472,9 +510,21 @@ function generateFormModelForLinkToEntity(
   entityType: string,
   entityInformation: SnapshotData,
   originalID: string,
-  serviceLabelInformation: ServiceLabel | null
+  serviceLabelInformation: ServiceLabel | null,
+  applicationLabel: string | null,
+  endpointLabel: string | null
 ): FormModelElement[] | null {
   let initialFormModel = null;
+  if (applicationLabel) {
+    initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
+      APPLICATION.name,
+      applicationLabel,
+      initialFormModel
+    );
+  }
+  if (endpointLabel) {
+    initialFormModel = getTagFilterForSourceOrDestinationAndCombine(ENDPOINT.name, endpointLabel, initialFormModel);
+  }
   if (serviceLabelInformation && serviceLabelInformation.label && isServiceLabelValid(serviceLabelInformation.label)) {
     initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
       'service.name',
@@ -525,8 +575,4 @@ function getTagFilterForSourceOrDestinationAndCombine(
   } else {
     return filterToJoin;
   }
-}
-
-function isServiceLabelValid(label: string) {
-  return label !== 'UNKNOWN' && label !== 'Unspecified';
 }

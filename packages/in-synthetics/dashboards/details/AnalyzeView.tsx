@@ -8,18 +8,10 @@ import React, { Fragment } from 'react';
 import { get, head } from 'lodash';
 
 import { PaginatedResult, Result, TestResultListItem } from '@instana/types/typeDefinitions';
-import { formatDateTime } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
-import {
-  useSyntheticContextConfiguration,
-  getResponseSize,
-  getStatusKPICard,
-  getTestTypeRequestsCount,
-  getTestTypeTimeline
-} from 'in-synthetics/dashboards/details/utils';
 import {
   dummyResultDetails,
   dummyResultMetadata,
@@ -27,6 +19,7 @@ import {
   ResultDetailsResponse,
   ResultMetadataResponse
 } from 'in-synthetics/utils/constants';
+import { useSyntheticContextConfiguration, getTestTypeTimeline } from 'in-synthetics/dashboards/details/utils';
 import SSLCertificateDetails from 'in-synthetics/dashboards/details/components/SSLCertificateDetails';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
@@ -35,8 +28,8 @@ import { startTimeTagName, testIdTagName, testResultIdTagName } from 'in-synthet
 import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import AnalyzeViewKPIs from 'in-synthetics/dashboards/details/AnalyzeViewKPIs';
 import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
@@ -46,14 +39,12 @@ import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
 import { getValidFormat } from 'in-synthetics/utils/getValidFormat';
-import { bytes, meanLatency } from 'in-services/formatters/number';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { getTestResultMetadata } from 'in-synthetics/api';
-import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Sticky from 'in-components/Sticky';
 
@@ -150,130 +141,84 @@ const AnalyzeView = () => {
     ) || dummyTestResultList;
 
   return (
-    <>
-      <Sticky
-        header={
-          <>
-            <DashboardHeader
-              title={t('in-synthetics:dashboard.testList.mainLabel')}
-              label={resultsLabel}
-              withBorderBottom
-              contextConfigurations={useSyntheticContextConfiguration()}
-              liveModeDisabled
-              liveModeDisabledTooltip={t('in-synthetics:dashboard.detailsPage.detailLiveModeDisabled')}
+    <Sticky
+      header={
+        <>
+          <DashboardHeader
+            title={t('in-synthetics:dashboard.testList.mainLabel')}
+            label={resultsLabel}
+            withBorderBottom
+            contextConfigurations={useSyntheticContextConfiguration()}
+            liveModeDisabled
+            liveModeDisabledTooltip={t('in-synthetics:dashboard.detailsPage.detailLiveModeDisabled')}
+          />
+          <DashboardHeaderShadowModule />
+        </>
+      }
+    >
+      {timelineDetails.progress.loading || resultList.progress.loading || testResultMetadata.progress.loading ? (
+        <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={160} size="xxxl" />
+      ) : (
+        <LeftRightPadding>
+          <ViewTrackingMeta
+            data={{
+              productArea: productAreas.synthetic_monitoring,
+              pageRootName: pageNames.synthetic_test_result,
+              pagePath: location?.pathname
+            }}
+          />
+          <Fragment>
+            {isBrowserTest && (
+              <Row>
+                <DownloadButton testId={testId} resultId={resultId} metadata={metadata} startTime={startTime} />
+              </Row>
+            )}
+            <AnalyzeViewKPIs
+              startTime={startTime}
+              status={status}
+              responseTime={responseTime}
+              responseSize={responseSize}
+              testType={testType}
+              timelineDetails={timelineDetails}
+              resultList={resultList}
             />
-            <DashboardHeaderShadowModule />
-          </>
-        }
-      >
-        {timelineDetails.progress.loading || resultList.progress.loading || testResultMetadata.progress.loading ? (
-          <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={160} size="xxxl" />
-        ) : (
-          <LeftRightPadding>
-            <ViewTrackingMeta
-              data={{
-                productArea: productAreas.synthetic_monitoring,
-                pageRootName: pageNames.synthetic_test_result,
-                pagePath: location?.pathname
-              }}
-            />
-            <Fragment>
-              {isBrowserTest && (
+            {isSSLCertificate &&
+              get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.validTo', 0, 1]) && (
                 <Row>
-                  <DownloadButton testId={testId} resultId={resultId} metadata={metadata} startTime={startTime} />
+                  <Col xs>
+                    <SSLCertificateDetails resultList={resultList} />
+                  </Col>
                 </Row>
               )}
+            {getTestResultListStatus(resultList) !== 1 && (
               <Row>
                 <Col xs>
-                  <KpiCard
-                    title={t('in-synthetics:dashboard.summary.startTime')}
-                    value={startTime}
-                    renderValue={formatDateTime}
-                  />
+                  <FailedRun resultList={resultList} isSSLCertificate={isSSLCertificate} />
                 </Col>
-                <Col xs>{getStatusKPICard(status)}</Col>
-                <Col xs>
-                  <KpiCard
-                    title={t('in-synthetics:dashboard.summary.responseTime')}
-                    value={responseTime}
-                    renderValue={meanLatency.detailed}
-                  />
-                </Col>
-                {!isSSLCertificate && (
-                  <Col
-                    xs
-                    style={{
-                      display: get(timelineDetails, ['errors', 0, 'code'], '') === 'NOT_FOUND' ? 'none' : 'block'
-                    }}
-                  >
-                    <KpiCard
-                      title={t('in-synthetics:dashboard.summary.requests')}
-                      value={getTestTypeRequestsCount(isBrowserTest, timelineDetails)}
-                    />
-                  </Col>
-                )}
-                {!isSSLCertificate && (
-                  <Col xs>
-                    <KpiCard
-                      title={t('in-synthetics:dashboard.summary.responseSize')}
-                      value={getResponseSize(responseSize, location, resultList.data?.items[0])}
-                      renderValue={bytes.detailed}
-                    />
-                  </Col>
-                )}
-                {isSSLCertificate && (
-                  <Col xs>
-                    <KpiCard
-                      title={t('in-synthetics:dashboard.summary.resultsCertificateValid')}
-                      value={
-                        !get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.validTo', 0, 1])
-                          ? valueMissingPlaceholder
-                          : get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.valid', 0, 1]) === 1
-                          ? t('in-synthetics:dashboard.summary.certificateValid')
-                          : t('in-synthetics:dashboard.summary.certificateNotValid')
-                      }
-                    />
-                  </Col>
-                )}
               </Row>
-              {isSSLCertificate &&
-                get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.validTo', 0, 1]) && (
-                  <Row>
-                    <Col xs>
-                      <SSLCertificateDetails resultList={resultList} />
-                    </Col>
-                  </Row>
-                )}
-              {getTestResultListStatus(resultList) !== 1 && (
-                <Row>
-                  <Col xs>
-                    <FailedRun resultList={resultList} isSSLCertificate={isSSLCertificate} />
-                  </Col>
-                </Row>
-              )}
-              {!isSSLCertificate && (
-                <Row>
-                  <Col lg={12}>{getTestTypeTimeline(isBrowserTest, timelineDetails, startTime, finishTime)}</Col>
-                </Row>
-              )}
-              {!isHTTPActionType && !isSSLCertificate && (
-                <Row>
-                  <Col lg={12}>
-                    <Logs
-                      testId={testId}
-                      resultId={resultId}
-                      timestamp={get(head(get(timelineDetails, ['data', 'subtransactions'])), 'properties.startTime')}
-                      isBrowserTestType={isBrowserTest}
-                      metadata={metadata}
-                    />
-                  </Col>
-                </Row>
-              )}
-            </Fragment>
-          </LeftRightPadding>
-        )}
-      </Sticky>
-    </>
+            )}
+            {!isSSLCertificate && (
+              <Row>
+                <Col lg={12}>{getTestTypeTimeline(isBrowserTest, timelineDetails, startTime, finishTime)}</Col>
+              </Row>
+            )}
+            {!isHTTPActionType && !isSSLCertificate && (
+              <Row>
+                <Col lg={12}>
+                  <Logs
+                    testId={testId}
+                    resultId={resultId}
+                    timestamp={get(head(get(timelineDetails, ['data', 'subtransactions'])), 'properties.startTime')}
+                    isBrowserTestType={isBrowserTest}
+                    metadata={metadata}
+                  />
+                </Col>
+              </Row>
+            )}
+          </Fragment>
+        </LeftRightPadding>
+      )}
+    </Sticky>
   );
 };
 

@@ -186,6 +186,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'logRetentionPageEnabled',
+    instanaCtlKey: 'feature.log.retention.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'logVolumePageEnabled',
     instanaCtlKey: 'feature.log.volume.enabled',
     defaultValue: false
@@ -521,6 +526,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonSearchInputEnabled',
+    instanaCtlKey: 'feature.carbon.search.input.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonAccordionEnabled',
     instanaCtlKey: 'feature.carbon.accordion.enabled',
     defaultValue: false
@@ -588,7 +598,7 @@ module.exports = exports = [
   {
     uiClientKey: 'orbitalEnabled',
     instanaCtlKey: 'feature.orbital.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'weaselSubresourceIntegrityEnabled',
@@ -603,6 +613,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonStepProgressBarEnabled',
     instanaCtlKey: 'feature.carbon.stepprogressbar.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonHorizontalIndicatorEnabled',
+    instanaCtlKey: 'feature.carbon.horizontalindicator.enabled',
     defaultValue: false
   }
 ];

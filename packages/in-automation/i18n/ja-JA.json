@@ -4,6 +4,7 @@
   "delete": "削除",
   "test": "テスト",
   "recommendedActions": "推奨アクション",
+  "recommendedActionsWithCount": "推奨アクション ({{count}})",
   "validVaultParameter": "オプションとしてマークされたボールト・パラメーターは、両方ともブランクであるか、あるいは両方ともブランクではない必要があります。",
   "newAction": "新規アクション",
   "ok": "OK",
@@ -44,7 +45,7 @@
   "description": "説明",
   "automation": "自動化",
   "failedToResolveDynamicParameters": "動的パラメーターの解決に失敗しました。",
-  "associateActionWithName": "アクション {{actionName}} の関連付け",
+  "createPolicyWithName": "アクション{{actionName}}を使用してポリシーを作成",
   "deletePolicyWithName": "ポリシー {{actionName}} の削除",
   "jobTemplate": "ジョブ・テンプレート",
   "hostsLimit": "ホスト制限 (オプション)",
@@ -81,6 +82,7 @@
   "value": "値",
   "type": "タイプ",
   "automationPolicies": "自動化ポリシー",
+  "automationPoliciesWithCount": "自動化ポリシー ({{count}})",
   "copyOf": "{{name}}(のコピー)",
   "searchActions": "検索アクション",
   "hostsLimitHelpText": "指定されたターゲット・ホストに実行を制限します。 Ansible インベントリーでのシステムの表示方法に一致する値を選択するか、Ansible 制限構文でサポートされるストリングを入力します。",
@@ -93,6 +95,7 @@
   "actions": "アクション",
   "ActionCatalog": {
     "actionCatalog": "アクション・カタログ",
+    "actionCatalogWithCount": "アクション・カタログ ({{count}})",
     "action": "アクション",
     "newAction": "新規アクション",
     "createANewAction": "新規アクションの作成",
@@ -223,7 +226,7 @@
     "eventName": "イベント名",
     "returnCode": "戻りコード",
     "errorMessage": "エラー・メッセージ",
-    "actionContent": "アクション・コンテンツ",
+    "action": "アクション",
     "host": "ホスト",
     "log": "ログ",
     "success": "成功",
@@ -236,13 +239,13 @@
     "inputParameters": "入力パラメーター",
     "feedbackTab": "フィードバック",
     "properties": "プロパティー",
-    "filterNameOrActionInstanceId": "名前、イベント名、またはアクション・インスタンス ID でフィルター",
+    "filter": "フィルター",
     "inputPrompt": "このアクションの経験について教えてください。",
-    "unhappyFeedback": "私は非常に不幸である",
+    "unhappyFeedback": "私は非常に不満です",
     "dissatisfiedFeedback": "満足していません",
     "neutralFeedback": "私は中立です",
-    "satisfiedFeedback": "私は満足した",
-    "verySatisfiedFeedback": "私はとても満足していた",
+    "satisfiedFeedback": "私は満足しています",
+    "verySatisfiedFeedback": "私は非常に満足しています",
     "additionalFeedback": "追加コメント (オプション)",
     "feedbackError": "フィードバックの保存中にエラーが発生しました。 しばらくしてからやり直してください。",
     "feedbackNotSelectedError": "送信する前にオプションを選択してください。",
@@ -255,13 +258,17 @@
     "submitted": "実行依頼済み",
     "timeout": "Timeout",
     "issueUrl": "問題 URL",
-    "taskUrl": "タスク URL"
+    "taskUrl": "タスク URL",
+    "output": "出力",
+    "user": "ユーザー",
+    "apiToken": "API トークン"
   },
   "actionLanes": {
     "buttonInvestigate": "調査"
   },
   "policies": {
     "policies": "ポリシー",
+    "policiesWithCount": "ポリシー ({{count}})",
     "newPolicy": "新規ポリシー",
     "selectEventTrigger": "イベント・トリガーの選択",
     "actionName": "アクション名",
@@ -288,7 +295,6 @@
     "custom": "カスタム",
     "event": "イベント",
     "entityType": "エンティティー・タイプ",
-    "properties": "プロパティー",
     "applicationSmartAlert": "アプリケーションのスマート・アラート",
     "globalApplicationSmartAlert": "グローバル・アプリケーション・スマート・アラート",
     "infraSmartAlert": "インフラストラクチャー・スマート・アラート",
@@ -308,6 +314,7 @@
     "manualAutomatic": "手動、自動",
     "policyType": "ポリシー・タイプ",
     "noPolicies": "ポリシーが構成されていません。",
+    "filterApplied": "適用されているフィルター",
     "createDialog": {
       "success": {
         "title": "ポリシーが正常に作成されました。",
@@ -315,7 +322,17 @@
       },
       "failure": {
         "title": "ポリシーの作成に失敗しました。",
-        "content": "このポリシーの作成中に問題が発生しました: \"{{name}}\"。"
+        "content": "このポリシーの作成中に問題が発生しました: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "ポリシーは正常に更新されました。",
+        "content": "ポリシー \"{{name}}\" は正常に更新されました。"
+      },
+      "failure": {
+        "title": "ポリシーの更新に失敗しました。",
+        "content": "このポリシーの更新中に問題が発生しました: {{errorMessage}}"
       }
     },
     "createBulkDialog": {

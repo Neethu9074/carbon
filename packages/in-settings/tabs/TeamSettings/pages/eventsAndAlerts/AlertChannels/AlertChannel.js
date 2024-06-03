@@ -93,7 +93,8 @@ function filterAlertConfigBasedOnRoles(alertConfigResponse) {
   const canConfigureMobileAppSmartAlerts = role.canConfigureMobileAppSmartAlerts;
   const canConfigureGlobalApplicationSmartAlerts = role.canConfigureGlobalApplicationSmartAlerts;
   const canConfigureGlobalSyntheticSmartAlerts = role.canConfigureGlobalSyntheticSmartAlerts;
-  const canConfigureGlobalInfraSmartAlerts = role.canConfigureGlobalInfraSmartAlerts;
+  const canConfigureGlobalInfraSmartAlerts =
+    role.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope;
 
   return alertConfigResponse.filter(item => {
     const type = item.type;

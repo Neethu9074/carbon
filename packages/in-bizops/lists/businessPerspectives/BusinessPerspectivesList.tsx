@@ -6,14 +6,19 @@
 
 import React from 'react';
 
+import { OrderDirection, TagFilterExpression, TimeConfig } from '@instana/types';
+import { Button } from '@instana/components';
+
 // @ts-expect-error Module needs to be translated to TS
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error Module needs to be translated to TS
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import { NewPerspectiveDialogPresenter } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveDialogPresenter';
 import { perspectiveColumnDefinitions } from 'in-bizops/lists/businessPerspectives/columnDefinitions';
-import { getBusinessProcessListData } from '../businessProcess/BusinessProcessList';
+import getBusinessPerspectives from 'in-bizops/subscriptions/getBusinessPerspectives';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { businessPerspectivesPath } from 'in-bizops/navigation/paths';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -25,10 +30,24 @@ import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
+import locals from 'in-bizops/lists/businessPerspectives/BusinessPerspectivesList.mless';
+
 const pathSegment = businessPerspectivesPath;
 const matrixPrefix = '';
 
-// TODO:  change this to perspectives data when backend is ready
+function NewPerspectiveButton() {
+  return (
+    <Button
+      kind="action"
+      onClick={() => addActiveDialog(<NewPerspectiveDialogPresenter />)}
+      className={locals.button}
+      icon="lib_openclose_add_circle_outline"
+    >
+      {t('in-bizops:perspectives.newPerspective')}
+    </Button>
+  );
+}
+
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions: perspectiveColumnDefinitions,
@@ -37,7 +56,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions: perspectiveColumnDefinitions,
-  defaultOrderBy: 'process_name',
+  defaultOrderBy: 'perspective_name',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix
@@ -58,12 +77,63 @@ export default function BusinessPerspectivesList() {
         />
         <ServerTableWithUrlState
           // TODO:  change this to perspectives data when backend is ready
-          get={getBusinessProcessListData}
+          get={getBusinessPerspectivesListData}
           timeConfig={timeConfig}
           cardTitle={t('in-bizops:lists.perspectives')}
+          rightHeader={NewPerspectiveButton}
         />
       </LeftRightPadding>
       <Footer />
     </Sticky>
   );
+}
+
+type GetBusinessPerspectiveList = {
+  timeConfig: TimeConfig;
+  orderBy?: string;
+  orderDirection?: OrderDirection;
+  page: number;
+  pageSize: number;
+  query: string;
+};
+
+function getBusinessPerspectivesListData({
+  timeConfig,
+  orderBy = 'process_name',
+  orderDirection = 'ASC',
+  page = 1,
+  pageSize = 20
+}: //query = ''
+GetBusinessPerspectiveList) {
+  let tagFilterExpression: TagFilterExpression = {
+    type: 'EXPRESSION',
+    logicalOperator: 'AND',
+    elements: []
+  };
+
+  // search against business_perspectives_name
+  // TODO: This is in progress in the backend.  Uncomment when ready
+  /*
+  if (query && query.length > 0) {
+    tagFilterExpression.elements.push({
+      name: 'business_perspectives_name',
+      operator: 'CONTAINS',
+      stringValue: query,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    });
+  }
+  */
+
+  return getBusinessPerspectives({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: { by: orderBy, direction: orderDirection },
+    dataType: 'PERSPECTIVE',
+    metrics: {},
+    timeConfig,
+    tagFilterExpression
+  });
 }

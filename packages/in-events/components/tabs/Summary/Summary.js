@@ -6,8 +6,8 @@
 import React, { useState } from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { Card, Pill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Card } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {
@@ -24,22 +24,29 @@ import {
   isMobileAppSmartAlertEvent,
   isSloSmartAlertEvent,
   isEntityCountVerificationEvent,
-  isLogSmartAlertEvent
+  isLogSmartAlertEvent,
+  hasManualCloseFields
 } from 'in-events/components/eventUtil';
+import {
+  incidentSummarizationEnabled,
+  incidentSummarizationTimelineEnabled,
+  manuallyCloseEventEnabled
+} from 'in-services/featureFlags';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
-import { incidentSummarizationEnabled, incidentSummarizationTimelineEnabled } from 'in-services/featureFlags';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
+import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import SyntheticEventContent from 'in-events/components/EventContent/SyntheticEventContent';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import MobileEventContent from 'in-events/components/EventContent/MobileEventContent';
 import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
@@ -56,6 +63,7 @@ import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import IncidentEventListRows from 'in-events/components/legacy/EventList';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventType, EVENT_TYPES, getEvent } from 'in-stores/events';
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -65,14 +73,17 @@ import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { pageNames } from 'in-services/tracking/pageNames';
 import EventChart from 'in-events/components/EventChart';
 import { emptyList } from 'in-services/fixedImmutables';
+import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
 import useUrlState from 'in-hooks/useUrlState';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 
-export default function Summary({ selectedEventId, data: event }) {
+export default function Summary(props) {
+  const { selectedEventId, data: event, reload } = props;
   const expiredSnapshotId = getSnapshotId(event, isEntityVerificationEvent(event));
   const expiredSnapshotVersions = useObservable(getSnapshotVersionsObservable, [expiredSnapshotId]);
   const latestSnapshot = expiredSnapshotVersions && getLatestSnapshot(expiredSnapshotVersions.toArray());
@@ -94,7 +105,7 @@ export default function Summary({ selectedEventId, data: event }) {
             {isIncident ? (
               <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
             ) : (
-              <EventContent event={event} latestSnapshot={latestSnapshot} />
+              <EventContent event={event} latestSnapshot={latestSnapshot} reload={reload} />
             )}
           </div>
         </>
@@ -109,49 +120,56 @@ const EventContent = connectTo(
       null
     )
   }),
-  function EventContent({ event, latestSnapshot, snapshot }) {
+  function EventContent({ event, latestSnapshot, snapshot, reload }) {
     const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
 
     if (isWebsiteSmartAlertEvent(event)) {
-      return <WebsiteEventContent event={event} snapshot={snapshot} />;
+      return <WebsiteEventContent event={event} snapshot={snapshot} reload={reload} />;
     }
 
     if (isApplicationSmartAlertEvent(event)) {
-      return <ApplicationEventContent event={event} snapshot={snapshot} />;
+      return <ApplicationEventContent event={event} snapshot={snapshot} reload={reload} />;
     }
 
+    // TODO: Confirm support
     if (isKubernetesEvent(event)) {
-      return <KubernetesEventContent event={event} timeConfig={timeConfig} />;
+      return <KubernetesEventContent event={event} timeConfig={timeConfig} reload={reload} />;
     }
 
     if (isInfraSmartAlertEvent(event)) {
-      return <InfraEventContent event={event} snapshot={snapshot} />;
+      return <InfraEventContent event={event} snapshot={snapshot} reload={reload} />;
     }
 
     if (isSyntheticSmartAlertEvent(event)) {
-      return <SyntheticEventContent event={event} snapshot={snapshot} />;
+      return <SyntheticEventContent event={event} snapshot={snapshot} reload={reload} />;
     }
 
     if (isMobileAppSmartAlertEvent(event)) {
-      return <MobileEventContent event={event} snapshot={snapshot} />;
+      return <MobileEventContent event={event} snapshot={snapshot} reload={reload} />;
     }
 
     if (isSloSmartAlertEvent(event)) {
-      return <SloEventContent event={event} />;
+      return <SloEventContent event={event} snapshot={snapshot} />;
     }
 
     if (isLogSmartAlertEvent(event)) {
-      return <LogsEventContent event={event} snapshot={snapshot} />;
+      return <LogsEventContent event={event} snapshot={snapshot} reload={reload} />;
     }
 
     if (isEntityCountVerificationEvent(event)) {
-      return <EntityCountVerificationEventContent event={event} snapshot={snapshot} />;
+      return <EntityCountVerificationEventContent event={event} snapshot={snapshot} reload={reload} />;
     }
 
     const eventType = getEventType(event);
     const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
     const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
     const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
+
+    const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+
+    const pillContent = hasManualCloseFields(event) ? (
+      <Pill type="green">{t('in-events:labelClosed')}</Pill>
+    ) : undefined;
 
     return (
       <>
@@ -163,7 +181,7 @@ const EventContent = connectTo(
         />
         <Row withoutSideMargin>
           <Col xs>
-            <Card title={t('in-events:titleDescription')}>
+            <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent}>
               <EntityWithParentInformation
                 entityId={event.get('entityId')}
                 entityType={event.get('entityType')}
@@ -179,12 +197,38 @@ const EventContent = connectTo(
                   className="in-event-view-event-content"
                 />
               ) : (
-                <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
+                <ProblemDescription fixSuggestion={fixSuggestion} />
               )}
-              <DescriptionButtons>
-                <EventSpecificationLink event={event.toJS()} />
-                <AnalyzeIssueCallsButton event={event} />
-              </DescriptionButtons>
+              {canCloseManually && hasManualCloseFields(event) ? (
+                <div>
+                  <ManualCloseDescription event={event} />
+                  <DescriptionButtons>
+                    <ManualCloseIssueButton
+                      event={event}
+                      reload={reload}
+                      iconComponent={
+                        <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+                      }
+                    />
+                    <EventSpecificationLink event={event.toJS()} />
+                    <AnalyzeIssueCallsButton event={event} />
+                  </DescriptionButtons>
+                </div>
+              ) : (
+                <DescriptionButtons>
+                  {canCloseManually && (
+                    <ManualCloseIssueButton
+                      event={event}
+                      reload={reload}
+                      iconComponent={
+                        <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+                      }
+                    />
+                  )}
+                  <EventSpecificationLink event={event.toJS()} />
+                  <AnalyzeIssueCallsButton event={event} />
+                </DescriptionButtons>
+              )}
             </Card>
           </Col>
         </Row>

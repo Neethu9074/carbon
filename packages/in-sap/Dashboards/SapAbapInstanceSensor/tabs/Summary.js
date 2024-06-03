@@ -7,12 +7,11 @@
 import React, { Fragment } from 'react';
 
 import InfraMetricKpiCard from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InfraMetricKpiCardSap';
-import DiskSummaryStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DiskSummaryStats';
+import { number, kiloBytes, percentage, percentagePlain } from 'in-services/formatters/number';
 import CombinedMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/CombinedMetrics';
 import AbapShortDumps from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/AbapShortDumps';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { number, kiloBytes, percentage } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -134,7 +133,7 @@ export default function Summary({ timeConfig, data: sap }) {
               metrics: ['sapMetricsStats.userName', 'sapMetricsStats.userSession'],
               labels: [t('in-sap:dashboards.numberOfUsers'), t('in-sap:dashboards.userSession')],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -148,25 +147,21 @@ export default function Summary({ timeConfig, data: sap }) {
               metrics: ['sapMetricsStats.totalRFCCalls'],
               labels: [t('in-sap:dashboards.totalRFCCalls')],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-sap:dashboards.cpuUtilization')}>
+        <DashboardSection title={t('in-sap:dashboards.totalcpuUtilization')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['cpuMetricStats.usrTotal', 'cpuMetricStats.sysTotal', 'cpuMetricStats.totalUtilization'],
-              labels: [
-                t('in-sap:dashboards.userUtilization'),
-                t('in-sap:dashboards.systemUtilization'),
-                t('in-sap:abapsensor.metrics.total')
-              ],
+              metrics: ['cpuMetricStats.totalUtilization'],
+              labels: [t('in-sap:abapsensor.metrics.total')],
               type: 'line',
-              formatter: number.compact
+              formatter: percentagePlain.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -198,7 +193,7 @@ export default function Summary({ timeConfig, data: sap }) {
                 t('in-sap:dashboards.nowpWait')
               ],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -258,7 +253,7 @@ export default function Summary({ timeConfig, data: sap }) {
                 t('in-sap:dashboards.reserved')
               ],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -311,8 +306,8 @@ export default function Summary({ timeConfig, data: sap }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['swapmemory.freeSwap', 'swapmemory.swapSize'],
-              labels: [t('in-sap:dashboards.freeSwap'), t('in-sap:dashboards.swapSize')],
+              metrics: ['swapmemory.swapSize', 'swapmemory.freeSwap'],
+              labels: [t('in-sap:dashboards.swapSize'), t('in-sap:dashboards.freeSwap')],
               type: 'line',
               formatter: kiloBytes.detailed
             }}
@@ -348,7 +343,7 @@ export default function Summary({ timeConfig, data: sap }) {
                 t('in-sap:dashboards.idleTotal')
               ],
               type: 'line',
-              formatter: number
+              formatter: percentagePlain.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -366,7 +361,7 @@ export default function Summary({ timeConfig, data: sap }) {
                 t('in-sap:dashboards.contextSwitch')
               ],
               type: 'line',
-              formatter: number
+              formatter: number.perSecond.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -384,14 +379,13 @@ export default function Summary({ timeConfig, data: sap }) {
                 t('in-sap:dashboards.loadAvg15')
               ],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
       <CombinedMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
-      <DiskSummaryStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <AbapShortDumps snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>
   );

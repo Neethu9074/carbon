@@ -8,10 +8,11 @@ import React, { useMemo } from 'react';
 import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 
+import LegacyRootCauseSection from 'in-events/components/legacy/LegacyRootCauseSection';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import RootCauseSection from 'in-events/components/legacy/RootCauseSection';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import AIEventListRow from 'in-events/components/legacy/AIEventListRow';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { emptyList } from 'in-services/fixedImmutables';
 import { rcaUIEnabled } from 'in-services/featureFlags';
@@ -43,26 +44,39 @@ export default function IncidentEventList({
     .toArray()
     .filter(issue => issue !== incident.getIn(['triggeringEvent'], ''));
 
-  const legacyRootCausePropertyCheck =
+  const oldRootCausePropertyCheck =
     incident.hasIn(['metadata', 'probableRootCause']) && !incident.getIn(['metadata', 'probableRootCause']).isEmpty();
 
-  const RootCausePropertyCheck =
+  const newRootCausePropertyCheck =
     incident.hasIn(['metadata', 'rootCause']) && !incident.getIn(['metadata', 'rootCause']).isEmpty();
   const incidentHasRCAProperty = useMemo(
-    () => legacyRootCausePropertyCheck || RootCausePropertyCheck,
-    [RootCausePropertyCheck, legacyRootCausePropertyCheck]
+    () => oldRootCausePropertyCheck || newRootCausePropertyCheck,
+    [newRootCausePropertyCheck, oldRootCausePropertyCheck]
   );
 
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 
   const eventType = getEventType(incident);
   const pageSize = 10;
-
+  const rootCauseHasOldSnapshotMetadata = incident.hasIn([
+    'metadata',
+    'rootCause',
+    'probableRootCauseSnapshotMetadata'
+  ]);
   if (!triggeringEvent) return <ListRow title={t('in-events:titleTriggerEvent')} />;
   return (
     <>
-      {incidentHasRCAProperty && rcaUIEnabled && (
-        <AIEventListRow
+      {incidentHasRCAProperty && rcaUIEnabled && rootCauseHasOldSnapshotMetadata && (
+        <LegacyRootCauseSection
+          title={t('in-events:RCA.titlePRCA')}
+          incident={incident}
+          latestSnapshot={latestSnapshot}
+          incidentHasRCAProperty={incidentHasRCAProperty}
+        />
+      )}
+
+      {incidentHasRCAProperty && rcaUIEnabled && !rootCauseHasOldSnapshotMetadata && (
+        <RootCauseSection
           title={t('in-events:RCA.titlePRCA')}
           incident={incident}
           latestSnapshot={latestSnapshot}

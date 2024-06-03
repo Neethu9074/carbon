@@ -105,6 +105,20 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
       return metric;
     });
   }
+
+  const latencyDistributionChartSelected = chartedMetrics.some(
+    m => m.aggregationId === 'DISTRIBUTION' && m.metricId === 'latency'
+  );
+  const noChartSelected = chartedMetrics.length === 0;
+
+  const disableApiQuery = latencyDistributionChartSelected || noChartSelected;
+  let disabledApiQueryTooltip;
+  if (latencyDistributionChartSelected) {
+    disabledApiQueryTooltip = t('in-applications:analyze.disabledApiQueryLatencyDistributionChart');
+  } else if (noChartSelected) {
+    disabledApiQueryTooltip = t('in-applications:analyze.disabledApiQueryNoChart');
+  }
+
   return (
     <Sticky
       header={
@@ -169,6 +183,8 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
                     docsLink={docLink}
                     endpointUrl={endpointUrl}
                     timeFrame={timeConfig}
+                    disabled={disableApiQuery}
+                    disabledTooltip={disabledApiQueryTooltip}
                   />
                 </Stack>
               }

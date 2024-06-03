@@ -30,7 +30,7 @@ describe('in-websites/trackingSnippet', () => {
         expect(
           module.getTrackingSnippet({
             key: '123',
-            selectSRIOption: 'Enable',
+            enableSRI: true,
             urlWeaselVersion: '1.6.6',
             shaValue: 'sha384-fakeSHAValue'
           })
@@ -54,7 +54,7 @@ describe('in-websites/trackingSnippet', () => {
         useInstanaSaasEumTrackingUrlEnabled: true,
         weaselSubresourceIntegrityEnabled: true
       }).then(module => {
-        expect(module.getTrackingSnippet({ key: '123', selectSRIOption: 'Disable' })).toBe(
+        expect(module.getTrackingSnippet({ key: '123', enableSRI: false })).toBe(
           `
 <script>
   (function(s,t,a,n){s[t]||(s[t]=a,n=s[a]=function(){n.q.push(arguments)},
@@ -129,7 +129,7 @@ describe('in-websites/trackingSnippet', () => {
         useInstanaSaasEumTrackingUrlEnabled: false,
         weaselSubresourceIntegrityEnabled: true
       }).then(mod => {
-        expect(mod.getTrackingSnippet({ key: '123', selectSRIOption: 'Enable', shaValue: 'sha384-fakeSHAValue' })).toBe(
+        expect(mod.getTrackingSnippet({ key: '123', enableSRI: true, shaValue: 'sha384-fakeSHAValue' })).toBe(
           `
 <script>
   // Note: Replace the <trackingBaseUrl> with the base URL under
@@ -153,7 +153,7 @@ describe('in-websites/trackingSnippet', () => {
         useInstanaSaasEumTrackingUrlEnabled: false,
         weaselSubresourceIntegrityEnabled: true
       }).then(mod => {
-        expect(mod.getTrackingSnippet({ key: '123', selectSRIOption: 'Disable' })).toBe(
+        expect(mod.getTrackingSnippet({ key: '123', enableSRI: false })).toBe(
           `
 <script>
   // Note: Replace the <trackingBaseUrl> with the base URL under

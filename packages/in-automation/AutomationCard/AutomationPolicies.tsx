@@ -286,6 +286,7 @@ function useActionFilters({
       data.filter(
         action =>
           !isExternal(action.type) &&
+          !(action.metadata?.builtIn && action.metadata?.ai !== null) &&
           filters.reduce((shouldInclude, filter) => {
             const emptyFilter = !filter.value?.length;
             if (emptyFilter) return shouldInclude;

@@ -7,7 +7,7 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { Link, SvgIcon } from '@instana/components';
+import { Link, SvgIcon, Card } from '@instana/components';
 import { Button, ButtonKinds } from '@instana/legacy';
 import { Observable } from '@instana/observables';
 
@@ -152,14 +152,16 @@ export default function MultiMetricKpiCard({
   }
 
   return (
-    <div
+    <Card
       className={classNames({
         [locals.wrapper]: true,
         [locals.borderless]: borderless,
         [locals.shadowless]: shadowless,
-        [locals.centerValue]: centerLabels,
-        [locals.useMaxAvailableHeight]: useMaxAvailableHeight
+        [locals.centerValue]: centerLabels
       })}
+      bodyClassName={locals.kpibody}
+      headerClassName={locals.kpiheader}
+      useMaxAvailableHeight={useMaxAvailableHeight}
     >
       <div
         className={classNames({
@@ -203,6 +205,6 @@ export default function MultiMetricKpiCard({
       </div>
       {content}
       {companionValue && <span className={locals.companion}>{companionValue}</span>}
-    </div>
+    </Card>
   );
 }

@@ -439,7 +439,8 @@
     "aggregation_DISTINCTCOUNT": "contagem distinta",
     "aggregation_SUM": "soma",
     "aggregation_DISTRIBUTION": "distribuição",
-    "aggregation_PERSECOND": "por segundo"
+    "aggregation_PERSECOND": "por segundo",
+    "labelFilterEmptyValue": "Filtrar valores vazios"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Usado",

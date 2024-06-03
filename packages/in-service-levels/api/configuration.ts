@@ -98,6 +98,16 @@ export const getSloConfiguration = memoize<string, Result<ServiceLevelObjectiveC
   minutes.toMillis(1)
 );
 
+function getSloConfigurationsInternal(ids: string[]) {
+  return getAllSloConfigurationsInternal({ ids, pageSize: ids.length });
+}
+
+export const getSloConfigurations = memoize<string[], Result<PaginatedResult<ServiceLevelObjectiveConfiguration>>>(
+  getSloConfigurationsInternal,
+  ids => generateStableHash(ids),
+  minutes.toMillis(1)
+);
+
 export function createSloConfiguration(
   sloConfig: ServiceLevelObjectiveConfiguration
 ): Observable<Result<ServiceLevelObjectiveConfiguration>> {

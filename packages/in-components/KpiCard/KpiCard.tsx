@@ -53,6 +53,8 @@ export interface KpiCardProps {
   resultPrecision?: ResultPrecision;
   isInModal?: boolean;
   tooltipContent?: React.ReactNode;
+  majorClass?: string;
+  minorClass?: string;
 }
 
 export default function KpiCard({
@@ -72,7 +74,9 @@ export default function KpiCard({
   useMaxAvailableHeight = true,
   iconAction,
   resultPrecision,
-  tooltipContent
+  tooltipContent,
+  majorClass,
+  minorClass
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
@@ -87,12 +91,12 @@ export default function KpiCard({
   }
 
   let content;
+  let major = value;
   if (raw) {
     content = <span className={classNames(locals.minor, valuesClassName)}>{formattedValue}</span>;
   } else if (children) {
     content = <span className={classNames(locals.minor, valuesClassName)}>{children}</span>;
   } else {
-    let major;
     let minor = null;
     if (value === undefined || value === null) {
       major = formattedValue;
@@ -108,10 +112,10 @@ export default function KpiCard({
 
     content = (
       <>
-        <span className={locals.major} style={{ color: color }}>
+        <span className={classNames(locals.major, majorClass)} style={{ color: color }}>
           {major}
         </span>
-        {minor && <span className={locals.minor}>{minor}</span>}
+        {minor && <span className={classNames(locals.minor, minorClass)}>{minor}</span>}
       </>
     );
   }
@@ -123,11 +127,11 @@ export default function KpiCard({
         [locals.borderless]: borderless,
         [locals.shadowless]: shadowless || isInModal,
         [locals.centerValue]: centerLabels,
-        [locals.modal]: isInModal,
-        [locals.useMaxAvailableHeight]: useMaxAvailableHeight
+        [locals.modal]: isInModal
       })}
       bodyClassName={locals.kpibody}
       headerClassName={locals.kpiheader}
+      useMaxAvailableHeight={useMaxAvailableHeight}
     >
       <div
         className={classNames({
@@ -176,7 +180,7 @@ export default function KpiCard({
           <span className={locals.titleText}>{content}</span>
         </Tooltip>
       ) : (
-        <span className={locals.titleText}>{content}</span>
+        <span className={locals.titleText}> {content}</span>
       )}
       {companionValue && <span className={locals.companion}>{companionValue}</span>}
     </Card>

@@ -58,6 +58,7 @@ function List(props) {
     isCustomDashboard
   } = props;
 
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const isDenseList = !!selectedEventId;
   const cols = isDenseList ? 2 : 6;
 
@@ -125,7 +126,7 @@ function List(props) {
                     {isDisplayColumn(headers, 'timeline') && (
                       <Th className={locals.timelineColumn}>{t('in-events:headerTimeline')}</Th>
                     )}
-                    {manuallyCloseEventEnabled && role?.canManuallyCloseIssue && isDisplayColumn(headers, 'state') && (
+                    {canCloseManually && isDisplayColumn(headers, 'state') && (
                       <SortableColumn {...props} technicalName="state" sortable={!isPreview}>
                         {t('in-events:headerState')}
                       </SortableColumn>
@@ -182,7 +183,7 @@ function List(props) {
                   {t('in-events:headerEnd')}
                 </SortableColumn>
                 <Th className={locals.timelineColumn}>{t('in-events:headerTimeline')}</Th>
-                {manuallyCloseEventEnabled && role?.canManuallyCloseIssue && (
+                {canCloseManually && (
                   <SortableColumn {...props} technicalName="state">
                     {t('in-events:headerState')}
                   </SortableColumn>

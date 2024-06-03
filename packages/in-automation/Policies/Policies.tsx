@@ -16,6 +16,7 @@ import {
   isGlobalApplicationSmartAlert,
   isInfraSmartAlert,
   isMobileAppSmartAlert,
+  isSloSmartAlert,
   isSyntheticsSmartAlert,
   isWebsiteSmartAlert
 } from 'in-automation/Policies/types';
@@ -240,6 +241,9 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
             renderName={config => replaceTitlePlaceholdersWithMarkup(config.name)}
           />
         );
+      }
+      if (isSloSmartAlert(item.trigger)) {
+        return <NameColumnCell config={item.trigger} />;
       }
       if (item.trigger) {
         return <NameColumnCell config={item.trigger} getSubtitle={config => getSubtitleLog(config.threshold)} />;

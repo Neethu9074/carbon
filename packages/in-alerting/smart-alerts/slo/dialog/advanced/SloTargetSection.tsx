@@ -6,8 +6,26 @@
 
 import React from 'react';
 
+import SloEntityTypeSelector from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTypeSelector';
+import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import SloListSelection from 'in-alerting/smart-alerts/slo/components/SloListSelection';
 
 export default function SloTargetSection() {
-  return <SloListSelection />;
+  const { form, onChange } = useSloAlertFormContext();
+
+  const entityTypeField = form.getIn(['entityType']);
+
+  return (
+    <>
+      <SloEntityTypeSelector
+        onChange={entityType => {
+          onChange(['entityType'], () => entityTypeField.setValue(entityType).setTouched(true));
+        }}
+        value={entityTypeField.value ?? 'application'}
+        disabled={entityTypeField.value == null}
+      />
+
+      <SloListSelection />
+    </>
+  );
 }

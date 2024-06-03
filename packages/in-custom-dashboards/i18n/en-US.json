@@ -297,8 +297,11 @@
       "thresholdForm": {
         "addThresholdColorization": "Add threshold based colorization",
         "threshold": "Threshold",
-        "critical": "Critical when latency",
-        "warning": "Warning when latency"
+        "critical": "Critical when",
+        "warning": "Warning when",
+        "criticalValidator": "Critical threshold should be greater than warning threshold for > and >= operators.",
+        "warningValidator": "Warning threshold should be greater than critical threshold for < and <= operators.",
+        "bytes": "Bytes"
       },
       "bigNumber": "Big Number"
     },

@@ -14,6 +14,7 @@ import { Link } from '@instana/components';
 import UrlShortener from 'in-components/DashboardHeader/UrlShortener/UrlShortener';
 import MigratedTenantBanner from 'in-components/MigratedTenantBanner/MigratedTenantBanner';
 import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Nullish, Result } from 'in-types';
@@ -175,7 +176,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
             {isBeta && <BetaBadge />}
           </div>
           <div className={locals.rightContent}>
-            {!hideUrlShortener && <UrlShortener darkTheme={theme === themes.dark} />}
+            {!hideUrlShortener && !shareAndInviteEnabled && <UrlShortener darkTheme={theme === themes.dark} />}
             {renderTopLevelButtonLine && renderTopLevelButtonLine(props)}
             {renderTimeSelection ? (
               renderTimeSelection(props)

@@ -8,4 +8,9 @@
   .title {
     display: grid;
   }
+
+  .alignCenter {
+    top: 8px;
+    position: relative;
+  }
 }

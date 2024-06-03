@@ -224,6 +224,11 @@
   "pluginName_awsAppSync_1": "AWS AppSyncs",
   "pluginName_awsAppSync_2": "AWS AppSyncs",
   "pluginName_awsAppSync": "AWS AppSync",
+  "pluginName_awsAutoScaling_plural": "AWS Auto Scaling groups",
+  "pluginName_awsAutoScaling_0": "AWS Auto Scaling groups",
+  "pluginName_awsAutoScaling_1": "AWS Auto Scaling group",
+  "pluginName_awsAutoScaling_2": "AWS Auto Scaling groups",
+  "pluginName_awsAutoScaling": "AWS Auto Scaling group",
   "pluginName_azure_plural": "Azure Instances",
   "pluginName_azure_0": "Azure Instances",
   "pluginName_azure_1": "Azure Instances",
@@ -926,11 +931,26 @@
   "pluginName_ibmiDiskInfo_1": "Disk Information on IBM i",
   "pluginName_ibmiDiskInfo_2": "Disk Information on IBM i",
   "pluginName_ibmiDiskInfo": "Disk Information on IBM i",
+  "pluginName_ibmInfosphereCdc_plural": "IBM Infosphere CDCs",
+  "pluginName_ibmInfosphereCdc_0": "IBM Infosphere CDCs",
+  "pluginName_ibmInfosphereCdc_1": "IBM Infosphere CDCs",
+  "pluginName_ibmInfosphereCdc_2": "IBM Infosphere CDCs",
+  "pluginName_ibmInfosphereCdc": "IBM Infosphere CDC",
+  "pluginName_ibmInfosphereCdcSubscription": "IBM Infosphere Subscription",
+  "pluginName_ibmInfosphereCdcSubscription_plural": "IBM Infosphere Subscriptions",
+  "pluginName_ibmInfosphereCdcSubscription_0": "IBM Infosphere Subscriptions",
+  "pluginName_ibmInfosphereCdcSubscription_1": "IBM Infosphere Subscriptions",
+  "pluginName_ibmInfosphereCdcSubscription_2": "IBM Infosphere Subscriptions",
   "pluginName_ibmIOs_plural": "IBM i",
   "pluginName_ibmIOs_0": "IBM i",
   "pluginName_ibmIOs_1": "IBM i",
   "pluginName_ibmIOs_2": "IBM i",
   "pluginName_ibmIOs": "IBM i",
+  "pluginName_ibmIMessageQueueInfo_plural": "Message Queue Information on IBM i",
+  "pluginName_ibmIMessageQueueInfo_0": "Message Queue Information on IBM i",
+  "pluginName_ibmIMessageQueueInfo_1": "Message Queue Information on IBM i",
+  "pluginName_ibmIMessageQueueInfo_2": "Message Queue Information on IBM i",
+  "pluginName_ibmIMessageQueueInfo": "Message Queue Information on IBM i",
   "pluginName_ibmiNetworkInfo_plural": "Network Information on IBM i",
   "pluginName_ibmiNetworkInfo_0": "Network Information on IBM i",
   "pluginName_ibmiNetworkInfo_1": "Network Information on IBM i",
@@ -1269,11 +1289,21 @@
   "pluginName_oTelDatabase_1": "OTEL Databases",
   "pluginName_oTelDatabase_2": "OTEL Databases",
   "pluginName_oTelDatabase": "OTEL Database",
+  "pluginName_oTelJvm_plural": "OTEL JVMs",
+  "pluginName_oTelJvm_0": "OTEL JVMs",
+  "pluginName_oTelJvm_1": "OTEL JVMs",
+  "pluginName_oTelJvm_2": "OTEL JVMs",
+  "pluginName_oTelJvm": "OTEL JVM",
   "pluginName_oTelLLM_plural": "OTEL LLMonitors",
   "pluginName_oTelLLM_0": "OTEL LLMonitors",
   "pluginName_oTelLLM_1": "OTEL LLMonitors",
   "pluginName_oTelLLM_2": "OTEL LLMonitors",
   "pluginName_oTelLLM": "OTEL LLMonitor",
+  "pluginName_oTelDcgm_plural": "OTEL Dcgms",
+  "pluginName_oTelDcgm_0": "OTEL Dcgms",
+  "pluginName_oTelDcgm_1": "OTEL Dcgms",
+  "pluginName_oTelDcgm_2": "OTEL Dcgms",
+  "pluginName_oTelDcgm": "OTEL Dcgm",
   "pluginName_otelHost_plural": "OTEL Hosts",
   "pluginName_otelHost_0": "OTEL Hosts",
   "pluginName_otelHost_1": "OTEL Hosts",
@@ -3421,7 +3451,6 @@
       "allQueuesMessagesEnqueue": "All Queues Messages Enqueue",
       "allTopicsMessagesEnqueue": "All Topics Messages Enqueue",
       "memoryUsage": "Memory Usage",
-      "storageUsage": "Storage Usage",
       "brokerWideQueuesMessageStats": "Broker wide queues message stats",
       "allQueuesMessagesDequeue": "All Queues Messages Dequeue",
       "brokerWideTopicsMessageStats": "Broker wide topics message stats",
@@ -4797,6 +4826,58 @@
       "labelActiveSubscriptions": "Active Subscriptions"
     },
 
+    "awsAutoScaling": {
+      "infoTitle": {
+        "autoScalingGroupName": "Auto Scaling group name",
+        "region": "Region",
+        "groupArn": "ARN",
+        "awsAccountId": "AWS Account ID",
+        "groupCreatedTime": "Date created",
+        "groupMinSize": "Minimum capacity",
+        "groupMaxSize": "Maximum capacity",
+        "groupDesiredSize": "Desired capacity"
+      },
+      "dashboard": {
+        "titleGroupInstances": "Group Instances",
+        "titleGroupCapacity": "Group Capacity",
+        "titlePredictiveScalingForecast": "Predictive Scaling Forecast",
+        "titlePredictiveScaling": "Predictive Scaling",
+        "labelGroupInServiceInstances": "In Service",
+        "labelGroupPendingInstances": "Pending",
+        "labelGroupStandbyInstances": "Standby",
+        "labelGroupTerminatingInstances": "Terminating",
+        "labelGroupTotalInstances": "Total",
+        "labelGroupInServiceCapacity": "In Service",
+        "labelGroupPendingCapacity": "Pending",
+        "labelGroupStandbyCapacity": "Standby",
+        "labelGroupTerminatingCapacity": "Terminating",
+        "labelGroupTotalCapacity": "Total",
+        "labelPredictiveScalingLoadForecast": "Load",
+        "labelPredictiveScalingCapacityForecast": "Capacity",
+        "labelPredictiveScalingMetricPairCorrelation": "Metric Pair Correlation"
+      },
+      "category": {
+        "autoScalingGroup": "Auto Scaling group",
+        "predictiveScaling": "Predictive Scaling"
+      },
+      "labelGroupInServiceInstancesKpi": "Group Instances In Service",
+      "labelGroupTotalInstancesKpi": "Group Instances Total",
+      "headerAutoscalingInfo": "Auto Scaling Group Info",
+      "labelGroupInServiceInstances": "Group In Service Instances",
+      "labelGroupPendingInstances": "Group Pending Instances",
+      "labelGroupStandbyInstances": "Group Standing Instances",
+      "labelGroupTerminatingInstances": "Group Terminating Instances",
+      "labelGroupTotalInstances": "Group Total Instances",
+      "labelGroupInServiceCapacity": "Group In Service Capacity",
+      "labelGroupPendingCapacity": "Group Pending Capacity",
+      "labelGroupStandbyCapacity": "Group Standby Capacity",
+      "labelGroupTerminatingCapacity": "Group Terminating Capacity",
+      "labelGroupTotalCapacity": "Group Total Capacity",
+      "labelPredictiveScalingLoadForecast": "Predictive Scaling Load Forecast",
+      "labelPredictiveScalingCapacityForecast": "Predictive Scaling Capacity Forecast",
+      "labelPredictiveScalingMetricPairCorrelation": "Predictive Scaling Metric Pair Correlation"
+    },
+
     "azure": {
       "dashboard": {
         "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity."
@@ -4888,7 +4969,7 @@
       "infoLocation": "Location",
       "infoProvisioningState": "Provisioning State",
       "infoTier": "Tier",
-      "infoType":"Type",
+      "infoType": "Type",
       "labelAvailability": "Availability",
       "labelServiceApiLatency": "Service Api Latency",
       "labelServiceApiHit": "Service Api Hit",
@@ -4949,7 +5030,7 @@
       "infoLocation": "Location",
       "infoProvisioningState": "Provisioning State",
       "infoTier": "Tier",
-      "infoType":"Type",
+      "infoType": "Type",
       "labelAvailability": "Availability",
       "labelServiceApiLatency": "Service Api Latency",
       "labelServiceApiHit": "Service Api Hit",
@@ -4969,7 +5050,6 @@
       "kpi": {
         "labelServiceApiLatency": "Service Api Latency",
         "labelAvailability": "Availability"
-
       }
     },
     "azureCosmosDB": {
@@ -5011,7 +5091,7 @@
       "infoResourceGroup": "Resource Group",
       "infoLocation": "Location",
       "infoCreatedAt": "Created At",
-      "infoType":"Type",
+      "infoType": "Type",
       "infoSubscriptionID": "Subscription ID",
       "infoPurviewLabel": "Microsoft Purview",
       "labelDataMapStorageSize": "Data Map Storage Size",
@@ -5035,7 +5115,7 @@
       },
       "kpi": {
         "dataMapCapacityUnits": "Data Map Capacity Units",
-        "scansFailed" : "Scans Failed"
+        "scansFailed": "Scans Failed"
       }
     },
     "azureDataFactory": {
@@ -5130,7 +5210,7 @@
         "labelPipelineElapsedTime": "Elapsed Time"
       }
     },
-    "azureServiceBusQueues" : {
+    "azureServiceBusQueues": {
       "infoAzureServiceBusQueue": "Azure Service Bus Queue",
       "status": "Status",
       "maxSize": "Max Size",
@@ -5141,7 +5221,7 @@
       "queuesWithCount": "Queues ({{len}})",
       "name": "Queues"
     },
-    "azureServiceBusTopics" : {
+    "azureServiceBusTopics": {
       "infoAzureServiceBusTopic": "Azure Service Bus Topic",
       "status": "Status",
       "maxSize": "Max Size",
@@ -5153,10 +5233,10 @@
     },
     "azureServiceBus": {
       "infoAzureServiceBus": "Azure ServiceBus",
-      "infoName":  "Name",
-      "infoResourceGroup":"Resource Group",
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
       "infoLocation": "Location",
-      "infoSubscriptionID":"Subscription ID",
+      "infoSubscriptionID": "Subscription ID",
       "infoType": "Type",
       "infoKind": "Kind",
       "infoState": "State",
@@ -5169,21 +5249,21 @@
       "dashboard": {
         "labelNamespaceConnections": "Namespace Connections",
         "labelActiveConnections": "Active",
-        "labelConnectionsOpened":"Opened",
+        "labelConnectionsOpened": "Opened",
         "labelConnectionsClosed": "Closed",
         "labelNameSpaceRequests": "Namespace Request",
         "labelDimensionSize": "Size",
         "labelIncomingRequests": "Incoming",
-        "labelSuccessfulRequests":"Successful",
+        "labelSuccessfulRequests": "Successful",
         "labelThrottledRequests": "Throttled",
         "labelNamespaceMessages": "Namespace Messages",
         "labelIncomingMessages": "Incoming",
         "labelOutgoingMessages": "Outgoing",
-        "labelNameSpaceServer" : "Namespace Server",
+        "labelNameSpaceServer": "Namespace Server",
         "labelServerErrors": "Server Errors",
         "labelServerSendLatency": "Server Send Latency",
         "labelTotalMessages": "Total Messages",
-        "labelMessages" : "Messages",
+        "labelMessages": "Messages",
         "labelActiveMessages": "Active Messages",
         "labelDeadletteredMessages": "Deadlettered Messages",
         "labelScheduledMessages": "Scheduled Messages",
@@ -5196,11 +5276,11 @@
     },
     "azureMachineLearning": {
       "infoAzureMachineLearning": "Azure Machine Learning",
-      "infoName":  "Name",
-      "infoSubscriptionID":"Subscription ID",
+      "infoName": "Name",
+      "infoSubscriptionID": "Subscription ID",
       "infoType": "Type",
       "infoLocation": "Location",
-      "infoResourceGroup":"Resource Group",
+      "infoResourceGroup": "Resource Group",
       "infoCreatedAt": "Created At",
       "kpi": {
         "labelCpuUtilization": "CPU Utilization",
@@ -7816,7 +7896,11 @@
       "receivedBytes": "Number of bytes received by SR-IOV Adapter",
       "transferredBytes": "Number of bytes transferred by SR-IOV Adapter",
       "errorIn": "Received errors/s",
-      "errorOut": "Transmit errors/s"
+      "errorOut": "Transmit errors/s",
+      "inletTemperatureReading": "Inlet Temperature Reading",
+      "cpuTemperatureReading": "CPU Temperature Reading",
+      "baseBoardTemperatureReading": "Baseboard Temperature Reading",
+      "entityId": "entityId"
     },
     "phmcVIOS": {
       "utilizedProcUnits": "Utilized Processing Units",
@@ -8068,7 +8152,7 @@
       "database": "Database",
       "ldapConnector": "LDAP Connector"
     },
-    "powerVCRegion":{
+    "powerVCRegion": {
       "coresUsage": "Cores Usage",
       "instanceUsage": "Instance Usage",
       "ramUsage": "RAM Usage",
@@ -8079,14 +8163,14 @@
       "availableCapacity": "Available Capacity",
       "volumeCount": "Volume Count"
     },
-    "powerVCHypervisor":{
+    "powerVCHypervisor": {
       "memoryUsage": "Memory Usage ",
       "cpuUsage": "CPU Usage ",
       "storageUsage": "Storage Usage",
       "instanceCount": "Instance Count",
-      "currentWorkload":"Current Workload"
+      "currentWorkload": "Current Workload"
     },
-    "powerVCComputeInstance":{
+    "powerVCComputeInstance": {
       "memoryUsage": "Memory Usage ",
       "cpuUsage": "CPU Usage "
     },
@@ -8673,7 +8757,7 @@
     },
     "redisEnterpriseShard": {
       "dashboard": {
-        "connectedClients":"Connected Clients",
+        "connectedClients": "Connected Clients",
         "blockedClients": "Blocked Clients",
         "redisEnterpriseShard": "Redis Enterprise Shard"
       },
@@ -8775,11 +8859,7 @@
         "ratingInformation": "Information",
         "ratingMedium": "Medium",
         "ratingHigh": "High",
-        "sapHanaSystemCpuUsage": "SAP HANA System Cpu Usage",
-        "cpuUsage": "Cpu Usage",
-        "sapHanaSystemMemoryUsage": "SAP HANA System Memory Usage",
-        "usedMemory": "Used Memory",
-        "residentMemory": "Resident Memory",
+        "totalCpuUtilization": "Total CPU Utilization",
         "diskUsage": "Disk Usage",
         "dataSize": "Data Size",
         "logSize": "Log Size",
@@ -8790,32 +8870,29 @@
         "running": "Running",
         "blocked": "Blocked",
         "blocking": "Blocking",
-        "currentlyConnectedUsersAndApplications": "Currently Connected Users and Applications",
-        "distinctDatabaseUsers": "Distinct Database Users",
-        "distinctApplications": "Distinct Applications",
-        "distinctApplicationUsers": "Distinct Application Users",
+        "currentlyConnectedUsersAndApplications": "Connected Users and Applications",
+        "distinctDatabaseUsers": "Database Users",
+        "distinctApplications": "Applications",
+        "distinctApplicationUsers": "Application Users",
         "threads": "Threads",
         "active": "Active",
         "jobWorkerThreads": "Job Worker Threads",
         "sqlExecutorThreads": "SQL Executor Threads",
         "workload": "Workload",
-        "statementExecutions": "Statement Executions",
-        "statementCompilations": "Statement Compilations",
-        "updateTransactions": "Update Transactions",
+        "statementExecutions": "Executions",
+        "statementCompilations": "Compilations",
+        "updateTransactions": "Updates",
         "rollbacks": "Rollbacks",
         "commits": "Commits",
         "requests": "Requests",
-        "finishedRequests": "Finished Requests",
-        "activeRequests": "Active Requests",
-        "pendingRequests": "Pending Requests",
+        "finishedRequests": "Finished",
+        "pendingRequests": "Pending",
         "connections":"Connections",
-        "runningCount":"Running Connection Count",
-        "idleCount":"Idle Connection Count",
-        "queueingCount":"Queueing Connection Count",
+        "queueingCount":"Queueing",
         "garbageCollectionStats": "Garbage Collection Statistics",
-        "host":"Host",
-        "port":"Port",
-        "volumeId":"Volume ID",
+        "host": "Host",
+        "port": "Port",
+        "volumeId": "Volume ID",
         "storeType": "Store Type",
         "historyCount":"History Count",
         "waiterCount":"Waiter Count",
@@ -8832,12 +8909,65 @@
         "schemaName":"Schema Name",
         "executionCount":"Execution Count",
         "avgExecutionTime":"Average Execution Time",
-        "sqlPlanCacheStats" :"Sql Plan Cache Statistics",
+        "sqlPlanCacheStats" :"SQL Plan Cache Statistics",
         "lockWaitStats" :"Lock Wait Statistics",
         "lockType":"Lock Type",
         "totalLockWaits": "Total Lock Waits",
-        "totalLockWaitTime":"Total Lock Wait Time"
-      },
+        "totalLockWaitTime":"Total Lock Wait Time",
+        "hostMemoryUsage":"Host Memory Usage",
+        "hanaMemoryUsage":"HANA Memory Usage",
+        "heapMemory":"Heap Memory Usage",
+        "free":"Free",
+        "used":"Used",
+        "allocated":"Allocated",
+        "peakUsed":"Peak Used",
+        "allocationLimit":"Allocation Limit",
+        "tableName": "Table Name",
+        "recordCount":"Record Count",
+        "tableSize" :"Table Size",
+        "tableType" :"Table Type",
+        "cpuTimeSpent": "CPU Time",
+        "totalCpuUserTime":"User",
+        "totalCpuSystemTime":"System",
+        "swapMemory":"Swap Memory Usage",
+        "totalSize": "Total Size",
+        "usedSize" : "Used Size",
+        "entryCount": "Entry Count",
+        "insertCount": "Insert Count",
+        "invalidateCount": "Invalidate Count",
+        "hitCount": "Hit Count",
+        "missCount": "Miss Count",
+        "cacheId":"Cache ID",
+        "aggregatedCacheStats": "Aggregated Cache Information",
+        "networkStats":"Service Network I/O Statistics",
+        "senderHost": "Sender Host",
+        "senderPort": "Sender Port",
+        "receiverHost":"Receiver Host",
+        "receiverPort": "Receiver Port",
+        "sendSize" : "Send Size",
+        "receiveSize":"Receive Size",
+        "sendDuration":"Send Duration",
+        "receiveDuration":"Receive Duration",
+        "requestCount":"Request Count",
+        "status":"Status",
+        "serviceName":"Service Name",
+        "backupId":"Backup ID",
+        "duration":"Duration",
+        "backupSize":"Backup Size",
+        "transferredSize":"Transferred Size",
+        "backupStats":"Backup Progress",
+        "startTime":"Start Time",
+        "entryType":"Entry Type",
+        "processCpuPerc": "Process CPU",
+        "processCpuTime":"Process CPU Time",
+        "openFileCount":"Open File Count",
+        "processPhysicalMemory":"Process Physical",
+        "processMemory":"Process Logical",
+        "serviceDetailsStats":"Service Details",
+        "totalResident":"Total Resident",
+        "physicalMemory":"Physical Memory",
+        "freeMemory" :"Free Memory"
+       },
       "systemId": "System ID",
       "databaseName": "Database Name",
       "instanceNumber": "Instance Number",
@@ -8849,7 +8979,6 @@
       "maximumNumberOfSessions": "Maximum Number Of Sessions",
       "cpuUsageKpiLabel": "CPU Usage",
       "usedMemory": "Used Memory",
-      "residentMemory": "Resident Memory",
       "cpuUsageMetricDef": "Cpu Usage",
       "dataSize": "Data Size",
       "logSize": "Log Size",
@@ -8869,7 +8998,8 @@
       "commits": "Commits",
       "finishedRequests": "Finished Requests",
       "activeRequests": "Active Requests",
-      "pendingRequests": "Pending Requests"
+      "pendingRequests": "Pending Requests",
+      "hostActiveStatus":"Host Status"
     },
     "service": {
       "service": "Service",
@@ -10755,8 +10885,8 @@
     },
     "ibmiActiveJobsInfo": {
       "name": "Active Jobs Information on IBM i",
-      "dashboard":{
-        "tables":{
+      "dashboard": {
+        "tables": {
           "activeJobs": {
             "name": "Top Active Jobs",
             "jobName": "Job Name",
@@ -10781,8 +10911,8 @@
       "sidebar": {
         "hostName": "Host Name"
       },
-      "dashboard":{
-        "tables":{
+      "dashboard": {
+        "tables": {
           "spinningDiskType": {
             "name": "Hardware Disk Drives(HDD) Info",
             "resourceName": "Resource Name",
@@ -10846,8 +10976,8 @@
       "sidebar": {
         "hostName": "Host Name"
       },
-      "dashboard":{
-        "tables":{
+      "dashboard": {
+        "tables": {
           "netstatInterfaces": {
             "name": "Netstat Interfaces",
             "internetAddress": "Internet Address",
@@ -10870,6 +11000,29 @@
             "tcpState": "Tcp State",
             "bytesSentRemotely": "Bytes Sent Remotely",
             "bytesReceivedLocally": "Bytes Received Locally"
+          }
+        }
+      }
+    },
+    "ibmIMessageQueueInfo":{
+      "name": "Message Queue Information on IBM i",
+      "sidebar":{
+        "ibmIMessageQueue": "IBM i Info",
+        "hostName": "Host Name"
+      },
+      "dashboard":{
+        "tables":{
+          "messageQueue": {
+            "name": "Message Queue",
+            "messageId": "ID",
+            "messageType": "Type",
+            "severity": "Severity",
+            "messageQueueLibrary": "Library Name",
+            "messageQueueName": "Queue Name",
+            "messageTimestamp": "Timestamp",
+            "messageText": "Text",
+            "messageSecondLevelText": "Second Level Text",
+            "messageKey": "Key"
           }
         }
       }
@@ -11015,18 +11168,6 @@
               "scheduledJobs": "Scheduled Jobs"
             }
           },
-          "messageQueue": {
-            "name": "Message Queue",
-            "messageId": "ID",
-            "messageType": "Type",
-            "severity": "Severity",
-            "messageQueueLibrary": "Library Name",
-            "messageQueueName": "Queue Name",
-            "messageTimestamp": "Timestamp",
-            "messageText": "Text",
-            "messageSecondLevelText": "Second Level Text",
-            "messageKey": "Key"
-          },
           "historyLog": {
             "name": "History Log",
             "messageId": "ID",
@@ -11045,6 +11186,46 @@
       "memoryPool": "Memory Pool",
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
       "troubleshootingDocs": "Troubleshooting docs"
+    },
+    "ibmInfosphereCdc": {
+      "ibmInfosphereCdc": "IBM Infosphere CDC",
+      "host": "Host",
+      "port": "Port",
+      "name": "Name",
+      "subscriptions": "Subscriptions"
+    },
+    "ibmInfosphereCdcSubscription": {
+      "ibmInfosphereSubscription": "Subscription",
+      "subscriptionName": "Name",
+      "datastore": "Datastore",
+      "sourceEngine": "Source Engine",
+      "targetApplyFilters": "Target Apply Filters",
+      "targetEngineFilters": "Target Engine Filters",
+      "logParser": "Log Parser",
+      "logReader": "Log Reader",
+      "preFilterInserts": "Pre-filter inserts",
+      "preFilterUpdates": "Pre-filter updates",
+      "preFilterDeletes": "Pre-filter deletes",
+      "postFilterInserts": "Post-filter inserts",
+      "postFilterUpdates": "Post-filter updates",
+      "postFilterDeletes": "Post-filter deletes",
+      "databaseBytesProcessed": "Source database bytes processed",
+      "physicalBytesRead": "Physical bytes read",
+      "threadCpu": "Thread CPU (milliseconds/second)",
+      "diskWrites": "Disk writes",
+      "diskReads": "Disk reads",
+      "diskSize": "Disk size",
+      "targetApplyInserts": "Target apply inserts",
+      "targetApplyUpdates": "Target apply updates",
+      "targetApplyDeletes": "Target apply deletes",
+      "targetEngineInserts": "Target engine inserts",
+      "targetEngineUpdates": "Target engine updates",
+      "targetEngineDeletes": "Target engine deletes",
+      "targetInserts": "Inserts",
+      "targetUpdates": "Updates",
+      "targetDeletes": "Deletes",
+      "sourceEngineLatency": "Source engine latency",
+      "targetApplyLatency": "Target apply latency"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -12582,8 +12763,8 @@
         "cost": "Cost",
         "duration": "Model Latencies",
         "analytics": "Tracing",
-        "llmonitor_agent":"LLMonitor Platform",
-        "details":"Details",
+        "llmonitor_agent": "LLMonitor Platform",
+        "details": "Details",
         "count": "Request Counts",
         "totalToken": "Total Tokens",
         "totalCost": "Total Cost",
@@ -12591,6 +12772,70 @@
         "totalTokenByModel": "Total Tokens by Model",
         "totalCostByModel": "Total Cost by Model",
         "totalCountByModel": "Total Request Counts by Model"
+      }
+    },
+    "oTelDcgm": {
+      "oTelDcgm": "OTEL Dcgm",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "dashboard": {
+        "gpuTemp": "GPU Temperature (Celsius)",
+        "powerUsage": "GPU Power Usage (W)",
+        "smClocks": "GPU SM Clocks (HZ)",
+        "memoryClocks": "GPU Memory Clocks (HZ)",
+        "gpuUtil": "GPU Utilization",
+        "memoryCpyUtil": "GPU Memory Cpy Utilization",
+        "frambufferMemUsed": "GPU Framebuffer Memory Used",
+        "frambufferMemFree": "GPU Framebuffer Memory Free"
+      },
+      "container":{
+        "containerName": "Container Name",
+        "podName": "Pod Name",
+        "namespaceName": "Namespace",
+        "gpuNumber": "GUP Number",
+        "gpuUtil": "GPU Utilization Details",
+        "memoryCpyUtil": "GPU Memory Cpy Utilization Details",
+        "util": "Utilization"
+      }
+    },
+    "oTelJvm": {
+      "platform": "Platform",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "type": "Type",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "runtimeDesc": "Java Runtime",
+      "runtimeVersion": "Java Version",
+      "exePath": "Executable Path",
+      "dashboard": {
+        "memoryUsed": "Memory Used",
+        "threads": "Threads",
+        "new": "New",
+        "runnable": "Runnable",
+        "waiting": "Waiting",
+        "blocked": "Blocked",
+        "timedwaiting": "Timed-Waiting",
+        "heapMemory": "Heap Memory",
+        "used": "Used",
+        "usedPercentage": "Used percentage",
+        "garbageCollectionHeapMemory": "Garbage Collected Heap Memory",
+        "gcBefore": "Before GC",
+        "gcAfter": "After GC",
+        "maximum": "Maximum",
+        "pool": "Pool",
+        "value": "Current Value",
+        "notAllMemoryPoolsAreConsideredToBePartOfTheJvmHeap": "Not all memory pools are considered to be part of the JVM heap. Usually only <code>Eden</code>, <code>Survivor</code> and <code>Old</code> are part of the heap. Depending on the configuration of the JVM it may resize any of these pools.",
+        "memoryPools": "Memory Pools",
+        "unlimited": "unlimited",
+        "theNumberOfThreadsIsQuiteStaticInMostApps": "The number of threads is quite static in most apps and usually most of them will be in <code>runnable</code>, which means potentially executing code, or in <code>waiting</code> or <code>timed-waiting</code>, which usually is some kind of network read.",
+        "theTotalUsedHeapMemoryUsageWillUsuallyGoUpUntil": "The total used heap memory usage will usually go up until a garbage collection makes memory available to the JVM again."
       }
     },
     "otelHost": {
@@ -15172,7 +15417,14 @@
       "loadAvg1": "1 minute",
       "loadAvg5": "5 minutes",
       "loadAvg15": "15 minutes",
-      "loadAverage": "Load Average"
+      "loadAverage": "Load Average",
+      "count": "Count",
+      "systemLogStatistics": "System Log Statistics",
+      "stopped": "Stopped",
+      "shutdown": "Shutdown",
+      "reserved": "Reserved",
+      "usedMemory": "Used Memory",
+      "totalUtilization": "Total Utilization"
     },
     "syntheticPoP": {
       "redisTLSNotEnabledIssueDescription": "Synthetic PoP Redis TLS is not enabled, it is recommended that Synthetic PoP Redis TLS should be enabled in production environment. Please check TLS configuration in Synthetic PoP deployment and set in agent configuration.",
@@ -16033,10 +16285,13 @@
       "tcode": "TCODE",
       "user": "User",
       "system": "System",
-      "totalResTime": "Total Response Time (ms)",
-      "procTime": "Processing Time (ms)",
-      "dbProcTime": "DB processing Time (ms)",
-      "dbWpTime": "DB Waiting Time (ms)"
+      "totalResTime": "Response Time(ms)",
+      "dbReqTime": "DB Request Time(ms)",
+      "wpTime": "Work Process Time(ms)",
+      "rollInTime": "RollIn Time(ms)",
+      "rollOutTime":"RollOut Time(ms)",
+      "queueTime": "Queue Time(ms)",
+      "rollWaitTime":"RollWait Time(ms)"
     },
     "s3": {
       "region": "Region",

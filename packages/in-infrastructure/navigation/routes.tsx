@@ -24,6 +24,7 @@ import { containerPath, physicalPath, tablePath, infraSmartAlerts } from 'in-sto
 import { infraAlertDetailsFullyQualifiedPath } from 'in-stores/navigation/paths/mainPaths';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
+import { role } from 'in-stores/user';
 
 const infrastructureRoutes = [
   <Route key="infraPhysical" path={physicalPath}>
@@ -33,7 +34,7 @@ const infrastructureRoutes = [
   <Route key="infraAlertDetails" path={infraAlertDetailsFullyQualifiedPath}>
     {renderAsyncRouteChildren(SmartAlertDetailsView)}
   </Route>,
-  infraSmartAlertsEnabled && (
+  infraSmartAlertsEnabled && !role?.limitedInfrastructureScope && (
     <Route key="infraSmartAlert" path={infraSmartAlerts}>
       {renderAsyncRouteChildren(SmartAlertView)}
     </Route>

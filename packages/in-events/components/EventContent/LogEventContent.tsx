@@ -7,7 +7,7 @@
 import { Map } from 'immutable';
 import React from 'react';
 
-import { Card } from '@instana/components';
+import { Card, Pill } from '@instana/components';
 
 import {
   alertingDialogItemPickerTimeframe as maxDurationMillis,
@@ -18,6 +18,9 @@ import { getExpressionWithLogsGroupingTags } from 'in-events/components/EventCon
 import LogAlertChartWrapper from 'in-alerting/smart-alerts/logs/components/LogAlertChartWrapper';
 import { TagFilterExpression, TimeConfig, TagCatalog, GroupTagInfo, Nullish } from 'in-types';
 import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeLogsGroupingTags';
+// @ts-expect-error
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogScopePath from 'in-alerting/smart-alerts/logs/components/LogScopePath';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
@@ -28,7 +31,12 @@ import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import LogAlertConfigButton from 'in-events/components/LogAlertConfigButton';
 import useLogEventAlertConfig from 'in-events/hooks/useLogEventAlertConfig';
+import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
+// @ts-expect-error
+import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
+import { hasManualCloseFields } from 'in-events/components/eventUtil';
+import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
@@ -37,14 +45,16 @@ import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { deepCopy } from 'in-services/util/object';
 import { EventOrMap } from 'in-events/types';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 interface Props {
   event: EventOrMap;
   snapshot: Map<string, unknown>;
+  reload: () => void;
 }
 
-export default function LogEventContent({ event, snapshot }: Props) {
+export default function LogEventContent({ event, snapshot, reload }: Props) {
   const alertConfig = useLogEventAlertConfig(event);
   const tagCatalog = useTagCatalog('SMART_ALERTS');
 
@@ -89,22 +99,46 @@ export default function LogEventContent({ event, snapshot }: Props) {
     ...(windowSize && { windowSize })
   } as TimeConfig;
 
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const pillContent = hasManualCloseFields(event) ? <Pill type="green">{t('in-events:labelClosed')}</Pill> : undefined;
+
   return (
     <>
       <Row withoutSideMargin>
         <Col xs>
-          <Card title={t('in-events:titleDescription')}>
+          <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent}>
             <LogScopePath entityLabel={entityLabel} />
 
-            <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
-
-            <DescriptionButtons>
-              <LogAlertConfigButton alertConfig={alertConfig} />
-              <AnalyzeLogEventButton
-                alertConfig={alertConfigWithGroupingExpression}
-                timeConfig={getAnalyzeTimeConfig(event as EventOrMap)}
-              />
-            </DescriptionButtons>
+            <ProblemDescription fixSuggestion={fixSuggestion} />
+            {canCloseManually && hasManualCloseFields(event) ? (
+              <div>
+                <ManualCloseDescription event={event} />
+                <DescriptionButtons>
+                  <LogAlertConfigButton alertConfig={alertConfig} />
+                  <AnalyzeLogEventButton
+                    alertConfig={alertConfigWithGroupingExpression}
+                    timeConfig={getAnalyzeTimeConfig(event as EventOrMap)}
+                  />
+                </DescriptionButtons>
+              </div>
+            ) : (
+              <DescriptionButtons>
+                {canCloseManually && (
+                  <ManualCloseIssueButton
+                    event={event}
+                    reload={reload}
+                    iconComponent={
+                      <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+                    }
+                  />
+                )}
+                <LogAlertConfigButton alertConfig={alertConfig} />
+                <AnalyzeLogEventButton
+                  alertConfig={alertConfigWithGroupingExpression}
+                  timeConfig={getAnalyzeTimeConfig(event as EventOrMap)}
+                />
+              </DescriptionButtons>
+            )}
           </Card>
         </Col>
       </Row>

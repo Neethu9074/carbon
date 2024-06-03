@@ -43,7 +43,6 @@
     "cryptoId":"Crypto Id",
     "processorUsage":"Overall Processor Usage",
     "name":"Name",
-    "zvm":"z/VM Paging rate",
     "ifl":"IFL Processor Usage",
     "icf":"ICF Processor Usage",
     "cbp":"CBP Processor Usage",

@@ -7,8 +7,8 @@
 import React, { useState } from 'react';
 
 import { SyntheticTest, TestResultListItem } from '@instana/types';
-import { useObservable } from '@instana/hooks';
 import { IconButton } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';

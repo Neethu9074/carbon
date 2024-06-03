@@ -82,7 +82,7 @@ export function KubernetesEventContent({ event, timeConfig }) {
                 className="in-event-view-event-content"
               />
             ) : (
-              <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
+              <ProblemDescription fixSuggestion={fixSuggestion} />
             )}
             <DescriptionButtons>
               <EventSpecificationLink event={event.toJS()} />

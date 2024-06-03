@@ -5,7 +5,8 @@
 
 import React, { useState } from 'react';
 
-import { SvgIcon, Th, SortableTh } from '@instana/components';
+import { Th, SortableTh } from '@instana/legacy';
+import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';

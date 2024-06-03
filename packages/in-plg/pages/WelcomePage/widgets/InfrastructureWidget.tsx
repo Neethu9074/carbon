@@ -27,7 +27,7 @@ import { getLabel } from 'in-sdk/snapshot';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -44,6 +44,7 @@ export default connectTo(() => ({
 }))(function InfrastructureWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: InfraProps) {
   const [infraType, setInfraType] = useState(0);
   const { location, createHref } = useNavigation();
+  const getDashboardLink = useGetDashboardLink();
   const fullListViewLocation = { ...location, pathname: physicalTablePath };
 
   const infrastructureToogleArray: string[] = [];

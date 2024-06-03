@@ -185,7 +185,7 @@ export default function UserList({ snapshotId, timeConfig }: UserListProps) {
       cardTitle={t('in-sap:dashboards.userStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={2}
+      initialSortColumn={3}
       initialSortDirection="desc"
       getRowDetails={getDetails}
     />

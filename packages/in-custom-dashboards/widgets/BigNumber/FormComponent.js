@@ -21,7 +21,6 @@ import TimeShiftingForm from 'in-custom-dashboards/widgets/BigNumber/TimeShiftin
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import ThresholdForm from 'in-custom-dashboards/widgets/BigNumber/ThresholdForm';
 import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
-import { thresholdCustomDashboardsEnabled } from 'in-services/featureFlags';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { defaultFormatter } from 'in-stores/metric/formatters';
@@ -111,9 +110,7 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
         withGrouping={false}
         withLastValue
         timeShiftConfiguration={<TimeShiftingForm form={form} onChange={onChange} />}
-        thresholdConfiguration={
-          thresholdCustomDashboardsEnabled && <ThresholdForm form={form} onChange={onChange} updateForm={updateForm} />
-        }
+        thresholdConfiguration={<ThresholdForm form={form} onChange={onChange} updateForm={updateForm} />}
       />
     </Stack>
   );

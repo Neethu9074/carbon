@@ -341,7 +341,13 @@
   },
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "追蹤階段作業",
-    "trackingSnippetPresenterTooltip": "進一步瞭解階段作業追蹤和隱私權可能的影響。"
+    "trackingSnippetPresenterTooltip": "進一步瞭解階段作業追蹤和隱私權可能的影響。",
+    "trackingSnippetSRITooltip": "「子資源完整性 (SRI)」是一項安全特性，可確保瀏覽器可以驗證其提取的資源。 停用它可能會導致安全問題。 如果您決定停用它，請確定您是在安全網路環境中。",
+    "trackingSnippetPresenterLabelSRI": "子資源完整性 (SRI) 版本",
+    "trackingSnippetPresenterLabelAgentVersion": "選取代理程式版本",
+    "trackingSnippetPresenterEnableSRI": "已啟用",
+    "trackingSnippetPresenterDisableSRI": "已停用",
+    "trackingSnippetPresenterAgentVersion": "版本"
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "網站和行動式應用程式",

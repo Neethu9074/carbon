@@ -9,7 +9,7 @@ import React from 'react';
 import DurationDistribution from 'in-bizops/dashboards/activity/tabs/summary/components/DurationDistribution';
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 import DurationOverTime from 'in-bizops/dashboards/activity/tabs/summary/components/DurationOverTime';
-import { activitiesPath } from 'in-bizops/navigation/paths';
+import { businessActivityPath } from 'in-bizops/navigation/paths';
 import { t } from 'in-i18n';
 
 // Tabs to swap between within widget
@@ -73,7 +73,7 @@ const metrics = [
 
 export default function DurationAndDistribution() {
   const urlMatrixParamConfig = {
-    path: activitiesPath,
+    path: businessActivityPath,
     paramTab: 'durationTab',
     paramMetric: 'durationMetric'
   };
