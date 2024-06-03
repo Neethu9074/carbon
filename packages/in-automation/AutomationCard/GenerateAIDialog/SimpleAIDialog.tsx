@@ -180,7 +180,7 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
   const timeout = action?.fields ? getTimeoutFromFields(action.fields).value : '';
   const tags = action?.tags ?? [];
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
-  const policyTags = ([] as string[]).map(tag => ({ value: tag, id: generateUniqueShortId() })) ?? [];
+  const policyTags: Tag [] = []; 
   let form: AIActionForm = createMapForm({
     items: {
       name: createField({
