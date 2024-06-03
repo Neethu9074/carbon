@@ -19,6 +19,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
 import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay';
+import { user } from 'in-stores/user';
 
 export default function WelcomeHeader() {
   // @ts-expect-error The User type needs to be updated.
