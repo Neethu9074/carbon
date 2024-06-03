@@ -12,8 +12,8 @@ import { Collapsible } from '@instana/components';
 
 //import { serviceNowAdvancedEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
-import { serviceNowAutoCloseAndCustomPayloadsEnabled } from 'in-services/featureFlags';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
+import { serviceNowAdvancedEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Label from 'in-components/form/Label';
@@ -23,7 +23,6 @@ import { t, Trans } from 'in-i18n';
 
 import './Forms.less';
 
-const serviceNowAdvancedEnabled = true;
 const block = 'in-alert-channel-config-form';
 const tooltip_class = 'in-helpify-wrapper';
 
@@ -127,19 +126,19 @@ export default {
       .put(
         'autoCloseIncidents',
         createField({
-          value: alertChannel ? alertChannel.get('autoCloseIncidents') : false
+          value: alertChannel ? alertChannel.get('autoCloseIncidents') : true
         })
       )
       .put(
         'manuallyClosedIncidents',
         createField({
-          value: alertChannel ? alertChannel.get('manuallyClosedIncidents') : false
+          value: alertChannel ? alertChannel.get('manuallyClosedIncidents') : true
         })
       )
       .put(
         'resolutionOfIncident',
         createField({
-          value: alertChannel ? alertChannel.get('resolutionOfIncident') : false
+          value: alertChannel ? alertChannel.get('resolutionOfIncident') : true
         })
       );
     return mapForm;
@@ -265,28 +264,13 @@ function Form({ form, onChange }) {
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
-      {serviceNowAutoCloseAndCustomPayloadsEnabled &&
-        form.get('autoCloseIncidents').map(field => (
-          <FormGroup className={block}>
-            <CheckboxFancy
-              label={t('in-settings:tabs.autoCloseIncidents')}
-              id="autoCloseIncidents"
-              checked={field.value}
-              onChange={e => onChange('autoCloseIncidents', e.target.checked)}
-              size="larger"
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
       {serviceNowAdvancedEnabled && (
         <Collapsible>
           <Collapsible.Header>{t('in-settings:tabs.advanced')}</Collapsible.Header>
           <Collapsible.Content>
             <Trans i18nKey="in-settings:tabs.advancedIntro" />
             <section id="sendSection">
-              <Label for="sendSection">
-                <Trans i18nKey="in-settings:tabs.sendTitle" />
-              </Label>
+              <Label for="sendSection">{t('in-settings:tabs.sendTitle')}</Label>
               {form.get('manuallyClosedIncidents').map(field => (
                 <FormGroup className={block}>
                   <CheckboxFancy
@@ -313,9 +297,7 @@ function Form({ form, onChange }) {
               ))}
             </section>
             <section id="receiveSection">
-              <Label for="receiveSection">
-                <Trans i18nKey="in-settings:tabs.receiveTitle" />
-              </Label>
+              <Label for="receiveSection">{t('in-settings:tabs.receiveTitle')}</Label>
               {form.get('resolutionOfIncident').map(field => (
                 <FormGroup className={block}>
                   <CheckboxFancy
