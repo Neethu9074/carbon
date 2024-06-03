@@ -1528,7 +1528,8 @@
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
         "blueprintLabel": "Blueprint",
-        "thresholdLabel": "Threshold"
+        "thresholdLabel": "Threshold",
+        "coolDownPeriodDescription": "A minimum of {{value}} must pass for the event to conclude."
       },
       "alertList": {
         "threshold": "Threshold: {{value}}",
