@@ -22,7 +22,7 @@ const pathSegment = '/dbms';
 const matrixPrefix = 'sapdbms.';
 
 const DashboardLink = ({ label, id }) => {
-  const href = useGetDashboardLink(id);
+  const href = useGetDashboardLink()(id);
 
   return <EntityLink label={label} href={href} />;
 };

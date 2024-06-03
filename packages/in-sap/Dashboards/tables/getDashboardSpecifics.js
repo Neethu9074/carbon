@@ -28,7 +28,7 @@ import EntityLink from 'in-components/EntityLink/EntityLink';
 import { plugins } from 'in-forge/constants';
 
 const DashboardLink = ({ label, id }) => {
-  const href = useGetDashboardLink(id, { pathname: '/physical/dashboard' });
+  const href = useGetDashboardLink()(id, { pathname: '/physical/dashboard' });
   return <EntityLink label={label} href={href} />;
 };
 
