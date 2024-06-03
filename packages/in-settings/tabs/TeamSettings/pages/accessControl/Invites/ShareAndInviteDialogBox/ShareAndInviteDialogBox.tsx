@@ -378,7 +378,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
                             />
                             <Button
                               icon="lib_actions_delete"
-                              kind="subtle"
+                              kind="action"
                               iconSize="s"
                               size="normal"
                               onClick={() => onRemove(index)}
