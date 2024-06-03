@@ -19,8 +19,7 @@ interface CoolDownPeriodDescriptionProps {
 
 export default function CoolDownPeriodDescription({ coolDownPeriod }: CoolDownPeriodDescriptionProps) {
   const formattedTimeToFailure = formatDurationAccurately(coolDownPeriod, 60000, false);
-
-  if (!coolDownPeriod) return null;
+  if (!coolDownPeriod) return <></>;
   return (
     <div className={locals.container}>
       <SvgIcon className={locals.icon} type="lib_datetime_timer" />
