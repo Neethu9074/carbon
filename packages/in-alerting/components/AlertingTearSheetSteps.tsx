@@ -8,10 +8,11 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { MapForm } from 'formalistic';
 import classNames from 'classnames';
 
-import { Spacer, SvgIcon, Typography } from '@instana/components';
+import { SvgIcon, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import { AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingTearSheet';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
 import locals from './AlertingTearSheetSteps.mless';
@@ -37,13 +38,11 @@ export default function AlertingTearSheetSteps(props: {
             key={idx}
           >
             <Typography variant="body-regular">
-              <span className={locals.twoColumns}>
-                <span className={locals.inline}>
-                  <span className={locals.index}>{`${idx + 1}.`} </span>
-                  <Spacer horizontal="xsmall" />
-                  {stepConfig.title}
+              <span className={locals.threeColumns}>
+                <span className={classNames({ [locals.color600]: idx !== step, [locals.index]: true })}>
+                  {`${idx + 1}.`}
                 </span>
-
+                <span className={classNames({ [locals.color600]: idx !== step })}>{stepConfig.title}</span>
                 {displayValidation && !stepConfig?.valid && (
                   <span className={locals.alignIcon}>
                     <SvgIcon
@@ -57,9 +56,7 @@ export default function AlertingTearSheetSteps(props: {
             </Typography>
             {stepConfig.isOptional && (
               <span className={locals.optional}>
-                <Typography variant="body-small">
-                  <span className={locals.color600}>{t('in-alerting:components.optional')}</span>
-                </Typography>
+                <AlertTypography variant={'body-small'} content={t('in-alerting:components.optional')} noMargin />
               </span>
             )}
           </div>

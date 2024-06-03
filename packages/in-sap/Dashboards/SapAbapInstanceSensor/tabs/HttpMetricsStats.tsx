@@ -14,7 +14,9 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, seconds } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -30,6 +32,24 @@ interface HttpMetricProps {
 }
 
 const cols = [
+  {
+    title: t('in-sap:dashboards.client'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: HttpRow) {
+        return row.http.get('mandt');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.userName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: HttpRow) {
+        return row.http.get('account');
+      }
+    }
+  },
   {
     title: t('in-sap:dashboards.protocol'),
     type: 'string',
@@ -54,24 +74,6 @@ const cols = [
     typeArgs: {
       getValue(row: HttpRow) {
         return row.http.get('entryID');
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.account'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: HttpRow) {
-        return row.http.get('account');
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.mandt'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: HttpRow) {
-        return row.http.get('mandt');
       }
     }
   },
@@ -116,39 +118,51 @@ export default function HttpMetricsStats({ snapshotId, timeConfig }: HttpMetricP
 
   function getDetails(row: HttpRow) {
     return (
-      <div>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: seconds.detailed,
-            metrics: [
-              `httpMetricsStats.${row.key}.callTime`,
-              `httpMetricsStats.${row.key}.executionTime`,
-              `httpMetricsStats.${row.key}.dataSendTime`,
-              `httpMetricsStats.${row.key}.dataReceiveTime`,
-              `httpMetricsStats.${row.key}.logonTime`
-            ],
-            labels: [
-              t('in-sap:dashboards.callTime'),
-              t('in-sap:dashboards.executionTime'),
-              t('in-sap:dashboards.dataSendTime'),
-              t('in-sap:dashboards.dataReceiveTime'),
-              t('in-sap:dashboards.logonTime')
-            ],
-            type: 'line'
-          }}
-          y2={{
-            min: 0,
-            metrics: [`httpMetricsStats.${row.key}.counter`],
-            labels: [t('in-sap:dashboards.counter')],
-            type: 'line',
-            formatter: number.compact
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </div>
+      <Columize>
+        <DashboardSection>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: seconds.detailed,
+              metrics: [`httpMetricsStats.${row.key}.callTime`, `httpMetricsStats.${row.key}.executionTime`],
+              labels: [t('in-sap:dashboards.callTime'), t('in-sap:dashboards.executionTime')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: seconds.detailed,
+              metrics: [`httpMetricsStats.${row.key}.dataSendTime`, `httpMetricsStats.${row.key}.dataReceiveTime`],
+              labels: [t('in-sap:dashboards.dataSendTime'), t('in-sap:dashboards.dataReceiveTime')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+
+        <DashboardSection>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [`httpMetricsStats.${row.key}.counter`],
+              labels: [t('in-sap:dashboards.counter')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
     );
   }
   return (

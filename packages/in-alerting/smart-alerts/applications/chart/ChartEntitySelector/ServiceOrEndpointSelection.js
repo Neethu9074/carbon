@@ -42,7 +42,8 @@ export default function ServiceOrEndpointSelection({
   setServiceId,
   setEndpointId,
   alertConfigWithFormModel,
-  queryWindowSize
+  queryWindowSize,
+  isTearSheet
 }) {
   const [timeTo] = useState(Date.now()); // similar to S/E: have a "fixed current date"
   const timeConfig = {
@@ -51,14 +52,8 @@ export default function ServiceOrEndpointSelection({
     focusedMoment: timeTo
   };
 
-  const {
-    applications,
-    boundaryScope,
-    evaluationType,
-    tagFilterExpression,
-    includeInternal,
-    includeSynthetic
-  } = alertConfigWithFormModel;
+  const { applications, boundaryScope, evaluationType, tagFilterExpression, includeInternal, includeSynthetic } =
+    alertConfigWithFormModel;
 
   const [query, onQueryChange] = useState('');
 
@@ -183,13 +178,30 @@ export default function ServiceOrEndpointSelection({
             className={locals.labelWithGap}
             disabled={applicationIds.length === 0}
           >
-            <DropDownButtonLabel isServiceLevel={isSelectServiceLevel} />
+            {isTearSheet ? (
+              // in case of tearSheet ,
+              // if an endpoint/ service name is selected then show the selected value in dropdown
+              // else by default show the preview text in the dropdown
+              (isSelectServiceLevel && serviceName) || endpointName ? (
+                <ApplicationScopePath
+                  serviceName={isSelectServiceLevel && serviceName}
+                  endpointName={endpointName}
+                  noBottomMargin
+                />
+              ) : (
+                <DropDownButtonLabel isServiceLevel={isSelectServiceLevel} />
+              )
+            ) : (
+              <DropDownButtonLabel isServiceLevel={isSelectServiceLevel} />
+            )}
           </DropdownButton>
-          <ApplicationScopePath
-            serviceName={isSelectServiceLevel && serviceName}
-            endpointName={endpointName}
-            noBottomMargin
-          />
+          {!isTearSheet && (
+            <ApplicationScopePath
+              serviceName={isSelectServiceLevel && serviceName}
+              endpointName={endpointName}
+              noBottomMargin
+            />
+          )}
         </HorizontalFlexWrapper>
       )}
     </Overlay>

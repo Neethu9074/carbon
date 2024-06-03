@@ -53,10 +53,18 @@ import {
   SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_CLICKED,
   SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUCCESS,
   SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_ERROR,
-  SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUBMITTED
+  SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUBMITTED,
+  SHARE_AND_INVITE_SUBMIT,
+  SHARE_AND_INVITE_CLOSED,
+  SHARE_AND_INVITE_TRIGGERED,
+  SHARE_AND_INVITE_INVITEE_JOINED
 } from 'in-services/tracking/tracking';
 
 export const submitInviteUserTracker = (e: Object) => track(SETTINGS_USER_INVITE_SUBMIT, e);
+export const shareAndInviteSubmitTracker = (e: Object) => track(SHARE_AND_INVITE_SUBMIT, e);
+export const closedInviteAndShareModal = () => track(SHARE_AND_INVITE_CLOSED);
+export const inviteAndShareButtonClicked = (e: Object) => track(SHARE_AND_INVITE_TRIGGERED, e);
+export const invitedUserJoined = (e: Object) => track(SHARE_AND_INVITE_INVITEE_JOINED, e);
 
 export const submitRoleTracker = (e: Object) => track(SETTINGS_ROLE_SUBMIT, e);
 export const openRoleSubmitFormTracker = (e: Object) => track(SETTINGS_ROLE_OPEN_SUBMIT_FORM, e);

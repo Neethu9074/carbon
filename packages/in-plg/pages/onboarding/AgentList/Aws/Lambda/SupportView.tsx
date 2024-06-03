@@ -12,11 +12,40 @@ import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import { t } from 'in-i18n';
 
 interface Runtime {
-  runtime: 'Go' | 'Java' | 'NodeJs10' | 'NodeJs8' | 'Python' | 'Ruby';
+  runtime: 'Go' | 'Java' | 'NodeJs10' | 'NodeJs8' | 'Python' | 'Ruby' | 'Dotnet' ;
 }
 
 export const Documentations = ({ runtime }: Runtime): JSX.Element => {
   switch (runtime) {
+    case 'Dotnet':
+      return (
+        <Stack direction="vertical" gap="small">
+          <DocumentLink
+            text={t('in-plg:agentDetails.aws.documentationLinks.awsServiceDocumentation')}
+            href="https://ibm.biz/amazon-web-services-agent"
+          />
+          <DocumentLink
+            text={t('in-plg:agentDetails.aws.documentationLinks.configuringAwsLambdaMonitoring')}
+            href="https://ibm.biz/insta-aws-lambda-cfg"
+          />
+          <DocumentLink
+            text={t('in-plg:agentDetails.aws.documentationLinks.monitoringAwsLambda')}
+            href="https://ibm.biz/agents-aws-lambda"
+          />
+          <DocumentLink
+            text={t('in-plg:agentDetails.aws.documentationLinks.awsLambdaNativeTracingForDotNet')}
+            href="https://ibm.biz/aws-lambda-tracing-dotnet"
+          />
+          <DocumentLink
+            text={t('in-plg:agentDetails.aws.documentationLinks.awsLambdaFunctions')}
+            href="https://ibm.biz/insta-aws-lambda-docs"
+          />
+          <DocumentLink
+            text={t('in-plg:agentDetails.aws.documentationLinks.awsLambdaEnvVariables')}
+            href="https://ibm.biz/aws-lambda-envvars"
+          />
+        </Stack>
+      );
     case 'Go':
       return (
         <Stack direction="vertical" gap="small">

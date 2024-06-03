@@ -53,7 +53,8 @@
       "create": "작성",
       "delete": "삭제",
       "close": "닫기",
-      "submit": "제출"
+      "submit": "제출",
+      "previous": "이전"
     },
     "states": {
       "saving": "저장 중…"

@@ -439,7 +439,8 @@
     "aggregation_DISTINCTCOUNT": "구별 계수",
     "aggregation_SUM": "합",
     "aggregation_DISTRIBUTION": "분포",
-    "aggregation_PERSECOND": "초당"
+    "aggregation_PERSECOND": "초당",
+    "labelFilterEmptyValue": "비어 있는 값 필터링"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "사용됨",

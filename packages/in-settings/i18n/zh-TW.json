@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "建立新的群組",
-    "dialogTitle_edit": "編輯存取範圍",
+    "dialogTitle_edit": "編輯存取配置",
     "editButton": "編輯",
     "productArea": "{{tenantUnit}} 的存取配置 -{{tenant}}"
   },
@@ -82,17 +82,16 @@
     "role_permissions_contributor_and_viewer": "檢視者存取權 {{quantityOfAreas}} 和貢獻者存取權 {{quantityOfAreasContributor}}",
     "no_access": "不可存取",
     "platform_permissions": "存取 {{quantityOfAreas}}",
-    "analyticsContentMessage": "可以在網站、行動應用程式、應用程式、平台及基礎架構中的存取範圍所定義的 Analytics 中檢視資料",
     "infrastructureContentMessage": "可以檢視由「應用程式」、「平台」、「基礎架構」中的存取範圍所定義的實體，以及選擇性地由 DFQ 所定義的實體",
     "infrastructureAccessAllMessage": "所有實體",
-    "eventsAndAlertsContentMessage": "可以根據網站、行動式應用程式、應用程式、綜合監視、平台及基礎架構中定義的存取範圍來檢視事件及警示",
     "permissions": "權限",
     "additionalPermissions": "其他許可權",
     "permissions_DASHBOARD": "自訂儀表板許可權",
     "permissions_SYNTHETICS": "綜合監視許可權",
-    "permissions_AGENTS": "代理程式許可權",
+    "permissions_AGENTS": "代理程式部署許可權",
     "permissions_ACCESS_CONTROL": "存取控制許可權",
     "permissions_AUTOMATION": "自動化許可權",
+    "permissions_EVENT": "事件及警示許可權",
     "permissions_LOGS": "日誌許可權",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power HMC",
@@ -107,7 +106,6 @@
     "obsoleteEntityDescription": "目前沒有可用的資料 - 仍在授與存取權。",
     "title_analytics": "分析",
     "title_applications": "應用程式",
-    "title_events_and_alerts": "事件及警示",
     "title_global_functions": "廣域函數",
     "title_infrastructure": "基礎架構",
     "title_mobileApps": "行動應用程式",
@@ -165,7 +163,8 @@
     "doneButton": "完成"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "名稱"
+    "nameColumnHead": "名稱",
+    "contributionFilterColumnHead": "貢獻度過濾器"
   },
   "permissionScope": {
     "access_level": "存取權層次",
@@ -191,7 +190,6 @@
     "description_no_access_bizops": "拒絕存取商業監視。",
     "description_access_all_except_contributor": "全部存取 - 除了以貢獻者身分存取的項目之外",
     "role": "選取角色",
-    "roleSelection": "角色",
     "role_owner": "擁有者",
     "role_viewer": "檢視器",
     "role_custom": "自訂",
@@ -444,6 +442,7 @@
     "someEmailsHaveFailedToSend": "部分電子郵件無法傳送",
     "inviteUserToTenant": "邀請使用者加入 {{tenant}}",
     "anotherUser": "其他使用者",
+    "inviteUsertoDefaultGroup": "您沒有足夠的許可權來選取邀請的群組。 受邀使用者將新增至預設群組。",
     "permissionEntityLabel": "權限 {{entityLabel}}",
     "addToAGroup": "新增至群組",
     "failedToAddUserToGroups": "無法將使用者新增至群組：{{err}}",
@@ -543,7 +542,7 @@
     "applicationPerspectiveEntityLabel": "應用程式視景 {{entityLabel}}",
     "keyEquals": "索引鍵等於",
     "selectTag": "選取標籤",
-    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "每一個鍵值組都會以額外的有效負載形式，包含在每一個「問題」或「事故」警示通知中。請參閱<docLink>自訂有效負載說明文件</docLink>，以取得詳細資料。",
+    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "每一個鍵值組都會以額外的有效負載形式，包含在每一個「問題」或「事故」警示通知中。 如需詳細資料，請參閱<docLink>自訂有效負載文件</docLink>。",
     "anErrorOccurredPleaseTryAgain": "發生錯誤，請重試。",
     "custom": "自訂",
     "theValueMustNotBeBlank": "值不得空白。",
@@ -737,6 +736,16 @@
     "timeoutsSuccessfullySaved": "已順利儲存逾時值。",
     "disableTwoFactor": "停用雙因素",
     "saveToken": "儲存記號",
+    "profile": {
+      "pageName": "設定",
+      "email": "電子郵件",
+      "emailHint": "用來在 Instana 上識別使用者帳戶的電子郵件。 建立使用者帳戶之後，您將無法變更電子郵件。",
+      "name": "名稱",
+      "nameHint": "輸入您的名字 (given name) 和姓氏 (family name)（不含逗點）。",
+      "saving": "正在儲存新名稱",
+      "saved": "已儲存新名稱",
+      "failed": "無法儲存新名稱"
+    },
     "twoFactorAuthentication": "雙因素鑑別",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "目前這個使用者的雙因素鑑別已停用。",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "請從鑑別器應用程式輸入 2FA 記號，以完成配置：",
@@ -767,7 +776,7 @@
     "noGroupMapping": "在身分提供者與 Instana 之間未配置對映",
     "denyUserWithNoGroup": "找不到對映時拒絕存取。如果未勾選，則沒有群組對映，且找不到群組的使用者將新增至「預設」群組。",
     "denyUserWithNoGroupDocs": "一律可以使用具有足夠許可權的記號，透過 API 來刪除身分提供者配置。 如需詳細資料，請參閱<authLink>配置鑑別</authLink>。",
-    "groupMappingInfoText": "對映規則由索引鍵、值和 Instana 群組所組成。 索引鍵和值會參照您從中對映的「身分提供者」屬性及其對應值。 例如，您想要將索引鍵 \"Department\" 中具有值 \"SRE\" 的每個使用者對映至 Instana 擁有者群組。",
+    "groupMappingInfoText": "對映規則由索引鍵、值和 Instana 群組組成。 索引鍵和值會參照您從中對映的「身分提供者」屬性及其對應值。 例如，您想要將索引鍵 \"Department\" 中具有值 \"SRE\" 的每個使用者對映至 Instana 擁有者群組。",
     "ownerGroupMemberNotLimitable": "使用者是「擁有者」群組的成員，不會受到其他群組成員資格的限制。",
     "mergedPermissionWithCombinationOfLimitedAndUnlimited": "有效許可權集是透過不同群組指派所授與之最具許可權的總和。 不過，有限存取範圍的總和會決定使用者的有效範圍。",
     "users": "使用者",
@@ -1165,7 +1174,12 @@
     "createIDPConfirmationDescription": "將刪除擱置邀請。 使用者會從您的身分提供者 (IdP) 自動佈建。",
     "revokeInvitationForUserWithEmail": "撤銷加入 {{tenant}} 租戶的邀請，電子郵件為 {{email}}",
     "invitationValidUntil": "邀請有效截止時間",
-    "invitedBy": "邀請者："
+    "invitedBy": "邀請者：",
+    "accessAll": "全部存取",
+    "access": "存取",
+    "accessForTenantUnit": "{{tenantUnit}}-{{tenant}} 的存取權",
+    "numberOfMembers": "成員數",
+    "groupEntityName": "群組 {{entityName}}"
   },
   "languageSelection": {
     "language": "語言",

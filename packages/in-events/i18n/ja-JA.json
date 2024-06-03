@@ -21,6 +21,7 @@
   "titleIncidentTimeline": "インシデント・タイムライン",
   "titleIncidentTriggeredBy": "インシデントのトリガー元:",
   "titleAnalyzeCustomEvents": "カスタム・イベントの分析",
+  "titleAnalyzeCrash": "クラッシュの分析",
   "titleAnalyzeHTTPRequests": "HTTP 要求の分析",
   "titleAnalyzeJsErrors": "JS エラーの分析",
   "titleAnalyzePageLoads": "ページ・ロードの分析",

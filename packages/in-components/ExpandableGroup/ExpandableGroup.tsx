@@ -39,7 +39,13 @@ export default function ExpandableGroup({
         <div className={locals.headerContent}>{isExpanded && expandedTitle ? expandedTitle : title}</div>
         {children && (
           <div className={locals.headerActions}>
-            <Tooltip content={t('in-components:expandableGroup.tooltipShowContent')}>
+            <Tooltip
+              content={
+                expanded
+                  ? t('in-components:expandableGroup.tooltipHideContent')
+                  : t('in-components:expandableGroup.tooltipShowContent')
+              }
+            >
               <SvgIcon
                 className={locals.expandIcon}
                 type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}

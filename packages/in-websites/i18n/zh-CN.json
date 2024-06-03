@@ -341,7 +341,13 @@
   },
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "跟踪会话",
-    "trackingSnippetPresenterTooltip": "了解有关会话跟踪和隐私影响的更多信息。"
+    "trackingSnippetPresenterTooltip": "了解有关会话跟踪和隐私影响的更多信息。",
+    "trackingSnippetSRITooltip": "Subresource Integrity (SRI) 是一项安全功能，用于确保浏览器可以验证其访存的资源。 禁用此功能可能会导致安全问题。 如果您决定将其禁用，请确保您处于安全的网络环境中。",
+    "trackingSnippetPresenterLabelSRI": "Subresource Integrity (SRI) 版本",
+    "trackingSnippetPresenterLabelAgentVersion": "选择代理程序版本",
+    "trackingSnippetPresenterEnableSRI": "已启用",
+    "trackingSnippetPresenterDisableSRI": "已禁用",
+    "trackingSnippetPresenterAgentVersion": "版本"
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "Web 站点和移动应用程序",

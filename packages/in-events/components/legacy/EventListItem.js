@@ -13,11 +13,12 @@ import { Link } from '@instana/components';
 
 import { getColorForEventAtFocusedMomentAsStream, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import ApplicationEventListItemContent from 'in-events/components/legacy/ApplicationEventListItemContent';
+import { getTimeConfigForSnapshotRetrieval, isSloSmartAlertEvent } from 'in-events/components/eventUtil';
 import MobileAppEventListItemContent from 'in-events/components/legacy/MobileAppEventListItemContent';
 import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEventListItemContent';
+import SloEventListItemContent from 'in-events/components/legacy/SloEventListItemContent';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';
-import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
 import { isMobileAppSmartAlertEvent } from 'in-events/components/eventUtil';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -168,13 +169,16 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig, setBa
 }
 
 function ListItemContent({ event, latestSnapshot }) {
-  if (isWebsiteSmartAlertEvent(event)) {
+  if (isSloSmartAlertEvent(event)) {
+    return <SloEventListItemContent event={event} />;
+  } else if (isWebsiteSmartAlertEvent(event)) {
     return <WebsiteEventListItemContent event={event} />;
   } else if (isApplicationSmartAlertEvent(event)) {
     return <ApplicationEventListItemContent event={event} />;
   } else if (isMobileAppSmartAlertEvent(event)) {
     return <MobileAppEventListItemContent event={event} />;
   }
+
   return <EventListItemContent event={event} latestSnapshot={latestSnapshot} />;
 }
 

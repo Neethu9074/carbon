@@ -59,7 +59,7 @@ export default function AlertDetails() {
         )}
         getAllowedPlaceholders={() => []}
         isGlobalSmartAlert
-        canConfigureGlobalAlertConfigs={role?.canConfigureGlobalInfraSmartAlerts}
+        canConfigureGlobalAlertConfigs={role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope}
       />
     </LeftRightPadding>
   );

@@ -62,14 +62,14 @@ export default function ApplicationsList({ isGlobalSmartAlert, searchQuery, ...p
 }
 
 function ApplicationListMultipleApplications({ getApplicationsCursorPaginated, ...props }) {
-  const { includeSynthetic, timeConfig, searchQuery } = props;
+  const { includeSynthetic, timeConfig, searchQuery, retrievalSize } = props;
 
   const { items = [], ...tableProps } = useCursorPagination(
     ({ cursor }) =>
       getApplicationsCursorPaginated({
         pagination: {
           cursor,
-          retrievalSize: DEFAULT_PAGE_SIZE
+          retrievalSize: retrievalSize ?? DEFAULT_PAGE_SIZE
         },
         order: {
           by: 'applicationLabel',
@@ -146,9 +146,10 @@ function ApplicationBaseList({ items = [], isLoading, getStaleEntity, initiallyO
       }
       validationError={validationError}
       /* eslint-disable-next-line react/display-name */
-      renderSubList={({ applicationId }) => () => {
-        return <ServicesList {...props} parentIds={{ applicationId }} />;
-      }}
+      renderSubList={({ applicationId }) =>
+        () => {
+          return <ServicesList {...props} parentIds={{ applicationId }} />;
+        }}
       stateProcessors={{
         entityType: 'APPLICATION',
         getTooltipSettings() {

@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "Gracias por explorar Instana Ha llegado al final de la evaluación y ya no puede acceder al producto."
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "Solicitar un presupuesto",
     "buyNowBtn": "Comprar en AWS",
     "alreadyHaveLicense": "¿Ya tiene una licencia? Actívela en <linkToDocker>Docker</linkToDocker> o <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Obtener respuestas",
+    "share": "Compartir",
+    "shareTooltip": "Compartir esta página con compañeros e invitarlos a colaborar en Instana.",
     "titleDetail": {
       "trial": "Prueba",
       "sandboxTrial": "Prueba de recinto de seguridad"
     }
   },
   "playwithinstana": {
-    "title": "Jugar con Instana",
     "content": "Preparado para supervisar su propio entorno",
     "bookdemo": " Reservar una demo",
     "freetrial": " Prueba gratuita",
@@ -578,9 +578,9 @@
       }
     },
     "ariaLabel": {
+      "search": "Búsqueda",
       "shareButton": "Botón Compartir",
-      "searchButton": "Botón Buscar",
-      "addButton": "Botón Añadir",
+      "add": "Añadir",
       "handleButton": "Botón Manejar"
     }
   },
@@ -592,7 +592,37 @@
   },
   "assistme": {
     "dataSearchContext": {
-      "gettingStarted": "Guía de inicio"
+      "gettingStarted": "cómo empezar",
+      "websites": "sitios web",
+      "mobileApps": "app móvil",
+      "businessMonitoring": "supervisión de negocio",
+      "application": "Aplicación",
+      "smartAlerts": "alertas inteligentes",
+      "infrastructureMap": "mapa",
+      "cloudFoundry": "supervisión de cloud foundry",
+      "powerHmc": " supervisión de IBM power",
+      "kubernetes": "kubernetes",
+      "sap": "supervisión de SAP",
+      "synthetic": "supervisión sintética",
+      "syntheticAlerts": "alertas sintéticas",
+      "syntheticPop": "PoP sintético",
+      "serviceLevel": "nivel de servicio",
+      "installAgent": "instalar agente",
+      "analyzeCalls": "analizar rastreos y llamadas",
+      "settingsTab": "gestión del acceso de usuario",
+      "userSettings": "valores de usuario",
+      "authSettings": "configuración de la autenticación",
+      "auditLogs": "visualización de registros de auditoría",
+      "automation": "gestión de acciones",
+      "customEvents": "definición de sucesos personalizados",
+      "configuringAlerts": "configuración de alertas",
+      "alertChannel": "canales de alertas",
+      "maintenanceWindow": "planificar",
+      "customPayload": "carga útil personalizada",
+      "eventsPage": "gestión de sucesos",
+      "logManagement": "registro",
+      "configuringAndMonitoring": "configuración y supervisión",
+      "customDashboard": "panel de control personalizado"
     }
   }
 }

@@ -28,6 +28,7 @@ jest.mock('in-stores/navigation/hooks/useNavigation', () => ({
     createHref: jest.fn().mockReturnValue('mocked-href'),
     location: {
       pathname: '',
+      query: {},
       matrix: {}
     }
   })

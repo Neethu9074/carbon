@@ -7,9 +7,9 @@ import { Field, Item, ListForm, MapForm, Path } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Message, Stack, StackItem } from '@instana/components';
+import { Select, IconButton } from '@instana/components';
 import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {
@@ -27,7 +27,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { defaultRoleId, fallbackRoleId, role } from 'in-stores/user';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { submitInviteUserTracker } from 'in-settings/tracker';
-import IconButton from 'in-components/IconButton/IconButton';
 import { close } from 'in-components/DialogPresenter/store';
 import { successObservable } from 'in-services/util/result';
 import FormGroup from 'in-settings/components/FormGroup';

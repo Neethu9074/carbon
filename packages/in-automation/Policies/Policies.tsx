@@ -16,6 +16,7 @@ import {
   isGlobalApplicationSmartAlert,
   isInfraSmartAlert,
   isMobileAppSmartAlert,
+  isSloSmartAlert,
   isSyntheticsSmartAlert,
   isWebsiteSmartAlert
 } from 'in-automation/Policies/types';
@@ -118,7 +119,6 @@ export default function Policies() {
           })
         }
       : undefined;
-
   const totalHits = result?.totalHits;
 
   return (
@@ -129,7 +129,11 @@ export default function Policies() {
         page={actualPage}
         searchPlaceholder={t('in-automation:policies.searchPolicies')}
         onRowClick={item => navigateToPolicyDetails(item, false)}
-        cardTitle={t('in-automation:policies.policiesWithCount', { count: totalHits })}
+        cardTitle={
+          policiesProgress.loading
+            ? t('in-automation:policies.policies')
+            : t('in-automation:policies.policiesWithCount', { count: totalHits })
+        }
         rightHeader={
           <>
             {role?.canConfigureAutomationPolicies && (
@@ -237,6 +241,9 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
             renderName={config => replaceTitlePlaceholdersWithMarkup(config.name)}
           />
         );
+      }
+      if (isSloSmartAlert(item.trigger)) {
+        return <NameColumnCell config={item.trigger} />;
       }
       if (item.trigger) {
         return <NameColumnCell config={item.trigger} getSubtitle={config => getSubtitleLog(config.threshold)} />;

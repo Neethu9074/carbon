@@ -23,13 +23,8 @@ function isSupportedAggregation(metricId, aggregation) {
 }
 
 export default function Charting(props) {
-  const {
-    chartedMetricsTemplate,
-    chartableMetricCatalog,
-    CustomChartFactory,
-    chartedMetrics,
-    onChartedMetricsChange
-  } = props;
+  const { chartedMetricsTemplate, chartableMetricCatalog, CustomChartFactory, chartedMetrics, onChartedMetricsChange } =
+    props;
 
   let metricAggregations;
 
@@ -49,10 +44,14 @@ export default function Charting(props) {
       })) ?? [];
   }
 
-  const getMetricLabel = metricId => {
+  const getMetricLabel = ({ metricId, secondLevelMetricId }) => {
     if (chartedMetricsTemplate != null) {
       return chartedMetricsTemplate.metrics?.find(metric => metric.metricId === metricId)?.label;
     } else {
+      if (secondLevelMetricId) {
+        const customMetricLabel = chartableMetricCatalog?.find(metric => metricId.startsWith(metric.metricId))?.label;
+        return `${customMetricLabel} - ${secondLevelMetricId}`;
+      }
       return chartableMetricCatalog?.find(metric => metric.metricId === metricId)?.label;
     }
   };
@@ -66,10 +65,10 @@ export default function Charting(props) {
 
   const getChartTitle = metricConfig => {
     if (metricConfig.label === 'Latency') {
-      return `${getMetricLabel(metricConfig.metricId)}`;
+      return `${getMetricLabel(metricConfig)}`;
     }
 
-    return `${getMetricLabel(metricConfig.metricId)} (${aggregationLabels[metricConfig.aggregationId]})`;
+    return `${getMetricLabel(metricConfig)} (${aggregationLabels[metricConfig.aggregationId]})`;
   };
 
   return (

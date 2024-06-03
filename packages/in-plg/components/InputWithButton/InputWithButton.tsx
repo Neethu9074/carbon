@@ -20,7 +20,7 @@ interface InputWithButtonProps {
   inputValue?: string; // Actual content which is copied.
   icon?: string;
   href?: string;
-  size?: 'small' | 'large';
+  size?: 'small' | 'large' | 'fullWidth';
 }
 
 export default function InputWithButton({
@@ -32,7 +32,12 @@ export default function InputWithButton({
   size = 'small'
 }: InputWithButtonProps): JSX.Element {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const style = size === 'small' ? `${locals.input} ${locals.inputSmall}` : `${locals.input} ${locals.inputLarge}`;
+  const style =
+    size === 'small'
+      ? `${locals.input} ${locals.inputSmall}`
+      : size === 'fullWidth'
+      ? `${locals.input} ${locals.fullWidth}`
+      : `${locals.input} ${locals.inputLarge}`;
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     inputValue = event.target.value;
   };

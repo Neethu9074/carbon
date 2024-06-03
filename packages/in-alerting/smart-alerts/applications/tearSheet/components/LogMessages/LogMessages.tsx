@@ -5,13 +5,15 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Pill, Typography } from '@instana/components';
 import { TimeConfig } from '@instana/types';
+import { Pill } from '@instana/components';
 
 //@ts-expect-error
 import LogMessagesList from 'in-alerting/smart-alerts/applications/components/LogMessagesList';
+import AlertTypography from 'in-alerting/components/AlertTypography';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
@@ -27,6 +29,7 @@ export default function LogMessages({
   timeConfig: TimeConfig;
   updateForm: (form: MapForm<any>) => void;
 }) {
+  const [currentPage, setCurrentPage] = useState(1);
   return (
     <FormGroup>
       <LogMessagesList
@@ -46,26 +49,61 @@ export default function LogMessages({
         }}
         slideOut={() => undefined}
         pageSize={5}
-        logsTearsheetColumns={columnDefinition}
+        logsTearsheetColumns={getColumnDefinition(
+          form.get('rule').get('message').value,
+          form.get('rule').get('level').value
+        )}
         header={
           <div className={locals.title}>
-            <Typography variant="body-bold">Select Log Message</Typography>
-            <Typography variant="body-small">Optional</Typography>
+            <AlertTypography
+              variant={'body-bold'}
+              color="color900"
+              content={t('in-alerting:smartAlerts.applications.components.provideLogMessageSelectLogMessage')}
+              noMargin
+            />
+            <AlertTypography
+              variant={'body-small'}
+              color="color600"
+              content={t('in-alerting:components.optional')}
+              noMargin
+            />
           </div>
         }
-        rule={form.get('rule')}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
     </FormGroup>
   );
 }
 
-export const columnDefinition = [
-  {
-    id: 'level',
-    label: t('in-alerting:smartAlerts.applications.logMessages.levelColumn'),
-    width: 30,
-    getContent(item: any) {
-      return <Pill type="gray">{item.level}</Pill>;
+export function getColumnDefinition(message: string, level: string) {
+  return [
+    {
+      id: 'radio',
+      lable: '',
+      width: 10,
+      getContent(item: any) {
+        return (
+          <div className={locals.alignCenter}>
+            <CheckboxFancy
+              key={Math.random()}
+              disabled={false}
+              label={null}
+              checked={item.message === message && item.level === level}
+              onChange={() => undefined}
+              asRadioButton
+            />
+          </div>
+        );
+      }
+    },
+    {
+      id: 'level',
+      label: t('in-alerting:smartAlerts.applications.logMessages.levelColumn'),
+      width: 20,
+      getContent(item: any) {
+        return <Pill type="gray">{item.level}</Pill>;
+      }
     }
-  }
-];
+  ];
+}

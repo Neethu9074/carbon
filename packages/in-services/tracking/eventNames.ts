@@ -116,6 +116,8 @@ export const TOPLIST_METRIC_CHANGED = 'toplist.metricChanged';
 export const TOPLIST_ROW_NAVIGATION = 'toplist.rowNavigation';
 export const USER_INVITE = 'user.invite';
 export const BUY_NOW_BUTTON_CLICKED = 'purchaseIntent.aws';
+export const BUY_NOW_BUTTON_AWS_CLICKED = 'purchaseIntent.aws';
+export const BUY_NOW_BUTTON_IBM_CLICKED = 'purchaseIntent.ibm';
 export const PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED = 'intentToTry.Demo';
 export const PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED = 'intentToTry.Trial';
 
@@ -211,6 +213,11 @@ export const MOBILE_APPS_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'mobileApps.dashbo
 export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
 export const SETTINGS_ROLE_OPEN_SUBMIT_FORM = 'settings.role.new';
+
+export const SHARE_AND_INVITE_SUBMIT = 'shareAndInvite.submit';
+export const SHARE_AND_INVITE_CLOSED = 'shareAndInvite.closed';
+export const SHARE_AND_INVITE_TRIGGERED = 'shareAndInvite.triggered';
+export const SHARE_AND_INVITE_INVITEE_JOINED = 'shareAndInvite.invitee.joined';
 
 // Owned by Team Alert Response
 // Tracking all team owned components
@@ -426,7 +433,7 @@ export const ALERTING_RESUMED = 'smartalert.resumed';
 export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
 
 // Business Monitoring Tracking
-export const BIZOPS_PROCESSES_TABS_CLICK = 'bizops.processes.tabs.click';
+export const BIZOPS_TABS_CLICK = 'bizops.tabs.click';
 export const BIZOPS_PROCESSES_LIST_SELECT = 'bizops.processes.list.select';
 
 export const BIZOPS_PROCESS_TABS_CLICK = 'bizops.process.tabs.click';

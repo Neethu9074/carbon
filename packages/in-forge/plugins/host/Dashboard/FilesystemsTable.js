@@ -10,9 +10,11 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { isLinux, isWindows } from 'in-forge/plugins/host/hostUtils';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getMaxValue } from 'in-sdk/metrics';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 const deviceColumn = {
@@ -24,12 +26,31 @@ const deviceColumn = {
     }
   }
 };
-const mountColumn = {
-  title: t('in-forge:plugins.host.dashboard.mount'),
-  type: 'string',
+const mountsColumn = {
+  title: t('in-forge:plugins.host.dashboard.mounts'),
+  type: 'custom',
   typeArgs: {
-    getValue(row) {
-      return row.filesystem.get('mount');
+    comparator: compareIgnoreCase,
+    get(row) {
+      const mount = row.filesystem.get('mount');
+      const mounts = row.filesystem.get('mounts');
+
+      if (mounts == null || mounts.size === 1) {
+        return {
+          value: mount,
+          content: mount
+        };
+      }
+
+      const mountsArray = mounts.toJS();
+      return {
+        value: mount,
+        content: (
+          <Tooltip content={mountsArray.join(', ')} delay={500}>
+            <span>{`${mount} (+${mountsArray.length - 1})`}</span>
+          </Tooltip>
+        )
+      };
     }
   }
 };
@@ -161,7 +182,7 @@ export default function FilesystemsTable({ snapshot, timeConfig }) {
   const cols = [deviceColumn, optionsColumn, typeColumn, capacityColumn, usedColumn, leakedColumn];
 
   if (!windows) {
-    cols.splice(1, 0, mountColumn);
+    cols.splice(1, 0, mountsColumn);
     cols.push(iNodeUsageColumn);
   }
 

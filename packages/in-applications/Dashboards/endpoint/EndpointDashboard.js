@@ -136,20 +136,18 @@ export default function EndpointDashboard({ location }) {
           />
         </FloatingActionButtons>
       )}
-      {showAlertButton && applicationSmartAlertFullScreenDesignEnabled && (
+      {showAlertButton && applicationSmartAlertFullScreenDesignEnabled && props.applicationId && (
         <FloatingActionButtons>
           <FloatingActionButtonMenu>
-            {showAlertButton && (
-              <span className={locals.floatingBtnMenu}>
-                <CreateSmartAlert
-                  serviceId={props.serviceId}
-                  endpointId={props.endpointId}
-                  applicationId={props.applicationId}
-                  location={location}
-                  boundaryScope={props.boundaryScope}
-                />
-              </span>
-            )}
+            <span className={locals.floatingBtnMenu}>
+              <CreateSmartAlert
+                serviceId={props.serviceId}
+                endpointId={props.endpointId}
+                applicationId={props.applicationId}
+                location={location}
+                boundaryScope={props.boundaryScope}
+              />
+            </span>
 
             <CreateSmartAlertButton
               isGlobal={false}

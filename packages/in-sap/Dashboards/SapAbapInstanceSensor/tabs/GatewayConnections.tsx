@@ -95,11 +95,11 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.numberOfConnections'),
+    title: t('in-sap:dashboards.tableType'),
     type: 'string',
     typeArgs: {
       getValue(row: GatewayConnectionRow) {
-        return row.gatewayConnection.get('NO');
+        return row.gatewayConnection.get('TBLTYPE');
       },
       getContent(args: any) {
         return <Args args={shorten(args, 128)} />;
@@ -107,11 +107,11 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.tableType'),
+    title: t('in-sap:dashboards.numberOfConnections'),
     type: 'string',
     typeArgs: {
       getValue(row: GatewayConnectionRow) {
-        return row.gatewayConnection.get('TBLTYPE');
+        return row.gatewayConnection.get('NO');
       },
       getContent(args: any) {
         return <Args args={shorten(args, 128)} />;
@@ -143,7 +143,7 @@ export default function GatewayConnections({ snapshotId }: SnapshotData) {
       cardTitle={t('in-sap:dashboards.gatewayConnections')}
       cols={cols}
       rows={rows}
-      initialSortColumn={6}
+      initialSortColumn={7}
       initialSortDirection="desc"
     />
   );

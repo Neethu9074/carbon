@@ -14,6 +14,7 @@ import {
 } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
+import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
 import { t } from 'in-i18n';
 
 interface InfraThresholdConditionProps {
@@ -21,13 +22,15 @@ interface InfraThresholdConditionProps {
   updateForm: (form: MapForm<any>) => void;
   percentageMetric: boolean;
   metricUnitPostfix: string;
+  groupBy?: any;
 }
 
 export default function InfraThresholdCondition({
   form,
   updateForm,
   percentageMetric,
-  metricUnitPostfix
+  metricUnitPostfix,
+  groupBy
 }: InfraThresholdConditionProps) {
   const maxValue = getMaxMetricValue(percentageMetric);
   const thresholdType = getThresholdTypeOptions();
@@ -49,6 +52,14 @@ export default function InfraThresholdCondition({
           percentageMetric={percentageMetric}
           metricUnitPostfix={metricUnitPostfix}
         />
+        {!groupBy?.length && (
+          <UseSuggestedValueButton
+            form={form}
+            updateForm={updateForm}
+            metricUnitPostfix={metricUnitPostfix}
+            percentageMetric={percentageMetric}
+          />
+        )}
       </ThresholdConditionFormGroup>
     </>
   );

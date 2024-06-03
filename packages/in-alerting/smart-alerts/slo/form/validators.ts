@@ -6,6 +6,7 @@
 
 import { ValidationResult } from 'formalistic';
 
+import { isSloAlertOperator } from 'in-alerting/smart-alerts/slo/components/OperatorDropdown';
 import { t } from 'in-i18n';
 
 export function noEmptySloIds(sloIds: string[]): ValidationResult {
@@ -26,6 +27,18 @@ export function notLessThanOrEqualToZero(value: number): ValidationResult {
       {
         severity: 'error',
         message: t('in-alerting:smartAlerts.slo.validators.notLessThanOrEqualToZero')
+      }
+    ];
+  }
+  return undefined;
+}
+
+export function noInvalidOperator(operator: string): ValidationResult {
+  if (!isSloAlertOperator(operator)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-alerting:smartAlerts.slo.validators.noInvalidOperator')
       }
     ];
   }

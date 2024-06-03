@@ -65,6 +65,7 @@
   },
   "productAreas": {
     "allApplications": "All applications",
+    "allActions": "All actions",
     "allWebsites": "All websites",
     "allMobileApps": "All mobile apps",
     "businessMonitoringAccessAllMessage": "All business processes",
@@ -112,7 +113,13 @@
     "title_platforms": "Platforms",
     "title_websites": "Websites",
     "title_businessMonitoring": "Business Monitoring",
-    "title_syntheticMonitoring": "Synthetic Monitoring"
+    "title_syntheticMonitoring": "Synthetic Monitoring",
+    "title_event": "Events and alerts",
+    "title_logs": "Logs",
+    "title_dashboard": "Custom dashboards",
+    "title_automation": "Automation",
+    "title_agents": "Agents",
+    "title_access_control": "Access control"
   },
   "headingSection": {
     "title": "Role and access scope",
@@ -151,6 +158,9 @@
     "addButton_syntheticTests": "Select Synthetic Tests",
     "descriptionAccessAll_synthetics": "All Synthetic Tests can be accessed with the selected role.",
     "descriptionLimitedAccess_synthetics": "Select the role and add Synthetic Tests below to grant access.",
+    "addButton_actions": "Select Actions",
+    "descriptionAccessAll_automation": "All actions can be accessed with the selected role.",
+    "descriptionLimitedAccess_automation": "Select the role and add actions below to grant access.",
     "contribution_filter": "Contribution filter",
     "contributionFilter_description": "The contribution filter is applied when creating new application configurations. On the application configuration, the contribution filter can be refined with filter tags after an {{logicalOperator}} operator. An application perspective using the contribution filter tags is automatically created once you save.",
     "contributionFilter_downstreamCalls": "Determine the maximum level of additional information that can be included in the application perspectives",
@@ -183,6 +193,7 @@
     "description_no_access_kubernetes": "No access to namespaces and clusters.",
     "description_no_access_infrastructure": "No access: Access to infrastructure is denied.",
     "description_no_access_synthetics": "No access: Access to synthetic monitoring is denied.",
+    "description_no_access_automation": "No access: Access to automation is denied.",
     "description_access_all": "Access all without limitation",
     "title_access_all_bizops": "Unlimited access",
     "title_no_access_bizops": "Access Denied",
@@ -267,6 +278,16 @@
       },
       "role_permissions_owner": "Create, view and delete websites.",
       "role_permissions_viewer": "View websites."
+    },
+    "automation": {
+      "access_all": {
+        "access_level": "Access all the automation actions and policies with the selected access type and any additional permissions."
+      },
+      "limited_access": {
+        "access_level": "Access only the listed automation actions and policies with the selected access type and any additional permissions."
+      },
+      "role_permissions_owner": "Create, configure, view, delete automation actions and view action history.",
+      "role_permissions_viewer": "View automation actions, policies and history."
     }
   },
   "cardTitle_Area": "Area",
@@ -328,6 +349,30 @@
         "unknownTag": "Unknown tag: {{tagName}}"
       }
     },
+    "retentionPeriod":{
+      "retentionPeriod": "Retention Period",
+      "changeRetentionPeriod": "Change retention period",
+      "retentionDialogDescription": "Changing the retention period for logs impacts the cost and duration of \n log data available for analytics and custom dashboards.",
+      "logRetentionPeriod": "Log retention period",
+      "changeReason": "Change reason",
+      "currentRetentionPeriod": "Current retention period",
+      "days": "days",
+      "aboutRetentionPeriod": "A retention period determines how long data is kept in Instana. ",
+      "learnMore": "Learn More.",
+      "typeToConfirm": "Type CHANGE RETENTION to confirm change",
+      "typeToContinue": "Type CHANGE RETENTION to continue",
+      "reasonValidationMessage": "Change retention reason cannot be empty",
+      "changeError": "Error! Your retention period could not be changed.\n Please try again or contact support.",
+      "changeSuccess": "Success! Your retention period is now changed to {{value}} days.",
+      "historyChanges": "To view retention history, open the",
+      "actionLog": "Action Log",
+      "historyChanges2": "and search for log retention",
+      "modalTitle": "Change log retention period",
+      "toastTitleSuccesful": "Log retention period successfully changed",
+      "toastTitleFailed": "Change Log Retention failed",
+      "toastMessageFailed": "The retention period could not be changed. Please try again or contact support.",
+      "contactSupport": "Contact support"
+    },
     "deleteLogs": {
       "deleteLogs": "Delete logs",
       "info": "If you are experiencing a leak of secure information to Instana Logs, you can proceed to delete all logs for the whole data retention period on demand.",
@@ -337,9 +382,10 @@
       "logs": "LOGS",
       "deletionInfo": "Deleting logs may take a while.\n Check the status in the \"Log deletion summary\" table.",
       "deletionError": "Logs couldn't be deleted",
-      "deletionSuccess": "All logs have been deleted",
+      "deletionWarning": "No log data to delete for the given timeframe",
       "success": "Success",
       "failure": "Failed",
+      "warning": "Warning",
       "deletionDate": "Date",
       "reason": "Reason",
       "numberOfLogs": "Number of logs",
@@ -359,7 +405,20 @@
       "toastSuccessTitle": "Log deletion successful",
       "toastSuccessMessage": "Logs for the selected time period are successfully deleted.",
       "toastErrorTitle": "Log deletion failed",
-      "toastErrorMessage": "Logs could not be deleted. Please try again."
+      "toastErrorMessage": "Logs could not be deleted. Please try again.",
+      "toastNoLogsMessage": "No log data to delete for the given timeframe."
+    },
+    "logVolume": {
+      "logVolume": "Log Volume",
+      "timeRange": "Time Range",
+      "months_1": "Current month",
+      "months_3": "Past 3 months",
+      "months_6": "Past 6 months",
+      "months_9": "Past 9 months",
+      "months_12": "Past 12 months",
+      "days_7": "7 Days",
+      "days_20": "20 Days",
+      "days_30": "30 Days"
     },
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",
@@ -1301,5 +1360,28 @@
     "newMaintenanceWindowDefaultName": "New Maintenance Configuration"
   },
   "settings": "Settings",
-  "testAlertChannelSuccess": "Test Alert sent to {{channel}} Alert Channel"
+  "testAlertChannelSuccess": "Test Alert sent to {{channel}} Alert Channel",
+  "ShareAndInviteDialogBox": {
+    "share": "Share",
+    "inviteYourColleagues": "Invite your colleagues to join this Instana instance.",
+    "collaborateIfYouWantHelp": "Collaborate if you want to ask for help or share a dashboard for example.",
+    "emailAddress": "Email address",
+    "add": "Add",
+    "addUser": "Add user",
+    "youCanEditThisMessage": "You can edit this message.",
+    "group": "Group",
+    "groupToolTip": "The group controls the user access across the tenant. For different access, you can add or edit user groups in the User settings.",
+    "newGroup": "New group",
+    "emailMessage": "Email message (optional)",
+    "defaultEmailMessage": "Add a note here if you want to ask for help or provide any relevant information about the page you're sharing.",
+    "pageLink": "Page link",
+    "currentTimeRange": "Current time range",
+    "fixateTime": "Lock current time range",
+    "agentKey": "Agent key",
+    "cancel": "Cancel",
+    "send": "Send",
+    "invitationSend": "Invitation Sent",
+    "somethingWentWrong": "Something went wrong.",
+    "failedToSendInvitation": "Your invitation was not delivered. Try again."
+  }
 }

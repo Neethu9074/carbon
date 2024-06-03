@@ -6,12 +6,9 @@
 
 import { Field, MapForm } from 'formalistic';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-//@ts-expect-error
 import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
-//@ts-expect-error
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
@@ -22,7 +19,7 @@ import locals from 'in-alerting/smart-alerts/synthetics/components/AlertTagFilte
 
 export interface AlertTagFilterExpressionConfigProps {
   form: MapForm<any>;
-  updateForm?: (form: MapForm<any>) => void;
+  updateForm: (form: MapForm<any>) => void;
   QueryBuilderComponent: QueryBuilderComponent;
   headerTransparent: boolean;
 }
@@ -64,10 +61,3 @@ export default function AlertTagFilterExpressionConfig({
     </LightCard>
   );
 }
-
-AlertTagFilterExpressionConfig.propTypes = {
-  QueryBuilderComponent: PropTypes.func.isRequired,
-  form: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  headerTransparent: PropTypes.bool
-};

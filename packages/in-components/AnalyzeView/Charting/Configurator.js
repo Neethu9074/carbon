@@ -30,17 +30,31 @@ export default function Configurator({
   const options = {
     templates: chartedMetricsTemplates ?? emptyArray,
     metrics:
-      chartableMetricCatalog?.map(({ metricId, label, description, aggregations, groupLabel }) => ({
-        metricId,
-        label,
-        description,
-        aggregations: aggregations.map(aggregationId => ({
-          id: aggregationId,
-          label: aggregationLabels[aggregationId],
-          renderers: userSelectableRenderer
-        })),
-        groupLabel
-      })) ?? emptyArray
+      chartableMetricCatalog?.map(
+        ({
+          metricId,
+          secondLevelMetricId,
+          metricTagSuggestions,
+          label,
+          description,
+          aggregations,
+          groupLabel,
+          customMetric
+        }) => ({
+          metricId,
+          secondLevelMetricId,
+          metricTagSuggestions,
+          label,
+          description,
+          aggregations: aggregations.map(aggregationId => ({
+            id: aggregationId,
+            label: aggregationLabels[aggregationId],
+            renderers: userSelectableRenderer
+          })),
+          groupLabel,
+          customMetric
+        })
+      ) ?? emptyArray
   };
 
   return (

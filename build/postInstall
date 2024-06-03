@@ -26,6 +26,6 @@ finished
 
 echo "🧑‍🏭 installing auxiliary CLI tools"
 cd build/cli-tools
-yarn install --frozen-lockfile
+yarn install --immutable
 cd ../..
 finished

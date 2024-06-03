@@ -15,6 +15,7 @@
     "noData": "사용 가능한 데이터 없음",
     "healthLabel": "상태",
     "startLabel": "시작됨",
+    "latencyLabel": "대기 시간",
     "unnamedActivity": "(이름 지정되지 않은 활동){{activityType}}",
     "unnamedService": "(이름 지정되지 않은 서비스)"
   },
@@ -42,12 +43,14 @@
     "activity": {
       "pageTitle": "비즈니스 활동",
       "summaryTab": "요약",
+      "servicesTab": "서비스",
       "widgets": {
         "duration": "지속 기간",
         "activityCount": "개수",
         "activityErrors": "오류",
         "topServices": "상위 서비스",
-        "activityLatency": "대기 시간"
+        "activityLatency": "대기 시간",
+        "viewAll": "모든 서비스 보기"
       },
       "timespans": {
         "minute": "1분",

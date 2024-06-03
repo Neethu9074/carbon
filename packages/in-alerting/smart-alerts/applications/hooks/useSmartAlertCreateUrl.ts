@@ -16,7 +16,9 @@ import {
   alertCreated,
   serviceId as serviceIdFromURL,
   endpointId as endpointIdFromURL,
-  isPotentialProblem
+  isPotentialProblem,
+  isDuplicateMode,
+  isEditMode
 } from 'in-applications/navigation/matrix';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/components/list/constants';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
@@ -39,6 +41,8 @@ interface AlertURLProps {
   endpointId?: string;
   eventSpecificationId?: string;
   potentialProblem?: string;
+  duplicateMode?: string;
+  editMode?: string;
 }
 
 export function useSmartAlertCreateUrl(): ({
@@ -51,7 +55,9 @@ export function useSmartAlertCreateUrl(): ({
   applicationId,
   endpointId,
   eventSpecificationId,
-  potentialProblem
+  potentialProblem,
+  duplicateMode,
+  editMode
 }: AlertURLProps) => string {
   const { createHref, location } = useNavigation();
   const currentLocation = useLocation();
@@ -67,7 +73,9 @@ export function useSmartAlertCreateUrl(): ({
       applicationId,
       endpointId,
       eventSpecificationId,
-      potentialProblem
+      potentialProblem,
+      duplicateMode,
+      editMode
     }: AlertURLProps) => {
       const returnUrlWithParams = createHref(currentLocation);
       const clonedLocation = cloneLocation(location);
@@ -83,7 +91,9 @@ export function useSmartAlertCreateUrl(): ({
         applicationId,
         endpointId,
         eventSpecificationId,
-        potentialProblem
+        potentialProblem,
+        duplicateMode,
+        editMode
       );
       return createHref({
         ...clonedLocation
@@ -105,7 +115,9 @@ function updateCreatePathMetrixParams(
   applicationId?: string,
   endpointId?: string,
   eventSpecificationId?: string,
-  potentialProblem?: string
+  potentialProblem?: string,
+  duplicateMode?: string,
+  editMode?: string
 ) {
   const configsCategory = isGlobal ? categoryGlobal : categoryLocal;
 
@@ -120,5 +132,7 @@ function updateCreatePathMetrixParams(
   setOrDeleteMatrixKey(location, smartAlertPath, alertsCategory, configsCategory);
   setOrDeleteMatrixKey(location, smartAlertPath, cancelUrl, returnUrlWithParams);
   if (potentialProblem) setOrDeleteMatrixKey(location, smartAlertPath, isPotentialProblem, String(potentialProblem));
+  if (duplicateMode) setOrDeleteMatrixKey(location, smartAlertPath, isDuplicateMode, String(duplicateMode));
+  if (editMode) setOrDeleteMatrixKey(location, smartAlertPath, isEditMode, String(editMode));
   location.pathname = smartAlertPath;
 }

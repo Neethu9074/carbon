@@ -186,6 +186,16 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'logRetentionPageEnabled',
+    instanaCtlKey: 'feature.log.retention.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'logVolumePageEnabled',
+    instanaCtlKey: 'feature.log.volume.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'enableTroubleshootingMode',
     instanaCtlKey: 'feature.troubleshooting.mode.enabled',
     defaultValue: false
@@ -309,6 +319,11 @@ module.exports = exports = [
     uiClientKey: 'bizopsGoldenSignalsEnabled',
     instanaCtlKey: 'feature.bizops.golden.signals.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'bizopsPerspectivesEnabled',
+    instanaCtlKey: 'feature.bizops.perspectives.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
@@ -511,6 +526,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonSearchInputEnabled',
+    instanaCtlKey: 'feature.carbon.search.input.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonLoadingSkeletonFeatureEnabled',
     instanaCtlKey: 'feature.carbon.loading.skeleton.enabled',
     defaultValue: false
@@ -566,11 +586,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'rawTraceDownloadEnabled',
-    instanaCtlKey: 'feature.application.raw.trace.download.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'carbonTabsEnabled',
     instanaCtlKey: 'feature.carbon.tabs.enabled',
     defaultValue: false
@@ -588,12 +603,12 @@ module.exports = exports = [
   {
     uiClientKey: 'orbitalEnabled',
     instanaCtlKey: 'feature.orbital.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'weaselSubresourceIntegrityEnabled',
     instanaCtlKey: 'feature.weasel.subresource.integrity.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonTileEnabled',
@@ -603,6 +618,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonStepProgressBarEnabled',
     instanaCtlKey: 'feature.carbon.stepprogressbar.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonHorizontalIndicatorEnabled',
+    instanaCtlKey: 'feature.carbon.horizontalindicator.enabled',
     defaultValue: false
   }
 ];

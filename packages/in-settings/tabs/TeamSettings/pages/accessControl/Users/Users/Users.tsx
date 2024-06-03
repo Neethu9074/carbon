@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+// @ts-expect-error
+import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
 import React from 'react';
 
 import { KeyValue, Link, Message, MessageTypes, Typography } from '@instana/components';
@@ -17,11 +19,13 @@ import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/A
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 //@ts-expect-error TS migration
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
+//@ts-expect-error missing typescript migration
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
 import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
+import { disableInvitesWithIdpEnabled, shareAndInviteEnabled } from 'in-services/featureFlags';
 import { getUsersAsResultObservable, removeUserFromTenant, UserResult } from 'in-api/users';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
-import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { USER_INVITE, track } from 'in-services/tracking/tracking';
 import Gravatar from 'in-components/Gravatar/Gravatar';
@@ -55,6 +59,8 @@ export default function Users() {
     );
   }
 
+  const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
+
   return (
     <>
       {isAnyIDPActive && <CustomUserListInfo />}{' '}
@@ -71,7 +77,9 @@ export default function Users() {
             ? undefined
             : () => {
                 track(USER_INVITE, emptyObject);
-                addActiveDialog(<InviteUserDialog />);
+                addActiveDialog(
+                  shareAndInviteEnabled ? <DeferredShareAndInviteDialogBox hideShare /> : <InviteUserDialog />
+                );
               }
         }
         labelNew={t('in-settings:tabs.inviteUser')}

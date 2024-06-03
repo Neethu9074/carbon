@@ -336,7 +336,7 @@ function Content({
   );
 
   const errorMessage = (
-    <Message type="error" withIcon small>
+    <Message type="error" withIcon small fullInlineWidth>
       {t('in-infrastructure:explore.theQueryConfigurationIsInvalid')}
     </Message>
   );

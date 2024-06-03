@@ -15,6 +15,7 @@
     "noData": "Nessun dato disponibile",
     "healthLabel": "Integrità",
     "startLabel": "Avviato",
+    "latencyLabel": "Latenza",
     "unnamedActivity": "(Attività senza nome) {{activityType}}",
     "unnamedService": "(Servizio senza nome)"
   },
@@ -42,12 +43,14 @@
     "activity": {
       "pageTitle": "Attività di business",
       "summaryTab": "Riepilogo",
+      "servicesTab": "Servizi",
       "widgets": {
         "duration": "Durata",
         "activityCount": "Conteggio",
         "activityErrors": "Errori",
         "topServices": "Servizi principali",
-        "activityLatency": "Latenza"
+        "activityLatency": "Latenza",
+        "viewAll": "Visualizza tutti i servizi"
       },
       "timespans": {
         "minute": "1 minuto",

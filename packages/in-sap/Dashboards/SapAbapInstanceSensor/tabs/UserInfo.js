@@ -4,35 +4,28 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
+import UserLogonTypeStatus from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UserLogonTypeStatus.js';
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
+import Table from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { number } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
+import ComboBox from 'in-components/ComboBox';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
+import Polocals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ComboBox.mless';
 import locals from './RawTableFormat.mless';
 
 const cols = [
   {
-    title: t('in-sap:dashboards.tID'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.userDetail.get('TID');
-      },
-      getContent: number.compact
-    }
-  },
-  {
-    title: t('in-sap:dashboards.mandt'),
+    title: t('in-sap:dashboards.client'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.userDetail.get('GUIVERSION');
+        return row.userDetail.get('MANDT');
       },
       getContent(args) {
         return <Args args={shorten(args, 128)} />;
@@ -40,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.name'),
+    title: t('in-sap:dashboards.userName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -49,6 +42,16 @@ const cols = [
       getContent(args) {
         return <Args args={shorten(args, 128)} />;
       }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.tID'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.userDetail.get('TID');
+      },
+      getContent: number.compact
     }
   },
   {
@@ -119,31 +122,61 @@ export default connectTo(
       data: getRawPayloadWithTimestamp(props.snapshotId, 'userInfo')
     };
   },
+
   function UserInfo({ data }) {
+    const [{ logonType }, setPhase] = useState(UserLogonTypeStatus);
+
+    const rightHeader = (
+      <ComboBox
+        placeholder={t('in-sap:dashboards.logonType')}
+        isSearchable={false}
+        value={logonType}
+        className={Polocals.filter}
+        // @ts-expect-error Module needs to be translated to TS
+        onChange={t => setPhase({ logonType: t ? t.value : null })}
+        options={UserLogonTypeStatus}
+      />
+    );
+
     if (!data || !data.get('raw_payload')) {
       return null;
     }
-
     const userDetails = data.get('raw_payload');
     if (userDetails.size === 0) {
       return null;
     }
-
-    const rows = userDetails.toArray().map((userDetail, idx) => {
-      return {
-        key: String(idx),
-        userDetail
-      };
-    });
-
+    const rows = userDetails
+      .toArray()
+      .map((userDetail, idx) => {
+        return {
+          key: String(idx),
+          userDetail
+        };
+      })
+      .filter(function (rows) {
+        if (logonType == null) {
+          return rows;
+        } else if (logonType == 'Others') {
+          return (
+            rows != null &&
+            rows.userDetail.get('TYPE') != 'GUI' &&
+            rows.userDetail.get('TYPE') != 'Internal RFC' &&
+            rows.userDetail.get('TYPE') != 'External RFC' &&
+            rows.userDetail.get('TYPE') != 'Daemon'
+          );
+        } else {
+          return rows != null && rows.userDetail.get('TYPE') === logonType;
+        }
+      });
     return (
       <Table
         withoutPadding
         cardTitle={<TimeOfLastUpdateCardTitle title={t('in-sap:dashboards.userInfo')} />}
         cols={cols}
         rows={rows}
-        initialSortColumn={1}
+        initialSortColumn={0}
         initialSortDirection="asc"
+        rightHeader={rightHeader}
       />
     );
   }

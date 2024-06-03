@@ -7,12 +7,11 @@
 import React, { Fragment } from 'react';
 
 import InfraMetricKpiCard from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InfraMetricKpiCardSap';
-import DiskSummaryStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DiskSummaryStats';
+import { number, kiloBytes, percentage, percentagePlain } from 'in-services/formatters/number';
 import CombinedMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/CombinedMetrics';
 import AbapShortDumps from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/AbapShortDumps';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { number, kiloBytes, percentage } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -119,7 +118,7 @@ export default function Summary({ timeConfig, data: sap }) {
               icon: 'lib_sap_jobCancelled'
             }}
             snapshotId={snapshotId}
-            metric="sapMetricsStats.cancelledJobCount"
+            metric="sapMetricsStats.cancelJobs"
             formatter={number.compact}
           />
         </Col>
@@ -134,7 +133,7 @@ export default function Summary({ timeConfig, data: sap }) {
               metrics: ['sapMetricsStats.userName', 'sapMetricsStats.userSession'],
               labels: [t('in-sap:dashboards.numberOfUsers'), t('in-sap:dashboards.userSession')],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -148,57 +147,53 @@ export default function Summary({ timeConfig, data: sap }) {
               metrics: ['sapMetricsStats.totalRFCCalls'],
               labels: [t('in-sap:dashboards.totalRFCCalls')],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-sap:dashboards.cpuUtilization')}>
+        <DashboardSection title={t('in-sap:dashboards.totalcpuUtilization')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['cpuMetricStats.usrTotal', 'cpuMetricStats.sysTotal', 'cpuMetricStats.totalUtilization'],
-              labels: [
-                t('in-sap:dashboards.userUtilization'),
-                t('in-sap:dashboards.systemUtilization'),
-                t('in-sap:abapsensor.metrics.total')
-              ],
+              metrics: ['cpuMetricStats.totalUtilization'],
+              labels: [t('in-sap:abapsensor.metrics.total')],
               type: 'line',
-              formatter: number.compact
+              formatter: percentagePlain.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title={t('in-sap:dashboards.processMaxRequestTime')}>
+        <DashboardSection title={t('in-sap:dashboards.dispatcherRequestQueues')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: [
-                'queueStats.nowpWait',
                 'queueStats.dialogWait',
                 'queueStats.updateWait',
                 'queueStats.enqueueWait',
                 'queueStats.btcWait',
                 'queueStats.spoolWait',
-                'queueStats.update2Wait'
+                'queueStats.update2Wait',
+                'queueStats.nowpWait'
               ],
               labels: [
-                t('in-sap:dashboards.nowpWait'),
                 t('in-sap:dashboards.dialogWait'),
                 t('in-sap:dashboards.updateWait'),
                 t('in-sap:dashboards.enqueue'),
                 t('in-sap:dashboards.background'),
                 t('in-sap:dashboards.spoolWait'),
-                t('in-sap:dashboards.update2Wait')
+                t('in-sap:dashboards.update2Wait'),
+                t('in-sap:dashboards.nowpWait')
               ],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -213,22 +208,22 @@ export default function Summary({ timeConfig, data: sap }) {
               min: 0,
               metrics: [
                 'workloadcounts.numberOfDialogProcess',
-                'workloadcounts.numberOfSpoolProcess',
-                'workloadcounts.numberOfBatchProcess',
-                'workloadcounts.numberOfEnqueueProcess',
                 'workloadcounts.numberOfUpdateProcess',
+                'workloadcounts.numberOfEnqueueProcess',
+                'workloadcounts.numberOfBatchProcess',
+                'workloadcounts.numberOfSpoolProcess',
                 'workloadcounts.numberOfUpdate2Process'
               ],
               labels: [
                 t('in-sap:dashboards.numberOfDialogProcess'),
-                t('in-sap:dashboards.numberOfSpoolProcess'),
-                t('in-sap:dashboards.numberOfBatchProcess'),
-                t('in-sap:dashboards.numberOfEnqueueProcess'),
                 t('in-sap:dashboards.numberOfUpdateProcess'),
+                t('in-sap:dashboards.numberOfEnqueueProcess'),
+                t('in-sap:dashboards.numberOfBatchProcess'),
+                t('in-sap:dashboards.numberOfSpoolProcess'),
                 t('in-sap:dashboards.numberOfUpdate2Process')
               ],
               type: 'stackedBar',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -241,10 +236,24 @@ export default function Summary({ timeConfig, data: sap }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['workloadcounts.onHold', 'workloadcounts.running', 'workloadcounts.waiting'],
-              labels: [t('in-sap:dashboards.onHold'), t('in-sap:dashboards.running'), t('in-sap:dashboards.waiting')],
+              metrics: [
+                'workloadcounts.waiting',
+                'workloadcounts.running',
+                'workloadcounts.onHold',
+                'workloadcounts.stopped',
+                'workloadcounts.shutdown',
+                'workloadcounts.reserviert'
+              ],
+              labels: [
+                t('in-sap:dashboards.waiting'),
+                t('in-sap:dashboards.running'),
+                t('in-sap:dashboards.onHold'),
+                t('in-sap:dashboards.stopped'),
+                t('in-sap:dashboards.shutdown'),
+                t('in-sap:dashboards.reserved')
+              ],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -270,7 +279,7 @@ export default function Summary({ timeConfig, data: sap }) {
                 t('in-sap:dashboards.abortedOrCancelledJob')
               ],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -297,8 +306,8 @@ export default function Summary({ timeConfig, data: sap }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['swapmemory.freeSwap', 'swapmemory.swapSize'],
-              labels: [t('in-sap:dashboards.freeSwap'), t('in-sap:dashboards.swapSize')],
+              metrics: ['swapmemory.swapSize', 'swapmemory.freeSwap'],
+              labels: [t('in-sap:dashboards.swapSize'), t('in-sap:dashboards.freeSwap')],
               type: 'line',
               formatter: kiloBytes.detailed
             }}
@@ -314,7 +323,7 @@ export default function Summary({ timeConfig, data: sap }) {
               metrics: ['pagingStats.pageIn', 'pagingStats.pageOut'],
               labels: [t('in-sap:dashboards.pageIn'), t('in-sap:dashboards.pageOut')],
               type: 'line',
-              formatter: number
+              formatter: kiloBytes.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -334,7 +343,7 @@ export default function Summary({ timeConfig, data: sap }) {
                 t('in-sap:dashboards.idleTotal')
               ],
               type: 'line',
-              formatter: number
+              formatter: percentagePlain.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -352,7 +361,7 @@ export default function Summary({ timeConfig, data: sap }) {
                 t('in-sap:dashboards.contextSwitch')
               ],
               type: 'line',
-              formatter: number
+              formatter: number.perSecond.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -370,14 +379,13 @@ export default function Summary({ timeConfig, data: sap }) {
                 t('in-sap:dashboards.loadAvg15')
               ],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
       <CombinedMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
-      <DiskSummaryStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <AbapShortDumps snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>
   );

@@ -294,6 +294,12 @@
         "decreaseColor": "淡化颜色",
         "timeShift": "时移"
       },
+      "thresholdForm": {
+        "addThresholdColorization": "添加基于阈值的颜色设置",
+        "threshold": "阈值",
+        "critical": "当发生延迟时发出严重错误",
+        "warning": "当发生延迟时发出警告"
+      },
       "bigNumber": "大数"
     },
     "chart": {
@@ -823,7 +829,9 @@
           },
           "formatter": "格式化程序",
           "searchPlaceholder": "搜索",
-          "countGroup": "显示组计数"
+          "countGroup": "显示组计数",
+          "showGroupsWithMissingTags": "显示缺少标记的组",
+          "filterEmptyValues": "过滤空值"
         }
       },
       "dataSource": {

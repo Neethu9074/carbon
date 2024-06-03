@@ -15,6 +15,7 @@
     "noData": "Dados não disponíveis",
     "healthLabel": "Funcionamento",
     "startLabel": "Iniciado",
+    "latencyLabel": "Latência",
     "unnamedActivity": "(Atividade não nomeada) {{activityType}}",
     "unnamedService": "(Serviço não nomeado)"
   },
@@ -42,12 +43,14 @@
     "activity": {
       "pageTitle": "Atividade de negócios",
       "summaryTab": "Resumo",
+      "servicesTab": "Serviços",
       "widgets": {
         "duration": "Duração",
         "activityCount": "Contagem",
         "activityErrors": "Erros",
         "topServices": "Principais serviços",
-        "activityLatency": "Latência"
+        "activityLatency": "Latência",
+        "viewAll": "Visualizar todos os serviços"
       },
       "timespans": {
         "minute": "1 minuto",

@@ -28,6 +28,7 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtri aggiuntivi",
     "groupBy": "Raggruppa per",
     "noChannelAvailable": "Nessun canale di avviso disponibile",
+    "optional": "Facoltativo",
     "revisionDropdownButton": {
       "revision": "Revisione {{alertRevision}}",
       "pause": "Pausa",
@@ -160,7 +161,9 @@
             "shortText": "Per prospettiva dell'applicazione",
             "columnText": "aggregati",
             "description": "Avvisa individualmente per questa prospettiva applicazione",
-            "globalDescription": "Avvisa individualmente per questa prospettiva applicazione"
+            "globalDescription": "Avvisa individualmente per questa prospettiva applicazione",
+            "tearSheetSelectionText": "Raggruppa per applicazione",
+            "tearSheetDescription": "Le chiamate che corrispondono al filtro vengono valutate rispetto alla soglia di un gruppo. Quando si verifica una violazione, viene inviata una singola notifica di avviso per questa intera prospettiva dell'applicazione. "
           },
           "evaluationTypePERAPSERVICE": {
             "selectionText": "per servizio per questa prospettiva applicazione",
@@ -168,7 +171,9 @@
             "shortText": "Per servizio",
             "columnText": "per servizio",
             "description": "Avvisa individualmente per questa prospettiva applicazione",
-            "globalDescription": "Avvisa individualmente per questa prospettiva applicazione"
+            "globalDescription": "Avvisa individualmente per questa prospettiva applicazione",
+            "tearSheetSelectionText": "Raggruppa per servizio",
+            "tearSheetDescription": "Le chiamate che corrispondono al filtro vengono valutate rispetto alla soglia di 8 gruppi - uno per ogni servizio, con la propria soglia. Quando si verifica una violazione per un gruppo, viene inviata una notifica di avviso per tale gruppo."
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "per endpoint per questa prospettiva applicazione",
@@ -176,7 +181,9 @@
             "shortText": "Per endpoint",
             "columnText": "per endpoint",
             "description": "Avvisa individualmente per endpoint per questa prospettiva applicazione",
-            "globalDescription": "Avvisa individualmente per endpoint nel contesto di ogni prospettiva applicazione."
+            "globalDescription": "Avvisa individualmente per endpoint nel contesto di ogni prospettiva applicazione.",
+            "tearSheetSelectionText": "Raggruppa per endpoint",
+            "tearSheetDescription": "Le chiamate che corrispondono al filtro vengono valutate rispetto alla soglia di 47 gruppi - uno per ciascun endpoint, con la relativa soglia. Quando si verifica una violazione per un gruppo, viene inviata una notifica di avviso per tale gruppo."
           }
         },
         "inboundOutboundCalls": {
@@ -425,7 +432,7 @@
         "thresholdFormBaselineIsEmpty": "baseline vuota"
       },
       "simple": {
-        "simpleAlertStep1Headline": "Per cosa si desidera ricevere l'avviso?",
+        "simpleAlertStep1Headline": "Scegliere il problema per cui si desidera essere avvisati",
         "simpleAlertStep2Headline": "Dove si desidera attivare l'avviso?",
         "step1Title": "Passo 1: Selezionare l'avviso",
         "step2Title": "Passo 2: Selezionare l'ambito",
@@ -433,7 +440,9 @@
       },
       "components": {
         "createSmartAlert": "Aggiungi avviso smart",
+        "createSmartAlertNew": "Aggiungi smart alert (Nuovo)",
         "createGlobalSmartAlert": "Aggiungi avviso smart globale",
+        "createGlobalSmartAlertNew": "Aggiungi smart alert globale (Nuovo)",
         "provideLogMessageSelectLogMessage": "Seleziona messaggio di log",
         "provideLogMessageLogLevel": "Livello di log",
         "provideLogMessageErrorMessage": "Messaggio di errore",
@@ -450,6 +459,7 @@
         "getSubtitleForStaticWeeklySeasonality": "Stagionalità settimanale statica, {{metricLabel}}",
         "getSubtitleForAdaptiveThreshold": "Soglia adattiva, {{metricLabel}}",
         "labelActionButtonEdit": "Modifica",
+        "labelActionButtonEditNew": "Modifica (Nuovo)",
         "labelActionButtonDuplicate": "Duplica",
         "labelActionButtonDelete": "Elimina",
         "labelAlertFilters": "Filtri",
@@ -478,6 +488,77 @@
         "viewAlertDetails": "Visualizza dettagli avviso per la configurazione: {{name}}",
         "eventsWarningIcon": "Icona eventi di avviso",
         "eventsCriticalIcon": "Icona eventi critici"
+      },
+      "tearSheet": {
+        "step1Title": "Seleziona un modello di avviso",
+        "step2Title": "Definire l'ambito",
+        "step3Title": "Definisci raggruppamento",
+        "step4Title": "Definisci quando ricevere un avviso",
+        "step5Title": "Definire le proprietà e i canali degli avvisi",
+        "grouping": {
+          "title": "Chiamate di gruppo",
+          "description": "Le chiamate in ciascun gruppo vengono valutate separatamente"
+        },
+        "callsInScope": {
+          "title": "Scegli chiamate nell'ambito ",
+          "description": "Ciò determina quali servizi o endpoint sono disponibili per la selezione."
+        },
+        "includeHiddenCalls": {
+          "title": "Includi chiamate nascoste (facoltativo) ",
+          "description": "Le chiamate nascoste non vengono visualizzate nei dashboard integrati."
+        },
+        "serviceEndPointSelection": "Servizi o endpoint per chiamate selezionate",
+        "AlertPropertiesTitle": "Quali proprietà si desidera impostare per questo avviso?",
+        "AlertChannelTitle": "Dove si desidera ricevere la notifica per l'avviso?",
+        "inboundOutboundCalls": {
+          "config": {
+            "inbound": {
+              "text": "Chiamate in entrata",
+              "dashboard": "Per rilevare i problemi percepiti dai consumatori di questa applicazione",
+              "overrideDefault": "L'ambito predefinito per questa applicazione è solo Chiamate in entrata. È possibile modificare questa impostazione nella configurazione."
+            },
+            "all": {
+              "text": "Tutte le chiamate",
+              "dashboard": "Per il rilevamento di problemi in qualsiasi servizio o endpoint all'interno di questa applicazione.",
+              "overrideDefault": "L'ambito predefinito per questa applicazione è Tutte le chiamate. È possibile modificare questa impostazione nella configurazione."
+            }
+          }
+        },
+        "hiddenCalls": {
+          "config": {
+            "includeInternal": {
+              "text": "Le chiamate interne vengono eseguite all'interno di un servizio e corrispondono a valori intermedi nella traccia personalizzata"
+            },
+            "includeSynthetic": {
+              "text": "Le chiamate sintetiche hanno un endpoint sintetico come destinazione, come le chiamate agli endpoint di controllo integrità"
+            }
+          }
+        },
+        "threshold": {
+          "title": "Impostare un valore per la soglia di violazione",
+          "description": "Scegliere la metrica, la soglia di violazione e la finestra temporale per valutare la violazione."
+        },
+        "timeThreshold": {
+          "title": "Imposta quando le violazioni attivano gli avvisi",
+          "description": "Specificare il tipo di avviso e di persistenza, quindi impostare il trigger di avviso."
+        },
+        "staticOrAdaptive": {
+          "config": {
+            "adaptive": {
+              "description": "Viene applicato un valore di soglia che si adatta automaticamente alle modifiche della metrica sottostante."
+            },
+            "static": {
+              "description": "Viene applicato un valore di soglia costante che non cambia nel tempo."
+            }
+          }
+        },
+        "alertChart": {
+          "title": "Anteprima avvisi",
+          "description": "Mostra la modalità di attivazione degli avvisi in base ai dati di metrica cronologici."
+        },
+        "alertProperties": {
+          "previewTitle": "Anteprima avviso"
+        }
       }
     },
     "details": {
@@ -582,10 +663,12 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "Annulla",
+        "previousTitle": "Precedente",
         "sharedListTooltip": "{{typeName}} non è più disponibile",
         "clearTagFilterExpressionButton": "Ripulisci",
         "baselineErrorMessageComputedOnApproximateData": "La baseline viene calcolata in base ai dati approssimati dovuti alle impostazioni di conservazione dei dati. Pertanto, potrebbe non essere accurato nel caso in cui vi siano poche chiamate che corrispondono ai filtri selezionati.",
-        "baselineErrorMessageInsufficientDataToCompute": "Dati insufficienti per calcolare la baseline selezionata. Selezionare <em>Soglia statica</em>.",
+        "baselineValidationMessageInsufficientDataToCompute": "Dati insufficienti per calcolare la baseline selezionata. Selezionare <em>Soglia statica</em>.",
+        "baselineGenericErrorMessage": "Impossibile richiamare la baseline. Selezionare <em>Soglia statica</em>.",
         "pleaseContactSupportToRiseLimit": "Contattare il supporto tramite <supportLink>{{instanaSupportPortal}}</supportLink> per richiedere di aumentare questo limite.",
         "adaptiveBaselineErrorMessage": "L'anteprima della soglia non è attualmente disponibile.<br />Questo avviso smart può essere ancora salvato.",
         "adaptiveBaselineErrorMessageNotAvailable": "La soglia adattativa non è attualmente disponibile.",
@@ -942,6 +1025,7 @@
     },
     "migration": {
       "migrateButton": "Migra ad avviso smart",
+      "migrateButtonNew": "Migra a Smart Alert (Nuovo)",
       "migrateButtonTooltip": "Apre una finestra di dialogo di configurazione avviso smart precompilata al meglio con i valori migrati dall'evento corrente. Ricontrollare il risultato con attenzione!",
       "markAsMigratedButton": "Contrassegna come migrato",
       "markAsMigratedButtonTooltip": "Contrassegnare l'evento come migrato. Utilizzare nel caso in cui sia già stato configurato un avviso smart che sostituirà questo evento.",
@@ -1056,9 +1140,21 @@
         "views": "Viste",
         "customEventBlueprintConfigMetricLabel": "Ricorrenze",
         "sessions": "Sessioni",
+        "crashAffectedSessionRate": "Frequenza sessioni interessate da arresto anomalo",
+        "crashFreeSessionRate": "Tasso sessioni senza arresti anomali",
+        "crashAffectedSessionCount": "Conteggio sessioni interessate da arresto anomalo",
+        "crashFreeSessionCount": "Conteggio sessioni senza arresto anomalo",
+        "crashAffectedUserRate": "Frequenza utenti interessati da arresto anomalo",
+        "crashFreeUserRate": "Tasso utenti senza arresti anomali",
+        "crashAffectedUserCount": "Conteggio utenti interessati da arresto anomalo",
+        "crashFreeUserCount": "Conteggio utenti liberi da arresti anomali",
         "statusCodeBlueprintConfigName": "Codici stato HTTP",
         "throughputBlueprintConfigName": "Velocità di trasmissione",
         "customEventBlueprintConfigName": "Eventi personalizzati",
+        "crashBlueprintConfigName": "Arresti anomali",
+        "crashBlueprintConfigHeadline": "Avvisi automatici per arresti anomali",
+        "crashBlueprintConfigText": "Ricevere un avviso quando la metrica di arresto anomalo selezionata è superiore o inferiore al previsto.",
+        "crashBlueprintSelectMetric": "Seleziona metrica di arresto anomalo",
         "statusCodeBlueprintConfigHeadline": "Avvisi automatici per i codici di stato HTTP",
         "statusCodeBlueprintConfigText": "Ricevere un avviso ogni volta che i codici di stato HTTP corrispondenti si verificano più spesso del solito.",
         "throughputBlueprintConfigHeadline": "Avvisi automatici per le visualizzazioni nelle app per dispositivi mobili",
@@ -1124,7 +1220,10 @@
         "ruleMetricNameOptionThroughputSessions": "Sessioni",
         "ruleMetricNameOptionThroughputViews": "Viste",
         "errorPleaseProvideCustomEventName": "Fornire un nome evento personalizzato",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Fornire un numero >= 0"
+        "titlePlaceholderCrashSimpleHighOperator": "{{metricLabel}} è elevato in modo anomalo",
+        "titlePlaceholderCrashSimpleLowOperator": "{{metricLabel}} è basso in modo anomalo",
+        "descriptionPlaceholderCrashSimpleAboveOperator": "{{metricLabel}} è superiore all'aspettativa.",
+        "descriptionPlaceholderCrashSimpleBelowOperator": "{{metricLabel}} è inferiore all'aspettativa."
       },
       "customEvent": {
         "noCustomEventsFound": "Nessun evento personalizzato trovato",
@@ -1195,7 +1294,7 @@
         "staticThresholdHigherEqualsOperatorText": "Il numero di {{metricLabel}} è maggiore o uguale a {{thresholdValue}}.",
         "staticThresholdLowerOperatorText": "Il numero di {{metricLabel}} è minore di {{thresholdValue}}.",
         "staticThresholdLowerEqualsOperatorText": "Il numero di {{metricLabel}} è minore o uguale a {{thresholdValue}}.",
-        "thresholdHigherOperatorText": "Il numero di {{metricLabel}} è maggiore del previsto.",
+        "thresholdHigherOperatorText": "Il numero di {{metricLabel}} è superiore al previsto.",
         "thresholdHigherEqualsOperatorText": "Il numero di {{metricLabel}} è maggiore o uguale al previsto.",
         "thresholdLowerOperatorText": "Il numero di {{metricLabel}} è minore del previsto.",
         "thresholdLowerEqualsOperatorText": "Il numero di {{metricLabel}} è minore o uguale al previsto."
@@ -1358,6 +1457,56 @@
         "noDataForSelectedGroup": "Non sono disponibili dati per la combinazione di filtri e il raggruppamento specificata."
       },
       "logCount": "Conteggio log"
+    },
+    "slo": {
+      "validators": {
+        "noEmptySloIds": "Selezionare almeno uno SLO.",
+        "notLessThanOrEqualToZero": "Impostare un valore maggiore di 0."
+      },
+      "advancedModeContainer": {
+        "stepLabel": "",
+        "stepTitle": "",
+        "stepLabel_sloTarget": "Destinazioni",
+        "stepTitle_sloTarget": "Destinazioni: su quali SLO si desidera essere avvisati?",
+        "stepLabel_trigger": "Trigger",
+        "stepTitle_trigger": "Trigger: Per cosa si desidera ricevere l'avviso?",
+        "stepLabel_timeThreshold": "Soglia temporale",
+        "stepTitle_timeThreshold": "Soglia temporale: quando si desidera essere avvisati?",
+        "stepLabel_alertChannels": "Canali di avviso",
+        "stepTitle_alertChannels": "Canali di avviso: Chi deve ricevere l'avviso?",
+        "stepLabel_alertProperties": "Proprietà avviso",
+        "stepTitle_alertProperties": "Proprietà avviso: cosa deve includere la notifica di avviso?",
+        "stepLabel_customPayload": "Payload personalizzato",
+        "stepTitle_customPayload": "Payload personalizzato",
+        "selectSloHeadline": "Seleziona SLO",
+        "blueprintSectionTitle": "Seleziona blueprint",
+        "blueprint": "",
+        "blueprint_SERVICE_LEVELS_OBJECTIVE": "Stato",
+        "blueprint_ERROR_BUDGET": "Budget di errore",
+        "blueprintDescription": "",
+        "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "Ricevere un avviso quando lo stato SLO scende al di sotto di una soglia.",
+        "blueprintDescription_ERROR_BUDGET": "Ricevere un avviso quando viene utilizzata una percentuale del budget di errore.",
+        "thresholdTitle": "Soglia: quando si desidera essere avvisati?",
+        "thresholdInputDescription": "",
+        "thresholdInputDescription_ERROR_BUDGET": "La percentuale di budget di errore è stata bruciata",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "percentuale è la destinazione SLO o inferiore",
+        "timeThresholdType_gracePeriod": "Quando la condizione persiste per un periodo di tempo specificato",
+        "timeThresholdTypeTitle_gracePeriod": "Avviso quando la condizione viene violata per $t consecutivi (in-components:time.minutes, {\"count\": {{minutes}} })",
+        "alertProperties_entityLabel": "Nome-SLO",
+        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "Lo stato SLO è basso",
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "Lo stato SLO è minore o uguale a {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Il budget di errore rimanente è basso",
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Il budget di errore rimanente è inferiore o uguale a {{percentage}}."
+      },
+      "details": {
+        "alertConfigurationTitle": "Configurazione avviso",
+        "sloHeader": "SLO",
+        "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
+        "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
+        "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
+        "blueprintLabel": "Progetto iniziale",
+        "thresholdLabel": "Soglia"
+      }
     }
   }
 }

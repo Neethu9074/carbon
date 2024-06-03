@@ -52,7 +52,7 @@ const ActivateConfirmationDialog = ({ singleDatacenter, onClose }: Props) => {
     }, []) ?? pendingResult;
 
   const button = (
-    <SaveButton kind="primary" isLoading={result?.progress.loading} isSaving={false}>
+    <SaveButton kind="primary" isLoading={result?.progress.loading} isSaving={false} onClick={onClose}>
       {t('in-synthetics:dialog.createLocation.managedLocation.okay')}
     </SaveButton>
   );

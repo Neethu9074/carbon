@@ -5,12 +5,12 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
+import { just } from '@instana/observables';
 
 import getMonitoringIssuesForAgentSnapshot from 'in-subscription/getMonitoringIssuesForAgentSnapshot';
 import getIssueDefinitionForSnapshotAndCode from 'in-sdk/agentMonitoringIssueDefinition';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { DashboardLink } from 'in-components/DashboardLink/DashboardLink';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { formatDateTime } from 'in-services/formatters/date';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -30,19 +30,15 @@ const cols = [
     typeArgs: {
       comparator: compareIgnoreCase,
       get$(row) {
-        return getDashboardLink(row.key).map(href => {
-          const label = row.snapshot ? getLabel(row.snapshot) : `Unknown at ${formatDateTime(row.timestamp)}`;
-          return {
-            value: label,
-            content: (
-              <div className={locals.wrapper}>
-                {row.snapshot && <SvgIcon className={locals.icon} type={getIconType(row.snapshot)} />}
-                <Link href={href} className={locals.link}>
-                  {label}
-                </Link>
-              </div>
-            )
-          };
+        const label = row.snapshot ? getLabel(row.snapshot) : `Unknown at ${formatDateTime(row.timestamp)}`;
+        return just({
+          value: label,
+          content: (
+            <div className={locals.wrapper}>
+              {row.snapshot && <SvgIcon className={locals.icon} type={getIconType(row.snapshot)} />}
+              <DashboardLink label={label} className={locals.link} snapshotId={row.key} />
+            </div>
+          )
         });
       }
     }

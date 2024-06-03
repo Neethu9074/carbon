@@ -8,8 +8,9 @@ import React, { useState } from 'react';
 import { noop } from 'lodash';
 
 import { PaginatedResult, Result, SyntheticTest, TestResultListItem } from '@instana/types';
+import { IconButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { TrProps } from '@instana/components';
+import { TrProps } from '@instana/legacy';
 
 import {
   columnDefinitions,
@@ -24,7 +25,6 @@ import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import IconButton from 'in-components/IconButton/IconButton';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';

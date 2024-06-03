@@ -15,10 +15,11 @@ import { GlobalFunctionsSection } from 'in-settings/tabs/TeamSettings/pages/acce
 import { InfrastructureSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Infrastructure/InfrastructureSection';
 import { ApplicationsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Applications/ApplicationsSection';
 import { MobileAppsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/MobileApps/MobileAppsSection';
+import { AutomationSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Automation/AutomationSection';
 import { PlatformsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/PlatformsSection';
 import { WebsitesSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Websites/WebsitesSection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
-import { syntheticsEnabled } from 'in-services/featureFlags';
+import { actionAutomationEnabled, syntheticsEnabled } from 'in-services/featureFlags';
 
 interface RolesAndAccessScopeOverviewProps {
   permissionsSet: PermissionSet;
@@ -35,6 +36,7 @@ export default function RolesAndAccessScopeOverview({ permissionsSet }: RolesAnd
         <PlatformsSection />
         <InfrastructureSection />
         {syntheticsEnabled && <SyntheticMonitoringSection />}
+        {actionAutomationEnabled && <AutomationSection />}
         <GlobalFunctionsSection />
       </RolesAndAccessScopeContext.Provider>
     </Ul>

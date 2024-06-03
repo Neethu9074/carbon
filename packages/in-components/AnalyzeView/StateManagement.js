@@ -4,6 +4,7 @@
  */
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
+import pickBy from 'lodash/pickBy';
 import rpt from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
@@ -17,6 +18,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-components/tracker';
+import { useCustomMetricSuggestions } from 'in-applications/hooks/useCustomMetricSuggestions';
 import { ua2FacetsChangedTracker, ua2FormModelChangedTracker } from 'in-applications/tracker';
 import { isValid as isValidGrouping } from 'in-components/GroupingConfigurator/validation';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -208,7 +210,8 @@ function AnalyzeStateManagement({
     defaultSelectableFields = emptyArray,
     defaultChartedMetrics = emptyArray,
     metricCatalogTransformer,
-    chartableMetricCatalogTransformer
+    chartableMetricCatalogTransformer,
+    supportedCustomMetrics
   } = dataSourceConfigurations[dataSource];
 
   const formModel = useStableObjectInstance(urlState.formModel);
@@ -257,6 +260,12 @@ function AnalyzeStateManagement({
 
   const metricTemplatesResult =
     useObservable(() => getMetricTemplates() || noResultObservable(), [getMetricTemplates]) ?? pendingResult;
+
+  const customMetricSuggestionsResult = useCustomMetricSuggestions(supportedCustomMetrics, timeConfig, formModel);
+  const customMetricSuggestions = useMemo(
+    () => customMetricSuggestionsResult?.data,
+    [customMetricSuggestionsResult?.data]
+  );
 
   const chartedMetricsTemplates = useMemo(() => {
     if (metricTemplatesResult?.progress.loading) {
@@ -326,10 +335,20 @@ function AnalyzeStateManagement({
 
   const chartableMetricCatalog = useMemo(() => {
     if (chartableMetricCatalogTransformer != null) {
-      return metricCatalogResult?.data?.map(chartableMetricCatalogTransformer).filter(Boolean);
+      const catalog = metricCatalogResult?.data?.map(chartableMetricCatalogTransformer).filter(Boolean);
+      if (catalog && customMetricSuggestions) {
+        addCustomMetricProps(customMetricSuggestions, catalog, chartedMetrics);
+      }
+      return catalog;
     }
     return metricCatalog;
-  }, [metricCatalog, metricCatalogResult, chartableMetricCatalogTransformer]);
+  }, [
+    chartableMetricCatalogTransformer,
+    chartedMetrics,
+    metricCatalog,
+    metricCatalogResult?.data,
+    customMetricSuggestions
+  ]);
 
   const backendQueryModel = useMemo(() => {
     return toBackendQueryModel(formModel);
@@ -437,7 +456,7 @@ function AnalyzeStateManagement({
     isGrouped,
     groupBy,
     selectedGroup,
-    onGroupByChange: groupBy => onChange({ groupBy }),
+    onGroupByChange: groupBy => onChange({ groupBy: pickBy(groupBy, val => !!val) }),
     getHrefToUngroupedView(groupValue) {
       return getChangeAsUrl({
         ...(groupValue != null ? getStateChangeForUngroupedView(groupValue) : { groupBy: emptyObject }),
@@ -523,6 +542,18 @@ function AnalyzeStateManagement({
       )
     };
   }
+}
+
+function addCustomMetricProps(customMetricSuggestions, catalog, chartedMetrics) {
+  customMetricSuggestions.forEach(({ metricId, suggestions }) => {
+    const customMetricDefinition = catalog?.find(metric => metric.metricId === metricId);
+    if (customMetricDefinition) {
+      const metricTagSuggestions = suggestions.map(suggestion => ({ label: suggestion, value: suggestion }));
+      catalog.find(metric => metric.metricId === metricId).metricTagSuggestions = metricTagSuggestions;
+      catalog.find(metric => metric.metricId === metricId).secondLevelMetricId =
+        chartedMetrics?.[0]?.secondLevelMetricId || metricTagSuggestions?.[0]?.value;
+    }
+  });
 }
 
 function getOrderById({ metricCatalog, field }) {

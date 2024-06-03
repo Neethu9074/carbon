@@ -39,6 +39,7 @@
         "labelName": "測試的名稱",
         "labelDescription": "說明",
         "labelFrequency": "頻率（分鐘）",
+        "labelFrequencyHour": "頻率（小時）",
         "labelApplications": "選取應用程式"
       },
       "bluePrint": {
@@ -95,6 +96,11 @@
             "line3": "步驟 3：選擇測試頻率（1 ~ 120 分鐘）。",
             "line4": "步驟 4：在測試和說明的名稱區段中，在名稱欄位中輸入測試的有意義名稱。 將測試目的的說明新增至說明欄位。"
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "使用此測試來檢查 Web 伺服器憑證是否即將到期。"
+          }
         }
       },
       "validators": {
@@ -128,7 +134,11 @@
           "browserTypeHeadline": "瀏覽器綜合測試",
           "browserTypeText": "瀏覽器綜合測試是一種監視 Web 應用程式效能的方法，其方式是透過 Web 瀏覽器中的 Script 來模擬使用者與網站的互動，對影響使用者體驗的問題提供有價值的見解並確保網站正常發揮作用。",
           "browserSimpleTitle": "瀏覽器簡式測試",
-          "browserScriptTitle": "瀏覽器 Script 測試"
+          "browserScriptTitle": "瀏覽器 Script 測試",
+          "certificateCheckTitle": "SSL 憑證檢查",
+          "certificateCheckLabel": "SSL 憑證",
+          "certificateCheckHeadline": "SSL 憑證檢查測試",
+          "certificateCheckText": "SSL 憑證檢查測試是一種透過檢查已發出憑證的剩餘天數來測試 Web 應用程式中 SSL 憑證有效期限的方法。"
         },
         "configurationLabel": "配置",
         "configurationTitle": "配置：此測試將如何運作？",
@@ -140,6 +150,8 @@
         "identifyTitle": "識別：測試將執行什麼動作？",
         "customPropertiesTitle": "自訂內容",
         "frequency": "此測試將每隔 {{frequencyValue}} 分鐘執行一次。",
+        "frequencyHours": "此測試將每隔 {{frequencyHours}} 小時執行一次。",
+        "frequencyHoursAndMinutes": "此測試將每隔 {{frequencyHours}} 小時及 {{frequencyMinutes}} 分鐘執行一次。",
         "simultaneous": "同時",
         "simultaneousDescription": "此測試將在每一個選取的位置上同步執行。",
         "configStep": {
@@ -213,13 +225,20 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "瀏覽器"
+          "browserName": "瀏覽器",
+          "certificateCheckName": "SSL 憑證"
         },
         "customProperties": {
           "property": "內容",
           "propertyValue": "值",
           "addProperty": "新增內容",
           "propertyNameMustBeUnique": "內容名稱必須是唯一的。"
+        },
+        "certificateCheck": {
+          "inputHostName": "主機名稱",
+          "inputPortNumber": "埠",
+          "failureConfigLabel": "失敗配置",
+          "failureConfigText": "當憑證有效性還剩 <certificateValidityDays/> 天到期時，測試將會失敗。"
         }
       }
     },
@@ -241,9 +260,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "已順利刪除位置",
-      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "failureMesssage": "{{errorMessage}}",
       "successMessageDeactivate": "已順利取消啟動位置",
-      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
+      "successMessageActivate": "已順利啟動位置"
     },
     "updateTest": {
       "dialogTitle": "編輯 {{syntheticType}} 測試",
@@ -307,7 +326,10 @@
           "warningMessage": "取消啟動未刪除。 該位置將可用，並且可以再次啟動。 若要完全移除受管理位置，請在位置狀態變更為「離線」時刪除該位置。",
           "activeStatus": "作用中",
           "deactivateButton": "取消啟動"
-        }
+        },
+        "activate": "啟動",
+        "okay": "好",
+        "activateLocation": "啟動位置"
       },
       "validators": {
         "theValueMustNotBeEmpty": "至少需要選取一個資料中心"
@@ -442,7 +464,14 @@
       "totalRuns": "{{totalRuns}} 執行總數",
       "meanLatencyFor90th": "第 90 個的 {{meanLatencyDetail}}",
       "smartAlertsTab": "智慧型警示",
-      "configurationTab": "配置"
+      "configurationTab": "配置",
+      "isCertificateValid": "前次執行 - 憑證有效",
+      "certificateValid": "是",
+      "certificateNotValid": "否",
+      "daysRemaining": "前次執行 - 剩餘天數",
+      "dateOfExpiry": "前次執行 - 到期日期",
+      "smallerTimeFrameTitle": "此時間範圍沒有結果",
+      "smallerTimeFrameDescription": "請選取一個較長的時間範圍，以查看「SSL 憑證檢查」測試的結果。"
     },
     "resultsListPage": {
       "startedColumn": "已開始",
@@ -454,7 +483,8 @@
       "locationLabel": "位置",
       "failures": "失敗",
       "status": "狀態",
-      "success": "成功"
+      "success": "成功",
+      "daysRemaining": "剩餘天數"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "即時模式在虛構測試結果詳細資料頁面中不適用",
@@ -579,6 +609,11 @@
         "imageButton": "影像",
         "ScreenshotsLoadingMessage": "正在載入擷取畫面",
         "noScreenshotsAvailableMessage": "此測試結果無法使用擷取畫面"
+      },
+      "sslCertificate": {
+        "daysRemaining": "剩餘天數",
+        "dateOfIssue": "發行日期",
+        "dateOfExpiry": "到期日期"
       }
     },
     "noDataAvailable": {
@@ -653,7 +688,12 @@
       "retryIntervalFieldLabel": "重試間隔",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} 秒",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} 秒",
-      "markSyntheticCall": "標示虛構呼叫"
+      "markSyntheticCall": "標示虛構呼叫",
+      "hostname": "主機名稱",
+      "port": "埠",
+      "daysRemaining": "測試將會在下列情況失敗，當憑證有效性具有：",
+      "day": "天（到期前剩餘天數）",
+      "days": "天（到期前剩餘天數）"
     }
   }
 }

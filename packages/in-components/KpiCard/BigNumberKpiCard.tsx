@@ -6,7 +6,6 @@
 import React, { ReactNode } from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { just } from '@instana/observables';
 
 import ResultAwareBigNumberKpiCard, {
   Config,
@@ -16,8 +15,8 @@ import ResultAwareBigNumberKpiCard, {
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import { ThresholdFn } from 'in-custom-dashboards/widgets/_shared/threshold';
 import { MetricResult, Result, UnifiedMetricConfiguration } from 'in-types';
-import { useLogsPolling } from 'in-components/KpiCard/useLogsPolling';
 import { getLogMetricsConfig } from 'in-components/KpiCard/utils';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
@@ -43,6 +42,7 @@ export interface BigNumberKpiCardProps {
   dragHandle?: ReactNode;
   raw?: boolean;
   isInModal?: boolean;
+  thresholdFn?: ThresholdFn;
 }
 
 export default function BigNumberKpiCard({
@@ -54,6 +54,7 @@ export default function BigNumberKpiCard({
   config,
   actions,
   isInModal,
+  thresholdFn,
   dragHandle,
   raw
 }: BigNumberKpiCardProps) {
@@ -61,7 +62,6 @@ export default function BigNumberKpiCard({
   const usedTimeConfig = getTimeConfigBasedOnMetricConfiguration(config.metricConfiguration, timeConfig);
 
   const isLoggingWidget = config.metricConfiguration.source === 'LOG';
-  const isLogsPolling = isLoggingWidget && timeConfig.autoRefresh;
 
   const metricDefaults = {
     timeShift: {
@@ -101,16 +101,9 @@ export default function BigNumberKpiCard({
     metrics = getLogMetricsConfig(metrics);
   }
 
-  const metricsResult: Result<MetricResult[]> =
-    useObservable(!isLogsPolling ? () => getUnifiedMetrics({ metrics }) : just(null), [
-      config,
-      timeConfig,
-      config.metricConfiguration.timeShift
-    ]) ?? pendingResult;
-
-  const logsPollingResult = useLogsPolling({ metrics }) ?? pendingResult;
-
-  let result = isLogsPolling ? logsPollingResult : metricsResult;
+  const result: Result<MetricResult[]> =
+    useObservable(() => getUnifiedMetrics({ metrics }), [config, timeConfig, config.metricConfiguration.timeShift]) ??
+    pendingResult;
 
   return (
     <ResultAwareBigNumberKpiCard
@@ -118,6 +111,7 @@ export default function BigNumberKpiCard({
       result={result}
       formatter={formatter}
       companionFormatter={companionFormatter}
+      thresholdFn={thresholdFn}
       useMaxAvailableHeight={useMaxAvailableHeight}
       isInModal={isInModal}
       iconAction={iconAction}

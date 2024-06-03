@@ -21,6 +21,7 @@
   "titleIncidentTimeline": "事故時間表",
   "titleIncidentTriggeredBy": "發生事件觸發方式：",
   "titleAnalyzeCustomEvents": "分析自訂事件",
+  "titleAnalyzeCrash": "分析損毀",
   "titleAnalyzeHTTPRequests": "分析 HTTP 要求",
   "titleAnalyzeJsErrors": "分析 JS 錯誤",
   "titleAnalyzePageLoads": "分析頁面載入",

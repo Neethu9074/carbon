@@ -19,6 +19,7 @@ import { CreateBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/infrast
 import AdvancedModeContainer from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AdvancedModeContainer';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
+import useThresholdSuggestion from 'in-alerting/smart-alerts/infrastructure/hooks/useThresholdSuggestion';
 import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -114,6 +115,15 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     updateTagFilterExpression
   );
 
+  const isValid = isMetricAndEntityValid && tagFilterValid;
+
+  const [thresholdResult, setThresholdResult] = useState();
+
+  useThresholdSuggestion(form, updateForm, setThresholdResult, {
+    isValid,
+    alertConfigWithFormModel
+  });
+
   const footer = (
     <AdvancedModeFooter
       form={form}
@@ -150,7 +160,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       SimpleModeElement={SimpleModeContainer}
       onChartViewConfigChange={onChartViewConfigChange}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-      thresholdResult={null}
+      thresholdResult={thresholdResult}
       timeConfig={timeConfig}
       isTagFilterFormModelValid
       setTagFilterValid={setTagFilterValid}

@@ -18,7 +18,6 @@ import { getSyntheticAreaData } from 'in-settings/tabs/TeamSettings/pages/access
 import { useSyntheticTests } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/SyntheticMonitoring/hooks';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
-import { Capability } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
 export const SyntheticMonitoringSectionContent = () => {
@@ -41,7 +40,7 @@ export const SyntheticMonitoringSectionContent = () => {
     <Ul>
       {syntheticTestList()}
       <CapabilitySubsection
-        capabilities={[...syntheticOtherCapabilities, Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS]}
+        capabilities={syntheticOtherCapabilities}
         headerText={t('in-settings:productAreas.additionalPermissions')}
       />
     </Ul>

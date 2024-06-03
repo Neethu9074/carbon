@@ -4,6 +4,7 @@
   "delete": "Löschen",
   "test": "Test",
   "recommendedActions": "Empfohlene Aktionen",
+  "recommendedActionsWithCount": "Empfohlene Aktionen ({{count}})",
   "validVaultParameter": "Als optional markierte Vaultparameter müssen entweder beide leer oder beide nicht leer sein.",
   "newAction": "Neue Aktion",
   "ok": "Ok",
@@ -44,7 +45,7 @@
   "description": "Beschreibung",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Dynamische Parameter konnten nicht aufgelöst werden.",
-  "associateActionWithName": "Aktion {{actionName}} zuordnen",
+  "createPolicyWithName": "Richtlinie mit Aktion {{actionName}} erstellen",
   "deletePolicyWithName": "Richtlinie {{actionName}} löschen",
   "jobTemplate": "Jobvorlage",
   "hostsLimit": "Hostgrenzwert (optional)",
@@ -81,6 +82,7 @@
   "value": "Wert",
   "type": "Typ",
   "automationPolicies": "Automationsrichtlinien",
+  "automationPoliciesWithCount": "Automationsrichtlinien ({{count}})",
   "copyOf": "(Kopie von) {{name}}",
   "searchActions": "Aktionen suchen",
   "hostsLimitHelpText": "Begrenzt die Ausführung auf den angegebenen Zielhost. Wählen Sie den Wert aus, der mit der Darstellung des Systems im Ansible-Bestand übereinstimmt, oder geben Sie eine Zeichenfolge ein, die von der Ansible-Grenzwertsyntax unterstützt wird.",
@@ -93,6 +95,7 @@
   "actions": "Aktionen",
   "ActionCatalog": {
     "actionCatalog": "Aktionskatalog",
+    "actionCatalogWithCount": "Aktionskatalog ({{count}})",
     "action": "Aktion",
     "newAction": "Neue Aktion",
     "createANewAction": "Neue Aktion Erstellen",
@@ -223,7 +226,7 @@
     "eventName": "Ereignisname",
     "returnCode": "Rückkehrcode",
     "errorMessage": "Fehlernachricht",
-    "actionContent": "Aktionsinhalt",
+    "action": "Aktion",
     "host": "Host",
     "log": "Protokollierung",
     "success": "Erfolgreich",
@@ -236,13 +239,13 @@
     "inputParameters": "Eingabeparameter",
     "feedbackTab": "Feedback",
     "properties": "Eigenschaften",
-    "filterNameOrActionInstanceId": "Nach Name, Ereignisname oder Aktionsinstanz-ID filtern",
+    "filter": "Filter",
     "inputPrompt": "Erzählen Sie uns von Ihrer Erfahrung mit dieser Aktion:",
-    "unhappyFeedback": "Ich bin extrem unzufrieden",
+    "unhappyFeedback": "Ich bin äußerst unzufrieden",
     "dissatisfiedFeedback": "Ich bin unzufrieden",
     "neutralFeedback": "Ich bin neutral",
-    "satisfiedFeedback": "Ich war zufrieden",
-    "verySatisfiedFeedback": "Ich war sehr zufrieden",
+    "satisfiedFeedback": "Ich bin zufrieden",
+    "verySatisfiedFeedback": "Ich bin sehr zufrieden",
     "additionalFeedback": "Zusätzliche Kommentare (optional)",
     "feedbackError": "Beim Speichern Ihres Feedbacks ist ein Fehler aufgetreten. Wiederholen Sie den Vorgang zu einem späteren Zeitpunkt.",
     "feedbackNotSelectedError": "Wählen Sie vor der Übergabe eine Option aus.",
@@ -255,13 +258,17 @@
     "submitted": "Submitted",
     "timeout": "Zeitlimit",
     "issueUrl": "Problem-URL",
-    "taskUrl": "Task-URL"
+    "taskUrl": "Task-URL",
+    "output": "Ausgabe",
+    "user": "Benutzer",
+    "apiToken": "API-Token"
   },
   "actionLanes": {
     "buttonInvestigate": "Überprüfen"
   },
   "policies": {
     "policies": "Richtlinien",
+    "policiesWithCount": "Richtlinien ({{count}})",
     "newPolicy": "Neue Richtlinie",
     "selectEventTrigger": "Ereignisauslöser auswählen",
     "actionName": "Aktionsname",
@@ -288,7 +295,6 @@
     "custom": "Angepasst",
     "event": "Ereignis",
     "entityType": "Entitätstyp",
-    "properties": "Eigenschaften",
     "applicationSmartAlert": "Smart Alert für Anwendung",
     "globalApplicationSmartAlert": "Smart Alert für globale Anwendungen",
     "infraSmartAlert": "Intelligenter Alert für Infrastruktur",
@@ -308,6 +314,7 @@
     "manualAutomatic": "Manuell, Automatisch",
     "policyType": "Richtlinientyp",
     "noPolicies": "Es sind keine Richtlinien konfiguriert.",
+    "filterApplied": "Angewendeter Filter",
     "createDialog": {
       "success": {
         "title": "Richtlinie wurde erstellt.",
@@ -315,7 +322,17 @@
       },
       "failure": {
         "title": "Erstellen der Richtlinie fehlgeschlagen.",
-        "content": "Beim Erstellen dieser Richtlinie ist ein Fehler aufgetreten: \"{{name}}\"."
+        "content": "Beim Erstellen dieser Richtlinie ist ein Fehler aufgetreten: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "Die Richtlinie wurde erfolgreich aktualisiert.",
+        "content": "Richtlinie \"{{name}}\" wurde erfolgreich aktualisiert."
+      },
+      "failure": {
+        "title": "Aktualisieren der Richtlinie fehlgeschlagen.",
+        "content": "Beim Aktualisieren dieser Richtlinie ist ein Problem aufgetreten: {{errorMessage}}"
       }
     },
     "createBulkDialog": {
@@ -329,7 +346,7 @@
       },
       "failure": {
         "title": "Erstellen von Richtlinien fehlgeschlagen.",
-        "content": "Beim Erstellen der Richtlinien ist ein Fehler aufgetreten:{{error}}"
+        "content": "Beim Erstellen der Richtlinien ist ein Fehler aufgetreten: {{error}}"
       }
     },
     "deleteDialog": {

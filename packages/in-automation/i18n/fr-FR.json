@@ -4,6 +4,7 @@
   "delete": "Supprimer",
   "test": "Test",
   "recommendedActions": "Actions recommandées",
+  "recommendedActionsWithCount": "Actions recommandées ({{count}})",
   "validVaultParameter": "Les paramètres de coffre marqués comme facultatifs doivent être soit tous les deux vides, soit tous les deux non vides.",
   "newAction": "Nouvelle action",
   "ok": "OK",
@@ -44,7 +45,7 @@
   "description": "Description",
   "automation": "Automatisation",
   "failedToResolveDynamicParameters": "Échec de la résolution des paramètres dynamiques.",
-  "associateActionWithName": "Associer l'action {{actionName}}",
+  "createPolicyWithName": "Créer une stratégie avec l'action {{actionName}}",
   "deletePolicyWithName": "Supprimer la règle {{actionName}}",
   "jobTemplate": "Modèle de travail",
   "hostsLimit": "Limite d'hôtes (facultatif)",
@@ -81,6 +82,7 @@
   "value": "Valeur",
   "type": "Type",
   "automationPolicies": "Stratégies d'automatisation",
+  "automationPoliciesWithCount": "Stratégies d'automatisation ({{count}})",
   "copyOf": "(Copie de) {{name}}",
   "searchActions": "Rechercher des actions",
   "hostsLimitHelpText": "Limiter l'exécution à l'hôte cible spécifié. Sélectionnez la valeur qui correspond à la façon dont le système est représenté dans l'inventaire Ansible ou entrez une chaîne prise en charge par la syntaxe de limite Ansible.",
@@ -93,6 +95,7 @@
   "actions": "Actions",
   "ActionCatalog": {
     "actionCatalog": "Catalogue d'actions",
+    "actionCatalogWithCount": "Catalogue d'actions ({{count}})",
     "action": "action",
     "newAction": "Nouvelle action",
     "createANewAction": "Créer une nouvelle action",
@@ -223,7 +226,7 @@
     "eventName": "Nom de l'événement",
     "returnCode": "Code retour",
     "errorMessage": "Message d'erreur",
-    "actionContent": "Contenu de l'action",
+    "action": "Action",
     "host": "Hôte",
     "log": "Journal",
     "success": "Succès",
@@ -236,13 +239,13 @@
     "inputParameters": "Paramètres d'entrée",
     "feedbackTab": "Retour d'informations",
     "properties": "Propriétés",
-    "filterNameOrActionInstanceId": "Filtrer par nom, nom d'événement ou ID d'instance d'action",
+    "filter": "Filtrer",
     "inputPrompt": "Parlez-nous de votre expérience avec cette action :",
-    "unhappyFeedback": "Je suis très mécontent",
+    "unhappyFeedback": "Je ne suis pas du tout satisfait",
     "dissatisfiedFeedback": "Je ne suis pas satisfait",
     "neutralFeedback": "Je suis indifférent",
     "satisfiedFeedback": "Je suis satisfait",
-    "verySatisfiedFeedback": "Je suis très satisfait",
+    "verySatisfiedFeedback": "Je suis extrêmement satisfait",
     "additionalFeedback": "Autres commentaires (facultatif)",
     "feedbackError": "Une erreur s'est produite lors de la sauvegarde de vos commentaires en retour. Veuillez réessayer ultérieurement.",
     "feedbackNotSelectedError": "Sélectionnez une option avant de la soumettre.",
@@ -255,13 +258,17 @@
     "submitted": "Soumis",
     "timeout": "Dépassements du délai d'attente",
     "issueUrl": "URL de l'anomalie",
-    "taskUrl": "URL de tâche"
+    "taskUrl": "URL de tâche",
+    "output": "Sortie",
+    "user": "Utilisateur",
+    "apiToken": "Jeton d'API"
   },
   "actionLanes": {
     "buttonInvestigate": "Enquêter"
   },
   "policies": {
     "policies": "Règles",
+    "policiesWithCount": "Stratégies ({{count}})",
     "newPolicy": "Nouvelle stratégie",
     "selectEventTrigger": "Sélectionner un déclencheur d'événement",
     "actionName": "Nom d'action",
@@ -288,7 +295,6 @@
     "custom": "Personnalisé",
     "event": "Événement",
     "entityType": "Type d'entité",
-    "properties": "Propriétés",
     "applicationSmartAlert": "Alerte intelligente d'application",
     "globalApplicationSmartAlert": "Alerte intelligente d'application globale",
     "infraSmartAlert": "Alerte intelligente de l'infrastructure",
@@ -308,6 +314,7 @@
     "manualAutomatic": "Manuel, Automatique",
     "policyType": "Type de règle",
     "noPolicies": "Aucune stratégie n'est configurée.",
+    "filterApplied": "Filtre appliqué",
     "createDialog": {
       "success": {
         "title": "La création de la règle a abouti.",
@@ -315,7 +322,17 @@
       },
       "failure": {
         "title": "Echec de la création de la stratégie.",
-        "content": "Un problème est survenu lors de la création de cette stratégie : \"{{name}}\"."
+        "content": "Un problème est survenu lors de la création de cette stratégie : {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "La stratégie a été mise à jour.",
+        "content": "La stratégie \"{{name}}\" a été mise à jour."
+      },
+      "failure": {
+        "title": "Echec de mise à jour de la stratégie.",
+        "content": "Un problème est survenu lors de la mise à jour de cette stratégie : {{errorMessage}}"
       }
     },
     "createBulkDialog": {

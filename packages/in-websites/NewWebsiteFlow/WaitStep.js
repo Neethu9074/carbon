@@ -14,7 +14,7 @@ import Actions from 'in-websites/NewWebsiteFlow/Actions';
 import Frame from 'in-websites/NewWebsiteFlow/Frame';
 import { Trans, t, SecureString } from 'in-i18n';
 
-export default function WaitStep({ websiteId, websiteName, trackSessions, setTrackSessions }) {
+export default function WaitStep({ websiteId, websiteName, trackSessions, setTrackSessions, enableSRI, setEnableSRI }) {
   return (
     <Frame title={t('in-websites:newWebsiteFlow.waitStepTitleWorking')}>
       <Paragraph>
@@ -30,7 +30,9 @@ export default function WaitStep({ websiteId, websiteName, trackSessions, setTra
       <TrackingSnippetPresenter
         websiteId={websiteId}
         trackSessions={trackSessions}
+        enableSRI={enableSRI}
         setTrackSessions={setTrackSessions}
+        setEnableSRI={setEnableSRI}
       />
 
       <Actions>

@@ -74,8 +74,10 @@ export function createForm(savedState) {
         )
       })
     )
-    .put('metricConfiguration', createMetricConfigurationForm(savedState && savedState.metricConfiguration))
-    .put('threshold', createBaseThresholdForm(savedState));
+    .put(
+      'metricConfiguration',
+      createMetricConfigurationForm(savedState && savedState.metricConfiguration, { withThresholdConfiguration: true })
+    );
 }
 
 export function migrate(savedState) {
@@ -92,33 +94,4 @@ export function migrate(savedState) {
       }
     };
   });
-}
-
-function createBaseThresholdForm(savedState) {
-  return createMapForm()
-    .put(
-      'thresholdEnabled',
-      createField({
-        value: Boolean(savedState && savedState.thresholdEnabled),
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator)
-      })
-    )
-    .put(
-      'critical',
-      createField({
-        value: (savedState && savedState.critical) || undefined
-      })
-    )
-    .put(
-      'warning',
-      createField({
-        value: (savedState && savedState.warning) || undefined
-      })
-    )
-    .put(
-      'operator',
-      createField({
-        value: (savedState && savedState.operator) || '>='
-      })
-    );
 }

@@ -155,7 +155,7 @@ export default function DBConnectionProvider({ snapshotId, timeConfig }: DbConne
       cardTitle={t('in-sap:dashboards.dbConnection')}
       cols={cols}
       rows={rows}
-      initialSortColumn={1}
+      initialSortColumn={0}
       initialSortDirection="asc"
       getRowDetails={getDetails}
     />

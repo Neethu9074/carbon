@@ -9,6 +9,7 @@ import { UserGroupRestrictions } from '@instana/types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
 import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
@@ -33,6 +34,8 @@ export interface InvitationResponse {
 export interface Invitation {
   readonly email: string;
   readonly groupId: string;
+  readonly message?: string;
+  readonly path?: string;
 }
 
 export interface PendingInvitation {
@@ -131,7 +134,7 @@ function getPendingInvitationsInternal(): Observable<PendingInvitation[]> {
 export function sendInvitations(invitations: Invitation[]) {
   return http<InvitationResponse>({
     method: 'POST',
-    url: '/api/settings/invitations',
+    url: `/api/settings/${shareAndInviteEnabled ? 'invitation/share' : 'invitations'}`,
     headers: getCsrfHeader(),
     data: invitations
   }).map(v => {
@@ -143,7 +146,7 @@ export function sendInvitations(invitations: Invitation[]) {
 export function sendInvitation(invitation: Invitation) {
   return http<void>({
     method: 'POST',
-    url: `/api/settings/invitations`,
+    url: `/api/settings/${shareAndInviteEnabled ? 'invitation/share' : 'invitations'}`,
     headers: getCsrfHeader(),
     data: invitation
   }).map(v => {

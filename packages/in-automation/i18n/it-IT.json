@@ -4,6 +4,7 @@
   "delete": "Elimina",
   "test": "Verifica",
   "recommendedActions": "Azioni consigliate",
+  "recommendedActionsWithCount": "Azioni consigliate ({{count}})",
   "validVaultParameter": "I parametri del vault contrassegnati come facoltativi devono essere entrambi vuoti o non vuoti.",
   "newAction": "Nuova azione",
   "ok": "OK",
@@ -44,7 +45,7 @@
   "description": "Descrizione",
   "automation": "Automazione",
   "failedToResolveDynamicParameters": "Impossibile risolvere i parametri dinamici.",
-  "associateActionWithName": "Associa azione {{actionName}}",
+  "createPolicyWithName": "Crea politica con azione {{actionName}}",
   "deletePolicyWithName": "Elimina politica {{actionName}}",
   "jobTemplate": "Modello di lavoro",
   "hostsLimit": "Limite host (facoltativo)",
@@ -81,6 +82,7 @@
   "value": "Valore",
   "type": "Immettere",
   "automationPolicies": "Politiche di automazione",
+  "automationPoliciesWithCount": "Politiche di automazione{{count}}",
   "copyOf": "(Copia di) {{name}}",
   "searchActions": "Ricerca azioni",
   "hostsLimitHelpText": "Limitare l'esecuzione all'host di destinazione specificato. Selezionare il valore che corrisponde alla modalità di rappresentazione del sistema nell'inventario Ansible oppure immettere una stringa supportata dalla sintassi del limite Ansible.",
@@ -93,6 +95,7 @@
   "actions": "Azioni",
   "ActionCatalog": {
     "actionCatalog": "Catalogo azioni",
+    "actionCatalogWithCount": "Catalogo azioni ({{count}})",
     "action": "azione",
     "newAction": "Nuova azione",
     "createANewAction": "Crea una nuova azione",
@@ -223,7 +226,7 @@
     "eventName": "Nome evento",
     "returnCode": "Codice di ritorno",
     "errorMessage": "Messaggio di errore",
-    "actionContent": "Contenuto azione",
+    "action": "Azione",
     "host": "Host",
     "log": "Log",
     "success": "Riuscito",
@@ -236,7 +239,7 @@
     "inputParameters": "Parametri di input",
     "feedbackTab": "Feedback",
     "properties": "Proprietà",
-    "filterNameOrActionInstanceId": "Filtra per nome, nome evento o ID istanza azione",
+    "filter": "Filtro",
     "inputPrompt": "Com'è stata l'esperienza con questa azione:",
     "unhappyFeedback": "Sono estremamente insoddisfatto",
     "dissatisfiedFeedback": "Sono insoddisfatto",
@@ -255,13 +258,17 @@
     "submitted": "Inviato",
     "timeout": "Timeout",
     "issueUrl": "URL del problema",
-    "taskUrl": "URL dell'attività"
+    "taskUrl": "URL dell'attività",
+    "output": "Output",
+    "user": "Utente",
+    "apiToken": "Token API"
   },
   "actionLanes": {
     "buttonInvestigate": "Ricerca causa"
   },
   "policies": {
     "policies": "Politiche",
+    "policiesWithCount": "Politiche ({{count}})",
     "newPolicy": "Nuova politica",
     "selectEventTrigger": "Seleziona trigger evento",
     "actionName": "Nome azione",
@@ -288,7 +295,6 @@
     "custom": "Personalizzato",
     "event": "Evento",
     "entityType": "Tipo di entità",
-    "properties": "Proprietà",
     "applicationSmartAlert": "Avviso smart dell'applicazione",
     "globalApplicationSmartAlert": "Avviso smart dell'applicazione globale",
     "infraSmartAlert": "Infrastruttura Smart Alert",
@@ -308,6 +314,7 @@
     "manualAutomatic": "Manuale, Automatico",
     "policyType": "Tipo di politica",
     "noPolicies": "Nessuna politica configurata.",
+    "filterApplied": "Filtro applicato",
     "createDialog": {
       "success": {
         "title": "La politica è stata creata correttamente.",
@@ -315,7 +322,17 @@
       },
       "failure": {
         "title": "Impossibile creare la politica.",
-        "content": "Si è verificato un problema durante la creazione di questa politica:{{name}}\"."
+        "content": "Si è verificato un problema durante la creazione di questa politica: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "Politica aggiornata correttamente.",
+        "content": "La politica \"{{name}}\" è stata aggiornata correttamente."
+      },
+      "failure": {
+        "title": "Impossibile aggiornare la politica.",
+        "content": "Si è verificato un problema durante l'aggiornamento di questa politica: {{errorMessage}}"
       }
     },
     "createBulkDialog": {
@@ -329,7 +346,7 @@
       },
       "failure": {
         "title": "Impossibile creare le politiche.",
-        "content": "Si è verificato un problema durante la creazione delle politiche{{error}}"
+        "content": "Si è verificato un problema durante la creazione delle politiche {{error}}"
       }
     },
     "deleteDialog": {

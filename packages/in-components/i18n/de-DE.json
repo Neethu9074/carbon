@@ -439,7 +439,8 @@
     "aggregation_DISTINCTCOUNT": "eindeutige Anzahl",
     "aggregation_SUM": "Summe",
     "aggregation_DISTRIBUTION": "Verteilung",
-    "aggregation_PERSECOND": "pro Sekunde"
+    "aggregation_PERSECOND": "pro Sekunde",
+    "labelFilterEmptyValue": "Leere Werte filtern"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Verwendet",

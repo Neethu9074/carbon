@@ -10,7 +10,6 @@ import { Ul } from '@instana/components';
 
 import {
   agentsCapabilities,
-  automationCapabilities,
   customDashboardCapabilities,
   mixedCapabilities,
   logCapabilities,
@@ -22,7 +21,6 @@ import { getCapabilitiesSectionData } from 'in-settings/tabs/TeamSettings/pages/
 import { CapabilitySubsection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export const GlobalFunctionsSection = () => {
@@ -49,12 +47,6 @@ export const GlobalFunctionsSection = () => {
         capabilities={customDashboardCapabilities}
         headerText={t('in-settings:productAreas.permissions', { context: ProductArea.DASHBOARD })}
       />
-      {actionAutomationEnabled ? (
-        <CapabilitySubsection
-          capabilities={automationCapabilities}
-          headerText={t('in-settings:productAreas.permissions', { context: ProductArea.AUTOMATION })}
-        />
-      ) : null}
       <CapabilitySubsection
         capabilities={agentsCapabilities}
         headerText={t('in-settings:productAreas.permissions', { context: ProductArea.AGENTS })}

@@ -21,6 +21,7 @@
   "titleIncidentTimeline": "Linha de tempo do incidente",
   "titleIncidentTriggeredBy": "Incidente acionado por:",
   "titleAnalyzeCustomEvents": "Analisar eventos customizados",
+  "titleAnalyzeCrash": "Analisar travamentos",
   "titleAnalyzeHTTPRequests": "Analisar solicitações de HTTP",
   "titleAnalyzeJsErrors": "Analisar erros de JS",
   "titleAnalyzePageLoads": "Analisar carregamentos de página",

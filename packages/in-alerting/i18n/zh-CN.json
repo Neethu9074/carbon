@@ -28,6 +28,7 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他过滤器",
     "groupBy": "分组依据",
     "noChannelAvailable": "没有可用的警报通道",
+    "optional": "可选",
     "revisionDropdownButton": {
       "revision": "修订版 {{alertRevision}}",
       "pause": "暂停",
@@ -160,7 +161,9 @@
             "shortText": "按应用程序透视图",
             "columnText": "已汇总",
             "description": "针对此应用程序透视图单独发出警报",
-            "globalDescription": "对每个应用程序透视图单独发出警报"
+            "globalDescription": "对每个应用程序透视图单独发出警报",
+            "tearSheetSelectionText": "按应用程序分组",
+            "tearSheetDescription": "根据一个组的阈值对与过滤器匹配的调用进行评估。 发生违例时，将针对整个应用程序透视图发送单一警报通知。 "
           },
           "evaluationTypePERAPSERVICE": {
             "selectionText": "此应用程序透视图的每个服务",
@@ -168,7 +171,9 @@
             "shortText": "按服务",
             "columnText": "每个服务",
             "description": "针对此应用程序透视图的每个服务单独发出警报",
-            "globalDescription": "针对每个应用程序透视图上下文中的每个服务单独发出警报"
+            "globalDescription": "针对每个应用程序透视图上下文中的每个服务单独发出警报",
+            "tearSheetSelectionText": "按服务分组",
+            "tearSheetDescription": "根据八个组的阈值对与过滤器匹配的调用进行评估 - 每个服务对应一个组，并具有其自己的阈值。 当某个组存在违例时，将针对该组发送警报通知。"
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "此应用程序透视图的每个端点",
@@ -176,7 +181,9 @@
             "shortText": "按端点",
             "columnText": "每个端点",
             "description": "针对此应用程序透视图的每个端点单独发出警报",
-            "globalDescription": "针对每个应用程序透视图上下文中的每个端点单独发出警报"
+            "globalDescription": "针对每个应用程序透视图上下文中的每个端点单独发出警报",
+            "tearSheetSelectionText": "按端点分组",
+            "tearSheetDescription": "根据四十七个组的阈值对与过滤器匹配的调用进行评估 - 每个端点对应一个组，并具有其自己的阈值。 当某个组存在违例时，将针对该组发送警报通知。"
           }
         },
         "inboundOutboundCalls": {
@@ -425,7 +432,7 @@
         "thresholdFormBaselineIsEmpty": "基线为空"
       },
       "simple": {
-        "simpleAlertStep1Headline": "您希望收到关于何种内容的警报？",
+        "simpleAlertStep1Headline": "选择要针对其发出警报的问题",
         "simpleAlertStep2Headline": "您希望在何处触发警报？",
         "step1Title": "步骤 1：选择警报",
         "step2Title": "步骤 2：选择作用域",
@@ -433,7 +440,9 @@
       },
       "components": {
         "createSmartAlert": "添加智能警报",
+        "createSmartAlertNew": "添加智能警报（新增）",
         "createGlobalSmartAlert": "添加全局智能警报",
+        "createGlobalSmartAlertNew": "添加全局智能警报（新增）",
         "provideLogMessageSelectLogMessage": "选择日志消息",
         "provideLogMessageLogLevel": "日志级别",
         "provideLogMessageErrorMessage": "错误消息",
@@ -450,6 +459,7 @@
         "getSubtitleForStaticWeeklySeasonality": "静态每周季节性：{{metricLabel}}",
         "getSubtitleForAdaptiveThreshold": "自适应阈值：{{metricLabel}}",
         "labelActionButtonEdit": "编辑",
+        "labelActionButtonEditNew": "编辑（新建）",
         "labelActionButtonDuplicate": "复制",
         "labelActionButtonDelete": "删除",
         "labelAlertFilters": "过滤器",
@@ -478,6 +488,77 @@
         "viewAlertDetails": "查看配置的警报详细信息：{{name}}",
         "eventsWarningIcon": "事件警告图标",
         "eventsCriticalIcon": "事件关键图标"
+      },
+      "tearSheet": {
+        "step1Title": "选取警报模板",
+        "step2Title": "定义作用域",
+        "step3Title": "定义分组",
+        "step4Title": "定义何时收到警报",
+        "step5Title": "定义警报属性和通道",
+        "grouping": {
+          "title": "组调用",
+          "description": "将单独对每个组中的调用进行评估"
+        },
+        "callsInScope": {
+          "title": "选择作用域中的调用 ",
+          "description": "这将确定哪些服务或端点可供选择。"
+        },
+        "includeHiddenCalls": {
+          "title": "包含隐藏的调用（可选） ",
+          "description": "隐藏的调用不会显示在内置仪表板中。"
+        },
+        "serviceEndPointSelection": "针对所选调用的服务或端点",
+        "AlertPropertiesTitle": "要为此警报设置哪些属性？",
+        "AlertChannelTitle": "您希望在何处收到警报通知？",
+        "inboundOutboundCalls": {
+          "config": {
+            "inbound": {
+              "text": "入站调用数",
+              "dashboard": "用于检测此应用程序的使用者所感知的问题",
+              "overrideDefault": "此应用程序的缺省作用域仅限于“入站调用”。 您可以在配置中更改此项。"
+            },
+            "all": {
+              "text": "所有调用",
+              "dashboard": "用于检测此应用程序中任何服务或端点中的问题。",
+              "overrideDefault": "此应用程序的缺省作用域为“所有调用”。 您可以在配置中更改此项。"
+            }
+          }
+        },
+        "hiddenCalls": {
+          "config": {
+            "includeInternal": {
+              "text": "内部调用是在服务中完成的工作，对应于定制跟踪内的中间范围"
+            },
+            "includeSynthetic": {
+              "text": "合成调用将合成端点作为其目标，例如对运行状况检查端点的调用"
+            }
+          }
+        },
+        "threshold": {
+          "title": "设置违例阈值的值",
+          "description": "选择度量值、违例阈值和时间窗口以评估违例。"
+        },
+        "timeThreshold": {
+          "title": "设置违例何时触发警报",
+          "description": "指定警报和持久存储类型，然后设置警报触发器。"
+        },
+        "staticOrAdaptive": {
+          "config": {
+            "adaptive": {
+              "description": "将应用会自动适应底层度量值更改的阈值。"
+            },
+            "static": {
+              "description": "将应用常量阈值，并且该值不会随时间变化。"
+            }
+          }
+        },
+        "alertChart": {
+          "title": "警报预览",
+          "description": "显示如何根据历史度量值数据触发警报。"
+        },
+        "alertProperties": {
+          "previewTitle": "警报预览"
+        }
       }
     },
     "details": {
@@ -582,10 +663,12 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "取消",
+        "previousTitle": "上一步",
         "sharedListTooltip": "{{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
         "baselineErrorMessageComputedOnApproximateData": "根据数据保留时间设置的近似数据计算基线。 因此，如果与所选过滤器匹配的调用很少，那么可能不准确。",
-        "baselineErrorMessageInsufficientDataToCompute": "数据不足，无法计算所选基线。请改为选择<em>静态阈值</em>。",
+        "baselineValidationMessageInsufficientDataToCompute": "数据不足，无法计算所选基线。 请改为选择<em>静态阈值</em>。",
+        "baselineGenericErrorMessage": "无法检索基线。 请改为选择<em>静态阈值</em>。",
         "pleaseContactSupportToRiseLimit": "请通过我们的 <supportLink>{{instanaSupportPortal}}</supportLink>联系我们，以请求增大此限制。",
         "adaptiveBaselineErrorMessage": "阈值预览当前不可用。<br />仍可以保存此 Smart Alert。",
         "adaptiveBaselineErrorMessageNotAvailable": "自适应阈值当前不可用。",
@@ -942,6 +1025,7 @@
     },
     "migration": {
       "migrateButton": "迁移到智能警报",
+      "migrateButtonNew": "迁移到智能警报（新增）",
       "migrateButtonTooltip": "尽可能打开预先填充了当前事件中已迁移值的“智能警报配置”对话框。 请仔细检查结果！",
       "markAsMigratedButton": "标记为已迁移",
       "markAsMigratedButtonTooltip": "将事件标记为已迁移。如果您已配置将替换此事件的智能警报，请使用此方法。",
@@ -1056,9 +1140,21 @@
         "views": "视图数",
         "customEventBlueprintConfigMetricLabel": "出现次数",
         "sessions": "会话",
+        "crashAffectedSessionRate": "崩溃影响的会话速率",
+        "crashFreeSessionRate": "崩溃可用会话速率",
+        "crashAffectedSessionCount": "崩溃影响的会话计数",
+        "crashFreeSessionCount": "崩溃的可用会话计数",
+        "crashAffectedUserRate": "崩溃影响的用户速率",
+        "crashFreeUserRate": "崩溃可用用户速率",
+        "crashAffectedUserCount": "崩溃影响的用户计数",
+        "crashFreeUserCount": "崩溃的可用用户计数",
         "statusCodeBlueprintConfigName": "HTTP 状态码",
         "throughputBlueprintConfigName": "吞吐量",
         "customEventBlueprintConfigName": "定制事件",
+        "crashBlueprintConfigName": "崩溃",
+        "crashBlueprintConfigHeadline": "崩溃的自动警报",
+        "crashBlueprintConfigText": "当所选崩溃度量值高于或低于预期时收到警报。",
+        "crashBlueprintSelectMetric": "选择崩溃度量值",
         "statusCodeBlueprintConfigHeadline": "HTTP 状态码的自动警报",
         "statusCodeBlueprintConfigText": "每当匹配 HTTP 状态码的出现频率超出正常值时，接收警报。",
         "throughputBlueprintConfigHeadline": "移动应用程序视图的自动警报",
@@ -1124,7 +1220,10 @@
         "ruleMetricNameOptionThroughputSessions": "会话",
         "ruleMetricNameOptionThroughputViews": "视图数",
         "errorPleaseProvideCustomEventName": "请提供定制事件名称",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "请提供大于或等于 0 的数字"
+        "titlePlaceholderCrashSimpleHighOperator": "{{metricLabel}} 异常高",
+        "titlePlaceholderCrashSimpleLowOperator": "{{metricLabel}} 异常低",
+        "descriptionPlaceholderCrashSimpleAboveOperator": "{{metricLabel}} 高于预期。",
+        "descriptionPlaceholderCrashSimpleBelowOperator": "{{metricLabel}} 低于预期。"
       },
       "customEvent": {
         "noCustomEventsFound": "找不到定制事件",
@@ -1195,7 +1294,7 @@
         "staticThresholdHigherEqualsOperatorText": "{{metricLabel}} 数大于或等于 {{thresholdValue}}。",
         "staticThresholdLowerOperatorText": "{{metricLabel}} 数小于 {{thresholdValue}}。",
         "staticThresholdLowerEqualsOperatorText": "{{metricLabel}} 数小于或等于 {{thresholdValue}}。",
-        "thresholdHigherOperatorText": "{{metricLabel}} 数大于预期。",
+        "thresholdHigherOperatorText": "{{metricLabel}} 的数量高于预期。",
         "thresholdHigherEqualsOperatorText": "{{metricLabel}} 数大于或等于预期。",
         "thresholdLowerOperatorText": "{{metricLabel}} 数小于预期。",
         "thresholdLowerEqualsOperatorText": "{{metricLabel}} 数小于或等于预期。"
@@ -1358,6 +1457,56 @@
         "noDataForSelectedGroup": "指定过滤器和分组组合无可用数据。"
       },
       "logCount": "日志计数"
+    },
+    "slo": {
+      "validators": {
+        "noEmptySloIds": "请至少选择一个 SLO。",
+        "notLessThanOrEqualToZero": "请设置大于 0 的值。"
+      },
+      "advancedModeContainer": {
+        "stepLabel": "",
+        "stepTitle": "",
+        "stepLabel_sloTarget": "目标",
+        "stepTitle_sloTarget": "目标：要针对哪些 SLO 发出警报？",
+        "stepLabel_trigger": "触发器",
+        "stepTitle_trigger": "触发器：您希望收到关于何种内容的警报？",
+        "stepLabel_timeThreshold": "时间阈值",
+        "stepTitle_timeThreshold": "时间阈值：您希望何时收到警报？",
+        "stepLabel_alertChannels": "警报通道",
+        "stepTitle_alertChannels": "警报通道：需要向谁发出警报？",
+        "stepLabel_alertProperties": "警报属性",
+        "stepTitle_alertProperties": "警报属性：警报通知应包含哪些内容？",
+        "stepLabel_customPayload": "定制有效内容",
+        "stepTitle_customPayload": "定制有效内容",
+        "selectSloHeadline": "选择 SLO",
+        "blueprintSectionTitle": "选择蓝图",
+        "blueprint": "",
+        "blueprint_SERVICE_LEVELS_OBJECTIVE": "状态",
+        "blueprint_ERROR_BUDGET": "错误预算",
+        "blueprintDescription": "",
+        "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "当 SLO 状态低于阈值时接收警报。",
+        "blueprintDescription_ERROR_BUDGET": "当错误预算的百分比耗尽时接收警报。",
+        "thresholdTitle": "阈值：您希望何时收到警报？",
+        "thresholdInputDescription": "",
+        "thresholdInputDescription_ERROR_BUDGET": "错误预算的百分比耗尽",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "百分比等于或小于 SLO 目标",
+        "timeThresholdType_gracePeriod": "当条件在指定时长后持续存在时",
+        "timeThresholdTypeTitle_gracePeriod": "当针对连续 $t(in-components:time.minutes, {\"count\": {{minutes}} }) 的条件违例时发出警报",
+        "alertProperties_entityLabel": "SLO - 名称",
+        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 状态较低",
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 状态小于或等于 {{percentage}}。",
+        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "错误预算剩余值较低",
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "错误预算剩余值小于或等于 {{percentage}}。"
+      },
+      "details": {
+        "alertConfigurationTitle": "警报配置",
+        "sloHeader": "SLO",
+        "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
+        "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
+        "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
+        "blueprintLabel": "蓝图",
+        "thresholdLabel": "阈值"
+      }
     }
   }
 }

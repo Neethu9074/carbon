@@ -8,7 +8,6 @@ import React from 'react';
 import { TagCatalog, TagFilter, TimeConfig } from '@instana/types';
 
 import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
-//@ts-expect-error TS migartion needed
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
@@ -79,6 +78,7 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
                 refreshSmartAlertConfigsList();
               }
             }}
+            //@ts-expect-error
             alertConfig={alertConfig}
             websiteLabel={website.label}
             startWithSimpleMode

@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Card } from '@instana/components';
+import { Card, Pill } from '@instana/components';
 
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
 import {
@@ -25,6 +25,7 @@ import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertC
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
+import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
@@ -33,15 +34,21 @@ import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils'
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
+import { hasManualCloseFields } from 'in-events/components/eventUtil';
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { emptyMap } from 'in-services/fixedImmutables';
+import EventIcon from 'in-events/components/EventIcon';
 import { Col, Row } from 'in-components/layout/Grid';
 import { getEventType } from 'in-stores/events';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationEventContent.mless';
 
-export default function ApplicationEventContent({ event, snapshot }) {
+export default function ApplicationEventContent({ event, snapshot, reload }) {
   const alertConfig = useApplicationEventAlertConfig(event);
   const eventEntity = useApplicationEventEntity(event);
   const [metricResultPrecision, setMetricResultPrecision] = useState();
@@ -78,32 +85,62 @@ export default function ApplicationEventContent({ event, snapshot }) {
 
   const eventType = getEventType(event);
 
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const pillContent = hasManualCloseFields(event) ? <Pill type="green">{t('in-events:labelClosed')}</Pill> : undefined;
+
   return (
     <>
       <Row withoutSideMargin>
         <Col xs>
-          <Card title={t('in-events:titleDetails')}>
+          <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent}>
             <ApplicationScopePath
               {...eventEntity}
               boundaryScope={boundaryScope}
               timeConfig={getTimeConfigFromEvent(event)}
               showDashboardLinks
             />
-
             <ProblemDescription fixSuggestion={fixSuggestion} />
-            <DescriptionButtons>
-              <ApplicationAlertConfigButton
-                applicationId={applicationId}
-                alertConfig={alertConfig}
-                isGlobalSmartAlert={isGlobalSmartAlert}
-              />
-              <AnalyzeApplicationEventButton
-                {...eventEntity}
-                alertConfig={alertConfig}
-                timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
-                adaptiveBaselineInfo={adaptiveBaselineInfo}
-              />
-            </DescriptionButtons>
+            {canCloseManually && hasManualCloseFields(event) ? (
+              <div>
+                <ManualCloseDescription event={event} />
+                <DescriptionButtons>
+                  <ApplicationAlertConfigButton
+                    applicationId={applicationId}
+                    alertConfig={alertConfig}
+                    isGlobalSmartAlert={isGlobalSmartAlert}
+                  />
+                  <AnalyzeApplicationEventButton
+                    {...eventEntity}
+                    alertConfig={alertConfig}
+                    timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+                    adaptiveBaselineInfo={adaptiveBaselineInfo}
+                  />
+                </DescriptionButtons>
+              </div>
+            ) : (
+              <DescriptionButtons>
+                {canCloseManually && (
+                  <ManualCloseIssueButton
+                    event={event}
+                    reload={reload}
+                    iconComponent={
+                      <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+                    }
+                  />
+                )}
+                <ApplicationAlertConfigButton
+                  applicationId={applicationId}
+                  alertConfig={alertConfig}
+                  isGlobalSmartAlert={isGlobalSmartAlert}
+                />
+                <AnalyzeApplicationEventButton
+                  {...eventEntity}
+                  alertConfig={alertConfig}
+                  timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+                  adaptiveBaselineInfo={adaptiveBaselineInfo}
+                />
+              </DescriptionButtons>
+            )}
           </Card>
         </Col>
       </Row>

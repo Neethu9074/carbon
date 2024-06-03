@@ -16,7 +16,7 @@ import {
   disableAlertConfig,
   enableAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
-import GetTearSheetButtonWithLink from 'in-alerting/smart-alerts/applications/components/GetTearSheetButtonWithLink';
+import TearSheetButtonWithLink from 'in-alerting/smart-alerts/applications/components/TearSheetButtonWithLink';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
@@ -101,6 +101,19 @@ export function actionHandlers(isGlobalSmartAlertConfig) {
     handleClone: function (config) {
       handleClone(config, isGlobalSmartAlertConfig);
     },
+    handleCloneNew: function (config) {
+      const { created, id } = config;
+      return (
+        <TearSheetButtonWithLink
+          buttonIcon="lib_actions_copy"
+          buttonName={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicateNew')}
+          isGlobal={isGlobalSmartAlertConfig}
+          alertId={id}
+          alertConfigCreated={created}
+          duplicateMode
+        />
+      );
+    },
     handleDelete: function (id, setIsSaving, configName) {
       handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig);
     },
@@ -110,12 +123,13 @@ export function actionHandlers(isGlobalSmartAlertConfig) {
     handleEditNew: function (config) {
       const { created, id } = config;
       return (
-        <GetTearSheetButtonWithLink
+        <TearSheetButtonWithLink
           buttonIcon="lib_actions_edit"
           buttonName={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEditNew')}
           isGlobal={isGlobalSmartAlertConfig}
           alertId={id}
           alertConfigCreated={created}
+          editMode
         />
       );
     },

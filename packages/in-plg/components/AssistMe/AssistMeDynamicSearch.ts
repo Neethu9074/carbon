@@ -39,10 +39,10 @@ import { cloudfoundry } from 'in-cloudfoundry/navigation/paths';
 import { isSloView } from 'in-service-levels/navigation/path';
 import { kubernetes } from 'in-kubernetes/navigation/paths';
 import { isBizOpsView } from 'in-bizops/navigation/paths';
+import { analyze } from 'in-analyze/navigation/constants';
 import { explore } from 'in-kubernetes/navigation/paths';
 import { powervc } from 'in-powervc/navigation/paths';
 import { vsphere } from 'in-vsphere/navigation/paths';
-import { analyze } from 'in-analyze/navigation/paths';
 import { ibmz } from 'in-zhmc/navigation/paths';
 import { t } from 'in-i18n';
 

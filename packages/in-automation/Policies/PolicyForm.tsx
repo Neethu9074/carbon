@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Link, Spacer, Stack, Typography } from '@instana/components';
+import { Link, Spacer, Stack, Typography, IconButton } from '@instana/components';
 import { TextArea } from '@instana/components';
 import { Button } from '@instana/legacy';
 
@@ -23,6 +23,7 @@ import {
   isInfraSmartAlert,
   isMobileAppSmartAlert,
   isPolicy,
+  isSloSmartAlert,
   isSyntheticsSmartAlert,
   isWebsiteSmartAlert,
   scopeAll,
@@ -36,6 +37,7 @@ import {
   InfraAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
   MobileAppAlertConfigWithMetadata,
+  ServiceLevelsAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
   TriggerType,
   WebsiteAlertConfigWithMetadata
@@ -74,6 +76,7 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
 import WebsiteScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
+import SloAppliedColumn from 'in-alerting/smart-alerts/slo/list/SloAppliedColumn';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import useNavigateToPolicies from 'in-automation/Policies/useNavigateToPolicies';
@@ -96,7 +99,6 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import TagsTable from 'in-automation/ActionCatalog/TagsTable';
-import IconButton from 'in-components/IconButton/IconButton';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { merge } from 'in-services/util/resultMerger';
@@ -426,6 +428,9 @@ const triggerNameColumn: ColumnDefinition<TriggerSpecification> = {
         />
       );
     }
+    if (isSloSmartAlert(item)) {
+      <NameColumnCell config={item} />;
+    }
     if (isEventSpecification(item)) {
       return <EventName hasRowNavigation={false} entity={item} />;
     }
@@ -528,6 +533,14 @@ const logsFilterAppliedColumn: ColumnDefinition<LogAlertConfigWithMetadata> = {
   sortable: false
 };
 
+const sloFilterAppliedColumn: ColumnDefinition<ServiceLevelsAlertConfigWithMetadata> = {
+  id: 'filterApplied',
+  label: t('in-automation:policies.filterApplied'),
+  getContent: item => <SloAppliedColumn config={item} />,
+  ellipsis: true,
+  sortable: false
+};
+
 const entityTypeColumn: ColumnDefinition<EventSpecificationInfo> = {
   id: 'entityType',
   label: t('in-automation:policies.entityType'),
@@ -569,6 +582,7 @@ function SelectTrigger({
   if (triggerType.value === 'infraSmartAlert') columnDefinitions.push(infraFilterAppliedColumn);
   if (triggerType.value === 'syntheticsSmartAlert') columnDefinitions.push(syntheticFilterAppliedColumn);
   if (triggerType.value === 'logSmartAlert') columnDefinitions.push(logsFilterAppliedColumn);
+  if (triggerType.value === 'sloSmartAlert') columnDefinitions.push(sloFilterAppliedColumn);
   if (triggerType.value === 'builtinEvent' || triggerType.value === 'customEvent')
     columnDefinitions.push(entityTypeColumn);
 
@@ -681,6 +695,7 @@ function SelectTriggerDialog({
   if (selectedTab === 'infraSmartAlert') columnDefinitions.push(infraFilterAppliedColumn);
   if (selectedTab === 'syntheticsSmartAlert') columnDefinitions.push(syntheticFilterAppliedColumn);
   if (selectedTab === 'logSmartAlert') columnDefinitions.push(logsFilterAppliedColumn);
+  if (selectedTab === 'sloSmartAlert') columnDefinitions.push(sloFilterAppliedColumn);
   if (selectedTab === 'event') columnDefinitions.push(entityTypeColumn);
 
   const table = (
@@ -740,6 +755,9 @@ function SelectTriggerDialog({
             <TabSelectItem forId="logSmartAlert" withRadioButton>
               {t('in-automation:policies.logSmartAlert')}
             </TabSelectItem>
+            <TabSelectItem forId="sloSmartAlert" withRadioButton>
+              {t('in-automation:policies.sloSmartAlert')}
+            </TabSelectItem>
           </TabSelectMenu>
           <TabSelectPanels>
             <TabSelectPanel id="event">{table}</TabSelectPanel>
@@ -750,6 +768,7 @@ function SelectTriggerDialog({
             <TabSelectPanel id="mobileAppSmartAlert">{table}</TabSelectPanel>
             <TabSelectPanel id="syntheticsSmartAlert">{table}</TabSelectPanel>
             <TabSelectPanel id="logSmartAlert">{table}</TabSelectPanel>
+            <TabSelectPanel id="sloSmartAlert">{table}</TabSelectPanel>
           </TabSelectPanels>
         </TabSelect>
       </div>
@@ -1005,7 +1024,13 @@ function useActionFilters({
       value: tags
     }
   ];
+
   const filteredActions = actions.filter(action => {
+    // Filter OOTB wastsonx actions
+    if (action.metadata?.builtIn && action.metadata?.ai !== null) {
+      return false;
+    }
+
     let shouldInclude = true;
     filters.forEach(filter => {
       const nonEmptyFilter = filter.value?.length;
@@ -1015,8 +1040,10 @@ function useActionFilters({
         shouldInclude = shouldInclude && (action.tags?.some(tag => filter.value.includes(tag)) ?? false);
       }
     });
+
     return shouldInclude;
   });
+
   return {
     filteredActions,
     type,
@@ -1040,7 +1067,8 @@ type TriggerTab =
   | 'infraSmartAlert'
   | 'mobileAppSmartAlert'
   | 'syntheticsSmartAlert'
-  | 'logSmartAlert';
+  | 'logSmartAlert'
+  | 'sloSmartAlert';
 type EventType = 'customEvent' | 'builtinEvent' | null;
 
 function useTriggerFilters({

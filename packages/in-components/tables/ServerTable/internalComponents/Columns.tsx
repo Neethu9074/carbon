@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tr, Th, SortableTh, ThProps } from '@instana/components';
+import { Tr, Th, SortableTh, ThProps } from '@instana/legacy';
 
 import ConfigurableTh from 'in-components/tables/sharedComponents/ConfigurableTh';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';

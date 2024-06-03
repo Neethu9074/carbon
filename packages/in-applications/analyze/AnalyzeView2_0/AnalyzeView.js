@@ -246,6 +246,7 @@ function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }) {
       fixedFields: fixedFields.calls,
       defaultSelectableFields,
       defaultChartedMetrics: defaultChartedMetrics['calls'],
+      supportedCustomMetrics: dataSourceConstants.calls.supportedCustomMetrics,
       // the metric catalog from the backend currently provides only a single formatter per metric type,
       // we have to override the default formatter if aggregation type 'PER_SECOND' is used
       getCustomMetricUiFormatterName: (_metricId, aggregationId) =>
@@ -368,7 +369,7 @@ function createChartableMetricCatalogTransformer(dataSource) {
   // For chartable metrics (unifiedMetricsQuery) the 'traces' dataSource uses 'calls' metric instead of 'traces'
   const supportedMetrics = dataSourceConstants.calls.metricCatalogSupportedChartableMetrics;
   return metricDefinition => {
-    if (!supportedMetrics[metricDefinition.metricId]) {
+    if (!supportedMetrics[metricDefinition.metricId] || (dataSource === 'traces' && metricDefinition.customMetric)) {
       return null;
     }
     return {
@@ -376,9 +377,10 @@ function createChartableMetricCatalogTransformer(dataSource) {
       label:
         dataSource === 'traces'
           ? t('in-applications:metrics.traces', { context: metricDefinition.metricId })
-          : t('in-applications:metrics.calls', { context: metricDefinition.metricId }),
+          : t('in-applications:metrics.calls', { context: metricDefinition.metricId.replace('.', '_') }),
       aggregations: supportedMetrics[metricDefinition.metricId],
-      formatter: metricFormatter(metricDefinition)
+      formatter: metricFormatter(metricDefinition),
+      groupLabel: metricDefinition.customMetric ? 'Call metrics' : undefined
     };
   };
 }

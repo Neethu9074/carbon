@@ -6,13 +6,13 @@
 
 import React from 'react';
 
+import { TimeConfig, BoundaryScope } from '@instana/types';
 import { SvgIconSizes } from '@instana/components';
 
 import useHrefToSloDashboard from 'in-service-levels/navigation/hooks/useHrefToSloDashboard';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import ScopePath, { ScopeEntryType } from 'in-alerting/components/ScopePath';
 import { useLinkToWebsite } from 'in-websites/navigation/paths';
-import { TimeConfig, BoundaryScope } from 'in-types';
 
 interface Props {
   sloId: string;

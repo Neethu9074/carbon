@@ -12,73 +12,87 @@ export interface Formatter {
   id: string;
   label: string;
   formatter: FormatterFn;
+  unitConversion: boolean;
 }
 
 export const defaultFormatter: Formatter = {
   id: 'number.detailed',
   label: t('in-stores:metric.formatterLabelNumber', { example: number.detailed(42.15) }),
-  formatter: number.detailed
+  formatter: number.detailed,
+  unitConversion: false
 };
 
 export const numberCompact: Formatter = {
   id: 'number.compact',
   label: t('in-stores:metric.formatterLabelNumber', { example: number.compact(42.15) }),
-  formatter: number.compact
+  formatter: number.compact,
+  unitConversion: false
 };
 export const percentageCompact: Formatter = {
   id: 'percentage.compact',
   label: t('in-stores:metric.formatterLabelPercentage', { example: percentage.compact(0.4215) }),
-  formatter: percentage.compact
+  formatter: percentage.compact,
+  unitConversion: false
 };
 export const percentageDetailed: Formatter = {
   id: 'percentage.detailed',
   label: t('in-stores:metric.formatterLabelPercentage', { example: percentage.detailed(0.4215) }),
-  formatter: percentage.detailed
+  formatter: percentage.detailed,
+  unitConversion: false
 };
 export const bytesCompact: Formatter = {
   id: 'bytes.compact',
   label: t('in-stores:metric.formatterLabelBytes', { example: bytes.compact(3146340) }),
-  formatter: bytes.compact
+  formatter: bytes.compact,
+  unitConversion: true
 };
 export const bytesDetailed: Formatter = {
   id: 'bytes.detailed',
   label: t('in-stores:metric.formatterLabelBytes', { example: bytes.detailed(3146340) }),
-  formatter: bytes.detailed
+  formatter: bytes.detailed,
+  unitConversion: true
 };
 export const millisCompact: Formatter = {
   id: 'millis.compact',
   label: t('in-stores:metric.formatterLabelMilliseconds', { example: millis.compact(42.15) }),
-  formatter: millis.compact
+  formatter: millis.compact,
+  unitConversion: true
 };
 export const millisDetailed: Formatter = {
   id: 'millis.detailed',
   label: t('in-stores:metric.formatterLabelMilliseconds', { example: millis.detailed(42.15) }),
-  formatter: millis.detailed
+  formatter: millis.detailed,
+  unitConversion: true
 };
 export const latencyDetailed: Formatter = {
   id: 'latency.detailed',
   label: t('in-stores:metric.formatterLabelLatency', { example: latency.detailed(0) }),
-  formatter: latency.detailed
+  formatter: latency.detailed,
+  unitConversion: true
 };
 export const siPrefixCompact: Formatter = {
   id: 'siPrefix.compact',
   label: t('in-stores:metric.formatterLabelSIPrefix', { example: siPrefix.compact(3146340) }),
-  formatter: siPrefix.compact
+  formatter: siPrefix.compact,
+  unitConversion: true
 };
 export const siPrefixDetailed: Formatter = {
   id: 'siPrefix.detailed',
   label: t('in-stores:metric.formatterLabelSIPrefix', { example: siPrefix.detailed(3146340) }),
-  formatter: siPrefix.detailed
+  formatter: siPrefix.detailed,
+  unitConversion: true
 };
 export const fourDecimalPlacesDetailed: Formatter = {
   id: 'fourDecimalPlaces.detailed',
   label: t('in-stores:metric.formatterLabelNumber', { example: fourDecimalPlaces(42.15) }),
-  formatter: fourDecimalPlaces
+  formatter: fourDecimalPlaces,
+  unitConversion: true
 };
 export const perSecondDetailed: Formatter = {
   id: 'perSecond.detailed',
   label: t('in-stores:metric.formatterLabelNumber', { example: number.perSecond.detailed(42.15) }),
-  formatter: number.perSecond.detailed
+  formatter: number.perSecond.detailed,
+  unitConversion: true
 };
 
 // BEFORE YOU EXTEND THIS!
@@ -116,4 +130,8 @@ export function getFormatter(formatterId?: string): FormatterFn {
 
 export function getFormatterId(formatterFn?: FormatterFn): string {
   return (allFormatters.find(({ formatter }) => formatter === formatterFn) || defaultFormatter).id;
+}
+
+export function getFormatterUnitConversion(formatterId?: string): boolean {
+  return (allFormatters.find(({ id }) => id === formatterId) || defaultFormatter).unitConversion;
 }

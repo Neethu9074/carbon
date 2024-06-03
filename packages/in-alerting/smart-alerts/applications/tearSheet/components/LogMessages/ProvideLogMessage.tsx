@@ -5,6 +5,7 @@
  */
 
 import { Field, MapForm } from 'formalistic';
+import classNames from 'classnames';
 import React from 'react';
 
 import {
@@ -25,14 +26,15 @@ import locals from 'in-alerting/smart-alerts/applications/components/ProvideLogM
 interface ProvideLogMessageProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
+  tearSheetView?: boolean;
 }
-export default function ProvideLogMessage({ form, updateForm }: ProvideLogMessageProps) {
+export default function ProvideLogMessage({ form, updateForm, tearSheetView = false }: ProvideLogMessageProps) {
   const operatorField = form.get('rule').get('operator');
   const messageField = form.get('rule').get('message');
   const levelField = form.get('rule').get('level');
 
   return (
-    <div className={locals.container}>
+    <div className={classNames({ [locals.container]: !tearSheetView })}>
       {levelField.map((field: Field<string>) => (
         <FormGroup>
           <Label htmlFor={'ruleLevel'} hasError={!field.valid && field.touched}>

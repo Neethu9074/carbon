@@ -41,8 +41,10 @@ export default function AIProbabilityBadge({ probabilityScore, loading }: AIProb
   return (
     <div className={locals.confidencePilled}>
       <Stack direction="horizontal" gap="xsmall" align="center">
-        <SvgIcon type="lib_datetime_speed" size="s" />
-        <Typography variant="body-bold">{t('in-events:RCA.probabilityLevelText')} </Typography>
+        <SvgIcon type="lib_datetime_speed" size="xs" />
+        <Typography variant="heading-100" noMargin>
+          {t('in-events:RCA.probabilityLevelText')}{' '}
+        </Typography>
         {!loading && (
           <Tooltip align="topMiddle" content={getTooltipContent(probabilityThreshold)}>
             <Pill
@@ -55,7 +57,6 @@ export default function AIProbabilityBadge({ probabilityScore, loading }: AIProb
                   ? 'red'
                   : 'gray'
               }
-              className={locals.probabilityPill}
             >
               <Typography variant="body-regular">
                 <div className={getBadgeStylingClass(probabilityThreshold)}>{getBadgeText(probabilityThreshold)}</div>

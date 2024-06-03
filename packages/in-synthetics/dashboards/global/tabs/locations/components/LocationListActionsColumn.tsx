@@ -7,6 +7,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { LocationListItem } from '@instana/types';
+import { IconButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import DeactivateSelectedLocation from 'in-synthetics/dashboards/global/tabs/locations/components/DeactivateSelectedLocation';
@@ -18,7 +19,6 @@ import DeleteSelectedLocation from 'in-synthetics/dashboards/global/tabs/locatio
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
-import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
 import { getDatacenter } from 'in-synthetics/api';
 import { t } from 'in-i18n';

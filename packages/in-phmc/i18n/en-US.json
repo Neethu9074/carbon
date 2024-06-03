@@ -86,6 +86,19 @@
   "entityInstance": "Entity Instance",
   "temperatureReading": "Temperature Reading",
   "maxCpuUtilzation": "Maximum CPU Capacity Utilization (%)",
+  "dynamicReconfig": "Dynamic Reconfig ID",
+  "virtualSlotNumber": "Virtual Slot Number",
+  "localPartitionID": "LPAR ID",
+  "portVlanID": "Port VLAN ID",
+  "macAddress": "MAC Address",
+  "osDeviceName": "OS Device",
+  "desiredMode": "Desired Mode",
+  "lparName": "LPAR",
+  "deviceType": "Device Type",
+  "status": "Status",
+  "failOverPriority": "Fail-Over Priority",
+  "relatedSriovAdapterID": "Related SRIOV Adapter ID",
+  "relatedSriovPhysicalPortID": "SRIOV Physical Port ID",
   "breadcrumbs": {
     "phmc": "Power HMC",
     "phmcs": "Power HMCs",
@@ -129,7 +142,8 @@
     "energy": "Energy",
     "maxCpuUtilzation": "Maximum CPU Capacity",
     "systemFirmwareUtilized": "System Firmware - Utilized Processing Units",
-    "systemFirmwareAssignedMem": "System Firmware - Assigned Memory"
+    "systemFirmwareAssignedMem": "System Firmware - Assigned Memory",
+    "vnicDedicated": "vNIC Details"
 
   }
 }

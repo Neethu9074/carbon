@@ -71,7 +71,8 @@ export const getConfigurationSummaryMsg = (
         productArea === ProductArea.APPLICATION ||
         productArea === ProductArea.KUBERNETES ||
         productArea === ProductArea.INFRASTRUCTURE ||
-        productArea === ProductArea.SYNTHETICS
+        productArea === ProductArea.SYNTHETICS ||
+        productArea === ProductArea.AUTOMATION
           ? areaContext
           : ''
     });

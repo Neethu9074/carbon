@@ -28,6 +28,7 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他過濾器",
     "groupBy": "分組依據",
     "noChannelAvailable": "沒有可用的警示通道",
+    "optional": "伺服器配接卡的",
     "revisionDropdownButton": {
       "revision": "修訂 {{alertRevision}}",
       "pause": "暫停",
@@ -160,7 +161,9 @@
             "shortText": "根據「應用程式視景」",
             "columnText": "聚集的",
             "description": "針對此「應用程式視景」個別發出警示",
-            "globalDescription": "針對各「應用程式視景」個別發出警示"
+            "globalDescription": "針對各「應用程式視景」個別發出警示",
+            "tearSheetSelectionText": "依應用程式分組",
+            "tearSheetDescription": "會根據一個群組的臨界值來評估符合過濾器的呼叫。 發生違規時，會針對這整個應用程式視景傳送單一警示通知。 "
           },
           "evaluationTypePERAPSERVICE": {
             "selectionText": "針對此「應用程式視景」的各服務",
@@ -168,7 +171,9 @@
             "shortText": "根據「服務」",
             "columnText": "各服務",
             "description": "針對此「應用程式視景」的各服務個別發出警示",
-            "globalDescription": "針對每個「應用程式視景」環境定義中的各服務個別發出警示"
+            "globalDescription": "針對每個「應用程式視景」環境定義中的各服務個別發出警示",
+            "tearSheetSelectionText": "依服務分組",
+            "tearSheetDescription": "符合過濾器的呼叫將根據 8 個群組的臨界值進行評估 - 每一個服務一個群組，每個群組有自己的臨界值。 當群組有違規時，會傳送該群組的警示通知。"
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "針對此應用程式視景的各服務",
@@ -176,7 +181,9 @@
             "shortText": "根據「端點」",
             "columnText": "各端點",
             "description": "針對此「應用程式視景」的各端點個別發出警示",
-            "globalDescription": "針對每個「應用程式視景」環境定義中的各端點個別發出警示"
+            "globalDescription": "針對每個「應用程式視景」環境定義中的各端點個別發出警示",
+            "tearSheetSelectionText": "依端點分組",
+            "tearSheetDescription": "符合過濾器的呼叫將根據 47 個群組的臨界值進行評估 - 每一個端點一個群組，每個群組有自己的臨界值。 當群組有違規時，會傳送該群組的警示通知。"
           }
         },
         "inboundOutboundCalls": {
@@ -425,7 +432,7 @@
         "thresholdFormBaselineIsEmpty": "基準線是空的"
       },
       "simple": {
-        "simpleAlertStep1Headline": "您想針對什麼產生警示？",
+        "simpleAlertStep1Headline": "選擇您要收到警示的問題",
         "simpleAlertStep2Headline": "您希望警示在何處觸發？",
         "step1Title": "步驟 1：選取警示",
         "step2Title": "步驟 2：選取範圍",
@@ -433,7 +440,9 @@
       },
       "components": {
         "createSmartAlert": "新增智慧型警示",
+        "createSmartAlertNew": "新增智慧型警示（新建）",
         "createGlobalSmartAlert": "新增廣域智慧型警示",
+        "createGlobalSmartAlertNew": "新增廣域智慧型警示（新建）",
         "provideLogMessageSelectLogMessage": "選取日誌訊息",
         "provideLogMessageLogLevel": "記載層次",
         "provideLogMessageErrorMessage": "錯誤訊息",
@@ -450,6 +459,7 @@
         "getSubtitleForStaticWeeklySeasonality": "靜態每週週期性，{{metricLabel}}",
         "getSubtitleForAdaptiveThreshold": "調適性臨界值，{{metricLabel}}",
         "labelActionButtonEdit": "編輯",
+        "labelActionButtonEditNew": "編輯（新建）",
         "labelActionButtonDuplicate": "複製",
         "labelActionButtonDelete": "刪除",
         "labelAlertFilters": "過濾器",
@@ -478,6 +488,77 @@
         "viewAlertDetails": "檢視配置的警示詳細資料：{{name}}",
         "eventsWarningIcon": "事件「警告」圖示",
         "eventsCriticalIcon": "事件「嚴重」圖示"
+      },
+      "tearSheet": {
+        "step1Title": "挑選警示範本",
+        "step2Title": "定義範圍",
+        "step3Title": "定義分組",
+        "step4Title": "定義何時收到警示",
+        "step5Title": "定義警示內容及通道",
+        "grouping": {
+          "title": "群組呼叫",
+          "description": "會個別評估每一個群組中的呼叫"
+        },
+        "callsInScope": {
+          "title": "選擇範圍中的呼叫 ",
+          "description": "這會決定哪些服務或端點可供選取。"
+        },
+        "includeHiddenCalls": {
+          "title": "包含隱藏呼叫（選用） ",
+          "description": "隱藏的呼叫不會出現在內建儀表板中。"
+        },
+        "serviceEndPointSelection": "所選呼叫的服務或端點",
+        "AlertPropertiesTitle": "您要對此警示設定哪些內容？",
+        "AlertChannelTitle": "您想要在何處收到警示通知？",
+        "inboundOutboundCalls": {
+          "config": {
+            "inbound": {
+              "text": "入埠呼叫",
+              "dashboard": "用於偵測此應用程式的消費者所察覺的問題",
+              "overrideDefault": "此應用程式的預設範圍只有「入埠呼叫」。 您可以在「配置」中變更此項。"
+            },
+            "all": {
+              "text": "所有呼叫",
+              "dashboard": "用於偵測此應用程式內任何服務或端點中的問題。",
+              "overrideDefault": "此應用程式的預設範圍是「所有呼叫」。 您可以在「配置」中變更此項。"
+            }
+          }
+        },
+        "hiddenCalls": {
+          "config": {
+            "includeInternal": {
+              "text": "內部呼叫是在服務內完成的工作，與自訂追蹤中的中間跨距相對應"
+            },
+            "includeSynthetic": {
+              "text": "綜合呼叫以綜合端點作為其目的地，例如對性能檢查端點的呼叫"
+            }
+          }
+        },
+        "threshold": {
+          "title": "設定違規臨界值的值",
+          "description": "選擇度量、違規臨界值及時間範圍，以評估違規。"
+        },
+        "timeThreshold": {
+          "title": "在違規觸發警示時設定",
+          "description": "指定警示及持續性類型，然後設定警示觸發程式。"
+        },
+        "staticOrAdaptive": {
+          "config": {
+            "adaptive": {
+              "description": "會套用自動適應基礎度量值變更的臨界值。"
+            },
+            "static": {
+              "description": "會套用常數臨界值，且不會隨著時間而變更。"
+            }
+          }
+        },
+        "alertChart": {
+          "title": "警示預覽",
+          "description": "顯示根據歷程度量資料觸發警示的方式。"
+        },
+        "alertProperties": {
+          "previewTitle": "警示預覽"
+        }
       }
     },
     "details": {
@@ -582,10 +663,12 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "取消",
+        "previousTitle": "上一步",
         "sharedListTooltip": "{{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
         "baselineErrorMessageComputedOnApproximateData": "基準線是根據由於資料保留設定而產生的近似資料來計算。 因此，如果只有少數呼叫符合選取的過濾器，則它可能不正確。",
-        "baselineErrorMessageInsufficientDataToCompute": "資料不足而無法計算選取的基準線。請改為選取<em>靜態臨界值</em>。",
+        "baselineValidationMessageInsufficientDataToCompute": "資料不足而無法計算選取的基準線。 請改為選取<em>靜態臨界值</em>。",
+        "baselineGenericErrorMessage": "無法擷取基準線。 請改為選取<em>靜態臨界值</em>。",
         "pleaseContactSupportToRiseLimit": "請透過 <supportLink>{{instanaSupportPortal}}</supportLink>聯絡我們以要求增加此限制。",
         "adaptiveBaselineErrorMessage": "臨界值預覽目前無法使用。<br />仍然可以儲存此「智慧型警示」。",
         "adaptiveBaselineErrorMessageNotAvailable": "調適性臨界值目前無法使用。",
@@ -942,6 +1025,7 @@
     },
     "migration": {
       "migrateButton": "移轉至智慧型警示",
+      "migrateButtonNew": "移轉至智慧型警示（新建）",
       "migrateButtonTooltip": "開啟「智慧型警示配置」對話框，其中預先填入從現行事件移轉的值，以達到我們所能達到的最佳範圍。 請仔細檢查結果！",
       "markAsMigratedButton": "標示為已移轉",
       "markAsMigratedButtonTooltip": "將事件標示為已移轉。如果您已配置將取代此事件的「智慧型警示」，請使用此選項。",
@@ -1056,9 +1140,21 @@
         "views": "檢視表",
         "customEventBlueprintConfigMetricLabel": "出現項目數",
         "sessions": "階段作業",
+        "crashAffectedSessionRate": "損毀影響階段作業率",
+        "crashFreeSessionRate": "損毀可用階段作業率",
+        "crashAffectedSessionCount": "受損毀影響的階段作業計數",
+        "crashFreeSessionCount": "損毀可用階段作業數目",
+        "crashAffectedUserRate": "損毀影響的使用者速率",
+        "crashFreeUserRate": "損毀可用使用者速率",
+        "crashAffectedUserCount": "受損毀影響的使用者計數",
+        "crashFreeUserCount": "損毀可用使用者數目",
         "statusCodeBlueprintConfigName": "HTTP 狀態碼",
         "throughputBlueprintConfigName": "傳輸量",
         "customEventBlueprintConfigName": "自訂事件",
+        "crashBlueprintConfigName": "損毀",
+        "crashBlueprintConfigHeadline": "損毀的自動警示",
+        "crashBlueprintConfigText": "當選取的損毀度量值高於或低於預期時接收警示。",
+        "crashBlueprintSelectMetric": "選取損毀度量",
         "statusCodeBlueprintConfigHeadline": "HTTP 狀態碼的自動警示",
         "statusCodeBlueprintConfigText": "每當相符「HTTP 狀態碼」的出現頻率高於平常時，會收到警示。",
         "throughputBlueprintConfigHeadline": "行動式應用程式視圖的自動警示",
@@ -1124,7 +1220,10 @@
         "ruleMetricNameOptionThroughputSessions": "階段作業",
         "ruleMetricNameOptionThroughputViews": "檢視表",
         "errorPleaseProvideCustomEventName": "請提供自訂事件名稱",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "請提供大於等於 0 的數字"
+        "titlePlaceholderCrashSimpleHighOperator": "{{metricLabel}} 異常高",
+        "titlePlaceholderCrashSimpleLowOperator": "{{metricLabel}} 異常低",
+        "descriptionPlaceholderCrashSimpleAboveOperator": "{{metricLabel}} 高於預期。",
+        "descriptionPlaceholderCrashSimpleBelowOperator": "{{metricLabel}} 低於預期。"
       },
       "customEvent": {
         "noCustomEventsFound": "找不到自訂事件",
@@ -1358,6 +1457,56 @@
         "noDataForSelectedGroup": "指定的過濾器和分組組合沒有可用的資料。"
       },
       "logCount": "日誌計數"
+    },
+    "slo": {
+      "validators": {
+        "noEmptySloIds": "請至少選取一個 SLO。",
+        "notLessThanOrEqualToZero": "請設定大於 0 的值。"
+      },
+      "advancedModeContainer": {
+        "stepLabel": "",
+        "stepTitle": "",
+        "stepLabel_sloTarget": "目標",
+        "stepTitle_sloTarget": "目標：您要對哪些 SLO 發出警示？",
+        "stepLabel_trigger": "觸發",
+        "stepTitle_trigger": "觸發：您想針對什麼產生警示？",
+        "stepLabel_timeThreshold": "時間臨界值",
+        "stepTitle_timeThreshold": "時間臨界值：您想要何時收到警示？",
+        "stepLabel_alertChannels": "警示通道",
+        "stepTitle_alertChannels": "警示通道：誰需要收到警示？",
+        "stepLabel_alertProperties": "警示內容",
+        "stepTitle_alertProperties": "警示內容：警示通知應包含哪些內容？",
+        "stepLabel_customPayload": "自訂有效負載",
+        "stepTitle_customPayload": "自訂有效負載",
+        "selectSloHeadline": "選取 SLO",
+        "blueprintSectionTitle": "選取藍圖",
+        "blueprint": "",
+        "blueprint_SERVICE_LEVELS_OBJECTIVE": "狀態",
+        "blueprint_ERROR_BUDGET": "錯誤預算",
+        "blueprintDescription": "",
+        "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "當 SLO 狀態低於臨界值時接收警示。",
+        "blueprintDescription_ERROR_BUDGET": "已耗用錯誤預算的百分比時接收警示。",
+        "thresholdTitle": "臨界值：何時要收到警示？",
+        "thresholdInputDescription": "",
+        "thresholdInputDescription_ERROR_BUDGET": "已耗用錯誤預算百分比",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "百分比是 SLO 目標或更少",
+        "timeThresholdType_gracePeriod": "當條件持續存在超過指定的時間量時",
+        "timeThresholdTypeTitle_gracePeriod": "當連續 $t(in-components:time.minutes, {\"count\": {{minutes}} }) 違反條件時發出警示",
+        "alertProperties_entityLabel": "SLO 名稱",
+        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 狀態為低",
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 狀態小於或等於 {{percentage}}。",
+        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "剩餘錯誤預算為低",
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "剩餘的錯誤預算小於或等於 {{percentage}}。"
+      },
+      "details": {
+        "alertConfigurationTitle": "警示配置",
+        "sloHeader": "SLO",
+        "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
+        "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
+        "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
+        "blueprintLabel": "藍圖",
+        "thresholdLabel": "臨界值"
+      }
     }
   }
 }

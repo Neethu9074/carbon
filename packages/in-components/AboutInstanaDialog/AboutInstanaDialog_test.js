@@ -32,6 +32,6 @@ test('AboutInstanaDialog uiBackendVersion subscription', () => {
 
 test('AboutInstanaDialog handle close clicking', () => {
   const { container } = render(<AboutInstanaDialog />);
-  container.querySelector('button.local-css-rightAligned').click();
+  container.querySelector('button.rightAligned').click();
   expect(close).toHaveBeenCalled();
 });
