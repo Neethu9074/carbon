@@ -10,8 +10,8 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 
 import { Stack, SvgIcon, Typography } from '@instana/components';
+import { ApiGroup, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { ApiGroup } from '@instana/types';
 import { Button } from '@instana/legacy';
 
 import {
@@ -24,6 +24,12 @@ import {
 import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-components/time/timeframeFormatter';
 // @ts-expect-error File needs to be migrated to typescipt
 import { useShortUrl } from 'in-components/DashboardHeader/UrlShortener/shortener';
+//@ts-expect-error TS migration
+import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+//@ts-expect-error TS migration
+import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
+//@ts-expect-error TS migration
+import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 // eslint-disable-next-line no-restricted-imports
 import InputWithButton from 'in-plg/components/InputWithButton/InputWithButton';
 import {
@@ -31,6 +37,7 @@ import {
   inviteAndShareButtonClicked,
   shareAndInviteSubmitTracker
 } from 'in-settings/tracker';
+import { disableInvitesWithIdpEnabled, playWithReleaseEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { onDoInviteUser } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
 import { fixateTimeConfig, getTimeConfig, setTimeConfig, timeConfig$ } from 'in-stores/time/config';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
@@ -38,7 +45,6 @@ import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettin
 // @ts-expect-error file needs TS migration
 import { getUnitKeys } from 'in-api/unitKeys';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
-import { playWithReleaseEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { teamSettingsAccessControlGroupNew } from 'in-settings/navigation/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ComboBox, { Option, Options } from 'in-components/ComboBox/ComboBox';
@@ -170,6 +176,18 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
   const { parentPageName, parentProductArea } = getViewTrackingMetaData();
   const [emailMessage, setEmailMessage] = useState('');
 
+  interface ConfigProps {
+    activated: boolean;
+  }
+
+  const isSamlConfigured: Result<ConfigProps> | undefined | null = useObservable(getSamlConfig, []);
+  const isLdapConfigured: Result<ConfigProps> | undefined | null = useObservable(getLdapConfig, []);
+  const isOidcConfigured: Result<ConfigProps> | undefined | null = useObservable(getOidcConfig, []);
+
+  const isAnyIDPActive =
+    disableInvitesWithIdpEnabled &&
+    (isSamlConfigured?.data?.activated || isLdapConfigured?.data?.activated || isOidcConfigured?.data?.activated);
+
   const onChange = (index: number | string, path: Path<any>, value: any, invite: MapForm<any>) => {
     let updatedForm;
     const emailValue = path[1] === 'email' ? value : invite.get('email').value;
@@ -285,7 +303,10 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
 
   const canSelectGroup = sortedGroups !== undefined && sortedGroups.length !== 0;
 
-  const showInvite = role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled);
+  // Hide invite section if the user doesn't have the permission to "User management".
+  // Hide invite section if IDP enabled.
+  // Hide invite section in play with.
+  const showInvite = role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && !isAnyIDPActive;
 
   return (
     <Dialog
@@ -312,7 +333,12 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
       withoutBodyPadding
     >
       <form onSubmit={onSubmitInvitation(canSelectGroup)}>
-        <div className={locals.modalBody}>
+        <div
+          className={classNames({
+            [locals.modalBody]: true,
+            [locals.hideInvite]: !showInvite
+          })}
+        >
           {/*
             we don't want to show the invite section if the user :
               1. Does'nt have the right to invite
@@ -490,12 +516,14 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
           )}
         </div>
 
-        <FormFooter>
-          <CancelButton onClick={closeModal}>{t('in-settings:ShareAndInviteDialogBox.cancel')}</CancelButton>
-          <SaveButton type="submit" disabled={(!form.hierarchyValid && form.touched) || !anyValidEntry(form)}>
-            {t('in-settings:ShareAndInviteDialogBox.send')}
-          </SaveButton>
-        </FormFooter>
+        {showInvite && (
+          <FormFooter>
+            <CancelButton onClick={closeModal}>{t('in-settings:ShareAndInviteDialogBox.cancel')}</CancelButton>
+            <SaveButton type="submit" disabled={(!form.hierarchyValid && form.touched) || !anyValidEntry(form)}>
+              {t('in-settings:ShareAndInviteDialogBox.send')}
+            </SaveButton>
+          </FormFooter>
+        )}
       </form>
     </Dialog>
   );
