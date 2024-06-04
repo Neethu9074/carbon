@@ -5,6 +5,8 @@
  */
 
 import React, { useState } from 'react';
+import classNames from 'classnames';
+
 import {
   SvgIcon,
   CarbonButton,
@@ -13,24 +15,23 @@ import {
   CarbonLayer,
   CarbonInlineLoading
 } from '@instana/components';
+
 // Not using Carbon tooltip since tooltip has not been migrated
 // Using Carbon tooltip would cause mismatch in design on the page
 // since tooltip is used in many places on this page
 import Tooltip from 'in-components/Tooltip';
+import { getNotes, formatDate, validTextEntry, noteNameAndTimeFormat } from './utils';
 import { annotateEvent } from 'in-stores/events';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
-import classNames from 'classnames';
-import { getNotes, formatDate } from './utils';
+
 import locals from './NotesAndActivity.mless';
 
 export function NotesAndActivity(props) {
-  const { event } = props
-  console.log('events', event)
-  const notes = getNotes(event)
-  console.log('notes', notes)
+  const { event } = props;
+  const notes = getNotes(event);
   const incidentId = event?.get('id');
-  const loading = event == undefined
+  const loading = event == undefined;
 
   // Boolean to control when the notes section is opened
   const [displayNotes, setDisplayNotes] = useState(false);
@@ -40,23 +41,18 @@ export function NotesAndActivity(props) {
   return (
     <>
       <div className={locals.verticalBorderNotes} />
-      {!displayNotes ?
+      {!displayNotes ? (
         <Tooltip content={t('in-events:notes.openNotes')}>
           <div onClick={() => setDisplayNotes(!displayNotes)} className={locals.closedNotesWrapper}>
-              {t('in-events:notes.notesActivity')}
-              <SvgIcon
-                type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'}
-                size="s"
-              />  
+            {t('in-events:notes.notesActivity')}
+            <SvgIcon type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'} size="s" />
           </div>
         </Tooltip>
-      :
+      ) : (
         <CarbonLayer className={locals.notesHeaderWrapper}>
           <div className={locals.headerWrapper}>
             {t('in-events:notes.notesActivity')}
-            <CarbonTag type="blue">
-              {t('in-events:notes.techPreview')}
-            </CarbonTag>
+            <CarbonTag type="blue">{t('in-events:notes.techPreview')}</CarbonTag>
             <Tooltip content={t('in-events:notes.closeNotes')}>
               <SvgIcon
                 onClick={() => setDisplayNotes(!displayNotes)}
@@ -67,11 +63,11 @@ export function NotesAndActivity(props) {
             </Tooltip>
           </div>
           <div className={locals.notes}>
-            {loading ?
+            {loading ? (
               <div className={locals.loading}>
                 <CarbonInlineLoading />
               </div>
-            :  
+            ) : (
               <>
                 <div className={locals.inputSection}>
                   <CarbonTextArea
@@ -80,68 +76,66 @@ export function NotesAndActivity(props) {
                     rows={5}
                     id="incidentNotes"
                     value={note}
-                    onChange={(e) => {
-                      setNote(e?.target?.value)
+                    onChange={e => {
+                      setNote(e?.target?.value);
                     }}
                   />
                   <CarbonButton
                     onClick={() => handleSubmitNote(incidentId, note, user, setNote)}
                     className={locals.addNoteButton}
-                    size={"md"}
+                    size={'md'}
                   >
                     {t('in-events:notes.addNote')}
                   </CarbonButton>
                 </div>
-                <CommentList notes={ notes } preferredName={user.preferredName} />
+                <CommentList notes={notes} preferredName={user.preferredName} />
               </>
-            }
+            )}
           </div>
         </CarbonLayer>
-      }
-      
+      )}
     </>
-    
-
-  )
+  );
 }
 
 export function CommentList(props) {
-  const { notes, preferredName } = props
+  const { notes, preferredName } = props;
   // Currently just used for testing until we get the backend hooked up
   return (
     <div className={locals.notesSection}>
-      {notes && notes.map((entry, i) => {
-      // Using i to iterate helps us traverse backwards that way notes are displayed
-      // with the newest note at the top, oldest at the bottom
-      const note = notes[notes.length - i - 1]
-      const myBubble = note.author == preferredName
-      const date = formatDate(new Date(note.timestamp));
-        return (
+      {notes &&
+        notes.map((entry, i) => {
+          // Using i to iterate helps us traverse backwards that way notes are displayed
+          // with the newest note at the top, oldest at the bottom
+          const note = notes[notes.length - i - 1];
+          const myBubble = note.author == preferredName;
+          const date = formatDate(new Date(note.timestamp));
+          return (
             <div key={note.id}>
-              <div className={classNames({
-                    [locals.myChatEntry]: myBubble,
-                    [locals.chatEntry]: true
-                  })}
+              <div
+                className={classNames({
+                  [locals.myChatEntry]: myBubble,
+                  [locals.chatEntry]: true
+                })}
               >
-                {!myBubble && <SvgIcon type={"lib_user_avatar_filled_alt"} size="sm" />}
-                <div className={locals.chatEntryInfo}>
-                  {`${myBubble && t('in-events:notes.you') || note.author} | ${date}`}
-                </div>
+                {!myBubble && <SvgIcon type={'lib_user_avatar_filled_alt'} size="sm" />}
+                <div className={locals.chatEntryInfo}>{noteNameAndTimeFormat(myBubble, note, date)}</div>
               </div>
               <ChatBubble user={note.author} text={note.contents} myBubble={myBubble} />
             </div>
-        )
-      })}
+          );
+        })}
     </div>
-  )
+  );
 }
 
 // Individual chat bubble that has differing colors based on
 // if the text is from me or someone else
 export function ChatBubble(props) {
-  const { myBubble, text} = props
+  const { myBubble, text } = props;
   return (
-    <div className={classNames({
+    <div
+      className={classNames({
         [locals.myBubble]: myBubble,
         [locals.otherBubble]: !myBubble,
         [locals.bubble]: true
@@ -149,7 +143,7 @@ export function ChatBubble(props) {
     >
       {text}
     </div>
-  )
+  );
 }
 
 // Handle the note submission
@@ -157,17 +151,16 @@ export function ChatBubble(props) {
 // Dont allow the annotateEvent call if note is empty
 // Once you submit the event clear the note value with SetNote
 export function handleSubmitNote(incidentId, note, user, setNote) {
-  const userName = user.preferredName
+  const userName = user.preferredName;
   // Dont fire off a new note without there being something written
-  if(note != '') {
+  if (validTextEntry(note)) {
     const newNote = {
       incidentId: incidentId,
       author: userName,
       action: 'create',
       contents: note
     };
-    console.log('ANNOTATE_EVENT', newNote)
-    annotateEvent(newNote)
-    setNote('')
+    annotateEvent(newNote);
+    setNote('');
   }
 }

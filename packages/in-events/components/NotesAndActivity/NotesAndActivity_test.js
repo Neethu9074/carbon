@@ -4,10 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
 import { shallow } from 'enzyme';
-import { ChatBubble, CommentList } from './NotesAndActivity.js';
+import React from 'react';
+
 import { SvgIcon } from '@instana/components';
+
+import { ChatBubble, CommentList } from './NotesAndActivity.js';
+
 import locals from './NotesAndActivity.mless';
 
 describe('ChatBubble', () => {
@@ -37,27 +40,30 @@ describe('CommentList', () => {
   });
 
   it('renders each comment in a div with the correct class names', () => {
-    const notes = [{
-      name: 'John Doe',
-      note: 'This is a test note.',
-      time: '12:00 PM'
-    }, {
-      name: 'Jane Doe',
-      note: 'This is another test note.',
-      time: '12:05 PM'
-    }];
-    const wrapper = shallow(<CommentList notes={notes} preferredName={"John Doe"}/>);
+    const notes = [
+      {
+        author: 'John Doe',
+        contents: 'This is a test note.',
+        timestamp: 1717523244282
+      },
+      {
+        author: 'Jane Doe',
+        note: 'This is another test note.',
+        timestamp: 1717523244282
+      }
+    ];
+    const wrapper = shallow(<CommentList notes={notes} preferredName={'John Doe'} />);
     expect(wrapper.find(`div.${locals.chatEntry}`)).toHaveLength(2);
     expect(wrapper.find(`div.${locals.myChatEntry}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.chatEntryInfo}`)).toHaveLength(2);
-    expect(wrapper.find(`div.${locals.chatEntryInfo}`).at(0).text()).toEqual("You | 12:00 PM");
-    expect(wrapper.find(`div.${locals.chatEntryInfo}`).at(1).text()).toEqual("Jane Doe | 12:05 PM");
+    expect(wrapper.find(`div.${locals.chatEntryInfo}`).at(0).text()).toEqual('Jane Doe | 2024-06-04, 19:47:24');
+    expect(wrapper.find(`div.${locals.chatEntryInfo}`).at(1).text()).toEqual('You | 2024-06-04, 19:47:24');
     expect(wrapper.find(SvgIcon)).toHaveLength(1);
   });
 
   it('renders each comment in a div with the correct class names', () => {
     const notes = [];
-    const wrapper = shallow(<CommentList notes={notes} preferredName={"John Doe"}/>);
+    const wrapper = shallow(<CommentList notes={notes} preferredName={'John Doe'} />);
     expect(wrapper.find(`div.${locals.chatEntry}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.myChatEntry}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.chatEntryInfo}`)).toHaveLength(0);

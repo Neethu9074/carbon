@@ -5,7 +5,13 @@
  */
 
 import Immutable from 'immutable';
-import { getNotes } from 'in-events/components/NotesAndActivity/utils';
+
+import {
+  getNotes,
+  validTextEntry,
+  formatDate,
+  noteNameAndTimeFormat
+} from 'in-events/components/NotesAndActivity/utils';
 
 describe('getNotes', () => {
   it('returns an empty array if the event is falsy', () => {
@@ -27,7 +33,7 @@ describe('getNotes', () => {
           type: 'note',
           id: 'note1',
           parent: 'event1',
-          timestamp: 1234567890,
+          timestamp: 1717523244282,
           author: 'user1',
           metadata: {},
           contents: 'This is a test note.',
@@ -37,7 +43,7 @@ describe('getNotes', () => {
           type: 'note',
           id: 'note2',
           parent: 'event1',
-          timestamp: 1234567891,
+          timestamp: 1717523244282,
           author: 'user2',
           metadata: {},
           contents: 'This is another test note.',
@@ -47,7 +53,7 @@ describe('getNotes', () => {
           type: 'NOTnote',
           id: 'note2',
           parent: 'event1',
-          timestamp: 1234567891,
+          timestamp: 1717523244282,
           author: 'user2',
           metadata: {},
           contents: 'This is another test note.',
@@ -60,7 +66,7 @@ describe('getNotes', () => {
         type: 'note',
         id: 'note1',
         parent: 'event1',
-        timestamp: 1234567890,
+        timestamp: 1717523244282,
         author: 'user1',
         metadata: Immutable.fromJS({}),
         contents: 'This is a test note.',
@@ -70,7 +76,7 @@ describe('getNotes', () => {
         type: 'note',
         id: 'note2',
         parent: 'event1',
-        timestamp: 1234567891,
+        timestamp: 1717523244282,
         author: 'user2',
         metadata: Immutable.fromJS({}),
         contents: 'This is another test note.',
@@ -87,7 +93,7 @@ describe('getNotes', () => {
           type: 'NOTnote',
           id: 'note2',
           parent: 'event1',
-          timestamp: 1234567891,
+          timestamp: new Date(1717523244282),
           author: 'user2',
           metadata: {},
           contents: 'This is another test note.',
@@ -96,5 +102,48 @@ describe('getNotes', () => {
       ]
     });
     expect(getNotes(event)).toEqual([]);
+  });
+});
+
+describe('validTextEntry', () => {
+  it('undefined and null checks should return false', () => {
+    expect(validTextEntry(null)).toEqual(false);
+    expect(validTextEntry(undefined)).toEqual(false);
+  });
+
+  it('empty string returns false', () => {
+    expect(validTextEntry('')).toEqual(false);
+    expect(validTextEntry('      ')).toEqual(false);
+  });
+
+  it('general cases should return true', () => {
+    expect(validTextEntry('  s    ')).toEqual(true);
+    expect(validTextEntry('this should be valid')).toEqual(true);
+  });
+});
+
+describe('formatDate', () => {
+  it('undefined and null checks should return "-"', () => {
+    expect(formatDate(null)).toEqual('-');
+    expect(formatDate(undefined)).toEqual('-');
+  });
+
+  it('general cases for dates', () => {
+    expect(formatDate(new Date(1717523244282))).toEqual('2024-06-04, 19:47:24');
+    expect(formatDate(new Date(1717522888861))).toEqual('2024-06-04, 19:41:28');
+    expect(formatDate('1717522888861')).toEqual('-');
+  });
+});
+
+describe('noteNameAndTimeFormat', () => {
+  it('undefined checks, nothing crashes', () => {
+    expect(noteNameAndTimeFormat(undefined)).toEqual('undefined | undefined');
+  });
+
+  const note = { author: 'dart' };
+
+  it('general cases', () => {
+    expect(noteNameAndTimeFormat(false, note, '2024-06-04, 19:41:28')).toEqual('dart | 2024-06-04, 19:41:28');
+    expect(noteNameAndTimeFormat(true, note, '2024-06-04, 19:41:28')).toEqual('You | 2024-06-04, 19:41:28');
   });
 });
