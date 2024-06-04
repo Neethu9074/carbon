@@ -47,6 +47,7 @@ module.exports = {
   carbonPillEnabled: true,
   carbonMessageEnabled: false,
   carbonIconButtonEnabled: true,
+  carbonSearchInputEnabled: true,
   carbonAccordionEnabled: true,
   carbonSelectEnabled: true,
   carbonContentSwitcherEnabled: true,
@@ -132,5 +133,6 @@ module.exports = {
   thresholdCustomDashboardsEnabled: true,
   carbonPaginationEnabled: true,
   logVolumePageEnabled: true,
-  carbonHorizontalIndicatorEnabled: true
+  carbonHorizontalIndicatorEnabled: true,
+  analyzeInfrastructureButtonEnabled: true
 };

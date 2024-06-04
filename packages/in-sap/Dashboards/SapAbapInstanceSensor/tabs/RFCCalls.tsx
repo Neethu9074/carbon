@@ -175,7 +175,7 @@ export default function RFCCalls({ snapshotId, timeConfig }: RFCCallsProps) {
       cardTitle={t('in-sap:dashboards.rfcStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={2}
+      initialSortColumn={0}
       initialSortDirection="asc"
       getRowDetails={getDetails}
     />

@@ -58,6 +58,11 @@ export function getValueMatchTagFilter(tagFilter: ReducedTagFilterWithDefaults):
   );
 }
 
+export function getValueMatchTagFilterWithKey(tagFilter: ReducedTagFilterWithDefaults): TagFilter {
+  const { name, key, value, operator = EQUALS, type = TAG_FILTER_TYPE, entity = 'NOT_APPLICABLE' } = tagFilter;
+  return sanitizeTagFilter({ type, operator: operator, name, key: key, entity, value: value });
+}
+
 export const LOG_ITEM_ID = 'log.itemId';
 export const LOG_LEVEL = 'log.level';
 export const LOG_STREAM_NAME = 'log.streamName';

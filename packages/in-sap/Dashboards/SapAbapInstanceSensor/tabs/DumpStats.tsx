@@ -9,14 +9,8 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
-// @ts-expect-error Module needs to be translated to TS
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Columize from 'in-sdk/components/dashboard/Columize';
-import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -35,6 +29,30 @@ interface DumpStatsProps {
 }
 
 const cols = [
+  {
+    title: t('in-sap:dashboards.client'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: DumpStatsRow) {
+        return row.dumpStats.get('client');
+      },
+      getContent(args: any) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.user'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: DumpStatsRow) {
+        return row.dumpStats.get('userName');
+      },
+      getContent(args: any) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
   {
     title: t('in-sap:abapsensor.date'),
     type: 'string',
@@ -60,11 +78,11 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:abapsensor.user'),
+    title: t('in-sap:dashboards.instance'),
     type: 'string',
     typeArgs: {
       getValue(row: DumpStatsRow) {
-        return row.dumpStats.get('E2E_USER');
+        return row.dumpStats.get('E2E_HOST');
       },
       getContent(args: any) {
         return <Args args={shorten(args, 128)} />;
@@ -73,17 +91,13 @@ const cols = [
   },
   {
     title: t('in-sap:abapsensor.severity'),
-    type: 'metric',
+    type: 'string',
     typeArgs: {
-      getSnapshotId(row: DumpStatsRow) {
-        return row.snapshotId;
+      getValue(row: DumpStatsRow) {
+        return row.dumpStats.get('E2E_SEVERITY');
       },
-      getMetricName(row: DumpStatsRow) {
-        return `abapdumpstats.${row.key}.E2E_SEVERITY`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
+      getContent(args: any) {
+        return <Args args={shorten(args, 128)} />;
       }
     }
   },
@@ -105,18 +119,6 @@ const cols = [
     typeArgs: {
       getValue(row: DumpStatsRow) {
         return row.dumpStats.get('PGM_NAME');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
-      }
-    }
-  },
-  {
-    title: t('in-sap:abapsensor.host'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: DumpStatsRow) {
-        return row.dumpStats.get('E2E_HOST');
       },
       getContent(args: any) {
         return <Args args={shorten(args, 128)} />;
@@ -159,28 +161,6 @@ export default function DumpStats({ snapshotId, timeConfig }: DumpStatsProps) {
       };
     });
 
-  function getDetails(row: DumpStatsRow) {
-    return (
-      <div>
-        <Columize>
-          <DashboardSection title={t('in-sap:dashboards.abapdumpstats')}>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                metrics: [`abapdumpstats.${row.key}.E2E_SEVERITY`],
-                labels: [t('in-sap:abapsensor.severity')],
-                type: 'line',
-                formatter: number.compact
-              }}
-              renderPostChartContent={PluginDashboardsMarkerLanes}
-            />
-          </DashboardSection>
-        </Columize>
-      </div>
-    );
-  }
   return (
     <Table
       withoutPadding
@@ -189,7 +169,6 @@ export default function DumpStats({ snapshotId, timeConfig }: DumpStatsProps) {
       rows={rows}
       initialSortColumn={0}
       initialSortDirection="asc"
-      getRowDetails={getDetails}
     />
   );
 }

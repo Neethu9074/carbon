@@ -84,7 +84,8 @@ class InfrastructureMetricChartBehavior extends React.Component {
       originalTimeConfig,
       snapshotId,
       snapshotHostFqdn,
-      hasActionlane = false
+      hasActionlane = false,
+      distanceBetweenDatapointsInMillis
     } = props;
 
     // When displaying metrics until now, the ingestion pipeline has not had time to fully ingest entities
@@ -114,6 +115,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
     this.snapshotId = snapshotId;
     this.snapshotHostFqdn = snapshotHostFqdn;
     this.hasActionlane = hasActionlane;
+    this.distanceBetweenDatapointsInMillis = distanceBetweenDatapointsInMillis;
   };
 
   createQueuesAndDataHolders = () => {
@@ -245,7 +247,8 @@ class InfrastructureMetricChartBehavior extends React.Component {
       additionalContextMenuButtons,
       snapshotId,
       snapshotHostFqdn,
-      hasActionlane
+      hasActionlane,
+      distanceBetweenDatapointsInMillis
     } = this;
     const { y1Metrics = [], y2Metrics = [] } = this.state;
 
@@ -271,6 +274,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
         originalTimeConfig={originalTimeConfig ?? this.props.timeConfig}
         additionalContextMenuButtons={additionalContextMenuButtons}
         wiggleRoom={10000}
+        distanceBetweenDatapointsInMillis={distanceBetweenDatapointsInMillis}
       />
     );
   }

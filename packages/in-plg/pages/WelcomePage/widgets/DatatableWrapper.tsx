@@ -116,11 +116,13 @@ export default function DatatableWrapper({
           description={getNoDataDescription(label)}
           buttonName={!exclusionArray.includes(label) ? getNoDataButton(label) : undefined}
           searchLabel={`${t('in-plg:welcomepage.ariaLabel.search')} ${header}`}
-          addLabel={`${t('in-plg:welcomepage.ariaLabel.add')} ${header}`}
+          addLabel={dashboardTileProps.addLabel}
           onSearch={(searchQuery: string) => {
             setQuery(searchQuery);
           }}
           iconDescription={`${t('in-plg:welcomepage.addMore')} ${header}`}
+          toggles={dashboardTileProps.toggles}
+          toggleCallback={dashboardTileProps.toggleCallback}
         />
       </DashboardTile>
     </section>

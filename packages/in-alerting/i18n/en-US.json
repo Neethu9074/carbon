@@ -1472,9 +1472,17 @@
       "logCount": "Log count"
     },
     "slo": {
+      "components": {
+        "operatorDropdown": "",
+        "operatorDropdown_more": "more than",
+        "operatorDropdown_more-or-equal": "more than or equal to",
+        "operatorDropdown_less": "less than",
+        "operatorDropdown_less-or-equal": "less than or equal to"
+      },
       "validators": {
         "noEmptySloIds": "Please select at least one SLO.",
-        "notLessThanOrEqualToZero": "Please set a value that is greater than 0."
+        "notLessThanOrEqualToZero": "Please set a value that is greater than 0.",
+        "noInvalidOperator": "Please select an operator from the list."
       },
       "advancedModeContainer": {
         "stepLabel": "",
@@ -1501,16 +1509,16 @@
         "blueprintDescription_ERROR_BUDGET": "Receive an alert when a percentage of the error budget is burned.",
         "thresholdTitle": "Threshold: When do you want to be alerted?",
         "thresholdInputDescription": "",
-        "thresholdInputDescription_ERROR_BUDGET": "percent of error budget is burned",
-        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "percent is the SLO target or less",
+        "thresholdInputDescription_ERROR_BUDGET": "When <1/> <2/> percent of error budget is burned",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "When SLO status is <1/> <2/> percent",
         "timeThresholdType_gracePeriod": "When the condition persists over a specified amount of time",
         "timeThresholdTypeTitle_gracePeriod": "Alert when the condition is violated for consecutive $t(in-components:time.minutes, {\"count\": {{minutes}} })",
         "timeThresholdTypeTitle_cooldownPeriod": "At least $t(in-components:time.minutes, {\"count\": {{minutes}} }) must have passed for the event to end",
         "alertProperties_entityLabel": "SLO-name",
-        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO Status is low",
-        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO Status is less than or equal to {{percentage}}.",
-        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Error Budget Remaining is low",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "{{percentage}} of the error budget is burned.",
+        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO status is low",
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO status is $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Remaining error budget is low",
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Burned $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} of the error budget.",
         "alertPropertiesIncidentWarning": "Incidents are only applicable to SLO's associated with applications"
       },
       "details": {
@@ -1520,7 +1528,8 @@
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
         "blueprintLabel": "Blueprint",
-        "thresholdLabel": "Threshold"
+        "thresholdLabel": "Threshold",
+        "coolDownPeriodDescription": "A minimum of {{value}} must pass for the event to conclude."
       },
       "alertList": {
         "threshold": "Threshold: {{value}}",
@@ -1528,7 +1537,7 @@
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLOs",
         "sloCount_0": "{{count}} SLOs",
-        "ssloCount_1": "{{count}} SLOs",
+        "sloCount_1": "{{count}} SLOs",
         "sloCount_2": "{{count}} SLOs",
         "title": "",
         "title_ERROR_BUDGET": "Error budget burned",

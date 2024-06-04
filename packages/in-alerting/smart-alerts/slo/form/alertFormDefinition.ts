@@ -17,8 +17,12 @@ import {
   ThresholdOperator
 } from '@instana/types';
 
+import {
+  noEmptySloIds,
+  noInvalidOperator,
+  notLessThanOrEqualToZero
+} from 'in-alerting/smart-alerts/slo/form/validators';
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
-import { noEmptySloIds, notLessThanOrEqualToZero } from 'in-alerting/smart-alerts/slo/form/validators';
 import { isServiceLevelAlertConfigWithMetaData } from 'in-alerting/smart-alerts/slo/types';
 import { defaultSloAlertConfig } from 'in-alerting/smart-alerts/slo/data/sloAlertConfig';
 import { positiveNumberValidator } from 'in-services/validators/number';
@@ -100,7 +104,10 @@ export function createSloAlertForm(
         value: alertConfig.threshold.value,
         validator: positiveNumberValidator
       }),
-      operator: createField({ value: alertConfig.threshold.operator }),
+      operator: createField({
+        value: alertConfig.threshold.operator,
+        validator: noInvalidOperator
+      }),
       timeThreshold: createSloAlertTimeThresholdForm(alertConfig),
       alertChannelIds: createField({
         value: alertConfig.alertChannelIds

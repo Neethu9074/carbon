@@ -48,16 +48,6 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.reqCount'),
-    type: 'number',
-    typeArgs: {
-      getValue(row: ICMRow) {
-        return row.icmDetail.get('REQ_COUNT');
-      },
-      getContent: number.compact
-    }
-  },
-  {
     title: t('in-sap:dashboards.conn'),
     type: 'number',
     typeArgs: {
@@ -88,6 +78,16 @@ const cols = [
         return <Args args={shorten(args, 128)} />;
       }
     }
+  },
+  {
+    title: t('in-sap:dashboards.reqCount'),
+    type: 'number',
+    typeArgs: {
+      getValue(row: ICMRow) {
+        return row.icmDetail.get('REQ_COUNT');
+      },
+      getContent: number.compact
+    }
   }
 ];
 
@@ -115,7 +115,7 @@ export default function ICMThreadList({ snapshotId }: SnapshotData) {
       cardTitle={t('in-sap:dashboards.icmThreadMetrics')}
       cols={cols}
       rows={rows}
-      initialSortColumn={1}
+      initialSortColumn={5}
       initialSortDirection="asc"
     />
   );

@@ -13,6 +13,7 @@ import DiskSummaryStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DiskS
 import BufferStatistics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/BufferStatistics';
 import DatabaseHitList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DatabaseHitList';
 import TopProcessList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TopProcessList';
+import SystemLogStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/SystemLogStats';
 import LockEntryList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/LockEntryList';
 import JobDetails from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/JobDetailsMetric';
 import RequestQueue from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RequestQueue';
@@ -25,15 +26,16 @@ export default function Detailed({ timeConfig, data: sap }) {
     <Fragment>
       <WorkProcessListMetric snapshotId={snapshotId} timeConfig={timeConfig} />
       <TopProcessList snapshotId={snapshotId} timeConfig={timeConfig} />
-      <BufferStatistics snapshotId={snapshotId} timeConfig={timeConfig} />
       <RequestQueue snapshotId={snapshotId} timeConfig={timeConfig} />
       <JobDetails snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalMemory snapshotId={snapshotId} timeConfig={timeConfig} />
+      <BufferStatistics snapshotId={snapshotId} timeConfig={timeConfig} />
       <DiskSummaryStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <DBConnectionProvider snapshotId={snapshotId} timeConfig={timeConfig} />
       <DatabaseHitList snapshotId={snapshotId} timeConfig={timeConfig} />
       <FileSystemMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
       <DumpStats snapshotId={snapshotId} timeConfig={timeConfig} />
+      <SystemLogStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <LockEntryList snapshotId={snapshotId} />
     </Fragment>
   );

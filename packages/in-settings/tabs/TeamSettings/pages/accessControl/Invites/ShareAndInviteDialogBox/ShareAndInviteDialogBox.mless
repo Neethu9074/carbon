@@ -12,6 +12,9 @@
       overflow: scroll;
       margin-top: 1.5rem;
     }
+    .hideInvite {
+      padding-bottom: 2.5rem;
+    }
     .title {
       padding-top: 1.5rem;
     }

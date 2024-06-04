@@ -4,13 +4,7 @@
  */
 
 // @ts-expect-error needs migration
-import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
-// @ts-expect-error needs migration
 import { newTimeMetric, wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
-// @ts-expect-error needs migration
-import TraceQueryBuilder from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
-import TraceGroupingConfigurator from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
-import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { callClickedTracker, traceClickedTracker } from 'in-analyze/tracker';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import getTraceGroups from 'in-applications/subscriptions/getTraceGroups';
@@ -167,8 +161,6 @@ export const dataSourceConstants = {
     getData: getCalls,
     getGroupData: getCallGroups,
     clickedTracker: callClickedTracker,
-    QueryBuilder: CallQueryBuilder,
-    GroupingConfigurator: CallGroupingConfigurator,
     traceIdName: 'traceId'
   },
   traces: {
@@ -235,8 +227,6 @@ export const dataSourceConstants = {
     getData: getTraces,
     getGroupData: getTraceGroups,
     clickedTracker: traceClickedTracker,
-    QueryBuilder: TraceQueryBuilder,
-    GroupingConfigurator: TraceGroupingConfigurator,
     traceIdName: 'id'
   }
 };

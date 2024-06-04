@@ -9,6 +9,7 @@ import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import { addToRegistry } from 'in-applications/technologyRegistry';
 import { registerKpiDefinition } from 'in-sdk/metrics/kpis';
 import { registerMetricDefinition } from 'in-sdk/metrics';
+import { registerTagFilter } from 'in-sdk/tagFilter';
 import { registerIconType } from 'in-sdk/iconType';
 import { addLabelFinder } from 'in-sdk/snapshot';
 import { t } from 'in-i18n';
@@ -26,6 +27,7 @@ export function registerSnapshotDefinition(snapshotDefinition) {
   registerKpiDefinitions(snapshotDefinition);
   registerNewApplicationModelHooks(snapshotDefinition);
   registerIconTypeDef(snapshotDefinition);
+  registerTagFilterDef(snapshotDefinition);
 }
 
 export function getOptionalSnapshotDefinition(plugin) {
@@ -101,4 +103,12 @@ function registerIconTypeDef(snapshotDefinition) {
   }
 
   registerIconType(snapshotDefinition.plugin, snapshotDefinition.getIconType);
+}
+
+function registerTagFilterDef(snapshotDefinition) {
+  if (!snapshotDefinition.getTagFilter) {
+    return;
+  }
+
+  registerTagFilter(snapshotDefinition.plugin, snapshotDefinition.getTagFilter);
 }

@@ -171,7 +171,7 @@ export default function HttpMetricsStats({ snapshotId, timeConfig }: HttpMetricP
       cardTitle={t('in-sap:dashboards.httpMetricsStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={2}
+      initialSortColumn={0}
       initialSortDirection="asc"
       getRowDetails={getDetails}
     />

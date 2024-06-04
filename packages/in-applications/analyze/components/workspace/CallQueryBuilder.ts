@@ -7,17 +7,15 @@ import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspa
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { TimeConfig, TagFilterExpressionElementUnion } from 'in-types';
+import { AdditionalTagSuggestionProps } from 'in-applications/types';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { CALLS } from 'in-applications/analyze/metrics';
 
-interface AdditionalTagSuggestionProps {
-  readonly includeInternal: boolean;
-  readonly includeSynthetic: boolean;
-}
-
-const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagCatalogInternal } = createQueryBuilder<
-  AdditionalTagSuggestionProps
->({
+const {
+  QueryBuilder,
+  isQueryValid: isQueryValidInternal,
+  getTagCatalog: getTagCatalogInternal
+} = createQueryBuilder<AdditionalTagSuggestionProps>({
   maxExpressionDepth: DEFAULT_MAX_EXPRESSION_DEPTH,
   getTagCatalog: props => getApplicationTagCatalog({ dataSource: CALLS, useCase: 'FILTERING' })(props),
   getSuggestions: args => {

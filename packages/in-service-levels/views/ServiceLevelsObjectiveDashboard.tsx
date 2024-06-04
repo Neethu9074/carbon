@@ -22,13 +22,18 @@ import SloDashboardHeader from 'in-service-levels/components/SloDashboard/compon
 import SloMetaInfoHeader from 'in-service-levels/components/SloDashboard/components/SloMetaInfoHeader';
 import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
 import { SloTrackerProvider, sloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
+import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import { getSloConfiguration } from 'in-service-levels/api/configuration';
 import { loadEntity } from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { sloSmartAlertsEnabled } from 'in-services/featureFlags';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -56,6 +61,8 @@ export default function ServiceLevelsObjectiveDashboard() {
   const endpoint = tabData && isApplicationSloTabData(tabData) ? tabData.endpoint : undefined;
   const configuration = tabData?.configuration;
   const sloTimeWindow = configuration?.timeWindow;
+  const openCreateSmartAlertDialog = () =>
+    addActiveDialog(<CreateSmartAlertDialog preselectedSloId={tabData?.configuration.id} />);
 
   return (
     <SloTrackerProvider
@@ -79,6 +86,13 @@ export default function ServiceLevelsObjectiveDashboard() {
           }
         />
       </SloTimeWindowProvider>
+      {sloSmartAlertsEnabled && (
+        <FloatingActionButtons>
+          <FloatingActionButton icon="lib_alerts_create" kind="primaryv2" onClick={openCreateSmartAlertDialog}>
+            {t('in-service-levels:general.addButtonLabel', { context: 'smartAlert' })}
+          </FloatingActionButton>
+        </FloatingActionButtons>
+      )}
     </SloTrackerProvider>
   );
 }

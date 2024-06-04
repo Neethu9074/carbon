@@ -31,20 +31,20 @@ interface TotalMemoryProps {
 
 const cols = [
   {
-    title: t('in-sap:dashboards.userName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: TotalMemoryRow) {
-        return row.memoryStats.get('account');
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.client'),
     type: 'string',
     typeArgs: {
       getValue(row: TotalMemoryRow) {
         return row.memoryStats.get('client');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.userName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: TotalMemoryRow) {
+        return row.memoryStats.get('account');
       }
     }
   },

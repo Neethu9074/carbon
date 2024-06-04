@@ -25,7 +25,8 @@ import {
   InfraAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
   GlobalApplicationsAlertConfigWithMetadata,
-  SyntheticAlertConfigWithMetadata
+  SyntheticAlertConfigWithMetadata,
+  ServiceLevelsAlertConfigWithMetadata
 } from 'in-types';
 import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
@@ -800,6 +801,15 @@ export function getLogSmartAlertConfigs() {
   });
 }
 
+export function getSloSmartAlertConfigs() {
+  return http<ServiceLevelsAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: apiEndpoint.SLO,
+    mapToResultObject: true
+  });
+}
+
 export function getSyntheticSmartAlertConfigs() {
   return http<SyntheticAlertConfigWithMetadata[]>({
     method: 'GET',
@@ -885,6 +895,15 @@ export function getSyntheticSmartAlertConfig(id: string) {
   return http<SyntheticAlertConfigWithMetadata>({
     method: 'GET',
     url: `${apiEndpoint.SYNTHETICS}/${encodeURIComponent(id)}`,
+    maxRetries: 3,
+    mapToResultObject: true
+  });
+}
+
+export function getSloSmartAlertConfig(id: string) {
+  return http<ServiceLevelsAlertConfigWithMetadata>({
+    method: 'GET',
+    url: `${apiEndpoint.SLO}/${encodeURIComponent(id)}`,
     maxRetries: 3,
     mapToResultObject: true
   });

@@ -156,7 +156,7 @@ export default function LockEntryList({ snapshotId }: SnapshotData) {
       cardTitle={t('in-sap:dashboards.LockEntryList')}
       cols={cols}
       rows={rows}
-      initialSortColumn={1}
+      initialSortColumn={0}
       initialSortDirection="asc"
     />
   );
