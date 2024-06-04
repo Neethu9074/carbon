@@ -73,7 +73,9 @@ export default {
     alertChannel.serviceNowUrl = '';
     alertChannel.username = '';
     alertChannel.password = '';
-    alertChannel.autoCloseIncidents = false;
+    alertChannel.autoCloseIncidents = true;
+    alertChannel.manuallyClosedIncidents = true;
+    alertChannel.resolutionOfIncident = true;
   },
 
   createDetails(alertChannel) {
