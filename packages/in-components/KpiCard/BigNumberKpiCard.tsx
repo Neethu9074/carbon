@@ -17,7 +17,6 @@ import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/wi
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { ThresholdFn } from 'in-custom-dashboards/widgets/_shared/threshold';
 import { MetricResult, Result, UnifiedMetricConfiguration } from 'in-types';
-import { getLogMetricsConfig } from 'in-components/KpiCard/utils';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
@@ -61,8 +60,6 @@ export default function BigNumberKpiCard({
   const timeConfig = useTimeConfig();
   const usedTimeConfig = getTimeConfigBasedOnMetricConfiguration(config.metricConfiguration, timeConfig);
 
-  const isLoggingWidget = config.metricConfiguration.source === 'LOG';
-
   const metricDefaults = {
     timeShift: {
       offset: 0
@@ -95,10 +92,6 @@ export default function BigNumberKpiCard({
       ...metricDefaults,
       ...config.companionMetricConfiguration
     };
-  }
-
-  if (isLoggingWidget) {
-    metrics = getLogMetricsConfig(metrics);
   }
 
   const result: Result<MetricResult[]> =
