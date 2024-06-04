@@ -206,7 +206,7 @@ function AssociatedEvents({ associatedEvents, latestSnapshot }: AssociatedEvents
   return (
     <ExpandableLightCard
       title={t('in-events:RCA.relatedEventsLabel', {
-        number_of_events: Array.isArray(associatedEventsObservables) ? associatedEventsObservables.length : 0
+        number_of_events: Array.isArray(associatedEventsData) ? associatedEventsData.length : 0
       })}
       darkFrame
     >

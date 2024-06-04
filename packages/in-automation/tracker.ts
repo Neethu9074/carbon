@@ -22,7 +22,13 @@ import {
   AUTOMATION_TEST_ACTION_RUN,
   AUTOMATION_POLICY_BULK_CREATE,
   AUTOMATION_GENERATE_AI_BUTTON_CLICK,
-  AUTOMATION_CREATE_AI_ACTION_POLICY
+  AUTOMATION_CREATE_AI_ACTION_POLICY,
+  AUTOMATION_CLICK_AI_GENERATED_ACTIONS_TAB,
+  AUTOMATION_COPY_AI_GENERATED_ACTION,
+  AUTOMATION_VIEW_AI_GENERATED_ACTION,
+  AUTOMATION_TEST_AI_GENERATED_ACTION,
+  AUTOMATION_CLICK_COPY_AI_GENERATED_ACTION,
+  AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION
 } from 'in-services/tracking/tracking';
 
 export const runActionTracker = (e: Object) => track(AUTOMATION_ACTION_RUN, e);
@@ -43,6 +49,12 @@ export const testActionTracker = (e: Object) => track(AUTOMATION_TEST_ACTION_RUN
 //AI trackers
 export const generateAIButtonClickTracker = (e: Object) => track(AUTOMATION_GENERATE_AI_BUTTON_CLICK, e);
 export const createPolicyFromAIActionTracker = (e: Object) => track(AUTOMATION_CREATE_AI_ACTION_POLICY, e);
+export const aiGenaratedActionsTabClickTracker = () => track(AUTOMATION_CLICK_AI_GENERATED_ACTIONS_TAB);
+export const copyAIGenaratedActionTracker = (e: object) => track(AUTOMATION_COPY_AI_GENERATED_ACTION, e);
+export const viewAIGenaratedActionTracker = (e: object) => track(AUTOMATION_VIEW_AI_GENERATED_ACTION, e);
+export const testAIGenaratedActionTracker = (e: object) => track(AUTOMATION_TEST_AI_GENERATED_ACTION, e);
+export const clickCopyAIGenaratedActionTracker = (e: object) => track(AUTOMATION_CLICK_COPY_AI_GENERATED_ACTION, e);
+export const clickTestAIGenaratedActionTracker = (e: object) => track(AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION, e);
 
 //turbo trackers
 export const clickTurboLinkForDetailsTracker = (e: Object) => track(AUTOMATION_CLICK_TURBO_LINK_FOR_DETAILS, e);

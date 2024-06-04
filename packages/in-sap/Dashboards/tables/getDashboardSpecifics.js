@@ -22,10 +22,15 @@ import {
   getSapAbapInstanceSensorDashboard,
   getSapAbapSystemSensorDashboard
 } from 'in-sap/navigation/paths';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { plugins } from 'in-forge/constants';
+
+const DashboardLink = ({ label, id }) => {
+  const href = useGetDashboardLink()(id, { pathname: '/physical/dashboard' });
+  return <EntityLink label={label} href={href} />;
+};
 
 export const getSpecificDashboard = function (value, matrixPrefix, systemSnapshotId) {
   switch (value.pluginName) {
@@ -144,6 +149,6 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
         />
       );
     default:
-      return <EntityLink label={value.label} href$={getDashboardLink(value.id, { pathname: '/physical/dashboard' })} />;
+      return <DashboardLink label={value.label} id={value.id} />;
   }
 };

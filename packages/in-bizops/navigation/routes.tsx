@@ -5,15 +5,13 @@
  */
 
 // @ts-expect-error module need to be translated to TS
+import BusinessPerspectiveSummary from 'promise-loader?global,bizops!in-bizops/dashboards/perspectives/BusinessPerspectiveSummary';
+// @ts-expect-error module need to be translated to TS
 import BusinessPerspectivesList from 'promise-loader?global,bizops!in-bizops/lists/businessPerspectives/BusinessPerspectivesList';
 // @ts-expect-error module need to be translated to TS
 import BusinessProcessesList from 'promise-loader?global,bizops!in-bizops/lists/businessProcess/BusinessProcessList';
-// @ts-expect-error module need to be translated to TS
-import BizActivitiesList from 'promise-loader?global,bizops!in-bizops/lists/BizActivitiesList';
 // @ts-expect-error
 import BusinessActivitySummaryDashboard from 'promise-loader?global,bizops!in-bizops/dashboards/activity/BusinessActivitySummary';
-// @ts-expect-error module need to be translated to TS
-import SmartAlertsList from 'promise-loader?global,bizops!in-bizops/lists/SmartAlertsList';
 //@ts-expect-error
 import BusinessProcessSummaryDashboard from 'promise-loader?global,bizops!in-bizops/dashboards/summary/BusinessProcessSummary';
 import { Route } from 'react-router-dom';
@@ -23,23 +21,16 @@ import {
   businessActivityDashboard,
   businessProcessDashboard,
   businessProcessPath,
-  businessPerspectivesPath
+  businessPerspectivesPath,
+  businessPerspectiveDashboard
 } from 'in-bizops/navigation/paths';
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { bizopsPerspectivesEnabled } from 'in-services/featureFlags';
-import { smartAlertsPath } from 'in-bizops/navigation/paths';
-import { activitiesPath } from 'in-bizops/navigation/paths';
 
 let routes = [
   <Route key="BusinessProcessesList" exact path={businessProcessPath}>
     {renderAsyncRouteChildren(BusinessProcessesList)}
-  </Route>,
-  <Route key="BizActivitiesList" exact path={activitiesPath}>
-    {renderAsyncRouteChildren(BizActivitiesList)}
-  </Route>,
-  <Route key="SmartAlertsList" exact path={smartAlertsPath}>
-    {renderAsyncRouteChildren(SmartAlertsList)}
   </Route>,
   <Route key="BusinessActivityDashboard" path={businessActivityDashboard}>
     {renderAsyncRouteChildren(BusinessActivitySummaryDashboard)}
@@ -53,6 +44,9 @@ if (bizopsPerspectivesEnabled) {
   routes.push(
     <Route key="BusinessPerspectivesList" exact path={businessPerspectivesPath}>
       {renderAsyncRouteChildren(BusinessPerspectivesList)}
+    </Route>,
+    <Route key="BusinessPerspectiveSummary" path={businessPerspectiveDashboard}>
+      {renderAsyncRouteChildren(BusinessPerspectiveSummary)}
     </Route>
   );
 }

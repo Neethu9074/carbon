@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { stopPropagation, stopPropagationAndPreventDefault, noop } from 'in-services/util/function';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import SlideInView from 'in-components/SlideInView/SlideInView';
 import Header from 'in-components/Dialog/Header';
 
@@ -62,7 +63,8 @@ export default function DialogWithSlideInView({
       data-testid="dialog-slide-in-view"
       className={classNames({
         [locals.wrapper]: true,
-        [locals.cursorDefault]: doNotCloseOnOutsideClick
+        [locals.cursorDefault]: doNotCloseOnOutsideClick,
+        [locals.shareAndInvite]: shareAndInviteEnabled
       })}
       onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose?.(e))}
     >

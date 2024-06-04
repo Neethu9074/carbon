@@ -526,6 +526,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonSearchInputEnabled',
+    instanaCtlKey: 'feature.carbon.search.input.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonAccordionEnabled',
     instanaCtlKey: 'feature.carbon.accordion.enabled',
     defaultValue: false
@@ -613,6 +618,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonHorizontalIndicatorEnabled',
     instanaCtlKey: 'feature.carbon.horizontalindicator.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'analyzeInfrastructureButtonEnabled',
+    instanaCtlKey: 'feature.analyze.infrastructure.button.enabled',
     defaultValue: false
   }
 ];

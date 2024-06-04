@@ -1,7 +1,5 @@
 {
   "labelBizOps": "Processes",
-  "labelSmartAlerts": "Smart Alerts",
-  "labelActivities": "Activities",
   "labelPerspectives": "Perspectives",
   "components": {
     "count": "Count"
@@ -20,6 +18,27 @@
     "latencyLabel": "Latency",
     "unnamedActivity": "(Unnamed Activity) {{activityType}}",
     "unnamedService": "(Unnamed Service)"
+  },
+  "perspectives": {
+    "newPerspective": "New perspective",
+    "dialog": {
+      "title": "New Business Perspective",
+      "processesLiveListTitle": "Business processes",
+      "stepOne": {
+        "progressBarTitle": "Specify business perspective",
+        "headline": "Add filters to build your business perspective",
+        "queryBuilderTitle": "Tags for business processes"
+      },
+      "stepTwo": {
+        "progressBarTitle": "Step 2: Provide details",
+        "headline": "Provide details",
+        "perspectiveName": "Perspective name",
+        "perspectiveDescription": "Description"
+      }
+    },
+    "errorMessages": {
+      "businessPerspectiveNameMustNotBeBlank": "The Business Perspective name must not be blank"
+    }
   },
   "navigation": {
     "businessMonitoring": "Business Monitoring"
@@ -59,6 +78,14 @@
         "hour": "1 hour",
         "day": "1 day",
         "week": "1 week"
+      }
+    },
+    "perspectives": {
+      "processes": {
+        "tabLabel": "Business processes"
+      },
+      "configuration": {
+        "tabLabel": "Configuration"
       }
     }
   }

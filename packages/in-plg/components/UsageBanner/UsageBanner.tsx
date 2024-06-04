@@ -77,29 +77,48 @@ export function UsageBanner({ message }: UsageBannerProps) {
         </>
       )}
       {onPremLicenseInformationEnabled && (
-        <div className={locals.subText}>
-          <Trans
-            i18nKey="in-plg:licenseBanner.alreadyHaveLicense"
-            components={{
-              linkToDocker: (
-                //@ts-expect-error missing translation
-                <Link
-                  className={locals.bannerLink}
-                  external
-                  href="https://www.ibm.com/docs/obi/current?topic=installer-license-activation-renewal"
-                />
-              ),
-              linkToKubernetes: (
-                //@ts-expect-error missing translation
-                <Link
-                  className={locals.bannerLink}
-                  external
-                  href="https://www.ibm.com/docs/obi/current?topic=kubernetes-installing-operator-based-instana-setup#312-downloading-the-license-file"
-                />
-              )
-            }}
-          />
-        </div>
+        <>
+          {shareAndInviteEnabled && (
+            <>
+              <Tooltip align="bottomMiddle" content={t('in-plg:licenseBanner.shareTooltip')}>
+                <LicenseBannerButton
+                  id="shareButton"
+                  kind="ghost"
+                  icon="lib_actions_share"
+                  iconColor="var(--cds-link-primary)"
+                  target="_blank"
+                  onClick={() => addActiveDialog(<DeferredShareAndInviteDialogBox />)}
+                >
+                  {t('in-plg:licenseBanner.share')}
+                </LicenseBannerButton>
+              </Tooltip>
+              <div className={locals.verticalLine} />
+            </>
+          )}
+          <div className={locals.subText}>
+            <Trans
+              i18nKey="in-plg:licenseBanner.alreadyHaveLicense"
+              components={{
+                linkToDocker: (
+                  //@ts-expect-error missing translation
+                  <Link
+                    className={locals.bannerLink}
+                    external
+                    href="https://www.ibm.com/docs/obi/current?topic=installer-license-activation-renewal"
+                  />
+                ),
+                linkToKubernetes: (
+                  //@ts-expect-error missing translation
+                  <Link
+                    className={locals.bannerLink}
+                    external
+                    href="https://www.ibm.com/docs/obi/current?topic=kubernetes-installing-operator-based-instana-setup#312-downloading-the-license-file"
+                  />
+                )
+              }}
+            />
+          </div>
+        </>
       )}
       {!onPremLicenseInformationEnabled && (
         <>

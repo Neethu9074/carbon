@@ -57,6 +57,7 @@ const itemIds: WidgetOrdering[] = [];
 type tableEntry = {
   key?: string;
   label: string;
+  addLabel?: string;
   icon?: string;
   widget?: React.FunctionComponent<{
     type?: string | undefined;
@@ -77,6 +78,7 @@ type tableEntry = {
 export interface DashboardTileParamProps {
   key: number;
   header: string;
+  addLabel?: string;
   icon?: string;
   dragAndDropConfigs?: DraggableProvidedDragHandleProps;
   toggles?: string[];
@@ -151,12 +153,14 @@ const widgetData = [
   {
     key: 'dashboardWidget',
     label: t('in-plg:welcomepage.component.dashboardWidget.label'),
+    addLabel: t('in-plg:welcomepage.component.dashboardWidget.addLabel'),
     icon: 'lib_actions_reorder',
     widget: DashboardWidget
   },
   {
     key: 'websitesWidget',
     label: t('in-plg:welcomepage.component.websitesWidget.label'),
+    addLabel: t('in-plg:welcomepage.component.websitesWidget.addLabel'),
     icon: 'lib_actions_reorder',
     type: 'website',
     widget: WebsitesAndMobileListWidget
@@ -164,6 +168,7 @@ const widgetData = [
   {
     key: 'mobileListWidget',
     label: t('in-plg:welcomepage.component.mobileAppsWidget.label'),
+    addLabel: t('in-plg:welcomepage.component.mobileAppsWidget.addLabel'),
     icon: 'lib_actions_reorder',
     type: 'mobileApps',
     widget: WebsitesAndMobileListWidget
@@ -177,6 +182,7 @@ const widgetData = [
   {
     key: 'applicationWidget',
     label: t('in-plg:welcomepage.component.applicationWidget.label'),
+    addLabel: t('in-plg:welcomepage.component.applicationWidget.addLabel'),
     icon: 'lib_actions_reorder',
     widget: ApplicationWidget
   },
@@ -197,6 +203,7 @@ const widgetData = [
   {
     key: 'syntheticWidget',
     label: t('in-plg:welcomepage.component.syntheticWidget.label'),
+    addLabel: t('in-plg:welcomepage.component.syntheticWidget.addLabel'),
     toogles: syntheticToogleArray,
     syntheticType: 'test',
     widget: SyntheticMonitoringWidget,
@@ -304,6 +311,7 @@ function RenderTable() {
                     const dashboardTileProps: DashboardTileParamProps = {
                       key: +_config.id,
                       header: ele.label,
+                      addLabel: ele.addLabel,
                       icon: ele.icon,
                       dragAndDropConfigs: provided.dragHandleProps,
                       sectionLabel: ele.label

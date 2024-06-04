@@ -43,15 +43,15 @@ import {
   OPEN,
   CLOSE,
   ADD_COMMENT,
-  isManual
+  isManual,
+  isAIAction
 } from 'in-automation/ActionCatalog/shared';
+import { createActionTracker, editActionTracker, copyAIGenaratedActionTracker } from 'in-automation/tracker';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import { actionDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { createActionTracker, editActionTracker } from 'in-automation/tracker';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
-import { actionCatalogFullyQualified } from 'in-automation/navigation/paths';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import useNavigateToActionCatalog from './useNavigateToActionCatalog';
@@ -162,8 +162,11 @@ function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
             loading={loading}
             saveEnabled={saveEnabled}
             isCreate={isNew}
-            listPath={actionCatalogFullyQualified}
             hasSaveButton={role?.canConfigureAutomationActions && canSaveAction}
+            onClickCancelButton={() => {
+              const view = isAIAction(entity!) ? 'ai' : 'user';
+              navigateToActionCatalog(view);
+            }}
           />
         </SettingsDetailPage>
       </div>
@@ -207,6 +210,12 @@ function save(form: MapForm<any>, id: string | null, isNew: boolean, entity: Act
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
     });
+    if (isAIAction(entity!)) {
+      copyAIGenaratedActionTracker({
+        actionType: actionSpecification.type,
+        actionName: actionSpecification.name
+      });
+    }
     return saveNewAction(actionSpecification);
   } else {
     editActionTracker({

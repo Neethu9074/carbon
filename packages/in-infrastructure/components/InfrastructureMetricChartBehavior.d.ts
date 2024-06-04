@@ -30,6 +30,7 @@ interface InfrastructureMetricChartProps {
   additionalContextMenuButtons?: ContextMenuButton[];
   renderPostChartContent?: (props: AdditionChartContentProps) => React.ReactNode;
   originalTimeConfig?: TimeConfig;
+  distanceBetweenDatapointsInMillis?: number;
 }
 
 declare function InfrastructureMetricChartBehavior(props: InfrastructureMetricChartProps): JSX.Element;

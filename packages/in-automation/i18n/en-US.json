@@ -92,6 +92,7 @@
   "tag": "Tag",
   "noTagsAvailable": "No tags available",
   "actions": "Actions",
+  "actionsWithCount": "Actions ({{count}})",
   "createPolicy": "Create Policy",
   "titleUrl": "URL",
   "generateWithAI": "Generate with AI",
@@ -112,9 +113,12 @@
       }
     }
   },
+  "userDefinedWithCount": "User-created ({{count}})",
+  "userDefined": "User-created",
+  "aiGeneratedWithCount": "AI-generated ({{count}})",
+  "aiGenerated": "AI-generated",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
-    "actionCatalogWithCount": "Action Catalog ({{count}})",
     "action": "action",
     "newAction": "New Action",
     "createANewAction": "Create A New Action",

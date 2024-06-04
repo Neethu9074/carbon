@@ -7,15 +7,18 @@
 import React from 'react';
 
 import { OrderDirection, TagFilterExpression, TimeConfig } from '@instana/types';
+import { Button } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error Module needs to be translated to TS
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import { NewPerspectiveDialogPresenter } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveDialogPresenter';
 import { perspectiveColumnDefinitions } from 'in-bizops/lists/businessPerspectives/columnDefinitions';
 import getBusinessPerspectives from 'in-bizops/subscriptions/getBusinessPerspectives';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { businessPerspectivesPath } from 'in-bizops/navigation/paths';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -27,8 +30,23 @@ import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
+import locals from 'in-bizops/lists/businessPerspectives/BusinessPerspectivesList.mless';
+
 const pathSegment = businessPerspectivesPath;
 const matrixPrefix = '';
+
+function NewPerspectiveButton() {
+  return (
+    <Button
+      kind="action"
+      onClick={() => addActiveDialog(<NewPerspectiveDialogPresenter />)}
+      className={locals.button}
+      icon="lib_openclose_add_circle_outline"
+    >
+      {t('in-bizops:perspectives.newPerspective')}
+    </Button>
+  );
+}
 
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
@@ -62,6 +80,7 @@ export default function BusinessPerspectivesList() {
           get={getBusinessPerspectivesListData}
           timeConfig={timeConfig}
           cardTitle={t('in-bizops:lists.perspectives')}
+          rightHeader={NewPerspectiveButton}
         />
       </LeftRightPadding>
       <Footer />
