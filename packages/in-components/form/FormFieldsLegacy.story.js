@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Select } from '@instana/components';
+import { Select, Stack } from '@instana/components';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -22,39 +22,41 @@ export function InputStory() {
   const p = { type: 'text', onChange: () => {} };
   return (
     <form>
-      <h2>Default-Prefilled</h2>
-      <HelpText>Helper text</HelpText>
-      <FormGroup>
-        <Label>Field label</Label>
-        <Input {...p} placeholder="Some copy" />
-      </FormGroup>
+      <Stack>
+        <h2>Default-Prefilled</h2>
+        <HelpText>Helper text</HelpText>
+        <FormGroup>
+          <Label>Field label</Label>
+          <Input {...p} placeholder="Some copy" />
+        </FormGroup>
 
-      <h2>Default</h2>
-      <FormGroup>
-        <Label>Field label</Label>
-        <Input {...p} value="Some copy" />
-      </FormGroup>
+        <h2>Default</h2>
+        <FormGroup>
+          <Label>Field label</Label>
+          <Input {...p} value="Some copy" />
+        </FormGroup>
 
-      <h2>Focus</h2>
-      <FormGroup>
-        <Label>Field label</Label>
-        <Input {...p} value="Some copy" autoFocus />
-      </FormGroup>
+        <h2>Focus</h2>
+        <FormGroup>
+          <Label>Field label</Label>
+          <Input {...p} value="Some copy" autoFocus />
+        </FormGroup>
 
-      <h2>Disabled</h2>
-      <FormGroup>
-        <Label disabled>Field label</Label>
-        <Input {...p} value="Some copy" disabled />
-      </FormGroup>
+        <h2>Disabled</h2>
+        <FormGroup>
+          <Label disabled>Field label</Label>
+          <Input {...p} value="Some copy" disabled />
+        </FormGroup>
 
-      <h2>Feedback</h2>
-      <FormGroup>
-        <Label>Field label</Label>
-        <Input {...p} value="Some copy" />
-        <ValidationBlock hasError>Error message</ValidationBlock>
-      </FormGroup>
+        <h2>Feedback</h2>
+        <FormGroup>
+          <Label>Field label</Label>
+          <Input {...p} value="Some copy" />
+          <ValidationBlock hasError>Error message</ValidationBlock>
+        </FormGroup>
 
-      <ValidationBlock>This is block of validation text</ValidationBlock>
+        <ValidationBlock>This is block of validation text</ValidationBlock>
+      </Stack>
     </form>
   );
 }
