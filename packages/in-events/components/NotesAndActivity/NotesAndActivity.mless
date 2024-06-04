@@ -61,7 +61,7 @@
   }
 
   .notesSection {
-    padding: 0px 15px 15px 15px;
+    padding: 0px 15px 45px 15px;
     height: calc(100vh - 28rem);
     overflow: auto;
   }

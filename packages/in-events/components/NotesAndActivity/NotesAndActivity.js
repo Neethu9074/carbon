@@ -17,16 +17,18 @@ import {
 // Using Carbon tooltip would cause mismatch in design on the page
 // since tooltip is used in many places on this page
 import Tooltip from 'in-components/Tooltip';
-// import { annotateEvent } from 'in-stores/events';
+import { annotateEvent } from 'in-stores/events';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 import classNames from 'classnames';
-import { getNotes } from './utils';
+import { getNotes, formatDate } from './utils';
 import locals from './NotesAndActivity.mless';
 
 export function NotesAndActivity(props) {
   const { event } = props
+  console.log('events', event)
   const notes = getNotes(event)
+  console.log('notes', notes)
   const incidentId = event?.get('id');
   const loading = event == undefined
 
@@ -34,18 +36,6 @@ export function NotesAndActivity(props) {
   const [displayNotes, setDisplayNotes] = useState(false);
   // Current value of the typed out note
   const [note, setNote] = useState('');
-
-  // This is just testing data for now
-  const [testNotes, setTestNotes] = useState([
-    {name: "Josh King", time: "11:30AM 5/29/2024", note: "Sure thing, team work makes the dream work!"},
-    {name: "Dart Feld", time: "11:28AM 5/29/2024", note: "Hey thanks Josh for helping me look into this!! Seems to be okay now!"},
-    {name: "Josh King", time: "10:24AM 5/29/2024", note: "I have looked into the issue and it seems to be solved!"},
-    {name: "Josh King", time: "01:20PM 5/28/2024", note: "Starting to look into this issue."},
-    {name: "Dart Feld", time: "04:28PM 5/26/2024", note: "Starting to look into this issue. But I'm a little concerned about the severity here.  There should be more information contained, can anyone else help take a look?"},
-    {name: "Really really really really looonnnggg name", time: "04:29PM 5/26/2024", note: "Starting to look into this issue. But I'm a little concerned about the severity here.  There should be more information contained, can anyone else help take a look? Starting to look into this issue. But I'm a little concerned about the severity here.  There should be more information contained, can anyone else help take a look? Starting to look into this issue. But I'm a little concerned about the severity here.  There should be more information contained, can anyone else help take a look?"},
-    {name: "Really really really really looonnnggg name", time: "04:30PM 5/26/2024", note: "Starting to look into this issue. But I'm a little concerned about the severity here.  There should be more information contained, can anyone else help take a look? Starting to look into this issue. But I'm a little concerned about the severity here.  There should be more information contained, can anyone else help take a look? Starting to look into this issue. But I'm a little concerned about the severity here.  There should be more information contained, can anyone else help take a look?"},
-    {name: "Really really really really looonnnggg name Really really really really looonnnggg name Really really really really looonnnggg name", time: "04:31PM 5/26/2024", note: "Starting to look into this issue. But I'm a little concerned about the severity here.  There should be more information contained, can anyone else help take a look? Starting to look into this issue. But I'm a little concerned about the severity here.  There should be more information contained, can anyone else help take a look? Starting to look into this issue. But I'm a little concerned about the severity here.  There should be more information contained, can anyone else help take a look? Starting to look into this issue. But I'm a little concerned about the severity here.  There should be more information contained, can anyone else help take a look? Starting to look into this issue. But I'm a little concerned about the severity here.  There should be more information contained, can anyone else help take a look? Starting to look into this issue. But I'm a little concerned about the severity here.  There should be more information contained, can anyone else help take a look?"},
-  ]);
 
   return (
     <>
@@ -95,14 +85,14 @@ export function NotesAndActivity(props) {
                     }}
                   />
                   <CarbonButton
-                    onClick={() => handleSubmitNote(incidentId, note, user, setNote, setTestNotes, testNotes)}
+                    onClick={() => handleSubmitNote(incidentId, note, user, setNote)}
                     className={locals.addNoteButton}
                     size={"md"}
                   >
                     {t('in-events:notes.addNote')}
                   </CarbonButton>
                 </div>
-                <CommentList notes={/* notes ||*/ testNotes} preferredName={user.preferredName} />
+                <CommentList notes={ notes } preferredName={user.preferredName} />
               </>
             }
           </div>
@@ -120,10 +110,14 @@ export function CommentList(props) {
   // Currently just used for testing until we get the backend hooked up
   return (
     <div className={locals.notesSection}>
-      {notes && notes.map(i => {
-      const myBubble = i.name == preferredName
+      {notes && notes.map((entry, i) => {
+      // Using i to iterate helps us traverse backwards that way notes are displayed
+      // with the newest note at the top, oldest at the bottom
+      const note = notes[notes.length - i - 1]
+      const myBubble = note.author == preferredName
+      const date = formatDate(new Date(note.timestamp));
         return (
-            <div key={i.time}>
+            <div key={note.id}>
               <div className={classNames({
                     [locals.myChatEntry]: myBubble,
                     [locals.chatEntry]: true
@@ -131,10 +125,10 @@ export function CommentList(props) {
               >
                 {!myBubble && <SvgIcon type={"lib_user_avatar_filled_alt"} size="sm" />}
                 <div className={locals.chatEntryInfo}>
-                  {`${myBubble && t('in-events:notes.you') || i.name} | ${i.time}`}
+                  {`${myBubble && t('in-events:notes.you') || note.author} | ${date}`}
                 </div>
               </div>
-              <ChatBubble user={i.name} text={i.note} myBubble={myBubble} />
+              <ChatBubble user={note.author} text={note.contents} myBubble={myBubble} />
             </div>
         )
       })}
@@ -162,7 +156,7 @@ export function ChatBubble(props) {
 // Requires the incidentID, note, user, and setNote function
 // Dont allow the annotateEvent call if note is empty
 // Once you submit the event clear the note value with SetNote
-export function handleSubmitNote(incidentId, note, user, setNote, setTestNotes, testNotes) {
+export function handleSubmitNote(incidentId, note, user, setNote) {
   const userName = user.preferredName
   // Dont fire off a new note without there being something written
   if(note != '') {
@@ -173,17 +167,7 @@ export function handleSubmitNote(incidentId, note, user, setNote, setTestNotes, 
       contents: note
     };
     console.log('ANNOTATE_EVENT', newNote)
-    // annotateEvent({
-    //   incidentId: incidentId,
-    //   author: userName,
-    //   action: 'update',
-    //   contents: newNote,
-    // });
-    // TESTING PURPOSES AND DEMO
-    const newNotes = testNotes
-    newNotes.unshift({name: userName, time: "11:30AM 5/30/2024", note: note})
-    setTestNotes(newNotes)
-    // Clear the note once its been fired
+    annotateEvent(newNote)
     setNote('')
   }
 }
