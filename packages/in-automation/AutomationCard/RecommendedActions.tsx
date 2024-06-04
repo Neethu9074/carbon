@@ -17,15 +17,18 @@ import {
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import SelectAIActionsDialogPresenter from 'in-automation/AutomationCard/GenerateAIDialog/SelectAIActionsDialogPresenter';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
+import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { generateAIButtonClickTracker } from 'in-automation/tracker';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import { isExternal } from 'in-automation/ActionCatalog/shared';
 import { VolatileId, Event, Result } from 'in-types';
@@ -102,6 +105,7 @@ interface RecommendedActionsProps {
   volatileId: VolatileId;
   event: Event;
   recommendedActions: Result<ScoredAction[]>;
+  aiRecommendedScoredActions: Result<ScoredAction[]>;
   setActiveKey: SetActiveKey;
 }
 
@@ -109,7 +113,8 @@ export default function RecommendedActions({
   volatileId,
   event,
   setActiveKey,
-  recommendedActions
+  recommendedActions,
+  aiRecommendedScoredActions
 }: RecommendedActionsProps) {
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
@@ -136,6 +141,7 @@ export default function RecommendedActions({
 
   const totalHits = result?.data?.totalHits;
 
+  const triggerType = getTriggerTypeFromEvent(event);
   return (
     <ServerTablePresenter<ScoredAction, ServerTablePresenterProps<ScoredAction>>
       columnDefinitions={[...columnDefinitions, getActionColumn(volatileId, event, setActiveKey)]}
@@ -157,11 +163,36 @@ export default function RecommendedActions({
       rightHeader={
         <>
           <Stack direction="horizontal">
+            {/* show start with watsonx button for built in events only and when actions count is greater than 0> */}
+            {role?.canConfigureAutomationPolicies &&
+              aiRecommendedScoredActions &&
+              !aiRecommendedScoredActions.progress.loading &&
+              aiRecommendedScoredActions?.data &&
+              aiRecommendedScoredActions?.data?.length > 0 &&
+              triggerType === 'builtinEvent' && (
+                <Button
+                  kind="action"
+                  onClick={() => {
+                    generateAIButtonClickTracker({ eventName: event.problem?.problemText });
+                    addActiveDialog(
+                      <SelectAIActionsDialogPresenter
+                        aiRecommendedScoredActions={aiRecommendedScoredActions}
+                        event={event}
+                        setActiveKey={setActiveKey}
+                      />
+                    );
+                  }}
+                  icon="lib_launch_ai"
+                >
+                  {t('in-automation:generateWithAI')}
+                </Button>
+              )}
+
             <TypeFilter type={type} setType={setType} showExternal />
             <AiEngineFilter availableAiEngines={availableAiEngines} aiEngine={aiEngine} setAiEngine={setAiEngine} />
             <TagsFilter availableTags={availableTags} tags={tags} setTags={setTags} />
+            <Spacer horizontal="small" />
           </Stack>
-          <Spacer horizontal="small" />
         </>
       }
       searchPlaceholder={t('in-automation:searchActions')}

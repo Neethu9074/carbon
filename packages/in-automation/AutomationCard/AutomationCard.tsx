@@ -9,7 +9,10 @@ import React, { useState, useEffect } from 'react';
 import { Card, Spacer, Stack } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
 
-import useScoredActions, { useRecommendedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
+import useScoredActions, {
+  useUserRecommendedScoredActions,
+  useAIRecommendedScoredActions
+} from 'in-automation/AutomationCard/useScoredActions';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
@@ -88,13 +91,13 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
   const historyCount = useHistory({ eventId: event.id });
   const trigger = useTrigger({ event });
   const actions = useScoredActions({ event, trigger });
-  const recommendedActions = useRecommendedScoredActions({ actions, policies });
+  const recommendedActions = useUserRecommendedScoredActions({ actions, policies });
+  const aiRecommendedScoredActions = useAIRecommendedScoredActions({ actions, policies, event });
   useEffect(() => {
     if (policies?.data?.length === 0) {
       setActiveKey('recommendedActions');
     }
   }, [policies]);
-
   return (
     <Row withoutSideMargin>
       <Col xs>
@@ -122,6 +125,7 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
               volatileId={volatileId}
               setActiveKey={setActiveKey}
               recommendedActions={recommendedActions}
+              aiRecommendedScoredActions={aiRecommendedScoredActions}
             />
           )}
           {activeKey === 'actionHistory' && <ActionHistoryTable eventId={event.id} />}
