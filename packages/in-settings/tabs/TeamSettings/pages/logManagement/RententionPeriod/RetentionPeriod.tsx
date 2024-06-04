@@ -257,6 +257,7 @@ function RetentionPeriodDialog({
         <Label htmlFor="typingValidation">
           {localisationStrings.typeToConfirm}
           <Input
+            autoComplete="off"
             disabled={isChangingRetention}
             value={validationInputValue}
             hasError={!!validationValidationMessage}
