@@ -35,13 +35,18 @@ import RunActionContent, {
   TRIGGERING_HOST_IP_OPTION
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import {
+  runActionTracker,
+  testActionTracker,
+  createPolicyFromRecommendedActionsTracker,
+  testAIGenaratedActionTracker
+} from 'in-automation/tracker';
+import {
   ResolvedDynamicParamValue,
   resolveDynamicParameters,
   runTurboAction,
   runAction,
   saveNewPolicy
 } from 'in-automation/api';
-import { runActionTracker, testActionTracker, createPolicyFromRecommendedActionsTracker } from 'in-automation/tracker';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from 'in-types';
 import { refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
@@ -400,6 +405,10 @@ function onSave({
     setIsSaving(true);
     if (test) {
       testActionTracker({
+        actionType: action.type,
+        actionName: action.name
+      });
+      testAIGenaratedActionTracker({
         actionType: action.type,
         actionName: action.name
       });
