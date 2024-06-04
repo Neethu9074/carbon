@@ -28,14 +28,13 @@ export default function LinuxPackages({
   agentKey,
   downloadKey,
   butlerDomain,
-  azulDisabled = false,
   fromOnboarding
 }: OnboardingProps) {
   const agentModeOptions = ['dynamic', 'static'];
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
 
   const jvmVendorOptions = ['azul', 'eclipse'];
-  const [jvmVendor, setJVMVendor] = useState(jvmVendorOptions[azulDisabled ? 1 : 0]);
+  const [jvmVendor, setJVMVendor] = useState(jvmVendorOptions[0]);
 
   const installModeOptions = ['RPM', 'DEB'];
   const [installMode, setInstallMode] = useState(installModeOptions[0]);
@@ -81,13 +80,7 @@ export default function LinuxPackages({
     installMode === 'RPM' ? rpmArchitectureOptions[0].key : debArchitectureOptions[0].key
   );
 
-  interface PackagingProps {
-    agentMode: string;
-    agentModeOptions: string[];
-    setAgentMode: React.Dispatch<React.SetStateAction<string>>;
-  }
-
-  function Packaging({ agentMode, agentModeOptions, setAgentMode }: PackagingProps) {
+  function Packaging() {
     return (
       <Stack direction="horizontal">
         <CheckboxFancy
@@ -135,7 +128,7 @@ export default function LinuxPackages({
         <Button
           target="_blank"
           icon="lib_actions_download"
-          iconSize="xs"
+          iconSize="s"
           kind="action"
           noAutoMargin
           href={getAgentDownloadURL(
@@ -198,7 +191,6 @@ export default function LinuxPackages({
           onChange={() => setJVMVendor(jvmVendorOptions[0])}
           size="default"
           asRadioButton
-          disabled={azulDisabled}
         />
         <CheckboxFancy
           label="Eclipse OpenJ9 11"
@@ -247,11 +239,7 @@ export default function LinuxPackages({
 
         <LayoutSection title={t('in-plg:agentDetails.linux.linux_deb_rpm.ConfigureTheAgent')}>
           <Stack>
-            <KeyValue
-              label={t('in-plg:agentDetails.common.packaging')}
-              value={Packaging({ agentMode, agentModeOptions, setAgentMode })}
-              withGap
-            />
+            <KeyValue label={t('in-plg:agentDetails.common.packaging')} value={Packaging()} withGap />
             <KeyValue label={t('in-plg:agentDetails.common.runtime')} value={getRuntime()} withGap />
             <KeyValue label={t('in-plg:agentDetails.linux.linux_deb_rpm.mode')} value={getInstallationMode()} withGap />
           </Stack>
