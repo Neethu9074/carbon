@@ -180,7 +180,7 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
   const timeout = action?.fields ? getTimeoutFromFields(action.fields).value : '';
   const tags = action?.tags ?? [];
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
-  const policyTags: Tag [] = []; 
+  const policyTags: Tag[] = [];
   let form: AIActionForm = createMapForm({
     items: {
       name: createField({
@@ -208,8 +208,7 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
       tags: createField({
         value: mappedTags,
         validator: tags => {
-          const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || tag.value === '', false);
-          if (hasBlankTags) {
+          if (hasBlankTags(tags)) {
             return [
               {
                 severity: 'error',
@@ -329,14 +328,19 @@ const isStepDisabled = (step: number, form: AIActionForm, selectedAIAction: Scor
   const type = form.get('type').value;
   const content = form.get('manualContent')?.value;
   const script = form.get('script')?.value;
+  const tags = form.get('tags')?.value;
 
   if (step === 0) return selectedAIAction !== null;
   if (step === 1) {
     return (
-      !(isEmpty(name) || isEmpty(description) || isEmpty(type)) &&
+      !(isEmpty(name) || isEmpty(description) || isEmpty(type) || hasBlankTags(tags)) &&
       !(isManual(type) && isEmpty(content)) &&
       !(isScript(type) && isEmpty(script))
     );
   }
   return true;
+};
+
+const hasBlankTags = (tags: Tag[]): boolean => {
+  return tags.reduce((hasBlank, tag) => hasBlank || tag.value === '', false);
 };
