@@ -5,6 +5,8 @@
 
 @import '~in-themes/mixins.less';
 
+@import './SameServerFonts.css';
+
 :local {
   :global(.shell-wrapper) {
     .print(none);

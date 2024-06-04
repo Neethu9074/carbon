@@ -133,5 +133,6 @@ module.exports = {
   thresholdCustomDashboardsEnabled: true,
   carbonPaginationEnabled: true,
   logVolumePageEnabled: true,
-  carbonHorizontalIndicatorEnabled: true
+  carbonHorizontalIndicatorEnabled: true,
+  analyzeInfrastructureButtonEnabled: true
 };

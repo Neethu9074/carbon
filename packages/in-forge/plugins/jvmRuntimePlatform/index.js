@@ -24,5 +24,13 @@ registerSnapshotDefinition({
   supportsCodeView,
   technologyDescriptor: {
     label: t('in-forge:plugins.jvmRuntimePlatform.jvm')
-  }
+  },
+  getTagFilter: snapshot => [
+    {
+      name: 'jvm.app.name',
+      value: snapshot.getIn(['data', 'appInfo', 'title']),
+      operator: 'EQUALS',
+      type: 'TAG_FILTER'
+    }
+  ]
 });
