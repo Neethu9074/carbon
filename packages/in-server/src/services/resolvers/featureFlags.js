@@ -619,5 +619,10 @@ module.exports = exports = [
     uiClientKey: 'carbonHorizontalIndicatorEnabled',
     instanaCtlKey: 'feature.carbon.horizontalindicator.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'analyzeInfrastructureButtonEnabled',
+    instanaCtlKey: 'feature.analyze.infrastructure.button.enabled',
+    defaultValue: false
   }
 ];
