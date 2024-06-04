@@ -19,24 +19,20 @@ type CustomLoadingMessage = {
 };
 
 interface DefaultLoadingDashboardProps {
-  lightMode?: boolean;
   customLoadingMessage?: CustomLoadingMessage;
   fullInlineWidth?: boolean;
 }
 
 export default function DefaultLoadingDashboard({
-  lightMode,
   customLoadingMessage,
   fullInlineWidth
 }: DefaultLoadingDashboardProps) {
   const kpiClassName = classNames({
-    [locals.skeletonKpi]: true,
-    [locals.lightMode]: lightMode
+    [locals.skeletonKpi]: true
   });
 
   const chartClassName = classNames({
-    [locals.skeletonChart]: true,
-    [locals.lightMode]: lightMode
+    [locals.skeletonChart]: true
   });
 
   return (
@@ -53,22 +49,22 @@ export default function DefaultLoadingDashboard({
 
       <Row className={locals.firstRow}>
         <Col lg={4}>
-          <LoadingSkeleton lightMode={lightMode} className={kpiClassName} />
+          <LoadingSkeleton className={kpiClassName} />
         </Col>
         <Col lg={4}>
-          <LoadingSkeleton lightMode={lightMode} className={kpiClassName} />
+          <LoadingSkeleton className={kpiClassName} />
         </Col>
         <Col lg={4}>
-          <LoadingSkeleton lightMode={lightMode} className={kpiClassName} />
+          <LoadingSkeleton className={kpiClassName} />
         </Col>
       </Row>
 
       <Row>
         <Col lg={6}>
-          <LoadingSkeleton lightMode={lightMode} className={chartClassName} />
+          <LoadingSkeleton className={chartClassName} />
         </Col>
         <Col lg={6}>
-          <LoadingSkeleton lightMode={lightMode} className={chartClassName} />
+          <LoadingSkeleton className={chartClassName} />
         </Col>
       </Row>
     </LeftRightPadding>

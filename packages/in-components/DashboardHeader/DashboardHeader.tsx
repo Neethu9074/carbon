@@ -103,7 +103,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
   const isLoading = result && result.data == null;
 
   if (isLoading) {
-    label = getSkeletonLabel(props);
+    label = getSkeletonLabel();
 
     if (renderButtonLine || renderButtonLineSecondary) {
       renderButtonLine = getSkeletonButton;
@@ -116,7 +116,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
       renderTopLevelButtonLine = getSkeletonButton;
     }
     if (!icon || renderIcon) {
-      renderIcon = () => getSkeletonIcon(props);
+      renderIcon = () => getSkeletonIcon();
     }
   }
 
@@ -207,16 +207,16 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
   );
 }
 
-function getSkeletonButton({ theme }: DashboardHeaderProps) {
-  return <LoadingSkeleton className={locals.buttonSkeleton} darkMode={theme !== 'light'} />;
+function getSkeletonButton() {
+  return <LoadingSkeleton className={locals.buttonSkeleton} />;
 }
 
-function getSkeletonLabel({ theme }: DashboardHeaderProps) {
-  return <LoadingSkeleton className={locals.labelSkeleton} darkMode={theme !== 'light'} />;
+function getSkeletonLabel() {
+  return <LoadingSkeleton className={locals.labelSkeleton} />;
 }
 
-function getSkeletonIcon({ theme }: DashboardHeaderProps) {
-  return <LoadingSkeleton className={locals.iconSkeleton} darkMode={theme !== 'light'} />;
+function getSkeletonIcon() {
+  return <LoadingSkeleton className={locals.iconSkeleton} />;
 }
 
 function Context(props: ContextProps) {
