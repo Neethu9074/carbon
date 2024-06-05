@@ -6,14 +6,12 @@
 
 import React from 'react';
 
-import { Stack } from '@instana/components';
-import { Card } from '@instana/components';
+import { Card, SearchInput, Stack } from '@instana/components';
 
 import { urlStateDefinition, sortOptions } from 'in-kubernetes/Dashboards/CronJob/Jobs/utils';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { JobList } from 'in-kubernetes/Dashboards/CronJob/JobList';
-import SearchInput from 'in-components/SearchInput';
 import useUrlState from 'in-hooks/useUrlState';
 
 import locals from 'in-kubernetes/Dashboards/CronJob/Jobs/Jobs.mless';

@@ -9,7 +9,6 @@
 module.exports = {
   agentMonitoringIssuesEnabled: true,
   businessObservabilityEnabled: true,
-  bizopsGoldenSignalsEnabled: true,
   bizopsPerspectivesEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
@@ -54,6 +53,7 @@ module.exports = {
   carbonTextAreaEnabled: false,
   carbonButtonEnabled: true,
   notesAndActivity: true,
+  carbonLoadingSkeletonFeatureEnabled: true,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,

@@ -52,3 +52,11 @@ export function createTypeUrlParameter(pathSegment: string, matrixPrefix: string
     as: 'type'
   };
 }
+
+export function createTabTypeUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
+  return {
+    path: pathSegment,
+    name: `${matrixPrefix}view`,
+    as: 'view'
+  };
+}

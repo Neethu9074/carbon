@@ -271,6 +271,7 @@ function DeleteLogsDialog({
         <Label htmlFor="typingValidation">
           {localisationStrings.typeValidation}
           <Input
+            autoComplete="off"
             hasError={!!validationValidationMessage}
             disabled={isDeleting}
             value={validationInputValue}

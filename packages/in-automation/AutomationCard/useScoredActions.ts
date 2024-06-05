@@ -48,9 +48,10 @@ export default function useScoredActions({ event, trigger }: UseScoredActionsPar
 interface UseRecommendedScoredActionsParams {
   actions: Result<ScoredAction[]>;
   policies: Result<Policy[]>;
+  event?: Event;
 }
 
-export function useRecommendedScoredActions({ actions, policies }: UseRecommendedScoredActionsParams) {
+export function useUserRecommendedScoredActions({ actions, policies }: UseRecommendedScoredActionsParams) {
   if (isLoading(actions, policies)) return pendingResult as Result<ScoredAction[]>;
   if (hasError(actions, policies))
     return error<ScoredAction[]>([{ message: 'Failed to filter recommended actions.', code: 'SERVER' }]);
@@ -59,7 +60,27 @@ export function useRecommendedScoredActions({ actions, policies }: UseRecommende
       const policyExistWithAction = policies.data!.some(
         policy => policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.id === action.id
       );
-      return !policyExistWithAction && action.confidence != 'low';
+      return !policyExistWithAction && action.confidence != 'low' && !action.metadata?.builtIn;
+    })
+  );
+}
+
+export function useAIRecommendedScoredActions({ actions, policies, event }: UseRecommendedScoredActionsParams) {
+  if (isLoading(actions, policies)) return pendingResult as Result<ScoredAction[]>;
+  if (hasError(actions, policies))
+    return error<ScoredAction[]>([{ message: 'Failed to filter recommended actions.', code: 'SERVER' }]);
+
+  return success(
+    actions.data!.filter(action => {
+      const policyExistWithAction = policies.data!.some(
+        policy => policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.id === action.id
+      );
+
+      const aiMetadataExists = action.metadata?.ai && action.metadata.ai.length > 0;
+      const hasMatchingEvent =
+        aiMetadataExists && action.metadata.ai[0]?.events?.includes(event?.metadata?.eventSpecificationId);
+
+      return !policyExistWithAction && action.confidence !== 'low' && action.metadata?.builtIn && hasMatchingEvent;
     })
   );
 }

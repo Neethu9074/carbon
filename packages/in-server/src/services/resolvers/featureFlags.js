@@ -316,11 +316,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsGoldenSignalsEnabled',
-    instanaCtlKey: 'feature.bizops.golden.signals.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'bizopsPerspectivesEnabled',
     instanaCtlKey: 'feature.bizops.perspectives.enabled',
     defaultValue: false
@@ -418,7 +413,7 @@ module.exports = exports = [
   {
     uiClientKey: 'infraSmartAlertsEnabled',
     instanaCtlKey: 'feature.infra.smart.alerts.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'infraPredictiveDetectionEnabled',
@@ -528,6 +523,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonSearchInputEnabled',
     instanaCtlKey: 'feature.carbon.search.input.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonLoadingSkeletonFeatureEnabled',
+    instanaCtlKey: 'feature.carbon.loading.skeleton.enabled',
     defaultValue: false
   },
   {

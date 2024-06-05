@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { ComponentType } from "react";
+import React, { ComponentType } from 'react';
 
 // @ts-expect-error needs migration
 import { createAsyncComponent } from 'in-components/routing/createAsyncComponent';

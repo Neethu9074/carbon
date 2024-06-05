@@ -445,50 +445,42 @@
     "startIntegrating": {
       "title": "Start integrating data",
       "description": "Kickstart your Instana setup and seamless data integration by installing an agent.",
-      "buttonName": "Install agents",
-      "buttonType": "primary"
+      "buttonName": "Install agents"
     },
     "traceInteractions": {
       "title": "Trace interactions",
       "description": "Understand how your components are connected and see if you need to manually set up tracing.",
-      "buttonName": "Verify tracing",
-      "buttonType": "ghost"
+      "buttonName": "Verify tracing"
     },
     "inviteUsers": {
       "title": "Connect with your experts",
       "description": "Get help to complete setup tasks and try out product features.",
-      "buttonName": "Invite users",
-      "buttonType": "ghost"
+      "buttonName": "Invite users"
     },
     "additionalAgents": {
       "title": "Bring in more data",
       "description": "Expand observability throughout your architecture.",
-      "buttonName": "Install additional agents",
-      "buttonType": "ghost"
+      "buttonName": "Install additional agents"
     },
     "appPerspective": {
       "title": "Tailor your view",
       "description": "Capture the information you need to optimize your applications and services.",
-      "buttonName": "Create an application perspective",
-      "buttonType": "ghost"
+      "buttonName": "Create an application perspective"
     },
     "smartAlerts": {
       "title": "Get alerted",
       "description": "Configure alerts easily with predefined blueprints for both simple and advanced customization.",
-      "buttonName": "Set up smart alerts",
-      "buttonType": "ghost"
+      "buttonName": "Set up smart alerts"
     },
     "startMonitoring": {
       "title": "Monitor your environment",
       "description": "Activate alerts on your applications and websites.",
-      "buttonName": "Start monitoring",
-      "buttonType": "ghost"
+      "buttonName": "Start monitoring"
     },
     "inviteTeammates": {
       "title": "Bring in your team",
       "description": "Invite your colleagues to Instana and start collaborating.",
-      "buttonName": "Invite your teammates",
-      "buttonType": "ghost"
+      "buttonName": "Invite your teammates"
     },
     "component": {
       "applicationWidget": {
