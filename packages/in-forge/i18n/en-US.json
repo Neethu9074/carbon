@@ -8825,6 +8825,12 @@
       "networkIngressTraffic": "Network Ingress Traffic",
       "networkEgressTraffic": "Network Egress Traffic"
     },
+    "remoteThirdParty": {
+      "api_err": "Remote Third Party sensor \"{{plugin}}\" encountered an API error; received HTTP {{code}} response. See agent logs for more info.",
+      "config_err": "Remote Third Party sensor \"{{plugin}}\" has encountered an error. Please correct the \"{{configField}}\" field in your configuration.yaml under plugin \"{{plugin}}\". See agent logs for more info.",
+      "unknown_api_err": "Remote Third Party sensor \"{{plugin}}\" has encountered an unexpected error communicating with the HTTP endpoint. See agent logs for more info.",
+      "troubleShootingDocs": "Troubleshooting docs"
+    },
     "rubyRuntimePlatform": {
       "dashboard": {
         "rss": "RSS",
