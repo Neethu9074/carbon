@@ -33,8 +33,6 @@ import { applicationDashboardUrlParameters } from 'in-applications/navigation/ur
 import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
 // @ts-expect-error needs TS migration
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
-// @ts-expect-error needs TS migration
-import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 // @ts-expect-error needs TS migration
@@ -49,6 +47,7 @@ import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constan
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
+import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { alertsCategory } from 'in-applications/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';

@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import {
   urlParameter,
   timeShifts,
@@ -12,8 +14,9 @@ import {
   getTimeShiftLabel,
   translateOffsetToTimeShiftConfig
 } from 'in-stores/time/shifting';
-import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
+// @ts-expect-error needs TS migration
 import { formatExact } from 'in-components/time/timeframeFormatter';
+import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
@@ -25,7 +28,13 @@ const urlStateDefinition = {
   bind: [urlParameter]
 };
 
-export default function TimeShiftDropdown({ disabled, onChange: onTimeShiftChange }) {
+export default function TimeShiftDropdown({
+  disabled,
+  onChange: onTimeShiftChange
+}: {
+  disabled: boolean;
+  onChange: (offset: number) => void;
+}) {
   const timeConfig = useTimeConfig();
   const [{ timeShiftOffset }, onChange] = useUrlState(urlStateDefinition);
 
@@ -33,7 +42,7 @@ export default function TimeShiftDropdown({ disabled, onChange: onTimeShiftChang
     .filter(({ offset }) => offset !== previousHourTimeShift.offset)
     .map(v => ({
       value: v.offset,
-      label: renderItemContent(v, timeConfig)
+      label: renderItemContent(v, timeConfig) as any
     }));
 
   const valueLabel =
@@ -52,6 +61,7 @@ export default function TimeShiftDropdown({ disabled, onChange: onTimeShiftChang
       aria-label={t('in-components:timeShift.changeSelectedTimeShift')}
     >
       {({ elementProps, isOpen }) => (
+        // @ts-expect-error not fully matching expected type
         <DropdownButton
           {...elementProps}
           kind="secondary"
@@ -66,7 +76,13 @@ export default function TimeShiftDropdown({ disabled, onChange: onTimeShiftChang
   );
 }
 
-function renderItemContent(timeShiftConfig, timeConfig) {
+interface TimeShiftConfig {
+  offset: number | 'auto';
+  description: string;
+  label: string;
+}
+
+function renderItemContent(timeShiftConfig: TimeShiftConfig, timeConfig: TimeConfig) {
   const timeShiftTimeConfig = {
     windowSize: timeConfig.windowSize,
     to: (timeConfig.to || Date.now()) + translateOffsetToTimeShiftConfig(timeShiftConfig.offset, timeConfig).offset
