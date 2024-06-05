@@ -12,9 +12,8 @@ import HealthIndicatorButtonPresenter, {
 import { getHealthyStatus } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 // @ts-expect-error
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
-// @ts-expect-error
-import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { ApplicationTagFilter } from 'in-analyze/applicationFilter';
+import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { TimeConfig, KubernetesPod } from 'in-types';
 
 interface DashboardButtonLineProps {

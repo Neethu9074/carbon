@@ -5,11 +5,29 @@
 
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
+// @ts-expect-error needs TS migration
 import UpstreamDownstreamButton from 'in-components/UpstreamDownstream/UpstreamDownstreamButton';
+// @ts-expect-error needs TS migration
 import StackButton from 'in-components/Stack/StackButton';
+import { ApplicationTagFilter } from 'in-analyze/applicationFilter';
 
 import locals from './ContextGuide.mless';
 
+interface ContextGuideProps {
+  id: string;
+  serviceId?: string;
+  applicationId?: string;
+  boundaryScope?: string;
+  endpointId?: string;
+  timeConfig: TimeConfig;
+  productArea?: string;
+  tagFilters?: ApplicationTagFilter[];
+  includeSelfEntity?: boolean;
+  plugin?: string;
+  syntheticCalls?: any;
+}
 export default function ContextGuide({
   id,
   serviceId,
@@ -22,7 +40,7 @@ export default function ContextGuide({
   includeSelfEntity = false,
   plugin,
   syntheticCalls
-}) {
+}: ContextGuideProps) {
   return (
     <>
       <StackButton

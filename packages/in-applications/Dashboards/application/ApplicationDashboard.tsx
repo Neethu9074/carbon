@@ -35,8 +35,6 @@ import getApplicationTabs from 'in-applications/Dashboards/application/tabs/inde
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
-// @ts-expect-error needs TS migration
-import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { clickSyntheticMonitoringTabInApplicationsTracker } from 'in-synthetics/tracker';
@@ -49,6 +47,7 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { alertsCategory } from 'in-applications/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
