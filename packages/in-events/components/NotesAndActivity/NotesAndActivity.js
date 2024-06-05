@@ -100,7 +100,6 @@ export function NotesAndActivity(props) {
 
 export function CommentList(props) {
   const { notes, preferredName } = props;
-  // Currently just used for testing until we get the backend hooked up
   return (
     <div className={locals.notesSection}>
       {notes?.length == 0 && <EmptyState />}
