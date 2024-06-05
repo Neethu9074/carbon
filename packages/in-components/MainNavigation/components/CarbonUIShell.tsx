@@ -472,9 +472,6 @@ function Synthetics() {
   if (!hasSyntheticsAccess) {
     return null;
   }
-  if (playwithEnabled) {
-    return null;
-  }
   return (
     <MenuItem
       id="main-nav-synthetics"
