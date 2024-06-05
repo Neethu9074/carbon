@@ -9,7 +9,7 @@ import { t } from '@instana/i18n-react';
 import { getSloAlertOperatorContext } from 'in-alerting/smart-alerts/slo/components/OperatorDropdown';
 import useFormSideEffects, { CHANGE_TYPES, Effect } from 'in-hooks/useFormSideEffects';
 import { SloAlertForm } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
-import { percentage } from 'in-services/formatters/number';
+import { percentageUpToTwoDecimalPlaces } from 'in-services/formatters/number';
 
 function resetSelectedSloIds(form: SloAlertForm): SloAlertForm {
   if (!form.getIn(['entityType']).touched) return form;
@@ -38,16 +38,14 @@ function updateMetricType(form: SloAlertForm): SloAlertForm {
 export function updateSloAlertNameAndDescription(form: SloAlertForm): SloAlertForm {
   const alertType = form.getIn(['rule', 'alertType']).value;
   const operator = form.getIn(['operator']).value;
-  const threshold = percentage.detailed(form.getIn(['threshold']).value ?? 0);
+  const threshold = percentageUpToTwoDecimalPlaces(form.getIn(['threshold']).value ?? 0);
   const operatorContext = getSloAlertOperatorContext(operator);
 
   let updatedForm = form;
 
   if (!form.get('name').touched) {
     const titlePlaceholder = t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesTitlePlaceholder', {
-      context: alertType,
-      percentage: threshold,
-      operator: operatorContext
+      context: alertType
     });
     updatedForm = updatedForm.updateIn(['name'], nameField => nameField.setValue(titlePlaceholder));
   }
