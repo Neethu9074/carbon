@@ -316,11 +316,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsGoldenSignalsEnabled',
-    instanaCtlKey: 'feature.bizops.golden.signals.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'bizopsPerspectivesEnabled',
     instanaCtlKey: 'feature.bizops.perspectives.enabled',
     defaultValue: false
