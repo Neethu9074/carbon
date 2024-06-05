@@ -10,7 +10,6 @@ import {
   Grouping,
   isInfraMetricConfiguration,
   LabeledMetricResult,
-  MetricResult,
   Result,
   ResultType,
   TimeConfig,
@@ -246,18 +245,13 @@ export function useResultData(config: Config, granularity: number, timeConfig: T
 
   const stableConfig = useStableObjectInstance(config);
 
-  const metricResult =
-    useObservable<Result<MetricResult[]>, unknown[]>(
-      () => getUnifiedMetrics({ metrics }),
-      [timeConfig, stableConfig]
-    ) ?? pendingResult;
+  const metricResult = useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, stableConfig]) ?? pendingResult;
   const companionMetricResult =
     useObservable(() => getUnifiedMetrics({ metrics: companionMetrics }), [timeConfig, stableConfig]) ?? pendingResult;
 
-  let result = getResult(metricResult, metrics);
   // do not execute the query while the parent component is still loading data for the chart configuration
   return {
-    metricResult: result,
+    metricResult,
     companionMetricResult
   };
 }
@@ -572,17 +566,4 @@ export function toAxisConfiguration(
     adjustedTimeframes: resultDataAsList.map(({ adjustedTimeframe }) => adjustedTimeframe as AdjustedTimeframe),
     lastValue: axis.metrics.some(({ lastValue }) => lastValue === true)
   };
-}
-
-function getResult(metricResult: Result<UnifiedMetricsResult[]>, metrics: UnifiedMetricsConfigObject) {
-  const includesLogsMetric = Object.values(metrics).some(metric => metric.source === 'LOG');
-  const includesPerSecondLogs =
-    includesLogsMetric &&
-    Object.values(metrics).some(metric => metric.source === 'LOG' && metric.aggregation === 'PER_SECOND');
-
-  if ((includesLogsMetric || includesPerSecondLogs) && metricResult.data) {
-    return { ...metricResult, data: metricResult.data };
-  }
-
-  return metricResult;
 }
