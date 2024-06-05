@@ -9,7 +9,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import { ChatBubble, CommentList } from './NotesAndActivity.js';
+import { ChatBubble, CommentList, EmptyState } from './NotesAndActivity.js';
 
 import locals from './NotesAndActivity.mless';
 
@@ -59,6 +59,8 @@ describe('CommentList', () => {
     expect(wrapper.find(`div.${locals.chatEntryInfo}`).at(0).text()).toEqual('Jane Doe | 2024-06-04, 19:47:24');
     expect(wrapper.find(`div.${locals.chatEntryInfo}`).at(1).text()).toEqual('You | 2024-06-04, 19:47:24');
     expect(wrapper.find(SvgIcon)).toHaveLength(1);
+    expect(wrapper.find(ChatBubble)).toHaveLength(2);
+    expect(wrapper.find(EmptyState)).toHaveLength(0);
   });
 
   it('renders each comment in a div with the correct class names', () => {
@@ -68,5 +70,22 @@ describe('CommentList', () => {
     expect(wrapper.find(`div.${locals.myChatEntry}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.chatEntryInfo}`)).toHaveLength(0);
     expect(wrapper.find(SvgIcon)).toHaveLength(0);
+    expect(wrapper.find(EmptyState)).toHaveLength(1);
+    expect(wrapper.find(ChatBubble)).toHaveLength(0);
+  });
+});
+
+describe('EmptyState', () => {
+  it('renders without errors', () => {
+    shallow(<EmptyState />);
+  });
+
+  it('renders each comment with the correct class names', () => {
+    const wrapper = shallow(<EmptyState />);
+    expect(wrapper.find(`div.${locals.emptyWrapper}`)).toHaveLength(1);
+    expect(wrapper.find(`h3.${locals.emptyHeader}`)).toHaveLength(1);
+    expect(wrapper.find(`h3.${locals.emptyHeader}`).text()).toEqual('No notes');
+    expect(wrapper.find(`p.${locals.emptyInfo}`)).toHaveLength(1);
+    expect(wrapper.find(`p.${locals.emptyInfo}`).text()).toEqual('Currently no notes exist for this incident');
   });
 });

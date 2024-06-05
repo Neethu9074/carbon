@@ -231,6 +231,8 @@
     "techPreview": "Tech preview",
     "incidentNotes": "Incident notes",
     "addNote": "Add note",
-    "you": "You"
+    "you": "You",
+    "noNotes": "No notes",
+    "noNotesDetails": "Currently no notes exist for this incident"
   }
 }

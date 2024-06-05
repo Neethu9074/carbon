@@ -103,6 +103,7 @@ export function CommentList(props) {
   // Currently just used for testing until we get the backend hooked up
   return (
     <div className={locals.notesSection}>
+      {notes?.length == 0 && <EmptyState />}
       {notes &&
         notes.map((entry, i) => {
           // Using i to iterate helps us traverse backwards that way notes are displayed
@@ -163,4 +164,14 @@ export function handleSubmitNote(incidentId, note, user, setNote) {
     annotateEvent(newNote);
     setNote('');
   }
+}
+
+// Basic empty state for notes
+export function EmptyState() {
+  return (
+    <div className={locals.emptyWrapper}>
+      <h3 className={locals.emptyHeader}>{t('in-events:notes.noNotes')}</h3>
+      <p className={locals.emptyInfo}>{t('in-events:notes.noNotesDetails')}</p>
+    </div>
+  );
 }
