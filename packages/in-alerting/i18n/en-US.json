@@ -1385,7 +1385,8 @@
           "label": "Payloads",
           "title": "Custom Payload"
         },
-        "thresholdValue": "Threshold Value"
+        "thresholdValue": "Threshold Value",
+        "valueMappings": "The numeric values of the selected metric correspond to the following string values:"
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
