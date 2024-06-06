@@ -478,7 +478,7 @@
         "configurationRemoveButton": "Remove website",
         "configurationRenameTitle": "Rename website",
         "configurationRenameButton": "Rename",
-        "configurationTrackingScriptTitle": "Tracking script",
+        "configurationTrackingScriptTitle": "Agent tracking script",
         "saved": "Saved",
         "ipMasking": {
           "title": "IP masking",
