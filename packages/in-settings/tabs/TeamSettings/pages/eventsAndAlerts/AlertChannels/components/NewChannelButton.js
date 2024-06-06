@@ -34,23 +34,25 @@ export default function NewChannelButton(props) {
 
 function AlertChannelButton({ type, className }) {
   return (
-    <Button
-      className={classNames({
-        [locals.alertChannelButton]: true,
-        [className]: className
-      })}
-      kind="secondary"
-      onClick={() => {
-        goToAlertChannelView(type);
-        clickAddAlertChannelTracker({ alertChannelType: configs[type].label });
-      }}
-    >
-      {configs[type].label}
-      {configs[type].isBeta && (
-        <div className={locals.betaBadge}>
-          <BetaBadge />
-        </div>
-      )}
-    </Button>
+    configs[type].active !== false && (
+      <Button
+        className={classNames({
+          [locals.alertChannelButton]: true,
+          [className]: className
+        })}
+        kind="secondary"
+        onClick={() => {
+          goToAlertChannelView(type);
+          clickAddAlertChannelTracker({ alertChannelType: configs[type].label });
+        }}
+      >
+        {configs[type].label}
+        {configs[type].isBeta && (
+          <div className={locals.betaBadge}>
+            <BetaBadge />
+          </div>
+        )}
+      </Button>
+    )
   );
 }

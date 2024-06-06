@@ -64,6 +64,8 @@ export default {
   name,
   label,
   isBeta: true,
+  testAPI: null,
+  active: serviceNowAdvancedEnabled,
 
   getParameters() {
     return parameters;
