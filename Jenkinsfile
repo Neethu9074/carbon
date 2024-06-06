@@ -81,34 +81,73 @@ pipeline {
       }
     }
 
-    stage('Build') {
-      steps {
-        milestone(label: "Build", ordinal: null)
-        timeout(time: 30, unit: 'MINUTES') {
-          timestamps {
-            script {
-              try {
-                awsCodeBuild credentialsType: 'jenkins',
-                  credentialsId: 'codebuild',
-                  projectName: 'ui-client',
-                  region: 'us-west-2',
-                  imageOverride: 'aws/codebuild/standard:7.0',
-                  sourceControlType: 'project',
-                  sourceVersion: gitCommitId,
-                  envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
+    stage('Build and Test') {
+      parallel {
+        stage('Build') {
+          steps {
+            timeout(time: 30, unit: 'MINUTES') {
+              timestamps {
+                script {
+                  try {
+                    awsCodeBuild credentialsType: 'jenkins',
+                      credentialsId: 'codebuild',
+                      projectName: 'ui-client',
+                      region: 'us-west-2',
+                      imageOverride: 'aws/codebuild/standard:7.0',
+                      sourceControlType: 'project',
+                      sourceVersion: gitCommitId,
+                      buildSpecFile: 'buildspec.yml',
+                      envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
 
-                if ( currentBuild.currentResult == 'SUCCESS' ) {
-                  setBuildStatus('Build successful', 'SUCCESS')
+                    if ( currentBuild.currentResult == 'SUCCESS' ) {
+                      setBuildStatus('Build successful', 'SUCCESS')
+                    }
+                  } catch (e) {
+                    setBuildStatus('Build Failure', 'FAILURE')
+                    if ( branchName.startsWith('typescript-typedefinitions-')) {
+                      notifyTsUpdateFailure(branchName,gitCommitId)
+                    }
+                    if (isDeliveryBranch) {
+                      notifyDeliveryBuildFailure(branchName, gitCommitId, gitMessage)
+                    }
+                    throw e
+                  }
                 }
-              } catch (e) {
-                setBuildStatus('Build Failure', 'FAILURE')
-                if ( branchName.startsWith('typescript-typedefinitions-')) {
-                  notifyTsUpdateFailure(branchName,gitCommitId)
+              }
+            }
+          }
+        }
+
+        stage('Test') {
+          steps {
+            timeout(time: 30, unit: 'MINUTES') {
+              timestamps {
+                script {
+                  try {
+                    awsCodeBuild credentialsType: 'jenkins',
+                      credentialsId: 'codebuild',
+                      projectName: 'ui-client',
+                      region: 'us-west-2',
+                      imageOverride: 'aws/codebuild/standard:7.0',
+                      sourceControlType: 'project',
+                      sourceVersion: gitCommitId,
+                      buildSpecFile: 'buildspec.test.yml',
+                      envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
+
+                    if ( currentBuild.currentResult == 'SUCCESS' ) {
+                      setBuildStatus('Build successful', 'SUCCESS')
+                    }
+                  } catch (e) {
+                    setBuildStatus('Build Failure', 'FAILURE')
+                    if ( branchName.startsWith('typescript-typedefinitions-')) {
+                      notifyTsUpdateFailure(branchName,gitCommitId)
+                    }
+                    if (isDeliveryBranch) {
+                      notifyDeliveryBuildFailure(branchName, gitCommitId, gitMessage)
+                    }
+                    throw e
+                  }
                 }
-                if (isDeliveryBranch) {
-                  notifyDeliveryBuildFailure(branchName, gitCommitId, gitMessage)
-                }
-                throw e
               }
             }
           }
