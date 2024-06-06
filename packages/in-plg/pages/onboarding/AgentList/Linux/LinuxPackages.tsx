@@ -40,32 +40,32 @@ export default function LinuxPackages({
   const [installMode, setInstallMode] = useState(installModeOptions[0]);
 
   const rpmArchitectureOptions = [
-    { key: 'aarch64', label: 'aarch64' },
-    { key: 'ppc64', label: 'ppc64' },
-    { key: 's390x', label: 's390x' },
-    { key: 'x86_64', label: 'x86_64' },
-    { key: 'el6_x86_64', label: 'el6 x86_64' },
-    { key: 'el7_x86_64', label: 'el7 x86_64' }
+    { key: 'aarch64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitAarch') },
+    { key: 'ppc64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitPowerPc') },
+    { key: 's390x', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxS390X') },
+    { key: 'x86_64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxX8664') },
+    { key: 'el6_x86_64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxRhel6X8664') },
+    { key: 'el7_x86_64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxRhel7X8664') }
   ];
   const debArchitectureOptions = [
-    { key: 'amd64', label: 'amd64' },
-    { key: 'arm64', label: 'arm64' },
-    { key: 'ppc64', label: 'ppc64' },
-    { key: 's390x', label: 's390x' }
+    { key: 'amd64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitAmd') },
+    { key: 'arm64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitArm') },
+    { key: 'ppc64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitPowerPc') },
+    { key: 's390x', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxS390X') }
   ];
   const rpmArchitectureOptionsJ9 = [
-    { key: 'aarch64', label: 'aarch64' },
-    { key: 'ppc64le', label: 'ppc64le' },
-    { key: 's390x', label: 's390x' },
-    { key: 'x86_64', label: 'x86_64' },
-    { key: 'el6_x86_64', label: 'el6 x86_64' },
-    { key: 'el7_x86_64', label: 'el7 x86_64' }
+    { key: 'aarch64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitAarch') },
+    { key: 'ppc64le', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitPowerPcLittleEndian') },
+    { key: 's390x', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxS390X') },
+    { key: 'x86_64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxX8664') },
+    { key: 'el6_x86_64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxRhel6X8664') },
+    { key: 'el7_x86_64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxRhel7X8664') }
   ];
   const debArchitectureOptionsJ9 = [
-    { key: 'amd64', label: 'amd64' },
-    { key: 'arm64', label: 'arm64' },
-    { key: 'ppc64el', label: 'ppc64el' },
-    { key: 's390x', label: 's390x' }
+    { key: 'amd64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitAmd') },
+    { key: 'arm64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitArm') },
+    { key: 'ppc64el', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitPowerPcLittleEndian') },
+    { key: 's390x', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxS390X') }
   ];
   const architectureOptions =
     installMode === 'RPM' && jvmVendor === 'eclipse'
@@ -237,7 +237,7 @@ export default function LinuxPackages({
           {t('in-plg:agentDetails.common.toInstallAndRunAnAgentCompleteTheFollowingSteps')}
         </Typography>
 
-        <LayoutSection title={t('in-plg:agentDetails.linux.linux_deb_rpm.ConfigureTheAgent')}>
+        <LayoutSection title={t('in-plg:agentDetails.linux.linux_deb_rpm.configureTheAgent')}>
           <Stack>
             <KeyValue label={t('in-plg:agentDetails.common.packaging')} value={Packaging()} withGap />
             <KeyValue label={t('in-plg:agentDetails.common.runtime')} value={getRuntime()} withGap />
