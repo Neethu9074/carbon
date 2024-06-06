@@ -20,7 +20,9 @@ import {
 // Using Carbon tooltip would cause mismatch in design on the page
 // since tooltip is used in many places on this page
 import Tooltip from 'in-components/Tooltip';
-import { getNotes, formatDate, validTextEntry, noteNameAndTimeFormat } from './utils';
+import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
+import { getNotes, validTextEntry, noteNameAndTimeFormat } from './utils';
+import { dateFormat, timeFormat } from 'in-services/formatters/date';
 import { annotateEvent } from 'in-stores/events';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -117,7 +119,7 @@ export function CommentList(props) {
           // with the newest note at the top, oldest at the bottom
           const note = notes[notes.length - i - 1];
           const myBubble = note.author == preferredName;
-          const date = formatDate(new Date(note.timestamp));
+          const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
           return (
             <div key={note.id}>
               <div

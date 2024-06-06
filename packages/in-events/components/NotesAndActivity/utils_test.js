@@ -6,12 +6,7 @@
 
 import Immutable from 'immutable';
 
-import {
-  getNotes,
-  validTextEntry,
-  formatDate,
-  noteNameAndTimeFormat
-} from 'in-events/components/NotesAndActivity/utils';
+import { getNotes, validTextEntry, noteNameAndTimeFormat } from 'in-events/components/NotesAndActivity/utils';
 
 describe('getNotes', () => {
   it('returns an empty array if the event is falsy', () => {
@@ -119,19 +114,6 @@ describe('validTextEntry', () => {
   it('general cases should return true', () => {
     expect(validTextEntry('  s    ')).toEqual(true);
     expect(validTextEntry('this should be valid')).toEqual(true);
-  });
-});
-
-describe('formatDate', () => {
-  it('undefined and null checks should return "-"', () => {
-    expect(formatDate(null)).toEqual('-');
-    expect(formatDate(undefined)).toEqual('-');
-  });
-
-  it('general cases for dates', () => {
-    expect(formatDate(new Date(1717523244282))).toEqual('2024-06-04, 19:47:24');
-    expect(formatDate(new Date(1717522888861))).toEqual('2024-06-04, 19:41:28');
-    expect(formatDate('1717522888861')).toEqual('-');
   });
 });
 

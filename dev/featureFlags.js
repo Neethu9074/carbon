@@ -53,7 +53,7 @@ module.exports = {
   carbonContentSwitcherEnabled: true,
   carbonTextAreaEnabled: false,
   carbonButtonEnabled: true,
-  notesAndActivity: true,
+  notesAndActivityEnabled: true,
   carbonLoadingSkeletonFeatureEnabled: true,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,

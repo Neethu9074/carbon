@@ -84,8 +84,8 @@ describe('EmptyState', () => {
     const wrapper = shallow(<EmptyState />);
     expect(wrapper.find(`div.${locals.emptyWrapper}`)).toHaveLength(1);
     expect(wrapper.find(`h3.${locals.emptyHeader}`)).toHaveLength(1);
-    expect(wrapper.find(`h3.${locals.emptyHeader}`).text()).toEqual('No notes');
+    expect(wrapper.find(`h3.${locals.emptyHeader}`).text()).toEqual('No notes added yet');
     expect(wrapper.find(`p.${locals.emptyInfo}`)).toHaveLength(1);
-    expect(wrapper.find(`p.${locals.emptyInfo}`).text()).toEqual('Currently no notes exist for this incident');
+    expect(wrapper.find(`p.${locals.emptyInfo}`).text()).toEqual('Get started by adding a note for your team.');
   });
 });
