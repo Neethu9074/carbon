@@ -42,22 +42,18 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
 import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/ParameterDialog';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import { actionHistoryPath, actionHistory } from 'in-automation/navigation/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { Action, Parameter, VolatileId, DynamicFieldValue } from 'in-types';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
+import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { ResolvedDynamicParamValue } from 'in-automation/api';
 import CopyToClipboard from 'in-components/CopyToClipboard';
-import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Notification from 'in-components/form/Notification';
 import { toHtml } from 'in-services/formatters/markdown';
@@ -68,7 +64,7 @@ import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import { getSnapshot } from 'in-stores/snapshot';
 import Code from 'in-components/Code';
-import { t, Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 
 import locals from './RunActionDialog.mless';
 
@@ -103,14 +99,6 @@ export default function RunActionDialogContent({
   policy,
   viewRecommendedAction
 }: RunActionDialogContentProps) {
-  const { createHref, location } = useNavigation();
-  function getLinkToActionHistory(id: string) {
-    const path = location;
-    path.pathname = actionHistoryPath;
-    setOrDeleteMatrixKey(path, actionHistory, 'query', id);
-    return createHref(path);
-  }
-
   if (!form) return <LoadingIndicator size="xxl" />;
   if (error && !actionInstanceId) {
     return (
@@ -130,22 +118,7 @@ export default function RunActionDialogContent({
             <Spacer horizontal="xsmall" />
           </>
         )}
-        <Trans
-          i18nKey={'in-automation:linkToActionHistory'}
-          components={{
-            logsLink: (
-              <Link
-                className={locals.logsLink}
-                target="_blank"
-                onClick={close}
-                href={getLinkToActionHistory(actionInstanceId)}
-              >
-                {' '}
-                &nbsp;
-              </Link>
-            )
-          }}
-        />
+        {t('in-automation:linkToActionHistory')}
       </Typography>
     );
   }

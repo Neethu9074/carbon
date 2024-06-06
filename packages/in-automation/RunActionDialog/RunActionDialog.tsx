@@ -149,6 +149,7 @@ export default function RunActionDialog({
               noTurboAgents={noTurboAgents}
               form={form}
               viewRecommendedAction={viewRecommendedAction}
+              setActiveKey={setActiveKey}
               onSave={() =>
                 onSave({
                   form,
@@ -569,6 +570,7 @@ interface RunActionFooterProps {
   policy?: NewPolicy;
   noTurboAgents?: boolean;
   viewRecommendedAction?: boolean;
+  setActiveKey?: SetActiveKey;
 }
 
 function RunActionFooter({
@@ -580,24 +582,32 @@ function RunActionFooter({
   test,
   policy,
   noTurboAgents = false,
-  viewRecommendedAction
+  viewRecommendedAction,
+  setActiveKey
 }: RunActionFooterProps) {
   if (error || actionInstanceId) {
     return (
-      <Button
-        kind="primary"
-        onClick={() => {
-          refreshHistory();
-          close();
-        }}
-      >
-        {t('in-automation:ok')}
-      </Button>
+      <>
+        <CancelButton isSaving={isSaving} onClick={close}>
+          {t('in-automation:close')}
+        </CancelButton>
+        <Button
+          kind="primary"
+          onClick={() => {
+            refreshHistory();
+            if (setActiveKey) setActiveKey('actionHistory');
+            close();
+          }}
+        >
+          {t('in-automation:actionHistory.actionHistory')}
+        </Button>
+      </>
     );
   }
   return (
     <>
       <CancelButton isSaving={isSaving} onClick={close} />
+
       <SaveButton
         kind="primary"
         form={form}
