@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Button, Spacer, Stack, Typography } from '@instana/components';
+import { Button, Spacer, Stack, Typography, IconButton } from '@instana/components';
 
 import {
   nameColumn,
@@ -19,6 +19,7 @@ import useServerTableUrlState, {
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import SelectAIActionsDialogPresenter from 'in-automation/AutomationCard/GenerateAIDialog/SelectAIActionsDialogPresenter';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import CreatePolicyDialogPresenter from 'in-automation/AutomationCard/CreatePolicy/CreatePolicyDialogPresenter';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
@@ -32,6 +33,7 @@ import { generateAIButtonClickTracker } from 'in-automation/tracker';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import { isExternal } from 'in-automation/ActionCatalog/shared';
 import { VolatileId, Event, Result } from 'in-types';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { mapData } from 'in-services/util/result';
 import { ScoredAction } from 'in-automation/api';
 import { role } from 'in-stores/user';
@@ -70,25 +72,18 @@ const getActionColumn = (
     }
     if (!role?.canConfigureAutomationPolicies || isExternal(action.type)) return null;
     return (
-      <Button
-        kind="action"
-        icon="lib_views_show"
-        onClick={e => {
-          stopPropagationAndPreventDefault(e);
-          addActiveDialog(
-            <RunActionDialog
-              action={action}
-              volatileId={volatileId}
-              event={event}
-              setActiveKey={setActiveKey}
-              viewRecommendedAction
-            />
-          );
-        }}
-        noAutoMargin
-      >
-        {t('in-automation:ActionCatalog.view')}
-      </Button>
+      <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
+        <IconButton
+          kind="primaryv2"
+          type="lib_openclose_add_circle_outline"
+          onClick={e => {
+            stopPropagationAndPreventDefault(e);
+            addActiveDialog(
+              <CreatePolicyDialogPresenter selectedAction={action} event={event} setActiveKey={setActiveKey} />
+            );
+          }}
+        />
+      </Tooltip>
     );
   }
 });

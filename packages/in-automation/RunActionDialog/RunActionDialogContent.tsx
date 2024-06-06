@@ -87,7 +87,6 @@ interface RunActionDialogContentProps {
   errorResolvingDynamicParameters: boolean;
   resolvedDynamicParameters: ResolvedDynamicParamValue[] | null | undefined;
   policy?: NewPolicy;
-  viewRecommendedAction?: boolean;
 }
 
 export default function RunActionDialogContent({
@@ -100,8 +99,7 @@ export default function RunActionDialogContent({
   agentSnapShots,
   errorResolvingDynamicParameters,
   resolvedDynamicParameters,
-  policy,
-  viewRecommendedAction
+  policy
 }: RunActionDialogContentProps) {
   const { createHref, location } = useNavigation();
   function getLinkToActionHistory(id: string) {
@@ -152,33 +150,15 @@ export default function RunActionDialogContent({
   if (isManual(action.type)) {
     return <ManualActionContent action={action} />;
   }
+
   if (isExternal(action.type)) {
     return <ExternalActionContent action={action} agentSnapShots={agentSnapShots} form={form} setForm={setForm} />;
   }
   return (
     <HorizontalFlexWrapper className={locals.alignStretch}>
-      <Col className={classNames({ [locals.parameterContainer]: viewRecommendedAction })} lg={8}>
-        <div className={classNames({ [locals.borderRight]: !viewRecommendedAction })}>
-          <DescriptionList>
-            <DescriptionItem
-              className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-              title={t('in-automation:description')}
-            >
-              {action.description}
-            </DescriptionItem>
-            <DescriptionItem
-              className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-              title={t('in-automation:titleActionType')}
-            >
-              {getType(action.type)}
-            </DescriptionItem>
-          </DescriptionList>
-          {isScript(action.type) && <ScriptActionContent action={action} />}
-          {isDocLink(action.type) && <DocActionContent action={action} />}
-          {isWebhook(action.type) && <WebhookActionContent action={action} />}
-          {isGithub(action.type) && <GithubActionContent action={action} />}
-          {isGitlab(action.type) && <GitlabActionContent action={action} />}
-          {isJira(action.type) && <JiraActionContent action={action} />}
+      <Col lg={8}>
+        <div className={locals.borderRight}>
+          <MetadataActionContent action={action} viewRecommendedAction={false} />
           {isAnsible(action.type) && (
             <AnsibleActionContent
               form={form}
@@ -186,42 +166,37 @@ export default function RunActionDialogContent({
               action={action}
               resolvedDynamicParameters={resolvedDynamicParameters}
               policy={policy}
-              viewRecommendedAction={viewRecommendedAction}
             />
           )}
-          {!viewRecommendedAction && (
-            <div>
-              <AgentSelection
-                policy={policy}
-                form={form}
-                volatileId={volatileId}
-                setForm={setForm}
-                agentSnapShots={agentSnapShots}
-              />
-              <Typography variant="body-small">{t('in-automation:actionCannotBeUndone')}</Typography>
-            </div>
-          )}
+          <div>
+            <AgentSelection
+              policy={policy}
+              form={form}
+              volatileId={volatileId}
+              setForm={setForm}
+              agentSnapShots={agentSnapShots}
+            />
+            <Typography variant="body-small">{t('in-automation:actionCannotBeUndone')}</Typography>
+          </div>
         </div>
-        {!viewRecommendedAction && <Spacer horizontal="normal" />}
+        <Spacer horizontal="normal" />
       </Col>
-      {!viewRecommendedAction && (
-        <Col className={locals.parameterContainer} lg={4}>
-          <DescriptionList>
-            <DescriptionItem
-              className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-              title={t('in-automation:parameters')}
-            >
-              <ParameterInput
-                errorResolvingDynamicParameters={errorResolvingDynamicParameters}
-                action={action}
-                form={form}
-                setForm={setForm}
-                policy={policy}
-              />
-            </DescriptionItem>
-          </DescriptionList>
-        </Col>
-      )}
+      <Col className={locals.parameterContainer} lg={4}>
+        <DescriptionList>
+          <DescriptionItem
+            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+            title={t('in-automation:parameters')}
+          >
+            <ParameterInput
+              errorResolvingDynamicParameters={errorResolvingDynamicParameters}
+              action={action}
+              form={form}
+              setForm={setForm}
+              policy={policy}
+            />
+          </DescriptionItem>
+        </DescriptionList>
+      </Col>
     </HorizontalFlexWrapper>
   );
 }
@@ -363,6 +338,49 @@ function ScriptActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
         <Code withExpandButton withoutCopyButton code={plaintextScript} lang={'bash'} softWrap />
       </DescriptionItem>
     </DescriptionList>
+  );
+}
+
+export function MetadataActionContent({
+  action,
+  viewRecommendedAction = false
+}: {
+  action: Action;
+  viewRecommendedAction?: boolean;
+}) {
+  return (
+    <>
+      <DescriptionList>
+        {viewRecommendedAction && (
+          <DescriptionItem
+            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+            title={t('in-automation:name')}
+          >
+            {action.name}
+          </DescriptionItem>
+        )}
+        <DescriptionItem
+          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+          title={t('in-automation:description')}
+        >
+          {action.description}
+        </DescriptionItem>
+        <DescriptionItem
+          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+          title={t('in-automation:titleActionType')}
+        >
+          {getType(action.type)}
+        </DescriptionItem>
+      </DescriptionList>
+      {isScript(action.type) && <ScriptActionContent action={action} />}
+      {isDocLink(action.type) && <DocActionContent action={action} />}
+      {isWebhook(action.type) && <WebhookActionContent action={action} />}
+      {isGithub(action.type) && <GithubActionContent action={action} />}
+      {isManual(action.type) && <ManualActionContent action={action} />}
+      {isGitlab(action.type) && <GitlabActionContent action={action} />}
+      {isJira(action.type) && <JiraActionContent action={action} />}
+      {isAnsible(action.type) && viewRecommendedAction && <AnsibleActionMetadata action={action} />}
+    </>
   );
 }
 
@@ -769,13 +787,8 @@ function AnsibleActionContent({
   resolvedDynamicParameters,
   form,
   setForm,
-  policy,
-  viewRecommendedAction
-}: Pick<
-  RunActionDialogContentProps,
-  'action' | 'resolvedDynamicParameters' | 'form' | 'setForm' | 'policy' | 'viewRecommendedAction'
->) {
-  const { jobTemplateUrl } = getAnsibleFields(action);
+  policy
+}: Pick<RunActionDialogContentProps, 'action' | 'resolvedDynamicParameters' | 'form' | 'setForm' | 'policy'>) {
   const ip = resolvedDynamicParameters?.find(p => p.name === 'ip')?.resolvedValue ?? '[]';
   const parsedIp: string[] = safeJsonParse(ip ? ip : '[]');
   const fqdn = resolvedDynamicParameters?.find(p => p.name === 'fqdn')?.resolvedValue;
@@ -791,6 +804,32 @@ function AnsibleActionContent({
 
   return (
     <>
+      <AnsibleActionMetadata action={action} />
+      <FormGroup key="hostLimit">
+        <Label htmlFor="hostLimit">{t('in-automation:hostsLimit')}</Label>
+        <CreatableComboBox
+          id={locals.hostLimit}
+          isMulti
+          options={options}
+          value={hostLimitField?.value ?? []}
+          onChange={(value: Option[]) => {
+            const updatedForm = form?.updateIn(['hostsLimit'], (field: Field<Option[]>) =>
+              field.setValue(value).setTouched(true)
+            );
+            setForm(updatedForm);
+          }}
+        />
+        <HelpText className={locals.subTextFormField}>{t('in-automation:hostsLimitHelpText')}</HelpText>
+      </FormGroup>
+    </>
+  );
+}
+
+function AnsibleActionMetadata({ action }: Pick<RunActionDialogContentProps, 'action'>) {
+  const { jobTemplateUrl } = getAnsibleFields(action);
+
+  return (
+    <>
       <DescriptionList>
         <DescriptionItem
           className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
@@ -801,24 +840,6 @@ function AnsibleActionContent({
           </Link>
         </DescriptionItem>
       </DescriptionList>
-      {!viewRecommendedAction && (
-        <FormGroup key="hostLimit">
-          <Label htmlFor="hostLimit">{t('in-automation:hostsLimit')}</Label>
-          <CreatableComboBox
-            id={locals.hostLimit}
-            isMulti
-            options={options}
-            value={hostLimitField?.value ?? []}
-            onChange={(value: Option[]) => {
-              const updatedForm = form?.updateIn(['hostsLimit'], (field: Field<Option[]>) =>
-                field.setValue(value).setTouched(true)
-              );
-              setForm(updatedForm);
-            }}
-          />
-          <HelpText className={locals.subTextFormField}>{t('in-automation:hostsLimitHelpText')}</HelpText>
-        </FormGroup>
-      )}
     </>
   );
 }
