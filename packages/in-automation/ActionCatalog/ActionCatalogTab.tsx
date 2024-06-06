@@ -98,7 +98,7 @@ function ActionCatalogTabsCard() {
               userCreatedActionsCount={userActions?.data?.length}
               aiGeneratedActionsCount={aiActions?.data?.length}
             />
-            <SvgIcon type="lib_ai_slug" />
+            {activeKey === 'aiGeneratedActions' && <SvgIcon type="lib_ai_slug" />}
           </Stack>
           <Spacer vertical="small" />
           {activeKey === 'userDefinedActions' && <ActionCatalog actions={userActions} actionsType="user" />}
