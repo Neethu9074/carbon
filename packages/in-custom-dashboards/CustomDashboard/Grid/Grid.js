@@ -19,10 +19,10 @@ import {
   margin,
   rowHeightPixels
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
+import { carbonMoreMenuEnabled, zoomWidgetEnabled } from 'in-services/featureFlags';
 import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
 import { ViewLogsButton } from 'in-logging/components/ViewLogsButton';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
-import { zoomWidgetEnabled } from 'in-services/featureFlags';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
@@ -231,13 +231,13 @@ const MemoizedWidgetContent = memo(WidgetContent);
 
 function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onCopyWidget, onZoomWidget, onRemoveWidget }) {
   return (
-    <div className={locals.moreMenuContainer}>
+    <div className={classNames(locals.moreMenuContainer, { [locals.carbonMoreMenuContainer]: carbonMoreMenuEnabled })}>
       <ViewLogsButton className={locals.viewInAnalyze} config={widget.config} />
       {zoomWidgetEnabled && (
         <Tooltip content={t('in-forge:plugins.docker.dashboard.zoomTooltip')}>
           <div>
             <SvgIcon
-              size="s"
+              size={carbonMoreMenuEnabled ? 'xs' : 's'}
               className={locals.zoom}
               type="lib_actions_maximize"
               onClick={() => onZoomWidget(widget.id)}
@@ -245,9 +245,14 @@ function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onCopyWidget,
           </div>
         </Tooltip>
       )}
-      <Tooltip content={t('in-forge:plugins.docker.dashboard.moreTooltip')}>
-        <div>
-          <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
+      <Tooltip content={carbonMoreMenuEnabled ? null : t('in-forge:plugins.docker.dashboard.moreTooltip')}>
+        <div className={classNames({ [locals.moreMenuContent]: carbonMoreMenuEnabled })}>
+          <MoreMenu
+            kind="secondaryDarker"
+            size="compact"
+            className={locals.more}
+            iconDescription={t('in-forge:plugins.docker.dashboard.moreTooltip')}
+          >
             <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
               {t('in-custom-dashboards:customDashboard.grid.grid.edit')}
             </MoreMenuButton>

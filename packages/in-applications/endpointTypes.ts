@@ -5,11 +5,13 @@
 
 import invariant from 'invariant';
 
+import { EndpointType } from '@instana/types';
+
 import { carbonCategorical } from 'in-themes/chartColors';
 import { lighten } from 'in-services/formatters/color';
 import { t } from 'in-i18n';
 
-export const endpointNameTranslations = {
+export const endpointNameTranslations: Record<string, string> = {
   BATCH: t('in-applications:endpointTypes.batch'),
   SHELL: t('in-applications:endpointTypes.shell'),
   DATABASE: t('in-applications:endpointTypes.database'),
@@ -25,7 +27,7 @@ export const endpointNameTranslations = {
   OPENTELEMETRY: t('in-applications:endpointTypes.otel')
 };
 
-export const colorTranslation = {
+export const colorTranslation: Record<string, string> = {
   BATCH: carbonCategorical.purple70,
   SHELL: carbonCategorical.cyan50,
   DATABASE: carbonCategorical.teal70,
@@ -42,28 +44,34 @@ export const colorTranslation = {
   OPENTELEMETRY: carbonCategorical.purple50
 };
 
-export function getColor(type) {
+export function getColor(type: string) {
   if (__DEV__) {
     invariant(colorTranslation[type], `Unknown endpoint type ${type}`);
   }
-  return colorTranslation[type] || colorTranslation.sdk;
+  return colorTranslation[type] || colorTranslation.SDK;
 }
 
-export function getColorChart(type) {
+export function getColorChart(type: string) {
   if (__DEV__) {
     invariant(colorTranslation[type], `Unknown endpoint type ${type}`);
   }
-  return lighten(colorTranslation[type], 0.05) || colorTranslation.sdk;
+  return lighten(colorTranslation[type], 0.05) || colorTranslation.SDK;
 }
 
-export function getEndpointTypesComboBoxItems(restrict = null) {
+export function getEndpointTypesComboBoxItems(restrict: Array<EndpointType> | null = null) {
   return Object.keys(endpointNameTranslations)
-    .filter(k => restrict == null || restrict.indexOf(k) !== -1)
+    .filter((k: string) => restrict == null || restrict.indexOf(k as EndpointType) !== -1)
     .filter(k => k !== 'SELF') // self is a special case which we never want to expose in a combobox
     .filter(k => k !== 'UNDEFINED')
     .sort()
     .reduce(
-      (agg, k) =>
+      (
+        agg: Array<{
+          value: string;
+          label: string;
+        }>,
+        k: string
+      ) =>
         agg.concat({
           value: k,
           label: endpointNameTranslations[k]
@@ -72,17 +80,17 @@ export function getEndpointTypesComboBoxItems(restrict = null) {
     );
 }
 
-export function hasHttpEndpoints(types) {
+export function hasHttpEndpoints(types: EndpointType[]) {
   if (!types) {
     return false;
   }
   return hasType('HTTP', types);
 }
 
-export function hasHttpAndOtherEndpoints(types) {
+export function hasHttpAndOtherEndpoints(types: EndpointType[]) {
   return hasHttpEndpoints(types) && types.length > 1;
 }
 
-function hasType(type, types) {
+function hasType(type: EndpointType, types: EndpointType[]) {
   return types.indexOf(type) >= 0;
 }

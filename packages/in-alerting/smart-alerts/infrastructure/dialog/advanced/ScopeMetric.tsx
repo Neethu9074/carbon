@@ -18,7 +18,7 @@ import {
 //@ts-expect-error
 import { toOptions } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import { regexValidationError } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
-//@ts-expect-error import
+//@ts-expect-error
 import { getMetricPathAndLabel } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
 import ValidationMessages from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';

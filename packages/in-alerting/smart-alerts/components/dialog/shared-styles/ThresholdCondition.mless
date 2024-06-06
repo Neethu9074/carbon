@@ -16,4 +16,9 @@
   .narrowControl {
     width: 6rem;
   }
+
+  .toolTip {
+    display: flex;
+    align-items: center;
+  }
 }

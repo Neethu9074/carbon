@@ -306,6 +306,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'eumImpactedUsersForAppAlertEnabled',
+    instanaCtlKey: 'feature.eum.impacted.users.appalert.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'controlPlaneEnabled',
     instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
     defaultValue: false
@@ -388,6 +393,11 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticCertificateCheckEnabled',
     instanaCtlKey: 'feature.synthetic.certificate.check.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticRbacLimitedTPEnabled',
+    instanaCtlKey: 'feature.synthetic.rbac.limited.tp.enabled',
     defaultValue: false
   },
   {
@@ -523,6 +533,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonSearchInputEnabled',
     instanaCtlKey: 'feature.carbon.search.input.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonMoreMenuEnabled',
+    instanaCtlKey: 'feature.carbon.more.menu.enabled',
     defaultValue: false
   },
   {

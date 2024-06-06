@@ -104,6 +104,7 @@ import './ibmCloudSchematics';
 import './ibmOpenstackRegion';
 import './awsRedshiftCluster';
 import './ibmiActiveJobsInfo';
+import './azureLoadBalancer';
 import './crowdStrikeFalcon';
 import './ibmCloudFunctions';
 import './awsLambdaFunction';

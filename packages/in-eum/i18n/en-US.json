@@ -1,0 +1,9 @@
+{
+  "generateImpactReport": {
+    "button": "Generate Impact Report"
+  },
+  "entityInfoLabelOfWebsiteOrMobile": "On Websites/Mobile Apps:",
+  "titleImpactedUsers": "Impacted Users",
+  "labelImpactedUsers": "Users:",
+  "lastHoursOfTheIssue": "Last {{duration}} hours of the issue"
+}

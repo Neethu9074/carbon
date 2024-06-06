@@ -44,7 +44,8 @@ const ComponentResolver = connectTo(props => (props.getObservables ? props.getOb
       href,
       onClick,
       getTooltip,
-      isDisabled
+      isDisabled,
+      closeMenu
     } = props;
     if (render) {
       return render({ ...props, ...componentProps });
@@ -54,10 +55,19 @@ const ComponentResolver = connectTo(props => (props.getObservables ? props.getOb
       <Renderer
         kind="secondary"
         icon={icon}
-        onClick={onClick ? () => onClick(props) : undefined}
+        onClick={
+          onClick
+            ? () => {
+                onClick(props);
+                closeMenu?.();
+              }
+            : undefined
+        }
         href$={href$}
         href={href}
         disabled={isDisabled && isDisabled(props)}
+        requireTitle
+        title={label}
       >
         {label}
       </Renderer>

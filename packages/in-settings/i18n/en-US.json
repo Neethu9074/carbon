@@ -264,7 +264,8 @@
         "access_level": "Access all the synthetic tests with the selected access type and any additional permissions."
       },
       "limited_access": {
-        "access_level": "Access only the listed synthetic tests with the selected access type and any additional permissions."
+        "access_level": "Access only the listed synthetic tests with the selected access type and any additional permissions",
+        "access_level_tp": "Access all tests that are associated to the APs from the section above. In addition, you can add more tests to their scope in the list below."
       },
       "role_permissions_owner": "Create, configure, view and delete synthetic tests.",
       "role_permissions_viewer": "View synthetic tests and their configuration."
