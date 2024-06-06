@@ -44,7 +44,7 @@ export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
   const getDataRows = () => {
     return deletionHistoryResult.data?.deletions
       .slice()
-      .sort((a: DeleteLogsHistoryItem, b: DeleteLogsHistoryItem) => a.timestamp < b.timestamp)
+      .sort((a: DeleteLogsHistoryItem, b: DeleteLogsHistoryItem) => b.timestamp - a.timestamp)
       .map((item: DeleteLogsHistoryItem, i: number) => (
         <Tr key={i}>
           <Td>{timestampToLocaleDate(item.timestamp)}</Td>
@@ -60,7 +60,6 @@ export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
         </Tr>
       ));
   };
-
   return (
     <section className={locals.tableSection}>
       <Typography variant={'heading-200'}>{localisationStrings.summary}</Typography>
