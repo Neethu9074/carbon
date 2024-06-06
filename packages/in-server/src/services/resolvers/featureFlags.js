@@ -562,7 +562,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'notesAndActivity',
-    instanaCtlKey: 'feature.notes.and.activity',
+    instanaCtlKey: 'feature.incident.notes.enabled',
     defaultValue: false
   },
   {

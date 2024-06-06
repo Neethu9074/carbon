@@ -233,6 +233,7 @@
     "addNote": "Add note",
     "you": "You",
     "noNotes": "No notes added yet",
-    "noNotesDetails": "Get started by adding a note for your team."
+    "noNotesDetails": "Get started by adding a note for your team.",
+    "typeSomething": "Type something..."
   }
 }

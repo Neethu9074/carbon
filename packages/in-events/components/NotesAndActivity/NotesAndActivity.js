@@ -82,6 +82,7 @@ export function NotesAndActivity(props) {
                     hideLabel
                     rows={5}
                     id="incidentNotes"
+                    placeholder={t('in-events:notes.typeSomething')}
                     value={note}
                     onChange={e => {
                       setNote(e?.target?.value);
@@ -125,7 +126,7 @@ export function CommentList(props) {
                   [locals.chatEntry]: true
                 })}
               >
-                {!myBubble && <SvgIcon type={'lib_user_avatar_filled_alt'} size="sm" />}
+                {!myBubble && <SvgIcon type={'lib_user_avatar_filled_alt'} size="sm" className={locals.userIcon} />}
                 <div className={locals.chatEntryInfo}>{noteNameAndTimeFormat(myBubble, note, date)}</div>
               </div>
               <ChatBubble user={note.author} text={note.contents} myBubble={myBubble} />
