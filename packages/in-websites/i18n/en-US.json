@@ -9,6 +9,12 @@
         "perBeaconTypeConfigPageLoadTooltip": "This page load is batched and represents {{batchSize}} individual page loads.",
         "perBeaconTypeConfigResourceRetrievalsTooltip": "This resource retrievals is batched and represents {{batchSize}} individual resource retrievals."
       },
+      "eumTags": {
+        "pageTransition": {
+          "url": "Page path",
+          "title": "Page title"
+        }
+      },
       "resourceTimingMetricsLabelRedirectTime": "Redirect time",
       "resourceTimingMetricsLabelAppCacheTime": "AppCache time",
       "resourceTimingMetricsLabelDNSTime": "DNS time",
