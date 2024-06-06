@@ -232,7 +232,7 @@
     "incidentNotes": "Incident notes",
     "addNote": "Add note",
     "you": "You",
-    "noNotes": "No notes",
-    "noNotesDetails": "Currently no notes exist for this incident"
+    "noNotes": "No notes added yet",
+    "noNotesDetails": "Get started by adding a note for your team."
   }
 }
