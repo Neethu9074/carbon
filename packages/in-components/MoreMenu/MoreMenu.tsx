@@ -6,24 +6,14 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Button, ButtonKinds, ButtonSizes } from '@instana/legacy';
+import { MoreMenu as CarbonMoreMenu, MoreMenuProps } from '@instana/components';
+import { Button } from '@instana/legacy';
 
+import { carbonMoreMenuEnabled } from 'in-services/featureFlags';
 import { stopPropagation } from 'in-services/util/function';
 import Overlay from 'in-components/overlays/Overlay';
 
 import locals from './MoreMenu.mless';
-
-export interface MoreMenuProps {
-  children: React.ReactNode;
-  className?: string;
-  kind?: keyof typeof ButtonKinds;
-  size?: keyof typeof ButtonSizes;
-  /**
-   * Renders a custom element to open the menu.
-   * Use this if you need some kind of different button etc.
-   */
-  renderInteractiveElement?: (props: InteractiveElementsProps) => React.ReactNode;
-}
 
 export interface InteractiveElementsProps {
   ref: React.MutableRefObject<HTMLElement> | undefined;
@@ -40,8 +30,22 @@ export default function MoreMenu({
   kind = 'secondary',
   size = 'normal',
   className = '',
-  renderInteractiveElement
+  renderInteractiveElement,
+  ...props
 }: MoreMenuProps) {
+  if (carbonMoreMenuEnabled) {
+    return (
+      <CarbonMoreMenu
+        kind={kind}
+        size={size}
+        className={className}
+        renderInteractiveElement={renderInteractiveElement}
+        {...props}
+      >
+        {children}
+      </CarbonMoreMenu>
+    );
+  }
   return (
     <Overlay
       withoutWrapper
@@ -55,7 +59,6 @@ export default function MoreMenu({
           toggle,
           ref
         }) ?? (
-          // @ts-expect-error This component will be used as a wrapper. "prop children is missing" error can be ignored here
           <Button
             className={classNames(locals.button, className)}
             onClick={e => {
@@ -65,6 +68,7 @@ export default function MoreMenu({
             ref={ref}
             icon="lib_menu_more_horizontal"
             size={size}
+            // @ts-expect-error
             kind={kind}
           />
         )

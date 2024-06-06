@@ -79,9 +79,10 @@ export const columnDefinitions = [
           >
             {t('in-custom-dashboards:widgets.formCompChart.metricConfigChart.duplicate')}
           </MoreMenuButton>
-
           <MoreMenuButton
             icon="lib_actions_delete"
+            requireTitle
+            title={t('in-custom-dashboards:widgets.formCompChart.metricConfigChart.removeDataset')}
             onClick={() => {
               onChange([axisName, 'metrics'], f => f.remove(indexInAxis).setTouched(true));
               refreshDFQ$.emit(true);

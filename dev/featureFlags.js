@@ -47,6 +47,7 @@ module.exports = {
   carbonMessageEnabled: false,
   carbonIconButtonEnabled: true,
   carbonSearchInputEnabled: true,
+  carbonMoreMenuEnabled: true,
   carbonAccordionEnabled: true,
   carbonSelectEnabled: true,
   carbonContentSwitcherEnabled: true,
