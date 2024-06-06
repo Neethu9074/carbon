@@ -183,70 +183,73 @@ pipeline {
       }
     }
 
-    stage('Deploy') {
-      steps {
-        // This lock is shared with the backend pipeline as well so as only to allow
-        // one deploy per deployable branch at a time
-        lock(resource: "deploy-instana-${branchName}", inversePrecedence: true) {
-          timeout(time: 30, unit: 'MINUTES') {
-            timestamps {
-              script {
-                // Enable only for the develop branch for now
-                // Other delivery branches will use 'K8s Deploy'
-                if (branchName == 'develop') {
-                  deployInstana(branchName, instanaImageVersion, null, 'pink', 'instana', 'test')
-                } else if (branchName == latestReleaseBranch) {
-                  deployInstana(branchName, instanaImageVersion, null, 'magenta', 'instana', 'release')
+    stage('Deploy and SonarQube') {
+      parallel {
+        stage('Deploy') {
+          steps {
+            // This lock is shared with the backend pipeline as well so as only to allow
+            // one deploy per deployable branch at a time
+            lock(resource: "deploy-instana-${branchName}", inversePrecedence: true) {
+              timeout(time: 30, unit: 'MINUTES') {
+                timestamps {
+                  script {
+                    // Enable only for the develop branch for now
+                    // Other delivery branches will use 'K8s Deploy'
+                    if (branchName == 'develop') {
+                      deployInstana(branchName, instanaImageVersion, null, 'pink', 'instana', 'test')
+                    } else if (branchName == latestReleaseBranch) {
+                      deployInstana(branchName, instanaImageVersion, null, 'magenta', 'instana', 'release')
+                    }
+                  }
                 }
               }
             }
           }
         }
-      }
-    }
 
-    stage('Deploy Storybook') {
-      steps {
-        timeout(time: 30, unit: 'MINUTES') {
-          timestamps {
-            script {
-              if (branchName == 'develop') {
-                  try {
-                    awsCodeBuild credentialsType: 'jenkins',
-                      credentialsId: 'codebuild',
-                      projectName: 'ui-client-storybook',
-                      region: 'us-west-2',
-                      imageOverride: 'aws/codebuild/standard:7.0',
-                      sourceControlType: 'project',
-                      sourceVersion: gitCommitId,
-                      privilegedModeOverride: 'True'
-                  } catch (e) {
-                    notifyFailure('dev-notification', "<${env.BUILD_URL}|${env.JOB_NAME} : Storybook build & deploy failed: ${gitCommitId}")
-                    throw e
+        stage('Deploy Storybook') {
+          steps {
+            timeout(time: 30, unit: 'MINUTES') {
+              timestamps {
+                script {
+                  if (branchName == 'develop') {
+                      try {
+                        awsCodeBuild credentialsType: 'jenkins',
+                          credentialsId: 'codebuild',
+                          projectName: 'ui-client-storybook',
+                          region: 'us-west-2',
+                          imageOverride: 'aws/codebuild/standard:7.0',
+                          sourceControlType: 'project',
+                          sourceVersion: gitCommitId,
+                          privilegedModeOverride: 'True'
+                      } catch (e) {
+                        notifyFailure('dev-notification', "<${env.BUILD_URL}|${env.JOB_NAME} : Storybook build & deploy failed: ${gitCommitId}")
+                        throw e
+                      }
                   }
+                }
               }
             }
           }
         }
-      }
-    }
 
-    stage('SonarQube') {
-      steps {
-        milestone(label: "SonarQube", ordinal: null)
-        timeout(time: 2, unit: 'HOURS') {
-          timestamps {
-            script {
-              if (isDeliveryBranch || branchName == 'sonarqube') {
-                awsCodeBuild credentialsType: 'jenkins',
-                  credentialsId: 'codebuild',
-                  projectName: 'ui-client',
-                  region: 'us-west-2',
-                  imageOverride: 'aws/codebuild/standard:7.0',
-                  sourceControlType: 'project',
-                  sourceVersion: gitCommitId,
-                  buildSpecFile: 'buildspec.sonarqube.yml',
-                  envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
+        stage('SonarQube') {
+          steps {
+            timeout(time: 2, unit: 'HOURS') {
+              timestamps {
+                script {
+                  if (isDeliveryBranch || branchName == 'sonarqube') {
+                    awsCodeBuild credentialsType: 'jenkins',
+                      credentialsId: 'codebuild',
+                      projectName: 'ui-client',
+                      region: 'us-west-2',
+                      imageOverride: 'aws/codebuild/standard:7.0',
+                      sourceControlType: 'project',
+                      sourceVersion: gitCommitId,
+                      buildSpecFile: 'buildspec.sonarqube.yml',
+                      envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
+                  }
+                }
               }
             }
           }
