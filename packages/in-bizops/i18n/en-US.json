@@ -85,7 +85,18 @@
         "tabLabel": "Business processes"
       },
       "configuration": {
-        "tabLabel": "Configuration"
+        "tabLabel": "Configuration",
+        "loadingText": "Loading data",
+        "updateCardLabel": "Update business perspective",
+        "stepOneHeader": "1. Edit name and the description",
+        "perspectiveName": "Perspective name",
+        "perspectiveDescription": "Description",
+        "stepTwoHeader": "2. Edit filter",
+        "saveChangesButton": "Save",
+        "removeCardLabel": "Remove business perspective",
+        "removePerspectiveDisclaimer": "If you do not want to use this business perspective any longer, click \"Remove business perspective\".",
+        "removePerspectiveCheckbox": "I understand that this action cannot be undone",
+        "removePerspectiveButton": "Remove business perspective"
       }
     }
   }
