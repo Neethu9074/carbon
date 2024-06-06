@@ -7,7 +7,6 @@
   "recommendedActions": "Recommended Actions",
   "validVaultParameter": "Vault parameters marked as optional must be either both blank or both not blank.",
   "newAction": "New Action",
-  "ok": "Ok",
   "runAction": "Run action",
   "testAction": "Test action",
   "targetAgent": "Target Agent",
