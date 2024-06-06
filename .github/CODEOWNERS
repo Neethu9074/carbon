@@ -291,6 +291,7 @@ packages/in-types                   @Instana-IBM-GitHub-Enterprise @instana/eng-
 packages/in-vsphere                 @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-waiting-for-deployment  @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-websites                @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
+packages/in-eum                     @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
 packages/in-websites/alerting       @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
 packages/in-zhmc                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 

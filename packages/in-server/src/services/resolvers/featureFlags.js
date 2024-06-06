@@ -306,6 +306,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'eumImpactedUsersForAppAlertEnabled',
+    instanaCtlKey: 'feature.eum.impacted.users.appalert.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'controlPlaneEnabled',
     instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
     defaultValue: false

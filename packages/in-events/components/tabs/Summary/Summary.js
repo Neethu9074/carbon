@@ -30,7 +30,8 @@ import {
 import {
   incidentSummarizationEnabled,
   incidentSummarizationTimelineEnabled,
-  manuallyCloseEventEnabled
+  manuallyCloseEventEnabled,
+  eumImpactedUsersForAppAlertEnabled
 } from 'in-services/featureFlags';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
@@ -40,6 +41,7 @@ import EntityWithParentInformation from 'in-events/components/EntityInformation/
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
+import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import SyntheticEventContent from 'in-events/components/EventContent/SyntheticEventContent';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
@@ -232,6 +234,13 @@ const EventContent = connectTo(
             </Card>
           </Col>
         </Row>
+        {eumImpactedUsersForAppAlertEnabled && (
+          <Row withoutSideMargin>
+            <Col xs>
+              <SmartAlertImpactedUsers event={event} snapshot={snapshot} />
+            </Col>
+          </Row>
+        )}
         {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
           <Row withoutSideMargin>
             <Col xs>

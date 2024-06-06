@@ -74,6 +74,7 @@ module.exports = {
   pluginMetricStatisticsEnabled: true,
   mobileAppCrashBeaconEnabled: true,
   websiteBeaconQueryOptimizationEnabled: true,
+  eumImpactedUsersForAppAlertEnabled: true,
   controlPlaneEnabled: true,
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: false,
