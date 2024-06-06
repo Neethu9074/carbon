@@ -13,6 +13,7 @@ import {
   AreaRoleWithContributor
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getConfigurationSummaryMsg } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
+import { syntheticRbacLimitedTPEnabled } from 'in-services/featureFlags';
 import { t, Trans } from 'in-i18n';
 
 describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary/getConfigurationSummaryMsg', () => {
@@ -158,13 +159,11 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
     });
   });
 
-  describe('Mobile app, Synthetics, Website', () => {
+  describe('Mobile app, Website', () => {
     test.each([
       [ProductArea.MOBILE_APP, ScopedPermissionItem.ACCESS_ALL],
-      [ProductArea.SYNTHETICS, ScopedPermissionItem.ACCESS_ALL],
       [ProductArea.WEBSITE, ScopedPermissionItem.ACCESS_ALL],
       [ProductArea.MOBILE_APP, ScopedPermissionItem.LIMITED_ACCESS],
-      [ProductArea.SYNTHETICS, ScopedPermissionItem.LIMITED_ACCESS],
       [ProductArea.WEBSITE, ScopedPermissionItem.LIMITED_ACCESS]
     ])('%s: shows correct messages for %s', (productArea, scope) => {
       // Owner
@@ -186,6 +185,57 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(configSummaryMsg.rolePermissionMessage).toEqual(
         t('in-settings:configurationSummary.' + productContext + '.role_permissions_viewer')
       );
+    });
+  });
+
+  describe('Synthetics', () => {
+    test.each([
+      [ProductArea.SYNTHETICS, ScopedPermissionItem.ACCESS_ALL],
+      [ProductArea.SYNTHETICS, ScopedPermissionItem.LIMITED_ACCESS]
+    ])('%s: shows correct messages for %s', (productArea, scope) => {
+      // Owner
+      const ownerConfigSummaryMsg = getConfigurationSummaryMsg(productArea, scope, AreaRole.OWNER);
+      // Viewer
+      const viewerConfigSummaryMsg = getConfigurationSummaryMsg(productArea, scope, AreaRole.VIEWER);
+      const productContext = productArea.toLowerCase();
+      const scopeContext = scope.toLowerCase();
+      if (
+        syntheticRbacLimitedTPEnabled &&
+        productArea === ProductArea.SYNTHETICS &&
+        scope === ScopedPermissionItem.LIMITED_ACCESS
+      ) {
+        // Owner ff RBAC limited access
+        expect(ownerConfigSummaryMsg.accessLevelMessage).toEqual(
+          t('in-settings:configurationSummary.' + productContext + '.' + scopeContext + '.access_level_tp')
+        );
+        expect(ownerConfigSummaryMsg.rolePermissionMessage).toEqual(
+          t('in-settings:configurationSummary.' + productContext + '.role_permissions_owner')
+        );
+
+        // Viewer ff RBAC limited access
+        expect(viewerConfigSummaryMsg.accessLevelMessage).toEqual(
+          t('in-settings:configurationSummary.' + productContext + '.' + scopeContext + '.access_level_tp')
+        );
+        expect(viewerConfigSummaryMsg.rolePermissionMessage).toEqual(
+          t('in-settings:configurationSummary.' + productContext + '.role_permissions_viewer')
+        );
+      } else {
+        // Owner default limited access
+        expect(ownerConfigSummaryMsg.accessLevelMessage).toEqual(
+          t('in-settings:configurationSummary.' + productContext + '.' + scopeContext + '.access_level')
+        );
+        expect(ownerConfigSummaryMsg.rolePermissionMessage).toEqual(
+          t('in-settings:configurationSummary.' + productContext + '.role_permissions_owner')
+        );
+
+        // Viewer default limited access
+        expect(viewerConfigSummaryMsg.accessLevelMessage).toEqual(
+          t('in-settings:configurationSummary.' + productContext + '.' + scopeContext + '.access_level')
+        );
+        expect(viewerConfigSummaryMsg.rolePermissionMessage).toEqual(
+          t('in-settings:configurationSummary.' + productContext + '.role_permissions_viewer')
+        );
+      }
     });
   });
 });
