@@ -354,6 +354,11 @@
   "pluginName_azurePostgreSQL_1": "Azure PostgreSQL",
   "pluginName_azurePostgreSQL_2": "Azure PostgreSQL",
   "pluginName_azurePostgreSQL": "Azure PostgreSQL",
+  "pluginName_azureLoadBalancer_plural": "Azure Load Balancer",
+  "pluginName_azureLoadBalancer_0": "Azure Load Balancer",
+  "pluginName_azureLoadBalancer_1": "Azure Load Balancer",
+  "pluginName_azureLoadBalancer_2": "Azure Load Balancer",
+  "pluginName_azureLoadBalancer": "Azure Load Balancer",
   "pluginName_baw_plural": "BAW",
   "pluginName_baw_0": "BAW",
   "pluginName_baw_1": "BAW",
@@ -5998,6 +6003,40 @@
         "titleNetwork": "Network",
         "titleStorage": "Storage",
         "titleStorageUsed": "Storage Used"
+      }
+    },
+    "azureLoadBalancer": {
+      "infoAzureLoadBalancer": "Azure Load Balancer",
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
+      "infoLocation": "Location",
+      "infoSubscriptionID": "Subscription ID",
+      "infoType": "Type",
+      "infoProvisioningState": "Provisioning State",
+      "labelCount": "Count",
+      "labelAllocated": "Allocated",
+      "labelUsed": "Used",
+      "labelVipAvailability": "Vip Availability",
+      "labelDipAvailability": "Dip Availability",
+      "labelPacketCount": "Packet Count",
+      "labelSYNCount": "SYN Count",
+      "labelSnatConnectionCount": "Snat Connection Count",
+      "labelAllocatedSnatPorts" : "Allocated Snat Ports",
+      "labelUsedSnatPorts": "Used Snat Ports",
+      "labelByteCount": "Byte Count",
+      "kpi": {
+        "labelSnatConnectionCount": "SNAT Connections",
+        "labelByteCount": "Bytes Count",
+        "labelUsedSnatPorts": "SNAT Ports Used"
+      },
+      "dashboard": {
+        "titleSnatConnection": "SNAT Connections",
+        "titleSnatPorts": "SNAT Ports",
+        "titleByteCount": "Bytes",
+        "titlePacketCount": "Packets",
+        "titleSYNPackets": "SYN Packets",
+        "titleVipAvailability": "Vip Availability",
+        "titleDipAvailability":"Dip Availability"
       }
     },
     "beeInstana": {

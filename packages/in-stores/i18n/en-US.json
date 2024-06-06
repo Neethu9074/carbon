@@ -238,6 +238,7 @@
     "fieldsEntityAzureServiceBusTopics": "Azure Service Bus Topics",
     "fieldsEntityAzureMachineLearning": "Azure Machine Learning",
     "fieldsEntityAzureServicePostgreSQL": "Azure PostgreSQL",
+    "fieldsEntityAzureLoadBalancer":  "Azure Load Balancer",
     "fieldsEntityHost": "Infrastructure host",
     "fieldsEntityHostOs": "Operating system",
     "fieldsEntityIbmMq": "IBM MQ",
