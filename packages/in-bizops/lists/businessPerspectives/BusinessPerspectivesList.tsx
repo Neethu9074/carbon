@@ -76,7 +76,6 @@ export default function BusinessPerspectivesList() {
           }}
         />
         <ServerTableWithUrlState
-          // TODO:  change this to perspectives data when backend is ready
           get={getBusinessPerspectivesListData}
           timeConfig={timeConfig}
           cardTitle={t('in-bizops:lists.perspectives')}
