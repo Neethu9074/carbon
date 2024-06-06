@@ -31,12 +31,19 @@ export function NotesAndActivity(props) {
   const { event } = props;
   const notes = getNotes(event);
   const incidentId = event?.get('id');
+  const eventType = event?.get('type');
+
   const loading = event == undefined;
 
   // Boolean to control when the notes section is opened
   const [displayNotes, setDisplayNotes] = useState(false);
   // Current value of the typed out note
   const [note, setNote] = useState('');
+
+  // We ONLY want to display Notes and Activity for incidents
+  if (eventType != 'incident') {
+    return null;
+  }
 
   return (
     <>
