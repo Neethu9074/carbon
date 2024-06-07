@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 
+import { IconButton } from '@instana/components';
 import { Card } from '@instana/components';
 
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
@@ -19,7 +20,6 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { filterByEndpointType } from './includeEndpointTypes';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { fixateTimeConfig } from 'in-stores/time/config';
-import IconLink from 'in-components/IconButton/IconLink';
 import { emptyObject } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
@@ -96,7 +96,7 @@ export default function LatencyDistributionHistogram({
         )}
         {renderWidgetNotSupportedIndicator && (
           <Tooltip content={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}>
-            <IconLink type="lib_help_error_info_outline" className={locals.liveModeIcon} />
+            <IconButton type="lib_help_error_info_outline" className={locals.liveModeIcon} />
           </Tooltip>
         )}
       </>
