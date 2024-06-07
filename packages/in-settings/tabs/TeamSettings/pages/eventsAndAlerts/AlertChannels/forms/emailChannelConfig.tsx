@@ -4,34 +4,71 @@
  */
 
 import { createMapForm, createField, MapFormItems, Field, MapForm, ValidationMessage } from 'formalistic';
-import { List } from 'immutable';
-import React from 'react';
+import React, { useState } from 'react';
+import { List, Map } from 'immutable';
 
+import { IconButton, SecondLevelNavigation, Stack, TextArea, Typography } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 import { Button } from '@instana/legacy';
 
+import { SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation/SecondLevelNavigation';
+import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
+//@ts-expect-error
+import Lettering from 'in-components/Lettering';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
-import FormGroup from 'in-settings/components/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
 import locals from './ChannelForm.mless';
 
+// Potentially temporary until we pull in type from in-types
+interface CustomEmailSubjectPrefix {
+  issueSubject?: CloseOpen;
+  incidentSubject?: CloseOpen;
+  changeEventSubject?: {
+    changeValue?: string;
+  };
+  monitoringIssueSubject?: CloseOpen;
+}
+
+interface CustomEmailSubjectPrefixMapForm extends MapFormItems {
+  issueSubject: MapForm<CloseOpenMapForm>;
+  incidentSubject: MapForm<CloseOpenMapForm>;
+  changeEventSubject: MapForm<ChangeValueField>;
+  monitoringIssueSubject: MapForm<CloseOpenMapForm>;
+}
+
+interface CloseOpen {
+  openValue?: string;
+  closeValue?: string;
+}
+
+interface ChangeValueField extends MapFormItems {
+  changeValue: Field<string>;
+}
+
+interface CloseOpenMapForm extends MapFormItems {
+  openValue: Field<string>;
+  closeValue: Field<string>;
+}
+
 interface EmailAlertChannel {
   emails: string[];
   name: string;
   kind: string;
+  customEmailSubjectPrefix?: CustomEmailSubjectPrefix;
 }
 
 interface EmailAlertChannelMapForm extends MapFormItems {
   name: Field<string>;
   kind: Field<string>;
   emails: Field<List<string>>;
+  customEmailSubjectPrefix: MapForm<CustomEmailSubjectPrefixMapForm>;
 }
 
 interface EmailValidationResult extends ValidationMessage {
@@ -46,6 +83,8 @@ interface ComponentProps {
 
 const name = 'EMAIL';
 const label = t('in-settings:tabs.email');
+const testAlertChannelLabel = t('in-settings:tabs.sendTestEmail');
+const defaultNewValue = 'unused';
 
 const parameters = [
   {
@@ -59,12 +98,36 @@ const parameters = [
   {
     key: 'emails',
     label: t('in-settings:tabs.emails')
+  },
+  {
+    key: 'customEmailSubjectPrefix',
+    label: t('in-settings:tabs.customSubjects'),
+    isNested: true,
+    nestedParamKeys: [
+      {
+        key: 'issueSubject',
+        label: t('in-settings:tabs.issue')
+      },
+      {
+        key: 'incidentSubject',
+        label: t('in-settings:tabs.incident')
+      },
+      {
+        key: 'changeEventSubject',
+        label: t('in-settings:tabs.change')
+      },
+      {
+        key: 'monitoringIssueSubject',
+        label: t('in-settings:tabs.monitoringIssues')
+      }
+    ]
   }
 ];
 
 export default {
   name,
   label,
+  testAlertChannelLabel,
 
   getParameters() {
     return parameters;
@@ -72,6 +135,7 @@ export default {
 
   enrichAlertChannelObject(alertChannel: EmailAlertChannel) {
     alertChannel.emails = [''];
+    alertChannel.customEmailSubjectPrefix = {};
   },
 
   createDetails(alertChannel: Map<string, string | List<string> | List<string[]>>): JSX.Element | null {
@@ -113,6 +177,61 @@ export default {
           value: alertChannel && alertChannel.has('emails') ? (alertChannel.get('emails') as List<string>) : List(['']),
           validator: emails
         })
+      )
+      .put(
+        'customEmailSubjectPrefix',
+        createMapForm({
+          items: {
+            issueSubject: createMapForm({
+              items: {
+                openValue: createField({
+                  value:
+                    alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'issueSubject', 'openValue'], '')
+                }),
+                closeValue: createField({
+                  value:
+                    alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'issueSubject', 'closeValue'], '')
+                })
+              }
+            }),
+            incidentSubject: createMapForm({
+              items: {
+                openValue: createField({
+                  value:
+                    alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'incidentSubject', 'openValue'], '')
+                }),
+                closeValue: createField({
+                  value:
+                    alertChannel &&
+                    alertChannel.getIn(['customEmailSubjectPrefix', 'incidentSubject', 'closeValue'], '')
+                })
+              }
+            }),
+            changeEventSubject: createMapForm({
+              items: {
+                changeValue: createField({
+                  value:
+                    alertChannel &&
+                    alertChannel.getIn(['customEmailSubjectPrefix', 'changeEventSubject', 'changeValue'], '')
+                })
+              }
+            }),
+            monitoringIssueSubject: createMapForm({
+              items: {
+                openValue: createField({
+                  value:
+                    alertChannel &&
+                    alertChannel.getIn(['customEmailSubjectPrefix', 'monitoringIssueSubject', 'openValue'], '')
+                }),
+                closeValue: createField({
+                  value:
+                    alertChannel &&
+                    alertChannel.getIn(['customEmailSubjectPrefix', 'monitoringIssueSubject', 'closeValue'], '')
+                })
+              }
+            })
+          }
+        })
       );
   },
 
@@ -124,11 +243,39 @@ export default {
       id: alertChannel ? alertChannel.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
       name: form.get('name').value,
-      emails: form.get('emails').value
+      emails: form.get('emails').value,
+      customEmailSubjectPrefix: prepareCustomEmailPrefixOptionsForSending(form.get('customEmailSubjectPrefix'))
     };
   },
 
-  Form
+  Form,
+  AdvancedFormSettings,
+  advancedStateShouldBeExpandedByDefault(form: MapForm<EmailAlertChannelMapForm>) {
+    let hasValues = false;
+    const customEmailSubjectPrefixField = form.get('customEmailSubjectPrefix');
+    const nestedKeys = parameters.filter(val => val.key === 'customEmailSubjectPrefix').pop()?.nestedParamKeys;
+
+    if (!nestedKeys) return hasValues;
+
+    nestedKeys.forEach(eventType => {
+      const currentSubjectEvent = eventType.key;
+      const currentSubjectMap = customEmailSubjectPrefixField.get(currentSubjectEvent) as
+        | MapForm<CloseOpenMapForm>
+        | MapForm<ChangeValueField>;
+
+      if (currentSubjectMap.containsKey('closeValue')) {
+        if (
+          (currentSubjectMap as MapForm<CloseOpenMapForm>).get('openValue').value ||
+          (currentSubjectMap as MapForm<CloseOpenMapForm>).get('closeValue').value
+        )
+          hasValues = true;
+      } else if (currentSubjectMap.containsKey('changeValue')) {
+        if ((currentSubjectMap as MapForm<ChangeValueField>).get('changeValue').value) hasValues = true;
+      }
+    });
+
+    return hasValues;
+  }
 };
 
 function emails(emails: List<string>): EmailValidationResult[] {
@@ -158,71 +305,452 @@ function emails(emails: List<string>): EmailValidationResult[] {
 
 function Form({ form, onChange }: ComponentProps): JSX.Element {
   return (
-    <fieldset>
-      {form.get('name').map(field => (
-        <FormGroup>
-          <Label htmlFor="name" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.name')}
-          </Label>
-          <Input
-            id="name"
-            className={locals.input}
-            type="text"
-            placeholder={t('in-settings:tabs.emailAlertChannel')}
-            value={field.value}
-            onChange={e => onChange('name', e.target.value)}
-            hasError={!field.valid && field.touched}
-            maxLength={256}
-          />
-          <TouchedMessages field={field} />
-        </FormGroup>
-      ))}
-      {form.get('emails').map(field => (
-        <>
-          <Label htmlFor="email" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.emails')}
-          </Label>
-          {field.touched
-            ? field.messages.map((message: EmailValidationResult, i: number) => {
-                if (message.type !== 'no_mail') {
-                  return null;
-                }
-                return <ValidationBlock key={i}>{message.message}</ValidationBlock>;
-              })
-            : null}
-        </>
-      ))}
-      {form.get('emails').map(field => {
-        const emails = field.value;
-        return emails.map((email, i) => (
-          <div key={i}>
-            <div className={locals.inputDeleteWrapper}>
+    <fieldset style={{ paddingBottom: '0.4rem' }}>
+      <Stack align="start">
+        {form.get('name').map(field => (
+          <div className={locals.inputContainer}>
+            <Stack gap="xxsmall" direction="vertical">
+              <Label htmlFor="name" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.name')}
+              </Label>
               <Input
+                id="name"
                 className={locals.input}
-                id={`email_${email}`}
-                type="email"
-                placeholder="ops@company.org"
-                value={email}
-                onChange={e => onChangeEmail(e, form, onChange, i)}
+                type="text"
+                placeholder={t('in-settings:tabs.emailAlertChannel')}
+                value={field.value}
+                onChange={e => onChange('name', e.target.value)}
+                hasError={!field.valid && field.touched}
+                maxLength={256}
               />
-              <Button className={locals.deleteButton} kind="danger" onClick={() => removeEmail(form, onChange, i)}>
-                {t('in-settings:tabs.remove')}
-              </Button>
-            </div>
-            {field.touched
-              ? field.messages
-                  .filter((msg: EmailValidationResult) => msg.mailIndex === i)
-                  .map((message, i) => <ValidationBlock key={i}>{message.message}</ValidationBlock>)
-              : null}
+              <TouchedMessages field={field} />
+            </Stack>
           </div>
-        ));
-      })}
-      <div className={locals.addButtonWrapper}>
-        <span className={locals.addLink} onClick={() => addEmail(form, onChange)}>
+        ))}
+        <div className={locals.inputContainer}>
+          <Stack gap="xxsmall" direction="vertical">
+            {form.get('emails').map(field => (
+              <>
+                <Label htmlFor="email" hasError={!field.valid && field.touched}>
+                  {t('in-settings:tabs.emails')}
+                </Label>
+                {field.touched
+                  ? field.messages.map((message: EmailValidationResult, i: number) => {
+                      if (message.type !== 'no_mail') {
+                        return null;
+                      }
+                      return <ValidationBlock key={i}>{message.message}</ValidationBlock>;
+                    })
+                  : null}
+              </>
+            ))}
+            {form.get('emails').map(field => {
+              const emails = field.value;
+              return emails.map((email, i) => (
+                <div key={i} className={locals.input}>
+                  <Stack direction="horizontal">
+                    <Input
+                      className={locals.input}
+                      id={`email_${email}`}
+                      type="email"
+                      placeholder="ops@company.org"
+                      value={email}
+                      onChange={e => onChangeEmail(e, form, onChange, i)}
+                    />
+                    <IconButton
+                      type="lib_actions_delete"
+                      size="compact"
+                      kind="danger"
+                      onClick={() => removeEmail(form, onChange, i)}
+                    />
+                  </Stack>
+                  {field.touched
+                    ? field.messages
+                        .filter((msg: EmailValidationResult) => msg.mailIndex === i)
+                        .map((message, i) => <ValidationBlock key={i}>{message.message}</ValidationBlock>)
+                    : null}
+                </div>
+              ));
+            })}
+          </Stack>
+        </div>
+        <Button kind="action" icon="lib_openclose_add" onClick={() => addEmail(form, onChange)}>
           {t('in-settings:tabs.addEmail')}
-        </span>
-      </div>
+        </Button>
+      </Stack>
     </fieldset>
+  );
+}
+
+interface AdvancedFormProps {
+  form: MapForm<EmailAlertChannelMapForm>;
+  setForm: SetFormFunction;
+}
+
+function AdvancedFormSettings({ form, setForm }: AdvancedFormProps): JSX.Element {
+  const customEmailSubjectPrefixField = form.get('customEmailSubjectPrefix');
+  // Used to provide information to combo box dropdown and for marrying the values of our dropdown to the form field
+  const fieldMetadata: FieldMetadata[] = [
+    {
+      value: 'incidentSubject',
+      label: t('in-settings:tabs.incident'),
+      isOpenClose: true,
+      field: customEmailSubjectPrefixField.get('incidentSubject')
+    },
+    {
+      value: 'issueSubject',
+      label: t('in-settings:tabs.issue'),
+      isOpenClose: true,
+      field: customEmailSubjectPrefixField.get('issueSubject')
+    },
+    {
+      value: 'changeEventSubject',
+      label: t('in-settings:tabs.change'),
+      isOpenClose: false,
+      field: customEmailSubjectPrefixField.get('changeEventSubject')
+    },
+    {
+      value: 'monitoringIssueSubject',
+      label: t('in-settings:tabs.monitoringIssues'),
+      isOpenClose: true,
+      field: customEmailSubjectPrefixField.get('monitoringIssueSubject')
+    }
+  ];
+  return (
+    <fieldset>
+      <Stack gap="large">
+        <Typography
+          variant="body-regular"
+          component={() => (
+            <div className={locals.descriptionText}>{t('in-settings:tabs.advancedSettingsMessage')}</div>
+          )}
+        >
+          {t('in-settings:tabs.advancedSettingsMessage')}
+        </Typography>
+        <EmailCustomPrefixParent fieldMetadata={fieldMetadata} form={form} setForm={setForm} />
+        <Stack gap="xxsmall">
+          <Typography variant="heading-100">{t('in-settings:tabs.preview')}</Typography>
+          <EmailCustomPrefixPreviewSection fieldMetadata={fieldMetadata} />
+        </Stack>
+      </Stack>
+    </fieldset>
+  );
+}
+
+interface EmailCustomPrefixParentProps {
+  fieldMetadata: FieldMetadata[];
+  form: MapForm<EmailAlertChannelMapForm>;
+  setForm: SetFormFunction;
+}
+
+interface DropdownItems {
+  value: string;
+  label: string;
+  isDisabled?: boolean;
+}
+
+interface FieldMetadata extends DropdownItems {
+  isOpenClose: boolean;
+  field: MapForm<CloseOpenMapForm> | MapForm<ChangeValueField> | undefined;
+}
+
+function EmailCustomPrefixParent({ fieldMetadata, form, setForm }: EmailCustomPrefixParentProps) {
+  const [dropdownStack, setDropdownStack] = useState<string[]>(DefaultArrayWithPrefixValuesThatExist(fieldMetadata));
+  return (
+    <Stack>
+      <Stack direction="horizontal" distribution="spaceBetween">
+        <Typography variant="heading-100">{t('in-settings:tabs.customSubjects')}</Typography>
+        <Button
+          kind="action"
+          icon="lib_openclose_add"
+          disabled={
+            dropdownStack.includes(defaultNewValue) || dropdownStack.length >= Object.keys(fieldMetadata).length
+          }
+          onClick={() => setDropdownStack([defaultNewValue, ...dropdownStack])}
+        >
+          {t('in-settings:tabs.addCustomSubject')}
+        </Button>
+      </Stack>
+      {/* Render dropdowns based on which ones are active and assign them the necessary field value */}
+      {dropdownStack.map((selectedEventTypes, idx) => (
+        <CustomEmailPrefixDropdown
+          form={form}
+          setForm={setForm}
+          fieldMetadata={fieldMetadata}
+          currentField={selectedEventTypes === defaultNewValue ? '' : selectedEventTypes}
+          currentIdx={idx}
+          dropdownStack={dropdownStack}
+          setDropdownStack={setDropdownStack}
+        />
+      ))}
+      {dropdownStack.filter(val => val !== defaultNewValue).length > 0 && (
+        <Typography
+          variant="body-regular"
+          component={() => (
+            <div className={locals.descriptionText}>{t('in-settings:tabs.customSubjectNotProvided')}</div>
+          )}
+        >
+          {t('in-settings:tabs.customSubjectNotProvided')}
+        </Typography>
+      )}
+    </Stack>
+  );
+}
+
+function DefaultArrayWithPrefixValuesThatExist(fieldMetadata: FieldMetadata[]): string[] {
+  return fieldMetadata
+    .map(prefixFields => {
+      if (prefixFields.isOpenClose) {
+        if (
+          (prefixFields.field?.get('openValue') as Field<string>).value ||
+          (prefixFields.field?.get('closeValue') as Field<string>).value
+        )
+          return prefixFields.value;
+      } else {
+        if ((prefixFields.field?.get('changeValue') as Field<string>).value) return prefixFields.value;
+      }
+
+      return null;
+    })
+    .filter(val => val !== null) as string[];
+}
+
+interface CustomEmailPrefixDropdownProps {
+  form: MapForm<EmailAlertChannelMapForm>;
+  setForm: SetFormFunction;
+  dropdownStack: string[];
+  setDropdownStack: React.Dispatch<React.SetStateAction<string[]>>;
+  fieldMetadata: FieldMetadata[];
+  currentField: string;
+  currentIdx: number;
+}
+
+function CustomEmailPrefixDropdown({
+  form,
+  setForm,
+  dropdownStack,
+  setDropdownStack,
+  fieldMetadata,
+  currentField,
+  currentIdx
+}: CustomEmailPrefixDropdownProps) {
+  // Holds info about current field for given dropdown
+  const currentMapField = fieldMetadata.find(eventfield => eventfield.value === currentField);
+  return (
+    <Stack>
+      <Stack direction="horizontal">
+        <ComboBox
+          options={fieldMetadata.map(val => {
+            if (dropdownStack.includes(val.value)) {
+              val.isDisabled = true;
+            } else {
+              val.isDisabled = false;
+            }
+            return val;
+          })}
+          value={currentField}
+          placeholder={t('in-settings:tabs.selectEventType')}
+          onChange={newVal => {
+            const currentEventType = currentField || defaultNewValue;
+            if (newVal as Option) {
+              const newField = (newVal as Option).value;
+              setDropdownStack(dropdownStack.map((val, idx) => (idx === currentIdx ? newField : val)));
+            } else {
+              if (currentEventType !== defaultNewValue)
+                setDropdownStack(dropdownStack.map((val, idx) => (idx === currentIdx ? defaultNewValue : val)));
+            }
+          }}
+          className={locals.emailsEventTypeDropdown}
+          isClearable={false}
+        />
+        <IconButton
+          type="lib_actions_delete"
+          kind="danger"
+          size="compact"
+          onClick={() => {
+            setDropdownStack(dropdownStack.filter(val => val !== currentField));
+            if (currentMapField && currentMapField.isOpenClose) {
+              //@ts-expect-error
+              let newForm = form.updateIn(['customEmailSubjectPrefix', currentField, 'openValue'], fieldUpdate =>
+                (fieldUpdate as Field<string>).setValue('')
+              );
+              //@ts-expect-error
+              newForm = newForm.updateIn(['customEmailSubjectPrefix', currentField, 'closeValue'], fieldUpdate =>
+                (fieldUpdate as Field<string>).setValue('')
+              );
+
+              setForm(newForm);
+            } else if (currentMapField && !currentMapField.isOpenClose) {
+              setForm(
+                //@ts-expect-error
+                form.updateIn(['customEmailSubjectPrefix', currentField, 'changeValue'], fieldUpdate =>
+                  (fieldUpdate as Field<string>).setValue('')
+                )
+              );
+            }
+          }}
+        />
+      </Stack>
+      {currentField && (
+        <>
+          {fieldMetadata.find(eventField => eventField.value === currentField)?.isOpenClose ? (
+            <Stack direction="horizontal">
+              <Stack gap="xxsmall">
+                <Label htmlFor="openVal">
+                  {t('in-settings:tabs.openSubject', {
+                    event_type: currentMapField?.label.toLowerCase()
+                  })}
+                </Label>
+                <TextArea
+                  id="openVal"
+                  onChange={e =>
+                    setForm(
+                      //@ts-expect-error
+                      form.updateIn(['customEmailSubjectPrefix', currentField, 'openValue'], fieldUpdate =>
+                        (fieldUpdate as Field<string>).setValue((e.target as HTMLTextAreaElement).value)
+                      )
+                    )
+                  }
+                  value={
+                    //@ts-expect-error
+                    (form.getIn(['customEmailSubjectPrefix', currentField, 'openValue']) as Field<string>).value
+                  }
+                  rows={5}
+                  className={locals.textAreaInput}
+                />
+              </Stack>
+              <Stack gap="xxsmall">
+                <Label htmlFor="closeVal">
+                  {t('in-settings:tabs.closeSubject', {
+                    event_type: currentMapField?.label.toLowerCase()
+                  })}
+                </Label>
+                <TextArea
+                  id="closeVal"
+                  onChange={e =>
+                    setForm(
+                      //@ts-expect-error
+                      form.updateIn(['customEmailSubjectPrefix', currentField, 'closeValue'], fieldUpdate =>
+                        (fieldUpdate as Field<string>).setValue((e.target as HTMLTextAreaElement).value)
+                      )
+                    )
+                  }
+                  value={
+                    //@ts-expect-error
+                    (form.getIn(['customEmailSubjectPrefix', currentField, 'closeValue']) as Field<string>).value
+                  }
+                  rows={5}
+                  className={locals.textAreaInput}
+                />
+              </Stack>
+            </Stack>
+          ) : (
+            <Stack gap="xxsmall">
+              <Label htmlFor="changeValue">{t('in-settings:tabs.changeSubject')}</Label>
+              <TextArea
+                id="changeValue"
+                onChange={e =>
+                  setForm(
+                    //@ts-expect-error
+                    form.updateIn(['customEmailSubjectPrefix', currentField, 'changeValue'], fieldUpdate =>
+                      (fieldUpdate as Field<string>).setValue((e.target as HTMLTextAreaElement).value)
+                    )
+                  )
+                }
+                value={
+                  //@ts-expect-error
+                  (form.getIn(['customEmailSubjectPrefix', currentField, 'changeValue']) as Field<string>).value
+                }
+                className={locals.textAreaInput}
+                rows={5}
+              />
+            </Stack>
+          )}
+        </>
+      )}
+    </Stack>
+  );
+}
+
+interface EmailCustomPrefixPreviewProps {
+  fieldMetadata: FieldMetadata[];
+}
+
+function EmailCustomPrefixPreviewSection({ fieldMetadata }: EmailCustomPrefixPreviewProps) {
+  const [currentField, setCurrentField] = useState<string>('incidentSubject');
+
+  const currentMapField = fieldMetadata.find(val => val.value === currentField);
+
+  return (
+    <Stack>
+      <SecondLevelNavigation>
+        {fieldMetadata.map(eventTypeInfo => (
+          <SecondLevelNavigationItem
+            isActive={currentField === eventTypeInfo.value}
+            label={eventTypeInfo.label}
+            onClick={() => setCurrentField(eventTypeInfo.value)}
+          />
+        ))}
+      </SecondLevelNavigation>
+      {currentMapField?.isOpenClose && (
+        <Stack>
+          <Typography variant="body-regular">
+            {t('in-settings:tabs.openEventType', {
+              event_type: currentMapField.label
+            })}
+          </Typography>
+          <div className={locals.previewBox}>
+            <Stack gap="large">
+              <Stack gap="small">
+                <Typography variant="body-regular">{`[Instana] - ${
+                  (currentMapField.field?.get('openValue') as Field<string>).value
+                } ${currentMapField.label} - Test Zone - HOST "Test Entity" - CPU Load is Too High`}</Typography>
+                <div className={locals.previewOpenStatus} />
+              </Stack>
+              <Stack align="center">
+                <Lettering className={locals.lettering} />
+              </Stack>
+            </Stack>
+          </div>
+          <Typography variant="body-regular">
+            {t('in-settings:tabs.closeEventType', {
+              event_type: currentMapField.label
+            })}
+          </Typography>
+          <div className={locals.previewBox}>
+            <Stack gap="large">
+              <Stack gap="small">
+                <Typography variant="body-regular">{`[Instana] - ${
+                  (currentMapField.field?.get('closeValue') as Field<string>).value
+                } ${currentMapField.label} Closed - Test Zone - HOST "Test Entity" - CPU Load is Too High`}</Typography>
+                <div className={locals.previewClosedStatus} />
+              </Stack>
+              <Stack align="center">
+                <Lettering className={locals.lettering} />
+              </Stack>
+            </Stack>
+          </div>
+        </Stack>
+      )}
+      {currentMapField?.isOpenClose === false && (
+        <Stack>
+          <Typography variant="body-regular">{t('in-settings:tabs.changeEvent')}</Typography>
+          <div className={locals.previewBox}>
+            <Stack gap="large">
+              <Stack gap="small">
+                <Typography variant="body-regular">{`[Instana] - ${
+                  (currentMapField.field?.get('changeValue') as Field<string>).value
+                } ${currentMapField.label.toUpperCase()} Online - JVM "sever" on "Test Entity"`}</Typography>
+                <div className={locals.previewChangeStatus} />
+              </Stack>
+              <Stack align="center">
+                <Lettering className={locals.lettering} />
+              </Stack>
+            </Stack>
+          </div>
+        </Stack>
+      )}
+    </Stack>
   );
 }
 
@@ -249,4 +777,31 @@ function removeEmail(
 ) {
   const emails = form.get('emails').value.deleteIn([index]);
   onChange('emails', emails);
+}
+
+function prepareCustomEmailPrefixOptionsForSending(
+  customEmailSubjectPrefixField: MapForm<CustomEmailSubjectPrefixMapForm>
+): CustomEmailSubjectPrefix {
+  const incidentSubject = customEmailSubjectPrefixField.get('incidentSubject');
+  const issueSubject = customEmailSubjectPrefixField.get('issueSubject');
+  const monitoringIssueSubject = customEmailSubjectPrefixField.get('monitoringIssueSubject');
+  const changeEventSubject = customEmailSubjectPrefixField.get('changeEventSubject');
+
+  return {
+    incidentSubject: {
+      openValue: incidentSubject.get('openValue').value,
+      closeValue: incidentSubject.get('closeValue').value
+    },
+    issueSubject: {
+      openValue: issueSubject.get('openValue').value,
+      closeValue: issueSubject.get('closeValue').value
+    },
+    monitoringIssueSubject: {
+      openValue: monitoringIssueSubject.get('openValue').value,
+      closeValue: monitoringIssueSubject.get('closeValue').value
+    },
+    changeEventSubject: {
+      changeValue: changeEventSubject.get('changeValue').value
+    }
+  };
 }

@@ -16,6 +16,10 @@
     margin-right: 1rem;
   }
 
+  .inputContainer {
+    width: 100%;
+  }
+
   .deleteButton {
     align-items: center;
     width: 6.25rem;
@@ -51,5 +55,37 @@
 
   .usernameLabel {
     margin-bottom: 0;
+  }
+  .emailsEventTypeDropdown {
+    width: 18.75rem;
+  }
+  .textAreaInput {
+    width: 21.1rem;
+  }
+  .lettering {
+    filter: brightness(0);
+  }
+  .previewBox {
+    width: 37.5rem;
+    border: 0.125rem var(--ids-color-option-neutral-400) solid;
+    padding: 1rem;
+  }
+  .previewOpenStatus {
+    width: 35rem;
+    height: 0.625rem;
+    background-color: var(--ids-color-option-yellow-500);
+  }
+  .previewClosedStatus {
+    width: 35rem;
+    height: 0.625rem;
+    background-color: var(--ids-color-option-green-500);
+  }
+  .previewChangeStatus {
+    width: 35rem;
+    height: 0.625rem;
+    background-color: var(--ids-color-option-neutral-500);
+  }
+  .descriptionText {
+    color: var(--ids-color-option-neutral-600);
   }
 }
