@@ -8,8 +8,9 @@ import React, { useState } from 'react';
 
 import { Card, Spacer, Stack } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
-import { SvgIcon } from '@instana/components';
 
+// import AISlug from 'in-automation/components/AISlug';
+import AISlugIcon from 'in-automation/components/AISlugIcon';
 import useActions, { useUserActions, useAIActions } from 'in-automation/ActionCatalog/useActions';
 import { aiGenaratedActionsTabClickTracker } from 'in-automation/tracker';
 import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
@@ -98,7 +99,7 @@ function ActionCatalogTabsCard() {
               userCreatedActionsCount={userActions?.data?.length}
               aiGeneratedActionsCount={aiActions?.data?.length}
             />
-            {activeKey === 'aiGeneratedActions' && <SvgIcon type="lib_ai_slug" />}
+            {activeKey === 'aiGeneratedActions' && <AISlugIcon />}
           </Stack>
           <Spacer vertical="small" />
           {activeKey === 'userDefinedActions' && <ActionCatalog actions={userActions} actionsType="user" />}

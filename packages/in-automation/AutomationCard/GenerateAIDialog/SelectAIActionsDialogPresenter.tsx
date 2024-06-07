@@ -6,12 +6,13 @@
 
 import React, { useState } from 'react';
 
-import { Typography, SvgIcon } from '@instana/components';
+import { Typography } from '@instana/components';
 
 import SimpleAIDialog from 'in-automation/AutomationCard/GenerateAIDialog/SimpleAIDialog';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { close } from 'in-components/DialogPresenter/store';
+import AISlug from 'in-automation/components/AISlug';
 import { ScoredAction } from 'in-automation/api';
 import { Event, Result } from 'in-types';
 import { t } from 'in-i18n';
@@ -32,12 +33,12 @@ const SelectAIActionsDialogPresenter = ({ aiRecommendedScoredActions, event, set
       title={
         <div className={locals.heading}>
           <Typography variant="heading-400">{t('in-automation:generateWithAI')}</Typography>
-          <SvgIcon type="lib_ai_slug" />
+          <AISlug />
         </div>
       }
       onClose={close}
       slideInViewVisible={false}
-      doNotCloseOnOutsideClick
+      // doNotCloseOnOutsideClick
     >
       <div className={locals.simpleDialog}>
         <SimpleAIDialog
