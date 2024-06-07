@@ -7,7 +7,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Field, MapForm, Item } from 'formalistic';
 
 import { GroupPermissionEntity, Result } from '@instana/types';
-import { TextArea } from '@instana/components';
+import { TextArea, SearchInput } from '@instana/components';
 
 // eslint-disable-next-line no-restricted-imports
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
@@ -17,7 +17,6 @@ import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import SearchInput from 'in-components/SearchInput/SearchInput';
 import Section from 'in-synthetics/createTests/wizard/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';

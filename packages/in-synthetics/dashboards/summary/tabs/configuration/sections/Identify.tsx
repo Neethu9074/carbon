@@ -7,13 +7,12 @@
 import React, { useState } from 'react';
 
 import { SyntheticTest } from '@instana/types/typeDefinitions';
-import { KeyValue } from '@instana/components';
+import { KeyValue, SearchInput } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import SearchInput from 'in-components/SearchInput/SearchInput';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
