@@ -15,6 +15,7 @@ import {
   ProductAreaType,
   AreaRoleWithContributor
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { syntheticRbacLimitedTPEnabled } from 'in-services/featureFlags';
 import { t, Trans } from 'in-i18n';
 
 interface ConfigurationSummaryMsg {
@@ -34,6 +35,7 @@ export const getConfigurationSummaryMsg = (
   let accessLevelMessage: string | JSX.Element = '';
   let rolePermissionMessage = '';
   let noAccessMessage = '';
+
   if (
     (scope === ScopedPermissionItem.ACCESS_ALL || scope === ScopedPermissionItem.LIMITED_ACCESS) &&
     role !== 'CUSTOM'
@@ -63,6 +65,18 @@ export const getConfigurationSummaryMsg = (
         context: roleContext
       });
     }
+
+    // Specific access level message for Synthetic Monitoring limited access only
+    if (
+      syntheticRbacLimitedTPEnabled &&
+      productArea === ProductArea.SYNTHETICS &&
+      scope === ScopedPermissionItem.LIMITED_ACCESS
+    ) {
+      accessLevelMessage = t('in-settings:configurationSummary.' + areaScopeContext + '.access_level_tp');
+      rolePermissionMessage = t('in-settings:configurationSummary.' + areaContext + '.role_permissions', {
+        context: roleContext
+      });
+    }
   } else if (scope === ScopedPermissionItem.NO_ACCESS) {
     noAccessMessage = t('in-settings:permissionScope.description_no_access', {
       context:
@@ -71,7 +85,8 @@ export const getConfigurationSummaryMsg = (
         productArea === ProductArea.APPLICATION ||
         productArea === ProductArea.KUBERNETES ||
         productArea === ProductArea.INFRASTRUCTURE ||
-        productArea === ProductArea.SYNTHETICS
+        productArea === ProductArea.SYNTHETICS ||
+        productArea === ProductArea.AUTOMATION
           ? areaContext
           : ''
     });

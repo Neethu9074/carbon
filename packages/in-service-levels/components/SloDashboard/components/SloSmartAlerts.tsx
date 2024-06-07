@@ -7,18 +7,36 @@
 import React from 'react';
 
 import SloSmartAlertDetails from 'in-service-levels/components/SloDashboard/components/SloSmartAlertDetails';
-import { SloUrlState, sloSmartAlertsUrlParameters } from 'in-service-levels/navigation/urlParameters';
+import { serviceLevelsObjectiveAlertDetailsFullyQualified } from 'in-service-levels/navigation/path';
+import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { sloSmartAlertsEnabled } from 'in-services/featureFlags';
-import useUrlState from 'in-hooks/useUrlState';
+import Alerts from 'in-alerting/smart-alerts/slo/Alerts';
+import { Nullish } from 'in-types';
 
-export default function SloSmartAlerts() {
-  const [{ alertId }] = useUrlState<SloUrlState>({
-    bind: [sloSmartAlertsUrlParameters.alertId]
-  });
+interface SloAlertsProps {
+  data: SloTabData;
+}
+interface SloAlertsWrapperProps {
+  data: SloTabData | Nullish;
+}
+
+export default function SloSmartAlerts({ data }: SloAlertsWrapperProps) {
+  if (!data) {
+    return null;
+  }
+  return <SloSmartAlertsContent data={data} />;
+}
+
+function SloSmartAlertsContent({ data }: Required<SloAlertsProps>) {
+  const { matchLocation } = useNavigation();
+
+  const { configuration } = data;
 
   if (!sloSmartAlertsEnabled) return <></>;
 
-  if (alertId) return <SloSmartAlertDetails />;
+  if (matchLocation(serviceLevelsObjectiveAlertDetailsFullyQualified))
+    return <SloSmartAlertDetails sloId={configuration.id!} />;
 
-  return <>SLO Smart Alert List</>;
+  return <Alerts sloId={configuration.id!} />;
 }

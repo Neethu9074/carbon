@@ -11,9 +11,12 @@ import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
-
   return (
     <DescriptionList>
+      <DescriptionItem title={t('in-forge:plugins.sapHana.dashboard.host')}>{data.get('hostName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapHana.hostActiveStatus')}>
+        {data.get('hostActiveStatus')}
+      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapHana.systemId')}>{data.get('instanceId')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapHana.databaseName')}>{data.get('name')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapHana.instanceNumber')}>

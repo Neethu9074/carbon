@@ -15,10 +15,10 @@ import {
   applicationsAlertingDeprecatedEventMigrateStarted,
   applicationsAlertingDeprecatedEventMigrateFinished
 } from 'in-alerting/smart-alerts/applications/tracker';
-import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
-import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import getAlertConfigFromLegacyEvent from 'in-alerting/migration/subscriptions/getAlertConfigFromLegacyEvent';
+import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
+import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
@@ -78,8 +78,9 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
         <CreateSmartAlertButton
           isGlobal={isGlobalSmartAlertConfig}
           isFloatingButton={false}
-          buttonName={t('in-alerting:smartAlerts.migration.migrateButton')}
+          buttonName={t('in-alerting:smartAlerts.migration.migrateButtonNew')}
           isMigrate
+          eventSpecificationId={eventSpecificationId}
         />
       )}
     </Stack>
@@ -129,6 +130,12 @@ function doMigration(eventSpecificationId, setMigrating, migrationInProgress, se
       },
       () => setMigrationInProgress(false)
     );
+}
+
+export function doMigrationInTearSheet(eventSpecificationId) {
+  return getAlertConfigFromLegacyEvent({ eventSpecificationId })
+    .filter(res => !isLoading(res))
+    .map(({ data }) => data);
 }
 
 function showSmartAlertDialog({

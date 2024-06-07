@@ -8,7 +8,7 @@ import React from 'react';
 import { LoadingSkeleton } from '@instana/components';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { nonServicePlugins } from 'in-forge/constants';
@@ -25,6 +25,7 @@ export default connectTo(
     snapshot: getSnapshot(snapshotId)
   }),
   function PhysicalHierarchyBreadcrumb({ snapshot, snapshotId, isActive, asLink = true, className }) {
+    const getDashboardLink = useGetDashboardLink();
     if (!snapshot) {
       return (
         <Breadcrumb>
@@ -41,7 +42,7 @@ export default connectTo(
         render={healthInfo => (
           <Breadcrumb
             className={className}
-            href$={asLink && getDashboardLink(snapshotId)}
+            href={asLink && getDashboardLink(snapshotId)}
             label={getPluginName(plugin, 1) ?? decamelize(rawPlugin)}
             icon={getIconType(snapshot)}
             isActive={isActive}

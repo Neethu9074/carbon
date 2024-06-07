@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "Obrigado por explorar a Instana! Você atingiu o término de sua avaliação e não pode mais acessar o produto."
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "Solicitar uma cotação",
     "buyNowBtn": "Comprar na AWS",
     "alreadyHaveLicense": "Já tem uma licença? Ative-a no <linkToDocker>Docker</linkToDocker> ou no <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Obtenha respostas",
+    "share": "Compartilhar",
+    "shareTooltip": "Compartilhe essa página com colegas e convide-os para colaborarem no Instana.",
     "titleDetail": {
       "trial": "Avaliação",
       "sandboxTrial": "Avaliação do ambiente de simulação"
     }
   },
   "playwithinstana": {
-    "title": "Executar com o Instana",
     "content": "Pronto para monitorar seu próprio ambiente",
     "bookdemo": " Agendar uma demo",
     "freetrial": " Avaliação grátis",
@@ -578,9 +578,9 @@
       }
     },
     "ariaLabel": {
+      "search": "Procura",
       "shareButton": "Botão de compartilhamento",
-      "searchButton": "Botão de procura",
-      "addButton": "Botão de inclusão",
+      "add": "Incluir",
       "handleButton": "Botão de manipulação"
     }
   },
@@ -592,7 +592,37 @@
   },
   "assistme": {
     "dataSearchContext": {
-      "gettingStarted": "Introdução"
+      "gettingStarted": "introdução",
+      "websites": "websites",
+      "mobileApps": "app móvel",
+      "businessMonitoring": "monitoramento de negócios",
+      "application": "aplicativo",
+      "smartAlerts": "alertas inteligentes",
+      "infrastructureMap": "mapa",
+      "cloudFoundry": "monitorando o Cloud Foundry",
+      "powerHmc": " monitorando o IBM Power",
+      "kubernetes": "kubernetes",
+      "sap": "monitorando o SAP",
+      "synthetic": "monitoramento sintético",
+      "syntheticAlerts": "alertas sintéticos",
+      "syntheticPop": "PoP sintético",
+      "serviceLevel": "nível de serviço",
+      "installAgent": "agente de instalação",
+      "analyzeCalls": "analisando rastreios e chamadas",
+      "settingsTab": "gerenciando o acesso do usuário",
+      "userSettings": "configurações do usuário",
+      "authSettings": "configurando a autenticação",
+      "auditLogs": "visualizando logs de auditoria",
+      "automation": "gerenciando ações",
+      "customEvents": "definindo eventos customizados",
+      "configuringAlerts": "configurando alertas",
+      "alertChannel": "canais de alerta",
+      "maintenanceWindow": "programando",
+      "customPayload": "carga útil customizada",
+      "eventsPage": "gerenciamento de alertas",
+      "logManagement": "registro",
+      "configuringAndMonitoring": "configurando e monitorando",
+      "customDashboard": "painel customizado"
     }
   }
 }

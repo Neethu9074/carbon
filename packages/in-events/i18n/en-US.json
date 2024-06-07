@@ -8,7 +8,6 @@
   "entityInfoPresenterDefaultLabel": "On: ",
   "entityInfoLabelOfService": "Of Service:",
   "titleDetail": "Detail",
-  "titleDetails": "Details",
   "titleMetrics": "Metrics",
   "titleScope": "Scope",
   "titleDescription": "Description",
@@ -46,6 +45,9 @@
   "titleEmptyEvents_issue": "No issues available",
   "titleEmptyEvents_change": "No changes available",
   "titleEmptyEvents_monitoringIssue": "No monitoring issues available",
+  "titleManualCloseIssue": "Close Issue",
+  "titleManualCloseIncident": "Close Incident",
+  "closeIssue": "Close this issue",
   "explanationEmptyEvents_event": "There were no events retrieved for the selected time range",
   "explanationEmptyEvents_incident": "There were no incidents retrieved for the selected time range",
   "explanationEmptyEvents_issue": "There were no issues retrieved for the selected time range",
@@ -67,7 +69,6 @@
   "triggered": "Triggered:",
   "started": "Started:",
   "ended": "Ended:",
-  "active": "active",
   "stateActive": "Active",
   "stateClosedByInstana": "Closed by Instana",
   "stateManuallyClosed": "Manually Closed",
@@ -172,7 +173,7 @@
     "probableRootCauseLabel": "Probable root cause entity: {{entity_name}}",
     "relatedEventsLabel": "Associated Events ({{number_of_events}})",
     "entitiesNumber": "Entities",
-    "techPreview": "TECH PREVIEW",
+    "techPreview": "Tech Preview",
     "probabilityLevelText": "Probability Level:",
     "highProbability": "HIGH",
     "moderateProbability": "MODERATE",
@@ -181,7 +182,13 @@
     "highProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. High probability indicates that this entity is likely problematic based on the evidence provided.",
     "moderateProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. It is likely that this entity is the root cause however more analysis is needed.",
     "lowProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. Given present information, this component has a low likelihood of being unhealthy, but warrants being further investigated.",
-    "naProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. Unfortunately the probability rating for this incident could not be ascertained."
+    "naProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. Unfortunately the probability rating for this incident could not be ascertained.",
+    "evidenceTextFailed": "Calls going through {{root_cause_entity_type}} {{root_cause_entity_name}} have an aggregated high error rate of: {{rca_error_percent}}%.",
+    "evidence": "Evidence",
+    "evidenceTextNotFailedLower": "Calls from the same entities that do not go through {{root_cause_entity_type}} {{root_cause_entity_name}} have a lower error rate of: {{non_rca_error_rate}}%.",
+    "evidenceTextNotFailedHigher": "Calls from the same entities that do not go through {{root_cause_entity_type}} {{root_cause_entity_name}} have a higher error rate of: {{non_rca_error_rate}}%.",
+    "evidenceTextNotFailedSame": "Calls from the same entities that do not go through {{root_cause_entity_type}} {{root_cause_entity_name}} have an error rate of: {{non_rca_error_rate}}%.",
+    "regenerateProbableRootCause": "Regenerate Probable Root Cause"
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Incident Summary",
@@ -189,7 +196,8 @@
     "errorDescription": "No summarization could be created for this event",
     "summarizationHelpfulText": "Was this summarization helpful?",
     "alertChannelTableTitle": "Alert Channels Associated with Incident",
-    "noDataAlertChannels": "No alert channels could be associated with this incident"
+    "noDataAlertChannels": "No alert channels could be associated with this incident",
+    "actionText": "In the past <strong>{{timeWindow}} {{timeWindowFormat}}</strong> days, for Event Configuration <strong>{{eventSpecId}}</strong> associated with the incident, <strong>{{actionStats}}</strong> action(s) were run of type - <strong>ANSIBLE/SCRIPT/HTTP</strong>"
   },
   "feedback": {
     "skip": "Skip",
@@ -209,5 +217,13 @@
   "bizops": {
     "titleImpactedBusinessProcesses": "Impacted Business Processes",
     "titleImpactedBusinessProcessesIncident": "Impacted Business Processes for Triggering Event"
+  },
+  "closeEventDialog": {
+    "reason": "Let us know the reason you are closing the issue",
+    "warning": "The closure of this issue is irreversible",
+    "comments": "Comments",
+    "closeIssue": "Close Issue",
+    "closeIncident": "Close this incident",
+    "closedByLabel": "Closed by"
   }
 }

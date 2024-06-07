@@ -55,6 +55,7 @@ export default function Alert({
   showActionButton = true,
   getAllowedPlaceholders = () => [],
   displayEditAction = true,
+  displayTearSheetActions = false,
   displayDuplicateAction = true,
   canConfigureGlobalAlertConfigs = false,
   canConfigureIndividualAlertConfigs = false
@@ -164,6 +165,7 @@ export default function Alert({
             trackAlertDeleteTrigger(alertConfig);
           }}
           displayEditAction={displayEditAction}
+          displayTearSheetActions={displayTearSheetActions}
           displayDuplicateAction={displayDuplicateAction}
         />
 
@@ -223,6 +225,7 @@ Alert.propTypes = {
   showActionButton: PropTypes.bool,
   getAllowedPlaceholders: PropTypes.func,
   displayEditAction: PropTypes.bool,
+  displayTearSheetActions: PropTypes.bool,
   displayDuplicateAction: PropTypes.bool,
   canConfigureGlobalAlertConfigs: PropTypes.bool,
   canConfigureIndividualAlertConfigs: PropTypes.bool

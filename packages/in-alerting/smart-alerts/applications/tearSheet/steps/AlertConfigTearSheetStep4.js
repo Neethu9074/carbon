@@ -106,34 +106,36 @@ export default function AlertConfigTearSheetStep4(props) {
           />
         </TearSheetStepContentWrapper>
       </div>
-      <TearSheetStepContentWrapper
-        headline={t('in-alerting:smartAlerts.applications.tearSheet.alertChart.title')}
-        description={t('in-alerting:smartAlerts.applications.tearSheet.alertChart.description')}
-      >
-        <div className={locals.boxBorder}>
-          <EntitySelectionFormUpdater form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert}>
-            <ChartViewConfiguratorWithEntitySelection
+
+      <EntitySelectionFormUpdater form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert}>
+        <ChartViewConfiguratorWithEntitySelection
+          alertConfigWithFormModel={alertConfigWithFormModel}
+          onChartViewConfigChange={onChartViewConfigChange}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+          headerTransparent
+          isTearSheet
+          sectionHeader={
+            <TearSheetStepContentWrapper
+              headline={t('in-alerting:smartAlerts.applications.tearSheet.alertChart.title')}
+              description={t('in-alerting:smartAlerts.applications.tearSheet.alertChart.description')}
+              hidePadding
+            />
+          }
+        >
+          {(chartViewConfig, applicationId, serviceId, endpointId) => (
+            <ApplicationAlertingChartWithErrorMessage
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
               alertConfigWithFormModel={alertConfigWithFormModel}
-              onChartViewConfigChange={onChartViewConfigChange}
-              selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-              headerTransparent
-            >
-              {(chartViewConfig, applicationId, serviceId, endpointId) => (
-                <ApplicationAlertingChartWithErrorMessage
-                  applicationId={applicationId}
-                  serviceId={serviceId}
-                  endpointId={endpointId}
-                  alertConfigWithFormModel={alertConfigWithFormModel}
-                  viewConfig={chartViewConfig}
-                  blueprintConfig={blueprintConfig}
-                  alertsPreviewEnabled
-                  canReload
-                />
-              )}
-            </ChartViewConfiguratorWithEntitySelection>
-          </EntitySelectionFormUpdater>
-        </div>
-      </TearSheetStepContentWrapper>
+              viewConfig={chartViewConfig}
+              blueprintConfig={blueprintConfig}
+              alertsPreviewEnabled
+              canReload
+            />
+          )}
+        </ChartViewConfiguratorWithEntitySelection>
+      </EntitySelectionFormUpdater>
     </>
   );
 }

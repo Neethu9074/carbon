@@ -17,11 +17,12 @@ import {
 
 import { getTimeShiftLabel, hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
+import { ThresholdFn, ThresholdProps } from 'in-custom-dashboards/widgets/_shared/threshold';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
-import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
-import { transformLogsResult } from 'in-components/KpiCard/utils';
+import ThresholdKpiCard from 'in-components/KpiCard/TresholdKpiCard';
 import Badge from 'in-custom-dashboards/widgets/BigNumber/Badge';
+import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { percentage } from 'in-services/formatters/number';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -38,6 +39,7 @@ export interface Config<METRIC_CONFIG extends UnifiedMetricConfiguration> {
   formatter?: string;
   tagFilters?: TagFilter[];
   getColor?: (metricValue: number | Nullish) => string | undefined;
+  getThreshold?: (formatter: string, threshold?: ThresholdProps) => ThresholdFn;
   comparisonIncreaseColor?: string;
   comparisonDecreaseColor?: string;
 }
@@ -63,6 +65,7 @@ export interface ResultAwareBigNumberKpiCardProps<METRIC_CONFIG extends UnifiedM
   dragHandle?: ReactNode;
   result: Result<MetricResult[]>;
   isInModal?: boolean;
+  thresholdFn?: ThresholdFn;
   raw?: boolean;
 }
 
@@ -89,6 +92,7 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
   dragHandle,
   result,
   isInModal,
+  thresholdFn,
   raw
 }: ResultAwareBigNumberKpiCardProps<METRIC_CONFIG>) {
   const timeConfig = useTimeConfig();
@@ -120,6 +124,7 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
           dragHandle,
           useMaxAvailableHeight,
           raw,
+          thresholdFn,
           isInModal
         )
       }
@@ -139,14 +144,10 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
   dragHandle: ReactNode,
   useMaxAvailableHeight: boolean | undefined,
   raw: boolean | undefined,
+  thresholdFn?: ThresholdFn,
   isInModal?: boolean
 ) {
   let value = null;
-  const isLoggingWidget = config.metricConfiguration.source === 'LOG';
-
-  if (isLoggingWidget) {
-    result = transformLogsResult(result, config, timeConfig);
-  }
 
   const dataPoint = find(result.data, ({ id }) => id === metricKey);
   if (dataPoint?.values?.length === 1) {
@@ -171,11 +172,12 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
   }
 
   return (
-    <KpiCard
+    <ThresholdKpiCard
       title={title}
       value={value}
       isInModal={isInModal}
       renderValue={formatter}
+      thresholdFn={thresholdFn}
       color={config.getColor?.(value)}
       useMaxAvailableHeight={useMaxAvailableHeight}
       actions={

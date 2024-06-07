@@ -8,6 +8,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { Link, Stack, SvgIcon } from '@instana/components';
+import { EntityHealthInfo } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
@@ -17,14 +18,13 @@ import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithH
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 //@ts-expect-error doesn't contain type file
 import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
-//@ts-expect-error doesn't contain type file
-import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
 import { ApplicationProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
@@ -33,7 +33,7 @@ import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper'
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { applicationsList } from 'in-applications/navigation/paths';
-import HealthDot from 'in-components/health/HealthDot/HealthDot';
+import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -70,6 +70,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.applicationWidget.erroneousCallRate'),
         key: 'erroneousCallRate'
+      },
+      {
+        header: t('in-plg:welcomepage.component.applicationWidget.health'),
+        key: 'health'
       }
     ];
   };
@@ -119,29 +123,10 @@ export default connectTo(() => ({
     {
       key: 'name',
       getContent({ item }) {
-        const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1]);
-        if (maxSeverity !== undefined) {
-          return (
-            <Stack direction="horizontal" align="center">
-              <HealthDot severity={maxSeverity} iconSize={10} />
-              <SvgIcon type="lib_application" color="var(--ids-color-option-neutral-700)" />
-              <Link href={getLinkToApplicationDashboard({ applicationId: item.application.id })}>
-                {item.application.label}
-              </Link>
-            </Stack>
-          );
-        }
         return (
-          <Stack direction="horizontal" align="center">
-            <WithApplicationHealthIndicationBehaviour
-              applicationId={item.application.id}
-              render={(healthInfo: any) =>
-                healthInfo ? <HealthDot severity={healthInfo.maxSeverity} iconSize={10} /> : null
-              }
-            />
-            <SvgIcon type="lib_application" color="var(--ids-color-option-neutral-700)" />
-            <Link>{item.application.label}</Link>
-          </Stack>
+          <Link href={getLinkToApplicationDashboard({ applicationId: item.application.id })}>
+            {item.application.label}
+          </Link>
         );
       }
     },
@@ -195,6 +180,24 @@ export default connectTo(() => ({
             showDashOnMissingOrNullMetric
             hideChartOnEmptyMetrics
             percentageMetric
+          />
+        );
+      }
+    },
+
+    {
+      key: 'health',
+      getContent({ item }) {
+        const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1]);
+        if (maxSeverity !== undefined) {
+          return <HealthIcon severity={maxSeverity} iconSize="xs" />;
+        }
+        return (
+          <WithApplicationHealthIndicationBehaviour
+            applicationId={item.application.id}
+            render={(healthInfo: EntityHealthInfo) =>
+              healthInfo ? <HealthIcon severity={healthInfo.maxSeverity} iconSize="xs" /> : null
+            }
           />
         );
       }

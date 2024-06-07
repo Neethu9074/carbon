@@ -8,28 +8,12 @@
     border: 1px solid var(--ids-color-option-neutral-300);
     border-radius: var(--ids-border-radius-option-small);
   }
-  .wrapper {
-    display: flex;
-    align-items: center;
-    grid-column-start: 2;
-    grid-row-start: 1;
-  }
 
   .column {
     padding: 1rem 1rem 1rem 1.5rem;
   }
 
-  .description {
-    color: var(--ids-color-option-neutral-600);
-    margin-top: 0.5rem;
-  }
-
-  .icon {
-    margin: 0 0.25rem;
-    color: var(--ids-color-option-neutral-600);
-  }
-
-  .content {
-    width: 85%;
+  .gap {
+    padding: 1.5rem;
   }
 }

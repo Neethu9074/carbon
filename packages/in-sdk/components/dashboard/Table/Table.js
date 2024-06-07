@@ -93,7 +93,6 @@ export default class Table extends React.Component {
     const supportsRowDetails = this.props.getRowDetails != null;
     const toggleRowDetails = supportsRowDetails ? this.store.toggleExpanded : null;
     const colCount = supportsRowDetails ? cols.length + 1 : cols.length;
-
     const rows = [];
     if (data.rows.length === 0) {
       rows.push(

@@ -25,7 +25,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label/Label';
 import { isBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/advanced/ConfigurationSection.mless';
 
@@ -64,6 +64,7 @@ export default function SSLCertificateConfiguration({
             <Label>{t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputHostName')}</Label>
             <Input
               name="hostName"
+              data-testid="host-name"
               value={hostNameField.value}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                 updateForm(
@@ -80,6 +81,7 @@ export default function SSLCertificateConfiguration({
             <Label>{t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputPortNumber')}</Label>
             <Input
               name="portNo"
+              data-testid="port-number"
               value={portField.value}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                 updateForm(
@@ -95,27 +97,37 @@ export default function SSLCertificateConfiguration({
             <TouchedMessages field={portField} />
           </FormGroup>
         </Stack>
+      </div>
+      <div className={locals.configContainer}>
         <FormGroup className={locals.descriptionInput}>
+          <Label htmlFor="daysRemaining">
+            {t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.failureConfigLabel')}
+          </Label>
           <Stack direction="horizontal">
             <div className={locals.alignText}>
-              {t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputDaysLine1')}
-            </div>
-            <Input
-              name="daysRemaining"
-              value={daysRemainingCheckField.value}
-              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                updateForm(
-                  form.updateIn(['configuration', 'daysRemainingCheck'], (field: Item) =>
-                    (field as Field<number | string>)
-                      .setValue(isBlank(target.value) || isNaN(+target.value) ? target.value : +target.value)
-                      .setTouched(true)
+              <Trans
+                i18nKey="in-synthetics:dialog.createTest.advancedMode.certificateCheck.failureConfigText"
+                components={{
+                  certificateValidityDays: (
+                    <Input
+                      name="daysRemaining"
+                      data-testid="days-remaining"
+                      value={daysRemainingCheckField.value}
+                      className={locals.validityInput}
+                      onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+                        updateForm(
+                          form.updateIn(['configuration', 'daysRemainingCheck'], (field: Item) =>
+                            (field as Field<number | string>)
+                              .setValue(isBlank(target.value) || isNaN(+target.value) ? target.value : +target.value)
+                              .setTouched(true)
+                          )
+                        );
+                      }}
+                      hasError={!daysRemainingCheckField.valid && daysRemainingCheckField.touched}
+                    />
                   )
-                );
-              }}
-              hasError={!daysRemainingCheckField.valid && daysRemainingCheckField.touched}
-            />
-            <div className={locals.alignText}>
-              {t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputDaysLine2')}
+                }}
+              />
             </div>
           </Stack>
           <TouchedMessages field={daysRemainingCheckField} />

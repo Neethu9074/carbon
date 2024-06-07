@@ -11,15 +11,15 @@ import { Ul } from '@instana/components';
 
 import { SyntheticMonitoringSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/SyntheticMonitoring/SyntheticMonitoringSection';
 import { BusinessMonitoringSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/BusinessMonitoring/BusinessMonitoringSection';
-import { EventsAndAlertsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/EventsAndAlerts/EventsAndAlertsSection';
 import { GlobalFunctionsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/GlobalFunctions/GlobalFunctionsSection';
 import { InfrastructureSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Infrastructure/InfrastructureSection';
 import { ApplicationsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Applications/ApplicationsSection';
 import { MobileAppsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/MobileApps/MobileAppsSection';
+import { AutomationSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Automation/AutomationSection';
 import { PlatformsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/PlatformsSection';
 import { WebsitesSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Websites/WebsitesSection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
-import { syntheticsEnabled } from 'in-services/featureFlags';
+import { actionAutomationEnabled, syntheticsEnabled } from 'in-services/featureFlags';
 
 interface RolesAndAccessScopeOverviewProps {
   permissionsSet: PermissionSet;
@@ -36,7 +36,7 @@ export default function RolesAndAccessScopeOverview({ permissionsSet }: RolesAnd
         <PlatformsSection />
         <InfrastructureSection />
         {syntheticsEnabled && <SyntheticMonitoringSection />}
-        <EventsAndAlertsSection />
+        {actionAutomationEnabled && <AutomationSection />}
         <GlobalFunctionsSection />
       </RolesAndAccessScopeContext.Provider>
     </Ul>

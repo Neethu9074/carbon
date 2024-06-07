@@ -18,7 +18,7 @@ import {
 //@ts-expect-error
 import { toOptions } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import { regexValidationError } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
-//@ts-expect-error import
+//@ts-expect-error
 import { getMetricPathAndLabel } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
 import ValidationMessages from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -33,7 +33,7 @@ import { t } from 'in-i18n';
 
 interface ScopeMetricProps {
   form: MapForm<any>;
-  updateForm?: (form: MapForm<any>) => void;
+  updateForm: (form: MapForm<any>) => void;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   isRegex: boolean;
 }
@@ -82,15 +82,13 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
   if (!metricLabel && !metricPath?.length && !isEmpty(metricPathAndLabel)) {
     metricLabel = metricPathAndLabel.label;
     metricPath = metricPathAndLabel.path;
-    if (updateForm) {
-      updateFormField({
-        updateForm,
-        form,
-        metricLabel: metricLabel,
-        metricPath: metricPath,
-        clearGroupFilter: false
-      });
-    }
+    updateFormField({
+      updateForm,
+      form,
+      metricLabel: metricLabel,
+      metricPath: metricPath,
+      clearGroupFilter: false
+    });
   }
 
   const metricMetadata = {
@@ -101,12 +99,8 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
       ((metricLabelField && !metricLabel) || !metricPath || metricPath.length == 0) && metricCatalog.progress.loading
   };
   const stableMetricCatalog = catalogQuery.value === catalogQuery.debouncedValue ? metricCatalog : pendingResult;
-  const onMetricChange = (
-    metricObj: Node,
-    form: MapForm<any>,
-    updateForm: ((form: MapForm<any>) => void) | undefined
-  ) => {
-    if (metric !== metricObj.metric && updateForm) {
+  const onMetricChange = (metricObj: Node, form: MapForm<any>, updateForm: (form: MapForm<any>) => void) => {
+    if (metric !== metricObj.metric) {
       updateFormField({
         updateForm,
         form,
@@ -120,7 +114,7 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
   };
 
   const onRegexChange = (regex: string) => {
-    if (!isRegex || !updateForm) {
+    if (!isRegex) {
       return;
     }
 
@@ -135,10 +129,6 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
   };
 
   const setIsRegex = (newIsRegex: boolean) => {
-    if (!updateForm) {
-      return;
-    }
-
     const toPlain = !newIsRegex && isRegex;
     const toRegex = newIsRegex && !isRegex;
     if (toPlain) {
@@ -166,9 +156,6 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
   };
 
   const onTypeChange = (type: string) => {
-    if (!updateForm) {
-      return;
-    }
     updateFormField({
       updateForm,
       form,

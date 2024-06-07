@@ -4,7 +4,6 @@
   "description": "A playground for Instana's Product Frontend",
   "main": "index.js",
   "license": "UNLICENSED",
-  "scripts": {},
   "dependencies": {
     "@storybook/addon-docs": "^6.5.13",
     "@storybook/addon-essentials": "^6.5.13",

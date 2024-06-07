@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import './webmethods.intermediate';
 import './micronaut.http.client';
 import './datapower.http.server';
 import './datapower.http.client';
@@ -23,6 +24,7 @@ import './aws.lambda.entry';
 import './mule.client.http';
 import './node.http.client';
 import './node.http.server';
+import './webmethods.entry';
 import './batch-synthetic';
 import './cics.http.entry';
 import './jboss.scheduler';
@@ -30,6 +32,7 @@ import './resteasy.client';
 import './spring-cg-entry';
 import './zcee.http.entry';
 import './dubbo.rpc.entry';
+import './webmethods.exit';
 import './aiohttp-client';
 import './aiohttp-server';
 import './cics.http.exit';

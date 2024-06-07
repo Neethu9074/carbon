@@ -28,7 +28,9 @@ export default function EventListRowDense({ event, active, onClick, timeConfig }
           })}
           onClick={onClick}
         >
-          <span className={locals.label}>{event.title}</span>
+          <span className={locals.label} title={event.title}>
+            {event.title}
+          </span>
           <div className={locals.secondRow}>
             <time dateTime={new Date(event.start).toISOString()}>{formatDateTime(event.start)}</time>
           </div>

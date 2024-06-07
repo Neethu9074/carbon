@@ -23,10 +23,8 @@ import {
   AreaRoleWithContributorType,
   AreaRoleType,
   ProductArea,
-  ScopeRoles,
-  applicationAdditionalCapabilities
+  ScopeRoles
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import AdditionalPermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/AdditionalPermissionSection/AdditionalPermissionSection';
 import {
   ExtractContributionFilterNameFunction,
   ExtractIdFunction,
@@ -45,6 +43,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
 import EntityTableCellWithOverflow from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTableCellWithOverflow';
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
+import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
 import SelectEntitiesForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/SelectEntitiesForm';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
@@ -211,19 +210,14 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   }
   const RoleSelectionSection = () => {
     return (
-      <>
-        <RoleFormGroup
-          htmlFor={`${entityPermissionKey}-role-select`}
-          value={role}
-          defaultRole={AreaRole.VIEWER}
-          roleDescription={rolePermissionMessage}
-          onChange={onChangeRole}
-          {...(entityPermissionKey === 'applicationIds' ? { options: AreaRolesWithContributor } : {})}
-        />
-        {entityPermissionKey === 'applicationIds' && (
-          <AdditionalPermissionSection form={form} setForm={setForm} capabilities={applicationAdditionalCapabilities} />
-        )}
-      </>
+      <RoleFormGroup
+        htmlFor={`${entityPermissionKey}-role-select`}
+        value={role}
+        defaultRole={AreaRole.VIEWER}
+        roleDescription={rolePermissionMessage}
+        onChange={onChangeRole}
+        {...(entityPermissionKey === 'applicationIds' ? { options: AreaRolesWithContributor } : {})}
+      />
     );
   };
 
@@ -233,6 +227,18 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
         <ConfigurationSummary accessLevelType={ScopedPermissionItem.LIMITED_ACCESS} accessLevelMsg={accessLevelMessage}>
           {isContributor && isAppContributionFilterConfigured ? <ContributorFilterWarning /> : null}
           <RoleSelectionSection />
+          {entityPermissionKey === 'syntheticTestIds' ? (
+            <SyntheticCommonSection form={form} setForm={setForm} role={role} />
+          ) : (
+            <PermissionSelection
+              title={t('in-settings:productAreas.additionalPermissions')}
+              productAreas={[productArea]}
+              icon="lib_actions_settings"
+              form={form}
+              setForm={setForm}
+              hasAdditionalCapabilities
+            />
+          )}
           {isContributor && (
             <ContributionFilterWrapper
               form={form}
@@ -241,9 +247,6 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
               setValid={setValid}
               editMode={editMode}
             />
-          )}
-          {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
-            <SyntheticCommonSection form={form} setForm={setForm} />
           )}
         </ConfigurationSummary>
       </StackItem>

@@ -45,7 +45,6 @@ const oldThemeColors = {
   cyan800: '#00CCCC',
   fadedCyan800: 'rgba(0, 204, 204, 0.1)',
   teal800: '#00B3B3',
-  fadedTeal800: 'rgba(0, 179, 179, 0.11)',
   green800: '#39BF7C',
   lime800: '#ADCC14',
   slushGreen800: '#4596A4',

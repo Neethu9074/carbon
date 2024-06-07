@@ -10,8 +10,6 @@ import classNames from 'classnames';
 import { Disposable, on, Subject } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-//@ts-expect-error TS migration
-import { concatQueries, spreadTimeConfig } from 'in-events/EventView';
 import TableConfigInfo from 'in-custom-dashboards/widgets/Table/eventsTable/TableConfigInfo';
 //@ts-expect-error TS migration
 import EventsList from 'in-events/components/EventsList';
@@ -22,6 +20,7 @@ import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
 import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { concatQueries, spreadTimeConfig } from 'in-events/utils';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import { Cursor, Cursorific, TimeConfig } from 'in-types';

@@ -25,6 +25,12 @@
     .flexbox();
   }
 
+  .iconsConatiner {
+    & > * {
+      margin-right: 0.5rem;
+    }
+  }
+
   .alertIcon {
     margin-right: 0.5rem;
   }

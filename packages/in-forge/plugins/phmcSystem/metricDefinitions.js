@@ -110,5 +110,29 @@ export default [
     labels: [t('in-forge:plugins.phmcSystem.errorIn'), t('in-forge:plugins.phmcSystem.errorOut')],
     min: 0,
     formatter: number.perSecond
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('inletTemperatures', 'temperatureReading', t('in-forge:plugins.phmcSystem.entityId'))
+    ],
+    labels: [t('in-forge:plugins.phmcSystem.inletTemperatureReading')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('cpuTemperatures', 'temperatureReading', t('in-forge:plugins.phmcSystem.entityId'))
+    ],
+    labels: [t('in-forge:plugins.phmcSystem.cpuTemperatureReading')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('baseBoardTemperatures', 'temperatureReading', t('in-forge:plugins.phmcSystem.entityId'))
+    ],
+    labels: [t('in-forge:plugins.phmcSystem.baseBoardTemperatureReading')],
+    min: 0,
+    formatter: number
   }
 ];

@@ -62,8 +62,11 @@ export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesA
         if (toPlain) {
           form = form
             .updateIn(['metric'], field => field.setValue(undefined).setTouched(false))
-            .updateIn(['metricLabel'], field => field.setValue(undefined).setTouched(false))
             .updateIn(['metricPath'], field => field.setValue(undefined).setTouched(false));
+
+          if (form.containsKey('metricLabel')) {
+            form = form.updateIn(['metricLabel'], field => field.setValue(undefined).setTouched(false));
+          }
         } else if (toRegex) {
           const regex = escapeRegExp(form.get('metric').value);
           form = form

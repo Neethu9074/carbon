@@ -7,6 +7,7 @@ import React, { Fragment } from 'react';
 
 import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
+import MapKeyToTranslatedDisplayName from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/EumTagMap';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { millisToTwoDecimalSeconds } from 'in-services/formatters/number';
@@ -53,6 +54,11 @@ export const Body = ({ beacon }) => {
                 {beacon.locationUrl}
               </a>
             </Di>
+            {Object.keys(beacon.internalMeta).map(key => (
+              <Di key={key} title={MapKeyToTranslatedDisplayName(key)}>
+                {beacon.internalMeta[key]}
+              </Di>
+            ))}
           </Dl>
         </Col>
 

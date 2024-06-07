@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -15,11 +16,11 @@ import {
   infraSmartAlerts,
   infraAlertDetailsFullyQualifiedPath
 } from 'in-stores/navigation/paths/mainPaths';
-import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
 import SearchBar from 'in-components/SearchBar';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ViewSwitcher.mless';
@@ -45,7 +46,7 @@ export default function InfrastructureViewSwitcher({ showSearchBar = true, theme
           label={t('in-infrastructure:tableView.comparisonTable')}
           isActive={isTableActive}
         />
-        {infraSmartAlertsEnabled && (
+        {infraSmartAlertsEnabled && !role?.limitedInfrastructureScope && (
           <SecondLevelNavigationItem
             href={createHrefToPath(infraSmartAlerts)}
             label={t('in-infrastructure:tableView.smartAlerts')}

@@ -45,7 +45,7 @@ export default function TabSwitch<TabData, TabProps extends {} = {}>({
   if (result && hasErrors) {
     return renderErrors ? renderErrors(result.errors) : <DashboardErroneousResultPresenter errors={result.errors} />;
   } else if (isLoading) {
-    return renderLoading ? renderLoading() : <DefaultLoadingDashboard lightMode />;
+    return renderLoading ? renderLoading() : <DefaultLoadingDashboard />;
   }
 
   return (

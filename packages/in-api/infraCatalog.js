@@ -25,3 +25,13 @@ export function getCustomMetricsForPlugin(plugin) {
     }
   }).map(response => fromJS(response.body));
 }
+
+export function getBuiltInMetricDefinition(plugin, metricId) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/infrastructure-monitoring/catalog/metric-definitions/built-in/${encodeURIComponent(
+      plugin
+    )}/${encodeURIComponent(metricId)}`
+  }).map(response => response.body);
+}

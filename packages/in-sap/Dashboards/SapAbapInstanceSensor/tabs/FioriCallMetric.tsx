@@ -33,20 +33,20 @@ interface FioriCallStatsProps {
 
 const cols = [
   {
-    title: t('in-sap:dashboards.account'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: FioriCallStatsRow) {
-        return row.fioriCallStats.get('account');
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.client'),
     type: 'string',
     typeArgs: {
       getValue(row: FioriCallStatsRow) {
         return row.fioriCallStats.get('client');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.userName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: FioriCallStatsRow) {
+        return row.fioriCallStats.get('account');
       }
     }
   },

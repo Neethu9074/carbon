@@ -8,18 +8,18 @@
     "trialExpirationPopUpDescriptionAfterSevenDays": "感謝您探索 Instana！ 您的試用期已結束，無法再存取產品。"
   },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "要求報價",
     "buyNowBtn": "在 AWS 上購買",
     "alreadyHaveLicense": "已有授權？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上啟動它。",
     "getAnswers": "取得答案",
+    "share": "共用",
+    "shareTooltip": "與同事共用此頁面，並邀請他們在 Instana 中分工合作。",
     "titleDetail": {
       "trial": "試用",
       "sandboxTrial": "沙盤推演試用"
     }
   },
   "playwithinstana": {
-    "title": "試驗 Instana",
     "content": "準備好監視您自己的環境",
     "bookdemo": " 預定展示",
     "freetrial": " 免費試用",
@@ -578,9 +578,9 @@
       }
     },
     "ariaLabel": {
+      "search": "搜尋",
       "shareButton": "共用按鈕",
-      "searchButton": "搜尋按鈕",
-      "addButton": "「新增」按鈕",
+      "add": "新增",
       "handleButton": "控點按鈕"
     }
   },
@@ -592,7 +592,37 @@
   },
   "assistme": {
     "dataSearchContext": {
-      "gettingStarted": "入門"
+      "gettingStarted": "開始使用",
+      "websites": "網站",
+      "mobileApps": "行動應用程式",
+      "businessMonitoring": "商業監視",
+      "application": "應用程式 (application)",
+      "smartAlerts": "智慧型警示",
+      "infrastructureMap": "對映",
+      "cloudFoundry": "監視 Cloud Foundry",
+      "powerHmc": " 監視 IBM Power",
+      "kubernetes": "kubernetes",
+      "sap": "監視 SAP",
+      "synthetic": "綜合監視",
+      "syntheticAlerts": "綜合警示",
+      "syntheticPop": "綜合 PoP",
+      "serviceLevel": "服務水準",
+      "installAgent": "安裝代理程式",
+      "analyzeCalls": "分析追蹤資料和呼叫",
+      "settingsTab": "管理使用者存取權",
+      "userSettings": "使用者設定",
+      "authSettings": "配置鑑別",
+      "auditLogs": "檢視審核日誌",
+      "automation": "管理動作",
+      "customEvents": "定義自訂事件",
+      "configuringAlerts": "正在配置警示",
+      "alertChannel": "警示通道",
+      "maintenanceWindow": "排程",
+      "customPayload": "自訂有效負載",
+      "eventsPage": "管理事件",
+      "logManagement": "記載功能",
+      "configuringAndMonitoring": "配置及監視",
+      "customDashboard": "自訂儀表板"
     }
   }
 }

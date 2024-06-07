@@ -294,6 +294,12 @@
         "decreaseColor": "減少顏色",
         "timeShift": "時間遷移"
       },
+      "thresholdForm": {
+        "addThresholdColorization": "新增基於臨界值的著色",
+        "threshold": "臨界值",
+        "critical": "延遲時至關重要",
+        "warning": "延遲時警告"
+      },
       "bigNumber": "大數"
     },
     "chart": {
@@ -823,7 +829,9 @@
           },
           "formatter": "格式製作程式",
           "searchPlaceholder": "搜尋",
-          "countGroup": "顯示群組計數"
+          "countGroup": "顯示群組計數",
+          "showGroupsWithMissingTags": "顯示具有遺漏標籤的群組",
+          "filterEmptyValues": "過濾空值"
         }
       },
       "dataSource": {

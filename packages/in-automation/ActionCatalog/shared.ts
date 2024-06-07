@@ -85,6 +85,8 @@ export const getPlaybookFileNameFromFields = (fields: Field[] | undefined): Fiel
   getFieldsByNames(fields)?.playbookFileName ?? { value: '', encoding: 'ascii', name: 'playbookFileName' };
 export const getAnsibleUrlFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.ansibleUrl ?? { value: '', encoding: 'ascii', name: 'ansibleUrl' };
+export const getAnsibleHostIdFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.hostId ?? { value: '', encoding: 'ascii', name: 'hostId' };
 export const getGithubOwnerFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.owner ?? { value: '', encoding: 'ascii', name: 'owner' };
 export const getGithubRepoFromFields = (fields: Field[] | undefined): Field =>
@@ -380,3 +382,5 @@ export const isNotEditable = (action: Action | NewAction, isCopy: boolean) =>
 export const doesParameterExist = (parameters: MappedParameter[], paramName: string) => {
   return parameters.some(param => param.value.name === paramName);
 };
+
+export const isAIAction = (action: Action | NewAction) => action?.metadata?.builtIn && action?.metadata?.ai !== null;

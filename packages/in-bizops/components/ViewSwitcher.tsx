@@ -7,30 +7,20 @@
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
+
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { clickBizopsProcessesTabsTracker } from 'in-bizops/tracker';
+import { bizopsPerspectivesEnabled } from 'in-services/featureFlags';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { clickBizopsTabsTracker } from 'in-bizops/tracker';
 import * as paths from 'in-bizops/navigation/paths';
 import { t } from 'in-i18n';
-
-import locals from './ViewSwitcher.mless';
 
 export default function ViewSwitcher() {
   const { matchLocation, createHrefToPath } = useNavigation();
   const isProcessesActive = matchLocation(paths.businessProcessPath);
-  const isActivitiesActive = matchLocation(paths.activitiesPath);
-  /*
-  The plumbing for an activity tab exists here. Waiting on UI list for all activities to be
-  present before enabling the tab. Use the following component to enable the activities tab:
-  <SecondLevelNavigationItem
-    href={createHrefToPath(paths.activitiesPath)}
-    label={t('in-bizops:labelActivities')}
-    isActive={isActivitiesActive && !isProcessesActive}
-    icon={'lib_application_service'}
-  />
-  */
+  const isPerspectivesActive = matchLocation(paths.businessPerspectivesPath);
 
   const dashboardHeaderProps = {
     icon: 'lib_bizops',
@@ -43,19 +33,28 @@ export default function ViewSwitcher() {
     <>
       <DashboardHeader {...dashboardHeaderProps} />
       <DashboardHeaderModule theme={themes.light}>
-        <div className={locals.firstLine}>
-          <SecondLevelNavigation>
+        <SecondLevelNavigation>
+          <SecondLevelNavigationItem
+            href={createHrefToPath(paths.businessProcessPath)}
+            label={t('in-bizops:labelBizOps')}
+            isActive={isProcessesActive && !isPerspectivesActive}
+            icon={'lib_bizops'}
+            onClick={() => {
+              clickBizopsTabsTracker({ tab: 'Processes' });
+            }}
+          />
+          {bizopsPerspectivesEnabled && ( // !TODO!: This needs to be moved above the processes tab once perspectives is released
             <SecondLevelNavigationItem
-              href={createHrefToPath(paths.businessProcessPath)}
-              label={t('in-bizops:labelBizOps')}
-              isActive={isProcessesActive && !isActivitiesActive}
+              href={createHrefToPath(paths.businessPerspectivesPath)}
+              label={t('in-bizops:labelPerspectives')}
+              isActive={isPerspectivesActive && !isProcessesActive}
               icon={'lib_bizops'}
               onClick={() => {
-                clickBizopsProcessesTabsTracker({ tab: 'Processes' });
+                clickBizopsTabsTracker({ tab: 'Perspectives' });
               }}
             />
-          </SecondLevelNavigation>
-        </div>
+          )}
+        </SecondLevelNavigation>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />
     </>

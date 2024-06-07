@@ -189,7 +189,7 @@ export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetails
       cardTitle={t('in-sap:dashboards.jobsInformation')}
       cols={cols}
       rows={rows}
-      initialSortColumn={1}
+      initialSortColumn={0}
       initialSortDirection="asc"
       getRowDetails={getDetails}
     />

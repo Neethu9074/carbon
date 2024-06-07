@@ -13,6 +13,7 @@ import {
   AreaRole,
   AreaRoleWithContributor,
   AreaRoleWithCustomType,
+  infrastructureOtherCapabilities,
   LimitableProductArea,
   ProductArea,
   ProductAreaPermissionMap,
@@ -271,6 +272,13 @@ export const removeAdditionalPermissionsForNoaccess = (
       if (role === AreaRole.VIEWER) {
         permissions = permissions.filter(
           permission => !syntheticOtherCapabilities?.includes(permission as CapabilityType)
+        );
+      }
+    } else if (productArea === ProductArea.INFRASTRUCTURE) {
+      //The additional Infrastructure permissions set at limited scope should be removed
+      if (limitation === ScopedPermissionItem.LIMITED_ACCESS) {
+        permissions = permissions.filter(
+          permission => !infrastructureOtherCapabilities?.includes(permission as CapabilityType)
         );
       }
     }

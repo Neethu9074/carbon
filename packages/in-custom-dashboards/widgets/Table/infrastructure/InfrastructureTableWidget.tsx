@@ -8,7 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 
 import { AggregationType, Group, TagFilterExpression, TagFilterExpressionElementUnion } from '@instana/types';
-import { Card, Link, Spacer, Typography } from '@instana/components';
+import { Card, Link, Spacer, Typography, SearchInput } from '@instana/components';
 
 // @ts-expect-error
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
@@ -27,7 +27,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
-import SearchInput from 'in-components/SearchInput/SearchInput';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';

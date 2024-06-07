@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -19,13 +20,18 @@ export default function StatusCodeRangeSelection({
   startField,
   endField,
   onStartSelectionUpdate,
-  onEndSelectionUpdate
+  onEndSelectionUpdate,
+  tearSheetView
 }) {
   const startHasError = !startField.valid && startField.touched;
   const endHasError = !endField.valid && endField.touched;
   return (
-    <Row>
-      <Col lg={3}>
+    <Row
+      className={classNames({
+        [locals.rowWidth]: tearSheetView
+      })}
+    >
+      <Col lg={tearSheetView ? 6 : 3}>
         <Stack gap="xsmall">
           <Label hasError={startHasError} htmlFor="statusCodeStart" className={locals.label}>
             From
@@ -43,7 +49,7 @@ export default function StatusCodeRangeSelection({
           <TouchedMessages field={startField} />
         </Stack>
       </Col>
-      <Col lg={3}>
+      <Col lg={tearSheetView ? 6 : 3}>
         <Stack gap="xsmall">
           <Label hasError={endHasError} htmlFor="statusCodeEnd" className={locals.label}>
             To
@@ -69,5 +75,6 @@ StatusCodeRangeSelection.propTypes = {
   startField: PropTypes.object.isRequired,
   endField: PropTypes.object.isRequired,
   onStartSelectionUpdate: PropTypes.func.isRequired,
-  onEndSelectionUpdate: PropTypes.func.isRequired
+  onEndSelectionUpdate: PropTypes.func.isRequired,
+  tearSheetView: PropTypes.bool
 };

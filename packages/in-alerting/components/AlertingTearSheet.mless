@@ -7,13 +7,18 @@
 :local {
   .container {
     display: grid;
-    height: calc(100vh - 7.75rem); // removing height of the carbon header (3rem)+ page header (4.75 rem)
+    height: calc(100vh - 8rem); // removing height of the carbon header (3rem)+ page header (5 rem)
     grid-template-columns: 16rem 1fr;
     grid-template-rows: 1fr 4rem;
     grid-template-areas:
       'sidebar content'
       'sidebar footer';
     background: var(--ids-color-option-white);
+  }
+  .containerWithMsg {
+    height: calc(
+      100vh - 12rem
+    ); // adjusting the height of container on displaying msg, reducing the height with header height.
   }
 
   .sidebar {
@@ -31,8 +36,16 @@
     overflow-y: auto;
     overflow-x: hidden;
   }
+  .contentWithMsg {
+    height: calc(
+      100vh - 16rem
+    ); // adjusting the height of content on displaying msg, reducing the height with header height + footer.
+  }
 
   .footer {
     grid-area: footer;
+  }
+  .errorInfo {
+    padding: 0 2rem 1.8rem 0;
   }
 }

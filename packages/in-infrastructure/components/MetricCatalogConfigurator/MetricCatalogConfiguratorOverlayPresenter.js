@@ -14,6 +14,7 @@ import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util'
 import { infraExploreFilterEmptyValueEnabled } from 'in-services/featureFlags';
 import DraggableItemSelector from 'in-components/DraggableItemSelector';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
+import { carbonSelectEnabled } from 'in-services/featureFlags';
 import { mapData } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import { Col } from 'in-components/layout/Grid';
@@ -121,7 +122,7 @@ function Content({
         ))}
       </Col>
 
-      <Col xs={3}>
+      <Col xs={carbonSelectEnabled ? 4 : 3}>
         {metric.get('aggregation').map(field => (
           <Select
             id={`metric-configuration-aggregation-${i}`}

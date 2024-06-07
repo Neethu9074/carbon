@@ -10,7 +10,6 @@ import {
   Grouping,
   isInfraMetricConfiguration,
   LabeledMetricResult,
-  MetricResult,
   Result,
   ResultType,
   TimeConfig,
@@ -38,7 +37,6 @@ import {
   enforceSingleNumberResult,
   renderer as availableRenderers
 } from 'in-custom-dashboards/widgets/Chart/renderer';
-import { getLogMetricsConfig, reduceResultValues, transformToPerSecondAggregation } from 'in-components/KpiCard/utils';
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { applyTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
@@ -46,7 +44,6 @@ import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sou
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
-import { useLogsPolling } from 'in-components/KpiCard/useLogsPolling';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import { AxisNames } from 'in-components/Chart/data/dataSearchUtils';
 import { noop, pendingResult } from 'in-services/fixedObjects';
@@ -246,26 +243,15 @@ export function useResultData(config: Config, granularity: number, timeConfig: T
   //timeShift, aggregation, resultType, autoRefresh
   //these workarounds will be removed once the logging backend is updated to support these features
 
-  const widgetConfigType = config.y1.renderer === 'pie' ? 'BigNumber' : 'Chart';
-  metrics = getLogMetricsConfig(metrics, widgetConfigType);
-
   const stableConfig = useStableObjectInstance(config);
 
-  const logsPollingResult = useLogsPolling({ metrics });
-
-  const metricResult =
-    useObservable<Result<MetricResult[]>, unknown[]>(
-      () => getUnifiedMetrics({ metrics }),
-      [timeConfig, stableConfig]
-    ) ?? pendingResult;
+  const metricResult = useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, stableConfig]) ?? pendingResult;
   const companionMetricResult =
     useObservable(() => getUnifiedMetrics({ metrics: companionMetrics }), [timeConfig, stableConfig]) ?? pendingResult;
 
-  let result = getResult(metricResult, logsPollingResult, metrics, widgetConfigType);
-
   // do not execute the query while the parent component is still loading data for the chart configuration
   return {
-    metricResult: result,
+    metricResult,
     companionMetricResult
   };
 }
@@ -580,33 +566,4 @@ export function toAxisConfiguration(
     adjustedTimeframes: resultDataAsList.map(({ adjustedTimeframe }) => adjustedTimeframe as AdjustedTimeframe),
     lastValue: axis.metrics.some(({ lastValue }) => lastValue === true)
   };
-}
-
-function getResult(
-  metricResult: Result<UnifiedMetricsResult[]>,
-  logsPollingResult: Result<UnifiedMetricsResult[]> | null,
-  metrics: UnifiedMetricsConfigObject,
-  widgetType: 'BigNumber' | 'Chart'
-) {
-  let result = logsPollingResult ?? metricResult;
-
-  const includesLogsMetric = Object.values(metrics).some(metric => metric.source === 'LOG');
-  const includesPerSecondLogs =
-    includesLogsMetric &&
-    Object.values(metrics).some(metric => metric.source === 'LOG' && metric.aggregation === 'PER_SECOND');
-
-  let transformedResult: Result<MetricResult[]> = {
-    ...result,
-    data: transformToPerSecondAggregation(result?.data, metrics)
-  };
-
-  if (widgetType === 'BigNumber') {
-    transformedResult = reduceResultValues(transformedResult);
-  }
-
-  if ((includesLogsMetric || includesPerSecondLogs) && result.data) {
-    return { ...metricResult, data: transformedResult.data };
-  }
-
-  return result;
 }

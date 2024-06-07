@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Typography, Spacer, Link } from '@instana/components';
+import { Typography, Spacer, Link, IconButton } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -18,6 +18,7 @@ import {
   getAnsibleFields,
   getInterpreterToUse,
   getScriptFromFields,
+  getDocLinkFromFields,
   getType,
   getWebhookFields,
   getManualContentFromFields,
@@ -33,7 +34,8 @@ import {
   GH_TICKET_TYPES,
   getGitlabFields,
   getJiraFields,
-  JIRA_OPERATIONS
+  JIRA_OPERATIONS,
+  isDocLink
 } from 'in-automation/ActionCatalog/shared';
 import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -42,7 +44,6 @@ import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/Paramet
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { actionHistoryPath, actionHistory } from 'in-automation/navigation/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { Action, Parameter, VolatileId, DynamicFieldValue } from 'in-types';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
@@ -55,8 +56,6 @@ import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { ResolvedDynamicParamValue } from 'in-automation/api';
-import IconButton from 'in-components/IconButton/IconButton';
-import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -65,11 +64,9 @@ import { toHtml } from 'in-services/formatters/markdown';
 import { NewPolicy } from 'in-automation/Policies/types';
 import { Col } from 'in-components/layout/Grid/Grid';
 import { Row } from 'in-components/layout/Grid/Grid';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import { getSnapshot } from 'in-stores/snapshot';
-import { role } from 'in-stores/user';
 import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
@@ -90,6 +87,7 @@ interface RunActionDialogContentProps {
   errorResolvingDynamicParameters: boolean;
   resolvedDynamicParameters: ResolvedDynamicParamValue[] | null | undefined;
   policy?: NewPolicy;
+  viewRecommendedAction?: boolean;
 }
 
 export default function RunActionDialogContent({
@@ -102,9 +100,9 @@ export default function RunActionDialogContent({
   agentSnapShots,
   errorResolvingDynamicParameters,
   resolvedDynamicParameters,
-  policy
+  policy,
+  viewRecommendedAction
 }: RunActionDialogContentProps) {
-  const timeConfig = useTimeConfig();
   const { createHref, location } = useNavigation();
   function getLinkToActionHistory(id: string) {
     const path = location;
@@ -112,10 +110,6 @@ export default function RunActionDialogContent({
     setOrDeleteMatrixKey(path, actionHistory, 'query', id);
     return createHref(path);
   }
-
-  const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
-
-  const logLink = useLinkToLogs({ tagFilterExpression: [tagFilterExpression], timeConfig });
 
   if (!form) return <LoadingIndicator size="xxl" />;
   if (error && !actionInstanceId) {
@@ -126,6 +120,7 @@ export default function RunActionDialogContent({
       </>
     );
   }
+
   if (actionInstanceId) {
     return (
       <Typography variant="body-small">
@@ -135,23 +130,22 @@ export default function RunActionDialogContent({
             <Spacer horizontal="xsmall" />
           </>
         )}
-        {role?.canViewAutomationActionInstances ? (
-          <Trans
-            i18nKey={'in-automation:linkToActionHistory'}
-            components={{
-              // @ts-expect-error
-              logsLink: <Link target="_blank" onClick={close} href={getLinkToActionHistory(actionInstanceId)} />
-            }}
-          />
-        ) : (
-          <Trans
-            i18nKey={'in-automation:linkToActionLogs'}
-            components={{
-              // @ts-expect-error
-              logsLink: <Link target="_blank" onClick={close} href={logLink} />
-            }}
-          />
-        )}
+        <Trans
+          i18nKey={'in-automation:linkToActionHistory'}
+          components={{
+            logsLink: (
+              <Link
+                className={locals.logsLink}
+                target="_blank"
+                onClick={close}
+                href={getLinkToActionHistory(actionInstanceId)}
+              >
+                {' '}
+                &nbsp;
+              </Link>
+            )
+          }}
+        />
       </Typography>
     );
   }
@@ -163,61 +157,71 @@ export default function RunActionDialogContent({
   }
   return (
     <HorizontalFlexWrapper className={locals.alignStretch}>
-      <div className={locals.borderRight}>
-        <DescriptionList>
-          <DescriptionItem
-            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-            title={t('in-automation:description')}
-          >
-            {action.description}
-          </DescriptionItem>
-          <DescriptionItem
-            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-            title={t('in-automation:titleActionType')}
-          >
-            {getType(action.type)}
-          </DescriptionItem>
-        </DescriptionList>
-        {isScript(action.type) && <ScriptActionContent action={action} />}
-        {isWebhook(action.type) && <WebhookActionContent action={action} />}
-        {isGithub(action.type) && <GithubActionContent action={action} />}
-        {isGitlab(action.type) && <GitlabActionContent action={action} />}
-        {isJira(action.type) && <JiraActionContent action={action} />}
-        {isAnsible(action.type) && (
-          <AnsibleActionContent
-            form={form}
-            setForm={setForm}
-            action={action}
-            resolvedDynamicParameters={resolvedDynamicParameters}
-            policy={policy}
-          />
-        )}
-        <AgentSelection
-          policy={policy}
-          form={form}
-          volatileId={volatileId}
-          setForm={setForm}
-          agentSnapShots={agentSnapShots}
-        />
-        <Typography variant="body-small">{t('in-automation:actionCannotBeUndone')}</Typography>
-      </div>
-      <Spacer horizontal="normal" />
-      <Col className={locals.parameterContainer} lg={4}>
-        <DescriptionList>
-          <DescriptionItem
-            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-            title={t('in-automation:parameters')}
-          >
-            <ParameterInput
-              errorResolvingDynamicParameters={errorResolvingDynamicParameters}
-              action={action}
+      <Col className={classNames({ [locals.parameterContainer]: viewRecommendedAction })} lg={8}>
+        <div className={classNames({ [locals.borderRight]: !viewRecommendedAction })}>
+          <DescriptionList>
+            <DescriptionItem
+              className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+              title={t('in-automation:description')}
+            >
+              {action.description}
+            </DescriptionItem>
+            <DescriptionItem
+              className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+              title={t('in-automation:titleActionType')}
+            >
+              {getType(action.type)}
+            </DescriptionItem>
+          </DescriptionList>
+          {isScript(action.type) && <ScriptActionContent action={action} />}
+          {isDocLink(action.type) && <DocActionContent action={action} />}
+          {isWebhook(action.type) && <WebhookActionContent action={action} />}
+          {isGithub(action.type) && <GithubActionContent action={action} />}
+          {isGitlab(action.type) && <GitlabActionContent action={action} />}
+          {isJira(action.type) && <JiraActionContent action={action} />}
+          {isAnsible(action.type) && (
+            <AnsibleActionContent
               form={form}
               setForm={setForm}
+              action={action}
+              resolvedDynamicParameters={resolvedDynamicParameters}
               policy={policy}
+              viewRecommendedAction={viewRecommendedAction}
             />
-          </DescriptionItem>
-        </DescriptionList>
+          )}
+          {!viewRecommendedAction && (
+            <div>
+              <AgentSelection
+                policy={policy}
+                form={form}
+                volatileId={volatileId}
+                setForm={setForm}
+                agentSnapShots={agentSnapShots}
+              />
+              <Typography variant="body-small">{t('in-automation:actionCannotBeUndone')}</Typography>
+            </div>
+          )}
+        </div>
+        {!viewRecommendedAction && <Spacer horizontal="normal" />}
       </Col>
+      {!viewRecommendedAction && (
+        <Col className={locals.parameterContainer} lg={4}>
+          <DescriptionList>
+            <DescriptionItem
+              className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+              title={t('in-automation:parameters')}
+            >
+              <ParameterInput
+                errorResolvingDynamicParameters={errorResolvingDynamicParameters}
+                action={action}
+                form={form}
+                setForm={setForm}
+                policy={policy}
+              />
+            </DescriptionItem>
+          </DescriptionList>
+        </Col>
+      )}
     </HorizontalFlexWrapper>
   );
 }
@@ -357,6 +361,22 @@ function ScriptActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
         title={t('in-automation:titleScriptContent')}
       >
         <Code withExpandButton withoutCopyButton code={plaintextScript} lang={'bash'} softWrap />
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
+
+function DocActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
+  const link = getDocLinkFromFields(action.fields).value;
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-automation:titleUrl')}
+      >
+        <Link external href={link}>
+          {link}
+        </Link>
       </DescriptionItem>
     </DescriptionList>
   );
@@ -749,8 +769,12 @@ function AnsibleActionContent({
   resolvedDynamicParameters,
   form,
   setForm,
-  policy
-}: Pick<RunActionDialogContentProps, 'action' | 'resolvedDynamicParameters' | 'form' | 'setForm' | 'policy'>) {
+  policy,
+  viewRecommendedAction
+}: Pick<
+  RunActionDialogContentProps,
+  'action' | 'resolvedDynamicParameters' | 'form' | 'setForm' | 'policy' | 'viewRecommendedAction'
+>) {
   const { jobTemplateUrl } = getAnsibleFields(action);
   const ip = resolvedDynamicParameters?.find(p => p.name === 'ip')?.resolvedValue ?? '[]';
   const parsedIp: string[] = safeJsonParse(ip ? ip : '[]');
@@ -777,22 +801,24 @@ function AnsibleActionContent({
           </Link>
         </DescriptionItem>
       </DescriptionList>
-      <FormGroup key="hostLimit">
-        <Label htmlFor="hostLimit">{t('in-automation:hostsLimit')}</Label>
-        <CreatableComboBox
-          id={locals.hostLimit}
-          isMulti
-          options={options}
-          value={hostLimitField?.value ?? []}
-          onChange={(value: Option[]) => {
-            const updatedForm = form?.updateIn(['hostsLimit'], (field: Field<Option[]>) =>
-              field.setValue(value).setTouched(true)
-            );
-            setForm(updatedForm);
-          }}
-        />
-        <HelpText className={locals.subTextFormField}>{t('in-automation:hostsLimitHelpText')}</HelpText>
-      </FormGroup>
+      {!viewRecommendedAction && (
+        <FormGroup key="hostLimit">
+          <Label htmlFor="hostLimit">{t('in-automation:hostsLimit')}</Label>
+          <CreatableComboBox
+            id={locals.hostLimit}
+            isMulti
+            options={options}
+            value={hostLimitField?.value ?? []}
+            onChange={(value: Option[]) => {
+              const updatedForm = form?.updateIn(['hostsLimit'], (field: Field<Option[]>) =>
+                field.setValue(value).setTouched(true)
+              );
+              setForm(updatedForm);
+            }}
+          />
+          <HelpText className={locals.subTextFormField}>{t('in-automation:hostsLimitHelpText')}</HelpText>
+        </FormGroup>
+      )}
     </>
   );
 }

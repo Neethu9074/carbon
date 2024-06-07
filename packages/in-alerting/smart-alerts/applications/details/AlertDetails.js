@@ -80,6 +80,7 @@ function GlobalAlertDetails(props) {
       canConfigureGlobalAlertConfigs={role.canConfigureGlobalApplicationSmartAlerts}
       canConfigureIndividualAlertConfigs={role.canConfigureApplicationSmartAlerts}
       isGlobalSmartAlert
+      displayTearSheetActions
     />
   );
 }
@@ -106,6 +107,7 @@ function IndividualAlertDetails(props) {
       renderAlertConfiguration={renderAlertConfiguration}
       canConfigureGlobalAlertConfigs={role.canConfigureGlobalApplicationSmartAlerts}
       canConfigureIndividualAlertConfigs={role.canConfigureApplicationSmartAlerts}
+      displayTearSheetActions
     />
   );
 }

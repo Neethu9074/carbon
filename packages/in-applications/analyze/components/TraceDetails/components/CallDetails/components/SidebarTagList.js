@@ -15,7 +15,7 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './SidebarTagList.mless';
 
-export default function SidebarTagList({ leftAligned = false, tags }) {
+export default function SidebarTagList({ leftAligned = false, tags, noMargin }) {
   const TagLine = forwardRef(function TagLine({ name, value, valueRef }, ref) {
     return (
       <Li className={locals.root}>
@@ -65,7 +65,7 @@ export default function SidebarTagList({ leftAligned = false, tags }) {
   return (
     <>
       {tags.length > 0 && (
-        <div className={locals.tagsCard}>
+        <div className={noMargin ? locals.tagsCardNoMargin : locals.tagsCard}>
           <Ul>
             {tags.map(({ name, value }, i) => (
               <TagLineWithTooltipOnOverflow key={i} name={name} value={value} />

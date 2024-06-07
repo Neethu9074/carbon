@@ -7,6 +7,7 @@
 import React from 'react';
 
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
+import SequentialScanTable from 'in-forge/plugins/oTelDatabase/Dashboard/SequentialScanTable';
 import ElapsedTimeTable from 'in-forge/plugins/oTelDatabase/Dashboard/ElapsedTimeTable';
 import { number, bytesTwoDecimalPlaces, seconds } from 'in-services/formatters/number';
 import TableSpaceTable from 'in-forge/plugins/oTelDatabase/Dashboard/TableSpaceTable';
@@ -120,6 +121,21 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
             />
           </KpiKeyValue>
         )}
+        {metricIds.includes('db.overflow.lock.count') === true && (
+          <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.overflowLockCount')}>
+            <MetricValue snapshotId={snapshotId} metric="db.overflow.lock.count" formatter={number.compact} />
+          </KpiKeyValue>
+        )}
+        {metricIds.includes('db.overflow.transaction.count') === true && (
+          <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.overflowTransactionCount')}>
+            <MetricValue snapshotId={snapshotId} metric="db.overflow.transaction.count" formatter={number.compact} />
+          </KpiKeyValue>
+        )}
+        {metricIds.includes('db.overflow.user.count') === true && (
+          <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.overflowUserCount')}>
+            <MetricValue snapshotId={snapshotId} metric="db.overflow.user.count" formatter={number.compact} />
+          </KpiKeyValue>
+        )}
       </KpiSection>
       <Columize>
         {metricIds.includes('db.session.count') && metricIds.includes('db.session.active.count') === true && (
@@ -210,6 +226,76 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
                 formatter: number.detailed,
                 metrics: ['db.sql.rate'],
                 labels: [t('in-forge:plugins.oTelDatabase.dashboard.sqlPerSecond')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        )}
+        {metricIds.includes('db.seq.scan.table.count') === true && (
+          <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.seqScanTableCount')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: ['db.seq.scan.table.count'],
+                labels: [t('in-forge:plugins.oTelDatabase.dashboard.seqScanTableCount')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        )}
+      </Columize>
+      <Columize>
+        {metricIds.includes('db.overflow.lock.count') === true && (
+          <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.overflowLockCount')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: ['db.overflow.lock.count'],
+                labels: [t('in-forge:plugins.oTelDatabase.dashboard.overflowLockCount')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        )}
+      </Columize>
+      <Columize>
+        {metricIds.includes('db.overflow.transaction.count') === true && (
+          <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.overflowTransactionCount')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: ['db.overflow.transaction.count'],
+                labels: [t('in-forge:plugins.oTelDatabase.dashboard.overflowTransactionCount')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        )}
+      </Columize>
+      <Columize>
+        {metricIds.includes('db.overflow.user.count') === true && (
+          <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.overflowUserCount')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: ['db.overflow.user.count'],
+                labels: [t('in-forge:plugins.oTelDatabase.dashboard.overflowUserCount')],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -346,6 +432,7 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
       <TableSpaceTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <DatabaseTable snapshot={snapshot} timeConfig={timeConfig} />
+      <SequentialScanTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <CustomMetricsV2
         snapshot={snapshot}

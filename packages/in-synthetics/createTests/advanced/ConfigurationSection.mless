@@ -62,4 +62,8 @@
     display: flex;
     align-items: center;
   }
+
+  .validityInput {
+    margin: 0 1rem;
+  }
 }

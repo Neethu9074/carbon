@@ -9,7 +9,7 @@ import React, { useContext } from 'react';
 import { Li, Typography, Ul } from '@instana/components';
 
 import {
-  infrastructureOtherCapabilities,
+  infrastructureDefaultCapabilities,
   ProductArea,
   ScopedPermissionItem
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
@@ -17,7 +17,8 @@ import { CapabilitySubsection } from 'in-settings/tabs/TeamSettings/pages/access
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
 import { getScopeFromProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import { AreaPermission } from 'in-stores/permission';
+import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
+import { AreaPermission, Capability } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
 export const InfrastructureSection = () => {
@@ -46,7 +47,10 @@ export const InfrastructureSection = () => {
         </Li>
       )}
       <CapabilitySubsection
-        capabilities={infrastructureOtherCapabilities}
+        capabilities={[
+          ...infrastructureDefaultCapabilities,
+          ...(infraSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS] : [])
+        ]}
         areaPermissions={[AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE]}
         headerText={t('in-settings:productAreas.additionalPermissions')}
       />

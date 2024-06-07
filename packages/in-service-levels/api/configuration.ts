@@ -24,6 +24,7 @@ import http from 'in-services/http';
 const refreshSignal = create<string>().emit('');
 
 export interface GetAllSloConfigurationsArguments {
+  ids?: string[];
   page?: number;
   pageSize?: number;
   query?: string;
@@ -34,6 +35,7 @@ export interface GetAllSloConfigurationsArguments {
 }
 
 function getAllSloConfigurationsInternal({
+  ids,
   page = 1,
   pageSize = 20,
   orderDirection = 'ASC',
@@ -48,7 +50,16 @@ function getAllSloConfigurationsInternal({
       maxRetries: 3,
       url: '/api/settings/slo',
       mapToResultObject: true,
-      queryParams: { page, pageSize, orderDirection, tag: tags, query, entityType, orderBy }
+      queryParams: {
+        sloIds: ids,
+        page,
+        pageSize,
+        orderDirection,
+        tag: tags,
+        query,
+        entityType,
+        orderBy
+      }
     })
   );
 }
@@ -84,6 +95,16 @@ function getSloConfigurationInternal(id: string) {
 export const getSloConfiguration = memoize<string, Result<ServiceLevelObjectiveConfiguration>>(
   getSloConfigurationInternal,
   id => id,
+  minutes.toMillis(1)
+);
+
+function getSloConfigurationsInternal(ids: string[]) {
+  return getAllSloConfigurationsInternal({ ids, pageSize: ids.length });
+}
+
+export const getSloConfigurations = memoize<string[], Result<PaginatedResult<ServiceLevelObjectiveConfiguration>>>(
+  getSloConfigurationsInternal,
+  ids => generateStableHash(ids),
   minutes.toMillis(1)
 );
 

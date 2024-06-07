@@ -13,10 +13,11 @@ import {
   SyntheticTypeConfigurationUnion,
   SSLCertificateConfiguration
 } from '@instana/types';
-import { KeyValue } from '@instana/components';
+import { Card, KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import CodeInput from 'in-synthetics/packages/Code/CodeInput';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -276,6 +277,11 @@ const renderWebpageActionTestTypeContent = (configuration: HttpActionConfigurati
 };
 
 const renderSSLCertificateTestTypeContent = (configuration: SSLCertificateConfiguration) => {
+  const daysRemainingCheck = configuration.daysRemainingCheck;
+  const isZeroOrOneDayRemaining: boolean = [0, 1].includes(daysRemainingCheck);
+  const daysOrDayRemainingLabel: string = isZeroOrOneDayRemaining
+    ? t('in-synthetics:dashboard.configuration.day', { daysRemainingCheck })
+    : t('in-synthetics:dashboard.configuration.days', { daysRemainingCheck });
   const content = [
     <Row key={'hostname'} className={locals.configRow}>
       <Col xs={4}>
@@ -291,10 +297,12 @@ const renderSSLCertificateTestTypeContent = (configuration: SSLCertificateConfig
       <Col xs={2}>
         <KeyValue label={t('in-synthetics:dashboard.configuration.port')} value={configuration.port} />
       </Col>
-      <Col xs={4}>
+    </Row>,
+    <Row key={'daysRemaining'} className={locals.configRow}>
+      <Col xs={12}>
         <KeyValue
           label={t('in-synthetics:dashboard.configuration.daysRemaining')}
-          value={configuration.daysRemainingCheck}
+          value={`${daysOrDayRemainingLabel}`}
         />
       </Col>
     </Row>,
@@ -316,8 +324,21 @@ const ConfigSection = ({ test }: Props) => {
     case 'SSLCertificate':
       content = renderSSLCertificateTestTypeContent(configuration as SSLCertificateConfiguration);
       break;
-    default:
+    case 'HTTPScript':
+    case 'BrowserScript':
+    case 'WebpageScript':
       content = renderScriptTestTypeContent(configuration as HttpScriptConfiguration);
+      break;
+    default:
+      content = (
+        <Card>
+          <NoDataAvailable
+            type="lib_synthetic"
+            height={160}
+            text={t('in-synthetics:dashboard.noDataAvailable.configurationTab', { component: 'Configuration' })}
+          />
+        </Card>
+      );
   }
 
   return (

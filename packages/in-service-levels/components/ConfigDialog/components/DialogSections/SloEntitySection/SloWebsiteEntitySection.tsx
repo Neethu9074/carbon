@@ -6,7 +6,7 @@
 
 import React, { useContext, useState } from 'react';
 
-import { Typography } from '@instana/components';
+import { Typography, SearchInput } from '@instana/components';
 import { Website } from '@instana/types';
 
 import SloEntityTable, {
@@ -19,7 +19,6 @@ import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSl
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import useWebsiteEntities from 'in-service-levels/hooks/useWebsiteEntities';
 import Sections from 'in-components/workspace/Sections/Sections';
-import SearchInput from 'in-components/SearchInput/SearchInput';
 import { finishedProgress } from 'in-services/fixedObjects';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useWebsite from 'in-websites/hooks/useWebsite';

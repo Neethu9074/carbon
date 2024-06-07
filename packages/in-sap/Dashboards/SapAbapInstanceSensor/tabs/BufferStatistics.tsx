@@ -229,7 +229,7 @@ export default function BufferStatistics({ snapshotId, timeConfig }: MemoryStats
       cardTitle={t('in-sap:dashboards.bufferStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={6}
+      initialSortColumn={7}
       initialSortDirection="desc"
       getRowDetails={getDetails}
     />

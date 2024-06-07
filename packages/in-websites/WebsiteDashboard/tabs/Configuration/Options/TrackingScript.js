@@ -15,6 +15,7 @@ import { t } from 'in-i18n';
 
 export default function TrackingScript({ websiteId }) {
   const [trackSessions, setTrackSessions] = useState(true);
+  const [enableSRI, setEnableSRI] = useState(true);
 
   return (
     <Card title={t('in-websites:websiteDashboard.tabs.configuration.configurationTrackingScriptTitle')}>
@@ -31,7 +32,9 @@ export default function TrackingScript({ websiteId }) {
       <TrackingSnippetPresenter
         websiteId={websiteId}
         trackSessions={trackSessions}
+        enableSRI={enableSRI}
         setTrackSessions={setTrackSessions}
+        setEnableSRI={setEnableSRI}
       />
     </Card>
   );

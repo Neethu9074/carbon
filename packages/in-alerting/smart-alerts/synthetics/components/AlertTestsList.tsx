@@ -6,8 +6,9 @@
 
 import React, { ReactNode } from 'react';
 
-import { SvgIcon, TrProps, Link } from '@instana/components';
+import { SvgIcon, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { TrProps } from '@instana/legacy';
 
 import List, { ColumnDefinition, leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';

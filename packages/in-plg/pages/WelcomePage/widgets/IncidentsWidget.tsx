@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Link, Stack, Typography } from '@instana/components';
+import { Link, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
@@ -21,7 +21,7 @@ import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import HealthDot from 'in-components/health/HealthDot/HealthDot';
+import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { openEventsAtServerTime$ } from 'in-stores/events';
@@ -55,6 +55,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.incidentsWidget.end'),
         key: 'end'
+      },
+      {
+        header: t('in-plg:welcomepage.component.incidentsWidget.health'),
+        key: 'health'
       }
     ];
   };
@@ -106,12 +110,7 @@ export default connectTo(() => ({
     {
       key: 'title',
       getContent({ item }) {
-        return (
-          <Stack direction="horizontal" align="center">
-            <HealthDot severity={item.severity} iconSize={10} />
-            <Link href={onItemClicked(item.id)}>{item.title}</Link>
-          </Stack>
-        );
+        return <Link href={onItemClicked(item.id)}>{item.title}</Link>;
       }
     },
     {
@@ -130,6 +129,12 @@ export default connectTo(() => ({
       key: 'end',
       getContent({ item }) {
         return <Typography variant="body-regular">{getEndValue(item)}</Typography>;
+      }
+    },
+    {
+      key: 'health',
+      getContent({ item }) {
+        return <HealthIcon severity={item.severity} iconSize="xs" />;
       }
     }
   ];

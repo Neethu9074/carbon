@@ -67,3 +67,7 @@ const logFormattersByAggregation: Partial<Record<AggregationType, Formatter[]>> 
 function getLogFormatter(aggregation: AggregationType) {
   return logFormattersByAggregation[aggregation] || [defaultFormatter];
 }
+
+export function convertToPercent(value: number) {
+  return value * 100;
+}

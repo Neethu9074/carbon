@@ -13,16 +13,18 @@
     border-radius: var(--ids-border-radius-option-large);
   }
 
-  .kpibody {
+  .wrapper .kpibody {
     padding: 0;
+    line-height: unset;
   }
 
-  .kpiheader {
+  .wrapper .kpiheader {
     padding: 0;
   }
 
   :global(.cds--tile) {
     border-radius: 0;
+    line-height: unset;
   }
 
   .borderless {
@@ -39,10 +41,6 @@
 
   .modal {
     .widgetInModal();
-  }
-
-  .useMaxAvailableHeight {
-    height: 100%;
   }
 
   .title {
@@ -118,5 +116,16 @@
 
   .hidden {
     display: none;
+  }
+
+  .major,
+  .minor {
+    &.critical {
+      color: var(--ids-color-option-red-700);
+    }
+
+    &.warning {
+      color: var(--ids-color-option-yellow-500);
+    }
   }
 }

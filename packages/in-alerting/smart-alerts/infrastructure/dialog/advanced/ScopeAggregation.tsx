@@ -26,7 +26,7 @@ import locals from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/Scop
 
 interface ScopeAggregationProps {
   form: MapForm<any>;
-  updateForm?: (form: MapForm<any>) => void;
+  updateForm: (form: MapForm<any>) => void;
 }
 export default function ScopeAggregation({ form, updateForm }: ScopeAggregationProps) {
   const aggregationField = form.get('rule')?.get('aggregation');
@@ -57,15 +57,13 @@ export default function ScopeAggregation({ form, updateForm }: ScopeAggregationP
 
   useEffect(() => {
     const newCrossSeriesAggregation = isSumCrossSeriesAggregation ? 'SUM' : aggregation;
-    if (updateForm) {
-      updateForm(
-        form
-          .updateIn(['rule', 'crossSeriesAggregation'], field =>
-            (field as Field<string>).setValue(newCrossSeriesAggregation).setTouched(true)
-          )
-          .updateIn(['rule', 'aggregation'], f => (f as Field<string>).setValue(aggregation).setTouched(true))
-      );
-    }
+    updateForm(
+      form
+        .updateIn(['rule', 'crossSeriesAggregation'], field =>
+          (field as Field<string>).setValue(newCrossSeriesAggregation).setTouched(true)
+        )
+        .updateIn(['rule', 'aggregation'], f => (f as Field<string>).setValue(aggregation).setTouched(true))
+    );
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSumCrossSeriesAggregation, aggregation]);
 

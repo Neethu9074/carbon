@@ -11,22 +11,10 @@
     justify-content: space-between;
   }
 
-  .buttonContent {
-    display: grid;
-    grid-template-columns: 9.375rem 8.125rem;
-    column-gap: 0.25rem;
-    align-items: center;
-    height: 2.5rem;
-  }
-
-  .sriOption {
-    display: flex;
-    align-items: center;
-  }
-
   .snippet {
     flex-grow: 1;
     margin: 0 1rem 0 0;
+    padding-top: 1rem;
   }
 
   .options {
@@ -41,16 +29,11 @@
 
   .label {
     margin: 0;
+    height: 1.5rem;
     display: flex;
     align-items: center;
-    color: var(--ids-color-option-blue-700);
+    color: var(--ids-color-option-neutral-700);
     font-size: var(--ids-font-size-option-body-small);
-  }
-
-  .gridContainer {
-    margin: 0.25rem;
-    align-items: center;
-    width: 18.75rem;
   }
 
   .helpWrapper {
@@ -66,12 +49,19 @@
     }
   }
 
-  .help {
-    fill: var(--ids-color-option-blue-500);
-    margin-left: 0.25rem;
+  .toggle {
+    color: var(--ids-color-option-neutral-700);
+    font-size: var(--ids-font-size-option-body-small);
+    display: flex;
   }
 
-  .optionText {
-    display: flex;
+  .button {
+    padding-top: 0.75rem;
+    padding-bottom: 1rem;
+  }
+
+  .help {
+    fill: var(--ids-color-option-neutral-700);
+    margin-left: 0.25rem;
   }
 }

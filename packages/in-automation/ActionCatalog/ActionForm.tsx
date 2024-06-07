@@ -7,7 +7,7 @@
 import React, { useState, useContext } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Link, Spacer, Typography, Toggle } from '@instana/components';
+import { Link, Spacer, Typography, Toggle, IconButton } from '@instana/components';
 import { TextArea, Select } from '@instana/components';
 
 import {
@@ -91,7 +91,6 @@ import SectionHeading from 'in-settings/components/SectionHeading';
 import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import TagsTable from 'in-automation/ActionCatalog/TagsTable';
-import IconButton from 'in-components/IconButton/IconButton';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';

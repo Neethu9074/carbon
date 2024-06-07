@@ -16,6 +16,7 @@ import { t } from 'in-i18n';
 describe('Render InfraThresholdCondition : in-alerting/smart-alerts/infrastructure/components/InfraThresholdCondition', () => {
   const form = alertFormDefinition(alertConfig, false);
   const updateForm = jest.fn();
+
   it('Check if component rendered in UI', () => {
     render(<InfraThresholdCondition form={form} updateForm={updateForm} percentageMetric metricUnitPostfix="%" />);
     expect(

@@ -21,6 +21,7 @@
   "titleIncidentTimeline": "인시던트 타임라인",
   "titleIncidentTriggeredBy": "인시던트 트리거 원인:",
   "titleAnalyzeCustomEvents": "사용자 정의 이벤트 분석",
+  "titleAnalyzeCrash": "충돌 분석",
   "titleAnalyzeHTTPRequests": "HTTP 요청 분석",
   "titleAnalyzeJsErrors": "JS 오류 분석",
   "titleAnalyzePageLoads": "페이지 로드 분석",

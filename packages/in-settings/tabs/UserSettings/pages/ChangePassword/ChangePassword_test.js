@@ -151,7 +151,7 @@ describe('in-settings/tabs/AuthSettings/pages/password/ChangePassword', () => {
     const oldPassInput = screen.getByLabelText(t('in-settings:tabs.password'));
 
     fireEvent.change(oldPassInput, { target: { value: 'Not important' } });
-    fireEvent.click(container.querySelector('.local-css-iconButton'));
+    fireEvent.click(container.querySelectorAll('button')[0]);
 
     const input = await screen.findByRole('textbox', { name: /Password/i });
     expect(input).toHaveValue('Not important');

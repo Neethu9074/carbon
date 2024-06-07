@@ -61,7 +61,10 @@ export default function AlertPropertiesTitleRow({
             >
               {placeholders.map(({ template }) => {
                 return (
-                  <MoreMenuButton onClick={insertPlaceholderText(titleTextareaRef, template, onChange)} key={template}>
+                  <MoreMenuButton
+                    onClick={insertPlaceholderText(form.get('name').value, template, onChange)}
+                    key={template}
+                  >
                     {template}
                   </MoreMenuButton>
                 );
@@ -85,18 +88,19 @@ export default function AlertPropertiesTitleRow({
 }
 
 function insertPlaceholderText(
-  titleTextareaRef: React.MutableRefObject<HTMLTextAreaElement | null>,
+  value: string,
   placeholderString: string,
   onChange: (path: string[], updater: (item: Item) => Item) => void
 ) {
   return () => {
-    const textarea = titleTextareaRef.current;
+    const textarea = document.getElementById('name');
 
     if (!textarea) {
       return;
     }
 
-    const { selectionStart, selectionEnd, value } = textarea;
+    var selectionStart = (textarea as any).selectionStart;
+    var selectionEnd = (textarea as any).selectionEnd;
 
     const tilSelectionStart = value.substring(0, selectionStart);
     const fromSelectionEnd = value.substring(selectionEnd);
@@ -104,9 +108,10 @@ function insertPlaceholderText(
 
     // we need to set the new value manually (before calling on change and update the form) to be
     // able to place the cursor right after the inserted placehoder
-    textarea.value = newValue;
+    (textarea as any).value = newValue;
+
     const newCursorPosition = selectionStart + placeholderString.length;
-    textarea.setSelectionRange(newCursorPosition, newCursorPosition);
+    (textarea as any).setSelectionRange(newCursorPosition, newCursorPosition);
     textarea.focus();
 
     onChange(['name'], (field: Item) => (field as Field<string>).setValue(newValue).setTouched(true));

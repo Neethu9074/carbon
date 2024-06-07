@@ -15,6 +15,7 @@ module.exports = {
       enforceAbsoluteImportPaths: true,
 
       allowedInPackages: [
+        'in-alerting',
         'in-analyze',
         'in-api',
         'in-applications',

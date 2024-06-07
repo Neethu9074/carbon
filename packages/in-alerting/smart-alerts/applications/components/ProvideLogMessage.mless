@@ -19,4 +19,13 @@
   .logMessageSelectButtonAdvanceMode {
     float: right;
   }
+
+  .smallWidth {
+    width: 31rem;
+    margin-top: 1rem;
+  }
+
+  .oneGap {
+    height: 1rem;
+  }
 }

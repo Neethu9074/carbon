@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import CreateApplicationDialog from 'promise-loader?global,cockpit!in-applications/creation/Dialog/CreateApplicationDialog';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -14,12 +15,12 @@ import { Button } from '@instana/legacy';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
-import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
-import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
+import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -41,6 +42,7 @@ import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
+const DeferredCreateApplicationDialog = createAsyncViewComponent(CreateApplicationDialog);
 export default function ApplicationsTopList({ applicationId, config }) {
   const entityResult = useObservable(getConfig, [applicationId]);
   const { createHrefToPath } = useNavigation();
@@ -53,7 +55,7 @@ export default function ApplicationsTopList({ applicationId, config }) {
         icon="lib_openclose_add_circle_outline"
         onClick={() => {
           addActiveDialog(
-            <CreateApplicationDialog
+            <DeferredCreateApplicationDialog
               timeConfig={getTimeConfig({ pathname: '/applications', query: {} })}
               formData={entityResult.data}
               onClose={close}

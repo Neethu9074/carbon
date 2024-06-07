@@ -101,7 +101,11 @@
       ineum('meta', 'selfDefinedRole', window.instana.termsAndPrivacySettings.dynamicRole || window.instana.termsAndPrivacySettings.role);
     }
   </script>
+  {{#if eumEnableSri}}
+  <script defer crossorigin="anonymous" integrity="{{eumAgentSri}}" src="https://{{eumRetrievalDomain}}/{{eumAgentVersion}}/eum.min.js"></script>
+  {{else}}
   <script defer crossorigin="anonymous" src="https://{{eumRetrievalDomain}}/eum.min.js"></script>
+  {{/if}}
   {{/if}}
 
   {{#if mixpanelToken}}

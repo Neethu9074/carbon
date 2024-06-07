@@ -237,8 +237,8 @@
         "certificateCheck": {
           "inputHostName": "Host Name",
           "inputPortNumber": "Port",
-          "inputDaysLine1": "Test will fail when there are",
-          "inputDaysLine2": "days remaining before expiration."
+          "failureConfigLabel": "Failure Configuration",
+          "failureConfigText": "Test will fail when certificate validity has <certificateValidityDays/> days remaining until expiration."
         }
       }
     },
@@ -466,6 +466,7 @@
       "smartAlertsTab": "Smart Alerts",
       "configurationTab": "Configuration",
       "isCertificateValid": "Last Run - Certificate is Valid",
+      "resultsCertificateValid": "Certificate is Valid",
       "certificateValid": "Yes",
       "certificateNotValid": "No",
       "daysRemaining": "Last Run - Days Remaining",
@@ -614,7 +615,8 @@
         "daysRemaining": "Days Remaining",
         "dateOfIssue": "Date of Issue",
         "dateOfExpiry": "Date of Expiry"
-      }
+      },
+      "failedRunErrorTypeTitle": "Error Type"
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",
@@ -680,6 +682,7 @@
       },
       "configurationEditAction": "Edit",
       "configurationDeleteAction": "Delete",
+      "configurationUnsupported": "Unsupported test type.",
       "timeoutLabel": "Timeout",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "Retry Strategy",
@@ -691,7 +694,9 @@
       "markSyntheticCall": "Mark Synthetic Call",
       "hostname": "Hostname",
       "port": "Port",
-      "daysRemaining": "Days before expiration when the test should fail"
+      "daysRemaining": "Failure Configuration",
+      "day": "Test will fail when certificate validity has {{daysRemainingCheck}} day remaining until expiration",
+      "days": "Test will fail when certificate validity has {{daysRemainingCheck}} days remaining until expiration"
     }
   }
 }

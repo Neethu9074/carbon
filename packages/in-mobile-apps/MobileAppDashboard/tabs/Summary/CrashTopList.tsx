@@ -98,7 +98,7 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
       direction: 'DESC'
     },
     group: {
-      groupbyTag: 'mobileBeacon.error.message'
+      groupbyTag: 'mobileBeacon.crash.keyInformation'
     },
     metrics: {
       [selectedMetric]: {

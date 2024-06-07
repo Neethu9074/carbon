@@ -15,6 +15,7 @@ import {
   getInfraSmartAlertConfig,
   getLogSmartAlertConfig,
   getMobileAppSmartAlertConfig,
+  getSloSmartAlertConfig,
   getSyntheticSmartAlertConfig,
   getWebsiteSmartAlertConfig
 } from 'in-automation/api';
@@ -49,6 +50,8 @@ function getTrigger(event: Event): () => Observable<Result<TriggerSpecification>
       return () => getLogSmartAlertConfig(triggerId);
     case 'syntheticsSmartAlert':
       return () => getSyntheticSmartAlertConfig(triggerId);
+    case 'sloSmartAlert':
+      return () => getSloSmartAlertConfig(triggerId);
   }
 }
 

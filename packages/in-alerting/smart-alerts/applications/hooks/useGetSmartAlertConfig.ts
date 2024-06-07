@@ -14,12 +14,14 @@ import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/applica
 export default function useGetSmartAlertConfig(
   alertConfigId: string,
   alertConfigCreated: number,
-  isGlobalSmartAlert: boolean
+  isGlobalSmartAlert: boolean,
+  editMode: boolean,
+  duplicateMode: boolean
 ) {
   const alertConfigInEditMode:
     | Observable<Result<GlobalApplicationsAlertConfigWithMetadata | ApplicationAlertConfigWithMetadata>>
     | undefined =
-    alertConfigId && alertConfigCreated
+    alertConfigId && alertConfigCreated && (editMode || duplicateMode)
       ? isGlobalSmartAlert
         ? getGlobalAlertConfigByIdAndTimestamp(alertConfigId, alertConfigCreated, { asObservable: true })
         : getAlertConfigByIdAndTimestamp(alertConfigId, alertConfigCreated, { asObservable: true })

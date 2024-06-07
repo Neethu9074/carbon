@@ -7,8 +7,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Li, Link, Ul, IconButton } from '@instana/components';
 import { Observable, just } from '@instana/observables';
-import { Li, Link, Ul } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
@@ -21,8 +21,8 @@ import {
 import { isAnsible, isGithub, isGitlab, isJira, isExternal } from 'in-automation/ActionCatalog/shared';
 import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionDetails';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { clickTurboLinkForDetailsTracker } from 'in-automation/tracker';
@@ -31,7 +31,6 @@ import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { Action, ActionInstance, ActorType } from 'in-types';
-import IconButton from 'in-components/IconButton/IconButton';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
@@ -52,6 +51,7 @@ export default function DetailTab({
   inActionLane?: boolean;
 }) {
   const { createHref, location } = useNavigation();
+  const getDashboardLink = useGetDashboardLink();
 
   function getPolicyView(id: string): string {
     const path = location;
@@ -109,6 +109,7 @@ export default function DetailTab({
     () => (hostSnapshotId ? getSnapshot(hostSnapshotId).map(snapshot => snapshot.toJS()) : just({})),
     [hostSnapshotId]
   );
+
   const tableData = [
     {
       label: t('in-automation:actionHistory.errorMessage'),
@@ -166,7 +167,7 @@ export default function DetailTab({
       isLink: true,
       isObservable: true,
       showCondition: hostSnapshotId && snapshot,
-      ObservableLink: getDashboardLink(hostSnapshotId ?? '', { pathname: `${agentsPath}/dashboard` })
+      stringLink: getDashboardLink(hostSnapshotId ?? '', { pathname: `${agentsPath}/dashboard` })
     },
     {
       label: t('in-automation:titleActionType'),

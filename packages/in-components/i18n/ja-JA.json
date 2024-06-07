@@ -439,7 +439,8 @@
     "aggregation_DISTINCTCOUNT": "特徴的なカウント",
     "aggregation_SUM": "sum",
     "aggregation_DISTRIBUTION": "分布",
-    "aggregation_PERSECOND": "秒当たり"
+    "aggregation_PERSECOND": "秒当たり",
+    "labelFilterEmptyValue": "空の値をフィルタリング"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "使用中",

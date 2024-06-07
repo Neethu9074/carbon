@@ -64,6 +64,7 @@ export default class Config {
 
   timeConfig?: TimeConfig;
 
+  distanceBetweenDatapointsInMillis?: number;
   maxDistanceBetweenDatapoints?: number;
   maxDistanceBetweenDatapointsInMillis?: number;
 
@@ -150,13 +151,14 @@ export default class Config {
   }
 
   calculateMaxMillisBetweenDatapoints(): number {
-    if (this.maxDistanceBetweenDatapoints) {
-      return this.maxDistanceBetweenDatapoints;
-    }
-    if (this.rollup === 1000) {
-      return allowedMillisGapsInOneSecondResolution;
-    }
-    return this.rollup! * allowedMultiplesOfRollupSizeMissingInCharts;
+    const maxMillisFromDistance = this.distanceBetweenDatapointsInMillis
+      ? this.distanceBetweenDatapointsInMillis * allowedMultiplesOfRollupSizeMissingInCharts
+      : 0;
+    const maxMillisFromRollup =
+      this.rollup === 1000
+        ? allowedMillisGapsInOneSecondResolution
+        : this.rollup! * allowedMultiplesOfRollupSizeMissingInCharts;
+    return Math.max(maxMillisFromDistance, maxMillisFromRollup);
   }
 
   enrichConfig(): void {

@@ -9,11 +9,12 @@ import './Lettering.less';
 
 const block = 'in-lettering';
 
-export default function Lettering({ className }) {
+export default function Lettering({ className, tag = 'div' }) {
+  const TagName = tag;
   let classes = block;
   if (className) {
     classes = `${block} ${className}`;
   }
 
-  return <div className={classes}>instana Inc.</div>;
+  return <TagName className={classes}>instana Inc.</TagName>;
 }

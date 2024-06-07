@@ -83,6 +83,7 @@ export default function useDeleteLogsForm() {
 
   const canSubmit = form.hierarchyValid;
   const resetForm = () => setForm(getInitialFormState);
+  const touchForm = () => setForm(form.setTouched(true, { recurse: true }));
 
   return {
     onChange,
@@ -99,6 +100,7 @@ export default function useDeleteLogsForm() {
     reasonValidationMessage,
     dateTimeValidationMessage,
     canSubmit,
-    resetForm
+    resetForm,
+    touchForm
   };
 }

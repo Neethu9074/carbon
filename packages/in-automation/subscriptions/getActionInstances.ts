@@ -12,7 +12,8 @@ const getActionInstances = createResultSubscriptionFactory<
   Result<PaginatedResult<ActionInstance>>
 >({
   eventId: 'getActionInstancesList',
-  trackSubscriptionStatistics: true
+  trackSubscriptionStatistics: true,
+  memoizeFor: 0
 });
 
 export default getActionInstances;

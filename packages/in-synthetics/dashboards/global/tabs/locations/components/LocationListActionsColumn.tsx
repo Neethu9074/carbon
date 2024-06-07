@@ -6,21 +6,21 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { LocationListItem, Result, SyntheticDatacenter } from '@instana/types';
+import { LocationListItem } from '@instana/types';
+import { IconButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import DeactivateSelectedLocation from 'in-synthetics/dashboards/global/tabs/locations/components/DeactivateSelectedLocation';
 import ActivateSelectedLocation from 'in-synthetics/dashboards/global/tabs/locations/components/ActivateSelectedLocation';
 // @ts-expect-error Could not find a declaration file
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
+import { DatacenterResponse, dummyResultSynDatacenter, dummySyntheticDatacenter } from 'in-synthetics/utils/constants';
 import DeleteSelectedLocation from 'in-synthetics/dashboards/global/tabs/locations/components/DeleteSelectedLocation';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
-import { getDatacenters, getDatacentersInternal } from 'in-synthetics/api';
-import { dummySyntheticDatacenter } from 'in-synthetics/utils/constants';
-import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
+import { getDatacenter } from 'in-synthetics/api';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/dashboards/global/tabs/locations/components/LocationListActionsColumn.mless';
@@ -31,13 +31,8 @@ interface LocationListActionsColumnProps {
 }
 
 const LocationListActionsColumn = ({ item, isLoading }: LocationListActionsColumnProps) => {
-  //@ts-expect-error
-  const datacenters: Result<SyntheticDatacenter[]> = useObservable(
-    //@ts-expect-error
-    () => getDatacenters(getDatacentersInternal).startWith(null),
-    []
-  );
-
+  const datacenterResponse: DatacenterResponse =
+    useObservable<any, []>(() => getDatacenter(item.label), []) || dummyResultSynDatacenter;
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
   const isDeleteEnable = item.type === 'Private' || (item.type === 'Managed' && item.status === 'Offline');
   const isDeactiveEnable = item.type === 'Managed' && (item.status === 'Online' || item.status === 'Unlicensed');
@@ -62,11 +57,7 @@ const LocationListActionsColumn = ({ item, isLoading }: LocationListActionsColum
 
   const showActivateDialog = () => {
     return addActiveDialog(
-      <ActivateSelectedLocation
-        item={item}
-        datacenters={datacenters?.data || [dummySyntheticDatacenter]}
-        onClose={close}
-      />
+      <ActivateSelectedLocation datacenter={datacenterResponse?.data || dummySyntheticDatacenter} onClose={close} />
     );
   };
 

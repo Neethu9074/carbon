@@ -51,7 +51,7 @@ packages/in-forge/plugins/index.js
 # Specific ownerships for different sensors
 packages/in-forge/plugins/abap*                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
 packages/in-forge/plugins/ace*                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/activeMQ*                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/activeMQ*                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/aliCloud*                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/apmProxy                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
 packages/in-forge/plugins/aws*                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
@@ -111,6 +111,7 @@ packages/in-forge/plugins/ibmCloudVpn4Vpc                       @Instana-IBM-Git
 packages/in-forge/plugins/ibmCos                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
 packages/in-forge/plugins/ibmDataPower*                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/ibmI*                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/ibmInfosphereCdc*                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/ibmMq*                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/ibmOpenstack*                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/ibmVsi                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
@@ -154,6 +155,7 @@ packages/in-forge/plugins/opc                                   @Instana-IBM-Git
 packages/in-forge/plugins/openLDAP                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/oracleDB                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/oracleDB                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/oTel*                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
 packages/in-forge/plugins/packet                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/perfcounters                          @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
 packages/in-forge/plugins/phmc*                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
@@ -189,7 +191,8 @@ packages/in-forge/plugins/statsd                                @Instana-IBM-Git
 packages/in-forge/plugins/sybase                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/syntheticPoP                          @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-synthetics-agent
 packages/in-forge/plugins/tibcoASNode                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/tibcoEMS*                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/tibcoBW*                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/tibcoEMS*                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/tomcatApplicationContainer            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/traefik                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/tuxedo*                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
@@ -205,6 +208,7 @@ packages/in-forge/plugins/zhmcCpc                               @Instana-IBM-Git
 packages/in-forge/plugins/zooKeeper                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 
 packages/in-forge/tracing/bpm                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-java
+packages/in-forge/tracing/oTel                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-java @instana/eng-otel
 packages/in-hoc                                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-hooks                                          @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-infrastructure                                 @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
@@ -254,6 +258,7 @@ packages/in-settings                                                            
 packages/in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/BusinessMonitoring @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
 packages/in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/BusinessMonitoringPanels     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
 packages/in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionBusinessMonitoring @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
+packages/in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-plg @instana/eng-access-control
 packages/in-settings/tabs/TeamSettings/pages/automation                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
@@ -286,6 +291,7 @@ packages/in-types                   @Instana-IBM-GitHub-Enterprise @instana/eng-
 packages/in-vsphere                 @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-waiting-for-deployment  @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-websites                @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
+packages/in-eum                     @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
 packages/in-websites/alerting       @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
 packages/in-zhmc                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 

@@ -6,6 +6,12 @@
 
 import React from 'react';
 
-export default function SloSmartAlertDetails() {
-  return <>SLO Smart Alert Details</>;
+// eslint-disable-next-line no-restricted-imports
+import AlertDetails from 'in-alerting/smart-alerts/slo/details/AlertDetails';
+
+interface SloSmartAlertDetailsProps {
+  sloId?: string;
+}
+export default function SloSmartAlertDetails({ sloId }: SloSmartAlertDetailsProps) {
+  return <AlertDetails sloId={sloId} />;
 }

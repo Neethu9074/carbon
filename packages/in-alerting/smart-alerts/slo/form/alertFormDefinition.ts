@@ -10,12 +10,21 @@ import {
   CustomPayloadFieldUnion,
   ErrorBudgetAlertMetric,
   ServiceLevelsAlertConfig,
+  ServiceLevelsAlertConfigWithMetadata,
   ServiceLevelsAlertRuleUnion,
-  ServiceLevelsObjectiveAlertMetric
+  ServiceLevelsObjectiveAlertMetric,
+  SloEntityType,
+  ThresholdOperator
 } from '@instana/types';
 
+import {
+  noEmptySloIds,
+  noInvalidOperator,
+  notLessThanOrEqualToZero
+} from 'in-alerting/smart-alerts/slo/form/validators';
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
-import { noEmptySloIds, notLessThanOrEqualToZero } from 'in-alerting/smart-alerts/slo/form/validators';
+import { isServiceLevelAlertConfigWithMetaData } from 'in-alerting/smart-alerts/slo/types';
+import { defaultSloAlertConfig } from 'in-alerting/smart-alerts/slo/data/sloAlertConfig';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { notBlankValidator } from 'in-services/validators/string';
 
@@ -24,12 +33,15 @@ export type SloAlertRuleFormFields = {
   metric: Field<ErrorBudgetAlertMetric | ServiceLevelsObjectiveAlertMetric>;
 };
 export type SloAlertTimeThresholdFields = {
+  expiry: Field<number>;
   timeWindow: Field<number>;
 };
 export type SloAlertFormFields = {
+  entityType: Field<SloEntityType | undefined>;
   sloIds: Field<string[]>;
   rule: MapForm<SloAlertRuleFormFields>;
   threshold: Field<number | undefined>;
+  operator: Field<ThresholdOperator>;
   timeThreshold: MapForm<SloAlertTimeThresholdFields>;
   alertChannelIds: Field<string[]>;
   severity: Field<number>;
@@ -37,6 +49,7 @@ export type SloAlertFormFields = {
   description: Field<string>;
   triggering: Field<boolean>;
   customPayloadFields: ListForm<Field<CustomPayloadFieldUnion>[]>;
+  id: Field<string>;
 };
 export type SloAlertFormPath = MapPath<SloAlertFormFields>;
 export interface SloAlertForm extends MapForm<SloAlertFormFields> {}
@@ -59,6 +72,10 @@ export function createSloAlertTimeThresholdForm(
 ): MapForm<SloAlertTimeThresholdFields> {
   return createMapForm({
     items: {
+      expiry: createField({
+        value: alertConfig.timeThreshold.expiry ?? defaultSloAlertConfig.timeThreshold.expiry!,
+        validator: notLessThanOrEqualToZero
+      }),
       timeWindow: createField({
         value: alertConfig.timeThreshold.timeWindow,
         validator: notLessThanOrEqualToZero
@@ -67,9 +84,17 @@ export function createSloAlertTimeThresholdForm(
   });
 }
 
-export function createSloAlertForm(alertConfig: ServiceLevelsAlertConfig): SloAlertForm {
+export function createSloAlertForm(
+  alertConfig: ServiceLevelsAlertConfig | ServiceLevelsAlertConfigWithMetadata,
+  entityType?: SloEntityType
+): SloAlertForm {
+  const id = isServiceLevelAlertConfigWithMetaData(alertConfig) ? alertConfig.id : '';
   const form = createMapForm<SloAlertFormFields>({
     items: {
+      entityType: createField({
+        value: entityType,
+        validator: notBlankValidator
+      }),
       sloIds: createField({
         value: alertConfig.sloIds,
         validator: noEmptySloIds
@@ -78,6 +103,10 @@ export function createSloAlertForm(alertConfig: ServiceLevelsAlertConfig): SloAl
       threshold: createField({
         value: alertConfig.threshold.value,
         validator: positiveNumberValidator
+      }),
+      operator: createField({
+        value: alertConfig.threshold.operator,
+        validator: noInvalidOperator
       }),
       timeThreshold: createSloAlertTimeThresholdForm(alertConfig),
       alertChannelIds: createField({
@@ -97,7 +126,8 @@ export function createSloAlertForm(alertConfig: ServiceLevelsAlertConfig): SloAl
       triggering: createField({
         value: alertConfig.triggering
       }),
-      customPayloadFields: createListFormForCustomPayloads(alertConfig.customPayloadFields, false)
+      customPayloadFields: createListFormForCustomPayloads(alertConfig.customPayloadFields, false),
+      id: createField({ value: id })
     }
   });
   return form;

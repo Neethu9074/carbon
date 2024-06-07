@@ -12,7 +12,9 @@
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restore",
     "alertHeaderRestoreDeleteTooltip": "Delete",
     "alertHeaderEditTooltip": "Edit",
+    "alertHeaderEditTooltipNew": "Edit (New)",
     "alertHeaderDuplicateTooltip": "Duplicate",
+    "alertHeaderDuplicateTooltipNew": "Duplicate (New)",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Please Confirm",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Are you sure you want to remove the alert <strong>{{alertConfigName}}</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remove",
@@ -285,12 +287,16 @@
         "slowness": {
           "name": "Slow Calls",
           "headline": "Automatic Alerts for Slow Calls",
-          "text": "Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual."
+          "text": "Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual.",
+          "tearSheetHeadline": "Alerts for calls count",
+          "tearSheetDescription": "Automatic alerts when calls to selected services and endpoints of this Application Perspective are slower than the threshold."
         },
         "errors": {
           "name": "Erroneous Calls",
           "headline": "Automatic Alerts for Erroneous Calls",
-          "text": "Receive an alert when the rate or count of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal."
+          "text": "Receive an alert when the rate or count of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal.",
+          "tearSheetHeadline": "Automatic alerts for erroneous calls",
+          "tearSheetDescription": "Receive an alert when the rate or count of erroneous calls for selected services and endpoints of this Application Perspective exceeds the threshold value."
         },
         "logs": {
           "name": "Logs",
@@ -303,13 +309,17 @@
           "name": "HTTP Status Codes",
           "headline": "Automatic Alerts for HTTP Status Codes",
           "text": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
-          "incompleteRuleMessage": "Please select a Status Code to see when this alert triggers"
+          "incompleteRuleMessage": "Please select a Status Code to see when this alert triggers",
+          "tearSheetHeadline": "Automatic alerts for HTTP status codes",
+          "tearSheetDescription": "Receive an alert when matching HTTP Status Codes occur more often than the threshold."
         },
         "throughput": {
           "name": "Throughput",
           "headline": "Automatic Alerts for Calls Count",
           "text": "Automatic alerts on anomalously low or high number of calls for selected services and endpoints of this Application Perspective.",
-          "metricLabel": "Calls"
+          "metricLabel": "Calls",
+          "tearSheetHeadline": "Automatic alerts for page views",
+          "tearSheetDescription": "Automatic alerts on an unusually low or high number of calls for selected services and endpoints of this Application Perspective."
         },
         "simpleMode": {
           "unexpectedDrop": {
@@ -322,7 +332,8 @@
             "headline": "Automatic Alerts on Anomalously High Number of Calls",
             "text": "Receive an alert when the number of calls is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the application."
           }
-        }
+        },
+        "variantMessage": "The given initialItemSelected with type {{type}} is not present in the list of items."
       },
       "formUtils": {
         "titlePlaceholder": {
@@ -459,7 +470,9 @@
         "getSubtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
         "getSubtitleForAdaptiveThreshold": "Adaptive Threshold, {{metricLabel}}",
         "labelActionButtonEdit": "Edit",
+        "labelActionButtonEditNew": "Edit (New)",
         "labelActionButtonDuplicate": "Duplicate",
+        "labelActionButtonDuplicateNew": "Duplicate (New)",
         "labelActionButtonDelete": "Delete",
         "labelAlertFilters": "Filters",
         "labelConfirm": "Please Confirm",
@@ -688,15 +701,20 @@
         "add": "Add",
         "alertPropertyInsertPlaceholderLabel": "Insert placeholder",
         "scopeConfigTitleWithApplications": "Select Applications/Services/Endpoints",
+        "scopeConfigTitleWithApplicationsForTearsheet": "Applications/Services/Endpoints",
         "scopeConfigTitle": "Select Services/Endpoints",
         "scopeConfigSelectOneEntryMessage": "Please select at least one entry.",
         "scopeConfigTitleTooltip": "Showing available entities for the last 24 hours",
+        "scopeConfigSubTitle": "Based on the last 24 hours",
         "scopeMigrationMessage_FAILED": "The scope could not be automatically migrated. Please pick the corresponding tag filters for the below Dynamic Focus Query:",
         "scopeMigrationMessage_PARTIAL": "The scope could not be fully migrated. Please pick the corresponding tag filters for the below Dynamic Focus Query:",
         "scopeMigrationMessage_FULL": "The applied scope is based on the previously used Dynamic Focus Query:",
         "scopeMigrationMessageAllAvailableEntities": "The applied scope is based on the previously used selection of all available entities.",
         "scopeMigrationMessageSelectedApplications": "The applied scope is based on the previously used selection of Application Perspectives.",
         "sortByUserSelectionLabel": "Sort by user selection",
+        "sortBySelectionLabel": "Sort by selection",
+        "scopeFilterCallsTitle": "Filter calls",
+        "scopeFilterCallsDescription": "Hand pick the services to get more precise Alerts.",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "At least {{count}} user and {{userPercentage}} of users impacted within the last {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "At least {{count}} users and {{userPercentage}} of users impacted within the last {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "At least {{count}} users and {{userPercentage}} of users impacted within the last {{formattedTimeWindow}}",
@@ -1024,6 +1042,7 @@
     },
     "migration": {
       "migrateButton": "Migrate to Smart Alert",
+      "migrateButtonNew": "Migrate to Smart Alert (New)",
       "migrateButtonTooltip": "Opens a Smart Alert config dialog pre–filled with the migrated values from the current event to the best extent we can. Please double check the result carefully!",
       "markAsMigratedButton": "Mark as migrated",
       "markAsMigratedButtonTooltip": "Marks the Event as migrated. Please use this in case you have already configured a Smart Alert which will replace this Event.",
@@ -1366,7 +1385,8 @@
           "label": "Payloads",
           "title": "Custom Payload"
         },
-        "thresholdValue": "Threshold Value"
+        "thresholdValue": "Threshold Value",
+        "valueMappings": "The numeric values of the selected metric correspond to the following string values:"
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
@@ -1453,9 +1473,17 @@
       "logCount": "Log count"
     },
     "slo": {
+      "components": {
+        "operatorDropdown": "",
+        "operatorDropdown_more": "more than",
+        "operatorDropdown_more-or-equal": "more than or equal to",
+        "operatorDropdown_less": "less than",
+        "operatorDropdown_less-or-equal": "less than or equal to"
+      },
       "validators": {
         "noEmptySloIds": "Please select at least one SLO.",
-        "notLessThanOrEqualToZero": "Please set a value that is greater than 0."
+        "notLessThanOrEqualToZero": "Please set a value that is greater than 0.",
+        "noInvalidOperator": "Please select an operator from the list."
       },
       "advancedModeContainer": {
         "stepLabel": "",
@@ -1473,24 +1501,49 @@
         "stepLabel_customPayload": "Custom Payload",
         "stepTitle_customPayload": "Custom Payload",
         "selectSloHeadline": "Select SLOs",
-        "blueprintSectionTitle": "Selected Blueprint",
+        "blueprintSectionTitle": "Select Blueprint",
         "blueprint": "",
         "blueprint_SERVICE_LEVELS_OBJECTIVE": "Status",
         "blueprint_ERROR_BUDGET": "Error Budget",
         "blueprintDescription": "",
         "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "Receive an alert when the SLO status falls below a threshold.",
-        "blueprintDescription_ERROR_BUDGET": "Receive an alert when a percentage of the error budget is burned.",
+        "blueprintDescription_ERROR_BUDGET": "Receive an alert when a percentage of the error budget is consumed.",
         "thresholdTitle": "Threshold: When do you want to be alerted?",
         "thresholdInputDescription": "",
-        "thresholdInputDescription_ERROR_BUDGET": "percent of error budget is burned",
-        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "percent is the SLO target or less",
+        "thresholdInputDescription_ERROR_BUDGET": "When <1/> <2/> percent of error budget is consumed",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "When SLO status is <1/> <2/> percent",
         "timeThresholdType_gracePeriod": "When the condition persists over a specified amount of time",
         "timeThresholdTypeTitle_gracePeriod": "Alert when the condition is violated for consecutive $t(in-components:time.minutes, {\"count\": {{minutes}} })",
+        "timeThresholdTypeTitle_cooldownPeriod": "At least $t(in-components:time.minutes, {\"count\": {{minutes}} }) must have passed for the event to end",
         "alertProperties_entityLabel": "SLO-name",
-        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO Status is low",
-        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO Status is less than or equal to {{percentage}}.",
-        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Error Budget Remaining is low",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Error Budget Remaining is less than or equal to {{percentage}}."
+        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO status is low",
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO status is $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Remaining error budget is low",
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Consumed $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} of the error budget.",
+        "alertPropertiesIncidentWarning": "Incidents are only applicable to SLO's associated with applications"
+      },
+      "details": {
+        "alertConfigurationTitle": "Alert Configuration",
+        "sloHeader": "SLOs",
+        "thresholdInfo_ERROR_BUDGET": "When $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} percent of error budget is consumed",
+        "thresholdInfo_SERVICE_LEVELS_OBJECTIVE": "When SLO status is $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} percent",
+        "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
+        "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
+        "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
+        "blueprintLabel": "Blueprint",
+        "coolDownPeriodDescription": "A minimum of {{value}} must pass for the event to conclude."
+      },
+      "alertList": {
+        "threshold": "Threshold: {{value}}",
+        "sloApplied": "SLOs Applied",
+        "sloCount": "{{count}} SLO",
+        "sloCount_plural": "{{count}} SLOs",
+        "sloCount_0": "{{count}} SLOs",
+        "sloCount_1": "{{count}} SLOs",
+        "sloCount_2": "{{count}} SLOs",
+        "title": "",
+        "title_ERROR_BUDGET": "Error budget consumed",
+        "title_SERVICE_LEVELS_OBJECTIVE": "Status"
       }
     }
   }

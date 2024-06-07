@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { number, bytes, millis, seconds, kiloBytes, percentagePlain } from 'in-services/formatters/number';
+import { number, bytes, millis, seconds, kiloBytes, percentagePlain, percentage } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
@@ -14,19 +14,37 @@ export default [
     metrics: ['workloadcounts.onHold'],
     labels: [t('in-forge:plugins.sapAbapInstanceSensor.onHold')],
     min: 0,
-    formatter: number
+    formatter: number.compact
   },
   {
     metrics: ['workloadcounts.running'],
     labels: [t('in-forge:plugins.sapAbapInstanceSensor.running')],
     min: 0,
-    formatter: number
+    formatter: number.compact
   },
   {
     metrics: ['workloadcounts.waiting'],
     labels: [t('in-forge:plugins.sapAbapInstanceSensor.waiting')],
     min: 0,
-    formatter: number
+    formatter: number.compact
+  },
+  {
+    metrics: ['workloadcounts.stopped'],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.stopped')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: ['workloadcounts.shutdown'],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.shutdown')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: ['workloadcounts.reserviert'],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.reserved')],
+    min: 0,
+    formatter: number.compact
   },
   {
     metrics: ['workloadcounts.workProcessRowCount'],
@@ -62,7 +80,7 @@ export default [
     metrics: ['sapMetricsStats.totalRFCCalls'],
     labels: [t('in-forge:plugins.sapAbapInstanceSensor.totalRFCCalls')],
     min: 0,
-    formatter: number
+    formatter: number.compact
   },
   {
     metrics: ['sapMetricsStats.totalMemory'],
@@ -122,7 +140,7 @@ export default [
     metrics: ['sapMetricsStats.userSession'],
     labels: [t('in-forge:plugins.sapAbapInstanceSensor.userSession')],
     min: 0,
-    formatter: number
+    formatter: number.compact
   },
   {
     metrics: ['pagingStats.pageIn'],
@@ -263,7 +281,7 @@ export default [
     metrics: ['queueStats.nowpWait'],
     labels: [t('in-forge:plugins.sapAbapInstanceSensor.nowpWait')],
     min: 0,
-    formatter: number
+    formatter: number.compact
   },
   {
     metrics: ['queueStats.dialogWait'],
@@ -474,19 +492,22 @@ export default [
   {
     metrics: [
       getDynamicMetricMatch('diskSummaryStats', 'avgQueueLength', t('in-sap:dashboards.avgQueueLength')),
-      getDynamicMetricMatch('diskSummaryStats', 'response', t('in-sap:dashboards.response')),
-      getDynamicMetricMatch('diskSummaryStats', 'kbPerSec', t('in-sap:dashboards.kbPerSec')),
-      getDynamicMetricMatch('diskSummaryStats', 'operationsPerSec', t('in-sap:dashboards.operationsPerSec'))
+      getDynamicMetricMatch('diskSummaryStats', 'response', t('in-sap:dashboards.response'))
     ],
-    labels: [
-      t('in-sap:dashboards.avgQueueLength'),
-      t('in-sap:dashboards.response'),
-      t('in-sap:dashboards.kbPerSec'),
-      t('in-sap:dashboards.operationsPerSec')
-    ],
+    labels: [t('in-sap:dashboards.avgQueueLength'), t('in-sap:dashboards.response')],
     category: [t('in-sap:dashboards.diskSummaryStats')],
     min: 0,
     formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('diskSummaryStats', 'kbPerSec', t('in-sap:dashboards.transferKB')),
+      getDynamicMetricMatch('diskSummaryStats', 'operationsPerSec', t('in-sap:dashboards.operations'))
+    ],
+    labels: [t('in-sap:dashboards.transferKB'), t('in-sap:dashboards.operations')],
+    category: [t('in-sap:dashboards.diskSummaryStats')],
+    min: 0,
+    formatter: number.perSecond.compact
   },
   {
     metrics: [getDynamicMetricMatch('diskSummaryStats', 'avgWaitTime', t('in-sap:dashboards.avgWaitTime'))],
@@ -744,7 +765,7 @@ export default [
     ],
     category: [t('in-forge:plugins.sapAbapInstanceSensor.cpuMetrics')],
     min: 0,
-    formatter: number
+    formatter: percentagePlain.detailed
   },
   {
     metrics: [
@@ -759,7 +780,7 @@ export default [
     ],
     category: [t('in-forge:plugins.sapAbapInstanceSensor.cpuCalls')],
     min: 0,
-    formatter: number
+    formatter: number.perSecond.compact
   },
   {
     metrics: [
@@ -774,6 +795,25 @@ export default [
     ],
     category: [t('in-forge:plugins.sapAbapInstanceSensor.loadAverage')],
     min: 0,
-    formatter: number
+    formatter: number.compact
+  },
+  {
+    metrics: [getDynamicMetricMatch('systemLogStats', 'count', t('in-forge:plugins.sapAbapInstanceSensor.count'))],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.count')],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.systemLogStatistics')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: ['swapmemory.usedMemory'],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.usedMemory')],
+    min: 0,
+    formatter: percentage.detailed
+  },
+  {
+    metrics: ['cpuMetricStats.totalUtilization'],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.totalUtilization')],
+    min: 0,
+    formatter: percentagePlain.compact
   }
 ];

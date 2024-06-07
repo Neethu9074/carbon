@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Stack, Spacer } from '@instana/components';
 import { Toggle } from '@instana/components';
+import { Select } from '@instana/components';
 
 import {
   addFieldsForPotentialProblems,
@@ -20,7 +21,6 @@ import ValidationMessages, {
 import { isPotentialProblemsSupportedByMetric } from 'in-applications/analyze/metrics';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
-import Select from 'in-components/form/Select/Select';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

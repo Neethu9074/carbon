@@ -6,6 +6,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { IconButton } from '@instana/components';
+
 import {
   trackAlertDeleteTrigger,
   trackAlertEdit,
@@ -16,7 +18,6 @@ import {
 import { playwithEnabled, applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
-import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -24,7 +25,7 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn.mless';
 
 export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
-  const { handleEdit, handleClone, handleToggleEnabled, handleDelete, handleEditNew } = actionHandlers;
+  const { handleEdit, handleClone, handleToggleEnabled, handleDelete, handleEditNew, handleCloneNew } = actionHandlers;
   const { builtIn, enabled, id, name } = config;
   const [isSaving, setIsSaving] = useState(false);
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
@@ -119,6 +120,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
             </MoreMenuButton>
           )}
           {handleEditNew && applicationSmartAlertFullScreenDesignEnabled && handleEditNew(config)}
+          {handleCloneNew && applicationSmartAlertFullScreenDesignEnabled && handleCloneNew(config)}
         </MoreMenu>
       )}
     </HorizontalFlexWrapper>

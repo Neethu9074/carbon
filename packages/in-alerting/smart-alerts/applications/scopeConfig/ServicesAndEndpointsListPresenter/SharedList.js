@@ -51,7 +51,8 @@ export default function SharedList({
   initiallyOpen,
   timeConfig,
   isFramed = true,
-  viewOnly
+  viewOnly,
+  tearSheetView
 }) {
   const columnDefinitions = [
     {
@@ -144,7 +145,7 @@ export default function SharedList({
             key={_id}
             renderNestedContent={renderSubList?.(itemTreeIds)}
             toggleContentOnRowClick={Boolean(renderSubList)}
-            className={locals.listItem}
+            className={classNames({ [locals.listItem]: !tearSheetView, [locals.lightBgListItem]: tearSheetView })}
             initiallyOpen={initiallyOpen}
           >
             <StaleItemPropsInjector
@@ -179,7 +180,9 @@ export default function SharedList({
           </Li>
         );
       })}
-      {canLoadMore && <LiLoadMore loadMore={loadMore} />}
+      {canLoadMore && (
+        <LiLoadMore loadMore={loadMore} className={classNames({ [locals.greyBackground]: tearSheetView })} />
+      )}
       {isLoading && <LoadingList numSkeletonRows="1" />}
       {!shouldShowPlaceholderForEmptySelection && !isLoading && !listData?.length && (
         <NoDataAvailable text={noDataCustomText()} height={86} />
@@ -243,5 +246,6 @@ SharedList.propTypes = {
   initiallyOpen: PropTypes.bool,
   timeConfig: propTypeTimeConfig,
   isFramed: PropTypes.bool,
-  viewOnly: PropTypes.bool
+  viewOnly: PropTypes.bool,
+  tearSheetView: PropTypes.bool
 };

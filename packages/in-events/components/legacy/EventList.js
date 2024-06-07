@@ -5,21 +5,31 @@
 
 import React, { useMemo } from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 
+import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
+import LegacyRootCauseSection from 'in-events/components/legacy/LegacyRootCauseSection';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
+import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import RootCauseSection from 'in-events/components/legacy/RootCauseSection';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import AIEventListRow from 'in-events/components/legacy/AIEventListRow';
 import EventListItem from 'in-events/components/legacy/EventListItem';
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { emptyList } from 'in-services/fixedImmutables';
 import { rcaUIEnabled } from 'in-services/featureFlags';
+import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
 import Pagination from 'in-components/Pagination';
 import { getEventType } from 'in-stores/events';
 import { getEvent } from 'in-stores/events';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
+
+import locals from './EventList.mless';
 
 export default function IncidentEventList({
   incident,
@@ -43,26 +53,39 @@ export default function IncidentEventList({
     .toArray()
     .filter(issue => issue !== incident.getIn(['triggeringEvent'], ''));
 
-  const legacyRootCausePropertyCheck =
+  const oldRootCausePropertyCheck =
     incident.hasIn(['metadata', 'probableRootCause']) && !incident.getIn(['metadata', 'probableRootCause']).isEmpty();
 
-  const RootCausePropertyCheck =
+  const newRootCausePropertyCheck =
     incident.hasIn(['metadata', 'rootCause']) && !incident.getIn(['metadata', 'rootCause']).isEmpty();
   const incidentHasRCAProperty = useMemo(
-    () => legacyRootCausePropertyCheck || RootCausePropertyCheck,
-    [RootCausePropertyCheck, legacyRootCausePropertyCheck]
+    () => oldRootCausePropertyCheck || newRootCausePropertyCheck,
+    [newRootCausePropertyCheck, oldRootCausePropertyCheck]
   );
 
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 
   const eventType = getEventType(incident);
   const pageSize = 10;
-
+  const rootCauseHasOldSnapshotMetadata = incident.hasIn([
+    'metadata',
+    'rootCause',
+    'probableRootCauseSnapshotMetadata'
+  ]);
   if (!triggeringEvent) return <ListRow title={t('in-events:titleTriggerEvent')} />;
   return (
     <>
-      {incidentHasRCAProperty && rcaUIEnabled && (
-        <AIEventListRow
+      {incidentHasRCAProperty && rcaUIEnabled && rootCauseHasOldSnapshotMetadata && (
+        <LegacyRootCauseSection
+          title={t('in-events:RCA.titlePRCA')}
+          incident={incident}
+          latestSnapshot={latestSnapshot}
+          incidentHasRCAProperty={incidentHasRCAProperty}
+        />
+      )}
+
+      {incidentHasRCAProperty && rcaUIEnabled && !rootCauseHasOldSnapshotMetadata && (
+        <RootCauseSection
           title={t('in-events:RCA.titlePRCA')}
           incident={incident}
           latestSnapshot={latestSnapshot}
@@ -78,6 +101,7 @@ export default function IncidentEventList({
         expandedEventOnClickInTimeline={expandedEventOnClickInTimeline}
         setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
         highlightEventOnHover={highlightEventOnHover}
+        incident={incident}
       />
       <PaginatedListRow
         currentSetOfEvents={recentEvents.filter(e => e.get('id') !== triggeringEvent.get('id'))}
@@ -148,12 +172,21 @@ function ListRow({
   latestSnapshot,
   expandedEventOnClickInTimeline,
   setExpandedEventOnClickInTimeline,
-  highlightEventOnHover
+  highlightEventOnHover,
+  incident
 }) {
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
+  const header = renderTriggeringEventHeader(incident, canCloseManually, timeConfig);
+  let colourForCard = getTriggeringEventCardColor(canCloseManually, incident);
+
   return (
     <Row withoutSideMargin>
       <Col xs>
-        <Card title={title}>
+        {title === t('in-events:titleTriggerEvent') && (
+          <div className={locals.cardIndicator} style={{ background: colourForCard }} />
+        )}
+        <Card title={title} header={header}>
           {!events && <LoadingIndicator />}
           {events?.map(_event => (
             <EventListItem
@@ -170,4 +203,32 @@ function ListRow({
       </Col>
     </Row>
   );
+}
+
+function getTriggeringEventCardColor(canCloseManually, incident) {
+  const incidentSeverity = canCloseManually && incident ? incident.getIn(['problem', 'severity'], 5) : null;
+  const incidentStatus = canCloseManually && incident ? incident.get('state', 'closed') : null;
+  let colorForCard;
+
+  if (incidentStatus === 'closed') {
+    colorForCard = themes.default.ids.color.option.neutral[500];
+  } else if (incidentSeverity === 5) {
+    colorForCard = themes.default.ids.color.option.yellow[500];
+  } else {
+    colorForCard = themes.default.ids.color.option.red[500];
+  }
+  return colorForCard;
+}
+
+function renderTriggeringEventHeader(incident, canCloseManually, timeConfig) {
+  return incident && canCloseManually ? (
+    <ManualCloseIssueButton
+      buttonKind={'primary'}
+      eventType="incident"
+      event={incident}
+      iconComponent={
+        <EventIcon event={incident} tooltipLabel={getEventSeverityLabelWithEventType(incident, timeConfig)} />
+      }
+    />
+  ) : null;
 }

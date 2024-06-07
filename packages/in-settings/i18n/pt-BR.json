@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "Criar novo grupo",
-    "dialogTitle_edit": "Editar escopo de acesso",
+    "dialogTitle_edit": "Editar configuração de acesso",
     "editButton": "Editar",
     "productArea": "Acessar configuração para {{tenantUnit}}-{{tenant}}"
   },
@@ -82,17 +82,16 @@
     "role_permissions_contributor_and_viewer": "Acesso de visualizador {{quantityOfAreas}} & acesso de contribuidor {{quantityOfAreasContributor}}",
     "no_access": "Sem acesso",
     "platform_permissions": "Acessar {{quantityOfAreas}}",
-    "analyticsContentMessage": "Pode visualizar dados no Analytics definidos pelo escopo de acesso em websites, apps móveis, aplicativos, plataformas e infraestrutura",
     "infrastructureContentMessage": "Pode visualizar entidades definidas pelo escopo de acesso em aplicativos, plataformas, infraestrutura e, opcionalmente, por DFQ",
     "infrastructureAccessAllMessage": "Todas as entidades",
-    "eventsAndAlertsContentMessage": "Pode visualizar Eventos e Alertas de acordo com o escopo de acesso definido em Websites, Aplicativos Móveis, Aplicativos, Monitoramento Sintético, Plataformas e Infraestrutura",
     "permissions": "Permissões",
     "additionalPermissions": "Permissões adicionais",
     "permissions_DASHBOARD": "Permissões do painel customizado",
     "permissions_SYNTHETICS": "Permissões de monitoramento sintético",
-    "permissions_AGENTS": "Permissões do agente",
+    "permissions_AGENTS": "Permissões de implementação do agente",
     "permissions_ACCESS_CONTROL": "Permissões de controle de acesso",
     "permissions_AUTOMATION": "Permissões de automação",
+    "permissions_EVENT": "Permissões de eventos e alertas",
     "permissions_LOGS": "Permissões de log",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power HMC",
@@ -107,7 +106,6 @@
     "obsoleteEntityDescription": "Atualmente não há dados disponíveis - o acesso ainda está sendo concedido.",
     "title_analytics": "Analítica",
     "title_applications": "Aplicativos",
-    "title_events_and_alerts": "Eventos e alertas",
     "title_global_functions": "Funções globais",
     "title_infrastructure": "Infraestrutura",
     "title_mobileApps": "Apps móveis",
@@ -165,7 +163,8 @@
     "doneButton": "Concluído"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "Nome"
+    "nameColumnHead": "Nome",
+    "contributionFilterColumnHead": "Filtro de contribuição"
   },
   "permissionScope": {
     "access_level": "Nível de acesso",
@@ -191,7 +190,6 @@
     "description_no_access_bizops": "O acesso ao monitoramento de negócios foi negado.",
     "description_access_all_except_contributor": "Acessar todos, exceto aqueles acessados como contribuidor",
     "role": "Selecionar uma função",
-    "roleSelection": "Função",
     "role_owner": "Proprietário",
     "role_viewer": "Visualizador",
     "role_custom": "Customizado",
@@ -444,6 +442,7 @@
     "someEmailsHaveFailedToSend": "Alguns e-mails falharam ao enviar",
     "inviteUserToTenant": "Convidar usuário para {{tenant}}",
     "anotherUser": "Outro usuário",
+    "inviteUsertoDefaultGroup": "Você não possui permissões suficientes para selecionar um grupo para o convite. O usuário convidado será incluído ao grupo padrão.",
     "permissionEntityLabel": "permissão {{entityLabel}}",
     "addToAGroup": "Incluir em um grupo",
     "failedToAddUserToGroups": "Falha ao incluir usuário em grupos: {{err}}",
@@ -543,7 +542,7 @@
     "applicationPerspectiveEntityLabel": "Perspectiva de aplicativo {{entityLabel}}",
     "keyEquals": "chave igual a",
     "selectTag": "Selecionar tag",
-    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Cada par de chave/valor será incluído como uma carga útil adicional em cada notificação de alerta de problema ou incidente. Consulte a <docLink>documentação Carga útil customizada</docLink> para obter mais detalhes.",
+    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Cada par de chave/valor será incluído como uma carga útil adicional em cada notificação de alerta de problema ou incidente. Consulte a <docLink>documentação de carga útil customizada</docLink> para obter mais detalhes.",
     "anErrorOccurredPleaseTryAgain": "Ocorreu um erro, tente novamente.",
     "custom": "Customizado",
     "theValueMustNotBeBlank": "O valor não deve ficar em branco.",
@@ -737,6 +736,16 @@
     "timeoutsSuccessfullySaved": "Tempos limite salvos com sucesso.",
     "disableTwoFactor": "Desativar dois fatores",
     "saveToken": "Salvar token",
+    "profile": {
+      "pageName": "Perfil",
+      "email": "E-mail",
+      "emailHint": "O e-mail para identificar a conta do usuário no Instana. Não será possível mudar o e-mail depois que a conta do usuário for criada.",
+      "name": "Nome",
+      "nameHint": "Insira seu primeiro nome (primeiro nome) e sobrenome (nome de família) sem uma vírgula.",
+      "saving": "Salvando novo nome",
+      "saved": "Novo nome salvo",
+      "failed": "Falha ao salvar novo nome"
+    },
     "twoFactorAuthentication": "Autenticação de dois fatores",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "A autenticação de dois fatores está atualmente desativada para este usuário.",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "Insira o token 2FA do seu aplicativo autenticador para a configuração completa:",
@@ -767,7 +776,7 @@
     "noGroupMapping": "Não há nenhum mapeamento configurados entre o provedor de identidade e o Instana",
     "denyUserWithNoGroup": "Negar acesso quando nenhum mapeamento for encontrado. Se desmarcado, os usuários sem mapeamentos de grupo e nenhum grupo encontrado serão adicionados ao grupo Padrão.",
     "denyUserWithNoGroupDocs": "A configuração do provedor de identidade sempre pode ser excluída por meio da API usando um token com permissões suficientes. Para obter detalhes, consulte <authLink>configurando a autenticação</authLink>.",
-    "groupMappingInfoText": "Uma regra de mapeamento consiste de uma chave, um valor e um grupo Instana. A chave e o valor referem-se ao atributo Identity Provider e seu valor correspondente do qual você mapeia. Por exemplo, ao mapear cada usuário que tenha o valor \"SRE\" na chave \"Department\" para o grupo de proprietários Instana.",
+    "groupMappingInfoText": "Uma regra de mapeamento consiste em uma chave, um valor e um grupo Instana. A chave e o valor referem-se ao atributo Identity Provider e seu valor correspondente do qual você mapeia. Por exemplo, ao mapear cada usuário que tenha o valor \"SRE\" na chave \"Department\" para o grupo de proprietários Instana.",
     "ownerGroupMemberNotLimitable": "O usuário é membro do grupo de Proprietários e não será limitado por outras associações ao grupo.",
     "mergedPermissionWithCombinationOfLimitedAndUnlimited": "O conjunto efetivo de permissões é a soma do mais permissivo, concedido por meio de diferentes designações de grupo. No entanto, a soma de escopos de acesso limitados determina o escopo efetivo do usuário.",
     "users": "Usuários",
@@ -1165,7 +1174,12 @@
     "createIDPConfirmationDescription": "Convites pendentes serão excluídos. Os usuários são provisionados automaticamente de seu provedor de identidade (IdP).",
     "revokeInvitationForUserWithEmail": "Revogue o convite para associar o locatário {{tenant}} para {{email}}",
     "invitationValidUntil": "Convite válido até",
-    "invitedBy": "Convidado por"
+    "invitedBy": "Convidado por",
+    "accessAll": "Acessar todos",
+    "access": "Acesso",
+    "accessForTenantUnit": "Acesso para {{tenantUnit}}-{{tenant}}",
+    "numberOfMembers": "Número de membros",
+    "groupEntityName": "grupo {{entityName}}"
   },
   "languageSelection": {
     "language": "Idioma",

@@ -6,7 +6,7 @@
 
 export type TableStates = 'loading' | 'idle' | 'empty' | 'error';
 
-type Variant = 'success' | 'failure';
+type Variant = 'success' | 'error' | 'warning';
 export interface NotificationState {
   show: boolean;
   variant?: Variant;

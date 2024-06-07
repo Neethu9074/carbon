@@ -6,6 +6,7 @@
 
 import React, { Dispatch, ReactNode, SetStateAction } from 'react';
 import { MapForm } from 'formalistic';
+import classNames from 'classnames';
 
 import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData } from '@instana/types';
 
@@ -47,6 +48,7 @@ export interface AlertingTearSheetProps {
   migrationMode?: boolean;
   thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null;
   additionalValidationCheck: boolean;
+  headerWithMsg: boolean;
   setForm: (form: MapForm<any>) => void;
 }
 
@@ -62,7 +64,9 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
     children,
     handleSubmit,
     additionalValidationCheck,
-    setForm
+    setForm,
+    headerWithMsg,
+    migrationMode
   } = props;
 
   return (
@@ -77,11 +81,23 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
         }}
       >
         <section>
-          <div className={locals.container}>
+          <div
+            className={classNames({
+              [locals.container]: true,
+              [locals.containerWithMsg]: headerWithMsg
+            })}
+          >
             <div className={locals.sidebar}>
               <AlertingTearSheetSteps stepConfigs={stepConfigs} step={step} setStep={setStep} form={form} />
             </div>
-            <div className={locals.content}>{children}</div>
+            <div
+              className={classNames({
+                [locals.content]: true,
+                [locals.contentWithMsg]: headerWithMsg
+              })}
+            >
+              {children}
+            </div>
             <div className={locals.footer}>
               <AlertingTearSheetFooter
                 form={form}
@@ -91,6 +107,7 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
                 step={step}
                 stepConfigs={stepConfigs}
                 setForm={setForm}
+                migrationMode={migrationMode}
               />
             </div>
           </div>

@@ -12,6 +12,7 @@ import { productCode, productCodeType, productTitle, ut30 } from 'in-services/ut
 //@ts-expect-error
 import { Segment } from 'in-services/tracking/segment/SegmentInit';
 import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { customRealmName } from 'in-services/util/constants';
 import getUsageInfo from 'in-subscription/getUsageInfo';
 import { getTenantsWithUnits } from 'in-api/account';
@@ -37,19 +38,20 @@ let instanceId: string;
 let tenantUnitName: string;
 let userId: string;
 let tenantId: string;
+let tenantName: string;
 
 interface UsageInfoProps {
   activeLicenseType: string;
 }
 const segment = Segment();
 const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerProps) => {
+  const location = useLocation();
   useEffect(() => {
     if (!segment) {
       return;
     }
-
     const url = window.location.href;
-    const path = window.location.pathname;
+    const path = location.pathname;
     const userSelfDefinedRole =
       window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
 
@@ -64,15 +66,19 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
       }
       const currentUnit: currentUnitProps = find(units, unit => unit.tenantUnitName === config.tenantUnit)!;
       if (currentUnit) {
+        tenantName = currentUnit.tenantName;
         tenantId = currentUnit.tenantId;
         instanceId = currentUnit.tenantUnitId;
         tenantUnitName = currentUnit.tenantUnitName;
       }
       userId = customRealmName + '-' + instanceId;
+
       segment.page('Page Viewed', {
         UT30: ut30,
         instanceId: instanceId,
         instanceName: tenantUnitName,
+        tenantId: tenantId,
+        tenantName: tenantName,
         parentPageCategory: parentProductArea,
         parentPageName: parentPageName,
         path: path,
@@ -80,13 +86,12 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
         productCodeType: productCodeType,
         productPlanType: productPlanType,
         productTitle: productTitle,
-        tenantId: tenantId,
         url: url,
         'user.bluemixId': userId,
         'user.role': userSelfDefinedRole
       });
     });
-  }, [parentProductArea, parentPageName]);
+  }, [parentProductArea, parentPageName, location]);
   return null; // SegmentEventTracker does not render anything
 };
 

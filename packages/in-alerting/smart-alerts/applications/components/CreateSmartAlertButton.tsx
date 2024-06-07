@@ -23,7 +23,8 @@ export default function CreateSmartAlertButton({
   defaultBoundaryScope,
   serviceId,
   applicationId,
-  endpointId
+  endpointId,
+  eventSpecificationId
 }: {
   isGlobal: boolean;
   buttonName: string;
@@ -35,6 +36,7 @@ export default function CreateSmartAlertButton({
   serviceId?: string;
   applicationId?: string;
   endpointId?: string;
+  eventSpecificationId?: string;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
   const createSmartAlertPath = getLinkToCreateSmartAlert({
@@ -43,7 +45,8 @@ export default function CreateSmartAlertButton({
     boundaryScope: boundaryScope || defaultBoundaryScope,
     serviceId: serviceId,
     applicationId: applicationId,
-    endpointId: endpointId
+    endpointId: endpointId,
+    eventSpecificationId: eventSpecificationId
   });
   return (
     <Button

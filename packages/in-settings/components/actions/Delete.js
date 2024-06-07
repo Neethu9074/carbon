@@ -5,11 +5,12 @@
 
 import React, { forwardRef } from 'react';
 
+import { IconButton } from '@instana/components';
+
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { trackerEventDeleteTrigger } from 'in-settings/tracker';
-import IconButton from 'in-components/IconButton/IconButton';
 import { t, Trans } from 'in-i18n';
 
 export default forwardRef(function Delete(

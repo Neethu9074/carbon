@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { Spacer, Toggle } from '@instana/components';
+import { Select } from '@instana/components';
 
 import { timeShifts, defaultTimeShift, previousHourTimeShift } from 'in-stores/time/shifting';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -13,7 +14,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
-import Select from 'in-components/form/Select/Select';
 import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
 

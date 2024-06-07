@@ -9,10 +9,10 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
+import { SvgIcon, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { createLogger } from '@instana/logger';
 import { create } from '@instana/observables';
-import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -22,7 +22,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { listSuccess, loading } from 'in-services/util/result';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import IconButton from 'in-components/IconButton/IconButton';
 import Delete from 'in-settings/components/actions/Delete';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { identity } from 'in-services/util/function';

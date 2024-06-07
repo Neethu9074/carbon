@@ -6,12 +6,11 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link, IconButton } from '@instana/components';
 import { Action } from '@instana/types';
 
 import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionDetails';
 import { isAnsible } from 'in-automation/ActionCatalog/shared';
-import IconButton from 'in-components/IconButton/IconButton';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 

@@ -46,15 +46,22 @@ export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
+export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
 export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
+export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
 export const carbonMessageEnabled = isFeatureFlagEnabled('carbonMessageEnabled');
+export const carbonIconButtonEnabled = isFeatureFlagEnabled('carbonIconButtonEnabled');
+export const carbonSearchInputEnabled = isFeatureFlagEnabled('carbonSearchInputEnabled');
+export const carbonMoreMenuEnabled = isFeatureFlagEnabled('carbonMoreMenuEnabled');
 export const carbonAccordionEnabled = isFeatureFlagEnabled('carbonAccordionEnabled');
 export const carbonSelectEnabled = isFeatureFlagEnabled('carbonSelectEnabled');
 export const carbonContentSwitcherEnabled = isFeatureFlagEnabled('carbonContentSwitcherEnabled');
 export const carbonTextAreaEnabled = isFeatureFlagEnabled('carbonTextAreaEnabled');
 export const carbonTabsEnabled = isFeatureFlagEnabled('carbonTabsEnabled');
 export const carbonButtonEnabled = isFeatureFlagEnabled('carbonButtonEnabled', false);
+export const carbonLoadingSkeletonFeatureEnabled = isFeatureFlagEnabled('carbonLoadingSkeletonFeatureEnabled');
 export const carbonTileEnabled = isFeatureFlagEnabled('carbonTileEnabled');
+export const carbonPaginationEnabled = isFeatureFlagEnabled('carbonPaginationEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
@@ -84,6 +91,7 @@ export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
 export const sloSmartAlertsEnabled = isFeatureFlagEnabled('sloSmartAlertsEnabled', false);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
+export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
 
 export const apiTokenDialogEnabled = isFeatureFlagEnabled('apiTokenDialogEnabled', true);
 
@@ -110,6 +118,9 @@ export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticI
 
 // Synthetic Certificate Check Enabled feature flag
 export const syntheticCertificateCheckEnabled = isFeatureFlagEnabled('syntheticCertificateCheckEnabled');
+
+// Synthetic RBAC Limited Access feature flag
+export const syntheticRbacLimitedTPEnabled = isFeatureFlagEnabled('syntheticRbacLimitedTPEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
@@ -166,7 +177,7 @@ export const hiddenSearchFieldValues = {
 // Business Observability and Monitoring (BizOps) flags
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
-export const bizopsGoldenSignalsEnabled = isFeatureFlagEnabled('bizopsGoldenSignalsEnabled');
+export const bizopsPerspectivesEnabled = isFeatureFlagEnabled('bizopsPerspectivesEnabled');
 
 // ########################################################################################
 // Chart gap hiding
@@ -234,10 +245,11 @@ export const serviceNowAutoCloseAndCustomPayloadsEnabled = isFeatureFlagEnabled(
   'serviceNowAutoCloseAndCustomPayloadsEnabled',
   false
 );
-
-export const rawTraceDownloadEnabled = isFeatureFlagEnabled('rawTraceDownloadEnabled', false);
 export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
   'automationActionInstanceFeedbackEnabled',
   false
 );
-export const orbitalEnabled = isFeatureFlagEnabled('orbitalEnabled', false);
+export const orbitalEnabled = isFeatureFlagEnabled('orbitalEnabled', true);
+export const carbonStepProgressBarEnabled = isFeatureFlagEnabled('carbonStepProgressBarEnabled', false);
+export const carbonHorizontalIndicatorEnabled = isFeatureFlagEnabled('carbonHorizontalIndicatorEnabled', false);
+export const analyzeInfrastructureButtonEnabled = isFeatureFlagEnabled('analyzeInfrastructureButtonEnabled', false);

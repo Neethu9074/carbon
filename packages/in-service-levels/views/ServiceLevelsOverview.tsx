@@ -8,18 +8,32 @@ import React from 'react';
 
 import { t } from '@instana/i18n-react';
 
+import {
+  serviceLevelsOverview,
+  serviceLevelsAlertsFullyQualified,
+  serviceLevelsAlertDetailsFullyQualified
+} from 'in-service-levels/navigation/path';
+import {
+  SecondLevelNavigation,
+  SecondLevelNavigationItem
+} from 'in-components/SecondLevelNavigation/SecondLevelNavigation';
+import SloSmartAlertDetails from 'in-service-levels/components/SloDashboard/components/SloSmartAlertDetails';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { SloTrackerProvider, sloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import FloatingSloButtons from 'in-service-levels/components/FloatingSloButtons';
-import { serviceLevelsOverview } from 'in-service-levels/navigation/path';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import SloList from 'in-service-levels/components/SloList/SloList';
 import { productAreas } from 'in-services/tracking/productAreas';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
+import Alerts from 'in-alerting/smart-alerts/slo/Alerts';
 import Sticky from 'in-components/Sticky';
 
 export default function ServiceLevelsOverview() {
+  const { createHrefToPath, matchLocation } = useNavigation();
+  const isServiceLevelsAlertsActive = matchLocation(serviceLevelsAlertsFullyQualified);
   return (
     <Sticky
       header={
@@ -31,6 +45,21 @@ export default function ServiceLevelsOverview() {
             labelForTitle={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
             isBeta
           />
+          <DashboardHeaderModule>
+            <SecondLevelNavigation>
+              <SecondLevelNavigationItem
+                href={createHrefToPath(serviceLevelsOverview)}
+                label={t('in-service-levels:sloList.title')}
+                isActive={!isServiceLevelsAlertsActive}
+              />
+
+              <SecondLevelNavigationItem
+                href={createHrefToPath(serviceLevelsAlertsFullyQualified)}
+                label={t('in-service-levels:sloDashboard.tabs.smartAlertsLabel')}
+                isActive={isServiceLevelsAlertsActive}
+              />
+            </SecondLevelNavigation>
+          </DashboardHeaderModule>
           <DashboardHeaderShadowModule />
         </>
       }
@@ -40,10 +69,19 @@ export default function ServiceLevelsOverview() {
           trackers={sloTrackers}
           meta={{ productArea: productAreas.slo, pageName: pageNames.service_levels }}
         >
-          <SloList pathSegment={serviceLevelsOverview} />
+          {!isServiceLevelsAlertsActive && <SloList pathSegment={serviceLevelsOverview} />}
+          {isServiceLevelsAlertsActive && <SloSmartAlerts />}
         </SloTrackerProvider>
       </LeftRightPadding>
       <FloatingSloButtons />
     </Sticky>
   );
+}
+
+function SloSmartAlerts() {
+  const { matchLocation } = useNavigation();
+
+  if (matchLocation(serviceLevelsAlertDetailsFullyQualified)) return <SloSmartAlertDetails />;
+
+  return <Alerts />;
 }

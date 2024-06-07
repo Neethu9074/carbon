@@ -13,7 +13,7 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHea
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getHostBySAPDbms from 'in-sap/subscriptions/getHostBySAPDbms';
 import EntityLink from 'in-components/EntityLink';
 import { t } from 'in-i18n';
@@ -21,12 +21,18 @@ import { t } from 'in-i18n';
 const pathSegment = '/dbms';
 const matrixPrefix = 'sapdbms.';
 
+const DashboardLink = ({ label, id }) => {
+  const href = useGetDashboardLink()(id);
+
+  return <EntityLink label={label} href={href} />;
+};
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-sap:name'),
     getContent(item) {
-      return <EntityLink label={item.label} href$={getDashboardLink(item.id)} />;
+      return <DashboardLink label={item.label} id={item.id} />;
     }
   },
   {

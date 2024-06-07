@@ -10,6 +10,7 @@ import { just } from '@instana/observables';
 import { potentialProblemsOnDatasetValidator } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsOnDatasetValidator';
 import regexValidator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
 import { numberValidator, stringValidator, booleanValidator } from 'in-services/validators/jsonType';
+import { validateThresholdOrder } from 'in-custom-dashboards/widgets/_shared/validator';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { minValidator, maxValidator } from 'in-services/validators/number';
@@ -32,7 +33,8 @@ export function createForm(
     withColorConfiguration = false,
     withMandatoryGrouping = false,
     withMetricFormatter = false,
-    withEmptyValueFilter = false
+    withEmptyValueFilter = false,
+    withThresholdConfiguration = false
   } = {}
 ) {
   let form = createMapForm(
@@ -144,6 +146,10 @@ export function createForm(
     );
   }
 
+  if (withThresholdConfiguration) {
+    form = form.put('threshold', createThresholdForm(savedState?.threshold));
+  }
+
   const validator = withMandatoryGrouping ? validateMandatoryGrouping : null;
 
   if (savedState?.grouping?.length > 0) {
@@ -208,6 +214,7 @@ function getConfigFromExistingForm(form) {
   const isPotentialProblemValidator = form.validator === potentialProblemsOnDatasetValidator;
   const formatter = form.get('formatter');
   const withEmptyValueFilter = form.get('required');
+  const thresholdConfiguration = form.get('threshold');
 
   return {
     withLabelConfiguration: !!labelField,
@@ -216,7 +223,8 @@ function getConfigFromExistingForm(form) {
     withEnablePotentialProblems: isPotentialProblemValidator,
     withMandatoryGrouping: isRequiringGroupingConfiguration(form),
     withMetricFormatter: !!formatter,
-    withEmptyValueFilter: !!withEmptyValueFilter
+    withEmptyValueFilter: !!withEmptyValueFilter,
+    withThresholdConfiguration: !!thresholdConfiguration
   };
 }
 
@@ -371,4 +379,35 @@ export function migrate(savedState) {
       errors: emptyArray
     })
   );
+}
+
+function createThresholdForm(savedState) {
+  return createMapForm({ validator: validateThresholdOrder })
+    .put(
+      'thresholdEnabled',
+      createField({
+        value: Boolean(savedState && savedState.thresholdEnabled),
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator)
+      })
+    )
+    .put(
+      'critical',
+      createField({
+        value: (savedState && savedState.critical) || '',
+        validator: composeAndShortCircuitOnError(field => field.value === '')
+      })
+    )
+    .put(
+      'warning',
+      createField({
+        value: (savedState && savedState.warning) || '',
+        validator: composeAndShortCircuitOnError(field => field.value === '')
+      })
+    )
+    .put(
+      'operator',
+      createField({
+        value: (savedState && savedState.operator) || '>='
+      })
+    );
 }

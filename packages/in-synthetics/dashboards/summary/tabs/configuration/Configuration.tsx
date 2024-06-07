@@ -5,10 +5,9 @@
  */
 
 import React, { useState } from 'react';
-import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 
-import { Card, LoadingSkeleton, Message, Stack, SvgIcon, Typography } from '@instana/components';
+import { Card, IconButton, LoadingSkeleton, Message, Stack, Typography } from '@instana/components';
 import { SyntheticTest } from '@instana/types';
 import { Trans, t } from '@instana/i18n-react';
 import { Button } from '@instana/legacy';
@@ -50,6 +49,7 @@ interface ActionButtonProps {
 
 const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   const { goToPath } = useNavigation();
+  let testType = null;
 
   if (test.progress.loading) {
     return <LoadingSkeleton className={locals.skeleton} />;
@@ -68,7 +68,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
 
   const testLabel: string = test.data?.label;
 
-  function openEditConfigDialog(test: SyntheticTest) {
+  const openEditConfigDialog = (test: SyntheticTest) => {
     addActiveDialog(
       <EditConfigurationDialogPresenter
         test={test}
@@ -78,11 +78,11 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
         setReloadCount={setReloadCount}
       />
     );
-  }
+  };
 
-  function deleteTest(testId: string) {
+  const deleteTest = (testId: string) => {
     addActiveDialog(<DeleteActionDialog testId={testId} />);
-  }
+  };
 
   const DeleteActionDialog = ({ testId }: any) => {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -167,22 +167,49 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
     );
   };
 
+  const disableEditAction = (testType: string, featureFlag: boolean): boolean => {
+    const syntheticTestTypes: string[] = [
+      'HTTPAction',
+      'HTTPScript',
+      'BrowserScript',
+      'WebpageScript',
+      'WebpageAction'
+    ];
+    // SSLCertificate is separate because the featureFlag is part of the condition.
+    if (testType === 'SSLCertificate' && featureFlag) {
+      return false;
+    }
+
+    // Disable if test type is not in the list of supported test types.
+    if (syntheticTestTypes.indexOf(testType) !== -1) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const getEditTooltipContent = (testType: string) => {
+    if (disableEditAction(testType, syntheticCertificateCheckEnabled)) {
+      return t('in-synthetics:dashboard.configuration.configurationUnsupported');
+    } else {
+      return t('in-synthetics:dashboard.configuration.configurationEditAction');
+    }
+  };
+
   const ActionButtons = ({ test }: ActionButtonProps) => {
-    const disableEditAction =
-      test?.configuration?.syntheticType === 'SSLCertificate' && !syntheticCertificateCheckEnabled;
+    const currentTestType: string = test?.configuration?.syntheticType;
     return (
-      <Stack gap="normal" direction="horizontal">
-        <Tooltip content={t('in-synthetics:dashboard.configuration.configurationEditAction')} delay={500}>
-          <SvgIcon
-            color={'#00B3B3'}
-            type={'lib_actions_edit'}
+      <Stack gap="xxsmall" direction="horizontal">
+        <Tooltip content={getEditTooltipContent(currentTestType)}>
+          <IconButton
+            type="lib_actions_edit"
+            kind="primary"
+            disabled={disableEditAction(currentTestType, syntheticCertificateCheckEnabled)}
             onClick={() => openEditConfigDialog(test)}
-            className={classNames({ [locals.disabled]: disableEditAction })}
           />
         </Tooltip>
-        {/* <SvgIcon type={'lib_actions_copy'} /> */}
         <Tooltip content={t('in-synthetics:dashboard.configuration.configurationDeleteAction')} delay={500}>
-          <SvgIcon color={'#00B3B3'} type={'lib_actions_delete'} onClick={() => deleteTest(test.id || '')} />
+          <IconButton type="lib_actions_delete" kind="primary" onClick={() => deleteTest(test.id || '')} />
         </Tooltip>
       </Stack>
     );
@@ -195,10 +222,6 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
     return <ActionButtons test={test.data} />;
   };
 
-  if (test.progress.loading) {
-    return <LoadingSkeleton className={locals.skeleton} />;
-  }
-  let testType = null;
   switch (test.data?.configuration?.syntheticType) {
     case 'HTTPAction':
       testType = 'API Simple';
@@ -219,6 +242,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
       testType = 'Certificate Check';
       break;
   }
+
   return (
     <Card
       leftHeaderContent={

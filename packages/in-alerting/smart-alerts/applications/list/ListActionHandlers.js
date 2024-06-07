@@ -16,9 +16,9 @@ import {
   disableAlertConfig,
   enableAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
+import TearSheetButtonWithLink from 'in-alerting/smart-alerts/applications/components/TearSheetButtonWithLink';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import GetTearSheetLink from 'in-alerting/smart-alerts/applications/components/GetTearSheetLink';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { trackAlertDeleteConfirm } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -101,6 +101,19 @@ export function actionHandlers(isGlobalSmartAlertConfig) {
     handleClone: function (config) {
       handleClone(config, isGlobalSmartAlertConfig);
     },
+    handleCloneNew: function (config) {
+      const { created, id } = config;
+      return (
+        <TearSheetButtonWithLink
+          buttonIcon="lib_actions_copy"
+          buttonName={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicateNew')}
+          isGlobal={isGlobalSmartAlertConfig}
+          alertId={id}
+          alertConfigCreated={created}
+          duplicateMode
+        />
+      );
+    },
     handleDelete: function (id, setIsSaving, configName) {
       handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig);
     },
@@ -110,12 +123,13 @@ export function actionHandlers(isGlobalSmartAlertConfig) {
     handleEditNew: function (config) {
       const { created, id } = config;
       return (
-        <GetTearSheetLink
+        <TearSheetButtonWithLink
           buttonIcon="lib_actions_edit"
-          buttonName={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
+          buttonName={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEditNew')}
           isGlobal={isGlobalSmartAlertConfig}
           alertId={id}
           alertConfigCreated={created}
+          editMode
         />
       );
     },

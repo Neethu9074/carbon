@@ -33,7 +33,7 @@ interface UserListProps {
 
 const cols = [
   {
-    title: t('in-sap:dashboards.account'),
+    title: t('in-sap:dashboards.userName'),
     type: 'string',
     typeArgs: {
       getValue(row: UserListRow) {
@@ -107,14 +107,28 @@ export default function UserList({ snapshotId, timeConfig }: UserListProps) {
     return (
       <div>
         <Columize>
-          <DashboardSection title={t('in-sap:dashboards.userStats')}>
+          <DashboardSection title={t('in-sap:dashboards.processSteps')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: [`userList.${row.key}.LUW_COUNT`, `userList.${row.key}.DCOUNT`],
-                labels: [t('in-sap:dashboards.count'), t('in-sap:dashboards.dcount')],
+                metrics: [
+                  `userList.${row.key}.LUW_COUNT`,
+                  `userList.${row.key}.DCOUNT`,
+                  `userList.${row.key}.BCOUNT`,
+                  `userList.${row.key}.UCOUNT`,
+                  `userList.${row.key}.SCOUNT`,
+                  `userList.${row.key}.ECOUNT`
+                ],
+                labels: [
+                  t('in-sap:dashboards.luw'),
+                  t('in-sap:dashboards.dcount'),
+                  t('in-sap:dashboards.bcount'),
+                  t('in-sap:dashboards.ucount'),
+                  t('in-sap:dashboards.scount'),
+                  t('in-sap:dashboards.ecount')
+                ],
                 type: 'line',
                 formatter: number.compact
               }}
@@ -147,15 +161,13 @@ export default function UserList({ snapshotId, timeConfig }: UserListProps) {
                   `userList.${row.key}.RESPTIME`,
                   `userList.${row.key}.CPUTIME`,
                   `userList.${row.key}.QUEUETIME`,
-                  `userList.${row.key}.ROLLWAITTIME`,
-                  `userList.${row.key}.IOWAITTIME`
+                  `userList.${row.key}.ROLLWAITTIME`
                 ],
                 labels: [
                   t('in-sap:dashboards.responseTime'),
                   t('in-sap:dashboards.cpuTime'),
                   t('in-sap:dashboards.userListQueueTime'),
-                  t('in-sap:dashboards.userListRollWaitTime'),
-                  t('in-sap:dashboards.userListIOWaitTime')
+                  t('in-sap:dashboards.userListRollWaitTime')
                 ],
                 type: 'line',
                 formatter: millis.detailed
@@ -173,7 +185,7 @@ export default function UserList({ snapshotId, timeConfig }: UserListProps) {
       cardTitle={t('in-sap:dashboards.userStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={2}
+      initialSortColumn={3}
       initialSortDirection="desc"
       getRowDetails={getDetails}
     />

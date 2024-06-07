@@ -6,14 +6,13 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
+import { SvgIcon, IconButton } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { SvgIcon } from '@instana/components';
 
 import { serviceNowAutoCloseAndCustomPayloadsEnabled } from 'in-services/featureFlags';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import IconButton from 'in-components/IconButton/IconButton';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
