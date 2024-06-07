@@ -18,13 +18,17 @@ import { t } from 'in-i18n';
 
 import locals from './CreatePolicyDialogPresenter.mless';
 
-export interface selectProps {
+export interface CreatePolicyDialogPresenterProps {
   selectedAction: ScoredAction;
   event: Event;
   setActiveKey: SetActiveKey;
 }
 
-const CreatePolicyDialogPresenter = ({ selectedAction, event, setActiveKey }: selectProps) => {
+export default function CreatePolicyDialogPresenter({
+  selectedAction,
+  event,
+  setActiveKey
+}: CreatePolicyDialogPresenterProps) {
   return (
     <DialogWithSlideInView
       title={
@@ -42,6 +46,4 @@ const CreatePolicyDialogPresenter = ({ selectedAction, event, setActiveKey }: se
       </div>
     </DialogWithSlideInView>
   );
-};
-
-export default CreatePolicyDialogPresenter;
+}

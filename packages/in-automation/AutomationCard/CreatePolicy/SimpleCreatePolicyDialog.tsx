@@ -7,8 +7,6 @@
 import { MapForm, notBlankValidator, createMapForm, createField, Field as FormField } from 'formalistic';
 import React, { useState } from 'react';
 
-import { generateUniqueShortId } from '@instana/utils';
-
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { CreatePolicyStep } from 'in-automation/AutomationCard/CreatePolicy/CreatePolicyStep';
@@ -47,34 +45,10 @@ interface SimpleAIDialogProps {
 
 export default function SimpleCreatePolicyDialog({ selectedAction, event, setActiveKey }: SimpleAIDialogProps) {
   const [simpleModeStep, setSimpleModeStep] = useState(0);
-  const [form, updateForm] = useState(() => {
-    return createNewAIActionFormDefinition(selectedAction);
-  });
+  const [form, updateForm] = useState(createNewPolicyFormDefinition(selectedAction));
 
   const handleCreatePolicy = () => {
-    const policyDetails = {
-      name: form.get('policyName').value,
-      description: form.get('policyDescription').value,
-      tags: form.get('policyTags').value.map((tag: Tag) => tag.value)
-    };
-    const policy = createBasePolicy(event, selectedAction, policyDetails);
-
-    saveNewPolicy(policy).once(
-      () => {
-        createPolicyFromRecommendedActionsTracker({
-          name: policy.name,
-          triggerName: event.problem?.problemText,
-          actionName: selectedAction.name,
-          type: 'manual'
-        });
-        refresh();
-        setActiveKey('automationPolicies');
-        onCreateSuccess(policy.name);
-      },
-      error => {
-        onCreateFailed(error);
-      }
-    );
+    createPolicy({ form, event, selectedAction, setActiveKey });
   };
   return (
     <div className={locals.container}>
@@ -103,6 +77,32 @@ export default function SimpleCreatePolicyDialog({ selectedAction, event, setAct
     </div>
   );
 }
+type handleCreatePolicyProps = SimpleAIDialogProps & { form: PolicyForm };
+const createPolicy = ({ form, event, selectedAction, setActiveKey }: handleCreatePolicyProps) => {
+  const policyDetails = {
+    name: form.get('policyName').value,
+    description: form.get('policyDescription').value,
+    tags: form.get('policyTags').value.map((tag: Tag) => tag.value)
+  };
+  const policy = createBasePolicy(event, selectedAction, policyDetails);
+
+  saveNewPolicy(policy).once(
+    () => {
+      createPolicyFromRecommendedActionsTracker({
+        name: policy.name,
+        triggerName: event.problem?.problemText,
+        actionName: selectedAction.name,
+        type: 'manual'
+      });
+      refresh();
+      setActiveKey('automationPolicies');
+      onCreateSuccess(policy.name);
+    },
+    error => {
+      onCreateFailed(error);
+    }
+  );
+};
 
 const stepConfigs = Object.freeze([
   {
@@ -113,8 +113,8 @@ const stepConfigs = Object.freeze([
   }
 ]);
 
-export function createNewAIActionFormDefinition(action: ScoredAction) {
-  const policyTags = ([] as string[]).map(tag => ({ value: tag, id: generateUniqueShortId() })) ?? [];
+export function createNewPolicyFormDefinition(action: ScoredAction) {
+  const policyTags: Tag[] = [];
   const form: PolicyForm = createMapForm({
     items: {
       name: createField({

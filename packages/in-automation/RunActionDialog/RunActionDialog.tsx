@@ -507,7 +507,11 @@ function RunActionFooter({
     <>
       <CancelButton isSaving={isSaving} onClick={close} />
       <SaveButton kind="primary" form={form} disabled={!form || noTurboAgents} isSaving={isSaving} onClick={onSave}>
-        {policy ? 'Save' : test ? t('in-automation:testAction') : t('in-automation:runAction')}
+        {policy
+          ? t('in-automation:actionHistory.saveButton')
+          : test
+          ? t('in-automation:testAction')
+          : t('in-automation:runAction')}
       </SaveButton>
     </>
   );
