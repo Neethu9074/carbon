@@ -53,5 +53,6 @@
   "process": "Process",
   "host": "Host",
   "fileOnHost": "on",
-  "file": "File"
+  "file": "File",
+  "logExpiration": "Retained Until"
 }

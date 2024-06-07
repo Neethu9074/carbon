@@ -9,6 +9,7 @@ import classNames from 'classnames';
 
 import { ColumnizedContent, IconButton, Li, Link } from '@instana/components';
 import { LogTag, TagFilter } from '@instana/types';
+import { formatDate } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -26,8 +27,14 @@ import {
   trackFilterClick,
   trackGroupClick
 } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
+import {
+  containerSnapshotIds,
+  ID_HOST,
+  LOG_CUSTOM_KEY_APPLICATION_IDS,
+  LOG_FILE_PATH,
+  LOG_RETENTION_TIME
+} from 'in-logging/queryBuilder';
 import ContainerPerformanceSparkcharts from 'in-logging/analyze/AnalyzeView/components/ContainerPerformanceSparkcharts';
-import { containerSnapshotIds, ID_HOST, LOG_CUSTOM_KEY_APPLICATION_IDS, LOG_FILE_PATH } from 'in-logging/queryBuilder';
 import useResolvedValue, { resolveInfraLabel } from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedValue';
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
@@ -124,6 +131,8 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
   const idHostStringValue = item.tags.find(tag => tag.name === ID_HOST)?.stringValue as string;
   const isApplicationsTag = tag.key === LOG_CUSTOM_KEY_APPLICATION_IDS;
   const isLogFilePathTag = tag.name === LOG_FILE_PATH;
+  const isExpirationTime = tag.name === LOG_RETENTION_TIME;
+  const expirationValue = tag.longValue && timestampToLocaleDate(tag.longValue);
   const hostTag = item.tags.find(tag => tag.name === ID_HOST) as LogTag;
 
   //As long as we have to put the link and the name of the Log Id Host, we are faking the tag name and the tag object
@@ -165,7 +174,7 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
     );
   }
 
-  return <span className={locals.value}>{resolvedValue}</span>;
+  return <span className={locals.value}>{!isExpirationTime ? resolvedValue : expirationValue}</span>;
 }
 
 export const TagGroupHeader = ({ groupLabel }: TagGroupHeaderProps) => {
@@ -212,3 +221,8 @@ export function TagEntry(props: TagEntryProps) {
     </>
   );
 }
+
+const timestampToLocaleDate = (timestamp: number) => {
+  const timestampDate = new Date(Math.round(timestamp / 1000000));
+  return formatDate(timestampDate);
+};
