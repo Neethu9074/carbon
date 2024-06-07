@@ -47,6 +47,7 @@ import {
   runAction,
   saveNewPolicy
 } from 'in-automation/api';
+import useNavigateToActionHistory from 'in-automation/RunActionDialog/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from 'in-types';
 import { refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
@@ -585,6 +586,7 @@ function RunActionFooter({
   viewRecommendedAction,
   setActiveKey
 }: RunActionFooterProps) {
+  const navigateToActionHistory = useNavigateToActionHistory();
   if (error || actionInstanceId) {
     return (
       <>
@@ -594,8 +596,13 @@ function RunActionFooter({
         <Button
           kind="primary"
           onClick={() => {
-            refreshHistory();
-            if (setActiveKey) setActiveKey('actionHistory');
+            if (test) {
+              navigateToActionHistory(actionInstanceId);
+            } else {
+              refreshHistory();
+              if (setActiveKey) setActiveKey('actionHistory');
+            }
+
             close();
           }}
         >
