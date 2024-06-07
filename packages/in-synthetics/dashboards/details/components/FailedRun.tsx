@@ -18,12 +18,15 @@ import locals from 'in-synthetics/dashboards/details/components/FailedRun.mless'
 
 interface FailedRunProps {
   resultList: Result<PaginatedResult<TestResultListItem>>;
-  isSSLCertificate: boolean;
+  testType: string;
 }
 
-export default function FailedRun({ resultList, isSSLCertificate }: FailedRunProps) {
+export default function FailedRun({ resultList, testType }: FailedRunProps) {
   let errMsg: string;
   let stacktraceMsg: string;
+  let errorType: string;
+  const isSSLCertificate: boolean = testType === 'SSLCertificate';
+  const isScriptTest = ['HTTPScript', 'BrowserScript', 'WebpageScript'].includes(testType);
 
   if (Array.isArray(resultList.data) && !resultList.data.length) {
     return (
@@ -33,41 +36,47 @@ export default function FailedRun({ resultList, isSSLCertificate }: FailedRunPro
       </Card>
     );
   } else {
+    const errorTypeStart = getErrors(resultList).search('errorType=');
     let start: number = getErrors(resultList).search('errorMessage=');
     let end: number = getErrors(resultList).search('stackTrace=');
     let len: number = getErrors(resultList)?.length;
+    errorType = getErrors(resultList).slice(errorTypeStart + 'errorType='.length, start - '  '.length);
     errMsg = !isSSLCertificate
       ? getErrors(resultList).slice(start + 'errorMessage='.length, end - '  '.length)
       : getErrors(resultList).slice(start + 'errorMessage='.length, len - 1);
-    stacktraceMsg = !isSSLCertificate
+    stacktraceMsg = isScriptTest
       ? getErrors(resultList).slice(end + 'stacktrace='.length, len - '}'.length)
       : undefined;
   }
 
   return (
     <Card className={locals.failedTitle} title={t('in-synthetics:dashboard.detailsPage.failedRun')}>
+      <h3 className={locals.errorMessageHeader}>{t('in-synthetics:dashboard.detailsPage.failedRunErrorTypeTitle')}</h3>
+      {errorType && <span className={locals.errorMessage}>{errorType}</span>}
       <h3 className={locals.errorMessageHeader}>{t('in-synthetics:dashboard.detailsPage.failedRunErrorTitle')}</h3>
       {errMsg ? (
         <span className={locals.errorMessage}>{errMsg}</span>
       ) : (
         <span className={locals.errorMessage}>{t('in-synthetics:dashboard.detailsPage.noFailedErrorMessage')}</span>
       )}
-      <ExpandableCard
-        className={locals.stacktraceHeader}
-        title={t('in-synthetics:dashboard.detailsPage.stackTraceTitle')}
-        framed={false}
-        openByDefault
-      >
-        {stacktraceMsg ? (
-          <span className={locals.stacktraceMessage}>
-            {stacktraceMsg.split('\n').map(function (msg: any, i: any) {
-              return <div key={i}>{msg}</div>;
-            })}
-          </span>
-        ) : (
-          <span className={locals.stacktraceMessage}>{t('in-synthetics:dashboard.detailsPage.noStacktrace')}</span>
-        )}
-      </ExpandableCard>
+      {isScriptTest && (
+        <ExpandableCard
+          headerClassName={locals.stacktraceHeader}
+          title={t('in-synthetics:dashboard.detailsPage.stackTraceTitle')}
+          framed={false}
+          openByDefault
+        >
+          {stacktraceMsg ? (
+            <span className={locals.stacktraceMessage}>
+              {stacktraceMsg.split('\n').map(function (msg: any, i: any) {
+                return <div key={i}>{msg}</div>;
+              })}
+            </span>
+          ) : (
+            <span className={locals.stacktraceMessage}>{t('in-synthetics:dashboard.detailsPage.noStacktrace')}</span>
+          )}
+        </ExpandableCard>
+      )}
     </Card>
   );
 }

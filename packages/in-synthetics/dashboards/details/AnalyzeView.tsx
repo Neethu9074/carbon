@@ -75,7 +75,7 @@ const AnalyzeView = () => {
 
   const timelineDetails: ResultDetailsResponse =
     useObservable<any, [any]>(
-      formatTypes => {
+      (formatTypes: string[]) => {
         if (formatTypes[0] != undefined && formatTypes[0] != '') {
           return getTestResultDetailData({
             testId: testId,
@@ -193,7 +193,7 @@ const AnalyzeView = () => {
             {getTestResultListStatus(resultList) !== 1 && (
               <Row>
                 <Col xs>
-                  <FailedRun resultList={resultList} isSSLCertificate={isSSLCertificate} />
+                  <FailedRun resultList={resultList} testType={testType} />
                 </Col>
               </Row>
             )}
