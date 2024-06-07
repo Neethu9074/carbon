@@ -79,4 +79,8 @@
   .regenerateButton {
     width: fit-content;
   }
+  .cardIndicator {
+    height: 0.25rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
 }
