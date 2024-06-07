@@ -223,6 +223,6 @@ export function TagEntry(props: TagEntryProps) {
 }
 
 const timestampToLocaleDate = (timestamp: number) => {
-  const timestampDate = new Date(Math.round(timestamp / 1000000));
+  const timestampDate = new Date(timestamp * 1000);
   return formatDate(timestampDate);
 };
