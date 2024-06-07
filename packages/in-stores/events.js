@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { fromJS } from 'immutable';
 import { Map } from 'immutable';
 import { get } from 'lodash';
 
@@ -13,6 +14,8 @@ import createHealthInfoSubscription from 'in-subscription/healthInfo';
 import createEventObservable from 'in-subscription/event';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
+import http from 'in-services/http';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
 import { t } from 'in-i18n';
@@ -293,4 +296,24 @@ export function getEventType(event) {
     default:
       return EVENT_TYPES.CHANGE;
   }
+}
+
+export function annotateEvent(note) {
+  const obj = http({
+    method: 'PUT',
+    maxRetries: 3,
+    url: '/api/notes/annotate-event',
+    headers: getCsrfHeader(),
+    data: {
+      parent: note.incidentId,
+      timestamp: Date.now(),
+      type: 'note',
+      author: note.author,
+      action: note.action,
+      contents: (note.contents && note.contents.trim()) || undefined,
+      currentId: note.currentId || undefined,
+      metadata: note.metadata || undefined
+    }
+  });
+  return obj.map(response => fromJS(response.body)).once();
 }

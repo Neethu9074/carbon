@@ -225,5 +225,17 @@
     "closeIssue": "Close Issue",
     "closeIncident": "Close this incident",
     "closedByLabel": "Closed by"
+  },
+  "notes": {
+    "openNotes": "Open notes and activity",
+    "closeNotes": "Close notes and activity",
+    "notesActivity": "Notes and activity",
+    "techPreview": "Tech preview",
+    "incidentNotes": "Incident notes",
+    "addNote": "Add note",
+    "you": "You",
+    "noNotes": "No notes added yet",
+    "noNotesDetails": "Get started by adding a note for your team.",
+    "typeSomething": "Type something..."
   }
 }
