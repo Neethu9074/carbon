@@ -8,7 +8,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { TimeConfig, EntityHealthInfo } from '@instana/types';
-import { Stack, SvgIcon, Link } from '@instana/components';
+import { Stack, Link } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
@@ -30,7 +30,7 @@ import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 import { useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
-import HealthDot from 'in-components/health/HealthDot/HealthDot';
+import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { timeConfig$ } from 'in-stores/time/config';
 import DatatableWrapper from './DatatableWrapper';
@@ -43,7 +43,7 @@ const MobileAppHealthInfo = connectTo(
         mobileAppId={mobileAppId}
         timeConfig={timeConfig}
         render={(healthInfo: EntityHealthInfo) =>
-          healthInfo ? <HealthDot severity={healthInfo.maxSeverity} iconSize={10} /> : null
+          healthInfo ? <HealthIcon severity={healthInfo.maxSeverity} iconSize="xs" /> : null
         }
       />
     );
@@ -58,7 +58,7 @@ const WebsiteHealthInfo = connectTo(
         websiteId={websiteId}
         timeConfig={timeConfig}
         render={(healthInfo: EntityHealthInfo) =>
-          healthInfo ? <HealthDot severity={healthInfo.maxSeverity} iconSize={10} /> : null
+          healthInfo ? <HealthIcon severity={healthInfo.maxSeverity} iconSize="xs" /> : null
         }
       />
     );
@@ -121,6 +121,10 @@ export default connectTo(() => ({
         {
           header: t('in-plg:welcomepage.component.websitesWidget.onLoadTimes'),
           key: 'onLoadTimes'
+        },
+        {
+          header: t('in-plg:welcomepage.component.websitesWidget.health'),
+          key: 'health'
         }
       ];
     } else {
@@ -136,6 +140,10 @@ export default connectTo(() => ({
         {
           header: t('in-plg:welcomepage.component.mobileAppsWidget.views'),
           key: 'views'
+        },
+        {
+          header: t('in-plg:welcomepage.component.mobileAppsWidget.health'),
+          key: 'health'
         }
       ];
     }
@@ -152,17 +160,7 @@ export default connectTo(() => ({
       getContent({ item }) {
         const { isWebsite } = item;
         const link = isWebsite ? getLinkToWebsite(getId(item)) : getLinkToMobileApp(getId(item));
-        return (
-          <Stack direction="horizontal" align="center">
-            {item.isWebsite ? (
-              <WebsiteHealthInfo websiteId={getId(item)} />
-            ) : (
-              <MobileAppHealthInfo mobileAppId={getId(item)} />
-            )}
-            <SvgIcon type={item.isWebsite ? 'lib_website' : 'lib_mobile_app'} />
-            <Link href={link}>{isWebsite ? item.website.label : item.mobileApp.label}</Link>
-          </Stack>
-        );
+        return <Link href={link}>{isWebsite ? item.website.label : item.mobileApp.label}</Link>;
       }
     },
     {
@@ -199,6 +197,20 @@ export default connectTo(() => ({
             showDashOnMissingOrNullMetric
             hideChartOnEmptyMetrics
           />
+        );
+      }
+    },
+    {
+      key: 'health',
+      getContent({ item }) {
+        return (
+          <Stack direction="horizontal" align="center">
+            {item.isWebsite ? (
+              <WebsiteHealthInfo websiteId={getId(item)} />
+            ) : (
+              <MobileAppHealthInfo mobileAppId={getId(item)} />
+            )}
+          </Stack>
         );
       }
     }

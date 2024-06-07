@@ -7,7 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link, Stack, SvgIcon, Typography } from '@instana/components';
+import { Link, Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -49,7 +49,7 @@ import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/pa
 import { useNavigateToClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { usePowervcRegionDashboard } from 'in-powervc/navigation/paths';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
-import HealthDot from 'in-components/health/HealthDot/HealthDot';
+import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -92,6 +92,10 @@ export default connectTo(() => ({
         key: 'name'
       },
       {
+        header: t('in-plg:welcomepage.component.platformWidget.platform'),
+        key: 'platform'
+      },
+      {
         header: t('in-plg:welcomepage.component.platformWidget.nodes'),
         key: 'nodes'
       },
@@ -102,34 +106,47 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.platformWidget.pods'),
         key: 'pods'
+      },
+      {
+        header: t('in-plg:welcomepage.component.platformWidget.health'),
+        key: 'health'
       }
     ];
   };
 
-  function getIcon(item: any) {
+  function getTechnology(item: any) {
     if (item.isKubernetes) {
       const clusterDistribution = get(item, ['cluster', 'clusterDistribution'], 'kubernetes');
-      return `lib_${clusterDistribution}`;
+      if (clusterDistribution === 'openshift' || clusterDistribution === 'openshift_inverted') {
+        return t('in-plg:welcomepage.component.platformWidget.openshift');
+      }
+      if (clusterDistribution === 'gke') {
+        return t('in-plg:welcomepage.component.platformWidget.gke');
+      }
+      if (clusterDistribution === 'eks') {
+        return t('in-plg:welcomepage.component.platformWidget.eks');
+      }
+      return clusterDistribution;
     }
     if (item.isOpenstack) {
-      return 'lib_openstack';
+      return t('in-plg:welcomepage.component.platformWidget.openstack');
     }
     if (item.isPcf) {
-      return 'lib_cloudfoundry_application';
+      return t('in-plg:welcomepage.component.platformWidget.cloudFoundry');
     }
     if (item.isPhmc) {
-      return 'lib_phmc_console';
+      return t('in-plg:welcomepage.component.platformWidget.ibmp');
     }
     if (item.isPowervc) {
-      return 'lib_powervc';
+      return t('in-plg:welcomepage.component.platformWidget.powervcRegion');
     }
     if (item.isZhmc) {
-      return 'lib_zhmcConsole';
+      return t('in-plg:welcomepage.component.platformWidget.ibmz');
     }
     if (item.isSap) {
-      return 'lib_sap';
+      return t('in-plg:welcomepage.component.platformWidget.sap');
     }
-    return 'lib_vsphere_datacenter';
+    return t('in-plg:welcomepage.component.platformWidget.vsphere');
   }
 
   const getClusterDashboardLink = useNavigateToClusterDashboard();
@@ -168,13 +185,13 @@ export default connectTo(() => ({
     {
       key: 'name',
       getContent({ item }) {
-        return (
-          <Stack direction="horizontal" align="center">
-            <HealthDot severity={get(item, ['entityHealthInfo', 'maxSeverity', 0, 1], 0)} iconSize={10} />
-            <SvgIcon type={getIcon(item)} color="var(--ids-color-option-neutral-700)" />
-            <Link href={getLink(item)}>{getLabel(item)}</Link>
-          </Stack>
-        );
+        return <Link href={getLink(item)}>{getLabel(item)}</Link>;
+      }
+    },
+    {
+      key: 'platform',
+      getContent({ item }) {
+        return <Typography variant="body-regular">{getTechnology(item)}</Typography>;
       }
     },
     {
@@ -193,6 +210,12 @@ export default connectTo(() => ({
       key: 'pods',
       getContent({ item }) {
         return <Typography variant="body-regular">{item.workloads?.pods}</Typography>;
+      }
+    },
+    {
+      key: 'health',
+      getContent({ item }) {
+        return <HealthIcon severity={get(item, ['entityHealthInfo', 'maxSeverity', 0, 1], 0)} iconSize="xs" />;
       }
     }
   ];

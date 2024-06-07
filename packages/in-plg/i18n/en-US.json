@@ -490,7 +490,8 @@
         "calls": "Calls",
         "latency": "Latency",
         "erroneousCallRate": "Erroneous call rate",
-        "openCreationDialog": "Open Creation Dialog"
+        "openCreationDialog": "Open Creation Dialog",
+        "health": "Health"
       },
       "eventWidget": {
         "label": "Events",
@@ -504,21 +505,28 @@
         "cloudFoundry": "Cloud Foundry",
         "vsphere": "vSphere",
         "openstack": "OpenStack",
+        "openshift": "OpenShift",
         "ibmp": "IBM Power HMC",
         "powervcRegion": "PowerVC Region",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
         "kubernetes": "Kubernetes",
+        "gke": "Google Kubernetes Engine",
+        "eks": "Amazon Elastic Kubernetes Service",
         "name": "Name",
         "nodes": "Nodes",
         "namespaces": "Namespaces",
-        "pods": "Pods"
+        "pods": "Pods",
+        "health": "Health",
+        "platform": "Platform"
+
       },
       "bizopsWidget": {
         "label": "Business Monitoring",
         "name": "Name",
         "activities": "Activities",
-        "count": "Count"
+        "count": "Count",
+        "health": "Health"
       },
       "incidentsWidget": {
         "label": "Incidents",
@@ -526,31 +534,36 @@
         "title": "Title",
         "on": "On",
         "started": "Started",
-        "end": "End"
+        "end": "End",
+        "health": "Status"
       },
       "websitesWidget": {
         "label": "Websites",
         "name": "Name",
         "pageViews": "Page views",
         "onLoadTimes": "OnLoad times",
-        "addLabel": "Add website"
+        "addLabel": "Add website",
+        "health": "Health"
       },
       "mobileAppsWidget": {
         "label": "Mobile Apps",
         "name": "Name",
         "sessions": "Sessions",
         "views": "Views",
-        "addLabel": "Add mobile app"
+        "addLabel": "Add mobile app",
+        "health": "Health"
       },
       "infrastructureWidget": {
         "label": "Infrastructure",
         "mean": "mean",
         "name": "Name",
         "os": "OS",
+        "technologies": "Technologies",
         "cpuNum": "Number of CPUs",
         "cpuUsage": "CPU Usage",
         "created": "Created",
-        "started": "Started"
+        "started": "Started",
+        "health": "Health"
       },
       "syntheticWidget": {
         "label": "Synthetic Monitoring",
