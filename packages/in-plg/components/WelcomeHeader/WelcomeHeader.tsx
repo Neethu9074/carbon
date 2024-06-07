@@ -94,7 +94,7 @@ export default function WelcomeHeader() {
         buttonType: 'ghost',
         href: createRedirectHref('traceInteractions'),
         hasPermission: permissions?.includes('CAN_CONFIGURE_AGENTS'),
-        isActionCompleted: !statusFlags.tracingReported
+        isActionCompleted: statusFlags.tracingReported
       },
       {
         key: 'inviteUsers',
