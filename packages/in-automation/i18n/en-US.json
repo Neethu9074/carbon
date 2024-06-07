@@ -92,7 +92,6 @@
   "noTagsAvailable": "No tags available",
   "actions": "Actions",
   "actionsWithCount": "Actions ({{count}})",
-  "createPolicy": "Create Policy",
   "titleUrl": "URL",
   "generateWithAI": "Generate with AI",
   "createPolicyWithName": "View action {{actionName}} and create policy",
@@ -110,8 +109,7 @@
       "success": {
         "title": "Action and policy created",
         "content": "A new action has been added in the catalog and a new policy {{name}} has been created",
-        "link": "Action link",
-        "successContentForuserAction": "A new policy {{name}} has been created"
+        "link": "Action link"
       }
     }
   },
