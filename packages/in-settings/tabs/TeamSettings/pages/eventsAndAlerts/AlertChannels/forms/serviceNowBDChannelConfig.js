@@ -26,7 +26,7 @@ import './Forms.less';
 const block = 'in-alert-channel-config-form';
 const tooltip_class = 'in-helpify-wrapper';
 
-const name = 'SERVICE_NOW_BD';
+const name = 'SERVICE_NOW_APPLICATION';
 const label = t('in-settings:tabs.serviceNowBD');
 
 const parameters = [
