@@ -38,7 +38,7 @@ const SelectAIActionsDialogPresenter = ({ aiRecommendedScoredActions, event, set
       }
       onClose={close}
       slideInViewVisible={false}
-      // doNotCloseOnOutsideClick
+      doNotCloseOnOutsideClick
     >
       <div className={locals.simpleDialog}>
         <SimpleAIDialog
