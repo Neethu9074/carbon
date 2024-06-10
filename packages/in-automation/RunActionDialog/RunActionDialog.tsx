@@ -36,11 +36,13 @@ import RunActionContent, {
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import { ResolvedDynamicParamValue, resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
 import { runActionTracker, testActionTracker, testAIGenaratedActionTracker } from 'in-automation/tracker';
+import useNavigateToActionHistory from 'in-automation/RunActionDialog/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from 'in-types';
 import { refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
+import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -63,6 +65,7 @@ interface RunActionDialogProps {
   policy?: NewPolicy;
   executePolicy?: Policy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
+  setActiveKey?: SetActiveKey;
 }
 
 export default function RunActionDialog({
@@ -72,7 +75,8 @@ export default function RunActionDialog({
   test,
   policy,
   handleSave,
-  executePolicy
+  executePolicy,
+  setActiveKey
 }: RunActionDialogProps) {
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
@@ -128,6 +132,7 @@ export default function RunActionDialog({
               isSaving={isSaving}
               noTurboAgents={noTurboAgents}
               form={form}
+              setActiveKey={setActiveKey}
               onSave={() =>
                 onSave({
                   form,
@@ -478,6 +483,7 @@ interface RunActionFooterProps {
   test?: boolean;
   policy?: NewPolicy;
   noTurboAgents?: boolean;
+  setActiveKey?: SetActiveKey;
 }
 
 function RunActionFooter({
@@ -488,19 +494,32 @@ function RunActionFooter({
   onSave,
   test,
   policy,
-  noTurboAgents = false
+  noTurboAgents = false,
+  setActiveKey
 }: RunActionFooterProps) {
+  const navigateToActionHistory = useNavigateToActionHistory();
   if (error || actionInstanceId) {
     return (
-      <Button
-        kind="primary"
-        onClick={() => {
-          refreshHistory();
-          close();
-        }}
-      >
-        {t('in-automation:ok')}
-      </Button>
+      <>
+        <CancelButton isSaving={isSaving} onClick={close}>
+          {t('in-automation:close')}
+        </CancelButton>
+        <Button
+          kind="primary"
+          onClick={() => {
+            if (test) {
+              navigateToActionHistory(actionInstanceId);
+            } else {
+              refreshHistory();
+              if (setActiveKey) setActiveKey('actionHistory');
+            }
+
+            close();
+          }}
+        >
+          {t('in-automation:actionHistory.goToActionHistory')}
+        </Button>
+      </>
     );
   }
   return (
