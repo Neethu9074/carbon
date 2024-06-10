@@ -6,14 +6,14 @@
 
 import React from 'react';
 
-import { Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
+import { Pill } from '@instana/components';
 
 import { t } from 'in-i18n';
 
-export default function BetaBadge() {
+export default function BetaBadge({ className }: { className?: string }) {
   return (
-    <Pill kind="primary" color={themes.default.ids.color.option.blue['500']}>
+    <Pill kind="primary" color={themes.default.ids.color.option.blue['500']} className={className}>
       {t('in-components:featureFeedback.labelBETA')}
     </Pill>
   );

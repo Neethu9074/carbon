@@ -220,10 +220,11 @@ function getEndValue(event, isChangeEvent, end, start, headers, isPreview) {
   if (event.state === 'open') {
     return '-';
   }
+  const endTime = event.manualCloseTimestamp ? event.manualCloseTimestamp : end;
   if (isChangeEvent) {
-    return formatDisplayDateTime(end, headers, isPreview);
+    return formatDisplayDateTime(endTime, headers, isPreview);
   }
-  return start !== end ? formatDisplayDateTime(end, headers, isPreview) : valueMissingPlaceholder;
+  return start !== endTime ? formatDisplayDateTime(endTime, headers, isPreview) : valueMissingPlaceholder;
 }
 
 function getColorForState(event) {

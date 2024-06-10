@@ -69,10 +69,6 @@
     border: 1px solid var(--ids-color-option-neutral-300);
   }
 
-  .scopeMargin {
-    height: 1.12rem;
-  }
-
   .grid {
     display: grid;
     grid-template-columns: 40% 58%;
@@ -86,18 +82,6 @@
     justify-content: flex-end;
   }
 
-  .color900 {
-    color: var(--ids-color-option-navy-900);
-  }
-
-  .color600 {
-    color: var(--ids-color-option-neutral-600);
-  }
-
-  .color700 {
-    color: var(--ids-color-option-neutral-700);
-  }
-
   .tearSheetLightCardHeader {
     border-bottom: 1px solid var(--ids-color-option-neutral-300);
     padding: 1rem 0.75rem;
@@ -107,9 +91,5 @@
     display: flex;
     gap: 0.5rem;
     align-items: center;
-  }
-
-  .topGap {
-    height: 1rem;
   }
 }

@@ -6,13 +6,12 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
+import { Card, HorizontalIndicator, LoadingSkeleton, Message, IconButton } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { TOPLIST_METRIC_CHANGED, track } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import List from 'in-components/TopListCard/List';
 import { t } from 'in-i18n';
@@ -85,12 +84,12 @@ export default function TopListCard(props) {
         )}
         {renderWidgetNotSupportedIndicator && (
           <Tooltip content={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}>
-            <IconLink type="lib_help_error_info_outline" className={locals.infoIconWithoutPadding} />
+            <IconButton type="lib_help_error_info_outline" className={locals.infoIconWithoutPadding} />
           </Tooltip>
         )}
         {helpInfo && (
           <Tooltip content={helpInfo}>
-            <IconLink type="lib_help_error_info_outline" className={locals.infoIconWithoutPadding} />
+            <IconButton type="lib_help_error_info_outline" className={locals.infoIconWithoutPadding} />
           </Tooltip>
         )}
       </>

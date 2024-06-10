@@ -15,6 +15,7 @@ import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/Simpl
 import { NewPerspectiveFormStepOne } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveFormStepOne';
 import { NewPerspectiveFormStepTwo } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveFormStepTwo';
 import createNewPerspectiveForm from 'in-bizops/lists/businessPerspectives/creation/createNewPerspectiveForm';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getBusinessProcesses from 'in-bizops/subscriptions/getBusinessProcesses';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
@@ -22,6 +23,7 @@ import { createBusinessPerspective } from 'in-bizops/api/perspectives';
 import { close } from 'in-components/DialogPresenter/store';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { PerspectiveItem } from 'in-bizops/types';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
@@ -114,21 +116,11 @@ function getProcessesLiveList(form: MapForm<any>, timeConfig: TimeConfig) {
   return getBusinessProcesses(BusinessDataQuery);
 }
 
-interface requestBody {
-  label: string;
-  description: string;
-  tagFilterExpression: TagFilterExpression;
-}
-
 function onCreate(form: MapForm<any>) {
-  const requestBody: requestBody = {
+  const requestBody: PerspectiveItem = {
     label: form.get('perspectiveName').value,
     description: form.get('perspectiveDescription').value,
-    tagFilterExpression: {
-      type: 'EXPRESSION',
-      logicalOperator: 'AND',
-      elements: form.get('tagFilterExpression').value
-    }
+    tagFilterExpression: toBackendQueryModel(form.get('tagFilterExpression').value)
   };
   createBusinessPerspective(requestBody).once(onSuccess, onError);
 }

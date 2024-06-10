@@ -56,6 +56,12 @@ import {
   useLinkToAnalyze as useLinkToApplicationAnalyze
 } from 'in-applications/navigation/paths';
 import {
+  bizopsPerspectivesEnabled,
+  playwithEnabled,
+  playWithReleaseEnabled,
+  welcomePageV2Enabled
+} from 'in-services/featureFlags';
+import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
@@ -80,8 +86,8 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 // @ts-expect-error no declaration file
 import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
-import { playwithEnabled, playWithReleaseEnabled, welcomePageV2Enabled } from 'in-services/featureFlags';
 import { isAnalyzeView as isLogsAnalyzeView, logsPathWithDataSource } from 'in-logging/navigation/paths';
+import { isBizOpsView, businessPerspectivesPath, businessProcessPath } from 'in-bizops/navigation/paths';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
@@ -92,7 +98,6 @@ import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureF
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import { isBizOpsView, businessProcessPath } from 'in-bizops/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
@@ -202,15 +207,27 @@ function BizOps() {
   if (!hasBizOpsAccess) {
     return null;
   }
-  return (
-    <MenuItem
-      id="main-nav-bizops"
-      label={t('in-bizops:navigation.businessMonitoring')}
-      icon="lib_bizops"
-      isActive={matchLocation(isBizOpsView)}
-      href={createHrefToPath(businessProcessPath)}
-    />
-  );
+  if (bizopsPerspectivesEnabled) {
+    return (
+      <MenuItem
+        id="main-nav-bizops"
+        label={t('in-bizops:navigation.businessMonitoring')}
+        icon="lib_bizops"
+        isActive={matchLocation(isBizOpsView)}
+        href={createHrefToPath(businessPerspectivesPath)}
+      />
+    );
+  } else {
+    return (
+      <MenuItem
+        id="main-nav-bizops"
+        label={t('in-bizops:navigation.businessMonitoring')}
+        icon="lib_bizops"
+        isActive={matchLocation(isBizOpsView)}
+        href={createHrefToPath(businessProcessPath)}
+      />
+    );
+  }
 }
 
 function Applications() {

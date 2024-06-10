@@ -29,6 +29,7 @@ interface ManualCloseIssueConfigFormProps {
   problem: string;
   description?: string;
   iconComponent?: React.ReactNode;
+  eventType?: string;
 }
 
 export default function ManualCloseIssueConfigForm({
@@ -37,7 +38,8 @@ export default function ManualCloseIssueConfigForm({
   onClose = close,
   event,
   description,
-  iconComponent
+  iconComponent,
+  eventType
 }: ManualCloseIssueConfigFormProps) {
   const [form, setForm] = useState<MapForm<ManualCloseInfoForm>>(createForm());
   const [error, setError] = useState<Error[]>([]);
@@ -46,10 +48,13 @@ export default function ManualCloseIssueConfigForm({
 
   if (!form) return <LoadingIndicator size="regular" />;
 
+  const buttonText =
+    eventType === 'incident' ? t('in-events:closeEventDialog.closeIncident') : t('in-events:closeIssue');
+
   const footer = (
     <DialogFooter
       form={form}
-      primaryActionText={t('in-events:closeIssue')}
+      primaryActionText={buttonText}
       primaryActionDisabled={!form.hierarchyValid}
       secondaryActionText={t('in-components:blueprintFormMultistep.buttonCancel')}
       onSecondaryActionClick={onClose}
@@ -80,9 +85,12 @@ export default function ManualCloseIssueConfigForm({
     setForm(form.updateIn(path, item => (item as Field<any>).setValue(value).setTouched(true)));
   };
 
+  const dialogTitle =
+    eventType === 'incident' ? t('in-events:titleManualCloseIncident') : t('in-events:titleManualCloseIssue');
+
   return (
     <form onSubmit={onSubmit}>
-      <DialogWithSlideInView title={t('in-events:titleManualCloseIssue')} footer={footer} onClose={onClose}>
+      <DialogWithSlideInView title={dialogTitle} footer={footer} onClose={onClose}>
         <div className={locals.dialog}>
           <Stack>
             <ErroneousResultPresenter errors={error} />
@@ -104,13 +112,13 @@ export default function ManualCloseIssueConfigForm({
             </Stack>
             <Stack gap="xxsmall">
               <Typography variant="body-small">
-                {t('in-events:closeIssueDialog.comments')}
+                {t('in-events:closeEventDialog.comments')}
                 <span className={locals.red}>*</span>
               </Typography>
 
               <FormTextArea
                 className={locals.commentsTextArea}
-                placeholder={t('in-events:closeIssueDialog.reason')}
+                placeholder={t('in-events:closeEventDialog.reason')}
                 onChange={e => {
                   if (e.target) {
                     const target = e.target as HTMLTextAreaElement;
@@ -120,8 +128,8 @@ export default function ManualCloseIssueConfigForm({
               />
             </Stack>
 
-            <Message type="warning" className={locals.warningBox}>
-              {t('in-events:closeIssueDialog.warning')}
+            <Message type="warning" className={locals.warningBox} withIcon>
+              {t('in-events:closeEventDialog.warning')}
             </Message>
           </Stack>
         </div>

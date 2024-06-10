@@ -7,7 +7,7 @@ import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { Stack, Spacer, Toggle, Typography, SvgIcon } from '@instana/components';
+import { Stack, Spacer, Toggle, SvgIcon } from '@instana/components';
 
 import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput
@@ -19,6 +19,7 @@ import ScopeMigrationMessage from 'in-alerting/smart-alerts/applications/scopeCo
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -71,11 +72,11 @@ export default function ScopeConfig({
       {tearSheetView && (
         <>
           <div className={locals.grid}>
-            <Typography variant="heading-100" noMargin>
-              <span className={locals.color900}>
-                {t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigSubTitle')}
-              </span>
-            </Typography>
+            <AlertTypography
+              variant="heading-100"
+              color="color900"
+              content={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigSubTitle')}
+            />
             <LightCardHeaderControls
               filterBySelectionState={filterBySelectionState}
               setSearchQuery={setSearchQuery}
@@ -83,7 +84,7 @@ export default function ScopeConfig({
               tearSheetView={tearSheetView}
             />
           </div>
-          <div className={locals.scopeMargin} />
+          <Spacer vertical="normal" />
         </>
       )}
       <ExpandableLightCard
@@ -102,14 +103,13 @@ export default function ScopeConfig({
             <SectionLabelWithSubtext>
               <div className={locals.subtitle}>
                 <SvgIcon type={'lib_application'} className={locals.icon} />
-
-                <Typography variant="heading-100" noMargin>
-                  <span className={locals.color900}>
-                    {t(
-                      'in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleWithApplicationsForTearsheet'
-                    )}
-                  </span>
-                </Typography>
+                <AlertTypography
+                  variant="heading-100"
+                  color="color900"
+                  content={t(
+                    'in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleWithApplicationsForTearsheet'
+                  )}
+                />
               </div>
             </SectionLabelWithSubtext>
           )
@@ -175,18 +175,19 @@ export default function ScopeConfig({
               >
                 {tearSheetView && (
                   <>
-                    <div className={locals.topGap} />
-                    <Typography variant="heading-200" noMargin>
-                      <span className={locals.color900}>
-                        {t('in-alerting:smartAlerts.components.smartAlertDialog.scopeFilterCallsTitle')}{' '}
-                      </span>
-                    </Typography>
-                    <Typography variant="body-small" noMargin>
-                      <span className={locals.color600}>
-                        {t('in-alerting:smartAlerts.components.smartAlertDialog.scopeFilterCallsDescription')}
-                      </span>
-                    </Typography>
-                    <div className={locals.scopeMargin} />
+                    <Spacer vertical="normal" />
+                    <AlertTypography
+                      variant="heading-200"
+                      color="color900"
+                      content={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeFilterCallsTitle')}
+                    />
+                    <AlertTypography
+                      variant="body-small"
+                      color="color600"
+                      content={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeFilterCallsDescription')}
+                    />
+
+                    <Spacer vertical="normal" />
                   </>
                 )}
                 <AlertFilterConfigurator QueryBuilderComponent={QueryBuilder} form={form} updateForm={updateForm} />
@@ -212,17 +213,17 @@ function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFi
     <HorizontalFlexWrapper className={locals.alignRight}>
       <HorizontalFlexWrapper>
         {tearSheetView ? (
-          <Typography variant="body-small" noMargin>
-            <span className={locals.color700}>
-              {t('in-alerting:smartAlerts.components.smartAlertDialog.sortBySelectionLabel')}
-            </span>
-          </Typography>
+          <AlertTypography
+            variant="body-small"
+            color="color700"
+            content={t('in-alerting:smartAlerts.components.smartAlertDialog.sortBySelectionLabel')}
+          />
         ) : (
           <div className={locals.lightCardHeaderControlsSelectionTitle}>
             {t('in-alerting:smartAlerts.components.smartAlertDialog.sortByUserSelectionLabel')}
           </div>
         )}
-        <Spacer horizontal="xxsmall" />
+        <Spacer horizontal="xsmall" />
         <Toggle
           className={locals.toggleDialogUsage}
           checked={filterBySelectionState}
@@ -230,7 +231,7 @@ function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFi
             setFilterBySelectionState(_showInteractedItemsOnly => !_showInteractedItemsOnly);
           }}
         />
-        {!tearSheetView && <Spacer horizontal="xxsmall" />}
+        {!tearSheetView && <Spacer horizontal="xsmall" />}
       </HorizontalFlexWrapper>
       <div className={locals.lightCardHeaderControlsSearchInputWrapper}>
         <ServicesAndEndpointsSearchInput onChange={query => setSearchQuery(query)} />

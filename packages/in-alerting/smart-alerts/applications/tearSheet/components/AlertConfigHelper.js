@@ -7,6 +7,7 @@
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
@@ -109,4 +110,36 @@ export function generateAlertConfig(
     includeSynthetic,
     applications: applicationId && getEntitySelection(applicationId, serviceId, endpointId)
   };
+}
+
+export function getApplicationAlertConfig(
+  migrationMode,
+  isGlobalSmartAlert,
+  editMode,
+  duplicateMode,
+  alertConfig,
+  migrateAlertConfig,
+  potentialProblemMode,
+  applicationId,
+  boundaryScope,
+  serviceId,
+  endpointId
+) {
+  if (editMode) {
+    return alertConfig;
+  } else if (migrationMode) {
+    return migrateAlertConfig;
+  } else if (potentialProblemMode) {
+    return getPotentialProblemConfig();
+  } else if (duplicateMode) {
+    return alertConfig && duplicateAlertConfig(alertConfig);
+  } else {
+    return generateAlertConfig(isGlobalSmartAlert, applicationId, boundaryScope, serviceId, endpointId);
+  }
+}
+
+function getPotentialProblemConfig() {
+  const config = JSON.parse(localStorage.getItem('potentialProblemConfig'));
+  localStorage.removeItem('potentialProblemConfig');
+  return config;
 }

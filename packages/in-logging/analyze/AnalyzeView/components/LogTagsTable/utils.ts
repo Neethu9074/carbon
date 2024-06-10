@@ -19,6 +19,7 @@ import {
   ID_PROCESS,
   kubernetesTags,
   LOG_CUSTOM,
+  LOG_RETENTION_TIME,
   LOG_SERVICE_NAME,
   PROCESS_ID,
   restrictedTags
@@ -62,7 +63,10 @@ export const groupAndSortTags = (tags: LogTag[]): GroupedTags => {
       (groupedTags.infrastructure as LogTag[]).push(tag);
       return;
     } else {
-      groupedTags.other.push(tag);
+      if (tag.name === LOG_RETENTION_TIME) groupedTags.other.unshift(tag);
+      else {
+        groupedTags.other.push(tag);
+      }
       return;
     }
   });

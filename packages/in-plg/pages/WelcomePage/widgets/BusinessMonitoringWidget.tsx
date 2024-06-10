@@ -8,7 +8,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { BusinessDataQuery, BusinessProcessItem, Result, TagFilterExpression, TimeConfig } from '@instana/types';
-import { Link, Stack, SvgIcon, Typography } from '@instana/components';
+import { Link, Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error Module needs to be translated to TS
@@ -23,8 +23,8 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
 import { Location } from 'in-stores/navigation/types';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -105,6 +105,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.bizopsWidget.count'),
         key: 'count'
+      },
+      {
+        header: t('in-plg:welcomepage.component.bizopsWidget.health'),
+        key: 'health'
       }
     ];
   };
@@ -124,13 +128,7 @@ export default connectTo(() => ({
     {
       key: 'name',
       getContent({ item }) {
-        return (
-          <Stack direction="horizontal" align="center">
-            <HealthDot severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)} iconSize={10} />
-            <SvgIcon type="lib_bizops" color="var(--ids-color-option-neutral-700)" />
-            <Link href={getItemLink(item, location, createHref)}>{item?.businessProcess?.definitionName}</Link>
-          </Stack>
-        );
+        return <Link href={getItemLink(item, location, createHref)}>{item?.businessProcess?.definitionName}</Link>;
       }
     },
     {
@@ -160,6 +158,12 @@ export default connectTo(() => ({
             tooltipFormatter={number.compact}
           />
         );
+      }
+    },
+    {
+      key: 'health',
+      getContent({ item }) {
+        return <HealthIcon severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)} iconSize="xs" />;
       }
     }
   ];

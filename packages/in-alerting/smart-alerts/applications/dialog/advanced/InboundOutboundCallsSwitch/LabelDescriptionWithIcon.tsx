@@ -6,7 +6,9 @@
 
 import React from 'react';
 
-import { SvgIcon, Typography } from '@instana/components';
+import { Spacer, SvgIcon } from '@instana/components';
+
+import AlertTypography from 'in-alerting/components/AlertTypography';
 
 import locals from './LabelDescriptionWithIcon.mless';
 
@@ -15,14 +17,9 @@ export default function LabelDescriptionWithIcon(icon: string, label: string, de
     <div className={locals.wrapper}>
       <SvgIcon type={icon} className={locals.icon} />
       <div className={locals.content}>
-        <Typography variant="body-bold" noMargin>
-          <span className={locals.color900}>{label}</span>
-        </Typography>
-        <div className={locals.description}>
-          <Typography variant="body-small" noMargin>
-            <span className={locals.color600}>{description}</span>
-          </Typography>
-        </div>
+        <AlertTypography variant="body-bold" color="color900" content={label} />
+        <Spacer vertical="xsmall" />
+        <AlertTypography variant="body-small" color="color600" content={description} />
       </div>
     </div>
   );

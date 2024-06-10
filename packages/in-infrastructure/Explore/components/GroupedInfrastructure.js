@@ -14,7 +14,8 @@ import {
   LiLoadingSkeleton,
   LiLoadMore,
   SvgIcon,
-  Ul
+  Ul,
+  IconButton
 } from '@instana/components';
 import { just } from '@instana/observables';
 
@@ -48,7 +49,6 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getFormatter } from 'in-stores/metric/formatters';
-import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -426,7 +426,7 @@ function columns({
     getContent({ group }) {
       return (
         <Tooltip content={t('in-infrastructure:explore.focusOnThisGroup')}>
-          <IconLink
+          <IconButton
             type="lib_actions_filter"
             href={getLinkToInfraEntityExplore(getParamsForGroup(group))}
             onClick={() => onFocusOnGroup?.(group)}

@@ -22,9 +22,17 @@ type ManualCloseIssueButtonProps = {
   event: EventOrMap;
   reload: () => void;
   iconComponent?: React.ReactNode;
+  buttonKind?: any;
+  eventType?: string;
 };
 
-export default function ManualCloseIssueButton({ event, iconComponent, reload }: ManualCloseIssueButtonProps) {
+export default function ManualCloseIssueButton({
+  event,
+  iconComponent,
+  reload,
+  buttonKind = 'secondary',
+  eventType
+}: ManualCloseIssueButtonProps) {
   const [manuallyClosed, setManuallyClosed] = useState<boolean>(false);
   const [eventIDForAfterManualCheck, setEventIDForAfterManualCheck] = useState<string>('');
 
@@ -77,6 +85,7 @@ export default function ManualCloseIssueButton({ event, iconComponent, reload }:
         problem={problemText || ''}
         description={fixSuggestion || ''}
         iconComponent={iconComponent}
+        eventType={eventType}
       />
     );
   };
@@ -85,13 +94,15 @@ export default function ManualCloseIssueButton({ event, iconComponent, reload }:
 
   return (
     <Button
-      kind="secondary"
+      kind={buttonKind}
       onClick={handleCloseIssue}
       disabled={isManuallyClosedButtonDisabled}
       icon="lib_openclose_cancel"
       iconSize="xs"
     >
-      {t('in-events:closeIssueDialog.closeIssue')}
+      {eventType === 'incident'
+        ? t('in-events:closeEventDialog.closeIncident')
+        : t('in-events:closeEventDialog.closeIssue')}
     </Button>
   );
 }
