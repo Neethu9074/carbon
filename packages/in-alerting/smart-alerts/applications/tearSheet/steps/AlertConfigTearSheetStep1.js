@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Typography } from '@instana/components';
+import { Spacer } from '@instana/components';
 
 import SelectedBlueprintPresenter from 'in-alerting/smart-alerts/components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import ProvideLogMessage from 'in-alerting/smart-alerts/applications/tearSheet/components/LogMessages/ProvideLogMessage';
@@ -18,6 +18,7 @@ import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/Al
 import { blueprintConfigs } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import Menu from 'in-alerting/smart-alerts/components/Menu';
 import { t } from 'in-i18n';
 
@@ -45,12 +46,13 @@ export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintC
           alertType={alertType}
           renderLogs={() => (
             <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta}>
-              <div className={locals.oneGap} />
+              <Spacer vertical="normal" />
               <ExpandableLightCard
                 title={
-                  <Typography variant="heading-100" noMargin>
-                    {t('in-alerting:smartAlerts.applications.logMessages.messageColumn')}
-                  </Typography>
+                  <AlertTypography
+                    variant="heading-100"
+                    content={t('in-alerting:smartAlerts.applications.logMessages.messageColumn')}
+                  />
                 }
                 useMaxAvailableHeight={false}
                 openByDefault

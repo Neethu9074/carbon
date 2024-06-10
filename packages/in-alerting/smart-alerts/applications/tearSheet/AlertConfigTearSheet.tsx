@@ -30,7 +30,6 @@ import useGetMigrationAlertConfig from 'in-alerting/smart-alerts/applications/ho
 import AlertingPageHeader from 'in-alerting/smart-alerts/components/pageHeaderTemplate/AlertingPageHeader';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import useGetSmartAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetSmartAlertConfig';
-import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
@@ -45,7 +44,7 @@ import { t } from 'in-i18n';
 const logger = createLogger('in-alerting/smart-alerts/applications/dialog/AlertConfigDialogWithThreshold');
 const initialChartConfigIndex = 0;
 
-const { fromAlertConfig, getHeaderTitle, toAlertConfig, generateAlertConfig } = HelperFunction;
+const { fromAlertConfig, getHeaderTitle, toAlertConfig, getApplicationAlertConfig } = HelperFunction;
 
 export default function AlertConfigTearSheet() {
   const {
@@ -62,6 +61,7 @@ export default function AlertConfigTearSheet() {
     endpointId,
     eventSpecificationId
   } = useAlertingUrlParameters();
+
   const { scopeMigrationDetails, migrateAlertConfig } = useGetMigrationAlertConfig(
     eventSpecificationId,
     migrationMode,
@@ -77,15 +77,19 @@ export default function AlertConfigTearSheet() {
     duplicateMode
   );
 
-  const applicationSmartAlertConfig = editMode
-    ? alertConfig
-    : migrationMode
-    ? migrateAlertConfig
-    : potentialProblemMode
-    ? getPotentialPropbelmConfig()
-    : duplicateMode
-    ? alertConfig && duplicateAlertConfig(alertConfig)
-    : generateAlertConfig(isGlobalSmartAlert, applicationId, boundaryScope, serviceId, endpointId);
+  const applicationSmartAlertConfig = getApplicationAlertConfig(
+    migrationMode,
+    isGlobalSmartAlert,
+    editMode,
+    duplicateMode,
+    alertConfig,
+    migrateAlertConfig,
+    potentialProblemMode,
+    applicationId,
+    boundaryScope,
+    serviceId,
+    endpointId
+  );
 
   if (alertConfigErrors?.length) {
     return <ErroneousResultPresenter errors={[...alertConfigErrors]} />;
@@ -220,12 +224,6 @@ function AlertConfigTearSheetContent({ alertConfig, scopeMigrationDetails }: Ale
       />
     </>
   );
-}
-
-function getPotentialPropbelmConfig() {
-  const config = JSON.parse(localStorage.getItem('potentialProblemConfig') as string);
-  localStorage.removeItem('potentialProblemConfig');
-  return config;
 }
 
 interface createOrSaveAlertProps {

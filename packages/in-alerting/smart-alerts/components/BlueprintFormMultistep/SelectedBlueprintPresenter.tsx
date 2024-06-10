@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { Spacer } from '@instana/components';
+
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 
@@ -21,13 +23,27 @@ interface Props {
 export default function SelectedBlueprintPresenter({ title, description, isBeta, children }: Props) {
   return (
     <div>
-      <AlertTypography variant={'heading-200'} color={'color900'} content={title} noMargin>
-        {isBeta && <BetaBadge />}
-      </AlertTypography>
-      <div className={locals.gap} />
-      <AlertTypography variant={'body-large'} color={'color600'} content={description} noMargin>
-        {isBeta && <BetaBadge />}
-      </AlertTypography>
+      <span className={locals.inline}>
+        <AlertTypography variant={'heading-200'} color={'color900'} content={title} noMargin>
+          {isBeta && (
+            <>
+              <Spacer horizontal="small" />
+              <BetaBadge />
+            </>
+          )}
+        </AlertTypography>
+      </span>
+      <Spacer vertical="normal" />
+      <span className={locals.inline}>
+        <AlertTypography variant={'body-large'} color={'color600'} content={description} noMargin>
+          {isBeta && (
+            <>
+              <Spacer horizontal="small" />
+              <BetaBadge />
+            </>
+          )}
+        </AlertTypography>
+      </span>
       {children}
     </div>
   );
