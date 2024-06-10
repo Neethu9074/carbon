@@ -10,6 +10,7 @@ import { Card } from '@instana/components';
 
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
+import Renderer from 'in-components/Chart/renderer/Renderer';
 import UsageChart from 'in-amp/components/UsageChart';
 import { Row, Col } from 'in-components/layout/Grid';
 import { carbonAlert } from 'in-themes/chartColors';
@@ -97,6 +98,43 @@ export default function UsageCharts({
                     metrics: ['syntheticstotal'],
                     labels: [t('in-amp:components.usageCharts.consumedUnits')],
                     colors: ['#17A1E6']
+                  }}
+                />
+              </Card>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col xs={12}>
+              <Card>
+                <SubViewHeader>
+                  Data Injested
+                  <Tooltip content={t('in-amp:components.usageCharts.helperText')} align="rightMiddle">
+                    <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
+                  </Tooltip>
+                </SubViewHeader>
+                <UsageChart
+                  windowSize={windowSize}
+                  showAggregatedMetrics={showAggregatedMetrics}
+                  y1={{
+                    ...tenantUnit,
+                    renderer: Renderer.stackedArea,
+                    metrics: ['licensed_data', 'data_ingested_total'],
+                    labels: ['Entitled', 'total'],
+                    colors: [carbonAlert.red60, carbonAlert.blue70]
+                  }}
+                  y2={{
+                    ...tenantUnit,
+                    renderer: Renderer.stackedArea,
+                    metrics: [
+                      'bytes_ingested_infrastructure',
+                      'bytes_ingested_traces',
+                      'bytes_ingested_synthetics',
+                      'bytes_ingested_eum_mobile',
+                      'bytes_ingested_eum_website'
+                    ],
+                    labels: ['infrastructure', 'traces', 'synthetics', 'eum mobile', 'eum website'],
+                    colors: ['#17A1E6', '', '', '']
                   }}
                 />
               </Card>
