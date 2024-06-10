@@ -11,8 +11,8 @@ import { Typography } from '@instana/components';
 import SimpleAIDialog from 'in-automation/AutomationCard/GenerateAIDialog/SimpleAIDialog';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
+import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { close } from 'in-components/DialogPresenter/store';
-import AISlug from 'in-automation/components/AISlug';
 import { ScoredAction } from 'in-automation/api';
 import { Event, Result } from 'in-types';
 import { t } from 'in-i18n';
@@ -33,7 +33,7 @@ const SelectAIActionsDialogPresenter = ({ aiRecommendedScoredActions, event, set
       title={
         <div className={locals.heading}>
           <Typography variant="heading-400">{t('in-automation:generateWithAI')}</Typography>
-          <AISlug />
+          <AISlugIcon />
         </div>
       }
       onClose={close}
