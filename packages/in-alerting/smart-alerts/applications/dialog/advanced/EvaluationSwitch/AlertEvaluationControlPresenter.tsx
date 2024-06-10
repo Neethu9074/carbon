@@ -6,13 +6,13 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { RadioButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { Spacer } from '@instana/components';
 
 import LabelDescriptionWithIcon from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/LabelDescriptionWithIcon';
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { AlertEvaluationType } from 'in-types';
 import Tooltip from 'in-components/Tooltip';
@@ -48,7 +48,7 @@ export function AlertEvaluationControlPresenter({
   }
 
   const Checkbox = ({ type, disabled }: { type: AlertEvaluationType; disabled?: boolean }) => (
-    <CheckboxFancy
+    <RadioButton
       key={type}
       disabled={disabled}
       label={
@@ -56,7 +56,6 @@ export function AlertEvaluationControlPresenter({
       }
       checked={type === evaluationType}
       onChange={() => setEvaluationType(type)}
-      asRadioButton
     />
   );
 

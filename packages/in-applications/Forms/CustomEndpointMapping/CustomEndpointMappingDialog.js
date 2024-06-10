@@ -7,7 +7,7 @@ import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { Typography } from '@instana/components';
+import { Typography, RadioButton } from '@instana/components';
 import { just } from '@instana/observables';
 import { Button } from '@instana/legacy';
 
@@ -35,7 +35,6 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';
@@ -164,7 +163,7 @@ export default function CustomEndpointMappingDialog({ location }) {
               />
               <div className={locals.endpointCaseContainer}>
                 <Typography variant="heading-200">{t('in-applications:forms.endpointNameCaseSensitivity')}</Typography>
-                <CheckboxFancy
+                <RadioButton
                   size={'large'}
                   label={t('in-applications:forms.titleKeepTheOriginalCase')}
                   explanation={
@@ -179,9 +178,8 @@ export default function CustomEndpointMappingDialog({ location }) {
                   }}
                   className={locals.radioButton}
                   wrapperClassName={locals.wrapperClassName}
-                  asRadioButton
                 />
-                <CheckboxFancy
+                <RadioButton
                   size={'large'}
                   label={t('in-applications:forms.titleConvertToLowercase')}
                   explanation={
@@ -196,9 +194,8 @@ export default function CustomEndpointMappingDialog({ location }) {
                   }}
                   className={locals.radioButton}
                   wrapperClassName={locals.wrapperClassName}
-                  asRadioButton
                 />
-                <CheckboxFancy
+                <RadioButton
                   size={'large'}
                   label={t('in-applications:forms.titleConvertToUppercase')}
                   explanation={
@@ -213,7 +210,6 @@ export default function CustomEndpointMappingDialog({ location }) {
                   }}
                   className={locals.radioButton}
                   wrapperClassName={locals.wrapperClassName}
-                  asRadioButton
                 />
               </div>
 

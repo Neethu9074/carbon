@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, Typography } from '@instana/components';
+import { KeyValue, Stack, Typography, RadioButton } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
@@ -19,7 +19,6 @@ import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import { shareAndInviteEnabled } from 'in-services/featureFlags';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
 
 const agentModeOptions = ['dynamic', 'static'];
@@ -44,19 +43,17 @@ interface PackagingProps {
 function Packaging({ agentMode, agentModeOptions, setAgentMode }: PackagingProps) {
   return (
     <Stack direction="horizontal">
-      <CheckboxFancy
+      <RadioButton
         label={t('in-plg:agentDetails.agentMode.dynamic')}
         checked={agentMode === agentModeOptions[0]}
         onChange={() => setAgentMode(agentModeOptions[0])}
         size="default"
-        asRadioButton
       />
-      <CheckboxFancy
+      <RadioButton
         label={t('in-plg:agentDetails.agentMode.static')}
         checked={agentMode === agentModeOptions[1]}
         onChange={() => setAgentMode(agentModeOptions[1])}
         size="default"
-        asRadioButton
       />
     </Stack>
   );

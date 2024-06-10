@@ -3,6 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { CheckboxFancy } from '@instana/components';
+import { Checkbox } from '@instana/components';
 
-export default CheckboxFancy;
+export default Checkbox;

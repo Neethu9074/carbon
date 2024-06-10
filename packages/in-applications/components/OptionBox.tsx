@@ -6,8 +6,9 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, RadioButton } from '@instana/components';
 
+import { carbonRadioButtonEnabled } from 'in-services/featureFlags';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import FeatureFeedback from 'in-components/FeatureFeedback';
 
@@ -42,7 +43,7 @@ const OptionBoxWithRef = forwardRef(function OptionBox(
 ) {
   const labelContent = (
     <>
-      <SvgIcon type={icon} className={locals.icon} />
+      {(!carbonRadioButtonEnabled || !asRadioButton || icon) && <SvgIcon type={icon} className={locals.icon} />}
       <div className={locals.content}>
         <div className={locals.title}>{title}</div>
         <div className={locals.description}>
@@ -57,9 +58,10 @@ const OptionBoxWithRef = forwardRef(function OptionBox(
     </>
   );
 
+  const BoxComponent = asRadioButton ? RadioButton : CheckboxFancy;
   return (
     <div className={classNames(className, locals.wrapper)} ref={ref}>
-      <CheckboxFancy
+      <BoxComponent
         label={labelContent}
         asRadioButton={asRadioButton}
         checked={checked}

@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 
 import { Link, Spacer, Stack, Typography, IconButton } from '@instana/components';
-import { TextArea } from '@instana/components';
+import { TextArea, RadioButton } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {
@@ -680,9 +680,7 @@ function SelectTriggerDialog({
       id: 'select',
       label: '',
       width: 5,
-      getContent: item => (
-        <CheckboxFancy label="" asRadioButton checked={item.id === selectedId} onChange={() => onChange(item)} />
-      )
+      getContent: item => <RadioButton label="" checked={item.id === selectedId} onChange={() => onChange(item)} />
     },
     triggerNameColumn,
     triggerDescriptionColumn
@@ -958,9 +956,7 @@ function SelectActionDialog({
       id: 'select',
       label: '',
       width: 5,
-      getContent: item => (
-        <CheckboxFancy label="" asRadioButton checked={item.id === selectedId} onChange={() => onChange(item)} />
-      )
+      getContent: item => <RadioButton label="" checked={item.id === selectedId} onChange={() => onChange(item)} />
     },
     nameColumn,
     descriptionColumn,

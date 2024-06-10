@@ -517,7 +517,12 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'carbonRadioButtonEnabled',
-    instanaCtlKey: 'feature.carbon.message.enabled',
+    instanaCtlKey: 'feature.carbon.radiobutton.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonCheckboxEnabled',
+    instanaCtlKey: 'feature.carbon.checkbox.enabled',
     defaultValue: false
   },
   {

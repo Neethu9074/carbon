@@ -6,12 +6,13 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { RadioButton } from '@instana/components';
+
 import {
   boundaryScopes,
   tearSheetBoundaryScopes
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/config';
 import LabelDescriptionWithIcon from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/LabelDescriptionWithIcon';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import OptionBox from 'in-applications/components/OptionBox';
 import { BoundaryScope } from 'in-types';
 
@@ -34,12 +35,11 @@ export default function InboundOrAllCallsOption({
   return (
     <>
       {tearSheetView && (
-        <CheckboxFancy
+        <RadioButton
           key={text}
           label={<LabelDescriptionWithIcon icon={icon} label={text} description={dashboard} />}
           checked={scope === boundaryScope}
           onChange={() => onBoundaryStateChange({ boundaryScope: scope })}
-          asRadioButton
         />
       )}
       {!tearSheetView && (

@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 
 import { Parameter, DynamicFieldValue } from '@instana/types';
 import { generateUniqueShortId } from '@instana/utils';
+import { RadioButton } from '@instana/components';
 
 import {
   ViewModel,
@@ -192,8 +193,7 @@ const MetaDataSection = ({
         <Label htmlFor="parameter-type">{t('in-automation:ActionCatalog.valueType')}</Label>
         <Row withoutSideMargin>
           <Col>
-            <CheckboxFancy
-              asRadioButton
+            <RadioButton
               checked={type.value === 'static'}
               disabled={isNotEditable}
               label={t('in-automation:static')}
@@ -209,8 +209,7 @@ const MetaDataSection = ({
             />
           </Col>
           <Col>
-            <CheckboxFancy
-              asRadioButton
+            <RadioButton
               checked={type.value === 'vault'}
               disabled={isNotEditable}
               label={t('in-automation:vault')}
@@ -226,8 +225,7 @@ const MetaDataSection = ({
             />
           </Col>
           <Col>
-            <CheckboxFancy
-              asRadioButton
+            <RadioButton
               checked={type.value === 'dynamic'}
               disabled={isNotEditable}
               label={t('in-automation:dynamic')}
