@@ -11,9 +11,9 @@ import { BusinessPerspectiveItem, TimeConfig } from '@instana/types';
 
 // @ts-expect-error Module needs to be translated to TS
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 // @ts-expect-error Could not find declaration type
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { businessPerspectiveDashboard, summaryTab } from 'in-bizops/navigation/paths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';

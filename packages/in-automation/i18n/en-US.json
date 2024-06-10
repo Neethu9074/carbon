@@ -93,6 +93,7 @@
   "actionsWithCount": "Actions ({{count}})",
   "titleUrl": "URL",
   "generateWithAI": "Generate with AI",
+  "AISlugContent": "AI was used to generate this content",
   "createPolicyWithName": "View action {{actionName}} and create policy",
   "viewActionCreatePolicy": "View action and create policy",
   "simpleAIDialog": {
