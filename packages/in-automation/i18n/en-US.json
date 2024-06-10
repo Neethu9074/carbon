@@ -233,6 +233,7 @@
   },
   "actionHistory": {
     "actionHistory": "Action History",
+    "goToActionHistory": "Go to Action History",
     "actionHistoryWithCount": "Action History ({{count}})",
     "noActionInstances": "No data available",
     "external": "External",

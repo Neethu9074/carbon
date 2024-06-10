@@ -606,7 +606,7 @@ function RunActionFooter({
             close();
           }}
         >
-          {t('in-automation:actionHistory.actionHistory')}
+          {t('in-automation:actionHistory.goToActionHistory')}
         </Button>
       </>
     );
