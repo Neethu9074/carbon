@@ -5,6 +5,11 @@
  */
 
 :local {
+  .bizops_ellipses {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
   .tracker {
     display: inline-block;
   }
