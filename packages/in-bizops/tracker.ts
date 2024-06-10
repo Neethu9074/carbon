@@ -13,7 +13,8 @@ import {
   BIZOPS_PROCESS_ACTIVITIES_ALL_CLICK,
   BIZOPS_PROCESS_ACTIVITIES_SELECT,
   BIZOPS_PROCESS_ACTIVITY_TABS_CLICK,
-  BIZOPS_PROCESS_ACTIVITY_PROCESS_CONTEXT_CLICK
+  BIZOPS_PROCESS_ACTIVITY_PROCESS_CONTEXT_CLICK,
+  BIZOPS_PERSPECTIVE_LIST_SELECT
 } from 'in-services/tracking/tracking';
 
 interface TabTrackerProps {
@@ -31,6 +32,11 @@ interface ActivityTrackerProps {
   activityName: string;
 }
 
+interface PerspectiveTrackingProps {
+  perspectiveId: string;
+  perspectiveName: string;
+}
+
 export const clickBizopsTabsTracker = (e: TabTrackerProps) => track(BIZOPS_TABS_CLICK, e);
 export const selectBizopsListProcessTracker = (e: ProcessTrackerProps) => track(BIZOPS_PROCESSES_LIST_SELECT, e);
 
@@ -46,3 +52,6 @@ export const clickBizopsProcessActivityTabsTracker = (e: TabTrackerProps) =>
   track(BIZOPS_PROCESS_ACTIVITY_TABS_CLICK, e);
 export const clickBizopsActivityProcessContextTracker = (e: ActivityTrackerProps) =>
   track(BIZOPS_PROCESS_ACTIVITY_PROCESS_CONTEXT_CLICK, e);
+
+export const selectBizopsListPerspectiveTracker = (e: PerspectiveTrackingProps) =>
+  track(BIZOPS_PERSPECTIVE_LIST_SELECT, e);

@@ -1,6 +1,7 @@
 {
   "labelBizOps": "Processes",
   "labelPerspectives": "Perspectives",
+  "labelPerspective": "Perspective",
   "components": {
     "count": "Count"
   },
