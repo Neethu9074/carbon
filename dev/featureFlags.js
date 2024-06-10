@@ -44,7 +44,7 @@ module.exports = {
   logWidgetsEnabled: true,
   carbonShellEnabled: true,
   carbonPillEnabled: true,
-  carbonMessageEnabled: false,
+  carbonMessageEnabled: true,
   carbonIconButtonEnabled: true,
   carbonSearchInputEnabled: true,
   carbonMoreMenuEnabled: true,
