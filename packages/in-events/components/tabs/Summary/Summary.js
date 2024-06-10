@@ -170,7 +170,7 @@ const EventContent = connectTo(
     const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
 
     const pillContent = hasManualCloseFields(event) ? (
-      <Pill type="green">{t('in-events:labelClosed')}</Pill>
+      <Pill type="green">{t('in-events:stateManuallyClosed')}</Pill>
     ) : undefined;
 
     return (

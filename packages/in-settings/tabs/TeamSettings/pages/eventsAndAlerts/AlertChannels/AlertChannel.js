@@ -4,8 +4,8 @@
  */
 
 import { createMapForm } from 'formalistic';
-import { fromJS } from 'immutable';
-import React from 'react';
+import { Map, fromJS } from 'immutable';
+import React, { Fragment } from 'react';
 
 import { Card, Link, SvgIcon } from '@instana/components';
 import { themes } from '@instana/design-tokens';
@@ -176,17 +176,44 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
             <Dl>
               {parameters
                 .filter(({ key }) => key !== 'name')
-                .map(({ key, label }) => (
-                  <Di
-                    key={key}
-                    title={label}
-                    rowClassName={locals.row}
-                    ddClassName={locals.rowInnerPadding}
-                    dtClassName={locals.titleRow}
-                  >
-                    {getPropertyValue(entity, key)}
-                  </Di>
-                ))}
+                .map(({ key, label, isNested = false, nestedParamKeys = [] }) =>
+                  !isNested ? (
+                    <Di
+                      key={key}
+                      title={label}
+                      rowClassName={locals.row}
+                      ddClassName={locals.rowInnerPadding}
+                      dtClassName={locals.titleRow}
+                    >
+                      {getPropertyValue(entity, key)}
+                    </Di>
+                  ) : (
+                    nestedParamsHaveAtLeastOneValue(entity, key, nestedParamKeys) && (
+                      <Fragment>
+                        <Di
+                          key={key}
+                          title={label}
+                          rowClassName={locals.row}
+                          ddClassName={locals.rowInnerPadding}
+                          dtClassName={locals.titleRow}
+                        >
+                          {'---OPEN VALUE, CLOSE VALUE---'}
+                        </Di>
+                        {nestedParamKeys.map(param => (
+                          <Di
+                            key={param.key}
+                            title={param.label}
+                            rowClassName={locals.row}
+                            ddClassName={locals.rowInnerPadding}
+                            dtClassName={locals.titleRow}
+                          >
+                            {getPropertyValue(entity.get(key), param.key)}
+                          </Di>
+                        ))}
+                      </Fragment>
+                    )
+                  )
+                )}
             </Dl>
           </Card>
         </Col>
@@ -213,6 +240,23 @@ function getHeader() {
 
 function getEntityName(entity) {
   return entity.label;
+}
+
+function nestedParamsHaveAtLeastOneValue(entity, key, nestedKeys) {
+  if (nestedKeys.length === 0 || !entity.get(key) || entity.get(key)?.size === 0) return false;
+
+  const nestedMap = entity.get(key);
+
+  let hasVal = false;
+
+  nestedKeys.forEach(nestedKey => {
+    if (nestedKey && nestedKey.key && Map.isMap(nestedMap)) {
+      const testText = nestedMap.get(nestedKey.key).join('');
+      if (testText !== '') hasVal = true;
+    }
+  });
+
+  return hasVal;
 }
 
 function getPropertyValue(entity, key) {

@@ -19,13 +19,13 @@ import { t } from 'in-i18n';
 
 import locals from './SelectAIActionsDialogPresenter.mless';
 
-export interface selectProps {
+export interface SelectProps {
   aiRecommendedScoredActions: Result<ScoredAction[]>;
   event: Event;
   setActiveKey: SetActiveKey;
 }
 
-const SelectAIActionsDialogPresenter = ({ aiRecommendedScoredActions, event, setActiveKey }: selectProps) => {
+const SelectAIActionsDialogPresenter = ({ aiRecommendedScoredActions, event, setActiveKey }: SelectProps) => {
   const [selectedAIAction, setSelectedAIAction] = useState<null | ScoredAction>(null);
 
   return (

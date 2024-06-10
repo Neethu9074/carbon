@@ -6,8 +6,7 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Message } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Button, Message } from '@instana/components';
 
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { clickTestAlertChannelTracker } from 'in-settings/tracker';
@@ -90,13 +89,12 @@ export default class extends React.Component {
               this.test(this.props.alertChannel, this.props.form);
             }}
             disabled={!this.props.form.hierarchyValid && this.props.form.touched}
-            className="test_channel_dialog_child"
+            className="test_channel_dialog_child button"
           >
-            {t('in-settings:tabs.testChannel')}
+            {this.props.testAlertChannelLabel || t('in-settings:tabs.testChannel')}
           </Button>
           {this.state.message && !this.state.loading ? (
             <Message
-              withIcon
               type={this.state.errorResponse || this.state.error ? 'error' : 'success'}
               title={this.state.errorResponse || this.state.error ? 'Test Failed' : 'Test Successful'}
               description={
@@ -105,8 +103,7 @@ export default class extends React.Component {
                   : t('in-settings:testAlertChannelSuccess', { channel: this.props.alertChannelLabel })
               }
               className="test_channel_dialog_child"
-              bold
-              small
+              withIcon
             />
           ) : null}
         </Section>

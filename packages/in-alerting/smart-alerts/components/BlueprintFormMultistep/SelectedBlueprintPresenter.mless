@@ -5,7 +5,8 @@
  */
 
 :local {
-  .gap {
-    height: 1rem;
+  .inline {
+    display: flex;
+    align-items: center;
   }
 }

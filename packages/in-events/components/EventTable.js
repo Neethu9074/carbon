@@ -23,13 +23,14 @@ import {
 import { getKubernetesProblemText, getKubernetesProblemTextReplacement } from './EventContent/KubernetesEventContent';
 import { getEventType, EVENT_TYPES, getEvent, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
+import { NotesAndActivity } from 'in-events/components/NotesAndActivity/NotesAndActivity';
+import { eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
-import { eventFeedbackEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { isAppDataEntityType } from 'in-services/entityUtils';
 import { eventStepConfig } from './feedback/eventStepConfig';
@@ -161,7 +162,10 @@ function Header(props) {
       renderIcon={() => renderIcon(props.result.data, props.timeConfig)}
       label={getLabelText(props.result.data)}
       renderMetaInformation={renderMetaInformation}
-      renderTimeSelection={TimeSelection}
+      renderTimeSelection={() => {
+        // Pass in Event to TimeSelection for Notes and Activity usage
+        return <TimeSelection event={props.result.data} />;
+      }}
       hideUrlShortener
     />
   );
@@ -260,8 +264,9 @@ function FeedbackComponents() {
   );
 }
 
-function TimeSelection() {
+function TimeSelection(props) {
   const { location, createHref } = useNavigation();
+  const { event } = props;
 
   setOrDeleteMatrixKey(location, eventsPath, eventId, null);
 
@@ -278,6 +283,7 @@ function TimeSelection() {
           />
         </Tooltip>
       </Link>
+      {notesAndActivityEnabled && <NotesAndActivity event={event} />}
     </Stack>
   );
 }

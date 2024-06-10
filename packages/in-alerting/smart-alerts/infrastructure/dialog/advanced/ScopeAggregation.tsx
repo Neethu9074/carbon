@@ -7,8 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import { MapForm, Field } from 'formalistic';
 
-import { Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Toggle } from '@instana/components';
 
 //@ts-expect-error
 import { getCrossSeriesAggregationTooltip } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/FormComponent';
@@ -91,7 +90,7 @@ export default function ScopeAggregation({ form, updateForm }: ScopeAggregationP
                   id="metric-configurator-cross-series-aggregation"
                   checked={isSumCrossSeriesAggregation}
                   disabled={!isCrossSeriesSumAggregationToggleEnabled}
-                  onChange={handleSumCrossSeriesAggregationChange}
+                  onToggle={handleSumCrossSeriesAggregationChange}
                 />
               </span>
             </Tooltip>

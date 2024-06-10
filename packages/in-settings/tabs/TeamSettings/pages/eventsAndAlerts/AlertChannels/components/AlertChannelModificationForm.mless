@@ -21,4 +21,20 @@
   .documentation a {
     font-weight: bold;
   }
+
+  .advancedCardHeader {
+    cursor: pointer;
+  }
+  .submissionWrapper {
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+  }
+  .settingsPage {
+    min-height: 100vh;
+  }
 }

@@ -546,6 +546,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonDescriptionListEnabled',
+    instanaCtlKey: 'feature.carbon.description.list.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonAccordionEnabled',
     instanaCtlKey: 'feature.carbon.accordion.enabled',
     defaultValue: false
@@ -558,6 +563,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonPaginationEnabled',
     instanaCtlKey: 'feature.carbon.pagination.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'notesAndActivityEnabled',
+    instanaCtlKey: 'feature.incident.notes.enabled',
     defaultValue: false
   },
   {

@@ -77,44 +77,9 @@ export default function SimpleAIDialog({
   });
 
   const handleCreatePolicy = () => {
-    const action = getActionSpecification(form);
-    saveNewAction(action).once(
-      res => {
-        const policyDetails = {
-          name: form.get('policyName').value,
-          description: form.get('policyDescription').value,
-          tags: form.get('policyTags').value.map(tag => tag.value)
-        };
-        const policy = createBasePolicy(event, res, policyDetails);
-
-        saveNewPolicy(policy).once(
-          () => {
-            createPolicyFromAIActionTracker({
-              name: policy.name,
-              triggerName: event.problem?.problemText,
-              actionName: action.name,
-              type: 'manual'
-            });
-            refresh();
-            setActiveKey('automationPolicies');
-            onCreateSuccess(policy.name, res.id);
-          },
-          error => {
-            onCreateFailed(error);
-          }
-        );
-      },
-      actionErrors => {
-        if (
-          actionErrors.name === 'HttpResponseStatusCodeError' &&
-          actionErrors.response &&
-          actionErrors.response.body.errors[0]
-        ) {
-          setActionError(actionErrors.response.body.errors[0]);
-        }
-      }
-    );
+    createPolicy({ form, event, setActiveKey, setActionError });
   };
+
   return (
     <div className={locals.container}>
       <SimpleModePageNavigation
@@ -162,6 +127,52 @@ export default function SimpleAIDialog({
   );
 }
 
+interface createPolicyProps {
+  event: Event;
+  setActiveKey: SetActiveKey;
+  setActionError: (err: string) => void;
+  form: AIActionForm;
+}
+
+const createPolicy = ({ form, event, setActiveKey, setActionError }: createPolicyProps) => {
+  const action = getActionSpecification(form);
+  saveNewAction(action).once(
+    res => {
+      const policyDetails = {
+        name: form.get('policyName').value,
+        description: form.get('policyDescription').value,
+        tags: form.get('policyTags').value.map(tag => tag.value)
+      };
+      const policy = createBasePolicy(event, res, policyDetails);
+
+      saveNewPolicy(policy).once(
+        () => {
+          createPolicyFromAIActionTracker({
+            name: policy.name,
+            triggerName: event.problem?.problemText,
+            actionName: action.name,
+            type: 'manual'
+          });
+          refresh();
+          setActiveKey('automationPolicies');
+          onCreateSuccess(policy.name, res.id);
+        },
+        error => {
+          onCreateFailed(error);
+        }
+      );
+    },
+    actionErrors => {
+      if (
+        actionErrors.name === 'HttpResponseStatusCodeError' &&
+        actionErrors.response &&
+        actionErrors.response.body.errors[0]
+      ) {
+        setActionError(actionErrors.response.body.errors[0]);
+      }
+    }
+  );
+};
 const stepConfigs = Object.freeze([
   {
     title: t('in-automation:simpleAIDialog.step1Title')

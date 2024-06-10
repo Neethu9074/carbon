@@ -23,11 +23,11 @@ export default function ManualCloseDescription({ event }: Props) {
   return (
     <Stack>
       <Stack gap="xxsmall">
-        <Typography variant="body-bold">{t('in-events:closeIssueDialog.closedByLabel')}</Typography>
+        <Typography variant="body-bold">{t('in-events:closeEventDialog.closedByLabel')}</Typography>
         <Typography variant="body-regular">{username}</Typography>
       </Stack>
       <Stack gap="xxsmall">
-        <Typography variant="body-bold">{t('in-events:closeIssueDialog.comments')}</Typography>
+        <Typography variant="body-bold">{t('in-events:closeEventDialog.comments')}</Typography>
         <Typography variant="body-regular">{reasonForClosing}</Typography>
       </Stack>
     </Stack>

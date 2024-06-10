@@ -60,7 +60,13 @@ function List(props) {
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const isDenseList = !!selectedEventId;
-  const cols = isDenseList ? 2 : 6;
+  let cols = 0;
+
+  if (isDenseList) {
+    cols = 2;
+  } else {
+    cols = canCloseManually ? 7 : 6;
+  }
 
   const timeScale = useTimeConfigUpdatingScale(timeConfig);
 
