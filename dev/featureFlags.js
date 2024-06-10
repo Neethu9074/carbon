@@ -55,6 +55,7 @@ module.exports = {
   carbonButtonEnabled: true,
   notesAndActivityEnabled: true,
   carbonLoadingSkeletonFeatureEnabled: true,
+  carbonDescriptionListEnabled: false,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,
