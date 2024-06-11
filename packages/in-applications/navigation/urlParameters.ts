@@ -15,7 +15,7 @@ export const applicationDashboardUrlParameters = createApplicationServiceEndpoin
 export const serviceDashboardUrlParameters = createApplicationServiceEndpointParameters(serviceDashboardPth);
 export const endpointDashboardUrlParameters = createApplicationServiceEndpointParameters(endpointDashboardPath);
 
-export function createEndpointTypesUrlParameter(pathSegment, matrixPrefix) {
+export function createEndpointTypesUrlParameter(pathSegment: string, matrixPrefix: string) {
   return {
     path: pathSegment,
     name: `${matrixPrefix}endpointTypes`,
@@ -26,7 +26,7 @@ export function createEndpointTypesUrlParameter(pathSegment, matrixPrefix) {
   };
 }
 
-export function createEndpointTechnologiesUrlParameter(pathSegment, matrixPrefix) {
+export function createEndpointTechnologiesUrlParameter(pathSegment: string, matrixPrefix: string) {
   return {
     path: pathSegment,
     name: `${matrixPrefix}technologies`,
@@ -37,7 +37,7 @@ export function createEndpointTechnologiesUrlParameter(pathSegment, matrixPrefix
   };
 }
 
-export function createQueryUrlParameter(pathSegment, matrixPrefix) {
+export function createQueryUrlParameter(pathSegment: string, matrixPrefix: string) {
   return {
     path: pathSegment,
     name: `${matrixPrefix}query`,
@@ -46,7 +46,7 @@ export function createQueryUrlParameter(pathSegment, matrixPrefix) {
   };
 }
 
-export function createLogQueryUrlParameter(pathSegment, matrixPrefix) {
+export function createLogQueryUrlParameter(pathSegment: string, matrixPrefix: string) {
   return {
     path: pathSegment,
     name: `${matrixPrefix}query`,
@@ -55,7 +55,7 @@ export function createLogQueryUrlParameter(pathSegment, matrixPrefix) {
   };
 }
 
-function createApplicationServiceEndpointParameters(path) {
+function createApplicationServiceEndpointParameters(path: string) {
   return {
     applicationId: {
       path,

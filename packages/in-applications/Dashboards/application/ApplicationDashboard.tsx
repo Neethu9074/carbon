@@ -28,12 +28,11 @@ import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents
 // @ts-expect-error needs TS migration
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 // @ts-expect-error needs TS migration
-import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-// @ts-expect-error needs TS migration
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
+import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { clickSyntheticMonitoringTabInApplicationsTracker } from 'in-synthetics/tracker';
 import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';

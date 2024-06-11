@@ -12,7 +12,6 @@ import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/message
 //@ts-expect-error Needs TS migration
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
-//@ts-expect-error Needs TS migration
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getResolvedTimeConfig, getSparkChartGranularity, TimeResult } from 'in-applications/metrics';
 //@ts-expect-error Needs TS migration

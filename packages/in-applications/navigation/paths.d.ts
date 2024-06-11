@@ -16,6 +16,8 @@ export declare const alertsTabListFullyQualified: string;
 export declare const applicationDashboard: string;
 export declare const configurationTab: string;
 export declare const dependencyMapTab: string;
+export declare const serviceDashboard: string;
+export declare const endpointDashboard: string;
 export declare const getLinkToAlertConfig: string;
 export declare const getLinkToGlobalAlertConfigWithoutAPDashboard: string;
 export declare const globalAlertDetails: string;
