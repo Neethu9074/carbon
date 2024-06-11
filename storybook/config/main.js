@@ -27,12 +27,15 @@ module.exports = {
       url: 'https://pages.github.ibm.com/instana/ui-foundation/'
     }
   },
-  framework: '@storybook/react',
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: { fastRefresh: true }
+  },
   addons: ['@storybook/addon-essentials'],
   typescript: {
     reactDocgen: 'react-docgen-typescript-plugin'
   },
   features: {
-    emotionAlias: false
+    storyStoreV7: false
   }
 };
