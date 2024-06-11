@@ -2,7 +2,6 @@
   "name": "ui-client-storybook",
   "version": "1.0.0",
   "description": "A playground for Instana's Product Frontend",
-  "main": "./config/main.js",
   "license": "UNLICENSED",
   "dependencies": {
     "@storybook/addon-docs": "7.6.4",
@@ -17,6 +16,7 @@
     "@babel/core": "^7.15.5",
     "@storybook/react-webpack5": "7.6.4",
     "babel-loader": "^8.1.0",
+    "storybook": "7.6.4",
     "webpack": "5.66.0"
   }
 }

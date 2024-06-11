@@ -15,6 +15,7 @@ module.exports = {
     '../../packages/**/*.(story|stories).@(js|jsx|ts|tsx|mdx)'
   ],
   core: {
+    disableTelemetry: true,
     builder: 'webpack5',
     options: {
       lazyCompilation: true,
