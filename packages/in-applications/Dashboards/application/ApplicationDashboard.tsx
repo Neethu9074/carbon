@@ -30,8 +30,6 @@ import FloatingActionButtonMenu from 'in-components/FloatingActionButton/Floatin
 // @ts-expect-error needs TS migration
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 // @ts-expect-error needs TS migration
-import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
-// @ts-expect-error needs TS migration
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
@@ -42,6 +40,7 @@ import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featur
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
+import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
@@ -110,7 +109,6 @@ export default function ApplicationDashboard({ location }: { location: Location 
     onBoundaryStateChange: setUrlState,
     endpointTypes
   };
-
   return (
     <>
       <ViewTrackingMeta

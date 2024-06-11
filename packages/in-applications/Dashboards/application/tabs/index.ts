@@ -3,23 +3,32 @@
  * (c) Copyright Instana Inc.
  */
 
-import SyntheticsList from 'in-applications/Dashboards/application/tabs/SyntheticsMonitoring/SyntheticsList';
+//@ts-expect-error needs TS migration
 import ReadOnlyConfiguration from 'in-applications/Dashboards/application/tabs/ReadOnlyConfiguration';
+//@ts-expect-error needs TS migration
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
+//@ts-expect-error needs TS migration
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
+//@ts-expect-error needs TS migration
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
+//@ts-expect-error needs TS migration
+import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
+//@ts-expect-error needs TS migration
+import Services from 'in-applications/Dashboards/application/tabs/Services';
+//@ts-expect-error needs TS migration
+import Alerts from 'in-applications/Dashboards/application/tabs/Alerts';
+import SyntheticsList from 'in-applications/Dashboards/application/tabs/SyntheticsMonitoring/SyntheticsList';
+//@ts-expect-error needs TS migration
+import Map from 'in-applications/Dashboards/application/tabs/Map';
 import LogMessagesTab from 'in-logging/components/Dashboards/components/LogMessages';
 import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permission';
-import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
-import Services from 'in-applications/Dashboards/application/tabs/Services';
-import Alerts from 'in-applications/Dashboards/application/tabs/Alerts';
 import { applicationDashboard } from 'in-applications/navigation/paths';
-import Map from 'in-applications/Dashboards/application/tabs/Map';
+import { Tab } from 'in-components/LocationAwareTabView/types';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-const getApplicationTabs = canConfigureApplications => {
+const getApplicationTabs = (canConfigureApplications: boolean | null | undefined) => {
   return [
     {
       label: t('in-applications:labelSummary'),
@@ -39,12 +48,12 @@ const getApplicationTabs = canConfigureApplications => {
       path: `${applicationDashboard}/services`,
       component: Services
     },
-    role.canViewLogs && {
+    role?.canViewLogs && {
       label: t('in-applications:labelErrorMessages'),
       path: `${applicationDashboard}/errorMessages`,
       component: ErrorMessagesTab
     },
-    role.canViewLogs && {
+    role?.canViewLogs && {
       label: t('in-applications:labelLogMessages'),
       path: `${applicationDashboard}/logMessages`,
       component: LogMessagesTab
@@ -70,7 +79,7 @@ const getApplicationTabs = canConfigureApplications => {
       path: `${applicationDashboard}/configuration`,
       component: canConfigureApplications ? Configuration : ReadOnlyConfiguration
     }
-  ].filter(Boolean);
+  ].filter(Boolean) as Array<Tab<any, any>>;
 };
 
 export default getApplicationTabs;
