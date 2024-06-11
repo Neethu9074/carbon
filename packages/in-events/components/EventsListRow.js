@@ -6,8 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tr, Td, Pill } from '@instana/components';
 import { just } from '@instana/observables';
+import { Pill } from '@instana/components';
+import { Tr, Td } from '@instana/legacy';
 
 import {
   isApplicationEntity,

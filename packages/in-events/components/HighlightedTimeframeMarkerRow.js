@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Td, Tr } from '@instana/components';
+import { Td, Tr } from '@instana/legacy';
 
 import ResultForTimeSelectionIndicator from 'in-components/ResultForTimeSelectionIndicator';
 

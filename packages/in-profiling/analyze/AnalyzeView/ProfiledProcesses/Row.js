@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Tr, Td } from '@instana/components';
+import { Tr, Td } from '@instana/legacy';
 
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';

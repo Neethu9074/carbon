@@ -15,7 +15,7 @@ import {
   Th,
   Thead,
   Tr
-} from '@instana/components';
+} from '@instana/legacy';
 
 import { AffectedEntity } from 'in-events/components/AffectedEntities/AffectedEntity';
 import { finishedProgress } from 'in-services/fixedObjects';
