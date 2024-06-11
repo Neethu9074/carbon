@@ -20,13 +20,12 @@ import {
   syntheticsTab
 } from 'in-applications/navigation/paths';
 // @ts-expect-error needs TS migration
-import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-// @ts-expect-error needs TS migration
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
 // @ts-expect-error needs TS migration
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 // @ts-expect-error needs TS migration
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 // @ts-expect-error needs TS migration
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';

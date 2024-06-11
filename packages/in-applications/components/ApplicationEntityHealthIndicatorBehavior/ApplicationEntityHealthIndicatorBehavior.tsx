@@ -6,14 +6,26 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
+//@ts-expect-error need TS migration
 import ApplicationEntityOpenIssuesList from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior/ApplicationEntityOpenIssuesList';
 import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import Overlay from 'in-components/overlays/Overlay';
 
-export default function ApplicationEntityHealthIndicatorBehavior(props) {
-  let { openIssues, maxSeverity, applicationId, serviceId, endpointId, timeConfig } = props;
+interface ApplicationEntityHealthIndicatorProps {
+  openIssues?: number;
+  maxSeverity?: number;
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string;
+  timeConfig: TimeConfig;
+  IndicatorPresenter: any;
+  inContentArea?: boolean;
+}
+export default function ApplicationEntityHealthIndicatorBehavior(props: ApplicationEntityHealthIndicatorProps) {
+  let { openIssues, maxSeverity, applicationId, serviceId, endpointId, timeConfig, IndicatorPresenter } = props;
   let healthInfo = useObservable(
     fetchAndMapApplicationEntityHealthInfo({
       applicationId,
@@ -35,11 +47,7 @@ export default function ApplicationEntityHealthIndicatorBehavior(props) {
 
   if (healthInfo?.openIssues === 0) {
     return (
-      <props.IndicatorPresenter
-        showCheckAsNeutral
-        maxSeverity={healthInfo.maxSeverity}
-        openIssues={healthInfo.openIssues}
-      />
+      <IndicatorPresenter showCheckAsNeutral maxSeverity={healthInfo.maxSeverity} openIssues={healthInfo.openIssues} />
     );
   }
 
@@ -52,7 +60,7 @@ export default function ApplicationEntityHealthIndicatorBehavior(props) {
       withoutWrapper
     >
       {({ toggle, refSetter }) => (
-        <props.IndicatorPresenter
+        <IndicatorPresenter
           openIssues={healthInfo?.openIssues ?? 0}
           maxSeverity={healthInfo?.maxSeverity ?? 0}
           onClick={toggle}
@@ -63,9 +71,14 @@ export default function ApplicationEntityHealthIndicatorBehavior(props) {
   );
 }
 
-function Content(props) {
+function Content(props: ApplicationEntityHealthIndicatorProps) {
   return <ApplicationEntityOpenIssuesList {...props} />;
 }
+
+type ApplicationEntityHealthInfoProps = Omit<
+  ApplicationEntityHealthIndicatorProps,
+  'IndicatorPresenter' | 'inContentArea'
+>;
 
 function fetchAndMapApplicationEntityHealthInfo({
   applicationId,
@@ -74,7 +87,7 @@ function fetchAndMapApplicationEntityHealthInfo({
   timeConfig,
   openIssues,
   maxSeverity
-}) {
+}: ApplicationEntityHealthInfoProps) {
   if (openIssues != null && maxSeverity != null) {
     return null;
   }

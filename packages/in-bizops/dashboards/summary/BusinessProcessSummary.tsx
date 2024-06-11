@@ -8,7 +8,6 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
-// @ts-expect-error Module needs to be translated to TS
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';

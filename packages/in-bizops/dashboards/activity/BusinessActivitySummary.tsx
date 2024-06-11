@@ -9,8 +9,6 @@ import React from 'react';
 import { TimeConfig } from '@instana/types';
 import { Link } from '@instana/components';
 
-// @ts-expect-error Module needs to be translated to TS
-import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import {
   businessActivityPath,
   businessActivityDashboard,
@@ -21,6 +19,7 @@ import DashboardHeader, {
   ContextConfiguration,
   DashboardHeaderProps
 } from 'in-components/DashboardHeader/DashboardHeader';
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { clickBizopsActivityProcessContextTracker, clickBizopsProcessActivityTabsTracker } from 'in-bizops/tracker';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
