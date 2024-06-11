@@ -12810,8 +12810,13 @@
         "overflowUserCount": "Overflow User Count",
         "overflowTransactionCount": "Overflow Transaction Count",
         "seqScanCount": "Sequential Scan Count",
-        "seqScanTableCount": "Number of Tables having Sequential Scans",
-        "tableName": "Table Name"
+        "seqScanTableCount": "Sequential Scans Table count",
+        "tableName": "Table Name",
+        "cacheRatio" : "Buffer Cache Ratio",
+        "cacheReadRatio": "Buffer Cache read ratio",
+        "cacheWriteRatio": "Buffer Cache write ratio",
+        "lruWrites": "Number of LRU Writes",
+        "dbLockwaits": "Database Lock Waits"
       }
     },
     "oTelLLM": {
