@@ -19,6 +19,7 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
+import { config } from 'in-services/config';
 import { t, Trans } from 'in-i18n';
 
 import './Forms.less';
@@ -108,6 +109,18 @@ export default {
         })
       )
       .put(
+        'tenant',
+        createField({
+          value: config.tenant
+        })
+      )
+      .put(
+        'unit',
+        createField({
+          value: config.tenantUnit
+        })
+      )
+      .put(
         'serviceNowUrl',
         createField({
           value: alertChannel ? alertChannel.get('serviceNowUrl') : '',
@@ -154,6 +167,8 @@ export default {
       id: alertChannel ? alertChannel.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
       name: form.get('name').value,
+      tenant: form.get('tenant').value,
+      unit: form.get('unit').value,
       serviceNowUrl: form.get('serviceNowUrl').value,
       username: form.get('username').value,
       password: form.get('password').value,

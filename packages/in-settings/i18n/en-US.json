@@ -1198,7 +1198,7 @@
     "autoCloseIncidentsBD": "Auto close incidents (when incident is closed by Instana)",
     "advancedIntro": "By enabling this alert channel, Instana will create Incidents in ServiceNow when an Incident is created in Instana.<br/>Additionally use the following options to customize what is updated bi-directionally.<br/><br/>",
     "sendTitle": "Send actions to ServiceNow",
-    "receiveTitle": "Receive actions from Instana",
+    "receiveTitle": "Receive actions from ServiceNow",
     "manuallyClosedIncidents": "Manually closed incidents (when an incident is closed by a user)",
     "resolutionOfIncident": "Resolution of incident",
     "showPasswordTooltip": "Show password",
