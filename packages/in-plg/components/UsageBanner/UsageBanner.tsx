@@ -62,7 +62,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
       invitedUserJoined({
         invitedby: location.query.invitedby,
         // @ts-expect-error The User type needs to be updated.
-        invitee: user?.fullName
+        invitee: decodeURIComponent(user?.fullName).replace(/\+/g, ' ')
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -240,7 +240,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
         groupId: e.groupId,
         email: e.email,
         message: emailMessage,
-        path: hideShare ? '' : createHref(clonedLocation), // if invited from user section or pending invite section, the return URL should be to /home
+        path: hideShare ? '/#/home' : createHref(clonedLocation), // if invited from user section or pending invite section, the return URL should be to /home
         pageName: parentProductArea,
         userSentState: e.userSentState === InviteSentState.INTERNAL_ERROR ? InviteSentState.notSentYet : e.userSentState
       }));
