@@ -9,11 +9,13 @@ import React, { FormEvent, useState } from 'react';
 import { Message, Stack, Typography } from '@instana/components';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { ManualCloseInfoForm, manuallyCloseIssue } from 'in-events/api';
 import { close } from 'in-components/DialogPresenter/store';
+import { toHtml } from 'in-services/formatters/markdown';
 import FormTextArea from 'in-components/form/TextArea';
 import { EventOrMap } from 'in-events/types';
 import { Error, ErrorCode } from 'in-types';
@@ -93,24 +95,17 @@ export default function ManualCloseIssueConfigForm({
                   <Typography variant="body-regular">{problem}</Typography>
                 </Stack>
               )}
-              {description && (
-                <Typography
-                  variant="body-regular"
-                  component={() => <div className={locals.description}>{description}</div>}
-                >
-                  {description}
-                </Typography>
-              )}
+              <DangerousHtmlPresenter html={toHtml(description)} />
             </Stack>
             <Stack gap="xxsmall">
               <Typography variant="body-small">
-                {t('in-events:closeIssueDialog.comments')}
+                {t('in-events:closeEventDialog.comments')}
                 <span className={locals.red}>*</span>
               </Typography>
 
               <FormTextArea
                 className={locals.commentsTextArea}
-                placeholder={t('in-events:closeIssueDialog.reason')}
+                placeholder={t('in-events:closeEventDialog.reason')}
                 onChange={e => {
                   if (e.target) {
                     const target = e.target as HTMLTextAreaElement;
@@ -121,7 +116,7 @@ export default function ManualCloseIssueConfigForm({
             </Stack>
 
             <Message type="warning" className={locals.warningBox}>
-              {t('in-events:closeIssueDialog.warning')}
+              {t('in-events:closeEventDialog.warning')}
             </Message>
           </Stack>
         </div>

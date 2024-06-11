@@ -217,7 +217,7 @@
     "titleImpactedBusinessProcesses": "Impacted Business Processes",
     "titleImpactedBusinessProcessesIncident": "Impacted Business Processes for Triggering Event"
   },
-  "closeIssueDialog": {
+  "closeEventDialog": {
     "reason": "Let us know the reason you are closing the issue",
     "warning": "The closure of this issue is irreversible",
     "comments": "Comments",

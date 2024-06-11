@@ -91,7 +91,7 @@ export default function ManualCloseIssueButton({ event, iconComponent, reload }:
       icon="lib_openclose_cancel"
       iconSize="xs"
     >
-      {t('in-events:closeIssueDialog.closeIssue')}
+      {t('in-events:closeEventDialog.closeIssue')}
     </Button>
   );
 }

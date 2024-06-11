@@ -1,0 +1,18 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .title {
+    font-size: 0.75rem;
+  }
+
+  .username {
+    font-size: 0.75rem;
+  }
+
+  .reason {
+    font-size: 0.75rem;
+  }
+}
