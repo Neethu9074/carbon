@@ -10,6 +10,7 @@ import { useObservable } from '@instana/hooks';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { ScoredAction, getAllActionsWithAISuggestions } from 'in-automation/api';
 import { error, hasError, isLoading, success } from 'in-services/util/result';
+import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
 import { TriggerSpecification } from 'in-automation/Policies/types';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -18,6 +19,7 @@ import { Event, Policy, Result } from 'in-types';
 interface UseScoredActionsParams {
   event: Event;
   trigger: Result<TriggerSpecification>;
+  type: 'default' | 'watsonx';
 }
 
 const refreshSignal = create().emit(true);
@@ -25,20 +27,23 @@ export function refreshScoredActions() {
   timeout(1000).once(() => refreshSignal.emit(true));
 }
 
-export default function useScoredActions({ event, trigger }: UseScoredActionsParams) {
+export default function useScoredActions({ event, trigger, type }: UseScoredActionsParams) {
+  const triggerType = getTriggerTypeFromEvent(event);
   return (
     useObservable(() => {
       if (isLoading(trigger)) {
         return null;
       }
-
+      if (type === 'watsonx' && triggerType !== 'builtinEvent') {
+        return null; // we are not supporting OOTB watsonx actions for any other events except builtin events. this code avoids making api call in that case
+      }
       return refreshSignal.flatMap(() => {
         if (hasError(trigger)) {
           return getAllActionsWithAISuggestions(event.problem?.problemText ?? '', '');
         } else {
-          const { name, description = '' } = trigger.data!;
+          const { name, description = '', id: eventId } = trigger.data!;
           const { entityId } = event;
-          return getAllActionsWithAISuggestions(name, description, entityId);
+          return getAllActionsWithAISuggestions(name, description, entityId, type ?? 'default', eventId);
         }
       });
     }, [trigger.progress.loading, refreshSignal]) ?? (pendingResult as Result<ScoredAction[]>)
@@ -48,7 +53,6 @@ export default function useScoredActions({ event, trigger }: UseScoredActionsPar
 interface UseRecommendedScoredActionsParams {
   actions: Result<ScoredAction[]>;
   policies: Result<Policy[]>;
-  event?: Event;
 }
 
 export function useUserRecommendedScoredActions({ actions, policies }: UseRecommendedScoredActionsParams) {
@@ -65,24 +69,12 @@ export function useUserRecommendedScoredActions({ actions, policies }: UseRecomm
   );
 }
 
-export function useAIRecommendedScoredActions({ actions, policies, event }: UseRecommendedScoredActionsParams) {
+export function useAIRecommendedScoredActions({ actions, policies }: UseRecommendedScoredActionsParams) {
   if (isLoading(actions, policies)) return pendingResult as Result<ScoredAction[]>;
   if (hasError(actions, policies))
     return error<ScoredAction[]>([{ message: 'Failed to filter recommended actions.', code: 'SERVER' }]);
 
-  return success(
-    actions.data!.filter(action => {
-      const policyExistWithAction = policies.data!.some(
-        policy => policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.id === action.id
-      );
-
-      const aiMetadataExists = action.metadata?.ai && action.metadata.ai.length > 0;
-      const hasMatchingEvent =
-        aiMetadataExists && action.metadata.ai[0]?.events?.includes(event?.metadata?.eventSpecificationId);
-
-      return !policyExistWithAction && action.confidence !== 'low' && action.metadata?.builtIn && hasMatchingEvent;
-    })
-  );
+  return success(actions.data!);
 }
 
 interface UsePaginatedScoredActionsParams {

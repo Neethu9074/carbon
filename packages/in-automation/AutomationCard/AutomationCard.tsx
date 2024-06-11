@@ -90,9 +90,10 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
   const policies = usePolicies({ event });
   const historyCount = useHistory({ eventId: event.id });
   const trigger = useTrigger({ event });
-  const actions = useScoredActions({ event, trigger });
-  const recommendedActions = useUserRecommendedScoredActions({ actions, policies });
-  const aiRecommendedScoredActions = useAIRecommendedScoredActions({ actions, policies, event });
+  const userActions = useScoredActions({ event, trigger, type: 'default' });
+  const watsonxActions = useScoredActions({ event, trigger, type: 'watsonx' });
+  const recommendedActions = useUserRecommendedScoredActions({ actions: userActions, policies });
+  const aiRecommendedScoredActions = useAIRecommendedScoredActions({ actions: watsonxActions, policies });
   useEffect(() => {
     if (policies?.data?.length === 0) {
       setActiveKey('recommendedActions');
@@ -114,7 +115,7 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
             <AutomationPolicies
               volatileId={volatileId}
               event={event}
-              actions={actions}
+              actions={userActions}
               policies={policies}
               trigger={trigger}
               setActiveKey={setActiveKey}
