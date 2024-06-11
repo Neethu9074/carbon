@@ -18,6 +18,9 @@ export interface SloTagFilterProps {
 }
 
 export default function SloTagFilter({ tags, value, onChange, disabled }: SloTagFilterProps) {
+  if (tags) {
+    syncTags({ value, onChange, tags });
+  }
   return (
     <ComboBox
       placeholder={t('in-service-levels:sloList.components.sloTagFilter.placeholder')}
@@ -36,6 +39,19 @@ export default function SloTagFilter({ tags, value, onChange, disabled }: SloTag
       isMulti
     />
   );
+}
+
+function syncTags({ value, onChange, tags }: SloTagFilterProps) {
+  const filteredTags = tags!.length > 0 ? value.filter(tag => tags!.includes(tag)) : value;
+
+  let isValid =
+    value!.length > 0 &&
+    (filteredTags.length === 0 ||
+      (filteredTags.every(tag => value.includes(tag)) && filteredTags.length < value.length));
+
+  if (isValid) {
+    onChange(value.filter(tag => tags!.includes(tag)));
+  }
 }
 
 function mapTags(tags?: string[]) {
