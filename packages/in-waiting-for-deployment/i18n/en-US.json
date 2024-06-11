@@ -261,6 +261,8 @@
     "agentInstallationModeLabel": "Installation mode",
     "agentInstallationModeInteractive": "Interactive",
     "agentInstallationModeSilent": "Silent",
+    "agentInstallationModeRpm": "RPM",
+    "agentInstallationModeDeb": "DEB",
     "ibmapmproxy": "IBM APM V8 Instana Integration Proxy",
     "ibmapmmineba": "IBM APM V8 Min server dropins eba",
     "requiresRuntimeDropin": "The Instana Integration support for IBM APM V8 requires an additional runtime dropin.",
