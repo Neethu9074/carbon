@@ -63,7 +63,8 @@ const parameters = [
 export default {
   name,
   label,
-  isBeta: true,
+  isAlpha: true,
+  isBeta: false,
   testAPI: null,
   active: serviceNowAdvancedEnabled,
 
@@ -272,49 +273,51 @@ function Form({ form, onChange }) {
         <Collapsible>
           <Collapsible.Header>{t('in-settings:tabs.advanced')}</Collapsible.Header>
           <Collapsible.Content>
-            <Trans i18nKey="in-settings:tabs.advancedIntro" />
-            <section id="sendSection">
-              <Label for="sendSection">{t('in-settings:tabs.sendTitle')}</Label>
-              {form.get('manuallyClosedIncidents').map(field => (
-                <FormGroup className={block}>
-                  <CheckboxFancy
-                    label={t('in-settings:tabs.manuallyClosedIncidents')}
-                    id="manuallyClosedIncidents"
-                    checked={field.value}
-                    onChange={e => onChange('manuallyClosedIncidents', e.target.checked)}
-                    size="larger"
-                  />
-                  <TouchedMessages field={field} />
-                </FormGroup>
-              ))}
-              {form.get('autoCloseIncidents').map(field => (
-                <FormGroup className={block}>
-                  <CheckboxFancy
-                    label={t('in-settings:tabs.autoCloseIncidentsBD')}
-                    id="autoCloseIncidents"
-                    checked={field.value}
-                    onChange={e => onChange('autoCloseIncidents', e.target.checked)}
-                    size="larger"
-                  />
-                  <TouchedMessages field={field} />
-                </FormGroup>
-              ))}
-            </section>
-            <section id="receiveSection">
-              <Label for="receiveSection">{t('in-settings:tabs.receiveTitle')}</Label>
-              {form.get('resolutionOfIncident').map(field => (
-                <FormGroup className={block}>
-                  <CheckboxFancy
-                    label={t('in-settings:tabs.resolutionOfIncident')}
-                    id="resolutionOfIncident"
-                    checked={field.value}
-                    onChange={e => onChange('resolutionOfIncident', e.target.checked)}
-                    size="larger"
-                  />
-                  <TouchedMessages field={field} />
-                </FormGroup>
-              ))}
-            </section>
+            <div className={`${block}__advanced_content`}>
+              <Trans i18nKey="in-settings:tabs.advancedIntro" />
+              <section id="sendSection">
+                <Label for="sendSection">{t('in-settings:tabs.sendTitle')}</Label>
+                {/*form.get('manuallyClosedIncidents').map(field => (
+                  <FormGroup className={block}>
+                    <CheckboxFancy
+                      label={t('in-settings:tabs.manuallyClosedIncidents')}
+                      id="manuallyClosedIncidents"
+                      checked={field.value}
+                      onChange={e => onChange('manuallyClosedIncidents', e.target.checked)}
+                      size="larger"
+                    />
+                    <TouchedMessages field={field} />
+                  </FormGroup>
+                ))*/}
+                {form.get('autoCloseIncidents').map(field => (
+                  <FormGroup className={block}>
+                    <CheckboxFancy
+                      label={t('in-settings:tabs.autoCloseIncidentsBD')}
+                      id="autoCloseIncidents"
+                      checked={field.value}
+                      onChange={e => onChange('autoCloseIncidents', e.target.checked)}
+                      size="larger"
+                    />
+                    <TouchedMessages field={field} />
+                  </FormGroup>
+                ))}
+              </section>
+              <section id="receiveSection">
+                <Label for="receiveSection">{t('in-settings:tabs.receiveTitle')}</Label>
+                {form.get('resolutionOfIncident').map(field => (
+                  <FormGroup className={block}>
+                    <CheckboxFancy
+                      label={t('in-settings:tabs.resolutionOfIncident')}
+                      id="resolutionOfIncident"
+                      checked={field.value}
+                      onChange={e => onChange('resolutionOfIncident', e.target.checked)}
+                      size="larger"
+                    />
+                    <TouchedMessages field={field} />
+                  </FormGroup>
+                ))}
+              </section>
+            </div>
           </Collapsible.Content>
         </Collapsible>
       )}

@@ -68,6 +68,14 @@ function AlertChannelModificationForm(props) {
             ? t('in-settings:tabs.createAlertChannelLabelAlertChannel', { alertChannelLabel: alertChannelLabel })
             : t('in-settings:tabs.modifyEntityNameAlertChannel', { entityName: entity.get('name') })}
         </SubViewHeader>
+        {fullyQualifiedAlertChannel?.isAlpha && (
+          <div className={locals.betaMarker}>
+            <FeatureFeedback
+              href={fullyQualifiedAlertChannel.feedbackLink}
+              labelText={t('in-settings:general.alphaLabel')}
+            />
+          </div>
+        )}
         {fullyQualifiedAlertChannel?.isBeta && (
           <div className={locals.betaMarker}>
             <FeatureFeedback href={fullyQualifiedAlertChannel.feedbackLink} />

@@ -1,7 +1,8 @@
 {
   "general": {
     "all": "All",
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "alphaLabel": "Private preview"
   },
   "termsDialog": {
     "back": "Back",

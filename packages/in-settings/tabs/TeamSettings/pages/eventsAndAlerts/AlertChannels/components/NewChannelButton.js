@@ -6,6 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Pill } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { clickAddAlertChannelMenuTracker, clickAddAlertChannelTracker } from 'in-settings/tracker';
@@ -47,6 +48,13 @@ function AlertChannelButton({ type, className }) {
         }}
       >
         {configs[type].label}
+        {configs[type].isAlpha && (
+          <div className={locals.betaBadge}>
+            <Pill type="blue" className={locals.betaBadge}>
+              {t('in-settings:general.alphaLabel')}
+            </Pill>
+          </div>
+        )}
         {configs[type].isBeta && (
           <div className={locals.betaBadge}>
             <BetaBadge />
