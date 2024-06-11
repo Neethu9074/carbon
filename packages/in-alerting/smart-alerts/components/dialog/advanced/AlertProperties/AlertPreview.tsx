@@ -21,6 +21,7 @@ interface AlertPreviewProps {
   entityIconType: string;
   entityLabel2?: string;
   entityIconType2?: string;
+  isTearSheet?: boolean;
 }
 
 export function AlertPreview({
@@ -30,7 +31,8 @@ export function AlertPreview({
   entityLabel,
   entityIconType,
   entityLabel2,
-  entityIconType2
+  entityIconType2,
+  isTearSheet = false
 }: AlertPreviewProps) {
   const description = form.get('description')?.value;
   const severity = Number(form.get('severity')?.value);
@@ -40,6 +42,7 @@ export function AlertPreview({
     <div
       className={classNames({
         [locals.alertPreview]: true,
+        [locals.alertPreviewTearSheeet]: isTearSheet,
         [locals.severityLow]: severity <= 5,
         [locals.severityHigh]: severity > 5
       })}

@@ -57,4 +57,9 @@
   .fullWidth {
     width: 100%;
   }
+  .customPayloadTearsheet {
+    > div:first-child {
+      padding: 0 0 1rem 0;
+    }
+  }
 }

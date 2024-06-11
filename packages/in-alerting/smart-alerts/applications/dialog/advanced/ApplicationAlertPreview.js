@@ -11,7 +11,7 @@ import { AlertPreview } from 'in-alerting/smart-alerts/components/dialog/advance
 import { getDescriptionPlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { t } from 'in-i18n';
 
-export function ApplicationAlertPreview({ form, applicationLabel, evaluationType }) {
+export function ApplicationAlertPreview({ form, applicationLabel, evaluationType, isTearSheet }) {
   const entityLabel = getEntityLabel(applicationLabel, evaluationType);
   const entityIconType = getEntityIconType(evaluationType);
 
@@ -22,6 +22,7 @@ export function ApplicationAlertPreview({ form, applicationLabel, evaluationType
       getDescriptionPlaceholder={getDescriptionPlaceholder}
       entityLabel={entityLabel}
       entityIconType={entityIconType}
+      isTearSheet={isTearSheet}
     />
   );
 }
@@ -49,5 +50,6 @@ function getEntityLabel(applicationLabel, evaluationType) {
 AlertPreview.propTypes = {
   form: PropTypes.object.isRequired,
   applicationLabel: PropTypes.string,
-  evaluationType: PropTypes.string
+  evaluationType: PropTypes.string,
+  isTearSheet: PropTypes.bool
 };

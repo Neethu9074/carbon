@@ -21,11 +21,7 @@ export default function AlertPropertiesContainer({
   isTearSheet = false
 }: AlertPropertiesContainerProps): JSX.Element {
   return isTearSheet ? (
-    <TwoColumnContainerForTearsheet
-      mainContent={renderAlertProperties()}
-      secondaryContent={renderAlertPreview()}
-      removeMainAreaContentBorder
-    />
+    <TwoColumnContainerForTearsheet mainContent={renderAlertProperties()} secondaryContent={renderAlertPreview()} />
   ) : (
     <TwoColumnContainer
       mainContentHeadline={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesAlertProperties')}

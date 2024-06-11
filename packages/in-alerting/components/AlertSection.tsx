@@ -10,8 +10,8 @@ import { themes } from '@instana/design-tokens';
 import Section from 'in-components/workspace/Section';
 
 interface AlertSectionProps {
-  title: ReactNode;
   children: ReactNode;
+  title: ReactNode;
   useAlternateBg?: boolean;
   actions?: ReactNode;
   icon?: string;

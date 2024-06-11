@@ -37,6 +37,9 @@
       padding-left: 0.5rem;
     }
   }
+  .alertPreviewTearSheeet {
+    min-height: 10.5rem;
+  }
 
   .alertPreviewContent {
     display: flex;
