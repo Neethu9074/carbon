@@ -9,7 +9,8 @@ import React from 'react';
 import { ServiceLevelsAlertRuleUnion, StaticThresholdConfig } from '@instana/types';
 import { KeyValue, Stack } from '@instana/components';
 
-import { percentage } from 'in-services/formatters/number';
+import { getSloAlertOperatorContext } from 'in-alerting/smart-alerts/slo/components/OperatorDropdown';
+import { percentageUpToTwoDecimalPlaces } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 interface AlertThresholdInfosProps {
@@ -20,18 +21,17 @@ interface AlertThresholdInfosProps {
 export default function AlertThresholdInfos({ threshold, rule }: AlertThresholdInfosProps) {
   const { alertType } = rule;
   const { value, operator } = threshold;
-  const thresholdValue = percentage.detailed(value);
+  const thresholdValue = percentageUpToTwoDecimalPlaces(value);
 
   return (
     <Stack direction="horizontal" gap="large">
       <KeyValue
         label={t('in-alerting:smartAlerts.slo.details.blueprintLabel')}
-        value={t('in-alerting:smartAlerts.slo.advancedModeContainer.blueprint', { context: alertType })}
-        multilineLabel
-      />
-      <KeyValue
-        label={t('in-alerting:smartAlerts.slo.details.thresholdLabel')}
-        value={`${operator}${thresholdValue}`}
+        value={t('in-alerting:smartAlerts.slo.details.thresholdInfo', {
+          context: alertType,
+          operator: getSloAlertOperatorContext(operator),
+          percentage: thresholdValue
+        })}
         multilineLabel
       />
     </Stack>

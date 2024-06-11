@@ -19,6 +19,7 @@ import {
 import { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import SearchBar from 'in-components/SearchBar';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -49,7 +50,12 @@ export default function InfrastructureViewSwitcher({ showSearchBar = true, theme
         {infraSmartAlertsEnabled && !role?.limitedInfrastructureScope && (
           <SecondLevelNavigationItem
             href={createHrefToPath(infraSmartAlerts)}
-            label={t('in-infrastructure:tableView.smartAlerts')}
+            label={
+              <>
+                {t('in-infrastructure:tableView.smartAlerts')}
+                <BetaBadge className={locals.betaPill} />
+              </>
+            }
             isActive={isAlertActive}
           />
         )}

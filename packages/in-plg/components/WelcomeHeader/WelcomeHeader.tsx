@@ -4,20 +4,17 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 
 import { DashboardButton, HeaderTile, Stack } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error missing a type definition for it
 import UrlShortenerOverlay from 'in-components/DashboardHeader/UrlShortener/UrlShortenerOverlay';
-// @ts-expect-error missing a type definition for it
-import { getAccountAsResultObservable } from 'in-amp/api/account';
+import { shareAndInviteEnabled, ampCompanyInfoEnabled, playwithEnabled } from 'in-services/featureFlags';
+import HeaderTileWrapper from 'in-plg/pages/WelcomePage/HeaderTileWrapper';
 import { track, URL_SHORTENER_OPEN } from 'in-services/tracking/tracking';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay';
 import { user } from 'in-stores/user';
 
@@ -25,164 +22,25 @@ export default function WelcomeHeader() {
   // @ts-expect-error The User type needs to be updated.
   const headerTitle = `${t('in-plg:welcomepage.heading')}, ${user?.fullName ?? ''}!`;
   const foldableTileTitle = t('in-plg:welcomepage.foldableTileTitle');
-  const [permissions, setPermissions] = useState<string[]>();
-  const { createHrefToPath } = useNavigation();
-
-  const [statusFlags, setStatusFlags] = useState({
-    firstAgentInstalled: true,
-    additionalUserInvited: true,
-    threeAgentsInstalled: true,
-    twoApplicationPerspectivesCreated: true,
-    oneAlertSetUpAndActivated: true,
-    oneWebsiteMonitored: true,
-    fiveUsers: true
-  });
-
-  const accountInfo = useObservable(getAccountAsResultObservable, []);
-
-  useEffect(() => {
-    const storedPermissions = window.instana?.user?.role?.permissions;
-    setPermissions(storedPermissions);
-    extractCurrentStatus(accountInfo);
-  }, [accountInfo]);
-
-  // Here, it collects only the headerItemTiles that the user needs to complete for their onboarding task.
-  const tileDataWhenActionIsNotCompleted = useMemo(() => {
-    const tileData = [
-      {
-        key: 'startIntegrating',
-        title: t('in-plg:welcomepage.startIntegrating.title'),
-        description: t('in-plg:welcomepage.startIntegrating.description'),
-        buttonName: t('in-plg:welcomepage.startIntegrating.buttonName'),
-        buttonType: t('in-plg:welcomepage.startIntegrating.buttonType'),
-        href: createRedirectHref('startIntegrating'),
-        hasPermission: permissions?.includes('CAN_CONFIGURE_AGENTS') ? true : false,
-        isActionCompleted: statusFlags.firstAgentInstalled
-      },
-      {
-        key: 'traceInteractions',
-        title: t('in-plg:welcomepage.traceInteractions.title'),
-        description: t('in-plg:welcomepage.traceInteractions.description'),
-        buttonName: t('in-plg:welcomepage.traceInteractions.buttonName'),
-        buttonType: t('in-plg:welcomepage.traceInteractions.buttonType'),
-        href: createRedirectHref('traceInteractions'),
-        hasPermission: false,
-        isActionCompleted: false
-      },
-      {
-        key: 'inviteUsers',
-        title: t('in-plg:welcomepage.inviteUsers.title'),
-        description: t('in-plg:welcomepage.inviteUsers.description'),
-        buttonName: t('in-plg:welcomepage.inviteUsers.buttonName'),
-        buttonType: t('in-plg:welcomepage.inviteUsers.buttonType'),
-        href: createRedirectHref('inviteUsers'),
-        hasPermission: permissions?.includes('CAN_CONFIGURE_USERS') ? true : false,
-        isActionCompleted: statusFlags.additionalUserInvited
-      },
-      {
-        key: 'additionalAgents',
-        title: t('in-plg:welcomepage.additionalAgents.title'),
-        description: t('in-plg:welcomepage.additionalAgents.description'),
-        buttonName: t('in-plg:welcomepage.additionalAgents.buttonName'),
-        buttonType: t('in-plg:welcomepage.additionalAgents.buttonType'),
-        href: createRedirectHref('inviteUsers'),
-        hasPermission: permissions?.includes('CAN_CONFIGURE_AGENTS') ? true : false,
-        isActionCompleted: statusFlags.threeAgentsInstalled
-      },
-      {
-        key: 'appPerspective',
-        title: t('in-plg:welcomepage.appPerspective.title'),
-        description: t('in-plg:welcomepage.appPerspective.description'),
-        buttonName: t('in-plg:welcomepage.appPerspective.buttonName'),
-        buttonType: t('in-plg:welcomepage.appPerspective.buttonType'),
-        hasPermission: permissions?.includes('CAN_CONFIGURE_APPLICATIONS') ? true : false,
-        isActionCompleted: statusFlags.twoApplicationPerspectivesCreated
-      },
-      {
-        key: 'smartAlerts',
-        title: t('in-plg:welcomepage.smartAlerts.title'),
-        description: t('in-plg:welcomepage.smartAlerts.description'),
-        buttonName: t('in-plg:welcomepage.smartAlerts.buttonName'),
-        buttonType: t('in-plg:welcomepage.smartAlerts.buttonType'),
-        href: createRedirectHref('smartAlerts'),
-        hasPermission: permissions?.includes('CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS') ? true : false,
-        isActionCompleted: statusFlags.oneAlertSetUpAndActivated
-      },
-      {
-        key: 'startMonitoring',
-        title: t('in-plg:welcomepage.startMonitoring.title'),
-        description: t('in-plg:welcomepage.startMonitoring.description'),
-        buttonName: t('in-plg:welcomepage.startMonitoring.buttonName'),
-        buttonType: t('in-plg:welcomepage.startMonitoring.buttonType'),
-        hasPermission: permissions?.includes('CAN_CONFIGURE_MOBILE_APP_MONITORING') ? true : false,
-        isActionCompleted: statusFlags.oneWebsiteMonitored
-      },
-      {
-        key: 'inviteTeammates',
-        title: t('in-plg:welcomepage.inviteTeammates.title'),
-        description: t('in-plg:welcomepage.inviteTeammates.description'),
-        buttonName: t('in-plg:welcomepage.inviteTeammates.buttonName'),
-        buttonType: t('in-plg:welcomepage.inviteTeammates.buttonType'),
-        href: createRedirectHref('inviteTeammates'),
-        hasPermission: permissions?.includes('CAN_CONFIGURE_USERS') ? true : false,
-        isActionCompleted: statusFlags.fiveUsers
-      }
-    ];
-    function createRedirectHref(currentTile: string) {
-      if (currentTile == 'startIntegrating' || currentTile == 'additionalAgents') {
-        return createHrefToPath('/agents/installation');
-      } else if (currentTile == 'inviteUsers' || currentTile == 'inviteTeammates') {
-        return createHrefToPath('/config/team/accessControl/users');
-      } else if (currentTile == 'appPerspective') {
-        return createHrefToPath('/applications');
-      } else if (currentTile == 'smartAlerts') {
-        return createHrefToPath('/alerts;configsCategory=global');
-      } else if (currentTile == 'startMonitoring') {
-        return createHrefToPath('/websiteMonitoring/websites');
-      } else {
-        return createHrefToPath('/config/team/accessControl/users');
-      }
-      //trace interaction is not linked, therefore it will be redirecting to invite users link
-    }
-    return tileData.filter(item => !item.isActionCompleted);
-  }, [
-    createHrefToPath,
-    statusFlags.additionalUserInvited,
-    statusFlags.firstAgentInstalled,
-    statusFlags.fiveUsers,
-    statusFlags.oneAlertSetUpAndActivated,
-    statusFlags.oneWebsiteMonitored,
-    statusFlags.threeAgentsInstalled,
-    statusFlags.twoApplicationPerspectivesCreated,
-    permissions
-  ]);
-
-  function extractCurrentStatus(accountInfo: any) {
-    const activation = accountInfo?.data?.activation;
-    if (!activation || Object.keys(activation).length === 0) {
-      return;
-    }
-    const keys = Object.keys(activation);
-    setStatusFlags({
-      // There are different arguments used for the collection of status, these arguments are defined in the API by the portal team. i.e, fa, au, ai, ap, as, w, u - These are the arguments.
-      firstAgentInstalled: activation[keys[0]].fa.status,
-      additionalUserInvited: activation[keys[0]].au.status,
-      threeAgentsInstalled: activation[keys[0]].ai.status,
-      twoApplicationPerspectivesCreated: activation[keys[0]].ap.status,
-      oneAlertSetUpAndActivated: activation[keys[0]].as.status,
-      oneWebsiteMonitored: activation[keys[0]].w.status,
-      fiveUsers: activation[keys[0]].u.status
-    });
-  }
 
   return (
     <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
-      <HeaderTile
-        tileData={tileDataWhenActionIsNotCompleted}
-        headerTitle={headerTitle}
-        foldableTileTitle={foldableTileTitle}
-        datepicker={<DatePickerHeader />}
-      />
+      {!ampCompanyInfoEnabled || playwithEnabled ? (
+        //if hubforce is not enabled or if its playwith environment, the collapsible banner is not required
+        <HeaderTile
+          tileData={[]}
+          headerTitle={headerTitle}
+          foldableTileTitle={foldableTileTitle}
+          datepicker={<DatePickerHeader />}
+        />
+      ) : (
+        //HeaderTile Wrapper is used for fetching portal data, process it and return to HeaderTile
+        <HeaderTileWrapper
+          headerTitle={headerTitle}
+          foldableTileTitle={foldableTileTitle}
+          datepicker={<DatePickerHeader />}
+        />
+      )}
     </div>
   );
 }

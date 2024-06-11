@@ -6,10 +6,9 @@
 
 import React, { ReactChild } from 'react';
 
-import { ButtonGroup } from '@instana/components';
+import { ButtonGroup, SearchInput } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import SearchInput from 'in-components/SearchInput/SearchInput';
 import { FilterProps } from 'in-synthetics/utils/constants';
 import { isNotBlank } from 'in-services/util/string';
 

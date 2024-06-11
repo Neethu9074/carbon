@@ -59,7 +59,7 @@ export default function CustomDashboardPresenter(props) {
     }
   }
 
-  const loadingSection = result?.progress?.loading && <DefaultLoadingDashboard lightMode />;
+  const loadingSection = result?.progress?.loading && <DefaultLoadingDashboard />;
 
   const errorSection =
     result?.errors?.[0]?.code === 'NOT_FOUND' ? (

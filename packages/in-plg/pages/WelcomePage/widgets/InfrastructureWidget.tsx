@@ -7,8 +7,9 @@
 import React, { useState } from 'react';
 import { List } from 'immutable';
 
-import { Link, Stack, Typography } from '@instana/components';
+import { Link, Typography } from '@instana/components';
 import { combineLatest } from '@instana/observables';
+import { EntityHealthInfo } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
@@ -31,12 +32,11 @@ import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import HealthDot from 'in-components/health/HealthDot/HealthDot';
+import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { formatDateTime } from 'in-services/formatters/date';
 import { percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
-import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 
 export default connectTo(() => ({
@@ -80,6 +80,10 @@ export default connectTo(() => ({
           key: 'name'
         },
         {
+          header: t('in-plg:welcomepage.component.infrastructureWidget.technologies'),
+          key: 'technologies'
+        },
+        {
           header: t('in-plg:welcomepage.component.infrastructureWidget.os'),
           key: 'os'
         },
@@ -90,6 +94,10 @@ export default connectTo(() => ({
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.cpuUsage'),
           key: 'cpuUsage'
+        },
+        {
+          header: t('in-plg:welcomepage.component.infrastructureWidget.health'),
+          key: 'health'
         }
       ];
     }
@@ -110,6 +118,10 @@ export default connectTo(() => ({
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.cpuUsage'),
           key: 'cpuUsage'
+        },
+        {
+          header: t('in-plg:welcomepage.component.infrastructureWidget.health'),
+          key: 'health'
         }
       ];
     }
@@ -121,6 +133,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.infrastructureWidget.cpuUsage'),
         key: 'cpuUsage'
+      },
+      {
+        header: t('in-plg:welcomepage.component.infrastructureWidget.health'),
+        key: 'health'
       }
     ];
   };
@@ -201,29 +217,30 @@ export default connectTo(() => ({
         key: 'name',
         getContent({ item }) {
           return (
-            <Stack direction="horizontal">
-              <WithInfrastructureHealthIndicationBehaviour
-                snapshotId={item.snapshot.getIn('id')}
-                render={(healthInfo: any) => (
-                  <HealthDot severity={healthInfo && healthInfo.maxSeverity} iconSize={10} />
-                )}
-              />
-              <PluginIcon snapshot={item.snapshot} plugin={''} />
-              <Link
-                href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
-                  pathname: '/physical/dashboard'
-                })}
-              >
-                {getLabel(item.snapshot)}
-              </Link>
-            </Stack>
+            <Link
+              href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
+                pathname: '/physical/dashboard'
+              })}
+            >
+              {getLabel(item.snapshot)}
+            </Link>
           );
+        }
+      },
+      {
+        key: 'technologies',
+        getContent({ item }) {
+          return <Typography variant="body-regular">{item.snapshot.get('data').get('os.name')}</Typography>;
         }
       },
       {
         key: 'os',
         getContent({ item }) {
-          return <Typography variant="body-regular">{item.snapshot.get('data').get('os.name')}</Typography>;
+          return (
+            <Typography variant="body-regular">{`${item.snapshot.get('data').get('os.name')} ${item.snapshot
+              .get('data')
+              .get('os.version')}`}</Typography>
+          );
         }
       },
       {
@@ -244,6 +261,19 @@ export default connectTo(() => ({
             />
           );
         }
+      },
+      {
+        key: 'health',
+        getContent({ item }) {
+          return (
+            <WithInfrastructureHealthIndicationBehaviour
+              snapshotId={item.snapshot.get('id')}
+              render={(healthInfo: EntityHealthInfo) => (
+                <HealthIcon severity={healthInfo && healthInfo.maxSeverity} iconSize="xs" />
+              )}
+            />
+          );
+        }
       }
     ],
     docker: [
@@ -251,22 +281,13 @@ export default connectTo(() => ({
         key: 'name',
         getContent({ item }) {
           return (
-            <Stack direction="horizontal">
-              <WithInfrastructureHealthIndicationBehaviour
-                snapshotId={item.snapshot.getIn('id')}
-                render={(healthInfo: any) => (
-                  <HealthDot severity={healthInfo && healthInfo.maxSeverity} iconSize={10} />
-                )}
-              />
-              <PluginIcon snapshot={item.snapshot} plugin={''} />
-              <Link
-                href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
-                  pathname: '/physical/dashboard'
-                })}
-              >
-                {getLabel(item.snapshot)}
-              </Link>
-            </Stack>
+            <Link
+              href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
+                pathname: '/physical/dashboard'
+              })}
+            >
+              {getLabel(item.snapshot)}
+            </Link>
           );
         }
       },
@@ -300,6 +321,19 @@ export default connectTo(() => ({
             />
           );
         }
+      },
+      {
+        key: 'health',
+        getContent({ item }) {
+          return (
+            <WithInfrastructureHealthIndicationBehaviour
+              snapshotId={item.snapshot.get('id')}
+              render={(healthInfo: EntityHealthInfo) => (
+                <HealthIcon severity={healthInfo && healthInfo.maxSeverity} iconSize="xs" />
+              )}
+            />
+          );
+        }
       }
     ],
     process: [
@@ -307,22 +341,13 @@ export default connectTo(() => ({
         key: 'name',
         getContent({ item }) {
           return (
-            <Stack direction="horizontal">
-              <WithInfrastructureHealthIndicationBehaviour
-                snapshotId={item.snapshot.getIn('id')}
-                render={(healthInfo: any) => (
-                  <HealthDot severity={healthInfo && healthInfo.maxSeverity} iconSize={10} />
-                )}
-              />
-              <PluginIcon snapshot={item.snapshot} plugin={''} />
-              <Link
-                href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
-                  pathname: '/physical/dashboard'
-                })}
-              >
-                {getLabel(item.snapshot)}
-              </Link>
-            </Stack>
+            <Link
+              href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
+                pathname: '/physical/dashboard'
+              })}
+            >
+              {getLabel(item.snapshot)}
+            </Link>
           );
         }
       },
@@ -335,6 +360,19 @@ export default connectTo(() => ({
               formatter={percentage}
               metric="cpu.user"
               aggregation={t('in-plg:welcomepage.component.infrastructureWidget.mean')}
+            />
+          );
+        }
+      },
+      {
+        key: 'health',
+        getContent({ item }) {
+          return (
+            <WithInfrastructureHealthIndicationBehaviour
+              snapshotId={item.snapshot.get('id')}
+              render={(healthInfo: EntityHealthInfo) => (
+                <HealthIcon severity={healthInfo && healthInfo.maxSeverity} iconSize="xs" />
+              )}
             />
           );
         }

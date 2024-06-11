@@ -346,9 +346,22 @@
         "runningTheAgent": "Running the agent"
       },
       "linux_deb_rpm": {
-        "step1DownloadTheInstallPackage": "Step 1. Download the install package.",
-        "DEBAndRPMPackage": "DEB and RPM package",
-        "installUsingAPackage": "Install using a package"
+        "configureTheAgent": "Step 1: Configure the agent",
+        "installUsingAPackage": "Install using a package",
+        "selectThePlatformArchitecture": "Step 2: Select the platform architecture",
+        "platformArchitecture": "Platform architecture",
+        "mode": "Mode",
+        "agentOptions": {
+          "linux64BitAarch": "Linux (64Bit - AArch)",
+          "linux64BitArm": "Linux (64Bit - ARM)",
+          "linux64BitAmd": "Linux (64Bit - AMD)",
+          "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
+          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC Little Endian)",
+          "linuxS390X": "Linux (64Bit - s390x)",
+          "linuxX8664": "Linux (64Bit - x86_64)",
+          "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
+          "linuxRhel7X8664": "Linux (64Bit - RHEL7 x86_64)"
+        }
       },
       "linux_ec2": {
         "selectTheAgentPackagingMode": "Step 1: Select the agent packaging mode",
@@ -445,50 +458,42 @@
     "startIntegrating": {
       "title": "Start integrating data",
       "description": "Kickstart your Instana setup and seamless data integration by installing an agent.",
-      "buttonName": "Install agents",
-      "buttonType": "primary"
+      "buttonName": "Install agents"
     },
     "traceInteractions": {
       "title": "Trace interactions",
       "description": "Understand how your components are connected and see if you need to manually set up tracing.",
-      "buttonName": "Verify tracing",
-      "buttonType": "ghost"
+      "buttonName": "Verify tracing"
     },
     "inviteUsers": {
       "title": "Connect with your experts",
       "description": "Get help to complete setup tasks and try out product features.",
-      "buttonName": "Invite users",
-      "buttonType": "ghost"
+      "buttonName": "Invite users"
     },
     "additionalAgents": {
       "title": "Bring in more data",
       "description": "Expand observability throughout your architecture.",
-      "buttonName": "Install additional agents",
-      "buttonType": "ghost"
+      "buttonName": "Install additional agents"
     },
     "appPerspective": {
       "title": "Tailor your view",
       "description": "Capture the information you need to optimize your applications and services.",
-      "buttonName": "Create an application perspective",
-      "buttonType": "ghost"
+      "buttonName": "Create an application perspective"
     },
     "smartAlerts": {
       "title": "Get alerted",
       "description": "Configure alerts easily with predefined blueprints for both simple and advanced customization.",
-      "buttonName": "Set up smart alerts",
-      "buttonType": "ghost"
+      "buttonName": "Set up smart alerts"
     },
     "startMonitoring": {
       "title": "Monitor your environment",
       "description": "Activate alerts on your applications and websites.",
-      "buttonName": "Start monitoring",
-      "buttonType": "ghost"
+      "buttonName": "Start monitoring"
     },
     "inviteTeammates": {
       "title": "Bring in your team",
       "description": "Invite your colleagues to Instana and start collaborating.",
-      "buttonName": "Invite your teammates",
-      "buttonType": "ghost"
+      "buttonName": "Invite your teammates"
     },
     "component": {
       "applicationWidget": {
@@ -498,7 +503,8 @@
         "calls": "Calls",
         "latency": "Latency",
         "erroneousCallRate": "Erroneous call rate",
-        "openCreationDialog": "Open Creation Dialog"
+        "openCreationDialog": "Open Creation Dialog",
+        "health": "Health"
       },
       "eventWidget": {
         "label": "Events",
@@ -512,21 +518,28 @@
         "cloudFoundry": "Cloud Foundry",
         "vsphere": "vSphere",
         "openstack": "OpenStack",
+        "openshift": "OpenShift",
         "ibmp": "IBM Power HMC",
         "powervcRegion": "PowerVC Region",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
         "kubernetes": "Kubernetes",
+        "gke": "Google Kubernetes Engine",
+        "eks": "Amazon Elastic Kubernetes Service",
         "name": "Name",
         "nodes": "Nodes",
         "namespaces": "Namespaces",
-        "pods": "Pods"
+        "pods": "Pods",
+        "health": "Health",
+        "platform": "Platform"
+
       },
       "bizopsWidget": {
         "label": "Business Monitoring",
         "name": "Name",
         "activities": "Activities",
-        "count": "Count"
+        "count": "Count",
+        "health": "Health"
       },
       "incidentsWidget": {
         "label": "Incidents",
@@ -534,31 +547,36 @@
         "title": "Title",
         "on": "On",
         "started": "Started",
-        "end": "End"
+        "end": "End",
+        "health": "Status"
       },
       "websitesWidget": {
         "label": "Websites",
         "name": "Name",
         "pageViews": "Page views",
         "onLoadTimes": "OnLoad times",
-        "addLabel": "Add website"
+        "addLabel": "Add website",
+        "health": "Health"
       },
       "mobileAppsWidget": {
         "label": "Mobile Apps",
         "name": "Name",
         "sessions": "Sessions",
         "views": "Views",
-        "addLabel": "Add mobile app"
+        "addLabel": "Add mobile app",
+        "health": "Health"
       },
       "infrastructureWidget": {
         "label": "Infrastructure",
         "mean": "mean",
         "name": "Name",
         "os": "OS",
+        "technologies": "Technologies",
         "cpuNum": "Number of CPUs",
         "cpuUsage": "CPU Usage",
         "created": "Created",
-        "started": "Started"
+        "started": "Started",
+        "health": "Health"
       },
       "syntheticWidget": {
         "label": "Synthetic Monitoring",

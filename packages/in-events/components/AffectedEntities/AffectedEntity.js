@@ -6,8 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Td, Tr } from '@instana/components';
 import { Link } from '@instana/components';
+import { Td, Tr } from '@instana/legacy';
 
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
 import { formatDateTime } from 'in-services/formatters/date';

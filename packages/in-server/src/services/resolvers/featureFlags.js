@@ -306,6 +306,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'eumImpactedUsersForAppAlertEnabled',
+    instanaCtlKey: 'feature.eum.impacted.users.appalert.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'controlPlaneEnabled',
     instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
     defaultValue: false
@@ -314,11 +319,6 @@ module.exports = exports = [
     uiClientKey: 'businessObservabilityEnabled',
     instanaCtlKey: 'feature.business.observability.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'bizopsGoldenSignalsEnabled',
-    instanaCtlKey: 'feature.bizops.golden.signals.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'bizopsPerspectivesEnabled',
@@ -396,6 +396,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticRbacLimitedTPEnabled',
+    instanaCtlKey: 'feature.synthetic.rbac.limited.tp.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'customWidgetEventsTableEnabled',
     instanaCtlKey: 'feature.custom.widget.events.table.enabled',
     defaultValue: true
@@ -418,7 +423,7 @@ module.exports = exports = [
   {
     uiClientKey: 'infraSmartAlertsEnabled',
     instanaCtlKey: 'feature.infra.smart.alerts.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'infraPredictiveDetectionEnabled',
@@ -531,6 +536,21 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonMoreMenuEnabled',
+    instanaCtlKey: 'feature.carbon.more.menu.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonLoadingSkeletonFeatureEnabled',
+    instanaCtlKey: 'feature.carbon.loading.skeleton.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonDescriptionListEnabled',
+    instanaCtlKey: 'feature.carbon.description.list.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonAccordionEnabled',
     instanaCtlKey: 'feature.carbon.accordion.enabled',
     defaultValue: false
@@ -543,6 +563,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonPaginationEnabled',
     instanaCtlKey: 'feature.carbon.pagination.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'notesAndActivityEnabled',
+    instanaCtlKey: 'feature.incident.notes.enabled',
     defaultValue: false
   },
   {
@@ -623,6 +648,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonHorizontalIndicatorEnabled',
     instanaCtlKey: 'feature.carbon.horizontalindicator.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'analyzeInfrastructureButtonEnabled',
+    instanaCtlKey: 'feature.analyze.infrastructure.button.enabled',
     defaultValue: false
   }
 ];

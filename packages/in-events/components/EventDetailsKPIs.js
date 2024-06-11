@@ -103,10 +103,12 @@ const Ended = connectTo(
     };
   },
   function Ended({ event, isOpen }) {
+    const metadata = event.get('metadata');
+    const manualCloseTimestamp = metadata ? event.getIn(['metadata', 'manualCloseTimestamp']) : null;
     const hasDuration = getEventType(event) !== EVENT_TYPES.CHANGE ? event.get('start') !== event.get('end') : true;
-    return (
-      <DateTimeKpiCard title={t('in-events:titleEnded')} time={!isOpen && hasDuration ? event.get('end') : null} />
-    );
+    const endTime = manualCloseTimestamp ? manualCloseTimestamp : event.get('end');
+
+    return <DateTimeKpiCard title={t('in-events:titleEnded')} time={!isOpen && hasDuration ? endTime : null} />;
   }
 );
 

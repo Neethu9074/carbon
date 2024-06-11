@@ -38,7 +38,7 @@ export default function TearSheetButtonWithLink({
     editMode: editMode
   });
   return (
-    <MoreMenuButton icon={buttonIcon} href={editSmartAlertPath}>
+    <MoreMenuButton icon={buttonIcon} href={editSmartAlertPath} requireTitle title={buttonName}>
       {buttonName}
     </MoreMenuButton>
   );

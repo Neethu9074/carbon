@@ -216,7 +216,11 @@ function AnalyzeStateManagement({
 
   const formModel = useStableObjectInstance(urlState.formModel);
   const onFormModelChange = formModel => {
-    ua2FormModelChangedTracker({ formModel, url: getChangeAsUrl({ formModel }) });
+    ua2FormModelChangedTracker({
+      formModel,
+      url: getChangeAsUrl({ formModel }),
+      operator: formModel?.filter(form => form.operator).map(form => form.operator)
+    });
     onChange({ formModel });
   };
   const facets = useStableObjectInstance(urlState.facets);

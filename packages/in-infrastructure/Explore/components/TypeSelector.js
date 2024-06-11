@@ -7,9 +7,8 @@ import React, { useCallback, useMemo, useState, useRef, forwardRef } from 'react
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
+import { Li, SvgIcon, SearchInput } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
-import { Li } from '@instana/components';
 
 import {
   groupMatrixParameter,
@@ -33,7 +32,6 @@ import { getInteractiveElements } from 'in-services/util/dom';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { compareIgnoreCase } from 'in-services/util/string';
-import SearchInput from 'in-components/SearchInput';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';

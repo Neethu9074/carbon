@@ -21,7 +21,6 @@ import { ThresholdFn, ThresholdProps } from 'in-custom-dashboards/widgets/_share
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
 import ThresholdKpiCard from 'in-components/KpiCard/TresholdKpiCard';
-import { transformLogsResult } from 'in-components/KpiCard/utils';
 import Badge from 'in-custom-dashboards/widgets/BigNumber/Badge';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { percentage } from 'in-services/formatters/number';
@@ -149,11 +148,6 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
   isInModal?: boolean
 ) {
   let value = null;
-  const isLoggingWidget = config.metricConfiguration.source === 'LOG';
-
-  if (isLoggingWidget) {
-    result = transformLogsResult(result, config, timeConfig);
-  }
 
   const dataPoint = find(result.data, ({ id }) => id === metricKey);
   if (dataPoint?.values?.length === 1) {

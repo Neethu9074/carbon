@@ -17,8 +17,6 @@ import { clickBizopsTabsTracker } from 'in-bizops/tracker';
 import * as paths from 'in-bizops/navigation/paths';
 import { t } from 'in-i18n';
 
-import locals from './ViewSwitcher.mless';
-
 export default function ViewSwitcher() {
   const { matchLocation, createHrefToPath } = useNavigation();
   const isProcessesActive = matchLocation(paths.businessProcessPath);
@@ -35,30 +33,28 @@ export default function ViewSwitcher() {
     <>
       <DashboardHeader {...dashboardHeaderProps} />
       <DashboardHeaderModule theme={themes.light}>
-        <div className={locals.firstLine}>
-          <SecondLevelNavigation>
-            {bizopsPerspectivesEnabled && (
-              <SecondLevelNavigationItem
-                href={createHrefToPath(paths.businessPerspectivesPath)}
-                label={t('in-bizops:labelPerspectives')}
-                isActive={isPerspectivesActive && !isProcessesActive}
-                icon={'lib_bizops'}
-                onClick={() => {
-                  clickBizopsTabsTracker({ tab: 'Perspectives' });
-                }}
-              />
-            )}
+        <SecondLevelNavigation>
+          <SecondLevelNavigationItem
+            href={createHrefToPath(paths.businessProcessPath)}
+            label={t('in-bizops:labelBizOps')}
+            isActive={isProcessesActive && !isPerspectivesActive}
+            icon={'lib_bizops'}
+            onClick={() => {
+              clickBizopsTabsTracker({ tab: 'Processes' });
+            }}
+          />
+          {bizopsPerspectivesEnabled && ( // !TODO!: This needs to be moved above the processes tab once perspectives is released
             <SecondLevelNavigationItem
-              href={createHrefToPath(paths.businessProcessPath)}
-              label={t('in-bizops:labelBizOps')}
-              isActive={isProcessesActive && !isPerspectivesActive}
+              href={createHrefToPath(paths.businessPerspectivesPath)}
+              label={t('in-bizops:labelPerspectives')}
+              isActive={isPerspectivesActive && !isProcessesActive}
               icon={'lib_bizops'}
               onClick={() => {
-                clickBizopsTabsTracker({ tab: 'Processes' });
+                clickBizopsTabsTracker({ tab: 'Perspectives' });
               }}
             />
-          </SecondLevelNavigation>
-        </div>
+          )}
+        </SecondLevelNavigation>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />
     </>

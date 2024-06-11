@@ -4,6 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
+//@ts-expect-error promise loader
+import NotificationBarSticky from 'promise-loader?global!in-components/Sticky/NotificationBarSticky';
+// @ts-expect-error promise loader
+import AboutInstanaDialog from 'promise-loader?global!in-components/AboutInstanaDialog';
+// @ts-expect-error promise loader
+import NewPlayWithHeader from 'promise-loader?global!in-plg/Demo/NewPlayWithHeader';
 import React from 'react';
 
 import { UIShell, MenuItem, SideNavMenu, SvgIcon } from '@instana/components';
@@ -50,6 +56,12 @@ import {
   useLinkToAnalyze as useLinkToApplicationAnalyze
 } from 'in-applications/navigation/paths';
 import {
+  bizopsPerspectivesEnabled,
+  playwithEnabled,
+  playWithReleaseEnabled,
+  welcomePageV2Enabled
+} from 'in-services/featureFlags';
+import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
@@ -66,8 +78,6 @@ import {
 } from 'in-cloudfoundry/navigation/paths';
 // @ts-expect-error no declaration file
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
-//@ts-expect-error missing declaration file
-import NotificationBarSticky from 'in-components/Sticky/NotificationBarSticky';
 import { click as internalToggleClick } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { locationWithoutQueryParameter, urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 // @ts-expect-error needs ts migration
@@ -76,10 +86,8 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 // @ts-expect-error no declaration file
 import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
-// @ts-expect-error no declaration file
-import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
-import { playwithEnabled, playWithReleaseEnabled, welcomePageV2Enabled } from 'in-services/featureFlags';
 import { isAnalyzeView as isLogsAnalyzeView, logsPathWithDataSource } from 'in-logging/navigation/paths';
+import { isBizOpsView, businessPerspectivesPath, businessProcessPath } from 'in-bizops/navigation/paths';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
@@ -90,7 +98,6 @@ import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureF
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import { isBizOpsView, businessProcessPath } from 'in-bizops/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
@@ -99,8 +106,8 @@ import useUIShellTitleDetail from 'in-plg/hooks/useUIShellTitleDetail';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { isAnalyzeView } from 'in-analyze/navigation/constants';
-import NewPlayWithHeader from 'in-plg/Demo/NewPlayWithHeader';
 import { openEventsAtServerTime$ } from 'in-stores/events';
+import AsyncComponent from 'in-components/AsyncComponent';
 import { eventsPath } from 'in-events/navigation/paths';
 import { all, any } from 'in-services/fixedStreams';
 import { config } from 'in-services/config';
@@ -200,15 +207,27 @@ function BizOps() {
   if (!hasBizOpsAccess) {
     return null;
   }
-  return (
-    <MenuItem
-      id="main-nav-bizops"
-      label={t('in-bizops:navigation.businessMonitoring')}
-      icon="lib_bizops"
-      isActive={matchLocation(isBizOpsView)}
-      href={createHrefToPath(businessProcessPath)}
-    />
-  );
+  if (bizopsPerspectivesEnabled) {
+    return (
+      <MenuItem
+        id="main-nav-bizops"
+        label={t('in-bizops:navigation.businessMonitoring')}
+        icon="lib_bizops"
+        isActive={matchLocation(isBizOpsView)}
+        href={createHrefToPath(businessPerspectivesPath)}
+      />
+    );
+  } else {
+    return (
+      <MenuItem
+        id="main-nav-bizops"
+        label={t('in-bizops:navigation.businessMonitoring')}
+        icon="lib_bizops"
+        isActive={matchLocation(isBizOpsView)}
+        href={createHrefToPath(businessProcessPath)}
+      />
+    );
+  }
 }
 
 function Applications() {
@@ -470,9 +489,6 @@ function Synthetics() {
   if (!hasSyntheticsAccess) {
     return null;
   }
-  if (playwithEnabled) {
-    return null;
-  }
   return (
     <MenuItem
       id="main-nav-synthetics"
@@ -580,7 +596,7 @@ function moreContent(matchLocation: (path: string) => boolean, createHrefToPath:
       id="main-nav-about"
       key="main-nav-about"
       onClick={() => {
-        addActiveDialog(<AboutInstanaDialog />);
+        addActiveDialog(<AsyncComponent component={AboutInstanaDialog} />);
       }}
       label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
     />,
@@ -602,8 +618,8 @@ function moreContent(matchLocation: (path: string) => boolean, createHrefToPath:
 function HeaderContent() {
   return (
     <>
-      {playwithEnabled || playWithReleaseEnabled ? <NewPlayWithHeader /> : null}
-      <NotificationBarSticky />
+      {playwithEnabled || playWithReleaseEnabled ? <AsyncComponent component={NewPlayWithHeader} /> : null}
+      <AsyncComponent component={NotificationBarSticky} />
     </>
   );
 }

@@ -42,6 +42,7 @@ import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFoot
 import { saveBulkPolicies, deletePolicy, ScoredAction } from 'in-automation/api';
 import { close, addActiveDialog } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
+import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -157,7 +158,11 @@ function showConfirmationDialog(policy: Policy) {
   );
 }
 
-const getExecuteColumn = (volatileId: VolatileId, event: Event): ColumnDefinition<Policy> => ({
+const getExecuteColumn = (
+  volatileId: VolatileId,
+  event: Event,
+  setActiveKey?: SetActiveKey
+): ColumnDefinition<Policy> => ({
   id: 'execute',
   width: 9,
   label: '',
@@ -197,7 +202,13 @@ const getExecuteColumn = (volatileId: VolatileId, event: Event): ColumnDefinitio
           onClick={e => {
             e.stopPropagation();
             addActiveDialog(
-              <RunActionDialog action={action} executePolicy={item} volatileId={volatileId} event={event} />
+              <RunActionDialog
+                action={action}
+                executePolicy={item}
+                volatileId={volatileId}
+                event={event}
+                setActiveKey={setActiveKey}
+              />
             );
           }}
           noAutoMargin
@@ -467,9 +478,17 @@ interface AutomationPoliciesProps {
   actions: Result<ScoredAction[]>;
   trigger: Result<TriggerSpecification>;
   policies: Result<Policy[]>;
+  setActiveKey?: SetActiveKey;
 }
 
-export default function AutomationPolicies({ event, volatileId, actions, trigger, policies }: AutomationPoliciesProps) {
+export default function AutomationPolicies({
+  event,
+  volatileId,
+  actions,
+  trigger,
+  policies,
+  setActiveKey
+}: AutomationPoliciesProps) {
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -492,7 +511,7 @@ export default function AutomationPolicies({ event, volatileId, actions, trigger
 
   const columnDefinitionsToShow = [...columnDefinitions];
   if (role?.canRunAutomationActions) {
-    columnDefinitionsToShow.push(getExecuteColumn(volatileId, event));
+    columnDefinitionsToShow.push(getExecuteColumn(volatileId, event, setActiveKey));
   }
   if (role?.canConfigureAutomationPolicies) {
     columnDefinitionsToShow.push(deleteColumn);

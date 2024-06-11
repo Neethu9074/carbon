@@ -18,6 +18,7 @@ import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/bac
 import { Config as BigNumberConfig } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { TagFilterExpressionElementUnion, UnifiedMetricConfiguration } from 'in-types';
 import { customWidgetSeeInLogsClicked } from 'in-logging/analyze/AnalyzeView/tracker';
+import { carbonMoreMenuEnabled } from 'in-services/featureFlags';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { ChartConfig } from 'in-components/Chart/types';
 import Tooltip from 'in-components/Tooltip';
@@ -47,7 +48,7 @@ export function ViewLogsButton({ config, className = '' }: { config: MetricsConf
           })
         }
       >
-        <SvgIcon size="s" type="lib_analyze" />
+        <SvgIcon size={carbonMoreMenuEnabled ? 'xs' : 's'} type="lib_analyze" />
       </a>
     </Tooltip>
   );

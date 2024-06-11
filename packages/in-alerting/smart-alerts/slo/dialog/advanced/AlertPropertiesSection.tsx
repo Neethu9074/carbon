@@ -21,7 +21,7 @@ import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/
 import AlertLevelRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertLevelRow';
 import { getSloAlertOperatorContext } from 'in-alerting/smart-alerts/slo/components/OperatorDropdown';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
-import { getDescriptionPlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
+import { percentageUpToTwoDecimalPlaces } from 'in-services/formatters/number';
 import Sections from 'in-components/workspace/Sections';
 
 type OnChangeType = Parameters<typeof AlertProperties>[0]['onChange'];
@@ -39,15 +39,13 @@ export default function AlertPropertiesSection() {
 
   const showIncident = entityType === 'application';
   const titlePlaceholder = t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesTitlePlaceholder', {
-    context: alertType,
-    percentage: threshold,
-    operator: operatorContext
+    context: alertType
   });
   const descriptionPlaceholder = t(
     'in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesDescriptionPlaceholder',
     {
       context: alertType,
-      percentage: threshold,
+      percentage: percentageUpToTwoDecimalPlaces(threshold ?? 0),
       operator: operatorContext
     }
   );
@@ -77,7 +75,7 @@ export default function AlertPropertiesSection() {
 
           <AlertDescriptionRow
             form={form}
-            getDescriptionPlaceholder={getDescriptionPlaceholder}
+            getDescriptionPlaceholder={() => descriptionPlaceholder}
             onChange={onChange as OnChangeType}
           />
         </Sections>

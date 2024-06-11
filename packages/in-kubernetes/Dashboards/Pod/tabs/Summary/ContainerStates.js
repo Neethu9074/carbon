@@ -7,7 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Td, Table, Thead, Tbody, Tr, Th } from '@instana/components';
+import { Td, Table, Thead, Tbody, Tr, Th } from '@instana/legacy';
 import { Link } from '@instana/components';
 
 import {

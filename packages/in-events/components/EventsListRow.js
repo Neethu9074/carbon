@@ -6,8 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tr, Td, Pill } from '@instana/components';
 import { just } from '@instana/observables';
+import { Pill } from '@instana/components';
+import { Tr, Td } from '@instana/legacy';
 
 import {
   isApplicationEntity,
@@ -93,6 +94,7 @@ export default function EventRow({
               [locals.smallColumn]: smallColumn,
               [locals.title]: true
             })}
+            title={event.title}
           >
             {event.title}
           </div>
@@ -179,7 +181,9 @@ const OnEntity = connectTo(
         })}
       >
         <PluginIcon className={locals.entityIcon} size="s" plugin={rawEvent.plugin} />
-        <div className={locals.title}>{label}</div>
+        <div className={locals.title} title={label}>
+          {label}
+        </div>
       </div>
     );
   }
@@ -217,10 +221,11 @@ function getEndValue(event, isChangeEvent, end, start, headers, isPreview) {
   if (event.state === 'open') {
     return '-';
   }
+  const endTime = event.manualCloseTimestamp ? event.manualCloseTimestamp : end;
   if (isChangeEvent) {
-    return formatDisplayDateTime(end, headers, isPreview);
+    return formatDisplayDateTime(endTime, headers, isPreview);
   }
-  return start !== end ? formatDisplayDateTime(end, headers, isPreview) : valueMissingPlaceholder;
+  return start !== endTime ? formatDisplayDateTime(endTime, headers, isPreview) : valueMissingPlaceholder;
 }
 
 function getColorForState(event) {

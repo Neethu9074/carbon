@@ -5,9 +5,10 @@
 
 import React, { useState } from 'react';
 
+import { SearchInput } from '@instana/components';
+
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
-import SearchInput from 'in-components/SearchInput';
 
 import locals from './SearchBar.mless';
 

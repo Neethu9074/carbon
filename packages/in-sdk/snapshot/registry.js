@@ -5,6 +5,7 @@
 
 import { clone } from 'lodash';
 
+import { registerAnalyzeInfrastructureTagFilter } from 'in-sdk/tagFilter';
 import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import { addToRegistry } from 'in-applications/technologyRegistry';
 import { registerKpiDefinition } from 'in-sdk/metrics/kpis';
@@ -26,6 +27,7 @@ export function registerSnapshotDefinition(snapshotDefinition) {
   registerKpiDefinitions(snapshotDefinition);
   registerNewApplicationModelHooks(snapshotDefinition);
   registerIconTypeDef(snapshotDefinition);
+  registerAnalyzeInfrastructureTagFilterDef(snapshotDefinition);
 }
 
 export function getOptionalSnapshotDefinition(plugin) {
@@ -101,4 +103,12 @@ function registerIconTypeDef(snapshotDefinition) {
   }
 
   registerIconType(snapshotDefinition.plugin, snapshotDefinition.getIconType);
+}
+
+function registerAnalyzeInfrastructureTagFilterDef(snapshotDefinition) {
+  if (!snapshotDefinition.analyzeInfrastructureTagFilter) {
+    return;
+  }
+
+  registerAnalyzeInfrastructureTagFilter(snapshotDefinition.plugin, snapshotDefinition.analyzeInfrastructureTagFilter);
 }

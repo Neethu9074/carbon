@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { TrSizes } from '@instana/components/types/components/Table/types';
+import { TrSizes } from '@instana/legacy/types/components/Table/types';
 import { ThProps, TrProps } from '@instana/legacy';
 
 import { OrderDirection } from 'in-types';

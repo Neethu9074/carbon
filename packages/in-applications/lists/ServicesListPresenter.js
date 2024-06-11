@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { get } from 'lodash';
 
-import { SeverityIndicatorCellContentWrapper } from '@instana/components';
+import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
 import { TableEntityCounter } from '@instana/legacy';
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
@@ -34,7 +34,9 @@ import { getServicesWithDefaults } from 'in-applications/subscriptions/getServic
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -230,7 +232,8 @@ export default function ServicesList({
       : empty,
     []
   );
-
+  const applicationName = useObservable(getApplicationLabelObservable, [applicationId]);
+  const serviceName = useObservable(getServiceLabelObservable, [serviceId]);
   useEffect(() => {
     setCallTypes(
       joinExpressions({
@@ -258,12 +261,12 @@ export default function ServicesList({
         </Button>
       )}
       <Filters
-        applicationId={applicationId}
         contextScope={contextScope}
         endpointTypes={endpointTypes}
         technologies={technologies}
         setFilter={setFilter}
-        serviceId={serviceId}
+        serviceName={serviceName}
+        applicationName={applicationName}
         query={query}
         buttonLabel={t('in-applications:buttonAnalyzeServices')}
         groupBy={
@@ -346,4 +349,18 @@ function getTableData(params) {
 
 function getHasDataToRender(timeConfig) {
   return getServicesWithDefaults({ timeConfig }).map(result => !result.data || result.data.totalHits > 0);
+}
+
+function getServiceLabelObservable([id]) {
+  if (!id) {
+    return null;
+  }
+  return getServiceLabel({ id }).map(result => result.data?.label);
+}
+
+function getApplicationLabelObservable([id]) {
+  if (!id) {
+    return null;
+  }
+  return getApplication({ id }).map(result => result.data?.label);
 }

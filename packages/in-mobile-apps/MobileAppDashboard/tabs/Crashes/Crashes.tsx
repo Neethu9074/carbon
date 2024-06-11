@@ -216,7 +216,7 @@ function getTableData({
   if (isNotBlank(query)) {
     tagFilters = tagFilters.concat([
       {
-        name: 'mobileBeacon.error.message',
+        name: 'mobileBeacon.crash.keyInformation',
         stringValue: query,
         operator: 'CONTAINS',
         type: 'TAG_FILTER',
@@ -237,7 +237,7 @@ function getTableData({
       direction: orderDirection
     },
     group: {
-      groupbyTag: 'mobileBeacon.error.message'
+      groupbyTag: 'mobileBeacon.crash.keyInformation'
     },
     metrics: {
       uniqueUsersOrSessionsAgg: {

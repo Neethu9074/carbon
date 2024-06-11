@@ -10,4 +10,9 @@
     display: flex;
     align-items: flex-end;
   }
+  .betaPill {
+    background-color: var(--ids-color-option-neutral-200);
+    color: var(--ids-color-option-neutral-700);
+    margin-left: 0.5rem;
+  }
 }

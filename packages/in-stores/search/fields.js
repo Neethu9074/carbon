@@ -61,6 +61,7 @@ const helpTexts = {
   'entity.azure.service.managedhsm': t('in-stores:search.fieldsEntityAzureKeyVaultManagedHSM'),
   'entity.azure.service.purview': t('in-stores:search.fieldsEntityAzureServicePurview'),
   'entity.azure.service.postgresql': t('in-stores:search.fieldsEntityAzureServicePostgreSQL'),
+  'entity.azure.service.loadbalancer': t('in-stores:search.fieldsEntityAzureLoadBalancer'),
   'entity.host': t('in-stores:search.fieldsEntityHost'),
   'entity.host.os': t('in-stores:search.fieldsEntityHostOs'),
   'entity.ibmMq': t('in-stores:search.fieldsEntityIbmMq'),

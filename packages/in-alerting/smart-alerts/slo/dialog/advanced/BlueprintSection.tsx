@@ -79,7 +79,7 @@ export default function BlueprintSection() {
                   decimalPrecision={2}
                   className={locals.percentageInput}
                 />
-                percent of error budget is burned
+                percent of error budget is consumed
               </Trans>
             </Typography>
           </BlueprintSectionPanel>

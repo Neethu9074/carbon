@@ -3,26 +3,27 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { Fragment, useState } from 'react';
 import { createMapForm } from 'formalistic';
 import PropTypes from 'prop-types';
 import { fromJS } from 'immutable';
-import React from 'react';
 
-import { Link, Message } from '@instana/components';
+import { Button, Card, IconButton, Link, Message, Stack, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import AlertChannelTestButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { savingMessage as entityFormSavingMessage } from 'in-hoc/entityForm';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { createAlertChannelTracker } from 'in-settings/tracker';
 import SectionLine from 'in-settings/components/SectionLine';
 import FeatureFeedback from 'in-components/FeatureFeedback';
 import Notification from 'in-components/form/Notification';
-import SaveCancel from 'in-settings/components/SaveCancel';
 import { saveAlertChannel } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
 import entityForm from 'in-hoc/entityForm';
@@ -34,6 +35,8 @@ export default entityForm(AlertChannelModificationForm);
 
 function AlertChannelModificationForm(props) {
   const { entity, form, message, error, loading, setForm, isCreate, renderCustomFormActions, listPath } = props;
+
+  const [expandedCard, setExpandedCard] = useState(getDefaultStateOfAdvancedSection(entity, form));
 
   if (!entity || !form) {
     return <LoadingIndicator />;
@@ -57,67 +60,128 @@ function AlertChannelModificationForm(props) {
 
   const fullyQualifiedAlertChannel = getConfig(entity);
   const Form = fullyQualifiedAlertChannel.Form;
+  const AdvancedFormSettings = fullyQualifiedAlertChannel.AdvancedFormSettings;
 
   const alertChannelLabel = fullyQualifiedAlertChannel.label;
+  const testAlertChannelLabel = fullyQualifiedAlertChannel.testAlertChannelLabel;
 
   return (
-    <SettingsDetailPage>
-      <HorizontalFlexWrapper>
-        <SubViewHeader>
-          {isCreate
-            ? t('in-settings:tabs.createAlertChannelLabelAlertChannel', { alertChannelLabel: alertChannelLabel })
-            : t('in-settings:tabs.modifyEntityNameAlertChannel', { entityName: entity.get('name') })}
-        </SubViewHeader>
-        {fullyQualifiedAlertChannel?.isAlpha && (
-          <div className={locals.betaMarker}>
-            <FeatureFeedback
-              href={fullyQualifiedAlertChannel.feedbackLink}
-              labelText={t('in-settings:general.alphaLabel')}
+    <Fragment>
+      <SettingsDetailPage className={locals.settingsPage}>
+        <HorizontalFlexWrapper>
+          <SubViewHeader>
+            {isCreate
+              ? t('in-settings:tabs.createAlertChannelLabelAlertChannel', { alertChannelLabel: alertChannelLabel })
+              : t('in-settings:tabs.modifyEntityNameAlertChannel', { entityName: entity.get('name') })}
+          </SubViewHeader>
+          {fullyQualifiedAlertChannel?.isAlpha && (
+            <div className={locals.betaMarker}>
+              <FeatureFeedback
+                href={fullyQualifiedAlertChannel.feedbackLink}
+                labelText={t('in-settings:general.alphaLabel')}
+              />
+            </div>
+          )}
+          {fullyQualifiedAlertChannel?.isBeta && (
+            <div className={locals.betaMarker}>
+              <FeatureFeedback href={fullyQualifiedAlertChannel.feedbackLink} />
+            </div>
+          )}
+        </HorizontalFlexWrapper>
+        {fullyQualifiedAlertChannel?.referencesDocumentation && (
+          <Message className={locals.documentation} withIcon iconType="lib_help_error_info_circle" bold>
+            <Trans
+              i18nKey="in-settings:tabs.alertChannelDocumentationMessage"
+              components={{
+                documentationLink: (
+                  <Link href={fullyQualifiedAlertChannel?.documentationLink} external>
+                    &nbsp;
+                  </Link>
+                )
+              }}
             />
-          </div>
+          </Message>
         )}
-        {fullyQualifiedAlertChannel?.isBeta && (
-          <div className={locals.betaMarker}>
-            <FeatureFeedback href={fullyQualifiedAlertChannel.feedbackLink} />
-          </div>
-        )}
-      </HorizontalFlexWrapper>
-      {fullyQualifiedAlertChannel?.referencesDocumentation && (
-        <Message className={locals.documentation} withIcon iconType="lib_help_error_info_circle" bold>
-          <Trans
-            i18nKey="in-settings:tabs.alertChannelDocumentationMessage"
-            components={{
-              documentationLink: (
-                <Link href={fullyQualifiedAlertChannel?.documentationLink} external>
-                  &nbsp;
-                </Link>
-              )
-            }}
+        <SectionLine />
+        {message ? (
+          <Section className={locals.messageSection}>
+            <Notification failure={error} loading={loading}>
+              {message}
+            </Notification>
+          </Section>
+        ) : null}
+        <Form {...props} />
+        {fullyQualifiedAlertChannel?.testAPI !== null && (
+          <AlertChannelTestButton
+            alertChannel={entity}
+            form={form}
+            setForm={setForm}
+            alertChannelLabel={alertChannelLabel}
+            testAlertChannelLabel={testAlertChannelLabel}
           />
-        </Message>
-      )}
-      <SectionLine />
-      {message ? (
-        <Section className={locals.messageSection}>
-          <Notification failure={error} loading={loading}>
-            {message}
-          </Notification>
-        </Section>
-      ) : null}
-      <Form {...props} />
-      {fullyQualifiedAlertChannel?.testAPI !== null && (
-        <AlertChannelTestButton
-          alertChannel={entity}
-          form={form}
-          setForm={setForm}
-          alertChannelLabel={alertChannelLabel}
-        />
-      )}
+        )}
 
+        {AdvancedFormSettings && <SectionLine />}
+
+        {AdvancedFormSettings && (
+          <Card
+            leftHeaderContent={<Typography variant="heading-200">{'Advanced'}</Typography>}
+            headerClassName={locals.advancedCardHeader}
+            onHeaderBackgroundClicked={() => setExpandedCard(!expandedCard)}
+            rightHeaderContent={
+              <IconButton
+                color="black"
+                type={expandedCard ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
+                size="compact"
+              />
+            }
+          >
+            {expandedCard && <AdvancedFormSettings {...props} />}
+          </Card>
+        )}
+      </SettingsDetailPage>
       {renderCustomFormActions?.({ form, loading }) ?? (
-        <SaveCancel form={form} message={message} loading={loading} isCreate={isCreate} listPath={listPath} />
+        <SubmissionButton form={form} message={message} loading={loading} isCreate={isCreate} listPath={listPath} />
       )}
-    </SettingsDetailPage>
+    </Fragment>
+  );
+}
+
+function getDefaultStateOfAdvancedSection(entity, form) {
+  if (!entity || !form || entity.get('errors')) return false;
+
+  const fullyQualifiedAlertChannel = getConfig(entity);
+  return fullyQualifiedAlertChannel.advancedStateShouldBeExpandedByDefault
+    ? fullyQualifiedAlertChannel.advancedStateShouldBeExpandedByDefault(form)
+    : false;
+}
+
+function SubmissionButton({ form, message, loading, isCreate, listPath }) {
+  const saving = loading && message === entityFormSavingMessage;
+  const saveButtonLabel = isCreate ? t('forms.actions.create') : t('forms.actions.save');
+  const savingStateName = t('forms.states.saving');
+
+  const { goToPath } = useNavigation();
+
+  return (
+    <div className={locals.submissionWrapper}>
+      <SectionLine withMarginBottom={false} />
+      <Stack direction="horizontal" distribution="end">
+        <Button kind="subtle" className={locals.button} onClick={() => goToPath(listPath)}>
+          {t('forms.actions.cancel')}
+        </Button>
+        <Button
+          kind="primary"
+          type="submit"
+          className={locals.button}
+          disabled={(!form.hierarchyValid && form.touched) || loading || saving}
+          icon={saving ? 'lib_actions_loading' : null}
+          iconSpinning
+        >
+          {saving ? savingStateName : saveButtonLabel}
+        </Button>
+      </Stack>
+    </div>
   );
 }
 

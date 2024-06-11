@@ -298,6 +298,8 @@ export const PROFILING_TREEVIEW_EXPANDED = 'profiling.treeView.expanded';
 export const INFRASTRUCTURE_CONTEXT_GUIDE_STACK_LOADED = 'infrastructure.context.guide.stack.loaded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_EXPANDED = 'infrastructure.sidebar.related.entities.expanded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_CLICKED = 'infrastructure.sidebar.related.entities.clicked';
+export const INFRASTRUCTURE_ANALYZE_INFRASTRUCTURE_BUTTON_CLICKED =
+  'infrastructure.analyze.infrastructure.button.clicked';
 export const INFRA_EXPLORE_TYPE_SELECTOR_STATE_CHANGED = 'infra.explore.type.selector.state.changed';
 export const INFRA_EXPLORE_FILTER_ADDED = 'infra.explore.filter.added';
 export const INFRA_EXPLORE_FILTER_REMOVED = 'infra.explore.filter.removed';
@@ -417,6 +419,14 @@ export const AUTOMATION_POLICY_EDIT = 'automation.policy.edit';
 export const AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK = 'automation.recommended.actions.tab.click';
 export const AUTOMATION_CREATE_POLICY_FROM_RECOMMENDED_ACTIONS = 'automation.create.policy.from.recommended.actions';
 export const AUTOMATION_TEST_ACTION_RUN = 'automation.test.action.run';
+export const AUTOMATION_GENERATE_AI_BUTTON_CLICK = 'automation.generate.ai.button.click';
+export const AUTOMATION_CREATE_AI_ACTION_POLICY = 'automation.create.ai.action.policy';
+export const AUTOMATION_CLICK_AI_GENERATED_ACTIONS_TAB = 'automation.click.ai.generated.actions.tab';
+export const AUTOMATION_COPY_AI_GENERATED_ACTION = 'automation.copy.ai.generated.action';
+export const AUTOMATION_VIEW_AI_GENERATED_ACTION = 'automation.view.ai.generated.action';
+export const AUTOMATION_TEST_AI_GENERATED_ACTION = 'automation.test.ai.generated.action';
+export const AUTOMATION_CLICK_COPY_AI_GENERATED_ACTION = 'automation.click.copy.ai.generated.action';
+export const AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION = 'automation.click.test.ai.generated.action';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 
@@ -435,6 +445,8 @@ export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
 // Business Monitoring Tracking
 export const BIZOPS_TABS_CLICK = 'bizops.tabs.click';
 export const BIZOPS_PROCESSES_LIST_SELECT = 'bizops.processes.list.select';
+
+export const BIZOPS_PERSPECTIVE_LIST_SELECT = 'bizops.perspective.list.select';
 
 export const BIZOPS_PROCESS_TABS_CLICK = 'bizops.process.tabs.click';
 export const BIZOPS_PROCESS_ANALYZEINSTANCES_CLICK = 'bizops.process.analyzeInstances.click';

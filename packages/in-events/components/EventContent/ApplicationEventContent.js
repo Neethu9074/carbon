@@ -20,6 +20,7 @@ import ApplicationScopePath from 'in-alerting/smart-alerts/applications/componen
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
+import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
@@ -38,7 +39,7 @@ import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { hasManualCloseFields } from 'in-events/components/eventUtil';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
+import { manuallyCloseEventEnabled, eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
 import { emptyMap } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -144,6 +145,19 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
           </Card>
         </Col>
       </Row>
+
+      {eumImpactedUsersForAppAlertEnabled && (
+        <Row withoutSideMargin>
+          <Col xs>
+            <SmartAlertImpactedUsers
+              alertConfig={alertConfig}
+              event={event}
+              eventEntity={eventEntity}
+              snapshot={snapshot}
+            />
+          </Col>
+        </Row>
+      )}
 
       <Row withoutSideMargin>
         <Col xs>

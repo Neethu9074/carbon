@@ -13,6 +13,10 @@
     color: var(--ids-color-option-neutral-900);
   }
 
+  .colorNavy900 {
+    color: var(--ids-color-option-navy-900);
+  }
+
   .color700 {
     color: var(--ids-color-option-neutral-700);
   }

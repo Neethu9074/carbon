@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tr, Td } from '@instana/components';
+import { Tr, Td } from '@instana/legacy';
 
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -28,7 +28,9 @@ export default function EventListRowDense({ event, active, onClick, timeConfig }
           })}
           onClick={onClick}
         >
-          <span className={locals.label}>{event.title}</span>
+          <span className={locals.label} title={event.title}>
+            {event.title}
+          </span>
           <div className={locals.secondRow}>
             <time dateTime={new Date(event.start).toISOString()}>{formatDateTime(event.start)}</time>
           </div>

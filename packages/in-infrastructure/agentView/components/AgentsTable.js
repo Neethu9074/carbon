@@ -5,28 +5,19 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
-
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { LinkWithHealthIndicator } from 'in-infrastructure/agentView/components/LinkWithHealthIndicator';
 import ReportingIndicator from 'in-infrastructure/agentView/components/ReportingIndicator';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { getTimeConfigAtMoment, timeConfig$ } from 'in-stores/time/config';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { reportingStatus as ReportingStatus } from './ReportingStatus';
-import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
-import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
-import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
+import { logLevels, modes } from 'in-forge/plugins/instanaAgent/modes';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { timeConfig$ } from 'in-stores/time/config';
 import { compare } from 'in-services/util/number';
-import { getSnapshot } from 'in-stores/snapshot';
-import { plugins } from 'in-forge/constants';
-import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
-
-import locals from './AgentsTable.mless';
 
 const cols = [
   {
@@ -34,33 +25,10 @@ const cols = [
     type: 'custom',
     typeArgs: {
       comparator: compareIgnoreCase,
-      get$(row) {
-        const hostSnapshot$ = getHostSnapshotId(row.snapshot).flatMap(hostId => {
-          const to = row.snapshot.get('to') || Date.now();
-          const reportingWindowSize = to - row.snapshot.get('from');
-          const reportingCenterTime = row.snapshot.get('from') + reportingWindowSize / 2;
-          return getSnapshot(hostId, getTimeConfigAtMoment(reportingCenterTime));
-        });
-        return hostSnapshot$.startWith(null).flatMap(hostSnapshot =>
-          getDashboardLink(row.key).map(href => {
-            const label = hostSnapshot ? getLabel(hostSnapshot) : getLabel(row.snapshot);
-            return {
-              value: label,
-              content: (
-                <Link href={href} className={locals.link}>
-                  {hostSnapshot && (
-                    <HealthyPluginIcon
-                      className={locals.icon}
-                      plugin={plugins.instanaAgent}
-                      snapshotId={hostSnapshot.get('id')}
-                    />
-                  )}
-                  {label}
-                </Link>
-              )
-            };
-          })
-        );
+      get(row) {
+        return {
+          content: <LinkWithHealthIndicator row={row} />
+        };
       }
     }
   },

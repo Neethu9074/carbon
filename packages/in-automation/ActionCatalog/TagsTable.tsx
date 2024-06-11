@@ -22,6 +22,7 @@ interface TagsTableProps {
   onChange: OnEntityChange<ActionFormEntity>;
   setForm: SetFormFunction;
   isEditable?: boolean;
+  tagsFieldName?: string;
 }
 
 export interface Tag {
@@ -32,14 +33,15 @@ export interface Tag {
 const getColumnDefinitions = ({
   form,
   onChange,
-  isNotEditable
+  isNotEditable,
+  tagsFieldName = 'tags'
 }: Omit<TagsTableProps, 'setForm'> & { isNotEditable: boolean }) => [
   {
     id: 'id',
     sortable: false,
     label: t('in-automation:tags'),
     getContent(item: Tag) {
-      const tagsField = form.get('tags');
+      const tagsField = form.get(tagsFieldName);
       return (
         <>
           <HorizontalFlexWrapper className={locals.colName}>
@@ -51,7 +53,7 @@ const getColumnDefinitions = ({
               onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
                 const tags = (tagsField as Field<Tag[]>)?.value;
                 onChange(
-                  'tags',
+                  tagsFieldName,
                   tags.map(tag =>
                     tag?.id === item.id
                       ? {
@@ -72,16 +74,22 @@ const getColumnDefinitions = ({
   }
 ];
 
-export default function TagsTable({ form, setForm, onChange, isEditable = true }: TagsTableProps) {
-  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable: !isEditable });
-  const tags = (form.get('tags') as Field<Tag[]>).value;
+export default function TagsTable({
+  form,
+  setForm,
+  onChange,
+  isEditable = true,
+  tagsFieldName = 'tags'
+}: TagsTableProps) {
+  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable: !isEditable, tagsFieldName });
+  const tags = (form.get(tagsFieldName) as Field<Tag[]>).value;
 
   return (
     <ServerTablePresenterWrapper
       columnDefinitions={columnDefinitions}
       data={tags}
       form={form}
-      formKey="tags"
+      formKey={tagsFieldName}
       defaultRow={''}
       setForm={setForm}
       isEditable={isEditable}

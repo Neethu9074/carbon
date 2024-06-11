@@ -615,7 +615,8 @@
         "daysRemaining": "Days Remaining",
         "dateOfIssue": "Date of Issue",
         "dateOfExpiry": "Date of Expiry"
-      }
+      },
+      "failedRunErrorTypeTitle": "Error Type"
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",

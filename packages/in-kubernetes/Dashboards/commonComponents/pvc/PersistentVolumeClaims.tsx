@@ -6,14 +6,13 @@
 
 import React from 'react';
 
-import { Card, Stack, Ul, Li, KeyValue } from '@instana/components';
+import { Card, Stack, Ul, Li, KeyValue, SearchInput } from '@instana/components';
 
 import exploreKubernetesPersistentVolumeClaims from 'in-kubernetes/subscriptions/exploreKubernetesPersistentVolumeClaims';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import SearchInput from 'in-components/SearchInput';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { Error } from 'in-types';

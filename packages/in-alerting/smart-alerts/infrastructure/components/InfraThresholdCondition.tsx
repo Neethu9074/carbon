@@ -52,6 +52,7 @@ export default function InfraThresholdCondition({
           percentageMetric={percentageMetric}
           metricUnitPostfix={metricUnitPostfix}
         />
+
         {!groupBy?.length && (
           <UseSuggestedValueButton
             form={form}

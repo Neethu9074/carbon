@@ -51,7 +51,10 @@ export const errorFeedback = (
         <section className={locals.toast}>
           <Typography variant="heading-200">{localisationStrings.toastTitleFailed}</Typography>
           <Typography variant="body-regular">{localisationStrings.toastMessageFailed}</Typography>
-          <Link className={locals.newLine} href="">
+          <Link
+            className={locals.newLine}
+            href="https://www.ibm.com/docs/en/instana-observability/current?topic=support"
+          >
             {localisationStrings.contactSupport}
           </Link>
         </section>

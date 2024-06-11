@@ -122,7 +122,6 @@ export const BuyNowDialog = () => {
           size="lg"
           target="_blank"
           href="https://aws.amazon.com/marketplace/pp/prodview-tbam5h35sumqg?sr=0-1&ref_=beagle&applicationId=AWSMPContessa"
-          //@ts-expect-error rel is not defined in types
           rel="noopener noreferrer"
           onClick={() => track(BUY_NOW_BUTTON_AWS_CLICKED, getPageType(location.pathname))}
         >
@@ -136,7 +135,6 @@ export const BuyNowDialog = () => {
           size="lg"
           target="_blank"
           href={generateBuyOnIbmUrl(platformSubscriptionIdFreetrial)}
-          //@ts-expect-error rel is not defined in types
           rel="noopener noreferrer"
           onClick={() => track(BUY_NOW_BUTTON_IBM_CLICKED, getPageType(location.pathname))}
         >

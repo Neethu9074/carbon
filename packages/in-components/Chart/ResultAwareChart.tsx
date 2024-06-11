@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
+import { Card, HorizontalIndicator, LoadingSkeleton, Message, IconButton } from '@instana/components';
 
 import Renderer, { extendTimeConfigForBarRenderer } from 'in-components/Chart/renderer/Renderer';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
@@ -15,7 +15,6 @@ import { AxisConfiguration, ChartConfig } from 'in-components/Chart/types';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 // @ts-expect-error
 import PieChart from 'in-components/PieChart';
-import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Result } from 'in-types';
 import { t } from 'in-i18n';
@@ -108,7 +107,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
         {renderHistoricDataIndicator && hasApproximateData && <MultiLineToolTipIcon lines={[approximateTooltipText]} />}
         {renderWidgetNotSupportedIndicator && (
           <Tooltip content={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}>
-            <IconLink type="lib_help_error_info_outline" className={locals.liveModeIcon} />
+            <IconButton type="lib_help_error_info_outline" className={locals.liveModeIcon} />
           </Tooltip>
         )}
       </>

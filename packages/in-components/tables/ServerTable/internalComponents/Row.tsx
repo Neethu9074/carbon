@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { TrSizes } from '@instana/components/types/components/Table/types';
+import { TrSizes } from '@instana/legacy/types/components/Table/types';
 import { Tr, Td, TrProps } from '@instana/legacy';
 
 import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';

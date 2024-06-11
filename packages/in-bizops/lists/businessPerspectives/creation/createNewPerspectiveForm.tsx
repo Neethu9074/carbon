@@ -6,34 +6,45 @@
 
 import { ValidationResult, createField, createMapForm, MapForm } from 'formalistic';
 
+import { PerspectiveFormItem } from 'in-bizops/types';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-const createNewPerspectiveForm = (): MapForm<any> => {
-  const form = createMapForm()
+interface FormProps {
+  perspective?: PerspectiveFormItem;
+}
+
+const emptyForm: FormProps = {
+  perspective: {
+    description: '',
+    label: '',
+    tagFilterExpression: []
+  }
+};
+
+const createNewPerspectiveForm = ({ perspective }: FormProps = emptyForm): MapForm<any> => {
+  return createMapForm()
     .put(
       'tagFilterExpression',
       createField({
-        value: [],
+        value: perspective?.tagFilterExpression,
         validator: tagFilterExpressionValidator
       })
     )
     .put(
       'perspectiveName',
       createField({
-        value: '',
+        value: perspective?.label,
         validator: perspectiveNameValidator
       })
     )
     .put(
       'perspectiveDescription',
       createField({
-        value: '',
+        value: perspective?.description,
         validator: perspectiveDescriptionValidator
       })
     );
-
-  return form;
 };
 
 export default createNewPerspectiveForm;

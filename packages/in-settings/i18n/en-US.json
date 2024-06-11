@@ -265,7 +265,8 @@
         "access_level": "Access all the synthetic tests with the selected access type and any additional permissions."
       },
       "limited_access": {
-        "access_level": "Access only the listed synthetic tests with the selected access type and any additional permissions."
+        "access_level": "Access only the listed synthetic tests with the selected access type and any additional permissions",
+        "access_level_tp": "Access all tests that are associated to the APs from the section above. In addition, you can add more tests to their scope in the list below."
       },
       "role_permissions_owner": "Create, configure, view and delete synthetic tests.",
       "role_permissions_viewer": "View synthetic tests and their configuration."
@@ -350,7 +351,7 @@
         "unknownTag": "Unknown tag: {{tagName}}"
       }
     },
-    "retentionPeriod":{
+    "retentionPeriod": {
       "retentionPeriod": "Retention Period",
       "changeRetentionPeriod": "Change retention period",
       "retentionDialogDescription": "Changing the retention period for logs impacts the cost and duration of \n log data available for analytics and custom dashboards.",
@@ -527,6 +528,8 @@
     "pleaseDefineAtLeastOneEmail": "Please define at least one email",
     "remove": "Remove",
     "addEmail": "Add Email",
+    "customSubjects": "Custom subject(s)",
+    "addCustomSubject": "Add custom subject",
     "webhookUrlToCiscoWebexTeams": "Webhook URL to Cisco Webex Teams <incomingWebhookLink>Incoming Webhook</incomingWebhookLink>",
     "webhookUrlToIbmWatsonAIOps": "Webhook URL to IBM Watson AIOps <incomingWebhookLink>Incoming Webhook</incomingWebhookLink>",
     "webhookUrlToZChatOps": "Z ChatOps Incidents URL",
@@ -995,6 +998,8 @@
     "showsUpInTheIssueDescription": "Shows up in the issue description. Should be as descriptive as possible. Supports markdown.",
     "issueSeverity": "Issue Severity",
     "incident": "Incident",
+    "issue": "Issue",
+    "change": "Change",
     "gracePeriod": "Grace Period",
     "periodToWaitBeforeClosingTheIssueOnceConditionsAreNoLongerMet": "Period to wait before closing the issue once conditions are no longer met.",
     "closeAfterHelperDescription": "If a host is offline for longer than the defined period, Instana does not expect the host to reappear anymore, and the event will be closed after the grace period.",
@@ -1247,7 +1252,17 @@
     "access": "Access",
     "accessForTenantUnit": "Access for {{tenantUnit}}-{{tenant}}",
     "numberOfMembers": "Number of members",
-    "groupEntityName": "group {{entityName}}"
+    "groupEntityName": "group {{entityName}}",
+    "selectEventType": "Select event type",
+    "openSubject": "Open {{event_type}} subject",
+    "openEventType": "Open {{event_type}}",
+    "closeSubject": "Close {{event_type}} subject",
+    "closeEventType": "Close {{event_type}}",
+    "changeSubject": "Change subject",
+    "changeEvent": "Change event",
+    "advancedSettingsMessage": "By enabling this, you'll have the option to personalize the subject for event alerts you receive based on their type. If you prefer not to customize email subjects, you can simply disregard this option.",
+    "customSubjectNotProvided": "If a custom subject is not provided, Instana will send an alert email with predefined subject.",
+    "sendTestEmail": "Send test email"
   },
   "languageSelection": {
     "language": "Language",

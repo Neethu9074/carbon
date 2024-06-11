@@ -6,8 +6,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { ColumnizedDefinition, Pagination as CarbonPagination } from '@instana/components';
 import { ColumnizedContent, Li, Ul, Stack } from '@instana/components';
-import { ColumnizedDefinition } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -30,6 +30,7 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -223,11 +224,24 @@ export default function SmartAlertsBaseList<AlertConfig extends AlertConfigType>
           ) : null}
           {hasError({ errors } as Result<AlertConfig>) && <ErrorList className={locals.list} errors={errors} />}
         </Ul>
-        <Pagination
-          currentPage={page}
-          numPages={Math.ceil(searchResultsSelected.length / pageSize)}
-          onChange={newPage => setState({ page: newPage })}
-        />
+        {carbonPaginationEnabled ? (
+          <CarbonPagination
+            currentPage={page}
+            totalItems={searchResultsSelected.length}
+            pageSize={pageSize}
+            pageSizes={[pageSize]}
+            onChange={(data: { page: number; pageSize: number }) => {
+              const { page } = data;
+              setState({ page });
+            }}
+          />
+        ) : (
+          <Pagination
+            currentPage={page}
+            numPages={Math.ceil(searchResultsSelected.length / pageSize)}
+            onChange={newPage => setState({ page: newPage })}
+          />
+        )}
       </Stack>
     </>
   );

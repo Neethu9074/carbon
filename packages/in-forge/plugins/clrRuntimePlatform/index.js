@@ -18,5 +18,13 @@ registerSnapshotDefinition({
   agentMonitoringIssueDefinitions,
   technologyDescriptor: {
     label: t('in-forge:plugins.clrRuntimePlatform.indexLabel')
-  }
+  },
+  analyzeInfrastructureTagFilter: snapshot => [
+    {
+      name: 'clr.app.name',
+      value: snapshot.getIn(['data', 'name']),
+      operator: 'EQUALS',
+      type: 'TAG_FILTER'
+    }
+  ]
 });

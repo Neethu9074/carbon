@@ -12,6 +12,7 @@ import {
   InfraAlertRuleUnion,
   PredictiveTrigger
 } from '@instana/types';
+import { Card } from '@instana/components';
 
 import {
   infraAlertsDetailsPath,
@@ -32,6 +33,7 @@ import ScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColu
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
+import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
 
 export default function Alerts() {
@@ -49,15 +51,18 @@ export default function Alerts() {
 
   return (
     <>
-      <AlertBaseList<InfraAlertConfigWithMetadata>
-        extraColumnDefinitions={getColumnDefinitions()}
-        actionHandlers={handlers}
-        getAlertConfigs={() => getAllAlertConfigsWithResult()}
-        createRowLinkLocation={createRowLinkLocation}
-        getSubtitle={config => getSubtitle(config.rule, config.threshold, config.predictiveTrigger)}
-        sortOptions={sortOptions}
-        alertsTab={infraSmartAlerts}
-      />
+      <Card size="l">
+        <AlertBaseList<InfraAlertConfigWithMetadata>
+          extraColumnDefinitions={getColumnDefinitions()}
+          actionHandlers={handlers}
+          getAlertConfigs={() => getAllAlertConfigsWithResult()}
+          createRowLinkLocation={createRowLinkLocation}
+          getSubtitle={config => getSubtitle(config.rule, config.threshold, config.predictiveTrigger)}
+          sortOptions={sortOptions}
+          alertsTab={infraSmartAlerts}
+        />
+      </Card>
+      <Footer />
     </>
   );
 }
