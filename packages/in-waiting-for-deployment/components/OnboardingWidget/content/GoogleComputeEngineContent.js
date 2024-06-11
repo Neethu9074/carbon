@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 
+import { RadioButton } from '@instana/components';
 import {
   Bash,
   Description,
@@ -14,7 +15,6 @@ import {
   TextWithLink
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
 
 export default function GoogleComputeEngineContent({ agentKey, downloadKey, agentEndpoint, agentEndpointPort }) {
@@ -30,21 +30,19 @@ export default function GoogleComputeEngineContent({ agentKey, downloadKey, agen
         <>
           <h4>{t('in-waiting-for-deployment:content.agentMode')}</h4>
           <p>
-            <CheckboxFancy
+            <RadioButton
               label={t('in-waiting-for-deployment:content.dynamic')}
               checked={agentMode === agentModeOptions[0]}
               onChange={() => setAgentMode(agentModeOptions[0])}
               size="default"
-              asRadioButton
             />
           </p>
           <p>
-            <CheckboxFancy
+            <RadioButton
               label={t('in-waiting-for-deployment:content.static')}
               checked={agentMode === agentModeOptions[1]}
               onChange={() => setAgentMode(agentModeOptions[1])}
               size="default"
-              asRadioButton
             />
           </p>
         </>
@@ -52,21 +50,19 @@ export default function GoogleComputeEngineContent({ agentKey, downloadKey, agen
         <>
           <h4>{t('in-waiting-for-deployment:content.agentJdk')}</h4>
           <p>
-            <CheckboxFancy
+            <RadioButton
               label={t('in-waiting-for-deployment:content.azulZulu18')}
               checked={jvmVendor === jvmVendorOptions[0]}
               onChange={() => setJVMVendor(jvmVendorOptions[0])}
               size="default"
-              asRadioButton
             />
           </p>
           <p>
-            <CheckboxFancy
+            <RadioButton
               label={t('in-waiting-for-deployment:content.eclipseOpenJ911')}
               checked={jvmVendor === jvmVendorOptions[1]}
               onChange={() => setJVMVendor(jvmVendorOptions[1])}
               size="default"
-              asRadioButton
             />
           </p>
         </>

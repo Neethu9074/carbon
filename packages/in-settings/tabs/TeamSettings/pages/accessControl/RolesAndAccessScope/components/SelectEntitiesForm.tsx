@@ -6,6 +6,7 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { Checkbox } from '@instana/components';
 import { OrderDirection, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
@@ -17,7 +18,6 @@ import {
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import SelectItemForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/SelectItemForm';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -269,7 +269,7 @@ function getColumnDefinition<I extends Object>({
       getContent(item) {
         const id = extractId(item);
         const isSelected = selectedIds.includes(id);
-        return <CheckboxFancy size="large" checked={isSelected} onChange={() => onClickItem(item)} />;
+        return <Checkbox size="large" checked={isSelected} onChange={() => onClickItem(item)} />;
       }
     },
     {

@@ -7,7 +7,7 @@
 import { createField, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Link } from '@instana/components';
+import { Link, Checkbox } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {
@@ -30,7 +30,6 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import ApiItemView from 'in-settings/components/ApiItemView';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
@@ -149,7 +148,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
               <Row className={indentityProvidersLocals.row}>
                 <Col xs={12}>
                   {form.get('acceptAnyCA').map(field => (
-                    <CheckboxFancy
+                    <Checkbox
                       label={t('in-settings:tabs.ldapsAcceptAnyCA')}
                       checked={field.value}
                       onChange={() => {
@@ -164,7 +163,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
               <Row className={indentityProvidersLocals.row}>
                 <Col xs={12}>
                   {form.get('emptyPass').map(field => (
-                    <CheckboxFancy
+                    <Checkbox
                       label={t('in-settings:tabs.anonymous')}
                       checked={field.value}
                       onChange={() => {

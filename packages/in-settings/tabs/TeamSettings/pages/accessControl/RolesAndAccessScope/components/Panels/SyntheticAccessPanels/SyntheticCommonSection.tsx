@@ -7,7 +7,7 @@
 import { MapFormItems } from 'formalistic';
 import React from 'react';
 
-import { SvgIcon, Stack, StackItem, Typography } from '@instana/components';
+import { SvgIcon, Stack, StackItem, Typography, Checkbox } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { PermissionSet } from '@instana/types';
 
@@ -19,7 +19,6 @@ import {
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { Capability, productPermissionsObject } from 'in-stores/permission';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -71,7 +70,7 @@ export default function SyntheticCredentialSection<FORM_TYPE extends MapFormItem
         {t('in-settings:productAreas.additionalPermissions')}
       </Typography>
       {area.capabilities.map(productPermission => (
-        <CheckboxFancy
+        <Checkbox
           key={productPermission.keyForGroupApi}
           size="large"
           className={locals.clickable}

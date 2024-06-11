@@ -8,7 +8,7 @@ import { MapFormItems } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon, Typography, Stack, Spacer, StackItem } from '@instana/components';
+import { SvgIcon, Typography, Stack, Spacer, StackItem, Checkbox } from '@instana/components';
 import { PermissionSet } from '@instana/types';
 
 import {
@@ -19,7 +19,6 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { CapabilityType, PermissionsUnion, productPermissionsObject } from 'in-stores/permission';
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import ScrollStep from 'in-components/StepsContainer/ScrollStep';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -75,7 +74,7 @@ export default function PermissionSelection<FORM_TYPE extends MapFormItems>({
       {(area.capabilities as CapabilityType[])
         ?.map(capability => productPermissionsObject[capability])
         .map(productPermission => (
-          <CheckboxFancy
+          <Checkbox
             key={productPermission.keyForGroupApi}
             className={classNames({ [locals.clickable]: true })}
             size="large"

@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Stack, SvgIcon } from '@instana/components';
+import { Stack, SvgIcon, RadioButton, Checkbox } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {
@@ -38,7 +38,6 @@ import { HTTPMethods } from 'in-synthetics/createTests/form/createSyntheticTestF
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { numberValidator } from 'in-services/validators/jsonType';
@@ -397,7 +396,7 @@ export default function ConfigurationSection({
           <Row className={locals.row}>
             {Object.keys(timeoutObject).map(unit => (
               <Col lg={4} key={unit}>
-                <CheckboxFancy
+                <RadioButton
                   key={unit}
                   label={timeoutObject[unit].label}
                   checked={timeoutObject[unit].value === timeout.unit}
@@ -409,7 +408,6 @@ export default function ConfigurationSection({
                       )
                     );
                   }}
-                  asRadioButton
                 />
               </Col>
             ))}
@@ -444,7 +442,7 @@ export default function ConfigurationSection({
           <Row className={locals.row}>
             {retriesObject.map(retry => (
               <Col lg={4} key={retry.value}>
-                <CheckboxFancy
+                <RadioButton
                   key={retry.value}
                   label={retry.label}
                   checked={retry.value === retriesField.value}
@@ -478,7 +476,6 @@ export default function ConfigurationSection({
                       );
                     }
                   }}
-                  asRadioButton
                 />
               </Col>
             ))}
@@ -498,7 +495,7 @@ export default function ConfigurationSection({
       </div>
       <div className={locals.configContainer}>
         <Stack direction="horizontal">
-          <CheckboxFancy
+          <Checkbox
             wrapperClassName={locals.configCheckbox}
             onChange={({ target }) => {
               updateForm(
@@ -512,7 +509,7 @@ export default function ConfigurationSection({
             label={t('in-synthetics:dialog.createTest.advancedMode.configStep.followRedirect')}
             disabled={false}
           />
-          <CheckboxFancy
+          <Checkbox
             wrapperClassName={locals.configCheckbox}
             onChange={({ target }) => {
               updateForm(
@@ -526,7 +523,7 @@ export default function ConfigurationSection({
             label={t('in-synthetics:dialog.createTest.advancedMode.configStep.allowInsecure')}
             disabled={false}
           />
-          <CheckboxFancy
+          <Checkbox
             wrapperClassName={locals.configCheckbox}
             onChange={({ target }) => {
               updateForm(

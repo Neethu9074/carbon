@@ -8,13 +8,12 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 import React from 'react';
 
-import { Li, Stack, Ul } from '@instana/components';
+import { Li, Stack, Ul, RadioButton, Checkbox } from '@instana/components';
 import { Progress } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import SloTableSelectionSkeleton from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelectionSkeleton';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 
 import locals from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection.mless';
 
@@ -58,6 +57,8 @@ export default function SloTableSelection<COLUMN_DATA extends ColumnDataBase>({
 
   const shouldRenderMoreButton = canLoadMore && loadMore && !disabled;
 
+  const BoxComponent = asRadioButton ? RadioButton : Checkbox
+
   return (
     <Ul
       className={classNames({
@@ -74,8 +75,7 @@ export default function SloTableSelection<COLUMN_DATA extends ColumnDataBase>({
             key={itemData.id}
           >
             <Stack direction="horizontal">
-              <CheckboxFancy
-                asRadioButton={asRadioButton}
+              <BoxComponent
                 checked={selectedIds.includes(itemData.id)}
                 disabled={disabled}
                 onChange={disabled ? noop : () => onChange(itemData)}

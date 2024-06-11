@@ -7,7 +7,7 @@
 import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
-import { SvgIcon, Stack, StackItem, Typography, Toggle } from '@instana/components';
+import { SvgIcon, Stack, StackItem, Typography, Toggle, Checkbox } from '@instana/components';
 import { PermissionSet } from '@instana/types';
 import { Link } from '@instana/components';
 
@@ -31,7 +31,6 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { CapabilityType, getInfrastructurePermissions } from 'in-stores/permission';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import FormGroup from 'in-settings/components/FormGroup';
 import Label from 'in-components/form/Label';
@@ -101,7 +100,7 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
     return (
       <StackItem>
         {area.capabilities.map(productPermission => (
-          <CheckboxFancy
+          <Checkbox
             key={productPermission.key}
             size="large"
             className={locals.clickable}

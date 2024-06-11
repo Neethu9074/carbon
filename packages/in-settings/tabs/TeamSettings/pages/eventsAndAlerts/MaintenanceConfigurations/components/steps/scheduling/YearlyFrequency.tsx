@@ -8,14 +8,13 @@ import React, { useEffect, useState } from 'react';
 import { RRule, Weekday } from 'rrule';
 import { MapForm } from 'formalistic';
 
-import { Stack } from '@instana/components';
+import { Stack, RadioButton } from '@instana/components';
 
 import {
   setRRuleByMonthDay,
   setRRuleByMonth,
   setRRuleFirstToLastAndWeekday
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import ComboBox, { Option } from 'in-components/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -78,8 +77,7 @@ export default function YearlyFrequency({ form, setFormRRule, rrule }: YearlyFre
       <Label>{t('in-settings:maintenanceWindow.on')}</Label>
       <Stack direction="vertical" gap="xsmall">
         <Stack direction="horizontal" gap="xsmall">
-          <CheckboxFancy
-            asRadioButton
+          <RadioButton
             onChange={() => {
               setPosDay(undefined);
               setWeekDay(undefined);
@@ -111,8 +109,7 @@ export default function YearlyFrequency({ form, setFormRRule, rrule }: YearlyFre
           />
         </Stack>
         <Stack direction="horizontal" gap="xsmall" align="center">
-          <CheckboxFancy
-            asRadioButton
+          <RadioButton
             onChange={() => {
               setDayNum(0);
               setOnMonth(false);

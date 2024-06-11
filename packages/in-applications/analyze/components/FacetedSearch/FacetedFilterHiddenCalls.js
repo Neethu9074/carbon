@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, Checkbox } from '@instana/components';
 
 import {
   ua2FacetedSearchInternalCallsToggledTracker,
@@ -13,7 +13,6 @@ import {
 } from 'in-applications/tracker';
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -96,7 +95,7 @@ function HiddenCallCheck({ label, checked, onChange, disabled, disabledTooltipCo
   return (
     <Tooltip content={disabled && disabledTooltipContent} align="rightMiddle" delay={1000}>
       <div>
-        <CheckboxFancy
+        <Checkbox
           labelClassName={locals.label}
           wrapperClassName={locals.checkboxWrapper}
           className={locals.leftAlignedCheckbox}

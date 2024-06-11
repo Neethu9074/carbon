@@ -7,10 +7,9 @@
 import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
-import { Stack } from '@instana/components';
+import { Stack, Checkbox } from '@instana/components';
 
 import { FeedbackStepConfigs } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/stepConfig';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import FormTextArea from 'in-components/form/TextArea';
 import { t } from 'in-i18n';
 
@@ -27,7 +26,7 @@ export default function FeedbackStepTwo({ form, setForm }: FeedbackStepConfigs) 
 
   return (
     <Stack direction="vertical" align="start" distribution="start">
-      <CheckboxFancy
+      <Checkbox
         size="larger"
         onChange={() => setBoxOne(!boxOne)}
         label={t('in-settings:tabs.step1RMWTitle')}
@@ -45,7 +44,7 @@ export default function FeedbackStepTwo({ form, setForm }: FeedbackStepConfigs) 
           }}
         />
       )}
-      <CheckboxFancy
+      <Checkbox
         size="larger"
         onChange={() => setBoxTwo(!boxTwo)}
         label={t('in-settings:tabs.step2RMWTitle')}
@@ -63,7 +62,7 @@ export default function FeedbackStepTwo({ form, setForm }: FeedbackStepConfigs) 
           }}
         />
       )}
-      <CheckboxFancy
+      <Checkbox
         size="larger"
         onChange={() => setBoxThree(!boxThree)}
         label={t('in-settings:tabs.step3RMWTitle')}

@@ -6,6 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Checkbox } from '@instana/components';
 import LabelDescriptionWithIcon from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/LabelDescriptionWithIcon';
 import {
   hasSubEntitySelection,
@@ -13,7 +14,6 @@ import {
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -53,14 +53,14 @@ export default function IncludeInternalOrSyntheticCallsSwitch({
     >
       <Row>
         <Col lg={6} md={6} className={classNames({ [locals.column]: !tearSheetView, [locals.gap]: tearSheetView })}>
-          <CheckboxFancy
+          <Checkbox
             label={tearSheetView ? includeInternalLabelContent : callLabels['includeInternal']}
             checked={includeInternal}
             onChange={() => handleChange('includeInternal', includeInternal)}
           />
         </Col>
         <Col lg={6} md={6} className={classNames({ [locals.column]: !tearSheetView, [locals.gap]: tearSheetView })}>
-          <CheckboxFancy
+          <Checkbox
             label={tearSheetView ? includeSyntheticLabelContent : callLabels['includeSynthetic']}
             checked={includeSynthetic}
             onChange={() => handleChange('includeSynthetic', includeSynthetic)}

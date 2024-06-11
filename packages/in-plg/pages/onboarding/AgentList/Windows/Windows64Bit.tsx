@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { KeyValue, Stack, Typography } from '@instana/components';
+import { KeyValue, Stack, Typography, RadioButton } from '@instana/components';
 
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
@@ -17,7 +17,6 @@ import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import { shareAndInviteEnabled } from 'in-services/featureFlags';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { region } from 'in-services/config';
 import { t } from 'in-i18n';
 
@@ -98,19 +97,17 @@ const Windows64Bit = ({
   function getPackaging() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
+        <RadioButton
           label={t('in-plg:agentDetails.windows.common.dynamic')}
           checked={agentMode === agentModeOptions[0]}
           onChange={() => setAgentMode(agentModeOptions[0])}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label={t('in-plg:agentDetails.windows.common.static')}
           checked={agentMode === agentModeOptions[1]}
           onChange={() => setAgentMode(agentModeOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );
@@ -119,19 +116,17 @@ const Windows64Bit = ({
   function getRuntime() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
+        <RadioButton
           label="Azul Zulu 1.8"
           checked={jvmVendor === jvmVendorOptions[0]}
           onChange={() => setJVMVendor(jvmVendorOptions[0])}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label="Eclipse OpenJ9 11"
           checked={jvmVendor === jvmVendorOptions[1]}
           onChange={() => setJVMVendor(jvmVendorOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );

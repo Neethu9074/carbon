@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
-import { Stack, SvgIcon, Typography } from '@instana/components';
+import { Stack, SvgIcon, Typography, Checkbox } from '@instana/components';
 import { ApiGroup, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
@@ -48,7 +48,6 @@ import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/me
 import { teamSettingsAccessControlGroupNew } from 'in-settings/navigation/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ComboBox, { Option, Options } from 'in-components/ComboBox/ComboBox';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { getInvitations$, getUsersAsResultObservable } from 'in-api/users';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
@@ -503,7 +502,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
                         readOnly
                       />
                     </Fields>
-                    <CheckboxFancy
+                    <Checkbox
                       checked={fixateTime}
                       label={t('in-settings:ShareAndInviteDialogBox.fixateTime')}
                       size="default"

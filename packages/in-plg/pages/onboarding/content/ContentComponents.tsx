@@ -17,11 +17,10 @@ import {
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { Select } from '@instana/components';
+import { Select, Checkbox } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { notBlankValidator } from 'in-services/validators/string';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import FormInput from 'in-components/form/Input/Input';
 import InputComponent from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -95,7 +94,7 @@ export function DownloadButton({ href, fileName }: { href: string; fileName: str
 
 export function CheckBox({ label, checked, setChecked }: { label: string; checked: boolean; setChecked: any }) {
   return (
-    <CheckboxFancy
+    <Checkbox
       wrapperClassName={locals.checkbox}
       label={label}
       checked={checked}

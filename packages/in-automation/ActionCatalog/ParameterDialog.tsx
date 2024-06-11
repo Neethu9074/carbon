@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 
 import { Parameter, DynamicFieldValue } from '@instana/types';
 import { generateUniqueShortId } from '@instana/utils';
-import { RadioButton } from '@instana/components';
+import { RadioButton, Checkbox } from '@instana/components';
 
 import {
   ViewModel,
@@ -30,7 +30,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages'
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import { getDynamicParameterTagCatalog } from 'in-automation/api';
@@ -243,7 +242,7 @@ const MetaDataSection = ({
         </Row>
       </FormGroup>
       <FormGroup>
-        <CheckboxFancy
+        <Checkbox
           disabled={hidden.value || isNotEditable || disableTicketIdParameter}
           checked={required.value}
           label={t('in-automation:ActionCatalog.required')}
@@ -262,7 +261,7 @@ const HiddenSection = ({ parameter, parameterForm, setParameterForm, isNotEditab
 
   return (
     <FormGroup>
-      <CheckboxFancy
+      <Checkbox
         checked={hidden.value}
         disabled={isNotEditable}
         label={t('in-automation:ActionCatalog.hiddenParam')}

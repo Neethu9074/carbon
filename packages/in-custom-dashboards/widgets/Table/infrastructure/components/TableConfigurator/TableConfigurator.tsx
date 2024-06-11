@@ -7,7 +7,7 @@
 import { Item, MapForm } from 'formalistic';
 import React, { useMemo } from 'react';
 
-import { Li, Spacer, Stack } from '@instana/components';
+import { Li, Spacer, Stack, Checkbox } from '@instana/components';
 
 import {
   datasets,
@@ -30,7 +30,6 @@ import { getShortMetricKey } from 'in-custom-dashboards/widgets/Table/infrastruc
 import GroupConfigurator from 'in-custom-dashboards/widgets/Table/infrastructure/components/GroupConfigurator';
 import { metricsPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import Sections from 'in-components/workspace/Sections/Sections';
 import Section from 'in-components/workspace/Section';
@@ -110,7 +109,7 @@ export default function TableConfigurator({
               <Sections>
                 <Section title={t('in-custom-dashboards:widgets.table.form.infrastructure.countGroup')}>
                   <Stack direction="horizontal" align="center" distribution="stretch" gap="large">
-                    <CheckboxFancy
+                    <Checkbox
                       checked={counterField}
                       onChange={({ target }) =>
                         updateForm(
@@ -122,7 +121,7 @@ export default function TableConfigurator({
                 </Section>
                 <Section title={t('in-custom-dashboards:widgets.table.form.infrastructure.showGroupsWithMissingTags')}>
                   <Stack direction="horizontal" align="center" distribution="stretch" gap="large">
-                    <CheckboxFancy
+                    <Checkbox
                       checked={showGroupsWithMissingTagsField}
                       onChange={({ target }) =>
                         updateForm(
