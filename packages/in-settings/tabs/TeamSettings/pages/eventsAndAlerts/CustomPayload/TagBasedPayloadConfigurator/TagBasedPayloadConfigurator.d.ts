@@ -6,7 +6,7 @@
 
 import { Observable } from '@instana/observables';
 
-import { GetSuggestionsProps, Suggestions } from 'in-websites/queryBuilder';
+import { GetSuggestionsProps as GetWebsiteSuggestionsProps, Suggestions } from 'in-websites/queryBuilder';
 import { GetTagSuggestionsProps } from 'in-components/QueryBuilder';
 import { Result, TagCatalog, TagSuggestions } from 'in-types';
 
@@ -27,7 +27,7 @@ declare function TagBasedPayloadConfigurator<T>({
   getTagCatalog: () => Observable<Result<TagCatalog>>;
   suggestionsAlignedLeft: boolean;
   getSuggestions: (
-    args: GetTagSuggestionsProps | GetSuggestionsProps
+    args: GetTagSuggestionsProps | GetWebsiteSuggestionsProps
   ) => Observable<Result<TagSuggestions | Suggestions>>;
   hideDestinationSourceTag?: boolean;
 }): JSX.Element;
@@ -38,7 +38,7 @@ export function createTagBasedPayloadConfigurator({
 }: {
   getTagCatalog: () => Observable<Result<TagCatalog>>;
   getSuggestions?: (
-    args: GetTagSuggestionsProps | GetSuggestionsProps
+    args: GetTagSuggestionsProps | GetWebsiteSuggestionsProps
   ) => Observable<Result<TagSuggestions | Suggestions>>;
 }): TagBasedPayloadConfigurator;
 
@@ -55,7 +55,15 @@ export function createTagBasedWebsitePayloadConfigurator({
   getSuggestions
 }: {
   getTagCatalog: () => Observable<Result<TagCatalog>>;
-  getSuggestions?: (args: GetSuggestionsProps) => Observable<Result<Suggestions>>;
+  getSuggestions?: (args: GetWebsiteSuggestionsProps) => Observable<Result<Suggestions>>;
+});
+
+export function createTagBasedInfraPayloadConfigurator({
+  getTagCatalog,
+  getSuggestions
+}: {
+  getTagCatalog: () => Observable<Result<TagCatalog>>;
+  getSuggestions?: (args: GetInfraSuggestionsProps) => Observable<Result<Suggestions>>;
 });
 
 export interface GetMobileAppSuggestionsProps {
@@ -65,6 +73,15 @@ export interface GetMobileAppSuggestionsProps {
   propose?: TagSuggestionProposeType;
   tagFilterExpression?: TagFilterExpressionElementUnion;
   beaconType?: MobileAppMonitoringBeaconType;
+}
+
+export interface GetInfraSuggestionsProps {
+  name: string;
+  key?: string;
+  timeConfig: TimeConfig;
+  value: any;
+  propose: TagSuggestionProposeType;
+  tagFilterExpression: TagFilterExpressionElementUnion;
 }
 
 export function createTagBasedMobileAppPayloadConfigurator({

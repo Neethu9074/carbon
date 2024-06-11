@@ -17,12 +17,12 @@ import {
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import {
-  isCustomPayloadValidOrUntouched,
-  fieldTouchedAndInvalid
+  fieldTouchedAndInvalid,
+  isCustomPayloadValidOrUntouched
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import {
-  oneMinuteGranularityForStaticThresholdEnabled,
-  infraPredictiveDetectionEnabled
+  infraPredictiveDetectionEnabled,
+  oneMinuteGranularityForStaticThresholdEnabled
 } from 'in-services/featureFlags';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
@@ -49,7 +49,8 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     setSliderState,
     setCustomSlideInHeaderConfig,
     setTagFilterValid,
-    tagFilterValid
+    tagFilterValid,
+    TagBasedPayloadConfigurator
   } = props;
   const thresholdType = form.get('threshold').get('type').value;
   const metricLabel = form.get('hiddenFields').get('metricLabel').value;
@@ -175,7 +176,12 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           content: (
             <>
               <GlobalCustomPayloadCard context="INFRA" />
-              <AlertConfigCustomPayload form={form} setForm={updateForm} supportDynamicTypes={false} />
+              <AlertConfigCustomPayload
+                form={form}
+                setForm={updateForm}
+                supportDynamicTypes
+                TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+              />
             </>
           )
         }
