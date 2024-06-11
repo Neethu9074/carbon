@@ -77,7 +77,7 @@ function getBusinessProcessActivityList({
     type: 'EXPRESSION',
     elements: [
       {
-        entity: 'SOURCE',
+        entity: NOT_APPLICABLE,
         name: 'bpm_process_definition_id',
         operator: 'EQUALS',
         value: businessProcessId,
