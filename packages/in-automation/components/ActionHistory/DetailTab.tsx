@@ -121,7 +121,6 @@ export default function DetailTab({
       label: t('in-automation:actionHistory.log'),
       value: t('in-automation:actionHistory.viewLog'),
       isLink: true,
-      actionLane: inActionLane,
       stringLink: link,
       showCondition:
         (output === null || output?.trim().length === 0) &&
@@ -193,9 +192,10 @@ export default function DetailTab({
     },
     {
       label: t('in-automation:actionHistory.actionInstanceId'),
+      actionLane: inActionLane,
       value: (
-        <div className={locals.manualContentMarkdown}>
-          {id}
+        <div className={locals.actionInstanceIdContent}>
+          <span className={locals.actionInstanceId}>{id}</span>
           <CopyToClipboard getText={() => id ?? ''}>
             {refSetter => (
               <span ref={refSetter}>
@@ -296,7 +296,11 @@ export default function DetailTab({
   };
 
   return (
-    <div className={locals.instanceTabContent}>
+    <div
+      className={classNames({
+        [locals.instanceTabContent]: !inActionLane
+      })}
+    >
       <table
         className={classNames({
           [locals.ActionInstanceDetailsTable]: true,
