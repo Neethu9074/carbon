@@ -17,12 +17,15 @@ interface Props {
   testId: string;
   locationLabel: string;
   timeConfig: TimeConfig;
+  syntheticTestLabel: string;
 }
 
-export default function AnalyzeSyntheticEventButton({ testId, locationLabel, timeConfig }: Props) {
+export default function AnalyzeSyntheticEventButton({ testId, locationLabel, timeConfig, syntheticTestLabel }: Props) {
   const getSyntheticTestResultDashboard = useSyntheticTestResultDashboard();
 
-  const linkToUA = urlWithoutQueryParameter(getSyntheticTestResultDashboard(testId, timeConfig, true, [locationLabel]));
+  const linkToUA = urlWithoutQueryParameter(
+    getSyntheticTestResultDashboard(testId, syntheticTestLabel, timeConfig, true, [locationLabel])
+  );
 
   return (
     <Button kind="primary" icon="lib_synthetic" href={linkToUA}>
