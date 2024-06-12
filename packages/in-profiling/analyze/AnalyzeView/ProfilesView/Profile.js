@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { ButtonGroup, SearchInput } from '@instana/components';
 import { Message } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
@@ -28,8 +29,6 @@ import InfiniteCircle from 'in-components/Loading/InfiniteCircle';
 import { hasError, isLoading } from 'in-services/util/result';
 import { formatTime } from 'in-services/formatters/date';
 import SetBodyColor from 'in-components/SetBodyColor';
-import { ButtonGroup } from '@instana/components';
-import SearchInput from 'in-components/SearchInput';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

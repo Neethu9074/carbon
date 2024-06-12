@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, SearchInput } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { MultiSelectSuggestions } from 'in-components/AnalyzeView/FacetedFilters/MultiSelectSuggestions';
@@ -14,7 +14,6 @@ import { getFuzzyMatchingRegex } from 'in-components/AnalyzeView/fuzzyMatch';
 import { useSuggestions } from 'in-components/AnalyzeView/useSuggestions';
 import { compareIgnoreCase, isBlank } from 'in-services/util/string';
 import { identity } from 'in-services/util/function';
-import SearchInput from 'in-components/SearchInput';
 import { isLoading } from 'in-services/entityUtils';
 import { hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
