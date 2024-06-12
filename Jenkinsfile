@@ -59,7 +59,7 @@ pipeline {
           isDeliveryBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isDeliveryBranch.js") == 'true'
           isLTSRBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isLTSRBranch.js") == 'true'
           latestReleaseBranch = getLatestReleaseBranch()
-          instanaUiClientVersion = sh(returnStdout: true, script: "ci-shared-tools component-versions get-version ui-client ${branchName} 0")
+          instanaUiClientVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getVersion.js ui-client ${branchName} 0")
           majorReleaseVersion = instanaUiClientVersion.tokenize('.')[1].toInteger()
           gitCommitId         = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           gitCommitAuthor     = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
