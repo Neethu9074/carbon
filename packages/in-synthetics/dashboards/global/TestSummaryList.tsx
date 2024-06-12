@@ -44,11 +44,10 @@ import {
 } from 'in-synthetics/tags';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-//@ts-expect-error
-import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
+import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSmartAlertDialog';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';

@@ -14,9 +14,15 @@ import FloatingActionButton from 'in-components/FloatingActionButton/FloatingAct
 
 import locals from './FloatingActionButtonMenu.mless';
 
-export default function FloatingActionButtonMenu({ children, label = 'Add' }) {
+export default function FloatingActionButtonMenu({
+  children,
+  label = 'Add'
+}: {
+  children: React.ReactNode;
+  label?: string;
+}): JSX.Element | null {
   const [menuOpen, setMenuOpen] = useState(false);
-  const filteredItems = children ? children.filter?.(Boolean) ?? [children] : [];
+  const filteredItems = children ? React.Children.toArray(children).filter?.(Boolean) ?? [children] : [];
   const hasNoItems = filteredItems.length === 0;
   const toggleMenu = () => setMenuOpen(!menuOpen && !hasNoItems);
 
@@ -33,7 +39,7 @@ export default function FloatingActionButtonMenu({ children, label = 'Add' }) {
           [locals.dropdown]: true
         })}
       >
-        {filteredItems.map((item, idx) => (
+        {filteredItems.map((item: any, idx: number) => (
           <li key={idx} className={locals.withShadow}>
             {item}
           </li>
@@ -41,14 +47,18 @@ export default function FloatingActionButtonMenu({ children, label = 'Add' }) {
       </ul>
       <ClickAwayListener onClickAway={() => setMenuOpen(false)}>
         <FloatingActionButton onClick={toggleMenu} kind={menuOpen ? 'action' : 'primaryv2'} withBoxShadow>
-          <div className={locals.buttonLabelContainer}>
-            <SvgIcon
-              type={'lib_openclose_add'}
-              className={menuOpen ? locals.rotate : ''}
-              color={themes.default.ids.color.option.white}
-            />
-            <label className={menuOpen ? locals.labelHidden : ''}>{label}</label>
-          </div>
+          {
+            (
+              <div className={locals.buttonLabelContainer}>
+                <SvgIcon
+                  type={'lib_openclose_add'}
+                  className={menuOpen ? locals.rotate : ''}
+                  color={themes.default.ids.color.option.white}
+                />
+                <label className={menuOpen ? locals.labelHidden : ''}>{label}</label>
+              </div>
+            ) as unknown as Element
+          }
         </FloatingActionButton>
       </ClickAwayListener>
     </div>

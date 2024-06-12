@@ -10,7 +10,6 @@ import { Button } from '@instana/components';
 
 // eslint-disable-next-line no-restricted-imports
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
-// @ts-expect-error needs TS migration
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import CreateSloDialog from 'in-service-levels/components/ConfigDialog/CreateSloDialog';
