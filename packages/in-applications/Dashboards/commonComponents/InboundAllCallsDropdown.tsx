@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { ApplicationBoundaryScope } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
@@ -15,7 +16,24 @@ import { t } from 'in-i18n';
 
 import locals from './InboundAllCallsDropdown.mless';
 
-export default function InboundAllCallsDropdown(props) {
+interface Props {
+  boundaryScope?: string;
+  data?: any;
+  disabled: boolean;
+  onBoundaryStateChange: (value: { boundaryScope: string }) => void;
+}
+interface BoundaryScopeInfoProps {
+  text: string;
+  icon: string;
+  dashboard: string;
+  overrideDefault: string;
+}
+
+interface OptionProps {
+  value: string;
+  label: any;
+}
+export default function InboundAllCallsDropdown(props: Props) {
   const { boundaryScope: urlBoundaryScope, data: application, disabled, onBoundaryStateChange } = props;
   const defaultBoundaryScope = application?.boundaryScope;
   const boundaryScope = disabled ? 'ALL' : urlBoundaryScope || defaultBoundaryScope;
@@ -27,25 +45,29 @@ export default function InboundAllCallsDropdown(props) {
       ? t('in-applications:inboundOutboundCalls.config.all.text')
       : t('in-applications:inboundOutboundCalls.config.inbound.text');
 
+  const upperCaseBoundaryScope = boundaryScope.toUpperCase() as ApplicationBoundaryScope;
+  const boundaryScopeInfo: BoundaryScopeInfoProps = boundaryScopes.info[upperCaseBoundaryScope];
+  const upperCaseDefaultBoundaryScope = defaultBoundaryScope.toUpperCase() as ApplicationBoundaryScope;
+  const defaultBoundarySCopeInfo = boundaryScopes.info[upperCaseDefaultBoundaryScope].overrideDefault;
   return (
     <ComboBoxBehavior
       value={boundaryScope}
-      options={[
-        { value: 'INBOUND', label: renderItemContent('INBOUND') },
-        { value: 'ALL', label: renderItemContent('ALL') }
-      ]}
+      options={
+        [
+          { value: 'INBOUND', label: renderItemContent('INBOUND') },
+          { value: 'ALL', label: renderItemContent('ALL') }
+        ] as OptionProps[]
+      }
       onChange={value => onBoundaryStateChange({ boundaryScope: value })}
     >
       {({ elementProps, isOpen }) => (
+        // @ts-expect-error not fully matching expected type
         <DropdownButton {...elementProps} expanded={isOpen} kind="secondary" disabled={disabled}>
           <div className={locals.buttonContent}>
-            <SvgIcon className={locals.icon} type={boundaryScopes.info[boundaryScope.toUpperCase()].icon} />
+            <SvgIcon className={locals.icon} type={boundaryScopeInfo.icon} />
             {boundaryScopeLabel}
             {defaultBoundaryScope && !disabled ? (
-              <Tooltip
-                content={boundaryScopes.info[defaultBoundaryScope.toUpperCase()].overrideDefault}
-                align="leftMiddle"
-              >
+              <Tooltip content={defaultBoundarySCopeInfo} align="leftMiddle">
                 <SvgIcon className={locals.tooltipIcon} type="lib_help_error_info_outline" size="xs" />
               </Tooltip>
             ) : null}
@@ -56,7 +78,7 @@ export default function InboundAllCallsDropdown(props) {
   );
 }
 
-function renderItemContent(item) {
+function renderItemContent(item: ApplicationBoundaryScope) {
   const { icon, text, dashboard } = boundaryScopes.info[item];
   return (
     <div className={locals.option}>
