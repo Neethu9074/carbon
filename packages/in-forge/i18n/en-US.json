@@ -762,6 +762,8 @@
   "pluginName_host_1": "Hosts",
   "pluginName_host_2": "Hosts",
   "pluginName_host": "Host",
+  "pluginName_hostWinService": "Windows Service",
+  "pluginName_hostWinService_plural": "Windows Services",
   "pluginName_remoteHost_plural": "Remote Hosts",
   "pluginName_remoteHost_0": "Remote Hosts",
   "pluginName_remoteHost_1": "Remote Hosts",
@@ -10226,7 +10228,13 @@
         "networkInterfaces": "Network Interfaces",
         "cpuNormalized": "CPU (normalized)",
         "processTopList": "Process Top List",
-        "packages": "Packages"
+        "packages": "Packages",
+        "services": "Windows Services",
+        "service": "Windows Service",
+        "servicename": "Service Name",
+        "displayname": "Display Name",
+        "state": "State",
+        "health": "Health"
       },
       "os": "OS",
       "distribution": "Distribution",

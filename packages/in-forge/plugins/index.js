@@ -185,6 +185,7 @@ import './nomadScheduler';
 import './pCFApplication';
 import './rocketMqBroker';
 import './ibmMqttChannel';
+import './hostWinService';
 import './kongApigateway';
 import './tibcoBWAppInst';
 import './tibcoBWAppNode';

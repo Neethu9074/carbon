@@ -20,6 +20,7 @@ import AgentManagementButton from 'in-forge/plugins/host/Dashboard/AgentManageme
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
+import WinServicesTable from 'in-forge/plugins/host/Dashboard/WinServicesTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -325,6 +326,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <ProcessTopList snapshot={snapshot} />
+
+      {isWindows(snapshot) && <WinServicesTable snapshot={snapshot} />}
 
       <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))} timeConfig={timeConfig} />
 

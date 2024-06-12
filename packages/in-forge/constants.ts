@@ -144,6 +144,7 @@ export const nonServicePlugins = {
   hazelcastNode: 'hazelcastNode',
   hBase: 'hBase',
   host: 'host',
+  hostWinService: 'hostWinService',
   httpd: 'httpd',
   ibmApiConnect: 'ibmApiConnect',
   ibmApiConnectCatalog: 'ibmApiConnectCatalog',
@@ -541,6 +542,7 @@ export const fullyQualifiedPlugins = {
   hazelcastNode: 'com.instana.forge.infrastructure.database.hazelcast.HazelcastNode',
   hBase: 'com.instana.forge.infrastructure.database.hbase.HBase',
   host: 'com.instana.forge.infrastructure.os.host.Host',
+  hostWinService: 'com.instana.forge.infrastructure.os.host.derivedentity.service.HostWinService',
   httpd: 'com.instana.forge.infrastructure.webserver.httpd.Httpd',
   ibmApiConnect: 'com.instana.forge.infrastructure.apigateway.ibmapiconnect.IbmApiConnect',
   ibmApiConnectCatalog:
