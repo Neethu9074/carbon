@@ -84,7 +84,7 @@ export default function AlertingChartWithErrorMessage<AlertConfig extends Object
       enrichedTagFilterExpression={enrichedTagFilterExpression}
     />
   ) : (
-    <Message withIcon>
+    <Message withIcon fullInlineWidth>
       {getErrorMessage?.(isValidDependingOnMode) ??
         t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery')}
     </Message>

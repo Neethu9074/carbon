@@ -23,27 +23,16 @@ interface Props {
 export default function SelectedBlueprintPresenter({ title, description, isBeta, children }: Props) {
   return (
     <div>
-      <span className={locals.inline}>
-        <AlertTypography variant={'heading-200'} color={'color900'} content={title} noMargin>
-          {isBeta && (
-            <>
-              <Spacer horizontal="small" />
-              <BetaBadge />
-            </>
-          )}
-        </AlertTypography>
-      </span>
+      <AlertTypography variant={'heading-200'} color={'color900'} content={title} noMargin>
+        {isBeta && (
+          <span className={locals.gap}>
+            <BetaBadge />
+          </span>
+        )}
+      </AlertTypography>
+
       <Spacer vertical="normal" />
-      <span className={locals.inline}>
-        <AlertTypography variant={'body-large'} color={'color600'} content={description} noMargin>
-          {isBeta && (
-            <>
-              <Spacer horizontal="small" />
-              <BetaBadge />
-            </>
-          )}
-        </AlertTypography>
-      </span>
+      <AlertTypography variant={'body-large'} color={'color600'} content={description} noMargin />
       {children}
     </div>
   );
