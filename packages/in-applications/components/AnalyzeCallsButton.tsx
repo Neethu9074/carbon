@@ -6,6 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { ApplicationBoundaryScope, Group } from '@instana/types';
+import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
@@ -14,36 +16,33 @@ import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { emptyArray } from 'in-services/fixedObjects';
-import connect from 'in-hoc/connectTo';
+import { WithLabel } from 'in-applications/types';
 import { t } from 'in-i18n';
 
-export default connect(({ applicationId, serviceId, endpointId }) => {
-  const observables = {};
-  if (applicationId) {
-    observables.applicationLabel = getApplication({ id: applicationId }).map(getLabel);
-    observables.applicationBoundaryScope = getApplication({ id: applicationId }).map(getBoundaryScope);
-  }
-  if (serviceId) {
-    observables.serviceLabel = getServiceLabel({ id: serviceId }).map(getLabel);
-  }
-  if (endpointId) {
-    observables.endpointLabel = getEndpointInfo({ id: endpointId }).map(getLabel);
-  }
-  return observables;
-})(AnalyzeCallsButton);
-
-function AnalyzeCallsButton({
-  applicationLabel,
-  applicationBoundaryScope,
-  serviceLabel,
-  endpointLabel,
+interface AnalyzeCallsButtonProps {
+  applicationId: string;
+  serviceId?: string | null;
+  endpointId?: string;
+  boundaryScope: ApplicationBoundaryScope;
+  includeSynthetic?: boolean;
+  formModel?: any;
+  groupBy: Partial<Group>;
+}
+export default function AnalyzeCallsButton({
+  applicationId,
+  serviceId,
+  endpointId,
   boundaryScope,
   formModel = emptyArray,
   includeSynthetic,
   groupBy
-}) {
+}: AnalyzeCallsButtonProps) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
-
+  const application = useObservable(() => getApplicationObservable(applicationId), [applicationId]);
+  const serviceLabel = useObservable(getServiceLabelObservable(serviceId), [serviceId]);
+  const endpointLabel = useObservable(getEndpointLabelObservable(endpointId), [endpointId]);
+  const applicationLabel = application?.data?.label;
+  const applicationBoundaryScope = application?.data?.boundaryScope;
   return (
     <Button
       kind="primary"
@@ -64,10 +63,27 @@ function AnalyzeCallsButton({
   );
 }
 
-function getLabel(result) {
+function getLabel(result: WithLabel) {
   return get(result, ['data', 'label'], null);
 }
 
-function getBoundaryScope(result) {
-  return get(result, ['data', 'boundaryScope'], null);
+function getApplicationObservable(id?: string) {
+  if (!id) {
+    return null;
+  }
+  return getApplication({ id });
+}
+
+function getServiceLabelObservable(id?: string | null) {
+  if (!id) {
+    return null;
+  }
+  return getServiceLabel({ id }).map(getLabel);
+}
+
+function getEndpointLabelObservable(id?: string | null) {
+  if (!id) {
+    return null;
+  }
+  return getEndpointInfo({ id }).map(getLabel);
 }

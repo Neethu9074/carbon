@@ -224,7 +224,6 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         endpointId={endpointId}
         boundaryScope={boundaryScope}
         syntheticType={get(result, ['data', 'syntheticType'])}
-        timeConfig={timeConfig}
         groupBy={createGroupBy('call.name')}
         includeSynthetic={get(result, ['data', 'synthetic'])}
       />

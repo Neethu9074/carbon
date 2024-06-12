@@ -193,7 +193,6 @@ function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig,
         applicationId={applicationId}
         serviceId={serviceId}
         boundaryScope={boundaryScope}
-        timeConfig={timeConfig}
         groupBy={createGroupBy('endpoint.name', DESTINATION)}
         formModel={filterByType(result.data.types)}
         includeSynthetic={get(result, ['data', 'synthetic'])}

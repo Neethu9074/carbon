@@ -45,10 +45,10 @@ export default function InboundAllCallsDropdown(props: Props) {
       ? t('in-applications:inboundOutboundCalls.config.all.text')
       : t('in-applications:inboundOutboundCalls.config.inbound.text');
 
-  const upperCaseBoundaryScope = boundaryScope.toUpperCase() as ApplicationBoundaryScope;
+  const upperCaseBoundaryScope = boundaryScope?.toUpperCase() as ApplicationBoundaryScope;
   const boundaryScopeInfo: BoundaryScopeInfoProps = boundaryScopes.info[upperCaseBoundaryScope];
-  const upperCaseDefaultBoundaryScope = defaultBoundaryScope.toUpperCase() as ApplicationBoundaryScope;
-  const defaultBoundarySCopeInfo = boundaryScopes.info[upperCaseDefaultBoundaryScope].overrideDefault;
+  const upperCaseDefaultBoundaryScope = defaultBoundaryScope?.toUpperCase() as ApplicationBoundaryScope;
+  const defaultBoundarySCopeInfo = boundaryScopes.info[upperCaseDefaultBoundaryScope]?.overrideDefault;
   return (
     <ComboBoxBehavior
       value={boundaryScope}

@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Application, Result, TimeConfig } from '@instana/types';
+import { Application, ApplicationBoundaryScope, Result, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
@@ -22,8 +22,6 @@ import {
 // @ts-expect-error needs TS migration
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-// @ts-expect-error needs TS migration
-import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
@@ -37,6 +35,7 @@ import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartA
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
+import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
@@ -153,7 +152,7 @@ function Header(
 interface ButtonLineProps {
   applicationId: string;
   timeConfig: TimeConfig;
-  boundaryScope: string | undefined;
+  boundaryScope: ApplicationBoundaryScope;
   location: Location;
   result: Result<Application>;
 }
@@ -214,7 +213,6 @@ function renderButtonLine(props: ButtonLineProps) {
       <AnalyzeCallsButton
         applicationId={applicationId}
         boundaryScope={boundaryScope}
-        timeConfig={timeConfig}
         groupBy={createGroupBy('service.name', DESTINATION)}
       />
 
