@@ -19,7 +19,7 @@ describe('in-components/TabSelect/components/TabSelectItem', () => {
     const { baseElement } = render(<TabSelectItem withRadioButton={withRadioButton}>Foo</TabSelectItem>);
 
     // Then
-    expect(baseElement.querySelector('input.local-css-control')).toBeNull();
+    expect(baseElement.querySelector('input.radiobutton')).toBeNull();
   });
 
   it('renders with radio button if withRadioButton is true', () => {
@@ -93,7 +93,7 @@ describe('in-components/TabSelect/components/TabSelectItem', () => {
     // Then
     expect(baseElement.querySelector('.local-css-item').className).toContain('local-css-itemDisabled');
     expect(baseElement.querySelector('.local-css-itemBody').className).toContain('local-css-itemDisabled');
-    expect(baseElement.querySelector('input.local-css-control')).toBeDisabled();
+    expect(baseElement.querySelector('input.radiobutton')).toBeDisabled();
   });
 
   it('calls context setter with correct params if item has been clicked and a forId is provided', () => {
