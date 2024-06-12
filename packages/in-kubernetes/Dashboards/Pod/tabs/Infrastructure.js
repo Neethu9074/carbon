@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { Td, Table, Thead, Tbody, Tr, Th } from '@instana/components';
+import { Td, Table, Thead, Tbody, Tr, Th } from '@instana/legacy';
 import { Card } from '@instana/components';
 
 import {

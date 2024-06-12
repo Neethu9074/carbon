@@ -1,15 +1,18 @@
 /*
- * (c) Copyright IBM Corp. 2024
+ * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
 
 import { Map } from 'immutable';
 import React from 'react';
 
-import { Stack, Typography } from '@instana/components';
-import { t } from '@instana/i18n-react';
-
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import { toHtml } from 'in-services/formatters/markdown';
 import { EventOrMap } from 'in-events/types';
+import { t } from 'in-i18n';
+
+import locals from './ManualCloseDescription.mless';
 
 interface Props {
   event: EventOrMap;
@@ -20,16 +23,17 @@ export default function ManualCloseDescription({ event }: Props) {
   const reasonForClosing = metadata.get('manualCloseReason');
   const username = metadata.get('manualCloseUsername');
 
+  const htmlManualCloseReason = toHtml(reasonForClosing);
+  const htmlManualCloseUsername = toHtml(username);
+
   return (
-    <Stack>
-      <Stack gap="xxsmall">
-        <Typography variant="body-bold">{t('in-events:closeEventDialog.closedByLabel')}</Typography>
-        <Typography variant="body-regular">{username}</Typography>
-      </Stack>
-      <Stack gap="xxsmall">
-        <Typography variant="body-bold">{t('in-events:closeEventDialog.comments')}</Typography>
-        <Typography variant="body-regular">{reasonForClosing}</Typography>
-      </Stack>
-    </Stack>
+    <DescriptionList>
+      <DescriptionItem className={locals.title} title={t('in-events:closeEventDialog.closedByLabel')}>
+        <DangerousHtmlPresenter className={locals.username} html={htmlManualCloseUsername} />
+      </DescriptionItem>
+      <DescriptionItem title={t('in-events:closeEventDialog.comments')}>
+        <DangerousHtmlPresenter className={locals.reason} html={htmlManualCloseReason} />
+      </DescriptionItem>
+    </DescriptionList>
   );
 }

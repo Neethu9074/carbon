@@ -78,7 +78,7 @@ export default function BusinessPerspectivesList() {
         <ServerTableWithUrlState
           get={getBusinessPerspectivesListData}
           timeConfig={timeConfig}
-          cardTitle={t('in-bizops:lists.perspectives')}
+          cardTitle={t('in-bizops:perspectives.lists.perspectives')}
           rightHeader={NewPerspectiveButton}
         />
       </LeftRightPadding>
@@ -131,7 +131,23 @@ GetBusinessPerspectiveList) {
     },
     order: { by: orderBy, direction: orderDirection },
     dataType: 'PERSPECTIVE',
-    metrics: {},
+    metrics: {
+      business_process_definitions_count: {
+        metric: 'business_process_definitions_count',
+        granularity: 0,
+        aggregation: 'DISTINCT_COUNT'
+      },
+      openIssues: {
+        metric: 'openIssues',
+        granularity: 0,
+        aggregation: 'DISTINCT_COUNT'
+      },
+      maxSeverity: {
+        metric: 'maxSeverity',
+        granularity: 0,
+        aggregation: 'MAX'
+      }
+    },
     timeConfig,
     tagFilterExpression
   });

@@ -16,7 +16,7 @@ import {
   Tr,
   Th,
   TableLoadMoreRow
-} from '@instana/components';
+} from '@instana/legacy';
 import { Card } from '@instana/components';
 
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';

@@ -7,10 +7,12 @@
 import React from 'react';
 
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
+import { businessPerspectiveDashboard } from 'in-bizops/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { clickBizopsProcessTabsTracker } from 'in-bizops/tracker';
 import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { tabs } from 'in-bizops/dashboards/perspectives/tabs';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -39,5 +41,11 @@ export default function BusinessPerspectiveSummary() {
 }
 
 function Header() {
-  return <DashboardHeader label="{PERSPECTIVE_NAME}" title={t('in-bizops:labelBizOps')} />;
+  const location = useLocation();
+
+  const perspectiveName =
+    getMatrixParameter(location, businessPerspectiveDashboard, 'perspectiveName') ??
+    t('in-bizops:dashboards.summary.pageTitle');
+
+  return <DashboardHeader label={perspectiveName} title={t('in-bizops:labelPerspective')} />;
 }

@@ -1,0 +1,15 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+:local {
+  .triggerIncidentContainer {
+    display: grid;
+    align-items: center;
+    justify-items: start;
+    grid-template-columns: 15% 83%;
+    padding-top: 1.5rem;
+    grid-gap: 1rem;
+  }
+}

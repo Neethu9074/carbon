@@ -24,6 +24,7 @@ import {
   getQueryBuilder,
   getGroupByQueryBuilder
 } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/infrastructure/hooks/useTagBasedPayloadConfigurator';
 import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import PredictiveTriggerDescription from 'in-alerting/smart-alerts/infrastructure/details/PredictiveTriggerDescription';
 // eslint-disable-next-line no-restricted-imports
@@ -85,14 +86,6 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const tagCatalog = useTagCatalog({ ownerType: entityType });
   const entityLabel = getPluginName(entityType, 1);
-  // TODO : below logic can be removed once the dynamic payload support is enabled for infa SA
-  const customPayloadFieldsAllStatic = customPayloadFields.map(customPayload => {
-    const newCustomPayload = { ...customPayload };
-    if (typeof customPayload.value != 'string') {
-      newCustomPayload.value = customPayload.value.tagName;
-    }
-    return newCustomPayload;
-  });
 
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
 
@@ -110,6 +103,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   }, []);
 
   const groupingFilter = groupBy && toUIGrouping(groupBy);
+
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator({ metricName, regex, entityType });
 
   return (
     <AlertDetailsCard>
@@ -219,8 +214,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="INFRA" />
       <CustomPayloadCard
-        customPayloadFields={customPayloadFieldsAllStatic} //this can be replaced with - customPayloadFields - once the dynamic payload support is enabled for infa SA
-        TagBasedPayloadConfigurator={() => <></>}
+        customPayloadFields={customPayloadFields}
+        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
         openByDefault
       />
     </AlertDetailsCard>

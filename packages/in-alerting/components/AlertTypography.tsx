@@ -35,6 +35,7 @@ export default function AlertTypography({
         className={classNames({
           [locals.color600]: color === 'color600',
           [locals.color900]: color === 'color900',
+          [locals.colorNavy900]: color === 'color900-navy',
           [locals.color700]: color === 'color700'
         })}
       >

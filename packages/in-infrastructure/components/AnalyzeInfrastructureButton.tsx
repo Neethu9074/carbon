@@ -32,7 +32,7 @@ export default function AnalyzeInfrastructureButton(
       href={getLinkToInfraEntityExplore(props)}
       onClick={props.onClick}
     >
-      {t('in-infrastructure:explore.analyzeInfrastructure')}
+      {t('in-infrastructure:explore.relatedInstances')}
     </Button>
   );
 }

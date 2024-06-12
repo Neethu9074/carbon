@@ -117,6 +117,7 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
               actions={actions}
               policies={policies}
               trigger={trigger}
+              setActiveKey={setActiveKey}
             />
           )}
           {activeKey === 'recommendedActions' && (

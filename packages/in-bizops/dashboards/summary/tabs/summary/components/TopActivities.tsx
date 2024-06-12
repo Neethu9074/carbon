@@ -23,6 +23,7 @@ import { clickBizopsProcessViewAllActivitiesTracker, selectBizopsProcessActiviti
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import getBusinessActivities from 'in-bizops/subscriptions/getBusinessActivities';
 import { BusinessActivityItem, TagFilterExpression, TimeConfig } from 'in-types';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -112,7 +113,7 @@ function getList({ businessProcessId, timeConfig, selectedMetric }: GetListProps
     type: 'EXPRESSION',
     elements: [
       {
-        entity: 'SOURCE',
+        entity: NOT_APPLICABLE,
         name: 'bpm_process_definition_id',
         operator: 'EQUALS',
         value: businessProcessId,

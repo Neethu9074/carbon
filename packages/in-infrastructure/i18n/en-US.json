@@ -94,7 +94,8 @@
       "maximumNumberOfMembers": "This query has too many results. Please narrow your search using a more restrictive filter or narrow your time-range and try again.",
       "generalError": "An unexpected error occurred."
     },
-    "entityTypes": "Entity types {{count, parenthesis}}"
+    "entityTypes": "Entity types {{count, parenthesis}}",
+    "relatedInstances": "Analyze Related Instances"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Show counts and averages across the current time window.",

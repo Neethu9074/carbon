@@ -65,7 +65,7 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }: AlertHisto
                   <div className={locals.label}>
                     <time dateTime={new Date(event.start).toISOString()}>{formatDateTime(event.start)}</time>
                     &nbsp;
-                    <span>{`(${getDurationOrActive(event)})`}</span>
+                    <span>{getDurationOrActive(event)}</span>
                   </div>
                 </WithIcon>
               </Link>
@@ -89,10 +89,11 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }: AlertHisto
 };
 
 function getDurationOrActive(event: RawEvent) {
-  if (event.state === 'closed') {
-    return formatDurationAccurately(event.end - event.start, 60000);
+  if (event.state === 'open') {
+    return `(${t('in-alerting:components.alertStateActive')})`;
+  } else {
+    return `(${formatDurationAccurately(event.end - event.start, 60000)})`;
   }
-  return t('in-alerting:components.alertStateActive');
 }
 
 interface AlertHistoryListProps {

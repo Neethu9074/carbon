@@ -7,8 +7,9 @@ import React, { useEffect } from 'react';
 import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
-import { SeverityIndicatorCellContentWrapper, Ul } from '@instana/components';
+import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
 import { just } from '@instana/observables';
+import { Ul } from '@instana/components';
 
 import {
   firstValue,

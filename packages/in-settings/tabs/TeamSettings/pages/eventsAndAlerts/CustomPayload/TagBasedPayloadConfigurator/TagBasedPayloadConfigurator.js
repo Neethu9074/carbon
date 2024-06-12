@@ -6,8 +6,8 @@
 import React, { useRef } from 'react';
 import rpt from 'prop-types';
 
-import { Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import TagBasedPayloadView from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadView';
@@ -134,6 +134,10 @@ export function createTagBasedWebsitePayloadConfigurator({ getTagCatalog, getSug
 }
 
 export function createTagBasedMobileAppPayloadConfigurator({ getTagCatalog, getSuggestions }) {
+  return createTagBasedPayloadConfigurator({ getTagCatalog, getSuggestions });
+}
+
+export function createTagBasedInfraPayloadConfigurator({ getTagCatalog, getSuggestions }) {
   return createTagBasedPayloadConfigurator({ getTagCatalog, getSuggestions });
 }
 

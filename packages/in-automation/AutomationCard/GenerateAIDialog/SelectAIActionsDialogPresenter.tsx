@@ -6,11 +6,12 @@
 
 import React, { useState } from 'react';
 
-import { Typography, SvgIcon } from '@instana/components';
+import { Typography } from '@instana/components';
 
 import SimpleAIDialog from 'in-automation/AutomationCard/GenerateAIDialog/SimpleAIDialog';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
+import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { close } from 'in-components/DialogPresenter/store';
 import { ScoredAction } from 'in-automation/api';
 import { Event, Result } from 'in-types';
@@ -18,13 +19,13 @@ import { t } from 'in-i18n';
 
 import locals from './SelectAIActionsDialogPresenter.mless';
 
-export interface selectProps {
+export interface SelectProps {
   aiRecommendedScoredActions: Result<ScoredAction[]>;
   event: Event;
   setActiveKey: SetActiveKey;
 }
 
-const SelectAIActionsDialogPresenter = ({ aiRecommendedScoredActions, event, setActiveKey }: selectProps) => {
+const SelectAIActionsDialogPresenter = ({ aiRecommendedScoredActions, event, setActiveKey }: SelectProps) => {
   const [selectedAIAction, setSelectedAIAction] = useState<null | ScoredAction>(null);
 
   return (
@@ -32,7 +33,7 @@ const SelectAIActionsDialogPresenter = ({ aiRecommendedScoredActions, event, set
       title={
         <div className={locals.heading}>
           <Typography variant="heading-400">{t('in-automation:generateWithAI')}</Typography>
-          <SvgIcon type="lib_ai_slug" />
+          <AISlugIcon />
         </div>
       }
       onClose={close}

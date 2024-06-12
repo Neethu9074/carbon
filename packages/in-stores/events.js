@@ -10,14 +10,14 @@ import { get } from 'lodash';
 import { themes } from '@instana/design-tokens';
 
 import createTotalRawEventsSubscription from 'in-subscription/totalRawEventsCount';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createHealthInfoSubscription from 'in-subscription/healthInfo';
 import createEventObservable from 'in-subscription/event';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
-import http from 'in-services/http';
-import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
+import http from 'in-services/http';
 import { t } from 'in-i18n';
 
 const noProblemsHealthInfo = Map({

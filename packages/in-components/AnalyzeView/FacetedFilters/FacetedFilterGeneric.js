@@ -5,7 +5,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, SearchInput } from '@instana/components';
 
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
 import SuggestionsPresenter from 'in-components/AnalyzeView/FacetedFilters/SuggestionsPresenter';
@@ -13,7 +13,6 @@ import { uaFacetedTracker } from 'in-components/AnalyzeView/FacetedFilters/track
 import ExistingValue from 'in-components/AnalyzeView/FacetedFilters/ExistingValue';
 import { removeFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { useSuggestions } from 'in-components/AnalyzeView/useSuggestions';
-import SearchInput from 'in-components/SearchInput/SearchInput';
 import { identity } from 'in-services/util/function';
 import { isLoading } from 'in-services/entityUtils';
 import { hasError } from 'in-services/util/result';

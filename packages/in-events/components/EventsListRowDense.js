@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tr, Td } from '@instana/components';
+import { Tr, Td } from '@instana/legacy';
 
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';

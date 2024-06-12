@@ -56,6 +56,12 @@ import {
   useLinkToAnalyze as useLinkToApplicationAnalyze
 } from 'in-applications/navigation/paths';
 import {
+  bizopsPerspectivesEnabled,
+  playwithEnabled,
+  playWithReleaseEnabled,
+  welcomePageV2Enabled
+} from 'in-services/featureFlags';
+import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
@@ -66,12 +72,6 @@ import {
   isAnalyzeView as isWebsiteAnalyzeView,
   useLinkToAnalyze
 } from 'in-websites/navigation/paths';
-import {
-  bizopsPerspectivesEnabled,
-  playwithEnabled,
-  playWithReleaseEnabled,
-  welcomePageV2Enabled
-} from 'in-services/featureFlags';
 import {
   applicationListFullyQualified as cloudfoundryApplicationList,
   cloudfoundry

@@ -1,13 +1,13 @@
 {
   "labelBizOps": "Processes",
   "labelPerspectives": "Perspectives",
+  "labelPerspective": "Perspective",
   "components": {
     "count": "Count"
   },
   "lists": {
     "pageTitle": "Business Monitoring",
     "cardTitle": "Business Processes",
-    "perspectives": "Business Perspectives",
     "activityLabel": "Activities",
     "nameLabel": "Name",
     "countLabel": "Count",
@@ -21,6 +21,11 @@
   },
   "perspectives": {
     "newPerspective": "New perspective",
+    "lists": {
+      "perspectives": "Business Perspectives",
+      "descriptionLabel": "Description",
+      "numberProcessesLabel": "Number of processes"
+    },
     "dialog": {
       "title": "New Business Perspective",
       "processesLiveListTitle": "Business processes",

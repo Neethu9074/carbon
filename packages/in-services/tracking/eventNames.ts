@@ -446,6 +446,8 @@ export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
 export const BIZOPS_TABS_CLICK = 'bizops.tabs.click';
 export const BIZOPS_PROCESSES_LIST_SELECT = 'bizops.processes.list.select';
 
+export const BIZOPS_PERSPECTIVE_LIST_SELECT = 'bizops.perspective.list.select';
+
 export const BIZOPS_PROCESS_TABS_CLICK = 'bizops.process.tabs.click';
 export const BIZOPS_PROCESS_ANALYZEINSTANCES_CLICK = 'bizops.process.analyzeInstances.click';
 export const BIZOPS_PROCESS_ACTIVITIES_ALL_CLICK = 'bizops.process.summary.activities.all.click';

@@ -12,7 +12,7 @@ import { SnapshotMap } from 'in-components/EntityLink';
 type TagFilterGetter = (plugin: string | SnapshotMap) => TagFilterExpressionElementUnion;
 const registry: Record<string, TagFilterGetter> = {};
 
-export function registerTagFilter(plugin: string, getTagFilter: TagFilterGetter): void {
+export function registerAnalyzeInfrastructureTagFilter(plugin: string, getTagFilter: TagFilterGetter): void {
   registry[plugin] = getTagFilter;
 }
 
