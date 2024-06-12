@@ -109,6 +109,7 @@ export function getPolicyFromForm(form: PolicyForm) {
 
 function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[], triggers: Triggers) {
   const { actionId, agentId, applyOn, query, inputParameterValues, tags } = parsePolicy(policy);
+  const action = actions.find(action => action.id === actionId);
   // @ts-expect-error
   const triggerItem = triggers?.[policy.trigger.type]?.data?.find(trigger => trigger.id === policy.trigger.id);
   const form: PolicyForm = createMapForm({
@@ -143,7 +144,7 @@ function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[],
             value: inputParameterValues
           }),
           actionId: createField({
-            value: actionId
+            value: action ? actionId : ''
           }),
           agentId: createField({
             value: agentId
