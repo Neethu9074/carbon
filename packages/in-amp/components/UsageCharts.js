@@ -71,7 +71,7 @@ export default function UsageCharts({
         </Col>
       </Row>
       <Row>
-        <Col xs={6}>
+        <Col xs={12}>
           <Card>
             <SubViewHeader>
               Data usage
@@ -84,9 +84,10 @@ export default function UsageCharts({
               showAggregatedMetrics={showAggregatedMetrics}
               y1={{
                 ...tenantUnit,
-                metrics: ['licensed_data', 'data_ingested_total'],
-                labels: ['Entitled', 'total'],
-                colors: [carbonAlert.red60, carbonAlert.blue70]
+                metrics: ['licensed_data_daily', 'data_ingested_total'],
+                labels: ['Entitled per Day', 'Total'],
+                colors: [carbonAlert.red60, carbonAlert.blue70],
+                formatter: 'bytes.compact'
               }}
               y2={{
                 ...tenantUnit,
@@ -99,7 +100,7 @@ export default function UsageCharts({
                   'bytes_ingested_eum_website'
                 ],
                 labels: ['infrastructure', 'traces', 'synthetics', 'eum mobile', 'eum website'],
-                colors: ['#17A1E6', '', '', '']
+                formatter: 'bytes.compact'
               }}
             />
           </Card>
