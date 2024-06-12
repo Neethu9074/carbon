@@ -64,6 +64,7 @@ export const carbonLoadingSkeletonFeatureEnabled = isFeatureFlagEnabled('carbonL
 export const carbonDescriptionListEnabled = isFeatureFlagEnabled('carbonDescriptionListEnabled');
 export const carbonTileEnabled = isFeatureFlagEnabled('carbonTileEnabled');
 export const carbonPaginationEnabled = isFeatureFlagEnabled('carbonPaginationEnabled');
+export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
