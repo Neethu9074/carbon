@@ -22,7 +22,8 @@ export default function GroupBySection({
   additionalContent,
   withoutIcon,
   withOptionalMarker,
-  hasError
+  hasError,
+  additionalGetTagCatalogProps
 }) {
   const title = withOptionalMarker ? (
     <SectionLabelWithSubtext subtext={t('in-components:groupingConfigurator.optional')}>
@@ -40,6 +41,7 @@ export default function GroupBySection({
         onChange={onChange}
         tracking={tracking}
         tagCatalog={tagCatalog}
+        additionalGetTagCatalogProps={additionalGetTagCatalogProps}
       />
       {additionalContent}
     </Section>
@@ -57,5 +59,6 @@ GroupBySection.propTypes = {
   withoutIcon: rpt.bool,
   withOptionalMarker: rpt.bool,
   tracking: rpt.shape(groupingConfiguratorTrackingProps),
-  hasError: rpt.bool
+  hasError: rpt.bool,
+  additionalGetTagCatalogProps: rpt.object
 };

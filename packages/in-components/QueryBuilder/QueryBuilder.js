@@ -67,7 +67,9 @@ function QueryBuilder({
   maxExpressionDepth,
   autoFocusInput = false,
   getSuggestionLabel,
-  allowEmptyKey = false
+  allowEmptyKey = false,
+  getTagCatalog,
+  additionalGetTagCatalogProps
 }) {
   const [draggedFormModelIndex$] = useState(create());
   const resolvedCreateTagForm = tagCatalog && createTagForm.bind(null, tagCatalog);
@@ -140,6 +142,8 @@ function QueryBuilder({
       focus={focus}
       withoutOrConjunction={withoutOrConjunction}
       withoutBrackets={withoutBrackets}
+      getTagCatalog={getTagCatalog}
+      additionalGetTagCatalogProps={additionalGetTagCatalogProps}
     />
   ) : (
     <>
@@ -175,6 +179,8 @@ function QueryBuilder({
               autoFocusInput={autoFocusInput}
               getSuggestionLabel={getSuggestionLabel}
               allowEmptyKey={allowEmptyKey}
+              getTagCatalog={getTagCatalog}
+              additionalGetTagCatalogProps={additionalGetTagCatalogProps}
             />
           </div>
         )}
@@ -188,6 +194,8 @@ function QueryBuilder({
         trailingButton
         withoutOrConjunction={withoutOrConjunction}
         withoutBrackets={withoutBrackets}
+        getTagCatalog={getTagCatalog}
+        additionalGetTagCatalogProps={additionalGetTagCatalogProps}
       />
     </>
   );
@@ -322,7 +330,9 @@ function Elements({
   withoutBrackets,
   autoFocusInput,
   getSuggestionLabel,
-  allowEmptyKey
+  allowEmptyKey,
+  getTagCatalog,
+  additionalGetTagCatalogProps
 }) {
   return (
     <>
@@ -372,6 +382,8 @@ function Elements({
                 autoFocusInput={autoFocusInput}
                 getSuggestionLabel={getSuggestionLabel}
                 allowEmptyKey={allowEmptyKey}
+                getTagCatalog={getTagCatalog}
+                additionalGetTagCatalogProps={additionalGetTagCatalogProps}
               >
                 {element.elements && (
                   <Elements
@@ -420,7 +432,9 @@ QueryBuilder.propTypes = {
   maxExpressionDepth: rpt.number,
   autoFocusInput: rpt.bool,
   getSuggestionLabel: rpt.func,
-  allowEmptyKey: rpt.bool
+  allowEmptyKey: rpt.bool,
+  getTagCatalog: rpt.func,
+  additionalGetTagCatalogProps: rpt.object
 };
 
 function shouldAutomaticallyAddAConjunction(formModel, newElement, newElementIndex) {

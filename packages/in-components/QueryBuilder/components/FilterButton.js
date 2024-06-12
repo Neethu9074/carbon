@@ -21,7 +21,9 @@ export default function FilterButton({
   focus,
   trailingButton = false,
   withoutOrConjunction = false,
-  withoutBrackets = false
+  withoutBrackets = false,
+  getTagCatalog,
+  additionalGetTagCatalogProps
 }) {
   // We must not execute the onCloseSideEffect when we just triggered a form model change
   // as this would place the focus onto the wrong element.
@@ -31,10 +33,12 @@ export default function FilterButton({
     <Overlay
       content={ConjunctionTagSelectorOverlay}
       props={{
-        tagCatalog: tagCatalog,
+        tagCatalog,
         onChange: addInitialTag,
-        withoutOrConjunction: withoutOrConjunction,
-        withoutBrackets: withoutBrackets
+        withoutOrConjunction,
+        withoutBrackets,
+        getTagCatalog,
+        additionalGetTagCatalogProps
       }}
       align="bottomLeft"
       withoutWrapper

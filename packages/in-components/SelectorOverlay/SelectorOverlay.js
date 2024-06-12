@@ -6,7 +6,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { keyCodes } from '@instana/components';
+import { keyCodes, HorizontalIndicator } from '@instana/components';
 
 import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
 import SlideInView, { ListHeader } from 'in-components/SlideInView/SlideInView';
@@ -39,7 +39,8 @@ export default function SelectorOverlay({
   onFocusNode,
   disabled,
   shouldTriggerWindowResize,
-  nodesToSearchFrom = (options, focusedNode) => (focusedNode !== null ? [focusedNode] : options)
+  nodesToSearchFrom = (options, focusedNode) => (focusedNode !== null ? [focusedNode] : options),
+  showLoadingInBackground = false // true if the loading indicator should be shown at the top and the catalog still shown
 }) {
   const [focusedNode, setFocusedNode] = useState(null);
   useEffect(() => {
@@ -86,7 +87,7 @@ export default function SelectorOverlay({
         />
       </div>
       <div className={locals.overlay}>
-        {loading === true && (
+        {loading === true && (!showLoadingInBackground || filteredOptions.length === 0) && (
           <div className={locals.loading}>
             <LoadingIndicator
               text={t('in-components:selectorOverlay.loadingIndicatorLoadingCatalog')}
@@ -95,10 +96,13 @@ export default function SelectorOverlay({
             />
           </div>
         )}
+        {loading === true && showLoadingInBackground && filteredOptions.length !== 0 && (
+          <HorizontalIndicator progress={{ loading }} />
+        )}
         {loading === false && filteredOptions.length === 0 && (
           <NoDataAvailable className={locals.overlay} text={t('in-components:selectorOverlay.noResults')} />
         )}
-        {loading === false && (
+        {(loading === false || showLoadingInBackground) && filteredOptions.length !== 0 && (
           <SlideInView
             showSlideInContent={showFocusedNode()}
             onShowSlideInContentChange={unfocusNode}
@@ -205,5 +209,6 @@ SelectorOverlay.propTypes = {
   onQueryChange: PropTypes.func.isRequired,
   onFocusNode: PropTypes.func,
   disabled: PropTypes.bool,
-  nodesToSearchFrom: PropTypes.func
+  nodesToSearchFrom: PropTypes.func,
+  showLoadingInBackground: PropTypes.bool
 };

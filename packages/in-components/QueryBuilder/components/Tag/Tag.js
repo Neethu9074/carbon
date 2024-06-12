@@ -107,7 +107,7 @@ export default function Tag(props) {
         ref={autoFocusTargets.name}
         onChange={newTag => {
           if (newTag.type === TAG) {
-            const newForm = changeName(tagCatalog, form, newTag.name);
+            const newForm = changeName(tagCatalog, form, newTag.name, newTag.tagDefinition);
             focusField('name', false);
             onChangeInFormModel(newForm.toJS(), false);
           } else {

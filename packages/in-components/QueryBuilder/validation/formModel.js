@@ -48,7 +48,7 @@ export function validateFormModel({ tagCatalog, formModel, maxExpressionDepth, a
   return { isValid: true };
 }
 
-function isFormModelSyntacticallyValid({ tagCatalog, formModel, allowEmptyKey }) {
+export function isFormModelSyntacticallyValid({ tagCatalog, formModel, allowEmptyKey }) {
   if (!(formModel instanceof Array) || !tagCatalog) {
     return false;
   }

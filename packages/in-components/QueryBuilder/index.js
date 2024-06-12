@@ -58,7 +58,8 @@ export function createDynamicQueryBuilder({
   withoutOrConjunction = false,
   withoutBrackets = false,
   allowEmptyKey = false,
-  maxExpressionDepth
+  maxExpressionDepth,
+  getTagCatalog
 }) {
   return {
     QueryBuilder: function CreatedQueryBuilder(props) {
@@ -70,6 +71,7 @@ export function createDynamicQueryBuilder({
           withoutBrackets={withoutBrackets}
           maxExpressionDepth={maxExpressionDepth}
           allowEmptyKey={allowEmptyKey}
+          getTagCatalog={getTagCatalog}
         />
       );
     },

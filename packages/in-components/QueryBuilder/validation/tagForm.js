@@ -6,17 +6,18 @@
 import { createMapForm, createField } from 'formalistic';
 
 import {
+  stringValidator,
+  jsonPrimitiveValidator,
+  booleanValidator,
+  numberValidator,
+  objectValidator
+} from 'in-services/validators/jsonType';
+import {
   isOpenBracket,
   isCloseBracket,
   isAndOr,
   isNot
 } from 'in-components/QueryBuilder/validation/elementIdentificationHelpers';
-import {
-  stringValidator,
-  jsonPrimitiveValidator,
-  booleanValidator,
-  numberValidator
-} from 'in-services/validators/jsonType';
 import * as operatorValueRequirement from 'in-components/QueryBuilder/tagFilter/operatorValueRequirement';
 import * as operatorKeyRequirement from 'in-components/QueryBuilder/tagFilter/operatorKeyRequirement';
 import { getAllowedOperators } from 'in-components/QueryBuilder/tagFilter/typeToOperatorsMapping';
@@ -42,9 +43,11 @@ export function createTagForm(tagCatalog, tagFormModel, allowEmptyKey = false) {
     valueValidators,
     requiresEntity,
     allowedOperators,
+    allowedTagNames,
     operator,
-    canApplyToDestination
-  } = identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagFormModel?.name, tagFormModel?.operator);
+    canApplyToDestination,
+    tagDefinition,
+  } = identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagFormModel?.name, tagFormModel?.operator, tagFormModel?.tagDefinition);
 
   let form = createMapForm()
     // type field is not actually editable. We only expose it so that the caller can call toJS() on the
@@ -69,7 +72,7 @@ export function createTagForm(tagCatalog, tagFormModel, allowEmptyKey = false) {
           notUndefinedValidator,
           stringValidator,
           notBlankValidator,
-          buildEnumValidator(tagCatalog.allTagNames)
+          buildEnumValidator(allowedTagNames)
         )
       })
     )
@@ -82,6 +85,16 @@ export function createTagForm(tagCatalog, tagFormModel, allowEmptyKey = false) {
           stringValidator,
           notBlankValidator,
           buildEnumValidator(allowedOperators)
+        )
+      })
+    )
+    .put(
+      'tagDefinition',
+      createField({
+        value: tagDefinition,
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          objectValidator
         )
       })
     );
@@ -138,15 +151,15 @@ export function createTagForm(tagCatalog, tagFormModel, allowEmptyKey = false) {
 }
 
 // Changes the tag name and updates the form state accordingly
-export function changeName(tagCatalog, formalisticTagForm, newName) {
+export function changeName(tagCatalog, previousTagForm, newName, newTagDefinition) {
   tagCatalog = enrichTagCatalog(tagCatalog);
 
-  const tagForm = formalisticTagForm.toJS();
+  const tagForm = previousTagForm.toJS();
   const previousName = tagForm.name;
   tagForm.name = newName;
 
-  const previousTagDefinition = tagCatalog.tagsByName[previousName];
-  const tagDefinition = tagCatalog.tagsByName[newName];
+  const previousTagDefinition = previousTagForm.tagDefinition ?? tagCatalog.tagsByName[previousName];
+  const tagDefinition = newTagDefinition ?? tagCatalog.tagsByName[newName];
   if (tagDefinition) {
     const supportsConfiguredOperator =
       getAllowedOperators(tagDefinition, tagCatalog.source).indexOf(tagForm.operator) >= 0;
@@ -162,11 +175,14 @@ export function changeName(tagCatalog, formalisticTagForm, newName) {
     if (tagDefinition.type === 'BOOLEAN') {
       tagForm.value = true;
     }
+
+    tagForm.tagDefinition = tagDefinition;
   } else {
     // Clear both previously set values. This is an abnormal code path. Under
     // normal circumstances we should be able to identify the tag definition.
     tagForm.operator = undefined;
     tagForm.value = undefined;
+    tagForm.tagDefinition = undefined;
   }
 
   return createTagForm(tagCatalog, tagForm);
@@ -183,13 +199,14 @@ export function getFormPresentationInformation(tagCatalog, formalisticTagForm) {
   const { allowedOperators, valueType, type } = identifyFormRequirementsBasedOnPartialInput(
     tagCatalog,
     formalisticTagForm.get('name').value,
-    formalisticTagForm.get('operator').value
+    formalisticTagForm.get('operator').value,
+    formalisticTagForm.get('tagDefinition').value
   );
   // Reduce the number of exposed fields.
   return { allowedOperators, valueType, type };
 }
 
-function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operator) {
+function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operator, tagDefinition) {
   const result = {
     type: null,
     requiresKey: false,
@@ -199,6 +216,7 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
     requiresEntity: false,
     operator: operator ?? EQUALS,
     allowedOperators: [],
+    allowedTagNames: [],
     // To allow the form to decide whether to use a String, Boolean or Number input
     valueType: String
   };
@@ -207,13 +225,18 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
     return result;
   }
 
-  const tagDefinition = tagCatalog.tagsByName[tagName];
+  if (!tagDefinition) {
+    tagDefinition = tagCatalog.tagsByName[tagName];
+  }
+
   if (!tagDefinition) {
     return result;
   }
 
+  result.tagDefinition = tagDefinition;
   result.type = tagDefinition.type;
   result.allowedOperators = getAllowedOperators(tagDefinition, tagCatalog.source);
+  result.allowedTagNames = [tagDefinition.name]; // we re-build the form every time we change tags anyway, so for validation reasons, no need to have all the tags
   result.requiresEntity = tagDefinition.canApplyToSource || tagDefinition.canApplyToDestination;
   result.canApplyToDestination = tagDefinition.canApplyToDestination;
   result.operator = operator = operator ?? (result.allowedOperators && result.allowedOperators[0]) ?? EQUALS;

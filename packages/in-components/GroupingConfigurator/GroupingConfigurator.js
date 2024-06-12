@@ -26,7 +26,9 @@ export default function GroupingConfigurator({
   onChange,
   tracking,
   label = t('in-components:groupingConfigurator.addGroup'),
-  loadingLabel
+  loadingLabel,
+  getTagCatalog,
+  additionalGetTagCatalogProps
 }) {
   const autoFocus = useRef();
 
@@ -100,7 +102,14 @@ export default function GroupingConfigurator({
         );
       })}
       {groups.length < maxLength && (
-        <GroupingOverlay tagCatalog={tagCatalog} autoFocus={autoFocus} onChange={addGroup} tracking={tracking}>
+        <GroupingOverlay
+          tagCatalog={tagCatalog}
+          autoFocus={autoFocus}
+          onChange={addGroup}
+          tracking={tracking}
+          getTagCatalog={getTagCatalog}
+          additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+        >
           {({ toggle, refSetter }) => (
             <Button
               className={locals.addGroupingButton}
@@ -124,18 +133,28 @@ export const trackingProps = {
   onGroupRemoved: rpt.func
 };
 
-function GroupingOverlay({ tagCatalog, autoFocus, children, onChange, tracking }) {
+function GroupingOverlay({
+  tagCatalog,
+  autoFocus,
+  children,
+  onChange,
+  tracking,
+  getTagCatalog,
+  additionalGetTagCatalogProps
+}) {
   return (
     <Overlay
       content={TagSelectorOverlay}
       props={{
         tagCatalog,
-        onChange: ({ name, tagType }) => {
+        onChange: ({ name, tagType, tagDefinition }) => {
           autoFocus.current = Date.now();
-          const selectedGroup = setEntityIfNecessary(name, tagType);
+          const selectedGroup = setEntityIfNecessary(name, tagType, tagDefinition);
           tracking?.onGroupAdded?.(selectedGroup);
           onChange(selectedGroup);
-        }
+        },
+        getTagCatalog,
+        additionalGetTagCatalogProps
       }}
       align={'bottomLeft'}
       withoutWrapper
@@ -144,16 +163,17 @@ function GroupingOverlay({ tagCatalog, autoFocus, children, onChange, tracking }
     </Overlay>
   );
 
-  function setEntityIfNecessary(groupbyTag, tagType) {
-    const tagTreeNode = tagCatalog?.tagsByName[groupbyTag];
+  function setEntityIfNecessary(groupbyTag, tagType, tagDefinition) {
+    const tagTreeNode = tagDefinition ?? tagCatalog?.tagsByName[groupbyTag];
     if (tagTreeNode.canApplyToSource || tagTreeNode.canApplyToDestination) {
       return {
         groupbyTag,
-        groupbyTagEntity: tagTreeNode.canApplyToDestination ? DESTINATION : SOURCE
+        groupbyTagEntity: tagTreeNode.canApplyToDestination ? DESTINATION : SOURCE,
+        tagDefinition
       };
     }
 
-    return { groupbyTag, tagType };
+    return { groupbyTag, tagType, tagDefinition };
   }
 }
 
@@ -165,5 +185,7 @@ GroupingConfigurator.propTypes = {
   tagFilterExpression: rpt.oneOfType([rpt.array, rpt.object]),
   tracking: rpt.shape(trackingProps),
   label: rpt.string,
-  loadingLabel: rpt.string
+  loadingLabel: rpt.string,
+  getTagCatalog: rpt.func,
+  additionalGetTagCatalogProps: rpt.object
 };

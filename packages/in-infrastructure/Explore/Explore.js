@@ -303,6 +303,7 @@ function Content({
         }}
         hasError={isInvalid}
         useLastValidStateWhenErroneous
+        additionalGetTagCatalogProps={{ ownerType: type }}
       />
 
       <GroupingConfiguratorSection
@@ -315,6 +316,7 @@ function Content({
           onGroupAdded: groupAddedTracker(getInfraExploreState),
           onGroupRemoved: groupRemovedTracker(getInfraExploreState)
         }}
+        additionalGetTagCatalogProps={{ ownerType: type }}
       />
 
       <ActionSection

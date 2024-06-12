@@ -140,5 +140,6 @@ module.exports = {
   logVolumePageEnabled: true,
   carbonHorizontalIndicatorEnabled: true,
   analyzeInfrastructureButtonEnabled: true,
-  maxMetricsLimitForBeeinstanaEnabled: true
+  maxMetricsLimitForBeeinstanaEnabled: true,
+  serverSideInfraTagSearchEnabled: true
 };

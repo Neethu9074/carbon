@@ -30,10 +30,10 @@ export function createGroupingConfigurator({ getTagCatalog: originalGetTagCatalo
   };
 }
 
-export function createDynamicGroupingConfigurator({ getSuggestions }) {
+export function createDynamicGroupingConfigurator({ getSuggestions, getTagCatalog }) {
   return {
     GroupingConfigurator: function CreatedGroupingConfigurator({ tagCatalog, ...props }) {
-      return <GroupingConfigurator {...props} tagCatalog={tagCatalog} getSuggestions={getSuggestions} />;
+      return <GroupingConfigurator {...props} tagCatalog={tagCatalog} getSuggestions={getSuggestions} getTagCatalog={getTagCatalog} />;
     },
 
     isGroupingConfigurationValid: (groupingConfiguration, tagCatalog) => {

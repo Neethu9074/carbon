@@ -654,5 +654,10 @@ module.exports = exports = [
     uiClientKey: 'analyzeInfrastructureButtonEnabled',
     instanaCtlKey: 'feature.analyze.infrastructure.button.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'serverSideInfraTagSearchEnabled',
+    instanaCtlKey: 'feature.server.side.infra.tag.search.enabled',
+    defaultValue: false
   }
 ];

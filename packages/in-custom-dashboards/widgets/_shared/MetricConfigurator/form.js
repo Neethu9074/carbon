@@ -9,7 +9,7 @@ import { just } from '@instana/observables';
 
 import { potentialProblemsOnDatasetValidator } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsOnDatasetValidator';
 import regexValidator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
-import { numberValidator, stringValidator, booleanValidator } from 'in-services/validators/jsonType';
+import { numberValidator, stringValidator, booleanValidator, objectValidator } from 'in-services/validators/jsonType';
 import { validateThresholdOrder } from 'in-custom-dashboards/widgets/_shared/validator';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -288,6 +288,13 @@ function createGroupItem(item) {
           notBlankValidator,
           buildEnumValidator(['NOT_APPLICABLE', 'DESTINATION', 'SOURCE'])
         )
+      })
+    )
+    .put(
+      'tagDefinition',
+      createField({
+        value: item?.tagDefinition,
+        validator: composeAndShortCircuitOnError(objectValidator)
       })
     );
 }

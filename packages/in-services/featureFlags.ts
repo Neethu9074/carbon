@@ -257,3 +257,4 @@ export const carbonStepProgressBarEnabled = isFeatureFlagEnabled('carbonStepProg
 export const carbonHorizontalIndicatorEnabled = isFeatureFlagEnabled('carbonHorizontalIndicatorEnabled', false);
 export const analyzeInfrastructureButtonEnabled = isFeatureFlagEnabled('analyzeInfrastructureButtonEnabled', false);
 export const maxMetricsLimitForBeeinstanaEnabled = isFeatureFlagEnabled('maxMetricsLimitForBeeinstanaEnabled', true);
+export const serverSideInfraTagSearchEnabled = isFeatureFlagEnabled('serverSideInfraTagSearchEnabled', false);

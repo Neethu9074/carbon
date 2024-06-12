@@ -5,7 +5,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Spacer, Toggle, Select} from '@instana/components';
+
+import { Spacer, Toggle, Select } from '@instana/components';
 
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -30,7 +31,8 @@ export default function GroupingConfiguration({
   additionalContent,
   withOptionalMarker,
   hideIncludeOthersToggle,
-  maxGrouping = 20
+  maxGrouping = 20,
+  additionalGetTagCatalogProps
 }) {
   return (
     <>
@@ -42,10 +44,11 @@ export default function GroupingConfiguration({
             GroupingConfigurator={GroupingConfigurator}
             tagFilterExpression={tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION}
             onChange={group => onByChange(group)}
-            withoutIcon
             hasError={hasError}
             additionalContent={additionalContent}
             withOptionalMarker={withOptionalMarker}
+            additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+            withoutIcon
           />
 
           {grouping && (
@@ -117,5 +120,6 @@ GroupingConfiguration.propTypes = {
   hasError: PropTypes.bool,
   additionalContent: PropTypes.node,
   hideIncludeOthersToggle: PropTypes.bool,
-  maxGrouping: PropTypes.number.isRequired
+  maxGrouping: PropTypes.number.isRequired,
+  additionalGetTagCatalogProps: PropTypes.object
 };
