@@ -10,6 +10,7 @@ import { Card } from '@instana/components';
 
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
+import { stackedArea } from 'in-stores/metric/renderer';
 import UsageChart from 'in-amp/components/UsageChart';
 import { Row, Col } from 'in-components/layout/Grid';
 import { carbonAlert } from 'in-themes/chartColors';
@@ -23,6 +24,22 @@ export default function UsageCharts({
   showAggregatedMetrics = false,
   hasSyntheticAddons = false
 }) {
+  const dataChartY1 = tenantUnit?.tenant
+    ? {
+        ...tenantUnit,
+        metrics: ['data_ingested_total'],
+        labels: ['Total'],
+        colors: [carbonAlert.blue70],
+        formatter: 'bytes.compact'
+      }
+    : {
+        ...tenantUnit,
+        metrics: ['licensed_data', 'data_ingested_total'],
+        labels: ['Entitled per Day', 'Total'],
+        colors: [carbonAlert.red60, carbonAlert.blue70],
+        formatter: 'bytes.compact'
+      };
+
   return (
     <>
       <Row>
@@ -65,6 +82,36 @@ export default function UsageCharts({
                     }
                   : getEmptyMetricConfig()
               }
+            />
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <Card>
+            <SubViewHeader>
+              Data usage
+              <Tooltip content={t('in-amp:components.usageCharts.dataUsageHelperText')} align="rightMiddle">
+                <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
+              </Tooltip>
+            </SubViewHeader>
+            <UsageChart
+              windowSize={windowSize}
+              showAggregatedMetrics={showAggregatedMetrics}
+              y1={dataChartY1}
+              y2={{
+                ...tenantUnit,
+                renderer: stackedArea.id,
+                metrics: [
+                  'bytes_ingested_infrastructure',
+                  'bytes_ingested_traces',
+                  'bytes_ingested_synthetics',
+                  'bytes_ingested_eum_mobile',
+                  'bytes_ingested_eum_website'
+                ],
+                labels: ['infrastructure', 'traces', 'synthetics', 'eum mobile', 'eum website'],
+                formatter: 'bytes.compact'
+              }}
             />
           </Card>
         </Col>
