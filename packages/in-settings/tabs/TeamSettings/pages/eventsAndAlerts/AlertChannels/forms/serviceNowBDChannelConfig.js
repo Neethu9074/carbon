@@ -7,9 +7,9 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import { SvgIcon, IconButton } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 import { Collapsible } from '@instana/components';
+import { IconButton } from '@instana/components';
 
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
 import { serviceNowAdvancedEnabled } from 'in-services/featureFlags';
@@ -228,11 +228,6 @@ function Form({ form, onChange }) {
                 {t('in-settings:tabs.username')}
               </Label>
             </div>
-            <div className={`${tooltip_class}__help-icon`}>
-              <Tooltip content={t('in-settings:tabs.serviceNowUsernameTooltip')} align="rightTop">
-                <SvgIcon type="lib_help_error_info_outline" color="#2D4048" />
-              </Tooltip>
-            </div>
           </div>
           <Input
             id="username"
@@ -244,6 +239,7 @@ function Form({ form, onChange }) {
             hasError={!field.valid && field.touched}
             maxLength={256}
           />
+          <div className={`${block}__field_help_text`}>{t('in-settings:tabs.serviceNowUsernameTooltip')}</div>
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
