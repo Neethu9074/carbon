@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
+import classNames from 'classnames';
 
 import { Card, Link, LoadingSkeleton, Message, Stack } from '@instana/components';
 import { create, just } from '@instana/observables';
@@ -84,7 +85,7 @@ export default function Summary({
 
   const nonFakeRootCallId = callTreeResult.data?.id !== FAKE_ROOT_CALL_ID ? callTreeResult.data?.id : undefined;
   const effectiveCallId = callId === 'ROOT' ? nonFakeRootCallId : callId;
-
+  const logsToPreview = 5;
   // if a call is selected, we will create a fade out effect by emitting 'null' as a new selected call with 1s delay
   const selectedCallFadeOutEffectTimeoutIdRef = useRef(null);
   useEffect(() => {
@@ -110,7 +111,6 @@ export default function Summary({
   }, [traceId]);
 
   const { logsContextValue, timeConfigForLogs } = useLogsInCalls({ traceId, trace });
-
   const { error: otelErrorCount, warn: otelWarnCount } = countOtelLogs(logsContextValue.items);
 
   const totalWarnLogCount = trace.totalWarnLogCount + otelWarnCount;
@@ -350,7 +350,18 @@ export default function Summary({
                         {t('in-analyze:traceDetail.tabs.summary.analyzeLogs')}
                       </Button>
                     }
+                    className={classNames({
+                      [locals.logCard]: logsContextValue.items.length > 5
+                    })}
                   >
+                    {logsContextValue.items.length > 5 && (
+                      <span className={locals.logsCardDescription}>
+                        {t('in-analyze:traceDetail.tabs.summary.logsCardDescription', {
+                          logsToPreview: logsToPreview,
+                          totalLogsCount: number.compact(logsContextValue.items.length)
+                        })}
+                      </span>
+                    )}
                     <Logs setCallId={setCallId} />
                   </Card>
                 ) : (

@@ -111,6 +111,7 @@
       "summary": {
         "logs": "Logs",
         "analyzeLogs": "View in analyze",
+        "logsCardDescription": "Previewing {{logsToPreview}} logs out of {{totalLogsCount}} logs in total.`",
         "correspondingMobileAppActivity": "Corresponding Mobile App Activity",
         "hideMobileAppInformation": "Hide Mobile App Information",
         "showMobileAppInformation": "Show Mobile App Information",

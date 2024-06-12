@@ -30,7 +30,8 @@ const columnDefinitions = [
 ];
 
 export default function Logs(props) {
-  const { setSelectedLog, items, progress, errors } = useLogsInCallsContext();
+  const { setSelectedLog, progress, items: initialItems, errors } = useLogsInCallsContext();
+  let items = initialItems.slice(0, 5);
 
   const { selectedLogIdPair, setCallId } = props;
   const [isToggled, setIsToggled] = useState({});
