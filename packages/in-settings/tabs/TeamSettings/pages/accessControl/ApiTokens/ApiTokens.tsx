@@ -6,8 +6,8 @@
 import React, { useState } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Link, Message } from '@instana/components';
 import { createLogger } from '@instana/logger';
+import { Link } from '@instana/components';
 
 import {
   getEntityHref,
@@ -21,12 +21,12 @@ import {
   createApiToken
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
+import TenantInfoBanner from 'in-settings/tabs/TeamSettings/components/TenantInfoBanner/TenantInfoBanner';
 import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
-import { useTenantUnitsInfo } from 'in-settings/hooks/useTenantUnitsInfo';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { apiTokenDialogEnabled } from 'in-services/featureFlags';
-import { config } from 'in-services/config';
+import config from 'in-services/config';
 import { Trans, t } from 'in-i18n';
 
 import locals from './ApiTokens.mless';
@@ -35,19 +35,15 @@ const logger = createLogger('ApiTokens');
 
 export default function ApiTokens() {
   const { goToPath } = useNavigation();
-  const { showTenantInfo } = useTenantUnitsInfo();
 
   return (
     <>
-      {showTenantInfo && (
-        <Message className={locals.message} type={'neutral'} inline withIcon>
-          <Trans
-            i18nKey="in-settings:tabs.apiTokenUnits"
-            values={{ tenantUnit: config.tenantUnit, tenant: config.tenant }}
-          />
-        </Message>
-      )}
-
+      <TenantInfoBanner>
+        <Trans
+          i18nKey="in-settings:tabs.apiTokenUnits"
+          values={{ tenantUnit: config.tenantUnit, tenant: config.tenant }}
+        />
+      </TenantInfoBanner>
       <List
         title={t('in-settings:tabs.apiTokens')}
         getHeader={defaultHeaderWithCount(t('in-settings:tabs.apiTokens'))}

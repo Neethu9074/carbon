@@ -888,6 +888,7 @@
     "addUserToAGroup": "Select group to add",
     "actionLog": "Action Log",
     "accessLog": "Access Log",
+    "actionLogUnits": "Action log is for <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "alertChannel": "Alert Channel",
     "unknownAlertChannel": "Unknown Alert Channel",
     "properties": "Properties",

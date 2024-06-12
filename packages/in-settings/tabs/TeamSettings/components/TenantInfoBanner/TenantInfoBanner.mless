@@ -1,0 +1,5 @@
+:local {
+  .tenant_info_message {
+    white-space: pre;
+  }
+}

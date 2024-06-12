@@ -6,9 +6,8 @@
 import React from 'react';
 
 import { EventPlaceholder } from '@instana/components/types/components/SvgIcon/types';
-import { Link, Message, IconButton } from '@instana/components';
 import { Observable, create } from '@instana/observables';
-import { useObservable } from '@instana/hooks';
+import { IconButton, Link } from '@instana/components';
 
 import {
   PersonalApiToken,
@@ -17,17 +16,15 @@ import {
 } from 'in-settings/tabs/UserSettings/api/personalApiToken';
 import CreatePersonalApiToken from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/CreatePersonalApiToken';
 import EditPersonalApiToken from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/EditPersonalApiToken';
+import TenantInfoBanner from 'in-settings/tabs/TeamSettings/components/TenantInfoBanner/TenantInfoBanner';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { userSettingsPersonalApiTokens } from 'in-settings/navigation/paths';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import CopyToClipboard from 'in-components/CopyToClipboard';
-import { getTenantsWithUnits } from 'in-api/account';
-import { config } from 'in-services/config';
+import config from 'in-services/config';
 import { user } from 'in-stores/user';
-import { t, Trans } from 'in-i18n';
-
-import locals from './PersonalApiTokens.mless';
+import { Trans, t } from 'in-i18n';
 
 const loadEntities = (userId: string): Observable<PersonalApiToken[]> => {
   const observer = create<PersonalApiToken[]>();
@@ -46,20 +43,14 @@ const loadEntities = (userId: string): Observable<PersonalApiToken[]> => {
 export default function PersonalApiTokens() {
   // @ts-expect-error no types available
   const userId = user.id;
-
-  const tenantWithUnits = useObservable(getTenantsWithUnits, []);
-  const unitsData = tenantWithUnits?.[config.tenant] || [];
-
   return (
     <>
-      {unitsData.length > 1 && (
-        <Message className={locals.message} type={'neutral'} inline withIcon>
-          <Trans
-            i18nKey="in-settings:tabs.personalApiTokenUnits"
-            values={{ tenantUnit: config.tenantUnit, tenant: config.tenant }}
-          />
-        </Message>
-      )}
+      <TenantInfoBanner>
+        <Trans
+          i18nKey="in-settings:tabs.personalApiTokenUnits"
+          values={{ tenantUnit: config.tenantUnit, tenant: config.tenant }}
+        />
+      </TenantInfoBanner>
       <List
         title={t('in-settings:tabs.personalApiTokens')}
         getHeader={defaultHeaderWithCount(t('in-settings:tabs.personalApiTokens'))}

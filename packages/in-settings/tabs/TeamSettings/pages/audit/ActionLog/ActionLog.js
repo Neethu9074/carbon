@@ -7,6 +7,7 @@ import React from 'react';
 
 import { KeyValue } from '@instana/components';
 
+import TenantInfoBanner from 'in-settings/tabs/TeamSettings/components/TenantInfoBanner/TenantInfoBanner';
 import AuditLogDownloadView from 'in-settings/tabs/TeamSettings/components/AuditLogDownloadView';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { fromNow, formatDateTime } from 'in-services/formatters/date';
@@ -15,7 +16,8 @@ import { success, loading } from 'in-services/util/result';
 import ServerTable from 'in-components/tables/ServerTable';
 import { toHtml } from 'in-services/formatters/markdown';
 import Title from 'in-components/Title/Title';
-import { t } from 'in-i18n';
+import config from 'in-services/config';
+import { Trans, t } from 'in-i18n';
 
 import audit from '../Audit.mless';
 
@@ -87,6 +89,12 @@ export default function ActionLog() {
 
   return (
     <>
+      <TenantInfoBanner>
+        <Trans
+          i18nKey="in-settings:tabs.actionLogUnits"
+          values={{ tenantUnit: config.tenantUnit, tenant: config.tenant }}
+        />
+      </TenantInfoBanner>
       <Title title={t('in-settings:tabs.actionLog')} />
       <ServerTable
         get={({ query, page, pageSize }) =>
