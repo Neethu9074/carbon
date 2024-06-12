@@ -57,7 +57,13 @@ export interface ScoredAction extends Action {
   aiEngine: string;
 }
 
-export function getAllActionsWithAISuggestions(name: string, description: string, targetSnapshotId?: string) {
+export function getAllActionsWithAISuggestions(
+  name: string,
+  description: string,
+  targetSnapshotId?: string,
+  type?: 'default' | 'watsonx',
+  eventId?: string
+) {
   return http<ActionMatch[]>({
     method: 'POST',
     maxRetries: 3,
@@ -66,7 +72,9 @@ export function getAllActionsWithAISuggestions(name: string, description: string
     }`,
     data: {
       name,
-      description
+      description,
+      type,
+      eventId
     },
     headers: getCsrfHeader(),
     mapToResultObject: true
