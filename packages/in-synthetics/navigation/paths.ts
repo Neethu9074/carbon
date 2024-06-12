@@ -20,6 +20,7 @@ import { stringify } from 'in-services/util/json';
 import { TimeConfig } from 'in-types';
 
 const matrixTestId = 'testId';
+const matrixTestLabel = 'testLabel';
 const matrixStatus = 'status';
 const matrixLocationLabels = 'locationLabels';
 
@@ -65,11 +66,18 @@ function useDashboard(basePath: string, tab: string) {
   const { location, createHref } = useNavigation();
 
   return useCallback(
-    (testId: string, timeConfig?: TimeConfig, failedStatusFilter?: boolean, locationLabelFilters?: string[]) => {
+    (
+      testId: string,
+      testLabel: string,
+      timeConfig?: TimeConfig,
+      failedStatusFilter?: boolean,
+      locationLabelFilters?: string[]
+    ) => {
       const clonedLocation = cloneLocation(location);
 
       clonedLocation.pathname = `${basePath}${tab}`;
       setOrDeleteMatrixKey(clonedLocation, basePath, matrixTestId, testId);
+      setOrDeleteMatrixKey(clonedLocation, basePath, matrixTestLabel, testLabel);
 
       if (timeConfig != null) {
         setTimeConfig(clonedLocation, timeConfig);

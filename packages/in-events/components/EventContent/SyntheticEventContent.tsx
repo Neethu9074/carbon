@@ -86,6 +86,7 @@ export default function SyntheticEventContent({ event, snapshot, reload }: Props
                     testId={syntheticTestId}
                     locationLabel={locationLabel}
                     timeConfig={analyzeTimeConfig}
+                    syntheticTestLabel={syntheticTestLabel}
                   />
                 </DescriptionButtons>
               </div>
@@ -108,6 +109,7 @@ export default function SyntheticEventContent({ event, snapshot, reload }: Props
                   testId={syntheticTestId}
                   locationLabel={locationLabel}
                   timeConfig={analyzeTimeConfig}
+                  syntheticTestLabel={syntheticTestLabel}
                 />
               </DescriptionButtons>
             )}
