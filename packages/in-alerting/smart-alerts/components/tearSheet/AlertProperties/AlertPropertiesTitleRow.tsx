@@ -66,7 +66,8 @@ export default function AlertPropertiesTitleRow({
                 stopPropagation(e);
                 toggle();
               }}
-              size="normal"
+              size="compact"
+              className={locals.btnWidth100}
             >
               {t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertyInsertPlaceholderLabel')}
             </Button>

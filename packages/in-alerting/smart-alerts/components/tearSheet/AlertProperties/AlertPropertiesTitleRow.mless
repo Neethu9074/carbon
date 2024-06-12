@@ -7,8 +7,12 @@
   .titleRowContainer {
     display: grid;
     align-items: center;
-    grid-template-columns: 15% 40% 40%;
-    padding-top: 1.5rem;
+    grid-template-columns: 15% 50% 31%;
     grid-gap: 1rem;
+  }
+  .btnWidth100 {
+    > button {
+      width: 100%;
+    }
   }
 }
