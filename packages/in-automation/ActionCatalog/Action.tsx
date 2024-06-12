@@ -214,7 +214,7 @@ function save(form: MapForm<any>, id: string | null, isNew: boolean, entity: Act
       copyAIGenaratedActionTracker({
         actionType: actionSpecification.type,
         actionName: actionSpecification.name,
-        copiedFromRecommendationCard: true
+        copiedFromRecommendationCard: false
       });
       // add aiOriginated flag to indicates that these are copied from OOTB AI action.
       const updatedCopiedAIAction = {
