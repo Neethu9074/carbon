@@ -43,7 +43,7 @@ export default function useScoredActions({ event, trigger, type }: UseScoredActi
         } else {
           const { name, description = '', id: eventId } = trigger.data!;
           const { entityId } = event;
-          return getAllActionsWithAISuggestions(name, description, entityId, type ?? 'default', eventId);
+          return getAllActionsWithAISuggestions(name, description, entityId, type, eventId);
         }
       });
     }, [trigger.progress.loading, refreshSignal]) ?? (pendingResult as Result<ScoredAction[]>)
