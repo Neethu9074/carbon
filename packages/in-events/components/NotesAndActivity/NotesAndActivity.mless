@@ -38,6 +38,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
+    cursor: pointer;
   }
 
   .notesIcon {
@@ -79,6 +80,7 @@
     padding: 10px 15px 10px 15px;
     margin-top: 10px;
     margin-left: 30px;
+    white-space: pre-wrap;
   }
 
   .myBubble {
