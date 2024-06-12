@@ -25,7 +25,6 @@ import { t, Trans } from 'in-i18n';
 import './Forms.less';
 
 const block = 'in-alert-channel-config-form';
-const tooltip_class = 'in-helpify-wrapper';
 
 const name = 'SERVICE_NOW_APPLICATION';
 const label = t('in-settings:tabs.serviceNowBD');
@@ -222,13 +221,9 @@ function Form({ form, onChange }) {
       ))}
       {form.get('username').map(field => (
         <FormGroup className={block}>
-          <div className={tooltip_class}>
-            <div className={`${tooltip_class}__content`}>
-              <Label className="username_label" htmlFor="username" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.username')}
-              </Label>
-            </div>
-          </div>
+          <Label htmlFor="username" hasError={!field.valid && field.touched}>
+            {t('in-settings:tabs.username')}
+          </Label>
           <Input
             id="username"
             className={`${block}__input`}
