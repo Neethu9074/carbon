@@ -83,7 +83,6 @@ export default function ActionInstanceContent({
                 <SecondLevelNavigationItem
                   key={key}
                   isActive={currentTab === key}
-                  // @ts-ignore
                   label={tabs[key].label}
                   onClick={() => {
                     setCurrentTab(key);
@@ -93,7 +92,6 @@ export default function ActionInstanceContent({
             </SecondLevelNavigation>
           </LeftRightPadding>
           <DashboardHeaderShadowModule />
-          {/* @ts-ignore */}
           {tabs[currentTab].component()}
         </div>
         <div className={locals.controls}>
