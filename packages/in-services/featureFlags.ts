@@ -256,3 +256,4 @@ export const orbitalEnabled = isFeatureFlagEnabled('orbitalEnabled', true);
 export const carbonStepProgressBarEnabled = isFeatureFlagEnabled('carbonStepProgressBarEnabled', false);
 export const carbonHorizontalIndicatorEnabled = isFeatureFlagEnabled('carbonHorizontalIndicatorEnabled', false);
 export const analyzeInfrastructureButtonEnabled = isFeatureFlagEnabled('analyzeInfrastructureButtonEnabled', false);
+export const maxMetricsLimitForBeeinstanaEnabled = isFeatureFlagEnabled('maxMetricsLimitForBeeinstanaEnabled', true);

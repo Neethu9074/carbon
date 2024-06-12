@@ -74,7 +74,8 @@
     "restartCount": "Restart Count",
     "kubernetesLabels": "Kubernetes Labels",
     "podmanAnnotations": "Podman Annotations",
-    "metricExplosion": "This dashboard may not display all metrics as only {{numberOfMetrics}} were stored"
+    "metricExplosionBeeInstana": "This dashboard may not display all metrics as only {{numberOfMetrics}} were stored",
+    "metricExplosion": "This dashboard may not display all metrics as only {{numberOfMetrics}} high resolution metrics were stored. To see more metrics, use 2 hours or greater time-range (10 second rollup) and try again."
   },
   "explore": {
     "analyzeInfrastructure": "Analyze Infrastructure",

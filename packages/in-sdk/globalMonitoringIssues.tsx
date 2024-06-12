@@ -7,6 +7,8 @@ import React from 'react';
 
 import { t } from '@instana/i18n-react';
 
+import { maxMetricsLimitForBeeinstanaEnabled } from 'in-services/featureFlags';
+
 const globalMonitoringIssues = {
   data_processing_issue_metric_cardinality_limit_exceeded: {
     issueDescription: {
@@ -21,11 +23,10 @@ const globalMonitoringIssues = {
   max_metrics_reached: {
     issueDescription: {
       Component: function ({ numberOfMetrics }: { numberOfMetrics: string }) {
-        return (
-          <>
-            <div>{t('in-infrastructure:dashboard.metricExplosion', { numberOfMetrics })}</div>
-          </>
-        );
+        if (maxMetricsLimitForBeeinstanaEnabled) {
+          return <div>{t('in-infrastructure:dashboard.metricExplosionBeeInstana', { numberOfMetrics })}</div>;
+        }
+        return <div>{t('in-infrastructure:dashboard.metricExplosion', { numberOfMetrics })}</div>;
       }
     },
     explanationLinkLabel: t('in-sdk:agentMonitoringExplanationLinkLabel'),
