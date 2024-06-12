@@ -116,7 +116,7 @@ function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
       getAction(actionId).map(action =>
         isCopy ? { ...action, name: t('in-automation:copyOf', { name: action.name }) } : action
       ),
-    saveEntity: (entity: ActionFormEntity, form: MapForm<any>) => save(form, id, isNew, entity),
+    saveEntity: (entity: ActionFormEntity, form: MapForm<any>) => save(form, id, isNew, entity, isCopy),
     openEntities: () => navigateToActionCatalog()
   };
   const { entity, form, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
@@ -203,18 +203,25 @@ const ActionFormHeader = ({ isNew, entity }: ActionFormHeaderProps) => {
 };
 
 // TODO: Check built in
-function save(form: MapForm<any>, id: string | null, isNew: boolean, entity: ActionFormEntity | null) {
+function save(form: MapForm<any>, id: string | null, isNew: boolean, entity: ActionFormEntity | null, isCopy: boolean) {
   const actionSpecification = getActionSpecification(form, entity);
   if (isNew) {
     createActionTracker({
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
     });
-    if (isAIAction(entity!)) {
+    if (isAIAction(entity!) && isCopy) {
       copyAIGenaratedActionTracker({
         actionType: actionSpecification.type,
-        actionName: actionSpecification.name
+        actionName: actionSpecification.name,
+        copiedFromRecommendationCard: true
       });
+      // add aiOriginated flag to indicates that these are copied from OOTB AI action.
+      const updatedCopiedAIAction = {
+        metadata: { readOnly: false, builtIn: false, sensorImported: false, aiOriginated: true },
+        ...actionSpecification
+      };
+      return saveNewAction(updatedCopiedAIAction);
     }
     return saveNewAction(actionSpecification);
   } else {
