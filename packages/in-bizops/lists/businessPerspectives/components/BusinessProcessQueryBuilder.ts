@@ -4,14 +4,25 @@
  * Copyright IBM Corp. 2024
  */
 
+import { GetBizOpsTagSuggestionQuery } from '@instana/types';
+
+import getBizOpsTagSuggestions from 'in-bizops/subscriptions/getBizOpsTagSuggestions';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
-import { successObservableFactory } from 'in-services/util/result';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 
 export const BusinessProcessQueryBuilder = createQueryBuilder({
   getTagCatalog: getBusinessMonitoringTagCatalog,
-  getSuggestions: successObservableFactory({
-    suggestions: ['Suggestion 1', 'Suggestion 2', 'Suggestion 3'],
-    totalHits: 42
-  })
+  getSuggestions: params => {
+    const { tagFilterExpression, tagName, timeConfig, propose, key, value, entity } = params;
+    const query: GetBizOpsTagSuggestionQuery = {
+      entity: entity,
+      tagFilterExpression: tagFilterExpression,
+      tagName: tagName,
+      propose,
+      key,
+      value,
+      timeConfig: timeConfig
+    };
+    return getBizOpsTagSuggestions(query);
+  }
 }).QueryBuilder;
