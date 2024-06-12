@@ -24,6 +24,22 @@ export default function UsageCharts({
   showAggregatedMetrics = false,
   hasSyntheticAddons = false
 }) {
+  const dataChartY1 = tenantUnit?.tenant
+    ? {
+        ...tenantUnit,
+        metrics: ['data_ingested_total'],
+        labels: ['Total'],
+        colors: [carbonAlert.blue70],
+        formatter: 'bytes.compact'
+      }
+    : {
+        ...tenantUnit,
+        metrics: ['licensed_data', 'data_ingested_total'],
+        labels: ['Entitled per Day', 'Total'],
+        colors: [carbonAlert.red60, carbonAlert.blue70],
+        formatter: 'bytes.compact'
+      };
+
   return (
     <>
       <Row>
@@ -82,13 +98,7 @@ export default function UsageCharts({
             <UsageChart
               windowSize={windowSize}
               showAggregatedMetrics={showAggregatedMetrics}
-              y1={{
-                ...tenantUnit,
-                metrics: ['licensed_data_daily', 'data_ingested_total'],
-                labels: ['Entitled per Day', 'Total'],
-                colors: [carbonAlert.red60, carbonAlert.blue70],
-                formatter: 'bytes.compact'
-              }}
+              y1={dataChartY1}
               y2={{
                 ...tenantUnit,
                 renderer: stackedArea.id,
