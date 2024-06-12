@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
   PaginatedResult,
@@ -14,10 +14,10 @@ import {
   SloEntityUnion
 } from '@instana/types';
 import { Progress } from '@instana/components/types/util/dataRetrieval';
-import { combineLatest } from '@instana/observables';
+import { HorizontalIndicator, Typography } from '@instana/components';
 import { generateStableHash } from '@instana/utils';
-import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import SloTableSelection from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection';
@@ -26,11 +26,10 @@ import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSl
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
-import { getSloConfiguration } from 'in-service-levels/api/configuration';
+import { getAllSloConfigurations } from 'in-service-levels/api/configuration';
 import Sections from 'in-components/workspace/Sections/Sections';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
-import { pendingResult } from 'in-services/fixedObjects';
 import { FetchedState } from 'in-hooks/utils/types';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -68,33 +67,36 @@ export default function SloListSelection() {
 
   const selectedIds = selected.map(({ id }) => id);
   const filteredList = sloList.filter(({ id }) => !selectedIds.includes(id));
-  const sortedList = [...selected, ...filteredList];
+  const sortedList = sortedSloDataByLabel([...selected, ...filteredList]);
 
   return (
-    <Sections>
-      <SloTableHeader>
-        <Typography variant="heading-200" component="h2">
-          {t('in-alerting:smartAlerts.slo.advancedModeContainer.selectSloHeadline')}
-        </Typography>
-        <SearchInput query={query} onChange={q => setQuery(q)} />
-      </SloTableHeader>
-      <SloTableSelection
-        columns={['label']}
-        onChange={onSelectSlo}
-        progress={progress}
-        selectedIds={sloIdsField.value}
-        canLoadMore={canLoadMore}
-        disabled={false}
-        hasError={!isSloIdsFieldValid}
-        itemList={sortedList}
-        loadMore={loadMore}
-        skeletonRows={sortedList.length ? sortedList.length : 3}
-      />
-      {!isSloIdsFieldValid &&
-        sloIdsField.messages.map(({ message, path }, index) => (
-          <ValidationBlock key={`${path}:${index}`}>{message}</ValidationBlock>
-        ))}
-    </Sections>
+    <>
+      <Sections>
+        <SloTableHeader>
+          <Typography variant="heading-200" component="h2">
+            {t('in-alerting:smartAlerts.slo.advancedModeContainer.selectSloHeadline')}
+          </Typography>
+          <SearchInput query={query} onChange={q => setQuery(q)} />
+        </SloTableHeader>
+        <HorizontalIndicator progress={progress} />
+        <SloTableSelection
+          columns={['label']}
+          onChange={onSelectSlo}
+          progress={{ loading: false }}
+          selectedIds={sloIdsField.value}
+          canLoadMore={canLoadMore}
+          disabled={false}
+          hasError={!isSloIdsFieldValid}
+          itemList={sortedList}
+          loadMore={loadMore}
+          skeletonRows={sortedList.length ? sortedList.length : 3}
+        />
+        {!isSloIdsFieldValid &&
+          sloIdsField.messages.map(({ message, path }, index) => (
+            <ValidationBlock key={`${path}:${index}`}>{message}</ValidationBlock>
+          ))}
+      </Sections>
+    </>
   );
 }
 
@@ -109,13 +111,15 @@ interface UseBufferedSloDataResult extends Pick<PaginatedResult<any>, 'page' | '
   progress: Progress;
 }
 
-function useBufferedSloData({ page, query, entityType }: UseBufferedSloDataProps): UseBufferedSloDataResult {
+function usePaginatedSloList({ page, query, entityType }: UseBufferedSloDataProps): UseBufferedSloDataResult {
+  const entityTypeRef = useRef<SloEntityType>();
   const [sloList, setSloList] = useState<SloData[]>([]);
   const [data, , , progress] = useSloConfigurations({
     page,
     pageSize: SloListPageSize,
     query,
-    entityType
+    entityType,
+    orderBy: 'name'
   });
 
   useEffect(() => {
@@ -123,12 +127,18 @@ function useBufferedSloData({ page, query, entityType }: UseBufferedSloDataProps
   }, [entityType]);
 
   useEffect(() => {
-    if (!data) return;
+    const prevEntityType = entityTypeRef.current;
+    const isInitialChange = prevEntityType === undefined;
+    const hasEntityTypeChanged = prevEntityType !== entityType;
+    entityTypeRef.current = entityType;
 
-    const sloData = resultToSloData(data);
+    if (progress.loading) return;
+    if (hasEntityTypeChanged && !isInitialChange) return;
+
+    const sloData = data ? resultToSloData(data) : [];
     setSloList([...sloList, ...sloData]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [generateStableHash(data)]);
+  }, [progress.loading, generateStableHash(data)]);
 
   return {
     sloList,
@@ -138,6 +148,10 @@ function useBufferedSloData({ page, query, entityType }: UseBufferedSloDataProps
     totalHits: data?.totalHits ?? 0,
     progress
   };
+}
+
+function sortedSloDataByLabel(sloData: SloData[]): SloData[] {
+  return sloData.sort((a, b) => a.label.localeCompare(b.label));
 }
 
 function sloConfigsToSloData(sloConfigs: ServiceLevelObjectiveConfiguration[]): SloData[] {
@@ -174,61 +188,36 @@ function useSloList(selectedIds: string[], entityType: SloEntityType | undefined
     clear();
   });
   const [page, setPage] = useState(1);
-  const { sloList, clear, ...rawData } = useBufferedSloData({ page, query: debouncedQuery, entityType });
-  const selected = useSelectedIds(selectedIds, sloList);
+  const [selected] = useSelectedIds(selectedIds);
+  const { sloList, clear, ...rawData } = usePaginatedSloList({ page, query: debouncedQuery, entityType });
 
   useEffect(() => {
     setPage(1);
-  }, [entityType]);
+  }, [entityType, debouncedQuery]);
 
   return {
     clear,
     loadMore: () => setPage(page + 1),
     setQuery: setQueryDebounced,
     query: queryInput,
-    selected,
+    selected: selected ?? [],
     sloList,
     ...rawData
   };
 }
 
-function useSelectedIds(selectedSloIds: string[], loadedSloData: SloData[] = []): SloData[] {
-  const [sloData, , , progress] = useSloData(selectedSloIds, loadedSloData);
-  const [selectedSlosBuffer, setSelectedSlosBuffer] = useState<SloData[]>([]);
+function useSelectedIds(sloIds: string[]): FetchedState<SloData[]> {
+  const data = useObservable(() => {
+    if (sloIds.length === 0)
+      return just(success({ items: [] }) as unknown as Result<PaginatedResult<ServiceLevelObjectiveConfiguration>>);
+    return getAllSloConfigurations({
+      ids: sloIds
+    });
+  }, [generateStableHash(sloIds)]);
 
-  useEffect(() => {
-    if (progress.loading) return;
+  const [result, ...restState] = resultToFetchedStateResponse(data);
 
-    setSelectedSlosBuffer(sloData ?? []);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [generateStableHash(sloData)]);
+  const sloData = sloConfigsToSloData(result?.items ?? []);
 
-  return selectedSlosBuffer;
-}
-
-function useSloData(sloIds: string[], loadedSloData: SloData[]): FetchedState<SloData[]> {
-  const cachedSloData = loadedSloData.filter(({ id }) => sloIds.includes(id));
-  const filteredIds = sloIds.filter(sloId => !cachedSloData.some(({ id }) => id === sloId));
-  const results = useObservable(
-    () => combineLatest(filteredIds.map(id => getSloConfiguration(id))),
-    [generateStableHash(filteredIds)]
-  ) ?? [pendingResult];
-
-  const result = results.reduce<Result<ServiceLevelObjectiveConfiguration[]>>((prev, current) => {
-    const prevData = prev.data ?? [];
-    const currentData = current.data;
-    const data = currentData ? [...prevData, currentData] : prevData;
-
-    return {
-      data,
-      progress: { loading: prev.progress.loading && current.progress.loading },
-      errors: [...prev.errors, ...current.errors]
-    };
-  }, success<ServiceLevelObjectiveConfiguration[]>([]));
-
-  const [sloConfigs, ...fetchedState] = resultToFetchedStateResponse(result);
-
-  const sloData = sloConfigsToSloData(sloConfigs ?? []);
-
-  return [[...cachedSloData, ...sloData], ...fetchedState] as FetchedState<SloData[]>;
+  return [sloData, ...restState] as FetchedState<SloData[]>;
 }

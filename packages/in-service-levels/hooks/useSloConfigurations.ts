@@ -5,6 +5,7 @@
  */
 
 import { PaginatedResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
 import { getAllSloConfigurations, GetAllSloConfigurationsArguments } from 'in-service-levels/api/configuration';
@@ -33,7 +34,7 @@ export default function useSloConfigurations({
         orderBy,
         orderDirection
       }),
-    [page, pageSize, query, tags, entityType, orderBy, orderDirection]
+    [generateStableHash(ids), page, pageSize, query, tags, entityType, orderBy, orderDirection]
   );
   return resultToFetchedStateResponse(result);
 }
