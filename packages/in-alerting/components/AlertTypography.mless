@@ -20,4 +20,8 @@
   .color700 {
     color: var(--ids-color-option-neutral-700);
   }
+
+  .primaryOnLight {
+    color: var(--ids-color-text-primary-on-light);
+  }
 }

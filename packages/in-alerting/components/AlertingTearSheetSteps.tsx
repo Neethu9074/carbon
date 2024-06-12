@@ -39,10 +39,18 @@ export default function AlertingTearSheetSteps(props: {
           >
             <Typography variant="body-regular">
               <span className={locals.threeColumns}>
-                <span className={classNames({ [locals.color600]: idx !== step, [locals.index]: true })}>
-                  {`${idx + 1}.`}
+                <span className={locals.index}>
+                  <AlertTypography
+                    variant={'body-regular'}
+                    color={idx !== step ? 'color600' : 'primaryOnLight'}
+                    content={`${idx + 1}.`}
+                  />
                 </span>
-                <span className={classNames({ [locals.color600]: idx !== step })}>{stepConfig.title}</span>
+                <AlertTypography
+                  variant={'body-regular'}
+                  color={idx !== step ? 'color600' : 'primaryOnLight'}
+                  content={stepConfig.title}
+                />
                 {displayValidation && !stepConfig?.valid && (
                   <span className={locals.alignIcon}>
                     <SvgIcon
@@ -56,7 +64,12 @@ export default function AlertingTearSheetSteps(props: {
             </Typography>
             {stepConfig.isOptional && (
               <span className={locals.optional}>
-                <AlertTypography variant={'body-small'} content={t('in-alerting:components.optional')} noMargin />
+                <AlertTypography
+                  variant={'body-small'}
+                  content={t('in-alerting:components.optional')}
+                  color={idx !== step ? 'color600' : 'primaryOnLight'}
+                  noMargin
+                />
               </span>
             )}
           </div>
