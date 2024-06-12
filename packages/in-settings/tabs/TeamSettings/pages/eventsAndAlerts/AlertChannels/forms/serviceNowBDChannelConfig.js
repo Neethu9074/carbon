@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2022
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
@@ -10,10 +11,9 @@ import { SvgIcon, IconButton } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 import { Collapsible } from '@instana/components';
 
-//import { serviceNowAdvancedEnabled } from 'in-services/featureFlags';
-import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
 import { serviceNowAdvancedEnabled } from 'in-services/featureFlags';
+import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Label from 'in-components/form/Label';
