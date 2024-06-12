@@ -1,7 +1,8 @@
 {
   "general": {
     "all": "All",
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "alphaLabel": "Private preview"
   },
   "termsDialog": {
     "back": "Back",
@@ -1196,9 +1197,16 @@
     "deletedEventMessage": "You are looking at a deleted event configuration. Modifications are not possible.",
     "serviceNowUrl": "ServiceNow URL",
     "serviceNow": "ServiceNow",
+    "serviceNowBD": "ServiceNow App",
     "serviceNowAlertChannel": "ServiceNow Alert Channel",
     "serviceNowUsernameTooltip": "Username and password should be for a ServiceNow user with permission to create incidents.",
     "autoCloseIncidents": "Auto close incidents",
+    "autoCloseIncidentsBD": "Auto close incidents (when incident is closed by Instana)",
+    "advancedIntro": "Creating this alert channel will enable Instana to create incidents in both Instana and ServiceNow. You can customize how the incidents are updated.<br/><br/>",
+    "sendTitle": "Send actions to ServiceNow",
+    "receiveTitle": "Receive actions from ServiceNow",
+    "manuallyClosedIncidents": "Manually closed incidents (when an incident is closed by a user)",
+    "resolutionOfIncident": "Resolve incidents (will close the incidents/issues in Instana)",
     "showPasswordTooltip": "Show password",
     "hidePasswordTooltip": "Hide password",
     "scope": "Scope",

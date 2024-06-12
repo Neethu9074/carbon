@@ -126,6 +126,7 @@ module.exports = {
   welcomePageV2Enabled: false,
   infrastructureExploreTagColumnsEnabled: true,
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
+  serviceNowAdvancedEnabled: true,
   carbonTabsEnabled: true,
   shareAndInviteEnabled: false,
   automationActionInstanceFeedbackEnabled: false,

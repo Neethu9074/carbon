@@ -10,6 +10,7 @@ import { fromJS } from 'immutable';
 
 import { Button, Card, IconButton, Link, Message, Stack, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
+import { Pill } from '@instana/components';
 
 import AlertChannelTestButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
@@ -74,6 +75,18 @@ function AlertChannelModificationForm(props) {
               ? t('in-settings:tabs.createAlertChannelLabelAlertChannel', { alertChannelLabel: alertChannelLabel })
               : t('in-settings:tabs.modifyEntityNameAlertChannel', { entityName: entity.get('name') })}
           </SubViewHeader>
+          {fullyQualifiedAlertChannel?.isAlpha && (
+            <div className={locals.betaMarker}>
+              {fullyQualifiedAlertChannel.feedbackLink ? (
+                <FeatureFeedback
+                  href={fullyQualifiedAlertChannel.feedbackLink}
+                  labelText={t('in-settings:general.alphaLabel')}
+                />
+              ) : (
+                <Pill type="gray">{t('in-settings:general.alphaLabel')}</Pill>
+              )}
+            </div>
+          )}
           {fullyQualifiedAlertChannel?.isBeta && (
             <div className={locals.betaMarker}>
               <FeatureFeedback href={fullyQualifiedAlertChannel.feedbackLink} />
@@ -103,13 +116,15 @@ function AlertChannelModificationForm(props) {
           </Section>
         ) : null}
         <Form {...props} />
-        <AlertChannelTestButton
-          alertChannel={entity}
-          form={form}
-          setForm={setForm}
-          alertChannelLabel={alertChannelLabel}
-          testAlertChannelLabel={testAlertChannelLabel}
-        />
+        {fullyQualifiedAlertChannel?.testAPI !== null && (
+          <AlertChannelTestButton
+            alertChannel={entity}
+            form={form}
+            setForm={setForm}
+            alertChannelLabel={alertChannelLabel}
+            testAlertChannelLabel={testAlertChannelLabel}
+          />
+        )}
 
         {AdvancedFormSettings && <SectionLine />}
 

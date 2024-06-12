@@ -611,6 +611,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'serviceNowAdvancedEnabled',
+    instanaCtlKey: 'feature.service.now.advanced.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonTabsEnabled',
     instanaCtlKey: 'feature.carbon.tabs.enabled',
     defaultValue: false
