@@ -7,7 +7,7 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 
 import { HorizontalIndicator, Button } from '@instana/components';
-import { Disposable } from '@instana/observables';
+import { Disposable, just } from '@instana/observables';
 
 import {
   CursorPaginatedResult,
@@ -21,11 +21,12 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import getEumBeaconByTrace, { makeEumBeaconByTraceQuery } from 'in-eum/subscriptions/getEumBeaconByTrace';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
+import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 interface AnalyzeImpactedUsersButtonProps {
   disabled?: boolean;
-  timeConfig: TimeConfig;
+  timeConfig?: TimeConfig | null;
   joinFilterForImpactedUsers: TagFilterExpressionElementUnion;
 }
 
@@ -114,9 +115,20 @@ function getCSVData(items: Array<EumBeaconByTraceBeaconsItem>): string {
 }
 
 function downloadImpactedUserBeacons(
-  timeConfig: TimeConfig,
-  joinFilterForImpactedUsers: TagFilterExpressionElementUnion
+  timeConfig?: TimeConfig | null,
+  joinFilterForImpactedUsers?: TagFilterExpressionElementUnion
 ) {
+  if (!timeConfig || !joinFilterForImpactedUsers) {
+    return just(
+      success<CursorPaginatedResult<EumBeaconByTraceBeaconsItem>>({
+        items: [],
+        canLoadMore: false,
+        totalHits: 0,
+        totalRepresentedItemCount: 0,
+        totalRetainedItemCount: 0
+      })
+    );
+  }
   return getEumBeaconByTrace(
     makeEumBeaconByTraceQuery({
       metrics: [

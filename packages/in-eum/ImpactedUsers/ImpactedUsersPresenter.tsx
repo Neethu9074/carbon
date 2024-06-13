@@ -7,102 +7,62 @@
 import React, { useMemo } from 'react';
 
 import { Card, HorizontalIndicator, Li, LoadingSkeleton, Ul } from '@instana/components';
+import { getIntlNumberFormatter } from '@instana/format-numbers';
 
 import {
-  CursorPaginatedResult,
-  Error,
-  EumBeaconByTraceBeacon,
-  EumBeaconByTraceBeaconsItem,
-  Progress,
-  Result,
-  TagFilterExpressionElementUnion,
-  TimeConfig
-} from 'in-types';
+  ImpactedUsersMetricsResult,
+  OverallStatusType,
+  calculateOverallStatus,
+  estimateTotalCount
+} from 'in-eum/hooks/useImpactedUsers';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
-import { ImpactedUsersMetricsResult, ExpandedFetchedState } from 'in-eum/hooks/useImpactedUsers';
+import { EumBeaconByTraceBeacon, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import AnalyzeImpactedUsersButton from 'in-eum/ImpactedUsers/AnalyzeImpactedUsersButton';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
-import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
-import { all as allProgresses } from 'in-hooks/utils/progress';
 import { Col, Row } from 'in-components/layout/Grid';
 import { hours } from 'in-services/time';
 import { t } from 'in-i18n';
 
 import locals from './ImpactedUsersPresenter.mless';
 
-export interface AdjustedTimeConfig extends TimeConfig {
-  reduced: boolean;
-}
+const countFormatter = getIntlNumberFormatter();
 
 interface ImpactedUsersPresenterProps {
-  adjustedTimeConfig: AdjustedTimeConfig;
+  timeConfig: TimeConfig;
   metricImpacts: ImpactedUsersMetricsResult;
-  impactedWebsitesOrMobiles?: Result<CursorPaginatedResult<EumBeaconByTraceBeaconsItem>> | null;
   downloadProp: {
     joinFilterForImpactedUsers: TagFilterExpressionElementUnion;
   };
 }
 
 export default function ImpactedUsersPresenter({
-  adjustedTimeConfig,
+  timeConfig,
   metricImpacts,
-  impactedWebsitesOrMobiles,
   downloadProp
 }: Readonly<ImpactedUsersPresenterProps>) {
-  const { impacted, total } = metricImpacts;
+  const { impacted, total, websitesOrMobiles } = metricImpacts;
 
-  const overallStatus: {
-    progress: Progress;
-    pending: boolean;
-    errors: Array<Error>;
-    impacted: { hasData: boolean; value?: number };
-    total: { hasData: boolean; value?: number };
-  } = useMemo(() => {
-    const progresses: Array<Progress> = [];
-    const errors: Array<Error> = [];
-    if (impacted?.progress) {
-      progresses.push(impacted.progress);
-    }
-    if (total?.progress) {
-      progresses.push(total.progress);
-    }
-    if (impactedWebsitesOrMobiles?.progress) {
-      progresses.push(impactedWebsitesOrMobiles.progress);
-    }
-    const progress = progresses.length ? allProgresses(...progresses) : null;
-
-    if (impacted?.errors) {
-      errors.push(...impacted.errors);
-    }
-    if (total?.errors) {
-      errors.push(...total.errors);
-    }
-    if (impactedWebsitesOrMobiles?.errors) {
-      errors.push(...impactedWebsitesOrMobiles.errors);
-    }
-
-    return {
-      errors,
-      progress: {
-        loading: progress ? progress.loading : true,
-        percentage: progress?.percentage ? progress.percentage * 100 : undefined
-      },
-      pending: !!(
-        impacted?.state === 'pending' ||
-        total?.state === 'pending' ||
-        impactedWebsitesOrMobiles?.progress?.loading
-      ),
-      impacted: getFirstValueFromUnifiedMetric(impacted),
-      total: getFirstValueFromUnifiedMetric(total)
-    };
-  }, [impacted, impactedWebsitesOrMobiles, total]);
+  const overallStatus = useMemo(() => calculateOverallStatus(metricImpacts), [metricImpacts]);
 
   return (
     <>
       {overallStatus.pending && <HorizontalIndicator progress={overallStatus.progress} />}
-      <Card title={t('in-eum:titleImpactedUsers')}>
+      <Card
+        title={t('in-eum:titleImpactedUsers')}
+        leftHeaderContent={
+          overallStatus.adjustedTimeConfig?.reduced ? (
+            <MultiLineToolTipIcon
+              lines={[explainTheEstimation(overallStatus, timeConfig)]}
+              label={t('in-eum:lastHoursOfTheIssue', {
+                duration: Math.round(overallStatus.adjustedTimeConfig.windowSize / hours.toMillis(1))
+              })}
+            />
+          ) : undefined
+        }
+      >
         {!!overallStatus.errors.length && (
           <DescriptionText>
             <ErroneousResultPresenter errors={overallStatus.errors} />
@@ -121,22 +81,13 @@ export default function ImpactedUsersPresenter({
             ) : (
               <>{overallStatus.total.hasData ? ` / ${overallStatus.total.value}` : ''}</>
             )}
-            {adjustedTimeConfig.reduced && (
-              <span className={locals.duration}>
-                (
-                {t('in-eum:lastHoursOfTheIssue', {
-                  duration: Math.round(adjustedTimeConfig.windowSize / hours.toMillis(1))
-                })}
-                )
-              </span>
-            )}
           </Col>
-          {impactedWebsitesOrMobiles?.progress?.loading && <LoadingSkeleton className={locals.skeleton} />}
-          {!!impactedWebsitesOrMobiles?.data?.items?.length && (
+          {websitesOrMobiles?.progress?.loading && <LoadingSkeleton className={locals.skeleton} />}
+          {!!websitesOrMobiles?.data?.items?.length && (
             <Col className={locals.container}>
               <span className={locals.label}>{t('in-eum:entityInfoLabelOfWebsiteOrMobile')}</span>
               <Ul framed={false}>
-                {impactedWebsitesOrMobiles.data.items.map(it => (
+                {websitesOrMobiles.data.items.map(it => (
                   <Li key={it.beacon.eumCfgId} size="compact" className={locals.compactLi}>
                     <EumScopePath beacon={it.beacon} />
                   </Li>
@@ -148,8 +99,11 @@ export default function ImpactedUsersPresenter({
         <Row withoutSideMargin>
           <Col>
             <AnalyzeImpactedUsersButton
-              disabled={overallStatus.pending || !(overallStatus.impacted.hasData && overallStatus.impacted.value)}
-              timeConfig={adjustedTimeConfig}
+              disabled={
+                overallStatus.pending ||
+                !(overallStatus.impacted.hasData && overallStatus.impacted.value && overallStatus.adjustedTimeConfig)
+              }
+              timeConfig={overallStatus.adjustedTimeConfig}
               {...downloadProp}
             />
           </Col>
@@ -159,12 +113,27 @@ export default function ImpactedUsersPresenter({
   );
 }
 
-function getFirstValueFromUnifiedMetric(result?: ExpandedFetchedState<Array<UnifiedMetricsResult>> | null) {
-  if (result?.state === 'pending' || !result?.data?.[0]?.values?.[0]?.length) {
-    return { hasData: false, value: 0 };
+function explainTheEstimation(overallStatus: OverallStatusType, timeConfig: TimeConfig): string {
+  if (
+    overallStatus.traceEstimation?.hasData &&
+    overallStatus.timeForTraceEstimation &&
+    overallStatus.adjustedTimeConfig?.whyReduce === 'too-many-calls'
+  ) {
+    const estimatedTotal = estimateTotalCount(
+      overallStatus.timeForTraceEstimation,
+      overallStatus.traceEstimation.value,
+      timeConfig
+    );
+    return t('in-eum:approximateDataIndicator.tooManyCallsWithEstimation', {
+      estimatedCount: countFormatter(Math.round(estimatedTotal / 1_000_000) * 1_000_000)
+    });
   }
 
-  return { hasData: true, value: result.data[0].values[0][1] ?? 0 };
+  if (overallStatus.adjustedTimeConfig?.whyReduce === 'duration-too-long') {
+    return t('in-eum:approximateDataIndicator.durationTooLong');
+  }
+
+  return t('in-eum:approximateDataIndicator.tooManyCalls');
 }
 
 function EumScopePath({ beacon }: { beacon?: EumBeaconByTraceBeacon }) {

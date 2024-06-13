@@ -4,16 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-@import '~in-themes/mixins.less';
-
 :local {
   .container {
     display: inline-flex;
     margin-right: 1rem;
-  }
-
-  .duration {
-    margin-left: 0.25rem;
   }
 
   .label {

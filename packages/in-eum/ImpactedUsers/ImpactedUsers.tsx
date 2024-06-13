@@ -6,17 +6,9 @@
 
 import React, { useMemo } from 'react';
 
-import { useObservable } from '@instana/hooks';
-
-import getEumBeaconByTrace, { makeEumBeaconByTraceQuery } from 'in-eum/subscriptions/getEumBeaconByTrace';
-import ImpactedUsersPresenter, { AdjustedTimeConfig } from 'in-eum/ImpactedUsers/ImpactedUsersPresenter';
+import ImpactedUsersPresenter from 'in-eum/ImpactedUsers/ImpactedUsersPresenter';
 import { useImpactedUsersMetrics } from 'in-eum/hooks/useImpactedUsers';
 import { TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
-import { hours } from 'in-services/time';
-
-// currently we'll only show impacted users in last 24 hours (alert.end or now - 24h) to avoid big queries.
-// in future, we'll force granularity in the data and split big query into smaller ones.
-const maxImpactedUserWindowSize = hours.toMillis(24);
 
 interface ImpactedUsersProps {
   timeConfig: TimeConfig;
@@ -29,42 +21,20 @@ export default function ImpactedUsers({
   joinFilterForImpactedUsers,
   joinFilterForTotalUsers
 }: ImpactedUsersProps) {
-  const adjustedTimeConfig = useMemo(() => adjustTimeConfigToRecent(timeConfig), [timeConfig]);
   const metricConfig = useMemo(
     () => ({
-      impacted: { timeConfig: adjustedTimeConfig, joinFilterExpression: joinFilterForImpactedUsers },
-      total: { timeConfig: adjustedTimeConfig, joinFilterExpression: joinFilterForTotalUsers }
+      impacted: { timeConfig: timeConfig, joinFilterExpression: joinFilterForImpactedUsers },
+      total: { timeConfig: timeConfig, joinFilterExpression: joinFilterForTotalUsers }
     }),
-    [joinFilterForImpactedUsers, joinFilterForTotalUsers, adjustedTimeConfig]
+    [joinFilterForImpactedUsers, joinFilterForTotalUsers, timeConfig]
   );
   const metricImpacts = useImpactedUsersMetrics(metricConfig);
 
-  const impactedWebsitesOrMobiles = useObservable(
-    () =>
-      getEumBeaconByTrace(
-        makeEumBeaconByTraceQuery({
-          metrics: ['beaconByTrace.configId', 'beaconByTrace.source'],
-          timeConfig: adjustedTimeConfig,
-          joinFilterExpression: joinFilterForImpactedUsers,
-          distinctBy: 'beaconByTrace.configId'
-        })
-      ),
-    [adjustedTimeConfig, joinFilterForImpactedUsers]
-  );
-
   return (
     <ImpactedUsersPresenter
-      adjustedTimeConfig={adjustedTimeConfig}
+      timeConfig={timeConfig}
       metricImpacts={metricImpacts}
-      impactedWebsitesOrMobiles={impactedWebsitesOrMobiles}
       downloadProp={{ joinFilterForImpactedUsers }}
     />
   );
-}
-
-function adjustTimeConfigToRecent(timeConfig: TimeConfig): AdjustedTimeConfig {
-  if (timeConfig.windowSize > maxImpactedUserWindowSize) {
-    return { ...timeConfig, windowSize: maxImpactedUserWindowSize, reduced: true };
-  }
-  return { ...timeConfig, reduced: false };
 }
