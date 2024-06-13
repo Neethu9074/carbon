@@ -640,7 +640,7 @@ function areAllRowsOnCurrentPageSelected(entities, tableActions, page, pageSize)
   );
 }
 
-function areAllRowsOnAllPagesSelected(entities, tableActions) {
+export function areAllRowsOnAllPagesSelected(entities, tableActions) {
   return areAllRowsSelected(entities, tableActions, 0, entities ? entities.length : 0);
 }
 

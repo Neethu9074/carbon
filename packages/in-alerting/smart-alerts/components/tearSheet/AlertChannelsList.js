@@ -1,0 +1,137 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import React from 'react';
+
+import { Button } from '@instana/legacy';
+
+import {
+  columnDefinitions,
+  getEntityName,
+  getKind,
+  getStringifiedParameters,
+  createFilters
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
+import List, { defaultHeaderWithCount, areAllRowsOnAllPagesSelected } from 'in-settings/components/List';
+import { getEntityHref, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
+import AlertTypography from 'in-alerting/components/AlertTypography';
+import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
+import { clickAlertChannelTracker } from 'in-settings/tracker';
+import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelsList.mless';
+
+/**
+ * A searchable list of all configured alert channels that does not reveal confidential or pure configuration related
+ * properties, but only information that helps to better understand what this alert channel is about.
+ */
+export default function AlertChannelsList({
+  setTitle = true,
+  numberOfChannels,
+  preSelectedChannels,
+  tableActions = {},
+  noDataMessage,
+  renderNoDataAvailable,
+  hiddenIds,
+  pageSize = 20,
+  rightHeader,
+  isSearchable = true,
+  onRowClick,
+  hasRowNavigation = true,
+  getHeader = defaultGetHeader(tableActions, numberOfChannels)
+}) {
+  return (
+    <List
+      title={setTitle ? t('in-settings:tabs.alertChannels') : null}
+      getHeader={getHeader}
+      getEntityName={getEntityName}
+      columnDefinitions={columnDefinitions(hasRowNavigation)}
+      tableActions={tableActions}
+      loadEntities={getAlertChannelsInfosMutable}
+      noDataMessage={noDataMessage}
+      renderNoDataAvailable={renderNoDataAvailable}
+      pageSize={pageSize}
+      initialOrderBy="name"
+      rightHeader={rightHeader}
+      isSearchable={isSearchable}
+      searchAttributes={['name', getKind, getStringifiedParameters]}
+      searchWidth={240}
+      searchMaxWidth={240}
+      extraFilters={createFilters(hiddenIds)}
+      customSortEntities={sortSelecteditems(preSelectedChannels)}
+      searchPlaceholder={t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.searchPlaceholder')}
+      onRowClick={onRowClick}
+      getDetailsHref={
+        onRowClick || !hasRowNavigation
+          ? null
+          : entity => {
+              clickAlertChannelTracker({
+                alertChannelName: entity.name ?? '',
+                alertChannelId: entity.id ?? '',
+                alertChannelKind: entity.kind ?? ''
+              });
+              return getEntityHref(teamSettingsAlertingAlertChannels, entity.id);
+            }
+      }
+    />
+  );
+}
+
+function defaultGetHeader(tableActions, numberOfChannels) {
+  return leftHeaderWithSelectAll(getAlertChannelTitle(numberOfChannels), tableActions);
+}
+
+function sortSelecteditems(selectedIds) {
+  return ({ entities }) => {
+    return entities.sort((a, b) => selectedIds.indexOf(b.id) - selectedIds.indexOf(a.id));
+  };
+}
+
+function getAlertChannelTitle(channelCount) {
+  return channelCount > 0
+    ? t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.title', { channelCount })
+    : t('in-settings:tabs.alertChannels');
+}
+
+function leftHeaderWithSelectAll(entityName, tableActions) {
+  return function LeftHeaderWithSelectAll(totalHits, filteredHits, entitiesBeforePagination) {
+    const allSelected = areAllRowsOnAllPagesSelected(entitiesBeforePagination, tableActions);
+    if (
+      entitiesBeforePagination &&
+      entitiesBeforePagination.length > 0 &&
+      tableActions.selectCheckbox &&
+      tableActions.selectCheckbox.setAllOnAllPages
+    ) {
+      return (
+        <>
+          <div className={locals.grid}>
+            <AlertTypography variant="heading-200" color="color900" content={entityName} noMargin />
+
+            <Button
+              kind="action"
+              onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, !allSelected)}
+            >
+              {allSelected
+                ? t('in-settings:components.deselectAll', { len: entitiesBeforePagination.length })
+                : t('in-settings:components.selectAll', { len: entitiesBeforePagination.length })}
+            </Button>
+          </div>
+          <div className={locals.scopeMargin} />
+        </>
+      );
+    } else {
+      const getHeaderFunction = defaultHeaderWithCount(entityName);
+      return (
+        <AlertTypography
+          variant="heading-200"
+          color="color900"
+          content={getHeaderFunction(totalHits, filteredHits)}
+          noMargin
+        />
+      );
+    }
+  };
+}

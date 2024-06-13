@@ -4,6 +4,7 @@
  */
 
 import React, { useRef, useState } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { Message } from '@instana/components';
@@ -24,7 +25,7 @@ import { t } from 'in-i18n';
 
 import locals from './AlertChannelCreation.mless';
 
-export default function AlertChannelCreation({ onCancel }) {
+export default function AlertChannelCreation({ onCancel, isTearsheet }) {
   const alertChannelConfigKeys = Object.keys(configs);
 
   const [selectedAlertChannelKey, setSelectedAlertChannelKey] = useState(alertChannelConfigKeys[0]);
@@ -69,7 +70,13 @@ export default function AlertChannelCreation({ onCancel }) {
           </AlertSection>
         </Sections>
 
-        <div className={locals.formWrapper} key={resetKey}>
+        <div
+          className={classNames({
+            [locals.formWrapper]: true,
+            [locals.alertChannelInTearSheet]: isTearsheet
+          })}
+          key={resetKey}
+        >
           <AlertChannelConfigForm
             onCancel={onCancel}
             selectedAlertChannelKey={selectedAlertChannelKey}
@@ -102,7 +109,8 @@ export default function AlertChannelCreation({ onCancel }) {
 }
 
 AlertChannelCreation.propTypes = {
-  onCancel: PropTypes.func.isRequired
+  onCancel: PropTypes.func.isRequired,
+  isTearsheet: PropTypes.bool
 };
 
 function AlertChannelConfigForm({

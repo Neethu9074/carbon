@@ -73,7 +73,7 @@ export default function AlertChannelsList({
   );
 }
 
-function columnDefinitions(hasRowNavigation) {
+export function columnDefinitions(hasRowNavigation) {
   return [
     {
       id: 'name',
@@ -125,7 +125,7 @@ function defaultGetHeader(inSelectListDialog, tableActions) {
   return leftHeaderWithSelectAll(t('in-settings:tabs.alertChannels'), inSelectListDialog, tableActions);
 }
 
-function getEntityName(entity) {
+export function getEntityName(entity) {
   return t('in-settings:tabs.alertChannelEntityName', { entityName: entity.name });
 }
 
@@ -133,7 +133,7 @@ function getConfig(entity) {
   return fullyQualified[entity.kind];
 }
 
-function getKind(entity) {
+export function getKind(entity) {
   return get(getConfig(entity), ['label'], entity.kind);
 }
 
@@ -145,7 +145,7 @@ function getParameters(entity) {
   return config.getParameters();
 }
 
-function getStringifiedParameters(entity) {
+export function getStringifiedParameters(entity) {
   const parameters = getParameters(entity);
   if (!parameters) {
     return null;
@@ -166,7 +166,7 @@ export function noRightHeader() {
   return null;
 }
 
-function createFilters(hiddenIds) {
+export function createFilters(hiddenIds) {
   const filters = [];
   if (hiddenIds) {
     filters.push(entity => hiddenIds.indexOf(entity.id) < 0);

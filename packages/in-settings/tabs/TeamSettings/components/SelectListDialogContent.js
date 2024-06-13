@@ -109,11 +109,11 @@ export default function SelectListDialogContent({
   );
 }
 
-function get(selectedItems, entity) {
+export function get(selectedItems, entity) {
   return selectedItems.indexOf(entity.id) >= 0;
 }
 
-function toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage) {
+export function toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage) {
   if (get(selectedItems, entity)) {
     removeFromSelection(setSelectedItems, selectedItems, entity, setErrorMessage);
   } else {
@@ -142,7 +142,7 @@ function removeFromSelection(setSelectedItems, selectedItems, entity, setErrorMe
   setErrorMessage(null);
 }
 
-function setAllOnCurrentPage(
+export function setAllOnCurrentPage(
   selectedItems,
   setSelectedItems,
   entities,
@@ -164,7 +164,7 @@ function setAllOnCurrentPage(
   );
 }
 
-function setAllOnAllPages(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage) {
+export function setAllOnAllPages(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage) {
   setAllInternal(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage, 0, entities.length);
 }
 

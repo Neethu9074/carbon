@@ -570,6 +570,11 @@
         },
         "alertProperties": {
           "previewTitle": "Alert preview"
+        },
+        "alertChannelList": {
+          "title": "Alert Channels ({{channelCount}})",
+          "description": "Select the recipient(s) of this alert",
+          "searchPlaceholder": "Search"
         }
       }
     },

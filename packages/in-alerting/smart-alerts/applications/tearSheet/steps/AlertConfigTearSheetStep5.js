@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Spacer, Typography } from '@instana/components';
 
@@ -16,7 +16,7 @@ import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smar
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
-import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
+import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/tearSheet/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
 import AlertTypography from 'in-alerting/components/AlertTypography';
@@ -32,12 +32,6 @@ export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, 
   const boundaryScope = form.get('boundaryScope')?.value || 'ALL';
   const applications = form.get('applications')?.value || {};
   const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
-
-  const [, setCustomSlideInHeaderConfig] = useState({
-    title: null,
-    onClose: null
-  });
-  // TODO remove this code while implementing channel selection
 
   return (
     <>
@@ -105,16 +99,10 @@ export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, 
 
       <TearSheetStepContentWrapper
         headline={t('in-alerting:smartAlerts.applications.tearSheet.AlertChannelTitle')}
+        description={t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.description')}
         isFullWidth
       >
-        <ConfigureAlertChannel
-          form={form}
-          onChange={onChange}
-          setSliderState={() => undefined}
-          setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-          numberOfAlertChannelListRows={7}
-          isTearSheet
-        />
+        <ConfigureAlertChannel form={form} onChange={onChange} numberOfAlertChannelListRows={7} />
       </TearSheetStepContentWrapper>
     </>
   );

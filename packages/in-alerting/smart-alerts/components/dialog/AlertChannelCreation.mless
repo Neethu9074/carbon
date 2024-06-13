@@ -7,4 +7,9 @@
   .formWrapper {
     border: 1px solid var(--ids-color-option-neutral-400);
   }
+  .alertChannelInTearSheet {
+    form > nav {
+      position: relative;
+    }
+  }
 }
