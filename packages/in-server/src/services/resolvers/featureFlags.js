@@ -253,7 +253,7 @@ module.exports = exports = [
   {
     uiClientKey: 'sloSmartAlertsEnabled',
     instanaCtlKey: 'feature.slo.smart.alerts.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
