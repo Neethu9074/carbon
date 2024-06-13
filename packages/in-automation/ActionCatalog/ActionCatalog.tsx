@@ -166,7 +166,10 @@ const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): Co
                   icon="lib_actions_copy"
                   onClick={() => {
                     navigateToActionDetails(action, true);
-                    if (!isUserActions) clickCopyAIGenaratedActionTracker({ actionName: action.name });
+                    if (!isUserActions)
+                      clickCopyAIGenaratedActionTracker({
+                        actionName: action.name
+                      });
                   }}
                 >
                   {t('in-automation:copy')}

@@ -15,6 +15,7 @@ import { Link } from '@instana/components';
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { isScript, isManual, isDocLink, getTimeoutFromFields } from 'in-automation/ActionCatalog/shared';
 import { createScriptFields, createManualField, saveNewAction, saveNewPolicy } from 'in-automation/api';
+import { createPolicyFromAIActionTracker, copyAIGenaratedActionTracker } from 'in-automation/tracker';
 import { putScriptField, putManualField } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import { CreatePolicyStep } from 'in-automation/AutomationCard/GenerateAIDialog/CreatePolicyStep';
 import { CopyActionStep } from 'in-automation/AutomationCard/GenerateAIDialog/CopyActionStep';
@@ -23,7 +24,6 @@ import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionD
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { createPolicyFromAIActionTracker } from 'in-automation/tracker';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { refresh } from 'in-automation/AutomationCard/usePolicies';
@@ -138,6 +138,11 @@ const createPolicy = ({ form, event, setActiveKey, setActionError }: createPolic
   const action = getActionSpecification(form);
   saveNewAction(action).once(
     res => {
+      copyAIGenaratedActionTracker({
+        actionType: action.type,
+        actionName: action.name,
+        copiedFromRecommendationCard: true
+      });
       const policyDetails = {
         name: form.get('policyName').value,
         description: form.get('policyDescription').value,
@@ -314,7 +319,8 @@ function getActionSpecification(form: AIActionForm) {
     fields,
     type,
     tags: tags.map(tag => tag.value),
-    inputParameters
+    inputParameters,
+    metadata: { readOnly: false, builtIn: false, sensorImported: false, aiOriginated: true } // add aiOriginated flag to indicates that these are copied from OOTB AI action.
   };
 }
 
