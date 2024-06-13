@@ -42,7 +42,7 @@ interface UsageBannerProps {
 export function UsageBanner({ message }: UsageBannerProps) {
   const location = useLocation();
   //@ts-expect-error
-  const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesAsResultObservable(1), []);
+  const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesAsResultObservable(1, 5), []);
   const { activeLicense, remainingDays, content } = message;
   const isQuota = activeLicense === 'quota';
   const isSelfService = activeLicense === 'selfService';
