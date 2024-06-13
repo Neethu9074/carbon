@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Result, TagSuggestions } from '@instana/types';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { GetBizOpsTagSuggestionQuery } from 'in-bizops/types';
-import { Result, TagSuggestions } from 'in-types';
 
 export default createResultSubscriptionFactory<GetBizOpsTagSuggestionQuery, Result<TagSuggestions>>({
   eventId: 'getBizOpsTagSuggestions',

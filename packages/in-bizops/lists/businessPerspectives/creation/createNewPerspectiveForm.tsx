@@ -4,21 +4,23 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ValidationResult, createField, createMapForm, MapForm } from 'formalistic';
+import { ValidationResult, createField, createMapForm, MapForm, notBlankValidator } from 'formalistic';
 
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { MAX_DESCRIPTION_SIZE } from './NewPerspectiveFormStepTwo';
 import { PerspectiveFormItem } from 'in-bizops/types';
-import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 interface FormProps {
-  perspective?: PerspectiveFormItem;
+  perspective: PerspectiveFormItem;
 }
 
 const emptyForm: FormProps = {
   perspective: {
-    description: '',
+    tagFilterExpression: [],
     label: '',
-    tagFilterExpression: []
+    description: ''
   }
 };
 
@@ -26,47 +28,38 @@ const createNewPerspectiveForm = ({ perspective }: FormProps = emptyForm): MapFo
   return createMapForm()
     .put(
       'tagFilterExpression',
-      createField({
-        value: perspective?.tagFilterExpression,
+      createField<FormModelElement[]>({
+        value: perspective.tagFilterExpression,
         validator: tagFilterExpressionValidator
       })
     )
     .put(
       'perspectiveName',
       createField({
-        value: perspective?.label,
-        validator: perspectiveNameValidator
+        value: perspective.label,
+        validator: notBlankValidator
       })
     )
     .put(
       'perspectiveDescription',
       createField({
-        value: perspective?.description,
-        validator: perspectiveDescriptionValidator
+        value: perspective.description,
+        validator: stringMaxLengthValidator(MAX_DESCRIPTION_SIZE)
       })
     );
 };
 
 export default createNewPerspectiveForm;
 
-//TODO! Implement validators
-function tagFilterExpressionValidator(): ValidationResult {
-  return null;
-}
-
-function perspectiveNameValidator(name: any): ValidationResult {
-  if (isBlank(name)) {
+function tagFilterExpressionValidator(tagFilterExpression: FormModelElement[]): ValidationResult {
+  if (!tagFilterExpression.length) {
     return [
       {
         severity: 'error',
-        message: t('in-bizops:perspectives.errorMessages.businessPerspectiveNameMustNotBeBlank')
+        message: t('in-bizops:perspectives.errorMessages.tagFilterExpressionMustNotBeEmpty')
       }
     ];
   }
 
-  return null;
-}
-
-function perspectiveDescriptionValidator(): ValidationResult {
   return null;
 }

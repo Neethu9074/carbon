@@ -20,7 +20,7 @@
     "unnamedService": "(Unnamed Service)"
   },
   "perspectives": {
-    "newPerspective": "New perspective",
+    "newPerspective": "Create perspective",
     "lists": {
       "perspectives": "Business Perspectives",
       "descriptionLabel": "Description",
@@ -28,11 +28,12 @@
     },
     "dialog": {
       "title": "New Business Perspective",
-      "processesLiveListTitle": "Business processes",
+      "processesLiveListTitle": "Matched business processes",
+      "processesLiveListLoadingStateLabel": "Loading processes",
       "stepOne": {
-        "progressBarTitle": "Specify business perspective",
-        "headline": "Add filters to build your business perspective",
-        "queryBuilderTitle": "Tags for business processes"
+        "progressBarTitle": "Step 1: Filter business processes to build your business perspective",
+        "headline": "Filter business processes to build your business perspective",
+        "queryBuilderTitle": "Business processes"
       },
       "stepTwo": {
         "progressBarTitle": "Step 2: Provide details",
@@ -42,7 +43,7 @@
       }
     },
     "errorMessages": {
-      "businessPerspectiveNameMustNotBeBlank": "The Business Perspective name must not be blank"
+      "tagFilterExpressionMustNotBeEmpty": "The Business Perspective must have at least one filter"
     }
   },
   "navigation": {
@@ -93,7 +94,7 @@
         "tabLabel": "Configuration",
         "loadingText": "Loading data",
         "updateCardLabel": "Update business perspective",
-        "stepOneHeader": "1. Edit name and the description",
+        "stepOneHeader": "1. Edit name and description",
         "perspectiveName": "Perspective name",
         "perspectiveDescription": "Description",
         "stepTwoHeader": "2. Edit filter",

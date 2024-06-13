@@ -7,6 +7,7 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { Result, PaginatedResult, BusinessProcess } from '@instana/types';
 import { Li, Ul } from '@instana/components';
 
 import { BusinessProcessQueryBuilder } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
@@ -15,13 +16,13 @@ import ProcessesLiveList from 'in-bizops/lists/businessPerspectives/creation/Pro
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { t } from 'in-i18n';
 
-import locals from 'in-bizops/lists/businessPerspectives/creation/NewPerspective.mless';
+import local from 'in-bizops/lists/businessPerspectives/creation/NewPerspective.mless';
 
 interface NewPerspectiveFormStepOneProps {
-  form: any;
+  form: MapForm<any>;
   updateForm: any;
   blueprintCatalogResult: any;
-  processesLiveList: any;
+  processesLiveList: Result<PaginatedResult<BusinessProcess>>;
 }
 
 export function NewPerspectiveFormStepOne({
@@ -39,14 +40,16 @@ export function NewPerspectiveFormStepOne({
 
   return (
     <SimpleModeStepContentWrapper headline={t('in-bizops:perspectives.dialog.stepOne.headline')}>
-      <div className={locals.contentParent}>
-        <div className={locals.leftContent}>
+      <div className={local.contentParent}>
+        <div className={local.leftContent}>
           <Ul>
-            <Li forceAlternateBg>{t('in-bizops:perspectives.dialog.stepOne.queryBuilderTitle')}</Li>
+            <Li forceAlternateBg>
+              <h2 className={local.headerText}>{t('in-bizops:perspectives.dialog.stepOne.queryBuilderTitle')}</h2>
+            </Li>
           </Ul>
           <Ul>
             <Li>
-              <div className={locals.queryBuilder}>
+              <div className={local.queryBuilder}>
                 <BusinessProcessQueryBuilder
                   value={tagFilterExpressionField.value}
                   onChange={(tagFilterExpression: any) =>
@@ -57,7 +60,7 @@ export function NewPerspectiveFormStepOne({
             </Li>
           </Ul>
         </div>
-        <div className={locals.rightContent}>
+        <div className={local.rightContent}>
           <ProcessesLiveList processesLiveList={processesLiveList} />
         </div>
       </div>

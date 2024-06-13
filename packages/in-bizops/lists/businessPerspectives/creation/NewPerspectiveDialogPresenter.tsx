@@ -7,7 +7,16 @@
 import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
-import { Order, Pagination, TagFilterExpression, TimeConfig, BusinessDataQuery } from '@instana/types';
+import {
+  Order,
+  Pagination,
+  TimeConfig,
+  BusinessDataQuery,
+  TagFilterExpressionElementUnion,
+  BusinessProcess,
+  PaginatedResult,
+  Result
+} from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error Need to translate file to TS
@@ -16,10 +25,14 @@ import { NewPerspectiveFormStepOne } from 'in-bizops/lists/businessPerspectives/
 import { NewPerspectiveFormStepTwo } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveFormStepTwo';
 import createNewPerspectiveForm from 'in-bizops/lists/businessPerspectives/creation/createNewPerspectiveForm';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { businessPerspectiveDashboard, summaryTab } from 'in-bizops/navigation/paths';
 import getBusinessProcesses from 'in-bizops/subscriptions/getBusinessProcesses';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
 import { createBusinessPerspective } from 'in-bizops/api/perspectives';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { close } from 'in-components/DialogPresenter/store';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -31,27 +44,54 @@ import locals from 'in-bizops/lists/businessPerspectives/creation/NewPerspective
 
 export function NewPerspectiveDialogPresenter() {
   const timeConfig = useTimeConfig();
+  const { location, navigate } = useNavigation();
 
   const stepConfigs = [
     { title: t('in-bizops:perspectives.dialog.stepOne.progressBarTitle') },
     { title: t('in-bizops:perspectives.dialog.stepTwo.progressBarTitle') }
   ];
 
-  const [form, updateForm] = useState(() => createNewPerspectiveForm());
+  const [form, updateForm] = useState(createNewPerspectiveForm());
   const formId = 'new-business-perspective-form';
 
-  const [simpleModeStep, setSimpleModeStep] = useState(0);
+  const [step, setStep] = useState(0);
 
-  const blueprintCatalogResult = useObservable(getBusinessMonitoringTagCatalog(), [timeConfig]) ?? pendingResult;
+  const blueprintCatalogResult = useObservable(getBusinessMonitoringTagCatalog(), []) ?? pendingResult;
 
-  const processesLiveList = useObservable(getProcessesLiveList(form, timeConfig), [
-    form.get('tagFilterExpression').value
-  ]);
+  const tagFilterExpression: FormModelElement[] = form.get('tagFilterExpression').value;
+  const processesLiveList: Result<PaginatedResult<BusinessProcess>> = useProcessesLiveList(
+    tagFilterExpression,
+    timeConfig
+  );
+
+  function onCreate(form: MapForm<any>) {
+    const requestBody: PerspectiveItem = {
+      label: form.get('perspectiveName').value,
+      description: form.get('perspectiveDescription').value,
+      tagFilterExpression: toBackendQueryModel(form.get('tagFilterExpression').value)
+    };
+    createBusinessPerspective(requestBody).once(onSuccess, onError);
+  }
+
+  /*
+    Callback functions for the backend after the UI submits
+    an API request to create a new perspective
+  */
+  //TODO! Implement
+  function onSuccess(item: PerspectiveItem) {
+    location.pathname = `${businessPerspectiveDashboard}${summaryTab}`;
+    setOrDeleteMatrixKey(location, businessPerspectiveDashboard, 'perspectiveId', item.id);
+    navigate(location);
+    close();
+  }
+
+  function onError() {}
 
   return (
     <DialogWithSlideInView
       title={t('in-bizops:perspectives.dialog.title')}
       className={locals.dialog}
+      onClose={close}
       doNotCloseOnOutsideClick
     >
       <SimpleModePageNavigation
@@ -60,8 +100,8 @@ export function NewPerspectiveDialogPresenter() {
         form={form}
         formId={formId}
         updateForm={updateForm}
-        simpleModeStep={simpleModeStep}
-        setSimpleModeStep={setSimpleModeStep}
+        simpleModeStep={step}
+        setSimpleModeStep={setStep}
         onCreate={() => {
           onCreate(form);
         }} //! TODO This is where the UI should send the request to create the perspective to the backend, and handle errors
@@ -90,22 +130,21 @@ export function NewPerspectiveDialogPresenter() {
   );
 }
 
-function getProcessesLiveList(form: MapForm<any>, timeConfig: TimeConfig) {
+function useProcessesLiveList(
+  tagFilterExpressionFormModel: FormModelElement[],
+  timeConfig: TimeConfig
+): Result<PaginatedResult<BusinessProcess>> {
   const pagination: Pagination = {
     page: 1,
     pageSize: 5
-  };
-  const tagFilterExpression: TagFilterExpression = {
-    elements: form.get('tagFilterExpression').value,
-    logicalOperator: 'AND',
-    type: 'EXPRESSION'
   };
   const order: Order = {
     by: 'process_name',
     direction: 'ASC'
   };
+  const tagFilterExpression: TagFilterExpressionElementUnion = toBackendQueryModel(tagFilterExpressionFormModel);
 
-  const BusinessDataQuery: BusinessDataQuery = {
+  const businessDataQuery: BusinessDataQuery = {
     dataType: 'PROCESS',
     metrics: {},
     pagination: pagination,
@@ -113,23 +152,5 @@ function getProcessesLiveList(form: MapForm<any>, timeConfig: TimeConfig) {
     timeConfig: timeConfig,
     order: order
   };
-  return getBusinessProcesses(BusinessDataQuery);
+  return useObservable(getBusinessProcesses(businessDataQuery), [tagFilterExpressionFormModel]) ?? pendingResult;
 }
-
-function onCreate(form: MapForm<any>) {
-  const requestBody: PerspectiveItem = {
-    label: form.get('perspectiveName').value,
-    description: form.get('perspectiveDescription').value,
-    tagFilterExpression: toBackendQueryModel(form.get('tagFilterExpression').value)
-  };
-  createBusinessPerspective(requestBody).once(onSuccess, onError);
-}
-
-/*
-  Callback functions for the backend after the UI submits
-  an API request to create a new perspective
-*/
-//TODO! Implement
-function onSuccess() {}
-
-function onError() {}

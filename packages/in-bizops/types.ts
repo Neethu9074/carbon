@@ -16,7 +16,7 @@ import { FormModelElement } from 'in-components/QueryBuilder/transformation/form
 
 // A business perspective type compatible with form building and the QueryBuilder
 export interface PerspectiveFormItem {
-  description?: string;
+  description: string;
   label: string;
   tagFilterExpression: FormModelElement[];
 }
