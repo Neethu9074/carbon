@@ -85,7 +85,6 @@ export default function Summary({
 
   const nonFakeRootCallId = callTreeResult.data?.id !== FAKE_ROOT_CALL_ID ? callTreeResult.data?.id : undefined;
   const effectiveCallId = callId === 'ROOT' ? nonFakeRootCallId : callId;
-  const logsToPreview = 5;
   // if a call is selected, we will create a fade out effect by emitting 'null' as a new selected call with 1s delay
   const selectedCallFadeOutEffectTimeoutIdRef = useRef(null);
   useEffect(() => {
@@ -110,7 +109,7 @@ export default function Summary({
     };
   }, [traceId]);
 
-  const { logsContextValue, timeConfigForLogs } = useLogsInCalls({ traceId, trace });
+  const { logsContextValue } = useLogsInCalls({ traceId, trace });
   const { error: otelErrorCount, warn: otelWarnCount } = countOtelLogs(logsContextValue.items);
 
   const totalWarnLogCount = trace.totalWarnLogCount + otelWarnCount;
@@ -118,10 +117,11 @@ export default function Summary({
 
   const showLogsCard = loggingEnabled && logsContextValue.items.length > 0;
   const areLogsLoading = logsContextValue.progress?.loading === true;
+  const logsToPreview = 5;
 
   const logsHref = useLinkToLogs({
     tagFilterExpression: [getTraceIdTagFilter(traceId)],
-    timeConfig: timeConfigForLogs
+    timeConfig: logsContextValue.timeConfigForLogs
   });
 
   const onCallClicked = call => {
@@ -357,8 +357,7 @@ export default function Summary({
                     {logsContextValue.items.length > 5 && (
                       <span className={locals.logsCardDescription}>
                         {t('in-analyze:traceDetail.tabs.summary.logsCardDescription', {
-                          logsToPreview: logsToPreview,
-                          totalLogsCount: number.compact(logsContextValue.items.length)
+                          logsToPreview: logsToPreview
                         })}
                       </span>
                     )}
