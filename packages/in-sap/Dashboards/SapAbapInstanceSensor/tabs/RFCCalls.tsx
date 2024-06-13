@@ -21,8 +21,6 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-import locals from './RawTableFormat.mless';
-
 interface RFCCallsRow {
   key: string;
   snapshotId: string;
@@ -183,5 +181,5 @@ export default function RFCCalls({ snapshotId, timeConfig }: RFCCallsProps) {
 }
 
 function Args({ args }: { args: any }) {
-  return <code className={locals.statement}>{args}</code>;
+  return <code>{args}</code>;
 }

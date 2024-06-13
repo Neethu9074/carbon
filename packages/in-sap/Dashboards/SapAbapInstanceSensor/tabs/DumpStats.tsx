@@ -15,8 +15,6 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-import locals from './RawTableFormat.mless';
-
 interface DumpStatsRow {
   key: string;
   snapshotId: string;
@@ -174,5 +172,5 @@ export default function DumpStats({ snapshotId, timeConfig }: DumpStatsProps) {
 }
 
 function Args({ args }: any) {
-  return <code className={locals.statement}>{args}</code>;
+  return <code>{args}</code>;
 }

@@ -14,6 +14,7 @@ interface TableProps {
   initialSortColumn?: number;
   disableSorting?: boolean;
   showExpandAll?: boolean;
+  showHeader?: boolean;
   initialSortDirection?: string;
 }
 

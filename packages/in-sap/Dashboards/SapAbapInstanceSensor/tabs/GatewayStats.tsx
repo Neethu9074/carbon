@@ -14,8 +14,6 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-import locals from './RawTableFormat.mless';
-
 interface GatewayEntryRow {
   key: string;
   gatewayEntry: Map<string, object>;
@@ -27,10 +25,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayEntryRow) {
-        return row.gatewayEntry.get('timeStamp');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayEntry.get('timeStamp') as any, 128);
       }
     }
   },
@@ -39,10 +34,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayEntryRow) {
-        return row.gatewayEntry.get('serviceName');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayEntry.get('serviceName') as any, 128);
       }
     }
   },
@@ -51,10 +43,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayEntryRow) {
-        return row.gatewayEntry.get('processingTime');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayEntry.get('processingTime') as any, 128);
       }
     }
   },
@@ -63,10 +52,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayEntryRow) {
-        return row.gatewayEntry.get('gatewayBackendOverhead');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayEntry.get('gatewayBackendOverhead') as any, 128);
       }
     }
   },
@@ -75,10 +61,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayEntryRow) {
-        return row.gatewayEntry.get('sumOfApplicationTimes');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayEntry.get('sumOfApplicationTimes') as any, 128);
       }
     }
   },
@@ -87,10 +70,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayEntryRow) {
-        return row.gatewayEntry.get('requestSize');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayEntry.get('requestSize') as any, 128);
       }
     }
   },
@@ -99,10 +79,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayEntryRow) {
-        return row.gatewayEntry.get('responseSize');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayEntry.get('responseSize') as any, 128);
       }
     }
   },
@@ -111,10 +88,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayEntryRow) {
-        return row.gatewayEntry.get('numEntry');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayEntry.get('numEntry') as any, 128);
       }
     }
   },
@@ -123,10 +97,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayEntryRow) {
-        return row.gatewayEntry.get('userId');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayEntry.get('userId') as any, 128);
       }
     }
   },
@@ -135,10 +106,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayEntryRow) {
-        return row.gatewayEntry.get('transactionId');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayEntry.get('transactionId') as any, 128);
       }
     }
   }
@@ -172,8 +140,4 @@ export default function GatewayStats({ snapshotId }: SnapshotData) {
       initialSortDirection="asc"
     />
   );
-}
-
-function Args({ args }: any) {
-  return <code className={locals.statement}>{args}</code>;
 }

@@ -16,115 +16,123 @@ import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { minutes } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-interface JobDetailsRow {
+interface QRfcInboundRow {
   key: string;
   snapshotId: string;
-  jobDetails: Map<string, object>;
+  rfcStats: Map<string, object>;
 }
 
-interface JobDetailsProps {
+interface QRfcInboundProps {
   snapshotId: string;
   timeConfig: TimeConfig;
 }
 
 const cols = [
   {
-    title: t('in-sap:dashboards.jobName'),
+    title: t('in-sap:dashboards.destinations'),
     type: 'string',
     typeArgs: {
-      getValue(row: JobDetailsRow) {
-        return shorten(row.jobDetails.get('JOBNAME') as any, 64);
+      getValue(row: QRfcInboundRow) {
+        return shorten(row.rfcStats.get('ARFCDEST') as any);
       }
     }
   },
   {
-    title: t('in-sap:dashboards.jobId'),
+    title: t('in-sap:dashboards.userName'),
     type: 'string',
     typeArgs: {
-      getValue(row: JobDetailsRow) {
-        return row.jobDetails.get('JOBCOUNT');
+      getValue(row: QRfcInboundRow) {
+        return shorten(row.rfcStats.get('ARFCUSER') as any, 64);
       }
     }
   },
   {
-    title: t('in-sap:dashboards.jobClass'),
+    title: t('in-sap:dashboards.wpPID'),
     type: 'string',
     typeArgs: {
-      getValue(row: JobDetailsRow) {
-        return row.jobDetails.get('JOBCLASS');
+      getValue(row: QRfcInboundRow) {
+        return shorten(row.rfcStats.get('ARFCPID') as any, 64);
       }
     }
   },
   {
-    title: t('in-sap:dashboards.status'),
+    title: t('in-sap:dashboards.tCode'),
     type: 'string',
     typeArgs: {
-      getValue(row: JobDetailsRow) {
-        return row.jobDetails.get('STATUS');
+      getValue(row: QRfcInboundRow) {
+        return shorten(row.rfcStats.get('ARFCTCODE') as any, 64);
       }
     }
   },
   {
-    title: t('in-sap:dashboards.scheduleStartDate'),
+    title: t('in-sap:dashboards.rfcState'),
     type: 'string',
     typeArgs: {
-      getValue(row: JobDetailsRow) {
-        return row.jobDetails.get('SDLSTRTDT');
+      getValue(row: QRfcInboundRow) {
+        return shorten(row.rfcStats.get('ARFCSTATE') as any, 64);
       }
     }
   },
   {
-    title: t('in-sap:dashboards.scheduleStartTime'),
+    title: t('in-sap:dashboards.functionModule'),
     type: 'string',
     typeArgs: {
-      getValue(row: JobDetailsRow) {
-        return row.jobDetails.get('SDLSTRTTM');
+      getValue(row: QRfcInboundRow) {
+        return shorten(row.rfcStats.get('ARFCFNAM') as any, 64);
       }
     }
   },
   {
-    title: t('in-sap:dashboards.jobDuration'),
+    title: t('in-sap:dashboards.counter'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row: JobDetailsRow) {
+      getSnapshotId(row: QRfcInboundRow) {
         return row.snapshotId;
       },
-      getMetricName(row: JobDetailsRow) {
-        return `jobDetails.${row.key}.jobDuration`;
+      getMetricName(row: QRfcInboundRow) {
+        return `inboundQRfcInfo.${row.key}.ARFCLUWCNT`;
       },
-      getContent: minutes.compact,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
     }
+  },
+  {
+    title: t('in-sap:dashboards.message'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: QRfcInboundRow) {
+        return shorten(row.rfcStats.get('ARFCMSG') as any, 64);
+      }
+    }
   }
 ];
-
-export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetailsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'jobDetails'), [snapshotId]);
+export default function OutboundTransactionalRfcInfo({ snapshotId, timeConfig }: QRfcInboundProps) {
+  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'inboundQRfcInfo'), [snapshotId]);
   if (!data) {
     return null;
   }
-  const jobList = (data as SnapshotData).get('raw_payload', []);
-  const rows: JobDetailsRow[] = jobList
+  const tRfcList = (data as SnapshotData).get('raw_payload', []);
+  const rows: QRfcInboundRow[] = tRfcList
     .keySeq()
     .toArray()
     .map((key: string) => {
-      const jobDetails = jobList.get(key);
+      const rfcStats = tRfcList.get(key);
       return {
         key,
         snapshotId,
         timeConfig,
-        jobDetails
+        rfcStats
       };
     });
 
-  function getDetails(row: JobDetailsRow) {
+  function getDetails(row: QRfcInboundRow) {
     return (
       <Columize>
         <DashboardSection>
@@ -133,9 +141,9 @@ export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetails
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: minutes.compact,
-              metrics: [`jobDetails.${row.key}.jobDuration`],
-              labels: [t('in-sap:dashboards.jobDuration')],
+              formatter: number.compact,
+              metrics: [`inboundQRfcInfo.${row.key}.ARFCLUWCNT`],
+              labels: [t('in-sap:dashboards.counter')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -144,14 +152,15 @@ export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetails
       </Columize>
     );
   }
+
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-sap:dashboards.jobsInformation')}
+      cardTitle={t('in-sap:dashboards.inboundQueueRfcInfo')}
       cols={cols}
       rows={rows}
       initialSortColumn={0}
-      initialSortDirection="asc"
+      initialSortDirection="desc"
       getRowDetails={getDetails}
     />
   );

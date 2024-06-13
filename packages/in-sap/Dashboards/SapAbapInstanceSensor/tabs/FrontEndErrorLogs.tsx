@@ -36,24 +36,6 @@ interface GatewayErrorStatsProps {
 
 const cols = [
   {
-    title: t('in-sap:dashboards.userName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: GatewayErrorStatsRow) {
-        return row.gatewayErrorStats.get('userName');
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.errorText'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: GatewayErrorStatsRow) {
-        return row.gatewayErrorStats.get('errorText');
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.errorCount'),
     type: 'metric',
     typeArgs: {
@@ -70,11 +52,29 @@ const cols = [
     }
   },
   {
+    title: t('in-sap:dashboards.userName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: GatewayErrorStatsRow) {
+        return row.gatewayErrorStats.get('userName');
+      }
+    }
+  },
+  {
     title: t('in-sap:dashboards.remoteAddress'),
     type: 'string',
     typeArgs: {
       getValue(row: GatewayErrorStatsRow) {
         return row.gatewayErrorStats.get('remoteAddress');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.errorText'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: GatewayErrorStatsRow) {
+        return row.gatewayErrorStats.get('errorText');
       }
     }
   }
@@ -105,12 +105,26 @@ export default function FrontEndErrorLogs({ snapshotId, timeConfig }: GatewayErr
       <div>
         <Columize>
           <DashboardSection>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: [`gatewayErrorLogs.${row.key}.errorCount`],
+                labels: [t('in-sap:dashboards.errorCount')],
+                type: 'line',
+                formatter: number.compact
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+          <DashboardSection>
             <label>Transaction ID : </label>
             <Code
               code={formatSql(
                 row.gatewayErrorStats.get('transactionId') == null ? '' : row.gatewayErrorStats.get('transactionId')
               )}
-              lang="sql"
+              lang="bash"
               softWrap
             />
             <label>Error Package : </label>
@@ -130,20 +144,6 @@ export default function FrontEndErrorLogs({ snapshotId, timeConfig }: GatewayErr
               softWrap
             />
           </DashboardSection>
-          <DashboardSection>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                metrics: [`gatewayErrorLogs.${row.key}.errorCount`],
-                labels: [t('in-sap:dashboards.errorCount')],
-                type: 'line',
-                formatter: number.compact
-              }}
-              renderPostChartContent={PluginDashboardsMarkerLanes}
-            />
-          </DashboardSection>
         </Columize>
       </div>
     );
@@ -155,7 +155,7 @@ export default function FrontEndErrorLogs({ snapshotId, timeConfig }: GatewayErr
       cols={cols}
       rows={rows}
       initialSortColumn={0}
-      initialSortDirection="asc"
+      initialSortDirection="desc"
       getRowDetails={getDetails}
     />
   );

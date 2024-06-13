@@ -13,8 +13,6 @@ import { shorten } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-import locals from './RawTableFormat.mless';
-
 const cols = [
   {
     title: t('in-sap:dashboards.date'),
@@ -79,5 +77,5 @@ export default connectTo(
 );
 
 function Args({ args }) {
-  return <code className={locals.statement}>{args}</code>;
+  return <code>{args}</code>;
 }

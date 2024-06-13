@@ -15,8 +15,6 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-import locals from './RawTableFormat.mless';
-
 interface ICMRow {
   key: string;
   icmDetail: Map<string, object>;
@@ -24,38 +22,29 @@ interface ICMRow {
 
 const cols = [
   {
-    title: t('in-sap:dashboards.service'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: ICMRow) {
-        return row.icmDetail.get('SERVICE');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.active'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: ICMRow) {
-        return row.icmDetail.get('ACTIVE');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.hostName'),
     type: 'string',
     typeArgs: {
       getValue(row: ICMRow) {
-        return row.icmDetail.get('HOSTNAME');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.icmDetail.get('HOSTNAME') as any, 128);
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.service'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: ICMRow) {
+        return shorten(row.icmDetail.get('SERVICE') as any, 128);
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.status'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: ICMRow) {
+        return shorten(row.icmDetail.get('ACTIVE') as any, 128);
       }
     }
   },
@@ -64,10 +53,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: ICMRow) {
-        return row.icmDetail.get('EXTBIND');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.icmDetail.get('EXTBIND') as any, 128);
       }
     }
   },
@@ -151,8 +137,4 @@ export default function ICMServicesList({ snapshotId }: SnapshotData) {
       initialSortDirection="asc"
     />
   );
-}
-
-function Args({ args }: any) {
-  return <code className={locals.statement}>{args}</code>;
 }

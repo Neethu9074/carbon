@@ -18,7 +18,7 @@ import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
-import locals from './Table.mless';
+import locals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table.mless';
 
 const tableElement = locals.table;
 const cellElement = locals.cell;
@@ -96,14 +96,16 @@ export default class Table extends React.Component {
     const toggleRowDetails = supportsRowDetails ? this.store.toggleExpanded : null;
     const colCount = supportsRowDetails ? cols.length + 1 : cols.length;
     const rows = [];
-    var title = t('in-sap:dashboards.no') + t('in-sap:dashboards.dataAvailable');
-    if (typeof this.props.cardTitle === 'string') {
-      title = t('in-sap:dashboards.no') + this.props.cardTitle + t('in-sap:dashboards.dataAvailable');
-    } else {
-      title = t('in-sap:dashboards.no') + this.props.cardTitle.props['title'] + t('in-sap:dashboards.dataAvailable');
-    }
 
     if (data.rows.length === 0) {
+      let title = `${t('in-sap:dashboards.no')}${t('in-sap:dashboards.dataAvailable')}`;
+      if (typeof this.props.cardTitle === 'string') {
+        title = `${t('in-sap:dashboards.no')}${this.props.cardTitle}${t('in-sap:dashboards.dataAvailable')}`;
+      } else {
+        title = `${t('in-sap:dashboards.no')}${this.props.cardTitle.props['title']}${t(
+          'in-sap:dashboards.dataAvailable'
+        )}`;
+      }
       rows.push(
         <tr key="no-data">
           <td colSpan={colCount} className={cellElement}>
@@ -173,13 +175,19 @@ export default class Table extends React.Component {
             ]}
           />
         )}
-        <SearchInput maxWidth={140} query={this.state.filter} onChange={this.store.setFilter} />
+        {(this.props.showHeader == null || this.props.showHeader) && (
+          <SearchInput maxWidth={140} query={this.state.filter} onChange={this.store.setFilter} />
+        )}
       </div>
     );
 
     return (
       <div className={locals.tableContainer}>
-        <Card title={this.props.cardTitle} header={header} withoutPadding={this.props.withoutPadding}>
+        <Card
+          title={this.props.cardTitle === '' ? null : this.props.cardTitle}
+          header={this.props.cardTitle === '' ? null : header}
+          withoutPadding={this.props.cardTitle === '' ? null : this.props.withoutPadding}
+        >
           {this.props.explanation}
           <table className={tableElement}>
             <thead className={columnHeader}>

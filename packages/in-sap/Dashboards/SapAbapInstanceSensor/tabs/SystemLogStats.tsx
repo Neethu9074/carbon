@@ -18,6 +18,8 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { shorten } from 'in-services/util/string';
+import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
 interface SystemLogStatsRow {
@@ -70,15 +72,6 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.messageText'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: SystemLogStatsRow) {
-        return row.systemLogStats.get('messageText');
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.messageId'),
     type: 'string',
     typeArgs: {
@@ -109,6 +102,15 @@ const cols = [
       getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.messageText'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: SystemLogStatsRow) {
+        return shorten(row.systemLogStats.get('messageText') as any, 64);
       }
     }
   }
@@ -151,6 +153,10 @@ export default function SystemLogStats({ snapshotId, timeConfig }: SystemLogStat
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
+          </DashboardSection>
+          <DashboardSection>
+            <label>{t('in-sap:dashboards.messageText')} : </label>
+            <Code code={'' + row.systemLogStats.get('messageText')} lang="bash" softWrap linesToShow={15} />
           </DashboardSection>
         </Columize>
       </div>

@@ -152,7 +152,7 @@ export default function DBConnectionProvider({ snapshotId, timeConfig }: DbConne
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-sap:dashboards.dbConnection')}
+      cardTitle={t('in-sap:dashboards.databaseConnection')}
       cols={cols}
       rows={rows}
       initialSortColumn={0}

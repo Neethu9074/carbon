@@ -132,7 +132,7 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.usedPercentage'),
+    title: t('in-sap:dashboards.usage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row: MemoryStatsRow) {

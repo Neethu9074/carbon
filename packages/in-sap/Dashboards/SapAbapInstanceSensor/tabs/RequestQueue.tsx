@@ -14,9 +14,9 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import Table from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
 interface RequestQueueRow {
@@ -131,12 +131,13 @@ export default function RequestQueue({ snapshotId, timeConfig }: RequestQueuePro
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-sap:dashboards.requestQueueInfo')}
+      cardTitle=""
       cols={cols}
       rows={rows}
       initialSortColumn={0}
       initialSortDirection="asc"
       getRowDetails={getDetails}
+      showHeader={false}
     />
   );
 }

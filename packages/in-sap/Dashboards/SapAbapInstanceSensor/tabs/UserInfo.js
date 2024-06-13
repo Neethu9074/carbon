@@ -17,7 +17,6 @@ import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import Polocals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ComboBox.mless';
-import locals from './RawTableFormat.mless';
 
 const cols = [
   {
@@ -25,10 +24,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.userDetail.get('MANDT');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.userDetail.get('MANDT'), 128);
       }
     }
   },
@@ -37,10 +33,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.userDetail.get('BNAME');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.userDetail.get('BNAME'), 128);
       }
     }
   },
@@ -59,10 +52,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.userDetail.get('TCODE');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.userDetail.get('TCODE'), 64);
       }
     }
   },
@@ -71,10 +61,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.userDetail.get('TERM');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.userDetail.get('TERM'), 64);
       }
     }
   },
@@ -83,10 +70,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.userDetail.get('HOSTADDR');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.userDetail.get('HOSTADDR'), 64);
       }
     }
   },
@@ -95,10 +79,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.userDetail.get('TYPE');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.userDetail.get('TYPE'), 128);
       }
     }
   },
@@ -107,10 +88,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return formatTime(row.userDetail.get('ZEIT'));
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(formatTime(row.userDetail.get('ZEIT')), 128);
       }
     }
   }
@@ -181,10 +159,6 @@ export default connectTo(
     );
   }
 );
-
-function Args({ args }) {
-  return <code className={locals.statement}>{args}</code>;
-}
 
 function formatTime(timeString) {
   const hours = timeString.substring(0, 2);

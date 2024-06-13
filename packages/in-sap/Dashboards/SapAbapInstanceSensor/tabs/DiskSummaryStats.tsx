@@ -14,8 +14,8 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { number, seconds, percentagePlain } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { number, seconds } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -56,6 +56,22 @@ const cols = [
     typeArgs: {
       getValue(row: DiskStatsRow) {
         return row.diskStats.get('subType');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.usage'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DiskStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DiskStatsRow) {
+        return `diskSummaryStats.${row.key}.util`;
+      },
+      getContent: percentagePlain.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   },
@@ -143,7 +159,7 @@ export default function DiskSummaryStats({ snapshotId, timeConfig }: DiskSummary
                   `diskSummaryStats.${row.key}.avgWaitTime`
                 ],
                 labels: [
-                  t('in-sap:dashboards.response'),
+                  t('in-sap:dashboards.responseTime'),
                   t('in-sap:dashboards.serviceTime'),
                   t('in-sap:dashboards.avgWaitTime')
                 ],
@@ -176,7 +192,7 @@ export default function DiskSummaryStats({ snapshotId, timeConfig }: DiskSummary
       cardTitle={t('in-sap:dashboards.diskSummaryStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={4}
+      initialSortColumn={5}
       initialSortDirection="desc"
       getRowDetails={getDetails}
     />

@@ -167,38 +167,7 @@ export default function Summary({ timeConfig, data: sap }) {
           />
         </DashboardSection>
       </Columize>
-      <Columize>
-        <DashboardSection title={t('in-sap:dashboards.dispatcherRequestQueues')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: [
-                'queueStats.dialogWait',
-                'queueStats.updateWait',
-                'queueStats.enqueueWait',
-                'queueStats.btcWait',
-                'queueStats.spoolWait',
-                'queueStats.update2Wait',
-                'queueStats.nowpWait'
-              ],
-              labels: [
-                t('in-sap:dashboards.dialogWait'),
-                t('in-sap:dashboards.updateWait'),
-                t('in-sap:dashboards.enqueue'),
-                t('in-sap:dashboards.background'),
-                t('in-sap:dashboards.spoolWait'),
-                t('in-sap:dashboards.update2Wait'),
-                t('in-sap:dashboards.nowpWait')
-              ],
-              type: 'line',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
+
       <Columize>
         <DashboardSection title={t('in-sap:dashboards.workProcessType')}>
           <Chart

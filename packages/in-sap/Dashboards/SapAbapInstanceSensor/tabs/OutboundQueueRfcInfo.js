@@ -6,14 +6,11 @@
 
 import React from 'react';
 
-import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
-
-import locals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RawTableFormat.mless';
 
 const cols = [
   {
@@ -132,7 +129,7 @@ const cols = [
         return row.tRfcData.get('ERRMESS');
       },
       getContent(args) {
-        return <Args args={shorten(args, 128)} />;
+        return <Args args={shorten(args, 64)} />;
       }
     }
   }
@@ -161,7 +158,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={<TimeOfLastUpdateCardTitle title={t('in-sap:dashboards.outboundQueueRfcInfo')} />}
+        cardTitle={t('in-sap:dashboards.outboundQueueRfcInfo')}
         cols={cols}
         rows={rows}
         initialSortColumn={0}
@@ -172,5 +169,5 @@ export default connectTo(
 );
 
 function Args({ args }) {
-  return <code className={locals.statement}>{args}</code>;
+  return <code>{args}</code>;
 }
