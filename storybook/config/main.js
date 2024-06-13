@@ -4,6 +4,7 @@
  */
 
 /* eslint-env node */
+const path = require('path'); // Import the path module
 
 module.exports = {
   stories: [
@@ -36,7 +37,12 @@ module.exports = {
   typescript: {
     reactDocgen: 'react-docgen-typescript-plugin'
   },
-  features: {
-    storyStoreV7: false
+  webpackFinal(config) {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      react: path.resolve(__dirname, '../node_modules/react'),
+      'react-dom': path.resolve(__dirname, '../node_modules/react-dom')
+    };
+    return config;
   }
 };

@@ -9,7 +9,9 @@ import React from 'react';
 import FileDownloadConfigurationDialogPresenter from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogPresenter';
 import { createForm } from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogForm';
 
-export default {};
+export default {
+  title: 'Stack translation'
+};
 
 export function Empty() {
   return <DialogOverlayStory form={createForm()} />;
