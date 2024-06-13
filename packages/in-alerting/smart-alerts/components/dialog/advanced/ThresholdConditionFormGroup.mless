@@ -74,4 +74,21 @@
       font-weight: bold;
     }
   }
+
+  .thresholdConditionItemTearSheet {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-items: start;
+    min-height: 0rem;
+    border-bottom: none;
+
+    &:nth-child(even) {
+      background: none;
+    }
+  }
+
+  .tearSheetLabel {
+    width: 6.06rem;
+  }
 }

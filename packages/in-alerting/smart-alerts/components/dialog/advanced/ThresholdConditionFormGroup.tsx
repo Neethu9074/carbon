@@ -8,6 +8,7 @@ import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
 
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup.mless';
@@ -18,24 +19,33 @@ interface ThresholdConditionFormGroupPros {
   label?: string;
   shouldIncreaseColumns?: boolean;
   hasWhiteBackground?: boolean;
+  isTearSheet?: boolean;
+  showLabel?: boolean;
 }
 export default function ThresholdConditionFormGroup({
   children,
   iconType = 'lib_alerting_threshold_icon',
   label = t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold'),
   shouldIncreaseColumns = false,
-  hasWhiteBackground = false
+  hasWhiteBackground = false,
+  isTearSheet = false,
+  showLabel = true
 }: ThresholdConditionFormGroupPros) {
   return (
     <div
       className={classNames({
         [locals.thresholdConditionItem]: true,
+        [locals.thresholdConditionItemTearSheet]: isTearSheet,
         [locals.increasedColumns]: shouldIncreaseColumns,
         [locals.whiteBackground]: hasWhiteBackground
       })}
     >
-      <SvgIcon className={locals.icon} type={iconType} />
-      <span className={locals.label}>{label}</span>
+      {!isTearSheet && <SvgIcon className={locals.icon} type={iconType} />}
+      {showLabel && (
+        <span className={classNames({ [locals.label]: true, [locals.tearSheetLabel]: isTearSheet })}>
+          {isTearSheet ? <AlertTypography variant="body-regular" color="color900" content={label} /> : label}
+        </span>
+      )}
       <div className={locals.content}>{children}</div>
     </div>
   );

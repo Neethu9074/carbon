@@ -16,13 +16,20 @@ interface ThresholdDeviationSliderFormProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   defaultValue: number;
+  isTearSheet?: boolean;
 }
 
-export function ThresholdDeviationSliderForm({ form, updateForm, defaultValue }: ThresholdDeviationSliderFormProps) {
+export function ThresholdDeviationSliderForm({
+  form,
+  updateForm,
+  defaultValue,
+  isTearSheet
+}: ThresholdDeviationSliderFormProps) {
   return (
     <ThresholdConditionFormGroup
       iconType="lib_threshold"
       label={t('in-alerting:smartAlerts.components.smartAlertDialog.labelSensitivity')}
+      isTearSheet={isTearSheet}
     >
       <DebouncedSensitivitySlider
         value={getFormValueOrDefault(form.get('threshold'), 'deviationFactor', '')}

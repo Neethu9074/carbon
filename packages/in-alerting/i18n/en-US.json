@@ -548,7 +548,9 @@
         },
         "threshold": {
           "title": "Set a value for the violation threshold",
-          "description": "Choose metric, violation threshold and time window to evaluate the violation."
+          "description": "Choose metric, violation threshold and time window to evaluate the violation.",
+          "thresholdValue": "Threshold value",
+          "thresholdType": "Threshold Type"
         },
         "timeThreshold": {
           "title": "Set when violations trigger alerts",
@@ -557,10 +559,12 @@
         "staticOrAdaptive": {
           "config": {
             "adaptive": {
-              "description": "A threshold value that automatically adapts to the changes of the underlying metric is applied."
+              "description": "A threshold value that automatically adapts to the changes of the underlying metric is applied.",
+              "label": "Static"
             },
             "static": {
-              "description": "A constant threshold value is applied and it does not change over time."
+              "description": "A constant threshold value is applied and it does not change over time.",
+              "label": "Adaptive"
             }
           }
         },

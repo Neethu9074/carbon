@@ -192,7 +192,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       setForm={updateForm}
     >
       {stepRenderers.map((Renderer: (props: AlertConfigTearSheetWithThresholdProps) => JSX.Element, idx: number) => {
-        return step === idx && <Renderer {...props} key={idx} />;
+        return step === idx && <Renderer {...props} key={idx} isGlobalSmartAlert={isGlobalSmartAlert} />;
       })}
     </AlertingTearSheet>
   );

@@ -15,7 +15,7 @@ import locals from './LabelDescriptionWithIcon.mless';
 export default function LabelDescriptionWithIcon(icon: string, label: string, description: string) {
   return (
     <div className={locals.wrapper}>
-      <SvgIcon type={icon} className={locals.icon} />
+      {icon && <SvgIcon type={icon} className={locals.icon} />}
       <div className={locals.content}>
         <AlertTypography variant="body-bold" color="color900" content={label} />
         <Spacer vertical="xsmall" />

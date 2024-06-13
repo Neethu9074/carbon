@@ -6,6 +6,8 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { Select } from '@instana/components';
+
 import {
   enrichThresholdOperatorOptionsForApiConfigs,
   thresholdOperatorOptions
@@ -19,19 +21,44 @@ interface ThresholdOperatorDropDownProps {
   updateForm: (form: MapForm<any>) => void;
   customOnChange?: (newOperator: any) => void;
   allOptions?: boolean;
+  isTearSheet?: boolean;
 }
 
 export function ThresholdOperatorDropDown({
   form,
   updateForm,
   customOnChange,
-  allOptions
+  allOptions,
+  isTearSheet = false
 }: ThresholdOperatorDropDownProps) {
   const operatorValue = form.get('threshold').get('operator').value;
   const options = allOptions ? thresholdOperatorOptions : enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
   const value = (findEntryByValue(options as Option[], operatorValue) ?? options[0])?.value;
 
-  return (
+  return isTearSheet ? (
+    <Select
+      value={value as string}
+      onChange={e => {
+        if (customOnChange) {
+          customOnChange(value);
+        } else {
+          updateForm(
+            form.updateIn(['threshold', 'operator'], f =>
+              (f as Field<string>).setValue(e.target.value).setTouched(true)
+            )
+          );
+        }
+      }}
+    >
+      {options.map(items => {
+        return (
+          <option key={items?.value} value={items?.value}>
+            {items?.label}
+          </option>
+        );
+      })}
+    </Select>
+  ) : (
     <Dropdown
       value={value as string}
       items={options as Option[]}

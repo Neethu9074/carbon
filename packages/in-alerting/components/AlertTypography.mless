@@ -24,4 +24,8 @@
   .primaryOnLight {
     color: var(--ids-color-text-primary-on-light);
   }
+
+  .teal500 {
+    color: var(--ids-color-option-teal-500);
+  }
 }

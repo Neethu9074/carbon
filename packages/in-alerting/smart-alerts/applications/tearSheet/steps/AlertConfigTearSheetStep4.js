@@ -6,25 +6,29 @@
 
 import React from 'react';
 
-import ThroughputThresholdCondition from 'in-alerting/smart-alerts/applications/tearSheet/components/TearSheetThresholdConditions/ThroughputThresholdCondition';
-import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/applications/tearSheet/components/TearSheetThresholdConditions/StatusCodeThresholdCondition';
-import ErrorRateThresholdCondition from 'in-alerting/smart-alerts/applications/tearSheet/components/TearSheetThresholdConditions/ErrorRateThresholdCondition';
-import SlownessThresholdCondition from 'in-alerting/smart-alerts/applications/tearSheet/components/TearSheetThresholdConditions/SlownessThresholdCondition';
-import LogsThresholdCondition from 'in-alerting/smart-alerts/applications/tearSheet/components/TearSheetThresholdConditions/LogsThresholdCondition';
+import { Spacer } from '@instana/components';
+
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/tearSheet/TimeThresholdConfig/TimeThresholdConfigPresenter';
+import ThroughputThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition//ThroughputThresholdCondition';
+import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/StatusCodeThresholdCondition';
+import ErrorRateThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/ErrorRateThresholdCondition';
+import SlownessThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/SlownessThresholdCondition';
+import LogsThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/LogsThresholdCondition';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
 import EntitySelectionFormUpdater from 'in-alerting/smart-alerts/applications/chart/EntitySelectionFormUpdater';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/dialog/IncompleteChartPlaceholder';
+import MetricDropdown from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/MetricDropdown';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
 import locals from './AlertConfigTearSheetStep4.mless';
@@ -53,14 +57,36 @@ export default function AlertConfigTearSheetStep4(props) {
 
   return (
     <>
-      <div className={locals.container40_60}>
+      <div className={locals.container60_40}>
         <TearSheetStepContentWrapper
           headline={t('in-alerting:smartAlerts.applications.tearSheet.threshold.title')}
           description={t('in-alerting:smartAlerts.applications.tearSheet.threshold.description')}
         >
+          <div className={locals.container}>
+            <span className={locals.label}>
+              <AlertTypography
+                variant="body-regular"
+                color="color900"
+                content={t('in-alerting:smartAlerts.details.metricTitle')}
+              />
+            </span>
+            <MetricDropdown
+              alertType={alertType}
+              form={form}
+              updateForm={updateForm}
+              blueprintConfig={blueprintConfig}
+            />
+          </div>
           {blueprintConfig?.baselineEnabled && (
-            <div className={locals.container}>
-              <span className={locals.label}>Threshold Type</span>
+            <div className={locals.container} id="selectType">
+              <span className={locals.longLabel}>
+                <AlertTypography
+                  variant="body-regular"
+                  color="color900"
+                  content={t('in-alerting:smartAlerts.details.thresholdTypeTitle')}
+                />
+              </span>
+
               <StaticOrAdaptiveSwitch
                 form={form}
                 setForm={updateForm}
@@ -71,7 +97,11 @@ export default function AlertConfigTearSheetStep4(props) {
           )}
 
           {!ruleComplete ? (
-            <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
+            <>
+              <Spacer vertical="xsmall" />
+              <Spacer vertical="normal" />
+              <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
+            </>
           ) : (
             <AlertTypeSwitch
               isGlobalSmartAlert={isGlobalSmartAlert}

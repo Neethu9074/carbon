@@ -11,6 +11,8 @@ import {
   staticOrAdaptiveThresholds,
   tearSheetStaticOrAdaptiveThresholds
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/config';
+import LabelDescriptionWithIcon from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/LabelDescriptionWithIcon';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import OptionBox from 'in-applications/components/OptionBox';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch.mless';
@@ -28,15 +30,28 @@ export default function StaticOrAdaptiveOption({ currentType, baselineType, onCh
     : staticOrAdaptiveThresholds.info[baselineType];
 
   return (
-    <OptionBox
-      icon={icon}
-      title={title}
-      className={classNames(locals.optionBox, { [locals.optionBoxUnchecked]: currentType !== baselineType })}
-      description={description}
-      checked={currentType === baselineType}
-      onChange={() => onChange(baselineType)}
-      featureFeedbackLink={featureFeedbackLink}
-      asRadioButton
-    />
+    <>
+      {isTearSheet && (
+        <CheckboxFancy
+          key={Math.random()}
+          label={LabelDescriptionWithIcon(icon, title, description)}
+          checked={currentType === baselineType}
+          onChange={() => onChange(baselineType)}
+          asRadioButton
+        />
+      )}
+      {!isTearSheet && (
+        <OptionBox
+          icon={icon}
+          title={title}
+          className={classNames(locals.optionBox, { [locals.optionBoxUnchecked]: currentType !== baselineType })}
+          description={description}
+          checked={currentType === baselineType}
+          onChange={() => onChange(baselineType)}
+          featureFeedbackLink={featureFeedbackLink}
+          asRadioButton
+        />
+      )}
+    </>
   );
 }

@@ -24,6 +24,7 @@ export interface ThresholdValueInputWithValidationMessageProps {
   percentageMetric: boolean;
   metricUnitPostfix: string;
   isSmall?: boolean;
+  isTearSheet?: boolean;
 }
 
 export default function ThresholdValueInputWithValidationMessage(props: ThresholdValueInputWithValidationMessageProps) {

@@ -34,13 +34,15 @@ export const tearSheetStaticOrAdaptiveThresholds = {
       title: t('in-alerting:smartAlerts.applications.advanced.staticOrAdaptive.config.static.title'),
       icon: '',
       featureFeedbackLink: undefined,
-      description: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.static.description')
+      description: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.static.description'),
+      label: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.static.label')
     },
     ADAPTIVE: {
       title: t('in-alerting:smartAlerts.applications.advanced.staticOrAdaptive.config.adaptive.title'),
       icon: '',
       featureFeedbackLink: undefined,
-      description: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.adaptive.description')
+      description: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.adaptive.description'),
+      label: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.adaptive.label')
     }
   }
 } as const;

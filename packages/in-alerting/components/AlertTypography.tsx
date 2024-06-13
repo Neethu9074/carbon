@@ -37,7 +37,8 @@ export default function AlertTypography({
           [locals.color900]: color === 'color900',
           [locals.colorNavy900]: color === 'color900-navy',
           [locals.color700]: color === 'color700',
-          [locals.primaryOnLight]: color === 'primaryOnLight'
+          [locals.primaryOnLight]: color === 'primaryOnLight',
+          [locals.teal500]: color === 'teal500'
         })}
       >
         {content}
