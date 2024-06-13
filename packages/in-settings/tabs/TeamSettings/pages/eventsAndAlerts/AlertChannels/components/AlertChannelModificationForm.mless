@@ -34,7 +34,7 @@
     right: 0;
     background: white;
   }
-  .settingsPage {
+  .minHeightSettingsPage {
     min-height: 100vh;
   }
 }

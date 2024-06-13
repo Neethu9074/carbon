@@ -35,7 +35,18 @@ import locals from './AlertChannelModificationForm.mless';
 export default entityForm(AlertChannelModificationForm);
 
 function AlertChannelModificationForm(props) {
-  const { entity, form, message, error, loading, setForm, isCreate, renderCustomFormActions, listPath } = props;
+  const {
+    entity,
+    form,
+    message,
+    error,
+    loading,
+    setForm,
+    isCreate,
+    renderCustomFormActions,
+    listPath,
+    setMinHeight = false
+  } = props;
 
   const [expandedCard, setExpandedCard] = useState(getDefaultStateOfAdvancedSection(entity, form));
 
@@ -68,7 +79,7 @@ function AlertChannelModificationForm(props) {
 
   return (
     <Fragment>
-      <SettingsDetailPage className={locals.settingsPage}>
+      <SettingsDetailPage className={setMinHeight ? locals.minHeightSettingsPage : undefined}>
         <HorizontalFlexWrapper>
           <SubViewHeader>
             {isCreate
@@ -243,5 +254,9 @@ AlertChannelModificationForm.propTypes = {
   /**
    * It Sets the form entit from state to the current form config (injected by entityForm).
    */
-  setForm: PropTypes.func.isRequired
+  setForm: PropTypes.func.isRequired,
+  /**
+   * Sets whether the form page should have a minimum height or not. Used in team settings page to push footer to bottom
+   */
+  setMinHeight: PropTypes.bool
 };

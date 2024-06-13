@@ -30,6 +30,7 @@ export default function AlertChannelModification(props) {
       openEntities={() => goToPath(teamSettingsAlertingAlertChannels)}
       saveEntity={save}
       listPath={teamSettingsAlertingAlertChannels}
+      setMinHeight
     />
   );
 }
