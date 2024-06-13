@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { Button } from '@instana/legacy';
@@ -107,16 +108,25 @@ function leftHeaderWithSelectAll(entityName, tableActions) {
     ) {
       return (
         <>
-          <div className={locals.grid}>
+          <div
+            className={classNames({
+              [locals.grid]: true
+            })}
+          >
             <AlertTypography variant="heading-200" color="color900" content={entityName} noMargin />
-
             <Button
               kind="action"
               onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, !allSelected)}
+              disabled={allSelected ? true : false}
             >
-              {allSelected
-                ? t('in-settings:components.deselectAll', { len: entitiesBeforePagination.length })
-                : t('in-settings:components.selectAll', { len: entitiesBeforePagination.length })}
+              {t('in-settings:components.selectAll', { len: entitiesBeforePagination.length })}
+            </Button>
+            <Button
+              kind="action"
+              className={locals.colorDanger}
+              onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, false)}
+            >
+              {t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.clearAll')}
             </Button>
           </div>
           <div className={locals.scopeMargin} />

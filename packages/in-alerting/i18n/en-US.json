@@ -578,7 +578,8 @@
         "alertChannelList": {
           "title": "Alert Channels ({{channelCount}})",
           "description": "Select the recipient(s) of this alert",
-          "searchPlaceholder": "Search"
+          "searchPlaceholder": "Search",
+          "clearAll": "Clear all"
         }
       }
     },
