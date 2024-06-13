@@ -4,7 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
-import { TagFilterExpressionElementUnion } from '@instana/types';
+import {
+  TagFilterExpressionElementUnion,
+  FilteredQuery,
+  TagFilterEntity,
+  TagSuggestionProposeType,
+  TimeConfig
+} from '@instana/types';
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
@@ -21,4 +27,14 @@ export interface PerspectiveItem {
   description?: string;
   label: string;
   tagFilterExpression: TagFilterExpressionElementUnion;
+}
+
+export interface GetBizOpsTagSuggestionQuery extends FilteredQuery {
+  readonly entity: TagFilterEntity;
+  readonly tagFilterExpression: TagFilterExpressionElementUnion;
+  readonly tagName: string;
+  readonly key?: string;
+  readonly value?: string;
+  readonly propose: TagSuggestionProposeType;
+  readonly timeConfig: TimeConfig;
 }

@@ -4,11 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-import { GetBizOpsTagSuggestionQuery } from '@instana/types';
-
 import getBizOpsTagSuggestions from 'in-bizops/subscriptions/getBizOpsTagSuggestions';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
+import { GetBizOpsTagSuggestionQuery } from 'in-bizops/types';
 
 export const BusinessProcessQueryBuilder = createQueryBuilder({
   getTagCatalog: getBusinessMonitoringTagCatalog,
@@ -18,9 +17,9 @@ export const BusinessProcessQueryBuilder = createQueryBuilder({
       entity: entity,
       tagFilterExpression: tagFilterExpression,
       tagName: tagName,
-      propose,
-      key,
-      value,
+      propose: propose,
+      key: key,
+      value: value,
       timeConfig: timeConfig
     };
     return getBizOpsTagSuggestions(query);
