@@ -399,7 +399,7 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "错误消息",
+        "crashesLabelErrorMessage": "关键信息",
         "crashesLabelOccurrences": "出现次数",
         "crashesLabelAffectedUsers": "受影响的用户数",
         "crashesButtonAnalyzeCrashes": "分析崩溃",

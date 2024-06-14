@@ -12,7 +12,9 @@
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "复原",
     "alertHeaderRestoreDeleteTooltip": "删除",
     "alertHeaderEditTooltip": "编辑",
+    "alertHeaderEditTooltipNew": "编辑（新建）",
     "alertHeaderDuplicateTooltip": "复制",
+    "alertHeaderDuplicateTooltipNew": "复制（新建）",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "请确认",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "确定要除去警报 <strong>{{alertConfigName}}</strong> 吗？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
@@ -285,12 +287,16 @@
         "slowness": {
           "name": "慢速调用",
           "headline": "慢速调用的自动警报",
-          "text": "当调用此应用程序透视图的所选服务和端点的速度低于正常速度时，接收警报。"
+          "text": "当调用此应用程序透视图的所选服务和端点的速度低于正常速度时，接收警报。",
+          "tearSheetHeadline": "调用计数的警报",
+          "tearSheetDescription": "当调用此应用程序透视图的所选服务和端点的速度比阈值慢时自动发出警报。"
         },
         "errors": {
           "name": "错误调用数",
           "headline": "错误调用的自动警报",
-          "text": "当此“应用程序透视图”的所选服务和端点的错误调用速率或计数高于正常值时，将会收到警报。"
+          "text": "当此“应用程序透视图”的所选服务和端点的错误调用速率或计数高于正常值时，将会收到警报。",
+          "tearSheetHeadline": "错误调用的自动警报",
+          "tearSheetDescription": "当此应用程序透视图的所选服务和端点的错误调用速率或计数超过阈值时接收警报。"
         },
         "logs": {
           "name": "日志",
@@ -303,13 +309,17 @@
           "name": "HTTP 状态码",
           "headline": "HTTP 状态码的自动警报",
           "text": "每当匹配 HTTP 状态码的出现频率超出正常值时，接收警报。",
-          "incompleteRuleMessage": "请选择“状态码”以查看此警报的触发时间"
+          "incompleteRuleMessage": "请选择“状态码”以查看此警报的触发时间",
+          "tearSheetHeadline": "HTTP 状态码的自动警报",
+          "tearSheetDescription": "当匹配的 HTTP 状态码出现的频率高于阈值时接收警报。"
         },
         "throughput": {
           "name": "吞吐量",
           "headline": "调用计数的自动警报",
           "text": "此应用程序透视图的所选服务和端点的调用数异常低或异常高时自动发出警报。",
-          "metricLabel": "调用数"
+          "metricLabel": "调用数",
+          "tearSheetHeadline": "页面浏览量的自动警报",
+          "tearSheetDescription": "当此应用程序透视图的所选服务和端点的调用数异常低或高时自动发出警报。"
         },
         "simpleMode": {
           "unexpectedDrop": {
@@ -322,7 +332,8 @@
             "headline": "调用数异常高时自动发出警报",
             "text": "当与可用的过往数据相比，调用数显著高于预期时，接收警报。这可能指示攻击或机器人向应用程序生成过多请求。"
           }
-        }
+        },
+        "variantMessage": "在项目列表中不存在所选的类型为 {{type}} 的给定 initialItem。"
       },
       "formUtils": {
         "titlePlaceholder": {
@@ -461,6 +472,7 @@
         "labelActionButtonEdit": "编辑",
         "labelActionButtonEditNew": "编辑（新建）",
         "labelActionButtonDuplicate": "复制",
+        "labelActionButtonDuplicateNew": "复制（新建）",
         "labelActionButtonDelete": "删除",
         "labelAlertFilters": "过滤器",
         "labelConfirm": "请确认",
@@ -689,15 +701,20 @@
         "add": "添加",
         "alertPropertyInsertPlaceholderLabel": "插入占位符",
         "scopeConfigTitleWithApplications": "选择应用程序/服务/端点",
+        "scopeConfigTitleWithApplicationsForTearsheet": "应用程序/服务/端点",
         "scopeConfigTitle": "选择服务/端点",
         "scopeConfigSelectOneEntryMessage": "请至少选择一个条目。",
         "scopeConfigTitleTooltip": "显示过去 24 小时内的可用实体",
+        "scopeConfigSubTitle": "基于过去 24 小时",
         "scopeMigrationMessage_FAILED": "无法自动迁移该作用域。 请为以下动态焦点查询选取相应的标记过滤器：",
         "scopeMigrationMessage_PARTIAL": "无法完全迁移该作用域。 请为以下动态焦点查询选取相应的标记过滤器：",
         "scopeMigrationMessage_FULL": "应用的作用域基于先前使用的动态焦点查询：",
         "scopeMigrationMessageAllAvailableEntities": "应用的作用域基于先前使用的所有可用实体的选择。",
         "scopeMigrationMessageSelectedApplications": "应用的作用域基于先前使用的“应用程序透视图”的选择。",
         "sortByUserSelectionLabel": "按用户选择排序",
+        "sortBySelectionLabel": "排序依据选择",
+        "scopeFilterCallsTitle": "过滤调用",
+        "scopeFilterCallsDescription": "手动选取服务以获取更精确的警报。",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "至少 {{count}} 个用户和 {{userPercentage}} 的用户在过去 {{formattedTimeWindow}} 内受影响",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "至少 {{count}} 个用户和 {{userPercentage}} 的用户在过去 {{formattedTimeWindow}} 内受影响",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "至少 {{count}} 个用户和 {{userPercentage}} 的用户在过去 {{formattedTimeWindow}} 内受影响",
@@ -1372,7 +1389,8 @@
           "label": "有效内容",
           "title": "定制有效内容"
         },
-        "thresholdValue": "阈值"
+        "thresholdValue": "阈值",
+        "valueMappings": "所选度量的数字值对应于以下字符串值："
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "请提供大于或等于 0 的数字",
@@ -1459,9 +1477,17 @@
       "logCount": "日志计数"
     },
     "slo": {
+      "components": {
+        "operatorDropdown": "",
+        "operatorDropdown_more": "大于",
+        "operatorDropdown_more-or-equal": "大于或等于",
+        "operatorDropdown_less": "小于",
+        "operatorDropdown_less-or-equal": "小于或等于"
+      },
       "validators": {
         "noEmptySloIds": "请至少选择一个 SLO。",
-        "notLessThanOrEqualToZero": "请设置大于 0 的值。"
+        "notLessThanOrEqualToZero": "请设置大于 0 的值。",
+        "noInvalidOperator": "请从列表中选择运算符。"
       },
       "advancedModeContainer": {
         "stepLabel": "",
@@ -1485,27 +1511,43 @@
         "blueprint_ERROR_BUDGET": "错误预算",
         "blueprintDescription": "",
         "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "当 SLO 状态低于阈值时接收警报。",
-        "blueprintDescription_ERROR_BUDGET": "当错误预算的百分比耗尽时接收警报。",
+        "blueprintDescription_ERROR_BUDGET": "在使用一定百分比的错误预算时接收警报。",
         "thresholdTitle": "阈值：您希望何时收到警报？",
         "thresholdInputDescription": "",
-        "thresholdInputDescription_ERROR_BUDGET": "错误预算的百分比耗尽",
-        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "百分比等于或小于 SLO 目标",
+        "thresholdInputDescription_ERROR_BUDGET": "当使用 <1/> <2/>% 的错误预算时",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "当 SLO 状态为 <1/> <2/>% 时",
         "timeThresholdType_gracePeriod": "当条件在指定时长后持续存在时",
         "timeThresholdTypeTitle_gracePeriod": "当针对连续 $t(in-components:time.minutes, {\"count\": {{minutes}} }) 的条件违例时发出警报",
+        "timeThresholdTypeTitle_cooldownPeriod": "必须至少要经过 $t(in-components:time.minutes, {\"count\": {{minutes}} })，事件才会结束",
         "alertProperties_entityLabel": "SLO - 名称",
         "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 状态较低",
-        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 状态小于或等于 {{percentage}}。",
-        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "错误预算剩余值较低",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "错误预算剩余值小于或等于 {{percentage}}。"
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 状态为 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}。",
+        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "剩余错误预算较低",
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "已使用错误预算的 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}。",
+        "alertPropertiesIncidentWarning": "突发事件仅适用于与应用程序关联的 SLO"
       },
       "details": {
         "alertConfigurationTitle": "警报配置",
         "sloHeader": "SLO",
+        "thresholdInfo_ERROR_BUDGET": "当使用 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}% 的错误预算时",
+        "thresholdInfo_SERVICE_LEVELS_OBJECTIVE": "当 SLO 状态为 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}% 时",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
         "blueprintLabel": "蓝图",
-        "thresholdLabel": "阈值"
+        "coolDownPeriodDescription": "必须至少要经过 {{value}}，事件才会结束。"
+      },
+      "alertList": {
+        "threshold": "阈值：{{value}}",
+        "sloApplied": "已应用 SLO",
+        "sloCount": "{{count}} 个 SLO",
+        "sloCount_plural": "{{count}} 个 SLO",
+        "sloCount_0": "{{count}} 个 SLO",
+        "sloCount_1": "{{count}} 个 SLO",
+        "sloCount_2": "{{count}} 个 SLO",
+        "title": "",
+        "title_ERROR_BUDGET": "使用的错误预算",
+        "title_SERVICE_LEVELS_OBJECTIVE": "状态"
       }
     }
   }

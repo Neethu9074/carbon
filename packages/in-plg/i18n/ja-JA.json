@@ -7,9 +7,29 @@
     "trialExpirationPopUpDescription": "データ収集が終了しました。 製品の使用をさらに 7 日間続けることができます。 7 日が経過すると、試用版にアクセスできなくなります。 お客様が製品の購入を計画している場合は、お客様のデータをさらに 2 週間保持することができます。",
     "trialExpirationPopUpDescriptionAfterSevenDays": "Instana をご検討いただき、ありがとうございます。 試用期間が終了し、製品にアクセスできなくなりました。"
   },
+  "buyNowDialog": {
+    "title": "使用量に基づく柔軟な請求",
+    "cancelbtn": "キャンセル",
+    "subHeadingPart1": "PayPerUseオプションを使用すると、",
+    "subHeadingPart2": "使用分に対してのみ請求されます。",
+    "sidePanelTitle": "サブスクリプションするかどうかお悩みですか?",
+    "sidePanelDescription": "ぜひご相談ください。最適なオプションを見つけるお手伝いをします。",
+    "mainBodyTitle1": "PayPerUseのご紹介",
+    "mainBodyDescription1": "業界最高レベルの1秒単位の細分性と包括的な要求トレースにより、問題が検知を逃れることはありません。 使いやすいダッシュボードとカスタマイズされたアラート発行に対応するSmartAlerts™を使用して、アプリケーション・コード、Kubernetesコンテナ、マイクロサービス全体をフルスタックで可視化します。 AWSとのシームレスな統合により、Instanaは300を超えるテクノロジーをサポートし、Amazon AWS上のコンテナ化されたアプリケーションに対して心配のないパフォーマンス・モニタリングを行います。",
+    "mainBodyTitle2": "IBM Instana Observability PayPerUseの価格設定情報",
+    "mainBodyDescription2": "当社のPayPerUseティアは柔軟性を考慮して設定されています。必要とされる機能をお客様のビジネスが対応できる価格でご提供します。 必要な製品機能を提供する「Standard」または「Essential」のオプションから選択してください。",
+    "listTitle1": "ユニット",
+    "listTitle2": "コスト",
+    "listUnit1": "インフラストラクチャーのモニターを含む完全な可観測性 + トレース + EUM + シンセティックが含まれます",
+    "listUnit2": "インフラストラクチャーのモニターのみ",
+    "listCost1": "$0.12 / ユニット",
+    "listCost2": "$0.03 / ユニット"
+  },
   "licenseBanner": {
     "requestQuoteBtn": "見積もり依頼",
+    "buyNow": "今すぐ購入",
     "buyNowBtn": "AWS で購入",
+    "buyNowBtnIbm": "IBMで購入",
     "alreadyHaveLicense": "ライセンスをお持ちですか? <linkToDocker>Docker</linkToDocker> または <linkToKubernetes>Kubernetes</linkToKubernetes>でアクティブにします。",
     "getAnswers": "回答を見る",
     "share": "共有",
@@ -171,6 +191,7 @@
       "useScriptAsUserDataForEc2Instance": "このスクリプトは、EC2 インスタンスのユーザー・データとして使用します",
       "selectAgentPackagingAndRuntime": "エージェントのパッケージ化モードとランタイムを選択します",
       "awsLambdaPythonAutotrace": "Python ベースの AWS Lambda 関数をトレースの対象として構成する方法として推奨されているのは、Instana Lambda レイヤーと AutoTrace です。",
+      "awsLambdaDotnetAutotrace": ".NET CoreベースのAWS Lambda関数をトレースの対象として構成する方法として推奨されているのは、AutoTraceを使用したInstana Lambdaレイヤーです。",
       "preferredMethodForNodeJsLambdaConfiguration": "Node.js 8.x ベースの AWS Lambda 関数を構成する方法として推奨されているのは、<lambdaManualWrapping>Instana Lambda レイヤーと手動ラッピング</lambdaManualWrapping>を使用することです。",
       "imageOptions": {
         "linuxGlibcBased": "Linux (glibc ベース)",
@@ -202,6 +223,7 @@
         "runningStartupScript": "始動スクリプトの実行",
         "uninstallingTheHostAgent": "ホスト・エージェントのアンインストール",
         "awsLambdaNativeTracingForJava": "Java 用の AWS Lambda ネイティブ・トレース",
+        "awsLambdaNativeTracingForDotNet": ".NET Core用AWS Lambda Native Tracing",
         "awsLambdaFunctions": "AWS Lambda 関数",
         "monitoringAwsFargate": "AWS Fargate のモニター",
         "monitoringAwsFargateJava": "AWS Fargate (Java) のモニター",
@@ -324,9 +346,22 @@
         "runningTheAgent": "エージェントの実行"
       },
       "linux_deb_rpm": {
-        "step1DownloadTheInstallPackage": "ステップ 1. インストール・パッケージをダウンロードします。",
-        "DEBAndRPMPackage": "DEB および RPM パッケージ",
-        "installUsingAPackage": "パッケージを使用したインストール"
+        "configureTheAgent": "ステップ 1: エージェントの構成",
+        "installUsingAPackage": "パッケージを使用したインストール",
+        "selectThePlatformArchitecture": "ステップ 2: プラットフォーム・アーキテクチャーの選択",
+        "platformArchitecture": "プラットフォームのアーキテクチャー",
+        "mode": "モード",
+        "agentOptions": {
+          "linux64BitAarch": "Linux (64Bit - AArch)",
+          "linux64BitArm": "Linux (64 ビット - ARM)",
+          "linux64BitAmd": "Linux (64Bit - AMD)",
+          "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
+          "linux64BitPowerPcLittleEndian": "Linux (64 ビット - PowerPC リトル・エンディアン)",
+          "linuxS390X": "Linux (64Bit - s390x)",
+          "linuxX8664": "Linux (64Bit - x86_64)",
+          "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
+          "linuxRhel7X8664": "Linux (64Bit - RHEL7 x86_64)"
+        }
       },
       "linux_ec2": {
         "selectTheAgentPackagingMode": "ステップ 1: エージェント・パッケージ化モードの選択",
@@ -414,37 +449,62 @@
     }
   },
   "welcomepage": {
-    "heading": "ようこそ",
+    "heading": "Instanaへようこそ",
+    "foldableTileTitle": "開始しましょう。",
     "viewAll": "すべて表示",
     "search": "検索",
     "addMore": "追加",
     "UrlShortener": "URL 短縮形",
-    "consumeData": {
-      "title": "サービスのディスカバー",
-      "description": "まず、Instana がモニター対象のサービスやその他のデータをディスカバーできるようにします。",
-      "buttonName": "エージェントのデプロイ",
-      "buttonType": "1 次"
+    "startIntegrating": {
+      "title": "データの統合を始める",
+      "description": "エージェントをインストールすることで、Instanaのセットアップとシームレスなデータ統合を開始します。",
+      "buttonName": "エージェントのインストール"
+    },
+    "traceInteractions": {
+      "title": "相互作用トレース",
+      "description": "コンポーネントがどのように接続されているかを理解し、トレースを手動でセットアップする必要があるかどうかを確認します。",
+      "buttonName": "トレースの検証"
+    },
+    "inviteUsers": {
+      "title": "専門家とつながる",
+      "description": "セットアップ・タスクを完了するためのサポートを得たり、製品機能を試すことができます。",
+      "buttonName": "ユーザーの招待"
+    },
+    "additionalAgents": {
+      "title": "より多くのデータを取り込む",
+      "description": "アーキテクチャー全体で可観測性を拡張します。",
+      "buttonName": "追加エージェントのインストール"
+    },
+    "appPerspective": {
+      "title": "ビューの調整",
+      "description": "アプリケーションとサービスを最適化するために必要な情報を取り込みます。",
+      "buttonName": "アプリケーション・パースペクティブの作成"
+    },
+    "smartAlerts": {
+      "title": "アラートを受け取る",
+      "description": "単純なカスタマイズと高度なカスタマイズの両方に対応する、事前定義されたブループリントを使用してアラートを簡単に構成できます。",
+      "buttonName": "スマート・アラートのセットアップ"
+    },
+    "startMonitoring": {
+      "title": "環境のモニター",
+      "description": "アプリケーションおよびWebサイトでアラートをアクティブ化します。",
+      "buttonName": "モニターの開始"
     },
     "inviteTeammates": {
-      "title": "チームメイトの招待",
-      "description": "同僚とコラボレーションします。",
-      "buttonName": "ユーザーの管理",
-      "buttonType": "ghost"
-    },
-    "nextSteps": {
-      "title": "次のステップ",
-      "description": "その他のツアーや追加のサポートをご覧ください。",
-      "buttonName": "回答を見る",
-      "buttonType": "ghost"
+      "title": "チームに招く",
+      "description": "同僚をInstanaに招待し、コラボレーションを開始します。",
+      "buttonName": "チームメートを招待する"
     },
     "component": {
       "applicationWidget": {
         "label": "アプリケーション",
+        "addLabel": "アプリケーションの追加",
         "name": "名前",
         "calls": "呼び出し",
         "latency": "待ち時間",
         "erroneousCallRate": "エラーのある呼び出し率",
-        "openCreationDialog": "作成ダイアログを開く"
+        "openCreationDialog": "作成ダイアログを開く",
+        "health": "正常性"
       },
       "eventWidget": {
         "label": "イベント",
@@ -458,21 +518,27 @@
         "cloudFoundry": "Cloud Foundry",
         "vsphere": "vSphere",
         "openstack": "OpenStack",
+        "openshift": "OpenShift",
         "ibmp": "IBM Power HMC",
         "powervcRegion": "PowerVC リージョン",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
         "kubernetes": "Kubernetes",
+        "gke": "Google Kubernetes Engine",
+        "eks": "Amazon Elastic Kubernetes Service",
         "name": "名前",
         "nodes": "ノード",
         "namespaces": "名前空間",
-        "pods": "ポッド数"
+        "pods": "ポッド数",
+        "health": "正常性",
+        "platform": "プラットフォーム"
       },
       "bizopsWidget": {
         "label": "ビジネス・モニタリング",
         "name": "名前",
         "activities": "アクティビティー",
-        "count": "数"
+        "count": "数",
+        "health": "正常性"
       },
       "incidentsWidget": {
         "label": "インシデント",
@@ -480,32 +546,40 @@
         "title": "役職",
         "on": "オン",
         "started": "開始済み",
-        "end": "語末"
+        "end": "語末",
+        "health": "状況"
       },
       "websitesWidget": {
         "label": "Web サイト",
         "name": "名前",
         "pageViews": "ページ・ビュー",
-        "onLoadTimes": "OnLoad 回"
+        "onLoadTimes": "OnLoad 回",
+        "addLabel": "Web サイトの追加",
+        "health": "正常性"
       },
       "mobileAppsWidget": {
         "label": "モバイル・アプリケーション",
         "name": "名前",
         "sessions": "セッション数",
-        "views": "ビュー"
+        "views": "ビュー",
+        "addLabel": "モバイル・アプリケーションの追加",
+        "health": "正常性"
       },
       "infrastructureWidget": {
         "label": "インフラストラクチャー",
         "mean": "平均値",
         "name": "名前",
         "os": "OS",
+        "technologies": "テクノロジー",
         "cpuNum": "CPU の数",
         "cpuUsage": "CPU 使用率",
         "created": "作成日",
-        "started": "開始済み"
+        "started": "開始済み",
+        "health": "正常性"
       },
       "syntheticWidget": {
         "label": "シンセティック・モニタリング",
+        "addLabel": "シンセティック・モニタリングの追加",
         "na": "該当なし",
         "name": "名前",
         "type": "タイプ",
@@ -520,7 +594,8 @@
         "label": "マイ・カスタム・ダッシュボード",
         "name": "名前",
         "owner": "所有者",
-        "permissions": "権限"
+        "permissions": "権限",
+        "addLabel": "ダッシュボードの追加"
       }
     },
     "noData": {
@@ -580,7 +655,6 @@
     "ariaLabel": {
       "search": "検索",
       "shareButton": "「共有」ボタン",
-      "add": "追加",
       "handleButton": "「ハンドル」ボタン"
     }
   },

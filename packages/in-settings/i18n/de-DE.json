@@ -65,6 +65,7 @@
   },
   "productAreas": {
     "allApplications": "Alle Anwendungen",
+    "allActions": "Alle Aktionen",
     "allWebsites": "Alle Websites",
     "allMobileApps": "Alle mobilen Apps",
     "businessMonitoringAccessAllMessage": "Alle Geschäftsprozesse",
@@ -112,7 +113,13 @@
     "title_platforms": "Plattformen",
     "title_websites": "Websites",
     "title_businessMonitoring": "Business Monitoring",
-    "title_syntheticMonitoring": "Überwachung der synthetischen Transaktionen"
+    "title_syntheticMonitoring": "Überwachung der synthetischen Transaktionen",
+    "title_event": "Ereignisse und Alerts",
+    "title_logs": "Protokolle",
+    "title_dashboard": "Benutzerdefinierte Dashboards",
+    "title_automation": "Automation",
+    "title_agents": "Agenten",
+    "title_access_control": "Zugriffssteuerung"
   },
   "headingSection": {
     "title": "Rolle und Zugriffsbereich",
@@ -151,6 +158,9 @@
     "addButton_syntheticTests": "Synthetische Tests auswählen",
     "descriptionAccessAll_synthetics": "Auf alle synthetischen Tests kann mit der ausgewählten Rolle zugegriffen werden.",
     "descriptionLimitedAccess_synthetics": "Wählen Sie die Rolle aus und fügen Sie unten synthetische Tests hinzu, um Zugriff zu erteilen.",
+    "addButton_actions": "Aktionen auswählen",
+    "descriptionAccessAll_automation": "Mit der ausgewählten Rolle kann auf alle Aktionen zugegriffen werden.",
+    "descriptionLimitedAccess_automation": "Wählen Sie unten die Rolle aus und fügen Sie Aktionen hinzu, um Zugriff zu erteilen.",
     "contribution_filter": "Filter für Beiträge",
     "contributionFilter_description": "Der Beitragsfilter wird beim Erstellen neuer Anwendungskonfigurationen angewendet. In der Anwendungskonfiguration kann der Beitragsfilter mit Filtertags nach einem Operator {{logicalOperator}} optimiert werden. Eine Anwendungsperspektive, die die Ergänzungsfiltertags verwendet, wird nach dem Speichern automatisch erstellt.",
     "contributionFilter_downstreamCalls": "Bestimmen Sie die maximale Ebene zusätzlicher Informationen, die in die Anwendungsperspektiven eingebunden werden können",
@@ -183,6 +193,7 @@
     "description_no_access_kubernetes": "Kein Zugriff auf Namensbereiche und Cluster.",
     "description_no_access_infrastructure": "Kein Zugriff: Zugriff auf Infrastruktur verweigert.",
     "description_no_access_synthetics": "Kein Zugriff: Der Zugriff auf die synthetische Überwachung wird verweigert.",
+    "description_no_access_automation": "Kein Zugriff: Der Zugriff auf die Automatisierung wird verweigert.",
     "description_access_all": "Zugriff auf alle ohne Einschränkung",
     "title_access_all_bizops": "Unbegrenzter Zugriff",
     "title_no_access_bizops": "Zugriff verweigert",
@@ -253,7 +264,8 @@
         "access_level": "Greifen Sie auf alle synthetischen Tests mit dem ausgewählten Zugriffstyp und allen zusätzlichen Berechtigungen zu."
       },
       "limited_access": {
-        "access_level": "Nur auf die aufgelisteten synthetischen Tests mit dem ausgewählten Zugriffstyp und allen zusätzlichen Berechtigungen zugreifen."
+        "access_level": "Nur auf die aufgelisteten synthetischen Tests mit dem ausgewählten Zugriffstyp und weiteren Berechtigungen zugreifen",
+        "access_level_tp": "Greifen Sie im obigen Abschnitt auf alle Tests zu, die den APs zugeordnet sind. Außerdem können Sie in der folgenden Liste weitere Tests zu ihrem Geltungsbereich hinzufügen."
       },
       "role_permissions_owner": "Synthetische Tests erstellen, konfigurieren, anzeigen und löschen.",
       "role_permissions_viewer": "Synthetische Tests und ihre Konfiguration anzeigen."
@@ -267,6 +279,16 @@
       },
       "role_permissions_owner": "Websites erstellen, anzeigen und löschen.",
       "role_permissions_viewer": "Websites anzeigen."
+    },
+    "automation": {
+      "access_all": {
+        "access_level": "Zugriff auf alle Automatisierungsaktionen und Richtlinien mit dem ausgewählten Zugriffstyp und allen zusätzlichen Berechtigungen."
+      },
+      "limited_access": {
+        "access_level": "Greifen Sie nur auf die aufgelisteten Automatisierungsaktionen und Richtlinien mit dem ausgewählten Zugriffstyp und zusätzlichen Berechtigungen zu."
+      },
+      "role_permissions_owner": "Erstellen, Konfigurieren, Anzeigen, Löschen von Automatisierungsaktionen und Anzeigen des Aktionsprotokolls.",
+      "role_permissions_viewer": "Automatisierungsaktionen, Richtlinien und Verlauf anzeigen."
     }
   },
   "cardTitle_Area": "Bereich",
@@ -328,6 +350,30 @@
         "unknownTag": "Unbekannter Tag: {{tagName}}"
       }
     },
+    "retentionPeriod": {
+      "retentionPeriod": "Aufbewahrungszeitraum",
+      "changeRetentionPeriod": "Aufbewahrungszeitraum ändern",
+      "retentionDialogDescription": "Das Ändern des Aufbewahrungszeitraums für Protokolle wirkt sich auf die Kosten und die Dauer der für Analysen und angepasste Dashboards\n verfügbaren Protokolldaten aus.",
+      "logRetentionPeriod": "Protokollspeicherungszeitraum",
+      "changeReason": "Änderungsgrund",
+      "currentRetentionPeriod": "Aktuelle Aufbewahrungsdauer",
+      "days": "Tage",
+      "aboutRetentionPeriod": "Ein Aufbewahrungszeitraum bestimmt, wie lange Daten in Instana aufbewahrt werden. ",
+      "learnMore": "Weitere Informationen.",
+      "typeToConfirm": "Geben Sie CHANGE RETENTION ein, um die Änderung zu bestätigen",
+      "typeToContinue": "Geben Sie CHANGE RETENTION ein, um fortzufahren.",
+      "reasonValidationMessage": "Änderungsaufbewahrungsgrund darf nicht leer sein",
+      "changeError": "Fehler! Der Aufbewahrungszeitraum konnte nicht geändert werden.\n Bitte versuchen Sie es erneut oder wenden Sie sich an den Support.",
+      "changeSuccess": "Erfolgreich! Ihre Aufbewahrungsdauer wurde in {{value}} Tage geändert.",
+      "historyChanges": "Öffnen Sie zum Anzeigen des Aufbewahrungsverlaufs",
+      "actionLog": "Aktionsprotokoll",
+      "historyChanges2": "und suchen sie nach Protokollspeicherung",
+      "modalTitle": "Aufbewahrungszeitraum für Änderungsprotokoll",
+      "toastTitleSuccesful": "Protokollaufbewahrungszeitraum erfolgreich geändert",
+      "toastTitleFailed": "Ändern der Protokollaufbewahrung fehlgeschlagen",
+      "toastMessageFailed": "Der Aufbewahrungszeitraum konnte nicht geändert werden. Bitte versuchen Sie es erneut oder wenden Sie sich an den Support.",
+      "contactSupport": "Fordern Sie Unterstützung an"
+    },
     "deleteLogs": {
       "deleteLogs": "Protokolle löschen",
       "info": "Wenn Sie feststellen, dass als Folge eines Lecks sichere Informationen an Instana-Protokolle weitergegeben werden, können Sie bei Bedarf alle Protokolle für den gesamten Datenaufbewahrungszeitraum löschen.",
@@ -337,9 +383,10 @@
       "logs": "PROTOKOLLE",
       "deletionInfo": "Das Löschen von Protokollen kann einige Zeit in Anspruch nehmen.\n In der Tabelle \"Zusammenfassung der Protokolllöschung\" können Sie den Status überprüfen.",
       "deletionError": "Protokolle konnten nicht gelöscht werden",
-      "deletionSuccess": "Es wurden alle Protokolle gelöscht",
+      "deletionWarning": "Keine zu löschenden Protokolldaten für den angegebenen Zeitrahmen",
       "success": "Erfolgreich",
       "failure": "Fehlgeschlagen",
+      "warning": "Warnung",
       "deletionDate": "Datum",
       "reason": "Grund",
       "numberOfLogs": "Anzahl der Protokolle",
@@ -359,7 +406,20 @@
       "toastSuccessTitle": "Protokolllöschung erfolgreich",
       "toastSuccessMessage": "Protokolle für den ausgewählten Zeitraum wurden gelöscht.",
       "toastErrorTitle": "Löschen des Protokolls fehlgeschlagen",
-      "toastErrorMessage": "Protokolle konnten nicht gelöscht werden. Versuchen Sie es erneut."
+      "toastErrorMessage": "Protokolle konnten nicht gelöscht werden. Versuchen Sie es erneut.",
+      "toastNoLogsMessage": "Für den angegebenen Zeitrahmen müssen keine Protokolldaten gelöscht werden."
+    },
+    "logVolume": {
+      "logVolume": "Protokolldatenvolumen",
+      "timeRange": "Zeitbereich",
+      "months_1": "Aktueller Monat",
+      "months_3": "Letzte 3 Monate",
+      "months_6": "Letzte 6 Monate",
+      "months_9": "Letzte 9 Monate",
+      "months_12": "Letzte 12 Monate",
+      "days_7": "7 Tage",
+      "days_20": "20 Tage",
+      "days_30": "30 Tage"
     },
     "failedToSaveConfig": "Fehler beim Speichern der Konfiguration: {{err}}",
     "IdPMetadataRequired": "IdP-Metadatendatei ist erforderlich",
@@ -467,6 +527,8 @@
     "pleaseDefineAtLeastOneEmail": "Definieren Sie mindestens eine E-Mail",
     "remove": "Entfernen",
     "addEmail": "E-Mail hinzufügen",
+    "customSubjects": "Angepasste(r) Betreff(e)",
+    "addCustomSubject": "Benutzerdefiniertes Subjekt hinzufügen",
     "webhookUrlToCiscoWebexTeams": "Webhook-URL zu Cisco-Webex-Teams <incomingWebhookLink>Eingehender Webhook</incomingWebhookLink>",
     "webhookUrlToIbmWatsonAIOps": "Webhook-URL zu IBM Watson AIOps <incomingWebhookLink>Eingehender Webhook</incomingWebhookLink>",
     "webhookUrlToZChatOps": "URL für Z ChatOps-Vorfälle",
@@ -934,6 +996,8 @@
     "showsUpInTheIssueDescription": "Wird in der Problembeschreibung angezeigt. Sollte möglichst beschreibend sein. Unterstützt Markdown.",
     "issueSeverity": "Schweregrad des Problems",
     "incident": "Vorfall",
+    "issue": "Problem",
+    "change": "Änderung",
     "gracePeriod": "Karenzzeit",
     "periodToWaitBeforeClosingTheIssueOnceConditionsAreNoLongerMet": "Zeitraum, der gewartet wird, bevor das Problem geschlossen wird, sobald die Bedingungen nicht mehr erfüllt sind.",
     "closeAfterHelperDescription": "Wenn ein Host länger als der definierte Zeitraum offline ist, erwartet Instana nicht mehr, dass der Host erneut online geht, und das Ereignis wird nach der Karenzzeit geschlossen.",
@@ -1179,7 +1243,17 @@
     "access": "Zugriff",
     "accessForTenantUnit": "Zugriff auf {{tenantUnit}}-{{tenant}}",
     "numberOfMembers": "Anzahl Member",
-    "groupEntityName": "Gruppe {{entityName}}"
+    "groupEntityName": "Gruppe {{entityName}}",
+    "selectEventType": "Ereignistyp auswählen",
+    "openSubject": "Subjekt {{event_type}} öffnen",
+    "openEventType": "{{event_type}} öffnen",
+    "closeSubject": "Betreff {{event_type}} schließen",
+    "closeEventType": "{{event_type}} schließen",
+    "changeSubject": "Betreff ändern",
+    "changeEvent": "Änderungsereignis",
+    "advancedSettingsMessage": "Wenn Sie diese Option aktivieren, haben Sie die Möglichkeit, den Betreff für Ereignisalerts zu personalisieren, die Sie basierend auf ihrem Typ erhalten. Wenn Sie E-Mail-Betreffs nicht anpassen möchten, können Sie diese Option einfach ignorieren.",
+    "customSubjectNotProvided": "Wenn kein angepasster Betreff angegeben wird, sendet Instana eine Alert-E-Mail mit einem vordefinierten Betreff.",
+    "sendTestEmail": "Test-E-Mail senden"
   },
   "languageSelection": {
     "language": "Sprache",
@@ -1300,5 +1374,28 @@
     "newMaintenanceWindowDefaultName": "Neue Wartungskonfiguration"
   },
   "settings": "Einstellungen",
-  "testAlertChannelSuccess": "Testalert gesendet an {{channel}} Alertkanal"
+  "testAlertChannelSuccess": "Testalert gesendet an {{channel}} Alertkanal",
+  "ShareAndInviteDialogBox": {
+    "share": "Gemeinsam nutzen",
+    "inviteYourColleagues": "Laden Sie Ihre Kollegen zur Teilnahme an dieser Instanzeninstanz ein.",
+    "collaborateIfYouWantHelp": "Arbeiten Sie zusammen, wenn Sie beispielsweise Hilfe anfordern oder ein Dashboard teilen möchten.",
+    "emailAddress": "E-Mail-Adresse",
+    "add": "Hinzufügen",
+    "addUser": "Benutzer hinzufügen",
+    "youCanEditThisMessage": "Sie können diese Nachricht bearbeiten.",
+    "group": "Gruppe",
+    "groupToolTip": "Die Gruppe steuert den Benutzerzugriff für den Tenant. Für unterschiedliche Zugriffe können Sie Benutzergruppen in den Benutzereinstellungen hinzufügen oder bearbeiten.",
+    "newGroup": "Neue Gruppe",
+    "emailMessage": "E-Mail-Nachricht (optional)",
+    "defaultEmailMessage": "Fügen Sie hier einen Hinweis hinzu, wenn Sie Hilfe anfordern oder relevante Informationen zu der Seite angeben möchten, die Sie teilen.",
+    "pageLink": "Link zur Seite",
+    "currentTimeRange": "Aktueller Zeitbereich",
+    "fixateTime": "Aktuellen Zeitbereich sperren",
+    "agentKey": "Agentenschlüssel",
+    "cancel": "Abbrechen",
+    "send": "Senden",
+    "invitationSend": "Einladung gesendet",
+    "somethingWentWrong": "Es ist ein Fehler aufgetreten.",
+    "failedToSendInvitation": "Ihre Einladung wurde nicht zugestellt. Versuchen Sie es erneut."
+  }
 }

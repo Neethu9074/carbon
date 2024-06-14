@@ -65,6 +65,7 @@
   },
   "productAreas": {
     "allApplications": "すべてのアプリケーション",
+    "allActions": "すべてのアクション",
     "allWebsites": "すべてのWebサイト",
     "allMobileApps": "すべてのモバイル・アプリ",
     "businessMonitoringAccessAllMessage": "すべてのビジネス・プロセス",
@@ -112,7 +113,13 @@
     "title_platforms": "プラットフォーム",
     "title_websites": "Web サイト",
     "title_businessMonitoring": "ビジネス・モニタリング",
-    "title_syntheticMonitoring": "シンセティック・モニタリング"
+    "title_syntheticMonitoring": "シンセティック・モニタリング",
+    "title_event": "イベントおよびアラート",
+    "title_logs": "Logs",
+    "title_dashboard": "カスタム・ダッシュボード",
+    "title_automation": "自動化",
+    "title_agents": "エージェント",
+    "title_access_control": "アクセス制御"
   },
   "headingSection": {
     "title": "役割とアクセス権の範囲",
@@ -151,6 +158,9 @@
     "addButton_syntheticTests": "シンセティック・テストの選択",
     "descriptionAccessAll_synthetics": "選択した役割ですべてのシンセティック・テストにアクセスできます。",
     "descriptionLimitedAccess_synthetics": "役割を選択し、以下のシンセティック・テストを追加してアクセス権限を付与します。",
+    "addButton_actions": "アクションの選択",
+    "descriptionAccessAll_automation": "選択した役割ですべてのアクションにアクセスできます。",
+    "descriptionLimitedAccess_automation": "役割を選択し、以下のアクションを追加してアクセス権限を付与します。",
     "contribution_filter": "コントリビューション・フィルター",
     "contributionFilter_description": "コントリビューション・フィルターは、新規アプリケーション構成の作成時に適用されます。 アプリケーション構成では、{{logicalOperator}} オペレーターの後にフィルター・タグを使用してコントリビューション・フィルターを絞り込むことができます。 コントリビューション・フィルター・タグを使用するアプリケーション・パースペクティブは、保存すると自動的に作成されます。",
     "contributionFilter_downstreamCalls": "アプリケーション・パースペクティブに組み込むことができる追加情報の最大レベルを決定します。",
@@ -183,6 +193,7 @@
     "description_no_access_kubernetes": "名前空間およびクラスターへのアクセス権限がありません。",
     "description_no_access_infrastructure": "アクセスなし: インフラストラクチャーへのアクセスは拒否されます。",
     "description_no_access_synthetics": "アクセスなし: シンセティック・モニターへのアクセスが拒否されます。",
+    "description_no_access_automation": "アクセス権限なし: 自動化へのアクセスは拒否されます。",
     "description_access_all": "制限なしですべてにアクセス",
     "title_access_all_bizops": "無制限のアクセス",
     "title_no_access_bizops": "アクセスが拒否されました。",
@@ -253,7 +264,8 @@
         "access_level": "選択したアクセス・タイプと追加の権限を持つすべてのシンセティック・テストにアクセスします。"
       },
       "limited_access": {
-        "access_level": "選択したアクセス・タイプおよび追加の権限を持つ、リストされたシンセティック・テストにのみアクセスします。"
+        "access_level": "選択したアクセス・タイプおよび追加の権限を使用して、リストされたシンセティック・テストのみにアクセスします",
+        "access_level_tp": "上にあるセクションからAPに関連付けられているすべてのテストにアクセスします。 さらに、以下のリストのスコープにさらにテストを追加することもできます。"
       },
       "role_permissions_owner": "シンセティック・テストを作成、構成、表示、および削除します。",
       "role_permissions_viewer": "シンセティック・テストとその構成を表示します。"
@@ -267,6 +279,16 @@
       },
       "role_permissions_owner": "Webサイトを作成、表示、および削除します。",
       "role_permissions_viewer": "Web サイトを表示します。"
+    },
+    "automation": {
+      "access_all": {
+        "access_level": "選択したアクセス・タイプおよび追加の権限を使用して、すべての自動化アクションおよびポリシーにアクセスします。"
+      },
+      "limited_access": {
+        "access_level": "選択したアクセス・タイプおよび追加の権限を使用して、リストされた自動化アクションおよびポリシーにのみアクセスします。"
+      },
+      "role_permissions_owner": "自動化アクションの作成、構成、表示、削除、およびアクション履歴の表示を行います。",
+      "role_permissions_viewer": "自動化アクション、ポリシー、および履歴を表示します。"
     }
   },
   "cardTitle_Area": "領域",
@@ -328,6 +350,30 @@
         "unknownTag": "不明なタグ: {{tagName}}"
       }
     },
+    "retentionPeriod": {
+      "retentionPeriod": "保存期間",
+      "changeRetentionPeriod": "保存期間の変更",
+      "retentionDialogDescription": "ログの保存期間を変更すると、分析およびカスタム・ダッシュボードで使用可能な\nログ・データのコストと期間に影響します。",
+      "logRetentionPeriod": "ログ保存期間",
+      "changeReason": "変更理由",
+      "currentRetentionPeriod": "現在の保存期間",
+      "days": "日数",
+      "aboutRetentionPeriod": "保存期間は、データがInstanaに保持される期間を決定します。 ",
+      "learnMore": "詳細はこちら。",
+      "typeToConfirm": "変更を確認するためにCHANGE RETENTIONと入力してください",
+      "typeToContinue": "続行するにはCHANGE RETENTIONと入力してください",
+      "reasonValidationMessage": "保存の変更理由を空にすることはできません",
+      "changeError": "エラーが発生しました。 保存期間を変更できませんでした。\n 再試行するか、サポートにお問い合わせください。",
+      "changeSuccess": "正常終了しました 保存期間が {{value}} 日に変更されました。",
+      "historyChanges": "保存履歴を表示するには",
+      "actionLog": "アクション・ログ",
+      "historyChanges2": "を開き、ログ保存を検索してください",
+      "modalTitle": "ログ保存期間の変更",
+      "toastTitleSuccesful": "ログ保存期間が正常に変更されました",
+      "toastTitleFailed": "ログ保存の変更に失敗しました",
+      "toastMessageFailed": "保存期間を変更できませんでした。 再試行するか、サポートにお問い合わせください。",
+      "contactSupport": "サポートに連絡してください"
+    },
     "deleteLogs": {
       "deleteLogs": "ログの削除",
       "info": "Instana ログにセキュア情報が漏えいしている場合は、オンデマンドでデータ保存期間全体のすべてのログの削除に進むことができます。",
@@ -337,9 +383,10 @@
       "logs": "LOGS",
       "deletionInfo": "ログの削除には時間がかかる場合があります。\n 「ログ削除の要約」表で状況を確認してください。",
       "deletionError": "ログを削除できませんでした",
-      "deletionSuccess": "すべてのログが削除されました",
+      "deletionWarning": "指定された時間フレームには削除するログ・データがありません",
       "success": "成功",
       "failure": "失敗",
+      "warning": "警告",
       "deletionDate": "日付",
       "reason": "理由",
       "numberOfLogs": "ログの数",
@@ -359,7 +406,20 @@
       "toastSuccessTitle": "ログが正常に削除されました",
       "toastSuccessMessage": "選択された期間のログは正常に削除されました。",
       "toastErrorTitle": "ログの削除に失敗しました",
-      "toastErrorMessage": "ログを削除できませんでした。 再試行してください。"
+      "toastErrorMessage": "ログを削除できませんでした。 再試行してください。",
+      "toastNoLogsMessage": "指定された時間フレームには削除するログ・データがありません。"
+    },
+    "logVolume": {
+      "logVolume": "ログ・ボリューム",
+      "timeRange": "時刻範囲",
+      "months_1": "今月",
+      "months_3": "過去 3 カ月",
+      "months_6": "過去6カ月",
+      "months_9": "過去9カ月",
+      "months_12": "過去12カ月",
+      "days_7": "7日",
+      "days_20": "20日",
+      "days_30": "30 日"
     },
     "failedToSaveConfig": "構成の保存に失敗しました: {{err}}",
     "IdPMetadataRequired": "IdP メタデータ・ファイルが必要です",
@@ -467,6 +527,8 @@
     "pleaseDefineAtLeastOneEmail": "E メールを少なくとも 1 つ定義してください",
     "remove": "削除",
     "addEmail": "E メールの追加",
+    "customSubjects": "カスタム・サブジェクト",
+    "addCustomSubject": "カスタム・サブジェクトの追加",
     "webhookUrlToCiscoWebexTeams": "Cisco Webex Teams への Webhook URL <incomingWebhookLink>着信 Webhook</incomingWebhookLink>",
     "webhookUrlToIbmWatsonAIOps": "IBM Watson AIOps への Webhook URL <incomingWebhookLink>着信 Webhook</incomingWebhookLink>",
     "webhookUrlToZChatOps": "Z ChatOps インシデント URL",
@@ -934,6 +996,8 @@
     "showsUpInTheIssueDescription": "問題の説明に表示されます。 できる限り分かりやすく記述してください。 マークダウンがサポートされます。",
     "issueSeverity": "問題の重大度",
     "incident": "インシデント",
+    "issue": "問題",
+    "change": "変更",
     "gracePeriod": "猶予期間",
     "periodToWaitBeforeClosingTheIssueOnceConditionsAreNoLongerMet": "条件に一致しなくなった場合に問題をクローズするまでの待機期間。",
     "closeAfterHelperDescription": "指定された期間より長くホストがオフラインである場合、Instana はホストの再表示を要求せず、猶予期間後にイベントはクローズされます。",
@@ -1179,7 +1243,17 @@
     "access": "アクセス",
     "accessForTenantUnit": "{{tenantUnit}}{{tenant}}に対するアクセス権限",
     "numberOfMembers": "メンバー数",
-    "groupEntityName": "グループ {{entityName}}"
+    "groupEntityName": "グループ {{entityName}}",
+    "selectEventType": "イベント・タイプの選択",
+    "openSubject": "{{event_type}} サブジェクトを開く",
+    "openEventType": "{{event_type}} を開く",
+    "closeSubject": "{{event_type}} サブジェクトを閉じる",
+    "closeEventType": "{{event_type}} を閉じる",
+    "changeSubject": "サブジェクトの変更",
+    "changeEvent": "変更イベント",
+    "advancedSettingsMessage": "これを有効にすることで、受信するイベント・アラートのタイプに基づいて、そのサブジェクトを個別設定できるようになります。 Eメールのサブジェクトをカスタマイズしない場合は、このオプションを無視してかまいません。",
+    "customSubjectNotProvided": "カスタム・サブジェクトが指定されていない場合、Instanaは事前定義されたサブジェクトを使用してアラートEメールを送信します。",
+    "sendTestEmail": "テスト E メールの送信"
   },
   "languageSelection": {
     "language": "言語",
@@ -1300,5 +1374,28 @@
     "newMaintenanceWindowDefaultName": "新規保守構成"
   },
   "settings": "設定",
-  "testAlertChannelSuccess": "テスト・アラートが {{channel}} アラート・チャネルに送信されました"
+  "testAlertChannelSuccess": "テスト・アラートが {{channel}} アラート・チャネルに送信されました",
+  "ShareAndInviteDialogBox": {
+    "share": "共有",
+    "inviteYourColleagues": "このInstanaインスタンスに参加するように同僚を招待します。",
+    "collaborateIfYouWantHelp": "例えば、協力の依頼やダッシュボードの共有を希望する場合にコラボレーションします。",
+    "emailAddress": "E メール・アドレス",
+    "add": "追加",
+    "addUser": "ユーザーの追加",
+    "youCanEditThisMessage": "このメッセージは編集できます。",
+    "group": "グループ",
+    "groupToolTip": "このグループは、テナント全体でのユーザー・アクセスを制御します。 アクセス権限が異なる場合は、「ユーザー設定」でユーザー・グループの追加や編集を行えます。",
+    "newGroup": "新規グループ",
+    "emailMessage": "Eメール・メッセージ(オプション)",
+    "defaultEmailMessage": "協力を依頼したり、共有しているページについての関連情報を提供したりする場合、ここにメモを加えます。",
+    "pageLink": "ページ・リンク",
+    "currentTimeRange": "現在の時刻範囲",
+    "fixateTime": "現在の時刻範囲のロック",
+    "agentKey": "エージェント・キー",
+    "cancel": "キャンセル",
+    "send": "送信",
+    "invitationSend": "招待が送信されました",
+    "somethingWentWrong": "何らかの問題が発生しました。",
+    "failedToSendInvitation": "招待は配信されませんでした。 再試行してください。"
+  }
 }

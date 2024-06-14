@@ -12,7 +12,9 @@
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "還原",
     "alertHeaderRestoreDeleteTooltip": "刪除",
     "alertHeaderEditTooltip": "編輯",
+    "alertHeaderEditTooltipNew": "編輯（新建）",
     "alertHeaderDuplicateTooltip": "複製",
+    "alertHeaderDuplicateTooltipNew": "複製（新建）",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "請確認",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "您確定要移除警示 <strong>{{alertConfigName}}</strong> 嗎？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
@@ -285,12 +287,16 @@
         "slowness": {
           "name": "慢速呼叫",
           "headline": "慢速呼叫的自動警示",
-          "text": "當此「應用程式視景」中所選服務和端點的呼叫慢於平常時，會收到警示。"
+          "text": "當此「應用程式視景」中所選服務和端點的呼叫慢於平常時，會收到警示。",
+          "tearSheetHeadline": "呼叫計數的警示",
+          "tearSheetDescription": "當此「應用程式視景」中所選取服務及端點的呼叫速度低於臨界值時，自動警示。"
         },
         "errors": {
           "name": "錯誤呼叫",
           "headline": "錯誤呼叫的自動警示",
-          "text": "當此「應用程式視景」中所選服務及端點的錯誤呼叫率或計數高於正常時，則會收到警示。"
+          "text": "當此「應用程式視景」中所選服務及端點的錯誤呼叫率或計數高於正常時，則會收到警示。",
+          "tearSheetHeadline": "錯誤呼叫的自動警示",
+          "tearSheetDescription": "當此「應用程式視景」中所選取服務及端點的錯誤呼叫率或計數超出臨界值時，接收警示。"
         },
         "logs": {
           "name": "日誌",
@@ -303,13 +309,17 @@
           "name": "HTTP 狀態碼",
           "headline": "HTTP 狀態碼的自動警示",
           "text": "每當相符「HTTP 狀態碼」的出現頻率高於平常時，會收到警示。",
-          "incompleteRuleMessage": "請選取一個「狀態碼」，以查看此警示的觸發時機"
+          "incompleteRuleMessage": "請選取一個「狀態碼」，以查看此警示的觸發時機",
+          "tearSheetHeadline": "HTTP 狀態碼的自動警示",
+          "tearSheetDescription": "當符合的「HTTP 狀態碼」出現頻率超過臨界值時，接收警示。"
         },
         "throughput": {
           "name": "傳輸量",
           "headline": "呼叫計數的自動警示",
           "text": "當此「應用程式視景」中所選服務和端點的呼叫數目異常地低或高時，會自動發出警示。",
-          "metricLabel": "呼叫"
+          "metricLabel": "呼叫",
+          "tearSheetHeadline": "頁面檢視次數的自動警示",
+          "tearSheetDescription": "當此「應用程式視景」中所選取服務及端點的呼叫數異常低或高時自動警示。"
         },
         "simpleMode": {
           "unexpectedDrop": {
@@ -322,7 +332,8 @@
             "headline": "在呼叫數異常高時自動警示",
             "text": "對照可用的過去資料，當呼叫數明顯高於預期時，會收到警示。這可能表示出現攻擊，或者機器人程式產生太多要求給應用程式。"
           }
-        }
+        },
+        "variantMessage": "給定的 initialItemSelected（類型 {{type}}）不在項目清單中。"
       },
       "formUtils": {
         "titlePlaceholder": {
@@ -461,6 +472,7 @@
         "labelActionButtonEdit": "編輯",
         "labelActionButtonEditNew": "編輯（新建）",
         "labelActionButtonDuplicate": "複製",
+        "labelActionButtonDuplicateNew": "複製（新建）",
         "labelActionButtonDelete": "刪除",
         "labelAlertFilters": "過濾器",
         "labelConfirm": "請確認",
@@ -689,15 +701,20 @@
         "add": "新增",
         "alertPropertyInsertPlaceholderLabel": "插入位置保留",
         "scopeConfigTitleWithApplications": "選取應用程式/服務/端點",
+        "scopeConfigTitleWithApplicationsForTearsheet": "應用程式/服務/端點",
         "scopeConfigTitle": "選取服務/端點",
         "scopeConfigSelectOneEntryMessage": "請至少選取一個項目。",
         "scopeConfigTitleTooltip": "顯示過去 24 小時的可用實體",
+        "scopeConfigSubTitle": "根據過去 24 小時",
         "scopeMigrationMessage_FAILED": "無法自動移轉範圍。 請挑選下列「動態焦點查詢」的對應標籤過濾器：",
         "scopeMigrationMessage_PARTIAL": "無法完全移轉範圍。 請挑選下列「動態焦點查詢」的對應標籤過濾器：",
         "scopeMigrationMessage_FULL": "套用的範圍基於先前使用的「動態焦點查詢」：",
         "scopeMigrationMessageAllAvailableEntities": "套用的範圍基於先前使用的所有可用實體選項。",
         "scopeMigrationMessageSelectedApplications": "套用的範圍基於先前使用的「應用程式視景」選項。",
         "sortByUserSelectionLabel": "依使用者的選擇排序",
+        "sortBySelectionLabel": "依選取項目排序",
+        "scopeFilterCallsTitle": "過濾呼叫",
+        "scopeFilterCallsDescription": "手動挑選服務以取得更精確的警示。",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者和 {{userPercentage}} 的使用者受到影響",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者和 {{userPercentage}} 的使用者受到影響",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者和 {{userPercentage}} 的使用者受到影響",
@@ -1372,7 +1389,8 @@
           "label": "有效負載",
           "title": "自訂有效負載"
         },
-        "thresholdValue": "臨界值"
+        "thresholdValue": "臨界值",
+        "valueMappings": "所選取度量值對應於下列字串值："
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "請提供大於等於 0 的數字",
@@ -1459,9 +1477,17 @@
       "logCount": "日誌計數"
     },
     "slo": {
+      "components": {
+        "operatorDropdown": "",
+        "operatorDropdown_more": "超過",
+        "operatorDropdown_more-or-equal": "大於或等於",
+        "operatorDropdown_less": "小於",
+        "operatorDropdown_less-or-equal": "小於或等於"
+      },
       "validators": {
         "noEmptySloIds": "請至少選取一個 SLO。",
-        "notLessThanOrEqualToZero": "請設定大於 0 的值。"
+        "notLessThanOrEqualToZero": "請設定大於 0 的值。",
+        "noInvalidOperator": "請從清單中選取運算子。"
       },
       "advancedModeContainer": {
         "stepLabel": "",
@@ -1485,27 +1511,43 @@
         "blueprint_ERROR_BUDGET": "錯誤預算",
         "blueprintDescription": "",
         "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "當 SLO 狀態低於臨界值時接收警示。",
-        "blueprintDescription_ERROR_BUDGET": "已耗用錯誤預算的百分比時接收警示。",
+        "blueprintDescription_ERROR_BUDGET": "當已耗用某個百分比的錯誤預算時接收警示。",
         "thresholdTitle": "臨界值：何時要收到警示？",
         "thresholdInputDescription": "",
-        "thresholdInputDescription_ERROR_BUDGET": "已耗用錯誤預算百分比",
-        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "百分比是 SLO 目標或更少",
+        "thresholdInputDescription_ERROR_BUDGET": "當已耗用 <1/> <2/> 百分比的錯誤預算時",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "當 SLO 狀態 <1/> <2/> 存在時",
         "timeThresholdType_gracePeriod": "當條件持續存在超過指定的時間量時",
         "timeThresholdTypeTitle_gracePeriod": "當連續 $t(in-components:time.minutes, {\"count\": {{minutes}} }) 違反條件時發出警示",
+        "timeThresholdTypeTitle_cooldownPeriod": "至少必須已經過 $t(in-components:time.minutes, {\"count\": {{minutes}} }) 事件才會結束",
         "alertProperties_entityLabel": "SLO 名稱",
-        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 狀態為低",
-        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 狀態小於或等於 {{percentage}}。",
-        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "剩餘錯誤預算為低",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "剩餘的錯誤預算小於或等於 {{percentage}}。"
+        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 狀態偏低",
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 狀態為 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}。",
+        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "剩餘錯誤預算偏低",
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "已耗用 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} 的錯誤預算。",
+        "alertPropertiesIncidentWarning": "發生事件僅適用於與應用程式相關聯的 SLO"
       },
       "details": {
         "alertConfigurationTitle": "警示配置",
         "sloHeader": "SLO",
+        "thresholdInfo_ERROR_BUDGET": "當已耗用 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} 百分比的錯誤預算時",
+        "thresholdInfo_SERVICE_LEVELS_OBJECTIVE": "當 SLO 狀態為 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} 百分比時",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
         "blueprintLabel": "藍圖",
-        "thresholdLabel": "臨界值"
+        "coolDownPeriodDescription": "至少必須已經過 {{value}}，事件才會結束。"
+      },
+      "alertList": {
+        "threshold": "臨界值：{{value}}",
+        "sloApplied": "已套用 SLO",
+        "sloCount": "{{count}} 個 SLO",
+        "sloCount_plural": "{{count}} 個 SLO",
+        "sloCount_0": "{{count}} 個 SLO",
+        "sloCount_1": "{{count}} 個 SLO",
+        "sloCount_2": "{{count}} 個 SLO",
+        "title": "",
+        "title_ERROR_BUDGET": "耗用的錯誤預算",
+        "title_SERVICE_LEVELS_OBJECTIVE": "狀態"
       }
     }
   }

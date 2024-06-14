@@ -8,7 +8,6 @@
   "entityInfoPresenterDefaultLabel": "対象:",
   "entityInfoLabelOfService": "サービス:",
   "titleDetail": "詳細",
-  "titleDetails": "詳細",
   "titleMetrics": "メトリック",
   "titleScope": "スコープ",
   "titleDescription": "説明",
@@ -46,6 +45,9 @@
   "titleEmptyEvents_issue": "問題はありません",
   "titleEmptyEvents_change": "変更がありません",
   "titleEmptyEvents_monitoringIssue": "モニタリングの問題がありません",
+  "titleManualCloseIssue": "問題のクローズ",
+  "titleManualCloseIncident": "インシデントのクローズ",
+  "closeIssue": "この問題をクローズする",
   "explanationEmptyEvents_event": "選択された時刻範囲で取得されたイベントはありません",
   "explanationEmptyEvents_incident": "選択された時刻範囲で取得されたインシデントはありません",
   "explanationEmptyEvents_issue": "選択された時刻範囲で取得された問題はありません",
@@ -67,7 +69,6 @@
   "triggered": "トリガー済み:",
   "started": "開始済み:",
   "ended": "終了済み:",
-  "active": "アクティブ",
   "stateActive": "アクティブ",
   "stateClosedByInstana": "Instana によるクローズ",
   "stateManuallyClosed": "手動で閉じる",
@@ -171,7 +172,7 @@
     "probableRootCauseLabel": "推定される根本原因エンティティー: {{entity_name}}",
     "relatedEventsLabel": "関連イベント ({{number_of_events}})",
     "entitiesNumber": "エンティティー",
-    "techPreview": "テクニカル・プレビュー",
+    "techPreview": "技術プレビュー",
     "probabilityLevelText": "確率レベル:",
     "highProbability": "HIGH",
     "moderateProbability": "普通",
@@ -180,7 +181,13 @@
     "highProbabilityBadgeText": "この確率評価は、問題のエンティティーが正常でない可能性に基づいています。 「高確率」は、このエンティティーが、提供された証拠に基づいて問題がある可能性が高いことを示します。",
     "moderateProbabilityBadgeText": "この確率評価は、問題のエンティティーが正常でない可能性に基づいています。 このエンティティーが根本原因である可能性がありますが、より多くの分析が必要です。",
     "lowProbabilityBadgeText": "この確率評価は、問題のエンティティーが正常でない可能性に基づいています。 現在の情報から判断すると、このコンポーネントは正常ではない可能性が低くなりますが、さらに調査されることが保証されます。",
-    "naProbabilityBadgeText": "この確率評価は、問題のエンティティーが正常でない可能性に基づいています。 残念ながら、このインシデントの確率評価を確認できませんでした。"
+    "naProbabilityBadgeText": "この確率評価は、問題のエンティティーが正常でない可能性に基づいています。 残念ながら、このインシデントの確率評価を確認できませんでした。",
+    "evidenceTextFailed": "{{root_cause_entity_type}} {{root_cause_entity_name}} を経由する呼び出しは、集約された高いエラー率 {{rca_error_percent}}% となっています。",
+    "evidence": "エビデンス",
+    "evidenceTextNotFailedLower": "{{root_cause_entity_type}} {{root_cause_entity_name}} を経由しない同じエンティティーからの呼び出しは、{{non_rca_error_rate}}% とエラー率が低くなっています。",
+    "evidenceTextNotFailedHigher": "{{root_cause_entity_type}} {{root_cause_entity_name}} を経由しない同じエンティティーからの呼び出しは、{{non_rca_error_rate}}% とエラー率が高くなっています。",
+    "evidenceTextNotFailedSame": "{{root_cause_entity_type}} {{root_cause_entity_name}} を経由しない同じエンティティーからの呼び出しのエラー率は {{non_rca_error_rate}}% となっています。",
+    "regenerateProbableRootCause": "推定根本原因の再生成"
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "インシデントの要約",
@@ -188,7 +195,8 @@
     "errorDescription": "このイベントの要約を作成できませんでした",
     "summarizationHelpfulText": "この要約は役に立ちましたか?",
     "alertChannelTableTitle": "インシデントに関連付けられたアラート・チャネル",
-    "noDataAlertChannels": "このインシデントに関連付けることができるアラート・チャネルはありません"
+    "noDataAlertChannels": "このインシデントに関連付けることができるアラート・チャネルはありません",
+    "actionText": "過去 <strong>{{timeWindow}} {{timeWindowFormat}}</strong> 日間に、インシデントに関連付けられているイベント構成 <strong>{{eventSpecId}}</strong> について、<strong>{{actionStats}}</strong> アクションがタイプ - <strong>ANSIBLE/SCRIPT/HTTP</strong> で実行されました。"
   },
   "feedback": {
     "skip": "スキップ",
@@ -208,5 +216,25 @@
   "bizops": {
     "titleImpactedBusinessProcesses": "影響を受けるビジネス・プロセス",
     "titleImpactedBusinessProcessesIncident": "トリガー・イベントの影響を受けるビジネス・プロセス"
+  },
+  "closeEventDialog": {
+    "reason": "問題をクローズする理由をお知らせください",
+    "warning": "この問題をクローズすると元に戻せません",
+    "comments": "コメント",
+    "closeIssue": "問題のクローズ",
+    "closeIncident": "このインシデントをクローズする",
+    "closedByLabel": "クローズしたユーザー"
+  },
+  "notes": {
+    "openNotes": "注釈およびアクティビティーを開く",
+    "closeNotes": "注釈およびアクティビティーを閉じる",
+    "notesActivity": "注釈およびアクティビティー",
+    "techPreview": "技術プレビュー",
+    "incidentNotes": "インシデントの注釈",
+    "addNote": "注釈の追加",
+    "you": "You",
+    "noNotes": "まだ注釈が追加されていません",
+    "noNotesDetails": "まず、チーム向けの注釈を追加してください。",
+    "typeSomething": "何かを入力してください..."
   }
 }

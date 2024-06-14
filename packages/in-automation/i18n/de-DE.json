@@ -3,11 +3,10 @@
   "edit": "Bearbeiten",
   "delete": "Löschen",
   "test": "Test",
-  "recommendedActions": "Empfohlene Aktionen",
   "recommendedActionsWithCount": "Empfohlene Aktionen ({{count}})",
+  "recommendedActions": "Empfohlene Aktionen",
   "validVaultParameter": "Als optional markierte Vaultparameter müssen entweder beide leer oder beide nicht leer sein.",
   "newAction": "Neue Aktion",
-  "ok": "Ok",
   "runAction": "Aktion ausführen",
   "testAction": "Testaktion",
   "targetAgent": "Zielagent",
@@ -40,12 +39,10 @@
   "parameters": "Parameter",
   "noParametersTitle": "Keine Parameter",
   "noParametersText": "Diese Aktion hat keine Parameter.",
-  "linkToActionLogs": "Die Ausgabe dieser Aktion kann unter <logsLink>Analyse > Protokolle</logsLink> angezeigt werden.",
-  "linkToActionHistory": "Die Ausgabe dieser Aktionsinstanz kann auf der <logsLink>Seite \"Aktionsprotokoll\"</logsLink> angezeigt werden.",
+  "linkToActionHistory": "Die Ausgabe dieser Aktionsinstanz kann im Aktionsprotokoll angezeigt werden.",
   "description": "Beschreibung",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Dynamische Parameter konnten nicht aufgelöst werden.",
-  "createPolicyWithName": "Richtlinie mit Aktion {{actionName}} erstellen",
   "deletePolicyWithName": "Richtlinie {{actionName}} löschen",
   "jobTemplate": "Jobvorlage",
   "hostsLimit": "Hostgrenzwert (optional)",
@@ -81,8 +78,8 @@
   "noTagsConfigured": "Keine Tags konfiguriert",
   "value": "Wert",
   "type": "Typ",
-  "automationPolicies": "Automationsrichtlinien",
   "automationPoliciesWithCount": "Automationsrichtlinien ({{count}})",
+  "automationPolicies": "Automationsrichtlinien",
   "copyOf": "(Kopie von) {{name}}",
   "searchActions": "Aktionen suchen",
   "hostsLimitHelpText": "Begrenzt die Ausführung auf den angegebenen Zielhost. Wählen Sie den Wert aus, der mit der Darstellung des Systems im Ansible-Bestand übereinstimmt, oder geben Sie eine Zeichenfolge ein, die von der Ansible-Grenzwertsyntax unterstützt wird.",
@@ -93,9 +90,47 @@
   "tag": "Tag",
   "noTagsAvailable": "Keine Tags verfügbar",
   "actions": "Aktionen",
+  "actionsWithCount": "Aktionen ({{count}})",
+  "titleUrl": "URL",
+  "generateWithAI": "Mit KI generieren",
+  "AISlugContent": "Zum Generieren dieses Inhalts wurde KI verwendet",
+  "createPolicyWithName": "Aktion {{actionName}} anzeigen und Richtlinie erstellen",
+  "viewActionCreatePolicy": "Aktion anzeigen und Richtlinie erstellen",
+  "simpleAIDialog": {
+    "Step1Headline": "Beginnen Sie mit einer von watsonx generierten Aktion, um eine neue Aktion und Automationsrichtlinie für dieses Ereignis zu erstellen.",
+    "Step2Headline": "Geben Sie Details zum Erstellen einer neuen Aktion an.",
+    "Step3Headline": "Geben Sie Details zum Erstellen einer neuen Automationsrichtlinie an.",
+    "step1Title": "Schritt 1: Generierte Aktion auswählen",
+    "step2Title": "Schritt 2: Aktion anpassen",
+    "step3Title": "Schritt 3: Richtlinie erstellen",
+    "policyDetails": "Richtliniendetails",
+    "policyText": "Für den folgenden Aktions-und Ereignisauslöser wird eine neue Richtlinie erstellt:",
+    "policy": {
+      "success": {
+        "title": "Aktion und Richtlinie erstellt",
+        "content": "Eine neue Aktion wurde zum Katalog hinzugefügt und eine neue Richtlinie {{name}} wurde erstellt",
+        "link": "Aktionslink"
+      }
+    }
+  },
+  "SimpleCreatePolicyDialog": {
+    "Step1Headline": "Empfohlene Aktion anzeigen und Automationsrichtlinie für dieses Ereignis erstellen.",
+    "Step2Headline": "Geben Sie Details zum Erstellen einer neuen Automationsrichtlinie an.",
+    "step1Title": "Schritt 1: Empfohlene Aktion anzeigen",
+    "step2Title": "Schritt 2: Richtlinie erstellen",
+    "policy": {
+      "success": {
+        "title": "Richtlinie wird erstellt",
+        "successContentForuserAction": "Eine neue Richtlinie {{name}} wurde erstellt"
+      }
+    }
+  },
+  "userDefinedWithCount": "Vom Benutzer erstellt ({{count}})",
+  "userDefined": "Vom Benutzer erstellt",
+  "aiGeneratedWithCount": "AI-generiert ({{count}})",
+  "aiGenerated": "KI-generiert",
   "ActionCatalog": {
     "actionCatalog": "Aktionskatalog",
-    "actionCatalogWithCount": "Aktionskatalog ({{count}})",
     "action": "Aktion",
     "newAction": "Neue Aktion",
     "createANewAction": "Neue Aktion Erstellen",
@@ -211,6 +246,7 @@
   },
   "actionHistory": {
     "actionHistory": "Protokoll der Aktionen",
+    "goToActionHistory": "Zum Aktionsprotokoll wechseln",
     "actionHistoryWithCount": "Aktionsverlauf ({{count}})",
     "noActionInstances": "Keine Daten verfügbar",
     "external": "Extern",
@@ -301,6 +337,7 @@
     "mobileAppSmartAlert": "Smart Alert für mobile Anwendung",
     "syntheticsSmartAlert": "Synthetics-Smart Alert",
     "logSmartAlert": "Intelligenten Alert protokollieren",
+    "sloSmartAlert": "Smart Alert für Service-Levels",
     "docLinkAndManualCantBeAutomated": "Dokumentationslink und manuelle Aktionen können nicht automatisiert werden.",
     "triggeringAgent": "Auslösender Agent",
     "triggeringHostFqdn": "FQDN des auslösenden Hosts",

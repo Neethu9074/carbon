@@ -65,6 +65,7 @@
   },
   "productAreas": {
     "allApplications": "Todos os Aplicativos",
+    "allActions": "Todas as ações",
     "allWebsites": "Todos os websites",
     "allMobileApps": "Todos os aplicativos móveis",
     "businessMonitoringAccessAllMessage": "Todos os processos de negócios",
@@ -112,7 +113,13 @@
     "title_platforms": "Plataformas",
     "title_websites": "Websites",
     "title_businessMonitoring": "Monitoramento de negócios",
-    "title_syntheticMonitoring": "Monitoramento sintético"
+    "title_syntheticMonitoring": "Monitoramento sintético",
+    "title_event": "Eventos e alertas",
+    "title_logs": "Logs",
+    "title_dashboard": "Painéis customizados",
+    "title_automation": "Automação",
+    "title_agents": "Agentes",
+    "title_access_control": "Controle de Acesso"
   },
   "headingSection": {
     "title": "Escopo de função e acesso",
@@ -151,6 +158,9 @@
     "addButton_syntheticTests": "Selecionar testes sintéticos",
     "descriptionAccessAll_synthetics": "Todos os testes do Synthetic podem ser acessados com a função selecionada.",
     "descriptionLimitedAccess_synthetics": "Selecione a função e inclua os testes do Synthetic abaixo para conceder acesso.",
+    "addButton_actions": "Selecionar ações",
+    "descriptionAccessAll_automation": "Todas as ações podem ser acessadas com a função selecionada.",
+    "descriptionLimitedAccess_automation": "Selecione a função e inclua ações abaixo para conceder acesso.",
     "contribution_filter": "Filtro de contribuição",
     "contributionFilter_description": "O filtro de contribuição é aplicado ao criar novas configurações de aplicativo. Na configuração de aplicativo, o filtro de contribuição pode ser refinado com tags de filtro após um operador {{logicalOperator}}. Uma perspectiva de aplicativo usando as tags de filtro de contribuição é criada automaticamente depois de salvar.",
     "contributionFilter_downstreamCalls": "Determinar o nível máximo de informações adicionais que podem ser incluídas nas perspectivas de aplicativo",
@@ -183,6 +193,7 @@
     "description_no_access_kubernetes": "Não há acesso a namespaces e clusters.",
     "description_no_access_infrastructure": "Sem acesso: o acesso à infraestrutura é negado.",
     "description_no_access_synthetics": "Sem acesso: o acesso ao monitoramento sintético é negado.",
+    "description_no_access_automation": "Sem acesso: o acesso à automação é negado.",
     "description_access_all": "Acessar tudo sem limitação",
     "title_access_all_bizops": "Acesso ilimitado",
     "title_no_access_bizops": "Acesso negado",
@@ -253,7 +264,8 @@
         "access_level": "Acessar todos os testes sintéticos com o tipo de acesso selecionado e quaisquer permissões adicionais."
       },
       "limited_access": {
-        "access_level": "Acessar apenas os testes sintéticos listados com o tipo de acesso selecionado e quaisquer permissões adicionais."
+        "access_level": "Acesse apenas os testes sintéticos listados com o tipo de acesso selecionado e quaisquer permissões adicionais",
+        "access_level_tp": "Acesse todos os testes que estão associados aos APs na seção acima. Além disso, é possível incluir mais testes em seu escopo na lista abaixo."
       },
       "role_permissions_owner": "Crie, configure, visualize e exclua os testes sintéticos.",
       "role_permissions_viewer": "Visualize os testes sintéticos e suas configurações."
@@ -267,6 +279,16 @@
       },
       "role_permissions_owner": "Crie, visualize e exclua os websites.",
       "role_permissions_viewer": "Visualizar websites."
+    },
+    "automation": {
+      "access_all": {
+        "access_level": "Acesse todas as ações e políticas de automação com o tipo de acesso selecionado e quaisquer permissões adicionais."
+      },
+      "limited_access": {
+        "access_level": "Acesse apenas as ações e políticas de automação listadas com o tipo de acesso selecionado e quaisquer permissões adicionais."
+      },
+      "role_permissions_owner": "Crie, configure e exclua ações de automação e visualize o histórico de ações.",
+      "role_permissions_viewer": "Visualize ações, políticas e histórico de automação."
     }
   },
   "cardTitle_Area": "Área",
@@ -328,6 +350,30 @@
         "unknownTag": "Identificação desconhecida: {{tagName}}"
       }
     },
+    "retentionPeriod": {
+      "retentionPeriod": "Período de retenção",
+      "changeRetentionPeriod": "Mudar período de retenção",
+      "retentionDialogDescription": "A mudança do período de retenção para logs impacta o custo e a duração dos \n dados de log disponíveis para análise e painéis customizados.",
+      "logRetentionPeriod": "Período de retenção do log",
+      "changeReason": "Motivo da mudança",
+      "currentRetentionPeriod": "Período de retenção atual",
+      "days": "dias",
+      "aboutRetentionPeriod": "Um período de retenção determina por quanto tempo os dados são mantidos no Instana. ",
+      "learnMore": "Saiba mais.",
+      "typeToConfirm": "Digite CHANGE RETENTION para confirmar a mudança",
+      "typeToContinue": "Digite CHANGE RETENTION para continuar",
+      "reasonValidationMessage": "O motivo da retenção de mudanças não pode estar vazio",
+      "changeError": "Erro! Seu período de retenção não pôde ser mudado.\n Tente novamente ou entre em contato com o suporte.",
+      "changeSuccess": "Sucesso! Seu período de retenção agora mudou para {{value}} dias.",
+      "historyChanges": "Para visualizar o histórico de retenção, abra o",
+      "actionLog": "Log de ações",
+      "historyChanges2": "e procure a retenção de log",
+      "modalTitle": "Período de retenção do log de mudanças",
+      "toastTitleSuccesful": "Período de retenção do log alterado com sucesso",
+      "toastTitleFailed": "Falha na retenção do log de mudanças",
+      "toastMessageFailed": "O período de retenção não pôde ser alterado. Tente novamente ou entre em contato com o suporte.",
+      "contactSupport": "Entre em contato com o suporte"
+    },
     "deleteLogs": {
       "deleteLogs": "Excluir logs",
       "info": "Se estiver tendo uma fuga de informações seguras para o Instana Logs, pode-se continuar a excluir todos os logs para todo o período de retenção de dados sob demanda.",
@@ -337,9 +383,10 @@
       "logs": "LOGS",
       "deletionInfo": "A exclusão de logs pode levar algum tempo.\n Verifique o status na tabela \"Resumo da exclusão de log\".",
       "deletionError": "Os logs não puderam ser excluídos",
-      "deletionSuccess": "Todos os logs foram excluídos",
+      "deletionWarning": "Nenhum dado de log a ser excluído para o intervalo de tempo especificado",
       "success": "Sucesso",
       "failure": "Com falha",
+      "warning": "Aviso",
       "deletionDate": "Data",
       "reason": "Razão",
       "numberOfLogs": "Número de logs",
@@ -359,7 +406,20 @@
       "toastSuccessTitle": "Exclusão de log bem-sucedida",
       "toastSuccessMessage": "Os logs para o período selecionado foram excluídos com sucesso.",
       "toastErrorTitle": "Falha na exclusão do log",
-      "toastErrorMessage": "Os logs não puderam ser excluídos. Tente novamente."
+      "toastErrorMessage": "Os logs não puderam ser excluídos. Tente novamente.",
+      "toastNoLogsMessage": "Nenhum dado de log a ser excluído para o intervalo de tempo especificado."
+    },
+    "logVolume": {
+      "logVolume": "Volume de log",
+      "timeRange": "Intervalo de tempo",
+      "months_1": "Mês atual",
+      "months_3": "Últimos 3 meses",
+      "months_6": "Últimos 6 meses",
+      "months_9": "Últimos 9 meses",
+      "months_12": "Últimos 12 meses",
+      "days_7": "7 dias",
+      "days_20": "20 dias",
+      "days_30": "30 dias"
     },
     "failedToSaveConfig": "Falha ao salvar configuração: {{err}}",
     "IdPMetadataRequired": "O arquivo de metadados IDP é necessário",
@@ -467,6 +527,8 @@
     "pleaseDefineAtLeastOneEmail": "Defina pelo menos um e-mail",
     "remove": "Remover",
     "addEmail": "Incluir e-mail",
+    "customSubjects": "Assunto(s) customizado(s)",
+    "addCustomSubject": "Incluir assunto customizado",
     "webhookUrlToCiscoWebexTeams": "URL de webhook para Cisco Webex Teams <incomingWebhookLink>Webhook de entrada</incomingWebhookLink>",
     "webhookUrlToIbmWatsonAIOps": "URL do webhook para o IBM Watson AIOps <incomingWebhookLink>Webhook de entrada</incomingWebhookLink>",
     "webhookUrlToZChatOps": "URL de incidentes Z ChatOps",
@@ -934,6 +996,8 @@
     "showsUpInTheIssueDescription": "Aparece na descrição do problema. Deve ser o mais descritivo possível. Suporta Markdown.",
     "issueSeverity": "Gravidade do problema",
     "incident": "Incidente",
+    "issue": "Problema",
+    "change": "Mudança",
     "gracePeriod": "Período de carência",
     "periodToWaitBeforeClosingTheIssueOnceConditionsAreNoLongerMet": "Período de espera antes de encerrar o problema uma vez que as condições não são mais atendidas.",
     "closeAfterHelperDescription": "Se um host estiver off-line por mais tempo do que o período definido, a Instana não esperará que ele reapareça mais e o evento será encerrado após o período de carência.",
@@ -1179,7 +1243,17 @@
     "access": "Acesso",
     "accessForTenantUnit": "Acesso para {{tenantUnit}}-{{tenant}}",
     "numberOfMembers": "Número de membros",
-    "groupEntityName": "grupo {{entityName}}"
+    "groupEntityName": "grupo {{entityName}}",
+    "selectEventType": "Selecionar tipo de evento",
+    "openSubject": "Abrir assunto {{event_type}}",
+    "openEventType": "Abra {{event_type}}",
+    "closeSubject": "Fechar assunto {{event_type}}",
+    "closeEventType": "Fechar {{event_type}}",
+    "changeSubject": "Mudar assunto",
+    "changeEvent": "Alterar evento",
+    "advancedSettingsMessage": "Ao habilitar isso, você terá a opção de personalizar o assunto para os alertas de evento que você recebe com base no tipo. Se preferir não customizar assuntos de e-mail, você poderá simplesmente desconsiderar essa opção.",
+    "customSubjectNotProvided": "Se um assunto customizado não for fornecido, o Instana enviará um e-mail de alerta com o assunto predefinido.",
+    "sendTestEmail": "Enviar e-mail de teste"
   },
   "languageSelection": {
     "language": "Idioma",
@@ -1300,5 +1374,28 @@
     "newMaintenanceWindowDefaultName": "Nova configuração de manutenção"
   },
   "settings": "Configurações",
-  "testAlertChannelSuccess": "Alerta de teste enviado para o canal de alerta {{channel}}"
+  "testAlertChannelSuccess": "Alerta de teste enviado para o canal de alerta {{channel}}",
+  "ShareAndInviteDialogBox": {
+    "share": "Compartilhar",
+    "inviteYourColleagues": "Convide seus colegas para se associarem a essa instância do Instana.",
+    "collaborateIfYouWantHelp": "Colabore se você quiser pedir ajuda ou compartilhar um painel, por exemplo.",
+    "emailAddress": "Endereço de e-mail",
+    "add": "Incluir",
+    "addUser": "Incluir usuário",
+    "youCanEditThisMessage": "É possível editar esta mensagem.",
+    "group": "Grupo",
+    "groupToolTip": "O grupo controla o acesso de usuário no locatário. Para obter acesso diferente, é possível incluir ou editar grupos de usuários nas configurações de Usuário.",
+    "newGroup": "Novo Grupo",
+    "emailMessage": "E-mail (opcional)",
+    "defaultEmailMessage": "Inclua uma nota aqui se quiser pedir ajuda ou fornecer informações relevantes sobre a página que você está compartilhando.",
+    "pageLink": "Link de página",
+    "currentTimeRange": "Intervalo de tempo atual",
+    "fixateTime": "Bloquear intervalo de tempo atual",
+    "agentKey": "Chave do agente",
+    "cancel": "Cancelar",
+    "send": "Enviar",
+    "invitationSend": "Convite enviado",
+    "somethingWentWrong": "Ocorreu um problema.",
+    "failedToSendInvitation": "Seu convite não foi entregue. Tente novamente."
+  }
 }

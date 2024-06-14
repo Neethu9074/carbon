@@ -8,7 +8,6 @@
   "entityInfoPresenterDefaultLabel": "位置：",
   "entityInfoLabelOfService": "服务：",
   "titleDetail": "详细信息",
-  "titleDetails": "详细信息",
   "titleMetrics": "指标",
   "titleScope": "作用域",
   "titleDescription": "描述",
@@ -46,6 +45,9 @@
   "titleEmptyEvents_issue": "无可用问题",
   "titleEmptyEvents_change": "无可用的变更",
   "titleEmptyEvents_monitoringIssue": "无可用监视问题",
+  "titleManualCloseIssue": "关闭问题",
+  "titleManualCloseIncident": "关闭突发事件",
+  "closeIssue": "关闭此问题",
   "explanationEmptyEvents_event": "针对所选时间范围未检索到任何事件",
   "explanationEmptyEvents_incident": "针对所选时间范围未检索到任何突发事件",
   "explanationEmptyEvents_issue": "针对所选时间范围未检索到任何问题",
@@ -67,7 +69,6 @@
   "triggered": "已触发：",
   "started": "开始：",
   "ended": "结束：",
-  "active": "活动",
   "stateActive": "活动",
   "stateClosedByInstana": "由 Instana 关闭",
   "stateManuallyClosed": "手动关闭",
@@ -180,7 +181,13 @@
     "highProbabilityBadgeText": "此概率评级基于所讨论的实体不正常的概率。 高概率表示根据提供的证据，此实体可能存在问题。",
     "moderateProbabilityBadgeText": "此概率评级基于所讨论的实体不正常的概率。 此实体很可能是根本原因，但需要进行进一步分析。",
     "lowProbabilityBadgeText": "此概率评级基于所讨论的实体不正常的概率。 鉴于目前的信息，该组件不正常的可能性很低，但需要进一步调查。",
-    "naProbabilityBadgeText": "此概率评级基于所讨论的实体不正常的概率。 很遗憾，无法确定此事件的概率评级。"
+    "naProbabilityBadgeText": "此概率评级基于所讨论的实体不正常的概率。 很遗憾，无法确定此事件的概率评级。",
+    "evidenceTextFailed": "通过 {{root_cause_entity_type}} {{root_cause_entity_name}} 的调用的总错误率较高：{{rca_error_percent}}%。",
+    "evidence": "证据",
+    "evidenceTextNotFailedLower": "未通过 {{root_cause_entity_type}} {{root_cause_entity_name}} 的相同实体的调用的错误率较低：{{non_rca_error_rate}}%。",
+    "evidenceTextNotFailedHigher": "未通过 {{root_cause_entity_type}} {{root_cause_entity_name}} 的相同实体的调用的错误率较高：{{non_rca_error_rate}}%。",
+    "evidenceTextNotFailedSame": "未通过 {{root_cause_entity_type}} {{root_cause_entity_name}} 的相同实体的调用的错误率为：{{non_rca_error_rate}}%。",
+    "regenerateProbableRootCause": "重新生成可能的根本原因"
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "事件摘要",
@@ -188,7 +195,8 @@
     "errorDescription": "无法为此事件创建摘要",
     "summarizationHelpfulText": "此摘要是否有帮助？",
     "alertChannelTableTitle": "与事件关联的警报通道",
-    "noDataAlertChannels": "无法将任何警报通道与此事件相关联"
+    "noDataAlertChannels": "无法将任何警报通道与此事件相关联",
+    "actionText": "在过去的 <strong>{{timeWindow}} {{timeWindowFormat}}</strong> 天中，对于与突发事件关联的事件配置 <strong>{{eventSpecId}}</strong>，运行了类型为 <strong>ANSIBLE/SCRIPT/HTTP</strong> 的 <strong>{{actionStats}}</strong> 操作"
   },
   "feedback": {
     "skip": "跳过",
@@ -208,5 +216,25 @@
   "bizops": {
     "titleImpactedBusinessProcesses": "受影响的业务流程",
     "titleImpactedBusinessProcessesIncident": "用于触发事件的受影响业务流程"
+  },
+  "closeEventDialog": {
+    "reason": "请告知我们您关闭问题的原因",
+    "warning": "关闭此问题是不可逆操作",
+    "comments": "注释",
+    "closeIssue": "关闭问题",
+    "closeIncident": "关闭此突发事件",
+    "closedByLabel": "关闭者"
+  },
+  "notes": {
+    "openNotes": "打开注释和活动",
+    "closeNotes": "关闭注释和活动",
+    "notesActivity": "注释和活动",
+    "techPreview": "技术预览",
+    "incidentNotes": "突发事件注释",
+    "addNote": "添加注释",
+    "you": "您",
+    "noNotes": "尚未添加注释",
+    "noNotesDetails": "首先为您的团队添加注释。",
+    "typeSomething": "输入内容..."
   }
 }

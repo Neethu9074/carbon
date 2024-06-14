@@ -297,8 +297,11 @@
       "thresholdForm": {
         "addThresholdColorization": "Añadir coloración basada en umbral",
         "threshold": "Umbral",
-        "critical": "Crítico si latencia",
-        "warning": "Aviso si latencia"
+        "critical": "Crítico cuando",
+        "warning": "Aviso cuando",
+        "criticalValidator": "El umbral crítico debe ser mayor que el umbral de aviso para los operadores > y >=.",
+        "warningValidator": "El umbral de aviso debe ser mayor que el umbral crítico para los operadores < y < =.",
+        "bytes": "Bytes"
       },
       "bigNumber": "Número grande"
     },

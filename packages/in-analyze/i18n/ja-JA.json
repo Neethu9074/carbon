@@ -272,6 +272,7 @@
     "titleParameters": "パラメーター",
     "analyzeLogsLabel": "ログの分析",
     "similarLogs": "類似するログ",
+    "message": "メッセージ",
     "similarServiceLogs": "このサービスのコンテキストでログを表示",
     "restrictedAccessExpl": "この情報にアクセスする権限がありません。"
   },

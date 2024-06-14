@@ -466,6 +466,7 @@
       "smartAlertsTab": "スマート・アラート",
       "configurationTab": "構成",
       "isCertificateValid": "前回の実行 - 証明書は有効です",
+      "resultsCertificateValid": "証明書は有効です",
       "certificateValid": "はい",
       "certificateNotValid": "いいえ",
       "daysRemaining": "前回の実行 - 残り日数",
@@ -614,7 +615,8 @@
         "daysRemaining": "残り日数",
         "dateOfIssue": "発行日",
         "dateOfExpiry": "有効期限の日付"
-      }
+      },
+      "failedRunErrorTypeTitle": "エラー・タイプ"
     },
     "noDataAvailable": {
       "resultsTitle": "表示可能な結果はありません",
@@ -680,6 +682,7 @@
       },
       "configurationEditAction": "編集",
       "configurationDeleteAction": "削除",
+      "configurationUnsupported": "サポートされていないテスト・タイプです。",
       "timeoutLabel": "Timeout",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "再試行戦略",
@@ -691,9 +694,9 @@
       "markSyntheticCall": "マーク・シンセティック・コール",
       "hostname": "ホスト名",
       "port": "ポート",
-      "daysRemaining": "証明書の有効期間が以下の場合、テストは失敗します",
-      "day": "日、期限切れまで残っている",
-      "days": "日、期限切れまで残っている"
+      "daysRemaining": "失敗構成",
+      "day": "証明書の有効期間が満了まで残り {{daysRemainingCheck}} 日である場合、テストは失敗します",
+      "days": "証明書の有効期間が満了まで残り {{daysRemainingCheck}} 日である場合、テストは失敗します"
     }
   }
 }

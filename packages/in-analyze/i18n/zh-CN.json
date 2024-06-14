@@ -272,6 +272,7 @@
     "titleParameters": "参数",
     "analyzeLogsLabel": "分析日志",
     "similarLogs": "相似日志",
+    "message": "消息",
     "similarServiceLogs": "显示此服务上下文中的日志",
     "restrictedAccessExpl": "您没有访问此信息的许可权"
   },

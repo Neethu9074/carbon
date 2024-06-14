@@ -65,6 +65,7 @@
   },
   "productAreas": {
     "allApplications": "所有应用程序",
+    "allActions": "所有操作",
     "allWebsites": "所有 Web 站点",
     "allMobileApps": "所有移动应用程序",
     "businessMonitoringAccessAllMessage": "所有业务流程",
@@ -112,7 +113,13 @@
     "title_platforms": "平台",
     "title_websites": "Web 站点",
     "title_businessMonitoring": "业务监视",
-    "title_syntheticMonitoring": "合成监视"
+    "title_syntheticMonitoring": "合成监视",
+    "title_event": "事件和警报",
+    "title_logs": "日志",
+    "title_dashboard": "定制仪表板",
+    "title_automation": "自动化",
+    "title_agents": "代理",
+    "title_access_control": "访问控制"
   },
   "headingSection": {
     "title": "角色和访问作用域",
@@ -151,6 +158,9 @@
     "addButton_syntheticTests": "选择合成测试",
     "descriptionAccessAll_synthetics": "可以使用所选角色访问所有合成测试。",
     "descriptionLimitedAccess_synthetics": "选择角色并在下面添加合成测试以授予访问权。",
+    "addButton_actions": "选择操作",
+    "descriptionAccessAll_automation": "可以使用所选角色访问所有操作。",
+    "descriptionLimitedAccess_automation": "选择角色并添加以下操作以授予访问权。",
     "contribution_filter": "添加项过滤器",
     "contributionFilter_description": "创建新的应用程序配置时，将应用添加项过滤器。 在应用程序配置上，可以在 {{logicalOperator}} 运算符之后使用过滤器标记来优化添加项过滤器。 在您保存后，系统将自动创建一个使用添加项过滤器标记的应用程序透视图。",
     "contributionFilter_downstreamCalls": "确定可以包含在应用程序透视图中的其他信息的最大级别",
@@ -183,6 +193,7 @@
     "description_no_access_kubernetes": "无法访问名称空间和集群。",
     "description_no_access_infrastructure": "无访问权：拒绝访问基础结构。",
     "description_no_access_synthetics": "无访问权：拒绝访问合成监视。",
+    "description_no_access_automation": "无访问权：拒绝访问自动化。",
     "description_access_all": "全部访问，但不限于",
     "title_access_all_bizops": "无限制访问",
     "title_no_access_bizops": "访问被拒绝",
@@ -253,7 +264,8 @@
         "access_level": "使用所选访问权类型和任何其他许可权来访问所有合成测试。"
       },
       "limited_access": {
-        "access_level": "使用所选访问权类型和任何其他许可权来仅访问所列的合成测试。"
+        "access_level": "仅访问具有所选访问权类型和任何其他许可权的所列合成测试",
+        "access_level_tp": "访问以上部分中与 AP 关联的所有测试。 此外，您可以在以下列表中向其作用域添加更多测试。"
       },
       "role_permissions_owner": "创建、配置、查看和删除合成测试。",
       "role_permissions_viewer": "查看合成测试及其配置。"
@@ -267,6 +279,16 @@
       },
       "role_permissions_owner": "创建、查看和删除 Web 站点。",
       "role_permissions_viewer": "查看 Web 站点。"
+    },
+    "automation": {
+      "access_all": {
+        "access_level": "访问具有所选访问权类型和任何其他许可权的所有自动化操作和策略。"
+      },
+      "limited_access": {
+        "access_level": "仅访问具有所选访问权类型和任何其他许可权的所列自动化操作和策略。"
+      },
+      "role_permissions_owner": "创建、配置、查看、删除自动化操作并查看操作历史记录。",
+      "role_permissions_viewer": "查看自动化操作、策略和历史记录。"
     }
   },
   "cardTitle_Area": "区域",
@@ -328,6 +350,30 @@
         "unknownTag": "未知标记：{{tagName}}"
       }
     },
+    "retentionPeriod": {
+      "retentionPeriod": "保留期",
+      "changeRetentionPeriod": "更改保留期",
+      "retentionDialogDescription": "更改日志的保留期会影响可用于分析和定制仪表板的\n日志数据的成本和持续时间。",
+      "logRetentionPeriod": "日志保留期",
+      "changeReason": "更改原因",
+      "currentRetentionPeriod": "当前保留期",
+      "days": "天数",
+      "aboutRetentionPeriod": "保留期将决定数据在 Instana 中的保留时间。 ",
+      "learnMore": "了解更多信息。",
+      "typeToConfirm": "输入 CHANGE RETENTION 以确认更改",
+      "typeToContinue": "输入 CHANGE RETENTION 以继续",
+      "reasonValidationMessage": "更改保留原因不能为空",
+      "changeError": "出错了！ 无法更改保留期。\n 请重试或联系支持人员。",
+      "changeSuccess": "成功！ 保留期现在已更改为 {{value}} 天。",
+      "historyChanges": "要查看保留历史记录，请打开",
+      "actionLog": "操作日志",
+      "historyChanges2": "并搜索日志保留时间",
+      "modalTitle": "更改日志保留期",
+      "toastTitleSuccesful": "已成功更改日志保留期",
+      "toastTitleFailed": "更改日志保留时间失败",
+      "toastMessageFailed": "无法更改保留期。 请重试或联系支持人员。",
+      "contactSupport": "联系支持人员"
+    },
     "deleteLogs": {
       "deleteLogs": "删除日志",
       "info": "如果您遇到向 Instana 日志泄露安全信息的情况，那么可以根据需要继续删除整个数据保留期的所有日志。",
@@ -337,9 +383,10 @@
       "logs": "日志",
       "deletionInfo": "删除日志可能需要一些时间。\n 检查“日志删除摘要”表中的状态。",
       "deletionError": "无法删除日志",
-      "deletionSuccess": "已删除所有日志",
+      "deletionWarning": "给定时间范围内没有要删除的日志数据",
       "success": "成功",
       "failure": "失败",
+      "warning": "警告",
       "deletionDate": "日期",
       "reason": "原因",
       "numberOfLogs": "日志数",
@@ -359,7 +406,20 @@
       "toastSuccessTitle": "日志删除成功",
       "toastSuccessMessage": "已成功删除所选时间段的日志。",
       "toastErrorTitle": "日志删除失败",
-      "toastErrorMessage": "无法删除日志。 请重试。"
+      "toastErrorMessage": "无法删除日志。 请重试。",
+      "toastNoLogsMessage": "给定时间范围内没有要删除的日志数据。"
+    },
+    "logVolume": {
+      "logVolume": "日志量",
+      "timeRange": "时间范围",
+      "months_1": "当月",
+      "months_3": "过去 3 个月",
+      "months_6": "过去 6 个月",
+      "months_9": "过去 9 个月",
+      "months_12": "过去 12 个月",
+      "days_7": "7 天",
+      "days_20": "20 天",
+      "days_30": "30 天"
     },
     "failedToSaveConfig": "无法保存配置：{{err}}",
     "IdPMetadataRequired": "IdP 元数据文件是必需的",
@@ -467,6 +527,8 @@
     "pleaseDefineAtLeastOneEmail": "请至少定义一封电子邮件",
     "remove": "移除",
     "addEmail": "添加电子邮件",
+    "customSubjects": "定制主题",
+    "addCustomSubject": "添加定制主题",
     "webhookUrlToCiscoWebexTeams": "Cisco Webex Teams 的 Webhook URL <incomingWebhookLink>传入的 Web 挂钩</incomingWebhookLink>",
     "webhookUrlToIbmWatsonAIOps": "IBM Watson AIOps 的 Webhook URL<incomingWebhookLink>传入的 Web 挂钩</incomingWebhookLink>",
     "webhookUrlToZChatOps": "Z ChatOps 事件 URL",
@@ -934,6 +996,8 @@
     "showsUpInTheIssueDescription": "在问题描述中显示。应尽可能描述。支持降价。",
     "issueSeverity": "问题严重性",
     "incident": "突发事件",
+    "issue": "问题",
+    "change": "更改",
     "gracePeriod": "宽限期",
     "periodToWaitBeforeClosingTheIssueOnceConditionsAreNoLongerMet": "不再满足条件后，在关闭问题之前等待的时间段。",
     "closeAfterHelperDescription": "如果某个主机处于脱机状态的时间超过定义的时间段，那么 Instana 预计该主机不再重新出现，且该事件将在宽限期过后关闭。",
@@ -1179,7 +1243,17 @@
     "access": "访问权",
     "accessForTenantUnit": "{{tenantUnit}}-{{tenant}} 的访问权",
     "numberOfMembers": "成员数",
-    "groupEntityName": "组 {{entityName}}"
+    "groupEntityName": "组 {{entityName}}",
+    "selectEventType": "选择事件类型",
+    "openSubject": "打开 {{event_type}} 主题",
+    "openEventType": "打开 {{event_type}}",
+    "closeSubject": "关闭 {{event_type}} 主题",
+    "closeEventType": "关闭 {{event_type}}",
+    "changeSubject": "更改主题",
+    "changeEvent": "变更事件",
+    "advancedSettingsMessage": "通过启用此选项，您可以选择根据所收到的事件警报的类型对其主题进行个性化设置。 如果您不想定制电子邮件主题，那么可以直接忽略此选项。",
+    "customSubjectNotProvided": "如果未提供定制主题，Instana 将发送具有预定义主题的警报电子邮件。",
+    "sendTestEmail": "发送测试电子邮件"
   },
   "languageSelection": {
     "language": "语言",
@@ -1300,5 +1374,28 @@
     "newMaintenanceWindowDefaultName": "新建维护配置"
   },
   "settings": "设置",
-  "testAlertChannelSuccess": "测试警报已发送到 {{channel}} 警报通道"
+  "testAlertChannelSuccess": "测试警报已发送到 {{channel}} 警报通道",
+  "ShareAndInviteDialogBox": {
+    "share": "共享",
+    "inviteYourColleagues": "邀请您的同事加入此 Instana 实例。",
+    "collaborateIfYouWantHelp": "如果您想寻求帮助（例如共享仪表板），则可以进行协作。",
+    "emailAddress": "电子邮件地址",
+    "add": "添加",
+    "addUser": "添加用户",
+    "youCanEditThisMessage": "您可以编辑此消息。",
+    "group": "组",
+    "groupToolTip": "该组可以控制整个租户的用户访问权。 对于不同的访问权，您可以在“用户设置”中添加或编辑用户组。",
+    "newGroup": "新建组",
+    "emailMessage": "电子邮件消息（可选）",
+    "defaultEmailMessage": "如果要寻求帮助或提供有关所共享页面的任何相关信息，请在此处添加注释。",
+    "pageLink": "页面链接",
+    "currentTimeRange": "当前时间范围",
+    "fixateTime": "锁定当前时间范围",
+    "agentKey": "代理程序密钥",
+    "cancel": "取消",
+    "send": "发送",
+    "invitationSend": "已发送邀请",
+    "somethingWentWrong": "发生错误。",
+    "failedToSendInvitation": "未传递您的邀请。 再次尝试。"
+  }
 }

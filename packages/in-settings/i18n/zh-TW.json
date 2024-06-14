@@ -65,6 +65,7 @@
   },
   "productAreas": {
     "allApplications": "所有應用程式",
+    "allActions": "所有動作",
     "allWebsites": "所有網站",
     "allMobileApps": "所有行動式應用程式",
     "businessMonitoringAccessAllMessage": "所有商業程序",
@@ -112,7 +113,13 @@
     "title_platforms": "平台",
     "title_websites": "網站",
     "title_businessMonitoring": "商業監視",
-    "title_syntheticMonitoring": "綜合監視"
+    "title_syntheticMonitoring": "綜合監視",
+    "title_event": "事件及警示",
+    "title_logs": "日誌",
+    "title_dashboard": "自訂儀表板",
+    "title_automation": "自動化",
+    "title_agents": "代理程式",
+    "title_access_control": "存取控制"
   },
   "headingSection": {
     "title": "角色及存取範圍",
@@ -151,6 +158,9 @@
     "addButton_syntheticTests": "選取虛構測試",
     "descriptionAccessAll_synthetics": "可以使用選取的角色來存取所有虛構測試。",
     "descriptionLimitedAccess_synthetics": "選取角色並在下面新增虛構測試以授與存取權。",
+    "addButton_actions": "選取動作",
+    "descriptionAccessAll_automation": "所有動作都可以使用選取的角色來存取。",
+    "descriptionLimitedAccess_automation": "選取角色並在下面新增動作以授與存取權。",
     "contribution_filter": "貢獻度過濾器",
     "contributionFilter_description": "建立新的應用程式配置時，會套用貢獻度過濾器。 在應用程式配置中，可以使用 {{logicalOperator}} 運算子後面的過濾器標籤來精簡要素項過濾器。 儲存後，即會自動建立使用要素項過濾器標籤的應用程式視景。",
     "contributionFilter_downstreamCalls": "決定可包含在應用程式視景中的其他資訊層次上限",
@@ -183,6 +193,7 @@
     "description_no_access_kubernetes": "無法存取名稱空間及叢集。",
     "description_no_access_infrastructure": "無存取權：拒絕存取基礎架構。",
     "description_no_access_synthetics": "無存取權：拒絕存取虛構監視。",
+    "description_no_access_automation": "無存取權：拒絕存取自動化。",
     "description_access_all": "不受限制地存取全部",
     "title_access_all_bizops": "無限制存取",
     "title_no_access_bizops": "拒絕存取",
@@ -253,7 +264,8 @@
         "access_level": "使用選取的存取類型及任何其他許可權來存取所有綜合測試。"
       },
       "limited_access": {
-        "access_level": "使用選取的存取類型及任何其他許可權僅存取所列出的綜合測試。"
+        "access_level": "僅使用選取的存取權類型及任何其他許可權來存取列出的綜合測試",
+        "access_level_tp": "從上述區段存取與 AP 相關聯的所有測試。 此外，您可以在下列清單中，將更多測試新增至其範圍。"
       },
       "role_permissions_owner": "建立、配置、檢視及刪除綜合測試。",
       "role_permissions_viewer": "檢視綜合測試及其配置。"
@@ -267,6 +279,16 @@
       },
       "role_permissions_owner": "建立、檢視及刪除網站。",
       "role_permissions_viewer": "檢視網站。"
+    },
+    "automation": {
+      "access_all": {
+        "access_level": "使用選取的存取權類型及任何其他許可權來存取所有自動化動作和原則。"
+      },
+      "limited_access": {
+        "access_level": "僅使用選取的存取權類型及任何其他許可權來存取列出的自動化動作和原則。"
+      },
+      "role_permissions_owner": "建立、配置、檢視、刪除自動化動作及檢視動作歷程。",
+      "role_permissions_viewer": "檢視自動化動作、原則及歷程。"
     }
   },
   "cardTitle_Area": "區域",
@@ -328,6 +350,30 @@
         "unknownTag": "不明標籤：{{tagName}}"
       }
     },
+    "retentionPeriod": {
+      "retentionPeriod": "保留期間",
+      "changeRetentionPeriod": "變更保留期間",
+      "retentionDialogDescription": "變更日誌的保留期間會影響可用於分析及自訂儀表板之日誌資料的成本及持續時間。\n",
+      "logRetentionPeriod": "日誌保留期間",
+      "changeReason": "變更原因",
+      "currentRetentionPeriod": "現行保留期間",
+      "days": "日",
+      "aboutRetentionPeriod": "保留期間會決定在 Instana 中保留資料的時間長度。 ",
+      "learnMore": "進一步瞭解。",
+      "typeToConfirm": "鍵入 CHANGE RETENTION 以確認變更",
+      "typeToContinue": "鍵入 CHANGE RETENTION 以繼續",
+      "reasonValidationMessage": "變更保留原因不能是空的",
+      "changeError": "錯誤！ 無法變更您的保留期間。\n 請重試，或者與支援中心聯絡。",
+      "changeSuccess": "成功！ 您的保留期間現在已變更為 {{value}} 天。",
+      "historyChanges": "若要檢視保留歷程，請開啟",
+      "actionLog": "動作日誌",
+      "historyChanges2": "並搜尋日誌保留",
+      "modalTitle": "變更日誌保留期間",
+      "toastTitleSuccesful": "已順利變更日誌保留期間",
+      "toastTitleFailed": "變更日誌保留失敗",
+      "toastMessageFailed": "無法變更保留期間。 請重試，或者與支援中心聯絡。",
+      "contactSupport": "請聯絡支援中心"
+    },
     "deleteLogs": {
       "deleteLogs": "刪除日誌",
       "info": "如果您遇到將安全資訊洩漏至 Instana 日誌的情況，您可以根據需求繼續刪除整個資料保留期間的所有日誌。",
@@ -337,9 +383,10 @@
       "logs": "日誌",
       "deletionInfo": "刪除日誌可能需要一些時間。\n 請檢查「日誌刪除摘要」表格中的狀態。",
       "deletionError": "無法刪除日誌",
-      "deletionSuccess": "已刪除所有日誌",
+      "deletionWarning": "在給定的時間範圍內沒有日誌資料可刪除",
       "success": "成功",
       "failure": "失敗",
+      "warning": "警告",
       "deletionDate": "日期",
       "reason": "原因",
       "numberOfLogs": "日誌數",
@@ -359,7 +406,20 @@
       "toastSuccessTitle": "日誌刪除成功",
       "toastSuccessMessage": "已順利刪除所選時段的日誌。",
       "toastErrorTitle": "日誌刪除失敗",
-      "toastErrorMessage": "無法刪除日誌。 請重試。"
+      "toastErrorMessage": "無法刪除日誌。 請重試。",
+      "toastNoLogsMessage": "在給定的時間範圍內沒有日誌資料可刪除。"
+    },
+    "logVolume": {
+      "logVolume": "日誌量",
+      "timeRange": "時間範圍",
+      "months_1": "當月",
+      "months_3": "過去 3 個月",
+      "months_6": "過去 6 個月",
+      "months_9": "過去 9 個月",
+      "months_12": "過去 12 個月",
+      "days_7": "7 天",
+      "days_20": "20 天",
+      "days_30": "30 天"
     },
     "failedToSaveConfig": "無法儲存配置：{{err}}",
     "IdPMetadataRequired": "需要 IdP meta 資料檔",
@@ -467,6 +527,8 @@
     "pleaseDefineAtLeastOneEmail": "請定義至少一封電子郵件",
     "remove": "移除",
     "addEmail": "新增電子郵件",
+    "customSubjects": "自訂主旨",
+    "addCustomSubject": "新增自訂主旨",
     "webhookUrlToCiscoWebexTeams": "這個 Webhook URL 指向 Cisco Webex 團隊<incomingWebhookLink>送入的 Webhook</incomingWebhookLink>",
     "webhookUrlToIbmWatsonAIOps": "這個 Webhook URL 指向 IBM Watson AIOps <incomingWebhookLink>送入的 Webhook</incomingWebhookLink>",
     "webhookUrlToZChatOps": "Z ChatOps 突發事件 URL",
@@ -934,6 +996,8 @@
     "showsUpInTheIssueDescription": "顯示在問題說明中。應盡可能是敘述性。支援 Markdown。",
     "issueSeverity": "問題嚴重性",
     "incident": "事故",
+    "issue": "問題",
+    "change": "變更",
     "gracePeriod": "寬限期",
     "periodToWaitBeforeClosingTheIssueOnceConditionsAreNoLongerMet": "一旦條件不再符合，則關閉問題之前的等待期。",
     "closeAfterHelperDescription": "如果主機離線的時間超過定義的期間，則 Instana 不會預期主機會再重新出現，且事件將會在寬限期之後關閉。",
@@ -1179,7 +1243,17 @@
     "access": "存取",
     "accessForTenantUnit": "{{tenantUnit}}-{{tenant}} 的存取權",
     "numberOfMembers": "成員數",
-    "groupEntityName": "群組 {{entityName}}"
+    "groupEntityName": "群組 {{entityName}}",
+    "selectEventType": "選取事件類型",
+    "openSubject": "開啟 {{event_type}} 主旨",
+    "openEventType": "開啟 {{event_type}}",
+    "closeSubject": "關閉 {{event_type}} 主旨",
+    "closeEventType": "關閉 {{event_type}}",
+    "changeSubject": "變更主旨",
+    "changeEvent": "變更事件",
+    "advancedSettingsMessage": "透過啟用此選項，您將可以選擇根據事件警示的類型來個人化所接收事件警示的主旨。 如果您不想要自訂電子郵件主旨，則可以直接忽略此選項。",
+    "customSubjectNotProvided": "如果未提供自訂主旨，Instana 將傳送包含預先定義主旨的警示電子郵件。",
+    "sendTestEmail": "傳送測試電子郵件"
   },
   "languageSelection": {
     "language": "語言",
@@ -1300,5 +1374,28 @@
     "newMaintenanceWindowDefaultName": "新建維護配置"
   },
   "settings": "設定",
-  "testAlertChannelSuccess": "測試警示已傳送至 {{channel}} 警示通道"
+  "testAlertChannelSuccess": "測試警示已傳送至 {{channel}} 警示通道",
+  "ShareAndInviteDialogBox": {
+    "share": "共用",
+    "inviteYourColleagues": "邀請您的同事加入這個 Instana 實例。",
+    "collaborateIfYouWantHelp": "例如，如果您想要要求協助或共用儀表板，請分工合作。",
+    "emailAddress": "電子郵件位址",
+    "add": "新增",
+    "addUser": "新增使用者",
+    "youCanEditThisMessage": "您可以編輯此訊息。",
+    "group": "群組",
+    "groupToolTip": "群組會控制跨租戶的使用者存取權。 如需不同的存取權，您可以在「使用者」設定中新增或編輯使用者群組。",
+    "newGroup": "新建群組",
+    "emailMessage": "電子郵件訊息（選用）",
+    "defaultEmailMessage": "如果您想要要求協助或提供您正在共用之頁面的任何相關資訊，請在這裡新增附註。",
+    "pageLink": "頁面鏈結",
+    "currentTimeRange": "現行時間範圍",
+    "fixateTime": "鎖定現行時間範圍",
+    "agentKey": "代理程式金鑰",
+    "cancel": "取消",
+    "send": "傳送",
+    "invitationSend": "已傳送邀請",
+    "somethingWentWrong": "發生錯誤。",
+    "failedToSendInvitation": "未遞送您的邀請。 請重試。"
+  }
 }

@@ -12,7 +12,9 @@
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "복원",
     "alertHeaderRestoreDeleteTooltip": "삭제",
     "alertHeaderEditTooltip": "편집",
+    "alertHeaderEditTooltipNew": "편집(새로 작성)",
     "alertHeaderDuplicateTooltip": "복제",
+    "alertHeaderDuplicateTooltipNew": "중복(새로 작성)",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "확인하시기 바랍니다.",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "<strong>{{alertConfigName}}</strong> 경보를 제거하시겠습니까?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "제거",
@@ -285,12 +287,16 @@
         "slowness": {
           "name": "느린 호출",
           "headline": "느린 호출에 대한 자동 경보",
-          "text": "이 애플리케이션 퍼스펙티브의 선택한 서비스 및 엔드포인트에 대한 호출이 보통보다 느려지는 경우 경보를 수신합니다."
+          "text": "이 애플리케이션 퍼스펙티브의 선택한 서비스 및 엔드포인트에 대한 호출이 보통보다 느려지는 경우 경보를 수신합니다.",
+          "tearSheetHeadline": "호출 수에 대한 경보",
+          "tearSheetDescription": "이 애플리케이션 퍼스펙티브의 선택된 서비스 및 엔드포인트에 대한 호출이 임계값보다 느린 경우 자동 경보가 발생합니다."
         },
         "errors": {
           "name": "잘못된 호출",
           "headline": "잘못된 호출에 대한 자동 경보",
-          "text": "이 애플리케이션 퍼스펙티브의 선택된 서비스 및 엔드포인트에 대한 잘못된 호출의 비율 또는 수가 정상보다 높은 경우 경보를 수신합니다."
+          "text": "이 애플리케이션 퍼스펙티브의 선택된 서비스 및 엔드포인트에 대한 잘못된 호출의 비율 또는 수가 정상보다 높은 경우 경보를 수신합니다.",
+          "tearSheetHeadline": "잘못된 호출에 대한 자동 경보",
+          "tearSheetDescription": "이 애플리케이션 퍼스펙티브의 선택된 서비스 및 엔드포인트에 대한 잘못된 호출의 비율 또는 수가 임계값을 초과하면 경보를 수신합니다."
         },
         "logs": {
           "name": "로그",
@@ -303,13 +309,17 @@
           "name": "HTTP 상태 코드",
           "headline": "HTTP 상태 코드에 대한 자동 경보",
           "text": "일치하는 HTTP 상태 코드가 보통보다 자주 발생하는 경우 항상 경보를 수신합니다.",
-          "incompleteRuleMessage": "이 경보가 트리거될 때 표시할 상태 코드를 선택하십시오."
+          "incompleteRuleMessage": "이 경보가 트리거될 때 표시할 상태 코드를 선택하십시오.",
+          "tearSheetHeadline": "HTTP 상태 코드에 대한 자동 경보",
+          "tearSheetDescription": "일치하는 HTTP 상태 코드가 임계값보다 더 자주 발생하는 경우 경보를 수신합니다."
         },
         "throughput": {
           "name": "처리량",
           "headline": "호출 개수에 대한 자동 경보",
           "text": "이 애플리케이션 퍼스펙티브에서 선택한 서비스 및 엔드포인트의 호출 수가 비정상적으로 낮거나 높은 경우 자동 경보가 발생합니다.",
-          "metricLabel": "호출"
+          "metricLabel": "호출",
+          "tearSheetHeadline": "페이지 보기에 대한 자동 경보",
+          "tearSheetDescription": "이 애플리케이션 퍼스펙티브의 선택된 서비스 및 엔드포인트에 대해 비정상적으로 낮거나 많은 수의 호출에 대한 자동 경보입니다."
         },
         "simpleMode": {
           "unexpectedDrop": {
@@ -322,7 +332,8 @@
             "headline": "비정상적으로 높은 호출 수에 대한 자동 경보",
             "text": "호출 수가 사용 가능한 과거 데이터와 비교하여 예상보다 크게 높은 경우 경보를 수신합니다. 공격 또는 봇이 애플리케이션에 대해 너무 많은 요청을 생성한다는 표시일 수 있습니다."
           }
-        }
+        },
+        "variantMessage": "{{type}} 유형으로 주어진 initialItemSelected가 항목 목록에 없습니다."
       },
       "formUtils": {
         "titlePlaceholder": {
@@ -461,6 +472,7 @@
         "labelActionButtonEdit": "편집",
         "labelActionButtonEditNew": "편집(새로 작성)",
         "labelActionButtonDuplicate": "복제",
+        "labelActionButtonDuplicateNew": "중복(새로 작성)",
         "labelActionButtonDelete": "삭제",
         "labelAlertFilters": "필터",
         "labelConfirm": "확인하시기 바랍니다.",
@@ -689,15 +701,20 @@
         "add": "추가",
         "alertPropertyInsertPlaceholderLabel": "플레이스홀더 삽입",
         "scopeConfigTitleWithApplications": "애플리케이션/서비스/엔드포인트 선택",
+        "scopeConfigTitleWithApplicationsForTearsheet": "애플리케이션/서비스/엔드포인트",
         "scopeConfigTitle": "서비스/엔드포인트 선택",
         "scopeConfigSelectOneEntryMessage": "하나 이상의 항목을 선택하십시오.",
         "scopeConfigTitleTooltip": "지난 24시간 동안 사용 가능한 엔티티 표시",
+        "scopeConfigSubTitle": "지난 24시간을 기반으로 함",
         "scopeMigrationMessage_FAILED": "범위를 자동으로 마이그레이션할 수 없습니다. 아래 동적 초점 조회에 해당하는 태그 필터를 선택하십시오.",
         "scopeMigrationMessage_PARTIAL": "범위를 완전히 마이그레이션할 수 없습니다. 아래 동적 초점 조회에 해당하는 태그 필터를 선택하십시오.",
         "scopeMigrationMessage_FULL": "적용된 범위는 이전에 사용된 동적 초점 조회를 기반으로 합니다.",
         "scopeMigrationMessageAllAvailableEntities": "적용된 범위는 이전에 사용된 사용 가능한 모든 엔티티의 선택사항을 기반으로 합니다.",
         "scopeMigrationMessageSelectedApplications": "적용된 범위는 이전에 사용된 애플리케이션 퍼스펙티브의 선택사항을 기반으로 합니다.",
         "sortByUserSelectionLabel": "사용자 선택별 정렬",
+        "sortBySelectionLabel": "선택사항별 정렬",
+        "scopeFilterCallsTitle": "필터 호출",
+        "scopeFilterCallsDescription": "보다 정확한 경보를 얻으려면 서비스를 직접 선택하십시오.",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "{{count}}명 이상의 사용자 및 {{userPercentage}}의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "{{count}}명 이상의 사용자 및 {{userPercentage}}의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "{{count}}명 이상의 사용자 및 {{userPercentage}}의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
@@ -1372,7 +1389,8 @@
           "label": "페이로드",
           "title": "사용자 정의 페이로드"
         },
-        "thresholdValue": "임계값"
+        "thresholdValue": "임계값",
+        "valueMappings": "선택된 메트릭의 숫자 값은 다음 문자열 값에 해당합니다."
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "0 이상인 수를 제공하십시오.",
@@ -1459,9 +1477,17 @@
       "logCount": "로그 개수"
     },
     "slo": {
+      "components": {
+        "operatorDropdown": "",
+        "operatorDropdown_more": "초과",
+        "operatorDropdown_more-or-equal": "이상",
+        "operatorDropdown_less": "미만",
+        "operatorDropdown_less-or-equal": "보다 작거나 같음"
+      },
       "validators": {
         "noEmptySloIds": "하나 이상의 SLO를 선택하십시오.",
-        "notLessThanOrEqualToZero": "0보다 큰 값을 설정하십시오."
+        "notLessThanOrEqualToZero": "0보다 큰 값을 설정하십시오.",
+        "noInvalidOperator": "목록에서 연산자를 선택하십시오."
       },
       "advancedModeContainer": {
         "stepLabel": "",
@@ -1485,27 +1511,43 @@
         "blueprint_ERROR_BUDGET": "오류 예산",
         "blueprintDescription": "",
         "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "SLO 상태가 임계값 아래로 떨어지면 경보를 수신합니다.",
-        "blueprintDescription_ERROR_BUDGET": "오류 예산의 백분율이 소진되면 경보를 수신합니다.",
+        "blueprintDescription_ERROR_BUDGET": "오류 예산의 백분율이 사용되면 경보를 수신합니다.",
         "thresholdTitle": "임계값: 언제 경보를 받으시겠습니까?",
         "thresholdInputDescription": "",
-        "thresholdInputDescription_ERROR_BUDGET": "오류 예산의 백분율이 소진됨",
-        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "백분율은 SLO 목표 이하임",
+        "thresholdInputDescription_ERROR_BUDGET": "오류 예산의 <1/> <2/>%가 소비되는 경우",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "SLO 상태가 <1/> <2/>%인 경우",
         "timeThresholdType_gracePeriod": "조건이 지정된 시간 동안 지속되는 경우",
         "timeThresholdTypeTitle_gracePeriod": "연속 $t(in-components:time.minutes, {\"count\": {{minutes}} })에 대한 조건 위반 시 경보",
+        "timeThresholdTypeTitle_cooldownPeriod": "이벤트를 종료하려면 $t(in-components:time.minutes, {\"count\": {{minutes}} }) 이상이 경과되어야 함",
         "alertProperties_entityLabel": "SLO-name",
         "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 상태가 낮음",
-        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 상태가 {{percentage}} 이하입니다.",
-        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "남아 있는 오류 예산이 낮음",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "남아 있는 오류 예산이 {{percentage}}보다 작거나 같습니다."
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 상태는 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}입니다.",
+        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "남은 오류 예산이 낮습니다.",
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "오류 예산의 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}을(를) 소비했습니다.",
+        "alertPropertiesIncidentWarning": "인시던트는 애플리케이션과 연관된 SLO에만 적용 가능합니다."
       },
       "details": {
         "alertConfigurationTitle": "경보 구성",
         "sloHeader": "SLO",
+        "thresholdInfo_ERROR_BUDGET": "$t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}의 오류 예산 백분율이 소비되는 경우",
+        "thresholdInfo_SERVICE_LEVELS_OBJECTIVE": "SLO 상태가 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}%인 경우",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
         "blueprintLabel": "블루프린트",
-        "thresholdLabel": "임계값"
+        "coolDownPeriodDescription": "이벤트를 종료하려면 최소 {{value}}이(가) 통과해야 합니다."
+      },
+      "alertList": {
+        "threshold": "임계값: {{value}}",
+        "sloApplied": "적용된 SLO",
+        "sloCount": "{{count}}개의 SLO",
+        "sloCount_plural": "{{count}}개의 SLO",
+        "sloCount_0": "{{count}}개의 SLO",
+        "sloCount_1": "{{count}}개의 SLO",
+        "sloCount_2": "{{count}}개의 SLO",
+        "title": "",
+        "title_ERROR_BUDGET": "소비된 오류 예산",
+        "title_SERVICE_LEVELS_OBJECTIVE": "상태"
       }
     }
   }

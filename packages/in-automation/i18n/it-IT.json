@@ -3,11 +3,10 @@
   "edit": "Modifica",
   "delete": "Elimina",
   "test": "Verifica",
-  "recommendedActions": "Azioni consigliate",
   "recommendedActionsWithCount": "Azioni consigliate ({{count}})",
+  "recommendedActions": "Azioni consigliate",
   "validVaultParameter": "I parametri del vault contrassegnati come facoltativi devono essere entrambi vuoti o non vuoti.",
   "newAction": "Nuova azione",
-  "ok": "OK",
   "runAction": "Esegui azione",
   "testAction": "Azione di test",
   "targetAgent": "Agent di destinazione",
@@ -40,12 +39,10 @@
   "parameters": "Parametri",
   "noParametersTitle": "Nessun parametro",
   "noParametersText": "Per questa azione non è stato specificato alcun parametro.",
-  "linkToActionLogs": "L'output di questa azione può essere visualizzato in <logsLink>Analytics> Log.</logsLink>",
-  "linkToActionHistory": "L'output di questa istanza di azione può essere visualizzato nella pagina <logsLink>Cronologia azioni.</logsLink>",
+  "linkToActionHistory": "L'output di questa istanza di azione può essere visualizzato in Cronologia azioni.",
   "description": "Descrizione",
   "automation": "Automazione",
   "failedToResolveDynamicParameters": "Impossibile risolvere i parametri dinamici.",
-  "createPolicyWithName": "Crea politica con azione {{actionName}}",
   "deletePolicyWithName": "Elimina politica {{actionName}}",
   "jobTemplate": "Modello di lavoro",
   "hostsLimit": "Limite host (facoltativo)",
@@ -81,8 +78,8 @@
   "noTagsConfigured": "Nessun Tag Configurata",
   "value": "Valore",
   "type": "Immettere",
-  "automationPolicies": "Politiche di automazione",
   "automationPoliciesWithCount": "Politiche di automazione{{count}}",
+  "automationPolicies": "Politiche di automazione",
   "copyOf": "(Copia di) {{name}}",
   "searchActions": "Ricerca azioni",
   "hostsLimitHelpText": "Limitare l'esecuzione all'host di destinazione specificato. Selezionare il valore che corrisponde alla modalità di rappresentazione del sistema nell'inventario Ansible oppure immettere una stringa supportata dalla sintassi del limite Ansible.",
@@ -93,9 +90,47 @@
   "tag": "Tag",
   "noTagsAvailable": "Nessun tag disponibile",
   "actions": "Azioni",
+  "actionsWithCount": "Azioni ({{count}})",
+  "titleUrl": "URL",
+  "generateWithAI": "Genera con AI",
+  "AISlugContent": "Per generare questo contenuto, è stata utilizzata l'AI",
+  "createPolicyWithName": "Visualizzare l'azione {{actionName}} e creare la politica",
+  "viewActionCreatePolicy": "Visualizza azione e crea politica",
+  "simpleAIDialog": {
+    "Step1Headline": "Iniziare con un'azione generata da watsonx per creare una nuova azione e politica di automazione per questo evento.",
+    "Step2Headline": "Specificare i dettagli per creare una nuova azione.",
+    "Step3Headline": "Specificare i dettagli per creare una nuova politica di automazione.",
+    "step1Title": "Passo 1: selezionare un'azione generata",
+    "step2Title": "Passo 2: personalizzare l'azione",
+    "step3Title": "Passo 3: creare la politica",
+    "policyDetails": "Dettagli politica",
+    "policyText": "Verrà creata una nuova politica per il seguente trigger di azioni ed eventi:",
+    "policy": {
+      "success": {
+        "title": "Azione e politica create",
+        "content": "Una nuova azione è stata aggiunta nel catalogo ed è stata creata una nuova politica {{name}}",
+        "link": "Link azione"
+      }
+    }
+  },
+  "SimpleCreatePolicyDialog": {
+    "Step1Headline": "Visualizzare l'azione consigliata e creare la politica di automazione per questo evento.",
+    "Step2Headline": "Specificare i dettagli per creare una nuova politica di automazione.",
+    "step1Title": "Passo 1: visualizzare l'azione consigliata",
+    "step2Title": "Passo 2: creare la politica",
+    "policy": {
+      "success": {
+        "title": "La politica è stata creata",
+        "successContentForuserAction": "È stata creata una nuova politica {{name}}"
+      }
+    }
+  },
+  "userDefinedWithCount": "Creato dall'utente ({{count}})",
+  "userDefined": "Creato dall'utente",
+  "aiGeneratedWithCount": "Generato dall'AI ({{count}})",
+  "aiGenerated": "Generato dall'AI",
   "ActionCatalog": {
     "actionCatalog": "Catalogo azioni",
-    "actionCatalogWithCount": "Catalogo azioni ({{count}})",
     "action": "azione",
     "newAction": "Nuova azione",
     "createANewAction": "Crea una nuova azione",
@@ -211,6 +246,7 @@
   },
   "actionHistory": {
     "actionHistory": "Cronologia azioni",
+    "goToActionHistory": "Vai a Cronologia azioni",
     "actionHistoryWithCount": "Cronologia azioni ({{count}})",
     "noActionInstances": "Nessun dato disponibile",
     "external": "Esterno",
@@ -301,6 +337,7 @@
     "mobileAppSmartAlert": "Smart Alert applicazione mobile",
     "syntheticsSmartAlert": "Smart Alert sintetici",
     "logSmartAlert": "Smart Alert log",
+    "sloSmartAlert": "Smart alert dei livelli di servizio",
     "docLinkAndManualCantBeAutomated": "Non è possibile automatizzare il link alla documentazione e le azioni manuali.",
     "triggeringAgent": "Agent di attivazione",
     "triggeringHostFqdn": "FQDN host di attivazione",

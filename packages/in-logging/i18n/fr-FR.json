@@ -53,5 +53,6 @@
   "process": "Processus",
   "host": "Hôte",
   "fileOnHost": "sur",
-  "file": "Fichier"
+  "file": "Fichier",
+  "logExpiration": "Conservé jusqu'au"
 }

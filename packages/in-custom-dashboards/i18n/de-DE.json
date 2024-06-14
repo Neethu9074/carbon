@@ -297,8 +297,11 @@
       "thresholdForm": {
         "addThresholdColorization": "Schwellenwertbasierte Farbgebung hinzufügen",
         "threshold": "Schwellenwert",
-        "critical": "Kritisch bei Latenzzeit",
-        "warning": "Warnung bei Latenzzeit"
+        "critical": "Kritisch, wenn",
+        "warning": "Warnung, wenn",
+        "criticalValidator": "Der kritische Schwellenwert muss größer als der Warnungsschwellenwert für die Operatoren > und >= sein.",
+        "warningValidator": "Warnungsschwellenwert muss größer als kritischer Schwellenwert für Operatoren < und < = sein.",
+        "bytes": "Byte"
       },
       "bigNumber": "Große Zahl"
     },

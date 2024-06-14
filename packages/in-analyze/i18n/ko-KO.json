@@ -272,6 +272,7 @@
     "titleParameters": "매개변수",
     "analyzeLogsLabel": "로그 분석",
     "similarLogs": "유사한 로그",
+    "message": "메시지",
     "similarServiceLogs": "이 서비스의 컨텍스트에서 로그인 표시",
     "restrictedAccessExpl": "이 정보에 액세스할 수 있는 권한이 없습니다."
   },

@@ -1,7 +1,7 @@
 {
   "labelBizOps": "Prozesse",
-  "labelSmartAlerts": "Smart Alerts",
-  "labelActivities": "Aktivitäten",
+  "labelPerspectives": "Perspektiven",
+  "labelPerspective": "Perspektive",
   "components": {
     "count": "Anzahl"
   },
@@ -18,6 +18,32 @@
     "latencyLabel": "Latenzzeit",
     "unnamedActivity": "(Nicht benannte Aktivität) {{activityType}}",
     "unnamedService": "(Nicht benannter Service)"
+  },
+  "perspectives": {
+    "newPerspective": "Neue Perspektive",
+    "lists": {
+      "perspectives": "Geschäftsperspektiven",
+      "descriptionLabel": "Beschreibung",
+      "numberProcessesLabel": "Anzahl der Prozesse"
+    },
+    "dialog": {
+      "title": "Neue Geschäftsperspektive",
+      "processesLiveListTitle": "Geschäftsprozesse",
+      "stepOne": {
+        "progressBarTitle": "Geschäftsperspektive angeben",
+        "headline": "Filter hinzufügen, um Ihre Geschäftsperspektive zu erstellen",
+        "queryBuilderTitle": "Tags für Geschäftsprozesse"
+      },
+      "stepTwo": {
+        "progressBarTitle": "Schritt 2: Details angeben",
+        "headline": "Details angeben",
+        "perspectiveName": "Name der Perspektive",
+        "perspectiveDescription": "Beschreibung"
+      }
+    },
+    "errorMessages": {
+      "businessPerspectiveNameMustNotBeBlank": "Der Name der Geschäftsperspektive darf nicht leer sein"
+    }
   },
   "navigation": {
     "businessMonitoring": "Business Monitoring"
@@ -57,6 +83,25 @@
         "hour": "1 Stunde",
         "day": "1 Tag",
         "week": "1 Woche"
+      }
+    },
+    "perspectives": {
+      "processes": {
+        "tabLabel": "Geschäftsprozesse"
+      },
+      "configuration": {
+        "tabLabel": "Konfiguration",
+        "loadingText": "Daten werden geladen",
+        "updateCardLabel": "Geschäftsperspektive aktualisieren",
+        "stepOneHeader": "1. Namen und Beschreibung bearbeiten",
+        "perspectiveName": "Name der Perspektive",
+        "perspectiveDescription": "Beschreibung",
+        "stepTwoHeader": "2. Filter bearbeiten",
+        "saveChangesButton": "Speichern",
+        "removeCardLabel": "Geschäftsperspektive entfernen",
+        "removePerspectiveDisclaimer": "Wenn Sie diese Geschäftsperspektive nicht mehr verwenden wollen, klicken Sie auf \"Geschäftsperspektive entfernen\".",
+        "removePerspectiveCheckbox": "Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann",
+        "removePerspectiveButton": "Geschäftsperspektive entfernen"
       }
     }
   }

@@ -260,6 +260,8 @@
     "agentInstallationModeLabel": "インストール・モード",
     "agentInstallationModeInteractive": "対話式",
     "agentInstallationModeSilent": "サイレント",
+    "agentInstallationModeRpm": "RPM",
+    "agentInstallationModeDeb": "DEB",
     "ibmapmproxy": "IBM APM V8 Instana Integration Proxy",
     "ibmapmmineba": "IBM APM V8 Min server dropins eba",
     "requiresRuntimeDropin": "IBM APM V8 に対する Instana Integration サポートには、追加のランタイム・ドロップインが必要です。",

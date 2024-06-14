@@ -296,6 +296,7 @@
   },
   "expandableGroup": {
     "tooltipShowContent": "显示内容",
+    "tooltipHideContent": "隐藏内容",
     "labelExpandButtonForContent": "展开内容按钮"
   },
   "featureFeedback": {

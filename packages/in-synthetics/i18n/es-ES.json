@@ -466,6 +466,7 @@
       "smartAlertsTab": "Alertas inteligentes",
       "configurationTab": "Configuración",
       "isCertificateValid": "Última ejecución: el certificado es válido",
+      "resultsCertificateValid": "El certificado es válido.",
       "certificateValid": "Sí",
       "certificateNotValid": "No",
       "daysRemaining": "Última ejecución: días restantes",
@@ -614,7 +615,8 @@
         "daysRemaining": "Días restantes",
         "dateOfIssue": "Fecha de emisión",
         "dateOfExpiry": "Fecha de caducidad"
-      }
+      },
+      "failedRunErrorTypeTitle": "Tipo de error"
     },
     "noDataAvailable": {
       "resultsTitle": "No hay resultados disponibles",
@@ -680,6 +682,7 @@
       },
       "configurationEditAction": "Editar",
       "configurationDeleteAction": "Suprimir",
+      "configurationUnsupported": "Tipo de prueba no admitido.",
       "timeoutLabel": "Tiempo de espera",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "Estrategia de reintento",
@@ -691,9 +694,9 @@
       "markSyntheticCall": "Marcar llamada sintética",
       "hostname": "Nombre de host",
       "port": "Puerto",
-      "daysRemaining": "La prueba fallará cuando la validez del certificado tenga",
-      "day": "día restante hasta la caducidad",
-      "days": "días restantes hasta la caducidad"
+      "daysRemaining": "Configuración de anomalía",
+      "day": "La prueba fallará cuando queden {{daysRemainingCheck}} día de validez del certificado hasta la caducidad",
+      "days": "La prueba fallará cuando queden {{daysRemainingCheck}} días de validez del certificado hasta la caducidad"
     }
   }
 }

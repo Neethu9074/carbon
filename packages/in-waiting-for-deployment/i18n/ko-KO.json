@@ -260,6 +260,8 @@
     "agentInstallationModeLabel": "설치 모드",
     "agentInstallationModeInteractive": "대화식",
     "agentInstallationModeSilent": "자동",
+    "agentInstallationModeRpm": "RPM",
+    "agentInstallationModeDeb": "DEB",
     "ibmapmproxy": "IBM APM V8 Instana 통합 프록시",
     "ibmapmmineba": "IBM APM V8 Min 서버 dropins eba",
     "requiresRuntimeDropin": "IBM APM V8에 대한 Instana 통합 지원에는 추가 런타임 dropin이 필요합니다.",

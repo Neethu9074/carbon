@@ -8,7 +8,6 @@
   "entityInfoPresenterDefaultLabel": "Unter: ",
   "entityInfoLabelOfService": "Des Service:",
   "titleDetail": "Details",
-  "titleDetails": "Details",
   "titleMetrics": "Messdaten",
   "titleScope": "Bereich",
   "titleDescription": "Beschreibung",
@@ -46,6 +45,9 @@
   "titleEmptyEvents_issue": "Keine Probleme verfügbar",
   "titleEmptyEvents_change": "Keine Änderungen verfügbar",
   "titleEmptyEvents_monitoringIssue": "Keine Überwachungsprobleme verfügbar",
+  "titleManualCloseIssue": "Problem abschließen",
+  "titleManualCloseIncident": "Schließen des Incidents",
+  "closeIssue": "Dieses Problem schließen",
   "explanationEmptyEvents_event": "Es wurden keine Ereignisse für den ausgewählten Zeitraum abgerufen.",
   "explanationEmptyEvents_incident": "Es wurden keine Ereignisse für den ausgewählten Zeitraum abgerufen.",
   "explanationEmptyEvents_issue": "Es wurden keine Probleme für den ausgewählten Zeitraum abgerufen.",
@@ -67,7 +69,6 @@
   "triggered": "Ausgelöst:",
   "started": "Gestartet:",
   "ended": "Beendet:",
-  "active": "aktiv",
   "stateActive": "Aktiv",
   "stateClosedByInstana": "Durch Exemplar geschlossen",
   "stateManuallyClosed": "Manuell geschlossen",
@@ -171,7 +172,7 @@
     "probableRootCauseLabel": "Wahrscheinliche Fehlerursache für Entität: {{entity_name}}",
     "relatedEventsLabel": "Zugehörige Ereignisse ({{number_of_events}})",
     "entitiesNumber": "Entitäten",
-    "techPreview": "TECHNOLOGIEVORSCHAU",
+    "techPreview": "Technische Vorschau",
     "probabilityLevelText": "Wahrscheinlichkeitsstufe:",
     "highProbability": "HIGH",
     "moderateProbability": "MODERATE",
@@ -180,7 +181,13 @@
     "highProbabilityBadgeText": "Diese Wahrscheinlichkeitsbewertung basiert auf der Wahrscheinlichkeit, dass die betreffende Entität nicht in einwandfreiem Zustand ist. Eine hohe Wahrscheinlichkeit gibt an, dass diese Entität aufgrund der bereitgestellten Angaben wahrscheinlich problematisch ist.",
     "moderateProbabilityBadgeText": "Diese Wahrscheinlichkeitsbewertung basiert auf der Wahrscheinlichkeit, dass die betreffende Entität nicht in einwandfreiem Zustand ist. Es ist wahrscheinlich, dass diese Entität die eigentliche Ursache ist, aber es ist mehr Analyse erforderlich.",
     "lowProbabilityBadgeText": "Diese Wahrscheinlichkeitsbewertung basiert auf der Wahrscheinlichkeit, dass die betreffende Entität nicht in einwandfreiem Zustand ist. Angesichts der vorliegenden Informationen hat diese Komponente eine geringe Wahrscheinlichkeit, ungesund zu sein, aber es wird weiter untersucht.",
-    "naProbabilityBadgeText": "Diese Wahrscheinlichkeitsbewertung basiert auf der Wahrscheinlichkeit, dass die betreffende Entität nicht in einwandfreiem Zustand ist. Leider konnte die Wahrscheinlichkeitsbewertung für diesen Vorfall nicht ermittelt werden."
+    "naProbabilityBadgeText": "Diese Wahrscheinlichkeitsbewertung basiert auf der Wahrscheinlichkeit, dass die betreffende Entität nicht in einwandfreiem Zustand ist. Leider konnte die Wahrscheinlichkeitsbewertung für diesen Vorfall nicht ermittelt werden.",
+    "evidenceTextFailed": "Aufrufe über {{root_cause_entity_type}} {{root_cause_entity_name}} haben eine aggregierte hohe Fehlerrate von {{rca_error_percent}}%.",
+    "evidence": "Angaben",
+    "evidenceTextNotFailedLower": "Aufrufe von denselben Entitäten, die {{root_cause_entity_type}} {{root_cause_entity_name}} nicht durchlaufen, weisen eine niedrigere Fehlerrate von {{non_rca_error_rate}}% auf.",
+    "evidenceTextNotFailedHigher": "Aufrufe von denselben Entitäten, die {{root_cause_entity_type}} {{root_cause_entity_name}} nicht durchlaufen, weisen eine höhere Fehlerrate von {{non_rca_error_rate}}% auf.",
+    "evidenceTextNotFailedSame": "Aufrufe derselben Entitäten, die {{root_cause_entity_type}} {{root_cause_entity_name}} nicht durchlaufen, weisen eine Fehlerrate von {{non_rca_error_rate}}% auf.",
+    "regenerateProbableRootCause": "Wahrscheinliche Ursache neu generieren"
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Zusammenfassung des Vorfalls",
@@ -188,7 +195,8 @@
     "errorDescription": "Für dieses Ereignis konnte keine Zusammenfassung erstellt werden",
     "summarizationHelpfulText": "War diese Zusammenfassung hilfreich?",
     "alertChannelTableTitle": "Dem Vorfall zugeordnete Alertkanäle",
-    "noDataAlertChannels": "Diesem Vorfall konnten keine Alertkanäle zugeordnet werden"
+    "noDataAlertChannels": "Diesem Vorfall konnten keine Alertkanäle zugeordnet werden",
+    "actionText": "In der Vergangenheit <strong>{{timeWindow}} {{timeWindowFormat}}</strong> Tage wurden für Ereigniskonfiguration <strong>{{eventSpecId}}</strong> , die dem Vorfall zugeordnet ist, <strong>{{actionStats}}</strong> Aktionen des Typs <strong>ANSIBLE/SCRIPT/HTTP</strong> ausgeführt"
   },
   "feedback": {
     "skip": "Überspringen",
@@ -208,5 +216,25 @@
   "bizops": {
     "titleImpactedBusinessProcesses": "Beeinflusste Geschäftsprozesse",
     "titleImpactedBusinessProcessesIncident": "Betroffene Geschäftsprozesse für auslösendes Ereignis"
+  },
+  "closeEventDialog": {
+    "reason": "Lassen Sie uns wissen, warum Sie das Problem schließen",
+    "warning": "Die Schließung dieses Problems ist unumkehrbar",
+    "comments": "Kommentare",
+    "closeIssue": "Problem abschließen",
+    "closeIncident": "Diesen Vorfall schließen",
+    "closedByLabel": "Geschlossen durch"
+  },
+  "notes": {
+    "openNotes": "Notizen und Aktivität öffnen",
+    "closeNotes": "Notizen und Aktivität schließen",
+    "notesActivity": "Anmerkungen und Aktivität",
+    "techPreview": "Technologievorschau",
+    "incidentNotes": "Hinweise zu Vorfällen",
+    "addNote": "Notiz hinzufügen",
+    "you": "Sie",
+    "noNotes": "Noch keine Notizen hinzugefügt",
+    "noNotesDetails": "Fügen Sie zunächst einen Hinweis für Ihr Team hinzu.",
+    "typeSomething": "Geben Sie etwas ein ..."
   }
 }

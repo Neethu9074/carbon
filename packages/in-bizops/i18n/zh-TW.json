@@ -1,7 +1,7 @@
 {
   "labelBizOps": "程序",
-  "labelSmartAlerts": "智慧型警示",
-  "labelActivities": "活動",
+  "labelPerspectives": "視景",
+  "labelPerspective": "視景",
   "components": {
     "count": "計數"
   },
@@ -18,6 +18,32 @@
     "latencyLabel": "延遲",
     "unnamedActivity": "（未命名活動）{{activityType}}",
     "unnamedService": "（未命名服務）"
+  },
+  "perspectives": {
+    "newPerspective": "新視景",
+    "lists": {
+      "perspectives": "商業視景",
+      "descriptionLabel": "說明",
+      "numberProcessesLabel": "處理程序數目"
+    },
+    "dialog": {
+      "title": "新建商業視景",
+      "processesLiveListTitle": "商業程序",
+      "stepOne": {
+        "progressBarTitle": "指定商業視景",
+        "headline": "新增過濾器以建置您的商業視景",
+        "queryBuilderTitle": "商業程序的標籤"
+      },
+      "stepTwo": {
+        "progressBarTitle": "步驟 2：提供詳細資料",
+        "headline": "提供詳細資料",
+        "perspectiveName": "視景名稱",
+        "perspectiveDescription": "說明"
+      }
+    },
+    "errorMessages": {
+      "businessPerspectiveNameMustNotBeBlank": "「商業視景」名稱不得為空白"
+    }
   },
   "navigation": {
     "businessMonitoring": "商業監視"
@@ -57,6 +83,25 @@
         "hour": "1 小時",
         "day": "1 天",
         "week": "1 週"
+      }
+    },
+    "perspectives": {
+      "processes": {
+        "tabLabel": "商業程序"
+      },
+      "configuration": {
+        "tabLabel": "配置",
+        "loadingText": "正在載入資料",
+        "updateCardLabel": "更新商業視景",
+        "stepOneHeader": "1. 編輯名稱及說明",
+        "perspectiveName": "視景名稱",
+        "perspectiveDescription": "說明",
+        "stepTwoHeader": "2. 編輯過濾器",
+        "saveChangesButton": "儲存",
+        "removeCardLabel": "移除商業視景",
+        "removePerspectiveDisclaimer": "如果您不想再使用這個商業視景，請按一下「移除商業視景」。",
+        "removePerspectiveCheckbox": "我瞭解此動作無法復原",
+        "removePerspectiveButton": "移除商業視景"
       }
     }
   }

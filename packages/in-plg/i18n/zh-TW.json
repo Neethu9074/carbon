@@ -7,9 +7,29 @@
     "trialExpirationPopUpDescription": "資料收集已結束。 您可以繼續使用產品 7 天。 在 7 天之後，您將無法存取試用版。 如果您計劃購買產品，我們可以再保留您的資料 2 週。",
     "trialExpirationPopUpDescriptionAfterSevenDays": "感謝您探索 Instana！ 您的試用期已結束，無法再存取產品。"
   },
+  "buyNowDialog": {
+    "title": "根據您的用量彈性計費",
+    "cancelbtn": "取消",
+    "subHeadingPart1": "現在使用 PayPerUse 選項，您只會",
+    "subHeadingPart2": "為您使用的項目付費。",
+    "sidePanelTitle": "仍然不確定您是否要訂閱？",
+    "sidePanelDescription": "我們會協助您找到最適合的選項。",
+    "mainBodyTitle1": "PayPerUse 簡介",
+    "mainBodyDescription1": "我們領先業界、一秒精準解析而又完整的要求追蹤，保證沒有任何問題能逃脫偵測。 利用對使用者友善的儀表板及 SmartAlerts™ 進行自訂警示，全端掌握應用程式碼、Kubernetes 容器及微服務。 Instana 與 AWS 無縫整合，能支援超過 300 種技術，為 Amazon AWS 上的容器化應用程式提供令人高枕無憂的效能監視。",
+    "mainBodyTitle2": "IBM Instana Observability PayPerUse 定價資訊",
+    "mainBodyDescription2": "我們的 PayPerUse 層級的設計為您提供彈性，以您企業可承擔的價格提供您需要的功能。 從提供所需產品功能的「標準」或「必要」選項中進行選擇。",
+    "listTitle1": "單元",
+    "listTitle2": "成本",
+    "listUnit1": "包含基礎架構監視 + 追蹤 + EUM + Synthetics 的綜合觀察",
+    "listUnit2": "僅限基礎架構監視",
+    "listCost1": "$0.12 美元/單位",
+    "listCost2": "$0.03 美元/單位"
+  },
   "licenseBanner": {
     "requestQuoteBtn": "要求報價",
+    "buyNow": "立即購買",
     "buyNowBtn": "在 AWS 上購買",
+    "buyNowBtnIbm": "在 IBM 上購買",
     "alreadyHaveLicense": "已有授權？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上啟動它。",
     "getAnswers": "取得答案",
     "share": "共用",
@@ -171,6 +191,7 @@
       "useScriptAsUserDataForEc2Instance": "使用此 Script 作為 EC2 實例的「使用者資料」",
       "selectAgentPackagingAndRuntime": "選取代理程式包裝模式及執行時期",
       "awsLambdaPythonAutotrace": "根據 Python 來配置 AWS Lambda 函數以進行追蹤的理想作法是，使用具有 AutoTrace 的 Instana Lambda 層。",
+      "awsLambdaDotnetAutotrace": "配置以 .NET Core 為基礎的 AWS Lambda 函數以進行追蹤時，最好是使用具有 AutoTrace 的 Instana Lambda 層。",
       "preferredMethodForNodeJsLambdaConfiguration": "根據 Node.js 8.x 來配置 AWS Lambda 函數的理想作法是使用<lambdaManualWrapping>具有手動包裝的 Instana Lambda 層</lambdaManualWrapping>。",
       "imageOptions": {
         "linuxGlibcBased": "Linux（glibc 型）",
@@ -202,6 +223,7 @@
         "runningStartupScript": "執行啟動 Script",
         "uninstallingTheHostAgent": "解除安裝主機代理程式",
         "awsLambdaNativeTracingForJava": "AWS Lambda 的 Java 原生追蹤",
+        "awsLambdaNativeTracingForDotNet": ".NET Core 的 AWS Lambda 原生追蹤",
         "awsLambdaFunctions": "AWS Lambda 函數",
         "monitoringAwsFargate": "監視 AWS Fargate",
         "monitoringAwsFargateJava": "監視 AWS Fargate (Java)",
@@ -324,9 +346,22 @@
         "runningTheAgent": "執行代理程式"
       },
       "linux_deb_rpm": {
-        "step1DownloadTheInstallPackage": "步驟 1. 下載安裝套件。",
-        "DEBAndRPMPackage": "DEB 和 RPM 套件",
-        "installUsingAPackage": "使用套件安裝"
+        "configureTheAgent": "步驟 1：配置代理程式",
+        "installUsingAPackage": "使用套件安裝",
+        "selectThePlatformArchitecture": "步驟 2：選取平台架構",
+        "platformArchitecture": "平台架構",
+        "mode": "模式",
+        "agentOptions": {
+          "linux64BitAarch": "Linux（64 位元 - AArch）",
+          "linux64BitArm": "Linux（64 位元 - ARM）",
+          "linux64BitAmd": "Linux（64 位元 - AMD）",
+          "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
+          "linux64BitPowerPcLittleEndian": "Linux（64 位元 - PowerPC Little Endian）",
+          "linuxS390X": "Linux (64Bit - s390x)",
+          "linuxX8664": "Linux (64Bit - x86_64)",
+          "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
+          "linuxRhel7X8664": "Linux (64Bit - RHEL7 x86_64)"
+        }
       },
       "linux_ec2": {
         "selectTheAgentPackagingMode": "步驟 1：選取代理程式包裝模式",
@@ -414,37 +449,62 @@
     }
   },
   "welcomepage": {
-    "heading": "歡迎使用",
+    "heading": "歡迎使用 Instana",
+    "foldableTileTitle": "我們開始吧。",
     "viewAll": "檢視全部",
     "search": "搜尋",
     "addMore": "新增",
     "UrlShortener": "URL 縮短程式",
-    "consumeData": {
-      "title": "探索服務",
-      "description": "首先讓 Instana 探索您的服務及其他要監視的資料。",
-      "buttonName": "部署代理程式",
-      "buttonType": "主要"
+    "startIntegrating": {
+      "title": "開始整合資料",
+      "description": "透過安裝代理程式來快速開始 Instana 設定及無縫資料整合。",
+      "buttonName": "安裝代理程式"
+    },
+    "traceInteractions": {
+      "title": "追蹤互動",
+      "description": "瞭解元件的連接方式，看看您是否需要手動設定追蹤。",
+      "buttonName": "驗證追蹤"
+    },
+    "inviteUsers": {
+      "title": "聯絡您的專家",
+      "description": "取得協助以完成設定作業並試用產品特性。",
+      "buttonName": "邀請使用者"
+    },
+    "additionalAgents": {
+      "title": "帶入更多資料",
+      "description": "將可觀察性擴展到您的架構各處。",
+      "buttonName": "安裝其他代理程式"
+    },
+    "appPerspective": {
+      "title": "量身打造視野",
+      "description": "擷取所需資訊，進行應用程式及服務的最佳化。",
+      "buttonName": "建立應用程式視景"
+    },
+    "smartAlerts": {
+      "title": "收到警示",
+      "description": "使用預先定義的藍圖輕鬆配置警示，兼顧簡單和進階的自訂作業。",
+      "buttonName": "設定智慧型警示"
+    },
+    "startMonitoring": {
+      "title": "監視您的環境",
+      "description": "啟動應用程式及網站上的警示。",
+      "buttonName": "開始監視"
     },
     "inviteTeammates": {
-      "title": "邀請隊友",
-      "description": "與您的同事分工合作。",
-      "buttonName": "管理使用者",
-      "buttonType": "ghost"
-    },
-    "nextSteps": {
-      "title": "下一步",
-      "description": "尋找更多導覽及其他支援。",
-      "buttonName": "取得答案",
-      "buttonType": "ghost"
+      "title": "納入您的團隊",
+      "description": "邀請您的同事加入 Instana 並開始分工合作。",
+      "buttonName": "邀請您的隊友"
     },
     "component": {
       "applicationWidget": {
         "label": "應用程式",
+        "addLabel": "新增應用程式",
         "name": "名稱",
         "calls": "呼叫",
         "latency": "延遲",
         "erroneousCallRate": "錯誤呼叫率",
-        "openCreationDialog": "開啟建立對話框"
+        "openCreationDialog": "開啟建立對話框",
+        "health": "性能"
       },
       "eventWidget": {
         "label": "事件",
@@ -458,21 +518,27 @@
         "cloudFoundry": "Cloud Foundry",
         "vsphere": "vSphere",
         "openstack": "OpenStack",
+        "openshift": "OpenShift",
         "ibmp": "IBM Power HMC",
         "powervcRegion": "PowerVC 區域",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
         "kubernetes": "Kubernetes",
+        "gke": "Google Kubernetes Engine",
+        "eks": "Amazon Elastic Kubernetes Service",
         "name": "名稱",
         "nodes": "節點",
         "namespaces": "名稱空間",
-        "pods": "Pod"
+        "pods": "Pod",
+        "health": "性能",
+        "platform": "平台"
       },
       "bizopsWidget": {
         "label": "商業監視",
         "name": "名稱",
         "activities": "活動",
-        "count": "計數"
+        "count": "計數",
+        "health": "性能"
       },
       "incidentsWidget": {
         "label": "事故",
@@ -480,32 +546,40 @@
         "title": "標題",
         "on": "開啟",
         "started": "已開始",
-        "end": "結束"
+        "end": "結束",
+        "health": "狀態"
       },
       "websitesWidget": {
         "label": "網站",
         "name": "名稱",
         "pageViews": "頁面檢視數",
-        "onLoadTimes": "OnLoad 次"
+        "onLoadTimes": "OnLoad 次",
+        "addLabel": "新增網站",
+        "health": "性能"
       },
       "mobileAppsWidget": {
         "label": "行動式應用程式",
         "name": "名稱",
         "sessions": "階段作業",
-        "views": "檢視表"
+        "views": "檢視表",
+        "addLabel": "新增行動式應用程式",
+        "health": "性能"
       },
       "infrastructureWidget": {
         "label": "基礎架構",
         "mean": "平均值",
         "name": "名稱",
         "os": "作業系統",
+        "technologies": "技術",
         "cpuNum": "CPU 數目",
         "cpuUsage": "CPU 使用率",
         "created": "已建立",
-        "started": "已開始"
+        "started": "已開始",
+        "health": "性能"
       },
       "syntheticWidget": {
         "label": "綜合監視",
+        "addLabel": "新增綜合監視",
         "na": "N/A",
         "name": "名稱",
         "type": "類型",
@@ -520,7 +594,8 @@
         "label": "我的自訂儀表板",
         "name": "名稱",
         "owner": "擁有者",
-        "permissions": "權限"
+        "permissions": "權限",
+        "addLabel": "新增儀表板"
       }
     },
     "noData": {
@@ -580,7 +655,6 @@
     "ariaLabel": {
       "search": "搜尋",
       "shareButton": "共用按鈕",
-      "add": "新增",
       "handleButton": "控點按鈕"
     }
   },

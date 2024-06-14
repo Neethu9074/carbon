@@ -399,7 +399,7 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "오류 메시지",
+        "crashesLabelErrorMessage": "주요 정보",
         "crashesLabelOccurrences": "발생 횟수",
         "crashesLabelAffectedUsers": "영향을 받는 사용자",
         "crashesButtonAnalyzeCrashes": "충돌 분석",

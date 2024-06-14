@@ -1,7 +1,7 @@
 {
   "labelBizOps": "进程",
-  "labelSmartAlerts": "智能警报",
-  "labelActivities": "活动",
+  "labelPerspectives": "透视图",
+  "labelPerspective": "透视图",
   "components": {
     "count": "计数"
   },
@@ -18,6 +18,32 @@
     "latencyLabel": "等待时间",
     "unnamedActivity": "（未命名的活动）{{activityType}}",
     "unnamedService": "(未命名服务)"
+  },
+  "perspectives": {
+    "newPerspective": "新建透视图",
+    "lists": {
+      "perspectives": "业务透视图",
+      "descriptionLabel": "描述",
+      "numberProcessesLabel": "流程数"
+    },
+    "dialog": {
+      "title": "新建业务透视图",
+      "processesLiveListTitle": "业务流程",
+      "stepOne": {
+        "progressBarTitle": "指定业务透视图",
+        "headline": "添加过滤器以构建业务透视图",
+        "queryBuilderTitle": "业务流程的标记"
+      },
+      "stepTwo": {
+        "progressBarTitle": "步骤 2：提供详细信息",
+        "headline": "提供详细信息",
+        "perspectiveName": "透视图名称",
+        "perspectiveDescription": "描述"
+      }
+    },
+    "errorMessages": {
+      "businessPerspectiveNameMustNotBeBlank": "业务透视图名称不得为空"
+    }
   },
   "navigation": {
     "businessMonitoring": "业务监视"
@@ -57,6 +83,25 @@
         "hour": "1 小时",
         "day": "1 天",
         "week": "1 周"
+      }
+    },
+    "perspectives": {
+      "processes": {
+        "tabLabel": "业务流程"
+      },
+      "configuration": {
+        "tabLabel": "配置",
+        "loadingText": "正在加载数据",
+        "updateCardLabel": "更新业务透视图",
+        "stepOneHeader": "1. 编辑名称和描述",
+        "perspectiveName": "透视图名称",
+        "perspectiveDescription": "描述",
+        "stepTwoHeader": "2. 编辑过滤器",
+        "saveChangesButton": "保存",
+        "removeCardLabel": "移除业务透视图",
+        "removePerspectiveDisclaimer": "如果您不想再使用此业务透视图，请单击“移除业务透视图”。",
+        "removePerspectiveCheckbox": "我知道此操作无法撤销",
+        "removePerspectiveButton": "移除业务透视图"
       }
     }
   }

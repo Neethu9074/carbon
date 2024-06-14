@@ -466,6 +466,7 @@
       "smartAlertsTab": "Alertas inteligentes",
       "configurationTab": "Configuração",
       "isCertificateValid": "Última execução: certificado é válido",
+      "resultsCertificateValid": "O certificado é válido",
       "certificateValid": "True",
       "certificateNotValid": "Não",
       "daysRemaining": "Última execução: dias restantes",
@@ -614,7 +615,8 @@
         "daysRemaining": "Dias restantes",
         "dateOfIssue": "Data do problema",
         "dateOfExpiry": "Data de expiração"
-      }
+      },
+      "failedRunErrorTypeTitle": "Tipo de erro"
     },
     "noDataAvailable": {
       "resultsTitle": "Nenhum resultado disponível",
@@ -680,6 +682,7 @@
       },
       "configurationEditAction": "Editar",
       "configurationDeleteAction": "Excluir",
+      "configurationUnsupported": "Tipo de teste não suportado.",
       "timeoutLabel": "Tempo limite",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "Estratégia de nova tentativa",
@@ -691,9 +694,9 @@
       "markSyntheticCall": "Marcar chamada sintética",
       "hostname": "Nome do Host",
       "port": "Porta",
-      "daysRemaining": "O teste falhará quando a validade do certificado tiver",
-      "day": "dia restante até a expiração",
-      "days": "dias restantes até a expiração"
+      "daysRemaining": "Configuração de falha",
+      "day": "O teste falhará quando a validade do certificado tiver {{daysRemainingCheck}} dia restante até a expiração",
+      "days": "O teste falhará quando a validade do certificado tiver {{daysRemainingCheck}} dias restantes até a expiração"
     }
   }
 }

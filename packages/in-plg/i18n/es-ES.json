@@ -7,9 +7,29 @@
     "trialExpirationPopUpDescription": "La recopilación de datos ha finalizado. Puede continuar utilizando el producto durante otros 7 días. Después de 7 días, no podrá acceder a la evaluación. Si tiene previsto comprar el producto, podemos conservar sus datos durante otras 2 semanas.",
     "trialExpirationPopUpDescriptionAfterSevenDays": "Gracias por explorar Instana Ha llegado al final de la evaluación y ya no puede acceder al producto."
   },
+  "buyNowDialog": {
+    "title": "Facturación flexible basada en su uso",
+    "cancelbtn": "Cancelar",
+    "subHeadingPart1": "Ahora, con la opción PayPerUse, solo",
+    "subHeadingPart2": "se le facturará por lo que utilice.",
+    "sidePanelTitle": "¿Todavía no está seguro si desea una suscripción?",
+    "sidePanelDescription": "Estamos aquí para ayudarle a encontrar la opción perfecta para usted.",
+    "mainBodyTitle1": "Introducción a PayPerUse",
+    "mainBodyDescription1": "Nuestra granularidad de un segundo, líder en el sector, y el seguimiento exhaustivo de las solicitudes garantizan que ningún problema escape a la detección. Obtenga visibilidad de pila completa sobre el código de aplicación, los contenedores de Kubernetes y los microservicios con paneles de control fáciles de utilizar y SmartAlerts™ para alertas personalizadas. Perfectamente integrado en AWS, Instana da soporte a más de 300 tecnologías, lo que proporciona una supervisión de rendimiento sin preocupaciones para aplicaciones contenerizadas en Amazon AWS.",
+    "mainBodyTitle2": "Información sobre precios de IBM Instana Observability PayPerUse",
+    "mainBodyDescription2": "Diseñados para ofrecerle flexibilidad, nuestros niveles de PayPerUse proporcionan la función que necesita al precio que su empresa puede asumir. Seleccione entre las opciones estándar o esenciales que ofrecen las prestaciones del producto que necesita.",
+    "listTitle1": "Unidades",
+    "listTitle2": "Coste",
+    "listUnit1": "Observabilidad completa con supervisión de infraestructura + rastreo + EUM + sintéticos incluidos",
+    "listUnit2": "Solo supervisión de infraestructura",
+    "listCost1": "0,12 $ / unidad",
+    "listCost2": "0,03 $ / unidad"
+  },
   "licenseBanner": {
     "requestQuoteBtn": "Solicitar un presupuesto",
+    "buyNow": "Comprar ahora",
     "buyNowBtn": "Comprar en AWS",
+    "buyNowBtnIbm": "Compre en IBM",
     "alreadyHaveLicense": "¿Ya tiene una licencia? Actívela en <linkToDocker>Docker</linkToDocker> o <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Obtener respuestas",
     "share": "Compartir",
@@ -171,6 +191,7 @@
       "useScriptAsUserDataForEc2Instance": "Utilice este script como datos de usuario para la instancia de EC2",
       "selectAgentPackagingAndRuntime": "Seleccione la modalidad de empaquetado y el tiempo de ejecución del agente",
       "awsLambdaPythonAutotrace": "El modo preferido para configurar funciones AWS Lambda basadas en Python para el rastreo es el nivel Instana Lambda con AutoTrace.",
+      "awsLambdaDotnetAutotrace": "La forma preferida de configurar las funciones de AWS Lambda basadas en .NET Core para el rastreo es la capa de Instana Lambda con AutoTrace.",
       "preferredMethodForNodeJsLambdaConfiguration": "La forma preferida de configurar las funciones AWS Lambda basadas en Node.js 8.x es utilizar la capa <lambdaManualWrapping>Instana Lambda con encapsulado manual</lambdaManualWrapping>.",
       "imageOptions": {
         "linuxGlibcBased": "Linux (basado en glibc)",
@@ -202,6 +223,7 @@
         "runningStartupScript": "Ejecución del script de inicio",
         "uninstallingTheHostAgent": "Desinstalación del agente de host",
         "awsLambdaNativeTracingForJava": "Rastreo de AWS Lambda nativo para Java",
+        "awsLambdaNativeTracingForDotNet": "Rastreo nativo de AWS Lambda para .NET Core",
         "awsLambdaFunctions": "Funciones de AWS Lambda",
         "monitoringAwsFargate": "Supervisión de AWS Fargate",
         "monitoringAwsFargateJava": "Supervisión de AWS Fargate (Java)",
@@ -324,9 +346,22 @@
         "runningTheAgent": "Ejecución del agente"
       },
       "linux_deb_rpm": {
-        "step1DownloadTheInstallPackage": "Paso 1. Descargue el paquete de instalación.",
-        "DEBAndRPMPackage": "Paquete DEB y RPM",
-        "installUsingAPackage": "Instalar utilizando un paquete"
+        "configureTheAgent": "Paso 1: Configure el agente",
+        "installUsingAPackage": "Instalar utilizando un paquete",
+        "selectThePlatformArchitecture": "Paso 2: Seleccione la arquitectura de plataforma",
+        "platformArchitecture": "Arquitectura de la plataforma",
+        "mode": "Modalidad",
+        "agentOptions": {
+          "linux64BitAarch": "Linux (64 bits - AArch)",
+          "linux64BitArm": "Linux (64 bits - ARM)",
+          "linux64BitAmd": "Linux (64 bits - AMD)",
+          "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
+          "linux64BitPowerPcLittleEndian": "Linux (64 bits - PowerPC Little Endian)",
+          "linuxS390X": "Linux (64Bit - s390x)",
+          "linuxX8664": "Linux (64Bit - x86_64)",
+          "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
+          "linuxRhel7X8664": "Linux (64Bit - RHEL7 x86_64)"
+        }
       },
       "linux_ec2": {
         "selectTheAgentPackagingMode": "Paso 1: Seleccione la modalidad de empaquetado del agente",
@@ -414,37 +449,62 @@
     }
   },
   "welcomepage": {
-    "heading": "Bienvenido",
+    "heading": "Le damos la bienvenida a Instana",
+    "foldableTileTitle": "Empecemos.",
     "viewAll": "Ver todo",
     "search": "Búsqueda",
     "addMore": "Añadir",
     "UrlShortener": "Simplificador de URL",
-    "consumeData": {
-      "title": "Servicios de descubrimiento",
-      "description": "Empiece habilitando Instana para descubrir los servicios y otros datos a supervisar.",
-      "buttonName": "Desplegar agente",
-      "buttonType": "primario"
+    "startIntegrating": {
+      "title": "Iniciar la integración de datos",
+      "description": "Inicie la configuración de Instana y la integración de datos transparente instalando un agente.",
+      "buttonName": "Instalar agentes"
+    },
+    "traceInteractions": {
+      "title": "Rastrear interacciones",
+      "description": "Comprenda cómo están conectados los componentes y vea si necesita configurar manualmente el rastreo.",
+      "buttonName": "Verificar rastreo"
+    },
+    "inviteUsers": {
+      "title": "Póngase en contacto con sus expertos",
+      "description": "Obtenga ayuda para completar las tareas de configuración y probar las características del producto.",
+      "buttonName": "Invitar a usuarios"
+    },
+    "additionalAgents": {
+      "title": "Incorporar más datos",
+      "description": "Expanda la observabilidad en toda la arquitectura.",
+      "buttonName": "Instalar agentes adicionales"
+    },
+    "appPerspective": {
+      "title": "Adaptar la vista",
+      "description": "Capture la información que necesita para optimizar sus aplicaciones y servicios.",
+      "buttonName": "Crear una perspectiva de aplicación"
+    },
+    "smartAlerts": {
+      "title": "Recibir alertas",
+      "description": "Configure alertas fácilmente con planos predefinidos para una personalización tanto sencilla como avanzada.",
+      "buttonName": "Configurar alertas inteligentes"
+    },
+    "startMonitoring": {
+      "title": "Supervisar el entorno",
+      "description": "Active las alertas en sus aplicaciones y sitios web.",
+      "buttonName": "Iniciar supervisión"
     },
     "inviteTeammates": {
-      "title": "Invitar a compañeros de equipo",
-      "description": "Colabore con sus colegas.",
-      "buttonName": "Gestionar usuarios",
-      "buttonType": "ghost"
-    },
-    "nextSteps": {
-      "title": "Próximos pasos",
-      "description": "Encuentre más visitas guiadas y apoyo adicional.",
-      "buttonName": "Obtener respuestas",
-      "buttonType": "ghost"
+      "title": "Incorpore a su equipo",
+      "description": "Invite a sus compañeros a Instana y empiece a colaborar.",
+      "buttonName": "Invite a sus compañeros de equipo"
     },
     "component": {
       "applicationWidget": {
         "label": "Aplicaciones",
+        "addLabel": "Añadir aplicación",
         "name": "Nombre",
         "calls": "Llamadas",
         "latency": "Latencia",
         "erroneousCallRate": "Tasa de llamadas erróneas",
-        "openCreationDialog": "Abrir diálogo de creación"
+        "openCreationDialog": "Abrir diálogo de creación",
+        "health": "Estado"
       },
       "eventWidget": {
         "label": "Sucesos",
@@ -458,21 +518,27 @@
         "cloudFoundry": "Cloud Foundry",
         "vsphere": "vSphere",
         "openstack": "OpenStack",
+        "openshift": "OpenShift",
         "ibmp": "IBM Power HMC",
         "powervcRegion": "Región de PowerVC",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
         "kubernetes": "Kubernetes",
+        "gke": "Google Kubernetes Engine",
+        "eks": "Amazon Elastic Kubernetes Service",
         "name": "Nombre",
         "nodes": "Nodos",
         "namespaces": "Espacios de nombres",
-        "pods": "Pods"
+        "pods": "Pods",
+        "health": "Estado",
+        "platform": "Plataforma"
       },
       "bizopsWidget": {
         "label": "Supervisión de negocio",
         "name": "Nombre",
         "activities": "Actividades",
-        "count": "Count"
+        "count": "Count",
+        "health": "Estado"
       },
       "incidentsWidget": {
         "label": "Incidencias",
@@ -480,32 +546,40 @@
         "title": "Título",
         "on": "Activar",
         "started": "Iniciado",
-        "end": "Fin"
+        "end": "Fin",
+        "health": "Estado"
       },
       "websitesWidget": {
         "label": "Sitios web",
         "name": "Nombre",
         "pageViews": "Vistas de página",
-        "onLoadTimes": "OnLoad veces"
+        "onLoadTimes": "OnLoad veces",
+        "addLabel": "Añadir sitio web",
+        "health": "Estado"
       },
       "mobileAppsWidget": {
         "label": "Aplicaciones móviles",
         "name": "Nombre",
         "sessions": "Sesiones",
-        "views": "Vistas"
+        "views": "Vistas",
+        "addLabel": "Añadir aplicación para móvil",
+        "health": "Estado"
       },
       "infrastructureWidget": {
         "label": "Infraestructura",
         "mean": "media",
         "name": "Nombre",
         "os": "SO",
+        "technologies": "Tecnologías",
         "cpuNum": "Número de CPU",
         "cpuUsage": "Uso de CPU",
         "created": "Creado",
-        "started": "Iniciado"
+        "started": "Iniciado",
+        "health": "Estado"
       },
       "syntheticWidget": {
         "label": "Supervisión sintética",
+        "addLabel": "Añadir supervisión sintética",
         "na": "N/A",
         "name": "Nombre",
         "type": "Tipo",
@@ -520,7 +594,8 @@
         "label": "Mis paneles personalizados",
         "name": "Nombre",
         "owner": "Propietario",
-        "permissions": "Permisos"
+        "permissions": "Permisos",
+        "addLabel": "Añadir panel de control"
       }
     },
     "noData": {
@@ -580,7 +655,6 @@
     "ariaLabel": {
       "search": "Búsqueda",
       "shareButton": "Botón Compartir",
-      "add": "Añadir",
       "handleButton": "Botón Manejar"
     }
   },

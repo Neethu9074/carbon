@@ -12,7 +12,9 @@
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Wiederherstellen",
     "alertHeaderRestoreDeleteTooltip": "Löschen",
     "alertHeaderEditTooltip": "Bearbeiten",
+    "alertHeaderEditTooltipNew": "Bearbeiten (Neu)",
     "alertHeaderDuplicateTooltip": "Duplizieren",
+    "alertHeaderDuplicateTooltipNew": "Duplizieren (Neu)",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Bitte bestätigen",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Soll der Alert <strong>{{alertConfigName}}</strong> entfernt werden?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Entfernen",
@@ -285,12 +287,16 @@
         "slowness": {
           "name": "Langsame Aufrufe",
           "headline": "Automatische Alerts für langsame Aufrufe",
-          "text": "Eine Warnung erhalten, wenn Aufrufe an ausgewählte Services und Endpunkte dieser Anwendungsperspektive langsamer als üblich sind."
+          "text": "Eine Warnung erhalten, wenn Aufrufe an ausgewählte Services und Endpunkte dieser Anwendungsperspektive langsamer als üblich sind.",
+          "tearSheetHeadline": "Anzahl der Alerts für Aufrufe",
+          "tearSheetDescription": "Automatische Alerts, wenn Aufrufe ausgewählter Services und Endpunkte dieser Anwendungsperspektive den Schwellenwert überschreiten."
         },
         "errors": {
           "name": "Fehlerhafte Aufrufe",
           "headline": "Automatische Alerts für fehlerhafte Aufrufe",
-          "text": "Empfangen Sie einen Alert, wenn die Rate oder Zahl der fehlerhaften Aufrufe für ausgewählte Services und Endpunkte dieser Anwendungsperspektive größer als normal ist."
+          "text": "Empfangen Sie einen Alert, wenn die Rate oder Zahl der fehlerhaften Aufrufe für ausgewählte Services und Endpunkte dieser Anwendungsperspektive größer als normal ist.",
+          "tearSheetHeadline": "Automatische Alerts für fehlerhafte Aufrufe",
+          "tearSheetDescription": "Sie erhalten einen Alert, wenn die Rate oder Anzahl der fehlerhaften Aufrufe für ausgewählte Services und Endpunkte dieser Anwendungsperspektive den Schwellenwert überschreitet."
         },
         "logs": {
           "name": "Protokolle",
@@ -303,13 +309,17 @@
           "name": "HTTP-Statuscodes",
           "headline": "Automatische Alerts für HTTP-Statuscodes",
           "text": "Jedes Mal einen Alert empfangen, wenn übereinstimmende HTTP-Statuscodes häufiger auftreten als üblich.",
-          "incompleteRuleMessage": "Wählen Sie einen Statuscode aus, um anzuzeigen, wann dieser Alert ausgelöst wird"
+          "incompleteRuleMessage": "Wählen Sie einen Statuscode aus, um anzuzeigen, wann dieser Alert ausgelöst wird",
+          "tearSheetHeadline": "Automatische Alerts für HTTP-Statuscodes",
+          "tearSheetDescription": "Empfangen Sie einen Alert, wenn übereinstimmende HTTP-Statuscodes häufiger als der Schwellenwert auftreten."
         },
         "throughput": {
           "name": "Durchsatz",
           "headline": "Automatische Alerts für Aufrufanzahl",
           "text": "Automatische Alerts bei anomaler oder hoher Anzahl an Aufrufen für ausgewählte Services und Endpunkte dieser Anwendungsperspektive.",
-          "metricLabel": "Aufrufe"
+          "metricLabel": "Aufrufe",
+          "tearSheetHeadline": "Automatische Alerts für Seitenaufrufe",
+          "tearSheetDescription": "Automatische Alerts bei einer ungewöhnlich niedrigen oder hohen Anzahl von Aufrufen für ausgewählte Services und Endpunkte dieser Anwendungsperspektive."
         },
         "simpleMode": {
           "unexpectedDrop": {
@@ -322,7 +332,8 @@
             "headline": "Automatische Alerts zu anomal hoher Anzahl an Aufrufen",
             "text": "Alert empfangen, wenn die Anzahl der Aufrufe im Vergleich zu den verfügbaren vergangenen Daten deutlich höher ist als erwartet. Dies kann ein Hinweis auf einen Angriff oder ein Bot sein, der zu viele Anforderungen an die Anwendung generiert."
           }
-        }
+        },
+        "variantMessage": "Das angegebene initialItem, ausgewählt mit Typ {{type}}, ist in der Liste der Elemente nicht vorhanden."
       },
       "formUtils": {
         "titlePlaceholder": {
@@ -461,6 +472,7 @@
         "labelActionButtonEdit": "Bearbeiten",
         "labelActionButtonEditNew": "Bearbeiten (Neu)",
         "labelActionButtonDuplicate": "Duplizieren",
+        "labelActionButtonDuplicateNew": "Duplizieren (Neu)",
         "labelActionButtonDelete": "Löschen",
         "labelAlertFilters": "Filter",
         "labelConfirm": "Bitte bestätigen",
@@ -689,15 +701,20 @@
         "add": "Hinzufügen",
         "alertPropertyInsertPlaceholderLabel": "Platzhalter einfügen",
         "scopeConfigTitleWithApplications": "Anwendungen/Services/Endpunkte auswählen",
+        "scopeConfigTitleWithApplicationsForTearsheet": "Anwendungen/Services/Endpunkte",
         "scopeConfigTitle": "Services/Endpunkte auswählen",
         "scopeConfigSelectOneEntryMessage": "Wählen Sie mindestens einen Eintrag aus.",
         "scopeConfigTitleTooltip": "Verfügbare Entitäten für die letzten 24 Stunden anzeigen",
+        "scopeConfigSubTitle": "Basierend auf den letzten 24 Stunden",
         "scopeMigrationMessage_FAILED": "Der Bereich konnte nicht automatisch migriert werden. Wählen Sie die entsprechenden Tagfilter für die folgende dynamische Fokusabfrage aus:",
         "scopeMigrationMessage_PARTIAL": "Der Bereich konnte nicht vollständig migriert werden. Wählen Sie die entsprechenden Tagfilter für die folgende dynamische Fokusabfrage aus:",
         "scopeMigrationMessage_FULL": "Der angewendete Bereich basiert auf der zuvor verwendeten dynamischen Fokusabfrage:",
         "scopeMigrationMessageAllAvailableEntities": "Der angewendete Bereich basiert auf der zuvor verwendeten Auswahl aller verfügbaren Einheiten.",
         "scopeMigrationMessageSelectedApplications": "Der angewendete Bereich basiert auf der zuvor verwendeten Auswahl von Anwendungsperspektiven.",
         "sortByUserSelectionLabel": "Nach Benutzerauswahl sortieren",
+        "sortBySelectionLabel": "Nach Auswahl sortieren",
+        "scopeFilterCallsTitle": "Filteraufrufe",
+        "scopeFilterCallsDescription": "Wählen Sie die Services aus, um genauere Alerts zu erhalten.",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Mindestens {{count}} Benutzer und {{userPercentage}} der innerhalb der letzten {{formattedTimeWindow}} betroffenen Benutzer",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Mindestens {{count}} Benutzer und {{userPercentage}} der innerhalb der letzten {{formattedTimeWindow}} betroffenen Benutzer",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "Mindestens {{count}} Benutzer und {{userPercentage}} der innerhalb der letzten {{formattedTimeWindow}} betroffenen Benutzer",
@@ -1372,7 +1389,8 @@
           "label": "Nutzdaten",
           "title": "Angepasste Nutzdaten"
         },
-        "thresholdValue": "Schwellenwert"
+        "thresholdValue": "Schwellenwert",
+        "valueMappings": "Die numerischen Werte der ausgewählten Metrik entsprechen den folgenden Zeichenfolgewerten:"
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Geben Sie eine Zahl >= 0 an",
@@ -1459,9 +1477,17 @@
       "logCount": "Anzahl der Protokolle"
     },
     "slo": {
+      "components": {
+        "operatorDropdown": "",
+        "operatorDropdown_more": "mehr als",
+        "operatorDropdown_more-or-equal": "mehr als oder gleich",
+        "operatorDropdown_less": "kleiner als",
+        "operatorDropdown_less-or-equal": "kleiner-gleich"
+      },
       "validators": {
         "noEmptySloIds": "Wählen Sie mindestens ein SLO aus.",
-        "notLessThanOrEqualToZero": "Legen Sie einen Wert fest, der größer als 0 ist."
+        "notLessThanOrEqualToZero": "Legen Sie einen Wert fest, der größer als 0 ist.",
+        "noInvalidOperator": "Wählen Sie einen Operator aus der Liste aus."
       },
       "advancedModeContainer": {
         "stepLabel": "",
@@ -1485,27 +1511,43 @@
         "blueprint_ERROR_BUDGET": "Fehlerbudget",
         "blueprintDescription": "",
         "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "Einen Alert empfangen, wenn der SLO-Status unter einen Schwellenwert fällt.",
-        "blueprintDescription_ERROR_BUDGET": "Sie erhalten einen Alert, wenn ein Prozentsatz des Fehlerbudgets verbrannt wird.",
+        "blueprintDescription_ERROR_BUDGET": "Einen Alert empfangen, wenn ein Prozentsatz des Fehlerbudgets verbraucht ist.",
         "thresholdTitle": "Schwellenwert: Wann möchten Sie benachrichtigt werden?",
         "thresholdInputDescription": "",
-        "thresholdInputDescription_ERROR_BUDGET": "Prozentsatz des Fehlerbudgets wird abgebrannt",
-        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "Prozentsatz ist das SLO-Ziel oder weniger",
+        "thresholdInputDescription_ERROR_BUDGET": "Wenn <1/> <2/> Prozent des Fehlerbudgets verbraucht sind",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "Wenn der SLO-Status <1/> <2/> Prozent ist",
         "timeThresholdType_gracePeriod": "Wenn die Bedingung über einen angegebenen Zeitraum bestehen bleibt",
         "timeThresholdTypeTitle_gracePeriod": "Alert bei Verletzung der Bedingung für aufeinanderfolgende $t (in-components:time.minutes, {\"count\": {{minutes}} })",
+        "timeThresholdTypeTitle_cooldownPeriod": "Mindestens $t (in-components:time.minutes, {\"count\": {{minutes}} }) muss verstrichen sein, damit das Ereignis beendet wird",
         "alertProperties_entityLabel": "SLO-Name",
         "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO-Status ist niedrig",
-        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO-Status ist kleiner-gleich {{percentage}}.",
-        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Fehler: Verbleibendes Budget ist niedrig",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Das verbleibende Fehlerbudget ist kleiner-gleich {{percentage}}."
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO-Status ist $t (in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\") {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Verbleibendes Fehlerbudget ist niedrig",
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Verbraucht $t (in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\"}) {{percentage}} des Fehlerbudgets.",
+        "alertPropertiesIncidentWarning": "Vorfälle gelten nur für Service-Level-Ziele, die Anwendungen zugeordnet sind."
       },
       "details": {
         "alertConfigurationTitle": "Alertkonfiguration",
         "sloHeader": "SLOs",
+        "thresholdInfo_ERROR_BUDGET": "Wenn $t (in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\"}) {{percentage}} Prozent des Fehlerbudgets konsumiert werden",
+        "thresholdInfo_SERVICE_LEVELS_OBJECTIVE": "Wenn SLO-Status $t (in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\"}) {{percentage}} Prozent",
         "timeThresholdHeader": "$t (in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t (in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t (in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
         "blueprintLabel": "Entwurf",
-        "thresholdLabel": "Schwellenwert"
+        "coolDownPeriodDescription": "Mindestens {{value}} muss übergeben werden, damit das Ereignis abgeschlossen werden kann."
+      },
+      "alertList": {
+        "threshold": "Schwellenwert: {{value}}",
+        "sloApplied": "SLOs angewendet",
+        "sloCount": "{{count}} SLO",
+        "sloCount_plural": "{{count}} SLOs",
+        "sloCount_0": "{{count}} SLOs",
+        "sloCount_1": "{{count}} SLOs",
+        "sloCount_2": "{{count}} SLOs",
+        "title": "",
+        "title_ERROR_BUDGET": "Fehlerbudget verbraucht",
+        "title_SERVICE_LEVELS_OBJECTIVE": "Status"
       }
     }
   }

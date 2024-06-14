@@ -297,8 +297,11 @@
       "thresholdForm": {
         "addThresholdColorization": "Ajouter une colorisation basée sur un seuil",
         "threshold": "Seuil",
-        "critical": "Erreur critique en cas de temps d'attente",
-        "warning": "Avertissement en cas de temps d'attente"
+        "critical": "Critique lorsque",
+        "warning": "Avertissement lorsque",
+        "criticalValidator": "Le seuil critique doit être supérieur au seuil d'avertissement pour les opérateurs > et > =.",
+        "warningValidator": "Le seuil d'avertissement doit être supérieur au seuil critique pour les opérateurs < et < =.",
+        "bytes": "Octets"
       },
       "bigNumber": "Grand nombre"
     },

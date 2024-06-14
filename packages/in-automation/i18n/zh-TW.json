@@ -3,11 +3,10 @@
   "edit": "編輯",
   "delete": "刪除",
   "test": "測試",
-  "recommendedActions": "建議的動作",
   "recommendedActionsWithCount": "建議動作 ({{count}})",
+  "recommendedActions": "建議的動作",
   "validVaultParameter": "標示為選用的儲存庫參數必須同時空白或兩者都不是空白。",
   "newAction": "新增動作",
-  "ok": "確定",
   "runAction": "執行動作",
   "testAction": "測試動作",
   "targetAgent": "目標代理程式",
@@ -40,12 +39,10 @@
   "parameters": "參數",
   "noParametersTitle": "無參數",
   "noParametersText": "此動作沒有任何參數。",
-  "linkToActionLogs": "可以在<logsLink>分析 > 日誌</logsLink>中檢視此動作的輸出。",
-  "linkToActionHistory": "可以在 <logsLink>「動作歷程」頁面</logsLink> 中檢視此動作實例的輸出。",
+  "linkToActionHistory": "可以在「動作歷程」中檢視此動作實例的輸出。",
   "description": "說明",
   "automation": "自動化",
   "failedToResolveDynamicParameters": "無法解析動態參數。",
-  "createPolicyWithName": "使用動作 {{actionName}} 建立原則",
   "deletePolicyWithName": "刪除原則 {{actionName}}",
   "jobTemplate": "工作範本",
   "hostsLimit": "主機限制（選用）",
@@ -81,8 +78,8 @@
   "noTagsConfigured": "未配置任何標籤",
   "value": "值",
   "type": "類型",
-  "automationPolicies": "自動化原則",
   "automationPoliciesWithCount": "自動化原則 ({{count}})",
+  "automationPolicies": "自動化原則",
   "copyOf": "（副本）{{name}}",
   "searchActions": "搜尋動作",
   "hostsLimitHelpText": "將執行限制為指定的目標主機。 選取符合 Ansible 庫存中系統呈現方式的值，或輸入 Ansible 限制語法所支援的字串。",
@@ -93,9 +90,47 @@
   "tag": "標籤",
   "noTagsAvailable": "沒有可用的標籤",
   "actions": "動作",
+  "actionsWithCount": "動作 ({{count}})",
+  "titleUrl": "URL",
+  "generateWithAI": "利用 AI 產生",
+  "AISlugContent": "已使用 AI 來產生此內容",
+  "createPolicyWithName": "檢視動作 {{actionName}} 並建立原則",
+  "viewActionCreatePolicy": "檢視動作並建立原則",
+  "simpleAIDialog": {
+    "Step1Headline": "從 watsonx 所產生的動作開始，以建立此事件的新動作及自動化原則。",
+    "Step2Headline": "指定詳細資料以建立新動作。",
+    "Step3Headline": "指定詳細資料以建立新的自動化原則。",
+    "step1Title": "步驟 1：選取產生的動作",
+    "step2Title": "步驟 2：自訂動作",
+    "step3Title": "步驟 3：建立原則",
+    "policyDetails": "原則詳細資料",
+    "policyText": "將為下列動作及事件觸發程式建立新的原則：",
+    "policy": {
+      "success": {
+        "title": "已建立動作和原則",
+        "content": "已在型錄中新增動作，且已建立新的原則 {{name}}",
+        "link": "動作鏈結"
+      }
+    }
+  },
+  "SimpleCreatePolicyDialog": {
+    "Step1Headline": "檢視建議的動作，並建立此事件的自動化原則。",
+    "Step2Headline": "指定詳細資料以建立新的自動化原則。",
+    "step1Title": "步驟 1：檢視建議動作",
+    "step2Title": "步驟 2：建立原則",
+    "policy": {
+      "success": {
+        "title": "已建立原則",
+        "successContentForuserAction": "已建立新的原則 {{name}}"
+      }
+    }
+  },
+  "userDefinedWithCount": "使用者建立 ({{count}})",
+  "userDefined": "使用者建立",
+  "aiGeneratedWithCount": "AI 產生 ({{count}})",
+  "aiGenerated": "AI 產生",
   "ActionCatalog": {
     "actionCatalog": "動作型錄",
-    "actionCatalogWithCount": "動作型錄 ({{count}})",
     "action": "動作",
     "newAction": "新增動作",
     "createANewAction": "建立新動作",
@@ -211,6 +246,7 @@
   },
   "actionHistory": {
     "actionHistory": "動作歷程",
+    "goToActionHistory": "移至動作歷程",
     "actionHistoryWithCount": "動作歷程 ({{count}})",
     "noActionInstances": "沒有可用的資料",
     "external": "外部",
@@ -301,6 +337,7 @@
     "mobileAppSmartAlert": "行動式應用程式智慧型警示",
     "syntheticsSmartAlert": "綜合智慧型警示",
     "logSmartAlert": "記載智慧型警示",
+    "sloSmartAlert": "服務水準智慧型警示",
     "docLinkAndManualCantBeAutomated": "文件鏈結和手動動作無法自動化。",
     "triggeringAgent": "觸發代理程式",
     "triggeringHostFqdn": "觸發主機 FQDN",
