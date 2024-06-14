@@ -29,7 +29,7 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { loggingEnabled } from 'in-services/featureFlags';
 import getLogs from 'in-logging/subscriptions/getLogs';
-import { minutes } from 'in-services/time';
+import { hours } from 'in-services/time';
 
 interface GetDataParams {
   traceId: string;
@@ -41,7 +41,7 @@ interface UseLogsInCallsParams {
   trace: any;
 }
 
-const timeWindowExtend = minutes.toMillis(10);
+const timeWindowExtend = hours.toMillis(10);
 
 const useTimeConfigForLogs = (trace: TraceSummary) => {
   return useMemo(
