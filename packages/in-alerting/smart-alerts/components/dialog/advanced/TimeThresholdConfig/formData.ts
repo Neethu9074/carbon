@@ -32,3 +32,36 @@ export const timeThresholdLabels: Record<TimeThresholdType, string> = {
     'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelTraceImpact'
   )
 };
+
+export type TimeThresholdTypeTearSheet =
+  | 'userImpactOfViolationsInSequence'
+  | 'violationsPersistOverTime'
+  | 'violationsInSequence'
+  | 'violationsInPeriod'
+  | 'requestImpact'; // the type value is still requestImpact due to backward compatibility, even though it is about traces
+
+export const timeThresholdTypesTearSheet = Object.freeze({
+  violationsInSequence: 'violationsInSequence',
+  violationsInPeriod: 'violationsInPeriod',
+  userImpactOfViolationsInSequence: 'userImpactOfViolationsInSequence',
+  violationsPersistOverTime: 'violationsPersistOverTime',
+  traceImpact: 'requestImpact' // the type value is requestImpact due to backward compatibility, even though it is about traces
+} as const);
+
+export const timeThresholdLabelsTearSheet: Record<TimeThresholdTypeTearSheet, string> = {
+  userImpactOfViolationsInSequence: t(
+    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence'
+  ),
+  requestImpact: t(
+    'in-alerting:smartAlerts.components.tearSheet.timeThreshold.timeThresholdConfigTimeThresholdLabelTraceImpact'
+  ),
+  violationsPersistOverTime: t(
+    'in-alerting:smartAlerts.components.tearSheet.timeThreshold.timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime'
+  ),
+  violationsInSequence: t(
+    'in-alerting:smartAlerts.components.tearSheet.timeThreshold.timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval'
+  ),
+  violationsInPeriod: t(
+    'in-alerting:smartAlerts.components.tearSheet.timeThreshold.timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously'
+  )
+};

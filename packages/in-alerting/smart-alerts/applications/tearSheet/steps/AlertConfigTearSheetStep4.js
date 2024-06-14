@@ -23,6 +23,7 @@ import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/di
 import EntitySelectionFormUpdater from 'in-alerting/smart-alerts/applications/chart/EntitySelectionFormUpdater';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/dialog/IncompleteChartPlaceholder';
 import MetricDropdown from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/MetricDropdown';
+import EvaluationGranularity from 'in-alerting/smart-alerts/components/tearSheet/EvaluationGranularity';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
@@ -119,6 +120,13 @@ export default function AlertConfigTearSheetStep4(props) {
           )}
           {thresholdType === HISTORIC_BASELINE && <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />}
           {thresholdType === ADAPTIVE_BASELINE && <AdaptiveBaselineErrorMessage thresholdResult={thresholdResult} />}
+          <EvaluationGranularity
+            form={form}
+            updateForm={updateForm}
+            oneMinuteGranularityAllowed={
+              thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
+            }
+          />
         </TearSheetStepContentWrapper>
         <TearSheetStepContentWrapper
           headline={t('in-alerting:smartAlerts.applications.tearSheet.timeThreshold.title')}

@@ -922,6 +922,23 @@
         "labelConfirm": "Please Confirm",
         "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
         "labelRemove": "Remove"
+      },
+      "tearSheet": {
+        "timeThreshold": {
+          "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "When violations persist over time",
+          "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Violations persist at random intervals",
+          "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "Violations persist continuously",
+          "timeThresholdConfigTimeThresholdLabelTraceImpact": "When a minimum number of traces are impacted",
+          "granularity": {
+            "description": "Calls are placed in {{granularity}}-minute windows; every {{granularity}} minutes, a metric value is calculated for that window"
+          },
+          "triggerAlert": "Trigger alert",
+          "triggerAfter": "Trigger after",
+          "tracesImpacted": "traces are impacted",
+          "outOfConsecutiveEvaluations": "out of",
+          "persistenceType": "Persistence type",
+          "numberOfConsecutiveViolationsPostLabel": "consecutive {{granularity}}-minute window(s) have violations"
+        }
       }
     },
     "websites": {

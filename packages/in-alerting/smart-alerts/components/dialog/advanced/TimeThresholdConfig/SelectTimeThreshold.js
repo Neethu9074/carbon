@@ -78,7 +78,7 @@ function createOption(form, updateForm, timeThresholdType, disabled = false) {
   };
 }
 
-function getTimeThresholdFormForType(form, timeThresholdType) {
+export function getTimeThresholdFormForType(form, timeThresholdType) {
   const timeThreshold = form.get('timeThreshold').toJS();
   const thresholdType = form.get('threshold').toJS().type;
 

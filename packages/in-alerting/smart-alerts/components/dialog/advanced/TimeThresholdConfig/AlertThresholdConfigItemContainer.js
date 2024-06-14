@@ -11,15 +11,25 @@ import { SvgIcon } from '@instana/components';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/TimeThresholdConfig.mless';
 
-export default function AlertThresholdConfigItemContainer({ children, iconType, hasExtraColumnOnRight, noIcon }) {
+export default function AlertThresholdConfigItemContainer({
+  children,
+  iconType,
+  hasExtraColumnOnRight,
+  noIcon,
+  isTearSheet,
+  isFiveColumnInTearSheet
+}) {
   return (
     <div
       className={classNames({
         [locals.columns4]: hasExtraColumnOnRight,
         [locals.columns3]: !hasExtraColumnOnRight && !noIcon,
-        [locals.itemWithLabelGrid]: !hasExtraColumnOnRight && noIcon,
-        [locals.leftPaddingNoIcon]: noIcon,
-        [locals.alertConfigItemContainer]: true
+        [locals.itemWithLabelGrid]: !isTearSheet && !hasExtraColumnOnRight && noIcon,
+        [locals.columns3TearSheet]: isTearSheet,
+        [locals.columns5TearSheet]: isFiveColumnInTearSheet,
+        [locals.leftPaddingNoIcon]: !isTearSheet && noIcon,
+        [locals.alertConfigItemContainer]: true,
+        [locals.timeThresholdFieldContainer]: isTearSheet
       })}
     >
       {!noIcon && <SvgIcon className={locals.icon} type={iconType} />}
@@ -32,5 +42,7 @@ AlertThresholdConfigItemContainer.propTypes = {
   children: PropTypes.node.isRequired,
   hasExtraColumnOnRight: PropTypes.bool,
   noIcon: PropTypes.bool,
+  isTearSheet: PropTypes.bool,
+  isFiveColumnInTearSheet: PropTypes.bool,
   iconType: PropTypes.string
 };

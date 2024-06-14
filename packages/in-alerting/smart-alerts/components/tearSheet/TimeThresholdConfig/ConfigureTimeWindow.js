@@ -1,0 +1,116 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
+import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
+import DebouncedInput from 'in-components/form/Input/DebouncedInput';
+import AlertTypography from 'in-alerting/components/AlertTypography';
+import { t } from 'in-i18n';
+
+export default function ConfigureTimeWindow({
+  label,
+  timeThresholdType,
+  onChange,
+  granularity,
+  granularityInMinutes,
+  timeThresholdTimeWindow,
+  min = 1,
+  maxTimeWindow = 12,
+  step = 1,
+  hasError,
+  type = 'number',
+  onChangeViolations,
+  violations,
+  maxViolations
+}) {
+  return (
+    <AlertThresholdConfigItemContainer
+      noIcon
+      isTearSheet
+      isFiveColumnInTearSheet={timeThresholdType === timeThresholdTypes.violationsInPeriod}
+    >
+      <AlertTypography variant={'body-regular'} color={'color900'} content={label} noMargin />
+
+      {timeThresholdType === timeThresholdTypes.violationsInPeriod && (
+        <>
+          <DebouncedInput
+            delay={300}
+            id="violationCount"
+            name="violationCountInput"
+            type={type}
+            min={min}
+            max={maxViolations}
+            step={step}
+            onValueChange={value => {
+              if (value && value > maxViolations) {
+                value = maxViolations;
+              }
+              onChangeViolations(value);
+            }}
+            value={violations}
+            pure={false}
+          />
+          <AlertTypography
+            variant={'body-small'}
+            color={'color600'}
+            content={t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.outOfConsecutiveEvaluations')}
+            noMargin
+          />
+        </>
+      )}
+      <DebouncedInput
+        delay={300}
+        id="timeWindow"
+        name="timeWindowInput"
+        type={type}
+        min={min}
+        max={maxTimeWindow}
+        step={step}
+        onValueChange={value => {
+          if (value && value > maxTimeWindow) {
+            value = maxTimeWindow;
+          }
+          onChange(value * granularity);
+        }}
+        value={timeThresholdTimeWindow / granularity ?? ''}
+        hasError={hasError}
+        pure={false}
+      />
+
+      <AlertTypography
+        variant={'body-small'}
+        color={'color600'}
+        content={t(
+          'in-alerting:smartAlerts.components.tearSheet.timeThreshold.numberOfConsecutiveViolationsPostLabel',
+          {
+            granularity: granularityInMinutes
+          }
+        )}
+        noMargin
+      />
+    </AlertThresholdConfigItemContainer>
+  );
+}
+
+ConfigureTimeWindow.propTypes = {
+  label: PropTypes.string.isRequired,
+  timeThresholdType: PropTypes.string.isRequired,
+  timeThresholdTimeWindow: PropTypes.number.isRequired,
+  granularity: PropTypes.number.isRequired,
+  onChange: PropTypes.func,
+  granularityInMinutes: PropTypes.number,
+  min: PropTypes.number,
+  maxTimeWindow: PropTypes.number,
+  step: PropTypes.number,
+  hasError: PropTypes.bool,
+  type: PropTypes.string,
+  onChangeViolations: PropTypes.func,
+  violations: PropTypes.number,
+  maxViolations: PropTypes.number
+};

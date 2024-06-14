@@ -21,12 +21,24 @@
     &.columns3 {
       grid-template-columns: 10% 20% 70%;
     }
+    &.columns3TearSheet {
+      grid-template-columns: 15% 8% 58%;
+    }
+    &.columns5TearSheet {
+      grid-template-columns: 15% 8% 6% 8% 45%;
+    }
     &.itemWithLabelGrid {
       grid-template-columns: 20% 80%;
     }
     &.leftPaddingNoIcon {
       padding-left: 1rem;
     }
+  }
+
+  .timeThresholdFieldContainer {
+    padding-top: 1.5rem;
+    min-height: unset;
+    grid-gap: 1rem;
   }
 
   .icon {
@@ -67,6 +79,9 @@
 
   .input {
     width: 5.625rem;
+  }
+  .inputTearSheet {
+    width: 4rem;
   }
 
   .checkbox {

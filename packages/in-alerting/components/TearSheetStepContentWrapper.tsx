@@ -28,7 +28,7 @@ export default function TearSheetStepContentWrapper({
     <div className={classNames(locals.container, { [locals.showPadding]: !hidePadding })}>
       <AlertTypography variant={'heading-300'} color={'color900'} content={headline} noMargin>
         <span className={locals.block}>
-          <AlertTypography variant={'body-small'} color={'color600'} content={description} noMargin />
+          <AlertTypography variant={'body-regular'} color={'color600'} content={description} noMargin />
         </span>
       </AlertTypography>
       <>{children}</>
