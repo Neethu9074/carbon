@@ -151,6 +151,7 @@ export default function RecommendedActions({
       onChange={setServerTableUrlState}
       orderBy={orderBy}
       orderDirection={orderDirection}
+      searchMaxWidth={180}
       page={page}
       pageSize={pageSize}
       query={query}

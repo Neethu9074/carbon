@@ -5,14 +5,13 @@
 
 import React from 'react';
 
-import { ButtonGroup } from '@instana/components';
+import { ButtonGroup, SearchInput } from '@instana/components';
 import { Card } from '@instana/components';
 
 import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';
 import { createStore } from 'in-sdk/components/dashboard/Table/stores/content';
 import Row from 'in-sdk/components/dashboard/Table/components/Row';
 import { shallowEquals } from 'in-services/util/object';
-import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 

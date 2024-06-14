@@ -5,8 +5,8 @@
 
 import React, { useState } from 'react';
 
+import { SvgIcon, SearchInput } from '@instana/components';
 import { Th, SortableTh } from '@instana/legacy';
-import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -16,7 +16,6 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { OrderDirection, SortComparator } from 'in-types';
 import Overlay from 'in-components/overlays/Overlay';
-import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 

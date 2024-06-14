@@ -128,6 +128,7 @@ export default function Policies() {
         pageSize={actualPageSize}
         page={actualPage}
         searchPlaceholder={t('in-automation:policies.searchPolicies')}
+        searchMaxWidth={180}
         onRowClick={item => navigateToPolicyDetails(item, false)}
         cardTitle={
           policiesProgress.loading

@@ -6,8 +6,9 @@
 import { Iterable, Map } from 'immutable';
 import React, { Fragment } from 'react';
 
+import { SearchInput } from '@instana/components';
+
 import { containsIgnoreCase, compareIgnoreCase } from 'in-services/util/string';
-import SearchInput from 'in-components/SearchInput/SearchInput';
 
 import locals from './KeyValueDialogPresenter.mless';
 

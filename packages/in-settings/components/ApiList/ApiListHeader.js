@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import SearchInput from 'in-components/SearchInput';
+import { SearchInput } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 import locals from './ApiListHeader.mless';

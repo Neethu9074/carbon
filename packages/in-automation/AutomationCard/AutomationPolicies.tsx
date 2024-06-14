@@ -403,6 +403,7 @@ function SelectActionsDialog({ event, actions, trigger }: SelectActionsDialogPro
             onChange={setServerTableUrlState}
             page={page}
             onRowClick={onChange}
+            searchMaxWidth={180}
             pageSize={pageSize}
             result={result}
             query={query}
@@ -553,6 +554,7 @@ export default function AutomationPolicies({
           <Spacer horizontal="small" />
         </>
       }
+      searchMaxWidth={180}
       searchPlaceholder={t('in-automation:policies.searchPolicies')}
     />
   );

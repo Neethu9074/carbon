@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import invariant from 'invariant';
 
 import { TableErrorRows, Table, Tbody, Thead } from '@instana/legacy';
-import { Card } from '@instana/components';
+import { Card, SearchInput } from '@instana/components';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
@@ -20,7 +20,6 @@ import { Nullish, PaginatedResult, Result, ResultPrecision } from 'in-types';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
-import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 

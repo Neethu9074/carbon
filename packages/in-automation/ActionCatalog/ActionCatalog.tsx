@@ -84,6 +84,7 @@ export default function ActionCatalog({
       pageSize={pageSize}
       page={page}
       searchPlaceholder={t('in-automation:searchActions')}
+      searchMaxWidth={180}
       onRowClick={item => {
         navigateToActionDetails(item, false);
         if (!isUserActions) viewAIGenaratedActionTracker({ actionName: item.name });

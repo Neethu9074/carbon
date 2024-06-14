@@ -6,7 +6,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { keyCodes, HorizontalIndicator } from '@instana/components';
+import { keyCodes, HorizontalIndicator,SearchInput } from '@instana/components';
 
 import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
 import SlideInView, { ListHeader } from 'in-components/SlideInView/SlideInView';
@@ -17,7 +17,6 @@ import { search } from 'in-components/SelectorOverlay/search';
 import { getInteractiveElements } from 'in-services/util/dom';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import Node from 'in-components/SelectorOverlay/Node';
-import SearchInput from 'in-components/SearchInput';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 

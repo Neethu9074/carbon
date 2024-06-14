@@ -6,14 +6,13 @@
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { Ul, Li } from '@instana/components';
+import { Ul, Li, SearchInput } from '@instana/components';
 
 import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
 import { search } from 'in-components/SelectorOverlay/search';
 import { getInteractiveElements } from 'in-services/util/dom';
 import Pagination from 'in-components/Pagination/Pagination';
 import { isNotBlank } from 'in-services/util/string';
-import SearchInput from 'in-components/SearchInput';
 import { t } from 'in-i18n';
 
 import locals from './PaginatedMetricList.mless';

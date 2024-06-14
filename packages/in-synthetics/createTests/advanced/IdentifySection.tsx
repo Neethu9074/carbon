@@ -58,7 +58,7 @@ export default function IdentifySection({ form, updateForm, applications }: Prop
     let header = (
       <SearchInput
         className={locals.rightHeader}
-        maxWidth="140"
+        maxWidth={140}
         query={searchInput}
         placeholder=""
         onChange={q => setSearchInput(q)}
