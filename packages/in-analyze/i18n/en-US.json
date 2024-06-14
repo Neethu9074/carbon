@@ -111,7 +111,7 @@
       "summary": {
         "logs": "Logs",
         "analyzeLogs": "View in analyze",
-        "logsCardDescription": "Previewing the first {{logsToPreview}} logs, consult the totality in Analyze Logs.",
+        "logsCardDescription": "This is a preview, view all logs in Analyze.",
         "correspondingMobileAppActivity": "Corresponding Mobile App Activity",
         "hideMobileAppInformation": "Hide Mobile App Information",
         "showMobileAppInformation": "Show Mobile App Information",

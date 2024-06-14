@@ -117,7 +117,6 @@ export default function Summary({
 
   const showLogsCard = loggingEnabled && logsContextValue.items.length > 0;
   const areLogsLoading = logsContextValue.progress?.loading === true;
-  const logsToPreview = 5;
 
   const logsHref = useLinkToLogs({
     tagFilterExpression: [getTraceIdTagFilter(traceId)],
@@ -356,9 +355,7 @@ export default function Summary({
                   >
                     {logsContextValue.items.length > 5 && (
                       <span className={locals.logsCardDescription}>
-                        {t('in-analyze:traceDetail.tabs.summary.logsCardDescription', {
-                          logsToPreview: logsToPreview
-                        })}
+                        {t('in-analyze:traceDetail.tabs.summary.logsCardDescription')}
                       </span>
                     )}
                     <Logs setCallId={setCallId} />
