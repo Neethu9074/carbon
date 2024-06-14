@@ -34,7 +34,7 @@ export default function UsageCharts({
       }
     : {
         ...tenantUnit,
-        metrics: ['licensed_data', 'data_ingested_total'],
+        metrics: ['licensed_data_daily', 'data_ingested_total'],
         labels: ['Entitled per Day', 'Total'],
         colors: [carbonAlert.red60, carbonAlert.blue70],
         formatter: 'bytes.compact'
