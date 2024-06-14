@@ -49,6 +49,7 @@ export interface DatatableWidgetProps extends InfraProps, SyntheticProps {
   addData: AddMoreFunction;
   columnDefinitions: [];
   hasAddMore?: boolean;
+  hasAddPermission?: boolean;
   viewAll?: boolean;
   href?: string;
   label: string;

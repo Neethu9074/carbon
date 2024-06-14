@@ -25,7 +25,8 @@ import {
   hasEventsAccess,
   hasAPlatformAccess,
   hasBizOpsAccess,
-  hasInfrastructureAccess
+  hasInfrastructureAccess,
+  hasSyntheticsAccess
 } from 'in-stores/permission';
 // @ts-expect-error file needs to be converted
 import ChartWidget from 'in-custom-dashboards/widgets/Chart/Widget';
@@ -40,6 +41,7 @@ import DashboardWidget from 'in-plg/pages/WelcomePage/widgets/DashboardWidget';
 import PlatformWidget from 'in-plg/pages/WelcomePage/widgets/PlatformWidget';
 import { carbonAlert, outlineForColor } from 'in-themes/chartColors';
 import { setSingle, settings$ } from 'in-services/settings/settings';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { UiSettings } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -223,12 +225,12 @@ const tableEntryArray: tableEntry[] = widgetData
       (ele.key === 'eventsWidget' && hasEventsAccess) ||
       (ele.key === 'platformsWidget' && hasAPlatformAccess) ||
       (ele.key === 'businessMonitoringWidget' && hasBizOpsAccess) ||
-      ele.key === 'incidentsWidget' ||
+      (ele.key === 'incidentsWidget' && !playwithEnabled) ||
       (ele.key === 'websitesWidget' && hasWebsitesAccess) ||
       (ele.key === 'mobileListWidget' && hasMobileAppsAccess) ||
       (ele.key === 'infrastructureWidget' && hasInfrastructureAccess) ||
-      ele.key === 'syntheticWidget' ||
-      ele.key === 'dashboardWidget'
+      (ele.key === 'syntheticWidget' && hasSyntheticsAccess) ||
+      (ele.key === 'dashboardWidget' && !playwithEnabled)
   )
   .map((ele, index) => {
     itemIds.push({ id: index.toString() });

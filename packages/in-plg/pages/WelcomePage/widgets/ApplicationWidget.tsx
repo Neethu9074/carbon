@@ -34,11 +34,14 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { applicationsList } from 'in-applications/navigation/paths';
 import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
+import { hasApplicationsAccess } from 'in-stores/permission';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { getTimeConfig } from 'in-stores/time/config';
 import { timeConfig$ } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { role } from 'in-stores/user';
 
 function getApplicationData(params: any) {
   return getApplicationsWithDefaults(params);
@@ -215,7 +218,9 @@ export default connectTo(() => ({
     <DatatableWrapper
       {...generalProps}
       getItems={getApplicationData}
-      hasAddMore
+      //@ts-expect-error canConfigureApplications is not configured in role
+      hasAddPermission={role?.canConfigureApplications}
+      hasAddMore={hasApplicationsAccess && !playwithEnabled}
       viewAll
       addMore={addNewApplications}
       addData={addNewApplications}

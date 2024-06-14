@@ -22,11 +22,12 @@ import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+import { playwithEnabled, welcomePageV2Enabled } from 'in-services/featureFlags';
 import { getCustomDashboards, getUsers } from 'in-custom-dashboards/api';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { welcomePageV2Enabled } from 'in-services/featureFlags';
 import { timeConfig$ } from 'in-stores/time/config';
+import { role } from 'in-stores/user';
 
 export default connectTo(() => ({
   timeConfig: timeConfig$
@@ -100,7 +101,9 @@ export default connectTo(() => ({
     <DatatableWrapper
       {...generalProps}
       query=""
-      hasAddMore
+      hasAddMore={!playwithEnabled}
+      //@ts-expect-error canCreatePublicCustomDashboards doesn't exist on type role
+      hasAddPermission={role?.canCreatePublicCustomDashboards}
       isDashboardWidget
       maxItems={maxItems}
       viewAll={viewAll}

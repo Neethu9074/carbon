@@ -27,6 +27,7 @@ import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobil
 import connectTo from 'in-hoc/connectTo';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
 import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
+import { hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
 import { useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
@@ -34,6 +35,7 @@ import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { timeConfig$ } from 'in-stores/time/config';
 import DatatableWrapper from './DatatableWrapper';
+import { role } from 'in-stores/user';
 
 const MobileAppHealthInfo = connectTo(
   { timeConfig: timeConfig$ },
@@ -219,7 +221,7 @@ export default connectTo(() => ({
     ...config,
     timeConfig,
     columnDefinitions,
-    headers: playwithEnabled ? null : getHeaders()
+    headers: getHeaders()
   };
 
   function addNewWebsite() {
@@ -236,7 +238,9 @@ export default connectTo(() => ({
         {...generalProps}
         getItems={getWebsites}
         viewAll
-        hasAddMore
+        //@ts-expect-error canConfigureEumApplications type is not available in role definition
+        hasAddPermission={role?.canConfigureEumApplications}
+        hasAddMore={hasWebsitesAccess && !playwithEnabled}
         addMore={addNewWebsite}
         addData={addNewWebsite}
         href={createHrefToPath(websiteMonitoringPath)}
@@ -250,7 +254,8 @@ export default connectTo(() => ({
       {...generalProps}
       getItems={getMobileApps}
       viewAll
-      hasAddMore
+      hasAddPermission={role?.canConfigureMobileAppMonitoring}
+      hasAddMore={hasMobileAppsAccess && !playwithEnabled}
       addMore={addNewMobileApp}
       addData={addNewMobileApp}
       href={createHrefToPath(websiteMonitoringPath)}

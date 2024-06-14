@@ -44,9 +44,12 @@ import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import { playwithEnabled } from 'in-services/featureFlags';
+import { hasSyntheticsAccess } from 'in-stores/permission';
 import { Location } from 'in-stores/navigation/types';
 import { timeConfig$ } from 'in-stores/time/config';
 import { LocationStatus } from 'in-types';
+import { role } from 'in-stores/user';
 
 export default connectTo(() => ({
   timeConfig: timeConfig$
@@ -363,7 +366,8 @@ export default connectTo(() => ({
       getItems={Data}
       label={`${widgetLabel}.${syntheticTypeValue}`}
       dashboardTileProps={dashboardTileProps}
-      hasAddMore={syntheticTypeValue !== 'location'}
+      hasAddPermission={role?.canConfigureSyntheticTests}
+      hasAddMore={hasSyntheticsAccess && syntheticTypeValue !== 'location' && !playwithEnabled}
       viewAll
       href={createHrefToPath(syntheticsPath)}
       addMore={addMore}

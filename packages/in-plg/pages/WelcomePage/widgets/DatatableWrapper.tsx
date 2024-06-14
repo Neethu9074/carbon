@@ -20,6 +20,7 @@ import {
   DatatableWidgetProps
 } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -35,6 +36,7 @@ export default function DatatableWrapper({
   infraType,
   columnDefinitions,
   hasAddMore,
+  hasAddPermission,
   viewAll,
   label,
   addMore,
@@ -107,7 +109,8 @@ export default function DatatableWrapper({
           searchPlaceholder={t('in-plg:welcomepage.search')}
           viewLabel={t('in-plg:welcomepage.viewAll')}
           iconColor={themes.default.ids.color.option.white}
-          hasAddMore={hasAddMore ? true : false}
+          hasAddPermission={hasAddPermission}
+          hasAddMore={hasAddMore && !playwithEnabled ? true : false}
           viewAll={viewAll ? true : false}
           addMore={addMore}
           addData={addData}
