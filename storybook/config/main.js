@@ -33,7 +33,7 @@ module.exports = {
     name: '@storybook/react-webpack5',
     options: { fastRefresh: true }
   },
-  addons: ['@storybook/addon-essentials'],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-docs'],
   typescript: {
     reactDocgen: 'react-docgen-typescript-plugin'
   },
