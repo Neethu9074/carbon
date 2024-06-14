@@ -466,6 +466,7 @@
       "smartAlertsTab": "스마트 경보",
       "configurationTab": "구성",
       "isCertificateValid": "마지막 실행 - 인증서가 올바름",
+      "resultsCertificateValid": "인증서가 유효합니다.",
       "certificateValid": "예",
       "certificateNotValid": "아니오",
       "daysRemaining": "마지막 실행 - 남은 일 수",
@@ -614,7 +615,8 @@
         "daysRemaining": "남은 일 수",
         "dateOfIssue": "발행일",
         "dateOfExpiry": "만기 날짜"
-      }
+      },
+      "failedRunErrorTypeTitle": "오류 유형"
     },
     "noDataAvailable": {
       "resultsTitle": "사용 가능한 결과가 없음",
@@ -680,6 +682,7 @@
       },
       "configurationEditAction": "편집",
       "configurationDeleteAction": "삭제",
+      "configurationUnsupported": "지원되지 않는 테스트 유형입니다.",
       "timeoutLabel": "제한시간",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "재시도 전략",
@@ -691,9 +694,9 @@
       "markSyntheticCall": "합성 호출 표시",
       "hostname": "호스트 이름",
       "port": "포트",
-      "daysRemaining": "인증서 유효성 검증이 완료되면 테스트가 실패함",
-      "day": "만기까지 남은 일 수",
-      "days": "만기까지 남은 일 수"
+      "daysRemaining": "실패 구성",
+      "day": "인증서 유효성이 만기될 때까지 {{daysRemainingCheck}}일이 남아 있으면 테스트가 실패합니다.",
+      "days": "인증서 유효성이 만기까지 {{daysRemainingCheck}}일이 남아 있으면 테스트가 실패합니다."
     }
   }
 }

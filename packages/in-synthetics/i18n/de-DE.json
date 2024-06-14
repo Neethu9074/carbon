@@ -466,6 +466,7 @@
       "smartAlertsTab": "Smart Alerts",
       "configurationTab": "Konfiguration",
       "isCertificateValid": "Letzte Ausführung-Zertifikat ist gültig",
+      "resultsCertificateValid": "Zertifikat ist gülitg",
       "certificateValid": "Ja",
       "certificateNotValid": "Nein",
       "daysRemaining": "Letzte Ausführung - Tage verbleibend",
@@ -614,7 +615,8 @@
         "daysRemaining": "Verbleibende Tage",
         "dateOfIssue": "Ausstellungsdatum",
         "dateOfExpiry": "Ablaufdatum"
-      }
+      },
+      "failedRunErrorTypeTitle": "Fehlertyp"
     },
     "noDataAvailable": {
       "resultsTitle": "Keine Ergebnisse verfügbar",
@@ -680,6 +682,7 @@
       },
       "configurationEditAction": "Bearbeiten",
       "configurationDeleteAction": "Löschen",
+      "configurationUnsupported": "Nicht unterstützter Testtyp.",
       "timeoutLabel": "Zeitlimit",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "Wiederholungsstrategie",
@@ -691,9 +694,9 @@
       "markSyntheticCall": "Synthetischen Aufruf markieren",
       "hostname": "Hostname",
       "port": "Port",
-      "daysRemaining": "Der Test schlägt fehl, wenn die Zertifikatsgültigkeit",
-      "day": "Tag verbleibend bis Ablauf",
-      "days": "Verbleibende Tage bis zum Ablauf"
+      "daysRemaining": "Fehlerkonfiguration",
+      "day": "Test schlägt fehl, wenn die Zertifikatsgültigkeit {{daysRemainingCheck}} Tag bis zum Ablauf verbleibt",
+      "days": "Test schlägt fehl, wenn die Gültigkeit des Zertifikats {{daysRemainingCheck}} Tage bis zum Ablauf verbleibt"
     }
   }
 }

@@ -3,11 +3,10 @@
   "edit": "편집",
   "delete": "삭제",
   "test": "테스트",
-  "recommendedActions": "권장 조치",
   "recommendedActionsWithCount": "권장 조치 ({{count}})",
+  "recommendedActions": "권장 조치",
   "validVaultParameter": "선택 사항으로 표시된 Vault 매개변수는 둘 다 비어 있거나 둘 다 비어 있지 않아야 합니다.",
   "newAction": "새 조치",
-  "ok": "확인",
   "runAction": "조치 실행",
   "testAction": "조치 테스트",
   "targetAgent": "대상 에이전트",
@@ -40,12 +39,10 @@
   "parameters": "매개변수",
   "noParametersTitle": "매개변수 없음",
   "noParametersText": "이 조치에는 매개변수가 없습니다.",
-  "linkToActionLogs": "이 조치의 출력은 <logsLink>분석 > 로그</logsLink>에서 볼 수 있습니다.",
-  "linkToActionHistory": "이 조치 인스턴스의 출력은 <logsLink>조치 히스토리 페이지</logsLink>에서 볼 수 있습니다.",
+  "linkToActionHistory": "이 조치 인스턴스의 출력은 조치 히스토리에서 볼 수 있습니다.",
   "description": "설명",
   "automation": "자동화",
   "failedToResolveDynamicParameters": "동적 매개변수를 분석하는 데 실패했습니다.",
-  "createPolicyWithName": "{{actionName}} 조치로 정책 작성",
   "deletePolicyWithName": "{{actionName}} 정책 삭제",
   "jobTemplate": "작업 템플리트",
   "hostsLimit": "호스트 한계(선택사항)",
@@ -81,8 +78,8 @@
   "noTagsConfigured": "구성된 태그 없음",
   "value": "값",
   "type": "유형",
-  "automationPolicies": "자동화 정책",
   "automationPoliciesWithCount": "자동화 정책({{count}}개)",
+  "automationPolicies": "자동화 정책",
   "copyOf": "{{name}} (사본 수)",
   "searchActions": "조치 검색",
   "hostsLimitHelpText": "지정된 대상 호스트로 실행을 제한합니다. Ansible 인벤토리에서 시스템이 표시되는 방법과 일치하는 값을 선택하거나 Ansible 제한 구문에서 지원되는 문자열을 입력하십시오.",
@@ -93,9 +90,47 @@
   "tag": "태그",
   "noTagsAvailable": "사용 가능한 태그 없음",
   "actions": "조치",
+  "actionsWithCount": "조치({{count}}개)",
+  "titleUrl": "URL",
+  "generateWithAI": "AI를 사용하여 생성",
+  "AISlugContent": "AI를 사용하여 이 컨텐츠를 생성함",
+  "createPolicyWithName": "{{actionName}} 조치 보기 및 정책 작성",
+  "viewActionCreatePolicy": "조치 보기 및 정책 작성",
+  "simpleAIDialog": {
+    "Step1Headline": "watsonx에서 생성된 조치로 시작하여 이 이벤트에 대한 새 조치 및 자동화 정책을 작성하십시오.",
+    "Step2Headline": "새 조치를 작성하기 위한 세부사항을 지정하십시오.",
+    "Step3Headline": "새 자동화 정책을 작성하기 위한 세부사항을 지정하십시오.",
+    "step1Title": "1단계: 생성된 조치 선택",
+    "step2Title": "2단계: 조치 사용자 정의",
+    "step3Title": "3단계: Policy 작성",
+    "policyDetails": "정책 세부사항",
+    "policyText": "다음 조치 및 이벤트 트리거에 대해 새 정책이 작성됩니다.",
+    "policy": {
+      "success": {
+        "title": "조치 및 정책이 작성됨",
+        "content": "새 조치가 카탈로그에 추가되었으며 새 정책 {{name}}이(가) 작성됨",
+        "link": "액션 링크"
+      }
+    }
+  },
+  "SimpleCreatePolicyDialog": {
+    "Step1Headline": "권장 조치를 보고 이 이벤트에 대한 자동화 정책을 작성하십시오.",
+    "Step2Headline": "새 자동화 정책을 작성하기 위한 세부사항을 지정하십시오.",
+    "step1Title": "1단계: 권장 조치 보기",
+    "step2Title": "2단계: 정책 작성",
+    "policy": {
+      "success": {
+        "title": "정책이 작성됨",
+        "successContentForuserAction": "새 정책 {{name}}이(가) 작성됨"
+      }
+    }
+  },
+  "userDefinedWithCount": "사용자 작성({{count}}개)",
+  "userDefined": "사용자 작성",
+  "aiGeneratedWithCount": "AI 생성({{count}}개)",
+  "aiGenerated": "AI 생성",
   "ActionCatalog": {
     "actionCatalog": "조치 카탈로그",
-    "actionCatalogWithCount": "조치 카탈로그({{count}}개)",
     "action": "작업",
     "newAction": "새 조치",
     "createANewAction": "새 조치 작성",
@@ -211,6 +246,7 @@
   },
   "actionHistory": {
     "actionHistory": "조치 히스토리",
+    "goToActionHistory": "조치 히스토리로 이동",
     "actionHistoryWithCount": "조치 히스토리({{count}}개)",
     "noActionInstances": "사용 가능한 데이터 없음",
     "external": "외부",
@@ -301,6 +337,7 @@
     "mobileAppSmartAlert": "모바일 애플리케이션 스마트 경보",
     "syntheticsSmartAlert": "합성 스마트 경보",
     "logSmartAlert": "스마트 경보 로그",
+    "sloSmartAlert": "서비스 레벨 스마트 경보",
     "docLinkAndManualCantBeAutomated": "문서 링크 및 수동 조치를 자동화할 수 없습니다.",
     "triggeringAgent": "트리거 에이전트",
     "triggeringHostFqdn": "트리거 호스트 FQDN",

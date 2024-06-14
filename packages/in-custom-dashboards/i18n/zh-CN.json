@@ -297,8 +297,11 @@
       "thresholdForm": {
         "addThresholdColorization": "添加基于阈值的颜色设置",
         "threshold": "阈值",
-        "critical": "当发生延迟时发出严重错误",
-        "warning": "当发生延迟时发出警告"
+        "critical": "以下情况下发出严重错误",
+        "warning": "以下情况下发出警告",
+        "criticalValidator": "对于 > 和 >= 运算符，临界阈值应大于警告阈值。",
+        "warningValidator": "对于 < 和 <= 运算符，警告阈值应大于临界阈值。",
+        "bytes": "字节"
       },
       "bigNumber": "大数"
     },

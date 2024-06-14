@@ -466,6 +466,7 @@
       "smartAlertsTab": "智能警报",
       "configurationTab": "配置",
       "isCertificateValid": "上次运行 - 证书有效",
+      "resultsCertificateValid": "证书有效",
       "certificateValid": "是",
       "certificateNotValid": "False",
       "daysRemaining": "上次运行 - 剩余天数",
@@ -614,7 +615,8 @@
         "daysRemaining": "剩余天数",
         "dateOfIssue": "颁发日期",
         "dateOfExpiry": "到期日期"
-      }
+      },
+      "failedRunErrorTypeTitle": "错误类型"
     },
     "noDataAvailable": {
       "resultsTitle": "无可用结果",
@@ -680,6 +682,7 @@
       },
       "configurationEditAction": "编辑",
       "configurationDeleteAction": "删除",
+      "configurationUnsupported": "测试类型不受支持。",
       "timeoutLabel": "超时",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "重试策略",
@@ -691,9 +694,9 @@
       "markSyntheticCall": "标记合成调用",
       "hostname": "主机名",
       "port": "端口",
-      "daysRemaining": "当证书有效期距离到期日期还剩以下天数时，测试将失败：",
-      "day": "天",
-      "days": "天"
+      "daysRemaining": "失败配置",
+      "day": "当证书有效期距到期还有 {{daysRemainingCheck}} 天时，测试将失败",
+      "days": "当证书有效期距到期还有 {{daysRemainingCheck}} 天时，测试将失败"
     }
   }
 }

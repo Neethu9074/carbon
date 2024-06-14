@@ -466,6 +466,7 @@
       "smartAlertsTab": "Avvisi smart",
       "configurationTab": "Configurazione",
       "isCertificateValid": "Ultima esecuzione - Certificato valido",
+      "resultsCertificateValid": "Il certificato è valido",
       "certificateValid": "Sì",
       "certificateNotValid": "No",
       "daysRemaining": "Ultima esecuzione - Giorni rimanenti",
@@ -614,7 +615,8 @@
         "daysRemaining": "Giorni rimanenti",
         "dateOfIssue": "Data di emissione",
         "dateOfExpiry": "Data di scadenza"
-      }
+      },
+      "failedRunErrorTypeTitle": "Tipo di errore"
     },
     "noDataAvailable": {
       "resultsTitle": "Nessun risultato disponibile",
@@ -680,6 +682,7 @@
       },
       "configurationEditAction": "Modifica",
       "configurationDeleteAction": "Elimina",
+      "configurationUnsupported": "Tipo di test non supportato.",
       "timeoutLabel": "Timeout",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "Strategia per i nuovi tentativi",
@@ -691,9 +694,9 @@
       "markSyntheticCall": "Contrassegna chiamata sintetica",
       "hostname": "Nome Host",
       "port": "Porta",
-      "daysRemaining": "Il test avrà esito negativo quando la validità del certificato ha",
-      "day": "giorno rimanente fino alla scadenza",
-      "days": "giorni rimanenti fino alla scadenza"
+      "daysRemaining": "Configurazione errore",
+      "day": "Il test avrà esito negativo se al certificato resta {{daysRemainingCheck}} giorno di validità fino alla scadenza",
+      "days": "Il test avrà esito negativo se al certificato restano {{daysRemainingCheck}} giorni di validità fino alla scadenza"
     }
   }
 }

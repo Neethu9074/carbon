@@ -466,6 +466,7 @@
       "smartAlertsTab": "智慧型警示",
       "configurationTab": "配置",
       "isCertificateValid": "前次執行 - 憑證有效",
+      "resultsCertificateValid": "憑證有效",
       "certificateValid": "是",
       "certificateNotValid": "否",
       "daysRemaining": "前次執行 - 剩餘天數",
@@ -614,7 +615,8 @@
         "daysRemaining": "剩餘天數",
         "dateOfIssue": "發行日期",
         "dateOfExpiry": "到期日期"
-      }
+      },
+      "failedRunErrorTypeTitle": "錯誤類型"
     },
     "noDataAvailable": {
       "resultsTitle": "無可用的結果",
@@ -680,6 +682,7 @@
       },
       "configurationEditAction": "編輯",
       "configurationDeleteAction": "刪除",
+      "configurationUnsupported": "不受支援的測試類型。",
       "timeoutLabel": "逾時",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "重試策略",
@@ -691,9 +694,9 @@
       "markSyntheticCall": "標示虛構呼叫",
       "hostname": "主機名稱",
       "port": "埠",
-      "daysRemaining": "測試將會在下列情況失敗，當憑證有效性具有：",
-      "day": "天（到期前剩餘天數）",
-      "days": "天（到期前剩餘天數）"
+      "daysRemaining": "失敗配置",
+      "day": "當憑證有效性剩下 {{daysRemainingCheck}} 天到期時，測試將失敗",
+      "days": "當憑證有效性剩下 {{daysRemainingCheck}} 天到期時，測試將失敗"
     }
   }
 }

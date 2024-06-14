@@ -1,7 +1,7 @@
 {
   "labelBizOps": "プロセス",
-  "labelSmartAlerts": "スマート・アラート",
-  "labelActivities": "アクティビティー",
+  "labelPerspectives": "パースペクティブ",
+  "labelPerspective": "パースペクティブ",
   "components": {
     "count": "数"
   },
@@ -18,6 +18,32 @@
     "latencyLabel": "待ち時間",
     "unnamedActivity": "(名前なしアクティビティー) {{activityType}}",
     "unnamedService": "(無名サービス)"
+  },
+  "perspectives": {
+    "newPerspective": "新規パースペクティブ",
+    "lists": {
+      "perspectives": "ビジネス・パースペクティブ",
+      "descriptionLabel": "説明",
+      "numberProcessesLabel": "プロセスの数"
+    },
+    "dialog": {
+      "title": "新規ビジネス・パースペクティブ",
+      "processesLiveListTitle": "ビジネス・プロセス",
+      "stepOne": {
+        "progressBarTitle": "ビジネス・パースペクティブの指定",
+        "headline": "ビジネス・パースペクティブを構築するためのフィルターの追加",
+        "queryBuilderTitle": "ビジネス・プロセスのタグ"
+      },
+      "stepTwo": {
+        "progressBarTitle": "ステップ2: 詳細の指定",
+        "headline": "詳細の指定",
+        "perspectiveName": "パースペクティブ名",
+        "perspectiveDescription": "説明"
+      }
+    },
+    "errorMessages": {
+      "businessPerspectiveNameMustNotBeBlank": "ビジネス・パースペクティブ名をブランクにすることはできません"
+    }
   },
   "navigation": {
     "businessMonitoring": "ビジネス・モニタリング"
@@ -57,6 +83,25 @@
         "hour": "1 時間",
         "day": "1 日",
         "week": "1 週間"
+      }
+    },
+    "perspectives": {
+      "processes": {
+        "tabLabel": "ビジネス・プロセス"
+      },
+      "configuration": {
+        "tabLabel": "構成",
+        "loadingText": "データをロード中",
+        "updateCardLabel": "ビジネス・パースペクティブの更新",
+        "stepOneHeader": "1. 名前と説明の編集",
+        "perspectiveName": "パースペクティブ名",
+        "perspectiveDescription": "説明",
+        "stepTwoHeader": "2. フィルターの編集",
+        "saveChangesButton": "保存",
+        "removeCardLabel": "ビジネス・パースペクティブの削除",
+        "removePerspectiveDisclaimer": "このビジネス・パースペクティブをこれ以上使用しない場合は、「ビジネス・パースペクティブの削除」をクリックしてください。",
+        "removePerspectiveCheckbox": "このアクションは元に戻せないことを理解しています",
+        "removePerspectiveButton": "ビジネス・パースペクティブの削除"
       }
     }
   }

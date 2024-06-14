@@ -8,7 +8,6 @@
   "entityInfoPresenterDefaultLabel": "Em: ",
   "entityInfoLabelOfService": "De serviço:",
   "titleDetail": "Detalhe",
-  "titleDetails": "Detalhes",
   "titleMetrics": "Métricas",
   "titleScope": "Escopo",
   "titleDescription": "Descrição",
@@ -46,6 +45,9 @@
   "titleEmptyEvents_issue": "Nenhum problema disponível",
   "titleEmptyEvents_change": "Nenhuma mudança disponível",
   "titleEmptyEvents_monitoringIssue": "Nenhum problema de monitoramento disponível",
+  "titleManualCloseIssue": "Fechar problema",
+  "titleManualCloseIncident": "Fechar incidente",
+  "closeIssue": "Fechar este problema",
   "explanationEmptyEvents_event": "Não houve eventos recuperados para o intervalo de tempo selecionado",
   "explanationEmptyEvents_incident": "Não houve incidentes recuperados para o intervalo de tempo selecionado",
   "explanationEmptyEvents_issue": "Não houve problemas recuperados para o intervalo de tempo selecionado",
@@ -67,7 +69,6 @@
   "triggered": "Acionado:",
   "started": "Iniciado:",
   "ended": "Terminado:",
-  "active": "ativo",
   "stateActive": "Ativo",
   "stateClosedByInstana": "Encerrado pelo Instana",
   "stateManuallyClosed": "Encerrado manualmente",
@@ -171,7 +172,7 @@
     "probableRootCauseLabel": "Entidade de causa raiz provável: {{entity_name}}",
     "relatedEventsLabel": "Eventos associados ({{number_of_events}})",
     "entitiesNumber": "Entidades",
-    "techPreview": "VISUALIZAÇÃO DE TECNOLOGIA",
+    "techPreview": "Visualização de tecnologia",
     "probabilityLevelText": "Nível de probabilidade:",
     "highProbability": "ALTO",
     "moderateProbability": "MODERADO",
@@ -180,7 +181,13 @@
     "highProbabilityBadgeText": "Essa classificação de probabilidade é baseada na probabilidade de a entidade em questão não estar funcional. A alta probabilidade indica que essa entidade é provavelmente problemática com base na evidência fornecida.",
     "moderateProbabilityBadgeText": "Essa classificação de probabilidade é baseada na probabilidade de a entidade em questão não estar funcional. É provável que essa entidade seja a causa raiz, no entanto, mais análises são necessárias.",
     "lowProbabilityBadgeText": "Essa classificação de probabilidade é baseada na probabilidade de a entidade em questão não estar funcional. Dadas as informações presentes, esse componente tem baixa probabilidade de não estar funcional, mas merece ser investigado mais aprofundadamente.",
-    "naProbabilityBadgeText": "Essa classificação de probabilidade é baseada na probabilidade de a entidade em questão não estar funcional. Infelizmente, a classificação de probabilidade para este incidente não pôde ser verificada."
+    "naProbabilityBadgeText": "Essa classificação de probabilidade é baseada na probabilidade de a entidade em questão não estar funcional. Infelizmente, a classificação de probabilidade para este incidente não pôde ser verificada.",
+    "evidenceTextFailed": "As chamadas que passam por {{root_cause_entity_type}} {{root_cause_entity_name}} têm uma taxa de erro alta agregada de: {{rca_error_percent}}%.",
+    "evidence": "Evidências",
+    "evidenceTextNotFailedLower": "As chamadas das mesmas entidades que não passam por {{root_cause_entity_type}} {{root_cause_entity_name}} têm uma taxa de erro menor de: {{non_rca_error_rate}}%.",
+    "evidenceTextNotFailedHigher": "As chamadas das mesmas entidades que não passam por {{root_cause_entity_type}} {{root_cause_entity_name}} têm uma taxa de erro maior de: {{non_rca_error_rate}}%.",
+    "evidenceTextNotFailedSame": "As chamadas das mesmas entidades que não passam por {{root_cause_entity_type}} {{root_cause_entity_name}} têm uma taxa de erro de: {{non_rca_error_rate}}%",
+    "regenerateProbableRootCause": "Gerar novamente causa raiz provável"
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Resumo do incidente",
@@ -188,7 +195,8 @@
     "errorDescription": "Nenhum resumo pôde ser criado para este evento",
     "summarizationHelpfulText": "Este resumo foi útil?",
     "alertChannelTableTitle": "Canais de alerta associados ao incidente",
-    "noDataAlertChannels": "Nenhum canal de alerta pôde ser associado a este incidente"
+    "noDataAlertChannels": "Nenhum canal de alerta pôde ser associado a este incidente",
+    "actionText": "Nos últimos <strong>{{timeWindow}} {{timeWindowFormat}}</strong> dias, para a configuração de evento <strong>{{eventSpecId}}</strong> associada ao incidente, <strong>{{actionStats}}</strong> ações foram executadas do tipo - <strong>ANSIBLE/SCRIPT/HTTP</strong>"
   },
   "feedback": {
     "skip": "Ignorar",
@@ -208,5 +216,25 @@
   "bizops": {
     "titleImpactedBusinessProcesses": "Processos de negócios impactados",
     "titleImpactedBusinessProcessesIncident": "Processos de negócios impactados para evento acionador"
+  },
+  "closeEventDialog": {
+    "reason": "Diga-nos o motivo pelo qual você está encerrando o problema",
+    "warning": "O encerramento deste problema é irreversível",
+    "comments": "Comentários",
+    "closeIssue": "Fechar problema",
+    "closeIncident": "Fechar este incidente",
+    "closedByLabel": "Encerrado por"
+  },
+  "notes": {
+    "openNotes": "Abrir notas e atividades",
+    "closeNotes": "Fechar notas e atividades",
+    "notesActivity": "Notas e atividades",
+    "techPreview": "Visualização de tecnologia",
+    "incidentNotes": "Notas de incidente",
+    "addNote": "Incluir nota",
+    "you": "Você",
+    "noNotes": "Nenhuma nota incluída ainda",
+    "noNotesDetails": "Comece incluindo uma nota para sua equipe.",
+    "typeSomething": "Digite algo..."
   }
 }

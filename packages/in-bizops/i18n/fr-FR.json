@@ -1,7 +1,7 @@
 {
   "labelBizOps": "Processus",
-  "labelSmartAlerts": "Alertes intelligentes",
-  "labelActivities": "Activités",
+  "labelPerspectives": "Perspectives",
+  "labelPerspective": "Perspective",
   "components": {
     "count": "Nombre"
   },
@@ -18,6 +18,32 @@
     "latencyLabel": "Temps d'attente",
     "unnamedActivity": "(Activité sans nom) {{activityType}}",
     "unnamedService": "(Service sans nom)"
+  },
+  "perspectives": {
+    "newPerspective": "Nouvelle perspective",
+    "lists": {
+      "perspectives": "Perspectives métier",
+      "descriptionLabel": "Description",
+      "numberProcessesLabel": "Nombre de processus"
+    },
+    "dialog": {
+      "title": "Nouvelle perspective métier",
+      "processesLiveListTitle": "Processus métier",
+      "stepOne": {
+        "progressBarTitle": "Spécifier une perspective métier",
+        "headline": "Ajoutez des filtres pour créer votre perspective métier",
+        "queryBuilderTitle": "Balises pour les processus métier"
+      },
+      "stepTwo": {
+        "progressBarTitle": "Etape 2 : Fournissez les détails",
+        "headline": "Fournissez des détails",
+        "perspectiveName": "Nom de la perspective",
+        "perspectiveDescription": "Description"
+      }
+    },
+    "errorMessages": {
+      "businessPerspectiveNameMustNotBeBlank": "Le nom de la perspective métier ne doit pas être vide"
+    }
   },
   "navigation": {
     "businessMonitoring": "Surveillance métier"
@@ -57,6 +83,25 @@
         "hour": "1 heure",
         "day": "1 journée",
         "week": "1 semaine"
+      }
+    },
+    "perspectives": {
+      "processes": {
+        "tabLabel": "Processus métier"
+      },
+      "configuration": {
+        "tabLabel": "Configuration",
+        "loadingText": "Chargement des données",
+        "updateCardLabel": "Mettre à jour la perspective métier",
+        "stepOneHeader": "1. Editer le nom et la description",
+        "perspectiveName": "Nom de la perspective",
+        "perspectiveDescription": "Description",
+        "stepTwoHeader": "2. Editer le filtre",
+        "saveChangesButton": "Sauvegarder",
+        "removeCardLabel": "Supprimer la perspective métier",
+        "removePerspectiveDisclaimer": "Si vous ne souhaitez plus utiliser cette perspective métier, cliquez sur \"Supprimer la perspective métier\".",
+        "removePerspectiveCheckbox": "Je comprends que cette action ne peut pas être annulée",
+        "removePerspectiveButton": "Supprimer la perspective métier"
       }
     }
   }

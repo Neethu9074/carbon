@@ -297,8 +297,11 @@
       "thresholdForm": {
         "addThresholdColorization": "しきい値を基準にした色分けの追加",
         "threshold": "しきい値",
-        "critical": "待ち時間が長い場合はクリティカル",
-        "warning": "待ち時間が長い場合は警告"
+        "critical": "次の場合にはクリティカル",
+        "warning": "次の場合には警告",
+        "criticalValidator": "> および >= 演算子の場合、クリティカルしきい値は警告しきい値より大きくなければなりません。",
+        "warningValidator": "< および <= 演算子の場合、警告しきい値はクリティカルしきい値より大きくなければなりません。",
+        "bytes": "バイト数"
       },
       "bigNumber": "重要な数値"
     },

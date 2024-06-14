@@ -272,6 +272,7 @@
     "titleParameters": "參數",
     "analyzeLogsLabel": "分析日誌",
     "similarLogs": "類似日誌",
+    "message": "訊息",
     "similarServiceLogs": "在此服務的環境定義中顯示日誌",
     "restrictedAccessExpl": "您無權存取此資訊"
   },

@@ -297,8 +297,11 @@
       "thresholdForm": {
         "addThresholdColorization": "Incluir colorização com base em limites",
         "threshold": "Limite",
-        "critical": "Crítico quando a latência",
-        "warning": "Aviso quando a latência"
+        "critical": "Crítico quando",
+        "warning": "Aviso quando",
+        "criticalValidator": "O limite crítico deve ser maior que o limite de aviso para operadores > e > =.",
+        "warningValidator": "O limite de aviso deve ser maior que o limite crítico para os operadores < e <=.",
+        "bytes": "Bytes"
       },
       "bigNumber": "Número grande"
     },

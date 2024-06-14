@@ -297,8 +297,11 @@
       "thresholdForm": {
         "addThresholdColorization": "Aggiungi colorazione basata su soglia",
         "threshold": "Soglia",
-        "critical": "Critico in caso di latenza",
-        "warning": "Avvertenza in caso di latenza"
+        "critical": "Critico quando",
+        "warning": "Avvertenza quando",
+        "criticalValidator": "La soglia critica deve essere maggiore della soglia di avvertenza per gli operatori > e >=.",
+        "warningValidator": "La soglia di avvertenza deve essere maggiore della soglia critica per gli operatori < e <=.",
+        "bytes": "Byte"
       },
       "bigNumber": "Numero elevato"
     },

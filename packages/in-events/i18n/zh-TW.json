@@ -8,7 +8,6 @@
   "entityInfoPresenterDefaultLabel": "位於：",
   "entityInfoLabelOfService": "屬於服務：",
   "titleDetail": "詳細資料",
-  "titleDetails": "詳細資料",
   "titleMetrics": "度量",
   "titleScope": "範圍",
   "titleDescription": "說明",
@@ -46,6 +45,9 @@
   "titleEmptyEvents_issue": "沒有可用的問題",
   "titleEmptyEvents_change": "沒有可用的變更",
   "titleEmptyEvents_monitoringIssue": "沒有可用的監視問題",
+  "titleManualCloseIssue": "關閉問題",
+  "titleManualCloseIncident": "關閉事件",
+  "closeIssue": "關閉此問題",
   "explanationEmptyEvents_event": "未擷取到所選時間範圍內的事件",
   "explanationEmptyEvents_incident": "未擷取到所選時間範圍內的事故",
   "explanationEmptyEvents_issue": "未擷取到所選時間範圍內的問題",
@@ -67,7 +69,6 @@
   "triggered": "已觸發：",
   "started": "已開始：",
   "ended": "已結束：",
-  "active": "作用中",
   "stateActive": "作用中",
   "stateClosedByInstana": "由 Instana 關閉",
   "stateManuallyClosed": "手動關閉",
@@ -180,7 +181,13 @@
     "highProbabilityBadgeText": "此機率評級是基於相關實體不健全的機率。 高機率表示根據所提供的證據，該實體可能存在問題。",
     "moderateProbabilityBadgeText": "此機率評級是基於相關實體不健全的機率。 此實體可能是主要原因，但需要進行更多分析。",
     "lowProbabilityBadgeText": "此機率評級是基於相關實體不健全的機率。 根據目前的資訊，此元件不健全的可能性很低，但仍需要進一步調查。",
-    "naProbabilityBadgeText": "此機率評級是基於相關實體不健全的機率。 遺憾的是，無法確定此事件的機率評級。"
+    "naProbabilityBadgeText": "此機率評級是基於相關實體不健全的機率。 遺憾的是，無法確定此事件的機率評級。",
+    "evidenceTextFailed": "通過 {{root_cause_entity_type}} {{root_cause_entity_name}} 的呼叫聚集錯誤率偏高：{{rca_error_percent}}%。",
+    "evidence": "證明",
+    "evidenceTextNotFailedLower": "來自未通過 {{root_cause_entity_type}} {{root_cause_entity_name}} 之相同實體的呼叫錯誤率較低：{{non_rca_error_rate}}%。",
+    "evidenceTextNotFailedHigher": "來自未通過 {{root_cause_entity_type}} {{root_cause_entity_name}} 之相同實體的呼叫錯誤率較高：{{non_rca_error_rate}}%。",
+    "evidenceTextNotFailedSame": "來自未通過 {{root_cause_entity_type}} {{root_cause_entity_name}} 之相同實體的呼叫錯誤率為：{{non_rca_error_rate}}%。",
+    "regenerateProbableRootCause": "重新產生可能的主要原因"
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "事件摘要",
@@ -188,7 +195,8 @@
     "errorDescription": "無法建立此事件的摘要",
     "summarizationHelpfulText": "此摘要是否有用？",
     "alertChannelTableTitle": "與事件相關聯的警示通道",
-    "noDataAlertChannels": "沒有任何警示通道與此事件相關聯"
+    "noDataAlertChannels": "沒有任何警示通道與此事件相關聯",
+    "actionText": "在過去 <strong>{{timeWindow}} {{timeWindowFormat}}</strong> 天內，針對與突發事件相關聯的事件配置 <strong>{{eventSpecId}}</strong> ，<strong>{{actionStats}}</strong> 動作已執行類型 <strong>ANSIBLE/SCRIPT/HTTP</strong>"
   },
   "feedback": {
     "skip": "略過",
@@ -208,5 +216,25 @@
   "bizops": {
     "titleImpactedBusinessProcesses": "受影響的商業程序",
     "titleImpactedBusinessProcessesIncident": "觸發事件的受影響商業程序"
+  },
+  "closeEventDialog": {
+    "reason": "讓我們知道您關閉問題的原因",
+    "warning": "這個問題關閉後便無法逆轉",
+    "comments": "註解",
+    "closeIssue": "關閉問題",
+    "closeIncident": "關閉此事件",
+    "closedByLabel": "關閉者："
+  },
+  "notes": {
+    "openNotes": "開啟附註和活動",
+    "closeNotes": "關閉附註和活動",
+    "notesActivity": "附註和活動",
+    "techPreview": "技術預覽",
+    "incidentNotes": "事件附註",
+    "addNote": "新增附註",
+    "you": "您",
+    "noNotes": "尚未新增附註",
+    "noNotesDetails": "從為您的團隊新增附註開始。",
+    "typeSomething": "鍵入內容…"
   }
 }

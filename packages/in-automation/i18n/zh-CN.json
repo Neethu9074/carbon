@@ -3,11 +3,10 @@
   "edit": "编辑",
   "delete": "删除",
   "test": "测试",
-  "recommendedActions": "建议的操作",
   "recommendedActionsWithCount": "建议的操作 ({{count}})",
+  "recommendedActions": "建议的操作",
   "validVaultParameter": "标记为可选的保险库文件参数必须同时为空白或同时为非空白。",
   "newAction": "新建操作",
-  "ok": "确定",
   "runAction": "运行操作",
   "testAction": "测试操作",
   "targetAgent": "目标代理程序",
@@ -40,12 +39,10 @@
   "parameters": "参数",
   "noParametersTitle": "无参数",
   "noParametersText": "此操作没有任何参数。",
-  "linkToActionLogs": "可在<logsLink>分析 > 日志</logsLink>中查看此操作的输出。",
-  "linkToActionHistory": "可以在<logsLink>“操作历史记录\"页面</logsLink>中查看此操作实例的输出。",
+  "linkToActionHistory": "可以在“操作历史记录”中查看此操作实例的输出。",
   "description": "描述",
   "automation": "自动化",
   "failedToResolveDynamicParameters": "未能解析动态参数。",
-  "createPolicyWithName": "使用操作 {{actionName}} 创建策略",
   "deletePolicyWithName": "删除策略 {{actionName}}",
   "jobTemplate": "作业模板",
   "hostsLimit": "主机限制（可选）",
@@ -81,8 +78,8 @@
   "noTagsConfigured": "未配置标记",
   "value": "值",
   "type": "Type",
-  "automationPolicies": "自动化策略",
   "automationPoliciesWithCount": "自动化策略（{{count}} 个）",
+  "automationPolicies": "自动化策略",
   "copyOf": "{{name}}（的副本）",
   "searchActions": "搜索操作",
   "hostsLimitHelpText": "将执行限制为指定的目标主机。 选择与系统在 Ansible 清单中的表示方式相匹配的值，或者输入 Ansible 限制语法支持的字符串。",
@@ -93,9 +90,47 @@
   "tag": "标记",
   "noTagsAvailable": "没有可用的标记",
   "actions": "操作",
+  "actionsWithCount": "操作 ({{count}})",
+  "titleUrl": "URL",
+  "generateWithAI": "使用 AI 生成",
+  "AISlugContent": "使用 AI 生成了此内容",
+  "createPolicyWithName": "查看操作 {{actionName}} 并创建策略",
+  "viewActionCreatePolicy": "查看操作并创建策略",
+  "simpleAIDialog": {
+    "Step1Headline": "首先执行 watsonx 生成的操作，为该事件创建新的操作和自动化策略。",
+    "Step2Headline": "指定详细信息以创建新操作。",
+    "Step3Headline": "指定详细信息以创建新自动化策略。",
+    "step1Title": "步骤 1：选择生成的操作",
+    "step2Title": "步骤 2：定制操作",
+    "step3Title": "步骤 3：创建策略",
+    "policyDetails": "策略详细信息",
+    "policyText": "将为以下操作和事件触发器创建新策略：",
+    "policy": {
+      "success": {
+        "title": "已创建操作和策略",
+        "content": "已在目录中添加新操作，并且已创建新策略 {{name}}",
+        "link": "操作链接"
+      }
+    }
+  },
+  "SimpleCreatePolicyDialog": {
+    "Step1Headline": "查看建议的操作，并为此事件创建自动化策略。",
+    "Step2Headline": "指定详细信息以创建新自动化策略。",
+    "step1Title": "步骤 1：查看建议的操作",
+    "step2Title": "步骤 2：创建策略",
+    "policy": {
+      "success": {
+        "title": "已创建策略",
+        "successContentForuserAction": "已创建新策略 {{name}}"
+      }
+    }
+  },
+  "userDefinedWithCount": "用户创建的 ({{count}})",
+  "userDefined": "用户创建的",
+  "aiGeneratedWithCount": "AI 生成的 ({{count}})",
+  "aiGenerated": "AI 生成的",
   "ActionCatalog": {
     "actionCatalog": "操作目录",
-    "actionCatalogWithCount": "操作目录（{{count}} 个）",
     "action": "操作",
     "newAction": "新建操作",
     "createANewAction": "创建新操作",
@@ -211,6 +246,7 @@
   },
   "actionHistory": {
     "actionHistory": "操作历史记录",
+    "goToActionHistory": "转至“操作历史记录”",
     "actionHistoryWithCount": "操作历史记录 ({{count}})",
     "noActionInstances": "无可用数据",
     "external": "外部",
@@ -301,6 +337,7 @@
     "mobileAppSmartAlert": "移动应用程序智能警报",
     "syntheticsSmartAlert": "合成智能警报",
     "logSmartAlert": "日志智能警报",
+    "sloSmartAlert": "服务级别智能警报",
     "docLinkAndManualCantBeAutomated": "无法自动执行文档链接和手动操作。",
     "triggeringAgent": "触发代理程序",
     "triggeringHostFqdn": "触发主机 FQDN",

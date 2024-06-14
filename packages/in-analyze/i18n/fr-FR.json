@@ -272,6 +272,7 @@
     "titleParameters": "Paramètres",
     "analyzeLogsLabel": "Analyser les journaux",
     "similarLogs": "Journaux similaires",
+    "message": "Message",
     "similarServiceLogs": "Afficher les journaux dans le contexte de ce service",
     "restrictedAccessExpl": "Vous n'êtes pas autorisé à accéder à ces informations"
   },

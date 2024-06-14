@@ -1,7 +1,7 @@
 {
   "labelBizOps": "Procesos",
-  "labelSmartAlerts": "Alertas inteligentes",
-  "labelActivities": "Actividades",
+  "labelPerspectives": "Perspectivas",
+  "labelPerspective": "Perspectiva",
   "components": {
     "count": "Count"
   },
@@ -18,6 +18,32 @@
     "latencyLabel": "Latencia",
     "unnamedActivity": "(Actividad sin nombre) {{activityType}}",
     "unnamedService": "(Servicio sin nombre)"
+  },
+  "perspectives": {
+    "newPerspective": "Nueva perspectiva",
+    "lists": {
+      "perspectives": "Perspectivas de negocio",
+      "descriptionLabel": "Descripción",
+      "numberProcessesLabel": "Número de procesos"
+    },
+    "dialog": {
+      "title": "Nueva perspectiva de negocio",
+      "processesLiveListTitle": "Procesos empresariales",
+      "stepOne": {
+        "progressBarTitle": "Especificar perspectiva de negocio",
+        "headline": "Añadir filtros para crear la perspectiva de negocio",
+        "queryBuilderTitle": "Etiquetas para procesos de negocio"
+      },
+      "stepTwo": {
+        "progressBarTitle": "Paso 2: Proporcionar detalles",
+        "headline": "Proporcionar detalles",
+        "perspectiveName": "Nombre de perspectiva",
+        "perspectiveDescription": "Descripción"
+      }
+    },
+    "errorMessages": {
+      "businessPerspectiveNameMustNotBeBlank": "El nombre de la perspectiva de negocio no debe estar en blanco"
+    }
   },
   "navigation": {
     "businessMonitoring": "Supervisión de negocio"
@@ -57,6 +83,25 @@
         "hour": "1 hora",
         "day": "1 día",
         "week": "1 semana"
+      }
+    },
+    "perspectives": {
+      "processes": {
+        "tabLabel": "Procesos de negocio"
+      },
+      "configuration": {
+        "tabLabel": "Configuración",
+        "loadingText": "Cargando datos",
+        "updateCardLabel": "Actualizar perspectiva de negocio",
+        "stepOneHeader": "1. Editar nombre y la descripción",
+        "perspectiveName": "Nombre de perspectiva",
+        "perspectiveDescription": "Descripción",
+        "stepTwoHeader": "2. Editar filtro",
+        "saveChangesButton": "Guardar",
+        "removeCardLabel": "Eliminar perspectiva de negocio",
+        "removePerspectiveDisclaimer": "Si ya no desea utilizar esta perspectiva de negocio, pulse \"Eliminar perspectiva de negocio\".",
+        "removePerspectiveCheckbox": "Entiendo que esta acción no se puede deshacer",
+        "removePerspectiveButton": "Eliminar perspectiva de negocio"
       }
     }
   }

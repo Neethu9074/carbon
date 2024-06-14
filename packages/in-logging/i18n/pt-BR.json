@@ -53,5 +53,6 @@
   "process": "Processo",
   "host": "Host",
   "fileOnHost": "em",
-  "file": "Arquivo"
+  "file": "Arquivo",
+  "logExpiration": "Retido até"
 }

@@ -296,6 +296,7 @@
   },
   "expandableGroup": {
     "tooltipShowContent": "顯示內容",
+    "tooltipHideContent": "隱藏內容",
     "labelExpandButtonForContent": "內容的展開按鈕"
   },
   "featureFeedback": {

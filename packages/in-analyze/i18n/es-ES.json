@@ -272,6 +272,7 @@
     "titleParameters": "Parámetros",
     "analyzeLogsLabel": "Analizar registros",
     "similarLogs": "Registros similares",
+    "message": "Mensaje",
     "similarServiceLogs": "Mostrar registros en contexto de este servicio",
     "restrictedAccessExpl": "No tiene permiso para acceder a esta información"
   },

@@ -12,7 +12,9 @@
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restaurar",
     "alertHeaderRestoreDeleteTooltip": "Excluir",
     "alertHeaderEditTooltip": "Editar",
+    "alertHeaderEditTooltipNew": "Editar (novo)",
     "alertHeaderDuplicateTooltip": "Duplicata",
+    "alertHeaderDuplicateTooltipNew": "Duplicar (Novo)",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confirme",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Tem certeza de que deseja remover o alerta <strong>{{alertConfigName}}</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remover",
@@ -285,12 +287,16 @@
         "slowness": {
           "name": "Chamadas lentas",
           "headline": "Alertas automáticos para chamadas lentas",
-          "text": "Receber um alerta quando chamadas para serviços e terminais selecionados desta Perspectiva de aplicativo estiverem mais lentas do que o usual."
+          "text": "Receber um alerta quando chamadas para serviços e terminais selecionados desta Perspectiva de aplicativo estiverem mais lentas do que o usual.",
+          "tearSheetHeadline": "Alertas para contagem de chamadas",
+          "tearSheetDescription": "Alertas automáticos quando chamadas para serviços e terminais selecionados desta perspectiva de aplicativo são mais lentas do que o limite."
         },
         "errors": {
           "name": "Chamadas errôneas",
           "headline": "Alertas automáticos para chamadas errôneas",
-          "text": "Receber um alerta quando a taxa ou contagem de chamadas erradas para serviços e terminais selecionados desta Perspectiva de Aplicativo for maior que o normal."
+          "text": "Receber um alerta quando a taxa ou contagem de chamadas erradas para serviços e terminais selecionados desta Perspectiva de Aplicativo for maior que o normal.",
+          "tearSheetHeadline": "Alertas automáticos para chamadas errôneas",
+          "tearSheetDescription": "Receba um alerta quando a taxa ou contagem de chamadas errôneas para serviços e terminais selecionados desta perspectiva de aplicativo excedem o valor do limite."
         },
         "logs": {
           "name": "Logs",
@@ -303,13 +309,17 @@
           "name": "Códigos de status HTTP",
           "headline": "Alertas automáticos para códigos de status HTTP",
           "text": "Receba um alerta sempre que os Códigos de status HTTP correspondentes ocorrerem com mais frequência do que o usual.",
-          "incompleteRuleMessage": "Selecione um Código de status para ver quando este alerta é acionado"
+          "incompleteRuleMessage": "Selecione um Código de status para ver quando este alerta é acionado",
+          "tearSheetHeadline": "Alertas automáticos para códigos de status HTTP",
+          "tearSheetDescription": "Receba um alerta quando os Códigos de Status HTTP correspondentes ocorrerem com mais frequência do que o limite."
         },
         "throughput": {
           "name": "Rendimento",
           "headline": "Alertas automáticos para contagem de chamadas",
           "text": "Alertas automáticos sobre um número de chamadas anormalmente baixo ou alto para serviços e terminais selecionados desta Perspectiva de aplicativo.",
-          "metricLabel": "Chamadas"
+          "metricLabel": "Chamadas",
+          "tearSheetHeadline": "Alertas automáticos para visualizações de páginas",
+          "tearSheetDescription": "Alertas automáticos em um número excepcionalmente baixo ou alto de chamadas para serviços e terminais selecionados desta perspectiva de aplicativo."
         },
         "simpleMode": {
           "unexpectedDrop": {
@@ -322,7 +332,8 @@
             "headline": "Alertas automáticos sobre números anormalmente altos de chamadas",
             "text": "Receber um alerta quando o número de chamadas for significativamente maior que o esperado em comparação com antigos dados disponíveis. Isso pode ser uma indicação de um ataque ou de um robô gerando muitas solicitações para o aplicativo."
           }
-        }
+        },
+        "variantMessage": "O initialItemSelected fornecido com o tipo {{type}} não está presente na lista de itens."
       },
       "formUtils": {
         "titlePlaceholder": {
@@ -461,6 +472,7 @@
         "labelActionButtonEdit": "Editar",
         "labelActionButtonEditNew": "Editar (novo)",
         "labelActionButtonDuplicate": "Duplicata",
+        "labelActionButtonDuplicateNew": "Duplicar (Novo)",
         "labelActionButtonDelete": "Excluir",
         "labelAlertFilters": "Filtros",
         "labelConfirm": "Confirme",
@@ -689,15 +701,20 @@
         "add": "Incluir",
         "alertPropertyInsertPlaceholderLabel": "Inserir item temporário",
         "scopeConfigTitleWithApplications": "Selecionar Aplicativos/Serviços/Terminais",
+        "scopeConfigTitleWithApplicationsForTearsheet": "Aplicativos/Serviços/Terminais",
         "scopeConfigTitle": "Selecionar serviços/terminais",
         "scopeConfigSelectOneEntryMessage": "Selecione pelo menos uma entrada.",
         "scopeConfigTitleTooltip": "Mostrando entidades disponíveis para as últimas 24 horas",
+        "scopeConfigSubTitle": "Com base nas últimas 24 horas",
         "scopeMigrationMessage_FAILED": "O escopo não pôde ser migrado automaticamente. Selecione os filtros de identificação correspondentes para a Consulta de Foco Dinâmico:",
         "scopeMigrationMessage_PARTIAL": "O escopo não pôde ser totalmente migrado. Selecione os filtros de identificação correspondentes para a Consulta de Foco Dinâmico:",
         "scopeMigrationMessage_FULL": "O escopo aplicado é baseado na Consulta de Foco Dinâmico usada anteriormente:",
         "scopeMigrationMessageAllAvailableEntities": "O escopo aplicado é baseado na seleção utilizada anteriormente de todas as entidades disponíveis.",
         "scopeMigrationMessageSelectedApplications": "O escopo aplicado é baseado na seleção utilizada anteriormente de Perspectivas de Aplicação.",
         "sortByUserSelectionLabel": "Classificar por seleção de usuário",
+        "sortBySelectionLabel": "Classificar por seleção",
+        "scopeFilterCallsTitle": "Filtrar chamadas",
+        "scopeFilterCallsDescription": "Selecione os serviços para obter Alertas mais precisos.",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Pelo menos {{count}} usuário e {{userPercentage}} de usuários impactados dentro do último {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Pelo menos {{count}} usuários e {{userPercentage}} de usuários impactados dentro do último {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "Pelo menos {{count}} usuários e {{userPercentage}} de usuários impactados dentro do último {{formattedTimeWindow}}",
@@ -1372,7 +1389,8 @@
           "label": "Cargas úteis",
           "title": "Carga útil customizada"
         },
-        "thresholdValue": "Valor do limite"
+        "thresholdValue": "Valor do limite",
+        "valueMappings": "Os valores numéricos da métrica selecionada correspondem aos valores de sequência a seguir:"
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Forneça um número >= 0",
@@ -1459,9 +1477,17 @@
       "logCount": "Contagem de logs"
     },
     "slo": {
+      "components": {
+        "operatorDropdown": "",
+        "operatorDropdown_more": "maior que",
+        "operatorDropdown_more-or-equal": "maior que ou igual a",
+        "operatorDropdown_less": "menor que",
+        "operatorDropdown_less-or-equal": "menor que ou igual à"
+      },
       "validators": {
         "noEmptySloIds": "Considere selecionar pelo menos um SLO.",
-        "notLessThanOrEqualToZero": "Considere configurar um valor maior que 0."
+        "notLessThanOrEqualToZero": "Considere configurar um valor maior que 0.",
+        "noInvalidOperator": "Selecione um operador na lista."
       },
       "advancedModeContainer": {
         "stepLabel": "",
@@ -1485,27 +1511,43 @@
         "blueprint_ERROR_BUDGET": "Orçamento errado",
         "blueprintDescription": "",
         "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "Receba um alerta quando o status de SLO estiver abaixo de um limite.",
-        "blueprintDescription_ERROR_BUDGET": "Receba um alerta quando uma porcentagem do orçamento de erro for comprometido.",
+        "blueprintDescription_ERROR_BUDGET": "Receba um alerta quando uma porcentagem do orçamento de erro for consumida.",
         "thresholdTitle": "Limite: quando deseja ser alertado?",
         "thresholdInputDescription": "",
-        "thresholdInputDescription_ERROR_BUDGET": "por cento do orçamento de erro está comprometido",
-        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "por cento é a meta de SLO ou menos",
+        "thresholdInputDescription_ERROR_BUDGET": "Quando <1/> <2/> por cento do orçamento de erro é consumido",
+        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "Quando o status de SLO é <1/> <2/> por cento",
         "timeThresholdType_gracePeriod": "Quando a condição persistir por uma quantidade especificada de tempo",
         "timeThresholdTypeTitle_gracePeriod": "Alertar quando a condição for violada para $t (in-components:time.minutes, {\"count\": {{minutes}} }) consecutivos",
+        "timeThresholdTypeTitle_cooldownPeriod": "Pelo menos $t(in-components:time.minutes, {\"count\": {{minutes}} }) devem ter passado para o evento terminar",
         "alertProperties_entityLabel": "SLO-name",
         "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "Status de SLO é baixo",
-        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "O status de SLO é menor ou igual a {{percentage}}.",
+        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "O status de SLO é $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}.",
         "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "O orçamento de erro restante é baixo",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "O orçamento de erro restante é menor ou igual a {{percentage}}."
+        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "$t(in-alerting:smartAlerts.slo.components.operatorDropdown consumido, {\"context\": \"{{operator}}\" }) {{percentage}} do orçamento de erro.",
+        "alertPropertiesIncidentWarning": "Incidentes são aplicáveis apenas a SLOs associados a aplicativos"
       },
       "details": {
         "alertConfigurationTitle": "Configuração de alerta",
         "sloHeader": "SLOs",
+        "thresholdInfo_ERROR_BUDGET": "Quando $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} por cento do orçamento de erro é consumido",
+        "thresholdInfo_SERVICE_LEVELS_OBJECTIVE": "Quando o status de SLO for $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} por cento",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
         "blueprintLabel": "Blueprint",
-        "thresholdLabel": "Limite"
+        "coolDownPeriodDescription": "No mínimo {{value}} deve ser transmitido para que o evento seja concluído."
+      },
+      "alertList": {
+        "threshold": "Limite: {{value}}",
+        "sloApplied": "SLOs aplicados",
+        "sloCount": "{{count}} SLO",
+        "sloCount_plural": "{{count}} SLOs",
+        "sloCount_0": "{{count}} SLOs",
+        "sloCount_1": "{{count}} SLOs",
+        "sloCount_2": "{{count}} SLOs",
+        "title": "",
+        "title_ERROR_BUDGET": "Orçamento de erro consumido",
+        "title_SERVICE_LEVELS_OBJECTIVE": "Status"
       }
     }
   }

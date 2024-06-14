@@ -65,6 +65,7 @@
   },
   "productAreas": {
     "allApplications": "Toutes les applications",
+    "allActions": "Toutes les actions",
     "allWebsites": "Tous les sites Web",
     "allMobileApps": "Toutes les applications mobiles",
     "businessMonitoringAccessAllMessage": "Tous les processus métier",
@@ -112,7 +113,13 @@
     "title_platforms": "Plateformes",
     "title_websites": "Sites Web",
     "title_businessMonitoring": "Surveillance métier",
-    "title_syntheticMonitoring": "Surveillance synthétique"
+    "title_syntheticMonitoring": "Surveillance synthétique",
+    "title_event": "Evénements et alertes",
+    "title_logs": "Journaux",
+    "title_dashboard": "Tableaux de bord personnalisés",
+    "title_automation": "Automatisation",
+    "title_agents": "Agents",
+    "title_access_control": "Contrôle d'accès"
   },
   "headingSection": {
     "title": "Rôle et portée d'accès",
@@ -151,6 +158,9 @@
     "addButton_syntheticTests": "Sélectionner des tests synthétiques",
     "descriptionAccessAll_synthetics": "Tous les tests synthétiques sont accessibles avec le rôle sélectionné.",
     "descriptionLimitedAccess_synthetics": "Sélectionnez le rôle et ajoutez des tests synthétiques ci-dessous pour accorder l'accès.",
+    "addButton_actions": "Sélectionner des actions",
+    "descriptionAccessAll_automation": "Toutes les actions sont accessibles avec le rôle sélectionné.",
+    "descriptionLimitedAccess_automation": "Sélectionnez le rôle et ajoutez des actions ci-dessous pour accorder l'accès.",
     "contribution_filter": "Filtre de contribution",
     "contributionFilter_description": "Le filtre de contribution est appliqué lors de la création de configurations d'application. Dans la configuration de l'application, le filtre de contribution peut être affiné avec des étiquettes de filtrage après un opérateur {{logicalOperator}}. Une perspective de l'application utilisant les étiquettes de filtrage de contribution est créée automatiquement une fois la sauvegarde effectuée.",
     "contributionFilter_downstreamCalls": "Déterminez le niveau maximal d'informations supplémentaires pouvant être incluses dans les perspectives d'application",
@@ -183,6 +193,7 @@
     "description_no_access_kubernetes": "Aucun accès aux espaces de noms et clusters.",
     "description_no_access_infrastructure": "Aucun accès : l'accès à l'infrastructure est refusé.",
     "description_no_access_synthetics": "Aucun accès : l'accès à la surveillance synthétique est refusé.",
+    "description_no_access_automation": "Aucun accès : l'accès à l'automatisation est refusé.",
     "description_access_all": "Accéder à tout sans limitation",
     "title_access_all_bizops": "Accès illimité",
     "title_no_access_bizops": "Accès refusé",
@@ -253,7 +264,8 @@
         "access_level": "Accédez à tous les tests synthétiques avec le type d'accès sélectionné et des droits supplémentaires."
       },
       "limited_access": {
-        "access_level": "Accédez uniquement aux tests synthétiques répertoriés avec le type d'accès sélectionné et aux droits supplémentaires."
+        "access_level": "N'accéder qu'aux tests synthétiques répertoriés avec le type d'accès sélectionné et des droits supplémentaires",
+        "access_level_tp": "Accéder à tous les tests associés aux points d'accès à partir de la section ci-dessus. En outre, vous pouvez ajouter d'autres tests à leur portée dans la liste ci-dessous."
       },
       "role_permissions_owner": "Créez, configurez, affichez et supprimez des tests synthétiques.",
       "role_permissions_viewer": "Affichez les tests synthétiques et leur configuration."
@@ -267,6 +279,16 @@
       },
       "role_permissions_owner": "Créez, affichez et supprimez des sites Web.",
       "role_permissions_viewer": "Afficher les sites Web."
+    },
+    "automation": {
+      "access_all": {
+        "access_level": "Accéder à toutes les actions et règles d'automatisation avec le type d'accès sélectionné et des droits supplémentaires."
+      },
+      "limited_access": {
+        "access_level": "N'accéder qu'aux actions et aux règles d'automatisation répertoriées avec le type d'accès sélectionné et des droits supplémentaires."
+      },
+      "role_permissions_owner": "Créer, configurer, afficher, supprimer des actions d'automatisation et afficher l'historique des actions.",
+      "role_permissions_viewer": "Afficher les actions d'automatisation, les règles et l'historique."
     }
   },
   "cardTitle_Area": "Zone",
@@ -328,6 +350,30 @@
         "unknownTag": "Balise inconnue : {{tagName}}"
       }
     },
+    "retentionPeriod": {
+      "retentionPeriod": "Durée de conservation",
+      "changeRetentionPeriod": "Modifier la durée de conservation",
+      "retentionDialogDescription": "La modification de la durée de conservation des journaux a un impact sur le coût et la durée des \n données de journal disponibles pour les tableaux de bord d'analyse et personnalisés.",
+      "logRetentionPeriod": "Durée de conservation des journaux",
+      "changeReason": "Motif du changement",
+      "currentRetentionPeriod": "Durée de conservation en cours",
+      "days": "jours",
+      "aboutRetentionPeriod": "Une durée de conservation détermine la durée de conservation des données dans Instana. ",
+      "learnMore": "En savoir plus.",
+      "typeToConfirm": "Entrez CHANGE RETENTION pour confirmer la modification",
+      "typeToContinue": "Entrez CHANGE RETENTION pour continuer",
+      "reasonValidationMessage": "La raison de la modification de la conservation ne peut pas être vide",
+      "changeError": "Erreur : Votre durée de conservation n'a pas pu être modifiée.\n Réessayez ou contactez le support.",
+      "changeSuccess": "L'opération a abouti ! Votre durée de conservation a été remplacée par {{value}} jours.",
+      "historyChanges": "Pour afficher l'historique de conservation, ouvrez",
+      "actionLog": "Journal des actions",
+      "historyChanges2": "et recherchez la conservation des journaux",
+      "modalTitle": "Modification de la durée de conservation des journaux",
+      "toastTitleSuccesful": "La durée de conservation des journaux a été modifiée",
+      "toastTitleFailed": "La modification de la durée de conservation des journaux a échoué",
+      "toastMessageFailed": "La durée de conservation n'a pas pu être modifiée. Réessayez ou contactez le support.",
+      "contactSupport": "Contacter le support"
+    },
     "deleteLogs": {
       "deleteLogs": "Supprimer les journaux",
       "info": "Si vous constatez une fuite d'informations sécurisées vers les journaux Instana, vous pouvez supprimer tous les journaux correspondant à l'ensemble de la période de conservation des données à la demande.",
@@ -337,9 +383,10 @@
       "logs": "JOURNAUX",
       "deletionInfo": "La suppression des journaux peut prendre un certain temps.\n Vérifiez le statut dans la table \"Log Suppression summary\".",
       "deletionError": "Les journaux n'ont pas pu être supprimés",
-      "deletionSuccess": "Tous les journaux ont été supprimés",
+      "deletionWarning": "Aucune donnée de journal à supprimer pour la période donnée",
       "success": "Succès",
       "failure": "Échec",
+      "warning": "Avertissement",
       "deletionDate": "Date",
       "reason": "Raison",
       "numberOfLogs": "Nombre de journaux",
@@ -359,7 +406,20 @@
       "toastSuccessTitle": "La suppression du journal a abouti.",
       "toastSuccessMessage": "Les journaux de la période sélectionnée ont été supprimés.",
       "toastErrorTitle": "La suppression du journal a échoué.",
-      "toastErrorMessage": "Les journaux n'ont pas pu être supprimés. Veuillez réessayer."
+      "toastErrorMessage": "Les journaux n'ont pas pu être supprimés. Veuillez réessayer.",
+      "toastNoLogsMessage": "Aucune donnée de journal à supprimer pour la période donnée."
+    },
+    "logVolume": {
+      "logVolume": "Volume journal",
+      "timeRange": "Période",
+      "months_1": "Mois en cours",
+      "months_3": "3 derniers mois",
+      "months_6": "6 derniers mois",
+      "months_9": "9 derniers mois",
+      "months_12": "12 derniers mois",
+      "days_7": "7 jours",
+      "days_20": "20 jours",
+      "days_30": "30 jours"
     },
     "failedToSaveConfig": "Échec de la sauvegarde de la configuration : {{err}}",
     "IdPMetadataRequired": "Le fichier de métadonnées de fournisseur d'identité est requis",
@@ -467,6 +527,8 @@
     "pleaseDefineAtLeastOneEmail": "Définissez au moins une adresse électronique.",
     "remove": "Retirer",
     "addEmail": "Ajouter une adresse électronique",
+    "customSubjects": "Sujet(s) personnalisé(s)",
+    "addCustomSubject": "Ajouter un sujet personnalisé",
     "webhookUrlToCiscoWebexTeams": "URL du webhook des équipes Cisco Webex <incomingWebhookLink>Webhook entrant</incomingWebhookLink>",
     "webhookUrlToIbmWatsonAIOps": "Adresse URL Webhook vers IBM Watson AIOps <incomingWebhookLink>Webhook entrant</incomingWebhookLink>",
     "webhookUrlToZChatOps": "URL des incidents Z ChatOps",
@@ -934,6 +996,8 @@
     "showsUpInTheIssueDescription": "S'affiche dans la description du problème. Doit être aussi descriptive que possible. Prend en charge Markdown.",
     "issueSeverity": "Gravité du problème",
     "incident": "Incident",
+    "issue": "Problème",
+    "change": "Changer",
     "gracePeriod": "Délai de grâce",
     "periodToWaitBeforeClosingTheIssueOnceConditionsAreNoLongerMet": "Période d'attente avant de fermer le problème une fois que les conditions ne sont plus respectées.",
     "closeAfterHelperDescription": "Si un hôte est hors ligne plus longtemps que la période définie, Instana ne s'attend plus à ce que l'hôte réapparaisse et l'événement est fermé après le délai de grâce.",
@@ -1179,7 +1243,17 @@
     "access": "Accès",
     "accessForTenantUnit": "Accès pour {{tenantUnit}}-{{tenant}}",
     "numberOfMembers": "Nombre de membres",
-    "groupEntityName": "groupe {{entityName}}"
+    "groupEntityName": "groupe {{entityName}}",
+    "selectEventType": "Sélectionner le type d'événement",
+    "openSubject": "Ouvrir le sujet {{event_type}}",
+    "openEventType": "Ouvrir {{event_type}}",
+    "closeSubject": "Fermer le sujet {{event_type}}",
+    "closeEventType": "Fermer {{event_type}}",
+    "changeSubject": "Modifier l'objet",
+    "changeEvent": "Evénement de modification",
+    "advancedSettingsMessage": "En activant cette option, vous aurez la possibilité de personnaliser l'objet des alertes d'événement que vous recevez en fonction de leur type. Si vous préférez ne pas personnaliser les objets d'e-mail, vous pouvez simplement ignorer cette option.",
+    "customSubjectNotProvided": "Si aucun objet personnalisé n'est fourni, Instana envoie un e-mail d'alerte avec un objet prédéfini.",
+    "sendTestEmail": "Envoyer un courrier test"
   },
   "languageSelection": {
     "language": "Langue",
@@ -1300,5 +1374,28 @@
     "newMaintenanceWindowDefaultName": "Nouvelle configuration de maintenance"
   },
   "settings": "Paramètres",
-  "testAlertChannelSuccess": "Alerte de test envoyée au canal d'alerte {{channel}}"
+  "testAlertChannelSuccess": "Alerte de test envoyée au canal d'alerte {{channel}}",
+  "ShareAndInviteDialogBox": {
+    "share": "Partager",
+    "inviteYourColleagues": "Invitez vos collègues à rejoindre cette instance Instana.",
+    "collaborateIfYouWantHelp": "Collaborez si vous voulez demander de l'aide ou partager un tableau de bord par exemple.",
+    "emailAddress": "Adresse électronique",
+    "add": "Ajouter",
+    "addUser": "Ajouter un utilisateur",
+    "youCanEditThisMessage": "Vous pouvez éditer ce message.",
+    "group": "Groupe",
+    "groupToolTip": "Le groupe contrôle l'accès utilisateur sur le titulaire. Pour un accès différent, vous pouvez ajouter ou modifier des groupes d'utilisateurs dans les paramètres utilisateur.",
+    "newGroup": "Nouveau groupe",
+    "emailMessage": "Message électronique (facultatif)",
+    "defaultEmailMessage": "Ajoutez une remarque ici si vous souhaitez demander de l'aide ou fournir des informations pertinentes sur la page que vous partagez.",
+    "pageLink": "Lien vers la page",
+    "currentTimeRange": "Intervalle de temps en cours",
+    "fixateTime": "Verrouiller la période en cours",
+    "agentKey": "Clé d'agent",
+    "cancel": "Annuler",
+    "send": "Envoyer",
+    "invitationSend": "Invitation envoyée",
+    "somethingWentWrong": "Une erreur s'est produite.",
+    "failedToSendInvitation": "Votre invitation n'a pas été envoyée. Essayez à nouveau."
+  }
 }

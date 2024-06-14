@@ -272,6 +272,7 @@
     "titleParameters": "Parameter",
     "analyzeLogsLabel": "Protokolle analysieren",
     "similarLogs": "Ähnliche Protokolle",
+    "message": "Nachricht",
     "similarServiceLogs": "Protokolle im Kontext dieses Service anzeigen",
     "restrictedAccessExpl": "Sie sind nicht berechtigt, auf diese Informationen zuzugreifen."
   },

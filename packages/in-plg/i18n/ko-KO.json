@@ -7,9 +7,29 @@
     "trialExpirationPopUpDescription": "데이터 콜렉션이 종료되었습니다. 7일동안 제품을 계속 사용할 수 있습니다. 7일후에는 평가판에 액세스할 수 없습니다. 제품을 구매할 계획이라면 2주동안 데이터를 더 보관할 수 있습니다.",
     "trialExpirationPopUpDescriptionAfterSevenDays": "Instancea를 탐색해 주셔서 감사합니다! 평가판이 종료되어 더 이상 제품에 액세스할 수 없습니다."
   },
+  "buyNowDialog": {
+    "title": "사용량에 따른 유연한 청구",
+    "cancelbtn": "취소",
+    "subHeadingPart1": "이제 PayPerUse 옵션을 사용하면",
+    "subHeadingPart2": "사용한 만큼만 요금이 청구됩니다.",
+    "sidePanelTitle": "구독을 원하는지 여부는 여전히 확실하지 않습니까?",
+    "sidePanelDescription": "완벽한 옵션을 찾을 수 있도록 도와드리겠습니다.",
+    "mainBodyTitle1": "PayPerUse 소개",
+    "mainBodyDescription1": "업계를 선도하는 1초 단위의 세분성과 포괄적인 요청 추적을 통해 문제가 발견되지 않도록 보장합니다. 맞춤형 경보를 위한 SmartAlerts™ 및 사용자 친화적인 대시보드를 사용하여 애플리케이션 코드, Kubernetes 컨테이너 및 마이크로서비스 전체에 대한 전체 스택 가시성을 확보하십시오. AWS에 완벽하게 통합된 Instana는 300개 이상의 기술을 지원하여 Amazon AWS의 컨테이너화된 애플리케이션에 대한 걱정 없는 성능 모니터링을 제공합니다.",
+    "mainBodyTitle2": "IBM Instana Observability PayPerUse 가격 책정 정보",
+    "mainBodyDescription2": "유연성을 제공하도록 설계된 PayPerUse 계층은 비즈니스에서 지원할 수 있는 가격으로 필요한 기능을 제공합니다. 필요한 제품 기능을 제공하는 표준 또는 필수 옵션에서 선택하십시오.",
+    "listTitle1": "단위",
+    "listTitle2": "비용",
+    "listUnit1": "인프라 모니터링+추적+EUM+합성이 포함된 전체 관찰 가능성",
+    "listUnit2": "인프라 모니터링 전용",
+    "listCost1": "$0.12 /단위",
+    "listCost2": "$0.03 /단위"
+  },
   "licenseBanner": {
     "requestQuoteBtn": "견적 요청",
+    "buyNow": "지금 구매",
     "buyNowBtn": "AWS에서 구매",
+    "buyNowBtnIbm": "IBM에서 구매",
     "alreadyHaveLicense": "이미 라이센스가 있습니까? <linkToDocker>Docker</linkToDocker> 또는 <linkToKubernetes>Kubernetes</linkToKubernetes>에서 활성화하십시오.",
     "getAnswers": "답변 받기",
     "share": "공유",
@@ -171,6 +191,7 @@
       "useScriptAsUserDataForEc2Instance": "이 스크립트를 EC2 인스턴스의 사용자 데이터로 사용하십시오.",
       "selectAgentPackagingAndRuntime": "에이전트 패키징 모드 및 런타임 선택",
       "awsLambdaPythonAutotrace": "추적을 위해 Python을 기반으로 AWS Lambda 함수를 구성하는 기본 방법은 AutoTrace를 사용하는 Instana Lambda 계층입니다.",
+      "awsLambdaDotnetAutotrace": "추적을 위해 .NET Core를 기반으로 AWS Lambda 기능을 구성하는 데 선호되는 방법은 AutoTrace가 있는 Instana Lambda 계층입니다.",
       "preferredMethodForNodeJsLambdaConfiguration": "Node.js 8.x를 기반으로 AWS Lambda 함수를 구성하는 기본 방법은 <lambdaManualWrapping>수동 랩핑을 통해 Instana Lambda 계층</lambdaManualWrapping>을 사용하는 것입니다.",
       "imageOptions": {
         "linuxGlibcBased": "Linux (glibc 기반)",
@@ -202,6 +223,7 @@
         "runningStartupScript": "시작 스크립트 실행",
         "uninstallingTheHostAgent": "호스트 에이전트 설치 제거",
         "awsLambdaNativeTracingForJava": "AWS Java용 람다 원시 추적",
+        "awsLambdaNativeTracingForDotNet": "AWS Lambda Native Tracing for .NET Core",
         "awsLambdaFunctions": "AWS 람다 기능",
         "monitoringAwsFargate": "AWS Fargate 모니터링",
         "monitoringAwsFargateJava": "AWS Fargate (Java) 모니터링",
@@ -324,9 +346,22 @@
         "runningTheAgent": "에이전트 실행"
       },
       "linux_deb_rpm": {
-        "step1DownloadTheInstallPackage": "1단계. 설치 패키지를 다운로드하십시오.",
-        "DEBAndRPMPackage": "DEB 및 RPM 패키지",
-        "installUsingAPackage": "패키지를 사용하여 설치"
+        "configureTheAgent": "1단계: 에이전트 구성",
+        "installUsingAPackage": "패키지를 사용하여 설치",
+        "selectThePlatformArchitecture": "2단계: 플랫폼 아키텍처 선택",
+        "platformArchitecture": "플랫폼 아키텍처",
+        "mode": "모드",
+        "agentOptions": {
+          "linux64BitAarch": "Linux(64Bit - AArch)",
+          "linux64BitArm": "Linux(64비트 - ARM)",
+          "linux64BitAmd": "Linux(64Bit - AMD)",
+          "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
+          "linux64BitPowerPcLittleEndian": "Linux(64비트 - PowerPC Little Endian)",
+          "linuxS390X": "Linux (64Bit - s390x)",
+          "linuxX8664": "Linux (64Bit - x86_64)",
+          "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
+          "linuxRhel7X8664": "Linux (64Bit - RHEL7 x86_64)"
+        }
       },
       "linux_ec2": {
         "selectTheAgentPackagingMode": "1단계: 에이전트 패키징 모드 선택",
@@ -414,37 +449,62 @@
     }
   },
   "welcomepage": {
-    "heading": "시작",
+    "heading": "Instana 시작",
+    "foldableTileTitle": "시작합니다.",
     "viewAll": "모두 보기",
     "search": "검색",
     "addMore": "추가",
     "UrlShortener": "URL 단축기",
-    "consumeData": {
-      "title": "서비스 감지",
-      "description": "먼저 Instana를 사용으로 설정하여 모니터링할 서비스와 기타 데이터를 검색하십시오.",
-      "buttonName": "에이전트 배치",
-      "buttonType": "기본"
+    "startIntegrating": {
+      "title": "데이터 통합 시작",
+      "description": "에이전트를 설치하여 Instana 설정 및 원활한 데이터 통합을 시작하십시오.",
+      "buttonName": "에이전트 설치"
+    },
+    "traceInteractions": {
+      "title": "추적 상호작용",
+      "description": "컴포넌트가 연결되는 방법을 이해하고 추적을 수동으로 설정해야 하는지 확인하십시오.",
+      "buttonName": "추적 확인"
+    },
+    "inviteUsers": {
+      "title": "전문가와 연결",
+      "description": "설정 태스크를 완료하고 제품 기능을 사용해 보기 위한 도움말을 얻을 수 있습니다.",
+      "buttonName": "사용자 초대"
+    },
+    "additionalAgents": {
+      "title": "더 많은 데이터 가져오기",
+      "description": "아키텍처 전체에서 관찰 가능성을 확장합니다.",
+      "buttonName": "추가 에이전트 설치"
+    },
+    "appPerspective": {
+      "title": "보기 조정",
+      "description": "애플리케이션 및 서비스를 최적화하는 데 필요한 정보를 캡처하십시오.",
+      "buttonName": "애플리케이션 퍼스펙티브 작성"
+    },
+    "smartAlerts": {
+      "title": "경보 받기",
+      "description": "단순 및 고급 사용자 정의 모두에 대해 사전 정의된 블루프린트를 사용하여 쉽게 경보를 구성할 수 있습니다.",
+      "buttonName": "스마트 경보 설정"
+    },
+    "startMonitoring": {
+      "title": "사용자 환경 모니터",
+      "description": "애플리케이션 및 웹 사이트에서 경보를 활성화하십시오.",
+      "buttonName": "모니터링 시작"
     },
     "inviteTeammates": {
-      "title": "팀 동료 초대",
-      "description": "동료와 협업하십시오.",
-      "buttonName": "사용자 관리",
-      "buttonType": "ghost"
-    },
-    "nextSteps": {
-      "title": "다음 단계",
-      "description": "더 많은 둘러보기 및 추가 지원을 찾으십시오.",
-      "buttonName": "답변 받기",
-      "buttonType": "ghost"
+      "title": "팀 가져오기",
+      "description": "동료를 Instana에 초대하고 협업을 시작하십시오.",
+      "buttonName": "팀 구성원 초대"
     },
     "component": {
       "applicationWidget": {
         "label": "애플리케이션",
+        "addLabel": "애플리케이션 추가",
         "name": "이름",
         "calls": "호출",
         "latency": "대기 시간",
         "erroneousCallRate": "잘못된 호출 비율",
-        "openCreationDialog": "작성 대화 상자 열기"
+        "openCreationDialog": "작성 대화 상자 열기",
+        "health": "상태"
       },
       "eventWidget": {
         "label": "이벤트",
@@ -458,21 +518,27 @@
         "cloudFoundry": "Cloud Foundry",
         "vsphere": "vSphere",
         "openstack": "OpenStack",
+        "openshift": "OpenShift",
         "ibmp": "IBM 전원 HMC",
         "powervcRegion": "PowerVC 영역",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
         "kubernetes": "Kubernetes",
+        "gke": "Google Kubernetes Engine",
+        "eks": "Amazon Elastic Kubernetes Service",
         "name": "이름",
         "nodes": "노드",
         "namespaces": "네임스페이스",
-        "pods": "팟(Pod)"
+        "pods": "팟(Pod)",
+        "health": "상태",
+        "platform": "플랫폼"
       },
       "bizopsWidget": {
         "label": "비즈니스 모니터링",
         "name": "이름",
         "activities": "활동",
-        "count": "개수"
+        "count": "개수",
+        "health": "상태"
       },
       "incidentsWidget": {
         "label": "인시던트",
@@ -480,32 +546,40 @@
         "title": "제목",
         "on": "On",
         "started": "시작됨",
-        "end": "종료"
+        "end": "종료",
+        "health": "상태"
       },
       "websitesWidget": {
         "label": "웹 사이트",
         "name": "이름",
         "pageViews": "페이지 보기 수",
-        "onLoadTimes": "OnLoad 시간"
+        "onLoadTimes": "OnLoad 시간",
+        "addLabel": "웹 사이트 추가",
+        "health": "상태"
       },
       "mobileAppsWidget": {
         "label": "모바일 앱",
         "name": "이름",
         "sessions": "세션",
-        "views": "보기"
+        "views": "보기",
+        "addLabel": "모바일 앱 추가",
+        "health": "상태"
       },
       "infrastructureWidget": {
         "label": "인프라",
         "mean": "평균",
         "name": "이름",
         "os": "OS",
+        "technologies": "기술",
         "cpuNum": "CPU 수",
         "cpuUsage": "CPU 사용량",
         "created": "작성일시",
-        "started": "시작됨"
+        "started": "시작됨",
+        "health": "상태"
       },
       "syntheticWidget": {
         "label": "합성 모니터링",
+        "addLabel": "합성 모니터링 추가",
         "na": "해당사항 없음",
         "name": "이름",
         "type": "유형",
@@ -520,7 +594,8 @@
         "label": "내 사용자 정의 대시보드",
         "name": "이름",
         "owner": "소유자",
-        "permissions": "권한"
+        "permissions": "권한",
+        "addLabel": "대시보드 추가"
       }
     },
     "noData": {
@@ -580,7 +655,6 @@
     "ariaLabel": {
       "search": "검색",
       "shareButton": "공유 단추",
-      "add": "추가",
       "handleButton": "처리 단추"
     }
   },

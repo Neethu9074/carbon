@@ -296,6 +296,7 @@
   },
   "expandableGroup": {
     "tooltipShowContent": "Inhalt anzeigen",
+    "tooltipHideContent": "Inhalt ausblenden",
     "labelExpandButtonForContent": "Erweiterungsschaltfläche für Inhalt"
   },
   "featureFeedback": {
