@@ -8,7 +8,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { PaginatedResult, Result, TestResultListItem } from '@instana/types/typeDefinitions';
-import { formatDate } from '@instana/format-date';
+import { formatDateTime } from '@instana/format-date';
 import { Card } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -29,12 +29,14 @@ const SSLCertificateDetails = ({ resultList }: Props) => {
         <Col xs={3}>{get(resultListItem, ['metrics', 'synthetic.customMetrics.daysRemaining', 0, 1], 0)}</Col>
       </Row>
       <Row>
-        <Col xs={3}>{t('in-synthetics:dashboard.detailsPage.sslCertificate.dateOfIssue')}</Col>
-        <Col xs={3}>{formatDate(get(resultListItem, ['metrics', 'synthetic.customMetrics.validFrom', 0, 1], 0))}</Col>
+        <Col xs={3}>{t('in-synthetics:dashboard.detailsPage.sslCertificate.timeOfIssue')}</Col>
+        <Col xs={3}>
+          {formatDateTime(get(resultListItem, ['metrics', 'synthetic.customMetrics.validFrom', 0, 1], 0))}
+        </Col>
       </Row>
       <Row>
-        <Col xs={3}>{t('in-synthetics:dashboard.detailsPage.sslCertificate.dateOfExpiry')}</Col>
-        <Col xs={3}>{formatDate(get(resultListItem, ['metrics', 'synthetic.customMetrics.validTo', 0, 1], 0))}</Col>
+        <Col xs={3}>{t('in-synthetics:dashboard.detailsPage.sslCertificate.timeOfExpiry')}</Col>
+        <Col xs={3}>{formatDateTime(get(resultListItem, ['metrics', 'synthetic.customMetrics.validTo', 0, 1], 0))}</Col>
       </Row>
     </Card>
   );

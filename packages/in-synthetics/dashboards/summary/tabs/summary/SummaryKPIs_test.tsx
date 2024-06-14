@@ -38,7 +38,7 @@ describe(SummaryKPIs, () => {
 
     expect(screen.queryByText('Last Run - Certificate is Valid')).toBeNull();
     expect(screen.queryByText('Last Run - Days Remaining')).toBeNull();
-    expect(screen.queryByText('Last Run - Date of Expiry')).toBeNull();
+    expect(screen.queryByText('Last Run - Time of Expiry')).toBeNull();
   });
 
   it('Render correct set of KPIs for HTTPScript test', () => {
@@ -57,7 +57,7 @@ describe(SummaryKPIs, () => {
 
     expect(screen.queryByText('Last Run - Certificate is Valid')).toBeNull();
     expect(screen.queryByText('Last Run - Days Remaining')).toBeNull();
-    expect(screen.queryByText('Last Run - Date of Expiry')).toBeNull();
+    expect(screen.queryByText('Last Run - Time of Expiry')).toBeNull();
   });
 
   it('Render correct set of KPIs for SSLCertificate test', () => {
@@ -102,7 +102,7 @@ describe(SummaryKPIs, () => {
     expect(screen.getByText('Avg. Response Time')).toBeVisible();
     expect(screen.getByText('Last Run - Certificate is Valid')).toBeVisible();
     expect(screen.getByText('Last Run - Days Remaining')).toBeVisible();
-    expect(screen.getByText('Last Run - Date of Expiry')).toBeVisible();
+    expect(screen.getByText('Last Run - Time of Expiry')).toBeVisible();
 
     expect(screen.queryByText('Avg. Response Size')).toBeNull();
   });

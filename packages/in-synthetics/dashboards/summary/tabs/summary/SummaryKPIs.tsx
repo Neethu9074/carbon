@@ -8,7 +8,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { PaginatedResult, Result, TagFilter, TestResultListItem } from '@instana/types/typeDefinitions';
-import { formatDate } from '@instana/format-date';
+import { formatDateTime } from '@instana/format-date';
 
 import { bytes, meanLatency, number, percentage } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
@@ -154,7 +154,7 @@ export default function SummaryKPIs({ tagFilters, timeShiftConfig, isSSLCertific
 
   /**
    * Construct the array containing the common charts for Summary view
-   * @returns {JSX.Element[]} Array of Last Run - Certificate is Valid, Last Run - Days Remaining and Last Run - Date of Expiry charts
+   * @returns {JSX.Element[]} Array of Last Run - Certificate is Valid, Last Run - Days Remaining and Last Run - Time of Expiry charts
    */
   const getSSLCertificateKPICards = () => {
     const resultListItem = resultList.data?.items[0];
@@ -179,11 +179,11 @@ export default function SummaryKPIs({ tagFilters, timeShiftConfig, isSSLCertific
           value={expDate ? daysRemaining : valueMissingPlaceholder}
         />
       </Col>,
-      <Col xs key="dateOfExpiry">
+      <Col xs key="timeOfExpiry">
         <KpiCard
-          title={t('in-synthetics:dashboard.summary.dateOfExpiry')}
+          title={t('in-synthetics:dashboard.summary.timeOfExpiry')}
           value={expDate ?? valueMissingPlaceholder}
-          renderValue={expDate ? formatDate : undefined}
+          renderValue={expDate ? formatDateTime : undefined}
         />
       </Col>
     ];

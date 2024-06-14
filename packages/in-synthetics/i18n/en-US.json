@@ -470,7 +470,7 @@
       "certificateValid": "Yes",
       "certificateNotValid": "No",
       "daysRemaining": "Last Run - Days Remaining",
-      "dateOfExpiry": "Last Run - Date of Expiry",
+      "timeOfExpiry": "Last Run - Time of Expiry",
       "smallerTimeFrameTitle": "No results for this time frame",
       "smallerTimeFrameDescription": "Please select a longer time frame to see results for SSL Certificate Check tests."
     },
@@ -613,8 +613,8 @@
       },
       "sslCertificate": {
         "daysRemaining": "Days Remaining",
-        "dateOfIssue": "Date of Issue",
-        "dateOfExpiry": "Date of Expiry"
+        "timeOfIssue": "Time of Issue",
+        "timeOfExpiry": "Time of Expiry"
       },
       "failedRunErrorTypeTitle": "Error Type"
     },
