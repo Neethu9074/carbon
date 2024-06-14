@@ -218,7 +218,6 @@ export default connectTo(() => ({
     <DatatableWrapper
       {...generalProps}
       getItems={getApplicationData}
-      //@ts-expect-error canConfigureApplications is not configured in role
       hasAddPermission={role?.canConfigureApplications}
       hasAddMore={hasApplicationsAccess && !playwithEnabled}
       viewAll
