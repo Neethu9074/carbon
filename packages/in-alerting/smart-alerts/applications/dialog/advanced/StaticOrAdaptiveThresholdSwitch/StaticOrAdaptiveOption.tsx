@@ -34,7 +34,7 @@ export default function StaticOrAdaptiveOption({ currentType, baselineType, onCh
       {isTearSheet && (
         <CheckboxFancy
           key={Math.random()}
-          label={LabelDescriptionWithIcon(icon, title, description)}
+          label={<LabelDescriptionWithIcon icon={icon} label={title} description={description} />}
           checked={currentType === baselineType}
           onChange={() => onChange(baselineType)}
           asRadioButton
