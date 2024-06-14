@@ -18,7 +18,6 @@
   }
 
   .content {
-    width: 85%;
     margin-left: 1rem;
   }
 }

@@ -235,7 +235,7 @@ function getCustomGroupingTagFilter(groupBy, groupValue) {
   return null;
 }
 
-function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }) {
+export function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }) {
   return {
     calls: {
       metricCatalogTransformer: callsMetricCatalogTransformer,

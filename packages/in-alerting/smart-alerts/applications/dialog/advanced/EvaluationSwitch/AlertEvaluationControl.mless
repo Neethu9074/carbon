@@ -25,4 +25,27 @@
     border: 1px solid var(--ids-color-option-neutral-300);
     border-radius: var(--ids-border-radius-option-small);
   }
+
+  .optionBox {
+    &.optionBox {
+      border: none;
+      border-radius: 0;
+      padding-left: 0.5rem;
+    }
+
+    &.optionBoxUnchecked {
+      svg {
+        fill: var(--ids-color-option-neutral-600);
+      }
+
+      * {
+        color: var(--ids-color-option-neutral-600);
+      }
+    }
+  }
+
+  .tearsheetOptions {
+    align-items: center;
+    color: var(--ids-color-option-neutral-900);
+  }
 }

@@ -29,16 +29,20 @@ export default function IncludeInternalOrSyntheticCallsSwitch({
   const includeSynthetic = form.get('includeSynthetic').value;
   const applications = form.get('applications').value;
 
-  const includeInternalLabelContent = LabelDescriptionWithIcon(
-    'lib_application_call',
-    callLabels['includeInternal'],
-    t('in-alerting:smartAlerts.applications.tearSheet.hiddenCalls.config.includeInternal.text')
+  const includeInternalLabelContent = (
+    <LabelDescriptionWithIcon
+      icon={'lib_application_call'}
+      label={callLabels['includeInternal']}
+      description={t('in-alerting:smartAlerts.applications.tearSheet.hiddenCalls.config.includeInternal.text')}
+    />
   );
 
-  const includeSyntheticLabelContent = LabelDescriptionWithIcon(
-    'lib_synthetic',
-    callLabels['includeSynthetic'],
-    t('in-alerting:smartAlerts.applications.tearSheet.hiddenCalls.config.includeSynthetic.text')
+  const includeSyntheticLabelContent = (
+    <LabelDescriptionWithIcon
+      icon={'lib_synthetic'}
+      label={callLabels['includeSynthetic']}
+      description={t('in-alerting:smartAlerts.applications.tearSheet.hiddenCalls.config.includeSynthetic.text')}
+    />
   );
 
   return (

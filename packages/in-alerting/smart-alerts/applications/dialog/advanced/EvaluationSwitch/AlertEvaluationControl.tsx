@@ -24,9 +24,10 @@ interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   isGlobalSmartAlert?: boolean;
+  tearSheetView?: boolean;
 }
 
-export default function AlertEvaluationControl({ form, updateForm, isGlobalSmartAlert }: Props) {
+export default function AlertEvaluationControl({ form, updateForm, isGlobalSmartAlert, tearSheetView }: Props) {
   const evaluationType = (form.get('evaluationType') as Field<AlertEvaluationType>).value;
   const alertType = ((form.get('rule') as MapForm<any>)!.get('alertType') as Field<ApplicationAlertType>)!.value;
   const isBuiltIn = (form.get('builtIn') as Field<boolean>).value;
@@ -70,6 +71,7 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
       isBuiltIn={isBuiltIn}
       isGlobalSmartAlert={isGlobalSmartAlert}
       setEvaluationType={setEvaluationType}
+      tearSheetView={tearSheetView}
     />
   );
 }

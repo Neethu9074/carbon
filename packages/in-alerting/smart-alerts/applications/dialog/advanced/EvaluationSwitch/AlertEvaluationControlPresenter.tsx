@@ -3,10 +3,13 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { themes } from '@instana/design-tokens';
+import { Spacer } from '@instana/components';
 
+import LabelDescriptionWithIcon from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/LabelDescriptionWithIcon';
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
@@ -23,6 +26,7 @@ interface Props {
   isAdaptiveThreshold?: boolean;
   isGlobalSmartAlert?: boolean;
   setEvaluationType: (type: AlertEvaluationType) => void;
+  tearSheetView?: boolean;
 }
 
 export function AlertEvaluationControlPresenter({
@@ -30,7 +34,8 @@ export function AlertEvaluationControlPresenter({
   evaluationType,
   isAdaptiveThreshold,
   isGlobalSmartAlert,
-  setEvaluationType
+  setEvaluationType,
+  tearSheetView
 }: Props) {
   if (isBuiltIn) {
     return (
@@ -53,16 +58,39 @@ export function AlertEvaluationControlPresenter({
     />
   );
 
-  return (
-    <div className={locals.container}>
-      <IconLabel
-        type="lib_alerts_multiple_alerts"
-        text={t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.individual')}
-        noBottomMargin
-        color={themes.default.ids.color.option.neutral['600']}
-      />
+  const TearSheetCheckbox = ({ type, disabled }: { type: AlertEvaluationType; disabled?: boolean }) => (
+    <CheckboxFancy
+      key={alertEvaluationTypes[type].tearSheetSelectionText}
+      label={
+        <LabelDescriptionWithIcon
+          label={alertEvaluationTypes[type].tearSheetSelectionText}
+          description={alertEvaluationTypes[type].tearSheetDescription}
+        >
+          <>
+            <Spacer vertical="normal" />
+            <Spacer vertical="xsmall" />
+          </>
+        </LabelDescriptionWithIcon>
+      }
+      checked={type === evaluationType}
+      onChange={() => setEvaluationType(type)}
+      asRadioButton
+      disabled={disabled}
+    />
+  );
 
-      <div className={locals.options}>
+  return (
+    <div className={classNames({ [locals.container]: !tearSheetView })}>
+      {!tearSheetView && (
+        <IconLabel
+          type="lib_alerts_multiple_alerts"
+          text={t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.individual')}
+          noBottomMargin
+          color={themes.default.ids.color.option.neutral['600']}
+        />
+      )}
+
+      <div className={classNames({ [locals.options]: !tearSheetView, [locals.tearsheetOptions]: tearSheetView })}>
         {Object.keys(alertEvaluationTypes).map(evalType => {
           const type = evalType as AlertEvaluationType;
           const notAvailableWithAdaptiveThreshold =
@@ -80,6 +108,8 @@ export function AlertEvaluationControlPresenter({
                 <Checkbox type={type} disabled />
               </div>
             </Tooltip>
+          ) : tearSheetView ? (
+            <TearSheetCheckbox key={evalType} type={type} />
           ) : (
             <Checkbox key={evalType} type={type} />
           );

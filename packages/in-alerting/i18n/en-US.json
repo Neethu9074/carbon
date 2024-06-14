@@ -509,7 +509,9 @@
         "step5Title": "Define alert properties and channels",
         "grouping": {
           "title": "Group calls",
-          "description": "Calls in each group are evaluated separately"
+          "description": "Calls in each group are evaluated separately",
+          "groupCount": "{{count}} Groups",
+          "groupbyDescription": "Based on calls made in the last 24 hours"
         },
         "callsInScope": {
           "title": "Choose calls in scope ",
