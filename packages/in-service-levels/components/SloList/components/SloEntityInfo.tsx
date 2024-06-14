@@ -18,6 +18,8 @@ interface Props {
   entityType: SloEntityType;
   service?: LabeledEntity;
   endpoint?: LabeledEntity;
+  hasCustomFilter?: boolean;
+  metaInfo?: boolean;
 }
 
 type EntityDisplayData = {
@@ -25,11 +27,18 @@ type EntityDisplayData = {
   toolTipText: string;
 };
 
-export default function SloEntityInfo({ entity, entityType, service, endpoint }: Props) {
+export default function SloEntityInfo({
+  entity,
+  entityType,
+  hasCustomFilter,
+  service,
+  endpoint,
+  metaInfo = false
+}: Props) {
   const { iconType, toolTipText } = getEntityDisplayData(entityType, entity);
   const compact = useMediaQuery('(min-width: 600px)');
   const serviceEndpointInfo = entityType === 'application';
-  const showServiceEndpointInfo = serviceEndpointInfo && compact;
+  const showServiceEndpointInfo = metaInfo && serviceEndpointInfo && compact && !hasCustomFilter;
 
   return (
     <Stack direction="horizontal" align="center">
@@ -39,14 +48,18 @@ export default function SloEntityInfo({ entity, entityType, service, endpoint }:
         </Tooltip>
         <Typography variant="body-regular">{entity.label}</Typography>
       </Stack>
-      {showServiceEndpointInfo && service?.label && (
+      {showServiceEndpointInfo && (
         <Typography variant="body-small">
-          {t('in-service-levels:sloList.components.sloEntityInfo.service', { label: service.label })}
+          {t('in-service-levels:sloList.components.sloEntityInfo.service', {
+            label: service?.label ?? t('in-service-levels:sloDashboard.components.scopeSection.apAllServices')
+          })}
         </Typography>
       )}
-      {showServiceEndpointInfo && endpoint?.label && (
+      {showServiceEndpointInfo && (
         <Typography variant="body-small">
-          {t('in-service-levels:sloList.components.sloEntityInfo.endpoint', { label: endpoint?.label })}
+          {t('in-service-levels:sloList.components.sloEntityInfo.endpoint', {
+            label: endpoint?.label ?? t('in-service-levels:sloDashboard.components.scopeSection.apAllEndpoints')
+          })}
         </Typography>
       )}
     </Stack>
