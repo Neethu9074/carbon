@@ -24,7 +24,6 @@ jest.mock('in-i18n', () => ({
 }));
 
 jest.mock('in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog');
-jest.mock('in-components/Gravatar/unknown.png', () => '');
 jest.mock('in-components/DialogPresenter/store');
 
 jest.mock('in-services/featureFlags', () => ({

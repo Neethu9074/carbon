@@ -20,10 +20,10 @@ import { refresh } from 'in-settings/tabs/TeamSettings/api/groups';
 import { notBlankValidator } from 'in-services/validators/string';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { getUsersAsResultObservable } from 'in-api/users';
+import UserIcon from 'in-components/UserIcon/UserIcon';
 import { Row, Col } from 'in-components/layout/Grid';
 import { removeUserFromTenant } from 'in-api/users';
 import Title from 'in-components/Title/Title';
-import Gravatar from 'in-components/Gravatar';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -65,7 +65,7 @@ export default function User({ match }) {
 function renderLoadingState() {
   return (
     <div className={locals.headline}>
-      <Gravatar className={locals.avatar} size="l" />
+      <UserIcon className={locals.avatar} size="xl" />
       <LoadingSkeleton className={locals.nameSkeleton} />
       <LoadingSkeleton className={locals.nameSkeleton} />
     </div>
@@ -152,7 +152,7 @@ const UserRenderer = props => {
         canDelete={role.canConfigureUsers}
         label={user.fullName}
         extra={user.email}
-        avatar={<Gravatar className={locals.avatar} email={user.email} size="l" />}
+        avatar={<UserIcon className={locals.avatar} size="xl" />}
         inputValue={form.get('fullName').value}
         onInputChange={value => setForm(form.updateIn(['fullName'], field => field.setValue(value).setTouched(true)))}
         hasError={!form.get('fullName').valid && form.get('fullName').touched}

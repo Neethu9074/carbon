@@ -16,7 +16,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { USER_INVITE, track } from 'in-services/tracking/tracking';
 import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
-import Gravatar from 'in-components/Gravatar/Gravatar';
+import UserIcon from 'in-components/UserIcon/UserIcon';
 import { emptyObject } from 'in-services/fixedObjects';
 import { config } from 'in-services/config';
 import { t, Trans } from 'in-i18n';
@@ -26,7 +26,9 @@ const columnDefinitions = [
     id: 'icon',
     sortable: false,
     width: 6,
-    getContent: ({ email }: PendingInvitation) => <Gravatar email={email} />
+    getContent: () => {
+      return <UserIcon size="l" />;
+    }
   },
   {
     id: 'email',

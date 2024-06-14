@@ -9,8 +9,8 @@ import { ColumnizedContent, KeyValue, Li, Typography, Ul } from '@instana/compon
 
 import { getUsersAsResultObservable, removeUserFromTenant } from 'in-api/users';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
+import UserIcon from 'in-components/UserIcon/UserIcon';
 import ApiList from 'in-settings/components/ApiList';
-import Gravatar from 'in-components/Gravatar';
 import { t } from 'in-i18n';
 
 export default function Users(props) {
@@ -30,8 +30,8 @@ export default function Users(props) {
 
 export const iconColumn = {
   width: '3rem',
-  getContent({ email }) {
-    return <Gravatar email={email} />;
+  getContent() {
+    return <UserIcon size="l" />;
   }
 };
 

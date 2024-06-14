@@ -15,8 +15,6 @@ import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
 jest.mock('in-api/users');
-// due to some mocking magic going on styleMock, this will not return a string and will break Gravatar
-jest.mock('in-components/Gravatar/unknown.png', () => '');
 
 const mockSetUrlState = jest.fn();
 

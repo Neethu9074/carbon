@@ -65,10 +65,6 @@
   "touchedMessages": {
     "withPath": "{{message}} (at <codeWithClass>{{path}}</codeWithClass>)"
   },
-  "gravatar": {
-    "avatarUrlAlt": "Avatar for {{email}} from gravatar.com.",
-    "avatarNullAlt": "Fallback avatar for {{email}}."
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "Release Notes"
   },

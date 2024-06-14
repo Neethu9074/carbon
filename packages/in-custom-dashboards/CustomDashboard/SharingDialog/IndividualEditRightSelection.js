@@ -11,8 +11,8 @@ import { Button } from '@instana/legacy';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
+import UserIcon from 'in-components/UserIcon/UserIcon';
 import FormGroup from 'in-components/form/FormGroup';
-import Gravatar from 'in-components/Gravatar';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import { user } from 'in-stores/user';
@@ -23,8 +23,8 @@ import locals from './IndividualEditRightSelection.mless';
 const columnDefinitions = [
   {
     width: '3rem',
-    getContent({ user }) {
-      return <Gravatar email={user.email} />;
+    getContent: () => {
+      return <UserIcon size="l" />;
     }
   },
   {

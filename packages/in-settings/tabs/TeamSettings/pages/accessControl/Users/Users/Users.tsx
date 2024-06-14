@@ -28,8 +28,8 @@ import { getUsersAsResultObservable, removeUserFromTenant, UserResult } from 'in
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { USER_INVITE, track } from 'in-services/tracking/tracking';
-import Gravatar from 'in-components/Gravatar/Gravatar';
 import { emptyObject } from 'in-services/fixedObjects';
+import UserIcon from 'in-components/UserIcon/UserIcon';
 import { noop } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
 
@@ -111,7 +111,9 @@ const columnDefinitions = [
     id: 'icon',
     sortable: false,
     width: 6,
-    getContent: ({ email }: UserResult) => <Gravatar email={email} />
+    getContent: () => {
+      return <UserIcon size="l" />;
+    }
   },
   {
     id: 'fullName',
