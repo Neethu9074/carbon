@@ -53,6 +53,7 @@ export default function AlertLevelRow({ form, onChange, isTearSheet }: AlertLeve
             name="severity"
             id="severity"
             useFullWidth
+            value={severity}
             onChange={e => {
               onChange(['severity'], (field: Item) => {
                 return (field as Field<number>).setValue(Number(e.target.value)).setTouched(true);
@@ -77,6 +78,7 @@ export default function AlertLevelRow({ form, onChange, isTearSheet }: AlertLeve
             name="severity"
             id="severity"
             useFullWidth
+            value={severity}
             onChange={e => {
               onChange(['severity'], (field: Item) => {
                 return (field as Field<number>).setValue(Number(e.target.value)).setTouched(true);
