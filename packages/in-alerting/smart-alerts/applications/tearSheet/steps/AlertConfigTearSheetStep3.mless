@@ -21,4 +21,8 @@
     border-right: 1px solid var(--ids-color-option-neutral-300);
     height: 100%;
   }
+  .borderBox {
+    border: 1px solid var(--ids-color-option-neutral-300);
+    padding: 0.75rem;
+  }
 }

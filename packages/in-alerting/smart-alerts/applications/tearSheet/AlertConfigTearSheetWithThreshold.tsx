@@ -191,9 +191,27 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       additionalValidationCheck={step === 2 ? isTagFilterFormModelValid : true}
       setForm={updateForm}
     >
-      {stepRenderers.map((Renderer: (props: AlertConfigTearSheetWithThresholdProps) => JSX.Element, idx: number) => {
-        return step === idx && <Renderer {...props} key={idx} isGlobalSmartAlert={isGlobalSmartAlert} />;
-      })}
+      {stepRenderers.map(
+        (
+          Renderer: (
+            props: AlertConfigTearSheetWithThresholdProps & {
+              isTagFilterFormModelValid: boolean;
+            }
+          ) => JSX.Element,
+          idx: number
+        ) => {
+          return (
+            step === idx && (
+              <Renderer
+                {...props}
+                key={idx}
+                isTagFilterFormModelValid={isTagFilterFormModelValid}
+                isGlobalSmartAlert={isGlobalSmartAlert}
+              />
+            )
+          );
+        }
+      )}
     </AlertingTearSheet>
   );
 }

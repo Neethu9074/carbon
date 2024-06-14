@@ -33,6 +33,7 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
   const isBuiltIn = (form.get('builtIn') as Field<boolean>).value;
   const thresholdType = ((form.get('threshold') as MapForm<any>).get('type') as Field<ThresholdType>)?.value;
   const isAdaptiveThreshold = thresholdType === ADAPTIVE_BASELINE;
+  const evaluationCount = form.get('hiddenFields').get('evaluationGroupByCount').value;
 
   const setEvaluationType = (newEvaluationType: AlertEvaluationType) => {
     // only update, when value changed
@@ -72,6 +73,7 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
       isGlobalSmartAlert={isGlobalSmartAlert}
       setEvaluationType={setEvaluationType}
       tearSheetView={tearSheetView}
+      evaluationCount={evaluationCount}
     />
   );
 }

@@ -204,5 +204,15 @@ function createHiddenFieldsForm({ calculateThresholdOnBackend }: AlertConfigHidd
           endpointId: null
         }
       })
+    )
+    .put(
+      'evaluationGroupByCount',
+      createField({
+        value: {
+          groupByPER_AP: 0,
+          groupByPER_AP_SERVICE: 0,
+          groupByPER_AP_ENDPOINT: 0
+        }
+      })
     );
 }

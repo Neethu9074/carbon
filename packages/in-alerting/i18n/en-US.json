@@ -165,7 +165,11 @@
             "description": "Alert individually for this Application Perspective",
             "globalDescription": "Alert individually per Application Perspective",
             "tearSheetSelectionText": "Group by application",
-            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of one group. When there is a violation, a single alert notification gets sent for this entire application perspective. "
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} application. When there is a violation, a single alert notification gets sent for this entire application perspective.",
+            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When there is a violation, a single alert notification gets sent for this entire application perspective. ",
+            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When there is a violation, a single alert notification gets sent for this entire application perspective. ",
+            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When there is a violation, a single alert notification gets sent for this entire application perspective. ",
+            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When there is a violation, a single alert notification gets sent for this entire application perspective. "
           },
           "evaluationTypePERAPSERVICE": {
             "selectionText": "per Service for this Application Perspective",
@@ -175,7 +179,11 @@
             "description": "Alert individually per Service for this Application Perspective",
             "globalDescription": "Alert individually per Service in the context of each Application Perspective",
             "tearSheetSelectionText": "Group by service",
-            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of 8 groups - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group."
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} service - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group."
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "per Endpoint for this Application Perspective",
@@ -185,7 +193,11 @@
             "description": "Alert individually per Endpoint for this Application Perspective",
             "globalDescription": "Alert individually per Endpoint in the context of each Application Perspective",
             "tearSheetSelectionText": "Group by endpoint",
-            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of 47 groups - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group."
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} endpoint - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group."
           }
         },
         "inboundOutboundCalls": {
@@ -510,8 +522,11 @@
         "grouping": {
           "title": "Group calls",
           "description": "Calls in each group are evaluated separately",
-          "groupCount": "{{count}} Groups",
-          "groupbyDescription": "Based on calls made in the last 24 hours"
+          "groupByApplication": "applications",
+          "groupByServices": "services",
+          "groupByEndpoint": "endpoints",
+          "groupbyDescription": "Based on calls made in the last 24 hours",
+          "noData": "No groupby data available."
         },
         "callsInScope": {
           "title": "Choose calls in scope ",

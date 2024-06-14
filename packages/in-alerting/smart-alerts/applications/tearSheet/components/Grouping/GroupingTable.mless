@@ -62,21 +62,14 @@
     padding: 0.5rem;
   }
 
-  .vGap {
-    padding-bottom: 0.5rem;
+  .block {
+    display: flex;
+    flex-direction: column;
   }
 
   .labelSkeleton {
     width: 10rem;
     height: 1rem;
     display: block;
-  }
-
-  .color900 {
-    color: var(--ids-color-option-neutral-900);
-  }
-
-  .color700 {
-    color: var(--ids-color-option-neutral-700);
   }
 }

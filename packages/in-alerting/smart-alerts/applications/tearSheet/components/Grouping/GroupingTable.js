@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
-import { Ul, LiLoadMore, LiHorizontalIndicator, Li, ColumnizedContent, SvgIcon, Typography } from '@instana/components';
+import { Ul, LiLoadMore, LiHorizontalIndicator, Li, ColumnizedContent, SvgIcon, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -32,6 +32,7 @@ import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { noResultObservable } from 'in-services/util/result';
@@ -45,7 +46,14 @@ const defaultSelectableFields = [{ type: 'metric', metricId: 'latency', aggregat
 
 const fields = [...defaultSelectableFields];
 
-export default function GroupingTable({ tagFilterExpression, includeInternal, includeSynthetic, evaluationType }) {
+export default function GroupingTable({
+  tagFilterExpression,
+  includeInternal,
+  includeSynthetic,
+  evaluationType,
+  form,
+  updateForm
+}) {
   const timeConfig = { ...useTimeConfig(), to: Date.now(), focusedMoment: Date.now() };
   const sparkChartGranularity = getSparkChartGranularity(timeConfig);
   const metricDefinitionByEvaluationType = getMetricDefinitionByEvaluationType(evaluationType);
@@ -122,22 +130,33 @@ export default function GroupingTable({ tagFilterExpression, includeInternal, in
     [backendMetrics, evaluationType]
   );
 
+  useEffect(() => {
+    const evaluationCount = form.get('hiddenFields').get('evaluationGroupByCount').value;
+    if (totalHits) {
+      updateForm(
+        form.updateIn(['hiddenFields', 'evaluationGroupByCount'], f =>
+          f.setValue({ ...evaluationCount, [evaluationType]: totalHits }).setTouched(true)
+        )
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalHits, evaluationType]);
+
+  const groupByName = useMemo(() => {
+    return getGroupByName(evaluationType);
+  }, [evaluationType]);
+
   return (
     <div>
       {items.length > 0 && (
-        <div className={locals.vGap}>
-          <Typography variant="body-bold" noMargin>
-            <span className={locals.color900}>
-              {t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupCount', {
-                count: totalHits
-              })}
-            </span>
-          </Typography>
-          <Typography variant="body-small" noMargin>
-            <div className={locals.color700}>
-              {t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupbyDescription')}
-            </div>
-          </Typography>
+        <div className={locals.block}>
+          <AlertTypography variant="body-bold" color="color900" content={`${totalHits} ${groupByName}`} />
+          <AlertTypography
+            variant="body-small"
+            color="color700"
+            content={t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupbyDescription')}
+          />
+          <Spacer vertical="xsmall" />
         </div>
       )}
       <div className={locals.wrapper}>
@@ -361,5 +380,15 @@ function getMetricDefinitionByEvaluationType(evaluationType) {
       groupIcon: 'lib_application_endpoint',
       groupbyTag: 'endpoint.id'
     };
+  }
+}
+
+function getGroupByName(evaluationType) {
+  if (evaluationType === PER_AP) {
+    return t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupByApplication');
+  } else if (evaluationType === PER_AP_SERVICE) {
+    return t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupByServices');
+  } else if (evaluationType === PER_AP_ENDPOINT) {
+    return t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupByEndpoint');
   }
 }

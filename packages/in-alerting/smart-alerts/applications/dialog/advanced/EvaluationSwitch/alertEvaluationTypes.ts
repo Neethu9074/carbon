@@ -15,7 +15,7 @@ export type Info = {
   selectionText: string;
   globalSelectionText: string;
   tearSheetSelectionText: string;
-  tearSheetDescription: string;
+  tearSheetDescription: (count: number) => string;
   columnText: string;
   shortText: string;
   description: string;
@@ -36,9 +36,10 @@ const alertEvaluationTypes: AlertEvaluationInfos = Object.freeze({
     tearSheetSelectionText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.tearSheetSelectionText'
     ),
-    tearSheetDescription: t(
-      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.tearSheetDescription'
-    ),
+    tearSheetDescription: (count: number) =>
+      t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.tearSheetDescription', {
+        count: count
+      }),
     enabledForAdaptiveThreshold: true,
     columnText: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.columnText'),
     shortText: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.shortText'),
@@ -57,9 +58,13 @@ const alertEvaluationTypes: AlertEvaluationInfos = Object.freeze({
     tearSheetSelectionText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.tearSheetSelectionText'
     ),
-    tearSheetDescription: t(
-      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.tearSheetDescription'
-    ),
+    tearSheetDescription: (count: number) =>
+      t(
+        'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.tearSheetDescription',
+        {
+          count: count
+        }
+      ),
     enabledForAdaptiveThreshold: true,
     columnText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.columnText'
@@ -82,9 +87,13 @@ const alertEvaluationTypes: AlertEvaluationInfos = Object.freeze({
     tearSheetSelectionText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.tearSheetSelectionText'
     ),
-    tearSheetDescription: t(
-      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.tearSheetDescription'
-    ),
+    tearSheetDescription: (count: number) =>
+      t(
+        'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.tearSheetDescription',
+        {
+          count: count
+        }
+      ),
     enabledForAdaptiveThreshold: perEndpointAdaptiveBaselineEnabled,
     columnText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.columnText'

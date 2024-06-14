@@ -27,6 +27,7 @@ interface Props {
   isGlobalSmartAlert?: boolean;
   setEvaluationType: (type: AlertEvaluationType) => void;
   tearSheetView?: boolean;
+  evaluationCount?: { PER_AP: number; PER_AP_SERVICE: number; PER_AP_ENDPOINT: number };
 }
 
 export function AlertEvaluationControlPresenter({
@@ -35,7 +36,8 @@ export function AlertEvaluationControlPresenter({
   isAdaptiveThreshold,
   isGlobalSmartAlert,
   setEvaluationType,
-  tearSheetView
+  tearSheetView,
+  evaluationCount
 }: Props) {
   if (isBuiltIn) {
     return (
@@ -64,7 +66,11 @@ export function AlertEvaluationControlPresenter({
       label={
         <LabelDescriptionWithIcon
           label={alertEvaluationTypes[type].tearSheetSelectionText}
-          description={alertEvaluationTypes[type].tearSheetDescription}
+          description={
+            evaluationCount?.[evaluationType]
+              ? alertEvaluationTypes[type].tearSheetDescription(evaluationCount[type])
+              : alertEvaluationTypes[type].tearSheetDescription(0)
+          }
         >
           <>
             <Spacer vertical="normal" />
@@ -105,7 +111,11 @@ export function AlertEvaluationControlPresenter({
               delay={500}
             >
               <div>
-                <Checkbox type={type} disabled />
+                {tearSheetView ? (
+                  <TearSheetCheckbox key={evalType} type={type} disabled />
+                ) : (
+                  <Checkbox type={type} disabled />
+                )}
               </div>
             </Tooltip>
           ) : tearSheetView ? (
