@@ -60,7 +60,7 @@ export function AlertEvaluationControlPresenter({
   );
 
   const TearSheetCheckbox = ({ type, disabled }: { type: AlertEvaluationType; disabled?: boolean }) => (
-    <CheckboxFancy
+    <RadioButton
       key={alertEvaluationTypes[type].tearSheetSelectionText}
       label={
         <LabelDescriptionWithIcon
@@ -79,7 +79,6 @@ export function AlertEvaluationControlPresenter({
       }
       checked={type === evaluationType}
       onChange={() => setEvaluationType(type)}
-      asRadioButton
       disabled={disabled}
     />
   );

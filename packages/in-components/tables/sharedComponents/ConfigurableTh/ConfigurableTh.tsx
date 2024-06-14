@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 import { SvgIcon, SearchInput } from '@instana/components';
 import { Th, SortableTh } from '@instana/legacy';
-import { SvgIcon, Checkbox } from '@instana/components';
+import { Checkbox } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
