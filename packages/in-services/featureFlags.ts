@@ -27,6 +27,9 @@ export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTp
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');
 export const beeInstanaInfraMetricsEnabled = isFeatureFlagEnabled('beeInstanaInfraMetricsEnabled');
 export const beeinstanaHistogramsEnabled = isFeatureFlagEnabled('beeinstanaHistogramsEnabled');
+export const beeinstanaInfraMetricsWithTimeshiftEnabled = isFeatureFlagEnabled(
+  'beeinstanaInfraMetricsWithTimeshiftEnabled'
+);
 export const highResolutionInfrastructureMetricsEnabled = isFeatureFlagEnabled(
   'highResolutionInfrastructureMetricsEnabled',
   true
