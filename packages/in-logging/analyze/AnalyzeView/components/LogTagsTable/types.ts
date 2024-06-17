@@ -9,7 +9,7 @@ import { LogItem, LogTag } from 'in-types';
 
 export interface ClickedTag {
   name: string;
-  value: string;
+  value: string | number;
   key?: string;
 }
 
