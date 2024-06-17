@@ -636,6 +636,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'beeinstanaInfraMetricsWithTimeshiftEnabled',
+    instanaCtlKey: 'feature.beeinstana.infra.metrics.with.timeshift.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'weaselSubresourceIntegrityEnabled',
     instanaCtlKey: 'feature.weasel.subresource.integrity.enabled',
     defaultValue: true
