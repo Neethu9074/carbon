@@ -14,7 +14,9 @@ import { getManualContentFromFields } from 'in-automation/ActionCatalog/shared';
 import { DescriptionItem } from 'in-components/DescriptionList/DescriptionList';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import { isAIAction } from 'in-automation/ActionCatalog/shared';
 import CopyToClipboard from 'in-components/CopyToClipboard';
+import { toHtml } from 'in-services/formatters/markdown';
 import { ScoredAction } from 'in-automation/api';
 import { Action } from 'in-types';
 
@@ -38,7 +40,12 @@ export default function ManualActionContent({
   if (content.encoding === 'base64') {
     contentText = atob(contentText);
   }
-  const htmlContent = toHtmlWithLineNumbers(contentText);
+  const htmlContent =
+    //@ts-expect-error - can be removed from R-277
+    isAIAction(action) || action.metadata?.aiOriginated
+      ? toHtmlWithLineNumbers(contentText)
+      : toHtml(contentText, { breaks: true });
+
   return (
     <>
       <DescriptionItem
