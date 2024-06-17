@@ -544,5 +544,10 @@ module.exports = exports = [
     uiClientKey: 'rawTraceDownloadEnabled',
     instanaCtlKey: 'feature.application.raw.trace.download.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'beeinstanaInfraMetricsWithTimeshiftEnabled',
+    instanaCtlKey: 'feature.beeinstana.infra.metrics.with.timeshift.enabled',
+    defaultValue: true
   }
 ];

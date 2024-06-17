@@ -8,6 +8,7 @@ import React from 'react';
 
 import { themes } from '@instana/design-tokens';
 
+import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
@@ -19,7 +20,6 @@ import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
-import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import EntityWithTypeAndIcon from 'in-components/EntityWithTypeAndIcon';
 import PageTracker from 'in-services/tracking/segment/PageTracker';
 import { clusterDashboard } from 'in-kubernetes/navigation/paths';
@@ -113,7 +113,7 @@ function Header(props) {
 function renderButtonLineSecondary({ timeConfig, podId }) {
   return (
     <>
-      {beeInstanaInfraMetricsEnabled && (
+      {beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled && (
         <TimeShiftDropdown
           onChange={offset =>
             applicationTimeShiftSelectTracker({
