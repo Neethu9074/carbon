@@ -34,13 +34,15 @@ import { hours } from 'in-services/time';
 interface GetDataParams {
   traceId: string;
   timeConfig: TimeConfig;
+  numLogsToFetch?: number;
 }
 
 interface UseLogsInCallsParams {
   traceId: string;
   trace: any;
+  numLogsToFetch?: number;
 }
-
+//This const timeWindowExtend is a buffer to the trace start time and duration, we had to extend it (minutes -> hours) to get the data consistent.
 const timeWindowExtend = hours.toMillis(10);
 
 const useTimeConfigForLogs = (trace: TraceSummary) => {
@@ -57,13 +59,12 @@ const useTimeConfigForLogs = (trace: TraceSummary) => {
 
 const useLogsInCalls = loggingEnabled ? useLogsInCallsWithLogging : useLogsInCallsWithoutLogging;
 
-function useLogsInCallsWithLogging({ traceId, trace }: UseLogsInCallsParams) {
+function useLogsInCallsWithLogging({ traceId, trace, numLogsToFetch }: UseLogsInCallsParams) {
   const timeConfigForLogs = useTimeConfigForLogs(trace);
-
   const [selectedLog, setSelectedLog] = useState(null);
 
   const { items, errors, progress } = useLogsCursorPagination(
-    params => getData({ traceId, timeConfig: timeConfigForLogs, ...params }),
+    params => getData({ traceId, timeConfig: timeConfigForLogs, numLogsToFetch, ...params }),
     [traceId]
   );
 
@@ -88,10 +89,10 @@ function useLogsInCallsWithoutLogging({ trace }: UseLogsInCallsParams) {
   return { logsContextValue };
 }
 
-function getData({ traceId, timeConfig }: GetDataParams) {
+function getData({ traceId, timeConfig, numLogsToFetch }: GetDataParams) {
   const callBody = {
     timeConfig,
-    retrievalSize: maxRetrievalSize,
+    retrievalSize: numLogsToFetch ?? maxRetrievalSize,
     tagFilterExpression: toBackendQueryModel(
       joinExpressions({
         logicalOperator: and,
