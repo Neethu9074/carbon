@@ -7,6 +7,9 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+import { Stack } from '@instana/components';
+
 import {
   aggregationOptions,
   conditionOperatorOptions,
@@ -17,8 +20,10 @@ import {
 import { isPercentile } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { formatterTypeToValueLabel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { CustomEventSpecificationWithMetadata, Nullish, AlertingAggregation } from 'in-types';
+import { MetricDefinition, getBuiltInMetricDefinition } from 'in-api/infraCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { FormatterType } from 'in-services/formatters/number';
+import HelpAction from 'in-components/workspace/HelpAction';
 import ComboBox, { Option } from 'in-components/ComboBox';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Col } from 'in-components/layout/Grid';
@@ -35,6 +40,8 @@ interface ThresholdsFormGroupProps {
   ) => MapForm<any>;
   hideTimeWindow: boolean;
   disabled: boolean;
+  entityType: string;
+  metricName: string;
 }
 
 interface TimeWindowFormGroupProps {
@@ -61,11 +68,26 @@ interface TimeWindowFormGroupProps {
  * | metric 100% |
  * | timeWindow 3/12 | aggr 3/12 | oper 3/12 | val 3/12 |
  */
-export function ThresholdsFormGroup({ form, onChange, disabled, hideTimeWindow }: ThresholdsFormGroupProps) {
+export function ThresholdsFormGroup({
+  form,
+  onChange,
+  disabled,
+  hideTimeWindow,
+  entityType,
+  metricName
+}: ThresholdsFormGroupProps) {
   const isPercentileMetric = isPercentile(form);
 
   const defaultColSize = 3;
   const reducedColSizeForFitIntoRow = 2;
+  const builtInMetricsForPlugin = useObservable<MetricDefinition, [string | undefined, string | undefined]>(() => {
+    if (!(entityType && metricName)) {
+      return null;
+    }
+    return getBuiltInMetricDefinition(entityType, metricName);
+  }, [entityType, metricName]);
+
+  const valueMappings = builtInMetricsForPlugin?.metricMetadata?.valueMappings;
 
   return (
     <>
@@ -137,13 +159,29 @@ export function ThresholdsFormGroup({ form, onChange, disabled, hideTimeWindow }
       <Col lg={hideTimeWindow ? reducedColSizeForFitIntoRow : defaultColSize}>
         {(form.get('conditionValue') as Field<string>).map(field => (
           <FormGroup>
-            <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
-              {conditionLabel(
-                (form.get('formatter') as Field<FormatterType>).value,
-                (form.get('metricName') as Field<string>).value,
-                (form.get('aggregation') as Field<AlertingAggregation>)?.value
+            <Stack direction="horizontal" align="start" gap="xxsmall">
+              <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
+                {conditionLabel(
+                  (form.get('formatter') as Field<FormatterType>).value,
+                  (form.get('metricName') as Field<string>).value,
+                  (form.get('aggregation') as Field<AlertingAggregation>)?.value
+                )}
+              </Label>
+              {valueMappings && (
+                <HelpAction size="xs">
+                  <p>{t('in-settings:tabs.valueMapping')}</p>
+                  <ul>
+                    {Object.entries(valueMappings)
+                      .sort(([, a], [, b]) => a - b)
+                      .map(([stringValue, numericValue]) => (
+                        <li key={numericValue}>
+                          {numericValue}: {stringValue}
+                        </li>
+                      ))}
+                  </ul>
+                </HelpAction>
               )}
-            </Label>
+            </Stack>
             <Input
               disabled={disabled}
               id="event-conditionValue"
