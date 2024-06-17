@@ -7,16 +7,17 @@
 import React from 'react';
 
 import {
+  beeInstanaInfraMetricsEnabled,
+  persistentVolumeSupportEnabled,
+  beeinstanaInfraMetricsWithTimeshiftEnabled,
+  playwithEnabled
+} from 'in-services/featureFlags';
+import {
   useDaemonSetDashboard,
   useDeploymentDashboard,
   useDeploymentConfigDashboard,
   useStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
-import {
-  beeInstanaInfraMetricsEnabled,
-  persistentVolumeSupportEnabled,
-  playwithEnabled
-} from 'in-services/featureFlags';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs$ from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
@@ -38,7 +39,8 @@ export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${namespaceDashboardFullyQualified}/summary`,
-    component: beeInstanaInfraMetricsEnabled ? Summary : SummaryWithoutTimeShift
+    component:
+      beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled ? Summary : SummaryWithoutTimeShift
   },
   {
     label: t('in-kubernetes:dashboards.details'),

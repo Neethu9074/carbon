@@ -7,6 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
@@ -19,7 +20,6 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
-import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -141,7 +141,7 @@ function renderButtonLineSecondary({ timeConfig, podId, result }) {
   return (
     <>
       <LoggingIntegrationButtons kubernetesPodName={podName} timeConfig={timeConfig} />
-      {beeInstanaInfraMetricsEnabled && (
+      {beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled && (
         <TimeShiftDropdown
           onChange={offset =>
             kubernetesTimeShiftSelectTracker({
