@@ -12,6 +12,7 @@ import {
   bytes,
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import { WINDOW_FOR_LATEST_METRIC, DISTANCE_BETWEEN_DATAPOINTS } from 'in-forge/plugins/otelHost/constants';
 import NetworkInterfacesTable from 'in-forge/plugins/otelHost/Dashboard/NetworkInterfacesTable';
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import FileSystemsTable from 'in-forge/plugins/otelHost/Dashboard/FileSystemsTable';
@@ -19,7 +20,6 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { isWindows, isZos, isLinux } from 'in-forge/plugins/otelHost/hostUtils';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/otelHost/constants';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DisksTable from 'in-forge/plugins/otelHost/Dashboard/DisksTable';
@@ -68,6 +68,7 @@ export default function OtelHostDashboard({ snapshot, timeConfig }) {
       <Columize>
         <DashboardSection title={t('in-forge:plugins.otelHost.dashboard.cpuUsage')}>
           <Chart
+            distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
@@ -93,6 +94,7 @@ export default function OtelHostDashboard({ snapshot, timeConfig }) {
         {!(isWindows(snapshot) || isZos(snapshot)) && (
           <DashboardSection title={t('in-forge:plugins.otelHost.dashboard.cpuLoad')}>
             <Chart
+              distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
               snapshotId={snapshot.get('id')}
               timeConfig={timeConfig}
               minRollup={5000}
@@ -120,6 +122,7 @@ export default function OtelHostDashboard({ snapshot, timeConfig }) {
 
       <DashboardSection title={t('in-forge:plugins.otelHost.dashboard.memory')}>
         <Chart
+          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
@@ -147,6 +150,7 @@ export default function OtelHostDashboard({ snapshot, timeConfig }) {
         />
         {isLinux(snapshot) && (
           <Chart
+            distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
@@ -173,6 +177,7 @@ export default function OtelHostDashboard({ snapshot, timeConfig }) {
       {metricIds.includes('tcp.listen') === true && (
         <DashboardSection title={t('in-forge:plugins.otelHost.dashboard.tcpActivity')}>
           <Chart
+            distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             customHeight={300}
