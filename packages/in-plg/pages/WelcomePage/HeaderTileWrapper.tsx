@@ -13,10 +13,10 @@ import { t } from '@instana/i18n-react';
 // @ts-expect-error missing a type definition for it
 import { getAccountAsResultObservable } from 'in-amp/api/account';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { role } from 'in-stores/user';
 
 export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, datepicker }: HeaderTileProps) {
   const { createHrefToPath } = useNavigation();
-  const [permissions, setPermissions] = useState<string[]>();
   const [statusFlags, setStatusFlags] = useState({
     firstAgentInstalled: true,
     tracingReported: true,
@@ -31,39 +31,11 @@ export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, date
   const accountInfo = useObservable(getAccountAsResultObservable, []);
 
   useEffect(() => {
-    const storedPermissions = window.instana?.user?.role?.permissions;
-    setPermissions(storedPermissions);
     extractCurrentStatus(accountInfo);
   }, [accountInfo]);
 
   // Here, it collects only the headerItemTiles that the user needs to complete for their onboarding task.
   const tileDataWhenActionIsNotCompleted = useMemo(() => {
-    function hasPermission(key: string) {
-      if (!permissions) {
-        return false;
-      }
-      switch (key) {
-        case 'startIntegrating':
-          return permissions.includes('CAN_CONFIGURE_AGENTS');
-        case 'traceInteractions':
-          return permissions.includes('CAN_CONFIGURE_AGENTS');
-        case 'inviteUsers':
-          return permissions.includes('CAN_CONFIGURE_USERS');
-        case 'additionalAgents':
-          return permissions.includes('CAN_CONFIGURE_AGENTS');
-        case 'appPerspective':
-          return permissions.includes('CAN_CONFIGURE_APPLICATIONS');
-        case 'smartAlerts':
-          return permissions.includes('CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS');
-        case 'startMonitoring':
-          return permissions.includes('CAN_CONFIGURE_MOBILE_APP_MONITORING');
-        case 'inviteTeammates':
-          return permissions.includes('CAN_CONFIGURE_USERS');
-        default:
-          return false;
-      }
-    }
-
     const tileData = [
       {
         key: 'startIntegrating',
@@ -72,7 +44,7 @@ export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, date
         buttonName: t('in-plg:welcomepage.startIntegrating.buttonName'),
         buttonType: 'primary',
         href: createRedirectHref('startIntegrating'),
-        hasPermission: hasPermission('startIntegrating'),
+        hasPermission: role?.canConfigureAgents,
         isActionCompleted: statusFlags.firstAgentInstalled
       },
       {
@@ -82,7 +54,7 @@ export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, date
         buttonName: t('in-plg:welcomepage.traceInteractions.buttonName'),
         buttonType: 'ghost',
         href: createRedirectHref('traceInteractions'),
-        hasPermission: permissions?.includes('CAN_CONFIGURE_AGENTS'),
+        hasPermission: role?.canConfigureAgents,
         isActionCompleted: statusFlags.tracingReported
       },
       {
@@ -92,7 +64,7 @@ export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, date
         buttonName: t('in-plg:welcomepage.inviteUsers.buttonName'),
         buttonType: 'ghost',
         href: createRedirectHref('inviteUsers'),
-        hasPermission: hasPermission('inviteUsers'),
+        hasPermission: role?.canConfigureUsers,
         isActionCompleted: statusFlags.additionalUserInvited
       },
       {
@@ -102,7 +74,7 @@ export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, date
         buttonName: t('in-plg:welcomepage.additionalAgents.buttonName'),
         buttonType: 'ghost',
         href: createRedirectHref('inviteUsers'),
-        hasPermission: hasPermission('additionalAgents'),
+        hasPermission: role?.canConfigureAgents,
         isActionCompleted: statusFlags.threeAgentsInstalled
       },
       {
@@ -111,7 +83,7 @@ export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, date
         description: t('in-plg:welcomepage.appPerspective.description'),
         buttonName: t('in-plg:welcomepage.appPerspective.buttonName'),
         buttonType: 'ghost',
-        hasPermission: hasPermission('appPerspective'),
+        hasPermission: role?.canConfigureApplications,
         isActionCompleted: statusFlags.twoApplicationPerspectivesCreated
       },
       {
@@ -121,7 +93,7 @@ export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, date
         buttonName: t('in-plg:welcomepage.smartAlerts.buttonName'),
         buttonType: 'ghost',
         href: createRedirectHref('smartAlerts'),
-        hasPermission: hasPermission('smartAlerts'),
+        hasPermission: role?.canConfigureGlobalApplicationSmartAlerts,
         isActionCompleted: statusFlags.oneAlertSetUpAndActivated
       },
       {
@@ -130,7 +102,7 @@ export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, date
         description: t('in-plg:welcomepage.startMonitoring.description'),
         buttonName: t('in-plg:welcomepage.startMonitoring.buttonName'),
         buttonType: 'ghost',
-        hasPermission: hasPermission('startMonitoring'),
+        hasPermission: role?.canConfigureMobileAppMonitoring,
         isActionCompleted: statusFlags.oneWebsiteMonitored
       },
       {
@@ -140,7 +112,7 @@ export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, date
         buttonName: t('in-plg:welcomepage.inviteTeammates.buttonName'),
         buttonType: 'ghost',
         href: createRedirectHref('inviteTeammates'),
-        hasPermission: hasPermission('inviteTeammates'),
+        hasPermission: role?.canConfigureUsers,
         isActionCompleted: statusFlags.fiveUsers
       }
     ];
@@ -171,8 +143,7 @@ export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, date
     statusFlags.oneAlertSetUpAndActivated,
     statusFlags.oneWebsiteMonitored,
     statusFlags.threeAgentsInstalled,
-    statusFlags.twoApplicationPerspectivesCreated,
-    permissions
+    statusFlags.twoApplicationPerspectivesCreated
   ]);
 
   function extractCurrentStatus(accountInfo: any) {
