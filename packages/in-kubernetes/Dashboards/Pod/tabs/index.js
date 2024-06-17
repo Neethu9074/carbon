@@ -3,8 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import {
+  beeInstanaInfraMetricsEnabled,
+  beeinstanaInfraMetricsWithTimeshiftEnabled,
+  persistentVolumeSupportEnabled
+} from 'in-services/featureFlags';
 import PersistentVolumeClaims from 'in-kubernetes/Dashboards/commonComponents/pvc/PersistentVolumeClaims';
-import { beeInstanaInfraMetricsEnabled, persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import { PodConditionsTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
@@ -19,7 +23,8 @@ export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${podDashboardFullyQualified}/summary`,
-    component: beeInstanaInfraMetricsEnabled ? Summary : SummaryWithoutTimeShift
+    component:
+      beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled ? Summary : SummaryWithoutTimeShift
   },
   {
     label: t('in-kubernetes:dashboards.details'),

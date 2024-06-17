@@ -494,5 +494,10 @@ module.exports = exports = [
     uiClientKey: 'allowDownloadMetricsFromCharts',
     instanaCtlKey: 'feature.chart.download.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'beeinstanaInfraMetricsWithTimeshiftEnabled',
+    instanaCtlKey: 'feature.beeinstana.infra.metrics.with.timeshift.enabled',
+    defaultValue: true
   }
 ];

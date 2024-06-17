@@ -5,6 +5,7 @@
 
 import {
   beeInstanaInfraMetricsEnabled,
+  beeinstanaInfraMetricsWithTimeshiftEnabled,
   persistentVolumeSupportEnabled,
   playwithEnabled
 } from 'in-services/featureFlags';
@@ -23,7 +24,8 @@ export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${nodeDashboardFullyQualified}/summary`,
-    component: beeInstanaInfraMetricsEnabled ? Summary : SummaryWithoutTimeShift
+    component:
+      beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled ? Summary : SummaryWithoutTimeShift
   },
   {
     label: t('in-kubernetes:dashboards.details'),
