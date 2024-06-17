@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/DaemonSet/tabs/SummaryWithoutTimeShift';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
@@ -12,7 +13,6 @@ import { daemonSetDashboardFullyQualified } from 'in-kubernetes/navigation/paths
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import { WorkloadTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
-import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import Summary from 'in-kubernetes/Dashboards/DaemonSet/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/DaemonSet/tabs/Details';
 import { t } from 'in-i18n';
@@ -21,7 +21,8 @@ export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${daemonSetDashboardFullyQualified}/summary`,
-    component: beeInstanaInfraMetricsEnabled ? Summary : SummaryWithoutTimeShift
+    component:
+      beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled ? Summary : SummaryWithoutTimeShift
   },
   {
     label: t('in-kubernetes:dashboards.details'),

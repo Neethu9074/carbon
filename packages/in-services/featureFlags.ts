@@ -28,6 +28,9 @@ export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEna
 export const infrastructureExploreTagColumnsEnabled = isFeatureFlagEnabled('infrastructureExploreTagColumnsEnabled');
 export const beeInstanaInfraMetricsEnabled = isFeatureFlagEnabled('beeInstanaInfraMetricsEnabled');
 export const beeinstanaHistogramsEnabled = isFeatureFlagEnabled('beeinstanaHistogramsEnabled');
+export const beeinstanaInfraMetricsWithTimeshiftEnabled = isFeatureFlagEnabled(
+  'beeinstanaInfraMetricsWithTimeshiftEnabled'
+);
 export const highResolutionInfrastructureMetricsEnabled = isFeatureFlagEnabled(
   'highResolutionInfrastructureMetricsEnabled',
   true
