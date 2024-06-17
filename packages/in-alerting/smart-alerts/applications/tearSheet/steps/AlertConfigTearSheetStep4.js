@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
+import { Message, IconButton } from '@instana/components';
 import { Spacer } from '@instana/components';
 
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
@@ -16,8 +17,10 @@ import ThroughputThresholdCondition from 'in-alerting/smart-alerts/components/te
 import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/StatusCodeThresholdCondition';
 import ErrorRateThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/ErrorRateThresholdCondition';
 import SlownessThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/SlownessThresholdCondition';
+import TagFilterValidation from 'in-alerting/smart-alerts/applications/tearSheet/components/TagFilterValidation/TagFilterValidation';
 import LogsThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/LogsThresholdCondition';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
 import EntitySelectionFormUpdater from 'in-alerting/smart-alerts/applications/chart/EntitySelectionFormUpdater';
@@ -29,10 +32,16 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import AlertTypography from 'in-alerting/components/AlertTypography';
+import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
 import locals from './AlertConfigTearSheetStep4.mless';
+
+const scopeSelectionTimeConfig = {
+  windowSize: days.toMillis(1)
+};
 
 export default function AlertConfigTearSheetStep4(props) {
   const {
@@ -43,18 +52,33 @@ export default function AlertConfigTearSheetStep4(props) {
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
     isGlobalSmartAlert,
-    thresholdResult
+    thresholdResult,
+    isTagFilterFormModelValid,
+    setStep
   } = props;
 
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
   const thresholdType = form.get('threshold').get('type').value;
+  const applications = form.get('applications').value;
+  const boundaryScope = form.get('boundaryScope').value;
+  const tagFilterExpression = form.get('tagFilterExpression').value;
 
   const blueprintConfig = getBlueprintConfig(alertType);
 
   const ruleComplete = blueprintConfig?.isRuleComplete(ruleForm.toJS());
 
   const alertConfigWithFormModel = blueprintConfig.enrichWithDefaultThresholdValues(form.toJS());
+
+  const { QueryBuilder } = useMemo(() => {
+    return createBoundedAlertQueryBuilder(
+      applications,
+      boundaryScope,
+      scopeSelectionTimeConfig,
+      thresholdType,
+      alertType
+    );
+  }, [applications, boundaryScope, thresholdType, alertType]);
 
   return (
     <>
@@ -93,6 +117,33 @@ export default function AlertConfigTearSheetStep4(props) {
                 setForm={updateForm}
                 onThresholdTypeChange={onThresholdTypeChange}
                 isTearSheet
+              />
+            </div>
+          )}
+          {!isTagFilterFormModelValid && tagFilterExpression && (
+            <div className={locals.filterSection}>
+              <Message
+                type="warning"
+                inline
+                fullInlineWidth
+                title={t('in-alerting:smartAlerts.applications.tearSheet.invalidFilters')}
+                description={t('in-alerting:smartAlerts.applications.tearSheet.invalidFilterWarning')}
+              />
+              <IconButton
+                alignment="right"
+                kind="tertiary"
+                type="lib_actions_edit"
+                onClick={() =>
+                  addActiveDialog(
+                    <TagFilterValidation
+                      form={form}
+                      close={close}
+                      QueryBuilder={QueryBuilder}
+                      updateForm={updateForm}
+                      setStep={setStep}
+                    />
+                  )
+                }
               />
             </div>
           )}

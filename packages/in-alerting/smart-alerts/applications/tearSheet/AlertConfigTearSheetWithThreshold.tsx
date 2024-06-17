@@ -4,13 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
+import React, { Dispatch, ReactNode, SetStateAction, useMemo, useState } from 'react';
 import { Field, Item, MapForm, MapFormItems, MapPath } from 'formalistic';
-import React, { ReactNode, useMemo, useState } from 'react';
 
 import { ApplicationAlertConfig, TimeConfig } from '@instana/types';
 
-//@ts-expect-error TS migration
-import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
 import {
   APStepRenderers,
   stepConfigs,
@@ -20,7 +18,10 @@ import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alert
 //@ts-expect-error TS migration
 import { useThresholdSuggestion } from 'in-alerting/smart-alerts/applications/hooks/useThresholdSuggestion';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
-import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
+//@ts-expect-error
+import useIsTagFilterFormModelExists from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelExists';
+//@ts-expect-error
+import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import useAlertingTearSheetAction from 'in-alerting/smart-alerts/applications/tearSheet/hooks/useAlertingTearSheetAction';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
@@ -28,12 +29,9 @@ import useAlertConfigValidation from 'in-alerting/smart-alerts/applications/hook
 import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertingTearSheet, { AlertingFooterActions } from 'in-alerting/components/AlertingTearSheet';
 import { blueprintConfigs } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import { MessageType } from 'in-components/MessageStack/MessageStack';
 import { days } from 'in-services/time/time';
-
-// import { useObservable } from '@instana/hooks';
 
 /**
  * Timeframe used for the tag-suggestions in QB2.
@@ -130,17 +128,13 @@ function SmartAlertConfigTearSheetWithQueryValidation({
     return getQueryBuilderForAlertType(rule.alertType, thresholdType);
   }, [rule.alertType, threshold.type]);
 
-  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid);
-
   const updateTagFilterExpression = (filteredTagFilterExpression: any) => {
     updateForm(form.updateIn(['tagFilterExpression'], (f: any) => f.setValue(filteredTagFilterExpression)));
   };
 
-  useRemoveInvalidTagsFromFilterExpression(
-    getTagCatalog,
-    tagFilterExpression as unknown as FormModelElement[],
-    updateTagFilterExpression
-  );
+  useIsTagFilterFormModelExists(tagFilterExpression, getTagCatalog, updateTagFilterExpression);
+
+  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid);
 
   const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
 
@@ -188,7 +182,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       handleSubmit={handleSubmit}
       thresholdResult={thresholdResult}
       headerWithMsg={headerWithMsg}
-      additionalValidationCheck={step === 2 ? isTagFilterFormModelValid : true}
+      additionalValidationCheck={step === 1 || step === 3 ? isTagFilterFormModelValid : true}
       setForm={updateForm}
     >
       {stepRenderers.map(
@@ -196,6 +190,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
           Renderer: (
             props: AlertConfigTearSheetWithThresholdProps & {
               isTagFilterFormModelValid: boolean;
+              setStep: Dispatch<SetStateAction<number>>;
             }
           ) => JSX.Element,
           idx: number
@@ -205,8 +200,9 @@ function SmartAlertConfigTearSheetWithQueryValidation({
               <Renderer
                 {...props}
                 key={idx}
-                isTagFilterFormModelValid={isTagFilterFormModelValid}
                 isGlobalSmartAlert={isGlobalSmartAlert}
+                isTagFilterFormModelValid={isTagFilterFormModelValid}
+                setStep={setStep}
               />
             )
           );

@@ -597,7 +597,15 @@
           "description": "Select the recipient(s) of this alert",
           "searchPlaceholder": "Search",
           "clearAll": "Clear all"
-        }
+        },
+        "editFilters": "Edit filters",
+        "invalidFilters": "Invalid filters",
+        "invalidFilterWarning": "Some of the filters you've chosen do not support the adaptive threshold. The highlighted filter will be deprecated.",
+        "editAdaptiveThreshold": {
+          "title": "Edit adaptive threshold filters",
+          "description": "Make sure all filters support the adaptive threshold."
+        },
+        "filterWithInvalidAdaptiveThreshold": "Filters with adaptive threshold: "
       }
     },
     "details": {
@@ -702,6 +710,7 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "Cancel",
+        "proceedTitle": "Proceed",
         "previousTitle": "Previous",
         "sharedListTooltip": "{{typeName}} is not available anymore",
         "clearTagFilterExpressionButton": "Clear",

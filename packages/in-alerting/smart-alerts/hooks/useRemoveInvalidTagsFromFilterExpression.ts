@@ -37,17 +37,7 @@ export function useRemoveInvalidTagsFromFilterExpression(
   useEffect(() => {
     if (availableTagFilters && tagFilterExpression) {
       try {
-        const backendModel = toBackendQueryModel(tagFilterExpression);
-        const previousCount = countTagFilters(backendModel);
-
-        const cleanedUpExpression = removeExcludedFilters(backendModel, availableTagFilters);
-        const cleanedUpCount = countTagFilters(cleanedUpExpression);
-
-        if (cleanedUpCount !== previousCount) {
-          const filteredTagFilterExpression = fromBackendModel(cleanedUpExpression);
-
-          updateTagFilterExpression(filteredTagFilterExpression);
-        }
+        removeInvalidFilters(tagFilterExpression, availableTagFilters, updateTagFilterExpression);
       } catch (ignoreParsingError) {
         // An invalid tag expression can not be converted to the backend model.
         // Then we won't be able to remove invalid tags.
@@ -56,4 +46,23 @@ export function useRemoveInvalidTagsFromFilterExpression(
     // only trigger on a changed tag filter list:
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [availableTagFilters]);
+}
+
+export function removeInvalidFilters(
+  tagFilterExpression: FormModelElement[],
+  availableTagFilters: string[],
+  updateTagFilterExpression: (updatedExpression: FormModelElement[]) => void
+) {
+  const backendModel = toBackendQueryModel(tagFilterExpression);
+  const previousCount = countTagFilters(backendModel);
+
+  const cleanedUpExpression = removeExcludedFilters(backendModel, availableTagFilters);
+  const cleanedUpCount = countTagFilters(cleanedUpExpression);
+
+  if (cleanedUpCount !== previousCount) {
+    const filteredTagFilterExpression = fromBackendModel(cleanedUpExpression);
+
+    updateTagFilterExpression(filteredTagFilterExpression);
+  }
+  return;
 }
