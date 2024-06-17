@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -13,10 +14,6 @@ import {
   serviceLevelsAlertsFullyQualified,
   serviceLevelsAlertDetailsFullyQualified
 } from 'in-service-levels/navigation/path';
-import {
-  SecondLevelNavigation,
-  SecondLevelNavigationItem
-} from 'in-components/SecondLevelNavigation/SecondLevelNavigation';
 import SloSmartAlertDetails from 'in-service-levels/components/SloDashboard/components/SloSmartAlertDetails';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { SloTrackerProvider, sloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
