@@ -509,5 +509,10 @@ module.exports = exports = [
     uiClientKey: 'logSmartAlertsEnabled',
     instanaCtlKey: 'feature.log.smart.alerts.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'beeinstanaInfraMetricsWithTimeshiftEnabled',
+    instanaCtlKey: 'feature.beeinstana.infra.metrics.with.timeshift.enabled',
+    defaultValue: true
   }
 ];
