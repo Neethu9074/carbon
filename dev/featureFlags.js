@@ -17,6 +17,7 @@ module.exports = {
   infraExploreDataEnabled: true,
   beeInstanaInfraMetricsEnabled: true,
   beeinstanaHistogramsEnabled: true,
+  beeinstanaInfraMetricsWithTimeshiftEnabled: true,
   highResolutionInfrastructureMetricsEnabled: true,
   internalMonitoringUnit: true,
   enableTroubleshootingMode: true,
