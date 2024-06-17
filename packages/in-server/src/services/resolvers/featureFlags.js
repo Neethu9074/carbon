@@ -571,6 +571,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonMenuEnabled',
+    instanaCtlKey: 'feature.carbon.menu.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'notesAndActivityEnabled',
     instanaCtlKey: 'feature.incident.notes.enabled',
     defaultValue: false
