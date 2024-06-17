@@ -5,8 +5,12 @@
 
 import React from 'react';
 
+import {
+  beeInstanaInfraMetricsEnabled,
+  beeinstanaInfraMetricsWithTimeshiftEnabled,
+  persistentVolumeSupportEnabled
+} from 'in-services/featureFlags';
 import PersistentVolumeClaims from 'in-kubernetes/Dashboards/commonComponents/pvc/PersistentVolumeClaims';
-import { beeInstanaInfraMetricsEnabled, persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/StatefulSet/tabs/SummaryWithoutTimeShift';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
@@ -22,7 +26,8 @@ export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${statefulSetDashboardFullyQualified}/summary`,
-    component: beeInstanaInfraMetricsEnabled ? Summary : SummaryWithoutTimeShift
+    component:
+      beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled ? Summary : SummaryWithoutTimeShift
   },
   {
     label: t('in-kubernetes:dashboards.details'),
