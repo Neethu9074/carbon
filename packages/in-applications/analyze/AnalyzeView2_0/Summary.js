@@ -113,7 +113,7 @@ export default function Summary({
 
   const { logsContextValue } = useLogsInCalls({ traceId, trace, numLogsToFetch });
   const { error: otelErrorCount, warn: otelWarnCount } = countOtelLogs(logsContextValue.items);
-  const isMoreThan5Logs = logsContextValue.items.length === 5;
+  const isFiveLogs = logsContextValue.items.length === 5;
 
   const totalWarnLogCount = trace.totalWarnLogCount + otelWarnCount;
   const totalErrorLogCount = trace.totalErrorLogCount + otelErrorCount;
@@ -353,10 +353,10 @@ export default function Summary({
                       </Button>
                     }
                     className={classNames({
-                      [locals.logCard]: isMoreThan5Logs
+                      [locals.logCard]: isFiveLogs
                     })}
                   >
-                    {isMoreThan5Logs && (
+                    {isFiveLogs && (
                       <span className={locals.logsCardDescription}>
                         {t('in-analyze:traceDetail.tabs.summary.logsCardDescription')}
                       </span>
