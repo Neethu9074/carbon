@@ -6,15 +6,15 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { 
-  ColumnizedDefinition, 
+import {
+  ColumnizedDefinition,
   Pagination as CarbonPagination,
-  ColumnizedContent, 
-  Li, 
-  Ul, 
+  ColumnizedContent,
+  Li,
+  Ul,
   Stack,
   ButtonGroup,
-  SearchInput 
+  SearchInput
 } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -201,7 +201,11 @@ export default function SmartAlertsBaseList<AlertConfig extends AlertConfigType>
                 }
               />
             </div>
-            <SearchInput query={query} onChange={updatedQuery => setState({ query: updatedQuery, page: 1 })} />
+            <SearchInput
+              query={query}
+              onChange={updatedQuery => setState({ query: updatedQuery, page: 1 })}
+              placeholder={t('in-components:searchInput.placeholderSearch')}
+            />
           </HorizontalFlexWrapper>
         </HorizontalFlexWrapper>
         <Ul framed>

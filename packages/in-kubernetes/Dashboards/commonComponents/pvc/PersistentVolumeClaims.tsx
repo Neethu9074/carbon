@@ -40,7 +40,11 @@ export default function PersistentVolumeClaimsCard({ podUID, workloadUID }: Prop
       <Stack>
         <HorizontalFlexWrapper className={locals.header}>
           <div />
-          <SearchInput onChange={() => {}} inputClassName={locals.searchInput} />
+          <SearchInput
+            onChange={() => {}}
+            inputClassName={locals.searchInput}
+            placeholder={t('in-components:searchInput.placeholderSearch')}
+          />
         </HorizontalFlexWrapper>
         <List firstViewing={loading} data={result?.items} errorMessage={result?.errors}>
           <Items name={''} persistentVolume={''} phase={''} requestSize={''} storageClass={''} />

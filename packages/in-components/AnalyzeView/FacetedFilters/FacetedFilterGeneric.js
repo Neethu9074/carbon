@@ -160,6 +160,7 @@ function SearchAndSuggestions(props) {
           className={locals.searchContainer}
           inputClassName={locals.search}
           withoutIcon
+          placeholder={t('in-components:searchInput.placeholderSearch')}
         />
       )}
       <SuggestionsPresenter

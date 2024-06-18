@@ -71,6 +71,7 @@ export function MultiSelect(props) {
             className={locals.searchContainer}
             inputClassName={locals.search}
             withoutIcon
+            placeholder={t('in-components:searchInput.placeholderSearch')}
           />
         )}
         {selectedValues.length > 0 && (

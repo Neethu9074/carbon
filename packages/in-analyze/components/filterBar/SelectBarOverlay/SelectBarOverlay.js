@@ -37,7 +37,12 @@ export default function SelectBarOverlay({
 }) {
   return (
     <BarOverlay>
-      <SearchInput onChange={onQueryChange} query={query} autoFocus />
+      <SearchInput
+        onChange={onQueryChange}
+        query={query}
+        autoFocus
+        placeholder={t('in-components:searchInput.placeholderSearch')}
+      />
 
       {selectedItem && (
         <Tooltip

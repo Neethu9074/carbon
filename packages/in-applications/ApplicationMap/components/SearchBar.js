@@ -9,6 +9,7 @@ import { SearchInput } from '@instana/components';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
+import { t } from 'in-i18n';
 
 import locals from './SearchBar.mless';
 
@@ -24,6 +25,7 @@ export default function SearchBar({ serviceLocatorUid }) {
           eventBusServiceLocator.emit(SIGNALS.SEARCH, value);
         }}
         query={value}
+        placeholder={t('in-components:searchInput.placeholderSearch')}
       />
     </div>
   );

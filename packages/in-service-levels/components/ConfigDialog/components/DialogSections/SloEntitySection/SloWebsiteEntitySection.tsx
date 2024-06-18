@@ -70,7 +70,11 @@ export default function SloWebsiteEntitySection() {
         <Typography variant="heading-200" component="h2">
           {t('in-service-levels:general.select', { entity: entityTypeField.value })}
         </Typography>
-        <SearchInput query={queryInput} onChange={q => setQueryDebounced(q)} />
+        <SearchInput
+          query={queryInput}
+          onChange={q => setQueryDebounced(q)}
+          placeholder={t('in-components:searchInput.placeholderSearch')}
+        />
       </SloTableHeader>
       {!isEntityIdFieldValid &&
         entityIdField.messages.map(({ message, path }, index) => (

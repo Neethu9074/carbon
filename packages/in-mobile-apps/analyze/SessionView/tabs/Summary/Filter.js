@@ -59,6 +59,7 @@ export default function Filter({ view, setView, query, setQuery, filterTypes, se
               setQuery('');
             }
           }}
+          placeholder={t('in-components:searchInput.placeholderSearch')}
         />
       </FilterBlock>
 

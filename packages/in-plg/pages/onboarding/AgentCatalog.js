@@ -76,6 +76,7 @@ export default function AgentCatalog(props) {
               }
             }}
             hasError={false}
+            placeholder={t('in-components:searchInput.placeholderSearch')}
           />
           <Spacer vertical="xxsmall" />
           <Typography variant="heading-200">{`${t('in-plg:agentDetails.common.agentDeployment')} (${

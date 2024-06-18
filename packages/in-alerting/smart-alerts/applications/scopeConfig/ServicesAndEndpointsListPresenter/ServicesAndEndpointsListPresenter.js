@@ -26,6 +26,7 @@ import { applicationDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { propTypeTimeConfig } from 'in-stores/time/config';
+import { t } from 'in-i18n';
 
 const backendApiSubscriptions = {
   getApplication,
@@ -120,7 +121,13 @@ export function ServicesAndEndpointsSearchInput({ query = '', onChange }) {
     500
   );
 
-  return <SearchInput onChange={debouncedOnChange} query={value} />;
+  return (
+    <SearchInput
+      onChange={debouncedOnChange}
+      query={value}
+      placeholder={t('in-components:searchInput.placeholderSearch')}
+    />
+  );
 }
 
 ServicesAndEndpointsListPresenter.propTypes = {

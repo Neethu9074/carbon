@@ -163,7 +163,12 @@ export default class Table extends React.Component {
             ]}
           />
         )}
-        <SearchInput maxWidth={140} query={this.state.filter} onChange={this.store.setFilter} />
+        <SearchInput
+          maxWidth={140}
+          query={this.state.filter}
+          onChange={this.store.setFilter}
+          placeholder={t('in-components:searchInput.placeholderSearch')}
+        />
       </div>
     );
 

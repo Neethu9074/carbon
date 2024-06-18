@@ -42,7 +42,11 @@ export default function MetricGroupHeader({
   return (
     <div className={locals.wrapper}>
       <HorizontalFlexWrapper>
-        <SearchInput withoutIcon onChange={handleChangeWithDebounce(setBackendQueryModel)} />
+        <SearchInput
+          withoutIcon
+          onChange={handleChangeWithDebounce(setBackendQueryModel)}
+          placeholder={t('in-components:searchInput.placeholderSearch')}
+        />
       </HorizontalFlexWrapper>
       <div className={locals.header}>
         <h3 className={locals.topText}>{!isLoading ? topText : t('in-alerting:components.resultHeaderLoading')}</h3>

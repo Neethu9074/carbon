@@ -109,6 +109,7 @@ export default function Filter({ filter, setFilter, isBrowserType }: FilterProps
         <SearchInput
           maxWidth="10rem"
           query={filter.query}
+          placeholder={t('in-components:searchInput.placeholderSearch')}
           onChange={query => {
             if (isNotBlank(query)) {
               setFilter({

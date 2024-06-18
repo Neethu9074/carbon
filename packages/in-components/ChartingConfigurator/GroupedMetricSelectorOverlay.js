@@ -14,6 +14,7 @@ import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { getIconByType } from 'in-analyze/AnalyzeView/dataSources';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { capitalize } from 'in-services/formatters/string';
+import { t } from 'in-i18n';
 
 import locals from 'in-components/ChartingConfigurator/GroupedMetricSelectorOverlay.mless';
 
@@ -119,6 +120,7 @@ export default function GroupedMetricSelectorOverlay({
           inputClassName={locals.search}
           className={locals.searchContainer}
           autoFocus
+          placeholder={t('in-components:searchInput.placeholderSearch')}
         />
       </div>
       <Ul className={locals.list} framed={false} borderRadius="medium" onKeyDown={onKeyDown}>

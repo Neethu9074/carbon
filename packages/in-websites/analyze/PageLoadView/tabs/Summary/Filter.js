@@ -52,6 +52,7 @@ export default function Filter({ query, setQuery, page, setPage, filterTypes, se
         <SearchInput
           maxWidth="10rem"
           query={query}
+          placeholder={t('in-components:searchInput.placeholderSearch')}
           onChange={query => {
             if (isNotBlank(query)) {
               setQuery(query);

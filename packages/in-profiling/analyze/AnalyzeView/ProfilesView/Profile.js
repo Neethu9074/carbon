@@ -189,7 +189,14 @@ function Profile({
             setSelfTimeHighlighted={setSelfTimeHighlighted}
           />
           {viewType === viewTypes.flameGraph && (
-            <SearchInput className={locals.searchInput} onChange={setQuery} query={query} autoFocus maxWidth={200} />
+            <SearchInput
+              className={locals.searchInput}
+              onChange={setQuery}
+              query={query}
+              autoFocus
+              maxWidth={200}
+              placeholder={t('in-components:searchInput.placeholderSearch')}
+            />
           )}
         </HorizontalFlexWrapper>
       </div>

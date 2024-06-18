@@ -35,7 +35,13 @@ export default function InstallDocumentation(props) {
       </div>
       <div className={locals.contentWithNavigation}>
         <div className={locals.navigationWrapper}>
-          <SearchInput onChange={props.onQueryChange} query={props.query} autoFocus hasError={hasError} />
+          <SearchInput
+            onChange={props.onQueryChange}
+            query={props.query}
+            autoFocus
+            hasError={hasError}
+            placeholder={t('in-components:searchInput.placeholderSearch')}
+          />
           <SideNavigation>
             {categories.map(({ title, items }) => (
               <Fragment key={title}>

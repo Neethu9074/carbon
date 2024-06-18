@@ -13,6 +13,7 @@ import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfig
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { JobList } from 'in-kubernetes/Dashboards/CronJob/JobList';
 import useUrlState from 'in-hooks/useUrlState';
+import { t } from 'in-i18n';
 
 import locals from 'in-kubernetes/Dashboards/CronJob/Jobs/Jobs.mless';
 
@@ -41,7 +42,11 @@ export default function Jobs(props: any) {
               }
             />
           </div>
-          <SearchInput query={query} onChange={updatedQuery => setUrlState({ query: updatedQuery, page: 1 })} />
+          <SearchInput
+            query={query}
+            onChange={updatedQuery => setUrlState({ query: updatedQuery, page: 1 })}
+            placeholder={t('in-components:searchInput.placeholderSearch')}
+          />
         </HorizontalFlexWrapper>
         <JobList {...props} page={page} query={query} orderBy={orderBy} orderDirection={orderDirection} />
       </Stack>

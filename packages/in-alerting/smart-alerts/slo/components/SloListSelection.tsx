@@ -13,8 +13,8 @@ import {
   SloEntityType,
   SloEntityUnion
 } from '@instana/types';
+import { HorizontalIndicator, Typography, SearchInput } from '@instana/components';
 import { Progress } from '@instana/components/types/util/dataRetrieval';
-import { HorizontalIndicator, Typography,SearchInput } from '@instana/components';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
@@ -75,7 +75,11 @@ export default function SloListSelection() {
           <Typography variant="heading-200" component="h2">
             {t('in-alerting:smartAlerts.slo.advancedModeContainer.selectSloHeadline')}
           </Typography>
-          <SearchInput query={query} onChange={q => setQuery(q)} />
+          <SearchInput
+            query={query}
+            onChange={q => setQuery(q)}
+            placeholder={t('in-components:searchInput.placeholderSearch')}
+          />
         </SloTableHeader>
         <HorizontalIndicator progress={progress} />
         <SloTableSelection
