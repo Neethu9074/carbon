@@ -11,16 +11,13 @@ import {
   SloEntityUnion,
   TagFilter,
   TagFilterExpression,
-  WebsiteSloEntity,
-  isApplicationSloEntity,
-  isWebsiteSloEntity
+  isApplicationSloEntity
 } from '@instana/types';
 import { Stack, SvgIcon, Typography } from '@instana/components';
 
-import { QueryBuilderFilter } from 'in-service-levels/components/SloDashboard/components/configuration/ScopeSection/ScopeSection';
 import { QueryBuilderComponent as QueryBuilderComponentType } from 'in-components/QueryBuilder';
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
-import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
+import QueryBuilderFilter from 'in-service-levels/components/QueryBuilderFilter';
 import { LabeledEntity } from 'in-service-levels/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useMediaQuery from 'in-hooks/useMediaQuery';
@@ -46,13 +43,7 @@ export default function SloEntityInfo({ entity, entityType, service, endpoint, m
   const serviceEndpointInfo = (entityType || sloEntity?.type) === 'application';
 
   const applicationQueryBuilder = useApplicationQueryBuilder({} as ApplicationSloEntity);
-  const websiteQueryBuilder = useWebsiteQueryBuilder({} as WebsiteSloEntity);
-  const QueryBuilder =
-    sloEntity && isApplicationSloEntity(sloEntity)
-      ? applicationQueryBuilder.QueryBuilder
-      : sloEntity && isWebsiteSloEntity(sloEntity)
-      ? websiteQueryBuilder.QueryBuilder
-      : null;
+  const QueryBuilder = sloEntity && isApplicationSloEntity(sloEntity) ? applicationQueryBuilder.QueryBuilder : null;
 
   const hasCustomFilter =
     sloEntity &&
@@ -103,10 +94,6 @@ interface CustomFilterProps {
 }
 
 function CustomFilter({ entity, QueryBuilderComponent }: CustomFilterProps) {
-  const tagFilterExpression = entity?.tagFilterExpression;
-
-  if (!tagFilterExpression) return null;
-
   return (
     <Tooltip
       content={<QueryBuilderFilter entity={entity} QueryBuilderComponent={QueryBuilderComponent} />}

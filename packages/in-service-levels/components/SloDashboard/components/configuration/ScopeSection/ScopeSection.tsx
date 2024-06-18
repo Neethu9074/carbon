@@ -11,7 +11,6 @@ import {
   isApplicationSloEntity,
   isWebsiteSloEntity,
   SloEntityType,
-  SloEntityUnion,
   WebsiteSloEntity
 } from '@instana/types';
 import { KeyValue } from '@instana/components';
@@ -25,10 +24,9 @@ import {
   isApplicationSloTabData,
   SloTabData
 } from 'in-service-levels/components/SloDashboard/tabs';
-import { QueryBuilderComponent as QueryBuilderComponentType } from 'in-components/QueryBuilder';
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import QueryBuilderFilter from 'in-service-levels/components/QueryBuilderFilter';
 import { getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 
 import locals from './ScopeSection.mless';
@@ -189,17 +187,4 @@ function WebsiteCustomFilterColumn({ data }: ScopeSectionProps) {
       value={<QueryBuilderFilter entity={entity} QueryBuilderComponent={QueryBuilder} />}
     />
   );
-}
-
-interface QueryBuilderFilterProps {
-  entity: SloEntityUnion;
-  QueryBuilderComponent: QueryBuilderComponentType;
-}
-
-export function QueryBuilderFilter({ entity, QueryBuilderComponent }: QueryBuilderFilterProps) {
-  const { tagFilterExpression } = entity;
-
-  if (!tagFilterExpression) return null;
-
-  return <QueryBuilderComponent value={fromBackendModel(tagFilterExpression)} readOnly />;
 }
