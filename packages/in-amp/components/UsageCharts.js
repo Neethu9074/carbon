@@ -30,14 +30,14 @@ export default function UsageCharts({
         metrics: ['data_ingested_total'],
         labels: ['Total'],
         colors: [carbonAlert.blue70],
-        formatter: 'bytes.compact'
+        formatter: 'siBytes.compact'
       }
     : {
         ...tenantUnit,
         metrics: ['licensed_data_daily', 'data_ingested_total'],
         labels: ['Entitled per Day', 'Total'],
         colors: [carbonAlert.red60, carbonAlert.blue70],
-        formatter: 'bytes.compact'
+        formatter: 'siBytes.compact'
       };
 
   return (
@@ -110,7 +110,7 @@ export default function UsageCharts({
                   'bytes_ingested_eum_website'
                 ],
                 labels: ['infrastructure', 'traces', 'synthetics', 'eum mobile', 'eum website'],
-                formatter: 'bytes.compact'
+                formatter: 'siBytes.compact'
               }}
             />
           </Card>

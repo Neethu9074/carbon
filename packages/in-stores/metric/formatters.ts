@@ -3,7 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { bytes, fourDecimalPlaces, latency, millis, number, percentage, siPrefix } from 'in-services/formatters/number';
+import {
+  bytes,
+  siBytes,
+  fourDecimalPlaces,
+  latency,
+  millis,
+  number,
+  percentage,
+  siPrefix
+} from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export type FormatterFn = (n: number) => string | undefined | null;
@@ -50,6 +59,18 @@ export const bytesDetailed: Formatter = {
   id: 'bytes.detailed',
   label: t('in-stores:metric.formatterLabelBytes', { example: bytes.detailed(3146340) }),
   formatter: bytes.detailed,
+  unitConversion: true
+};
+export const siBytesCompact: Formatter = {
+  id: 'siBytes.compact',
+  label: t('in-stores:metric.formatterLabelBytes', { example: siBytes.compact(3146340) }),
+  formatter: siBytes.compact,
+  unitConversion: true
+};
+export const siBytesDetailed: Formatter = {
+  id: 'siBytes.detailed',
+  label: t('in-stores:metric.formatterLabelBytes', { example: siBytes.detailed(3146340) }),
+  formatter: siBytes.detailed,
   unitConversion: true
 };
 export const millisCompact: Formatter = {
@@ -109,6 +130,8 @@ export const publicFormatters: Formatter[] = [
   percentageDetailed,
   bytesCompact,
   bytesDetailed,
+  siBytesCompact,
+  siBytesDetailed,
   millisCompact,
   millisDetailed,
   latencyDetailed,
