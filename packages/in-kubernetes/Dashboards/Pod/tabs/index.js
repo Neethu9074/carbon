@@ -5,6 +5,7 @@
 
 import {
   beeInstanaInfraMetricsEnabled,
+  beeinstanaInfraMetricsWithTimeshiftEnabled,
   persistentVolumeSupportEnabled,
   kubernetesPrometheusMetricsEnabled
 } from 'in-services/featureFlags';
@@ -24,7 +25,8 @@ export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${podDashboardFullyQualified}/summary`,
-    component: beeInstanaInfraMetricsEnabled ? Summary : SummaryWithoutTimeShift
+    component:
+      beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled ? Summary : SummaryWithoutTimeShift
   },
   {
     label: t('in-kubernetes:dashboards.details'),

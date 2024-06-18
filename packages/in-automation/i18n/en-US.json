@@ -92,7 +92,7 @@
   "actions": "Actions",
   "actionsWithCount": "Actions ({{count}})",
   "titleUrl": "URL",
-  "generateWithAI": "Generate with AI",
+  "generateWithWatsonx": "Generate with watsonx",
   "AISlugContent": "AI was used to generate this content",
   "createPolicyWithName": "View action {{actionName}} and create policy",
   "viewActionCreatePolicy": "View action and create policy",
