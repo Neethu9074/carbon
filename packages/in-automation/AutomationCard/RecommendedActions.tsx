@@ -179,7 +179,7 @@ export default function RecommendedActions({
                   }}
                   icon="lib_launch_ai"
                 >
-                  {t('in-automation:generateWithAI')}
+                  {t('in-automation:generateWithWatsonx')}
                 </Button>
               )}
 

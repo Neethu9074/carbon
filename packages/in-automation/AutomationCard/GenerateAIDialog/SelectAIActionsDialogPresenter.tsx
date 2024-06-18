@@ -32,7 +32,7 @@ const SelectAIActionsDialogPresenter = ({ aiRecommendedScoredActions, event, set
     <DialogWithSlideInView
       title={
         <div className={locals.heading}>
-          <Typography variant="heading-400">{t('in-automation:generateWithAI')}</Typography>
+          <Typography variant="heading-400">{t('in-automation:generateWithWatsonx')}</Typography>
           <AISlugIcon />
         </div>
       }
