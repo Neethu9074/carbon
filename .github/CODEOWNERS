@@ -306,3 +306,10 @@ packages/in-custom-dashboards/widgets/Apdex                                    @
 packages/in-custom-dashboards/widgets/Slo                                      @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
 packages/in-service-levels                                                     @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
 packages/in-alerting/smart-alerts/slo                                          @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui @instana/eng-issue-detection
+
+# OTel plugins
+packages/in-forge/plugins/openTelemetry @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
+packages/in-forge/plugins/otelHost      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
+packages/in-forge/plugins/otelProcess   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
+packages/in-forge/plugins/oTelDatabase  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
+packages/in-forge/plugins/oTelLLM       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
