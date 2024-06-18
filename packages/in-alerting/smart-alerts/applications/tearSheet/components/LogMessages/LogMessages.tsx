@@ -12,8 +12,8 @@ import { Pill } from '@instana/components';
 
 //@ts-expect-error
 import LogMessagesList from 'in-alerting/smart-alerts/applications/components/LogMessagesList';
-import AlertTypography from 'in-alerting/components/AlertTypography';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
@@ -71,6 +71,7 @@ export default function LogMessages({
         }
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
+        tearSheetView
       />
     </FormGroup>
   );

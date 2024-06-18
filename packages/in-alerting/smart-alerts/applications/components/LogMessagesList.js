@@ -54,7 +54,8 @@ export default function LogMessagesList({
   logsTearsheetColumns = [],
   header = null,
   currentPage = 1,
-  setCurrentPage
+  setCurrentPage,
+  tearSheetView
 }) {
   return (
     <List
@@ -68,10 +69,19 @@ export default function LogMessagesList({
           : columnDefinitions
       }
       loadEntities={() =>
-        isEmpty(applications)
-          ? just([]) // Show on–no–data message
+        !tearSheetView
+          ? isEmpty(applications)
+            ? just([]) // Show on–no–data message
+            : getTableData({
+                applicationIds: Object.keys(applications),
+                applicationBoundaryScope,
+                includeInternal,
+                includeSynthetic,
+                tagFilterExpression,
+                timeConfig
+              })
           : getTableData({
-              applicationIds: Object.keys(applications),
+              applicationIds: !isEmpty(applications) ? Object.keys(applications) : undefined,
               applicationBoundaryScope,
               includeInternal,
               includeSynthetic,
@@ -105,7 +115,8 @@ LogMessagesList.propTypes = {
   logsTearsheetColumns: PropTypes.array,
   header: PropTypes.element,
   currentPage: PropTypes.number,
-  setCurrentPage: PropTypes.object
+  setCurrentPage: PropTypes.func,
+  tearSheetView: PropTypes.bool
 };
 
 function getTableData(kvArgs) {
@@ -190,7 +201,9 @@ function buildTagFilterExpression({ applicationIds, logLevel, tagFilterExpressio
       expressions: [
         joinExpressions({
           logicalOperator: or,
-          expressions: applicationIds.map(id => createApplicationIdTagFilter(id, applicationBoundaryScope))
+          expressions: applicationIds
+            ? applicationIds.map(id => createApplicationIdTagFilter(id, applicationBoundaryScope))
+            : undefined
         }),
         tagFilter('log.level', 'EQUALS', logLevel),
         tagFilterExpression

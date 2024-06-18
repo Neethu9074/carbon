@@ -73,7 +73,6 @@ export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintC
                   timeConfig={{
                     windowSize: alertingDialogItemPickerTimeframe
                   }}
-                  tearSheetView
                 />
               </ExpandableLightCard>
             </SelectedBlueprintPresenter>
