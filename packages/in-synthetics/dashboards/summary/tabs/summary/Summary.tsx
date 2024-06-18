@@ -91,6 +91,7 @@ export default function Summary({ test }: SummaryProps) {
           isSSLCertificate={isSSLCertificate}
           resultList={resultList}
           timeShiftConfig={timeShiftConfig}
+          timeConfig={timeConfig}
         />
       )}
       {!test.progress.loading && (

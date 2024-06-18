@@ -10,7 +10,7 @@ import {
   Result,
   ServiceLevelObjectiveConfiguration,
   TimeConfig,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
@@ -30,17 +30,20 @@ interface ResultAwareChartMetrics {
 
 export default function useTimeWindowAwareSloChartMetrics(
   sloConfig: ServiceLevelObjectiveConfiguration,
-  getMetricConfigForTimeConfig: (timeConfig: TimeConfig) => UnifiedMetricConfiguration,
+  getMetricConfigForTimeConfig: (timeConfig: TimeConfig) => UnifiedMetricConfigurationUnion,
   selectedTimeConfig: TimeConfig,
   timeWindows: TimeConfig[],
   granularity?: number
 ): FetchedState<ResultAwareChartMetrics> {
   const { id } = sloConfig;
-  const metricConfigs = timeWindows.reduce(
-    (previous, timeConfig, index) => ({
-      ...previous,
-      [`timeWindow${index}`]: getMetricConfigForTimeConfig(timeConfig)
-    }),
+  const metricConfigs: { [index: string]: UnifiedMetricConfigurationUnion } = timeWindows.reduce(
+    (previous, timeConfig, index) =>
+      ({
+        ...previous,
+        [`timeWindow${index}`]: getMetricConfigForTimeConfig(timeConfig)
+      } as {
+        [index: string]: UnifiedMetricConfigurationUnion;
+      }),
     {} as GetUnifiedMetricsQuery['metrics']
   );
 

@@ -40,6 +40,7 @@ export function createManualCloseInfo(
 ): ManualCloseInfo {
   return {
     closeTimestamp,
+    muteAlerts: false,
     reasonForClosing,
     username
   };

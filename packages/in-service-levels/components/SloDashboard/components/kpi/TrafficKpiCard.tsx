@@ -12,7 +12,7 @@ import {
   ServiceLevelObjectiveConfiguration,
   SloEntityUnion,
   TimeConfig,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from '@instana/types';
 
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
@@ -57,8 +57,8 @@ export default function TrafficKpiCard({ configuration }: TrafficKpiCardProps) {
 }
 
 interface MetricConfigurations {
-  primaryMetricConfiguration: UnifiedMetricConfiguration;
-  companionMetricConfiguration?: UnifiedMetricConfiguration;
+  primaryMetricConfiguration: UnifiedMetricConfigurationUnion;
+  companionMetricConfiguration?: UnifiedMetricConfigurationUnion;
 }
 
 function useMetricConfiguration(entity: SloEntityUnion, timeConfig: TimeConfig): MetricConfigurations {

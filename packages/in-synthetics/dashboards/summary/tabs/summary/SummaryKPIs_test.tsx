@@ -29,6 +29,7 @@ describe(SummaryKPIs, () => {
         isSSLCertificate={false}
         resultList={dummyResultList}
         timeShiftConfig={{ offset: 0 }}
+        timeConfig={{ windowSize: 0, autoRefresh: false }}
       />
     );
     expect(screen.getByText('Success Rate')).toBeVisible();
@@ -48,6 +49,7 @@ describe(SummaryKPIs, () => {
         isSSLCertificate={false}
         resultList={dummyResultList}
         timeShiftConfig={{ offset: 0 }}
+        timeConfig={{ windowSize: 0, autoRefresh: false }}
       />
     );
     expect(screen.getByText('Success Rate')).toBeVisible();
@@ -95,6 +97,7 @@ describe(SummaryKPIs, () => {
         isSSLCertificate
         resultList={dummySslResultList}
         timeShiftConfig={{ offset: 0 }}
+        timeConfig={{ windowSize: 0, autoRefresh: false }}
       />
     );
     expect(screen.getByText('Success Rate')).toBeVisible();

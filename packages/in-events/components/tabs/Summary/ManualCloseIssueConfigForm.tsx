@@ -14,11 +14,11 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { ManualCloseInfoForm, manuallyCloseIssue } from 'in-events/api';
+import { Error, ErrorCode, ManualCloseInfo } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import { toHtml } from 'in-services/formatters/markdown';
 import FormTextArea from 'in-components/form/TextArea';
 import { EventOrMap } from 'in-events/types';
-import { Error, ErrorCode } from 'in-types';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -152,8 +152,9 @@ function save(
   //@ts-expect-error
   const username = user?.email || user?.fullName || user?.id;
 
-  const config = {
+  const config: ManualCloseInfo = {
     closeTimestamp,
+    muteAlerts: false,
     reasonForClosing,
     username
   };

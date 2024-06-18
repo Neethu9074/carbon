@@ -10,7 +10,7 @@ import {
   SloEntityUnion,
   TagFilterExpression,
   TimeConfig,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from '@instana/types';
 
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
@@ -26,8 +26,8 @@ export default function useSliMetricConfiguration<INDICATOR_TYPE extends Service
     indicator: INDICATOR_TYPE,
     tagFilterExpression: TagFilterExpression,
     granularity: number
-  ) => UnifiedMetricConfiguration
-): Record<string, UnifiedMetricConfiguration> {
+  ) => UnifiedMetricConfigurationUnion
+): Record<string, UnifiedMetricConfigurationUnion> {
   const tagFilterExpression = useBasicTagFilterExpression({ entity });
 
   return timeWindows.reduce(

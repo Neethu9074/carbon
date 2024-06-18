@@ -7,8 +7,16 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { PaginatedResult, Result, TagFilter, TestResultListItem } from '@instana/types/typeDefinitions';
+import {
+  MetricSource,
+  PaginatedResult,
+  Result,
+  SyntheticUnifiedMetricConfiguration,
+  TagFilter,
+  TestResultListItem
+} from '@instana/types/typeDefinitions';
 import { formatDateTime } from '@instana/format-date';
+import { TimeConfig } from '@instana/types';
 
 import { bytes, meanLatency, number, percentage } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
@@ -19,13 +27,27 @@ import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
 
 interface SummaryKPIProps {
+  timeConfig: TimeConfig;
   tagFilters: TagFilter[];
   timeShiftConfig: TimeShift;
   isSSLCertificate: boolean;
   resultList: Result<PaginatedResult<TestResultListItem>>;
 }
 
-export default function SummaryKPIs({ tagFilters, timeShiftConfig, isSSLCertificate, resultList }: SummaryKPIProps) {
+export default function SummaryKPIs({
+  timeConfig,
+  tagFilters,
+  timeShiftConfig,
+  isSSLCertificate,
+  resultList
+}: SummaryKPIProps) {
+  const metricDefaults = {
+    source: 'SYNTHETICS' as MetricSource,
+    timeConfig: timeConfig,
+    tagFilters: tagFilters,
+    timeShift: timeShiftConfig,
+    resultType: 'SINGLE_NUMBER'
+  };
   const SummaryKPIs = [
     {
       id: 'successRate',
@@ -42,20 +64,15 @@ export default function SummaryKPIs({ tagFilters, timeShiftConfig, isSSLCertific
             useMaxAvailableHeight
             config={{
               metricConfiguration: {
+                ...metricDefaults,
                 aggregation: 'MEAN',
-                metric: 'status',
-                source: 'SYNTHETICS',
-                tagFilters: tagFilters,
-                // @ts-expect-error
-                timeShift: timeShiftConfig.offset
-              },
+                metric: 'status'
+              } as SyntheticUnifiedMetricConfiguration,
               companionMetricConfiguration: {
+                ...metricDefaults,
                 aggregation: 'DISTINCT_COUNT',
-                metric: 'id',
-                source: 'SYNTHETICS',
-                // @ts-expect-error
-                tagFilters: tagFilters
-              },
+                metric: 'id'
+              } as SyntheticUnifiedMetricConfiguration,
               // Need to add the companion metric config
               comparisonDecreaseColor: 'redish',
               comparisonIncreaseColor: 'greenish'
@@ -74,13 +91,10 @@ export default function SummaryKPIs({ tagFilters, timeShiftConfig, isSSLCertific
             useMaxAvailableHeight
             config={{
               metricConfiguration: {
+                ...metricDefaults,
                 aggregation: 'DISTINCT_COUNT',
-                metric: 'location_id',
-                source: 'SYNTHETICS',
-                tagFilters: tagFilters,
-                // @ts-expect-error
-                timeShift: timeShiftConfig.offset
-              },
+                metric: 'location_id'
+              } as SyntheticUnifiedMetricConfiguration,
               // Need to add the companion metric config
               comparisonDecreaseColor: 'redish',
               comparisonIncreaseColor: 'greenish'
@@ -104,20 +118,15 @@ export default function SummaryKPIs({ tagFilters, timeShiftConfig, isSSLCertific
             useMaxAvailableHeight
             config={{
               metricConfiguration: {
+                ...metricDefaults,
                 aggregation: 'MEAN',
-                metric: 'response_time',
-                source: 'SYNTHETICS',
-                tagFilters: tagFilters,
-                // @ts-expect-error
-                timeShift: timeShiftConfig.offset
-              },
+                metric: 'response_time'
+              } as SyntheticUnifiedMetricConfiguration,
               companionMetricConfiguration: {
+                ...metricDefaults,
                 aggregation: 'P90',
-                metric: 'response_time',
-                source: 'SYNTHETICS',
-                // @ts-expect-error
-                tagFilters: tagFilters
-              },
+                metric: 'response_time'
+              } as SyntheticUnifiedMetricConfiguration,
               comparisonDecreaseColor: 'redish',
               comparisonIncreaseColor: 'greenish'
             }}
@@ -135,13 +144,10 @@ export default function SummaryKPIs({ tagFilters, timeShiftConfig, isSSLCertific
             useMaxAvailableHeight
             config={{
               metricConfiguration: {
+                ...metricDefaults,
                 aggregation: 'MEAN',
-                metric: 'response_size',
-                source: 'SYNTHETICS',
-                tagFilters: tagFilters,
-                // @ts-expect-error
-                timeShift: timeShiftConfig.offset
-              },
+                metric: 'response_size'
+              } as SyntheticUnifiedMetricConfiguration,
               // Need to add the companion metric config
               comparisonDecreaseColor: 'redish',
               comparisonIncreaseColor: 'greenish'

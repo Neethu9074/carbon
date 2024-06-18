@@ -9,7 +9,7 @@ import {
   Result,
   ServiceLevelObjectiveConfiguration,
   TimeConfig,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from '@instana/types';
 import { combineLatest } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
@@ -76,7 +76,7 @@ export function resultReducer(
 function getMetricConfig(
   configuration: ServiceLevelObjectiveConfiguration,
   selectedTimeConfig: TimeConfig
-): Record<string, UnifiedMetricConfiguration> {
+): Record<string, UnifiedMetricConfigurationUnion> {
   // To make sure we only get a single time-window we need to limit the window-size to one hour for the metrics
   const timeConfig = { ...selectedTimeConfig, windowSize: hours.toMillis(1) };
 

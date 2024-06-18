@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { AdjustedTimeframe, TimeConfig, UnifiedMetricConfiguration } from '@instana/types';
+import { AdjustedTimeframe, TimeConfig, UnifiedMetricConfigurationUnion } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
 
 export function getTimeConfigBasedOnMetricConfiguration(
-  metricConfig: UnifiedMetricConfiguration,
+  metricConfig: UnifiedMetricConfigurationUnion,
   originalTimeConfig: TimeConfig
 ): TimeConfig {
   return metricConfig.lastValue

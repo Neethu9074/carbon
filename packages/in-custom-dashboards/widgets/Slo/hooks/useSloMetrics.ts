@@ -7,16 +7,16 @@ import { useMemo } from 'react';
 
 import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Result } from '@instana/types';
 
 import {
+  Result,
   AggregationType,
   MetricResult,
   MetricSource,
   ResultType,
   TimeConfig,
   TimeShift,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from 'in-types';
 import getUnifiedSloMetrics from 'in-custom-dashboards/widgets/Slo/subscriptions/getUnifiedSloMetrics';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
@@ -37,7 +37,7 @@ interface MetricBaseConfig {
 }
 
 interface UnifiedMetricConfigurations {
-  [index: string]: UnifiedMetricConfiguration;
+  [index: string]: UnifiedMetricConfigurationUnion;
 }
 
 const getMetrics = (metricBaseConfig: MetricBaseConfig, granularity: number): UnifiedMetricConfigurations => {

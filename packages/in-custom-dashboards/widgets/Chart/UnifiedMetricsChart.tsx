@@ -13,7 +13,7 @@ import {
   Result,
   ResultType,
   TimeConfig,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
@@ -217,7 +217,7 @@ interface ResultData {
   companionMetricResult: Result<UnifiedMetricsResult[]>;
 }
 
-type UnifiedMetricsConfigObject = { [id: string]: UnifiedMetricConfiguration };
+type UnifiedMetricsConfigObject = { [id: string]: UnifiedMetricConfigurationUnion };
 
 export function useResultData(config: Config, granularity: number, timeConfig: TimeConfig): ResultData {
   let metrics: UnifiedMetricsConfigObject = {};
@@ -265,24 +265,24 @@ function addUnifiedMetricsConfigForMetrics(
   metrics: UnifiedMetricsConfigObject
 ) {
   metricConfig[axisName]?.metrics.forEach((metricConfiguration, i) =>
-    isInfraMetricConfiguration(metricConfiguration as UnifiedMetricConfiguration)
+    isInfraMetricConfiguration(metricConfiguration as UnifiedMetricConfigurationUnion)
       ? (metrics[getMetricId(axisName, i)] = {
           ...metricConfiguration,
           resultType,
           granularity: adjustedGranularity,
           timeConfig: getTimeConfigBasedOnMetricConfiguration(
-            metricConfiguration as UnifiedMetricConfiguration,
+            metricConfiguration as UnifiedMetricConfigurationUnion,
             timeConfig
           ),
           timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-        } as UnifiedMetricConfiguration)
+        } as UnifiedMetricConfigurationUnion)
       : (metrics[getMetricId(axisName, i)] = {
           ...metricConfiguration,
           resultType,
           granularity: adjustedGranularity,
           timeConfig: timeConfig,
           timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-        } as UnifiedMetricConfiguration)
+        } as UnifiedMetricConfigurationUnion)
   );
 }
 
@@ -302,7 +302,7 @@ function addUnifiedMetricsConfigForCompanionMetrics(
         granularity: adjustedGranularity,
         timeConfig: timeConfig,
         timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-      } as UnifiedMetricConfiguration)
+      } as UnifiedMetricConfigurationUnion)
   );
 }
 

@@ -13,10 +13,10 @@ import ResultAwareBigNumberKpiCard, {
   ConfigWithStaticCompanion,
   isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import { MetricResult, Result, UnifiedMetricConfigurationUnion, TagFilterExpressionElementUnion } from 'in-types';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { ThresholdFn } from 'in-custom-dashboards/widgets/_shared/threshold';
-import { MetricResult, Result, UnifiedMetricConfiguration } from 'in-types';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
@@ -34,9 +34,9 @@ export interface BigNumberKpiCardProps {
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
   config:
-    | Config<UnifiedMetricConfiguration>
-    | ConfigWithCompanionMetric<UnifiedMetricConfiguration>
-    | ConfigWithStaticCompanion<UnifiedMetricConfiguration>;
+    | Config<UnifiedMetricConfigurationUnion>
+    | ConfigWithCompanionMetric<UnifiedMetricConfigurationUnion>
+    | ConfigWithStaticCompanion<UnifiedMetricConfigurationUnion>;
   actions?: ReactNode;
   dragHandle?: ReactNode;
   raw?: boolean;
@@ -64,31 +64,30 @@ export default function BigNumberKpiCard({
     timeShift: {
       offset: 0
     },
-    resultType: 'SINGLE_NUMBER'
+    resultType: 'SINGLE_NUMBER',
+    timeConfig: usedTimeConfig
   } as const;
 
-  let metrics: { [index: string]: UnifiedMetricConfiguration } = {
+  let metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
     [metricKey]: {
-      // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
-      timeConfig: usedTimeConfig,
+      ...metricDefaults,
       ...config.metricConfiguration,
-      ...config.tagFilters,
-      ...metricDefaults
-    }
+      tagFilterExpression: {
+        type: 'EXPRESSION',
+        logicalOperator: 'AND',
+        elements: config.tagFilters as TagFilterExpressionElementUnion[]
+      }
+    } as UnifiedMetricConfigurationUnion
   };
 
   if (hasActiveTimeShift(config.metricConfiguration.timeShift)) {
     metrics[comparisonMetricKey] = {
-      // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
-      timeConfig: usedTimeConfig,
       ...config.metricConfiguration,
       ...metricDefaults,
       timeShift: translateOffsetToTimeShiftConfig(config.metricConfiguration.timeShift, timeConfig)
     };
   } else if (isConfigWithCompanionMetric(config)) {
     metrics[companionMetricKey] = {
-      // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
-      timeConfig,
       ...metricDefaults,
       ...config.companionMetricConfiguration
     };

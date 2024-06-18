@@ -16,7 +16,7 @@ import {
 } from 'in-components/QueryBuilder/transformation/formModel';
 import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { Config as BigNumberConfig } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { TagFilterExpressionElementUnion, UnifiedMetricConfiguration } from 'in-types';
+import { TagFilterExpressionElementUnion, UnifiedMetricConfigurationUnion } from 'in-types';
 import { customWidgetSeeInLogsClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { carbonMoreMenuEnabled } from 'in-services/featureFlags';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
@@ -24,7 +24,7 @@ import { ChartConfig } from 'in-components/Chart/types';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-type MetricsConfig = ChartConfig | BigNumberConfig<UnifiedMetricConfiguration>;
+type MetricsConfig = ChartConfig | BigNumberConfig<UnifiedMetricConfigurationUnion>;
 
 export function ViewLogsButton({ config, className = '' }: { config: MetricsConfig; className?: string }) {
   const isLogsWidget = containsLogMetrics(config);
@@ -56,7 +56,7 @@ export function ViewLogsButton({ config, className = '' }: { config: MetricsConf
 
 function containsLogMetrics(config: MetricsConfig) {
   return (
-    (config as BigNumberConfig<UnifiedMetricConfiguration>).metricConfiguration?.source === 'LOG' ||
+    (config as BigNumberConfig<UnifiedMetricConfigurationUnion>).metricConfiguration?.source === 'LOG' ||
     Object.values(config).some(
       value =>
         Array.isArray(value?.metrics) && value.metrics.some((metric: { source: string }) => metric.source === 'LOG')

@@ -14,7 +14,7 @@ import {
   SloEntityUnion,
   TagFilterExpression,
   TimeConfig,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { themes } from '@instana/design-tokens';
@@ -112,7 +112,7 @@ function getMetricConfig(
   indicator: LatencyBlueprintIndicator,
   tagFilterExpression: TagFilterExpression,
   granularity: number
-): UnifiedMetricConfiguration {
+): UnifiedMetricConfigurationUnion {
   if (isApplicationSloEntity(entity)) {
     return applicationMetrics.latency.timeSeries({
       entity,

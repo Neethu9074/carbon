@@ -4,7 +4,7 @@
  */
 
 import { AxisConfiguration, ChartConfig, ContextMenuConfig, TimeShift } from 'in-components/Chart/types';
-import { Grouping, ResultType, TimeConfig, UnifiedMetricConfiguration } from 'in-types';
+import { Grouping, ResultType, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
 import { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import { TimeShiftOffset } from 'in-stores/time/shifting';
 
@@ -40,7 +40,7 @@ type Axis = Partial<Pick<AxisConfiguration, AxisParams>> & {
 };
 
 type MetricParams = 'metric' | 'source' | 'aggregation';
-type BaseMetric = Pick<UnifiedMetricConfiguration, MetricParams>;
+type BaseMetric = Pick<UnifiedMetricConfigurationUnion, MetricParams>;
 
 export interface Metric extends BaseMetric {
   timeShift?: TimeShift | TimeShiftOffset;

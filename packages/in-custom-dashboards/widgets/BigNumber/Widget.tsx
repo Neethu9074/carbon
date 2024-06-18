@@ -5,19 +5,25 @@
 
 import React, { ReactNode } from 'react';
 
-import { UnifiedMetricConfiguration } from '@instana/types';
-
-import { Config, ConfigWithCompanionMetric } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { ThresholdProps, getThreshold } from 'in-custom-dashboards/widgets/_shared/threshold';
+import {
+  Config,
+  ConfigWithCompanionMetric,
+  ConfigWithStaticCompanion
+} from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import { getThreshold, ThresholdProps } from 'in-custom-dashboards/widgets/_shared/threshold';
 import { thresholdCustomDashboardsEnabled } from 'in-services/featureFlags';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { getFormatter } from 'in-stores/metric/formatters';
+import { UnifiedMetricConfigurationUnion } from 'in-types';
 
-interface MetricProps extends UnifiedMetricConfiguration {
+type MetricProps = UnifiedMetricConfigurationUnion & {
   threshold?: ThresholdProps;
-}
+};
 
-interface ConfigProps extends Config<MetricProps>, ConfigWithCompanionMetric<MetricProps> {}
+type ConfigProps =
+  | Config<MetricProps>
+  | ConfigWithCompanionMetric<MetricProps>
+  | ConfigWithStaticCompanion<MetricProps>;
 
 export interface BigNumberProps {
   title: string;

@@ -36,12 +36,12 @@ import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { summaryTab, useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { getChartGranularity } from 'in-stores/metric/metric';
 import { formatDuration } from 'in-services/formatters/date';
-import KpiCard from 'in-components/KpiCard/KpiCard';
 import { Col, Row } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
@@ -70,7 +70,8 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
     aggregation: 'MEAN' as AggregationType,
     tagFilterExpression,
     timeConfig,
-    timeShift
+    timeShift,
+    regex: false
   };
   const defaultBigNumberMetricConfig = {
     ...defaultConfig,

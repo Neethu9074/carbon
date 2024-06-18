@@ -13,7 +13,7 @@ import {
   SloEntityUnion,
   TagFilterExpression,
   TimeConfig,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
@@ -97,7 +97,7 @@ function getMetricConfig(
   timeConfig: TimeConfig,
   tagFilterExpression: TagFilterExpression,
   granularity: number
-): UnifiedMetricConfiguration {
+): UnifiedMetricConfigurationUnion {
   if (isApplicationSloEntity(entity)) {
     return applicationMetrics.calls.timeSeries({ entity, tagFilterExpression, timeConfig, granularity });
   }
