@@ -31,8 +31,8 @@ import useResolvedValue, {
   longValues,
   resolveInfraLabel
 } from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedValue';
-import { containerSnapshotIds, ID_HOST, LOG_CUSTOM_KEY_APPLICATION_IDS, LOG_FILE_PATH } from 'in-logging/queryBuilder';
 import ContainerPerformanceSparkcharts from 'in-logging/analyze/AnalyzeView/components/ContainerPerformanceSparkcharts';
+import { containerSnapshotIds, ID_HOST, LOG_CUSTOM_KEY_APPLICATION_IDS, LOG_FILE_PATH } from 'in-logging/queryBuilder';
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
 import { logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -129,7 +129,6 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
   const idHostStringValue = item.tags.find(tag => tag.name === ID_HOST)?.stringValue as string;
   const isApplicationsTag = tag.key === LOG_CUSTOM_KEY_APPLICATION_IDS;
   const isLogFilePathTag = tag.name === LOG_FILE_PATH;
-  // const isExpirationTime = tag.name === LOG_RETENTION_TIME;
   const hostTag = item.tags.find(tag => tag.name === ID_HOST) as LogTag;
 
   //As long as we have to put the link and the name of the Log Id Host, we are faking the tag name and the tag object
