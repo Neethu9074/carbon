@@ -5,9 +5,22 @@
 
 import React from 'react';
 
+import {
+  ApplicationSloEntity,
+  SloEntityType,
+  SloEntityUnion,
+  TagFilter,
+  TagFilterExpression,
+  WebsiteSloEntity,
+  isApplicationSloEntity,
+  isWebsiteSloEntity
+} from '@instana/types';
 import { Stack, SvgIcon, Typography } from '@instana/components';
-import { SloEntityType } from '@instana/types';
 
+import { QueryBuilderFilter } from 'in-service-levels/components/SloDashboard/components/configuration/ScopeSection/ScopeSection';
+import { QueryBuilderComponent as QueryBuilderComponentType } from 'in-components/QueryBuilder';
+import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
+import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import { LabeledEntity } from 'in-service-levels/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useMediaQuery from 'in-hooks/useMediaQuery';
@@ -15,11 +28,11 @@ import { t } from 'in-i18n';
 
 interface Props {
   entity: LabeledEntity;
-  entityType: SloEntityType;
+  entityType?: SloEntityType;
   service?: LabeledEntity;
   endpoint?: LabeledEntity;
-  hasCustomFilter?: boolean;
   metaInfo?: boolean;
+  sloEntity?: SloEntityUnion;
 }
 
 type EntityDisplayData = {
@@ -27,19 +40,27 @@ type EntityDisplayData = {
   toolTipText: string;
 };
 
-export default function SloEntityInfo({
-  entity,
-  entityType,
-  hasCustomFilter,
-  service,
-  endpoint,
-  metaInfo = false
-}: Props) {
-  const { iconType, toolTipText } = getEntityDisplayData(entityType, entity);
+export default function SloEntityInfo({ entity, entityType, service, endpoint, metaInfo = false, sloEntity }: Props) {
+  const { iconType, toolTipText } = getEntityDisplayData(entityType ?? (sloEntity?.type as SloEntityType), entity);
   const compact = useMediaQuery('(min-width: 600px)');
-  const serviceEndpointInfo = entityType === 'application';
-  const showServiceEndpointInfo = metaInfo && serviceEndpointInfo && compact && !hasCustomFilter;
+  const serviceEndpointInfo = (entityType || sloEntity?.type) === 'application';
 
+  const applicationQueryBuilder = useApplicationQueryBuilder({} as ApplicationSloEntity);
+  const websiteQueryBuilder = useWebsiteQueryBuilder({} as WebsiteSloEntity);
+  const QueryBuilder =
+    sloEntity && isApplicationSloEntity(sloEntity)
+      ? applicationQueryBuilder.QueryBuilder
+      : sloEntity && isWebsiteSloEntity(sloEntity)
+      ? websiteQueryBuilder.QueryBuilder
+      : null;
+
+  const hasCustomFilter =
+    sloEntity &&
+    isApplicationSloEntity(sloEntity) &&
+    ((sloEntity?.tagFilterExpression as TagFilterExpression)?.elements?.length > 0 ||
+      (sloEntity?.tagFilterExpression as TagFilter).type === 'TAG_FILTER');
+
+  const showServiceEndpointInfo = metaInfo && serviceEndpointInfo && compact && !hasCustomFilter;
   return (
     <Stack direction="horizontal" align="center">
       <Stack direction="horizontal" align="center" gap="xxsmall">
@@ -62,6 +83,7 @@ export default function SloEntityInfo({
           })}
         </Typography>
       )}
+      {hasCustomFilter && QueryBuilder && <CustomFilter entity={sloEntity} QueryBuilderComponent={QueryBuilder} />}
     </Stack>
   );
 }
@@ -73,4 +95,25 @@ function getEntityDisplayData(entityType: SloEntityType, entity: LabeledEntity):
       context: entityType
     })
   };
+}
+
+interface CustomFilterProps {
+  entity: SloEntityUnion;
+  QueryBuilderComponent: QueryBuilderComponentType;
+}
+
+function CustomFilter({ entity, QueryBuilderComponent }: CustomFilterProps) {
+  const tagFilterExpression = entity?.tagFilterExpression;
+
+  if (!tagFilterExpression) return null;
+
+  return (
+    <Tooltip
+      content={<QueryBuilderFilter entity={entity} QueryBuilderComponent={QueryBuilderComponent} />}
+      themeStyle="light"
+      align="topMiddle"
+    >
+      <span>{t('in-service-levels:sloDashboard.components.scopeSection.customFilterLabel')}</span>
+    </Tooltip>
+  );
 }

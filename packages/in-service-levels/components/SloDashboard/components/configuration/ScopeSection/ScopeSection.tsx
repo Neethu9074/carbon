@@ -10,8 +10,8 @@ import {
   ApplicationSloEntity,
   isApplicationSloEntity,
   isWebsiteSloEntity,
-  ServiceLevelObjectiveConfiguration,
   SloEntityType,
+  SloEntityUnion,
   WebsiteSloEntity
 } from '@instana/types';
 import { KeyValue } from '@instana/components';
@@ -170,31 +170,36 @@ function ApplicationCustomFilterColumn({ data }: ScopeSectionProps) {
   const { configuration } = data;
   const { entity } = configuration;
   const { QueryBuilder } = useApplicationQueryBuilder(entity as ApplicationSloEntity);
-  return <CustomFilterColumn configuration={configuration} QueryBuilderComponent={QueryBuilder} />;
+  return (
+    <KeyValue
+      label={t('in-service-levels:sloDashboard.components.scopeSection.customFilterLabel')}
+      value={<QueryBuilderFilter entity={entity} QueryBuilderComponent={QueryBuilder} />}
+    />
+  );
 }
 
 function WebsiteCustomFilterColumn({ data }: ScopeSectionProps) {
   const { configuration } = data;
   const { entity } = configuration;
   const { QueryBuilder } = useWebsiteQueryBuilder(entity as WebsiteSloEntity);
-  return <CustomFilterColumn configuration={configuration} QueryBuilderComponent={QueryBuilder} />;
-}
-
-interface CustomFilterColumnProps {
-  configuration: ServiceLevelObjectiveConfiguration;
-  QueryBuilderComponent: QueryBuilderComponentType;
-}
-
-function CustomFilterColumn({ configuration, QueryBuilderComponent }: CustomFilterColumnProps) {
-  const { entity } = configuration;
-  const { tagFilterExpression } = entity;
-
-  if (!tagFilterExpression) return null;
 
   return (
     <KeyValue
       label={t('in-service-levels:sloDashboard.components.scopeSection.customFilterLabel')}
-      value={<QueryBuilderComponent value={fromBackendModel(tagFilterExpression)} readOnly />}
+      value={<QueryBuilderFilter entity={entity} QueryBuilderComponent={QueryBuilder} />}
     />
   );
+}
+
+interface QueryBuilderFilterProps {
+  entity: SloEntityUnion;
+  QueryBuilderComponent: QueryBuilderComponentType;
+}
+
+export function QueryBuilderFilter({ entity, QueryBuilderComponent }: QueryBuilderFilterProps) {
+  const { tagFilterExpression } = entity;
+
+  if (!tagFilterExpression) return null;
+
+  return <QueryBuilderComponent value={fromBackendModel(tagFilterExpression)} readOnly />;
 }
