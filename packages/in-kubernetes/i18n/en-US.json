@@ -34,7 +34,6 @@
     "controlPlane": "Control Plane",
     "etcd": "Etcd",
     "cluster": "Cluster",
-    "leader": "Leader",
     "availability": "Availability",
     "events": "Events",
     "nodes": "Nodes",
