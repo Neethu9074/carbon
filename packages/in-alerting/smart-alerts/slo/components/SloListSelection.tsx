@@ -14,7 +14,7 @@ import {
   SloEntityUnion
 } from '@instana/types';
 import { Progress } from '@instana/components/types/util/dataRetrieval';
-import { HorizontalIndicator, Typography } from '@instana/components';
+import { HorizontalIndicator, Typography,SearchInput } from '@instana/components';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
@@ -28,7 +28,6 @@ import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock'
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import { getAllSloConfigurations } from 'in-service-levels/api/configuration';
 import Sections from 'in-components/workspace/Sections/Sections';
-import SearchInput from 'in-components/SearchInput/SearchInput';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { FetchedState } from 'in-hooks/utils/types';
 import { success } from 'in-services/util/result';

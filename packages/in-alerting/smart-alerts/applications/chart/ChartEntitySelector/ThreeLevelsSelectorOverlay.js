@@ -7,6 +7,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { ListGroup, Li, keyCodes } from '@instana/components';
+import { SearchInput } from '@instana/components';
 
 import useLazyLoadingOfNodeChildren from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/useLazyLoadingOfNodeChildren';
 import EntityItemNode from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntityItemNode';
@@ -19,7 +20,6 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { isNotBlank, isBlank } from 'in-services/util/string';
 import { getInteractiveElements } from 'in-services/util/dom';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
-import SearchInput from 'in-components/SearchInput';
 import { t } from 'in-i18n';
 
 import threeLevelsSelectorLocals from './ThreeLevelsSelectorOverlay.mless';

@@ -7,6 +7,8 @@ import React, { useEffect, useMemo, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
+import { SearchInput } from '@instana/components';
+
 import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import {
   actionType,
@@ -24,7 +26,6 @@ import { applicationDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { propTypeTimeConfig } from 'in-stores/time/config';
-import SearchInput from 'in-components/SearchInput';
 
 const backendApiSubscriptions = {
   getApplication,
@@ -76,10 +77,10 @@ export default function ServicesAndEndpointsListPresenter({
   const [timeTo] = useState(Date.now());
   const location = useLocation();
 
-  const timeConfigWithFixedFocussedMoment = useMemo(() => ({ ...timeConfig, to: timeTo, focusedMoment: timeTo }), [
-    timeConfig,
-    timeTo
-  ]);
+  const timeConfigWithFixedFocussedMoment = useMemo(
+    () => ({ ...timeConfig, to: timeTo, focusedMoment: timeTo }),
+    [timeConfig, timeTo]
+  );
 
   return (
     <ApplicationsList

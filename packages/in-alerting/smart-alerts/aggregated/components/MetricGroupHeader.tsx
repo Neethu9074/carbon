@@ -7,8 +7,9 @@
 import { debounce } from 'lodash';
 import React from 'react';
 
+import { SearchInput } from '@instana/components';
+
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import SearchInput from 'in-components/SearchInput/SearchInput';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

@@ -7,10 +7,11 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
+import { SearchInput } from '@instana/components';
+
 import MetricGroupHeader, {
   MetricGroupHeaderProps
 } from 'in-alerting/smart-alerts/aggregated/components/MetricGroupHeader';
-import SearchInput from 'in-components/SearchInput/SearchInput';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

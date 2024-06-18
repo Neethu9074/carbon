@@ -6,9 +6,16 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { ColumnizedDefinition, Pagination as CarbonPagination } from '@instana/components';
-import { ColumnizedContent, Li, Ul, Stack } from '@instana/components';
-import { ButtonGroup } from '@instana/components';
+import { 
+  ColumnizedDefinition, 
+  Pagination as CarbonPagination,
+  ColumnizedContent, 
+  Li, 
+  Ul, 
+  Stack,
+  ButtonGroup,
+  SearchInput 
+} from '@instana/components';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
@@ -36,7 +43,6 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Error, OrderDirection, Result } from 'in-types';
 import { Location } from 'in-stores/navigation/types';
-import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
 import ListTitle from 'in-components/lists/Title';
 import { t } from 'in-i18n';
