@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import PageTracker from 'in-services/tracking/segment/PageTracker';
+import usePageTracker from 'in-services/tracking/segment/PageTracker';
 import createSideEffectHook from 'in-hooks/createSideEffectHook';
 import { setMeta } from 'in-services/tracking/tracking';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -30,11 +30,11 @@ const useSideEffect = createSideEffectHook(
 
 export default function ViewTrackingMeta({ data }: Props) {
   const { productArea, pageRootName } = data;
+  usePageTracker({
+    parentProductArea: productArea,
+    parentPageName: pageRootName
+  });
   if (productArea && pageRootName) {
-    PageTracker({
-      parentProductArea: productArea,
-      parentPageName: pageRootName
-    });
     setViewTrackingDataValues(productArea, pageRootName);
   }
   useSideEffect(data);

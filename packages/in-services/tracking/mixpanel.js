@@ -8,8 +8,8 @@ import { assign } from 'lodash';
 import { combineLatest } from '@instana/observables';
 
 import { registerTracker } from 'in-services/tracking/trackers';
+import { getTenantsWithUnitsCached } from 'in-api/account';
 import getUsageInfo from 'in-subscription/getUsageInfo';
-import { getTenantsWithUnits } from 'in-api/account';
 import getAccount from 'in-subscription/getAccount';
 import { activeLanguage } from 'in-i18n/language';
 import { noop } from 'in-services/util/function';
@@ -56,7 +56,7 @@ function initMixpanel() {
   });
 
   combineLatest([
-    getTenantsWithUnits(),
+    getTenantsWithUnitsCached(),
     getUsageInfo(),
     getAccount()
       .map(result => (result && result.data ? result.data : null))

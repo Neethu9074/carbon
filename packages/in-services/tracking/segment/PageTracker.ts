@@ -6,7 +6,7 @@
 
 import { useEffect } from 'react';
 
-import { combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import { productCode, productCodeType, productTitle, ut30 } from 'in-services/util/constants';
 //@ts-expect-error
@@ -14,8 +14,8 @@ import { Segment } from 'in-services/tracking/segment/SegmentInit';
 import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { customRealmName } from 'in-services/util/constants';
+import { getTenantsWithUnitsCached } from 'in-api/account';
 import getUsageInfo from 'in-subscription/getUsageInfo';
-import { getTenantsWithUnits } from 'in-api/account';
 import { TenantsWithUnits } from 'in-api/account';
 import { find } from 'in-services/arrayUtils';
 import { config } from 'in-services/config';
@@ -44,9 +44,16 @@ interface UsageInfoProps {
   activeLicenseType: string;
 }
 const segment = Segment();
-const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerProps) => {
+const usePageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerProps) => {
   const location = useLocation();
+  const usageInfo = useObservable(() => getUsageInfo({}), []);
   useEffect(() => {
+    if (!(parentProductArea && parentPageName)) {
+      return;
+    }
+    if (!usageInfo) {
+      return;
+    }
     if (!segment) {
       return;
     }
@@ -55,7 +62,7 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
     const userSelfDefinedRole =
       window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
 
-    combineLatest([getTenantsWithUnits(), getUsageInfo({})]).once(([tenantWithUnits, usageInfo]) => {
+    getTenantsWithUnitsCached().once(tenantWithUnits => {
       const usageInfoWithType = usageInfo as unknown as UsageInfoProps;
       const tenantWithUnitsWithType = tenantWithUnits as unknown as TenantsWithUnits;
       productPlanType = getLicenseTypeForSegment(usageInfoWithType?.activeLicenseType);
@@ -91,8 +98,10 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
         'user.role': userSelfDefinedRole
       });
     });
-  }, [parentProductArea, parentPageName, location]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [parentProductArea, parentPageName, Boolean(usageInfo) /*exists?*/, location.pathname]);
   return null; // SegmentEventTracker does not render anything
 };
 
-export default PageTracker;
+/* TODO rename the file to make it clear that it is a custom react hook */
+export default usePageTracker;
