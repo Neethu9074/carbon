@@ -10,3 +10,8 @@ export interface EtcdProps {
   clusterId: KubernetesCluster['id'];
   timeConfig: TimeConfig;
 }
+
+export interface ChartProps {
+  snapshotId: string;
+  timeConfig: TimeConfig;
+}
