@@ -12,11 +12,10 @@ import { Result, PaginatedResult, BusinessProcess } from '@instana/types';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import ProcessesLiveList from 'in-bizops/lists/businessPerspectives/creation/ProcessesLiveList';
+import { MAX_DESCRIPTION_SIZE, MAX_NAME_SIZE } from 'in-bizops/utils/constants';
 import { t } from 'in-i18n';
 
 import locals from 'in-bizops/lists/businessPerspectives/creation/NewPerspective.mless';
-
-export const MAX_DESCRIPTION_SIZE = 200;
 
 interface NewPerspectiveFormStepTwoProps {
   form: MapForm<any>;
@@ -37,6 +36,8 @@ export function NewPerspectiveFormStepTwo({ form, updateForm, processesLiveList 
               id="perspectiveName"
               labelText={t('in-bizops:perspectives.dialog.stepTwo.perspectiveName')}
               value={perspectiveNameField.value}
+              enableCounter
+              maxCount={MAX_NAME_SIZE}
               onChange={(e: any) =>
                 updateForm(
                   form.updateIn(['perspectiveName'], field => field.setValue(e.target.value || '').setTouched(true))

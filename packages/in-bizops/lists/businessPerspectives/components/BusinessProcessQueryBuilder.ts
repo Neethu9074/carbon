@@ -6,8 +6,8 @@
 
 import getBizOpsTagSuggestions from 'in-bizops/subscriptions/getBizOpsTagSuggestions';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
+import { GetBizOpsTagSuggestionQuery } from 'in-bizops/utils/types';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
-import { GetBizOpsTagSuggestionQuery } from 'in-bizops/types';
 
 export const BusinessProcessQueryBuilder = createQueryBuilder({
   getTagCatalog: getBusinessMonitoringTagCatalog,

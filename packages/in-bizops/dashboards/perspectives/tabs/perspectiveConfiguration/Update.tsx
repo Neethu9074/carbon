@@ -5,14 +5,25 @@
  */
 
 import React, { useState } from 'react';
-import { isEqual, noop } from 'lodash';
+import { isEqual } from 'lodash';
 
-import { Card, Typography, FormGroup, FormLabel, TextInput, Spacer, TextArea, Button } from '@instana/components';
+import {
+  Card,
+  Typography,
+  FormGroup,
+  Spacer,
+  Button,
+  CarbonLayer,
+  CarbonTextInput,
+  CarbonTextArea
+} from '@instana/components';
 
 import { BusinessProcessQueryBuilder } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
 import createNewPerspectiveForm from 'in-bizops/lists/businessPerspectives/creation/createNewPerspectiveForm';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { PerspectiveFormItem, PerspectiveItem } from 'in-bizops/types';
+import { MAX_DESCRIPTION_SIZE, MAX_NAME_SIZE } from 'in-bizops/utils/constants';
+import { PerspectiveFormItem, PerspectiveItem } from 'in-bizops/utils/types';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { updateBusinessPerspective } from 'in-bizops/api/perspectives';
 import { t } from 'in-i18n';
 
@@ -31,11 +42,13 @@ export function Update({ perspective, perspectiveId }: UpdateProps) {
   const descriptionField = form.get('perspectiveDescription');
   const tagFilterExpressionField = form.get('tagFilterExpression');
 
-  // Only enable saving if there are changes between the current config and the user changes
-  const configChanged: Boolean =
-    !(perspective?.label?.localeCompare(nameField.value) == 0) ||
-    !(perspective?.description?.localeCompare(descriptionField.value) == 0) ||
+  // Only enable saving if there are changes between the current config and the user changes,
+  // and the updates are valid
+  const formChanges: Boolean =
+    !isEqual(perspective?.label, nameField.value) ||
+    !isEqual(perspective?.description, descriptionField.value) ||
     !isEqual(perspective.tagFilterExpression, tagFilterExpressionField.value);
+  const enableSave: Boolean = formChanges && form.hierarchyValid;
 
   const handleUpdateClick = () => {
     const requestBody: PerspectiveItem = {
@@ -44,7 +57,26 @@ export function Update({ perspective, perspectiveId }: UpdateProps) {
       description: form.get('perspectiveDescription').value,
       tagFilterExpression: toBackendQueryModel(form.get('tagFilterExpression').value)
     };
-    updateBusinessPerspective(perspectiveId, requestBody).once(noop, noop);
+    updateBusinessPerspective(perspectiveId, requestBody).once(
+      data => {
+        addMessage({
+          type: 'info',
+          title: t('in-bizops:dashboards.perspectives.configuration.businessPerspectiveUpdated'),
+          content: t('in-bizops:dashboards.perspectives.configuration.businessPerspectiveUpdatedDetails', {
+            perspectiveName: data.label
+          }),
+          timeout: 4000
+        });
+      },
+      error => {
+        addMessage({
+          type: 'danger',
+          title: t('in-bizops:dashboards.perspectives.configuration.error'),
+          content: error.message,
+          timeout: 4000
+        });
+      }
+    );
   };
 
   return (
@@ -60,32 +92,41 @@ export function Update({ perspective, perspectiveId }: UpdateProps) {
         </Typography>
 
         <FormGroup className={local.formGroup}>
-          <TextInput
-            labelText={t('in-bizops:dashboards.perspectives.configuration.perspectiveName')}
-            id="perspectiveName"
-            value={nameField.value}
-            onChange={(e: any) =>
-              updateForm(
-                form.updateIn(['perspectiveName'], field => field.setValue(e.target.value || '').setTouched(true))
-              )
-            }
-            autoComplete="off"
-          />
-          <Spacer vertical="normal" />
-
-          <FormLabel>{t('in-bizops:dashboards.perspectives.configuration.perspectiveDescription')}</FormLabel>
-          <TextArea
-            id="perspectiveDescription"
-            carbonVariant
-            value={descriptionField.value}
-            onChange={(e: any) =>
-              updateForm(
-                form.updateIn(['perspectiveDescription'], field =>
-                  field.setValue(e.target.value || '').setTouched(true)
+          <CarbonLayer>
+            <CarbonTextInput
+              labelText={t('in-bizops:dashboards.perspectives.configuration.perspectiveName')}
+              id="perspectiveName"
+              value={nameField.value}
+              enableCounter
+              maxCount={MAX_NAME_SIZE}
+              onChange={(e: any) =>
+                updateForm(
+                  form.updateIn(['perspectiveName'], field => field.setValue(e.target.value || '').setTouched(true))
                 )
-              )
-            }
-          />
+              }
+              autoComplete="off"
+              warn={nameField.touched && !nameField.valid}
+              warnText={nameField.messages[0]?.message}
+            />
+            <Spacer vertical="normal" />
+
+            <CarbonTextArea
+              id="perspectiveDescription"
+              labelText={t('in-bizops:dashboards.perspectives.configuration.perspectiveDescription')}
+              enableCounter
+              maxCount={MAX_DESCRIPTION_SIZE}
+              value={descriptionField.value}
+              onChange={(e: any) =>
+                updateForm(
+                  form.updateIn(['perspectiveDescription'], field =>
+                    field.setValue(e.target.value || '').setTouched(true)
+                  )
+                )
+              }
+              warn={descriptionField.touched && !descriptionField.valid}
+              warnText={descriptionField.messages[0]?.message}
+            />
+          </CarbonLayer>
         </FormGroup>
 
         <Typography variant="body-regular">
@@ -109,7 +150,7 @@ export function Update({ perspective, perspectiveId }: UpdateProps) {
             size="compact"
             kind="create"
             onClick={handleUpdateClick}
-            disabled={!configChanged}
+            disabled={!enableSave}
           >
             {t('in-bizops:dashboards.perspectives.configuration.saveChangesButton')}
           </Button>

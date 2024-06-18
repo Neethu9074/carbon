@@ -6,9 +6,9 @@
 
 import { Observable } from '@instana/observables';
 
+import { PerspectiveItem } from 'in-bizops/utils/types';
 import { getHeader } from 'in-services/security/csrf';
 import { deepFreeze } from 'in-services/util/object';
-import { PerspectiveItem } from 'in-bizops/types';
 import http from 'in-services/http/http';
 
 const basePath = '/api/business-monitoring/business-perspectives';

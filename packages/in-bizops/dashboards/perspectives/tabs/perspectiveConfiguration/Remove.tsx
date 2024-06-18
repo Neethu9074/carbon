@@ -6,9 +6,10 @@
 
 import React, { useState } from 'react';
 
-import { Button, Card, Typography } from '@instana/components';
+import { Button, Card } from '@instana/components';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { deleteBusinessPerspective } from 'in-bizops/api/perspectives';
 import { businessPerspectivesPath } from 'in-bizops/navigation/paths';
 import { t } from 'in-i18n';
@@ -17,22 +18,36 @@ import local from 'in-bizops/dashboards/perspectives/tabs/perspectiveConfigurati
 
 interface RemoveProps {
   perspectiveId: string;
+  perspectiveName: string;
   goToPath: (path: string) => void;
 }
 
-export function Remove({ perspectiveId, goToPath }: RemoveProps) {
+export function Remove({ perspectiveId, perspectiveName, goToPath }: RemoveProps) {
   const [checkboxChecked, setCheckboxChecked] = useState(false);
 
   const handleRemoveClick = () => {
-    deleteBusinessPerspective(perspectiveId).once(onSuccess, onError);
+    deleteBusinessPerspective(perspectiveId).once(
+      () => {
+        goToPath(businessPerspectivesPath);
+        addMessage({
+          type: 'info',
+          title: t('in-bizops:dashboards.perspectives.configuration.businessPerspectiveDeleted'),
+          content: t('in-bizops:dashboards.perspectives.configuration.businessPerspectiveDeletedDetails', {
+            perspectiveName: perspectiveName
+          }),
+          timeout: 4000
+        });
+      },
+      error => {
+        addMessage({
+          type: 'danger',
+          title: t('in-bizops:dashboards.perspectives.configuration.error'),
+          content: error.message,
+          timeout: 4000
+        });
+      }
+    );
   };
-
-  const onSuccess = () => {
-    goToPath(businessPerspectivesPath);
-  };
-
-  //TODO! Implement error handling
-  const onError = () => {};
 
   return (
     <Card
@@ -41,9 +56,9 @@ export function Remove({ perspectiveId, goToPath }: RemoveProps) {
       title={t('in-bizops:dashboards.perspectives.configuration.removeCardLabel')}
     >
       <div className={local.cardContents}>
-        <Typography variant="body-small">
+        <h3 className={local.removeDisclaimer}>
           {t('in-bizops:dashboards.perspectives.configuration.removePerspectiveDisclaimer')}
-        </Typography>
+        </h3>
         <CheckboxFancy
           label={t('in-bizops:dashboards.perspectives.configuration.removePerspectiveCheckbox')}
           checked={checkboxChecked}

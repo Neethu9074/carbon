@@ -102,7 +102,12 @@
         "removeCardLabel": "Remove business perspective",
         "removePerspectiveDisclaimer": "If you do not want to use this business perspective any longer, click \"Remove business perspective\".",
         "removePerspectiveCheckbox": "I understand that this action cannot be undone",
-        "removePerspectiveButton": "Remove business perspective"
+        "removePerspectiveButton": "Remove business perspective",
+        "businessPerspectiveDeleted": "Business perspective deleted",
+        "businessPerspectiveDeletedDetails": "\"{{perspectiveName}}\" was successfully deleted",
+        "businessPerspectiveUpdated": "Business perspective updated",
+        "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" was edited and your changes have been saved",
+        "error": "Error"
       }
     }
   }

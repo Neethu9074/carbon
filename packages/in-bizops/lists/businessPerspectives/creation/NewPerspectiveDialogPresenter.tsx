@@ -35,8 +35,8 @@ import { createBusinessPerspective } from 'in-bizops/api/perspectives';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { close } from 'in-components/DialogPresenter/store';
 import { pendingResult } from 'in-services/fixedObjects';
+import { PerspectiveItem } from 'in-bizops/utils/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { PerspectiveItem } from 'in-bizops/types';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
@@ -119,7 +119,11 @@ export function NewPerspectiveDialogPresenter() {
               );
             case 1:
               return (
-                <NewPerspectiveFormStepTwo form={form} updateForm={updateForm} processesLiveList={processesLiveList} />
+                <NewPerspectiveFormStepTwo
+                  form={form}
+                  updateForm={updateForm}
+                  processesLiveList={processesLiveList}
+                />
               );
             default:
               return null;

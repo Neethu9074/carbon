@@ -17,8 +17,8 @@ import { businessPerspectiveDashboard } from 'in-bizops/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getBusinessPerspective } from 'in-bizops/api/perspectives';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { PerspectiveFormItem } from 'in-bizops/utils/types';
 import { pendingResult } from 'in-services/fixedObjects';
-import { PerspectiveFormItem } from 'in-bizops/types';
 import { t } from 'in-i18n';
 
 import local from 'in-bizops/dashboards/perspectives/tabs/perspectiveConfiguration/perspectiveConfiguration.mless';
@@ -48,7 +48,7 @@ export default function PerspectiveConfiguration() {
         <div className={local.cardDiv}>
           <Update perspective={perspective as PerspectiveFormItem} perspectiveId={perspectiveId} />
           <Spacer vertical="medium" />
-          <Remove perspectiveId={perspectiveId} goToPath={goToPath} />
+          <Remove perspectiveId={perspectiveId} perspectiveName={perspective.label} goToPath={goToPath} />
         </div>
       </div>
     );

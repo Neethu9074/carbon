@@ -6,7 +6,7 @@
 
 import { Result, TagSuggestions } from '@instana/types';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetBizOpsTagSuggestionQuery } from 'in-bizops/types';
+import { GetBizOpsTagSuggestionQuery } from 'in-bizops/utils/types';
 
 export default createResultSubscriptionFactory<GetBizOpsTagSuggestionQuery, Result<TagSuggestions>>({
   eventId: 'getBizOpsTagSuggestions',

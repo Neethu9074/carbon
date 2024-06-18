@@ -40,4 +40,11 @@
     align-items: center;
     width: 100%;
   }
+
+  .removeDisclaimer {
+    font-size: var(--ids-font-size-option-body-small);
+    line-height: var(--ids-line-height-option-body-small);
+    font-weight: var(--ids-font-weight-option-body-small);
+    color: var(--ids-color-option-neutral-600);
+  }
 }

@@ -4,12 +4,19 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ValidationResult, createField, createMapForm, MapForm, notBlankValidator } from 'formalistic';
+import {
+  ValidationResult,
+  createField,
+  createMapForm,
+  MapForm,
+  notBlankValidator,
+  composeValidators
+} from 'formalistic';
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { MAX_DESCRIPTION_SIZE, MAX_NAME_SIZE } from 'in-bizops/utils/constants';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
-import { MAX_DESCRIPTION_SIZE } from './NewPerspectiveFormStepTwo';
-import { PerspectiveFormItem } from 'in-bizops/types';
+import { PerspectiveFormItem } from 'in-bizops/utils/types';
 import { t } from 'in-i18n';
 
 interface FormProps {
@@ -37,7 +44,7 @@ const createNewPerspectiveForm = ({ perspective }: FormProps = emptyForm): MapFo
       'perspectiveName',
       createField({
         value: perspective.label,
-        validator: notBlankValidator
+        validator: composeValidators(stringMaxLengthValidator(MAX_NAME_SIZE), notBlankValidator)
       })
     )
     .put(
