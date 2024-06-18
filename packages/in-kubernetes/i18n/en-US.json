@@ -230,6 +230,7 @@
     "cas": "CAS",
     "create": "Create",
     "delete": "Delete",
+    "update": "Update",
     "operations": "Operations",
     "noDataAvailable": {
       "servicesTitle": "No services available",

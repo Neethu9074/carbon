@@ -9,10 +9,11 @@ import React from 'react';
 import { Card } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { bytesZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
+import EtcdOpsChart from './EtcdOpsChart';
 import { ChartProps } from './types';
 
 export default function EtcdChartsV2({ snapshotId, timeConfig }: ChartProps) {
@@ -52,30 +53,7 @@ export default function EtcdChartsV2({ snapshotId, timeConfig }: ChartProps) {
           </Card>
         </Col>
         <Col lg>
-          <Card title={t('in-kubernetes:dashboards.operations')} useMaxAvailableHeight>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                metrics: [
-                  'health.create_v3',
-                  'health.delete_v3',
-                  'health.compare_and_swap_v3',
-                  'health.compare_and_delete_v3'
-                ],
-                labels: [
-                  t('in-kubernetes:dashboards.create'),
-                  t('in-kubernetes:dashboards.delete'),
-                  t('in-kubernetes:dashboards.cas'),
-                  t('in-kubernetes:dashboards.cad')
-                ],
-                formatter: zeroDecimalPlaces,
-                type: 'line',
-                aggregation: 'sum'
-              }}
-              renderPostChartContent={K8DashboardsMarkerLanes}
-            />
-          </Card>
+          <EtcdOpsChart snapshotId={snapshotId} timeConfig={timeConfig} />
         </Col>
       </Row>
     </>
