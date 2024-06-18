@@ -17,6 +17,7 @@ import { NewPerspectiveDialogPresenter } from 'in-bizops/lists/businessPerspecti
 import { perspectiveColumnDefinitions } from 'in-bizops/lists/businessPerspectives/columnDefinitions';
 import getBusinessPerspectives from 'in-bizops/subscriptions/getBusinessPerspectives';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { businessPerspectivesPath } from 'in-bizops/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -56,7 +57,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions: perspectiveColumnDefinitions,
-  defaultOrderBy: 'perspective_name',
+  defaultOrderBy: 'business.perspective.label',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix
@@ -101,28 +102,25 @@ function getBusinessPerspectivesListData({
   orderBy = 'process_name',
   orderDirection = 'ASC',
   page = 1,
-  pageSize = 20
-}: //query = ''
-GetBusinessPerspectiveList) {
+  pageSize = 10,
+  query = ''
+}: GetBusinessPerspectiveList) {
   let tagFilterExpression: TagFilterExpression = {
     type: 'EXPRESSION',
     logicalOperator: 'AND',
     elements: []
   };
 
-  // search against business_perspectives_name
-  // TODO: This is in progress in the backend.  Uncomment when ready
-  /*
+  // search against business_perspective_label
   if (query && query.length > 0) {
     tagFilterExpression.elements.push({
-      name: 'business_perspectives_name',
+      name: 'business.perspective.label',
       operator: 'CONTAINS',
       stringValue: query,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
     });
   }
-  */
 
   return getBusinessPerspectives({
     pagination: {

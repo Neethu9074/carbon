@@ -60,7 +60,7 @@ function getSeverity(item: BusinessPerspectiveItem) {
 
 export const perspectiveColumnDefinitions: ColumnDefinition<BusinessPerspectiveItem, bpListProps>[] = [
   {
-    id: 'perspective_name',
+    id: 'business.perspective.label',
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.nameLabel'),
@@ -68,7 +68,7 @@ export const perspectiveColumnDefinitions: ColumnDefinition<BusinessPerspectiveI
   },
   {
     id: 'perspective_description',
-    sortable: true,
+    sortable: false,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:perspectives.lists.descriptionLabel'),
     ellipsis: '20vw',
@@ -84,7 +84,7 @@ export const perspectiveColumnDefinitions: ColumnDefinition<BusinessPerspectiveI
   },
   {
     id: 'perspective_process_count',
-    sortable: true,
+    sortable: false,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:perspectives.lists.numberProcessesLabel'),
     getContent(item: BusinessPerspectiveItem) {
@@ -97,7 +97,7 @@ export const perspectiveColumnDefinitions: ColumnDefinition<BusinessPerspectiveI
   },
   {
     id: 'health',
-    sortable: true,
+    sortable: false,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.healthLabel'),
     getContent(item: BusinessPerspectiveItem, { result, timeConfig }) {
