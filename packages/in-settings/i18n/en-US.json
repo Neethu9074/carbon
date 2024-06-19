@@ -1012,6 +1012,7 @@
     "windowSize": "Window Size",
     "aggregation": "Aggregation",
     "operator": "Operator",
+    "valueMapping": "The numeric values of the selected metric correspond to the following string values:",
     "matchingOperator": "Matching Operator",
     "entityLabelOperator": "Entity Label Operator",
     "entityLabel": "Entity Label",

@@ -75,6 +75,8 @@ export function ConditionItem({
                 form={form}
                 onChange={onChange}
                 hideTimeWindow={hideTimeWindow}
+                entityType={entityType}
+                metricName={metricName}
               />
             )}
           </Row>
