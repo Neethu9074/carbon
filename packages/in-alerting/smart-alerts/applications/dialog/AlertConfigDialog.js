@@ -73,7 +73,7 @@ export default function AlertConfigDialog({
         <ConfirmationDialog
           header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
           description={t('in-alerting:components.alertConfirmationDialogDescription', {
-            entityPlaceholder: t('in-alerting:smartAlerts.components.alertsHub.applications.title')
+            entityPlaceholder: t('in-settings:productAreas.title_applications')
           })}
           confirmButtonLabel={t('in-alerting:components.labelConfirm')}
           confirmButtonKind="danger"

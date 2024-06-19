@@ -93,7 +93,6 @@ module.exports = {
   systemRuleEntityCountEnabled: true,
   userSettingsThemeEnabled: true,
   oneMinuteGranularityForStaticThresholdEnabled: true,
-  alertsHubEnabled: false,
   apdexWidgetEnabled: true,
   sliCHClusterAccessEnabled: true,
   sloV2Enabled: true,

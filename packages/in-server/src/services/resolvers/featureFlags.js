@@ -376,11 +376,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'alertsHubEnabled',
-    instanaCtlKey: 'feature.alerts.hub.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'syntheticCustomDashboardEnabled',
     instanaCtlKey: 'feature.synthetic.custom.dashboard.enabled',
     defaultValue: false

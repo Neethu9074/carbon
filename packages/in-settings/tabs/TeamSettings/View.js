@@ -32,7 +32,6 @@ import {
   teamSettingsAlertingEventCustomEdit,
   teamSettingsAlertingEventCustomNew,
   teamSettingsAlertingEvents,
-  teamSettingsAlertingHub,
   teamSettingsAlertingMaintenanceConfigurationEdit,
   teamSettingsAlertingMaintenanceConfigurationNew,
   teamSettingsAlertingMaintenanceConfigurations,
@@ -46,7 +45,6 @@ import {
   teamSettingsLogManagementSplunk
 } from 'in-settings/navigation/paths';
 import {
-  alertsHubEnabled,
   disableInvitesWithIdpEnabled,
   recurrentMaintenanceWindowEnabled,
   logRetentionPageEnabled,
@@ -86,7 +84,6 @@ import GroupPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/
 import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/Humio';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
-import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { apiTokenDialogEnabled } from 'in-services/featureFlags';
@@ -183,14 +180,6 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     const eventsAndAlertsPages = [];
 
     if (role.canConfigureEventsAndAlerts) {
-      if (alertsHubEnabled) {
-        eventsAndAlertsPages.push({
-          path: teamSettingsAlertingHub,
-          label: t('in-alerting:smartAlerts.components.alertsHub.title'),
-          component: AlertsHub
-        });
-      }
-
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingEvents,
         label: t('in-settings:tabs.events'),

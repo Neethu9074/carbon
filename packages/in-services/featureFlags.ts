@@ -145,8 +145,6 @@ export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEna
 export const infraPredictiveDetectionEnabled = isFeatureFlagEnabled('infraPredictiveDetectionEnabled');
 export const infraSmartAlertsPredictionsEnabled = isFeatureFlagEnabled('infraSmartAlertsPredictionsEnabled');
 
-export const alertsHubEnabled = isFeatureFlagEnabled('alertsHubEnabled');
-
 export const regexMetricSelectionEnabled = isFeatureFlagEnabled('regexMetricSelectionEnabled');
 
 export const autoFormatterTimeSeriesEnabled = isFeatureFlagEnabled('autoFormatterTimeSeriesEnabled');
