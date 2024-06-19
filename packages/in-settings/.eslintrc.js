@@ -34,7 +34,9 @@ module.exports = {
         'in-stores',
         'in-subscription',
         'in-synthetics',
-        'in-websites'
+        'in-websites',
+        'in-infrastructure',
+        'in-service-levels'
       ]
     })
   }
