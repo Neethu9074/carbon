@@ -7,13 +7,20 @@ import { createMapForm, createField, MapFormItems, Field, MapForm, ValidationMes
 import React, { useState } from 'react';
 import { List, Map } from 'immutable';
 
-import { IconButton, SecondLevelNavigation, Stack, TextArea, Typography } from '@instana/components';
+import {
+  IconButton,
+  SecondLevelNavigation,
+  Stack,
+  TextArea,
+  Typography,
+  DescriptionList,
+  DescriptionItem
+} from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 import { Button } from '@instana/legacy';
 
 import { SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation/SecondLevelNavigation';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 //@ts-expect-error
 import Lettering from 'in-components/Lettering';
@@ -145,8 +152,8 @@ export default {
     }
 
     return (
-      <DescriptionList>
-        <DescriptionItem title={t('in-settings:tabs.eMails')}>
+      <DescriptionList inComponents>
+        <DescriptionItem inComponents title={t('in-settings:tabs.eMails')}>
           {emails.toArray().map(email => (
             <div key={email}>{email}</div>
           ))}

@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { DescriptionItem } from '@instana/components';
+
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder.ts';
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
@@ -22,7 +24,6 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
-import { DescriptionItem } from 'in-components/DescriptionList';
 import { t } from 'in-i18n';
 
 import locals from './EventListItemContent.mless';
@@ -77,7 +78,7 @@ export default function MobileAppEventListItemContent({ event }) {
         />
       </div>
       <div className={locals.sectionWrapper}>
-        <DescriptionItem className={locals.title} title={t('in-events:titleScope')}>
+        <DescriptionItem inComponents className={locals.title} title={t('in-events:titleScope')}>
           <div className={locals.scopeContentWrapper}>
             <ScopeConfigPresenter
               tagFilterFormModel={tagFilterFormModel}

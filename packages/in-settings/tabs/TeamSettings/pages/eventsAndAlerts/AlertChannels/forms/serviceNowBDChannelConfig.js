@@ -7,11 +7,9 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
+import { Collapsible, IconButton, DescriptionList, DescriptionItem } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { Collapsible } from '@instana/components';
-import { IconButton } from '@instana/components';
 
-import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
 import { serviceNowAdvancedEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -83,11 +81,13 @@ export default {
 
   createDetails(alertChannel) {
     return (
-      <DescriptionList>
-        <DescriptionItem title={t('in-settings:tabs.serviceNowUrl')}>
+      <DescriptionList inComponents>
+        <DescriptionItem inComponents title={t('in-settings:tabs.serviceNowUrl')}>
           {alertChannel.get('serviceNowUrl')}
         </DescriptionItem>
-        <DescriptionItem title={t('in-settings:tabs.username')}>{alertChannel.get('username')}</DescriptionItem>
+        <DescriptionItem inComponents title={t('in-settings:tabs.username')}>
+          {alertChannel.get('username')}
+        </DescriptionItem>
       </DescriptionList>
     );
   },

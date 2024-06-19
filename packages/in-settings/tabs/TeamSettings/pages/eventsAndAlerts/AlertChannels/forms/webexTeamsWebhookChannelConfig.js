@@ -6,10 +6,9 @@
 import { createMapForm, createField } from 'formalistic';
 import React from 'react';
 
+import { Link, DescriptionList, DescriptionItem } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { Link } from '@instana/components';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -53,8 +52,10 @@ export default {
 
   createDetails(alertChannel) {
     return (
-      <DescriptionList>
-        <DescriptionItem title={t('in-settings:tabs.webhookUrl')}>{alertChannel.get('webhookUrl')}</DescriptionItem>
+      <DescriptionList inComponents>
+        <DescriptionItem inComponents title={t('in-settings:tabs.webhookUrl')}>
+          {alertChannel.get('webhookUrl')}
+        </DescriptionItem>
       </DescriptionList>
     );
   },

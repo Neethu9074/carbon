@@ -7,11 +7,10 @@ import { createMapForm, createField, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { List } from 'immutable';
 
+import { SvgIcon, DescriptionList, DescriptionItem } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/legacy';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -71,8 +70,8 @@ export default {
     }
 
     return (
-      <DescriptionList>
-        <DescriptionItem title={t('in-settings:tabs.webhooks')}>
+      <DescriptionList inComponents>
+        <DescriptionItem inComponents title={t('in-settings:tabs.webhooks')}>
           {webhookUrls.toArray().map(url => (
             <div key={url}>{url}</div>
           ))}

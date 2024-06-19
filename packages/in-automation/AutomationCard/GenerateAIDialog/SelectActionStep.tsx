@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Typography, Spacer } from '@instana/components';
+import { Typography, Spacer, DescriptionItem } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -20,7 +20,6 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import { getScriptFromFields, getManualContentFromFields } from 'in-automation/ActionCatalog/shared';
 import { nameColumn, descriptionColumn } from 'in-automation/ActionTable/columnDefinitions';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
-import { DescriptionItem } from 'in-components/DescriptionList/DescriptionList';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -119,6 +118,7 @@ const ManualSection = ({ action }: { action: ScoredAction }) => {
   return (
     <>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin, locals.manualContent)}
         title={t('in-automation:ActionCatalog.content')}
       >
@@ -141,6 +141,7 @@ const ScriptSection = ({ action }: { action: ScoredAction }) => {
   return (
     <>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:titleScriptContent')}
       >

@@ -6,11 +6,10 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import { SvgIcon, IconButton } from '@instana/components';
+import { SvgIcon, IconButton, DescriptionList, DescriptionItem } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import { serviceNowAutoCloseAndCustomPayloadsEnabled } from 'in-services/featureFlags';
-import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
@@ -67,11 +66,13 @@ export default {
 
   createDetails(alertChannel) {
     return (
-      <DescriptionList>
-        <DescriptionItem title={t('in-settings:tabs.serviceNowUrl')}>
+      <DescriptionList inComponents>
+        <DescriptionItem inComponents title={t('in-settings:tabs.serviceNowUrl')}>
           {alertChannel.get('serviceNowUrl')}
         </DescriptionItem>
-        <DescriptionItem title={t('in-settings:tabs.username')}>{alertChannel.get('username')}</DescriptionItem>
+        <DescriptionItem inComponents title={t('in-settings:tabs.username')}>
+          {alertChannel.get('username')}
+        </DescriptionItem>
       </DescriptionList>
     );
   },

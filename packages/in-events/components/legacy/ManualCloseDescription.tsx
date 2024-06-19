@@ -6,7 +6,8 @@
 import { Map } from 'immutable';
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { toHtml } from 'in-services/formatters/markdown';
 import { EventOrMap } from 'in-events/types';
@@ -27,11 +28,11 @@ export default function ManualCloseDescription({ event }: Props) {
   const htmlManualCloseUsername = toHtml(username);
 
   return (
-    <DescriptionList>
-      <DescriptionItem className={locals.title} title={t('in-events:closeEventDialog.closedByLabel')}>
+    <DescriptionList inComponents>
+      <DescriptionItem inComponents className={locals.title} title={t('in-events:closeEventDialog.closedByLabel')}>
         <DangerousHtmlPresenter className={locals.username} html={htmlManualCloseUsername} />
       </DescriptionItem>
-      <DescriptionItem title={t('in-events:closeEventDialog.comments')}>
+      <DescriptionItem inComponents title={t('in-events:closeEventDialog.comments')}>
         <DangerousHtmlPresenter className={locals.reason} html={htmlManualCloseReason} />
       </DescriptionItem>
     </DescriptionList>
