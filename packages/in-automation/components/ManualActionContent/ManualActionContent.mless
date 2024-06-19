@@ -20,12 +20,14 @@
   }
 
   .codeBlock {
-    list-style-type: none;
-    margin: 0;
-    padding: 1rem;
-  }
-
-  .codeBlock li {
-    margin-bottom: 0.75rem;
+    ol,
+    ul {
+      list-style-type: revert;
+      margin: 0;
+      padding: 1.5rem;
+      li {
+        margin-bottom: 0.5rem;
+      }
+    }
   }
 }

@@ -14,19 +14,12 @@ import { getManualContentFromFields } from 'in-automation/ActionCatalog/shared';
 import { DescriptionItem } from 'in-components/DescriptionList/DescriptionList';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import { isAIAction } from 'in-automation/ActionCatalog/shared';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { toHtml } from 'in-services/formatters/markdown';
 import { ScoredAction } from 'in-automation/api';
 import { Action } from 'in-types';
 
 import locals from 'in-automation/components/ManualActionContent/ManualActionContent.mless';
-
-const toHtmlWithLineNumbers = (text: string) => {
-  const lines = text.split('\n');
-  const htmlLines = lines.map(line => `<li>${line}</li>`).join('');
-  return `<ol class=${locals.codeBlock}>${htmlLines}</ol>`;
-};
 
 export default function ManualActionContent({
   action,
@@ -40,11 +33,7 @@ export default function ManualActionContent({
   if (content.encoding === 'base64') {
     contentText = atob(contentText);
   }
-  const htmlContent =
-    //@ts-expect-error - can be removed from R-277
-    isAIAction(action) || action.metadata?.aiOriginated
-      ? toHtmlWithLineNumbers(contentText)
-      : toHtml(contentText, { breaks: true });
+  const htmlContent = toHtml(contentText, { breaks: true });
 
   return (
     <>
@@ -54,7 +43,7 @@ export default function ManualActionContent({
       >
         <Spacer vertical="normal" />
         <div className={locals.manualContentMarkdown}>
-          <DangerousHtmlPresenter html={htmlContent} />
+          <DangerousHtmlPresenter html={htmlContent} className={locals.codeBlock} />
           {addCopyButton && (
             <CopyToClipboard getText={() => contentText}>
               {refSetter => (
