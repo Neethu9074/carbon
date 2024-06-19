@@ -9,14 +9,14 @@ import {
   ApplicationSloEntity,
   SloEntityType,
   SloEntityUnion,
-  TagFilter,
-  TagFilterExpression,
-  isApplicationSloEntity
+  isApplicationSloEntity,
+  isTagFilter
 } from '@instana/types';
 import { Stack, SvgIcon, Typography } from '@instana/components';
 
 import { QueryBuilderComponent as QueryBuilderComponentType } from 'in-components/QueryBuilder';
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
+import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilderFilter from 'in-service-levels/components/QueryBuilderFilter';
 import { LabeledEntity } from 'in-service-levels/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -46,10 +46,9 @@ export default function SloEntityInfo({ entity, entityType, service, endpoint, m
   const QueryBuilder = sloEntity && isApplicationSloEntity(sloEntity) ? applicationQueryBuilder.QueryBuilder : null;
 
   const hasCustomFilter =
-    sloEntity &&
+    sloEntity?.tagFilterExpression &&
     isApplicationSloEntity(sloEntity) &&
-    ((sloEntity?.tagFilterExpression as TagFilterExpression)?.elements?.length > 0 ||
-      (sloEntity?.tagFilterExpression as TagFilter).type === 'TAG_FILTER');
+    (!isEmptyExpression(sloEntity.tagFilterExpression) || isTagFilter(sloEntity.tagFilterExpression));
 
   const showServiceEndpointInfo = metaInfo && serviceEndpointInfo && compact && !hasCustomFilter;
   return (
