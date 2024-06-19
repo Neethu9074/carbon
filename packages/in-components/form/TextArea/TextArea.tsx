@@ -3,35 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { forwardRef } from 'react';
-import classNames from 'classnames';
+// Implementation moved to ui-foundataion
+import type { TextAreaProps } from '@instana/components';
+import { TextArea } from '@instana/components';
 
-import locals from './TextArea.mless';
-
-export interface TextAreaProps extends React.HTMLAttributes<HTMLTextAreaElement> {
-  className?: string;
-  name?: string;
-  value?: string;
-  hasError?: boolean;
-  disabled?: boolean;
-  rows?: number;
-  readOnly?: boolean;
-  hideValidityInformationOnFocus?: boolean;
-}
-
-export default forwardRef<HTMLTextAreaElement, TextAreaProps>(function FormTextArea(
-  { hasError, hideValidityInformationOnFocus, className, rows, ...textAreaProps },
-  ref
-) {
-  return (
-    <textarea
-      {...textAreaProps}
-      ref={ref}
-      rows={rows}
-      className={classNames(locals.textArea, className, {
-        [locals.error]: hasError,
-        [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
-      })}
-    />
-  );
-});
+export default TextArea;
+export type { TextAreaProps };

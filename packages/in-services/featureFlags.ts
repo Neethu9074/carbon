@@ -60,7 +60,6 @@ export const carbonMoreMenuEnabled = isFeatureFlagEnabled('carbonMoreMenuEnabled
 export const carbonAccordionEnabled = isFeatureFlagEnabled('carbonAccordionEnabled');
 export const carbonSelectEnabled = isFeatureFlagEnabled('carbonSelectEnabled');
 export const carbonContentSwitcherEnabled = isFeatureFlagEnabled('carbonContentSwitcherEnabled');
-export const carbonTextAreaEnabled = isFeatureFlagEnabled('carbonTextAreaEnabled');
 export const carbonTabsEnabled = isFeatureFlagEnabled('carbonTabsEnabled');
 export const carbonButtonEnabled = isFeatureFlagEnabled('carbonButtonEnabled', false);
 export const carbonLoadingSkeletonFeatureEnabled = isFeatureFlagEnabled('carbonLoadingSkeletonFeatureEnabled');
@@ -69,6 +68,7 @@ export const carbonTileEnabled = isFeatureFlagEnabled('carbonTileEnabled');
 export const carbonPaginationEnabled = isFeatureFlagEnabled('carbonPaginationEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const carbonMenuEnabled = isFeatureFlagEnabled('carbonMenuEnabled', false);
+export const carbonInputEnabled = isFeatureFlagEnabled('carbonInputEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');

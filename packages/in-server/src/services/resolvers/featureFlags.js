@@ -506,11 +506,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'carbonTextAreaEnabled',
-    instanaCtlKey: 'feature.carbon.text.area.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'carbonPillEnabled',
     instanaCtlKey: 'feature.carbon.pill.enabled',
     defaultValue: false
@@ -573,6 +568,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMenuEnabled',
     instanaCtlKey: 'feature.carbon.menu.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonInputEnabled',
+    instanaCtlKey: 'feature.carbon.input.enabled',
     defaultValue: false
   },
   {
