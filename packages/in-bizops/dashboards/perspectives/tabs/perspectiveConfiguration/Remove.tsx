@@ -6,9 +6,8 @@
 
 import React, { useState } from 'react';
 
-import { Button, Card } from '@instana/components';
+import { Button, Card, Checkbox } from '@instana/components';
 
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { deleteBusinessPerspective } from 'in-bizops/api/perspectives';
 import { businessPerspectivesPath } from 'in-bizops/navigation/paths';
@@ -59,7 +58,7 @@ export function Remove({ perspectiveId, perspectiveName, goToPath }: RemoveProps
         <h3 className={local.removeDisclaimer}>
           {t('in-bizops:dashboards.perspectives.configuration.removePerspectiveDisclaimer')}
         </h3>
-        <CheckboxFancy
+        <Checkbox
           label={t('in-bizops:dashboards.perspectives.configuration.removePerspectiveCheckbox')}
           checked={checkboxChecked}
           onChange={e => {
