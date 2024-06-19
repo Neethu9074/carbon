@@ -7,9 +7,9 @@ import React from 'react';
 
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { timeBySecondsTwoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { WINDOW_FOR_LATEST_METRIC, DISTANCE_BETWEEN_DATAPOINTS } from 'in-forge/plugins/otelHost/constants';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/otelHost/constants';
+import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -133,6 +133,7 @@ function getDetails(row: any) {
     <>
       <Columize>
         <Chart
+          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
@@ -146,22 +147,9 @@ function getDetails(row: any) {
             type: 'line'
           }}
           y2={{
-            formatter: timeBySecondsTwoDecimalPlaces,
+            formatter: bytesTwoDecimalPlaces,
             metrics: ['filesystems.' + row.name + '.inode_used', 'filesystems.' + row.name + '.inode_free'],
             labels: ['Inode Used', 'Inode Free'],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </Columize>
-      <Columize>
-        <Chart
-          snapshotId={row.snapshotId}
-          timeConfig={row.timeConfig}
-          y1={{
-            formatter: bytesTwoDecimalPlaces,
-            metrics: ['filesystems.' + row.name + '.bytes_used', 'filesystems.' + row.name + '.inode_used'],
-            labels: ['Bytes Used', 'Inode Used'],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
