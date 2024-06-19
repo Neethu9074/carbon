@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, SearchInput } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import convertToScopes from 'in-components/time/TimeSelectionDialogPresenter/convertToScopes';
@@ -14,7 +14,6 @@ import { getReleasesWithDefaults } from 'in-events/subscriptions/getReleases';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { formatDateTime } from 'in-services/formatters/date';
 import ServerTable from 'in-components/tables/ServerTable';
-import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';

@@ -6,7 +6,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import rpt from 'prop-types';
 
-import { keyCodes, Pill, Ul, Li, LiHorizontalIndicator, LiLoadingSkeleton } from '@instana/components';
+import { keyCodes, Pill, Ul, Li, LiHorizontalIndicator, LiLoadingSkeleton, SearchInput } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { Button } from '@instana/legacy';
 
@@ -19,7 +19,6 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { useCockpitLink } from 'in-cockpit/navigation/paths';
 import { playwithEnabled } from 'in-services/featureFlags';
-import SearchInput from 'in-components/SearchInput';
 import Lettering from 'in-components/Lettering';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
