@@ -15,11 +15,13 @@ export default {
 };
 
 resetStoreRegistry();
-addMessage({ type: 'warning', title: 'Message 1', content: <div /> });
-addMessage({ type: 'info', title: 'Message 2', content: <div /> });
+addMessage({ id: 1, type: 'danger', title: 'Message error', content: <div>Some content</div> });
+addMessage({ id: 2, type: 'warning', title: 'Message warning', content: <div /> });
+addMessage({ id: 3, type: 'neutral', title: 'Message info', content: <div>Some content</div> });
 
 export const MessagesWithFlyout = {
   args: {
-    onlyShowUsageRelatedMessages: false
+    onlyShowUsageRelatedMessages: false,
+    carbonVariant: true
   }
 };

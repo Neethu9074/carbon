@@ -17,11 +17,15 @@
   }
 
   .flyoutMessage {
-    background: none;
+    background: #fff;
     font-size: 0.8rem;
     max-width: 24rem;
+    padding: 1rem 0.8rem;
     margin: 0 0 1rem;
+    border-radius: var(--ids-border-radius-option-medium);
     overflow: hidden;
+
+    box-shadow: var(--ids-shadow-option-strong);
 
     display: flex;
 
