@@ -10,7 +10,6 @@ import classNames from 'classnames';
 
 import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData } from '@instana/types';
 
-import { AP_FORM_DATA } from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheetWithThreshold';
 import AlertingTearSheetFooter from 'in-alerting/components/AlertingTearSheetFooter';
 import AlertingTearSheetSteps from 'in-alerting/components/AlertingTearSheetSteps';
 
@@ -33,8 +32,6 @@ export type AlertingTearSheetStepConfigs = {
   valid?: boolean;
 };
 
-export type SA_FORM_DATA = AP_FORM_DATA;
-
 export interface AlertingTearSheetProps {
   step: number;
   setStep: Dispatch<SetStateAction<number>>;
@@ -43,7 +40,7 @@ export interface AlertingTearSheetProps {
   formId: string;
   isSaving: boolean;
   children: ReactNode;
-  form: MapForm<SA_FORM_DATA>;
+  form: MapForm<any>;
   handleSubmit: () => void;
   migrationMode?: boolean;
   thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null;

@@ -215,7 +215,7 @@ function AlertConfigTearSheetContent({ alertConfig, scopeMigrationDetails }: Ale
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         setForm={setForm}
         timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
-        withTrackClose={() => undefined} // TODO add mixpanel tracking
+        withTrackClose={() => undefined}
         withTrackCreate={withTrackCreate}
         isSaving={isSaving}
         messages={messages}

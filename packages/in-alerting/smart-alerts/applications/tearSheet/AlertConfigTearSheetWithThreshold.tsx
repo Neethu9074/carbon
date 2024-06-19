@@ -5,7 +5,7 @@
  */
 
 import React, { Dispatch, ReactNode, SetStateAction, useMemo, useState } from 'react';
-import { Field, Item, MapForm, MapFormItems, MapPath } from 'formalistic';
+import { Item, MapForm, MapPath } from 'formalistic';
 
 import { ApplicationAlertConfig, TimeConfig } from '@instana/types';
 
@@ -43,12 +43,8 @@ export const tagSuggestionTimeConfig = {
 
 const FORM_ID = 'smart-alert-editor';
 
-export interface AP_FORM_DATA extends MapFormItems {
-  rule: Field<{ alertType: string }>; // TODO add application form data here
-}
-
 export interface AlertConfigTearSheetWithThresholdProps {
-  form: MapForm<AP_FORM_DATA>;
+  form: MapForm<any>;
   isGlobalSmartAlert?: boolean;
   editMode?: boolean;
   migrationMode?: boolean;
@@ -60,7 +56,7 @@ export interface AlertConfigTearSheetWithThresholdProps {
   selectedChartViewConfigIndex: number;
   setForm: (form: MapForm<any>) => void;
   timeConfig: TimeConfig;
-  withTrackClose: () => void; // TODO check typedef once redirection is implemented
+  withTrackClose: () => void;
   withTrackCreate: () => void;
   isSaving: boolean;
   messages: MessageType[] | EnrichedError[];

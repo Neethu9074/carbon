@@ -7,11 +7,7 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import {
-  AlertingFooterActions,
-  AlertingTearSheetStepConfigs,
-  SA_FORM_DATA
-} from 'in-alerting/components/AlertingTearSheet';
+import { AlertingFooterActions, AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingTearSheet';
 import { CancelButton, PreviousButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { t } from 'in-i18n';
 
@@ -23,7 +19,7 @@ interface AlertingTearSheetFooterProps {
   stepConfigs: AlertingTearSheetStepConfigs[];
   formId: string;
   isSaving: boolean;
-  form: MapForm<SA_FORM_DATA>;
+  form: MapForm<any>;
   setForm: (form: MapForm<any>) => void;
   migrationMode?: boolean;
 }
@@ -99,11 +95,10 @@ export default function AlertingTearSheetFooter({
     </div>
   );
 }
+
 function getSaveButtonLabel(defaultLabel: string, isLastStep: boolean, migrationMode?: boolean) {
   if (isLastStep) {
-    if (migrationMode) return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonMigrate');
-    return defaultLabel;
-  } else {
-    return t('in-components:blueprintFormMultistep.buttonNext');
+    return migrationMode ? t('in-alerting:smartAlerts.components.smartAlertDialog.buttonMigrate') : defaultLabel;
   }
+  return t('in-components:blueprintFormMultistep.buttonNext');
 }
