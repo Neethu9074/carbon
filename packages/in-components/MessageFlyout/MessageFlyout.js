@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -8,11 +9,11 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
-import MessageLocal from 'in-components/MessageFlyout/Message';
+import Message from 'in-components/MessageFlyout/Message';
 
 import locals from './MessageFlyout.mless';
 
-export default function MessageFlyout({ onlyShowUsageRelatedMessages }) {
+export default function MessageFlyout({ onlyShowUsageRelatedMessages, carbonVariant }) {
   const messages = useObservable(messages$, []);
 
   if (!messages?.length) {
@@ -24,7 +25,7 @@ export default function MessageFlyout({ onlyShowUsageRelatedMessages }) {
       {!onlyShowUsageRelatedMessages &&
         messages
           .filter(message => !message.isLicenseUsageMsg)
-          .map(message => <MessageLocal key={message.id} message={message} />)}
+          .map(message => <Message key={message.id} message={message} carbonVariant={carbonVariant} />)}
     </div>
   );
 }
