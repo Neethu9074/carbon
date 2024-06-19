@@ -594,6 +594,9 @@ function addDeselectAction(columns, actionDefinition) {
             kind="primaryv2"
             type={'lib_openclose_remove_circle_outline'}
             color={themes.default.ids.color.option.blue['500']}
+            // Added 'buttonType' to IconButton to fix the default submission when the enter key is pressed from other UI elements on the page. ...
+            // gentle remainder : Remove this after carbon is enabled, if possible.
+            buttonType="button"
             onClick={e => {
               stopPropagationAndPreventDefault(e);
               actionDefinition.deselect(entity);
