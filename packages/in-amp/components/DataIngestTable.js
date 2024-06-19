@@ -179,7 +179,7 @@ const DataIngestTable = () => {
           value={actualDataIngest}
         />
         <DataIngestTableRow
-          rowNumber={15}
+          rowNumber={16}
           title={t('in-amp:components.dataIngestTable.onDemandDataIngest')}
           unit="GB"
           offering="Total"
