@@ -8,7 +8,9 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 import { Card } from '@instana/components';
 
+import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import DataIngestTable from 'in-amp/components/DataIngestTable';
 import SectionLine from 'in-settings/components/SectionLine';
 import { stackedArea } from 'in-stores/metric/renderer';
 import UsageChart from 'in-amp/components/UsageChart';
@@ -39,6 +41,8 @@ export default function UsageCharts({
         colors: [carbonAlert.red60, carbonAlert.blue70],
         formatter: 'siBytes.compact'
       };
+
+  const showDataIngestTable = !tenantUnit?.tenant && !onPremLicenseInformationEnabled;
 
   return (
     <>
@@ -87,7 +91,7 @@ export default function UsageCharts({
         </Col>
       </Row>
       <Row>
-        <Col xs={12}>
+        <Col xs={showDataIngestTable ? 6 : 12}>
           <Card>
             <SubViewHeader>
               Data usage
@@ -115,6 +119,14 @@ export default function UsageCharts({
             />
           </Card>
         </Col>
+        {showDataIngestTable && (
+          <Col xs={6}>
+            <Card>
+              <SubViewHeader>{t('in-amp:components.dataIngestTable.consumptionOverview')}</SubViewHeader>
+              <DataIngestTable />
+            </Card>
+          </Col>
+        )}
       </Row>
       <br />
       {showAggregatedMetrics && hasSyntheticAddons && (
