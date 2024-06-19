@@ -32,7 +32,14 @@ export default function SloDashboardMetaInfo({ configuration, entity, service, e
     <div className={locals.metaInfo}>
       <Stack direction="horizontal" align="center" distribution="start">
         {entity && (
-          <SloEntityInfo entity={entity} service={service} endpoint={endpoint} sloEntity={sloEntity} metaInfo />
+          <SloEntityInfo
+            entity={entity}
+            entityType={sloEntity.type}
+            service={service}
+            endpoint={endpoint}
+            sloEntity={sloEntity}
+            metaInfo
+          />
         )}
         {showTag && <TagList tags={tags} />}
       </Stack>
