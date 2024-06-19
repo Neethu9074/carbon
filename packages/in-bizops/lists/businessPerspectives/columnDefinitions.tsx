@@ -11,12 +11,10 @@ import { BusinessPerspectiveItem, TimeConfig } from '@instana/types';
 
 // @ts-expect-error Could not find declaration type
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { businessPerspectiveDashboard, summaryTab } from 'in-bizops/navigation/paths';
+import BizOpsHealthIndicator from 'in-bizops/components/BizOpsHealthIndicator';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { selectBizopsListPerspectiveTracker } from 'in-bizops/tracker';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -100,16 +98,14 @@ export const perspectiveColumnDefinitions: ColumnDefinition<BusinessPerspectiveI
     sortable: false,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.healthLabel'),
-    getContent(item: BusinessPerspectiveItem, { result, timeConfig }) {
+    getContent(item: BusinessPerspectiveItem, { timeConfig }) {
+      const serviceIds = item.services && item.services.map(service => service.id);
       return (
-        <ApplicationEntityHealthIndicatorBehavior
-          // TODO: This service ID should be supplied by the backend, uncomment when available
-          //serviceId={item.service?.id}
+        <BizOpsHealthIndicator
+          serviceIds={serviceIds}
           openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
           maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
-          IndicatorPresenter={HealthIndicatorPresenter}
-          //@ts-expect-error type error
-          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
+          timeConfig={timeConfig}
           inContentArea
         />
       );

@@ -17,10 +17,29 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { tabs } from 'in-bizops/dashboards/perspectives/tabs';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 export default function BusinessPerspectiveSummary() {
   const location: Location = useLocation();
+  const timeConfig = useTimeConfig();
+  const perspectiveName =
+    getMatrixParameter(location, businessPerspectiveDashboard, 'perspectiveName') ??
+    t('in-bizops:dashboards.summary.pageTitle');
+
+  const props = {
+    label: perspectiveName,
+    viewPath: businessPerspectiveDashboard,
+    timeConfig,
+    boundaryScope: '',
+    onChange: {},
+    location,
+    currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
+    onBoundaryStateChange: {},
+    syntheticCalls: 0,
+    onSyntheticCallsStateChange: {}
+  };
+
   return (
     <>
       <ViewTrackingMeta
@@ -32,7 +51,7 @@ export default function BusinessPerspectiveSummary() {
       <TabView
         HeaderComponent={Header}
         location={location}
-        props={{}}
+        props={props}
         tabs={tabs}
         tabChangeTracker={clickBizopsProcessTabsTracker}
       />
