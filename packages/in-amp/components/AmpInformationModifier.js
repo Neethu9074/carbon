@@ -6,9 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Message } from '@instana/components';
+import { Message, Stack } from '@instana/components';
 
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
@@ -35,7 +34,16 @@ export default function AmpInformationModifier({
       })}
     >
       {unitSelectorOptions && (
-        <HorizontalFlexWrapper>
+        <Stack>
+          {showAggregatedMetrics && (
+            <Message
+              className={locals.message}
+              withIcon
+              title={t(
+                'in-amp:components.ampInformationModifier.customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense'
+              )}
+            />
+          )}
           <ComboBoxBehavior
             align="bottomRight"
             value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
@@ -49,16 +57,7 @@ export default function AmpInformationModifier({
               </DropdownButton>
             )}
           </ComboBoxBehavior>
-          {showAggregatedMetrics && (
-            <Message
-              className={locals.message}
-              withIcon
-              title={t(
-                'in-amp:components.ampInformationModifier.customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense'
-              )}
-            />
-          )}
-        </HorizontalFlexWrapper>
+        </Stack>
       )}
       {!showAggregatedMetrics && <AmpTimeSelection windowSize={windowSize} setWindowSize={setWindowSize} />}
     </div>
