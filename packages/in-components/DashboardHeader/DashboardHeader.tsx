@@ -163,7 +163,17 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
                 />
               ))}
             <SyntheticIcon />
-            {renderIcon ? renderIcon() : icon ? <SvgIcon className={locals.icon} type={icon} size="l" /> : null}
+            {renderIcon ? (
+              <span aria-label={title} title={title}>
+                {renderIcon()}
+              </span>
+            ) : icon ? (
+              <span aria-label={title}>
+                <Tooltip content={title} delay={500}>
+                  <SvgIcon className={locals.icon} type={icon} size="l" />
+                </Tooltip>
+              </span>
+            ) : null}
             {label &&
               (typeof label === 'string' ? (
                 <Tooltip content={label} delay={500}>
