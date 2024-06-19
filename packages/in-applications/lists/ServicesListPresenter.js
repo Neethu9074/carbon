@@ -230,7 +230,7 @@ export default function ServicesList({
           }
         })
       : empty,
-    []
+    [timeConfig]
   );
   const applicationName = useObservable(getApplicationLabelObservable, [applicationId]);
   const serviceName = useObservable(getServiceLabelObservable, [serviceId]);
