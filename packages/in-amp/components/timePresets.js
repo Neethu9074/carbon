@@ -18,6 +18,11 @@ const presets = [
     label: t('in-amp:components.timePresets.last15Days')
   },
   {
+    windowSize: days.toMillis(30),
+    to: null,
+    label: t('in-amp:components.timePresets.last30Days')
+  },
+  {
     windowSize: days.toMillis(365),
     to: null,
     label: t('in-amp:components.timePresets.last365Days')
