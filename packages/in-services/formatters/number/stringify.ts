@@ -11,6 +11,7 @@ import {
   markAsFormatterType,
   BYTE_RATE_FORMATTER_TYPE,
   BYTES_FORMATTER_TYPE,
+  SI_BYTES_FORMATTER_TYPE,
   KILO_BYTES_FORMATTER_TYPE,
   LATENCY_FORMATTER_TYPE,
   MEGA_BYTES_FORMATTER_TYPE,
@@ -137,8 +138,11 @@ export const percentagePlain = markAsFormatterType(
   PERCENTAGE_FORMATTER_TYPE
 );
 
-export const bytesZeroDecimalPlaces = (d: number) => formatBytes(d, zeroDecimalPlaces);
-export const bytesTwoDecimalPlaces = (d: number) => formatBytes(d, twoDecimalPlaces);
+export const bytesZeroDecimalPlaces = (d: number) => formatBytes(d, zeroDecimalPlaces, false);
+export const bytesTwoDecimalPlaces = (d: number) => formatBytes(d, twoDecimalPlaces, false);
+export const siBytesZeroDecimalPlaces = (d: number) => formatBytes(d, zeroDecimalPlaces, true);
+export const siBytesTwoDecimalPlaces = (d: number) => formatBytes(d, twoDecimalPlaces, true);
+
 export const bytes = markAsFormatterType(
   {
     compact: bytesZeroDecimalPlaces,
@@ -160,6 +164,28 @@ export const bytes = markAsFormatterType(
     )
   },
   BYTES_FORMATTER_TYPE
+);
+export const siBytes = markAsFormatterType(
+  {
+    compact: siBytesZeroDecimalPlaces,
+    detailed: siBytesTwoDecimalPlaces,
+    detailedWithRaw: markAsFormatterType(
+      (v: number) =>
+        t('in-services:formatters.detailedBytes', {
+          siBytesTwoDecimalPlaces: siBytesTwoDecimalPlaces(v),
+          numCompact: number.compact(v)
+        }),
+      SI_BYTES_FORMATTER_TYPE
+    ),
+    perSecond: markAsFormatterType(
+      {
+        compact: (v: number) => t('in-services:formatters.perSec', { num: siBytesZeroDecimalPlaces(v) }),
+        detailed: (v: number) => t('in-services:formatters.perSec', { num: siBytesTwoDecimalPlaces(v) })
+      },
+      BYTE_RATE_FORMATTER_TYPE
+    )
+  },
+  SI_BYTES_FORMATTER_TYPE
 );
 
 export const timeByNanoTwoDecimalPlaces = (t: number) => formatTime(t, timeNanoUnits, number.detailed);
@@ -288,20 +314,20 @@ export const meanLatencyFixed = meanLatencyFormatterWrapper(millis.forcedFixedCo
 export const meanLatencyLargeInSeconds = meanLatencyFormatterWrapper(millis.largeInSeconds);
 
 export const bytesPerSecondZeroDecimalPlaces = markAsFormatterType(
-  d => t('in-services:formatters.perSec', { num: formatBytes(d, zeroDecimalPlaces) }),
+  d => t('in-services:formatters.perSec', { num: formatBytes(d, zeroDecimalPlaces, false) }),
   BYTE_RATE_FORMATTER_TYPE
 );
 export const bytesPerSecondTwoDecimalPlaces = markAsFormatterType(
-  d => t('in-services:formatters.perSec', { num: formatBytes(d, twoDecimalPlaces) }),
+  d => t('in-services:formatters.perSec', { num: formatBytes(d, twoDecimalPlaces, false) }),
   BYTE_RATE_FORMATTER_TYPE
 );
 
 export const kiloBytesZeroDecimalPlaces = markAsFormatterType(
-  d => formatBytes(d * byteBase, zeroDecimalPlaces),
+  d => formatBytes(d * byteBase, zeroDecimalPlaces, false),
   KILO_BYTES_FORMATTER_TYPE
 );
 export const kiloBytesTwoDecimalPlaces = markAsFormatterType(
-  d => formatBytes(d * byteBase, twoDecimalPlaces),
+  d => formatBytes(d * byteBase, twoDecimalPlaces, false),
   KILO_BYTES_FORMATTER_TYPE
 );
 export const kiloBytes = markAsFormatterType(
@@ -313,11 +339,11 @@ export const kiloBytes = markAsFormatterType(
 );
 
 export const megaBytesZeroDecimalPlaces = markAsFormatterType(
-  d => formatBytes(d * byteBase * byteBase, zeroDecimalPlaces),
+  d => formatBytes(d * byteBase * byteBase, zeroDecimalPlaces, false),
   MEGA_BYTES_FORMATTER_TYPE
 );
 export const megaBytesTwoDecimalPlaces = markAsFormatterType(
-  d => formatBytes(d * byteBase * byteBase, twoDecimalPlaces),
+  d => formatBytes(d * byteBase * byteBase, twoDecimalPlaces, false),
   MEGA_BYTES_FORMATTER_TYPE
 );
 export const megaBytes = markAsFormatterType(
@@ -541,17 +567,21 @@ export const health = markAsFormatterType(
  * @param {number} num - The amount on bytes that should be formatted.
  * @param {number} numberFormatter - The formatter to use when formatting the number. Defines
  *  decimal separators, number of decimal places etc.
+ * @param {boolean} siMode - Set to 'true' to run in SI mode.
  * @returns {string} Human readable amount of bytes, e.g. 10 Mb
  * @throws An error when the bytes are NaN
  */
-function formatBytes(num: number, numberFormatter: (v: number) => string) {
+function formatBytes(num: number, numberFormatter: (v: number) => string, siMode: boolean) {
   if (typeof num !== 'number' || isNaN(num)) {
     return t('in-services:formatters.byteUnits', { context: 'B', num: numberFormatter(0) });
   }
   let exponent;
   let unit;
   const neg = num < 0;
-  const units = ['B', 'kiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+  const binaryUnits = ['B', 'kiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+  const siUnits = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const base = siMode ? 1000 : byteBase;
+  const units = siMode ? siUnits : binaryUnits;
 
   if (neg) {
     num = -num;
@@ -561,8 +591,8 @@ function formatBytes(num: number, numberFormatter: (v: number) => string) {
     return t('in-services:formatters.byteUnits', { context: 'B', num: (neg ? '-' : '') + numberFormatter(num) });
   }
 
-  exponent = Math.min(Math.floor(Math.log(num) / Math.log(byteBase)), units.length - 1);
-  const numberString = numberFormatter(num / Math.pow(byteBase, exponent));
+  exponent = Math.min(Math.floor(Math.log(num) / Math.log(base)), units.length - 1);
+  const numberString = numberFormatter(num / Math.pow(base, exponent));
   unit = units[exponent];
 
   return t('in-services:formatters.byteUnits', { context: unit, num: (neg ? '-' : '') + numberString });

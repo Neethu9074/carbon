@@ -8,6 +8,7 @@ const markStorageLocation = '__instanaFormatterType';
 export type FormatterType =
   | 'BYTE_RATE'
   | 'BYTES'
+  | 'SI_BYTES'
   | 'KILO_BYTES'
   | 'LATENCY'
   | 'MEGA_BYTES'
@@ -34,6 +35,7 @@ export type NumberFormatter = NumberFormatterFunction | NumberFormatterObject;
 
 export const BYTE_RATE_FORMATTER_TYPE: FormatterType = 'BYTE_RATE';
 export const BYTES_FORMATTER_TYPE: FormatterType = 'BYTES';
+export const SI_BYTES_FORMATTER_TYPE: FormatterType = 'SI_BYTES';
 export const KILO_BYTES_FORMATTER_TYPE: FormatterType = 'KILO_BYTES';
 export const LATENCY_FORMATTER_TYPE: FormatterType = 'LATENCY';
 export const MEGA_BYTES_FORMATTER_TYPE: FormatterType = 'MEGA_BYTES';
