@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Typography, Spacer, Link, IconButton } from '@instana/components';
+import { Typography, Spacer, Link, IconButton, DescriptionList, DescriptionItem } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -39,7 +39,6 @@ import {
 } from 'in-automation/ActionCatalog/shared';
 import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
 import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/ParameterDialog';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
@@ -155,8 +154,9 @@ export default function RunActionDialogContent({
         <Spacer horizontal="normal" />
       </Col>
       <Col className={locals.parameterContainer} lg={4}>
-        <DescriptionList>
+        <DescriptionList inComponents>
           <DescriptionItem
+            inComponents
             className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
             title={t('in-automation:parameters')}
           >
@@ -297,14 +297,16 @@ function ScriptActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
     plaintextInterpreter = atob(plaintextInterpreter);
   }
   return (
-    <DescriptionList>
+    <DescriptionList inComponents>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:titleInterpreter')}
       >
         {plaintextInterpreter}
       </DescriptionItem>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:titleScriptContent')}
       >
@@ -323,9 +325,10 @@ export function MetadataActionContent({
 }) {
   return (
     <>
-      <DescriptionList>
+      <DescriptionList inComponents>
         {viewRecommendedAction && (
           <DescriptionItem
+            inComponents
             className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
             title={t('in-automation:name')}
           >
@@ -333,12 +336,14 @@ export function MetadataActionContent({
           </DescriptionItem>
         )}
         <DescriptionItem
+          inComponents
           className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
           title={t('in-automation:description')}
         >
           {action.description}
         </DescriptionItem>
         <DescriptionItem
+          inComponents
           className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
           title={t('in-automation:titleActionType')}
         >
@@ -360,8 +365,9 @@ export function MetadataActionContent({
 function DocActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const link = getDocLinkFromFields(action.fields).value;
   return (
-    <DescriptionList>
+    <DescriptionList inComponents>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:titleUrl')}
       >
@@ -378,8 +384,9 @@ function WebhookActionContent({ action }: Pick<RunActionDialogContentProps, 'act
   const headerEntries = Object.entries(headerParsed);
   const authType = AUTH_TYPES.find(a => a.value === authenParsed.type)?.translation;
   return (
-    <DescriptionList>
+    <DescriptionList inComponents>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:request')}
       >
@@ -420,8 +427,9 @@ function GithubActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
   const { owner, repo, ticketActionType } = getGithubFields(action);
   const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketActionType.value)?.translation;
   return (
-    <DescriptionList>
+    <DescriptionList inComponents>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:request')}
       >
@@ -445,8 +453,9 @@ function GitlabActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
   const { projectId, ticketActionType } = getGitlabFields(action);
   const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketActionType.value)?.translation;
   return (
-    <DescriptionList>
+    <DescriptionList inComponents>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:request')}
       >
@@ -469,8 +478,9 @@ function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action
   const { project, ticketActionType } = getJiraFields(action);
   const ticketTypeTranslated = JIRA_OPERATIONS.find(a => a.value === ticketActionType.value)?.translation;
   return (
-    <DescriptionList>
+    <DescriptionList inComponents>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:request')}
       >
@@ -495,8 +505,9 @@ function ManualActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
   }
 
   return (
-    <DescriptionList>
+    <DescriptionList inComponents>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin, locals.manualContent)}
         title={t('in-automation:ActionCatalog.content')}
       >
@@ -527,8 +538,9 @@ function ExternalActionContent({
   const targetAgentForTurbo = agentSnapShots?.data?.online[0]?.label;
 
   return (
-    <DescriptionList>
+    <DescriptionList inComponents>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:name')}
       >
@@ -538,6 +550,7 @@ function ExternalActionContent({
         <TurboAgentSelection form={form} setForm={setForm} agentSnapShots={agentSnapShots} />
       ) : !noTurboAgents ? (
         <DescriptionItem
+          inComponents
           className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
           title={t('in-automation:targetAgent')}
         >
@@ -545,6 +558,7 @@ function ExternalActionContent({
         </DescriptionItem>
       ) : (
         <DescriptionItem
+          inComponents
           className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
           title={t('in-automation:targetAgent')}
         >
@@ -803,8 +817,9 @@ function AnsibleActionMetadata({ action }: Pick<RunActionDialogContentProps, 'ac
 
   return (
     <>
-      <DescriptionList>
+      <DescriptionList inComponents>
         <DescriptionItem
+          inComponents
           className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
           title={t('in-automation:jobTemplate')}
         >

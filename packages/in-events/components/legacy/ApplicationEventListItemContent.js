@@ -6,6 +6,8 @@
 import { Map } from 'immutable';
 import React from 'react';
 
+import { DescriptionItem } from '@instana/components';
+
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
@@ -24,7 +26,6 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
-import { DescriptionItem } from 'in-components/DescriptionList';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationEventListItemContent.mless';
@@ -86,7 +87,7 @@ export default function ApplicationEventListItemContent({ event }) {
         />
       </div>
       <div className={locals.sectionWrapper}>
-        <DescriptionItem className={locals.title} title={t('in-events:titleScope')}>
+        <DescriptionItem inComponents className={locals.title} title={t('in-events:titleScope')}>
           <div className={locals.scopeContentWrapper}>
             <div className={locals.alertFiltersWrapper}>
               <ScopeConfigPresenter

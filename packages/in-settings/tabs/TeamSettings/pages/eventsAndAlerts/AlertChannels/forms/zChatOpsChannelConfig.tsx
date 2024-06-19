@@ -8,11 +8,10 @@ import { createMapForm, createField, notBlankValidator, Field, MapForm, MapFormI
 import { List } from 'immutable';
 import React from 'react';
 
+import { Link, DescriptionItem, DescriptionList } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 import { Trans, t } from '@instana/i18n-react';
-import { Link } from '@instana/components';
 
-import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
 import ShowHideInputField from 'in-settings/components/ShowHideInputField/ShowHideInputField';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
@@ -83,16 +82,18 @@ export default {
     const channelsField = alertChannel.get('channels') || [];
     const alertingChannels = Array.isArray(channelsField) ? channelsField : [];
     return (
-      <DescriptionList>
-        <DescriptionItem title={t('in-settings:tabs.webhookUrlToZChatOps')}>
+      <DescriptionList inComponents>
+        <DescriptionItem inComponents title={t('in-settings:tabs.webhookUrlToZChatOps')}>
           {alertChannel.get('zchatOpsIncidentsUrl')}
         </DescriptionItem>
         {alertingChannels.map((channel: string, i: number) => {
-          <DescriptionItem key={i} title={t('in-settings:tabs.channel')}>
+          <DescriptionItem inComponents key={i} title={t('in-settings:tabs.channel')}>
             {channel}
           </DescriptionItem>;
         })}
-        <DescriptionItem title={t('in-settings:tabs.token')}>{alertChannel.get('bearerAuthToken')}</DescriptionItem>
+        <DescriptionItem inComponents title={t('in-settings:tabs.token')}>
+          {alertChannel.get('bearerAuthToken')}
+        </DescriptionItem>
       </DescriptionList>
     );
   },

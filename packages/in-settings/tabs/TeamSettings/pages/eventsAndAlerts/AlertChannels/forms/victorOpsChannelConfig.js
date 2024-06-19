@@ -6,9 +6,9 @@
 import { createMapForm, createField } from 'formalistic';
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -57,9 +57,13 @@ export default {
 
   createDetails(alertChannel) {
     return (
-      <DescriptionList>
-        <DescriptionItem title={t('in-settings:tabs.apiKey')}>{alertChannel.get('apiKey')}</DescriptionItem>
-        <DescriptionItem title={t('in-settings:tabs.routingKey')}>{alertChannel.get('routingKey')}</DescriptionItem>
+      <DescriptionList inComponents>
+        <DescriptionItem inComponents title={t('in-settings:tabs.apiKey')}>
+          {alertChannel.get('apiKey')}
+        </DescriptionItem>
+        <DescriptionItem inComponents title={t('in-settings:tabs.routingKey')}>
+          {alertChannel.get('routingKey')}
+        </DescriptionItem>
       </DescriptionList>
     );
   },
