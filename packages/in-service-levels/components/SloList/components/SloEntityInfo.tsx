@@ -9,17 +9,13 @@ import {
   ApplicationSloEntity,
   SloEntityType,
   SloEntityUnion,
-  WebsiteSloEntity,
   isApplicationSloEntity,
-  isTagFilter,
-  isWebsiteSloEntity
+  isTagFilter
 } from '@instana/types';
 import { Stack, SvgIcon, Typography } from '@instana/components';
 
-import { QueryBuilderComponent as QueryBuilderComponentType } from 'in-components/QueryBuilder';
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import QueryBuilderFilter from 'in-service-levels/components/QueryBuilderFilter';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { LabeledEntity } from 'in-service-levels/types';
@@ -87,34 +83,14 @@ function getEntityDisplayData(entityType: SloEntityType, entity: LabeledEntity):
     })
   };
 }
-
-interface CustomQueryFilterProps {
-  entity: SloEntityUnion;
-  QueryBuilderComponent: QueryBuilderComponentType;
-}
-
-function CustomQueryFilter({ entity, QueryBuilderComponent }: CustomQueryFilterProps) {
-  return (
-    <Tooltip
-      content={<QueryBuilderFilter entity={entity} QueryBuilderComponent={QueryBuilderComponent} />}
-      themeStyle="light"
-      align="topMiddle"
-    >
-      <span>{t('in-service-levels:sloDashboard.components.scopeSection.customFilterLabel')}</span>
-    </Tooltip>
-  );
-}
-
 interface CustomFilterProps {
   entity: SloEntityUnion;
 }
 function CustomFilter({ entity }: CustomFilterProps) {
   const tagFilterExpression = entity?.tagFilterExpression;
   const isApplicationEntity = isApplicationSloEntity(entity);
-  const isWebsiteEntity = isWebsiteSloEntity(entity);
 
   if (tagFilterExpression && isApplicationEntity) return <ApplicationCustomFilter entity={entity} />;
-  if (tagFilterExpression && isWebsiteEntity) return <WebsiteCustomFilter entity={entity} />;
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
 }
@@ -125,14 +101,13 @@ interface ApplicationCustomFiltersProps {
 function ApplicationCustomFilter({ entity }: ApplicationCustomFiltersProps) {
   const applicationQueryBuilder = useApplicationQueryBuilder(entity);
   const { QueryBuilder } = applicationQueryBuilder;
-  return <CustomQueryFilter entity={entity} QueryBuilderComponent={QueryBuilder} />;
-}
-
-interface WebsiteCustomFiltersProps {
-  entity: WebsiteSloEntity;
-}
-function WebsiteCustomFilter({ entity }: WebsiteCustomFiltersProps) {
-  const websiteQueryBuilder = useWebsiteQueryBuilder(entity);
-  const { QueryBuilder } = websiteQueryBuilder;
-  return <CustomQueryFilter entity={entity} QueryBuilderComponent={QueryBuilder} />;
+  return (
+    <Tooltip
+      content={<QueryBuilderFilter entity={entity} QueryBuilderComponent={QueryBuilder} />}
+      themeStyle="light"
+      align="topMiddle"
+    >
+      <span>{t('in-service-levels:sloDashboard.components.scopeSection.customFilterLabel')}</span>
+    </Tooltip>
+  );
 }
