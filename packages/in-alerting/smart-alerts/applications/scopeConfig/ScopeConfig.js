@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -12,7 +12,9 @@ import { Stack, Spacer, Toggle, SvgIcon } from '@instana/components';
 import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
+import { triggerScrollToInvalidItem$ } from 'in-alerting/smart-alerts/components/tearSheet/hooks/useScrollToFirstInvalidItem';
 import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
+import useScrollToFirstInvalidItem from 'in-alerting/smart-alerts/components/tearSheet/hooks/useScrollToFirstInvalidItem';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';
 import ScopeMigrationMessage from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeMigrationMessage';
@@ -42,7 +44,8 @@ export default function ScopeConfig({
   migrationMode,
   scopeMigrationDetails,
   initialConfiguredApplications,
-  tearSheetView
+  tearSheetView,
+  isTagFilterFormModelValid
 }) {
   const applications = form.get('applications').value;
   const boundaryScope = form.get('boundaryScope').value;
@@ -66,6 +69,15 @@ export default function ScopeConfig({
       alertType
     );
   }, [applications, boundaryScope, thresholdType, alertType]);
+
+  // Scroll to the invalid section when you arrive at this step if the TFE is invalid.
+  useEffect(() => {
+    if (isTagFilterFormModelValid === false) {
+      triggerScrollToInvalidItem$.emit(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useScrollToFirstInvalidItem('scopeSection');
 
   return (
     <>
@@ -172,6 +184,7 @@ export default function ScopeConfig({
                   [locals.alertFilterConfiguratorWrapper]: true,
                   [locals.alertFilterConfiguratorWrapperBottomPadding]: !tagFilterExpression.length || isBuiltIn
                 })}
+                id="scopeSection"
               >
                 {tearSheetView && (
                   <>
@@ -251,5 +264,6 @@ ScopeConfig.propTypes = {
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
   initialConfiguredApplications: PropTypes.object,
-  tearSheetView: PropTypes.bool
+  tearSheetView: PropTypes.bool,
+  isTagFilterFormModelValid: PropTypes.bool.isRequired
 };

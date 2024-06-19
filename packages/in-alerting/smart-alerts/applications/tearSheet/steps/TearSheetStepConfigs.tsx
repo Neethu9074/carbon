@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 //@ts-expect-error TS migration
 import AlertConfigTearSheetStep4 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep4';
@@ -51,28 +51,33 @@ export const stepConfigs = [
   }
 ];
 
+export type stepRendersType = AlertConfigTearSheetWithThresholdProps & {
+  isTagFilterFormModelValid: boolean;
+  setStep: Dispatch<SetStateAction<number>>;
+};
+
 export const APStepRenderers = [
-  (props: AlertConfigTearSheetWithThresholdProps) => (
+  (props: stepRendersType) => (
     <AlertingTearSheetContent title={stepConfigs[0].title} key={0}>
       <AlertConfigTearSheetStep1 setLogMessagesListVisible {...props} />
     </AlertingTearSheetContent>
   ),
-  (props: AlertConfigTearSheetWithThresholdProps) => (
+  (props: stepRendersType) => (
     <AlertingTearSheetContent title={stepConfigs[1].title} key={1}>
       <AlertConfigTearSheetStep2 {...props} />
     </AlertingTearSheetContent>
   ),
-  (props: AlertConfigTearSheetWithThresholdProps) => (
+  (props: stepRendersType) => (
     <AlertingTearSheetContent title={stepConfigs[2].title} key={2}>
       <AlertConfigTearSheetStep3 {...props} />
     </AlertingTearSheetContent>
   ),
-  (props: AlertConfigTearSheetWithThresholdProps) => (
+  (props: stepRendersType) => (
     <AlertingTearSheetContent title={stepConfigs[3].title} key={3}>
       <AlertConfigTearSheetStep4 {...props} />
     </AlertingTearSheetContent>
   ),
-  (props: AlertConfigTearSheetWithThresholdProps) => (
+  (props: stepRendersType) => (
     <AlertingTearSheetContent title={stepConfigs[4].title} key={4}>
       <AlertConfigTearSheetStep5 {...props} />
     </AlertingTearSheetContent>

@@ -26,7 +26,8 @@ export default function AlertConfigTearSheetStep2({
   initialConfiguredApplications = {},
   editMode,
   migrationMode,
-  scopeMigrationDetails
+  scopeMigrationDetails,
+  isTagFilterFormModelValid
 }: {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
@@ -35,6 +36,7 @@ export default function AlertConfigTearSheetStep2({
   editMode?: boolean;
   migrationMode?: boolean;
   scopeMigrationDetails?: ScopeMigrationDetailsType;
+  isTagFilterFormModelValid: boolean;
 }) {
   return (
     <>
@@ -74,6 +76,7 @@ export default function AlertConfigTearSheetStep2({
             initialConfiguredApplications={initialConfiguredApplications}
             headerTransparent
             tearSheetView
+            isTagFilterFormModelValid={isTagFilterFormModelValid}
           />
         </div>
       </TearSheetStepContentWrapper>
