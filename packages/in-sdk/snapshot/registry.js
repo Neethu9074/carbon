@@ -5,8 +5,8 @@
 
 import { clone } from 'lodash';
 
-import { registerAnalyzeInfrastructureTagFilter } from 'in-sdk/tagFilter';
 import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
+import { registerRelatedInstancesTagFilter } from 'in-sdk/tagFilter';
 import { addToRegistry } from 'in-applications/technologyRegistry';
 import { registerKpiDefinition } from 'in-sdk/metrics/kpis';
 import { registerMetricDefinition } from 'in-sdk/metrics';
@@ -27,7 +27,7 @@ export function registerSnapshotDefinition(snapshotDefinition) {
   registerKpiDefinitions(snapshotDefinition);
   registerNewApplicationModelHooks(snapshotDefinition);
   registerIconTypeDef(snapshotDefinition);
-  registerAnalyzeInfrastructureTagFilterDef(snapshotDefinition);
+  registerRelatedInstancesTagFilterDef(snapshotDefinition);
 }
 
 export function getOptionalSnapshotDefinition(plugin) {
@@ -105,10 +105,10 @@ function registerIconTypeDef(snapshotDefinition) {
   registerIconType(snapshotDefinition.plugin, snapshotDefinition.getIconType);
 }
 
-function registerAnalyzeInfrastructureTagFilterDef(snapshotDefinition) {
-  if (!snapshotDefinition.analyzeInfrastructureTagFilter) {
+function registerRelatedInstancesTagFilterDef(snapshotDefinition) {
+  if (!snapshotDefinition.relatedInstancesTagFilter) {
     return;
   }
 
-  registerAnalyzeInfrastructureTagFilter(snapshotDefinition.plugin, snapshotDefinition.analyzeInfrastructureTagFilter);
+  registerRelatedInstancesTagFilter(snapshotDefinition.plugin, snapshotDefinition.relatedInstancesTagFilter);
 }

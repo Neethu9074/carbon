@@ -18,6 +18,7 @@ import * as typeToLabelMapping from 'in-components/QueryBuilder/tagFilter/typeTo
 import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
 import { EnrichedTagCatalog, TagWithPath, mergeTagCatalogs } from 'in-services/tags/tagCatalog';
 import { MinimalTagDefinition } from 'in-components/QueryBuilder/transformation/formModel';
+import { minimizeTagDefinition } from 'in-components/QueryBuilder/validation/tagForm';
 import { emptyArray, noop, pendingResult } from 'in-services/fixedObjects';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { Nullish, TagTreeNodeUnion, TagType } from 'in-types';
@@ -104,20 +105,6 @@ export default function TagSelectorOverlay({
       showLoadingInBackground
     />
   );
-}
-
-function minimizeTagDefinition(tagDefinition?: TagWithPath): MinimalTagDefinition | undefined {
-  if (!tagDefinition) {
-    return undefined;
-  }
-
-  const { name, path, type } = tagDefinition;
-
-  return {
-    name,
-    type,
-    path: path.map(({ label }) => ({ label }))
-  };
 }
 
 export interface Options {

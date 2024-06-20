@@ -5,20 +5,20 @@
 
 import React from 'react';
 
+import { trackAnalyzeInfrastructureButtonClicked as trackAnalyzeRelatedInstancesButtonClicked } from 'in-infrastructure/tracking/tracking';
 import DashboardHeaderButtonSection from 'in-infrastructure/Dashboard/components/DashboardHeaderButtonSection';
-import AnalyzeInfrastructureButton from 'in-infrastructure/components/AnalyzeInfrastructureButton';
+import AnalyzeRelatedInstancesButton from 'in-infrastructure/components/AnalyzeRelatedInstancesButton';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
-import { trackAnalyzeInfrastructureButtonClicked } from 'in-infrastructure/tracking/tracking';
 import DashboardBreadcrumb from 'in-infrastructure/Dashboard/components/DashboardBreadcrumb';
-import { analyzeInfrastructureButtonEnabled } from 'in-services/featureFlags';
+import { analyzeRelatedInstancesButtonEnabled } from 'in-services/featureFlags';
 import PluginBadge from 'in-infrastructure/Dashboard/components/PluginBadge';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
+import { getRelatedInstancesTagFilterCallback } from 'in-sdk/tagFilter';
 import ZoneTag from 'in-map/components/MapSidebar/components/ZoneTag';
 import DashboardHeaderComponent from 'in-components/DashboardHeader';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { defaultAllInfraGroup } from '../../Explore/constants';
 import { getShowZoneInSidebarHeader } from 'in-sdk/snapshot';
-import { getTagFilterCallback } from 'in-sdk/tagFilter';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 
@@ -49,8 +49,8 @@ function renderButtonLine(props) {
   const { snapshot, timeConfig } = props;
 
   const plugin = snapshot.get('plugin');
-  const getTagFilter = analyzeInfrastructureButtonEnabled ? getTagFilterCallback(plugin) : undefined;
-  const analyzeTagFilter = getTagFilter ? getTagFilter(snapshot) : undefined;
+  const getTagFilter = analyzeRelatedInstancesButtonEnabled ? getRelatedInstancesTagFilterCallback(plugin) : undefined;
+  const analyzeRelatedInstancesTagFilter = getTagFilter ? getTagFilter(snapshot) : undefined;
 
   return (
     <>
@@ -69,13 +69,13 @@ function renderButtonLine(props) {
         />
       )}
 
-      {analyzeTagFilter && (
-        <AnalyzeInfrastructureButton
-          tagFilterExpression={analyzeTagFilter}
+      {analyzeRelatedInstancesTagFilter && (
+        <AnalyzeRelatedInstancesButton
+          tagFilterExpression={analyzeRelatedInstancesTagFilter}
           type={snapshot.get('plugin')}
           timeConfig={timeConfig}
           group={defaultAllInfraGroup}
-          onClick={() => trackAnalyzeInfrastructureButtonClicked({ plugin })}
+          onClick={() => trackAnalyzeRelatedInstancesButtonClicked({ plugin })}
         />
       )}
     </>

@@ -26,7 +26,7 @@ registerSnapshotDefinition({
   technologyDescriptor: {
     label: t('in-forge:plugins.jvmRuntimePlatform.jvm')
   },
-  analyzeInfrastructureTagFilter: snapshot => {
+  relatedInstancesTagFilter: snapshot => {
     const jvmAppName = snapshot.getIn(['data', 'appInfo', 'title']);
     if (jvmAppName) {
       return [
