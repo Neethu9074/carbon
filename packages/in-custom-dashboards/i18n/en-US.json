@@ -474,8 +474,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Endpoint",
-        "allEndpoints": "All Endpoints",
-        "loading": "<loading>"
+        "allEndpoints": "All Endpoints"
       },
       "goodBadEventsForm": {
         "goodEvents": "Good Events",
@@ -512,7 +511,6 @@
       },
       "servicesSelectBox": {
         "service": "Service",
-        "loading": "<loading>",
         "allServices": "All Services"
       },
       "sliFormPresenter": {

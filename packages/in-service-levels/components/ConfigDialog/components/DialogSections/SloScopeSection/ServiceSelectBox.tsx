@@ -5,10 +5,11 @@
 
 import React from 'react';
 
-import SelectInSection from 'in-components/form/Select/SelectInSection';
+import LazyComboBoxInSection from 'in-components/form/ComboBoxInSection/ComboBoxInSection';
+import getServices from 'in-applications/subscriptions/getServices';
 import { ApplicationBoundaryScope, Nullish } from 'in-types';
-import useServices from 'in-applications/hooks/useServices';
 import { titleWidth } from 'in-service-levels/constants';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -31,33 +32,41 @@ export default function ServiceSelectBox({
   value,
   width
 }: ServiceSelectBoxProps) {
-  const [servicesPage, status] = useServices({
-    application: applicationId,
-    filter: {
-      applicationBoundaryScope: boundaryScope
-    }
-  });
-
+  const timeConfig = useTimeConfig();
   return (
-    <SelectInSection
+    <LazyComboBoxInSection
+      loader={(query, page) =>
+        getServices({
+          filter: {
+            timeConfig,
+            includeInternalCalls: false,
+            includeSyntheticCalls: false,
+            useLongTermDataOnly: false,
+            application: applicationId,
+            applicationBoundaryScope: boundaryScope,
+            label: query
+          },
+          metrics: {},
+          order: {
+            by: 'serviceLabel',
+            direction: 'ASC'
+          },
+          pagination: {
+            page,
+            pageSize: 100
+          },
+          contextScope: 'NONE'
+        })
+      }
+      mapper={({ service }) => ({ label: service.label, value: service.id })}
+      options={[{ label: t('in-custom-dashboards:widgets.slo.servicesSelectBox.allServices'), value: '' }]}
       id="new-sli-service-selection"
       titleWidth={width ?? titleWidth}
       label={t('in-custom-dashboards:widgets.slo.servicesSelectBox.service')}
-      disabled={isBlank(applicationId) || status !== 'resolved' || disabled}
-      value={value ?? ''}
-      onChange={({ target }) => onChange?.(target?.value)}
+      isDisabled={isBlank(applicationId) || disabled}
+      onChange={target => onChange(target?.value)}
       hasError={hasError}
-    >
-      {status === 'pending' ? (
-        <option value="">{t('in-custom-dashboards:widgets.slo.servicesSelectBox.loading')}</option>
-      ) : (
-        <option value="">{t('in-custom-dashboards:widgets.slo.servicesSelectBox.allServices')}</option>
-      )}
-      {servicesPage?.items?.map(({ service }) => (
-        <option value={service.id} key={service.id}>
-          {service.label}
-        </option>
-      ))}
-    </SelectInSection>
+      value={value ?? ''}
+    />
   );
 }

@@ -79,15 +79,15 @@ export const groupAndSortTags = (tags: LogTag[]): GroupedTags => {
   return groupedTags;
 };
 
-export function trackFilterClick(tag: LogTag, value: string) {
+export function trackFilterClick(tag: LogTag, value: string | number) {
   filterAdded({ filter: createTag(value, tag.name, tag.key) });
 }
 
-export function trackGroupClick(group: string) {
+export function trackGroupClick(group: string | number) {
   groupAdded({ source: 'log message filter button', group });
 }
 
-export function createTag(value: string, name?: string, key?: string): ClickedTag {
+export function createTag(value: string | number, name?: string, key?: string): ClickedTag {
   const tag: ClickedTag = { name: name || '', value };
   if (key) {
     tag.key = key;
@@ -95,7 +95,7 @@ export function createTag(value: string, name?: string, key?: string): ClickedTa
   return tag;
 }
 
-export function createTagFilter(value: string, itemTags: LogTag[], name?: string, key?: string): ClickedTag {
+export function createTagFilter(value: string | number, itemTags: LogTag[], name?: string, key?: string): ClickedTag {
   const alternativeTag = name && itemTags.find(item => item.name === tagMap[name]);
 
   if (alternativeTag) return createTag(alternativeTag.stringValue!, alternativeTag.name, alternativeTag.key);
