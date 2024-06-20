@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import { UsageInfoProps, currentUnitProps, PageTrackerProps } from 'in-services/tracking/segment/types';
 import { productCode, productCodeType, productTitle, ut30 } from 'in-services/util/constants';
 //@ts-expect-error
 import { Segment } from 'in-services/tracking/segment/SegmentInit';
@@ -21,34 +22,19 @@ import { find } from 'in-services/arrayUtils';
 import { config } from 'in-services/config';
 import { tenant } from 'in-stores/user';
 
-interface SegmentEventTrackerProps {
-  parentProductArea: string;
-  parentPageName: string;
-}
-
-interface currentUnitProps {
-  tenantId: string;
-  tenantUnitId: string;
-  tenantUnitName: string;
-  tenantName: string;
-}
-
 let productPlanType: string;
-let instanceId: string;
+let tenantUnitId: string;
 let tenantUnitName: string;
 let userId: string;
 let tenantId: string;
 let tenantName: string;
 
-interface UsageInfoProps {
-  activeLicenseType: string;
-}
 const segment = Segment();
-const usePageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerProps) => {
+const usePageTracker = ({ productArea, pageRootName }: PageTrackerProps) => {
   const location = useLocation();
   const usageInfo = useObservable(() => getUsageInfo({}), []);
   useEffect(() => {
-    if (!(parentProductArea && parentPageName)) {
+    if (!(productArea && pageRootName)) {
       return;
     }
     if (!usageInfo) {
@@ -61,12 +47,10 @@ const usePageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrack
     const path = location.pathname;
     const userSelfDefinedRole =
       window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
-
-    getTenantsWithUnitsCached().once(tenantWithUnits => {
+    getTenantsWithUnitsCached().once((tenantWithUnits: TenantsWithUnits) => {
       const usageInfoWithType = usageInfo as unknown as UsageInfoProps;
-      const tenantWithUnitsWithType = tenantWithUnits as unknown as TenantsWithUnits;
       productPlanType = getLicenseTypeForSegment(usageInfoWithType?.activeLicenseType);
-      const units: any = tenantWithUnitsWithType[tenant?.name!];
+      const units: any = tenantWithUnits[tenant?.name!];
 
       if (!units) {
         return;
@@ -75,31 +59,31 @@ const usePageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrack
       if (currentUnit) {
         tenantName = currentUnit.tenantName;
         tenantId = currentUnit.tenantId;
-        instanceId = currentUnit.tenantUnitId;
+        tenantUnitId = currentUnit.tenantUnitId;
         tenantUnitName = currentUnit.tenantUnitName;
       }
-      userId = customRealmName + '-' + instanceId;
+      userId = customRealmName + '-' + tenantUnitId;
 
       segment.page('Page Viewed', {
         UT30: ut30,
-        instanceId: instanceId,
+        instanceId: tenantUnitId,
         instanceName: tenantUnitName,
         tenantId: tenantId,
         tenantName: tenantName,
-        parentPageCategory: parentProductArea,
-        parentPageName: parentPageName,
+        parentPageCategory: productArea,
+        parentPageName: pageRootName,
         path: path,
         productCode: productCode,
         productCodeType: productCodeType,
         productPlanType: productPlanType,
         productTitle: productTitle,
         url: url,
-        'user.bluemixId': userId,
-        'user.role': userSelfDefinedRole
+        roles: [userSelfDefinedRole],
+        'user.bluemixId': userId
       });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parentProductArea, parentPageName, Boolean(usageInfo) /*exists?*/, location.pathname]);
+  }, [productArea, pageRootName, Boolean(usageInfo) /*exists?*/, location.pathname]);
   return null; // SegmentEventTracker does not render anything
 };
 

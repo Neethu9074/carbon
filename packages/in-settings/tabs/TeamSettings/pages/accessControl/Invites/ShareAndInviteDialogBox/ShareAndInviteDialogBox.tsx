@@ -173,7 +173,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
   const initialState = createInviteForm(invitationResult);
   const [form, setForm]: [ListForm<any>, any] = useState(initialState);
 
-  const { parentPageName, parentProductArea } = getViewTrackingMetaData();
+  const { pageRootName, productArea } = getViewTrackingMetaData();
   const [emailMessage, setEmailMessage] = useState('');
 
   interface ConfigProps {
@@ -241,7 +241,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
         email: e.email,
         message: emailMessage,
         path: hideShare ? '/#/home' : createHref(clonedLocation), // if invited from user section or pending invite section, the return URL should be to /home
-        pageName: parentProductArea,
+        pageName: productArea,
         userSentState: e.userSentState === InviteSentState.INTERNAL_ERROR ? InviteSentState.notSentYet : e.userSentState
       }));
       onDoInviteUser(setMessage, invitations, setForm, setInvitationResult, noop); // noop instead of goToPath since we are not redirecting anymore
@@ -260,7 +260,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
   let sortedGroups: Options = [];
 
   useEffect(() => {
-    inviteAndShareButtonClicked({ parentPageName, parentProductArea });
+    inviteAndShareButtonClicked({ pageRootName, productArea });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -314,7 +314,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
         <div className={locals.title}>
           <Stack gap="disabled">
             <Typography variant="heading-400">
-              {`${t('in-settings:ShareAndInviteDialogBox.share')} ${parentProductArea?.toLowerCase() ?? ''}`}
+              {`${t('in-settings:ShareAndInviteDialogBox.share')} ${productArea?.toLowerCase() ?? ''}`}
             </Typography>
             {hideShare ? (
               <Typography variant="body-regular">

@@ -50,7 +50,7 @@ const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteD
 
 export default function NewPlayWithHeader() {
   const location = useLocation();
-  const pathName = location.pathname;
+  const path = location.pathname;
   return (
     <div className={classNames(locals.newPlayWithInstana)}>
       <span className={classNames(locals.message)}>
@@ -64,14 +64,15 @@ export default function NewPlayWithHeader() {
         target="_blank"
         href="https://www.ibm.com/account/reg/us-en/signup?formid=urx-52345&utm_source=playwith"
         onClick={() => {
-          const { parentPageName, parentProductArea } = getViewTrackingMetaData();
-          if (parentPageName && parentProductArea) {
-            eventTracker({
-              eventName: CTA_CLICKED,
-              parentProductArea,
-              parentPageName,
-              pathName
-            });
+          const { pageRootName, productArea } = getViewTrackingMetaData();
+          if (pageRootName && productArea) {
+            const data = {
+              parentPageName: pageRootName,
+              parentPageCategory: productArea,
+              CTA: PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED,
+              path
+            };
+            eventTracker({ data, segmentEventName: CTA_CLICKED });
           }
           track(PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED, getPageType(location.pathname));
         }}

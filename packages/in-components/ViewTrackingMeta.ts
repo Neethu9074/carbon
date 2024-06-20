@@ -11,9 +11,9 @@ import { emptyObject } from 'in-services/fixedObjects';
 interface Props {
   data: any;
 }
-interface EventTrackerProps {
-  parentProductArea: string | null;
-  parentPageName: string | null;
+interface DynamicEventTrackerProps {
+  productArea: string | null;
+  pageRootName: string | null;
 }
 
 const useSideEffect = createSideEffectHook(
@@ -31,8 +31,8 @@ const useSideEffect = createSideEffectHook(
 export default function ViewTrackingMeta({ data }: Props) {
   const { productArea, pageRootName } = data;
   usePageTracker({
-    parentProductArea: productArea,
-    parentPageName: pageRootName
+     productArea,
+     pageRootName
   });
   if (productArea && pageRootName) {
     setViewTrackingDataValues(productArea, pageRootName);
@@ -42,15 +42,15 @@ export default function ViewTrackingMeta({ data }: Props) {
 }
 
 const createDynamicEventTracker = () => {
-  let dynamicEventTrackerProperties: EventTrackerProps = {
-    parentProductArea: null,
-    parentPageName: null
+  let dynamicEventTrackerProperties: DynamicEventTrackerProps = {
+    productArea: null,
+    pageRootName: null
   };
   const setViewTrackingDataValues = (productArea: string, pageRootName: string) => {
-    dynamicEventTrackerProperties = { parentProductArea: productArea, parentPageName: pageRootName };
+    dynamicEventTrackerProperties = { productArea, pageRootName };
   };
 
-  const getViewTrackingMetaData = (): EventTrackerProps => {
+  const getViewTrackingMetaData = (): DynamicEventTrackerProps => {
     return dynamicEventTrackerProperties;
   };
 
