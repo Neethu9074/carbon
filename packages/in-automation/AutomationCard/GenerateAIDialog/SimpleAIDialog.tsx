@@ -200,7 +200,7 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
   let form: AIActionForm = createMapForm({
     items: {
       name: createField({
-        value: action?.name !== null ? `Copy of(${action?.name})_${generateUniqueShortId()}` : 'New Action',
+        value: action?.name !== null ? `(Copy of) ${action?.name}_${generateUniqueShortId()}` : 'New Action',
         validator: notBlankValidator
       }),
       description: createField({
