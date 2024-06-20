@@ -10,7 +10,6 @@ import {
   ApplicationSloEntity,
   isApplicationSloEntity,
   isWebsiteSloEntity,
-  ServiceLevelObjectiveConfiguration,
   SloEntityType,
   WebsiteSloEntity
 } from '@instana/types';
@@ -25,10 +24,9 @@ import {
   isApplicationSloTabData,
   SloTabData
 } from 'in-service-levels/components/SloDashboard/tabs';
-import { QueryBuilderComponent as QueryBuilderComponentType } from 'in-components/QueryBuilder';
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import QueryBuilderFilter from 'in-service-levels/components/QueryBuilderFilter';
 import { getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 
 import locals from './ScopeSection.mless';
@@ -170,31 +168,23 @@ function ApplicationCustomFilterColumn({ data }: ScopeSectionProps) {
   const { configuration } = data;
   const { entity } = configuration;
   const { QueryBuilder } = useApplicationQueryBuilder(entity as ApplicationSloEntity);
-  return <CustomFilterColumn configuration={configuration} QueryBuilderComponent={QueryBuilder} />;
+  return (
+    <KeyValue
+      label={t('in-service-levels:sloDashboard.components.scopeSection.customFilterLabel')}
+      value={<QueryBuilderFilter entity={entity} QueryBuilderComponent={QueryBuilder} />}
+    />
+  );
 }
 
 function WebsiteCustomFilterColumn({ data }: ScopeSectionProps) {
   const { configuration } = data;
   const { entity } = configuration;
   const { QueryBuilder } = useWebsiteQueryBuilder(entity as WebsiteSloEntity);
-  return <CustomFilterColumn configuration={configuration} QueryBuilderComponent={QueryBuilder} />;
-}
-
-interface CustomFilterColumnProps {
-  configuration: ServiceLevelObjectiveConfiguration;
-  QueryBuilderComponent: QueryBuilderComponentType;
-}
-
-function CustomFilterColumn({ configuration, QueryBuilderComponent }: CustomFilterColumnProps) {
-  const { entity } = configuration;
-  const { tagFilterExpression } = entity;
-
-  if (!tagFilterExpression) return null;
 
   return (
     <KeyValue
       label={t('in-service-levels:sloDashboard.components.scopeSection.customFilterLabel')}
-      value={<QueryBuilderComponent value={fromBackendModel(tagFilterExpression)} readOnly />}
+      value={<QueryBuilderFilter entity={entity} QueryBuilderComponent={QueryBuilder} />}
     />
   );
 }

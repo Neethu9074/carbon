@@ -27,10 +27,20 @@ export default function SloDashboardMetaInfo({ configuration, entity, service, e
   const showTag = useMediaQuery('(min-width: 1200px)');
 
   const { tags, entity: sloEntity } = configuration;
+
   return (
     <div className={locals.metaInfo}>
       <Stack direction="horizontal" align="center" distribution="start">
-        {entity && <SloEntityInfo entity={entity} entityType={sloEntity.type} service={service} endpoint={endpoint} />}
+        {entity && (
+          <SloEntityInfo
+            entity={entity}
+            entityType={sloEntity.type}
+            service={service}
+            endpoint={endpoint}
+            sloEntity={sloEntity}
+            metaInfo
+          />
+        )}
         {showTag && <TagList tags={tags} />}
       </Stack>
     </div>
