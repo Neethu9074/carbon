@@ -19,7 +19,7 @@ export const Documentations = ({ runtime }: Runtime): JSX.Element => {
   switch (runtime) {
     case 'Go':
       return (
-        <Stack direction="vertical" gap="small">
+        <Stack gap="small">
           <DocumentLink
             text={t('in-plg:agentDetails.azure.monitoringAzure')}
             href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-microsoft-azure"
@@ -32,7 +32,7 @@ export const Documentations = ({ runtime }: Runtime): JSX.Element => {
       );
     default:
       return (
-        <Stack direction="vertical" gap="small">
+        <Stack gap="small">
           <DocumentLink
             text={t('in-plg:agentDetails.azure.monitoringAzure')}
             href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-microsoft-azure"
@@ -50,7 +50,7 @@ export const Prerequisites = ({ runtime }: Runtime): JSX.Element => {
   switch (runtime) {
     case 'Go':
       return (
-        <Stack direction="vertical" gap="small">
+        <Stack gap="small">
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
             href="https://ibm.biz/insta-agent-netreqs"
@@ -59,7 +59,7 @@ export const Prerequisites = ({ runtime }: Runtime): JSX.Element => {
       );
     default:
       return (
-        <Stack direction="vertical" gap="small">
+        <Stack gap="small">
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
             href="https://ibm.biz/insta-agent-netreqs"

@@ -24,7 +24,7 @@ export default function GoRuntimeContent({ agentKey, serverlessEndpoint }: Onboa
           t('in-plg:agentDetails.azure.reviewPrerequisitesAndConfigureContainerApps')
         }
       >
-        <Stack direction="vertical">
+        <Stack>
           <Typography variant="body-regular">
             <Trans
               i18nKey={'in-plg:agentDetails.azure.referenceToAzureContainerAppsDocumentation'}

@@ -7,10 +7,10 @@
 import GoogleComputeEngine from 'in-plg/pages/onboarding/AgentList/GoogleCloudPlatform/GoogleComputeEngine';
 import LinuxGoogleCloudComputing from 'in-plg/pages/onboarding/AgentList/Linux/LinuxGoogleCloudComputing';
 import Windows64BitUnattended from 'in-plg/pages/onboarding/AgentList/Windows/Windows64BitUnattended';
+import AzureContainerApps from 'in-plg/pages/onboarding/AgentList/Azure/ContainerApps/ContainerApps';
 import LinuxElasticComputing from 'in-plg/pages/onboarding/AgentList/Linux/LinuxElasticComputing';
 import GoogleCloudRun from 'in-plg/pages/onboarding/AgentList/GoogleCloudPlatform/GoogleCloudRun';
 import KubernetesOperator from 'in-plg/pages/onboarding/AgentList/Kubernetes/KubernetesOperator';
-import ContainerApps from 'in-plg/pages/onboarding/AgentList/Azure/ContainerApps/ContainerApps';
 import OpenshiftOperator from 'in-plg/pages/onboarding/AgentList/Openshift/OpenshiftOperator';
 import WindowsZipArchive from 'in-plg/pages/onboarding/AgentList/Windows/WindowsZipArchive';
 import InstanaAwsSensor from 'in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor';
@@ -345,7 +345,7 @@ export function getEntriesForFreeTrial() {
       subTechnology: {
         label: t('in-waiting-for-deployment:content.azureContainerApps'),
         keyWords: 'azurecontainerapps',
-        Content: ContainerApps
+        Content: AzureContainerApps
       }
     },
     {

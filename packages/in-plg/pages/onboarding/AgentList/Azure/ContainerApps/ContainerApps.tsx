@@ -27,7 +27,7 @@ interface RuntimeOption {
 
 const runtimeOptions: RuntimeOption[] = [{ key: 'Go', label: t('in-plg:agentDetails.runtime.go') }];
 
-export default function ContainerApps({
+export default function AzureContainerApps({
   id,
   downloadKey,
   agentKey,
