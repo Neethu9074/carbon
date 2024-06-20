@@ -4,7 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
+import {
+  alertCreated as alertCreatedMatrixParam,
+  alertId as alertIdMatrixParam
+} from 'in-service-levels/navigation/matrix';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import { Location } from 'in-stores/navigation/types';
 
 export const serviceLevelsRoot = '/slo';
 
@@ -37,3 +44,19 @@ export const serviceLevelsObjectiveAlertDetailsFullyQualified =
   `${serviceLevelsObjectiveFullyQualified}${serviceLevelsObjectiveAlertDetails}` as const;
 
 export const isSloView = getRootPathPredicate(serviceLevelsRoot);
+
+export const useGetAlertConfigLink = () => {
+  const { createHref, location } = useNavigation();
+
+  return (alertConfigId: string, alertConfigVersion: number) => {
+    fillAlertTabSpecificValues(location, alertConfigId, alertConfigVersion);
+    return createHref(location);
+  };
+};
+
+function fillAlertTabSpecificValues(location: Location, alertConfigId: string, alertConfigVersion: number) {
+  location.pathname = serviceLevelsAlertDetailsFullyQualified;
+
+  setOrDeleteMatrixKey(location, serviceLevelsAlertDetailsSegment, alertIdMatrixParam, alertConfigId);
+  setOrDeleteMatrixKey(location, serviceLevelsAlertDetailsSegment, alertCreatedMatrixParam, alertConfigVersion);
+}

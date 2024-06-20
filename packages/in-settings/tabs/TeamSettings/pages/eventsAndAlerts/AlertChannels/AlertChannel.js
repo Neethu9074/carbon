@@ -16,13 +16,13 @@ import {
   teamSettingsAlertingAlertChannels,
   teamSettingsAlertingConfigurations
 } from 'in-settings/navigation/paths';
-// eslint-disable-next-line no-restricted-imports
-import { useGetAlertConfigLink as useGetInfraAlertConfigLink } from 'in-infrastructure/navigation/paths';
 import {
   useAlertConfig as useApplicationsAlertConfig,
   useLinkToGlobalAlertConfigWithoutAPDashboard
 } from 'in-applications/navigation/paths';
+import { useGetAlertConfigLink as useGetServiceLevelAlertConfigLink } from 'in-service-levels/navigation/path';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
+import { useGetAlertConfigLink as useGetInfraAlertConfigLink } from 'in-infrastructure/navigation/paths';
 import { createAlertChannel, getAlertChannel, saveAlertChannel } from 'in-api/alertChannels';
 import { useLinkToGlobalAlertConfigWithoutDashboard } from 'in-synthetics/navigation/paths';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -95,6 +95,7 @@ function filterAlertConfigBasedOnRoles(alertConfigResponse) {
   const canConfigureGlobalSyntheticSmartAlerts = role.canConfigureGlobalSyntheticSmartAlerts;
   const canConfigureGlobalInfraSmartAlerts =
     role.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope;
+  const canConfigureServiceLevelIndicators = role.canConfigureServiceLevelIndicators;
 
   return alertConfigResponse.filter(item => {
     const type = item.type;
@@ -113,6 +114,8 @@ function filterAlertConfigBasedOnRoles(alertConfigResponse) {
       return canConfigureGlobalInfraSmartAlerts;
     } else if (type === 'Alert') {
       return canConfigureEventsAndAlerts;
+    } else if (type == 'ServiceLevelSmartAlert') {
+      return canConfigureServiceLevelIndicators;
     }
 
     return false;
@@ -281,7 +284,8 @@ const typeLabels = Object.freeze({
   MobileSmartAlert: t('in-settings:tabs.mobileSmartAlert'),
   GlobalApplicationSmartAlert: t('in-settings:tabs.globalApplicationSmartAlert'),
   SyntheticSmartAlert: t('in-settings:tabs.syntheticSmartAlert'),
-  InfraSmartAlert: t('in-settings:tabs.infraSmartAlert')
+  InfraSmartAlert: t('in-settings:tabs.infraSmartAlert'),
+  ServiceLevelSmartAlert: t('in-settings:tabs.serviceLevelSmartAlert')
 });
 
 function AlertChannelLabel({ entity }) {
@@ -292,6 +296,7 @@ function AlertChannelLabel({ entity }) {
   const getInfraAlertConfigLink = useGetInfraAlertConfigLink();
   const websiteAlertConfigLink = useAlertConfigLink(id, entityId);
   const mobileAlertConfigLink = useGetAlertConfigLink();
+  const getServiceLevelAlertConfigLink = useGetServiceLevelAlertConfigLink();
 
   let href;
   let href$;
@@ -307,6 +312,8 @@ function AlertChannelLabel({ entity }) {
     href = getLinkToSyntheticAlertConfigWithoutAPDashboard(id);
   } else if (type === 'InfraSmartAlert') {
     href = getInfraAlertConfigLink(id, entity.created);
+  } else if (type === 'ServiceLevelSmartAlert') {
+    href = getServiceLevelAlertConfigLink(id, entity.created);
   } else {
     href$ = getEntityIdView(teamSettingsAlertingConfigurations, id);
   }

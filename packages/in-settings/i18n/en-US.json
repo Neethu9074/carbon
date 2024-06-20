@@ -561,6 +561,7 @@
     "syntheticSmartAlert": "Synthetic SmartAlert",
     "mobileSmartAlert": "Mobile SmartAlert",
     "infraSmartAlert": "Infrastructure SmartAlert",
+    "serviceLevelSmartAlert": "Service Level SmartAlert",
     "enabled": "Enabled",
     "disabled": "Disabled",
     "invalidQuery": "Invalid Query",
