@@ -10,6 +10,7 @@ import Windows64BitUnattended from 'in-plg/pages/onboarding/AgentList/Windows/Wi
 import LinuxElasticComputing from 'in-plg/pages/onboarding/AgentList/Linux/LinuxElasticComputing';
 import GoogleCloudRun from 'in-plg/pages/onboarding/AgentList/GoogleCloudPlatform/GoogleCloudRun';
 import KubernetesOperator from 'in-plg/pages/onboarding/AgentList/Kubernetes/KubernetesOperator';
+import ContainerApps from 'in-plg/pages/onboarding/AgentList/Azure/ContainerApps/ContainerApps';
 import OpenshiftOperator from 'in-plg/pages/onboarding/AgentList/Openshift/OpenshiftOperator';
 import WindowsZipArchive from 'in-plg/pages/onboarding/AgentList/Windows/WindowsZipArchive';
 import InstanaAwsSensor from 'in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor';
@@ -330,6 +331,21 @@ export function getEntriesForFreeTrial() {
         label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
         keyWords: 'azurekubernetesk8s',
         Content: Azure
+      }
+    },
+    {
+      id: 'azure_aca',
+      title: 'Microsoft Azure - Azure Container Apps',
+      pageName: 'Microsoft Azure > Azure Container Apps', // tracking data
+      label: t('in-waiting-for-deployment:content.azure'),
+      icon: 'lib_azure',
+      iconColor: '#3178CD',
+      fullLabel: t('in-waiting-for-deployment:content.microsoftAzure'),
+      category: t('in-waiting-for-deployment:content.platform'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.azureContainerApps'),
+        keyWords: 'azurecontainerapps',
+        Content: ContainerApps
       }
     },
     {
