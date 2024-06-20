@@ -46,8 +46,13 @@ export function createTagForm(tagCatalog, tagFormModel, allowEmptyKey = false) {
     allowedTagNames,
     operator,
     canApplyToDestination,
-    tagDefinition,
-  } = identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagFormModel?.name, tagFormModel?.operator, tagFormModel?.tagDefinition);
+    tagDefinition
+  } = identifyFormRequirementsBasedOnPartialInput(
+    tagCatalog,
+    tagFormModel?.name,
+    tagFormModel?.operator,
+    tagFormModel?.tagDefinition
+  );
 
   let form = createMapForm()
     // type field is not actually editable. We only expose it so that the caller can call toJS() on the
@@ -91,11 +96,8 @@ export function createTagForm(tagCatalog, tagFormModel, allowEmptyKey = false) {
     .put(
       'tagDefinition',
       createField({
-        value: tagDefinition,
-        validator: composeAndShortCircuitOnError(
-          notUndefinedValidator,
-          objectValidator
-        )
+        value: minimizeTagDefinition(tagDefinition),
+        validator: composeAndShortCircuitOnError(objectValidator)
       })
     );
 
@@ -151,7 +153,7 @@ export function createTagForm(tagCatalog, tagFormModel, allowEmptyKey = false) {
 }
 
 // Changes the tag name and updates the form state accordingly
-export function changeName(tagCatalog, previousTagForm, newName, newTagDefinition) {
+export function changeName(tagCatalog, previousTagForm, newName, incomingTagDefinition) {
   tagCatalog = enrichTagCatalog(tagCatalog);
 
   const tagForm = previousTagForm.toJS();
@@ -159,7 +161,7 @@ export function changeName(tagCatalog, previousTagForm, newName, newTagDefinitio
   tagForm.name = newName;
 
   const previousTagDefinition = previousTagForm.tagDefinition ?? tagCatalog.tagsByName[previousName];
-  const tagDefinition = newTagDefinition ?? tagCatalog.tagsByName[newName];
+  const tagDefinition = incomingTagDefinition ?? tagCatalog.tagsByName[newName];
   if (tagDefinition) {
     const supportsConfiguredOperator =
       getAllowedOperators(tagDefinition, tagCatalog.source).indexOf(tagForm.operator) >= 0;
@@ -176,7 +178,7 @@ export function changeName(tagCatalog, previousTagForm, newName, newTagDefinitio
       tagForm.value = true;
     }
 
-    tagForm.tagDefinition = tagDefinition;
+    tagForm.tagDefinition = minimizeTagDefinition(incomingTagDefinition);
   } else {
     // Clear both previously set values. This is an abnormal code path. Under
     // normal circumstances we should be able to identify the tag definition.
@@ -206,7 +208,21 @@ export function getFormPresentationInformation(tagCatalog, formalisticTagForm) {
   return { allowedOperators, valueType, type };
 }
 
-function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operator, tagDefinition) {
+export function minimizeTagDefinition(tagDefinition) {
+  if (!tagDefinition) {
+    return undefined;
+  }
+
+  const { name, path, type } = tagDefinition;
+
+  return {
+    name,
+    type,
+    path: path?.map(({ label }) => ({ label }))
+  };
+}
+
+function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operator, incomingTagDefinition) {
   const result = {
     type: null,
     requiresKey: false,
@@ -225,15 +241,13 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
     return result;
   }
 
-  if (!tagDefinition) {
-    tagDefinition = tagCatalog.tagsByName[tagName];
-  }
+  const tagDefinition = incomingTagDefinition ?? tagCatalog.tagsByName[tagName];
 
   if (!tagDefinition) {
     return result;
   }
 
-  result.tagDefinition = tagDefinition;
+  result.tagDefinition = incomingTagDefinition;
   result.type = tagDefinition.type;
   result.allowedOperators = getAllowedOperators(tagDefinition, tagCatalog.source);
   result.allowedTagNames = [tagDefinition.name]; // we re-build the form every time we change tags anyway, so for validation reasons, no need to have all the tags

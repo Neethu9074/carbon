@@ -10,9 +10,9 @@ module.exports = {
     {
       directory: '../../storybook',
       titlePrefix: 'Getting Started',
-      files: '*.story.mdx'
+      files: '*.stories.mdx'
     },
-    '../../packages/**/*.story.@(js|jsx|ts|tsx|mdx)'
+    '../../packages/**/*.(story|stories).@(js|jsx|ts|tsx|mdx)'
   ],
   core: {
     builder: 'webpack5',

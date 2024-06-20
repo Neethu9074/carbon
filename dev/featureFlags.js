@@ -141,7 +141,7 @@ module.exports = {
   carbonTableEnabled: true,
   logVolumePageEnabled: true,
   carbonHorizontalIndicatorEnabled: true,
-  analyzeInfrastructureButtonEnabled: true,
+  analyzeRelatedInstancesButtonEnabled: true,
   maxMetricsLimitForBeeinstanaEnabled: true,
   serverSideInfraTagSearchEnabled: true
 };

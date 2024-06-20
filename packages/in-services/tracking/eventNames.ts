@@ -298,8 +298,8 @@ export const PROFILING_TREEVIEW_EXPANDED = 'profiling.treeView.expanded';
 export const INFRASTRUCTURE_CONTEXT_GUIDE_STACK_LOADED = 'infrastructure.context.guide.stack.loaded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_EXPANDED = 'infrastructure.sidebar.related.entities.expanded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_CLICKED = 'infrastructure.sidebar.related.entities.clicked';
-export const INFRASTRUCTURE_ANALYZE_INFRASTRUCTURE_BUTTON_CLICKED =
-  'infrastructure.analyze.infrastructure.button.clicked';
+export const INFRASTRUCTURE_ANALYZE_RELATED_INSTANCES_BUTTON_CLICKED =
+  'infrastructure.analyze.related.instances.button.clicked';
 export const INFRA_EXPLORE_TYPE_SELECTOR_STATE_CHANGED = 'infra.explore.type.selector.state.changed';
 export const INFRA_EXPLORE_FILTER_ADDED = 'infra.explore.filter.added';
 export const INFRA_EXPLORE_FILTER_REMOVED = 'infra.explore.filter.removed';

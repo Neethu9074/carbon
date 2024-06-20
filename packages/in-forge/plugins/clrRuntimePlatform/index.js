@@ -19,7 +19,7 @@ registerSnapshotDefinition({
   technologyDescriptor: {
     label: t('in-forge:plugins.clrRuntimePlatform.indexLabel')
   },
-  analyzeInfrastructureTagFilter: snapshot => [
+  relatedInstancesTagFilter: snapshot => [
     {
       name: 'clr.app.name',
       value: snapshot.getIn(['data', 'name']),
