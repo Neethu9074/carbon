@@ -40,7 +40,7 @@ type EntityDisplayData = {
 export default function SloEntityInfo({ entity, entityType, service, endpoint, metaInfo = false, sloEntity }: Props) {
   const { iconType, toolTipText } = getEntityDisplayData(entityType, entity);
   const compact = useMediaQuery('(min-width: 600px)');
-  const serviceEndpointInfo = (entityType || sloEntity?.type) === 'application';
+  const serviceEndpointInfo = entityType === 'application';
 
   const hasCustomFilter =
     sloEntity?.tagFilterExpression &&
