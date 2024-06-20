@@ -6,6 +6,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import { CarbonLayer } from '@instana/components';
+
 import { stopPropagation, stopPropagationAndPreventDefault, noop } from 'in-services/util/function';
 import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import SlideInView from 'in-components/SlideInView/SlideInView';
@@ -92,7 +94,8 @@ export default function DialogWithSlideInView({
                   addScrollShadow={scrollshadow}
                 />
               )}
-              <div
+              <CarbonLayer
+                level={1}
                 className={classNames({
                   [locals.body]: true,
                   [locals.withoutPadding]: withoutBodyPadding,
@@ -102,7 +105,7 @@ export default function DialogWithSlideInView({
                 })}
               >
                 {children}
-              </div>
+              </CarbonLayer>
 
               {!slideInViewVisible && footer}
             </>
