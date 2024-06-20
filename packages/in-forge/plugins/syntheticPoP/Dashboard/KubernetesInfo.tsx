@@ -6,9 +6,9 @@
 
 import React from 'react';
 
+import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 import { KubernetesCluster, KubernetesNode } from '@instana/types';
 import { Observable } from '@instana/observables';
-import { Collapsible } from '@instana/components';
 
 // @ts-expect-error
 import getKubernetesClusterByNode from 'in-kubernetes/subscriptions/getKubernetesClusterByNode';
@@ -16,7 +16,6 @@ import getKubernetesClusterByNode from 'in-kubernetes/subscriptions/getKubernete
 import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
 // @ts-expect-error
 import getKubernetesNodeByHost from 'in-kubernetes/subscriptions/getKubernetesNodeByHost';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList/DescriptionList';
 // @ts-expect-error
 import getKubernetesNamespacesByCluster from 'in-subscription/namespacesForCluster';
 import { useClusterDashboard, useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
