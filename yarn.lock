@@ -4166,6 +4166,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@seznam/compose-react-refs@npm:^1.0.5":
+  version: 1.0.6
+  resolution: "@seznam/compose-react-refs@npm:1.0.6"
+  checksum: f9b1840385a6866a564897d8a2aad3a3dcdde1ccb5bef8476616ef447b689c75cdc5f47bf40e0d2e2d3b37c8e934ec13eeb9d09388fb98bb280a897788d1f478
+  languageName: node
+  linkType: hard
+
 "@sinclair/typebox@npm:^0.27.8":
   version: 0.27.8
   resolution: "@sinclair/typebox@npm:0.27.8"
@@ -19846,6 +19853,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-is-mounted-hook@npm:^1.0.3":
+  version: 1.1.2
+  resolution: "react-is-mounted-hook@npm:1.1.2"
+  peerDependencies:
+    react: ^16.8.6 || ^17
+    react-dom: ^16.8.6 || ^17
+  checksum: 297e28bc6fe77f1ba13536246a1747c1478e1896fe7ade7b0801baf902774116cd2ec38ad91a08eb9b9706e03fbf63ca4534bdbc9b7a0ce9e4a15d9295712f13
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.12.0 || ^17.0.0, react-is@npm:^17.0.0, react-is@npm:^17.0.1, react-is@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
@@ -19935,6 +19952,21 @@ __metadata:
   peerDependencies:
     react: ">=15"
   checksum: 7daae084bf64531eb619cc5f4cc40ce5ae0a541b64f71d74ec71a38cbf6130ebdbb7cf38f157303fad5846deec259401f96c4d6c7386466dcc989719e01f9aaa
+  languageName: node
+  linkType: hard
+
+"react-select-async-paginate@npm:~0.5":
+  version: 0.5.3
+  resolution: "react-select-async-paginate@npm:0.5.3"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@seznam/compose-react-refs": ^1.0.5
+    react-is-mounted-hook: ^1.0.3
+    sleep-promise: ^9.1.0
+  peerDependencies:
+    react: ^16.14.0 || ^17.0.0
+    react-select: ^2.0.0 || ^3.0.0 || ^4.0.0
+  checksum: 55cf377a123446a3743342f809e61d28ee91ebd43afcbed5d79f125d74f3b30fe23eeebfffbad51b19fbdfd121241c44ba385306327c12ea4c641520a7f840cb
   languageName: node
   linkType: hard
 
@@ -21317,6 +21349,13 @@ __metadata:
   version: 3.0.0
   resolution: "slash@npm:3.0.0"
   checksum: 94a93fff615f25a999ad4b83c9d5e257a7280c90a32a7cb8b4a87996e4babf322e469c42b7f649fd5796edd8687652f3fb452a86dc97a816f01113183393f11c
+  languageName: node
+  linkType: hard
+
+"sleep-promise@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "sleep-promise@npm:9.1.0"
+  checksum: a93359c18d2e4d586f2ecd4575cbdbc92bcbd9d387bd4bca249892abb512ca4e80075f67e53ec1279ea4555e8a1f6dc9df9e90f8aa71178ad943e9ba1f27debb
   languageName: node
   linkType: hard
 
@@ -23096,6 +23135,7 @@ __metadata:
     react-router: ^5.2.0
     react-router-dom: ^5.2.0
     react-select: ^4.3.1
+    react-select-async-paginate: ~0.5
     react-test-renderer: ^17
     rimraf: ^2.6.2
     rrule: ^2.7.1
