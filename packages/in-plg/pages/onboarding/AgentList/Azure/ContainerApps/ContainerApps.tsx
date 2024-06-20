@@ -116,7 +116,7 @@ export default function AzureContainerApps({
 
         <RenderRuntimeView />
 
-        <GetDeployedAgents agent="entity.type%3Alambda" fromOnboarding={fromOnboarding} />
+        <GetDeployedAgents agent="azure" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={supportViewData} />
