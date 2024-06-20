@@ -5,9 +5,8 @@
 
 import React, { Fragment } from 'react';
 
-import { Collapsible } from '@instana/components';
+import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import { positiveNumber } from 'in-services/formatters/number';

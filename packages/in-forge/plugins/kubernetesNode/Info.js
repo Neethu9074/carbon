@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import createClusterForNodeSubscription from 'in-subscription/clusterForNode';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import createHostForNodeSubscription from 'in-subscription/hostForNode';

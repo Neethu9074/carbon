@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionItem, DescriptionList } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {

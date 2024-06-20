@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import { t } from 'in-i18n';
@@ -22,10 +23,7 @@ export default function Info({ snapshot }) {
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title={t('in-forge:plugins.activeMQ.healthStatus')}>{data.get('healthStatus')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.activeMQ.ports')}>
-        {data
-          .get('ports', emptyList)
-          .sort()
-          .join(', ')}
+        {data.get('ports', emptyList).sort().join(', ')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.activeMQ.role')}>{role}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.activeMQ.memoryLimit')}>

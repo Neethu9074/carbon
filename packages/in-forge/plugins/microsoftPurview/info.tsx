@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
@@ -26,7 +27,9 @@ export default function Info({ snapshot }: { snapshot: SnapshotData }) {
         <DescriptionItem title={t('in-forge:plugins.microsoftPurview.infoSubscriptionID')}>
           {data.get('subscription')}
         </DescriptionItem>
-        <DescriptionItem title={t('in-forge:plugins.microsoftPurview.infoCreatedAt')}>{data.get('createdAt')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.microsoftPurview.infoCreatedAt')}>
+          {data.get('createdAt')}
+        </DescriptionItem>
         <DescriptionItem title={t('in-forge:plugins.microsoftPurview.infoType')}>{data.get('type')}</DescriptionItem>
       </DescriptionList>
     </>

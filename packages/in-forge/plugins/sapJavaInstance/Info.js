@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
@@ -14,9 +15,7 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.sapJavaInstance.hostName')}>
-        {data.get('hostName')}
-      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapJavaInstance.hostName')}>{data.get('hostName')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapJavaInstance.objectType')}>
         {data.get('objectType')}
       </DescriptionItem>

@@ -6,19 +6,16 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.sapJavaSystem.hostName')}>
-        {data.get('hostName')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.sapJavaSystem.objectType')}>
-        {data.get('objectType')}
-      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapJavaSystem.hostName')}>{data.get('hostName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapJavaSystem.objectType')}>{data.get('objectType')}</DescriptionItem>
     </DescriptionList>
   );
 }

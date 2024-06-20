@@ -7,9 +7,8 @@
 import { Map } from 'immutable';
 import React from 'react';
 
+import { DescriptionItem, DescriptionList } from '@instana/components';
 import { t } from '@instana/i18n-react';
-
-import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
 
 export default function Ec2TagsSidebar({ snapshot }: { snapshot: Map<string, Map<string, string>> }) {
   const data = snapshot.get('data');
