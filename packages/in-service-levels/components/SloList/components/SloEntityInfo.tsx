@@ -37,7 +37,7 @@ type EntityDisplayData = {
   toolTipText: string;
 };
 
-export default function SloEntityInfo({ entity, entityType, service, endpoint, metaInfo = false, sloEntity }: Props) {
+export default function SloEntityInfo({ entity, entityType, service, endpoint, metaInfo, sloEntity }: Props) {
   const { iconType, toolTipText } = getEntityDisplayData(entityType, entity);
   const compact = useMediaQuery('(min-width: 600px)');
   const serviceEndpointInfo = entityType === 'application';
@@ -86,6 +86,7 @@ function getEntityDisplayData(entityType: SloEntityType, entity: LabeledEntity):
 interface CustomFilterProps {
   entity: SloEntityUnion;
 }
+
 function CustomFilter({ entity }: CustomFilterProps) {
   const tagFilterExpression = entity?.tagFilterExpression;
   const isApplicationEntity = isApplicationSloEntity(entity);
@@ -98,6 +99,7 @@ function CustomFilter({ entity }: CustomFilterProps) {
 interface ApplicationCustomFiltersProps {
   entity: ApplicationSloEntity;
 }
+
 function ApplicationCustomFilter({ entity }: ApplicationCustomFiltersProps) {
   const applicationQueryBuilder = useApplicationQueryBuilder(entity);
   const { QueryBuilder } = applicationQueryBuilder;
