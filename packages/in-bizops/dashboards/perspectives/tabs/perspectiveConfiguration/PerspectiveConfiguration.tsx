@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Spacer } from '@instana/components';
@@ -24,9 +24,13 @@ import { t } from 'in-i18n';
 import local from 'in-bizops/dashboards/perspectives/tabs/perspectiveConfiguration/perspectiveConfiguration.mless';
 
 export default function PerspectiveConfiguration() {
+  // This is purely to retrigger a refetching of the perspective via backend API
+  // whenever the user updates the perspective
+  const [updateCount, setUpdateCount] = useState(0);
+
   const { location, goToPath } = useNavigation();
   const perspectiveId: string = getMatrixParameter(location, businessPerspectiveDashboard, 'perspectiveId') ?? '';
-  const data = useObservable(getBusinessPerspective(perspectiveId), [perspectiveId]) ?? pendingResult;
+  const data = useObservable(getBusinessPerspective(perspectiveId), [perspectiveId, updateCount]) ?? pendingResult;
 
   if (data?.progress?.loading) {
     return (
@@ -46,7 +50,13 @@ export default function PerspectiveConfiguration() {
     return (
       <div className={local.parentDiv}>
         <div className={local.cardDiv}>
-          <Update perspective={perspective as PerspectiveFormItem} perspectiveId={perspectiveId} />
+          <Update
+            perspective={perspective as PerspectiveFormItem}
+            updateCount={updateCount}
+            setUpdateCount={setUpdateCount}
+            perspectiveId={perspectiveId}
+            location={location}
+          />
           <Spacer vertical="medium" />
           <Remove perspectiveId={perspectiveId} perspectiveName={perspective.label} goToPath={goToPath} />
         </div>

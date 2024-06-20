@@ -11,6 +11,7 @@ import { Button, Card, Checkbox } from '@instana/components';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { deleteBusinessPerspective } from 'in-bizops/api/perspectives';
 import { businessPerspectivesPath } from 'in-bizops/navigation/paths';
+import { TIMEOUT_IN_MS } from 'in-bizops/utils/constants';
 import { t } from 'in-i18n';
 
 import local from 'in-bizops/dashboards/perspectives/tabs/perspectiveConfiguration/perspectiveConfiguration.mless';
@@ -34,7 +35,7 @@ export function Remove({ perspectiveId, perspectiveName, goToPath }: RemoveProps
           content: t('in-bizops:dashboards.perspectives.configuration.businessPerspectiveDeletedDetails', {
             perspectiveName: perspectiveName
           }),
-          timeout: 4000
+          timeout: TIMEOUT_IN_MS
         });
       },
       error => {
@@ -42,7 +43,7 @@ export function Remove({ perspectiveId, perspectiveName, goToPath }: RemoveProps
           type: 'danger',
           title: t('in-bizops:dashboards.perspectives.configuration.error'),
           content: error.message,
-          timeout: 4000
+          timeout: TIMEOUT_IN_MS
         });
       }
     );
