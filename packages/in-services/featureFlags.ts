@@ -259,6 +259,6 @@ export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
 export const orbitalEnabled = isFeatureFlagEnabled('orbitalEnabled', true);
 export const carbonStepProgressBarEnabled = isFeatureFlagEnabled('carbonStepProgressBarEnabled', false);
 export const carbonHorizontalIndicatorEnabled = isFeatureFlagEnabled('carbonHorizontalIndicatorEnabled', false);
-export const analyzeInfrastructureButtonEnabled = isFeatureFlagEnabled('analyzeInfrastructureButtonEnabled', false);
+export const analyzeRelatedInstancesButtonEnabled = isFeatureFlagEnabled('analyzeRelatedInstancesButtonEnabled', false);
 export const maxMetricsLimitForBeeinstanaEnabled = isFeatureFlagEnabled('maxMetricsLimitForBeeinstanaEnabled', true);
 export const serverSideInfraTagSearchEnabled = isFeatureFlagEnabled('serverSideInfraTagSearchEnabled', false);

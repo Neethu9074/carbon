@@ -661,8 +661,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'analyzeInfrastructureButtonEnabled',
-    instanaCtlKey: 'feature.analyze.infrastructure.button.enabled',
+    uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
+    instanaCtlKey: 'feature.analyze.related.instances.button.enabled',
     defaultValue: false
   },
   {
