@@ -20,7 +20,6 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import { getScriptFromFields, getManualContentFromFields } from 'in-automation/ActionCatalog/shared';
 import { nameColumn, descriptionColumn } from 'in-automation/ActionTable/columnDefinitions';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
-import { DescriptionItem } from 'in-components/DescriptionList/DescriptionList';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
@@ -70,9 +69,7 @@ export default function SelectActionDialog({
       id: 'select',
       label: '',
       width: 5,
-      getContent: item => (
-        <RadioButton label="" checked={item === selectedAIAction} onChange={() => onChange(item)} />
-      )
+      getContent: item => <RadioButton label="" checked={item === selectedAIAction} onChange={() => onChange(item)} />
     },
     nameColumn,
     descriptionColumn,
