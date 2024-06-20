@@ -9,6 +9,7 @@ import React, { Fragment } from 'react';
 import { createLogger } from '@instana/logger';
 import { Toggle } from '@instana/components';
 
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb'
 import ElkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkForm';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { teamSettingsLogManagementElk } from 'in-settings/navigation/paths';
@@ -98,6 +99,7 @@ export default class Elk extends React.Component {
     return (
       <SettingsDetailPage>
         <Title title={t('in-settings:tabs.configureElk')} />
+        <IntegrationsBreadcumb />
         <SubViewHeader>{t('in-settings:tabs.configureYourElkSettings')}</SubViewHeader>
         <SectionLine />
         {form && (

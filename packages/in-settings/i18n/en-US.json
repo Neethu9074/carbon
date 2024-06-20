@@ -375,6 +375,20 @@
       "toastMessageFailed": "The retention period could not be changed. Please try again or contact support.",
       "contactSupport": "Contact support"
     },
+    "integrations":{
+      "integrations": "Log Integrations",
+      "integrationsDescription": "Connect your log management solutions and configure them to meet your needs.",
+      "integrationsTooltip": "Toggle is disabled due to a missing configuration. Click the tile and complete the form to enable this feature.",
+      "integrationsTooltipApiError": "Toggle is disabled due to an API connection issue. Wait for reconnection or reload the page to enable this feature.",
+      "disabled": "Disabled",
+      "on": "On",
+      "off": "Off",
+      "integrationsConfigurationMessage": "Configure your {{instanceName}} instance.",
+      "toastSuccessTitle": "Integration saved",
+      "toastErrorTitle": "Integration save failed",
+      "toastErrorMessage": "Integration {{instanceName}} could not be turned on. Please try again",
+      "toastSuccessMessage": "Your {{instanceName}} instance has been saved successfully."
+    },
     "deleteLogs": {
       "deleteLogs": "Delete logs",
       "info": "If you are experiencing a leak of secure information to Instana Logs, you can proceed to delete all logs for the whole data retention period on demand.",
@@ -671,7 +685,7 @@
     "maintenanceWindowConfigurationEntityName": "maintenance window configuration {{entityName}}",
     "configureYourCoralogixSettings": "Configure your Coralogix settings",
     "failedToSaveConfiguration": "Failed to save configuration: {{err}}",
-    "coralogixExampleForAnInternalInstance": "Example: <strong>https://team.coralogix.com</strong> or <strong>http://192.168.1.128:443</strong> for an internal instance.",
+    "coralogixExampleForAnInternalInstance": "Enter the URL for your Coralogix instance, for example <strong>https://team.coralogix.com</strong> or <strong>http://192.168.1.128:443</strong> for an internal instance.",
     "configureYourElkSettings": "Configure your ELK settings",
     "elkExampleForAnInternalInstance": "Example: <strong>http://kibana.com:5601</strong> or <strong>http://192.168.1.128:5601</strong> for an internal instance.",
     "optionalBasePathYouHaveConfiguredInElk": "Example: http://kibana.com:5601/<strong>instana</strong>/app/kibana#. Optional base path you have configured in ELK.",
@@ -1090,7 +1104,7 @@
     "enableDisableCoralogixIntegrationForInstana": "Enable/Disable Coralogix integration for Instana",
     "showCoralogixLinkOnHosts": "Show Coralogix link on Hosts",
     "coralogixInstance": "Coralogix Instance",
-    "testYourCoralogixLink": "Test your Coralogix link",
+    "testYourCoralogixLink": "To test your Caralogix link, go to",
     "failedToLoadElkConfiguration": "Failed to load ELK configuration.",
     "configureElk": "Configure ELK",
     "enableDisableElkIntegrationForInstana": "Enable/Disable ELK integration for Instana",

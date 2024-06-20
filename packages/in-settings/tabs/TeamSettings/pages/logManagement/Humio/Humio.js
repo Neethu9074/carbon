@@ -9,6 +9,7 @@ import React, { Fragment } from 'react';
 import { createLogger } from '@instana/logger';
 import { Toggle } from '@instana/components';
 
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb'
 import HumioForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm';
 import { teamSettingsLogManagementHumio } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
@@ -98,6 +99,7 @@ export default class Humio extends React.Component {
     return (
       <SettingsDetailPage>
         <Title title={t('in-settings:tabs.configureHumio')} />
+        <IntegrationsBreadcumb />
         <SubViewHeader>{t('in-settings:tabs.configureYourHumioSettings')}</SubViewHeader>
         <SectionLine />
         {form && (

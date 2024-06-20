@@ -13,12 +13,13 @@ import { Select } from '@instana/components';
 // to suppress warning on deprecated code temporarily
 // eslint-disable-next-line import/no-deprecated
 import { goToPath } from 'in-stores/navigation';
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb'
 import { ibmCloudDefaultBaseURL, logDnaDefaultBaseURL } from 'in-integrations/logging/logdna/LinkConstruction';
 import IbmCloudLogDnaForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/IbmCloudLogDnaForm';
 import LogDnaSaasForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaSaasForm';
 import { validLogDnaId } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/validation';
-import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 import { teamSettingsLogManagementLogDna } from 'in-settings/navigation/paths';
+import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { integrationKey } from 'in-integrations/logging/logdna/consts';
@@ -124,6 +125,7 @@ export default function LogDna() {
   return (
     <SettingsDetailPage>
       <Title title={t('in-settings:tabs.configureMezmo')} />
+      <IntegrationsBreadcumb />
       <SubViewHeader>{t('in-settings:tabs.configureYourMezmoSettings')}</SubViewHeader>
       <SectionLine />
       {form && (

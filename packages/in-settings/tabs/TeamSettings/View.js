@@ -42,7 +42,8 @@ import {
   teamSettingsLogManagementLogDna,
   teamSettingsLogManagementRetentionPeriod,
   teamSettingsLogManagementLogVolume,
-  teamSettingsLogManagementSplunk
+  teamSettingsLogManagementSplunk,
+  teamSettingsLogManagementIntegrations
 } from 'in-settings/navigation/paths';
 import {
   disableInvitesWithIdpEnabled,
@@ -61,6 +62,7 @@ import RetentionPeriodPage from 'in-settings/tabs/TeamSettings/pages/logManageme
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import ApiTokenFormDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenFormDialog';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
+import Integrations from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/Integrations';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
@@ -287,30 +289,38 @@ function navigationTreeForRole(role, isAnyIDPActive) {
 
   const logManagementPages = [
     {
-      path: teamSettingsLogManagementCoralogix,
-      label: t('in-settings:tabs.coralogix'),
-      component: CoralogixPage
+      path: teamSettingsLogManagementIntegrations,
+      label: 'Integrations',
+      component: Integrations,
+      subPages: [
+        {
+          path: teamSettingsLogManagementCoralogix,
+          label: t('in-settings:tabs.coralogix'),
+          component: CoralogixPage
+        },
+        {
+          path: teamSettingsLogManagementElk,
+          label: t('in-settings:tabs.elk'),
+          component: ElkPage
+        },
+        {
+          path: teamSettingsLogManagementHumio,
+          label: t('in-settings:tabs.humio'),
+          component: HumioPage
+        },
+        {
+          path: teamSettingsLogManagementLogDna,
+          label: t('in-settings:tabs.mezmo'),
+          component: LogDnaPage
+        },
+        {
+          path: teamSettingsLogManagementSplunk,
+          label: t('in-settings:tabs.splunk'),
+          component: SplunkPage
+        }
+      ]
     },
-    {
-      path: teamSettingsLogManagementElk,
-      label: t('in-settings:tabs.elk'),
-      component: ElkPage
-    },
-    {
-      path: teamSettingsLogManagementHumio,
-      label: t('in-settings:tabs.humio'),
-      component: HumioPage
-    },
-    {
-      path: teamSettingsLogManagementLogDna,
-      label: t('in-settings:tabs.mezmo'),
-      component: LogDnaPage
-    },
-    {
-      path: teamSettingsLogManagementSplunk,
-      label: t('in-settings:tabs.splunk'),
-      component: SplunkPage
-    }
+
   ];
 
   const deleteLogsPage = {
