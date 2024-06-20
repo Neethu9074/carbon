@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { List, Map } from 'immutable';
 
 import { Card, IconButton, Pill, Stack, Typography } from '@instana/components';
@@ -46,13 +46,11 @@ interface RootCauseSectionProps {
   incidentHasRCAProperty: boolean;
   latestSnapshot: Snapshot;
 }
-const defaultFeedbackState = { thumbsDown: false, thumbsUp: false };
-
 // Typescript Probable Root Cause Reference
 type ProbableCauseSnapshotKeys = 'entityID' | 'explainability' | 'probFailure' | 'events';
 interface ProbableCauseSnapshotValues {
   entityID: Map<string, string>;
-  explainability: Map<ExplainabilityKeys, ExplainabilityValues[ExplainabilityKeys]>;
+  explainability: List<Map<ExplainabilityKeys, ExplainabilityValues[ExplainabilityKeys]>>;
   probFailure: number;
   events: List<string>;
 }
@@ -83,54 +81,69 @@ export default function RootCauseSection({
   incidentHasRCAProperty,
   latestSnapshot
 }: RootCauseSectionProps) {
-  const rootCauseSnapshotMap = incident.getIn(['metadata', 'rootCause'], Map()) as Map<string, ProbableCauseType>;
-  const RCASnapshotIterator = useRef(
-    rootCauseSnapshotMap.sort((a, b) => (b.get('probFailure') as number) - (a.get('probFailure') as number)).keys()
-  ); // Iterator for going through snapshot IDs
-  // State variable for holding the current snapshot ID
-  const [currentRCAEntity, setCurrentRCAEntity] = useState<string | undefined>(undefined);
+  const rootCauseSnapshotMap = (
+    incident.getIn(['metadata', 'rootCause'], Map()) as Map<string, ProbableCauseType>
+  ).sort((a, b) => (b.get('probFailure') as number) - (a.get('probFailure') as number));
 
-  useEffect(() => {
-    setCurrentRCAEntity(RCASnapshotIterator.current.next().value);
-  }, []);
+  const rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray();
 
-  // Setter for choosing next entity - TO BE REMOVED ONCE WE SETUP FEEDBACK TO ALGORITHM
-  const setNextEntity = () => {
-    const { value, done } = RCASnapshotIterator.current.next();
-    if (done) {
-      RCASnapshotIterator.current = rootCauseSnapshotMap.keys();
-      setCurrentRCAEntity(RCASnapshotIterator.current.next().value);
+  const getLightCardColourForRCA = (probFailure: number | undefined | null, idx: number) => {
+    if (probFailure === null || probFailure === undefined) return undefined;
+
+    if (idx === 0) return locals.primaryProbabilityHeader;
+
+    if (probFailure >= 0.7) {
+      return locals.highProbabilityHeader;
+    } else if (probFailure >= 0.35) {
+      return locals.moderateProbabilityHeader;
     } else {
-      setCurrentRCAEntity(value);
+      return locals.lowProbabilityHeader;
     }
   };
 
-  if (!currentRCAEntity) return <LoadingIndicator />;
-
-  const rcaEntityID = rootCauseSnapshotMap.getIn([currentRCAEntity, 'entityID']);
-  const explainabilityList = rootCauseSnapshotMap.getIn([currentRCAEntity, 'explainability']);
-  const probFailure = rootCauseSnapshotMap.getIn([currentRCAEntity, 'probFailure']);
-  const associatedEvents = rootCauseSnapshotMap.getIn([currentRCAEntity, 'events']);
-  const entityType = determineEntityTypeFromEntityIDMap(rcaEntityID);
+  const candidateRootCauseText = t('in-events:RCA.candidateProbableRootCause');
+  const identifiedRootCauseText = t('in-events:RCA.identifiedProbableRootCause');
 
   if (!incidentHasRCAProperty) return null;
   return (
-    <ProbableRootCauseCard title={title} incident={incident} currentRCAEntity={currentRCAEntity}>
-      <RootCauseEntityDetails
-        relatedAPID={
-          (incident.get('metadata') as Map<string, string>).has('app20ApplicationId')
-            ? (incident.get('metadata') as Map<string, string>).get('app20ApplicationId')
-            : null
-        }
-        rcaSnapshotID={entityType === 'infrastructure' ? currentRCAEntity : rcaEntityID.get('steadyId')}
-        rcaEntityType={entityType}
-        explainabilityMetadata={explainabilityList}
-        probabilityScore={probFailure}
-        setNextEntity={setNextEntity}
-        numOfSnapshots={rootCauseSnapshotMap.size}
-        incidentTimeWindow={getIncidentTimeConfig(incident)}
-      />
-      <AssociatedEvents associatedEvents={associatedEvents} latestSnapshot={latestSnapshot} />
+    <ProbableRootCauseCard title={title} incident={incident}>
+      <Stack>
+        {rootCauseSnapshots.map(([rcaSnapshotID, rootCause], idx) => {
+          if (!rootCause) return;
+          return (
+            <ExpandableLightCard
+              title={idx === 0 ? identifiedRootCauseText : candidateRootCauseText}
+              openByDefault={idx === 0}
+              headerClassName={getLightCardColourForRCA(rootCause.get('probFailure'), idx)}
+            >
+              <RootCauseEntityDetails
+                relatedAPID={
+                  (incident.get('metadata') as Map<string, string>).has('app20ApplicationId')
+                    ? (incident.get('metadata') as Map<string, string>).get('app20ApplicationId')
+                    : null
+                }
+                rcaSnapshotID={
+                  determineEntityTypeFromEntityIDMap(rootCause.get('entityID') as Map<string, string>) ===
+                  'infrastructure'
+                    ? rcaSnapshotID
+                    : rootCause?.getIn(['entityID', 'steadyId'])
+                }
+                rcaEntityType={determineEntityTypeFromEntityIDMap(rootCause.get('entityID') as Map<string, string>)}
+                entityID={rootCause.get('entityID') as Map<string, string>}
+                explainabilityMetadata={
+                  rootCause.get('explainability') as List<Map<ExplainabilityKeys, string | number | boolean>>
+                }
+                probabilityScore={rootCause.get('probFailure') as number}
+                incidentTimeWindow={getIncidentTimeConfig(incident)}
+              />
+              <AssociatedEvents
+                associatedEvents={rootCause.get('events') as List<string>}
+                latestSnapshot={latestSnapshot}
+              />
+            </ExpandableLightCard>
+          );
+        })}
+      </Stack>
     </ProbableRootCauseCard>
   );
 }
@@ -138,18 +151,10 @@ export default function RootCauseSection({
 interface ProbableRootCauseCardProps {
   title: string;
   incident: EventOrMap;
-  currentRCAEntity: string;
   children: ReactNode;
 }
 
-function ProbableRootCauseCard({ title, incident, currentRCAEntity, children }: ProbableRootCauseCardProps) {
-  const [feedbackState, setFeedbackState] = useState<FeedbackStateType>({ default: defaultFeedbackState });
-
-  useEffect(() => {
-    if (currentRCAEntity && !feedbackState[currentRCAEntity])
-      setFeedbackState({ ...feedbackState, [currentRCAEntity]: defaultFeedbackState });
-  }, [currentRCAEntity, feedbackState]);
-
+function ProbableRootCauseCard({ title, children, incident }: ProbableRootCauseCardProps) {
   return (
     <Row withoutSideMargin>
       <Col xs>
@@ -168,19 +173,12 @@ function ProbableRootCauseCard({ title, incident, currentRCAEntity, children }: 
               </Pill>
             </Stack>
           }
-          rightHeaderContent={
-            currentRCAEntity && incident ? (
-              <FeedbackComponent
-                feedbackState={feedbackState}
-                setFeedbackState={setFeedbackState}
-                incident={incident}
-                snapshotMetadata={incident.getIn(['metadata', 'rootCause', currentRCAEntity])}
-                currentEntity={currentRCAEntity ?? 'default'}
-              />
-            ) : undefined
-          }
         >
-          {children}
+          <Stack>
+            {children}
+
+            <FeedbackComponent incident={incident} />
+          </Stack>
         </Card>
       </Col>
     </Row>
@@ -249,46 +247,17 @@ function getIncidentTimeConfig(incident: EventOrMap): TimeConfig {
   };
 }
 
-interface FeedbackStateType {
-  [index: string]: {
-    thumbsDown: boolean;
-    thumbsUp: boolean;
-  };
-}
-
 interface FeedbackComponentProps {
-  feedbackState: FeedbackStateType;
-  setFeedbackState: React.Dispatch<React.SetStateAction<FeedbackStateType>>;
   incident: EventOrMap;
-  snapshotMetadata: Map<string, string>;
-  currentEntity: any;
 }
 
-function FeedbackComponent({
-  feedbackState,
-  setFeedbackState,
-  incident,
-  snapshotMetadata,
-  currentEntity
-}: FeedbackComponentProps) {
-  useEffect(() => {
-    if (feedbackState[currentEntity] && feedbackState[currentEntity].thumbsDown) {
-      addActiveDialog(
-        <EventFeedbackDialog
-          stepConfig={rcaStepConfig}
-          nextStepTracker={RCAFeedbackNextTracker}
-          skipStepTracker={RCAFeedbackSkipTracker}
-          closedManuallyTracker={RCAFeedbackClosedManuallyTracker}
-          submitTracker={RCAFeedbackSubmitTracker}
-          submitMetadata={extractFeedbackMetadataFromIncident(incident, snapshotMetadata)}
-        />
-      );
-    }
-  }, [feedbackState, incident, snapshotMetadata, currentEntity]);
+function FeedbackComponent({ incident }: FeedbackComponentProps) {
+  const [thumbsDown, setThumbsDown] = useState(false);
+  const [thumbsUp, setThumbsUp] = useState(false);
 
   return (
     <Stack direction="horizontal" gap="small" align="center">
-      {feedbackState[currentEntity]?.thumbsDown || feedbackState[currentEntity]?.thumbsUp ? (
+      {thumbsDown || thumbsUp ? (
         <Typography variant="body-regular">{t('in-events:RCA.thankYouForYourFeedback')}</Typography>
       ) : (
         <Typography variant="body-regular">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
@@ -300,11 +269,7 @@ function FeedbackComponent({
         iconSize="xs"
         onClick={() => {
           helpfulRCASuggestionTracker({});
-          if (feedbackState[currentEntity]?.thumbsUp) {
-            setFeedbackState({ ...feedbackState, [currentEntity]: defaultFeedbackState });
-          } else {
-            setFeedbackState({ ...feedbackState, [currentEntity]: { ...defaultFeedbackState, thumbsUp: true } });
-          }
+          setThumbsUp(true);
         }}
       />
       <IconButton
@@ -314,28 +279,19 @@ function FeedbackComponent({
         iconSize="xs"
         onClick={() => {
           unhelpfulRCASuggestionTracker({});
-          if (feedbackState[currentEntity]?.thumbsDown) {
-            setFeedbackState({ ...feedbackState, [currentEntity]: defaultFeedbackState });
-          } else {
-            setFeedbackState({ ...feedbackState, [currentEntity]: { ...defaultFeedbackState, thumbsDown: true } });
-          }
+          addActiveDialog(
+            <EventFeedbackDialog
+              stepConfig={rcaStepConfig}
+              nextStepTracker={RCAFeedbackNextTracker}
+              skipStepTracker={RCAFeedbackSkipTracker}
+              closedManuallyTracker={RCAFeedbackClosedManuallyTracker}
+              submitTracker={RCAFeedbackSubmitTracker}
+              submitMetadata={{ incident }}
+            />
+          );
+          setThumbsDown(true);
         }}
       />
     </Stack>
   );
-}
-
-function extractFeedbackMetadataFromIncident(incident: EventOrMap, snapshotMetadata: Map<string, string>) {
-  let entityType = '';
-
-  const metrics = incident.getIn(['metadata', 'metrics']) ?? List();
-
-  const metricInfo = metrics
-    .map((metricObject: Map<string, string>) => {
-      return metricObject.get('metricName');
-    })
-    .toArray();
-  if (snapshotMetadata && snapshotMetadata.has('entityID')) entityType = snapshotMetadata.get('entityID');
-
-  return { entityType, metricInfo };
 }

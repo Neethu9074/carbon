@@ -263,7 +263,7 @@ export default function LegacyRootCauseEntityDetails({
           iconSize="s"
           className={locals.regenerateButton}
         >
-          {t('in-events:RCA.regenerateProbableRootCause')}
+          {t('in-events:RCA.reEvaluateRootCause')}
         </Button>
       </Stack>
     </div>

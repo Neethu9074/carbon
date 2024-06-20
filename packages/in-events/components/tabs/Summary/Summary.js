@@ -367,7 +367,7 @@ const IncidentContent = connectTo(
 
     // should be displayed if incident summarization feature is disabled OR incident summarization feature and timeline with summarization is enabled
     const shouldTimelineBeDisplayed =
-      !incidentSummarizationEnabled || (incidentSummarizationEnabled && incidentSummarizationTimelineEnabled);
+      !incidentSummarizationEnabled || (incidentSummarizationEnabled && incidentSummarizationTimelineEnabled) || false;
 
     return (
       <>

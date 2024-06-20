@@ -59,6 +59,32 @@
   .naProbabilityText {
     color: var(--ids-color-option-neutral-800);
   }
+  .primaryProbabilityHeader {
+    background: #8257d933;
+  }
+  .highProbabilityHeader {
+    background: var(--ids-color-option-green-100);
+  }
+  .moderateProbabilityHeader {
+    background: var(--ids-color-option-yellow-100);
+  }
+  .lowProbabilityHeader {
+    background: var(--ids-color-option-red-100);
+  }
+  .infraLineDown {
+    position: relative;
+    width: 0.125rem;
+    height: 0.625rem;
+    background-color: var(--ids-color-option-neutral-400);
+  }
+
+  .infraLineRight {
+    position: relative;
+    width: 0.625rem;
+    height: 0.125rem;
+    background-color: var(--ids-color-option-neutral-400);
+  }
+
   .highProbabilityText,
   .moderateProbabilityText,
   .lowProbabilityText,
