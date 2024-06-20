@@ -25,6 +25,7 @@ import {
 } from 'in-infrastructure/navigation/matrix';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
+import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import { actionHandlers } from 'in-alerting/smart-alerts/infrastructure/lists/ListActionHandlers';
 import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
 import { sortOptions } from 'in-alerting/smart-alerts/infrastructure/lists/constants';
@@ -60,6 +61,7 @@ export default function Alerts() {
           getSubtitle={config => getSubtitle(config.rule, config.threshold, config.predictiveTrigger)}
           sortOptions={sortOptions}
           alertsTab={infraSmartAlerts}
+          renderName={replaceTitlePlaceholdersWithMarkup}
         />
       </Card>
       <Footer />

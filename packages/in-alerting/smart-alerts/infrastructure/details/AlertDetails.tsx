@@ -26,6 +26,7 @@ import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-i
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import AlertConfigDialog from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AlertConfigDialog';
+import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import AlertConfiguration from 'in-alerting/smart-alerts/infrastructure/details/AlertConfiguration';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
@@ -57,7 +58,7 @@ export default function AlertDetails() {
         renderAlertConfiguration={({ alertConfig }: { alertConfig: InfraAlertConfigWithMetadata }) => (
           <AlertConfiguration alertConfig={alertConfig} />
         )}
-        getAllowedPlaceholders={() => []}
+        getAllowedPlaceholders={getAllowedPlaceholders}
         isGlobalSmartAlert
         canConfigureGlobalAlertConfigs={role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope}
       />

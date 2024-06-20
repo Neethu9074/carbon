@@ -26,15 +26,17 @@ import {
 } from 'in-services/featureFlags';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import InfraPredictiveTrigger from 'in-alerting/smart-alerts/infrastructure/components/InfraPredictiveTrigger';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
-import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
+import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeSection';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
+import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -58,6 +60,9 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
   const metric = form.get('rule')?.get('metricName')?.value;
   const isRegex = form.get('rule').get('regex')?.value;
   const tagCatalog = useTagCatalog({ ownerType: entityType, metric, regex: isRegex });
+  const groupBy = form.get('groupBy').value;
+
+  const placeholders = getAllowedPlaceholders({ groupBy: toBackendGroupBy(groupBy) });
 
   return (
     <StepsContainer
@@ -146,6 +151,10 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                       form={form}
                       onChange={onChange}
                       getTitlePlaceholder={getTitlePlaceholder}
+                      placeholders={placeholders}
+                      placeholderTooltipContent={t(
+                        'in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip'
+                      )}
                     />
                   )}
                 />

@@ -822,6 +822,7 @@
         "alertPropertiesTriggersIncident": "Triggers Incident",
         "alertPropertiesDescription": "Description",
         "alertPropertiesAlertProperties": "Alert Properties",
+        "groupingPlaceholdersMissingTooltip": "Configure group(s) to access placeholder options",
         "buttonSave": "Save",
         "buttonCreate": "Create",
         "buttonMigrate": "Migrate",
