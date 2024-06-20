@@ -20,9 +20,11 @@ import {
 // Using Carbon tooltip would cause mismatch in design on the page
 // since tooltip is used in many places on this page
 import Tooltip from 'in-components/Tooltip';
+import { EVENT_NOTES_SUBMIT, EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { getNotes, validTextEntry, noteNameAndTimeFormat } from './utils';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
+import { track } from 'in-services/tracking/trackers';
 import { annotateEvent } from 'in-stores/events';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -42,6 +44,11 @@ export function NotesAndActivity(props) {
   // Current value of the typed out note
   const [note, setNote] = useState('');
 
+  function toggleSidePanel() {
+    setDisplayNotes(!displayNotes);
+    track(EVENT_SIDE_PANEL_CLICK, { incidentId });
+  }
+
   // We ONLY want to display Notes and Activity for incidents
   if (eventType != 'incident') {
     return null;
@@ -52,7 +59,7 @@ export function NotesAndActivity(props) {
       <div className={locals.verticalBorderNotes} />
       {!displayNotes ? (
         <Tooltip content={t('in-events:notes.openNotes')}>
-          <div onClick={() => setDisplayNotes(!displayNotes)} className={locals.closedNotesWrapper}>
+          <div onClick={() => toggleSidePanel()} className={locals.closedNotesWrapper}>
             {t('in-events:notes.notesActivity')}
             <SvgIcon type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'} size="s" />
           </div>
@@ -64,7 +71,7 @@ export function NotesAndActivity(props) {
             <CarbonTag type="blue">{t('in-events:notes.techPreview')}</CarbonTag>
             <Tooltip content={t('in-events:notes.closeNotes')}>
               <SvgIcon
-                onClick={() => setDisplayNotes(!displayNotes)}
+                onClick={() => toggleSidePanel()}
                 type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'}
                 size="s"
                 className={locals.notesIcon}
@@ -172,6 +179,7 @@ export function handleSubmitNote(incidentId, note, user, setNote) {
     };
     annotateEvent(newNote);
     setNote('');
+    track(EVENT_NOTES_SUBMIT, { incidentId, author: userName });
   }
 }
 

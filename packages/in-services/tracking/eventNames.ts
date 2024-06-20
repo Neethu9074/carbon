@@ -490,6 +490,10 @@ export const EVENT_FEEDBACK_SKIP = 'event.feedback.skip';
 export const EVENT_FEEDBACK_POSITIVE = 'event.feedback.positive';
 export const EVENT_FEEDBACK_NEGATIVE = 'event.feedback.negative';
 
+// Event Enrichment Tracking
+export const EVENT_NOTES_SUBMIT = 'event.notes.submit';
+export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
+
 // Incident Summarization Feedback Tracking
 export const INCIDENT_SUMMARIZATION_HELPFUL = 'incident.summarization.feedback.helpful';
 export const INCIDENT_SUMMARIZATION_UNHELPFUL = 'incident.summarization.feedback.unhelpful';
