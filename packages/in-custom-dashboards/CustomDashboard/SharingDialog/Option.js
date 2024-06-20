@@ -6,13 +6,13 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { RadioButton } from '@instana/components';
 
 import locals from './Option.mless';
 
 export default function Option({ label, explanation, checked, onChange }) {
   return (
-    <CheckboxFancy
+    <RadioButton
       label={
         <span
           className={classNames({
@@ -28,7 +28,6 @@ export default function Option({ label, explanation, checked, onChange }) {
       wrapperClassName={locals.checkbox}
       checked={checked}
       onChange={onChange}
-      asRadioButton
     />
   );
 }

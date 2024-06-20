@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Button, Typography, Spacer, Stack, IconButton } from '@instana/components';
+import { Button, Typography, Spacer, Stack, IconButton, Checkbox } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import {
@@ -43,7 +43,6 @@ import { saveBulkPolicies, deletePolicy, ScoredAction } from 'in-automation/api'
 import { close, addActiveDialog } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -376,7 +375,7 @@ function SelectActionsDialog({ event, actions, trigger }: SelectActionsDialogPro
       label: '',
       width: 5,
       getContent: action => (
-        <CheckboxFancy
+        <Checkbox
           label=""
           checked={selectedIds.includes(action.id)}
           onChange={e => {

@@ -7,14 +7,13 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Stack, SvgIcon, Pill } from '@instana/components';
+import { Stack, SvgIcon, Pill, RadioButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { Button } from '@instana/legacy';
 
 import { putMetricDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { ConditionItem } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ConditionItem';
 import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { Row, Col } from 'in-components/layout/Grid';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -114,16 +113,14 @@ export function MultiConditions({
               <Row className={locals.logicalOperator}>
                 <Col lg={2}>
                   <Stack direction="horizontal" align="start">
-                    <CheckboxFancy
-                      asRadioButton
+                    <RadioButton
                       checked={ruleLogicalOperator === 'AND'}
                       disabled={buttonDisabled}
                       label={t('in-settings:tabs.team.events.logicalOperator', { context: 'AND' })}
                       onChange={() => onChangeRoot('ruleLogicalOperator', 'AND')}
                       size="large"
                     />
-                    <CheckboxFancy
-                      asRadioButton
+                    <RadioButton
                       checked={ruleLogicalOperator === 'OR'}
                       disabled={buttonDisabled}
                       label={t('in-settings:tabs.team.events.logicalOperator', { context: 'OR' })}

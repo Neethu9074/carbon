@@ -6,13 +6,12 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, Typography } from '@instana/components';
+import { KeyValue, Stack, Typography, RadioButton } from '@instana/components';
 
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
@@ -79,19 +78,17 @@ export default function GoogleComputeEngine({
   function packaging() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
+        <RadioButton
           label={packagingOptions[0].label}
           checked={packagingMode.key === packagingOptions[0].key}
           onChange={() => setPackagingMode(packagingOptions[0])}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label={packagingOptions[1].label}
           checked={packagingMode.key === packagingOptions[1].key}
           onChange={() => setPackagingMode(packagingOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );
@@ -100,19 +97,17 @@ export default function GoogleComputeEngine({
   function getRuntime() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
+        <RadioButton
           label={jvmVendorOptions[0].label}
           checked={jvmVendor.key === jvmVendorOptions[0].key}
           onChange={() => setJVMVendor(jvmVendorOptions[0])}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label={jvmVendorOptions[1].label}
           checked={jvmVendor.key === jvmVendorOptions[1].key}
           onChange={() => setJVMVendor(jvmVendorOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );

@@ -5,10 +5,9 @@
 
 import React from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, Checkbox } from '@instana/components';
 
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './CheckableSuggestion.mless';
@@ -17,7 +16,7 @@ export function CheckableSuggestion({ label, count, checked, onChange }) {
   return (
     <Tooltip content={String(label)} align="rightMiddle" delay={1000}>
       <Stack direction="horizontal" align="center" distribution="spaceBetween">
-        <CheckboxFancy
+        <Checkbox
           checked={checked}
           label={label}
           onChange={onChange}

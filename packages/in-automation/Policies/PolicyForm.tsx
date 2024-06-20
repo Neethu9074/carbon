@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 
 import { Link, Spacer, Stack, Typography, IconButton } from '@instana/components';
-import { TextArea } from '@instana/components';
+import { TextArea, RadioButton, Checkbox } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {
@@ -84,7 +84,6 @@ import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import LogScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm';
 import { hasError, listSuccess, success } from 'in-services/util/result';
@@ -346,7 +345,7 @@ function TypeSection({
       <Label hasError={!type.valid && type.touched}>{t('in-automation:policies.policyType')}</Label>
       <Row>
         <Col lg={3} className={locals.column}>
-          <CheckboxFancy
+          <Checkbox
             label={t('in-automation:policies.manual')}
             checked={type.get('manual').value}
             disabled={!role?.canConfigureAutomationPolicies}
@@ -360,7 +359,7 @@ function TypeSection({
           />
         </Col>
         <Col lg={3} className={locals.column}>
-          <CheckboxFancy
+          <Checkbox
             label={t('in-automation:policies.automatic')}
             checked={type.get('automatic').value}
             disabled={!role?.canConfigureAutomationPolicies}
@@ -680,9 +679,7 @@ function SelectTriggerDialog({
       id: 'select',
       label: '',
       width: 5,
-      getContent: item => (
-        <CheckboxFancy label="" asRadioButton checked={item.id === selectedId} onChange={() => onChange(item)} />
-      )
+      getContent: item => <RadioButton label="" checked={item.id === selectedId} onChange={() => onChange(item)} />
     },
     triggerNameColumn,
     triggerDescriptionColumn
@@ -958,9 +955,7 @@ function SelectActionDialog({
       id: 'select',
       label: '',
       width: 5,
-      getContent: item => (
-        <CheckboxFancy label="" asRadioButton checked={item.id === selectedId} onChange={() => onChange(item)} />
-      )
+      getContent: item => <RadioButton label="" checked={item.id === selectedId} onChange={() => onChange(item)} />
     },
     nameColumn,
     descriptionColumn,

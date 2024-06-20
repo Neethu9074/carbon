@@ -7,10 +7,9 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Stack, SvgIcon } from '@instana/components';
+import { Stack, SvgIcon, Checkbox } from '@instana/components';
 
 import LabelText from 'in-alerting/smart-alerts/applications/apCreation/LabelText';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { t } from 'in-i18n';
 
 import locals from './MainColumn.mless';
@@ -29,7 +28,7 @@ export default function MainColumn({
   const isWarning = severity <= 5;
 
   return (
-    <CheckboxFancy
+    <Checkbox
       id={`select-built-in-alert${index}`}
       name={`select-built-in-alert${index}`}
       size="large"

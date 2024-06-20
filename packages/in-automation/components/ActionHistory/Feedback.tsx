@@ -7,11 +7,10 @@
 import { createMapForm, createField, Field, MapForm } from 'formalistic';
 import React, { useEffect, useState } from 'react';
 
-import { Message, Stack } from '@instana/components';
+import { Message, Stack, RadioButton } from '@instana/components';
 import { TextArea } from '@instana/components';
 
 import { actionHistoryInstanceFeedbackTracker } from 'in-automation/tracker';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -92,8 +91,7 @@ export default function Feedback({ id = '', feedback, comment, setHasStaleFeedba
               t('in-automation:actionHistory.satisfiedFeedback'),
               t('in-automation:actionHistory.verySatisfiedFeedback')
             ].map((label, i) => (
-              <CheckboxFancy
-                asRadioButton
+              <RadioButton
                 label={label}
                 key={label}
                 labelClassName={locals.checkboxLabel}

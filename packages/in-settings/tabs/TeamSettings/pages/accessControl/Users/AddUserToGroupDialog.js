@@ -5,14 +5,13 @@
 
 import React, { useState } from 'react';
 
-import { ColumnizedContent, Ul, Li } from '@instana/components';
+import { ColumnizedContent, Ul, Li, Checkbox } from '@instana/components';
 
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ActionBar from 'in-settings/components/Dialog/ActionBar';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
 import ApiList from 'in-settings/components/ApiList';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -69,7 +68,7 @@ const columnDefinitions = [
   {
     width: '2rem',
     getContent({ group, isGroupSelected, toggleItem }) {
-      return <CheckboxFancy checked={isGroupSelected} onChange={() => toggleItem(group.id, group)} />;
+      return <Checkbox checked={isGroupSelected} onChange={() => toggleItem(group.id, group)} />;
     }
   },
   {

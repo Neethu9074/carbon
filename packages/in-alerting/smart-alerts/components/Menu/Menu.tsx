@@ -8,8 +8,9 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
 
+import { RadioButton } from '@instana/components';
+
 import AlertTypography from 'in-alerting/components/AlertTypography';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { t } from 'in-i18n';
 
@@ -51,7 +52,7 @@ export default function Menu<T extends MenuItem>({
       <ul className={locals.list}>
         {items.map((item, i) => (
           <span className={locals.checkboxLabel} key={i}>
-            <CheckboxFancy
+            <RadioButton
               key={i}
               label={
                 <AlertTypography
@@ -74,7 +75,6 @@ export default function Menu<T extends MenuItem>({
                 setItemSelected(item);
                 onItemClick(item);
               }}
-              asRadioButton
             />
           </span>
         ))}

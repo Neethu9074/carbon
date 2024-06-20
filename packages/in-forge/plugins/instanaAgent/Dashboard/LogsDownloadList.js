@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { ColumnizedContent, Ul, Li } from '@instana/components';
+import { ColumnizedContent, Ul, Li, Checkbox } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
 
@@ -14,7 +14,6 @@ import { track, AGENT_LOGS_DOWNLOAD_CLICKED } from 'in-services/tracking/trackin
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { formatDateTime } from 'in-services/formatters/date';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { close } from 'in-components/DialogPresenter/store';
 import { bytes } from 'in-services/formatters/number';
@@ -30,7 +29,7 @@ const cols = [
     width: '2rem',
     getContent({ name, selectedItems, setSelectedItems }) {
       return (
-        <CheckboxFancy
+        <Checkbox
           checked={selectedItems.includes(name)}
           size="large"
           onChange={() => {

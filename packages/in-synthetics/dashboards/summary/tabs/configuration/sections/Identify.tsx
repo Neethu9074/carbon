@@ -7,11 +7,10 @@
 import React, { useState } from 'react';
 
 import { SyntheticTest } from '@instana/types/typeDefinitions';
-import { KeyValue, SearchInput } from '@instana/components';
+import { KeyValue, SearchInput, Checkbox } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 
@@ -67,7 +66,7 @@ const Identify = ({ test }: Props) => {
           {test.applicationLabel === '' || test.applicationLabel === undefined ? (
             t('in-synthetics:dashboard.configuration.noApplicationAssociated')
           ) : (
-            <CheckboxFancy checked disabled label={test.applicationLabel} />
+            <Checkbox checked disabled label={test.applicationLabel} />
           )}
         </LightCard>
       </Row>

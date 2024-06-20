@@ -7,7 +7,7 @@
 import { Field, Item, MapForm, createField } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, RadioButton } from '@instana/components';
 
 import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
 import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
@@ -17,7 +17,6 @@ import { Invalid, retriesObject, timeoutObject } from 'in-synthetics/utils/const
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { numberValidator } from 'in-services/validators/jsonType';
 import { minValidator } from 'in-services/validators/number';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
@@ -144,7 +143,7 @@ export default function SSLCertificateConfiguration({
           <Row className={locals.row}>
             {Object.keys(timeoutObject).map(unit => (
               <Col lg={4} key={unit}>
-                <CheckboxFancy
+                <RadioButton
                   key={unit}
                   label={timeoutObject[unit].label}
                   checked={timeoutObject[unit].value === timeout.unit}
@@ -156,7 +155,6 @@ export default function SSLCertificateConfiguration({
                       )
                     );
                   }}
-                  asRadioButton
                 />
               </Col>
             ))}
@@ -191,7 +189,7 @@ export default function SSLCertificateConfiguration({
           <Row className={locals.row}>
             {retriesObject.map(retry => (
               <Col lg={4} key={retry.value}>
-                <CheckboxFancy
+                <RadioButton
                   key={retry.value}
                   label={retry.label}
                   checked={retry.value === retriesField.value}
@@ -225,7 +223,6 @@ export default function SSLCertificateConfiguration({
                       );
                     }
                   }}
-                  asRadioButton
                 />
               </Col>
             ))}

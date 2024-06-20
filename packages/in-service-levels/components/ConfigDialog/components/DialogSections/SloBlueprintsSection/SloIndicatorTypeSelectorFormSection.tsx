@@ -7,10 +7,9 @@
 import React, { useContext } from 'react';
 import classNames from 'classnames';
 
-import { Stack, Typography } from '@instana/components';
+import { Stack, Typography, RadioButton } from '@instana/components';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
 
 import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTypeSelector.mless';
@@ -39,8 +38,7 @@ export default function SloIndicatorTypeSelectorFormSection() {
         })}
       >
         {!isIndicatorCustomBased && (
-          <CheckboxFancy
-            asRadioButton
+          <RadioButton
             checked={isIndicatorTimeBased}
             disabled={isFormInEditMode}
             explanation={t('in-service-levels:createSloDialog.indicatorSection.timeTypeExplanation')}
@@ -51,8 +49,7 @@ export default function SloIndicatorTypeSelectorFormSection() {
             wrapperClassName={locals.checkboxWrapper}
           />
         )}
-        <CheckboxFancy
-          asRadioButton
+        <RadioButton
           checked={isIndicatorEventBased}
           disabled={isFormInEditMode}
           explanation={t('in-service-levels:createSloDialog.indicatorSection.eventTypeExplanation')}

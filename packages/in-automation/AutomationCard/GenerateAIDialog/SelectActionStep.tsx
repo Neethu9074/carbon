@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Typography, Spacer, DescriptionItem } from '@instana/components';
+import { Typography, Spacer, DescriptionItem, RadioButton } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -20,7 +20,6 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import { getScriptFromFields, getManualContentFromFields } from 'in-automation/ActionCatalog/shared';
 import { nameColumn, descriptionColumn } from 'in-automation/ActionTable/columnDefinitions';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
@@ -70,9 +69,7 @@ export default function SelectActionDialog({
       id: 'select',
       label: '',
       width: 5,
-      getContent: item => (
-        <CheckboxFancy label="" asRadioButton checked={item === selectedAIAction} onChange={() => onChange(item)} />
-      )
+      getContent: item => <RadioButton label="" checked={item === selectedAIAction} onChange={() => onChange(item)} />
     },
     nameColumn,
     descriptionColumn,

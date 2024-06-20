@@ -7,12 +7,11 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { Pill, RadioButton } from '@instana/components';
 import { TimeConfig } from '@instana/types';
-import { Pill } from '@instana/components';
 
 //@ts-expect-error
 import LogMessagesList from 'in-alerting/smart-alerts/applications/components/LogMessagesList';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { operators } from 'in-analyze/applicationFilter';
@@ -86,13 +85,12 @@ export function getColumnDefinition(message: string, level: string) {
       getContent(item: any) {
         return (
           <div className={locals.alignCenter}>
-            <CheckboxFancy
+            <RadioButton
               key={Math.random()}
               disabled={false}
               label={null}
               checked={item.message === message && item.level === level}
               onChange={() => undefined}
-              asRadioButton
             />
           </div>
         );

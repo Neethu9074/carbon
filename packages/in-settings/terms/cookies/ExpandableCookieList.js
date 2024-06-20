@@ -7,11 +7,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
-import { ColumnizedContent, Ul, Li } from '@instana/components';
+import { ColumnizedContent, Ul, Li, Checkbox } from '@instana/components';
 import { KeyValue } from '@instana/components';
 
 import { cookieDefinitions } from 'in-settings/terms/cookies/cookieDefinitions';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { t } from 'in-i18n';
 
 export default function ExpandableCookieList({ form, onChange }) {
@@ -40,7 +39,7 @@ const columnDefinitions = [
       return form
         .get(cookie.key)
         .map(({ value }) => (
-          <CheckboxFancy checked={value} onChange={() => onChange(form, cookie.key, !value)} size="large" />
+          <Checkbox checked={value} onChange={() => onChange(form, cookie.key, !value)} size="large" />
         ));
     }
   },

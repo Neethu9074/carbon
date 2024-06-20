@@ -6,14 +6,13 @@
 
 import React, { useState } from 'react';
 
-import { Stack, Typography, KeyValue } from '@instana/components';
+import { Stack, Typography, KeyValue, RadioButton } from '@instana/components';
 
 import { Container, MainBody, SidePanel, Wrapper } from 'in-plg/pages/onboarding/Layout/Layout';
 import ExpandableCardPlg from 'in-plg/components/Card/ExpandableCard/OnboardingExpandCard';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import InputWithButton from 'in-plg/components/InputWithButton/InputWithButton';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
@@ -367,19 +366,17 @@ export default function InstanaAwsSensor({
             label={t('in-plg:agentDetails.gcp.installationMethod')}
             value={
               <Stack direction="horizontal">
-                <CheckboxFancy
+                <RadioButton
                   label={installationPlatforms[0].label}
                   checked={platform.key === 'ec2'}
                   onChange={() => setPlatform(installationPlatforms[0])}
                   size="default"
-                  asRadioButton
                 />
-                <CheckboxFancy
+                <RadioButton
                   label={installationPlatforms[1].label}
                   checked={platform.key === 'ecs'}
                   onChange={() => setPlatform(installationPlatforms[1])}
                   size="default"
-                  asRadioButton
                 />
               </Stack>
             }

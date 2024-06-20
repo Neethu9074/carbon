@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { noop } from 'lodash';
 
 import { PaginatedResult, Result, SyntheticTest, TestResultListItem } from '@instana/types';
-import { IconButton } from '@instana/components';
+import { IconButton, Checkbox } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { TrProps } from '@instana/legacy';
 
@@ -23,7 +23,6 @@ import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filte
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
@@ -248,7 +247,7 @@ function addSelectCheckboxAction(columns: ColumnDefinition<TestResultListItem>[]
     label: '',
     getContent(entity: TestResultListItemId) {
       return (
-        <CheckboxFancy
+        <Checkbox
           disabled={actionDefinition.disabled?.(entity)}
           checked={actionDefinition.get(entity)}
           onChange={() => {

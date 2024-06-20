@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
-import { SvgIcon, IconButton } from '@instana/components';
+import { SvgIcon, IconButton, Checkbox } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { createLogger } from '@instana/logger';
 import { create } from '@instana/observables';
@@ -21,7 +21,6 @@ import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { listSuccess, loading } from 'in-services/util/result';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Delete from 'in-settings/components/actions/Delete';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { identity } from 'in-services/util/function';
@@ -622,7 +621,7 @@ function addSelectCheckboxAction(columns, actionDefinition) {
     cellClassName: locals.selectCheckbox,
     getContent(entity) {
       return (
-        <CheckboxFancy
+        <Checkbox
           disabled={actionDefinition.disabled?.(entity)}
           checked={actionDefinition.get(entity)}
           onChange={() => actionDefinition.toggle(entity)}

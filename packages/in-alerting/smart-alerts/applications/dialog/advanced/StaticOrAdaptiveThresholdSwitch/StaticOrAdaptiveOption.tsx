@@ -6,13 +6,14 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { RadioButton } from '@instana/components';
+
 import {
   StaticOrAdaptiveType,
   staticOrAdaptiveThresholds,
   tearSheetStaticOrAdaptiveThresholds
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/config';
 import LabelDescriptionWithIcon from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/LabelDescriptionWithIcon';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import OptionBox from 'in-applications/components/OptionBox';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch.mless';
@@ -32,12 +33,11 @@ export default function StaticOrAdaptiveOption({ currentType, baselineType, onCh
   return (
     <>
       {isTearSheet && (
-        <CheckboxFancy
+        <RadioButton
           key={Math.random()}
           label={<LabelDescriptionWithIcon icon={icon} label={title} description={description} />}
           checked={currentType === baselineType}
           onChange={() => onChange(baselineType)}
-          asRadioButton
         />
       )}
       {!isTearSheet && (

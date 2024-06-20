@@ -7,13 +7,12 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Collapsible, IconButton, DescriptionList, DescriptionItem } from '@instana/components';
+import { Collapsible, IconButton, DescriptionList, DescriptionItem, Checkbox } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import { serviceNowAdvancedEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
@@ -285,7 +284,7 @@ function Form({ form, onChange }) {
                 <Label for="sendSection">{t('in-settings:tabs.sendTitle')}</Label>
                 {/*form.get('manuallyClosedIncidents').map(field => (
                   <FormGroup className={block}>
-                    <CheckboxFancy
+                    <Checkbox
                       label={t('in-settings:tabs.manuallyClosedIncidents')}
                       id="manuallyClosedIncidents"
                       checked={field.value}
@@ -297,7 +296,7 @@ function Form({ form, onChange }) {
                 ))*/}
                 {form.get('autoCloseIncidents').map(field => (
                   <FormGroup className={block}>
-                    <CheckboxFancy
+                    <Checkbox
                       label={t('in-settings:tabs.autoCloseIncidentsBD')}
                       id="autoCloseIncidents"
                       checked={field.value}
@@ -312,7 +311,7 @@ function Form({ form, onChange }) {
                 <Label for="receiveSection">{t('in-settings:tabs.receiveTitle')}</Label>
                 {form.get('resolutionOfIncident').map(field => (
                   <FormGroup className={block}>
-                    <CheckboxFancy
+                    <Checkbox
                       label={t('in-settings:tabs.resolutionOfIncident')}
                       id="resolutionOfIncident"
                       checked={field.value}

@@ -17,7 +17,7 @@ import {
 } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Link, SvgIcon, Message } from '@instana/components';
+import { Link, SvgIcon, Message, Checkbox } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Select } from '@instana/components';
@@ -55,7 +55,6 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { listSuccess, loading } from 'in-services/util/result';
 import { isLoading, hasError } from 'in-services/util/result';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { pendingResult } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
 import FormGroup from 'in-components/form/FormGroup';
@@ -198,7 +197,7 @@ export default function GroupMapping() {
       <>
         <Title title={t('in-settings:tabs.configureGroupMapping')} />
         <SubViewHeader>{t('in-settings:tabs.groupMapping')}</SubViewHeader>
-        <CheckboxFancy
+        <Checkbox
           label={t('in-settings:tabs.denyUserWithNoGroup')}
           checked={denyAccess}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

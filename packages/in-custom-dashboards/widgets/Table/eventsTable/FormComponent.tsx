@@ -7,11 +7,11 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Spacer, Stack } from '@instana/components';
+import { Spacer, Stack, Checkbox } from '@instana/components';
 
 import { useFormatterFormSideEffects } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { eventColumns } from 'in-custom-dashboards/widgets/Table/eventsTable/EventColumns';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+
 //@ts-expect-error
 import { trim } from 'in-components/SearchBar/Input';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -75,7 +75,7 @@ export default function FormComponent({
         <Section title={t('in-custom-dashboards:widgets.table.form.columns')}>
           <Stack direction="horizontal" align="center" distribution="stretch" gap="large">
             {Object.entries(eventColumns).map(([key, columnName]) => (
-              <CheckboxFancy
+              <Checkbox
                 label={columnName}
                 checked={columnField?.value?.includes(key)}
                 onChange={() => onColumnSelect(key)}

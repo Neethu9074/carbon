@@ -10,7 +10,7 @@ import { RRule } from 'rrule';
 import React from 'react';
 
 import { formatDate } from '@instana/format-date';
-import { Stack } from '@instana/components';
+import { Stack, RadioButton } from '@instana/components';
 
 import {
   setRRuleDateUntil,
@@ -18,7 +18,6 @@ import {
   setInfiniteRRule
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { parseDate } from 'in-services/formatters/date';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import DateInput from 'in-components/form/DateInput';
@@ -68,30 +67,27 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
         <div>
           <Label>{t('in-settings:tabs.repeatUntil')}</Label>
           <Stack direction="vertical" gap={'xxsmall'}>
-            <CheckboxFancy
+            <RadioButton
               className={locals.repeatUntil}
               label={t('in-settings:maintenanceWindow.aDate')}
-              asRadioButton
               checked={repeatType === 'aDate'}
               onChange={() => {
                 setRepeatType('aDate');
                 setValue(form, ['window', 'recurrence', 'repeatType'], 'aDate');
               }}
             />
-            <CheckboxFancy
+            <RadioButton
               className={locals.repeatUntil}
               label={t('in-settings:maintenanceWindow.numOccur')}
-              asRadioButton
               checked={repeatType === 'numOccur'}
               onChange={() => {
                 setValue(form, ['window', 'recurrence', 'repeatType'], 'numOccur');
                 setRepeatType('numOccur');
               }}
             />
-            <CheckboxFancy
+            <RadioButton
               className={locals.repeatUntil}
               label={t('in-settings:maintenanceWindow.forever')}
-              asRadioButton
               checked={repeatType === 'forever'}
               onChange={() => {
                 const updatedForm = form.updateIn(

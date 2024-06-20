@@ -6,9 +6,8 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, RadioButton, Checkbox } from '@instana/components';
 
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import FeatureFeedback from 'in-components/FeatureFeedback';
 
 import locals from './OptionBox.mless';
@@ -57,9 +56,10 @@ const OptionBoxWithRef = forwardRef(function OptionBox(
     </>
   );
 
+  const BoxComponent = asRadioButton ? RadioButton : Checkbox;
   return (
     <div className={classNames(className, locals.wrapper)} ref={ref}>
-      <CheckboxFancy
+      <BoxComponent
         label={labelContent}
         asRadioButton={asRadioButton}
         checked={checked}

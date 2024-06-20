@@ -7,14 +7,13 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, Checkbox } from '@instana/components';
 
 // @ts-expect-error
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
 import { formatterPath, metricsPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import Sections from 'in-components/workspace/Sections/Sections';
 import Section from 'in-components/workspace/Section';
@@ -102,7 +101,7 @@ export default function DatasetsColumn({
               <Sections>
                 <Section title={t('in-custom-dashboards:widgets.table.form.infrastructure.filterEmptyValues')}>
                   <Stack direction="horizontal" align="center" distribution="stretch" gap="large">
-                    <CheckboxFancy
+                    <Checkbox
                       checked={required}
                       onChange={({ target }) =>
                         updateForm(

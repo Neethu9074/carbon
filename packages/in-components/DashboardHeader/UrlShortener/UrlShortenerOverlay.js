@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Stack } from '@instana/components';
+import { Stack, Checkbox } from '@instana/components';
 
 import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-components/time/timeframeFormatter';
 import { useShortUrl } from 'in-components/DashboardHeader/UrlShortener/shortener';
@@ -14,7 +14,6 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { timeConfig$, fixateTimeConfig } from 'in-stores/time/config';
 import InlineTabNavigation from 'in-components/InlineTabNavigation';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
@@ -85,7 +84,7 @@ function Ready({ shortUrl, setFixateTime, fixateTime, timeConfig }) {
         </div>
 
         {timeConfig?.to == null && (
-          <CheckboxFancy
+          <Checkbox
             label={t('in-components:dashboardHeader.urlShortenerLabelLockCurrentTimeRange')}
             explanation={<Explanation timeConfig={timeConfig} fixateTime={fixateTime} />}
             size="larger"
