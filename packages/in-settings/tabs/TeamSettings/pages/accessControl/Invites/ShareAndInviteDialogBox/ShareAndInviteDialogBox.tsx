@@ -157,7 +157,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
   const getShortUrl = useShortUrl();
   const timeZone = new Date().toLocaleDateString('default', { day: '2-digit', timeZoneName: 'short' }).slice(4);
 
-  const urlResult: ShortUrlProps | undefined | null = useObservable(() => getShortUrl({ fixateTime }), [fixateTime]);
+  const urlResult: ShortUrlProps | undefined | null = useObservable(getShortUrl({ fixateTime }), [fixateTime]);
   const shortUrl = urlResult?.data?.shortUrl;
   const groups: any =
     useObservable(role?.canConfigureTeams ? getStrippedGroupsAsResultObservable : successObservable, []) ??
@@ -309,6 +309,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
 
   return (
     <Dialog
+      data-testid="share-and-invite-dialog-box"
       title={
         <div className={locals.title}>
           <Stack gap="disabled">
@@ -466,7 +467,9 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
               <Row>
                 <Col xs={12}>
                   <Fields helpText={t('in-settings:ShareAndInviteDialogBox.pageLink')} className={locals.greyedOutText}>
-                    <InputWithButton type="copy" displayContent={shortUrl} inputValue={shortUrl} size="fullWidth" />
+                    <div data-testid="short-url-component">
+                      <InputWithButton type="copy" displayContent={shortUrl} inputValue={shortUrl} size="fullWidth" />
+                    </div>
                   </Fields>
                 </Col>
               </Row>
@@ -517,7 +520,9 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
 
         {showInvite && (
           <FormFooter>
-            <CancelButton onClick={closeModal}>{t('in-settings:ShareAndInviteDialogBox.cancel')}</CancelButton>
+            <CancelButton data-testid="cancel-button" onClick={closeModal}>
+              {t('in-settings:ShareAndInviteDialogBox.cancel')}
+            </CancelButton>
             <SaveButton type="submit" disabled={(!form.hierarchyValid && form.touched) || !anyValidEntry(form)}>
               {t('in-settings:ShareAndInviteDialogBox.send')}
             </SaveButton>
