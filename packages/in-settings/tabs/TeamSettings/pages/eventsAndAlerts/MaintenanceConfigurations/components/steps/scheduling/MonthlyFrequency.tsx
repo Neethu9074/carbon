@@ -64,20 +64,22 @@ export default function MonthlyFrequency({ form, setFormRRule, rrule }: MonthlyF
             label="Day"
             checked={onDay}
           />
-          <Input
-            type="number"
-            id="monthly-recurrence-day"
-            placeholder="#"
-            disabled={!onDay}
-            onChange={v => {
-              if (v.target.valueAsNumber <= 0) return;
-              setByMonthDay(v.target.valueAsNumber);
-            }}
-            value={dayNum || ''}
-            className={locals.smallInput}
-            min="1"
-            max="31"
-          />
+          <div className={locals.smallInput}>
+            <Input
+              type="number"
+              id="monthly-recurrence-day"
+              placeholder="#"
+              disabled={!onDay}
+              onChange={v => {
+                if (v.target.valueAsNumber <= 0) return;
+                setByMonthDay(v.target.valueAsNumber);
+              }}
+              value={dayNum || ''}
+              className={locals.smallInput}
+              min="1"
+              max="31"
+            />
+          </div>
         </Stack>
         <Stack direction="horizontal" gap="xsmall">
           <RadioButton
