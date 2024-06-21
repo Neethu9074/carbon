@@ -15,12 +15,13 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 export default function useIsTagFilterFormModelExists(tagFilterExpression, getTagCatalog, updateTagFilterExpression) {
   const timeConfig = useTimeConfig();
   const tagCatalogResult = useObservable(() => getTagCatalog({ timeConfig }), [getTagCatalog, timeConfig]);
-  const availableTagFilters = tagCatalogResult?.data?.allTagNames ?? [];
 
+  const availableTagFilters = tagCatalogResult?.data?.allTagNames ?? [];
   useEffect(() => {
+    if (!tagCatalogResult || tagCatalogResult.progress?.loading) return;
     if (availableTagFilters && tagFilterExpression) {
       try {
-        removeInvalidFilters(tagFilterExpression, availableTagFilters, updateTagFilterExpression);
+        return removeInvalidFilters(tagFilterExpression, availableTagFilters, updateTagFilterExpression);
       } catch (ignoreParsingError) {
         // An invalid tag expression can not be converted to the backend model.
         // Then we won't be able to remove invalid tags.

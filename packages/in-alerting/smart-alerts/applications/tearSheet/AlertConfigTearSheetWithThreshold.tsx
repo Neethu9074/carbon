@@ -23,7 +23,6 @@ import useIsTagFilterFormModelExists from 'in-alerting/smart-alerts/applications
 //@ts-expect-error
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
-import useAlertingTearSheetAction from 'in-alerting/smart-alerts/applications/tearSheet/hooks/useAlertingTearSheetAction';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/applications/hooks/useAlertConfigValidation';
 import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -32,6 +31,7 @@ import { blueprintConfigs } from 'in-alerting/smart-alerts/applications/data/blu
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import { MessageType } from 'in-components/MessageStack/MessageStack';
 import { days } from 'in-services/time/time';
+import { Nullish } from 'in-types';
 
 /**
  * Timeframe used for the tag-suggestions in QB2.
@@ -62,6 +62,7 @@ export interface AlertConfigTearSheetWithThresholdProps {
   messages: MessageType[] | EnrichedError[];
   headerWithMsg: boolean;
   initialConfiguredApplications?: object;
+  cancelTearSheet: () => string | Nullish;
 }
 
 export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTearSheetWithThresholdProps) {
@@ -113,7 +114,8 @@ function SmartAlertConfigTearSheetWithQueryValidation({
     withTrackClose,
     headerWithMsg,
     isSaving,
-    isGlobalSmartAlert
+    isGlobalSmartAlert,
+    cancelTearSheet
   } = props;
 
   // we are validating only the user-defined part, not the whole enriched form model here,
@@ -150,12 +152,8 @@ function SmartAlertConfigTearSheetWithQueryValidation({
     onClose: withTrackClose
   });
 
-  const { cancelTearSheet } = useAlertingTearSheetAction();
-
   //@ts-expect-error
   const actions: AlertingFooterActions[] = getFooterActions(editMode, backOrCancel, cancelTearSheet);
-
-  const stepRenderers = APStepRenderers;
 
   const navItems = useAlertConfigValidation(
     stepConfigs,
@@ -181,7 +179,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       additionalValidationCheck={step === 1 || step === 3 ? isTagFilterFormModelValid : true}
       setForm={updateForm}
     >
-      {stepRenderers.map(
+      {APStepRenderers.map(
         (
           Renderer: (
             props: AlertConfigTearSheetWithThresholdProps & {

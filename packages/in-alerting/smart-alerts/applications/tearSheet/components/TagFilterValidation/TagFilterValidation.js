@@ -11,6 +11,7 @@ import { Message } from '@instana/components';
 import { Spacer } from '@instana/components';
 import { Button } from '@instana/legacy';
 
+import { triggerScrollToInvalidItem$ } from 'in-alerting/smart-alerts/components/tearSheet/hooks/useScrollToFirstInvalidItem';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { removeInvalidFilters } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
@@ -115,6 +116,7 @@ export default function TagFilterValidation({ form, close, QueryBuilder, updateF
 }
 
 function goToStep(setStep, step, close) {
+  triggerScrollToInvalidItem$.emit(true);
   setStep(step);
   close();
 }
