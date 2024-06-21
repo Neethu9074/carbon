@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { DescriptionItem } from '@instana/components';
+
 import getSnapshotFromHierarchyByPlugin from 'in-sdk/components/hoc/getSnapshotFromHierarchyByPlugin';
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
-import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
