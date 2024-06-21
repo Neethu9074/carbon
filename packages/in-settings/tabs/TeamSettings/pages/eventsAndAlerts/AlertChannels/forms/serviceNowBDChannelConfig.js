@@ -51,10 +51,6 @@ const parameters = [
     label: t('in-settings:tabs.autoCloseIncidentsBD')
   },
   {
-    key: 'manuallyClosedIncidents',
-    label: t('in-settings:tabs.manuallyClosedIncidents')
-  },
-  {
     key: 'resolutionOfIncident',
     label: t('in-settings:tabs.resolutionOfIncident')
   }
@@ -77,7 +73,6 @@ export default {
     alertChannel.username = '';
     alertChannel.password = '';
     alertChannel.autoCloseIncidents = true;
-    alertChannel.manuallyClosedIncidents = true;
     alertChannel.resolutionOfIncident = true;
   },
 
@@ -147,12 +142,6 @@ export default {
         })
       )
       .put(
-        'manuallyClosedIncidents',
-        createField({
-          value: alertChannel ? alertChannel.get('manuallyClosedIncidents') : true
-        })
-      )
-      .put(
         'resolutionOfIncident',
         createField({
           value: alertChannel ? alertChannel.get('resolutionOfIncident') : true
@@ -172,7 +161,6 @@ export default {
       username: form.get('username').value,
       password: form.get('password').value,
       autoCloseIncidents: form.get('autoCloseIncidents').value,
-      manuallyClosedIncidents: form.get('manuallyClosedIncidents').value,
       resolutionOfIncident: form.get('resolutionOfIncident').value
     };
   },
@@ -283,18 +271,6 @@ function Form({ form, onChange }) {
               <Trans i18nKey="in-settings:tabs.advancedIntro" />
               <section id="sendSection">
                 <Label for="sendSection">{t('in-settings:tabs.sendTitle')}</Label>
-                {/*form.get('manuallyClosedIncidents').map(field => (
-                  <FormGroup className={block}>
-                    <CheckboxFancy
-                      label={t('in-settings:tabs.manuallyClosedIncidents')}
-                      id="manuallyClosedIncidents"
-                      checked={field.value}
-                      onChange={e => onChange('manuallyClosedIncidents', e.target.checked)}
-                      size="larger"
-                    />
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))*/}
                 {form.get('autoCloseIncidents').map(field => (
                   <FormGroup className={block}>
                     <CheckboxFancy
