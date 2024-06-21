@@ -446,10 +446,6 @@ function AutomationMenu() {
     return null;
   }
 
-  if (playwithEnabled) {
-    return null;
-  }
-
   return (
     <MenuItem
       id="main-nav-automation-dashboard"
