@@ -50,10 +50,11 @@ const parameters = [
     key: 'autoCloseIncidents',
     label: t('in-settings:tabs.autoCloseIncidentsBD')
   },
+  /* Temporary hide pending backend decision when this will go live
   {
     key: 'manuallyClosedIncidents',
     label: t('in-settings:tabs.manuallyClosedIncidents')
-  },
+  },*/
   {
     key: 'resolutionOfIncident',
     label: t('in-settings:tabs.resolutionOfIncident')
@@ -77,7 +78,7 @@ export default {
     alertChannel.username = '';
     alertChannel.password = '';
     alertChannel.autoCloseIncidents = true;
-    alertChannel.manuallyClosedIncidents = true;
+    // alertChannel.manuallyClosedIncidents = true;
     alertChannel.resolutionOfIncident = true;
   },
 
@@ -146,12 +147,12 @@ export default {
           value: alertChannel ? alertChannel.get('autoCloseIncidents') : true
         })
       )
-      .put(
+      /*.put(
         'manuallyClosedIncidents',
         createField({
           value: alertChannel ? alertChannel.get('manuallyClosedIncidents') : true
         })
-      )
+      )*/
       .put(
         'resolutionOfIncident',
         createField({
@@ -172,7 +173,7 @@ export default {
       username: form.get('username').value,
       password: form.get('password').value,
       autoCloseIncidents: form.get('autoCloseIncidents').value,
-      manuallyClosedIncidents: form.get('manuallyClosedIncidents').value,
+      //manuallyClosedIncidents: form.get('manuallyClosedIncidents').value,
       resolutionOfIncident: form.get('resolutionOfIncident').value
     };
   },
