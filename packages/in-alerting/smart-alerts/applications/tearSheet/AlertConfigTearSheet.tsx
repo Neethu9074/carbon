@@ -32,7 +32,6 @@ import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/use
 import useGetSmartAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetSmartAlertConfig';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
-import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
@@ -290,13 +289,16 @@ function createOrSaveAlert({
   const isEffectivelyEditMode = migrationMode ? false : editMode;
 
   if (isEffectivelyEditMode) {
+    const alertConfigApplicationId = isEffectivelyGlobalSmartAlert ? null : Object.keys(alertConfig.applications)[0];
     (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
       config => {
-        showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
+        //Uncomment this if success message is needed while editing.
+        //showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
         trackAlertUpdated(alertConfig);
         return isEffectivelyGlobalSmartAlert
-          ? navigateToGlobalAlertConfigWithoutAPDashboard(config.id)
-          : navigateToAlertConfig(config.id, config.created, (config as any)?.applicationId);
+          ? navigateToGlobalAlertConfigWithoutAPDashboard(alertConfig.id)
+          : alertConfigApplicationId &&
+              navigateToAlertConfig(alertConfig.id, config?.created, alertConfigApplicationId);
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);

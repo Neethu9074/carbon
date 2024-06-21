@@ -42,7 +42,7 @@ export default function AlertChannelsList({
   isSearchable = true,
   onRowClick,
   hasRowNavigation = true,
-  getHeader = defaultGetHeader(tableActions, numberOfChannels)
+  getHeader = leftHeaderWithSelectAll(tableActions, numberOfChannels)
 }) {
   return (
     <List
@@ -59,7 +59,7 @@ export default function AlertChannelsList({
       rightHeader={rightHeader}
       isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters]}
-      searchWidth={240}
+      searchWidth={'100%'}
       searchMaxWidth={240}
       extraFilters={createFilters(hiddenIds)}
       customSortEntities={sortSelecteditems(preSelectedChannels)}
@@ -81,10 +81,6 @@ export default function AlertChannelsList({
   );
 }
 
-function defaultGetHeader(tableActions, numberOfChannels) {
-  return leftHeaderWithSelectAll(getAlertChannelTitle(numberOfChannels), tableActions);
-}
-
 function sortSelecteditems(selectedIds) {
   return ({ entities }) => {
     return entities.sort((a, b) => selectedIds.indexOf(b.id) - selectedIds.indexOf(a.id));
@@ -97,7 +93,8 @@ function getAlertChannelTitle(channelCount) {
     : t('in-settings:tabs.alertChannels');
 }
 
-function leftHeaderWithSelectAll(entityName, tableActions) {
+function leftHeaderWithSelectAll(tableActions, numberOfChannels) {
+  const entityName = getAlertChannelTitle(numberOfChannels);
   return function LeftHeaderWithSelectAll(totalHits, filteredHits, entitiesBeforePagination) {
     const allSelected = areAllRowsOnAllPagesSelected(entitiesBeforePagination, tableActions);
     if (
@@ -110,7 +107,8 @@ function leftHeaderWithSelectAll(entityName, tableActions) {
         <>
           <div
             className={classNames({
-              [locals.grid]: true
+              [locals.grid3]: true,
+              [locals.grid2]: !numberOfChannels
             })}
           >
             <AlertTypography variant="heading-200" color="color900" content={entityName} noMargin />
@@ -121,13 +119,15 @@ function leftHeaderWithSelectAll(entityName, tableActions) {
             >
               {t('in-settings:components.selectAll', { len: entitiesBeforePagination.length })}
             </Button>
-            <Button
-              kind="action"
-              className={locals.colorDanger}
-              onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, false)}
-            >
-              {t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.clearAll')}
-            </Button>
+            {numberOfChannels > 0 && (
+              <Button
+                kind="action"
+                className={locals.colorDanger}
+                onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, false)}
+              >
+                {t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.clearAll')}
+              </Button>
+            )}
           </div>
           <div className={locals.scopeMargin} />
         </>
