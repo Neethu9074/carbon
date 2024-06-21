@@ -20,11 +20,12 @@
   }
 
   .codeBlock {
+    padding: 1rem;
     ol,
     ul {
       list-style-type: revert;
       margin: 0;
-      padding: 1.5rem;
+      padding: 1.2rem;
       li {
         margin-bottom: 0.5rem;
       }
