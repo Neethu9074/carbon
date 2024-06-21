@@ -41,6 +41,13 @@
 > Please include one or more screenshots that show what this code change looks
 > like in the UI. Please include screenshots to highlight special / edge cases.
 
+> You can add screenshots either in a table side-by-side or for bigger screenshots, you can use the sections.
+
+| Before | After |
+| ------ | ----- |
+|        |       |
+|        |       |
+
 ## After
 
 > Please add any screenshot here to show how it looks after applying the changes. This helps to spot the visual changes easier.
