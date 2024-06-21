@@ -78,6 +78,7 @@
       "step5": "Step 5: ",
       "download": "Download",
       "clusterName": "Cluster name",
+      "applicationRuntime": "Application runtime",
       "agentZoneOptional": "Agent zone (optional)",
       "networkRequirements": "Network requirements",
       "toInstallAndRunAnAgentCompleteTheFollowingSteps": "To install and run an agent, complete the following steps.",
@@ -424,7 +425,13 @@
     },
     "azure": {
       "installingAgentOnAks": "Installing an Agent on Aks",
-      "configureAfterInstall": "Configuring the agent after install"
+      "configureAfterInstall": "Configuring the agent after install",
+      "referenceToAzureContainerAppsDocumentation": "Go Application deployed in Azure Container Apps need to be manually instrumented in order to collect trace data. Follow the instructions of the <azureContainerAppsDoc>Azure Container Apps Go documentation</azureContainerAppsDoc>.",
+      "selectAzureContainerAppsRuntime": "Select Azure Container Apps runtime",
+      "reviewPrerequisitesAndConfigureContainerApps": "Review the prerequisites and configure your Azure Container Apps for tracing.",
+      "containerAppSetEnvironmentVariables": "Set the following environment variables while creating an Azure Container App.",
+      "monitoringAzure": "Monitoring and instrumenting Microsoft Azure with Azure agent",
+      "monitoringAzureContainerApps": "Monitoring Azure Container Apps"
     },
     "gcp": {
       "dockerBuild": "Docker build",
