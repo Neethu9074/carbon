@@ -23,7 +23,10 @@ export default function Info({ snapshot }) {
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title={t('in-forge:plugins.activeMQ.healthStatus')}>{data.get('healthStatus')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.activeMQ.ports')}>
-        {data.get('ports', emptyList).sort().join(', ')}
+        {data
+          .get('ports', emptyList)
+          .sort()
+          .join(', ')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.activeMQ.role')}>{role}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.activeMQ.memoryLimit')}>

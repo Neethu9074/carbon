@@ -14,8 +14,12 @@ export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.sapHanaSystem.hostName')}>{data.get('hostName')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.sapHanaSystem.objectType')}>{data.get('objectType')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapHanaSystem.hostName')}>
+        {data.get('hostName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapHanaSystem.objectType')}>
+        {data.get('objectType')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

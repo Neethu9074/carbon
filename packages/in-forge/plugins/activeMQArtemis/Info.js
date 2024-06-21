@@ -24,7 +24,10 @@ export default function ActiveMQArtemisInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.activeMQArtemis.nodeId')}>{data.get('nodeId')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title={t('in-forge:plugins.activeMQArtemis.ports')}>
-        {data.get('ports', emptyList).sort().join(', ')}
+        {data
+          .get('ports', emptyList)
+          .sort()
+          .join(', ')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.activeMQArtemis.memoryLimit')}>
         {bytesTwoDecimalPlaces(data.get('memoryLimit'))}

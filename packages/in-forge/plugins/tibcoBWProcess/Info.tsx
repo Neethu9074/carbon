@@ -18,12 +18,8 @@ export default function Info({ snapshot }: { snapshot: SnapshotData }) {
       <DescriptionItem title={t('in-forge:plugins.tibcoBWProcess.processName')}>{data.get('name')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.tibcoBWProcess.appName')}>{data.get('appName')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.tibcoBWProcess.appVersion')}>{data.get('appVer')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.tibcoBWProcess.moduleName')}>
-        {data.get('moduleName')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.tibcoBWProcess.moduleVersion')}>
-        {data.get('moduleVer')}
-      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.tibcoBWProcess.moduleName')}>{data.get('moduleName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.tibcoBWProcess.moduleVersion')}>{data.get('moduleVer')}</DescriptionItem>
     </DescriptionList>
   );
 }

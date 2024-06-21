@@ -14,7 +14,9 @@ export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.sapWebDispatcher.hostName')}>{data.get('hostName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapWebDispatcher.hostName')}>
+        {data.get('hostName')}
+      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapWebDispatcher.objectType')}>
         {data.get('objectType')}
       </DescriptionItem>

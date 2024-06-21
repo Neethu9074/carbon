@@ -15,7 +15,9 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.sapJavaInstance.hostName')}>{data.get('hostName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapJavaInstance.hostName')}>
+        {data.get('hostName')}
+      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapJavaInstance.objectType')}>
         {data.get('objectType')}
       </DescriptionItem>
