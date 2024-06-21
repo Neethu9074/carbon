@@ -26,57 +26,46 @@ export default function ViewSwitcher({ selectedEventType }) {
   const tabs = [];
 
   setOrDeleteMatrixKey(location, eventsPath, 'view', null);
-  tabs.push(
-    <SecondLevelNavigationItem
-      href={createHref(location)}
-      label={t('in-events:labelAll')}
-      isActive={!selectedEventType}
-      darkTheme
-    />
-  );
+  tabs.push({
+    href: createHref(location),
+    label: t('in-events:labelAll'),
+    isActive: !selectedEventType
+  });
   setOrDeleteMatrixKey(location, eventsPath, 'view', 'incident');
-  tabs.push(
-    <SecondLevelNavigationItem
-      href={createHref(location)}
-      label={eventTypeLabels.incident}
-      isActive={selectedEventType === 'incident'}
-      darkTheme
-    />
-  );
+  tabs.push({
+    href: createHref(location),
+    label: eventTypeLabels.incident,
+    isActive: selectedEventType === 'incident'
+  });
   setOrDeleteMatrixKey(location, eventsPath, 'view', 'issue');
-  tabs.push(
-    <SecondLevelNavigationItem
-      href={createHref(location)}
-      label={eventTypeLabels.issue}
-      isActive={selectedEventType === 'issue'}
-      darkTheme
-    />
-  );
+  tabs.push({
+    href: createHref(location),
+    label: eventTypeLabels.issue,
+    isActive: selectedEventType === 'issue'
+  });
   setOrDeleteMatrixKey(location, eventsPath, 'view', 'change');
-  tabs.push(
-    <SecondLevelNavigationItem
-      href={createHref(location)}
-      label={eventTypeLabels.change}
-      isActive={selectedEventType === 'change'}
-      darkTheme
-    />
-  );
+  tabs.push({
+    href: createHref(location),
+    label: eventTypeLabels.change,
+    isActive: selectedEventType === 'change'
+  });
+
   if ((isInternalVisible || agentMonitoringIssuesEnabled) && !playwithEnabled) {
     setOrDeleteMatrixKey(location, eventsPath, 'view', 'agent_monitoring_issue');
-    tabs.push(
-      <SecondLevelNavigationItem
-        href={createHref(location)}
-        label={eventTypeLabels.agent_monitoring_issue}
-        isActive={selectedEventType === 'agent_monitoring_issue'}
-        addSeparator
-        darkTheme
-      />
-    );
+    tabs.push({
+      href: createHref(location),
+      label: eventTypeLabels.agent_monitoring_issue,
+      isActive: selectedEventType === 'agent_monitoring_issue'
+    });
   }
 
   return (
     <div className={locals.wrapper}>
-      <SecondLevelNavigation>{tabs}</SecondLevelNavigation>
+      <SecondLevelNavigation>
+        {tabs.map(({ href, label, isActive }, i) => (
+          <SecondLevelNavigationItem href={href} label={label} isActive={isActive} key={i} />
+        ))}
+      </SecondLevelNavigation>
       <SearchBar style={{ maxWidth: 'calc(100% - 30rem)' }} theme="light" />
     </div>
   );
