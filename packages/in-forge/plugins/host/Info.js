@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import { bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';

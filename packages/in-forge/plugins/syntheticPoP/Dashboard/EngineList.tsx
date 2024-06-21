@@ -6,9 +6,8 @@
 
 import React from 'react';
 
-import { Collapsible } from '@instana/components';
+import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList/DescriptionList';
 import { t } from 'in-i18n';
 
 export default function EngineList({ snapshot }: { snapshot: any }) {

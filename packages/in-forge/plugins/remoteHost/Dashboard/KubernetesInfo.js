@@ -6,11 +6,10 @@
 
 import React from 'react';
 
+import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 import { combineLatest } from '@instana/observables';
-import { Collapsible } from '@instana/components';
 
 import getKubernetesClusterByNode from 'in-kubernetes/subscriptions/getKubernetesClusterByNode';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
 import getKubernetesNodeByHost from 'in-kubernetes/subscriptions/getKubernetesNodeByHost';
 import { useClusterDashboard, useNodeDashboard } from 'in-kubernetes/navigation/paths';
