@@ -37,13 +37,14 @@
   .medInput {
     width: 5rem;
   }
+  .largeInput {
+    width: 8rem;
+  }
   .inputContainer {
     width: 65%;
     margin: 0.5rem;
   }
-  .doubleInput {
-    margin-right: 0.75rem;
-  }
+
   .previewContainer {
     background-color: #fafbfc;
     height: 10rem;
@@ -62,5 +63,8 @@
   }
   .timezoneMessage {
     width: 85%;
+  }
+  .gap {
+    gap: 1rem;
   }
 }

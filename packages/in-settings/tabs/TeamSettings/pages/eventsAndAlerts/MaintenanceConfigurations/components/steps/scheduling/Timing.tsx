@@ -158,7 +158,7 @@ export default function Timing({
                 <SvgIcon type="lib_help_error_info_outline" color="#2D4048" />
               </Tooltip>
             </HorizontalFlexWrapper>
-            <HorizontalFlexWrapper>
+            <HorizontalFlexWrapper className={locals.gap}>
               <Input
                 type="number"
                 id="maintenance-duration"
