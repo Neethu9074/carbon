@@ -28,7 +28,6 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import InfiniteCircle from 'in-components/Loading/InfiniteCircle';
 import { hasError, isLoading } from 'in-services/util/result';
 import { formatTime } from 'in-services/formatters/date';
-import SetBodyColor from 'in-components/SetBodyColor';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -99,6 +98,7 @@ function Profile({
     if (isWaitTimeProfile && viewType === 'flameGraph') waitTimeFlameGraphOpened(runtime);
     if (isMemoryProfile && viewType === 'tree') memoryTreeViewOpened(runtime);
     if (isMemoryProfile && viewType === 'flameGraph') memoryFlameGraphOpened(runtime);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewType]);
 
   const isLoadingProfileForHighlightedTimeframe = isLoading(profileForHighlightedTimeframeResult);
@@ -139,7 +139,6 @@ function Profile({
 
   return (
     <>
-      <SetBodyColor color="#fff" />
       <div className={locals.header}>
         <div className={locals.leftSide}>
           <ButtonGroup

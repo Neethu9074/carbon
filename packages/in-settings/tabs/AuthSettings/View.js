@@ -27,7 +27,6 @@ import Saml from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Saml/Sa
 import OIDC from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/OIDC';
 import Ldap from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
-import SetBodyColor from 'in-components/SetBodyColor';
 import { getInvitations$ } from 'in-api/users';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
@@ -107,7 +106,6 @@ export default connectTo(
           NotFoundPage={NotFoundPage}
           {...props}
         />
-        <SetBodyColor color="#fff" />
       </Fragment>
     );
   }

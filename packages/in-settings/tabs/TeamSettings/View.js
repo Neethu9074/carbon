@@ -93,7 +93,6 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { pageNames } from 'in-services/tracking/pageNames';
-import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -414,7 +413,6 @@ export default function View(props) {
         NotFoundPage={NotFoundPage}
         {...props}
       />
-      <SetBodyColor color="#fff" />
     </Fragment>
   );
 }

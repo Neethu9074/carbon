@@ -24,7 +24,6 @@ import { buildJsonParser } from 'in-stores/navigation/matrix';
 import { percentage } from 'in-services/formatters/number';
 import { formatTime } from 'in-services/formatters/date';
 import { overviewOpened } from 'in-profiling/tracker';
-import SetBodyColor from 'in-components/SetBodyColor';
 import { Col, Row } from 'in-components/layout/Grid';
 import { isLoading } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
@@ -70,8 +69,6 @@ export default function HotspotView({
 
   return (
     <div className={locals.wrapper}>
-      <SetBodyColor color="#F7F9FA" />
-
       <Row>
         <Col xs={12}>
           <Card>

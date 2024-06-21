@@ -30,7 +30,6 @@ import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
-import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -113,7 +112,6 @@ export default function View(props) {
         redirectFrom={userSettings}
         {...props}
       />
-      <SetBodyColor color="#fff" />
     </Fragment>
   );
 }
