@@ -29,7 +29,7 @@ import locals from './config.mless';
 
 export const decorators = [
   story => (
-    <ThemeProvider theme="g10">
+    <ThemeProvider theme="default">
       <TooltipPresenter />
       <OverlayPresenter />
       <div id="main" role="main" className={locals.root}>

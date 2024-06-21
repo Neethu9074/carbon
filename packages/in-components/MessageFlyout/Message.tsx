@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2024
  * (c) Copyright Instana Inc.
  */
 
@@ -10,23 +10,17 @@ import classNames from 'classnames';
 import { Message as CarbonMessage, MessageTypes } from '@instana/components';
 import { Stack, SvgIcon } from '@instana/components';
 
+import { MessageWithId } from 'in-components/MessageFlyout/stores/messages';
 import { carbonMessageEnabled } from 'in-services/featureFlags';
 
 import { carbonMessageEnabled } from 'in-services/featureFlags';
 
 import locals from './Message.mless';
 
-interface MessageParms {
-  content: ReactNode;
-  icon: string;
-  onClick?: (e: React.MouseEvent) => {};
-  title?: string;
-  type: 'info' | 'warning' | 'danger';
-}
-
 interface MessageProps {
-  message: MessageParms;
-  carbonVariant: boolean;
+  message: MessageWithId;
+  /** @deprecated - do not use in production, only used in storybook */
+  carbonVariant: boolean | undefined;
 }
 
 interface TitleProps {
@@ -73,7 +67,7 @@ export default function Message({ message, carbonVariant }: MessageProps) {
       onClick={message.onClick}
     >
       <Stack direction="horizontal" gap="xsmall">
-        <SvgIcon type={message.icon} className={locals.icon} />
+        {message.icon && <SvgIcon type={message.icon} className={locals.icon} />}
         <div
           className={classNames(locals.msg, {
             [locals.verticallyCenterMsg]: !message.title && typeof message.content === 'string'
