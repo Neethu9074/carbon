@@ -214,7 +214,12 @@ export default connectTo(
 
         <DashboardSection title={t('in-internal:monitoringUnit.unit.appDataStatistic.srvlessAcceptorRateLimitSpanMsg')}>
           <ChartExplanation>
-            <div>{t('in-internal:monitoringUnit.unit.appDataStatistic.acceptorRateLimitSpanhartExplan')}</div>
+            <div>
+              <Trans
+                i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.acceptorRateLimitSpanhartExplan"
+                components={{ italic: <i />, bold: <strong /> }}
+              />
+            </div>
           </ChartExplanation>
           <Chart
             snapshotId={tenantUnitId}
@@ -223,6 +228,27 @@ export default connectTo(
               formatter: number.compact,
               metrics: [`serverless-acceptor.droppedSpanMessagesRateLimited`],
               labels: [t('in-internal:monitoringUnit.unit.appDataStatistic.srvlessAcceptorDropSpanMsg')],
+              type: 'stackedArea'
+            }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title={t('in-internal:monitoringUnit.unit.appDataStatistic.otlpAcceptorRateLimitSpanMsg')}>
+          <ChartExplanation>
+            <div>
+              <Trans
+                i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.acceptorRateLimitSpanhartExplan"
+                components={{ italic: <i />, bold: <strong /> }}
+              />
+            </div>
+          </ChartExplanation>
+          <Chart
+            snapshotId={tenantUnitId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: [`otlp-acceptor.droppedSpanMessagesRateLimited`],
+              labels: [t('in-internal:monitoringUnit.unit.appDataStatistic.otlpAcceptorDropSpanMsg')],
               type: 'stackedArea'
             }}
           />
