@@ -5,7 +5,7 @@
 
 :local {
   .verticalAlignedCells {
-    align-items: center;
+    align-items: normal;
   }
   .optionBox {
     &.optionBox {

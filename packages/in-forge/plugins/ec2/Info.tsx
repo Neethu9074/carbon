@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import { Ec2Tags } from 'in-forge/plugins/ec2/Ec2Tags';
 import { emptyMap } from 'in-services/fixedImmutables';
 //@ts-expect-error

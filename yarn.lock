@@ -2914,9 +2914,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:3.33.0, @instana/components@npm:^3.33.0":
-  version: 3.33.0
-  resolution: "@instana/components@npm:3.33.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-3.33.0.tgz"
+"@instana/components@npm:3.34.0, @instana/components@npm:^3.34.0":
+  version: 3.34.0
+  resolution: "@instana/components@npm:3.34.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-3.34.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.39.0
     "@carbon/react": 1.55.0
@@ -2937,7 +2937,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: cf011ad5baa7aef0a9a5b8b35d9c57f6fe791a7c0770a214ec92aa46a0782262b65699216413c286e01b8bf4885454bc58b89bbccda076dfcf08012ad2b6be12
+  checksum: 787b733df5d2ccb9d06216963cd2260c4ef195efb60d5e412807563fca8f1fbca5490e767aeb1826fb4cc0bf0d4c469a04ed35ed25849f8a1e071702efcc0149
   languageName: node
   linkType: hard
 
@@ -3042,11 +3042,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:3.4.47":
-  version: 3.4.47
-  resolution: "@instana/legacy@npm:3.4.47::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-3.4.47.tgz"
+"@instana/legacy@npm:3.4.48":
+  version: 3.4.48
+  resolution: "@instana/legacy@npm:3.4.48::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-3.4.48.tgz"
   dependencies:
-    "@instana/components": ^3.33.0
+    "@instana/components": ^3.34.0
     "@instana/design-tokens": ^1.27.0
     "@instana/format-date": ^1.6.7
     "@instana/format-numbers": ^1.5.5
@@ -3059,7 +3059,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 7485e8f9a401adfa191016f9096fb7a9c88ec1aae114a137756daedfe3ac97021db69287223c1dde36daf54c33fbf3187db87b7738a15fedb08db4a94cc37158
+  checksum: 7def698f83a4bd4338553fb1688db3417726b76f34b67856ba453156a5e377c43cff2b7f00671861ff21536e50854b384b66dc4ff5d50ffd1f0528c44cd07c85
   languageName: node
   linkType: hard
 
@@ -4163,6 +4163,13 @@ __metadata:
   bin:
     tsub: dist/index.js
   checksum: 28e27be4bb7d70ef9e74723b206ab0e6cc4764180c8f8e66266efc88bee6843042d4a969685603dd3ee9d3a5dfac987e7f3b76c0543a869d446d5e16cd960315
+  languageName: node
+  linkType: hard
+
+"@seznam/compose-react-refs@npm:^1.0.5":
+  version: 1.0.6
+  resolution: "@seznam/compose-react-refs@npm:1.0.6"
+  checksum: f9b1840385a6866a564897d8a2aad3a3dcdde1ccb5bef8476616ef447b689c75cdc5f47bf40e0d2e2d3b37c8e934ec13eeb9d09388fb98bb280a897788d1f478
   languageName: node
   linkType: hard
 
@@ -19846,6 +19853,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-is-mounted-hook@npm:^1.0.3":
+  version: 1.1.2
+  resolution: "react-is-mounted-hook@npm:1.1.2"
+  peerDependencies:
+    react: ^16.8.6 || ^17
+    react-dom: ^16.8.6 || ^17
+  checksum: 297e28bc6fe77f1ba13536246a1747c1478e1896fe7ade7b0801baf902774116cd2ec38ad91a08eb9b9706e03fbf63ca4534bdbc9b7a0ce9e4a15d9295712f13
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.12.0 || ^17.0.0, react-is@npm:^17.0.0, react-is@npm:^17.0.1, react-is@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
@@ -19935,6 +19952,21 @@ __metadata:
   peerDependencies:
     react: ">=15"
   checksum: 7daae084bf64531eb619cc5f4cc40ce5ae0a541b64f71d74ec71a38cbf6130ebdbb7cf38f157303fad5846deec259401f96c4d6c7386466dcc989719e01f9aaa
+  languageName: node
+  linkType: hard
+
+"react-select-async-paginate@npm:~0.5":
+  version: 0.5.3
+  resolution: "react-select-async-paginate@npm:0.5.3"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@seznam/compose-react-refs": ^1.0.5
+    react-is-mounted-hook: ^1.0.3
+    sleep-promise: ^9.1.0
+  peerDependencies:
+    react: ^16.14.0 || ^17.0.0
+    react-select: ^2.0.0 || ^3.0.0 || ^4.0.0
+  checksum: 55cf377a123446a3743342f809e61d28ee91ebd43afcbed5d79f125d74f3b30fe23eeebfffbad51b19fbdfd121241c44ba385306327c12ea4c641520a7f840cb
   languageName: node
   linkType: hard
 
@@ -21317,6 +21349,13 @@ __metadata:
   version: 3.0.0
   resolution: "slash@npm:3.0.0"
   checksum: 94a93fff615f25a999ad4b83c9d5e257a7280c90a32a7cb8b4a87996e4babf322e469c42b7f649fd5796edd8687652f3fb452a86dc97a816f01113183393f11c
+  languageName: node
+  linkType: hard
+
+"sleep-promise@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "sleep-promise@npm:9.1.0"
+  checksum: a93359c18d2e4d586f2ecd4575cbdbc92bcbd9d387bd4bca249892abb512ca4e80075f67e53ec1279ea4555e8a1f6dc9df9e90f8aa71178ad943e9ba1f27debb
   languageName: node
   linkType: hard
 
@@ -22933,7 +22972,7 @@ __metadata:
     "@codemirror/state": 6.2.0
     "@codemirror/theme-one-dark": ^6.0.0
     "@codemirror/view": 6.6.0
-    "@instana/components": 3.33.0
+    "@instana/components": 3.34.0
     "@instana/design-tokens": 1.27.0
     "@instana/eslint-config-commons": 1.2.3
     "@instana/format-date": 1.6.7
@@ -22942,7 +22981,7 @@ __metadata:
     "@instana/i18n": ^1.4.1
     "@instana/i18n-react": 1.5.7
     "@instana/import-sort-style-simon": 1.3.2
-    "@instana/legacy": 3.4.47
+    "@instana/legacy": 3.4.48
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.6.1
     "@instana/pseudo-translation": ^1.3.1
@@ -23096,6 +23135,7 @@ __metadata:
     react-router: ^5.2.0
     react-router-dom: ^5.2.0
     react-select: ^4.3.1
+    react-select-async-paginate: ~0.5
     react-test-renderer: ^17
     rimraf: ^2.6.2
     rrule: ^2.7.1

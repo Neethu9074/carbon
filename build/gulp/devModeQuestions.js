@@ -68,6 +68,8 @@ function getTargetSelectedViaEnvironmentVariables() {
     return environments['K8s Test (pink)'];
   } else if (/^heliconia$/i.test(process.env.TARGET)) {
     return environments['K8s Test (heliconia)'];
+  } else if (/^release$/i.test(process.env.TARGET)) {
+    return environments['K8s Release (magenta)'];
   } else if (/^local$/i.test(process.env.TARGET)) {
     return {
       local: true

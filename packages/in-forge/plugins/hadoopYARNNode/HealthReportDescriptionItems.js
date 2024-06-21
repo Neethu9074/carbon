@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionItem } from '@instana/components';
+
 import { formatDateTime } from 'in-services/formatters/date';
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';

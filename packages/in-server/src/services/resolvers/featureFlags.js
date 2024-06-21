@@ -516,6 +516,16 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonRadioButtonEnabled',
+    instanaCtlKey: 'feature.carbon.radiobutton.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonCheckboxEnabled',
+    instanaCtlKey: 'feature.carbon.checkbox.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonIconButtonEnabled',
     instanaCtlKey: 'feature.carbon.iconbutton.enabled',
     defaultValue: false
@@ -661,8 +671,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'analyzeInfrastructureButtonEnabled',
-    instanaCtlKey: 'feature.analyze.infrastructure.button.enabled',
+    uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
+    instanaCtlKey: 'feature.analyze.related.instances.button.enabled',
     defaultValue: false
   },
   {

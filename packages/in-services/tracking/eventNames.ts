@@ -298,8 +298,8 @@ export const PROFILING_TREEVIEW_EXPANDED = 'profiling.treeView.expanded';
 export const INFRASTRUCTURE_CONTEXT_GUIDE_STACK_LOADED = 'infrastructure.context.guide.stack.loaded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_EXPANDED = 'infrastructure.sidebar.related.entities.expanded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_CLICKED = 'infrastructure.sidebar.related.entities.clicked';
-export const INFRASTRUCTURE_ANALYZE_INFRASTRUCTURE_BUTTON_CLICKED =
-  'infrastructure.analyze.infrastructure.button.clicked';
+export const INFRASTRUCTURE_ANALYZE_RELATED_INSTANCES_BUTTON_CLICKED =
+  'infrastructure.analyze.related.instances.button.clicked';
 export const INFRA_EXPLORE_TYPE_SELECTOR_STATE_CHANGED = 'infra.explore.type.selector.state.changed';
 export const INFRA_EXPLORE_FILTER_ADDED = 'infra.explore.filter.added';
 export const INFRA_EXPLORE_FILTER_REMOVED = 'infra.explore.filter.removed';
@@ -489,6 +489,10 @@ export const EVENT_FEEDBACK_NEXT = 'event.feedback.next';
 export const EVENT_FEEDBACK_SKIP = 'event.feedback.skip';
 export const EVENT_FEEDBACK_POSITIVE = 'event.feedback.positive';
 export const EVENT_FEEDBACK_NEGATIVE = 'event.feedback.negative';
+
+// Event Enrichment Tracking
+export const EVENT_NOTES_SUBMIT = 'event.notes.submit';
+export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
 
 // Incident Summarization Feedback Tracking
 export const INCIDENT_SUMMARIZATION_HELPFUL = 'incident.summarization.feedback.helpful';

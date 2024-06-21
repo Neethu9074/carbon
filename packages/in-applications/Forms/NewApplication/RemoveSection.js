@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { get } from 'lodash';
 
-import { Card } from '@instana/components';
+import { Card, Checkbox } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
@@ -14,7 +14,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { deleteApplicationConfig } from 'in-api/applicationConfigs';
 import { applicationsList } from 'in-applications/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import { Trans, t } from 'in-i18n';
@@ -49,7 +48,7 @@ export default function RemoveSection({ application }) {
             values={{ application: application.label }}
           />
         </DescriptionText>
-        <CheckboxFancy
+        <Checkbox
           wrapperClassName={locals.checkbox}
           label={t('in-applications:forms.understandCheckboxResetToDefaultRule')}
           checked={checkboxChecked}

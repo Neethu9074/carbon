@@ -6,13 +6,12 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import { SvgIcon, IconButton, DescriptionList, DescriptionItem } from '@instana/components';
+import { SvgIcon, IconButton, DescriptionList, DescriptionItem, Checkbox } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import { serviceNowAutoCloseAndCustomPayloadsEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
@@ -243,7 +242,7 @@ function Form({ form, onChange }) {
       {serviceNowAutoCloseAndCustomPayloadsEnabled &&
         form.get('autoCloseIncidents').map(field => (
           <FormGroup className={block}>
-            <CheckboxFancy
+            <Checkbox
               label={t('in-settings:tabs.autoCloseIncidents')}
               id="autoCloseIncidents"
               checked={field.value}

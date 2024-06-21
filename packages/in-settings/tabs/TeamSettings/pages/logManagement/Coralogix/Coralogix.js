@@ -9,6 +9,7 @@ import React, { Fragment } from 'react';
 import { createLogger } from '@instana/logger';
 import { Toggle } from '@instana/components';
 
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb'
 import CoralogixForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/CoralogixForm';
 import { teamSettingsLogManagementCoralogix } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
@@ -98,6 +99,7 @@ export default class Coralogix extends React.Component {
     return (
       <SettingsDetailPage>
         <Title title={t('in-settings:tabs.configureCoralogix')} />
+        <IntegrationsBreadcumb />
         <SubViewHeader>{t('in-settings:tabs.configureYourCoralogixSettings')}</SubViewHeader>
         <SectionLine />
         {form && (

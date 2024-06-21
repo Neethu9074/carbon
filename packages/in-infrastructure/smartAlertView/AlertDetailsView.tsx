@@ -9,8 +9,6 @@ import React from 'react';
 import { CreateInfraSmartAlertFloatingButtons } from 'in-infrastructure/smartAlertView/CreateInfraSmartAlertFloatingButtons';
 //@ts-expect-error
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
-//@ts-expect-error
-import useOldBackgroundColor from 'in-infrastructure/hooks/useOldBackgroundColor';
 import AlertDetails from 'in-alerting/smart-alerts/infrastructure/details/AlertDetails';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -21,7 +19,6 @@ import { t } from 'in-i18n';
 import locals from './AlertDetailsView.mless';
 
 export default function AlertDetailsView() {
-  useOldBackgroundColor();
   return (
     <>
       <InfraPageHeaderWithTabs>

@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 
+import { Checkbox } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import UserList, { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/UserList';
@@ -13,7 +14,6 @@ import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { setUsersToGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import ActionBar from 'in-settings/components/Dialog/ActionBar';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Dialog from 'in-components/Dialog/Dialog';
 import { find } from 'in-services/arrayUtils';
 import { t } from 'in-i18n';
@@ -98,7 +98,7 @@ const AddUserDialog = withSelectableItems(function AddUserDialog({
               width: '2rem',
               getContent({ user }) {
                 const isSelected = checkIfSelected(user.id);
-                return <CheckboxFancy checked={isSelected} onChange={() => toggleItem(user.id, user)} />;
+                return <Checkbox checked={isSelected} onChange={() => toggleItem(user.id, user)} />;
               }
             },
             iconColumn,

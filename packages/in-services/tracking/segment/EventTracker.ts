@@ -7,7 +7,7 @@
 import { find } from 'lodash';
 
 import { customRealmName, productCode, productCodeType, productTitle, ut30 } from 'in-services/util/constants';
-import { PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED } from 'in-services/tracking/eventNames';
+import { UsageInfoProps, currentUnitProps, EventTrackerProps } from 'in-services/tracking/segment/types';
 //@ts-expect-error
 import { Segment } from 'in-services/tracking/segment/SegmentInit';
 import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
@@ -16,25 +16,8 @@ import getUsageInfo from 'in-subscription/getUsageInfo';
 import { config } from 'in-services/config';
 import { tenant } from 'in-stores/user';
 
-interface EventTrackerProps {
-  parentProductArea: string;
-  parentPageName: string;
-  eventName: string;
-  pathName: string;
-}
-
-interface currentUnitProps {
-  tenantId: string;
-  tenantUnitId: string;
-  tenantUnitName: string;
-  tenantName: string;
-}
-interface UsageInfoProps {
-  activeLicenseType: string;
-}
-
 let productPlanType: string;
-let instanceId: string;
+let tenantUnitId: string;
 let tenantUnitName: string;
 let userId: string;
 let tenantId: string;
@@ -42,17 +25,15 @@ let tenantName: string;
 
 const segment = Segment();
 
-export const eventTracker = ({ eventName, parentProductArea, parentPageName, pathName }: EventTrackerProps) => {
+export const eventTracker = ({ data, segmentEventName }: EventTrackerProps) => {
   const url = window.location.href;
   const userSelfDefinedRole =
     window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
-
-  getUsageInfo({}).once(usageInfo => {
-    getTenantsWithUnitsCached().once(tenantWithUnits => {
-      const usageInfoWithType = usageInfo as unknown as UsageInfoProps;
-      const tenantWithUnitsWithType = tenantWithUnits as unknown as TenantsWithUnits;
-      productPlanType = getLicenseTypeForSegment(usageInfoWithType?.activeLicenseType);
-      const units: any = tenantWithUnitsWithType[tenant?.name!];
+  getUsageInfo({}).once((usageInfo: unknown) => {
+    const usageInfoWithType = usageInfo as UsageInfoProps;
+    productPlanType = getLicenseTypeForSegment(usageInfoWithType?.activeLicenseType);
+    getTenantsWithUnitsCached().once((tenantWithUnits: TenantsWithUnits) => {
+      const units: any = tenantWithUnits[tenant?.name!];
 
       if (!units) {
         return;
@@ -61,29 +42,27 @@ export const eventTracker = ({ eventName, parentProductArea, parentPageName, pat
       if (currentUnit) {
         tenantName = currentUnit.tenantName;
         tenantId = currentUnit.tenantId;
-        instanceId = currentUnit.tenantUnitId;
+        tenantUnitId = currentUnit.tenantUnitId;
         tenantUnitName = currentUnit.tenantUnitName;
       }
-      userId = customRealmName + '-' + instanceId;
-
-      segment.track(eventName, {
-        CTA: PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED,
+      userId = customRealmName + '-' + tenantUnitId;
+      const segmentProperties = {
+        ...data,
         UT30: ut30,
-        instanceId: instanceId,
-        instanceName: tenantUnitName,
         tenantId: tenantId,
+        instanceId: tenantUnitId,
+        instanceName: tenantUnitName,
         tenantName: tenantName,
-        parentPageCategory: parentProductArea,
-        parentPageName: parentPageName,
-        path: pathName,
         productCode: productCode,
         productCodeType: productCodeType,
         productPlanType: productPlanType,
         productTitle: productTitle,
         url: url,
-        'user.bluemixId': userId,
-        'user.role': userSelfDefinedRole
-      });
+        roles: [userSelfDefinedRole],
+        'user.bluemixId': userId
+      };
+      segment.track(segmentEventName, segmentProperties);
     });
   });
+  return null; // SegmentEventTracker does not render anything
 };

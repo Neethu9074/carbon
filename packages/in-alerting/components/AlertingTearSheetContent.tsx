@@ -21,8 +21,7 @@ export default function AlertingTearSheetContent({ title, children }: { title: s
     if (!triggerScrollToInvalidItem) {
       contentRef.current.parentElement.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [triggerScrollToInvalidItem]);
 
   return (
     <div id="contentSection" ref={contentRef}>

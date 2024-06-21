@@ -9,6 +9,7 @@ import React, { Fragment } from 'react';
 import { createLogger } from '@instana/logger';
 import { Toggle } from '@instana/components';
 
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb'
 import SplunkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/SplunkForm';
 import { teamSettingsLogManagementSplunk } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
@@ -98,6 +99,7 @@ export default class Splunk extends React.Component {
     return (
       <SettingsDetailPage>
         <Title title={t('in-settings:tabs.configureSplunk')} />
+        <IntegrationsBreadcumb />
         <SubViewHeader>{t('in-settings:tabs.configureYourSplunkSettings')}</SubViewHeader>
         <SectionLine />
         {form && (

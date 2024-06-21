@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ColumnizedContent, Li, Ul, Message } from '@instana/components';
+import { ColumnizedContent, Li, Ul, Message, Checkbox } from '@instana/components';
 import { LiLoadMore } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -17,7 +17,6 @@ import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/s
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { noop } from 'in-services/util/function';
@@ -59,7 +58,7 @@ export default function SharedList({
       width: '2.5rem',
       getContent({ checked, indeterminate, onChange, virtuallyChecked, viewOnly }) {
         return (
-          <CheckboxFancy
+          <Checkbox
             onChange={viewOnly ? noop : onChange}
             checked={checked}
             indeterminate={indeterminate}

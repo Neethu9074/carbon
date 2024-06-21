@@ -5,9 +5,19 @@
 
 import React from 'react';
 
+import {
+  ApplicationSloEntity,
+  SloEntityType,
+  SloEntityUnion,
+  isApplicationSloEntity,
+  isTagFilter
+} from '@instana/types';
 import { Stack, SvgIcon, Typography } from '@instana/components';
-import { SloEntityType } from '@instana/types';
 
+import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
+import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import QueryBuilderFilter from 'in-service-levels/components/QueryBuilderFilter';
+import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { LabeledEntity } from 'in-service-levels/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useMediaQuery from 'in-hooks/useMediaQuery';
@@ -18,6 +28,8 @@ interface Props {
   entityType: SloEntityType;
   service?: LabeledEntity;
   endpoint?: LabeledEntity;
+  metaInfo?: boolean;
+  sloEntity?: SloEntityUnion;
 }
 
 type EntityDisplayData = {
@@ -25,12 +37,17 @@ type EntityDisplayData = {
   toolTipText: string;
 };
 
-export default function SloEntityInfo({ entity, entityType, service, endpoint }: Props) {
+export default function SloEntityInfo({ entity, entityType, service, endpoint, metaInfo, sloEntity }: Props) {
   const { iconType, toolTipText } = getEntityDisplayData(entityType, entity);
   const compact = useMediaQuery('(min-width: 600px)');
   const serviceEndpointInfo = entityType === 'application';
-  const showServiceEndpointInfo = serviceEndpointInfo && compact;
 
+  const hasCustomFilter =
+    sloEntity?.tagFilterExpression &&
+    isApplicationSloEntity(sloEntity) &&
+    (!isEmptyExpression(sloEntity.tagFilterExpression) || isTagFilter(sloEntity.tagFilterExpression));
+
+  const showServiceEndpointInfo = metaInfo && serviceEndpointInfo && compact && !hasCustomFilter;
   return (
     <Stack direction="horizontal" align="center">
       <Stack direction="horizontal" align="center" gap="xxsmall">
@@ -39,16 +56,21 @@ export default function SloEntityInfo({ entity, entityType, service, endpoint }:
         </Tooltip>
         <Typography variant="body-regular">{entity.label}</Typography>
       </Stack>
-      {showServiceEndpointInfo && service?.label && (
+      {showServiceEndpointInfo && (
         <Typography variant="body-small">
-          {t('in-service-levels:sloList.components.sloEntityInfo.service', { label: service.label })}
+          {t('in-service-levels:sloList.components.sloEntityInfo.service', {
+            label: service?.label ?? t('in-service-levels:sloDashboard.components.scopeSection.apAllServices')
+          })}
         </Typography>
       )}
-      {showServiceEndpointInfo && endpoint?.label && (
+      {showServiceEndpointInfo && (
         <Typography variant="body-small">
-          {t('in-service-levels:sloList.components.sloEntityInfo.endpoint', { label: endpoint?.label })}
+          {t('in-service-levels:sloList.components.sloEntityInfo.endpoint', {
+            label: endpoint?.label ?? t('in-service-levels:sloDashboard.components.scopeSection.apAllEndpoints')
+          })}
         </Typography>
       )}
+      {hasCustomFilter && <CustomFilter entity={sloEntity} />}
     </Stack>
   );
 }
@@ -60,4 +82,34 @@ function getEntityDisplayData(entityType: SloEntityType, entity: LabeledEntity):
       context: entityType
     })
   };
+}
+interface CustomFilterProps {
+  entity: SloEntityUnion;
+}
+
+function CustomFilter({ entity }: CustomFilterProps) {
+  const tagFilterExpression = entity?.tagFilterExpression;
+  const isApplicationEntity = isApplicationSloEntity(entity);
+
+  if (tagFilterExpression && isApplicationEntity) return <ApplicationCustomFilter entity={entity} />;
+
+  throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+}
+
+interface ApplicationCustomFiltersProps {
+  entity: ApplicationSloEntity;
+}
+
+function ApplicationCustomFilter({ entity }: ApplicationCustomFiltersProps) {
+  const applicationQueryBuilder = useApplicationQueryBuilder(entity);
+  const { QueryBuilder } = applicationQueryBuilder;
+  return (
+    <Tooltip
+      content={<QueryBuilderFilter entity={entity} QueryBuilderComponent={QueryBuilder} />}
+      themeStyle="light"
+      align="topMiddle"
+    >
+      <span>{t('in-service-levels:sloDashboard.components.scopeSection.customFilterLabel')}</span>
+    </Tooltip>
+  );
 }

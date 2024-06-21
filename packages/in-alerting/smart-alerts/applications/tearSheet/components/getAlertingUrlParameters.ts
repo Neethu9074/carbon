@@ -18,13 +18,12 @@ import {
   isEditMode,
   isPotentialProblem
 } from 'in-applications/navigation/matrix';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { smartAlertPath } from 'in-applications/navigation/paths';
+import { smartAlertPath, applicationsList } from 'in-applications/navigation/paths';
+import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { Location } from 'in-stores/navigation/types';
 
-export default function useAlertingUrlParameters() {
-  const location = useLocation();
-
+export default function getAlertingUrlParameters(location: Location) {
   const migrationMode = getMatrixParameter(location, smartAlertPath, isMigration) === 'true';
   const editMode = getMatrixParameter(location, smartAlertPath, isEditMode) === 'true';
   const duplicateMode = getMatrixParameter(location, smartAlertPath, isDuplicateMode) === 'true';
@@ -39,6 +38,10 @@ export default function useAlertingUrlParameters() {
   const endpointId = getMatrixParameter(location, smartAlertPath, endpointIdFromURL) ?? undefined;
   const eventSpecificationId = getMatrixParameter(location, smartAlertPath, eventId) ?? '';
 
+  const cancelTearSheet = (): string => {
+    return getMatrixParameter(location, smartAlertPath, cancelUrl) ?? applicationsList;
+  };
+
   return {
     migrationMode,
     editMode,
@@ -51,6 +54,7 @@ export default function useAlertingUrlParameters() {
     applicationId,
     serviceId,
     endpointId,
-    eventSpecificationId
+    eventSpecificationId,
+    cancelTearSheet
   };
 }

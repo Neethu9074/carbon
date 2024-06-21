@@ -76,7 +76,7 @@ function GlobalAlertDetails(props) {
       restoreConfig={restoreGlobalAlertConfigVersion}
       renderSmartAlertDialog={renderSmartAlertDialog}
       renderAlertConfiguration={renderAlertConfiguration}
-      getAllowedPlaceholders={evaluationType => placeholdersByEvaluationType[evaluationType]}
+      getAllowedPlaceholders={({ evaluationType }) => placeholdersByEvaluationType[evaluationType]}
       canConfigureGlobalAlertConfigs={role.canConfigureGlobalApplicationSmartAlerts}
       canConfigureIndividualAlertConfigs={role.canConfigureApplicationSmartAlerts}
       isGlobalSmartAlert

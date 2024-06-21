@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { useHistory } from 'react-router';
 import React, { useState } from 'react';
 import { isEqual } from 'lodash';
 
@@ -20,21 +21,28 @@ import {
 
 import { BusinessProcessQueryBuilder } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
 import createNewPerspectiveForm from 'in-bizops/lists/businessPerspectives/creation/createNewPerspectiveForm';
+import { businessPerspectiveConfigPath, businessPerspectiveDashboard } from 'in-bizops/navigation/paths';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { MAX_DESCRIPTION_SIZE, MAX_NAME_SIZE } from 'in-bizops/utils/constants';
+import { MAX_DESCRIPTION_SIZE, MAX_NAME_SIZE, TIMEOUT_IN_MS } from 'in-bizops/utils/constants';
 import { PerspectiveFormItem, PerspectiveItem } from 'in-bizops/utils/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { updateBusinessPerspective } from 'in-bizops/api/perspectives';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
 
 import local from 'in-bizops/dashboards/perspectives/tabs/perspectiveConfiguration/perspectiveConfiguration.mless';
 
 interface UpdateProps {
   perspective: PerspectiveFormItem;
+  updateCount: number;
+  setUpdateCount: any;
   perspectiveId: string;
+  location: Location;
 }
 
-export function Update({ perspective, perspectiveId }: UpdateProps) {
+export function Update({ perspective, updateCount, setUpdateCount, perspectiveId, location }: UpdateProps) {
+  const history = useHistory();
   // Creates and populates a new form with the current perspective details, ready for editing
   const [form, updateForm] = useState(() => createNewPerspectiveForm({ perspective }));
 
@@ -50,6 +58,10 @@ export function Update({ perspective, perspectiveId }: UpdateProps) {
     !isEqual(perspective.tagFilterExpression, tagFilterExpressionField.value);
   const enableSave: Boolean = formChanges && form.hierarchyValid;
 
+  function refreshPage(target: Location): void {
+    history.replace(target);
+  }
+
   const handleUpdateClick = () => {
     const requestBody: PerspectiveItem = {
       id: perspectiveId,
@@ -59,13 +71,18 @@ export function Update({ perspective, perspectiveId }: UpdateProps) {
     };
     updateBusinessPerspective(perspectiveId, requestBody).once(
       data => {
+        location.pathname = `${businessPerspectiveConfigPath}`;
+        setOrDeleteMatrixKey(location, businessPerspectiveDashboard, 'perspectiveId', data.id);
+        setOrDeleteMatrixKey(location, businessPerspectiveDashboard, 'perspectiveName', data.label);
+        setUpdateCount(updateCount + 1);
+        refreshPage(location);
         addMessage({
           type: 'info',
           title: t('in-bizops:dashboards.perspectives.configuration.businessPerspectiveUpdated'),
           content: t('in-bizops:dashboards.perspectives.configuration.businessPerspectiveUpdatedDetails', {
             perspectiveName: data.label
           }),
-          timeout: 4000
+          timeout: TIMEOUT_IN_MS
         });
       },
       error => {
@@ -73,7 +90,7 @@ export function Update({ perspective, perspectiveId }: UpdateProps) {
           type: 'danger',
           title: t('in-bizops:dashboards.perspectives.configuration.error'),
           content: error.message,
-          timeout: 4000
+          timeout: TIMEOUT_IN_MS
         });
       }
     );

@@ -6,11 +6,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, Checkbox } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import MarketingMessageBox from 'in-settings/terms/MarketingMessageBox';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import { t } from 'in-i18n';
@@ -28,7 +27,7 @@ export default function TermsPageMessaging({ onNext, onChange, form, fullTermsCo
 
         <Stack>
           {form.get('productTips').map(({ value }) => (
-            <CheckboxFancy
+            <Checkbox
               label={t('in-settings:termsDialog.productOnboarding')}
               explanation={t('in-settings:termsDialog.productOnboardingExplanation')}
               checked={value}
@@ -37,7 +36,7 @@ export default function TermsPageMessaging({ onNext, onChange, form, fullTermsCo
             />
           ))}
           {form.get('marketingMessages').map(({ value }) => (
-            <CheckboxFancy
+            <Checkbox
               label={t('in-settings:termsDialog.marketingMessages')}
               explanation={t('in-settings:termsDialog.marketingMessagesExplanation')}
               checked={value}
@@ -49,7 +48,7 @@ export default function TermsPageMessaging({ onNext, onChange, form, fullTermsCo
             form
               .get('testingGroup')
               .map(({ value }) => (
-                <CheckboxFancy
+                <Checkbox
                   label={t('in-settings:termsDialog.testingGroup')}
                   explanation={t('in-settings:termsDialog.testingGroupExplanation')}
                   checked={value}

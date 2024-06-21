@@ -27,6 +27,7 @@ import {
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/infrastructure/hooks/useTagBasedPayloadConfigurator';
 import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import PredictiveTriggerDescription from 'in-alerting/smart-alerts/infrastructure/details/PredictiveTriggerDescription';
+import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
@@ -210,7 +211,11 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         openByDefault
         darkFrame
       >
-        <AlertPropertyInfos alertConfig={alertConfig} disableTrigger />
+        <AlertPropertyInfos
+          alertConfig={alertConfig}
+          renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(alertConfig)}
+          disableTrigger
+        />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="INFRA" />
       <CustomPayloadCard

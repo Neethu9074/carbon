@@ -6,12 +6,12 @@
 
 import React, { useState } from 'react';
 
-import { Button, Card } from '@instana/components';
+import { Button, Card, Checkbox } from '@instana/components';
 
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { deleteBusinessPerspective } from 'in-bizops/api/perspectives';
 import { businessPerspectivesPath } from 'in-bizops/navigation/paths';
+import { TIMEOUT_IN_MS } from 'in-bizops/utils/constants';
 import { t } from 'in-i18n';
 
 import local from 'in-bizops/dashboards/perspectives/tabs/perspectiveConfiguration/perspectiveConfiguration.mless';
@@ -35,7 +35,7 @@ export function Remove({ perspectiveId, perspectiveName, goToPath }: RemoveProps
           content: t('in-bizops:dashboards.perspectives.configuration.businessPerspectiveDeletedDetails', {
             perspectiveName: perspectiveName
           }),
-          timeout: 4000
+          timeout: TIMEOUT_IN_MS
         });
       },
       error => {
@@ -43,7 +43,7 @@ export function Remove({ perspectiveId, perspectiveName, goToPath }: RemoveProps
           type: 'danger',
           title: t('in-bizops:dashboards.perspectives.configuration.error'),
           content: error.message,
-          timeout: 4000
+          timeout: TIMEOUT_IN_MS
         });
       }
     );
@@ -59,7 +59,7 @@ export function Remove({ perspectiveId, perspectiveName, goToPath }: RemoveProps
         <h3 className={local.removeDisclaimer}>
           {t('in-bizops:dashboards.perspectives.configuration.removePerspectiveDisclaimer')}
         </h3>
-        <CheckboxFancy
+        <Checkbox
           label={t('in-bizops:dashboards.perspectives.configuration.removePerspectiveCheckbox')}
           checked={checkboxChecked}
           onChange={e => {

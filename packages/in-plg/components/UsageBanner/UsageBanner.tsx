@@ -184,8 +184,8 @@ export function refresh() {
 }
 
 export function generateBuyOnIbmUrl(platformSubscriptionIds: string): string {
-  const parentPageName = encodeURIComponent(getViewTrackingMetaData().parentPageName?.toString() || '');
-  const parentProductArea = encodeURIComponent(getViewTrackingMetaData().parentProductArea?.toString() || '');
+  const parentPageName = encodeURIComponent(getViewTrackingMetaData().pageRootName?.toString() || '');
+  const parentProductArea = encodeURIComponent(getViewTrackingMetaData().productArea?.toString() || '');
   const trialId = encodeURIComponent(platformSubscriptionIds);
   const userRole =
     window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;

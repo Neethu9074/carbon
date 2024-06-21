@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Link, Typography } from '@instana/components';
+import { Link, Typography, Checkbox } from '@instana/components';
 import { SyntheticDatacenter } from '@instana/types';
 import { just } from '@instana/observables';
 
@@ -15,7 +15,6 @@ import ActivateConfirmationDialog from 'in-synthetics/dashboards/global/tabs/loc
 // eslint-disable-next-line no-restricted-imports
 import List, { ColumnDefinition } from 'in-settings/components/List';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
@@ -38,7 +37,7 @@ export const getColumnDefinitions = (): Array<ColumnDefinition<SyntheticDatacent
       label: t('in-synthetics:dialog.createLocation.managedLocation.datacenterCode'),
       defaultOrderDirection: 'ASC',
       getContent(entity: SyntheticDatacenter) {
-        return <CheckboxFancy label={entity?.code} checked onChange={() => true} />;
+        return <Checkbox label={entity?.code} checked onChange={() => true} />;
       }
     },
     {

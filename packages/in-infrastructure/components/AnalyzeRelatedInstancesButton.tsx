@@ -14,15 +14,16 @@ import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 
-export interface AnalyzeInfrastructureButtonProps extends GetLinkToExploreProps {
+export interface AnalyzeRelatedInstancesButtonProps extends GetLinkToExploreProps {
   onClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
 }
 
-const defaultAnalyzeInfrastructureButtonParams = { ...defaultInfraExploreViewParams };
+const defaultAnalyzeRelatedInstancesButtonParams = { ...defaultInfraExploreViewParams };
 
-export default function AnalyzeInfrastructureButton(
-  props: AnalyzeInfrastructureButtonProps = defaultAnalyzeInfrastructureButtonParams
+export default function AnalyzeRelatedInstancesButton(
+  props: AnalyzeRelatedInstancesButtonProps = defaultAnalyzeRelatedInstancesButtonParams
 ) {
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
   return (
@@ -33,6 +34,9 @@ export default function AnalyzeInfrastructureButton(
       onClick={props.onClick}
     >
       {t('in-infrastructure:explore.relatedInstances')}
+      <div>
+        <BetaBadge />
+      </div>
     </Button>
   );
 }

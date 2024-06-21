@@ -7,7 +7,7 @@
 import { MapFormItems } from 'formalistic';
 import React from 'react';
 
-import { SvgIcon, Stack } from '@instana/components';
+import { SvgIcon, Stack, Checkbox } from '@instana/components';
 import { PermissionSet } from '@instana/types';
 
 import {
@@ -36,7 +36,6 @@ import KubernetesEditSection from 'in-settings/tabs/TeamSettings/pages/accessCon
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -118,7 +117,7 @@ export default function _PlatformsEditSelection<FORM_TYPE extends MapFormItems>(
         {generalAreas.map(area => {
           const platformTitle = t('in-settings:productAreas.permissions', { context: area });
           return (
-            <CheckboxFancy
+            <Checkbox
               key={platformTitle}
               size="large"
               checked={hasAnyAreaPermission(area)}

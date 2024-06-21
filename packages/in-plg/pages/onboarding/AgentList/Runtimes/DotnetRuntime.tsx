@@ -6,13 +6,12 @@
 
 import React, { useState } from 'react';
 
-import { Stack, Typography, KeyValue } from '@instana/components';
+import { Stack, Typography, KeyValue, RadioButton } from '@instana/components';
 
 import InputWithButton from 'in-plg/components/InputWithButton/InputWithButton';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import Props from 'in-plg/pages/onboarding/content/OnboardingProps';
 import { Wrapper } from 'in-plg/pages/onboarding/Layout/Layout';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Code from 'in-plg/components/Code/Code';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
@@ -28,19 +27,17 @@ export default function DotnetRuntime({ type, agentKey, serverlessEndpoint }: Pr
   function installationMethod() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
+        <RadioButton
           label={imageOptions[0]}
           checked={baseImage === imageOptions[0]}
           onChange={() => setBaseImage(imageOptions[0])}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label={imageOptions[1]}
           checked={baseImage === imageOptions[1]}
           onChange={() => setBaseImage(imageOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );

@@ -33,7 +33,7 @@ export default function SloScopeServiceEndpointPanel() {
         boundaryScope={boundaryField.value}
         disabled={isFormInEditMode}
         hasError={!endpointIdField.valid && endpointIdField.touched}
-        onChange={value => onChange(['scope', 'endpointId'], () => endpointIdField.setValue(value).setTouched(true))}
+        onChange={value => onChange(['scope', 'endpointId'], () => endpointIdField.setValue(value!).setTouched(true))}
         serviceId={serviceIdField.value}
         value={endpointIdField.value}
       />

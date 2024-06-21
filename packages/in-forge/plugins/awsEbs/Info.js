@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionItem, DescriptionList } from '@instana/components';
+
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import { yesOrNo } from 'in-services/formatters/boolean';

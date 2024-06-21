@@ -7,11 +7,10 @@
 import React, { useEffect, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Stack } from '@instana/components';
+import { Stack, RadioButton } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { FeedbackStepConfigs } from 'in-events/components/feedback/eventStepConfig';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 
 export default function FeedbackStepOne({ form, setForm }: FeedbackStepConfigs) {
   const setValue = (form: MapForm<any>, path: string[], value: any) => {
@@ -29,19 +28,17 @@ export default function FeedbackStepOne({ form, setForm }: FeedbackStepConfigs) 
 
   return (
     <Stack direction="vertical" align="start" distribution="start">
-      <CheckboxFancy
+      <RadioButton
         size="larger"
         onChange={() => setContactMe(true)}
         label={t('in-events:feedback.contactMeYes')}
         checked={contactMe === true}
-        asRadioButton
       />
-      <CheckboxFancy
+      <RadioButton
         size="larger"
         onChange={() => setContactMe(false)}
         label={t('in-events:feedback.contactMeNo')}
         checked={contactMe === false}
-        asRadioButton
       />
     </Stack>
   );

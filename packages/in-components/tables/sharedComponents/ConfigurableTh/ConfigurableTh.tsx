@@ -7,12 +7,12 @@ import React, { useState } from 'react';
 
 import { SvgIcon, SearchInput } from '@instana/components';
 import { Th, SortableTh } from '@instana/legacy';
+import { Checkbox } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { OrderDirection, SortComparator } from 'in-types';
 import Overlay from 'in-components/overlays/Overlay';
@@ -155,7 +155,7 @@ function Content<ItemType extends Object>({
           const isEnabled = currentIds.indexOf(id) >= 0;
           return (
             <li key={id} className={locals.item}>
-              <CheckboxFancy
+              <Checkbox
                 labelClassName={locals.label}
                 checked={isDisabled || isEnabled}
                 disabled={isDisabled}

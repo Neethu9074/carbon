@@ -12,7 +12,6 @@ import EmptyAnalyzeView from 'in-profiling/analyze/AnalyzeView/EmptyAnalyzeView'
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getTimeConfig } from 'in-stores/time/config';
-import SetBodyColor from 'in-components/SetBodyColor';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
 
@@ -36,7 +35,6 @@ export default function AnalyzeView(props) {
       type="Profiles"
     >
       <ProfiledProcesses {...props} timeConfig={getTimeConfig(location)} dataSource={dataSource} onChange={onChange} />
-      <SetBodyColor color="#fff" />
       <Footer />
     </WithEmptyStateFallback>
   );

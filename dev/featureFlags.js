@@ -58,6 +58,8 @@ module.exports = {
   carbonLoadingSkeletonFeatureEnabled: true,
   carbonDescriptionListEnabled: false,
   carbonInputEnabled: false,
+  carbonRadioButtonEnabled: false,
+  carbonCheckboxEnabled: false,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,
@@ -141,7 +143,7 @@ module.exports = {
   carbonTableEnabled: true,
   logVolumePageEnabled: true,
   carbonHorizontalIndicatorEnabled: true,
-  analyzeInfrastructureButtonEnabled: true,
+  analyzeRelatedInstancesButtonEnabled: true,
   maxMetricsLimitForBeeinstanaEnabled: true,
   serverSideInfraTagSearchEnabled: true
 };

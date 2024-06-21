@@ -44,8 +44,8 @@ export function NewPerspectiveFormStepTwo({ form, updateForm, processesLiveList 
                 )
               }
               autoComplete="off"
-              warn={perspectiveNameField.touched && !perspectiveNameField.valid}
-              warnText={perspectiveNameField.messages[0]?.message}
+              invalid={perspectiveNameField.touched && !perspectiveNameField.valid}
+              invalidText={perspectiveNameField.messages[0]?.message}
             />
             <Spacer vertical="normal" />
 

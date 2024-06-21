@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionItem } from '@instana/components';
+
 import getParentOtelProcess from 'in-subscription/getParentOtelProcess';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';

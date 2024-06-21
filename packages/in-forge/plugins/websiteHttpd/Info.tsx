@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import { useLinkToWebsite } from 'in-websites/navigation/paths';
 import { emptyList } from 'in-services/fixedImmutables';

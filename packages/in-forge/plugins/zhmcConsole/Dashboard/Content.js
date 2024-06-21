@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Redirect } from 'react-router-dom';
 import React from 'react';
 
 import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 
-export default function SystemDashboard({ snapshot }) {
+export default function SystemDashboard({ snapshot, timeConfig }) {
   const getIbmzZhmcDashboard = useIbmzZhmcDashboard();
+  const href = getIbmzZhmcDashboard(snapshot.get('id'), { timeConfig });
 
-  return <RedirectWithHash to={getIbmzZhmcDashboard(snapshot.get('id'))} />;
+  return <Redirect to={href.substring(2)} />;
 }

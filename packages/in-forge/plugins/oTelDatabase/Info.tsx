@@ -6,9 +6,10 @@
 
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 // @ts-expect-error needs typescript migration
 import ParentOTelDatabase from 'in-forge/plugins/oTelDatabase/ParentOTelDatabase';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 

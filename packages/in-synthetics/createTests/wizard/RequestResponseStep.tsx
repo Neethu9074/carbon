@@ -7,7 +7,7 @@ import { Field, MapForm, Item } from 'formalistic';
 import React, { ChangeEvent } from 'react';
 
 import { Result, SyntheticLocation } from '@instana/types/typeDefinitions';
-import { Li, Message, ScrollBox, Stack } from '@instana/components';
+import { Li, Message, ScrollBox, Stack, Checkbox } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -30,7 +30,6 @@ import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import Section, { SubTitle } from 'in-synthetics/createTests/wizard/Section';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import SaveError from 'in-components/form/SaveError/SaveError';
 import { validate } from 'in-synthetics/utils/scriptUploader';
@@ -150,7 +149,7 @@ export default function RequestResponseStep({
       <ScrollBox maxHeight="73.26%" className={locals.scrollBox}>
         {locations.data?.filter(Boolean).map(location => (
           <Li key={location.id}>
-            <CheckboxFancy
+            <Checkbox
               label={location.displayLabel}
               checked={locationsField?.value?.includes(location.id)}
               onChange={() => onLocationSelect(location)}

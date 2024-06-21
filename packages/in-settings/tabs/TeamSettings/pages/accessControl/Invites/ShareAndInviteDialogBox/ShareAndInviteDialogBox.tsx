@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
-import { Stack, SvgIcon, Typography } from '@instana/components';
+import { Stack, SvgIcon, Typography, Checkbox } from '@instana/components';
 import { ApiGroup, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
@@ -48,7 +48,6 @@ import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/me
 import { teamSettingsAccessControlGroupNew } from 'in-settings/navigation/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ComboBox, { Option, Options } from 'in-components/ComboBox/ComboBox';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { getInvitations$, getUsersAsResultObservable } from 'in-api/users';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
@@ -158,7 +157,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
   const getShortUrl = useShortUrl();
   const timeZone = new Date().toLocaleDateString('default', { day: '2-digit', timeZoneName: 'short' }).slice(4);
 
-  const urlResult: ShortUrlProps | undefined | null = useObservable(() => getShortUrl({ fixateTime }), [fixateTime]);
+  const urlResult: ShortUrlProps | undefined | null = useObservable(getShortUrl({ fixateTime }), [fixateTime]);
   const shortUrl = urlResult?.data?.shortUrl;
   const groups: any =
     useObservable(role?.canConfigureTeams ? getStrippedGroupsAsResultObservable : successObservable, []) ??
@@ -173,7 +172,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
   const initialState = createInviteForm(invitationResult);
   const [form, setForm]: [ListForm<any>, any] = useState(initialState);
 
-  const { parentPageName, parentProductArea } = getViewTrackingMetaData();
+  const { pageRootName, productArea } = getViewTrackingMetaData();
   const [emailMessage, setEmailMessage] = useState('');
 
   interface ConfigProps {
@@ -241,7 +240,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
         email: e.email,
         message: emailMessage,
         path: hideShare ? '/#/home' : createHref(clonedLocation), // if invited from user section or pending invite section, the return URL should be to /home
-        pageName: parentProductArea,
+        pageName: productArea,
         userSentState: e.userSentState === InviteSentState.INTERNAL_ERROR ? InviteSentState.notSentYet : e.userSentState
       }));
       onDoInviteUser(setMessage, invitations, setForm, setInvitationResult, noop); // noop instead of goToPath since we are not redirecting anymore
@@ -260,7 +259,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
   let sortedGroups: Options = [];
 
   useEffect(() => {
-    inviteAndShareButtonClicked({ parentPageName, parentProductArea });
+    inviteAndShareButtonClicked({ pageRootName, productArea });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -310,11 +309,12 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
 
   return (
     <Dialog
+      data-testid="share-and-invite-dialog-box"
       title={
         <div className={locals.title}>
           <Stack gap="disabled">
             <Typography variant="heading-400">
-              {`${t('in-settings:ShareAndInviteDialogBox.share')} ${parentProductArea?.toLowerCase() ?? ''}`}
+              {`${t('in-settings:ShareAndInviteDialogBox.share')} ${productArea?.toLowerCase() ?? ''}`}
             </Typography>
             {hideShare ? (
               <Typography variant="body-regular">
@@ -467,7 +467,9 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
               <Row>
                 <Col xs={12}>
                   <Fields helpText={t('in-settings:ShareAndInviteDialogBox.pageLink')} className={locals.greyedOutText}>
-                    <InputWithButton type="copy" displayContent={shortUrl} inputValue={shortUrl} size="fullWidth" />
+                    <div data-testid="short-url-component">
+                      <InputWithButton type="copy" displayContent={shortUrl} inputValue={shortUrl} size="fullWidth" />
+                    </div>
                   </Fields>
                 </Col>
               </Row>
@@ -503,7 +505,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
                         readOnly
                       />
                     </Fields>
-                    <CheckboxFancy
+                    <Checkbox
                       checked={fixateTime}
                       label={t('in-settings:ShareAndInviteDialogBox.fixateTime')}
                       size="default"
@@ -518,7 +520,9 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
 
         {showInvite && (
           <FormFooter>
-            <CancelButton onClick={closeModal}>{t('in-settings:ShareAndInviteDialogBox.cancel')}</CancelButton>
+            <CancelButton data-testid="cancel-button" onClick={closeModal}>
+              {t('in-settings:ShareAndInviteDialogBox.cancel')}
+            </CancelButton>
             <SaveButton type="submit" disabled={(!form.hierarchyValid && form.touched) || !anyValidEntry(form)}>
               {t('in-settings:ShareAndInviteDialogBox.send')}
             </SaveButton>

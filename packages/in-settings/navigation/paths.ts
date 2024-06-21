@@ -103,8 +103,10 @@ export const teamSettingsAlertingIntegrationNew = `${alerting}/integrations/new`
 export const teamSettingsAlertingIntegrations = `${alerting}/integrations`;
 
 export const logManagement = `${teamSettings}/logManagement`;
+const integrations = '/integrations';
 export const teamSettingsLogManagementRetentionPeriod = `${logManagement}/retentionPeriod`;
-export const teamSettingsLogManagementCoralogix = `${logManagement}/coralogixConfiguration`;
+export const teamSettingsLogManagementIntegrations = `${logManagement}${integrations}`;
+export const teamSettingsLogManagementCoralogix = `${logManagement}${integrations}/coralogixConfiguration`;
 export const teamSettingsLogManagementDeleteLogs = `${logManagement}/deleteLogs`;
 export const teamSettingsLogManagementLogVolume = `${logManagement}/logVolume`;
 export const teamSettingsLogManagementLogDna = `${logManagement}/logdnaConfiguration`;

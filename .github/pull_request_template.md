@@ -1,3 +1,8 @@
+> :warning: Please update the description with all the elements below.
+> If there are parts which do not apply, please remove them.
+> Do remove the comments once they have been addressed.
+> All this will help in getting your PR merged faster.
+
 # Why
 
 > Please describe why you are proposing this code change. This should include
@@ -40,6 +45,13 @@
 
 > Please include one or more screenshots that show what this code change looks
 > like in the UI. Please include screenshots to highlight special / edge cases.
+
+> You can add screenshots either in a table side-by-side or for bigger screenshots, you can use the sections.
+
+| Before | After |
+| ------ | ----- |
+|        |       |
+|        |       |
 
 ## After
 

@@ -6,7 +6,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -30,7 +29,6 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import AlertHeader from 'in-alerting/components/AlertHeader';
 import { close } from 'in-components/DialogPresenter/store';
 import { propTypeTimeConfig } from 'in-stores/time/config';
-import SetBodyColor from 'in-components/SetBodyColor';
 import { Col, Row } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer/Footer';
 import Title from 'in-components/Title';
@@ -152,9 +150,7 @@ export default function Alert({
           renderCustomTitle={() => {
             return (
               <HorizontalFlexWrapper className={locals.titleWrapper}>
-                <div>
-                  {replacePlaceholdersWithMarkup(getAllowedPlaceholders(alertConfig.evaluationType), alertConfig.name)}
-                </div>
+                <div>{replacePlaceholdersWithMarkup(getAllowedPlaceholders(alertConfig), alertConfig.name)}</div>
                 <BuiltInIndicator builtIn={alertConfig.builtIn} />
               </HorizontalFlexWrapper>
             );
@@ -176,7 +172,6 @@ export default function Alert({
           </Col>
         </Row>
       </div>
-      <SetBodyColor color={themes.default.ids.color.option.white} />
       <Footer />
     </>
   );

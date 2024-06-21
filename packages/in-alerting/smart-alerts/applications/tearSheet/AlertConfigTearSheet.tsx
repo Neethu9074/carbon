@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 
@@ -24,21 +24,22 @@ import {
   useNavigationToGlobalAlertConfigWithoutAPDashboard
 } from 'in-applications/navigation/paths';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheetWithThreshold';
+import getAlertingUrlParameters from 'in-alerting/smart-alerts/applications/tearSheet/components/getAlertingUrlParameters';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
-import useAlertingUrlParameters from 'in-alerting/smart-alerts/applications/tearSheet/hooks/useAlertingUrlParameters';
 import useGetMigrationAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetMigrationAlertConfig';
 import AlertingPageHeader from 'in-alerting/smart-alerts/components/pageHeaderTemplate/AlertingPageHeader';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import useGetSmartAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetSmartAlertConfig';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
-import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
 
 const logger = createLogger('in-alerting/smart-alerts/applications/dialog/AlertConfigDialogWithThreshold');
@@ -47,6 +48,7 @@ const initialChartConfigIndex = 0;
 const { fromAlertConfig, getHeaderTitle, toAlertConfig, getApplicationAlertConfig } = HelperFunction;
 
 export default function AlertConfigTearSheet() {
+  const location = useLocation();
   const {
     migrationMode,
     editMode,
@@ -60,7 +62,9 @@ export default function AlertConfigTearSheet() {
     serviceId,
     endpointId,
     eventSpecificationId
-  } = useAlertingUrlParameters();
+  } = useMemo(() => {
+    return getAlertingUrlParameters(location);
+  }, [location]);
 
   const { scopeMigrationDetails, migrateAlertConfig } = useGetMigrationAlertConfig(
     eventSpecificationId,
@@ -104,6 +108,7 @@ export default function AlertConfigTearSheet() {
             | ApplicationAlertConfigWithMetadata
         }
         scopeMigrationDetails={scopeMigrationDetails}
+        location={location}
       />
     );
   }
@@ -116,10 +121,17 @@ export type ScopeMigrationDetailsType = {
 interface AlertConfigTearSheetContentProps {
   alertConfig: GlobalApplicationsAlertConfigWithMetadata | ApplicationAlertConfigWithMetadata;
   scopeMigrationDetails?: ScopeMigrationDetailsType;
+  location: Location;
 }
 
-function AlertConfigTearSheetContent({ alertConfig, scopeMigrationDetails }: AlertConfigTearSheetContentProps) {
-  const { migrationMode, editMode, isGlobalSmartAlert, eventSpecificationId } = useAlertingUrlParameters();
+function AlertConfigTearSheetContent({
+  alertConfig,
+  scopeMigrationDetails,
+  location
+}: AlertConfigTearSheetContentProps) {
+  const { migrationMode, editMode, isGlobalSmartAlert, eventSpecificationId, cancelTearSheet } = useMemo(() => {
+    return getAlertingUrlParameters(location);
+  }, [location]);
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const duplicateFrom = (alertConfig as any)?.duplicateFrom;
@@ -221,6 +233,7 @@ function AlertConfigTearSheetContent({ alertConfig, scopeMigrationDetails }: Ale
         messages={messages}
         headerWithMsg={Boolean(messages.length)}
         initialConfiguredApplications={(alertConfig as any)?.applications ?? {}}
+        cancelTearSheet={cancelTearSheet}
       />
     </>
   );
@@ -276,13 +289,16 @@ function createOrSaveAlert({
   const isEffectivelyEditMode = migrationMode ? false : editMode;
 
   if (isEffectivelyEditMode) {
+    const alertConfigApplicationId = isEffectivelyGlobalSmartAlert ? null : Object.keys(alertConfig.applications)[0];
     (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
       config => {
-        showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
+        //Uncomment this if success message is needed while editing.
+        //showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
         trackAlertUpdated(alertConfig);
         return isEffectivelyGlobalSmartAlert
-          ? navigateToGlobalAlertConfigWithoutAPDashboard(config.id)
-          : navigateToAlertConfig(config.id, config.created, (config as any)?.applicationId);
+          ? navigateToGlobalAlertConfigWithoutAPDashboard(alertConfig.id)
+          : alertConfigApplicationId &&
+              navigateToAlertConfig(alertConfig.id, config?.created, alertConfigApplicationId);
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);

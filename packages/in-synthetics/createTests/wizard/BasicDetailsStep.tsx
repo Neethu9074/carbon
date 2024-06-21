@@ -7,14 +7,13 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Field, MapForm, Item } from 'formalistic';
 
 import { GroupPermissionEntity, Result } from '@instana/types';
-import { TextArea, SearchInput } from '@instana/components';
+import { TextArea, SearchInput, RadioButton } from '@instana/components';
 
 // eslint-disable-next-line no-restricted-imports
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { apiScriptTest, apiSimpleTest, browserScriptTest, browserSimpleTest } from 'in-synthetics/utils/constants';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Section from 'in-synthetics/createTests/wizard/Section';
@@ -85,8 +84,7 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, 
           filteredApplications?.filter(Boolean).map((app: Record<string, any>) => {
             return (
               <div key={app.id} className={locals.item}>
-                <CheckboxFancy
-                  asRadioButton
+                <RadioButton
                   key={app.id}
                   label={app.name}
                   checked={applicationsField?.value === app.id}
