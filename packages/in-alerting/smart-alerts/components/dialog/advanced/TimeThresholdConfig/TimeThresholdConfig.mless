@@ -22,7 +22,7 @@
       grid-template-columns: 10% 20% 70%;
     }
     &.columns3TearSheet {
-      grid-template-columns: 15% 8% 58%;
+      grid-template-columns: 15% 9% 58%;
     }
     &.columns5TearSheet {
       grid-template-columns: 15% 8% 6% 8% 45%;

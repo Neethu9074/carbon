@@ -32,14 +32,13 @@ export default function SelectTimeThreshold({ form, updateForm, hasTraceImpactOp
     currenttimeThreshold == violationsInPeriod ? violationsInPeriod : violationsInSequence;
 
   const selectBox1 = [createSelectOptionTearSheet(violationsPersistOverTime)];
-  if (hasTraceImpactOption) {
-    selectBox1.push(createSelectOptionTearSheet(traceImpact, impactTimeThresholdDisabled));
+  if (hasTraceImpactOption && !impactTimeThresholdDisabled) {
+    selectBox1.push(createSelectOptionTearSheet(traceImpact));
   }
   const selectBox2 = [
     createSelectOptionTearSheet(violationsInSequence),
     createSelectOptionTearSheet(violationsInPeriod)
   ];
-
   return (
     <>
       <div className={locals.triggerAlertContainer}>
@@ -96,10 +95,7 @@ export default function SelectTimeThreshold({ form, updateForm, hasTraceImpactOp
   );
 }
 
-function createSelectOptionTearSheet(timeThresholdType, disabled = false) {
-  if (disabled) {
-    return null;
-  }
+function createSelectOptionTearSheet(timeThresholdType) {
   return {
     label: timeThresholdLabelsTearSheet[timeThresholdType],
     value:
