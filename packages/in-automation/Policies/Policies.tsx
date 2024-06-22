@@ -6,8 +6,7 @@
 
 import React from 'react';
 
-import { Spacer, Stack, Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Spacer, Stack, Typography, Button } from '@instana/components';
 
 import {
   TriggerSpecification,

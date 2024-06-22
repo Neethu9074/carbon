@@ -10,7 +10,7 @@ import classNames from 'classnames';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
