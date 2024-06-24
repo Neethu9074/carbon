@@ -145,5 +145,6 @@ module.exports = {
   carbonHorizontalIndicatorEnabled: true,
   analyzeRelatedInstancesButtonEnabled: true,
   maxMetricsLimitForBeeinstanaEnabled: true,
-  serverSideInfraTagSearchEnabled: true
+  serverSideInfraTagSearchEnabled: true,
+  preAggregatedMetricsQueryEnabled: false
 };

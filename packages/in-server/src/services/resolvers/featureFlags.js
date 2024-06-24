@@ -679,5 +679,10 @@ module.exports = exports = [
     uiClientKey: 'serverSideInfraTagSearchEnabled',
     instanaCtlKey: 'feature.server.side.infra.tag.search.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'preAggregatedMetricsQueryEnabled',
+    instanaCtlKey: 'feature.pre.aggregated.metrics.query.enabled',
+    defaultValue: false
   }
 ];
