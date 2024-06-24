@@ -31,6 +31,9 @@
     padding-left: 1.75rem;
     padding-bottom: 6rem;
   }
+  .dialogContentNoPadding {
+    padding-bottom: 6rem;
+  }
   .loadingEnd {
     background: var(--ids-color-option-blue-400);
     height: 0.3rem;
@@ -45,5 +48,8 @@
     button {
       min-width: 6.25rem;
     }
+  }
+  .inputContainer {
+    width: 100%;
   }
 }

@@ -178,12 +178,12 @@ function ListRow({
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
   const header = renderTriggeringEventHeader(incident, canCloseManually, timeConfig);
-  let colourForCard = getTriggeringEventCardColor(canCloseManually, incident);
+  let colourForCard = getTriggeringEventCardColor(incident);
 
   return (
     <Row withoutSideMargin>
       <Col xs>
-        {title === t('in-events:titleTriggerEvent') && (
+        {title === t('in-events:titleTriggerEvent') && colourForCard && (
           <div className={locals.cardIndicator} style={{ background: colourForCard }} />
         )}
         <Card title={title} header={header}>
@@ -205,16 +205,17 @@ function ListRow({
   );
 }
 
-function getTriggeringEventCardColor(canCloseManually, incident) {
-  const incidentSeverity = canCloseManually && incident ? incident.getIn(['problem', 'severity'], 5) : null;
-  const incidentStatus = canCloseManually && incident ? incident.get('state', 'closed') : null;
+function getTriggeringEventCardColor(incident) {
+  const incidentSeverity = incident ? incident.getIn(['problem', 'severity'], 5) : null;
+  const incidentStatus = incident ? incident.get('state', 'closed') : null;
+
   let colorForCard;
 
-  if (incidentStatus === 'closed') {
+  if (incidentStatus === 'closed' || incidentStatus === 'manually_closed') {
     colorForCard = themes.default.ids.color.option.neutral[500];
   } else if (incidentSeverity === 5) {
     colorForCard = themes.default.ids.color.option.yellow[500];
-  } else {
+  } else if (incidentSeverity > 5) {
     colorForCard = themes.default.ids.color.option.red[500];
   }
   return colorForCard;
