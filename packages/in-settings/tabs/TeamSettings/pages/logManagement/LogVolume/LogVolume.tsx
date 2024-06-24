@@ -46,7 +46,7 @@ function LogVolume() {
   const logVolumeData = result && transformData(result);
   return (
     <>
-      <SettingsDetailPage>
+      <SettingsDetailPage className={locals.page}>
         <Title title={localisationStrings.logVolume} />
         <section>
           <SubViewHeader>{localisationStrings.logVolume}</SubViewHeader>

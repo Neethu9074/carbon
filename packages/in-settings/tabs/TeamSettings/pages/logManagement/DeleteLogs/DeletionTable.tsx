@@ -61,7 +61,7 @@ export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
       ));
   };
   return (
-    <section className={locals.tableSection}>
+    <section>
       <Typography variant={'heading-200'}>{localisationStrings.summary}</Typography>
       <Table style={{ borderCollapse: 'collapse' }} fixedLayout className={locals.deletionTable}>
         <Thead>

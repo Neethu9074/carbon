@@ -131,7 +131,7 @@ export default function Integrations() {
     <>
       <SettingsDetailPageComponent className={locals.page}>
         <Title title="Log Integrations" />
-        <section>
+        <section className={locals.titleSection}>
           <SubViewHeaderComponent>{localisationStrings.logIntegrations}</SubViewHeaderComponent>
           <Typography variant="body-regular">{localisationStrings.logIntegrationsDescription}</Typography>
         </section>
