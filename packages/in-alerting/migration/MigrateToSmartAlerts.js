@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
@@ -46,6 +46,21 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
     }),
     [eventSpecificationId]
   );
+
+  // this adds an event listener to the `keyup` event, allowing us to detect when the `escape` key is pressed and set the `setMigrationInProgress` to false. or else, after closing the migration modal with the escape key, subsequent presses of the "Migrate to Smart Alert" button fail to open the alert modal.
+  useEffect(() => {
+    const handleEsc = event => {
+      if (event.key === 'Escape') {
+        setMigrationInProgress(false);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, []);
+
   return (
     <Stack direction="horizontal" gap="xsmall">
       <Tooltip content={t('in-alerting:smartAlerts.migration.markAsMigratedButtonTooltip')} delay={500}>
