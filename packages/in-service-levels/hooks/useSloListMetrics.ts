@@ -16,8 +16,8 @@ import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
-import { finishedProgress } from 'in-services/fixedObjects';
 import { sloMetrics } from 'in-service-levels/metrics';
 import { FetchedState } from 'in-hooks/utils/types';
 import { hours } from 'in-services/time/time';
@@ -57,7 +57,7 @@ export function resultReducer(
 ): Result<Record<string, SloMetricsResultMap>> | undefined {
   return results?.reduce(
     (acc, result) => {
-      if (!result.data) return acc;
+      if (!result.data?.metrics) return pendingResult;
       const loading = result.progress.loading || acc.progress.loading;
 
       return {
