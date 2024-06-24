@@ -4,19 +4,28 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
-import { MetricConfiguration, OrderDirection, TagFilterExpression, TimeConfig } from '@instana/types';
+import { MetricConfiguration, OrderDirection, TagCatalog, TagFilterExpression, TimeConfig } from '@instana/types';
+import { Card, SvgIcon } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error Module needs to be translated to TS
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error Module needs to be translated to TS
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+// @ts-expect-error Module needs to be translated to TS
+import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
+import { BusinessProcessQueryBuilder } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { processColumnDefinitions } from 'in-bizops/lists/businessProcess/columnDefinitions';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import getBusinessProcessList from 'in-bizops/subscriptions/getBusinessProcessList';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { bizopsPerspectivesEnabled } from 'in-services/featureFlags';
 import { businessProcessPath } from 'in-bizops/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -28,6 +37,8 @@ import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
+
+import locals from './BusinessProcessList.mless';
 
 const pathSegment = businessProcessPath;
 const matrixPrefix = '';
@@ -49,6 +60,9 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 export default function BizOpsList() {
   const timeConfig = useTimeConfig();
 
+  const [queryTagFilter, setQueryTagFilter] = useState([]);
+  const tagCatalog = useObservable(getBusinessMonitoringTagCatalog(), []);
+
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
@@ -59,10 +73,30 @@ export default function BizOpsList() {
             pageRootName: pageNames.bizops_processes
           }}
         />
+        {bizopsPerspectivesEnabled && (
+          <Card className={locals.queryCard}>
+            <div className={locals.querySection}>
+              <label className={locals.queryLabel}>
+                <SvgIcon type={'lib_actions_filter'} />
+                <span className={locals.queryText}>Filter</span>
+              </label>
+              <div className={locals.processQueryBuilder}>
+                <BusinessProcessQueryBuilder
+                  value={queryTagFilter}
+                  onChange={(tagFilterExpression: any) => {
+                    setQueryTagFilter(tagFilterExpression);
+                  }}
+                />
+              </div>
+            </div>
+          </Card>
+        )}
         <ServerTableWithUrlState
           get={getBusinessProcessListData}
           timeConfig={timeConfig}
           cardTitle={t('in-bizops:lists.cardTitle')}
+          queryTagFilter={queryTagFilter}
+          tagCatalog={tagCatalog?.data}
         />
       </LeftRightPadding>
       <Footer />
@@ -77,6 +111,8 @@ type GetBusinessProcessList = {
   page: number;
   pageSize: number;
   query: string;
+  queryTagFilter: FormModelElement[];
+  tagCatalog: TagCatalog;
 };
 
 export function getBusinessProcessListData({
@@ -85,7 +121,9 @@ export function getBusinessProcessListData({
   orderDirection = 'ASC',
   page = 1,
   pageSize = 20,
-  query = ''
+  query = '',
+  queryTagFilter = [],
+  tagCatalog = { tagTree: [], tags: [] }
 }: GetBusinessProcessList) {
   const sparkChartGranularity = getChartGranularity(timeConfig);
 
@@ -125,6 +163,12 @@ export function getBusinessProcessListData({
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
     });
+  }
+
+  // add the tag filters from the query builder after validation
+  if (queryTagFilter.length > 0 && validateFormModel({ tagCatalog: tagCatalog, formModel: queryTagFilter }).isValid) {
+    let queryFilterExpression = toBackendQueryModel(queryTagFilter);
+    tagFilterExpression.elements.push(queryFilterExpression);
   }
 
   return getBusinessProcessList({
