@@ -139,12 +139,14 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
 
 interface ViewAllProps {
   testId: string;
+  selectedMetric: string;
 }
 
-function ViewAll({ testId }: ViewAllProps) {
+function ViewAll({ testId, selectedMetric }: ViewAllProps) {
   const { location, createHref } = useNavigation();
   location.pathname = syntheticResultsListPath;
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'testId', testId);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'selectedMetric', selectedMetric);
 
   return <Link href={createHref(location)}>{t('in-synthetics:dashboard.summary.widgets.linkViewAllTestResults')}</Link>;
 }
