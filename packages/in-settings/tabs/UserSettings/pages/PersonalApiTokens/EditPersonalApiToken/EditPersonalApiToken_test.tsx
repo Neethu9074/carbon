@@ -37,7 +37,12 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/EditPersonalApiT
     const res = create();
     let emitted: PersonalApiToken | null;
     if (ok) {
-      emitted = { accessGrantingToken: 'my-token', name, tokenId: 'my-id', userId: 'my-user' };
+      emitted = {
+        accessGrantingToken: 'my-token',
+        name,
+        tokenId: 'my-id',
+        userId: 'my-user'
+      };
       res.emit(emitted);
     } else {
       res.emitError(new Error('dummy error'));

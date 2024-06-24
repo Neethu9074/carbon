@@ -15,6 +15,7 @@ import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl
 import { getApiTokens } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import ApiTokens from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import { useTenantUnitsInfo } from 'in-settings/hooks/useTenantUnitsInfo';
+import { formatDateTime } from 'in-services/formatters/date';
 
 jest.mock('in-i18n', () => ({
   ...jest.requireActual('in-i18n'),
@@ -42,6 +43,11 @@ jest.mock('in-settings/navigation/paths', () => ({
   getEntityIdView: (path: string, internalId: string) => mockGetEntityHref(path, internalId)
 }));
 
+jest.mock('in-services/formatters/date', () => ({
+  formatDateTime: jest.fn().mockImplementation(date => (date ? `formatted-${date}` : 'formatted-null')),
+  fromNow: jest.fn().mockImplementation(date => (date ? `fromNow-${date}` : 'formatted-null'))
+}));
+
 describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens', () => {
   beforeEach(() => {
     jest.resetModules();
@@ -53,7 +59,10 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
     id: generateUniqueShortId(),
     name: generateUniqueShortId(),
     accessGrantingToken: generateUniqueShortId(),
-    internalId: generateUniqueShortId()
+    internalId: generateUniqueShortId(),
+    createdOn: Date.now(),
+    lastUsedOn: Date.now(),
+    createdBy: 'test'
   });
 
   interface MockConfig {
@@ -93,7 +102,10 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
       name: 'my-api-token-name',
       accessGrantingToken: 'my-token',
       internalId: 'my-internal-token',
-      id: 'my-token'
+      id: 'my-token',
+      createdOn: 1718851648770,
+      lastUsedOn: 1718851648770,
+      createdBy: 'test'
     };
     mockGet({ amount: 0, first: token });
     (useTenantUnitsInfo as jest.Mock).mockReturnValue({
@@ -110,7 +122,10 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
       name: 'my-api-token-name',
       accessGrantingToken: 'my-token',
       internalId: 'my-internal-token',
-      id: 'my-token'
+      id: 'my-token',
+      createdOn: 1718792878367,
+      lastUsedOn: 1718792874930,
+      createdBy: 'test'
     };
     mockGet({ amount: 0, first: token });
     (useTenantUnitsInfo as jest.Mock).mockReturnValue({
@@ -126,7 +141,10 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
       name: 'my-api-token-name',
       accessGrantingToken: 'my-token',
       internalId: 'my-internal-token',
-      id: 'my-token'
+      id: 'my-token',
+      createdBy: 'stan@instana.com',
+      createdOn: 1718792878367,
+      lastUsedOn: 1718792874930
     };
     mockGet({ amount: 0, first: token });
 
@@ -142,6 +160,10 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
     expect(getApiTokens).toHaveBeenCalled();
     expect(getByText(token.name)).toBeInTheDocument();
     expect(getByText(token.accessGrantingToken)).toBeInTheDocument();
+    expect(formatDateTime).toHaveBeenCalledWith(token.createdOn);
+    expect(getByText(token.createdBy!)).toBeInTheDocument();
+    expect(getByText(`formatted-${token.createdOn}`, { exact: false })).toBeInTheDocument();
+    expect(getByText(`formatted-${token.lastUsedOn}`, { exact: false })).toBeInTheDocument();
   });
 
   it('should provide an empty table for api tokens', () => {
@@ -190,7 +212,10 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
       name: 'my-api-token-name',
       accessGrantingToken: 'my-token',
       internalId: 'my-internal-token',
-      id: 'my-token'
+      id: 'my-token',
+      createdBy: 'stan@instana.com',
+      createdOn: 1718792878367,
+      lastUsedOn: 1718792874930
     };
     mockGet({ amount: 0, first: token });
 

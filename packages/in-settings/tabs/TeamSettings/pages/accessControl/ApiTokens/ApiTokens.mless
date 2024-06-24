@@ -10,8 +10,8 @@
     .flexbox();
 
     div:first-of-type {
-      min-width: 30%;
       font-style: italic;
+      .ellipsis();
     }
   }
 

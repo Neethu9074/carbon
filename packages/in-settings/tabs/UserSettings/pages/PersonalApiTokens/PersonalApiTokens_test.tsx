@@ -16,6 +16,7 @@ import {
 } from 'in-settings/tabs/UserSettings/api/personalApiToken';
 import PersonalApiTokens from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiTokens';
 import { useTenantUnitsInfo } from 'in-settings/hooks/useTenantUnitsInfo';
+import { formatDateTime } from 'in-services/formatters/date';
 
 jest.mock('in-i18n', () => ({
   ...jest.requireActual('in-i18n'),
@@ -34,6 +35,10 @@ jest.mock('in-settings/hooks/useTenantUnitsInfo', () => ({
   useTenantUnitsInfo: jest.fn()
 }));
 
+jest.mock('in-services/formatters/date', () => ({
+  formatDateTime: jest.fn().mockImplementation(date => (date ? `formatted-${date}` : 'formatted-null')),
+  fromNow: jest.fn().mockImplementation(date => (date ? `fromNow-${date}` : 'formatted-null'))
+}));
 describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiTokens', () => {
   beforeEach(() => {
     jest.resetModules();
@@ -45,7 +50,9 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
     tokenId: generateUniqueShortId(),
     name,
     accessGrantingToken: generateUniqueShortId(),
-    userId: generateUniqueShortId()
+    userId: generateUniqueShortId(),
+    createdOn: Date.now(),
+    lastUsedOn: Date.now()
   });
 
   interface MockConfig {
@@ -93,7 +100,9 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
       name: 'my-token-name',
       tokenId: '1234',
       accessGrantingToken: 'my-token',
-      userId: 'my-user'
+      userId: 'my-user',
+      createdOn: 1718792878367,
+      lastUsedOn: 1718792874930
     };
     mockGet({ amount: 0, first: token });
 
@@ -110,7 +119,9 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
       name: 'my-token-name',
       tokenId: '1234',
       accessGrantingToken: 'my-token',
-      userId: 'my-user'
+      userId: 'my-user',
+      createdOn: 1718792878367,
+      lastUsedOn: 1718792874930
     };
     mockGet({ amount: 0, first: token });
 
@@ -124,7 +135,9 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
       name: 'my-token-name',
       tokenId: '1234',
       accessGrantingToken: 'my-token',
-      userId: 'my-user'
+      userId: 'my-user',
+      createdOn: 1718792878367,
+      lastUsedOn: 1718792874930
     };
     mockGet({ amount: 0, first: token });
 
@@ -135,6 +148,8 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
     expect(getByText('in-settings:tabs.newPersonalApiToken')).toBeInTheDocument(); // add btn
     expect(getByText('in-settings:tabs.name')).toBeInTheDocument(); // col header entityName
     expect(getByText('in-settings:tabs.token')).toBeInTheDocument(); // col header entityToken
+    expect(getByText('in-settings:tabs.tokenLastUsed')).toBeInTheDocument(); // col header last used
+    expect(getByText('in-settings:tabs.tokenCreated')).toBeInTheDocument(); // col header created by
     expect(queryByText('in-settings:tabs.noPersonalApiTokens')).not.toBeInTheDocument(); // no data
     expect(container.querySelector('.tableLoadingSkeletonRows-skeleton')).not.toBeInTheDocument(); // loading
     expect(container.querySelector('div[class*="pagination"]')).not.toBeInTheDocument(); // no pagination
@@ -142,6 +157,9 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
     await waitFor(() => expect(getByText(token.name)).toBeInTheDocument());
     expect(getByText(token.name)).toBeInTheDocument();
     expect(getByText('my-t********************')).toBeInTheDocument();
+    expect(formatDateTime).toHaveBeenCalledWith(token.createdOn);
+    expect(getByText(`formatted-${token.createdOn}`, { exact: false })).toBeInTheDocument();
+    expect(getByText(`formatted-${token.lastUsedOn}`, { exact: false })).toBeInTheDocument();
   });
 
   it('should provide an empty table for personal api tokens', async () => {

@@ -2,9 +2,13 @@
  * (c) Copyright IBM Corp. 2024
  * (c) Copyright Instana Inc.
  */
+@import '~in-themes/mixins.less';
 
 :local {
   .message {
     white-space: pre;
+  }
+  .tokenlabel {
+    .ellipsis();
   }
 }

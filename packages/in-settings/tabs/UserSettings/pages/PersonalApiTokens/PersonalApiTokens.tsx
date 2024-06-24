@@ -21,10 +21,13 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { userSettingsPersonalApiTokens } from 'in-settings/navigation/paths';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
+import { formatDateTime, fromNow } from 'in-services/formatters/date';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import config from 'in-services/config';
 import { user } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
+
+import locals from './PersonalApiTokens.mless';
 
 const loadEntities = (userId: string): Observable<PersonalApiToken[]> => {
   const observer = create<PersonalApiToken[]>();
@@ -74,7 +77,8 @@ const columnDefinitions = [
   {
     id: 'name',
     label: t('in-settings:tabs.name'),
-    width: 60,
+    width: 30,
+    ellipsis: true,
     getContent: (entity: PersonalApiToken) => (
       <Link href={userSettingsPersonalApiTokens} ellipsis onClick={preventDefault}>
         {entity.name}
@@ -84,10 +88,11 @@ const columnDefinitions = [
   {
     id: 'token',
     label: t('in-settings:tabs.token'),
-    ellipsis: true,
+    useMinimumAmountOfHorizontalSpace: true,
+
     getContent: ({ accessGrantingToken }: PersonalApiToken) => (
       <>
-        <span>{maskToken(accessGrantingToken)}</span>
+        <span className={locals.tokenLabel}>{maskToken(accessGrantingToken)}</span>
         <CopyToClipboard getText={() => accessGrantingToken}>
           {refSetter => (
             <span ref={refSetter}>
@@ -96,6 +101,26 @@ const columnDefinitions = [
           )}
         </CopyToClipboard>
       </>
+    )
+  },
+  {
+    id: 'lastUsedOn',
+    label: t('in-settings:tabs.tokenLastUsed'),
+    ellipsis: true,
+    useMinimumAmountOfHorizontalSpace: true,
+    getContent: ({ lastUsedOn }: PersonalApiToken) => (
+      <span>{lastUsedOn ? `${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})` : ''}</span>
+    )
+  },
+  {
+    id: 'createdOn',
+    label: t('in-settings:tabs.tokenCreated'),
+    ellipsis: true,
+    useMinimumAmountOfHorizontalSpace: true,
+    getContent: ({ createdOn }: PersonalApiToken) => (
+      <span>
+        {createdOn ? `${fromNow(createdOn)} (${formatDateTime(createdOn)})` : `${t('in-settings:tabs.unknownLabel')}`}
+      </span>
     )
   }
 ];
