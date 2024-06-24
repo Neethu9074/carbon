@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 module.exports = exports = [
@@ -674,6 +674,11 @@ module.exports = exports = [
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
     instanaCtlKey: 'feature.analyze.related.instances.button.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'maxMetricsLimitForBeeinstanaEnabled',
+    instanaCtlKey: 'feature.max.metrics.limit.for.beeinstana.enabled',
+    defaultValue: true
   },
   {
     uiClientKey: 'serverSideInfraTagSearchEnabled',
