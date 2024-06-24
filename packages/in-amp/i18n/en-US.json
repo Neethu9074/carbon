@@ -68,10 +68,10 @@
       "queuedLicenses": "Queued Licenses"
     },
     "usageCharts": {
-      "apmUsage": "APM Usage",
+      "standard": "Standard",
       "apmHosts": "APM Hosts",
       "purchased": "Purchased",
-      "infrastructureUsage": "Infrastructure Usage",
+      "essentials": "Essentials",
       "iqmHosts": "IQM Hosts",
       "syntheticPops":"Synthetic Managed PoPs",
       "resourceUnits":"Resource Units",
