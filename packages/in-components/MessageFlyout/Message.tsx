@@ -13,8 +13,6 @@ import { Stack, SvgIcon } from '@instana/components';
 import { MessageWithId } from 'in-components/MessageFlyout/stores/messages';
 import { carbonMessageEnabled } from 'in-services/featureFlags';
 
-import { carbonMessageEnabled } from 'in-services/featureFlags';
-
 import locals from './Message.mless';
 
 interface MessageProps {
@@ -50,7 +48,7 @@ export default function Message({ message, carbonVariant }: MessageProps) {
       type={baseType}
       inline={false}
       dismissible
-      onCloseButtonClick={message.onClick}
+      onClose={message.onClick}
       carbonVariant
     >
       <div className={locals.carbonContent}>{message.content}</div>
