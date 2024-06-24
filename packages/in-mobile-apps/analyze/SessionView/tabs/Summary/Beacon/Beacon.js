@@ -69,7 +69,10 @@ export default function Beacon(props) {
               <div className={locals.rightHeader}>
                 <BackendTraceButton beacon={beacon} />
                 {beacon.type === 'crash' && (
-                  <ViewCrashGroupButton mobileAppId={beacon.mobileAppId} errorMessage={beacon.errorMessage} />
+                  <ViewCrashGroupButton
+                    mobileAppId={beacon.mobileAppId}
+                    stackTraceKeyInformation={beacon.stackTraceKeyInformation}
+                  />
                 )}
                 <HeaderToggleIcon {...props} />
               </div>
