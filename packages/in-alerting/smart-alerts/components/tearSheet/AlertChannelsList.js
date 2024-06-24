@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import { Button } from '@instana/legacy';
 
@@ -44,6 +44,7 @@ export default function AlertChannelsList({
   hasRowNavigation = true,
   getHeader = leftHeaderWithSelectAll(tableActions, numberOfChannels)
 }) {
+  const [channelsPreSelected] = useState(preSelectedChannels);
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}
@@ -62,7 +63,7 @@ export default function AlertChannelsList({
       searchWidth={'100%'}
       searchMaxWidth={240}
       extraFilters={createFilters(hiddenIds)}
-      customSortEntities={sortSelecteditems(preSelectedChannels)}
+      customSortEntities={sortSelecteditems(channelsPreSelected)}
       searchPlaceholder={t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.searchPlaceholder')}
       onRowClick={onRowClick}
       getDetailsHref={
