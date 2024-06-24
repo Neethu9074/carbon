@@ -14,8 +14,27 @@ export default {
 };
 
 removeAllMessages();
-addMessage({ id: 1, type: 'danger', title: 'Message error', content: <div>Some content</div> });
-addMessage({ id: 2, type: 'warning', title: 'Message warning', content: <div /> });
-addMessage({ id: 3, type: 'neutral', title: 'Message info', content: <div>Some content</div> });
 
-export const MessagesWithFlyout = {};
+addMessage({ isLicenseUsageMsg: true, type: 'neutral', title: 'Message to simulate license usage info' });
+addMessage({ type: 'danger', title: 'Message error', content: <div>Some content</div> });
+addMessage({ type: 'warning', title: 'Message warning', content: <div /> });
+addMessage({ type: 'neutral', title: 'Message info', content: <div>Some content</div> });
+addMessage({
+  type: 'neutral',
+  title: 'Message info',
+  content: <div>disappears after 2 seconds</div>,
+  timeout: 2000
+});
+addMessage({ type: 'neutral', title: 'Only with title, without content' });
+addMessage({ type: 'neutral', content: 'No title, only content' });
+addMessage({
+  type: 'neutral',
+  title: 'Some very very very long title, for testing purpose.',
+  content: 'this is also a very very very long content, for testing purpose.'
+});
+
+export const MessagesWithFlyout = {
+  args: {
+    carbonVariant: true
+  }
+};
