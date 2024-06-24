@@ -270,18 +270,6 @@ function Form({ form, onChange }) {
               <Trans i18nKey="in-settings:tabs.advancedIntro" />
               <section id="sendSection">
                 <Label for="sendSection">{t('in-settings:tabs.sendTitle')}</Label>
-                {/*form.get('manuallyClosedIncidents').map(field => (
-                  <FormGroup className={block}>
-                    <Checkbox
-                      label={t('in-settings:tabs.manuallyClosedIncidents')}
-                      id="manuallyClosedIncidents"
-                      checked={field.value}
-                      onChange={e => onChange('manuallyClosedIncidents', e.target.checked)}
-                      size="larger"
-                    />
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))*/}
                 {form.get('autoCloseIncidents').map(field => (
                   <FormGroup className={block}>
                     <Checkbox
