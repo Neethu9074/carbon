@@ -176,7 +176,8 @@ export const eventStepConfig: IStepConfig = {
         return {
           closeTimestamp: Date.now(),
           reasonForClosing: closureComments,
-          username
+          username,
+          muteAlerts: false
         };
       }
     },
