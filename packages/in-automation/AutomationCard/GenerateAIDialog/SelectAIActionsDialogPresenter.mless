@@ -34,13 +34,6 @@
     margin-bottom: 0.25rem;
   }
 
-  .manualContentMarkdown {
-    background: var(--ids-color-option-neutral-50);
-
-    display: flex;
-    justify-content: space-between;
-  }
-
   .subTextFormField {
     color: var(--ids-color-option-neutral-600);
     margin: 0.5rem 0 0 0.5rem;

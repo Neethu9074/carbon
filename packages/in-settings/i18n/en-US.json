@@ -1225,7 +1225,6 @@
     "advancedIntro": "Creating this alert channel will enable Instana to create incidents in both Instana and ServiceNow. You can customize how the incidents are updated.<br/><br/>",
     "sendTitle": "Send actions to ServiceNow",
     "receiveTitle": "Receive actions from ServiceNow",
-    "manuallyClosedIncidents": "Manually closed incidents (when an incident is closed by a user)",
     "resolutionOfIncident": "Resolve incidents (will close the incidents/issues in Instana)",
     "showPasswordTooltip": "Show password",
     "hidePasswordTooltip": "Hide password",
