@@ -596,7 +596,8 @@
         "lastTestRunOn": "Last test run on",
         "version": "Version",
         "timeThreshold": "Time threshold",
-        "testsApplied": "Tests applied"
+        "testsApplied": "Tests applied",
+        "health": "Health"
       },
       "dashboardWidget": {
         "label": "My custom dashboards",

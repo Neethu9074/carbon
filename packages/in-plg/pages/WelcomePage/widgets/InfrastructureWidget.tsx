@@ -36,6 +36,8 @@ import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { formatDateTime } from 'in-services/formatters/date';
 import { percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
+import { SnapshotMap } from 'in-components/EntityLink';
+import { getIconTypeCallback } from 'in-sdk/iconType';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 
@@ -108,6 +110,10 @@ export default connectTo(() => ({
           key: 'name'
         },
         {
+          header: t('in-plg:welcomepage.component.infrastructureWidget.technologies'),
+          key: 'technologies'
+        },
+        {
           header: t('in-plg:welcomepage.component.infrastructureWidget.created'),
           key: 'created'
         },
@@ -129,6 +135,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.infrastructureWidget.name'),
         key: 'name'
+      },
+      {
+        header: t('in-plg:welcomepage.component.infrastructureWidget.technologies'),
+        key: 'technologies'
       },
       {
         header: t('in-plg:welcomepage.component.infrastructureWidget.cpuUsage'),
@@ -292,6 +302,12 @@ export default connectTo(() => ({
         }
       },
       {
+        key: 'technologies',
+        getContent({ item }) {
+          return <Typography variant="body-regular">{getTechnologyType(item.snapshot)}</Typography>;
+        }
+      },
+      {
         key: 'created',
         getContent({ item }) {
           return (
@@ -352,6 +368,12 @@ export default connectTo(() => ({
         }
       },
       {
+        key: 'technologies',
+        getContent({ item }) {
+          return <Typography variant="body-regular">{getTechnologyType(item.snapshot)}</Typography>;
+        }
+      },
+      {
         key: 'cpuUsage',
         getContent({ item }) {
           return (
@@ -379,6 +401,20 @@ export default connectTo(() => ({
       }
     ]
   };
+
+  type SnapshotOrPlugin = SnapshotMap | string;
+  function getTechnologyType(snapshotOrPlugin: SnapshotOrPlugin): string {
+    let plugin = typeof snapshotOrPlugin === 'object' ? (snapshotOrPlugin.get('plugin') as string) : snapshotOrPlugin;
+    const callback = getIconTypeCallback(plugin);
+    if (callback) {
+      if (typeof snapshotOrPlugin === 'object') {
+        plugin = callback(snapshotOrPlugin);
+      } else {
+        plugin = callback(plugin);
+      }
+    }
+    return plugin;
+  }
 
   const generalProps = {
     ...config,

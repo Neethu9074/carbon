@@ -7,9 +7,10 @@
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { Link, Stack, SvgIcon, Typography } from '@instana/components';
-import { TestResultListItem, VersionedConfig } from '@instana/types';
+import { LocationListItem, TestResultListItem, VersionedConfig } from '@instana/types';
+import { Link, Typography } from '@instana/components';
 import { formatDateTime } from '@instana/format-date';
+import { LocationStatus } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -36,19 +37,20 @@ import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSumm
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getLocationData } from 'in-synthetics/dashboards/global/LocationList';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { clickSyntheticMonitoringTestTracker } from 'in-synthetics/tracker';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import HealthDot from 'in-components/health/HealthDot/HealthDot';
+import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { hasSyntheticsAccess } from 'in-stores/permission';
 import { Location } from 'in-stores/navigation/types';
 import { timeConfig$ } from 'in-stores/time/config';
-import { LocationStatus } from 'in-types';
 import { role } from 'in-stores/user';
 
 export default connectTo(() => ({
@@ -104,6 +106,10 @@ export default connectTo(() => ({
         {
           header: t('in-plg:welcomepage.component.syntheticWidget.latency'),
           key: 'latency'
+        },
+        {
+          header: t('in-plg:welcomepage.component.syntheticWidget.health'),
+          key: 'health'
         }
       ];
     }
@@ -124,6 +130,10 @@ export default connectTo(() => ({
         {
           header: t('in-plg:welcomepage.component.syntheticWidget.version'),
           key: 'version'
+        },
+        {
+          header: t('in-plg:welcomepage.component.syntheticWidget.health'),
+          key: 'health'
         }
       ];
     }
@@ -139,6 +149,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.syntheticWidget.testsApplied'),
         key: 'testsApplied'
+      },
+      {
+        header: t('in-plg:welcomepage.component.syntheticWidget.health'),
+        key: 'health'
       }
     ];
   };
@@ -205,25 +219,13 @@ export default connectTo(() => ({
       {
         key: 'name',
         getContent({ item }) {
-          const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
-          const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 0);
-          let severity = totalRuns - successRuns;
-          if (totalRuns != 0 && successRuns / totalRuns == 1) {
-            severity = 0;
-          } else if (totalRuns - successRuns > 10) {
-            severity = 10;
-          }
           return (
-            <Stack direction="horizontal">
-              <HealthDot severity={severity} iconSize={10} />
-              <SvgIcon type="lib_synthetic" color="var(--ids-color-option-neutral-700)" />
-              <Link
-                href={createLinkLocation(item, location)}
-                onClick={() => clickSyntheticMonitoringTestTracker({ detail: 'View Synthetic test dashboard' })}
-              >
-                {item?.testResultCommonProperties?.testCommonProperties?.label}
-              </Link>
-            </Stack>
+            <Link
+              href={createLinkLocation(item, location)}
+              onClick={() => clickSyntheticMonitoringTestTracker({ detail: 'View Synthetic test dashboard' })}
+            >
+              {item?.testResultCommonProperties?.testCommonProperties?.label}
+            </Link>
           );
         }
       },
@@ -266,25 +268,27 @@ export default connectTo(() => ({
             />
           );
         }
+      },
+      {
+        key: 'health',
+        getContent({ item }) {
+          const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
+          const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 0);
+          let severity = totalRuns - successRuns;
+          if (totalRuns != 0 && successRuns / totalRuns == 1) {
+            severity = 0;
+          } else if (totalRuns - successRuns > 10) {
+            severity = 10;
+          }
+          return <HealthIcon severity={severity} iconSize="xs" />;
+        }
       }
     ],
     location: [
       {
         key: 'name',
         getContent({ item }) {
-          let maxSev = item.entityHealthInfo?.maxSeverity;
-          if (item.entityHealthInfo?.maxSeverity > 10) {
-            maxSev = 10;
-          } else if (item.entityHealthInfo?.maxSeverity === undefined) {
-            maxSev = 11;
-          }
-          return (
-            <Stack direction="horizontal">
-              <HealthDot severity={maxSev} iconSize={10} />
-              <SvgIcon type="lib_synthetic_location" color="var(--ids-color-option-neutral-700)" />
-              <Link>{item?.label}</Link>
-            </Stack>
-          );
+          return <LocationNameLink item={item} />;
         }
       },
       {
@@ -304,22 +308,31 @@ export default connectTo(() => ({
         getContent({ item }) {
           return <Typography variant="body-regular">{item?.popVersion}</Typography>;
         }
+      },
+      {
+        key: 'health',
+        getContent({ item }) {
+          const openIssues = item.entityHealthInfo?.openIssues?.length ?? -1;
+          let maxSev = item.entityHealthInfo?.maxSeverity ?? -1;
+          if (openIssues === 0) {
+            maxSev = 0;
+          }
+          if (item.entityHealthInfo?.maxSeverity > 10) {
+            maxSev = 10;
+          } else if (item.entityHealthInfo?.maxSeverity === undefined) {
+            return (
+              <Typography variant="body-regular">{t('in-plg:welcomepage.component.syntheticWidget.na')}</Typography>
+            );
+          }
+          return <HealthIcon severity={maxSev} iconSize="xs" />;
+        }
       }
     ],
     smartalerts: [
       {
         key: 'name',
         getContent({ item }) {
-          return (
-            <Stack direction="horizontal">
-              <HealthDot severity={item.severity} iconSize={10} />
-              <SvgIcon
-                type={item.enabled ? 'lib_alerts_alert' : 'lib_actions_pause'}
-                color="var(--ids-color-option-neutral-700)"
-              />
-              <Link href={createLinkLocation(item, location)}>{item?.name}</Link>
-            </Stack>
-          );
+          return <Link href={createLinkLocation(item, location)}>{item?.name}</Link>;
         }
       },
       {
@@ -333,9 +346,23 @@ export default connectTo(() => ({
         getContent({ item }) {
           return <Typography variant="body-regular">{item?.syntheticTestIds.length}</Typography>;
         }
+      },
+      {
+        key: 'health',
+        getContent({ item }) {
+          return <HealthIcon severity={item.severity} iconSize="xs" />;
+        }
       }
     ]
   };
+
+  function LocationNameLink({ item }: { item: LocationListItem }) {
+    const entityHealthInfo = item.entityHealthInfo;
+    const href = useGetDashboardLink()(item.popSnapshotId ?? '', {
+      pathname: physicalDashboardPath
+    });
+    return entityHealthInfo === undefined ? <Link>{item?.label}</Link> : <Link href={href}>{item?.label}</Link>;
+  }
 
   function addMore() {
     let addDialog;
