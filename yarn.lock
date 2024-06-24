@@ -1777,15 +1777,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bitchcraft/unicorn-logger@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "@bitchcraft/unicorn-logger@npm:1.1.1"
-  dependencies:
-    debug: ^3.1.0
-  checksum: 14438e2f4eb43e9cdd8e6ecf074ffaccf8a8f2fdda40872f34633257f201e2800bf4d4f91ea3940fe0c5adfa2032e0bbe3bee71ecc31bae5ec5d9d6217f47708
-  languageName: node
-  linkType: hard
-
 "@carbon/colors@npm:^11.21.0":
   version: 11.21.0
   resolution: "@carbon/colors@npm:11.21.0"
@@ -6565,15 +6556,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@useorbital/client-sdk@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@useorbital/client-sdk@npm:1.2.0"
-  dependencies:
-    "@bitchcraft/unicorn-logger": ^1.1.1
-  checksum: a788f84d42a3c76d9450aa6f9b4da0a894d861f351cb6297fac162e309566f769fe83687f308cb9a210ab225bea861dd6450dc55510f37fec5457881e09c7297
-  languageName: node
-  linkType: hard
-
 "@webassemblyjs/ast@npm:1.12.1, @webassemblyjs/ast@npm:^1.12.1":
   version: 1.12.1
   resolution: "@webassemblyjs/ast@npm:1.12.1"
@@ -10016,7 +9998,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:^3.1.0, debug@npm:^3.2.7":
+"debug@npm:^3.2.7":
   version: 3.2.7
   resolution: "debug@npm:3.2.7"
   dependencies:
@@ -23023,7 +23005,6 @@ __metadata:
     "@uiw/codemirror-extensions-basic-setup": 4.22.0
     "@uiw/codemirror-extensions-events": ^4.22.0
     "@uiw/react-codemirror": 4.22.0
-    "@useorbital/client-sdk": ^1.2.0
     "@wojtekmaj/enzyme-adapter-react-17": ^0.6.7
     ammap3: ^3.21.14
     ansi-regex: 6.0.1

@@ -26,7 +26,6 @@ exports.getClientConfig = (req, tenant, unit) => {
     tenantUnit: unit,
     featureFlags: featureFlags,
     configuration: configuration,
-    orbitalSpaceID: serverConfig.clientConfig.orbitalSpaceID,
 
     agentEndpoint: reportingEndpoints.agentEndpoint,
     agentEndpointPort: reportingEndpoints.port,

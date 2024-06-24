@@ -646,11 +646,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'orbitalEnabled',
-    instanaCtlKey: 'feature.orbital.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'beeinstanaInfraMetricsWithTimeshiftEnabled',
     instanaCtlKey: 'feature.beeinstana.infra.metrics.with.timeshift.enabled',
     defaultValue: true
