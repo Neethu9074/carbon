@@ -30,11 +30,11 @@ import useGetMigrationAlertConfig from 'in-alerting/smart-alerts/applications/ho
 import AlertingPageHeader from 'in-alerting/smart-alerts/components/pageHeaderTemplate/AlertingPageHeader';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import useGetSmartAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetSmartAlertConfig';
+import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
-import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -98,7 +98,7 @@ export default function AlertConfigTearSheet() {
   if (alertConfigErrors?.length) {
     return <ErroneousResultPresenter errors={[...alertConfigErrors]} />;
   } else if (!applicationSmartAlertConfig) {
-    return <DefaultLoadingDashboard />;
+    return <TearSheetLoading />;
   } else {
     return (
       <AlertConfigTearSheetContent
