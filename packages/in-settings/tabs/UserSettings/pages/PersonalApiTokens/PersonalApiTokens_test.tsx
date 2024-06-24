@@ -93,9 +93,7 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
   };
 
   it('should show information banner if there are more than one units for the tenant', () => {
-    (useTenantUnitsInfo as jest.Mock).mockReturnValue({
-      showTenantInfo: true
-    });
+    (useTenantUnitsInfo as jest.Mock).mockReturnValue(true);
     const token: PersonalApiToken = {
       name: 'my-token-name',
       tokenId: '1234',
@@ -112,9 +110,7 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
   });
 
   it('should hide information banner if there are one unit for the tenant', () => {
-    (useTenantUnitsInfo as jest.Mock).mockReturnValue({
-      showTenantInfo: false
-    });
+    (useTenantUnitsInfo as jest.Mock).mockReturnValue(false);
     const token: PersonalApiToken = {
       name: 'my-token-name',
       tokenId: '1234',
