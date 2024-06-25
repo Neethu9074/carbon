@@ -40,6 +40,7 @@ module.exports = {
   ampCompanyInfoEnabled: true,
   ampEnabled: true,
   persistentVolumeSupportEnabled: true,
+  segmentAnalyticsEnabled: false,
   loggingEnabled: true,
   logRetentionPageEnabled: true,
   logWidgetsEnabled: true,
