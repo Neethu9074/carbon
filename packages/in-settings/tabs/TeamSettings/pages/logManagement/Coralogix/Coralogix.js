@@ -26,6 +26,9 @@ import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
+import locals from './Coralogix.mless';
+
+
 const block = 'in-ui-config';
 
 const logger = createLogger('coralogixConfig');
@@ -97,10 +100,10 @@ export default class Coralogix extends React.Component {
     const enabled = form ? form.get('enabled').value : null;
 
     return (
-      <SettingsDetailPage>
+      <SettingsDetailPage className={locals.page}>
         <Title title={t('in-settings:tabs.configureCoralogix')} />
         <IntegrationsBreadcumb />
-        <SubViewHeader>{t('in-settings:tabs.configureYourCoralogixSettings')}</SubViewHeader>
+        <SubViewHeader >{t('in-settings:tabs.configureYourCoralogixSettings')}</SubViewHeader>
         <SectionLine />
         {form && (
           <form onSubmit={this.onSubmit}>
