@@ -11,36 +11,30 @@ import { t } from '@instana/i18n-react';
 
 // @ts-expect-error missing a type definition for it
 import UrlShortenerOverlay from 'in-components/DashboardHeader/UrlShortener/UrlShortenerOverlay';
-import { shareAndInviteEnabled, ampCompanyInfoEnabled, playwithEnabled } from 'in-services/featureFlags';
-import HeaderTileWrapper from 'in-plg/pages/WelcomePage/HeaderTileWrapper';
+import OnboardingStepBuilder from 'in-plg/pages/WelcomePage/OnboardingStepBuilder';
 import { track, URL_SHORTENER_OPEN } from 'in-services/tracking/tracking';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
 import Overlay from 'in-components/overlays/Overlay';
 import { user } from 'in-stores/user';
 
-export default function WelcomeHeader() {
+interface WelcomeHeaderProps {
+  onboardingHeaderEnabled: boolean;
+}
+
+export default function WelcomeHeader({ onboardingHeaderEnabled }: WelcomeHeaderProps) {
   // @ts-expect-error The User type needs to be updated.
   const headerTitle = `${t('in-plg:welcomepage.heading')}, ${user?.fullName ?? ''}!`;
   const foldableTileTitle = t('in-plg:welcomepage.foldableTileTitle');
 
   return (
     <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
-      {!ampCompanyInfoEnabled || playwithEnabled ? (
-        //if hubforce is not enabled or if its playwith environment, the collapsible banner is not required
-        <HeaderTile
-          tileData={[]}
-          headerTitle={headerTitle}
-          foldableTileTitle={foldableTileTitle}
-          datepicker={<DatePickerHeader />}
-        />
-      ) : (
-        //HeaderTile Wrapper is used for fetching portal data, process it and return to HeaderTile
-        <HeaderTileWrapper
-          headerTitle={headerTitle}
-          foldableTileTitle={foldableTileTitle}
-          datepicker={<DatePickerHeader />}
-        />
-      )}
+      <HeaderTile
+        tileData={onboardingHeaderEnabled ? OnboardingStepBuilder() : []}
+        headerTitle={headerTitle}
+        foldableTileTitle={foldableTileTitle}
+        datepicker={<DatePickerHeader />}
+      />
     </div>
   );
 }

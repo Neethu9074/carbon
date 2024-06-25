@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Stack, ThemeProvider } from '@instana/components';
 
+import { ampCompanyInfoEnabled, playwithEnabled } from 'in-services/featureFlags';
 import WelcomeHeader from 'in-plg/components/WelcomeHeader/WelcomeHeader';
 import PageContent from 'in-plg/pages/WelcomePage/PageContent';
 
@@ -17,7 +18,7 @@ export default function WelcomePage() {
   return (
     <div className={locals.container}>
       <ThemeProvider theme="g10">
-        <WelcomeHeader />
+        <WelcomeHeader onboardingHeaderEnabled={ampCompanyInfoEnabled && !playwithEnabled} />
         <Stack direction="vertical">
           <PageContent />
         </Stack>

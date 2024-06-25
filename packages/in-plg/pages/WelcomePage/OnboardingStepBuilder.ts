@@ -4,18 +4,17 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { HeaderTile, HeaderTileProps } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-// @ts-expect-error missing a type definition for it
-import { getAccountAsResultObservable } from 'in-amp/api/account';
+import useGetAccountActivation from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import config from 'in-services/config';
 import { role } from 'in-stores/user';
 
-export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, datepicker }: HeaderTileProps) {
+export default function OnboardingStepBuilder() {
+  const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
   const { createHrefToPath } = useNavigation();
   const [statusFlags, setStatusFlags] = useState({
     firstAgentInstalled: true,
@@ -28,11 +27,25 @@ export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, date
     fiveUsers: true
   });
 
-  const accountInfo = useObservable(getAccountAsResultObservable, []);
+  const activation: any = useGetAccountActivation();
 
   useEffect(() => {
-    extractCurrentStatus(accountInfo);
-  }, [accountInfo]);
+    if (!activation || activation === null) {
+      return;
+    }
+    setStatusFlags({
+      // There are different arguments used for the collection of status,
+      //these arguments are defined in the API by the portal team. i.e, fa, tr, au, ai, ap, as, w, u - These are the arguments.
+      firstAgentInstalled: activation[currentTenantUnit]?.fa?.status,
+      tracingReported: activation[currentTenantUnit]?.tr?.status,
+      additionalUserInvited: activation[currentTenantUnit]?.au?.status,
+      threeAgentsInstalled: activation[currentTenantUnit]?.ai?.status,
+      twoApplicationPerspectivesCreated: activation[currentTenantUnit]?.ap?.status,
+      oneAlertSetUpAndActivated: activation[currentTenantUnit]?.sas?.status,
+      oneWebsiteMonitored: activation[currentTenantUnit]?.w?.status,
+      fiveUsers: activation[currentTenantUnit]?.u?.status
+    });
+  }, [activation, currentTenantUnit]);
 
   // Here, it collects only the headerItemTiles that the user needs to complete for their onboarding task.
   const tileDataWhenActionIsNotCompleted = useMemo(() => {
@@ -146,31 +159,5 @@ export default function HeaderTileWrapper({ headerTitle, foldableTileTitle, date
     statusFlags.twoApplicationPerspectivesCreated
   ]);
 
-  function extractCurrentStatus(accountInfo: any) {
-    const activation = accountInfo?.data?.activation;
-    if (!activation || Object.keys(activation).length === 0) {
-      return;
-    }
-    const keys = Object.keys(activation);
-    setStatusFlags({
-      // There are different arguments used for the collection of status, these arguments are defined in the API by the portal team. i.e, fa, tr, au, ai, ap, as, w, u - These are the arguments.
-      firstAgentInstalled: activation[keys[0]].fa.status,
-      tracingReported: activation[keys[0]].tr.status,
-      additionalUserInvited: activation[keys[0]].au.status,
-      threeAgentsInstalled: activation[keys[0]].ai.status,
-      twoApplicationPerspectivesCreated: activation[keys[0]].ap.status,
-      oneAlertSetUpAndActivated: activation[keys[0]].as.status,
-      oneWebsiteMonitored: activation[keys[0]].w.status,
-      fiveUsers: activation[keys[0]].u.status
-    });
-  }
-
-  return (
-    <HeaderTile
-      tileData={tileDataWhenActionIsNotCompleted}
-      headerTitle={headerTitle}
-      foldableTileTitle={foldableTileTitle}
-      datepicker={datepicker}
-    />
-  );
+  return tileDataWhenActionIsNotCompleted;
 }
