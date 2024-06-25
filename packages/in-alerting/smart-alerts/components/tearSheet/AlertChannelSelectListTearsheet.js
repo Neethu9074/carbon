@@ -6,6 +6,8 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { Message } from '@instana/components';
+
 import {
   get,
   toggle,
@@ -13,7 +15,6 @@ import {
   setAllOnAllPages
 } from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
-import ValidationBlock from 'in-components/form/ValidationBlock';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelSelectListTearsheet.mless';
@@ -39,6 +40,9 @@ export default function AlertChannelSelectListTearsheet({
 
   return (
     <div className={locals.channelListTable}>
+      {errorMessage && (
+        <Message type="warning" fullInlineWidth withIcon title={errorMessage} className={locals.errorMessage} />
+      )}
       <ListComponent
         setTitle={false}
         numberOfChannels={selectedItems.length}
@@ -76,7 +80,6 @@ export default function AlertChannelSelectListTearsheet({
         rightHeader={listComponentRightHeader}
         renderNoDataAvailable={() => <NoChannelSelected text={t('in-alerting:components.noChannelAvailable')} />}
       />
-      {errorMessage && <ValidationBlock className={locals.errorMessage}>{errorMessage}</ValidationBlock>}
     </div>
   );
 }

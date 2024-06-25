@@ -459,8 +459,6 @@
     "heading": "Welcome to Instana",
     "foldableTileTitle": "Let’s get started.",
     "viewAll": "View all",
-    "search": "Search",
-    "addMore": "Add",
     "UrlShortener": "URL Shortener",
     "startIntegrating": {
       "title": "Start integrating data",
@@ -596,7 +594,8 @@
         "lastTestRunOn": "Last test run on",
         "version": "Version",
         "timeThreshold": "Time threshold",
-        "testsApplied": "Tests applied"
+        "testsApplied": "Tests applied",
+        "health": "Health"
       },
       "dashboardWidget": {
         "label": "My custom dashboards",

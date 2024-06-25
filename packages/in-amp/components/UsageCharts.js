@@ -48,7 +48,7 @@ export default function UsageCharts({
     <>
       <Row>
         <Col xs={6}>
-          <Card title={t('in-amp:components.usageCharts.apmUsage')}>
+          <Card title={t('in-amp:components.usageCharts.standard')}>
             <UsageChart
               windowSize={windowSize}
               showAggregatedMetrics={showAggregatedMetrics}
@@ -67,7 +67,7 @@ export default function UsageCharts({
           </Card>
         </Col>
         <Col xs={6}>
-          <Card title={t('in-amp:components.usageCharts.infrastructureUsage')}>
+          <Card title={t('in-amp:components.usageCharts.essentials')}>
             <UsageChart
               windowSize={windowSize}
               showAggregatedMetrics={showAggregatedMetrics}

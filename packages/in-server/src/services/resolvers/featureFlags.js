@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 module.exports = exports = [
@@ -551,6 +551,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonListEnabled',
+    instanaCtlKey: 'feature.carbon.list.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonAccordionEnabled',
     instanaCtlKey: 'feature.carbon.accordion.enabled',
     defaultValue: false
@@ -641,11 +646,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'orbitalEnabled',
-    instanaCtlKey: 'feature.orbital.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'beeinstanaInfraMetricsWithTimeshiftEnabled',
     instanaCtlKey: 'feature.beeinstana.infra.metrics.with.timeshift.enabled',
     defaultValue: true
@@ -676,8 +676,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'maxMetricsLimitForBeeinstanaEnabled',
+    instanaCtlKey: 'feature.max.metrics.limit.for.beeinstana.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'serverSideInfraTagSearchEnabled',
     instanaCtlKey: 'feature.server.side.infra.tag.search.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'preAggregatedMetricsQueryEnabled',
+    instanaCtlKey: 'feature.pre.aggregated.metrics.query.enabled',
     defaultValue: false
   }
 ];

@@ -307,6 +307,8 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
   // Hide invite section in play with.
   const showInvite = role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && !isAnyIDPActive;
 
+  const disableSendButton = (!form.hierarchyValid && form.touched) || !anyValidEntry(form);
+
   return (
     <Dialog
       data-testid="share-and-invite-dialog-box"
@@ -523,7 +525,14 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
             <CancelButton data-testid="cancel-button" onClick={closeModal}>
               {t('in-settings:ShareAndInviteDialogBox.cancel')}
             </CancelButton>
-            <SaveButton type="submit" disabled={(!form.hierarchyValid && form.touched) || !anyValidEntry(form)}>
+            <SaveButton
+              type="submit"
+              disabled={disableSendButton}
+              className={classNames({
+                [locals.saveButton]: true,
+                [locals.buttonDisabled]: disableSendButton
+              })}
+            >
               {t('in-settings:ShareAndInviteDialogBox.send')}
             </SaveButton>
           </FormFooter>

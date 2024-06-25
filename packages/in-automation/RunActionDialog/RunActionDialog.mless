@@ -57,14 +57,6 @@
       height: auto;
     }
   }
-  .manualContentMarkdown {
-    background: var(--ids-color-option-neutral-50);
-
-    display: flex;
-    justify-content: space-between;
-    padding-left: 1rem;
-    padding-top: 1rem;
-  }
 
   .logsLink {
     color: var(--cds-link-primary);

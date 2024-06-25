@@ -1,14 +1,14 @@
 import { Meta, Preview, Story } from '@storybook/addon-docs';
-import {useState} from 'react';
+import { useState } from 'react';
 
-import { QueryBuilderStateHelper } from "in-components/QueryBuilder/stories/QueryBuilderStateHelper";
+import { QueryBuilderStateHelper } from 'in-components/QueryBuilder/stories/QueryBuilderStateHelper';
 import { successObservableFactory } from 'in-services/util/result';
-import {createQueryBuilder} from 'in-components/QueryBuilder';
+import { createQueryBuilder } from 'in-components/QueryBuilder';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import tagCatalogExampleJson from 'in-components/QueryBuilder/stories/tagCatalogExample';
 import tagCatalogExample from 'in-components/QueryBuilder/stories/tagCatalogExample.png';
 
-<Meta />
+<Meta title="IN-COMPONENTS/QueryBuilder/QueryBuilder" />
 
 # QueryBuilder
 
@@ -16,20 +16,25 @@ import tagCatalogExample from 'in-components/QueryBuilder/stories/tagCatalogExam
 
 export const DefaultExampleQueryBuilder = createQueryBuilder({
   getTagCatalog: successObservableFactory(tagCatalogExampleJson),
-  getSuggestions: successObservableFactory({suggestions: ['Suggestion 1', 'Suggestion 2', 'Suggestion 3'], totalHits: 42}),
+  getSuggestions: successObservableFactory({
+    suggestions: ['Suggestion 1', 'Suggestion 2', 'Suggestion 3'],
+    totalHits: 42
+  })
 }).QueryBuilder;
 
 export function DefaultExample() {
   return (
     <QueryBuilderStateHelper>
-      {({value, setState, readOnly}) => <DefaultExampleQueryBuilder value={value} onChange={setState} readOnly={readOnly} />}
+      {({ value, setState, readOnly }) => (
+        <DefaultExampleQueryBuilder value={value} onChange={setState} readOnly={readOnly} />
+      )}
     </QueryBuilderStateHelper>
-  )
+  );
 }
 
-<p style={{color: 'darkred', fontSize: '1rem'}}>
-  Please inspect the examples via Storybook's <code>Canvas</code> mode. You can access this mode via
-   the <code>Canvas</code> button at the top of the screen.
+<p style={{ color: 'darkred', fontSize: '1rem' }}>
+  Please inspect the examples via Storybook's <code>Canvas</code> mode. You can access this mode via the{' '}
+  <code>Canvas</code> button at the top of the screen.
 </p>
 
 <Preview>
@@ -104,9 +109,9 @@ function MyQueryBuilder({value, onChange}) {
 The query builder makes use of four different tag filter expression
 models in order to do its job:
 
- 1. **Backend Query Model**: This is the model used in backend queries. You
+1.  **Backend Query Model**: This is the model used in backend queries. You
     can find a detailed definition within the [backend repo](https://github.ibm.com/instana/backend/blob/644270feae74f41f871d92bfdd3aa9e01d2ff7ca/ui-model/src/main/java/com/instana/ui/model/tags/TagFilterExpressionElement.java).
- 2. **Form Model**: This is the input and output for the query builder.
+2.  **Form Model**: This is the input and output for the query builder.
     This is what is being kept within a local state in
     the query builder. It is a flattened version of the tag filter
     expressions. This is done because the user must be able
@@ -115,17 +120,18 @@ models in order to do its job:
     backend qyert model.
 
     The form model also contains the validation states.
- 3. **Render Model**: The rendering model is created based on the form
+
+3.  **Render Model**: The rendering model is created based on the form
     model. It exists to create
- 4. **DOM**: The DOM is specially crafted in order to ensure
+4.  **DOM**: The DOM is specially crafted in order to ensure
     that cursor and caret positioning, focus states and tabbing works.
     One core concern here is keyboard and mouse interaction to get as close
     to regular input field behavior as possible.
 
 ## Transformations
 
- 1. `Form Model -> Render Model -> DOM Model -(events)-> Form Model`
- 2. `Form Model -> Backend Query Model` via `in-components/QueryBuilder/transformation/backendQueryModel`
+1.  `Form Model -> Render Model -> DOM Model -(events)-> Form Model`
+2.  `Form Model -> Backend Query Model` via `in-components/QueryBuilder/transformation/backendQueryModel`
     via `toBackendQueryModel(formModel)`.
 
 ## Backend Query Model
@@ -187,7 +193,7 @@ models in order to do its job:
     value: 'shop',
     entity: 'DESTINATION'
   }
-]
+];
 ```
 
 ### Multiple Tags
@@ -229,7 +235,7 @@ models in order to do its job:
   {
     type: 'CLOSE_BRACKET'
   }
-]
+];
 ```
 
 ## Render Model
@@ -266,7 +272,7 @@ models in order to do its job:
     rightFormModelIndex: 1,
     renderModelIndex: 2
   }
-]
+];
 ```
 
 ### Multiple Tags

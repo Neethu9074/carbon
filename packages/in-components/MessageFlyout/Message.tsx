@@ -1,26 +1,25 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React, { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import classNames from 'classnames';
 
+import { Message as CarbonMessage, MessageTypes } from '@instana/components';
 import { Stack, SvgIcon } from '@instana/components';
+
+import { MessageWithId } from 'in-components/MessageFlyout/stores/messages';
+import { carbonMessageEnabled } from 'in-services/featureFlags';
 
 import locals from './Message.mless';
 
-interface Message {
-  content: ReactNode;
-  icon: string;
-  onClick?: (e: React.MouseEvent) => {};
-  title?: string;
-  type: 'info' | 'warning' | 'danger';
-}
-
 interface MessageProps {
-  message: Message;
+  message: MessageWithId;
+  /** @deprecated - do not use in production, only used in storybook */
+  carbonVariant: boolean | undefined;
 }
 
 interface TitleProps {
@@ -31,8 +30,31 @@ interface ContentProps {
   content: ReactNode;
 }
 
-export default function Message({ message }: MessageProps) {
-  return (
+export default function Message({ message, carbonVariant }: MessageProps) {
+  let baseType;
+  switch (message.type) {
+    case 'warning':
+      baseType = MessageTypes.warning;
+      break;
+    case 'danger':
+      baseType = MessageTypes.error;
+      break;
+    default:
+      baseType = MessageTypes.neutral;
+  }
+  return carbonMessageEnabled || carbonVariant ? (
+    <CarbonMessage
+      className={locals.carbon}
+      title={message.title}
+      type={baseType}
+      inline={false}
+      dismissible
+      onClose={message.onClick}
+      carbonVariant
+    >
+      <div className={locals.carbonContent}>{message.content}</div>
+    </CarbonMessage>
+  ) : (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -44,7 +66,7 @@ export default function Message({ message }: MessageProps) {
       onClick={message.onClick}
     >
       <Stack direction="horizontal" gap="xsmall">
-        <SvgIcon type={message.icon} className={locals.icon} />
+        {message.icon && <SvgIcon type={message.icon} className={locals.icon} />}
         <div
           className={classNames(locals.msg, {
             [locals.verticallyCenterMsg]: !message.title && typeof message.content === 'string'

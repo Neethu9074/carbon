@@ -4,6 +4,7 @@
  */
 
 import { Observable, create } from '@instana/observables';
+import { DateFormatterInput } from '@instana/format-date';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -29,6 +30,8 @@ export interface PersonalApiToken {
   readonly accessGrantingToken: string;
   readonly name: string;
   readonly userId: string;
+  readonly createdOn?: DateFormatterInput;
+  readonly lastUsedOn?: DateFormatterInput;
 }
 
 export const getPersonalApiTokensOfUserAsResultObservable = memoize(

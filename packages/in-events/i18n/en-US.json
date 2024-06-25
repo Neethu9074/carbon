@@ -226,7 +226,10 @@
     "comments": "Comments",
     "closeIssue": "Close Issue",
     "closeIncident": "Close this incident",
-    "closedByLabel": "Closed by"
+    "closedByLabel": "Closed by",
+    "reasonForClosing": "Include a reason for closing this incident. Your comments will be logged to the triggering event page.",
+    "closingWillAlsoCloseWarning": "Closing <strong>{{event_problem_text}}</strong> will also close the triggering issue. Any related events will remain open.",
+    "closeIncidentFeedbackTitle": "Would you like to close this incident?"
   },
   "notes": {
     "openNotes": "Open notes and activity",

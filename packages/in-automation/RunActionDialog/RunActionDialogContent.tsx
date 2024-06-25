@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Typography, Spacer, Link, IconButton, DescriptionList, DescriptionItem } from '@instana/components';
+import { Typography, Spacer, Link, DescriptionList, DescriptionItem } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -21,7 +21,6 @@ import {
   getDocLinkFromFields,
   getType,
   getWebhookFields,
-  getManualContentFromFields,
   getGithubFields,
   isAnsible,
   isScript,
@@ -39,12 +38,11 @@ import {
 } from 'in-automation/ActionCatalog/shared';
 import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
 import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/ParameterDialog';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { Action, Parameter, VolatileId, DynamicFieldValue } from 'in-types';
-import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
@@ -52,10 +50,8 @@ import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { ResolvedDynamicParamValue } from 'in-automation/api';
-import CopyToClipboard from 'in-components/CopyToClipboard';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Notification from 'in-components/form/Notification';
-import { toHtml } from 'in-services/formatters/markdown';
 import { NewPolicy } from 'in-automation/Policies/types';
 import { Col } from 'in-components/layout/Grid/Grid';
 import { Row } from 'in-components/layout/Grid/Grid';
@@ -491,36 +487,6 @@ function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action
           <Typography variant="body-small">
             {t('in-automation:operationInfo', { ticketType: ticketTypeTranslated })}
           </Typography>
-        </div>
-      </DescriptionItem>
-    </DescriptionList>
-  );
-}
-
-function ManualActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
-  const content = getManualContentFromFields(action.fields);
-  let contentText = content.value;
-  if (content.encoding === 'base64') {
-    contentText = atob(contentText);
-  }
-
-  return (
-    <DescriptionList inComponents>
-      <DescriptionItem
-        inComponents
-        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin, locals.manualContent)}
-        title={t('in-automation:ActionCatalog.content')}
-      >
-        <Spacer vertical="normal" />
-        <div className={locals.manualContentMarkdown}>
-          <DangerousHtmlPresenter html={toHtml(contentText, { breaks: true })} />
-          <CopyToClipboard getText={() => contentText}>
-            {refSetter => (
-              <span ref={refSetter}>
-                <IconButton onClick={stopPropagationAndPreventDefault} type="lib_actions_copy" />
-              </span>
-            )}
-          </CopyToClipboard>
         </div>
       </DescriptionItem>
     </DescriptionList>

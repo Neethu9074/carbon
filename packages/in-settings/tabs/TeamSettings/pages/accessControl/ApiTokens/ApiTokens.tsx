@@ -25,6 +25,7 @@ import TenantInfoBanner from 'in-settings/tabs/TeamSettings/components/TenantInf
 import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { fromNow, formatDateTime } from 'in-services/formatters/date';
 import { apiTokenDialogEnabled } from 'in-services/featureFlags';
 import config from 'in-services/config';
 import { Trans, t } from 'in-i18n';
@@ -54,7 +55,7 @@ export default function ApiTokens() {
         initialOrderBy="name"
         onCreateNew={() => onCreateNew(goToPath)}
         labelNew={t('in-settings:tabs.newApiToken')}
-        searchAttributes={['name', 'id', 'internalId', 'accessGrantingToken']}
+        searchAttributes={['name', 'id', 'internalId', 'accessGrantingToken', 'createdBy']}
         searchPlaceholder={t('in-settings:components.search')}
         noDataMessage={t('in-settings:tabs.noApiToken')}
         // @ts-expect-error
@@ -81,7 +82,9 @@ const columnDefinitions = [
   {
     id: 'name',
     label: t('in-settings:tabs.name'),
-    width: 60,
+    width: 30,
+    ellipsis: true,
+    useMinimumAmountOfHorizontalSpace: true,
     getContent(entity: ApiTokenProps) {
       return (
         <Link href={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId)} ellipsis>
@@ -94,8 +97,42 @@ const columnDefinitions = [
     id: 'id',
     label: t('in-settings:tabs.token'),
     ellipsis: true,
+    useMinimumAmountOfHorizontalSpace: true,
     getContent(apiToken: ApiTokenProps) {
       return <GrantingTokenLabelButton apiToken={apiToken} />;
+    }
+  },
+  {
+    id: 'lastUsedOn',
+    label: t('in-settings:tabs.tokenLastUsed'),
+    ellipsis: true,
+    useMinimumAmountOfHorizontalSpace: true,
+    sortable: true,
+    getContent({ lastUsedOn }: ApiTokenProps) {
+      return <span>{lastUsedOn ? `${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})` : ''}</span>;
+    }
+  },
+  {
+    id: 'createdOn',
+    label: t('in-settings:tabs.tokenCreated'),
+    ellipsis: true,
+    useMinimumAmountOfHorizontalSpace: true,
+    sortable: true,
+    getContent({ createdOn }: ApiTokenProps) {
+      return (
+        <span>
+          {createdOn ? `${fromNow(createdOn)} (${formatDateTime(createdOn)})` : `${t('in-settings:tabs.unknownLabel')}`}
+        </span>
+      );
+    }
+  },
+  {
+    id: 'createdBy',
+    label: t('in-settings:tabs.tokenCreatedBy'),
+    ellipsis: true,
+    useMinimumAmountOfHorizontalSpace: true,
+    getContent({ createdBy }: ApiTokenProps) {
+      return <span>{createdBy ? `${createdBy}` : `${t('in-settings:tabs.unknownLabel')}`}</span>;
     }
   }
 ];

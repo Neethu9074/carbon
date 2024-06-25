@@ -17,14 +17,13 @@ import {
 } from 'in-automation/AutomationCard/GenerateAIDialog/SimpleAIDialog';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState'; // ServerTableUrlState
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { getScriptFromFields, getManualContentFromFields } from 'in-automation/ActionCatalog/shared';
+import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
 import { nameColumn, descriptionColumn } from 'in-automation/ActionTable/columnDefinitions';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
-import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { getScriptFromFields } from 'in-automation/ActionCatalog/shared';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { isScript, isManual } from 'in-automation/ActionCatalog/shared';
-import { toHtml } from 'in-services/formatters/markdown';
 import { ScoredAction } from 'in-automation/api';
 import Code from 'in-components/Code';
 import { Result } from 'in-types';
@@ -98,35 +97,12 @@ export default function SelectActionDialog({
           <Typography variant="heading-300">{selectedAIAction.name}</Typography>
           <Spacer vertical="medium" />
           {isScript(selectedAIAction.type) && <ScriptSection action={selectedAIAction} />}
-          {isManual(selectedAIAction.type) && <ManualSection action={selectedAIAction} />}
+          {isManual(selectedAIAction.type) && <ManualActionContent action={selectedAIAction} addCopyButton={false} />}
         </>
       )}
     </div>
   );
 }
-
-const ManualSection = ({ action }: { action: ScoredAction }) => {
-  const content = getManualContentFromFields(action.fields);
-  let contentText = content.value;
-  if (content.encoding === 'base64') {
-    contentText = atob(contentText);
-  }
-
-  return (
-    <>
-      <DescriptionItem
-        inComponents
-        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin, locals.manualContent)}
-        title={t('in-automation:ActionCatalog.content')}
-      >
-        <Spacer vertical="normal" />
-        <div className={locals.manualContentMarkdown}>
-          <DangerousHtmlPresenter html={toHtml(contentText, { breaks: true })} />
-        </div>
-      </DescriptionItem>
-    </>
-  );
-};
 
 const ScriptSection = ({ action }: { action: ScoredAction }) => {
   const script = getScriptFromFields(action.fields);

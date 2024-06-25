@@ -135,7 +135,9 @@ function generateTimeframe(windowSize) {
   };
 }
 
-export default {};
+export default {
+  title: 'Alert chart rendering'
+};
 
 export function StaticThresholdWithPredictions() {
   return (

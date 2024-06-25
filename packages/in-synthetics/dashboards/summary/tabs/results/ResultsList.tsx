@@ -170,7 +170,8 @@ export default function ResultsList({ test }: ResultListProps) {
   const isSSLCertificate = testType === 'SSLCertificate';
   const locationDisplayLabels: string[] =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels')?.split(',') ?? [];
-
+  const defaultOrderBy: string = getMatrixParameter(location, syntheticsDashboard, 'selectedMetric') ?? 'response_time';
+  const defaultOrderDirection: string = defaultOrderBy === 'status' ? 'ASC' : 'DESC';
   const [{ status, locationLabels }, setFilter] = useUrlState(urlStateDefinition);
 
   const rightHeader = (
@@ -203,8 +204,8 @@ export default function ResultsList({ test }: ResultListProps) {
     }),
     paginationResettingUrlParameters: [...timeConfigUrlParameters, resultsFilterUrlStateDefinition.bind],
     columnDefinitions: columnDefinitionsBasedOnType,
-    defaultOrderBy: 'response_time',
-    defaultOrderDirection: 'DESC',
+    defaultOrderBy,
+    defaultOrderDirection,
     pathSegment,
     matrixPrefix
   });

@@ -58,7 +58,7 @@ function getSeverity(item: BusinessPerspectiveItem) {
 
 export const perspectiveColumnDefinitions: ColumnDefinition<BusinessPerspectiveItem, bpListProps>[] = [
   {
-    id: 'business.perspective.label',
+    id: 'business.perspective.name',
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.nameLabel'),

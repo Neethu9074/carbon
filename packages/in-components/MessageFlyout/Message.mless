@@ -1,11 +1,21 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2024
  * (c) Copyright Instana Inc.
  */
 
 @import '~in-themes/mixins.less';
 
 :local {
+  .carbon {
+    margin: 0 0 1rem;
+    padding-bottom: 1rem;
+    flex-direction: column;
+  }
+
+  .carbonContent {
+    padding: 0.5rem 0 0 0;
+  }
+
   .flyoutMessage {
     background: #fff;
     font-size: 0.8rem;

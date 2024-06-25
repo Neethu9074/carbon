@@ -13,7 +13,9 @@ import {
   meanLatencyFixed
 } from 'in-services/formatters/number';
 
-export default {};
+export default {
+  title: 'Formatting'
+};
 
 export const Latency = () => {
   const formatters = [

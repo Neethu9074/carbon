@@ -4,6 +4,7 @@
  */
 
 /* eslint-env node */
+const path = require('path'); // Import the path module
 
 module.exports = {
   stories: [
@@ -15,6 +16,7 @@ module.exports = {
     '../../packages/**/*.(story|stories).@(js|jsx|ts|tsx|mdx)'
   ],
   core: {
+    disableTelemetry: true,
     builder: 'webpack5',
     options: {
       lazyCompilation: true,
@@ -27,12 +29,20 @@ module.exports = {
       url: 'https://pages.github.ibm.com/instana/ui-foundation/'
     }
   },
-  framework: '@storybook/react',
-  addons: ['@storybook/addon-essentials'],
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: { fastRefresh: true }
+  },
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-docs'],
   typescript: {
     reactDocgen: 'react-docgen-typescript-plugin'
   },
-  features: {
-    emotionAlias: false
+  webpackFinal(config) {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      react: path.resolve(__dirname, '../node_modules/react'),
+      'react-dom': path.resolve(__dirname, '../node_modules/react-dom')
+    };
+    return config;
   }
 };

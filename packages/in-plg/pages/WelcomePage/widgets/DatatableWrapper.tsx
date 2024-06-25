@@ -106,7 +106,7 @@ export default function DatatableWrapper({
         <DashboardTable
           headers={headers}
           rows={processedItems}
-          searchPlaceholder={t('in-plg:welcomepage.search')}
+          searchPlaceHolder={`${t('in-plg:welcomepage.ariaLabel.search')} ${header}`}
           viewLabel={t('in-plg:welcomepage.viewAll')}
           iconColor={themes.default.ids.color.option.white}
           hasAddPermission={hasAddPermission}
@@ -116,14 +116,11 @@ export default function DatatableWrapper({
           addData={addData}
           href={href}
           header={getNoDataHeader(label)}
-          description={getNoDataDescription(label)}
+          noDataDescription={getNoDataDescription(label)}
           buttonName={!exclusionArray.includes(label) ? getNoDataButton(label) : undefined}
-          searchLabel={`${t('in-plg:welcomepage.ariaLabel.search')} ${header}`}
-          addLabel={dashboardTileProps.addLabel}
           onSearch={(searchQuery: string) => {
             setQuery(searchQuery);
           }}
-          iconDescription={`${t('in-plg:welcomepage.addMore')} ${header}`}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}
         />

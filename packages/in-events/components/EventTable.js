@@ -175,7 +175,7 @@ function renderMetaInformation({ event }) {
   return <TriggeredMarker event={event} />;
 }
 
-function FeedbackComponents() {
+function FeedbackComponents({ eventData }) {
   const tup = 'thumbsUp';
   const tdown = 'thumbsDown';
   const [feedbackState, setFeedbackState] = useState('');
@@ -204,8 +204,10 @@ function FeedbackComponents() {
           nextStepTracker={eventFeedbackNextTracker}
           skipStepTracker={eventFeedbackSkipTracker}
           submitTracker={eventFeedbackSubmitTracker}
+          eventData={eventData}
         />
       );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [feedbackState]);
 
   return (
@@ -264,15 +266,13 @@ function FeedbackComponents() {
   );
 }
 
-function TimeSelection(props) {
+function TimeSelection({ event }) {
   const { location, createHref } = useNavigation();
-  const { event } = props;
 
   setOrDeleteMatrixKey(location, eventsPath, eventId, null);
-
   return (
     <Stack direction="horizontal">
-      {eventFeedbackEnabled && <FeedbackComponents />}
+      {eventFeedbackEnabled && event && <FeedbackComponents eventData={event} />}
 
       <Link href={createHref(location)}>
         <Tooltip content={t('in-events:tooltipCloseEventDetail')}>

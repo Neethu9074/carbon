@@ -6,6 +6,7 @@
 import React, { useState, useEffect, useCallback, FormEvent } from 'react';
 import { createMapForm, createField } from 'formalistic';
 
+import { DateFormatterInput } from '@instana/format-date';
 import { generateUniqueShortId } from '@instana/utils';
 import { createLogger } from '@instana/logger';
 
@@ -55,6 +56,9 @@ export interface ApiTokenProps {
   accessGrantingToken: string;
   internalId: string;
   id: string;
+  createdBy?: string;
+  createdOn?: DateFormatterInput;
+  lastUsedOn?: DateFormatterInput;
 }
 
 interface StateProps {

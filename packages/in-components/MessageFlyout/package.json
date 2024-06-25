@@ -2,5 +2,5 @@
   "name": "MessageFlyout",
   "version": "0.0.0",
   "private": true,
-  "main": "./MessageFlyout.js"
+  "main": "./MessageFlyout.tsx"
 }

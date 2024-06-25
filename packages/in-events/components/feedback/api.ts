@@ -19,6 +19,7 @@ export interface FeedbackConfigEventForm extends MapFormItems {
   id: Field<string>;
   thingsWentWrong: Field<string>;
   contactMe: Field<boolean | undefined>;
+  closureComments: Field<string>;
 }
 
 export function saveEventFeedbackForm(config: FeedbackConfigEvent, feedbackSubmitTracker: (e: Object) => void) {

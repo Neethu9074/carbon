@@ -57,6 +57,7 @@ module.exports = {
   notesAndActivityEnabled: true,
   carbonLoadingSkeletonFeatureEnabled: true,
   carbonDescriptionListEnabled: false,
+  carbonListEnabled: false,
   carbonInputEnabled: false,
   carbonRadioButtonEnabled: false,
   carbonCheckboxEnabled: false,
@@ -135,7 +136,6 @@ module.exports = {
   automationActionInstanceFeedbackEnabled: false,
   infraExploreFilterEmptyValueEnabled: true,
   weaselSubresourceIntegrityEnabled: true,
-  orbitalEnabled: false,
   carbonTileEnabled: true,
   carbonStepProgressBarEnabled: true,
   thresholdCustomDashboardsEnabled: true,
@@ -145,5 +145,6 @@ module.exports = {
   carbonHorizontalIndicatorEnabled: true,
   analyzeRelatedInstancesButtonEnabled: true,
   maxMetricsLimitForBeeinstanaEnabled: true,
-  serverSideInfraTagSearchEnabled: true
+  serverSideInfraTagSearchEnabled: true,
+  preAggregatedMetricsQueryEnabled: false
 };

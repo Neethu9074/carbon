@@ -134,9 +134,7 @@ export default function FeedbackDialog() {
                   <div className={locals.feedbackDescription}>{currentStepConfig.description}</div>
                 </Typography>
               )}
-              <div className={locals.dialogComponent}>
-                {currentStepConfig.component({ nextStep: setStep, form, setForm })}
-              </div>
+              <div className={locals.dialogComponent}>{currentStepConfig.component({ nextStep, form, setForm })}</div>
             </Stack>
           </div>
         </div>
@@ -151,7 +149,8 @@ function createForm(): MapForm<FeedbackConfigEventForm> {
     items: {
       id: createField({ value: generateUniqueShortId() }),
       thingsWentWrong: createField({ value: '' }),
-      contactMe: createField({ value: undefined })
+      contactMe: createField({ value: undefined }),
+      closureComments: createField({ value: '' })
     }
   });
 }

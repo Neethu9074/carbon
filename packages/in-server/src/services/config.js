@@ -15,8 +15,9 @@ exports.getClientConfig = (req, tenant, unit) => {
     activeResolver.getButlerDomain(tenant, unit),
     activeResolver.getFeatureFlags(tenant, unit),
     activeResolver.getConfiguration(tenant, unit),
-    activeResolver.getReportingEndpoints(req, tenant, unit)
-  ]).then(([butlerDomain, featureFlags, configuration, reportingEndpoints]) => ({
+    activeResolver.getReportingEndpoints(req, tenant, unit),
+    activeResolver.getTenantInfo(req, tenant, unit)
+  ]).then(([butlerDomain, featureFlags, configuration, reportingEndpoints, internalIds]) => ({
     butlerDomain,
     tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
     region: serverConfig.clientConfig.region,
@@ -25,13 +26,15 @@ exports.getClientConfig = (req, tenant, unit) => {
     tenantUnit: unit,
     featureFlags: featureFlags,
     configuration: configuration,
-    orbitalSpaceID: serverConfig.clientConfig.orbitalSpaceID,
 
     agentEndpoint: reportingEndpoints.agentEndpoint,
     agentEndpointPort: reportingEndpoints.port,
     websiteScriptSource: reportingEndpoints.websiteScriptSource,
     websiteEndpoint: reportingEndpoints.websiteEndpoint,
     mobileEndpoint: reportingEndpoints.mobileEndpoint,
-    serverlessEndpoint: reportingEndpoints.serverlessEndpoint
+    serverlessEndpoint: reportingEndpoints.serverlessEndpoint,
+    tenantId: internalIds?.tenantId,
+    tenantUnitId: internalIds?.tenantUnitId,
+    tenantUnitsCount: internalIds?.tenantUnitsCount
   }));
 };
