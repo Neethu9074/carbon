@@ -61,7 +61,7 @@ export function resultReducer(
       const progress = { loading };
       if (!result.data) return { ...acc, progress };
       return {
-        progress: { loading },
+        progress,
         errors: [],
         data: {
           ...acc.data,
