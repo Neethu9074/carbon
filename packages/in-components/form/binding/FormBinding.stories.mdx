@@ -1,7 +1,7 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { Meta, Story, Preview, Props } from '@storybook/addon-docs';
 import { action as storybookAction } from '@storybook/addon-actions';
-import {useState} from 'react';
+import { useState } from 'react';
 
 import { Message } from '@instana/components';
 
@@ -11,7 +11,7 @@ import Input from 'in-components/form/Input/FormBoundInput';
 import SubForm from 'in-components/form/binding/SubForm';
 import Form from 'in-components/form/binding/Form';
 
-<Meta />
+<Meta title="IN-COMPONENTS/Form/binding/FormBinding" />
 
 ## Form Binding
 
@@ -29,7 +29,9 @@ to provide arbitrary form interaction extensions.
       const initialForm = createMapForm()
         .put('fullName', createField({ value: '', validator: notBlankValidator }))
         .put('age', createField({ value: 18 }))
-        .put('address', createMapForm()
+        .put(
+          'address',
+          createMapForm()
             .put('street', createField({ value: '', validator: notBlankValidator }))
             .put('city', createField({ value: '', validator: notBlankValidator }))
         );
@@ -62,16 +64,19 @@ component also renders a `form` HTML element with an `onSubmit` handler that imp
 ```js
 import Form from 'in-components/form/binding/Form';
 
-<Form form={form}
-      setForm={setForm}
-      // Note: onSubmit does not have to validate whether the form is valid. This is already handled by the
-      // Form component.
-      onSubmit={form => save(form)}>
+<Form
+  form={form}
+  setForm={setForm}
+  // Note: onSubmit does not have to validate whether the form is valid. This is already handled by the
+  // Form component.
+  onSubmit={form => save(form)}
+>
   …
-</Form>
+</Form>;
 ```
 
 ### Props
+
 <Props of={Form} />
 
 ## FormBoundInput
@@ -87,7 +92,7 @@ import Form from 'in-components/form/binding/Form';
 
 <Form form={form} setForm={setForm} onSubmit={form => save(form)}>
   <Input path="fullName" label="Full Name" type="text" />
-</Form>
+</Form>;
 ```
 
 ### Props
@@ -114,10 +119,11 @@ import Form from 'in-components/form/binding/Form';
   <SubForm path="address" autoHide>
     <Input path="city" label="City" type="text" />
   </SubForm>
-</Form>
+</Form>;
 ```
 
 ### Props
+
 <Props of={SubForm} />
 
 ## FormBound
@@ -127,10 +133,11 @@ following components leverage `FormBound` internally. `FormBound` itself does no
 artifact.
 
 <Message type="neutral" title="Usage Frequency">
-  <code>FormBound</code> should be a component you leverage a lot less frequently than <code>Form</code> and <code>FormBoundInput</code>. <code>FormBound</code>
+  <code>FormBound</code> should be a component you leverage a lot less frequently than <code>Form</code> and{' '}
+  <code>FormBoundInput</code>. <code>FormBound</code>
   adds considerable complexity we are trying to hide by components such as <code>FormBoundInput</code>. You will trypically
-  only use <code>FormBound</code> when building component such as <code>FormBoundInput</code> or when making structural modifications to
-  form models in response to user interaction.
+  only use <code>FormBound</code> when building component such as <code>FormBoundInput</code> or when making structural modifications
+  to form models in response to user interaction.
 </Message>
 
 ### Example
@@ -141,24 +148,23 @@ import Form from 'in-components/form/binding/Form';
 
 <Form form={form} setForm={setForm} onSubmit={form => save(form)}>
   <FormBound path="fullName">
-    {({form, setForm, disabled, absolutePath, pathId, item}) => (
-      <div>{item.value}</div>
-    )}
+    {({ form, setForm, disabled, absolutePath, pathId, item }) => <div>{item.value}</div>}
   </FormBound>
-</Form>
+</Form>;
 ```
 
 ### Props
- - `path` (`string` or `string[]`): The path to a [form item](https://github.com/bripkens/formalistic/blob/master/formalistic.d.ts#L1)
-   within the form model. The form item can be a form field, a map form or a list form.
- - `children` (`function`): A render function which will be called with an object having the following properties:
-   - `form` (formalistic form item): The form model as provided to `Form`.
-   - `setForm` (`function`): The `setForm` function as provided to `Form`.
-   - `disabled` (`boolean`): Whether or not the form is disabled (as provided to `Form`).
-   - `absolutePath` (`string[]`): The absolute path from form root to the form item referenced via the `path` prop.
-   - `pathId` (`string`): A stringified version of `absolutePath` that can be used within HTML `id` attributes.
-   - `item` (formalistic form item): The form item found by resolving `absolutePath` within `form`.
- - `autoHide` (`bool`, optional): When truthy, an unavailable form item, e.g. a field does not exist in the Formalistic
-   form, will be ignored silently and nothing will be rendered. It should be noted that this prop should be used sparringly
-   and preferably only for truly optional form segements! By default `autoHide` is disabled. Without `autoHide=true` an
-   error is thrown when `path` does not resolve to a form item.
+
+- `path` (`string` or `string[]`): The path to a [form item](https://github.com/bripkens/formalistic/blob/master/formalistic.d.ts#L1)
+  within the form model. The form item can be a form field, a map form or a list form.
+- `children` (`function`): A render function which will be called with an object having the following properties:
+  - `form` (formalistic form item): The form model as provided to `Form`.
+  - `setForm` (`function`): The `setForm` function as provided to `Form`.
+  - `disabled` (`boolean`): Whether or not the form is disabled (as provided to `Form`).
+  - `absolutePath` (`string[]`): The absolute path from form root to the form item referenced via the `path` prop.
+  - `pathId` (`string`): A stringified version of `absolutePath` that can be used within HTML `id` attributes.
+  - `item` (formalistic form item): The form item found by resolving `absolutePath` within `form`.
+- `autoHide` (`bool`, optional): When truthy, an unavailable form item, e.g. a field does not exist in the Formalistic
+  form, will be ignored silently and nothing will be rendered. It should be noted that this prop should be used sparringly
+  and preferably only for truly optional form segements! By default `autoHide` is disabled. Without `autoHide=true` an
+  error is thrown when `path` does not resolve to a form item.
