@@ -6,9 +6,10 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { Checkbox } from '@instana/components';
 import { OrderDirection, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
+import { ButtonGroup } from '@instana/components';
+import { Checkbox } from '@instana/components';
 
 import {
   ExtractContributionFilterNameFunction,
@@ -16,12 +17,20 @@ import {
   ExtractNameFunction
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
+import {
+  LimitableProductArea,
+  ProductArea
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import SelectItemForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/SelectItemForm';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
+import { allAccessFilter, inheritedAccessFilter } from 'in-synthetics/utils/constants';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { syntheticRbacLimitedTPEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
+
+import locals from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection.mless';
 
 interface SelectEntitiesFormProps<I extends Object> {
   preselectedIds: Array<string>;
@@ -31,6 +40,7 @@ interface SelectEntitiesFormProps<I extends Object> {
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
   extractContributionFilterName?: ExtractContributionFilterNameFunction<I>;
+  productArea?: LimitableProductArea;
 }
 
 export default function SelectEntitiesForm<I extends Object>({
@@ -40,7 +50,8 @@ export default function SelectEntitiesForm<I extends Object>({
   onClickSave,
   extractId,
   extractName,
-  extractContributionFilterName
+  extractContributionFilterName,
+  productArea
 }: SelectEntitiesFormProps<I>) {
   const [
     allVisibleRowsSelected,
@@ -53,13 +64,16 @@ export default function SelectEntitiesForm<I extends Object>({
     orderDirection,
     setOrderDirection,
     orderBy,
-    setOrderBy
+    setOrderBy,
+    syntheticFilter,
+    setSynteticFilter
   ] = useSelectEntities({
     preselectedIds,
     observable,
     extractId,
     extractName,
-    extractContributionFilterName
+    extractContributionFilterName,
+    productArea
   });
 
   const onClickItem = (entity: I) => {
@@ -96,6 +110,47 @@ export default function SelectEntitiesForm<I extends Object>({
     setOrderBy('name');
   };
 
+  const getRightHeader = (productArea: LimitableProductArea | undefined) => {
+    if (!productArea) return null;
+
+    if (syntheticRbacLimitedTPEnabled && productArea === ProductArea.SYNTHETICS) {
+      const testAPFilters = [
+        t('in-settings:selectEntityDialog.syntheticAllTestsAccess'),
+        t('in-settings:selectEntityDialog.syntheticInheritedAccess')
+      ];
+      return (
+        <div className={locals.entitiesForm}>
+          <ButtonGroup
+            buttonPropsList={testAPFilters.map((type, index) => ({
+              text: testAPFilters[index],
+              key: type,
+              onClick: () => {
+                setSynteticFilter(type);
+              }
+            }))}
+            activeKey={syntheticFilter}
+          />
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  const disableRowClickbyProductArea = (productArea: LimitableProductArea | undefined) => {
+    if (!productArea) return false;
+
+    if (
+      syntheticRbacLimitedTPEnabled &&
+      productArea === ProductArea.SYNTHETICS &&
+      syntheticFilter === inheritedAccessFilter
+    ) {
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <SelectItemForm
       onClickCancel={() => {
@@ -124,11 +179,15 @@ export default function SelectEntitiesForm<I extends Object>({
           onClickItem,
           extractId,
           extractName,
-          extractContributionFilterName
+          extractContributionFilterName,
+          productArea,
+          syntheticFilter
         })}
         allRowsAreSelected={allVisibleRowsSelected}
         setSelectedStateForRows={onSelectAll}
         isSearchable
+        rightHeader={getRightHeader(productArea)}
+        disableRowClick={disableRowClickbyProductArea(productArea)}
       />
     </SelectItemForm>
   );
@@ -140,6 +199,7 @@ interface UseSelectEntitiesProps<I> {
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
   extractContributionFilterName?: ExtractContributionFilterNameFunction<I>;
+  productArea: LimitableProductArea | undefined;
 }
 
 type UseSelectEntitiesResponse<I> = [
@@ -153,6 +213,8 @@ type UseSelectEntitiesResponse<I> = [
   OrderDirection,
   React.Dispatch<React.SetStateAction<OrderDirection>>,
   string,
+  React.Dispatch<React.SetStateAction<string>>,
+  string,
   React.Dispatch<React.SetStateAction<string>>
 ];
 
@@ -161,18 +223,20 @@ function useSelectEntities<I>({
   observable,
   extractId,
   extractName,
-  extractContributionFilterName
+  extractContributionFilterName,
+  productArea
 }: UseSelectEntitiesProps<I>): UseSelectEntitiesResponse<I> {
   const [allVisibleRowsSelected, setAllVisibleRowsSelected] = useState(false);
   const [selectedIds, setSelectedIds] = useState(preselectedIds);
   const [searchQuery, setSearchQuery] = useState('');
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
+  const [syntheticFilter, setSynteticFilter] = useState(allAccessFilter);
   const [orderBy, setOrderBy] = useState('name');
   const fetchedState = useFetchedStateObservable(observable);
   const extractField =
     (orderBy === 'restrictingApplicationName' ? extractContributionFilterName : extractName) ?? extractName;
   const withoutPreselectedState = filterByPreselection(fetchedState, preselectedIds, extractId);
-  const filteredEntities = filterByName(
+  let filteredEntities = filterByName(
     withoutPreselectedState,
     searchQuery,
     orderDirection,
@@ -180,6 +244,11 @@ function useSelectEntities<I>({
     extractName,
     extractContributionFilterName
   );
+
+  // Synthetics only filter.
+  if (syntheticRbacLimitedTPEnabled && productArea === ProductArea.SYNTHETICS) {
+    filteredEntities = filterBySyntheticTests(filteredEntities, syntheticFilter);
+  }
 
   useEffect(() => {
     // Ensure selectedIds is updated when preselectedIds changes,
@@ -198,7 +267,9 @@ function useSelectEntities<I>({
     orderDirection,
     setOrderDirection,
     orderBy,
-    setOrderBy
+    setOrderBy,
+    syntheticFilter,
+    setSynteticFilter
   ];
 }
 
@@ -243,12 +314,46 @@ function filterByName<I>(
   return [filteredEntities, status, ...rest];
 }
 
+function filterBySyntheticTests<I>(fetchedState: FetchedState<I[]>, type: string): FetchedState<I[]> {
+  const [entities, status, ...rest] = fetchedState;
+  if (!entities || status !== 'resolved') return fetchedState;
+
+  const newEntities = entities?.filter(test => {
+    if (type === inheritedAccessFilter) {
+      // @ts-expect-error property does not exist on type I
+      return test.supplementary?.length > 0;
+    } else if (type === allAccessFilter) {
+      // @ts-expect-error property does not exist on type I
+      return test.supplementary === null || test.supplementary?.length === 0;
+    } else {
+      return true;
+    }
+  });
+
+  return [newEntities, status, ...rest];
+}
+
+interface SelectAllCheckboxParams {
+  productArea: LimitableProductArea | undefined;
+  syntheticFilter?: string | undefined;
+}
+
+function selectAllCheckboxByProductArea({ productArea, syntheticFilter }: SelectAllCheckboxParams) {
+  if (!productArea) return true;
+  if (productArea === ProductArea.SYNTHETICS && syntheticFilter === inheritedAccessFilter) {
+    return false;
+  }
+  return true;
+}
+
 interface GetColumnDefinition<I> {
   selectedIds: string[];
   onClickItem: (item: I) => void;
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
   extractContributionFilterName?: ExtractContributionFilterNameFunction<I>;
+  productArea: LimitableProductArea | undefined;
+  syntheticFilter?: string;
 }
 
 type SelectEntitiesColumnDefinitions<I extends Object> = Array<ColumnDefinition<I>>;
@@ -258,17 +363,26 @@ function getColumnDefinition<I extends Object>({
   onClickItem,
   extractId,
   extractName,
-  extractContributionFilterName
+  extractContributionFilterName,
+  productArea,
+  syntheticFilter
 }: GetColumnDefinition<I>): SelectEntitiesColumnDefinitions<I> {
   return [
     {
       id: 'checkbox',
       label: '',
       width: 1,
-      selectAllCheckbox: true,
+      selectAllCheckbox: selectAllCheckboxByProductArea({ productArea, syntheticFilter }),
+      sortable: false,
       getContent(item) {
         const id = extractId(item);
         const isSelected = selectedIds.includes(id);
+
+        // @ts-expect-error property does not exist on type I
+        if (syntheticRbacLimitedTPEnabled && productArea === ProductArea.SYNTHETICS && item.supplementary?.length > 0) {
+          return <Checkbox size="large" checked disabled />;
+        }
+
         return <Checkbox size="large" checked={isSelected} onChange={() => onClickItem(item)} />;
       }
     },

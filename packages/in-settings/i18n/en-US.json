@@ -175,7 +175,9 @@
   },
   "selectEntityDialog": {
     "nameColumnHead": "Name",
-    "contributionFilterColumnHead": "Contribution filter"
+    "contributionFilterColumnHead": "Contribution filter",
+    "syntheticAllTestsAccess": "All Tests",
+    "syntheticInheritedAccess": "Inherited Access"
   },
   "permissionScope": {
     "access_level": "Access level",
