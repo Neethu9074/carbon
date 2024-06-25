@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React, { Fragment } from 'react';
@@ -32,26 +33,22 @@ export default function GraphQLSpanDetailView({ span }) {
 function getObjectTypeDetails(span) {
   const allFields = deserializeJsonIfNecessary(span.getIn(['data', 'graphql', 'fields'], emptyMap));
   const allArgs = deserializeJsonIfNecessary(span.getIn(['data', 'graphql', 'args'], emptyMap));
-  const objectTypes = allFields
-    .keySeq()
-    .concat(allArgs.keySeq())
-    .sort()
-    .toSet();
+  const objectTypes = allFields.keySeq().concat(allArgs.keySeq()).sort().toSet();
 
   return objectTypes
     .map(objectType => {
       const fieldsPerObjectType = allFields.get(objectType);
       const argsPerObjectType = allArgs.get(objectType);
       let content;
-      if (!fieldsPerObjectType && !argsPerObjectType) {
+      if (fieldsPerObjectType.size === 0 && argsPerObjectType.size === 0) {
         content = valueMissingPlaceholder;
-      } else if (fieldsPerObjectType && !argsPerObjectType) {
+      } else if (fieldsPerObjectType.size > 0 && argsPerObjectType.size === 0) {
         content = (
           <Fragment>
             <em>Fields</em>: {fieldsPerObjectType.join(', ')}
           </Fragment>
         );
-      } else if (!fieldsPerObjectType && argsPerObjectType) {
+      } else if (fieldsPerObjectType.size === 0 && argsPerObjectType.size > 0) {
         content = (
           <Fragment>
             <em>Arguments</em>: {argsPerObjectType.join(', ')}
