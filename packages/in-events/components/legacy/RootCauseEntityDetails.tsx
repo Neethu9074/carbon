@@ -228,17 +228,22 @@ export default function RootCauseEntityDetails({
         {explainabilityMetadata && (
           <Stack gap="xxsmall">
             <Typography variant="body-bold">{t('in-events:RCA.evidence')}</Typography>
-            {/*  <Typography variant="body-regular">
-              {t('in-events:RCA.evidenceTextFailed', {
-                root_cause_entity_type: rcaEntityType,
-                root_cause_entity_name: Map.isMap(entityData) ? entityData?.get('label') : entityData?.label,
-                rca_error_percent: rcaErrorPercent.toFixed(2)
-              })}
-            </Typography> */}
             <Trans
               i18nKey="in-events:RCA.evidenceTextFailed"
-              //@ts-expect-error
-              components={{ linkToEntity: <Link href={linkToEntity} /> }}
+              components={{
+                //@ts-expect-error
+                linkToEntity: <Link href={linkToEntity} />,
+                entityIcon:
+                  rcaEntityType !== ('infrastructure' || 'process') ? (
+                    <SvgIcon type={getIcon(rcaEntityType)} color={themes.default.cds.link.primary} size="xs" />
+                  ) : (
+                    <PluginIcon
+                      plugin={translateFullyQualifiedPluginToShortPluginName(entityID.get('pluginId')) || ''}
+                      color={themes.default.cds.link.primary}
+                      size="xs"
+                    />
+                  )
+              }}
               values={{
                 root_cause_entity_type: rcaEntityType,
                 root_cause_entity_name: Map.isMap(entityData) ? entityData?.get('label') : entityData?.label,
@@ -246,20 +251,23 @@ export default function RootCauseEntityDetails({
               }}
               parent="span"
             />
-            {/* <Typography variant="body-regular">
-              {determineWhichNotFailedTextToUse(
-                rcaErrorPercent,
-                notThroughRCAErrorPercent,
-                rcaEntityType,
-                Map.isMap(entityData) ? entityData?.get('label') : entityData?.label
-              )}
-            </Typography> */}
             <FailedText
               rcaErrorPercent={rcaErrorPercent}
               notThroughRCAErrorPercent={notThroughRCAErrorPercent}
               rootCauseEntityType={rcaEntityType}
               rootCauseEntityName={Map.isMap(entityData) ? entityData?.get('label') : entityData?.label}
               linkToEntity={linkToEntity}
+              entityIcon={
+                rcaEntityType !== ('infrastructure' || 'process') ? (
+                  <SvgIcon type={getIcon(rcaEntityType)} color={themes.default.cds.link.primary} size="xs" />
+                ) : (
+                  <PluginIcon
+                    plugin={translateFullyQualifiedPluginToShortPluginName(entityID.get('pluginId')) || ''}
+                    color={themes.default.cds.link.primary}
+                    size="xs"
+                  />
+                )
+              }
             />
           </Stack>
         )}
@@ -276,13 +284,15 @@ function FailedText({
   notThroughRCAErrorPercent,
   rootCauseEntityType,
   rootCauseEntityName,
-  linkToEntity
+  linkToEntity,
+  entityIcon
 }: {
   rcaErrorPercent: number;
   notThroughRCAErrorPercent: number;
   rootCauseEntityType: string;
   rootCauseEntityName: string;
   linkToEntity: string | undefined;
+  entityIcon: JSX.Element;
 }) {
   const translationDataObject = {
     root_cause_entity_type: rootCauseEntityType,
@@ -296,7 +306,7 @@ function FailedText({
       <Trans
         i18nKey="in-events:RCA.evidenceTextNotFailedLower"
         //@ts-expect-error
-        components={{ linkToEntity: <Link href={linkToEntity} /> }}
+        components={{ linkToEntity: <Link href={linkToEntity} />, entityIcon: entityIcon }}
         values={translationDataObject}
         parent="span"
       />
@@ -307,7 +317,7 @@ function FailedText({
       <Trans
         i18nKey="in-events:RCA.evidenceTextNotFailedSame"
         //@ts-expect-error
-        components={{ linkToEntity: <Link href={linkToEntity} /> }}
+        components={{ linkToEntity: <Link href={linkToEntity} />, entityIcon: entityIcon }}
         values={translationDataObject}
         parent="span"
       />
@@ -318,7 +328,7 @@ function FailedText({
       <Trans
         i18nKey="in-events:RCA.evidenceTextNotFailedHigher"
         //@ts-expect-error
-        components={{ linkToEntity: <Link href={linkToEntity} /> }}
+        components={{ linkToEntity: <Link href={linkToEntity} />, entityIcon: entityIcon }}
         values={translationDataObject}
         parent="span"
       />
@@ -376,11 +386,14 @@ function EntityPath({
 
   return (
     <Stack gap="xsmall">
-      <Stack direction="horizontal" gap="xsmall">
-        <Typography variant="body-bold">{t('in-events:RCA.probableRootCauseLabel')}</Typography>
+      <Stack gap="xsmall">
+        <Typography variant="body-bold">
+          {t('in-events:RCA.probableRootCauseLabel', {
+            entity_type: entityType ? entityType.charAt(0).toUpperCase() + entityType.slice(1).toLowerCase() : 'Entity'
+          })}
+        </Typography>
         <Link href={linkToEntity}>
           <Stack direction="horizontal" gap="xsmall" align="center">
-            {entityType}
             <SvgIcon type={getIcon(entityType)} color={themes.default.cds.link.primary} />
             {entityLabel}
           </Stack>
@@ -474,15 +487,20 @@ function NonAppDataEntityPath({
   const linkToService = useGenerateLinkToDashboard('service', relatedServiceID, location, relatedAPID);
   const linkToAP = useGenerateLinkToDashboard('application', relatedAPID, location, null);
 
+  const pluginToShortPluginName = translateFullyQualifiedPluginToShortPluginName(entityId.get('pluginId')) || 'entity';
   return (
     <Stack gap="xsmall">
-      <Stack direction="horizontal" gap="xsmall">
-        <Typography variant="body-bold">{t('in-events:RCA.probableRootCauseLabel')}</Typography>
+      <Stack gap="xsmall">
+        <Typography variant="body-bold">
+          {t('in-events:RCA.probableRootCauseLabel', {
+            entity_type:
+              pluginToShortPluginName.charAt(0).toUpperCase() + pluginToShortPluginName.slice(1).toLowerCase()
+          })}
+        </Typography>
         <Link href={linkToEntity}>
           <Stack direction="horizontal" gap="xsmall" align="center">
-            {entityType}
             <PluginIcon
-              plugin={translateFullyQualifiedPluginToShortPluginName(entityId.get('pluginId')) || ''}
+              plugin={pluginToShortPluginName !== 'entity' ? pluginToShortPluginName : ''}
               color={themes.default.cds.link.primary}
             />
             {entityLabel}
