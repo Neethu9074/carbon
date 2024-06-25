@@ -133,7 +133,6 @@ module.exports = {
   automationActionInstanceFeedbackEnabled: false,
   infraExploreFilterEmptyValueEnabled: true,
   weaselSubresourceIntegrityEnabled: true,
-  orbitalEnabled: false,
   carbonTileEnabled: true,
   carbonStepProgressBarEnabled: true,
   thresholdCustomDashboardsEnabled: true,
