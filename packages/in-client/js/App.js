@@ -18,7 +18,6 @@ import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
-import OrbitalProvider from 'in-services/orbital/OrbitalProvider';
 import DialogPresenter from 'in-components/DialogPresenter';
 import { playwithEnabled } from 'in-services/featureFlags';
 import PlayWithHeader from 'in-plg/Demo/PlayWithHeader';
@@ -33,8 +32,6 @@ import locals from './App.mless';
 export default function App() {
   const currentTheme = getThemeOverride() ?? 'default';
   const carbonShell = isCarbonShellEnabled();
-  // If the space ID is not found via server config then use prod space ID
-  const orbitalSpaceID = window.instana.config.orbitalSpaceID ?? '9WaNpjuleRmP';
   return (
     <ErrorBoundary name="app">
       <LocationStateProvider>
@@ -47,44 +44,42 @@ export default function App() {
         }
         <GlobalTheme>
           <ThemeProvider theme={currentTheme}>
-            <OrbitalProvider spaceId={orbitalSpaceID}>
-              <ScrollTrackingWrapper>
-                <GlobalTimeConfig>
-                  {/* if carbonShell, render instead from CarbonUIShell.tsx */}
-                  {carbonShell ? null : (
-                    <>
-                      <NotificationBarSticky />
-                      <PlayWithHeader />
-                    </>
-                  )}
-                  <ErrorBoundary name="main-navigation">
-                    <MainNavigation />
-                  </ErrorBoundary>
+            <ScrollTrackingWrapper>
+              <GlobalTimeConfig>
+                {/* if carbonShell, render instead from CarbonUIShell.tsx */}
+                {carbonShell ? null : (
+                  <>
+                    <NotificationBarSticky />
+                    <PlayWithHeader />
+                  </>
+                )}
+                <ErrorBoundary name="main-navigation">
+                  <MainNavigation />
+                </ErrorBoundary>
 
-                  <div className={carbonShell ? locals.contentCarbon : locals.content}>
-                    <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
-                  </div>
+                <div className={carbonShell ? locals.contentCarbon : locals.content}>
+                  <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
+                </div>
 
-                  <ErrorBoundary name="dialogs">
-                    {/* for release notes */}
-                    <ReleaseNotesDialog />
-                    {/* for hints about deprecations, and required actions */}
-                    <DeprecatedCustomEventsPopUp />
-                    <TooltipPresenter />
-                    <OverlayPresenter />
-                    {/* the flyouts on the top right corner */}
-                    <MessageFlyout />
-                    {/* all the different dialogs e.g. in the settings */}
-                    <DialogPresenter />
-                  </ErrorBoundary>
+                <ErrorBoundary name="dialogs">
+                  {/* for release notes */}
+                  <ReleaseNotesDialog />
+                  {/* for hints about deprecations, and required actions */}
+                  <DeprecatedCustomEventsPopUp />
+                  <TooltipPresenter />
+                  <OverlayPresenter />
+                  {/* the flyouts on the top right corner */}
+                  <MessageFlyout />
+                  {/* all the different dialogs e.g. in the settings */}
+                  <DialogPresenter />
+                </ErrorBoundary>
 
-                  <ErrorBoundary name="floatinButtons">
-                    {/* floating action buttons at the bottom of the screen */}
-                    {!playwithEnabled && <FloatingActionButtonPresenter />}
-                  </ErrorBoundary>
-                </GlobalTimeConfig>
-              </ScrollTrackingWrapper>
-            </OrbitalProvider>
+                <ErrorBoundary name="floatinButtons">
+                  {/* floating action buttons at the bottom of the screen */}
+                  {!playwithEnabled && <FloatingActionButtonPresenter />}
+                </ErrorBoundary>
+              </GlobalTimeConfig>
+            </ScrollTrackingWrapper>
           </ThemeProvider>
         </GlobalTheme>
       </LocationStateProvider>
