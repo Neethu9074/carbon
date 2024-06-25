@@ -318,14 +318,12 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
             <Typography variant="heading-400">
               {`${t('in-settings:ShareAndInviteDialogBox.share')} ${productArea?.toLowerCase() ?? ''}`}
             </Typography>
-            {hideShare ? (
+            {showInvite ? (
               <Typography variant="body-regular">
-                {t('in-settings:ShareAndInviteDialogBox.inviteYourColleagues')}
+                {t('in-settings:ShareAndInviteDialogBox.inviteYourTeamMates')}
               </Typography>
             ) : (
-              <Typography variant="body-regular">
-                {t('in-settings:ShareAndInviteDialogBox.collaborateIfYouWantHelp')}
-              </Typography>
+              <Typography variant="body-regular">{t('in-settings:ShareAndInviteDialogBox.shareALink')}</Typography>
             )}
           </Stack>
         </div>
