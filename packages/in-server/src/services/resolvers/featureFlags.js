@@ -146,6 +146,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'segmentAnalyticsEnabled',
+    instanaCtlKey: 'segment.analytics.info.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'ampEnabled',
     instanaCtlKey: 'feature.amp.enabled',
     defaultValue: true
