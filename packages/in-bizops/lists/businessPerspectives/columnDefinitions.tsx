@@ -30,7 +30,8 @@ function BusinessPerspectiveNameColumnContent(item: BusinessPerspectiveItem) {
   const { location, createHref } = useNavigation();
 
   const businessPerspectiveId: string = item.businessPerspective.id;
-  const businessPerspectiveName: string = item.businessPerspective.label;
+  // @ts-expect-error transition from label -> name
+  const businessPerspectiveName: string = (item.businessPerspective.name || item.businessPerspective.label) ?? '';
 
   location.pathname = `${businessPerspectiveDashboard}${summaryTab}`;
   setOrDeleteMatrixKey(location, businessPerspectiveDashboard, 'perspectiveId', businessPerspectiveId);

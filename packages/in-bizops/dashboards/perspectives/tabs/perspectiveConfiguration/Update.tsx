@@ -24,17 +24,17 @@ import createNewPerspectiveForm from 'in-bizops/lists/businessPerspectives/creat
 import { businessPerspectiveConfigPath, businessPerspectiveDashboard } from 'in-bizops/navigation/paths';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { MAX_DESCRIPTION_SIZE, MAX_NAME_SIZE, TIMEOUT_IN_MS } from 'in-bizops/utils/constants';
-import { PerspectiveFormItem, PerspectiveItem } from 'in-bizops/utils/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { updateBusinessPerspective } from 'in-bizops/api/perspectives';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { PerspectiveItem } from 'in-bizops/utils/types';
 import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
 
 import local from 'in-bizops/dashboards/perspectives/tabs/perspectiveConfiguration/perspectiveConfiguration.mless';
 
 interface UpdateProps {
-  perspective: PerspectiveFormItem;
+  perspective: PerspectiveItem;
   updateCount: number;
   setUpdateCount: any;
   perspectiveId: string;
@@ -53,7 +53,7 @@ export function Update({ perspective, updateCount, setUpdateCount, perspectiveId
   // Only enable saving if there are changes between the current config and the user changes,
   // and the updates are valid
   const formChanges: Boolean =
-    !isEqual(perspective?.label, nameField.value) ||
+    !isEqual(perspective?.name, nameField.value) ||
     !isEqual(perspective?.description, descriptionField.value) ||
     !isEqual(perspective.tagFilterExpression, tagFilterExpressionField.value);
   const enableSave: Boolean = formChanges && form.hierarchyValid;
@@ -65,7 +65,7 @@ export function Update({ perspective, updateCount, setUpdateCount, perspectiveId
   const handleUpdateClick = () => {
     const requestBody: PerspectiveItem = {
       id: perspectiveId,
-      label: form.get('perspectiveName').value,
+      name: form.get('perspectiveName').value,
       description: form.get('perspectiveDescription').value,
       tagFilterExpression: toBackendQueryModel(form.get('tagFilterExpression').value)
     };
@@ -73,14 +73,14 @@ export function Update({ perspective, updateCount, setUpdateCount, perspectiveId
       data => {
         location.pathname = `${businessPerspectiveConfigPath}`;
         setOrDeleteMatrixKey(location, businessPerspectiveDashboard, 'perspectiveId', data.id);
-        setOrDeleteMatrixKey(location, businessPerspectiveDashboard, 'perspectiveName', data.label);
+        setOrDeleteMatrixKey(location, businessPerspectiveDashboard, 'perspectiveName', data.name);
         setUpdateCount(updateCount + 1);
         refreshPage(location);
         addMessage({
           type: 'info',
           title: t('in-bizops:dashboards.perspectives.configuration.businessPerspectiveUpdated'),
           content: t('in-bizops:dashboards.perspectives.configuration.businessPerspectiveUpdatedDetails', {
-            perspectiveName: data.label
+            perspectiveName: data.name
           }),
           timeout: TIMEOUT_IN_MS
         });
