@@ -6,12 +6,14 @@
 
 import { AnalyticsBrowser } from '@segment/analytics-next';
 
+import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
 import { customRealmName } from 'in-services/util/constants';
 import { config } from 'in-services/config';
 
 let analytics = null;
 
 export function Segment() {
+  if (!ampCompanyInfoEnabled) return null;
   if (analytics === null) {
     analytics = AnalyticsBrowser.load({ writeKey: window.instana.config.segmentKey });
     const userId = customRealmName + '-' + config.tenantUnitId;
