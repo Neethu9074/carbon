@@ -96,7 +96,7 @@
       "generalError": "An unexpected error occurred."
     },
     "entityTypes": "Entity types {{count, parenthesis}}",
-    "relatedInstances": "Analyze Related Instances"
+    "relatedInstances": "Analyze Instances"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Show counts and averages across the current time window.",
