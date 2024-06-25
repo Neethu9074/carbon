@@ -21,6 +21,7 @@ const populateCommonAttributes = ({ form, commonAttributes, setCommonAttributes 
   commonAttributes['description'] = form.get('description').value;
   commonAttributes['applicationId'] = form.get('applicationId').value;
   commonAttributes['script'] = form.get('configuration').get('script')?.value;
+  commonAttributes['applications'] = form.get('applications')?.value;
   setCommonAttributes(commonAttributes);
 };
 

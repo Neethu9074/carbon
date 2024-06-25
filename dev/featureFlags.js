@@ -146,5 +146,6 @@ module.exports = {
   analyzeRelatedInstancesButtonEnabled: true,
   maxMetricsLimitForBeeinstanaEnabled: true,
   serverSideInfraTagSearchEnabled: true,
-  preAggregatedMetricsQueryEnabled: false
+  preAggregatedMetricsQueryEnabled: false,
+  syntheticMultiAppEnabled: true
 };

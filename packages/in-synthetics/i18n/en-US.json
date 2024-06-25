@@ -40,7 +40,8 @@
         "labelDescription": "Description",
         "labelFrequency": "Frequency (minute)",
         "labelFrequencyHour": "Frequency (hour)",
-        "labelApplications": "Select an Application"
+        "labelApplication": "Select an Application",
+        "labelApplications": "Select Applications"
       },
       "bluePrint": {
         "title": "When to use?",

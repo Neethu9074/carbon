@@ -689,5 +689,10 @@ module.exports = exports = [
     uiClientKey: 'preAggregatedMetricsQueryEnabled',
     instanaCtlKey: 'feature.pre.aggregated.metrics.query.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticMultiAppEnabled',
+    instanaCtlKey: 'feature.synthetic.multi.app.enabled',
+    defaultValue: false
   }
 ];
