@@ -96,7 +96,6 @@
     "@uiw/codemirror-extensions-basic-setup": "4.22.0",
     "@uiw/codemirror-extensions-events": "^4.22.0",
     "@uiw/react-codemirror": "4.22.0",
-    "@useorbital/client-sdk": "^1.2.0",
     "ammap3": "^3.21.14",
     "ansi-regex": "6.0.1",
     "ansi-to-html": "^0.6.2",
