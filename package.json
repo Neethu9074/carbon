@@ -24,7 +24,7 @@
     "start": "yarn dev",
     "dev:watch": "HOT_RELOAD=true yarn dev",
     "storybook": "cd storybook && yarn && cd .. && STORYBOOK=true BUILD_DEV=true NODE_ENV=development gulp prepareTestExecution && DEV_TOOLS=eval STORYBOOK=true node --max-old-space-size=4096 ./storybook/node_modules/.bin/storybook dev -p 6006 -c storybook/config --no-version-updates",
-    "storybookBuild": "cd storybook && yarn && cd .. && STORYBOOK=true gulp prepareTestExecution && STORYBOOK=true node --max-old-space-size=4096 storybook build -c storybook/config -o ./build",
+    "storybookBuild": "cd storybook && yarn && cd .. && STORYBOOK=true gulp prepareTestExecution && STORYBOOK=true node --max-old-space-size=4096 storybook/node_modules/.bin/storybook build -c storybook/config -o ./storybookTarget",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --write \"packages/**/*.{js,ts,tsx,less,mless,css}\"",
     "postinstall": "./build/postInstall"
