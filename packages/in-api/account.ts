@@ -13,7 +13,7 @@ export interface TenantsWithUnits {
 }
 
 export function getTenantsWithUnits() {
-  return http<TenantsWithUnits>({ method: 'GET', maxRetries: 3, url: '/auth/users/tenants/' }).map(
+  return http<TenantsWithUnits>({ method: 'GET', maxRetries: 3, url: '/api/settings/rbac/user/tenants/' }).map(
     response => response.body
   );
 }
