@@ -11,14 +11,16 @@ import { isEmpty } from 'lodash';
 import { ApplicationAlertConfigWithMetadata, GlobalApplicationsAlertConfigWithMetadata } from '@instana/types';
 import { createLogger } from '@instana/logger';
 
-import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import {
+  enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError,
+  EnrichedError
+} from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import {
   createGlobalAlertConfig,
   updateGlobalAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 //@ts-expect-error TS migration
 import * as HelperFunction from 'in-alerting/smart-alerts/applications/tearSheet/components/AlertConfigHelper';
-import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import {
   useNavigationToAlertConfig,
   useNavigationToGlobalAlertConfigWithoutAPDashboard
@@ -81,18 +83,16 @@ export default function AlertConfigTearSheet() {
     duplicateMode
   );
 
+  const applicationIds = { applicationId, serviceId, endpointId };
+  const applicationMode = { migrationMode, editMode, duplicateMode, potentialProblemMode };
+
   const applicationSmartAlertConfig = getApplicationAlertConfig(
-    migrationMode,
     isGlobalSmartAlert,
-    editMode,
-    duplicateMode,
     alertConfig,
     migrateAlertConfig,
-    potentialProblemMode,
-    applicationId,
     boundaryScope,
-    serviceId,
-    endpointId
+    applicationIds,
+    applicationMode
   );
 
   if (alertConfigErrors?.length) {
@@ -239,7 +239,7 @@ function AlertConfigTearSheetContent({
   );
 }
 
-interface createOrSaveAlertProps {
+interface CreateOrSaveAlertProps {
   form: MapForm<any>;
   setForm: (form: MapForm<any>) => void;
   editMode?: boolean;
@@ -265,7 +265,7 @@ function createOrSaveAlert({
   navigateToAlertConfig,
   duplicateFrom,
   eventSpecificationId
-}: createOrSaveAlertProps) {
+}: CreateOrSaveAlertProps) {
   setIsSaving(true);
   // remove existing error messages:
   setMessages((prevMessages: EnrichedError[]) => prevMessages.filter(m => m.level && m.level !== 'error'));

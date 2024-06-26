@@ -6,9 +6,8 @@
 
 import React, { useMemo } from 'react';
 
+import { Message, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Message } from '@instana/components';
-import { Spacer } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { triggerScrollToInvalidItem$ } from 'in-alerting/smart-alerts/components/tearSheet/hooks/useScrollToFirstInvalidItem';

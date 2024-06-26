@@ -317,11 +317,7 @@ function metricColumns({
         } else {
           // The width of metric values rendered using NUMBER formatter can vary significantly which may
           // break column alignment, use more dense SI prefix based formatter instead.
-          formatter = isNumberFormatter(metricDefinition?.formatter)
-            ? withSiPrefixOneDecimalPlace
-            : field.metricId === 'latency' && customLatencyUiFormatterName
-            ? getBackendFormatter(customLatencyUiFormatterName)
-            : getBackendFormatter(metricDefinition?.formatter);
+          formatter = getFormattedNumber(metricDefinition, customLatencyUiFormatterName, field);
         }
         return {
           shrink: false,
@@ -391,4 +387,16 @@ function getGroupByName(evaluationType) {
   } else if (evaluationType === PER_AP_ENDPOINT) {
     return t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupByEndpoint');
   }
+}
+
+function getFormattedNumber(metricDefinition, customLatencyUiFormatterName, field) {
+  if (isNumberFormatter(metricDefinition?.formatter)) {
+    return withSiPrefixOneDecimalPlace;
+  }
+
+  if (field.metricId === 'latency' && customLatencyUiFormatterName) {
+    return getBackendFormatter(customLatencyUiFormatterName);
+  }
+
+  return getBackendFormatter(metricDefinition?.formatter);
 }

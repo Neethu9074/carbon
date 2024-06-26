@@ -6,8 +6,7 @@
 
 import React, { useMemo } from 'react';
 
-import { Message, IconButton } from '@instana/components';
-import { Spacer } from '@instana/components';
+import { Message, IconButton, Spacer } from '@instana/components';
 
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
