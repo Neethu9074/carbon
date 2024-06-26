@@ -238,7 +238,7 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
 export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
 
-export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', false);
+export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', true);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
 export const incidentSummarizationTimelineEnabled = isFeatureFlagEnabled('incidentSummarizationTimelineEnabled', true);

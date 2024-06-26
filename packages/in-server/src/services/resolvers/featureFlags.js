@@ -443,7 +443,7 @@ module.exports = exports = [
   {
     uiClientKey: 'rcaUIEnabled',
     instanaCtlKey: 'feature.rca.ui.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'eventFeedbackEnabled',

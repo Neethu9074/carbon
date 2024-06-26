@@ -106,7 +106,7 @@ module.exports = {
   customWidgetTableInfraDataSourceEnabled: true,
   infraSmartAlertsEnabled: true,
   syntheticCustomDashboardEnabled: true,
-  rcaUIEnabled: false,
+  rcaUIEnabled: true,
   eventFeedbackEnabled: true,
   incidentSummarizationEnabled: false,
   incidentSummarizationTimelineEnabled: true,
