@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { LicenseBannerButton } from '@instana/components';
 
@@ -12,6 +12,7 @@ import AssistMeSearchKeyword from 'in-plg/components/AssistMe/AssistMeDynamicSea
 import { activeLanguage, t } from 'in-i18n';
 
 export default function AssistMe() {
+  const [isExpanded, setIsExpanded] = useState(false);
   return (
     <div data-search-context={AssistMeSearchKeyword()}>
       <LicenseBannerButton
@@ -19,7 +20,12 @@ export default function AssistMe() {
         kind="ghost"
         icon="lib_help_error_help_outline"
         iconColor="currentColor"
-        onClick={openAssistMe}
+        onClick={() => {
+          openAssistMe();
+          setIsExpanded(!isExpanded);
+        }}
+        aria-controls="ibm-assist-me-shell"
+        aria-expanded={isExpanded}
       >
         {t('in-plg:licenseBanner.getAnswers')}
       </LicenseBannerButton>

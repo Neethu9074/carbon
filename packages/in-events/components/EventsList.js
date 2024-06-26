@@ -70,7 +70,9 @@ function List(props) {
 
   const timeScale = useTimeConfigUpdatingScale(timeConfig);
 
-  if (!progress.loading && rawEventList.length === 0) {
+  const filteredRawEventList = filterManuallyClosedEventsByTimeScale(rawEventList, timeScale);
+
+  if (!progress.loading && filteredRawEventList.length === 0) {
     return (
       <Card title={title} header={cardHeader} leftHeaderContent={leftHeaderContent}>
         <div
@@ -144,7 +146,7 @@ function List(props) {
             </Thead>
             <Tbody>
               {isPresentingHighlightedTimeframe && <HighlightedTimeframeMarkerRow cols={cols} />}
-              {rawEventList.map(event => (
+              {filteredRawEventList.map(event => (
                 <EventListRow
                   key={event.id}
                   state={event.state}
@@ -200,7 +202,7 @@ function List(props) {
         </Thead>
         <Tbody>
           {isPresentingHighlightedTimeframe && <HighlightedTimeframeMarkerRow cols={cols} />}
-          {rawEventList.map(event => (
+          {filteredRawEventList.map(event => (
             <EventListRow
               key={event.id}
               selectedEventId={selectedEventId}
@@ -219,6 +221,12 @@ function List(props) {
       </Table>
     );
   }
+}
+
+function filterManuallyClosedEventsByTimeScale(rawEventList, timeScale) {
+  return rawEventList.filter(
+    event => !(event.manuallyClosed === true && event.end >= timeScale.domainFrom && event.end <= timeScale.domainTo)
+  );
 }
 
 function SortableColumn({ children, orderBy, orderDirection, onChange, technicalName, sortable, width }) {

@@ -146,6 +146,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'segmentAnalyticsEnabled',
+    instanaCtlKey: 'segment.analytics.info.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'ampEnabled',
     instanaCtlKey: 'feature.amp.enabled',
     defaultValue: true
@@ -688,6 +693,11 @@ module.exports = exports = [
   {
     uiClientKey: 'preAggregatedMetricsQueryEnabled',
     instanaCtlKey: 'feature.pre.aggregated.metrics.query.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticMultiAppEnabled',
+    instanaCtlKey: 'feature.synthetic.multi.app.enabled',
     defaultValue: false
   }
 ];

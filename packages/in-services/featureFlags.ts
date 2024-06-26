@@ -39,6 +39,7 @@ export const infraMetricsWidgetEnabled = isFeatureFlagEnabled('infraMetricsWidge
 export const infraExploreFilterEmptyValueEnabled = isFeatureFlagEnabled('infraExploreFilterEmptyValueEnabled');
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled');
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
+export const segmentAnalyticsEnabled = isFeatureFlagEnabled('segmentAnalyticsEnabled', false);
 export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const phmcEnabled = isFeatureFlagEnabled('phmcEnabled');
@@ -131,6 +132,9 @@ export const syntheticCertificateCheckEnabled = isFeatureFlagEnabled('syntheticC
 
 // Synthetic RBAC Limited Access feature flag
 export const syntheticRbacLimitedTPEnabled = isFeatureFlagEnabled('syntheticRbacLimitedTPEnabled');
+
+// Synthetic Multi App Support feature flag
+export const syntheticMultiAppEnabled = isFeatureFlagEnabled('syntheticMultiAppEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(

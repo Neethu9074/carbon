@@ -20,6 +20,9 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.sapAbapInstanceSensor.hostName')}>
         {data.get('hostName')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapAbapInstanceSensor.sapVersion')}>
+        {data.get('version')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

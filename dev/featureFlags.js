@@ -40,6 +40,7 @@ module.exports = {
   ampCompanyInfoEnabled: true,
   ampEnabled: true,
   persistentVolumeSupportEnabled: true,
+  segmentAnalyticsEnabled: false,
   loggingEnabled: true,
   logRetentionPageEnabled: true,
   logWidgetsEnabled: true,
@@ -146,5 +147,6 @@ module.exports = {
   analyzeRelatedInstancesButtonEnabled: true,
   maxMetricsLimitForBeeinstanaEnabled: true,
   serverSideInfraTagSearchEnabled: true,
-  preAggregatedMetricsQueryEnabled: false
+  preAggregatedMetricsQueryEnabled: false,
+  syntheticMultiAppEnabled: true
 };

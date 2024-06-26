@@ -7,8 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { LoadingSkeleton } from '@instana/components';
-import { KeyValue } from '@instana/components';
+import { LoadingSkeleton, KeyValue } from '@instana/components';
 
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';

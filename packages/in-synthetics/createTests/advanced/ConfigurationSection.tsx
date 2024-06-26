@@ -9,8 +9,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Stack, SvgIcon, RadioButton, Checkbox } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, SvgIcon, RadioButton, Checkbox, Button} from '@instana/components';
 
 import {
   onlyUniqueKeyNames,

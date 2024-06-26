@@ -88,7 +88,7 @@ export default function EventSummarization({ title, incident, latestSnapshot }: 
           title={title}
           leftHeaderContent={
             <Pill kind="primary" color={themes.default.ids.color.option.blue['500']}>
-              {t('in-events:RCA.techPreview')}
+              {t('in-events:notes.techPreview')}
             </Pill>
           }
         >

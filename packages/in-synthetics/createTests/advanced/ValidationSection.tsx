@@ -10,7 +10,7 @@ import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { Stack, SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import {
   expectJson,

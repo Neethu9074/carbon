@@ -57,7 +57,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions: perspectiveColumnDefinitions,
-  defaultOrderBy: 'business.perspective.label',
+  defaultOrderBy: 'business.perspective.name',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix
@@ -111,10 +111,10 @@ function getBusinessPerspectivesListData({
     elements: []
   };
 
-  // search against business_perspective_label
+  // search against business_perspective_name
   if (query && query.length > 0) {
     tagFilterExpression.elements.push({
-      name: 'business.perspective.label',
+      name: 'business.perspective.name',
       operator: 'CONTAINS',
       stringValue: query,
       entity: NOT_APPLICABLE,

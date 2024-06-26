@@ -15429,6 +15429,7 @@
       "label": "SAP ABAP Instance",
       "systemLabel": "SAP ABAP System",
       "hostName": "Host Name",
+      "sapVersion": "SAP Basis Version",
       "instanceName": "Instance Name",
       "workProcessRowCount": "Total Work Process Count",
       "dbConnectionCount": "Total DB Connections",

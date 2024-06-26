@@ -35,11 +35,19 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { Row, Col } from 'in-components/layout/Grid';
 import { query$ } from 'in-stores/search/query';
 import useUrlState from 'in-hooks/useUrlState';
+import { getEvent } from 'in-stores/events';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 
 export default function LegacyEventViewMigration(props) {
   const query = get(props, ['location', 'query']);
+  const eventId = getMatrixParameter(props.location, eventsPath, 'eventId');
+
+  const eventObservable = getEvent(eventId ?? '').map(data => ({
+    data,
+    errors: [],
+    progress: { percentage: null, loading: false }
+  }));
   const timeConfig = getTimeConfig(props.location);
   if (query.eventId) {
     return (
@@ -54,9 +62,8 @@ export default function LegacyEventViewMigration(props) {
   }
 
   const eventType = getMatrixParameter(props.location, eventsPath, 'view');
-  const eventId = getMatrixParameter(props.location, eventsPath, 'eventId');
 
-  return <EventView {...props} eventType={eventType} eventId={eventId} />;
+  return <EventView {...props} eventType={eventType} eventId={eventId} eventObservable={eventObservable} />;
 }
 const urlSettingsConfig = {
   bind: [eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter, pageNumberUrlParameter],

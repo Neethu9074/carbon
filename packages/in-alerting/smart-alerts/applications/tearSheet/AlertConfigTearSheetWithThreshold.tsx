@@ -22,12 +22,15 @@ import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichS
 import useIsTagFilterFormModelExists from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelExists';
 //@ts-expect-error
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
+import {
+  BluePrint,
+  getBlueprintConfig,
+  blueprintConfigs
+} from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/applications/hooks/useAlertConfigValidation';
-import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertingTearSheet, { AlertingFooterActions } from 'in-alerting/components/AlertingTearSheet';
-import { blueprintConfigs } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import { MessageType } from 'in-components/MessageStack/MessageStack';
 import { days } from 'in-services/time/time';
@@ -153,7 +156,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
   });
 
   //@ts-expect-error
-  const actions: AlertingFooterActions[] = getFooterActions(editMode, backOrCancel, cancelTearSheet);
+  const actions: AlertingFooterActions[] = getFooterActions(editMode, backOrCancel, cancelTearSheet, handleSubmit);
 
   const navItems = useAlertConfigValidation(
     stepConfigs,
@@ -173,7 +176,6 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       formId={FORM_ID}
       form={form}
       migrationMode={migrationMode}
-      handleSubmit={handleSubmit}
       thresholdResult={thresholdResult}
       headerWithMsg={headerWithMsg}
       additionalValidationCheck={step === 1 || step === 3 ? isTagFilterFormModelValid : true}
@@ -193,7 +195,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
             step === idx && (
               <Renderer
                 {...props}
-                key={idx}
+                key={`key-${idx}`}
                 isGlobalSmartAlert={isGlobalSmartAlert}
                 isTagFilterFormModelValid={isTagFilterFormModelValid}
                 setStep={setStep}

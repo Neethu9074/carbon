@@ -276,6 +276,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
                     updateEntityIds(ids);
                     setShowSubSlide(false);
                   }}
+                  productArea={productArea}
                 />
               )
             });

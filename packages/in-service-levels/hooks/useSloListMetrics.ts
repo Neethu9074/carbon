@@ -57,11 +57,11 @@ export function resultReducer(
 ): Result<Record<string, SloMetricsResultMap>> | undefined {
   return results?.reduce(
     (acc, result) => {
-      if (!result.data) return acc;
       const loading = result.progress.loading || acc.progress.loading;
-
+      const progress = { loading };
+      if (!result.data) return { ...acc, progress };
       return {
-        progress: { loading },
+        progress,
         errors: [],
         data: {
           ...acc.data,

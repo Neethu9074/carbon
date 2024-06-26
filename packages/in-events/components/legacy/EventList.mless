@@ -36,12 +36,12 @@
     width: 28rem;
   }
   .entityDescription {
-    background: var(--ids-color-option-neutral-50);
-    border: 0.1rem var(--ids-color-option-neutral-300) solid;
-    padding: 1rem;
     margin-bottom: 1rem;
     border-radius: 0.25rem;
     width: 99.4%;
+  }
+  .tabPanel {
+    background: var(--ids-color-option-neutral-50);
   }
   .confidencePilled {
     margin-left: auto;
@@ -108,5 +108,21 @@
   .cardIndicator {
     height: 0.25rem;
     border-radius: 0.5rem 0.5rem 0 0;
+  }
+  .associatedEventsCardHeader {
+    cursor: pointer;
+    background: var(--ids-color-option-neutral-50);
+    padding: 0;
+  }
+  .associatedEventsCard {
+    background: var(--ids-color-option-neutral-50);
+    padding: 0;
+    min-height: 0;
+  }
+  .sectionLine {
+    height: 0.063rem;
+    width: 100%;
+    background: var(--ids-color-option-neutral-300);
+    margin-bottom: 0.75rem;
   }
 }

@@ -66,7 +66,7 @@ export function NewPerspectiveDialogPresenter() {
 
   function onCreate(form: MapForm<any>) {
     const requestBody: PerspectiveItem = {
-      label: form.get('perspectiveName').value,
+      name: form.get('perspectiveName').value,
       description: form.get('perspectiveDescription').value,
       tagFilterExpression: toBackendQueryModel(form.get('tagFilterExpression').value)
     };
@@ -119,11 +119,7 @@ export function NewPerspectiveDialogPresenter() {
               );
             case 1:
               return (
-                <NewPerspectiveFormStepTwo
-                  form={form}
-                  updateForm={updateForm}
-                  processesLiveList={processesLiveList}
-                />
+                <NewPerspectiveFormStepTwo form={form} updateForm={updateForm} processesLiveList={processesLiveList} />
               );
             default:
               return null;

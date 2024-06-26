@@ -113,28 +113,29 @@ export function generateAlertConfig(
 }
 
 export function getApplicationAlertConfig(
-  migrationMode,
   isGlobalSmartAlert,
-  editMode,
-  duplicateMode,
   alertConfig,
   migrateAlertConfig,
-  potentialProblemMode,
-  applicationId,
   boundaryScope,
-  serviceId,
-  endpointId
+  applicationIds,
+  applicationMode
 ) {
-  if (editMode) {
+  if (applicationMode?.editMode) {
     return alertConfig;
-  } else if (migrationMode) {
+  } else if (applicationMode?.migrationMode) {
     return migrateAlertConfig;
-  } else if (potentialProblemMode) {
+  } else if (applicationMode?.potentialProblemMode) {
     return getPotentialProblemConfig();
-  } else if (duplicateMode) {
+  } else if (applicationMode?.duplicateMode) {
     return alertConfig && duplicateAlertConfig(alertConfig);
   } else {
-    return generateAlertConfig(isGlobalSmartAlert, applicationId, boundaryScope, serviceId, endpointId);
+    return generateAlertConfig(
+      isGlobalSmartAlert,
+      applicationIds?.applicationId,
+      boundaryScope,
+      applicationIds?.serviceId,
+      applicationIds?.endpointId
+    );
   }
 }
 

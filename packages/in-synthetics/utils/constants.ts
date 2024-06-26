@@ -42,6 +42,8 @@ export const SSLCertificateTest = 'Certificate Check';
 export const expectStatus = 'Expect Status';
 export const expectJson = 'Expect JSON';
 export const expectMatch = 'Expect Match';
+export const allAccessFilter = 'All Tests';
+export const inheritedAccessFilter = 'Inherited Access';
 
 export const scriptTestType = (fileExtension: string, syntheticType: string) => {
   if (fileExtension === 'js' || fileExtension === 'zip') return 'BrowserScript';

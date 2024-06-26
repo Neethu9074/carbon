@@ -7,7 +7,18 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { List, Map } from 'immutable';
 
-import { Card, IconButton, Pill, Stack, Typography } from '@instana/components';
+import {
+  CarbonTab,
+  CarbonTabList,
+  CarbonTabPanel,
+  CarbonTabPanels,
+  CarbonTabs,
+  Card,
+  IconButton,
+  Pill,
+  Stack,
+  Typography
+} from '@instana/components';
 import { Observable, combineLatest } from '@instana/observables';
 import { Snapshot, TimeConfig } from '@instana/types';
 import { themes } from '@instana/design-tokens';
@@ -22,7 +33,6 @@ import {
   helpfulRCASuggestionTracker,
   unhelpfulRCASuggestionTracker
 } from 'in-events/tracker';
-import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import RootCauseEntityDetails from 'in-events/components/legacy/RootCauseEntityDetails';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
@@ -87,63 +97,71 @@ export default function RootCauseSection({
 
   const rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray();
 
-  const getLightCardColourForRCA = (probFailure: number | undefined | null, idx: number) => {
-    if (probFailure === null || probFailure === undefined) return undefined;
-
-    if (idx === 0) return locals.primaryProbabilityHeader;
-
-    if (probFailure >= 0.7) {
-      return locals.highProbabilityHeader;
-    } else if (probFailure >= 0.35) {
-      return locals.moderateProbabilityHeader;
-    } else {
-      return locals.lowProbabilityHeader;
-    }
-  };
-
-  const candidateRootCauseText = t('in-events:RCA.candidateProbableRootCause');
-  const identifiedRootCauseText = t('in-events:RCA.identifiedProbableRootCause');
-
   if (!incidentHasRCAProperty) return null;
   return (
     <ProbableRootCauseCard title={title} incident={incident}>
-      <Stack>
-        {rootCauseSnapshots.map(([rcaSnapshotID, rootCause], idx) => {
-          if (!rootCause) return;
-          return (
-            <ExpandableLightCard
-              title={idx === 0 ? identifiedRootCauseText : candidateRootCauseText}
-              openByDefault={idx === 0}
-              headerClassName={getLightCardColourForRCA(rootCause.get('probFailure'), idx)}
-            >
-              <RootCauseEntityDetails
-                relatedAPID={
-                  (incident.get('metadata') as Map<string, string>).has('app20ApplicationId')
-                    ? (incident.get('metadata') as Map<string, string>).get('app20ApplicationId')
-                    : null
-                }
-                rcaSnapshotID={
-                  determineEntityTypeFromEntityIDMap(rootCause.get('entityID') as Map<string, string>) ===
-                  'infrastructure'
-                    ? rcaSnapshotID
-                    : rootCause?.getIn(['entityID', 'steadyId'])
-                }
-                rcaEntityType={determineEntityTypeFromEntityIDMap(rootCause.get('entityID') as Map<string, string>)}
-                entityID={rootCause.get('entityID') as Map<string, string>}
-                explainabilityMetadata={
-                  rootCause.get('explainability') as List<Map<ExplainabilityKeys, string | number | boolean>>
-                }
-                probabilityScore={rootCause.get('probFailure') as number}
-                incidentTimeWindow={getIncidentTimeConfig(incident)}
-              />
-              <AssociatedEvents
-                associatedEvents={rootCause.get('events') as List<string>}
-                latestSnapshot={latestSnapshot}
-              />
-            </ExpandableLightCard>
-          );
-        })}
-      </Stack>
+      <div>
+        <CarbonTabs>
+          <CarbonTabList aria-label="List of RCA Entities" contained>
+            {rootCauseSnapshots.map(([rcaSnapshotID, rootCause], idx) => {
+              if (!rootCause) return;
+
+              const probFailureValue = rootCause.get('probFailure');
+
+              let probText: string | undefined = undefined;
+              if (probFailureValue >= 0.7) {
+                probText = t('in-events:RCA.highProbabilitySecondaryLabel');
+              } else if (probFailureValue >= 0.35) {
+                probText = t('in-events:RCA.moderateProbabilitySecondaryLabel');
+              } else {
+                probText = t('in-events:RCA.lowProbabilitySecondaryLevel');
+              }
+
+              return (
+                <CarbonTab key={rcaSnapshotID} secondaryLabel={probText}>
+                  {idx === 0 ? t('in-events:RCA.mostLikelyCause') : t('in-events:RCA.probableCause')}
+                </CarbonTab>
+              );
+            })}
+          </CarbonTabList>
+          <CarbonTabPanels>
+            {rootCauseSnapshots.map(([rcaSnapshotID, rootCause], idx) => {
+              if (!rootCause) return;
+
+              return (
+                <CarbonTabPanel className={locals.tabPanel} style={{ background: themes.default.cds.field['02'] }}>
+                  <RootCauseEntityDetails
+                    relatedAPID={
+                      (incident.get('metadata') as Map<string, string>).has('app20ApplicationId')
+                        ? (incident.get('metadata') as Map<string, string>).get('app20ApplicationId')
+                        : null
+                    }
+                    rcaSnapshotID={
+                      determineEntityTypeFromEntityIDMap(rootCause.get('entityID') as Map<string, string>) ===
+                      'infrastructure'
+                        ? rcaSnapshotID
+                        : rootCause?.getIn(['entityID', 'steadyId'])
+                    }
+                    rcaEntityType={determineEntityTypeFromEntityIDMap(rootCause.get('entityID') as Map<string, string>)}
+                    entityID={rootCause.get('entityID') as Map<string, string>}
+                    explainabilityMetadata={
+                      rootCause.get('explainability') as List<Map<ExplainabilityKeys, string | number | boolean>>
+                    }
+                    probabilityScore={rootCause.get('probFailure') as number}
+                    incidentTimeWindow={getIncidentTimeConfig(incident)}
+                    key={idx}
+                  />
+                  <div className={locals.sectionLine} /> {/* SectionLine component has too big of a bottom margin :( */}
+                  <AssociatedEvents
+                    associatedEvents={rootCause.get('events') as List<string>}
+                    latestSnapshot={latestSnapshot}
+                  />
+                </CarbonTabPanel>
+              );
+            })}
+          </CarbonTabPanels>
+        </CarbonTabs>
+      </div>
     </ProbableRootCauseCard>
   );
 }
@@ -165,7 +183,7 @@ function ProbableRootCauseCard({ title, children, incident }: ProbableRootCauseC
             <Stack direction="horizontal" gap="xxsmall">
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
                 <Pill type="blue" className={locals.techPreviewPill}>
-                  {t('in-events:RCA.techPreview')}
+                  {t('in-events:RCA.publicPreview')}
                 </Pill>
               </Tooltip>
               <Pill type="purple" className={locals.rcaAIPill}>
@@ -192,6 +210,7 @@ interface AssociatedEventsProps {
 
 function AssociatedEvents({ associatedEvents, latestSnapshot }: AssociatedEventsProps) {
   const [associatedEventsObservables, setAssociatedEventsObservables] = useState<Observable<EventOrMap[]> | null>(null);
+  const [expanded, setExpanded] = useState<boolean>(false);
 
   const associatedEventsData = useObservable(associatedEventsObservables, [associatedEventsObservables]);
 
@@ -202,27 +221,39 @@ function AssociatedEvents({ associatedEvents, latestSnapshot }: AssociatedEvents
   if (!associatedEventsData) return <LoadingIndicator />;
 
   return (
-    <ExpandableLightCard
-      title={t('in-events:RCA.relatedEventsLabel', {
-        number_of_events: Array.isArray(associatedEventsData) ? associatedEventsData.length : 0
-      })}
-      darkFrame
+    <Card
+      leftHeaderContent={
+        <Typography variant="body-bold">
+          {t('in-events:RCA.relatedEventsLabel', {
+            number_of_events: Array.isArray(associatedEventsData) ? associatedEventsData.length : 0
+          })}
+        </Typography>
+      }
+      onHeaderBackgroundClicked={() => setExpanded(!expanded)}
+      headerClassName={locals.associatedEventsCardHeader}
+      rightHeaderContent={
+        <IconButton color="black" type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="compact" />
+      }
+      className={locals.associatedEventsCard}
+      hasMarginBottom={expanded}
+      useMaxAvailableHeight={false}
     >
-      {associatedEventsData?.map((_event: EventOrMap) => (
-        <div onClick={expandedRCAEventCardTracker}>
-          <EventListItem
-            key={_event.get('id') as string}
-            triggeringProblemId={
-              associatedEventsData.length > 0 ? (associatedEventsData[0].get('id') as string) : undefined
-            }
-            event={_event}
-            latestSnapshot={latestSnapshot}
-            setBackground={themes.default.ids.color.option['deep-purple'][500]}
-            setIconColor={themes.default.ids.color.option.white}
-          />
-        </div>
-      ))}
-    </ExpandableLightCard>
+      {expanded &&
+        associatedEventsData?.map((_event: EventOrMap) => (
+          <div onClick={expandedRCAEventCardTracker}>
+            <EventListItem
+              key={_event.get('id') as string}
+              triggeringProblemId={
+                associatedEventsData.length > 0 ? (associatedEventsData[0].get('id') as string) : undefined
+              }
+              event={_event}
+              latestSnapshot={latestSnapshot}
+              setBackground={themes.default.ids.color.option['deep-purple'][500]}
+              setIconColor={themes.default.ids.color.option.white}
+            />
+          </div>
+        ))}
+    </Card>
   );
 }
 

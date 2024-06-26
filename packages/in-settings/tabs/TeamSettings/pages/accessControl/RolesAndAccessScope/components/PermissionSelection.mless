@@ -7,4 +7,7 @@
   .clickable {
     cursor: pointer;
   }
+  .entitiesForm {
+    margin: 0 1rem;
+  }
 }

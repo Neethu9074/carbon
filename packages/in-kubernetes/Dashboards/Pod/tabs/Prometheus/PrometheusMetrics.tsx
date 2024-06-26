@@ -46,6 +46,10 @@ export default function PrometheusMetrics({ podId, timeConfig }: Readonly<Promet
     );
   }
 
+  if (isLoading) {
+    return <LoadingIndicator />;
+  }
+
   const navigationTree = getNavigationTree(prometheusEndpoints);
 
   return (
