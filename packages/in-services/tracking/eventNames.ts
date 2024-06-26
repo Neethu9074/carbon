@@ -484,6 +484,9 @@ export const EVENT_RCA_FEEDBACK_SUBMIT = 'event.rca.feedback.submit';
 export const EVENT_RCA_FEEDBACK_CLOSED_MANUALLY = 'event.rca.feedback.closed.manually';
 export const EVENT_RCA_FEEDBACK_NEXT = 'event.rca.feedback.next';
 export const EVENT_RCA_FEEDBACK_SKIP = 'event.rca.feedback.skip';
+export const EVENT_RCA_ANALYZE_CLICK = 'event.rca.analyze.click';
+export const EVENT_RCA_ENTITY_CLICK = 'event.rca.entity.click';
+export const EVENT_RCA_ASSOCIATED_EVENTS_CLICK = 'event.rca.associated_events.click';
 
 // Events Page Feedback Tracking
 export const EVENT_FEEDBACK_SUBMIT = 'event.feedback.submit';
@@ -504,12 +507,6 @@ export const INCIDENT_SUMMARIZATION_SUBMIT = 'incident.summarization.feedback.su
 export const INCIDENT_SUMMARIZATION_CLOSED_MANUALLY = 'incident.summarization.feedback.manually';
 export const INCIDENT_SUMMARIZATION_NEXT = 'incident.summarization.feedback.next';
 export const INCIDENT_SUMMARIZATION_SKIP = 'incident.summarization.feedback.skip';
-
-// Journal Fake Door Tracking
-export const JOURNAL_FAKE_DOOR_START_CLICK = 'journal.fake.door.start.click';
-export const JOURNAL_FAKE_DOOR_NOT_INTERESTED = 'journal.fake.door.notInterested';
-export const JOURNAL_FAKE_DOOR_INTERESTED = 'journal.fake.door.interested';
-export const JOURNAL_FAKE_DOOR_CLOSE = 'journal.fake.door.close';
 
 // Flow Map Tracking (services and endpoints)
 export const FLOW_MAP_CLICK = 'flowmap.click';
