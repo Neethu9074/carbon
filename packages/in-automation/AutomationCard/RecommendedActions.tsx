@@ -199,7 +199,7 @@ export default function RecommendedActions({
         </>
       }
       searchPlaceholder={t('in-automation:searchActions')}
-      {...(!role?.canConfigureAutomationPolicies ? { onRowClick: handleRowClick } : {})}
+      onRowClick={!role?.canConfigureAutomationPolicies ? handleRowClick : undefined}
     />
   );
 }
