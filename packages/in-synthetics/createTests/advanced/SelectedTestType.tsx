@@ -8,7 +8,7 @@ import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { Code, ConfigItem, SSLCertificateTest, TestTypeSelected } from 'in-synthetics/utils/constants';

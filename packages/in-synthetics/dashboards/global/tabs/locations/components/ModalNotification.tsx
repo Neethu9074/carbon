@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon, Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { ModalNotificationProps } from 'in-synthetics/utils/constants';
 import { t } from 'in-i18n';

@@ -7,16 +7,13 @@
 import { isEmpty } from 'lodash';
 import React from 'react';
 
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 import { Progress } from '@instana/types';
-import { Button } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
-import {
-  SecondLevelNavigation,
-  SecondLevelNavigationItem
-} from '@instana/components';
 import { ResultImages, ViewScreenshotsDialogProps, dummyTestResultImages } from 'in-synthetics/utils/constants';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';

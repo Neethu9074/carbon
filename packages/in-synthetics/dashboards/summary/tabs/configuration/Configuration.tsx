@@ -10,7 +10,7 @@ import { isEmpty } from 'lodash';
 import { Card, IconButton, LoadingSkeleton, Message, Stack, Typography } from '@instana/components';
 import { SyntheticTest } from '@instana/types';
 import { Trans, t } from '@instana/i18n-react';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import EditConfigurationDialogPresenter from 'in-synthetics/dashboards/summary/tabs/configuration/actions/EditConfigurationDialogPresenter';
 import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
