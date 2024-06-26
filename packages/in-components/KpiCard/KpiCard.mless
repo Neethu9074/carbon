@@ -8,7 +8,6 @@
 :local {
   .wrapper {
     padding: 0.625rem 1rem;
-    .ellipsis();
     position: relative;
     border-radius: var(--ids-border-radius-option-large);
   }
@@ -112,6 +111,13 @@
 
   .titleText {
     .ellipsis();
+    display: block;
+    width: 100%;
+    > span {
+      .ellipsis();
+      display: block;
+      width: 100%;
+    }
   }
 
   .hidden {
