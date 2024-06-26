@@ -91,7 +91,7 @@ export default function UsageCharts({
         </Col>
       </Row>
       <Row>
-        <Col xs={showDataIngestTable ? 6 : 12}>
+        <Col xs={12}>
           <Card>
             <SubViewHeader>
               Data usage
@@ -119,15 +119,17 @@ export default function UsageCharts({
             />
           </Card>
         </Col>
-        {showDataIngestTable && (
-          <Col xs={6}>
+      </Row>
+      {showDataIngestTable && (
+        <Row>
+          <Col xs={12}>
             <Card>
               <SubViewHeader>{t('in-amp:components.dataIngestTable.consumptionOverview')}</SubViewHeader>
               <DataIngestTable />
             </Card>
           </Col>
-        )}
-      </Row>
+        </Row>
+      )}
       <br />
       {showAggregatedMetrics && hasSyntheticAddons && (
         <>
