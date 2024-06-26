@@ -26,6 +26,10 @@ export default function WelcomeHeader({ onboardingHeaderEnabled }: WelcomeHeader
   // @ts-expect-error The User type needs to be updated.
   const headerTitle = `${t('in-plg:welcomepage.heading')}, ${user?.fullName ?? ''}!`;
   const foldableTileTitle = t('in-plg:welcomepage.foldableTileTitle');
+  const collapsibleButton = {
+    showOnboardingTasks: t('in-plg:welcomepage.collapsibleButton.showOnboardingTasks'),
+    hideOnboardingTasks: t('in-plg:welcomepage.collapsibleButton.hideOnboardingTasks')
+  };
 
   return (
     <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
@@ -34,6 +38,7 @@ export default function WelcomeHeader({ onboardingHeaderEnabled }: WelcomeHeader
         headerTitle={headerTitle}
         foldableTileTitle={foldableTileTitle}
         datepicker={<DatePickerHeader />}
+        collapsibleButton={collapsibleButton}
       />
     </div>
   );

@@ -11,14 +11,10 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
-  getNoDataButton,
-  getNoDataDescription,
-  getNoDataHeader
-} from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
-import {
   GetContentFunction,
   DatatableWidgetProps
 } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import { getNoDataDescription, getNoDataHeader } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { TimeConfig } from 'in-types';
@@ -92,22 +88,14 @@ export default function DatatableWrapper({
     setProcessedItems(processedItems);
   }, [result, columnDefinitions, timeConfig, isDashboardWidget, query, syntheticType, maxItems]);
 
-  const exclusionArray = [
-    'infrastructure',
-    'platforms',
-    'businessmonitoring',
-    'incidents',
-    'syntheticmonitoring.location'
-  ];
-
   return (
-    <section aria-label={dashboardTileProps.sectionLabel} role="region">
+    <section aria-label={`${header}`} role="region">
       <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
         <DashboardTable
           headers={headers}
           rows={processedItems}
           searchPlaceHolder={`${t('in-plg:welcomepage.ariaLabel.search')} ${header}`}
-          viewLabel={t('in-plg:welcomepage.viewAll')}
+          viewLabel={`${t('in-plg:welcomepage.viewAll')} ${header}`}
           iconColor={themes.default.ids.color.option.white}
           hasAddPermission={hasAddPermission}
           hasAddMore={hasAddMore && !playwithEnabled ? true : false}
@@ -117,7 +105,6 @@ export default function DatatableWrapper({
           href={href}
           header={getNoDataHeader(label)}
           noDataDescription={getNoDataDescription(label)}
-          buttonName={!exclusionArray.includes(label) ? getNoDataButton(label) : undefined}
           onSearch={(searchQuery: string) => {
             setQuery(searchQuery);
           }}
