@@ -63,8 +63,16 @@ const cleanConfigurationForm = (form: MapForm<any>, test: SyntheticTest): Synthe
   }
 
   // Remove applicationId property if not present
-  if (isBlank(updatedForm.get('applicationId').value)) {
+  if (isBlank(updatedForm.get('applicationId')?.value)) {
     updatedForm = updatedForm.remove('applicationId');
+  }
+
+  // Remove applications property if not present
+  if (
+    (updatedForm.get('applications')?.value.length === 1 && hasEmptyStrings(updatedForm.get('applications')?.value)) ||
+    isBlank(updatedForm.get('applications')?.value)
+  ) {
+    updatedForm = updatedForm.remove('applications');
   }
 
   // Add default customProperties

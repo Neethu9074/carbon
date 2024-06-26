@@ -5,12 +5,14 @@
  */
 
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
-import { SyntheticTest } from '@instana/types/typeDefinitions';
 import { KeyValue, SearchInput, Checkbox } from '@instana/components';
+import { SyntheticTest } from '@instana/types/typeDefinitions';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 
@@ -56,19 +58,51 @@ const Identify = ({ test }: Props) => {
         </Col>
       </Row>
       <Row>
-        <LightCard
-          className={locals.lastConfigRow}
-          header={header}
-          title={t('in-synthetics:dashboard.configuration.associatedApplication')}
-          darkFrame
-          framed
-        >
-          {test.applicationLabel === '' || test.applicationLabel === undefined ? (
-            t('in-synthetics:dashboard.configuration.noApplicationAssociated')
-          ) : (
-            <Checkbox checked disabled label={test.applicationLabel} />
-          )}
-        </LightCard>
+        {syntheticMultiAppEnabled ? (
+          <LightCard
+            className={locals.lastConfigRow}
+            title={t('in-synthetics:dashboard.configuration.associations')}
+            darkFrame
+            framed
+          >
+            <LightCard
+              className={locals.lastConfigRow}
+              title={t('in-synthetics:dashboard.configuration.associatedApplications')}
+              darkFrame
+              framed
+            >
+              {test.applicationLabels?.length === 0 || test.applicationLabels === undefined
+                ? t('in-synthetics:dashboard.configuration.noApplicationsAssociated')
+                : test.applicationLabels.map((application, index) => {
+                    return (
+                      <Row
+                        key={index}
+                        className={classNames({
+                          [locals.configRow]: true,
+                          [locals.lastRow]: index === test.applicationLabels?.length! - 1
+                        })}
+                      >
+                        <Col xs={12}>{application}</Col>
+                      </Row>
+                    );
+                  })}
+            </LightCard>
+          </LightCard>
+        ) : (
+          <LightCard
+            className={locals.lastConfigRow}
+            header={header}
+            title={t('in-synthetics:dashboard.configuration.associatedApplication')}
+            darkFrame
+            framed
+          >
+            {test.applicationLabel === '' || test.applicationLabel === undefined ? (
+              t('in-synthetics:dashboard.configuration.noApplicationAssociated')
+            ) : (
+              <Checkbox checked disabled label={test.applicationLabel} />
+            )}
+          </LightCard>
+        )}
       </Row>
     </ExpandableLightCard>
   );

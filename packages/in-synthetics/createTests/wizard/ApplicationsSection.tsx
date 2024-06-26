@@ -99,7 +99,7 @@ export default function ApplicationsSection({ form, updateForm, applications }: 
                       if (selectedApplications.includes(app.id)) {
                         selectedApplications = selectedApplications.filter(application => application !== app.id);
                       } else {
-                        selectedApplications.push(app.id);
+                        selectedApplications = [...selectedApplications, app.id];
                       }
                       updateForm(
                         form.updateIn(['applications'], (field: Item) =>

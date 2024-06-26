@@ -278,6 +278,7 @@ const CreateSyntheticTestDialogPresenter = ({
                   isNotBlank(commonAttributes.label) ||
                   isNotBlank(commonAttributes.description) ||
                   isNotBlank(commonAttributes.applicationId) ||
+                  commonAttributes.applications.length !== 0 ||
                   isNotBlank(commonAttributes.script)
                 ) {
                   setRenderSectionsCounter((v: number) => v + 1);

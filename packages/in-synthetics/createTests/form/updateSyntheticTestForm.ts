@@ -20,6 +20,7 @@ import { regExpValidator, statusCodeValidator } from 'in-synthetics/createTests/
 import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { minValidator } from 'in-services/validators/number';
@@ -50,7 +51,7 @@ export function updateForm(savedState: Record<string, any>) {
     return config;
   };
 
-  return createMapForm({
+  let updateTestForm = createMapForm({
     validator: notUndefinedValidator
   })
     .put('configuration', getConfigurationToRender())
@@ -90,18 +91,28 @@ export function updateForm(savedState: Record<string, any>) {
       })
     )
     .put(
-      'applicationId',
-      createField({
-        value: savedState?.applicationId ?? null,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
-      })
-    )
-    .put(
       'customProperties',
       createField({
         value: savedState?.customProperties ?? {}
       })
     );
+
+  if (syntheticMultiAppEnabled) {
+    return updateTestForm.put(
+      'applications',
+      createField({
+        value: savedState?.applications ?? [],
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, arrayValidator)
+      })
+    );
+  }
+  return updateTestForm.put(
+    'applicationId',
+    createField({
+      value: savedState?.applicationId ?? null,
+      validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
+    })
+  );
 }
 
 function createActionConfigurationForm(configuration: Record<string, any>) {
