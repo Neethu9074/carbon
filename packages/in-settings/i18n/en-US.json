@@ -385,7 +385,6 @@
       "disabled": "Disabled",
       "on": "On",
       "off": "Off",
-      "integrationsConfigurationMessage": "Configure your {{instanceName}} instance.",
       "toastSuccessTitle": "Integration saved",
       "toastErrorTitle": "Integration save failed",
       "toastErrorMessage": "Integration {{instanceName}} could not be turned on. Please try again",

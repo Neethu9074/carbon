@@ -152,13 +152,6 @@ export default function Integrations() {
                       bodyClassName={locals.cardBody}
                       className={locals.card}
                     >
-                      <span className={locals.cardText}>
-                        <Typography variant="body-regular">
-                          {t('in-settings:tabs.integrations.integrationsConfigurationMessage', {
-                            instanceName: integration.label
-                          })}{' '}
-                        </Typography>
-                      </span>
                       <div className={locals.cardFooter}>
                         <SectionLine />
                         {loading ? (
