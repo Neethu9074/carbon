@@ -218,6 +218,9 @@ export const SHARE_AND_INVITE_SUBMIT = 'shareAndInvite.submit';
 export const SHARE_AND_INVITE_CLOSED = 'shareAndInvite.closed';
 export const SHARE_AND_INVITE_TRIGGERED = 'shareAndInvite.triggered';
 export const SHARE_AND_INVITE_INVITEE_JOINED = 'shareAndInvite.invitee.joined';
+export const SHARE_AND_INVITE_ADD_USER = 'shareAndInvite.add.user';
+export const SHARE_AND_INVITE_NEW_GROUP = 'shareAndInvite.new.group';
+export const SHARE_AND_INVITE_COPY_LINK = 'shareAndInvite.copy.link';
 
 // Owned by Team Alert Response
 // Tracking all team owned components

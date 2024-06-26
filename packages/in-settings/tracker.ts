@@ -57,13 +57,19 @@ import {
   SHARE_AND_INVITE_SUBMIT,
   SHARE_AND_INVITE_CLOSED,
   SHARE_AND_INVITE_TRIGGERED,
-  SHARE_AND_INVITE_INVITEE_JOINED
+  SHARE_AND_INVITE_INVITEE_JOINED,
+  SHARE_AND_INVITE_ADD_USER,
+  SHARE_AND_INVITE_NEW_GROUP,
+  SHARE_AND_INVITE_COPY_LINK
 } from 'in-services/tracking/tracking';
 
 export const submitInviteUserTracker = (e: Object) => track(SETTINGS_USER_INVITE_SUBMIT, e);
 export const shareAndInviteSubmitTracker = (e: Object) => track(SHARE_AND_INVITE_SUBMIT, e);
 export const closedInviteAndShareModal = () => track(SHARE_AND_INVITE_CLOSED);
 export const inviteAndShareButtonClicked = (e: Object) => track(SHARE_AND_INVITE_TRIGGERED, e);
+export const addUserInviteAndShareModal = () => track(SHARE_AND_INVITE_ADD_USER);
+export const newGroupInviteAndShareModal = () => track(SHARE_AND_INVITE_NEW_GROUP);
+export const copyLinkInviteAndShareModal = () => track(SHARE_AND_INVITE_COPY_LINK);
 export const invitedUserJoined = (e: Object) => track(SHARE_AND_INVITE_INVITEE_JOINED, e);
 
 export const submitRoleTracker = (e: Object) => track(SETTINGS_ROLE_SUBMIT, e);
