@@ -9063,7 +9063,9 @@
       "finishedRequests": "Finished Requests",
       "activeRequests": "Active Requests",
       "pendingRequests": "Pending Requests",
-      "hostActiveStatus":"Host Status"
+      "hostActiveStatus":"Host Status",
+      "oldConfigUsed": "SAP HANA Sensor now supports both local and remote monitoring. Please refer to the docs for the new configuration format.",
+      "troubleshootingDocs": "Troubleshooting docs"
     },
     "service": {
       "service": "Service",
