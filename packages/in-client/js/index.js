@@ -4,6 +4,7 @@
  */
 
 import initialiseSteps from 'in-init/initialiseSteps';
+import 'in-init/steps/commonStyles.ts';
 
 initialiseSteps([
   'instrumentWebSocketApi',

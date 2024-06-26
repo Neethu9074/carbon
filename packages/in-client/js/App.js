@@ -6,8 +6,6 @@
 import React from 'react';
 
 import { ThemeProvider, getThemeOverride } from '@instana/components';
-import '@instana/components/esm/index.css';
-import '@instana/legacy/esm/index.css';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
@@ -25,7 +23,6 @@ import MessageFlyout from 'in-components/MessageFlyout';
 import routes from 'in-client/js/routes/mainRoutes';
 import GlobalTheme from 'in-themes/GlobalTheme';
 
-import 'in-themes/foundation.less';
 import locals from './App.mless';
 
 export default function App() {
