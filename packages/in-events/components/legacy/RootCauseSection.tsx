@@ -91,13 +91,17 @@ export default function RootCauseSection({
   incidentHasRCAProperty,
   latestSnapshot
 }: RootCauseSectionProps) {
-  const rootCauseSnapshotMap = (
-    incident.getIn(['metadata', 'rootCause'], Map()) as Map<string, ProbableCauseType>
-  ).sort((a, b) => (b.get('probFailure') as number) - (a.get('probFailure') as number));
+  const rootCauseSnapshotPath = incident.hasIn(['metadata', 'rootCause', 'currentRootCause'])
+    ? ['metadata', 'rootCause', 'currentRootCause']
+    : ['metadata', 'rootCause'];
+
+  const rootCauseSnapshotMap = (incident.getIn(rootCauseSnapshotPath, Map()) as Map<string, ProbableCauseType>).sort(
+    (a, b) => (b.get('probFailure') as number) - (a.get('probFailure') as number)
+  );
 
   const rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray();
 
-  if (!incidentHasRCAProperty) return null;
+  if (!incidentHasRCAProperty || rootCauseSnapshotMap.size <= 0) return null;
   return (
     <ProbableRootCauseCard title={title} incident={incident}>
       <div>

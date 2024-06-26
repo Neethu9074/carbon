@@ -194,6 +194,11 @@ export default function RootCauseEntityDetails({
     'percentageFailedNotThroughRC'
   );
 
+  const entityTypeName =
+    rcaEntityType === 'infrastructure' || rcaEntityType === 'process'
+      ? translateFullyQualifiedPluginToShortPluginName(entityID.get('pluginId')) || ''
+      : rcaEntityType;
+
   return (
     <div className={locals.entityDescription}>
       <Stack gap="small">
@@ -234,18 +239,14 @@ export default function RootCauseEntityDetails({
                 //@ts-expect-error
                 linkToEntity: <Link href={linkToEntity} />,
                 entityIcon:
-                  rcaEntityType !== ('infrastructure' || 'process') ? (
+                  rcaEntityType !== 'infrastructure' && rcaEntityType !== 'process' ? (
                     <SvgIcon type={getIcon(rcaEntityType)} color={themes.default.cds.link.primary} size="xs" />
                   ) : (
-                    <PluginIcon
-                      plugin={translateFullyQualifiedPluginToShortPluginName(entityID.get('pluginId')) || ''}
-                      color={themes.default.cds.link.primary}
-                      size="xs"
-                    />
+                    <PluginIcon plugin={entityTypeName} color={themes.default.cds.link.primary} size="xs" />
                   )
               }}
               values={{
-                root_cause_entity_type: rcaEntityType,
+                root_cause_entity_type: entityTypeName,
                 root_cause_entity_name: Map.isMap(entityData) ? entityData?.get('label') : entityData?.label,
                 rca_error_percent: rcaErrorPercent.toFixed(2)
               }}
@@ -254,18 +255,14 @@ export default function RootCauseEntityDetails({
             <FailedText
               rcaErrorPercent={rcaErrorPercent}
               notThroughRCAErrorPercent={notThroughRCAErrorPercent}
-              rootCauseEntityType={rcaEntityType}
+              rootCauseEntityType={entityTypeName}
               rootCauseEntityName={Map.isMap(entityData) ? entityData?.get('label') : entityData?.label}
               linkToEntity={linkToEntity}
               entityIcon={
-                rcaEntityType !== ('infrastructure' || 'process') ? (
+                rcaEntityType !== 'infrastructure' && rcaEntityType !== 'process' ? (
                   <SvgIcon type={getIcon(rcaEntityType)} color={themes.default.cds.link.primary} size="xs" />
                 ) : (
-                  <PluginIcon
-                    plugin={translateFullyQualifiedPluginToShortPluginName(entityID.get('pluginId')) || ''}
-                    color={themes.default.cds.link.primary}
-                    size="xs"
-                  />
+                  <PluginIcon plugin={entityTypeName} color={themes.default.cds.link.primary} size="xs" />
                 )
               }
             />

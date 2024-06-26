@@ -190,7 +190,7 @@
     "evidenceTextNotFailedSame": "Calls from the same entities that do not go through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> have an error rate of: {{non_rca_error_rate}}%.",
     "reEvaluateRootCause": "Re-Evaluate Probable Root Cause",
     "mostLikelyCause": "Most likely cause",
-    "probableCause": "Probable cause",
+    "probableCause": "Potential cause",
     "highProbabilitySecondaryLabel": "High",
     "moderateProbabilitySecondaryLabel": "Moderate",
     "lowProbabilitySecondaryLevel": "Low"
