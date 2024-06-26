@@ -153,7 +153,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
   });
 
   //@ts-expect-error
-  const actions: AlertingFooterActions[] = getFooterActions(editMode, backOrCancel, cancelTearSheet);
+  const actions: AlertingFooterActions[] = getFooterActions(editMode, backOrCancel, cancelTearSheet, handleSubmit);
 
   const navItems = useAlertConfigValidation(
     stepConfigs,
@@ -173,7 +173,6 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       formId={FORM_ID}
       form={form}
       migrationMode={migrationMode}
-      handleSubmit={handleSubmit}
       thresholdResult={thresholdResult}
       headerWithMsg={headerWithMsg}
       additionalValidationCheck={step === 1 || step === 3 ? isTagFilterFormModelValid : true}

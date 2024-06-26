@@ -87,7 +87,8 @@ export const APStepRenderers = [
 export const getFooterActions = (
   editMode: boolean | undefined,
   backOrCancel: (oldStep: number) => void,
-  cancelTearSheet: () => string
+  cancelTearSheet: () => string,
+  handleSubmit: () => void
 ) => [
   {
     kind: 'ghost',
@@ -107,6 +108,6 @@ export const getFooterActions = (
     label: editMode
       ? t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave')
       : t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate'),
-    onClick: () => undefined
+    onClick: () => handleSubmit()
   }
 ];

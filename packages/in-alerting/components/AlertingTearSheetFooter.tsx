@@ -22,6 +22,7 @@ interface AlertingTearSheetFooterProps {
   form: MapForm<any>;
   setForm: (form: MapForm<any>) => void;
   migrationMode?: boolean;
+  additionalValidationCheck: boolean;
 }
 
 export default function AlertingTearSheetFooter({
@@ -32,7 +33,8 @@ export default function AlertingTearSheetFooter({
   step,
   stepConfigs,
   setForm,
-  migrationMode
+  migrationMode,
+  additionalValidationCheck
 }: AlertingTearSheetFooterProps) {
   const leftAction = actions.filter((action: AlertingFooterActions) => action.isLeftAlign);
   const rightAction = actions.filter((action: AlertingFooterActions) => !action.isLeftAlign);
@@ -73,7 +75,7 @@ export default function AlertingTearSheetFooter({
                   formId={formId}
                   isSaving={isSaving}
                   onClick={() => {
-                    if (!action.onClick) {
+                    if (!additionalValidationCheck) {
                       return;
                     }
                     // trigger validation if only at final step

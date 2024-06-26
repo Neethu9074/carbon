@@ -19,7 +19,7 @@ export type AlertingFooterActions = {
   kind: string;
   isLeftAlign: boolean;
   label: string;
-  onClick?: (arg?: React.MouseEvent<Element, MouseEvent> | number) => void;
+  onClick: (arg?: React.MouseEvent<Element, MouseEvent> | number) => void;
   href?: string;
 };
 
@@ -41,7 +41,6 @@ export interface AlertingTearSheetProps {
   isSaving: boolean;
   children: ReactNode;
   form: MapForm<any>;
-  handleSubmit: () => void;
   migrationMode?: boolean;
   thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null;
   additionalValidationCheck: boolean;
@@ -59,7 +58,6 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
     formId,
     isSaving,
     children,
-    handleSubmit,
     additionalValidationCheck,
     setForm,
     headerWithMsg,
@@ -68,48 +66,39 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
 
   return (
     <div data-testid="tearsheet">
-      <form
-        id={formId}
-        onSubmit={e => {
-          e.preventDefault();
-          if (additionalValidationCheck) {
-            handleSubmit();
-          }
-        }}
-      >
-        <section>
+      <section>
+        <div
+          className={classNames({
+            [locals.container]: true,
+            [locals.containerWithMsg]: headerWithMsg
+          })}
+        >
+          <div className={locals.sidebar}>
+            <AlertingTearSheetSteps stepConfigs={stepConfigs} step={step} setStep={setStep} form={form} />
+          </div>
           <div
             className={classNames({
-              [locals.container]: true,
-              [locals.containerWithMsg]: headerWithMsg
+              [locals.content]: true,
+              [locals.contentWithMsg]: headerWithMsg
             })}
           >
-            <div className={locals.sidebar}>
-              <AlertingTearSheetSteps stepConfigs={stepConfigs} step={step} setStep={setStep} form={form} />
-            </div>
-            <div
-              className={classNames({
-                [locals.content]: true,
-                [locals.contentWithMsg]: headerWithMsg
-              })}
-            >
-              {children}
-            </div>
-            <div className={locals.footer}>
-              <AlertingTearSheetFooter
-                form={form}
-                formId={formId}
-                actions={actions}
-                isSaving={isSaving}
-                step={step}
-                stepConfigs={stepConfigs}
-                setForm={setForm}
-                migrationMode={migrationMode}
-              />
-            </div>
+            {children}
           </div>
-        </section>
-      </form>
+          <div className={locals.footer}>
+            <AlertingTearSheetFooter
+              form={form}
+              formId={formId}
+              actions={actions}
+              isSaving={isSaving}
+              step={step}
+              stepConfigs={stepConfigs}
+              setForm={setForm}
+              migrationMode={migrationMode}
+              additionalValidationCheck={additionalValidationCheck}
+            />
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
