@@ -41,6 +41,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import { deepFreeze } from 'in-services/util/object';
+import Footer from 'in-components/Footer/Footer';
 import { Trans, t } from 'in-i18n';
 
 const sortOptions = deepFreeze([{ label: t('in-alerting:smartAlerts.sortOptions.name'), value: 'name' }]);
@@ -74,6 +75,7 @@ export default function Alerts({ sloId }: AlertsProps) {
           alertsTab={serviceLevelsAlertsSegment}
         />
       </Card>
+      <Footer />
     </>
   );
 }
