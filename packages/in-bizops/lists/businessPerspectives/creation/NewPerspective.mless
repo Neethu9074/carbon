@@ -8,7 +8,9 @@
   .contentParent {
     grid-column: 1 / span 3;
     grid-template-columns: 1fr 2fr 2fr;
-    grid-column-gap: 32px;
+    grid-column-gap: 10px;
+    height: fit-content;
+    padding: 0px 10px;
     display: grid;
   }
 
@@ -47,5 +49,11 @@
     color: var(--ids-color-option-neutral-600);
     margin: 0;
     font-size: var(--ids-font-size-option-heading-200);
+  }
+
+  .processesLiveListMessages {
+    color: var(--ids-color-option-neutral-600);
+    margin: 0;
+    font-size: var(--ids-font-size-option-body-small);
   }
 }

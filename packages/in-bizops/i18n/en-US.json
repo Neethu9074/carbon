@@ -26,10 +26,15 @@
       "descriptionLabel": "Description",
       "numberProcessesLabel": "Number of processes"
     },
+    "processesLiveList": {
+      "title": "Matched business processes",
+      "empty": "Add filters to build your business perspective",
+      "invalidQuery": "Your query is invalid",
+      "noMatchedProcesses": "No matched business processes found",
+      "loadingStateLabel": "Loading processes"
+    },
     "dialog": {
       "title": "New Business Perspective",
-      "processesLiveListTitle": "Matched business processes",
-      "processesLiveListLoadingStateLabel": "Loading processes",
       "stepOne": {
         "progressBarTitle": "Step 1: Filter business processes to build your business perspective",
         "headline": "Filter business processes to build your business perspective",
@@ -43,7 +48,13 @@
       }
     },
     "errorMessages": {
-      "tagFilterExpressionMustNotBeEmpty": "The Business Perspective must have at least one filter"
+      "tagFilterExpressionMustNotBeEmpty": "The Business Perspective must have at least one filter",
+      "createOperationFailed": "Create operation failed",
+      "unableToCreatePerspective": "We were unable to create your business perspective. Please try again."
+    },
+    "successMessages": {
+      "businessPerspectiveCreated": "Business perspective created",
+      "perspectiveWasSuccessfullyCreated": "\"{{perspectiveName}}\" was successfully created."
     }
   },
   "navigation": {
@@ -87,6 +98,7 @@
       }
     },
     "perspectives": {
+      "pageTitleDefault": "Business Perspective",
       "processes": {
         "tabLabel": "Business processes"
       },
@@ -103,10 +115,10 @@
         "removePerspectiveDisclaimer": "If you do not want to use this business perspective any longer, click \"Remove business perspective\".",
         "removePerspectiveCheckbox": "I understand that this action cannot be undone",
         "removePerspectiveButton": "Remove business perspective",
-        "businessPerspectiveDeleted": "Business perspective deleted",
-        "businessPerspectiveDeletedDetails": "\"{{perspectiveName}}\" was successfully deleted",
+        "businessPerspectiveDeleted": "Business perspective removed",
+        "businessPerspectiveDeletedDetails": "\"{{perspectiveName}}\" was successfully removed.",
         "businessPerspectiveUpdated": "Business perspective updated",
-        "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" was edited and your changes have been saved",
+        "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" was edited and your changes have been saved.",
         "error": "Error"
       }
     }
