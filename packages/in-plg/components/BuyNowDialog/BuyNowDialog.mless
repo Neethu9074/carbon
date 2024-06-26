@@ -26,5 +26,11 @@
   .dialogButton {
     min-width: calc(100% / 3);
     height: 4rem;
+    background-color: var(--ids-color-option-white);
+    position: sticky;
+    bottom: 0;
+  }
+  .tableContent {
+    width: 30%;
   }
 }
