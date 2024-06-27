@@ -206,18 +206,25 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
               titleHtmlFor={sloTarget}
               hasError={!field.valid && field.touched}
             >
-              <PercentageInput
-                id={sloTarget}
-                value={field.value}
-                onChange={value => {
-                  updateForm(
-                    form.updateIn([sloTarget], f => (f as Field<number | undefined>).setValue(value).setTouched(true))
-                  );
-                }}
-                hasError={!field.valid && field.touched}
-                decimalPrecision={SLO_TARGET_DECIMAL_PRECISION}
-              />
-              <span className={locals.sloUnit}>%</span>
+              <Stack direction="horizontal" gap="xxsmall">
+                <div className={locals.sloInput}>
+                  <PercentageInput
+                    className={locals.sloInput}
+                    id={sloTarget}
+                    value={field.value}
+                    onChange={value => {
+                      updateForm(
+                        form.updateIn([sloTarget], f =>
+                          (f as Field<number | undefined>).setValue(value).setTouched(true)
+                        )
+                      );
+                    }}
+                    hasError={!field.valid && field.touched}
+                    decimalPrecision={SLO_TARGET_DECIMAL_PRECISION}
+                  />
+                </div>
+                <div className={locals.sloUnit}>%</div>
+              </Stack>
               <OverridingFieldValidationMessage
                 field={form.get(sloTarget)!}
                 message={t('in-custom-dashboards:widgets.slo.formComponent.enterVal0to100')}
