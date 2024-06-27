@@ -407,7 +407,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
           defaultDisabled: !isKpi,
           headCellProps: { className: locals.metricLabel },
           getContent(item) {
-            const id = getMetricKey(metric, aggregation);
+            const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
             const metadata = mapData(metricMetadatas, data => data[metric]);
             const formatter = isFormatterSelected
               ? getFormatter(formatterId)
