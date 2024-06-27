@@ -191,6 +191,7 @@ import './tibcoBWAppInst';
 import './tibcoBWAppNode';
 import './tibcoBWProcess';
 import './tuxedoIpcQueue';
+import './awsTimestream';
 import './azureKeyVault';
 import './ibmApiConnect';
 import './tibcoEMSQueue';

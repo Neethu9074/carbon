@@ -32,6 +32,7 @@ const helpTexts = {
   'entity.aws.apigateway': t('in-stores:search.fieldsEntityAwsApiGateway'),
   'entity.aws.appsync': t('in-stores:search.fieldsEntityAwsAppSync'),
   'entity.aws.autoscaling': t('in-stores:search.fieldsEntityAwsAutoScaling'),
+  'entity.aws.timestream': t('in-stores:search.fieldsEntityAwsTimestream'),
   'entity.aws.iotcore': t('in-stores:search.fieldsEntityAwsIotCore'),
   'entity.azure': t('in-stores:search.fieldsEntityAzure'),
   'entity.aws.redshift': t('in-stores:search.fieldsEntityAwsRedshift'),
