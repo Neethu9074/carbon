@@ -108,6 +108,7 @@ export default function DatatableWrapper({
           onSearch={(searchQuery: string) => {
             setQuery(searchQuery);
           }}
+          buttonName={`${t('in-plg:welcomepage.addMore')} ${header}`}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}
         />
