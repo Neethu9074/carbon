@@ -110,7 +110,7 @@ module.exports = {
   eventFeedbackEnabled: true,
   incidentSummarizationEnabled: false,
   incidentSummarizationTimelineEnabled: true,
-  manuallyCloseEventEnabled: false,
+  manuallyCloseEventEnabled: true,
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
   autoFormatterTimeSeriesEnabled: true,

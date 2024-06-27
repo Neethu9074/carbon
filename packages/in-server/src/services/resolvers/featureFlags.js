@@ -463,7 +463,7 @@ module.exports = exports = [
   {
     uiClientKey: 'manuallyCloseEventEnabled',
     instanaCtlKey: 'feature.manually.close.event.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'playWithReleaseEnabled',
