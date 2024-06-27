@@ -82,8 +82,8 @@ export default function AlertConfigDialog({ onClose, editMode, alertConfig }: Al
 
               doSubmit({
                 payload: formToSloAlertConfiguration(form),
-                onSuccess: result => onSuccess(result, onClose),
-                onError
+                onSuccess: result => onSuccess(mode, result, onClose),
+                onError: result => onError(mode, result)
               });
             }}
             isSaving={submitStatus === 'pending'}
@@ -115,7 +115,11 @@ function getFormSubmitAction(mode: CreateSloAlertDialogMode, sloALertConfigId: s
   }
 }
 
-function onSuccess({ data }: Result<ServiceLevelsAlertConfigWithMetadata>, onClose: VoidFunction) {
+function onSuccess(
+  mode: CreateSloAlertDialogMode,
+  { data }: Result<ServiceLevelsAlertConfigWithMetadata>,
+  onClose: VoidFunction
+) {
   if (!data) throw Error('Unknown SLO smart-alert creation error');
 
   const { name } = data;
@@ -123,10 +127,8 @@ function onSuccess({ data }: Result<ServiceLevelsAlertConfigWithMetadata>, onClo
   addMessage({
     type: 'info',
     timeout: seconds.toMillis(4),
-    title: t('in-service-levels:createSloDialog.messages.creationSuccessfulTitle'),
-    content: t('in-service-levels:createSloDialog.messages.creationSuccessfulContent', {
-      name
-    })
+    title: t('in-alerting:smartAlerts.slo.messages.successTitle', { context: mode }),
+    content: t('in-alerting:smartAlerts.slo.messages.successContent', { context: mode, name })
   });
 
   trackAlertSaved(data, false);
@@ -134,12 +136,12 @@ function onSuccess({ data }: Result<ServiceLevelsAlertConfigWithMetadata>, onClo
   onClose();
 }
 
-const errorMessageHeader = {
-  type: 'danger',
-  title: t('in-service-levels:createSloDialog.messages.creationFailedTitle')
-} as const;
+function onError(mode: CreateSloAlertDialogMode, result?: Result<ServiceLevelsAlertConfigWithMetadata>) {
+  const errorMessageHeader = {
+    type: 'danger',
+    title: t('in-alerting:smartAlerts.slo.messages.failedTitle', { context: mode })
+  } as const;
 
-function onError(result?: Result<ServiceLevelsAlertConfigWithMetadata>) {
   if (result && result.errors.length !== 0) {
     return result.errors.forEach(error =>
       addMessage({

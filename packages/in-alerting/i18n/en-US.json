@@ -1542,6 +1542,17 @@
         "title": "",
         "title_ERROR_BUDGET": "Error budget consumed",
         "title_SERVICE_LEVELS_OBJECTIVE": "Status"
+      },
+      "messages": {
+        "successTitle": "",
+        "successTitle_NEW": "SLO Smart Alert was created successfully",
+        "successTitle_EDIT": "SLO Smart Alert has been successfully updated",
+        "successContent": "",
+        "successContent_NEW": "SLO Smart Alert \"{{name}}\" has been created.",
+        "successContent_EDIT": "SLO Smart Alert \"{{name}}\" has been updated.",
+        "failedTitle": "",
+        "failedTitle_NEW": "There was a problem creating this SLO Smart Alert",
+        "failedTitle_EDIT": "There was a problem updating this SLO Smart Alert"
       }
     }
   }
