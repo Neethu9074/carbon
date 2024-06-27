@@ -164,11 +164,11 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
               ))}
             <SyntheticIcon />
             {renderIcon ? (
-              <span aria-label={title} title={title}>
+              <span role="img" aria-label={title} title={title}>
                 {renderIcon()}
               </span>
             ) : icon ? (
-              <span aria-label={title}>
+              <span role="img" aria-label={title}>
                 <Tooltip content={title} delay={500}>
                   <SvgIcon className={locals.icon} type={icon} size="l" />
                 </Tooltip>
