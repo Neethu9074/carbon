@@ -266,7 +266,7 @@ export default {
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://ibm.biz/BdvTVF`
   },
-  jvm_permission_issue: {
+  solaris_jspawnhelper_executable_issue: {
     issueDescription: {
       Component: function jvmPermissionIssue({ path }) {
         return (
