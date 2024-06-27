@@ -7,10 +7,9 @@
 import React, { Fragment } from 'react';
 
 import { TimeConfig, TagFilter } from '@instana/types';
+import { Card, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { just } from '@instana/observables';
-import { Card } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 // @ts-expect-error Could not find a declaration file for module
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
