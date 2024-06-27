@@ -250,7 +250,7 @@ function nestedParamsHaveAtLeastOneValue(entity, key, nestedKeys) {
   let hasVal = false;
 
   nestedKeys.forEach(nestedKey => {
-    if (nestedKey && nestedKey.key && Map.isMap(nestedMap)) {
+    if (nestedKey && nestedKey.key && Map.isMap(nestedMap) && key in nestedMap) {
       const testText = nestedMap.get(nestedKey.key).join('');
       if (testText !== '') hasVal = true;
     }
