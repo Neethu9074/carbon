@@ -268,7 +268,7 @@ export default {
   },
   solaris_jspawnhelper_executable_issue: {
     issueDescription: {
-      Component: function jvmPermissionIssue({ path }) {
+      Component: function solarisJspawnhelperExecutableIssue({ path }) {
         return (
           <span>
             <Trans i18nKey="in-forge:plugins.instanaAgent.jspawnhelperPermissionIssueDescription" values={{ path }} />
