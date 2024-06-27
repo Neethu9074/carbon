@@ -22,7 +22,9 @@ jest.mock('in-settings/hooks/useTenantUnitsInfo', () => ({
 }));
 describe('in-settings/tabs/TeamSettings/components/TenantInfoBanner/TenantInfoBanner', () => {
   it('should show information banner if there are more than one units for the tenant', () => {
-    (useTenantUnitsInfo as jest.Mock).mockReturnValue(true);
+    (useTenantUnitsInfo as jest.Mock).mockReturnValue({
+      showTenantInfo: true
+    });
     const sectionInfo = 'in-settings:tabs.actionLogUnits';
 
     const { getByText } = render(
@@ -35,7 +37,9 @@ describe('in-settings/tabs/TeamSettings/components/TenantInfoBanner/TenantInfoBa
   });
 
   it('should hide information banner if there are one unit for the tenant', () => {
-    (useTenantUnitsInfo as jest.Mock).mockReturnValue(false);
+    (useTenantUnitsInfo as jest.Mock).mockReturnValue({
+      showTenantInfo: false
+    });
     const sectionInfo = 'in-settings:tabs.apiTokenUnits';
     const { queryByText } = render(
       <TenantInfoBanner>

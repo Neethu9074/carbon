@@ -108,7 +108,9 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
       createdBy: 'test'
     };
     mockGet({ amount: 0, first: token });
-    (useTenantUnitsInfo as jest.Mock).mockReturnValue(true);
+    (useTenantUnitsInfo as jest.Mock).mockReturnValue({
+      showTenantInfo: true
+    });
 
     const { queryByText, getByText } = render(<ApiTokens />);
     expect(getByText('in-settings:tabs.apiTokens (1)')).toBeInTheDocument();
@@ -126,7 +128,9 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
       createdBy: 'test'
     };
     mockGet({ amount: 0, first: token });
-    (useTenantUnitsInfo as jest.Mock).mockReturnValue(false);
+    (useTenantUnitsInfo as jest.Mock).mockReturnValue({
+      showTenantInfo: false
+    });
     const { queryByText, getByText } = render(<ApiTokens />);
     expect(getByText('in-settings:tabs.apiTokens (1)')).toBeInTheDocument();
     expect(queryByText('in-settings:tabs.apiTokenUnits')).not.toBeInTheDocument();
