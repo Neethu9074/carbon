@@ -10,6 +10,7 @@ import { List, Map } from 'immutable';
 import {
   IconButton,
   SecondLevelNavigation,
+  SecondLevelNavigationItem,
   Stack,
   TextArea,
   Typography,
@@ -19,7 +20,6 @@ import {
 import { generateUniqueShortId } from '@instana/utils';
 import { Button } from '@instana/legacy';
 
-import { SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation/SecondLevelNavigation';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 //@ts-expect-error
