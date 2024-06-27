@@ -41,14 +41,25 @@ export interface SloData {
   entityName: string;
   entityType: SloEntityUnion['type'];
 }
+const DEFAULT_ENTITY_TYPE: SloEntityType = 'application';
 
 export default function SloListSelection() {
   const { form, onChange } = useSloAlertFormContext();
   const sloIdsField = form.getIn(['sloIds']);
   const entityTypeField = form.getIn(['entityType']);
+  const entityType = entityTypeField.value ?? DEFAULT_ENTITY_TYPE;
+  const initiallySelectedIds = useRef(sloIdsField.value);
+  const initialEntityType = useRef(entityType);
+  if (initialEntityType.current !== entityType) {
+    initialEntityType.current = entityType;
+    initiallySelectedIds.current = [];
+  }
+  const initiallyAndCurrentlySelectedIds = Array.from(
+    new Set([...initiallySelectedIds.current, ...sloIdsField.value])
+  ) as string[];
   const { loadMore, query, selected, setQuery, sloList, page, totalHits, progress } = useSloList(
-    sloIdsField.value,
-    entityTypeField.value
+    initiallyAndCurrentlySelectedIds,
+    entityType
   );
 
   const canLoadMore = totalHits / SloListPageSize > (page ?? 0 + 1);
@@ -65,8 +76,15 @@ export default function SloListSelection() {
   };
 
   const selectedIds = selected.map(({ id }) => id);
+  const initiallySelectedSlos = selected.filter(({ id }) => initiallySelectedIds.current.includes(id));
+  const selectedSlosWithoutInitiallySelectedSlos = selected.filter(
+    ({ id }) => !initiallySelectedIds.current.includes(id)
+  );
   const filteredList = sloList.filter(({ id }) => !selectedIds.includes(id));
-  const sortedList = sortedSloDataByLabel([...selected, ...filteredList]);
+  const sortedList = [
+    ...initiallySelectedSlos,
+    ...sortedSloDataByLabel([...selectedSlosWithoutInitiallySelectedSlos, ...filteredList])
+  ];
 
   return (
     <>
@@ -115,7 +133,6 @@ interface UseBufferedSloDataResult extends Pick<PaginatedResult<any>, 'page' | '
 }
 
 function usePaginatedSloList({ page, query, entityType }: UseBufferedSloDataProps): UseBufferedSloDataResult {
-  const entityTypeRef = useRef<SloEntityType>();
   const [sloList, setSloList] = useState<SloData[]>([]);
   const [data, , , progress] = useSloConfigurations({
     page,
@@ -130,13 +147,7 @@ function usePaginatedSloList({ page, query, entityType }: UseBufferedSloDataProp
   }, [entityType]);
 
   useEffect(() => {
-    const prevEntityType = entityTypeRef.current;
-    const isInitialChange = prevEntityType === undefined;
-    const hasEntityTypeChanged = prevEntityType !== entityType;
-    entityTypeRef.current = entityType;
-
     if (progress.loading) return;
-    if (hasEntityTypeChanged && !isInitialChange) return;
 
     const sloData = data ? resultToSloData(data) : [];
     setSloList([...sloList, ...sloData]);
@@ -180,7 +191,7 @@ interface UseSloListResult extends Pick<PaginatedResult<any>, 'page' | 'pageSize
   progress: Progress;
 }
 
-function useSloList(selectedIds: string[], entityType: SloEntityType | undefined): UseSloListResult {
+function useSloList(selectedIds: string[], entityType: SloEntityType): UseSloListResult {
   const [query, setQuery] = useState('');
   const {
     value: queryInput,
@@ -210,6 +221,8 @@ function useSloList(selectedIds: string[], entityType: SloEntityType | undefined
 }
 
 function useSelectedIds(sloIds: string[]): FetchedState<SloData[]> {
+  const existingData = useRef<Result<PaginatedResult<ServiceLevelObjectiveConfiguration>>>();
+
   const data = useObservable(() => {
     if (sloIds.length === 0)
       return just(success({ items: [] }) as unknown as Result<PaginatedResult<ServiceLevelObjectiveConfiguration>>);
@@ -218,7 +231,10 @@ function useSelectedIds(sloIds: string[]): FetchedState<SloData[]> {
     });
   }, [generateStableHash(sloIds)]);
 
-  const [result, ...restState] = resultToFetchedStateResponse(data);
+  const isLoading = data?.progress.loading ?? true;
+  if (!isLoading) existingData.current = data ?? undefined;
+
+  const [result, ...restState] = resultToFetchedStateResponse(existingData.current);
 
   const sloData = sloConfigsToSloData(result?.items ?? []);
 
