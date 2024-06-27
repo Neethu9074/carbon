@@ -8,7 +8,11 @@ import { t } from 'in-i18n';
 
 export default function TopProcessUserNameList(props) {
   const serviceName = props['serviceName'].split('_');
-  const userName = `${serviceName[1].toLowerCase()}adm`;
+  const userName = `${
+    serviceName[1]?.toLowerCase() == null || serviceName[1]?.toLowerCase().trim() === ''
+      ? ''
+      : serviceName[1]?.toLowerCase()
+  }adm`;
 
   return [
     {

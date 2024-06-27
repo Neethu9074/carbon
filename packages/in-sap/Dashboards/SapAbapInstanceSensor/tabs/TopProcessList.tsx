@@ -223,7 +223,6 @@ export default function TopProcessList({ snapshotId, timeConfig, props }: TopPro
       initialSortColumn={0}
       initialSortDirection="asc"
       getRowDetails={getDetails}
-      // @ts-expect-error Module needs to be translated to TS
       rightHeader={rightHeader}
     />
   );
