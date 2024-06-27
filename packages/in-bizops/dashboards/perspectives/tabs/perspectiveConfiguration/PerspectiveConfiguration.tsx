@@ -46,6 +46,7 @@ export default function PerspectiveConfiguration() {
     let perspective: PerspectiveItem = {
       id: data.id,
       name: data.name || data.label,
+      description: data.description,
       tagFilterExpression: fromBackendModel(data.tagFilterExpression)
     };
 
