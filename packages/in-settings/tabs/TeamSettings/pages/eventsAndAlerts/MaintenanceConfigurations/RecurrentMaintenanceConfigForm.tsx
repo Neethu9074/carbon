@@ -332,7 +332,7 @@ function validateStep(
       // So this try catch is necessary because getIn will throw an error if the path doesn't exist
       // The intended behaviour is to skip checking the field if it does not exist as this might happen such as checking the scope
       try {
-        //@ts-expect-error-next-line
+        //@ts-expect-error
         const field = form.getIn(fieldPath);
         if (!field.touched) {
           validationResult = true;
@@ -347,7 +347,7 @@ function validateStep(
 
       checkValid.forEach(fieldPath => {
         try {
-          //@ts-expect-error-next-line
+          //@ts-expect-error
           const field = form.getIn(fieldPath);
           if (!field.valid) {
             validationResult = true;
@@ -359,12 +359,12 @@ function validateStep(
       });
     }
     // RRULE Validation
-    //@ts-expect-error-next-line
+    //@ts-expect-error
     const rrule = (form.getIn(['window', 'recurrence', 'rrule']) as Field<RRule | Nullish>).value;
     if (currentStep === 0 && rrule) {
-      //@ts-expect-error-next-line
+      //@ts-expect-error
       const interval = form.getIn(['window', 'recurrence', 'interval']) as Field<string | number>;
-      //@ts-expect-error-next-line
+      //@ts-expect-error
       const repeatType = (form.getIn(['window', 'recurrence', 'repeatType']) as Field<string>).value;
       const freq = rrule.options.freq;
 
@@ -400,10 +400,20 @@ function save(
     rruleWithoutInvalidRules.options.byhour = [];
     rruleWithoutInvalidRules.options.byminute = [];
     rruleWithoutInvalidRules.options.bysecond = [];
-    //@ts-expect-error-next-line
+    //@ts-expect-error
     rruleWithoutInvalidRules.options.wkst = null;
+    rruleWithoutInvalidRules.origOptions.byweekday = rrule.origOptions.byweekday; // Documented here https://github.com/jkbrzt/rrule?tab=readme-ov-file#instance-properties
   }
   let scheduling;
+
+  let rruleString = '';
+
+  if (rruleWithoutInvalidRules) {
+    rruleString = RRule.optionsToString({
+      ...rruleWithoutInvalidRules.options,
+      byweekday: rrule.options.freq === 1 ? rrule.origOptions.byweekday : rruleWithoutInvalidRules.options.byweekday
+    });
+  }
 
   if (rrule) {
     const recurrentStart = windowStart;
@@ -411,9 +421,7 @@ function save(
       start: recurrentStart,
       type: 'RECURRENT',
       duration,
-      rrule: rruleWithoutInvalidRules
-        ? RRule.optionsToString(rruleWithoutInvalidRules.options)?.split('RRULE:')[1]
-        : '',
+      rrule: rruleString ? rruleString.split('RRULE:')[1] : '',
       timezoneId: getSingle('formatTimestampsAsUtc') ? 'UTC' : new Intl.DateTimeFormat().resolvedOptions().timeZone //If format as UTC then we send an empty string
     } as RecurrentMaintenanceWindow;
   } else {

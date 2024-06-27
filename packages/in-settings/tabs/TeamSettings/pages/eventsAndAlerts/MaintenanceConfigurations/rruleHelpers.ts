@@ -24,7 +24,7 @@ export const setRRuleInterval = (rrule: RRule, interval: number): RRule => {
 };
 
 export const setRRuleDtstart = (rrule: RRule, dateTime: Date): RRule => {
-  return new RRule({
+  const resetRRule = new RRule({
     freq: rrule.options.freq,
     interval: rrule.options.interval,
     until: rrule.options.until,
@@ -35,10 +35,13 @@ export const setRRuleDtstart = (rrule: RRule, dateTime: Date): RRule => {
     bynmonthday: rrule.options.bynmonthday,
     dtstart: dateTime
   });
+
+  resetRRule.origOptions.byweekday = rrule.origOptions.byweekday;
+  return resetRRule;
 };
 
 export const setRRuleDateUntil = (rrule: RRule, endDateTime: Date): RRule => {
-  return new RRule({
+  const resetRRule = new RRule({
     freq: rrule.options.freq,
     interval: rrule.options.interval,
     dtstart: rrule.options.dtstart,
@@ -49,6 +52,9 @@ export const setRRuleDateUntil = (rrule: RRule, endDateTime: Date): RRule => {
     until: endDateTime,
     count: null
   });
+
+  resetRRule.origOptions.byweekday = rrule.origOptions.byweekday;
+  return resetRRule;
 };
 
 export const setRRuleCount = (rrule: RRule, count: number): RRule => {
@@ -85,8 +91,10 @@ export const setRRuleFirstToLastAndWeekday = (
 ): RRule => {
   if (weekdayWithNth && weekdayWithNth.n) {
     rrule.options.bynweekday = [[weekdayWithNth.weekday, weekdayWithNth.n]];
+    rrule.origOptions.byweekday = [weekdayWithNth];
   } else {
     rrule.options.bynweekday = [];
+    rrule.origOptions.byweekday = [];
   }
 
   if (shouldResetByMonthDay) rrule = resetRRuleByMonthDay(rrule);
@@ -112,6 +120,8 @@ export const setRRuleByMonth = (rrule: RRule, month: number) => {
 
 export const resetRRuleFirstLastWeekday = (rrule: RRule): RRule => {
   rrule.options.bynweekday = [];
+  rrule.options.byweekday = [];
+  rrule.origOptions.byweekday = [];
 
   return rrule;
 };
