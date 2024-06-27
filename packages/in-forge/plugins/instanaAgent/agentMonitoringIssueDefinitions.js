@@ -276,7 +276,7 @@ export default {
         );
       }
     },
-    explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://ibm.biz/troubleshooting-Solaris_JVM_file_permission_issue`
   }
 };
