@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import Paragraph from 'in-websites/NewWebsiteFlow/Paragraph';

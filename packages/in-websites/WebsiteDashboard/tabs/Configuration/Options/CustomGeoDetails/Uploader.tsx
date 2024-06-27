@@ -5,9 +5,7 @@
 
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
-import { Card, Stack } from '@instana/components';
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Card, Stack, Link, Button } from '@instana/components';
 
 import { put } from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/CustomGeoDetails/apiCall';
 import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';

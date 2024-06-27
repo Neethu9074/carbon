@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
 import { useLinkToAnalyze, websitePath, websitePathFullyQualified } from 'in-websites/navigation/paths';

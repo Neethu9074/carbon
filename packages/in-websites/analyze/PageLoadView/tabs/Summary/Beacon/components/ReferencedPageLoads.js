@@ -7,7 +7,7 @@ import { find } from 'lodash';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';

@@ -5,9 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { Card, Button } from '@instana/components';
 import { just } from '@instana/observables';
-import { Card } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import { detailsPath, errorsTabFullyQualified, useLinkToAnalyze, useLinkToWebsite } from 'in-websites/navigation/paths';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';

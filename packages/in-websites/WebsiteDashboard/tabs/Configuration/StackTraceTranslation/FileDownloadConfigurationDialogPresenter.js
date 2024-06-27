@@ -5,9 +5,8 @@
 
 import React, { Fragment } from 'react';
 
-import { SvgIcon, Link } from '@instana/components';
+import { SvgIcon, Link, Button } from '@instana/components';
 import { Select } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import { useForm } from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogForm';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';

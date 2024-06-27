@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Link, Card, Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Link, Card, Stack, Button } from '@instana/components';
 
 import Uploader from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/CustomGeoDetails/Uploader';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';

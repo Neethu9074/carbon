@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Link, Button } from '@instana/components';
 
 import {
   pageIdUrlParameter,
