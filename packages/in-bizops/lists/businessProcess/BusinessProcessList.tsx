@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { MetricConfiguration, OrderDirection, TagCatalog, TagFilterExpression, TimeConfig } from '@instana/types';
 import { Card, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/legacy';
 
 // @ts-expect-error Module needs to be translated to TS
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -63,6 +64,10 @@ export default function BizOpsList() {
   const [queryTagFilter, setQueryTagFilter] = useState([]);
   const tagCatalog = useObservable(getBusinessMonitoringTagCatalog(), []);
 
+  function onClear() {
+    setQueryTagFilter([]);
+  }
+
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
@@ -88,6 +93,13 @@ export default function BizOpsList() {
                   }}
                 />
               </div>
+              {tagCatalog?.data && isQueryValid(tagCatalog?.data, queryTagFilter) && (
+                <div className={locals.clearButton}>
+                  <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={onClear}>
+                    {t('in-components:queryBuilder.workspaceButtonClear')}
+                  </Button>
+                </div>
+              )}
             </div>
           </Card>
         )}
@@ -166,7 +178,7 @@ export function getBusinessProcessListData({
   }
 
   // add the tag filters from the query builder after validation
-  if (queryTagFilter.length > 0 && validateFormModel({ tagCatalog: tagCatalog, formModel: queryTagFilter }).isValid) {
+  if (isQueryValid(tagCatalog, queryTagFilter)) {
     let queryFilterExpression = toBackendQueryModel(queryTagFilter);
     tagFilterExpression.elements.push(queryFilterExpression);
   }
@@ -185,4 +197,11 @@ export function getBusinessProcessListData({
     timeConfig,
     tagFilterExpression
   });
+}
+
+function isQueryValid(tagCatalog: TagCatalog, queryTagFilter: FormModelElement[]) {
+  if (queryTagFilter.length > 0 && validateFormModel({ tagCatalog: tagCatalog, formModel: queryTagFilter }).isValid) {
+    return true;
+  }
+  return false;
 }
