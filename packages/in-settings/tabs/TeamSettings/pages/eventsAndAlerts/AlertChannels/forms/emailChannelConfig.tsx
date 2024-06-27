@@ -28,19 +28,19 @@ import locals from './ChannelForm.mless';
 
 // Potentially temporary until we pull in type from in-types
 interface CustomEmailSubjectPrefix {
-  issueSubject?: CloseOpen;
-  incidentSubject?: CloseOpen;
-  changeEventSubject?: {
+  issue?: CloseOpen;
+  incident?: CloseOpen;
+  changeEvent?: {
     changeValue?: string;
   };
-  monitoringIssueSubject?: CloseOpen;
+  monitoringIssue?: CloseOpen;
 }
 
 interface CustomEmailSubjectPrefixMapForm extends MapFormItems {
-  issueSubject: MapForm<CloseOpenMapForm>;
-  incidentSubject: MapForm<CloseOpenMapForm>;
-  changeEventSubject: MapForm<ChangeValueField>;
-  monitoringIssueSubject: MapForm<CloseOpenMapForm>;
+  issue: MapForm<CloseOpenMapForm>;
+  incident: MapForm<CloseOpenMapForm>;
+  changeEvent: MapForm<ChangeValueField>;
+  monitoringIssue: MapForm<CloseOpenMapForm>;
 }
 
 interface CloseOpen {
@@ -105,19 +105,19 @@ const parameters = [
     isNested: true,
     nestedParamKeys: [
       {
-        key: 'issueSubject',
+        key: 'issue',
         label: t('in-settings:tabs.issue')
       },
       {
-        key: 'incidentSubject',
+        key: 'incident',
         label: t('in-settings:tabs.incident')
       },
       {
-        key: 'changeEventSubject',
+        key: 'changeEvent',
         label: t('in-settings:tabs.change')
       },
       {
-        key: 'monitoringIssueSubject',
+        key: 'monitoringIssue',
         label: t('in-settings:tabs.monitoringIssues')
       }
     ]
@@ -182,51 +182,44 @@ export default {
         'customEmailSubjectPrefix',
         createMapForm({
           items: {
-            issueSubject: createMapForm({
+            issue: createMapForm({
               items: {
                 openValue: createField({
-                  value:
-                    alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'issueSubject', 'openValue'], '')
+                  value: alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'issue', 'openValue'], '')
                 }),
                 closeValue: createField({
-                  value:
-                    alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'issueSubject', 'closeValue'], '')
+                  value: alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'issue', 'closeValue'], '')
                 })
               }
             }),
-            incidentSubject: createMapForm({
+            incident: createMapForm({
               items: {
                 openValue: createField({
-                  value:
-                    alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'incidentSubject', 'openValue'], '')
+                  value: alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'incident', 'openValue'], '')
                 }),
                 closeValue: createField({
-                  value:
-                    alertChannel &&
-                    alertChannel.getIn(['customEmailSubjectPrefix', 'incidentSubject', 'closeValue'], '')
+                  value: alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'incident', 'closeValue'], '')
                 })
               }
             }),
-            changeEventSubject: createMapForm({
+            changeEvent: createMapForm({
               items: {
                 changeValue: createField({
                   value:
-                    alertChannel &&
-                    alertChannel.getIn(['customEmailSubjectPrefix', 'changeEventSubject', 'changeValue'], '')
+                    alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'changeEvent', 'changeValue'], '')
                 })
               }
             }),
-            monitoringIssueSubject: createMapForm({
+            monitoringIssue: createMapForm({
               items: {
                 openValue: createField({
                   value:
-                    alertChannel &&
-                    alertChannel.getIn(['customEmailSubjectPrefix', 'monitoringIssueSubject', 'openValue'], '')
+                    alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'monitoringIssue', 'openValue'], '')
                 }),
                 closeValue: createField({
                   value:
                     alertChannel &&
-                    alertChannel.getIn(['customEmailSubjectPrefix', 'monitoringIssueSubject', 'closeValue'], '')
+                    alertChannel.getIn(['customEmailSubjectPrefix', 'monitoringIssue', 'closeValue'], '')
                 })
               }
             })
@@ -392,28 +385,28 @@ function AdvancedFormSettings({ form, setForm }: AdvancedFormProps): JSX.Element
   // Used to provide information to combo box dropdown and for marrying the values of our dropdown to the form field
   const fieldMetadata: FieldMetadata[] = [
     {
-      value: 'incidentSubject',
+      value: 'incident',
       label: t('in-settings:tabs.incident'),
       isOpenClose: true,
-      field: customEmailSubjectPrefixField.get('incidentSubject')
+      field: customEmailSubjectPrefixField.get('incident')
     },
     {
-      value: 'issueSubject',
+      value: 'issue',
       label: t('in-settings:tabs.issue'),
       isOpenClose: true,
-      field: customEmailSubjectPrefixField.get('issueSubject')
+      field: customEmailSubjectPrefixField.get('issue')
     },
     {
-      value: 'changeEventSubject',
+      value: 'changeEvent',
       label: t('in-settings:tabs.change'),
       isOpenClose: false,
-      field: customEmailSubjectPrefixField.get('changeEventSubject')
+      field: customEmailSubjectPrefixField.get('changeEvent')
     },
     {
-      value: 'monitoringIssueSubject',
+      value: 'monitoringIssue',
       label: t('in-settings:tabs.monitoringIssues'),
       isOpenClose: true,
-      field: customEmailSubjectPrefixField.get('monitoringIssueSubject')
+      field: customEmailSubjectPrefixField.get('monitoringIssue')
     }
   ];
   return (
@@ -782,25 +775,25 @@ function removeEmail(
 function prepareCustomEmailPrefixOptionsForSending(
   customEmailSubjectPrefixField: MapForm<CustomEmailSubjectPrefixMapForm>
 ): CustomEmailSubjectPrefix {
-  const incidentSubject = customEmailSubjectPrefixField.get('incidentSubject');
-  const issueSubject = customEmailSubjectPrefixField.get('issueSubject');
-  const monitoringIssueSubject = customEmailSubjectPrefixField.get('monitoringIssueSubject');
-  const changeEventSubject = customEmailSubjectPrefixField.get('changeEventSubject');
+  const incidentSubject = customEmailSubjectPrefixField.get('incident');
+  const issueSubject = customEmailSubjectPrefixField.get('issue');
+  const monitoringIssueSubject = customEmailSubjectPrefixField.get('monitoringIssue');
+  const changeEventSubject = customEmailSubjectPrefixField.get('changeEvent');
 
   return {
-    incidentSubject: {
+    incident: {
       openValue: incidentSubject.get('openValue').value,
       closeValue: incidentSubject.get('closeValue').value
     },
-    issueSubject: {
+    issue: {
       openValue: issueSubject.get('openValue').value,
       closeValue: issueSubject.get('closeValue').value
     },
-    monitoringIssueSubject: {
+    monitoringIssue: {
       openValue: monitoringIssueSubject.get('openValue').value,
       closeValue: monitoringIssueSubject.get('closeValue').value
     },
-    changeEventSubject: {
+    changeEvent: {
       changeValue: changeEventSubject.get('changeValue').value
     }
   };
