@@ -25,6 +25,8 @@ import Header from 'in-components/workspace/Header';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
+import locals from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm.mless';
+
 interface MetricsFormProps<S extends MonitoringSource, E extends MetricEntityType<S>> {
   entityType: S;
   metricEntityType: E;
@@ -103,48 +105,50 @@ export function MetricsForm<S extends MonitoringSource, E extends MetricEntityTy
 
         <Sections>
           <Section title={metricOption?.unitLabel} titleHtmlFor="new-sli-metric-threshold">
-            {percentThreshold && (
-              <>
-                <PercentageInput
-                  id="new-sli-metric-threshold"
-                  value={thresholdField?.value}
-                  onChange={value =>
-                    onChange(
-                      form.updateIn(['threshold'], f => (f as typeof thresholdField).setValue(value).setTouched(true))
-                    )
-                  }
-                  hasError={!thresholdField?.valid && thresholdField?.touched}
-                />
-                <TouchedMessages field={thresholdField} />
-              </>
-            )}
-
-            {!percentThreshold && (
-              <>
-                <Input
-                  id="new-sli-metric-threshold"
-                  type="number"
-                  min="0"
-                  value={thresholdField?.value}
-                  onChange={e => {
-                    let newValue: number | undefined = undefined;
-                    if (!Number.isNaN(e.target.value)) {
-                      newValue = e.target.valueAsNumber;
-                    }
-                    onChange(
-                      form.updateIn(['threshold'], f =>
-                        (f as typeof thresholdField).setValue(newValue).setTouched(true)
+            <div className={locals.sliInput}>
+              {percentThreshold && (
+                <>
+                  <PercentageInput
+                    id="new-sli-metric-threshold"
+                    value={thresholdField?.value}
+                    onChange={value =>
+                      onChange(
+                        form.updateIn(['threshold'], f => (f as typeof thresholdField).setValue(value).setTouched(true))
                       )
-                    );
-                  }}
-                  hasError={!thresholdField?.valid && thresholdField?.touched}
-                />
-                <OverridingFieldValidationMessage
-                  field={thresholdField}
-                  message={t('in-custom-dashboards:widgets.slo.metricsForm.valThresholdNotInvalidEmpty')}
-                />
-              </>
-            )}
+                    }
+                    hasError={!thresholdField?.valid && thresholdField?.touched}
+                  />
+                  <TouchedMessages field={thresholdField} />
+                </>
+              )}
+
+              {!percentThreshold && (
+                <>
+                  <Input
+                    id="new-sli-metric-threshold"
+                    type="number"
+                    min="0"
+                    value={thresholdField?.value}
+                    onChange={e => {
+                      let newValue: number | undefined = undefined;
+                      if (!Number.isNaN(e.target.value)) {
+                        newValue = e.target.valueAsNumber;
+                      }
+                      onChange(
+                        form.updateIn(['threshold'], f =>
+                          (f as typeof thresholdField).setValue(newValue).setTouched(true)
+                        )
+                      );
+                    }}
+                    hasError={!thresholdField?.valid && thresholdField?.touched}
+                  />
+                  <OverridingFieldValidationMessage
+                    field={thresholdField}
+                    message={t('in-custom-dashboards:widgets.slo.metricsForm.valThresholdNotInvalidEmpty')}
+                  />
+                </>
+              )}
+            </div>
           </Section>
         </Sections>
       </Stack>

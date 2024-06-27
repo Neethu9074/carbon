@@ -13,6 +13,11 @@
   }
 
   .sloUnit {
-    margin-left: 0.5rem;
+    align-self: center;
+    width: 5rem;
+  }
+
+  .sloInput {
+    min-width: 7rem;
   }
 }
