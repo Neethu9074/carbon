@@ -17,7 +17,7 @@ import {
 import useRetentionPeriodForm from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/useRetentionPeriodForm';
 // eslint-disable-next-line no-restricted-imports
 import { ModalNotification, NotificationState } from './ModalNotification';
-import { getEntityIdView, teamSettingsActionLog } from 'in-settings/navigation/paths';
+import { getEntityIdView, teamSettingsActionLogRetention } from 'in-settings/navigation/paths';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
@@ -73,7 +73,7 @@ export default function RententionPeriod() {
     return !useMock ? initialValue ?? 'No data from server' : mockData().retention;
   });
 
-  const logActionHref = useObservable(getEntityIdView(teamSettingsActionLog, ''), []);
+  const logActionHref = useObservable(getEntityIdView(teamSettingsActionLogRetention, ''), []);
 
   return (
     <>

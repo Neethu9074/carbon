@@ -9,6 +9,7 @@ import { timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { pendingResult } from 'in-services/fixedObjects';
 
 export default function ServerTable(props) {
@@ -22,8 +23,12 @@ export default function ServerTable(props) {
     defaultQuery
   } = props;
 
+  const location = useLocation();
+  const initialQuery =
+    location.pathname?.split('/actionlog/')[1] === 'retention' ? 'Log retention change' : defaultQuery;
+
   const [{ page, orderBy, orderDirection, query, pageSize }, onChange] = useState(
-    getInitialState(columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, defaultQuery)
+    getInitialState(columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, initialQuery)
   );
 
   useEffect(() => {
@@ -33,8 +38,8 @@ export default function ServerTable(props) {
   }, paginationResettingProps);
 
   useEffect(() => {
-    onChange(getInitialState(columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, defaultQuery));
-  }, [columnDefinitions, defaultOrderBy, get, defaultOrderDirection, defaultPageSize, defaultQuery]);
+    onChange(getInitialState(columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, initialQuery));
+  }, [columnDefinitions, defaultOrderBy, get, defaultOrderDirection, defaultPageSize, initialQuery]);
 
   const result = useObservable(
     query && query !== ''

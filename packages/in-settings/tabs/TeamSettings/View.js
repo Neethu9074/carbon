@@ -43,7 +43,8 @@ import {
   teamSettingsLogManagementRetentionPeriod,
   teamSettingsLogManagementLogVolume,
   teamSettingsLogManagementSplunk,
-  teamSettingsLogManagementIntegrations
+  teamSettingsLogManagementIntegrations,
+  teamSettingsActionLogRetention
 } from 'in-settings/navigation/paths';
 import {
   disableInvitesWithIdpEnabled,
@@ -318,8 +319,7 @@ function navigationTreeForRole(role, isAnyIDPActive) {
           component: SplunkPage
         }
       ]
-    },
-
+    }
   ];
 
   const deleteLogsPage = {
@@ -375,7 +375,13 @@ function navigationTreeForRole(role, isAnyIDPActive) {
         {
           path: teamSettingsActionLog,
           label: t('in-settings:tabs.actionLog'),
-          component: ActionLogPage
+          component: ActionLogPage,
+          subPages: [
+            {
+              path: teamSettingsActionLogRetention,
+              component: ActionLogPage
+            }
+          ]
         },
         {
           path: teamSettingsAccessLog,
