@@ -15,12 +15,14 @@ interface FilterConfiguratorProps {
   tagFilterExpression: FormModelElement[];
   setTagFilterExpression: React.Dispatch<React.SetStateAction<FormModelElement[]>>;
   tagCatalog?: TagCatalog;
+  ownerType: string;
 }
 
 export default function FilterConfigurator({
   tagFilterExpression,
   setTagFilterExpression,
-  tagCatalog
+  tagCatalog,
+  ownerType
 }: FilterConfiguratorProps) {
   return (
     <QueryBuilderSection
@@ -30,6 +32,7 @@ export default function FilterConfigurator({
       onChange={setTagFilterExpression}
       withoutIcon
       withOptionalMarker
+      additionalGetTagCatalogProps={{ ownerType }}
     />
   );
 }

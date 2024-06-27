@@ -17,7 +17,8 @@ import {
   aggregation as aggregationFieldName,
   grouping,
   countGroup,
-  showGroupsWithMissingTags
+  showGroupsWithMissingTags,
+  entityType as entityTypeFieldName
 } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 // @ts-expect-error
 import { MetricsForAxis as MetricsForColumns } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
@@ -70,6 +71,7 @@ export default function TableConfigurator({
   const datasetsColumnsField = form.get(datasets);
   const metricsSize = datasetsColumnsField.get(metricsPath).size;
   const groups = form.get(grouping).value;
+  const ownerType = form.get(entityTypeFieldName).value;
 
   const isMetricsEnabled = metricsSize > 0;
   const metrics = getMetrics(datasetsColumnsField.get(metricsPath));
@@ -94,6 +96,7 @@ export default function TableConfigurator({
                 tagFilterExpression={tagFilterExpression}
                 setTagFilterExpression={setTagFilterExpression}
                 tagCatalog={tagCatalog}
+                ownerType={ownerType}
               />
             </Sections>
 
@@ -103,6 +106,7 @@ export default function TableConfigurator({
                 updateForm={updateForm}
                 tagFilterExpression={tagFilterExpressionFieldValue ?? tagFilterExpression}
                 tagCatalog={tagCatalog}
+                ownerType={ownerType}
               />
             </Sections>
 
@@ -126,7 +130,9 @@ export default function TableConfigurator({
                       checked={showGroupsWithMissingTagsField}
                       onChange={({ target }) =>
                         updateForm(
-                          form.updateIn([showGroupsWithMissingTags], field => field.setValue(target.checked).setTouched(true))
+                          form.updateIn([showGroupsWithMissingTags], field =>
+                            field.setValue(target.checked).setTouched(true)
+                          )
                         )
                       }
                     />
