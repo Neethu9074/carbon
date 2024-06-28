@@ -39,7 +39,7 @@ export function NameColumnCell<AlertConfig extends AlertConfigType>({
       />
       <div className={classNames(locals.column)}>
         <div className={classNames(locals.name)}>
-          <Tooltip themeStyle="light" content={content} align="topMiddle" delay={500}>
+          <Tooltip themeStyle="light" content={content} delay={500} overflowEllipsis>
             {content}
           </Tooltip>
           {getSubtitle && <div className={locals.nameSubtext}>{getSubtitle(config)}</div>}

@@ -200,7 +200,7 @@ const columnDefinitions = [
     label: t('in-settings:tabs.name'),
     getContent: function Content(entity) {
       return (
-        <Tooltip content={entity.name} align="topLeft" delay={500}>
+        <Tooltip content={entity.name} align="topLeft" delay={500} overwriteBlock caret={false}>
           <Link href={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
             <WithIcon icon="lib_actions_build_outline" iconColor={themes.default.ids.color.option.blue['500']} ellipsis>
               {entity.name}

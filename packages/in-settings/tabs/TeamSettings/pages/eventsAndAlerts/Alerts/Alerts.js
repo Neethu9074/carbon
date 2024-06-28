@@ -70,7 +70,7 @@ const columnDefinitions = [
     width: 40,
     getContent(entity) {
       return (
-        <Tooltip content={entity.alertName} align="topLeft" delay={500}>
+        <Tooltip content={entity.alertName} align="topLeft" delay={500} overwriteBlock caret={false}>
           <WithSubscript subscript={getSubscript(entity)}>
             <Link href={getEntityIdView(teamSettingsAlertingAlerts, entity.id)} ellipsis>
               {entity.alertName}
@@ -94,7 +94,7 @@ const columnDefinitions = [
     getContent(entity) {
       const allChannels = concatChannelNames(entity);
       return (
-        <Tooltip content={allChannels} delay={500}>
+        <Tooltip content={allChannels} delay={500} overflowEllipsis>
           <span>{allChannels}</span>
         </Tooltip>
       );

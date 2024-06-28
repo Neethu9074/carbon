@@ -28,7 +28,7 @@ export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
     const description = action.description ?? action.name;
     const name = isExternal(action.type) ? description : action.name;
     return (
-      <Tooltip content={name} align="topLeft" delay={500}>
+      <Tooltip content={name} align="auto" delay={500} overwriteBlock caret={false}>
         {isExternal(action.type) ? (
           <Link ellipsis href={action.name} external onClick={() => handleTurboTracking(name)}>
             <span>{name}</span>

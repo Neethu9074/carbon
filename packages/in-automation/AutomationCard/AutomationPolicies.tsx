@@ -249,7 +249,7 @@ const deleteColumn: ColumnDefinition<Policy> = {
   width: 5,
   getContent(item) {
     return (
-      <Tooltip content={t('in-automation:deletePolicyWithName', { actionName: item.name })}>
+      <Tooltip content={t('in-automation:deletePolicyWithName', { actionName: item.name })} overwriteBlock>
         <IconButton
           color={themes.default.ids.color.option.blue['400']}
           type="lib_actions_delete"

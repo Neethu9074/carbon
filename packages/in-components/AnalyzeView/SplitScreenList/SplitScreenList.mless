@@ -55,6 +55,7 @@
     justify-content: center;
     padding: 1.63rem 0;
 
+    z-index: 125;
     position: fixed;
     width: 2.95rem;
   }

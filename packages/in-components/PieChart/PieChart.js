@@ -120,6 +120,7 @@ const PieChartWrapper = forwardRef((props, ref) => {
                 key={i}
                 content={<TooltipContent slice={slice} formatter={formatter} />}
                 align="mousePosition"
+                legacy
               >
                 <path d={pathData} fill={slice.color} />
               </Tooltip>

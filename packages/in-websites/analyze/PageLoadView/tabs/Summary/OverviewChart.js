@@ -65,6 +65,8 @@ export default function OverviewChart({ beacons, earliestTimestamp, endTimestamp
               themeStyle="light"
               content={<OverviewChartTooltip earliestTimestamp={earliestTimestamp} beacon={beacon} />}
               key={beacon.beaconId}
+              overwriteBlock
+              forceTheme
             >
               <div
                 className={locals.beacon}

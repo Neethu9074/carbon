@@ -141,7 +141,7 @@ export default function KpiCard({
         })}
         ref={ref}
       >
-        <Tooltip content={title} align="bottomLeft">
+        <Tooltip content={title} align="auto">
           <span className={locals.titleText}>{title}</span>
         </Tooltip>
         <div className={locals.flexTooltip}>
@@ -156,7 +156,7 @@ export default function KpiCard({
               [locals.showLongVariantOnHover]: width != null && width > 300
             })}
           >
-            <Tooltip content={iconAction.text}>
+            <Tooltip content={iconAction.text} overwriteBlock>
               <Link href={iconAction.href$ ?? iconAction.href} onClick={iconAction.onClick}>
                 <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
               </Link>

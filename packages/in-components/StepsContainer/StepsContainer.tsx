@@ -44,7 +44,7 @@ export default function StepsContainer({ navItems, noHeader, noDivider, messages
                           <Stack gap="xxsmall" direction="horizontal">
                             {title}
                             {titleToolTipText && (
-                              <Tooltip align="bottomMiddle" content={titleToolTipText}>
+                              <Tooltip align="auto" content={titleToolTipText}>
                                 <SvgIcon
                                   className={locals.helpicon}
                                   type="lib_help_error_info_outline"

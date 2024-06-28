@@ -199,7 +199,7 @@ function CollapsedList({ setExpanded }) {
   return (
     <div className={locals.collapsed}>
       <div className={locals.collapsedToggleWrapper}>
-        <Tooltip content={t('in-components:analyzeView.splitScreenListTooltipOpenSidebar')}>
+        <Tooltip content={t('in-components:analyzeView.splitScreenListTooltipOpenSidebar')} align={'rightMiddle'}>
           <SvgIcon
             type="lib_sidebar_to_right"
             aria-label={t('in-components:analyzeView.splitScreenListTooltipOpenSidebar')}

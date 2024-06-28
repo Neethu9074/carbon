@@ -124,16 +124,15 @@ function Content({
       <Legend data={result.data} valueFormatter={valueFormatter} label={label} />
 
       <div className={controlWrapperClassName}>
-        <Tooltip content={t('in-components:geoHeatMap.tooltipResetView')} align="leftMiddle">
-          <Button icon="lib_home" className={locals.home} onClick={() => onHome()} />
-        </Tooltip>
-
         <ButtonGroup vertical className={locals.zoom}>
           <Tooltip content={t('in-components:geoHeatMap.tooltipZoomIn')} align="leftMiddle">
             <Button appendBottom icon="lib_actions_zoom_in" onClick={() => onZoomIn()} />
           </Tooltip>
           <Tooltip content={t('in-components:geoHeatMap.tooltipZoomOut')} align="leftMiddle">
             <Button appendTop icon="lib_actions_zoom_out" onClick={() => onZoomOut()} />
+          </Tooltip>
+          <Tooltip content={t('in-components:geoHeatMap.tooltipResetView')} align="leftMiddle">
+            <Button icon="lib_home" onClick={() => onHome()} />
           </Tooltip>
         </ButtonGroup>
       </div>

@@ -199,6 +199,7 @@ function MarkersLanePresenter<EventType extends MarkerLaneEvent>({
             return (
               <Tooltip
                 align={getTooltipAlignmentForChartContentPosition(chartContentPosition)}
+                legacy
                 key={`${eventData.id ?? eventData.timestamp}`}
                 content={
                   TooltipContent ? (

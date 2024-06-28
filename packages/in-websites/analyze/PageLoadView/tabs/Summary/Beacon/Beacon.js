@@ -51,6 +51,7 @@ export default function Beacon(props) {
                 : t('in-websites:analyze.analyzeView.pageLoadView.beaconTooltipShowMore')
             }
             align="topMiddle"
+            overwriteBlock
           >
             <div
               className={locals.header}
