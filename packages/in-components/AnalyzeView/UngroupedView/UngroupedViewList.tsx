@@ -129,7 +129,7 @@ function List(props: UngroupedViewListPresenterProps) {
   return (
     <>
       {hasItems && (
-        <Ul space="disabled">
+        <Ul className={locals.displayBlock} space="disabled">
           {MappedListItems}
           {showLoadMoreButton && (
             <LiLoadMore
