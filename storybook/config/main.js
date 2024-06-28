@@ -15,6 +15,7 @@ module.exports = {
     },
     '../../packages/**/*.(story|stories).@(js|jsx|ts|tsx|mdx)'
   ],
+  staticDirs: ['../public'],
   core: {
     disableTelemetry: true,
     builder: 'webpack5',
@@ -24,9 +25,9 @@ module.exports = {
     }
   },
   refs: {
-    'design-system': {
-      title: 'Instana Design System',
-      url: 'https://pages.github.ibm.com/instana/ui-foundation/'
+    'design-system2': {
+      title: 'Instana Design System test',
+      url: 'http://localhost:6006/foundation-ui-build/'
     }
   },
   framework: {
