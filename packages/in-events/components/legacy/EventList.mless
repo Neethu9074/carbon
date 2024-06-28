@@ -125,4 +125,7 @@
     background: var(--ids-color-option-neutral-300);
     margin-bottom: 0.75rem;
   }
+  .analyzeButton {
+    width: fit-content;
+  }
 }

@@ -25,6 +25,7 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
+  RCAAssociatedEventsClick,
   RCAFeedbackClosedManuallyTracker,
   RCAFeedbackNextTracker,
   RCAFeedbackSkipTracker,
@@ -233,7 +234,10 @@ function AssociatedEvents({ associatedEvents, latestSnapshot }: AssociatedEvents
           })}
         </Typography>
       }
-      onHeaderBackgroundClicked={() => setExpanded(!expanded)}
+      onHeaderBackgroundClicked={() => {
+        RCAAssociatedEventsClick({ expanded: !expanded });
+        setExpanded(!expanded);
+      }}
       headerClassName={locals.associatedEventsCardHeader}
       rightHeaderContent={
         <IconButton color="black" type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="compact" />
