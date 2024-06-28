@@ -44,7 +44,9 @@ export default function PreviewHeader({
               min={1}
             />
           </div>
-          <div className={locals.thresholdUnit}>ms</div>
+          <div className={locals.thresholdUnit}>
+            {t('in-custom-dashboards:widgets.apdex.createWebsiteApdexForm.ms')}
+          </div>
           {additionalContent}
         </Stack>
       </Section>

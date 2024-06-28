@@ -716,7 +716,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Threshold Configuration",
-        "thresholdLabel": "Threshold"
+        "thresholdLabel": "Threshold",
+        "ms": "ms"
       },
       "entityInfo": {
         "tooltip": "Unknown Apdex",
