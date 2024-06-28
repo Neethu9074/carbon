@@ -14,6 +14,7 @@ import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import { arrayValidator } from 'in-services/validators/jsonType';
 
 export const aggregation = 'aggregation';
+export const crossSeriesAggregation = 'crossSeriesAggregation';
 export const entityType = 'entityType';
 export const grouping = 'grouping';
 export const metric = 'metric';
@@ -24,7 +25,7 @@ export const source = 'source';
 export const tableSize = 'tableSize';
 export const tagFilterExpression = 'tagFilterExpression';
 export const countGroup = 'countGroup';
-export const showGroupsWithMissingTags = 'showGroupsWithMissingTags'
+export const showGroupsWithMissingTags = 'showGroupsWithMissingTags';
 
 export function createGroupField(savedState: Partial<TableFormConfiguration>) {
   return createField({
@@ -65,5 +66,5 @@ export function createShowGroupsWithMissingTagsField(savedState: Partial<TableFo
   return createField({
     value: Boolean(savedState.showGroupsWithMissingTags ?? false),
     validator: composeAndShortCircuitOnError(notUndefinedValidator)
-  })
+  });
 }
