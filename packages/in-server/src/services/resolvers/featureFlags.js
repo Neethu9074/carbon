@@ -147,7 +147,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'segmentAnalyticsEnabled',
-    instanaCtlKey: 'segment.analytics.info.enabled',
+    instanaCtlKey: 'feature.segment.analytics.enabled',
     defaultValue: false
   },
   {
