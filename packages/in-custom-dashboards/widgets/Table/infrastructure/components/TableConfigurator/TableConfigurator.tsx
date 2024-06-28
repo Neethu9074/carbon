@@ -18,7 +18,8 @@ import {
   grouping,
   countGroup,
   showGroupsWithMissingTags,
-  entityType as entityTypeFieldName
+  entityType as entityTypeFieldName,
+  crossSeriesAggregation as crossSeriesAggregationFieldName
 } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 // @ts-expect-error
 import { MetricsForAxis as MetricsForColumns } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
@@ -182,9 +183,10 @@ function getMetrics(metrics: Metric[]) {
     const metric = field.get(metricFieldName).value;
     const label = field.get(metricLabel).value;
     const aggregation = field.get(aggregationFieldName).value;
+    const crossSeriesAggregation = field.get(crossSeriesAggregationFieldName)?.value;
 
     if (metric !== '') {
-      output.push({ value: `${metric}.${aggregation}`, label: label });
+      output.push({ value: `${metric}.${aggregation}.${crossSeriesAggregation}`, label: label });
     }
 
     return output;
