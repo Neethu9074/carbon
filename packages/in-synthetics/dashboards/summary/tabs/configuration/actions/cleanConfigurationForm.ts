@@ -70,7 +70,7 @@ const cleanConfigurationForm = (form: MapForm<any>, test: SyntheticTest): Synthe
   // Remove applications property if not present
   if (
     (updatedForm.get('applications')?.value.length === 1 && hasEmptyStrings(updatedForm.get('applications')?.value)) ||
-    isBlank(updatedForm.get('applications')?.value)
+    updatedForm.get('applications')?.value.length === 0
   ) {
     updatedForm = updatedForm.remove('applications');
   }
