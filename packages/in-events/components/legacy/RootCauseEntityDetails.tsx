@@ -17,6 +17,7 @@ import { t, Trans } from '@instana/i18n-react';
 import { SnapshotData, getPhysicalHierarchy, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { APPLICATION, ENDPOINT, SERVICE, entityTypes, operators } from 'in-analyze/applicationFilter';
+import { RCAClickThroughToAnalyze, RCAClickThroughToEntity } from 'in-events/tracker';
 import { Location, MatrixParameters, Parameters } from 'in-stores/navigation/types';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
@@ -268,7 +269,14 @@ export default function RootCauseEntityDetails({
             />
           </Stack>
         )}
-        <Button kind="primary" icon="lib_application_call" href={urlForEntity} size="compact">
+        <Button
+          kind="primary"
+          icon="lib_application_call"
+          href={urlForEntity}
+          size="compact"
+          onClick={() => RCAClickThroughToAnalyze({ urlForEntity: urlForEntity })}
+          className={locals.analyzeButton}
+        >
           {t('in-applications:buttonAnalyzeCalls')}
         </Button>
       </Stack>
@@ -389,7 +397,7 @@ function EntityPath({
             entity_type: entityType ? entityType.charAt(0).toUpperCase() + entityType.slice(1).toLowerCase() : 'Entity'
           })}
         </Typography>
-        <Link href={linkToEntity}>
+        <Link href={linkToEntity} onClick={() => RCAClickThroughToEntity({ mainEntity: true, entityType: entityType })}>
           <Stack direction="horizontal" gap="xsmall" align="center">
             <SvgIcon type={getIcon(entityType)} color={themes.default.cds.link.primary} />
             {entityLabel}
@@ -404,7 +412,10 @@ function EntityPath({
             <div className={locals.infraLineRight} />
           </div>
           <Typography variant="body-small">{'In service: '}</Typography>
-          <Link href={linkToService}>
+          <Link
+            href={linkToService}
+            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'service' })}
+          >
             <Stack direction="horizontal" gap="xsmall" align="center">
               <SvgIcon type={getIcon('service')} color={themes.default.cds.link.primary} />
               <Typography variant="body-small" component="a">
@@ -423,7 +434,10 @@ function EntityPath({
           </div>
 
           <Typography variant="body-small">{'As part of application perspective: '}</Typography>
-          <Link href={linkToAP}>
+          <Link
+            href={linkToAP}
+            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'Application perspective' })}
+          >
             <Stack direction="horizontal" gap="xsmall" align="center">
               <SvgIcon type={getIcon('application')} color={themes.default.cds.link.primary} size="s" />
               <Typography variant="body-small" component="a">
@@ -494,7 +508,7 @@ function NonAppDataEntityPath({
               pluginToShortPluginName.charAt(0).toUpperCase() + pluginToShortPluginName.slice(1).toLowerCase()
           })}
         </Typography>
-        <Link href={linkToEntity}>
+        <Link href={linkToEntity} onClick={() => RCAClickThroughToEntity({ mainEntity: true, entityType: entityType })}>
           <Stack direction="horizontal" gap="xsmall" align="center">
             <PluginIcon
               plugin={pluginToShortPluginName !== 'entity' ? pluginToShortPluginName : ''}
@@ -512,7 +526,10 @@ function NonAppDataEntityPath({
             <div className={locals.infraLineRight} />
           </div>
           <Typography variant="body-small">{'Runs on: '}</Typography>
-          <Link href={linkToHostOfEntity}>
+          <Link
+            href={linkToHostOfEntity}
+            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'host' })}
+          >
             <Stack direction="horizontal" gap="xsmall" align="center">
               <PluginIcon plugin={hostLabel.pluginType} color={themes.default.cds.link.primary} />
               <Typography variant="body-small" component="a">
@@ -530,7 +547,10 @@ function NonAppDataEntityPath({
             <div className={locals.infraLineRight} />
           </div>
           <Typography variant="body-small">{'In service: '}</Typography>
-          <Link href={linkToService}>
+          <Link
+            href={linkToService}
+            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'service' })}
+          >
             <Stack direction="horizontal" gap="xsmall" align="center">
               <SvgIcon type={getIcon('service')} color={themes.default.cds.link.primary} />
               <Typography variant="body-small" component="a">
@@ -548,7 +568,10 @@ function NonAppDataEntityPath({
             <div className={locals.infraLineRight} />
           </div>
           <Typography variant="body-small">{'As part of application: '}</Typography>
-          <Link href={linkToAP}>
+          <Link
+            href={linkToAP}
+            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'Application perspective' })}
+          >
             <Stack direction="horizontal" gap="xsmall" align="center">
               <SvgIcon type={getIcon('application')} color={themes.default.cds.link.primary} size="s" />
               <Typography variant="body-small" component="a">
