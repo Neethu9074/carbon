@@ -567,7 +567,11 @@
           "title": "Set a value for the violation threshold",
           "description": "Choose metric, violation threshold and time window to evaluate the violation.",
           "thresholdValue": "Threshold value",
-          "thresholdType": "Threshold Type"
+          "thresholdType": "Threshold Type",
+          "metricLabel": "{{metricLabel}} percentile latency",
+          "minLatency": "Minimum latency",
+          "maxLatency": "Maximum latency",
+          "meanLatency": "Average latency"
         },
         "timeThreshold": {
           "title": "Set when violations trigger alerts",
