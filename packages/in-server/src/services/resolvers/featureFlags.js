@@ -558,7 +558,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonTooltipEnabled',
     instanaCtlKey: 'feature.carbon.tooltip.enabled',
-    defaultValue: false,
+    defaultValue: false
   },
   {
     uiClientKey: 'carbonListEnabled',
@@ -568,7 +568,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonAccordionEnabled',
     instanaCtlKey: 'feature.carbon.accordion.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonSelectEnabled',
