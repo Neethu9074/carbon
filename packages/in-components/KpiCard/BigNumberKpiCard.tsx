@@ -70,8 +70,8 @@ export default function BigNumberKpiCard({
 
   let metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
     [metricKey]: {
-      ...metricDefaults,
       ...config.metricConfiguration,
+      ...metricDefaults,
       tagFilterExpression: {
         type: 'EXPRESSION',
         logicalOperator: 'AND',
@@ -88,8 +88,8 @@ export default function BigNumberKpiCard({
     };
   } else if (isConfigWithCompanionMetric(config)) {
     metrics[companionMetricKey] = {
-      ...metricDefaults,
-      ...config.companionMetricConfiguration
+      ...config.companionMetricConfiguration,
+      ...metricDefaults
     };
   }
 
