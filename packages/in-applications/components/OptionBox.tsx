@@ -41,7 +41,7 @@ const OptionBoxWithRef = forwardRef(function OptionBox(
 ) {
   const labelContent = (
     <>
-      <SvgIcon type={icon} className={locals.icon} />
+      {icon && <SvgIcon type={icon} className={locals.icon} />}
       <div className={locals.content}>
         <div className={locals.title}>{title}</div>
         <div className={locals.description}>
@@ -61,7 +61,6 @@ const OptionBoxWithRef = forwardRef(function OptionBox(
     <div className={classNames(className, locals.wrapper)} ref={ref}>
       <BoxComponent
         label={labelContent}
-        asRadioButton={asRadioButton}
         checked={checked}
         disabled={disabled}
         onChange={e => onChange(e.target.checked)}
