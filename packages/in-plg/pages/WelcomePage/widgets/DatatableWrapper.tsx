@@ -21,7 +21,7 @@ import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface ProcessedItem {
-  id: number;
+  id: string;
   [key: string]: React.ReactNode;
 }
 
@@ -103,7 +103,7 @@ export default function DatatableWrapper({
           addMore={addMore}
           addData={addData}
           href={href}
-          header={getNoDataHeader(label)}
+          noDataHeader={getNoDataHeader(label)}
           noDataDescription={getNoDataDescription(label)}
           onSearch={(searchQuery: string) => {
             setQuery(searchQuery);
@@ -126,7 +126,7 @@ interface GeProcessedItemsProps {
 
 function getProcessedItems({ resultItems, columnDefinitions, result, timeConfig }: GeProcessedItemsProps) {
   const processedItems: ProcessedItem[] = resultItems?.map((item: {}, index: number) => {
-    const processedItem: ProcessedItem = { id: index };
+    const processedItem: ProcessedItem = { id: `${index}` };
     columnDefinitions?.forEach(({ key, getContent }: { key: string; getContent: GetContentFunction }) => {
       const value = getContent({ item, result, timeConfig });
       processedItem[key] = value;
