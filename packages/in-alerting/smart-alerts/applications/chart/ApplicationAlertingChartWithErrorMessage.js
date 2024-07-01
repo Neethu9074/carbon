@@ -56,7 +56,7 @@ function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
       {error && (
         <>
           <Spacer size="normal" />
-          <Message type="warning" withIcon small>
+          <Message type="warning" withIcon small fullInlineWidth>
             <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.adaptiveBaselineErrorMessageNotAvailable" />
           </Message>
         </>

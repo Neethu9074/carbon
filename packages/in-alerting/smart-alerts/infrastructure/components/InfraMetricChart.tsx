@@ -42,7 +42,9 @@ export function InfraMetricChart({
   if ((!selectedMetricGroup && groupBy.length > 0) || (!entityType && !metricName)) {
     return (
       <div className={local.minHeight}>
-        <Message withIcon>{t('in-alerting:smartAlerts.infrastructure.form.noMetricSelected')}</Message>
+        <Message withIcon fullInlineWidth>
+          {t('in-alerting:smartAlerts.infrastructure.form.noMetricSelected')}
+        </Message>
       </div>
     );
   } else if (groupBy.length === 0 && entityType && metricName) {
