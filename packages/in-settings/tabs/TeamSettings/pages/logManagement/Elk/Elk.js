@@ -26,6 +26,8 @@ import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
+import locals from './ElkForm.mless'
+
 const block = 'in-ui-config';
 
 const logger = createLogger('elkConfig');
@@ -97,7 +99,7 @@ export default class Elk extends React.Component {
     const enabled = form ? form.get('enabled').value : null;
 
     return (
-      <SettingsDetailPage>
+      <SettingsDetailPage className={locals.page}>
         <Title title={t('in-settings:tabs.configureElk')} />
         <IntegrationsBreadcumb />
         <SubViewHeader>{t('in-settings:tabs.configureYourElkSettings')}</SubViewHeader>

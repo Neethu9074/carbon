@@ -36,6 +36,8 @@ import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
+import locals from './LogDnaForm.mless';
+
 const block = 'in-ui-config';
 
 const logger = createLogger('logdnaConfig');
@@ -123,7 +125,7 @@ export default function LogDna() {
   };
 
   return (
-    <SettingsDetailPage>
+    <SettingsDetailPage className={locals.page}>
       <Title title={t('in-settings:tabs.configureMezmo')} />
       <IntegrationsBreadcumb />
       <SubViewHeader>{t('in-settings:tabs.configureYourMezmoSettings')}</SubViewHeader>

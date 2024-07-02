@@ -4,6 +4,10 @@
  */
 
 :local {
+
+  .page {
+    padding: 0;
+  }
   .valueFormatText {
     display: block;
     margin-left: -16px;

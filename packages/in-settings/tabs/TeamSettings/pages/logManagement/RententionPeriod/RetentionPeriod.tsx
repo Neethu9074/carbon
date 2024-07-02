@@ -77,7 +77,7 @@ export default function RententionPeriod() {
 
   return (
     <>
-      <SettingsDetailPage>
+      <SettingsDetailPage className={locals.detailPageSection}>
         <Title title={localisationStrings.retentionPeriod} />
         <section className={locals.titleSection}>
           <div>
