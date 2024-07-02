@@ -36,7 +36,8 @@ export default function AlertingChart({
   canReload,
   eventBasedAdaptiveBaseline,
   highlight,
-  setMetricResultPrecision
+  setMetricResultPrecision,
+  isTearSheet
 }) {
   const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
 
@@ -74,6 +75,7 @@ export default function AlertingChart({
               getAlertsPreview={blueprintConfig.getAlertsPreviewRequest(metricName)}
               alertsPreviewConfiguration={alertsPreviewQuery}
               resultMetricKey="alerts"
+              isTearSheet={isTearSheet}
             />
           </MarkerLanesPresenter>
         );
@@ -401,5 +403,6 @@ AlertingChart.propTypes = {
     color: PropTypes.arrayOf(PropTypes.string).isRequired,
     label: PropTypes.string.isRequired
   }),
-  setMetricResultPrecision: PropTypes.func
+  setMetricResultPrecision: PropTypes.func,
+  isTearSheet: PropTypes.bool
 };

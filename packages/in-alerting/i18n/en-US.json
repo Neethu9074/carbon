@@ -49,6 +49,7 @@
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
       "alertingChartMessageEmptyApplicationSelection": "No application selected.",
       "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
+      "chartAlertsLaneErrorMessageForTearSheet": "Please enter a valid 'Trigger after' number ",
       "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
       "chartAlertsPreviewLanePresenterNoAlertsLabel": "No Alerts",
       "chartAlertsPreviewLanePresenterTooltip": "Alert: {{count}}",

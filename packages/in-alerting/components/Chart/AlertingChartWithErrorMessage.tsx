@@ -33,6 +33,7 @@ interface AlertingChartWithErrorMessageProps<AlertConfig extends Object> {
   queryValidator?: QueryValidatorType;
   getErrorMessage: (args: boolean) => string | undefined;
   customValidators?: (args: boolean) => boolean;
+  isTearSheet?: boolean;
 }
 export default function AlertingChartWithErrorMessage<AlertConfig extends Object>({
   getErrorMessage,

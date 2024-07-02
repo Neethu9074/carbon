@@ -220,6 +220,7 @@ export default function AlertConfigTearSheetStep4(props) {
               blueprintConfig={blueprintConfig}
               alertsPreviewEnabled
               canReload
+              isTearSheet
             />
           )}
         </ChartViewConfiguratorWithEntitySelection>
