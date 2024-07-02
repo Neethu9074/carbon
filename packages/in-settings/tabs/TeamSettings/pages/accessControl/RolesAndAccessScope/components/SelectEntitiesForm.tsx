@@ -25,7 +25,7 @@ import SelectItemForm from 'in-settings/tabs/TeamSettings/pages/accessControl/Ro
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
 import { allAccessFilter, inheritedAccessFilter } from 'in-synthetics/utils/constants';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { syntheticRbacLimitedTPEnabled } from 'in-services/featureFlags';
+import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
@@ -113,7 +113,7 @@ export default function SelectEntitiesForm<I extends Object>({
   const getRightHeader = (productArea: LimitableProductArea | undefined) => {
     if (!productArea) return null;
 
-    if (syntheticRbacLimitedTPEnabled && productArea === ProductArea.SYNTHETICS) {
+    if (syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS) {
       const testAPFilters = [
         t('in-settings:selectEntityDialog.syntheticAllTestsAccess'),
         t('in-settings:selectEntityDialog.syntheticInheritedAccess')
@@ -141,7 +141,7 @@ export default function SelectEntitiesForm<I extends Object>({
     if (!productArea) return false;
 
     if (
-      syntheticRbacLimitedTPEnabled &&
+      syntheticMultiAppEnabled &&
       productArea === ProductArea.SYNTHETICS &&
       syntheticFilter === inheritedAccessFilter
     ) {
@@ -246,7 +246,7 @@ function useSelectEntities<I>({
   );
 
   // Synthetics only filter.
-  if (syntheticRbacLimitedTPEnabled && productArea === ProductArea.SYNTHETICS) {
+  if (syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS) {
     filteredEntities = filterBySyntheticTests(filteredEntities, syntheticFilter);
   }
 
@@ -379,7 +379,7 @@ function getColumnDefinition<I extends Object>({
         const isSelected = selectedIds.includes(id);
 
         // @ts-expect-error property does not exist on type I
-        if (syntheticRbacLimitedTPEnabled && productArea === ProductArea.SYNTHETICS && item.supplementary?.length > 0) {
+        if (syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS && item.supplementary?.length > 0) {
           return <Checkbox size="large" checked disabled />;
         }
 
