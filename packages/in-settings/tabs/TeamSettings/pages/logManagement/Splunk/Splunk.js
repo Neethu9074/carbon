@@ -7,7 +7,6 @@ import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import { createLogger } from '@instana/logger';
-import { Toggle } from '@instana/components';
 
 import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb'
 import SplunkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/SplunkForm';
@@ -112,11 +111,6 @@ export default class Splunk extends React.Component {
                   <Heading
                     text={t('in-settings:tabs.showSplunkLinkOnHostsContainersAndPods')}
                     htmlFor="splunk-enabled"
-                  />
-                  <Toggle
-                    id="splunk-enabled"
-                    checked={enabled}
-                    onToggle={e => this.onChange('enabled', e)}
                   />
                 </HorizontalFormGroup>
               </div>

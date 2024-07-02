@@ -7,7 +7,6 @@ import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import { createLogger } from '@instana/logger';
-import { Toggle } from '@instana/components';
 
 import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb'
 import ElkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkForm';
@@ -110,11 +109,6 @@ export default class Elk extends React.Component {
               <div style={{ marginBottom: '1rem' }}>
                 <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableElkIntegrationForInstana')}>
                   <Heading text={t('in-settings:tabs.showElkLinkOnHostsContainersAndPods')} htmlFor="elk-enabled" />
-                  <Toggle
-                    id="elk-enabled"
-                    checked={enabled}
-                    onToggle={e => this.onChange('enabled', e)}
-                  />
                 </HorizontalFormGroup>
               </div>
             </Fragment>
