@@ -124,7 +124,7 @@ export default function RecommendedActions({
   const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => aiEngine))];
   const availableTags = [...new Set(recommendedActions.data?.flatMap(({ tags }) => tags ?? []))];
 
-  const { filteredActions, type, setType, aiEngine, setAiEngine, tags, setTags } = useFilters({
+  const { filteredActions, types, setTypes, aiEngine, setAiEngine, tags, setTags } = useFilters({
     recommendedActions,
     setServerTableUrlState
   });
@@ -190,8 +190,7 @@ export default function RecommendedActions({
                   {t('in-automation:generateWithWatsonx')}
                 </Button>
               )}
-
-            <TypeFilter type={type} setType={setType} showExternal />
+            <TypeFilter type={types} setType={params => setTypes({ types: params.types })} showExternal />
             <AiEngineFilter availableAiEngines={availableAiEngines} aiEngine={aiEngine} setAiEngine={setAiEngine} />
             <TagsFilter availableTags={availableTags} tags={tags} setTags={setTags} />
             <Spacer horizontal="small" />
@@ -211,14 +210,14 @@ function useFilters({
   recommendedActions: Result<ScoredAction[]>;
   setServerTableUrlState: (newState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>) => void;
 }) {
-  const [type, setType] = useState<string | null>(null);
+  const [types, setTypesState] = useState<string[] | undefined>(undefined);
   const [aiEngine, setAiEngine] = useState<string | null>(null);
   const [tags, setTags] = useState<string[]>([]);
 
   const filters = [
     {
-      key: 'type' as const,
-      value: type
+      key: 'types' as const,
+      value: types
     },
     {
       key: 'aiEngine' as const,
@@ -237,8 +236,8 @@ function useFilters({
           const emptyFilter = !filter.value?.length;
           if (emptyFilter) return shouldInclude;
           switch (filter.key) {
-            case 'type':
-              return (shouldInclude = shouldInclude && filter.value === action.type);
+            case 'types':
+              return shouldInclude && (filter.value?.some(type => action.type.includes(type)) ?? false);
             case 'aiEngine':
               return (shouldInclude = shouldInclude && filter.value === action.aiEngine);
             case 'tags':
@@ -247,9 +246,9 @@ function useFilters({
         }, true)
       )
     ),
-    type,
-    setType: (type: string | null) => {
-      setType(type);
+    types,
+    setTypes: ({ types }: { types: string[] | undefined }) => {
+      setTypesState(types);
       setServerTableUrlState({ page: 1, query: '' });
     },
     aiEngine,

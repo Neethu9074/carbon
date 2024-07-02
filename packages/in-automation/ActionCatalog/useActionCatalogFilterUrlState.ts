@@ -15,7 +15,7 @@ import useUrlState, { Options, UrlStateReturn } from 'in-hooks/useUrlState';
 
 export interface ActionCatalogFilterState {
   tags: string[];
-  type?: string;
+  types?: string[];
   view?: string;
 }
 

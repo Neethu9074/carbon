@@ -35,8 +35,8 @@ const baseOptions = [
 const externalOption = { value: EXTERNAL_TYPE, label: t('in-automation:actionHistory.external') };
 
 interface TypeFilterProps {
-  type: string | null;
-  setType: (type: string | null) => void;
+  type: string[] | undefined;
+  setType: (params: { types: string[] | undefined }) => void;
   showExternal?: boolean;
 }
 
@@ -49,12 +49,14 @@ export function TypeFilter({ type, setType, showExternal = false }: TypeFilterPr
       options={options}
       placeholder={t('in-automation:type')}
       value={type}
+      isMulti
       onChange={newValue => {
         if (!newValue) {
-          setType(null);
+          setType({ types: undefined });
         } else {
-          // @ts-expect-error
-          setType(newValue.value);
+          if (Array.isArray(newValue)) {
+            setType({ types: newValue.map(a => a.value) });
+          }
         }
       }}
     />

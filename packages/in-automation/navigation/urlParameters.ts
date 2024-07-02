@@ -45,7 +45,21 @@ export function createTagsUrlParameter(pathSegment: string, matrixPrefix: string
   };
 }
 
-export function createTypeUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
+export function createTypeUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string[]> {
+  return {
+    path: pathSegment,
+    name: `${matrixPrefix}types`,
+    as: 'types',
+    initialState: [],
+    parser: buildJsonParser([]),
+    serializer: buildJsonSerializer()
+  };
+}
+
+export function createPolicyTypeUrlParameter(
+  pathSegment: string,
+  matrixPrefix: string = ''
+): ParameterDefinition<string> {
   return {
     path: pathSegment,
     name: `${matrixPrefix}type`,

@@ -57,7 +57,7 @@ export interface UsePaginatedActionsParams {
     serverTableUrlState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>
   ) => void;
   tags: string[];
-  type?: string;
+  types?: string[];
 }
 
 export function usePaginatedActions({
@@ -65,12 +65,12 @@ export function usePaginatedActions({
   serverTableUrlState,
   setServerTableUrlState,
   tags,
-  type
+  types
 }: UsePaginatedActionsParams) {
   const filters = [
     {
-      key: 'type' as const,
-      value: type
+      key: 'types' as const,
+      value: types
     },
     {
       key: 'tags' as const,
@@ -84,14 +84,17 @@ export function usePaginatedActions({
         const emptyFilter = !filter.value?.length;
         if (emptyFilter) return shouldInclude;
         switch (filter.key) {
-          case 'type':
-            return shouldInclude && action.type === type;
+          case 'types':
+            return shouldInclude && (filter.value?.some(type => action.type.includes(type)) ?? false);
           case 'tags':
             return shouldInclude && (action.tags?.some(tag => filter.value?.includes(tag)) ?? false);
+          default:
+            return shouldInclude;
         }
       }, true)
     )
   );
+
   return usePaginatedResult({
     result: filteredActions,
     serverTableUrlState,

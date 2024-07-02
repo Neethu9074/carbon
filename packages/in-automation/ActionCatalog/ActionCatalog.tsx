@@ -70,8 +70,8 @@ export default function ActionCatalog({
   const isUserActions = actionsType === 'user';
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
 
-  const [{ tags, type }, setFilter] = useActionCatalogFilterUrlState({ pathSegment, matrixPrefix });
-  const paginatedActions = usePaginatedActions({ actions, serverTableUrlState, setServerTableUrlState, type, tags });
+  const [{ tags, types }, setFilter] = useActionCatalogFilterUrlState({ pathSegment, matrixPrefix });
+  const paginatedActions = usePaginatedActions({ actions, serverTableUrlState, setServerTableUrlState, types, tags });
 
   const availableTags = [...new Set(actions?.data?.flatMap(({ tags }) => tags ?? []))];
   const totalHits = paginatedActions.data?.totalHits;
@@ -104,7 +104,11 @@ export default function ActionCatalog({
           <>
             <Spacer horizontal="small" />
             <Stack direction="horizontal">
-              <TypeFilter type={type ?? null} setType={type => setFilter({ type: type ?? undefined })} />
+              <TypeFilter
+                type={types ?? undefined} // Ensure `types` can be `string[]` or `null`
+                setType={params => setFilter({ types: params.types?.length ? params.types : undefined })} // Handle `types` correctly
+              />
+
               <TagsFilter availableTags={availableTags} tags={tags} setTags={tags => setFilter({ tags })} />
             </Stack>
             <Spacer horizontal="small" />

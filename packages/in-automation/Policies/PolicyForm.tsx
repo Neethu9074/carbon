@@ -6,7 +6,17 @@
 
 import React, { useState } from 'react';
 
-import { Link, Spacer, Stack, Typography, IconButton, Button, TextArea, RadioButton, Checkbox } from '@instana/components';
+import {
+  Link,
+  Spacer,
+  Stack,
+  Typography,
+  IconButton,
+  Button,
+  TextArea,
+  RadioButton,
+  Checkbox
+} from '@instana/components';
 
 import {
   ApplyOn,
@@ -923,7 +933,7 @@ function SelectActionDialog({
   });
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
   const actionTags = [...new Set(actions.flatMap(action => action.tags ?? []))];
-  const { filteredActions, type, setType, tags, setTags } = useActionFilters({ actions, setServerTableUrlState });
+  const { filteredActions, types, setTypes, tags, setTags } = useActionFilters({ actions, setServerTableUrlState });
   const result = usePaginatedResult({
     result: success(filteredActions),
     serverTableUrlState,
@@ -974,7 +984,7 @@ function SelectActionDialog({
           rightHeader={
             <>
               <Stack direction="horizontal">
-                <TypeFilter type={type} setType={setType} showExternal />
+                <TypeFilter type={types} setType={params => setTypes({ types: params.types })} />
                 <TagsFilter availableTags={actionTags} tags={tags} setTags={setTags} />
               </Stack>
               <Spacer horizontal="small" />
@@ -1004,13 +1014,13 @@ function useActionFilters({
   actions: Action[];
   setServerTableUrlState: (newState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>) => void;
 }) {
-  const [type, setType] = useState<string | null>(null);
+  const [types, setTypesState] = useState<string[] | undefined>(undefined);
   const [tags, setTags] = useState<string[]>([]);
 
   const filters = [
     {
-      key: 'type' as const,
-      value: type
+      key: 'types' as const,
+      value: types
     },
     {
       key: 'tags' as const,
@@ -1027,8 +1037,8 @@ function useActionFilters({
     let shouldInclude = true;
     filters.forEach(filter => {
       const nonEmptyFilter = filter.value?.length;
-      if (filter.key === 'type' && nonEmptyFilter) {
-        shouldInclude = shouldInclude && filter.value === action.type;
+      if (filter.key === 'types' && nonEmptyFilter) {
+        shouldInclude = shouldInclude && (filter.value?.some(type => action.type.includes(type)) ?? false);
       } else if (filter.key === 'tags' && nonEmptyFilter) {
         shouldInclude = shouldInclude && (action.tags?.some(tag => filter.value.includes(tag)) ?? false);
       }
@@ -1039,9 +1049,9 @@ function useActionFilters({
 
   return {
     filteredActions,
-    type,
-    setType: (type: string | null) => {
-      setType(type);
+    types,
+    setTypes: ({ types }: { types: string[] | undefined }) => {
+      setTypesState(types);
       setServerTableUrlState({ page: 1, query: '' });
     },
     tags,

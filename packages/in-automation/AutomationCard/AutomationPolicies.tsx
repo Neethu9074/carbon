@@ -277,13 +277,13 @@ function useActionFilters({
   actions: Result<ScoredAction[]>;
   setServerTableUrlState: (newState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>) => void;
 }) {
-  const [type, setType] = useState<string | null>(null);
+  const [types, setTypesState] = useState<string[] | undefined>(undefined);
   const [tags, setTags] = useState<string[]>([]);
 
   const filters = [
     {
-      key: 'type' as const,
-      value: type
+      key: 'types' as const,
+      value: types
     },
     {
       key: 'tags' as const,
@@ -301,17 +301,17 @@ function useActionFilters({
             const emptyFilter = !filter.value?.length;
             if (emptyFilter) return shouldInclude;
             switch (filter.key) {
-              case 'type':
-                return (shouldInclude = shouldInclude && filter.value === action.type);
+              case 'types':
+                return shouldInclude && (filter.value?.some(type => action.type.includes(type)) ?? false);
               case 'tags':
                 return shouldInclude && (action.tags?.some(tag => filter.value?.includes(tag)) ?? false);
             }
           }, true)
       )
     ),
-    type,
-    setType: (type: string | null) => {
-      setType(type);
+    types,
+    setTypes: ({ types }: { types: string[] | undefined }) => {
+      setTypesState(types);
       setServerTableUrlState({ page: 1, query: '' });
     },
     tags,
@@ -342,7 +342,7 @@ function SelectActionsDialog({ event, actions, trigger }: SelectActionsDialogPro
 
   const actionTags = [...new Set(actions.data?.flatMap(({ tags }) => tags ?? []))];
 
-  const { filteredActions, type, setType, tags, setTags } = useActionFilters({ actions, setServerTableUrlState });
+  const { filteredActions, types, setTypes, tags, setTags } = useActionFilters({ actions, setServerTableUrlState });
 
   const result = usePaginatedScoredActions({
     actions: filteredActions,
@@ -409,7 +409,8 @@ function SelectActionsDialog({ event, actions, trigger }: SelectActionsDialogPro
             rightHeader={
               <>
                 <Stack direction="horizontal">
-                  <TypeFilter type={type} setType={setType} showExternal />
+                  <TypeFilter type={types} setType={params => setTypes({ types: params.types })} showExternal />
+
                   <TagsFilter availableTags={actionTags} tags={tags} setTags={setTags} />
                 </Stack>
                 <Spacer horizontal="small" />
