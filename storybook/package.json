@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "A playground for Instana's Product Frontend",
   "license": "UNLICENSED",
+  "scripts": {
+    "foundation-build-copy": "mkdir -p public/ui-foundation/build && cp -r node_modules/@instana/playground/build public/ui-foundation/"
+  },
   "dependencies": {
     "@storybook/addon-docs": "7.6.4",
     "@storybook/addon-essentials": "7.6.4",
+    "@storybook/addon-links": "7.6.4",
     "@storybook/addon-storyshots": "7.6.4",
     "@storybook/react": "7.6.4",
     "@storybook/theming": "7.6.4",

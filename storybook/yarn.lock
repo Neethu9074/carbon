@@ -3770,6 +3770,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/addon-links@npm:7.6.4":
+  version: 7.6.4
+  resolution: "@storybook/addon-links@npm:7.6.4"
+  dependencies:
+    "@storybook/csf": ^0.1.2
+    "@storybook/global": ^5.0.0
+    ts-dedent: ^2.0.0
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    react:
+      optional: true
+  checksum: 92e2bc81c818b9c3b4806167376fa61c323bbf705f5c5d94d5f1aee887bade7ee7631724fa13ba86a9f579d231ffb58ba0a01853056db0adf9293b6313e152a7
+  languageName: node
+  linkType: hard
+
 "@storybook/addon-measure@npm:7.6.4":
   version: 7.6.4
   resolution: "@storybook/addon-measure@npm:7.6.4"
@@ -12604,6 +12620,7 @@ __metadata:
     "@instana/playground": 2.54.1
     "@storybook/addon-docs": 7.6.4
     "@storybook/addon-essentials": 7.6.4
+    "@storybook/addon-links": 7.6.4
     "@storybook/addon-storyshots": 7.6.4
     "@storybook/react": 7.6.4
     "@storybook/react-webpack5": 7.6.4

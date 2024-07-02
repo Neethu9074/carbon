@@ -25,9 +25,9 @@ module.exports = {
     }
   },
   refs: {
-    'design-system2': {
-      title: 'Instana Design System test',
-      url: 'http://localhost:6006/foundation-ui-build/'
+    'design-system-dev': {
+      title: 'Instana Design System dev',
+      url: './ui-foundation/build'
     }
   },
   framework: {
