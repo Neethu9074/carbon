@@ -11,4 +11,7 @@
   div:has(> .createAlertChannelButton) {
     margin-top: 1rem;
   }
+  .channelDialogWidth {
+    min-width: 80%;
+  }
 }

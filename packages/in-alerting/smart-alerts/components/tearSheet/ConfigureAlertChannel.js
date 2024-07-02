@@ -45,6 +45,7 @@ export default function ConfigureAlertChannel({ form, onChange, numberOfAlertCha
                     onClose={() => {
                       close();
                     }}
+                    className={locals.channelDialogWidth}
                   >
                     <AlertChannelCreation
                       onCancel={() => {

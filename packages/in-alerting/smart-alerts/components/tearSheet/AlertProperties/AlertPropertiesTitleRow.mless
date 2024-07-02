@@ -11,6 +11,7 @@
     grid-gap: 1rem;
   }
   .btnWidth100 {
+    width: 100%;
     > button {
       width: 100%;
     }
