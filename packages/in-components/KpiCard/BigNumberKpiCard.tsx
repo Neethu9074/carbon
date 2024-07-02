@@ -13,9 +13,9 @@ import ResultAwareBigNumberKpiCard, {
   ConfigWithStaticCompanion,
   isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { MetricResult, Result, UnifiedMetricConfigurationUnion, TagFilterExpressionElementUnion } from 'in-types';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import { MetricResult, Result, UnifiedMetricConfigurationUnion } from 'in-types';
 import { ThresholdFn } from 'in-custom-dashboards/widgets/_shared/threshold';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
@@ -71,12 +71,7 @@ export default function BigNumberKpiCard({
   let metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
     [metricKey]: {
       ...config.metricConfiguration,
-      ...metricDefaults,
-      tagFilterExpression: {
-        type: 'EXPRESSION',
-        logicalOperator: 'AND',
-        elements: config.tagFilters as TagFilterExpressionElementUnion[]
-      }
+      ...metricDefaults
     } as UnifiedMetricConfigurationUnion
   };
 
