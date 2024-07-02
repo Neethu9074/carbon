@@ -3670,6 +3670,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/addon-a11y@npm:7.6.4":
+  version: 7.6.4
+  resolution: "@storybook/addon-a11y@npm:7.6.4"
+  dependencies:
+    "@storybook/addon-highlight": 7.6.4
+    axe-core: ^4.2.0
+  checksum: b3148a17096fd0e04913b42d2fb24fdfffffe8df55a90d2ec8c654a4808fe99266e869cf05e2bea3257a5c96ff48e0c3dc558c704da8df7addac3e01f29fc361
+  languageName: node
+  linkType: hard
+
 "@storybook/addon-actions@npm:7.6.4":
   version: 7.6.4
   resolution: "@storybook/addon-actions@npm:7.6.4"
@@ -5867,6 +5877,13 @@ __metadata:
   dependencies:
     possible-typed-array-names: ^1.0.0
   checksum: 1aa3ffbfe6578276996de660848b6e95669d9a95ad149e3dd0c0cda77db6ee1dbd9d1dd723b65b6d277b882dd0c4b91a654ae9d3cf9e1254b7e93e4908d78fd3
+  languageName: node
+  linkType: hard
+
+"axe-core@npm:^4.2.0":
+  version: 4.9.1
+  resolution: "axe-core@npm:4.9.1"
+  checksum: 41d9227871781f96c2952e2a777fca73624959dd0e98864f6d82806a77602f82b4fc490852082a7e524d8cd864e50d8b4d9931819b4a150112981d8c932110c5
   languageName: node
   linkType: hard
 
@@ -12618,6 +12635,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.15.5
     "@instana/playground": 2.54.1
+    "@storybook/addon-a11y": 7.6.4
     "@storybook/addon-docs": 7.6.4
     "@storybook/addon-essentials": 7.6.4
     "@storybook/addon-links": 7.6.4
