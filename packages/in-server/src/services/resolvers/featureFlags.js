@@ -328,7 +328,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsPerspectivesEnabled',
     instanaCtlKey: 'feature.bizops.perspectives.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
