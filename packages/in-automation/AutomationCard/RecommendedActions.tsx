@@ -237,7 +237,7 @@ function useFilters({
           if (emptyFilter) return shouldInclude;
           switch (filter.key) {
             case 'types':
-              return shouldInclude && (filter.value?.some(type => action.type.includes(type)) ?? false);
+              return shouldInclude && (filter.value?.some(type => action.type === type) ?? false);
             case 'aiEngine':
               return (shouldInclude = shouldInclude && filter.value === action.aiEngine);
             case 'tags':

@@ -1038,7 +1038,7 @@ function useActionFilters({
     filters.forEach(filter => {
       const nonEmptyFilter = filter.value?.length;
       if (filter.key === 'types' && nonEmptyFilter) {
-        shouldInclude = shouldInclude && (filter.value?.some(type => action.type.includes(type)) ?? false);
+        shouldInclude = shouldInclude && (filter.value?.some(type => action.type === type) ?? false);
       } else if (filter.key === 'tags' && nonEmptyFilter) {
         shouldInclude = shouldInclude && (action.tags?.some(tag => filter.value.includes(tag)) ?? false);
       }
