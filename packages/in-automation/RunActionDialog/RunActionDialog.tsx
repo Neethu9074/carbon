@@ -24,7 +24,9 @@ import {
   isGithub,
   isGitlab,
   isManual,
-  getAnsibleHostIdFromFields
+  getAnsibleHostIdFromFields,
+  isAIAction,
+  isAIActionCopy
 } from 'in-automation/ActionCatalog/shared';
 import RunActionContent, {
   shouldHideParameter,
@@ -320,18 +322,22 @@ function onSave({
   }
   setIsSaving(true);
   if (test) {
-    testActionTracker({
-      actionType: action.type,
-      actionName: action.name
-    });
-    testAIGenaratedActionTracker({
-      actionType: action.type,
-      actionName: action.name
-    });
+    if (isAIAction(action) || isAIActionCopy(action)) {
+      testAIGenaratedActionTracker({
+        actionType: action.type,
+        actionName: action.name
+      });
+    } else {
+      testActionTracker({
+        actionType: action.type,
+        actionName: action.name
+      });
+    }
   } else {
     runActionTracker({
       actionType: action.type,
-      actionName: action.name
+      actionName: action.name,
+      aIGeneratedAction: isAIAction(action) || isAIActionCopy(action)
     });
   }
 
