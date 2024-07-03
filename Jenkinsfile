@@ -205,7 +205,7 @@ pipeline {
       steps {
         // Only allow 1 concurrent delivery branch build is allowed to run at a time
         lock(resource: "retag-backend-images") {
-          timeout(time: 60, unit: 'MINUTES') {
+          timeout(time: 75, unit: 'MINUTES') {
             timestamps {
               script {
                 def path = "int-docker-backend-local"
@@ -235,7 +235,7 @@ pipeline {
             // This lock is shared with the backend pipeline as well so as only to allow
             // one deploy per deployable branch at a time
             lock(resource: "deploy-instana-${branchName}", inversePrecedence: true) {
-              timeout(time: 30, unit: 'MINUTES') {
+              timeout(time: 45, unit: 'MINUTES') {
                 timestamps {
                   script {
                     // Enable only for the develop branch for now
