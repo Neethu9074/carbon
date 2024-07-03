@@ -111,13 +111,13 @@
 
   .titleText {
     .ellipsis();
-    display: block;
     width: 100%;
-    > span {
-      .ellipsis();
-      display: block;
-      width: 100%;
-    }
+  }
+
+  .contentText {
+    .ellipsis();
+    width: 100%;
+    display: block;
   }
 
   .hidden {

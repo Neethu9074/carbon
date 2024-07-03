@@ -112,10 +112,11 @@ export default function KpiCard({
 
     content = (
       <>
-        <span className={classNames(locals.major, majorClass)} style={{ color: color }}>
+        <span className={classNames(locals.major, majorClass)} style={{ color: color }} title={major}>
           {major}
         </span>
         {minor && <span className={classNames(locals.minor, minorClass)}>{minor}</span>}
+        {companionValue && <span className={locals.companion}>{companionValue}</span>}
       </>
     );
   }
@@ -141,7 +142,7 @@ export default function KpiCard({
         })}
         ref={ref}
       >
-        <Tooltip content={title} align="auto">
+        <Tooltip content={title} align="auto" overflowEllipsis>
           <span className={locals.titleText}>{title}</span>
         </Tooltip>
         <div className={locals.flexTooltip}>
@@ -176,13 +177,12 @@ export default function KpiCard({
         {actions && <div className={locals.actions}>{actions}</div>}
       </div>
       {tooltipContent ? (
-        <Tooltip content={tooltipContent} align="rightBottom">
-          <span className={locals.titleText}>{content}</span>
+        <Tooltip content={tooltipContent} align="rightBottom" overflowEllipsis>
+          <span className={locals.contentText}>{content}</span>
         </Tooltip>
       ) : (
-        <span className={locals.titleText}> {content}</span>
+        <span className={locals.contentText}> {content}</span>
       )}
-      {companionValue && <span className={locals.companion}>{companionValue}</span>}
     </Card>
   );
 }
