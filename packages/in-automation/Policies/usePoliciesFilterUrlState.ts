@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 
 import { TypeConfigurationType } from '@instana/types';
 
-import { createTagsUrlParameter, createTypeUrlParameter } from 'in-automation/navigation/urlParameters';
+import { createTagsUrlParameter, createPolicyTypeUrlParameter } from 'in-automation/navigation/urlParameters';
 import useUrlState, { Options, UrlStateReturn } from 'in-hooks/useUrlState';
 
 export interface PoliciesFilterState {
@@ -34,6 +34,6 @@ export default function usePoliciesFilterUrlState({
 
 function createUrlStateDefinition({ pathSegment, matrixPrefix = '' }: Params): Options<PoliciesFilterState> {
   return {
-    bind: [createTypeUrlParameter(pathSegment, matrixPrefix), createTagsUrlParameter(pathSegment, matrixPrefix)]
+    bind: [createPolicyTypeUrlParameter(pathSegment, matrixPrefix), createTagsUrlParameter(pathSegment, matrixPrefix)]
   };
 }
