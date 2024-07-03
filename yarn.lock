@@ -3087,10 +3087,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/types@npm:1.278.241":
-  version: 1.278.241
-  resolution: "@instana/types@npm:1.278.241::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.278.241.tgz"
-  checksum: 12f25bf43fb8bb73be106ae48126a497b13fec2f9e9635e830e3a65fb676d786344cae62e70ee2590623a26ca1cc743418256ccd1f37328296280c00d8a7b575
+"@instana/types@npm:1.278.294":
+  version: 1.278.294
+  resolution: "@instana/types@npm:1.278.294::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.278.294.tgz"
+  checksum: 6f08656e5b9832efb753dcc2db48f2398b36b84eed7835b29cc4ab5681e49787d90a0131dce9e03d403f493e0398f7166517c5bb36ac7ab2ef079fad4c2f6e8f
   languageName: node
   linkType: hard
 
@@ -5483,6 +5483,15 @@ __metadata:
     react: <18.0.0
     react-dom: <18.0.0
   checksum: 4abd0490405e709a7df584a0db604e508a4612398bb1326e8fa32dd9393b15badc826dcf6d2f7525437886d507871f719f127b9860ed69ddd204d1fa834f576a
+  languageName: node
+  linkType: hard
+
+"@testing-library/user-event@npm:^14.5.2":
+  version: 14.5.2
+  resolution: "@testing-library/user-event@npm:14.5.2"
+  peerDependencies:
+    "@testing-library/dom": ">=7.21.4"
+  checksum: d76937dffcf0082fbf3bb89eb2b81a31bf5448048dd61c33928c5f10e33a58e035321d39145cefd469bb5a499c68a5b4086b22f1a44e3e7c7e817dc5f6782867
   languageName: node
   linkType: hard
 
@@ -22980,7 +22989,7 @@ __metadata:
     "@instana/observables": ^1.6.1
     "@instana/pseudo-translation": ^1.3.1
     "@instana/roemitter": ^1.3.2
-    "@instana/types": 1.278.241
+    "@instana/types": 1.278.294
     "@instana/utils": ^1.3.1
     "@lezer/common": ^1.0.2
     "@lezer/generator": ^1.5.0
@@ -22990,6 +22999,7 @@ __metadata:
     "@testing-library/jest-dom": ^5.16.3
     "@testing-library/react": ^12.1.5
     "@testing-library/react-hooks": ^7.0.2
+    "@testing-library/user-event": ^14.5.2
     "@types/chai": ^4.3.4
     "@types/clipboard": ^1.5.36
     "@types/d3-format": ^1.4.2
