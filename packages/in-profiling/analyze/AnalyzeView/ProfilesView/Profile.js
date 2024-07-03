@@ -236,7 +236,16 @@ function ProfilesIndicator({
   totalNumSamples
 }) {
   if (isLoadingProfileForHighlightedTimeframe) {
-    return <LoadingSpinner className={locals.infiniteCircle} width={72} height={24} withOverlay={false} small />;
+    return (
+      <LoadingSpinner
+        className={locals.infiniteCircle}
+        width={72}
+        height={24}
+        withOverlay={false}
+        small
+        description={t('in-components:loading.labelLoadingData')}
+      />
+    );
   }
 
   return (
