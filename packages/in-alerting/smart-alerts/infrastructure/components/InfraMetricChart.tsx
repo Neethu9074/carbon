@@ -6,11 +6,12 @@
 
 import React from 'react';
 
-import { InfraAlertConfigWithMetadata, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { Nullish } from 'in-types';
@@ -19,7 +20,7 @@ import { t } from 'in-i18n';
 import local from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart.mless';
 
 interface InfraMetricChartProps {
-  alertConfig: InfraAlertConfigWithMetadata;
+  alertConfig: InfraSmartAlertConfigWithMetadata;
   timeConfig: TimeConfig;
   groupBy: string[];
   entityType: string;

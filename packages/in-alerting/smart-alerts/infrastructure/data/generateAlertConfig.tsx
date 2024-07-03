@@ -4,21 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import {
-  GenericInfraAlertRule,
-  InfraAlertConfig,
-  InfraAlertConfigWithMetadata,
-  StaticThresholdConfig
-} from '@instana/types';
+import { GenericInfraAlertRule, StaticThresholdConfig } from '@instana/types';
 
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { defaultTimeWindow } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
-export interface InfraAlertConfigWithID extends InfraAlertConfig {
-  readonly id?: string;
-}
-
-export default function generateAlertConfig(): InfraAlertConfigWithMetadata {
+export default function generateAlertConfig(): InfraSmartAlertConfigWithMetadata {
   const rule: GenericInfraAlertRule = {
     alertType: 'genericRule',
     aggregation: 'MEAN',
@@ -48,6 +40,7 @@ export default function generateAlertConfig(): InfraAlertConfigWithMetadata {
     timeThreshold: {
       type: 'violationsInSequence',
       timeWindow: defaultTimeWindow
-    }
+    },
+    rules: []
   };
 }

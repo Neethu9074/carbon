@@ -8,15 +8,16 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createRuleForm from 'in-alerting/smart-alerts/infrastructure/form/ruleForm';
-import { InfraAlertConfig, ThresholdType, VersionedConfig } from 'in-types';
 import { groupbyTag } from 'in-alerting/smart-alerts/utils/groupingUtils';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { ThresholdType, VersionedConfig } from 'in-types';
 
 const severityWarning = 5;
 export const defaultAdaptiveBaselineGranularity = 1200000;
@@ -44,7 +45,7 @@ export interface AlertConfigHiddenFields {
 }
 
 export default function alertFormDefinition(
-  alertConfig: InfraAlertConfig & VersionedConfig & AlertConfigHiddenFields,
+  alertConfig: InfraSmartAlertConfig & VersionedConfig & AlertConfigHiddenFields,
   editMode: boolean
 ): MapForm<any> {
   const {
@@ -124,7 +125,7 @@ export default function alertFormDefinition(
       'timeThreshold',
       createTimeThresholdForm(alertConfig.timeThreshold, granularity, alertConfig.threshold?.type as ThresholdType)
     )
-    .put('threshold', createThresholdForm(alertConfig.threshold ?? {}))
+    .put('threshold', createThresholdForm(alertConfig?.threshold ?? {}))
     .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend))
     .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
 

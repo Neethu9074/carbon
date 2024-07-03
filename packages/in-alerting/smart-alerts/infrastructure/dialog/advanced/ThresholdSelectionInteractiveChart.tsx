@@ -7,10 +7,11 @@
 import React, { useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 
-import { InfraAlertConfigWithMetadata, Order, TagCatalog } from '@instana/types';
+import { Order, TagCatalog } from '@instana/types';
 import { create } from '@instana/observables';
 
 import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import InfraThresholdCondition from 'in-alerting/smart-alerts/infrastructure/components/InfraThresholdCondition';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { alertConfigWithDefaultThresholdAndTfe } from 'in-alerting/smart-alerts/components/utils/formUtils';
@@ -103,7 +104,7 @@ export default function ThresholdSelectionInteractiveChart({
         {chartViewConfig => (
           <>
             <InfraMetricChart
-              alertConfig={alertConfigModel as InfraAlertConfigWithMetadata}
+              alertConfig={alertConfigModel as InfraSmartAlertConfigWithMetadata}
               timeConfig={chartViewConfig.timeConfig}
               groupBy={groupBy}
               entityType={entityType}

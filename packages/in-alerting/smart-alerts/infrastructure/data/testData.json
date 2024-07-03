@@ -25,7 +25,8 @@
     "timeThreshold": {
       "type": "violationsInSequence",
       "timeWindow": 600000
-    }
+    },
+    "rules": []
   },
   "tagCatalog": {
     "tagTree": [],

@@ -8,7 +8,6 @@ import { isArray } from 'lodash';
 
 import {
   Granularity,
-  InfraAlertConfigWithMetadata,
   InfraAlertRuleUnion,
   TagFilterExpression,
   TagFilterExpressionElementUnion,
@@ -17,6 +16,7 @@ import {
 
 // eslint-disable-next-line no-restricted-imports
 import { MetricDefinition, getMetricDefinition } from 'in-sdk/metrics';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
@@ -111,7 +111,7 @@ export function getUnifiedMetricConfig(
 }
 
 interface ChartConfigProps {
-  alertConfig: InfraAlertConfigWithMetadata;
+  alertConfig: InfraSmartAlertConfigWithMetadata;
   timeConfig: TimeConfig;
 }
 

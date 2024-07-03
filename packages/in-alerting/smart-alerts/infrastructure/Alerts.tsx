@@ -6,12 +6,7 @@
 
 import React from 'react';
 
-import {
-  InfraAlertConfigWithMetadata,
-  ThresholdConfigUnion,
-  InfraAlertRuleUnion,
-  PredictiveTrigger
-} from '@instana/types';
+import { ThresholdConfigUnion, InfraAlertRuleUnion, PredictiveTrigger } from '@instana/types';
 import { Card } from '@instana/components';
 
 import {
@@ -24,6 +19,7 @@ import {
   alertId as alertIdMatrixParam
 } from 'in-infrastructure/navigation/matrix';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import { actionHandlers } from 'in-alerting/smart-alerts/infrastructure/lists/ListActionHandlers';
@@ -45,7 +41,7 @@ export default function Alerts() {
       {
         id: 'filterApplied',
         label: '',
-        getContent: (entity: InfraAlertConfigWithMetadata) => <ScopeColumn config={entity} />
+        getContent: (entity: InfraSmartAlertConfigWithMetadata) => <ScopeColumn config={entity} />
       }
     ];
   }
@@ -53,7 +49,7 @@ export default function Alerts() {
   return (
     <>
       <Card size="l">
-        <AlertBaseList<InfraAlertConfigWithMetadata>
+        <AlertBaseList<InfraSmartAlertConfigWithMetadata>
           extraColumnDefinitions={getColumnDefinitions()}
           actionHandlers={handlers}
           getAlertConfigs={() => getAllAlertConfigsWithResult()}
@@ -95,7 +91,7 @@ export function getSubtitle(
   throw new Error('Not yet supported threshold type: ' + type);
 }
 
-function createRowLinkLocation(config: InfraAlertConfigWithMetadata, location: Location): Location {
+function createRowLinkLocation(config: InfraSmartAlertConfigWithMetadata, location: Location): Location {
   const rowLinkLocation = {
     ...location,
     pathname: infraAlertDetailsFullyQualifiedPath

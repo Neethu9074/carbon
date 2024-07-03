@@ -6,7 +6,17 @@
 
 import React, { useState } from 'react';
 
-import { Link, Spacer, Stack, Typography, IconButton, Button, TextArea, RadioButton, Checkbox } from '@instana/components';
+import {
+  Link,
+  Spacer,
+  Stack,
+  Typography,
+  IconButton,
+  Button,
+  TextArea,
+  RadioButton,
+  Checkbox
+} from '@instana/components';
 
 import {
   ApplyOn,
@@ -32,7 +42,6 @@ import {
   ApplicationAlertConfigWithMetadata,
   EventSpecificationInfo,
   GlobalApplicationsAlertConfigWithMetadata,
-  InfraAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
   MobileAppAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata,
@@ -52,6 +61,7 @@ import useServerTableUrlState, {
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { isAnsible, isScript, isWebhook, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
 import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/list/columns/ListEntityNameColumn';
@@ -495,7 +505,7 @@ const mobileAppFilterAppliedColumn: ColumnDefinition<MobileAppAlertConfigWithMet
   sortable: false
 };
 
-const infraFilterAppliedColumn: ColumnDefinition<InfraAlertConfigWithMetadata> = {
+const infraFilterAppliedColumn: ColumnDefinition<InfraSmartAlertConfigWithMetadata> = {
   id: 'filterApplied',
   label: t('in-automation:policies.filterApplied'),
   getContent: item => <InfraScopeColumn config={item} />,

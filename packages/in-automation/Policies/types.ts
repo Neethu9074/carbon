@@ -22,12 +22,12 @@ import {
   WebsiteAlertConfigWithMetadata,
   GlobalApplicationsAlertConfigWithMetadata,
   MobileAppAlertConfigWithMetadata,
-  InfraAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
   Result,
   ServiceLevelsAlertConfigWithMetadata
 } from 'in-types';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { Tag } from 'in-automation/ActionCatalog/TagsTable';
 
 export type Triggers = {
@@ -37,7 +37,7 @@ export type Triggers = {
   websiteSmartAlert: Result<WebsiteAlertConfigWithMetadata[]>;
   globalApplicationSmartAlert: Result<GlobalApplicationsAlertConfigWithMetadata[]>;
   mobileAppSmartAlert: Result<MobileAppAlertConfigWithMetadata[]>;
-  infraSmartAlert: Result<InfraAlertConfigWithMetadata[]>;
+  infraSmartAlert: Result<InfraSmartAlertConfigWithMetadata[]>;
   logSmartAlert: Result<LogAlertConfigWithMetadata[]>;
   syntheticsSmartAlert: Result<SyntheticAlertConfigWithMetadata[]>;
   sloSmartAlert: Result<ServiceLevelsAlertConfigWithMetadata[]>;
@@ -80,7 +80,7 @@ export type TriggerSpecification =
   | WebsiteAlertConfigWithMetadata
   | GlobalApplicationsAlertConfigWithMetadata
   | MobileAppAlertConfigWithMetadata
-  | InfraAlertConfigWithMetadata
+  | InfraSmartAlertConfigWithMetadata
   | SyntheticAlertConfigWithMetadata
   | LogAlertConfigWithMetadata
   | ServiceLevelsAlertConfigWithMetadata;
@@ -105,8 +105,8 @@ export const isWebsiteSmartAlert = (item?: TriggerSpecification): item is Websit
 export const isSyntheticsSmartAlert = (item?: TriggerSpecification): item is SyntheticAlertConfigWithMetadata =>
   (item as SyntheticAlertConfigWithMetadata)?.syntheticTestIds !== undefined;
 
-export const isInfraSmartAlert = (item?: TriggerSpecification): item is InfraAlertConfigWithMetadata =>
-  (item ?? false) && 'predictiveTrigger' in (item as InfraAlertConfigWithMetadata);
+export const isInfraSmartAlert = (item?: TriggerSpecification): item is InfraSmartAlertConfigWithMetadata =>
+  (item ?? false) && 'predictiveTrigger' in (item as InfraSmartAlertConfigWithMetadata);
 
 export const isSloSmartAlert = (item?: TriggerSpecification): item is ServiceLevelsAlertConfigWithMetadata =>
   (item as ServiceLevelsAlertConfigWithMetadata)?.sloIds !== undefined;
