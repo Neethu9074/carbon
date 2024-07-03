@@ -9,6 +9,7 @@ import React from 'react';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
+import { createPolicyTracker, editPolicyTracker, createPolicyFromAIActionTracker } from 'in-automation/tracker';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { PolicyFormBody, PolicyFormFooter, PolicyFormHeader } from 'in-automation/Policies/PolicyForm';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
@@ -18,11 +19,11 @@ import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParamete
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import useNavigateToPolicies from 'in-automation/Policies/useNavigateToPolicies';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { createPolicyTracker, editPolicyTracker } from 'in-automation/tracker';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getActions, saveNewPolicy, savePolicy } from 'in-automation/api';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { isAIActionCopy } from 'in-automation/ActionCatalog/shared';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { all as allStatus } from 'in-hooks/utils/fetchStatus';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -155,6 +156,11 @@ function save(
   actions: Action[] | undefined
 ) {
   const policy = getPolicyFromForm(form);
+  // this is to findout if action is copied from ai generated action
+  const selectedAction = actions?.find(
+    action => action.id === policy.typeConfigurations[0].runnable.runConfiguration.actions[0].action.id
+  );
+
   const trackerDetails = {
     name: policy.name,
     // @ts-expect-error
@@ -165,10 +171,24 @@ function save(
     type: isManual(policy) && isAutomatic(policy) ? 'both' : isManual(policy) ? 'manual' : 'automatic'
   };
   if (isNew) {
-    createPolicyTracker(trackerDetails);
+    if (isAIActionCopy(selectedAction!)) {
+      createPolicyFromAIActionTracker({
+        fromRecommendedActioncard: false,
+        ...trackerDetails
+      });
+    } else {
+      createPolicyTracker(trackerDetails);
+    }
     return saveNewPolicy(policy);
   } else {
-    editPolicyTracker(trackerDetails);
+    if (isAIActionCopy(selectedAction!)) {
+      createPolicyFromAIActionTracker({
+        fromRecommendedActioncard: false,
+        ...trackerDetails
+      });
+    } else {
+      editPolicyTracker(trackerDetails);
+    }
     return savePolicy(policy, id!);
   }
 }
