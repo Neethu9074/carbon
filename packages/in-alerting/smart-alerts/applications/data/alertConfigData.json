@@ -1,0 +1,59 @@
+{
+  "alertConfig": {
+    "name": "_PR272",
+    "description": "Occurrences of HTTP Status Code 404 (Not Found) is higher or equal to 800..",
+    "boundaryScope": "INBOUND",
+    "applications": {
+      "rZKBzrADRPWYLnu6QwgFJA": {
+        "applicationId": "rZKBzrADRPWYLnu6QwgFJA",
+        "inclusive": true,
+        "services": {}
+      }
+    },
+    "applicationIds": ["rZKBzrADRPWYLnu6QwgFJA"],
+    "severity": 10,
+    "triggering": true,
+    "tagFilterExpression": {
+      "type": "EXPRESSION",
+      "logicalOperator": "AND",
+      "elements": []
+    },
+    "includeInternal": true,
+    "includeSynthetic": true,
+    "rule": {
+      "alertType": "errors",
+      "metricName": "errors",
+      "aggregation": "MEAN"
+    },
+    "threshold": {
+      "type": "staticThreshold",
+      "operator": ">=",
+      "value": 0.13,
+      "lastUpdated": 0
+    },
+    "alertChannelIds": ["iYCMUdyggaRAdHQt", "jNjhzEIcJsmxt8Wr", "rq2yKfqQJFd_EnAl", "A_5EsBb228e9TQFY"],
+    "granularity": 1200000,
+    "timeThreshold": {
+      "type": "requestImpact",
+      "timeWindow": 1200000,
+      "requests": 20
+    },
+    "evaluationType": "PER_AP",
+    "customPayloadFields": [
+      {
+        "type": "dynamic",
+        "key": "asd",
+        "value": {
+          "tagName": "agent.zone",
+          "key": null
+        }
+      }
+    ],
+    "id": "y1iigKjXQKCyGxETqHmKQw",
+    "created": 1718620992691,
+    "initialCreated": 1714057681170,
+    "readOnly": false,
+    "enabled": true,
+    "builtIn": false
+  }
+}
