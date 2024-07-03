@@ -48,7 +48,7 @@ export default function RawStack(props: RawStackProp) {
       let icon = '  ';
       if (!userFrameFound && frameType == 'user') {
         userFrameFound = true;
-        icon = `->`;
+        icon = `→`;
       }
 
       const fileName = line.n ?? '<unknown>';
