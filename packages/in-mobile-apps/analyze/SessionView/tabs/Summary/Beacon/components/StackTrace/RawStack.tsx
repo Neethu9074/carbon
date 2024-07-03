@@ -52,11 +52,11 @@ export default function RawStack(props: RawStackProp) {
       }
 
       const fileName = line.n ?? '<unknown>';
-      const lineNum = line.o ? `:${line.o}` : '';
-      const linef = line.f ?? '<unknown>';
-      let lineContent = `${icon}${line.t || linef} at ${fileName}${lineNum}`;
-      const argument = line.a;
-      lineContent += `(${argument})`;
+      const lineNum = line.o ?? '';
+      const methodName = (line.t || line.f) ?? '<unknown>';
+
+      let lineContent = `${icon}${methodName} at ${fileName}:${lineNum}`;
+      lineContent += `(${line.a})`;
       renderedContent += `${lineContent}\n`;
     });
 
@@ -66,7 +66,7 @@ export default function RawStack(props: RawStackProp) {
         showLineNumbers={false}
         code={renderedContent}
         // @ts-expect-error Code does support Java, but the types are incomplete
-        lang={props.data?.format === 'stack-java' ? 'java' : 'java'}
+        lang={props.data?.format === 'stack-json' ? 'java' : 'raw'}
       />
     );
   }
