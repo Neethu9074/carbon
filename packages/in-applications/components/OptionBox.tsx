@@ -44,14 +44,16 @@ const OptionBoxWithRef = forwardRef(function OptionBox(
       {icon && <SvgIcon type={icon} className={locals.icon} />}
       <div className={locals.content}>
         <div className={locals.title}>{title}</div>
-        <div className={locals.description}>
-          {description}
-          {featureFeedbackLink && (
-            <div className={locals.betaBadge}>
-              <FeatureFeedback href={featureFeedbackLink} />
-            </div>
-          )}
-        </div>
+        {(description || featureFeedbackLink) && (
+          <div className={locals.description}>
+            {description}
+            {featureFeedbackLink && (
+              <div className={locals.betaBadge}>
+                <FeatureFeedback href={featureFeedbackLink} />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
