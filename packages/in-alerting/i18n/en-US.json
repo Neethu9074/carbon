@@ -582,11 +582,11 @@
           "config": {
             "adaptive": {
               "description": "A threshold value that automatically adapts to the changes of the underlying metric is applied.",
-              "label": "Static"
+              "label": "Adaptive"
             },
             "static": {
               "description": "A constant threshold value is applied and it does not change over time.",
-              "label": "Adaptive"
+              "label": "Static"
             }
           }
         },
