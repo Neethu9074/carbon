@@ -18,7 +18,8 @@ import {
   syntheticSmartAlertsPath,
   syntheticsSummaryPath,
   syntheticsDashboard,
-  syntheticsPath
+  syntheticsPath,
+  syntheticLocationPath
 } from 'in-synthetics/navigation/paths';
 import {
   alertId as alertIdMatrixParam,
@@ -155,6 +156,16 @@ export default connectTo(() => ({
         key: 'health'
       }
     ];
+  };
+
+  const getLinks = () => {
+    if (syntheticTypeValue === 'test') {
+      return createHrefToPath(syntheticsPath);
+    }
+    if (syntheticTypeValue === 'location') {
+      return createHrefToPath(syntheticLocationPath);
+    }
+    return createHrefToPath(syntheticSmartAlertsPath);
   };
 
   function createLinkLocation(item: VersionedConfig | TestResultListItem, location: Location) {
@@ -396,7 +407,7 @@ export default connectTo(() => ({
       hasAddPermission={role?.canConfigureSyntheticTests}
       hasAddMore={hasSyntheticsAccess && syntheticTypeValue !== 'location' && !playwithEnabled}
       viewAll
-      href={createHrefToPath(syntheticsPath)}
+      href={getLinks()}
       addMore={addMore}
       addData={addMore}
     />

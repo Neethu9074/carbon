@@ -58,6 +58,7 @@
       &:nth-child(2) {
         max-width: 20rem;
         width: 20rem;
+        padding-left: 1rem;
       }
     }
   }

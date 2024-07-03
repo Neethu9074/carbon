@@ -7,7 +7,6 @@ import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import { createLogger } from '@instana/logger';
-import { Toggle } from '@instana/components';
 
 import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb'
 import HumioForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm';
@@ -25,6 +24,9 @@ import { goToPath } from 'in-stores/navigation';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
+
+import locals from './HumioForm.mless'
+
 
 const block = 'in-ui-config';
 
@@ -97,7 +99,7 @@ export default class Humio extends React.Component {
     const enabled = form ? form.get('enabled').value : null;
 
     return (
-      <SettingsDetailPage>
+      <SettingsDetailPage className={locals.page}>
         <Title title={t('in-settings:tabs.configureHumio')} />
         <IntegrationsBreadcumb />
         <SubViewHeader>{t('in-settings:tabs.configureYourHumioSettings')}</SubViewHeader>
@@ -108,11 +110,6 @@ export default class Humio extends React.Component {
               <div style={{ marginBottom: '1rem' }}>
                 <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableHumioIntegrationForInstana')}>
                   <Heading text={t('in-settings:tabs.showHumioLinkOnHostsContainersAndPods')} htmlFor="humio-enabled" />
-                  <Toggle
-                    id="humio-enabled"
-                    checked={enabled}
-                    onToggle={e => this.onChange('enabled', e)}
-                  />
                 </HorizontalFormGroup>
               </div>
             </Fragment>

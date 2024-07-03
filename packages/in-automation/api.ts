@@ -22,12 +22,12 @@ import {
   TriggerType,
   WebsiteAlertConfigWithMetadata,
   MobileAppAlertConfigWithMetadata,
-  InfraAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
   GlobalApplicationsAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata
 } from 'in-types';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
@@ -792,7 +792,7 @@ export function getMobileAppSmartAlertConfigs() {
 }
 
 export function getInfraSmartAlertConfigs() {
-  return http<InfraAlertConfigWithMetadata[]>({
+  return http<InfraSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     url: apiEndpoint.INFRA,
@@ -882,7 +882,7 @@ export function getMobileAppSmartAlertConfig(id: string) {
 }
 
 export function getInfraSmartAlertConfig(id: string) {
-  return http<InfraAlertConfigWithMetadata>({
+  return http<InfraSmartAlertConfigWithMetadata>({
     method: 'GET',
     url: `${apiEndpoint.INFRA}/${encodeURIComponent(id)}`,
     maxRetries: 3,

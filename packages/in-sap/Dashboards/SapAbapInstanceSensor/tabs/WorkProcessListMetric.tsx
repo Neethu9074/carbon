@@ -226,7 +226,6 @@ export default function WorkProcessListMetric({ snapshotId, timeConfig }: WorkPr
       initialSortColumn={0}
       initialSortDirection="asc"
       getRowDetails={getDetails}
-      // @ts-expect-error Module needs to be translated to TS
       rightHeader={rightHeader}
     />
   );

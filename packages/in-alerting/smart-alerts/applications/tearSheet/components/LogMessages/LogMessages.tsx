@@ -43,7 +43,7 @@ export default function LogMessages({
             form
               .updateIn(['rule', 'message'], f => (f as Field<string>).setValue(message).setTouched(true))
               .updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS))
-              .updateIn(['rule', 'level'], f => (f as Field<string>).setValue(level).setTouched(true))
+              .updateIn(['rule', 'level'], f => f.setValue(level).setTouched(true))
           );
         }}
         slideOut={() => undefined}
@@ -86,7 +86,7 @@ export function getColumnDefinition(message: string, level: string) {
         return (
           <div className={locals.alignCenter}>
             <RadioButton
-              key={Math.random()}
+              key={`radioBtn-key-${Math.random()}`}
               disabled={false}
               label={null}
               checked={item.message === message && item.level === level}

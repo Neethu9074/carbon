@@ -7,7 +7,7 @@
 import React, { SetStateAction, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -278,6 +278,7 @@ const CreateSyntheticTestDialogPresenter = ({
                   isNotBlank(commonAttributes.label) ||
                   isNotBlank(commonAttributes.description) ||
                   isNotBlank(commonAttributes.applicationId) ||
+                  commonAttributes.applications.length !== 0 ||
                   isNotBlank(commonAttributes.script)
                 ) {
                   setRenderSectionsCounter((v: number) => v + 1);

@@ -16,7 +16,6 @@ import {
 } from 'in-stores/events';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -56,7 +55,30 @@ function EventKPIs({ event }) {
 function IncidentKPIs({ event }) {
   const recentEvents = useObservable(getEvents(event.get('recentEvents', emptyList).toArray()), [event]) ?? null;
 
-  if (!recentEvents) return <LoadingIndicator />;
+  if (!recentEvents)
+    return (
+      <Row withoutSideMargin>
+        <Col xs>
+          <DateTimeKpiCard title={t('in-events:titleTriggered')} time={event.get('start')} />
+        </Col>
+        <Col xs>
+          <Ended event={event} />
+        </Col>
+        <Col xs>
+          <Duration event={event} />
+        </Col>
+        <Severity event={event} />
+        <Col xs>
+          <KpiCard title={t('in-events:titleActive')} value={'...'} raw />
+        </Col>
+        <Col xs>
+          <KpiCard title={t('in-events:titleChanges')} value={'...'} raw />
+        </Col>
+        <Col xs>
+          <KpiCard title={t('in-events:titleAffectedEntities')} value={'...'} raw />
+        </Col>
+      </Row>
+    );
   const openEvents = recentEvents.map(event => event.state === 'open');
 
   const changes = recentEvents.filter(e => getEventType(e) === EVENT_TYPES.CHANGE);

@@ -17,8 +17,8 @@ import { businessPerspectiveDashboard } from 'in-bizops/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getBusinessPerspective } from 'in-bizops/api/perspectives';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { PerspectiveFormItem } from 'in-bizops/utils/types';
 import { pendingResult } from 'in-services/fixedObjects';
+import { PerspectiveItem } from 'in-bizops/utils/types';
 import { t } from 'in-i18n';
 
 import local from 'in-bizops/dashboards/perspectives/tabs/perspectiveConfiguration/perspectiveConfiguration.mless';
@@ -43,22 +43,25 @@ export default function PerspectiveConfiguration() {
   } else {
     // Map tagFilterExpression field from a TagFilterExpressionElementUnion to FormModelElement[]
     // type so that it can be used in the QueryBuilder
-    let perspective = { ...data };
-    delete perspective.tagFilterExpression;
-    perspective.tagFilterExpression = fromBackendModel(data.tagFilterExpression);
+    let perspective: PerspectiveItem = {
+      id: data.id,
+      name: data.name || data.label,
+      description: data.description,
+      tagFilterExpression: fromBackendModel(data.tagFilterExpression)
+    };
 
     return (
       <div className={local.parentDiv}>
         <div className={local.cardDiv}>
           <Update
-            perspective={perspective as PerspectiveFormItem}
+            perspective={perspective}
             updateCount={updateCount}
             setUpdateCount={setUpdateCount}
             perspectiveId={perspectiveId}
             location={location}
           />
           <Spacer vertical="medium" />
-          <Remove perspectiveId={perspectiveId} perspectiveName={perspective.label} goToPath={goToPath} />
+          <Remove perspectiveId={perspectiveId} perspectiveName={perspective.name} goToPath={goToPath} />
         </div>
       </div>
     );

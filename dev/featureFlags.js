@@ -40,6 +40,7 @@ module.exports = {
   ampCompanyInfoEnabled: true,
   ampEnabled: true,
   persistentVolumeSupportEnabled: true,
+  segmentAnalyticsEnabled: false,
   loggingEnabled: true,
   logRetentionPageEnabled: true,
   logWidgetsEnabled: true,
@@ -58,6 +59,7 @@ module.exports = {
   carbonLoadingSkeletonFeatureEnabled: true,
   carbonLoadingSpinnerEnabled: true,
   carbonDescriptionListEnabled: false,
+  carbonTooltipEnabled: false,
   carbonListEnabled: false,
   carbonInputEnabled: false,
   carbonRadioButtonEnabled: false,
@@ -106,11 +108,11 @@ module.exports = {
   customWidgetTableInfraDataSourceEnabled: true,
   infraSmartAlertsEnabled: true,
   syntheticCustomDashboardEnabled: true,
-  rcaUIEnabled: false,
+  rcaUIEnabled: true,
   eventFeedbackEnabled: true,
   incidentSummarizationEnabled: false,
   incidentSummarizationTimelineEnabled: true,
-  manuallyCloseEventEnabled: false,
+  manuallyCloseEventEnabled: true,
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
   autoFormatterTimeSeriesEnabled: true,
@@ -147,5 +149,6 @@ module.exports = {
   analyzeRelatedInstancesButtonEnabled: true,
   maxMetricsLimitForBeeinstanaEnabled: true,
   serverSideInfraTagSearchEnabled: true,
-  preAggregatedMetricsQueryEnabled: false
+  preAggregatedMetricsQueryEnabled: false,
+  syntheticMultiAppEnabled: true
 };

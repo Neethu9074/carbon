@@ -21,8 +21,8 @@ import {
   eventFeedbackSubmitTracker
 } from 'in-events/tracker';
 import { getKubernetesProblemText, getKubernetesProblemTextReplacement } from './EventContent/KubernetesEventContent';
-import { getEventType, EVENT_TYPES, getEvent, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
+import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { NotesAndActivity } from 'in-events/components/NotesAndActivity/NotesAndActivity';
 import { eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
@@ -103,7 +103,7 @@ export default class extends React.Component {
 }
 
 function EventTable(props) {
-  const { selectedEventId, onChange, progress } = props;
+  const { selectedEventId, onChange, progress, eventObservable } = props;
   const items = props.items.map(item => updateTitle(item));
   if (!items) {
     return null;
@@ -127,18 +127,7 @@ function EventTable(props) {
       openItem={e => onChange({ eventId: e.id })}
       resultCountLimit={eventResponseLimit}
     >
-      <TabView
-        HeaderComponent={Header}
-        location={location}
-        tabs={tabs}
-        result$={getEvent(selectedEventId).map(data => ({
-          data,
-          errors: [],
-          progress: { percentage: null, loading: false }
-        }))}
-        props={props}
-        withoutBreadcrumb
-      />
+      <TabView HeaderComponent={Header} location={location} tabs={tabs} result$={eventObservable} props={props} />
     </NavigatorSplitScreen>
   );
 }

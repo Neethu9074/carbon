@@ -80,6 +80,7 @@ export default connectTo(
                 min: 0,
                 metrics: [
                   'combinedMetrics.' + row.key + '.totalResponseTimePerUser',
+                  'combinedMetrics.' + row.key + '.totalProcessingTimePerUser',
                   'combinedMetrics.' + row.key + '.totalCpuTimePerUser',
                   'combinedMetrics.' + row.key + '.totalQueueTimePerUser',
                   'combinedMetrics.' + row.key + '.totalRollWaitTimePerUser'
@@ -87,6 +88,7 @@ export default connectTo(
 
                 labels: [
                   t('in-sap:dashboards.combinedResponseTime'),
+                  t('in-sap:dashboards.processingTime'),
                   t('in-sap:dashboards.combinedCpuTime'),
                   t('in-sap:dashboards.combinedQueueTime'),
                   t('in-sap:dashboards.combinedRollWaitTime')

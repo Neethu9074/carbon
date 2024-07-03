@@ -93,6 +93,10 @@
     .ellipsis();
   }
 
+  .callLabelWrapper {
+    display: grid;
+  }
+
   .clickable {
     cursor: pointer;
     // This is to compensate for the horizontal growth that "collapses" elements

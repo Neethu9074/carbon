@@ -4,19 +4,14 @@
  * Copyright IBM Corp. 2024
  */
 
-import {
-  Granularity,
-  InfraAlertConfigWithMetadata,
-  InfraAlertRuleUnion,
-  TagFilterExpression,
-  TagFilterExpressionElementUnion
-} from '@instana/types';
+import { Granularity, InfraAlertRuleUnion, TagFilterExpression, TagFilterExpressionElementUnion } from '@instana/types';
 
 import {
   getEnrichedTagFilterExpression,
   getUnifiedMetricConfig,
   getChartConfig
 } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import data from 'in-alerting/smart-alerts/infrastructure/data/chartTestData.json';
@@ -102,7 +97,7 @@ describe('in-alerting/smart-alerts/infrastructure/components/InfraChartUtils.ts'
     it('should return the correct chart config', () => {
       // GIVEN
 
-      const alertConfig = data.alertConfig as InfraAlertConfigWithMetadata;
+      const alertConfig = data.alertConfig as InfraSmartAlertConfigWithMetadata;
       const timeConfig = data.timeConfig;
 
       // WHEN

@@ -407,7 +407,7 @@ function ProbableRootCauseCard({ title, incident, currentRCAEntity, children }: 
             <Stack direction="horizontal" gap="xxsmall">
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
                 <Pill type="blue" className={locals.techPreviewPill}>
-                  {t('in-events:RCA.techPreview')}
+                  {t('in-events:notes.techPreview')}
                 </Pill>
               </Tooltip>
               <Pill type="purple" className={locals.rcaAIPill}>

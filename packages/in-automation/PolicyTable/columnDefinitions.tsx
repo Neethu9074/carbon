@@ -33,7 +33,7 @@ export const nameColumn: ColumnDefinition<Policy> = {
   id: 'name',
   label: t('in-automation:name'),
   getContent: item => (
-    <Tooltip content={item.name} align="topLeft" delay={500}>
+    <Tooltip content={item.name} align="auto" delay={500} overwriteBlock>
       <WithSubscript subscript={<Subscript policy={item} />}>
         <Typography noWrap variant="body-regular">
           {item.name}

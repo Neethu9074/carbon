@@ -131,7 +131,7 @@ export default function Integrations() {
     <>
       <SettingsDetailPageComponent className={locals.page}>
         <Title title="Log Integrations" />
-        <section>
+        <section className={locals.titleSection}>
           <SubViewHeaderComponent>{localisationStrings.logIntegrations}</SubViewHeaderComponent>
           <Typography variant="body-regular">{localisationStrings.logIntegrationsDescription}</Typography>
         </section>
@@ -152,13 +152,6 @@ export default function Integrations() {
                       bodyClassName={locals.cardBody}
                       className={locals.card}
                     >
-                      <span className={locals.cardText}>
-                        <Typography variant="body-regular">
-                          {t('in-settings:tabs.integrations.integrationsConfigurationMessage', {
-                            instanceName: integration.label
-                          })}{' '}
-                        </Typography>
-                      </span>
                       <div className={locals.cardFooter}>
                         <SectionLine />
                         {loading ? (

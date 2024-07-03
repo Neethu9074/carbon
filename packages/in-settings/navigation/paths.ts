@@ -116,6 +116,7 @@ export const teamSettingsLogManagementElk = `${logManagement}/elkConfiguration`;
 
 export const audit = `${teamSettings}/audit`;
 export const teamSettingsActionLog = `${audit}/actionlog`;
+export const teamSettingsActionLogRetention = `${audit}/actionlog/retention`;
 export const teamSettingsAccessLog = `${audit}/accessLog`;
 
 // config migration

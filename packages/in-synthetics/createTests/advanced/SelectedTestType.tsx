@@ -8,7 +8,7 @@ import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { Code, ConfigItem, SSLCertificateTest, TestTypeSelected } from 'in-synthetics/utils/constants';
@@ -89,9 +89,10 @@ const SelectedTestType = ({
     commonAttributes['locations'] = form.get('locations').value;
     commonAttributes['label'] = form.get('label').value;
     commonAttributes['description'] = form.get('description').value;
-    commonAttributes['applicationId'] = form.get('applicationId').value;
+    commonAttributes['applicationId'] = form.get('applicationId')?.value;
     commonAttributes['script'] = '';
     commonAttributes['customProperties'] = form.get('customProperties').value;
+    commonAttributes['applications'] = form.get('applications')?.value ?? [];
     setCommonAttributes(commonAttributes);
     updateForm(createForm(false, selectedBlueprint, commonAttributes));
   };

@@ -223,7 +223,7 @@ function CustomEventDeprecatedWarning() {
     applicationsAlertingShowDeprecationBanner();
   }, []);
   return (
-    <Message type="warning" withIcon>
+    <Message type="warning" withIcon fullInlineWidth>
       <MessageContentModernDesign>
         <Trans
           i18nKey="in-settings:tabs.customEventListDeprecatedWarning"

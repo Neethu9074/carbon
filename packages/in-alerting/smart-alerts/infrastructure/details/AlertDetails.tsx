@@ -23,6 +23,7 @@ import {
 } from 'in-stores/navigation/paths/mainPaths';
 // eslint-disable-next-line no-restricted-imports
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-infrastructure/navigation/matrix';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import AlertConfigDialog from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AlertConfigDialog';
@@ -30,9 +31,9 @@ import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/
 import AlertConfiguration from 'in-alerting/smart-alerts/infrastructure/details/AlertConfiguration';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import { InfraAlertConfigWithMetadata, Nullish } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
+import { Nullish } from 'in-types';
 
 export default function AlertDetails() {
   const timeConfig = useTimeConfig();
@@ -55,7 +56,7 @@ export default function AlertDetails() {
         deleteConfig={deleteAlertConfig}
         restoreConfig={restoreAlertConfigVersion}
         renderSmartAlertDialog={(props: SmartAlertDialogWrapperProps) => <SmartAlertDialogWrapper {...props} />}
-        renderAlertConfiguration={({ alertConfig }: { alertConfig: InfraAlertConfigWithMetadata }) => (
+        renderAlertConfiguration={({ alertConfig }: { alertConfig: InfraSmartAlertConfigWithMetadata }) => (
           <AlertConfiguration alertConfig={alertConfig} />
         )}
         getAllowedPlaceholders={getAllowedPlaceholders}
@@ -68,7 +69,7 @@ export default function AlertDetails() {
 
 interface SmartAlertDialogWrapperProps {
   close: () => void;
-  alertConfig: InfraAlertConfigWithMetadata;
+  alertConfig: InfraSmartAlertConfigWithMetadata;
   setRevision: (arg: string | Nullish) => void;
   isCopy: boolean;
 }

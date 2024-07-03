@@ -32,6 +32,7 @@ interface EntityTableProps<ITEM_CONFIG extends ListItem>
   fetchedConfigState: FetchedState<ITEM_CONFIG[]>;
   isSearchable?: boolean;
   paginated?: boolean;
+  disableRowClick?: boolean;
 }
 
 export default function EntityTable<ITEM_CONFIG extends ListItem>({
@@ -40,6 +41,7 @@ export default function EntityTable<ITEM_CONFIG extends ListItem>({
   fetchedConfigState,
   isSearchable = false,
   paginated = false,
+  disableRowClick = false,
   ...restProps
 }: EntityTableProps<ITEM_CONFIG>) {
   const [page, setPage] = useState(1);
@@ -77,7 +79,7 @@ export default function EntityTable<ITEM_CONFIG extends ListItem>({
     <ServerTablePresenter<ITEM_CONFIG, ServerTablePresenterProps<ITEM_CONFIG>>
       getRowProps={getRowProps}
       result={paginatedResult}
-      onRowClick={onClickItem}
+      onRowClick={disableRowClick ? () => null : onClickItem}
       numSkeletonRows={3}
       page={page}
       pageSize={pageSize}

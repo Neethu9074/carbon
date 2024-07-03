@@ -7,9 +7,8 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import get from 'lodash/get';
 
+import { Card, Button } from '@instana/components';
 import { Disposable } from '@instana/observables';
-import { Card } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 // @ts-expect-error needs migration to TS
 import HelpParagraph from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/HelpParagraph';

@@ -21,6 +21,7 @@ interface InputWithButtonProps {
   icon?: string;
   href?: string;
   size?: 'small' | 'large' | 'fullWidth';
+  callBack?: () => void;
 }
 
 export default function InputWithButton({
@@ -29,7 +30,8 @@ export default function InputWithButton({
   displayContent = '',
   icon = type === 'copy' ? 'lib_actions_copy' : 'lib_actions_download',
   href = '',
-  size = 'small'
+  size = 'small',
+  callBack
 }: InputWithButtonProps): JSX.Element {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const style =
@@ -43,6 +45,8 @@ export default function InputWithButton({
   };
 
   const clickHandler = () => {
+    if (typeof callBack === 'function') callBack();
+
     if (type === 'copy') {
       navigator.clipboard.writeText(inputValue).then(() => {
         addCopiedToClipboardMessage();

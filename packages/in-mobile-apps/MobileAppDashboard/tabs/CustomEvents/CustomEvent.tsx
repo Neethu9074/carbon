@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { TimeConfig, TagFilter } from '@instana/types';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file for module
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';

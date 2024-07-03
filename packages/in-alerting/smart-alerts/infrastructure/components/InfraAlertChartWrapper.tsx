@@ -10,7 +10,6 @@ import {
   AggregationType,
   GetInfraMetricAlertsPreviewQuery,
   Granularity,
-  InfraAlertConfigWithMetadata,
   InfraTimeThreshold,
   Result,
   StaticThresholdData,
@@ -32,6 +31,7 @@ import { getRendererBasedOnThresholdType, getY1 } from 'in-alerting/components/C
 // @ts-expect-error TS migration
 import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLane';
 import getInfraMetricsAlertPreview from 'in-alerting/smart-alerts/infrastructure/subscriptions/getInfraMetricsAlertPreview';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 // @ts-expect-error TS migration
 import { getUniqueMetricsAndLabels } from 'in-infrastructure/Explore/Explore';
@@ -48,7 +48,7 @@ import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { getMetricDefinition } from 'in-sdk/metrics';
 
 interface InfraAlertChartWrapperProps {
-  alertConfig: InfraAlertConfigWithMetadata;
+  alertConfig: InfraSmartAlertConfigWithMetadata;
   timeConfig: TimeConfig;
   metricLabel: string;
   predictions?: number[][];

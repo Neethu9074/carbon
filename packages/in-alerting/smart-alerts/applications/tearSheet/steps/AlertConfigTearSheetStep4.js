@@ -6,8 +6,7 @@
 
 import React, { useMemo } from 'react';
 
-import { Message, IconButton } from '@instana/components';
-import { Spacer } from '@instana/components';
+import { Message, IconButton, Spacer } from '@instana/components';
 
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
@@ -179,6 +178,7 @@ export default function AlertConfigTearSheetStep4(props) {
             }
           />
         </TearSheetStepContentWrapper>
+        <span className={locals.seperator} />
         <TearSheetStepContentWrapper
           headline={t('in-alerting:smartAlerts.applications.tearSheet.timeThreshold.title')}
           description={t('in-alerting:smartAlerts.applications.tearSheet.timeThreshold.description')}
@@ -221,6 +221,7 @@ export default function AlertConfigTearSheetStep4(props) {
               blueprintConfig={blueprintConfig}
               alertsPreviewEnabled
               canReload
+              isTearSheet
             />
           )}
         </ChartViewConfiguratorWithEntitySelection>

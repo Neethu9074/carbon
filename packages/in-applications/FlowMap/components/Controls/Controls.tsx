@@ -64,10 +64,10 @@ export default function Controls({ serviceLocatorUid, resultPrecisionDetails, en
       <VerticalControlsPresenter position="leftTop">
         <ParticlesButton onClick={toggleParticles} serviceLocatorUid={serviceLocatorUid} />
         <MapButtonGroup vertical>
-          <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipZoomIn')}>
+          <Tooltip themeStyle="light" align={"rightMiddle"} content={t('in-applications:applicationMap.tooltipZoomIn')}>
             <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
           </Tooltip>
-          <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipZoomOut')}>
+          <Tooltip themeStyle="light" align={"rightMiddle"} content={t('in-applications:applicationMap.tooltipZoomOut')}>
             <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
           </Tooltip>
         </MapButtonGroup>
@@ -102,7 +102,7 @@ function ParticlesButton({ onClick, serviceLocatorUid }: ParticlesButtonProps) {
     []
   ) as boolean;
   return (
-    <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipSimulateTraffic')}>
+    <Tooltip themeStyle="light" align={"rightMiddle"} content={t('in-applications:applicationMap.tooltipSimulateTraffic')}>
       <Button icon="lib_actions_particles" onClick={onClick} isActive={isEnabled} />
     </Tooltip>
   );

@@ -77,6 +77,7 @@ export function TagValue({
           {allowedTagsForGrouping?.has(tag.name || '') && getHrefToGroupedView && (
             <Tooltip content={t('in-logging:tooltipAddAsGroup')}>
               <IconButton
+                id="group-action"
                 color={iconColor}
                 iconSize={'xs'}
                 type="lib_group_by"
@@ -92,6 +93,7 @@ export function TagValue({
           {onSelectTagHref && (
             <Tooltip content={t('in-logging:tooltipAddAsFilter')}>
               <IconButton
+                id="filter-action"
                 color={iconColor}
                 iconSize={'xs'}
                 type="lib_actions_filter"
@@ -110,6 +112,7 @@ export function TagValue({
             <CopyToClipboard getText={() => resolvedValue}>
               {copyToClipboardRef => (
                 <IconButton
+                  id="copy-action"
                   color={iconColor}
                   className={locals.squareHover}
                   ref={copyToClipboardRef}

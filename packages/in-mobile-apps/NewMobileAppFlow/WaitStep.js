@@ -5,10 +5,7 @@
 
 import React from 'react';
 
-import { KeyValue } from '@instana/components';
-import { Ul, Li } from '@instana/components';
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { KeyValue, Ul, Li, Link, Button } from '@instana/components';
 
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
 import { getReportingUrl } from 'in-mobile-apps/configuration';

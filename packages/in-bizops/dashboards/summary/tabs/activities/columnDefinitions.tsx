@@ -96,7 +96,7 @@ export const activitiesColumnDefinitions: ColumnDefinition<BusinessActivityItem,
     }
   },
   {
-    id: 'latency',
+    id: 'call_latency',
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.latencyLabel'),

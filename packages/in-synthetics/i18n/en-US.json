@@ -40,7 +40,8 @@
         "labelDescription": "Description",
         "labelFrequency": "Frequency (minute)",
         "labelFrequencyHour": "Frequency (hour)",
-        "labelApplications": "Select an Application"
+        "labelApplication": "Select an Application",
+        "labelApplications": "Select Applications"
       },
       "bluePrint": {
         "title": "When to use?",
@@ -696,7 +697,10 @@
       "port": "Port",
       "daysRemaining": "Failure Configuration",
       "day": "Test will fail when certificate validity has {{daysRemainingCheck}} day remaining until expiration",
-      "days": "Test will fail when certificate validity has {{daysRemainingCheck}} days remaining until expiration"
+      "days": "Test will fail when certificate validity has {{daysRemainingCheck}} days remaining until expiration",
+      "associations": "Associations",
+      "associatedApplications": "Associated Application Perspectives",
+      "noApplicationsAssociated": "No applications associated"
     }
   }
 }

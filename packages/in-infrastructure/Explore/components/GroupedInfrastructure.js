@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import { isEqual } from 'lodash';
 
 import {
@@ -48,6 +48,7 @@ import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { fixOrderForBackwardsCompatibility } from '../utils';
 import { getFormatter } from 'in-stores/metric/formatters';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import CsvExporter from 'in-components/CsvExporter';
@@ -66,7 +67,7 @@ export default function GroupedInfrastructure(props) {
     metrics,
     groupBy,
     backendGroupBy,
-    order,
+    order: incomingOrder,
     type,
     isPreview = false,
     isHeaderVisible = true,
@@ -91,6 +92,7 @@ export default function GroupedInfrastructure(props) {
     hasMetricsChanged: !isEqual(previousMetrics, metrics),
     metrics
   });
+  const order = useMemo(() => fixOrderForBackwardsCompatibility(incomingOrder, metrics), [incomingOrder, metrics]);
 
   const { totalHits, ...cursorPaginatedProps } = useCursorPagination(
     ({ cursor }) =>
@@ -138,6 +140,7 @@ export default function GroupedInfrastructure(props) {
       fixedLayout={fixedLayout}
       {...cursorPaginatedProps}
       {...props}
+      order={order}
     />
   );
 }

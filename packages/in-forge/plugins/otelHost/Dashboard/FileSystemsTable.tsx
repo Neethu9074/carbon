@@ -83,6 +83,25 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.otelHost.dashboard.bytes_free'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: any) {
+        return row.snapshotId;
+      },
+      getMetricName(row: any) {
+        return `filesystems.${row.name}.bytes_free`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.otelHost.dashboard.inode_used'),
     type: 'metric',
     typeArgs: {

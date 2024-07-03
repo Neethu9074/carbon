@@ -39,6 +39,7 @@ export const infraMetricsWidgetEnabled = isFeatureFlagEnabled('infraMetricsWidge
 export const infraExploreFilterEmptyValueEnabled = isFeatureFlagEnabled('infraExploreFilterEmptyValueEnabled');
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled');
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
+export const segmentAnalyticsEnabled = isFeatureFlagEnabled('segmentAnalyticsEnabled', false);
 export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const phmcEnabled = isFeatureFlagEnabled('phmcEnabled');
@@ -65,6 +66,7 @@ export const carbonButtonEnabled = isFeatureFlagEnabled('carbonButtonEnabled', f
 export const carbonLoadingSkeletonFeatureEnabled = isFeatureFlagEnabled('carbonLoadingSkeletonFeatureEnabled');
 export const carbonLoadingSpinnerEnabled = isFeatureFlagEnabled('carbonLoadingSpinnerEnabled');
 export const carbonDescriptionListEnabled = isFeatureFlagEnabled('carbonDescriptionListEnabled');
+export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
 export const carbonListEnabled = isFeatureFlagEnabled('carbonListEnabled');
 export const carbonRadioButtonEnabled = isFeatureFlagEnabled('carbonRadioButtonEnabled', false);
 export const carbonCheckboxEnabled = isFeatureFlagEnabled('carbonCheckboxEnabled', false);
@@ -132,6 +134,9 @@ export const syntheticCertificateCheckEnabled = isFeatureFlagEnabled('syntheticC
 
 // Synthetic RBAC Limited Access feature flag
 export const syntheticRbacLimitedTPEnabled = isFeatureFlagEnabled('syntheticRbacLimitedTPEnabled');
+
+// Synthetic Multi App Support feature flag
+export const syntheticMultiAppEnabled = isFeatureFlagEnabled('syntheticMultiAppEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
@@ -235,11 +240,11 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
 export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
 
-export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', false);
+export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', true);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
 export const incidentSummarizationTimelineEnabled = isFeatureFlagEnabled('incidentSummarizationTimelineEnabled', true);
-export const manuallyCloseEventEnabled = isFeatureFlagEnabled('manuallyCloseEventEnabled', false);
+export const manuallyCloseEventEnabled = isFeatureFlagEnabled('manuallyCloseEventEnabled', true);
 
 export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 

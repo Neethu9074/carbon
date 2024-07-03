@@ -7,13 +7,16 @@
 :local {
   .cardDiv {
     min-width: 18rem;
-    margin-top: 2rem;
     margin-bottom: 0.6rem;
     border: 1px solid var(--ids-color-option-neutral-400);
   }
 
+  .titleSection {
+    padding: 0.5rem 0 1rem 0;
+  }
+
   .page {
-    margin-top: 2rem;
+    padding: 0;
   }
 
   .cardBody {

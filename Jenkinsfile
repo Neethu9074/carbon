@@ -196,8 +196,14 @@ pipeline {
     }
 
     stage ('Retag backend images') {
+      // Only delivery branches require retagging. Check before waiting on the lock.
+      when {
+        expression {
+          return isDeliveryBranch
+        }
+      }
       steps {
-        // Only allow 1 concurrent build is allowed to run at a time
+        // Only allow 1 concurrent delivery branch build is allowed to run at a time
         lock(resource: "retag-backend-images") {
           timeout(time: 60, unit: 'MINUTES') {
             timestamps {

@@ -7,7 +7,7 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Result, PaginatedResult, BusinessProcess } from '@instana/types';
+import { Result, TagCatalog, TimeConfig } from '@instana/types';
 import { Li, Ul } from '@instana/components';
 
 import { BusinessProcessQueryBuilder } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
@@ -21,15 +21,15 @@ import local from 'in-bizops/lists/businessPerspectives/creation/NewPerspective.
 interface NewPerspectiveFormStepOneProps {
   form: MapForm<any>;
   updateForm: any;
-  blueprintCatalogResult: any;
-  processesLiveList: Result<PaginatedResult<BusinessProcess>>;
+  blueprintCatalogResult: Result<TagCatalog>;
+  timeConfig: TimeConfig;
 }
 
 export function NewPerspectiveFormStepOne({
   form,
   updateForm,
   blueprintCatalogResult,
-  processesLiveList
+  timeConfig
 }: NewPerspectiveFormStepOneProps) {
   // Display loading state
   if (!blueprintCatalogResult || blueprintCatalogResult?.progress?.loading) {
@@ -61,7 +61,11 @@ export function NewPerspectiveFormStepOne({
           </Ul>
         </div>
         <div className={local.rightContent}>
-          <ProcessesLiveList processesLiveList={processesLiveList} />
+          <ProcessesLiveList
+            tagFilterExpressionFormModel={tagFilterExpressionField.value}
+            blueprintCatalogResult={blueprintCatalogResult}
+            timeConfig={timeConfig}
+          />
         </div>
       </div>
     </SimpleModeStepContentWrapper>

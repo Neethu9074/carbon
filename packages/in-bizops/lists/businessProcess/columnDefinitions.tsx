@@ -14,13 +14,13 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import { businessPerspectiveDashboard, businessProcessDashboard, summaryTab } from 'in-bizops/navigation/paths';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { businessProcessDashboard, summaryTab } from 'in-bizops/navigation/paths';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { selectBizopsListProcessTracker } from 'in-bizops/tracker';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { number } from 'in-services/formatters/number';
@@ -44,10 +44,18 @@ function BusinessProcessNameColumnContent(item: BusinessProcessItem) {
     item.businessProcess.definitionName.length > 0 ? item.businessProcess.definitionName : businessProcessId;
   const serviceId: string = item.service?.id ?? '';
 
+  const perspectiveId = getMatrixParameter(location, businessPerspectiveDashboard, 'perspectiveId');
+  const perspectiveName = getMatrixParameter(location, businessPerspectiveDashboard, 'perspectiveName');
+
   location.pathname = `${businessProcessDashboard}${summaryTab}`;
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionName', businessProcessName);
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionId', businessProcessId);
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'serviceId', serviceId);
+
+  if (perspectiveName) {
+    setOrDeleteMatrixKey(location, businessProcessDashboard, 'perspectiveId', perspectiveId);
+    setOrDeleteMatrixKey(location, businessProcessDashboard, 'perspectiveName', perspectiveName);
+  }
 
   const processTracking = {
     processId: businessProcessId,

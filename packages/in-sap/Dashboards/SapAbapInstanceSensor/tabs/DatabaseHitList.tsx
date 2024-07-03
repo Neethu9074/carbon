@@ -241,7 +241,6 @@ export default function DatabaseHitList({ snapshotId, timeConfig }: DatabaseHitL
       initialSortColumn={7}
       initialSortDirection="desc"
       getRowDetails={getDetails}
-      // @ts-expect-error Module needs to be translated to TS
       rightHeader={rightHeader}
     />
   );

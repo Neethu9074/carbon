@@ -20,6 +20,7 @@ import useServerTableUrlState, {
 import SelectAIActionsDialogPresenter from 'in-automation/AutomationCard/GenerateAIDialog/SelectAIActionsDialogPresenter';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import CreatePolicyDialogPresenter from 'in-automation/AutomationCard/CreatePolicy/CreatePolicyDialogPresenter';
+import useNavigateToActionDetails from 'in-automation/ActionCatalog/useNavigateToActionDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
@@ -119,7 +120,7 @@ export default function RecommendedActions({
     defaultPageSize: 7
   });
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
-
+  const navigateToActionDetails = useNavigateToActionDetails();
   const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => aiEngine))];
   const availableTags = [...new Set(recommendedActions.data?.flatMap(({ tags }) => tags ?? []))];
 
@@ -137,6 +138,12 @@ export default function RecommendedActions({
   const totalHits = result?.data?.totalHits;
 
   const triggerType = getTriggerTypeFromEvent(event);
+
+  const handleRowClick = (action: ScoredAction) => {
+    if (!isExternal(action.type)) {
+      navigateToActionDetails(action, false);
+    }
+  };
   return (
     <ServerTablePresenter<ScoredAction, ServerTablePresenterProps<ScoredAction>>
       columnDefinitions={[...columnDefinitions, getActionColumn(volatileId, event, setActiveKey)]}
@@ -192,6 +199,7 @@ export default function RecommendedActions({
         </>
       }
       searchPlaceholder={t('in-automation:searchActions')}
+      onRowClick={!role?.canConfigureAutomationPolicies ? handleRowClick : undefined}
     />
   );
 }

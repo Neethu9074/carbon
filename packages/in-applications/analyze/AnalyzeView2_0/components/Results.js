@@ -210,7 +210,7 @@ function getColumnDefinitions(dataSource) {
       getContent(item, { getHrefToDetailId, groupLabel }) {
         const label = item[type].label;
         return (
-          <Tooltip content={label} align="bottomLeft" delay={1000}>
+          <Tooltip content={label} align="bottomLeft" delay={1000} overwriteBlock caret={false}>
             <div className={locals.batchedLine}>
               <LinkToDetailPage
                 item={item}

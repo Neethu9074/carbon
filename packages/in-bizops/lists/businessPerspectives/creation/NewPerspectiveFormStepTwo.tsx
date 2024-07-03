@@ -8,7 +8,7 @@ import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { Spacer, FormGroup, CarbonTextArea, CarbonLayer, CarbonTextInput } from '@instana/components';
-import { Result, PaginatedResult, BusinessProcess } from '@instana/types';
+import { Result, TagCatalog, TimeConfig } from '@instana/types';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import ProcessesLiveList from 'in-bizops/lists/businessPerspectives/creation/ProcessesLiveList';
@@ -20,10 +20,16 @@ import locals from 'in-bizops/lists/businessPerspectives/creation/NewPerspective
 interface NewPerspectiveFormStepTwoProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  processesLiveList: Result<PaginatedResult<BusinessProcess>>;
+  blueprintCatalogResult: Result<TagCatalog>;
+  timeConfig: TimeConfig;
 }
 
-export function NewPerspectiveFormStepTwo({ form, updateForm, processesLiveList }: NewPerspectiveFormStepTwoProps) {
+export function NewPerspectiveFormStepTwo({
+  form,
+  updateForm,
+  blueprintCatalogResult,
+  timeConfig
+}: NewPerspectiveFormStepTwoProps) {
   const perspectiveNameField = form.get('perspectiveName');
   const perspectiveDescription = form.get('perspectiveDescription');
 
@@ -72,7 +78,11 @@ export function NewPerspectiveFormStepTwo({ form, updateForm, processesLiveList 
           </CarbonLayer>
         </FormGroup>
         <div className={locals.rightContent}>
-          <ProcessesLiveList processesLiveList={processesLiveList} />
+          <ProcessesLiveList
+            tagFilterExpressionFormModel={form.get('tagFilterExpression').value}
+            blueprintCatalogResult={blueprintCatalogResult}
+            timeConfig={timeConfig}
+          />
         </div>
       </div>
     </SimpleModeStepContentWrapper>

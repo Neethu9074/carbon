@@ -6,6 +6,8 @@
 
 import React, { Fragment } from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import InfraMetricKpiCard from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InfraMetricKpiCardSap';
 import { number, kiloBytes, percentage, percentagePlain } from 'in-services/formatters/number';
 import CombinedMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/CombinedMetrics';
@@ -348,6 +350,40 @@ export default function Summary({ timeConfig, data: sap }) {
                 t('in-sap:dashboards.loadAvg15')
               ],
               type: 'line',
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title={t('in-sap:dashboards.userLogins')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['sapMetricsStats.successLogins', 'sapMetricsStats.failedLogins'],
+              labels: [t('in-sap:dashboards.successLogins'), t('in-sap:dashboards.failureLogins')],
+              type: 'line',
+              formatter: number.detailed,
+              // @ts-expect-error Module needs to be translated to TS
+              colors: [[themes.default.ids.color.option.green['500']], [themes.default.ids.color.option.red['700']]]
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-sap:dashboards.systemLogErrors')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['sapMetricsStats.concernedSystemLogCount', 'sapMetricsStats.urgentSystemLogCount'],
+              labels: [t('in-sap:dashboards.severity1'), t('in-sap:dashboards.severity2')],
+              type: 'line',
+              // @ts-expect-error Module needs to be translated to TS
+              colors: [[themes.default.ids.color.option.red['700']], [themes.default.ids.color.option.orange['500']]],
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

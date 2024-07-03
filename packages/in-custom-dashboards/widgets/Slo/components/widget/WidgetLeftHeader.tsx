@@ -46,7 +46,7 @@ export default function WidgetLeftHeader({
           {!isLoading && <SloEntityInfo entityType={monitoredEntityType} entity={monitoredEntity} />}
         </StackItem>
         <SliConfigInfo sliConfig={sliConfig} entityType={monitoredEntityType} />
-        <Tooltip align="bottomMiddle" content={t('in-custom-dashboards:widgets.slo.widgetLeftHeader.liveDataInfo')}>
+        <Tooltip align="auto" content={t('in-custom-dashboards:widgets.slo.widgetLeftHeader.liveDataInfo')}>
           <SvgIcon className={locals.approximateIcon} type="lib_approximately_equal" size="s" />
         </Tooltip>
       </Stack>

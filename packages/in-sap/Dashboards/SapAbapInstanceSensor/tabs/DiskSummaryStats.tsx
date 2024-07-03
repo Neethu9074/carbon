@@ -14,7 +14,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { number, seconds, percentagePlain } from 'in-services/formatters/number';
+import { number, seconds, percentage } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -60,22 +60,6 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.usage'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: DiskStatsRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: DiskStatsRow) {
-        return `diskSummaryStats.${row.key}.util`;
-      },
-      getContent: percentagePlain.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.transferKB'),
     type: 'metric',
     typeArgs: {
@@ -102,6 +86,22 @@ const cols = [
         return `diskSummaryStats.${row.key}.operationsPerSec`;
       },
       getContent: number.perSecond.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.usage'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DiskStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DiskStatsRow) {
+        return `diskSummaryStats.${row.key}.util`;
+      },
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }

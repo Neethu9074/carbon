@@ -16,6 +16,7 @@ interface TableProps {
   showExpandAll?: boolean;
   showHeader?: boolean;
   initialSortDirection?: string;
+  rightHeader?: JSX.Element;
 }
 
 declare function TableComponent(props: TableProps): JSX.Element;

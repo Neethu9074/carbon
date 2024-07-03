@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Card, Button } from '@instana/components';
 
 import locals from './LearnMoreCard.mless';
 

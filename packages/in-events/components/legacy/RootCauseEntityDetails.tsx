@@ -17,6 +17,7 @@ import { t, Trans } from '@instana/i18n-react';
 import { SnapshotData, getPhysicalHierarchy, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { APPLICATION, ENDPOINT, SERVICE, entityTypes, operators } from 'in-analyze/applicationFilter';
+import { RCAClickThroughToAnalyze, RCAClickThroughToEntity } from 'in-events/tracker';
 import { Location, MatrixParameters, Parameters } from 'in-stores/navigation/types';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
@@ -194,6 +195,11 @@ export default function RootCauseEntityDetails({
     'percentageFailedNotThroughRC'
   );
 
+  const entityTypeName =
+    rcaEntityType === 'infrastructure' || rcaEntityType === 'process'
+      ? translateFullyQualifiedPluginToShortPluginName(entityID.get('pluginId')) || ''
+      : rcaEntityType;
+
   return (
     <div className={locals.entityDescription}>
       <Stack gap="small">
@@ -228,42 +234,49 @@ export default function RootCauseEntityDetails({
         {explainabilityMetadata && (
           <Stack gap="xxsmall">
             <Typography variant="body-bold">{t('in-events:RCA.evidence')}</Typography>
-            {/*  <Typography variant="body-regular">
-              {t('in-events:RCA.evidenceTextFailed', {
-                root_cause_entity_type: rcaEntityType,
-                root_cause_entity_name: Map.isMap(entityData) ? entityData?.get('label') : entityData?.label,
-                rca_error_percent: rcaErrorPercent.toFixed(2)
-              })}
-            </Typography> */}
             <Trans
               i18nKey="in-events:RCA.evidenceTextFailed"
-              //@ts-expect-error
-              components={{ linkToEntity: <Link href={linkToEntity} /> }}
+              components={{
+                //@ts-expect-error
+                linkToEntity: <Link href={linkToEntity} />,
+                entityIcon:
+                  rcaEntityType !== 'infrastructure' && rcaEntityType !== 'process' ? (
+                    <SvgIcon type={getIcon(rcaEntityType)} color={themes.default.cds.link.primary} size="xs" />
+                  ) : (
+                    <PluginIcon plugin={entityTypeName} color={themes.default.cds.link.primary} size="xs" />
+                  )
+              }}
               values={{
-                root_cause_entity_type: rcaEntityType,
+                root_cause_entity_type: entityTypeName,
                 root_cause_entity_name: Map.isMap(entityData) ? entityData?.get('label') : entityData?.label,
                 rca_error_percent: rcaErrorPercent.toFixed(2)
               }}
               parent="span"
             />
-            {/* <Typography variant="body-regular">
-              {determineWhichNotFailedTextToUse(
-                rcaErrorPercent,
-                notThroughRCAErrorPercent,
-                rcaEntityType,
-                Map.isMap(entityData) ? entityData?.get('label') : entityData?.label
-              )}
-            </Typography> */}
             <FailedText
               rcaErrorPercent={rcaErrorPercent}
               notThroughRCAErrorPercent={notThroughRCAErrorPercent}
-              rootCauseEntityType={rcaEntityType}
+              rootCauseEntityType={entityTypeName}
               rootCauseEntityName={Map.isMap(entityData) ? entityData?.get('label') : entityData?.label}
               linkToEntity={linkToEntity}
+              entityIcon={
+                rcaEntityType !== 'infrastructure' && rcaEntityType !== 'process' ? (
+                  <SvgIcon type={getIcon(rcaEntityType)} color={themes.default.cds.link.primary} size="xs" />
+                ) : (
+                  <PluginIcon plugin={entityTypeName} color={themes.default.cds.link.primary} size="xs" />
+                )
+              }
             />
           </Stack>
         )}
-        <Button kind="primary" icon="lib_application_call" href={urlForEntity} size="compact">
+        <Button
+          kind="primary"
+          icon="lib_application_call"
+          href={urlForEntity}
+          size="compact"
+          onClick={() => RCAClickThroughToAnalyze({ urlForEntity: urlForEntity })}
+          className={locals.analyzeButton}
+        >
           {t('in-applications:buttonAnalyzeCalls')}
         </Button>
       </Stack>
@@ -276,13 +289,15 @@ function FailedText({
   notThroughRCAErrorPercent,
   rootCauseEntityType,
   rootCauseEntityName,
-  linkToEntity
+  linkToEntity,
+  entityIcon
 }: {
   rcaErrorPercent: number;
   notThroughRCAErrorPercent: number;
   rootCauseEntityType: string;
   rootCauseEntityName: string;
   linkToEntity: string | undefined;
+  entityIcon: JSX.Element;
 }) {
   const translationDataObject = {
     root_cause_entity_type: rootCauseEntityType,
@@ -296,7 +311,7 @@ function FailedText({
       <Trans
         i18nKey="in-events:RCA.evidenceTextNotFailedLower"
         //@ts-expect-error
-        components={{ linkToEntity: <Link href={linkToEntity} /> }}
+        components={{ linkToEntity: <Link href={linkToEntity} />, entityIcon: entityIcon }}
         values={translationDataObject}
         parent="span"
       />
@@ -307,7 +322,7 @@ function FailedText({
       <Trans
         i18nKey="in-events:RCA.evidenceTextNotFailedSame"
         //@ts-expect-error
-        components={{ linkToEntity: <Link href={linkToEntity} /> }}
+        components={{ linkToEntity: <Link href={linkToEntity} />, entityIcon: entityIcon }}
         values={translationDataObject}
         parent="span"
       />
@@ -318,7 +333,7 @@ function FailedText({
       <Trans
         i18nKey="in-events:RCA.evidenceTextNotFailedHigher"
         //@ts-expect-error
-        components={{ linkToEntity: <Link href={linkToEntity} /> }}
+        components={{ linkToEntity: <Link href={linkToEntity} />, entityIcon: entityIcon }}
         values={translationDataObject}
         parent="span"
       />
@@ -376,11 +391,14 @@ function EntityPath({
 
   return (
     <Stack gap="xsmall">
-      <Stack direction="horizontal" gap="xsmall">
-        <Typography variant="body-bold">{t('in-events:RCA.probableRootCauseLabel')}</Typography>
-        <Link href={linkToEntity}>
+      <Stack gap="xsmall">
+        <Typography variant="body-bold">
+          {t('in-events:RCA.probableRootCauseLabel', {
+            entity_type: entityType ? entityType.charAt(0).toUpperCase() + entityType.slice(1).toLowerCase() : 'Entity'
+          })}
+        </Typography>
+        <Link href={linkToEntity} onClick={() => RCAClickThroughToEntity({ mainEntity: true, entityType: entityType })}>
           <Stack direction="horizontal" gap="xsmall" align="center">
-            {entityType}
             <SvgIcon type={getIcon(entityType)} color={themes.default.cds.link.primary} />
             {entityLabel}
           </Stack>
@@ -394,7 +412,10 @@ function EntityPath({
             <div className={locals.infraLineRight} />
           </div>
           <Typography variant="body-small">{'In service: '}</Typography>
-          <Link href={linkToService}>
+          <Link
+            href={linkToService}
+            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'service' })}
+          >
             <Stack direction="horizontal" gap="xsmall" align="center">
               <SvgIcon type={getIcon('service')} color={themes.default.cds.link.primary} />
               <Typography variant="body-small" component="a">
@@ -413,7 +434,10 @@ function EntityPath({
           </div>
 
           <Typography variant="body-small">{'As part of application perspective: '}</Typography>
-          <Link href={linkToAP}>
+          <Link
+            href={linkToAP}
+            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'Application perspective' })}
+          >
             <Stack direction="horizontal" gap="xsmall" align="center">
               <SvgIcon type={getIcon('application')} color={themes.default.cds.link.primary} size="s" />
               <Typography variant="body-small" component="a">
@@ -474,15 +498,20 @@ function NonAppDataEntityPath({
   const linkToService = useGenerateLinkToDashboard('service', relatedServiceID, location, relatedAPID);
   const linkToAP = useGenerateLinkToDashboard('application', relatedAPID, location, null);
 
+  const pluginToShortPluginName = translateFullyQualifiedPluginToShortPluginName(entityId.get('pluginId')) || 'entity';
   return (
     <Stack gap="xsmall">
-      <Stack direction="horizontal" gap="xsmall">
-        <Typography variant="body-bold">{t('in-events:RCA.probableRootCauseLabel')}</Typography>
-        <Link href={linkToEntity}>
+      <Stack gap="xsmall">
+        <Typography variant="body-bold">
+          {t('in-events:RCA.probableRootCauseLabel', {
+            entity_type:
+              pluginToShortPluginName.charAt(0).toUpperCase() + pluginToShortPluginName.slice(1).toLowerCase()
+          })}
+        </Typography>
+        <Link href={linkToEntity} onClick={() => RCAClickThroughToEntity({ mainEntity: true, entityType: entityType })}>
           <Stack direction="horizontal" gap="xsmall" align="center">
-            {entityType}
             <PluginIcon
-              plugin={translateFullyQualifiedPluginToShortPluginName(entityId.get('pluginId')) || ''}
+              plugin={pluginToShortPluginName !== 'entity' ? pluginToShortPluginName : ''}
               color={themes.default.cds.link.primary}
             />
             {entityLabel}
@@ -497,7 +526,10 @@ function NonAppDataEntityPath({
             <div className={locals.infraLineRight} />
           </div>
           <Typography variant="body-small">{'Runs on: '}</Typography>
-          <Link href={linkToHostOfEntity}>
+          <Link
+            href={linkToHostOfEntity}
+            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'host' })}
+          >
             <Stack direction="horizontal" gap="xsmall" align="center">
               <PluginIcon plugin={hostLabel.pluginType} color={themes.default.cds.link.primary} />
               <Typography variant="body-small" component="a">
@@ -515,7 +547,10 @@ function NonAppDataEntityPath({
             <div className={locals.infraLineRight} />
           </div>
           <Typography variant="body-small">{'In service: '}</Typography>
-          <Link href={linkToService}>
+          <Link
+            href={linkToService}
+            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'service' })}
+          >
             <Stack direction="horizontal" gap="xsmall" align="center">
               <SvgIcon type={getIcon('service')} color={themes.default.cds.link.primary} />
               <Typography variant="body-small" component="a">
@@ -533,7 +568,10 @@ function NonAppDataEntityPath({
             <div className={locals.infraLineRight} />
           </div>
           <Typography variant="body-small">{'As part of application: '}</Typography>
-          <Link href={linkToAP}>
+          <Link
+            href={linkToAP}
+            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'Application perspective' })}
+          >
             <Stack direction="horizontal" gap="xsmall" align="center">
               <SvgIcon type={getIcon('application')} color={themes.default.cds.link.primary} size="s" />
               <Typography variant="body-small" component="a">

@@ -7,19 +7,22 @@
 import React, { ReactNode, createContext, useMemo } from 'react';
 import _ from 'lodash';
 
-import { TimeConfig, TimeWindow } from '@instana/types';
+import { Progress, TimeConfig, TimeWindow } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 
+import {
+  defaultServiceLevelObjectiveUrlParameters,
+  setTimeWindowTypeUrlParameter
+} from 'in-service-levels/navigation/urlParameters';
+import { AvailableTimeWindowTypes, isAvailableTimeWindowType } from 'in-service-levels/types';
 import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
-import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { ServiceLevelErrors, SloTimeWindowTypes } from 'in-service-levels/constants';
-import useTimeConfig from 'in-hooks/useTimeConfig';
-import { hours } from 'in-services/time/time';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { defaultServiceLevelObjectiveUrlParameters, setTimeWindowTypeUrlParameter } from 'in-service-levels/navigation/urlParameters';
+import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
-import { AvailableTimeWindowTypes, isAvailableTimeWindowType } from 'in-service-levels/types';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import { hours } from 'in-services/time/time';
 
 const TIME_WINDOW_COLOR_TOKEN_PATHS = [
   'default.ids.color.option.blue.400',
@@ -37,6 +40,7 @@ export interface TimeWindowContext {
   timeWindowColors: string[];
   selectedTimeWindowType: AvailableTimeWindowTypes;
   updateSelectedTimeWindowType: (timeWindowType: AvailableTimeWindowTypes) => void;
+  progress: Progress;
 }
 
 const defaultTimeWindowType = SloTimeWindowTypes.SELECTED_TIME;
@@ -80,13 +84,13 @@ function useSelectedTimeWindowContext({
     () => getTimeConfigBySelectedType(selectedTimeWindowType, selectedTimeConfig, sloTimeWindow),
     [selectedTimeWindowType, selectedTimeConfig, sloTimeWindow]
   );
-  const [timeWindows] = useOverlappingTimeWindows({ sloConfigId, timeConfig });
-
+  const [timeWindows, , , loading] = useOverlappingTimeWindows({ sloConfigId, timeConfig });
   return useStableObjectInstance({
     selectedTimeWindowType,
     timeWindows: timeWindows ?? [],
     timeWindowColors: timeWindows?.map((_, index) => getColorByTimeWindowIndex(index, themes)) ?? [],
-    updateSelectedTimeWindowType
+    updateSelectedTimeWindowType,
+    progress: loading
   });
 }
 
@@ -112,7 +116,9 @@ function getColorByTimeWindowIndex(index: number, theme: object): string {
 }
 
 function getTimeWindowTypeParameter(location: Location): AvailableTimeWindowTypes {
-  const timeWindowType = getMatrixParameter(location, timeWindowTypeParameter.path ?? '', timeWindowTypeParameter.name) ?? defaultTimeWindowType;
+  const timeWindowType =
+    getMatrixParameter(location, timeWindowTypeParameter.path ?? '', timeWindowTypeParameter.name) ??
+    defaultTimeWindowType;
   if (isAvailableTimeWindowType(timeWindowType)) return timeWindowType;
 
   throw new Error(ServiceLevelErrors.UNSUPPORTED_TIME_WINDOW_TYPE);

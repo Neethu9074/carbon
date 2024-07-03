@@ -6,8 +6,7 @@
 import { uniq, find } from 'lodash';
 import React from 'react';
 
-import { SvgIcon, Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Link, Button } from '@instana/components';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import UserIcon from 'in-components/UserIcon/UserIcon';

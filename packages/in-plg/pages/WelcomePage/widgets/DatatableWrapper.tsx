@@ -11,21 +11,17 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
-  getNoDataButton,
-  getNoDataDescription,
-  getNoDataHeader
-} from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
-import {
   GetContentFunction,
   DatatableWidgetProps
 } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import { getNoDataDescription, getNoDataHeader } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface ProcessedItem {
-  id: number;
+  id: string;
   [key: string]: React.ReactNode;
 }
 
@@ -92,22 +88,14 @@ export default function DatatableWrapper({
     setProcessedItems(processedItems);
   }, [result, columnDefinitions, timeConfig, isDashboardWidget, query, syntheticType, maxItems]);
 
-  const exclusionArray = [
-    'infrastructure',
-    'platforms',
-    'businessmonitoring',
-    'incidents',
-    'syntheticmonitoring.location'
-  ];
-
   return (
-    <section aria-label={dashboardTileProps.sectionLabel} role="region">
+    <section aria-label={`${header}`} role="region">
       <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
         <DashboardTable
           headers={headers}
           rows={processedItems}
           searchPlaceHolder={`${t('in-plg:welcomepage.ariaLabel.search')} ${header}`}
-          viewLabel={t('in-plg:welcomepage.viewAll')}
+          viewLabel={`${t('in-plg:welcomepage.viewAll')} ${header}`}
           iconColor={themes.default.ids.color.option.white}
           hasAddPermission={hasAddPermission}
           hasAddMore={hasAddMore && !playwithEnabled ? true : false}
@@ -115,12 +103,12 @@ export default function DatatableWrapper({
           addMore={addMore}
           addData={addData}
           href={href}
-          header={getNoDataHeader(label)}
+          noDataHeader={getNoDataHeader(label)}
           noDataDescription={getNoDataDescription(label)}
-          buttonName={!exclusionArray.includes(label) ? getNoDataButton(label) : undefined}
           onSearch={(searchQuery: string) => {
             setQuery(searchQuery);
           }}
+          buttonName={`${t('in-plg:welcomepage.addMore')} ${header}`}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}
         />
@@ -138,7 +126,7 @@ interface GeProcessedItemsProps {
 
 function getProcessedItems({ resultItems, columnDefinitions, result, timeConfig }: GeProcessedItemsProps) {
   const processedItems: ProcessedItem[] = resultItems?.map((item: {}, index: number) => {
-    const processedItem: ProcessedItem = { id: index };
+    const processedItem: ProcessedItem = { id: `${index}` };
     columnDefinitions?.forEach(({ key, getContent }: { key: string; getContent: GetContentFunction }) => {
       const value = getContent({ item, result, timeConfig });
       processedItem[key] = value;

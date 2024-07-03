@@ -10,7 +10,6 @@ import {
   ApplicationAlertConfigWithMetadata,
   EventSpecificationInfo,
   GlobalApplicationsAlertConfigWithMetadata,
-  InfraAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
   MobileAppAlertConfigWithMetadata,
   Result,
@@ -29,6 +28,7 @@ import {
   getSyntheticSmartAlertConfigs,
   getSloSmartAlertConfigs
 } from 'in-automation/api';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Triggers } from 'in-automation/Policies/types';
 import { mapData } from 'in-services/util/result';
@@ -47,7 +47,7 @@ export default function useTriggers(): Triggers {
   const mobileAppSmartAlert =
     useObservable(getMobileAppSmartAlertConfigs, []) ?? (pendingResult as Result<MobileAppAlertConfigWithMetadata[]>);
   const infraSmartAlert =
-    useObservable(getInfraSmartAlertConfigs, []) ?? (pendingResult as Result<InfraAlertConfigWithMetadata[]>);
+    useObservable(getInfraSmartAlertConfigs, []) ?? (pendingResult as Result<InfraSmartAlertConfigWithMetadata[]>);
   const logSmartAlert =
     useObservable(getLogSmartAlertConfigs, []) ?? (pendingResult as Result<LogAlertConfigWithMetadata[]>);
   const syntheticsSmartAlert = useObservable(getSyntheticSmartAlertConfigs, []) as Result<

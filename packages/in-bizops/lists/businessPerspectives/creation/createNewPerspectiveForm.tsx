@@ -16,17 +16,17 @@ import {
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { MAX_DESCRIPTION_SIZE, MAX_NAME_SIZE } from 'in-bizops/utils/constants';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
-import { PerspectiveFormItem } from 'in-bizops/utils/types';
+import { PerspectiveItem } from 'in-bizops/utils/types';
 import { t } from 'in-i18n';
 
 interface FormProps {
-  perspective: PerspectiveFormItem;
+  perspective: PerspectiveItem;
 }
 
 const emptyForm: FormProps = {
   perspective: {
     tagFilterExpression: [],
-    label: '',
+    name: '',
     description: ''
   }
 };
@@ -36,14 +36,14 @@ const createNewPerspectiveForm = ({ perspective }: FormProps = emptyForm): MapFo
     .put(
       'tagFilterExpression',
       createField<FormModelElement[]>({
-        value: perspective.tagFilterExpression,
+        value: (perspective.tagFilterExpression || []) as FormModelElement[],
         validator: tagFilterExpressionValidator
       })
     )
     .put(
       'perspectiveName',
       createField({
-        value: perspective.label,
+        value: perspective.name,
         validator: composeValidators(stringMaxLengthValidator(MAX_NAME_SIZE), notBlankValidator)
       })
     )

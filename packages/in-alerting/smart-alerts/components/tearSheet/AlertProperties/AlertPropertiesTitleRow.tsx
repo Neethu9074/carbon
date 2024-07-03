@@ -5,11 +5,12 @@
  */
 
 import { MapForm, Item, Field } from 'formalistic';
-import React, { useRef } from 'react';
+import React from 'react';
 
 import { Button } from '@instana/legacy';
 
-import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
+//@ts-expect-error TS migration
+import DebouncedInput from 'in-components/form/Input/DebouncedInput';
 import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 //@ts-expect-error TS migrate
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
@@ -32,8 +33,6 @@ export default function AlertPropertiesTitleRow({
   getTitlePlaceholder,
   placeholders
 }: AlertPropertiesTitleRowProps) {
-  const titleTextareaRef = useRef(null);
-
   return (
     <div className={locals.titleRowContainer}>
       <label>
@@ -44,17 +43,20 @@ export default function AlertPropertiesTitleRow({
           noMargin
         />
       </label>
-      <AlertPropertiesTextarea
-        ref={titleTextareaRef}
+
+      <DebouncedInput
         name="name"
         id="name"
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onChange(['name'], field => (field as Field<string>).setValue(e.target.value || '').setTouched(true));
+        delay={300}
+        type="text"
+        onValueChange={(targetValue: string) => {
+          onChange(['name'], field => (field as Field<string>).setValue(targetValue || '').setTouched(true));
         }}
+        value={form.get('name').value}
         placeholder={getTitlePlaceholder(form)}
-        formField={form.get('name')}
         isTearSheet
       />
+
       {placeholders.length > 0 && (
         <MoreMenu
           renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
@@ -114,7 +116,7 @@ function insertPlaceholderText(
 
     const newCursorPosition = selectionStart + placeholderString.length;
     (textarea as any).setSelectionRange(newCursorPosition, newCursorPosition);
-    textarea.focus();
+    setTimeout(() => textarea.focus(), 0);
 
     onChange(['name'], (field: Item) => (field as Field<string>).setValue(newValue).setTouched(true));
   };

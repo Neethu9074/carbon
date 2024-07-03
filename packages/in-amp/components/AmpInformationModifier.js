@@ -59,7 +59,7 @@ export default function AmpInformationModifier({
           </ComboBoxBehavior>
         </Stack>
       )}
-      {!showAggregatedMetrics && <AmpTimeSelection windowSize={windowSize} setWindowSize={setWindowSize} />}
+      <AmpTimeSelection windowSize={windowSize} setWindowSize={setWindowSize} />
     </div>
   );
 }

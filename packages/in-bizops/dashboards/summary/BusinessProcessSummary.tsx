@@ -7,15 +7,17 @@
 import React from 'react';
 
 import { TimeConfig } from '@instana/types';
+import { Link } from '@instana/components';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import DashboardHeader, { ContextConfiguration, DashboardHeaderProps } from 'in-components/DashboardHeader';
+import { businessPerspectiveDashboard, businessProcessDashboard } from 'in-bizops/navigation/paths';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
-import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { businessProcessDashboard } from 'in-bizops/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { clickBizopsProcessTabsTracker } from 'in-bizops/tracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import AnalyzeButton from 'in-bizops/components/AnalyzeButton';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -24,6 +26,8 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
+
+import locals from './BusinessProcessSummary.mless';
 
 export default function BusinessProcessDashboard() {
   // Display the business process name (taken from the URL) in
@@ -70,12 +74,25 @@ export default function BusinessProcessDashboard() {
 }
 
 function Header(props: Omit<DashboardHeaderProps, 'icon' | 'title' | 'renderButtonLine' | 'renderMetaInformation'>) {
+  const { location } = useNavigation();
+
+  const contextConfigurations: ContextConfiguration[] = [];
+
+  const perspectiveId = getMatrixParameter(location, businessProcessDashboard, 'perspectiveId');
+  if (perspectiveId) {
+    contextConfigurations.push({
+      renderContext: RenderBusinessProcessContext,
+      contextIcon: 'lib_bizops'
+    });
+  }
+
   return (
     <DashboardHeader
       {...props}
       icon="lib_bizops"
       title={t('in-bizops:labelBizOps')}
       renderButtonLine={RenderButtonLine}
+      contextConfigurations={contextConfigurations}
     />
   );
 }
@@ -108,5 +125,26 @@ function RenderButtonLine({ serviceId }: RenderProps) {
         businessActivityName={''}
       />
     </>
+  );
+}
+
+function RenderBusinessProcessContext() {
+  const { location, createHref } = useNavigation();
+  location.pathname = businessPerspectiveDashboard;
+
+  const perspectiveId =
+    getMatrixParameter(location, businessProcessDashboard, 'perspectiveId') ??
+    t('in-bizops:dashboards.activity.pageTitle');
+  const perspectiveName =
+    getMatrixParameter(location, businessProcessDashboard, 'perspectiveName') ??
+    t('in-bizops:dashboards.activity.pageTitle');
+
+  setOrDeleteMatrixKey(location, businessPerspectiveDashboard, 'perspectiveId', perspectiveId);
+  setOrDeleteMatrixKey(location, businessPerspectiveDashboard, 'perspectiveName', perspectiveName);
+
+  return (
+    <Link href={createHref(location)} className={locals.contextLink}>
+      {perspectiveName}
+    </Link>
   );
 }

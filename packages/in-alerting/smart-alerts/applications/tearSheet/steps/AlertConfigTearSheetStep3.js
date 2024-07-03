@@ -30,30 +30,27 @@ export default function AlertConfigTearSheetStep3(props) {
   const evaluationType = form.get('evaluationType').value;
   const evaluationGroupByCount = form.get('hiddenFields').get('evaluationGroupByCount').value;
 
-  const groupByPER_AP =
-    useAlertingGroupsByEvaluationType(
-      includeInternal,
-      includeSynthetic,
-      tagFilterExpression,
-      PER_AP,
-      isTagFilterFormModelValid
-    ) ?? 0;
-  const groupByPER_AP_SERVICE =
-    useAlertingGroupsByEvaluationType(
-      includeInternal,
-      includeSynthetic,
-      tagFilterExpression,
-      PER_AP_SERVICE,
-      isTagFilterFormModelValid
-    ) ?? 0;
-  const groupByPER_AP_ENDPOINT =
-    useAlertingGroupsByEvaluationType(
-      includeInternal,
-      includeSynthetic,
-      tagFilterExpression,
-      PER_AP_ENDPOINT,
-      isTagFilterFormModelValid
-    ) ?? 0;
+  const groupByPER_AP = useAlertingGroupsByEvaluationType(
+    includeInternal,
+    includeSynthetic,
+    tagFilterExpression,
+    PER_AP,
+    isTagFilterFormModelValid
+  );
+  const groupByPER_AP_SERVICE = useAlertingGroupsByEvaluationType(
+    includeInternal,
+    includeSynthetic,
+    tagFilterExpression,
+    PER_AP_SERVICE,
+    isTagFilterFormModelValid
+  );
+  const groupByPER_AP_ENDPOINT = useAlertingGroupsByEvaluationType(
+    includeInternal,
+    includeSynthetic,
+    tagFilterExpression,
+    PER_AP_ENDPOINT,
+    isTagFilterFormModelValid
+  );
 
   useEffect(() => {
     updateForm(
@@ -83,27 +80,51 @@ export default function AlertConfigTearSheetStep3(props) {
           tearSheetView
         />
         <span className={locals.seperator} />
-        {isTagFilterFormModelValid ? (
-          evaluationGroupByCount[evaluationType] > 0 ? (
-            <GroupingTable
-              tagFilterExpression={tagFilterExpression}
-              includeInternal={includeInternal}
-              includeSynthetic={includeSynthetic}
-              evaluationType={evaluationType}
-              form={form}
-              updateForm={updateForm}
-            />
-          ) : (
-            <div className={locals.borderBox}>
-              <Message withIcon>{t('in-alerting:smartAlerts.applications.tearSheet.grouping.noData')}</Message>
-            </div>
-          )
-        ) : (
-          <div className={locals.borderBox}>
-            <Message withIcon>{t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery')}</Message>
-          </div>
-        )}
+        <RenderGroupByContent
+          isTagFilterFormModelValid={isTagFilterFormModelValid}
+          evaluationGroupByCount={evaluationGroupByCount}
+          evaluationType={evaluationType}
+          tagFilterExpression={tagFilterExpression}
+          includeInternal={includeInternal}
+          includeSynthetic={includeSynthetic}
+          form={form}
+          updateForm={updateForm}
+        />
       </div>
     </TearSheetStepContentWrapper>
+  );
+}
+
+export function RenderGroupByContent({
+  isTagFilterFormModelValid,
+  evaluationGroupByCount,
+  evaluationType,
+  tagFilterExpression,
+  includeInternal,
+  includeSynthetic,
+  form,
+  updateForm
+}) {
+  if (!isTagFilterFormModelValid) {
+    return (
+      <div className={locals.borderBox}>
+        <Message withIcon>{t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery')}</Message>
+      </div>
+    );
+  }
+
+  return evaluationGroupByCount[evaluationType] === 0 ? (
+    <div className={locals.borderBox}>
+      <Message withIcon>{t('in-alerting:smartAlerts.applications.tearSheet.grouping.noData')}</Message>
+    </div>
+  ) : (
+    <GroupingTable
+      tagFilterExpression={tagFilterExpression}
+      includeInternal={includeInternal}
+      includeSynthetic={includeSynthetic}
+      evaluationType={evaluationType}
+      form={form}
+      updateForm={updateForm}
+    />
   );
 }

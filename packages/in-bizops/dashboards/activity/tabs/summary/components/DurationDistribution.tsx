@@ -35,8 +35,8 @@ export default function DurationDistribution({ rightHeaderContent }: DurationDis
   const businessProcessId: string =
     getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
     t('in-bizops:dashboards.summary.pageTitle');
-  const businessActivityName: string =
-    getMatrixParameter(location, businessActivityPath, 'activityName') ?? t('in-bizops:dashboards.summary.pageTitle');
+  const businessActivityId: string =
+    getMatrixParameter(location, businessActivityPath, 'activityId') ?? t('in-bizops:dashboards.summary.pageTitle');
 
   // timespans that will be used in the content selector
   const timespans: TimespanSelectorOption[] = [
@@ -79,9 +79,9 @@ export default function DurationDistribution({ rightHeaderContent }: DurationDis
           type: 'TAG_FILTER'
         },
         {
-          name: 'bpm_activity_name',
+          name: 'bpm_activity_id',
           operator: 'EQUALS',
-          stringValue: businessActivityName,
+          stringValue: businessActivityId,
           entity: 'NOT_APPLICABLE',
           type: 'TAG_FILTER'
         }

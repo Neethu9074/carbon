@@ -133,7 +133,6 @@ export default function PermissionSectionSyntheticMonitoring<I extends Object, F
             {context === ScopedPermissionItem.LIMITED_ACCESS && (
               <LimitedAccessPanel
                 addButtonLabel={addButtonLabel}
-                entityPermissionKey={entityPermissionKey}
                 role={role}
                 form={form}
                 observable={observable}
@@ -141,6 +140,7 @@ export default function PermissionSectionSyntheticMonitoring<I extends Object, F
                 extractName={extractName}
                 setForm={setForm}
                 roleTooltipText={roleTooltipText}
+                entityPermissionKey={entityPermissionKey}
                 onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.LIMITED_ACCESS)}
                 setShowSubSlide={setShowSubSlide}
                 setSubSlideConfig={setSubSlideConfig}

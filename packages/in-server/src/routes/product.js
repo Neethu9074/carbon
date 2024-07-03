@@ -168,7 +168,6 @@ router.get('/', async (req, res) => {
       termsAndPrivacyAccepted,
       reportingData,
       starredItems,
-      getLicenseInfo,
       clientConfig
     ] = await (subRequestPromises || initializeSubRequestPromises(req));
 
@@ -176,8 +175,6 @@ router.get('/', async (req, res) => {
     const loggedUser = getParsedUser(userStr);
     clientConfig.walkmeUuid = loggedUser;
     clientConfig.segmentKey = getSegmentKey();
-    const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
-    clientConfig.activeLicenseType = activeLicenseInfo;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const injectWalkMeScript =
       clientConfig.featureFlags?.playwithEnabled || clientConfig.featureFlags?.playWithReleaseEnabled;
@@ -233,7 +230,6 @@ function initializeSubRequestPromises(req) {
     getLatestTermsAndPrivacyAcceptance(req),
     getIsMonitoring(req),
     getStarredItems(req),
-    getLicenseInfo(req),
     configResolver.getClientConfig(req, req.tenant, req.unit)
   ]);
 }
@@ -327,13 +323,6 @@ function getStarredItems(req) {
   return getFromUiBackend({
     req,
     path: '/api/starred-item'
-  });
-}
-
-function getLicenseInfo(req) {
-  return getFromUiBackend({
-    req,
-    path: '/api/license'
   });
 }
 

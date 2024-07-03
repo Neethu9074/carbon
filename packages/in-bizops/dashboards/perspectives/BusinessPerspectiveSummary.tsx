@@ -64,7 +64,7 @@ function Header() {
 
   const perspectiveName =
     getMatrixParameter(location, businessPerspectiveDashboard, 'perspectiveName') ??
-    t('in-bizops:dashboards.summary.pageTitle');
+    t('in-bizops:dashboards.perspectives.pageTitleDefault');
 
   return <DashboardHeader label={perspectiveName} title={t('in-bizops:labelPerspective')} />;
 }

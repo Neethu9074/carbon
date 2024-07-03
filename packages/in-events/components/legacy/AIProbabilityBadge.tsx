@@ -6,11 +6,9 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { LoadingSkeleton, Stack, SvgIcon, Typography } from '@instana/components';
+import { LoadingSkeleton, Stack, SvgIcon, Tooltip, Typography } from '@instana/components';
 import { Pill } from '@instana/components';
 import { t } from '@instana/i18n-react';
-
-import Tooltip from 'in-components/Tooltip/Tooltip';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
@@ -46,7 +44,7 @@ export default function AIProbabilityBadge({ probabilityScore, loading }: AIProb
           {t('in-events:RCA.probabilityLevelText')}{' '}
         </Typography>
         {!loading && (
-          <Tooltip align="topMiddle" content={getTooltipContent(probabilityThreshold)}>
+          <Tooltip align="leftBottom" content={getTooltipContent(probabilityThreshold)} caret={false}>
             <Pill
               type={
                 probabilityThreshold === HIGH

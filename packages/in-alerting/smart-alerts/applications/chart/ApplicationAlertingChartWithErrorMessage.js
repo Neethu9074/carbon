@@ -56,7 +56,7 @@ function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
       {error && (
         <>
           <Spacer size="normal" />
-          <Message type="warning" withIcon small>
+          <Message type="warning" withIcon small fullInlineWidth>
             <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.adaptiveBaselineErrorMessageNotAvailable" />
           </Message>
         </>
@@ -67,7 +67,7 @@ function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
 
 // Extracted, because it needs a memoization of the isQueryValid-method to avoid unneeded re-rendering
 function ChartWithErrorMessageAndData(props) {
-  const { alertConfigWithFormModel } = props;
+  const { alertConfigWithFormModel, isTearSheet } = props;
 
   const {
     rule: { alertType },
@@ -93,6 +93,7 @@ function ChartWithErrorMessageAndData(props) {
       }
       customValidators={() => isServicesAndEndpointsSelectionValid}
       queryValidator={isApplicationAlertQueryValid}
+      isTearSheet={isTearSheet}
     />
   );
 }
@@ -141,5 +142,6 @@ ApplicationAlertingChartWithErrorMessage.propTypes = {
   /**
    * Optional endpointId to scope down the metric in the chart to a single entity
    **/
-  endpointId: PropTypes.string
+  endpointId: PropTypes.string,
+  isTearSheet: PropTypes.bool
 };

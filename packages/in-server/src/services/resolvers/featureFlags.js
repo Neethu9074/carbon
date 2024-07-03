@@ -146,6 +146,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'segmentAnalyticsEnabled',
+    instanaCtlKey: 'feature.segment.analytics.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'ampEnabled',
     instanaCtlKey: 'feature.amp.enabled',
     defaultValue: true
@@ -323,7 +328,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsPerspectivesEnabled',
     instanaCtlKey: 'feature.bizops.perspectives.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
@@ -438,7 +443,7 @@ module.exports = exports = [
   {
     uiClientKey: 'rcaUIEnabled',
     instanaCtlKey: 'feature.rca.ui.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'eventFeedbackEnabled',
@@ -458,7 +463,7 @@ module.exports = exports = [
   {
     uiClientKey: 'manuallyCloseEventEnabled',
     instanaCtlKey: 'feature.manually.close.event.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'playWithReleaseEnabled',
@@ -556,6 +561,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonTooltipEnabled',
+    instanaCtlKey: 'feature.carbon.tooltip.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonListEnabled',
     instanaCtlKey: 'feature.carbon.list.enabled',
     defaultValue: false
@@ -563,7 +573,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonAccordionEnabled',
     instanaCtlKey: 'feature.carbon.accordion.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonSelectEnabled',
@@ -693,6 +703,11 @@ module.exports = exports = [
   {
     uiClientKey: 'preAggregatedMetricsQueryEnabled',
     instanaCtlKey: 'feature.pre.aggregated.metrics.query.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticMultiAppEnabled',
+    instanaCtlKey: 'feature.synthetic.multi.app.enabled',
     defaultValue: false
   }
 ];

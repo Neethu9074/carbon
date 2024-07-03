@@ -15,6 +15,22 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
 
 import {
+  SHARE_AND_INVITE_ADD_USER,
+  SHARE_AND_INVITE_CLOSED,
+  SHARE_AND_INVITE_COPY_LINK,
+  SHARE_AND_INVITE_NEW_GROUP,
+  SHARE_AND_INVITE_SUBMIT,
+  SHARE_AND_INVITE_TRIGGERED
+} from 'in-services/tracking/eventNames';
+import {
+  closedInviteAndShareModal,
+  inviteAndShareButtonClicked,
+  shareAndInviteSubmitTracker,
+  addUserInviteAndShareModal,
+  newGroupInviteAndShareModal,
+  copyLinkInviteAndShareModal
+} from 'in-settings/tracker';
+import {
   anyValidEntry,
   checkInviteAlreadyExists,
   createInviteForm,
@@ -32,11 +48,6 @@ import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/A
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 // eslint-disable-next-line no-restricted-imports
 import InputWithButton from 'in-plg/components/InputWithButton/InputWithButton';
-import {
-  closedInviteAndShareModal,
-  inviteAndShareButtonClicked,
-  shareAndInviteSubmitTracker
-} from 'in-settings/tracker';
 import { disableInvitesWithIdpEnabled, playWithReleaseEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { onDoInviteUser } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
 import { fixateTimeConfig, getTimeConfig, setTimeConfig, timeConfig$ } from 'in-stores/time/config';
@@ -52,6 +63,7 @@ import { getInvitations$, getUsersAsResultObservable } from 'in-api/users';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { defaultRoleId, fallbackRoleId, role } from 'in-stores/user';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -61,6 +73,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import { successObservable } from 'in-services/util/result';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
+import { CTA_CLICKED } from 'in-services/util/constants';
 import Input from 'in-components/form/Input/Input';
 import Dialog from 'in-components/Dialog/Dialog';
 import Tooltip from 'in-components/Tooltip';
@@ -71,7 +84,8 @@ import locals from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Sh
 const USER_LIMIT = 5;
 const agentDetailsPagePath = '/agents/installation';
 
-const closeModal = () => {
+const closeModal = (callback?: () => void) => {
+  if (typeof callback === 'function') callback();
   closedInviteAndShareModal();
   close();
 };
@@ -234,6 +248,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
           groupId = defaultRoleId;
           shareAndInviteSubmitTracker({ group: 'default' });
         }
+        segmentTrackingFunc(SHARE_AND_INVITE_SUBMIT);
       });
       const invitations = form.toJS().map((e: any) => ({
         groupId: e.groupId,
@@ -245,6 +260,18 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
       }));
       onDoInviteUser(setMessage, invitations, setForm, setInvitationResult, noop); // noop instead of goToPath since we are not redirecting anymore
     };
+  };
+
+  const segmentTrackingFunc = (SHARE_AND_INVITE_ADD_USER: string) => {
+    if (pageRootName && productArea) {
+      const data = {
+        parentPageName: pageRootName,
+        parentPageCategory: productArea,
+        CTA: SHARE_AND_INVITE_ADD_USER,
+        path: location?.pathname
+      };
+      eventTracker({ data, segmentEventName: CTA_CLICKED });
+    }
   };
 
   if (fixateTime) {
@@ -260,6 +287,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
 
   useEffect(() => {
     inviteAndShareButtonClicked({ pageRootName, productArea });
+    segmentTrackingFunc(SHARE_AND_INVITE_TRIGGERED);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -318,20 +346,22 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
             <Typography variant="heading-400">
               {`${t('in-settings:ShareAndInviteDialogBox.share')} ${productArea?.toLowerCase() ?? ''}`}
             </Typography>
-            {hideShare ? (
+            {showInvite ? (
               <Typography variant="body-regular">
-                {t('in-settings:ShareAndInviteDialogBox.inviteYourColleagues')}
+                {t('in-settings:ShareAndInviteDialogBox.inviteYourTeamMates')}
               </Typography>
             ) : (
-              <Typography variant="body-regular">
-                {t('in-settings:ShareAndInviteDialogBox.collaborateIfYouWantHelp')}
-              </Typography>
+              <Typography variant="body-regular">{t('in-settings:ShareAndInviteDialogBox.shareALink')}</Typography>
             )}
           </Stack>
         </div>
       }
       className={locals.shareAndInviteDialogBox}
-      onClose={closeModal}
+      onClose={() => {
+        closeModal(() => {
+          segmentTrackingFunc(SHARE_AND_INVITE_CLOSED);
+        });
+      }}
       withoutBodyPadding
     >
       <form onSubmit={onSubmitInvitation(canSelectGroup)}>
@@ -428,7 +458,11 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
                     icon="lib_openclose_add_circle_outline"
                     iconSize="xs"
                     kind="action"
-                    onClick={() => setForm(form.push(emptyInvite()).setTouched(true))}
+                    onClick={() => {
+                      addUserInviteAndShareModal();
+                      segmentTrackingFunc(SHARE_AND_INVITE_ADD_USER);
+                      setForm(form.push(emptyInvite()).setTouched(true));
+                    }}
                     disabled={form.size >= USER_LIMIT}
                   >
                     {t('in-settings:ShareAndInviteDialogBox.addUser')}
@@ -441,6 +475,10 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
                       iconSize="xs"
                       kind="action"
                       href={createHrefToPath(teamSettingsAccessControlGroupNew)}
+                      onClick={() => {
+                        newGroupInviteAndShareModal();
+                        segmentTrackingFunc(SHARE_AND_INVITE_NEW_GROUP);
+                      }}
                     >
                       {t('in-settings:ShareAndInviteDialogBox.newGroup')}
                     </Button>
@@ -470,7 +508,16 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
                 <Col xs={12}>
                   <Fields helpText={t('in-settings:ShareAndInviteDialogBox.pageLink')} className={locals.greyedOutText}>
                     <div data-testid="short-url-component">
-                      <InputWithButton type="copy" displayContent={shortUrl} inputValue={shortUrl} size="fullWidth" />
+                      <InputWithButton
+                        type="copy"
+                        displayContent={shortUrl}
+                        inputValue={shortUrl}
+                        size="fullWidth"
+                        callBack={() => {
+                          copyLinkInviteAndShareModal();
+                          segmentTrackingFunc(SHARE_AND_INVITE_COPY_LINK);
+                        }}
+                      />
                     </div>
                   </Fields>
                 </Col>
@@ -522,7 +569,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
 
         {showInvite && (
           <FormFooter>
-            <CancelButton data-testid="cancel-button" onClick={closeModal}>
+            <CancelButton data-testid="cancel-button" onClick={() => closeModal()}>
               {t('in-settings:ShareAndInviteDialogBox.cancel')}
             </CancelButton>
             <SaveButton

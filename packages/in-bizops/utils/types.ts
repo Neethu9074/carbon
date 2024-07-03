@@ -14,19 +14,13 @@ import {
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
-// A business perspective type compatible with form building and the QueryBuilder
-export interface PerspectiveFormItem {
-  description: string;
-  label: string;
-  tagFilterExpression: FormModelElement[];
-}
-
 // id is optional since the request body of the perspective API does not need the id since it is supplied as part of the URL
+// This type is a catch all for multiple various perspective formats used in different parts of the UI
 export interface PerspectiveItem {
   id?: string;
   description?: string;
-  label: string;
-  tagFilterExpression: TagFilterExpressionElementUnion;
+  name: string;
+  tagFilterExpression?: TagFilterExpressionElementUnion | FormModelElement[];
 }
 
 export interface GetBizOpsTagSuggestionQuery extends FilteredQuery {

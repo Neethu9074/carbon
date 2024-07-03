@@ -23,7 +23,6 @@ import MessageFlyout from 'in-components/MessageFlyout';
 import routes from 'in-client/js/routes/mainRoutes';
 import GlobalTheme from 'in-themes/GlobalTheme';
 
-import 'in-themes/foundation.less';
 import locals from './App.mless';
 
 export default function App() {

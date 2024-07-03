@@ -8,7 +8,6 @@ import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
-import { getHumanReadablePluginName } from 'in-sap/Dashboards/tables/getHumanReadablePluginName';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import { getSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
@@ -18,11 +17,35 @@ import getRelatedResources from 'in-sap/subscriptions/getRelatedResources';
 import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
+import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 const pathSegment = '/abapsystem';
 const matrixPrefix = 'abapsystemssensor.';
 var systemSnapshotId = '';
+
+const workProcessObj = [
+  {
+    key: 'DIA',
+    metrics: ['workloadcounts.dialogProcessWaiting', 'workloadcounts.numberOfDialogProcess']
+  },
+  {
+    key: 'UPD',
+    metrics: ['workloadcounts.updateProcessWaiting', 'workloadcounts.numberOfUpdateProcess']
+  },
+  {
+    key: 'BTC',
+    metrics: ['workloadcounts.batchProcessWaiting', 'workloadcounts.numberOfBatchProcess']
+  },
+  {
+    key: 'SPO',
+    metrics: ['workloadcounts.spoolProcessWaiting', 'workloadcounts.numberOfSpoolProcess']
+  },
+  {
+    key: 'UPD2',
+    metrics: ['workloadcounts.update2ProcessWaiting', 'workloadcounts.numberOfUpdate2Process']
+  }
+];
 
 const columnDefinitions = [
   {
@@ -30,20 +53,6 @@ const columnDefinitions = [
     label: t('in-sap:name'),
     getContent(item) {
       return getSpecificDashboard(item, matrixPrefix, systemSnapshotId);
-    }
-  },
-  {
-    id: 'objectType',
-    label: t('in-sap:objectType'),
-    getContent(item) {
-      return getHumanReadablePluginName(item);
-    }
-  },
-  {
-    id: 'hostName',
-    label: t('in-sap:hostName'),
-    getContent(item) {
-      return item.hostName;
     }
   },
   {
@@ -98,7 +107,24 @@ const columnDefinitions = [
       );
     }
   },
-
+  {
+    id: 'workProcess',
+    label: t('in-sap:dashboards.workProcess'),
+    sortable: false,
+    getContent(item) {
+      return (
+        <div>
+          {workProcessObj.map((resource, index) => (
+            <span key={resource.key}>
+              {resource.key} <MetricValue snapshotId={item.id} metric={resource.metrics[0]} />/
+              <MetricValue snapshotId={item.id} metric={resource.metrics[1]} />
+              {index !== 4 && ' | '}
+            </span>
+          ))}
+        </div>
+      );
+    }
+  },
   {
     id: 'issues',
     label: t('in-sap:issues'),

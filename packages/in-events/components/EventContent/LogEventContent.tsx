@@ -90,11 +90,11 @@ export default function LogEventContent({ event, snapshot, reload }: Props) {
   const windowSize = getWindowSizeFromEvent(event, minDurationMillis, maxDurationMillis);
 
   const granularity = alertConfig.granularity;
-  const eventData = event.toJS();
+  const endTime = (event.get('state') as string) === 'closed' ? (event.get('end') as number) : null;
 
   let timeConfig = {
     ...getChartTimeConfigByEvent(event),
-    to: roundToNearest(eventData?.end, granularity),
+    to: roundToNearest(endTime, granularity),
     autoRefresh: false,
     ...(windowSize && { windowSize })
   } as TimeConfig;

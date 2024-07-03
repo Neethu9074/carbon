@@ -16,7 +16,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { megaBytes, percentagePlain } from 'in-services/formatters/number';
+import { megaBytes, percentage } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -114,7 +114,7 @@ const cols = [
       getMetricName(row: FileSystemRow) {
         return `fileSystemStats.${row.key}.USED_PERCENTAGE`;
       },
-      getContent: percentagePlain.detailed,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -165,7 +165,7 @@ export default function FileSystemMetrics({ snapshotId, timeConfig }: FileSystem
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: percentagePlain.detailed,
+                formatter: percentage.detailed,
                 metrics: [`fileSystemStats.${row.key}.USED_PERCENTAGE`],
                 labels: [t('in-sap:dashboards.usage')],
                 type: 'line',

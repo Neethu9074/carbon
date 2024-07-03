@@ -123,7 +123,7 @@ function insertPlaceholderText(
 
     const newCursorPosition = selectionStart + placeholderString.length;
     (textarea as any).setSelectionRange(newCursorPosition, newCursorPosition);
-    textarea.focus();
+    setTimeout(() => textarea.focus(), 0);
 
     onChange(['name'], (field: Item) => (field as Field<string>).setValue(newValue).setTouched(true));
   };

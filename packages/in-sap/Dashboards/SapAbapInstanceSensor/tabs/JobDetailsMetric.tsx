@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
@@ -14,12 +14,16 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { statusMap } from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/JobStatus';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { minutes } from 'in-services/formatters/number';
+import ComboBox from 'in-components/ComboBox/ComboBox';
 import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
+
+import locals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ComboBox.mless';
 
 interface JobDetailsRow {
   key: string;
@@ -107,6 +111,20 @@ const cols = [
 
 export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetailsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'jobDetails'), [snapshotId]);
+  // @ts-expect-error Module needs to be translated to TS
+  const [{ status }, setPhase] = useState(statusMap);
+  const rightHeader = (
+    <ComboBox
+      placeholder={t('in-sap:dashboards.status')}
+      isSearchable={false}
+      value={status}
+      className={locals.filter}
+      // @ts-expect-error Module needs to be translated to TS
+      onChange={t => setPhase({ status: t ? t.value : null })}
+      options={statusMap}
+    />
+  );
+
   if (!data) {
     return null;
   }
@@ -122,6 +140,13 @@ export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetails
         timeConfig,
         jobDetails
       };
+    })
+    .filter(function (rows: JobDetailsRow) {
+      if (status == null) {
+        return rows;
+      } else {
+        return rows != null && rows.jobDetails.get('STATUS') === status;
+      }
     });
 
   function getDetails(row: JobDetailsRow) {
@@ -153,6 +178,8 @@ export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetails
       initialSortColumn={0}
       initialSortDirection="asc"
       getRowDetails={getDetails}
+      // @ts-expect-error Module needs to be translated to TS
+      rightHeader={rightHeader}
     />
   );
 }

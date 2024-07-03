@@ -30,23 +30,33 @@ interface MonthlyFrequencyProps {
 }
 
 export default function MonthlyFrequency({ form, setFormRRule, rrule }: MonthlyFrequencyProps) {
-  const [onDay, setOnDay] = useState(true);
   const dayNum = rrule.options.bymonthday ? rrule.options.bymonthday[0] || 0 : undefined;
   const nweekday = rrule.options.bynweekday ? rrule.options.bynweekday[0] : undefined;
   const [posDay, setPosDay] = useState<string | undefined>(nweekday?.length === 2 ? nweekday[1].toString() : undefined);
   const [weekDay, setWeekDay] = useState<string | undefined>(
     nweekday?.length === 2 ? nweekday[0].toString() : undefined
   );
+  const [onDay, setOnDay] = useState<boolean>(weekDay && posDay ? false : true);
 
   useEffect(() => {
-    if (weekDay && posDay) {
+    if (
+      !onDay &&
+      weekDay &&
+      posDay &&
+      (!nweekday ||
+        (nweekday &&
+          nweekday.length === 2 &&
+          (nweekday[1].toString() !== posDay || nweekday[0].toString() !== weekDay)))
+    ) {
       let givenWeekDay = new Weekday(parseInt(weekDay));
       const givenPosDay = parseInt(posDay);
-
       givenWeekDay = givenWeekDay.nth(givenPosDay);
-      setRRuleFirstToLastAndWeekday(rrule, givenWeekDay, true);
+      setFormRRule(form, setRRuleFirstToLastAndWeekday(rrule, givenWeekDay, true));
+    } else if (onDay && weekDay && posDay) {
+      setPosDay(undefined);
+      setWeekDay(undefined);
     }
-  }, [posDay, rrule, weekDay]);
+  }, [posDay, rrule, weekDay, form, setFormRRule, nweekday, onDay]);
   const setByMonthDay = (val: number) => {
     setFormRRule(form, setRRuleByMonthDay(rrule, val, true));
   };
@@ -64,20 +74,22 @@ export default function MonthlyFrequency({ form, setFormRRule, rrule }: MonthlyF
             label="Day"
             checked={onDay}
           />
-          <Input
-            type="number"
-            id="monthly-recurrence-day"
-            placeholder="#"
-            disabled={!onDay}
-            onChange={v => {
-              if (v.target.valueAsNumber <= 0) return;
-              setByMonthDay(v.target.valueAsNumber);
-            }}
-            value={dayNum || ''}
-            className={locals.smallInput}
-            min="1"
-            max="31"
-          />
+          <div className={locals.smallInput}>
+            <Input
+              type="number"
+              id="monthly-recurrence-day"
+              placeholder="#"
+              disabled={!onDay}
+              onChange={v => {
+                if (v.target.valueAsNumber <= 0) return;
+                setByMonthDay(v.target.valueAsNumber);
+              }}
+              value={dayNum || ''}
+              className={locals.smallInput}
+              min="1"
+              max="31"
+            />
+          </div>
         </Stack>
         <Stack direction="horizontal" gap="xsmall">
           <RadioButton

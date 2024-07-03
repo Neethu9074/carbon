@@ -36,19 +36,9 @@ export default function SecurityEssentials({ timeConfig, data: sap }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: [
-                'versionstats.totalCalls',
-                'versionstats.totalRfc',
-                'versionstats.totalGui',
-                'versionstats.totalDemon'
-              ],
-              labels: [
-                t('in-sap:abapsensor.metrics.total'),
-                t('in-sap:dashboards.rfc'),
-                t('in-sap:dashboards.gui'),
-                t('in-sap:dashboards.daemon')
-              ],
-              type: 'line',
+              metrics: ['versionstats.totalRfc', 'versionstats.totalGui', 'versionstats.totalDemon'],
+              labels: [t('in-sap:dashboards.rfc'), t('in-sap:dashboards.gui'), t('in-sap:dashboards.daemon')],
+              type: 'stackedBar',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -60,13 +50,9 @@ export default function SecurityEssentials({ timeConfig, data: sap }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['versionstats.totalRfc', 'versionstats.totalInternalRfc', 'versionstats.totalExternalRfc'],
-              labels: [
-                t('in-sap:abapsensor.metrics.total'),
-                t('in-sap:dashboards.internal'),
-                t('in-sap:dashboards.external')
-              ],
-              type: 'line',
+              metrics: ['versionstats.totalInternalRfc', 'versionstats.totalExternalRfc'],
+              labels: [t('in-sap:dashboards.internal'), t('in-sap:dashboards.external')],
+              type: 'stackedBar',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

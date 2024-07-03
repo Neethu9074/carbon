@@ -79,6 +79,10 @@
   .urlConfig {
     .ellipsis();
   }
+
+  .lastRow {
+    border-bottom: none;
+  }
 }
 
 :global {
