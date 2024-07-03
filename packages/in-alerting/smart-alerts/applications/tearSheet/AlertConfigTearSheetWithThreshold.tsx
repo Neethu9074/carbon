@@ -135,7 +135,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
 
   useIsTagFilterFormModelExists(tagFilterExpression, getTagCatalog, updateTagFilterExpression);
 
-  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid);
+  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid, true);
 
   const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
 
