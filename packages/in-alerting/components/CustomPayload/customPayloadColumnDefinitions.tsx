@@ -204,27 +204,25 @@ export const typeColumnDefinition = {
       <FormGroup withoutBottomMargin>
         {item.get('type').map((field: Field<string>) => {
           return (
-            <Tooltip content={field.value === staticType ? staticLabel : dynamicLabel} delay={500}>
-              <Select
-                wrapperClassName={locals.colType}
-                disabled={!enabled}
-                //className={locals.colType}
-                value={field.value ?? defaultType}
-                hasError={!field?.valid && field?.touched}
-                onChange={({ target }) => {
-                  onChangeType(target.value);
-                }}
-              >
-                {[
-                  { value: staticType, label: staticLabel },
-                  { value: dynamicType, label: dynamicLabel }
-                ].map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </Select>
-            </Tooltip>
+            <Select
+              wrapperClassName={locals.colType}
+              disabled={!enabled}
+              //className={locals.colType}
+              value={field.value ?? defaultType}
+              hasError={!field?.valid && field?.touched}
+              onChange={({ target }) => {
+                onChangeType(target.value);
+              }}
+            >
+              {[
+                { value: staticType, label: staticLabel },
+                { value: dynamicType, label: dynamicLabel }
+              ].map(({ value, label }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </Select>
           );
         })}
       </FormGroup>
