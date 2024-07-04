@@ -242,8 +242,8 @@ function ProfilesIndicator({
         width={72}
         height={24}
         withOverlay={false}
-        small
         description={t('in-components:loading.labelLoadingData')}
+        small
       />
     );
   }
