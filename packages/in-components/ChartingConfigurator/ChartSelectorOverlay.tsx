@@ -60,6 +60,7 @@ interface ChartMetric {
   formatter: string;
   groupLabel?: string;
   customMetric?: boolean;
+  metricTagSuggestions?: { label: string; value: string }[];
 }
 
 interface ChartAggregation {
@@ -139,10 +140,11 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
 
     if (isChartMetric(input)) {
       if (isCustomChartMetric(input)) {
+        const secondLevelMetricId = input.metricTagSuggestions ? input.metricTagSuggestions[0].value : '';
         change = {
           ...change,
-          metricId: `${input.metricId}.${input.secondLevelMetricId}`,
-          secondLevelMetricId: input.secondLevelMetricId
+          metricId: `${input.metricId}.${secondLevelMetricId}`,
+          secondLevelMetricId: secondLevelMetricId
         };
       } else {
         change = {
@@ -177,7 +179,6 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
         metrics
       };
     }
-
     onChange(change);
   };
 

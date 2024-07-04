@@ -379,8 +379,7 @@ function createChartableMetricCatalogTransformer(dataSource) {
           ? t('in-applications:metrics.traces', { context: metricDefinition.metricId })
           : t('in-applications:metrics.calls', { context: metricDefinition.metricId.replace('.', '_') }),
       aggregations: supportedMetrics[metricDefinition.metricId],
-      formatter: metricFormatter(metricDefinition),
-      groupLabel: metricDefinition.customMetric ? 'Call metrics' : undefined
+      formatter: metricFormatter(metricDefinition)
     };
   };
 }
