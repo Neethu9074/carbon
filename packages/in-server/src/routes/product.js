@@ -30,6 +30,7 @@ const compiledRedirectTemplate = Handlebars.compile(
 );
 
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
+const compStyleCssChecksum = checkSumMod.getChecksumForFile(paths.compStyleCss);
 const stringifiedBuildInformation = JSON.stringify(buildInformation);
 
 // Module file name patterns for which a prefetch instruction should be added to the HTML
@@ -184,6 +185,7 @@ router.get('/', async (req, res) => {
     res.send(
       compiledTemplate({
         indexJsChecksum,
+        compStyleCssChecksum,
         nonce,
         appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
         mixpanelToken: getMixpanelToken(loggedUser, termsAndPrivacy.allAnalyticsServices),

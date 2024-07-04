@@ -19,7 +19,9 @@ import {
   getDocLinkFromFields,
   isAnsible,
   isManual,
-  isExternal
+  isExternal,
+  isAIAction,
+  isAIActionCopy
 } from 'in-automation/ActionCatalog/shared';
 import {
   nameColumn as actionNameColumn,
@@ -225,7 +227,7 @@ const getExecuteColumn = (
             addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
             runActionTracker({
               actionType: action.type,
-              AIGeneratedAction: action?.metadata?.builtIn && action?.metadata?.ai !== null ? true : false,
+              aIGeneratedAction: isAIAction(action) || isAIActionCopy(action),
               actionName: action.name,
               policyId: item.id,
               policyName: item.name
