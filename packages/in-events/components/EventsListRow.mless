@@ -20,18 +20,16 @@
   }
 
   .text,
+  .smallColumn,
   .title {
     .ellipsis();
   }
 
   .title {
-    max-width: 15rem;
+    max-width: 40rem;
   }
 
   @media @min-medium-screen {
-    .title {
-      max-width: 40rem;
-    }
     .smallColumn {
       max-width: 25rem;
     }
