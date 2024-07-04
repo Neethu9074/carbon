@@ -53,12 +53,7 @@ export default function ChartingConfiguratorForm({
           overlayContent={GroupedMetricSelectorOverlay}
           unifiedMetricsSource={unifiedMetricsSource}
           overlayProps={{ dataSource, unifiedMetricsSource }}
-          onChange={value => {
-            const change = {
-              ...value
-            };
-            onChange(change);
-          }}
+          onChange={onChange}
           aria-label={t('in-components:chartingConfigurator.labelChangeSelectedMetric')}
         />
       ) : (
@@ -92,8 +87,8 @@ export default function ChartingConfiguratorForm({
           disableAutomaticOptionSorting
           aria-label={'tag'}
         >
-          {({ elementProps, isOpen }) => (
-            <div {...elementProps} className={locals.metric} isOpen={isOpen}>
+          {({ elementProps }) => (
+            <div {...elementProps} className={locals.metric}>
               {activeMetricTagSuggestion?.label}{' '}
             </div>
           )}
