@@ -28,7 +28,8 @@ import {
   AUTOMATION_VIEW_AI_GENERATED_ACTION,
   AUTOMATION_TEST_AI_GENERATED_ACTION,
   AUTOMATION_CLICK_COPY_AI_GENERATED_ACTION,
-  AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION
+  AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION,
+  AUTOMATION_ACTION_HISTORY_INSTANCE_DELETE
 } from 'in-services/tracking/tracking';
 
 export const runActionTracker = (e: Object) => track(AUTOMATION_ACTION_RUN, e);
@@ -37,6 +38,7 @@ export const editActionTracker = (e: Object) => track(AUTOMATION_ACTION_EDIT, e)
 export const deleteActionTracker = (e: Object) => track(AUTOMATION_ACTION_DELETE, e);
 export const actionHistoryTracker = () => track(AUTOMATION_ACTION_HISTORY_VIEW);
 export const actionHistoryInstanceViewTracker = (e: Object) => track(AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW, e);
+export const actionHistoryInstanceDeleteTracker = (e: Object) => track(AUTOMATION_ACTION_HISTORY_INSTANCE_DELETE, e);
 export const actionHistoryInstanceFeedbackTracker = (e: Object) => track(AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND, e);
 export const createPolicyTracker = (e: Object) => track(AUTOMATION_POLICY_CREATE, e);
 export const createBulkPoliciesTracker = (e: Object) => track(AUTOMATION_POLICY_BULK_CREATE, e);

@@ -35,6 +35,7 @@ import submitActionExecution from 'in-automation/subscriptions/submitActionExecu
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { NewPolicy } from 'in-automation/Policies/types';
 import { mapData } from 'in-services/util/result';
+import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -924,4 +925,17 @@ export function getDynamicParameterTagCatalog() {
     maxRetries: 3,
     mapToResultObject: true
   });
+}
+
+export function deleteActionInstance(id: string, createdDate: number) {
+  return http<{ deletedDocumentsCount: string }>({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${automationAPIBase}/actioninstances/${encodeURIComponent(id)}`,
+    queryParams: {
+      to: createdDate + minutes.toMillis(10),
+      from: createdDate - minutes.toMillis(10)
+    }
+  }).map(response => response.body);
 }

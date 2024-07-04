@@ -94,6 +94,7 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
   CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS',
   CAN_CONFIGURE_AUTOMATION_POLICIES: 'CAN_CONFIGURE_AUTOMATION_POLICIES',
+  CAN_DELETE_AUTOMATION_ACTION_HISTORY: 'CAN_DELETE_AUTOMATION_ACTION_HISTORY',
   CAN_CONFIGURE_SYNTHETIC_TESTS: 'CAN_CONFIGURE_SYNTHETIC_TESTS',
   CAN_CONFIGURE_SYNTHETIC_LOCATIONS: 'CAN_CONFIGURE_SYNTHETIC_LOCATIONS',
   CAN_VIEW_SYNTHETIC_TESTS: 'CAN_VIEW_SYNTHETIC_TESTS',
@@ -628,6 +629,13 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     description: t('in-stores:permissionCanConfigureAutomationPoliciesDescription'),
     category: t('in-stores:permissionCanConfigureAutomationPoliciesCategory')
   },
+  [Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY]: {
+    keyForGroupApi: Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY,
+    keyForApiTokenApi: 'canDeleteAutomationActionHistory',
+    label: t('in-stores:permissionCanDeleteAutomationActionHistoryLabel'),
+    description: t('in-stores:permissionCanDeleteAutomationActionHistoryDescription'),
+    category: t('in-stores:permissionCanDeleteAutomationActionHistoryCategory')
+  },
   /* Synthetic */
   [Capability.CAN_CONFIGURE_SYNTHETIC_TESTS]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
@@ -727,7 +735,8 @@ export function getProductPermissions(): Array<ProductPermission> {
     const automationCapabilities: Set<CapabilityType> = new Set([
       Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
       Capability.CAN_RUN_AUTOMATION_ACTIONS,
-      Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
+      Capability.CAN_CONFIGURE_AUTOMATION_POLICIES,
+      Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY
     ]);
 
     permissions = permissions.filter(({ keyForGroupApi }) => {

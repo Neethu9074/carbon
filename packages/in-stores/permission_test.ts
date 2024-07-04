@@ -65,6 +65,7 @@ describe('in-stores/permission.ts', () => {
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_RUN_AUTOMATION_ACTIONS]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]);
+      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY]);
     });
 
     it('returns action available product permission if action FF is enabled', () => {
@@ -87,6 +88,7 @@ describe('in-stores/permission.ts', () => {
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_RUN_AUTOMATION_ACTIONS]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]);
+      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY]);
     });
 
     it('returns synthetics available product permission if synthetics FF is enabled', () => {
@@ -109,6 +111,9 @@ describe('in-stores/permission.ts', () => {
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS]);
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_RUN_AUTOMATION_ACTIONS]);
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]);
+      expect(productPermissions).not.toContain(
+        productPermissionsObject[Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY]
+      );
     });
 
     it('returns default product permission if no FF are enabled', () => {
@@ -131,6 +136,9 @@ describe('in-stores/permission.ts', () => {
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS]);
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_RUN_AUTOMATION_ACTIONS]);
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]);
+      expect(productPermissions).not.toContain(
+        productPermissionsObject[Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY]
+      );
     });
 
     it('Checks the BizOps flag does not affect other permissions', () => {
