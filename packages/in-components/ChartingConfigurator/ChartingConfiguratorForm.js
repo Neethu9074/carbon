@@ -89,7 +89,7 @@ export default function ChartingConfiguratorForm({
         >
           {({ elementProps }) => (
             <div {...elementProps} className={locals.metric}>
-              {activeMetricTagSuggestion?.label}{' '}
+              {activeMetricTagSuggestion?.label}
             </div>
           )}
         </ComboBoxBehavior>
