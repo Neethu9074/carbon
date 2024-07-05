@@ -5,6 +5,7 @@
 
 :local {
   .root {
+    border: solid red;
     margin: 1rem;
 
     & > h1 {
