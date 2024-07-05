@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import featureFlags from '../../dev/featureFlags';
+
 window.instana = {
   user: {
     email: 'tom@example.com',
@@ -16,6 +18,7 @@ window.instana = {
     ]
   },
   config: {
+    featureFlags,
     tenant: 'instana',
     tenantUnit: 'test',
     environment: 'internal'
