@@ -4,9 +4,11 @@
  */
 
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import usageTimePresets from 'in-amp/components/usageTimePresets';
 import { tenantUnitChanged } from 'in-amp/tracker';
 import useUrlState from 'in-hooks/useUrlState';
-import { days } from 'in-services/time';
+
+const thisMonthTimePreset = usageTimePresets.filter(timePreset => timePreset.timeRange === 'this_month')[0];
 
 const urlSettingsConfig = {
   bind: [
@@ -21,21 +23,21 @@ const urlSettingsConfig = {
       name: 'windowSize',
       serializer: buildJsonSerializer(),
       parser: buildJsonParser(),
-      initialState: days.toMillis(30)
+      initialState: thisMonthTimePreset.windowSize
     },
     {
       path: '/amp',
       name: 'timeRange',
       serializer: buildJsonSerializer(),
       parser: buildJsonParser(),
-      initialState: 'last_30_days'
+      initialState: thisMonthTimePreset.timeRange
     },
     {
       path: '/amp',
       name: 'to',
       serializer: buildJsonSerializer(),
       parser: buildJsonParser(),
-      initialState: null
+      initialState: thisMonthTimePreset.to
     }
   ]
 };
