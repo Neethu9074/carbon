@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { getTime, startOfMonth, startOfDay, endOfMonth, subDays } from 'date-fns';
+import { getTime, startOfMonth, startOfDay, startOfHour, endOfMonth, subDays, subHours } from 'date-fns';
 
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
@@ -13,19 +13,19 @@ const usageTimePresets = [
   {
     timeRange: 'last_7_days',
     windowSize: days.toMillis(7),
-    to: null,
+    to: getTime(subHours(startOfHour(new Date()), 1)),
     label: t('in-amp:components.timePresets.last7Days')
   },
   {
     timeRange: 'last_30_days',
     windowSize: days.toMillis(30),
-    to: null,
+    to: getTime(subDays(startOfDay(new Date()), 1)),
     label: t('in-amp:components.timePresets.last30Days')
   },
   {
     timeRange: 'all',
     windowSize: days.toMillis(365),
-    to: null,
+    to: getTime(subDays(startOfDay(new Date()), 1)),
     label: t('in-amp:components.timePresets.last365Days')
   },
   {
