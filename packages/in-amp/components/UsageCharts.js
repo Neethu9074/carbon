@@ -21,6 +21,8 @@ import { t } from 'in-i18n';
 
 export default function UsageCharts({
   windowSize,
+  timeRange,
+  to,
   tenantUnit,
   showPurchasedMetric = true,
   showAggregatedMetrics = false,
@@ -51,6 +53,8 @@ export default function UsageCharts({
           <Card title={t('in-amp:components.usageCharts.standard')}>
             <UsageChart
               windowSize={windowSize}
+              timeRange={timeRange}
+              to={to}
               showAggregatedMetrics={showAggregatedMetrics}
               y1={{ ...tenantUnit, metrics: ['apmhost'], labels: [t('in-amp:components.usageCharts.apmHosts')] }}
               y2={
@@ -70,6 +74,8 @@ export default function UsageCharts({
           <Card title={t('in-amp:components.usageCharts.essentials')}>
             <UsageChart
               windowSize={windowSize}
+              timeRange={timeRange}
+              to={to}
               showAggregatedMetrics={showAggregatedMetrics}
               y1={{
                 ...tenantUnit,
@@ -101,6 +107,8 @@ export default function UsageCharts({
             </SubViewHeader>
             <UsageChart
               windowSize={windowSize}
+              timeRange={timeRange}
+              to={to}
               showAggregatedMetrics={showAggregatedMetrics}
               y1={dataChartY1}
               y2={{
@@ -146,6 +154,8 @@ export default function UsageCharts({
                 </SubViewHeader>
                 <UsageChart
                   windowSize={windowSize}
+                  timeRange={timeRange}
+                  to={to}
                   showAggregatedMetrics={showAggregatedMetrics}
                   y1={{
                     ...tenantUnit,

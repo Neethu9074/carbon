@@ -22,7 +22,10 @@ export default function AmpInformationModifier({
   windowSize,
   setWindowSize,
   tenantUnit,
-  setTenantUnit
+  setTenantUnit,
+  timeRange,
+  setTimeRange,
+  setTo
 }) {
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
 
@@ -59,7 +62,13 @@ export default function AmpInformationModifier({
           </ComboBoxBehavior>
         </Stack>
       )}
-      <AmpTimeSelection windowSize={windowSize} setWindowSize={setWindowSize} />
+      <AmpTimeSelection
+        windowSize={windowSize}
+        setWindowSize={setWindowSize}
+        timeRange={timeRange}
+        setTimeRange={setTimeRange}
+        setTo={setTo}
+      />
     </div>
   );
 }

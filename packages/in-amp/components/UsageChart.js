@@ -13,13 +13,15 @@ import zoomInConfig from 'in-components/Chart/components/ContextMenu/actions/zoo
 import { formatDate, formatDateTime } from 'in-services/formatters/date';
 import { days, hours } from 'in-services/time';
 
-export default function UsageChart({ windowSize, showAggregatedMetrics, y1, y2 }) {
+export default function UsageChart({ windowSize, timeRange, to, showAggregatedMetrics, y1, y2 }) {
   const defaultProps = {
     aggregation: 'MEAN',
     source: 'USAGE',
     showAggregatedMetrics,
     unit: y1.unit,
-    tenant: y1.tenant
+    tenant: y1.tenant,
+    timeRange: timeRange,
+    to: to
   };
 
   let tooltipTimeFormatter = formatDateTime;
@@ -28,7 +30,7 @@ export default function UsageChart({ windowSize, showAggregatedMetrics, y1, y2 }
   }
 
   return (
-    <UsageTimeConfigContextModification windowSize={windowSize}>
+    <UsageTimeConfigContextModification windowSize={windowSize} to={to}>
       <UnifiedMetricsChart
         shareMaxAxisDomain
         automaticallySize={false}
