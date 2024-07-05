@@ -66,9 +66,6 @@
   }
 
   .page {
-    > section:last-of-type {
-      margin-top: 2rem;
-    }
     main {
       width: 85%;
       display: flex;

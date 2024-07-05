@@ -17,7 +17,6 @@ import {
   transformData
 } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
 import LogVolumeDetails from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/LogVolumeDetails';
-import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import Select from 'in-components/form/Select/Select';
@@ -46,7 +45,7 @@ function LogVolume() {
   const logVolumeData = result && transformData(result);
   return (
     <>
-      <SettingsDetailPage>
+      <section>
         <Title title={localisationStrings.logVolume} />
         <section>
           <SubViewHeader>{localisationStrings.logVolume}</SubViewHeader>
@@ -76,7 +75,7 @@ function LogVolume() {
             <LogVolumeDetails data={logVolumeData} />
           </section>
         </main>
-      </SettingsDetailPage>
+      </section>
     </>
   );
 }

@@ -12,10 +12,6 @@
     border: 1px solid var(--ids-color-option-neutral-400);
   }
 
-  .page {
-    margin-top: 2rem;
-  }
-
   .cardBody {
     display: grid;
   }
