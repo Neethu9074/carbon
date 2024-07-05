@@ -87,7 +87,7 @@ const loadEntities = (): Observable<ApiGroup[]> => {
 
 const Groups = () => {
   const { goToPath } = useNavigation();
-  const { showTenantInfo } = useTenantUnitsInfo();
+  const showTenantInfo = useTenantUnitsInfo();
 
   const accessColumnHeadLabel = !showTenantInfo
     ? t('in-settings:tabs.access')
