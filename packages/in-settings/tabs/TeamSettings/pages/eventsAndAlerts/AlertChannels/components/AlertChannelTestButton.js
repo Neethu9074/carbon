@@ -6,7 +6,7 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Button, Message } from '@instana/components';
+import { Button, Message, Stack } from '@instana/components';
 
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { clickTestAlertChannelTracker } from 'in-settings/tracker';
@@ -81,31 +81,30 @@ export default class extends React.Component {
     return (
       <div>
         <Section className="test_channel_dialog">
-          <Button
-            kind="info"
-            icon={this.state.loading ? 'lib_actions_loading' : null}
-            iconSpinning
-            onClick={() => {
-              this.test(this.props.alertChannel, this.props.form);
-            }}
-            disabled={!this.props.form.hierarchyValid && this.props.form.touched}
-            className="test_channel_dialog_child button"
-          >
-            {this.props.testAlertChannelLabel || t('in-settings:tabs.testChannel')}
-          </Button>
-          {this.state.message && !this.state.loading ? (
-            <Message
-              type={this.state.errorResponse || this.state.error ? 'error' : 'success'}
-              title={this.state.errorResponse || this.state.error ? 'Test Failed' : 'Test Successful'}
-              description={
-                this.state.errorResponse || this.state.error
-                  ? this.state.message
-                  : t('in-settings:testAlertChannelSuccess', { channel: this.props.alertChannelLabel })
-              }
-              className="test_channel_dialog_child"
-              withIcon
-            />
-          ) : null}
+          <Stack>
+            <Button
+              kind="info"
+              icon={this.state.loading ? 'lib_actions_loading' : null}
+              iconSpinning
+              onClick={() => {
+                this.test(this.props.alertChannel, this.props.form);
+              }}
+              disabled={!this.props.form.hierarchyValid && this.props.form.touched}
+            >
+              {this.props.testAlertChannelLabel || t('in-settings:tabs.testChannel')}
+            </Button>
+            {this.state.message && !this.state.loading ? (
+              <Message
+                type={this.state.errorResponse || this.state.error ? 'error' : 'success'}
+                title={this.state.errorResponse || this.state.error ? 'Test Failed' : 'Test Successful'}
+                description={
+                  this.state.errorResponse || this.state.error
+                    ? this.state.message
+                    : t('in-settings:testAlertChannelSuccess', { channel: this.props.alertChannelLabel })
+                }
+              />
+            ) : null}
+          </Stack>
         </Section>
       </div>
     );

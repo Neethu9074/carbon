@@ -677,7 +677,7 @@ interface EmailCustomPrefixPreviewProps {
 }
 
 function EmailCustomPrefixPreviewSection({ fieldMetadata }: EmailCustomPrefixPreviewProps) {
-  const [currentField, setCurrentField] = useState<string>('incidentSubject');
+  const [currentField, setCurrentField] = useState<string>('incident');
 
   const currentMapField = fieldMetadata.find(val => val.value === currentField);
 

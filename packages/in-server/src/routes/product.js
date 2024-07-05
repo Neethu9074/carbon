@@ -30,6 +30,7 @@ const compiledRedirectTemplate = Handlebars.compile(
 );
 
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
+const compStyleCssChecksum = checkSumMod.getChecksumForFile(paths.compStyleCss);
 const stringifiedBuildInformation = JSON.stringify(buildInformation);
 
 // Module file name patterns for which a prefetch instruction should be added to the HTML
@@ -168,6 +169,7 @@ router.get('/', async (req, res) => {
       termsAndPrivacyAccepted,
       reportingData,
       starredItems,
+      getLicenseInfo,
       clientConfig
     ] = await (subRequestPromises || initializeSubRequestPromises(req));
 
@@ -175,6 +177,8 @@ router.get('/', async (req, res) => {
     const loggedUser = getParsedUser(userStr);
     clientConfig.walkmeUuid = loggedUser;
     clientConfig.segmentKey = getSegmentKey();
+    const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
+    clientConfig.activeLicenseType = activeLicenseInfo;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const injectWalkMeScript =
       clientConfig.featureFlags?.playwithEnabled || clientConfig.featureFlags?.playWithReleaseEnabled;
@@ -184,6 +188,7 @@ router.get('/', async (req, res) => {
     res.send(
       compiledTemplate({
         indexJsChecksum,
+        compStyleCssChecksum,
         nonce,
         appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
         mixpanelToken: getMixpanelToken(loggedUser, termsAndPrivacy.allAnalyticsServices),
@@ -230,6 +235,7 @@ function initializeSubRequestPromises(req) {
     getLatestTermsAndPrivacyAcceptance(req),
     getIsMonitoring(req),
     getStarredItems(req),
+    getLicenseInfo(req),
     configResolver.getClientConfig(req, req.tenant, req.unit)
   ]);
 }
@@ -323,6 +329,13 @@ function getStarredItems(req) {
   return getFromUiBackend({
     req,
     path: '/api/starred-item'
+  });
+}
+
+function getLicenseInfo(req) {
+  return getFromUiBackend({
+    req,
+    path: '/api/license'
   });
 }
 

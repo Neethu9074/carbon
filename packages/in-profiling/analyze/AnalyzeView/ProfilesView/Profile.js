@@ -5,9 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { ButtonGroup, SearchInput } from '@instana/components';
-import { Message } from '@instana/components';
-import { SvgIcon } from '@instana/components';
+import { ButtonGroup, SearchInput, Message, SvgIcon, LoadingSpinner } from '@instana/components';
 
 import {
   cpuTreeViewOpened,
@@ -25,7 +23,6 @@ import countSamples from 'in-profiling/analyze/AnalyzeView/ProfilesView/sampleCo
 import ProfileTree from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileTree';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import InfiniteCircle from 'in-components/Loading/InfiniteCircle';
 import { hasError, isLoading } from 'in-services/util/result';
 import { formatTime } from 'in-services/formatters/date';
 import Tooltip from 'in-components/Tooltip';
@@ -239,7 +236,16 @@ function ProfilesIndicator({
   totalNumSamples
 }) {
   if (isLoadingProfileForHighlightedTimeframe) {
-    return <InfiniteCircle className={locals.infiniteCircle} width={72} height={24} />;
+    return (
+      <LoadingSpinner
+        className={locals.infiniteCircle}
+        width={72}
+        height={24}
+        withOverlay={false}
+        description={t('in-components:loading.labelLoadingData')}
+        small
+      />
+    );
   }
 
   return (

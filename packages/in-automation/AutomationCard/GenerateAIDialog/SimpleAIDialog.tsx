@@ -156,7 +156,8 @@ const createPolicy = ({ form, event, setActiveKey, setActionError }: createPolic
             name: policy.name,
             triggerName: event.problem?.problemText,
             actionName: action.name,
-            type: 'manual'
+            type: 'manual',
+            fromRecommendedActioncard: true
           });
           refresh();
           setActiveKey('automationPolicies');

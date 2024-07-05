@@ -12,6 +12,9 @@ export interface ClientConfig {
   region: string;
   tenant: string;
   tenantUnit: string;
+  tenantId: string;
+  tenantUnitId: string;
+  tenantUnitsCount: number;
   agentEndpoint?: string;
   agentEndpointPort?: string;
   agentInstallDomain?: string;
@@ -19,6 +22,7 @@ export interface ClientConfig {
   serverlessEndpoint?: string;
   websiteScriptSource?: string;
   websiteEndpoint?: string;
+  activeLicenseType: string;
 }
 
 export interface BuildInfo {

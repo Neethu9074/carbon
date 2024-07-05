@@ -4,9 +4,11 @@
  */
 
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import usageTimePresets from 'in-amp/components/usageTimePresets';
 import { tenantUnitChanged } from 'in-amp/tracker';
 import useUrlState from 'in-hooks/useUrlState';
-import { days } from 'in-services/time';
+
+const thisMonthTimePreset = usageTimePresets.filter(timePreset => timePreset.timeRange === 'this_month')[0];
 
 const urlSettingsConfig = {
   bind: [
@@ -21,18 +23,34 @@ const urlSettingsConfig = {
       name: 'windowSize',
       serializer: buildJsonSerializer(),
       parser: buildJsonParser(),
-      initialState: days.toMillis(30)
+      initialState: thisMonthTimePreset.windowSize
+    },
+    {
+      path: '/amp',
+      name: 'timeRange',
+      serializer: buildJsonSerializer(),
+      parser: buildJsonParser(),
+      initialState: thisMonthTimePreset.timeRange
+    },
+    {
+      path: '/amp',
+      name: 'to',
+      serializer: buildJsonSerializer(),
+      parser: buildJsonParser(),
+      initialState: thisMonthTimePreset.to
     }
   ]
 };
 
 export default function useAmpUrlInformation(initialTUState) {
-  const [{ tenantUnit = initialTUState, windowSize }, onChange] = useUrlState(urlSettingsConfig);
+  const [{ tenantUnit = initialTUState, windowSize, timeRange, to }, onChange] = useUrlState(urlSettingsConfig);
   const setTenantUnit = _tenantUnit => {
     tenantUnitChanged(_tenantUnit);
     onChange({ tenantUnit: _tenantUnit });
   };
   const setWindowSize = _windowSize => onChange({ windowSize: _windowSize });
+  const setTimeRange = _timeRange => onChange({ timeRange: _timeRange });
+  const setTo = _to => onChange({ to: _to });
 
-  return { windowSize, setWindowSize, tenantUnit, setTenantUnit };
+  return { windowSize, setWindowSize, tenantUnit, setTenantUnit, timeRange, setTimeRange, to, setTo };
 }

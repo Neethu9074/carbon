@@ -414,6 +414,7 @@ export const AUTOMATION_ACTION_RUN = 'automation.action.run';
 export const AUTOMATION_ACTION_HISTORY_VIEW = 'automation.action.history.view';
 export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.history.instance.view';
 export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.history.feedback.used';
+export const AUTOMATION_ACTION_HISTORY_INSTANCE_DELETE = 'automation.action.history.instance.delete';
 export const AUTOMATION_CLICK_TURBO_LINK_FOR_DETAILS = 'click.turbo.link.for.details';
 export const AUTOMATION_VIEW_TURBO_ACTION = 'view.turbo.action';
 export const AUTOMATION_POLICY_CREATE = 'automation.policy.create';

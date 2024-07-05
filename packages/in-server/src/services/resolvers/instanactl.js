@@ -7,6 +7,7 @@ const { Pool } = require('pg');
 const fs = require('fs');
 
 const { getReportingEndpointsFromButler } = require('../reportingEndpoints.js');
+const { getTenantInfoFromUiBackend } = require('../getTenantInfo.js');
 const featureFlagDefinitions = require('./featureFlags');
 const serverConfig = require('../../serverConfig.js');
 const { logger } = require('../../logging');
@@ -70,10 +71,18 @@ exports.getReportingEndpoints = (req, tenant, unit) => {
   return getReportingEndpointsFromButler(req, serverConfig.butlerBaseUrl, tenant, unit);
 };
 
+exports.getTenantInfo = (req, tenant, unit) => {
+  return getTenantInfoFromUiBackend(req, tenant, unit);
+};
+
 async function getUiBackendBaseUrl(tenant, unit) {
   const uibackendNamespace = await getSetting({
-    tenant, unit, key: 'config.tu.namespace', notDefinedFallback: '', valueParser: str => str
-  })
+    tenant,
+    unit,
+    key: 'config.tu.namespace',
+    notDefinedFallback: '',
+    valueParser: str => str
+  });
 
   if (uibackendNamespace) {
     return `http://tu-${tenant}-${unit}-ui-backend.${uibackendNamespace}:8600`;
