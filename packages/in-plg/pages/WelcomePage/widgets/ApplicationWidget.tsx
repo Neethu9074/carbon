@@ -7,7 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link, Stack, SvgIcon } from '@instana/components';
+import { Link, Stack, Typography } from '@instana/components';
 import { EntityHealthInfo } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
@@ -40,7 +40,6 @@ import { boundaryScopes } from 'in-applications/constants';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { getTimeConfig } from 'in-stores/time/config';
 import { timeConfig$ } from 'in-stores/time/config';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { role } from 'in-stores/user';
 
 function getApplicationData(params: any) {
@@ -61,6 +60,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.applicationWidget.name'),
         key: 'name'
+      },
+      {
+        header: t('in-plg:welcomepage.component.applicationWidget.scope'),
+        key: 'scope'
       },
       {
         header: t('in-plg:welcomepage.component.applicationWidget.calls'),
@@ -109,15 +112,12 @@ export default connectTo(() => ({
 
   function BoundaryScopeColumn({ item }: any) {
     if (item.application.boundaryScope) {
-      return (
-        //@ts-expect-error
-        <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
-          <SvgIcon
-            //@ts-expect-error
-            type={boundaryScopes.info[item.application.boundaryScope].icon}
-          />
-        </Tooltip>
-      );
+      const boundaryScope = item.application.boundaryScope;
+      if (boundaryScope !== 'ALL' && boundaryScope !== 'INBOUND') return null;
+      if (boundaryScope === 'ALL')
+        return <Typography variant="body-regular">{boundaryScopes.info['ALL'].text}</Typography>;
+      if (boundaryScope === 'INBOUND')
+        return <Typography variant="body-regular">{boundaryScopes.info['INBOUND'].text}</Typography>;
     }
     return null;
   }
@@ -134,11 +134,16 @@ export default connectTo(() => ({
       }
     },
     {
+      key: 'scope',
+      getContent({ item }) {
+        return <BoundaryScopeColumn item={item} />;
+      }
+    },
+    {
       key: 'calls',
       getContent({ item, result }) {
         return (
           <Stack direction="horizontal" align="center">
-            <BoundaryScopeColumn item={item} />
             <SparkChart
               loading={result?.progress?.loading}
               rollup={getSparkChartGranularity(timeConfig)}
