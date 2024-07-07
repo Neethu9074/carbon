@@ -13,7 +13,6 @@ import {
   Integration,
   Variant
 } from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/utils';
-import SettingsDetailPageComponent from 'in-settings/components/SettingsDetailPage';
 // @ts-ignore
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
@@ -129,7 +128,7 @@ export default function Integrations() {
 
   return (
     <>
-      <SettingsDetailPageComponent className={locals.page}>
+      <section>
         <Title title="Log Integrations" />
         <section>
           <SubViewHeaderComponent>{localisationStrings.logIntegrations}</SubViewHeaderComponent>
@@ -185,7 +184,7 @@ export default function Integrations() {
               })}
           </Stack>
         </main>
-      </SettingsDetailPageComponent>
+      </section>
     </>
   );
 }
