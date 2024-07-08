@@ -19,7 +19,6 @@ import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: cpc }) {
   const snapshotId = cpc.id;
-
   if (cpc.dpmEnabled === 'false') {
     return (
       <Fragment>
@@ -39,94 +38,180 @@ export default function Summary({ timeConfig, data: cpc }) {
             formatter={number.compact}
           />
         </KpiGridRow>
-        <Row verticallyStretchColumns>
-          <Col lg={4}>
-            <Card title={t('in-zhmc:dashboards.all')} useMaxAvailableHeight>
-              <Chart
-                snapshotId={snapshotId}
-                timeConfig={timeConfig}
-                y1={{
-                  min: 0,
-                  metrics: [
-                    'iipAllProcessorUsage',
-                    'iflAllProcessorUsage',
-                    'icfAllProcessorUsage',
-                    'cbpAllProcessorUsage',
-                    'cpAllProcessorUsage'
-                  ],
-                  labels: [t('in-zhmc:iip'), t('in-zhmc:ifl'), t('in-zhmc:icf'), t('in-zhmc:cbp'), t('in-zhmc:cp')],
-                  formatter: percentage.detailed,
-                  type: 'line'
-                }}
-                renderPostChartContent={PluginDashboardsMarkerLanes}
-              />
-            </Card>
-          </Col>
-          <Col lg={4}>
-            <Card title={t('in-zhmc:dashboards.shared')} useMaxAvailableHeight>
-              <Chart
-                snapshotId={snapshotId}
-                timeConfig={timeConfig}
-                y1={{
-                  min: 0,
-                  metrics: [
-                    'iflSharedProcessorUsage',
-                    'icfSharedProcessorUsage',
-                    'cbpSharedProcessorUsage',
-                    'cpSharedProcessorUsage',
-                    'aapSharedProcessorUsage',
-                    'iipSharedProcessorUsage',
-                    'allSharedProcessorUsage'
-                  ],
-                  labels: [
-                    t('in-zhmc:ifl'),
-                    t('in-zhmc:icf'),
-                    t('in-zhmc:cbp'),
-                    t('in-zhmc:cp'),
-                    t('in-zhmc:aap'),
-                    t('in-zhmc:iip'),
-                    t('in-zhmc:allProc')
-                  ],
-                  formatter: percentage.detailed,
-                  type: 'line'
-                }}
-                renderPostChartContent={PluginDashboardsMarkerLanes}
-              />
-            </Card>
-          </Col>
-          <Col lg={4}>
-            <Card title={t('in-zhmc:dashboards.dedicated')} useMaxAvailableHeight>
-              <Chart
-                snapshotId={snapshotId}
-                timeConfig={timeConfig}
-                y1={{
-                  min: 0,
-                  metrics: [
-                    'iflDedicatedProcessorUsage',
-                    'icfDedicatedProcessorUsage',
-                    'cbpDedicatedProcessorUsage',
-                    'cpDedicatedProcessorUsage',
-                    'aapDedicatedProcessorUsage',
-                    'iipDedicatedProcessorUsage',
-                    'allDedicatedProcessorUsage'
-                  ],
-                  labels: [
-                    t('in-zhmc:ifl'),
-                    t('in-zhmc:icf'),
-                    t('in-zhmc:cbp'),
-                    t('in-zhmc:cp'),
-                    t('in-zhmc:aap'),
-                    t('in-zhmc:iip'),
-                    t('in-zhmc:allProc')
-                  ],
-                  formatter: percentage.detailed,
-                  type: 'line'
-                }}
-                renderPostChartContent={PluginDashboardsMarkerLanes}
-              />
-            </Card>
-          </Col>
-        </Row>
+        {cpc.hmcVersion == '2.14.0' || cpc.hmcVersion == '2.15.0' ? (
+          <Row verticallyStretchColumns>
+            <Col lg={4}>
+              <Card title={t('in-zhmc:dashboards.all')} useMaxAvailableHeight>
+                <Chart
+                  snapshotId={snapshotId}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    metrics: [
+                      'iipAllProcessorUsage',
+                      'iflAllProcessorUsage',
+                      'icfAllProcessorUsage',
+                      'cbpAllProcessorUsage',
+                      'cpAllProcessorUsage'
+                    ],
+                    labels: [t('in-zhmc:iip'), t('in-zhmc:ifl'), t('in-zhmc:icf'), t('in-zhmc:cbp'), t('in-zhmc:cp')],
+                    formatter: percentage.detailed,
+                    type: 'line'
+                  }}
+                  renderPostChartContent={PluginDashboardsMarkerLanes}
+                />
+              </Card>
+            </Col>
+            <Col lg={4}>
+              <Card title={t('in-zhmc:dashboards.shared')} useMaxAvailableHeight>
+                <Chart
+                  snapshotId={snapshotId}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    metrics: [
+                      'iflSharedProcessorUsage',
+                      'icfSharedProcessorUsage',
+                      'cbpSharedProcessorUsage',
+                      'cpSharedProcessorUsage',
+                      'aapSharedProcessorUsage',
+                      'iipSharedProcessorUsage',
+                      'allSharedProcessorUsage'
+                    ],
+                    labels: [
+                      t('in-zhmc:ifl'),
+                      t('in-zhmc:icf'),
+                      t('in-zhmc:cbp'),
+                      t('in-zhmc:cp'),
+                      t('in-zhmc:aap'),
+                      t('in-zhmc:iip'),
+                      t('in-zhmc:allProc')
+                    ],
+                    formatter: percentage.detailed,
+                    type: 'line'
+                  }}
+                  renderPostChartContent={PluginDashboardsMarkerLanes}
+                />
+              </Card>
+            </Col>
+            <Col lg={4}>
+              <Card title={t('in-zhmc:dashboards.dedicated')} useMaxAvailableHeight>
+                <Chart
+                  snapshotId={snapshotId}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    metrics: [
+                      'iflDedicatedProcessorUsage',
+                      'icfDedicatedProcessorUsage',
+                      'cbpDedicatedProcessorUsage',
+                      'cpDedicatedProcessorUsage',
+                      'aapDedicatedProcessorUsage',
+                      'iipDedicatedProcessorUsage',
+                      'allDedicatedProcessorUsage'
+                    ],
+                    labels: [
+                      t('in-zhmc:ifl'),
+                      t('in-zhmc:icf'),
+                      t('in-zhmc:cbp'),
+                      t('in-zhmc:cp'),
+                      t('in-zhmc:aap'),
+                      t('in-zhmc:iip'),
+                      t('in-zhmc:allProc')
+                    ],
+                    formatter: percentage.detailed,
+                    type: 'line'
+                  }}
+                  renderPostChartContent={PluginDashboardsMarkerLanes}
+                />
+              </Card>
+            </Col>
+          </Row>
+        ) : (
+          <Row verticallyStretchColumns>
+            <Col lg={4}>
+              <Card title={t('in-zhmc:dashboards.all')} useMaxAvailableHeight>
+                <Chart
+                  snapshotId={snapshotId}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    metrics: [
+                      'iipAllProcessorUsage',
+                      'iflAllProcessorUsage',
+                      'icfAllProcessorUsage',
+                      'cpAllProcessorUsage'
+                    ],
+                    labels: [t('in-zhmc:iip'), t('in-zhmc:ifl'), t('in-zhmc:icf'), t('in-zhmc:cp')],
+                    formatter: percentage.detailed,
+                    type: 'line'
+                  }}
+                  renderPostChartContent={PluginDashboardsMarkerLanes}
+                />
+              </Card>
+            </Col>
+            <Col lg={4}>
+              <Card title={t('in-zhmc:dashboards.shared')} useMaxAvailableHeight>
+                <Chart
+                  snapshotId={snapshotId}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    metrics: [
+                      'iflSharedProcessorUsage',
+                      'icfSharedProcessorUsage',
+                      'cpSharedProcessorUsage',
+                      'aapSharedProcessorUsage',
+                      'iipSharedProcessorUsage',
+                      'allSharedProcessorUsage'
+                    ],
+                    labels: [
+                      t('in-zhmc:ifl'),
+                      t('in-zhmc:icf'),
+                      t('in-zhmc:cp'),
+                      t('in-zhmc:aap'),
+                      t('in-zhmc:iip'),
+                      t('in-zhmc:allProc')
+                    ],
+                    formatter: percentage.detailed,
+                    type: 'line'
+                  }}
+                  renderPostChartContent={PluginDashboardsMarkerLanes}
+                />
+              </Card>
+            </Col>
+            <Col lg={4}>
+              <Card title={t('in-zhmc:dashboards.dedicated')} useMaxAvailableHeight>
+                <Chart
+                  snapshotId={snapshotId}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    metrics: [
+                      'iflDedicatedProcessorUsage',
+                      'icfDedicatedProcessorUsage',
+                      'cpDedicatedProcessorUsage',
+                      'aapDedicatedProcessorUsage',
+                      'iipDedicatedProcessorUsage',
+                      'allDedicatedProcessorUsage'
+                    ],
+                    labels: [
+                      t('in-zhmc:ifl'),
+                      t('in-zhmc:icf'),
+                      t('in-zhmc:cp'),
+                      t('in-zhmc:aap'),
+                      t('in-zhmc:iip'),
+                      t('in-zhmc:allProc')
+                    ],
+                    formatter: percentage.detailed,
+                    type: 'line'
+                  }}
+                  renderPostChartContent={PluginDashboardsMarkerLanes}
+                />
+              </Card>
+            </Col>
+          </Row>
+        )}
         <Row />
         <Processors data={cpc} timeConfig={timeConfig} />
       </Fragment>

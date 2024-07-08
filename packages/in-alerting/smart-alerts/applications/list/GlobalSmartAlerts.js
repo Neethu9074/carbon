@@ -52,13 +52,16 @@ export default function GlobalSmartAlerts({ location }) {
           getHasDataToRender={() => just(hasDataToRender)}
           FallbackComponent={SmartAlertsNoDataNotification}
         >
-          <Card useMaxAvailableHeight={false} hasMarginBottom>
-            {isGlobalDetailsView ? (
-              <AlertDetails location={location} timeConfig={timeConfig} />
-            ) : (
-              <GlobalInventorySmartAlertsList onNoData={() => setHasDataToRender(false)} />
-            )}
-          </Card>
+          {isGlobalDetailsView ? (
+            <AlertDetails location={location} timeConfig={timeConfig} />
+          ) : (
+            <>
+              <Card useMaxAvailableHeight={false} hasMarginBottom>
+                <GlobalInventorySmartAlertsList onNoData={() => setHasDataToRender(false)} />
+              </Card>
+              <Footer />
+            </>
+          )}
         </WithEmptyStateFallback>
       </LeftRightPadding>
       {role.canConfigureGlobalApplicationSmartAlerts && (
@@ -86,7 +89,6 @@ export default function GlobalSmartAlerts({ location }) {
           )}
         </>
       )}
-      <Footer />
     </Sticky>
   );
 }

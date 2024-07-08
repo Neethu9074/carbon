@@ -103,7 +103,7 @@ export default connectTo(() => ({
         key: 'activities'
       },
       {
-        header: t('in-plg:welcomepage.component.bizopsWidget.count'),
+        header: t('in-plg:welcomepage.component.bizopsWidget.views'),
         key: 'count'
       },
       {

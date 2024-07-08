@@ -3,11 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-// Fixing the styling of any Toggle on the waiting page
-//
-// to be removed, after Toggle was migrated.
-// This loads the styling of react-toggle
-import 'react-toggle/style.css';
 import React from 'react';
 
 import { ThemeProvider } from '@instana/components';
