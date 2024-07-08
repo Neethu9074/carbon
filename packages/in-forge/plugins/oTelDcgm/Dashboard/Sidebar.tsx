@@ -6,11 +6,12 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 // @ts-expect-error Module needs to be translated to TS
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 // @ts-expect-error Module needs to be translated to TS
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Info from 'in-forge/plugins/oTelDcgm/Info';
 import { t } from 'in-i18n';
