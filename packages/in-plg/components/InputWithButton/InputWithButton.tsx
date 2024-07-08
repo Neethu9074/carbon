@@ -6,10 +6,10 @@
 
 import React, { useRef } from 'react';
 
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Button } from '@instana/components';
 
 import { addCopiedToClipboardMessage } from 'in-components/CopyToClipboard';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import Input from 'in-components/form/Input';
 
 import locals from 'in-plg/components/InputWithButton/InputWithButton.mless';
@@ -68,6 +68,7 @@ export default function InputWithButton({
         iconSize="s"
         size="normal"
         className={locals.button}
+        {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
         {...(href ? { href: href, target: '_blank' } : { onClick: clickHandler })}
       >
         {''}

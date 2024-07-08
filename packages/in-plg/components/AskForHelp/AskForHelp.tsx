@@ -7,8 +7,7 @@
 import { createField, createMapForm, Field, UpdatedMapForm, MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Stack, KeyValue } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, KeyValue, Button } from '@instana/components';
 
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { notBlankValidator } from 'in-services/validators/string';
