@@ -38,12 +38,20 @@ const urlSettingsConfig = {
       serializer: buildJsonSerializer(),
       parser: buildJsonParser(),
       initialState: thisMonthTimePreset.to
+    },
+    {
+      path: '/amp',
+      name: 'presentation',
+      serializer: buildJsonSerializer(),
+      parser: buildJsonParser(),
+      initialState: 'cumulative'
     }
   ]
 };
 
 export default function useAmpUrlInformation(initialTUState) {
-  const [{ tenantUnit = initialTUState, windowSize, timeRange, to }, onChange] = useUrlState(urlSettingsConfig);
+  const [{ tenantUnit = initialTUState, windowSize, timeRange, to, presentation }, onChange] =
+    useUrlState(urlSettingsConfig);
   const setTenantUnit = _tenantUnit => {
     tenantUnitChanged(_tenantUnit);
     onChange({ tenantUnit: _tenantUnit });
@@ -51,6 +59,18 @@ export default function useAmpUrlInformation(initialTUState) {
   const setWindowSize = _windowSize => onChange({ windowSize: _windowSize });
   const setTimeRange = _timeRange => onChange({ timeRange: _timeRange });
   const setTo = _to => onChange({ to: _to });
+  const setPresentation = _presentation => onChange({ presentation: _presentation });
 
-  return { windowSize, setWindowSize, tenantUnit, setTenantUnit, timeRange, setTimeRange, to, setTo };
+  return {
+    windowSize,
+    setWindowSize,
+    tenantUnit,
+    setTenantUnit,
+    timeRange,
+    setTimeRange,
+    to,
+    setTo,
+    presentation,
+    setPresentation
+  };
 }

@@ -6,13 +6,24 @@
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
+import presentationPresets from 'in-amp/components/presentationPresets';
 import usageTimePresets from 'in-amp/components/usageTimePresets';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import timePresets from 'in-amp/components/timePresets';
 
-export default function TimeSelection({ windowSize, timeRange, setWindowSize, setTimeRange, setTo }) {
+export default function TimeSelection({
+  windowSize,
+  timeRange,
+  setWindowSize,
+  setTimeRange,
+  setTo,
+  presentation,
+  setPresentation
+}) {
   if (timeRange) {
     const options = usageTimePresets.map(p => ({ value: p, label: p.label }));
+    const currentPresentation = presentationPresets.find(preset => preset.presentation === presentation);
+
     return (
       <ComboBoxBehavior
         align="bottomRight"
@@ -22,6 +33,9 @@ export default function TimeSelection({ windowSize, timeRange, setWindowSize, se
           setTimeRange?.(timeRange);
           setWindowSize?.(windowSize);
           setTo?.(to);
+          if (currentPresentation?.isDisabled(timeRange)) {
+            setPresentation?.('distinct');
+          }
         }}
         disableAutomaticOptionSorting
       >

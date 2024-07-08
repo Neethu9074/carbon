@@ -9,6 +9,7 @@ import React from 'react';
 import { Message, Stack } from '@instana/components';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
+import PresentationSelection from 'in-amp/components/PresentationSelection';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
 import { t } from 'in-i18n';
@@ -25,7 +26,9 @@ export default function AmpInformationModifier({
   setTenantUnit,
   timeRange,
   setTimeRange,
-  setTo
+  setTo,
+  presentation,
+  setPresentation
 }) {
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
 
@@ -62,13 +65,20 @@ export default function AmpInformationModifier({
           </ComboBoxBehavior>
         </Stack>
       )}
-      <AmpTimeSelection
-        windowSize={windowSize}
-        setWindowSize={setWindowSize}
-        timeRange={timeRange}
-        setTimeRange={setTimeRange}
-        setTo={setTo}
-      />
+      <div>
+        <AmpTimeSelection
+          windowSize={windowSize}
+          setWindowSize={setWindowSize}
+          timeRange={timeRange}
+          setTimeRange={setTimeRange}
+          setTo={setTo}
+          presentation={presentation}
+          setPresentation={setPresentation}
+        />
+        {presentation && (
+          <PresentationSelection presentation={presentation} setPresentation={setPresentation} timeRange={timeRange} />
+        )}
+      </div>
     </div>
   );
 }

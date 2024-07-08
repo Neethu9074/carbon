@@ -62,6 +62,10 @@
       "thisMonth": "This Month",
       "lastMonth": "Last Month"
     },
+    "presentationPresets": {
+      "distinct": "Distinct values",
+      "cumulative": "Cumulated values"
+    },
     "usages": {
       "allPaidUnitsAggregated": "All paid units (aggregated)",
       "accountUsage": "Account Usage",
