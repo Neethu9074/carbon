@@ -8,6 +8,7 @@ import classNames from 'classnames';
 
 import { SvgIcon, RadioButton, Checkbox } from '@instana/components';
 
+import { carbonRadioButtonEnabled, carbonCheckboxEnabled } from 'in-services/featureFlags';
 import FeatureFeedback from 'in-components/FeatureFeedback';
 
 import locals from './OptionBox.mless';
@@ -39,11 +40,23 @@ const OptionBoxWithRef = forwardRef(function OptionBox(
   }: OptionBoxProps,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
+  const carbonEnabled = (asRadioButton && carbonRadioButtonEnabled) || (!asRadioButton && carbonCheckboxEnabled);
   const labelContent = (
     <>
-      {icon && <SvgIcon type={icon} className={locals.icon} />}
+      {!carbonEnabled && <SvgIcon type={icon} className={locals.icon} />}
       <div className={locals.content}>
-        <div className={locals.title}>{title}</div>
+        {carbonEnabled ? (
+          <div className={locals.titlediv}>
+            {icon && (
+              <div>
+                <SvgIcon type={icon} className={locals.icononly} />
+              </div>
+            )}
+            <div>{title}</div>
+          </div>
+        ) : (
+          <div className={locals.title}>{title}</div>
+        )}
         {(description || featureFeedbackLink) && (
           <div className={locals.description}>
             {description}
