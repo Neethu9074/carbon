@@ -3,11 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-// Fixing the styling of the Toggle on the main pages
-//
-// to be removed, after Toggle was migrated.
-// This loads the styling of react-toggle
-import 'react-toggle/style.css';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
