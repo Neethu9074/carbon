@@ -21,6 +21,7 @@ import {
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import { carbonMoreMenuEnabled, zoomWidgetEnabled } from 'in-services/featureFlags';
 import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
+import { gridGutter } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import { ViewLogsButton } from 'in-logging/components/ViewLogsButton';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import CopyToClipboard from 'in-components/CopyToClipboard';
@@ -28,7 +29,6 @@ import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
 import Tooltip from 'in-components/Tooltip';
 import { t, Trans } from 'in-i18n';
-import oldTheme from 'in-themes';
 
 import locals from './Grid.mless';
 import './Grid.less';
@@ -101,7 +101,7 @@ function Grid({
       margin={margin}
       // Remove the horizontal spacing added by the grid layout to avoid
       // horizontal overflow.
-      width={width - oldTheme.grid.gutter}
+      width={width - gridGutter}
       containerPadding={containerPadding}
       layout={layout}
       breakpoints={breakpoints}
