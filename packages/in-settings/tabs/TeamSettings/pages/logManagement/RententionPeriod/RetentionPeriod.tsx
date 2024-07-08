@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { SetStateAction, useState } from 'react';
+import React, { SetStateAction, useState, useEffect } from 'react';
 
 import { Card, Input, Link, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -61,19 +61,20 @@ const useMock = true; // Activate mock response
 export default function RententionPeriod() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isChangingRetention, setIsChangingRetention] = useState(false);
-  const [retentionValue, setRetentionValue] = useState<number | undefined | string>(() => {
-    const getRetentionPeriod$ = retentionLogsGET();
-    let initialValue: number | undefined;
-
-    getRetentionPeriod$.once(response => {
-      initialValue = response.body.retention;
-      setRetentionValue(response.body.retention);
-    });
-
-    return !useMock ? initialValue ?? 'No data from server' : mockData().retention;
-  });
+  const [retentionValue, setRetentionValue] = useState<number | undefined | string>(
+    useMock ? mockData().retention : 'Loading...'
+  );
 
   const logActionHref = useObservable(getEntityIdView(teamSettingsActionLogRetention, ''), []);
+
+  useEffect(() => {
+    if (!useMock) {
+      const getRetentionPeriod$ = retentionLogsGET();
+      getRetentionPeriod$.once(response => {
+        setRetentionValue(response.body.retentionDays);
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -287,7 +288,7 @@ interface RetentionLogsRequest {
 }
 
 interface RetentionLogsResponse {
-  retention: number;
+  retentionDays: number;
 }
 
 export function retentionLogsPOST(params: RetentionLogsRequest) {
