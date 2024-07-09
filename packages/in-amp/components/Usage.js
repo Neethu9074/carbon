@@ -76,6 +76,7 @@ function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedM
         tenantUnit={tenantUnit}
         showAggregatedMetrics={showAggregatedMetrics}
         hasSyntheticAddons={hasSyntheticAddons}
+        presentation={presentation}
       />
 
       <Row>

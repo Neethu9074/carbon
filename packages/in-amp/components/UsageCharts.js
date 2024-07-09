@@ -26,8 +26,13 @@ export default function UsageCharts({
   tenantUnit,
   showPurchasedMetric = true,
   showAggregatedMetrics = false,
-  hasSyntheticAddons = false
+  hasSyntheticAddons = false,
+  presentation
 }) {
+  const showDataIngestTable = !tenantUnit?.tenant && !onPremLicenseInformationEnabled;
+  const isCumulativeTimeRange =
+    presentation === 'cumulative' && (timeRange === 'this_month' || timeRange === 'last_month');
+
   const dataChartY1 = tenantUnit?.tenant
     ? {
         ...tenantUnit,
@@ -44,7 +49,75 @@ export default function UsageCharts({
         formatter: 'siBytes.compact'
       };
 
-  const showDataIngestTable = !tenantUnit?.tenant && !onPremLicenseInformationEnabled;
+  const dataChartY2 = {
+    ...tenantUnit,
+    renderer: stackedArea.id,
+    metrics: [
+      'bytes_ingested_infrastructure',
+      'bytes_ingested_traces',
+      'bytes_ingested_synthetics',
+      'bytes_ingested_eum_mobile',
+      'bytes_ingested_eum_website'
+    ],
+    labels: [
+      [t('in-amp:components.usageCharts.infrastructure')],
+      [t('in-amp:components.usageCharts.traces')],
+      [t('in-amp:components.usageCharts.synthetics')],
+      [t('in-amp:components.usageCharts.eumMobile')],
+      [t('in-amp:components.usageCharts.eumWebsite')]
+    ],
+    formatter: 'siBytes.compact'
+  };
+
+  const cumulativeDataChartsY1 = {
+    ...tenantUnit,
+    metrics: ['data_ingested_total_cumulative'],
+    labels: ['Total'],
+    colors: [carbonAlert.blue70],
+    formatter: 'siBytes.compact'
+  };
+  const cumulativeDataChartsY2 = {
+    ...tenantUnit,
+    renderer: stackedArea.id,
+    metrics: [
+      'data_ingested_infrastructure_cumulative',
+      'data_ingested_traces_cumulative',
+      'data_ingested_synthetics_cumulative',
+      'data_ingested_eum_mobile_cumulative',
+      'data_ingested_eum_website_cumulative'
+    ],
+    labels: [
+      [t('in-amp:components.usageCharts.infrastructure')],
+      [t('in-amp:components.usageCharts.traces')],
+      [t('in-amp:components.usageCharts.synthetics')],
+      [t('in-amp:components.usageCharts.eumMobile')],
+      [t('in-amp:components.usageCharts.eumWebsite')]
+    ],
+    formatter: 'siBytes.compact'
+  };
+
+  const apmChartY1 = isCumulativeTimeRange
+    ? {
+        ...tenantUnit,
+        metrics: ['apm_hosts_cumulative'],
+        labels: [t('in-amp:components.usageCharts.apmHosts')]
+      }
+    : {
+        ...tenantUnit,
+        metrics: ['apmhost'],
+        labels: [t('in-amp:components.usageCharts.apmHosts')]
+      };
+  const iqmChartsY1 = isCumulativeTimeRange
+    ? {
+        ...tenantUnit,
+        metrics: ['iqm_hosts_cumulative'],
+        labels: [t('in-amp:components.usageCharts.iqmHosts')]
+      }
+    : {
+        ...tenantUnit,
+        metrics: ['infrahost'],
+        labels: [t('in-amp:components.usageCharts.iqmHosts')]
+      };
 
   return (
     <>
@@ -56,7 +129,7 @@ export default function UsageCharts({
               timeRange={timeRange}
               to={to}
               showAggregatedMetrics={showAggregatedMetrics}
-              y1={{ ...tenantUnit, metrics: ['apmhost'], labels: [t('in-amp:components.usageCharts.apmHosts')] }}
+              y1={apmChartY1}
               y2={
                 showPurchasedMetric
                   ? {
@@ -77,11 +150,7 @@ export default function UsageCharts({
               timeRange={timeRange}
               to={to}
               showAggregatedMetrics={showAggregatedMetrics}
-              y1={{
-                ...tenantUnit,
-                metrics: ['infrahost'],
-                labels: [t('in-amp:components.usageCharts.iqmHosts')]
-              }}
+              y1={iqmChartsY1}
               y2={
                 showPurchasedMetric
                   ? {
@@ -110,20 +179,8 @@ export default function UsageCharts({
               timeRange={timeRange}
               to={to}
               showAggregatedMetrics={showAggregatedMetrics}
-              y1={dataChartY1}
-              y2={{
-                ...tenantUnit,
-                renderer: stackedArea.id,
-                metrics: [
-                  'bytes_ingested_infrastructure',
-                  'bytes_ingested_traces',
-                  'bytes_ingested_synthetics',
-                  'bytes_ingested_eum_mobile',
-                  'bytes_ingested_eum_website'
-                ],
-                labels: ['infrastructure', 'traces', 'synthetics', 'eum mobile', 'eum website'],
-                formatter: 'siBytes.compact'
-              }}
+              y1={isCumulativeTimeRange ? cumulativeDataChartsY1 : dataChartY1}
+              y2={isCumulativeTimeRange ? cumulativeDataChartsY2 : dataChartY2}
             />
           </Card>
         </Col>
@@ -156,15 +213,15 @@ export default function UsageCharts({
                   showAggregatedMetrics={showAggregatedMetrics}
                   y1={{
                     ...tenantUnit,
-                    metrics: ['licensed_synthetic_managed_pops'],
-                    labels: [t('in-amp:components.usageCharts.resourceUnits')],
-                    colors: [carbonAlert.red60]
-                  }}
-                  y2={{
-                    ...tenantUnit,
                     metrics: ['syntheticstotal'],
                     labels: [t('in-amp:components.usageCharts.consumedUnits')],
                     colors: ['#17A1E6']
+                  }}
+                  y2={{
+                    ...tenantUnit,
+                    metrics: ['licensed_synthetic_managed_pops'],
+                    labels: [t('in-amp:components.usageCharts.resourceUnits')],
+                    colors: [carbonAlert.red60]
                   }}
                 />
               </Card>
