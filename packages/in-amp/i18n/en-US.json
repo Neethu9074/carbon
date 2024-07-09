@@ -44,7 +44,6 @@
       "entitledNumberOfMVS": "Entitled Number of MVS",
       "actualAverage": "Actual Average Configured Number of MVS",
       "onDemandNumber": "On-Demand number of MVS",
-      "willBeBilledMonthlyMVS": "will be billed monthly as on-demand MVS",
       "dataIngestFairUseEntitlement": "Data Ingest fair-use entitlement per MVS",
       "totalDataIngestFairUseEntitlement": "Total Data Ingest fair-use entitlement",
       "dataIngestAddOnEntitlement": "Data Ingest Add-on entitlement",
@@ -52,8 +51,7 @@
       "dataIngestEntitlementFromOnDemand": "Data Ingest Fair-Use Entitlement from On-Demand MVS",
       "totalDataIngestEntitlement": "Total Data Ingest Entitlement",
       "actualDataIngest": "Actual Data-Ingest",
-      "onDemandDataIngest": "On-Demand Data-Ingest",
-      "willBeBilledMonthlyIngest": "will be billed monthly as on-demand data ingest"
+      "onDemandDataIngest": "On-Demand Data-Ingest"
     },
     "timePresets": {
       "last7Days": "Last 7 days",
@@ -79,11 +77,11 @@
       "purchased": "Purchased",
       "essentials": "Essentials",
       "iqmHosts": "IQM Hosts",
-      "syntheticPops":"Synthetic Managed PoPs",
-      "resourceUnits":"Resource Units",
-      "consumedUnits":"Consumed Units",
-      "addons":"Add-ons",
-      "dataUsageHelperText" : "Amount of bytes sent through agents separated by category in the chosen timeframe.",
+      "syntheticPops": "Synthetic Managed PoPs",
+      "resourceUnits": "Resource Units",
+      "consumedUnits": "Consumed Units",
+      "addons": "Add-ons",
+      "dataUsageHelperText": "Amount of bytes sent through agents separated by category in the chosen timeframe.",
       "helperText": "Number of resource units consumed by each type of action. Units are calculated with a factor of 0.025 for simple tests, 0.042 for API tests, and 1.000 for browser tests."
     },
     "activationAdoption": {

@@ -131,10 +131,7 @@ export default function UsageCharts({
       {showDataIngestTable && (
         <Row>
           <Col xs={12}>
-            <Card>
-              <SubViewHeader>{t('in-amp:components.dataIngestTable.consumptionOverview')}</SubViewHeader>
-              <DataIngestTable />
-            </Card>
+            <DataIngestTable />
           </Col>
         </Row>
       )}
