@@ -116,10 +116,16 @@ export default function KpiCard({
           {major}
         </span>
         {minor && <span className={classNames(locals.minor, minorClass)}>{minor}</span>}
-        {companionValue && <span className={locals.companion}>{companionValue}</span>}
       </>
     );
   }
+
+  content = (
+    <>
+      {content}
+      {companionValue && <span className={locals.companion}>{companionValue}</span>}
+    </>
+  );
 
   return (
     <Card
