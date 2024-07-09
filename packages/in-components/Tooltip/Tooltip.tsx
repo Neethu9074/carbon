@@ -6,10 +6,13 @@
 import { useRef, Children, cloneElement, useCallback, ReactNode, ReactElement } from 'react';
 import invariant from 'invariant';
 import rpt from 'prop-types';
+import React from 'react';
 
+import { Tooltip as CarbonTooltip } from '@instana/components';
 import { createLogger } from '@instana/logger';
 
 import { Align, ThemeStyle, setActiveTooltip, clearActiveTooltip } from 'in-components/Tooltip/store';
+import { carbonTooltipEnabled } from 'in-services/featureFlags';
 
 const logger = createLogger('in-components/Tooltip');
 
@@ -19,6 +22,11 @@ export interface Props {
   delay?: number;
   children: ReactElement;
   content: ReactNode;
+  legacy?: boolean; // Used to toggle legacy component vs Carbon tooltip
+  overwriteBlock?: boolean; // Used to pass to new Carbon component
+  caret?: boolean; // Used to pass to new Carbon component
+  overflowEllipsis?: boolean; // Used to pass to new Carbon component
+  forceTheme?: boolean; // Used to control which theme is used for Carbon
 }
 
 interface TooltipState {
@@ -28,7 +36,40 @@ interface TooltipState {
   content: ReactNode;
 }
 
-export default function Tooltip({ align = 'auto', delay = 0, themeStyle, children, content }: Props) {
+export default function Tooltip({
+  align = 'auto',
+  delay = 0,
+  themeStyle,
+  children,
+  content,
+  legacy = false, // Used to toggle legacy component vs Carbon tooltip
+  overwriteBlock = false, // Used to pass to new Carbon component
+  caret = undefined, // Used to pass to new Carbon component
+  overflowEllipsis = false, // Used to pass to new Carbon component
+  forceTheme = false
+}: Props) {
+  // Use the Carbon tooltip if the feature flag is set and NOT Legacy being used
+  // Content is sometimes undefined and if its undefined we have nothing to show then
+  // skip the carbon tooltip and let the legacy handle the undefined scenario
+  if (carbonTooltipEnabled && !legacy && content) {
+    // For carbon convert mousePosition -> auto
+    const updatedAlign = (align == 'mousePosition' && 'auto') || align;
+    const themeToPass = forceTheme && themeStyle || 'dark'
+    return (
+      <CarbonTooltip
+        align={updatedAlign}
+        delay={delay}
+        content={content}
+        caret={caret}
+        overwriteBlock={overwriteBlock}
+        themeStyle={themeToPass}
+        overflowEllipsis={overflowEllipsis}
+      >
+        {children}
+      </CarbonTooltip>
+    );
+  }
+
   if (__DEV__) {
     invariant(
       // @ts-expect-error We need to keep this "always-false"-check because of existing
@@ -38,10 +79,12 @@ export default function Tooltip({ align = 'auto', delay = 0, themeStyle, childre
     );
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const tooltipState = useRef<TooltipState>({
     isActive: false,
     content: content
   });
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const ref = useCallback(
     domNode => {
       const { isActive, timeoutHandle, domNode: previousDomNode } = tooltipState.current || {};

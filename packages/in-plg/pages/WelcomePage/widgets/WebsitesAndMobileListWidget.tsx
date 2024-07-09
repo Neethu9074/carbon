@@ -19,6 +19,7 @@ import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/compone
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 //@ts-expect-error doesn't contain type file
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
+import { mobileAppMonitoringPath, useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { GetContentFunction } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import { useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
@@ -28,7 +29,6 @@ import connectTo from 'in-hoc/connectTo';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
 import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 import { hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
-import { useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
@@ -258,7 +258,7 @@ export default connectTo(() => ({
       hasAddMore={hasMobileAppsAccess && !playwithEnabled}
       addMore={addNewMobileApp}
       addData={addNewMobileApp}
-      href={createHrefToPath(websiteMonitoringPath)}
+      href={createHrefToPath(mobileAppMonitoringPath)}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
     />

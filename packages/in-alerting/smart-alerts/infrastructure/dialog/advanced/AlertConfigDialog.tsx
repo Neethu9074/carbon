@@ -12,17 +12,18 @@ import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/infrastruct
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
+import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/infrastructure/components/AlertCreateOrSave';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useGetAlertConfigLink } from 'in-infrastructure/navigation/paths';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
-import { InfraAlertConfig, VersionedConfig } from 'in-types';
+import { VersionedConfig } from 'in-types';
 
 interface AlertConfigDialogType {
   onClose: () => void;
   startWithSimpleMode: boolean;
-  alertConfig: InfraAlertConfig & VersionedConfig & { duplicateFrom?: string };
+  alertConfig: InfraSmartAlertConfig & VersionedConfig & { duplicateFrom?: string };
   editMode: boolean;
 }
 const initialChartConfigIndex = 0;
@@ -85,7 +86,7 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
   };
 }
 
-function toAlertConfig(form: MapForm<any>): Readonly<InfraAlertConfig> {
+function toAlertConfig(form: MapForm<any>): Readonly<InfraSmartAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
 
   return Object.freeze({
@@ -101,6 +102,7 @@ function toAlertConfig(form: MapForm<any>): Readonly<InfraAlertConfig> {
     granularity: form.get(fieldNames.granularity).value,
     groupBy: toBackendGroupBy(form.get(fieldNames.groupBy).value),
     predictiveTrigger: form.get(fieldNames.predictiveTrigger).value,
-    customPayloadFields: form.get('customPayloadFields').toJS()
+    customPayloadFields: form.get('customPayloadFields').toJS(),
+    rules: []
   });
 }

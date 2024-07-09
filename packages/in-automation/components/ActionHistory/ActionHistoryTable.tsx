@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Spacer, Typography } from '@instana/components';
+import { create } from '@instana/observables';
 
 import {
   CurrentState,
@@ -21,25 +22,31 @@ import {
 } from 'in-automation/components/ActionHistory/constants';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { actionHistoryInstanceDeleteTracker, actionHistoryInstanceViewTracker } from 'in-automation/tracker';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import ActionInstanceDetail from 'in-automation/components/ActionHistory/ActionInstanceDetail';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getActionInstances from 'in-automation/subscriptions/getActionInstances';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { actionHistoryInstanceViewTracker } from 'in-automation/tracker';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { OrderDirection, TimeConfig, ActionInstance } from 'in-types';
 import Filters from 'in-automation/components/ActionHistory/Filters';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
+import IconButton from 'in-components/IconButton/IconButton';
+import { deleteActionInstance } from 'in-automation/api';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
-import { t } from 'in-i18n';
+import { role } from 'in-stores/user';
+import { Trans, t } from 'in-i18n';
 
 import locals from './ActionHistoryTable.mless';
 
@@ -129,6 +136,95 @@ const columnDefinitions: ColumnDefinition<ActionInstance>[] = [
   }
 ];
 
+const deleteColumn: ColumnDefinition<ActionInstance> = {
+  label: '',
+  id: 'delete',
+  sortable: false,
+  width: 5,
+  getContent(row: ActionInstance) {
+    if (!isStatusFinished(row.status)) return null;
+    return (
+      <Tooltip content={t('in-automation:actionHistory.deleteTooltip')} delay={500}>
+        <IconButton
+          type="lib_actions_delete"
+          onClick={e => {
+            stopPropagationAndPreventDefault(e);
+            showConfirmationDialog(row);
+          }}
+        />
+      </Tooltip>
+    );
+  }
+};
+
+if (role?.canDeleteAutomationActionHistory) {
+  columnDefinitions.push(deleteColumn);
+}
+
+function showConfirmationDialog(actionInstance: ActionInstance) {
+  const { actionInstanceId = '', createdDate } = actionInstance;
+  addActiveDialog(
+    <ConfirmationDialog
+      header={t('in-automation:deleteDialog.pleaseConfirm')}
+      description={
+        <Typography variant="body-regular">
+          <Trans i18nKey="in-automation:deleteDialog.pleaseConfirmMsg" values={{ name: actionInstanceId }} />
+        </Typography>
+      }
+      confirmButtonLabel={t('in-automation:deleteDialog.delete')}
+      onSubmit={() => {
+        close();
+        onDelete(actionInstance, createdDate);
+      }}
+    />
+  );
+}
+
+function onDelete(actionInstance: ActionInstance, createdDate: number) {
+  const { actionInstanceId = '' } = actionInstance;
+  deleteActionInstance(actionInstanceId, createdDate).once(
+    res => {
+      if (res.deletedDocumentsCount && Number(res.deletedDocumentsCount) > 0) {
+        onDeleteSuccess();
+        refresh();
+        actionHistoryInstanceDeleteTracker({
+          actionName: actionInstance.actionName,
+          actionType: actionInstance.type,
+          metadata: actionInstance.metadata,
+          actionInstanceId
+        });
+      } else {
+        onDeleteFailed();
+      }
+    },
+    () => {
+      onDeleteFailed();
+    }
+  );
+}
+
+function onDeleteSuccess() {
+  addMessage(
+    {
+      type: 'info',
+      timeout: 2000,
+      content: t('in-automation:actionHistory.deleteDialog.success')
+    },
+    'action-instance-delete-info'
+  );
+}
+
+function onDeleteFailed() {
+  addMessage(
+    {
+      type: 'danger',
+      timeout: 3000,
+      content: t('in-automation:actionHistory.deleteDialog.failure')
+    },
+    'action-instance-delete-error'
+  );
+}
+
 const urlStateDefinition = {
   bind: filterUrlStateDefinition.bind,
   reducer: (prevState: FilterState, { types, actionStatuses }: CurrentState) => ({
@@ -150,6 +246,11 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   pathSegment,
   matrixPrefix
 });
+
+const refreshSignal = create().emit(true);
+function refresh() {
+  refreshSignal.emit(true);
+}
 
 type GetActionInstanceList = {
   query?: string;
@@ -174,22 +275,24 @@ export function GetActionInstanceListData({
   actionStatuses = [],
   eventId
 }: GetActionInstanceList) {
-  return getActionInstances({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
+  return refreshSignal.flatMap(() =>
+    getActionInstances({
+      pagination: {
+        page,
+        pageSize
+      },
+      order: {
+        by: orderBy,
+        direction: orderDirection
+      },
 
-    search: query,
-    timeConfig,
-    types: types,
-    actionStatuses: actionStatuses,
-    eventId: eventId
-  });
+      search: query,
+      timeConfig,
+      types: types,
+      actionStatuses: actionStatuses,
+      eventId: eventId
+    })
+  );
 }
 
 export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
@@ -223,8 +326,12 @@ export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
   );
 }
 
+function isStatusFinished(status?: string) {
+  return status === 'SUCCESS' || status === 'FAILED' || status === 'TIMEOUT';
+}
+
 export function getStatus(status: string) {
-  if (status === 'SUCCESS' || status === 'FAILED' || status === 'TIMEOUT') {
+  if (isStatusFinished(status)) {
     return (
       <div
         className={classNames({

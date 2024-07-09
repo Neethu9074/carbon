@@ -181,7 +181,7 @@ const OnEntity = connectTo(
         })}
       >
         <PluginIcon className={locals.entityIcon} size="s" plugin={rawEvent.plugin} />
-        <div className={locals.title} title={label}>
+        <div className={locals.smallColumn} title={label}>
           {label}
         </div>
       </div>

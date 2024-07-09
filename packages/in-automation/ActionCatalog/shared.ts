@@ -384,3 +384,5 @@ export const doesParameterExist = (parameters: MappedParameter[], paramName: str
 };
 
 export const isAIAction = (action: Action | NewAction) => action?.metadata?.builtIn && action?.metadata?.ai !== null;
+
+export const isAIActionCopy = (action: Action | NewAction) => action?.metadata && action?.metadata?.aiOriginated;

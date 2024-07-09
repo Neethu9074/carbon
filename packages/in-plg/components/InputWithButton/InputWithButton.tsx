@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useRef } from 'react';
+import React from 'react';
 
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Button } from '@instana/components';
 
 import { addCopiedToClipboardMessage } from 'in-components/CopyToClipboard';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import Input from 'in-components/form/Input';
 
 import locals from 'in-plg/components/InputWithButton/InputWithButton.mless';
@@ -33,7 +33,6 @@ export default function InputWithButton({
   size = 'small',
   callBack
 }: InputWithButtonProps): JSX.Element {
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const style =
     size === 'small'
       ? `${locals.input} ${locals.inputSmall}`
@@ -56,18 +55,14 @@ export default function InputWithButton({
 
   return (
     <Stack direction="horizontal" gap="disabled" align="center">
-      <Input
-        ref={inputRef}
-        className={style}
-        value={displayContent ? displayContent : inputValue}
-        onChange={handleInputChange}
-      />
+      <Input className={style} value={displayContent ? displayContent : inputValue} onChange={handleInputChange} />
       <Button
         icon={icon}
         kind="action"
         iconSize="s"
         size="normal"
         className={locals.button}
+        {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
         {...(href ? { href: href, target: '_blank' } : { onClick: clickHandler })}
       >
         {''}

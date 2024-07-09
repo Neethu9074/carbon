@@ -71,10 +71,14 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties, res
           />
         </ButtonGroup>
         <ButtonGroup vertical>
-          <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipZoomIn')}>
+          <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipZoomIn')} align={'rightMiddle'}>
             <Button appendLeft icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
           </Tooltip>
-          <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipZoomOut')}>
+          <Tooltip
+            themeStyle="light"
+            content={t('in-applications:applicationMap.tooltipZoomOut')}
+            align={'rightMiddle'}
+          >
             <Button appendLeft icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
           </Tooltip>
         </ButtonGroup>
@@ -97,7 +101,11 @@ const ParticlesButton = connectTo(
   }),
   function ParticlesButton({ onChangeUrlProperties, isActive }) {
     return (
-      <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipSimulateTraffic')}>
+      <Tooltip
+        themeStyle="light"
+        content={t('in-applications:applicationMap.tooltipSimulateTraffic')}
+        align={'rightMiddle'}
+      >
         <Button
           icon="lib_actions_particles"
           onClick={() => onChangeUrlProperties({ particles: !isActive })}
@@ -115,7 +123,11 @@ const TrafficButton = connectTo(
   }),
   function ParticlesButton({ isActive, onChangeUrlProperties }) {
     return (
-      <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipToggleServiceOutside')}>
+      <Tooltip
+        themeStyle="light"
+        content={t('in-applications:applicationMap.tooltipToggleServiceOutside')}
+        align={'rightMiddle'}
+      >
         <Button
           icon="lib_actions_traffic"
           onClick={() => onChangeUrlProperties({ traffic: !isActive })}
@@ -134,7 +146,7 @@ const LayoutButton = connectTo(
   function ParticlesButton(props) {
     const { onChangeUrlProperties, layouter, tooltipLabel } = props;
     return (
-      <Tooltip themeStyle="light" content={tooltipLabel}>
+      <Tooltip themeStyle="light" content={tooltipLabel} align={'rightMiddle'}>
         <Button {...props} onClick={() => onChangeUrlProperties({ layouter })} />
       </Tooltip>
     );

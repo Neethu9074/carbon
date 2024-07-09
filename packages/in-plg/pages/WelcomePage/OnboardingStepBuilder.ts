@@ -86,7 +86,7 @@ export default function OnboardingStepBuilder() {
         description: t('in-plg:welcomepage.additionalAgents.description'),
         buttonName: t('in-plg:welcomepage.additionalAgents.buttonName'),
         buttonType: 'ghost',
-        href: createRedirectHref('inviteUsers'),
+        href: createRedirectHref('additionalAgents'),
         hasPermission: role?.canConfigureAgents,
         isActionCompleted: statusFlags.threeAgentsInstalled
       },
@@ -96,6 +96,7 @@ export default function OnboardingStepBuilder() {
         description: t('in-plg:welcomepage.appPerspective.description'),
         buttonName: t('in-plg:welcomepage.appPerspective.buttonName'),
         buttonType: 'ghost',
+        href: createRedirectHref('appPerspective'),
         hasPermission: role?.canConfigureApplications,
         isActionCompleted: statusFlags.twoApplicationPerspectivesCreated
       },
@@ -115,6 +116,7 @@ export default function OnboardingStepBuilder() {
         description: t('in-plg:welcomepage.startMonitoring.description'),
         buttonName: t('in-plg:welcomepage.startMonitoring.buttonName'),
         buttonType: 'ghost',
+        href: createRedirectHref('startMonitoring'),
         hasPermission: role?.canConfigureMobileAppMonitoring,
         isActionCompleted: statusFlags.oneWebsiteMonitored
       },
@@ -130,17 +132,17 @@ export default function OnboardingStepBuilder() {
       }
     ];
     function createRedirectHref(currentTile: string) {
-      if (currentTile == 'startIntegrating' || currentTile == 'additionalAgents') {
+      if (currentTile === 'startIntegrating' || currentTile === 'additionalAgents') {
         return createHrefToPath('/agents/installation');
-      } else if (currentTile == 'traceInteractions') {
+      } else if (currentTile === 'traceInteractions') {
         return 'https://www.ibm.com/docs/en/instana-observability/current?topic=references-tracing-in-instana';
-      } else if (currentTile == 'inviteUsers' || currentTile == 'inviteTeammates') {
+      } else if (currentTile === 'inviteUsers' || currentTile === 'inviteTeammates') {
         return createHrefToPath('/config/team/accessControl/users');
-      } else if (currentTile == 'appPerspective') {
+      } else if (currentTile === 'appPerspective') {
         return createHrefToPath('/applications');
-      } else if (currentTile == 'smartAlerts') {
+      } else if (currentTile === 'smartAlerts') {
         return createHrefToPath('/alerts;configsCategory=global');
-      } else if (currentTile == 'startMonitoring') {
+      } else if (currentTile === 'startMonitoring') {
         return createHrefToPath('/websiteMonitoring/websites');
       } else {
         return createHrefToPath('/config/team/accessControl/users');

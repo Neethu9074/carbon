@@ -32,12 +32,14 @@ const ApplicationsHealthIndicatorBar = ({ critical = 0, warning = 0, total = 0, 
         <Tooltip
           content={t('in-components:applicationHealthOverview.indicatorBar.criticalTooltip', { count: critical })}
           align="mousePosition"
+          legacy
         >
           <div className={locals.critical} style={barStyle.critical} />
         </Tooltip>
         <Tooltip
           content={t('in-components:applicationHealthOverview.indicatorBar.warningTooltip', { count: warning })}
           align="mousePosition"
+          legacy
         >
           <div className={locals.warning} style={barStyle.warning} />
         </Tooltip>
@@ -46,6 +48,7 @@ const ApplicationsHealthIndicatorBar = ({ critical = 0, warning = 0, total = 0, 
             count: total - critical - warning
           })}
           align="mousePosition"
+          legacy
         >
           <div className={locals.healthy} style={barStyle.healthy} />
         </Tooltip>

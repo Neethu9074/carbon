@@ -58,7 +58,13 @@
     "timePresets": {
       "last7Days": "Last 7 days",
       "last30Days": "Last 30 days",
-      "last365Days": "Last 365 days"
+      "last365Days": "Last 365 days",
+      "thisMonth": "This Month",
+      "lastMonth": "Last Month"
+    },
+    "presentationPresets": {
+      "distinct": "Distinct values",
+      "cumulative": "Cumulated values"
     },
     "usages": {
       "allPaidUnitsAggregated": "All paid units (aggregated)",

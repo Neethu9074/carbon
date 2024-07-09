@@ -23,9 +23,9 @@ import useDeleteLogsForm from 'in-settings/tabs/TeamSettings/pages/logManagement
 import { DeletionTable } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeletionTable';
 import { NotificationState } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/types';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { parseDateTime } from 'in-services/formatters/date';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -75,13 +75,15 @@ export default function DeleteLogs() {
       <SettingsDetailPage className={locals.page}>
         <Title title={localisationStrings.deleteLogs} />
         <section className={locals.titleSection}>
-          <SubViewHeader>{localisationStrings.deleteLogs}</SubViewHeader>
-          <Button onClick={openConfirmationDialog} kind="danger">
+          <div>
+            <SubViewHeaderComponent>{localisationStrings.deleteLogs}</SubViewHeaderComponent>
+            <Typography variant={'body-regular'}>{localisationStrings.info}</Typography>
+          </div>
+          <Button className={locals.deleteLogsButton} onClick={openConfirmationDialog} kind="danger">
             {localisationStrings.deleteLogs}
           </Button>
         </section>
         <main>
-          <Typography variant={'body-small'}>{localisationStrings.info}</Typography>
           <DeletionTable isDeleting={isDeleting} />
         </main>
       </SettingsDetailPage>

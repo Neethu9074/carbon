@@ -103,7 +103,7 @@ export function GlobalCustomPayload(props) {
       <Title title={t('in-settings:tabs.configureCustomPayloadForAlerts')} />
       <SubViewHeader>{t('in-settings:tabs.configureCustomPayload')}</SubViewHeader>
       <Section>
-        <Message withIcon small>
+        <Message withIcon small fullInlineWidth>
           <span>
             <Trans
               i18nKey="in-settings:tabs.eachKeyValuePairWillBeIncludedAsAdditionalPayload"
@@ -121,7 +121,7 @@ export function GlobalCustomPayload(props) {
         </Message>
       </Section>
       {!canConfigureGlobalAlertPayload && (
-        <Message withIcon small>
+        <Message withIcon small fullInlineWidth>
           {t('in-settings:tabs.youAreNotPermittedToEditCustomPayloads')}
         </Message>
       )}

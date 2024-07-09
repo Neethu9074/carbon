@@ -6,19 +6,18 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, Typography, RadioButton } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { KeyValue, Stack, Typography, RadioButton, Button } from '@instana/components';
 
 import { getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
+import { carbonButtonEnabled, shareAndInviteEnabled } from 'in-services/featureFlags';
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import { DropDown } from 'in-plg/pages/onboarding/content/ContentComponents';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 const agentModeOptions = ['dynamic', 'static'];
@@ -88,7 +87,7 @@ function PlatformArchitecture({
         icon="lib_actions_download"
         iconSize="s"
         kind="action"
-        noAutoMargin
+        // noAutoMargin
         href={getAgentDownloadURL(
           tenant,
           tenantUnit,
@@ -97,6 +96,7 @@ function PlatformArchitecture({
           agentMode === 'dynamic' ? option : `${option}Static`,
           butlerDomain
         )}
+        {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
       >
         {''}
       </Button>

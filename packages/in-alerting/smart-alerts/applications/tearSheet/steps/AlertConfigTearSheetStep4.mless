@@ -16,7 +16,7 @@
 
   .container60_40 {
     display: grid;
-    grid-template-columns: 50% 48%;
+    grid-template-columns: 49.5% 0.5% 48%;
     grid-template-rows: min-content auto;
     grid-column-gap: 2rem;
     grid-row-gap: 0.5rem;
@@ -74,5 +74,10 @@
     align-items: center;
     padding: 2rem 0;
     gap: 1rem;
+  }
+
+  .seperator {
+    border-right: 1px solid var(--ids-color-option-neutral-300);
+    height: 100%;
   }
 }

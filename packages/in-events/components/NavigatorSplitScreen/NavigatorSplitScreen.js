@@ -80,6 +80,7 @@ function NavigatorSplitScreen({
                       content={t('in-events:navigatorSplitScreen.tooltipViewPrevious', {
                         context: typeLabel
                       })}
+                      align={'auto'}
                     >
                       <SvgIcon
                         type="lib_arrow_drop_left"
@@ -101,6 +102,7 @@ function NavigatorSplitScreen({
                       content={t('in-events:navigatorSplitScreen.tooltipViewNext', {
                         context: typeLabel
                       })}
+                      align={'auto'}
                     >
                       <SvgIcon
                         type="lib_arrow_drop_right"
@@ -123,6 +125,7 @@ function NavigatorSplitScreen({
                         ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
                         : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
                     }
+                    align={'auto'}
                   >
                     <SvgIcon
                       type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
@@ -158,6 +161,7 @@ function NavigatorSplitScreen({
                       ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
                       : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
                   }
+                  align={'bottomLeft'}
                 >
                   <SvgIcon
                     type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}

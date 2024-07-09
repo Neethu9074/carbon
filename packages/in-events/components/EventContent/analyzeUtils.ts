@@ -9,9 +9,9 @@ import {
   WebsiteAlertConfig,
   MobileAppAlertConfig,
   ApplicationAlertConfig,
-  GlobalApplicationsAlertConfig,
-  InfraAlertConfig
+  GlobalApplicationsAlertConfig
 } from 'in-types';
+import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { fixateTimeConfig } from 'in-stores/time/config';
 import { EventOrMap } from 'in-events/types';
@@ -21,7 +21,7 @@ type AnySmartAlertConfig =
   | MobileAppAlertConfig
   | ApplicationAlertConfig
   | GlobalApplicationsAlertConfig
-  | InfraAlertConfig;
+  | InfraSmartAlertConfig;
 
 export function getSmartAlertAnalyzeTimeConfig(event: EventOrMap, alertConfig: AnySmartAlertConfig) {
   const analyzeTimeConfig =

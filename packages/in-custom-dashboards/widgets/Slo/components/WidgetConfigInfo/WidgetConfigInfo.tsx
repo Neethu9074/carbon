@@ -23,6 +23,7 @@ export default function WidgetConfigInfo({ children }: WidgetConfigInfoProps) {
       content={<WidgetConfigInfoTooltip>{children}</WidgetConfigInfoTooltip>}
       align="bottomMiddle"
       delay={250}
+      legacy
     >
       <SvgIcon className={locals.widgetInfo} type="lib_help_error_info_outline" size="s" />
     </Tooltip>

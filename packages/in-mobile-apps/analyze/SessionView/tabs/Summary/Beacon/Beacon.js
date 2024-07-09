@@ -52,6 +52,7 @@ export default function Beacon(props) {
                 : t('in-mobile-apps:sessionView.tabsSumBeacon.showmoreTooltip')
             }
             align="topMiddle"
+            overwriteBlock
           >
             <div
               className={locals.header}

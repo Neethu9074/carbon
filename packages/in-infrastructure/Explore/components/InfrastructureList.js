@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
@@ -29,6 +29,7 @@ import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPres
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { default as TagLabel } from 'in-infrastructure/Explore/components/TagLabel';
 import { default as TagValue } from 'in-infrastructure/Explore/components/TagValue';
+import { fixOrderForBackwardsCompatibility } from 'in-infrastructure/Explore/utils';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
@@ -68,7 +69,7 @@ export default function InfrastructureList({
   type,
   metrics,
   metricMetadatas,
-  order,
+  order: incomingOrder,
   tracking,
   metricCatalog,
   tagCatalog,
@@ -88,6 +89,7 @@ export default function InfrastructureList({
     retrievalSize,
     metrics
   });
+  const order = useMemo(() => fixOrderForBackwardsCompatibility(incomingOrder, metrics), [incomingOrder, metrics]);
 
   const {
     items,

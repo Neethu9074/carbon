@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import { AgentSnapshotResponse } from 'in-plg/api/AgentSnapshot';

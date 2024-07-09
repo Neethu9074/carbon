@@ -22,12 +22,12 @@ import {
   TriggerType,
   WebsiteAlertConfigWithMetadata,
   MobileAppAlertConfigWithMetadata,
-  InfraAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
   GlobalApplicationsAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata
 } from 'in-types';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
@@ -35,6 +35,7 @@ import submitActionExecution from 'in-automation/subscriptions/submitActionExecu
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { NewPolicy } from 'in-automation/Policies/types';
 import { mapData } from 'in-services/util/result';
+import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -792,7 +793,7 @@ export function getMobileAppSmartAlertConfigs() {
 }
 
 export function getInfraSmartAlertConfigs() {
-  return http<InfraAlertConfigWithMetadata[]>({
+  return http<InfraSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     url: apiEndpoint.INFRA,
@@ -882,7 +883,7 @@ export function getMobileAppSmartAlertConfig(id: string) {
 }
 
 export function getInfraSmartAlertConfig(id: string) {
-  return http<InfraAlertConfigWithMetadata>({
+  return http<InfraSmartAlertConfigWithMetadata>({
     method: 'GET',
     url: `${apiEndpoint.INFRA}/${encodeURIComponent(id)}`,
     maxRetries: 3,
@@ -924,4 +925,17 @@ export function getDynamicParameterTagCatalog() {
     maxRetries: 3,
     mapToResultObject: true
   });
+}
+
+export function deleteActionInstance(id: string, createdDate: number) {
+  return http<{ deletedDocumentsCount: string }>({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${automationAPIBase}/actioninstances/${encodeURIComponent(id)}`,
+    queryParams: {
+      to: createdDate + minutes.toMillis(10),
+      from: createdDate - minutes.toMillis(10)
+    }
+  }).map(response => response.body);
 }

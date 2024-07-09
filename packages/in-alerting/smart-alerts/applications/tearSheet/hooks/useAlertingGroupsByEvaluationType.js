@@ -43,7 +43,7 @@ export default function useAlertingGroupsByEvaluationType(
       }, {})
   );
 
-  const { totalHits } = useCursorPagination(
+  const { totalHits, awaitingData } = useCursorPagination(
     ({ cursor }) =>
       isTagFilterFormModelValid &&
       getData({
@@ -58,7 +58,10 @@ export default function useAlertingGroupsByEvaluationType(
     [backendMetrics, evaluationType]
   );
 
-  return totalHits;
+  if (awaitingData) {
+    return 'loading';
+  }
+  return totalHits ?? 0;
 }
 
 function getData({

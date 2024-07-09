@@ -44,7 +44,8 @@ import {
   CLOSE,
   ADD_COMMENT,
   isManual,
-  isAIAction
+  isAIAction,
+  isAIActionCopy
 } from 'in-automation/ActionCatalog/shared';
 import { createActionTracker, editActionTracker, copyAIGenaratedActionTracker } from 'in-automation/tracker';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -210,7 +211,8 @@ function save(form: MapForm<any>, id: string | null, isNew: boolean, entity: Act
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
     });
-    if (isAIAction(entity!) && isCopy) {
+    // we also want to add aiOriginated: true true to ai generated copy actions chidren and grand chidren too.
+    if ((isAIAction(entity!) || isAIActionCopy(entity!)) && isCopy) {
       copyAIGenaratedActionTracker({
         actionType: actionSpecification.type,
         actionName: actionSpecification.name,

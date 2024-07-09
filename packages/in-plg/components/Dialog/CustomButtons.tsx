@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 // @ts-expect-error missing typescript migration
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';

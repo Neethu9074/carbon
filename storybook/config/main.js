@@ -25,16 +25,16 @@ module.exports = {
     }
   },
   refs: {
-    'design-system2': {
-      title: 'Instana Design System test',
-      url: 'http://localhost:6006/foundation-ui-build/'
+    'design-system-dev': {
+      title: 'Instana Design System dev',
+      url: './ui-foundation/build'
     }
   },
   framework: {
     name: '@storybook/react-webpack5',
     options: { fastRefresh: true }
   },
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-docs'],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-docs', '@storybook/addon-a11y'],
   typescript: {
     reactDocgen: 'react-docgen-typescript-plugin'
   },

@@ -12,11 +12,12 @@ import { Observable, empty } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import getInfraMetricsThresholdSuggestion from 'in-alerting/smart-alerts/infrastructure/subscriptions/getInfraMetricsThresholdSuggestion';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { getEnrichedTagFilterExpression } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
 import { MetricDataSeries } from 'in-applications/subscriptions/types';
-import { InfraAlertConfigWithMetadata, Result } from 'in-types';
+import { Result } from 'in-types';
 
 export default function useThresholdSuggestion(
   form: MapForm<any>,
@@ -47,7 +48,9 @@ export default function useThresholdSuggestion(
 
 function shouldSkipFetchingThresholdSuggestion(
   isValid: boolean,
-  alertConfigWithFormModel: InfraAlertConfigWithMetadata & { hiddenFields: { calculateThresholdOnBackend: boolean } }
+  alertConfigWithFormModel: InfraSmartAlertConfigWithMetadata & {
+    hiddenFields: { calculateThresholdOnBackend: boolean };
+  }
 ) {
   const {
     hiddenFields: { calculateThresholdOnBackend }
@@ -57,7 +60,9 @@ function shouldSkipFetchingThresholdSuggestion(
 }
 
 function resolveThresholdRequest(
-  alertConfigWithFormModel: InfraAlertConfigWithMetadata & { hiddenFields: { calculateThresholdOnBackend: boolean } },
+  alertConfigWithFormModel: InfraSmartAlertConfigWithMetadata & {
+    hiddenFields: { calculateThresholdOnBackend: boolean };
+  },
   isValid: boolean
 ): Observable<Result<MetricDataSeries>> {
   const {

@@ -33,7 +33,18 @@ function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedM
   const initialState =
     (canShowAggregatedMetrics ? aggregatedState : getCurrentTenantOption(unitSelectorOptions)?.value) ??
     aggregatedState;
-  const { windowSize, setWindowSize, tenantUnit, setTenantUnit } = useAmpUrlInformation(initialState);
+  const {
+    windowSize,
+    setWindowSize,
+    tenantUnit,
+    setTenantUnit,
+    timeRange,
+    setTimeRange,
+    to,
+    setTo,
+    presentation,
+    setPresentation
+  } = useAmpUrlInformation(initialState);
 
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
   if (canShowAggregatedMetrics) {
@@ -51,10 +62,17 @@ function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedM
         setWindowSize={setWindowSize}
         tenantUnit={tenantUnit}
         setTenantUnit={setTenantUnit}
+        timeRange={timeRange}
+        setTimeRange={setTimeRange}
+        setTo={setTo}
+        presentation={presentation}
+        setPresentation={setPresentation}
       />
 
       <UsageCharts
         windowSize={windowSize}
+        timeRange={timeRange}
+        to={to}
         tenantUnit={tenantUnit}
         showAggregatedMetrics={showAggregatedMetrics}
         hasSyntheticAddons={hasSyntheticAddons}

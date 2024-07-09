@@ -327,5 +327,18 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://ibm.biz/BdvTVF`
+  },
+  solaris_jspawnhelper_executable_issue: {
+    issueDescription: {
+      Component: function solarisJspawnhelperExecutableIssue({ path }) {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.instanaAgent.jspawnhelperPermissionIssueDescription" values={{ path }} />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: `https://ibm.biz/troubleshooting-Solaris_JVM_file_permission_issue`
   }
 };

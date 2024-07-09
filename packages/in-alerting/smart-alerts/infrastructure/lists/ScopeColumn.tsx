@@ -7,10 +7,11 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { InfraAlertConfigWithMetadata, TagCatalog } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
+import { TagCatalog } from '@instana/types';
 
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getFiltersCount, getLimitedNumberOfFilters } from 'in-alerting/smart-alerts/components/limitedFilters';
@@ -23,7 +24,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn.mless';
 
-export default function ScopeColumn({ config }: { config: InfraAlertConfigWithMetadata }) {
+export default function ScopeColumn({ config }: { config: InfraSmartAlertConfigWithMetadata }) {
   const {
     rule: { entityType },
     tagFilterExpression

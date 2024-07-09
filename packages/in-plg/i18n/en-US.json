@@ -517,6 +517,7 @@
         "addLabel": "Add application",
         "name": "Name",
         "calls": "Calls",
+        "scope": "Scope",
         "latency": "Latency",
         "erroneousCallRate": "Erroneous call rate",
         "openCreationDialog": "Open Creation Dialog",
@@ -554,7 +555,7 @@
         "label": "Business Monitoring",
         "name": "Name",
         "activities": "Activities",
-        "count": "Count",
+        "views": "Views",
         "health": "Health"
       },
       "incidentsWidget": {

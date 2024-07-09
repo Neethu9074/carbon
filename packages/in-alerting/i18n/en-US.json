@@ -49,6 +49,7 @@
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
       "alertingChartMessageEmptyApplicationSelection": "No application selected.",
       "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
+      "chartAlertsLaneErrorMessageForTearSheet": "Please enter a valid 'Trigger after' number ",
       "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
       "chartAlertsPreviewLanePresenterNoAlertsLabel": "No Alerts",
       "chartAlertsPreviewLanePresenterTooltip": "Alert: {{count}}",
@@ -567,7 +568,11 @@
           "title": "Set a value for the violation threshold",
           "description": "Choose metric, violation threshold and time window to evaluate the violation.",
           "thresholdValue": "Threshold value",
-          "thresholdType": "Threshold Type"
+          "thresholdType": "Threshold Type",
+          "metricLabel": "{{metricLabel}} percentile latency",
+          "minLatency": "Minimum latency",
+          "maxLatency": "Maximum latency",
+          "meanLatency": "Average latency"
         },
         "timeThreshold": {
           "title": "Set when violations trigger alerts",
@@ -577,11 +582,11 @@
           "config": {
             "adaptive": {
               "description": "A threshold value that automatically adapts to the changes of the underlying metric is applied.",
-              "label": "Static"
+              "label": "Adaptive"
             },
             "static": {
               "description": "A constant threshold value is applied and it does not change over time.",
-              "label": "Adaptive"
+              "label": "Static"
             }
           }
         },

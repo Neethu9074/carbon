@@ -147,7 +147,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'segmentAnalyticsEnabled',
-    instanaCtlKey: 'segment.analytics.info.enabled',
+    instanaCtlKey: 'feature.segment.analytics.enabled',
     defaultValue: false
   },
   {
@@ -328,7 +328,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsPerspectivesEnabled',
     instanaCtlKey: 'feature.bizops.perspectives.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
@@ -551,8 +551,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonLoadingSpinnerEnabled',
+    instanaCtlKey: 'feature.carbon.loading.spinner.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonDescriptionListEnabled',
     instanaCtlKey: 'feature.carbon.description.list.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonTooltipEnabled',
+    instanaCtlKey: 'feature.carbon.tooltip.enabled',
     defaultValue: false
   },
   {
@@ -563,7 +573,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonAccordionEnabled',
     instanaCtlKey: 'feature.carbon.accordion.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonSelectEnabled',

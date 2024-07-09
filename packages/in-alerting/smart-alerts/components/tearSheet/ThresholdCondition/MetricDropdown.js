@@ -12,6 +12,7 @@ import { getAggregationValue } from 'in-alerting/smart-alerts/applications/dialo
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import ThresholdLabel from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdLabel';
+import { t } from 'in-i18n';
 
 export default function MetricDropdown({ alertType, updateForm, form, blueprintConfig }) {
   const metricName = form.get('rule').get('metricName').value;
@@ -68,7 +69,7 @@ export default function MetricDropdown({ alertType, updateForm, form, blueprintC
         {getAggregationOptions(form).map(items => {
           return (
             <option key={items.value} value={items.value}>
-              {items.label}
+              {getMetricLabelValue(items.label)}
             </option>
           );
         })}
@@ -77,4 +78,15 @@ export default function MetricDropdown({ alertType, updateForm, form, blueprintC
   } else if (alertType === 'throughput') {
     return <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>;
   }
+}
+
+function getMetricLabelValue(label) {
+  if (label === 'min') {
+    return t('in-alerting:smartAlerts.applications.tearSheet.threshold.minLatency');
+  } else if (label === 'max') {
+    return t('in-alerting:smartAlerts.applications.tearSheet.threshold.maxLatency');
+  } else if (label === 'mean') {
+    return t('in-alerting:smartAlerts.applications.tearSheet.threshold.meanLatency');
+  }
+  return t('in-alerting:smartAlerts.applications.tearSheet.threshold.metricLabel', { metricLabel: label });
 }

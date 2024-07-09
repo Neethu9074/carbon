@@ -23,7 +23,7 @@ interface HistoricBaselineErrorMessageProps {
 export default function HistoricBaselineErrorMessage({ thresholdResult }: HistoricBaselineErrorMessageProps) {
   if (hasError(thresholdResult)) {
     return (
-      <Message type="neutral" iconColor={themes.default.ids.color.option.red['500']} withIcon>
+      <Message type="neutral" iconColor={themes.default.ids.color.option.red['500']} withIcon fullInlineWidth>
         {getErrorCode(thresholdResult) === 'VALIDATION' ? (
           <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.baselineValidationMessageInsufficientDataToCompute" />
         ) : (
@@ -38,7 +38,7 @@ export default function HistoricBaselineErrorMessage({ thresholdResult }: Histor
 
   if (thresholdResult?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE') {
     return (
-      <Message type="neutral" iconColor={themes.default.ids.color.option.neutral['800']} withIcon>
+      <Message type="neutral" iconColor={themes.default.ids.color.option.neutral['800']} withIcon fullInlineWidth>
         {t('in-alerting:smartAlerts.components.smartAlertDialog.baselineErrorMessageComputedOnApproximateData')}
       </Message>
     );

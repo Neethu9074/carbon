@@ -230,7 +230,8 @@ export const automationCapabilities: Array<CapabilityType> = [Capability.CAN_CON
 export const automationViewCapabilities: Array<CapabilityType> = [Capability.CAN_RUN_AUTOMATION_ACTIONS];
 export const automationAdditionalCapabilities: Array<CapabilityType> = [
   ...automationViewCapabilities,
-  Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
+  Capability.CAN_CONFIGURE_AUTOMATION_POLICIES,
+  Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY
 ];
 
 export const unionGlobalCapabilities: Array<CapabilityType> = [

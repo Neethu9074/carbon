@@ -297,7 +297,12 @@
     "taskUrl": "Task url",
     "output": "Output",
     "user": "User",
-    "apiToken": "API Token"
+    "apiToken": "API Token",
+    "deleteTooltip": "Delete action instance {{id}}",
+    "deleteDialog": {
+      "success": "Action instance was deleted successfully.",
+      "failure": "Failed to delete action instance."
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "Investigate"

@@ -178,6 +178,7 @@ export default function AlertConfigTearSheetStep4(props) {
             }
           />
         </TearSheetStepContentWrapper>
+        <span className={locals.seperator} />
         <TearSheetStepContentWrapper
           headline={t('in-alerting:smartAlerts.applications.tearSheet.timeThreshold.title')}
           description={t('in-alerting:smartAlerts.applications.tearSheet.timeThreshold.description')}
@@ -220,6 +221,7 @@ export default function AlertConfigTearSheetStep4(props) {
               blueprintConfig={blueprintConfig}
               alertsPreviewEnabled
               canReload
+              isTearSheet
             />
           )}
         </ChartViewConfiguratorWithEntitySelection>

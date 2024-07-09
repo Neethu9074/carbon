@@ -25,6 +25,7 @@ const waitingHtmlTemplate = fs.readFileSync(paths.waitingHtmlTemplate, { encodin
 const compiledTemplate = Handlebars.compile(waitingHtmlTemplate);
 
 const waitingJsChecksum = checkSumMod.getChecksumForFile(paths.waitingJs);
+const compStyleCssChecksum = checkSumMod.getChecksumForFile(paths.compStyleCss);
 const stringifiedBuildInformation = JSON.stringify(buildInformation);
 
 router.get('/waiting', (req, res) => {
@@ -71,6 +72,7 @@ function sendWaitingIndex(req, res, nonce, butlerDomain, reportingEndpoints, csr
   res.send(
     compiledTemplate({
       waitingJsChecksum,
+      compStyleCssChecksum,
       nonce,
       config: JSON.stringify({
         tenant: req.tenant,

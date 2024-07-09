@@ -309,6 +309,7 @@ export default function AlertHeader({
           title={t(
             'in-alerting:components.alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible'
           )}
+          fullInlineWidth
         />
       )}
       {!isLatestVersionDeleted && isNotLatestRevision && (
@@ -317,6 +318,7 @@ export default function AlertHeader({
           className={classNames({
             [locals.bottomSpace]: true
           })}
+          fullInlineWidth
         >
           <span>
             <Trans

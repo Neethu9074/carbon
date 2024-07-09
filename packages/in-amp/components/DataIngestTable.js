@@ -13,9 +13,9 @@ import { t } from 'in-i18n';
 
 import locals from './DataIngestTable.mless';
 
-const BYTES_IN_A_GIGABYTE = 1_000_000_000;
-const DEFAULT_ENTITLEMENT_STANDARD = 350_000_000_000;
-const DEFAULT_ENTITLEMENT_ESSENTIALS = 50_000_000_000;
+const BYTES_IN_A_GIBIBYTE = 1_073_741_824;
+const DEFAULT_ENTITLEMENT_STANDARD = 348_966_092_800; // 325 GiB
+const DEFAULT_ENTITLEMENT_ESSENTIALS = 53_687_091_200; // 50 GiB
 
 /**
  * A table explaining the calculation on fair use and data ingest.
@@ -244,10 +244,10 @@ const getOnDemandMVSStandard = data => Math.max(0, getConfiguredMVSStandard(data
 const getOnDemandMVSEssentials = data => Math.max(0, getConfiguredMVSEssentials(data) - getEntitledMVSEssentials(data));
 
 const getFairUseEntitlementStandard = data =>
-  Math.round((data?.standard?.budgetPerUnit ?? DEFAULT_ENTITLEMENT_STANDARD) / BYTES_IN_A_GIGABYTE);
+  Math.round((data?.standard?.budgetPerUnit ?? DEFAULT_ENTITLEMENT_STANDARD) / BYTES_IN_A_GIBIBYTE);
 
 const getFairUseEntitlementEssentials = data =>
-  Math.round((data?.essentials?.budgetPerUnit ?? DEFAULT_ENTITLEMENT_ESSENTIALS) / BYTES_IN_A_GIGABYTE);
+  Math.round((data?.essentials?.budgetPerUnit ?? DEFAULT_ENTITLEMENT_ESSENTIALS) / BYTES_IN_A_GIBIBYTE);
 
 const getTotalFairUseEntitlementStandard = data => getEntitledMVSStandard(data) * getFairUseEntitlementStandard(data);
 
@@ -257,7 +257,7 @@ const getTotalFairUseEntitlementEssentials = data =>
 const getTotalFairUseEntitlement = data =>
   getTotalFairUseEntitlementStandard(data) + getTotalFairUseEntitlementEssentials(data);
 
-const getAddOnEntitlement = data => Math.round((data?.additional ?? 0) / BYTES_IN_A_GIGABYTE);
+const getAddOnEntitlement = data => Math.round((data?.additional ?? 0) / BYTES_IN_A_GIBIBYTE);
 
 const getOnDemandEntitlement = data =>
   getOnDemandMVSStandard(data) * getFairUseEntitlementStandard(data) +
@@ -266,6 +266,6 @@ const getOnDemandEntitlement = data =>
 const getTotalDataIngestEntitlement = data =>
   getTotalFairUseEntitlement(data) + getAddOnEntitlement(data) + getOnDemandEntitlement(data);
 
-const getActualDataIngest = data => Math.round((data?.consumed ?? 0) / BYTES_IN_A_GIGABYTE);
+const getActualDataIngest = data => Math.round((data?.consumed ?? 0) / BYTES_IN_A_GIBIBYTE);
 
 const getOnDemandDataIngest = data => Math.max(0, getActualDataIngest(data) - getTotalDataIngestEntitlement(data));

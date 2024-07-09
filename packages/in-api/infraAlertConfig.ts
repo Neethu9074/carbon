@@ -5,10 +5,11 @@
 
 import { Observable } from '@instana/observables';
 
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
-import { InfraAlertConfigWithMetadata, Result } from 'in-types';
 import http from 'in-services/http';
+import { Result } from 'in-types';
 
 const baseUrl = 'api/events/settings/infra-alert-configs';
 
@@ -16,18 +17,18 @@ export function getInfraAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
   config: { asObservable: true }
-): Observable<Result<InfraAlertConfigWithMetadata>>;
+): Observable<Result<InfraSmartAlertConfigWithMetadata>>;
 export function getInfraAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
   config?: { asObservable: false }
-): Observable<InfraAlertConfigWithMetadata>;
+): Observable<InfraSmartAlertConfigWithMetadata>;
 export function getInfraAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
   config = { asObservable: false }
-): Observable<Result<InfraAlertConfigWithMetadata>> | Observable<InfraAlertConfigWithMetadata> {
-  const request = http<InfraAlertConfigWithMetadata>({
+): Observable<Result<InfraSmartAlertConfigWithMetadata>> | Observable<InfraSmartAlertConfigWithMetadata> {
+  const request = http<InfraSmartAlertConfigWithMetadata>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),

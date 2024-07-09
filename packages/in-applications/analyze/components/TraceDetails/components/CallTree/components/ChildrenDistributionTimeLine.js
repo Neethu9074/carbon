@@ -53,8 +53,8 @@ export default function ChildrenDistributionTimeLine(props) {
         <LogIndicators key={i} {...props} parentCall={call} log={log} />
       ))}
       {convertLogEventsToLogs(call.logEvents).map((log, i) => (
-          <LogIndicators key={i} {...props} parentCall={call} log={log} />
-        ))}
+        <LogIndicators key={i} {...props} parentCall={call} log={log} />
+      ))}
     </div>
   );
 }
@@ -67,7 +67,13 @@ function ParentCallIndicator({ call, scale, getColor, onClick }) {
       : scale.getRange(call.start + call.duration) - left;
 
   return (
-    <Tooltip themeStyle="light" content={<CallTooltipContent call={call} getColor={getColor} />} align="topMiddle">
+    <Tooltip
+      themeStyle="light"
+      content={<CallTooltipContent call={call} getColor={getColor} />}
+      align="topMiddle"
+      overwriteBlock
+      forceTheme
+    >
       <div
         style={{
           left: `${left}%`,
@@ -139,7 +145,13 @@ function CallIndicator({ call, scale, getColor, onClick }) {
       : scale.getRange(call.start + call.duration) - left;
 
   return (
-    <Tooltip themeStyle="light" content={<CallTooltipContent call={call} getColor={getColor} />} align="topMiddle">
+    <Tooltip
+      themeStyle="light"
+      content={<CallTooltipContent call={call} getColor={getColor} />}
+      align="topMiddle"
+      overwriteBlock
+      forceTheme
+    >
       <div
         style={{
           left: `${left}%`,

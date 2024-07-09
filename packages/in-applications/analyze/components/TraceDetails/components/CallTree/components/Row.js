@@ -309,16 +309,18 @@ function CallInformation(props) {
         )}
         <ErrorIndicator erroneous={call.errorCount} />
         <Tooltip themeStyle="light" content={shorten(call.label)}>
-          <span
-            className={classNames({
-              [locals.label]: true,
-              [locals.labelSelected]: isOpened,
-              [locals.clickable]: onCallClicked != null
-            })}
-            onClick={onCallClicked ? () => onCallClicked(call) : () => {}}
-          >
-            {call.label || 'Undefined'}
-          </span>
+          <div className={locals.callLabelWrapper}>
+            <span
+              className={classNames({
+                [locals.label]: true,
+                [locals.labelSelected]: isOpened,
+                [locals.clickable]: onCallClicked != null
+              })}
+              onClick={onCallClicked ? () => onCallClicked(call) : () => {}}
+            >
+              {call.label || 'Undefined'}
+            </span>
+          </div>
         </Tooltip>
         {call.batchSize > 1 && (
           <Tooltip

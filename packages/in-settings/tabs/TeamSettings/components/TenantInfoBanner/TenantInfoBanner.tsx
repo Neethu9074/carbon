@@ -17,7 +17,7 @@ interface TenantInfoBannerProps {
 }
 
 export default function TenantInfoBanner({ children }: TenantInfoBannerProps) {
-  const { showTenantInfo } = useTenantUnitsInfo();
+  const showTenantInfo = useTenantUnitsInfo();
 
   return showTenantInfo ? (
     <Message className={locals.tenant_info_message} type={'neutral'} inline withIcon>

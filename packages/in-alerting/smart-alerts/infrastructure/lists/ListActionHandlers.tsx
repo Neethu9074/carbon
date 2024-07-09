@@ -6,8 +6,7 @@
 
 import React from 'react';
 
-import { InfraAlertConfigWithMetadata } from '@instana/types';
-
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AlertConfigDialog';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
@@ -15,11 +14,11 @@ import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 
-function handleEdit(config: InfraAlertConfigWithMetadata) {
+function handleEdit(config: InfraSmartAlertConfigWithMetadata) {
   openSmartAlertDialog(config);
 }
 
-function openSmartAlertDialog(config: InfraAlertConfigWithMetadata, isCopy = false) {
+function openSmartAlertDialog(config: InfraSmartAlertConfigWithMetadata, isCopy = false) {
   addActiveDialog(
     <SmartAlertConfigDialogWrapper
       alertConfig={isCopy ? duplicateAlertConfig(config) : config}
@@ -34,14 +33,14 @@ function openSmartAlertDialog(config: InfraAlertConfigWithMetadata, isCopy = fal
 }
 
 export const actionHandlers = {
-  handleEdit: (config: InfraAlertConfigWithMetadata) => handleEdit(config),
-  handleClone: (config: InfraAlertConfigWithMetadata) => handleClone(config),
+  handleEdit: (config: InfraSmartAlertConfigWithMetadata) => handleEdit(config),
+  handleClone: (config: InfraSmartAlertConfigWithMetadata) => handleClone(config),
   handleDelete: (id: string, setIsSaving: (saving: boolean) => void, configName: string) =>
     handleDelete(id, setIsSaving, configName, baseUrl.INFRA),
   handleToggleEnabled: (enabled: boolean, id: string, setIsSaving: (arg: boolean) => void) =>
     handleToggleEnabled(enabled, id, setIsSaving, baseUrl.INFRA)
 };
 
-function handleClone(config: InfraAlertConfigWithMetadata) {
+function handleClone(config: InfraSmartAlertConfigWithMetadata) {
   openSmartAlertDialog(config, true);
 }

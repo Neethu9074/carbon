@@ -79,13 +79,14 @@ run:
         PR=$(gh pr list -S "Update browserslist" -B "${1:-develop}")
         PR_ID=$(echo $PR | cut -d " " -f1)
 
-        # Login as pr-approval
-        echo "-- Login to GitHub as pr-approval"
-        gh auth login --hostname github.ibm.com --with-token <<< "((ibm-github-e-api-token))"
+        ## -- this is kept for reference. TODO need to login as another user to approve this pr.
+        ## Login as pr-approval
+        ## echo "-- Login to GitHub as pr-approval"
+        ## gh auth login --hostname github.ibm.com --with-token <<< "((ibm-github-e-api-token))"
 
-        echo "-- Approve the pull request"
-        gh pr checkout ${PR_ID}
-        gh pr review --approve
+        ## echo "-- Approve the pull request"
+        ## gh pr checkout ${PR_ID}
+        ## gh pr review --approve
 
         echo "-- Enable auto merge squash"
         gh pr merge --auto -s

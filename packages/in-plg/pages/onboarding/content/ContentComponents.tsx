@@ -17,10 +17,10 @@ import {
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { Select, Checkbox } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Select, Checkbox, Button } from '@instana/components';
 
 import { notBlankValidator } from 'in-services/validators/string';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import FormInput from 'in-components/form/Input/Input';
 import InputComponent from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -86,7 +86,15 @@ export function DownloadButton({ href, fileName }: { href: string; fileName: str
   };
 
   return (
-    <Button target="_blank" icon="lib_actions_download" iconSize="xs" kind="subtle" noAutoMargin onClick={clickHandler}>
+    <Button
+      {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
+      target="_blank"
+      icon="lib_actions_download"
+      iconSize="xs"
+      kind="subtle"
+      noAutoMargin
+      onClick={clickHandler}
+    >
       {''}
     </Button>
   );

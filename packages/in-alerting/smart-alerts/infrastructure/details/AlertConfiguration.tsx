@@ -9,8 +9,9 @@ import React, { useMemo, useState } from 'react';
 import { Stack } from '@instana/components';
 import { Card } from '@instana/components';
 
+// eslint-disable-next-line no-restricted-imports
+import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import {
-  InfraAlertConfigWithMetadata,
   InfraAlertRuleUnion,
   Order,
   StaticThresholdConfig,
@@ -18,8 +19,6 @@ import {
   TagFilter,
   ThresholdConfigUnion
 } from 'in-types';
-// eslint-disable-next-line no-restricted-imports
-import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import {
   getQueryBuilder,
   getGroupByQueryBuilder
@@ -27,6 +26,7 @@ import {
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/infrastructure/hooks/useTagBasedPayloadConfigurator';
 import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import PredictiveTriggerDescription from 'in-alerting/smart-alerts/infrastructure/details/PredictiveTriggerDescription';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
@@ -69,7 +69,7 @@ export const tagSuggestionTimeConfig = {
 
 const initialChartConfigIndex = 0;
 
-export default function AlertConfiguration({ alertConfig }: { alertConfig: InfraAlertConfigWithMetadata }) {
+export default function AlertConfiguration({ alertConfig }: { alertConfig: InfraSmartAlertConfigWithMetadata }) {
   const {
     timeThreshold,
     granularity,

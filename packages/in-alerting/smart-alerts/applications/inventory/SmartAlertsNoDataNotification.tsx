@@ -21,7 +21,7 @@ export default function SmartAlertsNoDataNotification(): JSX.Element {
         <>
           <ArticleContent markdownContent={t('in-alerting:smartAlerts.applications.inventory.noData')} />
           {!role?.canConfigureGlobalApplicationSmartAlerts && (
-            <Message type="warning" small withIcon>
+            <Message type="warning" small withIcon fullInlineWidth>
               {t('in-alerting:smartAlerts.applications.inventory.noPersmissionToCreateGlobalSmartAlert')}
             </Message>
           )}

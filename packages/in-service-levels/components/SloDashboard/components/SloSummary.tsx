@@ -41,7 +41,7 @@ export default function SloSummary({ data }: SloSummaryWrapperProps) {
 function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { configuration } = data;
 
-  const { timeWindows } = useSloTimeWindowContext();
+  const { timeWindows, progress } = useSloTimeWindowContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;
 
   const track = useSloTrackers();
@@ -57,7 +57,7 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   }, [track, configuration]);
   return (
     <>
-      {!hasMatchingTimeWindows && (
+      {!progress.loading && !hasMatchingTimeWindows && (
         <Row>
           <Col xs={12}>
             <Message type="warning">{t('in-service-levels:general.noMatchingTimeWindows')}</Message>
