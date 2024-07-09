@@ -54,14 +54,18 @@ function drawBlock(metricMap, config, scale, block, fillStyle, strokeStyle) {
     config.backBufferCtx.beginPath();
     config.backBufferCtx.moveTo(firstDataPointXPos, scale.getRange(firstDataPoint[1]));
 
-    for (let i = 1; i < block.length; i++) {
+    for (let i = 0; i < block.length; i++) {
       const dataPoint = block[i];
       if (!dataPoint) {
         continue;
       }
 
       const { xPos, yPos } = getPosition(dataPoint, metricMap, config, scale);
-      config.backBufferCtx.lineTo(xPos, yPos);
+      if (i === 0) {
+        config.backBufferCtx.moveTo(xPos, yPos);
+      } else {
+        config.backBufferCtx.lineTo(xPos, yPos);
+      }
     }
 
     config.backBufferCtx.strokeStyle = strokeStyle;
