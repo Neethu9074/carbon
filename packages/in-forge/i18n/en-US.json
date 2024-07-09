@@ -13064,7 +13064,37 @@
       "warningActuatorConfigured": "Spring Boot monitoring requires that Spring Boot Actuator is configured. For Spring Boot 2.2.x and later it is necessary to enable JMX.",
       "warningSpringbootConfig": "More info can be found on the <linkToSpringboot>Spring Boot configuration page</linkToSpringboot>.",
       "descriptionActuatorConfigured": "Spring Boot monitoring requires that Spring Boot Actuator is configured:",
-      "descriptionEnableJMX": "For Spring Boot 2.2.x and later it is necessary to enable JMX. Set <codeTag><bold>spring.jmx.enabled=true</bold></codeTag> in the <codeTag><bold>application.properties</bold></codeTag> file."
+      "descriptionEnableJMX": "For Spring Boot 2.2.x and later it is necessary to enable JMX. Set <codeTag><bold>spring.jmx.enabled=true</bold></codeTag> in the <codeTag><bold>application.properties</bold></codeTag> file.",
+      "categoryDatasources": "JDBC Datasources",
+      "categoryHikariDatasources": "HikariCP Datasources",
+      "datasources": {
+        "datasourcesWithCount": "JDBC Datasources ({{len}})",
+        "name": "Name",
+        "active": "Active",
+        "idle": "Idle",
+        "max": "Max",
+        "min": "Min",
+        "maxConnections": "Max Connections",
+        "minConnections": "Min Connections",
+        "activeConnections": "Active Connections",
+        "idleConnections": "Idle Connections",
+        "connectionTimeout": "Connection Timeout"
+      },
+      "hikariDatasources": {
+        "hikariDatasourcesWithCount": "HikariCP Datasources ({{len}})",
+        "poolName": "Pool Name",
+        "totalConnections": "Total Connections",
+        "total": "Total",
+        "acquisitions": "Acquisitions",
+        "creations": "Creations",
+        "usage": "Usage",
+        "timeouts": "Timeouts",
+        "connectionAcquisitions": "Connection Acquisitions",
+        "connectionCreations": "Connection Creations",
+        "connectionUsage": "Connection Usage",
+        "connectionTimeouts": "Connection Timeouts",
+        "pending": "Pending Threads"
+      }
     },
     "sybase": {
       "titleDiskReadsWrites": "Disk Reads & Writes",
