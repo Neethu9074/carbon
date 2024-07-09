@@ -14991,8 +14991,14 @@
       "cicsRegionName": "CICS Region Name",
       "cicsVersion": "CICS Version",
       "cicsplexName": "CICSPlex Name",
+      "serviceClassName": "Service Class Name",
+      "summaryType": "Summary Type",
+      "numberOfAbendedTransactions": "Number of Abended Transactions",
+      "averageResponseTimeMs": "Average Response Time",
+      "averageTimeUsingCpu": "Average Time Using CPU",
       "transactionRate": "Transaction Rate",
       "maximumTasksPercent": "Maximum Tasks Percent",
+      "maxTasksReached": "Max Tasks Reached",
       "cpuUtilization": "CPU Utilization",
       "ioRate": "IO Rate",
       "pageRate": "Page Rate",
@@ -15004,7 +15010,7 @@
       "queuedRemoteRequests": "Queued Remote Requests",
       "performance": "Performance",
       "rates": "Rates",
-      "sos": "SOS"
+      "totalTimesSos": "SOS"
     },
     "zIms": {
       "label": "IBM IMS for z/OS",
