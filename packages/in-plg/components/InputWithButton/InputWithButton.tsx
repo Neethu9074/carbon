@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useRef } from 'react';
+import React from 'react';
 
 import { Stack, Button } from '@instana/components';
 
@@ -33,7 +33,6 @@ export default function InputWithButton({
   size = 'small',
   callBack
 }: InputWithButtonProps): JSX.Element {
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const style =
     size === 'small'
       ? `${locals.input} ${locals.inputSmall}`
@@ -56,12 +55,7 @@ export default function InputWithButton({
 
   return (
     <Stack direction="horizontal" gap="disabled" align="center">
-      <Input
-        ref={inputRef}
-        className={style}
-        value={displayContent ? displayContent : inputValue}
-        onChange={handleInputChange}
-      />
+      <Input className={style} value={displayContent ? displayContent : inputValue} onChange={handleInputChange} />
       <Button
         icon={icon}
         kind="action"
