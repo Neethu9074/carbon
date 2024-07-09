@@ -158,10 +158,10 @@ export interface UserInvite {
 }
 
 interface ShareAndInviteDialogBoxProps {
-  hideShare?: boolean;
+  inviteOnly?: boolean;
 }
 
-const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) => {
+const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) => {
   const { location, createHref, createHrefToPath } = useNavigation();
   const clonedLocation = cloneLocation(location);
 
@@ -254,7 +254,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
         groupId: e.groupId,
         email: e.email,
         message: emailMessage,
-        path: hideShare ? '/#/home' : createHref(clonedLocation), // if invited from user section or pending invite section, the return URL should be to /home
+        path: inviteOnly ? '/#/home' : createHref(clonedLocation), // if invited from user section or pending invite section, the return URL should be to /home
         pageName: productArea,
         userSentState: e.userSentState === InviteSentState.INTERNAL_ERROR ? InviteSentState.notSentYet : e.userSentState
       }));
@@ -343,13 +343,23 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
       title={
         <div className={locals.title}>
           <Stack gap="disabled">
-            <Typography variant="heading-400">
-              {`${t('in-settings:ShareAndInviteDialogBox.share')} ${productArea?.toLowerCase() ?? ''}`}
-            </Typography>
-            {showInvite ? (
-              <Typography variant="body-regular">
-                {t('in-settings:ShareAndInviteDialogBox.inviteYourTeamMates')}
+            {inviteOnly ? (
+              <Typography variant="heading-400">{t('in-settings:ShareAndInviteDialogBox.inviteUsers')}</Typography>
+            ) : (
+              <Typography variant="heading-400">
+                {`${t('in-settings:ShareAndInviteDialogBox.share')} ${productArea?.toLowerCase() ?? ''}`}
               </Typography>
+            )}
+            {showInvite ? (
+              inviteOnly ? (
+                <Typography variant="body-regular">
+                  {t('in-settings:ShareAndInviteDialogBox.inviteToInstana')}
+                </Typography>
+              ) : (
+                <Typography variant="body-regular">
+                  {t('in-settings:ShareAndInviteDialogBox.inviteYourTeamMates')}
+                </Typography>
+              )
             ) : (
               <Typography variant="body-regular">{t('in-settings:ShareAndInviteDialogBox.shareALink')}</Typography>
             )}
@@ -494,7 +504,11 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
                       value={emailMessage}
                       /* @ts-ignore (value does exist inside e.target) */
                       onChange={e => setEmailMessage(e.target.value)}
-                      placeholder={t('in-settings:ShareAndInviteDialogBox.defaultEmailMessage')}
+                      placeholder={
+                        inviteOnly
+                          ? t('in-settings:ShareAndInviteDialogBox.emailMessageForInviteOnly')
+                          : t('in-settings:ShareAndInviteDialogBox.defaultEmailMessage')
+                      }
                     />
                   </Fields>
                   <HelpText>{t('in-settings:ShareAndInviteDialogBox.youCanEditThisMessage')}</HelpText>
@@ -502,7 +516,7 @@ const ShareAndInviteDialogBox = ({ hideShare }: ShareAndInviteDialogBoxProps) =>
               </Row>
             </>
           )}
-          {!hideShare && (
+          {!inviteOnly && (
             <>
               <Row>
                 <Col xs={12}>

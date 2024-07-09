@@ -78,7 +78,7 @@ export default function Users() {
             : () => {
                 track(USER_INVITE, emptyObject);
                 addActiveDialog(
-                  shareAndInviteEnabled ? <DeferredShareAndInviteDialogBox hideShare /> : <InviteUserDialog />
+                  shareAndInviteEnabled ? <DeferredShareAndInviteDialogBox inviteOnly /> : <InviteUserDialog />
                 );
               }
         }

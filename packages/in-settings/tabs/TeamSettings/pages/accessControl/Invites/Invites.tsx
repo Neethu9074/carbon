@@ -88,7 +88,7 @@ const Invites = () => {
       initialOrderBy="email"
       onCreateNew={() => {
         track(USER_INVITE, emptyObject);
-        addActiveDialog(shareAndInviteEnabled ? <DeferredShareAndInviteDialogBox hideShare /> : <InviteUserDialog />);
+        addActiveDialog(shareAndInviteEnabled ? <DeferredShareAndInviteDialogBox inviteOnly /> : <InviteUserDialog />);
       }}
       labelNew={t('in-settings:tabs.inviteUser')}
       searchAttributes={['email', 'groupName', 'invitedBy']}

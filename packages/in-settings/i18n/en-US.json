@@ -377,7 +377,7 @@
       "toastMessageFailed": "The retention period could not be changed. Please try again or contact support.",
       "contactSupport": "Contact support"
     },
-    "integrations":{
+    "integrations": {
       "integrations": "Log Integrations",
       "integrationsDescription": "Connect your log management solutions and configure them to meet your needs.",
       "integrationsTooltip": "Toggle is disabled due to a missing configuration. Click the tile and complete the form to enable this feature.",
@@ -1407,8 +1407,10 @@
   "testAlertChannelSuccess": "Test Alert sent to {{channel}} Alert Channel",
   "ShareAndInviteDialogBox": {
     "share": "Share",
+    "inviteUsers": "Invite users",
     "shareALink": "Share a link directly to this page.",
     "inviteYourTeamMates": "Invite your teammates to collaborate or link them directly to this page.",
+    "inviteToInstana": "Invite your teammates to Instana.",
     "emailAddress": "Email address",
     "add": "Add",
     "addUser": "Add user",
@@ -1418,6 +1420,7 @@
     "newGroup": "New group",
     "emailMessage": "Email message (optional)",
     "defaultEmailMessage": "Add a note here if you want to ask for help or provide any relevant information about the page you're sharing.",
+    "emailMessageForInviteOnly": "Add a note here if you want ask for help or provide any additional information.",
     "pageLink": "Page link",
     "currentTimeRange": "Current time range",
     "fixateTime": "Lock current time range",
