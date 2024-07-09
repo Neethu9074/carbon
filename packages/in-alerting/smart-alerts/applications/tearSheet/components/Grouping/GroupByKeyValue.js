@@ -45,11 +45,11 @@ function GroupByKeyValue({ label, groupbyTag }) {
   );
 }
 
-function getLabel(result) {
+export function getLabel(result) {
   return get(result, ['data', 'label'], null);
 }
 
-function getByTitle(groupbyTag) {
+export function getByTitle(groupbyTag) {
   if (groupbyTag === 'application.id') {
     return 'Application.name';
   }
