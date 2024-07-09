@@ -25,7 +25,6 @@ import '@instana/legacy/esm/index.css';
 import '@instana/components/esm/index.css';
 
 import theme from './theme';
-import './i18n';
 import locals from './config.mless';
 
 // globals
