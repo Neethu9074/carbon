@@ -111,6 +111,7 @@ export default function DatatableWrapper({
           buttonName={`${t('in-plg:welcomepage.addMore')} ${header}`}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}
+          dataTableToolbarAriaLabel={`${header} ${t('in-plg:welcomepage.dataTableToolbar')}`}
         />
       </DashboardTile>
     </section>
