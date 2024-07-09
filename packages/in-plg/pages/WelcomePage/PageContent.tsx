@@ -7,7 +7,6 @@
 import { DragDropContext, Draggable, DraggableProvidedDragHandleProps, Droppable } from 'react-beautiful-dnd';
 import React, { useState } from 'react';
 
-import { DashboardButton, DashboardTile } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -28,18 +27,15 @@ import {
   hasInfrastructureAccess,
   hasSyntheticsAccess
 } from 'in-stores/permission';
-// @ts-expect-error file needs to be converted
-import ChartWidget from 'in-custom-dashboards/widgets/Chart/Widget';
 import WebsitesAndMobileListWidget from 'in-plg/pages/WelcomePage/widgets/WebsitesAndMobileListWidget';
 import SyntheticMonitoringWidget from 'in-plg/pages/WelcomePage/widgets/SyntheticMonitoringWidget';
 import BusinessMonitoringWidget from 'in-plg/pages/WelcomePage/widgets/BusinessMonitoringWidget';
 import InfrastructureWidget from 'in-plg/pages/WelcomePage/widgets/InfrastructureWidget';
 import ApplicationWidget from 'in-plg/pages/WelcomePage/widgets/ApplicationWidget';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import EventsChardWidget from 'in-plg/pages/WelcomePage/widgets/EventsChartWidget';
 import IncidentsWidget from 'in-plg/pages/WelcomePage/widgets/IncidentsWidget';
 import DashboardWidget from 'in-plg/pages/WelcomePage/widgets/DashboardWidget';
 import PlatformWidget from 'in-plg/pages/WelcomePage/widgets/PlatformWidget';
-import { carbonAlert, outlineForColor } from 'in-themes/chartColors';
 import { setSingle, settings$ } from 'in-services/settings/settings';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { UiSettings } from 'in-types';
@@ -318,10 +314,9 @@ function RenderTable() {
                       dragAndDropConfigs: provided.dragHandleProps,
                       sectionLabel: ele.label
                     };
-
-                    return ele?.label == t('in-plg:welcomepage.component.eventWidget.label') ? (
+                    return ele?.key === 'eventsWidget' ? (
                       <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>
-                        <RenderEvents dashboardTileProps={dashboardTileProps} />
+                        <EventsChardWidget {...dashboardTileProps} />
                       </div>
                     ) : (
                       <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>
@@ -338,85 +333,6 @@ function RenderTable() {
         )}
       </Droppable>
     </DragDropContext>
-  );
-}
-
-function RenderEvents({ dashboardTileProps }: { dashboardTileProps: DashboardTileParamProps }) {
-  const EventsfullListViewHref = useObservable(getEventsViewFilteredBy({}), []);
-
-  return (
-    <section aria-label={dashboardTileProps.sectionLabel} role="region">
-      <DashboardTile
-        {...dashboardTileProps}
-        handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')}
-        size="xs"
-        rightHeaderContent={
-          EventsfullListViewHref && (
-            <DashboardButton kind="ghost" size="lg" href={EventsfullListViewHref}>
-              {t('in-plg:welcomepage.viewAll')}
-            </DashboardButton>
-          )
-        }
-      >
-        <div className={locals.dashboardTilesWrapper}>
-          <ChartWidget
-            config={{
-              y1: {
-                colors: [carbonAlert.orange40, carbonAlert.red60, carbonAlert.yellow30],
-                outlineForColor: outlineForColor,
-                formatter: 'number.compact',
-                renderer: 'stackedBar',
-                metrics: [
-                  {
-                    dynamicFocusQuery: 'event.type:incident ',
-                    metric: 'eventCount',
-                    timeShift: 0,
-                    aggregation: 'DISTINCT_COUNT',
-                    label: t('in-plg:welcomepage.component.eventWidget.incidents'),
-                    source: 'EVENT'
-                  },
-                  {
-                    dynamicFocusQuery: 'event.severity:10 event.type:issue ',
-                    metric: 'eventCount',
-                    timeShift: 0,
-                    aggregation: 'DISTINCT_COUNT',
-                    label: t('in-plg:welcomepage.component.eventWidget.critical'),
-                    source: 'EVENT'
-                  },
-                  {
-                    dynamicFocusQuery: 'event.severity:5 event.type:issue ',
-                    metric: 'eventCount',
-                    timeShift: 0,
-                    aggregation: 'DISTINCT_COUNT',
-                    label: t('in-plg:welcomepage.component.eventWidget.warning'),
-                    source: 'EVENT'
-                  }
-                ]
-              },
-              y2: {
-                formatter: 'number.compact',
-                renderer: 'line',
-                metrics: []
-              },
-              type: 'TIME_SERIES',
-              primaryContextMenuAction: 'showEvents',
-              additionalContextMenuButtons: [
-                {
-                  name: 'showEvents',
-                  icon: 'lib_events_inverted',
-                  label: t('in-plg:welcomepage.component.eventWidget.viewEvents'),
-                  getHref$: (highlightedTime: any) =>
-                    getEventsViewFilteredBy({
-                      timeConfig: highlightedTime
-                    })
-                }
-              ]
-            }}
-            customHeight={250}
-          />
-        </div>
-      </DashboardTile>
-    </section>
   );
 }
 
