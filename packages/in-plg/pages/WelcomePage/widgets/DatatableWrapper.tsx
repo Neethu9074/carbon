@@ -92,6 +92,7 @@ export default function DatatableWrapper({
     <section aria-label={`${header}`} role="region">
       <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
         <DashboardTable
+          header={`${header}`}
           headers={headers}
           rows={processedItems}
           searchPlaceHolder={`${t('in-plg:welcomepage.ariaLabel.search')} ${header}`}
@@ -111,7 +112,6 @@ export default function DatatableWrapper({
           buttonName={`${t('in-plg:welcomepage.addMore')} ${header}`}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}
-          dataTableToolbarAriaLabel={`${header} ${t('in-plg:welcomepage.dataTableToolbar')}`}
         />
       </DashboardTile>
     </section>
