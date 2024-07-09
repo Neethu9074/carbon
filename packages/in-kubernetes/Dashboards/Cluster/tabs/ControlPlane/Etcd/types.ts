@@ -14,4 +14,5 @@ export interface EtcdProps {
 export interface ChartProps {
   snapshotId: string;
   timeConfig: TimeConfig;
+  clusterVersion?: number;
 }

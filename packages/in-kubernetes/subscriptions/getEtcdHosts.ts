@@ -7,16 +7,16 @@
 import { Progress, ResultPrecisionDetails, Result } from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { KubernetesQueryFilter } from './exploreKubernetes';
+import { KubernetesQueryFilter } from 'in-kubernetes/subscriptions/exploreKubernetes';
 
 export interface GetEtcdHostQuery {
   filter: KubernetesQueryFilter;
 }
 
 export interface EtcdHostInfo {
-  data: unknown;
+  data: any;
   time: number;
-  adjustedWindowSize: any;
+  adjustedWindowSize: number;
   resultPrecisionDetails: ResultPrecisionDetails;
   errors: Error[];
   progress: Progress;

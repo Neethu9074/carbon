@@ -25,7 +25,7 @@ export interface DetailsProps extends DetailsListProps {
 
 export interface InfosProps {
   label: string;
-  value?: string;
+  value?: string | ReactNode;
   hasCopyToClipboard?: boolean;
   nodeValue?: ReactNode;
 }

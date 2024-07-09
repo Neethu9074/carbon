@@ -13,8 +13,8 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import { DetailsListProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details';
 import { InfosProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import { getItem } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/utils';
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import { getItem } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
 
 export default function DetailsList({ clusterInfos, clusterId }: DetailsListProps) {
@@ -39,28 +39,27 @@ export default function DetailsList({ clusterInfos, clusterId }: DetailsListProp
     },
     {
       label: t('in-kubernetes:dashboards.agentMonitor'),
-      value: leader?.value,
-      hasCopyToClipboard: true,
-      nodeValue: (
+      value: (
         <Link href={`#${clusterDashboardFullyQualified};clusterId=${clusterId}/pods;pod.query=${leader?.value}`}>
           {leader?.value}
         </Link>
-      )
+      ),
+      hasCopyToClipboard: true,
+      nodeValue: null
     }
   ];
 
   return (
     <Row>
-      {infos.map(({ label, value, nodeValue, hasCopyToClipboard }: InfosProps, index: number) => (
+      {infos.map(({ label, value, hasCopyToClipboard }: InfosProps, index: number) => (
         <Col lg key={index}>
           <Typography variant="body-small">{label}</Typography>
           {hasCopyToClipboard ? (
             <HorizontalFlexWrapper>
-              <Typography variant="heading-200">{nodeValue || value}</Typography>
-              {/*<CopyToClipboardButton clipboardContent={value ?? ''} />*/}
+              <Typography variant="heading-200">{value}</Typography>
             </HorizontalFlexWrapper>
           ) : (
-            <Typography variant="heading-200">{nodeValue ?? value}</Typography>
+            <Typography variant="heading-200">{value}</Typography>
           )}
         </Col>
       ))}

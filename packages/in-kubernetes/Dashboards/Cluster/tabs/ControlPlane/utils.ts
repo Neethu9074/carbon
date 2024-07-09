@@ -14,10 +14,7 @@ export function getItem(itemKey: string, items: KubernetesAnnotation[]): Kuberne
   if (!items || !itemKey) {
     return;
   }
-
-  const item = items.find(({ key }: KubernetesAnnotation) => key == itemKey);
-
-  return item;
+  return items.find(({ key }: KubernetesAnnotation) => key == itemKey);
 }
 
 export function getKeyValueObjectAsArray(infos: InfosProps | undefined): { key: string; value: string }[] {

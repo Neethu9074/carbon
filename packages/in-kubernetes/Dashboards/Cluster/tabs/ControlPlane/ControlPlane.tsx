@@ -6,13 +6,19 @@
 
 import React from 'react';
 
+import { KubernetesCluster, TimeConfig } from '@instana/types';
 import { Spacer } from '@instana/components';
 
 // @ts-expect-error
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { getKeyValueObjectAsArray } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/utils';
-import { ControlPlaneProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/types';
-import { Details, Etcd } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane';
+import { Details } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details';
+import { Etcd } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd';
+
+export interface ControlPlaneProps {
+  data: KubernetesCluster;
+  timeConfig: TimeConfig;
+}
 
 export default function ControlPlane({ data: cluster, timeConfig }: ControlPlaneProps) {
   const { debuggingInfo } = cluster;
