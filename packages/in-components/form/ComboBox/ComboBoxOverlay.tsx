@@ -80,7 +80,7 @@ function onKeyDown(e: React.KeyboardEvent): void {
   if (e.defaultPrevented) return;
 
   // Intercept Enter and Escape to prevent accidental closing of a dialog when used inside a dialog
-  if (e.key === 'Enter' || e.key === 'Escape') return stopPropagationAndPreventDefault(e);
+  if ((e.key === 'Enter', e.key === 'Escape')) return stopPropagationAndPreventDefault(e);
 
   onArrowKeyDownFocusSiblings(e);
 }

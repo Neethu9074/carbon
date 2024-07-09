@@ -5,7 +5,7 @@
 
 /* eslint-env node */
 /* import-sort-ignore */
-import { DocsContainer } from '@storybook/addon-docs';
+import { DocsPage, DocsContainer } from '@storybook/addon-docs';
 import { ThemeProvider } from '@instana/components';
 import React from 'react';
 
@@ -84,71 +84,7 @@ export const parameters = {
           <ThemeProvider theme={globals.theme}>{children}</ThemeProvider>
         </DocsContainer>
       );
-    }
+    },
+    page: DocsPage
   }
 };
-
-// export const parameters = {
-//   actions: { argTypesRegex: '^on[A-Z].*' },
-//   // Make docs panel the primary one
-//   previewTabs: { 'storybook/docs/panel': { index: -1 } },
-
-//   // badgesConfig: {
-//   //   [BADGE.BETA]: {
-//   //     styles: {
-//   //       backgroundColor: '#D2EBFD',
-//   //       borderColor: '#D2EBFD',
-//   //       color: '#4397F7'
-//   //     },
-//   //     title: 'Beta'
-//   //   },
-//   //   [BADGE.DEPRECATED]: {
-//   //     styles: {
-//   //       backgroundColor: '#FDF1E7',
-//   //       borderColor: '#FDF1E7',
-//   //       color: '#EE7F31'
-//   //     },
-//   //     title: 'Deprecated'
-//   //   }
-//   // },
-
-//   // More options: https://storybook.js.org/docs/react/writing-stories/naming-components-and-hierarchy#sorting-stories
-//   options: {
-//     storySort: {
-//       order: [
-//         'Getting Started',
-//         ['Home'],
-//         'Formatting',
-//         'Global',
-//         'Design Guidelines',
-//         'Design Tokens',
-//         ['General Usage', 'Colors IDS', 'Colors CDS'],
-//         'Carbon',
-//         'Components',
-//         ['Overview'],
-//         'Patterns',
-//         'Hooks',
-//         'Utils'
-//       ]
-//     }
-//   },
-
-//   docs: {
-//     theme,
-//     toc: {
-//       title: 'Table of Contents',
-//       headingSelector: 'h1, h2, h3'
-//     },
-//     container: ({ children, ...rest }) => {
-//       const { context: globals } = rest;
-//       return (
-//         <DocsContainer {...rest}>
-//           <ThemeProvider theme={globals.theme}>{children}</ThemeProvider>
-//         </DocsContainer>
-//       );
-//     }
-//   },
-
-//   // Set docs page as default
-//   viewMode: 'docs'
-// };
