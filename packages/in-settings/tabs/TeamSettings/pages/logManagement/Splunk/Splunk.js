@@ -12,7 +12,6 @@ import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManage
 import SplunkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/SplunkForm';
 import { teamSettingsLogManagementSplunk } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
-import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { integrationKey } from 'in-integrations/logging/splunk/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -98,7 +97,7 @@ export default class Splunk extends React.Component {
     const enabled = form ? form.get('enabled').value : null;
 
     return (
-      <SettingsDetailPage className={locals.page}>
+      <section className={locals.page}>
         <Title title={t('in-settings:tabs.configureSplunk')} />
         <IntegrationsBreadcumb />
         <SubViewHeader>{t('in-settings:tabs.configureYourSplunkSettings')}</SubViewHeader>
@@ -132,7 +131,7 @@ export default class Splunk extends React.Component {
             />
           </form>
         )}
-      </SettingsDetailPage>
+      </section>
     );
   }
 

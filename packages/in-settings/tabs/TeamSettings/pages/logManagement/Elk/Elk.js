@@ -12,7 +12,6 @@ import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManage
 import ElkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkForm';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { teamSettingsLogManagementElk } from 'in-settings/navigation/paths';
-import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import { integrationKey } from 'in-integrations/logging/elk/consts';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -98,7 +97,7 @@ export default class Elk extends React.Component {
     const enabled = form ? form.get('enabled').value : null;
 
     return (
-      <SettingsDetailPage className={locals.page}>
+      <section className={locals.page}>
         <Title title={t('in-settings:tabs.configureElk')} />
         <IntegrationsBreadcumb />
         <SubViewHeader>{t('in-settings:tabs.configureYourElkSettings')}</SubViewHeader>
@@ -124,7 +123,7 @@ export default class Elk extends React.Component {
             />
           </form>
         )}
-      </SettingsDetailPage>
+      </section>
     );
   }
 

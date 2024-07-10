@@ -581,6 +581,7 @@ function actionColumns() {
           <Tooltip content={t('in-components:analyze.focusOnGroup')}>
             <IconButton
               type="lib_actions_filter"
+              color="var(--ids-color-option-neutral-900)"
               href={href}
               className={locals.focusButton}
               onClick={() => scrollToTop(window)}

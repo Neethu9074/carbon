@@ -96,9 +96,22 @@ export default function RootCauseSection({
     ? ['metadata', 'rootCause', 'currentRootCause']
     : ['metadata', 'rootCause'];
 
-  const rootCauseSnapshotMap = (incident.getIn(rootCauseSnapshotPath, Map()) as Map<string, ProbableCauseType>).sort(
-    (a, b) => (b.get('probFailure') as number) - (a.get('probFailure') as number)
-  );
+  const rootCauseSnapshotMap = (incident.getIn(rootCauseSnapshotPath, Map()) as Map<string, ProbableCauseType>)
+    .sort((a, b) => (b.get('probFailure') as number) - (a.get('probFailure') as number))
+    .filter(rootCauseEntity => {
+      // Filtering out entities with no erroneous rate through the identified root cause
+      if (!rootCauseEntity) return false;
+
+      const explainabilityMetadata = rootCauseEntity.get('explainability') as List<
+        Map<string, string | number | boolean>
+      >;
+      const aggreagatedInfo = explainabilityMetadata.find(service => service?.get('connectedServiceId') === 'all');
+
+      if (aggreagatedInfo.get('percentageFailedThroughRC') === 0) {
+        return false;
+      }
+      return true;
+    });
 
   const rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray();
 

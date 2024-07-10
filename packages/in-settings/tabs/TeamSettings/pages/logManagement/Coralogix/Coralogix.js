@@ -12,7 +12,6 @@ import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManage
 import CoralogixForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/CoralogixForm';
 import { teamSettingsLogManagementCoralogix } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
-import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { integrationKey } from 'in-integrations/logging/coralogix/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -26,7 +25,6 @@ import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
 import locals from './Coralogix.mless';
-
 
 const block = 'in-ui-config';
 
@@ -99,7 +97,7 @@ export default class Coralogix extends React.Component {
     const enabled = form ? form.get('enabled').value : null;
 
     return (
-      <SettingsDetailPage className={locals.page}>
+      <section className={locals.page}>
         <Title title={t('in-settings:tabs.configureCoralogix')} />
         <IntegrationsBreadcumb />
         <SubViewHeader >{t('in-settings:tabs.configureYourCoralogixSettings')}</SubViewHeader>
@@ -130,7 +128,7 @@ export default class Coralogix extends React.Component {
             />
           </form>
         )}
-      </SettingsDetailPage>
+      </section>
     );
   }
 

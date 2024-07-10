@@ -19,7 +19,6 @@ import useRetentionPeriodForm from 'in-settings/tabs/TeamSettings/pages/logManag
 import { ModalNotification, NotificationState } from './ModalNotification';
 import { getEntityIdView, teamSettingsActionLogRetention } from 'in-settings/navigation/paths';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
-import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import Select from 'in-components/form/Select/Select';
@@ -78,7 +77,7 @@ export default function RententionPeriod() {
 
   return (
     <>
-      <SettingsDetailPage className={locals.detailPageSection}>
+      <section className={locals.detailPageSection}>
         <Title title={localisationStrings.retentionPeriod} />
         <section className={locals.titleSection}>
           <div>
@@ -114,7 +113,7 @@ export default function RententionPeriod() {
             </section>
           )}
         </main>
-      </SettingsDetailPage>
+      </section>
       {showConfirmation && (
         <RetentionPeriodDialog
           setShowConfirmation={setShowConfirmation}
