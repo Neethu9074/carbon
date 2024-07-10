@@ -102,6 +102,7 @@
     font-size: 1rem;
     font-weight: 200;
     padding-left: 1rem;
+    display: inline-block;
   }
 
   .actions {
