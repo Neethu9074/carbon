@@ -374,6 +374,12 @@
         "tlsSecretInstructions": "After key/cert files are provided, use the kubectl command to create a secret.",
         "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n\t--type=\"kubernetes.io/tls\" \\\n\t--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n\t--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n\t--from-file=tls.key=\"<path/to/tls.key>\""
       },
+      "multiAppDialog": {
+        "singleAppHeader": "{{ number }} Association",
+        "multiAppHeader": "{{ number }} Associations",
+        "singleAppSpan": "{{ number }} Associated Application",
+        "multiAppSpan": "{{ number }} Associated Applications"
+      },
       "testLabel": "Name",
       "status": "Status",
       "frequencySubText": "Every {{count}} Min",
@@ -389,7 +395,7 @@
       "latency": "Latency",
       "locationLabel": "Location",
       "locations": "{{totalLocations}} locations",
-      "applicationLabel": "Application",
+      "applicationLabel": "Associations",
       "health": "Health",
       "action": "Action",
       "labelConfirmRemoveTest": "Are you sure you want to remove <strong>{{testLabel}}</strong> test?",

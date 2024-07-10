@@ -13,6 +13,7 @@ import { themes } from '@instana/design-tokens';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import ApplicationsContentPresenter from 'in-synthetics/dashboards/global/tabs/tests/components/ApplicationsContentPresenter';
 import ListActionsColumn from 'in-synthetics/dashboards/global/tabs/tests/components/ListActionsColumn';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -24,6 +25,7 @@ import { clickSyntheticMonitoringTestTracker } from 'in-synthetics/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
+import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import HealthDot from 'in-components/health/HealthDot';
@@ -296,7 +298,10 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
     id: 'applicationLabel',
     label: t('in-synthetics:dashboard.testList.applicationLabel'),
     defaultOrderDirection: 'ASC',
-    getContent(item: TestResultListItem) {
+    getContent: function Content(item: TestResultListItem) {
+      if (syntheticMultiAppEnabled) {
+        return <ApplicationsContentPresenter item={item} />;
+      }
       return <ApplicationLabelContent item={item} />;
     }
   },
