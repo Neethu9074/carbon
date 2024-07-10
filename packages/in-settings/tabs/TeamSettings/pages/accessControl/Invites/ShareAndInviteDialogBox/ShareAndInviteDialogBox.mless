@@ -26,7 +26,9 @@
     }
     .emailMessageTextArea {
       line-height: 3;
-      height: 10rem;
+      textarea {
+        height: 10rem;
+      }
     }
     .formGroup {
       gap: 0.2rem;
@@ -50,6 +52,9 @@
           background: var(--ids-color-option-teal-500);
         }
       }
+    }
+    .helpText {
+      width: auto;
     }
   }
 }
