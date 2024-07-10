@@ -73,19 +73,19 @@ export default function UsageCharts({
   const cumulativeDataChartsY1 = {
     ...tenantUnit,
     metrics: [
+      ...(showTrendLine ? ['data_ingested_trend_line'] : []),
       'data_ingested_total_cumulative',
-      ...(tenantUnit?.tenant ? [] : ['licensed_data']),
-      ...(showTrendLine ? ['data_ingested_trend_line'] : [])
+      ...(tenantUnit?.tenant ? [] : ['licensed_data'])
     ],
     labels: [
+      ...(showTrendLine ? [t('in-amp:components.usageCharts.trendLine')] : []),
       'Total',
-      ...(tenantUnit?.tenant ? [] : ['Entitled Data']),
-      ...(showTrendLine ? [t('in-amp:components.usageCharts.trendLine')] : [])
+      ...(tenantUnit?.tenant ? [] : ['Entitled Data'])
     ],
     colors: [
+      ...(showTrendLine ? [carbonAlert.gray60] : []),
       carbonAlert.blue70,
-      ...(tenantUnit?.tenant ? [] : [carbonAlert.red60]),
-      ...(showTrendLine ? [carbonAlert.purple50] : [])
+      ...(tenantUnit?.tenant ? [] : [carbonAlert.red60])
     ],
     formatter: 'bytes.compact'
   };
@@ -115,20 +115,20 @@ export default function UsageCharts({
         ...tenantUnit,
         metrics: showTrendLine
           ? showPurchasedMetric
-            ? ['apm_hosts_cumulative', 'apm_hosts_trend_line', 'licensed_apm_hosts']
+            ? ['apm_hosts_trend_line', 'apm_hosts_cumulative', 'licensed_apm_hosts']
             : ['apm_hosts_cumulative', 'apm_hosts_trend_line']
           : showPurchasedMetric
           ? ['apm_hosts_cumulative', 'licensed_apm_hosts']
           : ['apm_hosts_cumulative'],
         labels: showTrendLine
           ? [
-              t('in-amp:components.usageCharts.apmHosts'),
               t('in-amp:components.usageCharts.trendLine'),
+              t('in-amp:components.usageCharts.apmHosts'),
               t('in-amp:components.usageCharts.purchased')
             ]
           : [t('in-amp:components.usageCharts.apmHosts'), t('in-amp:components.usageCharts.purchased')],
         colors: showTrendLine
-          ? [carbonAlert.blue70, carbonAlert.purple50, carbonAlert.red60]
+          ? [carbonAlert.gray60, carbonAlert.blue70, carbonAlert.red60]
           : [carbonAlert.blue70, carbonAlert.red60]
       }
     : {
@@ -142,20 +142,20 @@ export default function UsageCharts({
         ...tenantUnit,
         metrics: showTrendLine
           ? showPurchasedMetric
-            ? ['iqm_hosts_cumulative', 'iqm_hosts_trend_line', 'licensed_infra_hosts']
-            : ['iqm_hosts_cumulative', 'iqm_hosts_trend_line']
+            ? ['iqm_hosts_trend_line', 'iqm_hosts_cumulative', 'licensed_infra_hosts']
+            : ['iqm_hosts_trend_line', 'iqm_hosts_cumulative']
           : showPurchasedMetric
           ? ['iqm_hosts_cumulative', 'licensed_infra_hosts']
           : ['iqm_hosts_cumulative'],
         labels: showTrendLine
           ? [
-              t('in-amp:components.usageCharts.iqmHosts'),
               t('in-amp:components.usageCharts.trendLine'),
+              t('in-amp:components.usageCharts.iqmHosts'),
               t('in-amp:components.usageCharts.purchased')
             ]
           : [t('in-amp:components.usageCharts.iqmHosts'), t('in-amp:components.usageCharts.purchased')],
         colors: showTrendLine
-          ? [carbonAlert.blue70, carbonAlert.purple50, carbonAlert.red60]
+          ? [carbonAlert.gray60, carbonAlert.blue70, carbonAlert.red60]
           : [carbonAlert.blue70, carbonAlert.red60]
       }
     : {
