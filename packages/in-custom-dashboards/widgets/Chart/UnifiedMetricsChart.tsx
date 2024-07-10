@@ -101,6 +101,7 @@ export default function UnifiedMetricsChart({
 function DataLoadingWrapper({
   config: incomingConfig,
   timeConfig,
+  bulkRequest,
   onApproximateDataChange = noop,
   ...props
 }: UnifiedMetricsChartProps & { timeConfig: TimeConfig }) {
@@ -118,7 +119,7 @@ function DataLoadingWrapper({
     config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode, suggestedNumberOfDataPoints);
   const minimumGranularity = resolvedConfig.minGranularity;
   const granularity = Math.max(minimumGranularity, configuredGranularity);
-  const resultData = useResultData(config, granularity, timeConfigExtendedForLiveMode);
+  const resultData = useResultData(config, granularity, timeConfigExtendedForLiveMode, bulkRequest);
 
   const result: Result<UnifiedMetricsResult[]> = resultData.metricResult;
   const companionResult: Result<UnifiedMetricsResult[]> = resultData.companionMetricResult;
@@ -219,7 +220,12 @@ interface ResultData {
 
 type UnifiedMetricsConfigObject = { [id: string]: UnifiedMetricConfigurationUnion };
 
-export function useResultData(config: Config, granularity: number, timeConfig: TimeConfig): ResultData {
+export function useResultData(
+  config: Config,
+  granularity: number,
+  timeConfig: TimeConfig,
+  bulkRequest = false
+): ResultData {
   let metrics: UnifiedMetricsConfigObject = {};
   const companionMetrics: UnifiedMetricsConfigObject = {};
   const resultType = enforceSingleNumberResult.find(({ id }) => id === config?.y1.renderer)
@@ -245,7 +251,8 @@ export function useResultData(config: Config, granularity: number, timeConfig: T
 
   const stableConfig = useStableObjectInstance(config);
 
-  const metricResult = useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, stableConfig]) ?? pendingResult;
+  const metricResult =
+    useObservable(() => getUnifiedMetrics({ metrics }, bulkRequest), [timeConfig, stableConfig]) ?? pendingResult;
   const companionMetricResult =
     useObservable(() => getUnifiedMetrics({ metrics: companionMetrics }), [timeConfig, stableConfig]) ?? pendingResult;
 

@@ -99,24 +99,28 @@ export default function UsageCharts({
   const apmChartY1 = isCumulativeTimeRange
     ? {
         ...tenantUnit,
-        metrics: ['apm_hosts_cumulative'],
-        labels: [t('in-amp:components.usageCharts.apmHosts')]
+        metrics: showPurchasedMetric ? ['apm_hosts_cumulative', 'licensed_apm_hosts'] : ['apm_hosts_cumulative'],
+        labels: [t('in-amp:components.usageCharts.apmHosts'), t('in-amp:components.usageCharts.purchased')],
+        colors: [carbonAlert.blue70, carbonAlert.red60]
       }
     : {
         ...tenantUnit,
-        metrics: ['apmhost'],
-        labels: [t('in-amp:components.usageCharts.apmHosts')]
+        metrics: showPurchasedMetric ? ['apmhost', 'licensed_apm_hosts'] : ['apmhost'],
+        labels: [t('in-amp:components.usageCharts.apmHosts'), t('in-amp:components.usageCharts.purchased')],
+        colors: [carbonAlert.blue70, carbonAlert.red60]
       };
   const iqmChartsY1 = isCumulativeTimeRange
     ? {
         ...tenantUnit,
-        metrics: ['iqm_hosts_cumulative'],
-        labels: [t('in-amp:components.usageCharts.iqmHosts')]
+        metrics: showPurchasedMetric ? ['iqm_hosts_cumulative', 'licensed_infra_hosts'] : ['iqm_hosts_cumulative'],
+        labels: [t('in-amp:components.usageCharts.iqmHosts'), t('in-amp:components.usageCharts.purchased')],
+        colors: [carbonAlert.blue70, carbonAlert.red60]
       }
     : {
         ...tenantUnit,
-        metrics: ['infrahost'],
-        labels: [t('in-amp:components.usageCharts.iqmHosts')]
+        metrics: showPurchasedMetric ? ['infrahost', 'licensed_infra_hosts'] : ['infrahost'],
+        labels: [t('in-amp:components.usageCharts.iqmHosts'), t('in-amp:components.usageCharts.purchased')],
+        colors: [carbonAlert.blue70, carbonAlert.red60]
       };
 
   return (
@@ -130,16 +134,7 @@ export default function UsageCharts({
               to={to}
               showAggregatedMetrics={showAggregatedMetrics}
               y1={apmChartY1}
-              y2={
-                showPurchasedMetric
-                  ? {
-                      ...tenantUnit,
-                      metrics: ['licensed_apm_hosts'],
-                      labels: [t('in-amp:components.usageCharts.purchased')],
-                      colors: [carbonAlert.red60]
-                    }
-                  : getEmptyMetricConfig()
-              }
+              y2={getEmptyMetricConfig()}
             />
           </Card>
         </Col>
@@ -151,16 +146,7 @@ export default function UsageCharts({
               to={to}
               showAggregatedMetrics={showAggregatedMetrics}
               y1={iqmChartsY1}
-              y2={
-                showPurchasedMetric
-                  ? {
-                      ...tenantUnit,
-                      metrics: ['licensed_infra_hosts'],
-                      labels: [t('in-amp:components.usageCharts.purchased')],
-                      colors: [carbonAlert.red60]
-                    }
-                  : getEmptyMetricConfig()
-              }
+              y2={getEmptyMetricConfig()}
             />
           </Card>
         </Col>

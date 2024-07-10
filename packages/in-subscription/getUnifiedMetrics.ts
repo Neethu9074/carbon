@@ -32,9 +32,14 @@ const getUnifiedMetricsInternal = createResultSubscriptionFactory<
 //
 // This in turn causes the caching to improve for scenarios where a
 // subset of the metrics may change in response to user input.
-export default function getUnifiedMetrics({
-  metrics
-}: GetUnifiedMetricsQuery): Observable<Result<UnifiedMetricsResult[]>> {
+export default function getUnifiedMetrics(
+  { metrics }: GetUnifiedMetricsQuery,
+  bulkRequest = false
+): Observable<Result<UnifiedMetricsResult[]>> {
+  if (bulkRequest) {
+    return combineLatest([getUnifiedMetricsInternal({ metrics })]).map(mergeResults);
+  }
+
   const observables = Object.keys(metrics).map(metricId =>
     getUnifiedMetricsInternal({
       metrics: {
