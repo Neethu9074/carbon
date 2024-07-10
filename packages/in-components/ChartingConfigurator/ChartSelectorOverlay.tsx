@@ -140,7 +140,7 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
 
     if (isChartMetric(input)) {
       if (isCustomChartMetric(input)) {
-        const secondLevelMetricId = input.metricTagSuggestions ? input.metricTagSuggestions[0].value : '';
+        const secondLevelMetricId = input.metricTagSuggestions?.length ? input.metricTagSuggestions[0].value : '';
         change = {
           ...change,
           metricId: `${input.metricId}.${secondLevelMetricId}`,
