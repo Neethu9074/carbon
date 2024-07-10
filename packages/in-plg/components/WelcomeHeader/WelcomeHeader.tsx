@@ -32,7 +32,7 @@ export default function WelcomeHeader({ onboardingHeaderEnabled }: WelcomeHeader
   };
 
   return (
-    <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')} data-testid="header">
+    <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
       <HeaderTile
         tileData={onboardingHeaderEnabled ? OnboardingStepBuilder() : []}
         headerTitle={headerTitle}
@@ -46,7 +46,7 @@ export default function WelcomeHeader({ onboardingHeaderEnabled }: WelcomeHeader
 
 export function DatePickerHeader() {
   return (
-    <div className="header" data-testid="date-picker">
+    <div className="header">
       <Stack direction="horizontal">
         {!shareAndInviteEnabled && <UrlShortener darkTheme={false} />}
         <DatePicker darkTheme={false} />
