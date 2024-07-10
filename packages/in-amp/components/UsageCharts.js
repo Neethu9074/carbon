@@ -32,6 +32,7 @@ export default function UsageCharts({
   const showDataIngestTable = !tenantUnit?.tenant && !onPremLicenseInformationEnabled;
   const isCumulativeTimeRange =
     presentation === 'cumulative' && (timeRange === 'this_month' || timeRange === 'last_month');
+  const showTrendLine = isCumulativeTimeRange && timeRange === 'this_month';
 
   const dataChartY1 = tenantUnit?.tenant
     ? {
@@ -43,7 +44,7 @@ export default function UsageCharts({
       }
     : {
         ...tenantUnit,
-        metrics: ['licensed_data_daily', 'data_ingested_total'],
+        metrics: ['licensed_data', 'data_ingested_total'],
         labels: ['Entitled per Day', 'Total'],
         colors: [carbonAlert.red60, carbonAlert.blue70],
         formatter: 'siBytes.compact'
@@ -71,11 +72,14 @@ export default function UsageCharts({
 
   const cumulativeDataChartsY1 = {
     ...tenantUnit,
-    metrics: ['data_ingested_total_cumulative'],
-    labels: ['Total'],
-    colors: [carbonAlert.blue70],
+    metrics: showTrendLine
+      ? ['data_ingested_total_cumulative', 'data_ingested_trend_line']
+      : ['data_ingested_total_cumulative'],
+    labels: showTrendLine ? ['Total', t('in-amp:components.usageCharts.trendLine')] : ['Total'],
+    colors: showTrendLine ? [carbonAlert.blue70, carbonAlert.purple50] : [carbonAlert.blue70],
     formatter: 'siBytes.compact'
   };
+
   const cumulativeDataChartsY2 = {
     ...tenantUnit,
     renderer: stackedArea.id,
@@ -99,9 +103,23 @@ export default function UsageCharts({
   const apmChartY1 = isCumulativeTimeRange
     ? {
         ...tenantUnit,
-        metrics: showPurchasedMetric ? ['apm_hosts_cumulative', 'licensed_apm_hosts'] : ['apm_hosts_cumulative'],
-        labels: [t('in-amp:components.usageCharts.apmHosts'), t('in-amp:components.usageCharts.purchased')],
-        colors: [carbonAlert.blue70, carbonAlert.red60]
+        metrics: showTrendLine
+          ? showPurchasedMetric
+            ? ['apm_hosts_cumulative', 'apm_hosts_trend_line', 'licensed_apm_hosts']
+            : ['apm_hosts_cumulative', 'apm_hosts_trend_line']
+          : showPurchasedMetric
+          ? ['apm_hosts_cumulative', 'licensed_apm_hosts']
+          : ['apm_hosts_cumulative'],
+        labels: showTrendLine
+          ? [
+              t('in-amp:components.usageCharts.apmHosts'),
+              t('in-amp:components.usageCharts.trendLine'),
+              t('in-amp:components.usageCharts.purchased')
+            ]
+          : [t('in-amp:components.usageCharts.apmHosts'), t('in-amp:components.usageCharts.purchased')],
+        colors: showTrendLine
+          ? [carbonAlert.blue70, carbonAlert.purple50, carbonAlert.red60]
+          : [carbonAlert.blue70, carbonAlert.red60]
       }
     : {
         ...tenantUnit,
@@ -112,9 +130,23 @@ export default function UsageCharts({
   const iqmChartsY1 = isCumulativeTimeRange
     ? {
         ...tenantUnit,
-        metrics: showPurchasedMetric ? ['iqm_hosts_cumulative', 'licensed_infra_hosts'] : ['iqm_hosts_cumulative'],
-        labels: [t('in-amp:components.usageCharts.iqmHosts'), t('in-amp:components.usageCharts.purchased')],
-        colors: [carbonAlert.blue70, carbonAlert.red60]
+        metrics: showTrendLine
+          ? showPurchasedMetric
+            ? ['iqm_hosts_cumulative', 'iqm_hosts_trend_line', 'licensed_infra_hosts']
+            : ['iqm_hosts_cumulative', 'iqm_hosts_trend_line']
+          : showPurchasedMetric
+          ? ['iqm_hosts_cumulative', 'licensed_infra_hosts']
+          : ['iqm_hosts_cumulative'],
+        labels: showTrendLine
+          ? [
+              t('in-amp:components.usageCharts.iqmHosts'),
+              t('in-amp:components.usageCharts.trendLine'),
+              t('in-amp:components.usageCharts.purchased')
+            ]
+          : [t('in-amp:components.usageCharts.iqmHosts'), t('in-amp:components.usageCharts.purchased')],
+        colors: showTrendLine
+          ? [carbonAlert.blue70, carbonAlert.purple50, carbonAlert.red60]
+          : [carbonAlert.blue70, carbonAlert.red60]
       }
     : {
         ...tenantUnit,
