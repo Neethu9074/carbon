@@ -20,7 +20,6 @@ import { validLogDnaId } from 'in-settings/tabs/TeamSettings/pages/logManagement
 import { teamSettingsLogManagementLogDna } from 'in-settings/navigation/paths';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
-import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { integrationKey } from 'in-integrations/logging/logdna/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -124,7 +123,7 @@ export default function LogDna() {
   };
 
   return (
-    <SettingsDetailPage className={locals.page}>
+    <section className={locals.page}>
       <Title title={t('in-settings:tabs.configureMezmo')} />
       <IntegrationsBreadcumb />
       <SubViewHeader>{t('in-settings:tabs.configureYourMezmoSettings')}</SubViewHeader>
@@ -182,7 +181,7 @@ export default function LogDna() {
           />
         </form>
       )}
-    </SettingsDetailPage>
+    </section>
   );
 }
 

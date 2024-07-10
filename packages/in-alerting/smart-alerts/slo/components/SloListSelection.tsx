@@ -198,8 +198,8 @@ function useSloList(selectedIds: string[], entityType: SloEntityType): UseSloLis
     debouncedValue: debouncedQuery,
     onChange: setQueryDebounced
   } = useDebouncedValue(query, (q: string) => {
-    setQuery(q);
     clear();
+    setQuery(q);
   });
   const [page, setPage] = useState(1);
   const [selected] = useSelectedIds(selectedIds);

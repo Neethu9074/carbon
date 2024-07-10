@@ -126,7 +126,18 @@ export function useLinkToExplore() {
   const { location, createHref } = useNavigation();
 
   return useCallback(
-    ({ tagFilterExpression, group, groupBy, type, metrics, order, timeConfig, chartedMetrics, fromEventPage, showGroupsWithMissingTags }) => {
+    ({
+      tagFilterExpression,
+      group,
+      groupBy,
+      type,
+      metrics,
+      order,
+      timeConfig,
+      chartedMetrics,
+      fromEventPage,
+      showGroupsWithMissingTags
+    }) => {
       const clonedLocation = cloneLocation(location);
 
       clonedLocation.pathname = infraExplorePath;
@@ -141,6 +152,11 @@ export function useLinkToExplore() {
           tagFilterExpression.forEach(expression => {
             if (typeof expression.value === 'number') {
               expression.value = String(expression.value);
+            }
+            //TODO Replace the following hack with code that consults the tag
+            //     catalog or the dashboard definition for the tag type.
+            if (expression.name === 'host.cpu.count' || expression.name === 'host.gpu.count') {
+              expression.value = Number(expression.value);
             }
           });
         }

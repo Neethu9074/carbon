@@ -22,7 +22,6 @@ import { ModalNotification } from 'in-settings/tabs/TeamSettings/pages/logManage
 import useDeleteLogsForm from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/useDeleteLogsForm';
 import { DeletionTable } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeletionTable';
 import { NotificationState } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/types';
-import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -72,7 +71,7 @@ export default function DeleteLogs() {
 
   return (
     <>
-      <SettingsDetailPage className={locals.page}>
+      <section className={locals.page}>
         <Title title={localisationStrings.deleteLogs} />
         <section className={locals.titleSection}>
           <div>
@@ -86,7 +85,7 @@ export default function DeleteLogs() {
         <main>
           <DeletionTable isDeleting={isDeleting} />
         </main>
-      </SettingsDetailPage>
+      </section>
       {showConfirmation && (
         <DeleteLogsDialog
           setShowConfirmation={setShowConfirmation}

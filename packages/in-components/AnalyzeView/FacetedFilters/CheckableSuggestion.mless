@@ -6,18 +6,16 @@
 @import '~in-themes/mixins.less';
 
 :local {
-  .typoSettings {
-    font-size: 0.75rem;
-    line-height: 0.75rem;
-  }
-
   .leftAlignedCheckbox {
     transform: scale(0.667) translateX(-0.25rem);
     margin-right: 0.2rem;
   }
 
   .label {
-    .typoSettings();
+    height: 1rem;
+    line-height: 1rem;
+    font-size: 0.75rem;
+
     .ellipsis();
   }
 

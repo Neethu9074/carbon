@@ -63,7 +63,9 @@ const getActionColumn = (
           icon="lib_actions_play"
           onClick={e => {
             stopPropagationAndPreventDefault(e);
-            addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+            addActiveDialog(
+              <RunActionDialog action={action} volatileId={volatileId} event={event} setActiveKey={setActiveKey} />
+            );
           }}
           noAutoMargin
         >

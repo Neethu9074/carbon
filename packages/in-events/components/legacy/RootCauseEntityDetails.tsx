@@ -779,7 +779,7 @@ function generateFormModelForLinkToEntity(
     initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
       'service.name',
       serviceLabelInformation.label,
-      null
+      initialFormModel
     );
   }
 
