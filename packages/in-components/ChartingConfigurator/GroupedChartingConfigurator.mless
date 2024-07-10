@@ -22,8 +22,8 @@
     align-items: center;
     cursor: pointer;
 
-    div {
-      display: flex;
-    }
+    // div {
+    //   display: flex;   //Need to test
+    // }
   }
 }
