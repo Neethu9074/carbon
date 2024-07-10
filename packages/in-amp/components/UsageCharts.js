@@ -40,14 +40,14 @@ export default function UsageCharts({
         metrics: ['data_ingested_total'],
         labels: ['Total'],
         colors: [carbonAlert.blue70],
-        formatter: 'siBytes.compact'
+        formatter: 'bytes.compact'
       }
     : {
         ...tenantUnit,
-        metrics: ['licensed_data', 'data_ingested_total'],
-        labels: ['Entitled per Day', 'Total'],
-        colors: [carbonAlert.red60, carbonAlert.blue70],
-        formatter: 'siBytes.compact'
+        metrics: ['data_ingested_total'],
+        labels: ['Total'],
+        colors: [carbonAlert.blue70],
+        formatter: 'bytes.compact'
       };
 
   const dataChartY2 = {
@@ -67,17 +67,27 @@ export default function UsageCharts({
       [t('in-amp:components.usageCharts.eumMobile')],
       [t('in-amp:components.usageCharts.eumWebsite')]
     ],
-    formatter: 'siBytes.compact'
+    formatter: 'bytes.compact'
   };
 
   const cumulativeDataChartsY1 = {
     ...tenantUnit,
-    metrics: showTrendLine
-      ? ['data_ingested_total_cumulative', 'data_ingested_trend_line']
-      : ['data_ingested_total_cumulative'],
-    labels: showTrendLine ? ['Total', t('in-amp:components.usageCharts.trendLine')] : ['Total'],
-    colors: showTrendLine ? [carbonAlert.blue70, carbonAlert.purple50] : [carbonAlert.blue70],
-    formatter: 'siBytes.compact'
+    metrics: [
+      'data_ingested_total_cumulative',
+      ...(tenantUnit?.tenant ? [] : ['licensed_data']),
+      ...(showTrendLine ? ['data_ingested_trend_line'] : [])
+    ],
+    labels: [
+      'Total',
+      ...(tenantUnit?.tenant ? [] : ['Entitled Data']),
+      ...(showTrendLine ? [t('in-amp:components.usageCharts.trendLine')] : [])
+    ],
+    colors: [
+      carbonAlert.blue70,
+      ...(tenantUnit?.tenant ? [] : [carbonAlert.red60]),
+      ...(showTrendLine ? [carbonAlert.purple50] : [])
+    ],
+    formatter: 'bytes.compact'
   };
 
   const cumulativeDataChartsY2 = {
@@ -97,7 +107,7 @@ export default function UsageCharts({
       [t('in-amp:components.usageCharts.eumMobile')],
       [t('in-amp:components.usageCharts.eumWebsite')]
     ],
-    formatter: 'siBytes.compact'
+    formatter: 'bytes.compact'
   };
 
   const apmChartY1 = isCumulativeTimeRange
