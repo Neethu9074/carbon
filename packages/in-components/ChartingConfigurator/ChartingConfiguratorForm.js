@@ -68,30 +68,7 @@ export default function ChartingConfiguratorForm({
           />
         </div>
       )}
-      {/*
-      {activeMetric?.customMetric && (
-        <ComboBoxBehavior
-          options={activeMetric.metricTagSuggestions}
-          value={activeMetricTagSuggestion?.label}
-          onChange={secondLevelMetricId => {
-            const change = {
-              ...value,
-              metricId: `${activeMetric.metricId}.${secondLevelMetricId}`,
-              secondLevelMetricId
-            };
-            onChange(change);
-          }}
-          requiresCustomInteractivity
-          disableAutomaticOptionSorting
-          aria-label={'tag'}
-        >
-          {({ elementProps }) => (
-            <div {...elementProps} className={locals.metric}>
-              {activeMetricTagSuggestion?.label}
-            </div>
-          )}
-        </ComboBoxBehavior>
-      )}  */}
+
       {activeMetric?.customMetric && (
         <Input
           hideValidityInformationOnFocus
