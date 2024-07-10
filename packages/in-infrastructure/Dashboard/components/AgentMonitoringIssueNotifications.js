@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react';
 
 import { Message } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import getIssueDefinitionForSnapshotAndCode, * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';

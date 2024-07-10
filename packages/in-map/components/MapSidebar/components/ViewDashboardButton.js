@@ -5,14 +5,15 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import './ViewDashboardButton.less';
 
-const block = 'in-sidebar-view-dashboard';
+const block = carbonButtonEnabled ? '' : 'in-sidebar-view-dashboard';
 
 export default function ViewDashboardButton({ snapshotId }) {
   const getDashboardLink = useGetDashboardLink();
