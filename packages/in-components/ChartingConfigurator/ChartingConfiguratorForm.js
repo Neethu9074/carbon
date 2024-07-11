@@ -10,8 +10,8 @@ import { SvgIcon } from '@instana/components';
 
 import ChartSelectorOverlay, { getActiveChartMetric } from 'in-components/ChartingConfigurator/ChartSelectorOverlay';
 import GroupedMetricSelectorOverlay from 'in-components/ChartingConfigurator/GroupedMetricSelectorOverlay';
+import { CustomMetricInput } from 'in-applications/analyze/AnalyzeView2_0/components/CustomMetricInput';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import { Input } from 'in-applications/analyze/components/Input';
 import { t } from 'in-i18n';
 
 import locals from './ChartingConfiguratorForm.mless';
@@ -70,7 +70,7 @@ export default function ChartingConfiguratorForm({
       )}
 
       {activeMetric?.customMetric && (
-        <Input
+        <CustomMetricInput
           hideValidityInformationOnFocus
           fieldsToWatch={[activeMetric]}
           options={activeMetric.metricTagSuggestions?.map(tag => tag.label)}

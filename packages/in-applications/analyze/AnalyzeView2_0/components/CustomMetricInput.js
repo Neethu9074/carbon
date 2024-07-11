@@ -18,9 +18,9 @@ import { isLoading } from 'in-services/util/result';
 import Typeahead from 'in-components/Typeahead';
 import Tooltip from 'in-components/Tooltip';
 
-import styleDefs from './Input.mless';
+import styleDefs from './CustomMetricInput.mless';
 
-export function Input({ value, placeholder, onChange, options, valid, autoFocus = false }) {
+export function CustomMetricInput({ value, placeholder, onChange, options, valid, autoFocus = false }) {
   const locals = useThemedLocals(styleDefs);
   const result = useDebouncedValue(value, onChange, 500);
   const suggestionsResult = options;
@@ -48,6 +48,7 @@ export function Input({ value, placeholder, onChange, options, valid, autoFocus 
       suggestionsResult={suggestionsResult}
       locals={locals}
       autoFocus={autoFocus}
+      initialIsOpen
     />
   );
 }

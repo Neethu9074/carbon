@@ -11,7 +11,7 @@ import DefaultInput from 'in-components/Typeahead/DefaultInput';
 
 import locals from './Typeahead.mless';
 
-export default function Typeahead({ value, onChange, render = renderDefault, ...remainingProps }) {
+export default function Typeahead({ value, onChange, initialIsOpen, render = renderDefault, ...remainingProps }) {
   const handleStateChange = changes => {
     if (Object.prototype.hasOwnProperty.call(changes, 'selectedItem')) {
       onChange({ value: changes.selectedItem || '' });
@@ -21,7 +21,7 @@ export default function Typeahead({ value, onChange, render = renderDefault, ...
   };
 
   return (
-    <Downshift selectedItem={value} onStateChange={handleStateChange}>
+    <Downshift selectedItem={value} onStateChange={handleStateChange} initialIsOpen={initialIsOpen}>
       {downShiftProps => {
         const lowerCaseInputValue = downShiftProps.inputValue.toLowerCase();
         return (
