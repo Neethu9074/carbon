@@ -27,6 +27,8 @@ import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { fromNow, formatDateTime } from 'in-services/formatters/date';
 import { apiTokenDialogEnabled } from 'in-services/featureFlags';
+import { compareIgnoreCase } from 'in-services/util/string';
+import Tooltip from 'in-components/Tooltip';
 import config from 'in-services/config';
 import { Trans, t } from 'in-i18n';
 
@@ -62,6 +64,7 @@ export default function ApiTokens() {
         getDetailsHref={(entity: any) => {
           getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId);
         }}
+        customSortEntities={customSortEntities}
       />
     </>
   );
@@ -72,7 +75,9 @@ function GrantingTokenLabelButton({ apiToken }: { apiToken: ApiTokenProps }) {
 
   return (
     <div className={locals.apiTokenColContainer}>
-      <div>{accessGrantingToken}</div>
+      <Tooltip content={accessGrantingToken} align="topLeft" delay={500}>
+        <div>{accessGrantingToken}</div>
+      </Tooltip>
       <AsyncTokenCopyButton internalId={apiToken.internalId} token={accessGrantingToken} updateToken={updateToken} />
     </div>
   );
@@ -87,9 +92,11 @@ const columnDefinitions = [
     useMinimumAmountOfHorizontalSpace: true,
     getContent(entity: ApiTokenProps) {
       return (
-        <Link href={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId)} ellipsis>
-          {entity.name}
-        </Link>
+        <Tooltip content={entity.name} align="topLeft" delay={500}>
+          <Link href={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId)} ellipsis>
+            {entity.name}
+          </Link>
+        </Tooltip>
       );
     }
   },
@@ -107,9 +114,18 @@ const columnDefinitions = [
     label: t('in-settings:tabs.tokenLastUsed'),
     ellipsis: true,
     useMinimumAmountOfHorizontalSpace: true,
-    sortable: true,
     getContent({ lastUsedOn }: ApiTokenProps) {
-      return <span>{lastUsedOn ? `${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})` : ''}</span>;
+      return (
+        <span>
+          {lastUsedOn ? (
+            <Tooltip content={`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} align="topLeft" delay={500}>
+              <span> {`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} </span>
+            </Tooltip>
+          ) : (
+            ''
+          )}
+        </span>
+      );
     }
   },
   {
@@ -117,11 +133,16 @@ const columnDefinitions = [
     label: t('in-settings:tabs.tokenCreated'),
     ellipsis: true,
     useMinimumAmountOfHorizontalSpace: true,
-    sortable: true,
     getContent({ createdOn }: ApiTokenProps) {
       return (
         <span>
-          {createdOn ? `${fromNow(createdOn)} (${formatDateTime(createdOn)})` : `${t('in-settings:tabs.unknownLabel')}`}
+          {createdOn ? (
+            <Tooltip content={`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} align="topLeft" delay={500}>
+              <span> {`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} </span>
+            </Tooltip>
+          ) : (
+            `${t('in-settings:tabs.unknownLabel')}`
+          )}
         </span>
       );
     }
@@ -132,7 +153,17 @@ const columnDefinitions = [
     ellipsis: true,
     useMinimumAmountOfHorizontalSpace: true,
     getContent({ createdBy }: ApiTokenProps) {
-      return <span>{createdBy ? `${createdBy}` : `${t('in-settings:tabs.unknownLabel')}`}</span>;
+      return (
+        <span>
+          {createdBy ? (
+            <Tooltip content={createdBy} align="topLeft" delay={500}>
+              <span>{createdBy}</span>
+            </Tooltip>
+          ) : (
+            `${t('in-settings:tabs.unknownLabel')}`
+          )}
+        </span>
+      );
     }
   }
 ];
@@ -166,3 +197,31 @@ function onCreateNew(goToPath: Function) {
     });
   }
 }
+
+const customSortEntities = ({
+  entities,
+  orderByState,
+  orderDirectionState
+}: {
+  entities: ApiTokenProps[];
+  orderByState: keyof ApiTokenProps;
+  orderDirectionState: 'ASC' | 'DESC';
+}): ApiTokenProps[] => {
+  return entities.sort((a, b) => {
+    if (a[orderByState] === null) return 1;
+    if (b[orderByState] === null) return -1;
+    if (orderByState === 'lastUsedOn' || orderByState === 'createdOn') {
+      return orderDirectionState === 'ASC'
+        ? Number(a[orderByState]) - Number(b[orderByState])
+        : Number(b[orderByState]) - Number(a[orderByState]);
+    }
+    if (orderByState === 'createdBy') {
+      return orderDirectionState === 'ASC'
+        ? compareIgnoreCase(a.createdBy ?? '', b.createdBy ?? '')
+        : compareIgnoreCase(b.createdBy ?? '', a.createdBy ?? '');
+    }
+    return orderDirectionState === 'ASC'
+      ? compareIgnoreCase(a[orderByState].toString(), b[orderByState].toString())
+      : compareIgnoreCase(b[orderByState].toString(), a[orderByState].toString());
+  });
+};

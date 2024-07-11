@@ -23,6 +23,8 @@ import { userSettingsPersonalApiTokens } from 'in-settings/navigation/paths';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { formatDateTime, fromNow } from 'in-services/formatters/date';
 import CopyToClipboard from 'in-components/CopyToClipboard';
+import { compareIgnoreCase } from 'in-services/util/string';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import config from 'in-services/config';
 import { user } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
@@ -68,6 +70,7 @@ export default function PersonalApiTokens() {
         searchAttributes={['name', 'tokenId', 'accessGrantingToken']}
         searchPlaceholder={t('in-settings:components.search')}
         noDataMessage={t('in-settings:tabs.noPersonalApiTokens')}
+        customSortEntities={customSortEntities}
       />
     </>
   );
@@ -86,10 +89,9 @@ const columnDefinitions = [
     )
   },
   {
-    id: 'token',
+    id: 'tokenId',
     label: t('in-settings:tabs.token'),
     useMinimumAmountOfHorizontalSpace: true,
-
     getContent: ({ accessGrantingToken }: PersonalApiToken) => (
       <>
         <span className={locals.tokenLabel}>{maskToken(accessGrantingToken)}</span>
@@ -109,7 +111,15 @@ const columnDefinitions = [
     ellipsis: true,
     useMinimumAmountOfHorizontalSpace: true,
     getContent: ({ lastUsedOn }: PersonalApiToken) => (
-      <span>{lastUsedOn ? `${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})` : ''}</span>
+      <span>
+        {lastUsedOn ? (
+          <Tooltip content={`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} align="topLeft" delay={500}>
+            <span>{`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`}</span>
+          </Tooltip>
+        ) : (
+          ''
+        )}
+      </span>
     )
   },
   {
@@ -119,11 +129,40 @@ const columnDefinitions = [
     useMinimumAmountOfHorizontalSpace: true,
     getContent: ({ createdOn }: PersonalApiToken) => (
       <span>
-        {createdOn ? `${fromNow(createdOn)} (${formatDateTime(createdOn)})` : `${t('in-settings:tabs.unknownLabel')}`}
+        {createdOn ? (
+          <Tooltip content={`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} align="topLeft" delay={500}>
+            <span>{`${fromNow(createdOn)} (${formatDateTime(createdOn)})`}</span>
+          </Tooltip>
+        ) : (
+          `${t('in-settings:tabs.unknownLabel')}`
+        )}
       </span>
     )
   }
 ];
+
+const customSortEntities = ({
+  entities,
+  orderByState,
+  orderDirectionState
+}: {
+  entities: PersonalApiToken[];
+  orderByState: keyof PersonalApiToken;
+  orderDirectionState: 'ASC' | 'DESC';
+}): PersonalApiToken[] => {
+  return entities.slice().sort((a, b) => {
+    if (!a[orderByState]) return 1;
+    if (!b[orderByState]) return -1;
+    if (orderByState === 'lastUsedOn' || orderByState === 'createdOn') {
+      return orderDirectionState === 'ASC'
+        ? Number(a[orderByState]) - Number(b[orderByState])
+        : Number(b[orderByState]) - Number(a[orderByState]);
+    }
+    return orderDirectionState === 'ASC'
+      ? compareIgnoreCase(a[orderByState].toString(), b[orderByState].toString())
+      : compareIgnoreCase(b[orderByState].toString(), a[orderByState].toString());
+  });
+};
 
 const preventDefault = (e: EventPlaceholder) => e.preventDefault();
 
