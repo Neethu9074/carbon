@@ -678,7 +678,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonStepProgressBarEnabled',
     instanaCtlKey: 'feature.carbon.stepprogressbar.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonHorizontalIndicatorEnabled',
