@@ -24,7 +24,7 @@
   .text {
     margin-top: 0.25rem;
 
-    color: var(--ids-color-option-neutral-500);
+    color: var(--cds-text-primary);
     font-size: 0.875rem;
   }
 }
