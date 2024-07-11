@@ -10,7 +10,8 @@
         "step1": "Step 1: Select type",
         "step2": "Step 2: Request details",
         "step3": "Step 3: Scheduling",
-        "step4": "Step 4: Provide details"
+        "step4": "Step 4: Provide details",
+        "step5": "Step5: Associate"
       },
       "selectTest": {
         "title": "What kind of synthetic test would you like to create"
@@ -240,7 +241,14 @@
           "inputPortNumber": "Port",
           "failureConfigLabel": "Failure Configuration",
           "failureConfigText": "Test will fail when certificate validity has <certificateValidityDays/> days remaining until expiration."
-        }
+        },
+        "applicationsLabel": "associate",
+        "applicationsTitle": "Associate: Select applications to associate with this synthetic test",
+        "applicationsDescription": "Associating a synthetic test with an application grants access rights to all users who have access to that application."
+      },
+      "associations": {
+        "applicationsTitle": "Select applications to associate with this synthetic test",
+        "applicationsDescription": "Associating a synthetic test with an application grants access rights to all users who have access to that application."
       }
     },
     "httpMethods": {

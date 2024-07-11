@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { Typography } from '@instana/components';
+
 import ConfigDialogFooter from 'in-settings/components/ConfigDialog/ConfigDialogFooter';
 import { t } from 'in-i18n';
 
@@ -13,13 +15,19 @@ import locals from './SelectItemForm.mless';
 
 interface SelectItemFormProps {
   children: React.ReactNode;
+  subHeader?: string;
   onClickCancel: VoidFunction;
   onClickSave: VoidFunction;
 }
 
-export default function SelectItemForm({ children, onClickCancel, onClickSave }: SelectItemFormProps) {
+export default function SelectItemForm({ children, subHeader, onClickCancel, onClickSave }: SelectItemFormProps) {
   return (
     <div className={locals.wrapper}>
+      {subHeader && (
+        <div className={locals.subHeader}>
+          <Typography variant={'body-regular'}>{subHeader}</Typography>
+        </div>
+      )}
       <div className={locals.content}>{children}</div>
       <ConfigDialogFooter
         saveButtonText={t('in-settings:selectItemForm.doneButton')}

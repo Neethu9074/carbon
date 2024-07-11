@@ -32,6 +32,7 @@ import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestFo
 import getDefaultHeaders from 'in-synthetics/createTests/utils/getDefaultHeaders';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
+import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import { isNotBlank } from 'in-services/util/string';
 import { Error as ScriptError } from 'in-types';
 
@@ -110,6 +111,7 @@ const CreateSyntheticTestDialogPresenter = ({
     const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
     const frequencyField = form.get('testFrequency') as Field<number>;
     const locationsField = form.get('locations') as Field<string[]>;
+    const labelField = form.get('label') as Field<string>;
 
     switch (step) {
       case 1: {
@@ -128,6 +130,8 @@ const CreateSyntheticTestDialogPresenter = ({
       }
       case 2:
         return frequencyField.valid;
+      case 3:
+        return syntheticMultiAppEnabled ? labelField.valid : true;
       default:
         return true;
     }

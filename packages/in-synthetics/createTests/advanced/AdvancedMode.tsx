@@ -15,14 +15,15 @@ import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-application
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import SSLCertificateConfiguration from 'in-synthetics/createTests/advanced/SSLCertificateConfiguration';
 import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/BrowserSimpleConfiguration';
+import { syntheticCertificateCheckEnabled, syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePrintSelectionSection';
 import CustomPropertiesSection from 'in-synthetics/createTests/advanced/CustomPropertiesSection';
 import ConfigurationSection from 'in-synthetics/createTests/advanced/ConfigurationSection';
+import ApplicationsSection from 'in-synthetics/createTests//wizard/ApplicationsSection';
 import ConfigureLocations from 'in-synthetics/createTests/advanced/ConfigureLocations';
 import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
 import IdentifySection from 'in-synthetics/createTests/advanced/IdentifySection';
 import ScriptsSection from 'in-synthetics/createTests/advanced/ScriptsSection';
-import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
@@ -205,6 +206,14 @@ const AdvancedMode = ({
     },
     {
       scrollId: '6',
+      label: t('in-synthetics:dialog.createTest.advancedMode.applicationsLabel'),
+      title: t('in-synthetics:dialog.createTest.advancedMode.applicationsTitle'),
+      subTitle: t('in-synthetics:dialog.createTest.advancedMode.applicationsDescription'),
+      valid: true,
+      content: <ApplicationsSection form={form} updateForm={updateForm} applications={applications} />
+    },
+    {
+      scrollId: '7',
       label: t('in-synthetics:dialog.createTest.advancedMode.customPropertiesTitle'),
       title: t('in-synthetics:dialog.createTest.advancedMode.customPropertiesTitle'),
       valid: true,
@@ -223,7 +232,13 @@ const AdvancedMode = ({
 
   const getRenderSections = (value: number) => {
     if (value >= 1) {
-      return [mainSection, switchTestTypeSection, ...commonSections];
+      return syntheticMultiAppEnabled
+        ? [mainSection, switchTestTypeSection, ...commonSections]
+        : [
+            mainSection,
+            switchTestTypeSection,
+            ...commonSections.filter(commonSection => commonSection.scrollId !== '6')
+          ];
     }
     return [mainSection];
   };

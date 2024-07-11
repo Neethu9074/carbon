@@ -12,6 +12,7 @@ import { TextArea } from '@instana/components';
 
 import ApplicationsSection from 'in-synthetics/createTests/wizard/ApplicationsSection';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
@@ -77,9 +78,11 @@ export default function IdentifySection({ form, updateForm, applications }: Prop
           </FormGroup>
         ))}
       </div>
-      <div className={locals.baseContainer}>
-        <ApplicationsSection form={form} updateForm={updateForm} applications={applications} />
-      </div>
+      {!syntheticMultiAppEnabled && (
+        <div className={locals.baseContainer}>
+          <ApplicationsSection form={form} updateForm={updateForm} applications={applications} />
+        </div>
+      )}
     </div>
   );
 }

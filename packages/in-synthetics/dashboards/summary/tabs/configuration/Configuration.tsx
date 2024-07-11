@@ -16,6 +16,8 @@ import EditConfigurationDialogPresenter from 'in-synthetics/dashboards/summary/t
 import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CustomProperties from 'in-synthetics/dashboards/summary/tabs/configuration/sections/CustomProperties';
 import ConfigSection from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Configuration';
+import { syntheticCertificateCheckEnabled, syntheticMultiAppEnabled } from 'in-services/featureFlags';
+import Associations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Associations';
 import Locations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Locations';
 import TestType from 'in-synthetics/dashboards/summary/tabs/configuration/sections/TestType';
 import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Schedule';
@@ -23,7 +25,6 @@ import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sectio
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { TestResponse } from 'in-synthetics/utils/constants';
@@ -259,6 +260,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
       <Locations test={test.data} />
       <Schedule test={test.data} />
       <Identify test={test.data} />
+      {syntheticMultiAppEnabled && <Associations test={test.data} />}
       <CustomProperties test={test.data} />
     </Card>
   );

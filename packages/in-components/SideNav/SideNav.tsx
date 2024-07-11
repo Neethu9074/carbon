@@ -24,6 +24,7 @@ export type NavItem = {
   hidden?: boolean;
   titleToolTipText?: string;
   isBeta?: boolean;
+  subTitle?: string;
 };
 
 interface SideNavProps {

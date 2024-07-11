@@ -5,7 +5,6 @@
  */
 
 import React, { useState } from 'react';
-import classNames from 'classnames';
 
 import { KeyValue, SearchInput, Checkbox } from '@instana/components';
 import { SyntheticTest } from '@instana/types/typeDefinitions';
@@ -58,37 +57,7 @@ const Identify = ({ test }: Props) => {
         </Col>
       </Row>
       <Row>
-        {syntheticMultiAppEnabled ? (
-          <LightCard
-            className={locals.lastConfigRow}
-            title={t('in-synthetics:dashboard.configuration.associations')}
-            darkFrame
-            framed
-          >
-            <LightCard
-              className={locals.lastConfigRow}
-              title={t('in-synthetics:dashboard.configuration.associatedApplications')}
-              darkFrame
-              framed
-            >
-              {test.applicationLabels?.length === 0 || test.applicationLabels === undefined
-                ? t('in-synthetics:dashboard.configuration.noApplicationsAssociated')
-                : test.applicationLabels.map((application, index) => {
-                    return (
-                      <Row
-                        key={index}
-                        className={classNames({
-                          [locals.configRow]: true,
-                          [locals.lastRow]: index === test.applicationLabels?.length! - 1
-                        })}
-                      >
-                        <Col xs={12}>{application}</Col>
-                      </Row>
-                    );
-                  })}
-            </LightCard>
-          </LightCard>
-        ) : (
+        {!syntheticMultiAppEnabled && (
           <LightCard
             className={locals.lastConfigRow}
             header={header}

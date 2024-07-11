@@ -162,6 +162,11 @@ export default function SelectEntitiesForm<I extends Object>({
         onClickSave(selectedIds);
         resetForm();
       }}
+      subHeader={
+        syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS && syntheticFilter === inheritedAccessFilter
+          ? t('in-settings:selectEntityDialog.syntheticTableSubHeader')
+          : undefined
+      }
     >
       <EntityTable
         fetchedConfigState={filteredEntities}
