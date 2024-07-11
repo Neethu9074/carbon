@@ -10,7 +10,7 @@ import React from 'react';
 import { Result, TagCatalog, TimeConfig } from '@instana/types';
 import { Li, Ul } from '@instana/components';
 
-import { BusinessProcessQueryBuilder } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
+import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import ProcessesLiveList from 'in-bizops/lists/businessPerspectives/creation/ProcessesLiveList';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';

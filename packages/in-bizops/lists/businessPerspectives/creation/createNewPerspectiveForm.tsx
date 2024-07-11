@@ -59,7 +59,7 @@ const createNewPerspectiveForm = ({ perspective }: FormProps = emptyForm): MapFo
 export default createNewPerspectiveForm;
 
 function tagFilterExpressionValidator(tagFilterExpression: FormModelElement[]): ValidationResult {
-  if (!tagFilterExpression.length) {
+  if (tagFilterExpression.length === 0) {
     return [
       {
         severity: 'error',

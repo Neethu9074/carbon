@@ -19,7 +19,7 @@ import {
   CarbonTextArea
 } from '@instana/components';
 
-import { BusinessProcessQueryBuilder } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
+import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
 import createNewPerspectiveForm from 'in-bizops/lists/businessPerspectives/creation/createNewPerspectiveForm';
 import { businessPerspectiveConfigPath, businessPerspectiveDashboard } from 'in-bizops/navigation/paths';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';

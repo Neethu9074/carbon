@@ -17,7 +17,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 // @ts-expect-error Module needs to be translated to TS
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
-import { BusinessProcessQueryBuilder } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
+import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { processColumnDefinitions } from 'in-bizops/lists/businessProcess/columnDefinitions';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';

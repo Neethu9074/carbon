@@ -14,9 +14,11 @@ import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/Simpl
 import { NewPerspectiveFormStepOne } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveFormStepOne';
 import { NewPerspectiveFormStepTwo } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveFormStepTwo';
 import createNewPerspectiveForm from 'in-bizops/lists/businessPerspectives/creation/createNewPerspectiveForm';
+import { isQueryValid } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { businessPerspectiveDashboard, summaryTab } from 'in-bizops/navigation/paths';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
@@ -36,8 +38,11 @@ export function NewPerspectiveDialogPresenter() {
   const timeConfig = useTimeConfig();
   const { location, navigate } = useNavigation();
 
-  const stepConfigs = [
-    { title: t('in-bizops:perspectives.dialog.stepOne.progressBarTitle') },
+  const stepConfigs: StepConfigs = [
+    {
+      title: t('in-bizops:perspectives.dialog.stepOne.progressBarTitle'),
+      validateIntermediately: [['tagFilterExpression']]
+    },
     { title: t('in-bizops:perspectives.dialog.stepTwo.progressBarTitle') }
   ];
 
@@ -47,6 +52,10 @@ export function NewPerspectiveDialogPresenter() {
   const [step, setStep] = useState(0);
 
   const blueprintCatalogResult = useObservable(getBusinessMonitoringTagCatalog(), []) ?? pendingResult;
+
+  const tagFilterExpressionFormModel = form.get('tagFilterExpression')?.value;
+  const validTagFilterExpressionResult =
+    useObservable(isQueryValid, [tagFilterExpressionFormModel, timeConfig]) ?? pendingResult;
 
   function onCreate(form: MapForm<any>) {
     const requestBody: PerspectiveItem = {
@@ -103,6 +112,8 @@ export function NewPerspectiveDialogPresenter() {
           updateForm={updateForm}
           simpleModeStep={step}
           setSimpleModeStep={setStep}
+          additionalStepCheck={() => validTagFilterExpressionResult?.data}
+          noStepCheckOnFirstStep
           onCreate={() => {
             onCreate(form);
           }}
