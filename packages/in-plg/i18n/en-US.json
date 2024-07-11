@@ -364,6 +364,7 @@
           "linux64BitAmd": "Linux (64Bit - AMD)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
           "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC Little Endian)",
+          "linuxS390XJdkNotIncluded": "Linux (64Bit - s390x) JDK not included",
           "linuxS390X": "Linux (64Bit - s390x)",
           "linuxX8664": "Linux (64Bit - x86_64)",
           "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",

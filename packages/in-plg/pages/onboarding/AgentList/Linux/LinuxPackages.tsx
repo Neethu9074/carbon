@@ -40,7 +40,7 @@ export default function LinuxPackages({
   const rpmArchitectureOptions = [
     { key: 'aarch64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitAarch') },
     { key: 'ppc64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitPowerPc') },
-    { key: 's390x', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxS390X') },
+    { key: 's390x', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxS390XJdkNotIncluded') },
     { key: 'x86_64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxX8664') },
     { key: 'el6_x86_64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxRhel6X8664') },
     { key: 'el7_x86_64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxRhel7X8664') }
@@ -49,7 +49,7 @@ export default function LinuxPackages({
     { key: 'amd64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitAmd') },
     { key: 'arm64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitArm') },
     { key: 'ppc64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitPowerPc') },
-    { key: 's390x', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxS390X') }
+    { key: 's390x', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linuxS390XJdkNotIncluded') }
   ];
   const rpmArchitectureOptionsJ9 = [
     { key: 'aarch64', label: t('in-plg:agentDetails.linux.linux_deb_rpm.agentOptions.linux64BitAarch') },
