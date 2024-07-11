@@ -5,10 +5,12 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Card } from '@instana/components';
 
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
+import { getActiveLicensesAsResultObservable } from 'in-amp/api/account';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DataIngestTable from 'in-amp/components/DataIngestTable';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -34,32 +36,68 @@ export default function UsageCharts({
     presentation === 'cumulative' && (timeRange === 'this_month' || timeRange === 'last_month');
   const showTrendLine = isCumulativeTimeRange && timeRange === 'this_month';
 
-  const dataChartY1 = tenantUnit?.tenant
-    ? {
-        ...tenantUnit,
-        metrics: ['data_ingested_total'],
-        labels: ['Total'],
-        colors: [carbonAlert.blue70],
-        formatter: 'bytes.compact'
-      }
-    : {
-        ...tenantUnit,
-        metrics: ['data_ingested_total'],
-        labels: ['Total'],
-        colors: [carbonAlert.blue70],
-        formatter: 'bytes.compact'
-      };
+  let showDataLicenseLine = true;
+  const licenseObservableResult = useObservable(getActiveLicensesAsResultObservable(1, 60000), []);
 
-  const dataChartY2 = {
+  // Calculate whether licensed data line should be shown
+  // Do not show for individual tenant units
+  if (tenantUnit?.tenant) {
+    showDataLicenseLine = false;
+  }
+  // Do not show unless we are showing cumulative
+  else if (!isCumulativeTimeRange) {
+    showDataLicenseLine = false;
+  }
+  // Do now show, if there are paid licenses with unlimited data usage
+  else {
+    const licenses = licenseObservableResult?.data?.items;
+    if (licenses) {
+      showDataLicenseLine = true;
+      for (const lic of licenses) {
+        if (lic?.license?.paid && lic?.license?.licenseSpecs?.limitedDataUsage !== true) {
+          showDataLicenseLine = false;
+          break;
+        }
+      }
+    }
+  }
+
+  // Data Chart Y1 definition
+  let dataChartY1 = {
+    ...tenantUnit,
+    metrics: [],
+    labels: [],
+    colors: [],
+    formatter: 'bytes.compact'
+  };
+
+  if (showTrendLine) {
+    dataChartY1.metrics.push('data_ingested_trend_line');
+    dataChartY1.labels.push(t('in-amp:components.usageCharts.trendLine'));
+    dataChartY1.colors.push(carbonAlert.gray60);
+  }
+
+  if (isCumulativeTimeRange) {
+    dataChartY1.metrics.push('data_ingested_total_cumulative');
+    dataChartY1.labels.push('Total');
+    dataChartY1.colors.push(carbonAlert.blue70);
+  } else {
+    dataChartY1.metrics.push('data_ingested_total');
+    dataChartY1.labels.push('Total');
+    dataChartY1.colors.push(carbonAlert.blue70);
+  }
+
+  if (showDataLicenseLine) {
+    dataChartY1.metrics.push('licensed_data');
+    dataChartY1.labels.push('Entitled');
+    dataChartY1.colors.push(carbonAlert.red60);
+  }
+
+  // DataChartY2 definition
+  let dataChartY2 = {
     ...tenantUnit,
     renderer: stackedArea.id,
-    metrics: [
-      'bytes_ingested_infrastructure',
-      'bytes_ingested_traces',
-      'bytes_ingested_synthetics',
-      'bytes_ingested_eum_mobile',
-      'bytes_ingested_eum_website'
-    ],
+    metrics: [],
     labels: [
       [t('in-amp:components.usageCharts.infrastructure')],
       [t('in-amp:components.usageCharts.traces')],
@@ -70,46 +108,25 @@ export default function UsageCharts({
     formatter: 'bytes.compact'
   };
 
-  const cumulativeDataChartsY1 = {
-    ...tenantUnit,
-    metrics: [
-      ...(showTrendLine ? ['data_ingested_trend_line'] : []),
-      'data_ingested_total_cumulative',
-      ...(tenantUnit?.tenant ? [] : ['licensed_data'])
-    ],
-    labels: [
-      ...(showTrendLine ? [t('in-amp:components.usageCharts.trendLine')] : []),
-      'Total',
-      ...(tenantUnit?.tenant ? [] : ['Entitled Data'])
-    ],
-    colors: [
-      ...(showTrendLine ? [carbonAlert.gray60] : []),
-      carbonAlert.blue70,
-      ...(tenantUnit?.tenant ? [] : [carbonAlert.red60])
-    ],
-    formatter: 'bytes.compact'
-  };
-
-  const cumulativeDataChartsY2 = {
-    ...tenantUnit,
-    renderer: stackedArea.id,
-    metrics: [
+  if (isCumulativeTimeRange) {
+    dataChartY2.metrics.push(
       'data_ingested_infrastructure_cumulative',
       'data_ingested_traces_cumulative',
       'data_ingested_synthetics_cumulative',
       'data_ingested_eum_mobile_cumulative',
       'data_ingested_eum_website_cumulative'
-    ],
-    labels: [
-      [t('in-amp:components.usageCharts.infrastructure')],
-      [t('in-amp:components.usageCharts.traces')],
-      [t('in-amp:components.usageCharts.synthetics')],
-      [t('in-amp:components.usageCharts.eumMobile')],
-      [t('in-amp:components.usageCharts.eumWebsite')]
-    ],
-    formatter: 'bytes.compact'
-  };
+    );
+  } else {
+    dataChartY2.metrics.push(
+      'bytes_ingested_infrastructure',
+      'bytes_ingested_traces',
+      'bytes_ingested_synthetics',
+      'bytes_ingested_eum_mobile',
+      'bytes_ingested_eum_website'
+    );
+  }
 
+  // APM Chart Y1 definition
   const apmChartY1 = isCumulativeTimeRange
     ? {
         ...tenantUnit,
@@ -137,6 +154,8 @@ export default function UsageCharts({
         labels: [t('in-amp:components.usageCharts.apmHosts'), t('in-amp:components.usageCharts.purchased')],
         colors: [carbonAlert.blue70, carbonAlert.red60]
       };
+
+  // IQM Chart Y1 definition
   const iqmChartsY1 = isCumulativeTimeRange
     ? {
         ...tenantUnit,
@@ -207,8 +226,8 @@ export default function UsageCharts({
               timeRange={timeRange}
               to={to}
               showAggregatedMetrics={showAggregatedMetrics}
-              y1={isCumulativeTimeRange ? cumulativeDataChartsY1 : dataChartY1}
-              y2={isCumulativeTimeRange ? cumulativeDataChartsY2 : dataChartY2}
+              y1={dataChartY1}
+              y2={dataChartY2}
             />
           </Card>
         </Col>
