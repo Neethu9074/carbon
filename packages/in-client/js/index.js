@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import 'in-init/steps/commonStyles.ts';
+
 import initialiseSteps from 'in-init/initialiseSteps';
 
 initialiseSteps([

@@ -10,10 +10,7 @@
 import 'react-toggle/style.css';
 import React from 'react';
 
-// ^ needs to be put here, to be bundled before the overriding styles from legacy package
-import '@instana/legacy/esm/index.css';
 import { ThemeProvider } from '@instana/components';
-import '@instana/components/esm/index.css';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import OnboardingWidgetPresenterV2 from 'in-plg/pages/onboarding/OnboardingWidgetPresenterV2';
@@ -25,8 +22,6 @@ import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import GlobalTheme from 'in-themes/GlobalTheme';
 import config from 'in-services/config';
-
-import 'in-themes/foundation.less';
 
 const trackingService = createTracker('onboarding');
 
