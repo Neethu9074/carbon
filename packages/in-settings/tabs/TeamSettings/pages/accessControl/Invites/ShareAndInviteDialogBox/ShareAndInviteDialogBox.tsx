@@ -107,11 +107,11 @@ const Fields = ({ children, helpText, helpTextIcon, className }: FieldsProps) =>
       })}
     >
       {helpTextIcon ? (
-        <Stack direction="horizontal" gap="xxsmall" align="center">
-          <div className={locals.helpText}>
+        <Stack direction="horizontal" gap="xxsmall" align="end">
+          <Stack>
             <HelpText>{helpText}</HelpText>
-          </div>
-          {helpTextIcon}
+          </Stack>
+          <div>{helpTextIcon}</div>
         </Stack>
       ) : (
         <HelpText>{helpText}</HelpText>

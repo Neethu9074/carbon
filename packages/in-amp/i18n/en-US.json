@@ -48,7 +48,7 @@
       "totalDataIngestFairUseEntitlement": "Total Data Ingest fair-use entitlement",
       "dataIngestAddOnEntitlement": "Data Ingest Add-on entitlement",
       "totalAmountPurchased": "Total amount purchased via extra data-ingest add-on",
-      "dataIngestEntitlementFromOnDemand": "Data Ingest Fair-Use Entitlement from On-Demand MVS",
+      "dataIngestEntitlementFromOnDemand": "Data Ingest fair-Use Entitlement from On-Demand MVS",
       "totalDataIngestEntitlement": "Total Data Ingest Entitlement",
       "actualDataIngest": "Actual Data-Ingest",
       "onDemandDataIngest": "On-Demand Data-Ingest"
@@ -86,7 +86,7 @@
       "eumMobile": "EUM Mobile",
       "eumWebsite": "EUM Website",
       "addons": "Add-ons",
-      "trendLine" : "Trendline",
+      "trendLine": "Trendline",
       "dataUsageHelperText": "Amount of bytes sent through agents separated by category in the chosen timeframe.",
       "helperText": "Number of resource units consumed by each type of action. Units are calculated with a factor of 0.025 for simple tests, 0.042 for API tests, and 1.000 for browser tests."
     },

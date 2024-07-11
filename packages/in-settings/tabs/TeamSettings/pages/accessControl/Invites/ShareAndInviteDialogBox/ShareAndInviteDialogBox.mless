@@ -53,8 +53,5 @@
         }
       }
     }
-    .helpText {
-      width: auto;
-    }
   }
 }
