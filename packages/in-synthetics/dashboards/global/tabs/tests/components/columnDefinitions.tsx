@@ -295,7 +295,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
     }
   },
   {
-    id: 'applicationLabel',
+    id: syntheticMultiAppEnabled ? 'applicationLabels' : 'applicationLabel',
     label: t('in-synthetics:dashboard.testList.applicationLabel'),
     defaultOrderDirection: 'ASC',
     getContent: function Content(item: TestResultListItem) {

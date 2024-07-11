@@ -126,11 +126,14 @@ function getApplicationLabels(result: Result<SyntheticTest[]> | undefined) {
   // Get applicationLabels and applicationIds from SyntheticTest
   if (!result?.progress?.loading) {
     result?.data?.forEach(function (item: SyntheticTest) {
-      const applicationitem = {
-        label: item?.applicationLabel ?? '',
-        value: item?.applicationId ?? ''
-      };
-      applicationLabelOptions.push(applicationitem);
+      if (item?.applications) {
+        item?.applications.forEach((applicationId, i) => {
+          applicationLabelOptions.push({
+            label: item?.applicationLabels?.at(i) ?? '',
+            value: applicationId
+          });
+        });
+      }
     });
 
     // Clean up duplicate and empty array elements
