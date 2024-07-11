@@ -90,7 +90,9 @@ export default function VmwareTanzu({
             value={
               <InputWithButton
                 type="copy"
-                inputValue={'https://network.pivotal.io/products/instana-microservices-application-monitoring'}
+                inputValue={
+                  'https://support.broadcom.com/group/ecx/productdownloads?subfamily=Instana%20Microservices%20Application%20Monitoring%20for%20VMware%20Tanzu'
+                }
               />
             }
             withGap
