@@ -1,15 +1,14 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
 import { OptionTypeBase } from 'react-select';
+import React from 'react';
 
-import { t } from 'in-i18n';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
-import { SloTagFilterProps } from 'in-service-levels/components/SloList/components/SloTagFilter';
+import { t } from 'in-i18n';
 
 interface OptionType extends OptionTypeBase {
   value: string;
@@ -17,7 +16,11 @@ interface OptionType extends OptionTypeBase {
 
 const mapTagToSelectOption = (tag: string): OptionType => ({ value: tag, label: tag });
 
-interface CreatableTagSelectProps extends SloTagFilterProps {
+interface CreatableTagSelectProps {
+  value: string[];
+  onChange: (value: string[]) => void;
+  tags?: string[];
+  disabled?: boolean;
   id?: string;
   isLoading?: boolean;
 }
@@ -41,9 +44,9 @@ export default function CreatableTagSelect({
       isLoading={isLoading}
       isDisabled={disabled}
       onChange={(tagOptions: OptionType[]) => onChange(tagOptions.map(({ value }) => value) ?? [])}
-      formatCreateLabel={(tag: string) => t('in-service-levels:createSloDialog.tagsCreateLabel', { tag })}
-      placeholder={t('in-service-levels:createSloDialog.tagsPlaceholder')}
-      aria-label={t('in-service-levels:createSloDialog.tagsPlaceholder')}
+      formatCreateLabel={(tag: string) => t('in-components:creatableTagSelect.createLabel', { tag })}
+      placeholder={t('in-components:creatableTagSelect.placeholder')}
+      aria-label={t('in-components:creatableTagSelect.placeholder')}
       isMulti
     />
   );

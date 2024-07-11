@@ -10,16 +10,18 @@ import React from 'react';
 import { Typography, Spacer } from '@instana/components';
 
 import { AIActionForm } from 'in-automation/AutomationCard/GenerateAIDialog/SimpleAIDialog';
+import CreatableTagSelect from 'in-components/CreatableTagSelect/CreatableTagSelect';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { isScript, isManual, getType } from 'in-automation/ActionCatalog/shared';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import TagsTable from 'in-automation/ActionCatalog/TagsTable';
+import useActionTags from 'in-automation/hooks/useActionTags';
 import TextArea from 'in-components/form/TextArea/TextArea';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Notification from 'in-components/form/Notification';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import Section from 'in-settings/components/Section';
+import { isLoading } from 'in-services/util/result';
 import { ScoredAction } from 'in-automation/api';
 import Code from 'in-components/form/Code/Code';
 import Input from 'in-components/form/Input';
@@ -42,6 +44,8 @@ export function CopyActionStep({
   const name = form.get('name');
   const description = form.get('description');
   const type = form.get('type');
+  const tags = form.get('tags');
+  const availableTags = useActionTags();
 
   return (
     <div>
@@ -110,16 +114,22 @@ export function CopyActionStep({
                       </HelpText>
                     </FormGroup>
                   ))}
-                  <FormGroup>
-                    <TagsTable
-                      form={form}
-                      setForm={updateForm}
-                      onChange={(fieldName, value) =>
-                        //@ts-expect-error
-                        updateForm(form => form!.updateIn([fieldName], item => item.setValue(value).setTouched(true)))
-                      }
-                    />
-                  </FormGroup>
+                  {tags.map(field => (
+                    <FormGroup>
+                      <Label htmlFor="action-tags" hasError={!field.valid && field.touched}>
+                        {t('in-automation:tagsLabel')}
+                      </Label>
+                      <CreatableTagSelect
+                        id="action-tags"
+                        isLoading={isLoading(availableTags)}
+                        tags={availableTags.data}
+                        value={field.value}
+                        onChange={newTags =>
+                          updateForm(form => form.updateIn(['tags'], item => item.setValue(newTags).setTouched(true)))
+                        }
+                      />
+                    </FormGroup>
+                  ))}
                 </div>
               </div>
               <SectionHeading>{t('in-automation:ActionCatalog.2ActionConfiguration')}</SectionHeading>

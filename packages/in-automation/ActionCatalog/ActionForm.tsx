@@ -89,12 +89,14 @@ import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
+import CreatableTagSelect from 'in-components/CreatableTagSelect';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import TagsTable from 'in-automation/ActionCatalog/TagsTable';
+import useActionTags from 'in-automation/hooks/useActionTags';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { isLoading } from 'in-services/util/result';
 import Code from 'in-components/form/Code/Code';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -177,11 +179,12 @@ const TimeoutSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCh
     </>
   );
 };
-const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange'>) => {
+const MetaDataSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange'>) => {
   const name = form.get('name') as Field<string>;
   const description = form.get('description') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
-
+  const tags = form.get('tags') as Field<string[]>;
+  const availableTags = useActionTags();
   return (
     <>
       {name.map(field => (
@@ -223,14 +226,21 @@ const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'for
           </HelpText>
         </FormGroup>
       ))}
-      <FormGroup>
-        <TagsTable
-          form={form}
-          setForm={setForm}
-          isEditable={!isNotEditable && role?.canConfigureAutomationActions}
-          onChange={onChange}
-        />
-      </FormGroup>
+      {tags.map(field => (
+        <FormGroup>
+          <Label htmlFor="action-tags" hasError={!field.valid && field.touched}>
+            {t('in-automation:tagsLabel')}
+          </Label>
+          <CreatableTagSelect
+            id="action-tags"
+            isLoading={isLoading(availableTags)}
+            tags={availableTags.data}
+            value={field.value}
+            onChange={newTags => onChange('tags', newTags)}
+            disabled={isNotEditable || !role?.canConfigureAutomationActions}
+          />
+        </FormGroup>
+      ))}
     </>
   );
 };

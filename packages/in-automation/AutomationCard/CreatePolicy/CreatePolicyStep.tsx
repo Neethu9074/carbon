@@ -11,13 +11,15 @@ import { Typography, Spacer, Stack } from '@instana/components';
 
 import { PolicyForm } from 'in-automation/AutomationCard/CreatePolicy/SimpleCreatePolicyDialog';
 import { AIActionForm } from 'in-automation/AutomationCard/GenerateAIDialog/SimpleAIDialog';
+import CreatableTagSelect from 'in-components/CreatableTagSelect/CreatableTagSelect';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import TagsTable from 'in-automation/ActionCatalog/TagsTable';
+import usePolicyTags from 'in-automation/hooks/usePolicyTags';
 import TextArea from 'in-components/form/TextArea/TextArea';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
+import { isLoading } from 'in-services/util/result';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { Event } from 'in-types';
@@ -38,7 +40,7 @@ export function CreatePolicyStep({
   const description = form.get('policyDescription');
   const actionName = form.get('name').value;
   const eventTriggerName = event.problem?.problemText ?? '';
-
+  const policyTags = form.get('policyTags');
   return (
     <div>
       <div className={locals.actionModalPadding}>
@@ -46,12 +48,12 @@ export function CreatePolicyStep({
         <Typography variant="body-regular">{t('in-automation:SimpleCreatePolicyDialog.Step2Headline')}</Typography>
         <Spacer vertical="normal" />
         <PolicyFormBody
-          form={form}
           updateForm={updateForm}
           name={name}
           description={description}
           actionName={actionName}
           eventTriggerName={eventTriggerName}
+          policyTags={policyTags}
         />
       </div>
     </div>
@@ -59,20 +61,22 @@ export function CreatePolicyStep({
 }
 
 export const PolicyFormBody = ({
-  form,
   updateForm,
   name,
   description,
   actionName,
-  eventTriggerName
+  eventTriggerName,
+  policyTags
 }: {
-  form: AIActionForm | PolicyForm;
   updateForm: React.Dispatch<React.SetStateAction<AIActionForm>> | React.Dispatch<React.SetStateAction<PolicyForm>>;
   name: FormField<string>;
   description: FormField<string>;
   actionName: string;
   eventTriggerName: string;
+  policyTags: FormField<string[]>;
 }) => {
+  const availableTags = usePolicyTags();
+
   return (
     <>
       <fieldset>
@@ -130,17 +134,26 @@ export const PolicyFormBody = ({
                     </HelpText>
                   </FormGroup>
                 ))}
-                <FormGroup>
-                  <TagsTable
-                    form={form}
-                    setForm={updateForm}
-                    tagsFieldName="policyTags"
-                    onChange={(fieldName, value) =>
-                      //@ts-expect-error
-                      updateForm(form => form!.updateIn([fieldName], item => item.setValue(value).setTouched(true)))
-                    }
-                  />
-                </FormGroup>
+                {policyTags.map(field => (
+                  <FormGroup>
+                    <Label htmlFor="policy-tags" hasError={!field.valid && field.touched}>
+                      {t('in-automation:tagsLabel')}
+                    </Label>
+                    <CreatableTagSelect
+                      id="policy-tags"
+                      isLoading={isLoading(availableTags)}
+                      tags={availableTags.data}
+                      value={field.value}
+                      onChange={newTags =>
+                        updateForm((form: any) =>
+                          form!.updateIn(['policyTags'], (item: FormField<string[]>) =>
+                            item.setValue(newTags).setTouched(true)
+                          )
+                        )
+                      }
+                    />
+                  </FormGroup>
+                ))}
               </div>
             </div>
           </Col>

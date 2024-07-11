@@ -52,6 +52,15 @@ export function getActions() {
   });
 }
 
+export function getActionTags() {
+  return http<{ tags: string[] }>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${actionUrl}/tags`,
+    mapToResultObject: true
+  });
+}
+
 export interface ScoredAction extends Action {
   score: number;
   confidence: string;
@@ -680,8 +689,16 @@ export function getPolicies() {
   return http<Policy[]>({
     method: 'GET',
     maxRetries: 3,
-    headers: getCsrfHeader(),
     url: policiesUrl,
+    mapToResultObject: true
+  });
+}
+
+export function getPolicyTags() {
+  return http<{ tags: string[] }>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${policiesUrl}/tags`,
     mapToResultObject: true
   });
 }
@@ -690,7 +707,6 @@ export function getPolicy(id: string) {
   return http<Policy>({
     method: 'GET',
     maxRetries: 3,
-    headers: getCsrfHeader(),
     url: `${policiesUrl}/${id}`,
     mapToResultObject: true
   });

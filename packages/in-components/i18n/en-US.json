@@ -829,5 +829,9 @@
     "notice": "This tenant unit has been migrated to a new region. The unit you are currently accessing only contains historical data.",
     "goToNewLocationLabel": "Go to New Location",
     "exploreDataLabel": "Explore Historical Data"
+  },
+  "creatableTagSelect": {
+    "placeholder": "Enter tags",
+    "createLabel": "Create: {{tag}}"
   }
 }

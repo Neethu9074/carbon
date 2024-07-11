@@ -28,7 +28,6 @@ import { positiveNumberValidator } from 'in-services/validators/number';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { refresh } from 'in-automation/AutomationCard/usePolicies';
 import { Result, Event, Field, Error, Action } from 'in-types';
-import { Tag } from 'in-automation/ActionCatalog/TagsTable';
 import { close } from 'in-components/DialogPresenter/store';
 import { ScoredAction } from 'in-automation/api';
 import { noop } from 'in-services/fixedObjects';
@@ -47,10 +46,10 @@ type AIActionFormItems = {
   subtype?: FormField<string>;
   timeout: FormField<string>;
   parameters: FormField<MappedParameter[]>;
-  tags: FormField<Tag[]>;
+  tags: FormField<string[]>;
   policyName: FormField<string>;
   policyDescription: FormField<string>;
-  policyTags: FormField<Tag[]>;
+  policyTags: FormField<string[]>;
 };
 
 export type AIActionForm = MapForm<AIActionFormItems>;
@@ -146,7 +145,7 @@ const createPolicy = ({ form, event, setActiveKey, setActionError }: createPolic
       const policyDetails = {
         name: form.get('policyName').value,
         description: form.get('policyDescription').value,
-        tags: form.get('policyTags').value.map(tag => tag.value)
+        tags: form.get('policyTags').value
       };
       const policy = createBasePolicy(event, res, policyDetails);
 
@@ -196,8 +195,6 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
   const mappedParams = parameters.map(parameter => ({ id: generateUniqueShortId(), value: parameter }));
   const timeout = action?.fields ? getTimeoutFromFields(action.fields).value : '';
   const tags = action?.tags ?? [];
-  const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
-  const policyTags: Tag[] = [];
   let form: AIActionForm = createMapForm({
     items: {
       name: createField({
@@ -223,18 +220,7 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
         }
       }),
       tags: createField({
-        value: mappedTags,
-        validator: tags => {
-          if (hasBlankTags(tags)) {
-            return [
-              {
-                severity: 'error',
-                message: t('in-automation:theValueMustNotBeBlank')
-              }
-            ];
-          }
-          return null;
-        }
+        value: tags
       }),
       policyName: createField({
         value: '',
@@ -245,19 +231,7 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
         validator: notBlankValidator
       }),
       policyTags: createField({
-        value: policyTags,
-        validator: tags => {
-          const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || tag.value === '', false);
-          if (hasBlankTags) {
-            return [
-              {
-                severity: 'error',
-                message: t('in-automation:theValueMustNotBeBlank')
-              }
-            ];
-          }
-          return null;
-        }
+        value: [] as string[]
       })
     }
   });
@@ -319,7 +293,7 @@ function getActionSpecification(form: AIActionForm) {
     description,
     fields,
     type,
-    tags: tags.map(tag => tag.value),
+    tags,
     inputParameters,
     metadata: { readOnly: false, builtIn: false, sensorImported: false, aiOriginated: true } // add aiOriginated flag to indicates that these are copied from OOTB AI action.
   };
@@ -346,19 +320,14 @@ const isStepDisabled = (step: number, form: AIActionForm, selectedAIAction: Scor
   const type = form.get('type').value;
   const content = form.get('manualContent')?.value;
   const script = form.get('script')?.value;
-  const tags = form.get('tags')?.value;
 
   if (step === 0) return selectedAIAction !== null;
   if (step === 1) {
     return (
-      !(isEmpty(name) || isEmpty(description) || isEmpty(type) || hasBlankTags(tags)) &&
+      !(isEmpty(name) || isEmpty(description) || isEmpty(type)) &&
       !(isManual(type) && isEmpty(content)) &&
       !(isScript(type) && isEmpty(script))
     );
   }
   return true;
-};
-
-const hasBlankTags = (tags: Tag[]): boolean => {
-  return tags.reduce((hasBlank, tag) => hasBlank || tag.value === '', false);
 };

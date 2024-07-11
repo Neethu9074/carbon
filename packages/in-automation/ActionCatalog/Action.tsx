@@ -59,9 +59,9 @@ import useNavigateToActionCatalog from './useNavigateToActionCatalog';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ActionForm from 'in-automation/ActionCatalog/ActionForm';
+import { Label } from 'in-automation/ActionCatalog/FieldsTable';
 import SectionLine from 'in-settings/components/SectionLine';
 import useEntityForm from 'in-settings/hooks/useEntityForm';
-import { Tag } from 'in-automation/ActionCatalog/TagsTable';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
@@ -239,7 +239,7 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
   const name = (form.get('name') as FormField<string>).value;
   const description = (form.get('description') as FormField<string>).value;
   const type = (form.get('type') as FormField<string>).value;
-  const tags = (form.get('tags') as FormField<Tag[]>).value;
+  const tags = (form.get('tags') as FormField<string[]>).value;
   const parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
   const timeout = (form.get('timeout') as FormField<string>).value;
   const fields: Field[] = [];
@@ -263,8 +263,8 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
       const body = (form.get('body') as FormField<string>).value;
       const labels = (form.get('labels') as FormField<any>).value;
       const assignees = (form.get('assignees') as FormField<any>).value;
-      const labelsString = labels.map((tag: Tag) => tag.value).join(',');
-      const assigneesString = assignees.map((tag: Tag) => tag.value).join(',');
+      const labelsString = labels.map((label: Label) => label.value).join(',');
+      const assigneesString = assignees.map((assignee: Label) => assignee.value).join(',');
       type = {
         type: 'open',
         title,
@@ -295,7 +295,7 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
       const body = (form.get('body') as FormField<string>).value;
       const labels = (form.get('labels') as FormField<any>).value;
       const issue_type = (form.get('issue_type') as FormField<any>).value;
-      const labelsString = labels.map((tag: Tag) => tag.value).join(',');
+      const labelsString = labels.map((label: Label) => label.value).join(',');
       type = {
         type: 'open',
         title,
@@ -327,7 +327,7 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
       const labels = (form.get('labels') as FormField<any>).value;
       const assignee = (form.get('assignee') as FormField<string>).value;
       const issue_type = (form.get('issue_type') as FormField<any>).value;
-      const labelsString = labels.map((tag: Tag) => tag.value).join(',');
+      const labelsString = labels.map((tag: Label) => tag.value).join(',');
       type = {
         type: 'open',
         summary,
@@ -417,7 +417,7 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
     description,
     fields,
     type,
-    tags: tags.map((tag: Tag) => tag.value),
+    tags,
     inputParameters
   };
 }
