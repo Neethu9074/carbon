@@ -53,7 +53,7 @@ export function CustomMetricInput({ value, placeholder, onChange, options, valid
   );
 }
 
-function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps }) {
+function render({ inputProps, getInputProps, isOpen, openMenu, value, ...remainingProps }) {
   const { inputValue } = remainingProps;
   const { locals, valid, hideValidityInformationOnFocus, autoFocus, ...remainingInputProps } = inputProps;
 
@@ -77,7 +77,7 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
           />
         </div>
       </Tooltip>
-      {isOpen && <SuggestionsList locals={locals} {...remainingProps} />}
+      {(isOpen || !value) && <SuggestionsList locals={locals} {...remainingProps} />}
     </>
   );
 }
