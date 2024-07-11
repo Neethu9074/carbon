@@ -10,10 +10,12 @@ import { SvgIcon } from '@instana/components';
 import { Toggle } from '@instana/components';
 import { Link } from '@instana/components';
 
-import getJsAgentVersionsInfo from 'in-websites/subscriptions/getJsAgentVersionsInfo';
 import WeaselVersionDropdown from 'in-websites/trackingSnippet/WeaselVersionDropdown';
+import getJsAgentVersionsInfo from 'in-websites/subscriptions/getJsAgentVersionsInfo';
 import { getTrackingSnippet } from 'in-websites/trackingSnippet/trackingSnippet';
 import { weaselSubresourceIntegrityEnabled } from 'in-services/featureFlags';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import ModalSRI from 'in-websites/trackingSnippet/ModalSRI';
 import Tooltip from 'in-components/Tooltip';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
@@ -90,7 +92,31 @@ export default function TrackingSnippetPresenter({
             </Tooltip>
           </div>
           <div className={locals.toggle}>
-            <Toggle id="sri" checked={enableSRI} onToggle={e => setEnableSRI(e)} />
+            <Toggle
+              id="sri"
+              checked={enableSRI}
+              onToggle={e => {
+                setEnableSRI(e);
+                if (e) {
+                  addActiveDialog(
+                    <ModalSRI
+                      buttonText={t('in-websites:trackingSnippet.trackingSnippetPresenterEnableModal')}
+                      modalTitle={t('in-websites:trackingSnippet.trackingSnippetPresenterEnablingModalTitle')}
+                      modalBody={t('in-websites:trackingSnippet.trackingSnippetPresenterEnablingModalBody')}
+                    />
+                  );
+                } else {
+                  addActiveDialog(
+                    <ModalSRI
+                      buttonText={t('in-websites:trackingSnippet.trackingSnippetPresenterDisableModal')}
+                      modalTitle={t('in-websites:trackingSnippet.trackingSnippetPresenterDisablingModalTitle')}
+                      modalFirstLine={t('in-websites:trackingSnippet.trackingSnippetPresenterDisablingModalFirstLine')}
+                      modalBody={t('in-websites:trackingSnippet.trackingSnippetPresenterDisablingModalBody')}
+                    />
+                  );
+                }
+              }}
+            />
             {enableSRI
               ? t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')
               : t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}

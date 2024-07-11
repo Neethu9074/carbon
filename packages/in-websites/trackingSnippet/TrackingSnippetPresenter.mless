@@ -64,4 +64,28 @@
     fill: var(--ids-color-option-neutral-700);
     margin-left: 0.25rem;
   }
+
+  .dialogContent {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4rem;
+
+    > span:first-child {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .confButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: -1.5rem;
+    padding: 0.5rem 1.5rem;
+    background: var(--ids-color-option-neutral-300);
+  }
+
+  .dialog {
+    width: 45rem;
+  }
 }
