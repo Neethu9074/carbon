@@ -120,7 +120,7 @@ export default function AlertConfigTearSheetStep4(props) {
               />
             </div>
           )}
-          {!isTagFilterFormModelValid && tagFilterExpression && (
+          {!isTagFilterFormModelValid && tagFilterExpression && thresholdType === ADAPTIVE_BASELINE && (
             <div className={locals.filterSection}>
               <Message
                 type="warning"
