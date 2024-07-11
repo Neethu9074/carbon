@@ -22,5 +22,6 @@ export function sendSegmentEvent(data: segmentData): Observable<segmentData> {
 }
 
 export interface segmentData {
-  eventName: String;
+  eventName?: string;
+  cta?: string;
 }
