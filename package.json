@@ -244,6 +244,7 @@
     "less-loader": "^10.2.0",
     "lint-staged": "^15.2.2",
     "markdown-loader": "^6.0.0",
+    "mini-css-extract-plugin": "^2.9.0",
     "mkdirp": "^0.5.1",
     "opn": "3.0.3",
     "postcss": "^8.4.1",
