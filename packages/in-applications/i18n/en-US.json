@@ -246,7 +246,8 @@
     "dataSource_calls_plural": "{{formattedCount}} Calls",
     "dataSource_traces": "{{formattedCount}} Trace",
     "dataSource_traces_plural": "{{formattedCount}} Traces",
-    "analyzeCallsOfThisTrace": "Analyze Calls of this Trace"
+    "analyzeCallsOfThisTrace": "Analyze Calls of this Trace",
+    "noAvailableCustomMetrics": "No available custom metrics"
   },
   "creation": {
     "newAP": "New Application Perspective",
@@ -630,7 +631,7 @@
     "calls_erroneousCalls": "Erroneous Calls",
     "calls_errors": "Erroneous Calls Rate",
     "calls_call_metric": "Custom call metrics",
-    "calls_call_meta_metrics" :"Meta metrics",
+    "calls_call_meta_metrics": "Meta metrics",
     "traces_calls": "Traces",
     "traces_traces": "Traces",
     "traces_latency": "Latency",

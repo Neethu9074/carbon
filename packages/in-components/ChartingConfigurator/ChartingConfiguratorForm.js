@@ -72,8 +72,6 @@ export default function ChartingConfiguratorForm({
       {activeMetric?.customMetric && (
         <CustomMetricInput
           value={activeMetric.secondLevelMetricId}
-          hideValidityInformationOnFocus
-          fieldsToWatch={[activeMetric]}
           options={activeMetric.metricTagSuggestions?.map(tag => tag.label)}
           onChange={secondLevelMetricId => {
             const change = {
@@ -83,7 +81,6 @@ export default function ChartingConfiguratorForm({
             };
             onChange(change);
           }}
-          getSuggestionLabel={() => activeMetric.metricTagSuggestions?.map(tag => tag.label)}
         />
       )}
 

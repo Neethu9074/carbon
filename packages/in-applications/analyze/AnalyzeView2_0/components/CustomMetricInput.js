@@ -8,7 +8,7 @@ import AutosizeInput from 'react-input-autosize';
 import classNames from 'classnames';
 import React from 'react';
 
-import { Ul } from '@instana/components';
+import { Li, Ul } from '@instana/components';
 
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import OverlayOption from 'in-components/OverlayOption/OverlayOption';
@@ -17,19 +17,14 @@ import useThemedLocals from 'in-hooks/useThemedLocals';
 import { isLoading } from 'in-services/util/result';
 import Typeahead from 'in-components/Typeahead';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import styleDefs from './CustomMetricInput.mless';
 
-export function CustomMetricInput({ value, placeholder, onChange, options, valid, autoFocus = false }) {
+export function CustomMetricInput({ value, onChange, options }) {
   const locals = useThemedLocals(styleDefs);
   const result = useDebouncedValue(value, onChange, 500);
   const suggestionsResult = options;
-  const totalSuggestionHits = suggestionsResult?.data?.totalHits ?? 0;
-
-  if (!valid) {
-    valid = totalSuggestionHits === 0;
-  }
-
   return (
     <Typeahead
       render={render}
@@ -39,15 +34,10 @@ export function CustomMetricInput({ value, placeholder, onChange, options, valid
       close={() => {}}
       inputProps={{
         type: 'text',
-        valid,
-        placeholder,
-        hideValidityInformationOnFocus: true,
-        autoFocus,
         locals
       }}
       suggestionsResult={suggestionsResult}
       locals={locals}
-      autoFocus={autoFocus}
       initialIsOpen
     />
   );
@@ -55,7 +45,7 @@ export function CustomMetricInput({ value, placeholder, onChange, options, valid
 
 function render({ inputProps, getInputProps, isOpen, openMenu, value, ...remainingProps }) {
   const { inputValue } = remainingProps;
-  const { locals, valid, hideValidityInformationOnFocus, autoFocus, ...remainingInputProps } = inputProps;
+  const { locals, ...remainingInputProps } = inputProps;
 
   return (
     <>
@@ -67,13 +57,10 @@ function render({ inputProps, getInputProps, isOpen, openMenu, value, ...remaini
           <AutosizeInput
             minWidth={32}
             inputClassName={classNames({
-              [locals.input]: true,
-              [locals.invalid]: !valid,
-              [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
+              [locals.input]: true
             })}
             {...remainingInputProps}
             {...getInputProps({ onFocus: openMenu })}
-            autoFocus={autoFocus}
           />
         </div>
       </Tooltip>
@@ -88,7 +75,6 @@ function SuggestionsList({
   getMenuProps,
   suggestionsResult,
   getItemProps,
-  highlightedIndex,
   close,
   locals
 }) {
@@ -98,10 +84,11 @@ function SuggestionsList({
 
   const suggestions = suggestionsResult;
   const filteredOptions = suggestions?.filter(item => !inputValue || item.toLowerCase().includes(lowerCaseInputValue));
-  if (filteredOptions?.length === 0) {
+
+  const menuProps = getMenuProps();
+  if (suggestions?.length && !filteredOptions?.length) {
     return null;
   }
-  const menuProps = getMenuProps();
   return (
     <Ul
       className={locals.list}
@@ -120,8 +107,7 @@ function SuggestionsList({
           <OverlayOption
             key={index}
             className={classNames({
-              [locals.option]: true,
-              [locals.highlighted]: highlightedIndex === index
+              [locals.option]: true
             })}
             {...itemProps}
             onChange={itemProps.onClick}
@@ -134,6 +120,11 @@ function SuggestionsList({
           </OverlayOption>
         );
       })}
+      {!suggestions?.length && (
+        <Li className={locals.noCustomMetricslabel} size="compact">
+          {t('in-applications:analyze.noAvailableCustomMetrics')}
+        </Li>
+      )}
     </Ul>
   );
 }

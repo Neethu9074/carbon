@@ -22,10 +22,6 @@
     cursor: default;
   }
 
-  .highlighted {
-    background: var(--ids-color-option-blue-500);
-  }
-
   .input,
   .input_dark {
     max-width: 7.5rem;
@@ -57,15 +53,6 @@
     background: var(--ids-color-option-neutral-800);
   }
 
-  .invalid:not(:focus),
-  .invalid:focus:not(.hideValidityInformationOnFocus) {
-    margin-left: -1px; // to avoid having two borders next to each other
-    border-left: 1px solid var(--ids-color-option-red-500);
-    margin-right: -1px; // to avoid having two borders next to each other
-    border-right: 1px solid var(--ids-color-option-red-500);
-    background: @lib__colors__failure10; //@lib__colors__failure10 could not be replaced
-  }
-
   .option {
     justify-content: flex-start;
     width: 100%;
@@ -80,7 +67,7 @@
     height: 0.75rem;
   }
 
-  .moreOptionsLabel {
+  .noCustomMetricslabel {
     font-size: 0.6875rem;
     color: var(--ids-color-option-neutral-600);
   }
