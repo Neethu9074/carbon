@@ -5,6 +5,7 @@
  */
 
 import React, { useMemo } from 'react';
+import classNames from 'classnames';
 
 import { Message, IconButton, Spacer } from '@instana/components';
 
@@ -102,7 +103,7 @@ export default function AlertConfigTearSheetStep4(props) {
             />
           </div>
           {blueprintConfig?.baselineEnabled && (
-            <div className={locals.container} id="selectType">
+            <div className={classNames({ [locals.container]: true, [locals.alignStart]: true })} id="selectType">
               <span className={locals.longLabel}>
                 <AlertTypography
                   variant="body-regular"
