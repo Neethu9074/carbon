@@ -683,7 +683,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonHorizontalIndicatorEnabled',
     instanaCtlKey: 'feature.carbon.horizontalindicator.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
