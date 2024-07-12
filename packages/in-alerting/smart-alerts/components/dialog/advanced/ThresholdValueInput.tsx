@@ -4,6 +4,7 @@
  */
 
 import { Field } from 'formalistic';
+import { isNaN } from 'lodash';
 import React from 'react';
 
 import { ThresholdValueInputWithValidationMessageProps } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
@@ -45,7 +46,7 @@ export default function ThresholdValueInput({
 }: ThresholdValueInputProps) {
   const onValueChange = (targetValue: number | undefined) => {
     const value = targetValue ? getThresholdValueForPercentageMetric(Math.abs(targetValue), percentageMetric) : null;
-    if (value && value > max) {
+    if ((value && value > max) || isNaN(value)) {
       return;
     }
 
