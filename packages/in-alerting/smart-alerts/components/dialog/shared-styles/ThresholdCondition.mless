@@ -21,4 +21,12 @@
     display: flex;
     align-items: center;
   }
+
+  .topPaddingCarbonInput {
+    padding-top: 1.25rem;
+  }
+
+  .topPaddingInput {
+    padding-top: 1.75rem;
+  }
 }
