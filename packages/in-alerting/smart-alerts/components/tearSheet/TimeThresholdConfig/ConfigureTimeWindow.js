@@ -42,6 +42,7 @@ export default function ConfigureTimeWindow({
           <DebouncedInput
             delay={300}
             id="violationCount"
+            data-testid="violationCountInput"
             name="violationCountInput"
             type={type}
             min={min}
@@ -68,6 +69,7 @@ export default function ConfigureTimeWindow({
         delay={300}
         id="timeWindow"
         name="timeWindowInput"
+        data-testid="timeWindowInput"
         type={type}
         min={min}
         max={maxTimeWindow}
