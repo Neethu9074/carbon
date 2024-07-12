@@ -102,10 +102,7 @@ export const BuyNowDialog = () => {
                 //@ts-expect-error id prop not defined in Link component
                 id="wm-requestaquote"
                 onClick={() => {
-                  const data = {
-                    eventName: 'CTA Clicked',
-                    cta: 'quote'
-                  };
+                  const data = { type: 'quote' };
                   sendSegmentEvent(data);
                 }}
               >
@@ -131,10 +128,7 @@ export const BuyNowDialog = () => {
             href="https://aws.amazon.com/marketplace/pp/prodview-tbam5h35sumqg?sr=0-1&ref_=beagle&applicationId=AWSMPContessa"
             rel="noopener noreferrer"
             onClick={() => {
-              const data = {
-                eventName: 'CTA Clicked',
-                cta: 'aws'
-              };
+              const data = { type: 'aws' };
               sendSegmentEvent(data);
             }}
           >
@@ -150,10 +144,7 @@ export const BuyNowDialog = () => {
             href={generateBuyOnIbmUrl(platformSubscriptionIdFreetrial)}
             rel="noopener noreferrer"
             onClick={() => {
-              const data = {
-                eventName: 'CTA Clicked',
-                cta: 'ibm'
-              };
+              const data = { type: 'ibm' };
               sendSegmentEvent(data);
             }}
           >
