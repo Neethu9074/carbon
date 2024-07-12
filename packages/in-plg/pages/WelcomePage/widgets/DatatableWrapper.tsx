@@ -92,6 +92,7 @@ export default function DatatableWrapper({
     <section aria-label={`${header}`} role="region">
       <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
         <DashboardTable
+          header={`${header}`}
           headers={headers}
           rows={processedItems}
           searchPlaceHolder={`${t('in-plg:welcomepage.ariaLabel.search')} ${header}`}
