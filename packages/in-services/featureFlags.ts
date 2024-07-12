@@ -270,3 +270,4 @@ export const analyzeRelatedInstancesButtonEnabled = isFeatureFlagEnabled('analyz
 export const maxMetricsLimitForBeeinstanaEnabled = isFeatureFlagEnabled('maxMetricsLimitForBeeinstanaEnabled', true);
 export const serverSideInfraTagSearchEnabled = isFeatureFlagEnabled('serverSideInfraTagSearchEnabled', false);
 export const preAggregatedMetricsQueryEnabled = isFeatureFlagEnabled('preAggregatedMetricsQueryEnabled', false);
+export const carbonFileUploaderEnabled = isFeatureFlagEnabled('carbonFileUploaderEnabled', false);
