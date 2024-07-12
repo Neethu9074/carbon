@@ -22,10 +22,10 @@
       grid-template-columns: 10% 20% 70%;
     }
     &.columns3TearSheet {
-      grid-template-columns: 1fr 0.5fr 4.6fr;
+      grid-template-columns: 15% 0.5fr 4fr;
     }
     &.columns5TearSheet {
-      grid-template-columns: 1fr 0.5fr 0.4fr 0.5fr 3.4fr;
+      grid-template-columns: 15% 1fr 0.5fr 1fr 2.5fr;
     }
     &.itemWithLabelGrid {
       grid-template-columns: 20% 80%;
