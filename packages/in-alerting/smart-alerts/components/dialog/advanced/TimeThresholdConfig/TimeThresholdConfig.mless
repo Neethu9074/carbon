@@ -39,6 +39,7 @@
     padding-top: 1.5rem;
     min-height: unset;
     grid-gap: 1rem;
+    border-bottom: none;
   }
 
   .icon {
@@ -119,5 +120,19 @@
 
   .configureSingleControlWrapper {
     padding: 0 1rem;
+  }
+  .traceImpactValidationContainer {
+    display: grid;
+    grid-template-columns: 1fr 4.6fr;
+  }
+  .traceImpactValidation {
+    grid-column-start: 2;
+  }
+  .timeWindowtValidation {
+    grid-column-start: 3;
+  }
+  .violationsInPeriodValidationContainer {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 3fr;
   }
 }

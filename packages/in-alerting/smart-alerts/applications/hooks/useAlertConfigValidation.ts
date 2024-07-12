@@ -49,6 +49,19 @@ export default function useAlertConfigValidation(
 
     return true;
   }
+  function isTimeThresholdSectionValid() {
+    const timeThresholdForm = form.get('timeThreshold');
+    if (fieldTouchedAndInvalid(timeThresholdForm?.get('timeWindow'))) {
+      return false;
+    }
+    if (fieldTouchedAndInvalid(timeThresholdForm?.get('violations'))) {
+      return false;
+    }
+    if (fieldTouchedAndInvalid(timeThresholdForm?.get('requests'))) {
+      return false;
+    }
+    return true;
+  }
 
   return [
     {
@@ -69,7 +82,7 @@ export default function useAlertConfigValidation(
     },
     {
       ...stepConfigs[3],
-      valid: isThresholdSectionValid() && !isCalculatingThreshold
+      valid: isThresholdSectionValid() && isTimeThresholdSectionValid() && !isCalculatingThreshold
     },
     {
       ...stepConfigs[4],

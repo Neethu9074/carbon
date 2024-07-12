@@ -15,6 +15,7 @@ import ConfigureUserImpact from 'in-alerting/smart-alerts/components/dialog/adva
 import ConfigureTraceImpact from 'in-alerting/smart-alerts/components/tearSheet/TimeThresholdConfig/ConfigureTraceImpact';
 import ConfigureTimeWindow from 'in-alerting/smart-alerts/components/tearSheet/TimeThresholdConfig/ConfigureTimeWindow';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/TimeThresholdConfig.mless';
@@ -29,10 +30,12 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm,
     (i => i.millis === granularity) ?? getDefaultMark(marks, thresholdType)
   ).value;
 
-  const timeThresholdTimeWindow = timeThresholdForm.get('timeWindow').value;
-  const hasError = !timeThresholdTimeWindow.valid && timeThresholdTimeWindow.touched;
-  const timeThresholdViolations = timeThresholdForm.get('violations')?.value;
-
+  const timeThresholdTimeWindowField = timeThresholdForm.get('timeWindow');
+  const timeThresholdTimeWindow = timeThresholdTimeWindowField?.value;
+  const hasErrorTimeWindow = !timeThresholdTimeWindowField?.valid && timeThresholdTimeWindowField?.touched;
+  const timeThresholdViolationsField = timeThresholdForm.get('violations');
+  const timeThresholdViolations = timeThresholdViolationsField?.value;
+  const hasErrorViolations = !timeThresholdViolationsField?.valid && timeThresholdViolationsField?.touched;
   return (
     <div className={locals.alertThresholdConfigContainer}>
       {getConfigureTimeWindow(timeThresholdType)}
@@ -52,31 +55,42 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm,
     } else if (timeThresholdType === timeThresholdTypes.traceImpact) {
       return <ConfigureTraceImpact form={form} onChange={onChange} />;
     }
-    return timeThresholdType === timeThresholdTypes.violationsInPeriod ? (
-      <ConfigureTimeWindow
-        label={label}
-        onChange={onChangeTimeWindow}
-        timeThresholdTimeWindow={timeThresholdTimeWindow}
-        granularity={granularity}
-        form={form}
-        hasError={hasError}
-        granularityInMinutes={granularityInMinutes}
-        timeThresholdType={timeThresholdType}
-        onChangeViolations={onChangeViolationsInPeriod}
-        violations={timeThresholdViolations}
-        maxViolations={Math.round(timeThresholdTimeWindow / granularity)}
-      />
-    ) : (
-      <ConfigureTimeWindow
-        label={label}
-        onChange={onChangeTimeWindow}
-        timeThresholdTimeWindow={timeThresholdTimeWindow}
-        granularity={granularity}
-        form={form}
-        hasError={hasError}
-        granularityInMinutes={granularityInMinutes}
-        timeThresholdType={timeThresholdType}
-      />
+    return (
+      <>
+        <ConfigureTimeWindow
+          label={label}
+          onChange={onChangeTimeWindow}
+          timeThresholdTimeWindow={timeThresholdTimeWindow}
+          granularity={granularity}
+          form={form}
+          hasErrorViolations={hasErrorViolations}
+          hasErrorTimeWindow={hasErrorTimeWindow}
+          granularityInMinutes={granularityInMinutes}
+          timeThresholdType={timeThresholdType}
+          {...(timeThresholdType === timeThresholdTypes.violationsInPeriod && {
+            violations: timeThresholdViolations,
+            onChangeViolations: onChangeViolationsInPeriod,
+            maxViolations: Math.round(timeThresholdTimeWindow / granularity)
+          })}
+        />
+        {timeThresholdType === timeThresholdTypes.violationsInPeriod ? (
+          <div className={locals.violationsInPeriodValidationContainer}>
+            {(timeThresholdForm.containsKey('violations') || timeThresholdForm.containsKey('timeWindow')) && (
+              <div className={locals.traceImpactValidation}>
+                <TouchedMessages field={timeThresholdForm?.get('violations') ?? timeThresholdForm?.get('timeWindow')} />
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className={locals.traceImpactValidationContainer}>
+            {timeThresholdForm.containsKey('timeWindow') && (
+              <div className={locals.traceImpactValidation}>
+                <TouchedMessages field={timeThresholdForm.get('timeWindow')} />
+              </div>
+            )}
+          </div>
+        )}
+      </>
     );
   }
 
@@ -89,7 +103,7 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm,
   }
 
   function onChangeViolationsInPeriod(violations) {
-    updateForm(form.updateIn(['timeThreshold', 'violations'], f => f.setValue(violations).setTouched(true)));
+    updateForm(form.updateIn(['timeThreshold', 'violations'], f => f.setValue(parseInt(violations)).setTouched(true)));
   }
 
   function onChangeTimeWindow(timeWindowValue) {
