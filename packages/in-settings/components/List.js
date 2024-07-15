@@ -20,9 +20,9 @@ import { noop, stopPropagationAndPreventDefault } from 'in-services/util/functio
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { listSuccess, loading } from 'in-services/util/result';
 import Delete from 'in-settings/components/actions/Delete';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { identity } from 'in-services/util/function';
 import ListTitle from 'in-components/lists/Title';
 import { isBlank } from 'in-services/util/string';
@@ -684,14 +684,14 @@ export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableAct
     } else if (inSelectListDialog || !totalHits) {
       return (
         <div>
-          {entityName} {isBeta && <BetaBadge />}
+          {entityName} {isBeta && <PreviewBadge />}
         </div>
       );
     } else {
       const getHeaderFunction = defaultHeaderWithCount(entityName);
       return (
         <div>
-          {getHeaderFunction(totalHits, filteredHits)} {isBeta && <BetaBadge />}
+          {getHeaderFunction(totalHits, filteredHits)} {isBeta && <PreviewBadge />}
         </div>
       );
     }

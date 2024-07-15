@@ -19,12 +19,12 @@ interface FeatureFeedbackProps {
 
 export default function FeatureFeedback({
   href,
-  labelText = t('in-components:featureFeedback.labelBETA'),
+  labelText = t('in-components:featureFeedback.labelPublicPreview'),
   styles = {}
 }: FeatureFeedbackProps) {
   return (
     <div className={locals.betaMarker} style={styles}>
-      <Pill kind="primary" className={locals.betaPill}>
+      <Pill type="blue" className={locals.betaPill}>
         {labelText}
       </Pill>
       <Link className={locals.betaLink} external href={href}>

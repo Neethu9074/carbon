@@ -13,9 +13,9 @@ import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -90,7 +90,7 @@ export default function MetricConfigurator({
   const additionalDataSourceSelectorContent = (
     <Stack inline direction="horizontal">
       <LeftRightPadding>
-        {isBetaSource(sourceField.value) && <BetaBadge />}
+        {isBetaSource(sourceField.value) && <PreviewBadge />}
         <TouchedMessages field={sourceField} />
       </LeftRightPadding>
     </Stack>

@@ -9,7 +9,7 @@ import React from 'react';
 import { Button } from '@instana/legacy';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/BlueprintDescription.mless';
@@ -39,7 +39,7 @@ export function BlueprintText({ config }) {
     <div>
       <h3 className={locals.headline}>
         <span>{headline}</span>
-        {isBeta && <BetaBadge />}
+        {isBeta && <PreviewBadge />}
       </h3>
       <DangerousHtmlPresenter className={locals.text} html={text} />
     </div>

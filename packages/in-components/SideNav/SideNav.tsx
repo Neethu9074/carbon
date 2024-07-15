@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { Disposable, on } from '@instana/observables';
 import { Spacer } from '@instana/components';
 
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { scrollIntoView } from 'in-services/util/dom';
 
 import locals from './SideNav.mless';
@@ -88,7 +88,7 @@ export default class SideNav extends React.Component<SideNavProps> {
                   {renderPreIcon && renderPreIcon(navItem, this.state.itemSelected === i)}
                   {navItem.label}
                   {navItem.isBeta && <Spacer horizontal="xsmall" />}
-                  {navItem.isBeta && <BetaBadge />}
+                  {navItem.isBeta && <PreviewBadge />}
                   {renderPostIcon && renderPostIcon(navItem)}
                 </span>
               </li>

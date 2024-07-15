@@ -11,7 +11,7 @@ import invariant from 'invariant';
 import { RadioButton } from '@instana/components';
 
 import AlertTypography from 'in-alerting/components/AlertTypography';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { t } from 'in-i18n';
 
 import locals from './Menu.mless';
@@ -64,7 +64,7 @@ export default function Menu<T extends MenuItem>({
                   color={itemSelected.type !== item.type ? 'color700' : ''}
                   content={
                     <>
-                      {item.name} {item.isBeta && <BetaBadge />}
+                      {item.name} {item.isBeta && <PreviewBadge />}
                     </>
                   }
                   noMargin

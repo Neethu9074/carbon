@@ -14,7 +14,7 @@ import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 
 export interface AnalyzeRelatedInstancesButtonProps extends GetLinkToExploreProps {
   onClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
@@ -35,7 +35,7 @@ export default function AnalyzeRelatedInstancesButton(
     >
       {t('in-infrastructure:explore.relatedInstances')}
       <div>
-        <BetaBadge />
+        <PreviewBadge />
       </div>
     </Button>
   );

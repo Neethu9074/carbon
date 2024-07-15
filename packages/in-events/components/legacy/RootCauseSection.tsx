@@ -41,6 +41,7 @@ import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 //@ts-expect-error
 import { getEvent } from 'in-stores/events';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -200,9 +201,7 @@ function ProbableRootCauseCard({ title, children, incident }: ProbableRootCauseC
           leftHeaderContent={
             <Stack direction="horizontal" gap="xxsmall">
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-                <Pill type="blue" className={locals.techPreviewPill}>
-                  {t('in-events:RCA.publicPreview')}
-                </Pill>
+                <PreviewBadge className={locals.techPreviewPill} />
               </Tooltip>
               <Pill type="purple" className={locals.rcaAIPill}>
                 {t('in-events:RCA.AIGenBadgeText')}
