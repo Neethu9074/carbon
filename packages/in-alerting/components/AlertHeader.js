@@ -220,7 +220,7 @@ export default function AlertHeader({
                   type={
                     isToggling ? 'lib_actions_loading' : alertConfig.enabled ? 'lib_actions_pause' : 'lib_actions_play'
                   }
-                  spinning={isToggling}
+                  iconSpinning={isToggling}
                   onClick={() => {
                     if (!isToggling) {
                       doToggleEnabled();
@@ -249,7 +249,7 @@ export default function AlertHeader({
                   <IconButton
                     kind="primaryv2"
                     type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
-                    spinning={isDeleting}
+                    iconSpinning={isDeleting}
                     onClick={() => {
                       if (!isDeleting) {
                         onConfigDeleteTrigger?.(alertConfig.id);
