@@ -121,6 +121,7 @@ function updateCreatePathMetrixParams(
 ) {
   const configsCategory = isGlobal ? categoryGlobal : categoryLocal;
 
+  setOrDeleteMatrixKey(location, smartAlertPath, alertsCategory, configsCategory);
   if (applicationId && !isGlobal) setOrDeleteMatrixKey(location, smartAlertPath, applicationIdFromURL, applicationId);
   if (boundaryScope) setOrDeleteMatrixKey(location, smartAlertPath, boundaryScopeFromURL, boundaryScope);
   if (alertConfigId) setOrDeleteMatrixKey(location, smartAlertPath, alertId, String(alertConfigId));
@@ -129,10 +130,10 @@ function updateCreatePathMetrixParams(
   if (migration) setOrDeleteMatrixKey(location, smartAlertPath, isMigration, String(migration));
   if (serviceId) setOrDeleteMatrixKey(location, smartAlertPath, serviceIdFromURL, serviceId);
   if (endpointId) setOrDeleteMatrixKey(location, smartAlertPath, endpointIdFromURL, endpointId);
-  setOrDeleteMatrixKey(location, smartAlertPath, alertsCategory, configsCategory);
-  setOrDeleteMatrixKey(location, smartAlertPath, cancelUrl, returnUrlWithParams);
   if (potentialProblem) setOrDeleteMatrixKey(location, smartAlertPath, isPotentialProblem, String(potentialProblem));
   if (duplicateMode) setOrDeleteMatrixKey(location, smartAlertPath, isDuplicateMode, String(duplicateMode));
   if (editMode) setOrDeleteMatrixKey(location, smartAlertPath, isEditMode, String(editMode));
+  //always keep the cancelURL param at the end.
+  setOrDeleteMatrixKey(location, smartAlertPath, cancelUrl, returnUrlWithParams);
   location.pathname = smartAlertPath;
 }
