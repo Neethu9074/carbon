@@ -9,9 +9,8 @@ import React, { useMemo, useState, useEffect, memo } from 'react';
 import { InView } from 'react-intersection-observer';
 import classNames from 'classnames';
 
-import { Link, Message, SvgIcon } from '@instana/components';
+import { Link, Message, SvgIcon, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
 
 import {
   hasAPlatformAccess,
@@ -47,6 +46,7 @@ import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButt
 import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { createAsyncComponent } from 'in-components/routing/createAsyncComponent';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { carbonButtonEnabled, playwithEnabled } from 'in-services/featureFlags';
 import PlatformsTopList from 'in-cockpit/Cockpit/components/PlatformsTopList';
 import EventChartCard from 'in-cockpit/Cockpit/components/EventChartCard';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
@@ -57,7 +57,6 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { playwithEnabled } from 'in-services/featureFlags';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import SideNav from 'in-components/SideNav';
@@ -201,6 +200,7 @@ function Header() {
           <>
             {role.canConfigureAgents && !playwithEnabled && (
               <Button
+                size={carbonButtonEnabled ? 'compact' : 'normal'}
                 kind="secondaryDarker"
                 icon="lib_actions_settings"
                 href={createHrefToPath('/agents/installation')}
@@ -211,6 +211,7 @@ function Header() {
 
             {role.canConfigureUsers && !playwithEnabled && (
               <Button
+                size={carbonButtonEnabled ? 'compact' : 'normal'}
                 kind="secondaryDarker"
                 icon="lib_alerts_user_impacted"
                 href={createHrefToPath('/config/team/accessControl/users')}

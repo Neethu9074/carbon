@@ -7,11 +7,10 @@ import CreateApplicationDialog from 'promise-loader?global,cockpit!in-applicatio
 import { get } from 'lodash';
 import React from 'react';
 
-import { KeyValue, SvgIcon } from '@instana/components';
+import { KeyValue, SvgIcon, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
