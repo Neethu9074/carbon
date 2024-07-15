@@ -51,7 +51,7 @@ function renderDefault({
   ...remainingProps
 }) {
   const filteredOptions = options
-    ?.map(item => item.substring(0, maxLength))
+    .map(item => item.substring(0, maxLength))
     .filter(item => !inputValue || item.toLowerCase().includes(lowerCaseInputValue));
   return (
     <>
@@ -64,7 +64,7 @@ function renderDefault({
         maxLength={maxLength}
         {...inputProps}
       />
-      {isOpen && filteredOptions?.length > 0 && (
+      {isOpen && filteredOptions.length > 0 && (
         <ListRenderer
           {...remainingProps}
           filteredOptions={filteredOptions.slice(0, resultsToShow)}

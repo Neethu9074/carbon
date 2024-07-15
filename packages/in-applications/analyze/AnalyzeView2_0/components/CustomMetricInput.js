@@ -21,10 +21,9 @@ import { t } from 'in-i18n';
 
 import styleDefs from './CustomMetricInput.mless';
 
-export function CustomMetricInput({ value, onChange, options }) {
+export function CustomMetricInput({ value, onChange, options = [] }) {
   const locals = useThemedLocals(styleDefs);
   const result = useDebouncedValue(value, onChange, 500);
-  const suggestionsResult = options;
   return (
     <Typeahead
       render={render}
@@ -36,7 +35,7 @@ export function CustomMetricInput({ value, onChange, options }) {
         type: 'text',
         locals
       }}
-      suggestionsResult={suggestionsResult}
+      suggestionsResult={options}
       locals={locals}
     />
   );
