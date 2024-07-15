@@ -138,6 +138,9 @@ export const syntheticRbacLimitedTPEnabled = isFeatureFlagEnabled('syntheticRbac
 // Synthetic Multi App Support feature flag
 export const syntheticMultiAppEnabled = isFeatureFlagEnabled('syntheticMultiAppEnabled');
 
+// Synthetic Multi Websites and Mobile Apps feature flag
+export const syntheticMultiWebMobileEnabled = isFeatureFlagEnabled('syntheticMultiWebMobileEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'

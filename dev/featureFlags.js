@@ -151,5 +151,6 @@ module.exports = {
   serverSideInfraTagSearchEnabled: true,
   preAggregatedMetricsQueryEnabled: false,
   syntheticMultiAppEnabled: true,
-  carbonFileUploaderEnabled: true
+  carbonFileUploaderEnabled: true,
+  syntheticMultiWebMobileEnabled: true
 };

@@ -709,5 +709,10 @@ module.exports = exports = [
     uiClientKey: 'syntheticMultiAppEnabled',
     instanaCtlKey: 'feature.synthetic.multi.app.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticMultiWebMobileEnabled',
+    instanaCtlKey: 'feature.synthetic.multi.web.mobile.enabled',
+    defaultValue: false
   }
 ];
