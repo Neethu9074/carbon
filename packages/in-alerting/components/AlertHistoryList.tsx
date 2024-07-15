@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { Li, LiLoadMore, Ul } from '@instana/components';
+import { Li, LiLoadMore, Stack, Ul } from '@instana/components';
+import { Disposable, on } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
@@ -13,6 +15,7 @@ import { getEventsViewFilteredBy, GetEventsViewProps } from 'in-stores/navigatio
 import { getDesignLibraryColorBySeverity, getIcon, getEventType } from 'in-stores/events';
 import { formatDateTime, formatDurationAccurately } from 'in-services/formatters/date';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
+import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
 //@ts-expect-error
 import getRawEvents from 'in-subscription/getRawEvents';
 import useCursorPagination, { State } from 'in-hooks/useCursorPagination';
@@ -101,14 +104,59 @@ interface AlertHistoryListProps {
   timeConfig: TimeConfig;
 }
 export default function AlertHistoryList(props: AlertHistoryListProps) {
+  const templateRef: React.MutableRefObject<any> = useRef();
+  const onMouseMoveSubscriptionRef: React.MutableRefObject<Disposable | undefined | null> = useRef();
   const { alertConfigId, timeConfig } = props;
+
+  const [timeConfigs, setTimeConfigs] = useState(timeConfig);
+
+  // Observable to update the timeConfig at regular intervals in live mode
+  const { modifiedTimeConfig$, mouseMoveSignal$ } = useModifiedTimeConfig();
+  const modifiedTimeConfig = useObservable(modifiedTimeConfig$, []);
+
+  useEffect(() => {
+    if (modifiedTimeConfig) {
+      setTimeConfigs(modifiedTimeConfig);
+    }
+  }, [modifiedTimeConfig]);
+
+  const setupSubscriptions = useCallback(() => {
+    if (!templateRef.current) {
+      return;
+    }
+
+    onMouseMoveSubscriptionRef.current = on(templateRef.current!, 'mousemove').subscribe(() =>
+      mouseMoveSignal$?.emit(Date.now())
+    );
+  }, [mouseMoveSignal$]);
+
+  useEffect(() => {
+    setupSubscriptions();
+
+    return function cleanUp() {
+      disposeSubscriptions();
+    };
+  }, [setupSubscriptions]);
+
+  useEffect(() => {
+    disposeSubscriptions();
+    setupSubscriptions();
+  });
+
+  function disposeSubscriptions() {
+    if (onMouseMoveSubscriptionRef.current) {
+      onMouseMoveSubscriptionRef.current?.dispose();
+      onMouseMoveSubscriptionRef.current = null;
+    }
+  }
+
   const tableProps: State<Cursor, RawEvent> & {
     loadMore: () => void;
     reload: () => void;
   } = useCursorPagination<Cursor, RawEvent>(
     ({ cursor }) =>
       getRawEvents({
-        timeConfig,
+        timeConfig: timeConfigs,
         query: `(event.specification.id:"${alertConfigId}") AND (event.type:issue)`,
         pagination: {
           cursor,
@@ -119,8 +167,12 @@ export default function AlertHistoryList(props: AlertHistoryListProps) {
           direction: 'DESC'
         }
       }),
-    [alertConfigId, timeConfig]
+    [alertConfigId, timeConfigs]
   );
 
-  return <AlertDetailsCard>{<AlertHistoryListPresenter {...props} tableProps={tableProps} />}</AlertDetailsCard>;
+  return (
+    <Stack ref={template => (templateRef.current = template)}>
+      <AlertDetailsCard>{<AlertHistoryListPresenter {...props} tableProps={tableProps} />}</AlertDetailsCard>
+    </Stack>
+  );
 }
