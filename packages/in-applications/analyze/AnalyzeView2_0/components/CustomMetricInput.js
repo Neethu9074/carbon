@@ -38,7 +38,6 @@ export function CustomMetricInput({ value, onChange, options }) {
       }}
       suggestionsResult={suggestionsResult}
       locals={locals}
-      initialIsOpen
     />
   );
 }
@@ -82,11 +81,12 @@ function SuggestionsList({
     return <LoadingList className={locals.list} skeletonClassName={locals.skeleton} size="compact" />;
   }
 
-  const suggestions = suggestionsResult;
-  const filteredOptions = suggestions?.filter(item => !inputValue || item.toLowerCase().includes(lowerCaseInputValue));
+  const filteredOptions = suggestionsResult?.filter(
+    item => !inputValue || item.toLowerCase().includes(lowerCaseInputValue)
+  );
 
   const menuProps = getMenuProps();
-  if (suggestions?.length && !filteredOptions?.length) {
+  if (suggestionsResult?.length && !filteredOptions?.length) {
     return null;
   }
   return (
@@ -118,7 +118,7 @@ function SuggestionsList({
           </OverlayOption>
         );
       })}
-      {!suggestions?.length && (
+      {!suggestionsResult?.length && (
         <Li className={locals.noCustomMetricsLabel} size="compact">
           {t('in-applications:analyze.noAvailableCustomMetrics')}
         </Li>

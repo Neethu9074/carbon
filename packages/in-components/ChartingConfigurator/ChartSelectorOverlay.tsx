@@ -140,11 +140,10 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
 
     if (isChartMetric(input)) {
       if (isCustomChartMetric(input)) {
-        const secondLevelMetricId = '';
         change = {
           ...change,
-          metricId: `${input.metricId}.${secondLevelMetricId}`,
-          secondLevelMetricId: secondLevelMetricId
+          metricId: `${input.metricId}`,
+          secondLevelMetricId: ''
         };
       } else {
         change = {
