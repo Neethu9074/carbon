@@ -113,7 +113,7 @@ export default function Timing({
                     {t('in-settings:tabs.startTime')}
                   </Label>
                   <Tooltip content={<DescriptionTextWithCurrentTimeZone />} align="rightTop">
-                    <SvgIcon type="lib_help_error_info_outline" color="#2D4048" />
+                    <SvgIcon size="xs" type="lib_help_error_info_outline" color="#2D4048" />
                   </Tooltip>
                 </HorizontalFlexWrapper>
                 <Input
@@ -155,7 +155,7 @@ export default function Timing({
             <HorizontalFlexWrapper className={locals.labelWithTooltip}>
               <Label htmlFor={`maintenance-duration`}>{t('in-settings:tabs.duration')}</Label>
               <Tooltip content={t('in-settings:maintenanceWindow.durationTooltipText')} align="rightTop">
-                <SvgIcon type="lib_help_error_info_outline" color="#2D4048" />
+                <SvgIcon size="xs" type="lib_help_error_info_outline" color="#2D4048" />
               </Tooltip>
             </HorizontalFlexWrapper>
             <HorizontalFlexWrapper className={locals.gap}>
