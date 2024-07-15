@@ -93,9 +93,7 @@ function SuggestionsList({
     <Ul
       className={locals.list}
       aria-labelledby={menuProps['aria-labelledby']}
-      id={menuProps.id}
-      role={menuProps.role}
-      ref={menuProps.ref}
+      {...getMenuProps({}, { suppressRefError: true })}
     >
       {filteredOptions?.map((item, index) => {
         const itemProps = getItemProps({
@@ -121,7 +119,7 @@ function SuggestionsList({
         );
       })}
       {!suggestions?.length && (
-        <Li className={locals.noCustomMetricslabel} size="compact">
+        <Li className={locals.noCustomMetricsLabel} size="compact">
           {t('in-applications:analyze.noAvailableCustomMetrics')}
         </Li>
       )}

@@ -67,7 +67,7 @@
     height: 0.75rem;
   }
 
-  .noCustomMetricslabel {
+  .noCustomMetricsLabel {
     font-size: 0.6875rem;
     color: var(--ids-color-option-neutral-600);
   }

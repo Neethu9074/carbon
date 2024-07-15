@@ -53,9 +53,7 @@ export default function Chart({
   if (!metricDescription) {
     return null;
   }
-  if (metricDescription.customMetric && metricDescription.secondLevelMetricId == '') {
-    return null;
-  }
+
   const chartConfig = {
     y1: {
       formatter:

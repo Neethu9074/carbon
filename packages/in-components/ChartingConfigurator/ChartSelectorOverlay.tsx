@@ -149,6 +149,7 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
       } else {
         change = {
           ...change,
+          secondLevelMetricId: undefined,
           metricId: input.metricId
         };
       }
