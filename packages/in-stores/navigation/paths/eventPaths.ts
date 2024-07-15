@@ -8,6 +8,7 @@
 import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/utils';
 import { eventId as eventIdMatricParam } from 'in-events/navigation/matrix';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { eventsPath } from 'in-events/navigation/paths';
 import { setTimeConfig } from 'in-stores/time/config';
@@ -31,6 +32,23 @@ export function focusEvent(eventId: string) {
   });
 }
 
+export function useFocusEvent(eventId: string) {
+  const { location } = useNavigation();
+  let focusLocation;
+  const match = location.pathname.match(/\/(logical|physical)/i);
+
+  if (match) {
+    focusLocation = { ...location, pathname: `/${match[1]}` };
+  } else if (location.pathname.match(/\/events/i)) {
+    focusLocation = { ...location, pathname: eventsPath };
+  } else {
+    focusLocation = { ...location, pathname: eventsPath };
+  }
+  setOrDeleteMatrixKey(focusLocation, eventsPath, eventIdMatricParam, eventId);
+  delete focusLocation.query.snapshotId;
+  return focusLocation;
+}
+
 export function clearSelectedEvent() {
   // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
   // eslint-disable-next-line import/no-deprecated
@@ -38,6 +56,12 @@ export function clearSelectedEvent() {
     delete navParams.query.eventId;
     return navParams;
   });
+}
+
+export function useClearSelectedEvent() {
+  const { location } = useNavigation();
+  delete location.query.eventId;
+  return location;
 }
 
 export function getEventsViewFilteredByEntity(entityId: string, eventTypeFilter: string) {
@@ -53,6 +77,22 @@ export function getEventsViewFilteredByEntity(entityId: string, eventTypeFilter:
     }
   });
 }
+
+export function useGetEventsViewFilteredByEntity(entityId: string, eventTypeFilter: string) {
+  // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+  // eslint-disable-next-line import/no-deprecated
+
+  const { location, createHref } = useNavigation();
+  const query = `entity.id:"${entityId}"`;
+  const viewFilterFilteredLocation = { ...location, pathname: eventsPath, query: { q: query } };
+
+  if (eventTypeFilter) {
+    setOrDeleteMatrixKey(viewFilterFilteredLocation, eventsPath, 'view', eventTypeFilter);
+  }
+
+  return createHref(viewFilterFilteredLocation);
+}
+
 export interface GetEventsViewProps {
   query?: string;
   applicationId?: string;
@@ -122,4 +162,57 @@ export function getEventsViewFilteredBy({
       setOrDeleteMatrixKey(params, eventsPath, 'view', eventTypeFilter);
     }
   });
+}
+
+export function useGetEventsViewFilteredBy({
+  query = '',
+  applicationId,
+  serviceId,
+  endpointId,
+  resolvedEndpointId,
+  snapshotId,
+  eventId,
+  eventTypeFilter,
+  timeConfig,
+  additionalDFQFilter
+}: GetEventsViewProps) {
+  endpointId = resolvedEndpointId ? resolvedEndpointId : endpointId;
+  if (endpointId) {
+    query += ` entity.endpoint.id:"${endpointId}"`;
+  }
+  if (serviceId) {
+    query += ` entity.service.id:"${serviceId}"`;
+  }
+  if (applicationId) {
+    query += ` entity.application.id:"${applicationId}"`;
+  }
+  if (snapshotId) {
+    query += ` entity.id:"${snapshotId}"`;
+  }
+  if (additionalDFQFilter) {
+    query += ` ${additionalDFQFilter}`;
+  }
+  query = query.trim();
+  const { location, createHref } = useNavigation();
+
+  removeDFQueryFromLocationWhenChangingArea(location, eventsPath);
+
+  let eventViewFilteredByLocation = { ...location, pathname: eventsPath };
+
+  if (query) {
+    eventViewFilteredByLocation = { ...eventViewFilteredByLocation, query: { q: query } };
+  }
+
+  setOrDeleteMatrixKey(eventViewFilteredByLocation, eventsPath, eventIdMatricParam, eventId || location.query.eventId);
+  delete location.query.eventId;
+
+  if (timeConfig) {
+    setTimeConfig(location, timeConfig);
+  }
+
+  if (eventTypeFilter) {
+    setOrDeleteMatrixKey(location, eventsPath, 'view', eventTypeFilter);
+  }
+
+  return createHref(eventViewFilteredByLocation);
 }

@@ -87,7 +87,7 @@ function ServiceList({ pcfApplications }) {
                   icon="lib_cloudfoundry_application"
                   label={pcfApp.name}
                   severity={get(pcfApp, ['entityHealthInfo', 'maxSeverity'], 0)}
-                  href$={getApplicationDashboardLink(pcfApp.snapshotId)}
+                  href={getApplicationDashboardLink(pcfApp.snapshotId)}
                 />
               </Td>
               <Td>

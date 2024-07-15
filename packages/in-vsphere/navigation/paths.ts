@@ -5,6 +5,7 @@
 
 import { getModifiedUrlStream, LocationMutator } from 'in-stores/navigation/navigation';
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { vmId as matrixVmId } from 'in-vsphere/navigation/matrix';
@@ -86,4 +87,17 @@ const useNavigateToDashboard = ({ base, matrixSegment, matrixParam, paramsCallba
         paramsCallback(params);
       }
     });
+};
+
+export const useNewNavigateToDashboard = ({ base, matrixSegment, matrixParam, paramsCallback }: NavigateToDashboardProps) => {
+  const {location, createHref} = useNavigation()
+  const navigatoToDashboardLocation = {...location, pathname: `${base}/summary`}
+  
+  return (id: string) =>{
+    setOrDeleteMatrixKey(navigatoToDashboardLocation, matrixSegment, matrixParam, id);
+    if (paramsCallback) {
+      paramsCallback(navigatoToDashboardLocation);
+    }
+    createHref(navigatoToDashboardLocation)
+  }
 };
