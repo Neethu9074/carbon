@@ -91,7 +91,7 @@ export default function AlertPropertiesTitleRow({
   );
 }
 
-function insertPlaceholderText(
+export function insertPlaceholderText(
   value: string,
   placeholderString: string,
   onChange: (path: string[], updater: (item: Item) => Item) => void
