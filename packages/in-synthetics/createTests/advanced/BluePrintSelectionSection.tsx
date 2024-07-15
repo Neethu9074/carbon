@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
+import { Menu } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
@@ -17,7 +18,6 @@ import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constant
 import { syntheticAdvancedCreateTestTypeSwitch } from 'in-synthetics/tracker';
 import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import Menu from 'in-components/Menu';
 
 import locals from 'in-synthetics/createTests/advanced/BluePrintSelectionSection.mless';
 
