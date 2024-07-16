@@ -53,11 +53,8 @@ export default function UsageCharts({
     const licenses = licenseObservableResult?.data?.items;
     if (licenses) {
       showDataLicenseLine = true;
-      for (const lic of licenses) {
-        if (lic?.license?.paid && lic?.license?.licenseSpecs?.limitedDataUsage !== true) {
-          showDataLicenseLine = false;
-          break;
-        }
+      if (licenses.some(lic => lic?.license?.paid && lic?.license?.licenseSpecs?.limitedDataUsage !== true) {
+        showDataLicenseLine = false;
       }
     }
   }
