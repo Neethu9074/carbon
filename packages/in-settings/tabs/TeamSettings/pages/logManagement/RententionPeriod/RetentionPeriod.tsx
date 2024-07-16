@@ -6,8 +6,9 @@
 
 import React, { SetStateAction, useState, useEffect } from 'react';
 
-import { Card, Input, Link, Typography } from '@instana/components';
+import { Card, HorizontalIndicator, Input, Link, LoadingSkeleton, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Progress } from '@instana/types';
 import { Button } from '@instana/legacy';
 
 import {
@@ -52,7 +53,9 @@ const localisationStrings = {
   toastTitleSuccesful: t('in-settings:tabs.retentionPeriod.toastTitleSuccesful'),
   toastTitleFailed: t('in-settings:tabs.retentionPeriod.toastTitleFailed'),
   toastMessageFailed: t('in-settings:tabs.retentionPeriod.toastMessageFailed'),
-  contactSupport: t('in-settings:tabs.retentionPeriod.contactSupport')
+  contactSupport: t('in-settings:tabs.retentionPeriod.contactSupport'),
+  toastTitleFailedInGet: t('in-settings:tabs.retentionPeriod.toastTitleFailedInGet'),
+  toastMessageFailedInGet: t('in-settings:tabs.retentionPeriod.toastMessageFailedInGet')
 };
 
 const useMock = true; // Activate mock response
@@ -60,19 +63,46 @@ const useMock = true; // Activate mock response
 export default function RententionPeriod() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isChangingRetention, setIsChangingRetention] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [retentionValue, setRetentionValue] = useState<number | undefined | string>(
     useMock ? mockData().retention : 'Loading...'
   );
+  const progress: Progress = {
+    loading: isLoading
+  };
 
   const logActionHref = useObservable(getEntityIdView(teamSettingsActionLogRetention, ''), []);
 
   useEffect(() => {
+    let timer: NodeJS.Timeout;
+
     if (!useMock) {
       const getRetentionPeriod$ = retentionLogsGET();
+
       getRetentionPeriod$.once(response => {
         setRetentionValue(response.body.retentionDays);
+        setIsLoading(false);
       });
+      getRetentionPeriod$.errors().once(_ => {
+        errorFeedback(
+          setIsChangingRetention,
+          locals,
+          localisationStrings.toastTitleFailedInGet,
+          localisationStrings.toastMessageFailedInGet,
+          localisationStrings.contactSupport
+        );
+      });
+    } else {
+      timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
     }
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
   }, []);
 
   return (
@@ -95,16 +125,23 @@ export default function RententionPeriod() {
           </Button>
         </section>
         <main>
-          <Card className={locals.card}>
-            <div className={locals.title}>
-              <span>{localisationStrings.currentRetentionPeriod}</span>
-            </div>
-            <div className={locals.body}>
-              <p className={locals.retentionContent}>
-                <span className={locals.number}>{retentionValue}</span> {localisationStrings.days}
-              </p>
-            </div>
-          </Card>
+          {!isLoading ? (
+            <Card className={locals.card}>
+              <div className={locals.title}>
+                <span>{localisationStrings.currentRetentionPeriod}</span>
+              </div>
+              <div className={locals.body}>
+                <p className={locals.retentionContent}>
+                  <span className={locals.number}>{retentionValue}</span> {localisationStrings.days}
+                </p>
+              </div>
+            </Card>
+          ) : (
+            <>
+              <HorizontalIndicator className={locals.loadingIndicator} progress={progress} />
+              <LoadingSkeleton className={locals.skeleton} />
+            </>
+          )}
           {role?.canViewAuditLog && (
             <section className={locals.typo}>
               <Typography variant={'body-regular'}>{localisationStrings.historyChanges + ' '}</Typography>
@@ -187,20 +224,36 @@ function RetentionPeriodDialog({
         const postRetentionLogs$ = retentionLogsPOST(queryParams);
 
         postRetentionLogs$.once(_ =>
-          succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings)
+          succesFeedback(setIsChangingRetention, locals, localisationStrings.toastTitleSuccesful, setNotification)
         );
 
         postRetentionLogs$
           .errors()
-          .once(_ => errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings));
+          .once(_ =>
+            errorFeedback(
+              setIsChangingRetention,
+              locals,
+              localisationStrings.toastTitleFailed,
+              localisationStrings.toastMessageFailed,
+              localisationStrings.contactSupport,
+              setNotification
+            )
+          );
       } else {
         // MOCK POST
         const postRetentionStatusNumber = await handlePostRequest(queryParams);
 
         if (postRetentionStatusNumber === 200) {
-          succesFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
+          succesFeedback(setIsChangingRetention, locals, localisationStrings.toastTitleSuccesful, setNotification);
         } else {
-          errorFeedback(setNotification, setIsChangingRetention, locals, localisationStrings);
+          errorFeedback(
+            setIsChangingRetention,
+            locals,
+            localisationStrings.toastTitleFailed,
+            localisationStrings.toastMessageFailed,
+            localisationStrings.contactSupport,
+            setNotification
+          );
         }
       }
     }
@@ -296,7 +349,7 @@ export function retentionLogsPOST(params: RetentionLogsRequest) {
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `/api/logging/retention/v1`,
-    queryParams: { ...params }
+    data: { ...params }
   });
 }
 

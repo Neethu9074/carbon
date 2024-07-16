@@ -376,7 +376,11 @@
       "toastTitleSuccesful": "Log retention period successfully changed",
       "toastTitleFailed": "Change Log Retention failed",
       "toastMessageFailed": "The retention period could not be changed. Please try again or contact support.",
-      "contactSupport": "Contact support"
+      "contactSupport": "Contact support", 
+      "toastTitleFailedInGet": "We could not get Log Retention Period",
+      "toastMessageFailedInGet": "The retention period could not be fetched. Please try again or contact support."
+
+
     },
     "integrations": {
       "integrations": "Log Integrations",
