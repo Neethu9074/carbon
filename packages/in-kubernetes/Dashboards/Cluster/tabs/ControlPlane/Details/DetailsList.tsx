@@ -9,7 +9,6 @@ import React from 'react';
 import { Link, Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { DetailsListProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details';
 import { InfosProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
@@ -28,14 +27,12 @@ export default function DetailsList({ clusterInfos, clusterId }: DetailsListProp
   const infos = [
     {
       label: t('in-kubernetes:dashboards.hostCoverage'),
-      value: hostCoverage?.value,
-      nodeValue: null
+      value: hostCoverage?.value
     },
     {
       label: t('in-kubernetes:dashboards.clusterUuid'),
       value: uuid?.value,
-      hasCopyToClipboard: true,
-      nodeValue: null
+      hasCopyToClipboard: true
     },
     {
       label: t('in-kubernetes:dashboards.agentMonitor'),
@@ -44,23 +41,16 @@ export default function DetailsList({ clusterInfos, clusterId }: DetailsListProp
           {leader?.value}
         </Link>
       ),
-      hasCopyToClipboard: true,
-      nodeValue: null
+      hasCopyToClipboard: true
     }
   ];
 
   return (
     <Row>
-      {infos.map(({ label, value, hasCopyToClipboard }: InfosProps, index: number) => (
+      {infos.map(({ label, value }: InfosProps, index: number) => (
         <Col lg key={index}>
           <Typography variant="body-small">{label}</Typography>
-          {hasCopyToClipboard ? (
-            <HorizontalFlexWrapper>
-              <Typography variant="heading-200">{value}</Typography>
-            </HorizontalFlexWrapper>
-          ) : (
-            <Typography variant="heading-200">{value}</Typography>
-          )}
+          <Typography variant="heading-200">{value}</Typography>
         </Col>
       ))}
     </Row>
