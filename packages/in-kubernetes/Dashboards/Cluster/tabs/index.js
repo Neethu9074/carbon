@@ -18,13 +18,13 @@ import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Cluster/tabs/Summa
 import getKubernetesStatefulSets from 'in-kubernetes/subscriptions/getKubernetesStatefulSets';
 import getKubernetesDeployments from 'in-kubernetes/subscriptions/getKubernetesDeployments';
 import { persistentVolumeSupportEnabled, playwithEnabled } from 'in-services/featureFlags';
+import ControlPlane from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/ControlPlane';
 import getKubernetesDaemonSets from 'in-kubernetes/subscriptions/getKubernetesDaemonSets';
 import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Namespaces';
 import PersistentVolumes from 'in-kubernetes/Dashboards/Cluster/tabs/PersistentVolumes';
 import CronJobs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/CronJobs';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import Infrastructure from 'in-kubernetes/Dashboards/Cluster/tabs/Infrastructure';
-import { ControlPlane } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane';
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
