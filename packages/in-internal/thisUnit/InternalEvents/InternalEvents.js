@@ -11,23 +11,22 @@ import EntityWithParentInformation from 'in-events/components/EntityInformation/
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getInternalEvents from 'in-subscription/getInternalEvents';
+import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { formatDateTime } from 'in-services/formatters/date';
 import ExpandableCard from 'in-components/ExpandableCard';
 import { Col, Row } from 'in-components/layout/Grid';
-import cursorPaginated from 'in-hoc/cursorPaginated';
-import { timeConfig$ } from 'in-stores/time/config';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
-import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './InternalEvents.mless';
 
-export default connect({ timeConfig: timeConfig$ })(
-  cursorPaginated({
-    getResettingProps: () => ['timeConfig'],
-    get: ({ timeConfig, cursor }) => {
-      return getInternalEvents({
+export default function InternalEventsList() {
+  const timeConfig = useTimeConfig();
+  const { items, loadMore, canLoadMore } = useCursorPagination(
+    ({ cursor }) =>
+      getInternalEvents({
         timeConfig,
         pagination: {
           cursor,
@@ -37,13 +36,9 @@ export default connect({ timeConfig: timeConfig$ })(
           by: 'start',
           direction: 'DESC'
         }
-      });
-    }
-  })(InternalEventsList)
-);
-
-function InternalEventsList(props) {
-  const { items, loadMore, canLoadMore, timeConfig } = props;
+      }),
+    [timeConfig]
+  );
 
   if (!items) {
     return (
