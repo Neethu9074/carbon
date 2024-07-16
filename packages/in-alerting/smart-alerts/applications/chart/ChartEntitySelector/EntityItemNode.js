@@ -15,7 +15,6 @@ import {
   labelColumnDefinition,
   rightArrowColumnDefinition
 } from 'in-components/SelectorOverlay/Node';
-import { node as nodePropType } from 'in-components/SelectorOverlay/props';
 
 import locals from './ScopeSelectorItem.mless';
 
@@ -37,7 +36,7 @@ export default function EntityItemNode({ node, focusNode, onChange, withIcons, a
 }
 
 EntityItemNode.propTypes = {
-  node: nodePropType.isRequired,
+  node: PropTypes.object.isRequired,
   asSearchResult: PropTypes.bool,
   focusNode: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

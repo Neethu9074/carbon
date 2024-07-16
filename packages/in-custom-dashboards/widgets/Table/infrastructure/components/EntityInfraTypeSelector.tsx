@@ -15,14 +15,14 @@ import {
   datasets,
   tagFilterExpression
 } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
-// @ts-expect-error needs ts migration
-import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import { metricsPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
 import DropdownButton from 'in-components/Button/DropdownButton';
+import { Options } from 'in-components/SelectorOverlay/Node';
 import Section from 'in-components/workspace/Section';
 import Overlay from 'in-components/overlays/Overlay';
 
@@ -54,9 +54,9 @@ export default function EntityInfraTypeSelector({
   const entityLabel = t('in-custom-dashboards:widgets.table.form.infrastructure.entityType');
 
   // Remove dataset in case entity type has changed
-  const onChange = ({ type }: EntityItem, close: () => void) => {
+  const onChange = ({ tagName }: Options, close: () => void) => {
     const updatedForm = getFormWithoutDatasets(form, metricsFormSize);
-    updateEntityInfraType(updatedForm, type, updateForm);
+    updateEntityInfraType(updatedForm, tagName, updateForm);
     setTagFilterExpression([]);
     close();
   };
@@ -76,7 +76,7 @@ export default function EntityInfraTypeSelector({
 
   return entityTypeField?.map((field: Field<string>) => {
     const options = getEntityOptions(entityItems);
-    const selectedEntity = options.find(({ type }) => type === field.value)?.label;
+    const selectedEntity = options.find(({ tagName }) => tagName === field.value)?.label;
     const buttonLabel = selectedEntity || t('in-custom-dashboards:widgets.table.form.pleaseSelect');
     const hasError = entityTypeField?.messages.length > 0 && entityTypeField?.touched;
 
@@ -86,12 +86,11 @@ export default function EntityInfraTypeSelector({
           content={({ close }) => (
             <SelectorOverlay
               options={options}
-              onChange={(entity: EntityItem) => onChange(entity, close)}
+              onChange={entity => onChange(entity, close)}
               query={searchQuery}
               onQueryChange={setSearchQuery}
               shouldTriggerWindowResize
               disabled={!options}
-              strict
               withIcons
             />
           )}
@@ -132,14 +131,16 @@ function updateEntityInfraType(form: MapForm<any>, newEntityValue: string, updat
   );
 }
 
-function getEntityOptions(entityItems: EntityItem[]) {
+function getEntityOptions(entityItems: EntityItem[]): Options[] {
   if (!entityItems || entityItems.length === 0) {
     return [];
   }
 
   return entityItems.map((entity: EntityItem) => ({
-    ...entity,
+    label: entity.label,
+    tagName: entity.type,
     parentLabels: [],
-    icon: getInfraIconType(entity.type)
+    icon: getInfraIconType(entity.type),
+    tagType: 'STRING'
   }));
 }

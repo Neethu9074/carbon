@@ -12892,10 +12892,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fuzzysort@npm:^2.0.0":
-  version: 2.0.4
-  resolution: "fuzzysort@npm:2.0.4"
-  checksum: 5c498ec452ffc75c4368c52a7c4a490fc4d4129d94eab5f892d7e69d91ee3057259d9ab6924f14cca21f5731e7d91912e6c01669b40ef9b2165924e4b8e65fb5
+"fuse.js@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "fuse.js@npm:7.0.0"
+  checksum: d15750efec1808370c0cae92ec9473aa7261c59bca1f15f1cf60039ba6f804b8f95340b5cabd83a4ef55839c1034764856e0128e443921f072aa0d8a20e4cacf
   languageName: node
   linkType: hard
 
@@ -23063,7 +23063,7 @@ __metadata:
     fork-ts-checker-webpack-plugin: ^6.5.3
     formalistic: ^2.0.0
     framer-motion: ^3.3.0
-    fuzzysort: ^2.0.0
+    fuse.js: ^7.0.0
     glob: ^7.1.3
     gulp: ^4.0.2
     gulp-cssnano: ^2.1.3
