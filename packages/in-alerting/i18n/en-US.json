@@ -336,12 +336,12 @@
         },
         "simpleMode": {
           "unexpectedDrop": {
-            "name": "Unexpectedly Low Number of Calls",
+            "name": "Low Number of Calls",
             "headline": "Automatic Alerts on Anomalously Low Number of Calls",
             "text": "Receive an alert when the number of calls is significantly lower than expected compared to the available past data. This might be an indication of a problem upstream of this application or a drop in the user traffic to the application."
           },
           "unexpectedlyHighNumber": {
-            "name": "Unexpectedly High Number of Calls",
+            "name": "High Number of Calls",
             "headline": "Automatic Alerts on Anomalously High Number of Calls",
             "text": "Receive an alert when the number of calls is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the application."
           }
@@ -980,10 +980,10 @@
         "customEventBlueprintConfigText": "Receive an alert every time a specific custom event occurs more or less often than it should.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Please select a custom event to see when this alert triggers",
         "customEventBlueprintConfigMetricLabel": "Occurrences",
-        "simpleModeBlueprintConfigsUnexpectedDropName": "Unexpectedly Low Number of Page Loads",
+        "simpleModeBlueprintConfigsUnexpectedDropName": "Low Number of Page Loads",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Automatic Alerts on Anomalously Low Number of Page Loads",
         "simpleModeBlueprintConfigsUnexpectedDropText": "Receive an alert when the number of Page Loads is significantly lower than expected compared to the available past data.",
-        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "Unexpectedly High Number of Page Loads",
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "High Number of Page Loads",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline": "Automatic Alerts on Anomalously High Number of Page Loads",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "Receive an alert when the number of Page Loads is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the website."
       },
@@ -1183,10 +1183,10 @@
         "customEventBlueprintConfigText": "Receive an alert every time a specific custom event occurs more or less often than it should.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Please select a custom event to see when this alert triggers",
         "statusCodeBlueprintConfigIncompleteRuleMessage": "Please select a Status Code to see when this alert triggers",
-        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "Unexpectedly Low Number of Views",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "Low Number of Views",
         "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "Automatic Alerts on Anomalously Low Number of Views",
         "simpleModeBlueprintConfigsViewsUnexpectedDropText": "Receive an alert when the number of Views is significantly lower than expected compared to the available past data.",
-        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "Unexpectedly Low Number of Sessions",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "Low Number of Sessions",
         "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "Automatic Alerts on Anomalously Low Number of Sessions",
         "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "Receive an alert when the number of Sessions is significantly lower than expected compared to the available past data."
       },
