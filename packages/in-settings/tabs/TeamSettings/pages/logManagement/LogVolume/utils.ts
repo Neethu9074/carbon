@@ -30,7 +30,7 @@ export function transformData(dataResult: LabeledMetricResult[]): MonthlyRetenti
   for (const point of dataResult) {
     if (!point.values) continue;
     const date = new Date(point.values[0][0]);
-    const month = date.toLocaleString('default', { month: 'long' });
+    const month = date.toLocaleString('en-US', { month: 'long' });
     const yearValue = date.getFullYear();
     const monthYearKey = `${month}-${yearValue}`;
     const volumeGB = point.values[0][1] / 1024 ** 3;
