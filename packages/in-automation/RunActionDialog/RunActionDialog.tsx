@@ -507,7 +507,13 @@ function RunActionFooter({
   if (error || actionInstanceId) {
     return (
       <>
-        <CancelButton isSaving={isSaving} onClick={close}>
+        <CancelButton
+          isSaving={isSaving}
+          onClick={() => {
+            close();
+            refreshHistory();
+          }}
+        >
           {t('in-automation:close')}
         </CancelButton>
         <Button
