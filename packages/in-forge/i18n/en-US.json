@@ -15640,7 +15640,6 @@
       "redisDisabled": "Disabled",
       "singleTenant": "Single",
       "multiTenant" : "Multi",
-      "syntheticTestURL": "Synthetic Tests URL",
       "startedAt": "Started At",
       "syntheticPoP": "Synthetic PoP",
       "javascript": "API Script",

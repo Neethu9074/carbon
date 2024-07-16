@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem, Link } from '@instana/components';
+import { DescriptionList, DescriptionItem } from '@instana/components';
 
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
@@ -52,13 +52,6 @@ export default function SyntheticPoPInfo({ snapshot }: { snapshot: any }) {
         {data.get('properties.commonNamespace')
           ? t('in-forge:plugins.syntheticPoP.multiTenant')
           : t('in-forge:plugins.syntheticPoP.singleTenant')}
-      </DescriptionItem>
-
-      <DescriptionItem title={t('in-forge:plugins.syntheticPoP.syntheticTestURL')}>
-        <Link href="index.js">
-          test
-          {/* {tenantWithUnit} */}
-        </Link>
       </DescriptionItem>
     </DescriptionList>
   );
