@@ -219,6 +219,7 @@ function AnalyzeStateManagement({
     ua2FormModelChangedTracker({
       formModel,
       url: getChangeAsUrl({ formModel }),
+      tagName: formModel?.filter(form => form.name).map(form => form.name),
       operator: formModel?.filter(form => form.operator).map(form => form.operator)
     });
     onChange({ formModel });
