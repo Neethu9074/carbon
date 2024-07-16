@@ -714,5 +714,10 @@ module.exports = exports = [
     uiClientKey: 'syntheticMultiWebMobileEnabled',
     instanaCtlKey: 'feature.synthetic.multi.web.mobile.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonFileUploaderEnabled',
+    instanaCtlKey: 'feature.carbon.fileuploader.enabled',
+    defaultValue: true
   }
 ];
