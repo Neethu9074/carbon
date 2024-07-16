@@ -15,7 +15,7 @@ interface DebounceOutput<T> {
 
 // Just a small alias to debounce value setting, similar to rxjs.debounce but
 // for functional React components
-export default function<T>(
+export default function <T>(
   value: T,
   onChange: (v: T) => void,
   delay: number = 1000,

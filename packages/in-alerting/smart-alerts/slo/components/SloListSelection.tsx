@@ -6,34 +6,22 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import {
-  PaginatedResult,
-  Result,
-  ServiceLevelObjectiveConfiguration,
-  SloEntityType,
-  SloEntityUnion
-} from '@instana/types';
+import { PaginatedResult, ServiceLevelObjectiveConfiguration, SloEntityType, SloEntityUnion } from '@instana/types';
 import { HorizontalIndicator, Typography, SearchInput } from '@instana/components';
 import { Progress } from '@instana/components/types/util/dataRetrieval';
-import { generateStableHash } from '@instana/utils';
-import { useObservable } from '@instana/hooks';
-import { just } from '@instana/observables';
 
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import SloTableSelection from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
-import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
-import { getAllSloConfigurations } from 'in-service-levels/api/configuration';
+import { usePaginatedSloList } from '../hooks/usePaginatedSloList';
 import Sections from 'in-components/workspace/Sections/Sections';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
-import { FetchedState } from 'in-hooks/utils/types';
-import { success } from 'in-services/util/result';
+import { useSelectedIds } from '../hooks/useSelectedIds';
 import { t } from 'in-i18n';
 
-const SloListPageSize = 6;
+export const SloListPageSize = 6;
 
 export interface SloData {
   id: string;
@@ -121,54 +109,11 @@ export default function SloListSelection() {
   );
 }
 
-interface UseBufferedSloDataProps extends Pick<PaginatedResult<any>, 'page'> {
-  query: string;
-  entityType: SloEntityType | undefined;
-}
-
-interface UseBufferedSloDataResult extends Pick<PaginatedResult<any>, 'page' | 'pageSize' | 'totalHits'> {
-  sloList: SloData[];
-  clear: VoidFunction;
-  progress: Progress;
-}
-
-function usePaginatedSloList({ page, query, entityType }: UseBufferedSloDataProps): UseBufferedSloDataResult {
-  const [sloList, setSloList] = useState<SloData[]>([]);
-  const [data, , , progress] = useSloConfigurations({
-    page,
-    pageSize: SloListPageSize,
-    query,
-    entityType,
-    orderBy: 'name'
-  });
-
-  useEffect(() => {
-    setSloList([]);
-  }, [entityType]);
-
-  useEffect(() => {
-    if (progress.loading) return;
-
-    const sloData = data ? resultToSloData(data) : [];
-    setSloList([...sloList, ...sloData]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [progress.loading, generateStableHash(data)]);
-
-  return {
-    sloList,
-    clear: () => setSloList([]),
-    page: data?.page ?? 1,
-    pageSize: data?.pageSize ?? 0,
-    totalHits: data?.totalHits ?? 0,
-    progress
-  };
-}
-
 function sortedSloDataByLabel(sloData: SloData[]): SloData[] {
   return sloData.sort((a, b) => a.label.localeCompare(b.label));
 }
 
-function sloConfigsToSloData(sloConfigs: ServiceLevelObjectiveConfiguration[]): SloData[] {
+export function sloConfigsToSloData(sloConfigs: ServiceLevelObjectiveConfiguration[]): SloData[] {
   return sloConfigs.map(({ id, name, entity }) => ({
     id: id as string,
     label: name,
@@ -177,7 +122,7 @@ function sloConfigsToSloData(sloConfigs: ServiceLevelObjectiveConfiguration[]): 
   }));
 }
 
-function resultToSloData(result: PaginatedResult<ServiceLevelObjectiveConfiguration>): SloData[] {
+export function resultToSloData(result: PaginatedResult<ServiceLevelObjectiveConfiguration>): SloData[] {
   return sloConfigsToSloData(result.items);
 }
 
@@ -191,7 +136,7 @@ interface UseSloListResult extends Pick<PaginatedResult<any>, 'page' | 'pageSize
   progress: Progress;
 }
 
-function useSloList(selectedIds: string[], entityType: SloEntityType): UseSloListResult {
+export function useSloList(selectedIds: string[], entityType: SloEntityType): UseSloListResult {
   const [query, setQuery] = useState('');
   const {
     value: queryInput,
@@ -218,25 +163,4 @@ function useSloList(selectedIds: string[], entityType: SloEntityType): UseSloLis
     sloList,
     ...rawData
   };
-}
-
-function useSelectedIds(sloIds: string[]): FetchedState<SloData[]> {
-  const existingData = useRef<Result<PaginatedResult<ServiceLevelObjectiveConfiguration>>>();
-
-  const data = useObservable(() => {
-    if (sloIds.length === 0)
-      return just(success({ items: [] }) as unknown as Result<PaginatedResult<ServiceLevelObjectiveConfiguration>>);
-    return getAllSloConfigurations({
-      ids: sloIds
-    });
-  }, [generateStableHash(sloIds)]);
-
-  const isLoading = data?.progress.loading ?? true;
-  if (!isLoading) existingData.current = data ?? undefined;
-
-  const [result, ...restState] = resultToFetchedStateResponse(existingData.current);
-
-  const sloData = sloConfigsToSloData(result?.items ?? []);
-
-  return [sloData, ...restState] as FetchedState<SloData[]>;
 }
