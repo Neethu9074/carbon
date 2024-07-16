@@ -36,6 +36,7 @@ export interface ColumnDefinition<
 export interface TableState {
   page: number;
   numPages: number;
+  totalItems: number;
   orderDirection: OrderDirection;
   onChange: (s: Partial<TableState>) => void;
   pageSize: number;

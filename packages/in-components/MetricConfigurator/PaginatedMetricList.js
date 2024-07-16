@@ -86,7 +86,6 @@ export default function PaginatedMetricList({ options, onChange, isMetricDisable
             )
           )}
         </Ul>
-
         <Pagination
           currentPage={currentPage}
           numPages={Math.ceil(options.length / itemsPerPage)}

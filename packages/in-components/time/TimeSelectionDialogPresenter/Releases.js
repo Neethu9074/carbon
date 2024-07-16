@@ -5,13 +5,14 @@
 
 import React, { useState } from 'react';
 
-import { SvgIcon, SearchInput } from '@instana/components';
+import { SvgIcon, Pagination as CarbonPagination, SearchInput } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import convertToScopes from 'in-components/time/TimeSelectionDialogPresenter/convertToScopes';
 import ReleaseScope from 'in-components/time/TimeSelectionDialogPresenter/ReleaseScope';
 import { getReleasesWithDefaults } from 'in-events/subscriptions/getReleases';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import ServerTable from 'in-components/tables/ServerTable';
 import Pagination from 'in-components/Pagination';
@@ -133,8 +134,18 @@ function RightHeader({ query, onChange, orderBy, orderDirection, pageSize }) {
   );
 }
 
-function renderPagination({ page, numPages, onChange, query, orderBy, orderDirection, pageSize }) {
-  return (
+function renderPagination({ page, totalItems, numPages, onChange, query, orderBy, orderDirection, pageSize }) {
+  return carbonPaginationEnabled && totalItems > 0 ? (
+    <CarbonPagination
+      currentPage={page}
+      totalItems={totalItems}
+      pageSize={pageSize}
+      pageSizes={[pageSize]}
+      onChange={data => {
+        return onChange({ query, orderBy, orderDirection, page: data.page, pageSize });
+      }}
+    />
+  ) : (
     <Pagination
       currentPage={page}
       numPages={numPages}
