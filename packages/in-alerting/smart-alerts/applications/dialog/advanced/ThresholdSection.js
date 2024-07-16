@@ -60,7 +60,6 @@ export function ThresholdSection(props) {
           alertConfigWithFormModel={alertConfigWithFormModel}
           onChartViewConfigChange={onChartViewConfigChange}
           selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-          headerTransparent
         >
           {(chartViewConfig, applicationId, serviceId, endpointId) => (
             <ApplicationAlertingChartWithErrorMessage
