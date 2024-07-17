@@ -14,17 +14,17 @@ import { t } from 'in-i18n';
 import locals from './BackendTraceButton.mless';
 
 interface ButtonProps {
-  stackTraceKeyInformation: string;
+  crashGroupLabel: string;
   mobileAppId: string;
 }
 
-const ViewCrashGroupButton: React.FC<ButtonProps> = ({ stackTraceKeyInformation, mobileAppId }) => {
+const ViewCrashGroupButton: React.FC<ButtonProps> = ({ crashGroupLabel, mobileAppId }) => {
   const getLinkToMobileAppCrash = useLinkToCrash();
   return (
     <Button
       className={locals.button}
       kind="primaryv2"
-      href={getLinkToMobileAppCrash(mobileAppId, { crashId: stackTraceKeyInformation })}
+      href={getLinkToMobileAppCrash(mobileAppId, { crashId: crashGroupLabel })}
       size="compact"
     >
       {t('in-mobile-apps:sessionView.tabsSumCrashGroupButton.viewCrashGrpBtn')}
