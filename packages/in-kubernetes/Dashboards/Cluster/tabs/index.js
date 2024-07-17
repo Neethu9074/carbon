@@ -26,7 +26,6 @@ import PersistentVolumes from 'in-kubernetes/Dashboards/Cluster/tabs/PersistentV
 import CronJobs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/CronJobs';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import Infrastructure from 'in-kubernetes/Dashboards/Cluster/tabs/Infrastructure';
-import { ControlPlane } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane';
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
