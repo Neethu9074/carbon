@@ -205,6 +205,13 @@ function InnerList({
     onRowClick = entity => goToPath(getDetailsHref(entity));
   }
 
+  let cbRowClick;
+  if (tableActions.selectCheckbox && onRowClick) {
+    cbRowClick = (item, e) => {
+      if (!e?.target?.control) onRowClick(item);
+    };
+  }
+
   return (
     <div className={classNames({ [locals.withBottomPadding]: withBottomPadding })}>
       {title && <Title title={title} />}
@@ -261,7 +268,7 @@ function InnerList({
           ))
         }
         getRowProps={getRowProps(tableActions)}
-        onRowClick={onRowClick}
+        onRowClick={cbRowClick ? cbRowClick : onRowClick}
         allRowsAreSelected={areAllRowsOnCurrentPageSelected(
           entitiesBeforePagination,
           tableActions,
