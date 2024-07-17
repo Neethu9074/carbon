@@ -46,7 +46,7 @@ const emptySloData = [
 ] as FetchedState<SloData[]>;
 
 describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
-  it('should keep the sloId while creating new Smart Alert', () => {
+  it('Should keep the sloId while creating new Smart Alert', () => {
     // Given
     mockUseDebouncedValue.mockReturnValue({
       value: '',
@@ -117,7 +117,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
     ]);
   });
 
-  it('when toggled the entityType there must be no selected SLO in the list', () => {
+  it('When toggled the entityType there must be no selected SLO in the list', () => {
     // Given
     const resetSloData = [
       [],
@@ -190,7 +190,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
     expect(result.current.selected).toStrictEqual([]);
   });
 
-  it('Does the list keeps the existing data when loadMore has been called', () => {
+  it(' Should keep the existing data in the list when loadMore has been called', () => {
     //  Given
     mockUseDebouncedValue.mockReturnValue({
       value: '',
@@ -298,7 +298,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
     expect(result.current.sloList).toHaveLength(12);
   });
 
-  it('should return an empty SloList when no matching search input and the selected SLO must be listed out', () => {
+  it('Should return an empty SloList when no matching search input and the selected SLO must be listed out', () => {
     // Given
     mockUseDebouncedValue.mockReturnValue({
       value: 'NOTFOUND',
@@ -332,7 +332,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
     ]);
   });
 
-  it('should return the selected SLO and the searched query SLO in the list', () => {
+  it('Should return the selected SLO and the searched query SLO in the list', () => {
     // Given
     mockUseDebouncedValue.mockReturnValue({
       value: 'AndreiK',
@@ -380,7 +380,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
     ]);
   });
 
-  it('should return empty SLO list when there is no matching search input and no selected SLO', () => {
+  it('Should return empty SLO list when there is no matching search input and no selected SLO', () => {
     // Given
     mockUseDebouncedValue.mockReturnValue({
       value: 'NOTFOUND',
@@ -409,7 +409,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
     expect(result.current.selected).toEqual([]);
   });
 
-  it('does the sloList shows all SLOs with the matching query in a case-insensitive manner,with no selected SLO', () => {
+  it('Should show all SLOs with the matching query in a case-insensitive manner,when there is no selected SLO', () => {
     // Given
     mockUseDebouncedValue.mockReturnValue({
       value: 'event',
@@ -468,6 +468,79 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
       {
         id: 'SLO-3',
         label: 'Stans first availability event-based SLO',
+        entityName: '',
+        entityType: 'application'
+      }
+    ]);
+  });
+
+  it('Should show all SLOs that are matching search query  and the selected SLO in a case-insensitive manner', () => {
+    // Given
+
+    mockUseDebouncedValue.mockReturnValue({
+      value: 'test',
+      debouncedValue: 'test',
+      onChange: jest.fn()
+    });
+
+    mockUsePaginatedSloList.mockReturnValue({
+      sloList: [
+        {
+          id: 'SLO-1',
+          label: 'Test-event',
+          entityName: '',
+          entityType: 'application'
+        },
+        {
+          id: 'SLO-2',
+          label: 'Event Based Application SLO test',
+          entityName: '',
+          entityType: 'application'
+        },
+        {
+          id: 'SLO-3',
+          label: 'Test availability event-based SLO',
+          entityName: '',
+          entityType: 'application'
+        }
+      ],
+      clear: jest.fn(),
+      page: 1,
+      progress: { loading: false },
+      pageSize: 6,
+      totalHits: 73
+    });
+
+    mockUseSelectedIds.mockReturnValue(sloData);
+
+    // When
+    const { result } = renderHook(() => useSloList([], 'application'));
+
+    // Then
+    expect(result.current.selected).toStrictEqual([
+      {
+        id: 'SLO-selected',
+        label: 'Blessy-event',
+        entityName: '',
+        entityType: 'application'
+      }
+    ]);
+    expect(result.current.sloList).toStrictEqual([
+      {
+        id: 'SLO-1',
+        label: 'Test-event',
+        entityName: '',
+        entityType: 'application'
+      },
+      {
+        id: 'SLO-2',
+        label: 'Event Based Application SLO test',
+        entityName: '',
+        entityType: 'application'
+      },
+      {
+        id: 'SLO-3',
+        label: 'Test availability event-based SLO',
         entityName: '',
         entityType: 'application'
       }
