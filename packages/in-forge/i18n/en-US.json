@@ -15638,6 +15638,8 @@
       "redisTlsEnabled": "Redis TLS",
       "redisEnabled": "Enabled",
       "redisDisabled": "Disabled",
+      "singleTenant": "Single",
+      "multiTenant" : "Multi",
       "startedAt": "Started At",
       "syntheticPoP": "Synthetic PoP",
       "javascript": "API Script",
@@ -15653,6 +15655,7 @@
       "browserActive": "Browser Active Tests",
       "ismActive": "ISM Active Tests",
       "resultQueueDepth": "Result Queue Depth",
+      "tenantType":"Tenant Type",
       "dashboard": {
         "kubernetes": "Kubernetes",
         "namespace": "Namespace",

@@ -48,6 +48,11 @@ export default function SyntheticPoPInfo({ snapshot }: { snapshot: any }) {
           ? t('in-forge:plugins.syntheticPoP.redisEnabled')
           : t('in-forge:plugins.syntheticPoP.redisDisabled')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.syntheticPoP.tenantType')}>
+        {data.get('properties.commonNamespace')
+          ? t('in-forge:plugins.syntheticPoP.multiTenant')
+          : t('in-forge:plugins.syntheticPoP.singleTenant')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }
