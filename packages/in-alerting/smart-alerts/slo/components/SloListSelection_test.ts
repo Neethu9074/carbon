@@ -45,6 +45,15 @@ const emptySloData = [
   }
 ] as FetchedState<SloData[]>;
 
+const selectedSLO = [
+  {
+    id: 'SLO-selected',
+    label: 'Blessy-event',
+    entityName: '',
+    entityType: 'application'
+  }
+];
+
 describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
   it('Should keep the sloId while creating new Smart Alert', () => {
     // Given
@@ -107,14 +116,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
 
     // Then
     expect(result.current.page).toBe(1);
-    expect(result.current.selected).toEqual([
-      {
-        id: 'SLO-selected',
-        label: 'Blessy-event',
-        entityName: '',
-        entityType: 'application'
-      }
-    ]);
+    expect(result.current.selected).toEqual(selectedSLO);
   });
 
   it('When toggled the entityType there must be no selected SLO in the list', () => {
@@ -287,14 +289,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
 
     // Then
     expect(result.current.page).toBe(2);
-    expect(result.current.selected).toEqual([
-      {
-        id: 'SLO-selected',
-        label: 'Blessy-event',
-        entityName: '',
-        entityType: 'application'
-      }
-    ]);
+    expect(result.current.selected).toEqual(selectedSLO);
     expect(result.current.sloList).toHaveLength(12);
   });
 
@@ -322,14 +317,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
 
     // Then
     expect(result.current.sloList).toStrictEqual([]);
-    expect(result.current.selected).toEqual([
-      {
-        id: 'SLO-selected',
-        label: 'Blessy-event',
-        entityName: '',
-        entityType: 'application'
-      }
-    ]);
+    expect(result.current.selected).toEqual(selectedSLO);
   });
 
   it('Should return the selected SLO and the searched query SLO in the list', () => {
@@ -370,14 +358,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
         entityType: 'application'
       }
     ]);
-    expect(result.current.selected).toEqual([
-      {
-        id: 'SLO-selected',
-        label: 'Blessy-event',
-        entityName: '',
-        entityType: 'application'
-      }
-    ]);
+    expect(result.current.selected).toEqual(selectedSLO);
   });
 
   it('Should return empty SLO list when there is no matching search input and no selected SLO', () => {
@@ -517,14 +498,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
     const { result } = renderHook(() => useSloList([], 'application'));
 
     // Then
-    expect(result.current.selected).toStrictEqual([
-      {
-        id: 'SLO-selected',
-        label: 'Blessy-event',
-        entityName: '',
-        entityType: 'application'
-      }
-    ]);
+    expect(result.current.selected).toStrictEqual(selectedSLO);
     expect(result.current.sloList).toStrictEqual([
       {
         id: 'SLO-1',
