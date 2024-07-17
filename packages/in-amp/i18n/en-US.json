@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "Account Settings",
+      "unknownDomain": "Unknown Domain",
       "billingAddress": "Billing Address",
       "country": "Country",
       "state": "State",
