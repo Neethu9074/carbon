@@ -148,21 +148,23 @@ export function MetricsForAxis({
                 index={indexInAxis}
               >
                 {provided => (
-                  <Ul ref={provided.innerRef} {...provided.draggableProps}>
-                    <Li noAlternatingBg className={locals.draggableItem}>
-                      <ColumnizedContent
-                        columnDefinitions={columnsDefinitions}
-                        axisName={axisName}
-                        metricForm={metricForm}
-                        form={form}
-                        onChange={onChange}
-                        indexInAxis={indexInAxis}
-                        index={startIndex + indexInAxis}
-                        dragHandleProps={provided.dragHandleProps}
-                        getShortMetricKey={getShortMetricKey}
-                      />
-                    </Li>
-                  </Ul>
+                  <div ref={provided.innerRef} {...provided.draggableProps}>
+                    <Ul>
+                      <Li noAlternatingBg className={locals.draggableItem}>
+                        <ColumnizedContent
+                          columnDefinitions={columnsDefinitions}
+                          axisName={axisName}
+                          metricForm={metricForm}
+                          form={form}
+                          onChange={onChange}
+                          indexInAxis={indexInAxis}
+                          index={startIndex + indexInAxis}
+                          dragHandleProps={provided.dragHandleProps}
+                          getShortMetricKey={getShortMetricKey}
+                        />
+                      </Li>
+                    </Ul>
+                  </div>
                 )}
               </Draggable>
             ))}
