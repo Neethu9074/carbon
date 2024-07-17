@@ -67,9 +67,7 @@ export default {
       type: 'string',
       typeArgs: {
         getValue(row: Row) {
-          return row.snapshot.getIn(['data', 'properties.commonNamespace'])
-            ? t('in-forge:plugins.syntheticPoP.multiTenant')
-            : t('in-forge:plugins.syntheticPoP.singleTenant');
+          return row.snapshot.getIn(['data', 'properties.tenantType']);
         }
       }
     },

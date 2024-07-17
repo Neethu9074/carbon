@@ -15638,8 +15638,6 @@
       "redisTlsEnabled": "Redis TLS",
       "redisEnabled": "Enabled",
       "redisDisabled": "Disabled",
-      "singleTenant": "Single",
-      "multiTenant" : "Multi",
       "startedAt": "Started At",
       "syntheticPoP": "Synthetic PoP",
       "javascript": "API Script",
