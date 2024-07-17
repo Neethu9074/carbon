@@ -15,6 +15,17 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
 
 import {
+  FieldsProps,
+  OnChangeProps,
+  OnRemoveProps,
+  OnSubmitProps,
+  ShareAndInviteDialogBoxProps,
+  ShortUrlProps,
+  UnitKeysProps,
+  UserInvite,
+  UserResultProp
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox_interfaces';
+import {
   SHARE_AND_INVITE_ADD_USER,
   SHARE_AND_INVITE_CLOSED,
   SHARE_AND_INVITE_COPY_LINK,
@@ -48,6 +59,8 @@ import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/A
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 // eslint-disable-next-line no-restricted-imports
 import InputWithButton from 'in-plg/components/InputWithButton/InputWithButton';
+// eslint-disable-next-line no-restricted-imports
+import { segmentTrackingFunc } from 'in-plg/utils/Segment/segment';
 import { disableInvitesWithIdpEnabled, playWithReleaseEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { onDoInviteUser } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
 import { fixateTimeConfig, getTimeConfig, setTimeConfig, timeConfig$ } from 'in-stores/time/config';
@@ -55,15 +68,14 @@ import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFoo
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 // @ts-expect-error file needs TS migration
 import { getUnitKeys } from 'in-api/unitKeys';
-import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { teamSettingsAccessControlGroupNew } from 'in-settings/navigation/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ComboBox, { Option, Options } from 'in-components/ComboBox/ComboBox';
 import { getInvitations$, getUsersAsResultObservable } from 'in-api/users';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
-import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { defaultRoleId, fallbackRoleId, role } from 'in-stores/user';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -72,8 +84,8 @@ import TextArea from 'in-components/form/TextArea/TextArea';
 import { close } from 'in-components/DialogPresenter/store';
 import { successObservable } from 'in-services/util/result';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import { pendingResult } from 'in-services/fixedObjects';
 import { CTA_CLICKED } from 'in-services/util/constants';
+import { pendingResult } from 'in-services/fixedObjects';
 import Input from 'in-components/form/Input/Input';
 import Dialog from 'in-components/Dialog/Dialog';
 import Tooltip from 'in-components/Tooltip';
@@ -89,13 +101,6 @@ const closeModal = (callback?: () => void) => {
   closedInviteAndShareModal();
   close();
 };
-
-interface FieldsProps {
-  children: JSX.Element | JSX.Element[] | string;
-  helpText?: JSX.Element | string | null;
-  helpTextIcon?: JSX.Element | null;
-  className?: string;
-}
 
 const Fields = ({ children, helpText, helpTextIcon, className }: FieldsProps) => {
   return (
@@ -121,23 +126,6 @@ const Fields = ({ children, helpText, helpTextIcon, className }: FieldsProps) =>
   );
 };
 
-interface UserResultProp {
-  id: string;
-  email: string;
-}
-
-interface ShortUrlProps {
-  data?: { shortUrl: string };
-  errors: [];
-  progress: { loading: boolean };
-  time?: number;
-}
-
-interface UnitKeysProps {
-  agentKey: string;
-  downloadKey: string;
-}
-
 export const InviteSentState = Object.freeze({
   SUCCESS: 'sentSuccess',
   notSentYet: 'notSentYet',
@@ -150,25 +138,86 @@ export type UserSentStateStatus = keyof typeof InviteSentState;
 
 export type UserSentState = (typeof InviteSentState)[UserSentStateStatus];
 
-export interface UserInvite {
-  groupId: string;
-  email: string;
-  message?: string;
-  path?: string;
-  pageName?: string | null;
-  userSentState: UserSentState;
-}
+const onChange = ({ index, path, value, invite, form, setForm, pendingInvitations }: OnChangeProps) => {
+  let updatedForm;
+  const emailValue = path[1] === 'email' ? value : invite.get('email').value;
+  const userInvite = {
+    groupId: path[1] === 'groupId' ? value : invite.get('groupId').value,
+    email: emailValue,
+    userSentState: invite.get('userSentState').value
+  };
+  if (checkInviteAlreadyExists(userInvite, pendingInvitations)) {
+    updatedForm = form.updateIn([index, 'userSentState'] as Path<any>, field =>
+      field.setValue(InviteSentState.FAILURE_USER_ALREADY_INVITED).setTouched(true)
+    );
+  } else {
+    updatedForm = form.updateIn([index, 'userSentState'] as Path<any>, field =>
+      field.setValue(InviteSentState.notSentYet)
+    );
+  }
+  setForm(updatedForm.updateIn(path, field => field.setValue(value).setTouched(true)));
+};
 
-interface ShareAndInviteDialogBoxProps {
-  inviteOnly?: boolean;
-}
+const onRemove = ({ index, form, setForm }: OnRemoveProps) => {
+  setForm(form.remove(index).setTouched(true));
+};
+
+const onSubmitInvitation = (props: OnSubmitProps) => {
+  const {
+    canSelectGroup,
+    form,
+    setForm,
+    groups,
+    emailMessage,
+    inviteOnly,
+    createHref,
+    clonedLocation,
+    productArea,
+    setMessage,
+    setInvitationResult
+  } = props;
+  return (event: any) => {
+    event.preventDefault();
+
+    if (!form.hierarchyValid) {
+      setForm(form.setTouched(true, { recurse: true }));
+      return;
+    }
+
+    // use default role when user is not allowed to choose a role
+    let groupId: string;
+
+    form.map((inviteItem: Item) => {
+      const invite: MapForm<any> = inviteItem as MapForm<any>;
+      if (canSelectGroup) {
+        groupId = (invite.get('groupId') as Field<string>).value;
+        const group: ApiGroup = groups.length ? groups.find((group: ApiGroup) => group.id === groupId) : null;
+        const groupName = group?.name ? group.name : 'default';
+        shareAndInviteSubmitTracker({ group: groupName });
+      } else {
+        groupId = defaultRoleId;
+        shareAndInviteSubmitTracker({ group: 'default' });
+      }
+      segmentTrackingFunc(SHARE_AND_INVITE_SUBMIT, CTA_CLICKED);
+    });
+    const invitations = form.toJS().map((e: any) => ({
+      groupId: e.groupId,
+      email: e.email,
+      message: emailMessage,
+      path: inviteOnly ? '/#/home' : createHref(clonedLocation), // if invited from user section or pending invite section, the return URL should be to /home
+      pageName: productArea,
+      userSentState: e.userSentState === InviteSentState.INTERNAL_ERROR ? InviteSentState.notSentYet : e.userSentState
+    }));
+    onDoInviteUser(setMessage, invitations, setForm, setInvitationResult, noop); // noop instead of goToPath since we are not redirecting anymore
+  };
+};
 
 const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) => {
   const { location, createHref, createHrefToPath } = useNavigation();
   const clonedLocation = cloneLocation(location);
 
   const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string }>();
-  const [fixateTime, setFixateTime] = useState(clonedLocation?.pathname.includes(agentDetailsPagePath) ? false : true);
+  const [fixateTime, setFixateTime] = useState(!clonedLocation?.pathname.includes(agentDetailsPagePath));
 
   const getShortUrl = useShortUrl();
   const timeZone = new Date().toLocaleDateString('default', { day: '2-digit', timeZoneName: 'short' }).slice(4);
@@ -203,79 +252,6 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
     disableInvitesWithIdpEnabled &&
     (isSamlConfigured?.data?.activated || isLdapConfigured?.data?.activated || isOidcConfigured?.data?.activated);
 
-  const onChange = (index: number | string, path: Path<any>, value: any, invite: MapForm<any>) => {
-    let updatedForm;
-    const emailValue = path[1] === 'email' ? value : invite.get('email').value;
-    const userInvite = {
-      groupId: path[1] === 'groupId' ? value : invite.get('groupId').value,
-      email: emailValue,
-      userSentState: invite.get('userSentState').value
-    };
-    if (checkInviteAlreadyExists(userInvite, pendingInvitations)) {
-      updatedForm = form.updateIn([index, 'userSentState'] as Path<any>, field =>
-        field.setValue(InviteSentState.FAILURE_USER_ALREADY_INVITED).setTouched(true)
-      );
-    } else {
-      updatedForm = form.updateIn([index, 'userSentState'] as Path<any>, field =>
-        field.setValue(InviteSentState.notSentYet)
-      );
-    }
-    setForm(updatedForm.updateIn(path, field => field.setValue(value).setTouched(true)));
-  };
-
-  const onRemove = (index: number) => {
-    setForm(form.remove(index).setTouched(true));
-  };
-
-  const onSubmitInvitation = (canSelectGroup: boolean) => {
-    return (event: any) => {
-      event.preventDefault();
-
-      if (!form.hierarchyValid) {
-        setForm(form.setTouched(true, { recurse: true }));
-        return;
-      }
-
-      // use default role when user is not allowed to choose a role
-      let groupId: string;
-
-      form.map((inviteItem: Item) => {
-        const invite: MapForm<any> = inviteItem as MapForm<any>;
-        if (canSelectGroup) {
-          groupId = (invite.get('groupId') as Field<string>).value;
-          const group: ApiGroup = groups.length ? groups.find((group: ApiGroup) => group.id === groupId) : null;
-          const groupName = group && group.name ? group.name : 'default';
-          shareAndInviteSubmitTracker({ group: groupName });
-        } else {
-          groupId = defaultRoleId;
-          shareAndInviteSubmitTracker({ group: 'default' });
-        }
-        segmentTrackingFunc(SHARE_AND_INVITE_SUBMIT);
-      });
-      const invitations = form.toJS().map((e: any) => ({
-        groupId: e.groupId,
-        email: e.email,
-        message: emailMessage,
-        path: inviteOnly ? '/#/home' : createHref(clonedLocation), // if invited from user section or pending invite section, the return URL should be to /home
-        pageName: productArea,
-        userSentState: e.userSentState === InviteSentState.INTERNAL_ERROR ? InviteSentState.notSentYet : e.userSentState
-      }));
-      onDoInviteUser(setMessage, invitations, setForm, setInvitationResult, noop); // noop instead of goToPath since we are not redirecting anymore
-    };
-  };
-
-  const segmentTrackingFunc = (SHARE_AND_INVITE_ADD_USER: string) => {
-    if (pageRootName && productArea) {
-      const data = {
-        parentPageName: pageRootName,
-        parentPageCategory: productArea,
-        CTA: SHARE_AND_INVITE_ADD_USER,
-        path: location?.pathname
-      };
-      eventTracker({ data, segmentEventName: CTA_CLICKED });
-    }
-  };
-
   if (fixateTime) {
     setTimeConfig(clonedLocation, fixateTimeConfig(getTimeConfig(clonedLocation)));
   }
@@ -289,35 +265,33 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
 
   useEffect(() => {
     inviteAndShareButtonClicked({ pageRootName, productArea });
-    segmentTrackingFunc(SHARE_AND_INVITE_TRIGGERED);
+    segmentTrackingFunc(SHARE_AND_INVITE_TRIGGERED, CTA_CLICKED);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (message?.type === 'success') {
       if (message?.text === t('in-settings:tabs.sendingInvitation')) {
-        addMessage(
-          {
-            type: 'info',
-            title: t('in-settings:ShareAndInviteDialogBox.invitationSend'),
-            content: message.text
-          },
-          1
-        );
-      } else {
-        removeMessage(1); // we are removing the sending invite toast.
         addMessage({
           type: 'info',
           title: t('in-settings:ShareAndInviteDialogBox.invitationSend'),
-          content: message.text
+          content: message.text,
+          timeout: 3000
+        });
+      } else {
+        addMessage({
+          type: 'info',
+          title: t('in-settings:ShareAndInviteDialogBox.invitationSend'),
+          content: message.text,
+          timeout: 3000
         });
       }
     } else if (message?.type === 'error') {
-      removeMessage(1); // we are removing the sending invite toast.
       addMessage({
         type: 'warning',
         title: t('in-settings:ShareAndInviteDialogBox.somethingWentWrong'),
-        content: t('in-settings:ShareAndInviteDialogBox.failedToSendInvitation')
+        content: t('in-settings:ShareAndInviteDialogBox.failedToSendInvitation'),
+        timeout: 3000
       });
     }
   }, [message]);
@@ -371,12 +345,26 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
       className={locals.shareAndInviteDialogBox}
       onClose={() => {
         closeModal(() => {
-          segmentTrackingFunc(SHARE_AND_INVITE_CLOSED);
+          segmentTrackingFunc(SHARE_AND_INVITE_CLOSED, CTA_CLICKED);
         });
       }}
       withoutBodyPadding
     >
-      <form onSubmit={onSubmitInvitation(canSelectGroup)}>
+      <form
+        onSubmit={onSubmitInvitation({
+          canSelectGroup,
+          form,
+          setForm,
+          groups,
+          emailMessage,
+          inviteOnly,
+          createHref,
+          clonedLocation,
+          productArea,
+          setMessage,
+          setInvitationResult
+        })}
+      >
         <div
           className={classNames({
             [locals.modalBody]: true,
@@ -407,7 +395,17 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
                                     .includes(item.email)
                               )
                               .map((item: UserResultProp) => ({ value: item.email, label: item.email }))}
-                            onChange={(e: any) => onChange(index, [index, 'email'], e.value, invite)}
+                            onChange={(e: any) =>
+                              onChange({
+                                index,
+                                path: [index, 'email'],
+                                value: e.value,
+                                invite,
+                                form,
+                                setForm,
+                                pendingInvitations
+                              })
+                            }
                             placeholder={t('in-settings:ShareAndInviteDialogBox.emailAddress')}
                             formatCreateLabel={(inputText: string) =>
                               `${t('in-settings:ShareAndInviteDialogBox.add')} "${inputText}"`
@@ -442,7 +440,17 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
                               options={
                                 sortedGroups.length ? sortedGroups : [{ label: 'Default', value: defaultRoleId }]
                               }
-                              onChange={e => onChange(index, [index, 'groupId'], (e as Option).value, invite)}
+                              onChange={e =>
+                                onChange({
+                                  index,
+                                  path: [index, 'groupId'],
+                                  value: (e as Option).value,
+                                  invite,
+                                  form,
+                                  setForm,
+                                  pendingInvitations
+                                })
+                              }
                               className={locals.groupComboBox}
                               isClearable={false}
                             />
@@ -451,7 +459,13 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
                               kind="action"
                               iconSize="s"
                               size="normal"
-                              onClick={() => onRemove(index)}
+                              onClick={() =>
+                                onRemove({
+                                  index,
+                                  form,
+                                  setForm
+                                })
+                              }
                               disabled={form.size <= 1}
                             >
                               {''}
@@ -472,7 +486,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
                     kind="action"
                     onClick={() => {
                       addUserInviteAndShareModal();
-                      segmentTrackingFunc(SHARE_AND_INVITE_ADD_USER);
+                      segmentTrackingFunc(SHARE_AND_INVITE_ADD_USER, CTA_CLICKED);
                       setForm(form.push(emptyInvite()).setTouched(true));
                     }}
                     disabled={form.size >= USER_LIMIT}
@@ -489,7 +503,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
                       href={createHrefToPath(teamSettingsAccessControlGroupNew)}
                       onClick={() => {
                         newGroupInviteAndShareModal();
-                        segmentTrackingFunc(SHARE_AND_INVITE_NEW_GROUP);
+                        segmentTrackingFunc(SHARE_AND_INVITE_NEW_GROUP, CTA_CLICKED);
                       }}
                     >
                       {t('in-settings:ShareAndInviteDialogBox.newGroup')}
@@ -531,7 +545,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
                         size="fullWidth"
                         callBack={() => {
                           copyLinkInviteAndShareModal();
-                          segmentTrackingFunc(SHARE_AND_INVITE_COPY_LINK);
+                          segmentTrackingFunc(SHARE_AND_INVITE_COPY_LINK, CTA_CLICKED);
                         }}
                       />
                     </div>
