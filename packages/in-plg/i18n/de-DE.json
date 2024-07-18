@@ -287,8 +287,6 @@
       "vmwareTanzuNetworkLink": "VMware Tanzu-Netzlink",
       "reviewThePrerequisites": "Voraussetzungen prüfen",
       "installingTheInstanaAgent": "Instanzagenten installieren",
-      "vmwareTanzuDocumentation": "Dokumentation zu VMware Tanzu",
-      "vmwareTanzuNetwork": "VMware Tanzu-Netz",
       "addTileToOpsManagerAndConfigureIt": "Fügen Sie die Kachel zu Ops Manager hinzu und konfigurieren Sie sie",
       "addInstanaApplicationMonitoring": "Fügen Sie die Kachel \"Instana Microservices Application Monitoring\" zu Ops Manager hinzu und wenden Sie Folgendes auf die Registerkarte \"Backend-Konfiguration\" der Kachel an.",
       "nameYourVmwareFoundation": "Benennen Sie Ihre VMware Tanzu-Basis",

@@ -52,12 +52,8 @@ export default function VmwareTanzu({
             href="https://ibm.biz/insta-agent-vmtanzu-install"
           />
           <DocumentLink
-            text={t('in-plg:agentDetails.tanzu.vmwareTanzuDocumentation')}
+            text={t('in-plg:agentDetails.tanzu.installingAndConfiguringMicroservicesApplicationsMonitoring')}
             href="https://ibm.biz/insta-agent-vmtanzu-docs"
-          />
-          <DocumentLink
-            text={t('in-plg:agentDetails.tanzu.vmwareTanzuNetwork')}
-            href="https://ibm.biz/insta-agent-vmtanzu-network"
           />
         </Stack>
       ),

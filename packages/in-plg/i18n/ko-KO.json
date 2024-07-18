@@ -287,8 +287,6 @@
       "vmwareTanzuNetworkLink": "VMware Tanzu 네트워크 링크",
       "reviewThePrerequisites": "전제조건 검토",
       "installingTheInstanaAgent": "Instana 에이전트 설치",
-      "vmwareTanzuDocumentation": "VMware Tanzu 문서",
-      "vmwareTanzuNetwork": "VMware Tanzu 네트워크",
       "addTileToOpsManagerAndConfigureIt": "Ops Manager에 타일을 추가하고 이를 구성하십시오.",
       "addInstanaApplicationMonitoring": "\"Instana Microservices 애플리케이션 모니터링\" 타일을 Ops Manager에 추가하고 타일의 \"백엔드 구성\" 탭에 다음을 적용하십시오.",
       "nameYourVmwareFoundation": "VMware Tanzu 기반의 이름을 지정하십시오.",
