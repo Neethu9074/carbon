@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-// @ts-ignore
+// @ts-expect-error Could not find a declaration file for module
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { percentage, number, bytes } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -162,13 +162,13 @@ export default [
   },
   {
     metrics: ['db.disk.read.count'],
-    labels: [t('in-forge:plugins.oTelDatabase.db.disk.read.count')],
+    labels: [t('in-forge:plugins.oTelDatabase.db_disk_read_count')],
     category: [t('in-forge:plugins.oTelDatabase.label_category_Resource_Usage')],
     formatter: number
   },
   {
     metrics: ['db.disk.write.count'],
-    labels: [t('in-forge:plugins.oTelDatabase.db.disk.write.count')],
+    labels: [t('in-forge:plugins.oTelDatabase.db_disk_write_count')],
     category: [t('in-forge:plugins.oTelDatabase.label_category_Resource_Usage')],
     formatter: number
   }

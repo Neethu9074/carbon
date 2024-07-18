@@ -12,7 +12,7 @@ import {
   bytesPerSecondZeroDecimalPlaces,
   millisPerSecondZeroDecimalPlaces
 } from 'in-services/formatters/number';
-// @ts-ignore
+// @ts-expect-error Could not find a declaration file for module
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 

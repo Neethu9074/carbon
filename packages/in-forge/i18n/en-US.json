@@ -12827,8 +12827,8 @@
       "db_lock_count": "Number of Locks",
 
       "label_category_Resource_Usage": "Resource Usage",
-      "db.disk.read.count": "Disk Reads",
-      "db.disk.write.count": "Disk Writes",
+      "db_disk_read_count": "Disk Reads",
+      "db_disk_write_count": "Disk Writes",
       "db_tablespace_size": "Tablespace Size",
       "db_tablespace_used": "Tablespace Used Size",
       "db_tablespace_utilization": "Tablespace Utilization",

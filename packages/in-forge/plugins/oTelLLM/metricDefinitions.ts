@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-// @ts-ignore
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
