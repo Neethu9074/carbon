@@ -23,7 +23,6 @@ interface WelcomeHeaderProps {
 }
 
 export default function WelcomeHeader({ onboardingHeaderEnabled }: WelcomeHeaderProps) {
-  // @ts-expect-error The User type needs to be updated.
   const headerTitle = `${t('in-plg:welcomepage.heading')}, ${user?.fullName ?? ''}!`;
   const foldableTileTitle = t('in-plg:welcomepage.foldableTileTitle');
   const collapsibleButton = {

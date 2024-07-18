@@ -10,9 +10,15 @@ import NotificationBarSticky from 'promise-loader?global!in-components/Sticky/No
 import AboutInstanaDialog from 'promise-loader?global!in-components/AboutInstanaDialog';
 // @ts-expect-error promise loader
 import NewPlayWithHeader from 'promise-loader?global!in-plg/Demo/NewPlayWithHeader';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { UIShell, MenuItem, SideNavMenu, SvgIcon } from '@instana/components';
+import {
+  UIShell,
+  MenuItem,
+  SideNavMenu,
+  SvgIcon,
+  CarbonHeaderGlobalAction as HeaderGlobalAction
+} from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
@@ -94,7 +100,6 @@ import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/n
 import { actionCatalogFullyQualified, isAutomationView } from 'in-automation/navigation/paths';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
-import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -106,15 +111,22 @@ import useUIShellTitleDetail from 'in-plg/hooks/useUIShellTitleDetail';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { isAnalyzeView } from 'in-analyze/navigation/constants';
+import { releaseNotesEnabled } from 'in-services/featureFlags';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import AsyncComponent from 'in-components/AsyncComponent';
 import { eventsPath } from 'in-events/navigation/paths';
+import UserIcon from 'in-components/UserIcon/UserIcon';
 import { all, any } from 'in-services/fixedStreams';
-import { config } from 'in-services/config';
-import { role, user } from 'in-stores/user';
+import ProfileMenu from './ProfileMenu/ProfileMenu';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import local from './CarbonUIShell.mless';
+
+interface HeaderContentProps {
+  expanded: boolean;
+  onClickSideNavExpand: () => void;
+}
 
 function HomeLink() {
   const { matchLocation, createHrefToPath } = useNavigation();
@@ -516,14 +528,6 @@ function InternalView() {
   );
 }
 
-function signOut() {
-  const form = document.createElement('form');
-  form.method = 'post';
-  form.action = '/auth/signOut';
-  document.body.appendChild(form);
-  form.submit();
-}
-
 function Settings() {
   const { matchLocation, createHrefToPath } = useNavigation();
   if (playwithEnabled) {
@@ -544,17 +548,7 @@ function Settings() {
 }
 
 function moreContent(matchLocation: (path: string) => boolean, createHrefToPath: (path: string) => string) {
-  const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
   return [
-    tenantSwitcherEnabled ? (
-      <MenuItem
-        id="main-nav-tenants"
-        key="main-nav-tenants"
-        label={t('in-components:mainNavigation.viewSwitcherLabelTenants')}
-        openInNewTab
-        href={tenantSwitcherLink}
-      />
-    ) : null,
     role?.canConfigureAgents ? (
       <MenuItem
         id="main-nav-agents"
@@ -595,27 +589,26 @@ function moreContent(matchLocation: (path: string) => boolean, createHrefToPath:
         addActiveDialog(<AsyncComponent component={AboutInstanaDialog} />);
       }}
       label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
-    />,
-    <div key="main-nav-sign-out" className={local.signOutButton}>
-      <MenuItem
-        id="main-nav-sign-out"
-        onClick={signOut}
-        label={
-          <>
-            <div>{t('in-components:mainNavigation.viewSwitcherButtonSignOut')}</div>
-            <div className={local.emailAddress}>{user?.email}</div>
-          </>
-        }
-      />
-    </div>
+    />
   ];
 }
 
-function HeaderContent() {
+function HeaderContent({ expanded, onClickSideNavExpand }: HeaderContentProps) {
   return (
     <>
       {playwithEnabled || playWithReleaseEnabled ? <AsyncComponent component={NewPlayWithHeader} /> : null}
       <AsyncComponent component={NotificationBarSticky} />
+      <HeaderGlobalAction
+        onClick={onClickSideNavExpand}
+        tooltipAlignment="end"
+        aria-label={expanded ? 'Close' : 'Open'}
+        aria-expanded={expanded}
+        isActive={expanded}
+        aria-hidden="true"
+        className={local.profileMenuSwitcher}
+      >
+        <UserIcon size="l" color="var(--cds-icon-secondary)" aria-hidden="true" />
+      </HeaderGlobalAction>
     </>
   );
 }
@@ -624,9 +617,18 @@ export default function CarbonUIShell() {
   const { matchLocation, createHrefToPath } = useNavigation();
   const titleDetail = useUIShellTitleDetail();
   const platforms = platformsContent(matchLocation, createHrefToPath).filter(Boolean);
+  const [expanded, setExpanded] = useState(false);
+
+  const onClickSideNavExpand = () => setExpanded(!expanded);
 
   return (
-    <UIShell onSideNavClick={internalToggleClick} titleDetail={titleDetail} headerContent={<HeaderContent />}>
+    <UIShell
+      onSideNavClick={internalToggleClick}
+      titleDetail={titleDetail}
+      headerContent={<HeaderContent expanded={expanded} onClickSideNavExpand={onClickSideNavExpand} />}
+      headerPanelExpanded={expanded}
+      headerPanelContent={<ProfileMenu isSideNavExpanded={expanded} />}
+    >
       <HomeLink />
       <WebsiteMobileAppView />
       <BizOps />

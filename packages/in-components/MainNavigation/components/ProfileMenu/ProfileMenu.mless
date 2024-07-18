@@ -1,0 +1,53 @@
+:local {
+  .profileMenu {
+    &_label {
+      color: var(--cds-text-secondary);
+      font-weight: var(--cds-label-01-font-weight);
+      font-size: var(--cds-label-01-font-size);
+      line-height: var(--cds-label-01-line-height);
+      letter-spacing: var(--cds-label-01-letter-spacing);
+    }
+
+    &_title {
+      color: var(--cds-text-primary);
+      font-weight: var(--cds-label-02-font-weight);
+      font-size: var(--cds-label-02-font-size);
+      line-height: var(--cds-label-02-line-height);
+      letter-spacing: var(--cds-label-02-letter-spacing);
+    }
+
+    &_header {
+      block-size: auto;
+      :global(.cds--switcher__item-link) {
+        block-size: auto;
+      }
+    }
+
+    &_switcherItemLabel {
+      :global(.cds--switcher__item-link) {
+        &:hover {
+          cursor: default;
+          background: none;
+        }
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+
+    &_fullName {
+      color: var(--cds-text-primary);
+    }
+
+    &_profileLink {
+      color: var(--cds-link-primary);
+    }
+
+    &_switcherItemLink {
+      display: inline-flex;
+      svg {
+        margin-right: 8px;
+      }
+    }
+  }
+}

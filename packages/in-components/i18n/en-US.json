@@ -390,7 +390,6 @@
   "mainNavigation": {
     "viewSwitcherLabelSettings": "Settings",
     "viewSwitcherLabelMore": "More",
-    "viewSwitcherLabelTenants": "Tenants",
     "viewSwitcherLabelAgents": "Agents",
     "viewSwitcherLabelReleaseNotes": "Release Notes",
     "viewSwitcherLabelDocumentation": "Documentation",
@@ -414,10 +413,13 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Platforms",
-    "viewSwitcherButtonSignOut": "Sign Out",
     "viewSwitcherCustomDashboards": "Custom Dashboards",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "New version of Instana UI available",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "Reload to update"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "Reload to update",
+    "profileMenu_profileLink": "Profile",
+    "profileMenu_unitName_tenantName": "Unit name - Tenant name",
+    "profileMenu_switchUnitOrTenant": "Switch unit or tenant",
+    "profileMenu_logOut": "Log out"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Select metrics",
