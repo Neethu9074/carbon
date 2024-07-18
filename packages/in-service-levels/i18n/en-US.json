@@ -267,6 +267,9 @@
     }
   },
   "sloDashboard": {
+    "header": {
+      "created_at": "Created on: {{creationDay}} at {{creationTime}}"
+    },
     "tabs": {
       "summaryLabel": "Summary",
       "configurationLabel": "Configuration",
