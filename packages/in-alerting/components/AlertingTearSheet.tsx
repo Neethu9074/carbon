@@ -9,6 +9,7 @@ import { MapForm } from 'formalistic';
 import classNames from 'classnames';
 
 import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData } from '@instana/types';
+import { CarbonLayer } from '@instana/components';
 
 import AlertingTearSheetFooter from 'in-alerting/components/AlertingTearSheetFooter';
 import AlertingTearSheetSteps from 'in-alerting/components/AlertingTearSheetSteps';
@@ -66,38 +67,40 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
 
   return (
     <div data-testid="tearsheet">
-      <section>
-        <div
-          className={classNames({
-            [locals.container]: true,
-            [locals.containerWithMsg]: headerWithMsg
-          })}
-        >
-          <div className={locals.sidebar}>
-            <AlertingTearSheetSteps stepConfigs={stepConfigs} step={step} setStep={setStep} form={form} />
-          </div>
+      <section className={locals.outerContainer}>
+        <CarbonLayer>
           <div
             className={classNames({
-              [locals.content]: true,
-              [locals.contentWithMsg]: headerWithMsg
+              [locals.container]: true,
+              [locals.containerWithMsg]: headerWithMsg
             })}
           >
-            {children}
+            <div className={locals.sidebar}>
+              <AlertingTearSheetSteps stepConfigs={stepConfigs} step={step} setStep={setStep} form={form} />
+            </div>
+            <div
+              className={classNames({
+                [locals.content]: true,
+                [locals.contentWithMsg]: headerWithMsg
+              })}
+            >
+              {children}
+            </div>
+            <div className={locals.footer}>
+              <AlertingTearSheetFooter
+                form={form}
+                formId={formId}
+                actions={actions}
+                isSaving={isSaving}
+                step={step}
+                stepConfigs={stepConfigs}
+                setForm={setForm}
+                migrationMode={migrationMode}
+                additionalValidationCheck={additionalValidationCheck}
+              />
+            </div>
           </div>
-          <div className={locals.footer}>
-            <AlertingTearSheetFooter
-              form={form}
-              formId={formId}
-              actions={actions}
-              isSaving={isSaving}
-              step={step}
-              stepConfigs={stepConfigs}
-              setForm={setForm}
-              migrationMode={migrationMode}
-              additionalValidationCheck={additionalValidationCheck}
-            />
-          </div>
-        </div>
+        </CarbonLayer>
       </section>
     </div>
   );
