@@ -331,6 +331,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'bizopsGenAIEnabled',
+    instanaCtlKey: 'feature.bizops.genAI.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
     instanaCtlKey: 'feature.trace.limit.visible.nesting.levels.enabled',
     defaultValue: false
