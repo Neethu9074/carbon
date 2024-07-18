@@ -11,7 +11,7 @@ export default [
   {
     metrics: ['llm.status'],
     labels: [t('in-forge:plugins.oTelLLM.llm_status')],
-    category: [t('in-forge:plugins.oTelJvm.label_category_LLM')],
+    category: [t('in-forge:plugins.oTelLLM.label_category_LLM')],
     formatter: number
   }
 ];
