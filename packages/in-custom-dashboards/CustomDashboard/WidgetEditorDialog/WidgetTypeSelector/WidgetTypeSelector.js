@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { CarbonLayer } from '@instana/components';
+
 import WidgetTypeSidebar from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetTypeSelector/WidgetTypeSidebar';
 import { SideNavigationWrapper } from 'in-components/SideNavigation/SideNavigation';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -19,7 +21,9 @@ export default function WidgetTypeSelector({ form, onChangeType }) {
   return (
     <SideNavigationWrapper sidebar={<WidgetTypeSidebar form={form} onChangeType={onChangeType} />}>
       <ErrorBoundary name="widget-showcase">
-        <div className={locals.wrapper}>{widget && widget.ShowCaseComponent && <widget.ShowCaseComponent />}</div>
+        <div className={locals.wrapper}>
+          <CarbonLayer>{widget && widget.ShowCaseComponent && <widget.ShowCaseComponent />}</CarbonLayer>
+        </div>
       </ErrorBoundary>
     </SideNavigationWrapper>
   );
