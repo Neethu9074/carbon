@@ -71,7 +71,7 @@
   .thresholdTypeSelection {
     border-bottom: 1px solid var(--ids-color-option-neutral-300);
     color: var(--ids-color-option-neutral-700);
-    padding: 0.5rem 0.5rem 0.5rem 0.25rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   }
 
   .errorMessage {
