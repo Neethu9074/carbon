@@ -12,7 +12,8 @@ import {
   CarbonSwitcherItem as SwitcherItem,
   CarbonSwitcherDivider as SwitcherDivider,
   Typography,
-  SvgIcon
+  SvgIcon,
+  Link
 } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -25,9 +26,10 @@ import local from './ProfileMenu.mless';
 
 interface ProfileMenuProps {
   isSideNavExpanded: boolean;
+  onClickSideNavExpand?: () => void;
 }
 
-function ProfileMenu({ isSideNavExpanded }: ProfileMenuProps) {
+function ProfileMenu({ isSideNavExpanded, onClickSideNavExpand }: ProfileMenuProps) {
   const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
 
   const signOut = () => {
@@ -39,33 +41,29 @@ function ProfileMenu({ isSideNavExpanded }: ProfileMenuProps) {
   };
 
   return (
-    <div className="profileMenu">
+    <div className={local.profileMenu}>
       <Switcher aria-label="Switcher Container" expanded={isSideNavExpanded}>
-        <SwitcherItem
-          aria-label="header"
-          className={classNames(local.profileMenu_header, local.profileMenu_switcherItemLabel)}
-        >
+        <div aria-label="header" className={local.profileMenu_header}>
           <Typography variant="heading-03">
-            <label className={local.profileMenu_fullName}>{user?.fullName}</label>
+            <span className={local.profileMenu_fullName}>{user?.fullName}</span>
           </Typography>
-          <label className={local.profileMenu_label}>{user?.email}</label>
-        </SwitcherItem>
-        <SwitcherItem aria-label="profileLink" href={`#${userSettingsProfile}`}>
-          <span className={classNames(local.profileMenu_profileLink, local.profileMenu_label)}>
+          <p className={local.profileMenu_label}>{user?.email}</p>
+          <Link
+            aria-label="profileLink"
+            href={`#${userSettingsProfile}`}
+            onClick={onClickSideNavExpand}
+            className={classNames(local.profileMenu_profileLink, local.profileMenu_label)}
+          >
             {t('in-components:mainNavigation.profileMenu_profileLink')}
-          </span>
-        </SwitcherItem>
+          </Link>
+        </div>
         <SwitcherDivider />
-        <SwitcherItem aria-label="unitTenantName" className={local.profileMenu_switcherItemLabel}>
-          <label className={local.profileMenu_label}>
-            {t('in-components:mainNavigation.profileMenu_unitName_tenantName')}
-          </label>
-        </SwitcherItem>
-        <SwitcherItem aria-label="tenantUnit" className={local.profileMenu_switcherItemLabel}>
-          <label className={local.profileMenu_title}>
+        <div aria-label="unitTenantName" className={local.profileMenu_unitTenantSection}>
+          <p className={local.profileMenu_label}>{t('in-components:mainNavigation.profileMenu_unitName_tenantName')}</p>
+          <p className={local.profileMenu_title}>
             {config.tenantUnit} - {config.tenant}
-          </label>
-        </SwitcherItem>
+          </p>
+        </div>
         <SwitcherDivider />
         {tenantSwitcherEnabled ? (
           <SwitcherItem href={tenantSwitcherLink} aria-label="switchUnitOrTenant">

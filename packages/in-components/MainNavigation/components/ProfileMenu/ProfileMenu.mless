@@ -1,5 +1,11 @@
 :local {
   .profileMenu {
+    padding: 1rem 0;
+
+    :global(.cds--switcher__item-link) {
+      padding: 0.5rem 1rem;
+    }
+
     &_label {
       color: var(--cds-text-secondary);
       font-weight: var(--cds-label-01-font-weight);
@@ -17,21 +23,19 @@
     }
 
     &_header {
-      block-size: auto;
-      :global(.cds--switcher__item-link) {
-        block-size: auto;
-      }
+      width: 100%;
+      padding: 0.5rem 1rem;
+      word-wrap: break-word;
     }
 
-    &_switcherItemLabel {
-      :global(.cds--switcher__item-link) {
-        &:hover {
-          cursor: default;
-          background: none;
-        }
-        &:focus {
-          outline: none;
-        }
+    &_unitTenantSection {
+      padding: 0.5rem 1rem;
+      width: 100%;
+      .profileMenu_label {
+        margin-bottom: 0.5rem;
+      }
+      .profileMenu_title {
+        margin-bottom: 0rem;
       }
     }
 
@@ -40,6 +44,7 @@
     }
 
     &_profileLink {
+      margin-top: 0.875rem;
       color: var(--cds-link-primary);
     }
 
@@ -49,5 +54,10 @@
         margin-right: 8px;
       }
     }
+  }
+
+  div:has(> .profileMenu) {
+    height: fit-content;
+    max-height: calc(100vh - 3rem);
   }
 }

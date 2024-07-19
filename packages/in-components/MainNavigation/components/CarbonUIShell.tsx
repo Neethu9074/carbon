@@ -121,8 +121,6 @@ import ProfileMenu from './ProfileMenu/ProfileMenu';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-import local from './CarbonUIShell.mless';
-
 interface HeaderContentProps {
   expanded: boolean;
   onClickSideNavExpand: () => void;
@@ -598,17 +596,18 @@ function HeaderContent({ expanded, onClickSideNavExpand }: HeaderContentProps) {
     <>
       {playwithEnabled || playWithReleaseEnabled ? <AsyncComponent component={NewPlayWithHeader} /> : null}
       <AsyncComponent component={NotificationBarSticky} />
-      <HeaderGlobalAction
-        onClick={onClickSideNavExpand}
-        tooltipAlignment="end"
-        aria-label={expanded ? 'Close' : 'Open'}
-        aria-expanded={expanded}
-        isActive={expanded}
-        aria-hidden="true"
-        className={local.profileMenuSwitcher}
-      >
-        <UserIcon size="l" color="var(--cds-icon-secondary)" aria-hidden="true" />
-      </HeaderGlobalAction>
+      <div id="profileMenu-switcher">
+        <HeaderGlobalAction
+          onClick={onClickSideNavExpand}
+          tooltipAlignment="end"
+          aria-label={expanded ? 'Close' : 'Open'}
+          aria-expanded={expanded}
+          isActive={expanded}
+          aria-hidden="true"
+        >
+          <UserIcon size="s" color="var(--cds-icon-secondary)" aria-hidden="true" />
+        </HeaderGlobalAction>
+      </div>
     </>
   );
 }
@@ -627,7 +626,7 @@ export default function CarbonUIShell() {
       titleDetail={titleDetail}
       headerContent={<HeaderContent expanded={expanded} onClickSideNavExpand={onClickSideNavExpand} />}
       headerPanelExpanded={expanded}
-      headerPanelContent={<ProfileMenu isSideNavExpanded={expanded} />}
+      headerPanelContent={<ProfileMenu isSideNavExpanded={expanded} onClickSideNavExpand={onClickSideNavExpand} />}
     >
       <HomeLink />
       <WebsiteMobileAppView />
