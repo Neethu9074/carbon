@@ -394,26 +394,29 @@ export type ResultsCurrentState = {
   locationLabels?: string[];
 };
 
-export const resultsFilterUrlStateDefinition = {
-  bind: [
-    {
-      path: resultsPathSegment,
-      name: 'status',
-      as: 'status',
-      initialState: [],
-      parser: buildJsonParser([]),
-      serializer: buildJsonSerializer()
-    },
-    {
-      path: resultsPathSegment,
-      name: 'locationLabels',
-      as: 'locationLabels',
-      initialState: [],
-      parser: buildJsonParser([]),
-      serializer: buildJsonSerializer()
-    }
-  ]
-} as Options<UrlState>;
+export const resultsFilterUrlStateDefinition = (selectedMetric?: string) => {
+  const urlState = {
+    bind: [
+      {
+        path: resultsPathSegment,
+        name: 'status',
+        as: 'status',
+        initialState: selectedMetric === 'status' ? ['0'] : [],
+        parser: buildJsonParser([]),
+        serializer: buildJsonSerializer()
+      },
+      {
+        path: resultsPathSegment,
+        name: 'locationLabels',
+        as: 'locationLabels',
+        initialState: [],
+        parser: buildJsonParser([]),
+        serializer: buildJsonSerializer()
+      }
+    ]
+  } as Options<UrlState>;
+  return urlState;
+};
 
 export interface AdvancedModeProps {
   form: MapForm<any>;
