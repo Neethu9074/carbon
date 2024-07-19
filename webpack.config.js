@@ -47,7 +47,7 @@ const definePlugin = new webpack.DefinePlugin({
   'process.env.IS_TEST': 'false'
 });
 
-const gitCommitIdPrefix = process.env.GIT_COMMIT ?? '';
+const gitCommitIdPrefix = process.env.GIT_SHORT_COMMIT ?? '';
 
 const plugins = [
   new WebpackBar(),
@@ -58,7 +58,7 @@ const plugins = [
   process.env.ANALYZE_BUNDLE && new BundleAnalyzerPlugin(),
   new MiniCssExtractPlugin({
     filename: 'compStyle.css',
-    chunkFilename: gitCommitIdPrefix + '[id]-chunks.css',
+    chunkFilename: gitCommitIdPrefix + '-[id]-chunks.css',
     ignoreOrder: true
   }),
   isDevModeBuild &&

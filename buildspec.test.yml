@@ -9,7 +9,7 @@ env:
     INSTANA_ARTIFACTORY_PASSWORD: 'delivery.instana.io.internal.rw.password'
     EFS_DATA_DIR: 'efs.data.dir'
     EFS_DNS: 'efs.data.dns'
-    GITHUB_API_TOKEN: "ibm.github.e.api.token"
+    GITHUB_API_TOKEN: 'ibm.github.e.api.token'
     GITHUB_READ_PASSWORD: 'github.read.password'
     GITHUB_READ_USER: 'github.read.user'
 
@@ -26,6 +26,7 @@ phases:
       - ./build/ci-shared-tools/scripts/codebuild/setup.bash
       # Define the standard build env vars
       - export GIT_COMMIT="$(./build/ci-shared-tools/scripts/git/getCommitId.js)"
+      - export GIT_SHORT_COMMIT="$(./build/ci-shared-tools/scripts/git/getShortCommitId.js)"
       - export GIT_BRANCH="$(./build/ci-shared-tools/scripts/git/getBranch.js)"
       - export COMMIT_AUTHOR="$(./build/ci-shared-tools/scripts/git/getCommitAuthor.js)"
       - export BUILD_URL="https://us-west-2.console.aws.amazon.com/codesuite/codebuild/projects/ui-client/build/$CODEBUILD_BUILD_ID/log?region=us-west-2"
