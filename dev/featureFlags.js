@@ -153,5 +153,6 @@ module.exports = {
   preAggregatedMetricsQueryEnabled: false,
   syntheticMultiAppEnabled: true,
   carbonFileUploaderEnabled: true,
-  syntheticMultiWebMobileEnabled: true
+  syntheticMultiWebMobileEnabled: true,
+  assistMeEnabled: true
 };

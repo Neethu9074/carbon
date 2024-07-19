@@ -151,6 +151,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'assistMeEnabled',
+    instanaCtlKey: 'feature.assistMe.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'ampEnabled',
     instanaCtlKey: 'feature.amp.enabled',
     defaultValue: true
