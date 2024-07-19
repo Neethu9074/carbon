@@ -55,7 +55,7 @@ export default function BusinessProcessDashboard() {
   };
 
   return (
-    <>
+    <div className={locals.processSummaryDiv}>
       <ViewTrackingMeta
         data={{
           productArea: productAreas.bizops,
@@ -69,7 +69,7 @@ export default function BusinessProcessDashboard() {
         props={props}
         tabChangeTracker={clickBizopsProcessTabsTracker}
       />
-    </>
+    </div>
   );
 }
 

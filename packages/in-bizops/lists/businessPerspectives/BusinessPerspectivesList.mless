@@ -9,3 +9,9 @@
     margin-right: 0.5rem;
   }
 }
+
+:global {
+  :local(.perspectiveList) .carbon-tabs button {
+    display: none;
+  }
+}
