@@ -21,7 +21,7 @@ export default {
               values={{
                 line: line,
                 position: position,
-                message: message
+                message: message.slice(0, 240)
               }}
             />
           </span>
