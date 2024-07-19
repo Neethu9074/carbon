@@ -65,10 +65,10 @@ import useEntityForm from 'in-settings/hooks/useEntityForm';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
+import { Action, ActionType, Field } from 'in-types';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title/Title';
 import CopyActionLink from './CopyActionLink';
-import { Action, Field } from 'in-types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -238,7 +238,7 @@ function save(form: MapForm<any>, id: string | null, isNew: boolean, entity: Act
 function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | null): NewAction {
   const name = (form.get('name') as FormField<string>).value;
   const description = (form.get('description') as FormField<string>).value;
-  const type = (form.get('type') as FormField<string>).value;
+  const type = (form.get('type') as FormField<ActionType>).value;
   const tags = (form.get('tags') as FormField<string[]>).value;
   const parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
   const timeout = (form.get('timeout') as FormField<string>).value;

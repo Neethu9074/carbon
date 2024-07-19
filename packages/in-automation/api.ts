@@ -25,7 +25,8 @@ import {
   LogAlertConfigWithMetadata,
   GlobalApplicationsAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
-  ServiceLevelsAlertConfigWithMetadata
+  ServiceLevelsAlertConfigWithMetadata,
+  ActionType
 } from 'in-types';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
@@ -542,7 +543,7 @@ const createTimeoutField = (value: string): Field => ({
 
 export function createAction(
   name: string = t('in-automation:newAction'),
-  type: string = DOC_LINK_TYPE,
+  type: ActionType = DOC_LINK_TYPE,
   description: string = '',
   fields: Field[] = [createDocLinkField('')],
   tags: string[] = []

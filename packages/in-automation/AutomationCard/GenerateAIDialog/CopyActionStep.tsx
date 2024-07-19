@@ -43,7 +43,6 @@ export function CopyActionStep({
 }) {
   const name = form.get('name');
   const description = form.get('description');
-  const type = form.get('type');
   const tags = form.get('tags');
   const availableTags = useActionTags();
 
@@ -133,12 +132,12 @@ export function CopyActionStep({
                 </div>
               </div>
               <SectionHeading>{t('in-automation:ActionCatalog.2ActionConfiguration')}</SectionHeading>
-              {type.map(field => (
+              {selectedAIAction?.type && (
                 <FormGroup>
                   <Label htmlFor="action-type">{t('in-automation:type')}</Label>
-                  <Typography variant="body-regular">{getType(field.value)}</Typography>
+                  <Typography variant="body-regular">{getType(selectedAIAction?.type)}</Typography>
                 </FormGroup>
-              ))}
+              )}
               {isScript(selectedAIAction?.type) && <ScriptSection form={form} updateForm={updateForm} />}
               {isManual(selectedAIAction?.type) && <ManualSection form={form} updateForm={updateForm} />}
             </Col>

@@ -40,7 +40,6 @@ export type SetSelectedAIAction = (action: ScoredAction) => void;
 type AIActionFormItems = {
   name: FormField<string>;
   description: FormField<string>;
-  type: FormField<string>;
   manualContent?: FormField<string>;
   script?: FormField<string>;
   subtype?: FormField<string>;
@@ -76,7 +75,8 @@ export default function SimpleAIDialog({
   });
 
   const handleCreatePolicy = () => {
-    createPolicy({ form, event, setActiveKey, setActionError });
+    // We can't get to onCreate without a selectedAIAction, so we can safely non-null assert
+    createPolicy({ form, event, setActiveKey, setActionError, selectedAIAction: selectedAIAction! });
   };
 
   return (
@@ -131,10 +131,11 @@ interface createPolicyProps {
   setActiveKey: SetActiveKey;
   setActionError: (err: string) => void;
   form: AIActionForm;
+  selectedAIAction: ScoredAction;
 }
 
-const createPolicy = ({ form, event, setActiveKey, setActionError }: createPolicyProps) => {
-  const action = getActionSpecification(form);
+const createPolicy = ({ form, event, setActiveKey, setActionError, selectedAIAction }: createPolicyProps) => {
+  const action = getActionSpecification(form, selectedAIAction);
   saveNewAction(action).once(
     res => {
       copyAIGenaratedActionTracker({
@@ -205,10 +206,6 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
         value: action?.description ?? '',
         validator: notBlankValidator
       }),
-      type: createField({
-        value: action?.type ?? '',
-        validator: notBlankValidator
-      }),
       parameters: createField({
         value: mappedParams
       }),
@@ -271,10 +268,10 @@ function onCreateSuccess(name: string, actionId: string) {
   });
   close();
 }
-function getActionSpecification(form: AIActionForm) {
+function getActionSpecification(form: AIActionForm, selectedAIAction: ScoredAction) {
   const name = form.get('name').value;
   const description = form.get('description').value;
-  const type = form.get('type').value;
+  const type = selectedAIAction?.type;
   const parameters = form.get('parameters').value;
   const timeout = form.get('timeout').value;
   const tags = form.get('tags').value;
@@ -317,7 +314,7 @@ function onCreateFailed(error: Error) {
 const isStepDisabled = (step: number, form: AIActionForm, selectedAIAction: ScoredAction | null) => {
   const name = form.get('name').value;
   const description = form.get('description').value;
-  const type = form.get('type').value;
+  const type = selectedAIAction?.type;
   const content = form.get('manualContent')?.value;
   const script = form.get('script')?.value;
 

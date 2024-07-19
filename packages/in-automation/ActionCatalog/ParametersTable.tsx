@@ -8,7 +8,7 @@ import { MapForm, Field } from 'formalistic';
 import React, { useContext } from 'react';
 
 import { Link, Typography } from '@instana/components';
-import { Parameter } from '@instana/types';
+import { ActionType, Parameter } from '@instana/types';
 
 import {
   isAnsible as isAnsibleFn,
@@ -127,10 +127,10 @@ const getColumnDefinitions = ({
 
 export default function ParametersTable({ form, setForm, onChange }: ParametersTableProps) {
   const isNotEditable = useContext(isNotEditableContext);
-  const isAnsible = isAnsibleFn((form.get('type') as Field<string>).value);
-  const isGithub = isGithubFn((form.get('type') as Field<string>).value);
-  const isGitlab = isGitlabFn((form.get('type') as Field<string>).value);
-  const isJira = isJiraFn((form.get('type') as Field<string>).value);
+  const isAnsible = isAnsibleFn((form.get('type') as Field<ActionType>).value);
+  const isGithub = isGithubFn((form.get('type') as Field<ActionType>).value);
+  const isGitlab = isGitlabFn((form.get('type') as Field<ActionType>).value);
+  const isJira = isJiraFn((form.get('type') as Field<ActionType>).value);
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
   const ticketIdParameterExist = (isGithub || isGitlab || isJira) && doesParameterExist(parameters, 'id');
   const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, isAnsible, ticketIdParameterExist });
