@@ -7,13 +7,13 @@ import React from 'react';
 
 import { Button } from '@instana/legacy';
 
-import { constructLink } from 'in-integrations/logging/logdna/LinkConstruction';
-import { jumpToLogDna } from 'in-integrations/logging/logdna/tracker';
+import { constructLink } from 'in-integrations/logging/mezmo/LinkConstruction';
+import { jumpToMezmo } from 'in-integrations/logging/mezmo/tracker';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-export default function LogDnaButton(props) {
-  const { logdnaIntegration: integration } = props;
+export default function MezmoButton(props) {
+  const { mezmoIntegration: integration } = props;
 
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
@@ -31,7 +31,7 @@ export default function LogDnaButton(props) {
         integration.accountId,
         integration.baseUrl
       )}
-      onClick={() => jumpToLogDna()}
+      onClick={() => jumpToMezmo()}
     >
       {t('in-settings:tabs.mezmo')}
     </Button>

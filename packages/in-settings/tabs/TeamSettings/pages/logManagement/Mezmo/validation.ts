@@ -7,7 +7,7 @@ import { ValidationResult } from 'formalistic';
 
 import { t } from 'in-i18n';
 
-export function validLogDnaId(str: string): ValidationResult {
+export function validMezmoId(str: string): ValidationResult {
   let alphaNumeric = /^[a-zA-Z0-9-]+$/;
   if (!alphaNumeric.test(str)) {
     return [

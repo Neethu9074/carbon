@@ -12,15 +12,15 @@ import { Select } from '@instana/components';
 // to suppress warning on deprecated code temporarily
 // eslint-disable-next-line import/no-deprecated
 import { goToPath } from 'in-stores/navigation';
-import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb'
-import { ibmCloudDefaultBaseURL, logDnaDefaultBaseURL } from 'in-integrations/logging/logdna/LinkConstruction';
-import IbmCloudLogDnaForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/IbmCloudLogDnaForm';
-import LogDnaSaasForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaSaasForm';
-import { validLogDnaId } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/validation';
-import { teamSettingsLogManagementLogDna } from 'in-settings/navigation/paths';
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb';
+import { ibmCloudDefaultBaseURL, logMezmoDefaultBaseURL } from 'in-integrations/logging/mezmo/LinkConstruction';
+import IbmCloudLogMezmoForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/IbmCloudMezmoForm';
+import MezmoSaasForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/MezmoSaasForm';
+import { validMezmoId } from 'in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/validation';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
+import { teamSettingsLogManagementMezmo } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
-import { integrationKey } from 'in-integrations/logging/logdna/consts';
+import { integrationKey } from 'in-integrations/logging/mezmo/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -34,19 +34,19 @@ import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
-import locals from './LogDnaForm.mless';
+import locals from './MezmoForm.mless';
 
 const block = 'in-ui-config';
 
-const logger = createLogger('logdnaConfig');
+const logger = createLogger('mezmoConfig');
 
-export default function LogDna() {
+export default function Mezmo() {
   const [form, setForm] = useState(null);
   const [integration, setIntegration] = useState(null);
   const [saving, setSaving] = useState({ responseSubscription: null, errorSubscription: null, saving: false });
   const [message, setMessage] = useState(t('in-settings:tabs.loading'));
   const [loading, setLoading] = useState(true);
-  const updateForm = useLogDnaFormSideEffects(form, setForm, integration);
+  const updateForm = useMezmoFormSideEffects(form, setForm, integration);
 
   useEffect(() => {
     if (form === null) {
@@ -109,7 +109,7 @@ export default function LogDna() {
       setIntegration(savedIntegration);
       // to suppress warning on deprecated code temporarily
       // eslint-disable-next-line import/no-deprecated
-      goToPath(teamSettingsLogManagementLogDna);
+      goToPath(teamSettingsLogManagementMezmo);
     });
 
     let errorSubscription = result$.errors().once(error => {
@@ -139,11 +139,11 @@ export default function LogDna() {
             <Row>
               <Col xs={2}>
                 <FormGroup>
-                  <Label htmlFor="logdna-selected-instance" hasError={enabled && !field.valid && field.touched}>
+                  <Label htmlFor="mezmo-selected-instance" hasError={enabled && !field.valid && field.touched}>
                     {t('in-settings:tabs.mezmoInstance')}
                   </Label>
                   <Select
-                    id="logdna-selected-instance"
+                    id="mezmo-selected-instance"
                     value={field.value}
                     onChange={e => onChange('instanceType', e.target.value)}
                     disabled={!enabled}
@@ -157,14 +157,14 @@ export default function LogDna() {
             </Row>
           ))}
           {form.get('instanceType').value === 'LOG_DNA_SAAS' ? (
-            <LogDnaSaasForm
+            <MezmoSaasForm
               form={form}
               onChange={onChange}
               areFieldsInvalid={areFieldsInvalid(form)}
               disabled={!enabled}
             />
           ) : (
-            <IbmCloudLogDnaForm
+            <IbmCloudLogMezmoForm
               form={form}
               onChange={onChange}
               areFieldsInvalid={areFieldsInvalid(form)}
@@ -192,7 +192,7 @@ function createForm(integration) {
     } else if (integration?.instanceType === 'IBM_CLOUD') {
       return ibmCloudDefaultBaseURL;
     }
-    return logDnaDefaultBaseURL;
+    return logMezmoDefaultBaseURL;
   }
 
   return createMapForm()
@@ -206,7 +206,7 @@ function createForm(integration) {
       'accountId',
       createField({
         value: integration ? integration['accountId'] : '',
-        validator: validLogDnaId
+        validator: validMezmoId
       })
     )
     .put(
@@ -242,7 +242,7 @@ function areFieldsInvalid(form) {
   return !form.get('accountId').valid || !form.get('baseUrl').valid;
 }
 
-function useLogDnaFormSideEffects(form, setForm, integration) {
+function useMezmoFormSideEffects(form, setForm, integration) {
   const effects = [
     {
       path: ['instanceType'],
@@ -263,7 +263,7 @@ function useLogDnaFormSideEffects(form, setForm, integration) {
     if (formInstance === savedInstance) {
       return form.updateIn(['baseUrl'], f => f.setValue(integration['baseUrl']));
     } else if (formInstance === 'LOG_DNA_SAAS') {
-      return form.updateIn(['baseUrl'], f => f.setValue(logDnaDefaultBaseURL));
+      return form.updateIn(['baseUrl'], f => f.setValue(logMezmoDefaultBaseURL));
     } else if (formInstance === 'IBM_CLOUD') {
       return form.updateIn(['baseUrl'], f => f.setValue(ibmCloudDefaultBaseURL));
     }

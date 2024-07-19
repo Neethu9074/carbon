@@ -39,7 +39,7 @@ import {
   teamSettingsLogManagementDeleteLogs,
   teamSettingsLogManagementElk,
   teamSettingsLogManagementHumio,
-  teamSettingsLogManagementLogDna,
+  teamSettingsLogManagementMezmo,
   teamSettingsLogManagementRetentionPeriod,
   teamSettingsLogManagementLogVolume,
   teamSettingsLogManagementSplunk,
@@ -81,9 +81,9 @@ import AccessLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AccessLog/A
 import ActionLogPage from 'in-settings/tabs/TeamSettings/pages/audit/ActionLog/ActionLog';
 import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SplunkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/Splunk';
-import LogDnaPage from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDna';
 import GroupsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Groups';
 import GroupPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group';
+import MezmoPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/Mezmo';
 import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/Humio';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
@@ -309,9 +309,9 @@ function navigationTreeForRole(role, isAnyIDPActive) {
           component: HumioPage
         },
         {
-          path: teamSettingsLogManagementLogDna,
+          path: teamSettingsLogManagementMezmo,
           label: t('in-settings:tabs.mezmo'),
-          component: LogDnaPage
+          component: MezmoPage
         },
         {
           path: teamSettingsLogManagementSplunk,

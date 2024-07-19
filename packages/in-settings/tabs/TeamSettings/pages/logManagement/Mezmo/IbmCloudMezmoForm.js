@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
-import { constructLink } from 'in-integrations/logging/logdna/LinkConstruction';
+import { constructLink } from 'in-integrations/logging/mezmo/LinkConstruction';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -16,23 +16,23 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t, Trans } from 'in-i18n';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaForm.mless';
+import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/MezmoForm.mless';
 
-export default function LogDnaSaasForm({ form, onChange, disabled, areFieldsInvalid }) {
+export default function IbmCloudLogMezmoForm({ form, onChange, disabled, areFieldsInvalid }) {
   let accountId = form.get('accountId').value;
-  let instanceType = 'LOG_DNA_SAAS';
-  let logDnaBaseURL = form.get('baseUrl').value;
-  const logdnaUrl = constructLink({}, instanceType, accountId, logDnaBaseURL);
+  let instanceType = 'IBM_CLOUD';
+  let ibmCloudBaseURL = form.get('baseUrl').value;
+  const mezmoUrl = constructLink({}, instanceType, accountId, ibmCloudBaseURL);
 
   return (
     <fieldset>
       {form.get('baseUrl').map(field => (
         <FormGroup>
-          <Label htmlFor="logdna-base-url" hasError={!disabled && !field.valid && field.touched}>
-            {t('in-settings:tabs.mezmoBaseURL')}
+          <Label htmlFor="mezmo-ibm-cloud-base-url" hasError={!disabled && !field.valid && field.touched}>
+            {t('in-settings:tabs.mezmoIbmCloudBaseURL')}
           </Label>
           <Input
-            id="logdna-base-url"
+            id="mezmo-ibm-cloud-base-url"
             value={field.value}
             onChange={e => onChange('baseUrl', e.target.value)}
             hasError={!disabled && !field.valid && field.touched}
@@ -41,17 +41,17 @@ export default function LogDnaSaasForm({ form, onChange, disabled, areFieldsInva
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            <Trans i18nKey="in-settings:tabs.canBeFoundFromTheMezmoUrl" />
+            <Trans i18nKey="in-settings:tabs.canBeFoundFromTheIbmCloudUrl" />
           </HelpText>
         </FormGroup>
       ))}
       {form.get('accountId').map(field => (
         <FormGroup>
-          <Label htmlFor="logdna-account-id" hasError={!disabled && !field.valid && field.touched}>
-            {t('in-settings:tabs.mezmoAccountId')}
+          <Label htmlFor="mezmo-ibm-cloud-id" hasError={!disabled && !field.valid && field.touched}>
+            {t('in-settings:tabs.mezmoIbmCloudId')}
           </Label>
           <Input
-            id="logdna-account-id"
+            id="mezmo-ibm-cloud-id"
             value={field.value}
             onChange={e => onChange('accountId', e.target.value)}
             hasError={!disabled && !field.valid && field.touched}
@@ -60,7 +60,7 @@ export default function LogDnaSaasForm({ form, onChange, disabled, areFieldsInva
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            <Trans i18nKey="in-settings:tabs.enterMezmoAccountId" />
+            <Trans i18nKey="in-settings:tabs.enterIbmCloudAccountId" />
           </HelpText>
         </FormGroup>
       ))}
@@ -82,9 +82,9 @@ export default function LogDnaSaasForm({ form, onChange, disabled, areFieldsInva
       }
       {!areFieldsInvalid && (
         <FormGroup>
-          <Label htmlFor="logdna-test-link">{t('in-settings:tabs.testYourMezmoLink')}</Label>
-          <Link size="sm" href={logdnaUrl} external>
-            {logdnaUrl}
+          <Label htmlFor="mezmo-test-link">{t('in-settings:tabs.testYourMezmoLink')}</Label>
+          <Link size="sm" href={mezmoUrl} external>
+            {mezmoUrl}
           </Link>
         </FormGroup>
       )}

@@ -4,7 +4,6 @@
  */
 
 :local {
-
   .page {
     padding: 0;
   }

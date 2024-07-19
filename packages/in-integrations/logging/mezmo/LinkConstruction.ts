@@ -6,7 +6,7 @@
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { Parameters } from 'in-stores/navigation/types';
 
-export const logDnaDefaultBaseURL = 'https://app.mezmo.com/';
+export const logMezmoDefaultBaseURL = 'https://app.mezmo.com/';
 export const ibmCloudDefaultBaseURL = 'https://cloud.ibm.com/observe/embedded-view/logging/';
 
 export function constructLink(
@@ -16,13 +16,13 @@ export function constructLink(
   baseUrl: string | null
 ) {
   if (!baseUrl) {
-    baseUrl = instanceType === 'LOG_DNA_SAAS' ? logDnaDefaultBaseURL : ibmCloudDefaultBaseURL;
+    baseUrl = instanceType === 'LOG_DNA_SAAS' ? logMezmoDefaultBaseURL : ibmCloudDefaultBaseURL;
   }
   const url =
     instanceType === 'LOG_DNA_SAAS'
       ? `${baseUrl}${accountId}/logs/view${toParams(queryParameters, '?', '&')}`
       : `${baseUrl}${accountId}${toParams(queryParameters, '?', '&')}`;
 
-  // LogDNA doesn't recognize an URL-encoded , (/%2c/i) as separator, only an unencoded ,
+  // Mezmo doesn't recognize an URL-encoded , (/%2c/i) as separator, only an unencoded ,
   return url.replace(/%2c/i, ',');
 }
