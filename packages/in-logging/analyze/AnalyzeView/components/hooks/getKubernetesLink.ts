@@ -4,28 +4,23 @@
  * Copyright IBM Corp. 2022
  */
 
-import { setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { capitalize } from 'in-services/formatters/string';
 import { LogItem, LogTag } from 'in-types';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 
-export function getKubernetesLink(tag: LogTag, log: LogItem) {
-  const entity = tag.name?.split('.')[1];
-  const entityId = log.tags.find(tag => tag.name === `id.kubernetes${capitalize(entity ?? '')}`)?.stringValue;
+type LinkGetter = (tag: LogTag, log: LogItem) => string | null;
 
-  if (!entity || !entityId) return null;
+export function useGetKubernetesLink(): LinkGetter {
+  const { location, createHref } = useNavigation();
 
-  const pathname = `/kubernetes/${entity}/summary`;
+  return (tag, log) => {
+    const entity = tag.name?.split('.')[1];
+    const entityId = log.tags.find(tag => tag.name === `id.kubernetes${capitalize(entity ?? '')}`)?.stringValue;
 
-  const matrixParameter = {
-    path: `/${entity}`,
-    name: `${entity}Id`,
-    serializer: String,
-    parser: String
-  };
+    if (!entity || !entityId) return null;
 
-  return getModifiedUrlStream(location => {
-    location.pathname = pathname;
-    setOrDeleteMatrixParameter(location, matrixParameter, entityId);
-  });
+    location.pathname = `/kubernetes/${entity};${entity}Id=${entityId}/summary`;
+
+    return createHref(location);
+  }
 }
