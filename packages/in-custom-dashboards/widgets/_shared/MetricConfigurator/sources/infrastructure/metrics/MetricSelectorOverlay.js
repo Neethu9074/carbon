@@ -36,6 +36,7 @@ export default function MetricSelectorOverlay({
       shouldTriggerWindowResize
       onChange={node => {
         onChange(node);
+        onSelectType?.(undefined);
         close();
       }}
       query={query}
