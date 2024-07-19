@@ -8451,6 +8451,8 @@
       "sharedMemory": "Shared Memory"
     },
     "prometheus": {
+      "prometheusMetricParseErrorIssueDescription": "The endpoint metric data does not appear to conform to the prometheus metric specification. A parsing error occurred on line {{line}} and position {{position}}. Line contents:{{message}}",
+      "troubleshootingDocs": "Troubleshooting docs",
       "dashboard": {
         "noMetricsPrometheusEndpoint": "There are no metrics exposed on the given Prometheus endpoint.",
         "value": "Value",
