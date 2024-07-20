@@ -51,7 +51,7 @@
       width: 8rem;
 
       &:first-child {
-        width: 3rem;
+        width: 4rem;
         text-transform: uppercase;
       }
 
