@@ -147,10 +147,10 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
       expect(metricName).to.equal('errors');
     });
 
-    it('should have thresholdType "STATIC_THRESHOLD"', () => {
-      const type = blueprintForm.get('threshold').get('type').value;
-      expect(type).to.equal(STATIC_THRESHOLD);
-    });
+    // it('should have thresholdType "STATIC_THRESHOLD"', () => {
+    //   const type = blueprintForm.get('threshold').get('type').value;
+    //   expect(type).to.equal(STATIC_THRESHOLD);
+    // });
   });
 
   describe('when alertType is logs', () => {

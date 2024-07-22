@@ -278,6 +278,9 @@
             "label": "Payloads",
             "title": "Custom Payload"
           }
+        },
+        "staticOrAdaptiveSwitch": {
+          "description": "Avoid using adaptive thresholds for error metrics, as they may not trigger alerts for gradually increasing errors."
         }
       },
       "chart": {
@@ -364,14 +367,22 @@
           "throughputLow": "Number of calls is anomalously low"
         },
         "descriptionPlaceholder": {
-          "errorRate_higherThan": "The erroneous call rate is higher than {{valueRoundedToDecimals}}%.",
-          "errorRate_higherEqual": "The erroneous call rate is higher or equal to {{valueRoundedToDecimals}}%.",
-          "errorRate_lowerThan": "The erroneous call rate is lower than {{valueRoundedToDecimals}}%.",
-          "errorRate_lowerEqual": "The erroneous call rate is lower or equal to {{valueRoundedToDecimals}}%.",
-          "errorCount_higherThan": "The number of erroneous calls is higher than {{valueRoundedToDecimals}}.",
-          "errorCount_higherEqual": "The number of erroneous calls is higher or equal to {{valueRoundedToDecimals}}.",
-          "errorCount_lowerThan": "The number of erroneous calls is lower than {{valueRoundedToDecimals}}.",
-          "errorCount_lowerEqual": "The number of erroneous calls is lower or equal to {{valueRoundedToDecimals}}.",
+          "errorRateStaticThreshold_higherThan": "The erroneous call rate is higher than {{valueRoundedToDecimals}}%.",
+          "errorRateStaticThreshold_higherEqual": "The erroneous call rate is higher or equal to {{valueRoundedToDecimals}}%.",
+          "errorRateStaticThreshold_lowerThan": "The erroneous call rate is lower than {{valueRoundedToDecimals}}%.",
+          "errorRateStaticThreshold_lowerEqual": "The erroneous call rate is lower or equal to {{valueRoundedToDecimals}}%.",
+          "errorRateDefault_higherThan": "The erroneous call rate is higher than expected.",
+          "errorRateDefault_higherEqual": "The erroneous call rate is higher or equal to expected.",
+          "errorRateDefault_lowerThan": "The erroneous call rate is lower than expected.",
+          "errorRateDefault_lowerEqual": "The erroneous call rate is lower or equal to expected.",
+          "errorCountStaticThreshold_higherThan": "The number of erroneous calls is higher than {{valueRoundedToDecimals}}.",
+          "errorCountStaticThreshold_higherEqual": "The number of erroneous calls is higher or equal to {{valueRoundedToDecimals}}.",
+          "errorCountStaticThreshold_lowerThan": "The number of erroneous calls is lower than {{valueRoundedToDecimals}}.",
+          "errorCountStaticThreshold_lowerEqual": "The number of erroneous calls is lower or equal to {{valueRoundedToDecimals}}.",
+          "errorCountDefault_higherThan": "The number of erroneous calls is higher than expected.",
+          "errorCountDefault_higherEqual": "The number of erroneous calls is higher or equal to expected.",
+          "errorCountDefault_lowerThan": "The number of erroneous calls is lower than expected.",
+          "errorCountDefault_lowerEqual": "The number of erroneous calls is lower or equal to expected.",
           "slownessStaticThreshold_slowerThan": "Calls are slower than {{thresholdValue}} ms based on latency ({{aggregationText}}).",
           "slownessStaticThreshold_slowEqual": "Calls are slower or equal to {{thresholdValue}} ms based on latency ({{aggregationText}}).",
           "slownessStaticThreshold_below": "Calls are below {{thresholdValue}} ms based on latency ({{aggregationText}}).",
