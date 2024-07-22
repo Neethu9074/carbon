@@ -19,11 +19,14 @@ const DEFAULT_SCORE = 1;
 
 const keys: Array<FuseOptionKey<Options>> = [{ name: 'label', weight: 2 }, 'description', 'parentLabels', 'tagName'];
 
+// minimum proportion of token to match upon
+const minCharPercentage: number = 0.55; // at least half
+
 const fuseOptions: IFuseOptions<Options> = {
   includeScore: true,
   includeMatches: true,
   findAllMatches: true,
-  minMatchCharLength: 4,
+  minMatchCharLength: 2,
   keys
 };
 
@@ -47,7 +50,34 @@ export function useSearch(options: Options[], query: string, matchAllTokens: boo
 }
 
 function searchTokens(fuse: Fuse<Options>, tokens: string[], matchAllTokens: boolean) {
-  return tokens.map(token => fuse.search(token, { limit: 10000 })).reduce(mergeResults(matchAllTokens), []);
+  return tokens
+    .map(token => ({ token, results: fuse.search(token, { limit: 10000 }) }))
+    .map(removeIndicesNotMatchingToken)
+    .reduce(mergeResults(matchAllTokens), []);
+}
+
+function removeIndicesNotMatchingToken({ token, results }: { token: string; results: FuseResult<Options>[] }) {
+  const minChars = Math.floor(token.length * minCharPercentage);
+  return results
+    .map(result => ({
+      ...result,
+      matches: result.matches
+        ?.map(match => {
+          if (!match.value) {
+            return match;
+          }
+          return {
+            ...match,
+            indices: match.indices
+              .filter(range => range[1] - range[0] >= minChars)
+              .filter(range =>
+                token.toLowerCase().includes(match.value!.toLowerCase().substring(range[0], range[1] + 1))
+              )
+          };
+        })
+        .filter(match => match.indices.length > 0)
+    }))
+    .filter(result => result.matches && result.matches?.length > 0);
 }
 
 function mergeResults(matchAllTokens: boolean) {
