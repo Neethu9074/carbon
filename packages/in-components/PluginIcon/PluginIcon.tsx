@@ -11,7 +11,10 @@ import { SvgIcon } from '@instana/components';
 
 import { isWebsitePlugin, isSyntheticPlugin, isMobileAppPlugin, isLogPlugin } from 'in-forge/plugins/pluginTypes';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
+import { capitalize } from 'in-services/formatters/string';
 import { SnapshotMap } from 'in-components/EntityLink';
+import { getPluginName } from 'in-sdk/pluginName';
+import Tooltip from 'in-components/Tooltip';
 
 interface PluginIconProps extends Omit<React.ComponentProps<typeof SvgIcon>, 'type'> {
   size?: Size;
@@ -22,7 +25,19 @@ interface PluginIconProps extends Omit<React.ComponentProps<typeof SvgIcon>, 'ty
 
 export default forwardRef(function PluginIcon(props: PluginIconProps, ref: React.ForwardedRef<SVGSVGElement>) {
   const { size, color = themes.default.ids.color.option.neutral['700'] } = props;
-  return <SvgIcon ref={ref} {...props} size={size} color={color} type={getIconType(props.snapshot, props.plugin)} />;
+  const pluginName = getPluginName(props.plugin) || capitalize(props.snapshot?.get('plugin') as string) || 'Unknown';
+  return (
+    <Tooltip delay={500} content={pluginName}>
+      <SvgIcon
+        ref={ref}
+        {...props}
+        size={size}
+        color={color}
+        aria-label={`${pluginName} icon`}
+        type={getIconType(props.snapshot, props.plugin)}
+      />
+    </Tooltip>
+  );
 });
 
 function getIconType(snapshot?: SnapshotMap, plugin?: string): string {
