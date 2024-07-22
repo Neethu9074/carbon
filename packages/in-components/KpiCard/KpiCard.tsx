@@ -13,6 +13,7 @@ import { Observable } from '@instana/observables';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { carbonTooltipEnabled } from 'in-services/featureFlags';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
 import { ResultPrecision } from 'in-types';
@@ -148,7 +149,7 @@ export default function KpiCard({
         })}
         ref={ref}
       >
-        <Tooltip content={title} align="auto" overflowEllipsis>
+        <Tooltip content={title} align={carbonTooltipEnabled ? 'auto' : 'bottomLeft'} overflowEllipsis>
           <span className={locals.titleText}>{title}</span>
         </Tooltip>
         <div className={locals.flexTooltip}>
