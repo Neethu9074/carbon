@@ -14,6 +14,7 @@ import Pagination from 'in-components/Pagination/Pagination';
 import { t } from 'in-i18n';
 
 import locals from './PaginatedMetricList.mless';
+import { isBlank } from 'in-services/util/string';
 
 const initialState = {
   query: '',
@@ -24,7 +25,8 @@ const itemsPerPage = 100;
 
 export default function PaginatedMetricList({ options, onChange, isMetricDisabled }) {
   const [{ query, currentPage }, setState] = useState(initialState);
-  options = useSearch(options, query);
+  const filteredOptions = useSearch(options, query);
+  const resultingOptions = isBlank(query) ? options : filteredOptions;
 
   // Used to jump to the first available group when clicking enter in the input field.
   const staticContentWrapperRef = useRef();
@@ -54,7 +56,7 @@ export default function PaginatedMetricList({ options, onChange, isMetricDisable
       </div>
       <div className={locals.overlay}>
         <Ul>
-          {options.slice(currentPage * itemsPerPage - 100, currentPage * itemsPerPage).map(metric =>
+          {resultingOptions.slice(currentPage * itemsPerPage - 100, currentPage * itemsPerPage).map(metric =>
             isMetricDisabled(metric.metric) ? (
               <Li key={metric.metric} className={locals.disabled}>
                 {metric.label} <br />
@@ -81,7 +83,7 @@ export default function PaginatedMetricList({ options, onChange, isMetricDisable
         </Ul>
         <Pagination
           currentPage={currentPage}
-          numPages={Math.ceil(options.length / itemsPerPage)}
+          numPages={Math.ceil(resultingOptions.length / itemsPerPage)}
           onChange={newPage => {
             setState({
               currentPage: newPage,
