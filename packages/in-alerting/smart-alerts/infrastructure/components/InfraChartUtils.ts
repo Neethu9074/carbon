@@ -152,6 +152,12 @@ export function getChartConfig({ alertConfig, timeConfig }: ChartConfigProps) {
           metric: 'upperBound',
           granularity,
           aggregation
+        },
+        warningThreshold: {
+          metric: 'warningThreshold'
+        },
+        criticalThreshold: {
+          metric: 'criticalThreshold'
         }
       }
     }

@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Field } from 'formalistic';
 import { isNaN } from 'lodash';
+import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import { ThresholdValueInputWithValidationMessageProps } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
@@ -25,6 +25,8 @@ interface ThresholdValueInputProps extends ThresholdValueInputWithValidationMess
   min?: string;
   step?: string;
   name?: string;
+  thresholdField?: Field<any>;
+  getUpdatedForm?: (targetValue: number | null) => MapForm<any>;
 }
 /*
  * input field can represent a percentage or normal number field
@@ -42,6 +44,8 @@ export default function ThresholdValueInput({
   percentageMetric,
   metricUnitPostfix,
   isSmall,
+  thresholdField,
+  getUpdatedForm,
   ...props
 }: ThresholdValueInputProps) {
   const onValueChange = (targetValue: number | undefined) => {
@@ -51,15 +55,16 @@ export default function ThresholdValueInput({
     }
 
     if (updateForm) {
-      updateForm?.(
-        form.updateIn(['threshold', 'value'], f => (f as Field<number | null>).setValue(value).setTouched(true))
-      );
+      const updatedForm = getUpdatedForm
+        ? getUpdatedForm(value)
+        : form.updateIn(['threshold', 'value'], f => (f as Field<number | null>).setValue(value).setTouched(true));
+
+      updateForm(updatedForm);
     }
   };
 
-  const thresholdField = form.get('threshold').get('value');
-  const hasError = !thresholdField.valid && thresholdField.touched;
-  const value = getValueRoundedToDecimals(thresholdField.value, percentageMetric);
+  const hasError = !thresholdField?.valid && thresholdField?.touched;
+  const value = getValueRoundedToDecimals(thresholdField?.value, percentageMetric);
 
   return (
     <>
