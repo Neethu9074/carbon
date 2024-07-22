@@ -7,6 +7,7 @@ import React from 'react';
 
 // @ts-expect-error import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
+import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import registry from 'in-applications/technologyRegistry';
 
 export default {
@@ -17,7 +18,7 @@ export default {
   },
   component: TechnologyIndicatorList
 };
-
+ensureInfraPluginsAreEvaluated();
 const technologies = Object.keys(registry);
 
 export function Expanded() {
@@ -29,6 +30,9 @@ export function Responsive() {
 }
 export function Just10Total3ShownExpanded() {
   return <TechnologyIndicatorList technologies={technologies.slice(0, 10)} responsive={false} limit={3} />;
+}
+export function Just10TotalAllExpandedIeNoLimiterUsed() {
+  return <TechnologyIndicatorList technologies={technologies.slice(0, 10)} responsive={false} />;
 }
 export function AllTech15ShownExpanded() {
   return <TechnologyIndicatorList technologies={technologies} responsive={false} limit={15} />;
