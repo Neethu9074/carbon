@@ -91,7 +91,6 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
       )}
       slideInContentTitle={t('in-components:metricConfigurator.titleAddAMetric')}
       MetricCatalogConfiguratorHint={MetricCatalogConfiguratorHint}
-      className={locals.overlay}
     />
   );
 }
