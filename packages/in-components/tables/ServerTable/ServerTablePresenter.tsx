@@ -76,7 +76,7 @@ export default function ServerTablePresenter<
     leftHeader,
     numSkeletonRows = 3,
     isSearchable = true,
-    searchPlaceholder = '',
+    searchPlaceholder,
     searchMaxWidth,
     withoutSearchIcon = false,
     size = 'regular',

@@ -98,15 +98,7 @@ export default connectTo(({ pinnedItemTypes }) => ({
       rightHeaderContent={
         <>
           {header && <div className={locals.customHeaderWrapper}>{header}</div>}
-          {
-            <SearchInput
-              disabled={!hasContent}
-              width={250}
-              query={query}
-              placeholder=""
-              onChange={query => setQuery(query)}
-            />
-          }
+          <SearchInput disabled={!hasContent} width={250} query={query} onChange={query => setQuery(query)} />
         </>
       }
     >
