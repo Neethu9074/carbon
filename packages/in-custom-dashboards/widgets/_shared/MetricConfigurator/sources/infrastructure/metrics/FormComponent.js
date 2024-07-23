@@ -121,7 +121,8 @@ export default function FormComponent({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
     type: isTypePrefilled ? type : selectedType,
-    query: catalogQuery.debouncedValue
+    query: catalogQuery.debouncedValue,
+    withHierarchy: !isTypePrefilled
   });
 
   const kpiDefinitions = getKpiDefinitions(type);

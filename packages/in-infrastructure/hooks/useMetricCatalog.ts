@@ -17,13 +17,15 @@ export interface UseMetricCatalogOptions {
   tagFilterExpression: TagFilterExpression;
   type?: string;
   query?: string;
+  withHierarchy?: boolean;
 }
 
 export default function useMetricCatalog({
   getMetricCatalog,
   tagFilterExpression,
   type,
-  query
+  query,
+  withHierarchy = false
 }: UseMetricCatalogOptions): Result<MetricCatalog> {
   const timeConfig = useTimeConfig();
 
@@ -39,6 +41,7 @@ export default function useMetricCatalog({
         tagFilterExpression
           ? getMetricCatalogOnce(
               getMetricCatalog,
+              withHierarchy,
               type
             )({
               filter: { tagFilterExpression, timeConfig: modifiedTimeConfig },

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { keyCodes, HorizontalIndicator, SearchInput } from '@instana/components';
 
@@ -47,7 +47,7 @@ export default function SelectorOverlay({
   withIcons = true,
   query,
   onQueryChange,
-  onFocusNode = noop,
+  onFocusNode,
   disabled = false,
   shouldTriggerWindowResize = false,
   nodesToSearchFrom = (options, focusedNode) => (focusedNode ? [focusedNode] : options),
@@ -115,11 +115,23 @@ export default function SelectorOverlay({
   );
 }
 
+function findFocusedNode(options: Options[]) {
+  if (options.length != 1 || !options[0].children) {
+    return undefined;
+  }
+  if (options[0].children?.length > 1) {
+    return options[0];
+  }
+  return findFocusedNode(options[0].children);
+}
+
 export interface DataAvailableProps {
   disabled: boolean;
+  // when choosing a node
   onChange: (node: Options) => void;
   options: Options[];
-  onFocusNode: (node?: Options) => void;
+  // special handling for focused node
+  onFocusNode?: (node?: Options) => void;
   nodesToSearchFrom: (options: Options[], focusedNode?: Options) => Options[];
   query: string;
   shouldTriggerWindowResize?: boolean;
@@ -140,10 +152,11 @@ function DataAvailable({
   staticContentWrapperRef,
   searchElementRef
 }: DataAvailableProps) {
-  const [focusedNode, setFocusedNode] = useState<Options | undefined>(undefined);
-  useEffect(() => {
-    onFocusNode?.(focusedNode);
-  }, [focusedNode, onFocusNode]);
+  const [focusedNode, setFocusedNodeState] = useState<Options | undefined>(
+    onFocusNode ? findFocusedNode(options) : undefined
+  );
+  const setFocusedNode = (focusedNode?: Options) =>
+    onFocusNode ? onFocusNode(focusedNode) : setFocusedNodeState(focusedNode);
 
   // We use this ref to store the last element (either search or tag groups)
   // which received focus. This information is used when sliding out to restore
