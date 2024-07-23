@@ -8,7 +8,6 @@ import React, { Dispatch, ReactNode, SetStateAction } from 'react';
 import { MapForm } from 'formalistic';
 import classNames from 'classnames';
 
-import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData } from '@instana/types';
 import { CarbonLayer } from '@instana/components';
 
 import AlertingTearSheetFooter from 'in-alerting/components/AlertingTearSheetFooter';
@@ -43,7 +42,6 @@ export interface AlertingTearSheetProps {
   children: ReactNode;
   form: MapForm<any>;
   migrationMode?: boolean;
-  thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null;
   additionalValidationCheck: boolean;
   headerWithMsg: boolean;
   setForm: (form: MapForm<any>) => void;
