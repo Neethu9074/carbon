@@ -54,7 +54,9 @@ export default function GroupingTable({
   form,
   updateForm
 }) {
-  const timeConfig = { ...useTimeConfig(), to: Date.now(), focusedMoment: Date.now() };
+  const timeConfig = { ...useTimeConfig(), to: Date.now(), focusedMoment: Date.now(), autoRefresh: false };
+  // analyse calls are not supported in Live mode, so setting autoRefresh as false
+
   const sparkChartGranularity = getSparkChartGranularity(timeConfig);
   const metricDefinitionByEvaluationType = getMetricDefinitionByEvaluationType(evaluationType);
 
