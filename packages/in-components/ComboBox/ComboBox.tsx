@@ -7,6 +7,10 @@ import Select from 'react-select';
 import { isEqual } from 'lodash';
 import React from 'react';
 
+// Carbon version of ComboBox for single select
+import { ComboBox as CarbonComboBox, ComboBoxProps as CarbonComboBoxProps } from '@instana/components';
+
+import { carbonComboBoxEnabled } from 'in-services/featureFlags';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -44,6 +48,7 @@ interface ComboBoxProps {
   isSearchable?: boolean;
   isDisabled?: boolean;
   components?: any;
+  carbonVariant?: boolean;
 }
 
 export default function ComboBox({ isClearable = true, ...props }: ComboBoxProps): JSX.Element {
@@ -51,6 +56,12 @@ export default function ComboBox({ isClearable = true, ...props }: ComboBoxProps
     props.options?.filter((option: Option) =>
       Array.isArray(props.value) ? props.value.includes(option.value) : option.value === props.value
     ) ?? null;
+
+  if (!props?.isMulti && (carbonComboBoxEnabled || props.carbonVariant)) {
+    const cprops: CarbonComboBoxProps = { ...props, value: props.value as Option | null | undefined };
+    return <CarbonComboBox {...cprops} />;
+  }
+
   return (
     <Select
       {...props}
