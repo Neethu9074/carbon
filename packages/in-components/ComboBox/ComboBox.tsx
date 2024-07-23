@@ -18,7 +18,6 @@ export { hasMultipleValuesSelected };
 
 export default function ComboBox({ isClearable = true, ...props }: ComboBoxProps): JSX.Element {
   if (!props?.isMulti && carbonComboBoxEnabled) {
-    console.log()
     return <CarbonComboBox {...props} isClearable={isClearable} />;
   }
   return <LegacyComboBox {...props} isClearable={isClearable} />;
