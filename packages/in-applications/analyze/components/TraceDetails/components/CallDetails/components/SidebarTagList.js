@@ -6,8 +6,7 @@
 import React, { createRef, useEffect, useState, forwardRef } from 'react';
 import classNames from 'classnames';
 
-import { Li, Ul } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Li, Ul, Button } from '@instana/components';
 
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { compositeRef } from 'in-services/util/react';

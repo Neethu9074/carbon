@@ -5,8 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { Button } from '@instana/components';
 import { TagFilter } from '@instana/types';
-import { Button } from '@instana/legacy';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
@@ -16,10 +16,12 @@ import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators
 import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import ComboBox, { Option, Options } from 'in-components/ComboBox';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 
 import locals from './Filters.mless';
+
 // import { get } from 'lodash';
 
 export default function Filters({
@@ -82,6 +84,7 @@ export default function Filters({
   return (
     <Fragment>
       <Button
+        size={carbonButtonEnabled ? 'compact' : 'normal'}
         kind="secondary"
         className={locals.button}
         href={getLinkToApplicationAnalyze({

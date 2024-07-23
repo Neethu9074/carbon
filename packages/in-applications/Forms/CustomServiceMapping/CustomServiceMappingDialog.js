@@ -8,8 +8,7 @@ import React, { Fragment } from 'react';
 import { assign, get } from 'lodash';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Link, Button } from '@instana/components';
 
 import { createNewServiceConfigs, getServiceConfigs, replaceAllServiceConfigs } from 'in-api/serviceConfiguration';
 import DragAndDropRuleList from 'in-applications/Forms/CustomServiceMapping/DragAndDropRuleList';

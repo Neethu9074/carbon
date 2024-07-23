@@ -6,9 +6,8 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
-import { SvgIcon, Pill, Select } from '@instana/components';
+import { SvgIcon, Pill, Select, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { Button } from '@instana/legacy';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
 import { customServiceMappingTagKeys, getTagType } from 'in-applications/tags';
