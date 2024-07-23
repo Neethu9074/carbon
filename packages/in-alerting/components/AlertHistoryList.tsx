@@ -11,7 +11,7 @@ import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
-import { getEventsViewFilteredBy, GetEventsViewProps } from 'in-stores/navigation/paths/eventPaths';
+import { GetEventsViewProps, useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getDesignLibraryColorBySeverity, getIcon, getEventType } from 'in-stores/events';
 import { formatDateTime, formatDurationAccurately } from 'in-services/formatters/date';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
@@ -35,10 +35,48 @@ interface AlertHistoryListPresenterProps {
     reload: () => void;
   };
 }
+
+interface EventListItemProps {
+  event: RawEvent;
+  timeConfig: TimeConfig;
+}
+
+const EventListItem = ({ event, timeConfig }: EventListItemProps) => {
+  const viewFilterParams: GetEventsViewProps = {
+    eventId: event.id,
+    eventTypeFilter: 'issue',
+    timeConfig
+  };
+  if (event.entityType === 'App20') {
+    viewFilterParams.applicationId = event.entityId;
+  }
+
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+  const analyseEvent = getEventsViewFilteredBy(viewFilterParams);
+
+  const eventType = getEventType(event);
+  const severity = event.severity;
+
+  return (
+    <Li key={event.id}>
+      <Link href={analyseEvent} ellipsis>
+        <WithIcon icon={getIcon(eventType)} iconColor={getDesignLibraryColorBySeverity(severity)}>
+          <div className={locals.label}>
+            <time dateTime={new Date(event.start).toISOString()}>{formatDateTime(event.start)}</time>
+            &nbsp;
+            <span>{getDurationOrActive(event)}</span>
+          </div>
+        </WithIcon>
+      </Link>
+    </Li>
+  );
+};
+
 export const AlertHistoryListPresenter = ({ timeConfig, tableProps }: AlertHistoryListPresenterProps) => {
   const { canLoadMore, items = [], totalRepresentedItemCount = 0, loadMore } = tableProps;
 
   const loading = isLoading(tableProps as Result<RawEvent>);
+
   return (
     <>
       <ListTitle>
@@ -47,34 +85,9 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }: AlertHisto
         })}
       </ListTitle>
       <Ul>
-        {items.map(event => {
-          const viewFilterParams: GetEventsViewProps = {
-            eventId: event.id,
-            eventTypeFilter: 'issue',
-            timeConfig
-          };
-          if (event.entityType === 'App20') {
-            viewFilterParams.applicationId = event.entityId;
-          }
-
-          const analyseEvent$ = getEventsViewFilteredBy(viewFilterParams);
-          const eventType = getEventType(event);
-          const severity = event.severity;
-
-          return (
-            <Li key={event.id}>
-              <Link href={analyseEvent$} ellipsis>
-                <WithIcon icon={getIcon(eventType)} iconColor={getDesignLibraryColorBySeverity(severity)}>
-                  <div className={locals.label}>
-                    <time dateTime={new Date(event.start).toISOString()}>{formatDateTime(event.start)}</time>
-                    &nbsp;
-                    <span>{getDurationOrActive(event)}</span>
-                  </div>
-                </WithIcon>
-              </Link>
-            </Li>
-          );
-        })}
+        {items.map(event => (
+          <EventListItem key={event.id} event={event} timeConfig={timeConfig} />
+        ))}
         {
           //@ts-expect-error
           canLoadMore && <LiLoadMore loadMore={loadMore} />
@@ -90,7 +103,6 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }: AlertHisto
     </>
   );
 };
-
 function getDurationOrActive(event: RawEvent) {
   if (event.state === 'open') {
     return `(${t('in-alerting:components.alertStateActive')})`;

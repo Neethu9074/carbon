@@ -6,8 +6,8 @@
 import React from 'react';
 
 import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { mapData } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
@@ -47,12 +47,26 @@ export default connectTo(
       return <>{children}</>;
     }
 
+    const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+
+    function useIssueLink(eventId) {
+      return getEventsViewFilteredBy({
+        applicationId,
+        serviceId,
+        endpointId,
+        resolvedEndpointId,
+        eventId,
+        eventTypeFilter: 'issue',
+        additionalDFQFilter
+      });
+    }
+
     return (
       <WithMaxWidthWhenInContentArea>
         <OpenIssuesListPresenter
           close={close}
           openIssuesResult={openIssuesResult}
-          analyzeLink$={getEventsViewFilteredBy({
+          analyzeLink={getEventsViewFilteredBy({
             applicationId,
             serviceId,
             endpointId,
@@ -61,17 +75,7 @@ export default connectTo(
             eventTypeFilter: 'issue',
             additionalDFQFilter
           })}
-          getIssueLink={eventId =>
-            getEventsViewFilteredBy({
-              applicationId,
-              serviceId,
-              endpointId,
-              resolvedEndpointId,
-              eventId,
-              eventTypeFilter: 'issue',
-              additionalDFQFilter
-            })
-          }
+          getIssueLink={useIssueLink}
         />
       </WithMaxWidthWhenInContentArea>
     );

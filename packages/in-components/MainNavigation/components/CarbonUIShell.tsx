@@ -102,7 +102,7 @@ import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigat
 import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
@@ -425,11 +425,12 @@ function Analyze() {
 
 function Incidents() {
   const events = useObservable(openEventsAtServerTime$, [openEventsAtServerTime$]);
-
   // @ts-expect-error type not defined
   const numIncidents = events ? events.get('incidentCount') : 0;
 
   const { matchLocation } = useNavigation();
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+  const menuItemHref = getEventsViewFilteredBy({ eventTypeFilter: 'incident' });
 
   const isActive = matchLocation(eventsPath);
 
@@ -443,7 +444,7 @@ function Incidents() {
       label={t('in-components:mainNavigation.viewSwitcherLabelEvents')}
       icon="lib_events_inverted"
       badgeCount={numIncidents}
-      href$={getEventsViewFilteredBy({ eventTypeFilter: 'incident' })}
+      href={menuItemHref}
       isActive={isActive}
     />
   );

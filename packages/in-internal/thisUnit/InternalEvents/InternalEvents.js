@@ -8,8 +8,8 @@ import React, { Fragment } from 'react';
 import { Link, Button } from '@instana/components';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getInternalEvents from 'in-subscription/getInternalEvents';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -87,6 +87,11 @@ function Event({ event, timeConfig }) {
       <span className={locals.title}>{event.type + ' - ' + event.state}</span>
     </>
   );
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+  const linkHref = getEventsViewFilteredBy({
+    query: '',
+    eventId: event.id
+  });
 
   return (
     <ExpandableCard title={cardPreview} openByDefault={false}>
@@ -95,13 +100,7 @@ function Event({ event, timeConfig }) {
           <span className={locals.title}>{t('in-internal:monitoringUnit.thisUnit.internalEvents.issueLink')}</span>
         </Col>
         <Col>
-          <Link
-            className={locals.title}
-            href={getEventsViewFilteredBy({
-              query: '',
-              eventId: event.id
-            })}
-          >
+          <Link className={locals.title} href={linkHref}>
             {event.type + ' - ' + event.state}
           </Link>
         </Col>
