@@ -7813,6 +7813,7 @@
       "cluster": "Cluster",
       "status": "Status",
       "node": "Node",
+      "nodeId": "Node ID",
       "nodeType": "Node Type",
       "master": "Master",
       "masterEligible": "Master Eligible",
