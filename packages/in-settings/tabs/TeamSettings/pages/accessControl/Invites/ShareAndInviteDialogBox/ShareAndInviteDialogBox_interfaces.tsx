@@ -43,7 +43,18 @@ export interface UserInvite {
 }
 
 export interface ShareAndInviteDialogBoxProps {
+  /**
+   * Only show the invite section, otherwise show both the invite and share.
+   */
   inviteOnly?: boolean;
+  /**
+   * Permission to show the invite section.
+   *
+   * we don't want to show the invite section if the user :
+   * 1. Doesn't have the right to invite
+   * 2. play with is enabled
+   */
+  permissionToShowInvite?: boolean;
 }
 
 export interface OnSubmitProps {
