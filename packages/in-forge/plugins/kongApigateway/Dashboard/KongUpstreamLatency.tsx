@@ -39,42 +39,66 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: LatencyRow) {
-        return row.latency.get('kongLatencyFiftyPercentile');
+      getSnapshotId(row: LatencyRow) {
+        return row.snapshotId;
       },
-      getContent: number.compact
+      getMetricName(row: LatencyRow) {
+        return `kongUpstreamLatencyMsBucketService.${row.key}.kongLatencyFiftyPercentile`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
     title: t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: LatencyRow) {
-        return row.latency.get('kongLatencyNinetyPercentile');
+      getSnapshotId(row: LatencyRow) {
+        return row.snapshotId;
       },
-      getContent: number.compact
+      getMetricName(row: LatencyRow) {
+        return `kongUpstreamLatencyMsBucketService.${row.key}.kongLatencyNinetyPercentile`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
     title: t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: LatencyRow) {
-        return row.latency.get('kongLatencyNinetyfivePercentile');
+      getSnapshotId(row: LatencyRow) {
+        return row.snapshotId;
       },
-      getContent: number.compact
+      getMetricName(row: LatencyRow) {
+        return `kongUpstreamLatencyMsBucketService.${row.key}.kongLatencyNinetyfivePercentile`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
     title: t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: LatencyRow) {
-        return row.latency.get('kongLatencyNinetyninePercentile');
+      getSnapshotId(row: LatencyRow) {
+        return row.snapshotId;
       },
-      getContent: number.compact
+      getMetricName(row: LatencyRow) {
+        return `kongUpstreamLatencyMsBucketService.${row.key}.kongLatencyNinetyninePercentile`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
 ];
@@ -136,7 +160,9 @@ const KongUpstreamLatency = function KongUpstreamLatency({ snapshotId, timeConfi
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.kongApigateway.upstreamLatency')}
+      cardTitle={t('in-forge:plugins.kongApigateway.upstreamLatency', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}

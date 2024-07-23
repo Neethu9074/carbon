@@ -30,15 +30,6 @@ interface TotalConnectionRow {
 
 const cols = [
   {
-    title: t('in-forge:plugins.kongApigateway.subsystem'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: TotalConnectionRow) {
-        return row.totalConnection.get('subsystem');
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.kongApigateway.state'),
     type: 'string',
     typeArgs: {
@@ -48,19 +39,34 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.totalConnections'),
-    type: 'number',
+    title: t('in-forge:plugins.kongApigateway.subsystem'),
+    type: 'string',
     typeArgs: {
       getValue(row: TotalConnectionRow) {
-        return row.totalConnection.get('connections');
+        return row.totalConnection.get('subsystem');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.kongApigateway.totalConnections'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: TotalConnectionRow) {
+        return row.snapshotId;
       },
-      getContent: number.compact
+      getMetricName(row: TotalConnectionRow) {
+        return `nginxConnectionsTotal.${row.key}.connections`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
 ];
 
 const TotalConnections: React.FC<TotalConnectionsProps> = ({ snapshotId, timeConfig }) => {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'nginxHttpCurrentConnections'), [snapshotId]);
+  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'nginxConnectionsTotal'), [snapshotId]);
 
   if (!data) {
     return null;
@@ -93,7 +99,7 @@ const TotalConnections: React.FC<TotalConnectionsProps> = ({ snapshotId, timeCon
         y1={{
           min: 0,
           formatter: number.compact,
-          metrics: [`nginxHttpCurrentConnections.${row.key}.connections`],
+          metrics: [`nginxConnectionsTotal.${row.key}.connections`],
           labels: [t('in-forge:plugins.kongApigateway.totalConnections')],
           type: 'line'
         }}
