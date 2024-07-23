@@ -249,6 +249,9 @@ packages/in-sdk                                                                 
 packages/in-sdk/metrics                                                                   @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-server                                                                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 
+# enable sensors team to update aws iam permissions
+packages/in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor.tsx                       @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui @instana/eng-sensors
+
 # enable everybody can add/remove feature-flags
 packages/in-server/src/services/resolvers/featureFlags.js
 packages/in-services/featureFlags.ts
@@ -272,6 +275,7 @@ packages/in-settings/i18n
 packages/in-stores                                                                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-stores/permissions*                                                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control
 packages/in-stores/snapshot                                                               @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure
+packages/in-stores/search/fields.js                                                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors
 # Deliberately mentioning without any code owners. This is intended to reduce code review requests triggered by changes in these files.
 packages/in-stores/i18n
 
