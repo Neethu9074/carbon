@@ -32,6 +32,9 @@ export default function TibcoASDataGridDashboard({
         <KpiKeyValue label={t('in-forge:plugins.tibcoASDataGrid.nodes')}>
           <MetricValue snapshotId={snapshotId} metric="nodeCount" formatter={number.compact} />
         </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.tibcoASDataGrid.proxies')}>
+          <MetricValue snapshotId={snapshotId} metric="proxyCount" formatter={number.compact} />
+        </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.tibcoASDataGrid.numberOfListeners')}>
           <MetricValue snapshotId={snapshotId} metric="numberOfListeners" formatter={number.compact} />
         </KpiKeyValue>
@@ -110,6 +113,44 @@ export default function TibcoASDataGridDashboard({
             labels: [
               t('in-forge:plugins.tibcoASDataGrid.numberOfRowsScanned'),
               t('in-forge:plugins.tibcoASDataGrid.numberOfRowsDeleted')
+            ],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.tibcoASDataGrid.activeStmts')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: [
+              'proxyActiveDeleteStmts',
+              'proxyActiveInsertStmts',
+              'proxyActiveUpdateStmts',
+              'proxyActiveSelectStmts'
+            ],
+            labels: [
+              t('in-forge:plugins.tibcoASDataGrid.delete'),
+              t('in-forge:plugins.tibcoASDataGrid.insert'),
+              t('in-forge:plugins.tibcoASDataGrid.update'),
+              t('in-forge:plugins.tibcoASDataGrid.select')
+            ],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.tibcoASDataGrid.activeExecuteUpdateReqs')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['proxyDMLUpdateDeletesActive', 'proxyDMLUpdateInsertsActive', 'proxyDMLUpdateUpdatesActive'],
+            labels: [
+              t('in-forge:plugins.tibcoASDataGrid.delete'),
+              t('in-forge:plugins.tibcoASDataGrid.insert'),
+              t('in-forge:plugins.tibcoASDataGrid.update')
             ],
             type: 'line',
             formatter: number.compact

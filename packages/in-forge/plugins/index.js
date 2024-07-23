@@ -249,6 +249,7 @@ import './oTelDatabase';
 import './syntheticPoP';
 import './processGroup';
 import './websiteHttpd';
+import './tibcoASProxy';
 import './drbdReactor';
 import './tibcoASNode';
 import './aliCloudOss';

@@ -14,6 +14,11 @@ export default [
     formatter: number.compact
   },
   {
+    label: t('in-forge:plugins.tibcoASDataGrid.proxies'),
+    metric: 'proxyCount',
+    formatter: number.compact
+  },
+  {
     label: t('in-forge:plugins.tibcoASDataGrid.numberOfListeners'),
     metric: 'numberOfListeners',
     formatter: number.compact
