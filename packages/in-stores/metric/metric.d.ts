@@ -15,11 +15,14 @@ export const sensibleGranularities: number[];
 
 export function getInfraGranularity(tc: TimeConfig, minGranularity?: number, maxDataPoints?: number): number;
 
+export function resolveRollup(tc: TimeConfig, rollup?: number): number;
+
 export function getHistoricMetric(props: {
   snapshotId: string;
   metric: string;
   timeConfig: TimeConfig;
   windowForLatest?: number;
+  rollup?: number;
 }): Observable<any>;
 
 export function getTimeWindowBasedMetricAggregation(props: {
@@ -27,10 +30,12 @@ export function getTimeWindowBasedMetricAggregation(props: {
   metric: string;
   timeWindowAggregation?: string;
   timeConfig?: TimeConfig;
+  rollup?: number;
 }): Observable<any>;
 
 export function getMetricForFocusedMoment(props: {
   snapshotId: string;
   metric: string;
   windowForLatest?: number;
+  rollup?: number;
 }): Observable<any>;
