@@ -14697,7 +14697,7 @@
     "nodeJsRuntimePlatform": {
       "getSourceForArbitraryFile": "Get source for arbitrary file",
       "analyseModules": "Analyse Modules",
-      "itSeemsYouHaveInitializedTheInstanaCollectorPackageTooLate": "It seems you have initialized the @instana/collector package too late. Please check our documentation on that, in particular the <installLink>installation docs</installLink> for @instana/collector and the <pitfallsLink>common pitfalls section</pitfallsLink>. Tracing might only work partially with this setup, that is, some calls will not be captured.",
+      "itSeemsYouHaveInitializedTheInstanaCollectorPackageTooLate": "It seems you have initialized the @instana/collector package too late. Please check our documentation on that, in particular the <installLink>installation docs</installLink> for @instana/collector and the <pitfallsLink>common installation considerations section</pitfallsLink>. Tracing might only work partially with this setup, that is, some calls will not be captured.",
       "nativeExtensionsCouldNotBeLoaded": "Native extensions could not be loaded for detailed <strong>{{missingNativeExtensions}}</strong> monitoring. As a result, Instana can only show you a limited set of metrics. Please contact us for installation support or refer to the <installLink>Node.js collector installation instructions</installLink>.",
       "pleaseProvideTheAbsolutePathToTheJsFile": "Please provide the absolute path to the JS file",
       "tracingMightOnlyWorkPartiallyWithThisSetup": "It seems you have initialized the <code>@instana/collector</code> package too late. Tracing might only work partially with this setup, that is, some calls will not be captured.",
