@@ -1,0 +1,261 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import React, { useEffect, useState } from 'react';
+
+import { HeaderItemTile, Stack, TileButtonTypes } from '@instana/components';
+import { t } from '@instana/i18n-react';
+
+import {
+  UNIT_ONBOARDING_BRING_IN_MORE_DATA_CLICK,
+  UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK,
+  UNIT_ONBOARDING_CONNECT_WITH_EXPERTS_CLICK,
+  UNIT_ONBOARDING_GET_ALERTED_CLICK,
+  UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK,
+  UNIT_ONBOARDING_START_INTEGRATING_CLICK,
+  UNIT_ONBOARDING_TAILOR_YOUR_VIEW_CLICK,
+  UNIT_ONBOARDING_TRACE_INTERACTIONS_CLICK
+} from 'in-services/tracking/eventNames';
+import {
+  unitOnboardingBringInMoreDataClick,
+  unitOnboardingBringYourTeamClick,
+  unitOnboardingConnectWithExpertClick,
+  unitOnboardingGetAlertedClick,
+  unitOnboardingMonitorEnvClick,
+  unitOnboardingStartIntegratingClick,
+  unitOnboardingTailorYourViewClick,
+  unitOnboardingTraceInteractionsClick
+} from 'in-settings/tracker';
+import useGetAccountActivation from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { CTA_CLICKED } from 'in-services/util/constants';
+import config from 'in-services/config';
+import { role } from 'in-stores/user';
+
+export default function OnboardingStepBuilder() {
+  const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
+  const { createHrefToPath } = useNavigation();
+  const [onboardingItems, setOnboardingItems] = useState<any>([]);
+  const [statusFlags, setStatusFlags] = useState({
+    firstAgentInstalled: true,
+    tracingReported: true,
+    additionalUserInvited: true,
+    threeAgentsInstalled: true,
+    twoApplicationPerspectivesCreated: true,
+    oneAlertSetUpAndActivated: true,
+    oneWebsiteMonitored: true,
+    fiveUsers: true
+  });
+
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  const activation: any = useGetAccountActivation();
+
+  function getValidButtonType(buttonType?: string): (typeof TileButtonTypes)[number] {
+    if (buttonType && TileButtonTypes.includes(buttonType as any)) {
+      return buttonType as any;
+    } else {
+      return 'primary';
+    }
+  }
+
+  useEffect(() => {
+    if (!activation || Object.keys(activation).length === 0) {
+      return;
+    }
+    function createRedirectHref(currentTile: string) {
+      if (currentTile === 'startIntegrating' || currentTile === 'additionalAgents') {
+        return createHrefToPath('/agents/installation');
+      } else if (currentTile === 'traceInteractions') {
+        return 'https://www.ibm.com/docs/en/instana-observability/current?topic=references-tracing-in-instana';
+      } else if (currentTile === 'inviteUsers' || currentTile === 'inviteTeammates') {
+        return createHrefToPath('/config/team/accessControl/users');
+      } else if (currentTile === 'appPerspective') {
+        return createHrefToPath('/applications');
+      } else if (currentTile === 'smartAlerts') {
+        return createHrefToPath('/alerts;configsCategory=global');
+      } else if (currentTile === 'startMonitoring') {
+        return createHrefToPath('/websiteMonitoring/websites');
+      } else {
+        return createHrefToPath('/config/team/accessControl/users');
+      }
+    }
+
+    function sendEventsToSegment(eventName: string) {
+      if (pageRootName && productArea) {
+        const data = {
+          parentPageName: pageRootName,
+          parentPageCategory: productArea,
+          CTA: eventName,
+          path: location?.pathname
+        };
+        eventTracker({ data, segmentEventName: CTA_CLICKED });
+      }
+    }
+
+    const tileData = [
+      {
+        key: 'startIntegrating',
+        title: t('in-plg:welcomepage.startIntegrating.title'),
+        description: t('in-plg:welcomepage.startIntegrating.description'),
+        buttonName: t('in-plg:welcomepage.startIntegrating.buttonName'),
+        buttonType: 'primary',
+        href: createRedirectHref('startIntegrating'),
+        hasPermission: role?.canConfigureAgents,
+        isActionCompleted: statusFlags.firstAgentInstalled,
+        onButtonClick: () => {
+          sendEventsToSegment(UNIT_ONBOARDING_START_INTEGRATING_CLICK);
+          unitOnboardingStartIntegratingClick();
+        }
+      },
+      {
+        key: 'traceInteractions',
+        title: t('in-plg:welcomepage.traceInteractions.title'),
+        description: t('in-plg:welcomepage.traceInteractions.description'),
+        buttonName: t('in-plg:welcomepage.traceInteractions.buttonName'),
+        buttonType: 'ghost',
+        href: createRedirectHref('traceInteractions'),
+        hasPermission: role?.canConfigureAgents,
+        isActionCompleted: statusFlags.tracingReported,
+        onButtonClick: () => {
+          sendEventsToSegment(UNIT_ONBOARDING_TRACE_INTERACTIONS_CLICK);
+          unitOnboardingTraceInteractionsClick();
+        }
+      },
+      {
+        key: 'inviteUsers',
+        title: t('in-plg:welcomepage.inviteUsers.title'),
+        description: t('in-plg:welcomepage.inviteUsers.description'),
+        buttonName: t('in-plg:welcomepage.inviteUsers.buttonName'),
+        buttonType: 'ghost',
+        href: createRedirectHref('inviteUsers'),
+        hasPermission: role?.canConfigureUsers,
+        isActionCompleted: statusFlags.additionalUserInvited,
+        onButtonClick: () => {
+          sendEventsToSegment(UNIT_ONBOARDING_CONNECT_WITH_EXPERTS_CLICK);
+          unitOnboardingConnectWithExpertClick();
+        }
+      },
+      {
+        key: 'additionalAgents',
+        title: t('in-plg:welcomepage.additionalAgents.title'),
+        description: t('in-plg:welcomepage.additionalAgents.description'),
+        buttonName: t('in-plg:welcomepage.additionalAgents.buttonName'),
+        buttonType: 'ghost',
+        href: createRedirectHref('additionalAgents'),
+        hasPermission: role?.canConfigureAgents,
+        isActionCompleted: statusFlags.threeAgentsInstalled,
+        onButtonClick: () => {
+          sendEventsToSegment(UNIT_ONBOARDING_BRING_IN_MORE_DATA_CLICK);
+          unitOnboardingBringInMoreDataClick();
+        }
+      },
+      {
+        key: 'appPerspective',
+        title: t('in-plg:welcomepage.appPerspective.title'),
+        description: t('in-plg:welcomepage.appPerspective.description'),
+        buttonName: t('in-plg:welcomepage.appPerspective.buttonName'),
+        buttonType: 'ghost',
+        href: createRedirectHref('appPerspective'),
+        hasPermission: role?.canConfigureApplications,
+        isActionCompleted: statusFlags.twoApplicationPerspectivesCreated,
+        onButtonClick: () => {
+          sendEventsToSegment(UNIT_ONBOARDING_TAILOR_YOUR_VIEW_CLICK);
+          unitOnboardingTailorYourViewClick();
+        }
+      },
+      {
+        key: 'smartAlerts',
+        title: t('in-plg:welcomepage.smartAlerts.title'),
+        description: t('in-plg:welcomepage.smartAlerts.description'),
+        buttonName: t('in-plg:welcomepage.smartAlerts.buttonName'),
+        buttonType: 'ghost',
+        href: createRedirectHref('smartAlerts'),
+        hasPermission: role?.canConfigureGlobalApplicationSmartAlerts,
+        isActionCompleted: statusFlags.oneAlertSetUpAndActivated,
+        onButtonClick: () => {
+          sendEventsToSegment(UNIT_ONBOARDING_GET_ALERTED_CLICK);
+          unitOnboardingGetAlertedClick();
+        }
+      },
+      {
+        key: 'startMonitoring',
+        title: t('in-plg:welcomepage.startMonitoring.title'),
+        description: t('in-plg:welcomepage.startMonitoring.description'),
+        buttonName: t('in-plg:welcomepage.startMonitoring.buttonName'),
+        buttonType: 'ghost',
+        href: createRedirectHref('startMonitoring'),
+        hasPermission: role?.canConfigureMobileAppMonitoring,
+        isActionCompleted: statusFlags.oneWebsiteMonitored,
+        onButtonClick: () => {
+          sendEventsToSegment(UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK);
+          unitOnboardingMonitorEnvClick();
+        }
+      },
+      {
+        key: 'inviteTeammates',
+        title: t('in-plg:welcomepage.inviteTeammates.title'),
+        description: t('in-plg:welcomepage.inviteTeammates.description'),
+        buttonName: t('in-plg:welcomepage.inviteTeammates.buttonName'),
+        buttonType: 'ghost',
+        href: createRedirectHref('inviteTeammates'),
+        hasPermission: role?.canConfigureUsers,
+        isActionCompleted: statusFlags.fiveUsers,
+        onButtonClick: () => {
+          sendEventsToSegment(UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK);
+          unitOnboardingBringYourTeamClick();
+        }
+      }
+    ];
+    setStatusFlags({
+      firstAgentInstalled: activation ? activation[currentTenantUnit]?.fa?.status : true,
+      tracingReported: activation ? activation[currentTenantUnit]?.tr?.status : true,
+      additionalUserInvited: activation ? activation[currentTenantUnit]?.au?.status : true,
+      threeAgentsInstalled: activation ? activation[currentTenantUnit]?.ai?.status : true,
+      twoApplicationPerspectivesCreated: activation ? activation[currentTenantUnit]?.ap?.status : true,
+      oneAlertSetUpAndActivated: activation ? activation[currentTenantUnit]?.sas?.status : true,
+      oneWebsiteMonitored: activation ? activation[currentTenantUnit]?.w?.status : true,
+      fiveUsers: activation ? activation[currentTenantUnit]?.u?.status : true
+    });
+
+    const itemsNotCompleted = tileData.filter(item => !item.isActionCompleted);
+    setOnboardingItems(itemsNotCompleted);
+  }, [
+    activation,
+    statusFlags.firstAgentInstalled,
+    statusFlags.tracingReported,
+    statusFlags.additionalUserInvited,
+    statusFlags.threeAgentsInstalled,
+    statusFlags.twoApplicationPerspectivesCreated,
+    statusFlags.oneAlertSetUpAndActivated,
+    statusFlags.oneWebsiteMonitored,
+    statusFlags.fiveUsers,
+    createHrefToPath,
+    currentTenantUnit,
+    pageRootName,
+    productArea
+  ]);
+
+  return (
+    <Stack gap="xxlarge" direction="horizontal" distribution="start">
+      {onboardingItems.map((item: any) => (
+        <div key={item.key}>
+          <HeaderItemTile
+            key={item.key}
+            title={item.title}
+            description={item.description}
+            buttonName={item.buttonName}
+            hasPermission={item.hasPermission}
+            buttonType={getValidButtonType(item.buttonType)}
+            onButtonClick={item.onButtonClick}
+            href={item.href}
+          />
+        </div>
+      ))}
+    </Stack>
+  );
+}
