@@ -263,6 +263,7 @@ module.exports = {
   },
   plugins,
   resolve: {
-    extensions: ['.js', '.ts', '.tsx', '.d.ts']
+    extensions: ['.js', '.ts', '.tsx', '.d.ts'],
+    alias: { react$: require.resolve('react'), ['react-dom']: require.resolve('react-dom') }
   }
 };
