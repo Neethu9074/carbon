@@ -21,5 +21,29 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.sapHana.troubleshootingDocs'),
     explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-sap-hana`
+  },
+  sapHana_unable_to_connect: {
+    issueDescription: {
+      Component: function UnableToConnect({
+        connectionUrl,
+        dbName,
+        user
+      }: {
+        connectionUrl: string;
+        dbName: string;
+        user: string;
+      }) {
+        return (
+          <span>
+            <Trans
+              i18nKey="in-forge:plugins.sapHana.unableToConnect"
+              values={{ connectionUrl: connectionUrl, dbName: dbName, user: user }}
+            />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.sapHana.troubleshootingDocs'),
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-sap-hana`
   }
 };

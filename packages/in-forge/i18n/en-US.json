@@ -9114,7 +9114,9 @@
         "serviceDetailsStats": "Service Details",
         "totalResident": "Total Resident",
         "physicalMemory": "Physical Memory",
-        "freeMemory": "Free Memory"
+        "freeMemory": "Free Memory",
+        "utilisationRatio":"HANA Memory Usage",
+        "hostUsedPhysicalMemoryRatio":"Host Memory Usage"
       },
       "systemId": "System ID",
       "databaseName": "Database Name",
@@ -9127,15 +9129,13 @@
       "maximumNumberOfSessions": "Maximum Number Of Sessions",
       "cpuUsageKpiLabel": "CPU Usage",
       "usedMemory": "Used Memory",
-      "cpuUsageMetricDef": "Cpu Usage",
+      "cpuUsageMetricDef": "CPU Usage",
       "dataSize": "Data Size",
       "logSize": "Log Size",
       "traceSize": "Trace Size",
       "total": "Total",
       "idle": "Idle",
       "running": "Running",
-      "blocked": "Blocked",
-      "blocking": "Blocking",
       "databaseUsers": "Database Users",
       "applicationUsers": "Application Users",
       "active": "Active",
@@ -9149,7 +9149,14 @@
       "pendingRequests": "Pending Requests",
       "hostActiveStatus":"Host Status",
       "oldConfigUsed": "SAP HANA Sensor now supports both local and remote monitoring. Please refer to the docs for the new configuration format.",
-      "troubleshootingDocs": "Troubleshooting docs"
+      "troubleshootingDocs": "Troubleshooting docs",
+      "blockedSessions":"Blocked sessions",
+      "blockingSessions":"Blocking sessions",
+      "blockedThreads":"Blocked threads",
+      "threadsJobWorkerBlockedCount":"Blocked job worker threads",
+      "threadsSqlExecutorBlockedCount":"Blocked SQL ececutor threads",
+      "queueingConnectionCount":"Queueing connection count",
+      "unableToConnect": "Cannot connect to {{dbName}} using connection url {{connectionUrl}} for user {{user}}."
     },
     "service": {
       "service": "Service",

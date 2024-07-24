@@ -1,16 +1,19 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from '@instana/components';
 
+// @ts-expect-error needs TS migration
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
-export default function Info({ snapshot }) {
+export default function Info({ snapshot }: { snapshot: SnapshotData }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
