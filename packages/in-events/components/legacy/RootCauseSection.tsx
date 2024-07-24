@@ -34,6 +34,7 @@ import {
   helpfulRCASuggestionTracker,
   unhelpfulRCASuggestionTracker
 } from 'in-events/tracker';
+import { ExplainabilityKeys, ProbableCauseType } from 'in-events/components/util/rootCauseUtil';
 import RootCauseEntityDetails from 'in-events/components/legacy/RootCauseEntityDetails';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
@@ -57,34 +58,6 @@ interface RootCauseSectionProps {
   incident: EventOrMap;
   incidentHasRCAProperty: boolean;
   latestSnapshot: Snapshot;
-}
-// Typescript Probable Root Cause Reference
-type ProbableCauseSnapshotKeys = 'entityID' | 'explainability' | 'probFailure' | 'events';
-interface ProbableCauseSnapshotValues {
-  entityID: Map<string, string>;
-  explainability: List<Map<ExplainabilityKeys, ExplainabilityValues[ExplainabilityKeys]>>;
-  probFailure: number;
-  events: List<string>;
-}
-
-type ProbableCauseType = Map<ProbableCauseSnapshotKeys, ProbableCauseSnapshotValues[ProbableCauseSnapshotKeys]>;
-
-export type ExplainabilityKeys =
-  | 'percentageFailedNotThroughRC'
-  | 'numCallsInAggregationNotThroughRC'
-  | 'incoming'
-  | 'relevantSnapshotID'
-  | 'numCallsInAggregationThroughRC'
-  | 'connectedServiceId'
-  | 'percentageFailedThroughRC';
-export interface ExplainabilityValues {
-  percentageFailedNotThroughRC: number;
-  numCallsInAggregationNotThroughRC: number;
-  incoming: boolean;
-  relevantSnapshotID: string;
-  numCallsInAggregationThroughRC: number;
-  connectedServiceId: string;
-  percentageFailedThroughRC: number;
 }
 
 export default function RootCauseSection({
