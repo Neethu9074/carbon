@@ -54,7 +54,6 @@ export default function AlertPropertiesTitleRow({
         }}
         value={form.get('name').value}
         placeholder={getTitlePlaceholder(form)}
-        isTearSheet
       />
 
       {placeholders.length > 0 && (
