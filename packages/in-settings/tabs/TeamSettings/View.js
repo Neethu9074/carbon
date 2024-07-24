@@ -35,15 +35,15 @@ import {
   teamSettingsAlertingMaintenanceConfigurationEdit,
   teamSettingsAlertingMaintenanceConfigurationNew,
   teamSettingsAlertingMaintenanceConfigurations,
-  teamSettingsLogManagementCoralogix,
   teamSettingsLogManagementDeleteLogs,
-  teamSettingsLogManagementElk,
-  teamSettingsLogManagementHumio,
-  teamSettingsLogManagementMezmo,
-  teamSettingsLogManagementRetentionPeriod,
   teamSettingsLogManagementLogVolume,
-  teamSettingsLogManagementSplunk,
-  teamSettingsLogManagementIntegrations,
+  teamSettingsLogManagementRetentionPeriod,
+  teamSettingsIntegrationsLogging,
+  teamSettingsIntegrationsLoggingCoralogix,
+  teamSettingsIntegrationsLoggingElk,
+  teamSettingsIntegrationsLoggingHumio,
+  teamSettingsIntegrationsLoggingMezmo,
+  teamSettingsIntegrationsLoggingSplunk,
   teamSettingsActionLogRetention
 } from 'in-settings/navigation/paths';
 import {
@@ -287,41 +287,6 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     });
   }
 
-  const logManagementPages = [
-    {
-      path: teamSettingsLogManagementIntegrations,
-      label: 'Integrations',
-      component: Integrations,
-      subPages: [
-        {
-          path: teamSettingsLogManagementCoralogix,
-          label: t('in-settings:tabs.coralogix'),
-          component: CoralogixPage
-        },
-        {
-          path: teamSettingsLogManagementElk,
-          label: t('in-settings:tabs.elk'),
-          component: ElkPage
-        },
-        {
-          path: teamSettingsLogManagementHumio,
-          label: t('in-settings:tabs.humio'),
-          component: HumioPage
-        },
-        {
-          path: teamSettingsLogManagementMezmo,
-          label: t('in-settings:tabs.mezmo'),
-          component: MezmoPage
-        },
-        {
-          path: teamSettingsLogManagementSplunk,
-          label: t('in-settings:tabs.splunk'),
-          component: SplunkPage
-        }
-      ]
-    }
-  ];
-
   const deleteLogsPage = {
     path: teamSettingsLogManagementDeleteLogs,
     label: t('in-settings:tabs.deleteLogs.deleteLogs'),
@@ -339,17 +304,8 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     component: LogVolumePage
   };
 
-  if (
-    role.canDeleteLogs ||
-    role.canConfigureLogManagement ||
-    role.canViewLogVolume ||
-    role.canConfigureLogRetentionPeriod
-  ) {
+  if (role.canDeleteLogs || role.canViewLogVolume || role.canConfigureLogRetentionPeriod) {
     let pages = [];
-
-    if (role.canConfigureLogManagement) {
-      pages = logManagementPages;
-    }
 
     if (role.canDeleteLogs) {
       pages.push(deleteLogsPage);
@@ -389,6 +345,47 @@ function navigationTreeForRole(role, isAnyIDPActive) {
           component: AccessLogPage
         }
       ]
+    });
+  }
+
+  if (role.canConfigureLogManagement) {
+    const logIntegrationPages = [
+      {
+        path: teamSettingsIntegrationsLogging,
+        label: 'Logging',
+        component: Integrations,
+        subPages: [
+          {
+            path: teamSettingsIntegrationsLoggingCoralogix,
+            label: t('in-settings:tabs.coralogix'),
+            component: CoralogixPage
+          },
+          {
+            path: teamSettingsIntegrationsLoggingElk,
+            label: t('in-settings:tabs.elk'),
+            component: ElkPage
+          },
+          {
+            path: teamSettingsIntegrationsLoggingHumio,
+            label: t('in-settings:tabs.humio'),
+            component: HumioPage
+          },
+          {
+            path: teamSettingsIntegrationsLoggingMezmo,
+            label: t('in-settings:tabs.mezmo'),
+            component: MezmoPage
+          },
+          {
+            path: teamSettingsIntegrationsLoggingSplunk,
+            label: t('in-settings:tabs.splunk'),
+            component: SplunkPage
+          }
+        ]
+      }
+    ];
+    navigationTree.push({
+      title: t('in-settings:tabs.integrations.integrations'),
+      pages: logIntegrationPages
     });
   }
 

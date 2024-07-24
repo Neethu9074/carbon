@@ -3,14 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
+/* eslint-disable import/no-deprecated */
+
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import { createLogger } from '@instana/logger';
 
-import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb'
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb';
 import HumioForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm';
-import { teamSettingsLogManagementHumio } from 'in-settings/navigation/paths';
+import { teamSettingsIntegrationsLoggingHumio } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { integrationKey } from 'in-integrations/logging/humio/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
@@ -24,8 +26,7 @@ import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
-import locals from './HumioForm.mless'
-
+import locals from './HumioForm.mless';
 
 const block = 'in-ui-config';
 
@@ -158,7 +159,7 @@ export default class Humio extends React.Component {
       this.setState({
         loading: false
       });
-      goToPath(teamSettingsLogManagementHumio);
+      goToPath(teamSettingsIntegrationsLoggingHumio);
     });
 
     this.errorSubscription = result$.errors().once(error => {

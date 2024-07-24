@@ -5,11 +5,11 @@
  */
 
 import {
-  teamSettingsLogManagementCoralogix,
-  teamSettingsLogManagementElk,
-  teamSettingsLogManagementHumio,
-  teamSettingsLogManagementMezmo,
-  teamSettingsLogManagementSplunk
+  teamSettingsIntegrationsLoggingCoralogix,
+  teamSettingsIntegrationsLoggingElk,
+  teamSettingsIntegrationsLoggingHumio,
+  teamSettingsIntegrationsLoggingMezmo,
+  teamSettingsIntegrationsLoggingSplunk
 } from 'in-settings/navigation/paths';
 import { integrationKey as coralogix } from 'in-integrations/logging/coralogix/consts';
 import { integrationKey as splunk } from 'in-integrations/logging/splunk/consts';
@@ -21,27 +21,27 @@ import { t } from 'in-i18n';
 export function getIntegrationsSubPages() {
   return [
     {
-      path: teamSettingsLogManagementCoralogix,
+      path: teamSettingsIntegrationsLoggingCoralogix,
       type: coralogix,
       label: t('in-settings:tabs.coralogix')
     },
     {
-      path: teamSettingsLogManagementElk,
+      path: teamSettingsIntegrationsLoggingElk,
       type: elk,
       label: t('in-settings:tabs.elk')
     },
     {
-      path: teamSettingsLogManagementHumio,
+      path: teamSettingsIntegrationsLoggingHumio,
       type: humio,
       label: t('in-settings:tabs.humio')
     },
     {
-      path: teamSettingsLogManagementMezmo,
+      path: teamSettingsIntegrationsLoggingMezmo,
       type: mezmo,
       label: t('in-settings:tabs.mezmo')
     },
     {
-      path: teamSettingsLogManagementSplunk,
+      path: teamSettingsIntegrationsLoggingSplunk,
       type: splunk,
       label: t('in-settings:tabs.splunk')
     }

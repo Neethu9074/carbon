@@ -17,8 +17,8 @@ import { ibmCloudDefaultBaseURL, logMezmoDefaultBaseURL } from 'in-integrations/
 import IbmCloudLogMezmoForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/IbmCloudMezmoForm';
 import MezmoSaasForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/MezmoSaasForm';
 import { validMezmoId } from 'in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/validation';
+import { teamSettingsIntegrationsLoggingMezmo } from 'in-settings/navigation/paths';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
-import { teamSettingsLogManagementMezmo } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { integrationKey } from 'in-integrations/logging/mezmo/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
@@ -109,7 +109,7 @@ export default function Mezmo() {
       setIntegration(savedIntegration);
       // to suppress warning on deprecated code temporarily
       // eslint-disable-next-line import/no-deprecated
-      goToPath(teamSettingsLogManagementMezmo);
+      goToPath(teamSettingsIntegrationsLoggingMezmo);
     });
 
     let errorSubscription = result$.errors().once(error => {

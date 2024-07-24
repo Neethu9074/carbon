@@ -3,15 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
+/* eslint-disable import/no-deprecated */
+
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import { createLogger } from '@instana/logger';
 
-import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb'
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb';
 import ElkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkForm';
+import { teamSettingsIntegrationsLoggingElk } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
-import { teamSettingsLogManagementElk } from 'in-settings/navigation/paths';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import { integrationKey } from 'in-integrations/logging/elk/consts';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -24,7 +26,7 @@ import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
-import locals from './ElkForm.mless'
+import locals from './ElkForm.mless';
 
 const block = 'in-ui-config';
 
@@ -157,7 +159,7 @@ export default class Elk extends React.Component {
       this.setState({
         loading: false
       });
-      goToPath(teamSettingsLogManagementElk);
+      goToPath(teamSettingsIntegrationsLoggingElk);
     });
 
     this.errorSubscription = result$.errors().once(error => {

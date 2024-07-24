@@ -3,14 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
+/* eslint-disable import/no-deprecated */
+
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import { createLogger } from '@instana/logger';
 
-import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb'
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb';
 import SplunkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/SplunkForm';
-import { teamSettingsLogManagementSplunk } from 'in-settings/navigation/paths';
+import { teamSettingsIntegrationsLoggingSplunk } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { integrationKey } from 'in-integrations/logging/splunk/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
@@ -165,7 +167,7 @@ export default class Splunk extends React.Component {
       this.setState({
         loading: false
       });
-      goToPath(teamSettingsLogManagementSplunk);
+      goToPath(teamSettingsIntegrationsLoggingSplunk);
     });
 
     this.errorSubscription = result$.errors().once(error => {

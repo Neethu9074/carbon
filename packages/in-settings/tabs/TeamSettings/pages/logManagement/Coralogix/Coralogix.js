@@ -3,14 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
+/* eslint-disable import/no-deprecated */
+
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import { createLogger } from '@instana/logger';
 
-import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb'
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb';
 import CoralogixForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/CoralogixForm';
-import { teamSettingsLogManagementCoralogix } from 'in-settings/navigation/paths';
+import { teamSettingsIntegrationsLoggingCoralogix } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { integrationKey } from 'in-integrations/logging/coralogix/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
@@ -100,7 +102,7 @@ export default class Coralogix extends React.Component {
       <section className={locals.page}>
         <Title title={t('in-settings:tabs.configureCoralogix')} />
         <IntegrationsBreadcumb />
-        <SubViewHeader >{t('in-settings:tabs.configureYourCoralogixSettings')}</SubViewHeader>
+        <SubViewHeader>{t('in-settings:tabs.configureYourCoralogixSettings')}</SubViewHeader>
         <SectionLine />
         {form && (
           <form onSubmit={this.onSubmit}>
@@ -162,7 +164,7 @@ export default class Coralogix extends React.Component {
       this.setState({
         loading: false
       });
-      goToPath(teamSettingsLogManagementCoralogix);
+      goToPath(teamSettingsIntegrationsLoggingCoralogix);
     });
 
     this.errorSubscription = result$.errors().once(error => {
