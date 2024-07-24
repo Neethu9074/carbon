@@ -102,6 +102,9 @@ export default connectTo(() => ({
         key: 'platform'
       },
       {
+        key: 'esxiHost'
+      },
+      {
         key: 'systemsNodesVms'
       },
       {
@@ -195,6 +198,19 @@ export default connectTo(() => ({
       key: 'platform',
       getContent({ item }) {
         return <Typography variant="body-regular">{getTechnology(item)}</Typography>;
+      }
+    },
+    {
+      key: 'esxiHost',
+      getContent({ item }) {
+        if (item.isPcf || item.isKubernetes || item.isPhmc || item.isZhmc || item.isOpenstack || item.isSap) {
+          return null;
+        }
+        return (
+          <Typography variant="body-regular">
+            {item.hosts} {t('in-plg:welcomepage.component.platformWidget.esXiHosts')}
+          </Typography>
+        );
       }
     },
     {

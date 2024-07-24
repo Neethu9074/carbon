@@ -556,7 +556,9 @@
         "memoryLimit": "Memory Limit",
         "adapters": "Adapters",
         "vios": "Virtual I/O Server",
-        "memoryUsage": "Memory Usage"
+        "memoryUsage": "Memory Usage",
+        "cpuUsage": "CPU Usage",
+        "esXiHosts": "ESXi Host"
       },
       "bizopsWidget": {
         "label": "Business Monitoring",
