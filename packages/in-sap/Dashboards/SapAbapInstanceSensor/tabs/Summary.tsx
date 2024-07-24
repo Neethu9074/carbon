@@ -1,27 +1,32 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React, { Fragment } from 'react';
 
 import { themes } from '@instana/design-tokens';
 
+// @ts-expect-error needs TS migration
 import InfraMetricKpiCard from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InfraMetricKpiCardSap';
+// @ts-expect-error needs TS migration
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number, kiloBytes, percentage, percentagePlain } from 'in-services/formatters/number';
 import CombinedMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/CombinedMetrics';
 import AbapShortDumps from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/AbapShortDumps';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { Row, Col } from 'in-components/layout/Grid';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: sap }) {
-  const snapshotId = sap.id;
-  const statusFormatter = status => {
+export default function Summary({ data }: { data: SnapshotData }) {
+  const timeConfig = useTimeConfig();
+  const snapshotId = data.id;
+  const statusFormatter = (status: number): string => {
     switch (status) {
       case 1:
         return 'ACTIVE';

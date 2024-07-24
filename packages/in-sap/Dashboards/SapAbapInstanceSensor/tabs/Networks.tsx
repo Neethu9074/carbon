@@ -1,24 +1,28 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React, { Fragment } from 'react';
 
+// @ts-expect-error Module needs to be translated to TS
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import ICMServicesList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMServicesList';
 import ICMServiceList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMServiceList';
 import ICMThreadList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMThreadList';
 import LanInterface from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/LanInterface';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { number } from 'in-services/formatters/number';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
-export default function Networks({ timeConfig, data: sap }) {
-  const snapshotId = sap.id;
+export default function Networks({ data }: { data: SnapshotData }) {
+  const timeConfig = useTimeConfig();
+  const snapshotId = data.id;
   return (
     <Fragment>
       <LanInterface snapshotId={snapshotId} timeConfig={timeConfig} />
@@ -32,7 +36,7 @@ export default function Networks({ timeConfig, data: sap }) {
               metrics: ['icminfodatastats.status', 'icminfodatastats.traceLvl'],
               labels: [t('in-sap:dashboards.status'), t('in-sap:dashboards.traceLvl')],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -46,7 +50,7 @@ export default function Networks({ timeConfig, data: sap }) {
               metrics: ['icminfodatastats.maxThr', 'icminfodatastats.peekThr'],
               labels: [t('in-sap:dashboards.maxThr'), t('in-sap:dashboards.peekThr')],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -62,7 +66,7 @@ export default function Networks({ timeConfig, data: sap }) {
               metrics: ['icminfodatastats.maxConn', 'icminfodatastats.peekConn', 'icminfodatastats.curConn'],
               labels: [t('in-sap:dashboards.maxConn'), t('in-sap:dashboards.peekConn'), t('in-sap:dashboards.curConn')],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -80,7 +84,7 @@ export default function Networks({ timeConfig, data: sap }) {
                 t('in-sap:dashboards.curQueue')
               ],
               type: 'line',
-              formatter: number
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />

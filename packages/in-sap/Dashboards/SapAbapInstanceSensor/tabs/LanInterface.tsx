@@ -105,7 +105,7 @@ export default function LanInterface({ snapshotId, timeConfig }: LanStatsProps) 
                   min: 0,
                   metrics: [`lanMetricStats.${row.key}.inPackets`, `lanMetricStats.${row.key}.outPackets`],
                   labels: [t('in-sap:dashboards.inPackets'), t('in-sap:dashboards.outPackets')],
-                  type: 'line',
+                  type: 'stackedBar',
                   formatter: number.compact
                 }}
                 renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -120,7 +120,7 @@ export default function LanInterface({ snapshotId, timeConfig }: LanStatsProps) 
                   min: 0,
                   metrics: [`lanMetricStats.${row.key}.inErrors`, `lanMetricStats.${row.key}.outErrors`],
                   labels: [t('in-sap:dashboards.inErrors'), t('in-sap:dashboards.outErrors')],
-                  type: 'line',
+                  type: 'stackedBar',
                   formatter: number.compact
                 }}
                 renderPostChartContent={PluginDashboardsMarkerLanes}
