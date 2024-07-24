@@ -35,12 +35,13 @@ export default function HealthIndicatorPresenter({
   if (openIssues === 0) {
     return (
       <Tooltip content={tooltipLabel} delay={500}>
-        <SvgIcon type="lib_check" className={locals.okayIcon} />
+        <SvgIcon type="lib_uncheck" className={locals.okayIcon} />
       </Tooltip>
     );
   }
 
   const color = active ? '#031F29' : getDesignLibraryColorBySeverity(maxSeverity);
+
   return (
     <a
       href=""
@@ -55,7 +56,11 @@ export default function HealthIndicatorPresenter({
       ref={refSetter}
     >
       <Tooltip content={tooltipLabel} delay={500}>
-        <SvgIcon type="lib_help_error_warning" color={color} className={locals.icon} />
+        <SvgIcon
+          type="lib_help_error_warning"
+          color={color}
+          className={(maxSeverity > 5 && locals.icon) || locals.iconWarning}
+        />
       </Tooltip>
     </a>
   );
