@@ -402,6 +402,7 @@ export default connectTo(() => ({
     <DatatableWrapper
       {...generalProps}
       getItems={Data}
+      tableType="syntheticWidget"
       label={`${widgetLabel}.${syntheticTypeValue}`}
       dashboardTileProps={dashboardTileProps}
       hasAddPermission={role?.canConfigureSyntheticTests}
