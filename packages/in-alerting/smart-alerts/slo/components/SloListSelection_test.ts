@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 
 import { SloData, useSloList } from 'in-alerting/smart-alerts/slo/components/SloListSelection';
 import { usePaginatedSloList } from 'in-alerting/smart-alerts/slo/hooks/usePaginatedSloList';
@@ -36,6 +36,34 @@ const sloData = [
   }
 ] as FetchedState<SloData[]>;
 
+const selectedSloData = [
+  [
+    {
+      id: 'SLO-selected-1',
+      label: 'SLO-1',
+      entityName: '',
+      entityType: 'application'
+    },
+    {
+      id: 'SLO-selected-2',
+      label: 'SLO-2',
+      entityName: '',
+      entityType: 'application'
+    },
+    {
+      id: 'SLO-selected-3',
+      label: 'SLO-3',
+      entityName: '',
+      entityType: 'application'
+    }
+  ],
+  'resolved',
+  [],
+  {
+    loading: false
+  }
+] as FetchedState<SloData[]>;
+
 const emptySloData = [
   [],
   'resolved',
@@ -55,7 +83,11 @@ const selectedSLO = [
 ];
 
 describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
-  it('Should keep the sloId while creating new Smart Alert', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('Should keep the selected sloId while creating new Smart Alert from a particular SLO', () => {
     // Given
     mockUseDebouncedValue.mockReturnValue({
       value: '',
@@ -136,63 +168,117 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
       onChange: jest.fn()
     });
 
-    mockUseSelectedIds.mockReturnValue(resetSloData);
+    mockUseSelectedIds.mockReturnValueOnce(sloData).mockReturnValueOnce(resetSloData);
 
-    mockUsePaginatedSloList.mockReturnValue({
-      sloList: [
-        {
-          id: 'SLO-1',
-          label: 'demo4slo-web-timebased-latency',
-          entityName: '',
-          entityType: 'website'
-        },
-        {
-          id: 'SLO-2',
-          label: 'hughesj-slo-robot-shop',
-          entityName: '',
-          entityType: 'website'
-        },
-        {
-          id: 'SLO-3',
-          label: 'robotshop-test latency',
-          entityName: '',
-          entityType: 'website'
-        },
-        {
-          id: 'SLO-4',
-          label: 'SLO-TBD-web',
-          entityName: '',
-          entityType: 'website'
-        },
-        {
-          id: 'SLO-5',
-          label: 'Soft Drink Shop reliability by event count',
-          entityName: '',
-          entityType: 'website'
-        },
-        {
-          id: 'SLO-6',
-          label: 'Stans shop availability event SLO',
-          entityName: '',
-          entityType: 'website'
-        }
-      ],
-      clear: jest.fn(),
-      page: 1,
-      progress: { loading: false },
-      pageSize: 6,
-      totalHits: 73
-    });
+    mockUsePaginatedSloList
+      .mockReturnValueOnce({
+        sloList: [
+          {
+            id: 'SLO-selected',
+            label: 'Andre Test',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-2',
+            label: 'Andrei Test',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-3',
+            label: 'AndreiK Test Edited',
+            entityName: '',
+            entityType: 'application'
+          }
+        ],
+        clear: jest.fn(),
+        page: 1,
+        progress: { loading: false },
+        pageSize: 3,
+        totalHits: 73
+      })
+      .mockReturnValueOnce({
+        sloList: [
+          {
+            id: 'SLO-1',
+            label: 'demo4slo-web-timebased-latency',
+            entityName: '',
+            entityType: 'website'
+          },
+          {
+            id: 'SLO-2',
+            label: 'hughesj-slo-robot-shop',
+            entityName: '',
+            entityType: 'website'
+          },
+          {
+            id: 'SLO-3',
+            label: 'robotshop-test latency',
+            entityName: '',
+            entityType: 'website'
+          }
+        ],
+        clear: jest.fn(),
+        page: 1,
+        progress: { loading: false },
+        pageSize: 3,
+        totalHits: 73
+      });
 
     // When
-    const { result } = renderHook(() => useSloList([], 'website'));
+    const { result, rerender } = renderHook(() => useSloList(['SLO-selected'], 'application'));
+
+    expect(result.current.selected).toStrictEqual(selectedSLO);
+    expect(result.current.sloList).toStrictEqual([
+      {
+        id: 'SLO-selected',
+        label: 'Andre Test',
+        entityName: '',
+        entityType: 'application'
+      },
+      {
+        id: 'SLO-2',
+        label: 'Andrei Test',
+        entityName: '',
+        entityType: 'application'
+      },
+      {
+        id: 'SLO-3',
+        label: 'AndreiK Test Edited',
+        entityName: '',
+        entityType: 'application'
+      }
+    ]);
+
+    rerender({ selectedIds: [], entityType: 'website' });
 
     // Then
     expect(result.current.page).toBe(1);
     expect(result.current.selected).toStrictEqual([]);
+    expect(result.current.sloList).toStrictEqual([
+      {
+        id: 'SLO-1',
+        label: 'demo4slo-web-timebased-latency',
+        entityName: '',
+        entityType: 'website'
+      },
+      {
+        id: 'SLO-2',
+        label: 'hughesj-slo-robot-shop',
+        entityName: '',
+        entityType: 'website'
+      },
+      {
+        id: 'SLO-3',
+        label: 'robotshop-test latency',
+        entityName: '',
+        entityType: 'website'
+      }
+    ]);
   });
 
-  it(' Should keep the existing data in the list when loadMore has been called', () => {
+  it('Should keep the existing data in the list when loadMore has been called', () => {
     //  Given
     mockUseDebouncedValue.mockReturnValue({
       value: '',
@@ -200,92 +286,146 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
       onChange: jest.fn()
     });
 
-    mockUsePaginatedSloList.mockReturnValue({
-      sloList: [
-        {
-          id: 'SLO-1',
-          label: 'Andre Test',
-          entityName: '',
-          entityType: 'application'
-        },
-        {
-          id: 'SLO-2',
-          label: 'Andrei Test',
-          entityName: '',
-          entityType: 'application'
-        },
-        {
-          id: 'SLO-3',
-          label: 'AndreiK Test Edited',
-          entityName: '',
-          entityType: 'application'
-        },
-        {
-          id: 'SLO-4',
-          label: 'Application Availability Time Based 80%',
-          entityName: '',
-          entityType: 'application'
-        },
-        {
-          id: 'SLO-5',
-          label: 'avail-mean-test',
-          entityName: '',
-          entityType: 'application'
-        },
-        {
-          id: 'SLO-6',
-          label: 'Blessy-event',
-          entityName: '',
-          entityType: 'application'
-        },
-        {
-          id: 'SLO-7',
-          label: 'Andre Test',
-          entityName: '',
-          entityType: 'application'
-        },
-        {
-          id: 'SLO-8',
-          label: 'Andrei Test',
-          entityName: '',
-          entityType: 'application'
-        },
-        {
-          id: 'SLO-9',
-          label: 'AndreiK Test Edited',
-          entityName: '',
-          entityType: 'application'
-        },
-        {
-          id: 'SLO-10',
-          label: 'Application Availability Time Based 80%',
-          entityName: '',
-          entityType: 'application'
-        },
-        {
-          id: 'SLO-11',
-          label: 'avail-mean-test',
-          entityName: '',
-          entityType: 'application'
-        },
-        {
-          id: 'SLO-12',
-          label: 'Blessy-event',
-          entityName: '',
-          entityType: 'application'
-        }
-      ],
-      clear: jest.fn(),
-      page: 2,
-      progress: { loading: false },
-      pageSize: 6,
-      totalHits: 73
-    });
+    mockUsePaginatedSloList
+      .mockReturnValueOnce({
+        sloList: [
+          {
+            id: 'SLO-1',
+            label: 'Andre Test',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-2',
+            label: 'Andrei Test',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-3',
+            label: 'AndreiK Test Edited',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-4',
+            label: 'Application Availability Time Based 80%',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-5',
+            label: 'avail-mean-test',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-6',
+            label: 'Blessy-event',
+            entityName: '',
+            entityType: 'application'
+          }
+        ],
+        clear: jest.fn(),
+        page: 1,
+        progress: { loading: false },
+        pageSize: 6,
+        totalHits: 73
+      })
+      .mockReturnValueOnce({
+        sloList: [
+          {
+            id: 'SLO-1',
+            label: 'Andre Test',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-2',
+            label: 'Andrei Test',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-3',
+            label: 'AndreiK Test Edited',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-4',
+            label: 'Application Availability Time Based 80%',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-5',
+            label: 'avail-mean-test',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-6',
+            label: 'Blessy-event',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-7',
+            label: 'Andre Test',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-8',
+            label: 'Andrei Test',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-9',
+            label: 'AndreiK Test Edited',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-10',
+            label: 'Application Availability Time Based 80%',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-11',
+            label: 'avail-mean-test',
+            entityName: '',
+            entityType: 'application'
+          },
+          {
+            id: 'SLO-12',
+            label: 'Blessy-event',
+            entityName: '',
+            entityType: 'application'
+          }
+        ],
+        clear: jest.fn(),
+        page: 2,
+        progress: { loading: false },
+        pageSize: 6,
+        totalHits: 73
+      });
 
     mockUseSelectedIds.mockReturnValue(sloData);
 
     // When
     const { result } = renderHook(() => useSloList(['SLO-selected'], 'application'));
+
+    expect(result.current.page).toBe(1);
+    expect(result.current.selected).toEqual(selectedSLO);
+    expect(result.current.sloList).toHaveLength(6);
+
+    act(() => {
+      result.current.loadMore();
+    });
 
     // Then
     expect(result.current.page).toBe(2);
@@ -322,6 +462,27 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
 
   it('Should return the selected SLO and the searched query SLO in the list', () => {
     // Given
+
+    const selectedSloList = [
+      {
+        id: 'SLO-selected-1',
+        label: 'SLO-1',
+        entityName: '',
+        entityType: 'application'
+      },
+      {
+        id: 'SLO-selected-2',
+        label: 'SLO-2',
+        entityName: '',
+        entityType: 'application'
+      },
+      {
+        id: 'SLO-selected-3',
+        label: 'SLO-3',
+        entityName: '',
+        entityType: 'application'
+      }
+    ];
     mockUseDebouncedValue.mockReturnValue({
       value: 'AndreiK',
       debouncedValue: 'AndreiK',
@@ -344,10 +505,12 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
       totalHits: 73
     });
 
-    mockUseSelectedIds.mockReturnValue(sloData);
+    mockUseSelectedIds.mockReturnValue(selectedSloData);
 
     // When
-    const { result } = renderHook(() => useSloList(['SLO-selected'], 'application'));
+    const { result } = renderHook(() =>
+      useSloList(['SLO-selected-1', 'SLO-selected-2', 'SLO-selected-3'], 'application')
+    );
 
     // Then
     expect(result.current.sloList).toStrictEqual([
@@ -358,7 +521,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
         entityType: 'application'
       }
     ]);
-    expect(result.current.selected).toEqual(selectedSLO);
+    expect(result.current.selected).toEqual(selectedSloList);
   });
 
   it('Should return empty SLO list when there is no matching search input and no selected SLO', () => {
@@ -455,7 +618,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
     ]);
   });
 
-  it('Should show all SLOs that are matching search query  and the selected SLO in a case-insensitive manner', () => {
+  it('Should show all SLOs that are matching search query and the selected SLO in a case-insensitive manner', () => {
     // Given
 
     mockUseDebouncedValue.mockReturnValue({
