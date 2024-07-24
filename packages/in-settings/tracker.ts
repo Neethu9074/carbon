@@ -60,7 +60,15 @@ import {
   SHARE_AND_INVITE_INVITEE_JOINED,
   SHARE_AND_INVITE_ADD_USER,
   SHARE_AND_INVITE_NEW_GROUP,
-  SHARE_AND_INVITE_COPY_LINK
+  SHARE_AND_INVITE_COPY_LINK,
+  UNIT_ONBOARDING_START_INTEGRATING_CLICK,
+  UNIT_ONBOARDING_TRACE_INTERACTIONS_CLICK,
+  UNIT_ONBOARDING_CONNECT_WITH_EXPERTS_CLICK,
+  UNIT_ONBOARDING_BRING_IN_MORE_DATA_CLICK,
+  UNIT_ONBOARDING_TAILOR_YOUR_VIEW_CLICK,
+  UNIT_ONBOARDING_GET_ALERTED_CLICK,
+  UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK,
+  UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK
 } from 'in-services/tracking/tracking';
 
 export const submitInviteUserTracker = (e: Object) => track(SETTINGS_USER_INVITE_SUBMIT, e);
@@ -71,6 +79,15 @@ export const addUserInviteAndShareModal = () => track(SHARE_AND_INVITE_ADD_USER)
 export const newGroupInviteAndShareModal = () => track(SHARE_AND_INVITE_NEW_GROUP);
 export const copyLinkInviteAndShareModal = () => track(SHARE_AND_INVITE_COPY_LINK);
 export const invitedUserJoined = (e: Object) => track(SHARE_AND_INVITE_INVITEE_JOINED, e);
+
+export const unitOnboardingStartIntegratingClick = () => track(UNIT_ONBOARDING_START_INTEGRATING_CLICK);
+export const unitOnboardingTraceInteractionsClick = () => track(UNIT_ONBOARDING_TRACE_INTERACTIONS_CLICK);
+export const unitOnboardingConnectWithExpertClick = () => track(UNIT_ONBOARDING_CONNECT_WITH_EXPERTS_CLICK);
+export const unitOnboardingBringInMoreDataClick = () => track(UNIT_ONBOARDING_BRING_IN_MORE_DATA_CLICK);
+export const unitOnboardingTailorYourViewClick = () => track(UNIT_ONBOARDING_TAILOR_YOUR_VIEW_CLICK);
+export const unitOnboardingGetAlertedClick = () => track(UNIT_ONBOARDING_GET_ALERTED_CLICK);
+export const unitOnboardingMonitorEnvClick = () => track(UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK);
+export const unitOnboardingBringYourTeamClick = () => track(UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK);
 
 export const submitRoleTracker = (e: Object) => track(SETTINGS_ROLE_SUBMIT, e);
 export const openRoleSubmitFormTracker = (e: Object) => track(SETTINGS_ROLE_OPEN_SUBMIT_FORM, e);

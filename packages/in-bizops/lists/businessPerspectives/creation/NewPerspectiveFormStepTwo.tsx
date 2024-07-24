@@ -7,7 +7,7 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Spacer, FormGroup, CarbonTextArea, CarbonLayer, CarbonTextInput } from '@instana/components';
+import { Spacer, FormGroup, CarbonTextArea, CarbonTextInput } from '@instana/components';
 import { Result, TagCatalog, TimeConfig } from '@instana/types';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
@@ -37,45 +37,43 @@ export function NewPerspectiveFormStepTwo({
     <SimpleModeStepContentWrapper headline={t('in-bizops:perspectives.dialog.stepTwo.headline')}>
       <div className={locals.contentParent}>
         <FormGroup className={locals.leftContent}>
-          <CarbonLayer>
-            <CarbonTextInput
-              id="perspectiveName"
-              labelText={t('in-bizops:perspectives.dialog.stepTwo.perspectiveName')}
-              value={perspectiveNameField.value}
-              enableCounter
-              maxCount={MAX_NAME_SIZE}
-              onChange={(e: any) =>
-                updateForm(
-                  form.updateIn(['perspectiveName'], field => field.setValue(e.target.value || '').setTouched(true))
-                )
-              }
-              autoComplete="off"
-              invalid={perspectiveNameField.touched && !perspectiveNameField.valid}
-              invalidText={perspectiveNameField.messages[0]?.message}
-            />
-            <Spacer vertical="normal" />
+          <CarbonTextInput
+            id="perspectiveName"
+            labelText={t('in-bizops:perspectives.dialog.stepTwo.perspectiveName')}
+            value={perspectiveNameField.value}
+            enableCounter
+            maxCount={MAX_NAME_SIZE}
+            onChange={(e: any) =>
+              updateForm(
+                form.updateIn(['perspectiveName'], field => field.setValue(e.target.value || '').setTouched(true))
+              )
+            }
+            autoComplete="off"
+            invalid={perspectiveNameField.touched && !perspectiveNameField.valid}
+            invalidText={perspectiveNameField.messages[0]?.message}
+          />
+          <Spacer vertical="normal" />
 
-            <CarbonTextArea
-              id="perspectiveDescription"
-              labelText={t('in-bizops:perspectives.dialog.stepTwo.perspectiveDescription')}
-              className={locals.leftContent}
-              enableCounter
-              maxCount={MAX_DESCRIPTION_SIZE}
-              value={perspectiveDescription.value}
-              onChange={e =>
-                updateForm(
-                  form
-                    .updateIn(
-                      ['perspectiveDescription'],
-                      field => field.setValue((e.target as HTMLTextAreaElement).value) || ''
-                    )
-                    .setTouched(true)
-                )
-              }
-              warn={perspectiveDescription.touched && !perspectiveDescription.valid}
-              warnText={perspectiveDescription.messages[0]?.message}
-            />
-          </CarbonLayer>
+          <CarbonTextArea
+            id="perspectiveDescription"
+            labelText={t('in-bizops:perspectives.dialog.stepTwo.perspectiveDescription')}
+            className={locals.leftContent}
+            enableCounter
+            maxCount={MAX_DESCRIPTION_SIZE}
+            value={perspectiveDescription.value}
+            onChange={e =>
+              updateForm(
+                form
+                  .updateIn(
+                    ['perspectiveDescription'],
+                    field => field.setValue((e.target as HTMLTextAreaElement).value) || ''
+                  )
+                  .setTouched(true)
+              )
+            }
+            warn={perspectiveDescription.touched && !perspectiveDescription.valid}
+            warnText={perspectiveDescription.messages[0]?.message}
+          />
         </FormGroup>
         <div className={locals.rightContent}>
           <ProcessesLiveList

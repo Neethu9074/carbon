@@ -24,10 +24,14 @@ export type GetMetricCatalog = (query: GetInfraMetricsCatalogQuery) => Observabl
 // We frequently need to access the metric catalog in ways that would be unoptimized
 // given its native structure. We therefore index it in a variety of different
 // ways in order to allow faster execution within the components.
-export function enrichMetricCatalog(metricCatalog: MetricCatalog, type?: string): EnrichedMetricCatalog {
+export function enrichMetricCatalog(
+  metricCatalog: MetricCatalog,
+  withHierarchy: boolean = false,
+  type?: string
+): EnrichedMetricCatalog {
   return {
     list: metricCatalog.list && filterList(metricCatalog.list, type),
-    tree: metricCatalog.tree && filterTree(metricCatalog.tree, type),
+    tree: metricCatalog.tree && filterTree(metricCatalog.tree, withHierarchy, type),
     //TODO are these really needed anywhere ?
     metrics: (metricCatalog.tree && metricCategories(metricCatalog.tree)) || {},
     types: (metricCatalog.tree && metricTypes(metricCatalog.tree)) || {}
@@ -74,12 +78,16 @@ function metricTypes(tree: MetricTreeLevel[]): CategoriesByMetricLevels {
   }, {} as CategoriesByMetricLevels);
 }
 
-export function getMetricCatalogOnce(originalGetMetricCatalog: GetMetricCatalog, type?: string): GetMetricCatalog {
+export function getMetricCatalogOnce(
+  originalGetMetricCatalog: GetMetricCatalog,
+  withHierarchy: boolean = false,
+  type?: string
+): GetMetricCatalog {
   return memoize(
     query =>
       originalGetMetricCatalog(query).map(result => {
         if (result.data) {
-          return success(enrichMetricCatalog(result.data, type));
+          return success(enrichMetricCatalog(result.data, withHierarchy, type));
         }
         return result;
       }),
@@ -102,21 +110,25 @@ function filterList(list: Metric[], type?: string): Metric[] {
   return list;
 }
 
-function filterTree(level: MetricTreeLevel[], type?: string): MetricTreeLevel[] {
+function filterTree(level: MetricTreeLevel[], withHierarchy: boolean, type?: string): MetricTreeLevel[] {
   if (type) {
-    return (filterLevel(level, type) as MetricTreeLevel[]) || [];
+    return (filterLevel(level, withHierarchy, type) as MetricTreeLevel[]) || [];
   }
   return level;
 }
 
-function filterLevel(level: MetricTreeNodeUnion[], type: string): MetricTreeNodeUnion[] | undefined {
+function filterLevel(
+  level: MetricTreeNodeUnion[],
+  withHierarchy: boolean,
+  type?: string
+): MetricTreeNodeUnion[] | undefined {
   const nodes = level
     .map(l => {
       switch (l.type) {
         case 'LEVEL':
           return {
             ...l,
-            children: filterLevel(l.children, type) || []
+            children: filterLevel(l.children, withHierarchy, type) || []
           };
         case 'METRIC':
           return l;
@@ -132,7 +144,7 @@ function filterLevel(level: MetricTreeNodeUnion[], type: string): MetricTreeNode
     });
   if (nodes.length == 0) {
     return undefined;
-  } else if (nodes.length == 1 && nodes[0].type === 'LEVEL') {
+  } else if (!withHierarchy && nodes.length == 1 && nodes[0].type === 'LEVEL') {
     return nodes[0].children;
   } else {
     return nodes;

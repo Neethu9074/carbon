@@ -37,4 +37,10 @@
       color: var(--cds-button-danger-secondary);
     }
   }
+  .channelTitle {
+    color: var(--ids-color-option-neutral-900);
+    font-size: var(--ids-font-size-option-heading-200);
+    line-height: var(--ids-line-height-option-heading-200);
+    font-weight: var(--ids-font-weight-option-heading-200);
+  }
 }

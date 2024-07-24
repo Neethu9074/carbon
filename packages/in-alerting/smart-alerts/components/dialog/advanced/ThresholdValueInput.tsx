@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { isNaN } from 'lodash';
 import { Field, MapForm } from 'formalistic';
+import { isNaN } from 'lodash';
 import React from 'react';
 
 import { ThresholdValueInputWithValidationMessageProps } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
@@ -44,7 +44,7 @@ export default function ThresholdValueInput({
   percentageMetric,
   metricUnitPostfix,
   isSmall,
-  thresholdField,
+  thresholdField = form?.get('threshold')?.get('value'),
   getUpdatedForm,
   ...props
 }: ThresholdValueInputProps) {

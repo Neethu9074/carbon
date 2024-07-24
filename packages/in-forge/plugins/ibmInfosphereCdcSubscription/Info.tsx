@@ -18,8 +18,11 @@ export default function IbmInfosphereSubscriptionInfo({ snapshot }: { snapshot: 
       <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdcSubscription.subscriptionName')}>
         {data.get('name')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdcSubscription.datastore')}>
-        {data.get('dataStore')}
+      <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceDatastore')}>
+        {data.get('source')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdcSubscription.targetDataStore')}>
+        {data.get('target')}
       </DescriptionItem>
     </DescriptionList>
   );

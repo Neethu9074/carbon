@@ -165,7 +165,11 @@ export default function KpiCard({
             })}
           >
             <Tooltip content={iconAction.text} overwriteBlock>
-              <Link href={iconAction.href$ ?? iconAction.href} onClick={iconAction.onClick}>
+              <Link
+                href={iconAction.href$ ?? iconAction.href}
+                aria-label={iconAction.text}
+                onClick={iconAction.onClick}
+              >
                 <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
               </Link>
             </Tooltip>

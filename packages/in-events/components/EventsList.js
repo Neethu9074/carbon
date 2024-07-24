@@ -224,8 +224,11 @@ function List(props) {
 }
 
 function filterManuallyClosedEventsByTimeScale(rawEventList, timeScale) {
-  return rawEventList.filter(
-    event => !(event.manuallyClosed === true && event.end >= timeScale.domainFrom && event.end <= timeScale.domainTo)
+  return rawEventList.filter(event =>
+    event.manuallyClosed
+      ? event.manualCloseTimestamp <= timeScale.domainTo + 15000 &&
+        event.manualCloseTimestamp >= timeScale.domainFrom - 15000
+      : true
   );
 }
 

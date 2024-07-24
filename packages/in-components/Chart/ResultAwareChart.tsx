@@ -51,6 +51,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     approximateTooltipText = t('in-components:approximateDataIndicator.dataRetention'),
     onLegendItemToggle
   } = config;
+
   let content;
 
   const height = customHeight || '100%';

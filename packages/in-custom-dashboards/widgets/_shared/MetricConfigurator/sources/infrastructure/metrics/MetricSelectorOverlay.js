@@ -42,7 +42,7 @@ export default function MetricSelectorOverlay({
       query={query}
       onQueryChange={onQueryChange}
       // when filtering on a type, the metric catalog will already be filtered on that type, so options will contain all metrics from that type
-      onFocusNode={focusedNode => focusedNode && onSelectType?.(focusedNode?.levelType)}
+      onFocusNode={focusedNode => onSelectType?.(focusedNode?.levelType)}
       disabled={disabled}
       strict
       nodesToSearchFrom={(options, focusedNode) => (focusedNode && focusedNode.levelType ? [focusedNode] : options)}

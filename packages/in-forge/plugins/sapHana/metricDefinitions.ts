@@ -1,11 +1,20 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
-import { number, bytes, percentage, millis, megaBytes, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import {
+  number,
+  bytes,
+  percentage,
+  millis,
+  megaBytes,
+  bytesTwoDecimalPlaces,
+  seconds
+} from 'in-services/formatters/number';
+// @ts-expect-error needs TS migration
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
-import { seconds } from 'in-services/time';
 import { t } from 'in-i18n';
 
 export default [
@@ -38,8 +47,8 @@ export default [
       t('in-forge:plugins.sapHana.total'),
       t('in-forge:plugins.sapHana.idle'),
       t('in-forge:plugins.sapHana.running'),
-      t('in-forge:plugins.sapHana.blocked'),
-      t('in-forge:plugins.sapHana.blocking')
+      t('in-forge:plugins.sapHana.blockedSessions'),
+      t('in-forge:plugins.sapHana.blockingSessions')
     ],
     min: 0
   },
@@ -59,7 +68,7 @@ export default [
     labels: [
       t('in-forge:plugins.sapHana.total'),
       t('in-forge:plugins.sapHana.active'),
-      t('in-forge:plugins.sapHana.blocked')
+      t('in-forge:plugins.sapHana.blockedThreads')
     ],
     min: 0
   },
@@ -69,7 +78,7 @@ export default [
     labels: [
       t('in-forge:plugins.sapHana.total'),
       t('in-forge:plugins.sapHana.active'),
-      t('in-forge:plugins.sapHana.blocked')
+      t('in-forge:plugins.sapHana.threadsJobWorkerBlockedCount')
     ],
     min: 0
   },
@@ -83,7 +92,7 @@ export default [
     labels: [
       t('in-forge:plugins.sapHana.total'),
       t('in-forge:plugins.sapHana.active'),
-      t('in-forge:plugins.sapHana.blocked')
+      t('in-forge:plugins.sapHana.threadsSqlExecutorBlockedCount')
     ],
     min: 0
   },
@@ -125,7 +134,7 @@ export default [
     labels: [
       t('in-forge:plugins.sapHana.dashboard.running'),
       t('in-forge:plugins.sapHana.dashboard.idle'),
-      t('in-forge:plugins.sapHana.dashboard.queueingCount')
+      t('in-forge:plugins.sapHana.queueingConnectionCount')
     ],
     min: 0
   },
@@ -345,6 +354,13 @@ export default [
     min: 0
   },
   {
+    metrics: ['stats.hanaUtilisationRatio'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.utilisationRatio')],
+    category: [t('in-forge:plugins.sapHana.dashboard.hanaMemoryUsage')],
+    formatter: percentage,
+    min: 0
+  },
+  {
     metrics: ['stats.freePhysicalMemory', 'stats.usedPhysicalMemory', 'stats.totalPhysicalMemory'],
     labels: [
       t('in-forge:plugins.sapHana.dashboard.free'),
@@ -353,6 +369,13 @@ export default [
     ],
     category: [t('in-forge:plugins.sapHana.dashboard.hostMemoryUsage')],
     formatter: bytesTwoDecimalPlaces,
+    min: 0
+  },
+  {
+    metrics: ['stats.hostUsedPhysicalMemoryRatio'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.hostUsedPhysicalMemoryRatio')],
+    category: [t('in-forge:plugins.sapHana.dashboard.hostMemoryUsage')],
+    formatter: percentage,
     min: 0
   },
   {

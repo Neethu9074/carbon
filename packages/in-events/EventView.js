@@ -16,7 +16,7 @@ import {
 } from 'in-events/navigation/urlParameters';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
@@ -49,16 +49,15 @@ export default function LegacyEventViewMigration(props) {
     progress: { percentage: null, loading: false }
   }));
   const timeConfig = getTimeConfig(props.location);
+
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+  const redirectWithHashTo = getEventsViewFilteredBy({
+    ...query,
+    eventTypeFilter: getMatrixParameter(props.location, eventsPath, 'view'),
+    timeConfig
+  });
   if (query.eventId) {
-    return (
-      <RedirectWithHash
-        to$={getEventsViewFilteredBy({
-          ...query,
-          eventTypeFilter: getMatrixParameter(props.location, eventsPath, 'view'),
-          timeConfig
-        })}
-      />
-    );
+    return <RedirectWithHash to={redirectWithHashTo} />;
   }
 
   const eventType = getMatrixParameter(props.location, eventsPath, 'view');

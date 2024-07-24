@@ -59,7 +59,6 @@ export default function AlertLevelRow({ form, onChange, isTearSheet }: AlertLeve
                 return (field as Field<number>).setValue(Number(e.target.value)).setTouched(true);
               });
             }}
-            defaultValue={severitySelectOptions[severity as keyof typeof severitySelectOptions].value}
           >
             {Object.values(severitySelectOptions).map(({ value, label }) => (
               <option key={value} value={value}>
@@ -84,7 +83,6 @@ export default function AlertLevelRow({ form, onChange, isTearSheet }: AlertLeve
                 return (field as Field<number>).setValue(Number(e.target.value)).setTouched(true);
               });
             }}
-            defaultValue={severitySelectOptions[severity as keyof typeof severitySelectOptions].value}
           >
             {Object.values(severitySelectOptions).map(({ value, label }) => (
               <option key={value} value={value}>

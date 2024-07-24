@@ -38,7 +38,6 @@ export default function ViewSwitcher() {
             href={createHrefToPath(paths.businessProcessPath)}
             label={t('in-bizops:labelBizOps')}
             isActive={isProcessesActive && !isPerspectivesActive}
-            icon={'lib_bizops'}
             onClick={() => {
               clickBizopsTabsTracker({ tab: 'Processes' });
             }}
@@ -48,7 +47,6 @@ export default function ViewSwitcher() {
               href={createHrefToPath(paths.businessPerspectivesPath)}
               label={t('in-bizops:labelPerspectives')}
               isActive={isPerspectivesActive && !isProcessesActive}
-              icon={'lib_bizops'}
               onClick={() => {
                 clickBizopsTabsTracker({ tab: 'Perspectives' });
               }}
