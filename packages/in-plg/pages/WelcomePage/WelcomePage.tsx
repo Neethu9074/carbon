@@ -14,6 +14,7 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import PageContent from 'in-plg/pages/WelcomePage/PageContent';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
+import Sticky from 'in-components/Sticky/Sticky';
 
 import locals from 'in-plg/pages/WelcomePage/WelcomePage.mless';
 
@@ -27,7 +28,7 @@ export default function WelcomePage() {
             pageRootName: pageNames.home
           }}
         />
-        <WelcomeHeader onboardingHeaderEnabled={ampCompanyInfoEnabled && !playwithEnabled} />
+        <Sticky header={<WelcomeHeader onboardingHeaderEnabled={ampCompanyInfoEnabled && !playwithEnabled} />} />
         <Stack direction="vertical">
           <PageContent />
         </Stack>
