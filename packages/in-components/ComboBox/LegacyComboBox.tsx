@@ -18,7 +18,6 @@ export function hasMultipleValuesSelected(value: Option | Options | null): value
 }
 
 export default function ComboBox({ isClearable = true, ...props }: ComboBoxProps): JSX.Element {
-  console.log('****isCLEARABLE', isClearable);
   const value =
     props.options?.filter((option: Option) =>
       Array.isArray(props.value) ? props.value.includes(option.value) : option.value === props.value
