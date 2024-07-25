@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Goal } from '../types';
+import { UserGoal } from '../types';
 
 export const TOGGLER = 'toggler';
 
-export const GOALS: Goal[] = [
+export const GOALS: UserGoal[] = [
   {
     id: 'goal_1',
     icon: 'lib_website',
@@ -48,3 +48,5 @@ export const GOALS: Goal[] = [
 ];
 
 export const OTHER_GOAL_MAX_LENGTH = 150;
+export const SHOW_GOAL_SELECTION = 'show_goal_selection';
+export const GOAL_SELECTION_FALSE = 'false';

@@ -7,7 +7,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
-import UserGoalSelectionDialog from 'in-plg/pages/UserGoalSelection/Dialog';
+import UserGoalSelectionDialog from 'in-plg/pages/UserGoalSelection/UserGoalSelectionDialog';
 import { segmentTrackingFunc } from 'in-plg/utils/Segment/segment';
 
 jest.mock('in-components/DialogPresenter/store', () => ({

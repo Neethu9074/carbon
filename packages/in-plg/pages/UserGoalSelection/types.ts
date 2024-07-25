@@ -4,11 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
-export interface Goal {
+type GoalType = 'toggler';
+
+export interface UserGoal {
   id: string;
   icon: string;
   text: string;
-  type?: 'toggler' | string;
+  type?: GoalType;
 }
 
 export interface AccountActivation {
@@ -19,6 +21,8 @@ export interface AccountActivation {
   };
 }
 
+type ActiveLicenseType = 'selfService' | 'quota';
+
 export interface UsageInfo {
-  activeLicenseType?: 'selfService' | 'quota';
+  activeLicenseType?: ActiveLicenseType;
 }
