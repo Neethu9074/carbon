@@ -29,7 +29,7 @@ export default function WelcomePage() {
         />
         <WelcomeHeader onboardingHeaderEnabled={ampCompanyInfoEnabled && !playwithEnabled} />
         <Stack direction="vertical">
-          <PageContent />
+          <PageContent enableQuickLinkForAgentAndUser={!playwithEnabled} />
         </Stack>
       </ThemeProvider>
     </div>

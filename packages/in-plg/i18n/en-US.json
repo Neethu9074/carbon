@@ -671,6 +671,20 @@
         "buttonName": "Create custom dashboard"
       }
     },
+    "quickLinks": {
+      "iconDescriptions": {
+        "settings": "Settings",
+        "user": "User",
+        "externalLink": "External Link",
+        "resultNew": "Result New"
+      },
+      "buttonNames": {
+        "deployAgent": "Deploy agent",
+        "addUser": "Add user",
+        "documentation": "IBM Documentation",
+        "releaseNotes": "Release notes"
+      }
+    },
     "ariaLabel": {
       "search": "Search",
       "shareButton": "Share button",
