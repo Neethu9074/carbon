@@ -175,6 +175,7 @@ const widgetData = [
   {
     key: 'businessMonitoringWidget',
     label: t('in-plg:welcomepage.component.bizopsWidget.label'),
+    addLabel: t('in-plg:welcomepage.component.bizopsWidget.viewLabel'),
     icon: 'lib_actions_reorder',
     widget: BusinessMonitoringWidget
   },
@@ -194,6 +195,7 @@ const widgetData = [
   {
     key: 'infrastructureWidget',
     label: t('in-plg:welcomepage.component.infrastructureWidget.label'),
+    addLabel: t('in-plg:welcomepage.component.infrastructureWidget.hostLabel'),
     toogles: infrastructureToogleArray,
     infraType: 'host',
     widget: InfrastructureWidget,
@@ -202,7 +204,7 @@ const widgetData = [
   {
     key: 'syntheticWidget',
     label: t('in-plg:welcomepage.component.syntheticWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.syntheticWidget.addLabel'),
+    addLabel: t('in-plg:welcomepage.component.syntheticWidget.testLabel'),
     toogles: syntheticToogleArray,
     syntheticType: 'test',
     widget: SyntheticMonitoringWidget,

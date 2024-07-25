@@ -89,6 +89,8 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: string[] }) =>
   const [query, setQuery] = useState<string>('');
   const [hasContent, setHasContent] = useState<boolean>(false);
   const header = dashboardTileProps?.header ?? '';
+  const addLabel = dashboardTileProps?.addLabel;
+
   const result = useObservable(getItems({ timeConfig, query, infraType, syntheticType }), [
     timeConfig,
     query,
@@ -148,8 +150,8 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: string[] }) =>
           header={`${header}`}
           headers={headers}
           rows={processedItems}
-          searchPlaceHolder={`${t('in-plg:welcomepage.ariaLabel.search')} ${header}`}
-          viewLabel={`${t('in-plg:welcomepage.viewAll')} ${header}`}
+          searchPlaceHolder={`${t('in-plg:welcomepage.ariaLabel.search')} ${addLabel ? addLabel : header}`}
+          viewLabel={`${t('in-plg:welcomepage.viewAll')} ${addLabel ? addLabel : header}`}
           iconColor={themes.default.ids.color.option.white}
           hasAddPermission={hasAddPermission}
           hasAddMore={hasAddMore && !playwithEnabled ? true : false}
@@ -162,7 +164,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: string[] }) =>
           onSearch={(searchQuery: string) => {
             setQuery(searchQuery);
           }}
-          buttonName={`${t('in-plg:welcomepage.addMore')} ${header}`}
+          buttonName={`${t('in-plg:welcomepage.addMore')} ${addLabel ? addLabel : header}`}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}
         />

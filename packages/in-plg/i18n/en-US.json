@@ -514,7 +514,7 @@
     "component": {
       "applicationWidget": {
         "label": "Applications",
-        "addLabel": "Add application",
+        "addLabel": "application",
         "name": "Name",
         "calls": "Calls",
         "scope": "Scope",
@@ -561,6 +561,7 @@
       },
       "bizopsWidget": {
         "label": "Business Monitoring",
+        "viewLabel": "business processes",
         "name": "Name",
         "activities": "Activities",
         "views": "Views",
@@ -580,7 +581,7 @@
         "name": "Name",
         "pageViews": "Page views",
         "onLoadTimes": "OnLoad times",
-        "addLabel": "Add website",
+        "addLabel": "website",
         "health": "Health"
       },
       "mobileAppsWidget": {
@@ -588,11 +589,14 @@
         "name": "Name",
         "sessions": "Sessions",
         "views": "Views",
-        "addLabel": "Add mobile app",
+        "addLabel": "mobile app",
         "health": "Health"
       },
       "infrastructureWidget": {
         "label": "Infrastructure",
+        "hostLabel": "hosts",
+        "containerLabel": "containers",
+        "processLabel": "processes",
         "mean": "mean",
         "name": "Name",
         "os": "OS",
@@ -605,7 +609,9 @@
       },
       "syntheticWidget": {
         "label": "Synthetic Monitoring",
-        "addLabel": "Add synthetic monitoring",
+        "testLabel": "tests",
+        "locationLabel": "locations",
+        "smartAlertLabel": "smart alerts",
         "na": "N/A",
         "name": "Name",
         "type": "Type",
@@ -622,7 +628,7 @@
         "name": "Name",
         "owner": "Owner",
         "permissions": "Permissions",
-        "addLabel": "Add dashboard"
+        "addLabel": "dashboard"
       }
     },
     "noData": {
@@ -655,7 +661,7 @@
       },
       "businessMonitoringWidget": {
         "header": "No business processes",
-        "description": "Enable the IBM Business Automation Workflow or configure Instana to capture and store business data from business processes."
+        "description": "Configure Instana to capture and store data from your business procesess."
       },
       "syntheticWidget": {
         "test": {
@@ -668,9 +674,9 @@
           "description": "Configure Synthetic location to run at specific continuous intervals."
         },
         "smartalerts": {
-          "header": "No Synthetic smartalerts",
-          "description": "Configure Synthetic smartalerts to run at specific continuous intervals.",
-          "buttonName": "Add Synthetic smartalerts"
+          "header": "No Synthetic smart alerts",
+          "description": "Configure Synthetic smart alerts to run at specific continuous intervals.",
+          "buttonName": "Add Synthetic smart alerts"
         }
       },
       "dashboardWidget": {

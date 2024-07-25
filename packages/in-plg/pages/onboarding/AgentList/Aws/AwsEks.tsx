@@ -98,7 +98,7 @@ const AwsEks = ({
           <Stack direction="horizontal">
             <KeyValue
               label={t('in-plg:agentDetails.common.clusterName')}
-              value={<AgentFormInput onChange={value => setClusterName(value)} />}
+              value={<AgentFormInput onChange={value => setClusterName(value)} maxLength={65} />}
               withGap
             />
             <AgentzoneLister callBackFunc={updateAgentZone} />

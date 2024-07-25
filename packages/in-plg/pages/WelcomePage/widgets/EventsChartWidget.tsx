@@ -92,9 +92,10 @@ export default function EventsChardWidget({
           </Stack>
         </div>
         <div className={locals.eventsChartBottomSection}>
-          <Link href={EventsfullListViewHref ? EventsfullListViewHref : '/#/events'}>{`${t(
-            'in-plg:welcomepage.viewAll'
-          )} ${header}`}</Link>
+          <Link
+            href={EventsfullListViewHref ? EventsfullListViewHref : '/#/events'}
+            linkIconType="lib_arrow_right"
+          >{`${t('in-plg:welcomepage.viewAll')} ${header}`}</Link>
         </div>
       </DashboardTile>
     </section>
