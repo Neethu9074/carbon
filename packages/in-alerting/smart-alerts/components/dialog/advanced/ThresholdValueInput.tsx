@@ -74,7 +74,7 @@ export default function ThresholdValueInput({
         name={name}
         type={type}
         min={min}
-        step={step}
+        step={parseInt(step) ?? 1}
         {...props}
         className={isSmall && locals.narrowControl}
         onValueChange={onValueChange}
