@@ -18,6 +18,8 @@ import DatePicker from 'in-plg/components/DatePicker/DatePicker';
 import Overlay from 'in-components/overlays/Overlay';
 import { user } from 'in-stores/user';
 
+import locals from 'in-plg/components/WelcomeHeader/WelcomeHeader.mless';
+
 interface WelcomeHeaderProps {
   onboardingHeaderEnabled: boolean;
 }
@@ -31,7 +33,11 @@ export default function WelcomeHeader({ onboardingHeaderEnabled }: WelcomeHeader
   };
 
   return (
-    <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')} data-testid="header">
+    <div
+      className={locals.stickyHeader}
+      data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}
+      data-testid="header"
+    >
       <HeaderTile
         tileItems={onboardingHeaderEnabled ? <OnboardingStepBuilder /> : null}
         headerTitle={headerTitle}
