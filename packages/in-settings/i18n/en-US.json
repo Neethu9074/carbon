@@ -383,10 +383,11 @@
       "toastMessageFailedInGet": "The retention period could not be fetched. Please try again or contact support."
     },
     "integrations": {
-      "integrations": "Log Integrations",
-      "integrationsDescription": "Connect your log management solutions and configure them to meet your needs.",
-      "integrationsTooltip": "Toggle is disabled due to a missing configuration. Click the tile and complete the form to enable this feature.",
-      "integrationsTooltipApiError": "Toggle is disabled due to an API connection issue. Wait for reconnection or reload the page to enable this feature.",
+      "integrations": "Integrations",
+      "logIntegrations": "Log Integrations",
+      "logIntegrationsDescription": "Connect your log management solutions and configure them to meet your needs.",
+      "logIntegrationsTooltip": "Toggle is disabled due to a missing configuration. Click the tile and complete the form to enable this feature.",
+      "logIntegrationsTooltipApiError": "Toggle is disabled due to an API connection issue. Wait for reconnection or reload the page to enable this feature.",
       "disabled": "Disabled",
       "on": "On",
       "off": "Off",

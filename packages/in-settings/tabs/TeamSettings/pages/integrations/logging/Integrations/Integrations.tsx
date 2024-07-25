@@ -28,10 +28,10 @@ import { t } from 'in-i18n';
 import locals from './Integrations.mless';
 
 const localisationStrings = {
-  logIntegrations: t('in-settings:tabs.integrations.integrations'),
-  integrationsTooltip: t('in-settings:tabs.integrations.integrationsTooltip'),
-  logIntegrationsDescription: t('in-settings:tabs.integrations.integrationsDescription'),
-  integrationsTooltipApiError: t('in-settings:tabs.integrations.integrationsTooltipApiError'),
+  logIntegrations: t('in-settings:tabs.integrations.logIntegrations'),
+  logIntegrationsTooltip: t('in-settings:tabs.integrations.logIntegrationsTooltip'),
+  logIntegrationsDescription: t('in-settings:tabs.integrations.logIntegrationsDescription'),
+  logIntegrationsTooltipApiError: t('in-settings:tabs.integrations.logIntegrationsTooltipApiError'),
   disabled: t('in-settings:tabs.integrations.disabled'),
   on: t('in-settings:tabs.integrations.on'),
   off: t('in-settings:tabs.integrations.off'),
@@ -53,7 +53,7 @@ export default function Integrations() {
 
   const [integrations, setIntegrations] = useState<Integration[]>(getIntegrationsSubPages());
   const [loading, setLoading] = useState(true);
-  const [TooltipMessage, setTooltipMessage] = useState(localisationStrings.integrationsTooltip);
+  const [TooltipMessage, setTooltipMessage] = useState(localisationStrings.logIntegrationsTooltip);
 
   const onClick = (e: any, path: string) => {
     let targetClass = e.target.parentElement.className.baseVal || e.target.parentElement.className;
@@ -120,7 +120,7 @@ export default function Integrations() {
     result$.errors().once(() => {
       if (!isCancelled.current) {
         setIntegrations(getIntegrationsSubPages());
-        setTooltipMessage(localisationStrings.integrationsTooltipApiError);
+        setTooltipMessage(localisationStrings.logIntegrationsTooltipApiError);
         setLoading(false);
       }
     });
