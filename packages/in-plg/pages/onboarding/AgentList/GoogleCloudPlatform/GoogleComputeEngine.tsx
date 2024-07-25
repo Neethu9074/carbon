@@ -60,8 +60,14 @@ export default function GoogleComputeEngine({
       title: t('in-plg:agentDetails.common.documentationTitle'),
       body: (
         <Stack direction="vertical" gap="small">
-          <DocumentLink text={t('in-plg:agentDetails.aws.documentationLinks.runningStartupScript')} href="" />
-          <DocumentLink text={t('in-plg:agentDetails.aws.documentationLinks.uninstallingTheHostAgent')} href="" />
+          <DocumentLink
+            text={t('in-plg:agentDetails.aws.documentationLinks.runningStartupScript')}
+            href="https://ibm.biz/insta-agent-linuxgce"
+          />
+          <DocumentLink
+            text={t('in-plg:agentDetails.aws.documentationLinks.uninstallingTheHostAgent')}
+            href="https://ibm.biz/insta-agent-linuxparams"
+          />
         </Stack>
       ),
       openByDefault: true
