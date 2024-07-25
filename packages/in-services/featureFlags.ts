@@ -277,3 +277,4 @@ export const serverSideInfraTagSearchEnabled = isFeatureFlagEnabled('serverSideI
 export const preAggregatedMetricsQueryEnabled = isFeatureFlagEnabled('preAggregatedMetricsQueryEnabled', false);
 export const carbonFileUploaderEnabled = isFeatureFlagEnabled('carbonFileUploaderEnabled', false);
 export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabled', false);
+export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetricsEnabled', false);

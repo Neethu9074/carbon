@@ -7,11 +7,14 @@ import React from 'react';
 
 import { Card, HorizontalIndicator, LoadingSkeleton, Message, IconButton } from '@instana/components';
 
+import { AxisConfiguration, ChartConfig, MetricDataPoint, MetricsConfiguration } from 'in-components/Chart/types';
 import Renderer, { extendTimeConfigForBarRenderer } from 'in-components/Chart/renderer/Renderer';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import Chart, { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import { clickhouseTimeoutErrorMessage } from 'in-components/AnalyzeView/utils';
-import { AxisConfiguration, ChartConfig } from 'in-components/Chart/types';
+import { FormatterFn, getFormatterId } from 'in-stores/metric/formatters';
+import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
+import { getUnit, getUnitByFormatter } from 'in-stores/metric/units';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 // @ts-expect-error
 import PieChart from 'in-components/PieChart';
@@ -87,6 +90,9 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
         config.timeConfig = extendTimeConfigForBarRenderer(config.timeConfig, granularity);
       }
       config = normalizeTimeShiftedTimestamps(config as ChartReactComponentProps);
+      if (unitForInfraMetricsEnabled) {
+        config = convertMetricForAxis(config as ChartReactComponentProps);
+      }
       content = (
         <Chart
           renderLegend={renderLegend}
@@ -170,6 +176,47 @@ function containsOnlyEmptyData(metrics: [number, number][][]) {
     }
   }
   return true;
+}
+
+function convertMetricForAxis(config: ChartReactComponentProps) {
+  return {
+    ...config,
+    y1:
+      (config.y1 &&
+        config.metricsConfiguration &&
+        getConvertedMetricForUnits(config.y1, config.metricsConfiguration)) ??
+      config.y1,
+    y2:
+      (config.y2 &&
+        config.metricsConfiguration &&
+        getConvertedMetricForUnits(config.y2, config.metricsConfiguration)) ??
+      config.y2
+  };
+}
+
+function getConvertedMetricForUnits(
+  axisConfig: AxisConfiguration,
+  metricConfig: MetricsConfiguration
+): AxisConfiguration {
+  const convertedAxisConfig = {
+    ...axisConfig
+  };
+  axisConfig?.metricIds?.forEach(id => {
+    const unitId = metricConfig?.metrics[id]?.unit;
+    if (unitId) {
+      const metricIndex = Number(id.split('-')[1]);
+      const appliedFormatter = getFormatterId(axisConfig?.formatter as FormatterFn);
+      const unit = getUnit(unitId);
+      if (unit?.baseUnit === getUnitByFormatter(appliedFormatter)?.baseUnit) {
+        const newValues = axisConfig?.metrics[metricIndex].map(data => [
+          data[0],
+          unit.converter(data[1])
+        ]) as MetricDataPoint[];
+        convertedAxisConfig.metrics[metricIndex] = newValues;
+      }
+    }
+  });
+  return convertedAxisConfig;
 }
 
 function normalizeTimeShiftedTimestamps(config: ChartReactComponentProps) {

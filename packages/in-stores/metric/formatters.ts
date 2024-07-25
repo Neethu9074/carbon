@@ -148,13 +148,21 @@ export const publicFormatterIds = Object.values(publicFormatters).map(c => c.id)
 export const allFormatterIds = Object.values(allFormatters).map(c => c.id);
 
 export function getFormatter(formatterId?: string): FormatterFn {
-  return (allFormatters.find(({ id }) => id === formatterId) || defaultFormatter).formatter;
+  return (getFormatterById(formatterId) || defaultFormatter).formatter;
 }
 
 export function getFormatterId(formatterFn?: FormatterFn): string {
-  return (allFormatters.find(({ formatter }) => formatter === formatterFn) || defaultFormatter).id;
+  return getFormatterIdByFn(formatterFn) || defaultFormatter.id;
 }
 
 export function getFormatterUnitConversion(formatterId?: string): boolean {
-  return (allFormatters.find(({ id }) => id === formatterId) || defaultFormatter).unitConversion;
+  return (getFormatterById(formatterId) || defaultFormatter).unitConversion;
+}
+
+export function getFormatterById(formatterId?: string): Formatter | undefined {
+  return allFormatters.find(({ id }) => id === formatterId);
+}
+
+export function getFormatterIdByFn(formatterFn?: FormatterFn): string | undefined {
+  return allFormatters.find(({ formatter }) => formatter === formatterFn)?.id;
 }

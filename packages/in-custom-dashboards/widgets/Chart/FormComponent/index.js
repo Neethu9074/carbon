@@ -19,7 +19,7 @@ export default function ChartWidgetFormComponent({ form, onChange }) {
     <Stack gap="large">
       <Stack gap="normal">
         <Header>{t('in-custom-dashboards:widgets.formCompChart.indexChart.datasets')}</Header>
-        <DataSeriesConfigurator form={form} onChange={onChange} getShortMetricKey={getShortMetricKey} />
+        <DataSeriesConfigurator form={form} onChange={onChange} getShortMetricKey={getShortMetricKey} withUnit />
       </Stack>
 
       <Divider />

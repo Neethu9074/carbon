@@ -33,6 +33,7 @@ export interface Metric {
   metric: string;
   timeShift?: TimeShiftOffset | TimeShift;
   aggregation?: AggregationType;
+  unit?: string;
 }
 
 export interface ChartedMetricsConfig {

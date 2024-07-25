@@ -163,6 +163,7 @@
       "metricsFormComponent": {
         "metric": "Metric",
         "selectMetric": "Select metric",
+        "unit": "Unit",
         "aggregation": "Aggregation",
         "crossSeriesAggregation": "Use SUM for cross-series aggregation",
         "crossSeriesAggregationHelp": "Normally, the cross-series aggregation is the same as the cross-time aggregation (the method used to combine data-points into a single bucket). With this toggle enabled, we'll sum the buckets across the data-series rather than using the specified aggregation.",
