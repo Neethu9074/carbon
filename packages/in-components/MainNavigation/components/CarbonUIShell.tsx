@@ -662,6 +662,7 @@ export default function CarbonUIShell() {
 
   return (
     <UIShell
+      skipToContentText={t('in-components:mainNavigation.skipToMainContent')}
       onSideNavClick={internalToggleClick}
       titleDetail={titleDetail}
       headerContent={<HeaderContent expanded={expanded} onClickSideNavExpand={onClickSideNavExpand} />}
