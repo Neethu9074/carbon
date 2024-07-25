@@ -17,7 +17,8 @@ export function hasMultipleValuesSelected(value: Option | Options | null): value
   return Array.isArray(value);
 }
 
-export default function ComboBox({ ...props }: ComboBoxProps): JSX.Element {
+export default function ComboBox({ isClearable = true, ...props }: ComboBoxProps): JSX.Element {
+  console.log('****isCLEARABLE', isClearable);
   const value =
     props.options?.filter((option: Option) =>
       Array.isArray(props.value) ? props.value.includes(option.value) : option.value === props.value
@@ -25,6 +26,7 @@ export default function ComboBox({ ...props }: ComboBoxProps): JSX.Element {
   return (
     <Select
       {...props}
+      isClearable = {isClearable}
       classNamePrefix="Select"
       aria-label={props.name ?? 'label'}
       className={`${props.className} Select`}
