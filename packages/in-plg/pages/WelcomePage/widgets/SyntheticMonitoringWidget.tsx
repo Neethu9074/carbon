@@ -74,13 +74,24 @@ export default connectTo(() => ({
 
   const syntheticTypeValue = syntheticArray[syntheticType]?.value;
 
+  function getAddLabel() {
+    if (syntheticTypeValue === 'test') {
+      return t('in-plg:welcomepage.component.syntheticWidget.testLabel');
+    }
+    if (syntheticTypeValue === 'location') {
+      return t('in-plg:welcomepage.component.syntheticWidget.locationLabel');
+    }
+    return t('in-plg:welcomepage.component.syntheticWidget.smartAlertLabel');
+  }
+
   dashboardTileProps = {
     ...dashboardTileProps,
+    addLabel: getAddLabel(),
     toggles: syntheticToogleArray,
     toggleCallback: index => setToogle(index)
   };
 
-  function Data(params: any) {
+  function getData(params: any) {
     if (syntheticTypeValue === 'test') {
       return getTestSummaryListData(params);
     } else if (syntheticTypeValue === 'location') {
@@ -401,7 +412,7 @@ export default connectTo(() => ({
   return (
     <DatatableWrapper
       {...generalProps}
-      getItems={Data}
+      getItems={getData}
       tableType="syntheticWidget"
       label={`${widgetLabel}.${syntheticTypeValue}`}
       dashboardTileProps={dashboardTileProps}

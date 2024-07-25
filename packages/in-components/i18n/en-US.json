@@ -388,6 +388,7 @@
     "labelLoadingData": "Loading data"
   },
   "mainNavigation": {
+    "skipToMainContent": "Skip to main content",
     "viewSwitcherLabelSettings": "Settings",
     "viewSwitcherLabelMore": "More",
     "viewSwitcherLabelAgents": "Agents",

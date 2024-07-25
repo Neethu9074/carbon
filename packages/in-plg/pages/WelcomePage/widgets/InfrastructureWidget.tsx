@@ -85,8 +85,19 @@ export default connectTo(() => ({
     setInfraType(index);
   }
 
+  function getAddLabel() {
+    if (infraTypeValue === 'host') {
+      return t('in-plg:welcomepage.component.infrastructureWidget.hostLabel');
+    }
+    if (infraTypeValue === 'docker') {
+      return t('in-plg:welcomepage.component.infrastructureWidget.containerLabel');
+    }
+    return t('in-plg:welcomepage.component.infrastructureWidget.processLabel');
+  }
+
   dashboardTileProps = {
     ...dashboardTileProps,
+    addLabel: getAddLabel(),
     toggles: infrastructureToogleArray,
     toggleCallback: index => setToogle(index)
   };
