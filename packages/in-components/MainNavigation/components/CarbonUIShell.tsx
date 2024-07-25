@@ -659,6 +659,8 @@ export default function CarbonUIShell() {
   const [expanded, setExpanded] = useState(false);
 
   const onClickSideNavExpand = () => setExpanded(!expanded);
+  const enableWelcomePageV2 =
+    (welcomePageV2Enabled && config.activeLicenseType === 'selfService') || (welcomePageV2Enabled && playwithEnabled);
 
   return (
     <UIShell
@@ -693,7 +695,7 @@ export default function CarbonUIShell() {
         })}
       <Infrastructure />
       <MenuItem isDivider />
-      {welcomePageV2Enabled && <CustomDashboards />}
+      {enableWelcomePageV2 && <CustomDashboards />}
       <Synthetics />
       <Analyze />
       <Incidents />
