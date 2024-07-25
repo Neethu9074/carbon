@@ -26,10 +26,10 @@ import local from './ProfileMenu.mless';
 
 interface ProfileMenuProps {
   isSideNavExpanded: boolean;
-  onClickSideNavExpand?: () => void;
+  onClickSideNavExpand: () => void;
 }
 
-function ProfileMenu({ isSideNavExpanded, onClickSideNavExpand }: ProfileMenuProps) {
+export default function ProfileMenu({ isSideNavExpanded, onClickSideNavExpand }: ProfileMenuProps): JSX.Element {
   const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
 
   const signOut = () => {
@@ -43,30 +43,35 @@ function ProfileMenu({ isSideNavExpanded, onClickSideNavExpand }: ProfileMenuPro
   return (
     <div className={local.profileMenu}>
       <Switcher aria-label="Switcher Container" expanded={isSideNavExpanded}>
-        <div aria-label="header" className={local.profileMenu_header}>
+        <li className={local.profileMenu_header}>
           <Typography variant="heading-03">
             <span className={local.profileMenu_fullName}>{user?.fullName}</span>
           </Typography>
           <p className={local.profileMenu_label}>{user?.email}</p>
           <Link
-            aria-label="profileLink"
             href={`#${userSettingsProfile}`}
             onClick={onClickSideNavExpand}
             className={classNames(local.profileMenu_profileLink, local.profileMenu_label)}
           >
             {t('in-components:mainNavigation.profileMenu_profileLink')}
           </Link>
-        </div>
+        </li>
         <SwitcherDivider />
-        <div aria-label="unitTenantName" className={local.profileMenu_unitTenantSection}>
+        <li className={local.profileMenu_unitTenantSection}>
           <p className={local.profileMenu_label}>{t('in-components:mainNavigation.profileMenu_unitName_tenantName')}</p>
           <p className={local.profileMenu_title}>
             {config.tenantUnit} - {config.tenant}
           </p>
-        </div>
+        </li>
         <SwitcherDivider />
         {tenantSwitcherEnabled ? (
-          <SwitcherItem href={tenantSwitcherLink} aria-label="switchUnitOrTenant">
+          <SwitcherItem
+            onClick={() => {
+              window.open(tenantSwitcherLink, '_blank');
+              onClickSideNavExpand();
+            }}
+            aria-label={t('in-components:mainNavigation.profileMenu_switchUnitOrTenant')}
+          >
             <span
               className={classNames(local.profileMenu_switcherItemLink, local.profileMenu_title)}
               id="profileMenu-switchUnitOrTenant"
@@ -77,7 +82,7 @@ function ProfileMenu({ isSideNavExpanded, onClickSideNavExpand }: ProfileMenuPro
           </SwitcherItem>
         ) : null}
         {tenantSwitcherEnabled && <SwitcherDivider />}
-        <SwitcherItem onClick={() => signOut()} aria-label="logOut">
+        <SwitcherItem onClick={() => signOut()} aria-label={t('in-components:mainNavigation.profileMenu_logOut')}>
           <span
             className={classNames(local.profileMenu_switcherItemLink, local.profileMenu_title)}
             id="profileMenu-sign-out"
@@ -89,5 +94,3 @@ function ProfileMenu({ isSideNavExpanded, onClickSideNavExpand }: ProfileMenuPro
     </div>
   );
 }
-
-export default ProfileMenu;

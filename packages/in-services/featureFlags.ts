@@ -276,3 +276,4 @@ export const maxMetricsLimitForBeeinstanaEnabled = isFeatureFlagEnabled('maxMetr
 export const serverSideInfraTagSearchEnabled = isFeatureFlagEnabled('serverSideInfraTagSearchEnabled', false);
 export const preAggregatedMetricsQueryEnabled = isFeatureFlagEnabled('preAggregatedMetricsQueryEnabled', false);
 export const carbonFileUploaderEnabled = isFeatureFlagEnabled('carbonFileUploaderEnabled', false);
+export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabled', false);

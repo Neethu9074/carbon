@@ -17,7 +17,10 @@ export default function AlertThresholdConfigItemContainer({
   hasExtraColumnOnRight,
   noIcon,
   isTearSheet,
-  isFiveColumnInTearSheet
+  isColumns3WithError,
+  isTSFiveColumn,
+  isTSColumn5WithErrorOnBothField,
+  isTSColumn5WithErrorOn1stField
 }) {
   return (
     <div
@@ -25,8 +28,11 @@ export default function AlertThresholdConfigItemContainer({
         [locals.columns4]: hasExtraColumnOnRight,
         [locals.columns3]: !hasExtraColumnOnRight && !noIcon,
         [locals.itemWithLabelGrid]: !isTearSheet && !hasExtraColumnOnRight && noIcon,
-        [locals.columns3TearSheet]: isTearSheet,
-        [locals.columns5TearSheet]: isFiveColumnInTearSheet,
+        [locals.columns3TS]: isTearSheet && !isColumns3WithError,
+        [locals.columns3TSWithError]: isTearSheet && isColumns3WithError,
+        [locals.columns5TS]: isTSFiveColumn,
+        [locals.columns5TSFirstFieldError]: isTSColumn5WithErrorOn1stField,
+        [locals.columns5TSBothFieldError]: isTSColumn5WithErrorOnBothField,
         [locals.leftPaddingNoIcon]: !isTearSheet && noIcon,
         [locals.alertConfigItemContainer]: true,
         [locals.timeThresholdFieldContainer]: isTearSheet
@@ -43,6 +49,9 @@ AlertThresholdConfigItemContainer.propTypes = {
   hasExtraColumnOnRight: PropTypes.bool,
   noIcon: PropTypes.bool,
   isTearSheet: PropTypes.bool,
-  isFiveColumnInTearSheet: PropTypes.bool,
+  isColumns3WithError: PropTypes.bool,
+  isTSFiveColumn: PropTypes.bool,
+  isTSColumn5WithErrorOnBothField: PropTypes.bool,
+  isTSColumn5WithErrorOn1stField: PropTypes.bool,
   iconType: PropTypes.string
 };

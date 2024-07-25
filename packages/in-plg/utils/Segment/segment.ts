@@ -7,7 +7,7 @@
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 
-export const segmentTrackingFunc = (CTA_TRACK_NAME: string, EVENT_NAME: string) => {
+export const segmentTrackingFunc = (CTA_TRACK_NAME: string, EVENT_NAME: string, message: string | null = null) => {
   const { pageRootName, productArea } = getViewTrackingMetaData();
 
   if (pageRootName && productArea) {
@@ -15,7 +15,8 @@ export const segmentTrackingFunc = (CTA_TRACK_NAME: string, EVENT_NAME: string) 
       parentPageName: pageRootName,
       parentPageCategory: productArea,
       CTA: CTA_TRACK_NAME,
-      path: location?.pathname
+      path: location?.pathname,
+      ...(message ? { message } : {})
     };
     eventTracker({ data, segmentEventName: EVENT_NAME });
   }

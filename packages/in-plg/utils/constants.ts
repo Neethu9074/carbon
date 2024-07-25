@@ -7,3 +7,7 @@
 export const languageCode = 'en';
 export const countryCode = 'us';
 export const editionID = 'EIDFV028';
+export const USER_LICENSE_TYPES = {
+  SELF_SERVICE: 'selfService',
+  QUOTA: 'quota'
+};

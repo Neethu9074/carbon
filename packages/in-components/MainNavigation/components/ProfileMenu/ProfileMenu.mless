@@ -2,10 +2,6 @@
   .profileMenu {
     padding: 1rem 0;
 
-    :global(.cds--switcher__item-link) {
-      padding: 0.5rem 1rem;
-    }
-
     &_label {
       color: var(--cds-text-secondary);
       font-weight: var(--cds-label-01-font-weight);

@@ -729,5 +729,10 @@ module.exports = exports = [
     uiClientKey: 'carbonFileUploaderEnabled',
     instanaCtlKey: 'feature.carbon.fileuploader.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'userProfileMenuEnabled',
+    instanaCtlKey: 'feature.user.profileMenu.enabled',
+    defaultValue: false
   }
 ];

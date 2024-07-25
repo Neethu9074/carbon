@@ -679,6 +679,20 @@
         "buttonName": "Create custom dashboard"
       }
     },
+    "quickLinks": {
+      "iconDescriptions": {
+        "settings": "Settings",
+        "user": "User",
+        "externalLink": "External Link",
+        "resultNew": "Result New"
+      },
+      "buttonNames": {
+        "deployAgent": "Deploy agent",
+        "addUser": "Add user",
+        "documentation": "IBM Documentation",
+        "releaseNotes": "Release notes"
+      }
+    },
     "ariaLabel": {
       "search": "Search",
       "shareButton": "Share button",
@@ -725,5 +739,13 @@
     "configuringAndMonitoring":"configuring and monitoring",
     "customDashboard": "custom dashboard"
     }
+  },
+  "userGoalSelectionDialog":{
+    "title": "What are your goals?",
+    "description": "Welcome to Instana! Help us provide a better experience by sharing your primary goals for this trial. Select all that apply.",
+    "skip": "Skip",
+    "done": "Done",
+    "otherGoalPlaceholder": "For example, Gain visibility across my environment",
+    "otherGoalToAccomplish": "What other goals are you trying to accomplish?"
   }
 }
