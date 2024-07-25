@@ -17,6 +17,5 @@ export interface RestrictedSliderProp {
   valueLabelFormat?: (value: number) => string;
   valueLabelDisplay?: 'on' | 'off' | 'auto';
   disabled?: boolean;
-  style?: React.CSSProperties;
   value: number;
 }
