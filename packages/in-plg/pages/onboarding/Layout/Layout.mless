@@ -12,6 +12,7 @@
     height: 90vh;
     padding: 1.5rem;
   }
+
   .sidePanel {
     width: 25%;
     padding: 1.5rem;

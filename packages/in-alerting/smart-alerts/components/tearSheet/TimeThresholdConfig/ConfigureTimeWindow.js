@@ -34,7 +34,16 @@ export default function ConfigureTimeWindow({
     <AlertThresholdConfigItemContainer
       noIcon
       isTearSheet
-      isFiveColumnInTearSheet={timeThresholdType === timeThresholdTypes.violationsInPeriod}
+      isColumns3WithError={timeThresholdType !== timeThresholdTypes.violationsInPeriod && hasErrorTimeWindow}
+      isTSFiveColumn={
+        timeThresholdType === timeThresholdTypes.violationsInPeriod && !hasErrorViolations && !hasErrorTimeWindow
+      }
+      isTSColumn5WithErrorOn1stField={
+        timeThresholdType === timeThresholdTypes.violationsInPeriod && hasErrorViolations && !hasErrorTimeWindow
+      }
+      isTSColumn5WithErrorOnBothField={
+        timeThresholdType === timeThresholdTypes.violationsInPeriod && hasErrorViolations && hasErrorTimeWindow
+      }
     >
       <AlertTypography variant={'body-regular'} color={'color900'} content={label} noMargin />
 

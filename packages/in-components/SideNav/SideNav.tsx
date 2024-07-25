@@ -17,13 +17,14 @@ import locals from './SideNav.mless';
 export type NavItem = {
   scrollId: string;
   label: string;
-  title: string;
+  title: string | React.ReactNode;
   content: React.ReactNode;
   checked?: boolean;
   valid?: boolean;
   hidden?: boolean;
   titleToolTipText?: string;
   isBeta?: boolean;
+  isPrivatePreview?: boolean;
   subTitle?: string;
 };
 
@@ -59,6 +60,14 @@ export default class SideNav extends React.Component<SideNavProps> {
   render() {
     const { addRightSeparator, className, addLeftSeparator, navItems, renderPreIcon, renderPostIcon } = this.props;
     const setItemSelected = (i: number) => this.setState({ itemSelected: i });
+    const getPreviewBadge = (isPrivatePreview: boolean | undefined) => {
+      if (isPrivatePreview === undefined) return <PreviewBadge />;
+
+      if (isPrivatePreview) {
+        return <PreviewBadge privatePreview />;
+      }
+      return <PreviewBadge />;
+    };
 
     return (
       <nav
@@ -88,7 +97,7 @@ export default class SideNav extends React.Component<SideNavProps> {
                   {renderPreIcon && renderPreIcon(navItem, this.state.itemSelected === i)}
                   {navItem.label}
                   {navItem.isBeta && <Spacer horizontal="xsmall" />}
-                  {navItem.isBeta && <PreviewBadge />}
+                  {navItem.isBeta && getPreviewBadge(navItem.isPrivatePreview)}
                   {renderPostIcon && renderPostIcon(navItem)}
                 </span>
               </li>

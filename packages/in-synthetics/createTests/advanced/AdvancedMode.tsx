@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 
 import { GroupPermissionEntity, Result, SyntheticLocation } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
@@ -26,6 +27,7 @@ import IdentifySection from 'in-synthetics/createTests/advanced/IdentifySection'
 import ScriptsSection from 'in-synthetics/createTests/advanced/ScriptsSection';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -174,6 +176,18 @@ const AdvancedMode = ({
     content: getTestTypeSection(syntheticTypeField.value)
   };
 
+  const getPrivatePreviewBadge = () => {
+    if (syntheticMultiAppEnabled) {
+      return (
+        <Stack direction="horizontal" distribution="spaceBetween" align="center">
+          {t('in-synthetics:dialog.createTest.advancedMode.applicationsTitle')}
+          <PreviewBadge privatePreview />
+        </Stack>
+      );
+    }
+    return t('in-synthetics:dialog.createTest.advancedMode.applicationsTitle');
+  };
+
   const commonSections = [
     {
       scrollId: '3',
@@ -207,8 +221,10 @@ const AdvancedMode = ({
     {
       scrollId: '6',
       label: t('in-synthetics:dialog.createTest.advancedMode.applicationsLabel'),
-      title: t('in-synthetics:dialog.createTest.advancedMode.applicationsTitle'),
+      title: getPrivatePreviewBadge(),
       subTitle: t('in-synthetics:dialog.createTest.advancedMode.applicationsDescription'),
+      isBeta: syntheticMultiAppEnabled,
+      isPrivatePreview: true,
       valid: true,
       content: <ApplicationsSection form={form} updateForm={updateForm} applications={applications} />
     },

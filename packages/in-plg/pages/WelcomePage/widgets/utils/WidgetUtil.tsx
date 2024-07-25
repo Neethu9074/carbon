@@ -82,3 +82,58 @@ export function getNoDataButton(label: string) {
       return '';
   }
 }
+
+const getItemId = (widgetName: string, item: any) => {
+  switch (widgetName) {
+    case 'infrastructureWidget':
+      return item.snapshotId;
+    case 'applicationWidget':
+      return item?.application?.id;
+    case 'websitesWidget':
+      return item?.website?.id;
+    case 'mobileListWidget':
+      return item?.mobileApp?.id;
+    case 'platformsWidget':
+      return item?.isKubernetes ? item.cluster.id : item.id;
+    case 'businessMonitoringWidget':
+      return item?.businessProcess?.definitionId;
+    default:
+      return null;
+  }
+};
+
+export function processItemsBasedOnTable(widgetName: string, items: any[], pinnedIds: string[]) {
+  if (widgetName === 'syntheticWidget' || widgetName === 'dashboardWidget' || widgetName === 'incidentsWidget') {
+    return items.slice(0, 5);
+  }
+  const totalList = [];
+  let unpinnedItems = [];
+  let pinnedItems = [];
+
+  if (pinnedIds.length > 0) {
+    for (const item of items) {
+      const itemId = getItemId(widgetName, item);
+      if (itemId && pinnedIds.includes(itemId)) {
+        pinnedItems.push({ ...item, pinned: true });
+      }
+      if (pinnedItems.length === pinnedIds.length) {
+        break;
+      }
+    }
+  }
+  const numberOfRegularItemsToShow = Math.max(0, 5 - (pinnedItems.length ?? 0));
+  if (numberOfRegularItemsToShow > 0) {
+    for (const item of items) {
+      const itemId = getItemId(widgetName, item);
+      if (itemId && !pinnedIds.includes(itemId)) {
+        unpinnedItems.push({ ...item, pinned: false });
+      }
+      if (numberOfRegularItemsToShow === unpinnedItems.length) {
+        break;
+      }
+    }
+  }
+  totalList.push(...pinnedItems);
+  totalList.push(...unpinnedItems);
+  return totalList;
+}

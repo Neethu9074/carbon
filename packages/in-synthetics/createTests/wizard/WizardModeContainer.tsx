@@ -11,6 +11,8 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
+//import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
+import { noop, pendingResult } from 'in-services/fixedObjects';
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import RequestResponseStep from 'in-synthetics/createTests/wizard/RequestResponseStep';
@@ -21,7 +23,7 @@ import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { GroupPermissionEntity, Error as ScriptError, Result } from 'in-types';
 import SelectTestStep from 'in-synthetics/createTests/wizard/SelectTestStep';
 import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
-import { noop, pendingResult } from 'in-services/fixedObjects';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { Code, Script } from 'in-synthetics/utils/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -68,6 +70,13 @@ const WizardModeContainer = ({
   const applications: Result<GroupPermissionEntity[]> =
     useObservable<any, []>(() => getAllApplicationsForEntitySelectionWithDefaults({ timeConfig }), []) ?? pendingResult;
 
+  const privatePreviewStepFive = (
+    <div className={locals.preview}>
+      {t('in-synthetics:dialog.createTest.titles.step5')}
+      <PreviewBadge privatePreview />
+    </div>
+  );
+
   const basicStepConfigs = [
     {
       title: t('in-synthetics:dialog.createTest.titles.step1')
@@ -82,7 +91,7 @@ const WizardModeContainer = ({
       title: t('in-synthetics:dialog.createTest.titles.step4')
     },
     {
-      title: t('in-synthetics:dialog.createTest.titles.step5')
+      title: syntheticMultiAppEnabled ? privatePreviewStepFive : t('in-synthetics:dialog.createTest.titles.step5')
     }
   ];
   const stepConfigs = Object.freeze(syntheticMultiAppEnabled ? basicStepConfigs : basicStepConfigs.slice(0, 4));

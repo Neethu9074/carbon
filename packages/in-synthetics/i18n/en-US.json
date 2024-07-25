@@ -242,7 +242,7 @@
           "failureConfigLabel": "Failure Configuration",
           "failureConfigText": "Test will fail when certificate validity has <certificateValidityDays/> days remaining until expiration."
         },
-        "applicationsLabel": "associate",
+        "applicationsLabel": "Associate",
         "applicationsTitle": "Associate: Select applications to associate with this synthetic test",
         "applicationsDescription": "Associating a synthetic test with an application grants access rights to all users who have access to that application."
       },

@@ -6,9 +6,9 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { ButtonGroup, Stack } from '@instana/components';
 import { OrderDirection, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
-import { ButtonGroup } from '@instana/components';
 import { Checkbox } from '@instana/components';
 
 import {
@@ -145,6 +145,17 @@ export default function SelectEntitiesForm<I extends Object>({
     return null;
   };
 
+  const getLeftHeader = () => {
+    if (syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS && syntheticFilter === 'Inherited Access') {
+      return (
+        <Stack direction="horizontal" distribution="spaceBetween" align="center">
+          {t('in-settings:selectEntityDialog.syntheticTableSubHeader')}
+        </Stack>
+      );
+    }
+    return null;
+  };
+
   const disableRowClickbyProductArea = (productArea: LimitableProductArea | undefined) => {
     if (!productArea) return false;
 
@@ -170,11 +181,6 @@ export default function SelectEntitiesForm<I extends Object>({
         onClickSave(selectedIds);
         resetForm();
       }}
-      subHeader={
-        syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS && syntheticFilter === inheritedAccessFilter
-          ? t('in-settings:selectEntityDialog.syntheticTableSubHeader')
-          : undefined
-      }
     >
       <EntityTable
         fetchedConfigState={filteredEntities}
@@ -201,6 +207,7 @@ export default function SelectEntitiesForm<I extends Object>({
         allRowsAreSelected={allVisibleRowsSelected}
         setSelectedStateForRows={onSelectAll}
         isSearchable
+        leftHeader={getLeftHeader()}
         rightHeader={getRightHeader(productArea)}
         disableRowClick={disableRowClickbyProductArea(productArea)}
       />

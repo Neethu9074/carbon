@@ -7,9 +7,20 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link, Typography } from '@instana/components';
+import { IconButton, Link, Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import {
+  kubernetesCluster as kubernetesClusterType,
+  pcfApplication as pcfApplicationType,
+  vsphereDatacenter as vsphereDatacenterType,
+  openstackRegion as openstackRegionType,
+  phmcServer as phmcServerType,
+  powervc as powervcServerType,
+  sap as sapType,
+  zhmcServer as zhmcServerType
+  //@ts-expect-error doesn't contain type file
+} from 'in-cockpit/starredItems/types';
 import {
   hasKubernetesAccess,
   hasOpenStackAccess,
@@ -42,6 +53,8 @@ import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
 //@ts-expect-error doesn't contain type file
 import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-cockpit/starredItems';
 import { getAbapSystemListsWithDefaults } from 'in-sap/subscriptions/getAbapSystemLists';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
@@ -54,6 +67,51 @@ import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
 import DatatableWrapper from './DatatableWrapper';
+
+function handleFavoriteClick(item: any) {
+  if (item.pinned) {
+    remove({ id: getId(item), type: getTypeByItem(item) });
+  } else {
+    add({
+      id: getId(item),
+      label: getLabel(item),
+      type: getTypeByItem(item)
+    });
+  }
+}
+
+function getLabel(item: any) {
+  return item.isKubernetes ? item.cluster.label : item.label;
+}
+
+function getId(item: any) {
+  return item.isKubernetes ? item.cluster.id : item.id;
+}
+
+function getTypeByItem(item: any) {
+  if (item.isKubernetes) {
+    return kubernetesClusterType;
+  }
+  if (item.isOpenstack) {
+    return openstackRegionType;
+  }
+  if (item.isPcf) {
+    return pcfApplicationType;
+  }
+  if (item.isPhmc) {
+    return phmcServerType;
+  }
+  if (item.isPowervc) {
+    return powervcServerType;
+  }
+  if (item.isZhmc) {
+    return zhmcServerType;
+  }
+  if (item.isSap) {
+    return sapType;
+  }
+  return vsphereDatacenterType;
+}
 
 export default connectTo(() => ({
   timeConfig: timeConfig$
@@ -110,6 +168,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.platformWidget.health'),
         key: 'health'
+      },
+      {
+        key: 'favourite',
+        header: ''
       }
     ];
   };
@@ -181,6 +243,17 @@ export default connectTo(() => ({
     )(getId(item));
   }
 
+  const pinnedTypes = [
+    hasKubernetesAccess && kubernetesClusterType,
+    hasPCFAccess && pcfApplicationType,
+    hasVSphereAccess && vsphereDatacenterType,
+    hasOpenStackAccess && openstackRegionType,
+    hasPHMCAccess && phmcServerType,
+    hasPowerVcAccess && powervcServerType,
+    hasZHMCAccess && zhmcServerType,
+    hasSAPAccess && sapType
+  ].filter(Boolean);
+
   const columnDefinitions: ColumnDefinitionItem[] = [
     {
       key: 'name',
@@ -217,6 +290,18 @@ export default connectTo(() => ({
       getContent({ item }) {
         return <HealthIcon severity={get(item, ['entityHealthInfo', 'maxSeverity', 0, 1], 0)} iconSize="xs" />;
       }
+    },
+    {
+      key: 'favourite',
+      getContent({ item }) {
+        return (
+          <IconButton
+            type={item?.pinned ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
+            onClick={() => handleFavoriteClick(item)}
+            iconSize="xs"
+          />
+        );
+      }
     }
   ];
 
@@ -230,6 +315,8 @@ export default connectTo(() => ({
   return (
     <DatatableWrapper
       {...generalProps}
+      tableType="platformsWidget"
+      pinnedItemTypes={pinnedTypes}
       getItems={getMergedData}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}

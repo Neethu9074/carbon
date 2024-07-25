@@ -7,18 +7,23 @@
 import React, { useState } from 'react';
 import { List } from 'immutable';
 
-import { Link, Typography } from '@instana/components';
-import { combineLatest } from '@instana/observables';
+import { Link, Typography, IconButton } from '@instana/components';
+import { combineLatest, just } from '@instana/observables';
 import { EntityHealthInfo } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 //@ts-expect-error doesn't contain type file
+import { host as hostType, container as containerType, process as processType } from 'in-cockpit/starredItems/types';
+//@ts-expect-error doesn't contain type file
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
 //@ts-expect-error doesn't contain type file
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 import { InfraProps, SyntheticInfraColumn } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import DatatableWrapper, { getFlattenedIds } from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-cockpit/starredItems';
 //@ts-expect-error doesn't contain type file
 import { getMetric } from 'in-stores/metric';
 //@ts-expect-error doesn't contain type file
@@ -27,7 +32,6 @@ import search from 'in-subscription/search';
 import { getLabel } from 'in-sdk/snapshot';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
-import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
@@ -41,12 +45,25 @@ import { getIconTypeCallback } from 'in-sdk/iconType';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 
+function handleFavoriteClick(item: any, type: string) {
+  if (item.pinned) {
+    remove({ id: item?.snapshotId, type });
+  } else {
+    add({
+      id: item?.snapshotId,
+      label: getLabel(item?.snapshot),
+      type: type
+    });
+  }
+}
+
 export default connectTo(() => ({
   timeConfig: timeConfig$
 }))(function InfrastructureWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: InfraProps) {
   const [infraType, setInfraType] = useState(0);
   const { location, createHref } = useNavigation();
   const getDashboardLink = useGetDashboardLink();
+  const maxItemsInTable = 5;
   const fullListViewLocation = { ...location, pathname: physicalTablePath };
 
   const infrastructureToogleArray: string[] = [];
@@ -100,6 +117,10 @@ export default connectTo(() => ({
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.health'),
           key: 'health'
+        },
+        {
+          key: 'favourite',
+          header: ''
         }
       ];
     }
@@ -128,6 +149,10 @@ export default connectTo(() => ({
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.health'),
           key: 'health'
+        },
+        {
+          key: 'favourite',
+          header: ''
         }
       ];
     }
@@ -147,11 +172,16 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.infrastructureWidget.health'),
         key: 'health'
+      },
+      {
+        key: 'favourite',
+        header: ''
       }
     ];
   };
 
-  function getItems({ query, infraType, timeConfig }: any) {
+  function getItems({ query, infraType, timeConfig, pinnedItemIdsByType }: any) {
+    const pinnedIds = getFlattenedIds(pinnedItemIdsByType);
     return search({
       query,
       timeConfig,
@@ -171,10 +201,13 @@ export default connectTo(() => ({
         .throttle(1000)
         .flatMap(snapshotIdsWithMetrics =>
           combineLatest(
-            snapshotIdsWithMetrics.map(snapshotIdWithMetric => {
-              //@ts-expect-error
+            snapshotIdsWithMetrics.map((snapshotIdWithMetric: any, i: number) => {
+              //return only minimal data when item count exceeds the max item in table
+              if (i >= maxItemsInTable && pinnedIds?.indexOf(snapshotIdWithMetric.snapshotId) === -1) {
+                return just(snapshotIdWithMetric);
+              }
+
               return getSnapshot(snapshotIdWithMetric?.snapshotId).map(snapshot => ({
-                //@ts-expect-error
                 ...snapshotIdWithMetric,
                 snapshot
               }));
@@ -284,6 +317,18 @@ export default connectTo(() => ({
             />
           );
         }
+      },
+      {
+        key: 'favourite',
+        getContent({ item }) {
+          return (
+            <IconButton
+              type={item?.pinned ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
+              onClick={() => handleFavoriteClick(item, hostType)}
+              iconSize="xs"
+            />
+          );
+        }
       }
     ],
     docker: [
@@ -350,6 +395,18 @@ export default connectTo(() => ({
             />
           );
         }
+      },
+      {
+        key: 'favourite',
+        getContent({ item }) {
+          return (
+            <IconButton
+              type={item?.pinned ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
+              onClick={() => handleFavoriteClick(item, containerType)}
+              iconSize="xs"
+            />
+          );
+        }
       }
     ],
     process: [
@@ -398,6 +455,18 @@ export default connectTo(() => ({
             />
           );
         }
+      },
+      {
+        key: 'favourite',
+        getContent({ item }) {
+          return (
+            <IconButton
+              type={item?.pinned ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
+              onClick={() => handleFavoriteClick(item, processType)}
+              iconSize="xs"
+            />
+          );
+        }
       }
     ]
   };
@@ -423,8 +492,18 @@ export default connectTo(() => ({
     headers: getHeaders()
   };
 
+  const getPinnedItemType = () => {
+    if (infraTypeValue === 'host') {
+      return [hostType];
+    }
+    if (infraTypeValue === 'docker') {
+      return [containerType];
+    }
+    return [processType];
+  };
   return (
     <DatatableWrapper
+      tableType="infrastructureWidget"
       {...generalProps}
       infraType={infraTypeValue}
       getItems={getItems}
@@ -432,6 +511,7 @@ export default connectTo(() => ({
       href={createHref(fullListViewLocation)}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
+      pinnedItemTypes={getPinnedItemType()}
     />
   );
 });

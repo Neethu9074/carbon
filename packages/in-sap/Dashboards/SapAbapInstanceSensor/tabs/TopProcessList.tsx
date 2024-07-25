@@ -10,11 +10,10 @@ import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error Module needs to be translated to TS
-import TopProcessUserNameList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TopProcessUsernameList.js';
-// @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import TopProcessUserNameList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TopProcessUsernameList';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { kiloBytes, seconds, number } from 'in-services/formatters/number';
@@ -120,7 +119,6 @@ const cols = [
 
 export default function TopProcessList({ snapshotId, timeConfig, props }: TopProcessStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'topProcessMetricStats'), [snapshotId]);
-  // @ts-expect-error Module needs to be translated to TS
   const topProcessNameList = TopProcessUserNameList(props).sort((a, b) => {
     return a.label.localeCompare(b.label);
   });
@@ -128,9 +126,9 @@ export default function TopProcessList({ snapshotId, timeConfig, props }: TopPro
     value: 'Other',
     label: t('in-sap:dashboards.other')
   });
-  // @ts-expect-error Module needs to be translated to TS
-  const listWithoutOther = topProcessNameList.filter(item => item.label != 'other');
 
+  const listWithoutOther = topProcessNameList.filter(item => item.label != 'other');
+  // @ts-expect-error Module needs to be translated to TS
   const [{ userName }, setUsername] = useState(topProcessNameList);
 
   const rightHeader = (
@@ -166,12 +164,9 @@ export default function TopProcessList({ snapshotId, timeConfig, props }: TopPro
       if (userName == null) {
         return rows;
       } else if (userName == 'Other') {
+        const userName = rows?.topProcessStats.get('userName');
         return (
-          rows != null &&
-          rows.topProcessStats.get('userName') != listWithoutOther[0]['value'] &&
-          rows.topProcessStats.get('userName') != listWithoutOther[1]['value'] &&
-          rows.topProcessStats.get('userName') != listWithoutOther[2]['value'] &&
-          rows.topProcessStats.get('userName') != listWithoutOther[3]['value']
+          rows != null && typeof userName === 'string' && !listWithoutOther.some(item => userName === item['value'])
         );
       } else {
         return rows != null && rows.topProcessStats.get('userName') === userName;

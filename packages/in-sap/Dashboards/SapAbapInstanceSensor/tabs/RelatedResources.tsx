@@ -6,23 +6,37 @@
 
 import React from 'react';
 
-import getInstanceRelatedResourcesListsForSensors from 'in-sap/subscriptions/getInstanceRelatedResourcesListsForSensors';
+import { TimeConfig } from '@instana/types';
+
+// @ts-expect-error needs TS migration
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+// @ts-expect-error needs TS migration
 import { getHumanReadablePluginName } from 'in-sap/Dashboards/tables/getHumanReadablePluginName';
+// @ts-expect-error needs TS migration
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
+// @ts-expect-error needs TS migration
 import { getSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
-import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
+import getInstanceRelatedResourcesListsForSensors from 'in-sap/subscriptions/getInstanceRelatedResourcesListsForSensors';
+// @ts-expect-error needs TS migration
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
+// @ts-expect-error needs TS migration
 import Badge from 'in-components/tables/ServerTable/components/Badge';
+import { timeConfig$, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
 import { t } from 'in-i18n';
 
 const pathSegment = '/abapinstance';
 const matrixPrefix = 'abapinstancessensor.';
 var systemSnapshotId = '';
 
-const columnDefinitions = [
+interface ColDefinition {
+  id: string;
+  label: string;
+  getContent: (item: any, options?: { timeConfig: any }) => JSX.Element | string;
+}
+
+const columnDefinitions: ColDefinition[] = [
   {
     id: 'label',
     label: t('in-sap:name'),
@@ -54,13 +68,13 @@ const columnDefinitions = [
   {
     id: 'issues',
     label: t('in-sap:issues'),
-    getContent(item, { timeConfig }) {
+    getContent(item) {
       return (
         <EntityHealthIndicator
           openIssues={item.entityHealthInfo.openIssues.length}
           maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
-          timeConfig={timeConfig}
+          timeConfig={timeConfig$}
           snapshotId={item.id}
           inContentArea
         />
@@ -78,12 +92,26 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
-export default function RelatedResources(props) {
+export default function RelatedResources(props: any) {
   systemSnapshotId = props.hostId;
   return <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} hostId={systemSnapshotId} />;
 }
 
-function getTableData({ page = 1, pageSize = 20, orderBy = 'label', orderDirection = 'ASC', timeConfig, hostId }) {
+function getTableData({
+  page = 1,
+  pageSize = 20,
+  orderBy = 'label',
+  orderDirection = 'ASC',
+  timeConfig,
+  hostId
+}: {
+  page?: number;
+  pageSize?: number;
+  orderBy?: string;
+  orderDirection?: string;
+  timeConfig: TimeConfig;
+  hostId: string;
+}) {
   return getInstanceRelatedResourcesListsForSensors({
     pagination: {
       page,
