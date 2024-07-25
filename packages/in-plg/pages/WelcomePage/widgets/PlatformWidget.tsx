@@ -58,9 +58,9 @@ import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
 import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 //@ts-expect-error doesn't contain type file
-import { getMetric } from 'in-stores/metric';
-//@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-cockpit/starredItems';
+//@ts-expect-error doesn't contain type file
+import { getMetric } from 'in-stores/metric';
 import { getAbapSystemListsWithDefaults } from 'in-sap/subscriptions/getAbapSystemLists';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
@@ -157,18 +157,23 @@ export default connectTo(() => ({
         key: 'name'
       },
       {
+        header: '',
         key: 'platform'
       },
       {
+        header: '',
         key: 'esxiHost'
       },
       {
+        header: '',
         key: 'systemsNodesVms'
       },
       {
+        header: '',
         key: 'instancesPartitionsNamespacesCpuUsage'
       },
       {
+        header: '',
         key: 'memoryLimitAdaptersViosPodsMemoryUsage'
       },
       {
@@ -176,8 +181,8 @@ export default connectTo(() => ({
         key: 'health'
       },
       {
-        key: 'favourite',
-        header: ''
+        header: '',
+        key: 'favourite'
       }
     ];
   };
@@ -416,6 +421,7 @@ export default connectTo(() => ({
       getItems={getMergedData}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
+      viewAll={false}
     />
   );
 });

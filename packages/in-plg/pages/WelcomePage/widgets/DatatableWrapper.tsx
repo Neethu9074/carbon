@@ -80,6 +80,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: string[] }) =>
     isDashboardWidget,
     syntheticType,
     dashboardTileProps,
+    viewAll,
     pinnedItemIdsByType
   } = props;
 
@@ -152,7 +153,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: string[] }) =>
           iconColor={themes.default.ids.color.option.white}
           hasAddPermission={hasAddPermission}
           hasAddMore={hasAddMore && !playwithEnabled ? true : false}
-          viewAll={hasContent ? true : false}
+          viewAll={viewAll ?? hasContent ? true : false}
           addMore={addMore}
           addData={addData}
           href={href}
