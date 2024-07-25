@@ -237,6 +237,7 @@ export const nonServicePlugins = {
   kubernetesStatefulSet: 'kubernetesStatefulSet',
   kubernetesPersistentVolume: 'kubernetesPersistentVolume',
   kubernetesPersistentVolumeClaim: 'kubernetesPersistentVolumeClaim',
+  kubernetesHorizontalPodAutoscaler: 'kubernetesHorizontalPodAutoscaler',
   liferayApplicationContainer: 'liferayApplicationContainer',
   lxc: 'lxc',
   mariaDbDatabase: 'mariaDbDatabase',
@@ -643,6 +644,8 @@ export const fullyQualifiedPlugins = {
   kubernetesDeployment:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.deployment.KubernetesDeployment',
   kubernetesEndpoints: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.endpoints.KubernetesEndpoints',
+  kubernetesHorizontalPodAutoscaler:
+    'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.horizontalpodautoscaler.KubernetesHorizontalPodAutoscaler',
   kubernetesJob: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.batch.KubernetesJob',
   kubernetesNamespace: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.namespace.KubernetesNamespace',
   kubernetesNode: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.node.KubernetesNode',

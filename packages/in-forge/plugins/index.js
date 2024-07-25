@@ -10,6 +10,7 @@ import './aceIntegrationServer';
 import './jvmRuntimePlatform';
 import './googleCloudRunServiceRevisionInstance';
 import './webSphereLibertyApplicationContainer';
+import './kubernetesHorizontalPodAutoscaler';
 import './kubernetesPersistentVolumeClaim';
 import './kubernetesReplicationController';
 import './dropwizardApplicationContainer';
