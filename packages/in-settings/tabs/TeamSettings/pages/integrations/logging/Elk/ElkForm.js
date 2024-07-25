@@ -15,7 +15,7 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t, Trans } from 'in-i18n';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkForm.mless';
+import locals from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Elk/ElkForm.mless';
 
 export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
   let basePath = form.get('basePath').value;

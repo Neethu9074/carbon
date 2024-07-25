@@ -10,8 +10,8 @@ import React, { Fragment } from 'react';
 
 import { createLogger } from '@instana/logger';
 
-import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb';
-import SplunkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/SplunkForm';
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/IntegrationsBreadcrumb';
+import SplunkForm from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Splunk/SplunkForm';
 import { teamSettingsIntegrationsLoggingSplunk } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { integrationKey } from 'in-integrations/logging/splunk/consts';

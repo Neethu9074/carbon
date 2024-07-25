@@ -14,7 +14,7 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t, Trans } from 'in-i18n';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm.mless';
+import locals from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Humio/HumioForm.mless';
 
 export default function HumioForm({ form, onChange, disabled, areFieldsBlank }) {
   const humioUrl = form.get('url').value + '/' + form.get('repository').value;

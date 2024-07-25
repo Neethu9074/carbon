@@ -16,7 +16,7 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t, Trans } from 'in-i18n';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/MezmoForm.mless';
+import locals from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Mezmo/MezmoForm.mless';
 
 export default function IbmCloudLogMezmoForm({ form, onChange, disabled, areFieldsInvalid }) {
   let accountId = form.get('accountId').value;

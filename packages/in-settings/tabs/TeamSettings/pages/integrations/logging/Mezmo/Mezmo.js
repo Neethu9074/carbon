@@ -12,11 +12,11 @@ import { Select } from '@instana/components';
 // to suppress warning on deprecated code temporarily
 // eslint-disable-next-line import/no-deprecated
 import { goToPath } from 'in-stores/navigation';
-import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb';
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/IntegrationsBreadcrumb';
+import IbmCloudLogMezmoForm from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Mezmo/IbmCloudMezmoForm';
 import { ibmCloudDefaultBaseURL, logMezmoDefaultBaseURL } from 'in-integrations/logging/mezmo/LinkConstruction';
-import IbmCloudLogMezmoForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/IbmCloudMezmoForm';
-import MezmoSaasForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/MezmoSaasForm';
-import { validMezmoId } from 'in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/validation';
+import MezmoSaasForm from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Mezmo/MezmoSaasForm';
+import { validMezmoId } from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Mezmo/validation';
 import { teamSettingsIntegrationsLoggingMezmo } from 'in-settings/navigation/paths';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';

@@ -12,7 +12,7 @@ import {
   getIntegrationsSubPages,
   Integration,
   Variant
-} from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/utils';
+} from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/utils';
 // @ts-ignore
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';

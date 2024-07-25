@@ -6,7 +6,7 @@
 /* eslint-env mocha, node */
 import { expect } from 'chai';
 
-import { validMezmoId } from 'in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/validation';
+import { validMezmoId } from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Mezmo/validation';
 
 describe('in-settings/tabs/TeamSettings/pages/logManagement/Mezmo/validation', () => {
   describe('validMezmoId', () => {

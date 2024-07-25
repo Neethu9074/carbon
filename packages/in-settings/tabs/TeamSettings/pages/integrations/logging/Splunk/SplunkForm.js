@@ -14,7 +14,7 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t, Trans } from 'in-i18n';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/SplunkForm.mless';
+import locals from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Splunk/SplunkForm.mless';
 
 export default function SplunkForm({ form, onChange, disabled, areFieldsBlank }) {
   const splunkUrl = form.get('url').value;

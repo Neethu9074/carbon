@@ -14,7 +14,8 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t, Trans } from 'in-i18n';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm.mless';
+// TODO: use Coralogix css
+import locals from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Humio/HumioForm.mless';
 
 export default function CoralogixForm({ form, onChange, disabled, areFieldsBlank }) {
   const coralogixUrl = form.get('url').value + '/#/dashboard';

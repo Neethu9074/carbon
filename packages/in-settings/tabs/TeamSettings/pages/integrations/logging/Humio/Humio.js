@@ -10,8 +10,8 @@ import React, { Fragment } from 'react';
 
 import { createLogger } from '@instana/logger';
 
-import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb';
-import HumioForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm';
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/IntegrationsBreadcrumb';
+import HumioForm from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Humio/HumioForm';
 import { teamSettingsIntegrationsLoggingHumio } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { integrationKey } from 'in-integrations/logging/humio/consts';

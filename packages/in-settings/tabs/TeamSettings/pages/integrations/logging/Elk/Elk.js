@@ -10,8 +10,8 @@ import React, { Fragment } from 'react';
 
 import { createLogger } from '@instana/logger';
 
-import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/IntegrationsBreadcrumb';
-import ElkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkForm';
+import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/IntegrationsBreadcrumb';
+import ElkForm from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Elk/ElkForm';
 import { teamSettingsIntegrationsLoggingElk } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { refresh } from 'in-integrations/logging/configurationsStore';
