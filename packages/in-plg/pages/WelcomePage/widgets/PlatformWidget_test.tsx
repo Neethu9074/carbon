@@ -19,10 +19,6 @@ describe('Platform Widget Tests', () => {
   it('displays correct headers for platform', () => {
     render(<PlatformWidget />);
     expect(screen.getByText(t('in-plg:welcomepage.component.platformWidget.name'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:welcomepage.component.platformWidget.platform'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:welcomepage.component.platformWidget.nodes'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:welcomepage.component.platformWidget.namespaces'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:welcomepage.component.platformWidget.pods'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:welcomepage.component.platformWidget.health'))).toBeInTheDocument();
   });
 

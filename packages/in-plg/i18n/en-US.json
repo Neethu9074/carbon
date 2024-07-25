@@ -548,8 +548,16 @@
         "namespaces": "Namespaces",
         "pods": "Pods",
         "health": "Health",
-        "platform": "Platform"
-
+        "vMs": "VMs",
+        "systems": "Systems",
+        "instances": "Instances",
+        "partitions": "Partitions",
+        "memoryLimit": "Memory Limit",
+        "adapters": "Adapters",
+        "vios": "Virtual I/O Server",
+        "memoryUsage": "Memory Usage",
+        "cpuUsage": "CPU Usage",
+        "esXiHosts": "ESXi Host"
       },
       "bizopsWidget": {
         "label": "Business Monitoring",
