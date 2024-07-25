@@ -154,5 +154,6 @@ module.exports = {
   syntheticMultiAppEnabled: true,
   carbonFileUploaderEnabled: true,
   syntheticMultiWebMobileEnabled: true,
-  assistMeEnabled: true
+  assistMeEnabled: true,
+  userProfileMenuEnabled: false
 };
