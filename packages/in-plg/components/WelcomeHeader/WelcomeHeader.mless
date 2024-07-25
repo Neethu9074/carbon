@@ -7,7 +7,7 @@
 :local {
   .stickyHeader {
     position: sticky;
-    top: 48px;
+    top: 3rem;
     z-index: 2;
   }
 }
