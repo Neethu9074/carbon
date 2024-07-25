@@ -147,6 +147,7 @@ export default connectTo(() => ({
   return (
     <DatatableWrapper
       {...generalProps}
+      tableType="incidentsWidget"
       getItems={getIncidentData}
       viewAll
       href={fullListViewHref}

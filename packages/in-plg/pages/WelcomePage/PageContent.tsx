@@ -321,7 +321,12 @@ function RenderTable() {
                     ) : (
                       <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>
                         {Widget && (
-                          <Widget type={ele.type} widgetLabel={ele.key} dashboardTileProps={dashboardTileProps} />
+                          <Widget
+                            key={ele.key}
+                            type={ele.type}
+                            widgetLabel={ele.key}
+                            dashboardTileProps={dashboardTileProps}
+                          />
                         )}
                       </div>
                     );

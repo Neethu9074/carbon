@@ -231,7 +231,11 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   return (
     <Stack direction="vertical">
       <StackItem>
-        <ConfigurationSummary accessLevelType={ScopedPermissionItem.LIMITED_ACCESS} accessLevelMsg={accessLevelMessage}>
+        <ConfigurationSummary
+          accessLevelType={ScopedPermissionItem.LIMITED_ACCESS}
+          accessLevelMsg={accessLevelMessage}
+          productArea={productArea}
+        >
           {isContributor && isAppContributionFilterConfigured ? <ContributorFilterWarning /> : null}
           <RoleSelectionSection />
           {entityPermissionKey === 'syntheticTestIds' ? (

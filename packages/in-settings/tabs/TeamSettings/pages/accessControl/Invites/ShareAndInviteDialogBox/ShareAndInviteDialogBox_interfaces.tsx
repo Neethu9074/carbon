@@ -93,4 +93,6 @@ export interface OnChangeProps {
   form: ListForm<any>;
   setForm: any;
   pendingInvitations: any;
+  users: any;
+  invitationResult: UserInvite[];
 }

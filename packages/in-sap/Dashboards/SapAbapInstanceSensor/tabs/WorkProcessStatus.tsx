@@ -6,7 +6,7 @@
 
 import { t } from 'in-i18n';
 
-export default [
+export const workProcessStatusMap = [
   {
     value: 'Waiting',
     label: t('in-sap:dashboards.waiting')

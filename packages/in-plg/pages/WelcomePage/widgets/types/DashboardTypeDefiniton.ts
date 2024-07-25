@@ -12,6 +12,7 @@ import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 export type GetContentFunction = (options: any) => React.ReactNode;
 
 export interface WidgetProps {
+  key: string;
   config: any;
   timeConfig: TimeConfig;
   widgetLabel: string;
@@ -22,10 +23,11 @@ export interface WidgetProps {
 
 export type GetItemsFunction = (options: {
   timeConfig?: TimeConfig;
-  query: string;
+  query?: string;
   infraType?: string;
   selectedType?: string;
   syntheticType?: string;
+  pinnedItemIdsByType?: StarredItemWithIdsType;
 }) => Observable<any>;
 
 export type AddMoreFunction = () => void;
@@ -43,6 +45,7 @@ export interface SyntheticProps extends WidgetProps {
 }
 
 export interface DatatableWidgetProps extends InfraProps, SyntheticProps {
+  tableType: string;
   headers: [];
   getItems: GetItemsFunction;
   addMore: AddMoreFunction;
@@ -54,6 +57,32 @@ export interface DatatableWidgetProps extends InfraProps, SyntheticProps {
   href?: string;
   label: string;
   isDashboardWidget?: boolean;
+  pinnedItemIdsByType?: StarredItemWithIdsType;
+}
+
+export interface StarredItemWithIdsType {
+  host?: string[];
+  container?: string[];
+  process?: string[];
+  kubernetesCluster?: string[];
+  pcfApplication?: string[];
+  vsphereDatacenter?: string[];
+  openstackRegion?: string[];
+  phmcServer?: string[];
+  powervc?: string[];
+  zhmcServer?: string[];
+  sap?: string[];
+  application?: string[];
+  service?: string[];
+  website?: string[];
+  mobileApp?: string[];
+  businessProcess?: string[];
+}
+
+export interface StarredItemType {
+  id?: string;
+  label?: string;
+  type: string;
 }
 
 export interface ColumnDefinitionItem {

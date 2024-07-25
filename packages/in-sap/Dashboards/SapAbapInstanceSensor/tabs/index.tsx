@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
+// @ts-expect-error Module needs to be translated to TS
+import { sapAbapInstanceSensorDashboardFullyQualified } from 'in-sap/navigation/paths';
 import SecurityEssentials from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/SecurityEssentials';
 import RelatedResources from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RelatedResources';
-import { sapAbapInstanceSensorDashboardFullyQualified } from 'in-sap/navigation/paths';
 import Detailed from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Detailed';
 import Networks from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Networks';
 import Summary from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Summary';

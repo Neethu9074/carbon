@@ -1,31 +1,36 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React, { Fragment } from 'react';
 
 import { Card } from '@instana/components';
 
+// @ts-expect-error Module needs to be translated to TS
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import OutboundTransactionalRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/OutboundTransactionalRfcInfo';
 import OutboundQueueRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/OutboundQueueRfcInfo';
 import InboundQueueRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InboundQueueRfcInfo';
 import HttpMetricsStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/HttpMetricsStats';
 import RFCCallsMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RFCCalls';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import SpoolError from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/SpoolError';
+import UserInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs//UserInfo';
 import UserList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UserList';
-import UserInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UserInfo';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 import locals from 'in-sdk/components/dashboard/DashboardSection/DashboardSection.mless';
 
-export default function SecurityEssentials({ timeConfig, data: sap }) {
-  const snapshotId = sap.id;
+export default function SecurityEssentials({ data }: { data: SnapshotData }) {
+  const timeConfig = useTimeConfig();
+  const snapshotId = data.id;
   return (
     <Fragment>
       <UserInfo snapshotId={snapshotId} timeConfig={timeConfig} />
@@ -103,7 +108,7 @@ export default function SecurityEssentials({ timeConfig, data: sap }) {
                     t('in-sap:dashboards.pJPages')
                   ],
                   type: 'line',
-                  formatter: number
+                  formatter: number.compact
                 }}
                 renderPostChartContent={PluginDashboardsMarkerLanes}
               />
@@ -122,7 +127,7 @@ export default function SecurityEssentials({ timeConfig, data: sap }) {
                     t('in-sap:dashboards.cpuTime')
                   ],
                   type: 'line',
-                  formatter: millis
+                  formatter: millis.compact
                 }}
                 renderPostChartContent={PluginDashboardsMarkerLanes}
               />
@@ -130,6 +135,7 @@ export default function SecurityEssentials({ timeConfig, data: sap }) {
           </Columize>
         </Card>
       </div>
+      <SpoolError snapshotId={snapshotId} />
       <UserList snapshotId={snapshotId} timeConfig={timeConfig} />
       <RFCCallsMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
       <OutboundTransactionalRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />

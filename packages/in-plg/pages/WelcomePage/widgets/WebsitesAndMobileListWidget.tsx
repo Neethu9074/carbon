@@ -8,7 +8,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { TimeConfig, EntityHealthInfo } from '@instana/types';
-import { Stack, Link } from '@instana/components';
+import { Stack, Link, IconButton } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
@@ -16,10 +16,14 @@ import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/com
 //@ts-expect-error doesn't contain type file
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
 //@ts-expect-error doesn't contain type file
+import { mobileApp as mobileAppType, website as websiteType } from 'in-cockpit/starredItems/types';
+//@ts-expect-error doesn't contain type file
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 //@ts-expect-error doesn't contain type file
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 import { mobileAppMonitoringPath, useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-cockpit/starredItems';
 import { GetContentFunction } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import { useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
@@ -36,6 +40,21 @@ import { playwithEnabled } from 'in-services/featureFlags';
 import { timeConfig$ } from 'in-stores/time/config';
 import DatatableWrapper from './DatatableWrapper';
 import { role } from 'in-stores/user';
+
+function handleFavoriteClick(item: any) {
+  if (item?.pinned) {
+    remove({
+      id: item.isWebsite ? item.website.id : item.mobileApp.id,
+      type: item.isWebsite ? websiteType : mobileAppType
+    });
+  } else {
+    add({
+      id: item.isWebsite ? item.website.id : item.mobileApp.id,
+      label: item.isWebsite ? item.website.label : item.mobileApp.label,
+      type: item.isWebsite ? websiteType : mobileAppType
+    });
+  }
+}
 
 const MobileAppHealthInfo = connectTo(
   { timeConfig: timeConfig$ },
@@ -127,6 +146,10 @@ export default connectTo(() => ({
         {
           header: t('in-plg:welcomepage.component.websitesWidget.health'),
           key: 'health'
+        },
+        {
+          key: 'favourite',
+          header: ''
         }
       ];
     } else {
@@ -146,6 +169,10 @@ export default connectTo(() => ({
         {
           header: t('in-plg:welcomepage.component.mobileAppsWidget.health'),
           key: 'health'
+        },
+        {
+          key: 'favourite',
+          header: ''
         }
       ];
     }
@@ -215,8 +242,21 @@ export default connectTo(() => ({
           </Stack>
         );
       }
+    },
+    {
+      key: 'favourite',
+      getContent({ item }) {
+        return (
+          <IconButton
+            type={item?.pinned ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
+            onClick={() => handleFavoriteClick(item)}
+            iconSize="xs"
+          />
+        );
+      }
     }
   ];
+
   const generalProps = {
     ...config,
     timeConfig,
@@ -237,6 +277,7 @@ export default connectTo(() => ({
       <DatatableWrapper
         {...generalProps}
         getItems={getWebsites}
+        tableType="websitesWidget"
         viewAll
         //@ts-expect-error canConfigureEumApplications type is not available in role definition
         hasAddPermission={role?.canConfigureEumApplications}
@@ -245,6 +286,7 @@ export default connectTo(() => ({
         addData={addNewWebsite}
         href={createHrefToPath(websiteMonitoringPath)}
         label={widgetLabel}
+        pinnedItemTypes={[websiteType]}
         dashboardTileProps={dashboardTileProps}
       />
     );
@@ -253,6 +295,7 @@ export default connectTo(() => ({
     <DatatableWrapper
       {...generalProps}
       getItems={getMobileApps}
+      tableType="mobileListWidget"
       viewAll
       hasAddPermission={role?.canConfigureMobileAppMonitoring}
       hasAddMore={hasMobileAppsAccess && !playwithEnabled}
@@ -260,6 +303,7 @@ export default connectTo(() => ({
       addData={addNewMobileApp}
       href={createHrefToPath(mobileAppMonitoringPath)}
       label={widgetLabel}
+      pinnedItemTypes={[mobileAppType]}
       dashboardTileProps={dashboardTileProps}
     />
   );

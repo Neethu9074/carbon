@@ -6,7 +6,7 @@
 
 import { t } from 'in-i18n';
 
-export default [
+export const typeMap = [
   {
     value: 'GUI',
     label: t('in-sap:dashboards.gui')
@@ -28,3 +28,4 @@ export default [
     label: t('in-sap:dashboards.6XX')
   }
 ];
+export const typeList = ['GUI', 'Internal RFC', 'External RFC', 'Daemon'];

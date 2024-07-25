@@ -12,11 +12,23 @@ import { useObservable } from '@instana/hooks';
 
 import {
   GetContentFunction,
-  DatatableWidgetProps
+  DatatableWidgetProps,
+  StarredItemWithIdsType,
+  StarredItemType,
+  ColumnDefinitionItem
 } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-import { getNoDataDescription, getNoDataHeader } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
+import {
+  getNoDataDescription,
+  getNoDataHeader,
+  processItemsBasedOnTable
+} from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
+//@ts-expect-error doesn't contain type file
+import { starredItems$ } from 'in-cockpit/starredItems';
+//@ts-expect-error doesn't contain type file
+import connectTo from 'in-hoc/connectTo';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import { playwithEnabled } from 'in-services/featureFlags';
+import { timeConfig$ } from 'in-stores/time/config';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -24,30 +36,58 @@ interface ProcessedItem {
   id: string;
   [key: string]: React.ReactNode;
 }
+interface AggregatedItems {
+  [key: string]: string[];
+}
+export function getFlattenedIds(idsByType: StarredItemWithIdsType | undefined) {
+  if (!idsByType) return;
+  let allIds: string[] = [];
+  const keys = Object.keys(idsByType) as (keyof StarredItemWithIdsType)[];
+  for (let i = 0; i < keys.length; i++) {
+    const ids = idsByType[keys[i]];
+    if (ids) {
+      allIds = allIds.concat(ids);
+    }
+  }
+  return allIds;
+}
 
-export default function DatatableWrapper({
-  headers,
-  getItems,
-  timeConfig,
-  infraType,
-  columnDefinitions,
-  hasAddMore,
-  hasAddPermission,
-  viewAll,
-  label,
-  addMore,
-  addData,
-  href,
-  isDashboardWidget,
-  syntheticType,
-  maxItems = 5,
-  dashboardTileProps
-}: DatatableWidgetProps) {
+export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: string[] }) => ({
+  timeConfig: timeConfig$,
+  pinnedItemIdsByType: starredItems$.map((starredItems: StarredItemType[]) =>
+    starredItems.reduce((agg: AggregatedItems, starredItem: StarredItemType) => {
+      if (pinnedItemTypes?.indexOf(starredItem.type) !== -1) {
+        agg[starredItem.type] = agg[starredItem.type] || [];
+        agg[starredItem.type].push(starredItem.id || '');
+      }
+      return agg;
+    }, {})
+  )
+}))(function DatatableWrapper(props: DatatableWidgetProps) {
+  let {
+    tableType,
+    headers,
+    getItems,
+    timeConfig,
+    infraType,
+    columnDefinitions,
+    hasAddMore,
+    hasAddPermission,
+    label,
+    addMore,
+    addData,
+    href,
+    isDashboardWidget,
+    syntheticType,
+    dashboardTileProps,
+    pinnedItemIdsByType
+  } = props;
+
   const [processedItems, setProcessedItems] = useState<ProcessedItem[]>([]);
   const [itemCount, setItemCount] = useState<number>(0);
   const [query, setQuery] = useState<string>('');
+  const [hasContent, setHasContent] = useState<boolean>(false);
   const header = dashboardTileProps?.header ?? '';
-
   const result = useObservable(getItems({ timeConfig, query, infraType, syntheticType }), [
     timeConfig,
     query,
@@ -55,6 +95,10 @@ export default function DatatableWrapper({
     syntheticType
   ]);
 
+  let resultForEmptyStateCheck = useObservable(getItems({ timeConfig, pinnedItemIdsByType }), [
+    timeConfig,
+    pinnedItemIdsByType
+  ]);
   dashboardTileProps = {
     ...dashboardTileProps,
     header: dashboardTileProps ? `${dashboardTileProps.header} ${itemCount > 0 ? `(${itemCount})` : ''}` : ''
@@ -79,14 +123,22 @@ export default function DatatableWrapper({
         })
       : null;
 
+    const pinnedIds = getFlattenedIds(pinnedItemIdsByType) ?? [];
     const items = searchData ?? resultDataItems;
-    const resultItems = maxItems ? items.slice(0, maxItems) : items;
+    setHasContent(items.length > 0 ? true : false);
     const hits = searchData?.length ?? data?.totalHits ?? data.length;
-    const processedItems = getProcessedItems({ resultItems, columnDefinitions, result, timeConfig });
+    const processedItems = getProcessedItems({
+      tableType,
+      items,
+      pinnedIds,
+      columnDefinitions,
+      result,
+      timeConfig
+    });
 
     setItemCount(hits);
     setProcessedItems(processedItems);
-  }, [result, columnDefinitions, timeConfig, isDashboardWidget, query, syntheticType, maxItems]);
+  }, [result, tableType, columnDefinitions, timeConfig, isDashboardWidget, query, syntheticType, pinnedItemIdsByType, resultForEmptyStateCheck]);
 
   return (
     <section aria-label={`${header}`} role="region">
@@ -100,7 +152,7 @@ export default function DatatableWrapper({
           iconColor={themes.default.ids.color.option.white}
           hasAddPermission={hasAddPermission}
           hasAddMore={hasAddMore && !playwithEnabled ? true : false}
-          viewAll={viewAll ? true : false}
+          viewAll={hasContent ? true : false}
           addMore={addMore}
           addData={addData}
           href={href}
@@ -116,17 +168,27 @@ export default function DatatableWrapper({
       </DashboardTile>
     </section>
   );
-}
+});
 
-interface GeProcessedItemsProps {
-  resultItems: [];
+interface GetProcessedItemsProps {
+  tableType: string;
+  pinnedIds: string[];
   result: [];
-  columnDefinitions: [];
+  columnDefinitions: ColumnDefinitionItem[];
   timeConfig: TimeConfig;
+  items: any;
 }
 
-function getProcessedItems({ resultItems, columnDefinitions, result, timeConfig }: GeProcessedItemsProps) {
-  const processedItems: ProcessedItem[] = resultItems?.map((item: {}, index: number) => {
+function getProcessedItems({
+  tableType,
+  items,
+  pinnedIds,
+  columnDefinitions,
+  result,
+  timeConfig
+}: GetProcessedItemsProps) {
+  const totalList = processItemsBasedOnTable(tableType, items, pinnedIds);
+  const processedItems: ProcessedItem[] = totalList?.map((item: {}, index: number) => {
     const processedItem: ProcessedItem = { id: `${index}` };
     columnDefinitions?.forEach(({ key, getContent }: { key: string; getContent: GetContentFunction }) => {
       const value = getContent({ item, result, timeConfig });
