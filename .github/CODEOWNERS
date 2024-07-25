@@ -232,6 +232,7 @@ packages/in-components/Logging      @Instana-IBM-GitHub-Enterprise @instana/eng-
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 packages/in-integrations/logging    @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 packages/in-settings/tabs/TeamSettings/pages/logManagement @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-settings/tabs/TeamSettings/pages/integrations/logging @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 
 # No clear ownership: Fallback to eng-ui
 packages/in-map                     @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
