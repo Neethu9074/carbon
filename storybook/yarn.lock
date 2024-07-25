@@ -2493,9 +2493,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "@instana/components@npm:4.5.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.5.0.tgz"
+"@instana/components@npm:^4.7.0":
+  version: 4.7.0
+  resolution: "@instana/components@npm:4.7.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.7.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.39.0
     "@carbon/react": 1.55.0
@@ -2515,7 +2515,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 846521a697b6d99ae56c85b6019f77f25f99e25207d0f1da9677b13e942fefbf68c68376d9b5344f1c0661e16faf36f67473f065a3eed0cc051183a975d73c17
+  checksum: 00e5e87f721ad30b55590fd09d334022b11cb3d2cbee511d0e95d10e5a45b8ddfc8106d8e8198ab6069b9f43b1756e7b3f08f7259f377faa4c4e33ca808286e3
   languageName: node
   linkType: hard
 
@@ -2598,11 +2598,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:^4.1.2":
-  version: 4.1.2
-  resolution: "@instana/legacy@npm:4.1.2::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.1.2.tgz"
+"@instana/legacy@npm:^4.1.5":
+  version: 4.1.5
+  resolution: "@instana/legacy@npm:4.1.5::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.1.5.tgz"
   dependencies:
-    "@instana/components": ^4.5.0
+    "@instana/components": ^4.7.0
     "@instana/design-tokens": ^1.27.2
     "@instana/format-date": ^1.6.7
     "@instana/format-numbers": ^1.5.5
@@ -2614,7 +2614,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 050dc91fa8d43d6b1d420166674b1901f2b9e9361718deeec837b6fec1a24da0f800411f5521b94fec92e5a911477d7ca3a94612f889b522efa001427d0850b9
+  checksum: 33985b23f1141bfcc97c22dc1f4e279e2cf8d8d59167b6ac7165db2097a1dfb353e2ad7162b26db44e3996104344f4ab8f4e4d0de8c4f4cc1922bb751ac6808b
   languageName: node
   linkType: hard
 
@@ -2625,16 +2625,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/playground@npm:3.4.0":
-  version: 3.4.0
-  resolution: "@instana/playground@npm:3.4.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fplayground%2F-%2F%40instana%2Fplayground-3.4.0.tgz"
+"@instana/playground@npm:3.6.0":
+  version: 3.6.0
+  resolution: "@instana/playground@npm:3.6.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fplayground%2F-%2F%40instana%2Fplayground-3.6.0.tgz"
   dependencies:
     "@carbon/themes": 11.34.0
-    "@instana/components": ^4.5.0
+    "@instana/components": ^4.7.0
     "@instana/design-tokens": ^1.27.2
     "@instana/hooks": ^1.11.7
     "@instana/i18n": ^1.5.5
-    "@instana/legacy": ^4.1.2
+    "@instana/legacy": ^4.1.5
     "@instana/observables": ^1.7.6
     lodash: ^4.17.21
     prop-types: ^15
@@ -2642,7 +2642,7 @@ __metadata:
     react-dom: ^17.0.2
     react-is: ^18.2.0
     storybook-addon-pseudo-states: 2.1.2
-  checksum: fdf3501ea7e75e210dffd60532f172cc145e9edebe5399e742099989e96148d9cd9a14ba0efb0882ec9fe117241adb495b781c3d93a2fd821da3f88584103eeb
+  checksum: 5db467ac787f864c28c8913acec2468a5e5bba623bcee4a0477e6999964608566f21975f1e8a3d83ba5d8c9838d508f0c7351c2aaa0c1f0c365e93e538b73a3d
   languageName: node
   linkType: hard
 
@@ -12618,7 +12618,7 @@ __metadata:
   resolution: "ui-client-storybook@workspace:."
   dependencies:
     "@babel/core": ^7.15.5
-    "@instana/playground": 3.4.0
+    "@instana/playground": 3.6.0
     "@storybook/addon-a11y": 7.6.4
     "@storybook/addon-docs": 7.6.4
     "@storybook/addon-essentials": 7.6.4
