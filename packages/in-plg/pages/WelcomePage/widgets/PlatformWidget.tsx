@@ -59,6 +59,7 @@ import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 //@ts-expect-error doesn't contain type file
 import { getMetric } from 'in-stores/metric';
+//@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-cockpit/starredItems';
 import { getAbapSystemListsWithDefaults } from 'in-sap/subscriptions/getAbapSystemLists';
 //@ts-expect-error doesn't contain type file
