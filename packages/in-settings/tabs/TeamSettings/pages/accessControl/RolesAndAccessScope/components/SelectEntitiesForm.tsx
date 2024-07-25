@@ -24,9 +24,9 @@ import {
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import SelectItemForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/SelectItemForm';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
+import { syntheticMultiAppEnabled, syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import { allAccessFilter, inheritedAccessFilter } from 'in-synthetics/utils/constants';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import hasEmptyElements from 'in-synthetics/utils/hasEmptyElements';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -146,10 +146,16 @@ export default function SelectEntitiesForm<I extends Object>({
   };
 
   const getLeftHeader = () => {
-    if (syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS && syntheticFilter === 'Inherited Access') {
+    if (
+      syntheticMultiAppEnabled &&
+      productArea === ProductArea.SYNTHETICS &&
+      syntheticFilter === inheritedAccessFilter
+    ) {
       return (
         <Stack direction="horizontal" distribution="spaceBetween" align="center">
-          {t('in-settings:selectEntityDialog.syntheticTableSubHeader')}
+          {syntheticMultiWebMobileEnabled
+            ? t('in-settings:selectEntityDialog.syntheticTableSubHeaderWebMobile')
+            : t('in-settings:selectEntityDialog.syntheticTableSubHeader')}
         </Stack>
       );
     }

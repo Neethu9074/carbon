@@ -15,7 +15,7 @@ import {
   ProductAreaType,
   AreaRoleWithContributor
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { syntheticRbacLimitedTPEnabled } from 'in-services/featureFlags';
+import { syntheticMultiWebMobileEnabled, syntheticRbacLimitedTPEnabled } from 'in-services/featureFlags';
 import { t, Trans } from 'in-i18n';
 
 interface ConfigurationSummaryMsg {
@@ -72,7 +72,9 @@ export const getConfigurationSummaryMsg = (
       productArea === ProductArea.SYNTHETICS &&
       scope === ScopedPermissionItem.LIMITED_ACCESS
     ) {
-      accessLevelMessage = t('in-settings:configurationSummary.' + areaScopeContext + '.access_level_tp');
+      accessLevelMessage = syntheticMultiWebMobileEnabled
+        ? t('in-settings:configurationSummary.' + areaScopeContext + '.access_level_web_mobile')
+        : t('in-settings:configurationSummary.' + areaScopeContext + '.access_level_tp');
       rolePermissionMessage = t('in-settings:configurationSummary.' + areaContext + '.role_permissions', {
         context: roleContext
       });
