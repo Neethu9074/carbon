@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Context } from '@instana/types/typeDefinitions';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { TimeConfig } from '@instana/types';
@@ -17,7 +18,7 @@ export interface UseMetricCatalogOptions {
   tagFilterExpression: TagFilterExpression;
   type?: string;
   query?: string;
-  context?: string;
+  context?: Context;
   withHierarchy?: boolean;
 }
 
