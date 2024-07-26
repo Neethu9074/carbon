@@ -9,6 +9,7 @@ import React from 'react';
 import { LocationStatus, TestResultListItem, TimeConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
+import { ApplicationLabel } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -150,21 +151,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItemId>[] = [
     defaultOrderDirection: 'ASC',
     width: '20%',
     getContent(item: TestResultListItemId) {
-      const applicationLabel = item.testResultCommonProperties.testCommonProperties?.applicationLabel;
-      if (applicationLabel != null && applicationLabel !== '') {
-        return (
-          <HorizontalFlexWrapper>
-            <SvgIcon type={'lib_application_invert'} />
-            <span className={locals.label}>{applicationLabel}</span>
-          </HorizontalFlexWrapper>
-        );
-      } else {
-        return (
-          <div>
-            <span className={locals.label}>{''}</span>
-          </div>
-        );
-      }
+      return <ApplicationLabel item={item} shouldDisplayLink={false} />;
     }
   }
 ];

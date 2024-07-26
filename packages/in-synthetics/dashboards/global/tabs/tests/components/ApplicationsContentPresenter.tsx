@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { TestResultListItem } from '@instana/types';
 import { Link, SvgIcon } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -18,16 +17,15 @@ import Overlay from 'in-components/overlays/Overlay/Overlay';
 import locals from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions.mless';
 
 interface Props {
-  item: TestResultListItem;
+  applicationIds: string[];
+  applicationLabels: string[];
+  shouldDisplayLink: boolean | undefined;
 }
 
-const ApplicationsContentPresenter = ({ item }: Props) => {
-  const applicationLabels = item.testResultCommonProperties?.testCommonProperties?.applicationLabels || [];
-  const applicationIds = item.testResultCommonProperties?.testCommonProperties?.applicationIds || [];
-
+const ApplicationsContentPresenter = ({ applicationIds, applicationLabels, shouldDisplayLink }: Props) => {
   if (applicationLabels.length !== 0) {
     return (
-      <Overlay props={{ applicationIds, applicationLabels }} content={Content}>
+      <Overlay props={{ applicationIds, applicationLabels, shouldDisplayLink }} content={Content}>
         {({ toggle }) => (
           <HorizontalFlexWrapper>
             <SvgIcon type={'lib_application_invert'} />
@@ -58,6 +56,7 @@ const ApplicationsContentPresenter = ({ item }: Props) => {
 interface ContentProps {
   applicationIds: string[];
   applicationLabels: string[];
+  shouldDisplayLink?: boolean;
   close: () => void;
 }
 
@@ -75,8 +74,9 @@ const constructAppsMap = (applicationLabels: string[], applicationIds: string[])
 
 const Content = (props: ContentProps) => {
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
-  const { applicationIds, applicationLabels, close } = props;
+  const { applicationIds, applicationLabels, close, shouldDisplayLink = true } = props;
   const mapToMatch = constructAppsMap(applicationLabels, applicationIds);
+
   return (
     <section>
       <h1 className={locals.overlayHeader}>
@@ -96,9 +96,13 @@ const Content = (props: ContentProps) => {
           const applicationId = mapToMatch?.get(applicationLabel);
           return (
             <li key={generateUniqueShortId()} className={locals.issue}>
-              <Link href={getLinkToApplicationDashboard({ applicationId })}>
+              {shouldDisplayLink ? (
+                <Link href={getLinkToApplicationDashboard({ applicationId })}>
+                  <span className={locals.label}>{applicationLabel}</span>
+                </Link>
+              ) : (
                 <span className={locals.label}>{applicationLabel}</span>
-              </Link>
+              )}
             </li>
           );
         })}
