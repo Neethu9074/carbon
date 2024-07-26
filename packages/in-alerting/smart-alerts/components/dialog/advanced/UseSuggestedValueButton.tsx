@@ -7,10 +7,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 import classNames from 'classnames';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { getValueRoundedToDecimals } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton.mless';
@@ -69,7 +70,8 @@ export default function UseSuggestedValueButton({
               })}
             >
               <Button
-                kind="secondaryDarker"
+                size={carbonButtonEnabled ? 'compact' : 'normal'}
+                kind={carbonButtonEnabled ? 'tertiary' : 'secondaryDarker'}
                 onClick={() => {
                   const updatedForm = getUpdatedForm
                     ? getUpdatedForm(suggestedThresholdValue)

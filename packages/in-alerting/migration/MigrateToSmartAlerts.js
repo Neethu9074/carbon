@@ -5,9 +5,8 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { Stack, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import {
   applicationsAlertingDeprecatedEventConfirmMigrated,
@@ -65,6 +64,7 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
     <Stack direction="horizontal" gap="xsmall">
       <Tooltip content={t('in-alerting:smartAlerts.migration.markAsMigratedButtonTooltip')} delay={500}>
         <Button
+          noAutoMargin
           kind="secondary"
           onClick={() => showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSuccess)}
           icon={disablingEvent ? 'lib_actions_loading' : undefined}
@@ -76,6 +76,7 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
       <Tooltip content={t('in-alerting:smartAlerts.migration.migrateButtonTooltip')} delay={500}>
         <Button
           kind="primaryv2"
+          noAutoMargin
           onClick={() =>
             doMigration(eventSpecificationId, setMigrating, migrationInProgress, setMigrationInProgress, onSuccess)
           }
