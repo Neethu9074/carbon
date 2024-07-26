@@ -48,6 +48,7 @@ const segment = Segment();
 const url = window.location.href;
 const path = window.location.pathname;
 export const eventTracker = ({ eventName, parentProductArea, parentPageName }: EventTrackerProps) => {
+  if (!segment) return;
   combineLatest([getTenantsWithUnits(), getUsageInfo({})]).once(([tenantWithUnits, usageInfo]) => {
     const usageInfoWithType = usageInfo as unknown as UsageInfoProps;
     const tenantWithUnitsWithType = tenantWithUnits as unknown as TenantsWithUnits;
