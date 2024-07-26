@@ -152,7 +152,7 @@ export default function LinuxPackages({
         <Stack>
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host#network-requirements"
+            href="https://ibm.biz/insta-agent-netreqs"
           />
         </Stack>
       ),
@@ -164,7 +164,7 @@ export default function LinuxPackages({
         <Stack>
           <DocumentLink
             text={t('in-plg:agentDetails.linux.linux_deb_rpm.installUsingAPackage')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-linux#packages-installation-manual"
+            href="https://ibm.biz/insta-agent-linuxpackage"
           />
         </Stack>
       ),

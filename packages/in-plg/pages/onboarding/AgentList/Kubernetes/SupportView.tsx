@@ -78,7 +78,7 @@ export const Documentations = ({ id }: { id: string }): JSX.Element => {
           />
           <DocumentLink
             text={t('in-plg:agentDetails.kubernetes.k8_deamon.installAnAgentOnKubernetes')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-kubernetes#install-as-a-daemonset"
+            href="https://ibm.biz/insta-agent-k8syaml"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.configuringTheAgentAfterInstall')}
