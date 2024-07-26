@@ -13,14 +13,28 @@ import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleM
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import AssociationsStep from 'in-synthetics/createTests/wizard/AssociationsStep';
 
+jest.mock('in-services/featureFlags', () => ({
+  get syntheticMultiWebMobileEnabled() {
+    return false;
+  }
+}));
+
 describe('AssociationsStep', () => {
   const form = createForm(true, getSimpleBlueprintConfig()[0]);
   const updateForm = jest.fn();
+  const setSliderState = jest.fn();
   it('Renders the Associations section correctly for zero associated applications', () => {
     const applications = {
       data: []
     } as unknown as Result<GroupPermissionEntity[]>;
-    render(<AssociationsStep form={form} updateForm={updateForm} applications={applications} />);
+    render(
+      <AssociationsStep
+        form={form}
+        updateForm={updateForm}
+        applications={applications}
+        setSliderState={setSliderState}
+      />
+    );
     expect(screen.getByText('Select applications to associate with this synthetic test')).toBeInTheDocument();
     expect(
       screen.getByText(
@@ -41,7 +55,14 @@ describe('AssociationsStep', () => {
         }
       ]
     } as unknown as Result<GroupPermissionEntity[]>;
-    render(<AssociationsStep form={form} updateForm={updateForm} applications={applications} />);
+    render(
+      <AssociationsStep
+        form={form}
+        updateForm={updateForm}
+        applications={applications}
+        setSliderState={setSliderState}
+      />
+    );
     expect(screen.getByText('Select applications to associate with this synthetic test')).toBeInTheDocument();
     expect(
       screen.getByText(

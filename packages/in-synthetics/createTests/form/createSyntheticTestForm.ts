@@ -18,12 +18,12 @@ import urlValidator, {
 } from 'in-synthetics/createTests/validators/urlValidator';
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
 import { regExpValidator, statusCodeValidator } from 'in-synthetics/createTests/validators/configValidators';
+import { syntheticMultiAppEnabled, syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/validator';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { minValidator } from 'in-services/validators/number';
@@ -141,6 +141,27 @@ export function createForm(
         value: savedState?.customProperties ?? {}
       })
     );
+  if (syntheticMultiWebMobileEnabled) {
+    return createTestForm
+      .put(
+        'applications',
+        createField({
+          value: savedState?.applications ?? []
+        })
+      )
+      .put(
+        'websites',
+        createField({
+          value: savedState?.websites ?? []
+        })
+      )
+      .put(
+        'mobileApps',
+        createField({
+          value: savedState?.mobileApps ?? []
+        })
+      );
+  }
   if (syntheticMultiAppEnabled) {
     return createTestForm.put(
       'applications',

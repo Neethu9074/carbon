@@ -57,7 +57,9 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     description: form.get('description').value,
     applicationId: form.get('applicationId')?.value,
     script: form.get('script')?.value,
-    applications: form.get('applications')?.value
+    applications: form.get('applications')?.value,
+    websites: form.get('websites')?.value,
+    mobileApps: form.get('mobileApps')?.value
   });
 
   const syntheticType: string = test.configuration.syntheticType;

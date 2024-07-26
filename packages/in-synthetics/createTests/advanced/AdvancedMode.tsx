@@ -12,12 +12,17 @@ import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import {
+  syntheticCertificateCheckEnabled,
+  syntheticMultiAppEnabled,
+  syntheticMultiWebMobileEnabled
+} from 'in-services/featureFlags';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import SSLCertificateConfiguration from 'in-synthetics/createTests/advanced/SSLCertificateConfiguration';
 import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/BrowserSimpleConfiguration';
-import { syntheticCertificateCheckEnabled, syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePrintSelectionSection';
+import AssociationsCommonSection from 'in-synthetics/createTests/wizard/AssociationsCommonSection';
 import CustomPropertiesSection from 'in-synthetics/createTests/advanced/CustomPropertiesSection';
 import ConfigurationSection from 'in-synthetics/createTests/advanced/ConfigurationSection';
 import ApplicationsSection from 'in-synthetics/createTests//wizard/ApplicationsSection';
@@ -218,16 +223,25 @@ const AdvancedMode = ({
       valid: true,
       content: <IdentifySection form={form} updateForm={updateForm} applications={applications} />
     },
-    {
-      scrollId: '6',
-      label: t('in-synthetics:dialog.createTest.advancedMode.applicationsLabel'),
-      title: getPrivatePreviewBadge(),
-      subTitle: t('in-synthetics:dialog.createTest.advancedMode.applicationsDescription'),
+    syntheticMultiWebMobileEnabled
+      ? {
+          scrollId: '6',
+          label: t('in-synthetics:dialog.createTest.advancedMode.associationsLabel'),
+          title: t('in-synthetics:dialog.createTest.advancedMode.associationsTitle'),
+          subTitle: t('in-synthetics:dialog.createTest.advancedMode.associationsDescription'),
+          valid: true,
+          content: <AssociationsCommonSection form={form} updateForm={updateForm} setSliderState={setSliderState} />
+        }
+      : {
+          scrollId: '6',
+          label: t('in-synthetics:dialog.createTest.advancedMode.associationsLabel'),
+          title: getPrivatePreviewBadge(),
+          subTitle: t('in-synthetics:dialog.createTest.advancedMode.applicationsDescription'),
       isBeta: syntheticMultiAppEnabled,
       isPrivatePreview: true,
-      valid: true,
-      content: <ApplicationsSection form={form} updateForm={updateForm} applications={applications} />
-    },
+          valid: true,
+          content: <ApplicationsSection form={form} updateForm={updateForm} applications={applications} />
+        },
     {
       scrollId: '7',
       label: t('in-synthetics:dialog.createTest.advancedMode.customPropertiesTitle'),

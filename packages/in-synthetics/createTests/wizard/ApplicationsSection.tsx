@@ -10,7 +10,7 @@ import React, { useMemo } from 'react';
 
 import { Checkbox, RadioButton, SearchInput } from '@instana/components';
 import { GroupPermissionEntity, Result } from '@instana/types';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
