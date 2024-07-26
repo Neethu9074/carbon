@@ -45,6 +45,8 @@ let tenantName: string;
 const segment = Segment();
 
 export const eventTracker = ({ eventName, parentProductArea, parentPageName, pathName }: EventTrackerProps) => {
+  if (!segment) return;
+
   const url = window.location.href;
   const userSelfDefinedRole =
     window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
