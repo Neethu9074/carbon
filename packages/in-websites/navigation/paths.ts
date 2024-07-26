@@ -30,13 +30,13 @@ import {
   UseLinkToPageLoadParams
 } from 'in-websites/navigation/types';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
-import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { Location } from 'in-stores/navigation/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import { Location } from 'in-stores/navigation/types';
 import { setTimeConfig } from 'in-stores/time/config';
 
 export const websiteMonitoringPath = '/websiteMonitoring';
@@ -90,13 +90,15 @@ export const configurationAlerts = '/alerts';
 
 export const analyzeTwoParameters = createParameters(analyzePath);
 
-export const linkToWebsites$ = getModifiedUrlStream(params => {
-  params.pathname = websitesPathFullyQualified;
-});
+export const useLinkToNewWebsite = () => {
+  const { createHref, location } = useNavigation();
 
-export const linkToNewWebsite$ = getModifiedUrlStream(params => {
-  params.pathname = newWebsitePathFullyQualified;
-});
+  location.pathname = `${newWebsitePathFullyQualified}`;
+
+  const href = createHref(location);
+
+  return href;
+};
 
 export const useLinkToWebsite = (
   websiteId?: string,
