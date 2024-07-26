@@ -16,7 +16,7 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import { getMetricsForTimeframe } from 'in-stores/metric';
 import createQueue from 'in-components/Chart/data/queue';
-import { resolveRollup } from 'in-stores/metric';
+import { getInfraGranularity } from 'in-stores/metric';
 
 // we don't need to open subscriptions on the componentDidMount. This is because the getElementDimensions hoc
 // needs to calculate the dimensions of the chart first. The hoc will definitely set a state which results in a
@@ -90,7 +90,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
     } = props;
 
     this.timeConfig = timeConfigShiftedForIngestion(timeConfig);
-    const defaultGranularity = resolveRollup(this.timeConfig, minRollup);
+    const defaultGranularity = getInfraGranularity(this.timeConfig, minRollup);
     this.granularity = props.minPixelsPerBlock
       ? getPredefinedBlockSizeMillisForBlockSize(
           getBlockSizeMillis({

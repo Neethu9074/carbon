@@ -133,7 +133,7 @@ function resolveTimeConfigAndRollup(createFn) {
     resolveTimeConfig(timeConfig).flatMap(timeConfig =>
       createFn({
         timeConfig: timeConfigShiftedForIngestion(timeConfig),
-        rollup: resolveRollup(timeConfig, rollup),
+        rollup: getInfraGranularity(timeConfig, rollup),
         ...rest
       })
     );
@@ -145,13 +145,6 @@ function resolveTimeConfig(timeConfig) {
   } else {
     return timeConfig$;
   }
-}
-
-export function resolveRollup(timeConfig, rollup) {
-  if (rollup) {
-    return Math.max(rollup, getInfraGranularity(timeConfig));
-  }
-  return getInfraGranularity(timeConfig);
 }
 
 export const getMetric = memoize(
@@ -278,7 +271,7 @@ function getTimeWindowMetricAggregationSubscription(timeConfig, snapshotId, metr
     snapshotId,
     metric,
     timeConfig,
-    rollup: resolveRollup(timeConfig, rollup),
+    rollup: getInfraGranularity(timeConfig, rollup),
     timeWindowAggregation
   });
 }

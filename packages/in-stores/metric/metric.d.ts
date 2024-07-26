@@ -15,8 +15,6 @@ export const sensibleGranularities: number[];
 
 export function getInfraGranularity(tc: TimeConfig, minGranularity?: number, maxDataPoints?: number): number;
 
-export function resolveRollup(tc: TimeConfig, rollup?: number): number;
-
 export function getHistoricMetric(props: {
   snapshotId: string;
   metric: string;
