@@ -15,7 +15,7 @@ import {
   getMetricForFocusedMoment,
   getHistoricMetric,
   getTimeWindowBasedMetricAggregation,
-  resolveRollup
+  getInfraGranularity
 } from 'in-stores/metric';
 //@ts-expect-error Needs TS migration
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
@@ -64,7 +64,7 @@ export default class extends React.PureComponent<MetricValueProps> {
     return timeConfig$.flatMap(timeConfig => {
       const usedTimeConfig = timeConfigShiftedForIngestion(this.props.timeConfig ?? timeConfig);
 
-      const defaultGranularity = resolveRollup(usedTimeConfig, minRollup);
+      const defaultGranularity = getInfraGranularity(usedTimeConfig, minRollup);
 
       if (__DEV__) {
         invariant(!!metric, 'A metric property or createMetricValueStream must be provided to MetricValue.');
