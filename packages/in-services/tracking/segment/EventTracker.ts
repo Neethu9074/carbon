@@ -41,6 +41,8 @@ let userId: string;
 const segment = Segment();
 
 export const eventTracker = ({ eventName, parentProductArea, parentPageName }: EventTrackerProps) => {
+  if (!segment) return;
+
   const url = window.location.href;
   const path = window.location.pathname;
   const userSelfDefinedRole =
