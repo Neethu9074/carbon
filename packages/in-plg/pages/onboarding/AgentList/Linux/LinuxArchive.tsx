@@ -130,11 +130,11 @@ const LinuxArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain,
         <>
           <DocumentLink
             text={t('in-plg:agentDetails.linux.archive.installUsingATarFile')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-linux#tarball-installation"
+            href="https://ibm.biz/insta-agent-linuxtar"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.linux.archive.startingTheAgent')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-linux#starting-the-agent"
+            href="https://ibm.biz/insta-agent-linuxstart"
           />
         </>
       ),
