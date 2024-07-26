@@ -17,6 +17,7 @@ export interface UseMetricCatalogOptions {
   tagFilterExpression: TagFilterExpression;
   type?: string;
   query?: string;
+  context?: string;
   withHierarchy?: boolean;
 }
 
@@ -25,6 +26,7 @@ export default function useMetricCatalog({
   tagFilterExpression,
   type,
   query,
+  context,
   withHierarchy = false
 }: UseMetricCatalogOptions): Result<MetricCatalog> {
   const timeConfig = useTimeConfig();
@@ -46,7 +48,8 @@ export default function useMetricCatalog({
             )({
               filter: { tagFilterExpression, timeConfig: modifiedTimeConfig },
               type,
-              query
+              query,
+              context
             })
           : just(pendingResult),
       [timeConfig, tagFilterExpression, type, query]
