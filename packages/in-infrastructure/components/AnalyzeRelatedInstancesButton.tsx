@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button, Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -15,6 +15,7 @@ import {
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
 import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 
 export interface AnalyzeRelatedInstancesButtonProps extends GetLinkToExploreProps {
   onClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
@@ -26,6 +27,18 @@ export default function AnalyzeRelatedInstancesButton(
   props: AnalyzeRelatedInstancesButtonProps = defaultAnalyzeRelatedInstancesButtonParams
 ) {
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
+
+  if (carbonButtonEnabled) {
+    return (
+      <Button kind="primary" size="compact" href={getLinkToInfraEntityExplore(props)} onClick={props.onClick}>
+        <Stack direction="horizontal" gap="disabled" align="center">
+          {t('in-infrastructure:explore.relatedInstances')}
+          <PreviewBadge />
+        </Stack>
+      </Button>
+    );
+  }
+
   return (
     <Button
       kind="primary"
