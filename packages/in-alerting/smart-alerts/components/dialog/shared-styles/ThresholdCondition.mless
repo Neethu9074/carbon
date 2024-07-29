@@ -13,10 +13,6 @@
     padding: 1rem 0;
   }
 
-  .multiThresholdValueWithValidationMessage {
-    padding: 0.5rem 0;
-  }
-
   .narrowControl {
     width: 6rem;
   }

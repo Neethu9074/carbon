@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Field, MapForm } from 'formalistic';
+import { MapForm } from 'formalistic';
 import { useEffect } from 'react';
 
 //@ts-ignore
@@ -14,6 +14,8 @@ import { useObservable } from '@instana/hooks';
 import getInfraMetricsThresholdSuggestion from 'in-alerting/smart-alerts/infrastructure/subscriptions/getInfraMetricsThresholdSuggestion';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { getEnrichedTagFilterExpression } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
+import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
 import { MetricDataSeries } from 'in-applications/subscriptions/types';
 import { Result } from 'in-types';
 
@@ -33,28 +35,15 @@ export default function useThresholdSuggestion(
     if (!thresholdResult || thresholdResult.progress?.loading) return;
 
     setThresholdResult(thresholdResult);
-    const { data } = thresholdResult;
+    const { data, errors, time } = thresholdResult;
 
     if (isValid) {
       // @ts-ignore
-      updateHiddenFieldsInForm(form, updateForm, data);
+      updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, false);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thresholdResult, form.get('hiddenFields').get('calculateThresholdOnBackend').value]);
-}
-
-function updateHiddenFieldsInForm(
-  form: MapForm<any>,
-  updateForm: (form: MapForm<any>) => void,
-  data: { type: string; value: any }
-) {
-  const updatedForm = form
-    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(false))
-    // @ts-expect-error ts has problems with nested fields on MapForm<any>, because it cant know the contents
-    .updateIn(['hiddenFields', 'suggestedThresholdValue'], f => (f as Field<number>).setValue(data?.value));
-
-  updateForm(updatedForm);
 }
 
 function shouldSkipFetchingThresholdSuggestion(

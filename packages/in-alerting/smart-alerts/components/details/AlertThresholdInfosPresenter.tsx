@@ -16,10 +16,9 @@ interface Props {
   thresholdTypeLabel: string;
   metricLabel: string;
   scopeLabel: string;
-  threshold?: React.ReactElement;
 }
 
-export const AlertThresholdInfosPresenter = ({ thresholdTypeLabel, metricLabel, threshold, scopeLabel }: Props) => {
+export const AlertThresholdInfosPresenter = ({ thresholdTypeLabel, metricLabel, scopeLabel }: Props) => {
   return (
     <div className={locals.tilesRow}>
       <div className={locals.tile}>
@@ -38,16 +37,6 @@ export const AlertThresholdInfosPresenter = ({ thresholdTypeLabel, metricLabel, 
           multilineLabel
         />
       </div>
-      {threshold && (
-        <div className={locals.tile}>
-          <KeyValue
-            label={t('in-alerting:smartAlerts.details.threshold')}
-            value={threshold}
-            className={locals.keyValueExtraGap}
-            multilineLabel
-          />
-        </div>
-      )}
       {scopeLabel && (
         <div className={locals.tile}>
           <KeyValue

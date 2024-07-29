@@ -54,8 +54,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     tagFilterValid,
     TagBasedPayloadConfigurator
   } = props;
-  // For now, we support only static threshold. So taking type from warningThreshold/criticalThreshold would not change anything.
-  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
+  const thresholdType = form.get('threshold').get('type').value;
   const metricLabel = form.get('hiddenFields').get('metricLabel').value;
   const entityType = form.get('rule')?.get('entityType')?.value;
   const metric = form.get('rule')?.get('metricName')?.value;
@@ -158,7 +157,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                       )}
                     />
                   )}
-                  shouldDisplayAlertLevelSelection={false}
                 />
               )}
               renderAlertPreview={() => (
@@ -201,7 +199,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
   );
 
   function isThresholdSectionValid(): boolean {
-    return !fieldTouchedAndInvalid(form.get('threshold'));
+    return !fieldTouchedAndInvalid(form.get('threshold')?.get('value'));
   }
   function isMetricAndEntityValid(): boolean {
     const metric = form.get('rule')?.get('metricName')?.value;

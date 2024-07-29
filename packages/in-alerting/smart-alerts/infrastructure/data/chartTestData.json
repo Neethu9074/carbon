@@ -133,12 +133,6 @@
           "metric": "upperBound",
           "granularity": 600000,
           "aggregation": "MEAN"
-        },
-        "warningThreshold": {
-          "metric": "warningThreshold"
-        },
-        "criticalThreshold": {
-          "metric": "criticalThreshold"
         }
       }
     }

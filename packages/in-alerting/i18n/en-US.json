@@ -43,8 +43,6 @@
     "chart": {
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",
-      "alertingChartLabelWarningThreshold": "Warning Threshold",
-      "alertingChartLabelCriticalThreshold": "Critical Threshold",
       "alertingChartLabelForecast": "Forecast",
       "alertingChartLabelUpperBound": "Upper Bound",
       "alertingChartLabelLowerBound": "Lower Bound",
@@ -630,9 +628,6 @@
       "header": "Details",
       "thresholdTypeTitle": "Threshold Type",
       "metricTitle": "Metric",
-      "threshold": "Threshold",
-      "warningThresholdLabel": "Warning",
-      "criticalThresholdLabel": "Critical",
       "entityTitle": "Scope",
       "titleBuiltInIndicator": "Built-in"
     },
@@ -726,9 +721,7 @@
       "ruleStatusCodeValueOption508": "508 (Loop Detected)",
       "ruleStatusCodeValueOption510": "510 (Not Extended)",
       "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
-      "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
-      "warningThresholdValidator": "Warning threshold should be greater than critical threshold for < and <= operators.",
-      "criticalThresholdValidator": "Critical threshold should be greater than warning threshold for > and >= operators."
+      "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)"
     },
     "components": {
       "smartAlertDialog": {
@@ -859,9 +852,6 @@
         "sensitivitySliderValueLabel_1": "{{count}} standard deviations",
         "sensitivitySliderValueLabel_2": "{{count}} standard deviations",
         "labelThreshold": "Threshold",
-        "multiThresholdAlertNotificationInfo": "Your input of either threshold value triggers an alert notification.",
-        "warningThresholdLabel": "Warning",
-        "criticalThresholdLabel": "Critical",
         "labelSensitivity": "Sensitivity",
         "staticThresholdTypeOptionsTooltip": "A Static Daily / Weekly Threshold is a time dependent threshold based on historical data. The threshold does not change automatically and can be manually recalculated if required.",
         "thresholdTypeOptionStaticThreshold": "Static Threshold",
@@ -1409,10 +1399,11 @@
           "label": "Payloads",
           "title": "Custom Payload"
         },
+        "thresholdValue": "Threshold Value",
         "valueMappings": "The numeric values of the selected metric correspond to the following string values:"
       },
       "form": {
-        "selectAtLeastOneThreshold": "Please provide value for at least one of the thresholds.",
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
         "noMetricSelected": "No metric selected"
       },
       "count": "Count",

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { Spacer, Toggle } from '@instana/components';
@@ -42,14 +43,12 @@ interface AlertPropertyInfosProps {
   alertConfig: AlertConfigProps;
   renderCustomTitle?: () => HighlightedPlaceholders;
   disableTrigger: boolean;
-  shouldDisplayAlertLevelSection?: boolean;
 }
 
 export default function AlertPropertyInfos({
   alertConfig: { name, description, triggering = false, severity },
   renderCustomTitle,
-  disableTrigger,
-  shouldDisplayAlertLevelSection = true
+  disableTrigger
 }: AlertPropertyInfosProps) {
   const severityProperty = propertiesBySeverity[severity];
   return (
@@ -57,14 +56,9 @@ export default function AlertPropertyInfos({
       <AlertSection title={t('in-alerting:components.alertPropertyInfosLabelTitle')}>
         <Label className={locals.staticTitle}>{renderCustomTitle?.() ?? name}</Label>
       </AlertSection>
-      {shouldDisplayAlertLevelSection && (
-        <AlertSection
-          icon={severityProperty.icon}
-          title={t('in-alerting:components.alertPropertyInfosLabelAlertLevel')}
-        >
-          <Label className={locals.staticSeverity}>{severityProperty.label}</Label>
-        </AlertSection>
-      )}
+      <AlertSection icon={severityProperty.icon} title={t('in-alerting:components.alertPropertyInfosLabelAlertLevel')}>
+        <Label className={locals.staticSeverity}>{severityProperty.label}</Label>
+      </AlertSection>
       {!disableTrigger && (
         <AlertSection
           icon="lib_events_incident"
@@ -83,3 +77,9 @@ export default function AlertPropertyInfos({
     </Sections>
   );
 }
+
+AlertPropertyInfos.propTypes = {
+  alertConfig: PropTypes.object.isRequired,
+  renderCustomTitle: PropTypes.func,
+  disableTrigger: PropTypes.bool
+};

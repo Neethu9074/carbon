@@ -10,6 +10,7 @@ import { createForm as createListFormForCustomPayloads } from 'in-alerting/compo
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
+import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -18,6 +19,7 @@ import { groupbyTag } from 'in-alerting/smart-alerts/utils/groupingUtils';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { ThresholdType, VersionedConfig } from 'in-types';
 
+const severityWarning = 5;
 export const defaultAdaptiveBaselineGranularity = 1200000;
 export const fieldNames = Object.freeze({
   alertChannelIds: 'alertChannelIds',
@@ -28,6 +30,7 @@ export const fieldNames = Object.freeze({
   name: 'name',
   predictiveTrigger: 'predictiveTrigger',
   rule: 'rule',
+  severity: 'severity',
   tagFilterExpression: 'tagFilterExpression',
   threshold: 'threshold',
   timeThreshold: 'timeThreshold',
@@ -52,12 +55,13 @@ export default function alertFormDefinition(
     groupBy = [],
     name = '',
     predictiveTrigger = null,
+    severity = severityWarning,
     tagFilterExpression,
     id = ''
   } = alertConfig;
 
   //@ts-expect-error
-  return createMapForm({ validator: regexValidator })
+  const form = createMapForm({ validator: regexValidator })
     .put(
       fieldNames.alertChannelIds,
       createField({
@@ -98,6 +102,12 @@ export default function alertFormDefinition(
       })
     )
     .put(
+      fieldNames.severity,
+      createField({
+        value: severity
+      })
+    )
+    .put(
       fieldNames.tagFilterExpression,
       createField({
         value: tagFilterExpression ? fromBackendModel(tagFilterExpression) : [],
@@ -110,14 +120,16 @@ export default function alertFormDefinition(
         value: id
       })
     )
-    .put('rule', createRuleForm(alertConfig.rules[0]?.rule ?? {}))
+    .put('rule', createRuleForm(alertConfig.rule ?? {}))
     .put(
       'timeThreshold',
       createTimeThresholdForm(alertConfig.timeThreshold, granularity, alertConfig.threshold?.type as ThresholdType)
     )
-    .put('threshold', createThresholdForm(alertConfig.rules[0] ?? {}, editMode))
-    .put('hiddenFields', createHiddenFieldsForm(editMode))
+    .put('threshold', createThresholdForm(alertConfig?.threshold ?? {}))
+    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend))
     .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
+
+  return applyEditMode(form, editMode);
 }
 
 export function createHiddenFieldsForm(calculateThresholdOnBackend = false) {

@@ -4,32 +4,62 @@
  * Copyright IBM Corp. 2023
  */
 
-import { createField, createMapForm, Field, MapForm } from 'formalistic';
+import { createField, createMapForm, MapForm } from 'formalistic';
+
+import { ThresholdType } from '@instana/types';
 
 import {
-  InfraAlertRuleUnion,
-  isStaticThresholdRule,
-  RuleWithThreshold,
-  SmartAlertThresholdRule,
-  StaticThresholdRule
-} from '@instana/types/typeDefinitions';
-
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+  isStaticThresholdConfig,
+  StaticThresholdConfig,
+  ThresholdConfig,
+  ThresholdConfigUnion,
+  ThresholdOperator
+} from 'in-types';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { t } from 'in-i18n';
 
 export default function createThresholdForm(
-  ruleWithThreshold: RuleWithThreshold<InfraAlertRuleUnion> | undefined, // supporting old javascript based code
-  editMode?: boolean
+  threshold: ThresholdConfigUnion | undefined // supporting old javascript based code
 ): MapForm<any> {
-  if (!ruleWithThreshold) {
-    return createThresholdRuleForm();
+  if (!threshold) {
+    return createBaselineEnabledForm();
   }
 
-  return createThresholdRuleForm(ruleWithThreshold, editMode);
+  return createBaselineEnabledForm(threshold);
 }
 
-function createStaticThresholdForm(threshold?: StaticThresholdRule, editMode: boolean = false): MapForm<any> {
+function createStaticThresholdForm(threshold?: StaticThresholdConfig): MapForm<any> {
+  return createBaseForm(threshold).put(
+    'value',
+    createField({
+      value: threshold?.value ?? null,
+      validator: num => {
+        if (typeof num !== 'number' || num < 0) {
+          return [
+            {
+              severity: 'error',
+              message: t('in-alerting:smartAlerts.infrastructure.form.errorPleaseProvideANumberGreaterEqualsToZero')
+            }
+          ];
+        }
+        return null;
+      }
+    })
+  );
+}
+
+function createBaselineEnabledForm(threshold?: ThresholdConfig): MapForm<any> {
+  if (!threshold || isStaticThresholdConfig(threshold)) {
+    return createStaticThresholdForm(threshold);
+  }
+  throw new Error(`Unknown threshold type ${threshold?.type}.`);
+}
+
+function createBaseForm(threshold?: {
+  type?: ThresholdType;
+  operator?: ThresholdOperator;
+  lastUpdated?: number;
+}): MapForm<any> {
   return createMapForm()
     .put(
       'type',
@@ -38,82 +68,15 @@ function createStaticThresholdForm(threshold?: StaticThresholdRule, editMode: bo
       })
     )
     .put(
-      'value',
+      'operator',
       createField({
-        value: threshold?.value ?? null
-      }).setTouched(editMode ? !isEmpty(threshold?.value) : false)
+        value: threshold?.operator ?? '>='
+      })
+    )
+    .put(
+      'lastUpdated',
+      createField({
+        value: threshold?.lastUpdated ?? 0
+      })
     );
-}
-
-function createThresholdMapForm(threshold?: SmartAlertThresholdRule, editMode?: boolean): MapForm<any> {
-  if (!threshold || isStaticThresholdRule(threshold)) {
-    return createStaticThresholdForm(threshold, editMode);
-  }
-  throw new Error(`Unknown threshold type ${threshold?.type}.`);
-}
-
-export function createThresholdRuleForm(
-  ruleWithThreshold?: RuleWithThreshold<InfraAlertRuleUnion>,
-  editMode?: boolean
-): MapForm<any> {
-  const warningThreshold = ruleWithThreshold?.thresholds?.WARNING;
-  const criticalThreshold = ruleWithThreshold?.thresholds?.CRITICAL;
-
-  return createMapForm({
-    //@ts-expect-error
-    validator: validateForm,
-    items: {
-      operator: createField({
-        value: ruleWithThreshold?.thresholdOperator ?? '>='
-      }),
-      warningThreshold: createThresholdMapForm(warningThreshold, editMode),
-      criticalThreshold: createThresholdMapForm(criticalThreshold, editMode)
-    }
-  });
-}
-
-function validateForm({
-  operator,
-  warningThreshold,
-  criticalThreshold
-}: {
-  operator: Field<string>;
-  warningThreshold: MapForm<any>;
-  criticalThreshold: MapForm<any>;
-}) {
-  const warningThresholdValue = warningThreshold.get('value')?.value;
-  const hasWarningThreshold = !isEmpty(warningThresholdValue);
-  const criticalThresholdValue = criticalThreshold.get('value')?.value;
-  const hasCriticalThreshold = !isEmpty(criticalThresholdValue);
-
-  if (hasWarningThreshold && hasCriticalThreshold) {
-    const operatorValue = operator?.value;
-
-    if ((operatorValue === '<' || operatorValue === '<=') && warningThresholdValue <= criticalThresholdValue) {
-      return [
-        {
-          severity: 'error',
-          message: t('in-alerting:smartAlerts.form.warningThresholdValidator')
-        }
-      ];
-    } else if ((operatorValue === '>' || operatorValue === '>=') && warningThresholdValue >= criticalThresholdValue) {
-      return [
-        {
-          severity: 'error',
-          message: t('in-alerting:smartAlerts.form.criticalThresholdValidator')
-        }
-      ];
-    }
-  }
-
-  if (!hasWarningThreshold && !hasCriticalThreshold) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-alerting:smartAlerts.infrastructure.form.selectAtLeastOneThreshold')
-      }
-    ];
-  }
-
-  return null;
 }
