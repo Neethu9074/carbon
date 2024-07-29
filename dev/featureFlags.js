@@ -136,7 +136,7 @@ module.exports = {
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
   serviceNowAdvancedEnabled: true,
   carbonTabsEnabled: true,
-  shareAndInviteEnabled: false,
+  shareAndInviteEnabled: true,
   automationActionInstanceFeedbackEnabled: false,
   infraExploreFilterEmptyValueEnabled: true,
   weaselSubresourceIntegrityEnabled: true,

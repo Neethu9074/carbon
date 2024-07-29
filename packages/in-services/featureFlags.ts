@@ -256,7 +256,7 @@ export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);
 
 export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', false);
-export const shareAndInviteEnabled = isFeatureFlagEnabled('shareAndInviteEnabled', false);
+export const shareAndInviteEnabled = isFeatureFlagEnabled('shareAndInviteEnabled', true);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
 
