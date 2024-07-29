@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+import { SloData } from 'in-alerting/smart-alerts/slo/components/SloListSelection/SloListSelection';
 import { FetchedState } from 'in-hooks/utils/types';
-import { SloData } from './SloListSelection';
 
 export const selectedSLO = {
   id: 'SLO-selected',
