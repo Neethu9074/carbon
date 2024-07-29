@@ -611,6 +611,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonComboBoxEnabled',
+    instanaCtlKey: 'feature.carbon.combobox.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'notesAndActivityEnabled',
     instanaCtlKey: 'feature.incident.notes.enabled',
     defaultValue: false
