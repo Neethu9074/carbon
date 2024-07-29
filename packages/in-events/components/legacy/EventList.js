@@ -5,9 +5,9 @@
 
 import React, { useMemo } from 'react';
 
+import { Card, Pagination as CarbonPagination } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { Card } from '@instana/components';
 
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import LegacyRootCauseSection from 'in-events/components/legacy/LegacyRootCauseSection';
@@ -17,6 +17,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import RootCauseSection from 'in-events/components/legacy/RootCauseSection';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import EventListItem from 'in-events/components/legacy/EventListItem';
+import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -110,6 +111,8 @@ export default function IncidentEventList({
         })}
         currentPage={pageState}
         numPages={Math.ceil(relatedEvents.length / pageSize)}
+        totalItems={relatedEvents.length}
+        pageSize={pageSize}
         onChange={({ page }) => {
           setPageURLState({ relatedEventsPage: page });
         }}
@@ -139,7 +142,9 @@ function PaginatedListRow({
   latestSnapshot,
   expandedEventOnClickInTimeline,
   setExpandedEventOnClickInTimeline,
-  highlightEventOnHover
+  highlightEventOnHover,
+  totalItems,
+  pageSize
 }) {
   if (!currentSetOfEvents) return <LoadingIndicator />;
 
@@ -158,7 +163,19 @@ function PaginatedListRow({
               highlightEventOnHover={highlightEventOnHover === _event.get('id')}
             />
           ))}
-          <Pagination currentPage={currentPage} numPages={numPages} onChange={page => onChange({ page })} />
+          {carbonPaginationEnabled && totalItems > pageSize ? (
+            <CarbonPagination
+              currentPage={currentPage}
+              totalItems={totalItems}
+              pageSize={pageSize}
+              pageSizes={[pageSize]}
+              onChange={data => {
+                onChange({ page: data.page });
+              }}
+            />
+          ) : (
+            <Pagination currentPage={currentPage} numPages={numPages} onChange={page => onChange({ page })} />
+          )}
         </Card>
       </Col>
     </Row>
