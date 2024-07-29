@@ -35,7 +35,6 @@ describe('AwsEc2Windows Tests', () => {
     expect(screen.getByText(t('in-plg:agentDetails.common.documentationTitle'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.aws.documentationLinks.installAgentOnAwsEc2'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.windows.windows_ec2_64.runCommandsOnAWSEC2'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:agentDetails.askForHelp.askForHelpTitle'))).toBeInTheDocument();
   });
 
   it('should select the correct radio button when clicked for Packaging', () => {

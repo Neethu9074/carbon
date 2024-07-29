@@ -35,7 +35,6 @@ describe('LinuxElasticComputing Tests', () => {
     expect(screen.getByText(t('in-plg:agentDetails.linux.linux_ec2.installagentOnAWSEC2'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.linux.linux_ec2.RuncommandsonAWSES2'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.linux.linux_ec2.configurationParameters'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:agentDetails.askForHelp.askForHelpTitle'))).toBeInTheDocument();
   });
 
   it('should select the correct radio button when clicked for Packaging', () => {

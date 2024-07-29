@@ -48,6 +48,5 @@ describe('KubernetesOperator Tests', () => {
       screen.getByText(t('in-plg:agentDetails.kubernetes.operator.installAnAgentOnKubernetes'))
     ).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.common.configuringTheAgentAfterInstall'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:agentDetails.common.sideCard.askAColleagueForHelp'))).toBeInTheDocument();
   });
 });

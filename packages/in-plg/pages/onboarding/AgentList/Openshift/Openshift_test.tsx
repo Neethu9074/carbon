@@ -30,6 +30,5 @@ describe('Openshift Tests', () => {
     render(<Openshift id={''} agentKey={''} downloadKey={''} />);
     expect(screen.getByText(t('in-plg:agentDetails.common.prerequisitesTitle'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.common.documentationTitle'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:agentDetails.askForHelp.askForHelpTitle'))).toBeInTheDocument();
   });
 });

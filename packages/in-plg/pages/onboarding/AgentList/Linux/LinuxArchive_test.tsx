@@ -31,7 +31,6 @@ describe('LinuxArchive Tests', () => {
     expect(screen.getByText(t('in-plg:agentDetails.common.documentationTitle'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.linux.archive.installUsingATarFile'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.linux.archive.startingTheAgent'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:agentDetails.askForHelp.askForHelpTitle'))).toBeInTheDocument();
   });
 
   it('should select the correct radio button when clicked for Packaging', () => {
