@@ -8,10 +8,13 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { SyntheticTest } from '@instana/types/typeDefinitions';
+import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
@@ -21,10 +24,21 @@ interface Props {
 }
 
 const Associations = ({ test }: Props) => {
+  const getPrivatePreviewBadge = () => {
+    if (syntheticMultiAppEnabled) {
+      return (
+        <Stack direction="horizontal" gap="xxsmall">
+          {t('in-synthetics:dashboard.configuration.associations')}
+          <PreviewBadge privatePreview />
+        </Stack>
+      );
+    }
+    return t('in-synthetics:dashboard.configuration.associations');
+  };
   return (
     <ExpandableLightCard
       className={locals.expandableCard}
-      title={t('in-synthetics:dashboard.configuration.associations')}
+      title={getPrivatePreviewBadge()}
       darkFrame
       useMaxAvailableHeight
       openByDefault

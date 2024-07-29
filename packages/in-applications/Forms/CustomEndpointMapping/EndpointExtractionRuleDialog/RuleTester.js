@@ -6,9 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { SvgIcon, Button } from '@instana/components';
 import { create } from '@instana/observables';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import { build, parse, validate } from 'in-applications/Forms/validator/urlPath';
 import { testRules } from 'in-api/endpointConfiguration';

@@ -555,7 +555,7 @@ export default connectTo(
                       >
                         <LinkList>
                           <LinkListItem
-                            label={' ' + t('in-internal:components.landing.unitMonitoringCoral')}
+                            label={'🟣 ' + t('in-internal:components.landing.unitMonitoringCoral')}
                             href="https://coral-instanaops.instana.io"
                             external
                             description={t('in-internal:components.landing.unitMonitoringCoralDesc')}

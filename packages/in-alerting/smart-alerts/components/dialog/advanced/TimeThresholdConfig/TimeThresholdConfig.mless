@@ -21,12 +21,23 @@
     &.columns3 {
       grid-template-columns: 10% 20% 70%;
     }
-    &.columns3TearSheet {
+    //styles specific to tearSheet columns : start
+    &.columns3TS {
       grid-template-columns: 15% 0.5fr 4fr;
     }
-    &.columns5TearSheet {
+    &.columns3TSWithError {
+      grid-template-columns: 15% 1.5fr 4fr;
+    }
+    &.columns5TS {
       grid-template-columns: 15% 1fr 0.5fr 1fr 2.5fr;
     }
+    &.columns5TSBothFieldError {
+      grid-template-columns: 15% 1.5fr 0.5fr 1.5fr 2.5fr;
+    }
+    &.columns5TSFirstFieldError {
+      grid-template-columns: 15% 1.5fr 0.5fr 1fr 1.5fr;
+    }
+    //styles specific to tearSheet columns : End
     &.itemWithLabelGrid {
       grid-template-columns: 20% 80%;
     }

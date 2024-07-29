@@ -5,11 +5,12 @@
 
 import React from 'react';
 
-import { ButtonGroup } from '@instana/components';
+import { ButtonGroup, Pagination as CarbonPagination } from '@instana/components';
 
 import SortIndicator from 'in-infrastructure/tableView/components/Table/components/SortIndicator';
 import { createStore } from 'in-infrastructure/tableView/components/Table/stores/content';
 import Row from 'in-infrastructure/tableView/components/Table/components/Row';
+import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { shallowEquals } from 'in-services/util/object';
 import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
@@ -18,6 +19,7 @@ import locals from './Table.mless';
 
 const headerElement = locals.header;
 const footerElement = locals.footer;
+const carbonFooterElement = locals.carbonFooter;
 const headerLeftSideElement = locals.headerLeft;
 const headerRightSideElement = locals.headerRight;
 const tableElement = locals.table;
@@ -31,7 +33,8 @@ export default class Table extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null
+      data: null,
+      pageSize: this.props.maxItemsPerPage || 10
     };
   }
 
@@ -39,7 +42,7 @@ export default class Table extends React.Component {
     this.newStore(this.props);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (!shallowEquals(this.props.cols, prevProps.cols) || this.props.maxItemsPerPage !== prevProps.maxItemsPerPage) {
       this.dispose();
       this.newStore(this.props);
@@ -54,12 +57,17 @@ export default class Table extends React.Component {
     if (this.props.filter !== prevProps.filter) {
       this.store.setFilter(this.props.filter);
     }
+
+    if (prevState.pageSize !== undefined && prevState.pageSize !== this.state.pageSize) {
+      this.dispose();
+      this.newStore(this.props);
+    }
   }
 
   newStore(props) {
     this.store = createStore({
       columnDefinitions: props.cols,
-      maxItemsPerPage: props.maxItemsPerPage || 10,
+      maxItemsPerPage: this.state.pageSize,
       initialSortColumn: props.initialSortColumn || 0,
       initialSortDirection: props.initialSortDirection || 'asc',
       disableSorting: props.disableSorting || false
@@ -141,7 +149,6 @@ export default class Table extends React.Component {
 
     const showPagination = data.pageCount > 1 || data.page >= data.pageCount || this.props.alwaysShowPagination;
     const showHeader = this.props.leftHeader || this.props.rightHeader || showPagination;
-
     return (
       <div className={this.props.className}>
         {showHeader ? (
@@ -210,20 +217,41 @@ export default class Table extends React.Component {
         </table>
 
         {showHeader ? (
-          <div className={footerElement}>
-            <div className={headerRightSideElement}>
-              {showPagination ? (
-                <div className={locals.paginationWrapper}>
-                  <Pagination
-                    onChange={p => this.store.setPage(p - 1)}
-                    onNextPage={this.store.onNextPage}
-                    currentPage={(data.page || 0) + 1}
-                    numPages={data.pageCount}
-                  />
-                </div>
-              ) : null}
-            </div>
-          </div>
+          <>
+            {showPagination ? (
+              <>
+                {carbonPaginationEnabled ? (
+                  <div className={carbonFooterElement}>
+                    <CarbonPagination
+                      currentPage={(data.page || 0) + 1}
+                      totalItems={this.props.rows?.length}
+                      pageSize={this.state.pageSize}
+                      pageSizes={[this.props.maxItemsPerPage || 10, this.props.maxItemsPerPage * 2 || 20]}
+                      onChange={p => {
+                        if (this.state.pageSize !== p.pageSize) {
+                          this.setState({ pageSize: p.pageSize });
+                        }
+                        this.store.setPage(p.page - 1);
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div className={footerElement}>
+                    <div className={headerRightSideElement}>
+                      <div className={locals.paginationWrapper}>
+                        <Pagination
+                          onChange={p => this.store.setPage(p - 1)}
+                          onNextPage={this.store.onNextPage}
+                          currentPage={(data.page || 0) + 1}
+                          numPages={data.pageCount}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : null}
+          </>
         ) : null}
       </div>
     );

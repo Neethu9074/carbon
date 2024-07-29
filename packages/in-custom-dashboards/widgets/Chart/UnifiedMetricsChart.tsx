@@ -403,12 +403,13 @@ function addForAxis(
   axisName: string,
   resultDataAsList: UnifiedMetricsResult[]
 ) {
-  axis?.metrics?.forEach(({ metric, aggregation, timeShift, grouping }, i) => {
+  axis?.metrics?.forEach(({ metric, aggregation, timeShift, grouping, unit }, i) => {
     const metricId = getMetricId(axisName, i);
     const config: ChartMetric = {
       metric,
       aggregation,
-      timeShift
+      timeShift,
+      unit
     };
 
     // For grouped metrics one metric configuration will result in multiple data series and

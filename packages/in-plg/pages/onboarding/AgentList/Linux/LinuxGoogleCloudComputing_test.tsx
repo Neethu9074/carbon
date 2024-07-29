@@ -36,7 +36,6 @@ describe('LinuxGoogleCloudComputing Tests', () => {
     expect(screen.getByText(t('in-plg:agentDetails.common.documentationTitle'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.linux.linux_gce.installAnAgentOnLinux'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.linux.linux_gce.configurationParameters'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:agentDetails.askForHelp.askForHelpTitle'))).toBeInTheDocument();
   });
 
   it('should select the correct radio button when clicked for Packaging', () => {

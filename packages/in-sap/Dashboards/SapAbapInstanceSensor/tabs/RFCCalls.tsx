@@ -94,6 +94,18 @@ const cols = [
     }
   },
   {
+    title: t('in-sap:dashboards.rfcSource'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: RFCCallsRow) {
+        return row.rfcDetails.get('target');
+      },
+      getContent(args: any) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
     title: t('in-sap:dashboards.calls'),
     type: 'metric',
     typeArgs: {

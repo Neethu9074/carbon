@@ -7,7 +7,7 @@
 import { MapForm, Item, Field } from 'formalistic';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 //@ts-expect-error TS migration
 import DebouncedInput from 'in-components/form/Input/DebouncedInput';
@@ -54,7 +54,6 @@ export default function AlertPropertiesTitleRow({
         }}
         value={form.get('name').value}
         placeholder={getTitlePlaceholder(form)}
-        isTearSheet
       />
 
       {placeholders.length > 0 && (

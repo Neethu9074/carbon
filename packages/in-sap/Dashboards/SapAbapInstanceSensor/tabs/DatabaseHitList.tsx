@@ -10,11 +10,10 @@ import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error Module needs to be translated to TS
-import { taskTypeMap } from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DatabaseHitlistTaskTypes';
-// @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { taskTypeMap, taskTypeList } from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TaskType';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table';
@@ -127,6 +126,7 @@ const cols = [
 
 export default function DatabaseHitList({ snapshotId, timeConfig }: DatabaseHitListProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'databaseStats'), [snapshotId]);
+  // @ts-expect-error Module needs to be translated to TS
   const [{ taskType }, setPhase] = useState(taskTypeMap);
 
   const rightHeader = (
@@ -160,23 +160,8 @@ export default function DatabaseHitList({ snapshotId, timeConfig }: DatabaseHitL
       if (taskType == null) {
         return rows;
       } else if (taskType == 'Others') {
-        return (
-          rows != null &&
-          // @ts-expect-error Module needs to be translated to TS
-          rows.dataStats.get('taskType') != 'RFC' &&
-          // @ts-expect-error Module needs to be translated to TS
-          rows.dataStats.get('taskType') != 'HTTP' &&
-          // @ts-expect-error Module needs to be translated to TS
-          rows.dataStats.get('taskType') != 'HTTPS' &&
-          // @ts-expect-error Module needs to be translated to TS
-          rows.dataStats.get('taskType') != 'BCKGRD' &&
-          // @ts-expect-error Module needs to be translated to TS
-          rows.dataStats.get('taskType') != 'SPOOL' &&
-          // @ts-expect-error Module needs to be translated to TS
-          rows.dataStats.get('taskType') != 'UPDATE' &&
-          // @ts-expect-error Module needs to be translated to TS
-          rows.dataStats.get('taskType') != 'BUF.SYN'
-        );
+        const taskType = rows.dataStats.get('taskType');
+        return rows != null && typeof taskType === 'string' && !taskTypeList.includes(taskType);
       } else {
         return rows != null && rows.dataStats.get('taskType') === taskType;
       }

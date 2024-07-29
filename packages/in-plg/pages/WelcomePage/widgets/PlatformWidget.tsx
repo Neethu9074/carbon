@@ -7,9 +7,20 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link, Typography } from '@instana/components';
+import { IconButton, Link, Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import {
+  kubernetesCluster as kubernetesClusterType,
+  pcfApplication as pcfApplicationType,
+  vsphereDatacenter as vsphereDatacenterType,
+  openstackRegion as openstackRegionType,
+  phmcServer as phmcServerType,
+  powervc as powervcServerType,
+  sap as sapType,
+  zhmcServer as zhmcServerType
+  //@ts-expect-error doesn't contain type file
+} from 'in-cockpit/starredItems/types';
 import {
   hasKubernetesAccess,
   hasOpenStackAccess,
@@ -29,6 +40,10 @@ import { getOpenstackRegionsWithDefaults } from 'in-openstack/subscriptions/getO
 //@ts-expect-error doesn't contain type file
 import { getPowerVCRegionsWithDefaults } from 'in-powervc/subscriptions/getPowerVCRegions';
 //@ts-expect-error doesn't contain type file
+import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
+//@ts-expect-error doesn't contain type file
+import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
+//@ts-expect-error doesn't contain type file
 import { useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 //@ts-expect-error doesn't contain type file
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
@@ -42,10 +57,15 @@ import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
 //@ts-expect-error doesn't contain type file
 import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-cockpit/starredItems';
+//@ts-expect-error doesn't contain type file
+import { getMetric } from 'in-stores/metric';
 import { getAbapSystemListsWithDefaults } from 'in-sap/subscriptions/getAbapSystemLists';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
 import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
+import { bytesZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import { useNavigateToClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { usePowervcRegionDashboard } from 'in-powervc/navigation/paths';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
@@ -54,6 +74,51 @@ import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
 import DatatableWrapper from './DatatableWrapper';
+
+function handleFavoriteClick(item: any) {
+  if (item.pinned) {
+    remove({ id: getId(item), type: getTypeByItem(item) });
+  } else {
+    add({
+      id: getId(item),
+      label: getLabel(item),
+      type: getTypeByItem(item)
+    });
+  }
+}
+
+function getLabel(item: any) {
+  return item.isKubernetes ? item.cluster.label : item.label;
+}
+
+function getId(item: any) {
+  return item.isKubernetes ? item.cluster.id : item.id;
+}
+
+function getTypeByItem(item: any) {
+  if (item.isKubernetes) {
+    return kubernetesClusterType;
+  }
+  if (item.isOpenstack) {
+    return openstackRegionType;
+  }
+  if (item.isPcf) {
+    return pcfApplicationType;
+  }
+  if (item.isPhmc) {
+    return phmcServerType;
+  }
+  if (item.isPowervc) {
+    return powervcServerType;
+  }
+  if (item.isZhmc) {
+    return zhmcServerType;
+  }
+  if (item.isSap) {
+    return sapType;
+  }
+  return vsphereDatacenterType;
+}
 
 export default connectTo(() => ({
   timeConfig: timeConfig$
@@ -92,24 +157,32 @@ export default connectTo(() => ({
         key: 'name'
       },
       {
-        header: t('in-plg:welcomepage.component.platformWidget.platform'),
+        header: '',
         key: 'platform'
       },
       {
-        header: t('in-plg:welcomepage.component.platformWidget.nodes'),
-        key: 'nodes'
+        header: '',
+        key: 'esxiHost'
       },
       {
-        header: t('in-plg:welcomepage.component.platformWidget.namespaces'),
-        key: 'namespaces'
+        header: '',
+        key: 'systemsNodesVms'
       },
       {
-        header: t('in-plg:welcomepage.component.platformWidget.pods'),
-        key: 'pods'
+        header: '',
+        key: 'instancesPartitionsNamespacesCpuUsage'
+      },
+      {
+        header: '',
+        key: 'memoryLimitAdaptersViosPodsMemoryUsage'
       },
       {
         header: t('in-plg:welcomepage.component.platformWidget.health'),
         key: 'health'
+      },
+      {
+        header: '',
+        key: 'favourite'
       }
     ];
   };
@@ -181,6 +254,17 @@ export default connectTo(() => ({
     )(getId(item));
   }
 
+  const pinnedTypes = [
+    hasKubernetesAccess && kubernetesClusterType,
+    hasPCFAccess && pcfApplicationType,
+    hasVSphereAccess && vsphereDatacenterType,
+    hasOpenStackAccess && openstackRegionType,
+    hasPHMCAccess && phmcServerType,
+    hasPowerVcAccess && powervcServerType,
+    hasZHMCAccess && zhmcServerType,
+    hasSAPAccess && sapType
+  ].filter(Boolean);
+
   const columnDefinitions: ColumnDefinitionItem[] = [
     {
       key: 'name',
@@ -195,27 +279,129 @@ export default connectTo(() => ({
       }
     },
     {
-      key: 'nodes',
+      key: 'esxiHost',
       getContent({ item }) {
-        return <Typography variant="body-regular">{item.nodes}</Typography>;
+        if (item.isPcf || item.isKubernetes || item.isPhmc || item.isZhmc || item.isOpenstack || item.isSap) {
+          return null;
+        }
+        return (
+          <Typography variant="body-regular">
+            {item.hosts} {t('in-plg:welcomepage.component.platformWidget.esXiHosts')}
+          </Typography>
+        );
       }
     },
     {
-      key: 'namespaces',
+      key: 'systemsNodesVms',
       getContent({ item }) {
-        return <Typography variant="body-regular">{item.namespaces}</Typography>;
+        if (item.isPcf) {
+          return null;
+        } else if (item.isPhmc || item.isZhmc) {
+          return (
+            <Typography variant="body-regular">
+              {item.systems} {t('in-plg:welcomepage.component.platformWidget.systems')}
+            </Typography>
+          );
+        } else if (item.isOpenstack || item.isSap || item.isPowervc) {
+          return null;
+        }
+        return item.isKubernetes ? (
+          <Typography variant="body-regular">
+            {item.nodes} {t('in-plg:welcomepage.component.platformWidget.nodes')}
+          </Typography>
+        ) : (
+          <Typography variant="body-regular">
+            {item.vms} {t('in-plg:welcomepage.component.platformWidget.vMs')}
+          </Typography>
+        );
       }
     },
     {
-      key: 'pods',
+      key: 'instancesPartitionsNamespacesCpuUsage',
       getContent({ item }) {
-        return <Typography variant="body-regular">{item.workloads?.pods}</Typography>;
+        if (item.isPcf) {
+          return (
+            <Typography variant="body-regular">
+              {<InstanceMetric applicationId={item.id} />} {t('in-plg:welcomepage.component.platformWidget.instances')}
+            </Typography>
+          );
+        } else if (item.isPhmc || item.isZhmc) {
+          return (
+            <Typography variant="body-regular">
+              {item.partitions} {t('in-plg:welcomepage.component.platformWidget.partitions')}
+            </Typography>
+          );
+        } else if (item.isOpenstack || item.isSap) {
+          return null;
+        }
+        return item.isKubernetes ? (
+          <Typography variant="body-regular">
+            {item.namespaces} {t('in-plg:welcomepage.component.platformWidget.namespaces')}
+          </Typography>
+        ) : (
+          <SparkChartWithMetricValue
+            snapshotId={item.id}
+            formatter={percentage.compact}
+            metric="cpu.usage.percent.maximum.*"
+            label={t('in-plg:welcomepage.component.platformWidget.cpuUsage')}
+            aggregation="mean"
+          />
+        );
+      }
+    },
+    {
+      key: 'memoryLimitAdaptersViosPodsMemoryUsage',
+      getContent({ item }) {
+        if (item.isPcf) {
+          return (
+            <Typography variant="body-regular">
+              {bytesZeroDecimalPlaces(item.memoryLimit)} {t('in-plg:welcomepage.component.platformWidget.memoryLimit')}
+            </Typography>
+          );
+        } else if (item.isZhmc) {
+          return (
+            <Typography variant="body-regular">
+              {item.adapters} {t('in-plg:welcomepage.component.platformWidget.adapters')}
+            </Typography>
+          );
+        } else if (item.isPhmc) {
+          return (
+            <Typography variant="body-regular">
+              {item.vios} {t('in-plg:welcomepage.component.platformWidget.vios')}
+            </Typography>
+          );
+        }
+        return item.isKubernetes ? (
+          <Typography variant="body-regular">
+            {item.workloads.pods} {t('in-plg:welcomepage.component.platformWidget.pods')}
+          </Typography>
+        ) : (
+          <SparkChartWithMetricValue
+            snapshotId={item.id}
+            formatter={percentage.compact}
+            metric="mem.usage.average.percent"
+            label={t('in-plg:welcomepage.component.platformWidget.memoryUsage')}
+            aggregation="mean"
+          />
+        );
       }
     },
     {
       key: 'health',
       getContent({ item }) {
         return <HealthIcon severity={get(item, ['entityHealthInfo', 'maxSeverity', 0, 1], 0)} iconSize="xs" />;
+      }
+    },
+    {
+      key: 'favourite',
+      getContent({ item }) {
+        return (
+          <IconButton
+            type={item?.pinned ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
+            onClick={() => handleFavoriteClick(item)}
+            iconSize="xs"
+          />
+        );
       }
     }
   ];
@@ -230,9 +416,26 @@ export default connectTo(() => ({
   return (
     <DatatableWrapper
       {...generalProps}
+      tableType="platformsWidget"
+      pinnedItemTypes={pinnedTypes}
       getItems={getMergedData}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
+      viewAll={false}
     />
   );
 });
+
+const SparkChartWithMetricValue = connectTo(
+  ({ snapshotId, metric, aggregation }: any) => ({
+    horizontalMetricValue: getMetric({
+      snapshotId,
+      metric,
+      timeWindowAggregation: aggregation,
+      forceTimeWindowAggregation: true
+    })
+  }),
+  function SparkChartWithMetricValue(props: any) {
+    return <HistoricMetricSparkChart {...props} width={72} />;
+  }
+);

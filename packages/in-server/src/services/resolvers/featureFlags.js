@@ -611,6 +611,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonComboBoxEnabled',
+    instanaCtlKey: 'feature.carbon.combobox.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'notesAndActivityEnabled',
     instanaCtlKey: 'feature.incident.notes.enabled',
     defaultValue: false
@@ -643,7 +648,7 @@ module.exports = exports = [
   {
     uiClientKey: 'shareAndInviteEnabled',
     instanaCtlKey: 'feature.share.and.invite.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'serviceNowAutoCloseAndCustomPayloadsEnabled',
@@ -728,6 +733,16 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonFileUploaderEnabled',
     instanaCtlKey: 'feature.carbon.fileuploader.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'userProfileMenuEnabled',
+    instanaCtlKey: 'feature.user.profileMenu.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'unitForInfraMetricsEnabled',
+    instanaCtlKey: 'feature.unit.for.infra.metrics.enabled',
     defaultValue: false
   }
 ];

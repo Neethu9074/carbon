@@ -6,8 +6,8 @@
 import React from 'react';
 
 import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getEntityHealthInfo from 'in-kubernetes/subscriptions/getEntityHealthInfo';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { mapData } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
@@ -24,21 +24,23 @@ export default connectTo(
     };
   },
   function EntityOpenIssuesList({ openIssuesResult, snapshotId, close }) {
+    const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+    const getIssueLink = eventId =>
+      getEventsViewFilteredBy({
+        snapshotId,
+        eventId,
+        eventTypeFilter: 'issue'
+      });
+
     return (
       <OpenIssuesListPresenter
         close={close}
         openIssuesResult={openIssuesResult}
-        analyzeLink$={getEventsViewFilteredBy({
+        analyzeLink={getEventsViewFilteredBy({
           snapshotId,
           eventTypeFilter: 'issue'
         })}
-        getIssueLink={eventId =>
-          getEventsViewFilteredBy({
-            snapshotId,
-            eventId,
-            eventTypeFilter: 'issue'
-          })
-        }
+        getIssueLink={getIssueLink}
       />
     );
   }

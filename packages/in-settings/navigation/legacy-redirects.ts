@@ -88,7 +88,7 @@ const redirects = [
   },
   {
     from: `${settingsPath}/loggingIntegrations`,
-    to: paths.teamSettingsLogManagementHumio
+    to: paths.teamSettingsIntegrationsLoggingHumio
   },
   // additional redirects for merger of "knowledge management" and "alerting" into "events & alerting"
   // we keep this re-directs for a while, so that e.g. existing bookmarks are still working
@@ -104,7 +104,14 @@ const redirects = [
   { from: paths.teamSettingsAlertingConfigurations, to: paths.teamSettingsAlertingAlerts },
   { from: paths.teamSettingsAlertingConfigurationEdit, to: paths.teamSettingsAlertingAlertEdit },
   { from: paths.teamSettingsAlertingIntegrations, to: paths.teamSettingsAlertingAlertChannels },
-  { from: paths.teamSettingsAlertingIntegrationEdit, to: paths.teamSettingsAlertingAlertChannelEdit }
+  { from: paths.teamSettingsAlertingIntegrationEdit, to: paths.teamSettingsAlertingAlertChannelEdit },
+  // logging config redirects after moving "logmanagement/integrations" to "integrations/logging"
+  { from: paths.teamSettingsLogManagementIntegrations, to: paths.teamSettingsIntegrationsLogging },
+  { from: paths.teamSettingsLogManagementCoralogix, to: paths.teamSettingsIntegrationsLoggingCoralogix },
+  { from: paths.teamSettingsLogManagementElk, to: paths.teamSettingsIntegrationsLoggingElk },
+  { from: paths.teamSettingsLogManagementHumio, to: paths.teamSettingsIntegrationsLoggingHumio },
+  { from: paths.teamSettingsLogManagementMezmo, to: paths.teamSettingsIntegrationsLoggingMezmo },
+  { from: paths.teamSettingsLogManagementSplunk, to: paths.teamSettingsIntegrationsLoggingSplunk }
 ];
 
 export default redirects;

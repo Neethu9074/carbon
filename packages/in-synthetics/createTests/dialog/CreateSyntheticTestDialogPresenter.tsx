@@ -320,6 +320,7 @@ const CreateSyntheticTestDialogPresenter = ({
             isStepDisabled={isStepDisabled}
             selectedBlueprint={selectedBlueprint}
             setSelectedBlueprint={setSelectedBlueprint}
+            setSliderState={setSliderState}
           />
         ) : (
           <AdvancedMode

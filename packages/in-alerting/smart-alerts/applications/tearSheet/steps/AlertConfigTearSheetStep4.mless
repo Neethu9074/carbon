@@ -58,7 +58,7 @@
   }
 
   .longLabel {
-    width: 9.5rem;
+    width: 10rem;
   }
 
   .content {

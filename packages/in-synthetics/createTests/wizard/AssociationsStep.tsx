@@ -4,24 +4,28 @@
  * Copyright IBM Corp. 2024
  */
 
-import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { GroupPermissionEntity, Result } from '@instana/types';
 import { Stack, Typography } from '@instana/components';
 
+import AssociationsCommonSection from 'in-synthetics/createTests/wizard/AssociationsCommonSection';
 import ApplicationsSection from 'in-synthetics/createTests/wizard/ApplicationsSection';
+import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
+import { AssociationsStepProps } from 'in-synthetics/utils/constants';
 import Section from 'in-synthetics/createTests/wizard/Section';
 import { t } from 'in-i18n';
 
-export interface AssociationsStepProps {
-  form: MapForm<any>;
-  updateForm: (form: MapForm<any>) => void;
-  applications: Result<GroupPermissionEntity[]>;
-}
-
-export default function AssociationsStep({ form, updateForm, applications }: AssociationsStepProps) {
-  return (
+export default function AssociationsStep({ form, updateForm, applications, setSliderState }: AssociationsStepProps) {
+  return syntheticMultiWebMobileEnabled ? (
+    <Section headingText={t('in-synthetics:dialog.createTest.associations.associationsTitle')}>
+      <Stack gap="normal">
+        <Typography variant={'body-regular'}>
+          {t('in-synthetics:dialog.createTest.associations.associationsDescription')}
+        </Typography>
+        <AssociationsCommonSection form={form} updateForm={updateForm} setSliderState={setSliderState} />
+      </Stack>
+    </Section>
+  ) : (
     <Section headingText={t('in-synthetics:dialog.createTest.associations.applicationsTitle')}>
       <Stack gap="normal">
         <Typography variant={'body-regular'}>

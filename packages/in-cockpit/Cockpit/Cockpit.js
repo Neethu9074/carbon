@@ -56,6 +56,7 @@ import { setSingle, settings$ } from 'in-services/settings/settings';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { productAreas } from 'in-services/tracking/productAreas';
+import UserGoalSelection from 'in-plg/pages/UserGoalSelection';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -174,6 +175,7 @@ function CockpitInner({ settings, width }) {
             pageRootName: pageNames.home
           }}
         />
+        <UserGoalSelection />
         <Sticky header={<Header />}>
           <Content width={width} itemOrder={filterItems(getOrderedItems(settings))} />
         </Sticky>

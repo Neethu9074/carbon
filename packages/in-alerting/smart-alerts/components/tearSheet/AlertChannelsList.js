@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import {
   columnDefinitions,
@@ -18,7 +18,6 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import List, { defaultHeaderWithCount, areAllRowsOnAllPagesSelected } from 'in-settings/components/List';
 import { getEntityHref, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
-import AlertTypography from 'in-alerting/components/AlertTypography';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import { clickAlertChannelTracker } from 'in-settings/tracker';
 import { t } from 'in-i18n';
@@ -112,7 +111,7 @@ function leftHeaderWithSelectAll(tableActions, numberOfChannels) {
               [locals.grid2]: !numberOfChannels
             })}
           >
-            <AlertTypography variant="heading-200" color="color900" content={entityName} noMargin />
+            <span className={locals.channelTitle}>{entityName}</span>
             <Button
               kind="action"
               onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, !allSelected)}
@@ -135,14 +134,7 @@ function leftHeaderWithSelectAll(tableActions, numberOfChannels) {
       );
     } else {
       const getHeaderFunction = defaultHeaderWithCount(entityName);
-      return (
-        <AlertTypography
-          variant="heading-200"
-          color="color900"
-          content={getHeaderFunction(totalHits, filteredHits)}
-          noMargin
-        />
-      );
+      return <span className={locals.channelTitle}>{getHeaderFunction(totalHits, filteredHits)}</span>;
     }
   };
 }

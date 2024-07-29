@@ -65,19 +65,28 @@ export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: numb
   };
 }
 
-function ApplicationLabelContent({ item }: { item: TestResultListItem }) {
+interface ApplicationLabelContentProps {
+  applicationId: string;
+  applicationLabel: string;
+  shouldDisplayLink: boolean | undefined;
+}
+
+export function ApplicationLabelContent(props: ApplicationLabelContentProps) {
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
-  const applicationLabel = item.testResultCommonProperties?.testCommonProperties?.applicationLabel;
-  const applicationId = item.testResultCommonProperties?.testCommonProperties?.applicationId;
+  const { applicationId, applicationLabel, shouldDisplayLink = true } = props;
 
   if (applicationLabel != null && applicationLabel !== '') {
     return (
       <HorizontalFlexWrapper>
         <SvgIcon type={'lib_application_invert'} />
         <div>
-          <Link href={applicationId && getLinkToApplicationDashboard({ applicationId })}>
+          {shouldDisplayLink ? (
+            <Link href={applicationId && getLinkToApplicationDashboard({ applicationId })}>
+              <span className={locals.label}>{applicationLabel}</span>
+            </Link>
+          ) : (
             <span className={locals.label}>{applicationLabel}</span>
-          </Link>
+          )}
         </div>
       </HorizontalFlexWrapper>
     );
@@ -134,6 +143,36 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
         <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.label}</h4>
       </Link>
     </div>
+  );
+}
+
+interface ApplicationLabelProps {
+  item: TestResultListItem;
+  shouldDisplayLink?: boolean;
+}
+
+export function ApplicationLabel({ item, shouldDisplayLink }: ApplicationLabelProps) {
+  const applicationLabels = item.testResultCommonProperties?.testCommonProperties?.applicationLabels || [];
+  const applicationIds = item.testResultCommonProperties?.testCommonProperties?.applicationIds || [];
+
+  if (syntheticMultiAppEnabled) {
+    return (
+      <ApplicationsContentPresenter
+        applicationIds={applicationIds}
+        applicationLabels={applicationLabels}
+        shouldDisplayLink={shouldDisplayLink}
+      />
+    );
+  }
+
+  const applicationLabel = item.testResultCommonProperties?.testCommonProperties?.applicationLabel ?? '';
+  const applicationId = item.testResultCommonProperties?.testCommonProperties?.applicationId ?? '';
+  return (
+    <ApplicationLabelContent
+      applicationId={applicationId}
+      applicationLabel={applicationLabel}
+      shouldDisplayLink={shouldDisplayLink}
+    />
   );
 }
 
@@ -299,10 +338,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
     label: t('in-synthetics:dashboard.testList.applicationLabel'),
     defaultOrderDirection: 'ASC',
     getContent: function Content(item: TestResultListItem) {
-      if (syntheticMultiAppEnabled) {
-        return <ApplicationsContentPresenter item={item} />;
-      }
-      return <ApplicationLabelContent item={item} />;
+      return <ApplicationLabel item={item} />;
     }
   },
   {

@@ -31,7 +31,6 @@ describe('InstanaAwsSensor Tests', () => {
     expect(screen.getByText(t('in-plg:agentDetails.aws.documentationLinks.monitoredAwsServices'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.aws.documentationLinks.installAgentOnEc2'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.aws.documentationLinks.configurationOptions'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:agentDetails.askForHelp.askForHelpTitle'))).toBeInTheDocument();
   });
 
   it('should select the correct radio button when clicked for Packaging', () => {

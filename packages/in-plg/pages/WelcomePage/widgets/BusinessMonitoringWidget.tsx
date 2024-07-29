@@ -8,12 +8,16 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { BusinessDataQuery, BusinessProcessItem, Result, TagFilterExpression, TimeConfig } from '@instana/types';
-import { Link, Typography } from '@instana/components';
+import { IconButton, Link, Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error Module needs to be translated to TS
+import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/types';
+// @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+// @ts-expect-error Module needs to be translated to TS
+import { add, remove } from 'in-cockpit/starredItems';
 import { businessProcessDashboard, summaryTab, businessProcessPath } from 'in-bizops/navigation/paths';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
@@ -89,6 +93,18 @@ function getBusinessData({ timeConfig, query: search }: GetBusinessDataProps) {
   return getBusinessProcesses(query);
 }
 
+function handleFavoriteClick(item: any) {
+  if (item.pinned) {
+    remove({ id: item?.businessProcess?.definitionId, type: businessProcessType });
+  } else {
+    add({
+      id: item?.businessProcess?.definitionId,
+      label: item?.businessProcess?.definitionName,
+      type: businessProcessType
+    });
+  }
+}
+
 export default connectTo(() => ({
   timeConfig: timeConfig$
 }))(function BusinessMonitoringWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
@@ -109,6 +125,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.bizopsWidget.health'),
         key: 'health'
+      },
+      {
+        key: 'favourite',
+        header: ''
       }
     ];
   };
@@ -165,6 +185,18 @@ export default connectTo(() => ({
       getContent({ item }) {
         return <HealthIcon severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)} iconSize="xs" />;
       }
+    },
+    {
+      key: 'favourite',
+      getContent({ item }) {
+        return (
+          <IconButton
+            type={item?.pinned ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
+            onClick={() => handleFavoriteClick(item)}
+            iconSize="xs"
+          />
+        );
+      }
     }
   ];
 
@@ -178,6 +210,8 @@ export default connectTo(() => ({
   return (
     <DatatableWrapper
       {...generalProps}
+      tableType="businessMonitoringWidget"
+      pinnedItemTypes={businessProcessType}
       getItems={getBusinessData}
       viewAll
       href={createHrefToPath(businessProcessPath)}

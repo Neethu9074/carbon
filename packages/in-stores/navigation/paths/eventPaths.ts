@@ -6,6 +6,7 @@
 // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
 // eslint-disable-next-line import/no-deprecated
 import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+// eslint-disable-next-line no-restricted-imports
 import { removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/utils';
 import { eventId as eventIdMatricParam } from 'in-events/navigation/matrix';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -61,21 +62,7 @@ export function clearSelectedEvent() {
 export function useClearSelectedEvent() {
   const { location } = useNavigation();
   delete location.query.eventId;
-  return location;
-}
-
-export function getEventsViewFilteredByEntity(entityId: string, eventTypeFilter: string) {
-  // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
-  // eslint-disable-next-line import/no-deprecated
-  return getModifiedUrlStream(params => {
-    const query = `entity.id:"${entityId}"`;
-    params.pathname = eventsPath;
-    params.query.q = query;
-
-    if (eventTypeFilter) {
-      setOrDeleteMatrixKey(params, eventsPath, 'view', eventTypeFilter);
-    }
-  });
+  return () => location;
 }
 
 export function useGetEventsViewFilteredByEntity(entityId: string, eventTypeFilter: string) {
@@ -164,55 +151,63 @@ export function getEventsViewFilteredBy({
   });
 }
 
-export function useGetEventsViewFilteredBy({
-  query = '',
-  applicationId,
-  serviceId,
-  endpointId,
-  resolvedEndpointId,
-  snapshotId,
-  eventId,
-  eventTypeFilter,
-  timeConfig,
-  additionalDFQFilter
-}: GetEventsViewProps) {
-  endpointId = resolvedEndpointId ? resolvedEndpointId : endpointId;
-  if (endpointId) {
-    query += ` entity.endpoint.id:"${endpointId}"`;
-  }
-  if (serviceId) {
-    query += ` entity.service.id:"${serviceId}"`;
-  }
-  if (applicationId) {
-    query += ` entity.application.id:"${applicationId}"`;
-  }
-  if (snapshotId) {
-    query += ` entity.id:"${snapshotId}"`;
-  }
-  if (additionalDFQFilter) {
-    query += ` ${additionalDFQFilter}`;
-  }
-  query = query.trim();
+export function useGetEventsViewFilteredBy() {
   const { location, createHref } = useNavigation();
+  const getEventsViewFilteredBy = ({
+    query = '',
+    applicationId,
+    serviceId,
+    endpointId,
+    resolvedEndpointId,
+    snapshotId,
+    eventId,
+    eventTypeFilter,
+    timeConfig,
+    additionalDFQFilter
+  }: GetEventsViewProps) => {
+    endpointId = resolvedEndpointId ? resolvedEndpointId : endpointId;
+    if (endpointId) {
+      query += ` entity.endpoint.id:"${endpointId}"`;
+    }
+    if (serviceId) {
+      query += ` entity.service.id:"${serviceId}"`;
+    }
+    if (applicationId) {
+      query += ` entity.application.id:"${applicationId}"`;
+    }
+    if (snapshotId) {
+      query += ` entity.id:"${snapshotId}"`;
+    }
+    if (additionalDFQFilter) {
+      query += ` ${additionalDFQFilter}`;
+    }
+    query = query.trim();
 
-  removeDFQueryFromLocationWhenChangingArea(location, eventsPath);
+    removeDFQueryFromLocationWhenChangingArea(location, eventsPath);
 
-  let eventViewFilteredByLocation = { ...location, pathname: eventsPath };
+    let eventViewFilteredByLocation = { ...location, pathname: eventsPath };
 
-  if (query) {
-    eventViewFilteredByLocation = { ...eventViewFilteredByLocation, query: { q: query } };
-  }
+    if (query) {
+      eventViewFilteredByLocation = { ...eventViewFilteredByLocation, query: { q: query } };
+    }
 
-  setOrDeleteMatrixKey(eventViewFilteredByLocation, eventsPath, eventIdMatricParam, eventId || location.query.eventId);
-  delete location.query.eventId;
+    setOrDeleteMatrixKey(
+      eventViewFilteredByLocation,
+      eventsPath,
+      eventIdMatricParam,
+      eventId || location.query.eventId
+    );
+    delete location.query.eventId;
 
-  if (timeConfig) {
-    setTimeConfig(location, timeConfig);
-  }
+    if (timeConfig) {
+      setTimeConfig(eventViewFilteredByLocation, timeConfig);
+    }
 
-  if (eventTypeFilter) {
-    setOrDeleteMatrixKey(location, eventsPath, 'view', eventTypeFilter);
-  }
+    if (eventTypeFilter) {
+      setOrDeleteMatrixKey(eventViewFilteredByLocation, eventsPath, 'view', eventTypeFilter);
+    }
 
-  return createHref(eventViewFilteredByLocation);
+    return createHref(eventViewFilteredByLocation);
+  };
+  return { getEventsViewFilteredBy };
 }

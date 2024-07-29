@@ -9,14 +9,16 @@ import React from 'react';
 import { DashboardButton, HeaderTile, Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-// import OnboardingStepBuilder from 'in-plg/pages/WelcomePage/OnboardingStepBuilder';
-import { track, URL_SHORTENER_OPEN } from 'in-services/tracking/tracking';
 // @ts-expect-error missing a type definition for it
 import UrlShortenerOverlay from 'in-components/DashboardHeader/UrlShortener/UrlShortenerOverlay';
+import OnboardingStepBuilder from 'in-plg/pages/WelcomePage/OnboardingStepBuilder';
+import { track, URL_SHORTENER_OPEN } from 'in-services/tracking/tracking';
 import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
 import Overlay from 'in-components/overlays/Overlay';
 import { user } from 'in-stores/user';
+
+import locals from 'in-plg/components/WelcomeHeader/WelcomeHeader.mless';
 
 interface WelcomeHeaderProps {
   onboardingHeaderEnabled: boolean;
@@ -31,10 +33,14 @@ export default function WelcomeHeader({ onboardingHeaderEnabled }: WelcomeHeader
   };
 
   return (
-    <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')} data-testid="header">
+    <div
+      className={locals.stickyHeader}
+      data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}
+      data-testid="header"
+    >
       <HeaderTile
-        // tileData={onboardingHeaderEnabled ? OnboardingStepBuilder() : []}
-        headerTitle={onboardingHeaderEnabled ? headerTitle : ''}
+        tileItems={onboardingHeaderEnabled ? <OnboardingStepBuilder /> : null}
+        headerTitle={headerTitle}
         foldableTileTitle={foldableTileTitle}
         datepicker={<DatePickerHeader />}
         collapsibleButton={collapsibleButton}

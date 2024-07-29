@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData, TimeConfig } from '@instana/types';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { SimpleModeContainerProps } from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { number, seconds, bytes } from 'in-services/formatters/number';
+import { number, seconds, bytes, millis } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -36,12 +36,6 @@ export default [
     ],
     min: 0,
     formatter: bytes.compact
-  },
-  {
-    metrics: ['logThreadCpu'],
-    labels: [t('in-forge:plugins.ibmInfosphereCdcSubscription.threadCpu')],
-    min: 0,
-    formatter: number.compact
   },
   {
     metrics: ['logParserDiskWrite', 'logParserDiskRead', 'logParserDiskSize'],
@@ -81,5 +75,90 @@ export default [
     ],
     min: 0,
     formatter: seconds.fixedCompact
+  },
+  {
+    metrics: ['sourceNetworkLatency', 'targetNetworkLatency'],
+    labels: [
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceNetwork'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.targetNetwork')
+    ],
+    min: 0,
+    formatter: millis.compact
+  },
+  {
+    metrics: ['sourceRowsDerivedCols', 'sourceRowsCallingSource', 'sourceRowsUserExits'],
+    labels: [
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.rowsEvaluatingDerivedCols'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.rowsCallingSourceDatabase'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.rowsCallingUserExitsSource')
+    ],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: ['targetRowsExpressions', 'targetRowsCallingTarget', 'targetRowsUserExits'],
+    labels: [
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.rowsEvaluatingExpressions'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.rowsCallingTargetDatabase'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.rowsCallingUserExitsTarget')
+    ],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: ['sourceMbcs', 'targetMbcs'],
+    labels: [
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceEngineMbcs'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.targetEngineMbcs')
+    ],
+    min: 0,
+    formatter: bytes.compact
+  },
+  {
+    metrics: [
+      'sourceEngineThreadCpu',
+      'targetEngineThreadCpu',
+      'logThreadCpu',
+      'targetApplyThreadCpu',
+      'logParserThreadCpu'
+    ],
+    labels: [
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceEngineThreadCpu'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.targetEngineThreadCpu'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.logReaderThreadCpu'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.targetApplyThreadCpu'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.logParserThreadCpu')
+    ],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: ['sourceMissResponse', 'keepAliveSent', 'commByteSent'],
+    labels: [
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceMissingRoundTripResponse'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.keepAliveSent'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.bytesSent')
+    ],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: ['targetMissResponse', 'keepAliveReceived', 'commByteSent'],
+    labels: [
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.targetMissingRoundTripResponse'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.keepAliveReceived'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.bytesReceived')
+    ],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: ['commSourceBytes', 'commTargetBytes'],
+    labels: [
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceCommunicationsBytesProcessed'),
+      t('in-forge:plugins.ibmInfosphereCdcSubscription.targetCommunicationsBytesProcessed')
+    ],
+    min: 0,
+    formatter: bytes.compact
   }
 ];

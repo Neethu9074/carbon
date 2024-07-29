@@ -40,6 +40,8 @@ export default connectTo(
 
         <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.node')}>{data.get('node.name')}</DescriptionItem>
 
+        <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.nodeId')}>{data.get('node.id')}</DescriptionItem>
+
         <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.nodeType')}>
           {data.get('node.type')}
         </DescriptionItem>

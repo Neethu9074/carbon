@@ -36,7 +36,6 @@ describe('Unix Tests', () => {
     expect(screen.getByText(t('in-plg:agentDetails.unix.previewPrerequisites'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.common.documentationTitle'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.unix.installingInstanaAgent'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:agentDetails.askForHelp.askForHelpTitle'))).toBeInTheDocument();
   });
 
   it('should select the correct radio button when clicked for Installation method', () => {

@@ -514,7 +514,7 @@
     "component": {
       "applicationWidget": {
         "label": "Applications",
-        "addLabel": "Add application",
+        "addLabel": "application",
         "name": "Name",
         "calls": "Calls",
         "scope": "Scope",
@@ -548,11 +548,20 @@
         "namespaces": "Namespaces",
         "pods": "Pods",
         "health": "Health",
-        "platform": "Platform"
-
+        "vMs": "VMs",
+        "systems": "Systems",
+        "instances": "Instances",
+        "partitions": "Partitions",
+        "memoryLimit": "Memory Limit",
+        "adapters": "Adapters",
+        "vios": "Virtual I/O Server",
+        "memoryUsage": "Memory Usage",
+        "cpuUsage": "CPU Usage",
+        "esXiHosts": "ESXi Host"
       },
       "bizopsWidget": {
         "label": "Business Monitoring",
+        "viewLabel": "business processes",
         "name": "Name",
         "activities": "Activities",
         "views": "Views",
@@ -572,7 +581,7 @@
         "name": "Name",
         "pageViews": "Page views",
         "onLoadTimes": "OnLoad times",
-        "addLabel": "Add website",
+        "addLabel": "website",
         "health": "Health"
       },
       "mobileAppsWidget": {
@@ -580,11 +589,14 @@
         "name": "Name",
         "sessions": "Sessions",
         "views": "Views",
-        "addLabel": "Add mobile app",
+        "addLabel": "mobile app",
         "health": "Health"
       },
       "infrastructureWidget": {
         "label": "Infrastructure",
+        "hostLabel": "hosts",
+        "containerLabel": "containers",
+        "processLabel": "processes",
         "mean": "mean",
         "name": "Name",
         "os": "OS",
@@ -597,7 +609,9 @@
       },
       "syntheticWidget": {
         "label": "Synthetic Monitoring",
-        "addLabel": "Add synthetic monitoring",
+        "testLabel": "tests",
+        "locationLabel": "locations",
+        "smartAlertLabel": "smart alerts",
         "na": "N/A",
         "name": "Name",
         "type": "Type",
@@ -614,7 +628,7 @@
         "name": "Name",
         "owner": "Owner",
         "permissions": "Permissions",
-        "addLabel": "Add dashboard"
+        "addLabel": "dashboard"
       }
     },
     "noData": {
@@ -647,7 +661,7 @@
       },
       "businessMonitoringWidget": {
         "header": "No business processes",
-        "description": "Enable the IBM Business Automation Workflow or configure Instana to capture and store business data from business processes."
+        "description": "Configure Instana to capture and store data from your business procesess."
       },
       "syntheticWidget": {
         "test": {
@@ -660,15 +674,29 @@
           "description": "Configure Synthetic location to run at specific continuous intervals."
         },
         "smartalerts": {
-          "header": "No Synthetic smartalerts",
-          "description": "Configure Synthetic smartalerts to run at specific continuous intervals.",
-          "buttonName": "Add Synthetic smartalerts"
+          "header": "No Synthetic smart alerts",
+          "description": "Configure Synthetic smart alerts to run at specific continuous intervals.",
+          "buttonName": "Add Synthetic smart alerts"
         }
       },
       "dashboardWidget": {
         "header": "No custom dashboards",
         "description": "Create your own custom dashboard.",
         "buttonName": "Create custom dashboard"
+      }
+    },
+    "quickLinks": {
+      "iconDescriptions": {
+        "settings": "Settings",
+        "user": "User",
+        "externalLink": "External Link",
+        "resultNew": "Result New"
+      },
+      "buttonNames": {
+        "deployAgent": "Deploy agent",
+        "addUser": "Add user",
+        "documentation": "IBM Documentation",
+        "releaseNotes": "Release notes"
       }
     },
     "ariaLabel": {
@@ -717,5 +745,13 @@
     "configuringAndMonitoring":"configuring and monitoring",
     "customDashboard": "custom dashboard"
     }
+  },
+  "userGoalSelectionDialog":{
+    "title": "What are your goals?",
+    "description": "Welcome to Instana! Help us provide a better experience by sharing your primary goals for this trial. Select all that apply.",
+    "skip": "Skip",
+    "done": "Done",
+    "otherGoalPlaceholder": "For example, Gain visibility across my environment",
+    "otherGoalToAccomplish": "What other goals are you trying to accomplish?"
   }
 }

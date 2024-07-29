@@ -76,6 +76,7 @@ export const carbonPaginationEnabled = isFeatureFlagEnabled('carbonPaginationEna
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const carbonMenuEnabled = isFeatureFlagEnabled('carbonMenuEnabled', false);
 export const carbonInputEnabled = isFeatureFlagEnabled('carbonInputEnabled');
+export const carbonComboBoxEnabled = isFeatureFlagEnabled('carbonComboBoxEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
@@ -256,7 +257,7 @@ export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);
 
 export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', false);
-export const shareAndInviteEnabled = isFeatureFlagEnabled('shareAndInviteEnabled', false);
+export const shareAndInviteEnabled = isFeatureFlagEnabled('shareAndInviteEnabled', true);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
 
@@ -276,3 +277,5 @@ export const maxMetricsLimitForBeeinstanaEnabled = isFeatureFlagEnabled('maxMetr
 export const serverSideInfraTagSearchEnabled = isFeatureFlagEnabled('serverSideInfraTagSearchEnabled', false);
 export const preAggregatedMetricsQueryEnabled = isFeatureFlagEnabled('preAggregatedMetricsQueryEnabled', false);
 export const carbonFileUploaderEnabled = isFeatureFlagEnabled('carbonFileUploaderEnabled', false);
+export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabled', false);
+export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetricsEnabled', false);

@@ -17,6 +17,12 @@
 > choices.
 -->
 
+# How to test
+<!--
+> Add instructions for people testing this change if necessary
+> Eventually, provide any URL for local testing, and/or Release URL for Release QA Testing
+-->
+
 # Checklist
 <!--
 > Please tick of these checklist items. 
@@ -41,7 +47,7 @@ Really, if not applicable, please REMOVE it.
 <!--
 > Please include links to other artifacts related to this code change.
 -->
-- Story: JIRA-12345
+- Story: INSTA-12345
 - [Documentation](http://example.com)
 - [CSP Case](http://example.com)
 - [Release Notes PR](https://github.ibm.com/instana/docs/compare)

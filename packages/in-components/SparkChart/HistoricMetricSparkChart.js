@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { createLogger } from '@instana/logger';
 
@@ -21,65 +21,61 @@ import connectTo from 'in-hoc/connectTo';
 
 const logger = createLogger('in-components/SparkChart/HistoricMetricSparkChart');
 
-export default connectTo(
-  props => {
-    return {
-      timeConfig: props.timeConfig ? null : timeConfig$,
-      wiggleRoom: getSnapshot(props.snapshotId)
-        .map(snapshot => getChartWiggleRoom(snapshot.get('plugin')))
-        .distinct()
-        .startWith(5000)
-    };
-  },
-  class extends React.Component {
-    static displayName = 'HistoricMetricSparkChart';
+const HistoricMetricSparkChart = props => {
+  const prevProps = useRef(props);
+  const [datasource, setDatasource] = useState(null);
+  const [rollup, setRollup] = useState(null);
 
-    static defaultProps = {
-      height: 30,
-      width: 100
-    };
-
-    state = {
-      datasource: null
-    };
-
-    componentDidMount() {
-      this.updateDatasource(this.props);
-    }
-
-    componentDidUpdate(prevProps) {
-      if (!shallowEquals(prevProps, this.props)) {
-        this.updateDatasource(this.props);
-      }
-    }
-
-    updateDatasource = props => {
-      props = deepCopy(props);
-      props.rollup = getPixelAwareRollupSize(props.timeConfig, props.width);
-
-      if (props.aggregation) {
-        props.rollup = getBlockSizeMillis({
-          windowSize: props.timeConfig.windowSize,
-          maxDataPoints: 100,
-          minPixelsPerBlock: 10,
-          width: props.width,
-          rollup: props.rollup
-        });
-      } else if (__DEV__) {
-        logger.warn('No aggregation defined for spark chart', props);
-      }
-
-      this.setState({
-        datasource: getMetricsForTimeframe(props),
+  const updateDatasource = props => {
+    props = deepCopy(props);
+    props.rollup = getPixelAwareRollupSize(props.timeConfig, props.width);
+    if (props.aggregation) {
+      props.rollup = getBlockSizeMillis({
+        windowSize: props.timeConfig.windowSize,
+        maxDataPoints: 100,
+        minPixelsPerBlock: 10,
+        width: props.width ?? 100,
         rollup: props.rollup
       });
-    };
-
-    render() {
-      return <SparkChartWrapper {...this.props} datasource={this.state.datasource} rollup={this.state.rollup} />;
+    } else if (__DEV__) {
+      logger.warn('No aggregation defined for spark chart', props);
     }
-  }
-);
+    setDatasource(getMetricsForTimeframe(props));
+    setRollup(props.rollup);
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    updateDatasource(props);
+    // ignore any change to the updateDatasource or prevProps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!shallowEquals(prevProps.current, props)) {
+      updateDatasource(props);
+    }
+    prevProps.current = props;
+  }, [props]);
+
+  return (
+    <SparkChartWrapper
+      {...props}
+      height={props.height ?? 30}
+      width={props.width ?? 100}
+      datasource={datasource}
+      rollup={rollup}
+    />
+  );
+};
+
+export default connectTo(({ snapshotId, timeConfig }) => ({
+  timeConfig: timeConfig ? null : timeConfig$,
+  wiggleRoom: getSnapshot(snapshotId)
+    .map(snapshot => getChartWiggleRoom(snapshot.get('plugin')))
+    .distinct()
+    .startWith(5000)
+}))(HistoricMetricSparkChart);
 
 const SparkChartWrapper = connectTo(
   props => {

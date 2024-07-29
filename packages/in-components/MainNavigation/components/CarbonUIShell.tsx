@@ -44,6 +44,14 @@ import {
   hasAutomationAccess
 } from 'in-stores/permission';
 import {
+  bizopsPerspectivesEnabled,
+  playwithEnabled,
+  playWithReleaseEnabled,
+  tenantSwitcherEnabled,
+  userProfileMenuEnabled,
+  welcomePageV2Enabled
+} from 'in-services/featureFlags';
+import {
   useLinkToAnalyze as useLinkToMobileAppAnalyze,
   isAnalyzeView as isMobileAppAnalyzeView,
   mobileAppMonitoringPath
@@ -61,12 +69,6 @@ import {
   isApplicationsView,
   useLinkToAnalyze as useLinkToApplicationAnalyze
 } from 'in-applications/navigation/paths';
-import {
-  bizopsPerspectivesEnabled,
-  playwithEnabled,
-  playWithReleaseEnabled,
-  welcomePageV2Enabled
-} from 'in-services/featureFlags';
 import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
@@ -102,7 +104,7 @@ import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigat
 import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
@@ -118,8 +120,11 @@ import { eventsPath } from 'in-events/navigation/paths';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import { all, any } from 'in-services/fixedStreams';
 import ProfileMenu from './ProfileMenu/ProfileMenu';
-import { role } from 'in-stores/user';
+import { role, user } from 'in-stores/user';
+import config from 'in-services/config';
 import { t } from 'in-i18n';
+
+import local from './CarbonUIShell.mless';
 
 interface HeaderContentProps {
   expanded: boolean;
@@ -425,11 +430,12 @@ function Analyze() {
 
 function Incidents() {
   const events = useObservable(openEventsAtServerTime$, [openEventsAtServerTime$]);
-
   // @ts-expect-error type not defined
   const numIncidents = events ? events.get('incidentCount') : 0;
 
   const { matchLocation } = useNavigation();
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+  const menuItemHref = getEventsViewFilteredBy({ eventTypeFilter: 'incident' });
 
   const isActive = matchLocation(eventsPath);
 
@@ -443,7 +449,7 @@ function Incidents() {
       label={t('in-components:mainNavigation.viewSwitcherLabelEvents')}
       icon="lib_events_inverted"
       badgeCount={numIncidents}
-      href$={getEventsViewFilteredBy({ eventTypeFilter: 'incident' })}
+      href={menuItemHref}
       isActive={isActive}
     />
   );
@@ -526,6 +532,14 @@ function InternalView() {
   );
 }
 
+function signOut() {
+  const form = document.createElement('form');
+  form.method = 'post';
+  form.action = '/auth/signOut';
+  document.body.appendChild(form);
+  form.submit();
+}
+
 function Settings() {
   const { matchLocation, createHrefToPath } = useNavigation();
   if (playwithEnabled) {
@@ -546,7 +560,18 @@ function Settings() {
 }
 
 function moreContent(matchLocation: (path: string) => boolean, createHrefToPath: (path: string) => string) {
+  const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
+
   return [
+    !userProfileMenuEnabled && tenantSwitcherEnabled ? (
+      <MenuItem
+        id="main-nav-tenants"
+        key="main-nav-tenants"
+        label={t('in-components:mainNavigation.viewSwitcherLabelTenants')}
+        openInNewTab
+        href={tenantSwitcherLink}
+      />
+    ) : null,
     role?.canConfigureAgents ? (
       <MenuItem
         id="main-nav-agents"
@@ -587,7 +612,21 @@ function moreContent(matchLocation: (path: string) => boolean, createHrefToPath:
         addActiveDialog(<AsyncComponent component={AboutInstanaDialog} />);
       }}
       label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
-    />
+    />,
+    !userProfileMenuEnabled && (
+      <div key="main-nav-sign-out" className={local.signOutButton}>
+        <MenuItem
+          id="main-nav-sign-out"
+          onClick={signOut}
+          label={
+            <>
+              <div>{t('in-components:mainNavigation.viewSwitcherButtonSignOut')}</div>
+              <div className={local.emailAddress}>{user?.email}</div>
+            </>
+          }
+        />
+      </div>
+    )
   ];
 }
 
@@ -596,18 +635,19 @@ function HeaderContent({ expanded, onClickSideNavExpand }: HeaderContentProps) {
     <>
       {playwithEnabled || playWithReleaseEnabled ? <AsyncComponent component={NewPlayWithHeader} /> : null}
       <AsyncComponent component={NotificationBarSticky} />
-      <div id="profileMenu-switcher">
-        <HeaderGlobalAction
-          onClick={onClickSideNavExpand}
-          tooltipAlignment="end"
-          aria-label={expanded ? 'Close' : 'Open'}
-          aria-expanded={expanded}
-          isActive={expanded}
-          aria-hidden="true"
-        >
-          <UserIcon size="s" color="var(--cds-icon-secondary)" aria-hidden="true" />
-        </HeaderGlobalAction>
-      </div>
+      {userProfileMenuEnabled && !playwithEnabled && (
+        <div id="profileMenu-switcher" className={local.header_profileMenu}>
+          <HeaderGlobalAction
+            onClick={onClickSideNavExpand}
+            aria-label="Profile menu"
+            aria-expanded={expanded}
+            isActive={expanded}
+            aria-haspopup="true"
+          >
+            <UserIcon size="s" color="var(--cds-icon-secondary)" />
+          </HeaderGlobalAction>
+        </div>
+      )}
     </>
   );
 }
@@ -619,14 +659,21 @@ export default function CarbonUIShell() {
   const [expanded, setExpanded] = useState(false);
 
   const onClickSideNavExpand = () => setExpanded(!expanded);
+  const enableWelcomePageV2 =
+    (welcomePageV2Enabled && config.activeLicenseType === 'selfService') || (welcomePageV2Enabled && playwithEnabled);
 
   return (
     <UIShell
+      skipToContentText={t('in-components:mainNavigation.skipToMainContent')}
       onSideNavClick={internalToggleClick}
       titleDetail={titleDetail}
       headerContent={<HeaderContent expanded={expanded} onClickSideNavExpand={onClickSideNavExpand} />}
-      headerPanelExpanded={expanded}
-      headerPanelContent={<ProfileMenu isSideNavExpanded={expanded} onClickSideNavExpand={onClickSideNavExpand} />}
+      {...(userProfileMenuEnabled && !playwithEnabled
+        ? {
+            headerPanelExpanded: expanded,
+            headerPanelContent: <ProfileMenu isSideNavExpanded={expanded} onClickSideNavExpand={onClickSideNavExpand} />
+          }
+        : {})}
     >
       <HomeLink />
       <WebsiteMobileAppView />
@@ -648,7 +695,7 @@ export default function CarbonUIShell() {
         })}
       <Infrastructure />
       <MenuItem isDivider />
-      {welcomePageV2Enabled && <CustomDashboards />}
+      {enableWelcomePageV2 && <CustomDashboards />}
       <Synthetics />
       <Analyze />
       <Incidents />

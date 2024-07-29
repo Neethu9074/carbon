@@ -13,7 +13,7 @@ import { t } from 'in-i18n';
 
 import locals from './Actions.mless';
 
-export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink, eventType }) {
+export default function Actions({ openIssuesResult, analyzeLink, getIssueLink, eventType }) {
   if (isLoading(openIssuesResult) || hasError(openIssuesResult)) {
     return null;
   }
@@ -24,7 +24,7 @@ export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink, 
   if (openIssues.length === 0) {
     return (
       <div className={locals.actions}>
-        <Button icon="lib_events_inverted" kind="primary" className={locals.button} href$={analyzeLink$}>
+        <Button icon="lib_events_inverted" kind="primary" className={locals.button} href={analyzeLink}>
           {t('in-components:health.openIssuesListPresenterActionsViewIssues', {
             eventType: t('in-components:health.eventType', { context: eventTypeContext, count: openIssues.length })
           })}
@@ -35,9 +35,9 @@ export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink, 
 
   const maxSeverity = openIssues[0].problem.severity;
 
-  let href$ = analyzeLink$;
+  let href = analyzeLink;
   if (openIssues.length === 1) {
-    href$ = getIssueLink(openIssues[0].id);
+    href = getIssueLink(openIssues[0].id);
   }
 
   return (
@@ -47,7 +47,7 @@ export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink, 
         kind={getButtonKindBySeverity(maxSeverity)}
         className={locals.button}
         asBlock
-        href$={href$}
+        href={href}
       >
         {t('in-components:health.openIssuesListPresenterActionsViewNumbersOfIssue', {
           openIssueCount: openIssues.length,

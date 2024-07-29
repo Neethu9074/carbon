@@ -10,8 +10,8 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 
 import { Stack, SvgIcon, Typography, Checkbox } from '@instana/components';
-import { ApiGroup, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { ApiGroup } from '@instana/types';
 import { Button } from '@instana/legacy';
 
 import {
@@ -22,8 +22,7 @@ import {
   ShareAndInviteDialogBoxProps,
   ShortUrlProps,
   UnitKeysProps,
-  UserInvite,
-  UserResultProp
+  UserInvite
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox_interfaces';
 import {
   SHARE_AND_INVITE_ADD_USER,
@@ -44,6 +43,7 @@ import {
 import {
   anyValidEntry,
   checkInviteAlreadyExists,
+  checkUserAlreadyExists,
   createInviteForm,
   emptyInvite
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteForm';
@@ -51,30 +51,22 @@ import {
 import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-components/time/timeframeFormatter';
 // @ts-expect-error File needs to be migrated to typescipt
 import { useShortUrl } from 'in-components/DashboardHeader/UrlShortener/shortener';
-//@ts-expect-error TS migration
-import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
-//@ts-expect-error TS migration
-import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
-//@ts-expect-error TS migration
-import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 // eslint-disable-next-line no-restricted-imports
 import InputWithButton from 'in-plg/components/InputWithButton/InputWithButton';
 // eslint-disable-next-line no-restricted-imports
 import { segmentTrackingFunc } from 'in-plg/utils/Segment/segment';
-import { disableInvitesWithIdpEnabled, playWithReleaseEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { onDoInviteUser } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
-import { fixateTimeConfig, getTimeConfig, setTimeConfig, timeConfig$ } from 'in-stores/time/config';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 // @ts-expect-error file needs TS migration
 import { getUnitKeys } from 'in-api/unitKeys';
+import { fixateTimeConfig, getTimeConfig, setTimeConfig } from 'in-stores/time/config';
 import { teamSettingsAccessControlGroupNew } from 'in-settings/navigation/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ComboBox, { Option, Options } from 'in-components/ComboBox/ComboBox';
 import { getInvitations$, getUsersAsResultObservable } from 'in-api/users';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { defaultRoleId, fallbackRoleId, role } from 'in-stores/user';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
@@ -87,6 +79,7 @@ import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { CTA_CLICKED } from 'in-services/util/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import Input from 'in-components/form/Input/Input';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -138,7 +131,17 @@ export type UserSentStateStatus = keyof typeof InviteSentState;
 
 export type UserSentState = (typeof InviteSentState)[UserSentStateStatus];
 
-const onChange = ({ index, path, value, invite, form, setForm, pendingInvitations }: OnChangeProps) => {
+const onChange = ({
+  index,
+  path,
+  value,
+  invite,
+  form,
+  setForm,
+  pendingInvitations,
+  users,
+  invitationResult
+}: OnChangeProps) => {
   let updatedForm;
   const emailValue = path[1] === 'email' ? value : invite.get('email').value;
   const userInvite = {
@@ -149,6 +152,15 @@ const onChange = ({ index, path, value, invite, form, setForm, pendingInvitation
   if (checkInviteAlreadyExists(userInvite, pendingInvitations)) {
     updatedForm = form.updateIn([index, 'userSentState'] as Path<any>, field =>
       field.setValue(InviteSentState.FAILURE_USER_ALREADY_INVITED).setTouched(true)
+    );
+  } else if (
+    checkUserAlreadyExists(emailValue, users) ||
+    invitationResult.find(
+      i => i.email === emailValue && i.userSentState === InviteSentState.FAILURE_USER_ALREADY_EXISTS
+    )
+  ) {
+    updatedForm = form.updateIn([index, 'userSentState'] as Path<any>, field =>
+      field.setValue('sentFailureUserExists').setTouched(true)
     );
   } else {
     updatedForm = form.updateIn([index, 'userSentState'] as Path<any>, field =>
@@ -212,7 +224,7 @@ const onSubmitInvitation = (props: OnSubmitProps) => {
   };
 };
 
-const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) => {
+const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAndInviteDialogBoxProps) => {
   const { location, createHref, createHrefToPath } = useNavigation();
   const clonedLocation = cloneLocation(location);
 
@@ -227,11 +239,12 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
   const groups: any =
     useObservable(role?.canConfigureTeams ? getStrippedGroupsAsResultObservable : successObservable, []) ??
     pendingResult;
-  let timeConfig = useObservable(timeConfig$, []);
-  const usersResult = useObservable(getUsersAsResultObservable, []) ?? pendingResult;
+  let timeConfig = useTimeConfig();
   const unitKeys: UnitKeysProps | undefined | null = useObservable(getUnitKeys(), []);
   const pendingInvitationResult = useObservable(getInvitations$, []) ?? pendingResult;
   const pendingInvitations = pendingInvitationResult?.data;
+  const usersResult = useObservable(getUsersAsResultObservable, []) ?? pendingResult;
+  const users = usersResult?.data;
 
   const [invitationResult, setInvitationResult] = useState<UserInvite[]>([]);
   const initialState = createInviteForm(invitationResult);
@@ -239,18 +252,6 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
 
   const { pageRootName, productArea } = getViewTrackingMetaData();
   const [emailMessage, setEmailMessage] = useState('');
-
-  interface ConfigProps {
-    activated: boolean;
-  }
-
-  const isSamlConfigured: Result<ConfigProps> | undefined | null = useObservable(getSamlConfig, []);
-  const isLdapConfigured: Result<ConfigProps> | undefined | null = useObservable(getLdapConfig, []);
-  const isOidcConfigured: Result<ConfigProps> | undefined | null = useObservable(getOidcConfig, []);
-
-  const isAnyIDPActive =
-    disableInvitesWithIdpEnabled &&
-    (isSamlConfigured?.data?.activated || isLdapConfigured?.data?.activated || isOidcConfigured?.data?.activated);
 
   if (fixateTime) {
     setTimeConfig(clonedLocation, fixateTimeConfig(getTimeConfig(clonedLocation)));
@@ -260,7 +261,6 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
     timeConfig = fixateTimeConfig(timeConfig);
   }
 
-  const users = usersResult?.data ?? [];
   let sortedGroups: Options = [];
 
   useEffect(() => {
@@ -306,11 +306,6 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
 
   const canSelectGroup = sortedGroups !== undefined && sortedGroups.length !== 0;
 
-  // Hide invite section if the user doesn't have the permission to "User management".
-  // Hide invite section if IDP enabled.
-  // Hide invite section in play with.
-  const showInvite = role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && !isAnyIDPActive;
-
   const disableSendButton = (!form.hierarchyValid && form.touched) || !anyValidEntry(form);
 
   return (
@@ -326,7 +321,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
                 {`${t('in-settings:ShareAndInviteDialogBox.share')} ${productArea?.toLowerCase() ?? ''}`}
               </Typography>
             )}
-            {showInvite ? (
+            {permissionToShowInvite ? (
               inviteOnly ? (
                 <Typography variant="body-regular">
                   {t('in-settings:ShareAndInviteDialogBox.inviteToInstana')}
@@ -368,15 +363,10 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
         <div
           className={classNames({
             [locals.modalBody]: true,
-            [locals.hideInvite]: !showInvite
+            [locals.hideInvite]: !permissionToShowInvite
           })}
         >
-          {/*
-            we don't want to show the invite section if the user :
-              1. Does'nt have the right to invite
-              2. play with is enabled
-          */}
-          {showInvite && (
+          {permissionToShowInvite && (
             <>
               <div data-testid="user-list">
                 {(form as any).map((invite: MapForm<any>, index: number) => (
@@ -384,33 +374,22 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
                     {(invite.get('email') as Field<string>).map((field: Field<string>) => (
                       <Col xs={9}>
                         <Fields helpText={index === 0 ? t('in-settings:ShareAndInviteDialogBox.emailAddress') : null}>
-                          <CreatableComboBox
-                            value={{ value: field.value, label: field.value }}
-                            options={users
-                              .filter(
-                                (item: UserResultProp) =>
-                                  !form
-                                    .toJS()
-                                    .map((e: any) => e.email)
-                                    .includes(item.email)
-                              )
-                              .map((item: UserResultProp) => ({ value: item.email, label: item.email }))}
+                          <Input
+                            value={field.value}
                             onChange={(e: any) =>
                               onChange({
                                 index,
                                 path: [index, 'email'],
-                                value: e.value,
+                                value: e.target.value,
                                 invite,
                                 form,
                                 setForm,
-                                pendingInvitations
+                                pendingInvitations,
+                                users,
+                                invitationResult
                               })
                             }
                             placeholder={t('in-settings:ShareAndInviteDialogBox.emailAddress')}
-                            formatCreateLabel={(inputText: string) =>
-                              `${t('in-settings:ShareAndInviteDialogBox.add')} "${inputText}"`
-                            }
-                            isClearable={false}
                           />
                           <TouchedMessages field={field} />
                           {(invite.get('userSentState') as Field<string>).map((field: Field<string>) => {
@@ -448,7 +427,9 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
                                   invite,
                                   form,
                                   setForm,
-                                  pendingInvitations
+                                  pendingInvitations,
+                                  users,
+                                  invitationResult
                                 })
                               }
                               className={locals.groupComboBox}
@@ -597,7 +578,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly }: ShareAndInviteDialogBoxProps) =
           )}
         </div>
 
-        {showInvite && (
+        {permissionToShowInvite && (
           <FormFooter>
             <CancelButton data-testid="cancel-button" onClick={() => closeModal()}>
               {t('in-settings:ShareAndInviteDialogBox.cancel')}

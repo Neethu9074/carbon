@@ -7,7 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link, Stack, Typography } from '@instana/components';
+import { IconButton, Link, Stack, Typography } from '@instana/components';
 import { EntityHealthInfo } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
@@ -18,9 +18,13 @@ import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithH
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 //@ts-expect-error doesn't contain type file
 import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
+//@ts-expect-error doesn't contain type file
+import { application as applicationType } from 'in-cockpit/starredItems/types';
 import { ApplicationProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-cockpit/starredItems';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -44,6 +48,18 @@ import { role } from 'in-stores/user';
 
 function getApplicationData(params: any) {
   return getApplicationsWithDefaults(params);
+}
+
+function handleFavoriteClick(item: any) {
+  if (item.pinned) {
+    remove({ id: item?.application?.id, type: applicationType });
+  } else {
+    add({
+      id: item?.application?.id,
+      label: item?.application?.label,
+      type: applicationType
+    });
+  }
 }
 
 export default connectTo(() => ({
@@ -80,6 +96,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.applicationWidget.health'),
         key: 'health'
+      },
+      {
+        key: 'favourite',
+        header: ''
       }
     ];
   };
@@ -209,6 +229,18 @@ export default connectTo(() => ({
           />
         );
       }
+    },
+    {
+      key: 'favourite',
+      getContent({ item }) {
+        return (
+          <IconButton
+            type={item?.pinned ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
+            onClick={() => handleFavoriteClick(item)}
+            iconSize="xs"
+          />
+        );
+      }
     }
   ];
 
@@ -222,6 +254,8 @@ export default connectTo(() => ({
   return (
     <DatatableWrapper
       {...generalProps}
+      tableType="applicationWidget"
+      pinnedItemTypes={[applicationType]}
       getItems={getApplicationData}
       hasAddPermission={role?.canConfigureApplications}
       hasAddMore={hasApplicationsAccess && !playwithEnabled}

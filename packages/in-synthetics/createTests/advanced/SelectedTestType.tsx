@@ -93,6 +93,8 @@ const SelectedTestType = ({
     commonAttributes['script'] = '';
     commonAttributes['customProperties'] = form.get('customProperties').value;
     commonAttributes['applications'] = form.get('applications')?.value ?? [];
+    commonAttributes['websites'] = form.get('websites')?.value ?? [];
+    commonAttributes['mobileApps'] = form.get('mobileApps')?.value ?? [];
     setCommonAttributes(commonAttributes);
     updateForm(createForm(false, selectedBlueprint, commonAttributes));
   };

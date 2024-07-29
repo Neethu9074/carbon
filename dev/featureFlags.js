@@ -65,6 +65,7 @@ module.exports = {
   carbonInputEnabled: true,
   carbonRadioButtonEnabled: true,
   carbonCheckboxEnabled: true,
+  carbonComboBoxEnabled: true,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,
@@ -136,7 +137,7 @@ module.exports = {
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
   serviceNowAdvancedEnabled: true,
   carbonTabsEnabled: true,
-  shareAndInviteEnabled: false,
+  shareAndInviteEnabled: true,
   automationActionInstanceFeedbackEnabled: false,
   infraExploreFilterEmptyValueEnabled: true,
   weaselSubresourceIntegrityEnabled: true,
@@ -154,5 +155,7 @@ module.exports = {
   syntheticMultiAppEnabled: true,
   carbonFileUploaderEnabled: true,
   syntheticMultiWebMobileEnabled: true,
-  assistMeEnabled: true
+  assistMeEnabled: true,
+  userProfileMenuEnabled: false,
+  unitForInfraMetricsEnabled: true
 };

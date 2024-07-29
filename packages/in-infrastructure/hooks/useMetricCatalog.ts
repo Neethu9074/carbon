@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Context } from '@instana/types/typeDefinitions';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { TimeConfig } from '@instana/types';
@@ -17,13 +18,17 @@ export interface UseMetricCatalogOptions {
   tagFilterExpression: TagFilterExpression;
   type?: string;
   query?: string;
+  context?: Context;
+  withHierarchy?: boolean;
 }
 
 export default function useMetricCatalog({
   getMetricCatalog,
   tagFilterExpression,
   type,
-  query
+  query,
+  context,
+  withHierarchy = false
 }: UseMetricCatalogOptions): Result<MetricCatalog> {
   const timeConfig = useTimeConfig();
 
@@ -39,11 +44,13 @@ export default function useMetricCatalog({
         tagFilterExpression
           ? getMetricCatalogOnce(
               getMetricCatalog,
+              withHierarchy,
               type
             )({
               filter: { tagFilterExpression, timeConfig: modifiedTimeConfig },
               type,
-              query
+              query,
+              context
             })
           : just(pendingResult),
       [timeConfig, tagFilterExpression, type, query]

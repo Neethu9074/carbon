@@ -6,7 +6,7 @@
 import { MapForm, createMapForm, createField, notBlankValidator } from 'formalistic';
 import React, { FormEvent, useState } from 'react';
 
-import { Message, Stack, Typography } from '@instana/components';
+import { Message, Stack, TextArea, Typography } from '@instana/components';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
@@ -17,7 +17,6 @@ import { ManualCloseInfoForm, manuallyCloseIssue } from 'in-events/api';
 import { Error, ErrorCode, ManualCloseInfo } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import { toHtml } from 'in-services/formatters/markdown';
-import FormTextArea from 'in-components/form/TextArea';
 import { EventOrMap } from 'in-events/types';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -111,7 +110,7 @@ export default function ManualCloseIssueConfigForm({
                 <span className={locals.red}>*</span>
               </Typography>
 
-              <FormTextArea
+              <TextArea
                 className={locals.commentsTextArea}
                 placeholder={t('in-events:closeEventDialog.reason')}
                 onChange={e => {
@@ -120,6 +119,7 @@ export default function ManualCloseIssueConfigForm({
                     setValue(form, ['reasonForClosing'], target.value);
                   }
                 }}
+                rows={8}
               />
             </Stack>
 

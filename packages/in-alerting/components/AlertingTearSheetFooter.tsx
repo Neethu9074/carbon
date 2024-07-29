@@ -98,7 +98,7 @@ export default function AlertingTearSheetFooter({
   );
 }
 
-function getSaveButtonLabel(defaultLabel: string, isLastStep: boolean, migrationMode?: boolean) {
+export function getSaveButtonLabel(defaultLabel: string, isLastStep: boolean, migrationMode?: boolean) {
   if (isLastStep) {
     return migrationMode ? t('in-alerting:smartAlerts.components.smartAlertDialog.buttonMigrate') : defaultLabel;
   }

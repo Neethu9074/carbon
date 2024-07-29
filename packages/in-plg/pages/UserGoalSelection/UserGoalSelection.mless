@@ -1,0 +1,65 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .dialog {
+    width: 72%;
+    max-height: 96%;
+    .dalogContentWrapper {
+      display: flex;
+      flex-direction: column;
+      max-height: 70vh;
+    }
+    .card {
+      height: auto;
+      min-height: 142px;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      border: 1px solid transparent;
+    }
+    .borderedCard {
+      border: 1px solid var(--ids-color-option-neutral-900);
+    }
+    .cardHeader {
+      align-items: flex-start;
+      flex-grow: 1;
+    }
+    .leftHeader {
+      font-size: var(--ids-font-size-option-body-regular);
+      text-wrap: wrap;
+      font-weight: var(--ids-font-weight-option-body-large);
+    }
+    .cardBody {
+      flex-grow: 0;
+      height: 24px;
+    }
+    .textArea {
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid var(--cds-border-strong);
+      font-size: var(--ids-font-size-option-body-regular);
+      padding: 1rem;
+    }
+  }
+  .card {
+    @gap: 0.25rem;
+    width: calc(100% - @gap);
+    @media (min-width: 768px) {
+      width: calc((100% / 2) - @gap);
+    }
+    @media (min-width: 1280px) {
+      width: calc((100% / 3) - @gap);
+    }
+  }
+  .actionButton {
+    width: calc(100% / 3);
+  }
+  .stackWrapper {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}

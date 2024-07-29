@@ -74,7 +74,7 @@ packages/in-forge/plugins/docker                                @Instana-IBM-Git
 packages/in-forge/plugins/domino                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/dropwizardApplicationContainer        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/ec2                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/elasticsearch*                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/elasticsearch*                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/envoy                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/etcd                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/f5                                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
@@ -232,6 +232,7 @@ packages/in-components/Logging      @Instana-IBM-GitHub-Enterprise @instana/eng-
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 packages/in-integrations/logging    @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 packages/in-settings/tabs/TeamSettings/pages/logManagement @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-settings/tabs/TeamSettings/pages/integrations/logging @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 
 # No clear ownership: Fallback to eng-ui
 packages/in-map                     @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
@@ -248,6 +249,9 @@ packages/in-powervc                                                             
 packages/in-sdk                                                                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-sdk/metrics                                                                   @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-server                                                                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+
+# enable sensors team to update aws iam permissions
+packages/in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor.tsx                       @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui @instana/eng-sensors
 
 # enable everybody can add/remove feature-flags
 packages/in-server/src/services/resolvers/featureFlags.js
@@ -272,6 +276,7 @@ packages/in-settings/i18n
 packages/in-stores                                                                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-stores/permissions*                                                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control
 packages/in-stores/snapshot                                                               @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure
+packages/in-stores/search/fields.js                                                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors
 # Deliberately mentioning without any code owners. This is intended to reduce code review requests triggered by changes in these files.
 packages/in-stores/i18n
 

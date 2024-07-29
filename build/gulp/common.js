@@ -11,7 +11,7 @@
 var fs = require('fs');
 var gulp = require('gulp');
 var del = require('del');
-var mkdirp = require('mkdirp');
+var { mkdirp } = require('mkdirp');
 
 var buildUtil = require('./util');
 var paths = require('./paths');

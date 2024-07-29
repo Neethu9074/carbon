@@ -6,9 +6,9 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { ButtonGroup, Stack } from '@instana/components';
 import { OrderDirection, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
-import { ButtonGroup } from '@instana/components';
 import { Checkbox } from '@instana/components';
 
 import {
@@ -24,9 +24,9 @@ import {
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import SelectItemForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/SelectItemForm';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
+import { syntheticMultiAppEnabled, syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import { allAccessFilter, inheritedAccessFilter } from 'in-synthetics/utils/constants';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import hasEmptyElements from 'in-synthetics/utils/hasEmptyElements';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -145,6 +145,23 @@ export default function SelectEntitiesForm<I extends Object>({
     return null;
   };
 
+  const getLeftHeader = () => {
+    if (
+      syntheticMultiAppEnabled &&
+      productArea === ProductArea.SYNTHETICS &&
+      syntheticFilter === inheritedAccessFilter
+    ) {
+      return (
+        <Stack direction="horizontal" distribution="spaceBetween" align="center">
+          {syntheticMultiWebMobileEnabled
+            ? t('in-settings:selectEntityDialog.syntheticTableSubHeaderWebMobile')
+            : t('in-settings:selectEntityDialog.syntheticTableSubHeader')}
+        </Stack>
+      );
+    }
+    return null;
+  };
+
   const disableRowClickbyProductArea = (productArea: LimitableProductArea | undefined) => {
     if (!productArea) return false;
 
@@ -170,11 +187,6 @@ export default function SelectEntitiesForm<I extends Object>({
         onClickSave(selectedIds);
         resetForm();
       }}
-      subHeader={
-        syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS && syntheticFilter === inheritedAccessFilter
-          ? t('in-settings:selectEntityDialog.syntheticTableSubHeader')
-          : undefined
-      }
     >
       <EntityTable
         fetchedConfigState={filteredEntities}
@@ -201,6 +213,7 @@ export default function SelectEntitiesForm<I extends Object>({
         allRowsAreSelected={allVisibleRowsSelected}
         setSelectedStateForRows={onSelectAll}
         isSearchable
+        leftHeader={getLeftHeader()}
         rightHeader={getRightHeader(productArea)}
         disableRowClick={disableRowClickbyProductArea(productArea)}
       />

@@ -46,7 +46,6 @@ describe('LinuxAutomatic Tests', () => {
     expect(screen.getByText(t('in-plg:agentDetails.linux.linux_auto.configurationParameters'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.linux.linux_auto.troubleshootingInstallation'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.linux.linux_auto.runningTheAgent'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:agentDetails.askForHelp.askForHelpTitle'))).toBeInTheDocument();
   });
 
   it('should select the correct radio button when clicked for Packaging', () => {

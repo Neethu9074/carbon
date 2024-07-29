@@ -11,12 +11,18 @@ import React from 'react';
 import { Disposable, Observable } from '@instana/observables';
 import { TimeConfig } from '@instana/types';
 
-import { getMetricForFocusedMoment, getHistoricMetric, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
+import {
+  getMetricForFocusedMoment,
+  getHistoricMetric,
+  getTimeWindowBasedMetricAggregation,
+  getInfraGranularity
+} from 'in-stores/metric';
 //@ts-expect-error Needs TS migration
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
+import { getTimeConfigAtMoment, timeConfigShiftedForIngestion } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { FormatterFn } from 'in-stores/metric/formatters';
+import { timeConfig$ } from 'in-stores/time/config';
 
 interface MetricValueProps {
   className?: string;
@@ -31,6 +37,7 @@ interface MetricValueProps {
   time?: number;
   windowForLatest?: number;
   tooltipFormatter?: FormatterFn;
+  minRollup?: number;
 }
 export default class extends React.PureComponent<MetricValueProps> {
   static displayName = 'MetricValue';
@@ -40,62 +47,82 @@ export default class extends React.PureComponent<MetricValueProps> {
   componentDidMount() {
     this.establishSubscription(this.getStream(this.props));
   }
-  getStream = (props: MetricValueProps) => {
-    if (props.createMetricValueStream) {
-      return props.createMetricValueStream(this.props.snapshotId).distinct();
+  getStream = ({
+    createMetricValueStream,
+    metric,
+    optionalTimeWindowAggregation,
+    snapshotId,
+    timeWindowAggregation,
+    time,
+    windowForLatest,
+    minRollup
+  }: MetricValueProps) => {
+    if (createMetricValueStream) {
+      return createMetricValueStream(this.props.snapshotId).distinct();
     }
 
-    if (__DEV__) {
-      invariant(!!props.metric, 'A metric property or createMetricValueStream must be provided to MetricValue.');
-    }
+    return timeConfig$.flatMap(timeConfig => {
+      const usedTimeConfig = timeConfigShiftedForIngestion(this.props.timeConfig ?? timeConfig);
 
-    if (props.timeWindowAggregation) {
-      return getTimeWindowBasedMetricAggregation({
-        snapshotId: props.snapshotId,
-        metric: props.metric,
-        timeWindowAggregation: props.timeWindowAggregation,
-        timeConfig: props.timeConfig
-      });
-    }
+      const defaultGranularity = getInfraGranularity(usedTimeConfig, minRollup);
 
-    if (props.optionalTimeWindowAggregation) {
-      return showAggregations$.flatMap((showAggregations: boolean) => {
-        if (showAggregations) {
-          return getTimeWindowBasedMetricAggregation({
-            snapshotId: props.snapshotId,
-            metric: props.metric,
-            timeWindowAggregation: props.optionalTimeWindowAggregation
-          }).distinct();
-        }
+      if (__DEV__) {
+        invariant(!!metric, 'A metric property or createMetricValueStream must be provided to MetricValue.');
+      }
 
-        return getMetricForFocusedMoment({
-          snapshotId: props.snapshotId,
-          metric: props.metric,
-          windowForLatest: props.windowForLatest
+      if (timeWindowAggregation) {
+        return getTimeWindowBasedMetricAggregation({
+          snapshotId,
+          metric,
+          timeWindowAggregation,
+          timeConfig: usedTimeConfig,
+          rollup: defaultGranularity
+        });
+      }
+
+      if (optionalTimeWindowAggregation) {
+        return showAggregations$.flatMap((showAggregations: boolean) => {
+          if (showAggregations) {
+            return getTimeWindowBasedMetricAggregation({
+              snapshotId,
+              metric,
+              timeWindowAggregation: optionalTimeWindowAggregation,
+              rollup: defaultGranularity
+            }).distinct();
+          }
+
+          return getMetricForFocusedMoment({
+            snapshotId,
+            metric,
+            windowForLatest,
+            rollup: defaultGranularity
+          })
+            .map((v: [number, number]) => v[1])
+            .distinct();
+        });
+      }
+
+      if (time) {
+        return getHistoricMetric({
+          snapshotId,
+          metric,
+          timeConfig: getTimeConfigAtMoment(time),
+          windowForLatest,
+          rollup: defaultGranularity
         })
           .map((v: [number, number]) => v[1])
           .distinct();
-      });
-    }
+      }
 
-    if (props.time) {
-      return getHistoricMetric({
-        snapshotId: props.snapshotId,
-        metric: props.metric,
-        timeConfig: getTimeConfigAtMoment(props.time),
-        windowForLatest: props.windowForLatest
+      return getMetricForFocusedMoment({
+        snapshotId,
+        metric,
+        windowForLatest,
+        rollup: defaultGranularity
       })
         .map((v: [number, number]) => v[1])
         .distinct();
-    }
-
-    return getMetricForFocusedMoment({
-      snapshotId: props.snapshotId,
-      metric: props.metric,
-      windowForLatest: props.windowForLatest
-    })
-      .map((v: [number, number]) => v[1])
-      .distinct();
+    });
   };
 
   establishSubscription = (stream: Observable<any>) => {

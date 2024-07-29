@@ -7,9 +7,10 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 
 import locals from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton.mless';
 
@@ -52,7 +53,7 @@ export default function CreateSmartAlertButton({
     <Button
       className={classNames({
         [locals.floatingButton]: isFloatingButton,
-        [locals.menuItem]: isMenuItem
+        [locals.menuItem]: isMenuItem && !carbonButtonEnabled
       })}
       icon="lib_alerts_create"
       kind={isFloatingButton ? 'primaryv2' : 'secondaryDarker'}

@@ -119,7 +119,8 @@ function InfrastructureTable(props: TableWidgetProps) {
     // @ts-expect-error
     tagFilterExpression,
     type,
-    query: catalogQuery.debouncedValue
+    query: catalogQuery.debouncedValue,
+    withHierarchy: false
   });
 
   const backendGroupBy = useMemo(() => toBackendGroupBy(groupBy), [groupBy]);

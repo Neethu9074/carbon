@@ -216,12 +216,12 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInvi
   });
 
   it('Check if the email message has a placeholder.', () => {
-    const { getByPlaceholderText } = render(<ShareAndInviteDialogBox />);
+    const { getByPlaceholderText } = render(<ShareAndInviteDialogBox permissionToShowInvite />);
     expect(getByPlaceholderText(t('in-settings:ShareAndInviteDialogBox.defaultEmailMessage'))).toBeInTheDocument();
   });
 
   it('Check if the number of users that can be added is limited to 5.', () => {
-    render(<ShareAndInviteDialogBox />);
+    render(<ShareAndInviteDialogBox permissionToShowInvite />);
     const button = screen.getByText(t('in-settings:ShareAndInviteDialogBox.addUser'));
     expect(button).toBeInTheDocument();
     for (let i = 0; i < 10; i++) {
@@ -232,14 +232,14 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInvi
   });
 
   it('Check if clicking the X icon closes the dialog box', () => {
-    render(<ShareAndInviteDialogBox />);
+    render(<ShareAndInviteDialogBox permissionToShowInvite />);
     const cancelButton = screen.getByTestId('cancel-button');
     fireEvent.click(cancelButton);
     expect(screen.queryByTestId('share-and-invite-dialog-box')).not.toBeInTheDocument();
   });
 
   it('Check if shorl URL copy button works', () => {
-    render(<ShareAndInviteDialogBox />);
+    render(<ShareAndInviteDialogBox permissionToShowInvite />);
     const shortUrlComponent = screen.getByTestId('short-url-component');
     const inputField = shortUrlComponent.querySelector('input');
     expect(inputField?.value).toBe(shortUrlMockData.data.shortUrl);

@@ -113,7 +113,8 @@ export default function MetricConfiguration(props) {
     isTypePrefilled = false,
     displayDFQ = true,
     withLastValue = false,
-    withEmptyValueFilterSection
+    withEmptyValueFilterSection,
+    withUnit = false
   } = props;
 
   const updateForm = useChartFormatterFormSideEffects(form, updatedForm => {
@@ -172,6 +173,7 @@ export default function MetricConfiguration(props) {
               displayDFQ={displayDFQ}
               withLastValue={withLastValue}
               withEmptyValueFilterSection={withEmptyValueFilterSection}
+              withUnit={withUnit}
             />
           )}
         >

@@ -518,6 +518,8 @@
     "workProcessNumber": "Work Process Number",
     "timeStamp": "Time Stamp",
     "serviceName": "Service Name",
+    "fioriServiceName": "Top Services",
+    "fioriEntityName": "Top Entities",
     "processingTime": "Processing Time",
     "gatewayBackendOverhead": "Backend Overhead",
     "sumOfApplicationTimes": "Total Application Times",
@@ -631,7 +633,12 @@
     "finished": "Finished",
     "active": "Active",
     "unknownState": "Unknown State",
-    "scheduled": "Scheduled"
+    "scheduled": "Scheduled",
+    "owner": "Owner",
+    "destination": "Destination",
+    "spoolError": "Spool Error",
+    "rfcSource": "RFC Source",
+    "count": "Count"
   },
   "viewAllEntityName_unknownEntity_plural": "all",
   "viewAllEntityName_unknownEntity_0": "all",

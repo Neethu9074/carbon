@@ -5,6 +5,7 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 import { act } from '@testing-library/react-hooks/dom';
+import { RangeTuple } from 'fuse.js';
 
 import { useSearch } from 'in-components/SelectorOverlay/search';
 import { Options } from 'in-components/SelectorOverlay/Node';
@@ -125,6 +126,18 @@ const appNameOptions: Options[] = [
   }
 ];
 
+const adService: Options[] = [
+  {
+    label: 'OpenTelemetry sums adservice/app.ads.ad_requests',
+    description: 'Custom OpenTelemetry sums value',
+    badge: undefined,
+    tagName: 'adservice/app.ads.ad_requests',
+    tagType: 'STRING',
+    children: [],
+    parentLabels: ['Others', 'OpenTelemetry SDK']
+  }
+];
+
 describe('in-components/SelectorOverlay/useSearch', () => {
   it('should filter by label', async () => {
     await act(async () => {
@@ -172,4 +185,26 @@ describe('in-components/SelectorOverlay/useSearch', () => {
       expect(current.map(o => o.label)).toEqual(expect.not.arrayContaining(['First Level Node']));
     });
   });
+
+  describe('should return elements when query matches results', () =>
+    it.each([
+      ['adservice', [19, 27] as RangeTuple],
+      ['adservice/', [19, 28] as RangeTuple],
+      ['adservice/app', [19, 31] as RangeTuple],
+      ['adservice/app.', [19, 32] as RangeTuple],
+      ['adservice/app.ads', [19, 35] as RangeTuple],
+      ['adservice/app.ads.ad', [19, 38] as RangeTuple],
+      ['adservice/app.ads.ad_', [19, 39] as RangeTuple],
+      ['adservice/app.ads.ad_requests', [19, 47] as RangeTuple]
+    ])('for query %p should match indices %p', async (token: string, range: RangeTuple) => {
+      await act(async () => {
+        const {
+          result: { current }
+        } = renderHook(() => useSearch(adService, token));
+        expect(current.map(o => o.label)).toEqual(
+          expect.arrayContaining(['OpenTelemetry sums adservice/app.ads.ad_requests'])
+        );
+        expect(current.map((o: any) => o.matches[0].indices[0])).toEqual([range]);
+      });
+    }));
 });

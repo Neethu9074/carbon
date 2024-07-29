@@ -11,10 +11,10 @@ import { Typography, KeyValue } from '@instana/components';
 import NodeJs10RuntimeContent from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/LambdaRuntimes/NodeJs10RuntimeContent';
 import NodeJs8RuntimeContent from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/LambdaRuntimes/NodeJs8RuntimeContent';
 import PythonRuntimeContent from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/LambdaRuntimes/PythonRuntimeContent';
+import DotnetRuntimeContent from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/LambdaRuntimes/DotnetRuntimeContent';
 import RubyRuntimeContent from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/LambdaRuntimes/RubyRuntimeContent';
 import JavaRuntimeContent from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/LambdaRuntimes/JavaRuntimeContent';
 import GoRuntimeContent from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/LambdaRuntimes/GoRuntimeContent';
-import DotnetRuntimeContent from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/LambdaRuntimes/DotnetRuntimeContent';
 import { Documentations, Prerequisites } from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/SupportView';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
@@ -27,7 +27,7 @@ import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 interface RuntimeOption {
-  key: 'Go' | 'Java' | 'NodeJs10' | 'NodeJs8' | 'Python' | 'Ruby' | 'Dotnet' ;
+  key: 'Go' | 'Java' | 'NodeJs10' | 'NodeJs8' | 'Python' | 'Ruby' | 'Dotnet';
   label: string;
 }
 

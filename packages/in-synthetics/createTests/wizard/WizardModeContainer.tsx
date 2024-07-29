@@ -11,6 +11,7 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
+import { noop, pendingResult } from 'in-services/fixedObjects';
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import RequestResponseStep from 'in-synthetics/createTests/wizard/RequestResponseStep';
@@ -20,9 +21,9 @@ import AssociationsStep from 'in-synthetics/createTests/wizard/AssociationsStep'
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { GroupPermissionEntity, Error as ScriptError, Result } from 'in-types';
 import SelectTestStep from 'in-synthetics/createTests/wizard/SelectTestStep';
+import { Code, Script, SliderState } from 'in-synthetics/utils/constants';
 import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
-import { noop, pendingResult } from 'in-services/fixedObjects';
-import { Code, Script } from 'in-synthetics/utils/constants';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from 'in-synthetics/createTests/wizard/WizardModeContainer.mless';
@@ -44,6 +45,7 @@ interface WizardModeContainerProps {
   isStepDisabled: (step: number) => boolean | undefined;
   selectedBlueprint: BluePrint;
   setSelectedBlueprint: (item: BluePrint) => void;
+  setSliderState: (state: SliderState) => void;
 }
 
 const WizardModeContainer = ({
@@ -62,11 +64,19 @@ const WizardModeContainer = ({
   isSaving,
   isStepDisabled,
   selectedBlueprint,
-  setSelectedBlueprint
+  setSelectedBlueprint,
+  setSliderState
 }: WizardModeContainerProps) => {
   const timeConfig = useTimeConfig();
   const applications: Result<GroupPermissionEntity[]> =
     useObservable<any, []>(() => getAllApplicationsForEntitySelectionWithDefaults({ timeConfig }), []) ?? pendingResult;
+
+  const privatePreviewStepFive = (
+    <div className={locals.preview}>
+      {t('in-synthetics:dialog.createTest.titles.step5')}
+      <PreviewBadge privatePreview />
+    </div>
+  );
 
   const basicStepConfigs = [
     {
@@ -82,7 +92,7 @@ const WizardModeContainer = ({
       title: t('in-synthetics:dialog.createTest.titles.step4')
     },
     {
-      title: t('in-synthetics:dialog.createTest.titles.step5')
+      title: syntheticMultiAppEnabled ? privatePreviewStepFive : t('in-synthetics:dialog.createTest.titles.step5')
     }
   ];
   const stepConfigs = Object.freeze(syntheticMultiAppEnabled ? basicStepConfigs : basicStepConfigs.slice(0, 4));
@@ -141,7 +151,14 @@ const WizardModeContainer = ({
                 />
               );
             case 4:
-              return <AssociationsStep form={form} updateForm={updateForm} applications={applications} />;
+              return (
+                <AssociationsStep
+                  form={form}
+                  updateForm={updateForm}
+                  applications={applications}
+                  setSliderState={setSliderState}
+                />
+              );
             default:
               return null;
           }

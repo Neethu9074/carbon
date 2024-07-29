@@ -15,7 +15,7 @@ import locals from './SelectItemForm.mless';
 
 interface SelectItemFormProps {
   children: React.ReactNode;
-  subHeader?: string;
+  subHeader?: string | React.ReactNode;
   onClickCancel: VoidFunction;
   onClickSave: VoidFunction;
 }

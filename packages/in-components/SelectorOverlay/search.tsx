@@ -70,9 +70,18 @@ function removeIndicesNotMatchingToken({ token, results }: { token: string; resu
             ...match,
             indices: match.indices
               .filter(range => range[1] - range[0] >= minChars)
-              .filter(range =>
-                token.toLowerCase().includes(match.value!.toLowerCase().substring(range[0], range[1] + 1))
-              )
+              .flatMap(range => {
+                const matchValue = match.value!.toLowerCase().substring(range[0], range[1] + 1);
+                const lowercasedToken = token.toLowerCase();
+                if (lowercasedToken.includes(matchValue)) {
+                  return [range];
+                }
+                const tokenOffset = matchValue.indexOf(lowercasedToken);
+                if (tokenOffset !== -1) {
+                  return [[tokenOffset + range[0], range[0] + lowercasedToken.length - 1] as RangeTuple];
+                }
+                return [];
+              })
           };
         })
         .filter(match => match.indices.length > 0)

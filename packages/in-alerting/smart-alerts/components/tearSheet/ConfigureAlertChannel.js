@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import AlertChannelSelectListTearsheet from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelSelectListTearsheet';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';

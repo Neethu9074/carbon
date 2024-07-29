@@ -10,14 +10,23 @@ import { Button } from '@instana/legacy';
 
 import { hasPotentialProblems } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
+import { autoFormatterTimeSeriesEnabled, unitForInfraMetricsEnabled } from 'in-services/featureFlags';
+import { getCommonFormatterForUnits } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { unitPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { autoOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import { createMetricForm } from 'in-custom-dashboards/widgets/Chart/form';
-import { autoFormatterTimeSeriesEnabled } from 'in-services/featureFlags';
 import { potentialProblemsEnabled } from 'in-services/featureFlags';
 import { defaultFormatter } from 'in-stores/metric/formatters';
+import { getBaseUnit } from 'in-stores/metric/units';
 import { t } from 'in-i18n';
 
-export default function DataSeriesConfigurator({ form, onChange, getShortMetricKey, withLastValue = false }) {
+export default function DataSeriesConfigurator({
+  form,
+  onChange,
+  getShortMetricKey,
+  withLastValue = false,
+  withUnit = false
+}) {
   const hasY2 = form.get('y2').get('metrics').size > 0;
   const axisForm = form.get('y1');
   const formatterSelected = axisForm?.get('formatterSelected')?.value;
@@ -54,7 +63,17 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
       ...new Set(metrics1?.map(metric => metric?.get('formatter')?.value).filter(Boolean))
     ];
     const hasUniqueMetrics = uniqueMetricsFormatters.length > 0;
-    const formatterValue = uniqueMetricsFormatters.length > 1 ? defaultFormatter.id : uniqueMetricsFormatters[0];
+    const units = unitForInfraMetricsEnabled
+      ? metrics1?.map(metric => getBaseUnit(metric?.get(unitPath)?.value)).filter(Boolean)
+      : [];
+
+    const formatterValue =
+      units.length > 0
+        ? getCommonFormatterForUnits(...units)[0]?.id
+        : uniqueMetricsFormatters.length == 1
+        ? uniqueMetricsFormatters[0]
+        : defaultFormatter.id;
+
     const shouldNotUpdateFormatter =
       !autoFormatterTimeSeriesEnabled || !hasUniqueMetrics || formatterSelected === undefined || formatterSelected;
 
@@ -81,6 +100,7 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
         startNumber={0}
         getShortMetricKey={getShortMetricKey}
         withLastValue={withLastValue}
+        withUnit={withUnit}
       />
       <DataSeriesForAxis
         form={form}
@@ -89,6 +109,7 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
         startNumber={form.get('y1').get('metrics').size}
         getShortMetricKey={getShortMetricKey}
         withLastValue={withLastValue}
+        withUnit={withUnit}
       />
       <Li noAlternatingBg>
         <Stack direction="horizontal" align="center" distribution="start">
@@ -118,7 +139,7 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
   );
 }
 
-function DataSeriesForAxis({ form, axisName, onChange, startNumber, getShortMetricKey, withLastValue }) {
+function DataSeriesForAxis({ form, axisName, onChange, startNumber, getShortMetricKey, withLastValue, withUnit }) {
   const axisForm = form.get(axisName);
   const metricsForm = axisForm.get('metrics');
   const type = form.get('type')?.value;
@@ -143,6 +164,7 @@ function DataSeriesForAxis({ form, axisName, onChange, startNumber, getShortMetr
             getShortMetricKey={getShortMetricKey}
             displayDFQ={eventIndex > 1 ? false : true}
             withLastValue={withLastValue}
+            withUnit={withUnit}
           />
         );
       })}

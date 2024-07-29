@@ -115,17 +115,27 @@ export function CheckBox({ label, checked, setChecked }: { label: string; checke
 export function AgentFormInput({
   value,
   onChange,
-  placeholder
+  placeholder,
+  maxLength
 }: {
   value?: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  maxLength?: number;
 }) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };
 
-  return <FormInput value={value} placeholder={placeholder} className={locals.inputField} onChange={handleChange} />;
+  return (
+    <FormInput
+      value={value}
+      placeholder={placeholder}
+      className={locals.inputField}
+      onChange={handleChange}
+      maxLength={maxLength}
+    />
+  );
 }
 
 export function Input({
@@ -158,17 +168,27 @@ export function Input({
 export function FormInputPlg({
   value,
   onChange,
-  placeholder
+  placeholder,
+  maxLength
 }: {
   value?: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  maxLength?: number;
 }) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };
 
-  return <FormInput value={value} placeholder={placeholder} className={locals.inputField} onChange={handleChange} />;
+  return (
+    <FormInput
+      value={value}
+      placeholder={placeholder}
+      className={locals.inputField}
+      onChange={handleChange}
+      maxLength={maxLength}
+    />
+  );
 }
 
 interface InputFieldProp {

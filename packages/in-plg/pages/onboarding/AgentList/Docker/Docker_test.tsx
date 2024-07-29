@@ -39,6 +39,5 @@ describe('Docker Tests', () => {
     expect(screen.getByText(t('in-plg:agentDetails.common.documentationTitle'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.docker.installAgentOnDocker'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:agentDetails.docker.configurationOptions'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:agentDetails.askForHelp.askForHelpTitle'))).toBeInTheDocument();
   });
 });

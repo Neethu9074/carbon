@@ -7,7 +7,14 @@
 import React, { Dispatch, ReactNode, SetStateAction, useMemo, useState } from 'react';
 import { Item, MapForm, MapPath } from 'formalistic';
 
-import { ApplicationAlertConfig, TimeConfig } from '@instana/types';
+import {
+  AdaptiveBaselineData,
+  ApplicationAlertConfig,
+  HistoricBaselineData,
+  Result,
+  StaticThresholdData,
+  TimeConfig
+} from '@instana/types';
 
 import {
   APStepRenderers,
@@ -176,7 +183,6 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       formId={FORM_ID}
       form={form}
       migrationMode={migrationMode}
-      thresholdResult={thresholdResult}
       headerWithMsg={headerWithMsg}
       additionalValidationCheck={step === 1 || step === 3 ? isTagFilterFormModelValid : true}
       setForm={updateForm}
@@ -187,6 +193,10 @@ function SmartAlertConfigTearSheetWithQueryValidation({
             props: AlertConfigTearSheetWithThresholdProps & {
               isTagFilterFormModelValid: boolean;
               setStep: Dispatch<SetStateAction<number>>;
+              thresholdResult:
+                | Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData>
+                | undefined
+                | null;
             }
           ) => JSX.Element,
           idx: number
@@ -198,6 +208,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
                 key={`key-${idx}`}
                 isGlobalSmartAlert={isGlobalSmartAlert}
                 isTagFilterFormModelValid={isTagFilterFormModelValid}
+                thresholdResult={thresholdResult}
                 setStep={setStep}
               />
             )

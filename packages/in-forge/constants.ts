@@ -237,6 +237,7 @@ export const nonServicePlugins = {
   kubernetesStatefulSet: 'kubernetesStatefulSet',
   kubernetesPersistentVolume: 'kubernetesPersistentVolume',
   kubernetesPersistentVolumeClaim: 'kubernetesPersistentVolumeClaim',
+  kubernetesHorizontalPodAutoscaler: 'kubernetesHorizontalPodAutoscaler',
   liferayApplicationContainer: 'liferayApplicationContainer',
   lxc: 'lxc',
   mariaDbDatabase: 'mariaDbDatabase',
@@ -315,6 +316,7 @@ export const nonServicePlugins = {
   tanzuFoundation: 'tanzuFoundation',
   tanzuFoundationMember: 'tanzuFoundationMember',
   tibcoASNode: 'tibcoASNode',
+  tibcoASProxy: 'tibcoASProxy',
   tibcoASDataGrid: 'tibcoASDataGrid',
   tibcoBWAppNode: 'tibcoBWAppNode',
   tibcoBWAppInst: 'tibcoBWAppInst',
@@ -642,6 +644,8 @@ export const fullyQualifiedPlugins = {
   kubernetesDeployment:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.deployment.KubernetesDeployment',
   kubernetesEndpoints: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.endpoints.KubernetesEndpoints',
+  kubernetesHorizontalPodAutoscaler:
+    'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.horizontalpodautoscaler.KubernetesHorizontalPodAutoscaler',
   kubernetesJob: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.batch.KubernetesJob',
   kubernetesNamespace: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.namespace.KubernetesNamespace',
   kubernetesNode: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.node.KubernetesNode',
@@ -737,6 +741,7 @@ export const fullyQualifiedPlugins = {
   tanzuFoundationMember: 'com.instana.forge.infrastructure.paas.cloudfoundry.tanzu_foundation.TanzuFoundationMember',
   tibcoASNode: 'com.instana.forge.infrastructure.database.tibcoas.TibcoASNode',
   tibcoASDataGrid: 'com.instana.forge.infrastructure.database.tibcoas.TibcoASDataGrid',
+  tibcoASProxy: 'com.instana.forge.infrastructure.database.tibcoas.TibcoASProxy',
   tibcoBWAppNode: 'com.instana.forge.infrastructure.application.tibcobw.TibcoBWAppNode',
   tibcoBWAppInst: 'com.instana.forge.infrastructure.application.tibcobw.derivedentity.TibcoBWAppInst',
   tibcoBWProcess: 'com.instana.forge.infrastructure.application.tibcobw.derivedentity.TibcoBWProcess',
