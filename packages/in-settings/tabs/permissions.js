@@ -9,7 +9,7 @@ import {
   teamSettingsAlertingEvents,
   teamSettingsAlertingAlertChannels,
   teamSettingsActionLog,
-  teamSettingsLogManagementHumio,
+  teamSettingsIntegrationsLoggingHumio,
   teamSettingsAccessControlGroups,
   teamSettingsAlertingCustomPayloadConfiguration,
   teamSettingsAlertingMaintenanceConfigurations
@@ -60,7 +60,7 @@ export function findFirstPermittedTeamPage() {
     return teamSettingsActionLog;
   }
   if (role.canConfigureLogManagement) {
-    return teamSettingsLogManagementHumio;
+    return teamSettingsIntegrationsLoggingHumio;
   }
 }
 

@@ -6,8 +6,10 @@
 import { createField } from 'formalistic';
 import React, { useState } from 'react';
 
-import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
+import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import PromptPresenter from 'in-components/Dialog/PromptPresenter';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { notBlankValidator } from 'in-services/validators/string';
 import { createDashboard } from 'in-custom-dashboards/tracker';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
@@ -24,6 +26,7 @@ export default function NewDashboardDialog() {
     isSaving: false,
     errors: null
   });
+  const {location, navigate } = useNavigation();
 
   const presenterProps = {
     header: t('in-custom-dashboards:newDashboardDialog.createNewDashboard'),
@@ -71,7 +74,9 @@ export default function NewDashboardDialog() {
             if (response.data) {
               const customDashboardId = response.data.id;
               createDashboard(state.field.value);
-              goToCustomDashboard(customDashboardId);
+              const targetLocation = {...location, pathname: viewPathFullyQualified}
+              setOrDeleteMatrixKey(targetLocation, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, customDashboardId)
+              navigate(targetLocation);
               close();
               return;
             }

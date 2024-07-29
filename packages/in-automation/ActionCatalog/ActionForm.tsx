@@ -89,16 +89,19 @@ import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
+import CreatableTagSelect from 'in-components/CreatableTagSelect';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import TagsTable from 'in-automation/ActionCatalog/TagsTable';
+import useActionTags from 'in-automation/hooks/useActionTags';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { isLoading } from 'in-services/util/result';
 import Code from 'in-components/form/Code/Code';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { role } from 'in-stores/user';
+import { ActionType } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
@@ -112,7 +115,7 @@ interface ActionFormProps {
 }
 
 export default function ActionForm({ form, setForm, onChange, entity: action, isCreate }: ActionFormProps) {
-  const type = (form.get('type') as Field<string>).value;
+  const type = (form.get('type') as Field<ActionType>).value;
   const showTimeoutSection = isScript(type) || isWebhook(type) || isAnsible(type);
   return (
     <fieldset>
@@ -152,7 +155,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
 const TimeoutSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
   const timeout = form.get('timeout') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
-  const type = (form.get('type') as Field<string>).value;
+  const type = (form.get('type') as Field<ActionType>).value;
   return (
     <>
       {timeout.map(field => (
@@ -177,11 +180,12 @@ const TimeoutSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCh
     </>
   );
 };
-const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange'>) => {
+const MetaDataSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange'>) => {
   const name = form.get('name') as Field<string>;
   const description = form.get('description') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
-
+  const tags = form.get('tags') as Field<string[]>;
+  const availableTags = useActionTags();
   return (
     <>
       {name.map(field => (
@@ -223,14 +227,21 @@ const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'for
           </HelpText>
         </FormGroup>
       ))}
-      <FormGroup>
-        <TagsTable
-          form={form}
-          setForm={setForm}
-          isEditable={!isNotEditable && role?.canConfigureAutomationActions}
-          onChange={onChange}
-        />
-      </FormGroup>
+      {tags.map(field => (
+        <FormGroup>
+          <Label htmlFor="action-tags" hasError={!field.valid && field.touched}>
+            {t('in-automation:tagsLabel')}
+          </Label>
+          <CreatableTagSelect
+            id="action-tags"
+            isLoading={isLoading(availableTags)}
+            tags={availableTags.data}
+            value={field.value}
+            onChange={newTags => onChange('tags', newTags)}
+            disabled={isNotEditable || !role?.canConfigureAutomationActions}
+          />
+        </FormGroup>
+      ))}
     </>
   );
 };
@@ -241,7 +252,7 @@ const TypeSection = ({
   entity: action,
   isCreate
 }: Pick<ActionFormProps, 'form' | 'onChange' | 'entity' | 'isCreate'>) => {
-  const type = form.get('type') as Field<string>;
+  const type = form.get('type') as Field<ActionType>;
   const isNotEditable = useContext(isNotEditableContext);
 
   return type.map(field => (
@@ -257,7 +268,7 @@ const TypeSection = ({
             onChange={e =>
               onChange('type', e.target.value, updatedForm => {
                 // WILL NEED TO UPDATE THIS FOR NEW TYPES
-                const type = (updatedForm.get('type') as Field<string>).value;
+                const type = (updatedForm.get('type') as Field<ActionType>).value;
                 if (isDocLink(type)) {
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);

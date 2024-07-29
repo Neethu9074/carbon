@@ -86,7 +86,7 @@ export default function OpenshiftOperator({
           <Stack direction="horizontal">
             <KeyValue
               label={t('in-plg:agentDetails.common.clusterName')}
-              value={<FormInputPlg onChange={value => setClusterName(value)} />}
+              value={<FormInputPlg onChange={value => setClusterName(value)} maxLength={65} />}
               withGap
             />
             <AgentzoneLister callBackFunc={updateAgentZone} />

@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { ServiceLevelsAlertConfigWithMetadata } from '@instana/types';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import useHrefToSloAlertConfig from 'in-service-levels/navigation/hooks/useHrefToSloAlertConfig';

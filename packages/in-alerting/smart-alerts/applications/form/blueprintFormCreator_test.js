@@ -128,28 +128,77 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
   });
 
   describe('when alertType is errors', () => {
-    const blueprintForm = createBlueprintForm(
-      createMapForm()
-        .put('tagFilterExpression', createTagFilterExpressionForm())
-        .put('threshold', createThresholdForm({}, 'errors'))
-        .put('rule', createRuleForm({ alertType: 'errors' }))
-        .put('timeThreshold', createViolationsInSequenceForm({}, STATIC_THRESHOLD)),
-      'errors'
-    );
+    describe('when thresholdType is HISTORIC_BASELINE', () => {
+      const blueprintForm = createBlueprintForm(
+        createMapForm()
+          .put('tagFilterExpression', createTagFilterExpressionForm())
+          .put('threshold', createThresholdForm({ type: STATIC_THRESHOLD, value: 5 }, 'errors'))
+          .put('rule', createRuleForm({ alertType: 'errors' }))
+          .put('timeThreshold', createViolationsInSequenceForm({}, STATIC_THRESHOLD)),
+        'errors'
+      );
 
-    it('should contain fields: alertType, metricName, type, operator, lastUpdated, value', () => {
-      expect(blueprintForm.get('rule').toJS()).to.have.keys('alertType', 'metricName');
-      expect(blueprintForm.get('threshold').toJS()).to.have.keys('type', 'operator', 'lastUpdated', 'value');
+      it('should contain fields: alertType, metricName, type, operator, lastUpdated, value', () => {
+        expect(blueprintForm.get('rule').toJS()).to.have.keys('alertType', 'metricName');
+        expect(blueprintForm.get('threshold').toJS()).to.have.keys('type', 'operator', 'lastUpdated', 'value');
+      });
+
+      it('should have metricName "errors"', () => {
+        const metricName = blueprintForm.get('rule').get('metricName').value;
+        expect(metricName).to.equal('errors');
+      });
+
+      it('should have thresholdType "STATIC_THRESHOLD"', () => {
+        const type = blueprintForm.get('threshold').get('type').value;
+        expect(type).to.equal(STATIC_THRESHOLD);
+      });
     });
 
-    it('should have metricName "errors"', () => {
-      const metricName = blueprintForm.get('rule').get('metricName').value;
-      expect(metricName).to.equal('errors');
-    });
+    describe('when thresholdType is HISTORIC_BASELINE', () => {
+      const blueprintForm = createBlueprintForm(
+        createMapForm()
+          .put('tagFilterExpression', createTagFilterExpressionForm())
+          .put(
+            'threshold',
+            createThresholdForm(
+              {
+                type: HISTORIC_BASELINE,
+                baseline: [1, 2, 3]
+              },
+              'errors'
+            )
+          )
+          .put('rule', createRuleForm({ alertType: 'errors' }))
+          .put('timeThreshold', createViolationsInSequenceForm({}, HISTORIC_BASELINE)),
+        'errors'
+      );
 
-    it('should have thresholdType "STATIC_THRESHOLD"', () => {
-      const type = blueprintForm.get('threshold').get('type').value;
-      expect(type).to.equal(STATIC_THRESHOLD);
+      it('rule-form should contain fields: alertType, metricName', () => {
+        expect(blueprintForm.get('rule').toJS()).to.have.keys('alertType', 'metricName');
+      });
+
+      it('threshold-form should contain fields: type, operator, lastUpdated, seasonality, baseline, deviationFactor', () => {
+        expect(blueprintForm.get('threshold').toJS()).to.have.keys(
+          'type',
+          'operator',
+          'lastUpdated',
+          'seasonality',
+          'baseline',
+          'deviationFactor'
+        );
+      });
+
+      it('should have thresholdType "HISTORIC_BASELINE"', () => {
+        expect(blueprintForm.get('threshold').get('type').value).to.equal(HISTORIC_BASELINE);
+      });
+
+      it('should have seasonality "DAILY"', () => {
+        expect(blueprintForm.get('threshold').get('seasonality').value).to.equal(DAILY);
+      });
+
+      it('should have default time-window of 10 minutes', () => {
+        expect(blueprintForm.get('timeThreshold').get('timeWindow').value).to.equal(600000);
+      });
     });
   });
 

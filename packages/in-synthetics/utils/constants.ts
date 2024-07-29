@@ -6,6 +6,8 @@
 import { MapForm } from 'formalistic';
 import { ReactNode } from 'react';
 
+import { Observable } from '@instana/observables';
+
 import {
   PaginatedResult,
   Progress,
@@ -18,11 +20,13 @@ import {
   Error,
   PoPInstallationProperties,
   TestResultMetadata,
-  SyntheticDatacenter
+  SyntheticDatacenter,
+  GroupPermissionEntity
 } from 'in-types';
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
+import { TableActions } from 'in-settings/components/List';
 import { Options } from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
@@ -394,26 +398,29 @@ export type ResultsCurrentState = {
   locationLabels?: string[];
 };
 
-export const resultsFilterUrlStateDefinition = {
-  bind: [
-    {
-      path: resultsPathSegment,
-      name: 'status',
-      as: 'status',
-      initialState: [],
-      parser: buildJsonParser([]),
-      serializer: buildJsonSerializer()
-    },
-    {
-      path: resultsPathSegment,
-      name: 'locationLabels',
-      as: 'locationLabels',
-      initialState: [],
-      parser: buildJsonParser([]),
-      serializer: buildJsonSerializer()
-    }
-  ]
-} as Options<UrlState>;
+export const resultsFilterUrlStateDefinition = (selectedMetric?: string) => {
+  const urlState = {
+    bind: [
+      {
+        path: resultsPathSegment,
+        name: 'status',
+        as: 'status',
+        initialState: selectedMetric === 'status' ? ['0'] : [],
+        parser: buildJsonParser([]),
+        serializer: buildJsonSerializer()
+      },
+      {
+        path: resultsPathSegment,
+        name: 'locationLabels',
+        as: 'locationLabels',
+        initialState: [],
+        parser: buildJsonParser([]),
+        serializer: buildJsonSerializer()
+      }
+    ]
+  } as Options<UrlState>;
+  return urlState;
+};
 
 export interface AdvancedModeProps {
   form: MapForm<any>;
@@ -605,3 +612,64 @@ export const retriesObject: { label: string; value: number }[] = [
 ];
 
 export const datacenterProviderMap = new Map([['aws', 'AWS']]);
+
+export interface Entity {
+  title: string;
+  tableTitle: string;
+  allEntities: () => Observable<GroupPermissionEntity[]>;
+  getSelectedEntities: (applicationIds: string[]) => Observable<GroupPermissionEntity[]>;
+}
+
+export interface AssociationsStepProps {
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
+  applications: Result<GroupPermissionEntity[]>;
+  setSliderState: (state: SliderState) => void;
+}
+
+export interface AssociationsCommonSectionProps {
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
+  setSliderState: (state: SliderState) => void;
+}
+
+export interface SelectListDialogContentProps {
+  form: MapForm<any>;
+  onSubmit: (selectedIds: string[]) => void;
+  setSliderState: (state: SliderState) => void;
+  entities: () => Observable<GroupPermissionEntity[]>;
+  numberOfEntityListRows: number;
+  selectedEntity: { key: string; details: Entity };
+}
+
+export interface ApplicationsListProps {
+  tableActions?: TableActions<GroupPermissionEntity>;
+  loadEntities: () => Observable<GroupPermissionEntity[]>;
+  noDataMessage?: string;
+  renderNoDataAvailable?: (message?: string) => React.ReactNode;
+  hiddenIds?: string[];
+  pageSize?: number;
+  rightHeader: ReactNode;
+  isSearchable?: boolean;
+  onRowClick?: (entity: any) => void;
+  inSelectListDialog?: boolean;
+  getHeader?: (
+    totalHitsBeforeFilter: number,
+    totalHitsAfterFilter: number,
+    entitiesBeforePagination: number
+  ) => ReactNode;
+}
+
+export interface AssociatedEntitiesListProps {
+  title: string;
+  tableActions?: TableActions<GroupPermissionEntity>;
+  loadEntities: () => Observable<GroupPermissionEntity[]>;
+  noDataMessage?: string;
+  renderNoDataAvailable?: (message?: string) => React.ReactNode;
+  hiddenIds?: string[];
+  pageSize?: number;
+  rightHeader?: ReactNode;
+  isSearchable?: boolean;
+  onRowClick?: (entity: any) => void;
+  inSelectListDialog?: boolean;
+}

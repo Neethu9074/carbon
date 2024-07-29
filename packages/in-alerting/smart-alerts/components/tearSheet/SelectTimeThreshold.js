@@ -51,6 +51,7 @@ export default function SelectTimeThreshold({ form, updateForm, hasTraceImpactOp
         <Select
           name="timeThresholdTriggerAlert"
           id="timeThresholdTypeTriggerAlert"
+          data-testid="timeThresholdTypeTriggerAlert"
           value={selectedTriggerAlert}
           wrapperClassName={locals.width80}
           useFullWidth
@@ -76,6 +77,7 @@ export default function SelectTimeThreshold({ form, updateForm, hasTraceImpactOp
           <Select
             name="timeThresholdPersistenceType"
             id="timeThresholdTypePersistenceType"
+            data-testid="timeThresholdTypePersistenceType"
             value={selectedPersistanceType}
             wrapperClassName={locals.width80}
             useFullWidth

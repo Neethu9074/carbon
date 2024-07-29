@@ -25,4 +25,16 @@
   .staticOrAdaptiveOption {
     align-self: center;
   }
+
+  .topMargin {
+    margin-top: 1rem;
+  }
+
+  .bottomMargin {
+    margin-bottom: 1rem;
+  }
+
+  .sidePadding {
+    padding: 0 1rem;
+  }
 }

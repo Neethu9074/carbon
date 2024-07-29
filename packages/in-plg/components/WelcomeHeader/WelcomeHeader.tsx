@@ -18,12 +18,13 @@ import DatePicker from 'in-plg/components/DatePicker/DatePicker';
 import Overlay from 'in-components/overlays/Overlay';
 import { user } from 'in-stores/user';
 
+import locals from 'in-plg/components/WelcomeHeader/WelcomeHeader.mless';
+
 interface WelcomeHeaderProps {
   onboardingHeaderEnabled: boolean;
 }
 
 export default function WelcomeHeader({ onboardingHeaderEnabled }: WelcomeHeaderProps) {
-  // @ts-expect-error The User type needs to be updated.
   const headerTitle = `${t('in-plg:welcomepage.heading')}, ${user?.fullName ?? ''}!`;
   const foldableTileTitle = t('in-plg:welcomepage.foldableTileTitle');
   const collapsibleButton = {
@@ -32,9 +33,13 @@ export default function WelcomeHeader({ onboardingHeaderEnabled }: WelcomeHeader
   };
 
   return (
-    <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')} data-testid="header">
+    <div
+      className={locals.stickyHeader}
+      data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}
+      data-testid="header"
+    >
       <HeaderTile
-        tileData={onboardingHeaderEnabled ? OnboardingStepBuilder() : []}
+        tileItems={onboardingHeaderEnabled ? <OnboardingStepBuilder /> : null}
         headerTitle={headerTitle}
         foldableTileTitle={foldableTileTitle}
         datepicker={<DatePickerHeader />}

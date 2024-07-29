@@ -151,6 +151,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'assistMeEnabled',
+    instanaCtlKey: 'feature.assistMe.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'ampEnabled',
     instanaCtlKey: 'feature.amp.enabled',
     defaultValue: true
@@ -329,6 +334,11 @@ module.exports = exports = [
     uiClientKey: 'bizopsPerspectivesEnabled',
     instanaCtlKey: 'feature.bizops.perspectives.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'bizopsGenAIEnabled',
+    instanaCtlKey: 'feature.bizops.genAI.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
@@ -513,7 +523,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMessageEnabled',
     instanaCtlKey: 'feature.carbon.message.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonButtonEnabled',
@@ -548,12 +558,12 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonLoadingSkeletonFeatureEnabled',
     instanaCtlKey: 'feature.carbon.loading.skeleton.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonLoadingSpinnerEnabled',
     instanaCtlKey: 'feature.carbon.loading.spinner.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonDescriptionListEnabled',
@@ -601,6 +611,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonComboBoxEnabled',
+    instanaCtlKey: 'feature.carbon.combobox.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'notesAndActivityEnabled',
     instanaCtlKey: 'feature.incident.notes.enabled',
     defaultValue: false
@@ -633,7 +648,7 @@ module.exports = exports = [
   {
     uiClientKey: 'shareAndInviteEnabled',
     instanaCtlKey: 'feature.share.and.invite.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'serviceNowAutoCloseAndCustomPayloadsEnabled',
@@ -708,6 +723,26 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticMultiAppEnabled',
     instanaCtlKey: 'feature.synthetic.multi.app.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticMultiWebMobileEnabled',
+    instanaCtlKey: 'feature.synthetic.multi.web.mobile.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonFileUploaderEnabled',
+    instanaCtlKey: 'feature.carbon.fileuploader.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'userProfileMenuEnabled',
+    instanaCtlKey: 'feature.user.profileMenu.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'unitForInfraMetricsEnabled',
+    instanaCtlKey: 'feature.unit.for.infra.metrics.enabled',
     defaultValue: false
   }
 ];

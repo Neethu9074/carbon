@@ -175,7 +175,7 @@ const errorsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.text'),
   tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.tearSheetHeadline'),
   tearSheetDescription: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.tearSheetDescription'),
-  baselineEnabled: false,
+  baselineEnabled: true,
   enrichWithDefaultThresholdValues: enrichWithDefaultStaticThresholdValues,
   defaultMetric: 'errors',
   getMetricName: (alertRule: ApplicationAlertRule) => alertRule.metricName,
@@ -183,8 +183,7 @@ const errorsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   getMetricFormat: (metricName: MetricName) => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: (alertRule: ApplicationAlertRule) => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
-  getThresholdTypeOptions: () =>
-    withoutHistoricBaselineOptions(withoutAdaptiveBaselineOptions(applicationThresholdTypeOptions)),
+  getThresholdTypeOptions: () => applicationThresholdTypeOptions,
   isRuleComplete: () => true,
   getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: () => [tagFilter('call.erroneous', 'EQUALS', true)]

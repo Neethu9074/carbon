@@ -173,7 +173,6 @@
     "probableRootCauseLabel": "{{entity_type}} at fault:",
     "relatedEventsLabel": "Associated Events ({{number_of_events}})",
     "entitiesNumber": "Entities",
-    "publicPreview": "Public Preview",
     "probabilityLevelText": "Probability Level:",
     "highProbability": "HIGH",
     "moderateProbability": "MODERATE",

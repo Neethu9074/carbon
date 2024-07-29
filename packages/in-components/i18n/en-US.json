@@ -298,7 +298,8 @@
     "labelExpandButtonForContent": "Expand button for content"
   },
   "featureFeedback": {
-    "labelBETA": "BETA",
+    "labelPublicPreview": "Public Preview",
+    "labelPrivatePreview": "Private Preview",
     "linkLabelYouCanSendUsFeedback": "You can send us feedback"
   },
   "geoHeatMap": {
@@ -387,9 +388,9 @@
     "labelLoadingData": "Loading data"
   },
   "mainNavigation": {
+    "skipToMainContent": "Skip to main content",
     "viewSwitcherLabelSettings": "Settings",
     "viewSwitcherLabelMore": "More",
-    "viewSwitcherLabelTenants": "Tenants",
     "viewSwitcherLabelAgents": "Agents",
     "viewSwitcherLabelReleaseNotes": "Release Notes",
     "viewSwitcherLabelDocumentation": "Documentation",
@@ -413,10 +414,15 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Platforms",
-    "viewSwitcherButtonSignOut": "Sign Out",
     "viewSwitcherCustomDashboards": "Custom Dashboards",
+    "viewSwitcherButtonSignOut": "Sign Out",
+    "viewSwitcherLabelTenants": "Tenants",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "New version of Instana UI available",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "Reload to update"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "Reload to update",
+    "profileMenu_profileLink": "Profile",
+    "profileMenu_unitName_tenantName": "Unit name - Tenant name",
+    "profileMenu_switchUnitOrTenant": "Switch unit or tenant",
+    "profileMenu_logOut": "Log out"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Select metrics",
@@ -829,5 +835,9 @@
     "notice": "This tenant unit has been migrated to a new region. The unit you are currently accessing only contains historical data.",
     "goToNewLocationLabel": "Go to New Location",
     "exploreDataLabel": "Explore Historical Data"
+  },
+  "creatableTagSelect": {
+    "placeholder": "Enter tags",
+    "createLabel": "Create: {{tag}}"
   }
 }

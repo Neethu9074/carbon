@@ -1,0 +1,142 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import React, { useState } from 'react';
+
+import {Pill} from '@instana/components'
+
+import {default as CarbonComboBox} from './CarbonComboBox';
+
+export default {
+  component: CarbonComboBox
+};
+
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' }
+];
+
+const options1 = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry', isDisabled: true },
+  { value: 'vanilla', label: 'Vanilla' }
+];
+
+export const CarbonComboBoxDefault = () => {
+  const [value, setValue] = useState(null);
+  return (
+    <>
+      <div style={{margin: '1rem'}}>Single selection</div>
+          <div style={{margin: '1rem'}}>Carbon</div>
+          <CarbonComboBox
+            value={value}
+            options={options}
+            onChange={(t: any) => {
+              setValue(t?.value);
+            }}
+          />
+    </>
+  );
+};
+
+export const CarbonComboBoxSingleNotClearable = () => {
+  const [valueC, setValueC] = useState('');
+  return (
+    <>
+      <div style={{margin: '1rem'}}>Carbon</div>
+        <CarbonComboBox
+          value={valueC}
+          options={options}
+          onChange={(t: any) => {
+            setValueC(t?.value);
+          }}
+          isClearable={false}
+          defaultValue={options[0]}
+        />
+    </>
+  );
+};
+
+
+export const ComboBoxSingleWithPlaceholder = () => {
+  const [value, setValue] = useState('');
+  return (
+    <CarbonComboBox
+      value={value}
+      options={options}
+      onChange={(t: any) => {
+        setValue(t?.value);
+      }}
+      placeholder="Choose a flavor"
+    />
+  );
+};
+
+export const ComboBoxSingleWithDisabledOption = () => {
+  const [value, setValue] = useState('');
+  return (
+    <CarbonComboBox
+      value={value}
+      options={options1}
+      isOptionDisabled={t => t?.isDisabled ?? false}
+      onChange={(t: any) => {
+        setValue(t?.value);
+      }}
+    />
+  );
+};
+
+export const ComboBoxSingleDisabled = () => {
+  const [value, setValue] = useState('chocolate');
+  return (
+    <CarbonComboBox
+      value={value}
+      options={options}
+      isDisabled
+      onChange={(t: any) => {
+        setValue(t?.value);
+      }}
+    />
+  );
+};
+
+function Decorate(props: any) {
+  const { data: option } = props;
+  return (
+    <div>
+      {option.label}
+      <Pill>{`special label ${option.label}`}</Pill>
+    </div>
+  );
+}
+
+export const ComboBoxSingleCustom = () => {
+  const [value, setValue] = useState('chocolate');
+  return (
+    <CarbonComboBox
+      value={value}
+      options={options}
+      onChange={(t: any) => {
+        setValue(t?.value);
+      }}
+      components={{ Decorate }}
+    />
+  );
+};
+
+export const ComboBoxCarbon = () => {
+  const [value, setValue] = useState('chocolate');
+  return (
+    <CarbonComboBox
+      value={value}
+      options={options}
+      onChange={(t: any) => {
+        setValue(t?.value);
+      }}
+    />
+  );
+};

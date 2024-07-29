@@ -12,7 +12,7 @@ import { TimeConfig } from '@instana/types';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
+import { percentage, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -49,43 +49,59 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.kongApigateway.totalCapacity'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: Row) {
-        return row.sharedDictionary.get('totalBytes');
+      getSnapshotId(row: Row) {
+        return row.snapshotId;
       },
-      getContent: bytesTwoDecimalPlaces
+      getMetricName(row: Row) {
+        return `memoryLuaSharedDictBytes.${row.key}.totalBytes`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
     title: t('in-forge:plugins.kongApigateway.allocatedBytes'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: Row) {
-        return row.sharedDictionary.get('allocatedBytes');
+      getSnapshotId(row: Row) {
+        return row.snapshotId;
       },
-      getContent: bytesTwoDecimalPlaces
+      getMetricName(row: Row) {
+        return `memoryLuaSharedDictBytes.${row.key}.allocatedBytes`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
     title: t('in-forge:plugins.kongApigateway.allocatedBytesPercent'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: Row) {
-        return row.sharedDictionary.get('percentage');
+      getSnapshotId(row: Row) {
+        return row.snapshotId;
       },
-      getContent: percentage.compact
+      getMetricName(row: Row) {
+        return `memoryLuaSharedDictBytes.${row.key}.percentage`;
+      },
+      getContent: percentage.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
 ];
 
 const SharedDictionary = ({ snapshotId, timeConfig }: SharedDictionaryProps) => {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'memoryLuaSharedDictBytes'), [snapshotId]);
-
   if (!data) {
     return null;
   }
-
   const memoryLuaSharedDictByte = (data as SnapshotData).get('raw_payload');
   const rows: Row[] = memoryLuaSharedDictByte
     .keySeq()

@@ -48,6 +48,7 @@ function OriginLabel({ item, mobileAppId, viewId }: OriginLabelProp) {
   } catch (e) {
     // ignore
   }
+  let errLocationLabel = label.split('\n')[0];
 
   return (
     <Link
@@ -56,7 +57,7 @@ function OriginLabel({ item, mobileAppId, viewId }: OriginLabelProp) {
         viewId
       })}
     >
-      {label}
+      {errLocationLabel}
     </Link>
   );
 }
@@ -70,6 +71,15 @@ const columnDefinitions = [
       { mobileAppId, viewId }: { mobileAppId: string; viewId: string }
     ) => {
       return <OriginLabel item={item} mobileAppId={mobileAppId} viewId={viewId} />;
+    }
+  },
+  {
+    id: 'errorType',
+    label: t('in-mobile-apps:dashboard.tabs.crashes.crashesLabelErrorType'),
+    getContent: (item: MobileAppPaginatedBeaconGroupsItem) => {
+      let errorTypeLabel = item.name.replace(/^"|"$/g, '').split('\\n')[1];
+      errorTypeLabel = errorTypeLabel.length ? errorTypeLabel : 'Not available';
+      return <>{errorTypeLabel}</>;
     }
   },
   {
@@ -215,7 +225,7 @@ function getTableData({
   if (isNotBlank(query)) {
     tagFilters = tagFilters.concat([
       {
-        name: 'mobileBeacon.crash.keyInformation',
+        name: 'mobileBeacon.crash.groupLabel',
         stringValue: query,
         operator: 'CONTAINS',
         type: 'TAG_FILTER',
@@ -236,7 +246,7 @@ function getTableData({
       direction: orderDirection
     },
     group: {
-      groupbyTag: 'mobileBeacon.crash.keyInformation'
+      groupbyTag: 'mobileBeacon.crash.groupLabel'
     },
     metrics: {
       uniqueUsersOrSessionsAgg: {

@@ -10,7 +10,7 @@ import React, { useMemo } from 'react';
 
 import { Checkbox, RadioButton, SearchInput } from '@instana/components';
 import { GroupPermissionEntity, Result } from '@instana/types';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
@@ -59,13 +59,7 @@ export default function ApplicationsSection({ form, updateForm, applications }: 
   }
 
   let header = (
-    <SearchInput
-      className={locals.rightHeader}
-      maxWidth="140"
-      query={searchInput}
-      placeholder=""
-      onChange={q => setSearchInput(q)}
-    />
+    <SearchInput className={locals.rightHeader} maxWidth="140" query={searchInput} onChange={q => setSearchInput(q)} />
   );
 
   const loadMoreApplications = () => {

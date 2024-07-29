@@ -20,10 +20,10 @@ import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import { syntheticsFilterForMaintenanceWindowsEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import IconLabel from 'in-alerting/components/IconLabel';
 import FormGroup from 'in-components/form/FormGroup';
 import ComboBox from 'in-components/ComboBox';
@@ -69,7 +69,7 @@ export default function MaintenanceScopeStep(props) {
         label: (
           <Stack direction="horizontal" distribution="spaceBetween" align="center">
             {t('in-settings:tabs.syntheticTests')}
-            <BetaBadge />
+            <PreviewBadge />
           </Stack>
         )
       });

@@ -51,7 +51,6 @@ export default connectTo(
     const eventType = getEventType(event);
     const start = event.get('start');
     const end = event.get('end');
-
     return (
       <div
         className={classNames({

@@ -72,7 +72,7 @@ export default function Beacon(props) {
                 {beacon.type === 'crash' && (
                   <ViewCrashGroupButton
                     mobileAppId={beacon.mobileAppId}
-                    stackTraceKeyInformation={beacon.stackTraceKeyInformation}
+                    crashGroupLabel={beacon.stackTraceKeyInformation + '\n' + beacon.errorType}
                   />
                 )}
                 <HeaderToggleIcon {...props} />

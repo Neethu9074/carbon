@@ -32,6 +32,7 @@ export function CreatePolicyStep({
   const description = form.get('policyDescription');
   const actionName = form.get('name').value;
   const eventTriggerName = event.problem?.problemText ?? '';
+  const policyTags = form.get('policyTags');
 
   return (
     <div>
@@ -48,12 +49,12 @@ export function CreatePolicyStep({
         )}
 
         <PolicyFormBody
-          form={form}
           updateForm={updateForm}
           name={name}
           description={description}
           actionName={actionName}
           eventTriggerName={eventTriggerName}
+          policyTags={policyTags}
         />
       </div>
     </div>

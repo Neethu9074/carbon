@@ -7,8 +7,8 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
 
+import { Card, Pagination as CarbonPagination, SearchInput } from '@instana/components';
 import { TableErrorRows, Table, Tbody, Thead } from '@instana/legacy';
-import { Card, SearchInput } from '@instana/components';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
@@ -18,6 +18,7 @@ import Columns from 'in-components/tables/ServerTable/internalComponents/Columns
 import { TableProps, TableState } from 'in-components/tables/ServerTable/types';
 import { Nullish, PaginatedResult, Result, ResultPrecision } from 'in-types';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
+import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
 import Pagination from 'in-components/Pagination';
@@ -75,7 +76,7 @@ export default function ServerTablePresenter<
     leftHeader,
     numSkeletonRows = 3,
     isSearchable = true,
-    searchPlaceholder = '',
+    searchPlaceholder,
     searchMaxWidth,
     withoutSearchIcon = false,
     size = 'regular',
@@ -175,9 +176,11 @@ export default function ServerTablePresenter<
   let pagination = null;
   if (result.data && result.data.totalHits > result.data.pageSize) {
     const numPages = Math.ceil(result.data.totalHits / result.data.pageSize);
+    const totalItems = result.data.totalHits;
     pagination = renderPagination ? (
       renderPagination({
         page,
+        totalItems,
         numPages,
         orderDirection,
         onChange,
@@ -187,11 +190,23 @@ export default function ServerTablePresenter<
       })
     ) : (
       <div className={locals.paginationWrapper}>
-        <Pagination
-          currentPage={page}
-          numPages={numPages}
-          onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
-        />
+        {carbonPaginationEnabled ? (
+          <CarbonPagination
+            currentPage={page}
+            totalItems={result.data.totalHits}
+            pageSize={result.data.pageSize}
+            pageSizes={[result.data.pageSize]}
+            onChange={(data: { page: number; pageSize: number }) => {
+              return onChange({ query, orderBy, orderDirection, page: data.page, pageSize });
+            }}
+          />
+        ) : (
+          <Pagination
+            currentPage={page}
+            numPages={numPages}
+            onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
+          />
+        )}
       </div>
     );
   }

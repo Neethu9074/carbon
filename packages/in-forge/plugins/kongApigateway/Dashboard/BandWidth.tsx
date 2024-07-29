@@ -12,8 +12,7 @@ import { TimeConfig } from '@instana/types';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
-import { bytes } from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -58,22 +57,34 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.kongApigateway.ingressBytes'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: LatencyRow) {
-        return row.latency.get('ingressBytes');
+      getSnapshotId(row: LatencyRow) {
+        return row.snapshotId;
       },
-      getContent: bytes.compact
+      getMetricName(row: LatencyRow) {
+        return `kongBandwidthBytes.${row.key}.ingress`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
     title: t('in-forge:plugins.kongApigateway.egressBytes'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: LatencyRow) {
-        return row.latency.get('egressBytes');
+      getSnapshotId(row: LatencyRow) {
+        return row.snapshotId;
       },
-      getContent: bytes.compact
+      getMetricName(row: LatencyRow) {
+        return `kongBandwidthBytes.${row.key}.egress`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
 ];
@@ -110,8 +121,8 @@ const BandWidth = function KongKongLatency({ snapshotId, timeConfig }: KongLaten
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            formatter: timeByMillisZeroDecimalPlaces,
-            metrics: [`kongBandwidthBytes.${row.key}.ingressBytes`, `kongBandwidthBytes.${row.key}.egressBytes`],
+            formatter: bytesTwoDecimalPlaces,
+            metrics: [`kongBandwidthBytes.${row.key}.ingress`, `kongBandwidthBytes.${row.key}.egress`],
             labels: [t('in-forge:plugins.kongApigateway.ingress'), t('in-forge:plugins.kongApigateway.egress')],
             type: 'line'
           }}
@@ -123,7 +134,9 @@ const BandWidth = function KongKongLatency({ snapshotId, timeConfig }: KongLaten
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.kongApigateway.kongBandwidth')}
+      cardTitle={t('in-forge:plugins.kongApigateway.kongBandwidth', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}

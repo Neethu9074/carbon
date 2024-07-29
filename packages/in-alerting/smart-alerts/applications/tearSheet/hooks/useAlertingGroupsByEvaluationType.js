@@ -28,7 +28,7 @@ export default function useAlertingGroupsByEvaluationType(
   evaluationType,
   isTagFilterFormModelValid
 ) {
-  const timeConfig = { ...useTimeConfig(), to: Date.now(), focusedMoment: Date.now() };
+  const timeConfig = { ...useTimeConfig(), to: Date.now(), focusedMoment: Date.now(), autoRefresh: false };
   const metricDefinitionByEvaluationType = getMetricDefinitionByEvaluationType(evaluationType);
   const backendMetrics = useStableObjectInstance(
     fields

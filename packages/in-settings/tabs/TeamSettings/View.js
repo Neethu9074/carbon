@@ -35,15 +35,15 @@ import {
   teamSettingsAlertingMaintenanceConfigurationEdit,
   teamSettingsAlertingMaintenanceConfigurationNew,
   teamSettingsAlertingMaintenanceConfigurations,
-  teamSettingsLogManagementCoralogix,
   teamSettingsLogManagementDeleteLogs,
-  teamSettingsLogManagementElk,
-  teamSettingsLogManagementHumio,
-  teamSettingsLogManagementLogDna,
-  teamSettingsLogManagementRetentionPeriod,
   teamSettingsLogManagementLogVolume,
-  teamSettingsLogManagementSplunk,
-  teamSettingsLogManagementIntegrations,
+  teamSettingsLogManagementRetentionPeriod,
+  teamSettingsIntegrationsLogging,
+  teamSettingsIntegrationsLoggingCoralogix,
+  teamSettingsIntegrationsLoggingElk,
+  teamSettingsIntegrationsLoggingHumio,
+  teamSettingsIntegrationsLoggingMezmo,
+  teamSettingsIntegrationsLoggingSplunk,
   teamSettingsActionLogRetention
 } from 'in-settings/navigation/paths';
 import {
@@ -63,7 +63,8 @@ import RetentionPeriodPage from 'in-settings/tabs/TeamSettings/pages/logManageme
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import ApiTokenFormDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenFormDialog';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
-import Integrations from 'in-settings/tabs/TeamSettings/pages/logManagement/Integrations/Integrations';
+import Integrations from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/Integrations';
+import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Coralogix/Coralogix';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
@@ -72,22 +73,21 @@ import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts
 import DeleteLogsPage from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeleteLogs';
 import LogVolumePage from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/LogVolume';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
-import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/Coralogix';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
+import SplunkPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Splunk/Splunk';
+import MezmoPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Mezmo/Mezmo';
+import HumioPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Humio/Humio';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
 import AccessLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AccessLog/AccessLog';
 import ActionLogPage from 'in-settings/tabs/TeamSettings/pages/audit/ActionLog/ActionLog';
 import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
-import SplunkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/Splunk';
-import LogDnaPage from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDna';
 import GroupsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Groups';
 import GroupPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group';
-import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/Humio';
+import ElkPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Elk/Elk';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
-import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { apiTokenDialogEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -287,41 +287,6 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     });
   }
 
-  const logManagementPages = [
-    {
-      path: teamSettingsLogManagementIntegrations,
-      label: 'Integrations',
-      component: Integrations,
-      subPages: [
-        {
-          path: teamSettingsLogManagementCoralogix,
-          label: t('in-settings:tabs.coralogix'),
-          component: CoralogixPage
-        },
-        {
-          path: teamSettingsLogManagementElk,
-          label: t('in-settings:tabs.elk'),
-          component: ElkPage
-        },
-        {
-          path: teamSettingsLogManagementHumio,
-          label: t('in-settings:tabs.humio'),
-          component: HumioPage
-        },
-        {
-          path: teamSettingsLogManagementLogDna,
-          label: t('in-settings:tabs.mezmo'),
-          component: LogDnaPage
-        },
-        {
-          path: teamSettingsLogManagementSplunk,
-          label: t('in-settings:tabs.splunk'),
-          component: SplunkPage
-        }
-      ]
-    }
-  ];
-
   const deleteLogsPage = {
     path: teamSettingsLogManagementDeleteLogs,
     label: t('in-settings:tabs.deleteLogs.deleteLogs'),
@@ -339,17 +304,8 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     component: LogVolumePage
   };
 
-  if (
-    role.canDeleteLogs ||
-    role.canConfigureLogManagement ||
-    role.canViewLogVolume ||
-    role.canConfigureLogRetentionPeriod
-  ) {
+  if (role.canDeleteLogs || role.canViewLogVolume || role.canConfigureLogRetentionPeriod) {
     let pages = [];
-
-    if (role.canConfigureLogManagement) {
-      pages = logManagementPages;
-    }
 
     if (role.canDeleteLogs) {
       pages.push(deleteLogsPage);
@@ -389,6 +345,47 @@ function navigationTreeForRole(role, isAnyIDPActive) {
           component: AccessLogPage
         }
       ]
+    });
+  }
+
+  if (role.canConfigureLogManagement) {
+    const logIntegrationPages = [
+      {
+        path: teamSettingsIntegrationsLogging,
+        label: 'Logging',
+        component: Integrations,
+        subPages: [
+          {
+            path: teamSettingsIntegrationsLoggingCoralogix,
+            label: t('in-settings:tabs.coralogix'),
+            component: CoralogixPage
+          },
+          {
+            path: teamSettingsIntegrationsLoggingElk,
+            label: t('in-settings:tabs.elk'),
+            component: ElkPage
+          },
+          {
+            path: teamSettingsIntegrationsLoggingHumio,
+            label: t('in-settings:tabs.humio'),
+            component: HumioPage
+          },
+          {
+            path: teamSettingsIntegrationsLoggingMezmo,
+            label: t('in-settings:tabs.mezmo'),
+            component: MezmoPage
+          },
+          {
+            path: teamSettingsIntegrationsLoggingSplunk,
+            label: t('in-settings:tabs.splunk'),
+            component: SplunkPage
+          }
+        ]
+      }
+    ];
+    navigationTree.push({
+      title: t('in-settings:tabs.integrations.integrations'),
+      pages: logIntegrationPages
     });
   }
 

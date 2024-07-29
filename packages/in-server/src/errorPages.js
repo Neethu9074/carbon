@@ -12,7 +12,7 @@ Handlebars.registerPartial(
   fs.readFileSync(path.join(__dirname, 'templates', '_errorPage.hbs'), { encoding: 'utf8' })
 );
 
-const csp = `font-src https://1.www.s81c.com; default-src 'self'`;
+const csp = `font-src 'self' ; default-src 'self'`;
 
 const template403 = getCompiledTemplate('403.hbs');
 const template404 = getCompiledTemplate('404.hbs');

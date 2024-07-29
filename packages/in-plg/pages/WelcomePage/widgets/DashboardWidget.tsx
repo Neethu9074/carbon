@@ -12,7 +12,7 @@ import { UserResult } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
-import { getCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
+import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import useGetCustomDashboardPermissions from 'in-plg/pages/WelcomePage/widgets/hooks/useGetCustomDashboardPermissions';
 //@ts-expect-error doesn't contain type file
 import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog';
@@ -26,6 +26,7 @@ import { playwithEnabled, welcomePageV2Enabled } from 'in-services/featureFlags'
 import { getCustomDashboards, getUsers } from 'in-custom-dashboards/api';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { timeConfig$ } from 'in-stores/time/config';
 import { role } from 'in-stores/user';
 
@@ -59,11 +60,15 @@ export default connectTo(() => ({
     ];
   };
 
+  const { location, createHref } = useNavigation();
+  const connectToLocation = { ...location, pathname: viewPathFullyQualified };
+
   const columnDefinitions: ColumnDefinitionItem[] = [
     {
       key: 'name',
       getContent({ item }) {
-        return <Link href={getCustomDashboardLink(item.id)}>{item.title}</Link>;
+        setOrDeleteMatrixKey(connectToLocation, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, item.id);
+        return <Link href={createHref(connectToLocation)}>{item.title}</Link>;
       }
     },
     {
@@ -102,6 +107,7 @@ export default connectTo(() => ({
       {...generalProps}
       query=""
       hasAddMore={!playwithEnabled}
+      tableType="dashboardWidget"
       //@ts-expect-error canCreatePublicCustomDashboards doesn't exist on type role
       hasAddPermission={role?.canCreatePublicCustomDashboards}
       isDashboardWidget

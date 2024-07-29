@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { Menu, MenuItemProps2 as MenuItem } from '@instana/components';
+
 import {
   BluePrint,
   getSimpleModeBlueprintConfig,
@@ -28,7 +30,6 @@ import ProvideStatusCode from 'in-alerting/smart-alerts/eum/components/ProvideSt
 import ProvideCrash from 'in-alerting/smart-alerts/mobileApp/dialog/simple/ProvideCrash';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import { eumType } from 'in-alerting/smart-alerts/mobileApp/constants';
-import Menu, { MenuItem } from 'in-components/Menu';
 import { t } from 'in-i18n';
 
 export default function SimpleAlertConfigDialogStep1({

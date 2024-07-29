@@ -65,7 +65,10 @@ export interface User {
   email: string;
   role?: Role;
   tenants: Tenant[];
+  fullName: string;
+  preferredName: string;
 }
+
 declare interface InstanaGlobals {
   user?: User;
   settings?: UiSettings;

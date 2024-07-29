@@ -7,6 +7,8 @@ import React, { forwardRef, ReactElement } from 'react';
 import { MapFormItems } from 'formalistic';
 import classNames from 'classnames';
 
+import { CarbonLayer } from '@instana/components';
+
 import SaveButtonComponent, { SaveButtonProps as OriginSaveButtonProps } from 'in-components/form/SaveButton';
 import PreviousButtonComponent, { PreviousButtonProps } from 'in-components/form/PreviousButton';
 import CancelButtonComponent, { CancelButtonProps } from 'in-components/form/CancelButton';
@@ -30,7 +32,7 @@ export default forwardRef<HTMLElement, FormFooterProps>(function FormFooter(
       ref={ref}
       className={classNames(locals.controls, className, { [locals.withRoundedBottomBorder]: withRoundedBottomBorder })}
     >
-      {children}
+      <CarbonLayer>{children}</CarbonLayer>
     </nav>
   );
 });

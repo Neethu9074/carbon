@@ -67,24 +67,26 @@ export default function BusinessPerspectivesList() {
   const timeConfig = useTimeConfig();
 
   return (
-    <Sticky header={<ViewSwitcher />}>
-      <LeftRightPadding>
-        <Title title={t('in-bizops:lists.pageTitle')} />
-        <ViewTrackingMeta
-          data={{
-            productArea: productAreas.bizops,
-            pageRootName: pageNames.bizops_perspectives
-          }}
-        />
-        <ServerTableWithUrlState
-          get={getBusinessPerspectivesListData}
-          timeConfig={timeConfig}
-          cardTitle={t('in-bizops:perspectives.lists.perspectives')}
-          rightHeader={NewPerspectiveButton}
-        />
-      </LeftRightPadding>
-      <Footer />
-    </Sticky>
+    <div className={locals.perspectiveList}>
+      <Sticky header={<ViewSwitcher />}>
+        <LeftRightPadding>
+          <Title title={t('in-bizops:lists.pageTitle')} />
+          <ViewTrackingMeta
+            data={{
+              productArea: productAreas.bizops,
+              pageRootName: pageNames.bizops_perspectives
+            }}
+          />
+          <ServerTableWithUrlState
+            get={getBusinessPerspectivesListData}
+            timeConfig={timeConfig}
+            cardTitle={t('in-bizops:perspectives.lists.perspectives')}
+            rightHeader={NewPerspectiveButton}
+          />
+        </LeftRightPadding>
+        <Footer />
+      </Sticky>
+    </div>
   );
 }
 

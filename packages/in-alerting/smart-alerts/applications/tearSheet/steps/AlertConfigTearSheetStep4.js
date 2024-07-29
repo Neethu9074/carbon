@@ -120,7 +120,7 @@ export default function AlertConfigTearSheetStep4(props) {
               />
             </div>
           )}
-          {!isTagFilterFormModelValid && tagFilterExpression && (
+          {!isTagFilterFormModelValid && tagFilterExpression && thresholdType === ADAPTIVE_BASELINE && (
             <div className={locals.filterSection}>
               <Message
                 type="warning"
@@ -147,7 +147,8 @@ export default function AlertConfigTearSheetStep4(props) {
               />
             </div>
           )}
-
+          {thresholdType === HISTORIC_BASELINE && <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />}
+          {thresholdType === ADAPTIVE_BASELINE && <AdaptiveBaselineErrorMessage thresholdResult={thresholdResult} />}
           {!ruleComplete ? (
             <>
               <Spacer vertical="xsmall" />
@@ -169,8 +170,6 @@ export default function AlertConfigTearSheetStep4(props) {
               renderThroughput={props => <ThroughputThresholdCondition {...props} />}
             />
           )}
-          {thresholdType === HISTORIC_BASELINE && <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />}
-          {thresholdType === ADAPTIVE_BASELINE && <AdaptiveBaselineErrorMessage thresholdResult={thresholdResult} />}
           <EvaluationGranularity
             form={form}
             updateForm={updateForm}

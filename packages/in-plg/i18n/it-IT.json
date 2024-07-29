@@ -287,8 +287,6 @@
       "vmwareTanzuNetworkLink": "Link di rete VMware Tanzu",
       "reviewThePrerequisites": "Esaminare i prerequisiti",
       "installingTheInstanaAgent": "Installazione dell'agent Instana",
-      "vmwareTanzuDocumentation": "Documentazione di VMware Tanzu",
-      "vmwareTanzuNetwork": "Rete VMware Tanzu",
       "addTileToOpsManagerAndConfigureIt": "Aggiungere il riquadro a Ops Manager e configurarlo",
       "addInstanaApplicationMonitoring": "Aggiungere il riquadro \"Monitoraggio dei microservizi e dell'applicazione Instana\" al proprio Ops Manager e applicare quanto segue alla scheda \"Configurazione di backend\" del riquadro.",
       "nameYourVmwareFoundation": "Denominare la propria VMware Tanzu Foundation",

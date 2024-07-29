@@ -13,11 +13,23 @@ import { Observable, create } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
+import {
+  disableInvitesWithIdpEnabled,
+  onPremLicenseInformationEnabled,
+  playWithReleaseEnabled,
+  playwithEnabled,
+  shareAndInviteEnabled
+} from 'in-services/featureFlags';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+//@ts-expect-error TS migration
+import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+//@ts-expect-error TS migration
+import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
+//@ts-expect-error TS migration
+import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 //@ts-expect-error missing typescript migration
 import { getQueuedLicensesAsResultObservable } from 'in-amp/api/account';
-import { onPremLicenseInformationEnabled, shareAndInviteEnabled } from 'in-services/featureFlags';
 import { countryCode, editionID, languageCode } from 'in-plg/utils/constants';
 import { BuyNowDialog } from 'in-plg/components/BuyNowDialog/BuyNowDialog';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
@@ -25,18 +37,23 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { assistMeEnabled } from 'in-services/featureFlags';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 import { invitedUserJoined } from 'in-settings/tracker';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip';
+import { role, user } from 'in-stores/user';
 import http from 'in-services/http/http';
-import { user } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './UsageBanner.mless';
 
 interface UsageBannerProps {
   message: Message;
+}
+
+interface ConfigProps {
+  activated: boolean;
 }
 
 export function UsageBanner({ message }: UsageBannerProps) {
@@ -55,6 +72,14 @@ export function UsageBanner({ message }: UsageBannerProps) {
     !isLoading(queuedLicenseDetails) && queuedUpLicense !== 'paidPerUse' && queuedUpLicense !== 'hostBasedPaid';
   const needToShowReminder = isRemainingDaysLimited && isPaidLicenseUsage && noQueuedLicense;
 
+  const isSamlConfigured: Result<ConfigProps> | undefined | null = useObservable(getSamlConfig, []);
+  const isLdapConfigured: Result<ConfigProps> | undefined | null = useObservable(getLdapConfig, []);
+  const isOidcConfigured: Result<ConfigProps> | undefined | null = useObservable(getOidcConfig, []);
+  const isAnyIDPActive =
+    disableInvitesWithIdpEnabled &&
+    (isSamlConfigured?.data?.activated || isLdapConfigured?.data?.activated || isOidcConfigured?.data?.activated);
+  const permissionToShowInvite =
+    role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && !isAnyIDPActive;
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
 
   useEffect(() => {
@@ -87,7 +112,9 @@ export function UsageBanner({ message }: UsageBannerProps) {
                   icon="lib_actions_share"
                   iconColor="var(--cds-link-primary)"
                   target="_blank"
-                  onClick={() => addActiveDialog(<DeferredShareAndInviteDialogBox />)}
+                  onClick={() =>
+                    addActiveDialog(<DeferredShareAndInviteDialogBox permissionToShowInvite={permissionToShowInvite} />)
+                  }
                 >
                   {t('in-plg:licenseBanner.share')}
                 </LicenseBannerButton>
@@ -149,7 +176,9 @@ export function UsageBanner({ message }: UsageBannerProps) {
                   icon="lib_actions_share"
                   iconColor="var(--cds-link-primary)"
                   target="_blank"
-                  onClick={() => addActiveDialog(<DeferredShareAndInviteDialogBox />)}
+                  onClick={() =>
+                    addActiveDialog(<DeferredShareAndInviteDialogBox permissionToShowInvite={permissionToShowInvite} />)
+                  }
                 >
                   {t('in-plg:licenseBanner.share')}
                 </LicenseBannerButton>
@@ -157,7 +186,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
               <div className={locals.verticalLine} />
             </>
           )}
-          <AssistMe />
+          {assistMeEnabled && <AssistMe />}
         </>
       )}
     </Stack>

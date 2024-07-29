@@ -177,7 +177,7 @@ const DataIngestTable = () => {
               label: ele?.header,
               key: `${ele?.key}`
             }))}
-            fileName={t('in-amp:components.dataIngestTable.consumptionOverview')}
+            fileName={`${t('in-amp:components.dataIngestTable.consumptionOverview')}.csv`}
           />
         )}
       </Stack>

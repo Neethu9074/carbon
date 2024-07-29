@@ -106,16 +106,26 @@ export function getDescriptionPlaceholder(form) {
 
   switch (alertType) {
     case 'errors': {
-      const thresholdValue = thresholdForm.get('value').value;
       const metricName = ruleForm.get('metricName').value;
       const percentageMetric = isPercentageMetric(metricName);
+      if (thresholdType === STATIC_THRESHOLD) {
+        const thresholdValue = thresholdForm.get('value').value;
+        return t(
+          percentageMetric
+            ? 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorRateStaticThreshold'
+            : 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorCountStaticThreshold',
+          {
+            context: getHigherOrLowerOperatorContext(thresholdOperator),
+            valueRoundedToDecimals: getValueRoundedToDecimals(thresholdValue, percentageMetric)
+          }
+        );
+      }
       return t(
         percentageMetric
-          ? 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorRate'
-          : 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorCount',
+          ? 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorRateDefault'
+          : 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorCountDefault',
         {
-          context: getHigherOrLowerOperatorContext(thresholdOperator),
-          valueRoundedToDecimals: getValueRoundedToDecimals(thresholdValue, percentageMetric)
+          context: getHigherOrLowerOperatorContext(thresholdOperator)
         }
       );
     }

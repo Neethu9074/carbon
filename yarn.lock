@@ -2905,15 +2905,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:4.1.1, @instana/components@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "@instana/components@npm:4.1.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.1.1.tgz"
+"@instana/components@npm:4.7.0, @instana/components@npm:^4.7.0":
+  version: 4.7.0
+  resolution: "@instana/components@npm:4.7.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.7.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.39.0
     "@carbon/react": 1.55.0
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1
-    "@instana/design-tokens": ^1.27.1
+    "@instana/design-tokens": ^1.27.2
     "@instana/format-date": ^1.6.7
     "@instana/format-numbers": ^1.5.5
     "@instana/hooks": ^1.11.7
@@ -2927,17 +2927,17 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 83e4d16dd49342604082aade34f9018940b62019360c65d337aa630baa9c5886514b8d3551347c916ece9942c4e3e1457364c32e0e41d950dca4419fc8a6cf66
+  checksum: 00e5e87f721ad30b55590fd09d334022b11cb3d2cbee511d0e95d10e5a45b8ddfc8106d8e8198ab6069b9f43b1756e7b3f08f7259f377faa4c4e33ca808286e3
   languageName: node
   linkType: hard
 
-"@instana/design-tokens@npm:1.27.1, @instana/design-tokens@npm:^1.27.1":
-  version: 1.27.1
-  resolution: "@instana/design-tokens@npm:1.27.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fdesign-tokens%2F-%2F%40instana%2Fdesign-tokens-1.27.1.tgz"
+"@instana/design-tokens@npm:1.27.2, @instana/design-tokens@npm:^1.27.2":
+  version: 1.27.2
+  resolution: "@instana/design-tokens@npm:1.27.2::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fdesign-tokens%2F-%2F%40instana%2Fdesign-tokens-1.27.2.tgz"
   dependencies:
     tslib: ^2.4.1
     typescript: ^5.1.5
-  checksum: 9976808d380f48527378d4e16d10fca3e1c4b10bf2adc7cc4c9023fca2828c78b5bb1c360826492d80922e273bc1093511825f3218927011eec0dae7505309b5
+  checksum: 5410987612cb9796b5c78898edfc0f2c9f122be53b308dbe470fd04b187d730558f3306508173a22e3aab0c9dbd81f3a7823560768058ce6e158585e85a8f39f
   languageName: node
   linkType: hard
 
@@ -3032,12 +3032,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:4.0.3":
-  version: 4.0.3
-  resolution: "@instana/legacy@npm:4.0.3::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.0.3.tgz"
+"@instana/legacy@npm:4.1.5":
+  version: 4.1.5
+  resolution: "@instana/legacy@npm:4.1.5::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.1.5.tgz"
   dependencies:
-    "@instana/components": ^4.1.1
-    "@instana/design-tokens": ^1.27.1
+    "@instana/components": ^4.7.0
+    "@instana/design-tokens": ^1.27.2
     "@instana/format-date": ^1.6.7
     "@instana/format-numbers": ^1.5.5
     "@instana/hooks": ^1.11.7
@@ -3048,7 +3048,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: c7cbfdfae616c924d7d74283ebd77f25faf074a3f481a9999cff164fea598930164cf7746bb490f1cdcd6f02dc6306ec9640863b0a9353cf39e39cef5fc0c345
+  checksum: 33985b23f1141bfcc97c22dc1f4e279e2cf8d8d59167b6ac7165db2097a1dfb353e2ad7162b26db44e3996104344f4ab8f4e4d0de8c4f4cc1922bb751ac6808b
   languageName: node
   linkType: hard
 
@@ -3085,10 +3085,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/types@npm:1.278.465":
-  version: 1.278.465
-  resolution: "@instana/types@npm:1.278.465::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.278.465.tgz"
-  checksum: 28288c53a1bdc00486040dfa416be55e07904285e291603a33e31cb4f41d0359828fcfd2394d1af4930a739e5af676ae9685c694adfaa968826e819b9c8856be
+"@instana/types@npm:1.280.161":
+  version: 1.280.161
+  resolution: "@instana/types@npm:1.280.161::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.280.161.tgz"
+  checksum: 5f2d06bb7e2761194ef5af127aa813152294d48cec0a60eb37e54f41c669c5968c5b806bb0fd49fe766cf18e63fb6a5011b939493237bead65145d08bff1034e
   languageName: node
   linkType: hard
 
@@ -8585,9 +8585,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001272, caniuse-lite@npm:^1.0.30001274, caniuse-lite@npm:^1.0.30001280, caniuse-lite@npm:^1.0.30001517, caniuse-lite@npm:^1.0.30001587":
-  version: 1.0.30001640
-  resolution: "caniuse-lite@npm:1.0.30001640"
-  checksum: ec492d8d1e11d1c55e0f5c0f218229369dc0a4bd1b5d0a579a6435865fe8f4c84bde7e816a844cce1b9cdd97f5a85b6dac5599639fabcdb0c4c5bd039e46cbfd
+  version: 1.0.30001643
+  resolution: "caniuse-lite@npm:1.0.30001643"
+  checksum: e39991c13a0fd8f5c2aa99c9128188e4c4e9d6a203c3da6270c36285460ef152c5e9410ee4db560aa723904668946afe50541dce9636ab5e61434ba71dc22955
   languageName: node
   linkType: hard
 
@@ -12892,10 +12892,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fuzzysort@npm:^2.0.0":
-  version: 2.0.4
-  resolution: "fuzzysort@npm:2.0.4"
-  checksum: 5c498ec452ffc75c4368c52a7c4a490fc4d4129d94eab5f892d7e69d91ee3057259d9ab6924f14cca21f5731e7d91912e6c01669b40ef9b2165924e4b8e65fb5
+"fuse.js@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "fuse.js@npm:7.0.0"
+  checksum: d15750efec1808370c0cae92ec9473aa7261c59bca1f15f1cf60039ba6f804b8f95340b5cabd83a4ef55839c1034764856e0128e443921f072aa0d8a20e4cacf
   languageName: node
   linkType: hard
 
@@ -17243,23 +17243,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:^0.5.1":
-  version: 0.5.6
-  resolution: "mkdirp@npm:0.5.6"
-  dependencies:
-    minimist: ^1.2.6
-  bin:
-    mkdirp: bin/cmd.js
-  checksum: 0c91b721bb12c3f9af4b77ebf73604baf350e64d80df91754dc509491ae93bf238581e59c7188360cec7cb62fc4100959245a42cfe01834efedc5e9d068376c2
-  languageName: node
-  linkType: hard
-
 "mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4":
   version: 1.0.4
   resolution: "mkdirp@npm:1.0.4"
   bin:
     mkdirp: bin/cmd.js
   checksum: a96865108c6c3b1b8e1d5e9f11843de1e077e57737602de1b82030815f311be11f96f09cce59bd5b903d0b29834733e5313f9301e3ed6d6f6fba2eae0df4298f
+  languageName: node
+  linkType: hard
+
+"mkdirp@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "mkdirp@npm:3.0.1"
+  bin:
+    mkdirp: dist/cjs/src/bin.js
+  checksum: 972deb188e8fb55547f1e58d66bd6b4a3623bf0c7137802582602d73e6480c1c2268dcbafbfb1be466e00cc7e56ac514d7fd9334b7cf33e3e2ab547c16f83a8d
   languageName: node
   linkType: hard
 
@@ -20702,7 +20700,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:^2.2.8, rimraf@npm:^2.5.4, rimraf@npm:^2.6.2":
+"rimraf@npm:^2.2.8, rimraf@npm:^2.5.4":
   version: 2.7.1
   resolution: "rimraf@npm:2.7.1"
   dependencies:
@@ -22960,8 +22958,8 @@ __metadata:
     "@codemirror/state": 6.2.0
     "@codemirror/theme-one-dark": ^6.0.0
     "@codemirror/view": 6.6.0
-    "@instana/components": 4.1.1
-    "@instana/design-tokens": 1.27.1
+    "@instana/components": 4.7.0
+    "@instana/design-tokens": 1.27.2
     "@instana/eslint-config-commons": 1.2.3
     "@instana/format-date": 1.6.7
     "@instana/format-numbers": ^1.4.1
@@ -22969,12 +22967,12 @@ __metadata:
     "@instana/i18n": ^1.4.1
     "@instana/i18n-react": 1.5.7
     "@instana/import-sort-style-simon": 1.3.2
-    "@instana/legacy": 4.0.3
+    "@instana/legacy": 4.1.5
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.6.1
     "@instana/pseudo-translation": ^1.3.1
     "@instana/roemitter": ^1.3.2
-    "@instana/types": 1.278.465
+    "@instana/types": 1.280.161
     "@instana/utils": ^1.3.1
     "@lezer/common": ^1.0.2
     "@lezer/generator": ^1.5.0
@@ -23063,7 +23061,7 @@ __metadata:
     fork-ts-checker-webpack-plugin: ^6.5.3
     formalistic: ^2.0.0
     framer-motion: ^3.3.0
-    fuzzysort: ^2.0.0
+    fuse.js: ^7.0.0
     glob: ^7.1.3
     gulp: ^4.0.2
     gulp-cssnano: ^2.1.3
@@ -23096,7 +23094,7 @@ __metadata:
     markdown-loader: ^6.0.0
     mime-db: ^1.52.0
     mini-css-extract-plugin: ^2.9.0
-    mkdirp: ^0.5.1
+    mkdirp: ^3.0.1
     moment-timezone: ^0.5.43
     opn: 3.0.3
     postcss: ^8.4.1
@@ -23126,7 +23124,6 @@ __metadata:
     react-select: ^4.3.1
     react-select-async-paginate: ~0.5
     react-test-renderer: ^17
-    rimraf: ^2.6.2
     rrule: ^2.7.1
     semver: ^5.3.0
     sinon: ^13.0.1

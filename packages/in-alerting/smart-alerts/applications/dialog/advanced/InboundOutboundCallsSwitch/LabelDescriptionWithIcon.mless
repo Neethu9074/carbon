@@ -7,17 +7,18 @@
 :local {
   .wrapper {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .icon {
     width: 1.5rem;
     height: 1.5rem;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     fill: var(--ids-color-option-neutral-700);
   }
 
   .content {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
   }
 }

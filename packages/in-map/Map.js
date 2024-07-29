@@ -7,8 +7,10 @@ import React, { useLayoutEffect, useRef } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import useOpenDashboardOnEntityDoubleClick from 'in-map/useOpenDashboardOnEntityDoubleClick';
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import MapNoContentMessage from 'in-map/components/MapNoContentMessage';
+import useClearSelectedEventForInMap from 'in-map/useClearSelectedEvent'
 import { view$, types as views } from 'in-infrastructure/perspectives';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
@@ -28,7 +30,6 @@ import 'in-map/stores/statisticsStore';
 import { t } from 'in-i18n';
 
 import locals from 'in-map/Map.mless';
-import useOpenDashboardOnEntityDoubleClick from 'in-map/useOpenDashboardOnEntityDoubleClick';
 
 export default function Map() {
   const antialias = useObservable(getAntiAliasObservable, []);
@@ -38,6 +39,7 @@ export default function Map() {
 
   useDisabledBodyScroll();
   useOpenDashboardOnEntityDoubleClick();
+  useClearSelectedEventForInMap();
 
   useLayoutEffect(() => {
     if (!ref.current) {

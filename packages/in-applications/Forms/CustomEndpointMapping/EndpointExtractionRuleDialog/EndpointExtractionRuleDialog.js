@@ -6,7 +6,7 @@
 import { createField, createMapForm, createListForm } from 'formalistic';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import RuleTester from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/RuleTester';
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';

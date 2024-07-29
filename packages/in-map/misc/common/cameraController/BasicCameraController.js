@@ -6,7 +6,6 @@
 import RoEmitter from '@instana/roemitter';
 
 import { getSnapshot, setSelectedSnapshotId, clearSelectedSnapshotId } from 'in-stores/snapshot';
-import { clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
 import { requestRendering } from 'in-map/stores/renderingStore';
 import { getFactory } from 'in-map/stores/factoriesStore';
 import { Object3D, Vector3 } from 'in-map/3DLibProvider';
@@ -21,6 +20,7 @@ const FOCUS_MARGIN = 0.02;
 
 export default class BasicCameraController extends Subscriber {
   constructor(factoryIdForFocusCalculation, yaw = -40) {
+
     super();
 
     this.eventEmitter = new RoEmitter('control event emitter');
@@ -35,6 +35,7 @@ export default class BasicCameraController extends Subscriber {
   }
 
   init() {
+
     this.camera = new Camera();
     this.camera.initEvents();
 
@@ -57,7 +58,6 @@ export default class BasicCameraController extends Subscriber {
     this.addSubscriptions([
       this.eventEmitter.on('onClicked').subscribe(() => {
         const { object } = this.lastHitten;
-
         if (object) {
           if (object.dashboardId) {
             getSnapshot(object.dashboardId).once(snapshot => {
@@ -67,7 +67,9 @@ export default class BasicCameraController extends Subscriber {
           setSelectedSnapshotId(object.dashboardId);
         } else {
           clearSelectedSnapshotId();
-          clearSelectedEvent();
+          // Emitting custom events here to escape up to the Map component so that navigation hooks can be used
+          const event = new CustomEvent('clickedOutsideMap', { bubbles: true });
+          document.dispatchEvent(event);
         }
       }),
       this.eventEmitter.on('onDoubleClicked').subscribe(() => {

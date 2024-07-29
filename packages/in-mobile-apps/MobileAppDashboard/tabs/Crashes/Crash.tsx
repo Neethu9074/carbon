@@ -91,7 +91,7 @@ export default connectTo(({ location, timeConfig, mobileAppId }: CrashProp) => {
           entity: 'NOT_APPLICABLE'
         },
         {
-          name: 'mobileBeacon.crash.keyInformation',
+          name: 'mobileBeacon.crash.groupLabel',
           stringValue: crashId,
           operator: 'EQUALS',
           type: 'TAG_FILTER',
@@ -134,7 +134,7 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
       entity: 'NOT_APPLICABLE'
     },
     {
-      name: 'mobileBeacon.crash.keyInformation',
+      name: 'mobileBeacon.crash.groupLabel',
       stringValue: crashId,
       operator: 'EQUALS',
       type: 'TAG_FILTER',
@@ -166,7 +166,7 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
     const viewInAnalytics = {
       mobileAppLabel,
       group: {
-        groupbyTag: 'mobileBeacon.crash.keyInformation'
+        groupbyTag: 'mobileBeacon.crash.groupLabel'
       }
     };
 
@@ -197,7 +197,7 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
                       tagCatalog: tagCatalogCrash
                     }),
                     groupBy: {
-                      groupbyTag: 'mobileBeacon.crash.keyInformation'
+                      groupbyTag: 'mobileBeacon.crash.groupLabel'
                     }
                   })
               }}
@@ -225,7 +225,7 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
                       tagCatalog: tagCatalogCrash
                     }),
                     groupBy: {
-                      groupbyTag: 'mobileBeacon.crash.keyInformation'
+                      groupbyTag: 'mobileBeacon.crash.groupLabel'
                     },
                     fields: [
                       {

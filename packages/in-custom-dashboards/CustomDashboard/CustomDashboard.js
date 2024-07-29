@@ -24,16 +24,18 @@ import {
 } from 'in-custom-dashboards/tracker';
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
-import { dashboardIdUrlParameter, goToCustomDashboardList } from 'in-custom-dashboards/navigation/url';
 import ZoomWidgetDialog from 'in-custom-dashboards/CustomDashboard/ZoomWidgetDialog/ZoomWidgetDialog';
 import EditAsJsonDialog from 'in-custom-dashboards/CustomDashboard/EditAsJsonDialog/EditAsJsonDialog';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
+import { dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { cockpit } from 'in-cockpit/navigation/paths';
 import widgets from 'in-custom-dashboards/widgets';
 import { deepCopy } from 'in-services/util/object';
 import Prompt from 'in-components/Dialog/Prompt';
@@ -53,6 +55,9 @@ export default function CustomDashboardLoader(props) {
   const [isSaving, setSaving] = useState(getInitialState(result).isSaving);
 
   const activeDialogs = useObservable(activeDialogs$, []) ?? [];
+
+  const {location, navigate} = useNavigation()
+
 
   useEffect(() => {
     setConfig(getInitialState(result).config);
@@ -240,8 +245,8 @@ export default function CustomDashboardLoader(props) {
               );
               return;
             }
-
-            goToCustomDashboardList();
+            const targetLocation = {...location, pathname: cockpit}
+            navigate(targetLocation)
           });
         }}
       />

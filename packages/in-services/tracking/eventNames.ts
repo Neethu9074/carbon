@@ -222,6 +222,14 @@ export const SHARE_AND_INVITE_ADD_USER = 'shareAndInvite.add.user';
 export const SHARE_AND_INVITE_NEW_GROUP = 'shareAndInvite.new.group';
 export const SHARE_AND_INVITE_COPY_LINK = 'shareAndInvite.copy.link';
 
+export const UNIT_ONBOARDING_START_INTEGRATING_CLICK = 'unitOnboarding.installAgents.click';
+export const UNIT_ONBOARDING_TRACE_INTERACTIONS_CLICK = 'unitOnboarding.verifyTracing.click';
+export const UNIT_ONBOARDING_CONNECT_WITH_EXPERTS_CLICK = 'unitOnboarding.inviteUsers.click';
+export const UNIT_ONBOARDING_BRING_IN_MORE_DATA_CLICK = 'unitOnboarding.installAdditionalAgents.click';
+export const UNIT_ONBOARDING_TAILOR_YOUR_VIEW_CLICK = 'unitOnboarding.createApplicationPerspective.click';
+export const UNIT_ONBOARDING_GET_ALERTED_CLICK = 'unitOnboarding.setUpSmartAlerts.click';
+export const UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK = 'unitOnboarding.startMonitoring.click';
+export const UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK = 'unitOnboarding.inviteTeammates.click';
 // Owned by Team Alert Response
 // Tracking all team owned components
 export const SETTINGS_ALERT_CHANNEL_CREATE = 'settings.alertChannel.create';
@@ -383,7 +391,7 @@ export const ANALYZE_LOGGING_LOG_MESSAGE_PARAMETER_CLICKED = 'analyze.logging.lo
 export const ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED = 'analyze.logging.log.message.tag.clicked';
 export const ANALYZE_LOGGING_JUMP_TO_LOGS = 'analyze.logging.jump.to.logs';
 export const ANALYZE_LOGGING_TIME_SPENT = 'analyze.logging.time.spent';
-export const LOGGING_LOGDNA_BUTTON_CLICKED = 'logging.logDna.clicked';
+export const LOGGING_MEZMO_BUTTON_CLICKED = 'logging.mezmo.clicked';
 export const ANALYZE_LOGGING_SORTING_CHANGED = 'analyze.logging.sorting.changed';
 export const LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK = 'analyze.logging.applications.perspective.link.clicked';
 export const ANALYZE_LOGGING_LOG_GETLOGS_FILTERS = 'analyze.logging.log.getLogs.filters';

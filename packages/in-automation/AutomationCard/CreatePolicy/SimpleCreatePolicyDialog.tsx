@@ -16,7 +16,6 @@ import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { refresh } from 'in-automation/AutomationCard/usePolicies';
-import { Tag } from 'in-automation/ActionCatalog/TagsTable';
 import { close } from 'in-components/DialogPresenter/store';
 import { saveNewPolicy } from 'in-automation/api';
 import { ScoredAction } from 'in-automation/api';
@@ -32,7 +31,7 @@ type PolicyFormItems = {
   name: FormField<string>;
   policyName: FormField<string>;
   policyDescription: FormField<string>;
-  policyTags: FormField<Tag[]>;
+  policyTags: FormField<string[]>;
 };
 
 export type PolicyForm = MapForm<PolicyFormItems>;
@@ -82,7 +81,7 @@ const createPolicy = ({ form, event, selectedAction, setActiveKey }: handleCreat
   const policyDetails = {
     name: form.get('policyName').value,
     description: form.get('policyDescription').value,
-    tags: form.get('policyTags').value.map((tag: Tag) => tag.value)
+    tags: form.get('policyTags').value
   };
   const policy = createBasePolicy(event, selectedAction, policyDetails);
 
@@ -114,7 +113,6 @@ const stepConfigs = Object.freeze([
 ]);
 
 export function createNewPolicyFormDefinition(action: ScoredAction) {
-  const policyTags: Tag[] = [];
   const form: PolicyForm = createMapForm({
     items: {
       name: createField({
@@ -130,19 +128,7 @@ export function createNewPolicyFormDefinition(action: ScoredAction) {
         validator: notBlankValidator
       }),
       policyTags: createField({
-        value: policyTags,
-        validator: tags => {
-          const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || tag.value === '', false);
-          if (hasBlankTags) {
-            return [
-              {
-                severity: 'error',
-                message: t('in-automation:theValueMustNotBeBlank')
-              }
-            ];
-          }
-          return null;
-        }
+        value: [] as string[]
       })
     }
   });

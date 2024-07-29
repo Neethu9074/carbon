@@ -7,7 +7,7 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Link, LoadingSkeleton, Message } from '@instana/components';
+import { Link, LoadingSkeleton, Message, Menu } from '@instana/components';
 import { Trans, t } from '@instana/i18n-react';
 import { Result } from '@instana/types';
 
@@ -16,7 +16,6 @@ import { LocationsBluePrint, getLocationsBluePrintConfig } from 'in-synthetics/c
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import createNewLocationForm from 'in-synthetics/createLocation/createNewLocationForm';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import Menu from 'in-components/Menu';
 
 import locals from 'in-synthetics/createLocation/NewLocationStyles.mless';
 

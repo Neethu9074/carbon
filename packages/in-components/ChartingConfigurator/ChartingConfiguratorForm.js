@@ -10,6 +10,7 @@ import { SvgIcon } from '@instana/components';
 
 import ChartSelectorOverlay, { getActiveChartMetric } from 'in-components/ChartingConfigurator/ChartSelectorOverlay';
 import GroupedMetricSelectorOverlay from 'in-components/ChartingConfigurator/GroupedMetricSelectorOverlay';
+import { CustomMetricInput } from 'in-applications/analyze/AnalyzeView2_0/components/CustomMetricInput';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import { t } from 'in-i18n';
 
@@ -26,7 +27,7 @@ export default function ChartingConfiguratorForm({
 }) {
   const activeTemplate = options?.templates?.find(({ templateId }) => templateId === value.templateId);
 
-  let activeAggregation, activeRenderer, activeMetricTagSuggestion;
+  let activeAggregation, activeRenderer;
 
   let activeMetric = getActiveChartMetric(options, value);
 
@@ -35,9 +36,6 @@ export default function ChartingConfiguratorForm({
       activeMetric?.aggregations?.find(({ id }) => id === value.aggregationId) || activeMetric?.aggregations?.[0];
     activeRenderer =
       activeAggregation?.renderers?.find(({ id }) => id === value.rendererId) || activeAggregation?.renderers?.[0];
-    activeMetricTagSuggestion =
-      activeMetric?.metricTagSuggestions?.find(({ label }) => label === activeMetric.secondLevelMetricId) ||
-      activeMetric?.metricTagSuggestions?.[0];
   }
 
   const multipleMetricsAndTemplates = Object.values(options).reduce((acc, curr) => (acc += curr?.length ?? 0), 0);
@@ -72,9 +70,9 @@ export default function ChartingConfiguratorForm({
       )}
 
       {activeMetric?.customMetric && (
-        <ComboBoxBehavior
-          options={activeMetric.metricTagSuggestions}
-          value={activeMetricTagSuggestion?.label}
+        <CustomMetricInput
+          value={activeMetric.secondLevelMetricId}
+          options={activeMetric.metricTagSuggestions?.map(tag => tag.label)}
           onChange={secondLevelMetricId => {
             const change = {
               ...value,
@@ -83,16 +81,7 @@ export default function ChartingConfiguratorForm({
             };
             onChange(change);
           }}
-          requiresCustomInteractivity
-          disableAutomaticOptionSorting
-          aria-label={'tag'}
-        >
-          {({ elementProps }) => (
-            <div {...elementProps} className={locals.metric}>
-              {activeMetricTagSuggestion?.label}
-            </div>
-          )}
-        </ComboBoxBehavior>
+        />
       )}
 
       {multipleAggregations && !activeTemplate ? (

@@ -36,6 +36,7 @@ export default function MetricSelectorOverlay({
       shouldTriggerWindowResize
       onChange={node => {
         onChange(node);
+        onSelectType?.(undefined);
         close();
       }}
       query={query}
@@ -44,9 +45,7 @@ export default function MetricSelectorOverlay({
       onFocusNode={focusedNode => onSelectType?.(focusedNode?.levelType)}
       disabled={disabled}
       strict
-      nodesToSearchFrom={(options, focusedNode) =>
-        focusedNode !== null && focusedNode.levelType === null ? [focusedNode] : options
-      }
+      nodesToSearchFrom={(options, focusedNode) => (focusedNode && focusedNode.levelType ? [focusedNode] : options)}
     />
   );
 }

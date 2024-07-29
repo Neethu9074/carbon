@@ -6,15 +6,17 @@
 
 import React, { ReactNode } from 'react';
 
-import { SvgIcon, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { Link } from '@instana/components';
 import { TrProps } from '@instana/legacy';
 
+import ApplicationsContentPresenter from 'in-synthetics/dashboards/global/tabs/tests/components/ApplicationsContentPresenter';
+import { ApplicationLabelContent } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import List, { ColumnDefinition, leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
+import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getTestsAsResultObservable } from 'in-synthetics/api';
 import { Result, SyntheticTest } from 'in-types';
@@ -171,21 +173,29 @@ function applicationLabel(): ColumnDefinition<SyntheticTest> {
     label: t('in-synthetics:dashboard.testList.applicationLabel'),
     defaultOrderDirection: 'ASC',
     getContent(item: SyntheticTest) {
-      const applicationLabel = item.applicationLabel;
-      if (applicationLabel != null && applicationLabel !== '') {
+      const applicationLabels = item.applicationLabels ?? [];
+      const applicationIds = item.applications || [];
+
+      if (syntheticMultiAppEnabled) {
         return (
-          <HorizontalFlexWrapper>
-            <SvgIcon type={'lib_application_invert'} />
-            <span className={locals.label}>{applicationLabel}</span>
-          </HorizontalFlexWrapper>
-        );
-      } else {
-        return (
-          <div>
-            <span className={locals.label}>{''}</span>
-          </div>
+          <ApplicationsContentPresenter
+            applicationIds={applicationIds}
+            applicationLabels={applicationLabels}
+            shouldDisplayLink={false}
+          />
         );
       }
+
+      const applicationLabel = item.applicationLabel ?? '';
+      const applicationId = item.applicationId ?? '';
+
+      return (
+        <ApplicationLabelContent
+          applicationId={applicationId}
+          applicationLabel={applicationLabel}
+          shouldDisplayLink={false}
+        />
+      );
     }
   };
 }

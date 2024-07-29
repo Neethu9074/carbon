@@ -7,9 +7,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { Message, Spacer, Pill, IconButton } from '@instana/components';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Message, Spacer, Pill, IconButton, SvgIcon, Button } from '@instana/components';
 
 import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { playwithEnabled, applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
@@ -220,7 +218,7 @@ export default function AlertHeader({
                   type={
                     isToggling ? 'lib_actions_loading' : alertConfig.enabled ? 'lib_actions_pause' : 'lib_actions_play'
                   }
-                  spinning={isToggling}
+                  iconSpinning={isToggling}
                   onClick={() => {
                     if (!isToggling) {
                       doToggleEnabled();
@@ -249,7 +247,7 @@ export default function AlertHeader({
                   <IconButton
                     kind="primaryv2"
                     type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
-                    spinning={isDeleting}
+                    iconSpinning={isDeleting}
                     onClick={() => {
                       if (!isDeleting) {
                         onConfigDeleteTrigger?.(alertConfig.id);

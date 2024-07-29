@@ -167,7 +167,11 @@ export default class extends React.Component {
                   key={index}
                   {...buttonProps}
                   icon={buttonConfig.icon}
-                  href$={buttonConfig.getHref$ && buttonConfig.getHref$()}
+                  {...(typeof buttonConfig.getHref === 'string'
+                    ? { href: buttonConfig.getHref }
+                    : buttonConfig.getHref$
+                    ? { href$: buttonConfig.getHref$() }
+                    : {})}
                   onClick={buttonConfig.onClick}
                 >
                   {buttonConfig.label}

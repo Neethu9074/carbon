@@ -12,7 +12,7 @@ export function get() {
     url: `/api/settings/logging-integration`,
     maxRetries: 3,
     headers: getCsrfHeader()
-  }).map(response => response.body);
+  }).map(response => response.body.map(integration => integration));
 }
 
 export function save(configuration) {

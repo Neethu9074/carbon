@@ -36,6 +36,7 @@ import EventsChardWidget from 'in-plg/pages/WelcomePage/widgets/EventsChartWidge
 import IncidentsWidget from 'in-plg/pages/WelcomePage/widgets/IncidentsWidget';
 import DashboardWidget from 'in-plg/pages/WelcomePage/widgets/DashboardWidget';
 import PlatformWidget from 'in-plg/pages/WelcomePage/widgets/PlatformWidget';
+import { QuickLinks } from 'in-plg/pages/WelcomePage/quickLinks/QuickLinks';
 import { setSingle, settings$ } from 'in-services/settings/settings';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { UiSettings } from 'in-types';
@@ -174,6 +175,7 @@ const widgetData = [
   {
     key: 'businessMonitoringWidget',
     label: t('in-plg:welcomepage.component.bizopsWidget.label'),
+    addLabel: t('in-plg:welcomepage.component.bizopsWidget.viewLabel'),
     icon: 'lib_actions_reorder',
     widget: BusinessMonitoringWidget
   },
@@ -193,6 +195,7 @@ const widgetData = [
   {
     key: 'infrastructureWidget',
     label: t('in-plg:welcomepage.component.infrastructureWidget.label'),
+    addLabel: t('in-plg:welcomepage.component.infrastructureWidget.hostLabel'),
     toogles: infrastructureToogleArray,
     infraType: 'host',
     widget: InfrastructureWidget,
@@ -201,7 +204,7 @@ const widgetData = [
   {
     key: 'syntheticWidget',
     label: t('in-plg:welcomepage.component.syntheticWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.syntheticWidget.addLabel'),
+    addLabel: t('in-plg:welcomepage.component.syntheticWidget.testLabel'),
     toogles: syntheticToogleArray,
     syntheticType: 'test',
     widget: SyntheticMonitoringWidget,
@@ -233,9 +236,14 @@ const tableEntryArray: tableEntry[] = widgetData
     return ele;
   });
 
-export default function PageContent() {
+interface PageContentProps {
+  enableQuickLinkForAgentAndUser: boolean;
+}
+
+export default function PageContent({ enableQuickLinkForAgentAndUser }: PageContentProps) {
   return (
     <div className={locals.dashboardTilesWrapper}>
+      <QuickLinks enableQuickLinkForAgentAndUser={enableQuickLinkForAgentAndUser} />
       <RenderTable />
     </div>
   );
@@ -321,7 +329,12 @@ function RenderTable() {
                     ) : (
                       <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>
                         {Widget && (
-                          <Widget type={ele.type} widgetLabel={ele.key} dashboardTileProps={dashboardTileProps} />
+                          <Widget
+                            key={ele.key}
+                            type={ele.type}
+                            widgetLabel={ele.key}
+                            dashboardTileProps={dashboardTileProps}
+                          />
                         )}
                       </div>
                     );

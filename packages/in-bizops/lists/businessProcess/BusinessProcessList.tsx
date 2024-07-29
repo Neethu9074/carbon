@@ -17,7 +17,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 // @ts-expect-error Module needs to be translated to TS
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
-import { BusinessProcessQueryBuilder } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
+import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { processColumnDefinitions } from 'in-bizops/lists/businessProcess/columnDefinitions';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -69,50 +69,52 @@ export default function BizOpsList() {
   }
 
   return (
-    <Sticky header={<ViewSwitcher />}>
-      <LeftRightPadding>
-        <Title title={t('in-bizops:lists.pageTitle')} />
-        <ViewTrackingMeta
-          data={{
-            productArea: productAreas.bizops,
-            pageRootName: pageNames.bizops_processes
-          }}
-        />
-        {bizopsPerspectivesEnabled && (
-          <Card className={locals.queryCard}>
-            <div className={locals.querySection}>
-              <label className={locals.queryLabel}>
-                <SvgIcon type={'lib_actions_filter'} />
-                <span className={locals.queryText}>Filter</span>
-              </label>
-              <div className={locals.processQueryBuilder}>
-                <BusinessProcessQueryBuilder
-                  value={queryTagFilter}
-                  onChange={(tagFilterExpression: any) => {
-                    setQueryTagFilter(tagFilterExpression);
-                  }}
-                />
-              </div>
-              {tagCatalog?.data && isQueryValid(tagCatalog?.data, queryTagFilter) && (
-                <div className={locals.clearButton}>
-                  <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={onClear}>
-                    {t('in-components:queryBuilder.workspaceButtonClear')}
-                  </Button>
+    <div className={locals.processList}>
+      <Sticky header={<ViewSwitcher />}>
+        <LeftRightPadding>
+          <Title title={t('in-bizops:lists.pageTitle')} />
+          <ViewTrackingMeta
+            data={{
+              productArea: productAreas.bizops,
+              pageRootName: pageNames.bizops_processes
+            }}
+          />
+          {bizopsPerspectivesEnabled && (
+            <Card className={locals.queryCard}>
+              <div className={locals.querySection}>
+                <label className={locals.queryLabel}>
+                  <SvgIcon type={'lib_actions_filter'} />
+                  <span className={locals.queryText}>Filter</span>
+                </label>
+                <div className={locals.processQueryBuilder}>
+                  <BusinessProcessQueryBuilder
+                    value={queryTagFilter}
+                    onChange={(tagFilterExpression: any) => {
+                      setQueryTagFilter(tagFilterExpression);
+                    }}
+                  />
                 </div>
-              )}
-            </div>
-          </Card>
-        )}
-        <ServerTableWithUrlState
-          get={getBusinessProcessListData}
-          timeConfig={timeConfig}
-          cardTitle={t('in-bizops:lists.cardTitle')}
-          queryTagFilter={queryTagFilter}
-          tagCatalog={tagCatalog?.data}
-        />
-      </LeftRightPadding>
-      <Footer />
-    </Sticky>
+                {tagCatalog?.data && isQueryValid(tagCatalog?.data, queryTagFilter) && (
+                  <div className={locals.clearButton}>
+                    <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={onClear}>
+                      {t('in-components:queryBuilder.workspaceButtonClear')}
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </Card>
+          )}
+          <ServerTableWithUrlState
+            get={getBusinessProcessListData}
+            timeConfig={timeConfig}
+            cardTitle={t('in-bizops:lists.cardTitle')}
+            queryTagFilter={queryTagFilter}
+            tagCatalog={tagCatalog?.data}
+          />
+        </LeftRightPadding>
+        <Footer />
+      </Sticky>
+    </div>
   );
 }
 

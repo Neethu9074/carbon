@@ -10,9 +10,15 @@ import NotificationBarSticky from 'promise-loader?global!in-components/Sticky/No
 import AboutInstanaDialog from 'promise-loader?global!in-components/AboutInstanaDialog';
 // @ts-expect-error promise loader
 import NewPlayWithHeader from 'promise-loader?global!in-plg/Demo/NewPlayWithHeader';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { UIShell, MenuItem, SideNavMenu, SvgIcon } from '@instana/components';
+import {
+  UIShell,
+  MenuItem,
+  SideNavMenu,
+  SvgIcon,
+  CarbonHeaderGlobalAction as HeaderGlobalAction
+} from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
@@ -38,6 +44,14 @@ import {
   hasAutomationAccess
 } from 'in-stores/permission';
 import {
+  bizopsPerspectivesEnabled,
+  playwithEnabled,
+  playWithReleaseEnabled,
+  tenantSwitcherEnabled,
+  userProfileMenuEnabled,
+  welcomePageV2Enabled
+} from 'in-services/featureFlags';
+import {
   useLinkToAnalyze as useLinkToMobileAppAnalyze,
   isAnalyzeView as isMobileAppAnalyzeView,
   mobileAppMonitoringPath
@@ -55,12 +69,6 @@ import {
   isApplicationsView,
   useLinkToAnalyze as useLinkToApplicationAnalyze
 } from 'in-applications/navigation/paths';
-import {
-  bizopsPerspectivesEnabled,
-  playwithEnabled,
-  playWithReleaseEnabled,
-  welcomePageV2Enabled
-} from 'in-services/featureFlags';
 import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
@@ -94,10 +102,9 @@ import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/n
 import { actionCatalogFullyQualified, isAutomationView } from 'in-automation/navigation/paths';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
-import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
@@ -106,15 +113,23 @@ import useUIShellTitleDetail from 'in-plg/hooks/useUIShellTitleDetail';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { isAnalyzeView } from 'in-analyze/navigation/constants';
+import { releaseNotesEnabled } from 'in-services/featureFlags';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import AsyncComponent from 'in-components/AsyncComponent';
 import { eventsPath } from 'in-events/navigation/paths';
+import UserIcon from 'in-components/UserIcon/UserIcon';
 import { all, any } from 'in-services/fixedStreams';
-import { config } from 'in-services/config';
+import ProfileMenu from './ProfileMenu/ProfileMenu';
 import { role, user } from 'in-stores/user';
+import config from 'in-services/config';
 import { t } from 'in-i18n';
 
 import local from './CarbonUIShell.mless';
+
+interface HeaderContentProps {
+  expanded: boolean;
+  onClickSideNavExpand: () => void;
+}
 
 function HomeLink() {
   const { matchLocation, createHrefToPath } = useNavigation();
@@ -415,11 +430,12 @@ function Analyze() {
 
 function Incidents() {
   const events = useObservable(openEventsAtServerTime$, [openEventsAtServerTime$]);
-
   // @ts-expect-error type not defined
   const numIncidents = events ? events.get('incidentCount') : 0;
 
   const { matchLocation } = useNavigation();
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+  const menuItemHref = getEventsViewFilteredBy({ eventTypeFilter: 'incident' });
 
   const isActive = matchLocation(eventsPath);
 
@@ -433,7 +449,7 @@ function Incidents() {
       label={t('in-components:mainNavigation.viewSwitcherLabelEvents')}
       icon="lib_events_inverted"
       badgeCount={numIncidents}
-      href$={getEventsViewFilteredBy({ eventTypeFilter: 'incident' })}
+      href={menuItemHref}
       isActive={isActive}
     />
   );
@@ -472,7 +488,7 @@ function SloDashboard() {
       id="main-nav-slo-dashboard"
       label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
       icon="lib_service_level"
-      infoTag={t('in-components:featureFeedback.labelBETA')}
+      infoTag={t('in-components:featureFeedback.labelPublicPreview')}
       isActive={matchLocation(isSloView)}
       href={createHrefToPath(serviceLevelsOverview)}
     />
@@ -545,8 +561,9 @@ function Settings() {
 
 function moreContent(matchLocation: (path: string) => boolean, createHrefToPath: (path: string) => string) {
   const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
+
   return [
-    tenantSwitcherEnabled ? (
+    !userProfileMenuEnabled && tenantSwitcherEnabled ? (
       <MenuItem
         id="main-nav-tenants"
         key="main-nav-tenants"
@@ -596,26 +613,41 @@ function moreContent(matchLocation: (path: string) => boolean, createHrefToPath:
       }}
       label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
     />,
-    <div key="main-nav-sign-out" className={local.signOutButton}>
-      <MenuItem
-        id="main-nav-sign-out"
-        onClick={signOut}
-        label={
-          <>
-            <div>{t('in-components:mainNavigation.viewSwitcherButtonSignOut')}</div>
-            <div className={local.emailAddress}>{user?.email}</div>
-          </>
-        }
-      />
-    </div>
+    !userProfileMenuEnabled && (
+      <div key="main-nav-sign-out" className={local.signOutButton}>
+        <MenuItem
+          id="main-nav-sign-out"
+          onClick={signOut}
+          label={
+            <>
+              <div>{t('in-components:mainNavigation.viewSwitcherButtonSignOut')}</div>
+              <div className={local.emailAddress}>{user?.email}</div>
+            </>
+          }
+        />
+      </div>
+    )
   ];
 }
 
-function HeaderContent() {
+function HeaderContent({ expanded, onClickSideNavExpand }: HeaderContentProps) {
   return (
     <>
       {playwithEnabled || playWithReleaseEnabled ? <AsyncComponent component={NewPlayWithHeader} /> : null}
       <AsyncComponent component={NotificationBarSticky} />
+      {userProfileMenuEnabled && !playwithEnabled && (
+        <div id="profileMenu-switcher" className={local.header_profileMenu}>
+          <HeaderGlobalAction
+            onClick={onClickSideNavExpand}
+            aria-label="Profile menu"
+            aria-expanded={expanded}
+            isActive={expanded}
+            aria-haspopup="true"
+          >
+            <UserIcon size="s" color="var(--cds-icon-secondary)" />
+          </HeaderGlobalAction>
+        </div>
+      )}
     </>
   );
 }
@@ -624,9 +656,25 @@ export default function CarbonUIShell() {
   const { matchLocation, createHrefToPath } = useNavigation();
   const titleDetail = useUIShellTitleDetail();
   const platforms = platformsContent(matchLocation, createHrefToPath).filter(Boolean);
+  const [expanded, setExpanded] = useState(false);
+
+  const onClickSideNavExpand = () => setExpanded(!expanded);
+  const enableWelcomePageV2 =
+    (welcomePageV2Enabled && config.activeLicenseType === 'selfService') || (welcomePageV2Enabled && playwithEnabled);
 
   return (
-    <UIShell onSideNavClick={internalToggleClick} titleDetail={titleDetail} headerContent={<HeaderContent />}>
+    <UIShell
+      skipToContentText={t('in-components:mainNavigation.skipToMainContent')}
+      onSideNavClick={internalToggleClick}
+      titleDetail={titleDetail}
+      headerContent={<HeaderContent expanded={expanded} onClickSideNavExpand={onClickSideNavExpand} />}
+      {...(userProfileMenuEnabled && !playwithEnabled
+        ? {
+            headerPanelExpanded: expanded,
+            headerPanelContent: <ProfileMenu isSideNavExpanded={expanded} onClickSideNavExpand={onClickSideNavExpand} />
+          }
+        : {})}
+    >
       <HomeLink />
       <WebsiteMobileAppView />
       <BizOps />
@@ -647,7 +695,7 @@ export default function CarbonUIShell() {
         })}
       <Infrastructure />
       <MenuItem isDivider />
-      {welcomePageV2Enabled && <CustomDashboards />}
+      {enableWelcomePageV2 && <CustomDashboards />}
       <Synthetics />
       <Analyze />
       <Incidents />

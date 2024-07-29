@@ -287,8 +287,6 @@
       "vmwareTanzuNetworkLink": "VMware Tanzu 网络链接",
       "reviewThePrerequisites": "查看先决条件",
       "installingTheInstanaAgent": "安装 Instana 代理程序",
-      "vmwareTanzuDocumentation": "VMware Tanzu 文档",
-      "vmwareTanzuNetwork": "VMware Tanzu 网络",
       "addTileToOpsManagerAndConfigureIt": "将磁贴添加到 Ops Manager 并对其进行配置",
       "addInstanaApplicationMonitoring": "将“Instana Microservices Application Monitoring”磁贴添加到 Ops Manager，并将以下内容应用于该磁贴的“后端配置”选项卡。",
       "nameYourVmwareFoundation": "命名 VMware Tanzu Foundation",

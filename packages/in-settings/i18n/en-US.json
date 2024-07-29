@@ -178,7 +178,8 @@
     "contributionFilterColumnHead": "Contribution filter",
     "syntheticAllTestsAccess": "All Tests",
     "syntheticInheritedAccess": "Inherited Access",
-    "syntheticTableSubHeader": "The following synthetic tests are already accessible to the members of this group because they have access to the associated applications."
+    "syntheticTableSubHeader": "The following synthetic tests are already accessible to the members of this group because they have access to the associated applications.",
+    "syntheticTableSubHeaderWebMobile": "The following synthetic tests are already accessible to the members of this group because they have access to the associated applications, websites, and mobile applications."
   },
   "permissionScope": {
     "access_level": "Access level",
@@ -269,7 +270,8 @@
       },
       "limited_access": {
         "access_level": "Access only the listed synthetic tests with the selected access type and any additional permissions",
-        "access_level_tp": "Access to all synthetic tests associated with applications that the users have access to. You can use the list below to grant access to additional synthetic tests."
+        "access_level_tp": "Access to all synthetic tests associated with applications that the users have access to. You can use the list below to grant access to additional synthetic tests.",
+        "access_level_web_mobile": "Access to all synthetic tests associated with applications, websites, and mobile applications that the users have access to. You can use the list below to grant access to additional synthetic tests."
       },
       "role_permissions_owner": "Create, configure, view and delete synthetic tests.",
       "role_permissions_viewer": "View synthetic tests and their configuration."
@@ -376,13 +378,16 @@
       "toastTitleSuccesful": "Log retention period successfully changed",
       "toastTitleFailed": "Change Log Retention failed",
       "toastMessageFailed": "The retention period could not be changed. Please try again or contact support.",
-      "contactSupport": "Contact support"
+      "contactSupport": "Contact support",
+      "toastTitleFailedInGet": "We could not get Log Retention Period",
+      "toastMessageFailedInGet": "The retention period could not be fetched. Please try again or contact support."
     },
     "integrations": {
-      "integrations": "Log Integrations",
-      "integrationsDescription": "Connect your log management solutions and configure them to meet your needs.",
-      "integrationsTooltip": "Toggle is disabled due to a missing configuration. Click the tile and complete the form to enable this feature.",
-      "integrationsTooltipApiError": "Toggle is disabled due to an API connection issue. Wait for reconnection or reload the page to enable this feature.",
+      "integrations": "Integrations",
+      "logIntegrations": "Log Integrations",
+      "logIntegrationsDescription": "Connect your log management solutions and configure them to meet your needs.",
+      "logIntegrationsTooltip": "Toggle is disabled due to a missing configuration. Click the tile and complete the form to enable this feature.",
+      "logIntegrationsTooltipApiError": "Toggle is disabled due to an API connection issue. Wait for reconnection or reload the page to enable this feature.",
       "disabled": "Disabled",
       "on": "On",
       "off": "Off",
@@ -1413,7 +1418,6 @@
     "inviteYourTeamMates": "Invite your teammates to collaborate or link them directly to this page.",
     "inviteToInstana": "Invite your teammates to Instana.",
     "emailAddress": "Email address",
-    "add": "Add",
     "addUser": "Add user",
     "youCanEditThisMessage": "You can edit this message.",
     "group": "Group",

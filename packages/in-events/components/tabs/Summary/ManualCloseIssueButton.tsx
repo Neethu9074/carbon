@@ -5,10 +5,9 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { IconButton } from '@instana/components';
+import { IconButton, Button } from '@instana/components';
 import { interval } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
 
 import ManualCloseIssueConfigForm from 'in-events/components/tabs/Summary/ManualCloseIssueConfigForm';
 import { hasManualCloseFields } from 'in-events/components/eventUtil';

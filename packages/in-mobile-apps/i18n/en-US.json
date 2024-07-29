@@ -399,7 +399,8 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "Key Information",
+        "crashesLabelErrorMessage": "Location",
+        "crashesLabelErrorType": "Error Type",
         "crashesLabelOccurrences": "Occurrences",
         "crashesLabelAffectedUsers": "Affected Users",
         "crashesButtonAnalyzeCrashes": "Analyze Crashes",

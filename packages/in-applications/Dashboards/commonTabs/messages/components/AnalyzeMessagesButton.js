@@ -5,13 +5,14 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export default function AnalyzeMessagesButton({
@@ -44,6 +45,7 @@ export default function AnalyzeMessagesButton({
   const fields = showErroneous ? [createMetricField('erroneousCalls', 'SUM')] : null;
   return (
     <Button
+      size={carbonButtonEnabled ? 'compact' : 'normal'}
       className={className}
       kind="secondary"
       href={getLinkToApplicationAnalyze({

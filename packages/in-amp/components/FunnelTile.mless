@@ -16,6 +16,7 @@
     flex-direction: column;
     min-width: 23rem;
     clip-path: polygon(0 10%, 100% 20%, 100% 80%, 0% 90%);
+    line-height: 0.875rem;
   }
 
   .tileContainer {

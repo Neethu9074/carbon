@@ -7,10 +7,9 @@
 import { MapForm, createField, createMapForm } from 'formalistic';
 import React, { FormEvent, useEffect, useState } from 'react';
 
-import { Stack, Typography } from '@instana/components';
+import { Stack, Typography, Button } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 import { Error, ErrorCode } from '@instana/types';
-import { Button } from '@instana/legacy';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { FeedbackConfigEventForm, saveEventFeedbackForm } from 'in-events/components/feedback/api';

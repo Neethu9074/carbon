@@ -129,6 +129,10 @@ export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesA
       );
     },
 
+    setUnit(unit: string) {
+      onChange([], form => form.updateIn(['unit'], field => field.setValue(unit).setTouched(true)));
+    },
+
     setIsSumCrossSeriesAggregation(isSumCrossSeriesAggregation: boolean) {
       onChange([], form => {
         const newCrossSeriesAggregation = isSumCrossSeriesAggregation ? 'SUM' : form.get('aggregation').value;

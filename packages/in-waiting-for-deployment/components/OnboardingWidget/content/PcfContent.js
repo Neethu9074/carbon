@@ -21,12 +21,12 @@ export default function PcfContent({ agentKey, downloadKey, agentEndpoint, agent
     <>
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.downloadTheInstanaMicroservicesApplicationMonitoringTileFrom"
-        href="https://network.pivotal.io/products/instana-microservices-application-monitoring"
+        href="https://support.broadcom.com/group/ecx/productdownloads?subfamily=Instana%20Microservices%20Application%20Monitoring%20for%20VMware%20Tanzu"
       />
       <Spacer />
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.uploadTheInstanaMicroservicesApplicationMonitoringTileToYourOpsManagerAsDescribedInThe"
-        href="https://docs.pivotal.io/partners/instana/installing.html"
+        href="https://www.ibm.com/docs/en/instana-observability/current?topic=tanzu-installing-configuring-microservices-applications"
       />
       <Description
         lines={[

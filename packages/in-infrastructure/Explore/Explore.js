@@ -263,7 +263,8 @@ function Content({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
     type,
-    query: catalogQuery.debouncedValue
+    query: catalogQuery.debouncedValue,
+    withHierarchy: false
   });
 
   const metricsIds = metrics.map(metric => metric.metric);

@@ -47,7 +47,7 @@ export default function App() {
 
                 <div className={locals.content} role="main">
                   {/* For "Skip to main content" target */}
-                  <div tabIndex={0} id="main-content" style={{ display: 'hidden' }} />
+                  <div tabIndex={-1} id="main-content" style={{ display: 'hidden' }} />
                   <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
                 </div>
 

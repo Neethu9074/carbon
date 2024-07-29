@@ -1,0 +1,74 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/mixins.less';
+@import 'in-themes/active.less';
+
+:local {
+  .list {
+    position: absolute;
+    // avoid list elements to be below tag input fields and make them on the same level as addIndicators
+    z-index: var(--ids-z-index-option-overlays);
+    left: 0;
+    max-height: 12.875rem;
+    min-width: 15rem;
+    overflow: auto;
+    max-width: 30rem;
+
+    .breakWord();
+
+    cursor: default;
+  }
+
+  .input,
+  .input_dark {
+    max-width: 7.5rem;
+    padding: 0.0225rem 0.3125rem;
+
+    line-height: 2;
+    border: none;
+    border-right: 1px solid var(--ids-color-option-neutral-400);
+    padding: 0 0.625rem;
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
+      color: var(--ids-color-option-blue-400);
+    }
+
+    &::placeholder {
+      color: var(--ids-color-option-neutral-400);
+      opacity: 1; /* Firefox */
+    }
+  }
+
+  .input {
+    .ellipsis();
+    background: var(--ids-color-option-white);
+  }
+
+  .input_dark {
+    background: var(--ids-color-option-neutral-800);
+  }
+
+  .option {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .ellipsis {
+    .ellipsis();
+  }
+
+  .skeleton {
+    margin: 0.375rem 0;
+    height: 0.75rem;
+  }
+
+  .noCustomMetricsLabel {
+    font-size: 0.6875rem;
+    color: var(--ids-color-option-neutral-600);
+  }
+}

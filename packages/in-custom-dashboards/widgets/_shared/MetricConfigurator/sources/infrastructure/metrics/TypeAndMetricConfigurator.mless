@@ -36,4 +36,14 @@
 
     fill: var(--ids-color-option-neutral-400);
   }
+  .configuratorWithAdditionalContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+  }
+  .metricUnitWrapper {
+    display: flex;
+    align-items: center;
+  }
 }

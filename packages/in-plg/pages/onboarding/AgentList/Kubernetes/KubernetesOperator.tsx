@@ -143,7 +143,7 @@ const KubernetesOperator = ({
           <Stack direction="horizontal">
             <KeyValue
               label={t('in-plg:agentDetails.common.clusterName')}
-              value={<FormInputPlg value={clusterName} onChange={value => setClusterName(value)} />}
+              value={<FormInputPlg value={clusterName} onChange={value => setClusterName(value)} maxLength={65} />}
               withGap
             />
             <AgentzoneLister callBackFunc={updateAgentZone} />

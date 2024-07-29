@@ -6,11 +6,9 @@
 import React, { useEffect, useState } from 'react';
 import { findIndex } from 'lodash';
 
-import { Stack, SvgIcon, Typography, Pill } from '@instana/components';
+import { Stack, SvgIcon, Typography, Pill, Link, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { Link } from '@instana/components';
 import { on } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import {
   eventFeedbackClosedManuallyTracker,
@@ -21,10 +19,10 @@ import {
   eventFeedbackSubmitTracker
 } from 'in-events/tracker';
 import { getKubernetesProblemText, getKubernetesProblemTextReplacement } from './EventContent/KubernetesEventContent';
+import { carbonButtonEnabled, eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { NotesAndActivity } from 'in-events/components/NotesAndActivity/NotesAndActivity';
-import { eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -230,6 +228,7 @@ function FeedbackComponents({ eventData }) {
             setFeedbackState(tup);
           }
         }}
+        {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
       />
       <Button
         kind="subtle"
@@ -250,6 +249,7 @@ function FeedbackComponents({ eventData }) {
             setFeedbackState(tdown);
           }
         }}
+        {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
       />
     </Stack>
   );

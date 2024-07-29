@@ -9,7 +9,7 @@ import React from 'react';
 import { Spacer } from '@instana/components';
 
 import AlertTypography from 'in-alerting/components/AlertTypography';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 
 import locals from './SelectedBlueprintPresenter.mless';
 
@@ -26,7 +26,7 @@ export default function SelectedBlueprintPresenter({ title, description, isBeta,
       <AlertTypography variant={'heading-200'} color={'color900'} content={title} noMargin>
         {isBeta && (
           <span className={locals.gap}>
-            <BetaBadge />
+            <PreviewBadge />
           </span>
         )}
       </AlertTypography>

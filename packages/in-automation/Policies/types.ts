@@ -28,7 +28,6 @@ import {
   ServiceLevelsAlertConfigWithMetadata
 } from 'in-types';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
-import { Tag } from 'in-automation/ActionCatalog/TagsTable';
 
 export type Triggers = {
   customEvent: Result<EventSpecificationInfo[]>;
@@ -148,7 +147,7 @@ export type ApplyOn = typeof scopeAll | typeof scopeDfq;
 type PolicyFormItems = {
   name: FormField<string>;
   description: FormField<string>;
-  tags: FormField<Tag[]>;
+  tags: FormField<string[]>;
   triggerType: FormField<TriggerType>;
   triggerId: FormField<string>;
   scope: MapForm<{

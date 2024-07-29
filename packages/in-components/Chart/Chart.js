@@ -23,7 +23,6 @@ export default class Chart {
     this.canvas = canvas;
     this.config = new Config(props);
     this.renderScheduler = new DoubleBufferRenderScheduler(canvas, this);
-
     this.combinedSubscriptions = combineLatest([
       this.config.localHighlightedTimeframe$.nextFrame().throttle(STEADY_FRAMERATE),
       highlightedTimeframe$.nextFrame().throttle(STEADY_FRAMERATE)
@@ -48,7 +47,6 @@ export default class Chart {
       });
     });
   }
-
   update(props) {
     this.config.update(props);
 

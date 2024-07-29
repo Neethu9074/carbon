@@ -25,7 +25,9 @@ export default function Typeahead({ value, onChange, render = renderDefault, ...
       {downShiftProps => {
         const lowerCaseInputValue = downShiftProps.inputValue.toLowerCase();
         return (
-          <div className={locals.wrapper}>{render({ lowerCaseInputValue, ...downShiftProps, ...remainingProps })}</div>
+          <div className={locals.wrapper}>
+            {render({ lowerCaseInputValue, ...downShiftProps, value, ...remainingProps })}
+          </div>
         );
       }}
     </Downshift>

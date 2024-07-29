@@ -15,7 +15,7 @@ const maxIssuesToShow = 10;
 
 export default function OpenIssuesListPresenter({
   openIssuesResult,
-  analyzeLink$,
+  analyzeLink,
   getIssueLink,
   close,
   eventType = 'Issue'
@@ -36,7 +36,7 @@ export default function OpenIssuesListPresenter({
       <Actions
         openIssuesResult={openIssuesResult}
         maxIssuesToShow={maxIssuesToShow}
-        analyzeLink$={analyzeLink$}
+        analyzeLink={analyzeLink}
         getIssueLink={getIssueLink}
         eventType={eventType}
       />

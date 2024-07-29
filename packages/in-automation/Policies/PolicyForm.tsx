@@ -83,7 +83,9 @@ import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWr
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
+import CreatableTagSelect from 'in-components/CreatableTagSelect/CreatableTagSelect';
 import WebsiteScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
+import { hasError, isLoading, listSuccess, success } from 'in-services/util/result';
 import SloAppliedColumn from 'in-alerting/smart-alerts/slo/list/SloAppliedColumn';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
@@ -94,7 +96,6 @@ import LogScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm';
-import { hasError, listSuccess, success } from 'in-services/util/result';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
@@ -105,7 +106,7 @@ import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import TagsTable from 'in-automation/ActionCatalog/TagsTable';
+import usePolicyTags from 'in-automation/hooks/usePolicyTags';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { merge } from 'in-services/util/resultMerger';
@@ -201,6 +202,8 @@ function DetailsSection({
 }) {
   const name = form.get('name');
   const description = form.get('description');
+  const tags = form.get('tags');
+  const availableTags = usePolicyTags();
 
   return (
     <>
@@ -251,17 +254,23 @@ function DetailsSection({
           </HelpText>
         </FormGroup>
       ))}
-      <FormGroup>
-        <TagsTable
-          form={form}
-          setForm={setForm}
-          isEditable={role?.canConfigureAutomationPolicies}
-          onChange={(fieldName, value) =>
-            //@ts-expect-error
-            setForm(form => form!.updateIn([fieldName], item => item.setValue(value).setTouched(true)))
-          }
-        />
-      </FormGroup>
+      {tags.map(field => (
+        <FormGroup>
+          <Label htmlFor="policy-tags" hasError={!field.valid && field.touched}>
+            {t('in-automation:tagsLabel')}
+          </Label>
+          <CreatableTagSelect
+            id="policy-tags"
+            isLoading={isLoading(availableTags)}
+            tags={availableTags.data}
+            value={field.value}
+            onChange={newTags =>
+              setForm(form => form!.updateIn(['tags'], item => item.setValue(newTags).setTouched(true)))
+            }
+            disabled={!role?.canConfigureAutomationActions}
+          />
+        </FormGroup>
+      ))}
     </>
   );
 }

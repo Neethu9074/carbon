@@ -41,7 +41,6 @@ import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/Al
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
-import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { role } from 'in-stores/user';
 
@@ -137,7 +136,3 @@ function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, isGlo
 function renderAlertConfiguration({ alertConfig, isGlobalSmartAlert }) {
   return <AlertConfiguration alertConfig={alertConfig} isGlobalSmartAlert={isGlobalSmartAlert} />;
 }
-
-AlertDetails.propTypes = {
-  location: propTypeLocation
-};

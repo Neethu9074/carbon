@@ -5,9 +5,8 @@
 
 import React, { Fragment, useState } from 'react';
 
-import { Link, Card } from '@instana/components';
+import { Link, Card, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
 
 import {
   hideWebsiteDetailsInTraceView,

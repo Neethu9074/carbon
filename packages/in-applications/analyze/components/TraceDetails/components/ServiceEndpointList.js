@@ -126,6 +126,7 @@ export default function ServiceEndpointList({
       traceId={traceId}
       onRowMouseEnter={onListItemMouseEnter}
       onRowMouseLeave={onListItemMouseLeave}
+      fixedLayout
     />
   );
 }

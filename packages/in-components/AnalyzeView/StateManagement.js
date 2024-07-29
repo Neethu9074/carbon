@@ -219,6 +219,7 @@ function AnalyzeStateManagement({
     ua2FormModelChangedTracker({
       formModel,
       url: getChangeAsUrl({ formModel }),
+      tagName: formModel?.filter(form => form.name).map(form => form.name),
       operator: formModel?.filter(form => form.operator).map(form => form.operator)
     });
     onChange({ formModel });
@@ -555,7 +556,7 @@ function addCustomMetricProps(customMetricSuggestions, catalog, chartedMetrics) 
       const metricTagSuggestions = suggestions.map(suggestion => ({ label: suggestion, value: suggestion }));
       catalog.find(metric => metric.metricId === metricId).metricTagSuggestions = metricTagSuggestions;
       catalog.find(metric => metric.metricId === metricId).secondLevelMetricId =
-        chartedMetrics?.[0]?.secondLevelMetricId || metricTagSuggestions?.[0]?.value;
+        chartedMetrics?.[0]?.secondLevelMetricId;
     }
   });
 }

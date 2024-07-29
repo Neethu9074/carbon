@@ -40,6 +40,7 @@ export const infraExploreFilterEmptyValueEnabled = isFeatureFlagEnabled('infraEx
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled');
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
 export const segmentAnalyticsEnabled = isFeatureFlagEnabled('segmentAnalyticsEnabled', false);
+export const assistMeEnabled = isFeatureFlagEnabled('assistMeEnabled', false);
 export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const phmcEnabled = isFeatureFlagEnabled('phmcEnabled');
@@ -75,6 +76,7 @@ export const carbonPaginationEnabled = isFeatureFlagEnabled('carbonPaginationEna
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const carbonMenuEnabled = isFeatureFlagEnabled('carbonMenuEnabled', false);
 export const carbonInputEnabled = isFeatureFlagEnabled('carbonInputEnabled');
+export const carbonComboBoxEnabled = isFeatureFlagEnabled('carbonComboBoxEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
@@ -138,6 +140,9 @@ export const syntheticRbacLimitedTPEnabled = isFeatureFlagEnabled('syntheticRbac
 // Synthetic Multi App Support feature flag
 export const syntheticMultiAppEnabled = isFeatureFlagEnabled('syntheticMultiAppEnabled');
 
+// Synthetic Multi Websites and Mobile Apps feature flag
+export const syntheticMultiWebMobileEnabled = isFeatureFlagEnabled('syntheticMultiWebMobileEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'
@@ -192,6 +197,7 @@ export const hiddenSearchFieldValues = {
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
 export const bizopsPerspectivesEnabled = isFeatureFlagEnabled('bizopsPerspectivesEnabled');
+export const bizopsGenAIEnabled = isFeatureFlagEnabled('bizopsGenAIEnabled');
 
 // ########################################################################################
 // Chart gap hiding
@@ -251,7 +257,7 @@ export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);
 
 export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', false);
-export const shareAndInviteEnabled = isFeatureFlagEnabled('shareAndInviteEnabled', false);
+export const shareAndInviteEnabled = isFeatureFlagEnabled('shareAndInviteEnabled', true);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
 
@@ -270,3 +276,6 @@ export const analyzeRelatedInstancesButtonEnabled = isFeatureFlagEnabled('analyz
 export const maxMetricsLimitForBeeinstanaEnabled = isFeatureFlagEnabled('maxMetricsLimitForBeeinstanaEnabled', true);
 export const serverSideInfraTagSearchEnabled = isFeatureFlagEnabled('serverSideInfraTagSearchEnabled', false);
 export const preAggregatedMetricsQueryEnabled = isFeatureFlagEnabled('preAggregatedMetricsQueryEnabled', false);
+export const carbonFileUploaderEnabled = isFeatureFlagEnabled('carbonFileUploaderEnabled', false);
+export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabled', false);
+export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetricsEnabled', false);

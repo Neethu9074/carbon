@@ -25,7 +25,8 @@ import {
   LogAlertConfigWithMetadata,
   GlobalApplicationsAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
-  ServiceLevelsAlertConfigWithMetadata
+  ServiceLevelsAlertConfigWithMetadata,
+  ActionType
 } from 'in-types';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
@@ -48,6 +49,15 @@ export function getActions() {
     method: 'GET',
     maxRetries: 3,
     url: actionUrl,
+    mapToResultObject: true
+  });
+}
+
+export function getActionTags() {
+  return http<{ tags: string[] }>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${actionUrl}/tags`,
     mapToResultObject: true
   });
 }
@@ -533,7 +543,7 @@ const createTimeoutField = (value: string): Field => ({
 
 export function createAction(
   name: string = t('in-automation:newAction'),
-  type: string = DOC_LINK_TYPE,
+  type: ActionType = DOC_LINK_TYPE,
   description: string = '',
   fields: Field[] = [createDocLinkField('')],
   tags: string[] = []
@@ -680,8 +690,16 @@ export function getPolicies() {
   return http<Policy[]>({
     method: 'GET',
     maxRetries: 3,
-    headers: getCsrfHeader(),
     url: policiesUrl,
+    mapToResultObject: true
+  });
+}
+
+export function getPolicyTags() {
+  return http<{ tags: string[] }>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${policiesUrl}/tags`,
     mapToResultObject: true
   });
 }
@@ -690,7 +708,6 @@ export function getPolicy(id: string) {
   return http<Policy>({
     method: 'GET',
     maxRetries: 3,
-    headers: getCsrfHeader(),
     url: `${policiesUrl}/${id}`,
     mapToResultObject: true
   });

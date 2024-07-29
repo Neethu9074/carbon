@@ -260,7 +260,7 @@ function getInitializedTooLateHint(snapshot, isInternalVisible, monitoringIssues
         i18nKey="in-forge:plugins.nodeJsRuntimePlatform.itSeemsYouHaveInitializedTheInstanaCollectorPackageTooLate"
         components={{
           installLink: <Link external href="https://ibm.biz/install-nodejs-pkg" />,
-          pitfallsLink: <Link external href="https://ibm.biz/nodejs-common-pitfalls" />
+          pitfallsLink: <Link external href="https://ibm.biz/nodejs-review-common-installation-considerations" />
         }}
       />
     </DashboardNotification>

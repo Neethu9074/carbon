@@ -42,12 +42,16 @@ import {
   PermissionSectionProps
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
 import EntityTableCellWithOverflow from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTableCellWithOverflow';
+import {
+  getField,
+  getScopeFromProductArea,
+  updateFormField
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
 import SelectEntitiesForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/SelectEntitiesForm';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
-import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Divider from 'in-components/workspace/Divider/Divider';
@@ -96,6 +100,8 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const scopeBindings = permissionSetField?.value[entityPermissionKey] ?? [];
+  const applicationScopeBindings = permissionSetField?.value['applicationIds'] ?? [];
+  const applicationsAccessScope = getScopeFromProductArea(ProductArea.APPLICATION, permissionSetField?.value!);
   const isAppWithContributorFeature = entityPermissionKey === 'applicationIds';
   const isContributor = isAppWithContributorFeature && role === AreaRoleWithContributor.CONTRIBUTOR;
   const isAppContributionFilterConfigured =
@@ -104,6 +110,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   const restrictedApplicationToolTipText = (
     <Trans i18nKey="in-settings:permissionScope.applicationCreatedUsingContributionFilter" />
   );
+  const selectedApplicationIds = getFilteredScopeIds(applicationScopeBindings, isAppWithContributorFeature);
   const selectedIds = getFilteredScopeIds(scopeBindings); // All ids with valid scopeId (includes ids with contributor access)
   const selectedEntities = useSelectedEntities({
     selectedIds: isAppWithContributorFeature
@@ -224,7 +231,11 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   return (
     <Stack direction="vertical">
       <StackItem>
-        <ConfigurationSummary accessLevelType={ScopedPermissionItem.LIMITED_ACCESS} accessLevelMsg={accessLevelMessage}>
+        <ConfigurationSummary
+          accessLevelType={ScopedPermissionItem.LIMITED_ACCESS}
+          accessLevelMsg={accessLevelMessage}
+          productArea={productArea}
+        >
           {isContributor && isAppContributionFilterConfigured ? <ContributorFilterWarning /> : null}
           <RoleSelectionSection />
           {entityPermissionKey === 'syntheticTestIds' ? (
@@ -277,6 +288,8 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
                     setShowSubSlide(false);
                   }}
                   productArea={productArea}
+                  selectedApplicationIds={selectedApplicationIds}
+                  applicationsAccessScope={applicationsAccessScope}
                 />
               )
             });

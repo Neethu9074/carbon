@@ -5,10 +5,9 @@
 
 import React, { useState } from 'react';
 
+import { Card, Pill, Button } from '@instana/components';
 import { combineLatest } from '@instana/observables';
-import { Card, Pill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
 
 import {
   getSnapshotId,

@@ -111,7 +111,7 @@ export const valueColumnDefinition = {
               onChange(['value'], (f: Item) => (f as Field<DynamicFieldValue>).setValue(formModel).setTouched(true));
             };
             return (
-              <>
+              <div className={locals.fullWidth}>
                 <TagBasedPayloadConfigurator
                   disabled={!enabled}
                   value={toViewModel(value)}
@@ -120,7 +120,7 @@ export const valueColumnDefinition = {
                   tagFilterExpression={EMPTY_EXPRESSION}
                 />
                 <TouchedMessages field={field} className={locals.fullWidth} />
-              </>
+              </div>
             );
           })}
         </FormGroup>

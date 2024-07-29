@@ -6,27 +6,8 @@
 
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-
 import { t } from '@instana/i18n-react';
-
 import WelcomeHeader from 'in-plg/components/WelcomeHeader/WelcomeHeader';
-
-jest.mock('in-plg/pages/WelcomePage/OnboardingStepBuilder', () =>
-  jest.fn(() => {
-    return [
-      {
-        key: 'inviteUsers',
-        title: 'Connect with your experts',
-        description: 'Get help to complete setup tasks and try out product features.',
-        buttonName: 'Invite users',
-        buttonType: 'ghost',
-        href: '/#/config/team/accessControl/users',
-        hasPermission: true,
-        isActionCompleted: false
-      }
-    ];
-  })
-);
 
 jest.mock('in-stores/user', () => ({
   user: {

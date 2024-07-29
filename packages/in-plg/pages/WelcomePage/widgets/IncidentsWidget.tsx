@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { Link, Typography } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
@@ -16,9 +15,9 @@ import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widg
 import getRawEvents from 'in-subscription/getRawEvents';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
@@ -31,13 +30,12 @@ export default connectTo(() => ({
   timeConfig: timeConfig$,
   openEventsAtServerTime: openEventsAtServerTime$
 }))(function IncidentsWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
-  const fullListViewHref = useObservable(
-    getEventsViewFilteredBy({
-      eventTypeFilter: 'incident',
-      timeConfig
-    }),
-    []
-  );
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+  const fullListViewHref = getEventsViewFilteredBy({
+    eventTypeFilter: 'incident',
+    timeConfig
+  });
+
   const getHeaders = () => {
     return [
       {
@@ -149,6 +147,7 @@ export default connectTo(() => ({
   return (
     <DatatableWrapper
       {...generalProps}
+      tableType="incidentsWidget"
       getItems={getIncidentData}
       viewAll
       href={fullListViewHref}

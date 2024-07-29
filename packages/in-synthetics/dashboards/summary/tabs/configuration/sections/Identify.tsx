@@ -30,7 +30,6 @@ const Identify = ({ test }: Props) => {
       className={locals.rightHeader}
       maxWidth={140}
       query={searchInput}
-      placeholder=""
       onChange={q => setSearchInput(q)}
     />
   );

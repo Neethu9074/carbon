@@ -6,10 +6,11 @@
 
 import React from 'react';
 
-import { Typography } from '@instana/components';
+import { LicenseBannerButton, Typography } from '@instana/components';
 
-import { CustomButtons } from 'in-plg/components/Dialog/CustomButtons';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { BuyNowDialog } from '../BuyNowDialog/BuyNowDialog';
 import BaseDialog from 'in-components/Dialog/BaseDialog';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
@@ -29,7 +30,16 @@ export function OpenTrialExpiryDialog({ message, isSevenDaysOver }: OpenTrailExp
             ? t('in-plg:trialExpirationPopUp.titleBeforeTrialPeriodEnd')
             : t('in-plg:trialExpirationPopUp.titleAfterTrialPeriodEnd')
         }
-        customButtons={<CustomButtons />}
+        customButtons={
+          <LicenseBannerButton
+            kind="primary"
+            onClick={() => {
+              addActiveDialog(<BuyNowDialog />);
+            }}
+          >
+            {t('in-plg:licenseBanner.buyNow')}
+          </LicenseBannerButton>
+        }
       >
         <Typography variant="body-regular">
           {!isSevenDaysOver

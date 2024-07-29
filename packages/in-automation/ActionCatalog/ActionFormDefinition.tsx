@@ -93,7 +93,6 @@ function additionalHeadersValidator(additionalHeaders: Header[]): ValidationResu
 
 export function createActionFormDefinition(action: ActionFormEntity) {
   const tags = action.tags ?? [];
-  const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
   const parameters = action.inputParameters ?? [];
   const mappedParams = parameters.map(parameter => ({ id: generateUniqueShortId(), value: parameter }));
   let form: MapForm<any> = createMapForm()
@@ -121,19 +120,7 @@ export function createActionFormDefinition(action: ActionFormEntity) {
     .put(
       'tags',
       createField({
-        value: mappedTags,
-        validator: tags => {
-          const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || tag.value === '', false);
-          if (hasBlankTags) {
-            return [
-              {
-                severity: 'error',
-                message: t('in-automation:theValueMustNotBeBlank')
-              }
-            ];
-          }
-          return null;
-        }
+        value: tags
       })
     )
     .put(

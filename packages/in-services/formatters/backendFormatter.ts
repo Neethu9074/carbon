@@ -11,7 +11,9 @@ import {
   seconds,
   micros,
   latency,
-  NumberFormatter
+  NumberFormatter,
+  kiloBytes,
+  megaBytes
 } from 'in-services/formatters/number';
 
 interface FormatterWithDefault {
@@ -24,6 +26,8 @@ interface FormatterWithDefault {
 export type BackendFormatterType =
   | 'BYTE_RATE'
   | 'BYTES'
+  | 'KILO_BYTES'
+  | 'MEGA_BYTES'
   | 'LATENCY'
   | 'MICROS'
   | 'MILLIS'
@@ -44,6 +48,8 @@ const mappings: {
   PERCENTAGE: createFormatterWithDefault(percentage, 'detailed'),
 
   BYTES: createFormatterWithDefault(bytes, 'detailed'),
+  KILO_BYTES: createFormatterWithDefault(kiloBytes, 'detailed'),
+  MEGA_BYTES: createFormatterWithDefault(megaBytes, 'detailed'),
   BYTE_RATE: createFormatterWithDefault(bytes.perSecond, 'detailed'),
 
   LATENCY: createFormatterWithDefault(latency, 'compact'),
@@ -94,6 +100,8 @@ export const mappingsBackendTypesToUiMetrics = {
   RATE: 'perSecond.detailed',
   PERCENTAGE: 'percentage.detailed',
   BYTES: 'bytes.detailed',
+  KILO_BYTES: 'kilobytes.detailed',
+  MEGA_BYTES: 'megabytes.detailed',
   BYTE_RATE: 'perSecond.detailed',
   LATENCY: 'latency.detailed',
   MILLIS: 'millis.compact',

@@ -75,6 +75,20 @@ const cleanConfigurationForm = (form: MapForm<any>, test: SyntheticTest): Synthe
     updatedForm = updatedForm.remove('applications');
   }
 
+  if (
+    (updatedForm.get('websites')?.value.length === 1 && hasEmptyStrings(updatedForm.get('websites')?.value)) ||
+    updatedForm.get('websites')?.value.length === 0
+  ) {
+    updatedForm = updatedForm.remove('websites');
+  }
+
+  if (
+    (updatedForm.get('mobileApps')?.value.length === 1 && hasEmptyStrings(updatedForm.get('mobileApps')?.value)) ||
+    updatedForm.get('mobileApps')?.value.length === 0
+  ) {
+    updatedForm = updatedForm.remove('mobileApps');
+  }
+
   // Add default customProperties
   if (hasEmptyStrings(updatedForm.get('customProperties').value)) {
     updatedForm = updatedForm.put('customProperties', createField({ value: {} }));

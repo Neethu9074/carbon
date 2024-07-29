@@ -1,6 +1,0 @@
-{
-  "name": "StepProgressBar",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./StepProgressBar.tsx"
-}

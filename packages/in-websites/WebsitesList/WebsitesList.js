@@ -17,7 +17,7 @@ import {
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
 import WebsitesNoDataNotification from 'in-websites/WebsitesList/components/WebsitesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { linkToNewWebsite$, useLinkToWebsite, websitesPath } from 'in-websites/navigation/paths';
+import { useLinkToNewWebsite, useLinkToWebsite, websitesPath } from 'in-websites/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -121,17 +121,22 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   pathSegment: websitesPath
 });
 
-const rightHeader = role.canConfigureEumApplications && !playwithEnabled && (
-  <Button
-    kind="action"
-    onClick={() => websitesOpenAddForm()}
-    className={locals.button}
-    icon="lib_openclose_add_circle_outline"
-    href$={linkToNewWebsite$}
-  >
-    {t('in-websites:websitesList.websitesListButtonAddWebsite')}
-  </Button>
-);
+const RightHeader = () => {
+  const linkToNewWebsite = useLinkToNewWebsite();
+  if (role.canConfigureEumApplications && !playwithEnabled) {
+    return (
+      <Button
+        kind="action"
+        onClick={() => websitesOpenAddForm()}
+        className={locals.button}
+        icon="lib_openclose_add_circle_outline"
+        href={linkToNewWebsite}
+      >
+        {t('in-websites:websitesList.websitesListButtonAddWebsite')}
+      </Button>
+    );
+  }
+};
 
 export default connectTo(
   {
@@ -153,7 +158,7 @@ export default connectTo(
             FallbackComponent={WebsitesNoDataNotification}
           >
             <Card hasMarginBottom>
-              <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={rightHeader} />
+              <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={RightHeader} />
             </Card>
           </WithEmptyStateFallback>
         </LeftRightPadding>

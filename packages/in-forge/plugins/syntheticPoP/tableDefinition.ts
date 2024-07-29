@@ -63,6 +63,15 @@ export default {
       }
     },
     {
+      title: t('in-forge:plugins.syntheticPoP.tenantType'),
+      type: 'string',
+      typeArgs: {
+        getValue(row: Row) {
+          return row.snapshot.getIn(['data', 'properties.tenantType']);
+        }
+      }
+    },
+    {
       title: t('in-forge:plugins.syntheticPoP.httpActive'),
       type: 'metric',
       typeArgs: {

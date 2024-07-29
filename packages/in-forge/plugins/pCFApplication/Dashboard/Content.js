@@ -14,7 +14,7 @@ export default function PCFApplicationDashboard({ snapshot }) {
 
   if (pcfEnabled) {
     const snapshotId = snapshot.get('id');
-    return <RedirectWithHash to$={getApplicationDashboardLink(snapshotId)} />;
+    return <RedirectWithHash to={getApplicationDashboardLink(snapshotId)} />;
   }
   return <div />;
 }

@@ -7,8 +7,8 @@ import { Field, MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
+import { Button } from '@instana/components';
 import { TimeConfig } from '@instana/types';
-import { Button } from '@instana/legacy';
 
 import {
   ruleLogMessageOperatorOptions,
@@ -157,7 +157,7 @@ export default function ProvideLogMessage({
           <FormGroup>
             <DebouncedTextArea
               name={'ruleMessage'}
-              rows="3"
+              rows={3}
               value={field.value}
               onValueChange={(value: string) => {
                 updateForm(

@@ -9,7 +9,7 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 
 import locals from './SideNavigation.mless';
 
@@ -35,7 +35,7 @@ export function SideNavigationItem({ isActive, href$, href, onClick, icon, omitE
       >
         {(icon || !omitEmptyIcon) && <SvgIcon className={locals.icon} type={icon} />}
         {label}
-        {isBeta && <BetaBadge />}
+        {isBeta && <PreviewBadge />}
       </div>
     </Link>
   );

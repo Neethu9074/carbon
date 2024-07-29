@@ -6,13 +6,12 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { KeyValue, SvgIcon } from '@instana/components';
+import { KeyValue, SvgIcon, Button } from '@instana/components';
 import { combineLatest } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileHealthIndicatorBehavior';
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
-import { linkToNewWebsite$, useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
+import { useLinkToNewWebsite, useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { useGenerateLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
 import { mobileApp as mobileAppType, website as websiteType } from 'in-cockpit/starredItems/types';
 import EmptyStateContent from 'in-cockpit/widgets/WebsitesAndMobileTopList/EmptyStateContent';
@@ -45,6 +44,7 @@ export default function WebsitesAndMobileTopList({ config }) {
   const getLinkToWebsite = useGenerateLinkToWebsite();
   const getLinkToMobileApp = useGenerateLinkToMobileApp();
   const linkToNewMobileAppHref = useLinkToNewMobileApp();
+  const linkToNewWebsite = useLinkToNewWebsite();
 
   const header = (
     <>
@@ -53,7 +53,7 @@ export default function WebsitesAndMobileTopList({ config }) {
           kind="action"
           onClick={() => websitesOpenAddForm()}
           icon="lib_openclose_add_circle_outline"
-          href$={linkToNewWebsite$}
+          href={linkToNewWebsite}
         >
           {t('in-cockpit:component.websiteMobileTopList.addWebsite')}
         </Button>

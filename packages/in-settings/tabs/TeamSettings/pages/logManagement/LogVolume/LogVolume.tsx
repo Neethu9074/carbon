@@ -6,8 +6,8 @@
 
 import React, { useState } from 'react';
 
+import { CarbonLayer, Li, SvgIcon, Ul } from '@instana/components';
 import { combineLatest, just } from '@instana/observables';
-import { Li, SvgIcon, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
@@ -53,19 +53,21 @@ function LogVolume() {
           <section>
             <Ul>
               <Li>
-                <div className={locals.timeRange}>
-                  <Label htmlFor="timeRange">
-                    <SvgIcon type="lib_datetime_date" />
-                    {localisationStrings.timeRange}
-                  </Label>
-                  <Select name="timeRange" value={timePeriod} onChange={e => setTimePeriod(+e.target.value)}>
-                    {[1, 3, 6, 9, 12].map(months => (
-                      <option value={months}>
-                        {t('in-settings:tabs.logVolume.months', { context: String(months) })}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
+                <CarbonLayer>
+                  <div className={locals.timeRange}>
+                    <Label htmlFor="timeRange">
+                      <SvgIcon type="lib_datetime_date" />
+                      {localisationStrings.timeRange}
+                    </Label>
+                    <Select name="timeRange" value={timePeriod} onChange={e => setTimePeriod(+e.target.value)}>
+                      {[1, 3, 6, 9, 12].map(months => (
+                        <option value={months}>
+                          {t('in-settings:tabs.logVolume.months', { context: String(months) })}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                </CarbonLayer>
               </Li>
             </Ul>
           </section>

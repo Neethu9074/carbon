@@ -42,7 +42,12 @@ export const stepConfigs = [
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step4Title'),
     isOptional: true,
-    validateIntermediately: [['threshold', 'value']]
+    validateIntermediately: [
+      ['threshold', 'value'],
+      ['timeThreshold', 'timeWindow'],
+      ['timeThreshold', 'violations'],
+      ['timeThreshold', 'requests']
+    ]
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step5Title'),
