@@ -5,7 +5,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
-import classNames from 'classnames';
 
 import { Button } from '@instana/legacy';
 
@@ -21,25 +20,19 @@ interface UseSuggestedValueButtonProps {
   percentageMetric?: boolean;
   isGlobalSmartAlert?: boolean;
   metricUnitPostfix?: string;
-  thresholdField?: Field<any>;
-  isMultiThreshold?: boolean;
-  getUpdatedForm?: (targetValue: number | null) => MapForm<any>;
 }
-
 export default function UseSuggestedValueButton({
   form,
   updateForm,
   percentageMetric = false,
   metricUnitPostfix,
-  isGlobalSmartAlert = false,
-  thresholdField = form.get('threshold').get('value'),
-  isMultiThreshold = false,
-  getUpdatedForm
+  isGlobalSmartAlert = false
 }: UseSuggestedValueButtonProps) {
   const suggestedThresholdValue = form.get('hiddenFields').get('suggestedThresholdValue').value;
   const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
-  const thresholdValueManuallyChanged = thresholdField?.touched;
-  const thresholdValue = thresholdField?.value;
+  const thresholdValueItem = form.get('threshold').get('value');
+  const thresholdValueManuallyChanged = thresholdValueItem.touched;
+  const thresholdValue = thresholdValueItem.value;
   const showLoadingIndicator = !isGlobalSmartAlert && calculateThresholdOnBackend;
 
   const showButton = useShowButton(suggestedThresholdValue, thresholdValueManuallyChanged);
@@ -48,13 +41,7 @@ export default function UseSuggestedValueButton({
     <>
       {showLoadingIndicator ? (
         <>
-          <LoadingIndicator
-            size="regular"
-            className={classNames({
-              [locals.loadingIndicator]: true,
-              [locals.multiThresholdLoadingIndicator]: isMultiThreshold
-            })}
-          />
+          <LoadingIndicator size="regular" className={locals.loadingIndicator} />
           <div className={locals.loadingIndicatorText}>
             {t('in-alerting:smartAlerts.components.smartAlertDialog.loadingThresholdSuggestion')}
           </div>
@@ -62,23 +49,16 @@ export default function UseSuggestedValueButton({
       ) : (
         <>
           {showButton && (
-            <div
-              className={classNames({
-                [locals.buttonWrapper]: true,
-                [locals.multiThresholdButtonWrapper]: isMultiThreshold
-              })}
-            >
+            <div className={locals.buttonWrapper}>
               <Button
                 kind="secondaryDarker"
-                onClick={() => {
-                  const updatedForm = getUpdatedForm
-                    ? getUpdatedForm(suggestedThresholdValue)
-                    : form.updateIn(['threshold', 'value'], f =>
-                        (f as Field<any>).setValue(suggestedThresholdValue).setTouched(true)
-                      );
-
-                  updateForm(updatedForm);
-                }}
+                onClick={() =>
+                  updateForm(
+                    form.updateIn(['threshold', 'value'], f =>
+                      (f as Field<any>).setValue(suggestedThresholdValue).setTouched(true)
+                    )
+                  )
+                }
                 disabled={suggestedThresholdValue === thresholdValue}
               >
                 <span>
@@ -95,7 +75,7 @@ export default function UseSuggestedValueButton({
   );
 }
 
-function useShowButton(suggestedThresholdValue: number, thresholdValueManuallyChanged?: boolean): boolean {
+function useShowButton(suggestedThresholdValue: number, thresholdValueManuallyChanged: boolean): boolean {
   const [isNewThresholdValue, setIsNewThresholdValue] = useState(false);
   const lastValue = useRef<number | null>(null);
 
@@ -106,8 +86,9 @@ function useShowButton(suggestedThresholdValue: number, thresholdValueManuallyCh
     }
   }, [suggestedThresholdValue]);
 
-  return (
+  const showButton =
     (thresholdValueManuallyChanged && suggestedThresholdValue != null) ||
-    (suggestedThresholdValue != null && isNewThresholdValue)
-  );
+    (suggestedThresholdValue != null && isNewThresholdValue);
+
+  return showButton;
 }

@@ -11,11 +11,14 @@ import {
   disableAlertConfig as disableAlertConfigApi,
   enableAlertConfig as enableAlertConfigApi
 } from 'in-alerting/smart-alerts/components/api/smartAlertConfig';
-import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import {
+  InfraSmartAlertConfig,
+  InfraSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
-import { ConfigVersion, InfraAlertConfig, Result } from 'in-types';
+import { ConfigVersion, Result } from 'in-types';
 import http from 'in-services/http';
 
 const baseUrl = apiEndpoint.INFRA;
@@ -107,7 +110,7 @@ export function restoreAlertConfigVersion(id: string, created: number): Observab
   }).map(response => response.body);
 }
 
-export function createAlertConfig(data: InfraAlertConfig): Observable<InfraSmartAlertConfigWithMetadata> {
+export function createAlertConfig(data: InfraSmartAlertConfig): Observable<InfraSmartAlertConfigWithMetadata> {
   return http<InfraSmartAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,
@@ -117,7 +120,10 @@ export function createAlertConfig(data: InfraAlertConfig): Observable<InfraSmart
   }).map(response => response.body);
 }
 
-export function updateAlertConfig(data: InfraAlertConfig, id: string): Observable<InfraSmartAlertConfigWithMetadata> {
+export function updateAlertConfig(
+  data: InfraSmartAlertConfig,
+  id: string
+): Observable<InfraSmartAlertConfigWithMetadata> {
   return http<InfraSmartAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,

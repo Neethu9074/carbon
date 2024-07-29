@@ -16,13 +16,7 @@ import {
   TagFilter,
   TagFilterExpression,
   ThresholdData,
-  TimeConfig,
-  InfraAlertRuleUnion,
-  RuleWithThreshold,
-  Severity,
-  SmartAlertThresholdRuleUnion,
-  StaticThresholdRule,
-  ThresholdOperator
+  TimeConfig
 } from '@instana/types';
 
 import {
@@ -30,27 +24,21 @@ import {
   getEnrichedTagFilterExpression,
   getUnifiedMetricConfig
 } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
+//@ts-expect-error TS migration
+import { getThreshold, extendMetricConfiguration } from 'in-alerting/components/Chart/AlertingChartWrapper';
+//@ts-expect-error TS migration
+import { getRendererBasedOnThresholdType, getY1 } from 'in-alerting/components/Chart/AlertingChart';
 // @ts-expect-error TS migration
 import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLane';
-import {
-  createLineWithMultiStaticThreshold,
-  createLineWithThreshold
-} from 'in-alerting/components/Chart/renderer/Renderer';
-//@ts-expect-error TS migration
-import { extendMetricConfiguration } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import getInfraMetricsAlertPreview from 'in-alerting/smart-alerts/infrastructure/subscriptions/getInfraMetricsAlertPreview';
-//@ts-expect-error TS migration
-import { getY1, getY1ForMultiThreshold } from 'in-alerting/components/Chart/AlertingChart';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 // @ts-expect-error TS migration
 import { getUniqueMetricsAndLabels } from 'in-infrastructure/Explore/Explore';
 import { MetricItem } from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget';
-import { isGreaterOperatorOrUndefined } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { useResultData } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
 import { Config, MetricData } from 'in-custom-dashboards/widgets/Chart/types';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
@@ -68,14 +56,7 @@ interface InfraAlertChartWrapperProps {
   upperBound?: number[][];
   selectedMetricGroup?: Tags;
   alertsPreviewEnabled?: boolean;
-  isEventDetailPage?: boolean;
-  eventSeverity?: number;
 }
-
-const severityMap: Record<number, Severity> = {
-  5: 'WARNING',
-  10: 'CRITICAL'
-};
 
 export default function InfraAlertChartWrapper({
   alertConfig,
@@ -85,58 +66,29 @@ export default function InfraAlertChartWrapper({
   upperBound,
   selectedMetricGroup,
   alertsPreviewEnabled,
-  metricLabel,
-  isEventDetailPage = false,
-  eventSeverity = 5
+  metricLabel
 }: InfraAlertChartWrapperProps) {
-  const { timeThreshold, granularity, tagFilterExpression, rules } = alertConfig;
-
-  const firstRule: RuleWithThreshold<InfraAlertRuleUnion> = rules[0];
-  const { entityType, metricName, aggregation, crossSeriesAggregation } = firstRule.rule;
-  const thresholdsMap = firstRule.thresholds;
-  const violatedThreshold = thresholdsMap[severityMap[eventSeverity]];
+  const {
+    threshold,
+    timeThreshold,
+    granularity,
+    tagFilterExpression,
+    rule: { entityType, metricName, aggregation, crossSeriesAggregation }
+  } = alertConfig;
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
   const formatter = metricDefinition.formatter;
+
   const highlight = undefined;
+
   const chartViewConfig = createDefaultChartConfig(timeConfig);
+
   const displayPredictions = predictions && predictions?.length > 0 ? true : false;
 
-  // we only support static threshold(s) in Infra SA.
-  const warningThreshold = (thresholdsMap['WARNING'] as StaticThresholdRule)?.value;
-  const criticalThreshold = (thresholdsMap['CRITICAL'] as StaticThresholdRule)?.value;
-  const violatedThresholdValue = (violatedThreshold as StaticThresholdRule)?.value;
-  const thresholdOperator = firstRule.thresholdOperator;
-  const renderer = isEventDetailPage
-    ? createLineWithThreshold(thresholdOperator, violatedThresholdValue!, displayPredictions)
-    : createLineWithMultiStaticThreshold(thresholdOperator, warningThreshold, criticalThreshold);
+  const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, [], displayPredictions);
 
   const enrichedTagFilterExpression = getEnrichedTagFilterExpression(tagFilterExpression, selectedMetricGroup);
   const unifiedMetricConfig = getUnifiedMetricConfig(alertConfig.rule, enrichedTagFilterExpression, granularity);
-
-  const y1Props = isEventDetailPage
-    ? getY1(
-        metricName,
-        highlight,
-        metricLabel,
-        formatter,
-        renderer,
-        granularity,
-        violatedThreshold,
-        [],
-        chartViewConfig,
-        displayPredictions
-      )
-    : getY1ForMultiThreshold(
-        metricName,
-        metricLabel,
-        formatter,
-        renderer,
-        granularity,
-        thresholdOperator,
-        warningThreshold,
-        criticalThreshold
-      );
 
   // chartProps to render the metric values and threshold to the chart
   const chartProps = {
@@ -144,7 +96,18 @@ export default function InfraAlertChartWrapper({
       alertConfig,
       timeConfig
     }),
-    y1: y1Props
+    y1: getY1(
+      metricName,
+      highlight,
+      metricLabel,
+      formatter,
+      renderer,
+      granularity,
+      threshold,
+      [],
+      chartViewConfig,
+      displayPredictions
+    )
   };
 
   // WS hook to get unified metric results
@@ -169,9 +132,7 @@ export default function InfraAlertChartWrapper({
       time: predictionMaxTime ?? metricResult?.time,
       data: {
         [metricName]: metricValues,
-        threshold: metricValues.map(([time]) => [time, violatedThresholdValue]),
-        warningThreshold: metricValues.map(([time]) => [time, warningThreshold]),
-        criticalThreshold: metricValues.map(([time]) => [time, criticalThreshold]),
+        threshold: getThreshold(chartProps.y1, chartProps.thresholdType, metricValues, timeConfig),
         predictions: predictions ?? [],
         lowerBound: lowerBound ?? [],
         upperBound: upperBound ?? []
@@ -191,18 +152,6 @@ export default function InfraAlertChartWrapper({
           return;
         }
 
-        const isWarningThresholdDefined = !isEmpty(warningThreshold);
-        const isCriticalThresholdDefined = !isEmpty(criticalThreshold);
-        const isGreaterOp = isGreaterOperatorOrUndefined(thresholdOperator);
-        if (
-          isWarningThresholdDefined &&
-          isCriticalThresholdDefined &&
-          ((isGreaterOp && criticalThreshold < warningThreshold) ||
-            (!isGreaterOp && warningThreshold < criticalThreshold))
-        ) {
-          return;
-        }
-
         const alertsPreviewQuery = getAlertsPreviewQuery(
           timeConfig,
           enrichedTagFilterExpression,
@@ -210,7 +159,7 @@ export default function InfraAlertChartWrapper({
           aggregation,
           crossSeriesAggregation,
           granularity,
-          getThresholdData(getThresholdWithLowestSeverity(thresholdsMap)!, thresholdOperator),
+          threshold,
           timeThreshold,
           entityType
         );
@@ -232,13 +181,6 @@ function getMetricValues(metricResult: Result<UnifiedMetricsResult[]>) {
   return metricResult?.data && metricResult?.data.length > 0 ? metricResult?.data[0]?.values : [];
 }
 
-function getThresholdData(rule: SmartAlertThresholdRuleUnion, operator: ThresholdOperator): ThresholdData {
-  return {
-    ...rule,
-    operator
-  };
-}
-
 export function useGetMetricLabel(entityType: string, metricName: string, aggregation: AggregationType) {
   const kpiDefinitions = getKpiDefinitions(entityType);
 
@@ -252,17 +194,6 @@ export function useGetMetricLabel(entityType: string, metricName: string, aggreg
   const uniqueMetrics = getUniqueMetricsAndLabels([metric], metricMetadatas);
 
   return uniqueMetrics.find((metric: MetricItem) => metric.metric === metricName)?.label || metricName;
-}
-
-/**
- * In the alert preview, we pass the warning threshold if it is present. Otherwise, critical threshold.
- */
-function getThresholdWithLowestSeverity(thresholdsMap: { [P in Severity]?: SmartAlertThresholdRuleUnion }) {
-  if (!isEmpty((thresholdsMap['WARNING'] as StaticThresholdRule)?.value)) {
-    return thresholdsMap['WARNING'];
-  }
-
-  return thresholdsMap['CRITICAL'];
 }
 
 function getAlertsPreviewQuery(

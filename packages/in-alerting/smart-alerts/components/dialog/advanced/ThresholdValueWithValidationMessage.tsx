@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Field, MapForm } from 'formalistic';
+import { MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -27,13 +27,10 @@ export interface ThresholdValueInputWithValidationMessageProps {
   metricUnitPostfix: string;
   isSmall?: boolean;
   isTearSheet?: boolean;
-  thresholdField?: Field<any>;
-  getUpdatedForm?: (targetValue: number | null) => MapForm<any>;
-  isMultiThreshold?: boolean;
 }
 
 export default function ThresholdValueInputWithValidationMessage(props: ThresholdValueInputWithValidationMessageProps) {
-  const { thresholdField = props.form?.get('threshold')?.get('value') } = props;
+  const thresholdField = props.form?.get('threshold')?.get('value');
   const metricId = props.form.get('rule')?.get('metricName')?.value ?? undefined;
   const plugin = props.form.get('rule')?.get('entityType')?.value ?? undefined;
   const isTearSheet = props?.isTearSheet ?? false;
@@ -54,8 +51,7 @@ export default function ThresholdValueInputWithValidationMessage(props: Threshol
       className={classNames({
         [locals.thresholdValueWithValidationMessage]: !isTearSheet || (isTearSheet && !hasError),
         [locals.topPaddingCarbonInput]: isTearSheet && hasError && carbonInputEnabled,
-        [locals.topPaddingInput]: isTearSheet && hasError && !carbonInputEnabled,
-        [locals.multiThresholdValueWithValidationMessage]: props.isMultiThreshold
+        [locals.topPaddingInput]: isTearSheet && hasError && !carbonInputEnabled
       })}
     >
       <div className={locals.toolTip}>

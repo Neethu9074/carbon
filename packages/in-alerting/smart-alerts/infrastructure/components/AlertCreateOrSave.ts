@@ -17,7 +17,6 @@ import {
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
-import { InfraAlertConfig } from 'in-types';
 
 interface createOrSaveAlertProps {
   form: MapForm<any>;
@@ -27,7 +26,7 @@ interface createOrSaveAlertProps {
   editMode: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
-  toAlertConfig: (form: MapForm<any>) => Readonly<InfraAlertConfig>;
+  toAlertConfig: (form: MapForm<any>) => Readonly<InfraSmartAlertConfig>;
   isSimpleMode: boolean;
   duplicateFrom?: string;
 }
@@ -59,7 +58,7 @@ export function createOrSaveAlert({
     return;
   }
 
-  const alertConfig: InfraAlertConfig = toAlertConfig(form);
+  const alertConfig: InfraSmartAlertConfig = toAlertConfig(form);
 
   if (editMode) {
     const updateConfig = updateAlertConfig(alertConfig, form.get('id').value);
