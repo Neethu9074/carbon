@@ -6,4 +6,3 @@
 export { createLineWithBaselineAndOptionalPotentialProblem } from 'in-alerting/components/Chart/renderer/lineWithHistoricBaseline';
 export { createLineWithAdaptiveBaseline } from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
 export { createLineWithThreshold } from 'in-alerting/components/Chart/renderer/lineWithThreshold';
-export { createLineWithMultiStaticThreshold } from 'in-alerting/components/Chart/renderer/lineWithMultiStaticThreshold';

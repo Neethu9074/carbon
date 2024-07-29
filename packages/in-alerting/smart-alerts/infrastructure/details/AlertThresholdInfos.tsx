@@ -6,77 +6,39 @@
 
 import React from 'react';
 
-import {
-  InfraAlertRuleUnion,
-  Severity,
-  SmartAlertThresholdRuleUnion,
-  StaticThresholdRule,
-  ThresholdOperator
-} from '@instana/types';
-import { Stack } from '@instana/components';
+import { InfraAlertRuleUnion, StaticThresholdConfig, ThresholdConfigUnion } from '@instana/types';
 
 import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/components/details/AlertThresholdInfosPresenter';
-import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
+import { createMetricWithThresholdLabel } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
 import { getFormatter, getMetricFormat } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
-import { formatMetricValue } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { NumberFormatter } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 interface Props {
-  thresholdOperator: ThresholdOperator;
-  thresholdsMap: { [P in Severity]?: SmartAlertThresholdRuleUnion };
+  threshold: ThresholdConfigUnion & StaticThresholdConfig;
   rule: InfraAlertRuleUnion;
   metricLabel: string;
 }
 
-export const AlertThresholdInfos = ({ thresholdOperator, thresholdsMap, rule, metricLabel }: Props) => {
+export const AlertThresholdInfos = ({ threshold, rule, metricLabel }: Props) => {
+  const { operator, type: thresholdType, value } = threshold;
+  const { metricName, entityType } = rule;
+
+  const formatter = getFormatter(entityType, metricName);
+  const metricFormat = getMetricFormat(formatter);
+
+  const metricWithThresholdLabel = createMetricWithThresholdLabel(
+    metricLabel,
+    thresholdType,
+    value,
+    metricFormat,
+    operator
+  );
+
   return (
     <AlertThresholdInfosPresenter
       thresholdTypeLabel={t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold')}
-      metricLabel={metricLabel}
-      threshold={<ThresholdInfo thresholdsMap={thresholdsMap} thresholdOperator={thresholdOperator} rule={rule} />}
+      metricLabel={metricWithThresholdLabel}
       scopeLabel={''}
     />
   );
 };
-
-interface ThresholdInfoProps {
-  thresholdOperator: ThresholdOperator;
-  thresholdsMap: { [P in Severity]?: SmartAlertThresholdRuleUnion };
-  rule: InfraAlertRuleUnion;
-}
-
-function ThresholdInfo({ thresholdOperator, thresholdsMap, rule }: ThresholdInfoProps) {
-  const warningThreshold = (thresholdsMap['WARNING'] as StaticThresholdRule)?.value;
-  const criticalThreshold = (thresholdsMap['CRITICAL'] as StaticThresholdRule)?.value;
-  const humanReadableOperator = humanReadableThresholdOperator(thresholdOperator);
-  const { metricName, entityType } = rule;
-  const formatter = getFormatter(entityType, metricName);
-  const metricFormat: NumberFormatter = getMetricFormat(formatter);
-  const warningThresholdLabel = t('in-alerting:smartAlerts.details.warningThresholdLabel');
-  const criticalThresholdLabel = t('in-alerting:smartAlerts.details.criticalThresholdLabel');
-
-  return (
-    <Stack direction="vertical" gap="xxsmall">
-      <div>
-        {!isEmpty(warningThreshold) &&
-          getFormattedThresholdValue(warningThresholdLabel, humanReadableOperator, metricFormat, warningThreshold!)}
-      </div>
-      <div>
-        {!isEmpty(criticalThreshold) &&
-          getFormattedThresholdValue(criticalThresholdLabel, humanReadableOperator, metricFormat, criticalThreshold!)}
-      </div>
-    </Stack>
-  );
-}
-
-function getFormattedThresholdValue(
-  thresholdLabel: string,
-  humanReadableOperator: string,
-  metricFormat: NumberFormatter,
-  threshold: number
-) {
-  const formattedValue = formatMetricValue(metricFormat, threshold);
-  return `${thresholdLabel}: ${humanReadableOperator} ${formattedValue}`;
-}

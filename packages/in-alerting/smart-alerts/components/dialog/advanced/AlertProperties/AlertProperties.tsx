@@ -17,7 +17,6 @@ interface AlertPropertiesProps {
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   renderAlertPropertiesTitleRow: () => ReactNode;
   isTearSheet?: boolean;
-  shouldDisplayAlertLevelSelection?: boolean;
 }
 
 export default function AlertProperties({
@@ -25,13 +24,12 @@ export default function AlertProperties({
   getDescriptionPlaceholder,
   onChange,
   renderAlertPropertiesTitleRow,
-  isTearSheet,
-  shouldDisplayAlertLevelSelection = true
+  isTearSheet
 }: AlertPropertiesProps): JSX.Element {
   return (
     <Sections>
       {renderAlertPropertiesTitleRow()}
-      {shouldDisplayAlertLevelSelection && <AlertLevelRow onChange={onChange} form={form} isTearSheet={isTearSheet} />}
+      <AlertLevelRow onChange={onChange} form={form} isTearSheet={isTearSheet} />
       <TriggersIncidentRow form={form} onChange={onChange} isTearSheet={isTearSheet} />
       <AlertDescriptionRow
         form={form}

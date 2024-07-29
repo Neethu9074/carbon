@@ -202,7 +202,7 @@ export default function FormComponent({
       onChange([], form => form.updateIn(['unit'], field => field.setValue(preSelectedUnit?.id).setTouched(true)));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [preSelectedUnit]);
+  }, [preSelectedUnit, metricMetadatas]);
 
   const metricMetadata = {
     metric,
