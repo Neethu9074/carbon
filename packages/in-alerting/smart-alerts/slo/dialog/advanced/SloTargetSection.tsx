@@ -7,8 +7,8 @@
 import React from 'react';
 
 import SloEntityTypeSelector from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTypeSelector';
+import SloListSelection from 'in-alerting/smart-alerts/slo/components/SloListSelection/SloListSelection';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
-import SloListSelection from 'in-alerting/smart-alerts/slo/components/SloListSelection';
 
 export default function SloTargetSection() {
   const { form, onChange } = useSloAlertFormContext();

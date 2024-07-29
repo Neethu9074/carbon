@@ -11,11 +11,11 @@ import { HorizontalIndicator, Typography, SearchInput } from '@instana/component
 import { Progress } from '@instana/components/types/util/dataRetrieval';
 
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
+import { usePaginatedSloList } from 'in-alerting/smart-alerts/slo/components/SloListSelection/hooks/usePaginatedSloList';
+import { useSelectedIds } from 'in-alerting/smart-alerts/slo/components/SloListSelection/hooks/useSelectedIds';
 import SloTableSelection from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import { usePaginatedSloList } from 'in-alerting/smart-alerts/slo/hooks/usePaginatedSloList';
-import { useSelectedIds } from 'in-alerting/smart-alerts/slo/hooks/useSelectedIds';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import Sections from 'in-components/workspace/Sections/Sections';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
