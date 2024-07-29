@@ -41,6 +41,7 @@ export default function HealthIndicatorPresenter({
   }
 
   const color = active ? '#031F29' : getDesignLibraryColorBySeverity(maxSeverity);
+  const type = (maxSeverity > 5 && 'lib_help_error_error_circle') || 'lib_help_error_warning';
 
   return (
     <a
@@ -56,11 +57,7 @@ export default function HealthIndicatorPresenter({
       ref={refSetter}
     >
       <Tooltip content={tooltipLabel} delay={500}>
-        <SvgIcon
-          type="lib_help_error_warning"
-          color={color}
-          className={(maxSeverity > 5 && locals.icon) || locals.iconWarning}
-        />
+        <SvgIcon type={type} color={color} className={(maxSeverity > 5 && locals.icon) || locals.iconWarning} />
       </Tooltip>
     </a>
   );

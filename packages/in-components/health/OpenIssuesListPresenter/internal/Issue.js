@@ -22,6 +22,7 @@ const MAX_PROBLEM_TEXT_LENGTH = 1000;
 export default function Issue({ issue, getIssueLink }) {
   const severity = issue.problem.severity;
   const color = getDesignLibraryColorBySeverity(severity);
+  const type = (severity > 5 && 'lib_help_error_error_circle') || 'lib_help_error_warning';
 
   let content = (
     <Fragment>
@@ -30,11 +31,7 @@ export default function Issue({ issue, getIssueLink }) {
       </div>
 
       <h2 className={locals.title}>
-        <SvgIcon
-          type="lib_help_error_warning"
-          color={color}
-          className={(severity > 5 && locals.icon) || locals.iconWarning}
-        />
+        <SvgIcon type={type} color={color} className={(severity > 5 && locals.icon) || locals.iconWarning} />
         {issue.problem.problemText}
       </h2>
 
