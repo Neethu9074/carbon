@@ -201,8 +201,8 @@ function Form({ form, onChange }) {
       ))}
       {form.get('webhookUrls').map(field => {
         const webhookUrls = field.value;
-        return webhookUrls.map((webhookUrl, i) => (
-          <FormGroup key={i}>
+        return webhookUrls.map((webhookUrl, idx) => (
+          <FormGroup key={idx}>
             <div className={`${block}__input-delete-wrapper`}>
               <Input
                 className={`${block}__input`}
@@ -210,21 +210,23 @@ function Form({ form, onChange }) {
                 type="url"
                 placeholder="https://hooks.example.com/services/A1B2C3D4E/A1B2C3D4E/abcDEFabcDEFabcDEFabcDEF"
                 value={webhookUrl}
-                onChange={e => onChangewebHookUrl(e, form, onChange, i)}
+                onChange={e => onChangewebHookUrl(e, form, onChange, idx)}
               />
-              <Button
-                className={`${block}__delete-button`}
-                kind="danger"
-                onClick={() => removewebHookUrl(form, onChange, i)}
-              >
-                {t('in-settings:tabs.remove')}
-              </Button>
+              {idx > 0 && (
+                <Button
+                  className={`${block}__delete-button`}
+                  kind="danger"
+                  onClick={() => removewebHookUrl(form, onChange, idx)}
+                >
+                  {t('in-settings:tabs.remove')}
+                </Button>
+              )}
             </div>
             {field.touched
               ? field.messages
-                  .filter(msg => msg.urlIndex === i)
-                  .map((message, i) => (
-                    <ValidationBlock hasError key={i}>
+                  .filter(msg => msg.urlIndex === idx)
+                  .map((message, idx) => (
+                    <ValidationBlock hasError key={idx}>
                       {message.message}
                     </ValidationBlock>
                   ))

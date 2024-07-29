@@ -346,8 +346,8 @@ function Form({ form, onChange }: ComponentProps): JSX.Element {
             ))}
             {form.get('emails').map(field => {
               const emails = field.value;
-              return emails.map((email, i) => (
-                <div key={i} className={locals.input}>
+              return emails.map((email, idx) => (
+                <div key={idx} className={locals.input}>
                   <Stack direction="horizontal">
                     <Input
                       className={locals.input}
@@ -355,18 +355,20 @@ function Form({ form, onChange }: ComponentProps): JSX.Element {
                       type="email"
                       placeholder="ops@company.org"
                       value={email}
-                      onChange={e => onChangeEmail(e, form, onChange, i)}
+                      onChange={e => onChangeEmail(e, form, onChange, idx)}
                     />
-                    <IconButton
-                      type="lib_actions_delete"
-                      size="compact"
-                      kind="danger"
-                      onClick={() => removeEmail(form, onChange, i)}
-                    />
+                    {(idx as number) > 0 && (
+                      <IconButton
+                        type="lib_actions_delete"
+                        size="compact"
+                        kind="danger"
+                        onClick={() => removeEmail(form, onChange, idx)}
+                      />
+                    )}
                   </Stack>
                   {field.touched
                     ? field.messages
-                        .filter((msg: EmailValidationResult) => msg.mailIndex === i)
+                        .filter((msg: EmailValidationResult) => msg.mailIndex === idx)
                         .map((message, i) => <ValidationBlock key={i}>{message.message}</ValidationBlock>)
                     : null}
                 </div>
