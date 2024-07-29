@@ -21,10 +21,9 @@
   .label {
     color: var(--ids-color-option-neutral-900);
     font-size: 0.875rem;
-    display: inline-block;
+    display: block;
     align-items: center;
     .ellipsis();
-    white-space: normal;
   }
 
   .rootOrUnknown {
