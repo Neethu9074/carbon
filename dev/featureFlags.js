@@ -60,7 +60,7 @@ module.exports = {
   carbonLoadingSkeletonFeatureEnabled: true,
   carbonLoadingSpinnerEnabled: true,
   carbonDescriptionListEnabled: false,
-  carbonTooltipEnabled: false,
+  carbonTooltipEnabled: true,
   carbonListEnabled: false,
   carbonInputEnabled: true,
   carbonRadioButtonEnabled: true,
