@@ -19,7 +19,6 @@
   }
 
   .iconWarning {
-    margin: 0 2px 0 0;
     path:first-of-type {
       fill: black;
     }

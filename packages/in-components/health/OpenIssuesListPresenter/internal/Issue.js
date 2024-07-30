@@ -9,8 +9,8 @@ import classNames from 'classnames';
 import { SvgIcon, Pill } from '@instana/components';
 import { Link } from '@instana/components';
 
+import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toHtml } from 'in-services/formatters/markdown';
 import { t } from 'in-i18n';
@@ -22,7 +22,7 @@ const MAX_PROBLEM_TEXT_LENGTH = 1000;
 export default function Issue({ issue, getIssueLink }) {
   const severity = issue.problem.severity;
   const color = getDesignLibraryColorBySeverity(severity);
-  const type = (severity > 5 && 'lib_help_error_error_circle') || 'lib_help_error_warning';
+  const type = getDesignLibrarySeverityIcon(severity);
 
   let content = (
     <Fragment>
@@ -31,7 +31,14 @@ export default function Issue({ issue, getIssueLink }) {
       </div>
 
       <h2 className={locals.title}>
-        <SvgIcon type={type} color={color} className={(severity > 5 && locals.icon) || locals.iconWarning} />
+        <SvgIcon
+          type={type}
+          color={color}
+          className={classNames({
+            [locals.icon]: true,
+            [locals.iconWarning]: !(severity > 5)
+          })}
+        />
         {issue.problem.problemText}
       </h2>
 

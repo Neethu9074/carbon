@@ -4,10 +4,11 @@
  */
 
 import React, { LegacyRef } from 'react';
+import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
 
-import { getDesignLibraryColorBySeverity } from 'in-stores/events';
+import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -41,7 +42,7 @@ export default function HealthIndicatorPresenter({
   }
 
   const color = active ? '#031F29' : getDesignLibraryColorBySeverity(maxSeverity);
-  const type = (maxSeverity > 5 && 'lib_help_error_error_circle') || 'lib_help_error_warning';
+  const type = getDesignLibrarySeverityIcon(maxSeverity);
 
   return (
     <a
@@ -57,7 +58,14 @@ export default function HealthIndicatorPresenter({
       ref={refSetter}
     >
       <Tooltip content={tooltipLabel} delay={500}>
-        <SvgIcon type={type} color={color} className={(maxSeverity > 5 && locals.icon) || locals.iconWarning} />
+        <SvgIcon
+          type={type}
+          color={color}
+          className={classNames({
+            [locals.icon]: true,
+            [locals.iconWarning]: !(maxSeverity > 5)
+          })}
+        />
       </Tooltip>
     </a>
   );
