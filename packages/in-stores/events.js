@@ -180,6 +180,11 @@ export function getColorBySeverity(severity, params = {}) {
   return healthColors[Math.max(0, severity) | 0];
 }
 
+// Depending on the severity level, return the proper icon associated
+export function getDesignLibrarySeverityIcon(severity) {
+  return severity > 5 ? 'lib_help_error_error_circle' : 'lib_help_error_warning';
+}
+
 export function getDesignLibraryColorBySeverity(severity, fallback = '#92A5AE') {
   if (severity > 5) {
     return themes.default.ids.color.option.red['500'];

@@ -81,6 +81,15 @@
     margin-left: -2.188rem;
   }
 
+  .iconWarning {
+    path:first-of-type {
+      fill: black;
+    }
+    path:last-of-type {
+      fill: #8e6a00;
+    }
+  }
+
   .description {
     margin: 0;
     font-size: var(--ids-font-size-option-heading-100);

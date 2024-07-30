@@ -353,7 +353,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
       if (severity == 0) {
         return (
           <div>
-            <SvgIcon type="lib_check" className={locals.okayIcon} />
+            <SvgIcon type="lib_uncheck" className={locals.okayIcon} />
           </div>
         );
       } else {
@@ -363,7 +363,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
               <SvgIcon
                 type="lib_help_error_warning"
                 color={themes.default.ids.color.option.yellow['500']}
-                className={locals.icon}
+                className={locals.iconWarning}
               />
             </div>
           );
