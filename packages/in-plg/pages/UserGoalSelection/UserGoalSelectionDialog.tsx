@@ -9,6 +9,7 @@ import classNames from 'classnames';
 
 import { Card, Checkbox, DashboardButton, Stack, SvgIcon, Typography } from '@instana/components';
 
+import { carbonTileEnabled, carbonCheckboxEnabled } from 'in-services/featureFlags';
 import { GOALS, TOGGLER } from 'in-plg/pages/UserGoalSelection/utils/consts';
 import OtherGoalField from 'in-plg/pages/UserGoalSelection/OtherGoalField';
 import { segmentTrackingFunc } from 'in-plg/utils/Segment/segment';
@@ -26,8 +27,9 @@ const UserGoalSelectionDialog = () => {
   const [showOtherGoal, setShowOtherGoal] = useState<boolean>(false);
   const [otherGoal, setOtherGoal] = useState<string>('');
 
-  const isGoalSelected = (goal: UserGoal) => selectedGoals.find(selectedGoal => selectedGoal.id === goal.id);
-  const goalSelectHandler = (checked: boolean, goal: UserGoal) => {
+  const isGoalSelected = (goal: UserGoal) => selectedGoals.some(selectedGoal => selectedGoal.id === goal.id);
+  const goalSelectHandler = (goal: UserGoal) => {
+    const checked: boolean = !isGoalSelected(goal);
     goalSetHandler(checked, goal, setShowOtherGoal, setOtherGoal, setSelectedGoals);
   };
 
@@ -48,20 +50,29 @@ const UserGoalSelectionDialog = () => {
           <div className={locals.stackWrapper}>
             <Stack direction="horizontal" gap="xxsmall" wrap>
               {GOALS.map(goal => (
-                <Card
-                  key={goal.id}
-                  bodyClassName={locals.cardBody}
-                  className={classNames({
-                    [locals.card]: true,
-                    [locals.borderedCard]: isGoalSelected(goal)
-                  })}
-                  headerClassName={locals.cardHeader}
-                  leftHeaderContent={<span className={locals.leftHeader}>{goal.text}</span>}
-                  rightHeaderContent={<Checkbox onChange={e => goalSelectHandler(e.target.checked, goal)} />}
-                  size="l"
-                >
-                  <SvgIcon type={goal.icon} />
-                </Card>
+                <div key={goal.id} onClick={() => goalSelectHandler(goal)} className={locals.cardWrap}>
+                  <Card
+                    bodyClassName={locals.cardBody}
+                    className={classNames({
+                      [locals.card]: true,
+                      [locals.borderedCard]: isGoalSelected(goal),
+                      [locals.legacyCard]: !carbonTileEnabled
+                    })}
+                    headerClassName={locals.cardHeader}
+                    leftHeaderContent={<span className={locals.leftHeader}>{goal.text}</span>}
+                    rightHeaderContent={
+                      <Checkbox
+                        checked={isGoalSelected(goal)}
+                        className={classNames({
+                          [locals.cardLegacyCheckBox]: !carbonCheckboxEnabled
+                        })}
+                      />
+                    }
+                    size="l"
+                  >
+                    <SvgIcon type={goal.icon} />
+                  </Card>
+                </div>
               ))}
             </Stack>
           </div>
