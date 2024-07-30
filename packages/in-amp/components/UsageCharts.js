@@ -53,17 +53,17 @@ export default function UsageCharts({
   }
   // These checks require the observable results to be there
   else {
+    // Do not show, if fair use policy override is active
+    if (fupOverride === true) {
+      showDataLicenseLine = false;
+    }
+
     // Do now show, if there are paid licenses with unlimited data usage
     const licenses = licenseObservableResult?.data?.items;
-    if (licenses) {
-      showDataLicenseLine = true;
+    if (showDataLicenseLine && licenses) {
       if (licenses.some(lic => lic?.license?.paid && lic?.license?.licenseSpecs?.limitedDataUsage !== true)) {
         showDataLicenseLine = false;
       }
-    }
-    // Do not show, if fair use policy override is active
-    if (showDataLicenseLine && fupOverride === true) {
-      showDataLicenseLine = false;
     }
   }
 
