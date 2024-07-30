@@ -7,69 +7,76 @@ import { renderHook } from '@testing-library/react-hooks';
 import { act } from '@testing-library/react-hooks/dom';
 import { RangeTuple } from 'fuse.js';
 
+import { TagOptions, MetricOptions } from 'in-components/SelectorOverlay/Node';
 import { useSearch } from 'in-components/SelectorOverlay/search';
-import { Options } from 'in-components/SelectorOverlay/Node';
 
-const nodes: Options[] = [
+const nodes: TagOptions[] = [
   {
+    type: 'TAG',
     label: 'Root Level Leaf',
     description: 'Funky root leaf',
     icon: 'plugin:host',
     badge: undefined,
-    tagName: '',
+    tagName: 'root.level.leaf',
     children: [],
     parentLabels: [],
     tagType: 'STRING'
   },
   {
+    type: 'TAG',
     label: 'Root Level Node',
     description: 'Some description',
     icon: 'plugin:neo4j',
     badge: undefined,
-    tagName: '',
+    tagName: 'root.level.node',
     tagType: 'STRING',
     parentLabels: [],
     children: [
       {
+        type: 'TAG',
         label: 'First Level Leaf',
         description: 'Some description',
         icon: 'plugin:docker',
         badge: undefined,
-        tagName: '',
+        tagName: 'first.level.leaf',
         tagType: 'STRING',
         children: [],
         parentLabels: []
       },
       {
+        type: 'TAG',
         label: 'First Level Node',
         description: 'Some description',
         icon: 'plugin:mule',
         badge: undefined,
-        tagName: '',
+        tagName: 'first.level.node',
         tagType: 'STRING',
         parentLabels: [],
         children: [
           {
+            type: 'TAG',
             label: 'Second Level Leaf',
             badge: undefined,
-            tagName: '',
+            tagName: 'second.level.leaf',
             tagType: 'STRING',
             children: [],
             parentLabels: []
           },
           {
+            type: 'TAG',
             label: 'Second Level Node',
             description: 'Some description',
             icon: 'plugin:mule',
             badge: undefined,
-            tagName: '',
+            tagName: 'second.level.node',
             tagType: 'STRING',
             children: [
               {
+                type: 'TAG',
                 label: 'Third Level Leaf',
                 description: 'Some description',
                 badge: undefined,
-                tagName: '',
+                tagName: 'third.level.leaf',
                 tagType: 'STRING',
                 children: [],
                 parentLabels: []
@@ -83,8 +90,9 @@ const nodes: Options[] = [
   }
 ];
 
-const namespaceOptions: Options[] = [
+const namespaceOptions: TagOptions[] = [
   {
+    type: 'TAG',
     label: 'uid',
     description: 'Kubernetes Namespace UID',
     badge: undefined,
@@ -94,6 +102,7 @@ const namespaceOptions: Options[] = [
     parentLabels: []
   },
   {
+    type: 'TAG',
     label: 'name',
     description: 'Kubernetes namespace name',
     badge: undefined,
@@ -104,8 +113,9 @@ const namespaceOptions: Options[] = [
   }
 ];
 
-const appNameOptions: Options[] = [
+const appNameOptions: TagOptions[] = [
   {
+    type: 'TAG',
     label: 'JVM Application name',
     description: 'JVM Application name',
     badge: undefined,
@@ -115,6 +125,7 @@ const appNameOptions: Options[] = [
     parentLabels: []
   },
   {
+    type: 'TAG',
     label: 'Application name',
     description: 'Application name',
     badge: undefined,
@@ -126,8 +137,9 @@ const appNameOptions: Options[] = [
   }
 ];
 
-const adService: Options[] = [
+const adService: TagOptions[] = [
   {
+    type: 'TAG',
     label: 'OpenTelemetry sums adservice/app.ads.ad_requests',
     description: 'Custom OpenTelemetry sums value',
     badge: undefined,
@@ -135,6 +147,18 @@ const adService: Options[] = [
     tagType: 'STRING',
     children: [],
     parentLabels: ['Others', 'OpenTelemetry SDK']
+  }
+];
+
+const vehicleRepairHistory: MetricOptions[] = [
+  {
+    type: 'METRIC',
+    label: 'Prometheus histogram vehicle_repair_history',
+    description: 'Custom Prometheus histogram value',
+    badge: undefined,
+    metric: 'metrics.histograms.vehicle_repair_history',
+    children: [],
+    parentLabels: ['Others', 'Prometheus App']
   }
 ];
 
@@ -207,4 +231,15 @@ describe('in-components/SelectorOverlay/useSearch', () => {
         expect(current.map((o: any) => o.matches[0].indices[0])).toEqual([range]);
       });
     }));
+
+  it('should return metrics', async () => {
+    await act(async () => {
+      const {
+        result: { current }
+      } = renderHook(() => useSearch(vehicleRepairHistory, 'vehicle_repair_history'));
+      expect(current.map(o => o.label)).toEqual(
+        expect.arrayContaining(['Prometheus histogram vehicle_repair_history'])
+      );
+    });
+  });
 });

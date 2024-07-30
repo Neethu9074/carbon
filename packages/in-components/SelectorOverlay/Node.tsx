@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { ColumnizedContent, ColumnizedDefinition, KeyValue, Li, ListGroup, SvgIcon } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import { BreadcrumbAndLabel } from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import { TagWithPath } from 'in-services/tags/tagCatalog';
@@ -15,49 +16,82 @@ import { TagType } from 'in-types';
 
 import locals from './Node.mless';
 
-export interface Options {
+export interface AbstractOptions {
   label: string;
   badge?: JSX.Element;
   parentLabels: string[];
   description?: string;
-  tagName: string;
   icon?: string;
   scoreBoost?: number;
-  children?: Options[];
-  tagType: TagType;
   levelType?: string;
-  tagDefinition?: TagWithPath;
   disabled?: boolean;
+  type: 'METRIC' | 'TAG';
+  children?: AbstractOptions[];
 }
 
-export interface OptionsResult extends Options {
+export interface MetricOptions extends AbstractOptions {
+  type: 'METRIC';
+  metric?: string;
+  children?: MetricOptions[];
+}
+export interface TagOptions extends AbstractOptions {
+  type: 'TAG';
+  tagName: string;
+  tagType: TagType;
+  tagDefinition?: TagWithPath;
+  children?: TagOptions[];
+}
+
+export type Options = MetricOptions | TagOptions;
+
+export type OptionsResult<T extends Options> = {
   withHighlights: Highlights;
   score: number;
-}
+} & T;
 
 export interface Highlights {
   label: string | JSX.Element;
   description?: string | JSX.Element;
   parentLabels: (string | JSX.Element)[];
+  tag: boolean;
+  metric: boolean;
 }
 
-interface Column {
-  node: OptionsResult;
+interface Column<T extends Options> {
+  node: OptionsResult<T>;
 }
+
+const defaultColor = themes.default.ids.color.option.neutral['600'];
+const highlightedColor = themes.default.cds.interactive;
 
 export const iconColumnDefinition = {
   width: '2rem',
-  getContent({ node }: Column) {
-    return (
-      <Tooltip delay={2000} content={node.tagName}>
-        <SvgIcon className={locals.icon} type={node.icon ?? 'lib_views_tag'} />
-      </Tooltip>
-    );
+  getContent({ node }: Column<Options>) {
+    switch (node.type) {
+      case 'TAG':
+        return (
+          <Tooltip delay={2000} content={node.tagName}>
+            <SvgIcon
+              color={node.withHighlights?.tag ? highlightedColor : defaultColor}
+              type={node.icon ?? 'lib_views_tag'}
+            />
+          </Tooltip>
+        );
+      case 'METRIC':
+        return (
+          <Tooltip delay={2000} content={node.metric}>
+            <SvgIcon
+              color={node.withHighlights?.metric ? highlightedColor : defaultColor}
+              type={node.icon ?? 'lib_views_metric'}
+            />
+          </Tooltip>
+        );
+    }
   }
 };
 
 export const labelColumnDefinition: ColumnizedDefinition = {
-  getContent({ node }: Column) {
+  getContent({ node }: Column<Options>) {
     return (
       <KeyValue
         inverted
@@ -73,7 +107,7 @@ export const labelColumnDefinition: ColumnizedDefinition = {
 };
 
 export const breadcrumbAndLabelColumnDefinition: ColumnizedDefinition = {
-  getContent({ node }: Column) {
+  getContent({ node }: Column<Options>) {
     return (
       <KeyValue
         inverted
@@ -97,7 +131,7 @@ export const breadcrumbAndLabelColumnDefinition: ColumnizedDefinition = {
 
 export const badgeColumnDefinition: ColumnizedDefinition = {
   width: 'max-content',
-  getContent({ node }: Column) {
+  getContent({ node }: Column<Options>) {
     return node.badge;
   }
 };
@@ -105,7 +139,7 @@ export const badgeColumnDefinition: ColumnizedDefinition = {
 export const rightArrowColumnDefinition = {
   width: '2rem',
   getContent() {
-    return <SvgIcon className={locals.icon} type="lib_arrow_expand_right" />;
+    return <SvgIcon color={defaultColor} type="lib_arrow_expand_right" />;
   }
 };
 
@@ -127,7 +161,7 @@ export default function SelectorNode({
   withBreadcrumbs,
   asListGroup,
   height
-}: SelectorNodeProps) {
+}: Readonly<SelectorNodeProps>) {
   if (!node.children || node.children.length === 0) {
     let columnDefinitions = [withBreadcrumbs ? breadcrumbAndLabelColumnDefinition : labelColumnDefinition];
     columnDefinitions.push(badgeColumnDefinition);
@@ -138,9 +172,9 @@ export default function SelectorNode({
   } else if (asListGroup) {
     return (
       <ListGroup label={node.label} height={height} sticky>
-        {node.children.map((node, i) => (
+        {node.children.map(node => (
           <SelectorNode
-            key={i}
+            key={node.type === 'TAG' ? node.tagName : node.metric}
             node={node}
             focusNode={focusNode}
             onChange={onChange}
@@ -160,12 +194,12 @@ export default function SelectorNode({
 }
 
 export interface ItemProps {
-  node: Options;
+  node: AbstractOptions;
   onClick: (() => void) | undefined;
   columnDefinitions: ColumnizedDefinition[];
 }
 
-export function Item({ node, onClick, columnDefinitions }: ItemProps) {
+export function Item({ node, onClick, columnDefinitions }: Readonly<ItemProps>) {
   return (
     <Li
       noAlternatingBg

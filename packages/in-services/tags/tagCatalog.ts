@@ -167,7 +167,7 @@ function generateGetTagCatalogRequestId(args: any = {}) {
   let week;
   const timeConfig: TimeConfig | undefined = args.timeConfig;
   if (timeConfig) {
-    const from = (timeConfig.to || Date.now()) - timeConfig.windowSize;
+    const from = (timeConfig.to ?? Date.now()) - timeConfig.windowSize;
     week = roundDownToWeek(from);
   }
   return generateStableHash({

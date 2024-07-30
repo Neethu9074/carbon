@@ -15,9 +15,8 @@ import {
   getLabelForRegex,
   getPathForRegex
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/formStateManagement';
-//@ts-expect-error
-import { toOptions } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import { regexValidationError } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
+import { toOptions } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 //@ts-expect-error
 import { getMetricPathAndLabel } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
 import ValidationMessages from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';

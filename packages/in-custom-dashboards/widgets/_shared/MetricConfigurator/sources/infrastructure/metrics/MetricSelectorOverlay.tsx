@@ -6,10 +6,22 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
+import { MetricCatalog, MetricTreeNodeUnion } from 'in-types';
 import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import { emptyArray } from 'in-services/fixedObjects';
+import { MetricOptions } from 'in-components/SelectorOverlay/Node';
+
+interface MetricSelectorOverlayProps {
+  metricCatalog: MetricCatalog;
+  loading: boolean;
+  onChange: (node: MetricOptions) => void;
+  close?: VoidFunction;
+  query: string;
+  onQueryChange: (query: string) => void;
+  onSelectType: (t?: string) => void;
+  disabled: boolean;
+}
 
 export default function MetricSelectorOverlay({
   metricCatalog,
@@ -20,9 +32,9 @@ export default function MetricSelectorOverlay({
   onQueryChange,
   onSelectType,
   disabled
-}) {
+}: Readonly<MetricSelectorOverlayProps>) {
   const options = useMemo(
-    () => (metricCatalog && metricCatalog.tree ? toOptions(metricCatalog.tree, []) : emptyArray),
+    () => (metricCatalog?.tree ? toOptions(metricCatalog.tree, []) : ([] as MetricOptions[])),
     [metricCatalog]
   );
 
@@ -35,47 +47,48 @@ export default function MetricSelectorOverlay({
       loading={loading}
       shouldTriggerWindowResize
       onChange={node => {
-        onChange(node);
+        if (node.type === 'METRIC') {
+          onChange(node);
+        }
         onSelectType?.(undefined);
-        close();
+        close?.();
       }}
       query={query}
       onQueryChange={onQueryChange}
       // when filtering on a type, the metric catalog will already be filtered on that type, so options will contain all metrics from that type
       onFocusNode={focusedNode => onSelectType?.(focusedNode?.levelType)}
       disabled={disabled}
-      strict
-      nodesToSearchFrom={(options, focusedNode) => (focusedNode && focusedNode.levelType ? [focusedNode] : options)}
+      nodesToSearchFrom={(options, focusedNode) => (focusedNode?.levelType ? [focusedNode] : options)}
     />
   );
 }
 
-export function toOptions(metricTreeNodes, parentLabels = []) {
-  const joinedParentLabels = parentLabels.join(' ');
-  return metricTreeNodes.map(metricTreeNode => {
-    return {
+export function toOptions(metricTreeNodes: MetricTreeNodeUnion[], parentLabels: string[] = []): MetricOptions[] {
+  return metricTreeNodes.map((metricTreeNode: MetricTreeNodeUnion) => {
+    const common = {
       label: metricTreeNode.label,
       parentLabels,
-      description: metricTreeNode.description,
-      metric: metricTreeNode.name,
-      type: metricTreeNode.type,
-      parentType: metricTreeNode.parentType ?? metricTreeNode.type, // parentType was previously sent as type before R221
-      levelType: metricTreeNode.levelType,
-      icon: (metricTreeNode.levelType && getIconType(metricTreeNode.levelType)) || metricTreeNode.icon,
-      allowedCrossSeriesAggregations: metricTreeNode.allowedCrossSeriesAggregations ?? [],
-      keywords: [
-        joinedParentLabels,
-        metricTreeNode.label,
-        metricTreeNode.description,
-        metricTreeNode.name,
-        metricTreeNode.parentType
-      ]
-        .filter(Boolean)
-        .join(' '),
-      children: metricTreeNode.children
-        ? toOptions(metricTreeNode.children, parentLabels.concat(metricTreeNode.label))
-        : emptyArray
+      description: metricTreeNode.description
     };
+    if (metricTreeNode.type == 'LEVEL') {
+      return {
+        type: 'METRIC',
+        ...common,
+        levelType: metricTreeNode.levelType,
+        icon: (metricTreeNode.levelType && getIconType(metricTreeNode.levelType)) || metricTreeNode.icon,
+        children: metricTreeNode.children
+          ? toOptions(metricTreeNode.children, parentLabels.concat(metricTreeNode.label))
+          : ([] as MetricOptions[])
+      };
+    } else {
+      return {
+        type: 'METRIC',
+        ...common,
+        metric: metricTreeNode.name,
+        icon: metricTreeNode.icon,
+        allowedCrossSeriesAggregations: metricTreeNode.allowedCrossSeriesAggregations ?? []
+      };
+    }
   });
 }
 
