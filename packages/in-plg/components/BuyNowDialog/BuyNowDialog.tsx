@@ -10,24 +10,17 @@ import { Typography, Ul, Li, Stack, Link, LicenseBannerButton } from '@instana/c
 import { useObservable } from '@instana/hooks';
 
 import {
-  BUY_NOW_BUTTON_AWS_CLICKED,
-  BUY_NOW_BUTTON_IBM_CLICKED,
-  REQUEST_QUOTE_BUTTON_CLICKED,
-  track
-} from 'in-services/tracking/tracking';
-import {
   generateBuyOnIbmUrl,
   getPlatformSubscriptionIdsForTenantAndUnit
 } from 'in-plg/components/UsageBanner/UsageBanner';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { close } from 'in-components/DialogPresenter/store';
+import { sendSegmentEvent } from 'in-plg/api/segmentData';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
 import locals from 'in-plg/components/BuyNowDialog/BuyNowDialog.mless';
 
 export const BuyNowDialog = () => {
-  const location = useLocation();
   const platformSubscriptionIdsForTenantAndUnit = useObservable(getPlatformSubscriptionIdsForTenantAndUnit(1), []);
   const [platformSubscriptionIdFreetrial] = platformSubscriptionIdsForTenantAndUnit?.length
     ? platformSubscriptionIdsForTenantAndUnit
@@ -109,7 +102,8 @@ export const BuyNowDialog = () => {
                 //@ts-expect-error id prop not defined in Link component
                 id="wm-requestaquote"
                 onClick={() => {
-                  track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(location.pathname));
+                  const data = { type: 'quote' };
+                  sendSegmentEvent(data);
                 }}
               >
                 {t('in-plg:licenseBanner.requestQuoteBtn')}
@@ -133,7 +127,10 @@ export const BuyNowDialog = () => {
             target="_blank"
             href="https://aws.amazon.com/marketplace/pp/prodview-tbam5h35sumqg?sr=0-1&ref_=beagle&applicationId=AWSMPContessa"
             rel="noopener noreferrer"
-            onClick={() => track(BUY_NOW_BUTTON_AWS_CLICKED, getPageType(location.pathname))}
+            onClick={() => {
+              const data = { type: 'aws' };
+              sendSegmentEvent(data);
+            }}
           >
             {t('in-plg:licenseBanner.buyNowBtn')}
           </LicenseBannerButton>
@@ -146,7 +143,10 @@ export const BuyNowDialog = () => {
             target="_blank"
             href={generateBuyOnIbmUrl(platformSubscriptionIdFreetrial)}
             rel="noopener noreferrer"
-            onClick={() => track(BUY_NOW_BUTTON_IBM_CLICKED, getPageType(location.pathname))}
+            onClick={() => {
+              const data = { type: 'ibm' };
+              sendSegmentEvent(data);
+            }}
           >
             {t('in-plg:licenseBanner.buyNowBtnIbm')}
           </LicenseBannerButton>
@@ -155,22 +155,6 @@ export const BuyNowDialog = () => {
     </Dialog>
   );
 };
-
-function getPageType(pathname = '/') {
-  const pageName = pathname.split('/')[1];
-  switch (pageName) {
-    case 'physical':
-      return { pageName: 'Infrastructure' };
-    case 'websiteMonitoring':
-      return { pageName: 'EUM' };
-    case 'config':
-      return { pageName: 'Settings' };
-    case '':
-      return { pageName: '--' };
-    default:
-      return { pageName: pageName.charAt(0).toUpperCase() + pageName.slice(1) };
-  }
-}
 
 const CellContent = ({ content, variant }: { content: string; variant: 'body-01' | 'heading-01' }) => (
   <div className={locals.tableContent}>
