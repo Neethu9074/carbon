@@ -5,14 +5,14 @@
 
 import { createField, createMapForm, MapForm } from 'formalistic';
 
+// @ts-expect-error file needs to be converted
+import { isEntitySelectionValid, titleValidator } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import {
   ApplicationAlertConfigWithMetadata,
   GlobalApplicationsAlertConfigWithMetadata,
   ThresholdType,
   ThresholdConfigUnion
 } from 'in-types';
-// @ts-expect-error file needs to be converted
-import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { PER_AP } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
@@ -20,10 +20,10 @@ import createRuleForm, { defaultAlertRule } from 'in-alerting/smart-alerts/appli
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
-import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { boundaryScopes } from 'in-applications/constants';
 import { t } from 'in-i18n';
 
@@ -90,7 +90,7 @@ export function createSmartAlertForm(
     items: {
       name: createField({
         value: name ?? '',
-        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
+        validator: titleValidator()
       }),
       description: createField({
         value: description ?? '',

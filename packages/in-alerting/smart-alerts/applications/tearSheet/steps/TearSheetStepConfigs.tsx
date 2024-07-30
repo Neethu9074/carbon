@@ -51,8 +51,8 @@ export const stepConfigs = [
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step5Title'),
-    validateIntermediately: [],
-    isOptional: true
+    isOptional: true,
+    validateIntermediately: [['name']]
   }
 ];
 

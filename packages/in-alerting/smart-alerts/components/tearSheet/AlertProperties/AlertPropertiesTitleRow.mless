@@ -16,4 +16,8 @@
       width: 100%;
     }
   }
+  .titleValidation {
+    padding-left: 15%;
+    margin-left: 1rem;
+  }
 }

@@ -86,7 +86,7 @@ export default function useAlertConfigValidation(
     },
     {
       ...stepConfigs[4],
-      valid: isCustomPayloadValidOrUntouched(form)
+      valid: isCustomPayloadValidOrUntouched(form) && !fieldTouchedAndInvalid(form?.get('name'))
     }
   ];
 }
