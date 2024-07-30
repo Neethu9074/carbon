@@ -445,6 +445,6 @@ def notifyDeliveryBuildFailure(branchName, gitCommitID, gitCommitMessage) {
 
 def notifyGeneralBuildFailure(branchName) {
   if (branchName.startsWith('release-')) {
-    notifyFailure('tech-dev', "<${env.BUILD_URL}|:alert2: ${env.JOB_NAME} #${env.BUILD_NUMBER}> failed! :cry:")
+    notifyFailure('dev-notification', "<${env.BUILD_URL}|:alert2: ${env.JOB_NAME} #${env.BUILD_NUMBER}> failed! :cry:")
   }
 }
