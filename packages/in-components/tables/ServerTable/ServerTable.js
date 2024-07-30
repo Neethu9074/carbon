@@ -12,6 +12,10 @@ import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePr
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { pendingResult } from 'in-services/fixedObjects';
 
+const initialQueries = {
+  retention: 'logging.updateLogsRetention'
+};
+
 export default function ServerTable(props) {
   const {
     columnDefinitions,
@@ -24,8 +28,8 @@ export default function ServerTable(props) {
   } = props;
 
   const location = useLocation();
-  const initialQuery =
-    location.pathname?.split('/actionlog/')[1] === 'retention' ? 'Log retention change' : defaultQuery;
+  const initialQueryKey = location.pathname?.split('/actionlog/')[1];
+  const initialQuery = initialQueries[initialQueryKey] ?? defaultQuery;
 
   const [{ page, orderBy, orderDirection, query, pageSize }, onChange] = useState(
     getInitialState(columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, initialQuery)

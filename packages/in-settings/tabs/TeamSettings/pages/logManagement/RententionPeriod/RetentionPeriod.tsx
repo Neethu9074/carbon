@@ -58,7 +58,7 @@ const localisationStrings = {
   toastMessageFailedInGet: t('in-settings:tabs.retentionPeriod.toastMessageFailedInGet')
 };
 
-const useMock = true; // Activate mock response
+const useMock = false; // Activate mock response
 
 export default function RententionPeriod() {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -185,7 +185,7 @@ function RetentionPeriodDialog({
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     //We can modify this to make any test case
-    if (!payload.reason || ![7, 20, 30, 60, 90].includes(payload.retention)) {
+    if (!payload.reasonForChange || ![7, 20, 30, 60, 90].includes(payload.retentionDays)) {
       return 400;
     }
 
@@ -211,8 +211,8 @@ function RetentionPeriodDialog({
   const handleSubmit = async () => {
     setSubmitted(true);
     const queryParams: RetentionLogsRequest = {
-      reason: reasonInputValue,
-      retention: +retentionPeriodInputValue
+      reasonForChange: reasonInputValue,
+      retentionDays: +retentionPeriodInputValue
     };
 
     if (canSubmit) {
@@ -335,8 +335,8 @@ function RetentionPeriodDialog({
 }
 
 interface RetentionLogsRequest {
-  retention: number;
-  reason: string;
+  retentionDays: number;
+  reasonForChange: string;
 }
 
 interface RetentionLogsResponse {
