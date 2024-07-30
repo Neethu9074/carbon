@@ -250,6 +250,7 @@ function DeleteLogsDialog({
           <Label htmlFor="deletionUntilTime">
             {localisationStrings.deletionUntilTime}
             <TimeInput
+              disabled={isDeleting}
               hasError={!!dateTimeValidationMessage}
               value={timeInputValue as string}
               onChange={e => setTimeInputValue(e)}

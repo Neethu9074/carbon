@@ -31,6 +31,7 @@ interface TimeInputProps {
   value: string;
   hasError?: boolean;
   id?: string;
+  disabled?: boolean;
 }
 
 const timeInputFormat = 'HH:mm';
@@ -43,7 +44,7 @@ for (let hour = 0; hour < 24; hour++) {
   }
 }
 
-export default function TimeInput({ onChange, value, hasError = false, id }: TimeInputProps) {
+export default function TimeInput({ onChange, value, hasError = false, id, disabled = false }: TimeInputProps) {
   // Here we receive the value in HH:mm:ss format, either based on timeInput or the slider.
   // But we need to display this value in HH:mm format.
   const [time, handleTimeChange] = useState(() => formatInputTime(value, timeInputFormat));
@@ -59,6 +60,11 @@ export default function TimeInput({ onChange, value, hasError = false, id }: Tim
     // In case of invalid input, we pass '' so we reset the time to 00:00
     onChange(formatInputTime(timeValid ? newValue : '', timeFormat));
   };
+  if (disabled) {
+    const [hours, minutes] = value.split(':');
+    const timeWithoutSeconds = `${hours}:${minutes}`;
+    return <Input type="text" value={timeWithoutSeconds || ''} onChange={undefined} disabled />;
+  }
 
   return (
     <ComboBoxBehavior
