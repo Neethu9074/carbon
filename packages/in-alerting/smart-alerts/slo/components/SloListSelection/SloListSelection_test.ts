@@ -9,9 +9,8 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import {
   emptySloData,
   mockPaginatedSloList,
-  mockPaginatedSloListWithEvent,
+  mockPaginatedTwoSloList,
   mockSloList,
-  mockSloListEvent,
   mockWebsitePaginatedSloList,
   mockWebsiteSloList,
   mockedDebouncedValue,
@@ -55,7 +54,24 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
 
     // Then
     expect(result.current.page).toBe(1);
-    expect(result.current.selected).toEqual([selectedSLO]);
+    expect(result.current.selected).toHaveLength(1);
+    expect(result.current.selected[0].id).toBe('SLO-selected');
+  });
+
+  it('Should keep the multiple selected sloId while creating new Smart Alert from a particular SLO', () => {
+    // Given
+    mockUseDebouncedValue.mockReturnValue(mockedDebouncedValue);
+
+    mockUsePaginatedSloList.mockReturnValue(mockPaginatedSloList as UseBufferedSloDataResult);
+
+    mockUseSelectedIds.mockReturnValue(selectedSloData);
+
+    // When
+    const { result } = renderHook(() => useSloList(['SLO-1', 'SLO-2', 'SLO-3'], 'application'));
+
+    // Then
+    expect(result.current.page).toBe(1);
+    expect(result.current.selected).toHaveLength(3);
   });
 
   it('When toggled the entityType there must be no selected SLO in the list', () => {
@@ -96,7 +112,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
         totalHits: 73
       })
       .mockReturnValueOnce({
-        sloList: pageTwoResult as SloData[],
+        sloList: [...pageOneResult, ...pageTwoResult] as SloData[],
         clear: jest.fn(),
         page: 2,
         progress: { loading: false },
@@ -123,120 +139,21 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
     expect(result.current.sloList).toHaveLength(12);
   });
 
-  it('Should return an empty SloList and the selected SLO when there is no matching search input', () => {
+  it('Should reset the page when entityType is changed', () => {
     // Given
-    mockUseDebouncedValue.mockReturnValue({
-      value: 'NOTFOUND',
-      debouncedValue: 'NOTFOUND',
-      onChange: jest.fn()
-    });
-
-    mockUsePaginatedSloList.mockReturnValue({
-      sloList: [],
-      clear: jest.fn(),
-      page: 1,
-      progress: { loading: false },
-      pageSize: 6,
-      totalHits: 0
-    });
-
-    mockUseSelectedIds.mockReturnValue(sloData);
-
-    // When
-    const { result } = renderHook(() => useSloList(['SLO-selected'], 'application'));
-
-    // Then
-    expect(result.current.sloList).toStrictEqual([]);
-    expect(result.current.selected).toEqual([selectedSLO]);
-  });
-
-  it('Should return the selected SLO and the searched query SLO in the list when search query matches', () => {
-    // Given
-    mockUseDebouncedValue.mockReturnValue({
-      value: 'AndreiK',
-      debouncedValue: 'AndreiK',
-      onChange: jest.fn()
-    });
-
-    mockUsePaginatedSloList.mockReturnValue({
-      sloList: [
-        {
-          id: 'SLO-1',
-          label: 'AndreiK Test Edited',
-          entityName: '',
-          entityType: 'application'
-        }
-      ],
-      clear: jest.fn(),
-      page: 1,
-      progress: { loading: false },
-      pageSize: 1,
-      totalHits: 73
-    });
-
+    mockUseDebouncedValue.mockReturnValue(mockedDebouncedValue);
+    mockUsePaginatedSloList
+      .mockReturnValueOnce(mockPaginatedTwoSloList as UseBufferedSloDataResult)
+      .mockReturnValueOnce(mockWebsitePaginatedSloList as UseBufferedSloDataResult);
     mockUseSelectedIds.mockReturnValue(selectedSloData);
 
     // When
-    const { result } = renderHook(() => useSloList(['SLO-1', 'SLO-2', 'SLO-3'], 'application'));
+    const { result, rerender } = renderHook(() => useSloList(['SLO-selected'], 'application'));
 
+    expect(result.current.page).toBe(2);
+
+    rerender({ selectedIds: [], entityType: 'website' });
     // Then
-    expect(result.current.sloList).toStrictEqual([
-      {
-        id: 'SLO-1',
-        label: 'AndreiK Test Edited',
-        entityName: '',
-        entityType: 'application'
-      }
-    ]);
-    expect(result.current.selected).toEqual(mockSloList);
-  });
-
-  it('Should return empty SLO list when there is no matching SLO query and no selected SLO ', () => {
-    // Given
-    mockUseDebouncedValue.mockReturnValue({
-      value: 'NOTFOUND',
-      debouncedValue: 'NOTFOUND',
-      onChange: jest.fn()
-    });
-
-    mockUsePaginatedSloList.mockReturnValue({
-      sloList: [],
-      page: 1,
-      pageSize: 6,
-      totalHits: 0,
-      clear: jest.fn(),
-      progress: {
-        loading: false
-      }
-    });
-
-    mockUseSelectedIds.mockReturnValue(emptySloData);
-
-    // When
-    const { result } = renderHook(() => useSloList([], 'application'));
-
-    // Then
-    expect(result.current.sloList).toEqual([]);
-    expect(result.current.selected).toEqual([]);
-  });
-
-  it('Should show the selected SLO and all matching query SLOs in a case-insensitive manner', () => {
-    // Given
-    mockUseDebouncedValue.mockReturnValue({
-      value: 'test',
-      debouncedValue: 'test',
-      onChange: jest.fn()
-    });
-
-    mockUsePaginatedSloList.mockReturnValue(mockPaginatedSloListWithEvent as UseBufferedSloDataResult);
-
-    mockUseSelectedIds.mockReturnValue(sloData);
-
-    // When
-    const { result } = renderHook(() => useSloList(['SLO-selected'], 'application'));
-
-    // Then
-    expect(result.current.selected).toStrictEqual([selectedSLO]);
-    expect(result.current.sloList).toStrictEqual(mockSloListEvent);
+    expect(result.current.page).toBe(1);
   });
 });

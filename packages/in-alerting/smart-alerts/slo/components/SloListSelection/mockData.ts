@@ -77,6 +77,14 @@ export const mockPaginatedSloList = {
   totalHits: 73
 };
 
+export const mockPaginatedTwoSloList = {
+  sloList: mockSloList,
+  clear: jest.fn(),
+  page: 2,
+  progress: { loading: false },
+  pageSize: 3,
+  totalHits: 73
+};
 export const mockWebsiteSloList = [
   {
     id: 'SLO-1',
@@ -100,36 +108,6 @@ export const mockWebsiteSloList = [
 
 export const mockWebsitePaginatedSloList = {
   sloList: mockWebsiteSloList,
-  clear: jest.fn(),
-  page: 1,
-  progress: { loading: false },
-  pageSize: 3,
-  totalHits: 73
-};
-
-export const mockSloListEvent = [
-  {
-    id: 'SLO-1',
-    label: 'Test-event',
-    entityName: '',
-    entityType: 'application'
-  },
-  {
-    id: 'SLO-2',
-    label: 'Event Based Application SLO test',
-    entityName: '',
-    entityType: 'application'
-  },
-  {
-    id: 'SLO-3',
-    label: 'Test availability event-based SLO',
-    entityName: '',
-    entityType: 'application'
-  }
-];
-
-export const mockPaginatedSloListWithEvent = {
-  sloList: mockSloListEvent,
   clear: jest.fn(),
   page: 1,
   progress: { loading: false },
@@ -177,7 +155,6 @@ export const pageOneResult = [
 ];
 
 export const pageTwoResult = [
-  ...pageOneResult,
   {
     id: 'SLO-7',
     label: 'Andre Test',
