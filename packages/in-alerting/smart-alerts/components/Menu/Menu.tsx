@@ -5,10 +5,9 @@
  */
 
 import React, { useState } from 'react';
-import classNames from 'classnames';
 import invariant from 'invariant';
 
-import { RadioButton } from '@instana/components';
+import { RadioButton, Stack } from '@instana/components';
 
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
@@ -24,18 +23,12 @@ export interface MenuItem {
 }
 
 export interface MenuProps<T extends MenuItem> {
-  addRightSeparator?: boolean;
   items: T[] | readonly T[];
   onItemClick: (item: T) => any;
   initialItemSelected: MenuItem;
 }
 
-export default function Menu<T extends MenuItem>({
-  addRightSeparator = false,
-  items,
-  onItemClick,
-  initialItemSelected
-}: MenuProps<T>) {
+export default function Menu<T extends MenuItem>({ items, onItemClick, initialItemSelected }: MenuProps<T>) {
   validateInitialItemSelected(initialItemSelected, items);
 
   const [itemSelected, setItemSelected] = useState(() => {
@@ -43,13 +36,8 @@ export default function Menu<T extends MenuItem>({
   });
 
   return (
-    <nav
-      className={classNames({
-        [locals.container]: true,
-        [locals.rightSeparator]: addRightSeparator
-      })}
-    >
-      <ul className={locals.list}>
+    <div className={locals.container}>
+      <Stack direction="horizontal" gap="large">
         {items.map((item, i) => (
           <span className={locals.checkboxLabel} key={i}>
             <RadioButton
@@ -78,8 +66,8 @@ export default function Menu<T extends MenuItem>({
             />
           </span>
         ))}
-      </ul>
-    </nav>
+      </Stack>
+    </div>
   );
 }
 

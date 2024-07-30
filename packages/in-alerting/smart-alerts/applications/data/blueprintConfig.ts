@@ -195,7 +195,7 @@ const logsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.name'),
   headline: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.headline'),
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.text'),
-  tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.headline'),
+  tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.tearSheetHeadline'),
   tearSheetDescription: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.text'),
   isBeta: true,
   baselineEnabled: false,

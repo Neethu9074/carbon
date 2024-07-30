@@ -24,9 +24,7 @@ describe('in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearS
   };
   it('renders BPs correctly', () => {
     render(<AlertConfigTearSheetStep1 {...props} />);
-    expect(
-      screen.getByText(t('in-alerting:smartAlerts.applications.simple.simpleAlertStep1Headline'))
-    ).toBeInTheDocument();
+    expect(screen.getByText(t('in-alerting:smartAlerts.applications.tearSheet.alertHeadline'))).toBeInTheDocument();
     expect(
       screen.getByText(t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.name'))
     ).toBeInTheDocument();

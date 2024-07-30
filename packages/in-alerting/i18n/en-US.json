@@ -304,8 +304,8 @@
           "name": "Slow Calls",
           "headline": "Automatic Alerts for Slow Calls",
           "text": "Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual.",
-          "tearSheetHeadline": "Alerts for calls count",
-          "tearSheetDescription": "Automatic alerts when calls to selected services and endpoints of this Application Perspective are slower than the threshold."
+          "tearSheetHeadline": "Automatic alerts for slow calls",
+          "tearSheetDescription": "Receive an alert when calls to selected services and endpoints of this application perspective are slower than the threshold."
         },
         "errors": {
           "name": "Erroneous Calls",
@@ -317,6 +317,7 @@
         "logs": {
           "name": "Logs",
           "headline": "Automatic Alerts for Error and Warning Logs",
+          "tearSheetHeadline": "Automatic alerts for error and warning logs",
           "text": "Receive an alert when the number of calls with given error and warning log messages is higher than expected.",
           "metricLabel": "Calls",
           "incompleteRuleMessage": "Please select a Log Message to see when this alert triggers"
@@ -327,15 +328,15 @@
           "text": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
           "incompleteRuleMessage": "Please select a Status Code to see when this alert triggers",
           "tearSheetHeadline": "Automatic alerts for HTTP status codes",
-          "tearSheetDescription": "Receive an alert when matching HTTP Status Codes occur more often than the threshold."
+          "tearSheetDescription": "Receive an alert when matching HTTP status codes occur more often than the threshold."
         },
         "throughput": {
           "name": "Throughput",
           "headline": "Automatic Alerts for Calls Count",
           "text": "Automatic alerts on anomalously low or high number of calls for selected services and endpoints of this Application Perspective.",
           "metricLabel": "Calls",
-          "tearSheetHeadline": "Automatic alerts for page views",
-          "tearSheetDescription": "Automatic alerts on an unusually low or high number of calls for selected services and endpoints of this Application Perspective."
+          "tearSheetHeadline": "Automatic alerts for throughput",
+          "tearSheetDescription": "Receive an alert when the number of calls is unusually high or low for selected services and endpoints of this application perspective."
         },
         "simpleMode": {
           "unexpectedDrop": {
@@ -467,7 +468,6 @@
         "thresholdFormBaselineIsEmpty": "baseline is empty"
       },
       "simple": {
-        "simpleAlertStep1Headline": "Choose the issue that you want to be alerted on",
         "simpleAlertStep2Headline": "Where do you want the alert to trigger?",
         "step1Title": "Step 1: Select Alert",
         "step2Title": "Step 2: Select Scope",
@@ -526,11 +526,12 @@
         "eventsCriticalIcon": "Events critical icon"
       },
       "tearSheet": {
-        "step1Title": "Pick an alert template",
+        "step1Title": "Pick a template",
         "step2Title": "Define the scope",
         "step3Title": "Define grouping",
         "step4Title": "Define when to get alerted",
         "step5Title": "Define alert properties and channels",
+        "alertHeadline": "Choose what you want to be alerted on",
         "grouping": {
           "title": "Group calls",
           "description": "Calls in each group are evaluated separately",

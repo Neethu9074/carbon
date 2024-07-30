@@ -22,8 +22,6 @@ import AlertTypography from 'in-alerting/components/AlertTypography';
 import Menu from 'in-alerting/smart-alerts/components/Menu';
 import { t } from 'in-i18n';
 
-import locals from './AlertConfigTearSheetStep1.mless';
-
 export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintConfigList }) {
   const alertType = form.get('rule').get('alertType').value;
 
@@ -31,68 +29,65 @@ export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintC
   const { tearSheetHeadline, isBeta, tearSheetDescription } = blueprintConfig;
 
   return (
-    <TearSheetStepContentWrapper headline={t('in-alerting:smartAlerts.applications.simple.simpleAlertStep1Headline')}>
-      <div className={locals.container}>
-        <Menu
-          items={blueprintConfigList}
-          onItemClick={item => {
-            updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, false));
-          }}
-          initialItemSelected={blueprintConfig}
-          addRightSeparator
-        />
+    <TearSheetStepContentWrapper headline={t('in-alerting:smartAlerts.applications.tearSheet.alertHeadline')}>
+      <Menu
+        items={blueprintConfigList}
+        onItemClick={item => {
+          updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, false));
+        }}
+        initialItemSelected={blueprintConfig}
+      />
 
-        <AlertTypeSwitch
-          alertType={alertType}
-          renderLogs={() => (
-            <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta}>
-              <Spacer vertical="normal" />
-              <ExpandableLightCard
-                title={
-                  <AlertTypography
-                    variant="heading-100"
-                    content={t('in-alerting:smartAlerts.applications.logMessages.messageColumn')}
-                  />
-                }
-                useMaxAvailableHeight={false}
-                openByDefault
-                darkFrame
-              >
-                <LogMessages
-                  form={form}
-                  updateForm={updateForm}
-                  timeConfig={{
-                    windowSize: alertingDialogItemPickerTimeframe
-                  }}
+      <AlertTypeSwitch
+        alertType={alertType}
+        renderLogs={() => (
+          <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={false}>
+            <Spacer vertical="normal" />
+            <ExpandableLightCard
+              title={
+                <AlertTypography
+                  variant="heading-100"
+                  content={t('in-alerting:smartAlerts.applications.logMessages.messageColumn')}
                 />
+              }
+              useMaxAvailableHeight={false}
+              openByDefault
+              darkFrame
+            >
+              <LogMessages
+                form={form}
+                updateForm={updateForm}
+                timeConfig={{
+                  windowSize: alertingDialogItemPickerTimeframe
+                }}
+              />
 
-                <ProvideLogMessage
-                  form={form}
-                  updateForm={updateForm}
-                  mode="Simple"
-                  timeConfig={{
-                    windowSize: alertingDialogItemPickerTimeframe
-                  }}
-                />
-              </ExpandableLightCard>
-            </SelectedBlueprintPresenter>
-          )}
-          renderSlowness={() => (
-            <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta} />
-          )}
-          renderErrorRate={() => (
-            <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta} />
-          )}
-          renderStatusCode={() => (
-            <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription}>
-              <ProvideStatusCode form={form} updateForm={updateForm} tearSheetView />
-            </SelectedBlueprintPresenter>
-          )}
-          renderThroughput={() => (
-            <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta} />
-          )}
-        />
-      </div>
+              <ProvideLogMessage
+                form={form}
+                updateForm={updateForm}
+                mode="Simple"
+                timeConfig={{
+                  windowSize: alertingDialogItemPickerTimeframe
+                }}
+              />
+            </ExpandableLightCard>
+          </SelectedBlueprintPresenter>
+        )}
+        renderSlowness={() => (
+          <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta} />
+        )}
+        renderErrorRate={() => (
+          <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta} />
+        )}
+        renderStatusCode={() => (
+          <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription}>
+            <ProvideStatusCode form={form} updateForm={updateForm} tearSheetView />
+          </SelectedBlueprintPresenter>
+        )}
+        renderThroughput={() => (
+          <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta} />
+        )}
+      />
     </TearSheetStepContentWrapper>
   );
 }

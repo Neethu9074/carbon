@@ -5,7 +5,11 @@
  */
 
 :local {
-  .gap {
+  .leftPadding {
     padding-left: 0.25rem;
+  }
+
+  .wrapper {
+    width: 33rem;
   }
 }

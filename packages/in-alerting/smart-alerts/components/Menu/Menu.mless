@@ -5,20 +5,7 @@
  */
 
 :local {
-  .list {
-    list-style: none;
-    // reset some browser styles
-    margin: 0;
-    padding: 0;
-  }
-
-  .rightSeparator {
-    border-right: 1px solid var(--ids-color-option-neutral-300);
-    padding-right: 2rem;
-  }
-
-  .checkboxLabel:not(:first-child) {
-    display: grid;
-    margin-top: 1rem;
+  .container {
+    margin: 2rem 0 2rem 0;
   }
 }

@@ -42,7 +42,7 @@ export default function SimpleAlertConfigDialogStep1({
       : simpleModeBlueprintConfigs.filter(config => config.type !== 'logs');
 
   return (
-    <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.applications.simple.simpleAlertStep1Headline')}>
+    <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.applications.tearSheet.alertHeadline')}>
       <Menu
         items={blueprintConfigList}
         onItemClick={item => {
