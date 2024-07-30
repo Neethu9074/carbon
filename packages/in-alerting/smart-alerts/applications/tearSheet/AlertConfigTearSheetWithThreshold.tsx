@@ -186,6 +186,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       headerWithMsg={headerWithMsg}
       additionalValidationCheck={step === 1 || step === 3 ? isTagFilterFormModelValid : true}
       setForm={updateForm}
+      sideNavigationEnabled={editMode}
     >
       {APStepRenderers.map(
         (

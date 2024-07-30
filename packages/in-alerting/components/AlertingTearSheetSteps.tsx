@@ -22,8 +22,9 @@ export default function AlertingTearSheetSteps(props: {
   step: number;
   setStep: Dispatch<SetStateAction<number>>;
   form: MapForm<any>;
+  sideNavigationEnabled?: boolean;
 }) {
-  const { stepConfigs, step, setStep, form } = props;
+  const { stepConfigs, step, setStep, form, sideNavigationEnabled } = props;
   const displayValidation = form && !form.hierarchyValid && form.touched;
   return (
     <div className={locals.rightSeparator}>
@@ -32,9 +33,10 @@ export default function AlertingTearSheetSteps(props: {
           <div
             className={classNames({
               [locals.label]: true,
-              [locals.selected]: idx === step
+              [locals.selected]: idx === step,
+              [locals.clickable]: sideNavigationEnabled
             })}
-            onClick={() => setStep(idx)}
+            onClick={() => (sideNavigationEnabled ? setStep(idx) : () => undefined)}
             key={idx}
           >
             <Typography variant="body-regular">

@@ -21,7 +21,8 @@ describe('in-alerting/components/AlertingTearSheetSteps', () => {
       ],
       step: 1,
       setStep: jest.fn(),
-      form: createSmartAlertForm(alertConfig as any, true, true)
+      form: createSmartAlertForm(alertConfig as any, true, true),
+      sideNavigationEnabled: true
     };
     render(<AlertingTearSheetSteps {...props} />);
     // test step 1

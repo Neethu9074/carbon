@@ -45,6 +45,7 @@ export interface AlertingTearSheetProps {
   additionalValidationCheck: boolean;
   headerWithMsg: boolean;
   setForm: (form: MapForm<any>) => void;
+  sideNavigationEnabled?: boolean;
 }
 
 export default function AlertingTearSheet(props: AlertingTearSheetProps) {
@@ -60,7 +61,8 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
     additionalValidationCheck,
     setForm,
     headerWithMsg,
-    migrationMode
+    migrationMode,
+    sideNavigationEnabled
   } = props;
 
   return (
@@ -74,7 +76,13 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
             })}
           >
             <div className={locals.sidebar}>
-              <AlertingTearSheetSteps stepConfigs={stepConfigs} step={step} setStep={setStep} form={form} />
+              <AlertingTearSheetSteps
+                stepConfigs={stepConfigs}
+                step={step}
+                setStep={setStep}
+                form={form}
+                sideNavigationEnabled={sideNavigationEnabled}
+              />
             </div>
             <div
               className={classNames({
