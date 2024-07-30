@@ -17,8 +17,6 @@ import Header from 'in-plg/components/Header/Header';
 import config from 'in-services/config';
 import { t } from 'in-i18n';
 
-import locals from './AgentViewRouter.mless';
-
 interface BreadCrumbItem {
   icon?: string;
   title?: string;
@@ -68,7 +66,7 @@ export default function AgentViewRouter({
   }, []);
 
   return (
-    <div className={locals.contentWrapper}>
+    <Stack>
       <ViewTrackingMeta
         data={{
           productArea: productAreas.agents,
@@ -93,6 +91,6 @@ export default function AgentViewRouter({
           />
         )}
       </Stack>
-    </div>
+    </Stack>
   );
 }
