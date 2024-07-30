@@ -4,10 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Select } from '@instana/components';
+import { Select, Stack } from '@instana/components';
 
 import {
   filterThresholdTypeOptionsForEvaluationType,
@@ -16,9 +17,10 @@ import {
 import { tearSheetStaticOrAdaptiveThresholds } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/config';
 import { staticOrAdaptiveThresholds as types } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/config';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateBaselineButton';
+import { HISTORIC_BASELINE, ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
-import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
@@ -34,12 +36,12 @@ export default function ThresholdTypeSelection({
 }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const evaluationType = form.get('evaluationType').value;
+  const seasonality = form.get('threshold')?.get('seasonality')?.value;
   const options = filterThresholdTypeOptionsForEvaluationType(
     thresholdTypeOptions,
     evaluationType,
     isGlobalSmartAlert
   ).filter(getOptionsFilterForThresholdTyp(thresholdType));
-
   const thresholdComboBoxValue = getThresholdComboBoxValue(form);
   const currentType = thresholdType === ADAPTIVE_BASELINE ? types.adaptive : types.static;
   const { description, label } = tearSheetStaticOrAdaptiveThresholds.info[currentType];
@@ -66,25 +68,32 @@ export default function ThresholdTypeSelection({
           )}
         </>
       ) : (
-        <div className={locals.container}>
+        <div className={classNames({ [locals.container]: true, [locals.alignStart]: true })}>
           <span className={locals.label} />
-          <Select
-            value={thresholdComboBoxValue}
-            items={options}
-            onChange={e => {
-              onThresholdTypeChange(e.target.value, form, updateForm);
-            }}
-            useFullWidth
-            wrapperClassName={locals.fullWidth}
-          >
-            {options.map(items => {
-              return (
-                <option key={items.value} value={items.value}>
-                  {items.label}
-                </option>
-              );
-            })}
-          </Select>
+          <Stack direction="vertical" gap="small" align="start">
+            <Select
+              value={thresholdComboBoxValue}
+              items={options}
+              onChange={e => {
+                onThresholdTypeChange(e.target.value, form, updateForm);
+              }}
+              useFullWidth
+              wrapperClassName={locals.fullWidth}
+            >
+              {options.map(items => {
+                return (
+                  <option key={items.value} value={items.value}>
+                    {items.label}
+                  </option>
+                );
+              })}
+            </Select>
+            <AlertTypography
+              variant="body-small"
+              color="color700"
+              content={getThresholdDescription(seasonality ?? thresholdType)}
+            />
+          </Stack>
           {thresholdType === HISTORIC_BASELINE && (
             <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
           )}
@@ -92,6 +101,16 @@ export default function ThresholdTypeSelection({
       )}
     </>
   );
+}
+
+function getThresholdDescription(threshold) {
+  if (threshold === STATIC_THRESHOLD) {
+    return t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdDescription.static');
+  } else if (threshold === DAILY) {
+    return t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdDescription.staticDaily');
+  } else if (threshold === WEEKLY) {
+    return t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdDescription.staticWeekly');
+  }
 }
 
 ThresholdTypeSelection.propTypes = {
