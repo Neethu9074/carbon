@@ -24,6 +24,9 @@ import { t } from 'in-i18n';
 
 import locals from './Windows64BitUnattended.mless';
 
+const agentModeOptions = ['dynamic', 'static'];
+const jvmVendorOptions = ['azul', 'eclipse'];
+
 const Windows64BitUnattended = ({
   tenant,
   tenantUnit,
@@ -34,9 +37,6 @@ const Windows64BitUnattended = ({
   butlerDomain,
   fromOnboarding
 }: OnboardingProps) => {
-  const agentModeOptions = ['dynamic', 'static'];
-  const jvmVendorOptions = ['azul', 'eclipse'];
-
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
   const [jvmVendor, setJVMVendor] = useState(jvmVendorOptions[0]);
 
@@ -78,12 +78,16 @@ const Windows64BitUnattended = ({
 
   if (shareAndInviteEnabled) sideCardData.pop();
 
-  const cmdLine = (): CodeProps => {
+  const cmdLine = (agentMode: string, jvmVendor: string): CodeProps => {
+    let fileName = 'instana-agent-windows-64bit';
+    if (jvmVendor === jvmVendorOptions[1]) fileName += '-j9';
+    if (agentMode === agentModeOptions[1]) fileName += '-offline';
+    fileName += '.exe';
     return {
       code: [
         '@ECHO OFF',
         '',
-        `AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} INSTANA_DOWNLOAD_KEY=${downloadKey} /quiet`
+        `${fileName} INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} INSTANA_DOWNLOAD_KEY=${downloadKey} /quiet`
       ],
       lang: 'bash',
       withoutCopyButton: !(!!agentEndpoint && !!agentEndpointPort && !!agentKey && !!downloadKey)
@@ -176,7 +180,7 @@ const Windows64BitUnattended = ({
                 'in-plg:agentDetails.windows.windows_64_bit_unattended.theFollowingCommandLineInstallationWillInstallTheInstanaAgent'
               )}
             </Typography>
-            <Code {...cmdLine()} />
+            <Code {...cmdLine(agentMode, jvmVendor)} />
           </Stack>
         </LayoutSection>
 
