@@ -5,12 +5,12 @@
 
 import React from 'react';
 
+import { Message, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
 import { Card } from '@instana/components';
 
+import { getAccountAsResultObservable, getActiveLicensesAsResultObservable } from 'in-amp/api/account';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
-import { getActiveLicensesAsResultObservable } from 'in-amp/api/account';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DataIngestTable from 'in-amp/components/DataIngestTable';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -38,6 +38,9 @@ export default function UsageCharts({
 
   let showDataLicenseLine = true;
   const licenseObservableResult = useObservable(getActiveLicensesAsResultObservable(1, 60000), []);
+  const accountObservableResult = useObservable(getAccountAsResultObservable(), []);
+
+  const fupOverride = accountObservableResult?.data?.fupOverride;
 
   // Calculate whether licensed data line should be shown
   // Do not show for individual tenant units
@@ -48,11 +51,16 @@ export default function UsageCharts({
   else if (!isCumulativeTimeRange) {
     showDataLicenseLine = false;
   }
-  // Do now show, if there are paid licenses with unlimited data usage
+  // These checks require the observable results to be there
   else {
+    // Do not show, if fair use policy override is active
+    if (fupOverride === true) {
+      showDataLicenseLine = false;
+    }
+
+    // Do now show, if there are paid licenses with unlimited data usage
     const licenses = licenseObservableResult?.data?.items;
-    if (licenses) {
-      showDataLicenseLine = true;
+    if (showDataLicenseLine && licenses) {
       if (licenses.some(lic => lic?.license?.paid && lic?.license?.licenseSpecs?.limitedDataUsage !== true)) {
         showDataLicenseLine = false;
       }
@@ -212,6 +220,7 @@ export default function UsageCharts({
       <Row>
         <Col xs={12}>
           <Card>
+            {fupOverride && <Message withIcon title={t('in-amp:components.usageCharts.fupOverrideActiveText')} />}
             <SubViewHeader>
               Data usage
               <Tooltip content={t('in-amp:components.usageCharts.dataUsageHelperText')} align="rightMiddle">
