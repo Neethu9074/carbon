@@ -20,12 +20,9 @@ import {
   selectedSloData,
   sloData
 } from 'in-alerting/smart-alerts/slo/components/SloListSelection/mockData';
-import {
-  UseBufferedSloDataResult,
-  usePaginatedSloList
-} from 'in-alerting/smart-alerts/slo/components/SloListSelection/hooks/usePaginatedSloList';
-import { SloData, useSloList } from 'in-alerting/smart-alerts/slo/components/SloListSelection/SloListSelection';
+import { usePaginatedSloList } from 'in-alerting/smart-alerts/slo/components/SloListSelection/hooks/usePaginatedSloList';
 import { useSelectedIds } from 'in-alerting/smart-alerts/slo/components/SloListSelection/hooks/useSelectedIds';
+import { useSloList } from 'in-alerting/smart-alerts/slo/components/SloListSelection/SloListSelection';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 
 jest.mock('in-hooks/useDebouncedValue');
@@ -41,11 +38,11 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
     jest.resetAllMocks();
   });
 
-  it('Should keep the selected sloId while creating new Smart Alert from a particular SLO', () => {
+  it('When a single sloId is passed, it must be present in the sloList', () => {
     // Given
     mockUseDebouncedValue.mockReturnValue(mockedDebouncedValue);
 
-    mockUsePaginatedSloList.mockReturnValue(mockPaginatedSloList as UseBufferedSloDataResult);
+    mockUsePaginatedSloList.mockReturnValue(mockPaginatedSloList);
 
     mockUseSelectedIds.mockReturnValue(sloData);
 
@@ -58,11 +55,11 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
     expect(result.current.selected[0].id).toBe('SLO-selected');
   });
 
-  it('Should keep the multiple selected sloId while creating new Smart Alert from a particular SLO', () => {
+  it('When multiple sloIds are passed, the selected sloId must be present in the sloList', () => {
     // Given
     mockUseDebouncedValue.mockReturnValue(mockedDebouncedValue);
 
-    mockUsePaginatedSloList.mockReturnValue(mockPaginatedSloList as UseBufferedSloDataResult);
+    mockUsePaginatedSloList.mockReturnValue(mockPaginatedSloList);
 
     mockUseSelectedIds.mockReturnValue(selectedSloData);
 
@@ -71,6 +68,9 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
 
     // Then
     expect(result.current.page).toBe(1);
+    expect(result.current.selected[0].id).toBe('SLO-1');
+    expect(result.current.selected[1].id).toBe('SLO-2');
+    expect(result.current.selected[2].id).toBe('SLO-3');
     expect(result.current.selected).toHaveLength(3);
   });
 
@@ -80,9 +80,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
 
     mockUseSelectedIds.mockReturnValueOnce(sloData).mockReturnValueOnce(emptySloData);
 
-    mockUsePaginatedSloList
-      .mockReturnValueOnce(mockPaginatedSloList as UseBufferedSloDataResult)
-      .mockReturnValueOnce(mockWebsitePaginatedSloList as UseBufferedSloDataResult);
+    mockUsePaginatedSloList.mockReturnValueOnce(mockPaginatedSloList).mockReturnValueOnce(mockWebsitePaginatedSloList);
 
     // When
     const { result, rerender } = renderHook(() => useSloList(['SLO-selected'], 'application'));
@@ -104,7 +102,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
 
     mockUsePaginatedSloList
       .mockReturnValueOnce({
-        sloList: pageOneResult as SloData[],
+        sloList: pageOneResult,
         clear: jest.fn(),
         page: 1,
         progress: { loading: false },
@@ -112,7 +110,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
         totalHits: 73
       })
       .mockReturnValueOnce({
-        sloList: [...pageOneResult, ...pageTwoResult] as SloData[],
+        sloList: [...pageOneResult, ...pageTwoResult],
         clear: jest.fn(),
         page: 2,
         progress: { loading: false },
@@ -143,8 +141,8 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
     // Given
     mockUseDebouncedValue.mockReturnValue(mockedDebouncedValue);
     mockUsePaginatedSloList
-      .mockReturnValueOnce(mockPaginatedTwoSloList as UseBufferedSloDataResult)
-      .mockReturnValueOnce(mockWebsitePaginatedSloList as UseBufferedSloDataResult);
+      .mockReturnValueOnce(mockPaginatedTwoSloList)
+      .mockReturnValueOnce(mockWebsitePaginatedSloList);
     mockUseSelectedIds.mockReturnValue(selectedSloData);
 
     // When

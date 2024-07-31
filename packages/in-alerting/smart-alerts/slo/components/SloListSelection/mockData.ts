@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { UseBufferedSloDataResult } from 'in-alerting/smart-alerts/slo/components/SloListSelection/hooks/usePaginatedSloList';
 import { SloData } from 'in-alerting/smart-alerts/slo/components/SloListSelection/SloListSelection';
 import { FetchedState } from 'in-hooks/utils/types';
 
@@ -23,7 +24,7 @@ export const sloData = [
   }
 ] as FetchedState<SloData[]>;
 
-export const mockSloList = [
+export const mockSloList: SloData[] = [
   {
     id: 'SLO-1',
     label: 'Andre Test',
@@ -68,7 +69,7 @@ export const mockedDebouncedValue = {
   onChange: jest.fn()
 };
 
-export const mockPaginatedSloList = {
+export const mockPaginatedSloList: UseBufferedSloDataResult = {
   sloList: mockSloList,
   clear: jest.fn(),
   page: 1,
@@ -85,7 +86,7 @@ export const mockPaginatedTwoSloList = {
   pageSize: 3,
   totalHits: 73
 };
-export const mockWebsiteSloList = [
+export const mockWebsiteSloList: SloData[] = [
   {
     id: 'SLO-1',
     label: 'demo4slo-web-timebased-latency',
@@ -106,7 +107,7 @@ export const mockWebsiteSloList = [
   }
 ];
 
-export const mockWebsitePaginatedSloList = {
+export const mockWebsitePaginatedSloList: UseBufferedSloDataResult = {
   sloList: mockWebsiteSloList,
   clear: jest.fn(),
   page: 1,
@@ -115,7 +116,7 @@ export const mockWebsitePaginatedSloList = {
   totalHits: 73
 };
 
-export const pageOneResult = [
+export const pageOneResult: SloData[] = [
   {
     id: 'SLO-1',
     label: 'Andre Test',
@@ -154,7 +155,7 @@ export const pageOneResult = [
   }
 ];
 
-export const pageTwoResult = [
+export const pageTwoResult: SloData[] = [
   {
     id: 'SLO-7',
     label: 'Andre Test',

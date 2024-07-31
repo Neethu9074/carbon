@@ -17,7 +17,7 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection/hooks/useSele
     jest.clearAllMocks();
   });
 
-  it('getAllSloConfigurations should call with the given selectedId', () => {
+  it('getAllSloConfigurations should be called with the given selectedId', () => {
     // Given
     const selected = ['SLO-1'];
     // When
