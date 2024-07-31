@@ -5,8 +5,7 @@
 
 import React, { useEffect } from 'react';
 
-import { Ul, Li, Message, Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Ul, Li, Message, Stack, Button } from '@instana/components';
 
 import { hasPotentialProblems } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';

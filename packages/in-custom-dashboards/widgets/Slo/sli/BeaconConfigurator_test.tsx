@@ -7,7 +7,7 @@ import { createField, Field, ValidationResult } from 'formalistic';
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import BeaconSelectInSection from 'in-custom-dashboards/widgets/Slo/sli/BeaconSelectInSection';
 import BeaconConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator';

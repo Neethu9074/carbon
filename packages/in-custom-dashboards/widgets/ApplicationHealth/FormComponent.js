@@ -5,11 +5,9 @@
 
 import React from 'react';
 
-import { SvgIcon, Li, Ul, Stack } from '@instana/components';
+import { SvgIcon, Li, Ul, Stack, Button, Select } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { Select } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import { createApplicationHealthForm } from 'in-custom-dashboards/widgets/ApplicationHealth/form';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';

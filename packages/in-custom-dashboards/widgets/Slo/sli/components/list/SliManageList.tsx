@@ -5,9 +5,8 @@
 
 import React, { useState } from 'react';
 
+import { Message, Button } from '@instana/components';
 import { OrderDirection } from '@instana/types';
-import { Message } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import {
   SLI_MANAGEMENT_CREATE_START,

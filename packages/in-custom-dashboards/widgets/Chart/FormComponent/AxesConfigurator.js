@@ -6,8 +6,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Li, Spacer, Stack, Ul, Toggle } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Li, Spacer, Stack, Ul, Toggle, Button } from '@instana/components';
 
 import { formatterPath, formatterSelectedPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { MetricsForAxis, Reorderer } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
