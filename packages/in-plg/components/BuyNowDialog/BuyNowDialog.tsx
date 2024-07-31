@@ -13,8 +13,8 @@ import {
   generateBuyOnIbmUrl,
   getPlatformSubscriptionIdsForTenantAndUnit
 } from 'in-plg/components/UsageBanner/UsageBanner';
+import { triggerSegmentEvent } from 'in-plg/api/segmentData';
 import { close } from 'in-components/DialogPresenter/store';
-import { sendSegmentEvent } from 'in-plg/api/segmentData';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
@@ -103,7 +103,7 @@ export const BuyNowDialog = () => {
                 id="wm-requestaquote"
                 onClick={() => {
                   const data = { type: 'quote' };
-                  sendSegmentEvent(data);
+                  triggerSegmentEvent(data);
                 }}
               >
                 {t('in-plg:licenseBanner.requestQuoteBtn')}
@@ -129,7 +129,7 @@ export const BuyNowDialog = () => {
             rel="noopener noreferrer"
             onClick={() => {
               const data = { type: 'aws' };
-              sendSegmentEvent(data);
+              triggerSegmentEvent(data);
             }}
           >
             {t('in-plg:licenseBanner.buyNowBtn')}
@@ -145,7 +145,7 @@ export const BuyNowDialog = () => {
             rel="noopener noreferrer"
             onClick={() => {
               const data = { type: 'ibm' };
-              sendSegmentEvent(data);
+              triggerSegmentEvent(data);
             }}
           >
             {t('in-plg:licenseBanner.buyNowBtnIbm')}
