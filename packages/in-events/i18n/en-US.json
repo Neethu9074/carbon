@@ -192,7 +192,11 @@
     "probableCause": "Potential cause",
     "highProbabilitySecondaryLabel": "High",
     "moderateProbabilitySecondaryLabel": "Moderate",
-    "lowProbabilitySecondaryLevel": "Low"
+    "lowProbabilitySecondaryLevel": "Low",
+    "runsOn": "Runs on:",
+    "runningIn": "Running in:",
+    "inService": "In service:",
+    "asPartOfApplicationPerspective": "As part of application perspective:"
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Incident Summary",
