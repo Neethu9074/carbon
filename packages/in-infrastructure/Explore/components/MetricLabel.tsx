@@ -29,15 +29,15 @@ export default function MetricLabel({
     );
   }
   const labelSpan = (
-    <span className={locals.label}>
+    <div className={locals.label}>
       <bdi>{label.data}</bdi>
-    </span>
+    </div>
   );
   // take a guess that the content will be truncated, although this is a bit hacky because
   // the truncation happens in CSS
   const labelWithTooltip =
     label.data && label.data.length > 20 ? (
-      <Tooltip content={label.data} align="bottomMiddle">
+      <Tooltip content={label.data} align="auto" overflowEllipsis>
         {labelSpan}
       </Tooltip>
     ) : (
