@@ -596,9 +596,9 @@
       "hubforceInternal": "Hubforce internal",
       "numOfTasks": "Number of tasks",
       "internalTimerMean": "Internal timers (mean)",
-      "companyListLoadTime": "compancompany list load time",
-      "butlerDataReloadTime": "butler data reload time",
-      "migrationTime": "migration time",
+      "companyListLoadTime": "Account list load time",
+      "butlerDataReloadTime": "Butler data reload time",
+      "migrationTime": "Migration time",
       "4Xx5XxResp": "4xx & 5xx responses",
       "logErrors": "Log errors",
       "numOfLogErrors": "# log errors",
@@ -607,17 +607,8 @@
       "sqsMsg": "SQS messages",
       "numOfInternalSqsMsg": "# internal SQS messages",
       "numOfMarketplaceSqsMsg": "# marketplace SQS messages",
-      "salesforceApiCallDurationMean": "Salesforce API calls duration (mean)",
-      "soqlFetchDuration": "SOQL fetch duration",
-      "singlePopretyUpdateDuration": "single poprety update duration",
-      "salesforceApiMultiplePropCallDurationMean": "Salesforce API update multiple properties call duration (mean)",
-      "duration": "duration",
-      "salesforceApiErrorCall": "Salesforce API error calls",
-      "numOfRestApiErrors": "# REST API errors",
-      "numOfSoqlApiErrors": "# SOQL API errors",
       "numOf4xx": "# 4xx",
-      "numOf5xx": "# 5xx",
-      "salesforce": "Salesforce"
+      "numOf5xx": "# 5xx"
     },
     "infrastructureMetrics": {
       "filler": {
