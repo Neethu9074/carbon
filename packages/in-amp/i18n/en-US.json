@@ -28,6 +28,9 @@
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "There has been no active paid license in the past 30 days."
     },
+    "fairUsePolicyMessage":{
+      "title": "This account is subject to Fair Use Policy."
+    },
     "restrictedUsage": {
       "accountUsage": "Account Usage"
     },
