@@ -7,7 +7,9 @@ import React from 'react';
 
 import { Stack, Checkbox } from '@instana/components';
 
+import { approximateValueIndicator } from 'in-components/AnalyzeView/FacetedFilters/approximateValueIndicator';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
+import { twoDigitApproximation } from 'in-components/AnalyzeView/utils.ts';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './CheckableSuggestion.mless';
@@ -24,7 +26,11 @@ export function CheckableSuggestion({ label, count, checked, onChange }) {
           className={locals.leftAlignedCheckbox}
           size={'large'}
         />
-        {count != null && <div className={locals.count}>{withSiPrefixOneDecimalPlace(count)}</div>}
+        {count != null && (
+          <div className={locals.count}>
+            {approximateValueIndicator} {withSiPrefixOneDecimalPlace(twoDigitApproximation(count))}
+          </div>
+        )}
       </Stack>
     </Tooltip>
   );
