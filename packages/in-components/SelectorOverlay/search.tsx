@@ -9,7 +9,7 @@ import React, { useMemo } from 'react';
 
 import { Highlights, Options, OptionsResult } from 'in-components/SelectorOverlay/Node';
 
-import nodeLocals from './Node.mless';
+import locals from './search.mless';
 
 // when multiple tokens are found, favor diversity of matches against a single token which matches many keys
 const MULTI_MATCH_BOOST = 0.001;
@@ -17,7 +17,13 @@ const MULTI_MATCH_BOOST = 0.001;
 // when no score is attributed, it is likely a very bad match
 const DEFAULT_SCORE = 1;
 
-const keys: Array<FuseOptionKey<Options>> = [{ name: 'label', weight: 2 }, 'description', 'parentLabels', 'tagName'];
+const keys: Array<FuseOptionKey<Options>> = [
+  { name: 'label', weight: 2 },
+  'description',
+  'parentLabels',
+  'tagName',
+  'metric'
+];
 
 // minimum proportion of token to match upon
 const minCharPercentage: number = 0.55; // at least half
@@ -30,7 +36,11 @@ const fuseOptions: IFuseOptions<Options> = {
   keys
 };
 
-export function useSearch(options: Options[], query: string, matchAllTokens: boolean = true): OptionsResult[] {
+export function useSearch<T extends Options>(
+  options: T[],
+  query: string,
+  matchAllTokens: boolean = true
+): OptionsResult<T>[] {
   const allOptions = useMemo(() => flattenNodes(options), [options]);
   const index = useMemo(() => Fuse.createIndex(keys, allOptions), [allOptions]);
   const fuse = useMemo(() => new Fuse(allOptions, fuseOptions, index), [allOptions, index]);
@@ -49,14 +59,20 @@ export function useSearch(options: Options[], query: string, matchAllTokens: boo
   );
 }
 
-function searchTokens(fuse: Fuse<Options>, tokens: string[], matchAllTokens: boolean) {
+function searchTokens<T extends Options>(fuse: Fuse<T>, tokens: string[], matchAllTokens: boolean): FuseResult<T>[] {
   return tokens
     .map(token => ({ token, results: fuse.search(token, { limit: 10000 }) }))
     .map(removeIndicesNotMatchingToken)
-    .reduce(mergeResults(matchAllTokens), []);
+    .reduce(mergeResults<T>(matchAllTokens), []);
 }
 
-function removeIndicesNotMatchingToken({ token, results }: { token: string; results: FuseResult<Options>[] }) {
+function removeIndicesNotMatchingToken<T extends Options>({
+  token,
+  results
+}: {
+  token: string;
+  results: FuseResult<T>[];
+}) {
   const minChars = Math.floor(token.length * minCharPercentage);
   return results
     .map(result => ({
@@ -70,9 +86,18 @@ function removeIndicesNotMatchingToken({ token, results }: { token: string; resu
             ...match,
             indices: match.indices
               .filter(range => range[1] - range[0] >= minChars)
-              .filter(range =>
-                token.toLowerCase().includes(match.value!.toLowerCase().substring(range[0], range[1] + 1))
-              )
+              .flatMap(range => {
+                const matchValue = match.value!.toLowerCase().substring(range[0], range[1] + 1);
+                const lowercasedToken = token.toLowerCase();
+                if (lowercasedToken.includes(matchValue)) {
+                  return [range];
+                }
+                const tokenOffset = matchValue.indexOf(lowercasedToken);
+                if (tokenOffset !== -1) {
+                  return [[tokenOffset + range[0], range[0] + lowercasedToken.length - 1] as RangeTuple];
+                }
+                return [];
+              })
           };
         })
         .filter(match => match.indices.length > 0)
@@ -80,37 +105,40 @@ function removeIndicesNotMatchingToken({ token, results }: { token: string; resu
     .filter(result => result.matches && result.matches?.length > 0);
 }
 
-function mergeResults(matchAllTokens: boolean) {
-  return (previous: FuseResult<Options>[], current: FuseResult<Options>[]) => {
-    if (previous.length === 0) {
-      return current;
+function mergeResultsForKey<T extends Options>(
+  previous: FuseResult<T>[],
+  current: FuseResult<T>[],
+  extractKey: (option: T) => string | undefined,
+  intersect: boolean = false
+) {
+  const result = new Map<string, FuseResult<T>>();
+  for (const previousResult of previous) {
+    const key = extractKey(previousResult.item);
+    if (key) {
+      result.set(key, previousResult);
     }
-
-    const results = new Map<string, FuseResult<Options>>();
-
-    for (const previousResult of previous) {
-      results.set(previousResult.item.tagName, previousResult);
-    }
-
-    for (const currentResult of current) {
-      const previousResult = results.get(currentResult.item.tagName);
-      if (previousResult) {
-        previousResult.matches = mergeMatches(previousResult.matches, currentResult.matches);
-        previousResult.score = mergeScores(previousResult.score, currentResult.score);
-      } else {
-        results.set(currentResult.item.tagName, currentResult);
+  }
+  for (const currentResult of current) {
+    const key = extractKey(currentResult.item);
+    if (key) {
+      const previousResult = result.get(key);
+      if (previous.length == 0 || !intersect || previousResult) {
+        result.set(key, {
+          ...currentResult,
+          matches: mergeMatches(previousResult?.matches, currentResult.matches),
+          score: mergeScores(previousResult?.score, currentResult.score)
+        });
       }
     }
+  }
+  return result;
+}
 
-    if (matchAllTokens) {
-      const previousKeys = previous.map(result => result.item.tagName);
-      const currentKeys = current.map(result => result.item.tagName);
-      return Array.from(results)
-        .filter(entry => previousKeys.includes(entry[0]) && currentKeys.includes(entry[0]))
-        .map(entry => entry[1]);
-    }
-
-    return Array.from(results.values());
+function mergeResults<T extends Options>(matchAllTokens: boolean) {
+  return (previous: FuseResult<T>[], current: FuseResult<T>[]) => {
+    const extractKey = (options: T) => (options.type === 'TAG' ? options.tagName : options.metric);
+    const mergedTags = mergeResultsForKey(previous, current, extractKey, matchAllTokens);
+    return [...mergedTags.values()];
   };
 }
 
@@ -132,12 +160,11 @@ function mergeMatches(
 
   for (const match of currentMatch) {
     if (match.key) {
-      const currentMatch = matches.get(`${match.key}${match.refIndex}`);
-      if (currentMatch) {
-        currentMatch.indices = mergeIndices(currentMatch.value?.length, currentMatch.indices, match.indices);
-      } else {
-        matches.set(`${match.key}${match.refIndex}`, match);
-      }
+      const previousMatch = matches.get(`${match.key}${match.refIndex}`);
+      matches.set(`${match.key}${match.refIndex}`, {
+        ...match,
+        indices: mergeIndices(match.value?.length, previousMatch?.indices, match.indices)
+      });
     }
   }
 
@@ -187,10 +214,10 @@ function scoreBoost(result: FuseResult<Options>): number {
   return score / scoreBoost;
 }
 
-function flattenNodes(nodes: Options[]): Options[] {
-  return nodes.flatMap(node => {
+function flattenNodes<T extends Options>(nodes: T[]): T[] {
+  return nodes.flatMap((node: T) => {
     if (node.children && node.children.length > 0) {
-      return flattenNodes(node.children);
+      return flattenNodes(node.children as T[]);
     }
     return [node];
   });
@@ -201,20 +228,26 @@ function highlights(result: FuseResult<Options>): Highlights {
     return {
       label: result.item.label,
       description: result.item.description,
-      parentLabels: result.item.parentLabels as (string | JSX.Element)[]
+      parentLabels: result.item.parentLabels as (string | JSX.Element)[],
+      tag: false,
+      metric: false
     };
   }
   const label = result.matches.find(m => m.key === 'label');
   const description = result.matches.find(m => m.key === 'description');
   const parent0 = result.matches.find(m => m.key === 'parentLabels' && m.refIndex == 0);
   const parent1 = result.matches.find(m => m.key === 'parentLabels' && m.refIndex == 1);
+  const tag = result.matches.find(m => m.key === 'tagName');
+  const metric = result.matches.find(m => m.key === 'metric');
   return {
     label: label?.value ? highlight(label.value, label.indices) : result.item.label,
     description: description?.value ? highlight(description.value, description.indices) : result.item.description,
     parentLabels: [
       parent0?.value ? highlight(parent0.value, parent0.indices) : result.item.parentLabels?.[0] ?? '',
       parent1?.value ? highlight(parent1.value, parent1.indices) : result.item.parentLabels?.[1] ?? ''
-    ]
+    ],
+    tag: !!tag,
+    metric: !!metric
   };
 }
 
@@ -224,7 +257,7 @@ function highlight(value: string, indices: readonly RangeTuple[]): JSX.Element {
   for (const range of [...indices].sort((a, b) => a[0] - b[0])) {
     elements.push(<React.Fragment key={`t-${position}`}>{value.substring(position, range[0])}</React.Fragment>);
     elements.push(
-      <span key={`h-${range[0]}`} className={nodeLocals.highlight}>
+      <span key={`h-${range[0]}`} className={locals.highlight}>
         {value.substring(range[0], range[1] + 1)}
       </span>
     );
