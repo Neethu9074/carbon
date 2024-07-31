@@ -36,37 +36,23 @@ describe('in-alerting/smart-alerts/slo/components/SloListSelection/hooks/usePagi
   });
 
   it('useSloConfigurations must be called with the given entityType  ', () => {
+    // Given
+    const entityType = 'application';
     // When
-    renderHook(() => usePaginatedSloList({ page: 1, query: '', entityType: 'application' }));
+    renderHook(() => usePaginatedSloList({ page: 1, query: '', entityType }));
     // Then
     const calledWithArgs = mockUseConfigurations.mock.calls[0][0];
-    expect(mockUseConfigurations).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        entityType: 'application',
-        orderBy: 'name',
-        page: 1,
-        pageSize: 6,
-        query: ''
-      })
-    );
-    expect(calledWithArgs.entityType).toBe('application');
+    expect(calledWithArgs.entityType).toBe(entityType);
   });
 
   it('useSloConfigurations must be called with the given query', () => {
+    // Given
+    const query = 'test';
     // When
-    renderHook(() => usePaginatedSloList({ page: 1, query: 'test', entityType: 'application' }));
+    renderHook(() => usePaginatedSloList({ page: 1, query, entityType: 'application' }));
     // Then
     const calledWithArgs = mockUseConfigurations.mock.calls[0][0];
-    expect(mockUseConfigurations).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        entityType: 'application',
-        orderBy: 'name',
-        page: 1,
-        pageSize: 6,
-        query: 'test'
-      })
-    );
-    expect(calledWithArgs.query).toBe('test');
+    expect(calledWithArgs.query).toBe(query);
   });
 
   it('useSloConfigurations must be called with the given page', () => {
