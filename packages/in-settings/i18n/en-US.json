@@ -928,6 +928,7 @@
     "emailAlertChannel": "Email Alert Channel",
     "googleChat": "Google Chat",
     "webhookUrl": "Webhook URL",
+    "workflowWebhookUrl" : "Workflow / Webhook URL",
     "googleChatAlertChannel": "Google Chat Alert Channel",
     "office365MicrosoftTeams": "Office 365 / Microsoft Teams",
     "office365MicrosoftTeamsAlertChannel": "Office 365 / Microsoft Teams Alert Channel",
