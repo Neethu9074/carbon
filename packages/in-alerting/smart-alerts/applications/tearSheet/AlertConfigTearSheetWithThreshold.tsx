@@ -15,6 +15,7 @@ import {
   StaticThresholdData,
   TimeConfig
 } from '@instana/types';
+import { useObservable } from '@instana/hooks';
 
 import {
   APStepRenderers,
@@ -35,6 +36,8 @@ import {
   blueprintConfigs
 } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
+//@ts-expect-error
+import { channelListLoading$ } from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelsList';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/applications/hooks/useAlertConfigValidation';
 import AlertingTearSheet, { AlertingFooterActions } from 'in-alerting/components/AlertingTearSheet';
@@ -173,6 +176,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
     thresholdResult
   );
 
+  const channelListLoading = useObservable(channelListLoading$, []) as number | undefined;
   return (
     <AlertingTearSheet
       step={step}
@@ -184,7 +188,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       form={form}
       migrationMode={migrationMode}
       headerWithMsg={headerWithMsg}
-      additionalValidationCheck={step === 1 || step === 3 ? isTagFilterFormModelValid : true}
+      additionalValidationCheck={additionalValidationCheck(step, isTagFilterFormModelValid, channelListLoading)}
       setForm={updateForm}
       sideNavigationEnabled={editMode}
     >
@@ -218,4 +222,17 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       )}
     </AlertingTearSheet>
   );
+}
+
+function additionalValidationCheck(
+  step: number,
+  isTagFilterFormModelValid: boolean,
+  channelListLoading: number | undefined
+) {
+  if (step === 1 || step === 3) {
+    return isTagFilterFormModelValid;
+  } else if (step === 5) {
+    return channelListLoading === undefined ? false : true;
+  }
+  return true;
 }

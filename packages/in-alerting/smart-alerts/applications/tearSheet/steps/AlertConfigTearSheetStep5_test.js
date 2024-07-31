@@ -32,12 +32,4 @@ describe('AlertConfigTearSheetStep5 : in-alerting/smart-alerts/applications/tear
       screen.getByText(t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.title'))
     ).toBeInTheDocument();
   });
-
-  it('should render Alert channel section', async () => {
-    render(<AlertConfigTearSheetStep5 form={form} updateForm={updateForm} onChange={onChange} applicationLabel />);
-    expect(screen.getByText(t('in-alerting:smartAlerts.applications.tearSheet.AlertChannelTitle'))).toBeInTheDocument();
-    expect(
-      screen.getByText(t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.description'))
-    ).toBeInTheDocument();
-  });
 });

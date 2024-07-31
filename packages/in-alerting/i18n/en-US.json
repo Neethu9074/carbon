@@ -530,8 +530,9 @@
         "step2Title": "Define the scope",
         "step3Title": "Define grouping",
         "step4Title": "Define when to get alerted",
-        "step5Title": "Define alert properties and channels",
         "alertHeadline": "Choose what you want to be alerted on",
+        "step5Title": "Define alert properties",
+        "step6Title": "Define alert channels",
         "grouping": {
           "title": "Group calls",
           "description": "Calls in each group are evaluated separately",

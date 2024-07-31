@@ -7,7 +7,9 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Button } from '@instana/components';
+import { just, create } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/legacy';
 
 import {
   columnDefinitions,
@@ -23,6 +25,8 @@ import { clickAlertChannelTracker } from 'in-settings/tracker';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelsList.mless';
+
+export const channelListLoading$ = create().emit(undefined);
 
 /**
  * A searchable list of all configured alert channels that does not reveal confidential or pure configuration related
@@ -44,6 +48,8 @@ export default function AlertChannelsList({
   getHeader = leftHeaderWithSelectAll(tableActions, numberOfChannels)
 }) {
   const [channelsPreSelected] = useState(preSelectedChannels);
+  const entityResult = useObservable(getAlertChannelsInfosMutable, []);
+  channelListLoading$.emit(entityResult?.length ?? undefined);
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}
@@ -51,7 +57,7 @@ export default function AlertChannelsList({
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
       tableActions={tableActions}
-      loadEntities={getAlertChannelsInfosMutable}
+      loadEntities={() => just(entityResult)}
       noDataMessage={noDataMessage}
       renderNoDataAvailable={renderNoDataAvailable}
       pageSize={pageSize}
