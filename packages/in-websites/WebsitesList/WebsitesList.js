@@ -40,7 +40,7 @@ import { t } from 'in-i18n';
 
 import locals from './WebsitesList.mless';
 
-const WebsiteLabelColumn = item => {
+function WebsiteLabelColumn({ item }) {
   const websiteHref = useLinkToWebsite(item.website.id);
 
   return (
@@ -48,13 +48,15 @@ const WebsiteLabelColumn = item => {
       <Link href={websiteHref}>{item.website.label}</Link>
     </SeverityIndicatorCellContentWrapper>
   );
-};
+}
 
 const columnDefinitions = [
   {
     id: 'websiteLabel',
     label: t('in-websites:websitesList.websitesListLabelName'),
-    getContent: WebsiteLabelColumn
+    getContent(item) {
+      return <WebsiteLabelColumn item={item} />;
+    }
   },
   {
     id: 'pageViewsAgg',
