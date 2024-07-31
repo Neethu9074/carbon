@@ -4,13 +4,12 @@
  */
 
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 
-import { MetricCatalog, MetricTreeNodeUnion } from 'in-types';
 import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { MetricOptions } from 'in-components/SelectorOverlay/Node';
+import { MetricCatalog, MetricTreeNodeUnion } from 'in-types';
 
 interface MetricSelectorOverlayProps {
   metricCatalog: MetricCatalog;
@@ -91,14 +90,3 @@ export function toOptions(metricTreeNodes: MetricTreeNodeUnion[], parentLabels: 
     }
   });
 }
-
-MetricSelectorOverlay.propTypes = {
-  metricCatalog: PropTypes.any,
-  loading: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired,
-  query: PropTypes.string.isRequired,
-  onQueryChange: PropTypes.func.isRequired,
-  onSelectType: PropTypes.func,
-  close: PropTypes.func.isRequired,
-  disabled: PropTypes.bool
-};
