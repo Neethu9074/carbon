@@ -20,7 +20,7 @@ export const GROUP_COLORS = (() => {
 
 export const clickhouseTimeoutErrorMessage = 'Clickhouse timeout';
 
-export const twoDigitApproximation = (v: number) => {
+export const twoDigitApproximation = (v: number): number => {
   if (v === 0) return 0;
   const order = Math.floor(Math.log10(Math.abs(v)));
   const factor = Math.pow(10, order - 1);

@@ -26,7 +26,7 @@ export function CheckableSuggestion({ label, count, checked, onChange }) {
           className={locals.leftAlignedCheckbox}
           size={'large'}
         />
-        {count != null && (
+        {count && (
           <div className={locals.count}>
             {approximateValueIndicator} {withSiPrefixOneDecimalPlace(twoDigitApproximation(count))}
           </div>
