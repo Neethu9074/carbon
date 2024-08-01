@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { Pagination as CarbonPagination } from '@instana/components';
 import { SearchInput } from '@instana/components';
 
 import ResolveResult from 'in-settings/components/ApiList/renderer/ResolveResult';
@@ -13,6 +14,7 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import EmptyList from 'in-components/lists/List/sharedComponents/EmptyList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
@@ -58,7 +60,20 @@ export default function renderListInsideCard(props) {
           >
             {message && <TemporaryMessage {...message} duration={retainMessagesAfter} />}
             {content}
-            <Pagination currentPage={page} numPages={numPages} onChange={setPage} />
+
+            {numPages > 1 && carbonPaginationEnabled ? (
+              <div className={locals.paginationWrapper}>
+                <CarbonPagination
+                  currentPage={page}
+                  totalItems={totalFilteredItems}
+                  pageSize={numPages}
+                  pageSizes={[numPages]}
+                  onChange={p => setPage(p.page)}
+                />
+              </div>
+            ) : (
+              <Pagination currentPage={page} numPages={numPages} onChange={setPage} />
+            )}
           </LightCard>
         );
       }}
