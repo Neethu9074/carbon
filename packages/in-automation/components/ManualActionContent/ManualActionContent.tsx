@@ -37,6 +37,7 @@ export default function ManualActionContent({
   return (
     <>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin, locals.manualContent)}
         title={t('in-automation:ActionCatalog.content')}
       >
