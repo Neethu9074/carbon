@@ -38,7 +38,7 @@ interface ScopeMetricProps {
 }
 interface Node {
   metric: string;
-  parentType: string;
+  levelType: string;
   label: string;
   parentLabels: string[];
 }
@@ -107,8 +107,8 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
         metricLabel: metricObj.label,
         metricPath: metricObj.parentLabels,
         metric: metricObj.metric,
-        entityType: metricObj.parentType,
-        clearGroupFilter: entityType == metricObj.parentType ? false : true
+        entityType: metricObj.levelType,
+        clearGroupFilter: entityType == metricObj.levelType ? false : true
       });
     }
   };

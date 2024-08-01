@@ -85,7 +85,8 @@ export function toOptions(metricTreeNodes: MetricTreeNodeUnion[], parentLabels: 
         ...common,
         metric: metricTreeNode.name,
         icon: metricTreeNode.icon,
-        allowedCrossSeriesAggregations: metricTreeNode.allowedCrossSeriesAggregations ?? []
+        allowedCrossSeriesAggregations: metricTreeNode.allowedCrossSeriesAggregations ?? [],
+        levelType: metricTreeNode.parentType
       };
     }
   });
