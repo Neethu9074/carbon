@@ -78,6 +78,7 @@ export interface DashboardTileParamProps {
   key: number;
   header: string;
   addLabel?: string;
+  searchAndViewAllLabel?: string;
   icon?: string;
   dragAndDropConfigs?: DraggableProvidedDragHandleProps;
   toggles?: string[];

@@ -609,9 +609,12 @@
       },
       "syntheticWidget": {
         "label": "Synthetic Monitoring",
-        "testLabel": "tests",
-        "locationLabel": "locations",
-        "smartAlertLabel": "smart alerts",
+        "testLabel": "synthetic test",
+        "locationLabel": "synthetic location",
+        "smartAlertLabel": "synthetic smart alert",
+        "searchAndViewAllTestLabel": "synthetic tests",
+        "searchAndViewAllLocationLabel": "synthetic locations",
+        "searchAndViewAllSmartAlertLabel": "synthetic smart alerts",
         "na": "N/A",
         "name": "Name",
         "type": "Type",
@@ -666,16 +669,16 @@
       "syntheticWidget": {
         "test": {
           "header": "No Synthetic tests",
-          "description": "Configure Synthetic tests to run at specific continuous intervals.",
+          "description": "Configure synthetic tests to run at specific continuous intervals.",
           "buttonName": "Add Synthetic test"
         },
         "location": {
           "header": "No Synthetic location",
-          "description": "Configure Synthetic location to run at specific continuous intervals."
+          "description": "Configure a synthetic location where your synthetic tests will run."
         },
         "smartalerts": {
           "header": "No Synthetic smart alerts",
-          "description": "Configure Synthetic smart alerts to run at specific continuous intervals.",
+          "description": "Configure Smart Alerts for synthetics to send an alert if the test for a location fails.",
           "buttonName": "Add Synthetic smart alerts"
         }
       },
