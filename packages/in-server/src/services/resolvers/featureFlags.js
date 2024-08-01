@@ -568,7 +568,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonDescriptionListEnabled',
     instanaCtlKey: 'feature.carbon.description.list.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonTooltipEnabled',

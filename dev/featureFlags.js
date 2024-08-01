@@ -59,7 +59,7 @@ module.exports = {
   notesAndActivityEnabled: true,
   carbonLoadingSkeletonFeatureEnabled: true,
   carbonLoadingSpinnerEnabled: true,
-  carbonDescriptionListEnabled: false,
+  carbonDescriptionListEnabled: true,
   carbonTooltipEnabled: true,
   carbonListEnabled: false,
   carbonInputEnabled: true,
