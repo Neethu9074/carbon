@@ -9,9 +9,9 @@ import { isEmpty } from 'lodash';
 import { emptyObject } from 'in-services/fixedObjects';
 
 export function getMetricPathAndLabel(options, metricName, entityType) {
-  for (let i = 0; i < options.length; i++) {
+  for (let i = 0; i < options?.length; i++) {
     const option = options[i];
-    if (option.parentType === entityType && option.metric === metricName) {
+    if (option.levelType === entityType && option.metric === metricName) {
       return {
         path: option.parentLabels,
         label: option.label

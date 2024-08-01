@@ -19,7 +19,7 @@ import { minimizeTagDefinition } from 'in-components/QueryBuilder/validation/tag
 import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
 import { emptyArray, noop, pendingResult } from 'in-services/fixedObjects';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import { Options } from 'in-components/SelectorOverlay/Node';
+import { TagOptions } from 'in-components/SelectorOverlay/Node';
 import { GetTagCatalog } from 'in-components/QueryBuilder';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { TagTreeNodeUnion, TagType } from 'in-types';
@@ -84,12 +84,14 @@ export default function TagSelectorOverlay({
       withIcons
       options={options}
       onChange={node => {
-        onChange({
-          name: node.tagName,
-          tagType: node.tagType,
-          tagDefinition:
-            getTagCatalog && additionalGetTagCatalogProps ? minimizeTagDefinition(node.tagDefinition) : undefined
-        });
+        if (node.type === 'TAG') {
+          onChange({
+            name: node.tagName,
+            tagType: node.tagType || 'STRING',
+            tagDefinition:
+              getTagCatalog && additionalGetTagCatalogProps ? minimizeTagDefinition(node.tagDefinition) : undefined
+          });
+        }
         close();
       }}
       query={query.value}
@@ -107,7 +109,7 @@ function toOptions(
   queryableOnly: boolean,
   scoreBoost?: number,
   parentLabels: string[] = []
-): Options[] {
+): TagOptions[] {
   return tagTreeNodes
     .filter(tagTreeNode => {
       return (
@@ -115,7 +117,7 @@ function toOptions(
         ('hidden' in tagTreeNode && tagTreeNode.hidden) !== true
       );
     })
-    .map((tagTreeNode: TagTreeNodeUnion): Options | null => {
+    .map((tagTreeNode: TagTreeNodeUnion): TagOptions | null => {
       const filteredChildren =
         'children' in tagTreeNode
           ? toOptions(
@@ -126,13 +128,14 @@ function toOptions(
               tagTreeNode.scoreBoost,
               parentLabels.concat(tagTreeNode.label)
             )
-          : (emptyArray as unknown as Options[]);
+          : (emptyArray as unknown as TagOptions[]);
       // filter empty category nodes
       if (tagTreeNode.type === 'LEVEL' && filteredChildren?.length === 0) {
         return null;
       }
       const tagDefinition = 'tagName' in tagTreeNode ? tagCatalog?.tagsByName?.[tagTreeNode.tagName] : undefined;
       return {
+        type: 'TAG',
         label: tagTreeNode.label,
         badge:
           showTypeBadge && 'tagName' in tagTreeNode && Boolean(tagTreeNode.tagName) ? (
@@ -149,7 +152,7 @@ function toOptions(
         disabled: false
       };
     })
-    .filter(Boolean) as Options[];
+    .filter(Boolean) as TagOptions[];
 }
 
 function multiplyBoost(scoreA?: number, scoreB?: number) {
@@ -174,7 +177,7 @@ export function BreadcrumbAndLabel({
   label,
   hasChildren,
   pathLabels = []
-}: BreadcrumbAndLabelProps): JSX.Element {
+}: Readonly<BreadcrumbAndLabelProps>): JSX.Element {
   if (hasChildren) {
     return <>{label}</>;
   }
