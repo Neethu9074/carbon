@@ -10,7 +10,7 @@ import { timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import SelectBarOverlay from 'in-analyze/components/filterBar/SelectBarOverlay/SelectBarOverlay';
-import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
+import { isNotBlank, compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { identity } from 'in-services/util/function';
@@ -65,7 +65,7 @@ export default function SelectBarOverlayBehavior(props) {
 
   return (
     <SelectBarOverlay
-      items={items}
+      items={items.filter(item => containsIgnoreCase(item.label, query))}
       filterSuggestionsClientSide={filterSuggestionsClientSide}
       selectedItem={selectedItem}
       loading={result == null || result.progress.loading}
