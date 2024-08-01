@@ -7,10 +7,7 @@ import { createField, createMapForm, composeValidators } from 'formalistic';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { Spacer as SpacerComponent } from '@instana/components';
-import { Select, Checkbox } from '@instana/components';
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Spacer as SpacerComponent, Select, Checkbox, Button, Link } from '@instana/components';
 
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
