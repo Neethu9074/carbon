@@ -33,16 +33,13 @@ export const stepConfigs = [
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step2Title'),
-    isOptional: true,
     validateIntermediately: [['applications']]
   },
   {
-    title: t('in-alerting:smartAlerts.applications.tearSheet.step3Title'),
-    isOptional: true
+    title: t('in-alerting:smartAlerts.applications.tearSheet.step3Title')
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step4Title'),
-    isOptional: true,
     validateIntermediately: [
       ['threshold', 'value'],
       ['timeThreshold', 'timeWindow'],
@@ -52,13 +49,11 @@ export const stepConfigs = [
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step5Title'),
-    validateIntermediately: [['name']],
-    isOptional: true
+    validateIntermediately: [['name']]
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step6Title'),
-    validateIntermediately: [],
-    isOptional: true
+    validateIntermediately: []
   }
 ];
 

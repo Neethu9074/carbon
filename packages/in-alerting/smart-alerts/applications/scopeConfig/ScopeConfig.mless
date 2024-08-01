@@ -64,8 +64,10 @@
   }
 
   .listHeight {
-    max-height: 20.5rem;
     height: 20.5rem;
+  }
+  .list {
+    max-height: 20.5rem;
     overflow: auto;
     border: 1px solid var(--ids-color-option-neutral-300);
   }
