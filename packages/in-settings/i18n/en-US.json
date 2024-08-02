@@ -441,7 +441,9 @@
       "months_12": "Past 12 months",
       "days_7": "7 Days",
       "days_20": "20 Days",
-      "days_30": "30 Days"
+      "days_30": "30 Days",
+      "days_60": "60 Days",
+      "days_90": "90 Days"
     },
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",

@@ -29,8 +29,8 @@ export default function LogVolumeDetails({ data }: LogVolumeDetailsProps) {
             </Li>
             <div>
               <Ul className={locals.logVolumeItems}>
-                {(['days7', 'days20', 'days30'] as const).map(days => (
-                  <Li>
+                {(['days7', 'days20', 'days30', 'days60', 'days90'] as const).map(days => (
+                  <Li key={days}>
                     <div>{t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}</div>
                     <div>{retentionPeriods[days]} GB</div>
                   </Li>
