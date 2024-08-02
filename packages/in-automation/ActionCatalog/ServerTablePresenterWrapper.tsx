@@ -8,9 +8,8 @@ import { Field, MapForm } from 'formalistic';
 import React, { useContext } from 'react';
 import classNames from 'classnames';
 
+import { IconButton, Button } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -88,7 +87,8 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
       return (
         <div className={locals.controls}>
           <Tooltip content={t('in-alerting:components.customPayload.deleteRow')}>
-            <SvgIcon
+            <IconButton
+              kind="primary"
               type="lib_actions_delete"
               className={classNames({
                 [locals.delete]: true,
