@@ -43,7 +43,7 @@
   }
 
   .removeMatchRuleIcon {
-    margin: 1.5rem 0 1.2rem 0.25rem;
+    margin: 1.5rem 0 1.5rem 0.25rem;
     fill: var(--ids-color-option-neutral-500);
   }
 

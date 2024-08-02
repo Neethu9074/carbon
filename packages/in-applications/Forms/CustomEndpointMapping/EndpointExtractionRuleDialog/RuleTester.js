@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { SvgIcon, Button } from '@instana/components';
+import { SvgIcon, Button, IconButton } from '@instana/components';
 import { create } from '@instana/observables';
 
 import { build, parse, validate } from 'in-applications/Forms/validator/urlPath';
@@ -84,10 +84,10 @@ export default class RuleTester extends React.Component {
                     onChange={e => onChangeIn(['testCases', i], e.target.value)}
                     autoComplete="off"
                   />
-                  <SvgIcon
+                  <IconButton
                     className={locals.removeTestCaseIcon}
                     type="lib_actions_delete"
-                    size="xs"
+                    size="compact"
                     onClick={() => removeTestCase(i)}
                   />
                 </div>
