@@ -11,8 +11,8 @@ import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { allUnits, defaultUnit } from 'in-stores/metric/units';
 import { aggregationLabels } from 'in-stores/metric/metric';
-import { allUnits } from 'in-stores/metric/units';
 
 const DEFAULT_AGGREGATION = 'MEAN';
 
@@ -93,7 +93,7 @@ export function createForm(form, savedState) {
     .put(
       'unit',
       createField({
-        value: savedState?.unit || undefined,
+        value: savedState?.unit || defaultUnit?.id,
         validator: composeAndShortCircuitOnError(
           buildEnumValidator(Object.values(allUnits).map(({ id: value }) => value))
         )

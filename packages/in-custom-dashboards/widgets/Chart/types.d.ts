@@ -51,6 +51,7 @@ export interface Metric extends BaseMetric {
   metricLabel?: string;
   defaultDisabled?: boolean;
   grouping?: Grouping[];
+  unit?: string;
 
   // other properties may be sent to the backend
   [k: string]: any;
