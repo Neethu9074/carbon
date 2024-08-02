@@ -46,26 +46,27 @@ export function transformData(dataResult: MetricResult[]): MonthlyRetentionData[
       }
 
       if (label === 7) {
-        dataMap[monthYearKey].days7 += volumeGB;
+        dataMap[monthYearKey].days7 += +volumeGB.toFixed(2);
       } else if (label === 20) {
-        dataMap[monthYearKey].days20 += volumeGB;
+        dataMap[monthYearKey].days20 += +volumeGB.toFixed(2);
       } else if (label === 30) {
-        dataMap[monthYearKey].days30 += volumeGB;
+        dataMap[monthYearKey].days30 += +volumeGB.toFixed(2);
       } else if (label === 60) {
-        dataMap[monthYearKey].days60 += volumeGB;
+        dataMap[monthYearKey].days60 += +volumeGB.toFixed(2);
       } else if (label === 90) {
-        dataMap[monthYearKey].days90 += volumeGB;
+        dataMap[monthYearKey].days90 += +volumeGB.toFixed(2);
       }
     }
   }
 
   for (const [monthYearKey, retentionData] of Object.entries(dataMap)) {
     const [month, yearValue] = monthYearKey.split('-');
+    const totalGB =
+      retentionData.days7 + retentionData.days20 + retentionData.days30 + retentionData.days60 + retentionData.days90;
     data.push({
       month,
       year: parseInt(yearValue, 10),
-      totalVolumeGB:
-        retentionData.days7 + retentionData.days20 + retentionData.days30 + retentionData.days60 + retentionData.days90,
+      totalVolumeGB: +totalGB.toFixed(2),
       retentionPeriods: retentionData
     });
   }
@@ -187,7 +188,7 @@ export const generateEmptyData = (numEntries: number) => {
   for (let i = 0; i < numEntries; i++) {
     data.push({
       month: 'August',
-      totalVolumeGB: 0,
+      totalVolumeGB: 1,
       retentionPeriods: {
         days90: 0,
         days60: 0,
