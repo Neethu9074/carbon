@@ -129,8 +129,15 @@ function createTagFilterExpressionForAnalysisOfApplicationSA(
   let tagFilter: FormModelElement[] | Nullish = undefined;
 
   const addValueToTagFilterExpressionIfItExists = (name: string, val: string | Nullish, conditional?: boolean) => {
-    if (val && conditional) {
-      tagFilter = getTagFilterForSourceOrDestinationAndCombine(name, val, tagFilter);
+    let checkToSeeIfConditionalExists = conditional === undefined || conditional === null;
+    if (!checkToSeeIfConditionalExists) {
+      if (val && conditional) {
+        tagFilter = getTagFilterForSourceOrDestinationAndCombine(name, val, tagFilter);
+      }
+    } else {
+      if (val) {
+        tagFilter = getTagFilterForSourceOrDestinationAndCombine(name, val, tagFilter);
+      }
     }
   };
 
@@ -150,7 +157,7 @@ function createTagFilterExpressionForAnalysisOfApplicationSA(
   addValueToTagFilterExpressionIfItExists(
     'process.snapshotId',
     definitiveEntityID,
-    entityType === 'process' || isInfrastructureAProcess
+    entityType === 'infrastructure' && isInfrastructureAProcess
   );
 
   return tagFilter;
@@ -165,8 +172,16 @@ function createTagFilterExpressionForAnalysis(
   let tagFilter: FormModelElement[] | Nullish = undefined;
 
   const addValueToTagFilterExpressionIfItExists = (name: string, val: string | Nullish, conditional?: boolean) => {
-    if (val && conditional) {
-      tagFilter = getTagFilterForSourceOrDestinationAndCombine(name, val, tagFilter);
+    let checkToSeeIfConditionalExists = conditional === undefined || conditional === null;
+
+    if (!checkToSeeIfConditionalExists) {
+      if (val && conditional) {
+        tagFilter = getTagFilterForSourceOrDestinationAndCombine(name, val, tagFilter);
+      }
+    } else {
+      if (val) {
+        tagFilter = getTagFilterForSourceOrDestinationAndCombine(name, val, tagFilter);
+      }
     }
   };
 
