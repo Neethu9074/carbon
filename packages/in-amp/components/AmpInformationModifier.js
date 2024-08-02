@@ -9,9 +9,9 @@ import React from 'react';
 import { Stack, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import { getAccountAsResultObservable, getActiveLicensesAsResultObservable } from 'in-amp/api/account';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import PresentationSelection from 'in-amp/components/PresentationSelection';
-import { getAccountAsResultObservable } from 'in-amp/api/account';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
 import { t } from 'in-i18n';
@@ -33,8 +33,22 @@ export default function AmpInformationModifier({
   setPresentation
 }) {
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
+  const licenseObservableResult = useObservable(getActiveLicensesAsResultObservable(1, 60000), []);
   const accountObservableResult = useObservable(getAccountAsResultObservable(), []);
   const fupOverride = accountObservableResult?.data?.fupOverride;
+
+  //Check whether limitedDataUsage flag is set for active paid licenses
+  let showFupMessage = false;
+  const licenses = licenseObservableResult?.data?.items;
+  if (licenses) {
+    if (
+      licenses.every(
+        eachLicense => eachLicense?.license?.paid && eachLicense?.license?.licenseSpecs?.limitedDataUsage === true
+      )
+    ) {
+      showFupMessage = true;
+    }
+  }
 
   return (
     <div
@@ -44,7 +58,7 @@ export default function AmpInformationModifier({
       })}
     >
       <Stack>
-        {!fupOverride && (
+        {!fupOverride && showFupMessage && (
           <Message
             type="neutral"
             withIcon
