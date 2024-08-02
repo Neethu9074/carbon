@@ -5,10 +5,8 @@
 
 :local {
   .starIcon {
-    fill: var(--ids-color-option-neutral-600);
-  }
-
-  .starIconFilled {
-    fill: var(--ids-color-option-yellow-500);
+    svg:first-child {
+      margin-block-start: 0;
+    }
   }
 }
