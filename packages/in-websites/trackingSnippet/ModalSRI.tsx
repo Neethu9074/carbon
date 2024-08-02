@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -44,9 +44,11 @@ export default function ModalSRI({ modalTitle, modalBody, buttonText, modalFirst
   );
 
   return (
-    <Dialog title={modalTitle} onClose={close} className={locals.dialog} doNotCloseOnOutsideClick showOverflow>
+    <Dialog title={modalTitle} onClose={close} className={locals.dialog} doNotCloseOnOutsideClick>
       <section className={locals.dialogContent}>
-        <Typography variant="body-regular">{modalFirstLine}</Typography>
+        {buttonText == t('in-websites:trackingSnippet.trackingSnippetPresenterDisableModal') && (
+          <Typography variant="body-regular">{modalFirstLine}</Typography>
+        )}
         <Typography variant="body-regular">{modalBody}</Typography>
       </section>
       <section className={locals.confButton}>{ConfirmationButtons}</section>

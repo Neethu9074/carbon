@@ -87,7 +87,6 @@ export default function ScopeConfig({
               tearSheetView={tearSheetView}
             />
           </div>
-          <Spacer vertical="normal" />
         </>
       )}
       <ExpandableLightCard

@@ -286,16 +286,13 @@ export default function RootCauseEntityDetails({
               components={{
                 //@ts-expect-error
                 linkToEntity: <Link href={linkToEntityDashboard} />,
-                entityIcon:
-                  rcaEntityType !== 'infrastructure' && rcaEntityType !== 'process' ? (
-                    <SvgIcon
-                      type={getIconForRCADisplay(rcaEntityType)}
-                      color={themes.default.cds.link.primary}
-                      size="xs"
-                    />
-                  ) : (
-                    <PluginIcon plugin={entityTypeName} color={themes.default.cds.link.primary} size="xs" />
-                  )
+                entityIcon: (
+                  <SvgIcon
+                    type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
+                    color={themes.default.cds.link.primary}
+                    size="xs"
+                  />
+                )
               }}
               values={{
                 root_cause_entity_type: entityTypeName,
@@ -311,15 +308,11 @@ export default function RootCauseEntityDetails({
               rootCauseEntityName={Map.isMap(entityData) ? entityData?.get('label') : entityData?.label}
               linkToEntity={linkToEntityDashboard}
               entityIcon={
-                rcaEntityType !== 'infrastructure' && rcaEntityType !== 'process' ? (
-                  <SvgIcon
-                    type={getIconForRCADisplay(rcaEntityType)}
-                    color={themes.default.cds.link.primary}
-                    size="xs"
-                  />
-                ) : (
-                  <PluginIcon plugin={entityTypeName} color={themes.default.cds.link.primary} size="xs" />
-                )
+                <SvgIcon
+                  type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
+                  color={themes.default.cds.link.primary}
+                  size="xs"
+                />
               }
             />
           </Stack>

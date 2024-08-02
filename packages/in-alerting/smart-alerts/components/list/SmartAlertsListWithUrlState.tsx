@@ -20,13 +20,13 @@ const urlStateDefinition = (alertsTab: string): Options<TableState> => {
         path: alertsTab,
         name: 'orderBy',
         as: 'orderBy',
-        initialState: 'name'
+        initialState: 'created'
       },
       {
         path: alertsTab,
         name: 'orderDirection',
         as: 'orderDirection',
-        initialState: 'ASC'
+        initialState: 'DESC'
       },
       {
         path: alertsTab,

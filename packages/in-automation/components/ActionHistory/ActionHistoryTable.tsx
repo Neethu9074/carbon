@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Spacer, Typography } from '@instana/components';
+import { Spacer, Typography, IconButton } from '@instana/components';
 import { create } from '@instana/observables';
 
 import {
@@ -40,7 +40,6 @@ import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
-import IconButton from 'in-components/IconButton/IconButton';
 import { deleteActionInstance } from 'in-automation/api';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -146,6 +145,7 @@ const deleteColumn: ColumnDefinition<ActionInstance> = {
     return (
       <Tooltip content={t('in-automation:actionHistory.deleteTooltip')} delay={500}>
         <IconButton
+          kind="action"
           type="lib_actions_delete"
           onClick={e => {
             stopPropagationAndPreventDefault(e);

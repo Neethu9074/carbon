@@ -84,9 +84,20 @@ export default connectTo(() => ({
     return t('in-plg:welcomepage.component.syntheticWidget.smartAlertLabel');
   }
 
+  function getSearchAndViewAllLabel() {
+    if (syntheticTypeValue === 'test') {
+      return t('in-plg:welcomepage.component.syntheticWidget.searchAndViewAllTestLabel');
+    }
+    if (syntheticTypeValue === 'location') {
+      return t('in-plg:welcomepage.component.syntheticWidget.searchAndViewAllLocationLabel');
+    }
+    return t('in-plg:welcomepage.component.syntheticWidget.searchAndViewAllSmartAlertLabel');
+  }
+
   dashboardTileProps = {
     ...dashboardTileProps,
     addLabel: getAddLabel(),
+    searchAndViewAllLabel: getSearchAndViewAllLabel(),
     toggles: syntheticToogleArray,
     toggleCallback: index => setToogle(index)
   };

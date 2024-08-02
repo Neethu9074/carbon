@@ -32,10 +32,13 @@ import search from 'in-subscription/search';
 import { getLabel } from 'in-sdk/snapshot';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
+//@ts-expect-error doesn't contain type file
+import { getZone } from 'in-stores/zone';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { formatDateTime } from 'in-services/formatters/date';
 import { percentage } from 'in-services/formatters/number';
@@ -85,7 +88,7 @@ export default connectTo(() => ({
     setInfraType(index);
   }
 
-  function getAddLabel() {
+  function getSearchAndViewAllLabel() {
     if (infraTypeValue === 'host') {
       return t('in-plg:welcomepage.component.infrastructureWidget.hostLabel');
     }
@@ -97,7 +100,7 @@ export default connectTo(() => ({
 
   dashboardTileProps = {
     ...dashboardTileProps,
-    addLabel: getAddLabel(),
+    searchAndViewAllLabel: getSearchAndViewAllLabel(),
     toggles: infrastructureToogleArray,
     toggleCallback: index => setToogle(index)
   };
@@ -108,6 +111,10 @@ export default connectTo(() => ({
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.name'),
           key: 'name'
+        },
+        {
+          header: t('in-plg:welcomepage.component.infrastructureWidget.zones'),
+          key: 'zones'
         },
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.technologies'),
@@ -142,6 +149,10 @@ export default connectTo(() => ({
           key: 'name'
         },
         {
+          header: t('in-plg:welcomepage.component.infrastructureWidget.hosts'),
+          key: 'hosts'
+        },
+        {
           header: t('in-plg:welcomepage.component.infrastructureWidget.technologies'),
           key: 'technologies'
         },
@@ -171,6 +182,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.infrastructureWidget.name'),
         key: 'name'
+      },
+      {
+        header: t('in-plg:welcomepage.component.infrastructureWidget.hosts'),
+        key: 'hosts'
       },
       {
         header: t('in-plg:welcomepage.component.infrastructureWidget.technologies'),
@@ -282,6 +297,12 @@ export default connectTo(() => ({
         }
       },
       {
+        key: 'zones',
+        getContent({ item }) {
+          return <GetZonesAndHosts getSnapshotId={() => getZone(item.snapshot.get('id'))} />;
+        }
+      },
+      {
         key: 'technologies',
         getContent({ item }) {
           return <Typography variant="body-regular">{item.snapshot.get('data').get('os.name')}</Typography>;
@@ -355,6 +376,12 @@ export default connectTo(() => ({
               {getLabel(item.snapshot)}
             </Link>
           );
+        }
+      },
+      {
+        key: 'hosts',
+        getContent({ item }) {
+          return <GetZonesAndHosts getSnapshotId={() => getHostSnapshotId(item.snapshot)} />;
         }
       },
       {
@@ -436,6 +463,12 @@ export default connectTo(() => ({
         }
       },
       {
+        key: 'hosts',
+        getContent({ item }) {
+          return <GetZonesAndHosts getSnapshotId={() => getHostSnapshotId(item.snapshot)} />;
+        }
+      },
+      {
         key: 'technologies',
         getContent({ item }) {
           return <Typography variant="body-regular">{getTechnologyType(item.snapshot)}</Typography>;
@@ -512,6 +545,17 @@ export default connectTo(() => ({
     }
     return [processType];
   };
+
+  const GetZonesAndHosts = connectTo(
+    ({ getSnapshotId }: any) => ({
+      snapshot: getSnapshotId().flatMap(getSnapshot)
+    }),
+
+    function GetZonesAndHosts({ snapshot }: any) {
+      return <Typography variant="body-regular">{getLabel(snapshot)}</Typography>;
+    }
+  );
+
   return (
     <DatatableWrapper
       tableType="infrastructureWidget"
