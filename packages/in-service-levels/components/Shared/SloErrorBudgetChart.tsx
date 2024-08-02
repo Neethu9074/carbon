@@ -42,7 +42,6 @@ export default function ErrorBudgetChart({
 
   const sloZoomInAction = useSloZoomInAction();
   const granularity = calculateSloGranularity(timeConfig);
-
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
     configuration,
     timeConfig =>
