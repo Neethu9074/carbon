@@ -8,12 +8,13 @@
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
+import { Typography } from '@instana/components';
 import { createLogger } from '@instana/logger';
 
 import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/IntegrationsBreadcrumb';
+import { callToastFlyout } from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/utils';
 import SplunkForm from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Splunk/SplunkForm';
 import { teamSettingsIntegrationsLoggingSplunk } from 'in-settings/navigation/paths';
-import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { integrationKey } from 'in-integrations/logging/splunk/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -82,6 +83,8 @@ export default class Splunk extends React.Component {
 
   componentWillUnmount() {
     this.disposeAsyncAction();
+    if (this.suspendNavigation) this.suspendNavigation();
+    window.removeEventListener('beforeunload', this.handleBeforeUnload);
   }
 
   disposeAsyncAction = () => {
@@ -103,18 +106,13 @@ export default class Splunk extends React.Component {
         <Title title={t('in-settings:tabs.configureSplunk')} />
         <IntegrationsBreadcumb />
         <SubViewHeader>{t('in-settings:tabs.configureYourSplunkSettings')}</SubViewHeader>
-        <SectionLine />
         {form && (
           <form onSubmit={this.onSubmit}>
             <Fragment>
               <div style={{ marginBottom: '1rem' }}>
-                <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableSplunkIntegrationForInstana')}>
-                  <Heading
-                    text={t('in-settings:tabs.showSplunkLinkOnHostsContainersAndPods')}
-                    htmlFor="splunk-enabled"
-                  />
-                </HorizontalFormGroup>
+                <Heading text={t('in-settings:tabs.showSplunkLinkOnHostsContainersAndPods')} htmlFor="splunk-enabled" />
               </div>
+              <SectionLine />
             </Fragment>
 
             <SplunkForm
@@ -129,7 +127,8 @@ export default class Splunk extends React.Component {
               message={message}
               loading={loading}
               hasCancelButton={false}
-              saveEnabled={!enabled || !areFieldsBlank(form)}
+              saveEnabled={!areFieldsBlank(form)}
+              type="integration"
             />
           </form>
         )}
@@ -164,6 +163,15 @@ export default class Splunk extends React.Component {
 
     this.responseSubscription = result$.once(() => {
       refresh();
+      const content = (
+        <section>
+          <Typography variant="heading-200">{t('in-settings:tabs.integrations.toastSuccessTitle')}</Typography>
+          <Typography variant="body-regular">
+            {t('in-settings:tabs.integrations.toastSuccessMessage', { integrationType: 'Splunk' })}
+          </Typography>
+        </section>
+      );
+      callToastFlyout('success', content);
       this.setState({
         loading: false
       });
@@ -173,6 +181,15 @@ export default class Splunk extends React.Component {
     this.errorSubscription = result$.errors().once(error => {
       const message = t('in-settings:tabs.failedToSaveConfiguration', { err: error.message });
       logger.error(message, error);
+      const content = (
+        <section>
+          <Typography variant="heading-200">{t('in-settings:tabs.integrations.toastErrorTitle')}</Typography>
+          <Typography variant="body-regular">
+            {t('in-settings:tabs.integrations.integerationConfigurationFailed', { error: message })}
+          </Typography>
+        </section>
+      );
+      callToastFlyout('error', content);
       this.setState({
         loading: false,
         error: true,
@@ -219,5 +236,5 @@ function Heading({ text, htmlFor }) {
 }
 
 function areFieldsBlank(form) {
-  return isBlank(form.get('url').value);
+  return isBlank(form.get('url').value) || isBlank(form.get('index').value);
 }

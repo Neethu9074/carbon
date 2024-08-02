@@ -29,7 +29,7 @@
 
   .toggle,
   .cardText {
-    padding: 0 1rem 1rem 1rem !important;
+    padding: 1rem;
   }
 
   .title {
@@ -43,6 +43,9 @@
   .breadcrumb {
     font-size: var(--ids-font-size-option-body-regular);
     padding: 0 !important;
+    span {
+      color: var(--cds-link-primary);
+    }
   }
 
   .skeleton {
@@ -62,5 +65,10 @@
   .card:hover {
     background-color: var(--ids-color-option-neutral-200);
     cursor: pointer;
+  }
+
+  .configureIntegration {
+    padding: 1rem;
+    color: var(--cds-link-primary);
   }
 }

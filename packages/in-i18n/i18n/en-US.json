@@ -49,6 +49,7 @@
   "forms": {
     "actions": {
       "save": "Save",
+      "saveIntegration":"Save and enable",
       "cancel": "Cancel",
       "create": "Create",
       "delete": "Delete",
