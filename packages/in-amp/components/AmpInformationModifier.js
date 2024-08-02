@@ -57,9 +57,17 @@ export default function AmpInformationModifier({
         {!fupOverride && showFupMessage && (
           <Message
             type="neutral"
-            withIcon
             dismissible
             title={t('in-amp:components.fairUsePolicyMessage.title')}
+            fullInlineWidth
+          />
+        )}
+        {fupOverride && (
+          <Message
+            type="neutral"
+            dismissible
+            title={t('in-amp:components.fairUsePolicyMessage.title')}
+            description="Blablabla hier soll der Link hin"
             fullInlineWidth
           />
         )}
