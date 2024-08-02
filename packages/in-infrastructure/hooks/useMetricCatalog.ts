@@ -49,7 +49,7 @@ export default function useMetricCatalog({
             )({
               filter: { tagFilterExpression, timeConfig: modifiedTimeConfig },
               type,
-              query,
+              query: query?.trim(),
               context
             })
           : just(pendingResult),
