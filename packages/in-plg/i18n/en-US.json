@@ -600,6 +600,8 @@
         "mean": "mean",
         "name": "Name",
         "os": "OS",
+        "zones": "Zones",
+        "hosts": "Hosts",
         "technologies": "Technologies",
         "cpuNum": "Number of CPUs",
         "cpuUsage": "CPU Usage",
