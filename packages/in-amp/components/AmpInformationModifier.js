@@ -41,15 +41,11 @@ export default function AmpInformationModifier({
   let showFupMessage = false;
   const licenses = licenseObservableResult?.data?.items;
   if (licenses) {
-    if (
-      licenses.every(
-        eachLicense => eachLicense?.license?.paid && eachLicense?.license?.licenseSpecs?.limitedDataUsage === true
-      )
-    ) {
-      showFupMessage = true;
+    const paidLicenses = licenses.filter(eachLicense => eachLicense?.license?.paid);
+    if (paidLicenses.length > 0) {
+      showFupMessage = paidLicenses.every(eachLicense => eachLicense?.license?.licenseSpecs?.limitedDataUsage === true);
     }
   }
-
   return (
     <div
       className={classNames({
