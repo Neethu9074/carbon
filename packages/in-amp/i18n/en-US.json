@@ -31,6 +31,9 @@
     "fairUsePolicyMessage":{
       "title": "This account is subject to Fair Use Policy."
     },
+    "fairUsePolicyOverride": {
+      "title": "Fair Use Policy no longer active. This account is exempt from being billy by data usage."
+    },
     "restrictedUsage": {
       "accountUsage": "Account Usage"
     },
@@ -92,7 +95,6 @@
       "addons": "Add-ons",
       "trendLine": "Trendline",
       "dataUsageHelperText": "Amount of bytes sent through agents separated by category in the chosen timeframe.",
-      "fupOverrideActiveText": "Fair use policy override active: This account is exempt from being billed by usage data.",
       "helperText": "Number of resource units consumed by each type of action. Units are calculated with a factor of 0.025 for simple tests, 0.042 for API tests, and 1.000 for browser tests."
     },
     "activationAdoption": {
