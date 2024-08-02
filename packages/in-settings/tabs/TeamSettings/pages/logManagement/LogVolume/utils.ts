@@ -74,22 +74,8 @@ export function transformData(dataResult: MetricResult[]): MonthlyRetentionData[
 }
 
 export function generateQuery(numMonths: number): any {
-  // const currentDate = new Date();
-  // const currentYear = currentDate.getFullYear();
-  // const currentMonth = currentDate.getMonth();
   const currentTimestamp = Date.now();
 
-  // const startOfCurrentMonth = new Date(currentYear, currentMonth, 1).getTime();
-
-  // let windowSize;
-  // let safeWindowsValue = 86400;
-  // if (numMonths === 1) {
-  //   windowSize = currentTimestamp - startOfCurrentMonth - safeWindowsValue; // 2 dias si estamos a 2 de agosto
-  // } else {
-  //   windowSize = currentTimestamp - startOfCurrentMonth + 2592000000 * (numMonths - 1); // 62 dias si estamos a 2 de agosto
-  // }
-
-  //TODO: Change this once backend is done, getUnifiedMetrics parameters look a bit different
   const query = {
     subscriptionId: 44,
     metrics: {

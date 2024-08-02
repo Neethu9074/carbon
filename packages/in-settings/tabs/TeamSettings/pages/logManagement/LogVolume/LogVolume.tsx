@@ -33,7 +33,7 @@ function LogVolume() {
     ([timePeriod]) => {
       return combineLatest([getUnifiedMetrics(generateQuery(timePeriod))]).map(([result]) => ({
         progress: result?.progress || false,
-        data: result?.data || [] // Obtiene los datos
+        data: result?.data || []
       }));
     },
     [timePeriod]
