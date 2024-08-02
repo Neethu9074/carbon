@@ -6,7 +6,7 @@
 
 import React, { useEffect } from 'react';
 
-import { Message } from '@instana/components';
+import { Message, Stack } from '@instana/components';
 
 import {
   PER_AP,
@@ -72,14 +72,13 @@ export default function AlertConfigTearSheetStep3(props) {
       headline={t('in-alerting:smartAlerts.applications.tearSheet.grouping.title')}
       description={t('in-alerting:smartAlerts.applications.tearSheet.grouping.description')}
     >
-      <div className={locals.container}>
+      <Stack>
         <AlertEvaluationControl
           form={form}
           updateForm={updateForm}
           isGlobalSmartAlert={isGlobalSmartAlert}
           tearSheetView
         />
-        <span className={locals.seperator} />
         <RenderGroupByContent
           isTagFilterFormModelValid={isTagFilterFormModelValid}
           evaluationGroupByCount={evaluationGroupByCount}
@@ -90,7 +89,7 @@ export default function AlertConfigTearSheetStep3(props) {
           form={form}
           updateForm={updateForm}
         />
-      </div>
+      </Stack>
     </TearSheetStepContentWrapper>
   );
 }
