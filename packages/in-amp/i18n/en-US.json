@@ -32,7 +32,7 @@
       "title": "This account is subject to Fair Use Policy."
     },
     "fairUsePolicyOverride": {
-      "title": "Fair Use Policy no longer active. This account is exempt from being billy by data usage."
+      "title": "Fair Use Policy not active: This account is exempt from being billed by data usage."
     },
     "restrictedUsage": {
       "accountUsage": "Account Usage"
