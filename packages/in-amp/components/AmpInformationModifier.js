@@ -66,8 +66,7 @@ export default function AmpInformationModifier({
           <Message
             type="neutral"
             dismissible
-            title={t('in-amp:components.fairUsePolicyMessage.title')}
-            description="Blablabla hier soll der Link hin"
+            title={t('in-amp:components.fairUsePolicyOverride.title')}
             fullInlineWidth
           />
         )}
