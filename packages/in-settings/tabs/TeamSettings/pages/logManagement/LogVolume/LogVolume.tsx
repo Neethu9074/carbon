@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 
 import { CarbonLayer, Li, SvgIcon, Ul } from '@instana/components';
-import { combineLatest, just } from '@instana/observables';
+import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
@@ -31,14 +31,17 @@ function LogVolume() {
 
   const result = useObservable(
     ([timePeriod]) => {
-      return combineLatest([getUnifiedMetrics(generateQuery(timePeriod))]).flatMap(data =>
-        just(data.flatMap(({ data = [] }) => data))
-      );
+      return combineLatest([getUnifiedMetrics(generateQuery(timePeriod))]).map(([result]) => ({
+        progress: result?.progress || false,
+        data: result?.data || [] // Obtiene los datos
+      }));
     },
     [timePeriod]
   );
 
-  const logVolumeData = result && transformData(result);
+  const { progress, data } = result || { progress: { loading: false }, data: [] };
+
+  const logVolumeData = result && transformData(data);
   return (
     <>
       <section className={locals.page}>
@@ -69,7 +72,7 @@ function LogVolume() {
             </Ul>
           </section>
           <section>
-            <LogVolumeDetails data={logVolumeData} />
+            <LogVolumeDetails data={logVolumeData} progress={progress} timePeriod={timePeriod} />
           </section>
         </main>
       </section>

@@ -21,4 +21,20 @@
       font-weight: 600;
     }
   }
+
+  .loadingMock {
+    padding-top: 2rem;
+  }
+
+  .loadingIndicator {
+    display: block;
+    width: auto;
+  }
+
+  .skeleton {
+    .loadingIndicator();
+    height: 12rem;
+    margin: 0 var(--cds-layout-density-padding-inline-local) var(--cds-layout-density-padding-inline-local)
+      var(--cds-layout-density-padding-inline-local);
+  }
 }

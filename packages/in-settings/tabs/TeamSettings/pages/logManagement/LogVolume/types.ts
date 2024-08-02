@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Progress } from 'in-types';
+
 export interface LogVolumeData {
   month: string;
   totalVolumeGB: number;
@@ -18,4 +20,6 @@ export interface LogVolumeData {
 
 export interface LogVolumeDetailsProps {
   data: LogVolumeData[] | null | undefined;
+  progress: Progress;
+  timePeriod: number;
 }

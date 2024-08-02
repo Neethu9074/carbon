@@ -6,22 +6,34 @@
 
 import React from 'react';
 
-import { Li, Ul } from '@instana/components';
+import { HorizontalIndicator, Li, LoadingSkeleton, Ul } from '@instana/components';
 
 import {
   LogVolumeData,
   LogVolumeDetailsProps
 } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/types';
+// eslint-disable-next-line no-restricted-imports
+import { generateEmptyData } from './utils';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { t } from 'in-i18n';
 
 import locals from './LogVolumeDetails.mless';
 
-export default function LogVolumeDetails({ data }: LogVolumeDetailsProps) {
+export default function LogVolumeDetails({ data, progress, timePeriod }: LogVolumeDetailsProps) {
+  const { loading: isLoading } = progress;
+  if (!data) {
+    data = generateEmptyData(timePeriod);
+  }
+
   return (
     <>
-      {data &&
-        data.map(({ month, totalVolumeGB, retentionPeriods }: LogVolumeData, index: number) => (
+      {data?.map(({ month, totalVolumeGB, retentionPeriods }: LogVolumeData, index: number) =>
+        isLoading ? (
+          <div className={locals.loadingMock}>
+            <HorizontalIndicator className={locals.loadingIndicator} progress={progress} />
+            <LoadingSkeleton className={locals.skeleton} />
+          </div>
+        ) : (
           <div key={`${month}_${index}`} className={locals.LogVolumeDetailsContainer}>
             <Li className={locals.LogVolumeDetails}>
               <SubViewHeader>{t('in-settings:maintenanceWindow.months', { context: month })}</SubViewHeader>
@@ -40,7 +52,8 @@ export default function LogVolumeDetails({ data }: LogVolumeDetailsProps) {
               </Ul>
             </div>
           </div>
-        ))}
+        )
+      )}
     </>
   );
 }

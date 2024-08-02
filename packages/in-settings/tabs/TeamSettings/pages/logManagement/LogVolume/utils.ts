@@ -74,20 +74,20 @@ export function transformData(dataResult: MetricResult[]): MonthlyRetentionData[
 }
 
 export function generateQuery(numMonths: number): any {
-  const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth();
+  // const currentDate = new Date();
+  // const currentYear = currentDate.getFullYear();
+  // const currentMonth = currentDate.getMonth();
   const currentTimestamp = Date.now();
 
-  const startOfCurrentMonth = new Date(currentYear, currentMonth, 1).getTime();
+  // const startOfCurrentMonth = new Date(currentYear, currentMonth, 1).getTime();
 
-  let windowSize;
-  let safeWindowsValue = 86400;
-  if (numMonths === 1) {
-    windowSize = currentTimestamp - startOfCurrentMonth - safeWindowsValue; // 2 dias si estamos a 2 de agosto
-  } else {
-    windowSize = currentTimestamp - startOfCurrentMonth + 2592000000 * (numMonths - 1); // 62 dias si estamos a 2 de agosto
-  }
+  // let windowSize;
+  // let safeWindowsValue = 86400;
+  // if (numMonths === 1) {
+  //   windowSize = currentTimestamp - startOfCurrentMonth - safeWindowsValue; // 2 dias si estamos a 2 de agosto
+  // } else {
+  //   windowSize = currentTimestamp - startOfCurrentMonth + 2592000000 * (numMonths - 1); // 62 dias si estamos a 2 de agosto
+  // }
 
   //TODO: Change this once backend is done, getUnifiedMetrics parameters look a bit different
   const query = {
@@ -126,7 +126,7 @@ export function generateQuery(numMonths: number): any {
         resultType: 'SINGLE_NUMBER',
         timeConfig: {
           to: currentTimestamp,
-          windowSize: windowSize,
+          windowSize: 2592000000 * numMonths,
           focusedMoment: currentTimestamp,
           autoRefresh: false
         }
@@ -194,4 +194,22 @@ export const getLogVolume = (timeConfig: TimeConfig) => {
     },
     backendTraceId: '0000000000000'
   });
+};
+
+export const generateEmptyData = (numEntries: number) => {
+  const data = [];
+  for (let i = 0; i < numEntries; i++) {
+    data.push({
+      month: 'August',
+      totalVolumeGB: 0,
+      retentionPeriods: {
+        days90: 0,
+        days60: 0,
+        days30: 0,
+        days20: 0,
+        days7: 0
+      }
+    });
+  }
+  return data;
 };
