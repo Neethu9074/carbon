@@ -7,7 +7,6 @@
 import React, { useMemo, useState } from 'react';
 
 import { Stack } from '@instana/components';
-import { Card } from '@instana/components';
 
 // eslint-disable-next-line no-restricted-imports
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
@@ -132,7 +131,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         framed
       >
         {chartViewConfig => (
-          <Card title={t('in-events:titleMetrics')}>
+          <>
+            <h1 className={locals.title}>{t('in-events:titleMetrics')}</h1>
             <InfraMetricChart
               alertConfig={alertConfig}
               timeConfig={chartViewConfig.timeConfig}
@@ -158,7 +158,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
                 tagCatalog={tagCatalog}
               />
             )}
-          </Card>
+          </>
         )}
       </ChartViewConfigurator>
 

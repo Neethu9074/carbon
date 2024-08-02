@@ -173,6 +173,7 @@ export default function InfraAlertChartWrapper({
           </MarkerLanesPresenter>
         );
       }}
+      nonInteractive
     />
   );
 }
