@@ -14312,7 +14312,18 @@
       "cpAllProcessorUsage": "All Processor Usage",
       "iflSharedProcessorUsage": "Ifl Shared Processor Usage",
       "allSharedProcessorUsage": "All Shared Processor Usage",
-      "iflAllProcessorUsage": "Ifl All Processor Usage"
+      "iflAllProcessorUsage": "Ifl All Processor Usage",
+      "zhmcCpc": "zHMC Cpc",
+      "cpcId": "Cpc ID",
+      "name": "Name",
+      "mode": "Mode",
+      "numberOfPartitions": "Number of Partitions",
+      "numberOfAdapters": "Number of Adapters",
+      "ipAddress": "IP Address",
+      "machineTypeModel": "Machine Type Model",
+      "machineSerial": "Machine Serial",
+      "status": "Status",
+      "consoleId": "Console ID"
     },
     "zooKeeper": {
       "titleTicks": "Ticks",
