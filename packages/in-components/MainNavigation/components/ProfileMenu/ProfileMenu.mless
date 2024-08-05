@@ -4,56 +4,22 @@
 
     &_label {
       color: var(--cds-text-secondary);
-      font-weight: var(--cds-label-01-font-weight);
-      font-size: var(--cds-label-01-font-size);
-      line-height: var(--cds-label-01-line-height);
-      letter-spacing: var(--cds-label-01-letter-spacing);
-    }
-
-    &_title {
-      color: var(--cds-text-primary);
-      font-weight: var(--cds-label-02-font-weight);
-      font-size: var(--cds-label-02-font-size);
-      line-height: var(--cds-label-02-line-height);
-      letter-spacing: var(--cds-label-02-letter-spacing);
     }
 
     &_header {
-      width: 100%;
-      padding: 0.5rem 1rem;
-      word-wrap: break-word;
+      padding: 0rem 1rem;
     }
 
     &_unitTenantSection {
-      padding: 0.5rem 1rem;
-      width: 100%;
-      .profileMenu_label {
-        margin-bottom: 0.5rem;
-      }
-      .profileMenu_title {
-        margin-bottom: 0rem;
-      }
-    }
-
-    &_fullName {
-      color: var(--cds-text-primary);
-    }
-
-    &_profileLink {
-      margin-top: 0.875rem;
-      color: var(--cds-link-primary);
-    }
-
-    &_switcherItemLink {
-      display: inline-flex;
-      svg {
-        margin-right: 8px;
-      }
+      padding: 0rem 1rem;
     }
   }
 
-  div:has(> .profileMenu) {
+  :global(.cds--header-panel) {
     height: fit-content;
     max-height: calc(100vh - 3rem);
+    transform: translate(0);
+    transition: unset;
+    overflow: auto;
   }
 }

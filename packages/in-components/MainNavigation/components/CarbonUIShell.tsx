@@ -10,14 +10,15 @@ import NotificationBarSticky from 'promise-loader?global!in-components/Sticky/No
 import AboutInstanaDialog from 'promise-loader?global!in-components/AboutInstanaDialog';
 // @ts-expect-error promise loader
 import NewPlayWithHeader from 'promise-loader?global!in-plg/Demo/NewPlayWithHeader';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   UIShell,
   MenuItem,
   SideNavMenu,
   SvgIcon,
-  CarbonHeaderGlobalAction as HeaderGlobalAction
+  CarbonHeaderGlobalAction as HeaderGlobalAction,
+  keyCodes
 } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
@@ -127,9 +128,11 @@ import { t } from 'in-i18n';
 import local from './CarbonUIShell.mless';
 
 interface HeaderContentProps {
-  expanded: boolean;
-  onClickSideNavExpand: () => void;
+  expanded?: boolean;
+  onClickSideNavExpand?: VoidFunction;
 }
+
+const { isEscape } = keyCodes;
 
 function HomeLink() {
   const { matchLocation, createHrefToPath } = useNavigation();
@@ -662,18 +665,48 @@ export default function CarbonUIShell() {
   const enableWelcomePageV2 =
     (welcomePageV2Enabled && config.activeLicenseType === 'selfService') || (welcomePageV2Enabled && playwithEnabled);
 
+  // If header panel is open, and user clicks outside, close it
+  const handleKeyPress = (event: KeyboardEvent) => {
+    if (isEscape(event)) {
+      setExpanded(false);
+    }
+  };
+  const handleClickOutside = (event: MouseEvent) => {
+    const focusedElement = document.activeElement as HTMLElement;
+    const isPanelContent = focusedElement?.closest('.cds--header-panel--expanded');
+    const isHeaderAction = focusedElement?.closest('.cds--header__action');
+    const switcherButton = document.getElementById('profileMenu-switcher');
+    const isProfileMenuSwitcher = switcherButton?.contains(event.target as Node);
+
+    if (!isPanelContent && !isHeaderAction && !isProfileMenuSwitcher) {
+      setExpanded(false);
+    }
+  };
+
+  // Add event listener for outside of header panel clicks
+  useEffect(() => {
+    if (expanded) {
+      document.addEventListener('click', handleClickOutside, true);
+      document.addEventListener('keydown', handleKeyPress, true);
+    }
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+      document.removeEventListener('keydown', handleKeyPress, true);
+    };
+  }, [expanded]);
+
   return (
     <UIShell
       skipToContentText={t('in-components:mainNavigation.skipToMainContent')}
       onSideNavClick={internalToggleClick}
       titleDetail={titleDetail}
-      headerContent={<HeaderContent expanded={expanded} onClickSideNavExpand={onClickSideNavExpand} />}
-      {...(userProfileMenuEnabled && !playwithEnabled
+      {...(userProfileMenuEnabled
         ? {
+            headerContent: <HeaderContent expanded={expanded} onClickSideNavExpand={onClickSideNavExpand} />,
             headerPanelExpanded: expanded,
             headerPanelContent: <ProfileMenu isSideNavExpanded={expanded} onClickSideNavExpand={onClickSideNavExpand} />
           }
-        : {})}
+        : { headerContent: <HeaderContent /> })}
     >
       <HomeLink />
       <WebsiteMobileAppView />

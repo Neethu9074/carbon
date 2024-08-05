@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import classNames from 'classnames';
 import React from 'react';
 
 import {
@@ -13,7 +12,9 @@ import {
   CarbonSwitcherDivider as SwitcherDivider,
   Typography,
   SvgIcon,
-  Link
+  Link,
+  Stack,
+  Spacer
 } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -25,11 +26,11 @@ import { user } from 'in-stores/user';
 import local from './ProfileMenu.mless';
 
 interface ProfileMenuProps {
+  onClickSideNavExpand: VoidFunction;
   isSideNavExpanded: boolean;
-  onClickSideNavExpand: () => void;
 }
 
-export default function ProfileMenu({ isSideNavExpanded, onClickSideNavExpand }: ProfileMenuProps): JSX.Element {
+export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }: ProfileMenuProps): JSX.Element {
   const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
 
   const signOut = () => {
@@ -42,55 +43,64 @@ export default function ProfileMenu({ isSideNavExpanded, onClickSideNavExpand }:
 
   return (
     <div className={local.profileMenu}>
-      <Switcher aria-label="Switcher Container" expanded={isSideNavExpanded}>
-        <li className={local.profileMenu_header}>
-          <Typography variant="heading-03">
-            <span className={local.profileMenu_fullName}>{user?.fullName}</span>
+      <Stack direction="vertical" gap="xsmall">
+        <div className={local.profileMenu_header}>
+          <Spacer vertical="xsmall" />
+          <Typography variant="heading-03" onDark noMargin>
+            {user?.fullName}
           </Typography>
-          <p className={local.profileMenu_label}>{user?.email}</p>
-          <Link
-            href={`#${userSettingsProfile}`}
-            onClick={onClickSideNavExpand}
-            className={classNames(local.profileMenu_profileLink, local.profileMenu_label)}
-          >
-            {t('in-components:mainNavigation.profileMenu_profileLink')}
-          </Link>
-        </li>
+          <Spacer vertical="xsmall" />
+          <Typography variant="label-01" onDark component="p" noMargin noWrap>
+            <span className={local.profileMenu_label}>{user?.email}</span>
+          </Typography>
+          <Spacer vertical="small" />
+          <Typography variant="label-01" onDark>
+            <Link href={`#${userSettingsProfile}`} onClick={onClickSideNavExpand} size="sm">
+              {t('in-components:mainNavigation.profileMenu_profileLink')}
+            </Link>
+          </Typography>
+        </div>
         <SwitcherDivider />
-        <li className={local.profileMenu_unitTenantSection}>
-          <p className={local.profileMenu_label}>{t('in-components:mainNavigation.profileMenu_unitName_tenantName')}</p>
-          <p className={local.profileMenu_title}>
+        <div className={local.profileMenu_unitTenantSection}>
+          <Typography variant="label-01" onDark>
+            <label className={local.profileMenu_label}>
+              {t('in-components:mainNavigation.profileMenu_unitName_tenantName')}
+            </label>
+          </Typography>
+          <Spacer vertical="small" />
+          <Typography variant="label-02" onDark>
             {config.tenantUnit} - {config.tenant}
-          </p>
-        </li>
-        <SwitcherDivider />
-        {tenantSwitcherEnabled ? (
-          <SwitcherItem
-            onClick={() => {
-              window.open(tenantSwitcherLink, '_blank');
-              onClickSideNavExpand();
-            }}
-            aria-label={t('in-components:mainNavigation.profileMenu_switchUnitOrTenant')}
-          >
-            <span
-              className={classNames(local.profileMenu_switcherItemLink, local.profileMenu_title)}
-              id="profileMenu-switchUnitOrTenant"
+          </Typography>
+        </div>
+        <Switcher aria-label="Switcher Container" expanded={isSideNavExpanded}>
+          <SwitcherDivider />
+          {tenantSwitcherEnabled ? (
+            <SwitcherItem
+              onClick={() => {
+                window.open(tenantSwitcherLink, '_blank');
+                onClickSideNavExpand();
+              }}
+              aria-label={t('in-components:mainNavigation.profileMenu_switchUnitOrTenant')}
             >
-              <SvgIcon type="lib_views_external_link" size="xs" />
-              {t('in-components:mainNavigation.profileMenu_switchUnitOrTenant')}
-            </span>
+              <Stack direction="horizontal" gap="xsmall" align="center">
+                <SvgIcon type="lib_views_external_link" size="xs" color="white" />
+                <Typography variant="label-02" onDark>
+                  {t('in-components:mainNavigation.profileMenu_switchUnitOrTenant')}
+                </Typography>
+              </Stack>
+            </SwitcherItem>
+          ) : null}
+          {tenantSwitcherEnabled && <SwitcherDivider />}
+          <SwitcherItem onClick={() => signOut()} aria-label={t('in-components:mainNavigation.profileMenu_logOut')}>
+            <Stack direction="horizontal" gap="xsmall" align="center">
+              <SvgIcon type="lib_log_out" size="xs" color="white" />
+              <Typography variant="label-02" onDark>
+                {t('in-components:mainNavigation.profileMenu_logOut')}
+              </Typography>
+            </Stack>
           </SwitcherItem>
-        ) : null}
-        {tenantSwitcherEnabled && <SwitcherDivider />}
-        <SwitcherItem onClick={() => signOut()} aria-label={t('in-components:mainNavigation.profileMenu_logOut')}>
-          <span
-            className={classNames(local.profileMenu_switcherItemLink, local.profileMenu_title)}
-            id="profileMenu-sign-out"
-          >
-            <SvgIcon type="lib_log_out" size="xs" /> {t('in-components:mainNavigation.profileMenu_logOut')}
-          </span>
-        </SwitcherItem>
-      </Switcher>
+        </Switcher>
+      </Stack>
     </div>
   );
 }
