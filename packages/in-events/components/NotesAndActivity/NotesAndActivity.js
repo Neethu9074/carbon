@@ -23,7 +23,10 @@ import Tooltip from 'in-components/Tooltip';
 import { EVENT_NOTES_SUBMIT, EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { getNotes, validTextEntry, noteNameAndTimeFormat } from './utils';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
+import { CTA_CLICKED } from 'in-services/util/constants';
 import { track } from 'in-services/tracking/trackers';
 import { annotateEvent } from 'in-stores/events';
 import { user } from 'in-stores/user';
@@ -46,6 +49,17 @@ export function NotesAndActivity(props) {
 
   function toggleSidePanel() {
     setDisplayNotes(!displayNotes);
+    const { pageRootName, productArea } = getViewTrackingMetaData();
+    if (pageRootName && productArea) {
+      const data = {
+        parentPageName: pageRootName,
+        parentPageCategory: productArea,
+        CTA: EVENT_SIDE_PANEL_CLICK,
+        path: location.hash
+      };
+      eventTracker({ data, segmentEventName: CTA_CLICKED });
+    }
+
     track(EVENT_SIDE_PANEL_CLICK, { incidentId });
   }
 
@@ -179,6 +193,16 @@ export function handleSubmitNote(incidentId, note, user, setNote) {
     };
     annotateEvent(newNote);
     setNote('');
+    const { pageRootName, productArea } = getViewTrackingMetaData();
+    if (pageRootName && productArea) {
+      const data = {
+        parentPageName: pageRootName,
+        parentPageCategory: productArea,
+        CTA: EVENT_NOTES_SUBMIT,
+        path: location.hash
+      };
+      eventTracker({ data, segmentEventName: CTA_CLICKED });
+    }
     track(EVENT_NOTES_SUBMIT, { incidentId, author: userName });
   }
 }
