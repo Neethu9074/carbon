@@ -7735,7 +7735,9 @@
       "processId": "Process ID",
       "app": "App",
       "retrievedMessages": "Retrieved Messages",
-      "traceSubscribeEvents": "Trace Subscribe Events"
+      "traceSubscribeEvents": "Trace Subscribe Events",
+      "metricLimitExceeded": "Metrics limit exceeded. See Monitoring Dropwizard documentation for more information about the metric limit.",
+      "troubleshootingDocs": "Monitoring Dropwizard documentation"
     },
     "ec2": {
       "dashboard": {
