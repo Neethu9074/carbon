@@ -369,6 +369,11 @@
   "pluginName_azureLoadBalancer_1": "Azure Load Balancer",
   "pluginName_azureLoadBalancer_2": "Azure Load Balancer",
   "pluginName_azureLoadBalancer": "Azure Load Balancer",
+  "pluginName_azureSignalR_plural": "Azure SignalR",
+  "pluginName_azureSignalR_0": "Azure SignalR",
+  "pluginName_azureSignalR_1": "Azure SignalR",
+  "pluginName_azureSignalR_2": "Azure SignalR",
+  "pluginName_azureSignalR": "Azure SignalR",
   "pluginName_baw_plural": "BAW",
   "pluginName_baw_0": "BAW",
   "pluginName_baw_1": "BAW",
@@ -6122,6 +6127,44 @@
         "titleSYNPackets": "SYN Packets",
         "titleVipAvailability": "Vip Availability",
         "titleDipAvailability": "Dip Availability"
+      }
+    },
+    "azureSignalR": {
+      "infoAzureSignalR": "Azure SignalR",
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
+      "infoLocation": "Location",
+      "infoSubscriptionID": "Subscription ID",
+      "infoType": "Type",
+      "infoCreated": "Created",
+      "labelInboundTraffic": "InboundTraffic",
+      "labelOutboundTraffic": "OutboundTraffic",
+      "labelServerLoad": "ServerLoad",
+      "labelUserErrors": "UserErrors",
+      "labelSystemErrors": "SystemErrors",
+      "labelConnectionQuotaUtilization": "ConnectionQuotaUtilization",
+      "labelConnectionCount": "ConnectionCount",
+      "labelMessageCount": "MessageCount",
+      "labelConnectionOpenCount": "ConnectionOpenCount",
+      "kpi": {
+        "labelConnectionsOpen": "Connections Open"
+      },
+      "dashboard": {
+        "titleConnections": "Connections",
+        "titleErrors": "Errors",
+        "titleTraffic": "Traffic",
+        "titleConnectionQuota":"Connection Quota",
+        "titleMessage": "Message",
+        "titleServer": "Server",
+        "lableOpen": "Open",
+        "labelTotal": "Total",
+        "lableSystem": "System",
+        "lableUser": "User",
+        "lableInbound": "Inbound",
+        "lableOutbound": "Outbound",
+        "labelUtilization":"Utilization",
+        "labelLoad": "Load",
+        "labelCount": "Count"
       }
     },
     "beeInstana": {
