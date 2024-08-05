@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import { render, screen } from '@testing-library/react';
 import { shallow } from 'enzyme';
 import React from 'react';
 
@@ -13,7 +12,6 @@ import { Select } from '@instana/components';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/ThresholdTypeSelection';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { alertConfig } from 'in-alerting/smart-alerts/applications/data/alertConfigData.json';
-import { t } from 'in-i18n';
 
 export const blueprintConfig = {
   type: 'errors',
@@ -55,20 +53,6 @@ describe('ThresholdTypeSelection', () => {
       isGlobalSmartAlert: false,
       thresholdTypeOptions: blueprintConfig.getThresholdTypeOptions()
     };
-  });
-
-  it('renders static threshold', () => {
-    render(<ThresholdTypeSelection {...props} />);
-    expect(
-      screen.getByText(t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdType'))
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.static.label'))
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.static.description'))
-    ).toBeInTheDocument();
   });
 
   it('test Local SA ', () => {

@@ -37,7 +37,6 @@ export default function LogsThresholdCondition({ form, updateForm, blueprintConf
         editMode={editMode}
         thresholdTypeOptions={thresholdTypeOptions}
         isGlobalSmartAlert={isGlobalSmartAlert}
-        blueprintConfig={blueprintConfig}
       />
 
       <div className={locals.container}>

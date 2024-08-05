@@ -582,7 +582,6 @@
           "title": "Set a value for the violation threshold",
           "description": "Select a metric, violation threshold and time window to evaluate the violation.",
           "thresholdValue": "Threshold value",
-          "thresholdType": "Threshold Type",
           "thresholdDescription": {
             "static": "A constant threshold value is applied and it does not change over time.",
             "staticDaily": "A time-dependent threshold value based on daily historical data is applied and it does not change automatically.",
@@ -601,7 +600,10 @@
           "config": {
             "adaptive": {
               "description": "A threshold value that automatically adapts to the changes of the underlying metric is applied.",
-              "label": "Adaptive"
+              "label": "Adaptive",
+              "adaptiveNotSupportedForEndPoint": "Adaptive threshold is not supported when grouping by endpoints.",
+              "adaptiveNotSupportedForBluePrint": "Adaptive threshold is not supported for selected blueprint : {{bluePrint}}.",
+              "notSupported": "Not Supported"
             },
             "static": {
               "description": "A constant threshold value is applied and it does not change over time.",
