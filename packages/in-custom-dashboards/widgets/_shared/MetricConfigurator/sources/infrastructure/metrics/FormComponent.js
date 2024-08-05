@@ -27,11 +27,11 @@ import ValidationMessages, {
 } from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
-import { getMetricUnitByBackendType, getUnitByFormatter, defaultUnit } from 'in-stores/metric/units';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { getUiMetricsValueByBackendType } from 'in-services/formatters/backendFormatter';
+import { getMetricUnitByBackendType, getUnitByFormatter } from 'in-stores/metric/units';
 import { defaultFormatter, getFormatterIdByFn } from 'in-stores/metric/formatters';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import QueryBuilder from 'in-infrastructure/Explore/components/QueryBuilder';
@@ -139,7 +139,7 @@ export default function FormComponent({
   const preSelectedUnit = unitForInfraMetricsEnabled
     ? formatterBackendType
       ? getMetricUnitByBackendType(formatterBackendType)
-      : getUnitByFormatter(getFormatterIdByFn(metricMetadatas?.[metric]?.formatter)) ?? defaultUnit
+      : getUnitByFormatter(getFormatterIdByFn(metricMetadatas?.[metric]?.formatter))
     : undefined;
 
   const metricDefaultFormatter =
