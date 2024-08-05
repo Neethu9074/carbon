@@ -6,8 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Td, Table, Tbody, Tr, Button } from '@instana/legacy';
-import { SvgIcon } from '@instana/components';
+import { Td, Table, Tbody, Tr } from '@instana/legacy';
+import { SvgIcon, Button } from '@instana/components';
 
 import getCloudfoundryApplicationForInstanaApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplicationForInstanaApplication';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';

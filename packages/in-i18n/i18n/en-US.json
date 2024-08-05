@@ -49,6 +49,7 @@
   "forms": {
     "actions": {
       "save": "Save",
+      "saveIntegration":"Save and enable",
       "cancel": "Cancel",
       "create": "Create",
       "delete": "Delete",
@@ -83,6 +84,7 @@
   "aggregation_MAX": "max",
   "aggregation_DISTINCT_COUNT": "distinct count",
   "aggregation_SUM": "sum",
+  "aggregation_INCREASE": "increase",
   "aggregation_DISTRIBUTION": "distribution",
   "aggregation_PER_SECOND": "per second"
 }

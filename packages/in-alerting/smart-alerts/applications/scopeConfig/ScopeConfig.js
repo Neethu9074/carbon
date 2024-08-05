@@ -87,7 +87,6 @@ export default function ScopeConfig({
               tearSheetView={tearSheetView}
             />
           </div>
-          <Spacer vertical="normal" />
         </>
       )}
       <ExpandableLightCard
@@ -142,7 +141,8 @@ export default function ScopeConfig({
             <div
               className={classNames({
                 [locals.servicesAndEndpointsListPresenterWrapper]: shouldDisplayAlertConfigurator,
-                [locals.listHeight]: tearSheetView
+                [locals.listHeight]: tearSheetView && isGlobalSmartAlert,
+                [locals.list]: tearSheetView
               })}
             >
               <ServicesAndEndpointsListPresenter

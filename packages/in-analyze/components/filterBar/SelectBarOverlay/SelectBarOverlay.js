@@ -83,7 +83,10 @@ export default function SelectBarOverlay({
             )
             .map((item, i) => (
               <li key={`${item.key}${i}`}>
-                <Tooltip content={t('in-analyze:filterBar.selectBarOverlay.clickToFilter', { itemLabel: item.label })}>
+                <Tooltip
+                  content={t('in-analyze:filterBar.selectBarOverlay.clickToFilter', { itemLabel: item.label })}
+                  overwriteBlock
+                >
                   <Item item={item} onClick={onSelectItem} itemLabelRenderer={itemLabelRenderer} />
                 </Tooltip>
               </li>

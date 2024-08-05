@@ -166,11 +166,11 @@
             "description": "Alert individually for this Application Perspective",
             "globalDescription": "Alert individually per Application Perspective",
             "tearSheetSelectionText": "Group by application",
-            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} application. When there is a violation, a single alert notification gets sent for this entire application perspective.",
-            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When there is a violation, a single alert notification gets sent for this entire application perspective. ",
-            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When there is a violation, a single alert notification gets sent for this entire application perspective. ",
-            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When there is a violation, a single alert notification gets sent for this entire application perspective. ",
-            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When there is a violation, a single alert notification gets sent for this entire application perspective. "
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} application. When the latency is violated, a single alert notification is sent for this entire application perspective.",
+            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When the latency is violated, a single alert notification is sent for this entire application perspective.",
+            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When the latency is violated, a single alert notification is sent for this entire application perspective.",
+            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When the latency is violated, a single alert notification is sent for this entire application perspective.",
+            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When the latency is violated, a single alert notification is sent for this entire application perspective. "
           },
           "evaluationTypePERAPSERVICE": {
             "selectionText": "per Service for this Application Perspective",
@@ -180,11 +180,11 @@
             "description": "Alert individually per Service for this Application Perspective",
             "globalDescription": "Alert individually per Service in the context of each Application Perspective",
             "tearSheetSelectionText": "Group by service",
-            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} service - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group."
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} service - one for each service, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group."
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "per Endpoint for this Application Perspective",
@@ -194,11 +194,11 @@
             "description": "Alert individually per Endpoint for this Application Perspective",
             "globalDescription": "Alert individually per Endpoint in the context of each Application Perspective",
             "tearSheetSelectionText": "Group by endpoint",
-            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} endpoint - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group."
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} endpoint - one for each endpoint, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group."
           }
         },
         "inboundOutboundCalls": {
@@ -530,11 +530,12 @@
         "step2Title": "Define the scope",
         "step3Title": "Define grouping",
         "step4Title": "Define when to get alerted",
-        "step5Title": "Define alert properties and channels",
         "alertHeadline": "Choose what you want to be alerted on",
+        "step5Title": "Define alert properties",
+        "step6Title": "Define alert channels",
         "grouping": {
           "title": "Group calls",
-          "description": "Calls in each group are evaluated separately",
+          "description": "Grouping allows users to configure calls in groups. Each call within the group is configured collectively but evaluated individually.",
           "groupByApplication": "applications",
           "groupByServices": "services",
           "groupByEndpoint": "endpoints",
@@ -547,9 +548,10 @@
         },
         "includeHiddenCalls": {
           "title": "Include hidden calls (optional) ",
-          "description": "Hidden calls do not appear in built-in dashboards."
+          "description": "Internal and synthetic calls do not appear in built-in dashboards and are excluded by default"
         },
-        "serviceEndPointSelection": "Services or endpoints for selected calls",
+        "serviceEndPointSelection": "Services or endpoints for selected type of calls",
+        "serviceEndPointSelectionDescription": "Select the services you want to be alerted on.",
         "AlertPropertiesTitle": "What properties do you want to set for this alert?",
         "AlertChannelTitle": "Where do you want to be notified for alert?",
         "inboundOutboundCalls": {
@@ -580,7 +582,6 @@
           "title": "Set a value for the violation threshold",
           "description": "Select a metric, violation threshold and time window to evaluate the violation.",
           "thresholdValue": "Threshold value",
-          "thresholdType": "Threshold Type",
           "thresholdDescription": {
             "static": "A constant threshold value is applied and it does not change over time.",
             "staticDaily": "A time-dependent threshold value based on daily historical data is applied and it does not change automatically.",
@@ -599,7 +600,10 @@
           "config": {
             "adaptive": {
               "description": "A threshold value that automatically adapts to the changes of the underlying metric is applied.",
-              "label": "Adaptive"
+              "label": "Adaptive",
+              "adaptiveNotSupportedForEndPoint": "Adaptive threshold is not supported when grouping by endpoints.",
+              "adaptiveNotSupportedForBluePrint": "Adaptive threshold is not supported for selected blueprint : {{bluePrint}}.",
+              "notSupported": "Not Supported"
             },
             "static": {
               "description": "A constant threshold value is applied and it does not change over time.",

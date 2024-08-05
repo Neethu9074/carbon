@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { HeaderItemTile, Stack, TileButtonTypes } from '@instana/components';
 import { t } from '@instana/i18n-react';
@@ -29,7 +29,6 @@ import {
   unitOnboardingTailorYourViewClick,
   unitOnboardingTraceInteractionsClick
 } from 'in-settings/tracker';
-import useGetAccountActivation from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
@@ -37,10 +36,22 @@ import { CTA_CLICKED } from 'in-services/util/constants';
 import config from 'in-services/config';
 import { role } from 'in-stores/user';
 
-export default function OnboardingStepBuilder() {
+interface TileDataType {
+  key: string;
+  title: string;
+  description: string;
+  buttonName: string;
+  buttonType: string;
+  href: string;
+  hasPermission?: boolean;
+  isActionCompleted?: boolean;
+  onButtonClick: () => void;
+}
+//we cannot provide correct type for activationData as the json object keys are dynamic
+export default function OnboardingStepBuilder({ activation }: { activation: any }) {
   const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
+  const [onboardingItems, setOnboardingItems] = useState<TileDataType[]>([]);
   const { createHrefToPath } = useNavigation();
-  const [onboardingItems, setOnboardingItems] = useState<any>([]);
   const [statusFlags, setStatusFlags] = useState({
     firstAgentInstalled: true,
     tracingReported: true,
@@ -53,7 +64,6 @@ export default function OnboardingStepBuilder() {
   });
 
   const { pageRootName, productArea } = getViewTrackingMetaData();
-  const activation: any = useGetAccountActivation();
 
   function getValidButtonType(buttonType?: string): (typeof TileButtonTypes)[number] {
     if (buttonType && TileButtonTypes.includes(buttonType as any)) {
@@ -63,11 +73,8 @@ export default function OnboardingStepBuilder() {
     }
   }
 
-  useEffect(() => {
-    if (!activation || Object.keys(activation).length === 0) {
-      return;
-    }
-    function createRedirectHref(currentTile: string) {
+  const createRedirectHref = useCallback(
+    (currentTile: string) => {
       if (currentTile === 'startIntegrating' || currentTile === 'additionalAgents') {
         return createHrefToPath('/agents/installation');
       } else if (currentTile === 'traceInteractions') {
@@ -83,9 +90,12 @@ export default function OnboardingStepBuilder() {
       } else {
         return createHrefToPath('/config/team/accessControl/users');
       }
-    }
+    },
+    [createHrefToPath]
+  );
 
-    function sendEventsToSegment(eventName: string) {
+  const sendEventsToSegment = useCallback(
+    (eventName: string) => {
       if (pageRootName && productArea) {
         const data = {
           parentPageName: pageRootName,
@@ -95,9 +105,12 @@ export default function OnboardingStepBuilder() {
         };
         eventTracker({ data, segmentEventName: CTA_CLICKED });
       }
-    }
+    },
+    [pageRootName, productArea]
+  );
 
-    const tileData = [
+  const tileData: TileDataType[] = useMemo(
+    () => [
       {
         key: 'startIntegrating',
         title: t('in-plg:welcomepage.startIntegrating.title'),
@@ -210,7 +223,20 @@ export default function OnboardingStepBuilder() {
           unitOnboardingBringYourTeamClick();
         }
       }
-    ];
+    ],
+    [createRedirectHref, sendEventsToSegment, statusFlags]
+  );
+
+  useEffect(() => {
+    const itemsNotCompleted = tileData.filter(item => !item.isActionCompleted);
+    setOnboardingItems(itemsNotCompleted);
+  }, [statusFlags, tileData]);
+
+  useEffect(() => {
+    if (!activation || Object.keys(activation).length === 0) {
+      return;
+    }
+
     setStatusFlags({
       firstAgentInstalled: activation ? activation[currentTenantUnit]?.fa?.status : true,
       tracingReported: activation ? activation[currentTenantUnit]?.tr?.status : true,
@@ -221,28 +247,13 @@ export default function OnboardingStepBuilder() {
       oneWebsiteMonitored: activation ? activation[currentTenantUnit]?.w?.status : true,
       fiveUsers: activation ? activation[currentTenantUnit]?.u?.status : true
     });
+  }, [activation, currentTenantUnit]);
 
-    const itemsNotCompleted = tileData.filter(item => !item.isActionCompleted);
-    setOnboardingItems(itemsNotCompleted);
-  }, [
-    activation,
-    statusFlags.firstAgentInstalled,
-    statusFlags.tracingReported,
-    statusFlags.additionalUserInvited,
-    statusFlags.threeAgentsInstalled,
-    statusFlags.twoApplicationPerspectivesCreated,
-    statusFlags.oneAlertSetUpAndActivated,
-    statusFlags.oneWebsiteMonitored,
-    statusFlags.fiveUsers,
-    createHrefToPath,
-    currentTenantUnit,
-    pageRootName,
-    productArea
-  ]);
+  if (!activation || Object.keys(activation).length === 0) return null;
 
   return (
     <Stack gap="xxlarge" direction="horizontal" distribution="start">
-      {onboardingItems.map((item: any) => (
+      {onboardingItems.map((item: TileDataType) => (
         <div key={item.key}>
           <HeaderItemTile
             key={item.key}

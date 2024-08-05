@@ -7,9 +7,9 @@ import React, { useRef, useState } from 'react';
 
 import { keyCodes, HorizontalIndicator, SearchInput } from '@instana/components';
 
+import SelectorNode, { nodeKey, Options } from 'in-components/SelectorOverlay/Node';
 import SlideInView, { ListHeader } from 'in-components/SlideInView/SlideInView';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import SelectorNode, { Options } from 'in-components/SelectorOverlay/Node';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { useSearch } from 'in-components/SelectorOverlay/search';
@@ -151,12 +151,12 @@ function DataAvailable({
   withIcons,
   staticContentWrapperRef,
   searchElementRef
-}: DataAvailableProps) {
-  const [focusedNode, setFocusedNodeState] = useState<Options | undefined>(
+}: Readonly<DataAvailableProps>) {
+  const [focusedNode, setFocusedNode] = useState<Options | undefined>(
     onFocusNode ? findFocusedNode(options) : undefined
   );
-  const setFocusedNode = (focusedNode?: Options) =>
-    onFocusNode ? onFocusNode(focusedNode) : setFocusedNodeState(focusedNode);
+  const changeFocusedNode = (focusedNode?: Options) =>
+    onFocusNode ? onFocusNode(focusedNode) : setFocusedNode(focusedNode);
 
   // We use this ref to store the last element (either search or tag groups)
   // which received focus. This information is used when sliding out to restore
@@ -213,11 +213,11 @@ function DataAvailable({
   );
 
   function focusNode(focusedNode: Options) {
-    setFocusedNode(focusedNode);
+    changeFocusedNode(focusedNode);
   }
 
   function unfocusNode() {
-    setFocusedNode(undefined);
+    changeFocusedNode();
   }
 
   function showFocusedNode() {
@@ -262,7 +262,7 @@ interface SearchResultsProps {
   query: string;
 }
 
-function SearchResults({ options, disabled, focusNode, onChange, query, withIcons }: SearchResultsProps) {
+function SearchResults({ options, disabled, focusNode, onChange, query, withIcons }: Readonly<SearchResultsProps>) {
   const filteredOptions = useSearch(options, query);
   return (
     <OptionList
@@ -284,12 +284,12 @@ interface OptionsListProps {
   query: string;
   withIcons: boolean;
 }
-function OptionList({ options, disabled, focusNode, onChange, query, withIcons }: OptionsListProps) {
+function OptionList({ options, disabled, focusNode, onChange, query, withIcons }: Readonly<OptionsListProps>) {
   return (
     <>
-      {options.map((node, i) => (
+      {options.map(node => (
         <SelectorNode
-          key={i}
+          key={nodeKey(node)}
           node={node}
           focusNode={disabled ? noop : focusNode}
           onChange={disabled ? noop : onChange}

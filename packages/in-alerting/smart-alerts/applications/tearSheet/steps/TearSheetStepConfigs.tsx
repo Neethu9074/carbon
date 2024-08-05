@@ -15,6 +15,7 @@ import AlertConfigTearSheetStep1 from 'in-alerting/smart-alerts/applications/tea
 import { AlertConfigTearSheetWithThresholdProps } from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheetWithThreshold';
 //@ts-expect-error
 import AlertConfigTearSheetStep5 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep5';
+import AlertConfigTearSheetStep6 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep6';
 import AlertConfigTearSheetStep2 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep2';
 import AlertingTearSheetContent from 'in-alerting/components/AlertingTearSheetContent';
 import { t } from 'in-i18n';
@@ -32,16 +33,13 @@ export const stepConfigs = [
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step2Title'),
-    isOptional: true,
     validateIntermediately: [['applications']]
   },
   {
-    title: t('in-alerting:smartAlerts.applications.tearSheet.step3Title'),
-    isOptional: true
+    title: t('in-alerting:smartAlerts.applications.tearSheet.step3Title')
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step4Title'),
-    isOptional: true,
     validateIntermediately: [
       ['threshold', 'value'],
       ['timeThreshold', 'timeWindow'],
@@ -51,8 +49,11 @@ export const stepConfigs = [
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step5Title'),
-    isOptional: true,
     validateIntermediately: [['name']]
+  },
+  {
+    title: t('in-alerting:smartAlerts.applications.tearSheet.step6Title'),
+    validateIntermediately: []
   }
 ];
 
@@ -85,6 +86,11 @@ export const APStepRenderers = [
   (props: stepRendersType) => (
     <AlertingTearSheetContent title={stepConfigs[4].title} key={4}>
       <AlertConfigTearSheetStep5 {...props} />
+    </AlertingTearSheetContent>
+  ),
+  (props: stepRendersType) => (
+    <AlertingTearSheetContent title={stepConfigs[5].title} key={5}>
+      <AlertConfigTearSheetStep6 {...props} />
     </AlertingTearSheetContent>
   )
 ];

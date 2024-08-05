@@ -6,8 +6,7 @@
 import { Field } from 'formalistic';
 import React from 'react';
 
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Button } from '@instana/components';
 
 import BeaconSelectInSection from 'in-custom-dashboards/widgets/Slo/sli/BeaconSelectInSection';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';

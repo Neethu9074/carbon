@@ -5,11 +5,12 @@
  */
 
 import { Observable } from '@instana/observables';
+import { createLogger } from '@instana/logger';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http/http';
 
-const baseUrl = '/tracking/intentToPurchase';
+const baseUrl = '/api/tracking/intentToPurchase';
 
 export function sendSegmentEvent(data: segmentData): Observable<segmentData> {
   return http<segmentData>({
@@ -23,4 +24,12 @@ export function sendSegmentEvent(data: segmentData): Observable<segmentData> {
 
 export interface segmentData {
   type?: string;
+}
+
+export function triggerSegmentEvent(data: segmentData) {
+  const result$ = sendSegmentEvent(data);
+  const logger = createLogger('/in-plg/components/BuyNowDialog/BuyNowDialog');
+  result$.once(error => {
+    logger.error(`Failed to send segment event : ${error}`, error);
+  });
 }

@@ -14,12 +14,10 @@ import {
   filterThresholdTypeOptionsForEvaluationType,
   getOptionsFilterForThresholdTyp
 } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
-import { tearSheetStaticOrAdaptiveThresholds } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/config';
-import { staticOrAdaptiveThresholds as types } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/config';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateBaselineButton';
-import { HISTORIC_BASELINE, ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
@@ -31,8 +29,7 @@ export default function ThresholdTypeSelection({
   updateForm,
   editMode,
   isGlobalSmartAlert,
-  thresholdTypeOptions,
-  blueprintConfig
+  thresholdTypeOptions
 }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const evaluationType = form.get('evaluationType').value;
@@ -43,31 +40,10 @@ export default function ThresholdTypeSelection({
     isGlobalSmartAlert
   ).filter(getOptionsFilterForThresholdTyp(thresholdType));
   const thresholdComboBoxValue = getThresholdComboBoxValue(form);
-  const currentType = thresholdType === ADAPTIVE_BASELINE ? types.adaptive : types.static;
-  const { description, label } = tearSheetStaticOrAdaptiveThresholds.info[currentType];
 
   return (
     <>
-      {options.length === 1 ? (
-        <>
-          {!blueprintConfig?.baselineEnabled && (
-            <div className={locals.container}>
-              <span className={locals.label}>
-                <AlertTypography
-                  variant="body-regular"
-                  color="color900"
-                  content={t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdType')}
-                />
-              </span>
-              <AlertTypography variant="body-bold" content={label} color={'teal500'}>
-                <div>
-                  <AlertTypography variant="body-small" content={description} color={'color700'} />
-                </div>
-              </AlertTypography>
-            </div>
-          )}
-        </>
-      ) : (
+      {options.length > 1 && (
         <div className={classNames({ [locals.container]: true, [locals.alignStart]: true })}>
           <span className={locals.label} />
           <Stack direction="vertical" gap="small" align="start">
@@ -123,6 +99,5 @@ ThresholdTypeSelection.propTypes = {
       label: PropTypes.string.isRequired
     })
   ).isRequired,
-  updateForm: PropTypes.func.isRequired,
-  blueprintConfig: PropTypes.object.isRequired
+  updateForm: PropTypes.func.isRequired
 };

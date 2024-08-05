@@ -44,7 +44,6 @@ export default function ThroughputThresholdCondition({
         thresholdTypeOptions={thresholdTypeOptions}
         isGlobalSmartAlert={isGlobalSmartAlert}
         blueprintType={blueprintConfig.type}
-        blueprintConfig={blueprintConfig}
       />
 
       <div className={locals.container} id="thresholdValue">

@@ -6,9 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Select } from '@instana/components';
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Button, Select } from '@instana/components';
 
 import {
   entityId,

@@ -7,8 +7,7 @@
 import React from 'react';
 
 import { ApdexConfiguration, PaginatedResult, Result } from '@instana/types';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Button } from '@instana/components';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { addActiveDialog, close as closeDialog } from 'in-components/DialogPresenter/store';

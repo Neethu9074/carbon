@@ -121,7 +121,7 @@ export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesA
             if (isCrossSeriesAggregationRestricted) {
               return field;
             }
-            if (aggregation === 'PER_SECOND') {
+            if (aggregation === 'PER_SECOND' || aggregation === 'INCREASE') {
               return field.setValue('SUM').setTouched(true);
             }
             return field.setValue(aggregation).setTouched(true);

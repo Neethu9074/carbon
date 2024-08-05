@@ -21,13 +21,13 @@ export type ThresholdFn = (value?: number) => Threshold;
 
 export function getThreshold(thresholdProps?: ThresholdProps, formatter: string = defaultFormatter.id): ThresholdFn {
   return value => {
-    if (!thresholdProps || !value || !thresholdProps?.thresholdEnabled) {
+    if (!thresholdProps || (!value && value !== 0) || !thresholdProps?.thresholdEnabled) {
       return 'normal';
     }
 
     const { operator, critical, warning } = thresholdProps;
 
-    const currentValue = formatter.startsWith('percentage') ? convertToPercent(100) : value;
+    const currentValue = formatter.startsWith('percentage') ? convertToPercent(value) : value;
     const criticalValue = parseFloat(critical);
     const warningValue = parseFloat(warning);
 

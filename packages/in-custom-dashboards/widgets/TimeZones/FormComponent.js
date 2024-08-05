@@ -6,10 +6,8 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, { useMemo } from 'react';
 
-import { SvgIcon, Ul, Li, Stack, StackItem } from '@instana/components';
+import { SvgIcon, Ul, Li, Stack, StackItem, Button, Select } from '@instana/components';
 import { getIntlDateFormatter } from '@instana/format-date';
-import { Select } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 // eslint-disable-next-line no-restricted-imports
 import moment from 'in-services/moment-timezone';

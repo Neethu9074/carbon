@@ -5,7 +5,7 @@
  */
 
 :local {
-  .top75 {
-    margin-top: 0.75rem;
+  .highlight {
+    color: var(--cds-interactive);
   }
 }

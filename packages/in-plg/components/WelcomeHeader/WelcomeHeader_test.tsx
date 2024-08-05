@@ -6,7 +6,9 @@
 
 import { render, screen } from '@testing-library/react';
 import React from 'react';
+
 import { t } from '@instana/i18n-react';
+
 import WelcomeHeader from 'in-plg/components/WelcomeHeader/WelcomeHeader';
 
 jest.mock('in-stores/user', () => ({
@@ -32,7 +34,6 @@ describe('WelcomeHeader Tests', () => {
     render(<WelcomeHeader onboardingHeaderEnabled />);
 
     expect(screen.getByText(t('in-plg:welcomepage.heading') + ', Stan!')).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:welcomepage.foldableTileTitle'))).toBeInTheDocument();
     expect(screen.getByText(t(t('in-components:time.dashboardHeaderButtonLive')))).toBeInTheDocument();
   });
 });

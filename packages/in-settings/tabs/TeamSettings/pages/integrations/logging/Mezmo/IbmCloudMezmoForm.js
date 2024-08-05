@@ -28,15 +28,14 @@ export default function IbmCloudLogMezmoForm({ form, onChange, disabled, areFiel
     <fieldset>
       {form.get('baseUrl').map(field => (
         <FormGroup>
-          <Label htmlFor="mezmo-ibm-cloud-base-url" hasError={!disabled && !field.valid && field.touched}>
+          <Label htmlFor="mezmo-ibm-cloud-base-url" hasError={!field.value && field.touched}>
             {t('in-settings:tabs.mezmoIbmCloudBaseURL')}
           </Label>
           <Input
             id="mezmo-ibm-cloud-base-url"
             value={field.value}
             onChange={e => onChange('baseUrl', e.target.value)}
-            hasError={!disabled && !field.valid && field.touched}
-            disabled={disabled}
+            hasError={!field.value && field.touched}
             autoFocus
           />
           {!disabled && <TouchedMessages field={field} />}
@@ -47,15 +46,14 @@ export default function IbmCloudLogMezmoForm({ form, onChange, disabled, areFiel
       ))}
       {form.get('accountId').map(field => (
         <FormGroup>
-          <Label htmlFor="mezmo-ibm-cloud-id" hasError={!disabled && !field.valid && field.touched}>
+          <Label htmlFor="mezmo-ibm-cloud-id" hasError={!field.value && field.touched}>
             {t('in-settings:tabs.mezmoIbmCloudId')}
           </Label>
           <Input
             id="mezmo-ibm-cloud-id"
             value={field.value}
             onChange={e => onChange('accountId', e.target.value)}
-            hasError={!disabled && !field.valid && field.touched}
-            disabled={disabled}
+            hasError={!field.value && field.touched}
             autoFocus
           />
           {!disabled && <TouchedMessages field={field} />}

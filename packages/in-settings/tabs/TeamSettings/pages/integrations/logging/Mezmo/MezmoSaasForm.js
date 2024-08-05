@@ -9,7 +9,6 @@ import { Link } from '@instana/components';
 
 import { constructLink } from 'in-integrations/logging/mezmo/LinkConstruction';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import DescriptionText from 'in-components/form/DescriptionText';
 import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
@@ -28,15 +27,14 @@ export default function MezmoSaasForm({ form, onChange, disabled, areFieldsInval
     <fieldset>
       {form.get('baseUrl').map(field => (
         <FormGroup>
-          <Label htmlFor="mezmo-base-url" hasError={!disabled && !field.valid && field.touched}>
+          <Label htmlFor="mezmo-base-url" hasError={!field.value && field.touched}>
             {t('in-settings:tabs.mezmoBaseURL')}
           </Label>
           <Input
             id="mezmo-base-url"
             value={field.value}
             onChange={e => onChange('baseUrl', e.target.value)}
-            hasError={!disabled && !field.valid && field.touched}
-            disabled={disabled}
+            hasError={!field.value && field.touched}
             autoFocus
           />
           {!disabled && <TouchedMessages field={field} />}
@@ -47,15 +45,14 @@ export default function MezmoSaasForm({ form, onChange, disabled, areFieldsInval
       ))}
       {form.get('accountId').map(field => (
         <FormGroup>
-          <Label htmlFor="mezmo-account-id" hasError={!disabled && !field.valid && field.touched}>
+          <Label htmlFor="mezmo-account-id" hasError={!field.value && field.touched}>
             {t('in-settings:tabs.mezmoAccountId')}
           </Label>
           <Input
             id="mezmo-account-id"
             value={field.value}
             onChange={e => onChange('accountId', e.target.value)}
-            hasError={!disabled && !field.valid && field.touched}
-            disabled={disabled}
+            hasError={!field.value && field.touched}
             autoFocus
           />
           {!disabled && <TouchedMessages field={field} />}
@@ -65,7 +62,7 @@ export default function MezmoSaasForm({ form, onChange, disabled, areFieldsInval
         </FormGroup>
       ))}
       {
-        <DescriptionText>
+        <div style={{ padding: '1rem 0' }}>
           <Trans
             i18nKey={'in-settings:tabs.mezmoDocumentationReference'}
             components={{
@@ -78,11 +75,13 @@ export default function MezmoSaasForm({ form, onChange, disabled, areFieldsInval
               )
             }}
           />
-        </DescriptionText>
+        </div>
       }
       {!areFieldsInvalid && (
         <FormGroup>
-          <Label htmlFor="mezmo-test-link">{t('in-settings:tabs.testYourMezmoLink')}</Label>
+          <Label htmlFor="mezmo-test-link">
+            <Trans i18nKey={'in-settings:tabs.testYourMezmoLink'} />
+          </Label>
           <Link id="mezmo-test-link" size="sm" href={mezmoUrl} external>
             {mezmoUrl}
           </Link>

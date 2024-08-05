@@ -7,9 +7,8 @@ import { Field, Item, MapForm, createField } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
+import { IconButton, Select } from '@instana/components';
 import { DynamicFieldValue } from '@instana/types';
-import { SvgIcon } from '@instana/components';
-import { Select } from '@instana/components';
 
 import {
   ViewModel,
@@ -45,7 +44,8 @@ export const deleteItemColumnDefinition = {
     return (
       <div className={locals.controls}>
         <Tooltip content={t('in-alerting:components.customPayload.deleteRow')} delay={500}>
-          <SvgIcon
+          <IconButton
+            kind="primaryv2"
             type="lib_actions_delete"
             className={classNames({
               [locals.delete]: true,

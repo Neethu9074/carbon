@@ -6,8 +6,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Li, Spacer, Stack, Ul, Toggle } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Li, Spacer, Stack, Ul, Toggle, Button } from '@instana/components';
 
 import { formatterPath, formatterSelectedPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { MetricsForAxis, Reorderer } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
@@ -15,7 +14,6 @@ import { userSelectableRenderer as availableRenderers } from 'in-custom-dashboar
 import { getFormatter, getCommonFormatterForUnits } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { getFormatterById, publicFormatters } from 'in-stores/metric/formatters';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
-import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Sections from 'in-components/workspace/Sections';
 import { getBaseUnit } from 'in-stores/metric/units';
@@ -26,7 +24,7 @@ import { t } from 'in-i18n';
 
 import locals from './AxesConfigurator.mless';
 
-export default function AxesConfigurator({ form, onChange, getShortMetricKey }) {
+export default function AxesConfigurator({ form, onChange, getShortMetricKey, withUnit }) {
   const [showSecondaryAxis, setShowSecondaryAxis] = useState(form.getIn(['y2', 'metrics']).size > 0);
 
   return (
@@ -45,6 +43,7 @@ export default function AxesConfigurator({ form, onChange, getShortMetricKey }) 
           title={t('in-custom-dashboards:widgets.chart.axesConfigurator.primaryYAxis')}
           startIndex={0}
           getShortMetricKey={getShortMetricKey}
+          withUnit={withUnit}
         />
 
         {showSecondaryAxis && (
@@ -58,6 +57,7 @@ export default function AxesConfigurator({ form, onChange, getShortMetricKey }) 
             isSecondary
             setShowSecondaryAxis={setShowSecondaryAxis}
             showSecondaryAxis={showSecondaryAxis}
+            withUnit={withUnit}
           />
         )}
       </div>
@@ -80,7 +80,8 @@ function AxisConfigurator({
   title,
   startIndex,
   getShortMetricKey,
-  isSecondary
+  isSecondary,
+  withUnit = false
 }) {
   const axisForm = form.get(axisName);
   const isAxisRemovable = isSecondary && axisForm.get('metrics').size === 0;
@@ -89,7 +90,7 @@ function AxisConfigurator({
     const source = map.get('source').value;
     const metric = map.get('metric').value;
     const aggregation = map.get('aggregation').value;
-    const baseUnit = unitForInfraMetricsEnabled ? getBaseUnit(map.get('unit')?.value) : undefined;
+    const baseUnit = withUnit ? getBaseUnit(map.get('unit')?.value) : undefined;
 
     return {
       source,
@@ -283,6 +284,7 @@ function AxisConfigurator({
             axisName={axisName}
             startIndex={startIndex}
             getShortMetricKey={getShortMetricKey}
+            isUnitPillEnabled={withUnit}
           />
         </Stack>
       </Li>

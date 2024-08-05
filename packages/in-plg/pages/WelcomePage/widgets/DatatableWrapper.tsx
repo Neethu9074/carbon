@@ -90,6 +90,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: string[] }) =>
   const [hasContent, setHasContent] = useState<boolean>(false);
   const header = dashboardTileProps?.header ?? '';
   const addLabel = dashboardTileProps?.addLabel;
+  const searchAndViewAllLabel = dashboardTileProps?.searchAndViewAllLabel;
 
   const result = useObservable(getItems({ timeConfig, query, infraType, syntheticType }), [
     timeConfig,
@@ -150,8 +151,10 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: string[] }) =>
           header={`${header}`}
           headers={headers}
           rows={processedItems}
-          searchPlaceHolder={`${t('in-plg:welcomepage.ariaLabel.search')} ${addLabel ? addLabel : header}`}
-          viewLabel={`${t('in-plg:welcomepage.viewAll')} ${addLabel ? addLabel : header}`}
+          searchPlaceHolder={`${t('in-plg:welcomepage.ariaLabel.search')} ${
+            searchAndViewAllLabel ? searchAndViewAllLabel : header
+          }`}
+          viewLabel={`${t('in-plg:welcomepage.viewAll')} ${searchAndViewAllLabel ? searchAndViewAllLabel : header}`}
           iconColor={themes.default.ids.color.option.white}
           hasAddPermission={hasAddPermission}
           hasAddMore={hasAddMore && !playwithEnabled ? true : false}

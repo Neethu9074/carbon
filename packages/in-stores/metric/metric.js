@@ -30,12 +30,13 @@ export const aggregationLabels = {
   MAX: t('aggregation', { context: 'MAX' }),
   DISTINCT_COUNT: t('aggregation', { context: 'DISTINCT_COUNT' }),
   SUM: t('aggregation', { context: 'SUM' }),
+  INCREASE: t('aggregation', { context: 'INCREASE' }),
   DISTRIBUTION: t('aggregation', { context: 'DISTRIBUTION' }),
   PER_SECOND: t('aggregation', { context: 'PER_SECOND' })
 };
 
 export function hasIcon(aggregation) {
-  return aggregation !== 'PER_SECOND';
+  return aggregation !== 'PER_SECOND' || aggregation !== 'INCREASE';
 }
 
 export const aggregationIcons = {

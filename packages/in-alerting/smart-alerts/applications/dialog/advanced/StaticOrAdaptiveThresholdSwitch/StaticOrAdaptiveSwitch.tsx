@@ -15,10 +15,11 @@ import {
   staticOrAdaptiveThresholds as types
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/config';
 import StaticOrAdaptiveOption from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveOption';
+import { PER_AP_ENDPOINT } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { STATIC_THRESHOLD, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { AlertEvaluationType, ThresholdType } from 'in-types';
 import { Col, Row } from 'in-components/layout/Grid';
 import { noop } from 'in-services/util/function';
-import { ThresholdType } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch.mless';
@@ -33,10 +34,20 @@ interface Props {
     trackThresholdTypeChanged: (trackingObject: any) => void
   ) => void;
   isTearSheet?: boolean;
+  isDisabled?: boolean;
+  bluePrint?: string;
 }
 
-export default function StaticOrAdaptiveSwitch({ form, setForm, onThresholdTypeChange, isTearSheet }: Props) {
+export default function StaticOrAdaptiveSwitch({
+  form,
+  setForm,
+  onThresholdTypeChange,
+  isTearSheet,
+  isDisabled,
+  bluePrint
+}: Props) {
   const thresholdType = ((form.get('threshold') as MapForm<any>)?.get('type') as Field<ThresholdType>)?.value;
+  const evaluationType = (form.get('evaluationType') as Field<AlertEvaluationType>).value;
   const currentType = thresholdType === ADAPTIVE_BASELINE ? types.adaptive : types.static;
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
@@ -58,6 +69,11 @@ export default function StaticOrAdaptiveSwitch({ form, setForm, onThresholdTypeC
             onChange={updateThresholdType}
             baselineType={types.adaptive}
             isTearSheet={isTearSheet}
+            isDisabled={evaluationType === PER_AP_ENDPOINT || isDisabled}
+            badgeTitle={t(
+              'in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.adaptive.notSupported'
+            )}
+            tooltipContent={getTooltipMsg(evaluationType, isDisabled, bluePrint)}
           />
         </Col>
       </Row>
@@ -76,6 +92,20 @@ export default function StaticOrAdaptiveSwitch({ form, setForm, onThresholdTypeC
       </div>
     </Stack>
   );
+
+  function getTooltipMsg(evaluationType: AlertEvaluationType, isDisabled?: boolean, bluePrint?: string) {
+    if (isDisabled) {
+      return t(
+        'in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.adaptive.adaptiveNotSupportedForBluePrint',
+        { bluePrint }
+      );
+    } else if (evaluationType === PER_AP_ENDPOINT) {
+      return t(
+        'in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.adaptive.adaptiveNotSupportedForEndPoint'
+      );
+    }
+    return;
+  }
 
   function updateThresholdType(baselineType: StaticOrAdaptiveType) {
     if (baselineType === types.static) {

@@ -52,8 +52,8 @@ export default function TrackingScript({ websiteId, websiteLabel }) {
     })
       .map(r => {
         const response = r.data;
-        const version = response?.items[0]?.name;
-        setUserVersion(version.replace(/"/g, ''));
+        const version = response?.items[0]?.name.replace(/"/g, '');
+        setUserVersion(version);
       })
       .subscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps

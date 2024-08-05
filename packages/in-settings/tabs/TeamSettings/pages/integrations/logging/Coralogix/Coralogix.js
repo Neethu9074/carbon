@@ -8,12 +8,13 @@
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
+import { Typography } from '@instana/components';
 import { createLogger } from '@instana/logger';
 
 import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/IntegrationsBreadcrumb';
+import { callToastFlyout } from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/utils';
 import CoralogixForm from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Coralogix/CoralogixForm';
 import { teamSettingsIntegrationsLoggingCoralogix } from 'in-settings/navigation/paths';
-import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { integrationKey } from 'in-integrations/logging/coralogix/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -40,7 +41,7 @@ export default class Coralogix extends React.Component {
     error: false,
     message: t('in-settings:tabs.loading'),
     integration: null,
-    form: null
+    form: null,
   };
 
   componentDidMount() {
@@ -103,15 +104,13 @@ export default class Coralogix extends React.Component {
         <Title title={t('in-settings:tabs.configureCoralogix')} />
         <IntegrationsBreadcumb />
         <SubViewHeader>{t('in-settings:tabs.configureYourCoralogixSettings')}</SubViewHeader>
-        <SectionLine />
         {form && (
           <form onSubmit={this.onSubmit}>
             <Fragment>
               <div style={{ marginBottom: '1rem' }}>
-                <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableCoralogixIntegrationForInstana')}>
-                  <Heading text={t('in-settings:tabs.showCoralogixLinkOnHosts')} htmlFor="coralogix-enabled" />
-                </HorizontalFormGroup>
+                <Heading text={t('in-settings:tabs.showCoralogixLinkOnHosts')} htmlFor="coralogix-enabled" />
               </div>
+              <SectionLine />
             </Fragment>
 
             <CoralogixForm
@@ -126,7 +125,8 @@ export default class Coralogix extends React.Component {
               message={message}
               loading={loading}
               hasCancelButton={false}
-              saveEnabled={!enabled || !areFieldsBlank(form)}
+              saveEnabled={!areFieldsBlank(form)}
+              type="integration"
             />
           </form>
         )}
@@ -156,10 +156,19 @@ export default class Coralogix extends React.Component {
     this.setState({
       loading: true,
       error: false,
-      message: t('in-settings:tabs.saving')
+      message: t('in-settings:tabs.saving'),
     });
 
     this.responseSubscription = result$.once(() => {
+      const content = (
+        <section>
+          <Typography variant="heading-200">{t('in-settings:tabs.integrations.toastSuccessTitle')}</Typography>
+          <Typography variant="body-regular">
+            {t('in-settings:tabs.integrations.toastSuccessMessage', { integrationType: 'Coralogix' })}
+          </Typography>
+        </section>
+      );
+      callToastFlyout('success', content);
       refresh();
       this.setState({
         loading: false
@@ -170,6 +179,15 @@ export default class Coralogix extends React.Component {
     this.errorSubscription = result$.errors().once(error => {
       const message = t('in-settings:tabs.failedToSaveConfiguration', { err: error.message });
       logger.error(message, error);
+      const content = (
+        <section>
+          <Typography variant="heading-200">{t('in-settings:tabs.integrations.toastErrorTitle')}</Typography>
+          <Typography variant="body-regular">
+            {t('in-settings:tabs.integrations.integerationConfigurationFailed', { error: message })}
+          </Typography>
+        </section>
+      );
+      callToastFlyout('error', content);
       this.setState({
         loading: false,
         error: true,

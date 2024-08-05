@@ -26,18 +26,6 @@ describe('StatusCodeThresholdCondition', () => {
   });
   it('renders correctly ..', () => {
     render(<StatusCodeThresholdCondition {...props} />);
-
-    expect(
-      screen.getByText(t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdType'))
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.static.label'))
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.static.description'))
-    ).toBeInTheDocument();
-
     expect(
       screen.getByText(t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdValue'))
     ).toBeInTheDocument();

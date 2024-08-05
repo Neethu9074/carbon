@@ -149,7 +149,7 @@ export default function GroupingTable({
   }, [evaluationType]);
 
   return (
-    <div>
+    <div className={locals.groupTableWrapper}>
       {items.length > 0 && (
         <div className={locals.block}>
           <AlertTypography variant="body-bold" color="color900" content={`${totalHits} ${groupByName}`} />

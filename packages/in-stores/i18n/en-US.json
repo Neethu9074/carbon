@@ -173,6 +173,7 @@
     "metric_MAX": "max",
     "metric_DISTINCT_COUNT": "distinct count",
     "metric_SUM": "sum",
+    "metric_INCREASE": "increase",
     "metric_DISTRIBUTION": "distribution",
     "metric_PER_SECOND": "rate",
 
@@ -252,7 +253,8 @@
     "fieldsEntityAzureServiceBusTopics": "Azure Service Bus Topics",
     "fieldsEntityAzureMachineLearning": "Azure Machine Learning",
     "fieldsEntityAzureServicePostgreSQL": "Azure PostgreSQL",
-    "fieldsEntityAzureLoadBalancer": "Azure Load Balancer",
+    "fieldsEntityAzureLoadBalancer":  "Azure Load Balancer",
+    "fieldsEntityAzureSignalR": "Azure SignalR",
     "fieldsEntityHost": "Infrastructure host",
     "fieldsEntityHostOs": "Operating system",
     "fieldsEntityIbmMq": "IBM MQ",

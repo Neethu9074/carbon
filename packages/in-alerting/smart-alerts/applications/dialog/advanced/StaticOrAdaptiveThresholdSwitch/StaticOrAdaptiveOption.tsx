@@ -23,9 +23,20 @@ interface Props {
   baselineType: StaticOrAdaptiveType;
   onChange: (baselineType: StaticOrAdaptiveType) => void;
   isTearSheet?: boolean;
+  isDisabled?: boolean;
+  badgeTitle?: string;
+  tooltipContent?: string;
 }
 
-export default function StaticOrAdaptiveOption({ currentType, baselineType, onChange, isTearSheet }: Props) {
+export default function StaticOrAdaptiveOption({
+  currentType,
+  baselineType,
+  onChange,
+  isTearSheet,
+  isDisabled,
+  badgeTitle,
+  tooltipContent
+}: Props) {
   const { icon, title, description, featureFeedbackLink } = isTearSheet
     ? tearSheetStaticOrAdaptiveThresholds.info[baselineType]
     : staticOrAdaptiveThresholds.info[baselineType];
@@ -35,9 +46,19 @@ export default function StaticOrAdaptiveOption({ currentType, baselineType, onCh
       {isTearSheet && (
         <RadioButton
           key={Math.random()}
-          label={<LabelDescriptionWithIcon icon={icon} label={title} description={description} />}
+          label={
+            <LabelDescriptionWithIcon
+              icon={icon}
+              label={title}
+              description={description}
+              disabled={isDisabled}
+              badgeTitle={badgeTitle}
+              tooltipContent={tooltipContent}
+            />
+          }
           checked={currentType === baselineType}
           onChange={() => onChange(baselineType)}
+          disabled={isDisabled}
         />
       )}
       {!isTearSheet && (

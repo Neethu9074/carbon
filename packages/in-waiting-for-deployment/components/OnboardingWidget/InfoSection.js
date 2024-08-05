@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Button } from '@instana/components';
 
 import { t } from 'in-i18n';
 

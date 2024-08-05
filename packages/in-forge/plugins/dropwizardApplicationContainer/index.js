@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/dropwizardApplicationContainer/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/dropwizardApplicationContainer/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/dropwizardApplicationContainer/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/dropwizardApplicationContainer/kpiDefinitions';
@@ -16,6 +17,7 @@ registerSnapshotDefinition({
 
   kpiDefinitions,
   metricDefinitions,
+  agentMonitoringIssueDefinitions,
   tableDefinition,
   getCodeView,
   supportsCodeView,

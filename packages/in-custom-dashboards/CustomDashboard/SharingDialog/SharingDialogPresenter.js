@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Message } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Message, Button } from '@instana/components';
 
 import IndividualEditRightSelection from 'in-custom-dashboards/CustomDashboard/SharingDialog/IndividualEditRightSelection';
 import Option from 'in-custom-dashboards/CustomDashboard/SharingDialog/Option';

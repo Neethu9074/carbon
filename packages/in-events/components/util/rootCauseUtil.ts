@@ -14,6 +14,7 @@ import { GetLinkToAnalyzeProps, useLinkToAnalyze } from 'in-applications/navigat
 import { Location, MatrixParameters, Parameters } from 'in-stores/navigation/types';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { Nullish } from 'in-types';
 
@@ -128,8 +129,15 @@ function createTagFilterExpressionForAnalysisOfApplicationSA(
   let tagFilter: FormModelElement[] | Nullish = undefined;
 
   const addValueToTagFilterExpressionIfItExists = (name: string, val: string | Nullish, conditional?: boolean) => {
-    if (val && conditional) {
-      tagFilter = getTagFilterForSourceOrDestinationAndCombine(name, val, tagFilter);
+    let checkToSeeIfConditionalExists = conditional === undefined || conditional === null;
+    if (!checkToSeeIfConditionalExists) {
+      if (val && conditional) {
+        tagFilter = getTagFilterForSourceOrDestinationAndCombine(name, val, tagFilter);
+      }
+    } else {
+      if (val) {
+        tagFilter = getTagFilterForSourceOrDestinationAndCombine(name, val, tagFilter);
+      }
     }
   };
 
@@ -149,7 +157,7 @@ function createTagFilterExpressionForAnalysisOfApplicationSA(
   addValueToTagFilterExpressionIfItExists(
     'process.snapshotId',
     definitiveEntityID,
-    entityType === 'process' || isInfrastructureAProcess
+    entityType === 'infrastructure' && isInfrastructureAProcess
   );
 
   return tagFilter;
@@ -164,8 +172,16 @@ function createTagFilterExpressionForAnalysis(
   let tagFilter: FormModelElement[] | Nullish = undefined;
 
   const addValueToTagFilterExpressionIfItExists = (name: string, val: string | Nullish, conditional?: boolean) => {
-    if (val && conditional) {
-      tagFilter = getTagFilterForSourceOrDestinationAndCombine(name, val, tagFilter);
+    let checkToSeeIfConditionalExists = conditional === undefined || conditional === null;
+
+    if (!checkToSeeIfConditionalExists) {
+      if (val && conditional) {
+        tagFilter = getTagFilterForSourceOrDestinationAndCombine(name, val, tagFilter);
+      }
+    } else {
+      if (val) {
+        tagFilter = getTagFilterForSourceOrDestinationAndCombine(name, val, tagFilter);
+      }
     }
   };
 
@@ -309,9 +325,9 @@ export function extractAggregatedErrorRateFromExplainability(
  * @param entityType - String containing 'endpoint', 'infrastructure', 'service' or 'application as these are valid RCA types
  * @returns string for appropriate icon to display
  * */
-export function getIconForRCADisplay(entityType: string): string {
-  if (entityType === 'infrastructure') {
-    return 'lib_infrastructure';
+export function getIconForRCADisplay(entityType: string, plugin?: string): string {
+  if (entityType === 'infrastructure' && plugin) {
+    return getIconType(plugin);
   } else if (entityType === 'process') {
     return 'lib_infra_process';
   } else if (entityType === 'endpoint') {

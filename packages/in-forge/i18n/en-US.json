@@ -369,6 +369,11 @@
   "pluginName_azureLoadBalancer_1": "Azure Load Balancer",
   "pluginName_azureLoadBalancer_2": "Azure Load Balancer",
   "pluginName_azureLoadBalancer": "Azure Load Balancer",
+  "pluginName_azureSignalR_plural": "Azure SignalR",
+  "pluginName_azureSignalR_0": "Azure SignalR",
+  "pluginName_azureSignalR_1": "Azure SignalR",
+  "pluginName_azureSignalR_2": "Azure SignalR",
+  "pluginName_azureSignalR": "Azure SignalR",
   "pluginName_baw_plural": "BAW",
   "pluginName_baw_0": "BAW",
   "pluginName_baw_1": "BAW",
@@ -6124,6 +6129,44 @@
         "titleDipAvailability": "Dip Availability"
       }
     },
+    "azureSignalR": {
+      "infoAzureSignalR": "Azure SignalR",
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
+      "infoLocation": "Location",
+      "infoSubscriptionID": "Subscription ID",
+      "infoType": "Type",
+      "infoCreated": "Created",
+      "labelInboundTraffic": "InboundTraffic",
+      "labelOutboundTraffic": "OutboundTraffic",
+      "labelServerLoad": "ServerLoad",
+      "labelUserErrors": "UserErrors",
+      "labelSystemErrors": "SystemErrors",
+      "labelConnectionQuotaUtilization": "ConnectionQuotaUtilization",
+      "labelConnectionCount": "ConnectionCount",
+      "labelMessageCount": "MessageCount",
+      "labelConnectionOpenCount": "ConnectionOpenCount",
+      "kpi": {
+        "labelConnectionsOpen": "Connections Open"
+      },
+      "dashboard": {
+        "titleConnections": "Connections",
+        "titleErrors": "Errors",
+        "titleTraffic": "Traffic",
+        "titleConnectionQuota":"Connection Quota",
+        "titleMessage": "Message",
+        "titleServer": "Server",
+        "lableOpen": "Open",
+        "labelTotal": "Total",
+        "lableSystem": "System",
+        "lableUser": "User",
+        "lableInbound": "Inbound",
+        "lableOutbound": "Outbound",
+        "labelUtilization":"Utilization",
+        "labelLoad": "Load",
+        "labelCount": "Count"
+      }
+    },
     "beeInstana": {
       "labelBeeInstana": "BeeInstana",
       "infoTitle": "Process ID",
@@ -7692,7 +7735,9 @@
       "processId": "Process ID",
       "app": "App",
       "retrievedMessages": "Retrieved Messages",
-      "traceSubscribeEvents": "Trace Subscribe Events"
+      "traceSubscribeEvents": "Trace Subscribe Events",
+      "metricLimitExceeded": "Metrics limit exceeded. See Monitoring Dropwizard documentation for more information about the metric limit.",
+      "troubleshootingDocs": "Monitoring Dropwizard documentation"
     },
     "ec2": {
       "dashboard": {
@@ -14269,7 +14314,18 @@
       "cpAllProcessorUsage": "All Processor Usage",
       "iflSharedProcessorUsage": "Ifl Shared Processor Usage",
       "allSharedProcessorUsage": "All Shared Processor Usage",
-      "iflAllProcessorUsage": "Ifl All Processor Usage"
+      "iflAllProcessorUsage": "Ifl All Processor Usage",
+      "zhmcCpc": "zHMC Cpc",
+      "cpcId": "Cpc ID",
+      "name": "Name",
+      "mode": "Mode",
+      "numberOfPartitions": "Number of Partitions",
+      "numberOfAdapters": "Number of Adapters",
+      "ipAddress": "IP Address",
+      "machineTypeModel": "Machine Type Model",
+      "machineSerial": "Machine Serial",
+      "status": "Status",
+      "consoleId": "Console ID"
     },
     "zooKeeper": {
       "titleTicks": "Ticks",
