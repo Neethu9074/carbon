@@ -14,7 +14,7 @@ import locals from './CheckableSuggestion.mless';
 
 export function CheckableSuggestion({ label, count, checked, onChange }) {
   return (
-    <Tooltip content={String(label)} align="rightMiddle" delay={1000} overwriteBlock>
+    <Tooltip content={`${label}`} align="rightMiddle" delay={1000} overwriteBlock>
       <Stack direction="horizontal" align="center" distribution="spaceBetween">
         <Checkbox
           checked={checked}
