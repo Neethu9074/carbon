@@ -4,10 +4,12 @@
  * Copyright IBM Corp. 2024
  */
 
-import { LabeledMetricResult, Result, TimeConfig } from '@instana/types';
+import { LabeledMetricResult, MetricResult, Result, TimeConfig } from '@instana/types';
 import { just } from '@instana/observables';
 
 interface RetentionPeriodData {
+  days90: number;
+  days60: number;
   days30: number;
   days20: number;
   days7: number;
@@ -20,7 +22,7 @@ interface MonthlyRetentionData {
   retentionPeriods: RetentionPeriodData;
 }
 
-export function transformData(dataResult: LabeledMetricResult[]): MonthlyRetentionData[] | null {
+export function transformData(dataResult: MetricResult[]): MonthlyRetentionData[] | null {
   const dataMap: Record<string, RetentionPeriodData> = {};
 
   if (!dataResult || dataResult?.length === 0) return null;
@@ -29,31 +31,42 @@ export function transformData(dataResult: LabeledMetricResult[]): MonthlyRetenti
 
   for (const point of dataResult) {
     if (!point.values) continue;
-    const date = new Date(point.values[0][0]);
-    const month = date.toLocaleString('en-US', { month: 'long' });
-    const yearValue = date.getFullYear();
-    const monthYearKey = `${month}-${yearValue}`;
-    const volumeGB = point.values[0][1] / 1024 ** 3;
+    for (const value of point.values) {
+      const label = value[0];
+      const timestamp = value[1];
+      const volumeGB = value[2];
 
-    if (!dataMap[monthYearKey]) {
-      dataMap[monthYearKey] = { days30: 0, days20: 0, days7: 0 };
-    }
+      const date = new Date(timestamp * 1000);
+      const month = date.toLocaleString('en-US', { month: 'long' });
+      const yearValue = date.getFullYear();
+      const monthYearKey = `${month}-${yearValue}`;
 
-    if (point.label === '7 days') {
-      dataMap[monthYearKey].days7 = volumeGB;
-    } else if (point.label === '20 days') {
-      dataMap[monthYearKey].days20 = volumeGB;
-    } else if (point.label === '30 days') {
-      dataMap[monthYearKey].days30 = volumeGB;
+      if (!dataMap[monthYearKey]) {
+        dataMap[monthYearKey] = { days90: 0, days60: 0, days30: 0, days20: 0, days7: 0 };
+      }
+
+      if (label === 7) {
+        dataMap[monthYearKey].days7 += +volumeGB.toFixed(2);
+      } else if (label === 20) {
+        dataMap[monthYearKey].days20 += +volumeGB.toFixed(2);
+      } else if (label === 30) {
+        dataMap[monthYearKey].days30 += +volumeGB.toFixed(2);
+      } else if (label === 60) {
+        dataMap[monthYearKey].days60 += +volumeGB.toFixed(2);
+      } else if (label === 90) {
+        dataMap[monthYearKey].days90 += +volumeGB.toFixed(2);
+      }
     }
   }
 
   for (const [monthYearKey, retentionData] of Object.entries(dataMap)) {
     const [month, yearValue] = monthYearKey.split('-');
+    const totalGB =
+      retentionData.days7 + retentionData.days20 + retentionData.days30 + retentionData.days60 + retentionData.days90;
     data.push({
       month,
       year: parseInt(yearValue, 10),
-      totalVolumeGB: retentionData.days7 + retentionData.days20 + retentionData.days30,
+      totalVolumeGB: +totalGB.toFixed(2),
       retentionPeriods: retentionData
     });
   }
@@ -61,71 +74,53 @@ export function transformData(dataResult: LabeledMetricResult[]): MonthlyRetenti
   return data.sort((a, b) => +new Date(`${a.year}-${a.month}-01`) - +new Date(`${b.year}-${b.month}-01`)).reverse();
 }
 
-export function generateQueries(numMonths: number): any[] {
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
+export function generateQuery(numMonths: number): any {
+  const currentTimestamp = Date.now();
 
-  function getEndOfMonthTimestamp(year: number, month: number): number {
-    const date = new Date(year, month + 1, 0, 23, 59, 59);
-    return date.getTime();
-  }
-
-  const queries = [];
-  for (let i = 0; i < numMonths; i++) {
-    let monthToQuery = currentMonth - i;
-    let yearToQuery = currentYear;
-
-    if (monthToQuery < 0) {
-      monthToQuery += 12;
-      yearToQuery -= 1;
-    }
-
-    const endTimestamp = getEndOfMonthTimestamp(yearToQuery, monthToQuery);
-
-    //TODO: Change this once backend is done, getUnifiedMetrics parameters look a bit different
-    const query = {
-      subscriptionId: 1,
-      metrics: {
-        'y1-0': {
-          source: 'LOG',
-          metric: 'log_volume',
-          aggregation: 'SUM',
-          timeShift: {
-            offset: 0
-          },
-          compareToTimeShifted: false,
-          label: 'Log Volume',
-          metricLabel: 'Log Volume',
-          color: '',
-          tagFilterExpression: {
-            type: 'EXPRESSION',
-            logicalOperator: 'AND',
-            elements: []
-          },
-          includeInternal: false,
-          includeSynthetic: false,
-          grouping: [
-            {
-              by: {
-                groupbyTag: 'log.retention.days'
-              }
-            }
-          ],
-          resultType: 'SINGLE_NUMBER',
-          timeConfig: {
-            to: endTimestamp,
-            windowSize: 2592000000,
-            focusedMoment: endTimestamp,
-            autoRefresh: false
+  const query = {
+    subscriptionId: 44,
+    metrics: {
+      'y1-0': {
+        source: 'LOG',
+        metric: 'log_volume',
+        aggregation: 'SUM',
+        timeShift: {
+          offset: 0
+        },
+        compareToTimeShifted: false,
+        label: '',
+        metricLabel: 'Calls',
+        color: '',
+        tagFilterExpression: {
+          type: 'EXPRESSION',
+          logicalOperator: 'AND',
+          elements: []
+        },
+        includeInternal: false,
+        includeSynthetic: false,
+        grouping: [
+          {
+            by: {
+              groupbyTag: 'retention_days',
+              groupbyTagSecondLevelKey: ''
+            },
+            direction: 'DESC',
+            includeOthers: false,
+            maxResults: 5
           }
+        ],
+        granularity: 600000,
+        resultType: 'SINGLE_NUMBER',
+        timeConfig: {
+          to: currentTimestamp,
+          windowSize: 2592000000 * numMonths,
+          focusedMoment: currentTimestamp,
+          autoRefresh: false
         }
       }
-    };
-
-    queries.push(query);
-  }
-
-  return queries;
+    }
+  };
+  return query;
 }
 
 // Functions for mocking data
@@ -186,4 +181,22 @@ export const getLogVolume = (timeConfig: TimeConfig) => {
     },
     backendTraceId: '0000000000000'
   });
+};
+
+export const generateEmptyData = (numEntries: number) => {
+  const data = [];
+  for (let i = 0; i < numEntries; i++) {
+    data.push({
+      month: 'August',
+      totalVolumeGB: 1,
+      retentionPeriods: {
+        days90: 0,
+        days60: 0,
+        days30: 0,
+        days20: 0,
+        days7: 0
+      }
+    });
+  }
+  return data;
 };

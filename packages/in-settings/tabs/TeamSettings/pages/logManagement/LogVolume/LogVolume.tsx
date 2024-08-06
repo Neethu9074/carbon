@@ -7,16 +7,13 @@
 import React, { useState } from 'react';
 
 import { CarbonLayer, Li, SvgIcon, Ul } from '@instana/components';
-import { combineLatest, just } from '@instana/observables';
+import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import {
-  generateQueries,
-  getLogVolume,
-  transformData
-} from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
+import { generateQuery, transformData } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
 import LogVolumeDetails from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/LogVolumeDetails';
+import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import Select from 'in-components/form/Select/Select';
 import Label from 'in-components/form/Label';
@@ -34,14 +31,17 @@ function LogVolume() {
 
   const result = useObservable(
     ([timePeriod]) => {
-      return combineLatest(
-        generateQueries(timePeriod).map(query => getLogVolume(query.metrics['y1-0'].timeConfig))
-      ).flatMap(data => just(data.flatMap(({ data = [] }) => data)));
+      return combineLatest([getUnifiedMetrics(generateQuery(timePeriod))]).map(([result]) => ({
+        progress: result?.progress || false,
+        data: result?.data || []
+      }));
     },
     [timePeriod]
   );
 
-  const logVolumeData = result && transformData(result);
+  const { progress, data } = result || { progress: { loading: false }, data: [] };
+
+  const logVolumeData = result && transformData(data);
   return (
     <>
       <section className={locals.page}>
@@ -61,7 +61,7 @@ function LogVolume() {
                     </Label>
                     <Select name="timeRange" value={timePeriod} onChange={e => setTimePeriod(+e.target.value)}>
                       {[1, 3, 6, 9, 12].map(months => (
-                        <option value={months}>
+                        <option key={months} value={months}>
                           {t('in-settings:tabs.logVolume.months', { context: String(months) })}
                         </option>
                       ))}
@@ -72,7 +72,7 @@ function LogVolume() {
             </Ul>
           </section>
           <section>
-            <LogVolumeDetails data={logVolumeData} />
+            <LogVolumeDetails data={logVolumeData} progress={progress} timePeriod={timePeriod} />
           </section>
         </main>
       </section>
