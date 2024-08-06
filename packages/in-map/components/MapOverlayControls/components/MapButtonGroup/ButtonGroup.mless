@@ -55,4 +55,8 @@
       }
     }
   }
+
+  .carbonButtonSet {
+    min-width: max-content;
+  }
 }
