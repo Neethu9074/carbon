@@ -764,6 +764,9 @@
         "sizesTechnicalLabelAtLeast": "At least {{min}}px (inclusive)",
         "sizesTechnicalLabelAtMost": "At most {{max}}px (inclusive)"
       },
+      "synthetic": {
+        "tabLabel": "Synthetic Monitoring"
+      },
       "indexLabelSummary": "Summary",
       "indexLabelSpeed": "Speed",
       "indexLabelResources": "Resources",

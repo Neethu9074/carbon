@@ -25,7 +25,7 @@ let locationLabelOptions: Option[] = [];
 let applicationLabelOptions: Option[] = [];
 
 export default function Filters({
-  isAppcontext,
+  isAssociationsContext,
   setFilter,
   result,
   syntheticTypes,
@@ -50,7 +50,7 @@ export default function Filters({
         options={getLocationLabels(result)}
         className={locals.filter}
       />
-      {!isAppcontext && (
+      {!isAssociationsContext && (
         <ComboBox
           value={applicationIds}
           onChange={t => Array.isArray(t) && setFilter({ applicationIds: t.map(a => a.value) })}

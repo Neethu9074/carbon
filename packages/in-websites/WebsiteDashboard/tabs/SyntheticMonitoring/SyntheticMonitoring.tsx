@@ -1,12 +1,12 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
 
-import { Result, SyntheticTest } from '@instana/types';
+import { Result, SyntheticTest, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
@@ -20,19 +20,19 @@ import {
   syntheticTypesUrlParameter,
   locationsUrlParameter
 } from 'in-synthetics/utils/constants';
+// import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+// import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { pendingResult } from 'in-services/fixedObjects';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
+//import useTimeConfig from 'in-hooks/useTimeConfig';
+import Footer from 'in-components/Footer/Footer';
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { pendingResult } from 'in-services/fixedObjects';
-import useTimeConfig from 'in-hooks/useTimeConfig';
-import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
 import { getTests } from 'in-synthetics/api';
 
@@ -60,10 +60,12 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
-export default function SyntheticList() {
-  const timeConfig = useTimeConfig();
-  const location = useLocation();
-  const appId = getMatrixParameter(location, '/application', 'appId') ?? '';
+interface Props {
+  websiteId: string;
+  timeConfig: TimeConfig;
+}
+
+const SyntheticMonitoring = ({ websiteId, timeConfig }: Props) => {
   const [{ syntheticTypes, locationIds }, setFilter] = useUrlState(urlStateDefinition);
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(getTests, []) ?? pendingResult;
 
@@ -91,8 +93,8 @@ export default function SyntheticList() {
     <>
       <ServerTableWithUrlState
         timeConfig={timeConfig}
-        context={'application'}
-        appId={appId}
+        context={'website'}
+        websiteId={websiteId}
         rightHeader={rightHeader}
         cardTitle={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
         get={getTestSummaryListData}
@@ -102,4 +104,6 @@ export default function SyntheticList() {
       <Footer />
     </>
   );
-}
+};
+
+export default SyntheticMonitoring;

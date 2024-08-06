@@ -312,7 +312,7 @@ export interface FilterLocationState {
 
 export interface FilterSectionProps extends FilterState {
   setFilter: (x: Object) => void;
-  isAppcontext?: boolean;
+  isAssociationsContext?: boolean;
   result?: Result<SyntheticTest[]>;
 }
 

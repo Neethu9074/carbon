@@ -29,19 +29,20 @@ import {
   locationsUrlParameter,
   applicationsUrlParameter
 } from 'in-synthetics/utils/constants';
+import {
+  applicationIdTagName,
+  locationIdTagName,
+  testIdTagName,
+  testNameTagName,
+  typeTagName,
+  websiteIdTagName
+} from 'in-synthetics/tags';
 import showNotification, {
   calculateNextOccurrence,
   setReminder,
   storedAlarmTimeOrNull,
   timeExpired
 } from 'in-synthetics/utils/setReminders';
-import {
-  applicationIdTagName,
-  locationIdTagName,
-  testIdTagName,
-  testNameTagName,
-  typeTagName
-} from 'in-synthetics/tags';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error
@@ -196,6 +197,7 @@ interface GetTestSummaryList {
   progress: Progress;
   context?: string;
   appId?: string;
+  websiteId?: string;
   syntheticTypes?: string[];
   locationIds?: string[];
   applicationIds?: string[];
@@ -211,6 +213,7 @@ export const getTestSummaryListData = ({
   query = '',
   context = '',
   appId = '',
+  websiteId = '',
   syntheticTypes = [],
   locationIds = [],
   applicationIds = [],
@@ -223,14 +226,22 @@ export const getTestSummaryListData = ({
   };
   /** tagFilterExpressions used here are to allow users to display a list of tests
    * with, for example, (type1 or type1) & at (location1, or location2, or location3) &
-   * associated with (application1, or application2)
+   * associated with (association1 and/or association2)
    */
-  /** Each test is at most associated with one application */
+
+  /** Each test can be associated with 0 or more associations (applications, websites, mobile applications) */
   const appTagFilterExpression: TagFilterExpression = {
     elements: [],
     logicalOperator: 'OR',
     type: 'EXPRESSION'
   };
+
+  const websiteTagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'OR',
+    type: 'EXPRESSION'
+  };
+
   /** Each test is associated with one type */
   const typeTagFilterExpression: TagFilterExpression = {
     elements: [],
@@ -270,6 +281,16 @@ export const getTestSummaryListData = ({
     });
   }
 
+  if (context == 'website') {
+    websiteTagFilterExpression.elements.push({
+      value: websiteId,
+      name: websiteIdTagName,
+      operator: EQUALS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    });
+  }
+
   addFilter(syntheticTypes, typeTagName, EQUALS, typeTagFilterExpression);
   addFilter(locationIds, locationIdTagName, EQUALS, locationTagFilterExpression);
   addFilter(applicationIds, applicationIdTagName, EQUALS, appTagFilterExpression);
@@ -279,6 +300,7 @@ export const getTestSummaryListData = ({
     typeTagFilterExpression,
     locationTagFilterExpression,
     appTagFilterExpression,
+    websiteTagFilterExpression,
     testFilterExpression
   );
 
