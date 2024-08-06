@@ -28,7 +28,8 @@ export function CheckableSuggestion({ label, count, checked, onChange }) {
         />
         {count && (
           <div className={locals.count}>
-            {approximateValueIndicator} {withSiPrefixOneDecimalPlace(twoDigitApproximation(count))}
+            <span>{approximateValueIndicator} </span>
+            <span>{withSiPrefixOneDecimalPlace(twoDigitApproximation(count))}</span>
           </div>
         )}
       </Stack>
