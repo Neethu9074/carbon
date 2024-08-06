@@ -116,7 +116,13 @@ export default function SelectorOverlay({
 }
 
 function findFocusedNode(options: Options[]) {
-  if (options.length != 1 || !options[0].children) {
+  if (
+    options.length != 1 ||
+    !options[0].children ||
+    options[0].type === 'APPLICATION' ||
+    options[0].type === 'SERVICE' ||
+    options[0].type === 'ENDPOINT'
+  ) {
     return undefined;
   }
   if (options[0].children?.length > 1) {
@@ -180,7 +186,7 @@ function DataAvailable({
             {focusedNode?.children.slice(0, maxResults).map((node, i) => (
               <SelectorNode
                 key={i}
-                node={node}
+                node={node as Options}
                 focusNode={disabled ? noop : focusNode}
                 onChange={disabled ? noop : onChange}
                 asListGroup

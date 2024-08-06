@@ -25,7 +25,7 @@ export interface AbstractOptions {
   scoreBoost?: number;
   levelType?: string;
   disabled?: boolean;
-  type: 'METRIC' | 'TAG';
+  type: 'METRIC' | 'TAG' | 'APPLICATION' | 'SERVICE' | 'ENDPOINT';
   children?: AbstractOptions[];
 }
 
@@ -42,7 +42,22 @@ export interface TagOptions extends AbstractOptions {
   children?: TagOptions[];
 }
 
-export type Options = MetricOptions | TagOptions;
+export interface ApplicationOptions extends AbstractOptions {
+  type: 'APPLICATION';
+  id?: string;
+}
+
+export interface ServiceOptions extends AbstractOptions {
+  type: 'SERVICE';
+  id?: string;
+}
+
+export interface EndpointOptions extends AbstractOptions {
+  type: 'ENDPOINT';
+  id?: string;
+}
+
+export type Options = MetricOptions | TagOptions | ApplicationOptions | ServiceOptions | EndpointOptions;
 
 export type OptionsResult<T extends Options> = {
   withHighlights: Highlights;
@@ -83,6 +98,33 @@ export const iconColumnDefinition = {
             <SvgIcon
               color={node.withHighlights?.metric ? highlightedColor : defaultColor}
               type={node.icon ?? 'lib_views_metric'}
+            />
+          </Tooltip>
+        );
+      case 'APPLICATION':
+        return (
+          <Tooltip delay={2000} content={node.label}>
+            <SvgIcon
+              color={node.withHighlights?.metric ? highlightedColor : defaultColor}
+              type={node.icon ?? 'lib_application'}
+            />
+          </Tooltip>
+        );
+      case 'SERVICE':
+        return (
+          <Tooltip delay={2000} content={node.label}>
+            <SvgIcon
+              color={node.withHighlights?.metric ? highlightedColor : defaultColor}
+              type={node.icon ?? 'lib_application_service'}
+            />
+          </Tooltip>
+        );
+      case 'ENDPOINT':
+        return (
+          <Tooltip delay={2000} content={node.label}>
+            <SvgIcon
+              color={node.withHighlights?.metric ? highlightedColor : defaultColor}
+              type={node.icon ?? 'lib_application_endpoint'}
             />
           </Tooltip>
         );
@@ -174,8 +216,8 @@ export default function SelectorNode({
       <ListGroup label={node.label} height={height} sticky>
         {node.children.map(node => (
           <SelectorNode
-            key={nodeKey(node)}
-            node={node}
+            key={nodeKey(node as Options)}
+            node={node as Options}
             focusNode={focusNode}
             onChange={onChange}
             withIcons={withIcons}
@@ -193,9 +235,12 @@ export default function SelectorNode({
   }
 }
 
-export function nodeKey(node: MetricOptions | TagOptions) {
+export function nodeKey(node: Options) {
   if (node.children && node.children.length > 0) {
     return node.levelType ?? node.label;
+  }
+  if (node.type === 'APPLICATION' || node.type === 'SERVICE' || node.type === 'ENDPOINT') {
+    return node.label ?? null;
   }
   return node.type === 'TAG' ? node.tagName : node.metric;
 }

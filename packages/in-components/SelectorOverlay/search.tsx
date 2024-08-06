@@ -136,10 +136,17 @@ function mergeResultsForKey<T extends Options>(
 
 function mergeResults<T extends Options>(matchAllTokens: boolean) {
   return (previous: FuseResult<T>[], current: FuseResult<T>[]) => {
-    const extractKey = (options: T) => (options.type === 'TAG' ? options.tagName : options.metric);
+    const extractKey = (options: T) => getKey(options);
     const mergedTags = mergeResultsForKey(previous, current, extractKey, matchAllTokens);
     return [...mergedTags.values()];
   };
+}
+
+function getKey(options: Options) {
+  if (options.type === 'APPLICATION' || options.type === 'SERVICE' || options.type === 'ENDPOINT') {
+    return options.label ?? null;
+  }
+  return options.type === 'TAG' ? options.tagName : options.metric;
 }
 
 function mergeScores(previousScore: number = DEFAULT_SCORE, currentScore: number = DEFAULT_SCORE) {
