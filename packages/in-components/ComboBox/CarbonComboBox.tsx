@@ -11,13 +11,16 @@ import { ComboBox as CarbonComboBox, ComboBoxProps as CarbonComboBoxProps } from
 import type { ComboBoxProps, Option } from './types';
 import { t } from 'in-i18n';
 
-export default function ComboBox({...props }: ComboBoxProps): JSX.Element {
-    const selopt = props.value ? props.options.find((e) => e.value === props.value) : props.value;
-    const cprops: CarbonComboBoxProps = {
-      ...props,
-      placeholder: props.placeholder ? props.placeholder : t('in-components:comboBox.placeholderSelect'),
-      value: selopt as Option
-    };
-    return <CarbonComboBox {...cprops} />;
-
+export default function ComboBox({ ...props }: ComboBoxProps): JSX.Element {
+  const selopt = props.value ? props.options.find(e => e.value === props.value) : props.value;
+  const itemToElement = (item: any) => {
+    return props.components.Option({ data: item, getValue: () => {} });
+  };
+  const cprops: CarbonComboBoxProps = {
+    ...props,
+    placeholder: props.placeholder ? props.placeholder : t('in-components:comboBox.placeholderSelect'),
+    value: selopt as Option,
+    itemToElement: props.components?.Option ? itemToElement : undefined
+  };
+  return <CarbonComboBox {...cprops} />;
 }

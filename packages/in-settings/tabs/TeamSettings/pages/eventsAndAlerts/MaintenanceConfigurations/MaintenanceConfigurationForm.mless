@@ -70,4 +70,8 @@
   .bottomSpace {
     padding-bottom: 0.5rem;
   }
+  .pWrapper {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }

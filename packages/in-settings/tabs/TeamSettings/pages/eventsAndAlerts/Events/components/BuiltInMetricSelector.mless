@@ -12,6 +12,10 @@
     padding: 8px 10px;
     cursor: pointer;
 
+    &.noPadding {
+      padding: 0;
+    }
+
     &:hover {
       background-color: rgba(230, 239, 255, 0.69);
     }
