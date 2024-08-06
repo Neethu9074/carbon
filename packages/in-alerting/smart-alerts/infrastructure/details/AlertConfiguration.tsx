@@ -11,14 +11,6 @@ import { Stack } from '@instana/components';
 // eslint-disable-next-line no-restricted-imports
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import {
-  InfraAlertRuleUnion,
-  Order,
-  StaticThresholdConfig,
-  TagCatalog,
-  TagFilter,
-  ThresholdConfigUnion
-} from 'in-types';
-import {
   getQueryBuilder,
   getGroupByQueryBuilder
 } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
@@ -38,6 +30,7 @@ import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/Ch
 import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import { InfraAlertRuleUnion, Order, TagCatalog, TagFilter, RuleWithThreshold } from 'in-types';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
 import { toUIGrouping } from 'in-alerting/smart-alerts/aggregated/utils/groupfilterExpression';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
@@ -72,15 +65,20 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const {
     timeThreshold,
     granularity,
-    rule: { metricName, entityType, aggregation, crossSeriesAggregation, regex },
-    threshold,
     alertChannelIds,
     tagFilterExpression,
     customPayloadFields,
     groupBy,
-    predictiveTrigger
+    predictiveTrigger,
+    rules
   } = alertConfig;
 
+  const firstRule: RuleWithThreshold<InfraAlertRuleUnion> = rules[0];
+  const {
+    rule: { metricName, entityType, aggregation, crossSeriesAggregation, regex },
+    thresholdOperator,
+    thresholds: thresholdsMap
+  } = firstRule;
   const order = { by: groupBy[0], direction: 'DESC' };
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
@@ -116,7 +114,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         darkFrame
       >
         <AlertThresholdInfos
-          threshold={threshold as ThresholdConfigUnion & StaticThresholdConfig}
+          thresholdOperator={thresholdOperator}
+          thresholdsMap={thresholdsMap}
           rule={{ metricName, entityType } as InfraAlertRuleUnion}
           metricLabel={metricLabel}
         />
@@ -215,6 +214,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
           alertConfig={alertConfig}
           renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(alertConfig)}
           disableTrigger
+          shouldDisplayAlertLevelSection={false}
         />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="INFRA" />

@@ -116,14 +116,14 @@ interface ChartConfigProps {
 }
 
 export function getChartConfig({ alertConfig, timeConfig }: ChartConfigProps) {
-  const { threshold, granularity } = alertConfig;
+  const { granularity } = alertConfig;
   const { metricName, aggregation, regex } = alertConfig.rule;
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
   return {
     customHeight: 182,
-    thresholdType: threshold.type,
+    thresholdType: 'staticThreshold',
     timeConfig: timeConfig,
     metricsConfiguration: {
       timeConfig: chartViewConfig.timeConfig,
@@ -152,6 +152,12 @@ export function getChartConfig({ alertConfig, timeConfig }: ChartConfigProps) {
           metric: 'upperBound',
           granularity,
           aggregation
+        },
+        warningThreshold: {
+          metric: 'warningThreshold'
+        },
+        criticalThreshold: {
+          metric: 'criticalThreshold'
         }
       }
     }

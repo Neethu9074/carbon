@@ -43,7 +43,8 @@ export default function AlertHeader({
   displayEditAction,
   displayTearSheetActions,
   displayDuplicateAction,
-  isGlobalSmartAlert = false
+  isGlobalSmartAlert = false,
+  hideAlertIcon = false
 }) {
   const { goToPath, createHrefToPath } = useNavigation();
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
@@ -159,18 +160,20 @@ export default function AlertHeader({
 
       <div className={locals.labelWrapper}>
         <div className={locals.left}>
-          <SvgIcon
-            className={classNames({
-              [locals.alertIcon]: true,
-              [locals.alertIconSeverityLow]: alertConfig.severity <= 5,
-              [locals.alertIconSeverityHigh]: alertConfig.severity > 5
-            })}
-            size="l"
-            type="lib_alerts_create"
-            aria-label={t('in-alerting:components.alertHeaderAriaLabelSeverity', {
-              severity: alertConfig.severity <= 5 ? 'low' : 'high'
-            })}
-          />
+          {!hideAlertIcon && (
+            <SvgIcon
+              className={classNames({
+                [locals.alertIcon]: true,
+                [locals.alertIconSeverityLow]: alertConfig.severity <= 5,
+                [locals.alertIconSeverityHigh]: alertConfig.severity > 5
+              })}
+              size="l"
+              type="lib_alerts_create"
+              aria-label={t('in-alerting:components.alertHeaderAriaLabelSeverity', {
+                severity: alertConfig.severity <= 5 ? 'low' : 'high'
+              })}
+            />
+          )}
           <div className={locals.name}>{renderCustomTitle?.() ?? alertConfig.name}</div>
         </div>
 
@@ -374,7 +377,8 @@ AlertHeader.propTypes = {
   displayEditAction: PropTypes.bool,
   displayTearSheetActions: PropTypes.bool,
   displayDuplicateAction: PropTypes.bool,
-  isGlobalSmartAlert: PropTypes.bool
+  isGlobalSmartAlert: PropTypes.bool,
+  hideAlertIcon: PropTypes.bool
 };
 
 function openRestoreConfirmationDialog(alertRevision, doRestore) {

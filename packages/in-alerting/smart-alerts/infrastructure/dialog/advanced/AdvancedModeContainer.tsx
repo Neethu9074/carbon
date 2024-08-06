@@ -11,10 +11,7 @@ import {
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
-import {
-  AlertPreview,
-  AlertPreviewHeadline
-} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import { MultiThresholdAlertPreview } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import {
   fieldTouchedAndInvalid,
@@ -54,8 +51,8 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     tagFilterValid,
     TagBasedPayloadConfigurator
   } = props;
-  const thresholdType = form.get('threshold').get('type').value;
-  const metricLabel = form.get('hiddenFields').get('metricLabel').value;
+  // For now, we support only static threshold. So taking type from warningThreshold/criticalThreshold would not change anything.
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const entityType = form.get('rule')?.get('entityType')?.value;
   const metric = form.get('rule')?.get('metricName')?.value;
   const isRegex = form.get('rule').get('regex')?.value;
@@ -157,22 +154,11 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                       )}
                     />
                   )}
+                  shouldDisplayAlertLevelSelection={false}
                 />
               )}
               renderAlertPreview={() => (
-                <AlertPreview
-                  form={form}
-                  renderHeadline={() => (
-                    <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder()} />
-                  )}
-                  getDescriptionPlaceholder={getDescriptionPlaceholder}
-                  entityLabel={
-                    metricLabel
-                      ? metricLabel
-                      : t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.properties.preview.subtitle')
-                  }
-                  entityIconType="lib_infrastructure"
-                />
+                <MultiThresholdAlertPreview form={form} getDescriptionPlaceholder={getDescriptionPlaceholder} />
               )}
             />
           )
@@ -199,7 +185,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
   );
 
   function isThresholdSectionValid(): boolean {
-    return !fieldTouchedAndInvalid(form.get('threshold')?.get('value'));
+    return !fieldTouchedAndInvalid(form.get('threshold'));
   }
   function isMetricAndEntityValid(): boolean {
     const metric = form.get('rule')?.get('metricName')?.value;

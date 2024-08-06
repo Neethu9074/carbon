@@ -22,6 +22,8 @@ interface AlertPreviewProps {
   entityLabel2?: string;
   entityIconType2?: string;
   isTearSheet?: boolean;
+  isMultiThreshold?: boolean;
+  severity?: number;
 }
 
 export function AlertPreview({
@@ -32,10 +34,11 @@ export function AlertPreview({
   entityIconType,
   entityLabel2,
   entityIconType2,
-  isTearSheet = false
+  isTearSheet = false,
+  isMultiThreshold = false,
+  severity = Number(form.get('severity')?.value)
 }: AlertPreviewProps) {
   const description = form.get('description')?.value;
-  const severity = Number(form.get('severity')?.value);
   const triggering = form.get('triggering')?.value;
 
   return (
@@ -43,6 +46,7 @@ export function AlertPreview({
       className={classNames({
         [locals.alertPreview]: true,
         [locals.alertPreviewTearSheeet]: isTearSheet,
+        [locals.multiThresholdAlertPreview]: isMultiThreshold,
         [locals.severityLow]: severity <= 5,
         [locals.severityHigh]: severity > 5
       })}
@@ -53,7 +57,7 @@ export function AlertPreview({
           [locals.severityLow]: severity <= 5,
           [locals.severityHigh]: severity > 5
         })}
-        type={getIconType(severity, triggering)}
+        type={getIconType(severity!, triggering)}
       />
       <div className={locals.alertPreviewContent}>
         {renderHeadline()}
