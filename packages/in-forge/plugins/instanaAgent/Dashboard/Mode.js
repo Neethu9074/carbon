@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Select } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Select, Button } from '@instana/components';
 
 import { setMode } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import { modes } from 'in-forge/plugins/instanaAgent/modes';

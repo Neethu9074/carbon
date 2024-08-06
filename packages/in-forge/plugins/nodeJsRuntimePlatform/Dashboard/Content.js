@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Link, Button } from '@instana/components';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import HealthchecksTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HealthchecksTable';
