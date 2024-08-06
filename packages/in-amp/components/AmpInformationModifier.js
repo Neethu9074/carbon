@@ -62,14 +62,6 @@ export default function AmpInformationModifier({
             fullInlineWidth
           />
         )}
-        {fupOverride && (
-          <Message
-            type="neutral"
-            dismissible
-            title={t('in-amp:components.fairUsePolicyOverride.title')}
-            fullInlineWidth
-          />
-        )}
         <Stack direction="horizontal" distribution="spaceBetween">
           {unitSelectorOptions && (
             <ComboBoxBehavior
