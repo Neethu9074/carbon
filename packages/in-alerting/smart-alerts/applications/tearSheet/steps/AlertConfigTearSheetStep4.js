@@ -86,7 +86,7 @@ export default function AlertConfigTearSheetStep4(props) {
           headline={t('in-alerting:smartAlerts.applications.tearSheet.threshold.title')}
           description={t('in-alerting:smartAlerts.applications.tearSheet.threshold.description')}
         >
-          <div className={locals.container}>
+          <div className={classNames({ [locals.container]: true, [locals.alignCenter]: true })}>
             <span className={locals.label}>
               <AlertTypography
                 variant="body-regular"

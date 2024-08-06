@@ -52,8 +52,6 @@ export default function ThresholdValueInputWithValidationMessage(props: Threshol
   return (
     <div
       className={classNames({
-        [locals.thresholdValueWithValidationMessage]: !isTearSheet || (isTearSheet && !hasError),
-        [locals.topPaddingCarbonInput]: isTearSheet && hasError && carbonInputEnabled,
         [locals.topPaddingInput]: isTearSheet && hasError && !carbonInputEnabled,
         [locals.multiThresholdValueWithValidationMessage]: props.isMultiThreshold
       })}

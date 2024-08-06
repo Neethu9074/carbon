@@ -9,10 +9,6 @@
     gap: 1rem;
   }
 
-  .thresholdValueWithValidationMessage {
-    padding: 1rem 0;
-  }
-
   .multiThresholdValueWithValidationMessage {
     padding: 0.5rem 0;
   }
@@ -24,10 +20,6 @@
   .toolTip {
     display: flex;
     align-items: center;
-  }
-
-  .topPaddingCarbonInput {
-    padding-top: 1.25rem;
   }
 
   .topPaddingInput {

@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -44,7 +43,7 @@ export default function ThresholdTypeSelection({
   return (
     <>
       {options.length > 1 && (
-        <div className={classNames({ [locals.container]: true, [locals.alignStart]: true })}>
+        <div className={locals.container}>
           <span className={locals.label} />
           <Stack direction="vertical" gap="small" align="start">
             <Select
