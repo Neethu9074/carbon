@@ -19,7 +19,6 @@ import MezmoSaasForm from 'in-settings/tabs/TeamSettings/pages/integrations/logg
 import { validMezmoId } from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Mezmo/validation';
 import { teamSettingsIntegrationsLoggingMezmo } from 'in-settings/navigation/paths';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
-import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { integrationKey } from 'in-integrations/logging/mezmo/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -33,7 +32,8 @@ import { Col, Row } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
-
+import { Typography } from '@instana/components';
+import { callToastFlyout } from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/utils';
 import locals from './MezmoForm.mless';
 
 const block = 'in-ui-config';
@@ -109,12 +109,30 @@ export default function Mezmo() {
       setIntegration(savedIntegration);
       // to suppress warning on deprecated code temporarily
       // eslint-disable-next-line import/no-deprecated
+      const content = (
+        <section>
+          <Typography variant="heading-200">{t('in-settings:tabs.integrations.toastSuccessTitle')}</Typography>
+          <Typography variant="body-regular">
+            {t('in-settings:tabs.integrations.toastSuccessMessage', { integrationType: 'Mezmo' })}
+          </Typography>
+        </section>
+      );
+      callToastFlyout('success', content);
       goToPath(teamSettingsIntegrationsLoggingMezmo);
     });
 
     let errorSubscription = result$.errors().once(error => {
       const message = t('in-settings:tabs.failedToSaveConfiguration', { err: error.message });
       logger.error(message, error);
+      const content = (
+        <section>
+          <Typography variant="heading-200">{t('in-settings:tabs.integrations.toastErrorTitle')}</Typography>
+          <Typography variant="body-regular">
+            {t('in-settings:tabs.integrations.integerationConfigurationFailed', { error: message })}
+          </Typography>
+        </section>
+      );
+      callToastFlyout('error', content);
       setSaving({ responseSubscription: null, errorSubscription: null, saving: false });
       setMessage(message);
     });
@@ -127,26 +145,23 @@ export default function Mezmo() {
       <Title title={t('in-settings:tabs.configureMezmo')} />
       <IntegrationsBreadcumb />
       <SubViewHeader>{t('in-settings:tabs.configureYourMezmoSettings')}</SubViewHeader>
-      <SectionLine />
       {form && (
         <form onSubmit={onSubmit}>
           <div style={{ marginBottom: '1rem' }}>
-            <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableMezmoIntegrationForInstana')}>
-              <Heading text={t('in-settings:tabs.showMezmoLinkOnHosts')} htmlFor="logdn-enabled" />
-            </HorizontalFormGroup>
+            <Heading text={t('in-settings:tabs.showMezmoLinkOnHosts')} htmlFor="logdn-enabled" />
           </div>
+          <SectionLine />
           {form.get('instanceType').map(field => (
             <Row>
               <Col xs={2}>
                 <FormGroup>
-                  <Label htmlFor="mezmo-selected-instance" hasError={enabled && !field.valid && field.touched}>
+                  <Label htmlFor="mezmo-selected-instance" hasError={!field.value && field.touched}>
                     {t('in-settings:tabs.mezmoInstance')}
                   </Label>
                   <Select
                     id="mezmo-selected-instance"
                     value={field.value}
                     onChange={e => onChange('instanceType', e.target.value)}
-                    disabled={!enabled}
                   >
                     <option value="LOG_DNA_SAAS">Mezmo</option>
                     <option value="IBM_CLOUD">IBM Cloud Log Analysis</option>
@@ -177,7 +192,8 @@ export default function Mezmo() {
             message={message}
             loading={loading || saving.saving}
             hasCancelButton={false}
-            saveEnabled={!enabled || !areFieldsInvalid(form)}
+            saveEnabled={!areFieldsInvalid(form)}
+            type="integration"
           />
         </form>
       )}

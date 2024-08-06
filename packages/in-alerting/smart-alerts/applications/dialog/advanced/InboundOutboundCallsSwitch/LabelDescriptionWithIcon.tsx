@@ -6,7 +6,7 @@
 
 import React, { ReactNode } from 'react';
 
-import { Spacer, SvgIcon } from '@instana/components';
+import { Spacer, Tooltip, Pill, SvgIcon } from '@instana/components';
 
 import AlertTypography from 'in-alerting/components/AlertTypography';
 
@@ -17,19 +17,37 @@ interface LabelDescriptionWithIconProps {
   label: string;
   description: string;
   children?: ReactNode;
+  disabled?: boolean;
+  badgeTitle?: string;
+  tooltipContent?: string;
 }
 
 export default function LabelDescriptionWithIcon({
   icon,
   label,
   description,
-  children
+  children,
+  disabled,
+  badgeTitle,
+  tooltipContent
 }: LabelDescriptionWithIconProps) {
   return (
     <div className={locals.wrapper}>
       {icon && <SvgIcon type={icon} className={locals.icon} />}
       <div className={locals.content}>
         <AlertTypography variant="body-bold" color="color900" content={label} />
+        {disabled && (
+          <span className={locals.notSupported}>
+            <Tooltip align={'rightMiddle'} delay={500} content={tooltipContent}>
+              <Pill type="gray" className={locals.notSupported} size="md">
+                <span className={locals.pillContent}>
+                  <SvgIcon type="lib_help_error_error_outline" size="xs" />
+                  {badgeTitle}
+                </span>
+              </Pill>
+            </Tooltip>
+          </span>
+        )}
         <Spacer vertical="xsmall" />
         <AlertTypography variant="body-small" color="color600" content={description} />
         {children}

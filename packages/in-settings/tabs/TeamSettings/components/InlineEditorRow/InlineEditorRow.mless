@@ -10,6 +10,10 @@
     align-items: center;
   }
 
+  .inputEditSection {
+    display: flex;
+  }
+
   .inputField,
   .readonlyLabel {
     font-size: 1.25rem;

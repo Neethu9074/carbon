@@ -20,6 +20,7 @@
   }
 
   .count {
+    display: flex;
     margin-left: 1rem;
     color: var(--ids-color-option-neutral-600);
   }

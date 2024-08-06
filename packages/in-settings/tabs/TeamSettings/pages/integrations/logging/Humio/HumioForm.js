@@ -23,15 +23,14 @@ export default function HumioForm({ form, onChange, disabled, areFieldsBlank }) 
     <fieldset>
       {form.get('url').map(field => (
         <FormGroup>
-          <Label htmlFor="humio-url" hasError={!disabled && !field.valid && field.touched}>
+          <Label htmlFor="humio-url" hasError={!field.value && field.touched}>
             {t('in-settings:tabs.humioInstance')}
           </Label>
           <Input
             id="humio-url"
             value={field.value}
             onChange={e => onChange('url', e.target.value)}
-            hasError={!disabled && !field.valid && field.touched}
-            disabled={disabled}
+            hasError={!field.value && field.touched}
             autoFocus
           />
           {!disabled && <TouchedMessages field={field} />}
@@ -43,15 +42,14 @@ export default function HumioForm({ form, onChange, disabled, areFieldsBlank }) 
 
       {form.get('repository').map(field => (
         <FormGroup>
-          <Label htmlFor="humio-repository" hasError={!disabled && !field.valid && field.touched}>
+          <Label htmlFor="humio-repository" hasError={!field.value && field.touched}>
             {t('in-settings:tabs.viewOrRepository')}
           </Label>
           <Input
             id="humio-repository"
             value={field.value}
             onChange={e => onChange('repository', e.target.value)}
-            hasError={!disabled && !field.valid && field.touched}
-            disabled={disabled}
+            hasError={!field.value && field.touched}
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>

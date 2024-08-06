@@ -733,8 +733,12 @@
       "day": "Test will fail when certificate validity has {{daysRemainingCheck}} day remaining until expiration",
       "days": "Test will fail when certificate validity has {{daysRemainingCheck}} days remaining until expiration",
       "associations": "Associations",
-      "associatedApplications": "Associated Application Perspectives",
-      "noApplicationsAssociated": "No applications associated"
+      "associatedApplications": "Associated Applications",
+      "noApplicationsAssociated": "No Applications associated",
+      "associatedWebsites": "Associated Websites",
+      "noWebsitesAssociated": "No Websites associated",
+      "associatedMobileApps": "Associated Mobile Apps",
+      "noMobileAppAssociated": "No Mobile Apps associated"
     }
   }
 }

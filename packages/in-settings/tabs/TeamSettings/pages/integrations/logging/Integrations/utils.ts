@@ -16,6 +16,7 @@ import { integrationKey as splunk } from 'in-integrations/logging/splunk/consts'
 import { integrationKey as mezmo } from 'in-integrations/logging/mezmo/consts';
 import { integrationKey as humio } from 'in-integrations/logging/humio/consts';
 import { integrationKey as elk } from 'in-integrations/logging/elk/consts';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { t } from 'in-i18n';
 
 export function getIntegrationsSubPages() {
@@ -47,7 +48,7 @@ export function getIntegrationsSubPages() {
     }
   ];
 }
-export type Variant = 'success' | 'error';
+type Variant = 'success' | 'error';
 
 export interface Integration {
   path: string;
@@ -61,4 +62,13 @@ export interface Integration {
   acccountId?: string;
   repository?: string;
   instanceType?: string;
+  isConfigurable?: string;
 }
+
+export const callToastFlyout = (variant: Variant, content: React.ReactNode) => {
+  return addMessage({
+    type: variant === 'success' ? 'info' : 'danger',
+    content,
+    timeout: 5000
+  });
+};

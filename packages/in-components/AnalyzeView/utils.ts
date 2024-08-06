@@ -19,3 +19,19 @@ export const GROUP_COLORS = (() => {
 })();
 
 export const clickhouseTimeoutErrorMessage = 'Clickhouse timeout';
+
+export const twoDigitApproximation = (v: number): number => {
+  if (v === 0) return 0;
+  const order = Math.floor(Math.log10(Math.abs(v)));
+  if (order === 0) {
+    return v > 5 ? 10 : v;
+  }
+  if (order === 1) {
+    const lastDigit = v % 10;
+    const rounded = lastDigit >= 5 ? Math.ceil(v / 10) * 10 : Math.floor(v / 10) * 10;
+    return rounded;
+  }
+  const factor = Math.pow(10, order - 1);
+  const approximated = Math.round(v / factor) * factor;
+  return approximated;
+};

@@ -106,7 +106,7 @@ function renderButtonLine(props) {
         id={props.hostId}
         timeConfig={props.timeConfig}
         plugin={plugins.sapAbapSystemSensor}
-        tagFilters={[{ name: 'sapAbapSystemSensor.snapshotId', value: props.hostId, operator: 'EQUALS' }]}
+        tagFilters={[{ name: 'related.infra.entity.snapshotId', value: props.hostId, operator: 'EQUALS' }]}
       />
     </>
   );

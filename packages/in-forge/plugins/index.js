@@ -227,6 +227,7 @@ import './tuxedoMachine';
 import './sapHanaSystem';
 import './sapDbInstance';
 import './powerVCRegion';
+import './azureSignalR';
 import './drbdResource';
 import './ibmiDiskInfo';
 import './ibmMqMftZone';

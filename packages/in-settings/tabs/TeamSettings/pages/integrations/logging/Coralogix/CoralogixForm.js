@@ -24,15 +24,14 @@ export default function CoralogixForm({ form, onChange, disabled, areFieldsBlank
     <fieldset>
       {form.get('url').map(field => (
         <FormGroup>
-          <Label htmlFor="coralogix-url" hasError={!disabled && !field.valid && field.touched}>
+          <Label htmlFor="coralogix-url" hasError={!field.value && field.touched}>
             {t('in-settings:tabs.coralogixInstance')}
           </Label>
           <Input
             id="coralogix-url"
             value={field.value}
             onChange={e => onChange('url', e.target.value)}
-            hasError={!disabled && !field.valid && field.touched}
-            disabled={disabled}
+            hasError={!field.value && field.touched}
             autoFocus
           />
           {!disabled && <TouchedMessages field={field} />}
@@ -44,7 +43,9 @@ export default function CoralogixForm({ form, onChange, disabled, areFieldsBlank
 
       {!areFieldsBlank && (
         <FormGroup>
-          <Label htmlFor="coralogix-test-link">{t('in-settings:tabs.testYourCoralogixLink')}</Label>
+          <Label htmlFor="coralogix-test-link">
+            <Trans i18nKey="in-settings:tabs.testYourCoralogixLink" />
+          </Label>
           <Link size="sm" href={coralogixUrl} external>
             {coralogixUrl}
           </Link>

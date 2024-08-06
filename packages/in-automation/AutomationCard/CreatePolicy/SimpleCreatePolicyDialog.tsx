@@ -16,11 +16,12 @@ import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { refresh } from 'in-automation/AutomationCard/usePolicies';
+import { hasError, isLoading } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
+import { Event, Error, Policy, Result } from 'in-types';
 import { saveNewPolicy } from 'in-automation/api';
 import { ScoredAction } from 'in-automation/api';
 import { noop } from 'in-services/fixedObjects';
-import { Event, Error } from 'in-types';
 import { Trans, t } from 'in-i18n';
 
 import locals from 'in-automation/AutomationCard/GenerateAIDialog/SelectAIActionsDialogPresenter.mless';
@@ -85,8 +86,11 @@ const createPolicy = ({ form, event, selectedAction, setActiveKey }: handleCreat
   };
   const policy = createBasePolicy(event, selectedAction, policyDetails);
 
-  saveNewPolicy(policy).once(
-    () => {
+  const onSuccessHandler = (data: Result<Policy>) => {
+    const errored = hasError(data);
+    if (errored) {
+      onCreateFailed(data?.errors[0]);
+    } else {
       createPolicyFromRecommendedActionsTracker({
         name: policy.name,
         triggerName: event.problem?.problemText,
@@ -96,11 +100,19 @@ const createPolicy = ({ form, event, selectedAction, setActiveKey }: handleCreat
       refresh();
       setActiveKey('automationPolicies');
       onCreateSuccess(policy.name);
-    },
-    error => {
-      onCreateFailed(error);
     }
-  );
+  };
+
+  const onErrorHandler = (data: Result<Policy>) => {
+    const errored = hasError(data);
+    if (errored) {
+      onCreateFailed(data?.errors[0]);
+    }
+  };
+
+  saveNewPolicy(policy)
+    .filter(result => !isLoading(result))
+    .once(onSuccessHandler, onErrorHandler);
 };
 
 const stepConfigs = Object.freeze([
@@ -154,7 +166,7 @@ function onCreateFailed(error: Error) {
   addMessage(
     {
       type: 'danger',
-      timeout: 3000,
+      timeout: 5000,
       title: t('in-automation:policies.createDialog.failure.title'),
       content: (
         <Trans i18nKey="in-automation:policies.createDialog.failure.content" values={{ errorMessage: error.message }} />

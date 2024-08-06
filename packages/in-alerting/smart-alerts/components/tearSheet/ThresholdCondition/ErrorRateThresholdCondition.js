@@ -44,7 +44,6 @@ export default function ErrorRateThresholdCondition({
         editMode={editMode}
         thresholdTypeOptions={thresholdTypeOptions}
         isGlobalSmartAlert={isGlobalSmartAlert}
-        blueprintConfig={blueprintConfig}
       />
 
       <div className={locals.container}>

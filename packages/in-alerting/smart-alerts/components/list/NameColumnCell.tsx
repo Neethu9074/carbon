@@ -18,25 +18,29 @@ export function NameColumnCell<AlertConfig extends AlertConfigType>({
   config,
   renderName,
   getSubtitle,
-  getAdditionalContent
+  getAdditionalContent,
+  hideAlertIcon = false
 }: {
   config: AlertConfig;
   renderName?: ((config: AlertConfig) => string) | ((config: AlertConfig) => ReactNode);
   getSubtitle?: ((config: AlertConfig) => string) | ((config: AlertConfig) => JSX.Element);
   getAdditionalContent?: (config: AlertConfig) => ReactNode;
+  hideAlertIcon?: boolean;
 }) {
   const { enabled, name, severity } = config;
   const content = <span>{renderName ? renderName(config) : name}</span>;
   return (
     <div className={classNames(locals.main)}>
-      <SvgIcon
-        className={classNames({
-          [locals.alertIcon]: true,
-          [locals.alertIconSeverityLow]: severity <= 5,
-          [locals.alertIconSeverityHigh]: severity > 5
-        })}
-        type={enabled ? 'lib_alerts_create' : 'lib_actions_pause'}
-      />
+      {!hideAlertIcon && (
+        <SvgIcon
+          className={classNames({
+            [locals.alertIcon]: true,
+            [locals.alertIconSeverityLow]: severity <= 5,
+            [locals.alertIconSeverityHigh]: severity > 5
+          })}
+          type={enabled ? 'lib_alerts_create' : 'lib_actions_pause'}
+        />
+      )}
       <div className={classNames(locals.column)}>
         <div className={classNames(locals.name)}>
           <Tooltip themeStyle="light" content={content} delay={500} overflowEllipsis>

@@ -45,7 +45,6 @@ export default function StatusCodeThresholdCondition({
         thresholdTypeOptions={thresholdTypeOptions}
         isGlobalSmartAlert={isGlobalSmartAlert}
         blueprintType={blueprintConfig.type}
-        blueprintConfig={blueprintConfig}
       />
 
       <div className={locals.container}>

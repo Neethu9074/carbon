@@ -7,18 +7,22 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { RuleWithThreshold } from '@instana/types/typeDefinitions';
+import { InfraAlertRuleUnion } from '@instana/types';
+
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import { useInfraSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/infrastructure/form/useInfraSmartAlertFormSideEffects';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/infrastructure/dialog/AlertConfigDialogWithThreshold';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
-import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/infrastructure/components/AlertCreateOrSave';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useGetAlertConfigLink } from 'in-infrastructure/navigation/paths';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
-import { VersionedConfig } from 'in-types';
+import { InfraAlertConfig, VersionedConfig } from 'in-types';
 
 interface AlertConfigDialogType {
   onClose: () => void;
@@ -26,6 +30,7 @@ interface AlertConfigDialogType {
   alertConfig: InfraSmartAlertConfig & VersionedConfig & { duplicateFrom?: string };
   editMode: boolean;
 }
+
 const initialChartConfigIndex = 0;
 
 export default function AlertConfigDialog({
@@ -36,7 +41,7 @@ export default function AlertConfigDialog({
 }: AlertConfigDialogType) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
-  const updateForm = useSmartAlertFormSideEffects(form, setForm);
+  const updateForm = useInfraSmartAlertFormSideEffects(form, setForm);
   const duplicateFrom = alertConfig?.duplicateFrom;
 
   const [isSaving, setIsSaving] = useState(false);
@@ -86,23 +91,39 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
   };
 }
 
-function toAlertConfig(form: MapForm<any>): Readonly<InfraSmartAlertConfig> {
+function getRuleWithThreshold(form: MapForm<any>) {
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+  const warningThreshold = !isEmpty(warningThresholdField.get('value').value)
+    ? { WARNING: warningThresholdField.toJS() }
+    : {};
+  const criticalThreshold = !isEmpty(criticalThresholdField.get('value').value)
+    ? { CRITICAL: criticalThresholdField.toJS() }
+    : {};
+  const ruleWithThreshold: RuleWithThreshold<InfraAlertRuleUnion> = {
+    rule: form.get('rule').toJS(),
+    thresholdOperator: form.get('threshold').get('operator').value,
+    thresholds: { ...warningThreshold, ...criticalThreshold }
+  };
+
+  return ruleWithThreshold;
+}
+
+function toAlertConfig(form: MapForm<any>): Readonly<InfraAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
+  const ruleWithThreshold = getRuleWithThreshold(form);
 
   return Object.freeze({
-    rule: form.get('rule').toJS(),
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
     alertChannelIds: form.get(fieldNames.alertChannelIds).value,
-    severity: form.get(fieldNames.severity).value,
     description: form.get(fieldNames.description).value || getDescriptionPlaceholder(),
     name: form.get(fieldNames.name).value || getTitlePlaceholder(),
     id: form.get(fieldNames.id).value,
-    threshold: form.get('threshold').toJS(),
     timeThreshold: form.get('timeThreshold').toJS(),
     granularity: form.get(fieldNames.granularity).value,
     groupBy: toBackendGroupBy(form.get(fieldNames.groupBy).value),
     predictiveTrigger: form.get(fieldNames.predictiveTrigger).value,
     customPayloadFields: form.get('customPayloadFields').toJS(),
-    rules: []
+    rules: [ruleWithThreshold]
   });
 }

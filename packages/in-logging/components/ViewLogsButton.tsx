@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
 
 import {
   enclose,
@@ -37,7 +37,7 @@ export function ViewLogsButton({ config, className = '' }: { config: MetricsConf
 
   return (
     <Tooltip content={t('in-forge:plugins.docker.dashboard.seeLogsInAnalyze')}>
-      <a
+      <IconButton
         href={link}
         className={className}
         onClick={() =>
@@ -47,9 +47,10 @@ export function ViewLogsButton({ config, className = '' }: { config: MetricsConf
             filters
           })
         }
-      >
-        <SvgIcon size={carbonMoreMenuEnabled ? 'xs' : 's'} type="lib_analyze" />
-      </a>
+        kind="action"
+        size={carbonMoreMenuEnabled ? 'compact' : 'normal'}
+        type="lib_analyze"
+      />
     </Tooltip>
   );
 }

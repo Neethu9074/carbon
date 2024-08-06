@@ -11,8 +11,14 @@ import { SyntheticTest } from '@instana/types';
 
 import Associations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Associations';
 
+jest.mock('in-services/featureFlags', () => ({
+  get syntheticMultiWebMobileEnabled() {
+    return true;
+  }
+}));
+
 describe('Associations', () => {
-  it('should render Associations section of configuration tab correctly for zero associated applications', () => {
+  it('should render Associations section of configuration tab correctly for zero associated applications/ websites/ mobile apps', () => {
     const dummyTestData = {
       active: true,
       configuration: {
@@ -39,16 +45,24 @@ describe('Associations', () => {
     } as unknown as SyntheticTest;
     render(<Associations test={dummyTestData} />);
     expect(screen.getByText('Associations')).toBeInTheDocument();
-    expect(screen.getByText('Associated Application Perspectives')).toBeInTheDocument();
-    expect(screen.getByText('No applications associated')).toBeInTheDocument();
+    expect(screen.getByText('Associated Applications')).toBeInTheDocument();
+    expect(screen.getByText('No Applications associated')).toBeInTheDocument();
+    expect(screen.getByText('Associated Websites')).toBeInTheDocument();
+    expect(screen.getByText('No Websites associated')).toBeInTheDocument();
+    expect(screen.getByText('Associated Mobile Apps')).toBeInTheDocument();
+    expect(screen.getByText('No Mobile Apps associated')).toBeInTheDocument();
   });
-  it('should render Associations section of configuration tab correctly for one or more associated applications', () => {
+  it('should render Associations section of configuration tab correctly for one or more associated applications/ websites/ mobile apps', () => {
     const dummyTestData = {
       active: true,
       applicationId: 'oNh8Fi8gSTajU2z8_rmQBg',
       applicationLabel: 'testing - demofilter',
       applicationLabels: ['testing - demofilter'],
       applications: ['oNh8Fi8gSTajU2z8_rmQBg'],
+      websiteLabels: ['adaniel-robotshop'],
+      websites: ['o5DHpYp0TzmFmzVL07eENg'],
+      mobileAppLabels: ['testing-app'],
+      mobileApps: ['zGhYwgptTEqMKJ-Puadgpg'],
       configuration: {
         markSyntheticCall: true,
         retries: 0,
@@ -73,7 +87,11 @@ describe('Associations', () => {
     } as unknown as SyntheticTest;
     render(<Associations test={dummyTestData} />);
     expect(screen.getByText('Associations')).toBeInTheDocument();
-    expect(screen.getByText('Associated Application Perspectives')).toBeInTheDocument();
+    expect(screen.getByText('Associated Applications')).toBeInTheDocument();
     expect(screen.getByText('testing - demofilter')).toBeInTheDocument();
+    expect(screen.getByText('Associated Websites')).toBeInTheDocument();
+    expect(screen.getByText('adaniel-robotshop')).toBeInTheDocument();
+    expect(screen.getByText('Associated Mobile Apps')).toBeInTheDocument();
+    expect(screen.getByText('testing-app')).toBeInTheDocument();
   });
 });

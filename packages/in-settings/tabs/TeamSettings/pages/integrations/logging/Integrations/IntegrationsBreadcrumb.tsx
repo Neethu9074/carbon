@@ -18,7 +18,7 @@ export default function IntegrationsBreadcrumb() {
 
   return (
     <Breadcrumb className={locals.breadcrumb} onClick={() => goToPath(teamSettingsIntegrationsLogging)}>
-      Integrations /
+      <span>Integrations</span> /
     </Breadcrumb>
   );
 }

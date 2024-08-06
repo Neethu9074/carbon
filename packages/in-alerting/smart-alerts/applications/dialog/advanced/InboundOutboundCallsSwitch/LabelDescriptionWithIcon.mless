@@ -21,4 +21,16 @@
   .content {
     margin-left: 0.5rem;
   }
+  .notSupported {
+    display: inline-flex;
+    margin: 0 0 0 5px;
+  }
+  .pillContent {
+    display: flex;
+    align-items: center;
+
+    & > svg {
+      padding-right: 3px;
+    }
+  }
 }

@@ -7,9 +7,9 @@ import React, { useRef, useState } from 'react';
 
 import { keyCodes, HorizontalIndicator, SearchInput } from '@instana/components';
 
+import SelectorNode, { nodeKey, Options } from 'in-components/SelectorOverlay/Node';
 import SlideInView, { ListHeader } from 'in-components/SlideInView/SlideInView';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import SelectorNode, { Options } from 'in-components/SelectorOverlay/Node';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { useSearch } from 'in-components/SelectorOverlay/search';
@@ -116,7 +116,13 @@ export default function SelectorOverlay({
 }
 
 function findFocusedNode(options: Options[]) {
-  if (options.length != 1 || !options[0].children) {
+  if (
+    options.length != 1 ||
+    !options[0].children ||
+    options[0].type === 'APPLICATION' ||
+    options[0].type === 'SERVICE' ||
+    options[0].type === 'ENDPOINT'
+  ) {
     return undefined;
   }
   if (options[0].children?.length > 1) {
@@ -180,7 +186,7 @@ function DataAvailable({
             {focusedNode?.children.slice(0, maxResults).map((node, i) => (
               <SelectorNode
                 key={i}
-                node={node}
+                node={node as Options}
                 focusNode={disabled ? noop : focusNode}
                 onChange={disabled ? noop : onChange}
                 asListGroup
@@ -289,7 +295,7 @@ function OptionList({ options, disabled, focusNode, onChange, query, withIcons }
     <>
       {options.map(node => (
         <SelectorNode
-          key={node.type === 'TAG' ? node.tagName : node.metric}
+          key={nodeKey(node)}
           node={node}
           focusNode={disabled ? noop : focusNode}
           onChange={disabled ? noop : onChange}

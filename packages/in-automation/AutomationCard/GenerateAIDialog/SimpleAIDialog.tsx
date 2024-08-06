@@ -26,8 +26,9 @@ import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
+import { Result, Event, Field, Error, Action, Policy } from 'in-types';
 import { refresh } from 'in-automation/AutomationCard/usePolicies';
-import { Result, Event, Field, Error, Action } from 'in-types';
+import { hasError, isLoading } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
 import { ScoredAction } from 'in-automation/api';
 import { noop } from 'in-services/fixedObjects';
@@ -150,8 +151,11 @@ const createPolicy = ({ form, event, setActiveKey, setActionError, selectedAIAct
       };
       const policy = createBasePolicy(event, res, policyDetails);
 
-      saveNewPolicy(policy).once(
-        () => {
+      const onSuccessHandler = (data: Result<Policy>) => {
+        const errored = hasError(data);
+        if (errored) {
+          onCreateFailed(data?.errors[0]);
+        } else {
           createPolicyFromAIActionTracker({
             name: policy.name,
             triggerName: event.problem?.problemText,
@@ -162,11 +166,19 @@ const createPolicy = ({ form, event, setActiveKey, setActionError, selectedAIAct
           refresh();
           setActiveKey('automationPolicies');
           onCreateSuccess(policy.name, res.id);
-        },
-        error => {
-          onCreateFailed(error);
         }
-      );
+      };
+
+      const onErrorHandler = (data: Result<Policy>) => {
+        const errored = hasError(data);
+        if (errored) {
+          onCreateFailed(data?.errors[0]);
+        }
+      };
+
+      saveNewPolicy(policy)
+        .filter(result => !isLoading(result))
+        .once(onSuccessHandler, onErrorHandler);
     },
     actionErrors => {
       if (
@@ -300,7 +312,7 @@ function onCreateFailed(error: Error) {
   addMessage(
     {
       type: 'danger',
-      timeout: 3000,
+      timeout: 5000,
       title: t('in-automation:policies.createDialog.failure.title'),
       content: (
         <Trans i18nKey="in-automation:policies.createDialog.failure.content" values={{ errorMessage: error.message }} />

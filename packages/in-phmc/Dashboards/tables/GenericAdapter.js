@@ -53,7 +53,7 @@ const cols = [
       getValue(row) {
         return row.genericAdapter.get('sentPackets');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -63,7 +63,7 @@ const cols = [
       getValue(row) {
         return row.genericAdapter.get('receivedPackets');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -73,7 +73,7 @@ const cols = [
       getValue(row) {
         return row.genericAdapter.get('droppedPackets');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -83,7 +83,7 @@ const cols = [
       getValue(row) {
         return row.genericAdapter.get('sentBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.detailed
     }
   },
   {
@@ -93,7 +93,7 @@ const cols = [
       getValue(row) {
         return row.genericAdapter.get('receivedBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.detailed
     }
   },
   {
@@ -103,7 +103,7 @@ const cols = [
       getValue(row) {
         return row.genericAdapter.get('transferredBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.detailed
     }
   }
 ];
@@ -147,7 +147,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number,
+                formatter: number.perSecond.detailed,
                 metrics: [
                   'genericAdapters.' + row.key + '.sentPackets',
                   'genericAdapters.' + row.key + '.receivedPackets',
@@ -166,7 +166,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: bytes.compact,
+                formatter: bytes.perSecond.detailed,
                 metrics: [
                   'genericAdapters.' + row.key + '.sentBytes',
                   'genericAdapters.' + row.key + '.receivedBytes',

@@ -63,7 +63,7 @@ const cols = [
       getValue(row) {
         return row.fiberChannelAdapter.get('numOfReads');
       },
-      getContent: number.compact
+      getContent: number.perSecond.compact
     }
   },
   {
@@ -73,7 +73,7 @@ const cols = [
       getValue(row) {
         return row.fiberChannelAdapter.get('numOfWrites');
       },
-      getContent: number.compact
+      getContent: number.perSecond.compact
     }
   },
   {
@@ -83,7 +83,7 @@ const cols = [
       getValue(row) {
         return row.fiberChannelAdapter.get('readBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.compact
     }
   },
   {
@@ -93,7 +93,7 @@ const cols = [
       getValue(row) {
         return row.fiberChannelAdapter.get('writeBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.compact
     }
   },
   {
@@ -103,7 +103,7 @@ const cols = [
       getValue(row) {
         return row.fiberChannelAdapter.get('transmittedBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.compact
     }
   },
   {
@@ -156,7 +156,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number,
+                formatter: number.perSecond.compact,
                 metrics: [
                   'fiberChannelAdapters.' + row.key + '.numOfReads',
                   'fiberChannelAdapters.' + row.key + '.numOfWrites'
@@ -173,7 +173,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: bytes.compact,
+                formatter: bytes.perSecond.compact,
                 metrics: [
                   'fiberChannelAdapters.' + row.key + '.readBytes',
                   'fiberChannelAdapters.' + row.key + '.writeBytes',

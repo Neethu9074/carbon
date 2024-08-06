@@ -54,11 +54,6 @@ describe('SlownessThresholdCondition', () => {
   });
   it('renders correctly', () => {
     render(<SlownessThresholdCondition {...props} />);
-
-    expect(
-      screen.getByText(t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdType'))
-    ).toBeInTheDocument();
-
     expect(
       screen.getByText(t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdValue'))
     ).toBeInTheDocument();

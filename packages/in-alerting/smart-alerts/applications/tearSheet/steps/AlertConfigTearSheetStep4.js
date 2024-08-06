@@ -79,7 +79,6 @@ export default function AlertConfigTearSheetStep4(props) {
       alertType
     );
   }, [applications, boundaryScope, thresholdType, alertType]);
-
   return (
     <>
       <div className={locals.container60_40}>
@@ -87,7 +86,7 @@ export default function AlertConfigTearSheetStep4(props) {
           headline={t('in-alerting:smartAlerts.applications.tearSheet.threshold.title')}
           description={t('in-alerting:smartAlerts.applications.tearSheet.threshold.description')}
         >
-          <div className={locals.container}>
+          <div className={classNames({ [locals.container]: true, [locals.alignCenter]: true })}>
             <span className={locals.label}>
               <AlertTypography
                 variant="body-regular"
@@ -102,24 +101,26 @@ export default function AlertConfigTearSheetStep4(props) {
               blueprintConfig={blueprintConfig}
             />
           </div>
-          {blueprintConfig?.baselineEnabled && (
-            <div className={classNames({ [locals.container]: true, [locals.alignStart]: true })} id="selectType">
-              <span className={locals.longLabel}>
-                <AlertTypography
-                  variant="body-regular"
-                  color="color900"
-                  content={t('in-alerting:smartAlerts.details.thresholdTypeTitle')}
-                />
-              </span>
 
-              <StaticOrAdaptiveSwitch
-                form={form}
-                setForm={updateForm}
-                onThresholdTypeChange={onThresholdTypeChange}
-                isTearSheet
+          <div className={classNames({ [locals.container]: true, [locals.alignStart]: true })} id="selectType">
+            <span className={locals.longLabel}>
+              <AlertTypography
+                variant="body-regular"
+                color="color900"
+                content={t('in-alerting:smartAlerts.details.thresholdTypeTitle')}
               />
-            </div>
-          )}
+            </span>
+
+            <StaticOrAdaptiveSwitch
+              form={form}
+              setForm={updateForm}
+              onThresholdTypeChange={onThresholdTypeChange}
+              isTearSheet
+              isDisabled={!blueprintConfig?.baselineEnabled}
+              bluePrint={blueprintConfig.name}
+            />
+          </div>
+
           {!isTagFilterFormModelValid && tagFilterExpression && thresholdType === ADAPTIVE_BASELINE && (
             <div className={locals.filterSection}>
               <Message

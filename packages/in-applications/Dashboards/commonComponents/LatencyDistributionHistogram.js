@@ -5,8 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { IconButton } from '@instana/components';
-import { Card } from '@instana/components';
+import { Card, IconButton } from '@instana/components';
 
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import getLatencyDistributionBase10 from 'in-applications/subscriptions/getLatencyDistributionBase10';

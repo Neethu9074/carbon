@@ -23,8 +23,7 @@ export default function Energy({ timeConfig, data: system }) {
   const snapshotId = system.id;
   return (
     <Fragment>
-      <KpiGridRow sizes={[2, 3, 2, 3, 2]}>
-        <KpiCard title={t('in-phmc:uuid')} value={system.energy.uuid} raw borderless />
+      <KpiGridRow sizes={[3, 3, 3, 3]}>
         <InfraMetricKpiCard
           title={t('in-phmc:powerConsumption')}
           snapshotId={snapshotId}
@@ -34,6 +33,9 @@ export default function Energy({ timeConfig, data: system }) {
         <KpiCard title={t('in-phmc:machineTypeModel')} value={system.energy.machineTypeModel} raw borderless />
         <KpiCard title={t('in-phmc:machineSerial')} value={system.energy.machineSerial} raw borderless />
         <KpiCard title={t('in-phmc:sampleType')} value={system.energy.sampleType} raw borderless />
+      </KpiGridRow>
+      <KpiGridRow sizes={[4]}>
+        <KpiCard title={t('in-phmc:uuid')} value={system.energy.uuid} raw borderless />
       </KpiGridRow>
 
       <Row verticallyStretchColumns>

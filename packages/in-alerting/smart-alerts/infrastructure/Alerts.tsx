@@ -59,6 +59,7 @@ export default function Alerts() {
           sortOptions={sortOptions}
           alertsTab={infraSmartAlerts}
           renderName={replaceTitlePlaceholdersWithMarkup}
+          hideAlertIcon
         />
       </div>
       <Footer />

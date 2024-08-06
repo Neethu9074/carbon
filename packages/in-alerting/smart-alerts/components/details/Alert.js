@@ -56,7 +56,8 @@ export default function Alert({
   displayTearSheetActions = false,
   displayDuplicateAction = true,
   canConfigureGlobalAlertConfigs = false,
-  canConfigureIndividualAlertConfigs = false
+  canConfigureIndividualAlertConfigs = false,
+  hideAlertIcon = false
 }) {
   const { location, navigate } = useNavigation();
 
@@ -163,6 +164,7 @@ export default function Alert({
           displayEditAction={displayEditAction}
           displayTearSheetActions={displayTearSheetActions}
           displayDuplicateAction={displayDuplicateAction}
+          hideAlertIcon={hideAlertIcon}
         />
 
         <Row>
@@ -223,5 +225,6 @@ Alert.propTypes = {
   displayTearSheetActions: PropTypes.bool,
   displayDuplicateAction: PropTypes.bool,
   canConfigureGlobalAlertConfigs: PropTypes.bool,
-  canConfigureIndividualAlertConfigs: PropTypes.bool
+  canConfigureIndividualAlertConfigs: PropTypes.bool,
+  hideAlertIcon: PropTypes.bool
 };

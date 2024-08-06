@@ -8,12 +8,13 @@
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
+import { Typography } from '@instana/components';
 import { createLogger } from '@instana/logger';
 
 import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/IntegrationsBreadcrumb';
+import { callToastFlyout } from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/utils';
 import ElkForm from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Elk/ElkForm';
 import { teamSettingsIntegrationsLoggingElk } from 'in-settings/navigation/paths';
-import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import { integrationKey } from 'in-integrations/logging/elk/consts';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -103,15 +104,13 @@ export default class Elk extends React.Component {
         <Title title={t('in-settings:tabs.configureElk')} />
         <IntegrationsBreadcumb />
         <SubViewHeader>{t('in-settings:tabs.configureYourElkSettings')}</SubViewHeader>
-        <SectionLine />
         {form && (
           <form onSubmit={this.onSubmit}>
             <Fragment>
               <div style={{ marginBottom: '1rem' }}>
-                <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableElkIntegrationForInstana')}>
-                  <Heading text={t('in-settings:tabs.showElkLinkOnHostsContainersAndPods')} htmlFor="elk-enabled" />
-                </HorizontalFormGroup>
+                <Heading text={t('in-settings:tabs.showElkLinkOnHostsContainersAndPods')} htmlFor="elk-enabled" />
               </div>
+              <SectionLine />
             </Fragment>
 
             <ElkForm form={form} onChange={this.onChange} areFieldsBlank={areFieldsBlank(form)} disabled={!enabled} />
@@ -121,7 +120,8 @@ export default class Elk extends React.Component {
               message={message}
               loading={loading}
               hasCancelButton={false}
-              saveEnabled={!enabled || !areFieldsBlank(form)}
+              saveEnabled={!areFieldsBlank(form)}
+              type="integration"
             />
           </form>
         )}
@@ -159,12 +159,30 @@ export default class Elk extends React.Component {
       this.setState({
         loading: false
       });
+      const content = (
+        <section>
+          <Typography variant="heading-200">{t('in-settings:tabs.integrations.toastSuccessTitle')}</Typography>
+          <Typography variant="body-regular">
+            {t('in-settings:tabs.integrations.toastSuccessMessage', { integrationType: 'ELK' })}
+          </Typography>
+        </section>
+      );
+      callToastFlyout('success', content);
       goToPath(teamSettingsIntegrationsLoggingElk);
     });
 
     this.errorSubscription = result$.errors().once(error => {
       const message = `Failed to save configuration: ${error.message}`;
       logger.error(message, error);
+      const content = (
+        <section>
+          <Typography variant="heading-200">{t('in-settings:tabs.integrations.toastErrorTitle')}</Typography>
+          <Typography variant="body-regular">
+            {t('in-settings:tabs.integrations.integerationConfigurationFailed', { error: message })}
+          </Typography>
+        </section>
+      );
+      callToastFlyout('error', content);
       this.setState({
         loading: false,
         error: true,
@@ -217,5 +235,5 @@ function Heading({ text, htmlFor }) {
 }
 
 function areFieldsBlank(form) {
-  return isBlank(form.get('url').value) || isBlank(form.get('dashboard').value);
+  return isBlank(form.get('url').value) || isBlank(form.get('dashboard').value) || isBlank(form.get('basePath').value);
 }

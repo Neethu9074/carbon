@@ -23,15 +23,14 @@ export default function SplunkForm({ form, onChange, disabled, areFieldsBlank })
     <fieldset>
       {form.get('url').map(field => (
         <FormGroup>
-          <Label htmlFor="splunk-url" hasError={!disabled && !field.valid && field.touched}>
+          <Label htmlFor="splunk-url" hasError={!field.value && field.touched}>
             {t('in-settings:tabs.splunkInstance')}
           </Label>
           <Input
             id="splunk-url"
             value={field.value}
             onChange={e => onChange('url', e.target.value)}
-            hasError={!disabled && !field.valid && field.touched}
-            disabled={disabled}
+            hasError={!field.value && field.touched}
             autoFocus
           />
           {!disabled && <TouchedMessages field={field} />}
@@ -43,15 +42,14 @@ export default function SplunkForm({ form, onChange, disabled, areFieldsBlank })
 
       {form.get('index').map(field => (
         <FormGroup>
-          <Label htmlFor="splunk-index" hasError={!disabled && !field.valid && field.touched}>
+          <Label htmlFor="splunk-index" hasError={!field.value && field.touched}>
             {t('in-settings:tabs.index')}
           </Label>
           <Input
             id="splunk-index"
             value={field.value}
             onChange={e => onChange('index', e.target.value)}
-            hasError={!disabled && !field.valid && field.touched}
-            disabled={disabled}
+            hasError={!field.value && field.touched}
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
@@ -62,7 +60,9 @@ export default function SplunkForm({ form, onChange, disabled, areFieldsBlank })
 
       {!areFieldsBlank && (
         <FormGroup>
-          <Label htmlFor="splunk-test-link">{t('in-settings:tabs.testYourSplunkLink')}</Label>
+          <Label htmlFor="splunk-test-link">
+            <Trans i18nKey="in-settings:tabs.testYourSplunkLink" />
+          </Label>
           <Link size="sm" href={splunkUrl} external>
             {splunkUrl}
           </Link>
