@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 import { just, create } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import {
   columnDefinitions,
