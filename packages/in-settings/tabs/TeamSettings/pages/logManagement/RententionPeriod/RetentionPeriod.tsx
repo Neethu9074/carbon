@@ -6,10 +6,9 @@
 
 import React, { SetStateAction, useState, useEffect } from 'react';
 
-import { Card, HorizontalIndicator, Input, Link, LoadingSkeleton, Typography } from '@instana/components';
+import { Card, HorizontalIndicator, Input, Link, LoadingSkeleton, Typography, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Progress } from '@instana/types';
-import { Button } from '@instana/legacy';
 
 import {
   errorFeedback,

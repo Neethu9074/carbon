@@ -6,9 +6,8 @@
 import React, { useRef } from 'react';
 import rpt from 'prop-types';
 
+import { Message, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Message } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import TagBasedPayloadView from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadView';
 import TagBasedPayload from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayload';

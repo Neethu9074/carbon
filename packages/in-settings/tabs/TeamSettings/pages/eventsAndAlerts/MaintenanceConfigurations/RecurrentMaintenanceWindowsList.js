@@ -6,11 +6,9 @@
 import React, { useEffect, useState } from 'react';
 import { startCase } from 'lodash';
 
-import { Link, Stack, Typography } from '@instana/components';
-import { ButtonGroup } from '@instana/components';
+import { Link, Stack, Typography, Button, ButtonGroup } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
 
 import {
   editMaintenanceWindowTracker,
@@ -36,10 +34,10 @@ import {
   teamSettingsAlertingMaintenanceConfigurations,
   getEntityHref
 } from 'in-settings/navigation/paths';
+import { carbonButtonEnabled, recurrentMaintenanceWindowsTabsEnabled } from 'in-services/featureFlags';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
-import { recurrentMaintenanceWindowsTabsEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { indeterminateProgress } from 'in-services/fixedObjects';
@@ -159,7 +157,7 @@ export default function RecurrentMaintenanceWindowsList(props) {
                 iconSize="s"
                 kind="subtle"
                 size="compact"
-                className={locals.shareFeedback}
+                className={carbonButtonEnabled ? undefined : locals.shareFeedback}
               >
                 {t('in-settings:tabs.shareFeedback')}
               </Button>

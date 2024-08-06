@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { createLogger } from '@instana/logger';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import InviteUserDialog, {
   InviteSentState,

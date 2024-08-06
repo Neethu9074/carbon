@@ -8,10 +8,9 @@ import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
 import { PermissionSet, ScopeBinding, Result, OrderDirection } from '@instana/types';
-import { Stack, StackItem, SvgIcon, Typography } from '@instana/components';
+import { Stack, StackItem, SvgIcon, Typography, Button } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
-import { Button } from '@instana/legacy';
 
 import {
   AreaRole,

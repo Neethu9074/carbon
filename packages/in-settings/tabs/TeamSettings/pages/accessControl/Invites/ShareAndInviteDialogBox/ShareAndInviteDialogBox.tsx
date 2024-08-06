@@ -9,11 +9,9 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
-import { Stack, SvgIcon, Typography, Checkbox } from '@instana/components';
-import { useObservable } from '@instana/hooks';
+import { Stack, SvgIcon, Typography, Checkbox, Button } from '@instana/components';
 import { ApiGroup } from '@instana/types';
-import { Button } from '@instana/legacy';
-
+import { useObservable } from '@instana/hooks';
 import {
   FieldsProps,
   OnChangeProps,

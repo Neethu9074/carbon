@@ -18,7 +18,7 @@ import {
   DescriptionItem
 } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';

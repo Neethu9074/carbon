@@ -7,9 +7,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Stack, SvgIcon, Pill, RadioButton } from '@instana/components';
+import { Stack, SvgIcon, Pill, RadioButton, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { Button } from '@instana/legacy';
 
 import { putMetricDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { ConditionItem } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ConditionItem';

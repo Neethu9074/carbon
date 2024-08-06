@@ -6,8 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Stack, Checkbox } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Checkbox, Button } from '@instana/components';
 
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import MarketingMessageBox from 'in-settings/terms/MarketingMessageBox';

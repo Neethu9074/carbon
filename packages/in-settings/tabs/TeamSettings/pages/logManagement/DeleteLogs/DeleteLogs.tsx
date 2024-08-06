@@ -7,10 +7,9 @@
 import React, { SetStateAction, useState } from 'react';
 
 import { DeleteLogsResult } from '@instana/types/typeDefinitions';
+import { SvgIcon, Typography, Button } from '@instana/components';
 import { DateFormatterOutput } from '@instana/format-date';
-import { SvgIcon, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { Button } from '@instana/legacy';
 
 import {
   logManagementDeleteLogsClickedTracker,

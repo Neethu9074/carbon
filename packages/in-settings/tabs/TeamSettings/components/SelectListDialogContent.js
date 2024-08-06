@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
 import ValidationBlock from 'in-components/form/ValidationBlock';

@@ -9,11 +9,10 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
-import { SvgIcon, IconButton, Checkbox } from '@instana/components';
+import { SvgIcon, IconButton, Checkbox, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { createLogger } from '@instana/logger';
 import { create } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';

@@ -7,14 +7,14 @@ import { createMapForm, createField, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { List } from 'immutable';
 
-import { SvgIcon, DescriptionList, DescriptionItem } from '@instana/components';
+import { SvgIcon, DescriptionList, DescriptionItem, Button } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { Button } from '@instana/legacy';
 
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import SectionHelp from 'in-settings/components/SectionHelp';
 import FormGroup from 'in-settings/components/FormGroup';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -214,6 +214,7 @@ function Form({ form, onChange }) {
               />
               {idx > 0 && (
                 <Button
+                  size={carbonButtonEnabled ? 'compact' : 'normal'}
                   className={`${block}__delete-button`}
                   kind="danger"
                   onClick={() => removewebHookUrl(form, onChange, idx)}

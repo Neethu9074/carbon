@@ -17,11 +17,10 @@ import {
 } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Link, SvgIcon, Message, Checkbox } from '@instana/components';
+import { Link, SvgIcon, Message, Checkbox, Button } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Select } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import {
   firstMappingAdded,
