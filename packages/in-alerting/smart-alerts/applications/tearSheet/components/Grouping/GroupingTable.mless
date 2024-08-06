@@ -13,7 +13,6 @@
   .groupLabel {
     display: flex;
     align-items: center;
-
     margin-bottom: 0.25rem;
   }
 
@@ -52,8 +51,8 @@
   }
 
   .tableContainer {
-    min-height: 23rem;
-    height: 23rem;
+    min-height: 22rem;
+    height: 22rem;
     overflow: auto;
   }
 

@@ -66,7 +66,7 @@ export function AlertEvaluationControlPresenter({
         <LabelDescriptionWithIcon
           label={alertEvaluationTypes[type].tearSheetSelectionText}
           description={
-            evaluationCount?.[evaluationType]
+            evaluationCount?.[type]
               ? alertEvaluationTypes[type].tearSheetDescription(evaluationCount[type])
               : alertEvaluationTypes[type].tearSheetDescription(0)
           }

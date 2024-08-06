@@ -9,17 +9,23 @@ import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { getSingleNumberMetricId, getSparkChartTimeSeriesMetricId } from 'in-components/AnalyzeView/metrics';
+import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
-import { getSingleNumberMetricId } from 'in-components/AnalyzeView/metrics';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
+import { getSparkChartGranularity } from 'in-applications/metrics';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 
-const defaultSelectableFields = [{ type: 'metric', metricId: 'latency', aggregationId: 'MEAN' }];
-
-const fields = [...defaultSelectableFields];
+export const defaultSelectableFields = [{ type: 'metric', metricId: 'latency', aggregationId: 'MEAN' }];
+export const fields = [...defaultSelectableFields];
+export const WINDOW_SIZE = 86400000;
+export const timeConfig = {
+  to: Date.now(),
+  focusedMoment: Date.now(),
+  autoRefresh: false, // analyse calls are not supported in Live mode, so setting autoRefresh as false
+  windowSize: WINDOW_SIZE
+};
 
 export default function useAlertingGroupsByEvaluationType(
   includeInternal,
@@ -28,8 +34,8 @@ export default function useAlertingGroupsByEvaluationType(
   evaluationType,
   isTagFilterFormModelValid
 ) {
-  const timeConfig = { ...useTimeConfig(), to: Date.now(), focusedMoment: Date.now(), autoRefresh: false };
   const metricDefinitionByEvaluationType = getMetricDefinitionByEvaluationType(evaluationType);
+  const sparkChartGranularity = getSparkChartGranularity(timeConfig);
   const backendMetrics = useStableObjectInstance(
     fields
       .filter(({ type }) => type === metricType)
@@ -39,10 +45,13 @@ export default function useAlertingGroupsByEvaluationType(
           aggregation: metric.aggregationId
         };
         accumulator[getSingleNumberMetricId(metric)] = backendMetric;
+        accumulator[getSparkChartTimeSeriesMetricId(metric)] = {
+          ...backendMetric,
+          granularity: sparkChartGranularity
+        };
         return accumulator;
       }, {})
   );
-
   const { totalHits, awaitingData } = useCursorPagination(
     ({ cursor }) =>
       isTagFilterFormModelValid &&
@@ -53,9 +62,10 @@ export default function useAlertingGroupsByEvaluationType(
         timeConfig,
         metrics: backendMetrics,
         cursor,
-        metricDefinitionByEvaluationType
+        metricDefinitionByEvaluationType,
+        evaluationType
       }),
-    [backendMetrics, evaluationType]
+    [backendMetrics, evaluationType, tagFilterExpression, timeConfig, includeInternal, includeSynthetic]
   );
 
   if (awaitingData) {
@@ -64,17 +74,36 @@ export default function useAlertingGroupsByEvaluationType(
   return totalHits ?? 0;
 }
 
-function getData({
+export function getData({
   tagFilterExpression,
   includeInternal,
   includeSynthetic,
   timeConfig,
   metrics,
   cursor,
-  metricDefinitionByEvaluationType
+  metricDefinitionByEvaluationType,
+  evaluationType,
+  pagination
 }) {
+  if (evaluationType === PER_AP) {
+    const order = {
+      by: 'applicationLabel',
+      direction: 'ASC'
+    };
+
+    return getApplicationsWithDefaults({
+      timeConfig,
+      page: pagination?.page ?? 1,
+      pageSize: pagination?.pageSize ?? 5,
+      orderBy: order.by,
+      orderDirection: order.direction,
+      contextScope: 'NONE',
+      tagFilterExpression
+    });
+  }
+
   return getCallGroups({
-    tagFilterExpression: toBackendQueryModel(tagFilterExpression),
+    tagFilterExpression,
     group: {
       groupbyTag: metricDefinitionByEvaluationType.groupbyTag,
       groupbyTagEntity: metricDefinitionByEvaluationType.groupbyTagEntity

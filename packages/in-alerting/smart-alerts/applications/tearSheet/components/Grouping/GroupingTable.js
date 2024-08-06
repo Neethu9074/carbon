@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Ul, LiLoadMore, LiHorizontalIndicator, Li, ColumnizedContent, SvgIcon, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -20,31 +20,30 @@ import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
+import {
+  getData,
+  timeConfig,
+  fields
+} from 'in-alerting/smart-alerts/applications/tearSheet/hooks/useAlertingGroupsByEvaluationType';
 import GroupByKeyValue from 'in-alerting/smart-alerts/applications/tearSheet/components/Grouping/GroupByKeyValue';
 import { getSingleNumberMetricId, getSparkChartTimeSeriesMetricId } from 'in-components/AnalyzeView/metrics';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getDataSourceConfigurations } from 'in-applications/analyze/AnalyzeView2_0/AnalyzeView';
 import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
-import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { getSparkChartGranularity } from 'in-applications/metrics';
+import { meanLatencyFixed } from 'in-services/formatters/number';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { noResultObservable } from 'in-services/util/result';
 import { getFormatter } from 'in-stores/metric/formatters';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 import locals from './GroupingTable.mless';
-
-const defaultSelectableFields = [{ type: 'metric', metricId: 'latency', aggregationId: 'MEAN' }];
-
-const fields = [...defaultSelectableFields];
 
 export default function GroupingTable({
   tagFilterExpression,
@@ -52,13 +51,15 @@ export default function GroupingTable({
   includeSynthetic,
   evaluationType,
   form,
-  updateForm
+  updateForm,
+  pagination,
+  setPagination
 }) {
-  const timeConfig = { ...useTimeConfig(), to: Date.now(), focusedMoment: Date.now(), autoRefresh: false };
-  // analyse calls are not supported in Live mode, so setting autoRefresh as false
-
   const sparkChartGranularity = getSparkChartGranularity(timeConfig);
   const metricDefinitionByEvaluationType = getMetricDefinitionByEvaluationType(evaluationType);
+
+  const [prevItems, setPrevItems] = useState([]);
+  const [prevTotalHits, setPrevTotalHits] = useState(0);
 
   const backendMetrics = useStableObjectInstance(
     fields
@@ -77,9 +78,9 @@ export default function GroupingTable({
       }, {})
   );
 
-  const hiddenCalls = useMemo(() => {
-    return { includeInternal: false, includeSynthetic: false };
-  }, []);
+  const hiddenCalls = useEffect(() => {
+    return { includeInternal: form.get('includeInternal').value, includeSynthetic: form.get('includeSynthetic').value };
+  }, [form]);
 
   const dataSourceConfigurations = useMemo(
     () => getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls: () => {} }),
@@ -118,18 +119,31 @@ export default function GroupingTable({
     groupbyTag: metricDefinitionByEvaluationType.groupbyTag
   });
 
-  const { items, progress, canLoadMore, loadMore, totalHits } = useCursorPagination(
-    ({ cursor }) =>
-      getData({
+  const APMetricColumnDefinitions = applicationMetricColumns({ fields, timeConfig });
+
+  let { items, progress, canLoadMore, loadMore, totalHits } = useCursorPagination(
+    ({ cursor }) => {
+      return getData({
         includeInternal,
         includeSynthetic,
         tagFilterExpression,
         timeConfig,
         metrics: backendMetrics,
         cursor,
-        metricDefinitionByEvaluationType
-      }),
-    [backendMetrics, evaluationType]
+        metricDefinitionByEvaluationType,
+        evaluationType,
+        pagination
+      });
+    },
+    [
+      backendMetrics,
+      evaluationType,
+      pagination,
+      includeInternal,
+      includeSynthetic,
+      tagFilterExpression.toString(),
+      timeConfig
+    ]
   );
 
   useEffect(() => {
@@ -144,15 +158,47 @@ export default function GroupingTable({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalHits, evaluationType]);
 
-  const groupByName = useMemo(() => {
-    return getGroupByName(evaluationType);
+  // In the case of the application list, we need to manually handle the loadmore functionality, because the application API supports other pagination.
+  items = useMemo(() => {
+    if (evaluationType !== PER_AP) {
+      return items;
+    }
+    const item = (prevItems ?? []).concat(items ?? []);
+    setPrevItems(item);
+    return item;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
+
+  useEffect(() => {
+    setPrevItems([]);
+    // set the items array to [] when groupby evaluation is changed
   }, [evaluationType]);
+
+  totalHits = useMemo(() => {
+    if (evaluationType !== PER_AP) {
+      return totalHits;
+    }
+    if (totalHits === undefined) {
+      return prevTotalHits;
+    }
+    setPrevTotalHits(totalHits);
+    return totalHits;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [evaluationType, totalHits]);
+
+  canLoadMore = useMemo(() => {
+    if (evaluationType !== PER_AP) {
+      return canLoadMore;
+    }
+    return Math.ceil(totalHits / pagination.pageSize) !== pagination.page;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
 
   return (
     <div className={locals.groupTableWrapper}>
       {items.length > 0 && (
         <div className={locals.block}>
-          <AlertTypography variant="body-bold" color="color900" content={`${totalHits} ${groupByName}`} />
+          <AlertTypography variant="body-bold" color="color900" content={getContent(totalHits, evaluationType)} />
           <AlertTypography
             variant="body-small"
             color="color700"
@@ -174,76 +220,59 @@ export default function GroupingTable({
                       <div className={locals.label}>
                         <ColumnizedContent columnDefinitions={labelColumnDefinitions} item={item} />
                       </div>
-                      <div className={locals.metrics}>
+                      {evaluationType !== PER_AP ? (
+                        <div className={locals.metrics}>
+                          <ColumnizedContent
+                            columnDefinitions={metricColumnDefinitions}
+                            item={item}
+                            f
+                            progress={progress}
+                            timeConfig={timeConfig}
+                            sparkChartGranularity={sparkChartGranularity}
+                          />
+                        </div>
+                      ) : (
                         <ColumnizedContent
-                          columnDefinitions={metricColumnDefinitions}
+                          columnDefinitions={APMetricColumnDefinitions}
                           item={item}
                           f
                           progress={progress}
                           timeConfig={timeConfig}
                           sparkChartGranularity={sparkChartGranularity}
                         />
-                      </div>
+                      )}
                     </div>
                   </Li>
                 );
               })}
-              {canLoadMore && (
+              {canLoadMore && !progress.loading && (
                 <LiLoadMore
                   loadMore={() => {
-                    loadMore();
+                    return evaluationType === PER_AP ? loadMoreData(pagination, setPagination, progress) : loadMore();
                   }}
                 />
               )}
             </>
           )}
-          {progress.loading && <LiHorizontalIndicator progress={progress} />}
+          {progress?.loading && <LiHorizontalIndicator progress={progress} />}
         </Ul>
       </div>
     </div>
   );
 }
 
-function getData({
-  tagFilterExpression,
-  includeInternal,
-  includeSynthetic,
-  timeConfig,
-  metrics,
-  cursor,
-  metricDefinitionByEvaluationType
-}) {
-  return getCallGroups({
-    tagFilterExpression: toBackendQueryModel(tagFilterExpression),
-    group: {
-      groupbyTag: metricDefinitionByEvaluationType.groupbyTag,
-      groupbyTagEntity: metricDefinitionByEvaluationType.groupbyTagEntity
-    },
-    order: {
-      by: metricDefinitionByEvaluationType.orderBy,
-      direction: 'DESC'
-    },
-    pagination: {
-      cursor,
-      retrievalSize: 5
-    },
-    filter: {
-      timeConfig
-    },
-    metrics: metrics,
-    includeSynthetic,
-    includeInternal,
-    queryPrecision: 'APPROXIMATE'
-  }).map(result => {
-    if (result?.data?.items?.length) {
-      return {
-        ...result,
-        data: {
-          ...result.data
-        }
-      };
-    }
-    return result;
+function getContent(totalHits, evaluationType) {
+  if (evaluationType === PER_AP) {
+    return t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupByApplication', {
+      count: totalHits
+    });
+  } else if (evaluationType === PER_AP_SERVICE) {
+    return t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupByServices', {
+      count: totalHits
+    });
+  }
+  return t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupByEndpoint', {
+    count: totalHits
   });
 }
 
@@ -288,9 +317,39 @@ function labelColumns({ itemlabelColumnId, getColor, showChartGroupMarkers, grou
     {
       id: itemlabelColumnId,
       getContent({ item }) {
-        return <GroupByKeyValue id={item.name} groupbyTag={groupbyTag} />;
+        return <GroupByKeyValue id={item?.application?.label ?? item.name} groupbyTag={groupbyTag} />;
       }
     }
+  ];
+}
+
+function applicationMetricColumns({ columnDefinitions, fields, timeConfig }) {
+  return [
+    ...(columnDefinitions || emptyArray),
+    ...fields.map(() => {
+      return {
+        shrink: false,
+        width: '16rem',
+        minWidth: '9rem',
+        getContent({ item, sparkChartGranularity }) {
+          return (
+            <div className={locals.sparkChartWrapper}>
+              <SparkChart
+                loading={false}
+                rollup={sparkChartGranularity}
+                timeConfig={timeConfig}
+                aggregation="MEAN"
+                metrics={item?.metrics?.latency}
+                metric={item?.metrics?.latencyAgg}
+                tooltipFormatter={meanLatencyFixed.compact}
+                label={t('in-applications:labelLatency')}
+                valueTheme="blue"
+              />
+            </div>
+          );
+        }
+      };
+    })
   ];
 }
 
@@ -381,16 +440,6 @@ function getMetricDefinitionByEvaluationType(evaluationType) {
   }
 }
 
-function getGroupByName(evaluationType) {
-  if (evaluationType === PER_AP) {
-    return t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupByApplication');
-  } else if (evaluationType === PER_AP_SERVICE) {
-    return t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupByServices');
-  } else if (evaluationType === PER_AP_ENDPOINT) {
-    return t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupByEndpoint');
-  }
-}
-
 function getFormattedNumber(metricDefinition, customLatencyUiFormatterName, field) {
   if (isNumberFormatter(metricDefinition?.formatter)) {
     return withSiPrefixOneDecimalPlace;
@@ -401,4 +450,12 @@ function getFormattedNumber(metricDefinition, customLatencyUiFormatterName, fiel
   }
 
   return getBackendFormatter(metricDefinition?.formatter);
+}
+
+function loadMoreData(pagination, setPagination, progress) {
+  if (progress?.loading) {
+    return;
+    // Don't set the page number in case the groupby is loading.
+  }
+  setPagination({ page: pagination.page + 1, pageSize: pagination.pageSize });
 }
