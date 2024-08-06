@@ -53,7 +53,7 @@ const columnDefinitions = [
   },
   {
     id: 'utilizedMemPercentage',
-    label: t('in-phmc:memory'),
+    label: t('in-phmc:utilizedMem'),
     sortable: true,
     getContent(item, props, columnId) {
       return (

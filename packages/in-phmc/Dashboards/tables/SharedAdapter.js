@@ -62,7 +62,7 @@ const cols = [
       getValue(row) {
         return row.sharedAdapter.get('sentPackets');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -72,7 +72,7 @@ const cols = [
       getValue(row) {
         return row.sharedAdapter.get('receivedPackets');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -82,7 +82,7 @@ const cols = [
       getValue(row) {
         return row.sharedAdapter.get('droppedPackets');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -92,7 +92,7 @@ const cols = [
       getValue(row) {
         return row.sharedAdapter.get('sentBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.detailed
     }
   },
   {
@@ -102,7 +102,7 @@ const cols = [
       getValue(row) {
         return row.sharedAdapter.get('receivedBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.detailed
     }
   },
   {
@@ -112,7 +112,7 @@ const cols = [
       getValue(row) {
         return row.sharedAdapter.get('transferredBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.detailed
     }
   }
 ];
@@ -156,7 +156,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number,
+                formatter: number.perSecond.detailed,
                 metrics: [
                   'sharedAdapters.' + row.key + '.sentPackets',
                   'sharedAdapters.' + row.key + '.receivedPackets',
@@ -175,7 +175,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: bytes.compact,
+                formatter: bytes.perSecond.detailed,
                 metrics: [
                   'sharedAdapters.' + row.key + '.sentBytes',
                   'sharedAdapters.' + row.key + '.receivedBytes',

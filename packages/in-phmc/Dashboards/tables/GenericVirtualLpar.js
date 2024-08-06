@@ -63,7 +63,7 @@ const cols = [
       getValue(row) {
         return row.genericVirtualAdapter.get('numOfReads');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.compact
     }
   },
   {
@@ -73,7 +73,7 @@ const cols = [
       getValue(row) {
         return row.genericVirtualAdapter.get('numOfWrites');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.compact
     }
   },
   {
@@ -83,7 +83,7 @@ const cols = [
       getValue(row) {
         return row.genericVirtualAdapter.get('readBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.compact
     }
   },
   {
@@ -93,7 +93,7 @@ const cols = [
       getValue(row) {
         return row.genericVirtualAdapter.get('writeBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.compact
     }
   },
   {
@@ -103,7 +103,7 @@ const cols = [
       getValue(row) {
         return row.genericVirtualAdapter.get('transmittedBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.compact
     }
   }
 ];
@@ -147,7 +147,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number,
+                formatter: number.perSecond.compact,
                 metrics: [
                   'genericVirtualAdapters.' + row.key + '.numOfReads',
                   'genericVirtualAdapters.' + row.key + '.numOfWrites'
@@ -164,7 +164,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number,
+                formatter: bytes.perSecond.compact,
                 metrics: [
                   'genericVirtualAdapters.' + row.key + '.sentBytes',
                   'genericVirtualAdapters.' + row.key + '.receivedBytes',
