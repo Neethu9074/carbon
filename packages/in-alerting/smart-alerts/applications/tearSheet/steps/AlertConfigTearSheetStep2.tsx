@@ -55,7 +55,7 @@ export default function AlertConfigTearSheetStep2({
       <ExpandableLightCard
         title={
           <AlertTypography
-            variant="heading-300"
+            variant="heading-100"
             content={t('in-alerting:smartAlerts.applications.tearSheet.includeHiddenCalls.title')}
           />
         }
