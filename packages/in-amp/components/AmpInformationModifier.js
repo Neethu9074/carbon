@@ -57,7 +57,6 @@ export default function AmpInformationModifier({
         {!fupOverride && showFupMessage && (
           <Message
             type="neutral"
-            withIcon
             dismissible
             title={t('in-amp:components.fairUsePolicyMessage.title')}
             fullInlineWidth

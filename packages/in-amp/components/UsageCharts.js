@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { Message, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 import { Card } from '@instana/components';
 
 import { getAccountAsResultObservable, getActiveLicensesAsResultObservable } from 'in-amp/api/account';
@@ -220,7 +220,6 @@ export default function UsageCharts({
       <Row>
         <Col xs={12}>
           <Card>
-            {fupOverride && <Message withIcon title={t('in-amp:components.usageCharts.fupOverrideActiveText')} />}
             <SubViewHeader>
               Data usage
               <Tooltip content={t('in-amp:components.usageCharts.dataUsageHelperText')} align="rightMiddle">
