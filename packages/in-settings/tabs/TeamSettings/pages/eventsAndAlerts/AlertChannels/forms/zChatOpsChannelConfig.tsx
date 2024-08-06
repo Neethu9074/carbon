@@ -202,14 +202,13 @@ function Form({ form, onChange }: FormProps) {
       ))}
       {form.get('bearerAuthToken').map((field: Field<string>) => (
         <FormGroup>
-          <Label htmlFor="token" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.token')}
-          </Label>
           <ShowHideInputField
             placeholder="*******************"
             value={field.value}
             onChange={e => onChange('bearerAuthToken', e.target.value)}
             id="token"
+            labelText={t('in-settings:tabs.token')}
+            invalid={!field.valid && field.touched}
           />
           <TouchedMessages field={field} />
         </FormGroup>
