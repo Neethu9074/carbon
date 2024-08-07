@@ -157,5 +157,6 @@ module.exports = {
   syntheticMultiWebMobileEnabled: true,
   assistMeEnabled: true,
   userProfileMenuEnabled: false,
-  unitForInfraMetricsEnabled: true
+  unitForInfraMetricsEnabled: true,
+  applicationSmartAlertDialogView: true
 };

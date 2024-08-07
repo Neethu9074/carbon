@@ -744,5 +744,10 @@ module.exports = exports = [
     uiClientKey: 'unitForInfraMetricsEnabled',
     instanaCtlKey: 'feature.unit.for.infra.metrics.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'applicationSmartAlertDialogView',
+    instanaCtlKey: 'application.smart.alerts.dialog.view',
+    defaultValue: false
   }
 ];

@@ -179,6 +179,8 @@ export const applicationSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled
   'applicationSmartAlertFullScreenDesignEnabled'
 );
 
+export const applicationSmartAlertDialogView = isFeatureFlagEnabled('applicationSmartAlertDialogView');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
