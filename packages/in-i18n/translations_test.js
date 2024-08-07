@@ -77,7 +77,7 @@ describe.only('in-i18n/translations', function () {
       new Map()
     );
 
-    removeUiFoundationKey(unusedKeyMap);
+    verifyUiFoundationKeys(unusedKeyMap);
 
     if (unusedKeyMap.size > 0) {
       const keysAsString = JSON.stringify(Object.fromEntries(unusedKeyMap), null, 2);
@@ -277,17 +277,38 @@ function ignorePluralsAndContext(jsonTree) {
 }
 
 /**
- * ui-foundation i18n keys cannot be found within the ui-client codebase.
- * As such, the translation key usage test would fail. We remove all
- * ui-foundation i18n keys from the map of unused keys to avoid this
- * failure.
+ * Verify ui-foundation i18n keys.
  *
- * ui-foundation keys all belong to the default namespace and are located
- * under the components. prefix.
+ * Translation keys for the ui-foundation packages are defined in:
+ * ui-client > packages > in-i18n
+ *
+ * This function identifies unused ui-foundation keys.
+ *
+ * The main aim is to catch keys in ui-foundation/components.
+ * Additional legacy checks have been temporary added for now which will be deprecated in the future.
+ *
  */
-function removeUiFoundationKey(unusedKeysByNamespaceMap) {
+function verifyUiFoundationKeys(unusedKeysByNamespaceMap) {
   const keys = unusedKeysByNamespaceMap.get('in-i18n');
-  const withoutUiFoundationKeys = keys.filter(key => !key.startsWith('components.') && !key.startsWith('formatDate.'));
+
+  const instanaPackagePath = `${__dirname}/../../node_modules/@instana`;
+  const utf8Encoding = { encoding: 'utf8' };
+
+  const uiFoundationComponent = fs.readFileSync(`${instanaPackagePath}/components/esm/index.js`, utf8Encoding);
+  const uiFoundationLegacy = fs.readFileSync(`${instanaPackagePath}/legacy/esm/index.js`, utf8Encoding);
+  const uiFoundationFormatDate = fs.readFileSync(`${instanaPackagePath}/format-date/esm/apis.js`, utf8Encoding);
+
+  const withoutUiFoundationKeys = keys.filter(key => {
+    if (key.startsWith('components.') || key.startsWith('formatDate.')) {
+      const componentExists = uiFoundationComponent.includes(`'${key}'`);
+      const legacyExists = uiFoundationLegacy.includes(`'${key}'`);
+      const formatDateExists = uiFoundationFormatDate.includes(`'${key}'`);
+
+      if (!componentExists && !legacyExists && !formatDateExists) return true;
+      else return false;
+    }
+    return true;
+  });
   unusedKeysByNamespaceMap.set('in-i18n', withoutUiFoundationKeys);
   if (withoutUiFoundationKeys.length === 0) {
     unusedKeysByNamespaceMap.delete('in-i18n');
