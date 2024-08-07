@@ -7,9 +7,8 @@
 import React, { useState } from 'react';
 
 import { MetricConfiguration, OrderDirection, TagCatalog, TagFilterExpression, TimeConfig } from '@instana/types';
-import { Card, SvgIcon } from '@instana/components';
+import { Card, SvgIcon, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
 
 // @ts-expect-error Module needs to be translated to TS
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -18,6 +17,8 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 // @ts-expect-error Module needs to be translated to TS
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
 import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
+import { bizopsPerspectivesEnabled, bizopsStandardInclusionEnabled } from 'in-services/featureFlags';
+import BizOpsEmptyTableState from 'in-bizops/lists/businessProcess/components/BizOpsEmptyTableState';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { processColumnDefinitions } from 'in-bizops/lists/businessProcess/columnDefinitions';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -26,7 +27,6 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { bizopsPerspectivesEnabled } from 'in-services/featureFlags';
 import { businessProcessPath } from 'in-bizops/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -44,19 +44,35 @@ import locals from './BusinessProcessList.mless';
 const pathSegment = businessProcessPath;
 const matrixPrefix = '';
 
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  Renderer: withEmptyTableState({
+let ServerTableWithUrlState: any;
+
+if (bizopsStandardInclusionEnabled) {
+  ServerTableWithUrlState = createServerTableWithUrlState({
+    Renderer: BizOpsEmptyTableState({
+      columnDefinitions: processColumnDefinitions
+    }),
+    paginationResettingUrlParameters: [...timeConfigUrlParameters],
     columnDefinitions: processColumnDefinitions,
-    title: t('in-bizops:lists.noData'),
-    description: t('in-bizops:lists.noData')
-  }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters],
-  columnDefinitions: processColumnDefinitions,
-  defaultOrderBy: 'process_name',
-  defaultOrderDirection: 'ASC',
-  pathSegment,
-  matrixPrefix
-});
+    defaultOrderBy: 'process_name',
+    defaultOrderDirection: 'ASC',
+    pathSegment,
+    matrixPrefix
+  });
+} else {
+  ServerTableWithUrlState = createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
+      columnDefinitions: processColumnDefinitions,
+      title: t('in-bizops:lists.noData'),
+      description: t('in-bizops:lists.noData')
+    }),
+    paginationResettingUrlParameters: [...timeConfigUrlParameters],
+    columnDefinitions: processColumnDefinitions,
+    defaultOrderBy: 'process_name',
+    defaultOrderDirection: 'ASC',
+    pathSegment,
+    matrixPrefix
+  });
+}
 
 export default function BizOpsList() {
   const timeConfig = useTimeConfig();
