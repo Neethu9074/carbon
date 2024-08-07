@@ -48,8 +48,6 @@ import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { playwithEnabled } from 'in-services/featureFlags';
-import { hasSyntheticsAccess } from 'in-stores/permission';
 import { Location } from 'in-stores/navigation/types';
 import { timeConfig$ } from 'in-stores/time/config';
 import { role } from 'in-stores/user';
@@ -420,6 +418,20 @@ export default connectTo(() => ({
     headers: getHeaders()
   };
 
+  /**
+   * Checks whether the user has the permission to show the "Add tests +" or "Add smart alerts +" button.
+   * @returns {boolean} Permission
+   */
+  const checkPermission = (): boolean => {
+    if (syntheticTypeValue === 'test') {
+      return !!role?.canConfigureSyntheticTests;
+    }
+    if (syntheticTypeValue === 'smartalerts') {
+      return !!role?.canConfigureGlobalSyntheticSmartAlerts;
+    }
+    return false;
+  };
+
   return (
     <DatatableWrapper
       {...generalProps}
@@ -427,8 +439,8 @@ export default connectTo(() => ({
       tableType="syntheticWidget"
       label={`${widgetLabel}.${syntheticTypeValue}`}
       dashboardTileProps={dashboardTileProps}
-      hasAddPermission={role?.canConfigureSyntheticTests}
-      hasAddMore={hasSyntheticsAccess && syntheticTypeValue !== 'location' && !playwithEnabled}
+      hasAddPermission={checkPermission()} // Todo: The property needs to be removed from ui-foundation.
+      hasAddMore={checkPermission()}
       viewAll
       href={getLinks()}
       addMore={addMore}
