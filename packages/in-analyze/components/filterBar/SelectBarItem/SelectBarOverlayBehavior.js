@@ -10,7 +10,7 @@ import { timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import SelectBarOverlay from 'in-analyze/components/filterBar/SelectBarOverlay/SelectBarOverlay';
-import { isNotBlank, compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
+import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { identity } from 'in-services/util/function';
@@ -19,13 +19,14 @@ import { t } from 'in-i18n';
 export default function SelectBarOverlayBehavior(props) {
   const { upsertTagFilter, removeTagFilter, pluralLabel, tag, close, itemLabelRenderer = identity } = props;
   const tagFilters = props.tagFilters.filter(f => f.name !== props.tag || f.operator !== 'EQUALS');
-  const queryNotBlank = isNotBlank(props.query);
+  const [query, setQuery] = useState('');
+  const queryNotBlank = isNotBlank(query);
   const filterSuggestionsClientSide = props.filterSuggestionsClientSide === true;
 
   if (!filterSuggestionsClientSide && queryNotBlank) {
     tagFilters.push({
       name: props.tag,
-      stringValue: props.query,
+      stringValue: query,
       operator: 'CONTAINS'
     });
   }
@@ -42,9 +43,8 @@ export default function SelectBarOverlayBehavior(props) {
         return timeout(800).flatMap(() => props.getSuggestions(getSuggestionsConfig));
       }
       return props.getSuggestions(getSuggestionsConfig);
-    }, [props.getSuggestions, queryNotBlank, filterSuggestionsClientSide]) ?? pendingResult;
+    }, [props.getSuggestions, queryNotBlank, filterSuggestionsClientSide, query]) ?? pendingResult;
 
-  const [query, setQuery] = useState('');
   // query, loading, onQueryChange, selectedItem, items, onSelectItem
   let items = emptyArray;
   if (result.data) {
@@ -65,7 +65,7 @@ export default function SelectBarOverlayBehavior(props) {
 
   return (
     <SelectBarOverlay
-      items={items.filter(item => containsIgnoreCase(item.label, query))}
+      items={items}
       filterSuggestionsClientSide={filterSuggestionsClientSide}
       selectedItem={selectedItem}
       loading={result == null || result.progress.loading}
