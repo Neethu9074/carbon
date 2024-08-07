@@ -38,14 +38,18 @@ export default function AmpInformationModifier({
   const fupOverride = accountObservableResult?.data?.fupOverride;
 
   //Check whether limitedDataUsage flag is set for active paid licenses
-  let showFupMessage = false;
+  let limitedDataUsageCheck = false;
   const licenses = licenseObservableResult?.data?.items;
   if (licenses) {
     const paidLicenses = licenses.filter(eachLicense => eachLicense?.license?.paid);
     if (paidLicenses.length > 0) {
-      showFupMessage = paidLicenses.every(eachLicense => eachLicense?.license?.licenseSpecs?.limitedDataUsage === true);
+      limitedDataUsageCheck = paidLicenses.every(
+        eachLicense => eachLicense?.license?.licenseSpecs?.limitedDataUsage === true
+      );
     }
   }
+  const showFupMessage = limitedDataUsageCheck && !fupOverride;
+
   return (
     <div
       className={classNames({
@@ -54,14 +58,16 @@ export default function AmpInformationModifier({
       })}
     >
       <Stack>
-        {!fupOverride && showFupMessage && (
-          <Message
-            type="neutral"
-            dismissible
-            title={t('in-amp:components.fairUsePolicyMessage.title')}
-            fullInlineWidth
-          />
-        )}
+        <Message
+          type="neutral"
+          dismissible
+          title={
+            showFupMessage
+              ? t('in-amp:components.fairUsePolicyMessage.title')
+              : t('in-amp:components.fairUsePolicyNotActive.title')
+          }
+          fullInlineWidth
+        />
         <Stack direction="horizontal" distribution="spaceBetween">
           {unitSelectorOptions && (
             <ComboBoxBehavior
