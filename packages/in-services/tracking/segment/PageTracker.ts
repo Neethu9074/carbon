@@ -29,17 +29,18 @@ const usePageTracker = ({ productArea, pageRootName }: PageTrackerProps) => {
       return;
     }
     const url = window.location.href;
+    const { tenantUnitId, tenantId, tenantUnit, tenant, activeLicenseType } = config;
     const path = location.pathname;
     const userSelfDefinedRole =
       window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
-    productPlanType = getLicenseTypeForSegment(config.activeLicenseType);
+    productPlanType = getLicenseTypeForSegment(activeLicenseType);
     userId = customRealmName + '-' + config.tenantUnitId;
     segment.page('Page Viewed', {
       UT30: ut30,
-      instanceId: config.tenantUnitId,
-      instanceName: config.tenantUnit,
-      tenantId: config.tenantId,
-      tenantName: config.tenant,
+      instanceId: tenantUnitId,
+      instanceName: tenantUnit,
+      tenantId: tenantId,
+      tenantName: tenant,
       parentPageCategory: productArea,
       parentPageName: pageRootName,
       path: path,
