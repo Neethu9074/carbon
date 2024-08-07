@@ -177,7 +177,7 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
         </DashboardSection>
       </DashboardSection>
 
-      <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.mbcsConversation')}>
+      <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.mbcsConversions')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
