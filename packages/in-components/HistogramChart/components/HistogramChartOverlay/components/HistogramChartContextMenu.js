@@ -8,9 +8,8 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
-import { SvgIcon, keyCodes } from '@instana/components';
+import { SvgIcon, keyCodes, Button } from '@instana/components';
 import { on } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import { containsIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';

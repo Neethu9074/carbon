@@ -9,7 +9,7 @@ import { CSVLink } from 'react-csv';
 
 // this was imported from rxjs by accident probably since fetchData returns @instana/observables/Observable in every use case
 import { Observable } from '@instana/observables';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { Cursor } from '@instana/types';
 
 import { t } from 'in-i18n';
