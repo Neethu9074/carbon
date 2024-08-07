@@ -23,8 +23,7 @@
   }
 
   .deleteProperty {
-    display: flex;
-    align-items: center;
-    height: 4.5rem;
+    align-self: center;
+    margin-top: 1rem;
   }
 }
