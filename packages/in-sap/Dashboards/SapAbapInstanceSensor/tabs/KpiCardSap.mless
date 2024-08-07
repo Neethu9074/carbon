@@ -113,4 +113,7 @@
   .alignSvg {
     vertical-align: top;
   }
+  .upTime {
+    fill: var(--ids-color-option-green-500);
+  }
 }

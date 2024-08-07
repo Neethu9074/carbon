@@ -140,7 +140,13 @@ export default function KpiCard({
           <span className={locals.titleText}>
             {iconAction && (
               <div>
-                <SvgIcon className={locals.alignSvg} type={iconAction.icon} />
+                <SvgIcon
+                  type={iconAction.icon}
+                  className={classNames({
+                    [locals.alignSvg]: true,
+                    [locals.upTime]: iconAction.icon === 'lib_sap_upTime'
+                  })}
+                />
                 {title}
               </div>
             )}
