@@ -174,7 +174,7 @@ export default function SelectorNode({
       <ListGroup label={node.label} height={height} sticky>
         {node.children.map(node => (
           <SelectorNode
-            key={node.type === 'TAG' ? node.tagName : node.metric}
+            key={nodeKey(node)}
             node={node}
             focusNode={focusNode}
             onChange={onChange}
@@ -191,6 +191,13 @@ export default function SelectorNode({
     }
     return <Item node={node} onClick={() => focusNode(node)} columnDefinitions={columnDefinitions} />;
   }
+}
+
+export function nodeKey(node: MetricOptions | TagOptions) {
+  if (node.children && node.children.length > 0) {
+    return node.levelType ?? node.label;
+  }
+  return node.type === 'TAG' ? node.tagName : node.metric;
 }
 
 export interface ItemProps {

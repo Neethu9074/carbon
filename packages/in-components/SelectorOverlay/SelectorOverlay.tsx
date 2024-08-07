@@ -7,9 +7,9 @@ import React, { useRef, useState } from 'react';
 
 import { keyCodes, HorizontalIndicator, SearchInput } from '@instana/components';
 
+import SelectorNode, { nodeKey, Options } from 'in-components/SelectorOverlay/Node';
 import SlideInView, { ListHeader } from 'in-components/SlideInView/SlideInView';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import SelectorNode, { Options } from 'in-components/SelectorOverlay/Node';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { useSearch } from 'in-components/SelectorOverlay/search';
@@ -289,7 +289,7 @@ function OptionList({ options, disabled, focusNode, onChange, query, withIcons }
     <>
       {options.map(node => (
         <SelectorNode
-          key={node.type === 'TAG' ? node.tagName : node.metric}
+          key={nodeKey(node)}
           node={node}
           focusNode={disabled ? noop : focusNode}
           onChange={disabled ? noop : onChange}
