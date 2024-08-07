@@ -139,13 +139,13 @@ function SmartAlertConfigTearSheetWithQueryValidation({
     return getQueryBuilderForAlertType(rule.alertType, thresholdType);
   }, [rule.alertType, threshold.type]);
 
+  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid, true);
+
   const updateTagFilterExpression = (filteredTagFilterExpression: any) => {
     updateForm(form.updateIn(['tagFilterExpression'], (f: any) => f.setValue(filteredTagFilterExpression)));
   };
 
   useIsTagFilterFormModelExists(tagFilterExpression, getTagCatalog, updateTagFilterExpression);
-
-  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid, true);
 
   const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
 

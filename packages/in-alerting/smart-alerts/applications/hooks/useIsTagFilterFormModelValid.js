@@ -18,7 +18,7 @@ export default function useIsTagFilterFormModelValid(tagFilterFormModel, isQuery
 
   if (isTearSheet) {
     if (result?.progress?.loading) {
-      return 'loading';
+      return;
     }
     return !!result?.data;
   }
