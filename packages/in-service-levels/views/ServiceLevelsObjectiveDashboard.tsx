@@ -38,6 +38,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import { LabeledEntity } from 'in-service-levels/types';
+import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
 import { all } from 'in-hooks/utils/progress';
 
@@ -86,6 +87,7 @@ export default function ServiceLevelsObjectiveDashboard() {
           }
         />
       </SloTimeWindowProvider>
+      <Footer />
       {sloSmartAlertsEnabled && (
         <FloatingActionButtons>
           <FloatingActionButton icon="lib_alerts_create" kind="primaryv2" onClick={openCreateSmartAlertDialog}>
