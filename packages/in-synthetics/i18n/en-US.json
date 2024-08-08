@@ -400,13 +400,25 @@
         "tlsInstructions": "If you want to enable Redis TLS, you need to have your X.509 certificate-key pair (`tls.crt`, `tls.key`) and CA root certificate file (`ca.crt`).\n\nIf you do not have your key/cert files, you can also use openssl command to generate new ones, see below examples:",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "After key/cert files are provided, use the kubectl command to create a secret.",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n\t--type=\"kubernetes.io/tls\" \\\n\t--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n\t--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n\t--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n\t--type=\"kubernetes.io/tls\" \\\n\t--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n\t--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n\t--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}} Associations",
+        "singleAssociationTitle": "{{number}} Association"
       },
       "multiAppDialog": {
+        "filterLabel": "Applications",
         "singleAppHeader": "{{ number }} Association",
         "multiAppHeader": "{{ number }} Associations",
         "singleAppSpan": "{{ number }} Associated Application",
-        "multiAppSpan": "{{ number }} Associated Applications"
+        "multiAppSpan": "{{ number }} Associated Applications",
+        "noApplicationsAssociated": "No applications associated"
+      },
+      "multiWebDialog": {
+        "filterLabel": "Websites",
+        "noWebsitesAssociated": "No websites associated."
+      },
+      "multiMobileDialog": {
+        "filterLabel": "Mobile Apps",
+        "noMobileAppsAssociated": "No mobile apps associated."
       },
       "testLabel": "Name",
       "status": "Status",

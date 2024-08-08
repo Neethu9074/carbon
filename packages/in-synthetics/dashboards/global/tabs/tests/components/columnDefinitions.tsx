@@ -152,12 +152,13 @@ interface ApplicationLabelProps {
 }
 
 export function ApplicationLabel({ item, shouldDisplayLink }: ApplicationLabelProps) {
-  const applicationLabels = item.testResultCommonProperties?.testCommonProperties?.applicationLabels || [];
-  const applicationIds = item.testResultCommonProperties?.testCommonProperties?.applicationIds || [];
+  const applicationLabels = item?.testResultCommonProperties?.testCommonProperties?.applicationLabels || [];
+  const applicationIds = item?.testResultCommonProperties?.testCommonProperties?.applicationIds || [];
 
   if (syntheticMultiAppEnabled) {
     return (
       <ApplicationsContentPresenter
+        item={item}
         applicationIds={applicationIds}
         applicationLabels={applicationLabels}
         shouldDisplayLink={shouldDisplayLink}
