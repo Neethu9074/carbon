@@ -14,11 +14,14 @@ import {
   rulePropType,
   thresholdPropType
 } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
+import {
+  applicationSmartAlertFullScreenDesignEnabled,
+  applicationSmartAlertDialogView
+} from 'in-services/featureFlags';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { trackCreateSmartAlert, trackGotoAnalyze } from 'in-alerting/PotentialProblems/tracker';
 import { getLinkToUnboundAnalytics } from 'in-events/components/AnalyzeApplicationEventButton';
-import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { close } from 'in-components/DialogPresenter/store';
@@ -79,27 +82,29 @@ export default function PotentialProblemContentControls({
       </Button>
       {role.canConfigureApplicationSmartAlerts && applicationId && applicationLabel && (
         <>
-          <Button
-            kind="secondaryDarker"
-            onClick={() => {
-              close();
-              addActiveDialog(
-                renderSmartAlertDialogComponent({
-                  rule,
-                  threshold,
-                  applicationLabel,
-                  boundaryScope,
-                  granularity: defaultGranularity
-                })
-              );
-              trackCreateSmartAlert({
-                metricName: rule.metricName
-              });
-            }}
-            icon="lib_alerts_create"
-          >
-            {t('in-alerting:potentialProblems.buttonAddSmartAlert')}
-          </Button>
+          {applicationSmartAlertDialogView && (
+            <Button
+              kind="secondaryDarker"
+              onClick={() => {
+                close();
+                addActiveDialog(
+                  renderSmartAlertDialogComponent({
+                    rule,
+                    threshold,
+                    applicationLabel,
+                    boundaryScope,
+                    granularity: defaultGranularity
+                  })
+                );
+                trackCreateSmartAlert({
+                  metricName: rule.metricName
+                });
+              }}
+              icon="lib_alerts_create"
+            >
+              {t('in-alerting:potentialProblems.buttonAddSmartAlert')}
+            </Button>
+          )}
           {applicationSmartAlertFullScreenDesignEnabled && (
             <Button
               icon="lib_alerts_create"
@@ -123,7 +128,9 @@ export default function PotentialProblemContentControls({
                 close();
               }}
             >
-              {t('in-alerting:smartAlerts.applications.components.createSmartAlertNew')}
+              {applicationSmartAlertDialogView
+                ? t('in-alerting:smartAlerts.applications.components.createSmartAlertNew')
+                : t('in-alerting:smartAlerts.applications.components.createSmartAlert')}
             </Button>
           )}
         </>
