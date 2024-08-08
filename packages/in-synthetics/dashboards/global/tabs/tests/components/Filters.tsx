@@ -8,8 +8,9 @@ import React, { Fragment } from 'react';
 
 import { Result, SyntheticTest } from '@instana/types';
 
+import { association, FilterSectionProps } from 'in-synthetics/utils/constants';
+import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
-import { FilterSectionProps } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
@@ -30,7 +31,8 @@ export default function Filters({
   result,
   syntheticTypes,
   locationIds,
-  applicationIds = []
+  applicationIds = [],
+  entityIds = []
 }: FilterSectionProps) {
   return (
     <Fragment>
@@ -52,11 +54,18 @@ export default function Filters({
       />
       {!isAssociationsContext && (
         <ComboBox
-          value={applicationIds}
-          onChange={t => Array.isArray(t) && setFilter({ applicationIds: t.map(a => a.value) })}
+          value={syntheticMultiWebMobileEnabled ? entityIds : applicationIds}
+          onChange={t =>
+            Array.isArray(t) &&
+            setFilter(
+              syntheticMultiWebMobileEnabled
+                ? { entityIds: t.map(a => a.value) }
+                : { applicationIds: t.map(a => a.value) }
+            )
+          }
           placeholder={t('in-synthetics:dashboard.testList.applicationLabel')}
           isMulti
-          options={getApplicationLabels(result)}
+          options={syntheticMultiWebMobileEnabled ? getAssociationLabels() : getApplicationLabels(result)}
           className={locals.filter}
         />
       )}
@@ -150,4 +159,21 @@ function getApplicationLabels(result: Result<SyntheticTest[]> | undefined) {
 
   // return application labels and ids;
   return applicationLabelOptions;
+}
+
+function getAssociationLabels() {
+  return [
+    {
+      label: association.applications,
+      value: 'applications'
+    },
+    {
+      label: association.websites,
+      value: 'websites'
+    },
+    {
+      label: association.mobileApps,
+      value: 'mobileApps'
+    }
+  ] as Option[];
 }
