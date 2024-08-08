@@ -141,7 +141,7 @@ export default function AwsDocumentdbInstanceDashboard({
               type: 'line'
             }}
             y2={{
-              metrics: ['documents_returned', 'documents_inserted'],
+              metrics: ['documents_inserted', 'documents_returned'],
               labels: [
                 t('in-forge:plugins.awsDocumentDbInstance.dashboard.inserted'),
                 t('in-forge:plugins.awsDocumentDbInstance.dashboard.returned')

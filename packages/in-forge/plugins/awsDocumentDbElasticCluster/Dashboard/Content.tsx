@@ -80,7 +80,7 @@ export default function awsDocumentDbElasticClusterDashboard({
               type: 'line'
             }}
             y2={{
-              metrics: ['documents_returned', 'documents_inserted'],
+              metrics: ['documents_inserted', 'documents_returned'],
               labels: [
                 t('in-forge:plugins.awsDocumentDbElasticCluster.dashboard.inserted'),
                 t('in-forge:plugins.awsDocumentDbElasticCluster.dashboard.returned')

@@ -137,7 +137,7 @@ export default function awsDocumentDbClusterDashboard({
               type: 'line'
             }}
             y2={{
-              metrics: ['documents_returned', 'documents_inserted'],
+              metrics: ['documents_inserted', 'documents_returned'],
               labels: [
                 t('in-forge:plugins.awsDocumentDbCluster.dashboard.inserted'),
                 t('in-forge:plugins.awsDocumentDbCluster.dashboard.returned')
