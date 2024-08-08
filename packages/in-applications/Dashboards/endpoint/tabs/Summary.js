@@ -40,11 +40,11 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
 
   const tagFilters = [{ stringValue: endpointId, name: 'endpoint.id', entity: DESTINATION, operator: EQUALS }];
 
-  if (serviceId != null) {
+  if (serviceId) {
     tagFilters.push({ stringValue: serviceId, name: 'service.id', entity: DESTINATION, operator: EQUALS });
   }
 
-  if (applicationId != null) {
+  if (applicationId) {
     if (boundaryScope === boundaryScopes.all) {
       tagFilters.push({ stringValue: applicationId, name: 'application.id', entity: DESTINATION, operator: EQUALS });
     } else {
