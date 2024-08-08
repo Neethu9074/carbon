@@ -5,7 +5,7 @@
  */
 
 import { DragDropContext, Draggable, DraggableProvidedDragHandleProps, Droppable } from 'react-beautiful-dnd';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -21,18 +21,18 @@ import {
   hasWebsitesAccess,
   hasMobileAppsAccess,
   hasApplicationsAccess,
-  hasEventsAccess,
   hasAPlatformAccess,
   hasBizOpsAccess,
   hasInfrastructureAccess,
-  hasSyntheticsAccess
+  hasSyntheticsAccess,
+  hasEventsAccess
 } from 'in-stores/permission';
 import WebsitesAndMobileListWidget from 'in-plg/pages/WelcomePage/widgets/WebsitesAndMobileListWidget';
 import SyntheticMonitoringWidget from 'in-plg/pages/WelcomePage/widgets/SyntheticMonitoringWidget';
 import BusinessMonitoringWidget from 'in-plg/pages/WelcomePage/widgets/BusinessMonitoringWidget';
 import InfrastructureWidget from 'in-plg/pages/WelcomePage/widgets/InfrastructureWidget';
 import ApplicationWidget from 'in-plg/pages/WelcomePage/widgets/ApplicationWidget';
-import EventsChardWidget from 'in-plg/pages/WelcomePage/widgets/EventsChartWidget';
+import EventsChartWidget from 'in-plg/pages/WelcomePage/widgets/EventsChartWidget';
 import IncidentsWidget from 'in-plg/pages/WelcomePage/widgets/IncidentsWidget';
 import DashboardWidget from 'in-plg/pages/WelcomePage/widgets/DashboardWidget';
 import PlatformWidget from 'in-plg/pages/WelcomePage/widgets/PlatformWidget';
@@ -53,35 +53,12 @@ interface WidgetOrdering {
 const settingsKey = 'WidgetOrdering';
 const itemIds: WidgetOrdering[] = [];
 
-type tableEntry = {
-  key?: string;
-  label: string;
-  addLabel?: string;
-  icon?: string;
-  widget?: React.FunctionComponent<{
-    type?: string | undefined;
-    infraType?: string;
-    widgetLabel?: string;
-    syntheticType?: string;
-    dashboardTileProps?: DashboardTileParamProps;
-    maxItems?: number | null;
-    viewAll?: boolean;
-  }>;
-  type?: string;
-  toogles?: string[];
-  infraType?: string;
-  syntheticType?: string;
-  config?: string;
-};
-
 export interface DashboardTileParamProps {
   key: number;
   header: string;
-  addLabel?: string;
-  searchAndViewAllLabel?: string;
   icon?: string;
   dragAndDropConfigs?: DraggableProvidedDragHandleProps;
-  toggles?: string[];
+  toggles?: ReactNode;
   toggleCallback?: (index: number) => void;
   sectionLabel?: string;
 }
@@ -127,14 +104,6 @@ function getPlatformsTitle() {
   return '';
 }
 
-const infrastructureArray = [
-  { value: 'host', label: 'Hosts' },
-  { value: 'docker', label: 'Containers' },
-  { value: 'process', label: 'Processes' }
-];
-
-const infrastructureToogleArray: string[] = infrastructureArray.map(ele => ele.label);
-
 const syntheticArray = [
   { value: 'test', label: 'Tests' },
   { value: 'location', label: 'Locations' },
@@ -153,14 +122,12 @@ const widgetData = [
   {
     key: 'dashboardWidget',
     label: t('in-plg:welcomepage.component.dashboardWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.dashboardWidget.addLabel'),
     icon: 'lib_actions_reorder',
     widget: DashboardWidget
   },
   {
     key: 'websitesWidget',
     label: t('in-plg:welcomepage.component.websitesWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.websitesWidget.addLabel'),
     icon: 'lib_actions_reorder',
     type: 'website',
     widget: WebsitesAndMobileListWidget
@@ -168,7 +135,6 @@ const widgetData = [
   {
     key: 'mobileListWidget',
     label: t('in-plg:welcomepage.component.mobileAppsWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.mobileAppsWidget.addLabel'),
     icon: 'lib_actions_reorder',
     type: 'mobileApps',
     widget: WebsitesAndMobileListWidget
@@ -176,14 +142,12 @@ const widgetData = [
   {
     key: 'businessMonitoringWidget',
     label: t('in-plg:welcomepage.component.bizopsWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.bizopsWidget.viewLabel'),
     icon: 'lib_actions_reorder',
     widget: BusinessMonitoringWidget
   },
   {
     key: 'applicationWidget',
     label: t('in-plg:welcomepage.component.applicationWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.applicationWidget.addLabel'),
     icon: 'lib_actions_reorder',
     widget: ApplicationWidget
   },
@@ -196,16 +160,11 @@ const widgetData = [
   {
     key: 'infrastructureWidget',
     label: t('in-plg:welcomepage.component.infrastructureWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.infrastructureWidget.hostLabel'),
-    toogles: infrastructureToogleArray,
-    infraType: 'host',
-    widget: InfrastructureWidget,
-    type: 'infrastructure'
+    widget: InfrastructureWidget
   },
   {
     key: 'syntheticWidget',
     label: t('in-plg:welcomepage.component.syntheticWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.syntheticWidget.testLabel'),
     toogles: syntheticToogleArray,
     syntheticType: 'test',
     widget: SyntheticMonitoringWidget,
@@ -218,7 +177,7 @@ const widgetData = [
   }
 ];
 
-const tableEntryArray: tableEntry[] = widgetData
+const tableEntryArray: any[] = widgetData
   .filter(
     ele =>
       (ele.key === 'applicationWidget' && hasApplicationsAccess) ||
@@ -318,14 +277,13 @@ function RenderTable() {
                     const dashboardTileProps: DashboardTileParamProps = {
                       key: +_config.id,
                       header: ele.label,
-                      addLabel: ele.addLabel,
                       icon: ele.icon,
                       dragAndDropConfigs: provided.dragHandleProps,
                       sectionLabel: ele.label
                     };
                     return ele?.key === 'eventsWidget' ? (
                       <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>
-                        <EventsChardWidget {...dashboardTileProps} />
+                        <EventsChartWidget {...dashboardTileProps} />
                       </div>
                     ) : (
                       <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>
