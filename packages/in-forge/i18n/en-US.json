@@ -8272,6 +8272,18 @@
       "httpRequests": "HTTP Requests",
       "device": "Device"
     },
+    "FileMonitoring": {
+      "dashboard": {
+        "name": "Situation",
+        "path": "path",
+        "pollingInterval": "polling Interval",
+        "severity": "severity",
+        "issueTriggered": "issueTriggered"
+      },
+      "FileSystem": "File Monitoring",
+      "Situations": "Situations",
+      "host": "Host"
+    },
     "finagleApplicationContainer": {
       "dashboard": {
         "finagle": "Finagle"
