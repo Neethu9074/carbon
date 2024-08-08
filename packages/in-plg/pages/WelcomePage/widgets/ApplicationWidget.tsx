@@ -40,10 +40,8 @@ import { applicationsList } from 'in-applications/navigation/paths';
 import getMetrics from 'in-applications/subscriptions/getMetrics';
 import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { hasError, isLoading } from 'in-services/util/result';
-import { hasApplicationsAccess } from 'in-stores/permission';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
-import { playwithEnabled } from 'in-services/featureFlags';
 import { getTimeConfig } from 'in-stores/time/config';
 import { role } from 'in-stores/user';
 
@@ -333,7 +331,7 @@ export default function ApplicationWidget({
       getItems={getApplicationData}
       getItem={getItem}
       hasAddPermission={role?.canConfigureApplications}
-      hasAddMore={hasApplicationsAccess && !playwithEnabled}
+      hasAddMore={role?.canConfigureApplications}
       viewAll
       addMore={addNewApplications}
       addData={addNewApplications}
