@@ -234,6 +234,7 @@ function createPermissionSet() {
     kubernetesNamespaceUIDs: [],
     websiteIds: [],
     mobileAppIds: [],
+    syntheticCredentialKeys: [],
     syntheticTestIds: [],
     businessPerspectiveIds: [],
     infraDfqFilter: { scopeId: '', scopeRoleId: '-1' }
