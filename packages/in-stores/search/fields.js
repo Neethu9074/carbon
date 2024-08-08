@@ -68,6 +68,7 @@ const helpTexts = {
   'entity.azure.service.postgresql': t('in-stores:search.fieldsEntityAzureServicePostgreSQL'),
   'entity.azure.service.loadbalancer': t('in-stores:search.fieldsEntityAzureLoadBalancer'),
   'entity.azure.service.signalr': t('in-stores:search.fieldsEntityAzureSignalR'),
+  'entity.azure.service.applicationgateway': t('in-stores:search.fieldsEntityAzureApplicationGateway'),
   'entity.host': t('in-stores:search.fieldsEntityHost'),
   'entity.host.os': t('in-stores:search.fieldsEntityHostOs'),
   'entity.ibmMq': t('in-stores:search.fieldsEntityIbmMq'),
