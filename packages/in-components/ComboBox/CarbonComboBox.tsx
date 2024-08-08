@@ -12,7 +12,7 @@ import type { ComboBoxProps, Option } from './types';
 import { t } from 'in-i18n';
 
 export default function ComboBox({ ...props }: ComboBoxProps): JSX.Element {
-  const selopt = props.value ? props.options.find(e => e.value === props.value) : props.value;
+  const selopt = props.value ? props.options?.find(e => e.value === props.value) : props.value;
   const itemToElement = (item: any) => {
     return props.components.Option({ data: item, getValue: () => {} });
   };
