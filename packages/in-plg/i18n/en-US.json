@@ -676,8 +676,17 @@
         "buttonName": "Add mobile applications"
       },
       "infrastructureWidget": {
-        "header": "No hosts, containers or processes",
-        "description": "Find the result of the deployed agent here."
+        "description": "Deploy an agent to see the details here.<br>Get started on the <linkToAgents>Agents</linkToAgents> page.",
+        "link": "Agents",
+        "hosts": {
+          "header": "No hosts"
+        },
+        "docker": {
+          "header": "No containers"
+        },
+        "process": {
+          "header": "No processes"
+        }
       },
       "platformsWidget": {
         "header": "No platforms",

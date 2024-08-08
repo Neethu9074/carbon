@@ -607,7 +607,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       getItems={getItems}
       viewAll
       href={createHref(fullListViewLocation)}
-      label={widgetLabel}
+      label={`${widgetLabel}.${selectedType}`}
       dashboardTileProps={dashboardTileProps}
       pinnedItemTypes={pinnedTypes}
       searchPlaceholderLabel={getPlaceholderLabel()}
