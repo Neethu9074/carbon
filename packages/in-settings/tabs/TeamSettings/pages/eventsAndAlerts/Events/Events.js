@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import classNames from 'classnames';
 
 import { Spacer, Message } from '@instana/components';
+import { Link, Stack } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
 
 import {
   builtInEnumValue,
@@ -180,40 +180,42 @@ export default function Events({
 
   function inSelectListDialogRightHeader() {
     return (
-      <Fragment>
-        <ComboBox
-          name="filter-type"
-          value={type}
-          options={typeOptions}
-          onChange={e => (e ? setType(e.value) : setType(null))}
-          placeholder={t('in-settings:tabs.type')}
-          className={locals.filterDropdown}
-        />
-        <ComboBox
-          name="filter-severity"
-          value={severity}
-          options={severityOptions}
-          onChange={e => (e ? setSeverity(e.value) : setSeverity(null))}
-          placeholder={t('in-settings:tabs.incidentsSeverity')}
-          className={classNames(locals.severityDropdown, locals.filterDropdown)}
-        />
-        <ComboBox
-          name="filter-entity-type"
-          value={entityType}
-          options={allEntityTypeOptions}
-          onChange={e => (e ? setEntityType(e.value) : setEntityType(null))}
-          placeholder={t('in-settings:tabs.entityType')}
-          className={classNames(locals.entityTypeDropdown, locals.filterDropdown)}
-        />
-        <ComboBox
-          name="filter-enabled"
-          value={enabled}
-          options={enabledOptions}
-          onChange={e => (e ? setEnabled(e.value) : setEnabled(null))}
-          placeholder={t('in-settings:tabs.state')}
-          className={locals.stateDropdown}
-        />
-      </Fragment>
+      <div className={locals.selectGap}>
+        <Stack direction="horizontal" gap="xsmall">
+          <ComboBox
+            name="filter-type"
+            value={type}
+            options={typeOptions}
+            onChange={e => (e ? setType(e.value) : setType(null))}
+            placeholder={t('in-settings:tabs.type')}
+            className={locals.filterDropdown}
+          />
+          <ComboBox
+            name="filter-severity"
+            value={severity}
+            options={severityOptions}
+            onChange={e => (e ? setSeverity(e.value) : setSeverity(null))}
+            placeholder={t('in-settings:tabs.incidentsSeverity')}
+            className={classNames(locals.severityDropdown, locals.filterDropdown)}
+          />
+          <ComboBox
+            name="filter-entity-type"
+            value={entityType}
+            options={allEntityTypeOptions}
+            onChange={e => (e ? setEntityType(e.value) : setEntityType(null))}
+            placeholder={t('in-settings:tabs.entityType')}
+            className={classNames(locals.entityTypeDropdown, locals.filterDropdown)}
+          />
+          <ComboBox
+            name="filter-enabled"
+            value={enabled}
+            options={enabledOptions}
+            onChange={e => (e ? setEnabled(e.value) : setEnabled(null))}
+            placeholder={t('in-settings:tabs.state')}
+            className={locals.stateDropdown}
+          />
+        </Stack>
+      </div>
     );
   }
 }

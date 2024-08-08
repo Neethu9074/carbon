@@ -6,10 +6,6 @@
 @import '~in-themes/mixins.less';
 
 :local {
-  .filterDropdown {
-    margin-right: 0.5rem;
-  }
-
   .severityDropdown {
     width: 13.5rem;
   }
@@ -49,5 +45,9 @@
 
   .migrated {
     color: var(--ids-color-option-green-500);
+  }
+
+  .selectGap {
+    margin-right: 0.5rem;
   }
 }
