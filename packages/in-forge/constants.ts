@@ -49,6 +49,9 @@ export const nonServicePlugins = {
   awsMskBroker: 'awsMskBroker',
   awsRedshiftCluster: 'awsRedshiftCluster',
   awsRedshiftNode: 'awsRedshiftNode',
+  awsDocumentDbCluster: 'awsDocumentDbCluster',
+  awsDocumentDbInstance: 'awsDocumentDbInstance',
+  awsDocumentDbElasticCluster: 'awsDocumentDbElasticCluster',
   awsRds: 'awsRds',
   awsSqs: 'awsSqs',
   awsSns: 'awsSns',
@@ -444,6 +447,11 @@ export const fullyQualifiedPlugins = {
   awsMskBroker: 'com.instana.forge.hardware.virtual.aws.msk.derivedentity.broker.AwsMskBroker',
   awsRedshiftCluster: 'com.instana.forge.hardware.virtual.aws.redshift.derivedentity.cluster.AwsRedshiftCluster',
   awsRedshiftNode: 'com.instana.forge.hardware.virtual.aws.redshift.derivedentity.node.AwsRedshiftNode',
+  awsDocumentDbCluster: 'com.instana.forge.hardware.virtual.aws.documentdb.derivedentity.cluster.AwsDocumentDbCluster',
+  awsDocumentDbElasticCluster:
+    'com.instana.forge.hardware.virtual.aws.documentdb.derivedentity.elasticcluster.AwsDocumentDbElasticCluster',
+  awsDocumentDbInstance:
+    'com.instana.forge.hardware.virtual.aws.documentdb.derivedentity.instance.AwsDocumentDbInstance',
   awsRds: 'com.instana.forge.hardware.virtual.aws.rds.AwsRds',
   awsSqs: 'com.instana.forge.hardware.virtual.aws.sqs.AwsSqs',
   awsSns: 'com.instana.forge.hardware.virtual.aws.sns.AwsSns',
