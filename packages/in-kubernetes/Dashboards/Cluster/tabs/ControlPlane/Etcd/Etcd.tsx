@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -9,17 +9,27 @@ import React from 'react';
 import { Spacer, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
+import { Result } from '@instana/types';
 
+import EtcdChartsV3 from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd/EtcdChartsV3';
+import EtcdChartsV2 from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd/EtcdChartsV2';
 import getEtcdHosts from 'in-kubernetes/subscriptions/getEtcdHosts';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
+import SectionLine from 'in-settings/components/SectionLine';
 import { pendingResult } from 'in-services/fixedObjects';
 import { ChartProps, EtcdProps } from './types';
 import KpiCard from 'in-components/KpiCard';
-import EtcdChartsV3 from './EtcdChartsV3';
-import EtcdChartsV2 from './EtcdChartsV2';
+
+interface EtcdHostInfoProps {
+  clusterVersion: string;
+  controlPlaneHostCount: number;
+  controlPlaneHostWithEtcdCount: number;
+  etcdSnapshotIds: string[];
+  serverVersion: string;
+}
 
 export default function Etcd({ clusterId, timeConfig }: EtcdProps) {
-  const etcdHostInfo: any =
+  const etcdHostInfo: Result<EtcdHostInfoProps> =
     useObservable(getEtcdHosts({ filter: { clusterId, timeConfig } }), Object.values({ clusterId, timeConfig })) ??
     pendingResult;
 
@@ -30,15 +40,17 @@ export default function Etcd({ clusterId, timeConfig }: EtcdProps) {
     return null;
   }
 
+  const renderValue = (value: string) => <span>{value}</span>;
   const { controlPlaneHostCount, controlPlaneHostWithEtcdCount } = etcdHostData;
   const availability = `${controlPlaneHostWithEtcdCount} of ${controlPlaneHostCount}`;
 
   return (
     <>
+      <SectionLine isFullWidth />
       <Typography variant="heading-400">{t('in-kubernetes:dashboards.etcd')}</Typography>
       <KpiGridRow sizes={[true, true]}>
         <KpiCard title={t('in-kubernetes:dashboards.cluster')} value={clusterVersion} />
-        <KpiCard title={t('in-kubernetes:dashboards.availability')} value={availability} />
+        <KpiCard title={t('in-kubernetes:dashboards.availability')} value={availability} renderValue={renderValue} />
       </KpiGridRow>
       <Spacer vertical="large" />
       <EtcdChart

@@ -58,7 +58,8 @@
       "dataIngestEntitlementFromOnDemand": "Data Ingest fair-Use Entitlement from On-Demand MVS",
       "totalDataIngestEntitlement": "Total Data Ingest Entitlement",
       "actualDataIngest": "Actual Data-Ingest",
-      "onDemandDataIngest": "On-Demand Data-Ingest"
+      "onDemandDataIngest": "On-Demand Data-Ingest",
+      "noData": "No data"
     },
     "timePresets": {
       "last7Days": "Last 7 days",

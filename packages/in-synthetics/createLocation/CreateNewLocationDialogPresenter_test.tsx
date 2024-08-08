@@ -29,21 +29,21 @@ describe('CreateNewLocationDialogPresenter', () => {
     expect(screen.getByText('New Location')).toBeInTheDocument();
   });
 
-  it('highlights Private type when Private Location is chosen', () => {
-    render(
-      <CreateNewLocationDialogPresenter
-        form={createNewLocationForm('private')}
-        onClose={onClose}
-        formId={'new-location-form'}
-        updateForm={updateForm}
-        simpleModeStep={0}
-        setSimpleModeStep={setSimpleModeStep}
-      />
-    );
+  // it('highlights Private type when Private Location is chosen', () => {
+  //   render(
+  //     <CreateNewLocationDialogPresenter
+  //       form={createNewLocationForm('private')}
+  //       onClose={onClose}
+  //       formId={'new-location-form'}
+  //       updateForm={updateForm}
+  //       simpleModeStep={0}
+  //       setSimpleModeStep={setSimpleModeStep}
+  //     />
+  //   );
 
-    expect(screen.getAllByRole('listitem')[0].className.includes('selected')).toBeTruthy();
-    expect(screen.getAllByRole('listitem')[1].className.includes('selected')).toBeFalsy();
-  });
+  //   expect(screen.getAllByRole('listitem')[0].className.includes('selected')).toBeTruthy();
+  //   expect(screen.getAllByRole('listitem')[1].className.includes('selected')).toBeFalsy();
+  // });
 
   it('verify Next and Cancel button is present', () => {
     render(

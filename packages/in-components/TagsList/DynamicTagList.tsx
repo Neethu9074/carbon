@@ -112,9 +112,11 @@ export function DynamicTagList({ tags }: DynamicTagListProps) {
             }
             delay={500}
           >
-            <Pill className={locals.singleTag} color={themes.default.ids.color.option.neutral['400']}>
-              <Typography variant="body-small">+{hiddenTags.length}</Typography>
-            </Pill>
+            <div>
+              <Pill className={locals.singleTag} color={themes.default.ids.color.option.neutral['400']}>
+                <Typography variant="body-small">+{hiddenTags.length}</Typography>
+              </Pill>
+            </div>
           </Tooltip>
         )}
       </div>

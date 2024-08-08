@@ -9,6 +9,7 @@ import React from 'react';
 
 import { TimeConfig, EntityHealthInfo } from '@instana/types';
 import { Stack, Link, IconButton } from '@instana/components';
+import { combineLatest } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
@@ -22,26 +23,31 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 //@ts-expect-error doesn't contain type file
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 import { mobileAppMonitoringPath, useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-cockpit/starredItems';
-import { GetContentFunction } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import { useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
-//@ts-expect-error doesn't contain type file
-import connectTo from 'in-hoc/connectTo';
-import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
+import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 import { hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
+import { getWebsitesWithDefaults } from 'in-plg/subscriptions/getWebsites';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
+import getWebsite from 'in-websites/subscriptions/getWebsite';
+import { hasError, isLoading } from 'in-services/util/result';
 import { playwithEnabled } from 'in-services/featureFlags';
-import { timeConfig$ } from 'in-stores/time/config';
 import DatatableWrapper from './DatatableWrapper';
 import { role } from 'in-stores/user';
 
 function handleFavoriteClick(item: any) {
+  if (!item) return;
   if (item?.pinned) {
     remove({
       id: item.isWebsite ? item.website.id : item.mobileApp.id,
@@ -56,35 +62,29 @@ function handleFavoriteClick(item: any) {
   }
 }
 
-const MobileAppHealthInfo = connectTo(
-  { timeConfig: timeConfig$ },
-  function MobileAppHealthInfo({ mobileAppId, timeConfig }: { mobileAppId: string; timeConfig: typeof timeConfig$ }) {
-    return (
-      <MobileHealthIndicatorBehavior
-        mobileAppId={mobileAppId}
-        timeConfig={timeConfig}
-        render={(healthInfo: EntityHealthInfo) =>
-          healthInfo ? <HealthIcon severity={healthInfo.maxSeverity} iconSize="xs" /> : null
-        }
-      />
-    );
-  }
-);
+function MobileAppHealthInfo({ mobileAppId, timeConfig }: { mobileAppId: string; timeConfig: TimeConfig }) {
+  return (
+    <MobileHealthIndicatorBehavior
+      mobileAppId={mobileAppId}
+      timeConfig={timeConfig}
+      render={(healthInfo: EntityHealthInfo) =>
+        healthInfo ? <HealthIcon severity={healthInfo.maxSeverity} iconSize="xs" /> : null
+      }
+    />
+  );
+}
 
-const WebsiteHealthInfo = connectTo(
-  { timeConfig: timeConfig$ },
-  function WebsiteHealthInfo({ websiteId, timeConfig }: { websiteId: string; timeConfig: typeof timeConfig$ }) {
-    return (
-      <WebsiteHealthIndicatorBehavior
-        websiteId={websiteId}
-        timeConfig={timeConfig}
-        render={(healthInfo: EntityHealthInfo) =>
-          healthInfo ? <HealthIcon severity={healthInfo.maxSeverity} iconSize="xs" /> : null
-        }
-      />
-    );
-  }
-);
+function WebsiteHealthInfo({ websiteId, timeConfig }: { websiteId: string; timeConfig: TimeConfig }) {
+  return (
+    <WebsiteHealthIndicatorBehavior
+      websiteId={websiteId}
+      timeConfig={timeConfig}
+      render={(healthInfo: EntityHealthInfo) =>
+        healthInfo ? <HealthIcon severity={healthInfo.maxSeverity} iconSize="xs" /> : null
+      }
+    />
+  );
+}
 
 function getId(item: any) {
   return item.isWebsite ? item.website.id : item.mobileApp.id;
@@ -115,15 +115,13 @@ function getMobileApps(params: Params) {
 
 interface Props {
   config: any;
-  timeConfig: typeof timeConfig$;
+  timeConfig: TimeConfig;
   type: string;
   widgetLabel: string;
   dashboardTileProps: DashboardTileParamProps;
 }
 
-export default connectTo(() => ({
-  timeConfig: timeConfig$
-}))(function WebsitesAndMobileTopListWidget({ type, config, timeConfig, widgetLabel, dashboardTileProps }: Props) {
+export default function WebsitesAndMobileListWidget({ type, config, widgetLabel, dashboardTileProps }: Props) {
   const { createHrefToPath, goToPath } = useNavigation();
   const getLinkToWebsite = useGenerateLinkToWebsite();
   const getLinkToMobileApp = useGenerateLinkToMobileApp();
@@ -178,12 +176,7 @@ export default connectTo(() => ({
     }
   };
 
-  interface columnDefinitionItem {
-    key: string;
-    getContent: GetContentFunction;
-  }
-
-  const columnDefinitions: columnDefinitionItem[] = [
+  const columnDefinitions: ColumnDefinitionItem[] = [
     {
       key: 'name',
       getContent({ item }) {
@@ -231,13 +224,13 @@ export default connectTo(() => ({
     },
     {
       key: 'health',
-      getContent({ item }) {
+      getContent({ item, timeConfig }) {
         return (
           <Stack direction="horizontal" align="center">
             {item.isWebsite ? (
-              <WebsiteHealthInfo websiteId={getId(item)} />
+              <WebsiteHealthInfo websiteId={getId(item)} timeConfig={timeConfig} />
             ) : (
-              <MobileAppHealthInfo mobileAppId={getId(item)} />
+              <MobileAppHealthInfo mobileAppId={getId(item)} timeConfig={timeConfig} />
             )}
           </Stack>
         );
@@ -245,12 +238,19 @@ export default connectTo(() => ({
     },
     {
       key: 'favourite',
-      getContent({ item }) {
+      getContent({ item, isDisabled = false, isFavourite = false }) {
         return (
           <IconButton
-            type={item?.pinned ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
+            type={
+              isFavourite
+                ? 'lib_actions_favorite_filled'
+                : item?.pinned
+                ? 'lib_actions_favorite_filled'
+                : 'lib_actions_favorite'
+            }
             onClick={() => handleFavoriteClick(item)}
             iconSize="xs"
+            disabled={isDisabled}
           />
         );
       }
@@ -259,7 +259,6 @@ export default connectTo(() => ({
 
   const generalProps = {
     ...config,
-    timeConfig,
     columnDefinitions,
     headers: getHeaders()
   };
@@ -272,11 +271,100 @@ export default connectTo(() => ({
     goToPath('/mobileAppMonitoring/new');
   }
 
+  function getMobileAppById(id: string, timeConfig: TimeConfig) {
+    const granularity = getSparkChartGranularity(timeConfig);
+
+    return combineLatest([
+      getMobileApp({ id }),
+      getMobileAppMetrics({
+        timeConfig: timeConfig,
+        timeShift: { offset: 0 },
+        tagFilterExpression: tagFilter('mobileBeacon.mobileApp.id', EQUALS, id),
+        metrics: {
+          sessionsAgg: {
+            metric: 'sessions',
+            aggregation: 'SUM'
+          },
+          sessions: {
+            metric: 'sessions',
+            aggregation: 'SUM',
+            granularity
+          },
+          viewsAgg: {
+            metric: 'views',
+            aggregation: 'SUM'
+          },
+          views: {
+            metric: 'views',
+            aggregation: 'SUM',
+            granularity
+          }
+        }
+      })
+    ]).map(([mobileAppResult, metricResult]) =>
+      combineResults(mobileAppResult, metricResult, 'mobileApp', 'isMobileApp')
+    );
+  }
+
+  function getWebsiteById(id: string, timeConfig: TimeConfig) {
+    const granularity = getSparkChartGranularity(timeConfig);
+    return combineLatest([
+      getWebsite({ id }),
+      getWebsiteMetrics({
+        timeConfig,
+        tagFilters: [{ name: 'beacon.website.id', operator: 'EQUALS', stringValue: id }],
+        metrics: {
+          pageViewsAgg: {
+            metric: 'pageViews',
+            aggregation: 'SUM'
+          },
+          pageViews: {
+            metric: 'pageViews',
+            aggregation: 'SUM',
+            granularity
+          },
+          onLoadTimeAgg: {
+            metric: 'onLoadTime',
+            aggregation: 'MEAN'
+          },
+          onLoadTime: {
+            metric: 'onLoadTime',
+            aggregation: 'MEAN',
+            granularity
+          }
+        }
+      })
+    ]).map(([websiteResult, metricResult]) => combineResults(websiteResult, metricResult, 'website', 'isWebsite'));
+  }
+
+  function combineResults(entityResult: any, metricResult: any, entityName: string, flag: string) {
+    if (isLoading(entityResult) || hasError(entityResult)) {
+      return entityResult;
+    }
+    if (isLoading(metricResult) || hasError(metricResult)) {
+      return metricResult;
+    }
+
+    const mappedResult: any = {
+      metrics: { ...metricResult.data },
+      time: metricResult.time
+    };
+    mappedResult.mainKpiValue = get(
+      metricResult.data,
+      ['pageViewsAgg', 0, 1],
+      get(metricResult.data, ['sessionsAgg', 0, 1], 0)
+    );
+    mappedResult[entityName] = entityResult.data;
+    mappedResult[flag] = true;
+    return mappedResult;
+  }
+
   if (type === 'website') {
     return (
       <DatatableWrapper
         {...generalProps}
         getItems={getWebsites}
+        getItem={getWebsiteById}
         tableType="websitesWidget"
         viewAll
         //@ts-expect-error canConfigureEumApplications type is not available in role definition
@@ -288,6 +376,9 @@ export default connectTo(() => ({
         label={widgetLabel}
         pinnedItemTypes={[websiteType]}
         dashboardTileProps={dashboardTileProps}
+        searchPlaceholderLabel={t('in-plg:welcomepage.component.websitesWidget.searchPlaceholderLabel')}
+        addButtonLabel={t('in-plg:welcomepage.component.websitesWidget.addButtonLabel')}
+        viewAllLabel={t('in-plg:welcomepage.component.websitesWidget.viewAllLabel')}
       />
     );
   }
@@ -295,6 +386,7 @@ export default connectTo(() => ({
     <DatatableWrapper
       {...generalProps}
       getItems={getMobileApps}
+      getItem={getMobileAppById}
       tableType="mobileListWidget"
       viewAll
       hasAddPermission={role?.canConfigureMobileAppMonitoring}
@@ -305,6 +397,9 @@ export default connectTo(() => ({
       label={widgetLabel}
       pinnedItemTypes={[mobileAppType]}
       dashboardTileProps={dashboardTileProps}
+      searchPlaceholderLabel={t('in-plg:welcomepage.component.mobileAppsWidget.searchPlaceholderLabel')}
+      addButtonLabel={t('in-plg:welcomepage.component.mobileAppsWidget.addButtonLabel')}
+      viewAllLabel={t('in-plg:welcomepage.component.mobileAppsWidget.viewAllLabel')}
     />
   );
-});
+}

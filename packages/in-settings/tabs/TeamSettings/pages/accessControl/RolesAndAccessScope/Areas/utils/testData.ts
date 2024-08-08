@@ -15,6 +15,7 @@ export const mockEmptyPermissionsSet = {
   permissions: [],
   websiteIds: [],
   businessPerspectiveIds: [],
+  syntheticCredentialKeys: [],
   syntheticTestIds: []
 };
 
@@ -190,7 +191,8 @@ export const mockPermissionsSetWithData = {
   ],
   syntheticTestIds: [],
   businessPerspectiveIds: [],
-  permissions: mockPermissionsWithLimitedAccess
+  permissions: mockPermissionsWithLimitedAccess,
+  syntheticCredentialKeys: []
 };
 
 export const mockPermissionsSetWithFullAccessData = {

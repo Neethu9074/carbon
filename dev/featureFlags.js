@@ -11,6 +11,7 @@ module.exports = {
   businessObservabilityEnabled: true,
   bizopsPerspectivesEnabled: true,
   bizopsGenAIEnabled: true,
+  bizopsStandardInclusionEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,

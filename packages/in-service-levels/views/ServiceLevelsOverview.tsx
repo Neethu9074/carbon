@@ -26,6 +26,7 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Alerts from 'in-alerting/smart-alerts/slo/Alerts';
+import Footer from 'in-components/Footer/Footer';
 import Sticky from 'in-components/Sticky';
 
 export default function ServiceLevelsOverview() {
@@ -70,6 +71,7 @@ export default function ServiceLevelsOverview() {
           {isServiceLevelsAlertsActive && <SloSmartAlerts />}
         </SloTrackerProvider>
       </LeftRightPadding>
+      <Footer />
       <FloatingSloButtons />
     </Sticky>
   );

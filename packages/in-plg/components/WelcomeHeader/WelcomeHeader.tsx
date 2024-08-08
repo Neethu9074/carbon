@@ -11,7 +11,7 @@ import { t } from '@instana/i18n-react';
 
 import OnboardingCarousel from 'in-plg/components/WelcomeHeader/OnboardingCarousel/OnboardingCarousel';
 import WelcomeToolbar, { UrlShortener } from 'in-plg/components/WelcomeHeader/toolbar/WelcomeToolbar';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
+import { playwithEnabled, shareAndInviteEnabled } from 'in-services/featureFlags';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
 import { user } from 'in-stores/user';
 
@@ -22,7 +22,12 @@ interface WelcomeHeaderProps {
 }
 
 export default function WelcomeHeader({ onboardingHeaderEnabled }: WelcomeHeaderProps) {
-  const headerTitle = `${t('in-plg:welcomepage.heading')}, ${user?.fullName ?? ''}!`;
+  const username = onboardingHeaderEnabled
+    ? `, ${user?.fullName ?? ''}!`
+    : !playwithEnabled
+    ? `, ${user?.fullName ?? ''}!`
+    : '';
+  const headerTitle = `${t('in-plg:welcomepage.heading')}${username}`;
   return (
     <div
       className={locals.stickyHeader}

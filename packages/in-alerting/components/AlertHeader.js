@@ -9,8 +9,12 @@ import PropTypes from 'prop-types';
 
 import { Message, Spacer, Pill, IconButton, SvgIcon, Button } from '@instana/components';
 
+import {
+  playwithEnabled,
+  applicationSmartAlertFullScreenDesignEnabled,
+  applicationSmartAlertDialogView
+} from 'in-services/featureFlags';
 import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
-import { playwithEnabled, applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -230,17 +234,51 @@ export default function AlertHeader({
                   alignment="right"
                 />
               </Tooltip>
-              {displayEditAction && (
+              {displayEditAction && applicationSmartAlertDialogView && (
                 <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')} delay={500}>
                   <IconButton alignment="right" kind="primaryv2" type="lib_actions_edit" onClick={openDialog} />
                 </Tooltip>
               )}
-              {displayDuplicateAction && (
+              {displayDuplicateAction && applicationSmartAlertDialogView && (
                 <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltip')} delay={500}>
                   <IconButton
                     kind="primaryv2"
                     type="lib_actions_copy"
                     onClick={() => openDialog({ isCopy: true })}
+                    alignment="right"
+                  />
+                </Tooltip>
+              )}
+              {displayTearSheetActions && applicationSmartAlertFullScreenDesignEnabled && (
+                <Tooltip
+                  content={
+                    applicationSmartAlertDialogView
+                      ? t('in-alerting:components.alertHeaderEditTooltipNew')
+                      : t('in-alerting:components.alertHeaderEditTooltip')
+                  }
+                  delay={500}
+                >
+                  <IconButton
+                    kind="primaryv2"
+                    type="lib_actions_edit"
+                    onClick={() => goToPath(editSmartAlertPath.slice(2))}
+                    alignment="right"
+                  />
+                </Tooltip>
+              )}
+              {displayTearSheetActions && applicationSmartAlertFullScreenDesignEnabled && (
+                <Tooltip
+                  content={
+                    applicationSmartAlertDialogView
+                      ? t('in-alerting:components.alertHeaderDuplicateTooltipNew')
+                      : t('in-alerting:components.alertHeaderDuplicateTooltip')
+                  }
+                  delay={500}
+                >
+                  <IconButton
+                    kind="primaryv2"
+                    type="lib_actions_copy"
+                    onClick={() => goToPath(duplicateSmartAlertPath.slice(2))}
                     alignment="right"
                   />
                 </Tooltip>
@@ -274,26 +312,6 @@ export default function AlertHeader({
                         );
                       }
                     }}
-                    alignment="right"
-                  />
-                </Tooltip>
-              )}
-              {displayTearSheetActions && applicationSmartAlertFullScreenDesignEnabled && (
-                <Tooltip content={t('in-alerting:components.alertHeaderEditTooltipNew')} delay={500}>
-                  <IconButton
-                    kind="primaryv2"
-                    type="lib_actions_edit"
-                    onClick={() => goToPath(editSmartAlertPath.slice(2))}
-                    alignment="right"
-                  />
-                </Tooltip>
-              )}
-              {displayTearSheetActions && applicationSmartAlertFullScreenDesignEnabled && (
-                <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltipNew')} delay={500}>
-                  <IconButton
-                    kind="primaryv2"
-                    type="lib_actions_copy"
-                    onClick={() => goToPath(duplicateSmartAlertPath.slice(2))}
                     alignment="right"
                   />
                 </Tooltip>

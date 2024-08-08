@@ -28,13 +28,13 @@ import {
   hasAutomationAccess
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { internalMonitoringUnit, playwithEnabled } from 'in-services/featureFlags';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import { role, canSeeExtendedInternalMonitoring } from 'in-stores/user';
 import infrastructureRoutes from 'in-infrastructure/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
+import { internalMonitoringUnit } from 'in-services/featureFlags';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
@@ -58,10 +58,6 @@ import deepLinkRoutes from 'in-client/js/deepLink';
 import phmcRoutes from 'in-phmc/navigation/routes';
 import zhmcRoutes from 'in-zhmc/navigation/routes';
 import sapRoutes from 'in-sap/navigation/routes';
-import { config } from 'in-services/config';
-
-const enableWelcomePageV2 =
-  (welcomePageV2Enabled && config.activeLicenseType === 'selfService') || (welcomePageV2Enabled && playwithEnabled);
 
 export default (
   <Switch>
@@ -96,7 +92,7 @@ export default (
     {hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {integrationRoutes}
     {customDashboardsRoutes}
-    {enableWelcomePageV2 ? welcomePageRoutes : cockpitRoutes}
+    {welcomePageV2Enabled ? welcomePageRoutes : cockpitRoutes}
     {profilingRoutes}
     {loggingRoutes}
     {deepLinkRoutes}

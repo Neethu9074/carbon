@@ -24,10 +24,8 @@ import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { openEventsAtServerTime$ } from 'in-stores/events';
-import { timeConfig$ } from 'in-stores/time/config';
 
 export default connectTo(() => ({
-  timeConfig: timeConfig$,
   openEventsAtServerTime: openEventsAtServerTime$
 }))(function IncidentsWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
   const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
@@ -153,6 +151,8 @@ export default connectTo(() => ({
       href={fullListViewHref}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
+      searchPlaceholderLabel={t('in-plg:welcomepage.component.incidentsWidget.searchPlaceholderLabel')}
+      viewAllLabel={t('in-plg:welcomepage.component.incidentsWidget.viewAllLabel')}
     />
   );
 });

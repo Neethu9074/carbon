@@ -56,7 +56,7 @@ export default function CreateSmartAlertButton({
         [locals.menuItem]: isMenuItem && !carbonButtonEnabled
       })}
       icon="lib_alerts_create"
-      kind={isFloatingButton ? 'primaryv2' : 'secondaryDarker'}
+      kind={isFloatingButton || isMigrate ? 'primaryv2' : 'secondaryDarker'}
       href={createSmartAlertPath}
     >
       {buttonName}

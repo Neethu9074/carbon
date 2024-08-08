@@ -19,20 +19,15 @@ import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 // @ts-expect-error needs ts migration
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
-//@ts-expect-error doesn't contain type file
-import connectTo from 'in-hoc/connectTo';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { playwithEnabled, welcomePageV2Enabled } from 'in-services/featureFlags';
 import { getCustomDashboards, getUsers } from 'in-custom-dashboards/api';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { timeConfig$ } from 'in-stores/time/config';
 import { role } from 'in-stores/user';
 
-export default connectTo(() => ({
-  timeConfig: timeConfig$
-}))(function DashboardWidget({
+export default function DashboardWidget({
   config,
   widgetLabel,
   dashboardTileProps,
@@ -119,9 +114,12 @@ export default connectTo(() => ({
       addData={addNewDashboard}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
+      searchPlaceholderLabel={t('in-plg:welcomepage.component.dashboardWidget.searchPlaceholderLabel')}
+      addButtonLabel={t('in-plg:welcomepage.component.dashboardWidget.addButtonLabel')}
+      viewAllLabel={t('in-plg:welcomepage.component.dashboardWidget.viewAllLabel')}
     />
   );
-});
+}
 
 function DashboardPermission({ id }: { id: string }) {
   const permission: string = useGetCustomDashboardPermissions(id);

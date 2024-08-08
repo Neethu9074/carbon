@@ -4,7 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-import { t } from '@instana/i18n-react';
+import React from 'react';
+
+import { t, Trans } from '@instana/i18n-react';
+import { Link } from '@instana/components';
 
 export function getNoDataHeader(label: string) {
   switch (label) {
@@ -20,8 +23,12 @@ export function getNoDataHeader(label: string) {
       return t('in-plg:welcomepage.noData.websitesWidget.header');
     case 'mobileListWidget':
       return t('in-plg:welcomepage.noData.mobileListWidget.header');
-    case 'infrastructureWidget':
-      return t('in-plg:welcomepage.noData.infrastructureWidget.header');
+    case 'infrastructureWidget.host':
+      return t('in-plg:welcomepage.noData.infrastructureWidget.hosts.header');
+    case 'infrastructureWidget.docker':
+      return t('in-plg:welcomepage.noData.infrastructureWidget.docker.header');
+    case 'infrastructureWidget.process':
+      return t('in-plg:welcomepage.noData.infrastructureWidget.process.header');
     case 'syntheticWidget.test':
       return t('in-plg:welcomepage.noData.syntheticWidget.test.header');
     case 'syntheticWidget.location':
@@ -49,8 +56,19 @@ export function getNoDataDescription(label: string) {
       return t('in-plg:welcomepage.noData.websitesWidget.description');
     case 'mobileListWidget':
       return t('in-plg:welcomepage.noData.mobileListWidget.description');
-    case 'infrastructureWidget':
-      return t('in-plg:welcomepage.noData.infrastructureWidget.description');
+    case 'infrastructureWidget.host':
+    case 'infrastructureWidget.docker':
+    case 'infrastructureWidget.process':
+      return (
+        <Trans
+          i18nKey={'in-plg:welcomepage.noData.infrastructureWidget.description'}
+          components={{
+            linkToAgents: (
+              <Link href="/#/agents/installation">{t('in-plg:welcomepage.noData.infrastructureWidget.link')}</Link>
+            )
+          }}
+        />
+      );
     case 'syntheticWidget.test':
       return t('in-plg:welcomepage.noData.syntheticWidget.test.description');
     case 'syntheticWidget.location':
@@ -83,7 +101,9 @@ export function getNoDataButton(label: string) {
   }
 }
 
-const getItemId = (widgetName: string, item: any) => {
+export const getItemId = (item: any, widgetName?: string) => {
+  if (!widgetName) return null;
+
   switch (widgetName) {
     case 'infrastructureWidget':
       return item.snapshotId;
@@ -101,39 +121,3 @@ const getItemId = (widgetName: string, item: any) => {
       return null;
   }
 };
-
-export function processItemsBasedOnTable(widgetName: string, items: any[], pinnedIds: string[]) {
-  if (widgetName === 'syntheticWidget' || widgetName === 'dashboardWidget' || widgetName === 'incidentsWidget') {
-    return items.slice(0, 5);
-  }
-  const totalList = [];
-  let unpinnedItems = [];
-  let pinnedItems = [];
-
-  if (pinnedIds.length > 0) {
-    for (const item of items) {
-      const itemId = getItemId(widgetName, item);
-      if (itemId && pinnedIds.includes(itemId)) {
-        pinnedItems.push({ ...item, pinned: true });
-      }
-      if (pinnedItems.length === pinnedIds.length) {
-        break;
-      }
-    }
-  }
-  const numberOfRegularItemsToShow = Math.max(0, 5 - (pinnedItems.length ?? 0));
-  if (numberOfRegularItemsToShow > 0) {
-    for (const item of items) {
-      const itemId = getItemId(widgetName, item);
-      if (itemId && !pinnedIds.includes(itemId)) {
-        unpinnedItems.push({ ...item, pinned: false });
-      }
-      if (numberOfRegularItemsToShow === unpinnedItems.length) {
-        break;
-      }
-    }
-  }
-  totalList.push(...pinnedItems);
-  totalList.push(...unpinnedItems);
-  return totalList;
-}
