@@ -121,6 +121,7 @@
     "tagListNoTagsDefined": "There are no tags defined",
     "tagListShowAll": "Show all tags ({{num}} more)"
   },
+  "copyToClipboard": "Clipboard",
   "copyToClipboardPressToCopy": "Press CTRL+C / CMD+C to copy!",
   "copyToClipboardCopied": "Copied!",
   "reloadUiDialogTitle": "New User Interface Version Available",
