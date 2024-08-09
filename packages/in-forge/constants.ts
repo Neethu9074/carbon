@@ -127,6 +127,7 @@ export const nonServicePlugins = {
   envoy: 'envoy',
   etcd: 'etcd',
   fileMonitoring: 'fileMonitoring',
+  fileMonitoringCondition: 'fileMonitoringCondition',
   finagleApplicationContainer: 'finagleApplicationContainer',
   f5: 'f5',
   garden: 'garden',

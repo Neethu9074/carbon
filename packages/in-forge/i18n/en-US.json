@@ -8282,7 +8282,22 @@
       },
       "FileSystem": "File Monitoring",
       "Situations": "Situations",
-      "host": "Host"
+      "host": "Host",
+      "user": "User",
+      "group": "Group",
+      "maxOpenFiles":"Max Open Files"
+    },
+    "FileMonitoringCondition": {
+      "dashboard": {
+        "attribute": "Attribute",
+        "operator": "Operator",
+        "reference": "reference",
+        "actual": "Actual"
+      },
+      "FileSystemCondition": "File Monitoring Condition",
+      "Conditions": "Condition",
+      "path": "Path",
+      "interval":"Interval"
     },
     "finagleApplicationContainer": {
       "dashboard": {

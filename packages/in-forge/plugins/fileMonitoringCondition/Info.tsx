@@ -15,10 +15,10 @@ export default function FileMonitoringInfo({ snapshot }: { snapshot: SnapshotDat
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.FileMonitoring.host')}>{data.get('host')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.FileMonitoring.host')}>{data.get('user')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.FileMonitoring.host')}>{data.get('group')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.FileMonitoring.host')}>{data.get('maxOpenFiles')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.FileMonitoringCondition.path')}>{data.get('path')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.FileMonitoringCondition.interval')}>
+        {data.get('pollingInterval')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }
