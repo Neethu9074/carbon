@@ -753,6 +753,6 @@ module.exports = exports = [
   {
     uiClientKey: 'applicationSmartAlertDialogView',
     instanaCtlKey: 'application.smart.alerts.dialog.view',
-    defaultValue: false
+    defaultValue: true
   }
 ];
