@@ -27,11 +27,11 @@
     }
 
     &:after {
-      right: -100%;
+      right: -1.5rem;
     }
 
     &:before {
-      left: -100%;
+      left: -1.5rem;
     }
   }
 }
