@@ -96,13 +96,18 @@ export default function TrackingSnippetPresenter({
               id="sri"
               checked={enableSRI}
               onToggle={e => {
-                setEnableSRI(e);
+                const enableProp = {
+                  onButtonClick: () => {
+                    setEnableSRI(e);
+                  }
+                };
                 if (e) {
                   addActiveDialog(
                     <ModalSRI
                       buttonText={t('in-websites:trackingSnippet.trackingSnippetPresenterEnableModal')}
                       modalTitle={t('in-websites:trackingSnippet.trackingSnippetPresenterEnablingModalTitle')}
                       modalBody={t('in-websites:trackingSnippet.trackingSnippetPresenterEnablingModalBody')}
+                      {...enableProp}
                     />
                   );
                 } else {
@@ -112,6 +117,7 @@ export default function TrackingSnippetPresenter({
                       modalTitle={t('in-websites:trackingSnippet.trackingSnippetPresenterDisablingModalTitle')}
                       modalFirstLine={t('in-websites:trackingSnippet.trackingSnippetPresenterDisablingModalFirstLine')}
                       modalBody={t('in-websites:trackingSnippet.trackingSnippetPresenterDisablingModalBody')}
+                      {...enableProp}
                     />
                   );
                 }
