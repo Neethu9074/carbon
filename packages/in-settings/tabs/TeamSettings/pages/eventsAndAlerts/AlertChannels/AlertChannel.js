@@ -202,17 +202,20 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
                         >
                           {'---OPEN VALUE, CLOSE VALUE---'}
                         </Di>
-                        {nestedParamKeys.map(param => (
-                          <Di
-                            key={param.key}
-                            title={param.label}
-                            rowClassName={locals.row}
-                            ddClassName={locals.rowInnerPadding}
-                            dtClassName={locals.titleRow}
-                          >
-                            {getPropertyValue(entity.get(key), param.key)}
-                          </Di>
-                        ))}
+                        {nestedParamKeys.map(
+                          param =>
+                            nestedParamsHaveAtLeastOneValue(entity, key, [param]) && (
+                              <Di
+                                key={param.key}
+                                title={param.label}
+                                rowClassName={locals.row}
+                                ddClassName={locals.rowInnerPadding}
+                                dtClassName={locals.titleRow}
+                              >
+                                {getPropertyValue(entity.get(key), param.key)}
+                              </Di>
+                            )
+                        )}
                       </Fragment>
                     )
                   )
@@ -253,7 +256,7 @@ function nestedParamsHaveAtLeastOneValue(entity, key, nestedKeys) {
   let hasVal = false;
 
   nestedKeys.forEach(nestedKey => {
-    if (nestedKey && nestedKey.key && Map.isMap(nestedMap) && key in nestedMap) {
+    if (nestedKey && nestedKey.key && Map.isMap(nestedMap) && nestedMap.has(nestedKey.key)) {
       const testText = nestedMap.get(nestedKey.key).join('');
       if (testText !== '') hasVal = true;
     }
