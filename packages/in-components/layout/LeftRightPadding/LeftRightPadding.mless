@@ -6,6 +6,5 @@
 :local {
   .wrapper {
     padding: 0 1.5rem;
-    overflow: hidden;
   }
 }
