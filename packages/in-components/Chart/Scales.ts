@@ -10,6 +10,8 @@ import { Axis, MetricDataSeries } from 'in-components/Chart/types';
 import Configuration from 'in-components/Chart/Configuration';
 import createScale, { ScaleType } from 'in-services/scale';
 
+// import { formatDateShort } from '@instana/format-date';
+
 export default class Scales {
   config: Configuration;
   filteredDataSeries: Set<string>;
@@ -49,12 +51,16 @@ export default class Scales {
   }
 
   updateAxisScale(axis: Axis | undefined, scale?: ScaleType) {
+    // console.log('axis', axis);
     if (!axis || !scale) {
       return;
     }
-
+    // console.log('this.config', formatDateShort(this.config.y1?.metrics?.[0]?.[0]?.[0]));
     scale.setRangeTo(this.config.markerPaneHeight);
     scale.setRangeFrom(this.config.height! - this.config.timeAxisHeight);
+
+    // console.log('axis.mm', axis.minValue);
+    // console.log('axis.mx', axis.maxValue);
 
     scale.setDomainFrom(axis.minValue);
     scale.setDomainTo(axis.maxValue);
@@ -71,17 +77,18 @@ export function calculateAxisMinMax(axisName: string, axis: Axis | undefined, fi
   if (!axis) {
     return;
   }
-
+  // console.log('axis.min', axis.min);
   axis.minValue = axis.min ?? 0;
+  // console.log('axis.minValue', axis.minValue);
   if (axis.max != null) {
     // @ts-expect-error The return value seems to not be used anywhere, so the function return type really should be void. However, it seems safer to avoid breaking things by not refactoring this
     return (axis.maxValue = axis.max);
   }
 
   const metrics = axis.metrics || [];
-  const maxValue = (axis.valuesDependOnEachOther
-    ? calculateMaxValueForStackedMetrics
-    : calculateMaxValueIndependetMetrics)(axisName, axis, metrics, filteredDataSeries);
+  const maxValue = (
+    axis.valuesDependOnEachOther ? calculateMaxValueForStackedMetrics : calculateMaxValueIndependetMetrics
+  )(axisName, axis, metrics, filteredDataSeries);
 
   if (axis.getMax != null) {
     // @ts-expect-error The return value seems to not be used anywhere, so the function return type really should be void. However, it seems safer to avoid breaking things by not refactoring this
@@ -100,8 +107,11 @@ function increaseMaxValueForHumanReadability(axis?: Axis): void {
   if (!axis) {
     return;
   }
+  // console.log('axis.maxValueBeforeHuman', axis.maxValue);
+
   const strategy = getTickStrategyByFormatter(get(axis, ['formatter', 0, 'detailed']));
   axis.maxValue = strategy.roundMaxValueToNextHighestHumanFriendlyValue(axis.maxValue);
+  // console.log('axis.maxValueHuman', axis.maxValue);
 }
 
 function calculateMaxValueForStackedMetrics(
@@ -110,6 +120,7 @@ function calculateMaxValueForStackedMetrics(
   metrics: MetricDataSeries[],
   filteredDataSeries: Set<string>
 ): number {
+  // console.log('stacked');
   const metricMapByTimestamp = new Map();
   for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
     const isIgnoredIndex = filteredDataSeries.has(`${axisName}-${iMetric}`);
@@ -157,14 +168,21 @@ function calculateMaxValueIndependetMetrics(
   filteredDataSeries: Set<string>
 ): number {
   let maxValue = 0;
+  // console.log('METRICS', metrics);
+  // console.log('firstMETR', metrics.length);
+  // console.log('INDEP');
   for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
     const isIgnoredIndex = filteredDataSeries.has(`${axisName}-${iMetric}`);
+    // console.log('isIgnoredIndex', isIgnoredIndex);
     if (isIgnoredIndex) {
       continue;
     }
 
     const minMax = getMinMaxValueForDataSeries(metrics[iMetric]);
+    // console.log('++++', maxValue, minMax.maxValue);
     maxValue = Math.max(maxValue, minMax.maxValue);
+
+    // maxValue = minMax.maxValue;
   }
   return maxValue;
 }
@@ -175,14 +193,23 @@ interface MinMax {
 }
 
 function getMinMaxValueForDataSeries(dataSeries: MetricDataSeries): MinMax {
+  // console.log('datase', dataSeries);
   let minValue = Number.MAX_VALUE;
-  let maxValue = 0;
+  // let maxValue = 0;
+  let maxArray = [];
   for (let i = 0; i < dataSeries.length; i++) {
     const dataPoint = dataSeries[i];
+    // console.log('dataPoint', dataPoint);
+    maxArray.push(dataPoint[1]);
+    // console.log('maxArray', maxArray);
     if (dataPoint) {
-      maxValue = Math.max(maxValue, dataPoint[1]);
+      // maxValue = Math.max(maxValue, dataPoint[1]);
       minValue = Math.min(minValue, dataPoint[1]);
     }
   }
+  // console.log('maxValueM', maxValue);
+  // console.log('maxArray', maxArray);
+  const maxValue = Math.max(...maxArray);
+  // console.log('maxValue', maxValue);
   return { minValue, maxValue };
 }
