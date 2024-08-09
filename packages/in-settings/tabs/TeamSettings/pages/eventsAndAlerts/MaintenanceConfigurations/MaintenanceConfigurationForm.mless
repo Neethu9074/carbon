@@ -70,7 +70,7 @@
   .bottomSpace {
     padding-bottom: 0.5rem;
   }
-  .pWrapper {
+  .previewBadge {
     margin-top: 0;
     margin-bottom: 0;
   }

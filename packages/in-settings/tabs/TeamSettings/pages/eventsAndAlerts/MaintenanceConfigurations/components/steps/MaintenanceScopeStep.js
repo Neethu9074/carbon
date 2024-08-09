@@ -89,7 +89,7 @@ export default function MaintenanceScopeStep(props) {
     return (
       <Stack direction="horizontal" distribution="spaceBetween" align="center">
         {t('in-settings:tabs.syntheticTests')}
-        <PreviewBadge className={locals.pWrapper} />
+        <PreviewBadge className={locals.previewBadge} />
       </Stack>
     );
   }

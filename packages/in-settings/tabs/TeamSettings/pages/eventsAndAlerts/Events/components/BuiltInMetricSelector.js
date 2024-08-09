@@ -34,7 +34,7 @@ function Option(props) {
   return (
     <div
       className={classNames(locals.item, {
-        [locals.noPadding]: carbonComboBoxEnabled,
+        [locals.padding]: !carbonComboBoxEnabled,
         [locals.selected]: option.value === selectedOption?.[0]?.value
       })}
       {...innerProps}

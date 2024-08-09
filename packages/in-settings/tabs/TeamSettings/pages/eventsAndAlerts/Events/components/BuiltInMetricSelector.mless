@@ -9,11 +9,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     color: var(--ids-color-option-neutral-700);
-    padding: 8px 10px;
     cursor: pointer;
 
-    &.noPadding {
-      padding: 0;
+    &.padding {
+      padding: 8px 10px;
     }
 
     &:hover {

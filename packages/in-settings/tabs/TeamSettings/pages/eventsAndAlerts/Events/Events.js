@@ -180,7 +180,7 @@ export default function Events({
 
   function inSelectListDialogRightHeader() {
     return (
-      <div className={locals.selectGap}>
+      <div className={locals.filterDropdown}>
         <Stack direction="horizontal" gap="xsmall">
           <ComboBox
             name="filter-type"
@@ -188,7 +188,6 @@ export default function Events({
             options={typeOptions}
             onChange={e => (e ? setType(e.value) : setType(null))}
             placeholder={t('in-settings:tabs.type')}
-            className={locals.filterDropdown}
           />
           <ComboBox
             name="filter-severity"
@@ -196,7 +195,7 @@ export default function Events({
             options={severityOptions}
             onChange={e => (e ? setSeverity(e.value) : setSeverity(null))}
             placeholder={t('in-settings:tabs.incidentsSeverity')}
-            className={classNames(locals.severityDropdown, locals.filterDropdown)}
+            className={classNames(locals.severityDropdown)}
           />
           <ComboBox
             name="filter-entity-type"
@@ -204,7 +203,7 @@ export default function Events({
             options={allEntityTypeOptions}
             onChange={e => (e ? setEntityType(e.value) : setEntityType(null))}
             placeholder={t('in-settings:tabs.entityType')}
-            className={classNames(locals.entityTypeDropdown, locals.filterDropdown)}
+            className={classNames(locals.entityTypeDropdown)}
           />
           <ComboBox
             name="filter-enabled"
