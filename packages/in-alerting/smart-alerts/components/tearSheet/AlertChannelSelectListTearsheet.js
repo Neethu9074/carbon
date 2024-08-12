@@ -26,7 +26,8 @@ export default function AlertChannelSelectListTearsheet({
   onSelectionUpdate,
   hiddenIds = [],
   limit = Number.MAX_VALUE, // unlimited by default
-  pageSize = 7
+  pageSize = 7,
+  entityResult
 }) {
   const [selectedItems, setSelectedItems] = useState(selectedChannels.length > 0 ? selectedChannels : []);
   const [errorMessage, setErrorMessage] = useState();
@@ -44,6 +45,7 @@ export default function AlertChannelSelectListTearsheet({
         <Message type="warning" fullInlineWidth withIcon title={errorMessage} className={locals.errorMessage} />
       )}
       <ListComponent
+        entityResult={entityResult}
         setTitle={false}
         numberOfChannels={selectedItems.length}
         preSelectedChannels={selectedChannels}
