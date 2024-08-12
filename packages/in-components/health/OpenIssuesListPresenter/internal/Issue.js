@@ -34,6 +34,7 @@ export default function Issue({ issue, getIssueLink }) {
         <SvgIcon
           type={type}
           color={color}
+          size="s"
           className={classNames({
             [locals.icon]: true,
             [locals.iconWarning]: !(severity > 5)
