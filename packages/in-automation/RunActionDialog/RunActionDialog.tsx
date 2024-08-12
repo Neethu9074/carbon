@@ -36,8 +36,14 @@ import RunActionContent, {
   TRIGGERING_HOST_IP,
   TRIGGERING_HOST_IP_OPTION
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
+import {
+  runActionTracker,
+  runActionTrackerSegment,
+  testActionTracker,
+  testActionTrackerSegment,
+  testAIGenaratedActionTracker
+} from 'in-automation/tracker';
 import { ResolvedDynamicParamValue, resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
-import { runActionTracker, testActionTracker, testAIGenaratedActionTracker } from 'in-automation/tracker';
 import useNavigateToActionHistory from 'in-automation/RunActionDialog/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from 'in-types';
@@ -49,9 +55,11 @@ import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { Option, Options } from 'in-components/ComboBox/ComboBox';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { hasError, isLoading } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { NewPolicy } from 'in-automation/Policies/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -321,25 +329,6 @@ function onSave({
     return;
   }
   setIsSaving(true);
-  if (test) {
-    if (isAIAction(action) || isAIActionCopy(action)) {
-      testAIGenaratedActionTracker({
-        actionType: action.type,
-        actionName: action.name
-      });
-    } else {
-      testActionTracker({
-        actionType: action.type,
-        actionName: action.name
-      });
-    }
-  } else {
-    runActionTracker({
-      actionType: action.type,
-      actionName: action.name,
-      aIGeneratedAction: isAIAction(action) || isAIActionCopy(action)
-    });
-  }
 
   const targetAgent = form?.get('targetAgent') as Field<string>;
   const parameters = form?.get('parameters') as MapForm<any>;
@@ -426,6 +415,8 @@ function onSave({
   };
   const timeout = getTimeoutFromFields(action.fields).value;
 
+  // If 'policy' exists then this dialog is being used to edit the action configuration for a policy.
+  // An action is not being run, but rather the action configuration is being saved.
   if (policy) {
     if (isEmpty(selectedVolatileId) && targetAgent.value !== '') {
       // @ts-expect-error
@@ -435,6 +426,8 @@ function onSave({
       hostsLimit.value && hostsLimit.value.length > 0 ? [...allInputParameters, hostsLimit] : allInputParameters;
     return handleSave?.(params, selectedVolatileId);
   }
+
+  // Run the action
   if (
     isScript(action.type) ||
     isGithub(action.type) ||
@@ -477,6 +470,47 @@ function onSave({
         hostsLimit.value && hostsLimit.value.length > 0 ? [...allInputParameters, hostsLimit] : allInputParameters,
       policyId: executePolicyId
     }).once(handleActionResponse);
+  }
+
+  // Track an action was either tested or run
+  if (test) {
+    testActionTrackerSegment({
+      action: action.name,
+      actionType: action.type,
+      features: isAIAction(action) || isAIActionCopy(action) ? 'aiGenerated' : '',
+      parentPageName: pageNames.automation_action_catalog,
+      parentPageCategory: productAreas.automation,
+      path: location?.hash
+    });
+
+    if (isAIAction(action) || isAIActionCopy(action)) {
+      testAIGenaratedActionTracker({
+        actionType: action.type,
+        actionName: action.name
+      });
+    } else {
+      testActionTracker({
+        actionType: action.type,
+        actionName: action.name
+      });
+    }
+  } else {
+    runActionTrackerSegment({
+      action: action.name,
+      actionType: action.type,
+      agentName: executePolicy?.name ?? '',
+      agentId: executePolicy?.id ?? '',
+      features: isAIAction(action) || isAIActionCopy(action) ? 'aiGenerated' : '',
+      parentPageName: pageNames.event,
+      parentPageCategory: productAreas.events,
+      path: location?.hash
+    });
+
+    runActionTracker({
+      actionType: action.type,
+      actionName: action.name,
+      aIGeneratedAction: isAIAction(action) || isAIActionCopy(action)
+    });
   }
 }
 
