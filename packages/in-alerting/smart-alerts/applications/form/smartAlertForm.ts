@@ -20,10 +20,10 @@ import createRuleForm, { defaultAlertRule } from 'in-alerting/smart-alerts/appli
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import { MAX_LONG_STRING_LENGTH, MAX_LABEL_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
-import { MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { boundaryScopes } from 'in-applications/constants';
 import { t } from 'in-i18n';
 
@@ -59,7 +59,8 @@ type CreateApplicationAlertConfig = (OptionalGlobalApplicationsAlertConfig | Opt
 export function createSmartAlertForm(
   alertConfig: CreateApplicationAlertConfig,
   editMode?: boolean,
-  isGlobalSmartAlert?: boolean
+  isGlobalSmartAlert?: boolean,
+  isTearSheet?: boolean
 ): MapForm<any> {
   const {
     applicationId,
@@ -90,7 +91,7 @@ export function createSmartAlertForm(
     items: {
       name: createField({
         value: name ?? '',
-        validator: titleValidator()
+        validator: isTearSheet ? titleValidator() : stringMaxLengthValidator(MAX_LABEL_LENGTH)
       }),
       description: createField({
         value: description ?? '',
