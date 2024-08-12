@@ -33,11 +33,12 @@ import {
 import {
   applicationIdTagName,
   locationIdTagName,
+  websiteIdTagName,
+  mobileAppIdTagName,
   mobileApplicationIdTagName,
   testIdTagName,
   testNameTagName,
-  typeTagName,
-  websiteIdTagName
+  typeTagName
 } from 'in-synthetics/tags';
 import showNotification, {
   calculateNextOccurrence,
@@ -229,11 +230,13 @@ interface GetTestSummaryList {
   context?: string;
   appId?: string;
   websiteId?: string;
+  mobileAppId?: string;
   syntheticTypes?: string[];
   locationIds?: string[];
   applicationIds?: string[];
   entityIds?: string[];
   associations?: Record<string, string[]>;
+  mobileAppIds?: string[];
   excludeIds?: string[];
 }
 
@@ -247,6 +250,7 @@ export const getTestSummaryListData = ({
   context = '',
   appId = '',
   websiteId = '',
+  mobileAppId = '',
   syntheticTypes = [],
   locationIds = [],
   applicationIds = [],
@@ -337,8 +341,19 @@ export const getTestSummaryListData = ({
     });
   }
 
+  if (context == 'mobile') {
+    mobileAppsTagFilterExpression.elements.push({
+      value: mobileAppId,
+      name: mobileAppIdTagName,
+      operator: EQUALS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    });
+  }
+
   addFilter(syntheticTypes, typeTagName, EQUALS, typeTagFilterExpression);
   addFilter(locationIds, locationIdTagName, EQUALS, locationTagFilterExpression);
+  addFilter(applicationIds, applicationIdTagName, EQUALS, appTagFilterExpression);
   addFilter(excludeIds, testIdTagName, NOT_EQUAL, testFilterExpression);
   if (syntheticMultiWebMobileEnabled && entityIds.length !== 0 && Array.isArray(entityIds)) {
     entityIds.forEach(value => {

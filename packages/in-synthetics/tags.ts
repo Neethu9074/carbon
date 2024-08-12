@@ -14,6 +14,7 @@ export const testNameTagName = 'synthetic.testName';
 export const locationIdTagName = 'synthetic.locationId';
 export const applicationIdTagName = 'synthetic.applicationId';
 export const websiteIdTagName = 'synthetic.websiteId';
+export const mobileAppIdTagName = 'synthetic.mobileApplicationId';
 export const serviceIdTagName = 'synthetic.serviceId';
 export const typeTagName = 'synthetic.syntheticType';
 export const startTimeTagName = 'synthetic.startTime';
