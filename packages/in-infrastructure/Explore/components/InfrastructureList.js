@@ -421,7 +421,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
             const series = item.metrics[seriesKey];
             const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
             const metricValue = getMetricValue(kpi, formatter);
-            const customValueTooltip = lastValue && getLastValueTooltipLabel(item.adjustedTimeframe);
+            const customValueTooltip = lastValue && getLastValueTooltipLabel(timeConfig);
 
             return (
               <SparkChart
