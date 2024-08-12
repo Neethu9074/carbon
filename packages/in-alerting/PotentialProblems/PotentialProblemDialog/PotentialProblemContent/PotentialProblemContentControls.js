@@ -22,6 +22,7 @@ import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/ho
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { trackCreateSmartAlert, trackGotoAnalyze } from 'in-alerting/PotentialProblems/tracker';
 import { getLinkToUnboundAnalytics } from 'in-events/components/AnalyzeApplicationEventButton';
+import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { close } from 'in-components/DialogPresenter/store';
@@ -128,9 +129,7 @@ export default function PotentialProblemContentControls({
                 close();
               }}
             >
-              {applicationSmartAlertDialogView
-                ? t('in-alerting:smartAlerts.applications.components.createSmartAlertNew')
-                : t('in-alerting:smartAlerts.applications.components.createSmartAlert')}
+              {getButtonName(t('in-alerting:smartAlerts.applications.components.createSmartAlert'))}
             </Button>
           )}
         </>

@@ -11,6 +11,7 @@ import { Message, Spacer, Pill, IconButton, SvgIcon, Button } from '@instana/com
 
 import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
+import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -246,14 +247,7 @@ export default function AlertHeader({
                 </Tooltip>
               )}
               {displayTearSheetActions && (
-                <Tooltip
-                  content={
-                    displayEditAction
-                      ? t('in-alerting:components.alertHeaderEditTooltipNew')
-                      : t('in-alerting:components.alertHeaderEditTooltip')
-                  }
-                  delay={500}
-                >
+                <Tooltip content={getButtonName(t('in-alerting:components.alertHeaderEditTooltip'))} delay={500}>
                   <IconButton
                     kind="primaryv2"
                     type="lib_actions_edit"
@@ -263,14 +257,7 @@ export default function AlertHeader({
                 </Tooltip>
               )}
               {displayTearSheetActions && (
-                <Tooltip
-                  content={
-                    displayDuplicateAction
-                      ? t('in-alerting:components.alertHeaderDuplicateTooltipNew')
-                      : t('in-alerting:components.alertHeaderDuplicateTooltip')
-                  }
-                  delay={500}
-                >
+                <Tooltip content={getButtonName(t('in-alerting:components.alertHeaderDuplicateTooltip'))} delay={500}>
                   <IconButton
                     kind="primaryv2"
                     type="lib_actions_copy"
