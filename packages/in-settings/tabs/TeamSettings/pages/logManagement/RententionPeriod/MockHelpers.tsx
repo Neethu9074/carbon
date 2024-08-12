@@ -26,7 +26,7 @@ export const succesFeedback = (
       type: 'info',
       icon: 'lib_help_error_info_outline',
       content: (
-        <section className={locals.toast}>
+        <section data-testid="changeRetentionSuccessNotification" className={locals.toast}>
           <Typography variant="heading-200">{successTitle}</Typography>
         </section>
       ),
@@ -54,7 +54,7 @@ export const errorFeedback = (
       type: 'danger',
       icon: 'lib_help_error_info_outline',
       content: (
-        <section className={locals.toast}>
+        <section data-testid="changeRetentionFailNotification" className={locals.toast}>
           <Typography variant="heading-200">{errorTitle}</Typography>
           <Typography variant="body-regular">{errorMessage}</Typography>
           <Link

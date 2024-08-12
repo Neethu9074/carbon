@@ -168,7 +168,7 @@ function DeleteLogsDialog({
           type: 'info',
           icon: 'lib_help_error_info_outline',
           content: (
-            <section className={locals.toast}>
+            <section data-testid="logDeletionSuccesToast" className={locals.toast}>
               <Typography variant="heading-200">{localisationStrings.toastSuccessTitle}</Typography>
               <Typography variant="body-regular">{localisationStrings.toastSuccessMessage}</Typography>
             </section>
@@ -199,7 +199,7 @@ function DeleteLogsDialog({
           type,
           icon,
           content: (
-            <section className={locals.toast}>
+            <section data-testid="logDeletionErrorToast" className={locals.toast}>
               <Typography variant="heading-200">{heading}</Typography>
               <Typography variant="body-regular">{message}</Typography>
             </section>
@@ -213,17 +213,17 @@ function DeleteLogsDialog({
 
   const ConfirmationButtons = (
     <>
-      <Button kind="secondary" onClick={() => closeConfirmationDialog()}>
+      <Button data-testid="deleteLogsCancelButton" kind="secondary" onClick={() => closeConfirmationDialog()}>
         {localisationStrings.cancel}
       </Button>
-      <Button onClick={handleSubmit} kind="danger">
+      <Button data-testid="deleteLogsConfirmButton" onClick={handleSubmit} kind="danger">
         {localisationStrings.deleteLogs}
       </Button>
     </>
   );
 
   const LoadingButton = (
-    <Button disabled kind="danger" className={locals.loadingButton}>
+    <Button data-testid="deleteLogsLoadingButton" disabled kind="danger" className={locals.loadingButton}>
       <SvgIcon color={themes.default.ids.color.option.blue['500']} spinning type="lib_actions_loading" />
       {localisationStrings.deleteLogs}
     </Button>
