@@ -68,7 +68,6 @@ function MetricPanel() {
     </div>
   );
 }
-
 const DropDown = ({ onClick, isOpen }) => {
   const activeMetric = useObservable(() => activeMetric$, []);
 
