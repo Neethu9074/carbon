@@ -43,8 +43,6 @@ export default function Metrics() {
   );
 }
 
-Metrics.displayName = 'Metrics';
-
 function createMenuContent() {
   return <MetricPanel />;
 }
@@ -58,20 +56,18 @@ function MetricPanel() {
 
   return (
     <div className={block}>
-      {isOpen ? (
+      {isOpen && (
         <div className={`${block}__wrapper`}>
           {Object.keys(metricList).map(topic => (
             <Topic key={topic} label={topic} list={metricList} />
           ))}
         </div>
-      ) : null}
+      )}
 
       <DropDown onClick={() => setIsOpen(!isOpen)} isOpen={isOpen} />
     </div>
   );
 }
-
-MetricPanel.displayName = 'MetricPanel';
 
 const DropDown = ({ onClick, isOpen }) => {
   const activeMetric = useObservable(() => activeMetric$, []);
