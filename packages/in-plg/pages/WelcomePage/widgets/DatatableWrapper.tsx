@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import { debounce } from 'lodash';
 
 import { DashboardTable, DashboardTile } from '@instana/components';
 import { DashboardTableRow as Row } from '@instana/components';
@@ -86,7 +87,8 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     pinnedItemTypes,
     searchPlaceholderLabel,
     addButtonLabel,
-    viewAllLabel
+    viewAllLabel,
+    maxItems = 5
   } = props;
 
   const [query, setQuery] = useState<string>('');
@@ -101,7 +103,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   ]);
 
   const favIds = getFlattenedIds(pinnedItemIdsByType, pinnedItemTypes) ?? [];
-  let numberOfRegularItemsToShow = Math.max(0, 5 - favIds.length);
+  let numberOfRegularItemsToShow: number;
 
   if (result && result.data) {
     const resultDataItems = result.data.items ?? result.data;
@@ -117,6 +119,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
       : null;
 
     const items = searchData ?? resultDataItems;
+    numberOfRegularItemsToShow = Math.max(0, maxItems ?? items.length - favIds.length);
     hasContent = items.length > 0 ? true : false;
     hits = searchData?.length ?? result?.data?.totalHits ?? result.data.length;
     //For custom dashboard searching
@@ -225,9 +228,9 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
           href={href}
           noDataHeader={getNoDataHeader(label)}
           noDataDescription={getNoDataDescription(label)}
-          onSearch={(searchQuery: string) => {
+          onSearch={debounce((searchQuery: string) => {
             setQuery(searchQuery);
-          }}
+          }, 500)}
           buttonName={`${t('in-plg:welcomepage.addMore')} ${addButtonLabel ?? ''}`.trim()}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}
