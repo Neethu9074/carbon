@@ -9,14 +9,8 @@ import Input from 'in-components/SearchBar/Input';
 
 export default {
   component: Input,
-  title: 'DFQSearch',
-  argTypes: {
-    blur: { action: 'onBlur' },
-    focus: { action: 'onFocus' },
-    return: { action: 'onReturn' }
-  },
   args: {
-    maxWidth: '200'
+    width: 400
   }
 };
 
