@@ -499,7 +499,7 @@
     "smartAlerts": {
       "title": "Get alerted",
       "description": "Configure alerts easily with predefined blueprints for both simple and advanced customization.",
-      "buttonName": "Set up smart alerts"
+      "buttonName": "Set up Smart Alerts"
     },
     "startMonitoring": {
       "title": "Monitor your environment",
@@ -543,7 +543,6 @@
         "powervcRegion": "PowerVC Region",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
-        "kubernetes": "Kubernetes",
         "gke": "Google Kubernetes Engine",
         "eks": "Amazon Elastic Kubernetes Service",
         "name": "Name",
@@ -578,7 +577,7 @@
         "active": "active",
         "title": "Title",
         "on": "On",
-        "started": "Started",
+        "started": "Start",
         "end": "End",
         "health": "Status",
         "searchPlaceholderLabel": "incidents",
@@ -690,7 +689,7 @@
       },
       "platformsWidget": {
         "header": "No platforms",
-        "description": "Find all installed platforms here."
+        "description": "There are no platforms to display yet."
       },
       "businessMonitoringWidget": {
         "header": "No business processes",
@@ -707,15 +706,15 @@
           "description": "Configure a synthetic location where your synthetic tests will run."
         },
         "smartalerts": {
-          "header": "No synthetic smart alerts",
+          "header": "No synthetic Smart Alerts",
           "description": "Configure Smart Alerts for synthetics to send an alert if the test for a location fails.",
           "buttonName": "Add Synthetic smart alerts"
         }
       },
       "eventsWidget": {
-          "header": "No events",
-          "description": "There may be no events or incidents to display or you may need to set up data first."
-        },
+        "header": "No events",
+        "description": "There may be no events or incidents to display or you may need to set up data first."
+      },
       "dashboardWidget": {
         "header": "No custom dashboards",
         "description": "Create your own custom dashboard.",

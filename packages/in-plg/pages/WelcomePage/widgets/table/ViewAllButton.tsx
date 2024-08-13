@@ -18,9 +18,21 @@ export default function ViewAllButton({ href, viewLabel, isTableEmpty = false }:
   return (
     <Row className="viewAllTableRow">
       <Cell className="viewAllTableCell">
-        <Link href={href} linkIconType="lib_arrow_right" disabled={isTableEmpty}>
-          {viewLabel}
-        </Link>
+        {isTableEmpty && (
+          <Link
+            style={{ color: 'var(--cds-text-on-color-disabled)' }}
+            href={href}
+            linkIconType="lib_arrow_right"
+            disabled={isTableEmpty}
+          >
+            {viewLabel}
+          </Link>
+        )}
+        {!isTableEmpty && (
+          <Link href={href} linkIconType="lib_arrow_right" disabled={isTableEmpty}>
+            {viewLabel}
+          </Link>
+        )}
       </Cell>
     </Row>
   );

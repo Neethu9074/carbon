@@ -21,7 +21,7 @@ import {
   powervc as powervcServerType,
   sap as sapType,
   zhmcServer as zhmcServerType
-  //@ts-expect-error
+  // @ts-expect-error Module needs to be translated to TS
 } from 'in-cockpit/starredItems/types';
 import {
   hasKubernetesAccess,
@@ -88,10 +88,10 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import getPhmc from 'in-phmc/subscriptions/getPhmc';
 import { success } from 'in-services/util/result';
 
-function handleFavoriteClick(item: any) {
-  if (!item) return;
-  if (item.pinned) {
-    remove({ id: getId(item), type: getTypeByItem(item) });
+function handleFavoriteClick(id: string, item: any, isFavourite: boolean) {
+  if (!id && !item) return;
+  if (isFavourite) {
+    remove({ id: id, type: getTypeByItem(item) });
   } else {
     add({
       id: getId(item),
@@ -474,7 +474,7 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
     },
     {
       key: 'favourite',
-      getContent({ item, isDisabled = false, isFavourite = false }) {
+      getContent({ id, item, isDisabled = false, isFavourite = false }) {
         return (
           <IconButton
             type={
@@ -484,7 +484,7 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
                 ? 'lib_actions_favorite_filled'
                 : 'lib_actions_favorite'
             }
-            onClick={() => handleFavoriteClick(item)}
+            onClick={() => handleFavoriteClick(id, item, isFavourite)}
             iconSize="xs"
             disabled={isDisabled}
           />

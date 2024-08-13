@@ -45,7 +45,7 @@ interface ItemProps {
 }
 
 export function Item({ pendingItem, timeConfig, columnDefinitions }: ItemProps) {
-  const { result } = pendingItem;
+  const { id, result } = pendingItem;
 
   if (!result || isLoading(result)) {
     return (
@@ -67,7 +67,7 @@ export function Item({ pendingItem, timeConfig, columnDefinitions }: ItemProps) 
                   {getUniqueErrors(result.errors)[0]}
                 </Message>
               ) : key === 'favourite' ? (
-                <div>{getContent({ item: null, isDisabled: true, isFavourite: true })}</div>
+                <div>{getContent({ id: id, item: null, isFavourite: true })}</div>
               ) : null}
             </Cell>
           );
@@ -84,7 +84,7 @@ export function Item({ pendingItem, timeConfig, columnDefinitions }: ItemProps) 
   return (
     <>
       {columnDefinitions.map(({ key, getContent }: ColumnDefinitionItem) => (
-        <Cell key={key}>{getContent({ item, result, timeConfig })}</Cell>
+        <Cell key={key}>{getContent({ id, item, result, timeConfig, isFavourite: true })}</Cell>
       ))}
     </>
   );

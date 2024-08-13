@@ -102,10 +102,10 @@ function getBusinessData({ timeConfig, query: search }: GetBusinessDataProps) {
   return getBusinessProcesses(query);
 }
 
-function handleFavoriteClick(item: any) {
-  if (!item) return;
-  if (item.pinned) {
-    remove({ id: item?.businessProcess?.definitionId, type: businessProcessType });
+function handleFavoriteClick(id: string, item: any, isFavourite: boolean) {
+  if (!id && !item) return;
+  if (isFavourite) {
+    remove({ id: id, type: businessProcessType });
   } else {
     add({
       id: item?.businessProcess?.definitionId,
@@ -200,8 +200,9 @@ export default connectTo(() => ({
             loading={result?.progress?.loading}
             rollup={getChartGranularity(timeConfig)}
             timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
-            metrics={item?.metrics?.started_processes_array}
-            metric={item?.metrics?.started_processes_total?.[0][1]}
+            aggregation="DISTINCT_COUNT"
+            metrics={item?.metrics?.started_processes}
+            metric={item?.metrics?.started_processes?.[0][1]}
             tooltipFormatter={number.compact}
           />
         );
@@ -215,7 +216,7 @@ export default connectTo(() => ({
     },
     {
       key: 'favourite',
-      getContent({ item, isDisabled = false, isFavourite = false }) {
+      getContent({ id, item, isDisabled = false, isFavourite = false }) {
         return (
           <IconButton
             type={
@@ -225,7 +226,7 @@ export default connectTo(() => ({
                 ? 'lib_actions_favorite_filled'
                 : 'lib_actions_favorite'
             }
-            onClick={() => handleFavoriteClick(item)}
+            onClick={() => handleFavoriteClick(id, item, isFavourite)}
             iconSize="xs"
             disabled={isDisabled}
           />

@@ -46,11 +46,11 @@ import { playwithEnabled } from 'in-services/featureFlags';
 import DatatableWrapper from './DatatableWrapper';
 import { role } from 'in-stores/user';
 
-function handleFavoriteClick(item: any) {
-  if (!item) return;
-  if (item?.pinned) {
+function handleFavoriteClick(id: string, item: any, isFavourite: boolean) {
+  if (!id && !item) return;
+  if (isFavourite) {
     remove({
-      id: item.isWebsite ? item.website.id : item.mobileApp.id,
+      id: id,
       type: item.isWebsite ? websiteType : mobileAppType
     });
   } else {
@@ -238,7 +238,7 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
     },
     {
       key: 'favourite',
-      getContent({ item, isDisabled = false, isFavourite = false }) {
+      getContent({ id, item, isDisabled = false, isFavourite = false }) {
         return (
           <IconButton
             type={
@@ -248,7 +248,7 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
                 ? 'lib_actions_favorite_filled'
                 : 'lib_actions_favorite'
             }
-            onClick={() => handleFavoriteClick(item)}
+            onClick={() => handleFavoriteClick(id, item, isFavourite)}
             iconSize="xs"
             disabled={isDisabled}
           />

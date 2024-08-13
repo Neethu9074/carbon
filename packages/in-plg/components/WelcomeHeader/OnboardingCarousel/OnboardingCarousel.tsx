@@ -29,12 +29,17 @@ export default function OnboardingCarousel() {
   //we cannot provide correct type for activation as the json object keys are dynamic
   const activation: any = useGetAccountActivation();
 
-  useEffect(() => {
-    if (!activation || Object.keys(activation).length === 0) {
-      return;
+  const checkScrollPosition = useCallback(() => {
+    const scrollContainer = scrollContainerRef?.current;
+    if (scrollContainer) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
+      const isAtStart = scrollLeft === 0;
+      const isAtEnd = scrollLeft + clientWidth >= scrollWidth;
+      setIsLeftDisabled(isAtStart);
+      setIsRightDisabled(isAtEnd);
     }
-    setActivationData(activation);
-  }, [activation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scrollContainerRef, isExpanded]);
 
   const handleScrollLeft = () => {
     if (scrollContainerRef?.current) {
@@ -59,17 +64,6 @@ export default function OnboardingCarousel() {
     }
   };
 
-  const checkScrollPosition = useCallback(() => {
-    const scrollContainer = scrollContainerRef?.current;
-    if (scrollContainer) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
-      const isAtStart = scrollLeft === 0;
-      const isAtEnd = scrollLeft + clientWidth >= scrollWidth;
-      setIsLeftDisabled(isAtStart);
-      setIsRightDisabled(isAtEnd);
-    }
-  }, [scrollContainerRef]);
-
   const preventMouseScroll = useCallback(event => {
     if (scrollContainerRef.current && scrollContainerRef.current.contains(event.target)) {
       event.preventDefault();
@@ -77,7 +71,23 @@ export default function OnboardingCarousel() {
   }, []);
 
   useEffect(() => {
-    const timeoutId = setTimeout(checkScrollPosition, 2000);
+    const resizeHandler = () => {
+      checkScrollPosition();
+    };
+    window.addEventListener('resize', resizeHandler);
+    return window.removeEventListener('resize', checkScrollPosition);
+  }, [checkScrollPosition]);
+
+  useEffect(() => {
+    if (!activation || Object.keys(activation).length === 0) {
+      return;
+    }
+    setActivationData(activation);
+    checkScrollPosition();
+  }, [activation, isExpanded, checkScrollPosition]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(checkScrollPosition, 1500);
     window.addEventListener('wheel', preventMouseScroll, { passive: false });
     return () => {
       clearTimeout(timeoutId);
@@ -115,36 +125,38 @@ export default function OnboardingCarousel() {
                 {isExpanded ? collapsibleButton?.hideOnboardingTasks : collapsibleButton?.showOnboardingTasks}
               </DashboardButton>
             </Stack>
-            <Stack direction="horizontal" gap="disabled" distribution="end" align="end">
-              <DashboardButton
-                kind="ghost"
-                onClick={handleScrollLeft}
-                iconSize="xs"
-                ariaLabel="Explore previous tasks"
-                disabled={isLeftDisabled}
-                icon="lib_arrow_drop_left"
-                iconDescription="lib_arrow_drop_left"
-                iconColor={
-                  isLeftDisabled
-                    ? themes.default.ids.color.option.neutral['500']
-                    : themes.default.ids.color.option.black
-                }
-              />
-              <DashboardButton
-                kind="ghost"
-                iconSize="xs"
-                onClick={handleScrollRight}
-                ariaLabel="Explore next tasks"
-                disabled={isRightDisabled}
-                icon="lib_arrow_drop_right"
-                iconDescription="lib_arrow_drop_right"
-                iconColor={
-                  isRightDisabled
-                    ? themes.default.ids.color.option.neutral['500']
-                    : themes.default.ids.color.option.black
-                }
-              />
-            </Stack>
+            {isExpanded && (
+              <Stack direction="horizontal" gap="disabled" distribution="end" align="end">
+                <DashboardButton
+                  kind="ghost"
+                  onClick={handleScrollLeft}
+                  iconSize="xs"
+                  ariaLabel="Explore previous tasks"
+                  disabled={isLeftDisabled}
+                  icon="lib_arrow_drop_left"
+                  iconDescription="lib_arrow_drop_left"
+                  iconColor={
+                    isLeftDisabled
+                      ? themes.default.ids.color.option.neutral['500']
+                      : themes.default.ids.color.option.black
+                  }
+                />
+                <DashboardButton
+                  kind="ghost"
+                  iconSize="xs"
+                  onClick={handleScrollRight}
+                  ariaLabel="Explore next tasks"
+                  disabled={isRightDisabled}
+                  icon="lib_arrow_drop_right"
+                  iconDescription="lib_arrow_drop_right"
+                  iconColor={
+                    isRightDisabled
+                      ? themes.default.ids.color.option.neutral['500']
+                      : themes.default.ids.color.option.black
+                  }
+                />
+              </Stack>
+            )}
           </Stack>
         </div>
       </Stack>
