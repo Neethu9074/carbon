@@ -490,7 +490,7 @@
     "internalRfc" : "Internal RFC",
     "externalRfc": "External RFC",
     "rfcLogins" : "RFC Logins",
-    "allLogins": "All Logins",
+    "loginTypes": "Login Types",
     "rfc": "RFC",
     "http":"HTTP",
     "https": "HTTPS",
@@ -623,7 +623,7 @@
     "systemLogErrors": "System Log Errors",
     "successLogins": "Success",
     "failureLogins": "Failure",
-    "userLogins": "User Logins",
+    "loginAttempts": "Login Attempts",
     "workProcess": "Work Process",
     "severity1": "Severity 1",
     "severity2": "Severity 2",
@@ -638,7 +638,8 @@
     "destination": "Destination",
     "spoolError": "Spool Error",
     "rfcSource": "RFC Source",
-    "count": "Count"
+    "count": "Count",
+    "upTime": "Uptime"
   },
   "viewAllEntityName_unknownEntity_plural": "all",
   "viewAllEntityName_unknownEntity_0": "all",

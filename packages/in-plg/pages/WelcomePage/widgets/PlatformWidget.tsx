@@ -8,6 +8,8 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { IconButton, Link, Typography } from '@instana/components';
+import { combineLatest } from '@instana/observables';
+import { TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -19,7 +21,7 @@ import {
   powervc as powervcServerType,
   sap as sapType,
   zhmcServer as zhmcServerType
-  //@ts-expect-error doesn't contain type file
+  //@ts-expect-error
 } from 'in-cockpit/starredItems/types';
 import {
   hasKubernetesAccess,
@@ -33,6 +35,8 @@ import {
 } from 'in-stores/permission';
 //@ts-expect-error doesn't contain type file
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
+//@ts-expect-error no declaration file present
+import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
 //@ts-expect-error doesn't contain type file
 import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
 //@ts-expect-error doesn't contain type file
@@ -56,26 +60,36 @@ import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widg
 import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
 //@ts-expect-error doesn't contain type file
 import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
+import getAbapSystem, { getAbapSystemListsWithDefaults } from 'in-sap/subscriptions/getAbapSystemLists';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 //@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-cockpit/starredItems';
+//@ts-expect-error no declaration file present
+import getZhmc from 'in-zhmc/subscriptions/getZhmc';
+import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
 //@ts-expect-error doesn't contain type file
 import { getMetric } from 'in-stores/metric';
-import { getAbapSystemListsWithDefaults } from 'in-sap/subscriptions/getAbapSystemLists';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
 import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
+import getKubernetesCluster from 'in-kubernetes/subscriptions/getKubernetesCluster';
 import { bytesZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
+import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import { useNavigateToClusterDashboard } from 'in-kubernetes/navigation/paths';
+import getOpenstackRegion from 'in-openstack/subscriptions/getOpenstackRegion';
+import getPowerVCRegion from 'in-powervc/subscriptions/getPowerVCRegion';
 import { usePowervcRegionDashboard } from 'in-powervc/navigation/paths';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
+import { hasError, isLoading } from 'in-services/util/result';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { timeConfig$ } from 'in-stores/time/config';
-import DatatableWrapper from './DatatableWrapper';
+import getPhmc from 'in-phmc/subscriptions/getPhmc';
+import { success } from 'in-services/util/result';
 
 function handleFavoriteClick(item: any) {
+  if (!item) return;
   if (item.pinned) {
     remove({ id: getId(item), type: getTypeByItem(item) });
   } else {
@@ -120,9 +134,7 @@ function getTypeByItem(item: any) {
   return vsphereDatacenterType;
 }
 
-export default connectTo(() => ({
-  timeConfig: timeConfig$
-}))(function PlatformWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
+export default function PlatformWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
   function getLabel(item: any) {
     return item.isKubernetes ? item.cluster.label : item.label;
   }
@@ -232,6 +244,74 @@ export default connectTo(() => ({
 
   function getId(item: any) {
     return item.isKubernetes ? item.cluster.id : item.id;
+  }
+
+  function getKubernetesClusterById(id: string, timeConfig: TimeConfig) {
+    return combineLatest([
+      getKubernetesCluster({ id, timeConfig }),
+      getKubernetesClusterItemCounters({ clusterId: id, timeConfig })
+      //@ts-expect-error type cannot be identified
+    ]).map(([kubernetesClusterResult, itemCounterResult]: [any, any]) => {
+      if (isLoading(kubernetesClusterResult) || hasError(kubernetesClusterResult)) {
+        return kubernetesClusterResult;
+      }
+      if (isLoading(itemCounterResult) || hasError(itemCounterResult)) {
+        return itemCounterResult;
+      }
+      return success({ cluster: kubernetesClusterResult.data, ...itemCounterResult.data, isKubernetes: true });
+    });
+  }
+  function mapOpenstackResult(result: any) {
+    return result.data ? success({ ...result.data, isOpenstack: true }) : result;
+  }
+
+  function mapPcfResult(result: any) {
+    return result.data ? success({ ...result.data, isPcf: true }) : result;
+  }
+
+  function mapPhmcResult(result: any) {
+    return result.data ? success({ ...result.data, isPhmc: true }) : result;
+  }
+
+  function mapPowervcResult(result: any) {
+    return result.data ? success({ ...result.data, isPowervc: true }) : result;
+  }
+
+  function mapZhmcResult(result: any) {
+    return result.data ? success({ ...result.data, isZhmc: true }) : result;
+  }
+
+  function mapSapResult(result: any) {
+    return result.data ? success({ ...result.data, isSap: true }) : result;
+  }
+
+  function mapVsphereResult(result: any) {
+    return result.data ? success({ ...result.data, isVsphere: true }) : result;
+  }
+
+  function getItem(id: string, timeConfig: TimeConfig, type: string) {
+    if (type === kubernetesClusterType) {
+      return getKubernetesClusterById(id, timeConfig);
+    }
+    if (type === openstackRegionType) {
+      return getOpenstackRegion({ filter: { regionId: id, timeConfig } }).map(mapOpenstackResult);
+    }
+    if (type === pcfApplicationType) {
+      return getCloudfoundryApplication({ filter: { applicationId: id, timeConfig } }).map(mapPcfResult);
+    }
+    if (type === phmcServerType) {
+      return getPhmc({ filter: { applicationId: id, timeConfig } }).map(mapPhmcResult);
+    }
+    if (type === powervcServerType) {
+      return getPowerVCRegion({ filter: { regionId: id, timeConfig } }).map(mapPowervcResult);
+    }
+    if (type === zhmcServerType) {
+      return getZhmc({ filter: { applicationId: id, timeConfig } }).map(mapZhmcResult);
+    }
+    if (type === sapType) {
+      return getAbapSystem({ filter: { applicationId: id, timeConfig } }).map(mapSapResult);
+    }
+    return getVsphereDatacenter({ datacenterId: id, timeConfig }).map(mapVsphereResult);
   }
 
   function getLink(item: any) {
@@ -394,12 +474,19 @@ export default connectTo(() => ({
     },
     {
       key: 'favourite',
-      getContent({ item }) {
+      getContent({ item, isDisabled = false, isFavourite = false }) {
         return (
           <IconButton
-            type={item?.pinned ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
+            type={
+              isFavourite
+                ? 'lib_actions_favorite_filled'
+                : item?.pinned
+                ? 'lib_actions_favorite_filled'
+                : 'lib_actions_favorite'
+            }
             onClick={() => handleFavoriteClick(item)}
             iconSize="xs"
+            disabled={isDisabled}
           />
         );
       }
@@ -419,12 +506,15 @@ export default connectTo(() => ({
       tableType="platformsWidget"
       pinnedItemTypes={pinnedTypes}
       getItems={getMergedData}
+      getItem={getItem}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
       viewAll={false}
+      searchPlaceholderLabel={t('in-plg:welcomepage.component.platformWidget.searchPlaceholderLabel')}
+      viewAllLabel={t('in-plg:welcomepage.component.platformWidget.viewAllLabel')}
     />
   );
-});
+}
 
 const SparkChartWithMetricValue = connectTo(
   ({ snapshotId, metric, aggregation }: any) => ({

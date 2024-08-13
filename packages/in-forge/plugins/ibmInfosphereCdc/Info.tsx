@@ -17,6 +17,7 @@ export default function IbmInfosphereCdcInfo({ snapshot }: { snapshot: SnapshotD
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdc.host')}>{data.get('id')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdc.port')}>{data.get('port')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdc.version')}>{data.get('version')}</DescriptionItem>
     </DescriptionList>
   );
 }

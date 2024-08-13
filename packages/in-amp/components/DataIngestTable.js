@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Card, DashboardTable, Stack } from '@instana/components';
+import { Card, DashboardTable, DashboardTableCell, DashboardTableRow, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { getDataTableAsResultObservable } from 'in-amp/api/account';
@@ -169,7 +169,7 @@ const DataIngestTable = () => {
     <Card>
       <Stack direction="horizontal" distribution="spaceBetween" align="center">
         <SubViewHeader>{t('in-amp:components.dataIngestTable.consumptionOverview')}</SubViewHeader>
-        {Array.isArray(header) && header.length && Array.isArray(rows) && rows.length && (
+        {Array.isArray(header) && header.length && Array.isArray(rows) && rows.length ? (
           <CsvExporter
             data={rows}
             headers={header.map(ele => ({
@@ -179,7 +179,7 @@ const DataIngestTable = () => {
             }))}
             fileName={`${t('in-amp:components.dataIngestTable.consumptionOverview')}.csv`}
           />
-        )}
+        ) : null}
       </Stack>
       <div className={locals.consumptionOverview}>
         <DashboardTable
@@ -187,8 +187,16 @@ const DataIngestTable = () => {
             setSearchQuery(e);
           }}
           size="xs"
-          headers={header}
-          rows={rows}
+          headers={rows.length ? header : []}
+          rows={rows.map((row, rowIndex) => (
+            <DashboardTableRow key={rowIndex}>
+              {header.map((heading, columnIndex) => (
+                <DashboardTableCell key={columnIndex}>{row[heading.key]}</DashboardTableCell>
+              ))}
+            </DashboardTableRow>
+          ))}
+          hasNoDataTile={!rows.length}
+          noDataHeader={t('in-amp:components.dataIngestTable.noData')}
         />
       </div>
     </Card>

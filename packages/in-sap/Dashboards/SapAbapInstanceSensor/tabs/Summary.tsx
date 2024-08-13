@@ -7,6 +7,7 @@
 import React, { Fragment } from 'react';
 
 import { themes } from '@instana/design-tokens';
+import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error needs TS migration
 import InfraMetricKpiCard from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InfraMetricKpiCardSap';
@@ -17,37 +18,37 @@ import CombinedMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Combin
 import AbapShortDumps from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/AbapShortDumps';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { capitalizeValue } from 'in-components/Capitalize/Capitalize';
+import { SnapshotData, getSnapshot } from 'in-stores/snapshot';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import KpiCard from './KpiCardSap';
 import { t } from 'in-i18n';
 
 export default function Summary({ data }: { data: SnapshotData }) {
   const timeConfig = useTimeConfig();
   const snapshotId = data.id;
-  const statusFormatter = (status: number): string => {
-    switch (status) {
-      case 1:
-        return 'ACTIVE';
-      case 0:
-        return 'INACTIVE';
-      default:
-        return '-';
-    }
-  };
+  const snapshot = useObservable(getSnapshot(snapshotId, timeConfig), [snapshotId, timeConfig]);
+  if (!snapshot) {
+    return null;
+  }
+  let upTime: string = snapshot.get('data').get('upTime');
+
   return (
     <Fragment>
       <Row>
         <Col lg={3}>
-          <InfraMetricKpiCard
-            title={t('in-sap:abapsensor.connectionStatus')}
+          <KpiCard
+            title={t('in-sap:dashboards.upTime')}
+            value={upTime}
+            renderValue={capitalizeValue}
+            raw
             iconAction={{
-              icon: 'lib_sap_status'
+              text: '',
+              icon: 'lib_sap_upTime'
             }}
-            snapshotId={snapshotId}
-            metric="sapMetricsStats.status"
-            formatter={statusFormatter}
+            borderless
           />
         </Col>
         <Col lg={3}>
@@ -362,7 +363,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title={t('in-sap:dashboards.userLogins')}>
+        <DashboardSection title={t('in-sap:dashboards.loginAttempts')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}

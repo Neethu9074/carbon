@@ -736,7 +736,7 @@ function generateMetric({
   isFormatterSelected,
   lastValue
 }) {
-  const { metrics, adjustedTimeframe } = item;
+  const { metrics } = item;
 
   const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
   const formatter = isFormatterSelected ? getFormatter(formatterId) : mapData(metadata, data => data?.formatter).data;
@@ -744,7 +744,7 @@ function generateMetric({
   const kpi = lastValue ? lastValueForMetric(metrics[seriesKey]) : firstValue(metrics[id]);
   const series = metrics[seriesKey];
   const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
-  const customValueTooltip = lastValue && getLastValueTooltipLabel(adjustedTimeframe);
+  const customValueTooltip = lastValue && getLastValueTooltipLabel(timeConfig);
 
   return (
     <SparkChart

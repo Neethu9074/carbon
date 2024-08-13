@@ -367,6 +367,7 @@
       "viewAllOs": "View all operating systems",
       "appVersions": "App Versions",
       "viewAllVersions": "View all versions",
+      "syntheticMonitoringLabel": "Synthetic Monitoring",
       "configurations": {
         "symbolFileConfigLabel": "Stack Trace Translation",
         "symbolFileConfig": {

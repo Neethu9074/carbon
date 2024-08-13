@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -13,7 +13,7 @@ import { Spacer } from '@instana/components';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { getKeyValueObjectAsArray } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/utils';
 import { Details } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details';
-import { Etcd } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd';
+import Etcd from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd/Etcd';
 
 export interface ControlPlaneProps {
   data: KubernetesCluster;
@@ -30,6 +30,7 @@ export default function ControlPlane({ data: cluster, timeConfig }: ControlPlane
       <Details clusterId={cluster.id} clusterInfos={clusterInfos} timeConfig={timeConfig} />
       <Spacer vertical="large" />
       <Etcd clusterId={cluster.id} timeConfig={timeConfig} />
+      <Spacer vertical="xxlarge" />
     </>
   );
 }

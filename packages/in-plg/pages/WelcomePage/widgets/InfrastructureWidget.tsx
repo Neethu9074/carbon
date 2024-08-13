@@ -7,9 +7,9 @@
 import React, { useState } from 'react';
 import { List } from 'immutable';
 
-import { Link, Typography, IconButton } from '@instana/components';
+import { Link, Typography, IconButton, TableTabs, TableTab } from '@instana/components';
+import { EntityHealthInfo, TimeConfig } from '@instana/types';
 import { combineLatest, just } from '@instana/observables';
-import { EntityHealthInfo } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
@@ -45,68 +45,95 @@ import { percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
 import { SnapshotMap } from 'in-components/EntityLink';
 import { getIconTypeCallback } from 'in-sdk/iconType';
-import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 
 function handleFavoriteClick(item: any, type: string) {
+  if (!item) return;
   if (item.pinned) {
-    remove({ id: item?.snapshotId, type });
+    remove({ id: item.snapshotId || item?.snapshot?.get('id'), type });
   } else {
     add({
-      id: item?.snapshotId,
+      id: item.snapshotId || item?.snapshot?.get('id'),
       label: getLabel(item?.snapshot),
       type: type
     });
   }
 }
 
-export default connectTo(() => ({
-  timeConfig: timeConfig$
-}))(function InfrastructureWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: InfraProps) {
-  const [infraType, setInfraType] = useState(0);
+function Toggles({
+  toggles,
+  selectedType,
+  setSelectedType
+}: {
+  toggles: any[];
+  selectedType: string;
+  setSelectedType: any;
+}) {
+  return (
+    <TableTabs selectedIndex={toggles.filter(toggle => toggle.value === selectedType).map(toggle => toggle.index)[0]}>
+      {toggles?.length > 0 &&
+        toggles.map(toggle => (
+          <TableTab
+            key={toggle.index}
+            isDisabled={false}
+            label={toggle.label}
+            onClick={() => setSelectedType(toggle.value)}
+          />
+        ))}
+    </TableTabs>
+  );
+}
+
+export default function InfrastructureWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: InfraProps) {
+  const [selectedType, setSelectedType] = useState('host');
   const { location, createHref } = useNavigation();
   const getDashboardLink = useGetDashboardLink();
   const maxItemsInTable = 5;
   const fullListViewLocation = { ...location, pathname: physicalTablePath };
 
-  const infrastructureToogleArray: string[] = [];
-
-  const infrastructureArray = [
-    { value: 'host', label: 'Hosts' },
-    { value: 'docker', label: 'Containers' },
-    { value: 'process', label: 'Processes' }
+  const toggles = [
+    { value: 'host', label: 'Hosts', index: 0 },
+    { value: 'docker', label: 'Containers', index: 1 },
+    { value: 'process', label: 'Processes', index: 2 }
   ];
-  infrastructureArray.map(ele => {
-    infrastructureToogleArray.push(ele.label);
-  });
 
-  const infraTypeValue = infrastructureArray[infraType]?.value;
+  setOrDeleteMatrixKey(fullListViewLocation, physicalTablePath, 'plugin', selectedType);
 
-  setOrDeleteMatrixKey(fullListViewLocation, physicalTablePath, 'plugin', infraTypeValue);
-
-  function setToogle(index: number) {
-    setInfraType(index);
-  }
-
-  function getSearchAndViewAllLabel() {
-    if (infraTypeValue === 'host') {
-      return t('in-plg:welcomepage.component.infrastructureWidget.hostLabel');
+  /**
+   * The function generates label which can be used as a placeholder text.
+   * @returns The label for the placeholder.
+   */
+  const getPlaceholderLabel = (): string | null => {
+    if (selectedType === 'host') {
+      return t('in-plg:welcomepage.component.infrastructureWidget.hostSearchPlaceholderLabel');
     }
-    if (infraTypeValue === 'docker') {
-      return t('in-plg:welcomepage.component.infrastructureWidget.containerLabel');
+    if (selectedType === 'docker') {
+      return t('in-plg:welcomepage.component.infrastructureWidget.containersSearchPlaceholderLabel');
     }
-    return t('in-plg:welcomepage.component.infrastructureWidget.processLabel');
-  }
+    return t('in-plg:welcomepage.component.infrastructureWidget.processesSearchPlaceholderLabel');
+  };
+
+  /**
+   * The function generates label which can be used as a placeholder text.
+   * @returns The label for the placeholder.
+   */
+  const getViewAllLabel = (): string | null => {
+    if (selectedType === 'host') {
+      return t('in-plg:welcomepage.component.infrastructureWidget.hostViewAllLabel');
+    }
+    if (selectedType === 'docker') {
+      return t('in-plg:welcomepage.component.infrastructureWidget.containersViewAllLabel');
+    }
+    return t('in-plg:welcomepage.component.infrastructureWidget.processesViewAllLabel');
+  };
 
   dashboardTileProps = {
     ...dashboardTileProps,
-    searchAndViewAllLabel: getSearchAndViewAllLabel(),
-    toggles: infrastructureToogleArray,
-    toggleCallback: index => setToogle(index)
+    toggles: <Toggles toggles={toggles} selectedType={selectedType} setSelectedType={setSelectedType} />
   };
 
   const getHeaders = () => {
-    if (infraTypeValue === 'host') {
+    if (selectedType === 'host') {
       return [
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.name'),
@@ -142,7 +169,7 @@ export default connectTo(() => ({
         }
       ];
     }
-    if (infraTypeValue === 'docker') {
+    if (selectedType === 'docker') {
       return [
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.name'),
@@ -207,7 +234,7 @@ export default connectTo(() => ({
   };
 
   function getItems({ query, infraType, timeConfig, pinnedItemIdsByType }: any) {
-    const pinnedIds = getFlattenedIds(pinnedItemIdsByType);
+    const pinnedIds = getFlattenedIds(pinnedItemIdsByType, getPinnedItemType());
     return search({
       query,
       timeConfig,
@@ -436,12 +463,19 @@ export default connectTo(() => ({
       },
       {
         key: 'favourite',
-        getContent({ item }) {
+        getContent({ item, isDisabled = false, isFavourite = false }) {
           return (
             <IconButton
-              type={item?.pinned ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
+              type={
+                isFavourite
+                  ? 'lib_actions_favorite_filled'
+                  : item?.pinned
+                  ? 'lib_actions_favorite_filled'
+                  : 'lib_actions_favorite'
+              }
               onClick={() => handleFavoriteClick(item, containerType)}
               iconSize="xs"
+              disabled={isDisabled}
             />
           );
         }
@@ -529,22 +563,31 @@ export default connectTo(() => ({
     return plugin;
   }
 
+  function getItem(id: string, timeConfig: TimeConfig, selectedType: string) {
+    return getSnapshot(id, timeConfig).flatMap(snapshot =>
+      getMetricForType(snapshot.get('id'), selectedType).map((mainKpiValue: any) => ({ snapshot, mainKpiValue }))
+    );
+  }
+
   const generalProps = {
     ...config,
     timeConfig,
-    columnDefinitions: columnDefinitions[infraTypeValue],
+    getItem: (id: string, timeConfig: TimeConfig) => getItem(id, timeConfig, selectedType),
+    columnDefinitions: columnDefinitions[selectedType],
     headers: getHeaders()
   };
 
   const getPinnedItemType = () => {
-    if (infraTypeValue === 'host') {
+    if (selectedType === 'host') {
       return [hostType];
     }
-    if (infraTypeValue === 'docker') {
+    if (selectedType === 'docker') {
       return [containerType];
     }
     return [processType];
   };
+
+  const pinnedTypes = getPinnedItemType();
 
   const GetZonesAndHosts = connectTo(
     ({ getSnapshotId }: any) => ({
@@ -560,13 +603,15 @@ export default connectTo(() => ({
     <DatatableWrapper
       tableType="infrastructureWidget"
       {...generalProps}
-      infraType={infraTypeValue}
+      infraType={selectedType}
       getItems={getItems}
       viewAll
       href={createHref(fullListViewLocation)}
-      label={widgetLabel}
+      label={`${widgetLabel}.${selectedType}`}
       dashboardTileProps={dashboardTileProps}
-      pinnedItemTypes={getPinnedItemType()}
+      pinnedItemTypes={pinnedTypes}
+      searchPlaceholderLabel={getPlaceholderLabel()}
+      viewAllLabel={getViewAllLabel()}
     />
   );
-});
+}

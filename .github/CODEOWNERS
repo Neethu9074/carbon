@@ -78,6 +78,7 @@ packages/in-forge/plugins/elasticsearch*                        @Instana-IBM-Git
 packages/in-forge/plugins/envoy                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/etcd                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/f5                                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/fileMonitoring*                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/finagleApplicationContainer           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/garden                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/golangRuntimePlatform                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-go
@@ -151,6 +152,7 @@ packages/in-forge/plugins/netCoreRuntimePlatform                @Instana-IBM-Git
 packages/in-forge/plugins/nginx                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/nodeJsRuntimePlatform                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-nodejs
 packages/in-forge/plugins/nomadScheduler                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/nutanix*                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/opc                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/openLDAP                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/oracleDB                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
@@ -249,6 +251,7 @@ packages/in-powervc                                                             
 packages/in-sdk                                                                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-sdk/metrics                                                                   @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-server                                                                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-nutanix                                                                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 
 # enable sensors team to update aws iam permissions
 packages/in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor.tsx                       @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui @instana/eng-sensors

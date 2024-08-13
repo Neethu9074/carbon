@@ -105,7 +105,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
         <>
           {shareAndInviteEnabled && (
             <>
-              <Tooltip align="bottomMiddle" content={t('in-plg:licenseBanner.shareTooltip')}>
+              <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
                 <LicenseBannerButton
                   id="shareButton"
                   kind="ghost"
@@ -169,7 +169,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
           )}
           {shareAndInviteEnabled && (
             <>
-              <Tooltip align="bottomMiddle" content={t('in-plg:licenseBanner.shareTooltip')}>
+              <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
                 <LicenseBannerButton
                   id="shareButton"
                   kind="ghost"

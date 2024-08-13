@@ -1,5 +1,10 @@
 {
   "components": {
+    "expandableGroup": {
+      "tooltipShowContent": "Show content",
+      "tooltipHideContent": "Hide content",
+      "labelExpandButtonForContent": "Expand button for content"
+    },
     "list": {
       "loadMore": "Load More",
       "toggleExtraContent": "Toggle extra content",
@@ -49,7 +54,7 @@
   "forms": {
     "actions": {
       "save": "Save",
-      "saveIntegration":"Save and enable",
+      "saveIntegration": "Save and enable",
       "cancel": "Cancel",
       "create": "Create",
       "delete": "Delete",

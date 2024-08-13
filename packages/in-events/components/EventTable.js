@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { findIndex } from 'lodash';
 
-import { Stack, SvgIcon, Typography, Pill, Link, Button } from '@instana/components';
+import { Stack, Typography, Pill, Link, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { on } from '@instana/observables';
 
@@ -19,10 +19,10 @@ import {
   eventFeedbackSubmitTracker
 } from 'in-events/tracker';
 import { getKubernetesProblemText, getKubernetesProblemTextReplacement } from './EventContent/KubernetesEventContent';
-import { carbonButtonEnabled, eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { NotesAndActivity } from 'in-events/components/NotesAndActivity/NotesAndActivity';
+import { eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -209,14 +209,12 @@ function FeedbackComponents({ eventData }) {
         </Typography>
       )}
 
-      <Button
-        kind="subtle"
+      <IconButton
+        kind="action"
         // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
         //TODO: Find an alternative to this (i.e. bring in a filled in thumbs up icon)
         style={feedbackState === tup ? { background: themes.default.ids.color.option.neutral['300'] } : undefined}
-        size="compact"
-        icon={'lib_thumbs_up'}
-        iconSize="s"
+        type="lib_thumbs_up"
         onClick={() => {
           eventFeedbackPositiveTracker({
             eventID: location.matrix[eventsPath]?.eventId,
@@ -228,16 +226,13 @@ function FeedbackComponents({ eventData }) {
             setFeedbackState(tup);
           }
         }}
-        {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
       />
-      <Button
-        kind="subtle"
+      <IconButton
+        kind="action"
         // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
         //TODO: Find an alternative to this (i.e. bring in a filled in thumbs down icon)
         style={feedbackState === tdown ? { background: themes.default.ids.color.option.neutral['300'] } : undefined}
-        size="compact"
-        iconSize="s"
-        icon={'lib_thumbs_down'}
+        type="lib_thumbs_down"
         onClick={() => {
           eventFeedbackNegativeTracker({
             eventID: location.matrix[eventsPath]?.eventId,
@@ -249,7 +244,6 @@ function FeedbackComponents({ eventData }) {
             setFeedbackState(tdown);
           }
         }}
-        {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
       />
     </Stack>
   );
@@ -265,11 +259,7 @@ function TimeSelection({ event }) {
 
       <Link href={createHref(location)}>
         <Tooltip content={t('in-events:tooltipCloseEventDetail')}>
-          <SvgIcon
-            className={locals.closeIcon}
-            aria-label={t('in-events:tooltipCloseEventDetail')}
-            type="lib_openclose_cancel"
-          />
+          <IconButton kind="action" aria-label={t('in-events:tooltipCloseEventDetail')} type="lib_openclose_cancel" />
         </Tooltip>
       </Link>
       {notesAndActivityEnabled && <NotesAndActivity event={event} />}

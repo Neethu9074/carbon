@@ -8,8 +8,7 @@ import { t } from 'in-i18n';
 
 export function getNotes(event) {
   const notes =
-    event
-      ?.get('notesUiObjects')
+    (event?.get('journals') || event?.get('notesUiObjects'))
       ?.toArray()
       .filter(x => x && x.get('type') == 'note')
       .map(x => {

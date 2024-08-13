@@ -7,7 +7,7 @@
 import { Field, Item, MapForm, createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Stack, SvgIcon, RadioButton, Checkbox, Button } from '@instana/components';
+import { Stack, RadioButton, Checkbox, Button, IconButton } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
@@ -149,7 +149,7 @@ export default function ScriptsSection({
         return (
           <HorizontalFlexWrapper className={locals.row}>
             <span>{getScriptFileName()}</span>
-            <SvgIcon type="lib_actions_delete" onClick={deleteScript} />
+            <IconButton kind="action" type="lib_actions_delete" onClick={deleteScript} />
           </HorizontalFlexWrapper>
         );
       }

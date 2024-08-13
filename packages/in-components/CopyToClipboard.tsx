@@ -68,6 +68,7 @@ export function addCopiedToClipboardMessage(content = t('in-components:copyToCli
     {
       type: 'info',
       timeout: 2000,
+      title: t('in-components:copyToClipboard'),
       content
     },
     'copyToClipboard'

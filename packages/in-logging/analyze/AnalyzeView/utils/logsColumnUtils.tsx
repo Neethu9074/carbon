@@ -42,7 +42,11 @@ export const timestampColumn = {
   useMaxHeight: true,
   widthInAbsoluteUnit: true,
   getContent({ timestamp }: TimestampColumnProps) {
-    return <div className={locals.dateTime}>{formatDateTime(timestamp)}</div>;
+    return (
+      <div className={locals.dateTime} data-testid={`log-timestamp-${timestamp}`}>
+        {formatDateTime(timestamp)}
+      </div>
+    );
   }
 };
 

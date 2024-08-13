@@ -13,7 +13,8 @@ import {
   CarbonTag,
   CarbonTextArea,
   CarbonLayer,
-  CarbonInlineLoading
+  CarbonInlineLoading,
+  IconButton
 } from '@instana/components';
 
 // Not using Carbon tooltip since tooltip has not been migrated
@@ -84,10 +85,11 @@ export function NotesAndActivity(props) {
             {t('in-events:notes.notesActivity')}
             <CarbonTag type="blue">{t('in-events:notes.techPreview')}</CarbonTag>
             <Tooltip content={t('in-events:notes.closeNotes')}>
-              <SvgIcon
+              <IconButton
+                kind="action"
                 onClick={() => toggleSidePanel()}
                 type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'}
-                size="s"
+                size="compact"
                 className={locals.notesIcon}
               />
             </Tooltip>

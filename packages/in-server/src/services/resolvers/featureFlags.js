@@ -341,6 +341,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'bizopsStandardInclusionEnabled',
+    instanaCtlKey: 'feature.bizops.standard.inclusion.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
     instanaCtlKey: 'feature.trace.limit.visible.nesting.levels.enabled',
     defaultValue: false
@@ -744,5 +749,10 @@ module.exports = exports = [
     uiClientKey: 'unitForInfraMetricsEnabled',
     instanaCtlKey: 'feature.unit.for.infra.metrics.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'applicationSmartAlertDialogView',
+    instanaCtlKey: 'application.smart.alerts.dialog.view',
+    defaultValue: true
   }
 ];

@@ -137,7 +137,7 @@ function AlertConfigTearSheetContent({
   const duplicateFrom = (alertConfig as any)?.duplicateFrom;
 
   const [form, setForm] = useState(() =>
-    createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert)
+    createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert, true)
   );
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
@@ -159,7 +159,7 @@ function AlertConfigTearSheetContent({
   }, [migrationMode]);
 
   useEffect(() => {
-    setForm(createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert));
+    setForm(createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert, true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editMode]);
 

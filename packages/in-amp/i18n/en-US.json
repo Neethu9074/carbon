@@ -28,8 +28,11 @@
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "There has been no active paid license in the past 30 days."
     },
-    "fairUsePolicyMessage":{
-      "title": "This account is subject to Fair Use Policy. See data usage in the chart below."
+    "fairUsePolicyMessage": {
+      "title": "This account is subject to Fair Use Policy. See data usage in charts below."
+    },
+    "fairUsePolicyNotActive": {
+      "title": "Fair Use Policy is not active."
     },
     "restrictedUsage": {
       "accountUsage": "Account Usage"
@@ -55,7 +58,8 @@
       "dataIngestEntitlementFromOnDemand": "Data Ingest fair-Use Entitlement from On-Demand MVS",
       "totalDataIngestEntitlement": "Total Data Ingest Entitlement",
       "actualDataIngest": "Actual Data-Ingest",
-      "onDemandDataIngest": "On-Demand Data-Ingest"
+      "onDemandDataIngest": "On-Demand Data-Ingest",
+      "noData": "No data"
     },
     "timePresets": {
       "last7Days": "Last 7 days",

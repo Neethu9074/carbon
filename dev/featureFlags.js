@@ -11,6 +11,7 @@ module.exports = {
   businessObservabilityEnabled: true,
   bizopsPerspectivesEnabled: true,
   bizopsGenAIEnabled: true,
+  bizopsStandardInclusionEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,
@@ -157,5 +158,6 @@ module.exports = {
   syntheticMultiWebMobileEnabled: true,
   assistMeEnabled: true,
   userProfileMenuEnabled: false,
-  unitForInfraMetricsEnabled: true
+  unitForInfraMetricsEnabled: true,
+  applicationSmartAlertDialogView: true
 };

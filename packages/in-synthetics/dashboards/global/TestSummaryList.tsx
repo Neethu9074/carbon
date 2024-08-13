@@ -27,15 +27,18 @@ import {
   pathSegment,
   syntheticTypesUrlParameter,
   locationsUrlParameter,
-  applicationsUrlParameter
+  applicationsUrlParameter,
+  entityIdsUrlParameter
 } from 'in-synthetics/utils/constants';
 import {
   applicationIdTagName,
   locationIdTagName,
+  websiteIdTagName,
+  mobileAppIdTagName,
+  mobileApplicationIdTagName,
   testIdTagName,
   testNameTagName,
-  typeTagName,
-  websiteIdTagName
+  typeTagName
 } from 'in-synthetics/tags';
 import showNotification, {
   calculateNextOccurrence,
@@ -59,30 +62,35 @@ import CreateSyntheticTest from 'in-synthetics/createTests/CreateSyntheticTest';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useFilterHeader } from 'in-synthetics/dashboards/global/utils';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import useUrlState, { Options } from 'in-hooks/useUrlState';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { minutes } from 'in-services/time/time';
-import useUrlState from 'in-hooks/useUrlState';
 import { getTests } from 'in-synthetics/api';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-const urlStateDefinition = {
+const urlStateDefinition: Options<FilterState> = {
   bind: filterUrlStateDefinition.bind,
-  reducer: (prevState: FilterState, { syntheticTypes, locationIds, applicationIds }: CurrentState) => ({
-    syntheticTypes: syntheticTypes || prevState.syntheticTypes,
-    locationIds: locationIds || prevState.locationIds,
-    applicationIds: applicationIds || prevState.applicationIds
-  })
+  reducer: (prevState: FilterState, { syntheticTypes, locationIds, applicationIds, entityIds }: CurrentState) => {
+    const commonUrlStateProps = {
+      syntheticTypes: syntheticTypes || prevState.syntheticTypes,
+      locationIds: locationIds || prevState.locationIds
+    };
+    return syntheticMultiWebMobileEnabled
+      ? { ...commonUrlStateProps, entityIds: entityIds || prevState.entityIds }
+      : { ...commonUrlStateProps, applicationIds: applicationIds || prevState.applicationIds };
+  }
 };
 
 const ServerTableWithUrlState = createServerTableWithUrlState({
@@ -95,7 +103,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     ...timeConfigUrlParameters,
     syntheticTypesUrlParameter,
     locationsUrlParameter,
-    applicationsUrlParameter
+    syntheticMultiWebMobileEnabled ? entityIdsUrlParameter : applicationsUrlParameter
   ],
   columnDefinitions: columnDefinitions,
   defaultOrderBy: 'successRate',
@@ -125,9 +133,31 @@ const addFilter = (
 
 const TestSummaryList = () => {
   const timeConfig = useTimeConfig();
-  const [{ syntheticTypes, locationIds, applicationIds }, setFilter] = useUrlState(urlStateDefinition);
+  let allApplicationIds = new Set<string>();
+  let allWebsiteIds = new Set<string>();
+  let allMobileAppIds = new Set<string>();
+  let associations;
+  const [{ syntheticTypes, locationIds, applicationIds, entityIds }, setFilter] = useUrlState(urlStateDefinition);
   const storedDialogAlarm = storedAlarmTimeOrNull();
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
+  if (syntheticMultiWebMobileEnabled && !syntheticTests?.progress?.loading) {
+    syntheticTests?.data?.forEach(function (item: SyntheticTest) {
+      if (item?.applications) {
+        item.applications.forEach(id => allApplicationIds.add(id));
+      }
+      if (item?.websites) {
+        item.websites.forEach(id => allWebsiteIds.add(id));
+      }
+      if (item?.mobileApps) {
+        item.mobileApps.forEach(id => allMobileAppIds.add(id));
+      }
+    });
+  }
+  associations = {
+    applications: Array.from(allApplicationIds),
+    websites: Array.from(allWebsiteIds),
+    mobileApps: Array.from(allMobileAppIds)
+  };
 
   useEffect(() => {
     if (storedDialogAlarm === null) {
@@ -166,6 +196,8 @@ const TestSummaryList = () => {
           syntheticTypes={syntheticTypes}
           locationIds={locationIds}
           applicationIds={applicationIds}
+          entityIds={entityIds}
+          associations={associations}
         />
       </LeftRightPadding>
       <Footer />
@@ -198,9 +230,13 @@ interface GetTestSummaryList {
   context?: string;
   appId?: string;
   websiteId?: string;
+  mobileAppId?: string;
   syntheticTypes?: string[];
   locationIds?: string[];
   applicationIds?: string[];
+  entityIds?: string[];
+  associations?: Record<string, string[]>;
+  mobileAppIds?: string[];
   excludeIds?: string[];
 }
 
@@ -214,14 +250,22 @@ export const getTestSummaryListData = ({
   context = '',
   appId = '',
   websiteId = '',
+  mobileAppId = '',
   syntheticTypes = [],
   locationIds = [],
   applicationIds = [],
+  entityIds = [],
+  associations,
   excludeIds = []
 }: GetTestSummaryList) => {
   const baseTagFilterExpression: TagFilterExpression = {
     elements: [],
     logicalOperator: 'AND',
+    type: 'EXPRESSION'
+  };
+  const associationsTagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'OR',
     type: 'EXPRESSION'
   };
   /** tagFilterExpressions used here are to allow users to display a list of tests
@@ -231,6 +275,12 @@ export const getTestSummaryListData = ({
 
   /** Each test can be associated with 0 or more associations (applications, websites, mobile applications) */
   const appTagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'OR',
+    type: 'EXPRESSION'
+  };
+
+  const mobileAppsTagFilterExpression: TagFilterExpression = {
     elements: [],
     logicalOperator: 'OR',
     type: 'EXPRESSION'
@@ -291,16 +341,48 @@ export const getTestSummaryListData = ({
     });
   }
 
+  if (context == 'mobile') {
+    mobileAppsTagFilterExpression.elements.push({
+      value: mobileAppId,
+      name: mobileAppIdTagName,
+      operator: EQUALS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    });
+  }
+
   addFilter(syntheticTypes, typeTagName, EQUALS, typeTagFilterExpression);
   addFilter(locationIds, locationIdTagName, EQUALS, locationTagFilterExpression);
   addFilter(applicationIds, applicationIdTagName, EQUALS, appTagFilterExpression);
   addFilter(excludeIds, testIdTagName, NOT_EQUAL, testFilterExpression);
+  if (syntheticMultiWebMobileEnabled && entityIds.length !== 0 && Array.isArray(entityIds)) {
+    entityIds.forEach(value => {
+      switch (value) {
+        case 'applications':
+          addFilter(associations?.applications!, applicationIdTagName, EQUALS, appTagFilterExpression);
+          break;
+        case 'websites':
+          addFilter(associations?.websites!, websiteIdTagName, EQUALS, websiteTagFilterExpression);
+          break;
+        case 'mobileApps':
+          addFilter(associations?.mobileApps!, mobileApplicationIdTagName, EQUALS, mobileAppsTagFilterExpression);
+          break;
+      }
+    });
+  } else {
+    addFilter(applicationIds, applicationIdTagName, EQUALS, appTagFilterExpression);
+  }
+
+  associationsTagFilterExpression.elements.push(
+    appTagFilterExpression,
+    websiteTagFilterExpression,
+    mobileAppsTagFilterExpression
+  );
 
   baseTagFilterExpression.elements.push(
     typeTagFilterExpression,
     locationTagFilterExpression,
-    appTagFilterExpression,
-    websiteTagFilterExpression,
+    syntheticMultiWebMobileEnabled ? associationsTagFilterExpression : appTagFilterExpression,
     testFilterExpression
   );
 

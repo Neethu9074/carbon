@@ -12,15 +12,11 @@ import InstanaServiceToCloudfoundryApplicationButton from 'in-cloudfoundry/commo
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { serviceDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { serviceDashboard, summaryTab } from 'in-applications/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -46,8 +42,6 @@ import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
-
-import locals from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton.mless';
 
 const urlStateDefinition = {
   bind: [
@@ -109,40 +103,15 @@ export default function ServiceDashboard({ location }) {
         props={props}
       />
 
-      {showAlertButton && !applicationSmartAlertFullScreenDesignEnabled && (
-        <FloatingActionButtons>
-          <CreateSmartAlert
-            serviceId={props.serviceId}
-            applicationId={props.applicationId}
-            location={location}
-            boundaryScope={props.boundaryScope}
-          />
-        </FloatingActionButtons>
+      {showAlertButton && props.applicationId && (
+        <CreateSmartAlert
+          serviceId={props.serviceId}
+          applicationId={props.applicationId}
+          location={location}
+          boundaryScope={props.boundaryScope}
+        />
       )}
-      {showAlertButton && applicationSmartAlertFullScreenDesignEnabled && props.applicationId && (
-        <FloatingActionButtons>
-          <FloatingActionButtonMenu>
-            <span className={locals.floatingBtnMenu}>
-              <CreateSmartAlert
-                serviceId={props.serviceId}
-                applicationId={props.applicationId}
-                location={location}
-                boundaryScope={props.boundaryScope}
-              />
-            </span>
 
-            <CreateSmartAlertButton
-              isGlobal={false}
-              buttonName={t('in-alerting:smartAlerts.applications.components.createSmartAlertNew')}
-              isFloatingButton
-              isMenuItem
-              boundaryScope={props.boundaryScope}
-              serviceId={props.serviceId}
-              applicationId={props.applicationId}
-            />
-          </FloatingActionButtonMenu>
-        </FloatingActionButtons>
-      )}
       <Footer />
     </>
   );

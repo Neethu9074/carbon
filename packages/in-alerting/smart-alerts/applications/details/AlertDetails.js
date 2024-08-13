@@ -35,6 +35,10 @@ import {
   alertId as alertIdParam,
   alertsCategory as alertsCategoryMatrixParam
 } from 'in-applications/navigation/matrix';
+import {
+  applicationSmartAlertDialogView,
+  applicationSmartAlertFullScreenDesignEnabled
+} from 'in-services/featureFlags';
 import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
@@ -79,7 +83,9 @@ function GlobalAlertDetails(props) {
       canConfigureGlobalAlertConfigs={role.canConfigureGlobalApplicationSmartAlerts}
       canConfigureIndividualAlertConfigs={role.canConfigureApplicationSmartAlerts}
       isGlobalSmartAlert
-      displayTearSheetActions
+      displayTearSheetActions={applicationSmartAlertFullScreenDesignEnabled}
+      displayEditAction={applicationSmartAlertDialogView}
+      displayDuplicateAction={applicationSmartAlertDialogView}
     />
   );
 }
@@ -106,7 +112,9 @@ function IndividualAlertDetails(props) {
       renderAlertConfiguration={renderAlertConfiguration}
       canConfigureGlobalAlertConfigs={role.canConfigureGlobalApplicationSmartAlerts}
       canConfigureIndividualAlertConfigs={role.canConfigureApplicationSmartAlerts}
-      displayTearSheetActions
+      displayTearSheetActions={applicationSmartAlertFullScreenDesignEnabled}
+      displayEditAction={applicationSmartAlertDialogView}
+      displayDuplicateAction={applicationSmartAlertDialogView}
     />
   );
 }

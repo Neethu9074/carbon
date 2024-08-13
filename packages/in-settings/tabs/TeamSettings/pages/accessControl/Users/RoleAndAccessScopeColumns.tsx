@@ -71,6 +71,7 @@ function mergeGroupsAndMapToPermissionSet(groups: ApiGroup[] | undefined): Permi
     kubernetesClusterUUIDs: [],
     kubernetesNamespaceUIDs: [],
     permissions: [],
+    syntheticCredentialKeys: [],
     syntheticTestIds: [],
     infraDfqFilter: { scopeId: '', scopeRoleId: '-1' }
   };

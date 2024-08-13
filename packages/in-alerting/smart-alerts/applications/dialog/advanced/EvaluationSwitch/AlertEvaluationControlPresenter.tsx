@@ -80,6 +80,7 @@ export function AlertEvaluationControlPresenter({
       checked={type === evaluationType}
       onChange={() => setEvaluationType(type)}
       disabled={disabled}
+      carbonVariant
     />
   );
 
@@ -94,7 +95,7 @@ export function AlertEvaluationControlPresenter({
         />
       )}
 
-      <div className={classNames({ [locals.options]: !tearSheetView, [locals.tearsheetOptions]: tearSheetView })}>
+      <div className={classNames({ [locals.options]: !tearSheetView, [locals.tearSheetOptions]: tearSheetView })}>
         {Object.keys(alertEvaluationTypes).map(evalType => {
           const type = evalType as AlertEvaluationType;
           const notAvailableWithAdaptiveThreshold =

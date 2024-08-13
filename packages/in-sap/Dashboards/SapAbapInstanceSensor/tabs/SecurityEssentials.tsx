@@ -35,7 +35,7 @@ export default function SecurityEssentials({ data }: { data: SnapshotData }) {
     <Fragment>
       <UserInfo snapshotId={snapshotId} timeConfig={timeConfig} />
       <Columize>
-        <DashboardSection title={t('in-sap:dashboards.allLogins')}>
+        <DashboardSection title={t('in-sap:dashboards.loginTypes')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}

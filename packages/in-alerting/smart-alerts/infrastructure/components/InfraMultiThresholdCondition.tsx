@@ -72,6 +72,7 @@ export default function InfraMultiThresholdCondition({
           thresholdField={warningThresholdField.get('value')}
           getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
           isMultiThreshold
+          id="warningThreshold"
         />
 
         {!groupBy?.length && (
@@ -105,6 +106,7 @@ export default function InfraMultiThresholdCondition({
         thresholdField={criticalThresholdField.get('value')}
         getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'criticalThreshold')}
         isMultiThreshold
+        id="criticalThreshold"
       />
 
       <span />

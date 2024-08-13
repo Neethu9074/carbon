@@ -47,7 +47,7 @@ export default function StaticOrAdaptiveSwitch({
   bluePrint
 }: Props) {
   const thresholdType = ((form.get('threshold') as MapForm<any>)?.get('type') as Field<ThresholdType>)?.value;
-  const evaluationType = (form.get('evaluationType') as Field<AlertEvaluationType>).value;
+  const evaluationType = (form.get('evaluationType') as Field<AlertEvaluationType>)?.value;
   const currentType = thresholdType === ADAPTIVE_BASELINE ? types.adaptive : types.static;
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
@@ -73,7 +73,7 @@ export default function StaticOrAdaptiveSwitch({
             badgeTitle={t(
               'in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.adaptive.notSupported'
             )}
-            tooltipContent={getTooltipMsg(evaluationType, isDisabled, bluePrint)}
+            tooltipContent={evaluationType && getTooltipMsg(evaluationType, isDisabled, bluePrint)}
           />
         </Col>
       </Row>
