@@ -610,8 +610,8 @@
             "adaptive": {
               "description": "A threshold value that automatically adapts to the changes of the underlying metric is applied.",
               "label": "Adaptive",
-              "adaptiveNotSupportedForEndPoint": "Adaptive threshold is not supported when grouping by endpoints.",
-              "adaptiveNotSupportedForBluePrint": "Adaptive threshold is not supported for selected blueprint : {{bluePrint}}.",
+              "adaptiveNotSupportedForEndPoint": "An adaptive threshold is not supported when grouping by endpoints.",
+              "adaptiveNotSupportedForBluePrint": "An adaptive threshold is not supported for selected blueprint : {{bluePrint}}.",
               "notSupported": "Not Supported"
             },
             "static": {
@@ -895,6 +895,11 @@
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create Smart Alert",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create Global Smart Alert",
         "alertConfigDialogPresenterTitleMigrateAlert": "Migrate to Smart Alert",
+        "alertConfigTearSheetEditAlert_Local": "Edit an application Smart Alert",
+        "alertConfigTearSheetEditAlert_Global": "Edit an application global Smart Alert",
+        "alertConfigTearSheetCreateNewAlert_Local": "Create an application Smart Alert",
+        "alertConfigTearSheetCreateNewAlert_Global": "Create an application global Smart Alert",
+        "alertConfigTearSheetMigrateAlert": "Migrate to application Smart Alert",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Switch to Advanced Mode",
         "simpleAlertConfigDialogStep3Headline": "Who should get the alerts?",
         "Loading": "Loading…",
