@@ -49,10 +49,10 @@ function getApplicationData(params: any) {
   return getApplicationsWithDefaults(params);
 }
 
-function handleFavoriteClick(item: any) {
-  if (!item) return;
-  if (item.pinned) {
-    remove({ id: item?.application?.id, type: applicationType });
+function handleFavoriteClick(id: string, item: any, isFavourite: boolean) {
+  if (!id && !item) return;
+  if (isFavourite) {
+    remove({ id: id, type: applicationType });
   } else {
     add({
       id: item?.application?.id,
@@ -297,7 +297,7 @@ export default function ApplicationWidget({
     },
     {
       key: 'favourite',
-      getContent({ item, isDisabled = false, isFavourite = false }) {
+      getContent({ id, item, isDisabled = false, isFavourite = false }) {
         return (
           <IconButton
             type={
@@ -307,7 +307,7 @@ export default function ApplicationWidget({
                 ? 'lib_actions_favorite_filled'
                 : 'lib_actions_favorite'
             }
-            onClick={() => handleFavoriteClick(item)}
+            onClick={() => handleFavoriteClick(id, item, isFavourite)}
             iconSize="xs"
             disabled={isDisabled}
           />

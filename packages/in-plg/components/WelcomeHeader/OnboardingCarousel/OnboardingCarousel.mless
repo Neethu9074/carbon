@@ -11,6 +11,10 @@
     padding-inline-start: 1.5rem;
     padding-inline-end: 2rem;
     border-block-start: 1px solid var(--cds-border-subtle);
+    height: 3rem;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
 
     .hideButton {
       gap: 0.5rem;
@@ -32,9 +36,11 @@
 
     .carousel {
       overflow-x: scroll;
-      scrollbar-width: none;
       padding-inline-start: 1.5rem;
       padding-inline-end: 1.5rem;
+      &::-webkit-scrollbar {
+        display: none; /* For hiding scroll tab in safari */
+      }
     }
   }
 

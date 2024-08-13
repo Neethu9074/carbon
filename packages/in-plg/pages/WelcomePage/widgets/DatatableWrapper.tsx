@@ -174,9 +174,9 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     return results;
   }
 
-  function viewAllButton(key: number) {
+  function viewAllButton(key: string) {
     if (viewAll) {
-      if (hasContent) {
+      if (hasContent || favIds.length) {
         return <ViewAllButton key={key} href={href} viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`} />;
       } else {
         return (
@@ -190,11 +190,21 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const generateRows = () => {
     let rows = [];
     let rowId = 0;
+    const regularItemsList = regularItems();
+    const numberOfRegularItemsError = regularItemsList?.props?.result?.errors?.length;
+    const numberOfRegularItemsLoading = regularItemsList?.props?.result?.progress?.loading;
+    const numberOfregularItems = regularItemsList?.props?.result?.data?.items.length;
+
     if (favIds.length > 0) rows.push({ id: `${rowId++}`, ...pinnedItems() });
-    if (numberOfRegularItemsToShow > 0) rows.push({ id: `${rowId++}`, ...regularItems() });
-    if (viewAll) rows.push({ id: `${rowId++}`, ...viewAllButton(rowId) });
+    if (numberOfRegularItemsError || numberOfRegularItemsLoading || numberOfregularItems) {
+      rows.push({ id: `${rowId++}`, ...regularItemsList });
+    }
+    if (viewAll) rows.push({ id: `${rowId++}`, ...viewAllButton('viewAllButton') });
     return rows;
   };
+
+  const dataArray = generateRows();
+  const filteredArrayExcludingViewAllButton = dataArray.filter(item => item.key !== 'viewAllButton');
 
   return (
     <section aria-label={`${header}`} role="region">
@@ -209,7 +219,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
           hasAddPermission={hasAddPermission}
           hasAddMore={hasAddMore && !playwithEnabled ? true : false}
           viewAll={viewAll ?? hasContent ? true : false}
-          hasNoDataTile={!hasContent}
+          hasNoDataTile={!filteredArrayExcludingViewAllButton.length}
           addMore={addMore}
           addData={addData}
           href={href}

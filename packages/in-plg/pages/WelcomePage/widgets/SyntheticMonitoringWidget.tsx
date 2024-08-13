@@ -92,7 +92,7 @@ export default function SyntheticMonitoringWidget({
   const toggles = [
     { value: syntheticArrayOptions.test, label: 'Tests', index: 0, icon: 'lib_synthetic' },
     { value: syntheticArrayOptions.location, label: 'Locations', index: 1, icon: 'lib_synthetic_location' },
-    { value: syntheticArrayOptions.smartalerts, label: 'Smart alerts', index: 2, icon: 'lib_alerts_alert' }
+    { value: syntheticArrayOptions.smartalerts, label: 'Smart Alerts', index: 2, icon: 'lib_alerts_alert' }
   ];
 
   /**

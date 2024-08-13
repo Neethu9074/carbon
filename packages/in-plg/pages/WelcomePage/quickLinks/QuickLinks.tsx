@@ -45,7 +45,9 @@ export const QuickLinks = ({ enableQuickLinkForAgentAndUser }: QuickLinksProps) 
           icon="lib_views_external_link"
           iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.externalLink')}
           buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.documentation')}
-          href="https://www.ibm.com/docs/en/instana-observability/current"
+          onClick={() => {
+            window.open('https://www.ibm.com/docs/en/obi/current', '_blank', 'noreferrer');
+          }}
         />
         <QuickLinkButton
           icon="lib_actions_result_new"

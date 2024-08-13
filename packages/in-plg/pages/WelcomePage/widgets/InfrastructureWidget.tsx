@@ -47,10 +47,10 @@ import { SnapshotMap } from 'in-components/EntityLink';
 import { getIconTypeCallback } from 'in-sdk/iconType';
 import { getSnapshot } from 'in-stores/snapshot';
 
-function handleFavoriteClick(item: any, type: string) {
-  if (!item) return;
-  if (item.pinned) {
-    remove({ id: item.snapshotId || item?.snapshot?.get('id'), type });
+function handleFavoriteClick(id: string, item: any, isFavourite: boolean, type: string) {
+  if (!id && !item) return;
+  if (isFavourite) {
+    remove({ id: id || item?.snapshot?.get('id'), type });
   } else {
     add({
       id: item.snapshotId || item?.snapshot?.get('id'),
@@ -379,12 +379,19 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       },
       {
         key: 'favourite',
-        getContent({ item }) {
+        getContent({ id, item, isDisabled = false, isFavourite = false }) {
           return (
             <IconButton
-              type={item?.pinned ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
-              onClick={() => handleFavoriteClick(item, hostType)}
+              type={
+                isFavourite
+                  ? 'lib_actions_favorite_filled'
+                  : item?.pinned
+                  ? 'lib_actions_favorite_filled'
+                  : 'lib_actions_favorite'
+              }
+              onClick={() => handleFavoriteClick(id, item, isFavourite, hostType)}
               iconSize="xs"
+              disabled={isDisabled}
             />
           );
         }
@@ -463,7 +470,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       },
       {
         key: 'favourite',
-        getContent({ item, isDisabled = false, isFavourite = false }) {
+        getContent({ id, item, isDisabled = false, isFavourite = false }) {
           return (
             <IconButton
               type={
@@ -473,7 +480,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
                   ? 'lib_actions_favorite_filled'
                   : 'lib_actions_favorite'
               }
-              onClick={() => handleFavoriteClick(item, containerType)}
+              onClick={() => handleFavoriteClick(id, item, isFavourite, containerType)}
               iconSize="xs"
               disabled={isDisabled}
             />
@@ -536,12 +543,19 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       },
       {
         key: 'favourite',
-        getContent({ item }) {
+        getContent({ id, item, isDisabled = false, isFavourite = false }) {
           return (
             <IconButton
-              type={item?.pinned ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
-              onClick={() => handleFavoriteClick(item, processType)}
+              type={
+                isFavourite
+                  ? 'lib_actions_favorite_filled'
+                  : item?.pinned
+                  ? 'lib_actions_favorite_filled'
+                  : 'lib_actions_favorite'
+              }
+              onClick={() => handleFavoriteClick(id, item, isFavourite, processType)}
               iconSize="xs"
+              disabled={isDisabled}
             />
           );
         }

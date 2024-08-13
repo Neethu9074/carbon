@@ -9,6 +9,8 @@ import React from 'react';
 import { t, Trans } from '@instana/i18n-react';
 import { Link } from '@instana/components';
 
+import { role } from 'in-stores/user';
+
 export function getNoDataHeader(label: string) {
   switch (label) {
     case 'applicationWidget':
@@ -61,10 +63,12 @@ export function getNoDataDescription(label: string) {
     case 'infrastructureWidget.process':
       return (
         <Trans
-          i18nKey={'in-plg:welcomepage.noData.infrastructureWidget.description'}
+          i18nKey="in-plg:welcomepage.noData.infrastructureWidget.description"
           components={{
             linkToAgents: (
-              <Link href="/#/agents/installation">{t('in-plg:welcomepage.noData.infrastructureWidget.link')}</Link>
+              <Link href="/#/agents/installation" disabled={!role?.canConfigureAgents}>
+                {t('in-plg:welcomepage.noData.infrastructureWidget.link')}
+              </Link>
             )
           }}
         />
