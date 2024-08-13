@@ -29,6 +29,7 @@ import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricCo
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
+import { unitPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { getUiMetricsValueByBackendType } from 'in-services/formatters/backendFormatter';
 import { getMetricUnitByBackendType, getUnitByFormatter } from 'in-stores/metric/units';
@@ -39,7 +40,6 @@ import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import TypeAndMetricConfigurator from './TypeAndMetricConfigurator';
-import { unitPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';

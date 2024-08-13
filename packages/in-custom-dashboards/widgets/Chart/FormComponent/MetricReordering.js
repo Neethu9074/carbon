@@ -137,7 +137,7 @@ export function MetricsForAxis({
   startIndex,
   getShortMetricKey,
   isColorConfiguratorEnabled = true,
-  isUnitPillEnabled = false,
+  withUnitPill = false,
   helpText = t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.dragDropDataset2Axes')
 }) {
   const axisForm = form.get(axisName);
@@ -146,7 +146,7 @@ export function MetricsForAxis({
   const showHelpText = metricsForm.size === 0;
   const columnsDefinitions = columnDefinitions
     .filter(({ x }) => x !== 'colorConfigurator' || isColorConfiguratorEnabled)
-    .filter(({ x }) => x !== 'unitPill' || isUnitPillEnabled);
+    .filter(({ x }) => x !== 'unitPill' || withUnitPill);
 
   return (
     <Stack gap="normal">
