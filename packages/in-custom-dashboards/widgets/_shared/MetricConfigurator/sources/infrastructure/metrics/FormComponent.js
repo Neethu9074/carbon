@@ -39,6 +39,7 @@ import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import TypeAndMetricConfigurator from './TypeAndMetricConfigurator';
+import { unitPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
@@ -197,9 +198,8 @@ export default function FormComponent({
 
   // Update metric unit with pre-selected one
   useEffect(() => {
-    //TODO remove isTimeSeries after unit is enabled for all widget
-    if (preSelectedUnit && isTimeSeries) {
-      onChange([], form => form.updateIn(['unit'], field => field.setValue(preSelectedUnit?.id).setTouched(true)));
+    if (preSelectedUnit) {
+      onChange([], form => form.updateIn([unitPath], field => field.setValue(preSelectedUnit?.id).setTouched(true)));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preSelectedUnit, metricMetadatas]);
