@@ -93,7 +93,7 @@ export default function NewPlayWithHeader() {
       </LicenseBannerButton>
       {shareAndInviteEnabled && (
         <>
-          <Tooltip align="bottomMiddle" content={t('in-plg:licenseBanner.shareTooltip')}>
+          <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
             <LicenseBannerButton
               id="shareButton"
               kind="ghost"
