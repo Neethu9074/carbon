@@ -228,7 +228,8 @@
   },
   "closeEventDialog": {
     "reason": "Let us know the reason you are closing the issue",
-    "warning": "The closure of this issue is irreversible",
+    "warningIncident": "The closure of this incident is irreversible",
+    "warningIssue": "The closure of this issue is irreversible",
     "comments": "Comments",
     "closeIssue": "Close Issue",
     "closeIncident": "Close this incident",
