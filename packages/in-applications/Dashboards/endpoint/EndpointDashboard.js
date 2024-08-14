@@ -116,7 +116,16 @@ export default function EndpointDashboard({ location }) {
         result$={
           props.endpointId
             ? getEndpoint(getEndpointParams)
-            : just(error([{ message: 'Endpoint Id cannot be blank', code: 'CLIENT' }]))
+            : just(
+                error([
+                  {
+                    message: t('in-applications:dashboards.idCannotBeBlank', {
+                      entity: 'Endpoint'
+                    }),
+                    code: 'CLIENT'
+                  }
+                ])
+              )
         }
         HeaderComponent={Header}
         location={location}

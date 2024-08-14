@@ -104,7 +104,16 @@ export default function ServiceDashboard({ location }) {
                   timeConfig
                 }
               })
-            : just(error([{ message: 'Service Id cannot be blank', code: 'CLIENT' }]))
+            : just(
+                error([
+                  {
+                    message: t('in-applications:dashboards.idCannotBeBlank', {
+                      entity: 'Service'
+                    }),
+                    code: 'CLIENT'
+                  }
+                ])
+              )
         }
         props={props}
       />

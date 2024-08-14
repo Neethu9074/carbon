@@ -116,7 +116,16 @@ export default function ApplicationDashboard({ location }: { location: Location 
         result$={
           tabViewProps.applicationId
             ? getApplication({ id: tabViewProps.applicationId })
-            : just(error([{ message: 'Application Id cannot be blank', code: 'CLIENT' }]))
+            : just(
+                error([
+                  {
+                    message: t('in-applications:dashboards.idCannotBeBlank', {
+                      entity: 'Application'
+                    }),
+                    code: 'CLIENT'
+                  }
+                ])
+              )
         }
         withProps={({ result }) => ({
           applicationName: get(result, ['data', 'label'])
