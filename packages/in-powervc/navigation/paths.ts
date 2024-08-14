@@ -4,11 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
-import { getModifiedUrlStream, LocationMutator } from 'in-stores/navigation/navigation';
 import { hypervisorId as matrixHypervisorId } from 'in-powervc/navigation/matrix';
 import { instanceId as matrixInstanceId } from 'in-powervc/navigation/matrix';
 import { regionId as matrixRegionId } from 'in-powervc/navigation/matrix';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { LocationMutator } from 'in-stores/navigation/navigation';
 
 export const powervc = '/powervc';
 
@@ -20,7 +21,6 @@ export const powervcHypervisorDashboard = `/hypervisor`;
 export const powervcHypervisorDashboardFullyQualified = `${powervc}${powervcHypervisorDashboard}`;
 export const powervcInstanceDashboard = `/instance`;
 export const powervcInstanceDashboardFullyQualified = `${powervc}${powervcInstanceDashboard}`;
-
 
 type NavigateToDashboardProps = {
   base: string;
@@ -58,13 +58,15 @@ export function usePowervcInstanceDashboard(regionId?: string) {
     }
   });
 }
+
 function useNavigateToDashboard({ base, matrixSegment, matrixParam, paramsCallback }: NavigateToDashboardProps) {
-  return (id: string) =>
-    getModifiedUrlStream(params => {
-      params.pathname = `${base}/summary`;
-      setOrDeleteMatrixKey(params, matrixSegment, matrixParam, id);
-      if (paramsCallback) {
-        paramsCallback(params);
-      }
-    });
+  const { location, createHref } = useNavigation();
+  const targetLocation = { ...location, pathname: `${base}/summary` };
+  return (id: string) => {
+    setOrDeleteMatrixKey(targetLocation, matrixSegment, matrixParam, id);
+    if (paramsCallback) {
+      paramsCallback(targetLocation);
+    }
+    return createHref(targetLocation);
+  };
 }
