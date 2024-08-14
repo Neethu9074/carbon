@@ -119,7 +119,7 @@ function handleFormatterUpdate(form: MapForm<any>): Item {
     return form;
   }
 
-  const previousFormatter = form.get('formatter')?.value;
+  const previousFormatter = form.get(formatterPath)?.value;
 
   for (let formatter of formatters) {
     if (previousFormatter === formatter.id) {
