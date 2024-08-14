@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { Message, Spacer, Pill, IconButton, SvgIcon, Button } from '@instana/components';
+import { Message, Spacer, Pill, IconButton, Button } from '@instana/components';
 
 import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
@@ -18,6 +18,7 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import RevisionDropdown from 'in-alerting/components/RevisionDropdown';
 import { playwithEnabled } from 'in-services/featureFlags';
+import AlertIcon from 'in-alerting/components/AlertIcon';
 import BackButton from 'in-components/BackButton';
 import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
@@ -161,20 +162,7 @@ export default function AlertHeader({
 
       <div className={locals.labelWrapper}>
         <div className={locals.left}>
-          {!hideAlertIcon && (
-            <SvgIcon
-              className={classNames({
-                [locals.alertIcon]: true,
-                [locals.alertIconSeverityLow]: alertConfig.severity <= 5,
-                [locals.alertIconSeverityHigh]: alertConfig.severity > 5
-              })}
-              size="l"
-              type="lib_alerts_create"
-              aria-label={t('in-alerting:components.alertHeaderAriaLabelSeverity', {
-                severity: alertConfig.severity <= 5 ? 'low' : 'high'
-              })}
-            />
-          )}
+          {!hideAlertIcon && <AlertIcon severity={alertConfig.severity} enabled={alertConfig.enabled} size="l" />}
           <div className={locals.name}>{renderCustomTitle?.() ?? alertConfig.name}</div>
         </div>
 
@@ -210,7 +198,7 @@ export default function AlertHeader({
           )}
 
           {allowActionButtons && !alertConfig.readOnly && showActionButton && !playwithEnabled && (
-            <div className={locals.iconsConatiner}>
+            <div className={locals.iconsContainer}>
               <Tooltip
                 content={
                   alertConfig.enabled ? t('in-alerting:smartAlerts.disable') : t('in-alerting:smartAlerts.enable')
