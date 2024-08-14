@@ -36,6 +36,7 @@ export default function Subtransaction({ subtransaction }: SubtransactionProps) 
             : t('in-synthetics:dashboard.detailsPage.showMoreSubDetails')
         }
         align="topMiddle"
+        overwriteBlock
       >
         <div
           className={locals.header}
