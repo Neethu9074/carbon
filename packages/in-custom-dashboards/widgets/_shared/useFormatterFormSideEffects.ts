@@ -38,6 +38,10 @@ const formSideEffects = [
   {
     path: [metricConfigurationPath, aggregationPath],
     effects: [handleFormatterUpdate as EffectFunction]
+  },
+  {
+    path: [metricConfigurationPath, unitPath],
+    effects: [handleFormatterUpdate as EffectFunction]
   }
 ];
 const chartFormSideEffects = [
@@ -108,6 +112,12 @@ function handleFormatterUpdate(form: MapForm<any>): Item {
   const aggregation = aggregationField?.value;
   const baseUnit = unitForInfraMetricsEnabled ? getBaseUnit(unitField?.value) : undefined;
   const formatters = getFormatter(source, metric, aggregation, baseUnit);
+
+  // Backward compatibility, don't override already selected formatter
+  const isFormatterSelected = form.get(formatterSelectedPath)?.value;
+  if (isFormatterSelected) {
+    return form;
+  }
 
   const previousFormatter = form.get('formatter')?.value;
 

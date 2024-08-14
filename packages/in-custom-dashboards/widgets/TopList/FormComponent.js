@@ -8,20 +8,24 @@ import React, { useEffect } from 'react';
 import {
   aggregationPath,
   formatterPath,
+  formatterSelectedPath,
   metricConfigurationPath,
   metricPath,
   sourcePath,
+  unitPath,
   useFormatterFormSideEffects
 } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
+import { getCommonFormatterForUnits, getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { source as logs } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging';
 import { source as event } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event';
 import { source as sli } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
-import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { logWidgetsEnabled, unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { logWidgetsEnabled } from 'in-services/featureFlags';
+import { getFormatterById } from 'in-stores/metric/formatters';
+import { getBaseUnit } from 'in-stores/metric/units';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
@@ -30,15 +34,25 @@ export default function ListWidgetFormComponent({ form, onChange }) {
   const sourceField = metricConfig.get(sourcePath);
   const metricField = metricConfig.get(metricPath);
   const aggregationField = metricConfig.get(aggregationPath);
+  const unitField = metricConfig.get(unitPath);
 
   const source = sourceField.value;
   const metric = metricField.value;
   const aggregation = aggregationField.value;
-  const formatters = getFormatter(source, metric, aggregation);
+  const baseUnit = unitForInfraMetricsEnabled ? getBaseUnit(unitField?.value) : undefined;
+  const formatters = getFormatter(source, metric, aggregation, baseUnit);
 
-  const isFormatterSelected = form.get('formatterSelected')?.value;
-  const formatter = form.get('formatter')?.value;
+  const isFormatterSelected = form.get(formatterSelectedPath)?.value;
+  const formatter = baseUnit ? getCommonFormatterForUnits(baseUnit)[0]?.id : form.get(formatterPath)?.value;
   const metricFormatter = metricConfig.get(formatterPath)?.value;
+
+  //Backward compatibility, add existing formatter to list of available formatters
+  if (isFormatterSelected) {
+    const selectedFormatter = getFormatterById(form.get(formatterPath)?.value);
+    if (selectedFormatter && !formatters.find(existingFormatter => existingFormatter.id === selectedFormatter.id)) {
+      formatters.push(selectedFormatter);
+    }
+  }
 
   const updateForm = useFormatterFormSideEffects(form, updatedForm => {
     onChange([], () => updatedForm);
@@ -55,7 +69,7 @@ export default function ListWidgetFormComponent({ form, onChange }) {
       updateForm(
         form
           .updateIn([formatterPath], field => field.setValue(formatterValue).setTouched(true))
-          .updateIn(['formatterSelected'], field => field.setValue(false).setTouched(true))
+          .updateIn([formatterSelectedPath], field => field.setValue(false).setTouched(true))
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -112,6 +126,7 @@ export default function ListWidgetFormComponent({ form, onChange }) {
         disabledDataSources={disabledDataSources}
         maxGrouping={50}
         withLastValue
+        withUnit
       />
     </>
   );
