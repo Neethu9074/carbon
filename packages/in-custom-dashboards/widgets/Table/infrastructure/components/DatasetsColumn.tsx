@@ -9,14 +9,24 @@ import React from 'react';
 
 import { Stack, Checkbox } from '@instana/components';
 
+import {
+  aggregationPath,
+  formatterPath,
+  formatterSelectedPath,
+  metricPath,
+  metricsPath,
+  unitPath
+} from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 // @ts-expect-error
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
-import { formatterPath, metricsPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
+import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import Sections from 'in-components/workspace/Sections/Sections';
+import { getFormatterById } from 'in-stores/metric/formatters';
 import Section from 'in-components/workspace/Section';
+import { getBaseUnit } from 'in-stores/metric/units';
 import { MetricSource } from 'in-types';
 import { datasets } from '../form';
 import { t } from 'in-i18n';
@@ -43,11 +53,24 @@ export default function DatasetsColumn({
   return (
     <>
       {metricsForm.map((metricForm: any, i: number) => {
-        const formatter = metricForm.get('formatter')?.value;
-        const metric = metricForm.get('metric')?.value;
-        const aggregation = metricForm.get('aggregation')?.value;
-        const formatters = getFormatter(source, metric, aggregation);
+        const formatter = metricForm.get(formatterPath)?.value;
+        const metric = metricForm.get(metricPath)?.value;
+        const aggregation = metricForm.get(aggregationPath)?.value;
+        const unit = unitForInfraMetricsEnabled ? metricForm.get(unitPath)?.value : undefined;
+        const formatters = getFormatter(source, metric, aggregation, getBaseUnit(unit));
         const required = metricForm.get('required')?.value ?? false;
+
+        //Backward compatibility, add existing formatter to list of available formatters
+        const formatterSelected = metricForm.get(formatterSelectedPath)?.value;
+        if (formatterSelected) {
+          const selectedFormatter = getFormatterById(formatter);
+          if (
+            selectedFormatter &&
+            !formatters.find(existingFormatter => existingFormatter.id === selectedFormatter.id)
+          ) {
+            formatters.push(selectedFormatter);
+          }
+        }
 
         return (
           <MetricConfiguration
@@ -80,7 +103,7 @@ export default function DatasetsColumn({
                         field.setValue(e.target.value).setTouched(true)
                       )
                       // @ts-ignore-error
-                      .updateIn([datasets, metricsPath, i, 'formatterSelected'], field =>
+                      .updateIn([datasets, metricsPath, i, formatterSelectedPath], field =>
                         // @ts-ignore-error
                         field.setValue(true).setTouched(true)
                       )
@@ -118,6 +141,7 @@ export default function DatasetsColumn({
                 </Section>
               </Sections>
             }
+            withUnit
           />
         );
       })}
