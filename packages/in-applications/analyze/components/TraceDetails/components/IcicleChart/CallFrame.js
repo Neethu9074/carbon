@@ -91,7 +91,7 @@ function LogIndicators(props) {
   const left = xScale.getRange(x);
 
   return (
-    <Tooltip themeStyle="light" content={getTooltipContent(log)} align="topMiddle">
+    <Tooltip themeStyle="light" forceTheme content={getTooltipContent(log)} align="auto">
       <LogIndicator {...props} inTimeline left={left} />
     </Tooltip>
   );
