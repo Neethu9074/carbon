@@ -3,22 +3,24 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect, useState, useCallback } from 'react';
 import { createField, createMapForm } from 'formalistic';
-import React, { useEffect, useState } from 'react';
 
+import { Typography } from '@instana/components';
 import { createLogger } from '@instana/logger';
 import { Select } from '@instana/components';
 
 // to suppress warning on deprecated code temporarily
 // eslint-disable-next-line import/no-deprecated
-import { goToPath } from 'in-stores/navigation';
 import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/IntegrationsBreadcrumb';
 import IbmCloudLogMezmoForm from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Mezmo/IbmCloudMezmoForm';
 import { ibmCloudDefaultBaseURL, logMezmoDefaultBaseURL } from 'in-integrations/logging/mezmo/LinkConstruction';
+import { callToastFlyout } from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/utils';
 import MezmoSaasForm from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Mezmo/MezmoSaasForm';
 import { validMezmoId } from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Mezmo/validation';
 import { teamSettingsIntegrationsLoggingMezmo } from 'in-settings/navigation/paths';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { integrationKey } from 'in-integrations/logging/mezmo/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -32,8 +34,7 @@ import { Col, Row } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
-import { Typography } from '@instana/components';
-import { callToastFlyout } from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/utils';
+
 import locals from './MezmoForm.mless';
 
 const block = 'in-ui-config';
@@ -47,6 +48,19 @@ export default function Mezmo() {
   const [message, setMessage] = useState(t('in-settings:tabs.loading'));
   const [loading, setLoading] = useState(true);
   const updateForm = useMezmoFormSideEffects(form, setForm, integration);
+  const [isFormSave, setIsFormSave] = useState(false);
+  const { goToPath } = useNavigation();
+
+  const disposeAsyncAction = useCallback(() => {
+    if (saving.responseSubscription) {
+      saving.responseSubscription.dispose();
+    }
+
+    if (saving.errorSubscription) {
+      saving.errorSubscription.dispose();
+    }
+    setSaving({ responseSubscription: null, errorSubscription: null, saving: saving.saving });
+  }, [saving.errorSubscription, saving.responseSubscription, saving.saving]);
 
   useEffect(() => {
     if (form === null) {
@@ -73,31 +87,7 @@ export default function Mezmo() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const enabled = form?.get('enabled').value ?? null;
-
-  function disposeAsyncAction() {
-    if (saving.responseSubscription) {
-      saving.responseSubscription.dispose();
-    }
-
-    if (saving.errorSubscription) {
-      saving.errorSubscription.dispose();
-    }
-    setSaving({ responseSubscription: null, errorSubscription: null, saving: saving.saving });
-  }
-
-  const onChange = (fieldName, value) => {
-    updateForm(form.updateIn([fieldName], field => field.setValue(value).setTouched(true)));
-  };
-
-  const onSubmit = e => {
-    e.preventDefault();
-
-    if (!form.hierarchyValid) {
-      updateForm(form.setTouched(true, { recurse: true }));
-      return;
-    }
-
+  const saveIntegrationForm = useCallback(() => {
     let data = form.toJS();
     const result$ = save(data);
     disposeAsyncAction();
@@ -128,7 +118,7 @@ export default function Mezmo() {
         <section>
           <Typography variant="heading-200">{t('in-settings:tabs.integrations.toastErrorTitle')}</Typography>
           <Typography variant="body-regular">
-            {t('in-settings:tabs.integrations.integerationConfigurationFailed', { error: message })}
+            {t('in-settings:tabs.integrations.integrationConfigurationFailed', { error: message })}
           </Typography>
         </section>
       );
@@ -138,6 +128,35 @@ export default function Mezmo() {
     });
 
     setSaving({ responseSubscription: responseSubscription, errorSubscription: errorSubscription, saving: true });
+  }, [disposeAsyncAction, form, goToPath]);
+
+  useEffect(() => {
+    if (isFormSave) {
+      saveIntegrationForm();
+      setIsFormSave(false);
+    }
+  }, [isFormSave, saveIntegrationForm]);
+
+  const enabled = form?.get('enabled').value ?? null;
+
+  const onChange = (fieldName, value) => {
+    updateForm(form.updateIn([fieldName], field => field.setValue(value).setTouched(true)));
+  };
+
+  const onSubmit = e => {
+    e.preventDefault();
+
+    if (!form.hierarchyValid) {
+      updateForm(form.setTouched(true, { recurse: true }));
+      return;
+    }
+    setForm(prevForm => {
+      const updatedForm = prevForm.updateIn(['enabled'], field =>
+        field.value ? field : field.setValue(true).setTouched(true)
+      );
+      setIsFormSave(true);
+      return updatedForm;
+    });
   };
 
   return (

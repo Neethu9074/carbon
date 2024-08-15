@@ -396,8 +396,11 @@
       "toastSuccessMessage": "Your {{integrationType}} Integration has been saved and enabled.",
       "integerationEnabled": "Your {{integrationType}} Integration has been enabled.",
       "integerationDisabled": "Your {{integrationType}} Integration has been disabled.",
-      "integerationConfigurationFailed": "{{error}}",
-      "configureIntegrations": "Configure Integration"
+      "integrationConfigurationFailed": "{{error}}",
+      "configureIntegrations": "Configure Integration",
+      "unsavedModalContent": "Are you sure want to discard your changes?",
+      "unsavedModalDiscard": "Discard",
+      "unsavedModalCancel": "Cancel"
     },
     "deleteLogs": {
       "deleteLogs": "Delete logs",
@@ -936,7 +939,7 @@
     "emailAlertChannel": "Email Alert Channel",
     "googleChat": "Google Chat",
     "webhookUrl": "Webhook URL",
-    "workflowWebhookUrl" : "Workflow / Webhook URL",
+    "workflowWebhookUrl": "Workflow / Webhook URL",
     "googleChatAlertChannel": "Google Chat Alert Channel",
     "office365MicrosoftTeams": "Office 365 / Microsoft Teams",
     "office365MicrosoftTeamsAlertChannel": "Office 365 / Microsoft Teams Alert Channel",

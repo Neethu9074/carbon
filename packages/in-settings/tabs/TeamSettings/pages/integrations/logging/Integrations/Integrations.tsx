@@ -94,7 +94,7 @@ export default function Integrations() {
         <section className={locals.toast}>
           <Typography variant="heading-200">{t('in-settings:tabs.integrations.toastErrorTitle')}</Typography>
           <Typography variant="heading-200">
-            {t('in-settings:tabs.integrations.integerationConfigurationFailed', { error: message })}
+            {t('in-settings:tabs.integrations.integrationConfigurationFailed', { error: message })}
           </Typography>
         </section>
       );
