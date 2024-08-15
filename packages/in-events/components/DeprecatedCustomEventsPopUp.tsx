@@ -19,8 +19,8 @@ import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/ge
 import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { addMessage, Message, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { tryGet, trySet } from 'in-services/localStorage';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
@@ -50,7 +50,7 @@ export default function DeprecatedCustomEventsPopUp() {
         setReminder(calculateNextOccurrence(initialDelay));
       } else {
         if (timeExpired()) {
-          showNotification(legacyAlertConfigStats.data.deprecatedCustomEvents);
+          ShowNotification(legacyAlertConfigStats.data.deprecatedCustomEvents);
           const deprecatedCustomEvents = legacyAlertConfigStats?.data?.deprecatedCustomEvents;
           applicationsAlertingShowMigrationNotification({ deprecatedCustomEvents });
         }
@@ -61,7 +61,10 @@ export default function DeprecatedCustomEventsPopUp() {
   return null;
 }
 
-export function showNotification(deprecatedCustomEvents: number) {
+export function ShowNotification(deprecatedCustomEvents: number) {
+  const { location, createHref } = useNavigation();
+  location.pathname = teamSettingsAlertingEvents;
+  setOrDeleteMatrixKey(location, events, 'type', deprecatedValue);
   const id = 'deprecatedCustomEventsInfo';
   const message: Message = {
     type: 'warning',
@@ -90,10 +93,7 @@ export function showNotification(deprecatedCustomEvents: number) {
           />
         </p>
         <Link
-          href={getModifiedUrlStream(location => {
-            location.pathname = teamSettingsAlertingEvents;
-            setOrDeleteMatrixKey(location, events, 'type', deprecatedValue);
-          })}
+          href={createHref(location)}
           onClick={() => applicationsAlertingMigrationNotificationEvents({ deprecatedCustomEvents })}
         >
           {t('in-events:deprecatedCustomEventGlobalPopup.affectedEventsLink')}

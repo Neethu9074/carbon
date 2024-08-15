@@ -6,7 +6,7 @@
 
 import React, { useEffect } from 'react';
 
-import DeprecatedCustomEventsPopUp, { showNotification } from 'in-events/components/DeprecatedCustomEventsPopUp';
+import DeprecatedCustomEventsPopUp, { ShowNotification } from 'in-events/components/DeprecatedCustomEventsPopUp';
 import MessageFlyout from 'in-components/MessageFlyout';
 
 export default {
@@ -15,7 +15,7 @@ export default {
 
 export const Default = () => {
   useEffect(() => {
-    showNotification(1337);
+    ShowNotification(1337);
   });
 
   return (
