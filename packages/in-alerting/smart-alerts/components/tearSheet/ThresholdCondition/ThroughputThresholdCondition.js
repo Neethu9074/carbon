@@ -46,7 +46,7 @@ export default function ThroughputThresholdCondition({
         blueprintType={blueprintConfig.type}
       />
 
-      <div className={locals.container} id="thresholdValue">
+      <div className={locals.container}>
         <span className={locals.label}>
           <AlertTypography
             variant="body-regular"
