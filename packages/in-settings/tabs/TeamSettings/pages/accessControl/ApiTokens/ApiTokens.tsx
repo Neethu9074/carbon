@@ -92,7 +92,7 @@ const columnDefinitions = [
     useMinimumAmountOfHorizontalSpace: true,
     getContent(entity: ApiTokenProps) {
       return (
-        <Tooltip content={entity.name} align="topLeft" delay={500}>
+        <Tooltip content={entity.name} align="auto" delay={500}>
           <Link href={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId)} ellipsis>
             {entity.name}
           </Link>

@@ -23,7 +23,7 @@ const defaultColumnDefinitions = [
     width: 3,
     getContent({ description }) {
       return (
-        <Tooltip content={description} align="rightMiddle">
+        <Tooltip content={description} align="auto">
           <SvgIcon type="lib_help_error_info_outline" size="s" />
         </Tooltip>
       );
