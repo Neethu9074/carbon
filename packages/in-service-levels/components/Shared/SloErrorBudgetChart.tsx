@@ -17,13 +17,12 @@ import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/compo
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-// import { formatDateShort } from '@instana/format-date';
-import { MetricDataPoint } from 'in-components/Chart/types';
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { minutes, number } from 'in-services/formatters/number';
+import { MetricDataPoint } from 'in-components/Chart/types';
 import { sloMetrics } from 'in-service-levels/metrics';
 
 interface ErrorBudgetChartProps {
@@ -67,33 +66,11 @@ export default function ErrorBudgetChart({
   const endTimestamp = timeConfig.to ?? Date.now();
   const startTimestamp = endTimestamp - timeConfig.windowSize;
 
-  // console.log('startTimestampSLO', formatDateShort(startTimestamp));
-  // console.log('endTimestampSLO', formatDateShort(endTimestamp));
   const filteredData = metrics.map(innerArray =>
     innerArray.filter(([timestamp, _value]) => timestamp >= startTimestamp && timestamp <= endTimestamp)
   );
-  const minmV = calculateYMinBuffer(filteredData);
-  function calculateYMinBuffer(filteredData: MetricDataPoint[][]) {
-    const minYValue = findMinMetricValue(filteredData.flat(1));
-    const maxYValue = findMaxMetricValue(filteredData.flat(1));
-    // console.log('maxYValue', maxYValue);
-    const range = maxYValue - minYValue;
+  const minValue = calculateYMinBuffer(filteredData);
 
-    // Set buffer as 10% of the data range or a minimum fixed buffer
-    const bufferPercentage = 0.1;
-    const fixedBuffer = 5; // Can be adjusted based on data
-
-    let buffer = Math.abs(range * bufferPercentage);
-
-    // Use the larger of the calculated buffer or a fixed buffer
-    buffer = Math.max(buffer, fixedBuffer);
-
-    // If the minYValue is negative, apply the buffer below it
-    const yMin = minYValue < 0 ? minYValue - buffer : minYValue;
-
-    return yMin;
-  }
-  // console.log('minmV', minmV);
   return (
     <ResultAwareChart
       config={{
@@ -104,8 +81,7 @@ export default function ErrorBudgetChart({
         y1: {
           metricIds: timeWindows.map((_, index) => `timeWindows${index}`),
           metrics: filteredData,
-          // min,
-          min: minmV,
+          min: minValue,
           renderAllTickLabels: true,
           labels: timeWindows.map(() => sloMetrics.remainingBudget.label),
           colors: timeWindowColors,
@@ -123,4 +99,21 @@ export default function ErrorBudgetChart({
       result={{ progress, errors }}
     />
   );
+}
+
+function calculateYMinBuffer(filteredData: MetricDataPoint[][]) {
+  const minYValue = findMinMetricValue(filteredData.flat(1));
+  const maxYValue = findMaxMetricValue(filteredData.flat(1));
+  const range = maxYValue - minYValue;
+
+  const bufferPercentage = 0.1;
+  const fixedBuffer = 5;
+
+  let buffer = Math.abs(range * bufferPercentage);
+
+  buffer = Math.max(buffer, fixedBuffer);
+
+  const yMin = minYValue < 0 ? minYValue - buffer : minYValue;
+
+  return yMin;
 }

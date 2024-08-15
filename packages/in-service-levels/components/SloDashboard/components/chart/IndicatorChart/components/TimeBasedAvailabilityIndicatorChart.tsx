@@ -22,15 +22,11 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import {
-  copyFirstBucketOfSubsequentDataSeries,
-  findMaxMetricValue,
-  findMinMetricValue
-} from 'in-service-levels/components/SloDashboard/components/chart/utils';
-import {
   lineWithThreshold,
   thresholdMetricId
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
+import { copyFirstBucketOfSubsequentDataSeries } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
@@ -86,9 +82,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
   const filteredData = metricValues.map(innerArray =>
     innerArray.filter(([timestamp, _value]) => timestamp >= startTimestamp && timestamp <= endTimestamp)
   );
-  const filteredDataWithThreshold = [...filteredData, thresholdMetrics];
-  const min = findMinMetricValue(filteredDataWithThreshold.flat(1));
-  const max = findMaxMetricValue(filteredDataWithThreshold.flat(1));
+
   return (
     <ResultAwareChart
       config={{
@@ -104,9 +98,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
         granularity: result.data?.[0]?.granularity ?? granularity,
         y1: {
           metricIds: [...timeWindows.map(() => metricId), thresholdMetricId],
-          metrics: [...metricValues, thresholdMetrics],
-          min,
-          max,
+          metrics: [...filteredData, thresholdMetrics],
           labels: [...timeWindows.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
           colors: [...timeWindowColors, themes.default.ids.color.option.red['500']],
           formatter: percentage.detailed,

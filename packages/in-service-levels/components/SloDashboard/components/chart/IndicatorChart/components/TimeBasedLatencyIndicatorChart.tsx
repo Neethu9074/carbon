@@ -21,12 +21,12 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import { copyFirstBucketOfSubsequentDataSeries } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import {
   lineWithThreshold,
   thresholdMetricId
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
+import { copyFirstBucketOfSubsequentDataSeries } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
@@ -43,8 +43,6 @@ import { MetricDataSeries } from 'in-components/Chart/types';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { millis } from 'in-services/formatters/number';
-
-// import { formatDateShort } from '@instana/format-date';
 
 const metricId = 'latency';
 
@@ -73,29 +71,17 @@ export default function TimeBasedLatencyIndicatorChart({
 
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
   const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));
-  // console.log('metricValues', metricValues);
   const thresholdMetrics: MetricDataSeries = metricValues.flat(1).map(([timestamp]) => [timestamp, threshold]);
   const metricLabel = isApplicationSloEntity(entity)
     ? applicationMetrics.latency.label
     : websiteMetrics.beaconDuration.label;
-  // console.log('metricValues', metricValues);
-  // console.log('findMaxMetricValue(k.flat(1))', findMaxMetricValue(k.flat(1)));
-  // console.log('thresholdMetrics', thresholdMetrics);
+
   const endTimestamp = timeConfig.to ?? Date.now();
   const startTimestamp = endTimestamp - timeConfig.windowSize;
 
-  // console.log('startTimestampSLO', formatDateShort(startTimestamp));
-  // console.log('endTimestampSLO', formatDateShort(endTimestamp));
   const filteredData = metricValues.map(innerArray =>
     innerArray.filter(([timestamp, _value]) => timestamp >= startTimestamp && timestamp <= endTimestamp)
   );
-  // const filteredDataWithThreshold = [...filteredData, thresholdMetrics];
-  // console.log('filteredDataWithThreshold', filteredDataWithThreshold);
-  // console.log('filteredData', filteredData);
-  // const min = findMinMetricValue(filteredDataWithThreshold.flat(1));
-  // const max = findMaxMetricValue(filteredDataWithThreshold.flat(1));
-  // console.log('firstMin', min);
-  // console.log('firstMax', max);
 
   return (
     <ResultAwareChart
@@ -113,8 +99,6 @@ export default function TimeBasedLatencyIndicatorChart({
         y1: {
           metricIds: [...timeWindows.map(() => metricId), thresholdMetricId],
           metrics: [...filteredData, thresholdMetrics],
-          // min: min - 3,
-          // max,
           labels: [...timeWindows.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
           colors: [...timeWindowColors, themes.default.ids.color.option.red['500']],
           formatter: millis.compact,
