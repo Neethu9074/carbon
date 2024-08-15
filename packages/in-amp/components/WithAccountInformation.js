@@ -7,6 +7,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { getAccountAsResultObservable } from 'in-amp/api/account';
 import { hasError, isLoading } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -28,7 +29,8 @@ export default function WithAccountInformationResultWrapper({ children }) {
 }
 
 function WithAccountInformation({ children, environments }) {
-  const canShowAggregatedMetrics = containsPaidLicenses(environments);
+  // Do not show aggregated metrics, based on feature flag
+  const canShowAggregatedMetrics = !onPremLicenseInformationEnabled && containsPaidLicenses(environments);
   const unitSelectorOptions = environments.map(mapEnvironmentToComboBoxItem);
   const hasSyntheticAddons = syntheticAddons(environments);
 
