@@ -33,12 +33,14 @@ function WithAccountInformation({ children, environments }) {
   const canShowAggregatedMetrics = !onPremLicenseInformationEnabled && containsPaidLicenses(environments);
   const unitSelectorOptions = environments.map(mapEnvironmentToComboBoxItem);
   const hasSyntheticAddons = syntheticAddons(environments);
+  const hasLoggingAddons = loggingAddons(environments);
 
   return children({
     getCurrentTenantOption,
     unitSelectorOptions,
     canShowAggregatedMetrics,
-    hasSyntheticAddons
+    hasSyntheticAddons,
+    hasLoggingAddons
   });
 }
 
@@ -53,6 +55,19 @@ function syntheticAddons(licenses) {
   }
   return false;
 }
+
+function loggingAddons(licenses) {
+  for (const license of licenses) {
+    const active = license.activeLicenses?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0);
+    const expired = license.expiredLicenses?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0);
+    const queued = license.queuedLicense?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0);
+    if (active || expired || queued) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function getCurrentTenantOption(unitSelectorOptions) {
   return (
     unitSelectorOptions.find(({ value }) => value.tenant === config.tenant && value.unit === config.tenantUnit) ??
