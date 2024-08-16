@@ -50,3 +50,12 @@ export function copyFirstBucketOfSubsequentDataSeries(metrics?: MetricDataSeries
     return [...dataSeries, firstBucketOfSeries];
   });
 }
+
+export function filterMetricValuesByTime(metricValues: MetricDataSeries[], timeConfig: TimeConfig): [number, any][][] {
+  const endTimestamp = timeConfig.to ?? Date.now();
+  const startTimestamp = endTimestamp - timeConfig.windowSize;
+
+  return metricValues.map(innerArray =>
+    innerArray.filter(([timestamp]) => timestamp >= startTimestamp && timestamp <= endTimestamp)
+  );
+}

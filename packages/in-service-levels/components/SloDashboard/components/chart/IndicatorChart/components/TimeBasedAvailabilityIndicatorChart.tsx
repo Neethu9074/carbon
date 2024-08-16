@@ -22,11 +22,14 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import {
+  copyFirstBucketOfSubsequentDataSeries,
+  filterMetricValuesByTime
+} from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import {
   lineWithThreshold,
   thresholdMetricId
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
-import { copyFirstBucketOfSubsequentDataSeries } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
@@ -77,11 +80,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
     ? applicationMetrics.errorRate.label
     : websiteMetrics.beaconErrorRate.label;
 
-  const endTimestamp = timeConfig.to ?? Date.now();
-  const startTimestamp = endTimestamp - timeConfig.windowSize;
-  const filteredData = metricValues.map(innerArray =>
-    innerArray.filter(([timestamp, _value]) => timestamp >= startTimestamp && timestamp <= endTimestamp)
-  );
+  const filteredData = filterMetricValuesByTime(metricValues, timeConfig);
 
   return (
     <ResultAwareChart
