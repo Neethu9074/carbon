@@ -40,11 +40,12 @@ export default function PinnedItemList({
 
 interface ItemProps {
   pendingItem?: any;
+  type?: string;
   timeConfig?: TimeConfig;
   columnDefinitions: ColumnDefinitionItem[];
 }
 
-export function Item({ pendingItem, timeConfig, columnDefinitions }: ItemProps) {
+export function Item({ pendingItem, timeConfig, type, columnDefinitions }: ItemProps) {
   const { id, result } = pendingItem;
 
   if (!result || isLoading(result)) {
@@ -67,7 +68,7 @@ export function Item({ pendingItem, timeConfig, columnDefinitions }: ItemProps) 
                   {getUniqueErrors(result.errors)[0]}
                 </Message>
               ) : key === 'favourite' ? (
-                <div>{getContent({ id: id, item: null, isFavourite: true })}</div>
+                <div>{getContent({ id: id, item: null, isFavourite: true, type: type })}</div>
               ) : null}
             </Cell>
           );

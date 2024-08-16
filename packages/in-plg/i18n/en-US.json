@@ -657,7 +657,7 @@
     "noData": {
       "applicationWidget": {
         "header": "No applications",
-        "description": "Create your own perspective on the services you want to observe.",
+        "description": "Create your own application perspective on the services you want to observe.",
         "buttonName": "Create application perspective"
       },
       "incidentsWidget": {
