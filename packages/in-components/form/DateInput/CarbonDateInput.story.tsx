@@ -6,24 +6,25 @@
 
 import React, { useState } from 'react';
 
-import DateInput from './DateInput';
+import { default as CarbonDateInput } from './CarbonDateInput';
 
 export default {
-  component: DateInput
+  component: CarbonDateInput
 };
 
-export const DateInputExample = () => {
+export const CarbonDateInputExample = () => {
   const [value, setValue] = useState(null);
   return (
     <div style={{ margin: '1rem', width: '25rem' }}>
       Date Input
-      <div style={{ margin: '1rem' }}>Legacy with Carbon Input</div>
-      <DateInput
+      <div style={{ margin: '1rem' }}>Date input Legacy</div>
+      <CarbonDateInput
         value={value}
         onChange={(t: any) => {
           setValue(t);
         }}
       />
+      <div>{`Date picked: ${value}`}</div>
     </div>
   );
 };
