@@ -15,8 +15,6 @@ import {
   applicationsAlertingShowMigrationNotification
 } from 'in-alerting/smart-alerts/applications/tracker';
 import { smartAlertMigrationUrl } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
-// import { getModifiedUrlStream } from 'in-stores/navigation';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { addMessage, Message, removeMessage } from 'in-components/MessageFlyout/stores/messages';
