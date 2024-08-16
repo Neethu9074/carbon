@@ -6,8 +6,6 @@
 import { increaseAggregationEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
-export const aggregations = {};
-
 export const aggregationLabels = {
   MEAN: t('in-stores:metric.metric', { context: 'MEAN' }),
   MIN: t('in-stores:metric.metric', { context: 'MIN' }),
