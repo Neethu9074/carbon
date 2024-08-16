@@ -1,5 +1,10 @@
 {
   "components": {
+    "expandableGroup": {
+      "tooltipShowContent": "Mostra contenuto",
+      "tooltipHideContent": "Nascondi contenuto",
+      "labelExpandButtonForContent": "Pulsante Espandi per il contenuto"
+    },
     "list": {
       "loadMore": "Carica altro",
       "toggleExtraContent": "Attiva/disattiva contenuto supplementare",
@@ -49,6 +54,7 @@
   "forms": {
     "actions": {
       "save": "Salva",
+      "saveIntegration": "Salva e abilita",
       "cancel": "Annulla",
       "create": "Crea",
       "delete": "Elimina",
@@ -83,6 +89,7 @@
   "aggregation_MAX": "max",
   "aggregation_DISTINCT_COUNT": "conteggio distinto",
   "aggregation_SUM": "somma",
+  "aggregation_INCREASE": "aumentare",
   "aggregation_DISTRIBUTION": "distribuzione",
   "aggregation_PER_SECOND": "al secondo"
 }

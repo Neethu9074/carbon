@@ -246,7 +246,8 @@
     "dataSource_calls_plural": "{{formattedCount}} Aufrufe",
     "dataSource_traces": "{{formattedCount}} Trace",
     "dataSource_traces_plural": "{{formattedCount}} Traces",
-    "analyzeCallsOfThisTrace": "Aufrufe dieses Trace analysieren"
+    "analyzeCallsOfThisTrace": "Aufrufe dieses Trace analysieren",
+    "noAvailableCustomMetrics": "Keine benutzerdefinierten Metriken verfügbar"
   },
   "creation": {
     "newAP": "Neue Anwendungsperspektive",
@@ -629,7 +630,8 @@
     "calls_latency": "Latenzzeit",
     "calls_erroneousCalls": "Fehlerhafte Aufrufe",
     "calls_errors": "Rate fehlerhafter Aufrufe",
-    "calls_call_metric": "Numerische Aufrufmetriken",
+    "calls_call_metric": "Kundenspezifische Aufrufmetriken",
+    "calls_call_meta_metrics": "Meta-Metriken",
     "traces_calls": "Traces",
     "traces_traces": "Traces",
     "traces_latency": "Latenzzeit",

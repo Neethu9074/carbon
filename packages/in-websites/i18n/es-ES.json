@@ -348,12 +348,20 @@
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "Sesión de seguimiento",
     "trackingSnippetPresenterTooltip": "Obtenga más información sobre el rastreo de las sesiones y las implicaciones de privacidad.",
-    "trackingSnippetSRITooltip": "Subresource Integrity (SRI) es una característica de seguridad que garantiza que los navegadores puedan verificar los recursos que captan. Inhabilitarlo puede provocar problemas de seguridad. Si decide inhabilitarlo, asegúrese de que está en un entorno de red seguro.",
+    "trackingSnippetSRITooltip": "Subresource Integrity (SRI) es una característica de seguridad que garantiza que los navegadores puedan verificar los recursos que captan.",
     "trackingSnippetPresenterLabelSRI": "Habilitar Subresource Integrity (SRI)",
     "trackingSnippetPresenterLabelAgentVersion": "Versión del agente",
     "trackingSnippetPresenterToggleYes": "Sí",
     "trackingSnippetPresenterToggleNo": "No",
-    "trackingSnippetPresenterAgentVersion": "Versión"
+    "trackingSnippetPresenterAgentVersion": "Versión",
+    "trackingSnippetPresenterCancelModal": "Cancelar",
+    "trackingSnippetPresenterEnableModal": "Habilitar",
+    "trackingSnippetPresenterEnablingModalTitle": "Habilitar Subresource Integrity (SRI)",
+    "trackingSnippetPresenterEnablingModalBody": "Se recomienda activar SRI por seguridad. Asegúrese de haber seleccionado la última versión del agente en el menú desplegable.",
+    "trackingSnippetPresenterDisableModal": "Inhabilitar",
+    "trackingSnippetPresenterDisablingModalTitle": "¿Seguro que desea inhabilitar la Integridad de subrecursos (SRI)?",
+    "trackingSnippetPresenterDisablingModalFirstLine": "Inhabilitar SRI puede provocar problemas de seguridad.",
+    "trackingSnippetPresenterDisablingModalBody": "Si decide inhabilitarlo, asegúrese de que está en un entorno de red seguro. Cuando SRI está desactivada, el script de seguimiento utiliza de forma predeterminada la última versión del agente JavaScript, pero no podrá garantizar que los navegadores puedan verificar los recursos que obtienen. "
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "Sitios web y aplicaciones para móviles",
@@ -485,6 +493,7 @@
         "configurationRenameTitle": "Renombrar sitio web",
         "configurationRenameButton": "Renombrar",
         "configurationTrackingScriptTitle": "Script de seguimiento de agente",
+        "configurationUserAgentVersion": "La versión actual del agente es <strong>{{agentVersion}}</strong>.",
         "saved": "Guardado",
         "ipMasking": {
           "title": "Enmascaramiento de IP",
@@ -754,6 +763,9 @@
         "sizesTechnicalLabelBetween": "Entre {{min}} px y {{max}} px (incluido)",
         "sizesTechnicalLabelAtLeast": "Al menos {{min}} px (incluido)",
         "sizesTechnicalLabelAtMost": "Como máximo {{max}} px (incluido)"
+      },
+      "synthetic": {
+        "tabLabel": "Supervisión sintética"
       },
       "indexLabelSummary": "Resumen",
       "indexLabelSpeed": "Velocidad",

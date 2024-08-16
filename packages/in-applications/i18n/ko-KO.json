@@ -246,7 +246,8 @@
     "dataSource_calls_plural": "{{formattedCount}}개 호출",
     "dataSource_traces": "{{formattedCount}}개 추적",
     "dataSource_traces_plural": "{{formattedCount}}개 추적",
-    "analyzeCallsOfThisTrace": "이 추적의 호출 분석"
+    "analyzeCallsOfThisTrace": "이 추적의 호출 분석",
+    "noAvailableCustomMetrics": "사용 가능한 사용자 정의 메트릭 없음"
   },
   "creation": {
     "newAP": "새 애플리케이션 퍼스펙티브",
@@ -629,7 +630,8 @@
     "calls_latency": "대기 시간",
     "calls_erroneousCalls": "잘못된 호출",
     "calls_errors": "잘못된 호출 비율",
-    "calls_call_metric": "숫자 호출 메트릭",
+    "calls_call_metric": "사용자 정의 호출 메트릭",
+    "calls_call_meta_metrics": "메타 메트릭",
     "traces_calls": "추적",
     "traces_traces": "추적",
     "traces_latency": "대기 시간",

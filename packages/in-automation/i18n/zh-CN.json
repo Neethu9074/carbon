@@ -75,7 +75,7 @@
   "duplicate": "复制",
   "theValueMustNotBeBlank": "值不能为空。",
   "tags": "标记",
-  "noTagsConfigured": "未配置标记",
+  "tagsLabel": "标记（可选）",
   "value": "值",
   "type": "Type",
   "automationPoliciesWithCount": "自动化策略（{{count}} 个）",
@@ -92,7 +92,7 @@
   "actions": "操作",
   "actionsWithCount": "操作 ({{count}})",
   "titleUrl": "URL",
-  "generateWithAI": "使用 AI 生成",
+  "generateWithWatsonx": "使用 watsonx 生成",
   "AISlugContent": "使用 AI 生成了此内容",
   "createPolicyWithName": "查看操作 {{actionName}} 并创建策略",
   "viewActionCreatePolicy": "查看操作并创建策略",
@@ -297,7 +297,12 @@
     "taskUrl": "任务 URL",
     "output": "输出",
     "user": "用户",
-    "apiToken": "API 令牌"
+    "apiToken": "API 令牌",
+    "deleteTooltip": "删除操作实例 {{id}}",
+    "deleteDialog": {
+      "success": "操作实例已被成功删除。",
+      "failure": "无法删除操作实例。"
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "调查"

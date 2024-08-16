@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "Accounteinstellungen",
+      "unknownDomain": "Unbekannte Domäne",
       "billingAddress": "Rechnungsadresse",
       "country": "Land",
       "state": "Bundesstaat",
@@ -27,6 +28,12 @@
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "In den letzten 30 Tagen gab es keine aktive bezahlte Lizenz. "
     },
+    "fairUsePolicyMessage": {
+      "title": "Dieses Konto unterliegt der Fair-Use-Richtlinie. Siehe Datennutzung in den nachstehenden Diagrammen."
+    },
+    "fairUsePolicyNotActive": {
+      "title": "Die Fair-Use-Richtlinie ist nicht aktiv."
+    },
     "restrictedUsage": {
       "accountUsage": "Accountnutzung"
     },
@@ -36,10 +43,34 @@
       "max": "Max.",
       "average": "Durchschnitt"
     },
+    "dataIngestTable": {
+      "consumptionOverview": "Nutzungsübersicht",
+      "row": "Zeile",
+      "unit": "Einheit",
+      "calculation": "Berechnung",
+      "entitledNumberOfMVS": "Berechtigte Anzahl von MVS",
+      "actualAverage": "Tatsächliche durchschnittliche konfigurierte Anzahl von MVS",
+      "onDemandNumber": "Abrufbare Anzahl von MVS",
+      "dataIngestFairUseEntitlement": "Fair-Use-Nutzungsrecht für Datenaufnahme pro MVS",
+      "totalDataIngestFairUseEntitlement": "Fair-Use-Nutzungsrecht für Gesamtdatenaufnahme",
+      "dataIngestAddOnEntitlement": "Nutzungsrecht für das Datenaufnahme-Add-on",
+      "totalAmountPurchased": "Gesamtbetrag, der über das Add-on \"extra Datenaufnahme\" erworben wurde",
+      "dataIngestEntitlementFromOnDemand": "Fair-Use-Nutzungsrecht für die Datenaufnahme aus On-Demand-MVS",
+      "totalDataIngestEntitlement": "Nutzungsrecht zur gesamten Datenaufnahme",
+      "actualDataIngest": "Tatsächliche Datenaufnahme",
+      "onDemandDataIngest": "On-Demand Datenaufnahme",
+      "noData": "Keine Daten"
+    },
     "timePresets": {
       "last7Days": "Letzte 7 Tage",
-      "last15Days": "Letzte 15 Tage",
-      "last365Days": "Letzte 365 Tage"
+      "last30Days": "Letzte 30 Tage",
+      "last365Days": "Letzte 365 Tage",
+      "thisMonth": "Dieser Monat",
+      "lastMonth": "Letzter Monat"
+    },
+    "presentationPresets": {
+      "distinct": "Unterschiedliche Werte",
+      "cumulative": "Kumulierte Werte"
     },
     "usages": {
       "allPaidUnitsAggregated": "Alle bezahlten Einheiten (aggregiert)",
@@ -49,15 +80,22 @@
       "queuedLicenses": "Lizenzen in der Warteschlange"
     },
     "usageCharts": {
-      "apmUsage": "APM-Nutzung",
+      "standard": "Standard",
       "apmHosts": "APM-Hosts",
       "purchased": "Erworben",
-      "infrastructureUsage": "Infrastrukturnutzung",
+      "essentials": "Allgemeine Informationen",
       "iqmHosts": "IQM-Hosts",
       "syntheticPops": "Synthetische verwaltete PoPs",
       "resourceUnits": "Ressourceneinheiten",
       "consumedUnits": "Verbrauchte Einheiten",
+      "infrastructure": "Infrastruktur",
+      "synthetics": "Synthetics",
+      "traces": "Traces",
+      "eumMobile": "EUM Mobil",
+      "eumWebsite": "EUM-Website",
       "addons": "Add-ons",
+      "trendLine": "Trendkurve",
+      "dataUsageHelperText": "Menge der über Agenten gesendeten Bytes im gewählten Zeitraum, getrennt nach Kategorien.",
       "helperText": "Anzahl der Ressourceneinheiten, die von jedem Aktionstyp verbraucht werden. Einheiten werden mit dem Faktor 0.025 für einfache Tests, 0.042 für API-Tests und 1.000 für Browsertests berechnet."
     },
     "activationAdoption": {

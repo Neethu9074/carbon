@@ -20,19 +20,25 @@
     "unnamedService": "(無名サービス)"
   },
   "perspectives": {
-    "newPerspective": "新規パースペクティブ",
+    "newPerspective": "パースペクティブを作る",
     "lists": {
       "perspectives": "ビジネス・パースペクティブ",
       "descriptionLabel": "説明",
       "numberProcessesLabel": "プロセスの数"
     },
+    "processesLiveList": {
+      "title": "一致したビジネス・プロセス",
+      "empty": "ビジネス・パースペクティブを構築するためのフィルターの追加",
+      "invalidQuery": "クエリーが無効です",
+      "noMatchedProcesses": "該当するビジネス・プロセスは見つかりませんでした",
+      "loadingStateLabel": "プロセスのロード中"
+    },
     "dialog": {
       "title": "新規ビジネス・パースペクティブ",
-      "processesLiveListTitle": "ビジネス・プロセス",
       "stepOne": {
-        "progressBarTitle": "ビジネス・パースペクティブの指定",
-        "headline": "ビジネス・パースペクティブを構築するためのフィルターの追加",
-        "queryBuilderTitle": "ビジネス・プロセスのタグ"
+        "progressBarTitle": "ステップ1: ビジネス・プロセスをフィルタリングしてビジネス・パースペクティブを構築する",
+        "headline": "ビジネス・プロセスをフィルタリングし、ビジネス・パースペクティブを構築する",
+        "queryBuilderTitle": "ビジネス・プロセス"
       },
       "stepTwo": {
         "progressBarTitle": "ステップ2: 詳細の指定",
@@ -42,7 +48,13 @@
       }
     },
     "errorMessages": {
-      "businessPerspectiveNameMustNotBeBlank": "ビジネス・パースペクティブ名をブランクにすることはできません"
+      "tagFilterExpressionMustNotBeEmpty": "ビジネス・パースペクティブには、少なくとも1つのフィルタが必要です",
+      "createOperationFailed": "作成操作の失敗",
+      "unableToCreatePerspective": "あなたのビジネス・パースペクティブを作成することができませんでした。 再試行してください。"
+    },
+    "successMessages": {
+      "businessPerspectiveCreated": "ビジネス・パースペクティブの創出",
+      "perspectiveWasSuccessfullyCreated": "\"{{perspectiveName}}\" が正常に作成されました。"
     }
   },
   "navigation": {
@@ -86,6 +98,7 @@
       }
     },
     "perspectives": {
+      "pageTitleDefault": "ビジネスの視点",
       "processes": {
         "tabLabel": "ビジネス・プロセス"
       },
@@ -93,7 +106,7 @@
         "tabLabel": "構成",
         "loadingText": "データをロード中",
         "updateCardLabel": "ビジネス・パースペクティブの更新",
-        "stepOneHeader": "1. 名前と説明の編集",
+        "stepOneHeader": "1.名前と説明を編集する",
         "perspectiveName": "パースペクティブ名",
         "perspectiveDescription": "説明",
         "stepTwoHeader": "2. フィルターの編集",
@@ -101,7 +114,12 @@
         "removeCardLabel": "ビジネス・パースペクティブの削除",
         "removePerspectiveDisclaimer": "このビジネス・パースペクティブをこれ以上使用しない場合は、「ビジネス・パースペクティブの削除」をクリックしてください。",
         "removePerspectiveCheckbox": "このアクションは元に戻せないことを理解しています",
-        "removePerspectiveButton": "ビジネス・パースペクティブの削除"
+        "removePerspectiveButton": "ビジネス・パースペクティブの削除",
+        "businessPerspectiveDeleted": "ビジネスの視点は削除",
+        "businessPerspectiveDeletedDetails": "\"{{perspectiveName}}\" は正常に削除されました。",
+        "businessPerspectiveUpdated": "ビジネスの視点を更新",
+        "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" が編集され、変更が保存されました。",
+        "error": "エラー"
       }
     }
   }

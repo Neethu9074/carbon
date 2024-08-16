@@ -20,19 +20,25 @@
     "unnamedService": "(Nicht benannter Service)"
   },
   "perspectives": {
-    "newPerspective": "Neue Perspektive",
+    "newPerspective": "Perspektive schaffen",
     "lists": {
       "perspectives": "Geschäftsperspektiven",
       "descriptionLabel": "Beschreibung",
       "numberProcessesLabel": "Anzahl der Prozesse"
     },
+    "processesLiveList": {
+      "title": "Abgestimmte Geschäftsprozesse",
+      "empty": "Filter hinzufügen, um Ihre Geschäftsperspektive zu erstellen",
+      "invalidQuery": "Ihre Abfrage ist ungültig.",
+      "noMatchedProcesses": "Keine abgestimmten Geschäftsprozesse gefunden",
+      "loadingStateLabel": "Prozesse werden geladen"
+    },
     "dialog": {
       "title": "Neue Geschäftsperspektive",
-      "processesLiveListTitle": "Geschäftsprozesse",
       "stepOne": {
-        "progressBarTitle": "Geschäftsperspektive angeben",
-        "headline": "Filter hinzufügen, um Ihre Geschäftsperspektive zu erstellen",
-        "queryBuilderTitle": "Tags für Geschäftsprozesse"
+        "progressBarTitle": "Schritt 1: Filtern Sie die Geschäftsprozesse, um Ihre Geschäftsperspektive zu erstellen",
+        "headline": "Geschäftsprozesse filtern, um Ihre Geschäftsperspektive aufzubauen",
+        "queryBuilderTitle": "Geschäftsprozesse"
       },
       "stepTwo": {
         "progressBarTitle": "Schritt 2: Details angeben",
@@ -42,7 +48,13 @@
       }
     },
     "errorMessages": {
-      "businessPerspectiveNameMustNotBeBlank": "Der Name der Geschäftsperspektive darf nicht leer sein"
+      "tagFilterExpressionMustNotBeEmpty": "Die Geschäftsperspektive muss mindestens einen Filter haben",
+      "createOperationFailed": "Erstellungsvorgang fehlgeschlagen",
+      "unableToCreatePerspective": "Wir konnten Ihre Geschäftsperspektive nicht erstellen. Versuchen Sie es erneut."
+    },
+    "successMessages": {
+      "businessPerspectiveCreated": "Geschäftsperspektive erstellt",
+      "perspectiveWasSuccessfullyCreated": "\"{{perspectiveName}}\" wurde erfolgreich erstellt."
     }
   },
   "navigation": {
@@ -86,6 +98,7 @@
       }
     },
     "perspectives": {
+      "pageTitleDefault": "Geschäftsperspektive",
       "processes": {
         "tabLabel": "Geschäftsprozesse"
       },
@@ -93,7 +106,7 @@
         "tabLabel": "Konfiguration",
         "loadingText": "Daten werden geladen",
         "updateCardLabel": "Geschäftsperspektive aktualisieren",
-        "stepOneHeader": "1. Namen und Beschreibung bearbeiten",
+        "stepOneHeader": "1. Name und Beschreibung bearbeiten",
         "perspectiveName": "Name der Perspektive",
         "perspectiveDescription": "Beschreibung",
         "stepTwoHeader": "2. Filter bearbeiten",
@@ -101,7 +114,12 @@
         "removeCardLabel": "Geschäftsperspektive entfernen",
         "removePerspectiveDisclaimer": "Wenn Sie diese Geschäftsperspektive nicht mehr verwenden wollen, klicken Sie auf \"Geschäftsperspektive entfernen\".",
         "removePerspectiveCheckbox": "Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann",
-        "removePerspectiveButton": "Geschäftsperspektive entfernen"
+        "removePerspectiveButton": "Geschäftsperspektive entfernen",
+        "businessPerspectiveDeleted": "Geschäftsperspektive entfernt",
+        "businessPerspectiveDeletedDetails": "\"{{perspectiveName}}\" wurde erfolgreich entfernt.",
+        "businessPerspectiveUpdated": "Geschäftsperspektive aktualisiert",
+        "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" wurde bearbeitet und Ihre Änderungen wurden gespeichert.",
+        "error": "Fehler"
       }
     }
   }

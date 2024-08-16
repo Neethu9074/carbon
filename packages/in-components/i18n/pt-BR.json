@@ -64,10 +64,6 @@
   "touchedMessages": {
     "withPath": "{{message}} (em <codeWithClass>{{path}}</codeWithClass>)"
   },
-  "gravatar": {
-    "avatarUrlAlt": "Avatar para {{email}} de gravatar.com.",
-    "avatarNullAlt": "Fallback do avatar para {{email}}."
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "Notas sobre a liberação"
   },
@@ -124,6 +120,7 @@
     "tagListNoTagsDefined": "Não há tags definidas",
     "tagListShowAll": "Mostrar todas as tags (mais {{num}})"
   },
+  "copyToClipboard": "Área de transferência",
   "copyToClipboardPressToCopy": "Pressione CTRL+C / CMD+C para copiar!",
   "copyToClipboardCopied": "Copiado!",
   "reloadUiDialogTitle": "Nova versão de interface com o usuário disponível",
@@ -300,7 +297,8 @@
     "labelExpandButtonForContent": "Botão Expandir para conteúdo"
   },
   "featureFeedback": {
-    "labelBETA": "BETA",
+    "labelPublicPreview": "Visualização pública",
+    "labelPrivatePreview": "Visualização privada",
     "linkLabelYouCanSendUsFeedback": "É possível nos enviar um feedback"
   },
   "geoHeatMap": {
@@ -389,9 +387,9 @@
     "labelLoadingData": "Carregando dados"
   },
   "mainNavigation": {
+    "skipToMainContent": "Ir para conteúdo principal",
     "viewSwitcherLabelSettings": "Configurações",
     "viewSwitcherLabelMore": "Mais",
-    "viewSwitcherLabelTenants": "Locatários",
     "viewSwitcherLabelAgents": "Agentes",
     "viewSwitcherLabelReleaseNotes": "Notas sobre a liberação",
     "viewSwitcherLabelDocumentation": "Documentação",
@@ -415,10 +413,15 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "HMC do IBM Z",
     "viewSwitcherLabelPlatforms": "Plataformas",
-    "viewSwitcherButtonSignOut": "Sair",
     "viewSwitcherCustomDashboards": "Painéis customizados",
+    "viewSwitcherButtonSignOut": "Sair",
+    "viewSwitcherLabelTenants": "Locatários",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nova versão da IU da Instana disponível",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "Recarregue para atualizar"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "Recarregue para atualizar",
+    "profileMenu_profileLink": "Perfil",
+    "profileMenu_unitName_tenantName": "Nome da unidade - Nome do locatário",
+    "profileMenu_switchUnitOrTenant": "Alternar unidade ou locatário",
+    "profileMenu_logOut": "Efetuar logout"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Selecionar métricas",
@@ -439,6 +442,7 @@
     "aggregation_MAX": "máximo",
     "aggregation_DISTINCTCOUNT": "contagem distinta",
     "aggregation_SUM": "soma",
+    "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "distribuição",
     "aggregation_PERSECOND": "por segundo",
     "labelFilterEmptyValue": "Filtrar valores vazios"
@@ -831,5 +835,9 @@
     "notice": "Esta unidade de locatário foi migrada para uma nova região. A unidade que você está acessando atualmente contém apenas dados históricos.",
     "goToNewLocationLabel": "Ir para Novo Local",
     "exploreDataLabel": "Explorar dados históricos"
+  },
+  "creatableTagSelect": {
+    "placeholder": "Inserir tags",
+    "createLabel": "Criar: {{tag}}"
   }
 }

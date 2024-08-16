@@ -74,7 +74,8 @@
     "restartCount": "重新启动次数",
     "kubernetesLabels": "Kubernetes 标签",
     "podmanAnnotations": "Podman 注释",
-    "metricExplosion": "此仪表板可能未显示所有度量值，因为仅存储了 {{numberOfMetrics}}"
+    "metricExplosionBeeInstana": "此仪表板可能未显示所有度量值，因为仅存储了 {{numberOfMetrics}}",
+    "metricExplosion": "由于只存储了 {{numberOfMetrics}} 高分辨率指标，因此该仪表板可能无法显示所有指标。 要查看其他指标，请使用 Analyze Infrastructure 或自定义的仪表板。"
   },
   "explore": {
     "analyzeInfrastructure": "分析基础架构",
@@ -94,7 +95,8 @@
       "maximumNumberOfMembers": "此查询的结果过多。 请使用限制性更强的过滤器缩小搜索范围或者缩小时间范围，然后重试。",
       "generalError": "发生意外错误。"
     },
-    "entityTypes": "实体类型 {{count, parenthesis}}"
+    "entityTypes": "实体类型 {{count, parenthesis}}",
+    "relatedInstances": "分析实例"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "显示当前时间窗口内的计数和平均值。",

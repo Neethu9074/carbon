@@ -163,6 +163,7 @@
       "metricsFormComponent": {
         "metric": "Métrica",
         "selectMetric": "Seleccionar métrica",
+        "unit": "Unidad",
         "aggregation": "Agregación",
         "crossSeriesAggregation": "Utilice SUM para la agregación de series cruzadas",
         "crossSeriesAggregationHelp": "Normalmente, la agregación entre series es igual a la suma entre tiempos (el método utilizado para combinar puntos de datos en un único grupo). Con este conmutador habilitado, sumaremos los grupos de varias series de datos en lugar de utilizar la suma especificada.",
@@ -474,8 +475,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Punto final",
-        "allEndpoints": "Todos los puntos finales",
-        "loading": "<loading>"
+        "allEndpoints": "Todos los puntos finales"
       },
       "goodBadEventsForm": {
         "goodEvents": "Sucesos buenos",
@@ -512,7 +512,6 @@
       },
       "servicesSelectBox": {
         "service": "Servicio",
-        "loading": "<loading>",
         "allServices": "Todos los servicios"
       },
       "sliFormPresenter": {
@@ -718,7 +717,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configuración de umbral",
-        "thresholdLabel": "Umbral"
+        "thresholdLabel": "Umbral",
+        "ms": "ms"
       },
       "entityInfo": {
         "tooltip": "Apdex desconocido",

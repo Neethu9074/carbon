@@ -163,6 +163,7 @@
       "metricsFormComponent": {
         "metric": "Metrica",
         "selectMetric": "Selezionare metrica",
+        "unit": "Unità",
         "aggregation": "Aggregazione",
         "crossSeriesAggregation": "Utilizza SOMMA per l'aggregazione tra serie",
         "crossSeriesAggregationHelp": "Normalmente l'aggregazione tra serie è uguale all'aggregazione temporale (il metodo utilizzato per combinare i punti di dati in un singolo bucket). Con questa opzione abilitata, i socket verranno sommati in tutte le serie di dati invece di utilizzare l'aggregazione specificata.",
@@ -474,8 +475,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Endpoint",
-        "allEndpoints": "Tutti gli endpoint",
-        "loading": "<loading>"
+        "allEndpoints": "Tutti gli endpoint"
       },
       "goodBadEventsForm": {
         "goodEvents": "Eventi positivi",
@@ -512,7 +512,6 @@
       },
       "servicesSelectBox": {
         "service": "Servizio",
-        "loading": "<loading>",
         "allServices": "Tutti i servizi"
       },
       "sliFormPresenter": {
@@ -718,7 +717,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configurazione soglia",
-        "thresholdLabel": "Soglia"
+        "thresholdLabel": "Soglia",
+        "ms": "ms"
       },
       "entityInfo": {
         "tooltip": "Apdex sconosciuto",

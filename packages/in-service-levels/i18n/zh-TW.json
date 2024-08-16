@@ -165,8 +165,6 @@
     "sloNamePlaceholder": "輸入名稱",
     "sloNameCopyTemplate": "{{name}} 的副本",
     "tagsLabel": "標籤（選用項目）",
-    "tagsPlaceholder": "輸入標籤",
-    "tagsCreateLabel": "建立：{{tag}}",
     "messages": {
       "creationSuccessfulTitle": "已順利建立 SLO 配置",
       "creationSuccessfulContent": "已建立 SLO 配置 \"{{name}}\"。",
@@ -269,6 +267,9 @@
     }
   },
   "sloDashboard": {
+    "header": {
+      "created_at": "建立時間：{{creationDay}} 的 {{creationTime}}"
+    },
     "tabs": {
       "summaryLabel": "摘要",
       "configurationLabel": "配置",

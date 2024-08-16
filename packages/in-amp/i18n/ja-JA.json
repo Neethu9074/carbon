@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "アカウント設定",
+      "unknownDomain": "未知の領域",
       "billingAddress": "請求先住所",
       "country": "国",
       "state": "都道府県/州",
@@ -27,6 +28,12 @@
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "過去 30 日間にアクティブな有料ライセンスはありません。"
     },
+    "fairUsePolicyMessage": {
+      "title": "このアカウントは公正使用ポリシーの対象となります。 以下のグラフでデータ使用量をご覧ください。"
+    },
+    "fairUsePolicyNotActive": {
+      "title": "フェアユースポリシーは有効ではありません。"
+    },
     "restrictedUsage": {
       "accountUsage": "アカウント使用量"
     },
@@ -36,10 +43,34 @@
       "max": "最大",
       "average": "平均"
     },
+    "dataIngestTable": {
+      "consumptionOverview": "消費概要",
+      "row": "行",
+      "unit": "ユニット",
+      "calculation": "計算",
+      "entitledNumberOfMVS": "MVS のタイトル数",
+      "actualAverage": "実際の平均構成 MVS 数",
+      "onDemandNumber": "MVS のオンデマンド数",
+      "dataIngestFairUseEntitlement": "MVS ごとのデータ・インジェスト公正使用権",
+      "totalDataIngestFairUseEntitlement": "データ・インジェスト公正使用権合計",
+      "dataIngestAddOnEntitlement": "データ・インジェスト・アドオン・エンタイトルメント",
+      "totalAmountPurchased": "追加データ・インジェスト・アドオンによる購入総額",
+      "dataIngestEntitlementFromOnDemand": "オンデマンド MVS からのデータ・インジェスト・フェアユース・エンタイトルメント",
+      "totalDataIngestEntitlement": "データ・インジェスト・エントリメント合計",
+      "actualDataIngest": "実際のデータ - 取り込み",
+      "onDemandDataIngest": "オンデマンド・データ・インジェスト",
+      "noData": "データなし"
+    },
     "timePresets": {
       "last7Days": "過去 7 日間",
-      "last15Days": "直近の 15 日間",
-      "last365Days": "過去 365 日間"
+      "last30Days": "過去 30 日間",
+      "last365Days": "過去 365 日間",
+      "thisMonth": "今月",
+      "lastMonth": "前月"
+    },
+    "presentationPresets": {
+      "distinct": "個別値",
+      "cumulative": "累積値"
     },
     "usages": {
       "allPaidUnitsAggregated": "すべての有料単位 (集計)",
@@ -49,15 +80,22 @@
       "queuedLicenses": "待機ライセンス"
     },
     "usageCharts": {
-      "apmUsage": "APM 使用量",
+      "standard": "Standard",
       "apmHosts": "APM ホスト",
       "purchased": "購入済み",
-      "infrastructureUsage": "インフラストラクチャー使用量",
+      "essentials": "基本情報",
       "iqmHosts": "IQM ホスト",
       "syntheticPops": "シンセティック・マネージド PoPs",
       "resourceUnits": "リソース・ユニット",
       "consumedUnits": "消費済みユニット",
+      "infrastructure": "インフラストラクチャー",
+      "synthetics": "シンセティック",
+      "traces": "トレース",
+      "eumMobile": "EUM モバイル",
+      "eumWebsite": "EUM ウェブサイト",
       "addons": "アドオン",
+      "trendLine": "傾向線",
+      "dataUsageHelperText": "選択した時間枠でカテゴリ別に分離されたエージェントを介して送信されたバイト数。",
       "helperText": "各タイプのアクションによって消費されたリソース単位の数。 単位は、単純テストの場合は 0.025、API テストの場合は 0.042、ブラウザー・テストの場合は 1.000 の係数で計算されます。"
     },
     "activationAdoption": {
