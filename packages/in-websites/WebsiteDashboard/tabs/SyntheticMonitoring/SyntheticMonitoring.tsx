@@ -20,19 +20,17 @@ import {
   syntheticTypesUrlParameter,
   locationsUrlParameter
 } from 'in-synthetics/utils/constants';
-// import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-// import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { pendingResult } from 'in-services/fixedObjects';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
-//import useTimeConfig from 'in-hooks/useTimeConfig';
-import Footer from 'in-components/Footer/Footer';
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
+import getServerTableDescription from 'in-synthetics/utils/getServerTableDescription';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { pendingResult } from 'in-services/fixedObjects';
+import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
 import { getTests } from 'in-synthetics/api';
 
@@ -49,8 +47,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     columnDefinitions: columnDefinitions.filter(
       column => !['applicationLabels', 'applicationLabel'].includes(column.id)
     ),
-    title: t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle'),
-    description: t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')
+    title: t('in-websites:websiteDashboard.tabs.synthetic.noDataTitle'),
+    description: getServerTableDescription('websites')
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, syntheticTypesUrlParameter, locationsUrlParameter],
   columnDefinitions: columnDefinitions.filter(column => !['applicationLabels', 'applicationLabel'].includes(column.id)),

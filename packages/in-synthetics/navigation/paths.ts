@@ -24,6 +24,7 @@ const matrixTestLabel = 'testLabel';
 const matrixStatus = 'status';
 const matrixLocationLabels = 'locationLabels';
 
+export const globalSyntheticsPath = '/#/syntheticTests';
 const summaryTab = '/summary';
 export const resultsTab = '/results';
 export const alertsTab = '/alerts';
