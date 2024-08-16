@@ -289,7 +289,14 @@ export default function UsageCharts({
                 <Card>
                   <SubViewHeader>
                     {t('in-amp:components.usageCharts.logging')}
-                    <Tooltip content={t('in-amp:components.usageCharts.loggingHelperText')} align="rightMiddle">
+                    <Tooltip
+                      content={
+                        onPremLicenseInformationEnabled
+                          ? t('in-amp:components.usageCharts.loggingHelperText.onprem')
+                          : t('in-amp:components.usageCharts.loggingHelperText.saas')
+                      }
+                      align="rightMiddle"
+                    >
                       <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
                     </Tooltip>
                   </SubViewHeader>
