@@ -28,8 +28,8 @@ export default function UsageCharts({
   tenantUnit,
   showPurchasedMetric = true,
   showAggregatedMetrics = false,
-  hasSyntheticAddons = false,
-  hasLoggingAddons = false,
+  hasSyntheticAddon = false,
+  hasLoggingAddon = false,
   presentation
 }) {
   const showDataIngestTable = !tenantUnit?.tenant && !onPremLicenseInformationEnabled;
@@ -42,7 +42,7 @@ export default function UsageCharts({
   const accountObservableResult = useObservable(getAccountAsResultObservable(), []);
 
   // Show the add-on section (or not)
-  const showAddOnSection = showAggregatedMetrics && (hasSyntheticAddons || hasLoggingAddons);
+  const showAddOnSection = showAggregatedMetrics && (hasSyntheticAddon || hasLoggingAddon);
 
   const fupOverride = accountObservableResult?.data?.fupOverride;
 
@@ -254,7 +254,7 @@ export default function UsageCharts({
           <SectionLine />
           <SubViewHeader>{t('in-amp:components.usageCharts.addons')}</SubViewHeader>
           <Row>
-            {hasSyntheticAddons && (
+            {hasSyntheticAddon && (
               <Col xs={6}>
                 <Card>
                   <SubViewHeader>
@@ -284,7 +284,7 @@ export default function UsageCharts({
                 </Card>
               </Col>
             )}
-            {hasLoggingAddons && (
+            {hasLoggingAddon && (
               <Col xs={6}>
                 <Card>
                   <SubViewHeader>

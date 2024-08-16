@@ -33,8 +33,8 @@ function Usage({
   unitSelectorOptions,
   getCurrentTenantOption,
   canShowAggregatedMetrics,
-  hasSyntheticAddons,
-  hasLoggingAddons
+  hasSyntheticAddon,
+  hasLoggingAddon
 }) {
   const initialState =
     (canShowAggregatedMetrics ? aggregatedState : getCurrentTenantOption(unitSelectorOptions)?.value) ??
@@ -81,8 +81,8 @@ function Usage({
         to={to}
         tenantUnit={tenantUnit}
         showAggregatedMetrics={showAggregatedMetrics}
-        hasSyntheticAddons={hasSyntheticAddons}
-        hasLoggingAddons={hasLoggingAddons}
+        hasSyntheticAddon={hasSyntheticAddon}
+        hasLoggingAddon={hasLoggingAddon}
         presentation={presentation}
       />
 

@@ -32,15 +32,15 @@ function WithAccountInformation({ children, environments }) {
   // Do not show aggregated metrics, based on feature flag
   const canShowAggregatedMetrics = !onPremLicenseInformationEnabled && containsPaidLicenses(environments);
   const unitSelectorOptions = environments.map(mapEnvironmentToComboBoxItem);
-  const hasSyntheticAddons = syntheticAddons(environments);
-  const hasLoggingAddons = loggingAddons(environments);
+  const hasSyntheticAddon = syntheticAddons(environments);
+  const hasLoggingAddon = loggingAddons(environments);
 
   return children({
     getCurrentTenantOption,
     unitSelectorOptions,
     canShowAggregatedMetrics,
-    hasSyntheticAddons,
-    hasLoggingAddons
+    hasSyntheticAddon,
+    hasLoggingAddon
   });
 }
 
