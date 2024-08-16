@@ -4,18 +4,18 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { EntityHealthInfo, Result, TimeConfig, Event } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error Module needs to be translated to TS
 import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
-// eslint-disable-next-line import/no-deprecated
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { eventsPath } from 'in-events/navigation/paths';
 
 interface BizOpsOpenIssuesListProps {
@@ -33,6 +33,8 @@ export default function BizOpsOpenIssuesList({
   timeConfig
 }: BizOpsOpenIssuesListProps) {
   const additionalDFQFilter = getAdditionalFilters({ serviceIds });
+  const getLinkToEventsViewFilteredByOr = useLinkToEventsViewFilteredByOr();
+  const eventsViewFilteredByOrQuery = getEventsViewFilteredByOrQuery(serviceIds);
 
   interface maxWidthContentProps {
     children: React.ReactNode;
@@ -90,7 +92,7 @@ export default function BizOpsOpenIssuesList({
       <OpenIssuesListPresenter
         close={close}
         openIssuesResult={openIssuesResult}
-        analyzeLink$={getEventsViewFilteredByOr(serviceIds)}
+        analyzeLink={getLinkToEventsViewFilteredByOr(eventsViewFilteredByOrQuery)}
         getIssueLink={(eventId: string) => {
           // get the service ID that corresponds to this event
           let serviceId = '';
@@ -114,7 +116,7 @@ export default function BizOpsOpenIssuesList({
   );
 }
 
-function getEventsViewFilteredByOr(serviceIds: string[]) {
+function getEventsViewFilteredByOrQuery(serviceIds: string[]) {
   let query = '';
 
   if (serviceIds) {
@@ -129,16 +131,26 @@ function getEventsViewFilteredByOr(serviceIds: string[]) {
     query += ') entity.selfType:service';
   }
 
-  // OpenIssuesListPresenter expects an observable to create the link, which is the old pattern here
-  // eslint-disable-next-line import/no-deprecated
-  return getModifiedUrlStream(params => {
-    params.pathname = eventsPath;
-    if (query) {
-      params.query.q = query;
-    }
+  return query;
+}
 
-    setOrDeleteMatrixKey(params, eventsPath, 'view', 'issue');
-  });
+function useLinkToEventsViewFilteredByOr() {
+  const { createHref, location } = useNavigation();
+
+  return useCallback(
+    (query: string) => {
+      const clonedLocation = cloneLocation(location);
+
+      clonedLocation.pathname = eventsPath;
+      if (query) {
+        clonedLocation.query.q = query;
+      }
+      setOrDeleteMatrixKey(clonedLocation, eventsPath, 'view', 'issue');
+
+      return createHref(clonedLocation);
+    },
+    [location, createHref]
+  );
 }
 
 interface BizOpsAdditionalFiltersProps {
