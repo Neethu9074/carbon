@@ -336,7 +336,7 @@
         "datacentersSubtitle": "Activate an Instana managed location in one of the available datacenters. For more information, see <linkDatacenters>Using an Instana-hosted PoP</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Locations are being deployed",
-          "message": "We are setting up your new locations at the following datacenters. Please be patient while we auto-deploy this for you. When this is finished, you can find your new locations in the locations tab. <strong>This can take up to 10 minutes for each selected datacenter.</strong>",
+          "message": "We are setting up your new locations at the following datacenters. Please be patient while we auto-deploy this for you. When this is finished, you can find your new locations in the locations tab. <strong>This deployment can take a few minutes for each selected datacenter.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Datacenter Code",
@@ -351,7 +351,7 @@
         },
         "deactivateDatacenter": {
           "title": "Deactivate Location",
-          "deactivateMessage": "Are you sure you want to deactivate location <strong>{{locationDisplayLabel}}</strong>?<br/><br/>Deactivating a location can take up to 10 minutes. Please be patient while we deprovision this for you. When this is finished, the location status will be Offline.<br/>",
+          "deactivateMessage": "Are you sure you want to deactivate location <strong>{{locationDisplayLabel}}</strong>?<br/><br/>Deactivating a location can take a few minutes. Please be patient while we deprovision this for you. When this is finished, the location status will be Offline.<br/>",
           "warningMessage": "Deactivating is not deleting. The location will be available and can be activated again. To completely remove the managed location, delete the location once its status changes to Offline.",
           "activeStatus": "Active",
           "deactivateButton": "Deactivate"
