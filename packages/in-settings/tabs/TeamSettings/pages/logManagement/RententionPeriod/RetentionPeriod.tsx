@@ -196,7 +196,7 @@ function RetentionPeriodDialog({
     return 200;
   };
 
-  const daysDropdownValues = [7, 20, 30, 60, 90];
+  const daysDropdownValues = [30, 60, 90];
 
   const {
     reasonInputValue,
