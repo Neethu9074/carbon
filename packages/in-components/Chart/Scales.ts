@@ -155,6 +155,10 @@ function calculateMaxValueIndependetMetrics(
   metrics: MetricDataSeries[],
   filteredDataSeries: Set<string>
 ): number {
+  if (metrics.length === 0) {
+    return 1;
+  }
+
   const maxValues = metrics.map((metric, i) =>
     filteredDataSeries.has(`${axisName}-${i}`) ? 0 : getMinMaxValueForDataSeries(metric).maxValue
   );
@@ -169,8 +173,8 @@ interface MinMax {
 
 function getMinMaxValueForDataSeries(dataSeries: MetricDataSeries): MinMax {
   const values = dataSeries.map(dataPoint => dataPoint[1]);
-  const minValue = Math.min(...values);
-  const maxValue = Math.max(...values);
+  const minValue = values.length > 0 ? Math.min(...values) : 0;
+  const maxValue = values.length > 0 ? Math.max(...values) : 1;
 
   return { minValue, maxValue };
 }
