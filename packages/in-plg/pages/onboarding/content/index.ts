@@ -25,6 +25,7 @@ import VmwareTanzu from 'in-plg/pages/onboarding/AgentList/Vmware/VmwareTanzu';
 import AwsLambda from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/AwsLambda';
 import Openshift from 'in-plg/pages/onboarding/AgentList/Openshift/Openshift';
 import WindowsEC2 from 'in-plg/pages/onboarding/AgentList/Windows/WindowsEC2';
+import IBMiArchive from 'in-plg/pages/onboarding/AgentList/IBMi/IBMiArchive';
 import AwsEc2Linux from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Linux';
 import CfAndBosh from 'in-plg/pages/onboarding/AgentList/Bosh/CfAndBosh';
 import Docker from 'in-plg/pages/onboarding/AgentList/Docker/Docker';
@@ -196,6 +197,19 @@ export function getEntriesForFreeTrial() {
         label: t('in-waiting-for-deployment:content.archiveTarGz'),
         keyWords: 'linuxmanualtarball',
         Content: LinuxArchive
+      }
+    },
+    {
+      id: 'ibmi_archive_tar',
+      title: 'IBMi - Archive (tar.gz)',
+      pageName: 'IBMi > Archive (tar.gz)', // tracking data
+      label: t('in-waiting-for-deployment:content.ibmi'),
+      icon: 'lib_linux',
+      category: t('in-waiting-for-deployment:content.os'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.archiveTarGz'),
+        keyWords: 'ibmimanualtarball',
+        Content: IBMiArchive
       }
     },
     {

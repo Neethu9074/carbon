@@ -406,6 +406,16 @@
         "configurationParameters": "Configuration Parameters"
       }
     },
+    "ibmi": {
+      "archive": {
+        "selectTheAgentPackagingMode": "Step 1: Select the agent packaging mode",
+        "selecTthePlatformArchitecture": "Step 2: Select the platform architecture",
+        "platformArchitecture": "Platform architecture",
+        "agentOptions": {
+          "ibmi64Bit": "Ibmi (64Bit)"
+        }
+      }
+    },
     "openshift": {
       "documentLinks": {
         "installOperatorByUsingOlm": "Installing Operator by using OLM",
