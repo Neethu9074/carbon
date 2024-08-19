@@ -404,6 +404,8 @@
         "crashesLabelErrorType": "Error Type",
         "crashesLabelOccurrences": "Occurrences",
         "crashesLabelAffectedUsers": "Affected Users",
+        "crashesLabelLowestAppVersion": "Lowest App Version",
+        "crashesLabelHighestAppVersion": "Highest App Version",
         "crashesButtonAnalyzeCrashes": "Analyze Crashes",
         "crashesTableTitle": "Crashes",
         "crashInfoTitle": "Details",
