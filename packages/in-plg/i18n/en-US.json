@@ -412,7 +412,7 @@
         "selecTthePlatformArchitecture": "Step 2: Select the platform architecture",
         "platformArchitecture": "Platform architecture",
         "agentOptions": {
-          "ibmi64Bit": "Ibmi (64Bit)"
+          "ibmi64Bit": "IBM i"
         }
       }
     },

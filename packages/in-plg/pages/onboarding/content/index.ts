@@ -201,7 +201,7 @@ export function getEntriesForFreeTrial() {
     },
     {
       id: 'ibmi_archive_tar',
-      title: 'IBMi - Archive (tar.gz)',
+      title: 'IBM i - Archive (tar.gz)',
       pageName: 'IBMi > Archive (tar.gz)', // tracking data
       label: t('in-waiting-for-deployment:content.ibmi'),
       icon: 'lib_infra_ibmIOs',
