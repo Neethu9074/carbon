@@ -10,6 +10,7 @@ import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
 import {
   copyFirstBucketOfSubsequentDataSeries,
+  filterMetricValuesByTime,
   findMaxMetricValue,
   findMinMetricValue
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
@@ -63,12 +64,7 @@ export default function ErrorBudgetChart({
     firstCollectedMetricTimestamp: lastUpdated
   });
   const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);
-  const endTimestamp = timeConfig.to ?? Date.now();
-  const startTimestamp = endTimestamp - timeConfig.windowSize;
-
-  const filteredData = metrics.map(innerArray =>
-    innerArray.filter(([timestamp, _value]) => timestamp >= startTimestamp && timestamp <= endTimestamp)
-  );
+  const filteredData = filterMetricValuesByTime(metrics, timeConfig);
   const minValue = calculateYMinBuffer(filteredData);
 
   return (
