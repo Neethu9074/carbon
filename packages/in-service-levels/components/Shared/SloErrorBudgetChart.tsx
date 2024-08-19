@@ -102,7 +102,9 @@ function calculateYMinBuffer(filteredData: MetricDataPoint[][]) {
   const maxYValue = findMaxMetricValue(filteredData.flat(1));
   const range = maxYValue - minYValue;
 
+  // Percentage-based buffer (10% of the data range)
   const bufferPercentage = 0.1;
+  // Fixed minimum buffer value to ensure some space even for small ranges
   const fixedBuffer = 5;
 
   let buffer = Math.abs(range * bufferPercentage);

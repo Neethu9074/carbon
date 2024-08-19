@@ -20,10 +20,9 @@ export function findMinMetricValue(metrics: MetricDataSeries): number {
 }
 
 export function findMaxMetricValue(metrics: MetricDataSeries): number {
-  return metrics.reduce<number>((acc, [, value], index) => {
-    if (index === 0) return value;
+  return metrics.reduce<number>((acc, [, value]) => {
     return Math.max(acc, value);
-  }, 0);
+  }, -Infinity);
 }
 
 export function calculateSloReferenceChartGranularity(
@@ -51,11 +50,13 @@ export function copyFirstBucketOfSubsequentDataSeries(metrics?: MetricDataSeries
   });
 }
 
-export function filterMetricValuesByTime(metricValues: MetricDataSeries[], timeConfig: TimeConfig): [number, any][][] {
+export function filterMetricValuesByTime(metricValues: MetricDataSeries[], timeConfig: TimeConfig): MetricDataSeries[] {
   const endTimestamp = timeConfig.to ?? Date.now();
   const startTimestamp = endTimestamp - timeConfig.windowSize;
 
-  return metricValues.map(innerArray =>
-    innerArray.filter(([timestamp]) => timestamp >= startTimestamp && timestamp <= endTimestamp)
-  );
+  return metricValues.map(innerArray => {
+    return innerArray.filter(([timestamp]) => {
+      return timestamp >= startTimestamp && timestamp <= endTimestamp;
+    });
+  });
 }
