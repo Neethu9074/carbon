@@ -58,6 +58,13 @@ function LogVolume() {
   const { progress, data } = result || { progress: { loading: false }, data: [] };
 
   const logVolumeData = result && transformData(data);
+
+
+  // change any type
+  const onChangeGroup = (param:any)=>{
+    // update query logic here
+     console.log(param)
+  }
   return (
     <>
       <section className={locals.page}>
@@ -87,7 +94,7 @@ function LogVolume() {
               </Li>
               <GroupingConfiguratorSection
                 value={defaultProps.orderBy}
-                onChange={defaultProps.onGroupByChange}
+                onChange={onChangeGroup}
                 GroupingConfigurator={LogVolumeGroupingConfigurator}
                 tagFilterExpression={defaultProps.backendQueryModel || toBackendQueryModel([])}
                 tracking={{
