@@ -44,7 +44,7 @@ export default function LogVolumeDetails({ data, progress, timePeriod }: LogVolu
               </Li>
               <div>
                 <Ul className={locals.logVolumeItems}>
-                  {(['days7', 'days20', 'days30', 'days60', 'days90'] as const)
+                  {(['days30', 'days60', 'days90'] as const)
                     .filter(days => retentionPeriods[days] && retentionPeriods[days] > 0)
                     .map(days => (
                       <Li key={days}>

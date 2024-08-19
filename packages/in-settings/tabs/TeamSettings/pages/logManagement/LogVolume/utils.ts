@@ -11,8 +11,6 @@ interface RetentionPeriodData {
   days90: number;
   days60: number;
   days30: number;
-  days20: number;
-  days7: number;
 }
 
 interface MonthlyRetentionData {
@@ -42,14 +40,10 @@ export function transformData(dataResult: MetricResult[]): MonthlyRetentionData[
       const monthYearKey = `${month}-${yearValue}`;
 
       if (!dataMap[monthYearKey]) {
-        dataMap[monthYearKey] = { days90: 0, days60: 0, days30: 0, days20: 0, days7: 0 };
+        dataMap[monthYearKey] = { days90: 0, days60: 0, days30: 0 };
       }
 
-      if (label === 7) {
-        dataMap[monthYearKey].days7 += +volumeGB.toFixed(2);
-      } else if (label === 20) {
-        dataMap[monthYearKey].days20 += +volumeGB.toFixed(2);
-      } else if (label === 30) {
+      if (label === 30) {
         dataMap[monthYearKey].days30 += +volumeGB.toFixed(2);
       } else if (label === 60) {
         dataMap[monthYearKey].days60 += +volumeGB.toFixed(2);
@@ -61,8 +55,7 @@ export function transformData(dataResult: MetricResult[]): MonthlyRetentionData[
 
   for (const [monthYearKey, retentionData] of Object.entries(dataMap)) {
     const [month, yearValue] = monthYearKey.split('-');
-    const totalGB =
-      retentionData.days7 + retentionData.days20 + retentionData.days30 + retentionData.days60 + retentionData.days90;
+    const totalGB = retentionData.days30 + retentionData.days60 + retentionData.days90;
     data.push({
       month,
       year: parseInt(yearValue, 10),
@@ -102,7 +95,7 @@ export function generateQuery(numMonths: number): any {
           {
             by: {
               groupbyTag: 'retention_days',
-              groupbyTagSecondLevelKey: ''
+              groupbyTagSecondLevelKey: 'host_name'
             },
             direction: 'DESC',
             includeOthers: false,
@@ -134,30 +127,6 @@ const getRandomGB = () => {
 export const getLogVolume = (timeConfig: TimeConfig) => {
   return just<Result<LabeledMetricResult[]>>({
     data: [
-      {
-        id: 'y1-0',
-        values: [[getFirstDayOfMonthTimestamp(timeConfig.to!), getRandomGB()]],
-        label: '7 days',
-        resultPrecisionDetails: {
-          resultPrecision: 'PRECISION_FULL'
-        },
-        adjustedTimeframe: {
-          windowSize: 2592000000,
-          to: timeConfig.to!
-        }
-      },
-      {
-        id: 'y1-1',
-        values: [[getFirstDayOfMonthTimestamp(timeConfig.to!), getRandomGB()]],
-        label: '20 days',
-        resultPrecisionDetails: {
-          resultPrecision: 'PRECISION_FULL'
-        },
-        adjustedTimeframe: {
-          windowSize: 2592000000,
-          to: timeConfig.to!
-        }
-      },
       {
         id: 'y1-2',
         values: [[getFirstDayOfMonthTimestamp(timeConfig.to!), getRandomGB()]],
@@ -192,9 +161,7 @@ export const generateEmptyData = (numEntries: number) => {
       retentionPeriods: {
         days90: 0,
         days60: 0,
-        days30: 0,
-        days20: 0,
-        days7: 0
+        days30: 0
       }
     });
   }

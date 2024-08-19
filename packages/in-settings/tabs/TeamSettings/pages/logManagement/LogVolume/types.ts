@@ -13,8 +13,6 @@ export interface LogVolumeData {
     days90: number;
     days60: number;
     days30: number;
-    days20: number;
-    days7: number;
   };
 }
 
