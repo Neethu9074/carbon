@@ -204,7 +204,7 @@ export function getEntriesForFreeTrial() {
       title: 'IBMi - Archive (tar.gz)',
       pageName: 'IBMi > Archive (tar.gz)', // tracking data
       label: t('in-waiting-for-deployment:content.ibmi'),
-      icon: 'lib_linux',
+      icon: 'lib_infra_ibmIOs',
       category: t('in-waiting-for-deployment:content.os'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.archiveTarGz'),
