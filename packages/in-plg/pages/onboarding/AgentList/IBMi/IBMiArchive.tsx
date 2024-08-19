@@ -104,8 +104,8 @@ const IBMiArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain, 
       body: (
         <Stack>
           <DocumentLink
-            text={t('in-plg:agentDetails.linux.archive.hostRequirements')}
-            href="https://ibm.biz/inst-agent-linuxtar-prereqs"
+            text={t('in-plg:agentDetails.ibmi.archive.beforeYouInstall')}
+            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-i#before-you-install"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
@@ -120,12 +120,12 @@ const IBMiArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain, 
       body: (
         <>
           <DocumentLink
-            text={t('in-plg:agentDetails.linux.archive.installUsingATarFile')}
-            href="https://ibm.biz/insta-agent-linuxtar"
+            text={t('in-plg:agentDetails.ibmi.archive.installingManually')}
+            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-i#installing-the-agent-manually"
           />
           <DocumentLink
-            text={t('in-plg:agentDetails.linux.archive.startingTheAgent')}
-            href="https://ibm.biz/insta-agent-linuxstart"
+            text={t('in-plg:agentDetails.ibmi.archive.startingTheAgent')}
+            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-i#starting-the-host-agent"
           />
         </>
       ),
