@@ -11,10 +11,16 @@ import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
+// eslint-disable-next-line no-restricted-imports
+import LogVolumeGroupingConfigurator from './workspaces/LogVolumeGroupingConfigurator';
 import { generateQuery, transformData } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
 import LogVolumeDetails from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/LogVolumeDetails';
+import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { ua2GroupChangedTracker } from 'in-applications/tracker';
+import { dataSource } from 'in-applications/navigation/matrix';
 import Select from 'in-components/form/Select/Select';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
@@ -24,6 +30,16 @@ import locals from './LogVolume.mless';
 const localisationStrings = {
   logVolume: t('in-settings:tabs.logVolume.logVolume'),
   timeRange: t('in-settings:tabs.logVolume.timeRange')
+};
+
+const defaultProps = {
+  backendQueryModel: {
+    type: 'EXPRESSION',
+    logicalOperator: 'AND',
+    elements: []
+  },
+  onGroupByChange: () => {},
+  orderBy: { by: '', direction: 'ASC' }
 };
 
 function LogVolume() {
@@ -69,6 +85,15 @@ function LogVolume() {
                   </div>
                 </CarbonLayer>
               </Li>
+              <GroupingConfiguratorSection
+                value={defaultProps.orderBy}
+                onChange={defaultProps.onGroupByChange}
+                GroupingConfigurator={LogVolumeGroupingConfigurator}
+                tagFilterExpression={defaultProps.backendQueryModel || toBackendQueryModel([])}
+                tracking={{
+                  onGroupAdded: group => ua2GroupChangedTracker({ dataSource, tagName: group.groupbyTag })
+                }}
+              />
             </Ul>
           </section>
           <section>
