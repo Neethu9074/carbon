@@ -9,10 +9,11 @@ import React from 'react';
 import { LocationStatus, TestResultListItem, TimeConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
-import { ApplicationLabel } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
+import AssociationsContent from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsContent';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import HealthDot from 'in-components/health/HealthDot';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -146,12 +147,12 @@ export const columnDefinitions: ColumnDefinition<TestResultListItemId>[] = [
     }
   },
   {
-    id: 'applicationLabel',
-    label: t('in-synthetics:dashboard.testList.applicationLabel'),
+    id: syntheticMultiAppEnabled ? 'associationLabels' : 'applicationLabel',
+    label: t('in-synthetics:dashboard.testList.associationLabel'),
     defaultOrderDirection: 'ASC',
     width: '20%',
     getContent(item: TestResultListItemId) {
-      return <ApplicationLabel item={item} shouldDisplayLink={false} />;
+      return <AssociationsContent item={item} shouldDisplayLink={false} />;
     }
   }
 ];

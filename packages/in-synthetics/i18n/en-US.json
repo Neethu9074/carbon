@@ -435,7 +435,7 @@
       "latency": "Latency",
       "locationLabel": "Location",
       "locations": "{{totalLocations}} locations",
-      "applicationLabel": "Associations",
+      "associationLabel": "Associations",
       "health": "Health",
       "action": "Action",
       "labelConfirmRemoveTest": "Are you sure you want to remove <strong>{{testLabel}}</strong> test?",
