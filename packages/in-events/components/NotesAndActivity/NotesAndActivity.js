@@ -14,16 +14,17 @@ import {
   CarbonTextArea,
   CarbonLayer,
   CarbonInlineLoading,
-  IconButton
+  IconButton,
+  CarbonSearch
 } from '@instana/components';
 
 // Not using Carbon tooltip since tooltip has not been migrated
 // Using Carbon tooltip would cause mismatch in design on the page
 // since tooltip is used in many places on this page
 import Tooltip from 'in-components/Tooltip';
+import { getNotes, validTextEntry, noteNameAndTimeFormat, filterSearchNotes, createDataString } from './utils';
 import { EVENT_NOTES_SUBMIT, EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
-import { getNotes, validTextEntry, noteNameAndTimeFormat } from './utils';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
@@ -80,6 +81,8 @@ export function NotesAndActivity(props) {
   // const [displayNotes, setDisplayNotes] = useState(false);
   // Current value of the typed out note
   const [note, setNote] = useState('');
+  const [viewInputText, setViewInputText] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
 
   function toggleSidePanel() {
     setDisplayNotes(!displayNotes);
@@ -106,6 +109,42 @@ export function NotesAndActivity(props) {
     return <></>;
   }
 
+  // Boolean to track if there are currently notes
+  const notesExist = notes.length > 0;
+  // TESTING PURPOSES ONLY
+  notes.push({
+    type: 'external_note',
+    id: 'QNxHX2JGRWG5OayzLX3dgg',
+    parent: 'SIqmHetSR2mFBzqKNVy1GQ',
+    timestamp: 1722957105978,
+    updated: 0,
+    author: 'Quinn T.',
+    metadata: {},
+    origin: 'ServiceNow',
+    internal: false,
+    label: 'Additional comments',
+    contents: 'This is an external_note that has been brought to you by.... SERVICE NOW!'
+  });
+  notes.push({
+    type: 'external_field_change',
+    id: 'QNxHX2JGRWG5OayzLX3dgg',
+    parent: 'SIqmHetSR2mFBzqKNVy1GQ',
+    timestamp: 1722957105978,
+    updated: 0,
+    author: 'Denton Zan',
+    metadata: {},
+    origin: 'ServiceNow',
+    label: 'Field changes',
+    data: [
+      ['Priority', '0', '1 - Critical'],
+      ['Incident state', 'opened', 'In progress'],
+      ['Opened by', '', 'ITIL User']
+    ]
+  });
+  // ^^^^^^^^^^^^^^^^^^^^^^^TESTING PURPOSES ONLY
+
+  const filteredNotes = filterSearchNotes(notes, searchInput.toLowerCase());
+
   return (
     <CarbonLayer className={locals.notesHeaderWrapper}>
       <div className={locals.headerWrapper}>
@@ -129,26 +168,29 @@ export function NotesAndActivity(props) {
         ) : (
           <>
             <div className={locals.inputSection}>
-              <CarbonTextArea
-                labelText={t('in-events:notes.incidentNotes')}
-                hideLabel
-                rows={5}
-                id="incidentNotes"
-                placeholder={t('in-events:notes.typeSomething')}
-                value={note}
-                onChange={e => {
-                  setNote(e?.target?.value);
-                }}
-              />
-              <CarbonButton
-                onClick={() => handleSubmitNote(incidentId, note, user, setNote)}
-                className={locals.addNoteButton}
-                size={'md'}
-              >
-                {t('in-events:notes.addNote')}
-              </CarbonButton>
+              {notesExist && (
+                <div className={locals.searchNotes}>
+                  <CarbonSearch
+                    placeholder="Search notes and activity"
+                    onChange={e => {
+                      setSearchInput(e);
+                    }}
+                  />
+                </div>
+              )}
+              {viewInputText ? (
+                <TextInput
+                  note={note}
+                  user={user}
+                  setNote={setNote}
+                  incidentId={incidentId}
+                  setViewInputText={setViewInputText}
+                />
+              ) : (
+                <QuickActions setViewInputText={setViewInputText} />
+              )}
             </div>
-            <CommentList notes={notes} preferredName={user.preferredName} />
+            <CommentList notes={filteredNotes} preferredName={user.preferredName} />
           </>
         )}
       </div>
@@ -167,6 +209,7 @@ export function CommentList(props) {
           // with the newest note at the top, oldest at the bottom
           const note = notes[notes.length - i - 1];
           const myBubble = note.author == preferredName;
+          const type = note.type;
           const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
           return (
             <div key={note.id}>
@@ -177,9 +220,9 @@ export function CommentList(props) {
                 })}
               >
                 {!myBubble && <SvgIcon type={'lib_user_avatar_filled_alt'} size="sm" className={locals.userIcon} />}
-                <div className={locals.chatEntryInfo}>{noteNameAndTimeFormat(myBubble, note, date)}</div>
+                <div className={locals.chatEntryInfo}>{noteNameAndTimeFormat(myBubble, note, date, type)}</div>
               </div>
-              <ChatBubble user={note.author} text={note.contents} myBubble={myBubble} />
+              <ChatBubble text={note.contents} data={note.data} myBubble={myBubble} type={type} />
             </div>
           );
         })}
@@ -190,16 +233,21 @@ export function CommentList(props) {
 // Individual chat bubble that has differing colors based on
 // if the text is from me or someone else
 export function ChatBubble(props) {
-  const { myBubble, text } = props;
+  const { myBubble, text, data, type } = props;
+  // Currently we have 3 types of bubbles
+  const extNote = type === 'external_note';
+  const extChange = type === 'external_field_change';
+  const note = type === 'note';
   return (
     <div
       className={classNames({
-        [locals.myBubble]: myBubble,
-        [locals.otherBubble]: !myBubble,
+        [locals.myBubble]: myBubble && note,
+        [locals.otherBubble]: !myBubble && note,
+        [locals.ext]: extNote || extChange,
         [locals.bubble]: true
       })}
     >
-      {text}
+      {text ? text : createDataString(data)}
     </div>
   );
 }
@@ -208,7 +256,7 @@ export function ChatBubble(props) {
 // Requires the incidentID, note, user, and setNote function
 // Dont allow the annotateEvent call if note is empty
 // Once you submit the event clear the note value with SetNote
-export function handleSubmitNote(incidentId, note, user, setNote) {
+export function handleSubmitNote(incidentId, note, user, setNote, setViewInputText) {
   const userName = user.preferredName;
   // Dont fire off a new note without there being something written
   if (validTextEntry(note)) {
@@ -220,6 +268,7 @@ export function handleSubmitNote(incidentId, note, user, setNote) {
     };
     annotateEvent(newNote);
     setNote('');
+    setViewInputText(false);
     const { pageRootName, productArea } = getViewTrackingMetaData();
     if (pageRootName && productArea) {
       const data = {
@@ -241,5 +290,83 @@ export function EmptyState() {
       <h3 className={locals.emptyHeader}>{t('in-events:notes.noNotes')}</h3>
       <p className={locals.emptyInfo}>{t('in-events:notes.noNotesDetails')}</p>
     </div>
+  );
+}
+
+// Handle the view where inputting a note occurs
+// Carbon Text Area
+// Two Carbon Buttons
+export function TextInput(props) {
+  const { note, user, setNote, incidentId, setViewInputText } = props;
+  return (
+    <>
+      <CarbonTextArea
+        labelText={t('in-events:notes.incidentNotes')}
+        hideLabel
+        rows={5}
+        id="incidentNotes"
+        placeholder={t('in-events:notes.typeSomething')}
+        value={note}
+        onChange={e => {
+          setNote(e?.target?.value);
+        }}
+      />
+      <div className={locals.noteButtonWrapper}>
+        <CarbonButton
+          onClick={() => {
+            setViewInputText(false);
+          }}
+          kind="secondary"
+          className={locals.addNoteButton}
+          size={'md'}
+        >
+          {t('in-events:notes.cancel')}
+        </CarbonButton>
+      </div>
+      <div className={locals.noteButtonWrapper}>
+        <CarbonButton
+          onClick={() => {
+            handleSubmitNote(incidentId, note, user, setNote, setViewInputText, setViewInputText);
+          }}
+          className={locals.addNoteButton}
+          size={'md'}
+        >
+          {t('in-events:notes.addNote')}
+        </CarbonButton>
+      </div>
+    </>
+  );
+}
+
+// Main view that gives an overview for this side panel
+// Gives the user the options to add a note or generate a summary
+export function QuickActions(props) {
+  const { setViewInputText } = props;
+  return (
+    <>
+      <div className={locals.quickActionsHeader}>{t('in-events:notes.quickActions')}</div>
+      <div className={locals.quickActionsDescription}>{t('in-events:notes.quickActionsDescription')}</div>
+      <div className={locals.quickActionButtonWrapper}>
+        <CarbonButton kind={'tertiary'} className={locals.actionsButton} size={'sm'}>
+          <div className={locals.quickActionButtonContents}>
+            {t('in-events:notes.generateSummary')}
+            <SvgIcon type="lib_infra_ai" />
+          </div>
+        </CarbonButton>
+      </div>
+      <CarbonButton
+        kind={'tertiary'}
+        className={locals.actionsButton}
+        size={'sm'}
+        onClick={() => {
+          setViewInputText(true);
+        }}
+      >
+        <div className={locals.quickActionButtonContents}>
+          {t('in-events:notes.addComment')}
+          <SvgIcon type="lib_actions_comment" />
+        </div>
+      </CarbonButton>
+    </>
   );
 }

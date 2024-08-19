@@ -6,7 +6,12 @@
 
 import Immutable from 'immutable';
 
-import { getNotes, validTextEntry, noteNameAndTimeFormat } from 'in-events/components/NotesAndActivity/utils';
+import {
+  getNotes,
+  validTextEntry,
+  noteNameAndTimeFormat,
+  filterSearchNotes
+} from 'in-events/components/NotesAndActivity/utils';
 
 describe('getNotes', () => {
   it('returns an empty array if the event is falsy', () => {
@@ -162,5 +167,73 @@ describe('noteNameAndTimeFormat', () => {
   it('general cases', () => {
     expect(noteNameAndTimeFormat(false, note, '2024-06-04, 19:41:28')).toEqual('dart | 2024-06-04, 19:41:28');
     expect(noteNameAndTimeFormat(true, note, '2024-06-04, 19:41:28')).toEqual('You | 2024-06-04, 19:41:28');
+  });
+});
+
+describe('filterSearchNotes', () => {
+  test('should return an empty array if no notes are provided', () => {
+    const result = filterSearchNotes([], 'test');
+    expect(result).toEqual([]);
+  });
+
+  test('should return an full array if no input is provided', () => {
+    const note = [{ id: 1, author: 'John Doe', contents: 'Test note' }];
+    const result = filterSearchNotes(note, '');
+    expect(result).toEqual(note);
+  });
+
+  test('should return an array of notes that match the input', () => {
+    const notes = [
+      { id: 1, author: 'John Doe', contents: 'Test note' },
+      { id: 2, author: 'Jane Doe', contents: 'Another test note' },
+      { id: 3, author: 'John Doe', contents: 'Yet another test note' }
+    ];
+
+    const result = filterSearchNotes(notes, 'test');
+    expect(result).toEqual(notes);
+  });
+
+  test('should return an array of notes that match the input round 2', () => {
+    const notes = [
+      { id: 1, author: 'John Doe', contents: 'Test note' },
+      { id: 2, author: 'Jane Doe', contents: 'Another test note' },
+      { id: 3, author: 'John Doe', contents: 'Yet another test note' }
+    ];
+
+    const result = filterSearchNotes(notes, 'another');
+    expect(result).toEqual([
+      { id: 2, author: 'Jane Doe', contents: 'Another test note' },
+      { id: 3, author: 'John Doe', contents: 'Yet another test note' }
+    ]);
+  });
+
+  test('should return an array of notes that match the input round 3', () => {
+    const notes = [
+      { id: 1, author: 'John Doe', contents: 'Test note' },
+      {
+        id: 15,
+        authors: 'Denton V',
+        data: [
+          ['Priority', '0', '1 - Critical'],
+          ['Incident state', 'opened', 'In progress'],
+          ['Opened by', '', 'ITIL User']
+        ]
+      },
+      { id: 2, author: 'Jane Doe', contents: 'Another test note' },
+      { id: 3, author: 'John Doe', contents: 'Yet another test note' }
+    ];
+
+    const result = filterSearchNotes(notes, 'progress');
+    expect(result).toEqual([
+      {
+        id: 15,
+        authors: 'Denton V',
+        data: [
+          ['Priority', '0', '1 - Critical'],
+          ['Incident state', 'opened', 'In progress'],
+          ['Opened by', '', 'ITIL User']
+        ]
+      }
+    ]);
   });
 });

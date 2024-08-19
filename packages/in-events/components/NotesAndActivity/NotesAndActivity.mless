@@ -33,6 +33,36 @@
     color: var(--cds-text-primary);
   }
 
+  .quickActionsHeader {
+    font-weight: 600;
+    font-size: 14px;
+    padding-bottom: 10px;
+  }
+
+  .quickActionsDescription {
+    font-weight: 400;
+    font-size: 12px;
+    color: grey;
+    padding-bottom: 15px;
+  }
+
+  .searchNotes {
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
+  }
+
+  .quickActionButtonContents {
+    display: inline-flex;
+    gap: 1rem;
+  }
+
+  .actionsButton {
+    border-radius: 25px 25px 25px 25px;
+    height: 0px;
+    padding-bottom: 15px;
+  }
+
   .closedNotesWrapper {
     color: var(--cds-link-primary, #0f62fe);
     display: flex;
@@ -55,6 +85,15 @@
     width: 100%;
   }
 
+  .noteButtonWrapper {
+    width: 50%;
+    display: inline-flex;
+  }
+
+  .quickActionButtonWrapper {
+    padding-bottom: 5px;
+  }
+
   .loading {
     height: 75vh;
     display: flex;
@@ -70,6 +109,8 @@
     padding: 0px 15px 75px 15px;
     height: calc(100vh - 28rem);
     overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
   }
 
   .bubble {
@@ -87,6 +128,12 @@
   .otherBubble {
     background: var(--Layer-accent-layer-accent-01, #e0e0e0);
     border-radius: 0px 8px 8px 8px;
+  }
+
+  .ext {
+    background: var(--cds-field-01, #e0e0e0);
+    border-radius: 0px 8px 8px 8px;
+    border: 1px solid black;
   }
 
   .chatEntry {

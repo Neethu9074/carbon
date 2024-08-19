@@ -245,6 +245,11 @@
     "you": "You",
     "noNotes": "No notes added yet",
     "noNotesDetails": "Get started by adding a note for your team.",
-    "typeSomething": "Type something..."
+    "cancel": "Cancel",
+    "typeSomething": "Type something...",
+    "quickActions": "Quick actions",
+    "quickActionsDescription": "Share and view notes with your team. As well as seeing the overall activity related to this incident.",
+    "generateSummary": "Generate a summary",
+    "addComment": "Add a comment"
   }
 }
