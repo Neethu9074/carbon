@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { just } from '@instana/observables';
+
 //@ts-expect-error needs TS migration
 import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
-import { just } from '@instana/observables';
 
 // needs to be changed to get data from backend later
 const groupTags = {
@@ -205,7 +206,8 @@ const logVolumeTagCatalog = just({ data: groupTags });
 
 const { GroupingConfigurator, isGroupingConfigurationValid: isGroupingConfigurationValidInternal } =
   createGroupingConfigurator({
-    getTagCatalog: () => logVolumeTagCatalog
+    getTagCatalog: () => logVolumeTagCatalog,
+    getSuggestions: () => {}
   });
 
 export default GroupingConfigurator;
