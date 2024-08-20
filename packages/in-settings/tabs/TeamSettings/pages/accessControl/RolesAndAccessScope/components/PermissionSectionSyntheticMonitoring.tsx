@@ -56,6 +56,7 @@ export interface PermissionSectionSyntheticProps<I extends Object, FORM_TYPE ext
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
   icon: string;
+  syntheticCredentials?: () => Observable<Result<I[]>>;
 }
 
 export default function PermissionSectionSyntheticMonitoring<I extends Object, FORM_TYPE extends MapFormItems>({
@@ -69,10 +70,12 @@ export default function PermissionSectionSyntheticMonitoring<I extends Object, F
   form,
   setForm,
   setSubSlideConfig,
-  setShowSubSlide
+  setShowSubSlide,
+  syntheticCredentials
 }: PermissionSectionSyntheticProps<I, FORM_TYPE>) {
   const productArea = ProductArea.SYNTHETICS;
   const entityPermissionKey = 'syntheticTestIds';
+  const credentialPermissionKey = 'syntheticCredentialKeys';
 
   const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
@@ -83,16 +86,16 @@ export default function PermissionSectionSyntheticMonitoring<I extends Object, F
   const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     if (!permissionSet || selected === 'CUSTOM') return;
 
-    const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
-      permissionSet,
-      productArea,
-      limitation,
-      selected
-    );
+    const {
+      [entityPermissionKey]: entityIds,
+      [credentialPermissionKey]: credentialIds,
+      ...restPermissionSet
+    } = updatePermissionSetForLimitableProductArea(permissionSet, productArea, limitation, selected);
 
     const newPermissionSet = {
       ...restPermissionSet,
-      [entityPermissionKey]: limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : []
+      [entityPermissionKey]: limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : [],
+      [credentialPermissionKey]: limitation === ScopedPermissionItem.LIMITED_ACCESS ? credentialIds : []
     };
 
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
@@ -145,6 +148,7 @@ export default function PermissionSectionSyntheticMonitoring<I extends Object, F
                 setShowSubSlide={setShowSubSlide}
                 setSubSlideConfig={setSubSlideConfig}
                 productArea={productArea}
+                syntheticCredentials={syntheticCredentials}
               />
             )}
           </TabSelectPanel>

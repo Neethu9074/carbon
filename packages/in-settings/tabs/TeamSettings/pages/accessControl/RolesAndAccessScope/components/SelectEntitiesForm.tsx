@@ -20,6 +20,12 @@ import {
   Access,
   hasAccess
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/utils';
+import {
+  allAccessFilter,
+  inheritedAccessFilter,
+  inheritedCredentialsFilter,
+  selectableCredentialsFilter
+} from 'in-synthetics/utils/constants';
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import {
   LimitableProductArea,
@@ -28,7 +34,6 @@ import {
 import SelectItemForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/SelectItemForm';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
 import { syntheticMultiAppEnabled, syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
-import { allAccessFilter, inheritedAccessFilter } from 'in-synthetics/utils/constants';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -51,6 +56,7 @@ interface SelectEntitiesFormProps<I extends Object> {
   websitesAccessScope?: string;
   selectedMobileAppIds?: Array<string> | undefined;
   mobileAppsAccessScope?: string;
+  context?: string;
 }
 
 export default function SelectEntitiesForm<I extends Object>({
@@ -67,7 +73,8 @@ export default function SelectEntitiesForm<I extends Object>({
   selectedWebsiteIds,
   websitesAccessScope = '',
   selectedMobileAppIds,
-  mobileAppsAccessScope = ''
+  mobileAppsAccessScope = '',
+  context
 }: SelectEntitiesFormProps<I>) {
   const [
     allVisibleRowsSelected,
@@ -95,7 +102,8 @@ export default function SelectEntitiesForm<I extends Object>({
     selectedWebsiteIds,
     websitesAccessScope,
     selectedMobileAppIds,
-    mobileAppsAccessScope
+    mobileAppsAccessScope,
+    context
   });
 
   const onClickItem = (entity: I) => {
@@ -132,14 +140,20 @@ export default function SelectEntitiesForm<I extends Object>({
     setOrderBy('name');
   };
 
-  const getRightHeader = (productArea: LimitableProductArea | undefined) => {
+  const getRightHeader = (productArea: LimitableProductArea | undefined, context?: string) => {
     if (!productArea) return null;
 
-    if (syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS) {
-      const testAPFilters = [
-        t('in-settings:selectEntityDialog.syntheticAllTestsAccess'),
-        t('in-settings:selectEntityDialog.syntheticInheritedAccess')
-      ];
+    if ((syntheticMultiAppEnabled || syntheticMultiWebMobileEnabled) && productArea === ProductArea.SYNTHETICS) {
+      const testAPFilters =
+        context === 'syntheticTests'
+          ? [
+              t('in-settings:selectEntityDialog.syntheticAllTestsAccess'),
+              t('in-settings:selectEntityDialog.syntheticInheritedAccess')
+            ]
+          : [
+              t('in-settings:selectEntityDialog.syntheticSelectableCredentialsAccess'),
+              t('in-settings:selectEntityDialog.syntheticInheritedCredentialsAccess')
+            ];
       return (
         <div className={locals.entitiesForm}>
           <ButtonGroup
@@ -159,17 +173,21 @@ export default function SelectEntitiesForm<I extends Object>({
     return null;
   };
 
-  const getLeftHeader = () => {
+  const getLeftHeader = (context?: string) => {
     if (
-      syntheticMultiAppEnabled &&
+      (syntheticMultiAppEnabled || syntheticMultiWebMobileEnabled) &&
       productArea === ProductArea.SYNTHETICS &&
-      syntheticFilter === inheritedAccessFilter
+      (syntheticFilter === inheritedAccessFilter || syntheticFilter === inheritedCredentialsFilter)
     ) {
       return (
         <Stack direction="horizontal" distribution="spaceBetween" align="center">
-          {syntheticMultiWebMobileEnabled
-            ? t('in-settings:selectEntityDialog.syntheticTableSubHeaderWebMobile')
-            : t('in-settings:selectEntityDialog.syntheticTableSubHeader')}
+          {context === 'syntheticTests'
+            ? syntheticMultiWebMobileEnabled
+              ? t('in-settings:selectEntityDialog.syntheticTableSubHeaderWebMobile')
+              : t('in-settings:selectEntityDialog.syntheticTableSubHeader')
+            : syntheticMultiWebMobileEnabled
+            ? t('in-settings:selectEntityDialog.syntheticTableSubHeaderWebMobileForCredentials')
+            : null}
         </Stack>
       );
     }
@@ -180,9 +198,9 @@ export default function SelectEntitiesForm<I extends Object>({
     if (!productArea) return false;
 
     if (
-      syntheticMultiAppEnabled &&
+      (syntheticMultiAppEnabled || syntheticMultiWebMobileEnabled) &&
       productArea === ProductArea.SYNTHETICS &&
-      syntheticFilter === inheritedAccessFilter
+      (syntheticFilter === inheritedAccessFilter || syntheticFilter === inheritedCredentialsFilter)
     ) {
       return true;
     }
@@ -225,8 +243,8 @@ export default function SelectEntitiesForm<I extends Object>({
         allRowsAreSelected={allVisibleRowsSelected}
         setSelectedStateForRows={onSelectAll}
         isSearchable
-        leftHeader={getLeftHeader()}
-        rightHeader={getRightHeader(productArea)}
+        leftHeader={getLeftHeader(context)}
+        rightHeader={getRightHeader(productArea, context)}
         disableRowClick={disableRowClickbyProductArea(productArea)}
       />
     </SelectItemForm>
@@ -246,6 +264,7 @@ interface UseSelectEntitiesProps<I> {
   websitesAccessScope?: string;
   selectedMobileAppIds?: Array<string> | undefined;
   mobileAppsAccessScope?: string;
+  context?: string;
 }
 
 type UseSelectEntitiesResponse<I> = [
@@ -276,13 +295,16 @@ function useSelectEntities<I>({
   selectedWebsiteIds,
   websitesAccessScope,
   selectedMobileAppIds,
-  mobileAppsAccessScope
+  mobileAppsAccessScope,
+  context
 }: UseSelectEntitiesProps<I>): UseSelectEntitiesResponse<I> {
   const [allVisibleRowsSelected, setAllVisibleRowsSelected] = useState(false);
   const [selectedIds, setSelectedIds] = useState(preselectedIds);
   const [searchQuery, setSearchQuery] = useState('');
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
-  const [syntheticFilter, setSynteticFilter] = useState(allAccessFilter);
+  const [syntheticFilter, setSynteticFilter] = useState(
+    context === 'syntheticTests' ? allAccessFilter : selectableCredentialsFilter
+  );
   const [orderBy, setOrderBy] = useState('name');
   const fetchedState = useFetchedStateObservable(observable);
   const extractField =
@@ -298,7 +320,7 @@ function useSelectEntities<I>({
   );
 
   // Synthetics only filter.
-  if (syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS) {
+  if ((syntheticMultiAppEnabled || syntheticMultiAppEnabled) && productArea === ProductArea.SYNTHETICS) {
     filteredEntities = filterBySyntheticTests(
       preselectedIds,
       filteredEntities,
@@ -317,6 +339,10 @@ function useSelectEntities<I>({
     // to avoid that already unselected ids are still shown as selected.
     setSelectedIds(preselectedIds);
   }, [preselectedIds]);
+
+  useEffect(() => {
+    setSynteticFilter(context === 'syntheticTests' ? allAccessFilter : selectableCredentialsFilter);
+  }, [context]);
 
   return [
     allVisibleRowsSelected,
@@ -413,7 +439,7 @@ function filterBySyntheticTests<I>(
     // @ts-expect-error name property does not exist in type I.
     const syntheticAccess = preselectedIds != null && preselectedIds.length > 0 && preselectedIds.includes(test.name);
 
-    const isTestInherited: boolean =
+    const isEntityInherited: boolean =
       applicationAccess != Access.NO_ACCESS &&
       websiteAccess != Access.NO_ACCESS &&
       mobileAppAccess != Access.NO_ACCESS &&
@@ -422,10 +448,10 @@ function filterBySyntheticTests<I>(
         mobileAppAccess == Access.ACCESS_MATCH) &&
       !syntheticAccess;
 
-    if (type === inheritedAccessFilter) {
-      return syntheticMultiWebMobileEnabled ? isTestInherited : applicationAccess;
+    if (type === inheritedAccessFilter || type === inheritedCredentialsFilter) {
+      return syntheticMultiWebMobileEnabled ? isEntityInherited : applicationAccess;
     } else {
-      return syntheticMultiWebMobileEnabled ? !isTestInherited : !applicationAccess;
+      return syntheticMultiWebMobileEnabled ? !isEntityInherited : !applicationAccess;
     }
   });
 
@@ -439,7 +465,10 @@ interface SelectAllCheckboxParams {
 
 function selectAllCheckboxByProductArea({ productArea, syntheticFilter }: SelectAllCheckboxParams) {
   if (!productArea) return true;
-  if (productArea === ProductArea.SYNTHETICS && syntheticFilter === inheritedAccessFilter) {
+  if (
+    productArea === ProductArea.SYNTHETICS &&
+    (syntheticFilter === inheritedAccessFilter || syntheticFilter === inheritedCredentialsFilter)
+  ) {
     return false;
   }
   return true;
@@ -480,7 +509,7 @@ function getColumnDefinition<I extends Object>({
         if (
           (syntheticMultiAppEnabled || syntheticMultiWebMobileEnabled) &&
           productArea === ProductArea.SYNTHETICS &&
-          syntheticFilter === inheritedAccessFilter
+          (syntheticFilter === inheritedAccessFilter || syntheticFilter === inheritedCredentialsFilter)
         ) {
           return <Checkbox size="large" checked disabled />;
         }

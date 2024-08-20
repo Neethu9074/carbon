@@ -168,7 +168,8 @@
     "contributionFilter_name": "Name",
     "contributionFilter_name_mayNotBeBlank": "The contribution filter name must not be blank.",
     "contributionFilter_name_mustNotBeLargerThan128Characters": "The contribution filter name must not be larger than 128 characters.",
-    "contributionFilter_name_alreadyUsed": "The contribution filter name is already used."
+    "contributionFilter_name_alreadyUsed": "The contribution filter name is already used.",
+    "addButton_syntheticCredentials": "Select Synthetic Credentials"
   },
   "selectItemForm": {
     "doneButton": "Done"
@@ -179,7 +180,10 @@
     "syntheticAllTestsAccess": "Selectable tests",
     "syntheticInheritedAccess": "Inherited tests",
     "syntheticTableSubHeader": "The following synthetic tests are already accessible to the members of this group because they have access to the associated applications.",
-    "syntheticTableSubHeaderWebMobile": "The following synthetic tests are already accessible to the members of this group because they have access to the associated applications, websites, and mobile applications."
+    "syntheticTableSubHeaderWebMobile": "The following synthetic tests are already accessible to the members of this group because they have access to the associated applications, websites, and mobile applications.",
+    "syntheticSelectableCredentialsAccess": "Selectable credentials",
+    "syntheticInheritedCredentialsAccess": "Inherited credentials",
+    "syntheticTableSubHeaderWebMobileForCredentials": "The following synthetic credentials are already accessible to the members of this group because they have access to the associated applications, websites, and mobile applications."
   },
   "permissionScope": {
     "access_level": "Access level",
