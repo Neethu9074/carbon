@@ -17,17 +17,19 @@ import {
   ExtractNameFunction
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
 import {
-  LimitableProductArea,
-  ProductArea,
-  ScopedPermissionItem
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+  Access,
+  hasAccess
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/utils';
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
+import {
+  LimitableProductArea,
+  ProductArea
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import SelectItemForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/SelectItemForm';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
 import { syntheticMultiAppEnabled, syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import { allAccessFilter, inheritedAccessFilter } from 'in-synthetics/utils/constants';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import hasEmptyElements from 'in-synthetics/utils/hasEmptyElements';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
@@ -45,6 +47,10 @@ interface SelectEntitiesFormProps<I extends Object> {
   productArea?: LimitableProductArea;
   selectedApplicationIds?: Array<string> | undefined;
   applicationsAccessScope?: string;
+  selectedWebsiteIds?: Array<string> | undefined;
+  websitesAccessScope?: string;
+  selectedMobileAppIds?: Array<string> | undefined;
+  mobileAppsAccessScope?: string;
 }
 
 export default function SelectEntitiesForm<I extends Object>({
@@ -57,7 +63,11 @@ export default function SelectEntitiesForm<I extends Object>({
   extractContributionFilterName,
   productArea,
   selectedApplicationIds,
-  applicationsAccessScope = ''
+  applicationsAccessScope = '',
+  selectedWebsiteIds,
+  websitesAccessScope = '',
+  selectedMobileAppIds,
+  mobileAppsAccessScope = ''
 }: SelectEntitiesFormProps<I>) {
   const [
     allVisibleRowsSelected,
@@ -81,7 +91,11 @@ export default function SelectEntitiesForm<I extends Object>({
     extractContributionFilterName,
     productArea,
     selectedApplicationIds,
-    applicationsAccessScope
+    applicationsAccessScope,
+    selectedWebsiteIds,
+    websitesAccessScope,
+    selectedMobileAppIds,
+    mobileAppsAccessScope
   });
 
   const onClickItem = (entity: I) => {
@@ -206,9 +220,7 @@ export default function SelectEntitiesForm<I extends Object>({
           extractName,
           extractContributionFilterName,
           productArea,
-          syntheticFilter,
-          selectedApplicationIds,
-          applicationsAccessScope
+          syntheticFilter
         })}
         allRowsAreSelected={allVisibleRowsSelected}
         setSelectedStateForRows={onSelectAll}
@@ -230,6 +242,10 @@ interface UseSelectEntitiesProps<I> {
   productArea: LimitableProductArea | undefined;
   selectedApplicationIds?: Array<string> | undefined;
   applicationsAccessScope?: string;
+  selectedWebsiteIds?: Array<string> | undefined;
+  websitesAccessScope?: string;
+  selectedMobileAppIds?: Array<string> | undefined;
+  mobileAppsAccessScope?: string;
 }
 
 type UseSelectEntitiesResponse<I> = [
@@ -256,7 +272,11 @@ function useSelectEntities<I>({
   extractContributionFilterName,
   productArea,
   selectedApplicationIds,
-  applicationsAccessScope
+  applicationsAccessScope,
+  selectedWebsiteIds,
+  websitesAccessScope,
+  selectedMobileAppIds,
+  mobileAppsAccessScope
 }: UseSelectEntitiesProps<I>): UseSelectEntitiesResponse<I> {
   const [allVisibleRowsSelected, setAllVisibleRowsSelected] = useState(false);
   const [selectedIds, setSelectedIds] = useState(preselectedIds);
@@ -280,10 +300,15 @@ function useSelectEntities<I>({
   // Synthetics only filter.
   if (syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS) {
     filteredEntities = filterBySyntheticTests(
+      preselectedIds,
       filteredEntities,
       syntheticFilter,
       selectedApplicationIds ?? [],
-      applicationsAccessScope ?? ''
+      applicationsAccessScope ?? '',
+      selectedWebsiteIds ?? [],
+      websitesAccessScope ?? '',
+      selectedMobileAppIds ?? [],
+      mobileAppsAccessScope ?? ''
     );
   }
 
@@ -352,10 +377,15 @@ function filterByName<I>(
 }
 
 function filterBySyntheticTests<I>(
+  preselectedIds: string[],
   fetchedState: FetchedState<I[]>,
   type: string,
-  selectedApplicationIds: Array<string>,
-  applicationsAccessScope: string
+  limitedScopeApplicationIds: Array<string>,
+  applicationsAccessScope: string,
+  limitedScopeWebsiteIds: Array<string>,
+  websitesAccessScope: string,
+  limitedScopeMobileAppIds: Array<string>,
+  mobileAppsAccessScope: string
 ): FetchedState<I[]> {
   const [entities, status, ...rest] = fetchedState;
   if (!entities || status !== 'resolved') return fetchedState;
@@ -363,28 +393,39 @@ function filterBySyntheticTests<I>(
   const newEntities = entities?.filter(test => {
     // @ts-expect-error property does not exist on type I
     const parsedSupplementary = JSON.parse(test.supplementary);
-    const isTestInherited: boolean = selectedApplicationIds.some(applicationId => {
-      if (parsedSupplementary) return parsedSupplementary?.applications?.includes(applicationId);
-    });
+    if (parsedSupplementary === null) return false;
+
+    const applicationAccess = hasAccess(
+      'application',
+      applicationsAccessScope,
+      limitedScopeApplicationIds,
+      parsedSupplementary
+    );
+    const websiteAccess = hasAccess('websites', websitesAccessScope, limitedScopeWebsiteIds, parsedSupplementary);
+    const mobileAppAccess = hasAccess(
+      'mobileApps',
+      mobileAppsAccessScope,
+      limitedScopeMobileAppIds,
+      parsedSupplementary
+    );
+
+    // If a test is part of the pre-selected IDs, it should not be listed.
+    // @ts-expect-error name property does not exist in type I.
+    const syntheticAccess = preselectedIds != null && preselectedIds.length > 0 && preselectedIds.includes(test.name);
+
+    const isTestInherited: boolean =
+      applicationAccess != Access.NO_ACCESS &&
+      websiteAccess != Access.NO_ACCESS &&
+      mobileAppAccess != Access.NO_ACCESS &&
+      (applicationAccess == Access.ACCESS_MATCH ||
+        websiteAccess == Access.ACCESS_MATCH ||
+        mobileAppAccess == Access.ACCESS_MATCH) &&
+      !syntheticAccess;
 
     if (type === inheritedAccessFilter) {
-      return (
-        parsedSupplementary &&
-        parsedSupplementary?.applications?.length > 0 &&
-        !hasEmptyElements(parsedSupplementary?.applications) &&
-        (applicationsAccessScope === ScopedPermissionItem.LIMITED_ACCESS ? isTestInherited : true) &&
-        applicationsAccessScope !== ScopedPermissionItem.NO_ACCESS
-      );
-    } else if (type === allAccessFilter) {
-      return (
-        parsedSupplementary === null ||
-        parsedSupplementary?.applications?.length === 0 ||
-        (parsedSupplementary?.applications?.length > 0 && hasEmptyElements(parsedSupplementary?.applications)) ||
-        (applicationsAccessScope === ScopedPermissionItem.LIMITED_ACCESS && !isTestInherited) ||
-        applicationsAccessScope === ScopedPermissionItem.NO_ACCESS
-      );
+      return syntheticMultiWebMobileEnabled ? isTestInherited : applicationAccess;
     } else {
-      return true;
+      return syntheticMultiWebMobileEnabled ? !isTestInherited : !applicationAccess;
     }
   });
 
@@ -412,8 +453,6 @@ interface GetColumnDefinition<I> {
   extractContributionFilterName?: ExtractContributionFilterNameFunction<I>;
   productArea: LimitableProductArea | undefined;
   syntheticFilter?: string;
-  selectedApplicationIds?: Array<string>;
-  applicationsAccessScope: string;
 }
 
 type SelectEntitiesColumnDefinitions<I extends Object> = Array<ColumnDefinition<I>>;
@@ -425,9 +464,7 @@ function getColumnDefinition<I extends Object>({
   extractName,
   extractContributionFilterName,
   productArea,
-  syntheticFilter,
-  selectedApplicationIds,
-  applicationsAccessScope
+  syntheticFilter
 }: GetColumnDefinition<I>): SelectEntitiesColumnDefinitions<I> {
   return [
     {
@@ -439,19 +476,11 @@ function getColumnDefinition<I extends Object>({
       getContent(item) {
         const id = extractId(item);
         const isSelected = selectedIds.includes(id);
+
         if (
-          syntheticMultiAppEnabled &&
+          (syntheticMultiAppEnabled || syntheticMultiWebMobileEnabled) &&
           productArea === ProductArea.SYNTHETICS &&
-          ((applicationsAccessScope === ScopedPermissionItem.LIMITED_ACCESS &&
-            selectedApplicationIds?.some(appId => {
-              // @ts-expect-error property does not exist on type I
-              if (JSON.parse(item.supplementary)) return JSON.parse(item.supplementary)?.applications?.includes(appId);
-            })) ||
-            (applicationsAccessScope === ScopedPermissionItem.ACCESS_ALL &&
-              // @ts-expect-error property does not exist on type I
-              JSON.parse(item.supplementary)?.applications?.length > 0 &&
-              // @ts-expect-error property does not exist on type I
-              !hasEmptyElements(JSON.parse(item.supplementary)?.applications)))
+          syntheticFilter === inheritedAccessFilter
         ) {
           return <Checkbox size="large" checked disabled />;
         }

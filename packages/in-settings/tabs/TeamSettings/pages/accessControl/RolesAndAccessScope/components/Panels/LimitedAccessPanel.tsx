@@ -100,7 +100,11 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const scopeBindings = permissionSetField?.value[entityPermissionKey] ?? [];
   const applicationScopeBindings = permissionSetField?.value['applicationIds'] ?? [];
+  const websiteScopeBindings = permissionSetField?.value['websiteIds'] ?? [];
+  const mobileAppScopeBindings = permissionSetField?.value['mobileAppIds'] ?? [];
   const applicationsAccessScope = getScopeFromProductArea(ProductArea.APPLICATION, permissionSetField?.value!);
+  const websitesAccessScope = getScopeFromProductArea(ProductArea.WEBSITE, permissionSetField?.value!);
+  const mobileAppsAccessScope = getScopeFromProductArea(ProductArea.MOBILE_APP, permissionSetField?.value!);
   const isAppWithContributorFeature = entityPermissionKey === 'applicationIds';
   const isContributor = isAppWithContributorFeature && role === AreaRoleWithContributor.CONTRIBUTOR;
   const isAppContributionFilterConfigured =
@@ -110,6 +114,8 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
     <Trans i18nKey="in-settings:permissionScope.applicationCreatedUsingContributionFilter" />
   );
   const selectedApplicationIds = getFilteredScopeIds(applicationScopeBindings, isAppWithContributorFeature);
+  const selectedWebsiteIds = getFilteredScopeIds(websiteScopeBindings);
+  const selectedMobileAppIds = getFilteredScopeIds(mobileAppScopeBindings);
   const selectedIds = getFilteredScopeIds(scopeBindings); // All ids with valid scopeId (includes ids with contributor access)
   const selectedEntities = useSelectedEntities({
     selectedIds: isAppWithContributorFeature
@@ -289,6 +295,10 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
                   productArea={productArea}
                   selectedApplicationIds={selectedApplicationIds}
                   applicationsAccessScope={applicationsAccessScope}
+                  selectedWebsiteIds={selectedWebsiteIds}
+                  websitesAccessScope={websitesAccessScope}
+                  selectedMobileAppIds={selectedMobileAppIds}
+                  mobileAppsAccessScope={mobileAppsAccessScope}
                 />
               )
             });
