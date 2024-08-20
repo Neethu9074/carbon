@@ -124,7 +124,9 @@ export default function ManualCloseIssueConfigForm({
             </Stack>
 
             <Message type="warning" className={locals.warningBox} withIcon>
-              {t('in-events:closeEventDialog.warning')}
+              {eventType === 'incident'
+                ? t('in-events:closeEventDialog.warningIncident')
+                : t('in-events:closeEventDialog.warningIssue')}
             </Message>
           </Stack>
         </div>
