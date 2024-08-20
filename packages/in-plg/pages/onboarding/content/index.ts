@@ -203,11 +203,11 @@ export function getEntriesForFreeTrial() {
       id: 'ibmi_archive_tar',
       title: 'IBM i - Archive (tar.gz)',
       pageName: 'IBMi > Archive (tar.gz)', // tracking data
-      label: t('in-waiting-for-deployment:content.ibmi'),
+      label: t('in-plg:agentDetails.ibmi.ibmi'),
       icon: 'lib_infra_ibmIOs',
-      category: t('in-waiting-for-deployment:content.os'),
+      category: t('in-plg:agentDetails.ibmi.os'),
       subTechnology: {
-        label: t('in-waiting-for-deployment:content.archiveTarGz'),
+        label: t('in-plg:agentDetails.ibmi.archiveTarGz'),
         keyWords: 'ibmimanualtarball',
         Content: IBMiArchive
       }
