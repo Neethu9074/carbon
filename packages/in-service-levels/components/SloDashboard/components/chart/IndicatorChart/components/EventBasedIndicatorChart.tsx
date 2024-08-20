@@ -7,6 +7,7 @@
 import React from 'react';
 
 import {
+  DateAsNumber,
   isApplicationSloEntity,
   isWebsiteSloEntity,
   Result,
@@ -21,7 +22,7 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
+import { useBarWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/barWithMissingDataIndicator';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
@@ -37,7 +38,6 @@ import { calculateEventGraphGranularity } from 'in-service-levels/utils/time';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
-import Renderer from 'in-components/Chart/renderer/Renderer';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -45,10 +45,16 @@ import { number } from 'in-services/formatters/number';
 
 const goodEventsMetricId = 'goodEvents';
 const badEventsMetricId = 'badEvents';
+interface EventBasedIndicatorChartProps {
+  entity: SloEntityUnion;
+  indicator: ServiceLevelIndicatorUnion;
+  missingDataIndicator?: DateAsNumber;
+}
 export default function EventBasedIndicatorChart({
   entity,
-  indicator
-}: IndicatorChartProps<ServiceLevelIndicatorUnion>) {
+  indicator,
+  missingDataIndicator
+}: EventBasedIndicatorChartProps) {
   const sloZoomInAction = useSloZoomInAction();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateEventGraphGranularity(timeConfig);
@@ -56,7 +62,9 @@ export default function EventBasedIndicatorChart({
 
   const goodEventsMetricResult = result.data?.find(res => res.id === goodEventsMetricId);
   const badEventsMetricResult = result.data?.find(res => res.id === badEventsMetricId);
-
+  const renderer = useBarWithMissingDataIndicatorRenderer({
+    firstCollectedMetricTimestamp: missingDataIndicator
+  });
   return (
     <ResultAwareChart
       config={{
@@ -75,7 +83,7 @@ export default function EventBasedIndicatorChart({
           labels: [t('in-service-levels:general.metrics.badEvents'), t('in-service-levels:general.metrics.goodEvents')],
           colors: [themes.default.ids.color.option.red['500'], themes.default.ids.color.option.green['500']],
           formatter: number.compact,
-          renderer: Renderer.bar
+          renderer
         },
         timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />
@@ -85,7 +93,7 @@ export default function EventBasedIndicatorChart({
   );
 }
 
-interface UseEventBasedIndicatorMetricsProps extends IndicatorChartProps<ServiceLevelIndicatorUnion> {
+interface UseEventBasedIndicatorMetricsProps extends EventBasedIndicatorChartProps {
   granularity: number;
   timeConfig: TimeConfig;
 }
