@@ -13,7 +13,8 @@ import {
   CarbonTag,
   CarbonTextArea,
   CarbonLayer,
-  CarbonInlineLoading
+  CarbonInlineLoading,
+  IconButton
 } from '@instana/components';
 
 // Not using Carbon tooltip since tooltip has not been migrated
@@ -34,8 +35,41 @@ import { t } from 'in-i18n';
 
 import locals from './NotesAndActivity.mless';
 
+export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
+  const incidentId = event?.get('id');
+
+  const openNotes = () => {
+    const { pageRootName, productArea } = getViewTrackingMetaData();
+    if (pageRootName && productArea) {
+      const data = {
+        parentPageName: pageRootName,
+        parentPageCategory: productArea,
+        CTA: EVENT_SIDE_PANEL_CLICK,
+        path: location.hash
+      };
+      eventTracker({ data, segmentEventName: CTA_CLICKED });
+    }
+
+    track(EVENT_SIDE_PANEL_CLICK, { incidentId });
+
+    setDisplayNotes(true);
+  };
+
+  if (!displayNotes) {
+    return (
+      <Tooltip content={t('in-events:notes.openNotes')}>
+        <div onClick={openNotes} className={locals.closedNotesWrapper}>
+          {t('in-events:notes.notesActivity')}
+          <SvgIcon type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'} size="s" />
+        </div>
+      </Tooltip>
+    );
+  }
+  return <></>;
+}
+
 export function NotesAndActivity(props) {
-  const { event } = props;
+  const { event, displayNotes, setDisplayNotes } = props;
   const notes = getNotes(event);
   const incidentId = event?.get('id');
   const eventType = event?.get('type');
@@ -43,7 +77,7 @@ export function NotesAndActivity(props) {
   const loading = event == undefined;
 
   // Boolean to control when the notes section is opened
-  const [displayNotes, setDisplayNotes] = useState(false);
+  // const [displayNotes, setDisplayNotes] = useState(false);
   // Current value of the typed out note
   const [note, setNote] = useState('');
 
@@ -68,64 +102,57 @@ export function NotesAndActivity(props) {
     return null;
   }
 
+  if (!displayNotes) {
+    return <></>;
+  }
+
   return (
-    <>
-      <div className={locals.verticalBorderNotes} />
-      {!displayNotes ? (
-        <Tooltip content={t('in-events:notes.openNotes')}>
-          <div onClick={() => toggleSidePanel()} className={locals.closedNotesWrapper}>
-            {t('in-events:notes.notesActivity')}
-            <SvgIcon type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'} size="s" />
-          </div>
+    <CarbonLayer className={locals.notesHeaderWrapper}>
+      <div className={locals.headerWrapper}>
+        {t('in-events:notes.notesActivity')}
+        <CarbonTag type="blue">{t('in-events:notes.techPreview')}</CarbonTag>
+        <Tooltip content={t('in-events:notes.closeNotes')}>
+          <IconButton
+            kind="action"
+            onClick={() => toggleSidePanel()}
+            type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'}
+            size="compact"
+            className={locals.notesIcon}
+          />
         </Tooltip>
-      ) : (
-        <CarbonLayer className={locals.notesHeaderWrapper}>
-          <div className={locals.headerWrapper}>
-            {t('in-events:notes.notesActivity')}
-            <CarbonTag type="blue">{t('in-events:notes.techPreview')}</CarbonTag>
-            <Tooltip content={t('in-events:notes.closeNotes')}>
-              <SvgIcon
-                onClick={() => toggleSidePanel()}
-                type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'}
-                size="s"
-                className={locals.notesIcon}
+      </div>
+      <div className={locals.notes}>
+        {loading ? (
+          <div className={locals.loading}>
+            <CarbonInlineLoading />
+          </div>
+        ) : (
+          <>
+            <div className={locals.inputSection}>
+              <CarbonTextArea
+                labelText={t('in-events:notes.incidentNotes')}
+                hideLabel
+                rows={5}
+                id="incidentNotes"
+                placeholder={t('in-events:notes.typeSomething')}
+                value={note}
+                onChange={e => {
+                  setNote(e?.target?.value);
+                }}
               />
-            </Tooltip>
-          </div>
-          <div className={locals.notes}>
-            {loading ? (
-              <div className={locals.loading}>
-                <CarbonInlineLoading />
-              </div>
-            ) : (
-              <>
-                <div className={locals.inputSection}>
-                  <CarbonTextArea
-                    labelText={t('in-events:notes.incidentNotes')}
-                    hideLabel
-                    rows={5}
-                    id="incidentNotes"
-                    placeholder={t('in-events:notes.typeSomething')}
-                    value={note}
-                    onChange={e => {
-                      setNote(e?.target?.value);
-                    }}
-                  />
-                  <CarbonButton
-                    onClick={() => handleSubmitNote(incidentId, note, user, setNote)}
-                    className={locals.addNoteButton}
-                    size={'md'}
-                  >
-                    {t('in-events:notes.addNote')}
-                  </CarbonButton>
-                </div>
-                <CommentList notes={notes} preferredName={user.preferredName} />
-              </>
-            )}
-          </div>
-        </CarbonLayer>
-      )}
-    </>
+              <CarbonButton
+                onClick={() => handleSubmitNote(incidentId, note, user, setNote)}
+                className={locals.addNoteButton}
+                size={'md'}
+              >
+                {t('in-events:notes.addNote')}
+              </CarbonButton>
+            </div>
+            <CommentList notes={notes} preferredName={user.preferredName} />
+          </>
+        )}
+      </div>
+    </CarbonLayer>
   );
 }
 

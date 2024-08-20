@@ -30,6 +30,7 @@ export interface ThresholdValueInputWithValidationMessageProps {
   thresholdField?: Field<any>;
   getUpdatedForm?: (targetValue: number | null) => MapForm<any>;
   isMultiThreshold?: boolean;
+  id?: string;
 }
 
 export default function ThresholdValueInputWithValidationMessage(props: ThresholdValueInputWithValidationMessageProps) {

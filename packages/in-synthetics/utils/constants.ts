@@ -25,6 +25,7 @@ import {
 } from 'in-types';
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
+import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { TableActions } from 'in-settings/components/List';
 import { Options } from 'in-hooks/useUrlState';
@@ -46,8 +47,13 @@ export const SSLCertificateTest = 'Certificate Check';
 export const expectStatus = 'Expect Status';
 export const expectJson = 'Expect JSON';
 export const expectMatch = 'Expect Match';
-export const allAccessFilter = 'All Tests';
-export const inheritedAccessFilter = 'Inherited Access';
+export const allAccessFilter = 'Selectable tests';
+export const inheritedAccessFilter = 'Inherited tests';
+export const association = {
+  applications: 'Applications',
+  websites: 'Websites',
+  mobileApps: 'Mobile Apps'
+};
 
 export const scriptTestType = (fileExtension: string, syntheticType: string) => {
   if (fileExtension === 'js' || fileExtension === 'zip') return 'BrowserScript';
@@ -304,6 +310,7 @@ export interface FilterState {
   syntheticTypes: string[];
   locationIds: string[];
   applicationIds?: string[];
+  entityIds?: string[];
 }
 
 export interface FilterLocationState {
@@ -320,6 +327,7 @@ export type CurrentState = {
   syntheticTypes?: string[];
   locationIds?: string[];
   applicationIds?: string[];
+  entityIds?: string[];
 };
 
 export type CurrentLocationsState = {
@@ -367,13 +375,26 @@ export const applicationsUrlParameter = {
   serializer: buildJsonSerializer()
 };
 
+export const entityIdsUrlParameter = {
+  path: pathSegment,
+  name: 'entityIds',
+  as: 'entityIds',
+  initialState: [],
+  parser: buildJsonParser([]),
+  serializer: buildJsonSerializer()
+};
+
 export const filterLocationTypesUrlStateDefinition = {
   bind: [locationTypesUrlParameter]
 } as Options<UrlState>;
 
-export const filterUrlStateDefinition = {
-  bind: [syntheticTypesUrlParameter, locationsUrlParameter, applicationsUrlParameter]
-} as Options<UrlState>;
+export const filterUrlStateDefinition = syntheticMultiWebMobileEnabled
+  ? ({
+      bind: [syntheticTypesUrlParameter, locationsUrlParameter, entityIdsUrlParameter]
+    } as Options<UrlState>)
+  : ({
+      bind: [syntheticTypesUrlParameter, locationsUrlParameter, applicationsUrlParameter]
+    } as Options<UrlState>);
 
 export const filterLocationUrlStateDefinition = {
   bind: [locationsUrlParameter]

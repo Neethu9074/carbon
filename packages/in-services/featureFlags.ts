@@ -200,6 +200,7 @@ export const hiddenSearchFieldValues = {
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
 export const bizopsPerspectivesEnabled = isFeatureFlagEnabled('bizopsPerspectivesEnabled');
 export const bizopsGenAIEnabled = isFeatureFlagEnabled('bizopsGenAIEnabled');
+export const bizopsStandardInclusionEnabled = isFeatureFlagEnabled('bizopsStandardInclusionEnabled');
 
 // ########################################################################################
 // Chart gap hiding
@@ -281,3 +282,4 @@ export const preAggregatedMetricsQueryEnabled = isFeatureFlagEnabled('preAggrega
 export const carbonFileUploaderEnabled = isFeatureFlagEnabled('carbonFileUploaderEnabled', false);
 export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabled', false);
 export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetricsEnabled', false);
+export const increaseAggregationEnabled = isFeatureFlagEnabled('increaseAggregationEnabled', false);

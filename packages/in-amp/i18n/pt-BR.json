@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "Configurações da conta",
+      "unknownDomain": "Domínio desconhecido",
       "billingAddress": "Endereço para cobrança",
       "country": "País",
       "state": "Estado",
@@ -27,6 +28,12 @@
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "Não houve licença paga ativa nos últimos 30 dias."
     },
+    "fairUsePolicyMessage": {
+      "title": "Esta conta está sujeita à Política de Uso Justo. Veja o uso de dados nos gráficos abaixo."
+    },
+    "fairUsePolicyNotActive": {
+      "title": "A Política de Uso Justo não está ativa."
+    },
     "restrictedUsage": {
       "accountUsage": "Uso da conta"
     },
@@ -36,10 +43,34 @@
       "max": "Máximo",
       "average": "Média"
     },
+    "dataIngestTable": {
+      "consumptionOverview": "Visão geral do consumo",
+      "row": "Linha",
+      "unit": "Unit",
+      "calculation": "Cálculo",
+      "entitledNumberOfMVS": "Número de MVS autorizado",
+      "actualAverage": "Número de MVS configurado médio real",
+      "onDemandNumber": "Número de MVS sob demanda",
+      "dataIngestFairUseEntitlement": "Autorização de uso justo de ingestão de dados por MVS",
+      "totalDataIngestFairUseEntitlement": "Total de autorizações de uso justo da ingestão de dados",
+      "dataIngestAddOnEntitlement": "Autorização de complementos de ingestão de dados",
+      "totalAmountPurchased": "Quantia total adquirida por meio do complemento extra de ingestão de dados",
+      "dataIngestEntitlementFromOnDemand": "Autorização de uso justo de ingestão de dados do MVS sob demanda",
+      "totalDataIngestEntitlement": "Total de autorizações de ingestão de dados",
+      "actualDataIngest": "Ingestão de dados reais",
+      "onDemandDataIngest": "Ingestão de dados sob demanda",
+      "noData": "Sem dados"
+    },
     "timePresets": {
       "last7Days": "Últimos 7 dias",
-      "last15Days": "Últimos 15 dias",
-      "last365Days": "Últimos 365 dias"
+      "last30Days": "Últimos 30 dias",
+      "last365Days": "Últimos 365 dias",
+      "thisMonth": "Este Mês",
+      "lastMonth": "Último mês"
+    },
+    "presentationPresets": {
+      "distinct": "Valores distintos",
+      "cumulative": "Valores acumulados"
     },
     "usages": {
       "allPaidUnitsAggregated": "Todas as unidades pagas (agregadas)",
@@ -49,15 +80,22 @@
       "queuedLicenses": "Licenças enfileiradas"
     },
     "usageCharts": {
-      "apmUsage": "Uso do APM",
+      "standard": "Standard",
       "apmHosts": "Hosts APM",
       "purchased": "Comprado",
-      "infrastructureUsage": "Uso da infraestrutura",
+      "essentials": "Itens básicos",
       "iqmHosts": "Hosts IQM",
       "syntheticPops": "PoPs gerenciados sintéticos",
       "resourceUnits": "Unidades de recurso",
       "consumedUnits": "Unidades consumidas",
+      "infrastructure": "Infraestrutura",
+      "synthetics": "Sintéticos",
+      "traces": "Rastreios",
+      "eumMobile": "EUM Mobile",
+      "eumWebsite": "Site do EUM",
       "addons": "Complementos",
+      "trendLine": "Linha de tendência",
+      "dataUsageHelperText": "Quantidade de bytes enviados por meio de agentes separados por categoria no intervalo de tempo escolhido.",
       "helperText": "O número de unidades de recurso consumidas por cada tipo de ação. As unidades são calculadas com um fator de 0,025 para testes simples, 0,042 para testes de API e 1,000 para testes do navegador."
     },
     "activationAdoption": {

@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "帳戶設定",
+      "unknownDomain": "未知的網域",
       "billingAddress": "帳單地址",
       "country": "國家/地區",
       "state": "州/省（縣/市）",
@@ -27,6 +28,12 @@
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "過去 30 天沒有生效的付費授權。"
     },
+    "fairUsePolicyMessage": {
+      "title": "此帳戶受限於公平使用原則。 請參閱下面圖表中的資料使用情況。"
+    },
+    "fairUsePolicyNotActive": {
+      "title": "公平使用原則不在作用中。"
+    },
     "restrictedUsage": {
       "accountUsage": "帳戶使用情形"
     },
@@ -36,10 +43,34 @@
       "max": "最大值",
       "average": "平均值"
     },
+    "dataIngestTable": {
+      "consumptionOverview": "耗用概觀",
+      "row": "列",
+      "unit": "單元",
+      "calculation": "計算",
+      "entitledNumberOfMVS": "MVS 的授權數",
+      "actualAverage": "實際平均配置的 MVS 數",
+      "onDemandNumber": "按需的 MVS 數",
+      "dataIngestFairUseEntitlement": "每個 MVS 的資料擷取公平使用授權",
+      "totalDataIngestFairUseEntitlement": "總資料擷取公平使用授權",
+      "dataIngestAddOnEntitlement": "資料擷取附加授權",
+      "totalAmountPurchased": "透過額外資料擷取附加功能購買的總金額",
+      "dataIngestEntitlementFromOnDemand": "來自按需 MVS 的資料擷取公平使用授權",
+      "totalDataIngestEntitlement": "總資料擷取授權",
+      "actualDataIngest": "實際資料擷取",
+      "onDemandDataIngest": "按需資料擷取",
+      "noData": "沒有資料"
+    },
     "timePresets": {
       "last7Days": "過去 7 天",
-      "last15Days": "過去 15 天",
-      "last365Days": "過去 365 天"
+      "last30Days": "過去 30 天",
+      "last365Days": "過去 365 天",
+      "thisMonth": "這個月",
+      "lastMonth": "上一個月"
+    },
+    "presentationPresets": {
+      "distinct": "相異值",
+      "cumulative": "累計值"
     },
     "usages": {
       "allPaidUnitsAggregated": "所有付費單元（聚集）",
@@ -49,15 +80,22 @@
       "queuedLicenses": "佇列的授權"
     },
     "usageCharts": {
-      "apmUsage": "APM 使用情形",
+      "standard": "標準",
       "apmHosts": "APM 主機",
       "purchased": "已採購",
-      "infrastructureUsage": "基礎架構使用情形",
+      "essentials": "Essentials",
       "iqmHosts": "IQM 主機",
       "syntheticPops": "綜合管理的 PoPs",
       "resourceUnits": "資源單位數",
       "consumedUnits": "已耗用單元數",
+      "infrastructure": "基礎架構",
+      "synthetics": "綜合",
+      "traces": "追蹤",
+      "eumMobile": "歐盟行動式裝置",
+      "eumWebsite": "歐盟網站",
       "addons": "附加程式",
+      "trendLine": "趨勢線",
+      "dataUsageHelperText": "在所選時間範圍內透過按類別分隔的代理程式傳送的位元組數。",
       "helperText": "每一種動作所耗用的資源單位數。 單位的計算係數為 0.025（適用於簡式測試）、0.042（適用於 API 測試）及 1.000（適用於瀏覽器測試）。"
     },
     "activationAdoption": {

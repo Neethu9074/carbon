@@ -98,7 +98,17 @@ export default function ListWidget({ config, title, actions, isInModal, dragHand
   }
 }
 
-export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, title, actions, isInModal, dragHandle }) {
+export function ListWidgetRenderer({
+  result,
+  isErroneous,
+  tagCatalog,
+  config,
+  title,
+  actions,
+  isInModal,
+  dragHandle,
+  timeConfig
+}) {
   const hasApproximateData =
     result?.data?.filter(elem => elem?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE').length > 0;
   return (
@@ -123,6 +133,7 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
           {actions}
         </>
       }
+      timeConfig={timeConfig}
     />
   );
 }

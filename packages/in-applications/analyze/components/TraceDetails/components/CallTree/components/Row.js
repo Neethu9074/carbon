@@ -328,9 +328,11 @@ function CallInformation(props) {
             themeStyle="light"
             content={`This call is batched and represents ${call.batchSize} individual calls.`}
           >
-            <Pill className={locals.batchSizeIndicator} kind="lighter">
-              {call.batchSize}
-            </Pill>
+            <div>
+              <Pill className={locals.batchSizeIndicator} kind="lighter">
+                {call.batchSize}
+              </Pill>
+            </div>
           </Tooltip>
         )}
         {!isUnknownTypeSpan(call) && call.endpoint && (

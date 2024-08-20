@@ -21,6 +21,7 @@ import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import AlertTypography from 'in-alerting/components/AlertTypography';
+import { carbonCheckboxEnabled } from 'in-services/featureFlags';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -134,7 +135,8 @@ export default function ScopeConfig({
         <div
           className={classNames({
             [locals.scopeConfigContainer]: !tearSheetView,
-            [locals.scopeConfigContainerTearSheetView]: tearSheetView
+            [locals.scopeConfigContainerTearSheetView]: tearSheetView,
+            [locals.carbonVariant]: carbonCheckboxEnabled
           })}
         >
           <Stack>

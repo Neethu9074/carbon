@@ -131,7 +131,10 @@ export default function RententionPeriod() {
               </div>
               <div className={locals.body}>
                 <p className={locals.retentionContent}>
-                  <span className={locals.number}>{retentionValue}</span> {localisationStrings.days}
+                  <span data-testid="retentionValue" className={locals.number}>
+                    {retentionValue}
+                  </span>{' '}
+                  {localisationStrings.days}
                 </p>
               </div>
             </Card>
@@ -143,7 +146,9 @@ export default function RententionPeriod() {
           )}
           {role?.canViewAuditLog && (
             <section className={locals.typo}>
-              <Typography variant={'body-regular'}>{localisationStrings.historyChanges + ' '}</Typography>
+              <Typography data-testid="" variant={'body-regular'}>
+                {localisationStrings.historyChanges + ' '}
+              </Typography>
               <Link href={logActionHref || ''}>{localisationStrings.actionLog + ' '}</Link>
               <Typography variant={'body-regular'}>{localisationStrings.historyChanges2}</Typography>
             </section>
@@ -191,7 +196,7 @@ function RetentionPeriodDialog({
     return 200;
   };
 
-  const daysDropdownValues = [7, 20, 30, 60, 90];
+  const daysDropdownValues = [30, 60, 90];
 
   const {
     reasonInputValue,
@@ -260,10 +265,20 @@ function RetentionPeriodDialog({
 
   const ConfirmationButtons = (
     <>
-      <Button className={locals.changeRetentionButton} kind="secondary" onClick={() => closeConfirmationDialog()}>
+      <Button
+        data-testid="changeRetentionCancelButton"
+        className={locals.changeRetentionButton}
+        kind="secondary"
+        onClick={() => closeConfirmationDialog()}
+      >
         {localisationStrings.cancel}
       </Button>
-      <Button className={locals.changeRetentionButton} onClick={handleSubmit} kind="primary">
+      <Button
+        data-testid="changeRetentionConfirmButton"
+        className={locals.changeRetentionButton}
+        onClick={handleSubmit}
+        kind="primary"
+      >
         {localisationStrings.changeRetentionPeriod}
       </Button>
     </>

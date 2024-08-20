@@ -15,10 +15,10 @@ import {
   trackAlertResumed,
   trackAlertCloneTrigger
 } from 'in-alerting/smart-alerts/components/tracker';
-import { playwithEnabled, applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import { stopPropagation } from 'in-services/util/function';
+import { playwithEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -97,6 +97,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
             </MoreMenuButton>
           )}
+          {handleEditNew && handleEditNew(config)}
           {handleClone && (
             <MoreMenuButton
               icon="lib_actions_copy"
@@ -108,6 +109,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
             </MoreMenuButton>
           )}
+          {handleCloneNew && handleCloneNew(config)}
           {!builtIn && handleDelete && (
             <MoreMenuButton
               icon="lib_actions_delete"
@@ -119,8 +121,6 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
             </MoreMenuButton>
           )}
-          {handleEditNew && applicationSmartAlertFullScreenDesignEnabled && handleEditNew(config)}
-          {handleCloneNew && applicationSmartAlertFullScreenDesignEnabled && handleCloneNew(config)}
         </MoreMenu>
       )}
     </HorizontalFlexWrapper>

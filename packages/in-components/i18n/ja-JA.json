@@ -64,10 +64,6 @@
   "touchedMessages": {
     "withPath": "{{message}} (場所: <codeWithClass>{{path}}</codeWithClass>)"
   },
-  "gravatar": {
-    "avatarUrlAlt": "gravatar.com からの {{email}} のアバター。",
-    "avatarNullAlt": "{{email}} のフォールバック・アバター。"
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "リリース・ノート"
   },
@@ -124,6 +120,7 @@
     "tagListNoTagsDefined": "タグが定義されていません",
     "tagListShowAll": "すべてのタグを表示 (さらに {{num}} 個)"
   },
+  "copyToClipboard": "クリップボード",
   "copyToClipboardPressToCopy": "コピーするには、Ctrl+C または CMD+C を押してください。",
   "copyToClipboardCopied": "コピーされました。",
   "reloadUiDialogTitle": "ユーザー・インターフェースの新規バージョンが使用可能",
@@ -300,7 +297,8 @@
     "labelExpandButtonForContent": "コンテンツの展開ボタン"
   },
   "featureFeedback": {
-    "labelBETA": "BETA",
+    "labelPublicPreview": "公開プレビュー",
+    "labelPrivatePreview": "プライベート・プレビュー",
     "linkLabelYouCanSendUsFeedback": "フィードバックをお送りください"
   },
   "geoHeatMap": {
@@ -389,9 +387,9 @@
     "labelLoadingData": "データをロード中"
   },
   "mainNavigation": {
+    "skipToMainContent": "メイン・コンテンツにスキップ",
     "viewSwitcherLabelSettings": "設定",
     "viewSwitcherLabelMore": "その他",
-    "viewSwitcherLabelTenants": "テナント",
     "viewSwitcherLabelAgents": "エージェント",
     "viewSwitcherLabelReleaseNotes": "リリース・ノート",
     "viewSwitcherLabelDocumentation": "資料",
@@ -415,10 +413,15 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "プラットフォーム",
-    "viewSwitcherButtonSignOut": "サインアウト",
     "viewSwitcherCustomDashboards": "カスタム・ダッシュボード",
+    "viewSwitcherButtonSignOut": "サインアウト",
+    "viewSwitcherLabelTenants": "テナント",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "新規バージョンの Instana UI が使用可能です",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "再ロードして更新"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "再ロードして更新",
+    "profileMenu_profileLink": "プロファイル",
+    "profileMenu_unitName_tenantName": "ユニット名 - テナント名",
+    "profileMenu_switchUnitOrTenant": "スイッチ・ユニットまたはテナント",
+    "profileMenu_logOut": "ログアウト"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "メトリックの選択",
@@ -439,6 +442,7 @@
     "aggregation_MAX": "最大",
     "aggregation_DISTINCTCOUNT": "特徴的なカウント",
     "aggregation_SUM": "sum",
+    "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "分布",
     "aggregation_PERSECOND": "秒当たり",
     "labelFilterEmptyValue": "空の値をフィルタリング"
@@ -831,5 +835,9 @@
     "notice": "このテナント・ユニットは新しいリージョンにマイグレーションされました。 現在アクセスしているユニットには、履歴データのみが含まれています。",
     "goToNewLocationLabel": "新規ロケーションに移動",
     "exploreDataLabel": "履歴データの検索"
+  },
+  "creatableTagSelect": {
+    "placeholder": "タグの入力",
+    "createLabel": "作成: {{tag}}"
   }
 }

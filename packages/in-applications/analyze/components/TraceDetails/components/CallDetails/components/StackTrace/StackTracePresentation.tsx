@@ -45,7 +45,7 @@ export default function StackTracePresentation({
   return (
     <>
       {noCodeLinkMessage && (
-        <Tooltip content={noCodeLinkMessage} align="topMiddle">
+        <Tooltip content={noCodeLinkMessage} align="auto">
           <div>
             <ListContent isOnline={isOnline} snapshot={snapshot} stackTrace={stackTrace} noPadding={noPadding} />
           </div>

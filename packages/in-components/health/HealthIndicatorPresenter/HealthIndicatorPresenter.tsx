@@ -36,7 +36,7 @@ export default function HealthIndicatorPresenter({
   if (openIssues === 0) {
     return (
       <Tooltip content={tooltipLabel} delay={500}>
-        <SvgIcon type="lib_uncheck" className={locals.okayIcon} />
+        <SvgIcon type="lib_uncheck" className={locals.okayIcon} size="s" />
       </Tooltip>
     );
   }
@@ -61,6 +61,7 @@ export default function HealthIndicatorPresenter({
         <SvgIcon
           type={type}
           color={color}
+          size="s"
           className={classNames({
             [locals.icon]: true,
             [locals.iconWarning]: !(maxSeverity > 5)

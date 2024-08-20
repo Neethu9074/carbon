@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { get } from 'lodash';
 
 import { LocationListItem, TestResultListItem, VersionedConfig } from '@instana/types';
-import { Link, Typography } from '@instana/components';
+import { Link, TableTab, TableTabs, Typography } from '@instana/components';
 import { formatDateTime } from '@instana/format-date';
 import { LocationStatus } from '@instana/types';
 import { t } from '@instana/i18n-react';
@@ -35,8 +35,6 @@ import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSm
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { meanLatencyFixed, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
-//@ts-expect-error doesn't contain type file
-import connectTo from 'in-hoc/connectTo';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getLocationData } from 'in-synthetics/dashboards/global/LocationList';
@@ -48,71 +46,113 @@ import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { playwithEnabled } from 'in-services/featureFlags';
-import { hasSyntheticsAccess } from 'in-stores/permission';
 import { Location } from 'in-stores/navigation/types';
-import { timeConfig$ } from 'in-stores/time/config';
 import { role } from 'in-stores/user';
 
-export default connectTo(() => ({
-  timeConfig: timeConfig$
-}))(function SyntheticMonitoringWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: SyntheticProps) {
-  const { location, createHref, createHrefToPath } = useNavigation();
-  const [syntheticType, setSyntheticType] = useState(0);
+const syntheticArrayOptions = {
+  test: 'test',
+  location: 'location',
+  smartalerts: 'smartalerts'
+} as const;
 
-  const syntheticArray = [
-    { value: 'test', label: 'Tests' },
-    { value: 'location', label: 'Locations' },
-    { value: 'smartalerts', label: 'Smart alerts' }
+function Toggles({
+  toggles,
+  selectedType,
+  setSelectedType
+}: {
+  toggles: any[];
+  selectedType: string;
+  setSelectedType: any;
+}) {
+  return (
+    <TableTabs selectedIndex={toggles.filter(toggle => toggle.value === selectedType).map(toggle => toggle.index)[0]}>
+      {toggles?.length > 0 &&
+        toggles.map(toggle => (
+          <TableTab
+            key={toggle.index}
+            isDisabled={false}
+            label={toggle.label}
+            icon={toggle.icon}
+            onClick={() => setSelectedType(toggle.value)}
+          />
+        ))}
+    </TableTabs>
+  );
+}
+
+export default function SyntheticMonitoringWidget({
+  config,
+  timeConfig,
+  widgetLabel,
+  dashboardTileProps
+}: SyntheticProps) {
+  const [selectedType, setSelectedType] = useState('test');
+  const { location, createHref, createHrefToPath } = useNavigation();
+
+  const toggles = [
+    { value: syntheticArrayOptions.test, label: 'Tests', index: 0, icon: 'lib_synthetic' },
+    { value: syntheticArrayOptions.location, label: 'Locations', index: 1, icon: 'lib_synthetic_location' },
+    { value: syntheticArrayOptions.smartalerts, label: 'Smart Alerts', index: 2, icon: 'lib_alerts_alert' }
   ];
 
-  const syntheticToogleArray: string[] = syntheticArray.map(ele => ele.label);
-
-  function setToogle(index: number) {
-    setSyntheticType(index);
-  }
-
-  const syntheticTypeValue = syntheticArray[syntheticType]?.value;
-
-  function getAddLabel() {
-    if (syntheticTypeValue === 'test') {
-      return t('in-plg:welcomepage.component.syntheticWidget.testLabel');
+  /**
+   * The function generates label which can be used as a placeholder text.
+   * @returns The label for the placeholder.
+   */
+  const getPlaceholderLabel = (): string | null => {
+    if (selectedType === syntheticArrayOptions.test) {
+      return t('in-plg:welcomepage.component.syntheticWidget.testSearchPlaceholderLabel');
     }
-    if (syntheticTypeValue === 'location') {
-      return t('in-plg:welcomepage.component.syntheticWidget.locationLabel');
+    if (selectedType === syntheticArrayOptions.smartalerts) {
+      return t('in-plg:welcomepage.component.syntheticWidget.smartalertsSearchPlaceholderLabel');
     }
-    return t('in-plg:welcomepage.component.syntheticWidget.smartAlertLabel');
-  }
+    return t('in-plg:welcomepage.component.syntheticWidget.locationsSearchPlaceholderLabel');
+  };
 
-  function getSearchAndViewAllLabel() {
-    if (syntheticTypeValue === 'test') {
-      return t('in-plg:welcomepage.component.syntheticWidget.searchAndViewAllTestLabel');
+  /**
+   * The function generates label which can be used for the Add button.
+   * @returns The label of the add button.
+   */
+  const getButtonLabel = (): string | null => {
+    if (selectedType === syntheticArrayOptions.test) {
+      return t('in-plg:welcomepage.component.syntheticWidget.testAddButtonLabel');
     }
-    if (syntheticTypeValue === 'location') {
-      return t('in-plg:welcomepage.component.syntheticWidget.searchAndViewAllLocationLabel');
+    if (selectedType === syntheticArrayOptions.smartalerts) {
+      return t('in-plg:welcomepage.component.syntheticWidget.smartalertsAddButtonLabel');
     }
-    return t('in-plg:welcomepage.component.syntheticWidget.searchAndViewAllSmartAlertLabel');
-  }
+    return null;
+  };
+
+  /**
+   * The function generates label which can be used as a placeholder text.
+   * @returns The label for the placeholder.
+   */
+  const getViewAllLabel = (): string | null => {
+    if (selectedType === syntheticArrayOptions.test) {
+      return t('in-plg:welcomepage.component.syntheticWidget.testViewAllLabel');
+    }
+    if (selectedType === syntheticArrayOptions.smartalerts) {
+      return t('in-plg:welcomepage.component.syntheticWidget.smartalertsViewAllLabel');
+    }
+    return t('in-plg:welcomepage.component.syntheticWidget.locationsViewAllLabel');
+  };
 
   dashboardTileProps = {
     ...dashboardTileProps,
-    addLabel: getAddLabel(),
-    searchAndViewAllLabel: getSearchAndViewAllLabel(),
-    toggles: syntheticToogleArray,
-    toggleCallback: index => setToogle(index)
+    toggles: <Toggles toggles={toggles} selectedType={selectedType} setSelectedType={setSelectedType} />
   };
 
   function getData(params: any) {
-    if (syntheticTypeValue === 'test') {
+    if (selectedType === syntheticArrayOptions.test) {
       return getTestSummaryListData(params);
-    } else if (syntheticTypeValue === 'location') {
+    } else if (selectedType === syntheticArrayOptions.location) {
       return getLocationData(params);
     }
     return getAllAlertConfigs('', { asObservable: true });
   }
 
   const getHeaders = () => {
-    if (syntheticTypeValue === 'test') {
+    if (selectedType === syntheticArrayOptions.test) {
       return [
         {
           header: t('in-plg:welcomepage.component.syntheticWidget.name'),
@@ -136,7 +176,7 @@ export default connectTo(() => ({
         }
       ];
     }
-    if (syntheticTypeValue === 'location') {
+    if (selectedType === syntheticArrayOptions.location) {
       return [
         {
           header: t('in-plg:welcomepage.component.syntheticWidget.name'),
@@ -181,17 +221,17 @@ export default connectTo(() => ({
   };
 
   const getLinks = () => {
-    if (syntheticTypeValue === 'test') {
+    if (selectedType === syntheticArrayOptions.test) {
       return createHrefToPath(syntheticsPath);
     }
-    if (syntheticTypeValue === 'location') {
+    if (selectedType === syntheticArrayOptions.location) {
       return createHrefToPath(syntheticLocationPath);
     }
     return createHrefToPath(syntheticSmartAlertsPath);
   };
 
   function createLinkLocation(item: VersionedConfig | TestResultListItem, location: Location) {
-    if (syntheticTypeValue === 'test') {
+    if (selectedType === syntheticArrayOptions.test) {
       return CreateTestLinkLocation(item as TestResultListItem);
     } else {
       return createSmartAlertLinkLocation(item as VersionedConfig, location);
@@ -288,7 +328,7 @@ export default connectTo(() => ({
       },
       {
         key: 'latency',
-        getContent({ item, result }) {
+        getContent({ item, timeConfig, result }) {
           return (
             <SparkChart
               loading={result?.progress?.loading}
@@ -403,9 +443,9 @@ export default connectTo(() => ({
       close();
     };
 
-    if (syntheticTypeValue === 'test') {
+    if (selectedType === 'test') {
       addDialog = addActiveDialog(<CreateSyntheticTestDialog onClose={onClose} />);
-    } else if (syntheticTypeValue === 'smartalerts') {
+    } else if (selectedType === 'smartalerts') {
       addDialog = addActiveDialog(<CreateSmartAlertDialog />);
     }
 
@@ -415,9 +455,23 @@ export default connectTo(() => ({
   const generalProps = {
     ...config,
     timeConfig,
-    columnDefinitions: columnDefinitions[syntheticTypeValue],
-    syntheticType: syntheticTypeValue,
+    columnDefinitions: columnDefinitions[selectedType],
+    syntheticType: selectedType,
     headers: getHeaders()
+  };
+
+  /**
+   * Checks whether the user has the permission to show the "Add tests +" or "Add smart alerts +" button.
+   * @returns {boolean} Permission
+   */
+  const checkPermission = (): boolean => {
+    if (selectedType === 'test') {
+      return !!role?.canConfigureSyntheticTests;
+    }
+    if (selectedType === 'smartalerts') {
+      return !!role?.canConfigureGlobalSyntheticSmartAlerts;
+    }
+    return false;
   };
 
   return (
@@ -425,14 +479,17 @@ export default connectTo(() => ({
       {...generalProps}
       getItems={getData}
       tableType="syntheticWidget"
-      label={`${widgetLabel}.${syntheticTypeValue}`}
+      label={`${widgetLabel}.${selectedType}`}
       dashboardTileProps={dashboardTileProps}
-      hasAddPermission={role?.canConfigureSyntheticTests}
-      hasAddMore={hasSyntheticsAccess && syntheticTypeValue !== 'location' && !playwithEnabled}
+      hasAddPermission={checkPermission()}
+      hasAddMore={checkPermission()}
       viewAll
       href={getLinks()}
       addMore={addMore}
       addData={addMore}
+      searchPlaceholderLabel={getPlaceholderLabel()}
+      addButtonLabel={getButtonLabel()}
+      viewAllLabel={getViewAllLabel()}
     />
   );
-});
+}

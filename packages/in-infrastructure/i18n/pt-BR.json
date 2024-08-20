@@ -74,7 +74,8 @@
     "restartCount": "Contagem de reinicializações",
     "kubernetesLabels": "Rótulos do Kubernetes",
     "podmanAnnotations": "Anotações do Podman",
-    "metricExplosion": "Este painel pode não exibir todas as métricas, pois apenas {{numberOfMetrics}} foram armazenadas"
+    "metricExplosionBeeInstana": "Este painel pode não exibir todas as métricas, pois apenas {{numberOfMetrics}} foram armazenadas",
+    "metricExplosion": "Este painel pode não exibir todas as métricas, pois apenas {{numberOfMetrics}} métricas de alta resolução foram armazenadas. Para visualizar métricas adicionais, use o Analyze Infrastructure ou um painel customizado."
   },
   "explore": {
     "analyzeInfrastructure": "Analisar a infraestrutura",
@@ -94,7 +95,8 @@
       "maximumNumberOfMembers": "Esta consulta tem muitos resultados. Restrinja sua procura usando um filtro mais restritivo ou limite seu intervalo de tempo e tente novamente.",
       "generalError": "Ocorreu um erro inesperado."
     },
-    "entityTypes": "Tipos de entidade {{count, parenthesis}}"
+    "entityTypes": "Tipos de entidade {{count, parenthesis}}",
+    "relatedInstances": "Analisar instâncias"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Mostrar contagens e médias em todo o espaço de tempo atual.",

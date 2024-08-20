@@ -69,6 +69,7 @@ export default function MetricSelector({ form, onChange }: MetricSelectorProps) 
         withGrouping={false}
         withAggregationInMetrics={false}
         disabledDataSources={disabledDataSources}
+        withUnit
       />
     </Stack>
   );

@@ -37,17 +37,17 @@ import locals from './ChannelForm.mless';
 interface CustomEmailSubjectPrefix {
   issue?: CloseOpen;
   incident?: CloseOpen;
-  changeEvent?: {
+  change?: {
     changeValue?: string;
   };
-  monitoringIssue?: CloseOpen;
+  agentMonitoringIssue?: CloseOpen;
 }
 
 interface CustomEmailSubjectPrefixMapForm extends MapFormItems {
   issue: MapForm<CloseOpenMapForm>;
   incident: MapForm<CloseOpenMapForm>;
-  changeEvent: MapForm<ChangeValueField>;
-  monitoringIssue: MapForm<CloseOpenMapForm>;
+  change: MapForm<ChangeValueField>;
+  agentMonitoringIssue: MapForm<CloseOpenMapForm>;
 }
 
 interface CloseOpen {
@@ -120,11 +120,11 @@ const parameters = [
         label: t('in-settings:tabs.incident')
       },
       {
-        key: 'changeEvent',
+        key: 'change',
         label: t('in-settings:tabs.change')
       },
       {
-        key: 'monitoringIssue',
+        key: 'agentMonitoringIssue',
         label: t('in-settings:tabs.monitoringIssues')
       }
     ]
@@ -209,24 +209,24 @@ export default {
                 })
               }
             }),
-            changeEvent: createMapForm({
+            change: createMapForm({
               items: {
                 changeValue: createField({
-                  value:
-                    alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'changeEvent', 'changeValue'], '')
+                  value: alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'change', 'changeValue'], '')
                 })
               }
             }),
-            monitoringIssue: createMapForm({
+            agentMonitoringIssue: createMapForm({
               items: {
                 openValue: createField({
                   value:
-                    alertChannel && alertChannel.getIn(['customEmailSubjectPrefix', 'monitoringIssue', 'openValue'], '')
+                    alertChannel &&
+                    alertChannel.getIn(['customEmailSubjectPrefix', 'agentMonitoringIssue', 'openValue'], '')
                 }),
                 closeValue: createField({
                   value:
                     alertChannel &&
-                    alertChannel.getIn(['customEmailSubjectPrefix', 'monitoringIssue', 'closeValue'], '')
+                    alertChannel.getIn(['customEmailSubjectPrefix', 'agentMonitoringIssue', 'closeValue'], '')
                 })
               }
             })
@@ -406,16 +406,16 @@ function AdvancedFormSettings({ form, setForm }: AdvancedFormProps): JSX.Element
       field: customEmailSubjectPrefixField.get('issue')
     },
     {
-      value: 'changeEvent',
+      value: 'change',
       label: t('in-settings:tabs.change'),
       isOpenClose: false,
-      field: customEmailSubjectPrefixField.get('changeEvent')
+      field: customEmailSubjectPrefixField.get('change')
     },
     {
-      value: 'monitoringIssue',
+      value: 'agentMonitoringIssue',
       label: t('in-settings:tabs.monitoringIssues'),
       isOpenClose: true,
-      field: customEmailSubjectPrefixField.get('monitoringIssue')
+      field: customEmailSubjectPrefixField.get('agentMonitoringIssue')
     }
   ];
   return (
@@ -786,8 +786,8 @@ function prepareCustomEmailPrefixOptionsForSending(
 ): CustomEmailSubjectPrefix {
   const incidentSubject = customEmailSubjectPrefixField.get('incident');
   const issueSubject = customEmailSubjectPrefixField.get('issue');
-  const monitoringIssueSubject = customEmailSubjectPrefixField.get('monitoringIssue');
-  const changeEventSubject = customEmailSubjectPrefixField.get('changeEvent');
+  const monitoringIssueSubject = customEmailSubjectPrefixField.get('agentMonitoringIssue');
+  const changeEventSubject = customEmailSubjectPrefixField.get('change');
 
   return {
     incident: {
@@ -798,11 +798,11 @@ function prepareCustomEmailPrefixOptionsForSending(
       openValue: issueSubject.get('openValue').value,
       closeValue: issueSubject.get('closeValue').value
     },
-    monitoringIssue: {
+    agentMonitoringIssue: {
       openValue: monitoringIssueSubject.get('openValue').value,
       closeValue: monitoringIssueSubject.get('closeValue').value
     },
-    changeEvent: {
+    change: {
       changeValue: changeEventSubject.get('changeValue').value
     }
   };

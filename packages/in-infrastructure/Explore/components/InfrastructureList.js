@@ -17,7 +17,8 @@ import {
   getMetricKey,
   getMetricValue,
   getSeriesKey,
-  lastValueForMetric
+  lastValueForMetric,
+  getMetricFormatterFromUnitOrMetadata
 } from 'in-infrastructure/Explore/services/metrics';
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
@@ -39,6 +40,7 @@ import EntityLink from 'in-components/EntityLink/EntityLink';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
 import { tag_not_present_group } from '../constants';
+import { getBaseUnit } from 'in-stores/metric/units';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
@@ -389,7 +391,8 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
         formatterId,
         isFormatterSelected,
         label: metricLabel,
-        lastValue
+        lastValue,
+        unit
       }) => {
         const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
         const metadata = mapData(metricMetadatas, data => data[metric]);
@@ -413,7 +416,10 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
             const metadata = mapData(metricMetadatas, data => data[metric]);
             const formatter = isFormatterSelected
               ? getFormatter(formatterId)
-              : mapData(metadata, data => data?.formatter).data;
+              : getMetricFormatterFromUnitOrMetadata(
+                  getBaseUnit(unit),
+                  mapData(metadata, data => data?.formatter).data
+                );
 
             const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
             const seriesKey = getSeriesKey(id);
@@ -421,7 +427,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
             const series = item.metrics[seriesKey];
             const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
             const metricValue = getMetricValue(kpi, formatter);
-            const customValueTooltip = lastValue && getLastValueTooltipLabel(item.adjustedTimeframe);
+            const customValueTooltip = lastValue && getLastValueTooltipLabel(timeConfig);
 
             return (
               <SparkChart

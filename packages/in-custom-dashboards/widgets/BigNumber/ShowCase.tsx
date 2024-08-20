@@ -18,6 +18,7 @@ export default function ShowCase() {
       companionValue={<Badge colorId={green.id}>+43.21%</Badge>}
       raw
       useMaxAvailableHeight={false}
+      bigNumbers
     />
   );
 }

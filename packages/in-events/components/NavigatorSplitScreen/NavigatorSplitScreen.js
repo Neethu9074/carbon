@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
 
 import { findNextIndexToOpen, findPrevIndexToOpen } from 'in-events/components/NavigatorSplitScreen/FindIndex.js';
 import { leftArrowId, rightArrowId } from 'in-components/AnalyzeView/SplitScreenList/elementIds';
@@ -82,13 +82,12 @@ function NavigatorSplitScreen({
                       })}
                       align={'auto'}
                     >
-                      <SvgIcon
+                      <IconButton
+                        kind="action"
                         type="lib_arrow_drop_left"
                         aria-label={t('in-events:navigatorSplitScreen.tooltipViewPrevious', {
                           context: typeLabel
                         })}
-                        size="s"
-                        className={locals.prev}
                         id={leftArrowId}
                         onClick={e =>
                           openItem(e, prevOpenItemIndex, items, canLoadMore, loadMore, progress, customOpenItem)
@@ -104,13 +103,12 @@ function NavigatorSplitScreen({
                       })}
                       align={'auto'}
                     >
-                      <SvgIcon
+                      <IconButton
+                        kind="action"
                         type="lib_arrow_drop_right"
                         aria-label={t('in-events:navigatorSplitScreen.tooltipViewNext', {
                           context: typeLabel
                         })}
-                        size="s"
-                        className={locals.next}
                         id={rightArrowId}
                         onClick={e =>
                           openItem(e, nextOpenItemIndex, items, canLoadMore, loadMore, progress, customOpenItem)
@@ -127,15 +125,14 @@ function NavigatorSplitScreen({
                     }
                     align={'auto'}
                   >
-                    <SvgIcon
+                    <IconButton
+                      kind="action"
                       type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
                       aria-label={
                         expanded
                           ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
                           : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
                       }
-                      size="s"
-                      className={locals.toggle}
                       onClick={() => setExpanded(!expanded)}
                     />
                   </Tooltip>
@@ -163,15 +160,14 @@ function NavigatorSplitScreen({
                   }
                   align={'bottomLeft'}
                 >
-                  <SvgIcon
+                  <IconButton
+                    kind="action"
                     type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
                     aria-label={
                       expanded
                         ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
                         : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
                     }
-                    size="s"
-                    className={`${locals.toggleInBar} ${locals.toggle}`}
                     onClick={() => setExpanded(!expanded)}
                   />
                 </Tooltip>
@@ -199,6 +195,10 @@ function openItem(e, openItemIndex, items, canLoadMore, loadMore, progress, cust
   // todo only do when clicking on next/prev
   if (openItemIndex + 10 >= items.length && canLoadMore && !progress.loading) {
     loadMore();
+  }
+
+  if (e.target.id) {
+    document.getElementById(e.target.id).focus();
   }
 
   const item = items[openItemIndex];

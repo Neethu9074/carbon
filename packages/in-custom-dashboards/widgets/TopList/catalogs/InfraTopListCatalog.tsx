@@ -35,6 +35,7 @@ const InfraTopListCatalog = ({ config, title, actions, dragHandle, isInModal, ti
       config={config}
       isInModal={isInModal}
       actions={actions}
+      timeConfig={timeConfig}
     />
   );
 };

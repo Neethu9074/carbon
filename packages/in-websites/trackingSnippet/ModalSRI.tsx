@@ -20,8 +20,9 @@ interface DialogProps {
   modalFirstLine: string;
   modalBody: string;
   buttonText: string;
+  onButtonClick: () => void;
 }
-export default function ModalSRI({ modalTitle, modalBody, buttonText, modalFirstLine }: DialogProps) {
+export default function ModalSRI({ modalTitle, modalBody, buttonText, modalFirstLine, onButtonClick }: DialogProps) {
   const ConfirmationButtons = (
     <>
       <Button
@@ -34,6 +35,7 @@ export default function ModalSRI({ modalTitle, modalBody, buttonText, modalFirst
       </Button>
       <Button
         onClick={() => {
+          onButtonClick();
           close();
         }}
         kind="primary"

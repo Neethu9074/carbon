@@ -246,7 +246,8 @@
     "dataSource_calls_plural": "{{formattedCount}} 个调用",
     "dataSource_traces": "{{formattedCount}} 个跟踪",
     "dataSource_traces_plural": "{{formattedCount}} 个跟踪",
-    "analyzeCallsOfThisTrace": "分析此跟踪的调用"
+    "analyzeCallsOfThisTrace": "分析此跟踪的调用",
+    "noAvailableCustomMetrics": "没有可用的自定义指标"
   },
   "creation": {
     "newAP": "新建应用程序透视图",
@@ -629,7 +630,8 @@
     "calls_latency": "等待时间",
     "calls_erroneousCalls": "错误调用数",
     "calls_errors": "错误调用率",
-    "calls_call_metric": "数字调用度量值",
+    "calls_call_metric": "自定义调用指标",
+    "calls_call_meta_metrics": "元指标",
     "traces_calls": "跟踪",
     "traces_traces": "跟踪",
     "traces_latency": "等待时间",

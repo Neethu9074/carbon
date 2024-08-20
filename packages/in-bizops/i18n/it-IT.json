@@ -20,19 +20,25 @@
     "unnamedService": "(Servizio senza nome)"
   },
   "perspectives": {
-    "newPerspective": "Nuova prospettiva",
+    "newPerspective": "Crea prospettiva",
     "lists": {
       "perspectives": "Prospettive di business",
       "descriptionLabel": "Descrizione",
       "numberProcessesLabel": "Numero di processi"
     },
+    "processesLiveList": {
+      "title": "Processi aziendali corrispondenti",
+      "empty": "Aggiungere filtri per creare la propria prospettiva di business",
+      "invalidQuery": "La query non è valida",
+      "noMatchedProcesses": "Non sono stati trovati processi aziendali corrispondenti",
+      "loadingStateLabel": "Caricamento processi"
+    },
     "dialog": {
       "title": "Nuova prospettiva di business",
-      "processesLiveListTitle": "Processi di business",
       "stepOne": {
-        "progressBarTitle": "Specifica prospettiva di business",
-        "headline": "Aggiungere filtri per creare la propria prospettiva di business",
-        "queryBuilderTitle": "Tag per i processi di business"
+        "progressBarTitle": "Fase 1: filtrare i processi aziendali per costruire la prospettiva aziendale",
+        "headline": "Filtrare i processi aziendali per costruire la prospettiva aziendale",
+        "queryBuilderTitle": "Processi di business"
       },
       "stepTwo": {
         "progressBarTitle": "Passo 2: fornire i dettagli",
@@ -42,7 +48,13 @@
       }
     },
     "errorMessages": {
-      "businessPerspectiveNameMustNotBeBlank": "Il nome della prospettiva di business non può essere vuoto"
+      "tagFilterExpressionMustNotBeEmpty": "La prospettiva aziendale deve avere almeno un filtro",
+      "createOperationFailed": "Operazione di creazione non riuscita",
+      "unableToCreatePerspective": "Non siamo riusciti a creare la prospettiva aziendale. Riprovare."
+    },
+    "successMessages": {
+      "businessPerspectiveCreated": "Prospettiva aziendale creata",
+      "perspectiveWasSuccessfullyCreated": "\"{{perspectiveName}}\" è stata creata correttamente."
     }
   },
   "navigation": {
@@ -86,6 +98,7 @@
       }
     },
     "perspectives": {
+      "pageTitleDefault": "Prospettiva aziendale",
       "processes": {
         "tabLabel": "Processi di business"
       },
@@ -93,7 +106,7 @@
         "tabLabel": "Configurazione",
         "loadingText": "Caricamento dei dati",
         "updateCardLabel": "Aggiorna prospettiva di business",
-        "stepOneHeader": "1. Modificare il nome e la descrizione",
+        "stepOneHeader": "1. Modifica del nome e della descrizione",
         "perspectiveName": "Nome prospettiva",
         "perspectiveDescription": "Descrizione",
         "stepTwoHeader": "2. Modificare il filtro",
@@ -101,7 +114,12 @@
         "removeCardLabel": "Rimuovi prospettiva di business",
         "removePerspectiveDisclaimer": "Se non si desidera più utilizzare questa prospettiva di business, fare clic su \"Rimuovi prospettiva di business\".",
         "removePerspectiveCheckbox": "Sono consapevole che questa azione non potrà essere annullata",
-        "removePerspectiveButton": "Rimuovi prospettiva di business"
+        "removePerspectiveButton": "Rimuovi prospettiva di business",
+        "businessPerspectiveDeleted": "Prospettiva aziendale rimossa",
+        "businessPerspectiveDeletedDetails": "\"{{perspectiveName}}\" è stata rimossa correttamente.",
+        "businessPerspectiveUpdated": "Prospettiva aziendale aggiornata",
+        "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" è stata modificata e le modifiche sono state salvate.",
+        "error": "Errore"
       }
     }
   }

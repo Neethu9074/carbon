@@ -12,9 +12,7 @@
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restaurar",
     "alertHeaderRestoreDeleteTooltip": "Excluir",
     "alertHeaderEditTooltip": "Editar",
-    "alertHeaderEditTooltipNew": "Editar (novo)",
     "alertHeaderDuplicateTooltip": "Duplicata",
-    "alertHeaderDuplicateTooltipNew": "Duplicar (Novo)",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confirme",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Tem certeza de que deseja remover o alerta <strong>{{alertConfigName}}</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remover",
@@ -43,12 +41,15 @@
     "chart": {
       "alertingChartLabelThreshold": "Limite",
       "alertingChartLabelViolations": "Violações",
+      "alertingChartLabelWarningThreshold": "Limite de aviso",
+      "alertingChartLabelCriticalThreshold": "Limite crítico",
       "alertingChartLabelForecast": "Previsão",
       "alertingChartLabelUpperBound": "Limite superior",
       "alertingChartLabelLowerBound": "Limite inferior",
       "alertingChartMessageInvalidFilterQuery": "Consulta inválida de filtro.",
       "alertingChartMessageEmptyApplicationSelection": "Nenhum aplicativo selecionado.",
       "chartAlertsLaneErrorMessage": "Não foi possível carregar alertas",
+      "chartAlertsLaneErrorMessageForTearSheet": "Insira um número válido de \"Trigger after\" ",
       "chartAlertsPreviewLanePresenterAlertsLabel": "Alertas",
       "chartAlertsPreviewLanePresenterNoAlertsLabel": "Nenhum alerta",
       "chartAlertsPreviewLanePresenterTooltip": "Alerta: {{count}}",
@@ -165,7 +166,11 @@
             "description": "Alertar individualmente para esta Perspectiva de aplicativo",
             "globalDescription": "Alertar individualmente por Perspectiva de aplicativo",
             "tearSheetSelectionText": "Agrupar por aplicativo",
-            "tearSheetDescription": "As chamadas correspondentes ao filtro são avaliadas com relação ao limite de um grupo. Quando houver uma violação, uma única notificação de alerta será enviada para essa perspectiva de aplicativo inteira. "
+            "tearSheetDescription": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} aplicativo. Quando a latência é violada, uma notificação de alerta única é enviada para toda essa perspectiva de aplicativo.",
+            "tearSheetDescription_plural": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} aplicativos. Quando a latência é violada, uma notificação de alerta única é enviada para toda essa perspectiva de aplicativo.",
+            "tearSheetDescription_0": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} aplicativos. Quando a latência é violada, uma notificação de alerta única é enviada para toda essa perspectiva de aplicativo.",
+            "tearSheetDescription_1": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} aplicativos. Quando a latência é violada, uma notificação de alerta única é enviada para toda essa perspectiva de aplicativo.",
+            "tearSheetDescription_2": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} aplicativos. Quando a latência é violada, uma notificação de alerta única é enviada para toda essa perspectiva de aplicativo. "
           },
           "evaluationTypePERAPSERVICE": {
             "selectionText": "por serviço para esta Perspectiva de aplicativo",
@@ -175,7 +180,11 @@
             "description": "Alertar individualmente por serviço para esta Perspectiva de aplicativo",
             "globalDescription": "Alertar individualmente por serviço no contexto de cada Perspectiva de aplicativo",
             "tearSheetSelectionText": "Agrupar por serviço",
-            "tearSheetDescription": "As chamadas correspondentes ao filtro são avaliadas com relação ao limite de 8 grupos, um para cada serviço, com seu próprio limite. Quando há uma violação para um grupo, uma notificação de alerta será enviada para esse grupo."
+            "tearSheetDescription": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} serviço - um para cada serviço, com seu próprio limite. Quando a latência é violada para um grupo, uma notificação de alerta é enviada para esse grupo.",
+            "tearSheetDescription_plural": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} serviços - um para cada serviço, com seu próprio limite. Quando a latência é violada para um grupo, uma notificação de alerta é enviada para esse grupo.",
+            "tearSheetDescription_0": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} serviços - um para cada serviço, com seu próprio limite. Quando a latência é violada para um grupo, uma notificação de alerta é enviada para esse grupo.",
+            "tearSheetDescription_1": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} serviços - um para cada serviço, com seu próprio limite. Quando a latência é violada para um grupo, uma notificação de alerta é enviada para esse grupo.",
+            "tearSheetDescription_2": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} serviços - um para cada serviço, com seu próprio limite. Quando a latência é violada para um grupo, uma notificação de alerta é enviada para esse grupo."
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "por Terminal para esta Perspectiva de aplicativo",
@@ -185,7 +194,11 @@
             "description": "Alertar individualmente por Terminal para esta Perspectiva de aplicativo",
             "globalDescription": "Alertar individualmente por Terminal no contexto de cada Perspectiva de aplicativo",
             "tearSheetSelectionText": "Agrupar por terminal",
-            "tearSheetDescription": "As chamadas correspondentes ao filtro são avaliadas com relação ao limite de 47 grupos, um para cada terminal, com seu próprio limite. Quando há uma violação para um grupo, uma notificação de alerta será enviada para esse grupo."
+            "tearSheetDescription": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} endpoint - um para cada endpoint, com seu próprio limite. Quando a latência é violada para um grupo, uma notificação de alerta é enviada para esse grupo.",
+            "tearSheetDescription_plural": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} endpoints - um para cada endpoint, com seu próprio limite. Quando a latência é violada para um grupo, uma notificação de alerta é enviada para esse grupo.",
+            "tearSheetDescription_0": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} endpoints - um para cada endpoint, com seu próprio limite. Quando a latência é violada para um grupo, uma notificação de alerta é enviada para esse grupo.",
+            "tearSheetDescription_1": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} endpoints - um para cada endpoint, com seu próprio limite. Quando a latência é violada para um grupo, uma notificação de alerta é enviada para esse grupo.",
+            "tearSheetDescription_2": "As chamadas que correspondem ao filtro são avaliadas em relação ao limite de {{count}} endpoints - um para cada endpoint, com seu próprio limite. Quando a latência é violada para um grupo, uma notificação de alerta é enviada para esse grupo."
           }
         },
         "inboundOutboundCalls": {
@@ -265,6 +278,9 @@
             "label": "Cargas úteis",
             "title": "Carga útil customizada"
           }
+        },
+        "staticOrAdaptiveSwitch": {
+          "description": "Evite usar limites adaptáveis para métricas de erro, pois eles podem não acionar alertas para erros que aumentam gradualmente."
         }
       },
       "chart": {
@@ -288,8 +304,8 @@
           "name": "Chamadas lentas",
           "headline": "Alertas automáticos para chamadas lentas",
           "text": "Receber um alerta quando chamadas para serviços e terminais selecionados desta Perspectiva de aplicativo estiverem mais lentas do que o usual.",
-          "tearSheetHeadline": "Alertas para contagem de chamadas",
-          "tearSheetDescription": "Alertas automáticos quando chamadas para serviços e terminais selecionados desta perspectiva de aplicativo são mais lentas do que o limite."
+          "tearSheetHeadline": "Alertas automáticos para chamadas lentas",
+          "tearSheetDescription": "Receba um alerta quando as chamadas para serviços e endpoints selecionados dessa perspectiva de aplicativo forem mais lentas do que o limite."
         },
         "errors": {
           "name": "Chamadas errôneas",
@@ -301,6 +317,7 @@
         "logs": {
           "name": "Logs",
           "headline": "Alertas automáticos para logs de erro e aviso",
+          "tearSheetHeadline": "Alertas automáticos para logs de erro e aviso",
           "text": "Um alerta será emitido quando o número de chamadas com determinadas mensagens de log e de aviso for maior que o esperado.",
           "metricLabel": "Chamadas",
           "incompleteRuleMessage": "Selecione uma Mensagem de log para ver quando este alerta é acionado"
@@ -311,24 +328,24 @@
           "text": "Receba um alerta sempre que os Códigos de status HTTP correspondentes ocorrerem com mais frequência do que o usual.",
           "incompleteRuleMessage": "Selecione um Código de status para ver quando este alerta é acionado",
           "tearSheetHeadline": "Alertas automáticos para códigos de status HTTP",
-          "tearSheetDescription": "Receba um alerta quando os Códigos de Status HTTP correspondentes ocorrerem com mais frequência do que o limite."
+          "tearSheetDescription": "Receba um alerta quando os códigos de status HTTP correspondentes ocorrerem com mais frequência do que o limite."
         },
         "throughput": {
           "name": "Rendimento",
           "headline": "Alertas automáticos para contagem de chamadas",
           "text": "Alertas automáticos sobre um número de chamadas anormalmente baixo ou alto para serviços e terminais selecionados desta Perspectiva de aplicativo.",
           "metricLabel": "Chamadas",
-          "tearSheetHeadline": "Alertas automáticos para visualizações de páginas",
-          "tearSheetDescription": "Alertas automáticos em um número excepcionalmente baixo ou alto de chamadas para serviços e terminais selecionados desta perspectiva de aplicativo."
+          "tearSheetHeadline": "Alertas automáticos de rendimento",
+          "tearSheetDescription": "Receba um alerta quando o número de chamadas for excepcionalmente alto ou baixo para serviços e endpoints selecionados dessa perspectiva de aplicativo."
         },
         "simpleMode": {
           "unexpectedDrop": {
-            "name": "Número inesperadamente baixo de chamadas",
+            "name": "Baixo número de chamadas",
             "headline": "Alertas automáticos sobre um número inesperadamente baixo de chamadas",
             "text": "Receber um alerta quando o número de chamadas for significativamente menor que o esperado em comparação com antigos dados disponíveis. Isso pode ser uma indicação de um problema ascendente desse aplicativo ou de uma queda no tráfego de usuários para o aplicativo."
           },
           "unexpectedlyHighNumber": {
-            "name": "Número inesperadamente alto de chamadas",
+            "name": "Alto número de chamadas",
             "headline": "Alertas automáticos sobre números anormalmente altos de chamadas",
             "text": "Receber um alerta quando o número de chamadas for significativamente maior que o esperado em comparação com antigos dados disponíveis. Isso pode ser uma indicação de um ataque ou de um robô gerando muitas solicitações para o aplicativo."
           }
@@ -351,14 +368,22 @@
           "throughputLow": "O número de chamadas é anormalmente baixo"
         },
         "descriptionPlaceholder": {
-          "errorRate_higherThan": "A taxa de chamada errônea é maior que {{valueRoundedToDecimals}}%.",
-          "errorRate_higherEqual": "A taxa de chamada errônea é maior ou igual a {{valueRoundedToDecimals}}%.",
-          "errorRate_lowerThan": "A taxa de chamada errônea é menor que {{valueRoundedToDecimals}}%.",
-          "errorRate_lowerEqual": "A taxa de chamada errônea é menor ou igual a {{valueRoundedToDecimals}}%.",
-          "errorCount_higherThan": "O número de chamadas erradas é maior que {{valueRoundedToDecimals}}.",
-          "errorCount_higherEqual": "O número de chamadas erradas é maior ou igual a {{valueRoundedToDecimals}}.",
-          "errorCount_lowerThan": "O número de chamadas erradas é menor que {{valueRoundedToDecimals}}.",
-          "errorCount_lowerEqual": "O número de chamadas erradas é menor ou igual a {{valueRoundedToDecimals}}.",
+          "errorRateStaticThreshold_higherThan": "A taxa de chamada errônea é maior que {{valueRoundedToDecimals}}%.",
+          "errorRateStaticThreshold_higherEqual": "A taxa de chamada errônea é maior ou igual a {{valueRoundedToDecimals}}%.",
+          "errorRateStaticThreshold_lowerThan": "A taxa de chamada errônea é menor que {{valueRoundedToDecimals}}%.",
+          "errorRateStaticThreshold_lowerEqual": "A taxa de chamada errônea é menor ou igual a {{valueRoundedToDecimals}}%.",
+          "errorRateDefault_higherThan": "A taxa de chamadas errôneas é maior do que o esperado.",
+          "errorRateDefault_higherEqual": "A taxa de chamadas errôneas é maior que ou igual à esperada.",
+          "errorRateDefault_lowerThan": "A taxa de chamadas errôneas é menor do que o esperado.",
+          "errorRateDefault_lowerEqual": "A taxa de chamadas errôneas é menor que ou igual à esperada.",
+          "errorCountStaticThreshold_higherThan": "O número de chamadas erradas é maior que {{valueRoundedToDecimals}}.",
+          "errorCountStaticThreshold_higherEqual": "O número de chamadas erradas é maior ou igual a {{valueRoundedToDecimals}}.",
+          "errorCountStaticThreshold_lowerThan": "O número de chamadas erradas é menor que {{valueRoundedToDecimals}}.",
+          "errorCountStaticThreshold_lowerEqual": "O número de chamadas erradas é menor ou igual a {{valueRoundedToDecimals}}.",
+          "errorCountDefault_higherThan": "O número de chamadas errôneas é maior do que o esperado.",
+          "errorCountDefault_higherEqual": "O número de chamadas errôneas é maior que ou igual ao esperado.",
+          "errorCountDefault_lowerThan": "O número de chamadas errôneas é menor do que o esperado.",
+          "errorCountDefault_lowerEqual": "O número de chamadas errôneas é menor que ou igual ao esperado.",
           "slownessStaticThreshold_slowerThan": "As chamadas estão mais lentas que {{thresholdValue}} ms com base na latência ({{aggregationText}}).",
           "slownessStaticThreshold_slowEqual": "As chamadas estão mais lentas que ou iguais a {{thresholdValue}} ms com base na latência ({{aggregationText}}).",
           "slownessStaticThreshold_below": "As chamadas estão abaixo de {{thresholdValue}} ms com base na latência ({{aggregationText}}).",
@@ -443,7 +468,6 @@
         "thresholdFormBaselineIsEmpty": "a linha de base está vazia"
       },
       "simple": {
-        "simpleAlertStep1Headline": "Escolher o problema para o qual deseja ser alertado",
         "simpleAlertStep2Headline": "Onde você deseja que o alerta seja acionado?",
         "step1Title": "Etapa 1: selecionar alerta",
         "step2Title": "Etapa 2: selecionar escopo",
@@ -451,9 +475,7 @@
       },
       "components": {
         "createSmartAlert": "Incluir alerta inteligente",
-        "createSmartAlertNew": "Incluir alerta inteligente (novo)",
         "createGlobalSmartAlert": "Incluir Alerta inteligente global",
-        "createGlobalSmartAlertNew": "Incluir alerta inteligente global (novo)",
         "provideLogMessageSelectLogMessage": "Selecionar mensagem de log",
         "provideLogMessageLogLevel": "Nível de log",
         "provideLogMessageErrorMessage": "Mensagem de erro",
@@ -470,9 +492,8 @@
         "getSubtitleForStaticWeeklySeasonality": "Sazonalidade semanal estática, {{metricLabel}}",
         "getSubtitleForAdaptiveThreshold": "Limite adaptável, {{metricLabel}}",
         "labelActionButtonEdit": "Editar",
-        "labelActionButtonEditNew": "Editar (novo)",
+        "labelNew": "(Novo)",
         "labelActionButtonDuplicate": "Duplicata",
-        "labelActionButtonDuplicateNew": "Duplicar (Novo)",
         "labelActionButtonDelete": "Excluir",
         "labelAlertFilters": "Filtros",
         "labelConfirm": "Confirme",
@@ -502,14 +523,33 @@
         "eventsCriticalIcon": "Ícone crítico de eventos"
       },
       "tearSheet": {
-        "step1Title": "Escolher um modelo de alerta",
+        "step1Title": "Selecionar um modelo",
         "step2Title": "Defina o escopo",
         "step3Title": "Definir agrupamento",
         "step4Title": "Definir quando ser alertado",
-        "step5Title": "Definir canais e propriedades de alerta",
+        "alertHeadline": "Escolha sobre o que você deseja ser alertado",
+        "step5Title": "Definir propriedades de alerta",
+        "step6Title": "Definir canais de alerta",
         "grouping": {
           "title": "Chamadas de grupo",
-          "description": "As chamadas em cada grupo serão avaliadas separadamente"
+          "description": "O agrupamento permite que os usuários configurem chamadas em grupos. Cada chamada dentro do grupo é configurada coletivamente, mas avaliada individualmente.",
+          "groupByApplication": "{{count}} Aplicativo",
+          "groupByApplication_plural": "{{count}} Aplicativos",
+          "groupByApplication_0": "{{count}} Aplicativos",
+          "groupByApplication_1": "{{count}} Aplicativos",
+          "groupByApplication_2": "{{count}} Aplicativos",
+          "groupByServices": "{{count}} Serviço",
+          "groupByServices_plural": "Serviços {{count}}",
+          "groupByServices_0": "Serviços {{count}}",
+          "groupByServices_1": "Serviços {{count}}",
+          "groupByServices_2": "Serviços {{count}}",
+          "groupByEndpoint": "{{count}} Endpoint",
+          "groupByEndpoint_plural": "{{count}} Endpoints",
+          "groupByEndpoint_0": "{{count}} Endpoints",
+          "groupByEndpoint_1": "{{count}} Endpoints",
+          "groupByEndpoint_2": "{{count}} Endpoints",
+          "groupbyDescription": "Com base nas chamadas feitas nas últimas 24 horas",
+          "noData": "Não há dados de agrupamento disponíveis."
         },
         "callsInScope": {
           "title": "Escolher chamadas no escopo ",
@@ -517,9 +557,10 @@
         },
         "includeHiddenCalls": {
           "title": "Incluir chamadas ocultas (opcional) ",
-          "description": "As chamadas ocultas não aparecem em painéis integrados."
+          "description": "As chamadas internas e sintéticas não aparecem nos painéis integrados e são excluídas por padrão"
         },
-        "serviceEndPointSelection": "Serviços ou terminais para chamadas selecionadas",
+        "serviceEndPointSelection": "Serviços ou endpoints para os tipos de chamadas selecionados",
+        "serviceEndPointSelectionDescription": "Selecione os serviços sobre os quais você deseja ser alertado.",
         "AlertPropertiesTitle": "Quais propriedades deseja configurar para este alerta?",
         "AlertChannelTitle": "Onde deseja ser notificado para o alerta?",
         "inboundOutboundCalls": {
@@ -548,7 +589,17 @@
         },
         "threshold": {
           "title": "Configurar um valor para o limite de violação",
-          "description": "Escolha métrica, limite de violação e período de tempo para avaliar a violação."
+          "description": "Selecione uma métrica, um limite de violação e um espaço de tempo para avaliar a violação.",
+          "thresholdValue": "Valor do limite",
+          "thresholdDescription": {
+            "static": "Um valor do limite constante é aplicado e não muda ao longo do tempo.",
+            "staticDaily": "Um valor de limite dependente de tempo, baseado em dados históricos diários, é aplicado e não muda automaticamente.",
+            "staticWeekly": "Um valor de limite dependente de tempo, baseado em dados históricos semanais, é aplicado e não muda automaticamente."
+          },
+          "metricLabel": "{{metricLabel}} latência percentil",
+          "minLatency": "Latência mínima",
+          "maxLatency": "Latência máxima",
+          "meanLatency": "Latência média"
         },
         "timeThreshold": {
           "title": "Configurar quando as violações acionam alertas",
@@ -557,10 +608,15 @@
         "staticOrAdaptive": {
           "config": {
             "adaptive": {
-              "description": "Um valor limite que se adapta automaticamente às mudanças da métrica subjacente é aplicado."
+              "description": "Um valor limite que se adapta automaticamente às mudanças da métrica subjacente é aplicado.",
+              "label": "Adaptável",
+              "adaptiveNotSupportedForEndPoint": "O limite adaptável não é suportado quando agrupado por endpoints.",
+              "adaptiveNotSupportedForBluePrint": "O limite adaptável não é suportado para o blueprint selecionado: {{bluePrint}}.",
+              "notSupported": "Não suportado"
             },
             "static": {
-              "description": "Um valor do limite constante é aplicado e não muda ao longo do tempo."
+              "description": "Um valor do limite constante é aplicado e não muda ao longo do tempo.",
+              "label": "Estático"
             }
           }
         },
@@ -570,13 +626,30 @@
         },
         "alertProperties": {
           "previewTitle": "Visualização de alerta"
-        }
+        },
+        "alertChannelList": {
+          "title": "Canais de alerta ({{channelCount}})",
+          "description": "Selecione o(s) destinatário(s) desse alerta",
+          "searchPlaceholder": "Procura",
+          "clearAll": "Limpar tudo"
+        },
+        "editFilters": "Editar filtros",
+        "invalidFilters": "Filtros inválidos",
+        "invalidFilterWarning": "Alguns dos filtros que você escolheu não suportam o limite adaptável. O filtro destacado será descontinuado.",
+        "editAdaptiveThreshold": {
+          "title": "Editar filtros de limite adaptável",
+          "description": "Certifique-se de que todos os filtros suportem o limite adaptável."
+        },
+        "filterWithInvalidAdaptiveThreshold": "Filtros com limite adaptável: "
       }
     },
     "details": {
       "header": "Detalhes",
       "thresholdTypeTitle": "Tipo de limite",
       "metricTitle": "Métrica",
+      "threshold": "Limite",
+      "warningThresholdLabel": "Aviso",
+      "criticalThresholdLabel": "Crítico",
       "entityTitle": "Escopo",
       "titleBuiltInIndicator": "Integrado"
     },
@@ -670,11 +743,14 @@
       "ruleStatusCodeValueOption508": "508 (Loop detectado)",
       "ruleStatusCodeValueOption510": "510 (Não estendido)",
       "ruleStatusCodeValueOption511": "511 (Autenticação de rede necessária)",
-      "ruleStatusCodeValueOption599": "599 (Erro de tempo limite de conexão de rede)"
+      "ruleStatusCodeValueOption599": "599 (Erro de tempo limite de conexão de rede)",
+      "warningThresholdValidator": "O limite de aviso deve ser maior que o limite crítico para os operadores < e <=.",
+      "criticalThresholdValidator": "O limite crítico deve ser maior que o limite de aviso para operadores > e > =."
     },
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "Cancelar",
+        "proceedTitle": "Continuar",
         "previousTitle": "Prévio",
         "sharedListTooltip": "{{typeName}} não está mais disponível",
         "clearTagFilterExpressionButton": "Limpar",
@@ -785,7 +861,11 @@
         "alertPropertiesAlertLevel": "Nível de alerta",
         "alertPropertiesTriggersIncident": "Incidente de acionadores",
         "alertPropertiesDescription": "Descrição",
+        "warningAlertPreviewLabel": "Visualização de aviso",
+        "criticalAlertPreviewLabel": "Visualização crítica",
+        "alertPreviewMissingThresholdInfo": "Nenhuma visualização disponível. Selecione pelo menos um valor de limite para ver a visualização.",
         "alertPropertiesAlertProperties": "Propriedades de alerta",
+        "groupingPlaceholdersMissingTooltip": "Configurar grupo(s) para acessar opções de item temporário",
         "buttonSave": "Salvar",
         "buttonCreate": "Criar",
         "buttonMigrate": "Migrar",
@@ -799,6 +879,9 @@
         "sensitivitySliderValueLabel_1": "{{count}} desvios padrão",
         "sensitivitySliderValueLabel_2": "{{count}} desvios padrão",
         "labelThreshold": "Limite",
+        "multiThresholdAlertNotificationInfo": "Sua entrada de qualquer valor de limite aciona uma notificação de alerta.",
+        "warningThresholdLabel": "Aviso",
+        "criticalThresholdLabel": "Crítico",
         "labelSensitivity": "Sensibilidade",
         "staticThresholdTypeOptionsTooltip": "Um limite diário/semanal estático é um limite dependente do tempo baseado em dados históricos. O limite não muda automaticamente e poderá ser recalculado manualmente, se necessário.",
         "thresholdTypeOptionStaticThreshold": "Limite estático",
@@ -843,62 +926,6 @@
           }
         }
       },
-      "alertsHub": {
-        "title": "Hub de alertas",
-        "introText": "Bem-vindo ao Hub de configuração de alerta. Aqui é possível configurar suas expectativas de alerta.",
-        "readMore": "Leia mais...",
-        "websites": {
-          "title": "Websites",
-          "description0": "Para configurar um alerta, navegue até o website no qual você deseja configurar o alerta e use o botão \"Incluir alerta inteligente\" na parte inferior direita.",
-          "stats": "Atualmente, você tem $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) no $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
-          "alerts": "{{count}} Alerta inteligente de website",
-          "alerts_plural": "{{count}} Alertas inteligentes de website",
-          "alerts_0": "{{count}} Alertas inteligentes de website",
-          "alerts_1": "{{count}} Alertas inteligentes de website",
-          "alerts_2": "{{count}} Alertas inteligentes de website",
-          "websites": "{{count}} website",
-          "websites_plural": "{{count}} websites",
-          "websites_0": "{{count}} Websites",
-          "websites_1": "{{count}} Websites",
-          "websites_2": "{{count}} Websites",
-          "button0": "Websites"
-        },
-        "applications": {
-          "title": "Aplicativos",
-          "description0": "É possível configurar Alertas inteligentes para um Aplicativo específico apenas ou configurar Alertas inteligentes que abrangem vários Aplicativos.",
-          "stats": "Atualmente, você tem $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) e $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }).",
-          "gsa": "{{count}} Alerta inteligente global",
-          "gsa_plural": "{{count}} Alertas inteligentes globais",
-          "gsa_0": "{{count}} Alertas inteligentes globais",
-          "gsa_1": "{{count}} Alertas inteligentes globais",
-          "gsa_2": "{{count}} Alertas inteligentes globais",
-          "rsa": "{{count}} Alerta inteligente regular",
-          "rsa_plural": "{{count}} Alertas inteligentes regulares",
-          "rsa_0": "{{count}} alertas inteligentes regulares",
-          "rsa_1": "{{count}} alertas inteligentes regulares",
-          "rsa_2": "{{count}} alertas inteligentes regulares",
-          "button0": "Alertas inteligentes"
-        },
-        "infrastructure": {
-          "title": "Infraestrutura e plataformas",
-          "description0": "Os alertas para Infraestrutura e Plataformas usam nosso fluxo de trabalho de dois passos.",
-          "description1": "1) Eventos definidos para condições específicas. É possível usar nossos Eventos integrados ou criar seus próprios Eventos customizados.",
-          "description2": "2) Serão enviados alertas sempre que Eventos específicos ocorrerem.",
-          "stats": "Atualmente, você tem $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) e $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
-          "events": "{{count}} evento customizado",
-          "events_plural": "{{count}} eventos customizados",
-          "events_0": "{{count}} Eventos customizados",
-          "events_1": "{{count}} Eventos customizados",
-          "events_2": "{{count}} Eventos customizados",
-          "alerts": "{{count}} Alerta",
-          "alerts_plural": "{{count}} Alertas",
-          "alerts_0": "{{count}} Alertas",
-          "alerts_1": "{{count}} Alertas",
-          "alerts_2": "{{count}} Alertas",
-          "button0": "Alertas",
-          "button1": "Eventos"
-        }
-      },
       "utils": {
         "aggregationTextP25": "25º",
         "aggregationTextP50": "50º",
@@ -912,6 +939,23 @@
         "labelConfirm": "Confirme",
         "labelConfirmRemoveConfig": "Tem certeza de que deseja remover o alerta <strong>{{configName}}</strong>?",
         "labelRemove": "Remover"
+      },
+      "tearSheet": {
+        "timeThreshold": {
+          "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "Quando as violações persistem ao longo do tempo",
+          "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "As violações persistem em intervalos aleatórios",
+          "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "As violações persistem continuamente",
+          "timeThresholdConfigTimeThresholdLabelTraceImpact": "Quando um número mínimo de rastros é afetado",
+          "granularity": {
+            "description": "As chamadas são feitas em janelas de {{granularity}}-minuto; a cada {{granularity}} minutos, um valor de métrica é calculado para essa janela"
+          },
+          "triggerAlert": "Acionar alerta",
+          "triggerAfter": "Acionar após",
+          "tracesImpacted": "rastros serem afetados",
+          "outOfConsecutiveEvaluations": "de um total de",
+          "persistenceType": "Tipo de persistência",
+          "numberOfConsecutiveViolationsPostLabel": "Janelas consecutivas de {{granularity}}-minuto têm violações"
+        }
       }
     },
     "websites": {
@@ -977,10 +1021,10 @@
         "customEventBlueprintConfigText": "Receba um alerta toda vez que um evento customizado específico ocorre com mais ou menos frequência do que deveria.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Selecione um evento customizado para consultar ao acionar este alerta",
         "customEventBlueprintConfigMetricLabel": "Ocorrências",
-        "simpleModeBlueprintConfigsUnexpectedDropName": "Número inesperadamente baixo de Carregamentos de página",
+        "simpleModeBlueprintConfigsUnexpectedDropName": "Baixo número de carregamentos de página",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Alertas automáticos sobre um número anormalmente baixo de carregamentos de página",
         "simpleModeBlueprintConfigsUnexpectedDropText": "Receber um alerta quando o número de Carregamentos de página for significativamente menor que o esperado em comparação com antigos dados disponíveis.",
-        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "Número inesperadamente alto de carregamentos de página",
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "Alto número de carregamentos de página",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline": "Alertas automáticos sobre um número anormalmente alto de carregamentos de página",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "Receber um alerta quando o número de Carregamentos de página for significativamente maior que o esperado em comparação com antigos dados disponíveis. Isso pode ser uma indicação de um ataque ou de um robô gerando muitas solicitações para o website."
       },
@@ -1042,8 +1086,7 @@
     },
     "migration": {
       "migrateButton": "Migrar para Alerta inteligente",
-      "migrateButtonNew": "Migrar para alerta inteligente (novo)",
-      "migrateButtonTooltip": "Abre um diálogo de configuração do Smart Alert pré-preenchido com os valores migrados do evento atual na melhor medida que podemos. Verifique novamente o resultado atentamente!",
+      "migrateButtonTooltip": "Abre uma configuração de alerta inteligente pré-preenchida com os valores migrados do evento atual da melhor forma possível. Verifique novamente o resultado atentamente!",
       "markAsMigratedButton": "Marcar como migrado",
       "markAsMigratedButtonTooltip": "Marca o Evento como migrado. Use isso caso já tenha configurado um Alerta Inteligente que substituirá este Evento.",
       "markAsMigratedButtonConfirmationTitle": "Confirme",
@@ -1180,10 +1223,10 @@
         "customEventBlueprintConfigText": "Receba um alerta toda vez que um evento customizado específico ocorre com mais ou menos frequência do que deveria.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Selecione um evento customizado para consultar ao acionar este alerta",
         "statusCodeBlueprintConfigIncompleteRuleMessage": "Selecione um Código de status para ver quando este alerta é acionado",
-        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "Número inesperadamente baixo de visualizações",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "Baixo número de visualizações",
         "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "Alertas automáticos em um número anormalmente baixo de visualizações",
         "simpleModeBlueprintConfigsViewsUnexpectedDropText": "Receba um alerta quando o número de visualizações for significativamente menor do que o esperado em comparação com os dados antigos disponíveis.",
-        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "Número inesperadamente baixo de sessões",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "Baixo número de sessões",
         "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "Alertas automáticos em um número anormalmente baixo de sessões",
         "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "Receba um alerta quando o número de sessões for significativamente menor do que o esperado em comparação com os dados antigos disponíveis."
       },
@@ -1389,11 +1432,10 @@
           "label": "Cargas úteis",
           "title": "Carga útil customizada"
         },
-        "thresholdValue": "Valor do limite",
         "valueMappings": "Os valores numéricos da métrica selecionada correspondem aos valores de sequência a seguir:"
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Forneça um número >= 0",
+        "selectAtLeastOneThreshold": "Forneça o valor de pelo menos um dos limites.",
         "noMetricSelected": "Nenhuma métrica selecionada"
       },
       "count": "Contagem",
@@ -1548,6 +1590,17 @@
         "title": "",
         "title_ERROR_BUDGET": "Orçamento de erro consumido",
         "title_SERVICE_LEVELS_OBJECTIVE": "Status"
+      },
+      "messages": {
+        "successTitle": "",
+        "successTitle_NEW": "O SLO Smart Alert foi criado com sucesso",
+        "successTitle_EDIT": "O SLO Smart Alert foi atualizado com sucesso",
+        "successContent": "",
+        "successContent_NEW": "O SLO Smart Alert \"{{name}}\" foi criado.",
+        "successContent_EDIT": "O SLO Smart Alert \"{{name}}\" foi atualizado.",
+        "failedTitle": "",
+        "failedTitle_NEW": "Houve um problema ao criar este SLO Smart Alert",
+        "failedTitle_EDIT": "Houve um problema ao atualizar este SLO Smart Alert"
       }
     }
   }

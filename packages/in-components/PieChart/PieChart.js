@@ -61,8 +61,7 @@ const PieChartWrapper = forwardRef((props, ref) => {
             label: props.y1.labels[i],
             aggregation: props.y1.aggregations?.[i],
             timeShift: props.y1.timeShifts?.[i] || defaultTimeShift,
-            lastValue: props.y1.lastValue ?? false,
-            adjustedWindowSize: props.y1.adjustedTimeframes?.[i]?.windowSize
+            lastValue: props.y1.lastValue ?? false
           };
         }
       }),
@@ -118,7 +117,7 @@ const PieChartWrapper = forwardRef((props, ref) => {
               <Tooltip
                 themeStyle="light"
                 key={i}
-                content={<TooltipContent slice={slice} formatter={formatter} />}
+                content={<TooltipContent slice={slice} formatter={formatter} timeConfig={props.timeConfig} />}
                 align="mousePosition"
                 legacy
               >

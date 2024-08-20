@@ -75,7 +75,7 @@
   "duplicate": "抄寫",
   "theValueMustNotBeBlank": "值不得空白。",
   "tags": "標籤",
-  "noTagsConfigured": "未配置任何標籤",
+  "tagsLabel": "標籤（選用項目）",
   "value": "值",
   "type": "類型",
   "automationPoliciesWithCount": "自動化原則 ({{count}})",
@@ -92,7 +92,7 @@
   "actions": "動作",
   "actionsWithCount": "動作 ({{count}})",
   "titleUrl": "URL",
-  "generateWithAI": "利用 AI 產生",
+  "generateWithWatsonx": "透過 watsonx 生成",
   "AISlugContent": "已使用 AI 來產生此內容",
   "createPolicyWithName": "檢視動作 {{actionName}} 並建立原則",
   "viewActionCreatePolicy": "檢視動作並建立原則",
@@ -297,7 +297,12 @@
     "taskUrl": "作業 URL",
     "output": "輸出",
     "user": "使用者",
-    "apiToken": "API 記號"
+    "apiToken": "API 記號",
+    "deleteTooltip": "刪除動作實例 {{id}}",
+    "deleteDialog": {
+      "success": "動作實例已順手刪除。",
+      "failure": "無法刪除動作實例。"
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "調查"

@@ -5,34 +5,26 @@
  */
 
 import { DragDropContext, Draggable, DraggableProvidedDragHandleProps, Droppable } from 'react-beautiful-dnd';
-import React, { useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
 import {
-  hasKubernetesAccess,
-  hasOpenStackAccess,
-  hasPCFAccess,
-  hasPHMCAccess,
-  hasPowerVcAccess,
-  hasVSphereAccess,
-  hasZHMCAccess,
-  hasSAPAccess,
   hasWebsitesAccess,
   hasMobileAppsAccess,
   hasApplicationsAccess,
-  hasEventsAccess,
   hasAPlatformAccess,
   hasBizOpsAccess,
   hasInfrastructureAccess,
-  hasSyntheticsAccess
+  hasSyntheticsAccess,
+  hasEventsAccess
 } from 'in-stores/permission';
 import WebsitesAndMobileListWidget from 'in-plg/pages/WelcomePage/widgets/WebsitesAndMobileListWidget';
 import SyntheticMonitoringWidget from 'in-plg/pages/WelcomePage/widgets/SyntheticMonitoringWidget';
 import BusinessMonitoringWidget from 'in-plg/pages/WelcomePage/widgets/BusinessMonitoringWidget';
 import InfrastructureWidget from 'in-plg/pages/WelcomePage/widgets/InfrastructureWidget';
 import ApplicationWidget from 'in-plg/pages/WelcomePage/widgets/ApplicationWidget';
-import EventsChardWidget from 'in-plg/pages/WelcomePage/widgets/EventsChartWidget';
+import EventsChartWidget from 'in-plg/pages/WelcomePage/widgets/EventsChartWidget';
 import IncidentsWidget from 'in-plg/pages/WelcomePage/widgets/IncidentsWidget';
 import DashboardWidget from 'in-plg/pages/WelcomePage/widgets/DashboardWidget';
 import PlatformWidget from 'in-plg/pages/WelcomePage/widgets/PlatformWidget';
@@ -53,87 +45,15 @@ interface WidgetOrdering {
 const settingsKey = 'WidgetOrdering';
 const itemIds: WidgetOrdering[] = [];
 
-type tableEntry = {
-  key?: string;
-  label: string;
-  addLabel?: string;
-  icon?: string;
-  widget?: React.FunctionComponent<{
-    type?: string | undefined;
-    infraType?: string;
-    widgetLabel?: string;
-    syntheticType?: string;
-    dashboardTileProps?: DashboardTileParamProps;
-    maxItems?: number | null;
-    viewAll?: boolean;
-  }>;
-  type?: string;
-  toogles?: string[];
-  infraType?: string;
-  syntheticType?: string;
-  config?: string;
-};
-
 export interface DashboardTileParamProps {
   key: number;
   header: string;
-  addLabel?: string;
-  searchAndViewAllLabel?: string;
   icon?: string;
   dragAndDropConfigs?: DraggableProvidedDragHandleProps;
-  toggles?: string[];
+  toggles?: ReactNode;
   toggleCallback?: (index: number) => void;
   sectionLabel?: string;
 }
-
-function getPlatformsTitle() {
-  let numPlatformsAvailable = 0;
-  if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (hasPCFAccess) numPlatformsAvailable++;
-  if (hasVSphereAccess) numPlatformsAvailable++;
-  if (hasOpenStackAccess) numPlatformsAvailable++;
-  if (hasPHMCAccess) numPlatformsAvailable++;
-  if (hasPowerVcAccess) numPlatformsAvailable++;
-  if (hasZHMCAccess) numPlatformsAvailable++;
-  if (hasSAPAccess) numPlatformsAvailable++;
-  if (numPlatformsAvailable > 1) {
-    return t('in-plg:welcomepage.component.platformWidget.platforms');
-  }
-
-  if (hasPCFAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.cloudFoundry');
-  }
-  if (hasVSphereAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.vsphere');
-  }
-  if (hasOpenStackAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.openstack');
-  }
-  if (hasPHMCAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.ibmp');
-  }
-  if (hasPowerVcAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.powervcRegion');
-  }
-  if (hasSAPAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.sap');
-  }
-  if (hasZHMCAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.ibmz');
-  }
-  if (hasKubernetesAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.kubernetes');
-  }
-  return '';
-}
-
-const infrastructureArray = [
-  { value: 'host', label: 'Hosts' },
-  { value: 'docker', label: 'Containers' },
-  { value: 'process', label: 'Processes' }
-];
-
-const infrastructureToogleArray: string[] = infrastructureArray.map(ele => ele.label);
 
 const syntheticArray = [
   { value: 'test', label: 'Tests' },
@@ -153,14 +73,12 @@ const widgetData = [
   {
     key: 'dashboardWidget',
     label: t('in-plg:welcomepage.component.dashboardWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.dashboardWidget.addLabel'),
     icon: 'lib_actions_reorder',
     widget: DashboardWidget
   },
   {
     key: 'websitesWidget',
     label: t('in-plg:welcomepage.component.websitesWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.websitesWidget.addLabel'),
     icon: 'lib_actions_reorder',
     type: 'website',
     widget: WebsitesAndMobileListWidget
@@ -168,7 +86,6 @@ const widgetData = [
   {
     key: 'mobileListWidget',
     label: t('in-plg:welcomepage.component.mobileAppsWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.mobileAppsWidget.addLabel'),
     icon: 'lib_actions_reorder',
     type: 'mobileApps',
     widget: WebsitesAndMobileListWidget
@@ -176,36 +93,29 @@ const widgetData = [
   {
     key: 'businessMonitoringWidget',
     label: t('in-plg:welcomepage.component.bizopsWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.bizopsWidget.viewLabel'),
     icon: 'lib_actions_reorder',
     widget: BusinessMonitoringWidget
   },
   {
     key: 'applicationWidget',
     label: t('in-plg:welcomepage.component.applicationWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.applicationWidget.addLabel'),
     icon: 'lib_actions_reorder',
     widget: ApplicationWidget
   },
   {
     key: 'platformsWidget',
-    label: getPlatformsTitle(),
+    label: t('in-plg:welcomepage.component.platformWidget.platforms'),
     icon: 'lib_actions_reorder',
     widget: PlatformWidget
   },
   {
     key: 'infrastructureWidget',
     label: t('in-plg:welcomepage.component.infrastructureWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.infrastructureWidget.hostLabel'),
-    toogles: infrastructureToogleArray,
-    infraType: 'host',
-    widget: InfrastructureWidget,
-    type: 'infrastructure'
+    widget: InfrastructureWidget
   },
   {
     key: 'syntheticWidget',
     label: t('in-plg:welcomepage.component.syntheticWidget.label'),
-    addLabel: t('in-plg:welcomepage.component.syntheticWidget.testLabel'),
     toogles: syntheticToogleArray,
     syntheticType: 'test',
     widget: SyntheticMonitoringWidget,
@@ -218,7 +128,7 @@ const widgetData = [
   }
 ];
 
-const tableEntryArray: tableEntry[] = widgetData
+const tableEntryArray: any[] = widgetData
   .filter(
     ele =>
       (ele.key === 'applicationWidget' && hasApplicationsAccess) ||
@@ -232,8 +142,8 @@ const tableEntryArray: tableEntry[] = widgetData
       (ele.key === 'syntheticWidget' && hasSyntheticsAccess) ||
       (ele.key === 'dashboardWidget' && !playwithEnabled)
   )
-  .map((ele, index) => {
-    itemIds.push({ id: index.toString() });
+  .map(ele => {
+    itemIds.push({ id: ele.key });
     return ele;
   });
 
@@ -253,9 +163,16 @@ export default function PageContent({ enableQuickLinkForAgentAndUser }: PageCont
 function filterItems(orderedItems: WidgetOrdering[]): WidgetOrdering[] {
   return orderedItems.filter(({ id }: { id: string }) => {
     if (
-      (id === '3' && !hasWebsitesAccess) ||
-      (id === '4' && !hasMobileAppsAccess) ||
-      (id === '6' && !hasApplicationsAccess)
+      (id === 'incidentsWidget' && playwithEnabled) ||
+      (id === 'dashboardWidget' && playwithEnabled) ||
+      (id === 'websitesWidget' && !hasWebsitesAccess) ||
+      (id === 'mobileListWidget' && !hasMobileAppsAccess) ||
+      (id === 'businessMonitoringWidget' && !hasBizOpsAccess) ||
+      (id === 'applicationWidget' && !hasApplicationsAccess) ||
+      (id === 'platformsWidget' && !hasAPlatformAccess) ||
+      (id === 'infrastructureWidget' && !hasInfrastructureAccess) ||
+      (id === 'syntheticWidget' && !hasSyntheticsAccess) ||
+      (id === 'eventsWidget' && !hasEventsAccess)
     ) {
       return false;
     }
@@ -280,8 +197,17 @@ function getOrderedItems(settings: UiSettings | null | undefined): WidgetOrderin
 
 function RenderTable() {
   const storedSettings: UiSettings | null | undefined = useObservable(settings$, []);
+  const getOrdered = useMemo(() => getOrderedItems(storedSettings), [storedSettings]);
 
-  const [internalItemOrder, setItemOrder] = useState(filterItems(getOrderedItems(storedSettings)));
+  const itemOrder = useMemo(() => {
+    return filterItems(getOrdered);
+  }, [getOrdered]);
+
+  const [internalItemOrder, setItemOrder] = useState<WidgetOrdering[]>(itemOrder);
+
+  useEffect(() => {
+    setItemOrder(itemOrder);
+  }, [itemOrder]);
 
   const setNewItemOrder = (items: WidgetOrdering[]) => {
     setSingle(settingsKey, { ordering: items.map(({ id }: { id: string }, i: number) => ({ id, x: 0, y: i * 10 })) });
@@ -305,7 +231,7 @@ function RenderTable() {
         {provided => (
           <div ref={provided.innerRef} className={locals.draggableItemWrapper}>
             {internalItemOrder.map((_config: WidgetOrdering, index: number) => {
-              const ele = tableEntryArray[+_config.id];
+              const ele = tableEntryArray.find(item => item.key == _config.id);
               if (!ele) {
                 return null;
               }
@@ -318,14 +244,13 @@ function RenderTable() {
                     const dashboardTileProps: DashboardTileParamProps = {
                       key: +_config.id,
                       header: ele.label,
-                      addLabel: ele.addLabel,
                       icon: ele.icon,
                       dragAndDropConfigs: provided.dragHandleProps,
                       sectionLabel: ele.label
                     };
                     return ele?.key === 'eventsWidget' ? (
                       <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>
-                        <EventsChardWidget {...dashboardTileProps} />
+                        <EventsChartWidget {...dashboardTileProps} />
                       </div>
                     ) : (
                       <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>

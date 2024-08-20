@@ -12,9 +12,9 @@ import EntityLink from 'in-components/EntityLink';
 
 const PowerVCInstanceLabel = ({ item }: { item: PowerVcItem }) => {
   const regionId = item.regionId;
-  const getPowervcInstanceDashboard = usePowervcInstanceDashboard( regionId );
+  const getPowervcInstanceDashboard = usePowervcInstanceDashboard(regionId);
 
-  return <EntityLink label={item.label} href$={getPowervcInstanceDashboard(item.id)} />;
+  return <EntityLink label={item.label} href={getPowervcInstanceDashboard(item.id)} />;
 };
 
 export default PowerVCInstanceLabel;

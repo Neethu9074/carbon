@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { just } from '@instana/observables';
 import { Link } from '@instana/components';
@@ -25,6 +26,7 @@ import {
   useLinkToServiceDashboard
 } from 'in-applications/navigation/paths';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -78,11 +80,16 @@ function InfraEntityInformation({
   pathname,
   shouldDisplayDefaultLabel = true
 }) {
+  const hostSnapshot = useObservable(
+    getHostSnapshotId(entity).flatMap(hostId => getSnapshot(hostId, linkTimeConfig)),
+    []
+  );
+  const snapshot = entity?.get('plugin') === 'hostWinService' ? hostSnapshot : undefined;
   return (
     <EntityInformationPresenter shouldDisplayDefaultLabel={shouldDisplayDefaultLabel}>
       <HierarchicalLink
         timeConfig={linkTimeConfig}
-        snapshot={entity}
+        snapshot={snapshot ?? entity}
         className={locals.link}
         pathname={pathname}
         useSnapshotLink={useSnapshotLink}

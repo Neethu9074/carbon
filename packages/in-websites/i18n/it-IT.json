@@ -348,12 +348,20 @@
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "Sessione di traccia",
     "trackingSnippetPresenterTooltip": "Ulteriori informazioni sulla traccia della sessione e sulle implicazioni della privacy.",
-    "trackingSnippetSRITooltip": "SRI (Subresource Integrity) è una funzione di sicurezza che assicura che i browser possano verificare le risorse che recuperano. La disabilitazione potrebbe causare problemi di sicurezza. Se si decide di disabilitarla, assicurarsi di essere in un ambiente di rete sicuro.",
+    "trackingSnippetSRITooltip": "SRI (Subresource Integrity) è una funzione di sicurezza che assicura che i browser possano verificare le risorse che recuperano.",
     "trackingSnippetPresenterLabelSRI": "Abilita SRI (Subresource Integrity)",
     "trackingSnippetPresenterLabelAgentVersion": "Versione agent",
     "trackingSnippetPresenterToggleYes": "Sì",
     "trackingSnippetPresenterToggleNo": "No",
-    "trackingSnippetPresenterAgentVersion": "Versione"
+    "trackingSnippetPresenterAgentVersion": "Versione",
+    "trackingSnippetPresenterCancelModal": "Annulla",
+    "trackingSnippetPresenterEnableModal": "Abilita",
+    "trackingSnippetPresenterEnablingModalTitle": "Abilita SRI (Subresource Integrity)",
+    "trackingSnippetPresenterEnablingModalBody": "L'abilitazione dell'ISR è consigliata per la sicurezza. Assicurarsi di aver selezionato la versione più recente dell'agente dal menu a tendina.",
+    "trackingSnippetPresenterDisableModal": "Disabilita",
+    "trackingSnippetPresenterDisablingModalTitle": "Disabilitare l'integrità delle risorse secondarie (ISR)?",
+    "trackingSnippetPresenterDisablingModalFirstLine": "La disabilitazione dell'ISR potrebbe causare problemi di sicurezza.",
+    "trackingSnippetPresenterDisablingModalBody": "Se si decide di disabilitarla, assicurarsi di essere in un ambiente di rete sicuro. Quando l'ISR è disattivato, lo script di tracciamento si imposta sulla versione più recente dell'agente JavaScript, ma non sarà in grado di garantire che i browser possano verificare le risorse che recuperano. "
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "Siti web e app per dispositivo mobile",
@@ -485,6 +493,7 @@
         "configurationRenameTitle": "Ridenomina sito Web",
         "configurationRenameButton": "Ridenomina",
         "configurationTrackingScriptTitle": "Script di traccia dell'agent",
+        "configurationUserAgentVersion": "La versione attuale dell'agente è <strong>{{agentVersion}}</strong>.",
         "saved": "Salvato",
         "ipMasking": {
           "title": "Mascheramento IP",
@@ -754,6 +763,9 @@
         "sizesTechnicalLabelBetween": "Tra {{min}}px e {{max}}px (inclusi)",
         "sizesTechnicalLabelAtLeast": "Almeno {{min}}px (inclusi)",
         "sizesTechnicalLabelAtMost": "Al massimo {{max}}px (inclusi)"
+      },
+      "synthetic": {
+        "tabLabel": "Monitoraggio sintetico"
       },
       "indexLabelSummary": "Riepilogo",
       "indexLabelSpeed": "Velocità",

@@ -59,6 +59,7 @@ export default function StaticOrAdaptiveOption({
           checked={currentType === baselineType}
           onChange={() => onChange(baselineType)}
           disabled={isDisabled}
+          carbonVariant
         />
       )}
       {!isTearSheet && (

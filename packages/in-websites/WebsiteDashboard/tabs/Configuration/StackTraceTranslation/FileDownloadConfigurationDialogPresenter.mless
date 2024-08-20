@@ -24,7 +24,7 @@
     fill: var(--ids-color-option-blue-500);
     flex-grow: 0;
     flex-shrink: 0;
-    margin-top: 1.6rem;
+    margin-top: 1rem;
   }
 
   .addButton {

@@ -29,4 +29,10 @@ interface DataProps {
   parentPageCategory: string;
   path: string;
   CTA?: string;
+  processType?: string;
+  action?: string;
+  actionType?: string;
+  agentName?: string;
+  agentId?: string;
+  features?: string;
 }

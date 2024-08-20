@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { Map } from 'immutable';
 
 import { Result, TimeConfig } from '@instana/types';
@@ -230,7 +230,7 @@ export default function CustomMetricsV2(props: CustomMetricProps) {
   const pinnedRows = rows.filter(r => pinnedMetrics.indexOf(r.key) !== -1);
 
   return (
-    <Fragment>
+    <>
       {pinnedRows.length > 0 && (
         <Table
           cardTitle={t('in-sdk:dashboard.customMetricsV2.customMetricsTitlePinned', {
@@ -246,7 +246,6 @@ export default function CustomMetricsV2(props: CustomMetricProps) {
           showExpandAll
         />
       )}
-
       <Table
         cardTitle={t('in-sdk:dashboard.customMetricsV2.customMetricsTitleCustom', {
           customPrefix: titlePrefix,
@@ -259,7 +258,7 @@ export default function CustomMetricsV2(props: CustomMetricProps) {
         maxItemsPerPage={20}
         initialSortColumn={2}
       />
-    </Fragment>
+    </>
   );
 }
 

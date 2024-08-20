@@ -348,12 +348,20 @@
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "トラッキング・セッション",
     "trackingSnippetPresenterTooltip": "セッション・トラッキングとプライバシーへの影響について詳しく説明します。",
-    "trackingSnippetSRITooltip": "サブリソース完全性(SRI)は、ブラウザーが取得したリソースを検証できるセキュリティー機能です。 無効にすると、セキュリティーの問題が発生する可能性があります。 無効にする場合は、安全なネットワーク環境を使用していることを確認してください。",
+    "trackingSnippetSRITooltip": "サブリソース完全性(SRI)は、ブラウザーが取得したリソースを検証できるセキュリティー機能です。",
     "trackingSnippetPresenterLabelSRI": "サブリソース完全性(SRI)を有効にする",
     "trackingSnippetPresenterLabelAgentVersion": "エージェントのバージョン",
     "trackingSnippetPresenterToggleYes": "はい",
     "trackingSnippetPresenterToggleNo": "いいえ",
-    "trackingSnippetPresenterAgentVersion": "バージョン"
+    "trackingSnippetPresenterAgentVersion": "バージョン",
+    "trackingSnippetPresenterCancelModal": "キャンセル",
+    "trackingSnippetPresenterEnableModal": "有効にする",
+    "trackingSnippetPresenterEnablingModalTitle": "サブリソース完全性(SRI)を有効にする",
+    "trackingSnippetPresenterEnablingModalBody": "セキュリティのために SRI を有効にすることを推奨する。 ドロップダウンから最新のエージェントバージョンを選択していることを確認します。",
+    "trackingSnippetPresenterDisableModal": "無効化",
+    "trackingSnippetPresenterDisablingModalTitle": "サブリソース整合性 (SRI) を無効にしてもよろしいですか?",
+    "trackingSnippetPresenterDisablingModalFirstLine": "SRI を無効にすると、セキュリティ上の問題が発生する可能性がある。",
+    "trackingSnippetPresenterDisablingModalBody": "無効にする場合は、安全なネットワーク環境を使用していることを確認してください。 SRI が無効な場合、トラッキング・スクリプトは最新の JavaScript エージェント・バージョンをデフォルトとしますが、ブラウザがフェッチしたリソースを確認することはできません。 "
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "Webサイトおよびモバイル・アプリ",
@@ -485,6 +493,7 @@
         "configurationRenameTitle": "Webサイトの名前変更",
         "configurationRenameButton": "名前を変更",
         "configurationTrackingScriptTitle": "エージェント・トラッキング・スクリプト",
+        "configurationUserAgentVersion": "現在のエージェントのバージョンは <strong>{{agentVersion}}</strong> です。",
         "saved": "保存",
         "ipMasking": {
           "title": "IPマスキング",
@@ -754,6 +763,9 @@
         "sizesTechnicalLabelBetween": "{{min}}px から {{max}}px (両端を含む)",
         "sizesTechnicalLabelAtLeast": "{{min}}px 以上",
         "sizesTechnicalLabelAtMost": "{{max}}px 以下"
+      },
+      "synthetic": {
+        "tabLabel": "シンセティック・モニタリング"
       },
       "indexLabelSummary": "サマリー",
       "indexLabelSpeed": "速度",

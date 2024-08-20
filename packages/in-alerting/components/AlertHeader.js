@@ -7,16 +7,18 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { Message, Spacer, Pill, IconButton, SvgIcon, Button } from '@instana/components';
+import { Message, Spacer, Pill, IconButton, Button } from '@instana/components';
 
 import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
-import { playwithEnabled, applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
+import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import RevisionDropdown from 'in-alerting/components/RevisionDropdown';
+import { playwithEnabled } from 'in-services/featureFlags';
+import AlertIcon from 'in-alerting/components/AlertIcon';
 import BackButton from 'in-components/BackButton';
 import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
@@ -160,20 +162,7 @@ export default function AlertHeader({
 
       <div className={locals.labelWrapper}>
         <div className={locals.left}>
-          {!hideAlertIcon && (
-            <SvgIcon
-              className={classNames({
-                [locals.alertIcon]: true,
-                [locals.alertIconSeverityLow]: alertConfig.severity <= 5,
-                [locals.alertIconSeverityHigh]: alertConfig.severity > 5
-              })}
-              size="l"
-              type="lib_alerts_create"
-              aria-label={t('in-alerting:components.alertHeaderAriaLabelSeverity', {
-                severity: alertConfig.severity <= 5 ? 'low' : 'high'
-              })}
-            />
-          )}
+          {!hideAlertIcon && <AlertIcon severity={alertConfig.severity} enabled={alertConfig.enabled} size="l" />}
           <div className={locals.name}>{renderCustomTitle?.() ?? alertConfig.name}</div>
         </div>
 
@@ -209,7 +198,7 @@ export default function AlertHeader({
           )}
 
           {allowActionButtons && !alertConfig.readOnly && showActionButton && !playwithEnabled && (
-            <div className={locals.iconsConatiner}>
+            <div className={locals.iconsContainer}>
               <Tooltip
                 content={
                   alertConfig.enabled ? t('in-alerting:smartAlerts.disable') : t('in-alerting:smartAlerts.enable')
@@ -245,6 +234,26 @@ export default function AlertHeader({
                   />
                 </Tooltip>
               )}
+              {displayTearSheetActions && (
+                <Tooltip content={getButtonName(t('in-alerting:components.alertHeaderEditTooltip'))} delay={500}>
+                  <IconButton
+                    kind="primaryv2"
+                    type="lib_actions_edit"
+                    onClick={() => goToPath(editSmartAlertPath.slice(2))}
+                    alignment="right"
+                  />
+                </Tooltip>
+              )}
+              {displayTearSheetActions && (
+                <Tooltip content={getButtonName(t('in-alerting:components.alertHeaderDuplicateTooltip'))} delay={500}>
+                  <IconButton
+                    kind="primaryv2"
+                    type="lib_actions_copy"
+                    onClick={() => goToPath(duplicateSmartAlertPath.slice(2))}
+                    alignment="right"
+                  />
+                </Tooltip>
+              )}
               {!alertConfig?.builtIn && (
                 <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')} delay={500}>
                   <IconButton
@@ -274,26 +283,6 @@ export default function AlertHeader({
                         );
                       }
                     }}
-                    alignment="right"
-                  />
-                </Tooltip>
-              )}
-              {displayTearSheetActions && applicationSmartAlertFullScreenDesignEnabled && (
-                <Tooltip content={t('in-alerting:components.alertHeaderEditTooltipNew')} delay={500}>
-                  <IconButton
-                    kind="primaryv2"
-                    type="lib_actions_edit"
-                    onClick={() => goToPath(editSmartAlertPath.slice(2))}
-                    alignment="right"
-                  />
-                </Tooltip>
-              )}
-              {displayTearSheetActions && applicationSmartAlertFullScreenDesignEnabled && (
-                <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltipNew')} delay={500}>
-                  <IconButton
-                    kind="primaryv2"
-                    type="lib_actions_copy"
-                    onClick={() => goToPath(duplicateSmartAlertPath.slice(2))}
                     alignment="right"
                   />
                 </Tooltip>

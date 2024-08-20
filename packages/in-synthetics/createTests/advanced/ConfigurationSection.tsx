@@ -8,8 +8,8 @@ import { Field, Item, MapForm, ValidationResult, createField } from 'formalistic
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import { Stack, RadioButton, Checkbox, Button, IconButton } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { Stack, SvgIcon, RadioButton, Checkbox, Button} from '@instana/components';
 
 import {
   onlyUniqueKeyNames,
@@ -320,7 +320,7 @@ export default function ConfigurationSection({
                 {header.error['value'].invalid && <ValidationBlock>{header.error['value'].message}</ValidationBlock>}
               </FormGroup>
               <div className={classNames(locals.deleteAction, locals.deleteHeader)}>
-                <SvgIcon type="lib_actions_delete" onClick={() => deleteHeaderAction(header.id)} />
+                <IconButton kind="action" type="lib_actions_delete" onClick={() => deleteHeaderAction(header.id)} />
               </div>
             </Stack>
           );

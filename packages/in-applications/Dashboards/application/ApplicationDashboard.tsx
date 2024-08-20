@@ -23,14 +23,10 @@ import {
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
-import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { clickSyntheticMonitoringTabInApplicationsTracker } from 'in-synthetics/tracker';
-import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
@@ -53,11 +49,10 @@ import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { error } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
-
-import locals from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton.mless';
 
 const urlStateDefinition = {
   bind: [applicationDashboardUrlParameters.applicationId, applicationDashboardUrlParameters.boundaryScope]
@@ -118,7 +113,20 @@ export default function ApplicationDashboard({ location }: { location: Location 
         location={location}
         tabs={getApplicationTabs(canConfigureApplications)}
         props={tabViewProps}
-        result$={getApplication({ id: tabViewProps.applicationId })}
+        result$={
+          tabViewProps.applicationId
+            ? getApplication({ id: tabViewProps.applicationId })
+            : just(
+                error([
+                  {
+                    message: t('in-applications:dashboards.idCannotBeBlank', {
+                      entity: 'Application'
+                    }),
+                    code: 'CLIENT'
+                  }
+                ])
+              )
+        }
         withProps={({ result }) => ({
           applicationName: get(result, ['data', 'label'])
         })}
@@ -171,25 +179,6 @@ function renderButtonLine(props: ButtonLineProps) {
     />
   );
 
-  const smartAlertCreateButton = isGlobalAlertConfig ? (
-    <CreateSmartAlertButton
-      isGlobal
-      buttonName={t('in-alerting:smartAlerts.applications.components.createGlobalSmartAlertNew')}
-      isFloatingButton
-      isMenuItem
-    />
-  ) : (
-    <CreateSmartAlertButton
-      isGlobal={false}
-      buttonName={t('in-alerting:smartAlerts.applications.components.createSmartAlertNew')}
-      isFloatingButton
-      isMenuItem
-      boundaryScope={boundaryScope}
-      defaultBoundaryScope={result.data?.boundaryScope}
-      applicationId={applicationId}
-    />
-  );
-
   const allowActionButtons = isGlobalAlertConfig
     ? role?.canConfigureGlobalApplicationSmartAlerts
     : role?.canConfigureApplicationSmartAlerts;
@@ -216,18 +205,8 @@ function renderButtonLine(props: ButtonLineProps) {
         groupBy={createGroupBy('service.name', DESTINATION)}
       />
 
-      {showAlertButton && applicationSmartAlertFullScreenDesignEnabled && (
-        <FloatingActionButtons>
-          <FloatingActionButtonMenu>
-            {showAlertButton && <span className={locals.floatingBtnMenu}>{addSmartAlertButton}</span>}
-            {showAlertButton && applicationSmartAlertFullScreenDesignEnabled && <>{smartAlertCreateButton}</>}
-          </FloatingActionButtonMenu>
-        </FloatingActionButtons>
-      )}
-
-      {showAlertButton && !applicationSmartAlertFullScreenDesignEnabled && (
-        <FloatingActionButtons>{addSmartAlertButton}</FloatingActionButtons>
-      )}
+      {/* Add Smart alert button to UI  */}
+      {showAlertButton && addSmartAlertButton}
     </>
   );
 }

@@ -33,6 +33,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { CTA_CLICKED } from 'in-services/util/constants';
+import { hasWebsitesAccess } from 'in-stores/permission';
 import config from 'in-services/config';
 import { role } from 'in-stores/user';
 
@@ -42,7 +43,7 @@ interface TileDataType {
   description: string;
   buttonName: string;
   buttonType: string;
-  href: string;
+  href?: string;
   hasPermission?: boolean;
   isActionCompleted?: boolean;
   onButtonClick: () => void;
@@ -131,12 +132,12 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
         description: t('in-plg:welcomepage.traceInteractions.description'),
         buttonName: t('in-plg:welcomepage.traceInteractions.buttonName'),
         buttonType: 'ghost',
-        href: createRedirectHref('traceInteractions'),
         hasPermission: role?.canConfigureAgents,
         isActionCompleted: statusFlags.tracingReported,
         onButtonClick: () => {
           sendEventsToSegment(UNIT_ONBOARDING_TRACE_INTERACTIONS_CLICK);
           unitOnboardingTraceInteractionsClick();
+          window.open(createRedirectHref('traceInteractions'), '_blank', 'noreferrer');
         }
       },
       {
@@ -202,7 +203,7 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
         buttonName: t('in-plg:welcomepage.startMonitoring.buttonName'),
         buttonType: 'ghost',
         href: createRedirectHref('startMonitoring'),
-        hasPermission: role?.canConfigureMobileAppMonitoring,
+        hasPermission: hasWebsitesAccess,
         isActionCompleted: statusFlags.oneWebsiteMonitored,
         onButtonClick: () => {
           sendEventsToSegment(UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK);

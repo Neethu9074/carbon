@@ -4,6 +4,7 @@
  */
 
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import usageTimePresets from 'in-amp/components/usageTimePresets';
 import { tenantUnitChanged } from 'in-amp/tracker';
 import useUrlState from 'in-hooks/useUrlState';
@@ -44,7 +45,8 @@ const urlSettingsConfig = {
       name: 'presentation',
       serializer: buildJsonSerializer(),
       parser: buildJsonParser(),
-      initialState: 'cumulative'
+      // On premise we don't support cumulative, so set the initialState to distinct
+      initialState: onPremLicenseInformationEnabled ? 'distinct' : 'cumulative'
     }
   ]
 };

@@ -21,6 +21,8 @@ import { carbonAlert } from 'in-themes/chartColors';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
+import locals from 'in-amp/components/UsageCharts.mless';
+
 export default function UsageCharts({
   windowSize,
   timeRange,
@@ -219,13 +221,15 @@ export default function UsageCharts({
       </Row>
       <Row>
         <Col xs={12}>
-          <Card>
-            <SubViewHeader>
-              Data usage
+          <Card
+            title={t('in-amp:components.usageCharts.dataUsage')}
+            leftHeaderContent={
               <Tooltip content={t('in-amp:components.usageCharts.dataUsageHelperText')} align="rightMiddle">
                 <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
               </Tooltip>
-            </SubViewHeader>
+            }
+            headerClassName={locals.cardHeader}
+          >
             <UsageChart
               windowSize={windowSize}
               timeRange={timeRange}
@@ -251,13 +255,15 @@ export default function UsageCharts({
           <SubViewHeader>{t('in-amp:components.usageCharts.addons')}</SubViewHeader>
           <Row>
             <Col xs={6}>
-              <Card>
-                <SubViewHeader>
-                  {t('in-amp:components.usageCharts.syntheticPops')}
+              <Card
+                title={t('in-amp:components.usageCharts.syntheticPops')}
+                leftHeaderContent={
                   <Tooltip content={t('in-amp:components.usageCharts.helperText')} align="rightMiddle">
                     <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
                   </Tooltip>
-                </SubViewHeader>
+                }
+                headerClassName={locals.cardHeader}
+              >
                 <UsageChart
                   windowSize={windowSize}
                   timeRange={timeRange}

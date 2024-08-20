@@ -6,7 +6,7 @@
 
 import React, { ReactNode } from 'react';
 
-import { Spacer, Tooltip, Pill, SvgIcon } from '@instana/components';
+import { Spacer, Tooltip, Pill, SvgIcon, Stack } from '@instana/components';
 
 import AlertTypography from 'in-alerting/components/AlertTypography';
 
@@ -32,15 +32,20 @@ export default function LabelDescriptionWithIcon({
   tooltipContent
 }: LabelDescriptionWithIconProps) {
   return (
-    <div className={locals.wrapper}>
+    <Stack align="start" direction="horizontal" gap="xsmall">
+      {/* display icon */}
       {icon && <SvgIcon type={icon} className={locals.icon} />}
+
+      {/* display content */}
       <div className={locals.content}>
         <AlertTypography variant="body-bold" color="color900" content={label} />
+
+        {/* If checkbox/ radiobtn is disabled */}
         {disabled && (
           <span className={locals.notSupported}>
             <Tooltip align={'rightMiddle'} delay={500} content={tooltipContent}>
-              <Pill type="gray" className={locals.notSupported} size="md">
-                <span className={locals.pillContent}>
+              <Pill kind="info" type="gray" className={locals.notSupported} size="md">
+                <span title="" className={locals.pillContent}>
                   <SvgIcon type="lib_help_error_error_outline" size="xs" />
                   {badgeTitle}
                 </span>
@@ -52,6 +57,6 @@ export default function LabelDescriptionWithIcon({
         <AlertTypography variant="body-small" color="color600" content={description} />
         {children}
       </div>
-    </div>
+    </Stack>
   );
 }

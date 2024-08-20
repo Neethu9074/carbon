@@ -662,8 +662,6 @@ export default function CarbonUIShell() {
   const [expanded, setExpanded] = useState(false);
 
   const onClickSideNavExpand = () => setExpanded(!expanded);
-  const enableWelcomePageV2 =
-    (welcomePageV2Enabled && config.activeLicenseType === 'selfService') || (welcomePageV2Enabled && playwithEnabled);
 
   // If header panel is open, and user clicks outside, close it
   const handleKeyPress = (event: KeyboardEvent) => {
@@ -728,7 +726,7 @@ export default function CarbonUIShell() {
         })}
       <Infrastructure />
       <MenuItem isDivider />
-      {enableWelcomePageV2 && <CustomDashboards />}
+      {welcomePageV2Enabled && <CustomDashboards />}
       <Synthetics />
       <Analyze />
       <Incidents />

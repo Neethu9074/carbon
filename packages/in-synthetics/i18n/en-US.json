@@ -245,13 +245,13 @@
         "associationsLabel": "Associate",
         "applicationsTitle": "Associate: Select applications to associate with this synthetic test",
         "applicationsDescription": "Associating a synthetic test with an application grants access rights to all users who have access to that application.",
-        "associationsTitle": "Associate: Select entities to associate with this synthetic test",
+        "associationsTitle": "Associate: Select what you want to associate with this synthetic test",
         "associationsDescription": "Associating a synthetic test with an application, website or mobile app grants access rights to all users who have access to those entities."
       },
       "associations": {
         "applicationsTitle": "Select applications to associate with this synthetic test",
         "applicationsDescription": "Associating a synthetic test with an application grants access rights to all users who have access to that application.",
-        "associationsTitle": "Select entities to associate with this synthetic test",
+        "associationsTitle": "Select what you want to associate with this synthetic test",
         "associationsDescription": "Associating a synthetic test with an application, website or mobile app grants access rights to all users who have access to those entities.",
         "applicationsButtonLabel": "Select Applications",
         "websitesButtonLabel": "Select Websites",
@@ -336,7 +336,7 @@
         "datacentersSubtitle": "Activate an Instana managed location in one of the available datacenters. For more information, see <linkDatacenters>Using an Instana-hosted PoP</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Locations are being deployed",
-          "message": "We are setting up your new locations at the following datacenters. Please be patient while we auto-deploy this for you. When this is finished, you can find your new locations in the locations tab. <strong>This can take up to 10 minutes for each selected datacenter.</strong>",
+          "message": "We are setting up your new locations at the following datacenters. Please be patient while we auto-deploy this for you. When this is finished, you can find your new locations in the locations tab. <strong>This deployment can take a few minutes for each selected datacenter.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Datacenter Code",
@@ -351,7 +351,7 @@
         },
         "deactivateDatacenter": {
           "title": "Deactivate Location",
-          "deactivateMessage": "Are you sure you want to deactivate location <strong>{{locationDisplayLabel}}</strong>?<br/><br/>Deactivating a location can take up to 10 minutes. Please be patient while we deprovision this for you. When this is finished, the location status will be Offline.<br/>",
+          "deactivateMessage": "Are you sure you want to deactivate location <strong>{{locationDisplayLabel}}</strong>?<br/><br/>Deactivating a location can take a few minutes. Please be patient while we deprovision this for you. When this is finished, the location status will be Offline.<br/>",
           "warningMessage": "Deactivating is not deleting. The location will be available and can be activated again. To completely remove the managed location, delete the location once its status changes to Offline.",
           "activeStatus": "Active",
           "deactivateButton": "Deactivate"
@@ -400,13 +400,25 @@
         "tlsInstructions": "If you want to enable Redis TLS, you need to have your X.509 certificate-key pair (`tls.crt`, `tls.key`) and CA root certificate file (`ca.crt`).\n\nIf you do not have your key/cert files, you can also use openssl command to generate new ones, see below examples:",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "After key/cert files are provided, use the kubectl command to create a secret.",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n\t--type=\"kubernetes.io/tls\" \\\n\t--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n\t--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n\t--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n\t--type=\"kubernetes.io/tls\" \\\n\t--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n\t--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n\t--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}} Associations",
+        "singleAssociationTitle": "{{number}} Association"
       },
       "multiAppDialog": {
+        "filterLabel": "Applications",
         "singleAppHeader": "{{ number }} Association",
         "multiAppHeader": "{{ number }} Associations",
         "singleAppSpan": "{{ number }} Associated Application",
-        "multiAppSpan": "{{ number }} Associated Applications"
+        "multiAppSpan": "{{ number }} Associated Applications",
+        "noApplicationsAssociated": "No applications associated"
+      },
+      "multiWebDialog": {
+        "filterLabel": "Websites",
+        "noWebsitesAssociated": "No websites associated."
+      },
+      "multiMobileDialog": {
+        "filterLabel": "Mobile Apps",
+        "noMobileAppsAssociated": "No mobile apps associated."
       },
       "testLabel": "Name",
       "status": "Status",
@@ -423,7 +435,7 @@
       "latency": "Latency",
       "locationLabel": "Location",
       "locations": "{{totalLocations}} locations",
-      "applicationLabel": "Associations",
+      "associationLabel": "Associations",
       "health": "Health",
       "action": "Action",
       "labelConfirmRemoveTest": "Are you sure you want to remove <strong>{{testLabel}}</strong> test?",

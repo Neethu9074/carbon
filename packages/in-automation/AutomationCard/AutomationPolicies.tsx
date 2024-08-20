@@ -34,12 +34,12 @@ import useServerTableUrlState, {
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { actionNameColumn as policyActionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
+import { runActionTracker, runActionTrackerSegment, createBulkPoliciesTracker } from 'in-automation/tracker';
 import { NewPolicy, TriggerSpecification, isManual as isManualPolicy } from 'in-automation/Policies/types';
 import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { refresh, usePaginatedPolicies } from 'in-automation/AutomationCard/usePolicies';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import { runActionTracker, createBulkPoliciesTracker } from 'in-automation/tracker';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { saveBulkPolicies, deletePolicy, ScoredAction } from 'in-automation/api';
 import { close, addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -53,6 +53,8 @@ import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { Policy, VolatileId, Event, Result, Error } from 'in-types';
 import { TagsFilter } from 'in-automation/components/tableFilters';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { mapData } from 'in-services/util/result';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -183,6 +185,19 @@ const getExecuteColumn = (
           href={value}
           onClick={e => {
             e.stopPropagation();
+
+            // Track documentation action launched
+            runActionTrackerSegment({
+              action: action.name,
+              actionType: action.type,
+              agentName: item.name,
+              agentId: item.id,
+              features: isAIAction(action) || isAIActionCopy(action) ? 'aiGenerated' : '',
+              parentPageName: pageNames.event,
+              parentPageCategory: productAreas.events,
+              path: location?.hash
+            });
+
             runActionTracker({
               actionType: action.type,
               actionName: action.name,
@@ -225,6 +240,19 @@ const getExecuteColumn = (
           onClick={e => {
             e.stopPropagation();
             addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+
+            // Track manual action viewed
+            runActionTrackerSegment({
+              action: action.name,
+              actionType: action.type,
+              agentName: item.name,
+              agentId: item.id,
+              features: isAIAction(action) || isAIActionCopy(action) ? 'aiGenerated' : '',
+              parentPageName: pageNames.event,
+              parentPageCategory: productAreas.events,
+              path: location?.hash
+            });
+
             runActionTracker({
               actionType: action.type,
               aIGeneratedAction: isAIAction(action) || isAIActionCopy(action),

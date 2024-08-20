@@ -4,6 +4,7 @@
  */
 
 import featureFlags from '../../dev/featureFlags';
+import searchFieldValues from './searchFieldValues.json';
 
 window.instana = {
   user: {
@@ -17,6 +18,7 @@ window.instana = {
       }
     ]
   },
+  searchFields: searchFieldValues,
   config: {
     featureFlags,
     tenant: 'instana',

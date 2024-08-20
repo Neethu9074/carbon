@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -9,10 +9,10 @@ import React from 'react';
 import { Card } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import { ChartProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd/types';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import { ChartProps } from './types';
 
 export default function EtcdOpsChart({ snapshotId, timeConfig }: ChartProps) {
   return (

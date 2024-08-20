@@ -348,12 +348,20 @@
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "Sessão de rastreamento",
     "trackingSnippetPresenterTooltip": "Saiba mais sobre o rastreamento de sessão e as implicações de privacidade.",
-    "trackingSnippetSRITooltip": "Subresource Integrity (SRI) é um recurso de segurança que garante que os navegadores possam verificar os recursos que eles buscam. A desativação disso pode causar problemas de segurança. Se você decidir desativá-lo, assegure-se de estar em um ambiente de rede seguro.",
+    "trackingSnippetSRITooltip": "Subresource Integrity (SRI) é um recurso de segurança que garante que os navegadores possam verificar os recursos que eles buscam.",
     "trackingSnippetPresenterLabelSRI": "Ativar Subresource Integrity (SRI)",
     "trackingSnippetPresenterLabelAgentVersion": "Versão do Agente",
     "trackingSnippetPresenterToggleYes": "True",
     "trackingSnippetPresenterToggleNo": "Não",
-    "trackingSnippetPresenterAgentVersion": "Versão"
+    "trackingSnippetPresenterAgentVersion": "Versão",
+    "trackingSnippetPresenterCancelModal": "Cancelar",
+    "trackingSnippetPresenterEnableModal": "Ativar",
+    "trackingSnippetPresenterEnablingModalTitle": "Ativar Subresource Integrity (SRI)",
+    "trackingSnippetPresenterEnablingModalBody": "A ativação do SRI é recomendada para fins de segurança. Certifique-se de ter selecionado a versão mais recente do agente no menu suspenso.",
+    "trackingSnippetPresenterDisableModal": "Desativar",
+    "trackingSnippetPresenterDisablingModalTitle": "Tem certeza de que deseja desativar o Subresource Integrity (SRI)?",
+    "trackingSnippetPresenterDisablingModalFirstLine": "A desativação do SRI pode causar problemas de segurança.",
+    "trackingSnippetPresenterDisablingModalBody": "Se você decidir desativá-lo, assegure-se de estar em um ambiente de rede seguro. Quando o SRI está desativado, o script de rastreamento é padronizado para a versão mais recente do agente JavaScript, mas não poderá garantir que os navegadores possam verificar os recursos que buscam. "
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "Websites e aplicativos móveis",
@@ -485,6 +493,7 @@
         "configurationRenameTitle": "Renomear website",
         "configurationRenameButton": "Renomear",
         "configurationTrackingScriptTitle": "Script de rastreamento do agente",
+        "configurationUserAgentVersion": "A atual versão do agente é <strong>{{agentVersion}}</strong>.",
         "saved": "Salvas",
         "ipMasking": {
           "title": "Mascaramento de IP",
@@ -754,6 +763,9 @@
         "sizesTechnicalLabelBetween": "Entre {{min}}px e {{max}}px (inclusivo)",
         "sizesTechnicalLabelAtLeast": "Pelo menos {{min}}px (inclusivo)",
         "sizesTechnicalLabelAtMost": "No máximo {{max}}px (inclusivo)"
+      },
+      "synthetic": {
+        "tabLabel": "Monitoramento sintético"
       },
       "indexLabelSummary": "Resumo",
       "indexLabelSpeed": "Velocidade",

@@ -20,9 +20,11 @@ export default function BatchIndicator({ batchCount }) {
   const formattedNumber = number.compact(batchCount);
   return (
     <Tooltip content={`${formattedNumber} occurrences`}>
-      <Pill kind="lighter" className={locals.indicator}>
-        {formattedNumber}
-      </Pill>
+      <div>
+        <Pill kind="lighter" className={locals.indicator}>
+          {formattedNumber}
+        </Pill>
+      </div>
     </Tooltip>
   );
 }

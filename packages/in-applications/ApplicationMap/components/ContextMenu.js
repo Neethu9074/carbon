@@ -6,6 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import {
@@ -20,22 +21,21 @@ import getApplication from 'in-applications/subscriptions/getApplication';
 import { getButtonKindBySeverity } from 'in-stores/events';
 import { boundaryScopes } from 'in-applications/constants';
 import { flowMapEnabled } from 'in-services/featureFlags';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './ContextMenu.mless';
 
-export default connectTo(
-  ({ applicationId, serviceLocatorUid }) => ({
-    isTrafficEnabled: getServiceLocators(serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.SHOW_EXTERNAL_TRAFFIC),
-    application: getApplication({
+export default function ContextMenuContent({ applicationId, node, serviceLocatorUid }) {
+  const isTrafficEnabled = useObservable(
+    getServiceLocators(serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.SHOW_EXTERNAL_TRAFFIC),
+    [serviceLocatorUid]
+  );
+  const application = useObservable(
+    getApplication({
       id: applicationId
-    }).map(result => result.data)
-  }),
-  ContextMenuContent
-);
-
-export function ContextMenuContent({ applicationId, application, node, isTrafficEnabled }) {
+    }).map(result => result.data),
+    [applicationId]
+  );
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 

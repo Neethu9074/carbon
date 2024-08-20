@@ -31,6 +31,9 @@ import {
   AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION,
   AUTOMATION_ACTION_HISTORY_INSTANCE_DELETE
 } from 'in-services/tracking/tracking';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { EventTrackerProps } from 'in-services/tracking/segment/types';
+import { STARTED_PROCESS } from 'in-services/util/constants';
 
 export const runActionTracker = (e: Object) => track(AUTOMATION_ACTION_RUN, e);
 export const createActionTracker = (e: Object) => track(AUTOMATION_ACTION_CREATE, e);
@@ -61,3 +64,24 @@ export const clickTestAIGenaratedActionTracker = (e: object) => track(AUTOMATION
 //turbo trackers
 export const clickTurboLinkForDetailsTracker = (e: Object) => track(AUTOMATION_CLICK_TURBO_LINK_FOR_DETAILS, e);
 export const viewTurboActionTracker = (e: Object) => track(AUTOMATION_VIEW_TURBO_ACTION, e);
+
+// Segment trackers
+
+// Action run from an event occurrence.
+// Action run from either the Automation Policies table or the Recommended Actions table.
+export const runActionTrackerSegment = (e: EventTrackerProps['data']) => {
+  const data = {
+    processType: AUTOMATION_ACTION_RUN,
+    ...e
+  };
+  eventTracker({ data, segmentEventName: STARTED_PROCESS });
+};
+
+// Action tested from the Action Catalog
+export const testActionTrackerSegment = (e: EventTrackerProps['data']) => {
+  const data = {
+    processType: AUTOMATION_TEST_ACTION_RUN,
+    ...e
+  };
+  eventTracker({ data, segmentEventName: STARTED_PROCESS });
+};

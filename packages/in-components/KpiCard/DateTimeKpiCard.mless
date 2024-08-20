@@ -5,7 +5,6 @@
 
 :local {
   .row {
-    font-size: 1.2rem;
     display: block;
     margin-top: 0.1rem;
   }

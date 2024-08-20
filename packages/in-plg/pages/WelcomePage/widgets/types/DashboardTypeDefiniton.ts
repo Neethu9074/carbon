@@ -12,12 +12,12 @@ import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 export type GetContentFunction = (options: any) => React.ReactNode;
 
 export interface WidgetProps {
-  key: string;
-  config: any;
-  timeConfig: TimeConfig;
-  widgetLabel: string;
+  key?: string;
+  config?: any;
+  timeConfig?: TimeConfig;
+  widgetLabel?: string;
   dashboardTileProps: DashboardTileParamProps;
-  maxItems?: number;
+  maxItems?: number | null;
   viewAll?: boolean;
 }
 
@@ -28,6 +28,7 @@ export type GetItemsFunction = (options: {
   selectedType?: string;
   syntheticType?: string;
   pinnedItemIdsByType?: StarredItemWithIdsType;
+  pageSize?: number;
 }) => Observable<any>;
 
 export type AddMoreFunction = () => void;
@@ -47,10 +48,11 @@ export interface SyntheticProps extends WidgetProps {
 export interface DatatableWidgetProps extends InfraProps, SyntheticProps {
   tableType: string;
   headers: [];
+  getItem: (options: any) => Observable<any>;
   getItems: GetItemsFunction;
   addMore: AddMoreFunction;
   addData: AddMoreFunction;
-  columnDefinitions: [];
+  columnDefinitions: ColumnDefinitionItem[];
   hasAddMore?: boolean;
   hasAddPermission?: boolean;
   viewAll?: boolean;
@@ -58,6 +60,11 @@ export interface DatatableWidgetProps extends InfraProps, SyntheticProps {
   label: string;
   isDashboardWidget?: boolean;
   pinnedItemIdsByType?: StarredItemWithIdsType;
+  pinnedItemTypes?: (keyof StarredItemWithIdsType)[];
+  timeConfig: TimeConfig;
+  searchPlaceholderLabel: string;
+  addButtonLabel: string;
+  viewAllLabel: string;
 }
 
 export interface StarredItemWithIdsType {

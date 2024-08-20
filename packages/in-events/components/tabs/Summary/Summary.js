@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Card, Pill, Button } from '@instana/components';
-import { combineLatest } from '@instana/observables';
+import { Card, Pill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -26,18 +25,14 @@ import {
   isLogSmartAlertEvent,
   hasManualCloseFields
 } from 'in-events/components/eventUtil';
-import {
-  incidentSummarizationEnabled,
-  incidentSummarizationTimelineEnabled,
-  manuallyCloseEventEnabled,
-  eumImpactedUsersForAppAlertEnabled
-} from 'in-services/featureFlags';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
+import { manuallyCloseEventEnabled, eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
+import IncidentContent from 'in-events/components/tabs/Summary/IncidentDetailPage/IncidentContent';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
 import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
@@ -57,26 +52,20 @@ import SloEventContent from 'in-events/components/EventContent/SloEventContent';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
-import EventSummarization from 'in-events/components/legacy/EventSummarization';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
-import { pageNumberUrlParameter } from '../../../navigation/urlParameters';
-import PopulationChart from 'in-events/components/legacy/PopulationChart';
-import IncidentEventListRows from 'in-events/components/legacy/EventList';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import { getEventType, EVENT_TYPES, getEvent } from 'in-stores/events';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
-import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { pageNames } from 'in-services/tracking/pageNames';
 import EventChart from 'in-events/components/EventChart';
 import { emptyList } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
-import useUrlState from 'in-hooks/useUrlState';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -102,11 +91,13 @@ export default function Summary(props) {
         <>
           <div className={locals.content}>
             <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
-            <EventDetailsKPIs event={event} isIncident={isIncident} />
             {isIncident ? (
               <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
             ) : (
-              <EventContent event={event} latestSnapshot={latestSnapshot} reload={reload} />
+              <>
+                <EventDetailsKPIs event={event} isIncident={isIncident} />
+                <EventContent event={event} latestSnapshot={latestSnapshot} reload={reload} />
+              </>
             )}
           </div>
         </>
@@ -300,137 +291,6 @@ function ProcessContent({ snapshot, timeConfig }) {
     return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
   }
   return <ProcessTopList snapshot={snapshot} timeConfig={timeConfig} />;
-}
-
-const IncidentContent = connectTo(
-  ({ incident, latestSnapshot }) => ({
-    snapshot: getSnapshot(
-      incident.get('entityId'),
-      getTimeConfigForSnapshotRetrieval(incident, latestSnapshot)
-    ).startWith(null)
-  }),
-  function IncidentContent({ incident, latestSnapshot, snapshot }) {
-    const recentEvents = incident
-      .get('recentEvents', emptyList)
-      .sort(
-        (a, b) =>
-          incident.getIn(['issueOrderMap', a], Number.MAX_SAFE_INTEGER) -
-          incident.getIn(['issueOrderMap', b], Number.MAX_SAFE_INTEGER)
-      )
-      .toArray();
-
-    const [{ relatedEventsPage }, setState] = useUrlState({
-      bind: [pageNumberUrlParameter]
-    });
-    const pageState = eventsPath && relatedEventsPage ? relatedEventsPage : 1;
-    const pageSize = 10;
-    const paginatedRecentEvents = recentEvents?.slice(pageSize * (pageState - 1), pageSize * pageState);
-
-    const recentEventsWithMetadata =
-      useObservable(combineLatest(paginatedRecentEvents.map(getEvent)).throttle(250), [incident]) ?? null;
-
-    const [changesAreVisible, setChangesAreVisible] = useState(false);
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const [expandedEventOnClickInTimeline, setExpandedEventOnClickInTimeline] = useState('');
-    const [highlightEventOnHover, setHighlightEventOnHover] = useState('');
-
-    if (!recentEventsWithMetadata) return <LoadingIndicator />;
-
-    const numChanges = getNumberOfChanges(recentEventsWithMetadata);
-
-    const header = (
-      <>
-        {shouldRenderExpandButton(recentEventsWithMetadata, changesAreVisible, numChanges) && (
-          <Button
-            type="button"
-            kind={isExpanded ? 'primaryv2' : 'secondary'}
-            onClick={() => setIsExpanded(!isExpanded)}
-          >
-            {isExpanded
-              ? t('in-events:buttonCollapse')
-              : t('in-events:buttonExpandEvents', { eventsLength: recentEventsWithMetadata.length })}
-          </Button>
-        )}
-        {shouldRenderShowChangesButton(numChanges) && (
-          <Button
-            type="button"
-            kind={changesAreVisible ? 'primaryv2' : 'secondary'}
-            onClick={() => setChangesAreVisible(!changesAreVisible)}
-          >
-            {changesAreVisible ? t('in-events:buttonHideChanges') : t('in-events:buttonShowChanges')}
-          </Button>
-        )}
-      </>
-    );
-
-    // should be displayed if incident summarization feature is disabled OR incident summarization feature and timeline with summarization is enabled
-    const shouldTimelineBeDisplayed =
-      !incidentSummarizationEnabled || (incidentSummarizationEnabled && incidentSummarizationTimelineEnabled) || false;
-
-    return (
-      <>
-        {incidentSummarizationEnabled && incident && incident.get('metadata')?.has('incidentSummary') && (
-          <EventSummarization
-            title={t('in-events:incidentSummarization.incidentSummaryTitle')}
-            incident={incident}
-            latestSnapshot={latestSnapshot}
-          />
-        )}
-        {shouldTimelineBeDisplayed && (
-          <Row withoutSideMargin>
-            <Col xs>
-              <Card title={t('in-events:titleIncidentTimeline')} header={header}>
-                <PopulationChart
-                  incidentId={incident.get('id')}
-                  recentEvents={recentEventsWithMetadata}
-                  changesAreVisible={changesAreVisible}
-                  isExpanded={isExpanded}
-                  setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-                  setHighlightEventOnHover={setHighlightEventOnHover}
-                />
-              </Card>
-            </Col>
-          </Row>
-        )}
-
-        <IncidentEventListRows
-          incident={incident}
-          snapshot={snapshot}
-          latestSnapshot={latestSnapshot}
-          recentEvents={recentEventsWithMetadata}
-          pageState={pageState}
-          setPageURLState={setState}
-          expandedEventOnClickInTimeline={expandedEventOnClickInTimeline}
-          setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-          highlightEventOnHover={highlightEventOnHover}
-        />
-      </>
-    );
-  }
-);
-
-function getNumberOfChanges(recentEvents) {
-  if (!recentEvents) {
-    return 0;
-  }
-
-  let counter = 0;
-  for (let i = 0, length = recentEvents.length; i < length; i++) {
-    const event = recentEvents[i];
-    if (getEventType(event) === EVENT_TYPES.CHANGE) {
-      counter++;
-    }
-  }
-  return counter;
-}
-
-function shouldRenderShowChangesButton(numChanges) {
-  return numChanges > 0;
-}
-
-function shouldRenderExpandButton(recentEvents, changesAreVisible, numChanges) {
-  return recentEvents && recentEvents.length - (!changesAreVisible ? numChanges : 0) > 10;
 }
 
 function hasMetric(event, metric) {

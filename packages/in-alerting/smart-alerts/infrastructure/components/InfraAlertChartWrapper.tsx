@@ -55,6 +55,7 @@ import { finishedProgress, indeterminateProgress } from 'in-services/fixedObject
 import { Config, MetricData } from 'in-custom-dashboards/widgets/Chart/types';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
+import { carbonAlert, carbonCategorical } from 'in-themes/chartColors';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { getMetricDefinition } from 'in-sdk/metrics';
@@ -125,7 +126,8 @@ export default function InfraAlertChartWrapper({
         violatedThreshold,
         [],
         chartViewConfig,
-        displayPredictions
+        displayPredictions,
+        eventSeverity === 5 ? carbonCategorical.yellow50 : carbonAlert.red60
       )
     : getY1ForMultiThreshold(
         metricName,

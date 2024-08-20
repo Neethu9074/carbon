@@ -7,12 +7,12 @@
     "trialExpirationPopUpDescription": "Data collection has ended. You can continue using the product for another 7 days. After 7 days, you will not be able to access the trial. If you plan to purchase the product, we can retain your data for another 2 weeks.",
     "trialExpirationPopUpDescriptionAfterSevenDays": "Thanks for exploring Instana! You have reached the end of your trial and can no longer access the product."
   },
-  "buyNowDialog":{
+  "buyNowDialog": {
     "title": "Flexible billing based on your usage",
     "cancelbtn": "Cancel",
     "subHeading": "Now with the PayPerUse option, you’ll only be billed for what you use.",
     "sidePanelTitle": "Still not sure if you want a subscription?",
-    "sidePanelDescription": "We’re here to help find the perfect option for you." ,
+    "sidePanelDescription": "We’re here to help find the perfect option for you.",
     "mainBodyTitle1": "Automation, context and intelligent action with IBM Instana Observability",
     "mainBodyDescription1": "Our industry-leading, one-second granularity and comprehensive request tracing guarantee that no issue escapes detection. Gain full-stack visibility across application code, Kubernetes containers, and microservices with user-friendly dashboards and SmartAlerts™ for tailored alerting. Seamlessly integrated into AWS, Instana supports over 300 technologies, providing worry-free performance monitoring for containerized applications on Amazon AWS.",
     "mainBodyTitle2": "Introducing PayPerUse",
@@ -30,7 +30,7 @@
     "serviceDescription": "Service description.",
     "mvs": "†Managed Virtual Server (MVS) is a unit of measure by which Instana can be licensed. Learn more about MVS ",
     "here": "here."
-   },
+  },
   "licenseBanner": {
     "requestQuoteBtn": "Request a quote",
     "buyNow": "Buy now",
@@ -39,7 +39,7 @@
     "alreadyHaveLicense": "Already have a license? Activate it on <linkToDocker>Docker</linkToDocker> or <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Get answers",
     "share": "Share",
-    "shareTooltip":"Share this page with colleagues and invite them to collaborate in Instana.",
+    "shareTooltip": "Share this page with colleagues and invite them to collaborate in Instana.",
     "titleDetail": {
       "trial": "Trial",
       "sandboxTrial": "Sandbox trial"
@@ -406,6 +406,22 @@
         "configurationParameters": "Configuration Parameters"
       }
     },
+    "ibmi": {
+      "ibmi": "IBM i",
+      "os": "OS",
+      "archiveTarGz": "Archive (tar.gz)",
+      "archive": {
+        "selectTheAgentPackagingMode": "Step 1: Select the agent packaging mode",
+        "selecTthePlatformArchitecture": "Step 2: Select the platform architecture",
+        "platformArchitecture": "Platform architecture",
+        "beforeYouInstall": "Before you Install",
+        "installingManually": "Installing Manually",
+        "startingTheAgent": "Starting the Agent",
+        "agentOptions": {
+          "ibmi64Bit": "IBM i"
+        }
+      }
+    },
     "openshift": {
       "documentLinks": {
         "installOperatorByUsingOlm": "Installing Operator by using OLM",
@@ -499,7 +515,7 @@
     "smartAlerts": {
       "title": "Get alerted",
       "description": "Configure alerts easily with predefined blueprints for both simple and advanced customization.",
-      "buttonName": "Set up smart alerts"
+      "buttonName": "Set up Smart Alerts"
     },
     "startMonitoring": {
       "title": "Monitor your environment",
@@ -514,21 +530,24 @@
     "component": {
       "applicationWidget": {
         "label": "Applications",
-        "addLabel": "application",
         "name": "Name",
         "calls": "Calls",
         "scope": "Scope",
         "latency": "Latency",
         "erroneousCallRate": "Erroneous call rate",
-        "openCreationDialog": "Open Creation Dialog",
-        "health": "Health"
+        "openCreationDialog": "Open creation dialog",
+        "health": "Health",
+        "searchPlaceholderLabel": "applications",
+        "addButtonLabel": "application",
+        "viewAllLabel": "applications"
       },
       "eventWidget": {
         "label": "Events",
+        "viewAllLabel": "events",
         "incidents": "Incidents",
         "critical": "Critical",
         "warning": "Warning",
-        "viewEvents": "View Events"
+        "viewEvents": "View events"
       },
       "platformWidget": {
         "platforms": "Platforms",
@@ -540,7 +559,6 @@
         "powervcRegion": "PowerVC Region",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
-        "kubernetes": "Kubernetes",
         "gke": "Google Kubernetes Engine",
         "eks": "Amazon Elastic Kubernetes Service",
         "name": "Name",
@@ -557,46 +575,52 @@
         "vios": "Virtual I/O Server",
         "memoryUsage": "Memory Usage",
         "cpuUsage": "CPU Usage",
-        "esXiHosts": "ESXi Host"
+        "esXiHosts": "ESXi Host",
+        "searchPlaceholderLabel": "platforms",
+        "viewAllLabel": "platforms"
       },
       "bizopsWidget": {
-        "label": "Business Monitoring",
-        "viewLabel": "business processes",
+        "label": "Business monitoring",
         "name": "Name",
         "activities": "Activities",
         "views": "Views",
-        "health": "Health"
+        "health": "Health",
+        "searchPlaceholderLabel": "business processes",
+        "viewAllLabel": "business processes"
       },
       "incidentsWidget": {
         "label": "Incidents",
         "active": "active",
         "title": "Title",
         "on": "On",
-        "started": "Started",
+        "started": "Start",
         "end": "End",
-        "health": "Status"
+        "health": "Status",
+        "searchPlaceholderLabel": "incidents",
+        "viewAllLabel": "incidents"
       },
       "websitesWidget": {
         "label": "Websites",
         "name": "Name",
         "pageViews": "Page views",
         "onLoadTimes": "OnLoad times",
-        "addLabel": "website",
-        "health": "Health"
+        "health": "Health",
+        "searchPlaceholderLabel": "websites",
+        "addButtonLabel": "website",
+        "viewAllLabel": "websites"
       },
       "mobileAppsWidget": {
-        "label": "Mobile Apps",
+        "label": "Mobile apps",
         "name": "Name",
         "sessions": "Sessions",
         "views": "Views",
-        "addLabel": "mobile app",
-        "health": "Health"
+        "health": "Health",
+        "searchPlaceholderLabel": "mobile apps",
+        "addButtonLabel": "mobile app",
+        "viewAllLabel": "mobile apps"
       },
       "infrastructureWidget": {
         "label": "Infrastructure",
-        "hostLabel": "hosts",
-        "containerLabel": "containers",
-        "processLabel": "processes",
         "mean": "mean",
         "name": "Name",
         "os": "OS",
@@ -604,42 +628,52 @@
         "hosts": "Hosts",
         "technologies": "Technologies",
         "cpuNum": "Number of CPUs",
-        "cpuUsage": "CPU Usage",
+        "cpuUsage": "CPU usage",
         "created": "Created",
         "started": "Started",
-        "health": "Health"
+        "health": "Health",
+        "hostSearchPlaceholderLabel": "hosts",
+        "hostViewAllLabel": "hosts",
+        "containersSearchPlaceholderLabel": "containers",
+        "containersViewAllLabel": "containers",
+        "processesSearchPlaceholderLabel": "processes",
+        "processesViewAllLabel": "processes"
       },
       "syntheticWidget": {
-        "label": "Synthetic Monitoring",
-        "testLabel": "synthetic test",
-        "locationLabel": "synthetic location",
-        "smartAlertLabel": "synthetic smart alert",
-        "searchAndViewAllTestLabel": "synthetic tests",
-        "searchAndViewAllLocationLabel": "synthetic locations",
-        "searchAndViewAllSmartAlertLabel": "synthetic smart alerts",
+        "label": "Synthetic monitoring",
         "na": "N/A",
         "name": "Name",
         "type": "Type",
-        "successRate": "Success Rate",
+        "successRate": "Success rate",
         "latency": "Latency",
         "lastTestRunOn": "Last test run on",
         "version": "Version",
         "timeThreshold": "Time threshold",
         "testsApplied": "Tests applied",
-        "health": "Health"
+        "health": "Health",
+        "testSearchPlaceholderLabel": "synthetic tests",
+        "testAddButtonLabel": "synthetic test",
+        "testViewAllLabel": "synthetic tests",
+        "locationsSearchPlaceholderLabel": "synthetic locations",
+        "locationsViewAllLabel": "synthetic locations",
+        "smartalertsSearchPlaceholderLabel": "synthetic Smart Alerts",
+        "smartalertsAddButtonLabel": "synthetic Smart Alert",
+        "smartalertsViewAllLabel": "synthetic Smart Alerts"
       },
       "dashboardWidget": {
         "label": "My custom dashboards",
         "name": "Name",
         "owner": "Owner",
         "permissions": "Permissions",
-        "addLabel": "dashboard"
+        "searchPlaceholderLabel": "dashboards",
+        "addButtonLabel": "dashboard",
+        "viewAllLabel": "dashboards"
       }
     },
     "noData": {
       "applicationWidget": {
         "header": "No applications",
-        "description": "Create your own perspective on the services you want to observe.",
+        "description": "Create your own application perspective on the services you want to observe.",
         "buttonName": "Create application perspective"
       },
       "incidentsWidget": {
@@ -648,21 +682,30 @@
       },
       "websitesWidget": {
         "header": "No websites",
-        "description": "Add websites and start to collect data",
+        "description": "Collect website data to understand your user's digital experience.",
         "buttonName": "Add website"
       },
       "mobileListWidget": {
         "header": "No mobiles apps",
-        "description": "Add mobile applications and start to collect data.",
+        "description": "Collect mobile app data to understand your user's digital experience.",
         "buttonName": "Add mobile applications"
       },
       "infrastructureWidget": {
-        "header": "No hosts, containers or processes",
-        "description": "Find the result of the deployed agent here."
+        "description": "Deploy an agent to see the details here.<br>Get started on the <linkToAgents>Agents</linkToAgents> page.",
+        "link": "Agents",
+        "hosts": {
+          "header": "No hosts"
+        },
+        "docker": {
+          "header": "No containers"
+        },
+        "process": {
+          "header": "No processes"
+        }
       },
       "platformsWidget": {
         "header": "No platforms",
-        "description": "Find all installed platforms here."
+        "description": "There are no platforms to display yet."
       },
       "businessMonitoringWidget": {
         "header": "No business processes",
@@ -670,19 +713,23 @@
       },
       "syntheticWidget": {
         "test": {
-          "header": "No Synthetic tests",
+          "header": "No synthetic tests",
           "description": "Configure synthetic tests to run at specific continuous intervals.",
           "buttonName": "Add Synthetic test"
         },
         "location": {
-          "header": "No Synthetic location",
+          "header": "No synthetic locations",
           "description": "Configure a synthetic location where your synthetic tests will run."
         },
         "smartalerts": {
-          "header": "No Synthetic smart alerts",
+          "header": "No synthetic Smart Alerts",
           "description": "Configure Smart Alerts for synthetics to send an alert if the test for a location fails.",
           "buttonName": "Add Synthetic smart alerts"
         }
+      },
+      "eventsWidget": {
+        "header": "No events",
+        "description": "There may be no events or incidents to display or you may need to set up data first."
       },
       "dashboardWidget": {
         "header": "No custom dashboards",
@@ -700,7 +747,7 @@
       "buttonNames": {
         "deployAgent": "Deploy agent",
         "addUser": "Add user",
-        "documentation": "IBM Documentation",
+        "documentation": "IBM documentation",
         "releaseNotes": "Release notes"
       }
     },
@@ -718,40 +765,40 @@
   },
   "assistme": {
     "dataSearchContext": {
-    "gettingStarted": "getting started",
-    "websites": "websites",
-    "mobileApps":"mobile app",
-    "businessMonitoring": "business monitoring",
-    "application":"application",
-    "smartAlerts": "smart alerts",
-    "infrastructureMap": "map",
-    "cloudFoundry": "monitoring cloud foundry",
-    "powerHmc": " monitoring IBM power",
-    "kubernetes":"kubernetes",
-    "sap": "monitoring SAP",
-    "synthetic": "synthetic monitoring",
-    "syntheticAlerts": "synthetic alerts",
-    "syntheticPop":"synthetic PoP",
-    "serviceLevel": "service level",
-    "installAgent": "install agent",
-    "analyzeCalls": "analyzing traces and calls",
-    "settingsTab": "managing user access",
-    "userSettings": "user settings",
-    "authSettings": "configuring authentication",
-    "auditLogs": "viewing audit logs",
-    "automation": "managing actions",
-    "customEvents":"defining custom events",
-    "configuringAlerts": "configuring alerts",
-    "alertChannel": "alert channels",
-    "maintenanceWindow":"scheduling",
-    "customPayload": "custom payload",
-    "eventsPage": "managing events",
-    "logManagement": "logging",
-    "configuringAndMonitoring":"configuring and monitoring",
-    "customDashboard": "custom dashboard"
+      "gettingStarted": "getting started",
+      "websites": "websites",
+      "mobileApps": "mobile app",
+      "businessMonitoring": "business monitoring",
+      "application": "application",
+      "smartAlerts": "smart alerts",
+      "infrastructureMap": "map",
+      "cloudFoundry": "monitoring cloud foundry",
+      "powerHmc": " monitoring IBM power",
+      "kubernetes": "kubernetes",
+      "sap": "monitoring SAP",
+      "synthetic": "synthetic monitoring",
+      "syntheticAlerts": "synthetic alerts",
+      "syntheticPop": "synthetic PoP",
+      "serviceLevel": "service level",
+      "installAgent": "install agent",
+      "analyzeCalls": "analyzing traces and calls",
+      "settingsTab": "managing user access",
+      "userSettings": "user settings",
+      "authSettings": "configuring authentication",
+      "auditLogs": "viewing audit logs",
+      "automation": "managing actions",
+      "customEvents": "defining custom events",
+      "configuringAlerts": "configuring alerts",
+      "alertChannel": "alert channels",
+      "maintenanceWindow": "scheduling",
+      "customPayload": "custom payload",
+      "eventsPage": "managing events",
+      "logManagement": "logging",
+      "configuringAndMonitoring": "configuring and monitoring",
+      "customDashboard": "custom dashboard"
     }
   },
-  "userGoalSelectionDialog":{
+  "userGoalSelectionDialog": {
     "title": "What are your goals?",
     "description": "Welcome to Instana! Help us provide a better experience by sharing your primary goals for this trial. Select all that apply.",
     "skip": "Skip",
