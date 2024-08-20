@@ -37,4 +37,6 @@ export interface LogVolumeDetailsProps {
   data: LogVolumeData[] | null | undefined;
   progress: Progress;
   timePeriod: number;
+  expandedRetention: any;
+  handleUpdateExpandedRetention: Function;
 }

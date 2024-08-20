@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { HorizontalIndicator, Li, LoadingSkeleton, Ul } from '@instana/components';
 
@@ -19,9 +19,13 @@ import { t } from 'in-i18n';
 
 import locals from './LogVolumeDetails.mless';
 
-export default function LogVolumeDetails({ data, progress, timePeriod }: LogVolumeDetailsProps) {
-  const [expandedRetention, setExpandedRetention] = useState<any>({});
-
+export default function LogVolumeDetails({
+  data,
+  progress,
+  timePeriod,
+  expandedRetention,
+  handleUpdateExpandedRetention
+}: LogVolumeDetailsProps) {
   const { loading: isLoading } = progress;
 
   if (!data && isLoading) {
@@ -29,7 +33,7 @@ export default function LogVolumeDetails({ data, progress, timePeriod }: LogVolu
   }
 
   const handleToggle = (month: string, days: string) => {
-    setExpandedRetention((prev: any) => ({
+    handleUpdateExpandedRetention((prev: any) => ({
       ...prev,
       [`${month}_${days}`]: !prev[`${month}_${days}`]
     }));

@@ -11,14 +11,14 @@ import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-// eslint-disable-next-line no-restricted-imports
-import LogVolumeGroupingConfigurator from './workspaces/LogVolumeGroupingConfigurator';
 import {
   generateQuery,
   TagNames,
   TagObject,
   transformData
 } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
+// eslint-disable-next-line no-restricted-imports
+import LogVolumeGroupingConfigurator from './workspaces/LogVolumeGroupingConfigurator';
 import LogVolumeDetails from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/LogVolumeDetails';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -51,6 +51,7 @@ function LogVolume() {
   const [timePeriod, setTimePeriod] = useState<number>(1);
   const [groupingTag, setGroupingTag] = useState<TagNames>(DEFAULT_TAG_NAME);
   const [groupValue, setGroupValue] = useState<TagObject | null>(null);
+  const [expandedRetention, setExpandedRetention] = useState({});
 
   const result = useObservable(
     ([timePeriod, groupingTag]: [number, TagNames]) => {
@@ -66,10 +67,15 @@ function LogVolume() {
 
   const logVolumeData = result && transformData(data);
 
+  const handleUpdateExpandedRetention = (newState: any) => {
+    setExpandedRetention(newState);
+  };
+
   const onChangeGroup = (param: TagObject | null) => {
     const newTag = param ? param.groupbyTag : DEFAULT_TAG_NAME;
     setGroupValue(param);
     setGroupingTag(newTag);
+    handleUpdateExpandedRetention({});
   };
   return (
     <>
@@ -110,7 +116,13 @@ function LogVolume() {
             </Ul>
           </section>
           <section>
-            <LogVolumeDetails data={logVolumeData} progress={progress} timePeriod={timePeriod} />
+            <LogVolumeDetails
+              data={logVolumeData}
+              progress={progress}
+              timePeriod={timePeriod}
+              expandedRetention={expandedRetention}
+              handleUpdateExpandedRetention={handleUpdateExpandedRetention}
+            />
           </section>
         </main>
       </section>
