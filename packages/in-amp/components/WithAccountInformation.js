@@ -57,15 +57,12 @@ function syntheticAddons(licenses) {
 }
 
 function loggingAddons(licenses) {
-  for (const license of licenses) {
-    const active = license.activeLicenses?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0);
-    const expired = license.expiredLicenses?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0);
-    const queued = license.queuedLicense?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0);
-    if (active || expired || queued) {
-      return true;
-    }
-  }
-  return false;
+  return licenses.some(
+    licObj =>
+      licObj?.activeLicenses?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0) ||
+      licObj?.expiredLicenses?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0) ||
+      licObj?.queuedLicense?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0)
+  );
 }
 
 function getCurrentTenantOption(unitSelectorOptions) {
