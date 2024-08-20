@@ -19,7 +19,7 @@ import UsageChart from 'in-amp/components/UsageChart';
 import { Row, Col } from 'in-components/layout/Grid';
 import { carbonAlert } from 'in-themes/chartColors';
 import Tooltip from 'in-components/Tooltip';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 export default function UsageCharts({
   windowSize,
@@ -291,9 +291,11 @@ export default function UsageCharts({
                     {t('in-amp:components.usageCharts.logging')}
                     <Tooltip
                       content={
-                        onPremLicenseInformationEnabled
-                          ? t('in-amp:components.usageCharts.loggingHelperText.onprem')
-                          : t('in-amp:components.usageCharts.loggingHelperText.saas')
+                        onPremLicenseInformationEnabled ? (
+                          <Trans i18nKey="in-amp:components.usageCharts.loggingHelperText.onprem" />
+                        ) : (
+                          <Trans i18nKey="in-amp:components.usageCharts.loggingHelperText.saas" />
+                        )
                       }
                       align="rightMiddle"
                     >
