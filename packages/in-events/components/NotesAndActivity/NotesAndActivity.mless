@@ -9,7 +9,6 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    height: 84vh;
     width: 20rem;
     // New header size
     top: 55.97px;
@@ -106,11 +105,19 @@
   }
 
   .notesSection {
-    padding: 0px 15px 75px 15px;
-    height: calc(100vh - 28rem);
+    padding: 0px 15px 35px 15px;
     overflow: auto;
     display: flex;
     flex-direction: column-reverse;
+    background-image: linear-gradient(white 80%, #77a2fb52);
+  }
+
+  .notesPresentHeight {
+    height: calc(100vh - 31.5rem);
+  }
+
+  .notesEmptyHeight {
+    height: calc(100vh - 26.75rem);
   }
 
   .bubble {
@@ -121,12 +128,12 @@
   }
 
   .myBubble {
-    background: var(--Notification-notification-info-background, #edf5ff);
+    background: var(--cds-chat-bubble-user, #edf5ff);
     border-radius: 8px 0px 8px 8px;
   }
 
   .otherBubble {
-    background: var(--Layer-accent-layer-accent-01, #e0e0e0);
+    background: var(--cds-chat-bubble-agent, #e0e0e0);
     border-radius: 0px 8px 8px 8px;
   }
 
@@ -155,7 +162,6 @@
     padding-left: 15px;
     padding-right: 15px;
     position: relative;
-    top: 10%;
   }
 
   .emptyHeader {
@@ -174,5 +180,23 @@
     letter-spacing: var(--cds-body-01-letter-spacing, 0.16px);
     padding-bottom: 1rem;
     color: var(--cds-text-secondary, #525252);
+  }
+
+  .commentInputWrapperNotes {
+    display: inline-flex;
+    align-items: center;
+
+    .commentInputIcon {
+      position: absolute;
+      right: 0;
+    }
+    :global(.cds--text-area) {
+      border: none;
+      padding: 15px 35px 15px 10px;
+    }
+    :global(.carbonIconButton) {
+      display: flex;
+      align-items: center;
+    }
   }
 }

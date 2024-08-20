@@ -81,7 +81,6 @@ export function NotesAndActivity(props) {
   // const [displayNotes, setDisplayNotes] = useState(false);
   // Current value of the typed out note
   const [note, setNote] = useState('');
-  const [viewInputText, setViewInputText] = useState(false);
   const [searchInput, setSearchInput] = useState('');
 
   function toggleSidePanel() {
@@ -112,35 +111,35 @@ export function NotesAndActivity(props) {
   // Boolean to track if there are currently notes
   const notesExist = notes.length > 0;
   // TESTING PURPOSES ONLY
-  notes.push({
-    type: 'external_note',
-    id: 'QNxHX2JGRWG5OayzLX3dgg',
-    parent: 'SIqmHetSR2mFBzqKNVy1GQ',
-    timestamp: 1722957105978,
-    updated: 0,
-    author: 'Quinn T.',
-    metadata: {},
-    origin: 'ServiceNow',
-    internal: false,
-    label: 'Additional comments',
-    contents: 'This is an external_note that has been brought to you by.... SERVICE NOW!'
-  });
-  notes.push({
-    type: 'external_field_change',
-    id: 'QNxHX2JGRWG5OayzLX3dgg',
-    parent: 'SIqmHetSR2mFBzqKNVy1GQ',
-    timestamp: 1722957105978,
-    updated: 0,
-    author: 'Denton Zan',
-    metadata: {},
-    origin: 'ServiceNow',
-    label: 'Field changes',
-    data: [
-      ['Priority', '0', '1 - Critical'],
-      ['Incident state', 'opened', 'In progress'],
-      ['Opened by', '', 'ITIL User']
-    ]
-  });
+  // notes.push({
+  //   type: 'external_note',
+  //   id: 'QNxHX2JGRWG5OayzLX3dgg',
+  //   parent: 'SIqmHetSR2mFBzqKNVy1GQ',
+  //   timestamp: 1722957105978,
+  //   updated: 0,
+  //   author: 'Quinn T.',
+  //   metadata: {},
+  //   origin: 'ServiceNow',
+  //   internal: false,
+  //   label: 'Additional comments',
+  //   contents: 'This is an external_note that has been brought to you by.... SERVICE NOW!'
+  // });
+  // notes.push({
+  //   type: 'external_field_change',
+  //   id: 'QNxHX2JGRWG5OayzLX3dgg',
+  //   parent: 'SIqmHetSR2mFBzqKNVy1GQ',
+  //   timestamp: 1722957105978,
+  //   updated: 0,
+  //   author: 'Denton Zan',
+  //   metadata: {},
+  //   origin: 'ServiceNow',
+  //   label: 'Field changes',
+  //   data: [
+  //     ['Priority', '0', '1 - Critical'],
+  //     ['Incident state', 'opened', 'In progress'],
+  //     ['Opened by', '', 'ITIL User']
+  //   ]
+  // });
   // ^^^^^^^^^^^^^^^^^^^^^^^TESTING PURPOSES ONLY
 
   const filteredNotes = filterSearchNotes(notes, searchInput.toLowerCase());
@@ -173,24 +172,15 @@ export function NotesAndActivity(props) {
                   <CarbonSearch
                     placeholder="Search notes and activity"
                     onChange={e => {
-                      setSearchInput(e);
+                      setSearchInput(e?.target?.value);
                     }}
                   />
                 </div>
               )}
-              {viewInputText ? (
-                <TextInput
-                  note={note}
-                  user={user}
-                  setNote={setNote}
-                  incidentId={incidentId}
-                  setViewInputText={setViewInputText}
-                />
-              ) : (
-                <QuickActions setViewInputText={setViewInputText} />
-              )}
+              <QuickActions />
             </div>
-            <CommentList notes={filteredNotes} preferredName={user.preferredName} />
+            <CommentList notes={filteredNotes} preferredName={user.preferredName} notesExist={notesExist} />
+            <CommentInput note={note} user={user} setNote={setNote} incidentId={incidentId} />
           </>
         )}
       </div>
@@ -198,11 +188,45 @@ export function NotesAndActivity(props) {
   );
 }
 
-export function CommentList(props) {
-  const { notes, preferredName } = props;
+// Handle the view where inputting a note occurs
+// Carbon Text Area
+// Icon Button
+export function CommentInput(props) {
+  const { note, user, setNote, incidentId } = props;
   return (
-    <div className={locals.notesSection}>
-      {notes?.length == 0 && <EmptyState />}
+    <div className={locals.commentInputWrapperNotes}>
+      <CarbonTextArea
+        rows={1}
+        placeholder={'Add comment'}
+        value={note}
+        id="incidentNotes"
+        hideLabel
+        onChange={e => {
+          setNote(e?.target?.value);
+        }}
+      />
+      <IconButton
+        kind="action"
+        onClick={() => handleSubmitNote(incidentId, note, user, setNote)}
+        type={'lib_arrow_outgoing'}
+        size="compact"
+        className={locals.commentInputIcon}
+      />
+    </div>
+  );
+}
+
+export function CommentList(props) {
+  const { notes, preferredName, notesExist } = props;
+  return (
+    <div
+      className={classNames({
+        [locals.notesSection]: true,
+        [locals.notesPresentHeight]: notesExist,
+        [locals.notesEmptyHeight]: !notesExist
+      })}
+    >
+      {notes?.length == 0 && <EmptyState notesExist={notesExist} />}
       {notes &&
         notes.map((entry, i) => {
           // Using i to iterate helps us traverse backwards that way notes are displayed
@@ -256,7 +280,7 @@ export function ChatBubble(props) {
 // Requires the incidentID, note, user, and setNote function
 // Dont allow the annotateEvent call if note is empty
 // Once you submit the event clear the note value with SetNote
-export function handleSubmitNote(incidentId, note, user, setNote, setViewInputText) {
+export function handleSubmitNote(incidentId, note, user, setNote) {
   const userName = user.preferredName;
   // Dont fire off a new note without there being something written
   if (validTextEntry(note)) {
@@ -268,7 +292,6 @@ export function handleSubmitNote(incidentId, note, user, setNote, setViewInputTe
     };
     annotateEvent(newNote);
     setNote('');
-    setViewInputText(false);
     const { pageRootName, productArea } = getViewTrackingMetaData();
     if (pageRootName && productArea) {
       const data = {
@@ -284,64 +307,23 @@ export function handleSubmitNote(incidentId, note, user, setNote, setViewInputTe
 }
 
 // Basic empty state for notes
-export function EmptyState() {
+export function EmptyState(props) {
+  const { notesExist } = props;
   return (
     <div className={locals.emptyWrapper}>
-      <h3 className={locals.emptyHeader}>{t('in-events:notes.noNotes')}</h3>
-      <p className={locals.emptyInfo}>{t('in-events:notes.noNotesDetails')}</p>
+      <h3 className={locals.emptyHeader}>
+        {(notesExist && 'No notes given then search!') || t('in-events:notes.noNotes')}
+      </h3>
+      <p className={locals.emptyInfo}>
+        {(notesExist && 'Update search criteria') || t('in-events:notes.noNotesDetails')}
+      </p>
     </div>
-  );
-}
-
-// Handle the view where inputting a note occurs
-// Carbon Text Area
-// Two Carbon Buttons
-export function TextInput(props) {
-  const { note, user, setNote, incidentId, setViewInputText } = props;
-  return (
-    <>
-      <CarbonTextArea
-        labelText={t('in-events:notes.incidentNotes')}
-        hideLabel
-        rows={5}
-        id="incidentNotes"
-        placeholder={t('in-events:notes.typeSomething')}
-        value={note}
-        onChange={e => {
-          setNote(e?.target?.value);
-        }}
-      />
-      <div className={locals.noteButtonWrapper}>
-        <CarbonButton
-          onClick={() => {
-            setViewInputText(false);
-          }}
-          kind="secondary"
-          className={locals.addNoteButton}
-          size={'md'}
-        >
-          {t('in-events:notes.cancel')}
-        </CarbonButton>
-      </div>
-      <div className={locals.noteButtonWrapper}>
-        <CarbonButton
-          onClick={() => {
-            handleSubmitNote(incidentId, note, user, setNote, setViewInputText, setViewInputText);
-          }}
-          className={locals.addNoteButton}
-          size={'md'}
-        >
-          {t('in-events:notes.addNote')}
-        </CarbonButton>
-      </div>
-    </>
   );
 }
 
 // Main view that gives an overview for this side panel
 // Gives the user the options to add a note or generate a summary
-export function QuickActions(props) {
-  const { setViewInputText } = props;
+export function QuickActions() {
   return (
     <>
       <div className={locals.quickActionsHeader}>{t('in-events:notes.quickActions')}</div>
@@ -354,19 +336,6 @@ export function QuickActions(props) {
           </div>
         </CarbonButton>
       </div>
-      <CarbonButton
-        kind={'tertiary'}
-        className={locals.actionsButton}
-        size={'sm'}
-        onClick={() => {
-          setViewInputText(true);
-        }}
-      >
-        <div className={locals.quickActionButtonContents}>
-          {t('in-events:notes.addComment')}
-          <SvgIcon type="lib_actions_comment" />
-        </div>
-      </CarbonButton>
     </>
   );
 }
