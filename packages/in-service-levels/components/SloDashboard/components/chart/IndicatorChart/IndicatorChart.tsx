@@ -6,18 +6,20 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { DateAsNumber, ServiceLevelIndicatorUnion, SloEntityUnion, TimeWindowUnion } from '@instana/types';
 
 import TimeBasedAvailabilityIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedAvailabilityIndicatorChart';
 import TimeBasedLatencyIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedLatencyIndicatorChart';
 import EventBasedIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/EventBasedIndicatorChart';
 
-export interface IndicatorChartProps {
-  configuration: ServiceLevelObjectiveConfiguration;
+interface IndicatorChartProps {
+  entity: SloEntityUnion;
+  indicator: ServiceLevelIndicatorUnion;
+  timeWindow: TimeWindowUnion;
+  createdDate?: DateAsNumber;
 }
 
-export default function IndicatorChart({ configuration }: IndicatorChartProps) {
-  const { entity, indicator, timeWindow, createdDate } = configuration;
+export default function IndicatorChart({ entity, indicator, timeWindow, createdDate }: IndicatorChartProps) {
   const missingDataIndicator = timeWindow.type === 'fixed' ? timeWindow.startTimestamp : createdDate;
   if (indicator.blueprint === 'latency' && indicator.type === 'timeBased') {
     return (
