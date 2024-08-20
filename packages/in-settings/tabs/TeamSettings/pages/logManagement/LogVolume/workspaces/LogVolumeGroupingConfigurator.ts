@@ -8,16 +8,8 @@ import { just } from '@instana/observables';
 //@ts-expect-error needs TS migration
 import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
 
-// needs to be changed to get data from backend later
+// needs to be changed to get data from backend later, after GA
 const groupTags = {
-  allTagNames: [
-    'zone',
-    'host_name',
-    'kubernetes_namespace_name',
-    'kubernetes_cluster_name',
-    'kubernetes_daemonset_name',
-    'kubernetes_deployment_name'
-  ],
   tagTree: [
     {
       label: 'Commonly Used',
@@ -137,70 +129,7 @@ const groupTags = {
       canApplyToDestination: false,
       idTag: false
     }
-  ],
-  __enriched: true,
-  tagsByName: {
-    zone: {
-      name: 'zone',
-      label: 'Zone',
-      type: 'STRING',
-      description: null,
-      canApplyToSource: false,
-      canApplyToDestination: false,
-      idTag: false,
-      path: []
-    },
-    host_name: {
-      name: 'host_name',
-      label: 'Host name',
-      type: 'STRING',
-      description: null,
-      canApplyToSource: false,
-      canApplyToDestination: false,
-      idTag: false,
-      path: []
-    },
-    kubernetes_namespace_name: {
-      name: 'kubernetes_namespace_name',
-      label: 'Kubernetes namespace name',
-      type: 'STRING',
-      description: null,
-      canApplyToSource: false,
-      canApplyToDestination: false,
-      idTag: false,
-      path: []
-    },
-    kubernetes_cluster_name: {
-      name: 'kubernetes_cluster_name',
-      label: 'kubernetes_cluster_name',
-      type: 'STRING',
-      description: null,
-      canApplyToSource: false,
-      canApplyToDestination: false,
-      idTag: false,
-      path: []
-    },
-    kubernetes_daemonset_name: {
-      name: 'kubernetes_daemonset_name',
-      label: 'Kubernetes daemonset name',
-      type: 'STRING',
-      description: null,
-      canApplyToSource: false,
-      canApplyToDestination: false,
-      idTag: false,
-      path: []
-    },
-    kubernetes_deployment_name: {
-      name: 'kubernetes_deployment_name',
-      label: 'Kubernetes deployement Name',
-      type: 'STRING',
-      description: null,
-      canApplyToSource: false,
-      canApplyToDestination: false,
-      idTag: false,
-      path: []
-    }
-  }
+  ]
 };
 const logVolumeTagCatalog = just({ data: groupTags });
 

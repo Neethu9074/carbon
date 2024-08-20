@@ -14,6 +14,12 @@ export interface LogVolumeData {
     days60: number;
     days30: number;
   };
+  year: number;
+  partialSums?: {
+    days90: number;
+    days60: number;
+    days30: number;
+  };
 }
 
 export interface LogVolumeDetailsProps {

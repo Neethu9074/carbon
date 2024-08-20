@@ -13,7 +13,12 @@ import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports
 import LogVolumeGroupingConfigurator from './workspaces/LogVolumeGroupingConfigurator';
-import { generateQuery, transformData } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
+import {
+  generateQuery,
+  TagNames,
+  TagObject,
+  transformData
+} from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
 import LogVolumeDetails from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/LogVolumeDetails';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -37,34 +42,35 @@ const defaultProps = {
     type: 'EXPRESSION',
     logicalOperator: 'AND',
     elements: []
-  },
-  onGroupByChange: () => {},
-  orderBy: { by: '', direction: 'ASC' }
+  }
 };
+
+const DEFAULT_TAG_NAME: TagNames = '';
 
 function LogVolume() {
   const [timePeriod, setTimePeriod] = useState<number>(1);
+  const [groupingTag, setGroupingTag] = useState<TagNames>(DEFAULT_TAG_NAME);
+  const [groupValue, setGroupValue] = useState<TagObject | null>(null);
 
   const result = useObservable(
-    ([timePeriod]) => {
-      return combineLatest([getUnifiedMetrics(generateQuery(timePeriod))]).map(([result]) => ({
+    ([timePeriod, groupingTag]: [number, TagNames]) => {
+      return combineLatest([getUnifiedMetrics(generateQuery(timePeriod, groupingTag))]).map(([result]) => ({
         progress: result?.progress || false,
         data: result?.data || []
       }));
     },
-    [timePeriod]
+    [timePeriod, groupingTag]
   );
 
   const { progress, data } = result || { progress: { loading: false }, data: [] };
 
   const logVolumeData = result && transformData(data);
 
-
-  // change any type
-  const onChangeGroup = (param:any)=>{
-    // update query logic here
-     console.log(param)
-  }
+  const onChangeGroup = (param: TagObject | null) => {
+    const newTag = param ? param.groupbyTag : DEFAULT_TAG_NAME;
+    setGroupValue(param);
+    setGroupingTag(newTag);
+  };
   return (
     <>
       <section className={locals.page}>
@@ -93,7 +99,7 @@ function LogVolume() {
                 </CarbonLayer>
               </Li>
               <GroupingConfiguratorSection
-                value={defaultProps.orderBy}
+                value={groupValue}
                 onChange={onChangeGroup}
                 GroupingConfigurator={LogVolumeGroupingConfigurator}
                 tagFilterExpression={defaultProps.backendQueryModel || toBackendQueryModel([])}
