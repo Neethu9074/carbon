@@ -21,6 +21,7 @@ import {
   powervc as powervcServerType,
   sap as sapType,
   zhmcServer as zhmcServerType
+  //@ts-expect-error declaration file not present
 } from 'in-cockpit/starredItems/types';
 import {
   hasKubernetesAccess,
