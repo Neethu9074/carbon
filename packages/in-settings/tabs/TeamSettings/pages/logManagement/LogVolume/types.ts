@@ -6,21 +6,32 @@
 
 import { Progress } from 'in-types';
 
-export interface LogVolumeData {
+interface LogVolumeDataWithSums {
   month: string;
+  year: number;
   totalVolumeGB: number;
   retentionPeriods: {
-    days90: number;
-    days60: number;
-    days30: number;
+    [key: string]: { label: string; volumeGB: number }[];
   };
-  year: number;
-  partialSums?: {
-    days90: number;
-    days60: number;
+  partialSums: {
     days30: number;
+    days60: number;
+    days90: number;
   };
 }
+
+interface LogVolumeDataWithoutSums {
+  month: string;
+  year: number;
+  totalVolumeGB: number;
+  retentionPeriods: {
+    days30: number;
+    days60: number;
+    days90: number;
+  };
+}
+
+export type LogVolumeData = LogVolumeDataWithSums | LogVolumeDataWithoutSums;
 
 export interface LogVolumeDetailsProps {
   data: LogVolumeData[] | null | undefined;

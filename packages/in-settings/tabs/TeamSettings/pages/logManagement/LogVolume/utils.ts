@@ -9,6 +9,8 @@ import { just } from '@instana/observables';
 
 // eslint-disable-next-line no-restricted-imports
 import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
+// eslint-disable-next-line no-restricted-imports
+import { LogVolumeData } from './types';
 
 interface RetentionPeriodData {
   days90: number;
@@ -41,7 +43,7 @@ export interface TagObject {
 
 export const DEFAULT_NO_GROUPING_VALUE = 'NO_GROUPING';
 
-export function transformData(dataResult: UnifiedMetricsResult[]): MonthlyRetentionData[] | null {
+export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData[] | null {
   const dataMap: Record<string, Record<string, RetentionPeriodData>> = {};
   if (!dataResult || dataResult.length === 0) return null;
 
@@ -141,7 +143,7 @@ export function generateQuery(numMonths: number, groupingTag?: TagNames): any {
         resultType: 'SINGLE_NUMBER',
         timeConfig: {
           to: currentTimestamp,
-          windowSize: 2592000000 * numMonths,
+          windowSize: 2678400000 * numMonths,
           focusedMoment: currentTimestamp,
           autoRefresh: false
         }
@@ -204,8 +206,8 @@ export const generateEmptyData = (numEntries: number) => {
   return data;
 };
 
-export function transformLabeledData(data: any) {
-  const finalResult = data.reduce((result: any, current: any) => {
+export function transformLabeledData(data: any[]) {
+  const finalResult = data.reduce((result, current) => {
     const { month, year, retentionPeriods, label } = current;
 
     let monthYear = result.find((item: any) => item.month === month && item.year === year);
@@ -253,10 +255,10 @@ export function transformLabeledData(data: any) {
   return roundDataValues(finalResult);
 }
 
-function roundDataValues(data: any) {
+function roundDataValues(data: LogVolumeData[]) {
   return data.map((item: any) => {
     const roundedPartialSums = Object.fromEntries(
-      Object.entries(item.partialSums).map(([key, value]: [any, any]) => [key, Math.round(value * 100) / 100])
+      Object.entries(item.partialSums).map(([key, value]: [string, any]) => [key, Math.round(value * 100) / 100])
     );
 
     const roundedTotalVolumeGB = Math.round(item.totalVolumeGB * 100) / 100;

@@ -19,7 +19,7 @@ import { t } from 'in-i18n';
 
 import locals from './LogVolumeDetails.mless';
 
-export default function LogVolumeDetails({ data, progress, timePeriod }: LogVolumeDetailsProps | any) {
+export default function LogVolumeDetails({ data, progress, timePeriod }: LogVolumeDetailsProps) {
   const [expandedRetention, setExpandedRetention] = useState<any>({});
 
   const { loading: isLoading } = progress;
@@ -34,13 +34,16 @@ export default function LogVolumeDetails({ data, progress, timePeriod }: LogVolu
       [`${month}_${days}`]: !prev[`${month}_${days}`]
     }));
   };
-
   return (
     <>
       {data
-        ?.filter(({ totalVolumeGB }: any) => totalVolumeGB > 0)
-        .map(({ month, totalVolumeGB, retentionPeriods, partialSums }: LogVolumeData | any, index: number) =>
-          isLoading ? (
+        ?.filter(({ totalVolumeGB }: LogVolumeData) => totalVolumeGB > 0)
+        .map((item: LogVolumeData, index: number) => {
+          const { month, totalVolumeGB, retentionPeriods } = item;
+          const hasPartialSums = 'partialSums' in item;
+          const partialSums = hasPartialSums ? (item as { partialSums: { [key: string]: number } }).partialSums : null;
+
+          return isLoading ? (
             <div key={`${month}_${index}`} className={locals.loadingMock}>
               <HorizontalIndicator className={locals.loadingIndicator} progress={progress} />
               <LoadingSkeleton className={locals.skeleton} />
@@ -53,10 +56,13 @@ export default function LogVolumeDetails({ data, progress, timePeriod }: LogVolu
               </Li>
               <div>
                 <Ul className={locals.logVolumeItems}>
-                  {!partialSums ? (
+                  {!hasPartialSums ? (
                     <Ul className={locals.logVolumeItems}>
                       {(['days30', 'days60', 'days90'] as const)
-                        .filter(days => retentionPeriods[days] && retentionPeriods[days] > 0)
+                        .filter(days => {
+                          const period = retentionPeriods[days];
+                          return Array.isArray(period) ? period.length > 0 : period > 0;
+                        })
                         .map(days => (
                           <Li key={days} className={locals.retentionDays}>
                             <div>{t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}</div>
@@ -66,18 +72,18 @@ export default function LogVolumeDetails({ data, progress, timePeriod }: LogVolu
                     </Ul>
                   ) : (
                     (['days30', 'days60', 'days90'] as const)
-                      .filter(days => retentionPeriods[days] && partialSums[days] > 0)
+                      .filter(days => retentionPeriods[days] && partialSums && partialSums[days] > 0)
                       .map(days => (
                         <div key={days}>
                           <Li key={days} onClick={() => handleToggle(month, days)} className={locals.retentionDays}>
                             {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
-                            <div>{partialSums[days]} GB</div>
+                            <div>{partialSums && partialSums[days]} GB</div>
                           </Li>
                           {expandedRetention[`${month}_${days}`] && (
                             <Ul className={locals.logVolumeItems}>
-                              {retentionPeriods[days]
-                                ?.filter((item: any) => item.volumeGB > 0)
-                                .map(({ label, volumeGB }: any) => (
+                              {(retentionPeriods[days] as { label: string; volumeGB: number }[])
+                                ?.filter((item: { label: string; volumeGB: number }) => item.volumeGB > 0)
+                                .map(({ label, volumeGB }) => (
                                   <Li key={label}>
                                     <div>{label}</div>
                                     <div>{volumeGB} GB</div>
@@ -91,8 +97,8 @@ export default function LogVolumeDetails({ data, progress, timePeriod }: LogVolu
                 </Ul>
               </div>
             </div>
-          )
-        )}
+          );
+        })}
     </>
   );
 }
