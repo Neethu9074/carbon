@@ -34,6 +34,11 @@
     button + input {
       margin-left: 0.5rem;
     }
+    :global .cds--number {
+      input {
+        margin-right: 0rem;
+      }
+    }
 
     color: var(--ids-color-option-neutral-700);
   }
