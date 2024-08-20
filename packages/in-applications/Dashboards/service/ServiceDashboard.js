@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import InstanaServiceToCloudfoundryApplicationButton from 'in-cloudfoundry/commonComponents/InstanaServiceToCloudfoundryApplicationButton';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -38,6 +39,7 @@ import { createGroupBy } from 'in-analyze/navigation/paths';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { boundaryScopes } from 'in-applications/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { error } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
@@ -92,14 +94,27 @@ export default function ServiceDashboard({ location }) {
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
-        result$={getService({
-          id: props.serviceId,
-          filter: {
-            application: props.applicationId,
-            service: props.serviceId,
-            timeConfig
-          }
-        })}
+        result$={
+          props.serviceId
+            ? getService({
+                id: props.serviceId,
+                filter: {
+                  application: props.applicationId,
+                  service: props.serviceId,
+                  timeConfig
+                }
+              })
+            : just(
+                error([
+                  {
+                    message: t('in-applications:dashboards.idCannotBeBlank', {
+                      entity: 'Service'
+                    }),
+                    code: 'CLIENT'
+                  }
+                ])
+              )
+        }
         props={props}
       />
 

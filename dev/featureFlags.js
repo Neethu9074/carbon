@@ -159,5 +159,6 @@ module.exports = {
   assistMeEnabled: true,
   userProfileMenuEnabled: false,
   unitForInfraMetricsEnabled: true,
-  applicationSmartAlertDialogView: true
+  applicationSmartAlertDialogView: true,
+  increaseAggregationEnabled: false
 };

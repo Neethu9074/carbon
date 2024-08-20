@@ -176,8 +176,8 @@
   "selectEntityDialog": {
     "nameColumnHead": "Name",
     "contributionFilterColumnHead": "Contribution filter",
-    "syntheticAllTestsAccess": "All Tests",
-    "syntheticInheritedAccess": "Inherited Access",
+    "syntheticAllTestsAccess": "Selectable tests",
+    "syntheticInheritedAccess": "Inherited tests",
     "syntheticTableSubHeader": "The following synthetic tests are already accessible to the members of this group because they have access to the associated applications.",
     "syntheticTableSubHeaderWebMobile": "The following synthetic tests are already accessible to the members of this group because they have access to the associated applications, websites, and mobile applications."
   },

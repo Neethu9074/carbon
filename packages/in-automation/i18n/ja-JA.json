@@ -75,7 +75,7 @@
   "duplicate": "重複",
   "theValueMustNotBeBlank": "値をブランクにすることはできません。",
   "tags": "タグ",
-  "noTagsConfigured": "タグが構成されていません",
+  "tagsLabel": "タグ (オプション)",
   "value": "値",
   "type": "タイプ",
   "automationPoliciesWithCount": "自動化ポリシー ({{count}})",
@@ -92,7 +92,7 @@
   "actions": "アクション",
   "actionsWithCount": "アクション({{count}})",
   "titleUrl": "URL",
-  "generateWithAI": "AIで生成",
+  "generateWithWatsonx": "watsonx で生成",
   "AISlugContent": "このコンテンツを生成するためにAIが使用されました",
   "createPolicyWithName": "アクション {{actionName}} の表示およびポリシーの作成",
   "viewActionCreatePolicy": "アクションの表示およびポリシーの作成",
@@ -297,7 +297,12 @@
     "taskUrl": "タスク URL",
     "output": "出力",
     "user": "ユーザー",
-    "apiToken": "API トークン"
+    "apiToken": "API トークン",
+    "deleteTooltip": "アクション・インスタンスの削除 {{id}}",
+    "deleteDialog": {
+      "success": "アクション・インスタンスは正常に削除されました。",
+      "failure": "アクション・インスタンスの削除に失敗しました。"
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "調査"

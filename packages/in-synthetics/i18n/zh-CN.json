@@ -10,7 +10,8 @@
         "step1": "步骤 1：选择类型",
         "step2": "步骤 2：请求详细信息",
         "step3": "步骤 3：调度",
-        "step4": "步骤 4：提供详细信息"
+        "step4": "步骤 4：提供详细信息",
+        "step5": "步骤 5：关联"
       },
       "selectTest": {
         "title": "您想创建什么样的合成测试"
@@ -40,6 +41,7 @@
         "labelDescription": "描述",
         "labelFrequency": "频率（分钟）",
         "labelFrequencyHour": "频率（小时）",
+        "labelApplication": "选择应用程序",
         "labelApplications": "选择应用程序"
       },
       "bluePrint": {
@@ -239,7 +241,34 @@
           "inputPortNumber": "端口",
           "failureConfigLabel": "失败配置",
           "failureConfigText": "当证书有效期距离到期日期还剩 <certificateValidityDays/> 天时，测试将失败。"
-        }
+        },
+        "associationsLabel": "关联",
+        "applicationsTitle": "关联：选择要与此合成测试关联的应用程序",
+        "applicationsDescription": "将合成测试与某个应用程序关联起来，就会向所有有权访问该应用程序的用户授予访问权限。",
+        "associationsTitle": "关联：选择要与此合成测试关联的实体",
+        "associationsDescription": "将合成测试与某个应用程序、网站或移动应用关联起来，就会向所有有权访问这些实体的用户授予访问权限。"
+      },
+      "associations": {
+        "applicationsTitle": "选择与此合成测试关联的应用程序",
+        "applicationsDescription": "将合成测试与某个应用程序关联起来，就会向所有有权访问该应用程序的用户授予访问权限。",
+        "associationsTitle": "选择与此合成测试关联的实体",
+        "associationsDescription": "将合成测试与某个应用程序、网站或移动应用关联起来，就会向所有有权访问这些实体的用户授予访问权限。",
+        "applicationsButtonLabel": "选择应用程序",
+        "websitesButtonLabel": "选择网站",
+        "mobileAppsButtonLabel": "选择移动应用",
+        "entityName": "名称",
+        "noDataAvailable": {
+          "message": "{{component}} 不可用"
+        },
+        "addApplications": "添加 {{count}} 个应用程序",
+        "addApplication": "添加应用程序",
+        "addWebsites": "添加 {{count}} 个网站",
+        "addWebsite": "添加 Web 站点",
+        "addMobileApps": "添加 {{count}} 个移动应用",
+        "addMobileApp": "添加移动应用",
+        "applicationsTableTitle": "应用程序",
+        "websitesTableTitle": "网站",
+        "mobileAppsTableTitle": "移动应用"
       }
     },
     "httpMethods": {
@@ -371,7 +400,25 @@
         "tlsInstructions": "如果要启用 Redis TLS，那么需要具有 X.509 证书密钥对（“tls.crt”、“tls.key”）和 CA 根证书文件（“ca.crt”）。\n\n如果您没有密钥/证书文件，那么还可以使用 openssl 命令来生成新的密钥/证书文件，请参阅以下示例：",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "提供密钥/证书文件后，使用 kubectl 命令创建私钥。",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}} 个关联",
+        "singleAssociationTitle": "{{number}} 个关联"
+      },
+      "multiAppDialog": {
+        "filterLabel": "应用程序",
+        "singleAppHeader": "{{ number }} 个关联",
+        "multiAppHeader": "{{ number }} 个关联",
+        "singleAppSpan": "{{ number }} 个关联的应用程序",
+        "multiAppSpan": "{{ number }} 个关联的应用程序",
+        "noApplicationsAssociated": "无关联的应用程序"
+      },
+      "multiWebDialog": {
+        "filterLabel": "Web 站点",
+        "noWebsitesAssociated": "无关联的网站。"
+      },
+      "multiMobileDialog": {
+        "filterLabel": "移动应用程序",
+        "noMobileAppsAssociated": "无关联的移动应用。"
       },
       "testLabel": "名称",
       "status": "状态",
@@ -388,7 +435,7 @@
       "latency": "等待时间",
       "locationLabel": "位置",
       "locations": "{{totalLocations}} 个位置",
-      "applicationLabel": "应用程序",
+      "applicationLabel": "关联",
       "health": "运行状况",
       "action": "操作",
       "labelConfirmRemoveTest": "确定要除去 <strong>{{testLabel}}</strong> 测试吗？",
@@ -470,7 +517,7 @@
       "certificateValid": "是",
       "certificateNotValid": "False",
       "daysRemaining": "上次运行 - 剩余天数",
-      "dateOfExpiry": "上次运行 - 到期日期",
+      "timeOfExpiry": "上次运行 - 距离到期的时间",
       "smallerTimeFrameTitle": "没有针对此时间范围的结果",
       "smallerTimeFrameDescription": "请选择较长的时间范围以查看 SSL 证书检查测试的结果。"
     },
@@ -613,8 +660,8 @@
       },
       "sslCertificate": {
         "daysRemaining": "剩余天数",
-        "dateOfIssue": "颁发日期",
-        "dateOfExpiry": "到期日期"
+        "timeOfIssue": "问题时间",
+        "timeOfExpiry": "到期时间"
       },
       "failedRunErrorTypeTitle": "错误类型"
     },
@@ -696,7 +743,14 @@
       "port": "端口",
       "daysRemaining": "失败配置",
       "day": "当证书有效期距到期还有 {{daysRemainingCheck}} 天时，测试将失败",
-      "days": "当证书有效期距到期还有 {{daysRemainingCheck}} 天时，测试将失败"
+      "days": "当证书有效期距到期还有 {{daysRemainingCheck}} 天时，测试将失败",
+      "associations": "关联",
+      "associatedApplications": "关联的应用程序",
+      "noApplicationsAssociated": "无关联的应用程序",
+      "associatedWebsites": "关联的网站",
+      "noWebsitesAssociated": "无关联的网站",
+      "associatedMobileApps": "关联的移动应用",
+      "noMobileAppAssociated": "无关联的移动应用"
     }
   }
 }

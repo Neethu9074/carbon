@@ -348,12 +348,20 @@
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "추적 세션",
     "trackingSnippetPresenterTooltip": "세션 추적 및 개인정보 보호 영향에 대해 자세히 알아보십시오.",
-    "trackingSnippetSRITooltip": "하위 자원 무결성(SRI)은 브라우저가 페치하는 자원을 확인할 수 있도록 하는 보안 기능입니다. 사용 안함으로 설정하면 보안 문제가 발생할 수 있습니다. 사용 안함으로 설정하기로 결정한 경우 보안 네트워크 환경에 있는지 확인하십시오.",
+    "trackingSnippetSRITooltip": "하위 자원 무결성(SRI)은 브라우저가 페치하는 자원을 확인할 수 있도록 하는 보안 기능입니다.",
     "trackingSnippetPresenterLabelSRI": "하위 자원 무결성(SRI) 사용",
     "trackingSnippetPresenterLabelAgentVersion": "에이전트 버전",
     "trackingSnippetPresenterToggleYes": "예",
     "trackingSnippetPresenterToggleNo": "아니오",
-    "trackingSnippetPresenterAgentVersion": "버전"
+    "trackingSnippetPresenterAgentVersion": "버전",
+    "trackingSnippetPresenterCancelModal": "취소",
+    "trackingSnippetPresenterEnableModal": "사용",
+    "trackingSnippetPresenterEnablingModalTitle": "하위 자원 무결성(SRI) 사용",
+    "trackingSnippetPresenterEnablingModalBody": "보안을 위해 SRI를 사용으로 설정하는 것이 좋습니다. 드롭다운에서 최신 에이전트 버전을 선택했는지 확인하십시오.",
+    "trackingSnippetPresenterDisableModal": "사용 안함",
+    "trackingSnippetPresenterDisablingModalTitle": "SRI(하위 리소스 무결성)를 사용 안함으로 설정하시겠습니까?",
+    "trackingSnippetPresenterDisablingModalFirstLine": "SRI를 사용 안함으로 설정하면 보안 문제가 발생할 수 있습니다.",
+    "trackingSnippetPresenterDisablingModalBody": "사용 안함으로 설정하기로 결정한 경우 보안 네트워크 환경에 있는지 확인하십시오. SRI가 사용 안함으로 설정되면 추적 스크립트는 기본적으로 최신 JavaScript 에이전트 버전으로 설정되지만 브라우저에서 가져오는 리소스를 확인할 수 없게 됩니다. "
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "웹 사이트 및 모바일 앱",
@@ -485,6 +493,7 @@
         "configurationRenameTitle": "웹 사이트 이름 바꾸기",
         "configurationRenameButton": "이름 바꾸기",
         "configurationTrackingScriptTitle": "에이전트 추적 스크립트",
+        "configurationUserAgentVersion": "현재 에이전트 버전은 <strong>{{agentVersion}}</strong>입니다.",
         "saved": "저장됨",
         "ipMasking": {
           "title": "IP 마스킹",
@@ -754,6 +763,9 @@
         "sizesTechnicalLabelBetween": "{{min}}px - {{max}}px 사이(포함)",
         "sizesTechnicalLabelAtLeast": "{{min}}px 이상(포함)",
         "sizesTechnicalLabelAtMost": "최대 {{max}}px(포함)"
+      },
+      "synthetic": {
+        "tabLabel": "합성 모니터링"
       },
       "indexLabelSummary": "요약",
       "indexLabelSpeed": "속도",

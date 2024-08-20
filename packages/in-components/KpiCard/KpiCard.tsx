@@ -56,6 +56,8 @@ export interface KpiCardProps {
   tooltipContent?: React.ReactNode;
   majorClass?: string;
   minorClass?: string;
+  disableHeaderTooltip?: boolean;
+  bigNumbers?: boolean;
 }
 
 export default function KpiCard({
@@ -77,7 +79,9 @@ export default function KpiCard({
   resultPrecision,
   tooltipContent,
   majorClass,
-  minorClass
+  minorClass,
+  disableHeaderTooltip = false,
+  bigNumbers
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
@@ -94,9 +98,15 @@ export default function KpiCard({
   let content;
   let major = value;
   if (raw) {
-    content = <span className={classNames(locals.minor, valuesClassName)}>{formattedValue}</span>;
+    content = (
+      <span className={classNames(locals.minor, valuesClassName, { [locals.bigMinor]: bigNumbers })}>
+        {formattedValue}
+      </span>
+    );
   } else if (children) {
-    content = <span className={classNames(locals.minor, valuesClassName)}>{children}</span>;
+    content = (
+      <span className={classNames(locals.minor, valuesClassName, { [locals.bigMinor]: bigNumbers })}>{children}</span>
+    );
   } else {
     let minor = null;
     if (value === undefined || value === null) {
@@ -113,10 +123,16 @@ export default function KpiCard({
 
     content = (
       <>
-        <span className={classNames(locals.major, majorClass)} style={{ color: color }} title={major}>
+        <span
+          className={classNames(locals.major, majorClass, { [locals.bigMajor]: bigNumbers })}
+          style={{ color: color }}
+          title={major}
+        >
           {major}
         </span>
-        {minor && <span className={classNames(locals.minor, minorClass)}>{minor}</span>}
+        {minor && (
+          <span className={classNames(locals.minor, minorClass, { [locals.bigMinor]: bigNumbers })}>{minor}</span>
+        )}
       </>
     );
   }
@@ -149,9 +165,13 @@ export default function KpiCard({
         })}
         ref={ref}
       >
-        <Tooltip content={title} align={carbonTooltipEnabled ? 'auto' : 'bottomLeft'} overflowEllipsis>
+        {disableHeaderTooltip ? (
           <span className={locals.titleText}>{title}</span>
-        </Tooltip>
+        ) : (
+          <Tooltip content={title} align={carbonTooltipEnabled ? 'auto' : 'bottomLeft'} overflowEllipsis>
+            <span className={locals.titleText}>{title}</span>
+          </Tooltip>
+        )}
         <div className={locals.flexTooltip}>
           {hasApproximateData && (
             <MultiLineToolTipIcon withMargin lines={[t('in-components:approximateDataIndicator.dataRetention')]} />

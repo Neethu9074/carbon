@@ -50,7 +50,7 @@ export function EntityTypeFormGroup({
         isDisabled={disabled}
         name="event-entity-type"
         value={entityTypeField.value}
-        options={pluginsWithMetricDefinitions?.filter(plugin => entityTypesFilter(plugin.value, disabled))}
+        options={pluginsWithMetricDefinitions?.filter(plugin => entityTypesFilter(plugin.value, disabled)) ?? []}
         onChange={e => {
           const newEntityType = (e as Option).value;
           onChange('entityType', e ? newEntityType : null, updatedForm => {

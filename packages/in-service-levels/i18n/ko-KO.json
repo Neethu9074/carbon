@@ -165,8 +165,6 @@
     "sloNamePlaceholder": "이름 입력",
     "sloNameCopyTemplate": "{{name}}의 사본",
     "tagsLabel": "태그(선택 사항)",
-    "tagsPlaceholder": "태그 입력",
-    "tagsCreateLabel": "작성: {{tag}}",
     "messages": {
       "creationSuccessfulTitle": "SLO 구성 작성 완료",
       "creationSuccessfulContent": "SLO 구성 \"{{name}}\"이(가) 작성되었습니다.",
@@ -269,6 +267,9 @@
     }
   },
   "sloDashboard": {
+    "header": {
+      "created_at": "작성된 날짜: {{creationDay}} 시간: {{creationTime}}"
+    },
     "tabs": {
       "summaryLabel": "요약",
       "configurationLabel": "구성",

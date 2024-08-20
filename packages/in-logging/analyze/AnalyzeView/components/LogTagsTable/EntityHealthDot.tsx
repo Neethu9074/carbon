@@ -27,7 +27,7 @@ export default function EntityHealthDot({ snapshotId }: { snapshotId: string }) 
       : t('in-logging:tooltipEntityHealthIssues', { numberOfIssues });
 
   return (
-    <Tooltip align="leftMiddle" delay={300} content={tooltipText}>
+    <Tooltip align="auto" delay={300} content={tooltipText}>
       <div>
         <HealthDot severity={severity} />
       </div>

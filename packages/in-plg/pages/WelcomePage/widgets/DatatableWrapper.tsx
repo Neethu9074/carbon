@@ -119,7 +119,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
       : null;
 
     const items = searchData ?? resultDataItems;
-    numberOfRegularItemsToShow = Math.max(0, maxItems ?? items.length - favIds.length);
+    numberOfRegularItemsToShow = Math.max(0, maxItems ? maxItems - favIds.length : items.length);
     hasContent = items.length > 0 ? true : false;
     hits = searchData?.length ?? result?.data?.totalHits ?? result.data.length;
     //For custom dashboard searching
@@ -149,6 +149,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
                 <Row id={`${index}`} key={index}>
                   <Item
                     key={item.id}
+                    type={item.type}
                     pendingItem={item}
                     timeConfig={timeConfig}
                     columnDefinitions={columnDefinitions}

@@ -111,6 +111,7 @@
       "summary": {
         "logs": "ログ",
         "analyzeLogs": "分析で表示",
+        "logsCardDescription": "これはプレビューであり、分析ですべてのログを表示します",
         "correspondingMobileAppActivity": "対応するモバイル・アプリケーション・アクティビティー",
         "hideMobileAppInformation": "モバイル・アプリケーション情報を隠す",
         "showMobileAppInformation": "モバイル・アプリケーション情報を表示",

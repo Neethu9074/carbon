@@ -348,12 +348,20 @@
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "Session de suivi",
     "trackingSnippetPresenterTooltip": "En savoir plus sur le suivi des sessions et les implications en matière de confidentialité.",
-    "trackingSnippetSRITooltip": "L'intégrité des sous-ressources (SRI) est une fonction de sécurité qui permet aux navigateurs de vérifier les ressources qu'ils extraient. Sa désactivation peut entraîner des problèmes de sécurité. Si vous décidez de la désactiver, assurez-vous de travailler dans un environnement réseau sécurisé.",
+    "trackingSnippetSRITooltip": "L'intégrité des sous-ressources (SRI) est une fonction de sécurité qui permet aux navigateurs de vérifier les ressources qu'ils extraient.",
     "trackingSnippetPresenterLabelSRI": "Activer l'intégrité des sous-ressources (SRI)",
     "trackingSnippetPresenterLabelAgentVersion": "Version de l'agent",
     "trackingSnippetPresenterToggleYes": "Oui",
     "trackingSnippetPresenterToggleNo": "Non",
-    "trackingSnippetPresenterAgentVersion": "Version"
+    "trackingSnippetPresenterAgentVersion": "Version",
+    "trackingSnippetPresenterCancelModal": "Annuler",
+    "trackingSnippetPresenterEnableModal": "Activer",
+    "trackingSnippetPresenterEnablingModalTitle": "Activer l'intégrité des sous-ressources (SRI)",
+    "trackingSnippetPresenterEnablingModalBody": "Il est recommandé d'activer le SRI pour des raisons de sécurité. Assurez-vous que vous avez sélectionné la dernière version de l'agent dans la liste déroulante.",
+    "trackingSnippetPresenterDisableModal": "Désactiver",
+    "trackingSnippetPresenterDisablingModalTitle": "Êtes-vous sûr de vouloir désactiver l'intégrité des sous-ressources (SRI) ?",
+    "trackingSnippetPresenterDisablingModalFirstLine": "La désactivation de SRI peut entraîner des problèmes de sécurité.",
+    "trackingSnippetPresenterDisablingModalBody": "Si vous décidez de la désactiver, assurez-vous de travailler dans un environnement réseau sécurisé. Lorsque le SRI est désactivé, le script de suivi utilise par défaut la dernière version de l'agent JavaScript, mais ne peut pas garantir que les navigateurs peuvent vérifier les ressources qu'ils récupèrent. "
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "Sites Web et applications mobiles",
@@ -485,6 +493,7 @@
         "configurationRenameTitle": "Renommer le site Web",
         "configurationRenameButton": "Renommer",
         "configurationTrackingScriptTitle": "Script de suivi d'agent",
+        "configurationUserAgentVersion": "La version actuelle de votre agent est <strong>{{agentVersion}}</strong>.",
         "saved": "Sauvegardé",
         "ipMasking": {
           "title": "Masquage des adresses IP",
@@ -754,6 +763,9 @@
         "sizesTechnicalLabelBetween": "Entre {{min}}px et {{max}}px (inclusif)",
         "sizesTechnicalLabelAtLeast": "Au moins {{min}} px (inclusif)",
         "sizesTechnicalLabelAtMost": "Au plus {{max}} px (inclusif)"
+      },
+      "synthetic": {
+        "tabLabel": "Surveillance synthétique"
       },
       "indexLabelSummary": "Récapitulatif",
       "indexLabelSpeed": "Vitesse",

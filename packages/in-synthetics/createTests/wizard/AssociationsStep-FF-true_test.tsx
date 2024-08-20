@@ -35,7 +35,7 @@ describe('AssociationsStep', () => {
         setSliderState={setSliderState}
       />
     );
-    expect(screen.getByText('Select entities to associate with this synthetic test')).toBeInTheDocument();
+    expect(screen.getByText('Select what you want to associate with this synthetic test')).toBeInTheDocument();
     expect(
       screen.getByText(
         'Associating a synthetic test with an application, website or mobile app grants access rights to all users who have access to those entities.'

@@ -47,8 +47,8 @@ export const SSLCertificateTest = 'Certificate Check';
 export const expectStatus = 'Expect Status';
 export const expectJson = 'Expect JSON';
 export const expectMatch = 'Expect Match';
-export const allAccessFilter = 'All Tests';
-export const inheritedAccessFilter = 'Inherited Access';
+export const allAccessFilter = 'Selectable tests';
+export const inheritedAccessFilter = 'Inherited tests';
 export const association = {
   applications: 'Applications',
   websites: 'Websites',

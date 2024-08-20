@@ -184,6 +184,7 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfigurationUn
       resultPrecision={resultPrecisions}
       raw={raw}
       tooltipContent={lastValueTooltipContent}
+      bigNumbers
     />
   );
 }

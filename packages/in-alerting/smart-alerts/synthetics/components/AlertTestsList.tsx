@@ -10,8 +10,8 @@ import { Observable } from '@instana/observables';
 import { Link } from '@instana/components';
 import { TrProps } from '@instana/legacy';
 
-import ApplicationsContentPresenter from 'in-synthetics/dashboards/global/tabs/tests/components/ApplicationsContentPresenter';
-import { ApplicationLabelContent } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
+import AssociationsContentPresenter from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsContentPresenter';
+import ApplicationLabelContent from 'in-synthetics/dashboards/global/tabs/tests/components/ApplicationLabelContent';
 import List, { ColumnDefinition, leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -170,7 +170,7 @@ function columnDefinitions(hasRowNavigation: boolean): Array<ColumnDefinition<Sy
 function applicationLabel(): ColumnDefinition<SyntheticTest> {
   return {
     id: 'applicationLabel',
-    label: t('in-synthetics:dashboard.testList.applicationLabel'),
+    label: t('in-synthetics:dashboard.testList.associationLabel'),
     defaultOrderDirection: 'ASC',
     getContent(item: SyntheticTest) {
       const applicationLabels = item.applicationLabels ?? [];
@@ -178,7 +178,7 @@ function applicationLabel(): ColumnDefinition<SyntheticTest> {
 
       if (syntheticMultiAppEnabled) {
         return (
-          <ApplicationsContentPresenter
+          <AssociationsContentPresenter
             applicationIds={applicationIds}
             applicationLabels={applicationLabels}
             shouldDisplayLink={false}

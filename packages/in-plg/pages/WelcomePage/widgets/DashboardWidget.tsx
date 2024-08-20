@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Link, Pill, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -122,11 +122,17 @@ export default function DashboardWidget({
 }
 
 function DashboardPermission({ id }: { id: string }) {
-  const permission: string = useGetCustomDashboardPermissions(id);
+  const [dashboardPermission, setDashboardPermission] = useState('');
 
+  const permissionResult: string | null = useGetCustomDashboardPermissions(id);
+  useEffect(() => {
+    if (permissionResult) {
+      setDashboardPermission(permissionResult);
+    }
+  }, [permissionResult]);
   return (
     <Pill kind="info" type="gray">
-      {permission}
+      {dashboardPermission}
     </Pill>
   );
 }

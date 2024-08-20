@@ -163,6 +163,7 @@
       "metricsFormComponent": {
         "metric": "Métrica",
         "selectMetric": "Selecionar métrica",
+        "unit": "Unit",
         "aggregation": "Agregação",
         "crossSeriesAggregation": "Usar SUM para agregação de séries cruzadas",
         "crossSeriesAggregationHelp": "Normalmente, a agregação de série cruzada é a mesma da agregação de tempo cruzado (o método usado para combinar pontos de dados em um único depósito). Com essa alternância ativada, vamos somar os depósitos nas séries de dados, em vez de usar a agregação especificada.",
@@ -474,8 +475,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Terminal",
-        "allEndpoints": "Todos os terminais",
-        "loading": "<loading>"
+        "allEndpoints": "Todos os terminais"
       },
       "goodBadEventsForm": {
         "goodEvents": "Eventos bons",
@@ -512,7 +512,6 @@
       },
       "servicesSelectBox": {
         "service": "Serviço",
-        "loading": "<loading>",
         "allServices": "Todos os serviços"
       },
       "sliFormPresenter": {
@@ -718,7 +717,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configuração de limite",
-        "thresholdLabel": "Limite"
+        "thresholdLabel": "Limite",
+        "ms": "ms"
       },
       "entityInfo": {
         "tooltip": "Apdex desconhecido",

@@ -96,6 +96,7 @@
       "eumWebsite": "EUM Website",
       "addons": "Add-ons",
       "trendLine": "Trendline",
+      "dataUsage": "Data usage",
       "dataUsageHelperText": "Amount of bytes sent through agents separated by category in the chosen timeframe.",
       "syntheticsHelperText": "Number of resource units consumed by each type of action. Units are calculated with a factor of 0.025 for simple tests, 0.042 for API tests, and 1.000 for browser tests.",
       "loggingHelperText" : {

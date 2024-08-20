@@ -62,6 +62,16 @@ function OriginLabel({ item, mobileAppId, viewId }: OriginLabelProp) {
   );
 }
 
+function convertAppVersionNumberToAppVersionString(appVersionNumber: bigint): string {
+  const major_factor = BigInt(10 ** 12);
+  const minor_factor = BigInt(10 ** 6);
+  const major = appVersionNumber / major_factor;
+  const minor = (appVersionNumber % major_factor) / minor_factor;
+  const patch = appVersionNumber % minor_factor;
+
+  return `${major}.${minor}.${patch}`;
+}
+
 const columnDefinitions = [
   {
     id: 'name',
@@ -80,6 +90,28 @@ const columnDefinitions = [
       let errorTypeLabel = item.name.replace(/^"|"$/g, '').split('\\n')[1];
       errorTypeLabel = errorTypeLabel.length ? errorTypeLabel : 'Not available';
       return <>{errorTypeLabel}</>;
+    }
+  },
+  {
+    id: 'lowestAppVersionNumber',
+    label: t('in-mobile-apps:dashboard.tabs.crashes.crashesLabelLowestAppVersion'),
+    getContent: (item: MobileAppPaginatedBeaconGroupsItem) => {
+      let lowestAppVersion =
+        item.metrics.lowestAppVersionNumber[0][1] > 0
+          ? convertAppVersionNumberToAppVersionString(BigInt(item.metrics.lowestAppVersionNumber[0][1].toString()))
+          : 'Not available';
+      return <>{lowestAppVersion}</>;
+    }
+  },
+  {
+    id: 'highestAppVersionNumber',
+    label: t('in-mobile-apps:dashboard.tabs.crashes.crashesLabelHighestAppVersion'),
+    getContent: (item: MobileAppPaginatedBeaconGroupsItem) => {
+      let highestAppVersion =
+        item.metrics.highestAppVersionNumber[0][1] > 0
+          ? convertAppVersionNumberToAppVersionString(BigInt(item.metrics.highestAppVersionNumber[0][1].toString()))
+          : 'Not available';
+      return <>{highestAppVersion}</>;
     }
   },
   {
@@ -266,6 +298,14 @@ function getTableData({
         metric: 'beaconCount',
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
+      },
+      lowestAppVersionNumber: {
+        metric: 'appVersionNumber',
+        aggregation: 'MIN'
+      },
+      highestAppVersionNumber: {
+        metric: 'appVersionNumber',
+        aggregation: 'MAX'
       }
     }
   });

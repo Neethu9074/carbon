@@ -49,9 +49,9 @@
 
     min-height: 1.9rem;
 
-    color: var(--ids-color-option-neutral-700);
+    color: var(--cds-text-primary);
     font-size: 1rem;
-    font-weight: 200;
+    font-weight: 600;
   }
 
   .flexTooltip {
@@ -90,11 +90,19 @@
   }
 
   .major {
-    font-size: 2.375rem;
+    font-size: 1.5rem;
+
+    &.bigMajor {
+      font-size: 2.375rem;
+    }
   }
 
   .minor {
-    font-size: 1.5rem;
+    font-size: 1rem;
+
+    &.bigMinor {
+      font-size: 1.5rem;
+    }
   }
 
   .companion {

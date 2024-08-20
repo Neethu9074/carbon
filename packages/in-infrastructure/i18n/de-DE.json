@@ -74,7 +74,8 @@
     "restartCount": "Anzahl der Neustarts",
     "kubernetesLabels": "Kubernetes-Bezeichnungen",
     "podmanAnnotations": "Podman-Anmerkungen",
-    "metricExplosion": "In diesem Dashboard werden möglicherweise nicht alle Metriken angezeigt, da nur {{numberOfMetrics}} gespeichert wurden."
+    "metricExplosionBeeInstana": "In diesem Dashboard werden möglicherweise nicht alle Metriken angezeigt, da nur {{numberOfMetrics}} gespeichert wurden.",
+    "metricExplosion": "Dieses Dashboard zeigt möglicherweise nicht alle Metriken an, da nur {{numberOfMetrics}} hochauflösende Metriken gespeichert wurden. Um zusätzliche Metriken anzuzeigen, verwenden Sie \"Infrastruktur analysieren\" oder ein benutzerdefiniertes Dashboard."
   },
   "explore": {
     "analyzeInfrastructure": "Infrastruktur analysieren",
@@ -94,7 +95,8 @@
       "maximumNumberOfMembers": "Diese Abfrage hat zu viele Ergebnisse. Grenzen Sie Ihre Suche mit einem restriktiveren Filter ein oder grenzen Sie Ihren Zeitraum ein und versuchen Sie es erneut.",
       "generalError": "Ein unerwarteter Fehler ist aufgetreten."
     },
-    "entityTypes": "Entitätstypen {{count, parenthesis}}"
+    "entityTypes": "Entitätstypen {{count, parenthesis}}",
+    "relatedInstances": "Instanzen analysieren"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Zeigt Zahlen und Durchschnittswerte für das aktuelle Zeitfenster an.",

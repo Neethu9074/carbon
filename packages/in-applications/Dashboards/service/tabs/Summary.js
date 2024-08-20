@@ -39,7 +39,7 @@ export default function Summary(props) {
   });
 
   const tagFilters = [{ stringValue: serviceId, name: 'service.id', entity: DESTINATION, operator: EQUALS }];
-  if (applicationId != null) {
+  if (applicationId) {
     if (boundaryScope === boundaryScopes.all) {
       tagFilters.push({ stringValue: applicationId, name: 'application.id', entity: DESTINATION, operator: EQUALS });
     } else {

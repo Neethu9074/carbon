@@ -399,7 +399,8 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "Información clave",
+        "crashesLabelErrorMessage": "Ubicación",
+        "crashesLabelErrorType": "Tipo de error",
         "crashesLabelOccurrences": "Apariciones",
         "crashesLabelAffectedUsers": "Usuarios afectados",
         "crashesButtonAnalyzeCrashes": "Analizar caídas",

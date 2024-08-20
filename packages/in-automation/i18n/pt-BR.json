@@ -75,7 +75,7 @@
   "duplicate": "Duplicata",
   "theValueMustNotBeBlank": "O valor não deve ficar em branco.",
   "tags": "Tags",
-  "noTagsConfigured": "Nenhuma tag configurada",
+  "tagsLabel": "Tags (opcional)",
   "value": "Valor",
   "type": "Tipo",
   "automationPoliciesWithCount": "Políticas de automação ({{count}})",
@@ -92,7 +92,7 @@
   "actions": "Ações",
   "actionsWithCount": "Ações ({{count}})",
   "titleUrl": "URL",
-  "generateWithAI": "Gerar com IA",
+  "generateWithWatsonx": "Gerar com watsonx",
   "AISlugContent": "A IA foi usada para gerar este conteúdo",
   "createPolicyWithName": "Visualizar ação {{actionName}} e criar política",
   "viewActionCreatePolicy": "Visualizar ação e criar política",
@@ -297,7 +297,12 @@
     "taskUrl": "URL da tarefa",
     "output": "Saída",
     "user": "Usuário",
-    "apiToken": "Token da API"
+    "apiToken": "Token da API",
+    "deleteTooltip": "Excluir instância de ação {{id}}",
+    "deleteDialog": {
+      "success": "A instância da ação foi excluída com sucesso.",
+      "failure": "Falha ao excluir a instância da ação."
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "Investigar"

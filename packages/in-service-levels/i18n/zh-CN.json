@@ -165,8 +165,6 @@
     "sloNamePlaceholder": "输入名称",
     "sloNameCopyTemplate": "{{name}} 的副本",
     "tagsLabel": "标记（可选）",
-    "tagsPlaceholder": "输入标记",
-    "tagsCreateLabel": "创建：{{tag}}",
     "messages": {
       "creationSuccessfulTitle": "已成功创建 SLO 配置",
       "creationSuccessfulContent": "已创建 SLO 配置“{{name}}”。",
@@ -269,6 +267,9 @@
     }
   },
   "sloDashboard": {
+    "header": {
+      "created_at": "创建日期和时间：{{creationDay}} {{creationTime}}"
+    },
     "tabs": {
       "summaryLabel": "摘要",
       "configurationLabel": "配置",

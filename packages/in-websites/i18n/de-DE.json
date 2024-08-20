@@ -348,12 +348,20 @@
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "Überwachungssitzung",
     "trackingSnippetPresenterTooltip": "Erfahren Sie mehr über die Sitzungsüberwachung und die Auswirkungen auf den Datenschutz.",
-    "trackingSnippetSRITooltip": "Subresource Integrity (SRI) ist eine Sicherheitsfunktion, die sicherstellt, dass Browser die von ihnen abzurufenden Ressourcen überprüfen können. Die Inaktivierung kann zu Sicherheitsproblemen führen. Wenn Sie sie deaktivieren möchten, stellen Sie sicher, dass Sie sich in einer sicheren Netzumgebung befinden.",
+    "trackingSnippetSRITooltip": "Subresource Integrity (SRI) ist eine Sicherheitsfunktion, die sicherstellt, dass Browser die von ihnen abzurufenden Ressourcen überprüfen können.",
     "trackingSnippetPresenterLabelSRI": "Integrität der untergeordneten Ressource (SRI) aktivieren",
     "trackingSnippetPresenterLabelAgentVersion": "Agentenversion",
     "trackingSnippetPresenterToggleYes": "Ja",
     "trackingSnippetPresenterToggleNo": "Nein",
-    "trackingSnippetPresenterAgentVersion": "Version"
+    "trackingSnippetPresenterAgentVersion": "Version",
+    "trackingSnippetPresenterCancelModal": "Abbrechen",
+    "trackingSnippetPresenterEnableModal": "Aktivieren",
+    "trackingSnippetPresenterEnablingModalTitle": "Integrität der untergeordneten Ressource (SRI) aktivieren",
+    "trackingSnippetPresenterEnablingModalBody": "Die Aktivierung von SRI wird aus Sicherheitsgründen empfohlen. Vergewissern Sie sich, dass Sie die neueste Version des Agenten aus der Dropdown-Liste ausgewählt haben.",
+    "trackingSnippetPresenterDisableModal": "Inaktivieren",
+    "trackingSnippetPresenterDisablingModalTitle": "Sind Sie sicher, dass Sie die Subresource Integrity (SRI) deaktivieren wollen?",
+    "trackingSnippetPresenterDisablingModalFirstLine": "Die Deaktivierung von SRI kann zu Sicherheitsproblemen führen.",
+    "trackingSnippetPresenterDisablingModalBody": "Wenn Sie sie deaktivieren möchten, stellen Sie sicher, dass Sie sich in einer sicheren Netzumgebung befinden. Wenn SRI deaktiviert ist, verwendet das Tracking-Skript standardmäßig die neueste JavaScript-Agentenversion, kann aber nicht gewährleisten, dass Browser die abgerufenen Ressourcen überprüfen können. "
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "Websites und mobile Apps",
@@ -485,6 +493,7 @@
         "configurationRenameTitle": "Website umbenennen",
         "configurationRenameButton": "Umbenennen",
         "configurationTrackingScriptTitle": "Agentenverfolgungsscript",
+        "configurationUserAgentVersion": "Ihre aktuelle Agentenversion ist <strong>{{agentVersion}}</strong>.",
         "saved": "Gespeichert",
         "ipMasking": {
           "title": "IP-Maskierung",
@@ -754,6 +763,9 @@
         "sizesTechnicalLabelBetween": "Zwischen {{min}} px und {{max}} px (inklusive)",
         "sizesTechnicalLabelAtLeast": "Mindestens {{min}} px (einschließlich)",
         "sizesTechnicalLabelAtMost": "Höchstens {{max}} px (einschließlich)"
+      },
+      "synthetic": {
+        "tabLabel": "Überwachung der synthetischen Transaktionen"
       },
       "indexLabelSummary": "Zusammenfassung",
       "indexLabelSpeed": "Geschwindigkeit",

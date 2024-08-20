@@ -246,7 +246,8 @@
     "dataSource_calls_plural": "{{formattedCount}} 個呼叫",
     "dataSource_traces": "{{formattedCount}} 個追蹤",
     "dataSource_traces_plural": "{{formattedCount}} 個追蹤",
-    "analyzeCallsOfThisTrace": "分析此追蹤的呼叫"
+    "analyzeCallsOfThisTrace": "分析此追蹤的呼叫",
+    "noAvailableCustomMetrics": "沒有可用的自訂度量"
   },
   "creation": {
     "newAP": "新建應用程式視景",
@@ -629,7 +630,8 @@
     "calls_latency": "延遲",
     "calls_erroneousCalls": "錯誤呼叫",
     "calls_errors": "錯誤呼叫率",
-    "calls_call_metric": "數值呼叫度量值",
+    "calls_call_metric": "自訂呼叫度量",
+    "calls_call_meta_metrics": "元度量",
     "traces_calls": "追蹤",
     "traces_traces": "追蹤",
     "traces_latency": "延遲",

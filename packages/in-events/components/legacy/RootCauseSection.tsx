@@ -121,7 +121,11 @@ export default function RootCauseSection({
               if (!rootCause) return;
 
               return (
-                <CarbonTabPanel className={locals.tabPanel} style={{ background: themes.default.cds.field['02'] }}>
+                <CarbonTabPanel
+                  key={rcaSnapshotID}
+                  className={locals.tabPanel}
+                  style={{ background: themes.default.cds.field['02'] }}
+                >
                   <RootCauseEntityDetails
                     relatedAPID={
                       (incident.get('metadata') as Map<string, string>).has('app20ApplicationId')

@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
@@ -36,6 +37,7 @@ import { createGroupBy } from 'in-analyze/navigation/paths';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { boundaryScopes } from 'in-applications/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { error } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
@@ -111,7 +113,20 @@ export default function EndpointDashboard({ location }) {
       />
 
       <TabView
-        result$={getEndpoint(getEndpointParams)}
+        result$={
+          props.endpointId
+            ? getEndpoint(getEndpointParams)
+            : just(
+                error([
+                  {
+                    message: t('in-applications:dashboards.idCannotBeBlank', {
+                      entity: 'Endpoint'
+                    }),
+                    code: 'CLIENT'
+                  }
+                ])
+              )
+        }
         HeaderComponent={Header}
         location={location}
         tabs={tabs}

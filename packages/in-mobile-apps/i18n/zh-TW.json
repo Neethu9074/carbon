@@ -399,7 +399,8 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "關鍵資訊",
+        "crashesLabelErrorMessage": "位置",
+        "crashesLabelErrorType": "錯誤類型",
         "crashesLabelOccurrences": "出現項目數",
         "crashesLabelAffectedUsers": "受影響的使用者",
         "crashesButtonAnalyzeCrashes": "分析損毀",

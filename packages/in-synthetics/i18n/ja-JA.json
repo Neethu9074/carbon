@@ -10,7 +10,8 @@
         "step1": "ステップ 1：タイプの選択",
         "step2": "ステップ 2：要求の詳細",
         "step3": "ステップ 3：スケジューリング",
-        "step4": "ステップ 4：詳細の入力"
+        "step4": "ステップ 4：詳細の入力",
+        "step5": "Step5: アソシエイト"
       },
       "selectTest": {
         "title": "どのような種類のシンセティック・テストを作成しますか"
@@ -40,6 +41,7 @@
         "labelDescription": "説明",
         "labelFrequency": "頻度 (分)",
         "labelFrequencyHour": "頻度 (時間)",
+        "labelApplication": "アプリケーションの選択",
         "labelApplications": "アプリケーションの選択"
       },
       "bluePrint": {
@@ -239,7 +241,34 @@
           "inputPortNumber": "ポート",
           "failureConfigLabel": "失敗構成",
           "failureConfigText": "証明書の有効期限が切れるまで残り<certificateValidityDays/>日の場合は、テストが失敗します。"
-        }
+        },
+        "associationsLabel": "アソシエイト",
+        "applicationsTitle": "関連付け: この合成テストに関連付けるアプリケーションを選択します",
+        "applicationsDescription": "合成テストをアプリケーションに関連付けると、そのアプリケーションにアクセスできるすべてのユーザーにアクセ ス権が付与されます。",
+        "associationsTitle": "関連付け: この合成テストに関連付けるエンティティを選択する",
+        "associationsDescription": "合成テストをアプリケーション、ウェブサイト、またはモバイルアプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザーにアクセス権が付与されます。"
+      },
+      "associations": {
+        "applicationsTitle": "この合成テストに関連付けるアプリケーションを選択する",
+        "applicationsDescription": "合成テストをアプリケーションに関連付けると、そのアプリケーションにアクセスできるすべてのユーザーにアクセ ス権が付与されます。",
+        "associationsTitle": "この合成テストに関連付けるエンティティを選択する",
+        "associationsDescription": "合成テストをアプリケーション、ウェブサイト、またはモバイルアプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザーにアクセス権が付与されます。",
+        "applicationsButtonLabel": "アプリケーションの選択",
+        "websitesButtonLabel": "Web サイトの選択",
+        "mobileAppsButtonLabel": "モバイル・アプリの選択",
+        "entityName": "名前",
+        "noDataAvailable": {
+          "message": "{{component}} が使用不可です"
+        },
+        "addApplications": "{{count}} アプリケーションの追加",
+        "addApplication": "アプリケーションの追加",
+        "addWebsites": "{{count}} ウェブサイトの追加",
+        "addWebsite": "Web サイトの追加",
+        "addMobileApps": "{{count}} モバイルアプリの追加",
+        "addMobileApp": "モバイルアプリの追加",
+        "applicationsTableTitle": "アプリケーション (複数可)",
+        "websitesTableTitle": "ウェブサイト",
+        "mobileAppsTableTitle": "モバイルアプリ"
       }
     },
     "httpMethods": {
@@ -371,7 +400,25 @@
         "tlsInstructions": "Redis TLSを有効にする場合は、X.509証明書と鍵のペア(「tls.crt」、「tls.key」)およびCAルート証明書ファイル(「ca.crt」)が必要です。\n\n鍵/証明書ファイルがない場合は、opensslコマンドを使用して新しい鍵/証明書ファイルを生成することもできます。以下の例を参照してください。",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "鍵/証明書ファイルが提供されたら、kubectlコマンドを使用して秘密を作成します。",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}} アソシエーション",
+        "singleAssociationTitle": "{{number}} 協会"
+      },
+      "multiAppDialog": {
+        "filterLabel": "アプリケーション",
+        "singleAppHeader": "{{ number }} 協会",
+        "multiAppHeader": "{{ number }} 連想",
+        "singleAppSpan": "{{ number }} 関連アプリケーション",
+        "multiAppSpan": "{{ number }} 関連アプリケーション",
+        "noApplicationsAssociated": "関連付けられたアプリケーションなし"
+      },
+      "multiWebDialog": {
+        "filterLabel": "Web サイト",
+        "noWebsitesAssociated": "関連サイトはない。"
+      },
+      "multiMobileDialog": {
+        "filterLabel": "モバイル・アプリケーション",
+        "noMobileAppsAssociated": "モバイルアプリは関連なし。"
       },
       "testLabel": "名前",
       "status": "状況",
@@ -388,7 +435,7 @@
       "latency": "待ち時間",
       "locationLabel": "ロケーション",
       "locations": "{{totalLocations}} カ所のロケーション",
-      "applicationLabel": "アプリケーション",
+      "applicationLabel": "関連付け",
       "health": "正常性",
       "action": "アクション",
       "labelConfirmRemoveTest": "<strong>{{testLabel}}</strong> テストを削除してもよろしいですか。",
@@ -470,7 +517,7 @@
       "certificateValid": "はい",
       "certificateNotValid": "いいえ",
       "daysRemaining": "前回の実行 - 残り日数",
-      "dateOfExpiry": "前回の実行 - 有効期限の日付",
+      "timeOfExpiry": "最後の実行 - 有効期限",
       "smallerTimeFrameTitle": "この時間枠の結果はありません",
       "smallerTimeFrameDescription": "SSL証明書確認テストの結果を確認するには、より長い時間枠を選択してください。"
     },
@@ -613,8 +660,8 @@
       },
       "sslCertificate": {
         "daysRemaining": "残り日数",
-        "dateOfIssue": "発行日",
-        "dateOfExpiry": "有効期限の日付"
+        "timeOfIssue": "発行時期",
+        "timeOfExpiry": "有効期限"
       },
       "failedRunErrorTypeTitle": "エラー・タイプ"
     },
@@ -696,7 +743,14 @@
       "port": "ポート",
       "daysRemaining": "失敗構成",
       "day": "証明書の有効期間が満了まで残り {{daysRemainingCheck}} 日である場合、テストは失敗します",
-      "days": "証明書の有効期間が満了まで残り {{daysRemainingCheck}} 日である場合、テストは失敗します"
+      "days": "証明書の有効期間が満了まで残り {{daysRemainingCheck}} 日である場合、テストは失敗します",
+      "associations": "関連付け",
+      "associatedApplications": "関連アプリケーション",
+      "noApplicationsAssociated": "関連出願なし",
+      "associatedWebsites": "関連ウェブサイト",
+      "noWebsitesAssociated": "関連サイトなし",
+      "associatedMobileApps": "関連モバイル・アプリ",
+      "noMobileAppAssociated": "モバイル・アプリは関連なし"
     }
   }
 }
