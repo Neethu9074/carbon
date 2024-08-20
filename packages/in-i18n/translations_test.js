@@ -77,7 +77,7 @@ describe.only('in-i18n/translations', function () {
       new Map()
     );
 
-    verifyUiFoundationKeys(unusedKeyMap);
+    removeUiFoundationKey(unusedKeyMap);
 
     if (unusedKeyMap.size > 0) {
       const keysAsString = JSON.stringify(Object.fromEntries(unusedKeyMap), null, 2);
@@ -85,6 +85,49 @@ describe.only('in-i18n/translations', function () {
       throw new Error(
         `The following keys from the translation file are not being used in the respective js file(s):\n${keysAsString}`
       );
+    }
+  });
+
+  it('Each ui-foundation translation key in en-US file is being used', () => {
+    const namespaceKeysMappingFromI18nKeys = new Map();
+    const namespaceKeysMappingFromLanguageFile = new Map();
+
+    const { languagesMap, nestedKeysMap } = getLanguagesAndNestedKeys();
+
+    for (const [namespace, languageFile] of languagesMap.entries()) {
+      namespaceKeysMappingFromLanguageFile.set(namespace, languageFileToKeyList(languageFile));
+    }
+
+    for (const i18nKey of i18nKeys) {
+      const { namespace, propPath } = extractNameSpaceAndPropPath(i18nKey);
+      const existingKeysForNameSpace = namespaceKeysMappingFromI18nKeys.get(namespace) || [];
+
+      namespaceKeysMappingFromI18nKeys.set(namespace, [...existingKeysForNameSpace, propPath]);
+    }
+
+    const unusedKeyMap = [...namespaceKeysMappingFromLanguageFile].reduce(
+      (result, [namespace, keysFromLanguageFile]) => {
+        const usedTranslationKeys = namespaceKeysMappingFromI18nKeys.get(namespace) || [];
+        const nestedKeys = nestedKeysMap.get(namespace) || [];
+        const unusedKey = difference(keysFromLanguageFile, usedTranslationKeys, nestedKeys);
+
+        return unusedKey.length > 0 ? result.set(namespace, unusedKey) : result;
+      },
+      new Map()
+    );
+
+    verifyUiFoundationKeys(unusedKeyMap);
+
+    if (unusedKeyMap.size > 0) {
+      const keysAsString = JSON.stringify(Object.fromEntries(unusedKeyMap), null, 2);
+      const message = `The following keys from the translation file are not being used in the respective js file(s):\n${keysAsString}`;
+
+      if (process.env.UI_FOUNDATION_FAIL_UNUSED_I18_KEYS === 'true') {
+        throw new Error(message);
+      } else {
+        //eslint-disable-next-line no-console
+        console.warn(message);
+      }
     }
   });
 });
@@ -273,6 +316,24 @@ function ignorePluralsAndContext(jsonTree) {
     } else {
       ignorePluralsAndContext(value);
     }
+  }
+}
+
+/**
+ * ui-foundation i18n keys cannot be found within the ui-client codebase.
+ * As such, the translation key usage test would fail. We remove all
+ * ui-foundation i18n keys from the map of unused keys to avoid this
+ * failure.
+ *
+ * ui-foundation keys all belong to the default namespace and are located
+ * under the components. prefix.
+ */
+function removeUiFoundationKey(unusedKeysByNamespaceMap) {
+  const keys = unusedKeysByNamespaceMap.get('in-i18n');
+  const withoutUiFoundationKeys = keys.filter(key => !key.startsWith('components.') && !key.startsWith('formatDate.'));
+  unusedKeysByNamespaceMap.set('in-i18n', withoutUiFoundationKeys);
+  if (withoutUiFoundationKeys.length === 0) {
+    unusedKeysByNamespaceMap.delete('in-i18n');
   }
 }
 
