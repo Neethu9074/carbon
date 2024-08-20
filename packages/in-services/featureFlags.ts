@@ -75,6 +75,7 @@ export const carbonTileEnabled = isFeatureFlagEnabled('carbonTileEnabled');
 export const carbonPaginationEnabled = isFeatureFlagEnabled('carbonPaginationEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const carbonMenuEnabled = isFeatureFlagEnabled('carbonMenuEnabled', false);
+export const carbonDropdownEnabled = isFeatureFlagEnabled('carbonDropdownEnabled', false);
 export const carbonInputEnabled = isFeatureFlagEnabled('carbonInputEnabled');
 export const carbonComboBoxEnabled = isFeatureFlagEnabled('carbonComboBoxEnabled');
 
