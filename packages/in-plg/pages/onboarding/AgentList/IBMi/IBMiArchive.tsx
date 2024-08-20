@@ -105,7 +105,7 @@ const IBMiArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain, 
         <Stack>
           <DocumentLink
             text={t('in-plg:agentDetails.ibmi.archive.beforeYouInstall')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-i#before-you-install"
+            href="http://ibm.biz/host-agent-install-ibm-i-prereq"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
@@ -121,11 +121,11 @@ const IBMiArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain, 
         <>
           <DocumentLink
             text={t('in-plg:agentDetails.ibmi.archive.installingManually')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-i#installing-the-agent-manually"
+            href="http://ibm.biz/host-agent-manual-install-ibm-i"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.ibmi.archive.startingTheAgent')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-i#starting-the-host-agent"
+            href="https://ibm.biz/host-agent-install-ibm-i-starting-host-agent"
           />
         </>
       ),
