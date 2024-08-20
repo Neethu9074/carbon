@@ -8,18 +8,37 @@
   .LogVolumeDetailsContainer {
     margin: 2rem 0;
   }
+
   .LogVolumeDetails {
     display: flex;
     justify-content: space-between;
     background: #ebf1f7;
     padding: 0.5rem 1rem;
   }
+
   .logVolumeItems {
     border: none;
-
     li {
       font-weight: 600;
     }
+  }
+
+  .logVolumeCategories {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    background-color: var(--ids-color-option-white);
+    & > div {
+      color: var(--ids-color-option-neutral-600);
+    }
+    border: none;
+    outline: none;
+  }
+
+  .collapseRow {
+    vertical-align: middle;
+    margin-left: 1rem;
   }
 
   .loadingMock {

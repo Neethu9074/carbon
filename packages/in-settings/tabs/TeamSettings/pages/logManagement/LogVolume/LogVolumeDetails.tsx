@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { HorizontalIndicator, Li, LoadingSkeleton, Ul } from '@instana/components';
+import { HorizontalIndicator, Li, LoadingSkeleton, Ul, SvgIcon } from '@instana/components';
 
 import {
   LogVolumeData,
@@ -75,28 +75,47 @@ export default function LogVolumeDetails({
                         ))}
                     </Ul>
                   ) : (
-                    (['days30', 'days60', 'days90'] as const)
-                      .filter(days => retentionPeriods[days] && partialSums && partialSums[days] > 0)
-                      .map(days => (
-                        <div key={days}>
-                          <Li key={days} onClick={() => handleToggle(month, days)} className={locals.retentionDays}>
-                            {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
-                            <div>{partialSums && partialSums[days]} GB</div>
-                          </Li>
-                          {expandedRetention[`${month}_${days}`] && (
-                            <Ul className={locals.logVolumeItems}>
-                              {(retentionPeriods[days] as { label: string; volumeGB: number }[])
-                                ?.filter((item: { label: string; volumeGB: number }) => item.volumeGB > 0)
-                                .map(({ label, volumeGB }) => (
-                                  <Li key={label}>
-                                    <div>{label}</div>
-                                    <div>{volumeGB} GB</div>
-                                  </Li>
-                                ))}
-                            </Ul>
-                          )}
-                        </div>
-                      ))
+                    <div>
+                      <Ul className={locals.logVolumeItems}>
+                        {(['days30', 'days60', 'days90'] as const)
+                          .filter(days => retentionPeriods[days] && partialSums && partialSums[days] > 0)
+                          .map(days => (
+                            <>
+                              <Li key={days} onClick={() => handleToggle(month, days)} className={locals.retentionDays}>
+                                {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
+                                <div>
+                                  {partialSums && partialSums[days]} GB
+                                  <span className={locals.collapseRow}>
+                                    <SvgIcon
+                                      type={
+                                        expandedRetention[`${month}_${days}`]
+                                          ? 'lib_arrow_expand_up'
+                                          : 'lib_arrow_expand_down'
+                                      }
+                                      size="s"
+                                    />
+                                  </span>
+                                </div>
+                              </Li>
+
+                              {expandedRetention[`${month}_${days}`] && (
+                                <div>
+                                  {(retentionPeriods[days] as { label: string; volumeGB: number }[])
+                                    ?.filter((item: { label: string; volumeGB: number }) => item.volumeGB > 0)
+                                    .map(({ label, volumeGB }) => (
+                                      <>
+                                        <div key={label} className={locals.logVolumeCategories}>
+                                          <div>{label}</div>
+                                          <div>{volumeGB} GB</div>
+                                        </div>
+                                      </>
+                                    ))}
+                                </div>
+                              )}
+                            </>
+                          ))}
+                      </Ul>
+                    </div>
                   )}
                 </Ul>
               </div>
