@@ -5,22 +5,62 @@
  */
 
 :local {
+  .tableGrid {
+    display: grid;
+    grid-template-areas: 'label . gb ru arrow';
+    grid-template-columns: 16rem auto 10rem 10rem 2rem;
+    justify-content: normal;
+  }
+
+  .tableGB {
+    grid-area: gb;
+    display: flex;
+    justify-content: right;
+  }
+
+  .tableRU {
+    grid-area: ru;
+    display: flex;
+    justify-content: right;
+  }
+
+  .tableLabel {
+    grid-area: label;
+    justify-content: left;
+    display: flex;
+  }
+
   .LogVolumeDetailsContainer {
+    background: red;
     margin: 2rem 0;
   }
 
   .LogVolumeDetails {
-    display: flex;
-    justify-content: space-between;
+    .tableGrid();
     background: #ebf1f7;
-    padding: 0.5rem 1rem;
+    padding: 1.25rem;
+
+    span {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
   }
 
-  .totalVolumes {
-    display: flex;
-    gap: 2rem;
-    justify-content: flex-end;
-    margin-right: 2rem;
+  .logVolumeCategories {
+    .tableGrid();
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    background-color: var(--ids-color-option-white);
+    color: var(--ids-color-option-neutral-600);
+    border: none;
+    outline: none;
+  }
+
+  .retentionDays {
+    .tableGrid();
+    width: 100%;
+    font-weight: bold;
+    color: black;
   }
 
   .logVolumeItems {
@@ -32,22 +72,10 @@
     }
   }
 
-  .logVolumeCategories {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-    background-color: var(--ids-color-option-white);
-    & > div {
-      color: var(--ids-color-option-neutral-600);
-    }
-    border: none;
-    outline: none;
-  }
-
   .collapseRow {
     vertical-align: middle;
     margin-left: 1rem;
+    grid-area: arrow;
   }
 
   .loadingMock {
@@ -57,20 +85,6 @@
   .loadingIndicator {
     display: block;
     width: auto;
-  }
-
-  .retentionDays {
-    font-weight: bold;
-  }
-  .volumeGB {
-    min-width: 100px;
-    text-align: right;
-    flex: 0 0 50%;
-  }
-  .volumeCategoriesGB {
-    .volumeGB();
-    text-align: left;
-    min-width: 70px;
   }
 
   .skeleton {

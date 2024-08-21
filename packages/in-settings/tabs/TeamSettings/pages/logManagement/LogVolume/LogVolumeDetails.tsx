@@ -14,7 +14,6 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/types';
 // eslint-disable-next-line no-restricted-imports
 import { generateEmptyData } from './utils';
-import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { t } from 'in-i18n';
 
 import locals from './LogVolumeDetails.mless';
@@ -55,10 +54,14 @@ export default function LogVolumeDetails({
           ) : (
             <div key={`${month}_${index}`} className={locals.LogVolumeDetailsContainer}>
               <Li className={locals.LogVolumeDetails}>
-                <SubViewHeader>{t('in-settings:maintenanceWindow.months', { context: month })}</SubViewHeader>
-                <div className={locals.totalVolumes}>
-                  <SubViewHeader>{totalVolumeGB} GB</SubViewHeader>
-                  <SubViewHeader>{totalVolumeGB} RU</SubViewHeader>
+                <div className={locals.tableLabel}>
+                  <span>{t('in-settings:maintenanceWindow.months', { context: month })}</span>
+                </div>
+                <div className={locals.tableGB}>
+                  <span>{totalVolumeGB} GB</span>
+                </div>
+                <div className={locals.tableRU}>
+                  <span>{totalVolumeGB} RU</span>
                 </div>
               </Li>
               <div>
@@ -71,11 +74,13 @@ export default function LogVolumeDetails({
                           return Array.isArray(period) ? period.length > 0 : period > 0;
                         })
                         .map((days, index: number) => (
-                          <Li key={`${days}_${index}`} className={locals.retentionDays}>
-                            <div>{t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}</div>
-                            <div className={locals.totalVolumes}>
-                              <div className={locals.volumeGB}>{retentionPeriods[days]} GB</div>
-                              <div className={locals.volumeGB}>{retentionPeriods[days]} RU</div>
+                          <Li key={`${days}_${index}`}>
+                            <div className={locals.retentionDays}>
+                              <span className={locals.tableLabel}>
+                                {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
+                              </span>
+                              <span className={locals.tableGB}>{retentionPeriods[days]} GB</span>
+                              <span className={locals.tableRU}>{retentionPeriods[days]} RU</span>
                             </div>
                           </Li>
                         ))}
@@ -88,23 +93,21 @@ export default function LogVolumeDetails({
                           .map((days, index) => (
                             <React.Fragment key={`${days}_${index}`}>
                               <Li onClick={() => handleToggle(month, days)} className={locals.retentionDays}>
-                                {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
-                                <div className={locals.totalVolumes}>
-                                  <div className={locals.volumeGB}>{partialSums && partialSums[days]} GB </div>
-                                  <div className={locals.volumeGB}>
-                                    {partialSums && partialSums[days]} RU
-                                    <span className={locals.collapseRow}>
-                                      <SvgIcon
-                                        type={
-                                          expandedRetention[`${month}_${days}`]
-                                            ? 'lib_arrow_expand_up'
-                                            : 'lib_arrow_expand_down'
-                                        }
-                                        size="s"
-                                      />
-                                    </span>
-                                  </div>
-                                </div>
+                                <span className={locals.tableLabel}>
+                                  {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
+                                </span>
+                                <span className={locals.tableGB}>{partialSums && partialSums[days]} GB</span>
+                                <span className={locals.tableRU}>{partialSums && partialSums[days]} RU</span>
+                                <span className={locals.collapseRow}>
+                                  <SvgIcon
+                                    type={
+                                      expandedRetention[`${month}_${days}`]
+                                        ? 'lib_arrow_expand_up'
+                                        : 'lib_arrow_expand_down'
+                                    }
+                                    size="s"
+                                  />
+                                </span>
                               </Li>
 
                               {expandedRetention[`${month}_${days}`] && (
@@ -114,11 +117,9 @@ export default function LogVolumeDetails({
                                     .map(({ label, volumeGB }, index: number) => (
                                       <React.Fragment key={`${days}_${index}`}>
                                         <div key={label + index} className={locals.logVolumeCategories}>
-                                          <div>{label}</div>
-                                          <div className={locals.totalVolumes}>
-                                            <div className={locals.volumeCategoriesGB}>{volumeGB} GB</div>
-                                            <div className={locals.volumeCategoriesGB}>{volumeGB} RU</div>
-                                          </div>
+                                          <span className={locals.tableLabel}>{label}</span>
+                                          <span className={locals.tableGB}>{volumeGB} GB</span>
+                                          <span className={locals.tableRU}>{volumeGB} RU</span>
                                         </div>
                                       </React.Fragment>
                                     ))}

@@ -12,66 +12,56 @@ import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
 const groupTags = {
   tagTree: [
     {
-      label: 'Commonly Used',
-      description: null,
-      icon: null,
-      children: [
-        {
-          type: 'TAG',
-          label: 'Zone',
-          tagName: 'zone',
-          isGroupingTag: true,
-          isSuggestionsTag: true,
-          isInfraTag: false
-        },
-        {
-          type: 'TAG',
-          label: 'Host name',
-          icon: 'lib_help_error_info_outline',
-          tagName: 'host_name',
-          isGroupingTag: true,
-          isSuggestionsTag: true,
-          isInfraTag: false
-        },
-        {
-          type: 'TAG',
-          label: 'Kubernetes namespace name',
-          icon: 'lib_application_service',
-          tagName: 'kubernetes_namespace_name',
-          isGroupingTag: true,
-          isSuggestionsTag: true,
-          isInfraTag: false
-        },
+      type: 'TAG',
+      label: 'Zone',
+      tagName: 'zone',
+      isGroupingTag: true,
+      isSuggestionsTag: true,
+      isInfraTag: false
+    },
+    {
+      type: 'TAG',
+      label: 'Host name',
+      icon: 'lib_help_error_info_outline',
+      tagName: 'host_name',
+      isGroupingTag: true,
+      isSuggestionsTag: true,
+      isInfraTag: false
+    },
+    {
+      type: 'TAG',
+      label: 'Kubernetes namespace name',
+      icon: 'lib_application_service',
+      tagName: 'kubernetes_namespace_name',
+      isGroupingTag: true,
+      isSuggestionsTag: true,
+      isInfraTag: false
+    },
 
-        {
-          type: 'TAG',
-          label: 'Kubernetes cluster name',
-          tagName: 'kubernetes_cluster_name',
-          isGroupingTag: true,
-          isSuggestionsTag: true,
-          isInfraTag: false
-        },
-        {
-          type: 'TAG',
-          label: 'Kubernetes daemonset name',
-          tagName: 'kubernetes_daemonset_name',
-          isGroupingTag: true,
-          isSuggestionsTag: true,
-          isInfraTag: false
-        },
-        {
-          type: 'TAG',
-          label: 'Kubernetes deployement Name',
-          icon: 'lib_kubernetes_cluster',
-          tagName: 'kubernetes_deployment_name',
-          isGroupingTag: true,
-          isSuggestionsTag: true,
-          isInfraTag: true
-        }
-      ],
-      scoreBoost: 10,
-      type: 'LEVEL',
-      queryable: false
+    {
+      type: 'TAG',
+      label: 'Kubernetes cluster name',
+      tagName: 'kubernetes_cluster_name',
+      isGroupingTag: true,
+      isSuggestionsTag: true,
+      isInfraTag: false
+    },
+    {
+      type: 'TAG',
+      label: 'Kubernetes daemonset name',
+      tagName: 'kubernetes_daemonset_name',
+      isGroupingTag: true,
+      isSuggestionsTag: true,
+      isInfraTag: false
+    },
+    {
+      type: 'TAG',
+      label: 'Kubernetes deployement Name',
+      icon: 'lib_kubernetes_cluster',
+      tagName: 'kubernetes_deployment_name',
+      isGroupingTag: true,
+      isSuggestionsTag: true,
+      isInfraTag: true
     }
   ],
   tags: [
@@ -131,6 +121,7 @@ const groupTags = {
     }
   ]
 };
+
 const logVolumeTagCatalog = just({ data: groupTags });
 
 const { GroupingConfigurator, isGroupingConfigurationValid: isGroupingConfigurationValidInternal } =
