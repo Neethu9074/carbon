@@ -24,6 +24,7 @@ import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { openEventsAtServerTime$ } from 'in-stores/events';
+import { concatQueries } from 'in-events/utils';
 
 export default connectTo(() => ({
   openEventsAtServerTime: openEventsAtServerTime$
@@ -62,7 +63,7 @@ export default connectTo(() => ({
   function getIncidentData({ query, timeConfig }: { query: string; timeConfig: TimeConfig }) {
     return getRawEvents({
       timeConfig: timeConfig,
-      query: query,
+      query: concatQueries(query, 'incident'),
       pagination: {
         cursor: null,
         retrievalSize: 30
