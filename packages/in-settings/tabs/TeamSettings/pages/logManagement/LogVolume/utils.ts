@@ -47,7 +47,7 @@ export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData
         dataMap[label][monthYearKey].days30.ru += +volumeRU.toFixed(2);
       } else if (retentionDays === 60) {
         dataMap[label][monthYearKey].days60.gb += +volumeGB.toFixed(2);
-        dataMap[label][monthYearKey].days30.ru += +volumeRU.toFixed(2);
+        dataMap[label][monthYearKey].days60.ru += +volumeRU.toFixed(2);
       } else if (retentionDays === 90) {
         dataMap[label][monthYearKey].days90.gb += +volumeGB.toFixed(2);
         dataMap[label][monthYearKey].days90.ru += +volumeRU.toFixed(2);
@@ -170,11 +170,11 @@ export const generateEmptyData = (numEntries: number) => {
   for (let i = 0; i < numEntries; i++) {
     data.push({
       month: 'August',
-      totalVolume: { gb: 0, ru: 0 },
+      totalVolume: { gb: 1, ru: 1 },
       retentionPeriods: {
-        days90: { gb: 0, ru: 0 },
-        days60: { gb: 0, ru: 0 },
-        days30: { gb: 0, ru: 0 }
+        days90: { gb: 1, ru: 1 },
+        days60: { gb: 1, ru: 1 },
+        days30: { gb: 1, ru: 1 }
       },
       year: 2024
     });

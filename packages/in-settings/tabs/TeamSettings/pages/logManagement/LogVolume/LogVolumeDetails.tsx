@@ -27,7 +27,8 @@ export default function LogVolumeDetails({
   handleUpdateExpandedRetention
 }: LogVolumeDetailsProps) {
   const { loading: isLoading } = progress;
-
+  console.log('loading?', isLoading);
+  console.log('data', data);
   if (!data && isLoading) {
     data = generateEmptyData(timePeriod);
   }

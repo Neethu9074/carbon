@@ -61,7 +61,6 @@ function LogVolume() {
   );
 
   const { progress, data } = result || { progress: { loading: false }, data: [] };
-
   const logVolumeData = result && transformData(data);
 
   const handleUpdateExpandedRetention = (newState: any) => {
