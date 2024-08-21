@@ -7,6 +7,7 @@ import React, { Fragment } from 'react';
 
 import {
   teamSettings,
+  teamSettingsAccessControlApiTokenDuplicate,
   teamSettingsAccessControlApiTokenEdit,
   teamSettingsAccessControlApiTokenNew,
   teamSettingsAccessControlApiTokens,
@@ -150,6 +151,10 @@ function navigationTreeForRole(role, isAnyIDPActive) {
               },
               {
                 path: teamSettingsAccessControlApiTokenNew,
+                component: ApiTokenFormDialog
+              },
+              {
+                path: teamSettingsAccessControlApiTokenDuplicate,
                 component: ApiTokenFormDialog
               }
             ]

@@ -513,6 +513,8 @@
     "apiTokenDescription": "This unit specific API token can be seen/modified by anyone or any API token with the permission for API token configuration.",
     "noApiToken": "No API Tokens",
     "newApiToken": "New API Token",
+    "apiTokenDuplicate": "Duplicate",
+    "duplicateTokenName": "Duplicate of {{apiTokenName}}",
     "apiTokenUnits": "API tokens can be used for <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "noPersonalApiTokens": "No Personal API Tokens",
     "newPersonalApiToken": "New Personal API Token",

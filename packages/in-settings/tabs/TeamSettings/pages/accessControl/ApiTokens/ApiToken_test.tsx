@@ -43,8 +43,8 @@ jest.mock('react-router', () => ({
   })
 }));
 
-const getProps = (id: string) => {
-  return { match: { params: { id } } };
+const getProps = (id: string, duplicateFrom?: string) => {
+  return { match: { params: { id, duplicateFrom } } };
 };
 
 const createToken = (tokenName?: any) => ({
