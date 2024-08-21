@@ -8,6 +8,7 @@ import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
 import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
+import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { Ul } from '@instana/components';
 
@@ -17,7 +18,8 @@ import {
   getMetricKey,
   getMetricValue,
   getSeriesKey,
-  lastValueForMetric
+  lastValueForMetric,
+  getMetricFormatterFromUnitOrMetadata
 } from 'in-infrastructure/Explore/services/metrics';
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
@@ -37,8 +39,10 @@ import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { getFormatter } from 'in-stores/metric/formatters';
+import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { tag_not_present_group } from '../constants';
+import { getBaseUnit } from 'in-stores/metric/units';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
@@ -164,7 +168,6 @@ export default function InfrastructureList({
       }
     }
   ];
-
   return (
     <>
       {displayChart && (
@@ -293,6 +296,11 @@ function getTableData({
   });
 }
 const DashboardLink = ({ item, isPreview, timeConfig, onNavigateToEntity }) => {
+  const snapshot = useObservable(
+    () => (item.snapshotId ? getSnapshot(item.snapshotId).map(snapshot => snapshot) : just({})),
+    [item.snapshotId]
+  );
+
   const time = item.time < timeConfig.to ? item.time : undefined;
   const getDashboardLink = useGetDashboardLink();
   return (
@@ -301,6 +309,7 @@ const DashboardLink = ({ item, isPreview, timeConfig, onNavigateToEntity }) => {
         <EntityLink
           label={item.label}
           plugin={item.plugin}
+          snapshot={snapshot}
           href={
             isPreview
               ? undefined
@@ -389,7 +398,8 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
         formatterId,
         isFormatterSelected,
         label: metricLabel,
-        lastValue
+        lastValue,
+        unit
       }) => {
         const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
         const metadata = mapData(metricMetadatas, data => data[metric]);
@@ -413,7 +423,10 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
             const metadata = mapData(metricMetadatas, data => data[metric]);
             const formatter = isFormatterSelected
               ? getFormatter(formatterId)
-              : mapData(metadata, data => data?.formatter).data;
+              : getMetricFormatterFromUnitOrMetadata(
+                  getBaseUnit(unit),
+                  mapData(metadata, data => data?.formatter).data
+                );
 
             const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
             const seriesKey = getSeriesKey(id);

@@ -8,19 +8,18 @@ import { actionDetailsUrlParameters } from 'in-automation/navigation/urlParamete
 import { actionDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { Action } from 'in-types';
 
 const idParameter = actionDetailsUrlParameters.id;
 const opParameter = actionDetailsUrlParameters.op;
 
-export default function useNavigateToActionDetails() {
-  const { location, navigate } = useNavigation();
+export default function useHrefToActionDetails() {
+  const { location, createHref } = useNavigation();
 
-  return (action?: Action, copy?: boolean) => {
+  return (actionId?: string, copy?: boolean) => {
     location.pathname = actionDetailsFullyQualified;
     const op = copy ? 'copy' : null;
-    setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, action?.id);
+    setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, actionId);
     setOrDeleteMatrixKey(location, opParameter.path ?? '', opParameter.name, op);
-    navigate(location);
+    return createHref(location);
   };
 }

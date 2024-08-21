@@ -22,6 +22,7 @@ import { just } from '@instana/observables';
 import {
   firstValue,
   getGranularity,
+  getMetricFormatterFromUnitOrMetadata,
   getMetricKey,
   getMetricValue,
   getSeriesKey,
@@ -50,6 +51,7 @@ import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { fixOrderForBackwardsCompatibility } from '../utils';
 import { getFormatter } from 'in-stores/metric/formatters';
+import { getBaseUnit } from 'in-stores/metric/units';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -678,7 +680,8 @@ export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granula
       formatterId,
       isFormatterSelected,
       label: metricLabel,
-      lastValue
+      lastValue,
+      unit
     }) => {
       const metadata = mapData(metricMetadatas, data => data[metric]);
       const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
@@ -692,7 +695,8 @@ export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granula
         aggregation,
         formatterId,
         isFormatterSelected,
-        lastValue
+        lastValue,
+        unit
       };
       const metricsColumns = getMetricsColumns(isTableMode, sharedProps);
 
@@ -734,12 +738,15 @@ function generateMetric({
   granularity,
   formatterId,
   isFormatterSelected,
-  lastValue
+  lastValue,
+  unit
 }) {
   const { metrics } = item;
 
   const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
-  const formatter = isFormatterSelected ? getFormatter(formatterId) : mapData(metadata, data => data?.formatter).data;
+  const formatter = isFormatterSelected
+    ? getFormatter(formatterId)
+    : getMetricFormatterFromUnitOrMetadata(getBaseUnit(unit), mapData(metadata, data => data?.formatter).data);
   const seriesKey = getSeriesKey(id);
   const kpi = lastValue ? lastValueForMetric(metrics[seriesKey]) : firstValue(metrics[id]);
   const series = metrics[seriesKey];

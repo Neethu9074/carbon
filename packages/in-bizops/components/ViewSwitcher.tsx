@@ -29,6 +29,12 @@ export default function ViewSwitcher() {
     showHistoricDataWarning: false
   };
 
+  const hostCount = window.instana?.reportingData?.hostCount;
+  let perspectivesDisabled = undefined;
+  if (typeof hostCount === 'number' && hostCount < 1) {
+    perspectivesDisabled = true;
+  }
+
   return (
     <>
       <DashboardHeader {...dashboardHeaderProps} />
@@ -47,6 +53,7 @@ export default function ViewSwitcher() {
               href={createHrefToPath(paths.businessPerspectivesPath)}
               label={t('in-bizops:labelPerspectives')}
               isActive={isPerspectivesActive && !isProcessesActive}
+              isDisabled={perspectivesDisabled}
               onClick={() => {
                 clickBizopsTabsTracker({ tab: 'Perspectives' });
               }}

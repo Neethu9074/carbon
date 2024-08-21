@@ -36,7 +36,7 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import { actionNameColumn as policyActionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
 import { runActionTracker, runActionTrackerSegment, createBulkPoliciesTracker } from 'in-automation/tracker';
 import { NewPolicy, TriggerSpecification, isManual as isManualPolicy } from 'in-automation/Policies/types';
-import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
+import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNavigateToPolicyDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { refresh, usePaginatedPolicies } from 'in-automation/AutomationCard/usePolicies';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
@@ -561,7 +561,7 @@ export default function AutomationPolicies({
         </Typography>
       }
       onChange={setServerTableUrlState}
-      onRowClick={policy => navigateToPolicyDetails(policy)}
+      onRowClick={policy => navigateToPolicyDetails(policy.id)}
       orderBy={orderBy}
       orderDirection={orderDirection}
       page={page}

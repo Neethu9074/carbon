@@ -11,6 +11,7 @@ const websitePlugins = ['website'];
 const mobileAppPlugins = ['mobileApp'];
 const syntheticPlugins = ['syntheticTest'];
 const logPlugins = ['log'];
+const oTelDatabasePlugins = ['oTelDatabase'];
 
 export function isAppDataPlugin(plugin: string | Nullish): boolean {
   if (plugin) {
@@ -39,4 +40,8 @@ export function isMobileAppPlugin(plugin: string | Nullish): boolean {
 
 export function isLogPlugin(plugin: string | Nullish): boolean {
   return plugin ? logPlugins.includes(plugin) : false;
+}
+
+export function isOtelDatabasePlugin(plugin: string | Nullish): boolean {
+  return plugin ? oTelDatabasePlugins.includes(plugin) : false;
 }

@@ -48,8 +48,6 @@ export const GOALS: UserGoal[] = [
 ];
 
 export const OTHER_GOAL_MAX_LENGTH = 150;
-export const SHOW_GOAL_SELECTION = 'show_goal_selection';
-export const GOAL_SELECTION_FALSE = 'false';
 
 export const GOAL_SELECTION = {
   SEGMENT_MESSAGE: {

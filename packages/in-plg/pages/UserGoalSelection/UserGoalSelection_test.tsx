@@ -29,6 +29,12 @@ jest.mock('in-subscription/getUsageInfo', () => ({
   }))
 }));
 
+jest.mock('in-services/userSettings', () => ({
+  userSettings: {
+    showUserGoalSelection: true
+  }
+}));
+
 describe('in-plg/pages/UserGoalSelection', () => {
   const mockData = {
     activeLicenseType: 'selfService'

@@ -6,8 +6,8 @@
 import React, { useState } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
+import { IconButton, Link } from '@instana/components';
 import { createLogger } from '@instana/logger';
-import { Link } from '@instana/components';
 
 import {
   getEntityHref,
@@ -38,7 +38,107 @@ const logger = createLogger('ApiTokens');
 
 export default function ApiTokens() {
   const { goToPath } = useNavigation();
-
+  const columnDefinitions = [
+    {
+      id: 'name',
+      label: t('in-settings:tabs.name'),
+      width: 30,
+      ellipsis: true,
+      useMinimumAmountOfHorizontalSpace: true,
+      getContent(entity: ApiTokenProps) {
+        return (
+          <Tooltip content={entity.name} align="auto" delay={500}>
+            <Link href={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId)} ellipsis>
+              {entity.name}
+            </Link>
+          </Tooltip>
+        );
+      }
+    },
+    {
+      id: 'id',
+      label: t('in-settings:tabs.token'),
+      ellipsis: true,
+      useMinimumAmountOfHorizontalSpace: true,
+      getContent(apiToken: ApiTokenProps) {
+        return <GrantingTokenLabelButton apiToken={apiToken} />;
+      }
+    },
+    {
+      id: 'lastUsedOn',
+      label: t('in-settings:tabs.tokenLastUsed'),
+      ellipsis: true,
+      useMinimumAmountOfHorizontalSpace: true,
+      getContent({ lastUsedOn }: ApiTokenProps) {
+        return (
+          <span>
+            {lastUsedOn ? (
+              <Tooltip content={`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} align="topLeft" delay={500}>
+                <span> {`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} </span>
+              </Tooltip>
+            ) : (
+              ''
+            )}
+          </span>
+        );
+      }
+    },
+    {
+      id: 'createdOn',
+      label: t('in-settings:tabs.tokenCreated'),
+      ellipsis: true,
+      useMinimumAmountOfHorizontalSpace: true,
+      getContent({ createdOn }: ApiTokenProps) {
+        return (
+          <span>
+            {createdOn ? (
+              <Tooltip content={`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} align="topLeft" delay={500}>
+                <span> {`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} </span>
+              </Tooltip>
+            ) : (
+              `${t('in-settings:tabs.unknownLabel')}`
+            )}
+          </span>
+        );
+      }
+    },
+    {
+      id: 'createdBy',
+      label: t('in-settings:tabs.tokenCreatedBy'),
+      ellipsis: true,
+      useMinimumAmountOfHorizontalSpace: true,
+      getContent({ createdBy }: ApiTokenProps) {
+        return (
+          <span>
+            {createdBy ? (
+              <Tooltip content={createdBy} align="topLeft" delay={500}>
+                <span>{createdBy}</span>
+              </Tooltip>
+            ) : (
+              `${t('in-settings:tabs.unknownLabel')}`
+            )}
+          </span>
+        );
+      }
+    },
+    {
+      id: 'duplicateAction',
+      sortable: false,
+      width: '4rem',
+      widthInAbsoluteUnit: true,
+      getContent: (e: ApiTokenProps) => {
+        return (
+          <Tooltip content={t('in-settings:tabs.apiTokenDuplicate')}>
+            <IconButton
+              kind="action"
+              type="lib_actions_copy"
+              onClick={() => goToPath(`${teamSettingsAccessControlApiTokenNew}/${e.internalId}`)}
+            />
+          </Tooltip>
+        );
+      }
+    }
+  ];
   return (
     <>
       <TenantInfoBanner>
@@ -82,91 +182,6 @@ function GrantingTokenLabelButton({ apiToken }: { apiToken: ApiTokenProps }) {
     </div>
   );
 }
-
-const columnDefinitions = [
-  {
-    id: 'name',
-    label: t('in-settings:tabs.name'),
-    width: 30,
-    ellipsis: true,
-    useMinimumAmountOfHorizontalSpace: true,
-    getContent(entity: ApiTokenProps) {
-      return (
-        <Tooltip content={entity.name} align="auto" delay={500}>
-          <Link href={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId)} ellipsis>
-            {entity.name}
-          </Link>
-        </Tooltip>
-      );
-    }
-  },
-  {
-    id: 'id',
-    label: t('in-settings:tabs.token'),
-    ellipsis: true,
-    useMinimumAmountOfHorizontalSpace: true,
-    getContent(apiToken: ApiTokenProps) {
-      return <GrantingTokenLabelButton apiToken={apiToken} />;
-    }
-  },
-  {
-    id: 'lastUsedOn',
-    label: t('in-settings:tabs.tokenLastUsed'),
-    ellipsis: true,
-    useMinimumAmountOfHorizontalSpace: true,
-    getContent({ lastUsedOn }: ApiTokenProps) {
-      return (
-        <span>
-          {lastUsedOn ? (
-            <Tooltip content={`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} align="topLeft" delay={500}>
-              <span> {`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} </span>
-            </Tooltip>
-          ) : (
-            ''
-          )}
-        </span>
-      );
-    }
-  },
-  {
-    id: 'createdOn',
-    label: t('in-settings:tabs.tokenCreated'),
-    ellipsis: true,
-    useMinimumAmountOfHorizontalSpace: true,
-    getContent({ createdOn }: ApiTokenProps) {
-      return (
-        <span>
-          {createdOn ? (
-            <Tooltip content={`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} align="topLeft" delay={500}>
-              <span> {`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} </span>
-            </Tooltip>
-          ) : (
-            `${t('in-settings:tabs.unknownLabel')}`
-          )}
-        </span>
-      );
-    }
-  },
-  {
-    id: 'createdBy',
-    label: t('in-settings:tabs.tokenCreatedBy'),
-    ellipsis: true,
-    useMinimumAmountOfHorizontalSpace: true,
-    getContent({ createdBy }: ApiTokenProps) {
-      return (
-        <span>
-          {createdBy ? (
-            <Tooltip content={createdBy} align="topLeft" delay={500}>
-              <span>{createdBy}</span>
-            </Tooltip>
-          ) : (
-            `${t('in-settings:tabs.unknownLabel')}`
-          )}
-        </span>
-      );
-    }
-  }
-];
 
 const tableActions = {
   delete: {

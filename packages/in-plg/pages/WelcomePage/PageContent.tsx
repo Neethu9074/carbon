@@ -147,14 +147,10 @@ const tableEntryArray: any[] = widgetData
     return ele;
   });
 
-interface PageContentProps {
-  enableQuickLinkForAgentAndUser: boolean;
-}
-
-export default function PageContent({ enableQuickLinkForAgentAndUser }: PageContentProps) {
+export default function PageContent() {
   return (
     <div className={locals.dashboardTilesWrapper}>
-      <QuickLinks enableQuickLinkForAgentAndUser={enableQuickLinkForAgentAndUser} />
+      <QuickLinks />
       <RenderTable />
     </div>
   );

@@ -450,5 +450,26 @@ export default [
     category: [t('in-forge:plugins.sapHana.dashboard.serviceDetailsStats')],
     formatter: bytesTwoDecimalPlaces,
     min: 0
+  },
+  {
+    metrics: ['archiveLogBackupStats.backupSize'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.backupSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.archiveLogBackupStats')],
+    formatter: bytesTwoDecimalPlaces,
+    min: 0
+  },
+  {
+    metrics: ['archiveLogBackupStats.duration'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.duration')],
+    category: [t('in-forge:plugins.sapHana.dashboard.archiveLogBackupStats')],
+    formatter: millis.detailed,
+    min: 0
+  },
+  {
+    metrics: ['stats.totalDiskUsagePercentage'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.diskUsagePercentage')],
+    category: [t('in-forge:plugins.sapHana.dashboard.diskUsagePercentage')],
+    formatter: percentage.detailed,
+    min: 0
   }
 ];

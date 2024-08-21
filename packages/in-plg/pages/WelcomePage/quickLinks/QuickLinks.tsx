@@ -13,19 +13,17 @@ import { t } from '@instana/i18n-react';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { QuickLinkButton } from 'in-plg/pages/WelcomePage/quickLinks/QuickLinkButton';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { playwithEnabled } from 'in-services/featureFlags';
+import { role } from 'in-stores/user';
 
 import locals from 'in-plg/pages/WelcomePage/quickLinks/QuickLinks.mless';
 
-interface QuickLinksProps {
-  enableQuickLinkForAgentAndUser: boolean;
-}
-
-export const QuickLinks = ({ enableQuickLinkForAgentAndUser }: QuickLinksProps) => {
+export const QuickLinks = () => {
   const { createHrefToPath } = useNavigation();
   return (
     <div className={locals.quickLinksWrapperStyle}>
       <Stack gap="disabled" direction="horizontal">
-        {enableQuickLinkForAgentAndUser && (
+        {!playwithEnabled && role?.canConfigureAgents && (
           <QuickLinkButton
             icon="lib_actions_settings"
             iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.settings')}
@@ -33,7 +31,7 @@ export const QuickLinks = ({ enableQuickLinkForAgentAndUser }: QuickLinksProps) 
             href={createHrefToPath('/agents/installation')}
           />
         )}
-        {enableQuickLinkForAgentAndUser && (
+        {!playwithEnabled && role?.canConfigureUsers && (
           <QuickLinkButton
             icon="lib_actions_user"
             iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.user')}

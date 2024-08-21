@@ -49,6 +49,7 @@ import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { error } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -112,7 +113,20 @@ export default function ApplicationDashboard({ location }: { location: Location 
         location={location}
         tabs={getApplicationTabs(canConfigureApplications)}
         props={tabViewProps}
-        result$={getApplication({ id: tabViewProps.applicationId })}
+        result$={
+          tabViewProps.applicationId
+            ? getApplication({ id: tabViewProps.applicationId })
+            : just(
+                error([
+                  {
+                    message: t('in-applications:dashboards.idCannotBeBlank', {
+                      entity: 'Application'
+                    }),
+                    code: 'CLIENT'
+                  }
+                ])
+              )
+        }
         withProps={({ result }) => ({
           applicationName: get(result, ['data', 'label'])
         })}

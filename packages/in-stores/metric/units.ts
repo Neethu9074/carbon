@@ -11,6 +11,7 @@ type UnitsMapping = { [value: string]: Unit };
 export type ConversionFn = (n: number) => number | undefined | null;
 export type BaseUnit = 'TIME' | 'SIZE' | 'NUMBER' | 'PERCENTAGE' | 'RATE';
 
+export const bitsBase = 8;
 export const bytesBase = 1000;
 export const millisBase = 1000;
 
@@ -30,13 +31,18 @@ export const number: Unit = {
   converter: NO_CONVERSION
 };
 
-export const defaultUnit = number;
-
 export const percentage: Unit = {
   id: 'percentage',
   label: t('in-stores:metric.unit_percentage'),
   baseUnit: 'PERCENTAGE',
   converter: NO_CONVERSION
+};
+
+export const bits: Unit = {
+  id: 'bits',
+  label: t('in-stores:metric.unit_bits'),
+  baseUnit: 'SIZE',
+  converter: bit => bit / bitsBase
 };
 
 export const byte: Unit = {
@@ -98,6 +104,7 @@ export const perSecond: Unit = {
 export const allUnits: UnitsMapping = {
   number: number,
   percentage: percentage,
+  bits: bits,
   byte: byte,
   kilobyte: kiloByte,
   megabyte: megaByte,

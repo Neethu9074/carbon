@@ -20,7 +20,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.sapHana.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-sap-hana`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=sap-monitoring-hana`
   },
   sapHana_unable_to_connect: {
     issueDescription: {
@@ -44,6 +44,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.sapHana.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-sap-hana`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=sap-monitoring-hana`
   }
 };

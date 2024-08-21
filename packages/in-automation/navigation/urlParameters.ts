@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { actionDetails, policies, policiesDetails } from 'in-automation/navigation/paths';
+import { actionDetails, policies, policiesDetails, actionCatalog } from 'in-automation/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { ParameterDefinition } from 'in-stores/navigation/types';
 
@@ -16,6 +16,10 @@ export const policyDetailsUrlParameters = {
 export const actionDetailsUrlParameters = {
   id: createIdUrlParameter(actionDetails),
   op: createOpParameter(actionDetails)
+};
+
+export const actionCatalogUrlParameters = {
+  view: createTabTypeUrlParameter(actionCatalog)
 };
 
 export function createIdUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {

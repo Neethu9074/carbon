@@ -68,16 +68,17 @@ import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/list/col
 import { EntityType, EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
+import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNavigateToPolicyDetails';
 import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
 import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
 import { descriptionColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
-import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
 import useMobileAppLabel from 'in-alerting/smart-alerts/mobileApp/hooks/useMobileAppLabel';
 import SyntheticsScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import InfraScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
+import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
 import MobileAppScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -89,7 +90,6 @@ import { hasError, isLoading, listSuccess, success } from 'in-services/util/resu
 import SloAppliedColumn from 'in-alerting/smart-alerts/slo/list/SloAppliedColumn';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import useNavigateToPolicies from 'in-automation/Policies/useNavigateToPolicies';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import LogScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
@@ -402,7 +402,7 @@ function CopyPolicyLink({ isNew, policy }: { isNew: boolean; policy: PolicyFormE
 
   return (
     <Tooltip content={t('in-automation:duplicate')} delay={500}>
-      <Link ellipsis onClick={() => navigateToPolicyDetails(policy, true)}>
+      <Link ellipsis onClick={() => navigateToPolicyDetails(policy.id, true)}>
         <IconButton id={`copy_${policy.id}`} buttonType="button" kind="primaryv2" type="lib_actions_copy" />
       </Link>
     </Tooltip>

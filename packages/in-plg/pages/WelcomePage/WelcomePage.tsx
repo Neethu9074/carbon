@@ -35,7 +35,7 @@ export default function WelcomePage() {
           }}
         />
         <Stack direction="vertical">
-          <PageContent enableQuickLinkForAgentAndUser={!playwithEnabled} />
+          <PageContent />
         </Stack>
       </ThemeProvider>
     </div>

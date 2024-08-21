@@ -19,7 +19,9 @@ import UsageChart from 'in-amp/components/UsageChart';
 import { Row, Col } from 'in-components/layout/Grid';
 import { carbonAlert } from 'in-themes/chartColors';
 import Tooltip from 'in-components/Tooltip';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
+
+import locals from 'in-amp/components/UsageCharts.mless';
 
 export default function UsageCharts({
   windowSize,
@@ -28,7 +30,8 @@ export default function UsageCharts({
   tenantUnit,
   showPurchasedMetric = true,
   showAggregatedMetrics = false,
-  hasSyntheticAddons = false,
+  hasSyntheticAddon = false,
+  hasLoggingAddon = false,
   presentation
 }) {
   const showDataIngestTable = !tenantUnit?.tenant && !onPremLicenseInformationEnabled;
@@ -39,6 +42,9 @@ export default function UsageCharts({
   let showDataLicenseLine = true;
   const licenseObservableResult = useObservable(getActiveLicensesAsResultObservable(1, 60000), []);
   const accountObservableResult = useObservable(getAccountAsResultObservable(), []);
+
+  // Show the add-on section (or not)
+  const showAddOnSection = showAggregatedMetrics && (hasSyntheticAddon || hasLoggingAddon);
 
   const fupOverride = accountObservableResult?.data?.fupOverride;
 
@@ -219,13 +225,15 @@ export default function UsageCharts({
       </Row>
       <Row>
         <Col xs={12}>
-          <Card>
-            <SubViewHeader>
-              Data usage
+          <Card
+            title={t('in-amp:components.usageCharts.dataUsage')}
+            leftHeaderContent={
               <Tooltip content={t('in-amp:components.usageCharts.dataUsageHelperText')} align="rightMiddle">
                 <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
               </Tooltip>
-            </SubViewHeader>
+            }
+            headerClassName={locals.cardHeader}
+          >
             <UsageChart
               windowSize={windowSize}
               timeRange={timeRange}
@@ -245,39 +253,84 @@ export default function UsageCharts({
         </Row>
       )}
       <br />
-      {showAggregatedMetrics && hasSyntheticAddons && (
+      {showAddOnSection && (
         <>
           <SectionLine />
           <SubViewHeader>{t('in-amp:components.usageCharts.addons')}</SubViewHeader>
           <Row>
-            <Col xs={6}>
-              <Card>
-                <SubViewHeader>
-                  {t('in-amp:components.usageCharts.syntheticPops')}
-                  <Tooltip content={t('in-amp:components.usageCharts.helperText')} align="rightMiddle">
-                    <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
-                  </Tooltip>
-                </SubViewHeader>
-                <UsageChart
-                  windowSize={windowSize}
-                  timeRange={timeRange}
-                  to={to}
-                  showAggregatedMetrics={showAggregatedMetrics}
-                  y1={{
-                    ...tenantUnit,
-                    metrics: ['syntheticstotal'],
-                    labels: [t('in-amp:components.usageCharts.consumedUnits')],
-                    colors: ['#17A1E6']
-                  }}
-                  y2={{
-                    ...tenantUnit,
-                    metrics: ['licensed_synthetic_managed_pops'],
-                    labels: [t('in-amp:components.usageCharts.resourceUnits')],
-                    colors: [carbonAlert.red60]
-                  }}
-                />
-              </Card>
-            </Col>
+            {hasSyntheticAddon && (
+              <Col xs={6}>
+                <Card
+                  title={t('in-amp:components.usageCharts.syntheticPops')}
+                  leftHeaderContent={
+                    <Tooltip content={t('in-amp:components.usageCharts.syntheticsHelperText')} align="rightMiddle">
+                      <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
+                    </Tooltip>
+                  }
+                  headerClassName={locals.cardHeader}
+                >
+                  <UsageChart
+                    windowSize={windowSize}
+                    timeRange={timeRange}
+                    to={to}
+                    showAggregatedMetrics={showAggregatedMetrics}
+                    y1={{
+                      ...tenantUnit,
+                      metrics: ['syntheticstotal'],
+                      labels: [t('in-amp:components.usageCharts.consumedUnits')],
+                      colors: ['#17A1E6']
+                    }}
+                    y2={{
+                      ...tenantUnit,
+                      metrics: ['licensed_synthetic_managed_pops'],
+                      labels: [t('in-amp:components.usageCharts.resourceUnits')],
+                      colors: [carbonAlert.red60]
+                    }}
+                  />
+                </Card>
+              </Col>
+            )}
+            {hasLoggingAddon && (
+              <Col xs={6}>
+                <Card
+                  title={t('in-amp:components.usageCharts.logging')}
+                  leftHeaderContent={
+                    <Tooltip
+                      content={
+                        onPremLicenseInformationEnabled ? (
+                          <Trans i18nKey="in-amp:components.usageCharts.loggingHelperText.onprem" />
+                        ) : (
+                          <Trans i18nKey="in-amp:components.usageCharts.loggingHelperText.saas" />
+                        )
+                      }
+                      align="rightMiddle"
+                    >
+                      <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
+                    </Tooltip>
+                  }
+                  headerClassName={locals.cardHeader}
+                >
+                  <UsageChart
+                    windowSize={windowSize}
+                    timeRange={timeRange}
+                    to={to}
+                    showAggregatedMetrics={showAggregatedMetrics}
+                    y1={{
+                      ...tenantUnit,
+                      metrics: ['logging_total'],
+                      labels: [t('in-amp:components.usageCharts.consumedUnits')],
+                      colors: ['#17A1E6']
+                    }}
+                    y2={{
+                      ...tenantUnit,
+                      metrics: ['licensed_logging'],
+                      labels: [t('in-amp:components.usageCharts.resourceUnits')],
+                      colors: [carbonAlert.red60]
+                    }}
+                  />
+                </Card>
+              </Col>
+            )}
           </Row>
         </>
       )}

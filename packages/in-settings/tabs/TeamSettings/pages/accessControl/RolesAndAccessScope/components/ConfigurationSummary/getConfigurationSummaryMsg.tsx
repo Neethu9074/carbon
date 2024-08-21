@@ -16,18 +16,21 @@ import {
   AreaRoleWithContributor
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { syntheticMultiWebMobileEnabled, syntheticRbacLimitedTPEnabled } from 'in-services/featureFlags';
+import { Capability } from 'in-stores/permission';
 import { t, Trans } from 'in-i18n';
 
 interface ConfigurationSummaryMsg {
   accessLevelMessage: string | JSX.Element;
   rolePermissionMessage: string;
   noAccessMessage: string;
+  permissions?: string[];
 }
 
 export const getConfigurationSummaryMsg = (
   productArea: ProductAreaType,
   scope: ScopedPermissionType,
-  role?: AreaRoleWithCustomType | undefined
+  role?: AreaRoleWithCustomType | undefined,
+  permissions?: string[]
 ): ConfigurationSummaryMsg => {
   const areaContext = productArea.toLowerCase();
   const roleContext = role ? role?.toLowerCase() : '';
@@ -73,7 +76,11 @@ export const getConfigurationSummaryMsg = (
       scope === ScopedPermissionItem.LIMITED_ACCESS
     ) {
       accessLevelMessage = syntheticMultiWebMobileEnabled
-        ? t('in-settings:configurationSummary.' + areaScopeContext + '.access_level_web_mobile')
+        ? role === AreaRole.OWNER &&
+          (permissions!.includes(Capability.CAN_USE_SYNTHETIC_CREDENTIALS) ||
+            permissions!.includes(Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS))
+          ? t('in-settings:configurationSummary.' + areaScopeContext + '.access_level_tests_credentials')
+          : t('in-settings:configurationSummary.' + areaScopeContext + '.access_level_web_mobile')
         : t('in-settings:configurationSummary.' + areaScopeContext + '.access_level_tp');
       rolePermissionMessage = t('in-settings:configurationSummary.' + areaContext + '.role_permissions', {
         context: roleContext
