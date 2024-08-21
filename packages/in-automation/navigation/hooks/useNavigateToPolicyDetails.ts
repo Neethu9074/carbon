@@ -8,7 +8,6 @@ import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParamete
 import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { Policy } from 'in-types';
 
 const idParameter = policyDetailsUrlParameters.id;
 const opParameter = policyDetailsUrlParameters.op;
@@ -16,10 +15,10 @@ const opParameter = policyDetailsUrlParameters.op;
 export default function useNavigateToPolicyDetails() {
   const { location, navigate } = useNavigation();
 
-  return (policy?: Policy, copy?: boolean) => {
+  return (policyId?: string, copy?: boolean) => {
     location.pathname = policiesDetailsFullyQualified;
     const op = copy ? 'copy' : null;
-    setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, policy?.id);
+    setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, policyId);
     setOrDeleteMatrixKey(location, opParameter.path ?? '', opParameter.name, op);
     navigate(location);
   };

@@ -14,10 +14,10 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import { PolicyFormBody, PolicyFormFooter, PolicyFormHeader } from 'in-automation/Policies/PolicyForm';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { PolicyForm, Triggers, isAutomatic, isManual } from 'in-automation/Policies/types';
+import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
 import usePolicyForm, { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm';
 import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
-import useNavigateToPolicies from 'in-automation/Policies/useNavigateToPolicies';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getActions, saveNewPolicy, savePolicy } from 'in-automation/api';

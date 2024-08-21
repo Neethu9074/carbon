@@ -4,23 +4,21 @@
  * Copyright IBM Corp. 2024
  */
 
-import { actionCatalogFullyQualified, actionCatalog } from 'in-automation/navigation/paths';
-import { actionDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
-import { createTabTypeUrlParameter } from 'in-automation/navigation/urlParameters';
+import { actionDetailsUrlParameters, actionCatalogUrlParameters } from 'in-automation/navigation/urlParameters';
+import { actionCatalogFullyQualified } from 'in-automation/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
 const idParameter = actionDetailsUrlParameters.id;
-const viewParameter = createTabTypeUrlParameter(actionCatalog);
+const viewParameter = actionCatalogUrlParameters.view;
 
 export default function useNavigateToActionCatalog() {
   const { location, navigate } = useNavigation();
-  return (viewType?: string) => {
+  return (viewType = 'user') => {
     location.pathname = actionCatalogFullyQualified;
 
-    const tabType = viewType ?? 'user';
     setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, null);
-    setOrDeleteMatrixKey(location, viewParameter.path ?? '', viewParameter.name, tabType);
+    setOrDeleteMatrixKey(location, viewParameter.path ?? '', viewParameter.name, viewType);
     navigate(location);
   };
 }
