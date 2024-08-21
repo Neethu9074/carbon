@@ -10,7 +10,8 @@ import { HorizontalIndicator, Li, LoadingSkeleton, Ul, SvgIcon } from '@instana/
 
 import {
   LogVolumeData,
-  LogVolumeDetailsProps
+  LogVolumeDetailsProps,
+  VolumeUnits
 } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/types';
 // eslint-disable-next-line no-restricted-imports
 import { generateEmptyData } from './utils';
@@ -37,14 +38,15 @@ export default function LogVolumeDetails({
       [`${month}_${days}`]: !prev[`${month}_${days}`]
     }));
   };
+
   return (
     <>
       {data
-        ?.filter(({ totalVolumeGB }: LogVolumeData) => totalVolumeGB > 0)
+        ?.filter(({ totalVolume }: LogVolumeData) => totalVolume.gb > 0)
         .map((item: LogVolumeData, index: number) => {
-          const { month, totalVolumeGB, retentionPeriods } = item;
+          const { month, totalVolume, retentionPeriods } = item;
           const hasPartialSums = 'partialSums' in item;
-          const partialSums = hasPartialSums ? (item as { partialSums: { [key: string]: number } }).partialSums : null;
+          const partialSums = hasPartialSums ? item.partialSums : null;
 
           return isLoading ? (
             <div key={`${month}_${index}`} className={locals.loadingMock}>
@@ -58,10 +60,10 @@ export default function LogVolumeDetails({
                   <span>{t('in-settings:maintenanceWindow.months', { context: month })}</span>
                 </div>
                 <div className={locals.tableGB}>
-                  <span>{totalVolumeGB} GB</span>
+                  <span>{totalVolume.gb} GB</span>
                 </div>
                 <div className={locals.tableRU}>
-                  <span>{totalVolumeGB} RU</span>
+                  <span>{totalVolume.ru} RU</span>
                 </div>
               </Li>
               <div>
@@ -71,7 +73,7 @@ export default function LogVolumeDetails({
                       {(['days30', 'days60', 'days90'] as const)
                         .filter(days => {
                           const period = retentionPeriods[days];
-                          return Array.isArray(period) ? period.length > 0 : period > 0;
+                          return Array.isArray(period) ? period.length > 0 : period.gb > 0;
                         })
                         .map((days, index: number) => (
                           <Li key={`${days}_${index}`}>
@@ -79,8 +81,8 @@ export default function LogVolumeDetails({
                               <span className={locals.tableLabel}>
                                 {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
                               </span>
-                              <span className={locals.tableGB}>{retentionPeriods[days]} GB</span>
-                              <span className={locals.tableRU}>{retentionPeriods[days]} RU</span>
+                              <span className={locals.tableGB}>{(retentionPeriods[days] as VolumeUnits).gb} GB</span>
+                              <span className={locals.tableRU}>{(retentionPeriods[days] as VolumeUnits).ru} RU</span>
                             </div>
                           </Li>
                         ))}
@@ -89,15 +91,15 @@ export default function LogVolumeDetails({
                     <div>
                       <Ul className={locals.logVolumeItems}>
                         {(['days30', 'days60', 'days90'] as const)
-                          .filter(days => retentionPeriods[days] && partialSums && partialSums[days] > 0)
+                          .filter(days => retentionPeriods[days] && partialSums && partialSums[days].gb > 0)
                           .map((days, index) => (
                             <React.Fragment key={`${days}_${index}`}>
                               <Li onClick={() => handleToggle(month, days)} className={locals.retentionDays}>
                                 <span className={locals.tableLabel}>
                                   {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
                                 </span>
-                                <span className={locals.tableGB}>{partialSums && partialSums[days]} GB</span>
-                                <span className={locals.tableRU}>{partialSums && partialSums[days]} RU</span>
+                                <span className={locals.tableGB}>{partialSums && partialSums[days].gb} GB</span>
+                                <span className={locals.tableRU}>{partialSums && partialSums[days].ru} RU</span>
                                 <span className={locals.collapseRow}>
                                   <SvgIcon
                                     type={
@@ -112,14 +114,16 @@ export default function LogVolumeDetails({
 
                               {expandedRetention[`${month}_${days}`] && (
                                 <div>
-                                  {(retentionPeriods[days] as { label: string; volumeGB: number }[])
-                                    ?.filter((item: { label: string; volumeGB: number }) => item.volumeGB > 0)
-                                    .map(({ label, volumeGB }, index: number) => (
+                                  {(retentionPeriods[days] as { label: string; volumeGB: number; volumeRU: number }[])
+                                    ?.filter(
+                                      (item: { label: string; volumeGB: number; volumeRU: number }) => item.volumeGB > 0
+                                    )
+                                    .map(({ label, volumeGB, volumeRU }, index: number) => (
                                       <React.Fragment key={`${days}_${index}`}>
                                         <div key={label + index} className={locals.logVolumeCategories}>
                                           <span className={locals.tableLabel}>{label}</span>
                                           <span className={locals.tableGB}>{volumeGB} GB</span>
-                                          <span className={locals.tableRU}>{volumeGB} RU</span>
+                                          <span className={locals.tableRU}>{volumeRU} RU</span>
                                         </div>
                                       </React.Fragment>
                                     ))}

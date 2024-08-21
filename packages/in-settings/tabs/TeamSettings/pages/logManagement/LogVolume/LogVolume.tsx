@@ -11,17 +11,14 @@ import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import {
-  generateQuery,
-  TagNames,
-  TagObject,
-  transformData
-} from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
 // eslint-disable-next-line no-restricted-imports
 import LogVolumeGroupingConfigurator from './workspaces/LogVolumeGroupingConfigurator';
+import { generateQuery, transformData } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
 import LogVolumeDetails from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/LogVolumeDetails';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+// eslint-disable-next-line no-restricted-imports
+import { TagNames, TagObject } from './types';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { ua2GroupChangedTracker } from 'in-applications/tracker';

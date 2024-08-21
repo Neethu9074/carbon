@@ -4,49 +4,19 @@
  * Copyright IBM Corp. 2024
  */
 
-import { LabeledMetricResult, Result, TagType, TimeConfig } from '@instana/types';
+import { LabeledMetricResult, Result, TimeConfig } from '@instana/types';
 import { just } from '@instana/observables';
 
 // eslint-disable-next-line no-restricted-imports
-import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
+import { LogVolumeData, MonthlyRetentionData, RetentionPeriodData, TagNames } from './types';
 // eslint-disable-next-line no-restricted-imports
-import { LogVolumeData } from './types';
-
-interface RetentionPeriodData {
-  days90: number;
-  days60: number;
-  days30: number;
-}
-
-interface MonthlyRetentionData {
-  month: string;
-  year: number;
-  totalVolumeGB: number;
-  retentionPeriods: RetentionPeriodData;
-  label?: string;
-}
-
-export type TagNames =
-  | ''
-  | 'zone'
-  | 'host_name'
-  | 'kubernetes_namespace_name'
-  | 'kubernetes_cluster_name'
-  | 'kubernetes_daemonset_name'
-  | 'kubernetes_deployment_name';
-
-export interface TagObject {
-  groupbyTag: TagNames;
-  tagType: TagType;
-  tagDefinition?: string;
-}
+import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 
 export const DEFAULT_NO_GROUPING_VALUE = 'NO_GROUPING';
 
 export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData[] | null {
   const dataMap: Record<string, Record<string, RetentionPeriodData>> = {};
   if (!dataResult || dataResult.length === 0) return null;
-
   for (const point of dataResult) {
     if (!point.values) continue;
 
@@ -57,6 +27,7 @@ export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData
       const retentionDays = value[0];
       const timestamp = value[1];
       const volumeGB = value[2];
+      const volumeRU = value[3];
 
       const date = new Date(timestamp * 1000);
       const month = date.toLocaleString('en-US', { month: 'long' });
@@ -68,15 +39,18 @@ export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData
       }
 
       if (!dataMap[label][monthYearKey]) {
-        dataMap[label][monthYearKey] = { days90: 0, days60: 0, days30: 0 };
+        dataMap[label][monthYearKey] = { days90: { gb: 0, ru: 0 }, days60: { gb: 0, ru: 0 }, days30: { gb: 0, ru: 0 } };
       }
 
       if (retentionDays === 30) {
-        dataMap[label][monthYearKey].days30 += +volumeGB.toFixed(2);
+        dataMap[label][monthYearKey].days30.gb += +volumeGB.toFixed(2);
+        dataMap[label][monthYearKey].days30.ru += +volumeRU.toFixed(2);
       } else if (retentionDays === 60) {
-        dataMap[label][monthYearKey].days60 += +volumeGB.toFixed(2);
+        dataMap[label][monthYearKey].days60.gb += +volumeGB.toFixed(2);
+        dataMap[label][monthYearKey].days30.ru += +volumeRU.toFixed(2);
       } else if (retentionDays === 90) {
-        dataMap[label][monthYearKey].days90 += +volumeGB.toFixed(2);
+        dataMap[label][monthYearKey].days90.gb += +volumeGB.toFixed(2);
+        dataMap[label][monthYearKey].days90.ru += +volumeRU.toFixed(2);
       }
     }
   }
@@ -86,12 +60,14 @@ export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData
   for (const [label, months] of Object.entries(dataMap)) {
     for (const [monthYearKey, retentionData] of Object.entries(months)) {
       const [month, yearValue] = monthYearKey.split('-');
-      const totalGB = retentionData.days30 + retentionData.days60 + retentionData.days90;
+      const totalGB = retentionData.days30.gb + retentionData.days60.gb + retentionData.days90.gb;
+      const totalRU = retentionData.days30.ru + retentionData.days60.ru + retentionData.days90.ru;
+
       data.push({
         label,
         month,
         year: parseInt(yearValue, 10),
-        totalVolumeGB: +totalGB.toFixed(2),
+        totalVolume: { gb: +totalGB.toFixed(2), ru: +totalRU.toFixed(2) },
         retentionPeriods: retentionData
       });
     }
@@ -143,7 +119,7 @@ export function generateQuery(numMonths: number, groupingTag?: TagNames): any {
         resultType: 'SINGLE_NUMBER',
         timeConfig: {
           to: currentTimestamp,
-          windowSize: 2678400000 * numMonths,
+          windowSize: 2592000000 * numMonths,
           focusedMoment: currentTimestamp,
           autoRefresh: false
         }
@@ -194,11 +170,11 @@ export const generateEmptyData = (numEntries: number) => {
   for (let i = 0; i < numEntries; i++) {
     data.push({
       month: 'August',
-      totalVolumeGB: 1,
+      totalVolume: { gb: 0, ru: 0 },
       retentionPeriods: {
-        days90: 0,
-        days60: 0,
-        days30: 0
+        days90: { gb: 0, ru: 0 },
+        days60: { gb: 0, ru: 0 },
+        days30: { gb: 0, ru: 0 }
       },
       year: 2024
     });
@@ -216,56 +192,69 @@ export function transformLabeledData(data: any[]) {
       monthYear = {
         month,
         year,
-        totalVolumeGB: 0,
+        totalVolume: { gb: 0, ru: 0 },
         retentionPeriods: {
           days90: [],
           days60: [],
           days30: []
         },
         partialSums: {
-          days90: 0,
-          days60: 0,
-          days30: 0
+          days90: { gb: 0, ru: 0 },
+          days60: { gb: 0, ru: 0 },
+          days30: { gb: 0, ru: 0 }
         }
       };
       result.push(monthYear);
     }
 
-    monthYear.totalVolumeGB += current.totalVolumeGB;
+    monthYear.totalVolume.gb += current.totalVolume.gb;
+    monthYear.totalVolume.ru += current.totalVolume.ru;
 
     Object.keys(retentionPeriods).forEach(period => {
       const periodData = monthYear.retentionPeriods[period].find((p: any) => p.label === label);
-      const volumeGB = retentionPeriods[period];
+      const volumeGB = retentionPeriods[period].gb;
+      const volumeRU = retentionPeriods[period].ru;
 
       if (periodData) {
         periodData.volumeGB += +volumeGB.toFixed(2);
+        periodData.volumeRU += +volumeRU.toFixed(2);
       } else {
         monthYear.retentionPeriods[period].push({
           label,
-          volumeGB
+          volumeGB,
+          volumeRU
         });
       }
 
-      monthYear.partialSums[period] += +volumeGB.toFixed(2);
+      monthYear.partialSums[period].gb += +volumeGB.toFixed(2);
+      monthYear.partialSums[period].ru += +volumeRU.toFixed(2);
     });
 
     return result;
   }, []);
-
   return roundDataValues(finalResult);
 }
 
-function roundDataValues(data: LogVolumeData[]) {
+function roundDataValues(data: any): any[] {
   return data.map((item: any) => {
     const roundedPartialSums = Object.fromEntries(
-      Object.entries(item.partialSums).map(([key, value]: [string, any]) => [key, Math.round(value * 100) / 100])
+      Object.entries(item.partialSums).map(([key, value]: [string, any]) => [
+        key,
+        {
+          gb: Math.round(value.gb * 100) / 100,
+          ru: Math.round(value.ru * 100) / 100
+        }
+      ])
     );
 
-    const roundedTotalVolumeGB = Math.round(item.totalVolumeGB * 100) / 100;
+    const roundedTotalVolume = {
+      gb: Math.round(item.totalVolume.gb * 100) / 100,
+      ru: Math.round(item.totalVolume.ru * 100) / 100
+    };
 
     return {
       ...item,
-      totalVolumeGB: roundedTotalVolumeGB,
+      totalVolume: roundedTotalVolume,
       partialSums: roundedPartialSums
     };
   });
