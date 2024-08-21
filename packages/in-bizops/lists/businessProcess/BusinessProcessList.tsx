@@ -25,6 +25,7 @@ import { FormModelElement } from 'in-components/QueryBuilder/transformation/form
 import getBusinessProcessList from 'in-bizops/subscriptions/getBusinessProcessList';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { businessProcessPath } from 'in-bizops/navigation/paths';
@@ -43,45 +44,62 @@ import locals from './BusinessProcessList.mless';
 
 const pathSegment = businessProcessPath;
 const matrixPrefix = '';
-
-let ServerTableWithUrlState: any;
-
-if (bizopsStandardInclusionEnabled) {
-  ServerTableWithUrlState = createServerTableWithUrlState({
-    Renderer: BizOpsEmptyTableState({
-      columnDefinitions: processColumnDefinitions
-    }),
-    paginationResettingUrlParameters: [...timeConfigUrlParameters],
-    columnDefinitions: processColumnDefinitions,
-    defaultOrderBy: 'process_name',
-    defaultOrderDirection: 'ASC',
-    pathSegment,
-    matrixPrefix
-  });
-} else {
-  ServerTableWithUrlState = createServerTableWithUrlState({
-    Renderer: withEmptyTableState({
-      columnDefinitions: processColumnDefinitions,
-      title: t('in-bizops:lists.noData'),
-      description: t('in-bizops:lists.noData')
-    }),
-    paginationResettingUrlParameters: [...timeConfigUrlParameters],
-    columnDefinitions: processColumnDefinitions,
-    defaultOrderBy: 'process_name',
-    defaultOrderDirection: 'ASC',
-    pathSegment,
-    matrixPrefix
-  });
-}
+const hostCount = window.instana?.reportingData?.hostCount;
 
 export default function BizOpsList() {
   const timeConfig = useTimeConfig();
+
+  // Properly creating the URL for the Deploy Agent button
+  const { createHref, location } = useNavigation();
+  const agentInstallationPath = '/agents/installation';
+  location.pathname = agentInstallationPath;
 
   const [queryTagFilter, setQueryTagFilter] = useState([]);
   const tagCatalog = useObservable(getBusinessMonitoringTagCatalog(), []);
 
   function onClear() {
     setQueryTagFilter([]);
+  }
+
+  function DeployAgentButton() {
+    if (typeof hostCount === 'number' && hostCount > 0) {
+      return null;
+    }
+    return (
+      <Button kind="action" href={createHref(location)} className={locals.button} icon="lib_actions_settings">
+        {t('in-bizops:processes.deployAgent')}
+      </Button>
+    );
+  }
+
+  let ServerTableWithUrlState: any;
+  if (bizopsStandardInclusionEnabled && typeof hostCount === 'number' && hostCount < 1) {
+    ServerTableWithUrlState = createServerTableWithUrlState({
+      Renderer: BizOpsEmptyTableState({
+        columnDefinitions: processColumnDefinitions,
+        href: createHref(location)
+      }),
+      paginationResettingUrlParameters: [...timeConfigUrlParameters],
+      columnDefinitions: processColumnDefinitions,
+      defaultOrderBy: 'process_name',
+      defaultOrderDirection: 'ASC',
+      pathSegment,
+      matrixPrefix
+    });
+  } else {
+    ServerTableWithUrlState = createServerTableWithUrlState({
+      Renderer: withEmptyTableState({
+        columnDefinitions: processColumnDefinitions,
+        title: t('in-bizops:lists.noData'),
+        description: t('in-bizops:lists.noData')
+      }),
+      paginationResettingUrlParameters: [...timeConfigUrlParameters],
+      columnDefinitions: processColumnDefinitions,
+      defaultOrderBy: 'process_name',
+      defaultOrderDirection: 'ASC',
+      pathSegment,
+      matrixPrefix
+    });
   }
 
   return (
@@ -126,6 +144,7 @@ export default function BizOpsList() {
             cardTitle={t('in-bizops:lists.cardTitle')}
             queryTagFilter={queryTagFilter}
             tagCatalog={tagCatalog?.data}
+            rightHeader={DeployAgentButton}
           />
         </LeftRightPadding>
         <Footer />

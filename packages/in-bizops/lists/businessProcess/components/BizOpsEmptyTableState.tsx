@@ -21,10 +21,10 @@ export default function BizOpsEmptyTableState(extraProps: any) {
 }
 
 function ServerTableWithEmptyState(props: any) {
-  return <ServerTablePresenter {...props} renderNoDataAvailable={() => NoDataAvailable()} />;
+  return <ServerTablePresenter {...props} renderNoDataAvailable={() => NoDataAvailable(props.href)} />;
 }
 
-function NoDataAvailable() {
+function NoDataAvailable(href: string) {
   return (
     <CenterAlignmentColumn>
       <div className={locals.bizopsNoData}>
@@ -37,7 +37,7 @@ function NoDataAvailable() {
           For more information, read the <a href="#">documentation</a>
         </p>
       </div>
-      <Button kind="primary" className={locals.bizopsDeployAgent}>
+      <Button kind="primary" href={href} className={locals.bizopsDeployAgent}>
         Deploy agent
       </Button>
     </CenterAlignmentColumn>
