@@ -53,6 +53,7 @@ export const actionNameColumn: ColumnDefinition<Policy> = {
       content={item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name}
       align="topLeft"
       delay={500}
+      overwriteBlock
     >
       <WithSubscript subscript={getType(item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.type)}>
         <Typography noWrap variant="body-regular">
