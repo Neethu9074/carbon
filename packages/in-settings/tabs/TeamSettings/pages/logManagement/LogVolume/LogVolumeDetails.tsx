@@ -56,7 +56,10 @@ export default function LogVolumeDetails({
             <div key={`${month}_${index}`} className={locals.LogVolumeDetailsContainer}>
               <Li className={locals.LogVolumeDetails}>
                 <SubViewHeader>{t('in-settings:maintenanceWindow.months', { context: month })}</SubViewHeader>
-                <SubViewHeader>{totalVolumeGB} GB</SubViewHeader>
+                <div className={locals.totalVolumes}>
+                  <SubViewHeader>{totalVolumeGB} GB</SubViewHeader>
+                  <SubViewHeader>{totalVolumeGB} RU</SubViewHeader>
+                </div>
               </Li>
               <div>
                 <Ul className={locals.logVolumeItems}>
@@ -67,10 +70,13 @@ export default function LogVolumeDetails({
                           const period = retentionPeriods[days];
                           return Array.isArray(period) ? period.length > 0 : period > 0;
                         })
-                        .map(days => (
-                          <Li key={days} className={locals.retentionDays}>
+                        .map((days, index: number) => (
+                          <Li key={`${days}_${index}`} className={locals.retentionDays}>
                             <div>{t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}</div>
-                            <div>{retentionPeriods[days]} GB</div>
+                            <div className={locals.totalVolumes}>
+                              <div className={locals.volumeGB}>{retentionPeriods[days]} GB</div>
+                              <div className={locals.volumeGB}>{retentionPeriods[days]} RU</div>
+                            </div>
                           </Li>
                         ))}
                     </Ul>
@@ -79,22 +85,25 @@ export default function LogVolumeDetails({
                       <Ul className={locals.logVolumeItems}>
                         {(['days30', 'days60', 'days90'] as const)
                           .filter(days => retentionPeriods[days] && partialSums && partialSums[days] > 0)
-                          .map(days => (
-                            <>
-                              <Li key={days} onClick={() => handleToggle(month, days)} className={locals.retentionDays}>
+                          .map((days, index) => (
+                            <React.Fragment key={`${days}_${index}`}>
+                              <Li onClick={() => handleToggle(month, days)} className={locals.retentionDays}>
                                 {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
-                                <div>
-                                  {partialSums && partialSums[days]} GB
-                                  <span className={locals.collapseRow}>
-                                    <SvgIcon
-                                      type={
-                                        expandedRetention[`${month}_${days}`]
-                                          ? 'lib_arrow_expand_up'
-                                          : 'lib_arrow_expand_down'
-                                      }
-                                      size="s"
-                                    />
-                                  </span>
+                                <div className={locals.totalVolumes}>
+                                  <div className={locals.volumeGB}>{partialSums && partialSums[days]} GB </div>
+                                  <div className={locals.volumeGB}>
+                                    {partialSums && partialSums[days]} RU
+                                    <span className={locals.collapseRow}>
+                                      <SvgIcon
+                                        type={
+                                          expandedRetention[`${month}_${days}`]
+                                            ? 'lib_arrow_expand_up'
+                                            : 'lib_arrow_expand_down'
+                                        }
+                                        size="s"
+                                      />
+                                    </span>
+                                  </div>
                                 </div>
                               </Li>
 
@@ -102,17 +111,20 @@ export default function LogVolumeDetails({
                                 <div>
                                   {(retentionPeriods[days] as { label: string; volumeGB: number }[])
                                     ?.filter((item: { label: string; volumeGB: number }) => item.volumeGB > 0)
-                                    .map(({ label, volumeGB }) => (
-                                      <>
-                                        <div key={label} className={locals.logVolumeCategories}>
+                                    .map(({ label, volumeGB }, index: number) => (
+                                      <React.Fragment key={`${days}_${index}`}>
+                                        <div key={label + index} className={locals.logVolumeCategories}>
                                           <div>{label}</div>
-                                          <div>{volumeGB} GB</div>
+                                          <div className={locals.totalVolumes}>
+                                            <div className={locals.volumeCategoriesGB}>{volumeGB} GB</div>
+                                            <div className={locals.volumeCategoriesGB}>{volumeGB} RU</div>
+                                          </div>
                                         </div>
-                                      </>
+                                      </React.Fragment>
                                     ))}
                                 </div>
                               )}
-                            </>
+                            </React.Fragment>
                           ))}
                       </Ul>
                     </div>

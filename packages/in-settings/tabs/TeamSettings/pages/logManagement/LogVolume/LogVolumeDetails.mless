@@ -16,10 +16,19 @@
     padding: 0.5rem 1rem;
   }
 
+  .totalVolumes {
+    display: flex;
+    gap: 2rem;
+    justify-content: flex-end;
+    margin-right: 2rem;
+  }
+
   .logVolumeItems {
     border: none;
     li {
       font-weight: 600;
+      display: flex;
+      justify-content: space-between;
     }
   }
 
@@ -52,6 +61,16 @@
 
   .retentionDays {
     font-weight: bold;
+  }
+  .volumeGB {
+    min-width: 100px;
+    text-align: right;
+    flex: 0 0 50%;
+  }
+  .volumeCategoriesGB {
+    .volumeGB();
+    text-align: left;
+    min-width: 70px;
   }
 
   .skeleton {
