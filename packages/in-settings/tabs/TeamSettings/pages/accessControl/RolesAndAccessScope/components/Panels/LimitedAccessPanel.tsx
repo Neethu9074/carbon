@@ -212,7 +212,8 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
     productArea,
     ScopedPermissionItem.LIMITED_ACCESS,
-    role
+    role,
+    permissionSetField?.value['permissions'] ?? []
   );
 
   const getColumnDefinition = (context: string): Array<ColumnDefinition<I>> => [
