@@ -8,6 +8,7 @@ import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
 import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
+import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { Ul } from '@instana/components';
 
@@ -38,6 +39,7 @@ import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { getFormatter } from 'in-stores/metric/formatters';
+import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { tag_not_present_group } from '../constants';
 import { getBaseUnit } from 'in-stores/metric/units';
@@ -166,7 +168,6 @@ export default function InfrastructureList({
       }
     }
   ];
-
   return (
     <>
       {displayChart && (
@@ -295,6 +296,11 @@ function getTableData({
   });
 }
 const DashboardLink = ({ item, isPreview, timeConfig, onNavigateToEntity }) => {
+  const snapshot = useObservable(
+    () => (item.snapshotId ? getSnapshot(item.snapshotId).map(snapshot => snapshot) : just({})),
+    [item.snapshotId]
+  );
+
   const time = item.time < timeConfig.to ? item.time : undefined;
   const getDashboardLink = useGetDashboardLink();
   return (
@@ -303,6 +309,7 @@ const DashboardLink = ({ item, isPreview, timeConfig, onNavigateToEntity }) => {
         <EntityLink
           label={item.label}
           plugin={item.plugin}
+          snapshot={snapshot}
           href={
             isPreview
               ? undefined
