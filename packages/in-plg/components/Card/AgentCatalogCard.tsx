@@ -54,7 +54,7 @@ export default function AgentCatalogCard({
           </Stack>
           <Stack direction="vertical" gap="xxsmall">
             <Typography variant="body-bold">{title}</Typography>
-            <Tooltip content={content} align="bottomLeft">
+            <Tooltip content={content} align="auto">
               <div>
                 <Typography noWrap variant="body-regular">
                   {content}

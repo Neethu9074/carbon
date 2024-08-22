@@ -22,7 +22,7 @@ export default function ReportingIndicator({ row }) {
   const monitoringIssuesCount = row.snapshot.get('monitoringIssuesTotalCount');
 
   return (
-    <Tooltip content={getTooltipText(row)} align={'rightMiddle'}>
+    <Tooltip content={getTooltipText(row)} align={'leftMiddle'}>
       <div
         className={classNames({
           [`${block}`]: true,
