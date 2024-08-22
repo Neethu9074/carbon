@@ -23,7 +23,11 @@ export default function OnboardingCarousel({
   //we cannot provide correct type for activationData as the json object keys are dynamic
   const [activationData, setActivationData] = useState<any>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(() => {
+    const savedState = sessionStorage.getItem('expandedState');
+    return savedState !== null ? JSON.parse(savedState) : true;
+  });
+
   const [isLeftDisabled, setIsLeftDisabled] = useState(false);
   const [isRightDisabled, setIsRightDisabled] = useState(false);
   const collapsibleButton = {
@@ -96,6 +100,10 @@ export default function OnboardingCarousel({
       window.removeEventListener('wheel', preventMouseScroll);
     };
   }, [checkScrollPosition, preventMouseScroll]);
+
+  useEffect(() => {
+    sessionStorage.setItem('expandedState', JSON.stringify(isExpanded));
+  }, [isExpanded]);
 
   return (
     activationData &&
