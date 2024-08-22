@@ -12,10 +12,12 @@ import { useObservable } from '@instana/hooks';
 
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import useGetAccountActivation from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
-import { AccountActivation, UsageInfo } from 'in-plg/pages/UserGoalSelection/types';
+import useGetAccountActivation, {
+  AccountActivationProp
+} from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
 import { GOAL_SELECTION_FALSE, SHOW_GOAL_SELECTION } from './utils/consts';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { UsageInfo } from 'in-plg/pages/UserGoalSelection/types';
 import { USER_LICENSE_TYPES } from 'in-plg/utils/constants';
 import getUsageInfo from 'in-subscription/getUsageInfo';
 
@@ -23,7 +25,7 @@ const { SELF_SERVICE, QUOTA } = USER_LICENSE_TYPES;
 const DeferredUserGoalSelectionDialog = createAsyncViewComponent(UserGoalSelectionDialog);
 
 const UserGoalSelection = () => {
-  const userActivation: AccountActivation | undefined = useGetAccountActivation();
+  const userActivation: AccountActivationProp = useGetAccountActivation();
   const [showGoalSelection, setShowGoalSelection] = useState<boolean>(false);
   const { activeLicenseType }: UsageInfo = useObservable(getUsageInfo, []) ?? {};
   const isTrial = [SELF_SERVICE, QUOTA].includes(activeLicenseType ?? '');
@@ -31,7 +33,7 @@ const UserGoalSelection = () => {
 
   if (userActivation) {
     const firstKey = Object.keys(userActivation)[0];
-    isFirstLogin = userActivation[firstKey]?.fs.status;
+    isFirstLogin = userActivation[firstKey]?.fs?.status ?? false;
   }
 
   useEffect(() => {

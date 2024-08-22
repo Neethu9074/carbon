@@ -13,14 +13,6 @@ export interface UserGoal {
   type?: GoalType;
 }
 
-export interface AccountActivation {
-  [key: string]: {
-    fs: {
-      status: boolean;
-    };
-  };
-}
-
 type ActiveLicenseType = 'selfService' | 'quota';
 
 export interface UsageInfo {

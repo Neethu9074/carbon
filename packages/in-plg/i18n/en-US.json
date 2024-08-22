@@ -579,7 +579,7 @@
         "on": "On",
         "started": "Start",
         "end": "End",
-        "health": "Status",
+        "severity": "Severity",
         "searchPlaceholderLabel": "incidents",
         "viewAllLabel": "incidents"
       },

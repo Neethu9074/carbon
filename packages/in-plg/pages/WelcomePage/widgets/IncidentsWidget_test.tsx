@@ -22,7 +22,7 @@ describe('Incidents Widget Tests', () => {
     expect(screen.getByText(t('in-plg:welcomepage.component.incidentsWidget.on'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:welcomepage.component.incidentsWidget.started'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:welcomepage.component.incidentsWidget.end'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:welcomepage.component.incidentsWidget.health'))).toBeInTheDocument();
+    expect(screen.getByText(t('in-plg:welcomepage.component.incidentsWidget.severity'))).toBeInTheDocument();
   });
 
   it('Check if search is renedered', () => {
