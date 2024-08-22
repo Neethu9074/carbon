@@ -17,8 +17,14 @@ interface RecalculateBaselineButtonProps {
   updateForm: (form: MapForm<any>) => void;
   editMode?: boolean;
   form: MapForm<any>;
+  className?: string;
 }
-export default function RecalculateBaselineButton({ updateForm, editMode, form }: RecalculateBaselineButtonProps) {
+export default function RecalculateBaselineButton({
+  updateForm,
+  editMode,
+  form,
+  className
+}: RecalculateBaselineButtonProps) {
   const isRecalculated = useRef(false);
 
   if (!editMode) {
@@ -30,6 +36,7 @@ export default function RecalculateBaselineButton({ updateForm, editMode, form }
       <Button
         size={carbonButtonEnabled ? 'compact' : 'normal'}
         kind={carbonButtonEnabled ? 'tertiary' : 'secondaryDarker'}
+        className={className}
         onClick={() => {
           isRecalculated.current = true;
           updateForm(

@@ -19,13 +19,14 @@ interface DropdownProps {
   items: Option[];
   value: string;
   onChange: (value: string) => void;
+  className?: string;
 }
 
-export default function Dropdown({ items, value, onChange }: DropdownProps) {
+export default function Dropdown({ items, value, onChange, className }: DropdownProps) {
   const selectedLabel = (value && items?.find?.(item => item.value === value)?.label) ?? items[0]?.label;
 
   if (carbonDropdownEnabled) {
-    return <CarbonDropdown items={items} value={value} onChange={onChange} size="sm" />;
+    return <CarbonDropdown className={className} items={items} value={value} onChange={onChange} size="sm" />;
   }
   return (
     <ComboBoxBehavior<string>
