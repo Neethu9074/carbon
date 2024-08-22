@@ -10,12 +10,16 @@ import { Stack, DashboardButton, SvgIconSizes, Typography } from '@instana/compo
 import { themes } from '@instana/design-tokens';
 import { t } from '@instana/i18n-react';
 
-import useGetAccountActivation from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
+import { AccountActivationProp } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
 import OnboardingStepBuilder from 'in-plg/pages/WelcomePage/OnboardingStepBuilder';
 
 import locals from 'in-plg/components/WelcomeHeader/OnboardingCarousel/OnboardingCarousel.mless';
 
-export default function OnboardingCarousel() {
+export default function OnboardingCarousel({
+  accountActivationData: activation
+}: {
+  accountActivationData: AccountActivationProp;
+}) {
   //we cannot provide correct type for activationData as the json object keys are dynamic
   const [activationData, setActivationData] = useState<any>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -26,8 +30,6 @@ export default function OnboardingCarousel() {
     showOnboardingTasks: t('in-plg:welcomepage.collapsibleButton.showOnboardingTasks'),
     hideOnboardingTasks: t('in-plg:welcomepage.collapsibleButton.hideOnboardingTasks')
   };
-  //we cannot provide correct type for activation as the json object keys are dynamic
-  const activation: any = useGetAccountActivation();
 
   const checkScrollPosition = useCallback(() => {
     const scrollContainer = scrollContainerRef?.current;
