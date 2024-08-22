@@ -33,7 +33,7 @@ export default function DbMarlinForm({ form, onChange, disabled }: DbMarlinFormP
           <Input
             id="dbmarlin-url"
             value={field.value}
-            onChange={e => onChange(['url'], e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(['url'], e.target.value)}
             hasError={!disabled && !field.valid && field.touched}
             disabled={disabled}
             autoFocus

@@ -9,10 +9,6 @@
     min-width: 18rem;
     margin-bottom: 0.6rem;
     border: 1px solid var(--ids-color-option-neutral-400);
-    &:hover {
-      background-color: var(--ids-color-option-neutral-200);
-      cursor: pointer;
-    }
   }
 
   .titleSection {
@@ -28,7 +24,8 @@
   }
 
   .toggle {
-    padding: 0 1rem 1rem 1rem !important;
+    line-height: 2rem;
+    margin: var(--cds-layout-density-padding-inline-local);
   }
 
   .marginRight {
@@ -51,9 +48,11 @@
   }
 
   .card {
-    min-width: 18rem;
-    border: 1px solid var(--ids-color-option-neutral-400);
     padding: 0 !important;
+    &:hover {
+      background-color: var(--ids-color-option-neutral-200);
+      cursor: pointer;
+    }
   }
 
   .cardFooter {

@@ -161,17 +161,15 @@ export default function DbIntegrations() {
                         </Button>
                       ) : (
                         <Tooltip content={tooltipMessage} align="bottomMiddle">
-                          <span>
-                            <Toggle
-                              className={locals.toggle}
-                              labelA={!integration.url ? localisationStrings.disabled : localisationStrings.off}
-                              labelB={localisationStrings.on}
-                              key={`toggle-${integration.label}`}
-                              disabled={!integration.url}
-                              onToggle={e => onToggle(e, integration)}
-                              checked={integration.enabled ?? false}
-                            />{' '}
-                          </span>
+                          <Toggle
+                            className={locals.toggle}
+                            labelA={!integration.url ? localisationStrings.disabled : localisationStrings.off}
+                            labelB={localisationStrings.on}
+                            key={`toggle-${integration.label}`}
+                            disabled={!integration.url}
+                            onToggle={e => onToggle(e, integration)}
+                            checked={integration.enabled ?? false}
+                          />
                         </Tooltip>
                       )}
                     </div>
