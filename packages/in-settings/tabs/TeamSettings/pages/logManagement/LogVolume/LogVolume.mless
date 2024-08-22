@@ -25,4 +25,12 @@
       font-weight: 600;
     }
   }
+  .noLogVolumeData {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 3rem;
+  }
 }
