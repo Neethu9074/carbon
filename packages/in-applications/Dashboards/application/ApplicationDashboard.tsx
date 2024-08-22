@@ -64,7 +64,6 @@ const boundaryScopeDropdownDisabledTabs = [dependencyMapTab, smartAlertsTab, syn
 
 export default function ApplicationDashboard({ location }: { location: Location }) {
   const [{ appId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
-
   const timeConfig = useTimeConfig();
 
   const endpointTypes = useObservable(
