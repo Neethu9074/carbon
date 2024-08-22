@@ -25,12 +25,12 @@ import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list
 import { createTagsUrlParameter, createTypeUrlParameter } from 'in-automation/navigation/urlParameters';
 import { ActionInstance, PaginatedResult, Policy, EventSpecificationInfo, Trigger } from 'in-types';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNavigateToPolicyDetails';
 import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
 import { EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
 import { actionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
-import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import usePoliciesFilterUrlState from 'in-automation/Policies/usePoliciesFilterUrlState';
@@ -128,7 +128,7 @@ export default function Policies() {
         page={actualPage}
         searchPlaceholder={t('in-automation:policies.searchPolicies')}
         searchMaxWidth={180}
-        onRowClick={item => navigateToPolicyDetails(item, false)}
+        onRowClick={item => navigateToPolicyDetails(item.id, false)}
         cardTitle={
           policiesProgress.loading
             ? t('in-automation:policies.policies')
@@ -267,10 +267,10 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
       return (
         <Stack align="end">
           <MoreMenu kind="subtle">
-            <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToPolicyDetails(item, false)}>
+            <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToPolicyDetails(item.id, false)}>
               {t('in-automation:edit')}
             </MoreMenuButton>
-            <MoreMenuButton icon="lib_actions_copy" onClick={() => navigateToPolicyDetails(item, true)}>
+            <MoreMenuButton icon="lib_actions_copy" onClick={() => navigateToPolicyDetails(item.id, true)}>
               {t('in-automation:copy')}
             </MoreMenuButton>
             <MoreMenuButton icon="lib_actions_delete" onClick={() => showConfirmationDialog(item)}>

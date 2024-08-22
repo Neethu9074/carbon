@@ -75,7 +75,7 @@
   "duplicate": "Duplikat",
   "theValueMustNotBeBlank": "Der Wert darf nicht leer sein.",
   "tags": "Tags",
-  "noTagsConfigured": "Keine Tags konfiguriert",
+  "tagsLabel": "Tags (optional)",
   "value": "Wert",
   "type": "Typ",
   "automationPoliciesWithCount": "Automationsrichtlinien ({{count}})",
@@ -92,7 +92,7 @@
   "actions": "Aktionen",
   "actionsWithCount": "Aktionen ({{count}})",
   "titleUrl": "URL",
-  "generateWithAI": "Mit KI generieren",
+  "generateWithWatsonx": "Erzeugen mit watsonx",
   "AISlugContent": "Zum Generieren dieses Inhalts wurde KI verwendet",
   "createPolicyWithName": "Aktion {{actionName}} anzeigen und Richtlinie erstellen",
   "viewActionCreatePolicy": "Aktion anzeigen und Richtlinie erstellen",
@@ -297,7 +297,12 @@
     "taskUrl": "Task-URL",
     "output": "Ausgabe",
     "user": "Benutzer",
-    "apiToken": "API-Token"
+    "apiToken": "API-Token",
+    "deleteTooltip": "Aktionsinstanz löschen {{id}}",
+    "deleteDialog": {
+      "success": "Aktionsinstanz wurde erfolgreich gelöscht.",
+      "failure": "Die Aktionsinstanz konnte nicht gelöscht werden."
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "Überprüfen"

@@ -52,37 +52,8 @@ function EventKPIs({ event }) {
   );
 }
 
-function IncidentKPIs({ event }) {
-  const recentEvents = useObservable(getEvents(event.get('recentEvents', emptyList).toArray()), [event]) ?? null;
-
-  if (!recentEvents)
-    return (
-      <Row withoutSideMargin>
-        <Col xs>
-          <DateTimeKpiCard title={t('in-events:titleTriggered')} time={event.get('start')} />
-        </Col>
-        <Col xs>
-          <Ended event={event} />
-        </Col>
-        <Col xs>
-          <Duration event={event} />
-        </Col>
-        <Severity event={event} />
-        <Col xs>
-          <KpiCard title={t('in-events:titleActive')} value={'...'} raw />
-        </Col>
-        <Col xs>
-          <KpiCard title={t('in-events:titleChanges')} value={'...'} raw />
-        </Col>
-        <Col xs>
-          <KpiCard title={t('in-events:titleAffectedEntities')} value={'...'} raw />
-        </Col>
-      </Row>
-    );
-  const openEvents = recentEvents.map(event => event.state === 'open');
-
-  const changes = recentEvents.filter(e => getEventType(e) === EVENT_TYPES.CHANGE);
-  const numOpenEvents = openEvents ? openEvents.filter(Boolean).length : '';
+const IncidentKPIs = ({ event }) => {
+  const recentEvents = useObservable(getEvents(event.get('recentEvents', emptyList).toArray()), [event]) ?? [];
   const affectedEnties = {};
   recentEvents.forEach(e => (affectedEnties[e.snapshotId] = true));
 
@@ -99,19 +70,17 @@ function IncidentKPIs({ event }) {
       </Col>
       <Severity event={event} />
       <Col xs>
-        <KpiCard title={t('in-events:titleActive')} value={`${numOpenEvents}/${recentEvents.length}`} raw />
-      </Col>
-      <Col xs>
-        <KpiCard title={t('in-events:titleChanges')} value={`${changes.length}`} raw />
-      </Col>
-      <Col xs>
-        <KpiCard title={t('in-events:titleAffectedEntities')} value={`${Object.keys(affectedEnties).length}`} raw />
+        <KpiCard
+          title={t('in-events:titleAffectedEntities')}
+          value={recentEvents.length ? `${Object.keys(affectedEnties).length}` : null}
+          raw
+        />
       </Col>
     </Row>
   );
-}
+};
 
-const Ended = connectTo(
+export const Ended = connectTo(
   ({ event }) => {
     if (getEventType(event) === EVENT_TYPES.CHANGE) {
       return {};
@@ -181,7 +150,7 @@ export const Duration = connectTo(
   }
 );
 
-const Severity = connectTo(
+export const Severity = connectTo(
   ({ event }) => {
     return {
       severity: just(getEventSeverityLabel(event)),

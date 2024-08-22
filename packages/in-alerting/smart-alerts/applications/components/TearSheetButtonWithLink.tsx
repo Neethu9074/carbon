@@ -10,6 +10,8 @@ import { useSmartAlertCreateUrl as useSmartAlertEditUrl } from 'in-alerting/smar
 //@ts-expect-error
 import { MoreMenuButton } from 'in-components/MoreMenu';
 
+import locals from './TearSheetButtonWithLink.mless';
+
 interface TearSheetLinkProps {
   buttonIcon: string;
   buttonName: string;
@@ -38,7 +40,14 @@ export default function TearSheetButtonWithLink({
     editMode: editMode
   });
   return (
-    <MoreMenuButton icon={buttonIcon} href={editSmartAlertPath} requireTitle title={buttonName}>
+    <MoreMenuButton
+      icon={buttonIcon}
+      href={editSmartAlertPath}
+      requireTitle
+      title={buttonName}
+      role="button"
+      className={locals.button}
+    >
       {buttonName}
     </MoreMenuButton>
   );

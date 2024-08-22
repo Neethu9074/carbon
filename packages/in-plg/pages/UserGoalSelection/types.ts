@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+import { UserSettings } from 'in-services/userSettings/globals';
+
 type GoalType = 'toggler';
 
 export interface UserGoal {
@@ -25,4 +27,8 @@ type ActiveLicenseType = 'selfService' | 'quota';
 
 export interface UsageInfo {
   activeLicenseType?: ActiveLicenseType;
+}
+
+export interface ExtendedUserSettings extends UserSettings {
+  showUserGoalSelection?: boolean;
 }

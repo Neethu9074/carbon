@@ -95,25 +95,19 @@ export default function ChartViewConfiguratorWithEntitySelection({
       <div className={locals.flexItem}>
         {sectionHeader}
         {showEntitySelection && (
-          <StackItem>
-            <ChartSubEntitySelection
-              applicationId={applicationId}
-              setApplicationId={handleSetApplicationId}
-              serviceId={serviceId}
-              setServiceId={handleSetServiceId}
-              endpointId={endpointId}
-              setEndpointId={handleSetEndpointId}
-              alertConfigWithFormModel={alertConfigWithFormModel}
-              queryWindowSize={entitySelectionQueryWindowSize}
-              isTearSheet={isTearSheet}
-            />
-          </StackItem>
+          <ChartSubEntitySelection
+            applicationId={applicationId}
+            setApplicationId={handleSetApplicationId}
+            serviceId={serviceId}
+            setServiceId={handleSetServiceId}
+            endpointId={endpointId}
+            setEndpointId={handleSetEndpointId}
+            alertConfigWithFormModel={alertConfigWithFormModel}
+            queryWindowSize={entitySelectionQueryWindowSize}
+            isTearSheet={isTearSheet}
+          />
         )}
-        {!showEntitySelection && applications.length > 1 && (
-          <StackItem>
-            <ShowApplicationSelection applicationId={applicationId} />
-          </StackItem>
-        )}
+        {!showEntitySelection && applications.length > 1 && <ShowApplicationSelection applicationId={applicationId} />}
 
         <ButtonGroup
           buttonPropsList={chartViewConfigs.map((chartConfig, index) => ({

@@ -348,12 +348,20 @@
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "追蹤階段作業",
     "trackingSnippetPresenterTooltip": "進一步瞭解階段作業追蹤和隱私權可能的影響。",
-    "trackingSnippetSRITooltip": "「子資源完整性 (SRI)」是一項安全特性，可確保瀏覽器可以驗證它們所提取的資源。 停用它可能會導致安全問題。 如果您決定停用它，請確定您是在安全網路環境中。",
+    "trackingSnippetSRITooltip": "「子資源完整性 (SRI)」是一項安全特性，可確保瀏覽器可以驗證它們所提取的資源。",
     "trackingSnippetPresenterLabelSRI": "啟用子資源完整性 (SRI)",
     "trackingSnippetPresenterLabelAgentVersion": "代理程式版本",
     "trackingSnippetPresenterToggleYes": "是",
     "trackingSnippetPresenterToggleNo": "否",
-    "trackingSnippetPresenterAgentVersion": "版本"
+    "trackingSnippetPresenterAgentVersion": "版本",
+    "trackingSnippetPresenterCancelModal": "取消",
+    "trackingSnippetPresenterEnableModal": "啟用",
+    "trackingSnippetPresenterEnablingModalTitle": "啟用子資源完整性 (SRI)",
+    "trackingSnippetPresenterEnablingModalBody": "為了安全起見，建議啟用 SRI。 確保您已從下拉清單中選取最新的代理程式版本。",
+    "trackingSnippetPresenterDisableModal": "停用",
+    "trackingSnippetPresenterDisablingModalTitle": "您確定要停用子資源完整性 (SRI) 嗎？",
+    "trackingSnippetPresenterDisablingModalFirstLine": "停用 SRI 可能會導致安全性問題。",
+    "trackingSnippetPresenterDisablingModalBody": "如果您決定停用它，請確定您是在安全網路環境中。 停用 SRI 時，追蹤 Script 會預設為最新的 JavaScript 代理程式版本，但無法確保瀏覽器可以驗證它們所取得的資源。 "
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "網站與行動應用程式",
@@ -485,6 +493,7 @@
         "configurationRenameTitle": "重新命名網站",
         "configurationRenameButton": "重新命名",
         "configurationTrackingScriptTitle": "代理程式追蹤 Script",
+        "configurationUserAgentVersion": "您目前的代理程式版本是 <strong>{{agentVersion}}</strong>。",
         "saved": "已儲存",
         "ipMasking": {
           "title": "IP 遮罩",
@@ -754,6 +763,9 @@
         "sizesTechnicalLabelBetween": "{{min}}px 到 {{max}}px 之間（含）",
         "sizesTechnicalLabelAtLeast": "至少 {{min}}px（含）",
         "sizesTechnicalLabelAtMost": "最多 {{max}}px（含）"
+      },
+      "synthetic": {
+        "tabLabel": "綜合監視"
       },
       "indexLabelSummary": "摘要",
       "indexLabelSpeed": "速度",

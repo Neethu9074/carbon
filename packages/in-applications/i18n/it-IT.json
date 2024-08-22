@@ -246,7 +246,8 @@
     "dataSource_calls_plural": "{{formattedCount}} di chiamate",
     "dataSource_traces": "{{formattedCount}} di tracce",
     "dataSource_traces_plural": "{{formattedCount}} di tracce",
-    "analyzeCallsOfThisTrace": "Analizza chiamate di questa traccia"
+    "analyzeCallsOfThisTrace": "Analizza chiamate di questa traccia",
+    "noAvailableCustomMetrics": "Nessuna metrica personalizzata disponibile"
   },
   "creation": {
     "newAP": "Nuova prospettiva applicazione",
@@ -629,7 +630,8 @@
     "calls_latency": "Latenza",
     "calls_erroneousCalls": "Chiamate con errori",
     "calls_errors": "Tasso di chiamate con errori",
-    "calls_call_metric": "Metriche di chiamata numeriche",
+    "calls_call_metric": "Metriche di chiamata personalizzate",
+    "calls_call_meta_metrics": "Metriche meta",
     "traces_calls": "Tracce",
     "traces_traces": "Tracce",
     "traces_latency": "Latenza",

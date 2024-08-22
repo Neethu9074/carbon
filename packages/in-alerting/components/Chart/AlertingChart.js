@@ -133,14 +133,12 @@ export function getY1(
   threshold,
   eventBasedAdaptiveBaseline,
   viewConfig,
-  displayPredictions = false
+  displayPredictions = false,
+  thresholdColor = carbonAlert.red60
 ) {
-  let chartColors = [carbonCategorical.cyan50, carbonAlert.red60];
-
+  let chartColors = [carbonCategorical.cyan50, thresholdColor];
   let metricIds = [metricName, 'threshold'];
-
-  let legendColors = [carbonCategorical.cyan50, carbonAlert.red60, getColorWithTransparency(carbonAlert.red60).c50];
-
+  let legendColors = [carbonCategorical.cyan50, thresholdColor, getColorWithTransparency(thresholdColor).c50];
   let iconTypes = ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_actions_stop', 'lib_actions_stop'];
 
   let excludedLabelsFromLegend = [];

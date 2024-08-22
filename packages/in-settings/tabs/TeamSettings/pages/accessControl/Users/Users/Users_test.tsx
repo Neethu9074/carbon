@@ -8,12 +8,12 @@ import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 import { UserResult } from '@instana/types';
 
-import Users, { ConfigProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users/Users';
+import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users/Users';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
 import { getUsersAsResultObservable } from 'in-api/users';
 
 jest.mock('in-api/users');
@@ -30,6 +30,8 @@ jest.mock('in-services/featureFlags', () => ({
   disableInvitesWithIdpEnabled: true
 }));
 jest.mock('@instana/hooks');
+
+jest.mock('in-settings/hooks/useIsAnyIdPActive');
 
 const createUserResult = ({
   id = generateUniqueShortId(),
@@ -58,16 +60,6 @@ const mockGet = (data: UserResult[]) => {
   // @ts-expect-error
   getUsersAsResultObservable.mockReturnValue(res);
 };
-
-function asLoadedResult(data: ConfigProps) {
-  return {
-    progress: {
-      loading: false
-    },
-    errors: [],
-    data
-  };
-}
 
 describe('in-settings/tabs/TeamSettings/pages/Users/Users', () => {
   beforeEach(() => {
@@ -147,12 +139,9 @@ describe('in-settings/tabs/TeamSettings/pages/Users/Users', () => {
   });
 
   it('should show invite user button if featureFlag is enabled and none of the IDP is activated', () => {
-    // @ts-expect-error jest api apparently not supported by TS
-    useObservable.mockReturnValue(
-      asLoadedResult({
-        activated: false
-      })
-    );
+    // @ts-expect-error
+    useIsAnyIdPActive.mockReturnValue(false);
+
     const res = createUserResult({});
     mockGet([res]);
     const { getByText, queryByText, container } = render(<Users />);
@@ -168,12 +157,9 @@ describe('in-settings/tabs/TeamSettings/pages/Users/Users', () => {
   });
 
   it('should hide invite user button if featureFlag is enabled and any of the IDP is activated', async () => {
-    // @ts-expect-error jest api apparently not supported by TS
-    useObservable.mockReturnValue(
-      asLoadedResult({
-        activated: true
-      })
-    );
+    // @ts-expect-error
+    useIsAnyIdPActive.mockReturnValue(true);
+
     const res = createUserResult({});
     mockGet([res]);
     const { queryByText, container } = render(<Users />);

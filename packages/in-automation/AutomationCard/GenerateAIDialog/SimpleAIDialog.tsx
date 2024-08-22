@@ -20,14 +20,14 @@ import { putScriptField, putManualField } from 'in-automation/ActionCatalog/Acti
 import { CreatePolicyStep } from 'in-automation/AutomationCard/GenerateAIDialog/CreatePolicyStep';
 import { CopyActionStep } from 'in-automation/AutomationCard/GenerateAIDialog/CopyActionStep';
 import SelectActionStep from 'in-automation/AutomationCard/GenerateAIDialog/SelectActionStep';
-import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionDetails';
+import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
-import { Result, Event, Field, Error, Action, Policy } from 'in-types';
 import { refresh } from 'in-automation/AutomationCard/usePolicies';
+import { Result, Event, Field, Error, Policy } from 'in-types';
 import { hasError, isLoading } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
 import { ScoredAction } from 'in-automation/api';
@@ -264,7 +264,7 @@ function SuccessContent({ name, actionId }: { name: string; actionId: string }) 
         />
       </p>
 
-      <Link external href={hrefToActionDetails({ id: actionId } as Action)}>
+      <Link external href={hrefToActionDetails(actionId)}>
         {t('in-automation:simpleAIDialog.policy.success.link')}
       </Link>
     </div>

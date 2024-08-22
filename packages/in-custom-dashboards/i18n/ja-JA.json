@@ -163,6 +163,7 @@
       "metricsFormComponent": {
         "metric": "メトリック",
         "selectMetric": "メトリックの選択",
+        "unit": "ユニット",
         "aggregation": "集約",
         "crossSeriesAggregation": "クロス系列集計に SUM を使用",
         "crossSeriesAggregationHelp": "通常、クロスシリーズアグリゲーションはクロスタイムアグリゲーション（データポイントを単一のバケット参加方法）と同じです。 このトグルを有効にすると、指定された集計を使用するのではなく、データ系列全体のバケットを参加します。",
@@ -474,8 +475,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "エンドポイント",
-        "allEndpoints": "すべてのエンドポイント",
-        "loading": "<loading>"
+        "allEndpoints": "すべてのエンドポイント"
       },
       "goodBadEventsForm": {
         "goodEvents": "良好なイベント",
@@ -512,7 +512,6 @@
       },
       "servicesSelectBox": {
         "service": "サービス",
-        "loading": "<loading>",
         "allServices": "すべてのサービス"
       },
       "sliFormPresenter": {
@@ -718,7 +717,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "しきい値構成",
-        "thresholdLabel": "しきい値"
+        "thresholdLabel": "しきい値",
+        "ms": "ミリ秒"
       },
       "entityInfo": {
         "tooltip": "不明な Apdex",

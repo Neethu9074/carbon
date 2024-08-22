@@ -8,23 +8,28 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
-// @ts-expect-error Module needs to be translated to TS
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import {
   zeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   percentageZeroDecimalPlaces,
-  millis
+  millis,
+  percentage
 } from 'in-services/formatters/number';
+// @ts-expect-error Module needs to be translated to TS
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import ExpensiveStatementStatsList from 'in-forge/plugins/sapHana/Dashboard/ExpensiveStatementStats';
 import GarbageCollectionStatsList from 'in-forge/plugins/sapHana/Dashboard/GarbageCollectionStats';
+import ArchiveLogBackupStatsList from 'in-forge/plugins/sapHana/Dashboard/ArchiveLogBackupStats';
 import AggregatedCacheStatsList from 'in-forge/plugins/sapHana/Dashboard/AggregatedCacheStats';
 import ServiceDetailsStatsList from 'in-forge/plugins/sapHana/Dashboard/ServiceDetailsStats';
+import SchedulerJobsStatsList from 'in-forge/plugins/sapHana/Dashboard/SchedulerJobsStats';
 import SqlPlanCacheStatsList from 'in-forge/plugins/sapHana/Dashboard/SqlPlanCacheStats';
+import SystemEventStatsList from 'in-forge/plugins/sapHana/Dashboard/SystemEventStats';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TableSizeStatsList from 'in-forge/plugins/sapHana/Dashboard/TableSizeStats';
 import LockWaitStatsList from 'in-forge/plugins/sapHana/Dashboard/LockWaitStats';
+import UserLockStatsList from 'in-forge/plugins/sapHana/Dashboard/UserLockStats';
 import NetworkStatsList from 'in-forge/plugins/sapHana/Dashboard/NetworkStats';
 import BackupStatsList from 'in-forge/plugins/sapHana/Dashboard/BackupStats';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -190,23 +195,51 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
           />
         </DashboardSection>
       </Columize>
-      <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.diskUsage')}>
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: bytesTwoDecimalPlaces,
-            metrics: ['stats.diskUsageData', 'stats.diskUsageLog', 'stats.diskUsageTrace'],
-            labels: [
-              t('in-forge:plugins.sapHana.dashboard.dataSize'),
-              t('in-forge:plugins.sapHana.dashboard.logSize'),
-              t('in-forge:plugins.sapHana.dashboard.traceSize')
-            ],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.diskUsageSummary')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: bytesTwoDecimalPlaces,
+              metrics: ['stats.diskUsedSize', 'stats.totalDiskSize'],
+              labels: [t('in-forge:plugins.sapHana.dashboard.used'), t('in-forge:plugins.sapHana.dashboard.total')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.diskUsagePercentage')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: percentage.detailed,
+              metrics: ['stats.totalDiskUsagePercentage'],
+              labels: [t('in-forge:plugins.sapHana.dashboard.usage')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.diskUsage')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: bytesTwoDecimalPlaces,
+              metrics: ['stats.diskUsageData', 'stats.diskUsageLog', 'stats.diskUsageTrace'],
+              labels: [
+                t('in-forge:plugins.sapHana.dashboard.dataSize'),
+                t('in-forge:plugins.sapHana.dashboard.logSize'),
+                t('in-forge:plugins.sapHana.dashboard.traceSize')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
       <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.sessions')}>
         <Chart
           snapshotId={snapshot.get('id')}
@@ -337,7 +370,11 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
       <NetworkStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <TableSizeStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <AggregatedCacheStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <ArchiveLogBackupStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <BackupStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <SystemEventStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <UserLockStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <SchedulerJobsStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <AlertsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );

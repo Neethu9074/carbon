@@ -10,7 +10,8 @@
         "step1": "단계 1: 유형 선택",
         "step2": "단계 2: 세부사항 요청",
         "step3": "단계 3: 스케줄링",
-        "step4": "4단계: 세부사항 제공"
+        "step4": "4단계: 세부사항 제공",
+        "step5": "Step5: 연관"
       },
       "selectTest": {
         "title": "작성하려는 합성 테스트 종류"
@@ -40,7 +41,8 @@
         "labelDescription": "설명",
         "labelFrequency": "빈도(분)",
         "labelFrequencyHour": "빈도(시간)",
-        "labelApplications": "애플리케이션을 선택하십시오"
+        "labelApplication": "애플리케이션을 선택하십시오",
+        "labelApplications": "애플리케이션 선택"
       },
       "bluePrint": {
         "title": "사용 시기",
@@ -239,7 +241,34 @@
           "inputPortNumber": "포트",
           "failureConfigLabel": "실패 구성",
           "failureConfigText": "인증서 유효성이 만료될 때까지 <certificateValidityDays/>일이 남아 있으면 테스트가 실패합니다."
-        }
+        },
+        "associationsLabel": "연관",
+        "applicationsTitle": "연관: 이 합성 테스트와 연관시킬 애플리케이션 선택",
+        "applicationsDescription": "합성 테스트를 애플리케이션과 연관시키면 해당 애플리케이션에 액세스할 수 있는 모든 사용자에게 액세스 권한이 부여됩니다.",
+        "associationsTitle": "연관: 이 합성 테스트와 연관시킬 엔티티 선택",
+        "associationsDescription": "합성 테스트를 애플리케이션, 웹사이트 또는 모바일 앱과 연관시키면 해당 엔터티에 액세스할 수 있는 모든 사용자에게 액세스 권한이 부여됩니다."
+      },
+      "associations": {
+        "applicationsTitle": "이 합성 테스트와 연관시킬 애플리케이션 선택",
+        "applicationsDescription": "합성 테스트를 애플리케이션과 연관시키면 해당 애플리케이션에 액세스할 수 있는 모든 사용자에게 액세스 권한이 부여됩니다.",
+        "associationsTitle": "이 합성 테스트와 연관시킬 엔티티 선택",
+        "associationsDescription": "합성 테스트를 애플리케이션, 웹사이트 또는 모바일 앱과 연관시키면 해당 엔터티에 액세스할 수 있는 모든 사용자에게 액세스 권한이 부여됩니다.",
+        "applicationsButtonLabel": "애플리케이션 선택",
+        "websitesButtonLabel": "웹 사이트 선택",
+        "mobileAppsButtonLabel": "모바일 앱 선택",
+        "entityName": "이름",
+        "noDataAvailable": {
+          "message": "{{component}} 사용 불가"
+        },
+        "addApplications": "{{count}}개의 애플리케이션 추가",
+        "addApplication": "애플리케이션 추가",
+        "addWebsites": "{{count}}개의 웹 사이트 추가",
+        "addWebsite": "웹 사이트 추가",
+        "addMobileApps": "{{count}}개의 모바일 앱 추가",
+        "addMobileApp": "모바일 앱 추가",
+        "applicationsTableTitle": "애플리케이션",
+        "websitesTableTitle": "웹 사이트",
+        "mobileAppsTableTitle": "모바일 앱"
       }
     },
     "httpMethods": {
@@ -371,7 +400,25 @@
         "tlsInstructions": "Redis TLS를 사용하려면 X.509 인증서 키 쌍(`tls.crt`, `tls.key`) 및 CA 루트 인증서 파일(`ca.crt`)이 있어야 합니다.\n\n키/인증서 파일이 없는 경우, openssl 명령을 사용하여 새 파일을 생성할 수도 있습니다.",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "키/인증서 파일이 제공된 후에는 kubectl 명령을 사용하여 비밀을 작성합니다.",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}}개 연관",
+        "singleAssociationTitle": "{{number}}개 연관"
+      },
+      "multiAppDialog": {
+        "filterLabel": "애플리케이션",
+        "singleAppHeader": "{{ number }}개 연관",
+        "multiAppHeader": "{{ number }}개 연관",
+        "singleAppSpan": "{{ number }}개 연관 애플리케이션",
+        "multiAppSpan": "{{ number }}개 연관 애플리케이션",
+        "noApplicationsAssociated": "연관된 애플리케이션 없음"
+      },
+      "multiWebDialog": {
+        "filterLabel": "웹 사이트",
+        "noWebsitesAssociated": "연관된 웹 사이트가 없습니다."
+      },
+      "multiMobileDialog": {
+        "filterLabel": "모바일 앱",
+        "noMobileAppsAssociated": "연관된 모바일 앱이 없습니다."
       },
       "testLabel": "이름",
       "status": "상태",
@@ -388,7 +435,7 @@
       "latency": "대기 시간",
       "locationLabel": "위치",
       "locations": "{{totalLocations}}개의 위치",
-      "applicationLabel": "애플리케이션",
+      "applicationLabel": "연관",
       "health": "상태",
       "action": "조치",
       "labelConfirmRemoveTest": "<strong>{{testLabel}}</strong> 테스트를 제거하시겠습니까?",
@@ -470,7 +517,7 @@
       "certificateValid": "예",
       "certificateNotValid": "아니오",
       "daysRemaining": "마지막 실행 - 남은 일 수",
-      "dateOfExpiry": "마지막 실행 - 만기 날짜",
+      "timeOfExpiry": "마지막 실행 - 만료 시간",
       "smallerTimeFrameTitle": "이 시간 범위에 대한 결과 없음",
       "smallerTimeFrameDescription": "SSL 인증서 검사 테스트의 결과를 보려면 더 긴 시간 프레임을 선택하십시오."
     },
@@ -613,8 +660,8 @@
       },
       "sslCertificate": {
         "daysRemaining": "남은 일 수",
-        "dateOfIssue": "발행일",
-        "dateOfExpiry": "만기 날짜"
+        "timeOfIssue": "발행 시간",
+        "timeOfExpiry": "만료 시간"
       },
       "failedRunErrorTypeTitle": "오류 유형"
     },
@@ -696,7 +743,14 @@
       "port": "포트",
       "daysRemaining": "실패 구성",
       "day": "인증서 유효성이 만기될 때까지 {{daysRemainingCheck}}일이 남아 있으면 테스트가 실패합니다.",
-      "days": "인증서 유효성이 만기까지 {{daysRemainingCheck}}일이 남아 있으면 테스트가 실패합니다."
+      "days": "인증서 유효성이 만기까지 {{daysRemainingCheck}}일이 남아 있으면 테스트가 실패합니다.",
+      "associations": "연관",
+      "associatedApplications": "연관된 애플리케이션",
+      "noApplicationsAssociated": "연관된 애플리케이션 없음",
+      "associatedWebsites": "연관된 웹 사이트",
+      "noWebsitesAssociated": "연관된 웹 사이트 없음",
+      "associatedMobileApps": "연관된 모바일 앱",
+      "noMobileAppAssociated": "연관된 모바일 앱 없음"
     }
   }
 }

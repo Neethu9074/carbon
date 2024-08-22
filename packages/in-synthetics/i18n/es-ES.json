@@ -10,7 +10,8 @@
         "step1": "Paso 1: Seleccionar tipo",
         "step2": "Paso 2: Solicitar detalles",
         "step3": "Paso 3: Planificación",
-        "step4": "Paso 4: Proporcionar detalles"
+        "step4": "Paso 4: Proporcionar detalles",
+        "step5": "Paso 5: Asociar"
       },
       "selectTest": {
         "title": "¿Qué tipo de prueba sintética le gustaría crear?"
@@ -40,7 +41,8 @@
         "labelDescription": "Descripción",
         "labelFrequency": "Frecuencia (minutos)",
         "labelFrequencyHour": "Frecuencia (hora)",
-        "labelApplications": "Seleccionar una aplicación"
+        "labelApplication": "Seleccionar una aplicación",
+        "labelApplications": "Seleccionar aplicaciones"
       },
       "bluePrint": {
         "title": "¿Cuándo lo desea utilizar?",
@@ -239,7 +241,34 @@
           "inputPortNumber": "Puerto",
           "failureConfigLabel": "Configuración de anomalía",
           "failureConfigText": "La prueba fallará cuando queden <certificateValidityDays/> días de validez del certificado hasta la caducidad."
-        }
+        },
+        "associationsLabel": "Asociado",
+        "applicationsTitle": "Asociar: Seleccione las aplicaciones que desea asociar a esta prueba sintética",
+        "applicationsDescription": "Al asociar una prueba sintética a una aplicación, se conceden derechos de acceso a todos los usuarios que tienen acceso a esa aplicación.",
+        "associationsTitle": "Asociar: Seleccione las entidades que desea asociar a esta prueba sintética",
+        "associationsDescription": "Al asociar una prueba sintética a una aplicación, el sitio web o aplicación móvil otorga derechos de acceso a todos los usuarios que tienen acceso a esas entidades."
+      },
+      "associations": {
+        "applicationsTitle": "Seleccione las aplicaciones que desea asociar a esta prueba sintética",
+        "applicationsDescription": "Al asociar una prueba sintética a una aplicación, se conceden derechos de acceso a todos los usuarios que tienen acceso a esa aplicación.",
+        "associationsTitle": "Seleccione las entidades que desea asociar a esta prueba sintética",
+        "associationsDescription": "Al asociar una prueba sintética a una aplicación, el sitio web o aplicación móvil otorga derechos de acceso a todos los usuarios que tienen acceso a esas entidades.",
+        "applicationsButtonLabel": "Seleccionar aplicaciones",
+        "websitesButtonLabel": "Seleccionar sitios web",
+        "mobileAppsButtonLabel": "Seleccionar aplicaciones móviles",
+        "entityName": "Nombre",
+        "noDataAvailable": {
+          "message": "{{component}} no disponible"
+        },
+        "addApplications": "Añadir {{count}} aplicaciones",
+        "addApplication": "Añadir aplicación",
+        "addWebsites": "Añadir {{count}} sitios web",
+        "addWebsite": "Añadir sitio web",
+        "addMobileApps": "Añadir {{count}} aplicaciones móviles",
+        "addMobileApp": "Añadir aplicaciones móviles",
+        "applicationsTableTitle": "Aplicaciones",
+        "websitesTableTitle": "Sitios web",
+        "mobileAppsTableTitle": "Aplicaciones móviles"
       }
     },
     "httpMethods": {
@@ -371,7 +400,25 @@
         "tlsInstructions": "Si desea habilitar Redis TLS, debe tener el par de claves de certificado X.509 (`tls.crt`, `tls.key`) y el archivo de certificado raíz de CA (`ca.crt`).\n\nSi no tiene los archivos de claves/certificados, también puede utilizar el mandato openssl para generar otros nuevos; consulte los ejemplos siguientes:",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "Después de proporcionar los archivos de claves/certificados, utilice el mandato kubectl para crear un secreto.",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}} asociaciones",
+        "singleAssociationTitle": "{{number}} asociación"
+      },
+      "multiAppDialog": {
+        "filterLabel": "Aplicaciones",
+        "singleAppHeader": "{{ number }} asociación",
+        "multiAppHeader": "{{ number }} asociaciones",
+        "singleAppSpan": "{{ number }} aplicación asociada",
+        "multiAppSpan": "{{ number }} aplicaciones asociadas",
+        "noApplicationsAssociated": "No hay aplicaciones asociadas"
+      },
+      "multiWebDialog": {
+        "filterLabel": "Sitios web",
+        "noWebsitesAssociated": "No hay sitios web asociados."
+      },
+      "multiMobileDialog": {
+        "filterLabel": "Aplicaciones móviles",
+        "noMobileAppsAssociated": "No hay aplicaciones móviles asociadas."
       },
       "testLabel": "Nombre",
       "status": "Estado",
@@ -388,7 +435,7 @@
       "latency": "Latencia",
       "locationLabel": "Ubicación",
       "locations": "{{totalLocations}} ubicaciones",
-      "applicationLabel": "Aplicación",
+      "applicationLabel": "Asociaciones",
       "health": "Estado",
       "action": "Acción",
       "labelConfirmRemoveTest": "¿Seguro que desea eliminar la prueba <strong>{{testLabel}}</strong>?",
@@ -470,7 +517,7 @@
       "certificateValid": "Sí",
       "certificateNotValid": "No",
       "daysRemaining": "Última ejecución: días restantes",
-      "dateOfExpiry": "Última ejecución: fecha de caducidad",
+      "timeOfExpiry": "Última ejecución - Hora de caducidad",
       "smallerTimeFrameTitle": "No hay resultados para este periodo de tiempo",
       "smallerTimeFrameDescription": "Seleccione un intervalo de tiempo más largo para ver los resultados de las pruebas de comprobación de certificados SSL."
     },
@@ -613,8 +660,8 @@
       },
       "sslCertificate": {
         "daysRemaining": "Días restantes",
-        "dateOfIssue": "Fecha de emisión",
-        "dateOfExpiry": "Fecha de caducidad"
+        "timeOfIssue": "Hora de emisión",
+        "timeOfExpiry": "Hora de caducidad"
       },
       "failedRunErrorTypeTitle": "Tipo de error"
     },
@@ -696,7 +743,14 @@
       "port": "Puerto",
       "daysRemaining": "Configuración de anomalía",
       "day": "La prueba fallará cuando queden {{daysRemainingCheck}} día de validez del certificado hasta la caducidad",
-      "days": "La prueba fallará cuando queden {{daysRemainingCheck}} días de validez del certificado hasta la caducidad"
+      "days": "La prueba fallará cuando queden {{daysRemainingCheck}} días de validez del certificado hasta la caducidad",
+      "associations": "Asociaciones",
+      "associatedApplications": "Aplicaciones asociadas",
+      "noApplicationsAssociated": "No hay aplicaciones asociadas",
+      "associatedWebsites": "Sitios web asociados",
+      "noWebsitesAssociated": "No hay sitios web asociados",
+      "associatedMobileApps": "Aplicaciones móviles asociadas",
+      "noMobileAppAssociated": "No hay aplicaciones móviles asociadas"
     }
   }
 }

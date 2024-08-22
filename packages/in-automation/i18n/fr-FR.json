@@ -75,7 +75,7 @@
   "duplicate": "Dupliquer",
   "theValueMustNotBeBlank": "Vous devez définir une valeur.",
   "tags": "Étiquettes",
-  "noTagsConfigured": "Aucune balise configurée",
+  "tagsLabel": "Etiquettes (facultatif)",
   "value": "Valeur",
   "type": "Type",
   "automationPoliciesWithCount": "Stratégies d'automatisation ({{count}})",
@@ -92,7 +92,7 @@
   "actions": "Actions",
   "actionsWithCount": "Actions ({{count}})",
   "titleUrl": "URL",
-  "generateWithAI": "Générer avec l'IA",
+  "generateWithWatsonx": "Générer avec watsonx",
   "AISlugContent": "L'IA a été utilisée pour générer ce contenu",
   "createPolicyWithName": "Afficher l'action {{actionName}} et créer la règle",
   "viewActionCreatePolicy": "Afficher l'action et créer la règle",
@@ -297,7 +297,12 @@
     "taskUrl": "URL de tâche",
     "output": "Sortie",
     "user": "Utilisateur",
-    "apiToken": "Jeton d'API"
+    "apiToken": "Jeton d'API",
+    "deleteTooltip": "Supprimer l'instance d'action {{id}}",
+    "deleteDialog": {
+      "success": "L'instance d'action a été supprimée.",
+      "failure": "Échec de la suppression de l'instance d'action."
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "Enquêter"

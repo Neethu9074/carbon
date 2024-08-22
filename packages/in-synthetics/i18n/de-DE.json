@@ -10,7 +10,8 @@
         "step1": "Schritt 1: Typ auswählen",
         "step2": "Schritt 2: Details anfordern",
         "step3": "Schritt 3: Zeitplanung",
-        "step4": "Schritt 4: Details bereitstellen"
+        "step4": "Schritt 4: Details bereitstellen",
+        "step5": "Schritt5: Zuordnen"
       },
       "selectTest": {
         "title": "Welche Art von synthetischem Test soll erstellt werden"
@@ -40,7 +41,8 @@
         "labelDescription": "Beschreibung",
         "labelFrequency": "Häufigkeit (Minute)",
         "labelFrequencyHour": "Häufigkeit (Stunde)",
-        "labelApplications": "Anwendung auswählen"
+        "labelApplication": "Anwendung auswählen",
+        "labelApplications": "Anwendungen auswählen"
       },
       "bluePrint": {
         "title": "Wann zu verwenden?",
@@ -239,7 +241,34 @@
           "inputPortNumber": "Port",
           "failureConfigLabel": "Fehlerkonfiguration",
           "failureConfigText": "Der Test schlägt fehl, wenn für die Zertifikatsgültigkeit noch <certificateValidityDays/> Tage bis zum Ablauf verbleiben."
-        }
+        },
+        "associationsLabel": "Zuordnen",
+        "applicationsTitle": "Zuordnen: Wählen Sie die Anwendungen aus, die mit diesem synthetischen Test verknüpft werden sollen",
+        "applicationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung gewährt allen Benutzern Zugriffsrechte, die Zugriff auf diese Anwendung haben.",
+        "associationsTitle": "Zuordnen: Wählen Sie die Einheiten aus, die mit diesem synthetischen Test verknüpft werden sollen",
+        "associationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Entitäten haben, Zugriffsrechte."
+      },
+      "associations": {
+        "applicationsTitle": "Wählen Sie die Anwendungen aus, die mit diesem synthetischen Test verknüpft werden sollen",
+        "applicationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung gewährt allen Benutzern Zugriffsrechte, die Zugriff auf diese Anwendung haben.",
+        "associationsTitle": "Wählen Sie die Entitäten aus, die mit diesem synthetischen Test verknüpft werden sollen",
+        "associationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Entitäten haben, Zugriffsrechte.",
+        "applicationsButtonLabel": "Anwendungen auswählen",
+        "websitesButtonLabel": "Websites auswählen",
+        "mobileAppsButtonLabel": "Mobile Apps auswählen",
+        "entityName": "Name",
+        "noDataAvailable": {
+          "message": "{{component}} nicht verfügbar"
+        },
+        "addApplications": "{{count}} Anwendungen hinzufügen",
+        "addApplication": "Anwendung hinzufügen",
+        "addWebsites": "{{count}} Websites hinzufügen",
+        "addWebsite": "Website hinzufügen",
+        "addMobileApps": "{{count}} Mobile Apps hinzufügen",
+        "addMobileApp": "Mobile Apps hinzufügen",
+        "applicationsTableTitle": "Anwendung(en)",
+        "websitesTableTitle": "Website(s)",
+        "mobileAppsTableTitle": "Mobile App(s)"
       }
     },
     "httpMethods": {
@@ -371,7 +400,25 @@
         "tlsInstructions": "Wenn Sie Redis TLS aktivieren möchten, benötigen Sie Ihr X.509-Zertifikatsschlüsselpaar (`tls.crt`, `tls.key`) und die CA-Stammzertifikatsdatei (`ca.crt`).\n\nWenn Sie Ihre Schlüssel-/Zertifikatsdateien nicht haben, können Sie auch den Befehl 'openssl' verwenden, um neue Dateien zu generieren (siehe die folgenden Beispiele):",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "Verwenden Sie nach der Bereitstellung von key/cert-Dateien den Befehl kubectl, um einen geheimen Schlüssel zu erstellen.",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}} Zuordnungen",
+        "singleAssociationTitle": "{{number}} Zuordnung"
+      },
+      "multiAppDialog": {
+        "filterLabel": "Anwendungen",
+        "singleAppHeader": "{{ number }} Zuordnung",
+        "multiAppHeader": "{{ number }} Zuordnungen",
+        "singleAppSpan": "{{ number }} Zugeordnete Anwendung",
+        "multiAppSpan": "{{ number }} Zugeordnete Anwendungen",
+        "noApplicationsAssociated": "Keine zugeordneten Anwendungen"
+      },
+      "multiWebDialog": {
+        "filterLabel": "Websites",
+        "noWebsitesAssociated": "Keine zugeordneten Websites."
+      },
+      "multiMobileDialog": {
+        "filterLabel": "Mobile Apps",
+        "noMobileAppsAssociated": "Keine zugeordneten mobilen Apps."
       },
       "testLabel": "Name",
       "status": "Status",
@@ -388,7 +435,7 @@
       "latency": "Latenzzeit",
       "locationLabel": "Standort",
       "locations": "{{totalLocations}} Positionen",
-      "applicationLabel": "Anwendung",
+      "applicationLabel": "Zuordnungen",
       "health": "Status",
       "action": "Aktion",
       "labelConfirmRemoveTest": "Soll der Test <strong>{{testLabel}}</strong> wirklich entfernt werden?",
@@ -470,7 +517,7 @@
       "certificateValid": "Ja",
       "certificateNotValid": "Nein",
       "daysRemaining": "Letzte Ausführung - Tage verbleibend",
-      "dateOfExpiry": "Letzte Ausführung - Ablaufdatum",
+      "timeOfExpiry": "Letzte Ausführung - Ablaufdatum",
       "smallerTimeFrameTitle": "Keine Ergebnisse für diesen Zeitrahmen",
       "smallerTimeFrameDescription": "Wählen Sie einen längeren Zeitrahmen aus, um Ergebnisse für SSL-Zertifikatsprüfungstests anzuzeigen."
     },
@@ -613,8 +660,8 @@
       },
       "sslCertificate": {
         "daysRemaining": "Verbleibende Tage",
-        "dateOfIssue": "Ausstellungsdatum",
-        "dateOfExpiry": "Ablaufdatum"
+        "timeOfIssue": "Zeitpunkt der Ausgabe",
+        "timeOfExpiry": "Ablaufdatum"
       },
       "failedRunErrorTypeTitle": "Fehlertyp"
     },
@@ -696,7 +743,14 @@
       "port": "Port",
       "daysRemaining": "Fehlerkonfiguration",
       "day": "Test schlägt fehl, wenn die Zertifikatsgültigkeit {{daysRemainingCheck}} Tag bis zum Ablauf verbleibt",
-      "days": "Test schlägt fehl, wenn die Gültigkeit des Zertifikats {{daysRemainingCheck}} Tage bis zum Ablauf verbleibt"
+      "days": "Test schlägt fehl, wenn die Gültigkeit des Zertifikats {{daysRemainingCheck}} Tage bis zum Ablauf verbleibt",
+      "associations": "Zuordnungen",
+      "associatedApplications": "Zugeordnete Anwendungen",
+      "noApplicationsAssociated": "Keine zugeordneten Anwendungen",
+      "associatedWebsites": "Zugeordnete Websites",
+      "noWebsitesAssociated": "Keine zugeordneten Websites",
+      "associatedMobileApps": "Zugeordnete Mobile Apps",
+      "noMobileAppAssociated": "Keine zugeordneten Mobile Apps"
     }
   }
 }

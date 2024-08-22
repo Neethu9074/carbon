@@ -120,7 +120,10 @@ export const pageNames = Object.freeze({
   service_levels: 'Service Levels',
   service_level_objective: 'Service Level Objective',
   slo_summary: 'Service Level Objective > Summary',
-  slo_config: 'Service Level Objective > Configuration'
+  slo_config: 'Service Level Objective > Configuration',
+  automation_action_catalog: 'Automation > Action Catalog',
+  automation_action_history: 'Automation > Action History',
+  automation_policies: 'Automation > Policies'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];

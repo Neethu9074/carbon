@@ -6,19 +6,21 @@
 
 :local {
   .notes {
-    position: fixed;
+    position: absolute;
     display: flex;
     flex-direction: column;
-    height: 80vh;
+    height: 84vh;
     width: 20rem;
-    margin-top: 1rem;
+    // New header size
+    top: 55.97px;
     right: 0;
     border: 1px solid var(--ids-color-option-neutral-300);
     background-color: var(--cds-layer-01);
   }
 
   .notesHeaderWrapper {
-    width: 279px;
+    // same as the notes width - right padding in the header - left padding in notes
+    width: calc(20rem - 1.5rem - 15px);
   }
 
   .headerWrapper {
@@ -68,12 +70,6 @@
     padding: 0px 15px 75px 15px;
     height: calc(100vh - 28rem);
     overflow: auto;
-  }
-
-  .verticalBorderNotes {
-    border-left: 1px solid var(--ids-color-option-neutral-300);
-    margin-top: -20px;
-    margin-bottom: -20px;
   }
 
   .bubble {

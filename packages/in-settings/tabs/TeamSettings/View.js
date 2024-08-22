@@ -5,10 +5,9 @@
 
 import React, { Fragment } from 'react';
 
-import { useObservable } from '@instana/hooks';
-
 import {
   teamSettings,
+  teamSettingsAccessControlApiTokenDuplicate,
   teamSettingsAccessControlApiTokenEdit,
   teamSettingsAccessControlApiTokenNew,
   teamSettingsAccessControlApiTokens,
@@ -46,17 +45,16 @@ import {
   teamSettingsIntegrationsLoggingSplunk,
   teamSettingsActionLogRetention
 } from 'in-settings/navigation/paths';
-import {
-  disableInvitesWithIdpEnabled,
-  recurrentMaintenanceWindowEnabled,
-  logRetentionPageEnabled,
-  logVolumePageEnabled
-} from 'in-services/featureFlags';
 import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
 import RecurrentMaintenanceWindowFormPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
 import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
+import {
+  recurrentMaintenanceWindowEnabled,
+  logRetentionPageEnabled,
+  logVolumePageEnabled
+} from 'in-services/featureFlags';
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import RetentionPeriodPage from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
@@ -66,9 +64,6 @@ import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlert
 import Integrations from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/Integrations';
 import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Coralogix/Coralogix';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
-import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
-import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
-import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 import DeleteLogsPage from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeleteLogs';
 import LogVolumePage from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/LogVolume';
@@ -89,6 +84,7 @@ import ElkPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/El
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
+import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
 import { apiTokenDialogEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -155,6 +151,10 @@ function navigationTreeForRole(role, isAnyIDPActive) {
               },
               {
                 path: teamSettingsAccessControlApiTokenNew,
+                component: ApiTokenFormDialog
+              },
+              {
+                path: teamSettingsAccessControlApiTokenDuplicate,
                 component: ApiTokenFormDialog
               }
             ]
@@ -393,13 +393,7 @@ function navigationTreeForRole(role, isAnyIDPActive) {
 }
 
 export default function View(props) {
-  const isSamlConfigured = useObservable(getSamlConfig, []);
-  const isLdapConfigured = useObservable(getLdapConfig, []);
-  const isOidcConfigured = useObservable(getOidcConfig, []);
-
-  const isAnyIDPActive =
-    disableInvitesWithIdpEnabled &&
-    (isSamlConfigured?.data?.activated || isLdapConfigured?.data?.activated || isOidcConfigured?.data?.activated);
+  const isAnyIDPActive = useIsAnyIdPActive();
   return (
     <Fragment>
       <ViewTrackingMeta

@@ -399,7 +399,8 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "Informazioni sulla chiave",
+        "crashesLabelErrorMessage": "Ubicazione",
+        "crashesLabelErrorType": "Tipo di errore",
         "crashesLabelOccurrences": "Ricorrenze",
         "crashesLabelAffectedUsers": "Utenti interessati",
         "crashesButtonAnalyzeCrashes": "Analizza arresti anomali",

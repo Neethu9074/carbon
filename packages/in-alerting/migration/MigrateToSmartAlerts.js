@@ -22,6 +22,7 @@ import getAlertConfigFromLegacyEvent from 'in-alerting/migration/subscriptions/g
 import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
+import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -100,11 +101,7 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
           <CreateSmartAlertButton
             isGlobal={isGlobalSmartAlertConfig}
             isFloatingButton={false}
-            buttonName={
-              applicationSmartAlertDialogView
-                ? t('in-alerting:smartAlerts.migration.migrateButtonNew')
-                : t('in-alerting:smartAlerts.migration.migrateButton')
-            }
+            buttonName={getButtonName(t('in-alerting:smartAlerts.migration.migrateButton'))}
             isMigrate
             eventSpecificationId={eventSpecificationId}
           />

@@ -64,10 +64,6 @@
   "touchedMessages": {
     "withPath": "{{message}}（位於 <codeWithClass>{{path}}</codeWithClass>）"
   },
-  "gravatar": {
-    "avatarUrlAlt": "gravatar.com 提供的 {{email}} 頭像。",
-    "avatarNullAlt": "{{email}} 的備用頭像。"
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "版本注意事項"
   },
@@ -124,6 +120,7 @@
     "tagListNoTagsDefined": "未定義任何標籤",
     "tagListShowAll": "顯示所有標籤（{{num}} 個以上）"
   },
+  "copyToClipboard": "剪貼簿",
   "copyToClipboardPressToCopy": "按 CTRL+C / CMD+C 以複製！",
   "copyToClipboardCopied": "已複製！",
   "reloadUiDialogTitle": "有新的使用者介面版本可用",
@@ -300,7 +297,8 @@
     "labelExpandButtonForContent": "內容的展開按鈕"
   },
   "featureFeedback": {
-    "labelBETA": "測試版",
+    "labelPublicPreview": "公開預覽",
+    "labelPrivatePreview": "私人預覽",
     "linkLabelYouCanSendUsFeedback": "您可以傳送意見給我們"
   },
   "geoHeatMap": {
@@ -389,9 +387,9 @@
     "labelLoadingData": "正在載入資料"
   },
   "mainNavigation": {
+    "skipToMainContent": "跳到主要內容",
     "viewSwitcherLabelSettings": "設定",
     "viewSwitcherLabelMore": "更多",
-    "viewSwitcherLabelTenants": "租戶",
     "viewSwitcherLabelAgents": "代理程式",
     "viewSwitcherLabelReleaseNotes": "版本注意事項",
     "viewSwitcherLabelDocumentation": "說明文件",
@@ -415,10 +413,15 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "平台",
-    "viewSwitcherButtonSignOut": "登出",
     "viewSwitcherCustomDashboards": "自訂儀表板",
+    "viewSwitcherButtonSignOut": "登出",
+    "viewSwitcherLabelTenants": "租戶",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "有新的 Instana 使用者介面版本可用",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "重新載入以更新"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "重新載入以更新",
+    "profileMenu_profileLink": "設定",
+    "profileMenu_unitName_tenantName": "單位名稱 - 租戶名稱",
+    "profileMenu_switchUnitOrTenant": "切換單位或租戶",
+    "profileMenu_logOut": "登出"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "選取度量",
@@ -439,6 +442,7 @@
     "aggregation_MAX": "最大值",
     "aggregation_DISTINCTCOUNT": "個別的計數",
     "aggregation_SUM": "總和",
+    "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "分佈",
     "aggregation_PERSECOND": "每秒",
     "labelFilterEmptyValue": "過濾空值"
@@ -831,5 +835,9 @@
     "notice": "此租戶單元已移轉至新區域。 您目前正在存取的單元僅包含歷程資料。",
     "goToNewLocationLabel": "移至新位置",
     "exploreDataLabel": "探索歷程資料"
+  },
+  "creatableTagSelect": {
+    "placeholder": "輸入標籤",
+    "createLabel": "建立：{{tag}}"
   }
 }

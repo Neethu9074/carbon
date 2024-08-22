@@ -63,7 +63,7 @@ export default function Filters({
                 : { applicationIds: t.map(a => a.value) }
             )
           }
-          placeholder={t('in-synthetics:dashboard.testList.applicationLabel')}
+          placeholder={t('in-synthetics:dashboard.testList.associationLabel')}
           isMulti
           options={syntheticMultiWebMobileEnabled ? getAssociationLabels() : getApplicationLabels(result)}
           className={locals.filter}

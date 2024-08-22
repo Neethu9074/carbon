@@ -29,6 +29,7 @@ import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricCo
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
+import { unitPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { getUiMetricsValueByBackendType } from 'in-services/formatters/backendFormatter';
 import { getMetricUnitByBackendType, getUnitByFormatter } from 'in-stores/metric/units';
@@ -197,9 +198,8 @@ export default function FormComponent({
 
   // Update metric unit with pre-selected one
   useEffect(() => {
-    //TODO remove isTimeSeries after unit is enabled for all widget
-    if (preSelectedUnit && isTimeSeries) {
-      onChange([], form => form.updateIn(['unit'], field => field.setValue(preSelectedUnit?.id).setTouched(true)));
+    if (preSelectedUnit) {
+      onChange([], form => form.updateIn([unitPath], field => field.setValue(preSelectedUnit?.id).setTouched(true)));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preSelectedUnit, metricMetadatas]);

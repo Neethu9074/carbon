@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { get } from 'lodash';
+import { debounce, get } from 'lodash';
 import React from 'react';
 
 import { IconButton, Link, Typography } from '@instana/components';
@@ -20,8 +20,7 @@ import {
   phmcServer as phmcServerType,
   powervc as powervcServerType,
   sap as sapType,
-  zhmcServer as zhmcServerType
-  //@ts-expect-error
+  zhmcServer as zhmcServerType //@ts-expect-error declaration file not present
 } from 'in-cockpit/starredItems/types';
 import {
   hasKubernetesAccess,
@@ -88,15 +87,15 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import getPhmc from 'in-phmc/subscriptions/getPhmc';
 import { success } from 'in-services/util/result';
 
-function handleFavoriteClick(item: any) {
-  if (!item) return;
-  if (item.pinned) {
-    remove({ id: getId(item), type: getTypeByItem(item) });
+function handleFavoriteClick(id: string, item: any, isFavourite: boolean, type: string) {
+  if (!id && !item) return;
+  if (isFavourite) {
+    remove({ id: id, type: type ? type : getTypeByItem(item) });
   } else {
     add({
       id: getId(item),
       label: getLabel(item),
-      type: getTypeByItem(item)
+      type: type ? type : getTypeByItem(item)
     });
   }
 }
@@ -135,6 +134,7 @@ function getTypeByItem(item: any) {
 }
 
 export default function PlatformWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
+  const debouncedHandleFavoriteClick = debounce(handleFavoriteClick, 300);
   function getLabel(item: any) {
     return item.isKubernetes ? item.cluster.label : item.label;
   }
@@ -474,7 +474,7 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
     },
     {
       key: 'favourite',
-      getContent({ item, isDisabled = false, isFavourite = false }) {
+      getContent({ id, item, isDisabled = false, isFavourite = false, type }) {
         return (
           <IconButton
             type={
@@ -484,7 +484,7 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
                 ? 'lib_actions_favorite_filled'
                 : 'lib_actions_favorite'
             }
-            onClick={() => handleFavoriteClick(item)}
+            onClick={() => debouncedHandleFavoriteClick(id, item, isFavourite, type)}
             iconSize="xs"
             disabled={isDisabled}
           />

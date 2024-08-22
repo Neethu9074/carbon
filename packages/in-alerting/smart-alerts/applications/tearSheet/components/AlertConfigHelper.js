@@ -14,15 +14,15 @@ import { t } from 'in-i18n';
 
 export function getHeaderTitle(isGlobalSmartAlert, editMode, isMigration) {
   if (isMigration) {
-    return t('in-alerting:smartAlerts.migration.migrateButton');
+    return t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigTearSheetMigrateAlert');
   } else if (isGlobalSmartAlert) {
     return editMode
-      ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert_Global')
-      : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert_Global');
+      ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigTearSheetEditAlert_Global')
+      : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigTearSheetCreateNewAlert_Global');
   } else {
     return editMode
-      ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert_Local')
-      : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert_Local');
+      ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigTearSheetEditAlert_Local')
+      : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigTearSheetCreateNewAlert_Local');
   }
 }
 

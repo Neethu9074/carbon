@@ -1,5 +1,10 @@
 {
   "components": {
+    "expandableGroup": {
+      "tooltipShowContent": "顯示內容",
+      "tooltipHideContent": "隱藏內容",
+      "labelExpandButtonForContent": "內容的展開按鈕"
+    },
     "list": {
       "loadMore": "載入更多",
       "toggleExtraContent": "切換額外內容",
@@ -49,6 +54,7 @@
   "forms": {
     "actions": {
       "save": "儲存",
+      "saveIntegration": "儲存並啟用",
       "cancel": "取消",
       "create": "建立",
       "delete": "刪除",
@@ -83,6 +89,7 @@
   "aggregation_MAX": "最大值",
   "aggregation_DISTINCT_COUNT": "個別的計數",
   "aggregation_SUM": "總和",
+  "aggregation_INCREASE": "增加",
   "aggregation_DISTRIBUTION": "分佈",
   "aggregation_PER_SECOND": "每秒"
 }

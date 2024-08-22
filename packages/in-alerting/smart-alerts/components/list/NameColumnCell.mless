@@ -14,18 +14,6 @@
     width: 100%;
   }
 
-  .alertIcon {
-    margin-right: 1.5rem;
-
-    &SeverityLow {
-      fill: var(--ids-color-option-yellow-500);
-    }
-
-    &SeverityHigh {
-      fill: var(--ids-color-option-red-500);
-    }
-  }
-
   .column {
     display: flex;
     align-items: center;

@@ -354,12 +354,12 @@
     "trackingSnippetPresenterToggleYes": "Yes",
     "trackingSnippetPresenterToggleNo": "No",
     "trackingSnippetPresenterAgentVersion": "Version",
-    "trackingSnippetPresenterCancelModal" : "Cancel",
-    "trackingSnippetPresenterEnableModal" : "Enable",
+    "trackingSnippetPresenterCancelModal": "Cancel",
+    "trackingSnippetPresenterEnableModal": "Enable",
     "trackingSnippetPresenterEnablingModalTitle": "Enable Subresource Integrity (SRI)",
     "trackingSnippetPresenterEnablingModalBody": "Enabling SRI is recommended for security. Ensure that you have selected the latest agent version from the dropdown.",
-    "trackingSnippetPresenterDisableModal" : "Disable",
-    "trackingSnippetPresenterDisablingModalTitle":  "Are you sure you want to disable Subresource Integrity (SRI)?",
+    "trackingSnippetPresenterDisableModal": "Disable",
+    "trackingSnippetPresenterDisablingModalTitle": "Are you sure you want to disable Subresource Integrity (SRI)?",
     "trackingSnippetPresenterDisablingModalFirstLine": "Disabling SRI might cause security issues.",
     "trackingSnippetPresenterDisablingModalBody": "If you decide to disable it, ensure that you are in a secure network environment. When SRI is disabled, the tracking script defaults to the latest JavaScript agent version but will not be able to ensure that browsers can verify the resources they fetch. "
   },
@@ -765,7 +765,8 @@
         "sizesTechnicalLabelAtMost": "At most {{max}}px (inclusive)"
       },
       "synthetic": {
-        "tabLabel": "Synthetic Monitoring"
+        "tabLabel": "Synthetic Monitoring",
+        "noDataTitle": "No synthetic tests are associated with this website."
       },
       "indexLabelSummary": "Summary",
       "indexLabelSpeed": "Speed",

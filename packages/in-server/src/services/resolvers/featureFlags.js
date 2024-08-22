@@ -753,6 +753,11 @@ module.exports = exports = [
   {
     uiClientKey: 'applicationSmartAlertDialogView',
     instanaCtlKey: 'application.smart.alerts.dialog.view',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'increaseAggregationEnabled',
+    instanaCtlKey: 'feature.increase.aggregation.enabled',
     defaultValue: false
   }
 ];

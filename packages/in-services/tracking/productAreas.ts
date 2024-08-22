@@ -24,7 +24,8 @@ export const productAreas = Object.freeze({
   sap: 'Platforms - SAP',
   custom_dashboard: 'Custom Dashboard',
   agents: 'Agents',
-  power_vc: 'PowerVC'
+  power_vc: 'PowerVC',
+  automation: 'Automation'
 } as const);
 
 type ProductAreaKey = keyof typeof productAreas;

@@ -64,10 +64,6 @@
   "touchedMessages": {
     "withPath": "{{message}} (à <codeWithClass>{{path}}</codeWithClass>)"
   },
-  "gravatar": {
-    "avatarUrlAlt": "Avatar pour {{email}} à partir de gravatar.com.",
-    "avatarNullAlt": "Un avatar de substitution pour {{email}}."
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "Notes sur l'édition"
   },
@@ -124,6 +120,7 @@
     "tagListNoTagsDefined": "Aucune étiquette n'est définie",
     "tagListShowAll": "Afficher toutes les étiquettes ({{num}} supplémentaires)"
   },
+  "copyToClipboard": "Presse-papiers",
   "copyToClipboardPressToCopy": "Appuyez sur CTRL + C/CMD + C pour copier.",
   "copyToClipboardCopied": "Copié",
   "reloadUiDialogTitle": "Nouvelle version de l'interface utilisateur disponible",
@@ -300,7 +297,8 @@
     "labelExpandButtonForContent": "Bouton Développer pour le contenu"
   },
   "featureFeedback": {
-    "labelBETA": "BÊTA",
+    "labelPublicPreview": "Avant-première publique",
+    "labelPrivatePreview": "Avant-première privée",
     "linkLabelYouCanSendUsFeedback": "Vous pouvez nous faire part de vos commentaires"
   },
   "geoHeatMap": {
@@ -389,9 +387,9 @@
     "labelLoadingData": "Chargement des données"
   },
   "mainNavigation": {
+    "skipToMainContent": "Passer au contenu principal",
     "viewSwitcherLabelSettings": "Paramètres",
     "viewSwitcherLabelMore": "Plus",
-    "viewSwitcherLabelTenants": "Locataires",
     "viewSwitcherLabelAgents": "Agents",
     "viewSwitcherLabelReleaseNotes": "Notes sur l'édition",
     "viewSwitcherLabelDocumentation": "Documentation",
@@ -415,10 +413,15 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "Console HMC IBM Z",
     "viewSwitcherLabelPlatforms": "Plateformes",
-    "viewSwitcherButtonSignOut": "Se déconnecter",
     "viewSwitcherCustomDashboards": "Tableaux de bord personnalisés",
+    "viewSwitcherButtonSignOut": "Se déconnecter",
+    "viewSwitcherLabelTenants": "Locataires",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nouvelle version de l'interface utilisateur Instana disponible",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "Recharger pour mettre à jour"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "Recharger pour mettre à jour",
+    "profileMenu_profileLink": "Profil",
+    "profileMenu_unitName_tenantName": "Nom de l'unité - Nom du locataire",
+    "profileMenu_switchUnitOrTenant": "Changement d'unité ou de locataire",
+    "profileMenu_logOut": "Déconnexion"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Sélectionner des métriques",
@@ -439,6 +442,7 @@
     "aggregation_MAX": "max",
     "aggregation_DISTINCTCOUNT": "nombre distinct",
     "aggregation_SUM": "somme",
+    "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "distribution",
     "aggregation_PERSECOND": "par seconde",
     "labelFilterEmptyValue": "Filtrer les valeurs vides"
@@ -831,5 +835,9 @@
     "notice": "Cette unité locataire a été migrée vers une nouvelle région. L'unité à laquelle vous accédez actuellement contient uniquement des données d'historique.",
     "goToNewLocationLabel": "Accéder au nouvel emplacement",
     "exploreDataLabel": "Explorer les données d'historique"
+  },
+  "creatableTagSelect": {
+    "placeholder": "Entrer des étiquettes",
+    "createLabel": "Créer : {{tag}}"
   }
 }

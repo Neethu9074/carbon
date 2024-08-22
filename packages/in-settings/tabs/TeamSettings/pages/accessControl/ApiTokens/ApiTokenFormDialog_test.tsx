@@ -12,7 +12,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 
 jest.mock('in-components/DialogPresenter/store');
 
-const getProps = (id: string) => ({ match: { params: { id } } });
+const getProps = (id: string, duplicateFrom?: string) => ({ match: { params: { id, duplicateFrom } } });
 describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenFormDialog', () => {
   beforeEach(() => {
     jest.resetModules();

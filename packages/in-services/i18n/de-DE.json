@@ -1,6 +1,6 @@
 {
   "shortcuts": {
-    "help": "Einige wichtige Funktionen von Instana können mithilfe von Tastenkombinationen aktiviert werden.\n\n - `c`: Karte zentrieren\n - `f`: Suchleiste öffnen und hervorheben\n - `esc`: derzeit sichtbare(s) Seitenliste/Dashboard schließen\n - `Umschalttaste + ?`: Hilfedialogfenster zu Direktaufrufen öffnen",
+    "help": "Einige wichtige Funktionen von Instana können mit Hilfe von Tastaturkürzeln aktiviert werden.\n\n - \"C\": Zentrieren der Karte\n - \"F\": Öffnen und Fokussieren der Suchleiste\n - \"Esc\": Schließen der Seitenleiste / des Dashboards, das gerade sichtbar ist\n - \"Umschalttaste\" + \"?\": Öffnen des Hilfedialogs für Tastaturkürzel",
     "shortcuts": "Direktaufrufe"
   },
   "formatters": {
@@ -15,6 +15,14 @@
     "byteUnits_EiB": "{{num}} EiB",
     "byteUnits_ZiB": "{{num}} ZiB",
     "byteUnits_YiB": "{{num}} YiB",
+    "byteUnits_kB": "{{num}} kB",
+    "byteUnits_MB": "{{num}} MB",
+    "byteUnits_GB": "{{num}} GB",
+    "byteUnits_TB": "{{num}} TB",
+    "byteUnits_PB": "{{num}} PB",
+    "byteUnits_EB": "{{num}} EB",
+    "byteUnits_ZB": "{{num}} ZB",
+    "byteUnits_YB": "{{num}} YB",
     "perSec": "{{num}}/s",
     "perSec2": "{{num}}/Sek.",
     "noActivity": "Keine Aktivität",
@@ -26,18 +34,18 @@
     "timeUnits_ns": "{{num}} ns",
     "timeUnits_us": "{{num}} µs",
     "timeUnits_ms": "{{num}} ms",
-    "timeUnits_s": "{{num}} s",
+    "timeUnits_s": "{{num}}s",
     "timeUnits_min": "{{num}} min",
-    "timeUnits_h": "{{num}} h",
-    "timeUnits_d": "{{num}} d",
-    "temperature": "{{num}} °C",
-    "lt1ms": "< 1 ms"
+    "timeUnits_h": "{{num}}h",
+    "timeUnits_d": "{{num}}d",
+    "temperature": "{{num}}°C",
+    "lt1ms": "< 1ms"
   },
   "validators": {
     "timeDoesNotHaveTheFormat": "Uhrzeit hat nicht das Format {{timeFormat}}",
     "dateDoesNotHaveTheFormat": "Datum hat nicht das Format {{dateFormat}}",
     "valueIsNotOneOfTheSupportedValuesExpectedOneOf": "Der Wert '{{v}}' ist kein unterstützter Wert. Erwartet wurde eine der folgenden Werte: {{allowedValues}}",
-    "aValueOfTypeExpectedTypeIsRequired": "Ein Wert des Typs '{{expectedType}}' ist erforderlich. ",
+    "aValueOfTypeExpectedTypeIsRequired": "Ein Wert des Typs '{{expectedType}}' ist erforderlich.",
     "msgGotActualType": "{{msg}} '{{actualType}}' erhalten.",
     "valueMustBeLargerOrEqualToMinInclusive": "Der Wert muss größer oder gleich {{minInclusive}} sein.",
     "valueMustBeSmallerOrEqualToMinInclusive": "Der Wert muss kleiner oder gleich {{maxInclusive}} sein.",

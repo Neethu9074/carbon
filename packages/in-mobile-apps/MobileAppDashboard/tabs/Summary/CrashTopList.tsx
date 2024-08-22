@@ -91,7 +91,7 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
     timeConfig,
     pagination: {
       page: 1,
-      pageSize: 5
+      pageSize: 4
     },
     order: {
       by: selectedMetric,

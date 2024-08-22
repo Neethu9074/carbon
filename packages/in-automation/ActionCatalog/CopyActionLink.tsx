@@ -9,7 +9,7 @@ import React from 'react';
 import { Link, IconButton } from '@instana/components';
 import { Action } from '@instana/types';
 
-import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionDetails';
+import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import { isAnsible } from 'in-automation/ActionCatalog/shared';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
@@ -22,7 +22,7 @@ export default function CopyActionLink({ action }: CopyActionLinkProps) {
   const hrefToActionDetails = useHrefToActionDetails();
   return (
     <Tooltip content={t('in-automation:duplicate')} delay={500}>
-      <Link ellipsis href={isAnsible(action.type) ? undefined : hrefToActionDetails(action, true)}>
+      <Link ellipsis href={isAnsible(action.type) ? undefined : hrefToActionDetails(action.id, true)}>
         <IconButton
           id={`copy_${action.id}`}
           disabled={isAnsible(action.type)}

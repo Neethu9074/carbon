@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import { debounce } from 'lodash';
 
 import { DashboardTable, DashboardTile } from '@instana/components';
 import { DashboardTableRow as Row } from '@instana/components';
@@ -86,7 +87,8 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     pinnedItemTypes,
     searchPlaceholderLabel,
     addButtonLabel,
-    viewAllLabel
+    viewAllLabel,
+    maxItems = 5
   } = props;
 
   const [query, setQuery] = useState<string>('');
@@ -101,7 +103,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   ]);
 
   const favIds = getFlattenedIds(pinnedItemIdsByType, pinnedItemTypes) ?? [];
-  let numberOfRegularItemsToShow = Math.max(0, 5 - favIds.length);
+  let numberOfRegularItemsToShow: number;
 
   if (result && result.data) {
     const resultDataItems = result.data.items ?? result.data;
@@ -117,6 +119,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
       : null;
 
     const items = searchData ?? resultDataItems;
+    numberOfRegularItemsToShow = Math.max(0, maxItems ? maxItems - favIds.length : items.length);
     hasContent = items.length > 0 ? true : false;
     hits = searchData?.length ?? result?.data?.totalHits ?? result.data.length;
     //For custom dashboard searching
@@ -146,6 +149,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
                 <Row id={`${index}`} key={index}>
                   <Item
                     key={item.id}
+                    type={item.type}
                     pendingItem={item}
                     timeConfig={timeConfig}
                     columnDefinitions={columnDefinitions}
@@ -174,9 +178,9 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     return results;
   }
 
-  function viewAllButton(key: number) {
+  function viewAllButton(key: string) {
     if (viewAll) {
-      if (hasContent) {
+      if (hasContent || favIds.length) {
         return <ViewAllButton key={key} href={href} viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`} />;
       } else {
         return (
@@ -190,11 +194,21 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const generateRows = () => {
     let rows = [];
     let rowId = 0;
+    const regularItemsList = regularItems();
+    const numberOfRegularItemsError = regularItemsList?.props?.result?.errors?.length;
+    const numberOfRegularItemsLoading = regularItemsList?.props?.result?.progress?.loading;
+    const numberOfregularItems = regularItemsList?.props?.result?.data?.items.length;
+
     if (favIds.length > 0) rows.push({ id: `${rowId++}`, ...pinnedItems() });
-    if (numberOfRegularItemsToShow > 0) rows.push({ id: `${rowId++}`, ...regularItems() });
-    if (viewAll) rows.push({ id: `${rowId++}`, ...viewAllButton(rowId) });
+    if (numberOfRegularItemsError || numberOfRegularItemsLoading || numberOfregularItems) {
+      rows.push({ id: `${rowId++}`, ...regularItemsList });
+    }
+    if (viewAll) rows.push({ id: `${rowId++}`, ...viewAllButton('viewAllButton') });
     return rows;
   };
+
+  const dataArray = generateRows();
+  const filteredArrayExcludingViewAllButton = dataArray.filter(item => item.key !== 'viewAllButton');
 
   return (
     <section aria-label={`${header}`} role="region">
@@ -209,15 +223,15 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
           hasAddPermission={hasAddPermission}
           hasAddMore={hasAddMore && !playwithEnabled ? true : false}
           viewAll={viewAll ?? hasContent ? true : false}
-          hasNoDataTile={!hasContent}
+          hasNoDataTile={!filteredArrayExcludingViewAllButton.length}
           addMore={addMore}
           addData={addData}
           href={href}
           noDataHeader={getNoDataHeader(label)}
           noDataDescription={getNoDataDescription(label)}
-          onSearch={(searchQuery: string) => {
+          onSearch={debounce((searchQuery: string) => {
             setQuery(searchQuery);
-          }}
+          }, 500)}
           buttonName={`${t('in-plg:welcomepage.addMore')} ${addButtonLabel ?? ''}`.trim()}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}

@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { just, create } from '@instana/observables';
-import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import {
@@ -20,7 +19,6 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import List, { defaultHeaderWithCount, areAllRowsOnAllPagesSelected } from 'in-settings/components/List';
 import { getEntityHref, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
-import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import { clickAlertChannelTracker } from 'in-settings/tracker';
 import { t } from 'in-i18n';
 
@@ -45,11 +43,11 @@ export default function AlertChannelsList({
   isSearchable = true,
   onRowClick,
   hasRowNavigation = true,
-  getHeader = leftHeaderWithSelectAll(tableActions, numberOfChannels)
+  getHeader = leftHeaderWithSelectAll(tableActions, numberOfChannels),
+  entityResult
 }) {
   const [channelsPreSelected] = useState(preSelectedChannels);
-  const entityResult = useObservable(getAlertChannelsInfosMutable, []);
-  channelListLoading$.emit(entityResult?.length ?? undefined);
+
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}

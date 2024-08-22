@@ -75,7 +75,7 @@
   "duplicate": "Duplica",
   "theValueMustNotBeBlank": "Il valore non deve essere vuoto.",
   "tags": "Tag",
-  "noTagsConfigured": "Nessun Tag Configurata",
+  "tagsLabel": "Tag (facoltativo)",
   "value": "Valore",
   "type": "Immettere",
   "automationPoliciesWithCount": "Politiche di automazione{{count}}",
@@ -92,7 +92,7 @@
   "actions": "Azioni",
   "actionsWithCount": "Azioni ({{count}})",
   "titleUrl": "URL",
-  "generateWithAI": "Genera con AI",
+  "generateWithWatsonx": "Generato con watsonx",
   "AISlugContent": "Per generare questo contenuto, è stata utilizzata l'AI",
   "createPolicyWithName": "Visualizzare l'azione {{actionName}} e creare la politica",
   "viewActionCreatePolicy": "Visualizza azione e crea politica",
@@ -297,7 +297,12 @@
     "taskUrl": "URL dell'attività",
     "output": "Output",
     "user": "Utente",
-    "apiToken": "Token API"
+    "apiToken": "Token API",
+    "deleteTooltip": "Eliminare l'istanza dell'azione {{id}}",
+    "deleteDialog": {
+      "success": "L'istanza dell'azione è stata eliminata correttamente.",
+      "failure": "Impossibile eliminare l'istanza dell'azione."
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "Ricerca causa"

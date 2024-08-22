@@ -13,14 +13,13 @@ import { themes } from '@instana/design-tokens';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import ApplicationsContentPresenter from 'in-synthetics/dashboards/global/tabs/tests/components/ApplicationsContentPresenter';
+import AssociationsContent from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsContent';
 import ListActionsColumn from 'in-synthetics/dashboards/global/tabs/tests/components/ListActionsColumn';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { meanLatencyFixed, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
-import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import { clickSyntheticMonitoringTestTracker } from 'in-synthetics/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -63,40 +62,6 @@ export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: numb
     to: resultTime,
     focusedMoment: resultTime
   };
-}
-
-interface ApplicationLabelContentProps {
-  applicationId: string;
-  applicationLabel: string;
-  shouldDisplayLink: boolean | undefined;
-}
-
-export function ApplicationLabelContent(props: ApplicationLabelContentProps) {
-  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
-  const { applicationId, applicationLabel, shouldDisplayLink = true } = props;
-
-  if (applicationLabel != null && applicationLabel !== '') {
-    return (
-      <HorizontalFlexWrapper>
-        <SvgIcon type={'lib_application_invert'} />
-        <div>
-          {shouldDisplayLink ? (
-            <Link href={applicationId && getLinkToApplicationDashboard({ applicationId })}>
-              <span className={locals.label}>{applicationLabel}</span>
-            </Link>
-          ) : (
-            <span className={locals.label}>{applicationLabel}</span>
-          )}
-        </div>
-      </HorizontalFlexWrapper>
-    );
-  }
-
-  return (
-    <div>
-      <span className={locals.label}>{''}</span>
-    </div>
-  );
 }
 
 function TestLabelContent({ item }: { item: TestResultListItem }) {
@@ -143,37 +108,6 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
         <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.label}</h4>
       </Link>
     </div>
-  );
-}
-
-interface ApplicationLabelProps {
-  item: TestResultListItem;
-  shouldDisplayLink?: boolean;
-}
-
-export function ApplicationLabel({ item, shouldDisplayLink }: ApplicationLabelProps) {
-  const applicationLabels = item?.testResultCommonProperties?.testCommonProperties?.applicationLabels || [];
-  const applicationIds = item?.testResultCommonProperties?.testCommonProperties?.applicationIds || [];
-
-  if (syntheticMultiAppEnabled) {
-    return (
-      <ApplicationsContentPresenter
-        item={item}
-        applicationIds={applicationIds}
-        applicationLabels={applicationLabels}
-        shouldDisplayLink={shouldDisplayLink}
-      />
-    );
-  }
-
-  const applicationLabel = item.testResultCommonProperties?.testCommonProperties?.applicationLabel ?? '';
-  const applicationId = item.testResultCommonProperties?.testCommonProperties?.applicationId ?? '';
-  return (
-    <ApplicationLabelContent
-      applicationId={applicationId}
-      applicationLabel={applicationLabel}
-      shouldDisplayLink={shouldDisplayLink}
-    />
   );
 }
 
@@ -335,11 +269,11 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
     }
   },
   {
-    id: syntheticMultiAppEnabled ? 'applicationLabels' : 'applicationLabel',
-    label: t('in-synthetics:dashboard.testList.applicationLabel'),
+    id: syntheticMultiAppEnabled ? 'associationLabels' : 'applicationLabel',
+    label: t('in-synthetics:dashboard.testList.associationLabel'),
     defaultOrderDirection: 'ASC',
     getContent: function Content(item: TestResultListItem) {
-      return <ApplicationLabel item={item} />;
+      return <AssociationsContent item={item} />;
     }
   },
   {
@@ -354,7 +288,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
       if (severity == 0) {
         return (
           <div>
-            <SvgIcon type="lib_uncheck" className={locals.okayIcon} />
+            <SvgIcon type="lib_uncheck" className={locals.okayIcon} size="s" />
           </div>
         );
       } else {
@@ -363,6 +297,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
             <div>
               <SvgIcon
                 type="lib_help_error_warning"
+                size="s"
                 color={themes.default.ids.color.option.yellow['500']}
                 className={locals.iconWarning}
               />

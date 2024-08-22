@@ -7,20 +7,17 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import ServiceContextIcon from 'in-applications/components/ServiceContext/ServiceContextIcon';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { endpointDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { endpointDashboard, summaryTab } from 'in-applications/navigation/paths';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
@@ -40,12 +37,11 @@ import { createGroupBy } from 'in-analyze/navigation/paths';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { boundaryScopes } from 'in-applications/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { error } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
-
-import locals from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton.mless';
 
 const urlStateDefinition = {
   bind: [
@@ -117,7 +113,20 @@ export default function EndpointDashboard({ location }) {
       />
 
       <TabView
-        result$={getEndpoint(getEndpointParams)}
+        result$={
+          props.endpointId
+            ? getEndpoint(getEndpointParams)
+            : just(
+                error([
+                  {
+                    message: t('in-applications:dashboards.idCannotBeBlank', {
+                      entity: 'Endpoint'
+                    }),
+                    code: 'CLIENT'
+                  }
+                ])
+              )
+        }
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
@@ -125,42 +134,14 @@ export default function EndpointDashboard({ location }) {
         props={props}
       />
 
-      {showAlertButton && !applicationSmartAlertFullScreenDesignEnabled && (
-        <FloatingActionButtons>
-          <CreateSmartAlert
-            serviceId={props.serviceId}
-            endpointId={props.endpointId}
-            applicationId={props.applicationId}
-            location={location}
-            boundaryScope={props.boundaryScope}
-          />
-        </FloatingActionButtons>
-      )}
-      {showAlertButton && applicationSmartAlertFullScreenDesignEnabled && props.applicationId && (
-        <FloatingActionButtons>
-          <FloatingActionButtonMenu>
-            <span className={locals.floatingBtnMenu}>
-              <CreateSmartAlert
-                serviceId={props.serviceId}
-                endpointId={props.endpointId}
-                applicationId={props.applicationId}
-                location={location}
-                boundaryScope={props.boundaryScope}
-              />
-            </span>
-
-            <CreateSmartAlertButton
-              isGlobal={false}
-              buttonName={t('in-alerting:smartAlerts.applications.components.createSmartAlertNew')}
-              isFloatingButton
-              isMenuItem
-              boundaryScope={props.boundaryScope}
-              serviceId={props.serviceId}
-              endpointId={props.endpointId}
-              applicationId={props.applicationId}
-            />
-          </FloatingActionButtonMenu>
-        </FloatingActionButtons>
+      {showAlertButton && props.applicationId && (
+        <CreateSmartAlert
+          serviceId={props.serviceId}
+          endpointId={props.endpointId}
+          applicationId={props.applicationId}
+          location={location}
+          boundaryScope={props.boundaryScope}
+        />
       )}
 
       <Footer />

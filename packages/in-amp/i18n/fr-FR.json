@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "Paramètres du compte",
+      "unknownDomain": "Domaine inconnu",
       "billingAddress": "Adresse de facturation",
       "country": "Pays",
       "state": "État",
@@ -27,6 +28,12 @@
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "Aucune licence active payante active au cours des 30 derniers jours."
     },
+    "fairUsePolicyMessage": {
+      "title": "Ce compte est soumis à la politique d'utilisation équitable. Voir l'utilisation des données dans les graphiques ci-dessous."
+    },
+    "fairUsePolicyNotActive": {
+      "title": "La politique d'utilisation équitable n'est pas active."
+    },
     "restrictedUsage": {
       "accountUsage": "Utilisation du compte"
     },
@@ -36,10 +43,34 @@
       "max": "Max",
       "average": "Moyenne"
     },
+    "dataIngestTable": {
+      "consumptionOverview": "Aperçu de la consommation",
+      "row": "Ligne",
+      "unit": "Unité",
+      "calculation": "Calcul",
+      "entitledNumberOfMVS": "Nombre d'ayants droit MVS",
+      "actualAverage": "Moyenne réelle du nombre de MVS configurés",
+      "onDemandNumber": "Nombre de MVS à la demande",
+      "dataIngestFairUseEntitlement": "Droit d'utilisation équitable de l'ingestion de données par MVS",
+      "totalDataIngestFairUseEntitlement": "Total des droits d'utilisation équitables de l'ingestion de données",
+      "dataIngestAddOnEntitlement": "Droit du module complémentaire d'ingestion de données",
+      "totalAmountPurchased": "Montant total d'achats via le module complémentaire d'ingestion de données supplémentaire",
+      "dataIngestEntitlementFromOnDemand": "Droit d'utilisation équitable d'ingestion de données de MVS à la demande",
+      "totalDataIngestEntitlement": "Total de droits d'ingestion de données",
+      "actualDataIngest": "Ingestion de données réelles",
+      "onDemandDataIngest": "Ingestion de données à la demande",
+      "noData": "Aucune donnée"
+    },
     "timePresets": {
       "last7Days": "7 derniers jours",
-      "last15Days": "Les 15 derniers jours",
-      "last365Days": "365 derniers jours"
+      "last30Days": "Les 30 derniers jours",
+      "last365Days": "365 derniers jours",
+      "thisMonth": "Ce mois-ci",
+      "lastMonth": "Mois dernier"
+    },
+    "presentationPresets": {
+      "distinct": "Valeurs distinctes",
+      "cumulative": "Valeurs cumulées"
     },
     "usages": {
       "allPaidUnitsAggregated": "Toutes les unités payantes (agrégées)",
@@ -49,15 +80,22 @@
       "queuedLicenses": "Licences mises en file d'attente"
     },
     "usageCharts": {
-      "apmUsage": "Utilisation APM",
+      "standard": "standard",
       "apmHosts": "Hôtes APM",
       "purchased": "Acheté",
-      "infrastructureUsage": "Utilisation de l'infrastructure",
+      "essentials": "Essentials",
       "iqmHosts": "Hôtes IQM",
       "syntheticPops": "PoP gérés synthétiques",
       "resourceUnits": "Unités de ressource",
       "consumedUnits": "Unités consommées",
+      "infrastructure": "Infrastructure",
+      "synthetics": "Synthétiques",
+      "traces": "Traces",
+      "eumMobile": "EUM Mobile",
+      "eumWebsite": "Site web de l'EUM",
       "addons": "Modules complémentaires",
+      "trendLine": "Ligne de tendance",
+      "dataUsageHelperText": "Quantité d'octets envoyés par des agents séparés par catégorie dans la période choisie.",
       "helperText": "Nombre d'unités de ressource consommées par chaque type d'action. Les unités sont calculées avec un facteur de 0,025 pour les tests simples, 0,042 pour les tests d'API et 1,000 pour les tests de navigateur."
     },
     "activationAdoption": {

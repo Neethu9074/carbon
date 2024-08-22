@@ -63,20 +63,20 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/AlertConfig
     it('returns "Edit alert"', () => {
       const result = getHeaderTitle(true, true, false);
       expect(result).toBe(
-        t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert_Global')
+        t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigTearSheetEditAlert_Global')
       );
     });
 
     it('returns "Create new alert"', () => {
       const result = getHeaderTitle(false, false, false);
       expect(result).toBe(
-        t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert_Local')
+        t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigTearSheetCreateNewAlert_Local')
       );
     });
 
     it('returns "Migrate to smart alerts"', () => {
       const result = getHeaderTitle(true, false, true);
-      expect(result).toBe(t('in-alerting:smartAlerts.migration.migrateButton'));
+      expect(result).toBe(t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigTearSheetMigrateAlert'));
     });
   });
 

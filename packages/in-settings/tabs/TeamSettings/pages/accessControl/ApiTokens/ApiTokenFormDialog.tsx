@@ -10,13 +10,15 @@ import ApiToken from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiToken
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 
 export interface MatchParams {
-  match: { params: { id: string } };
+  match: { params: { id: string; duplicateFrom: string | undefined } };
 }
 
 export default function ApiTokenFormDialog(props: MatchParams) {
   useEffect(() => {
-    addActiveDialog(<ApiToken match={{ params: { id: props.match.params.id } }} />);
-  }, [props.match.params.id]);
+    addActiveDialog(
+      <ApiToken match={{ params: { id: props.match.params.id, duplicateFrom: props.match.params.duplicateFrom } }} />
+    );
+  }, [props.match.params.id, props.match.params.duplicateFrom]);
 
   return null;
 }

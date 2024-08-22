@@ -111,6 +111,7 @@
       "summary": {
         "logs": "Journaux",
         "analyzeLogs": "Afficher dans l'analyse",
+        "logsCardDescription": "Il s'agit d'un aperçu, voir tous les journaux dans l'analyse",
         "correspondingMobileAppActivity": "Activité d'application mobile correspondante",
         "hideMobileAppInformation": "Masquer les informations d'application mobile",
         "showMobileAppInformation": "Afficher les informations d'application",

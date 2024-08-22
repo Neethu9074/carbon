@@ -61,11 +61,12 @@ export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
           id: i,
           [localisationStrings.deletionDate]: timestampToLocaleDate(item.timestamp),
           [localisationStrings.reason]: item.reason,
-          [localisationStrings.numberOfLogs]: item.deletedLineCount !== null ? (
-            siPrefixCompact.formatter(item.deletedLineCount)
-          ) : (
-            <LoadingSkeleton className={locals.skeleton} />
-          ),
+          [localisationStrings.numberOfLogs]:
+            item.deletedLineCount !== null ? (
+              siPrefixCompact.formatter(item.deletedLineCount)
+            ) : (
+              <LoadingSkeleton className={locals.skeleton} />
+            ),
           [localisationStrings.triggered]: item.triggeredByUser
         }));
       return carbonRows;
@@ -108,7 +109,7 @@ export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
           <div className={locals.emptyTable}>
             <CarbonDataTable headers={carbonHeaders} rows={[]} />
             <section className={locals.stateContainer}>
-              <div className={locals.emptyState}>
+              <div data-testid="deletionTableEmpty" className={locals.emptyState}>
                 <SvgIcon type={'lib_help_error_info_outline'} size="xxxl" />
                 <Typography variant={'body-bold'}>{localisationStrings.noData}</Typography>
                 <Typography variant={'body-regular'}>{localisationStrings.noDataInfo}</Typography>
@@ -121,7 +122,7 @@ export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
           <div className={locals.emptyTable}>
             <CarbonDataTable headers={carbonHeaders} rows={[]} />
             <section className={locals.stateContainer}>
-              <div className={locals.emptyState}>
+              <div data-testid={'deletionTableErrorMessage'} className={locals.emptyState}>
                 <SvgIcon type={'lib_help_error_error_circle'} size="xxxl" />
                 <Typography variant={'body-bold'}>{localisationStrings.wrong}</Typography>
                 <Typography variant={'body-regular'}>{localisationStrings.errorInfo}</Typography>
@@ -138,7 +139,7 @@ export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
       .slice()
       .sort((a: DeleteLogsHistoryItem, b: DeleteLogsHistoryItem) => b.timestamp - a.timestamp)
       .map((item: DeleteLogsHistoryItem, i: number) => (
-        <Tr key={i}>
+        <Tr data-testid="deleteLogsHistoryRow" key={i}>
           <Td>{timestampToLocaleDate(item.timestamp)}</Td>
           <Td>{item.reason}</Td>
           <Td>

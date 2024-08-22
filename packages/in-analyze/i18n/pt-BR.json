@@ -111,6 +111,7 @@
       "summary": {
         "logs": "Logs",
         "analyzeLogs": "Visualização em análise",
+        "logsCardDescription": "Esta é uma visualização, veja todos os logs na análise",
         "correspondingMobileAppActivity": "Atividade do aplicativo móvel correspondente",
         "hideMobileAppInformation": "Ocultar informações do aplicativo móvel",
         "showMobileAppInformation": "Mostrar informações do aplicativo móvel",

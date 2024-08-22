@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Checkbox } from '@instana/components';
+
 import LabelDescriptionWithIcon from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/LabelDescriptionWithIcon';
 import {
   hasSubEntitySelection,
@@ -57,6 +58,7 @@ export default function IncludeInternalOrSyntheticCallsSwitch({
             label={tearSheetView ? includeInternalLabelContent : callLabels['includeInternal']}
             checked={includeInternal}
             onChange={() => handleChange('includeInternal', includeInternal)}
+            carbonVariant={tearSheetView ?? false}
           />
         </Col>
         <Col lg={6} md={6} className={classNames({ [locals.column]: !tearSheetView, [locals.gap]: tearSheetView })}>
@@ -64,6 +66,7 @@ export default function IncludeInternalOrSyntheticCallsSwitch({
             label={tearSheetView ? includeSyntheticLabelContent : callLabels['includeSynthetic']}
             checked={includeSynthetic}
             onChange={() => handleChange('includeSynthetic', includeSynthetic)}
+            carbonVariant={tearSheetView ?? false}
           />
         </Col>
       </Row>

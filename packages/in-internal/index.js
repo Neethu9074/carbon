@@ -52,6 +52,7 @@ import EntityStatistics from 'in-internal/thisUnit/EntityStatistics';
 import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import EumAcceptor from 'in-internal/monitoringUnit/eum/EumAcceptor';
 import Hubforce from 'in-internal/monitoringUnit/hubforce/Hubforce';
+import FeatureFlags from 'in-internal/monitoringUnit/FeatureFlags';
 import Clickhouse from 'in-internal/monitoringUnit/sre/Clickhouse';
 import Cashiers from 'in-internal/monitoringUnit/cashier/Cashiers';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
@@ -192,6 +193,10 @@ export default function Internal() {
       ]
     : [];
   internalRoutes.push(
+    <Route key="internalFeatureFlags" path="/internal/featureflags">
+      <FeatureFlags />
+    </Route>,
+
     <Route key="internalSyntheticAcceptor" path="/internal/monitoringUnit/synthetics/SyntheticAcceptor">
       {wrapInInternalView(SyntheticsAcceptor)}
     </Route>,

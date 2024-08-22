@@ -10,21 +10,25 @@ import { Stack } from '@instana/components';
 import {
   aggregationPath,
   formatterPath,
+  formatterSelectedPath,
   metricPath,
   metricsPath,
   sourcePath,
+  unitPath,
   useChartFormatterFormSideEffects,
   y1AxisPath
 } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { MetricsForAxis, Reorderer } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
 import DataSeriesConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/DataSeriesConfigurator';
-import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { getCommonFormatterForUnits, getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { getShortMetricKey } from 'in-custom-dashboards/widgets/Pie/util';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
+import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { publicFormatters } from 'in-stores/metric/formatters';
 import Sections from 'in-components/workspace/Sections';
 import Divider from 'in-components/workspace/Divider';
+import { getBaseUnit } from 'in-stores/metric/units';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
@@ -40,11 +44,13 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
           const source = list.get(sourcePath)?.value;
           const metric = list.get(metricPath)?.value;
           const aggregation = list.get(aggregationPath)?.value;
+          const baseUnit = unitForInfraMetricsEnabled ? getBaseUnit(list.get(unitPath)?.value) : undefined;
 
           return {
             source,
             metric,
-            aggregation
+            aggregation,
+            baseUnit
           };
         })
       )
@@ -52,7 +58,18 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
   });
 
   let availableFormatters =
-    metricConfigurations?.flatMap(config => getFormatter(config.source, config.metric, config.aggregation)) ?? [];
+    metricConfigurations?.flatMap(config =>
+      getFormatter(config.source, config.metric, config.aggregation, config.baseUnit)
+    ) ?? [];
+
+  const configuredUnits = metricConfigurations.map(({ baseUnit }) => baseUnit).filter(unit => unit);
+
+  getCommonFormatterForUnits(...configuredUnits).forEach(formatter => {
+    if (!availableFormatters.find(existingFormatter => existingFormatter.id === formatter.id)) {
+      availableFormatters.push(formatter);
+    }
+  });
+
   if (availableFormatters.length === 0) {
     availableFormatters = publicFormatters;
   }
@@ -72,6 +89,7 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
           }}
           getShortMetricKey={getShortMetricKey}
           withLastValue
+          withUnit
         />
       </Stack>
 
@@ -86,6 +104,7 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
             startIndex={0}
             getShortMetricKey={getShortMetricKey}
             helpText={t('in-custom-dashboards:widgets.pie.formComponent.dragDropDatasetsReorder')}
+            withUnitPill
           />
         </Reorderer>
       </Stack>
@@ -103,7 +122,9 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
               value={field.value}
               onChange={e =>
                 updateForm(
-                  form.updateIn([y1AxisPath, formatterPath], field => field.setValue(e.target.value).setTouched(true))
+                  form
+                    .updateIn([y1AxisPath, formatterPath], field => field.setValue(e.target.value).setTouched(true))
+                    .updateIn([y1AxisPath, formatterSelectedPath], field => field.setValue(true).setTouched(true))
                 )
               }
               hasError={!field.valid && field.touched}

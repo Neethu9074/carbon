@@ -119,6 +119,7 @@ function Results({
               }
               align="rightMiddle"
               delay={1000}
+              overwriteBlock
             >
               <Link
                 href={getUpdatedFacetedSearchHref(addFacetItem(facets, tag, suggestion.value))}

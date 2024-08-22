@@ -163,6 +163,7 @@
       "metricsFormComponent": {
         "metric": "Métrique",
         "selectMetric": "Sélectionner une métrique",
+        "unit": "Unité",
         "aggregation": "Agrégation",
         "crossSeriesAggregation": "Utiliser SUM pour l'agrégation interséries",
         "crossSeriesAggregationHelp": "Normalement, l'agrégation interséries est identique à l'agrégation à travers le temps (méthode utilisée pour combiner les points de données en un seul intervalle). Si ce bouton à bascule est activé, nous ferons la somme des intervalles de la série de données au lieu d'utiliser l'agrégation spécifiée.",
@@ -474,8 +475,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Noeud final",
-        "allEndpoints": "Tous les nœuds finaux",
-        "loading": "<loading>"
+        "allEndpoints": "Tous les nœuds finaux"
       },
       "goodBadEventsForm": {
         "goodEvents": "Evénements corrects",
@@ -512,7 +512,6 @@
       },
       "servicesSelectBox": {
         "service": "Service",
-        "loading": "<loading>",
         "allServices": "Tous les services"
       },
       "sliFormPresenter": {
@@ -718,7 +717,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configuration de seuil",
-        "thresholdLabel": "Seuil"
+        "thresholdLabel": "Seuil",
+        "ms": "ms"
       },
       "entityInfo": {
         "tooltip": "Apdex inconnu",

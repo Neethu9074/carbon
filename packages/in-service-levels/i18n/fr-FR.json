@@ -165,8 +165,6 @@
     "sloNamePlaceholder": "Entrez un nom",
     "sloNameCopyTemplate": "Copie de {{name}}",
     "tagsLabel": "Etiquettes (facultatif)",
-    "tagsPlaceholder": "Entrer des étiquettes",
-    "tagsCreateLabel": "Créer : {{tag}}",
     "messages": {
       "creationSuccessfulTitle": "La configuration de l'objectif de niveau de service a été créée",
       "creationSuccessfulContent": "La configuration d'objectif de niveau de service \"{{name}}\" a été créée.",
@@ -269,6 +267,9 @@
     }
   },
   "sloDashboard": {
+    "header": {
+      "created_at": "Créé le : {{creationDay}} à {{creationTime}}"
+    },
     "tabs": {
       "summaryLabel": "Récapitulatif",
       "configurationLabel": "Configuration",

@@ -19,7 +19,7 @@ import {
   teamSettingsAccessControlApiTokens
 } from 'in-settings/navigation/paths';
 import { isAnsible, isGithub, isGitlab, isJira, isExternal } from 'in-automation/ActionCatalog/shared';
-import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionDetails';
+import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
@@ -30,11 +30,11 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
-import { Action, ActionInstance, ActorType } from 'in-types';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { eventsPath } from 'in-events/navigation/paths';
+import { ActionInstance, ActorType } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -181,7 +181,7 @@ export default function DetailTab({
       stringLink:
         type === 'EXTERNAL'
           ? metadata?.find(obj => obj.name === 'actionEntityURL')?.value
-          : hrefToActionDetails({ id: actionId } as Action),
+          : hrefToActionDetails(actionId),
       onClick: () =>
         handleTracking(
           actionName,

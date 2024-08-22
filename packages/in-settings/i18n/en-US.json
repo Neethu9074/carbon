@@ -168,7 +168,8 @@
     "contributionFilter_name": "Name",
     "contributionFilter_name_mayNotBeBlank": "The contribution filter name must not be blank.",
     "contributionFilter_name_mustNotBeLargerThan128Characters": "The contribution filter name must not be larger than 128 characters.",
-    "contributionFilter_name_alreadyUsed": "The contribution filter name is already used."
+    "contributionFilter_name_alreadyUsed": "The contribution filter name is already used.",
+    "addButton_syntheticCredentials": "Select Synthetic Credentials"
   },
   "selectItemForm": {
     "doneButton": "Done"
@@ -176,10 +177,13 @@
   "selectEntityDialog": {
     "nameColumnHead": "Name",
     "contributionFilterColumnHead": "Contribution filter",
-    "syntheticAllTestsAccess": "All Tests",
-    "syntheticInheritedAccess": "Inherited Access",
+    "syntheticAllTestsAccess": "Selectable tests",
+    "syntheticInheritedAccess": "Inherited tests",
     "syntheticTableSubHeader": "The following synthetic tests are already accessible to the members of this group because they have access to the associated applications.",
-    "syntheticTableSubHeaderWebMobile": "The following synthetic tests are already accessible to the members of this group because they have access to the associated applications, websites, and mobile applications."
+    "syntheticTableSubHeaderWebMobile": "The following synthetic tests are already accessible to the members of this group because they have access to the associated applications, websites, and mobile applications.",
+    "syntheticSelectableCredentialsAccess": "Selectable credentials",
+    "syntheticInheritedCredentialsAccess": "Inherited credentials",
+    "syntheticTableSubHeaderWebMobileForCredentials": "The following synthetic credentials are already accessible to the members of this group because they have access to the associated applications, websites, and mobile applications."
   },
   "permissionScope": {
     "access_level": "Access level",
@@ -271,7 +275,8 @@
       "limited_access": {
         "access_level": "Access only the listed synthetic tests with the selected access type and any additional permissions",
         "access_level_tp": "Access to all synthetic tests associated with applications that the users have access to. You can use the list below to grant access to additional synthetic tests.",
-        "access_level_web_mobile": "Access to all synthetic tests associated with applications, websites, and mobile applications that the users have access to. You can use the list below to grant access to additional synthetic tests."
+        "access_level_web_mobile": "Access to all synthetic tests associated with applications, websites, and mobile applications that the users have access to. You can use the list below to grant access to additional synthetic tests.",
+        "access_level_tests_credentials": "Access to all synthetic tests and credentials associated with applications, websites, and mobile applications that the users have access to. You can use the lists below to grant access to additional synthetic tests and credentials."
       },
       "role_permissions_owner": "Create, configure, view and delete synthetic tests.",
       "role_permissions_viewer": "View synthetic tests and their configuration."
@@ -396,8 +401,11 @@
       "toastSuccessMessage": "Your {{integrationType}} Integration has been saved and enabled.",
       "integerationEnabled": "Your {{integrationType}} Integration has been enabled.",
       "integerationDisabled": "Your {{integrationType}} Integration has been disabled.",
-      "integerationConfigurationFailed": "{{error}}",
-      "configureIntegrations": "Configure Integration"
+      "integrationConfigurationFailed": "{{error}}",
+      "configureIntegrations": "Configure Integration",
+      "unsavedModalContent": "Are you sure want to discard your changes?",
+      "unsavedModalDiscard": "Discard",
+      "unsavedModalCancel": "Cancel"
     },
     "deleteLogs": {
       "deleteLogs": "Delete logs",
@@ -442,11 +450,9 @@
       "months_6": "Past 6 months",
       "months_9": "Past 9 months",
       "months_12": "Past 12 months",
-      "days_7": "7 Days",
-      "days_20": "20 Days",
-      "days_30": "30 Days",
-      "days_60": "60 Days",
-      "days_90": "90 Days"
+      "days_30": "30 days retention",
+      "days_60": "60 days retention",
+      "days_90": "90 days retention"
     },
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",
@@ -506,6 +512,8 @@
     "apiTokenDescription": "This unit specific API token can be seen/modified by anyone or any API token with the permission for API token configuration.",
     "noApiToken": "No API Tokens",
     "newApiToken": "New API Token",
+    "apiTokenDuplicate": "Duplicate",
+    "duplicateTokenName": "Duplicate of {{apiTokenName}}",
     "apiTokenUnits": "API tokens can be used for <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "noPersonalApiTokens": "No Personal API Tokens",
     "newPersonalApiToken": "New Personal API Token",
@@ -936,7 +944,7 @@
     "emailAlertChannel": "Email Alert Channel",
     "googleChat": "Google Chat",
     "webhookUrl": "Webhook URL",
-    "workflowWebhookUrl" : "Workflow / Webhook URL",
+    "workflowWebhookUrl": "Workflow / Webhook URL",
     "googleChatAlertChannel": "Google Chat Alert Channel",
     "office365MicrosoftTeams": "Office 365 / Microsoft Teams",
     "office365MicrosoftTeamsAlertChannel": "Office 365 / Microsoft Teams Alert Channel",

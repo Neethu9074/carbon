@@ -25,15 +25,11 @@
     .flexbox();
   }
 
-  .iconsConatiner {
+  .iconsContainer {
     display: flex;
     & > * {
       margin-right: 0.5rem;
     }
-  }
-
-  .alertIcon {
-    margin-right: 0.5rem;
   }
 
   .name {
@@ -43,18 +39,6 @@
 
   .badge {
     margin-right: 1rem;
-  }
-
-  .alertIcon {
-    margin-right: 1.5rem;
-
-    &SeverityLow {
-      fill: var(--ids-color-option-yellow-500);
-    }
-
-    &SeverityHigh {
-      fill: var(--ids-color-option-red-500);
-    }
   }
 
   .bottomSpace {

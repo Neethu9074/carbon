@@ -348,12 +348,20 @@
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "跟踪会话",
     "trackingSnippetPresenterTooltip": "了解有关会话跟踪和隐私影响的更多信息。",
-    "trackingSnippetSRITooltip": "Subresource Integrity (SRI) 是一项安全功能，用于确保浏览器可以验证其访存的资源。 禁用此功能可能会导致安全问题。 如果您决定将其禁用，请确保您处在安全的网络环境中。",
+    "trackingSnippetSRITooltip": "Subresource Integrity (SRI) 是一项安全功能，用于确保浏览器可以验证其访存的资源。",
     "trackingSnippetPresenterLabelSRI": "启用 Subresource Integrity (SRI)",
     "trackingSnippetPresenterLabelAgentVersion": "代理程序版本",
     "trackingSnippetPresenterToggleYes": "是",
     "trackingSnippetPresenterToggleNo": "False",
-    "trackingSnippetPresenterAgentVersion": "版本"
+    "trackingSnippetPresenterAgentVersion": "版本",
+    "trackingSnippetPresenterCancelModal": "取消",
+    "trackingSnippetPresenterEnableModal": "启用",
+    "trackingSnippetPresenterEnablingModalTitle": "启用 Subresource Integrity (SRI)",
+    "trackingSnippetPresenterEnablingModalBody": "为了安全起见，建议启用 SRI。 确保已从下拉列表中选择了最新的代理程序版本。",
+    "trackingSnippetPresenterDisableModal": "禁用",
+    "trackingSnippetPresenterDisablingModalTitle": "您确定要禁用子资源完整性 (SRI) 吗？",
+    "trackingSnippetPresenterDisablingModalFirstLine": "禁用 SRI 可能会导致安全问题。",
+    "trackingSnippetPresenterDisablingModalBody": "如果您决定将其禁用，请确保您处在安全的网络环境中。 禁用 SRI 后，跟踪脚本将默认使用最新的 JavaScript 代理程序版本，但无法确保浏览器可以验证其访存的资源。 "
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "Web 站点和移动应用程序",
@@ -485,6 +493,7 @@
         "configurationRenameTitle": "重命名 Web 站点",
         "configurationRenameButton": "重命名",
         "configurationTrackingScriptTitle": "代理程序跟踪脚本",
+        "configurationUserAgentVersion": "您当前的代理程序版本为 <strong>{{agentVersion}}</strong>。",
         "saved": "已保存",
         "ipMasking": {
           "title": "IP 掩蔽",
@@ -754,6 +763,9 @@
         "sizesTechnicalLabelBetween": "在 {{min}}px 和 {{max}}px（含）之间",
         "sizesTechnicalLabelAtLeast": "至少 {{min}}px（含）",
         "sizesTechnicalLabelAtMost": "最多 {{max}}px（含）"
+      },
+      "synthetic": {
+        "tabLabel": "合成监视"
       },
       "indexLabelSummary": "摘要",
       "indexLabelSpeed": "速度",

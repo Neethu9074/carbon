@@ -56,7 +56,7 @@ export default function FeedbackStepThree({ form, setForm, nextStep, eventData }
           />
         </Stack>
       </div>
-      <Message type="warning">{t('in-events:closeEventDialog.warning')}</Message>
+      <Message type="warning">{t('in-events:closeEventDialog.warningIncident')}</Message>
     </Stack>
   );
 }

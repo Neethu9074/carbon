@@ -7,7 +7,10 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
+import { t } from '@instana/i18n-react';
+
 import UserGoalSelectionDialog from 'in-plg/pages/UserGoalSelection/UserGoalSelectionDialog';
+import { GOAL_SELECTION } from 'in-plg/pages/UserGoalSelection/utils/consts';
 import { segmentTrackingFunc } from 'in-plg/utils/Segment/segment';
 
 jest.mock('in-components/DialogPresenter/store', () => ({
@@ -55,5 +58,19 @@ describe('in-plg/pages/UserGoalSelectionDialog', () => {
     fireEvent.click(doneButton as any);
     expect(textArea).toBeInTheDocument();
     expect(segmentTrackingFunc).toHaveBeenLastCalledWith('User goal: Other goal', ctaClicked, value);
+  });
+
+  test('should instrument the close action of goal selection to the segment', () => {
+    const { container } = render(<UserGoalSelectionDialog />);
+    const closeButton = container.querySelector('.legacyIconButton button');
+    fireEvent.click(closeButton as any);
+    expect(segmentTrackingFunc).toHaveBeenLastCalledWith(GOAL_SELECTION.SEGMENT_MESSAGE.CLOSE, ctaClicked);
+  });
+
+  test('should instrument the skip action of goal selection to the segment', () => {
+    render(<UserGoalSelectionDialog />);
+    const skipButton = screen.getByText(t('in-plg:userGoalSelectionDialog.skip'));
+    fireEvent.click(skipButton as any);
+    expect(segmentTrackingFunc).toHaveBeenLastCalledWith(GOAL_SELECTION.SEGMENT_MESSAGE.SKIP, ctaClicked);
   });
 });

@@ -5,19 +5,11 @@
  */
 
 import { DragDropContext, Draggable, DraggableProvidedDragHandleProps, Droppable } from 'react-beautiful-dnd';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
 import {
-  hasKubernetesAccess,
-  hasOpenStackAccess,
-  hasPCFAccess,
-  hasPHMCAccess,
-  hasPowerVcAccess,
-  hasVSphereAccess,
-  hasZHMCAccess,
-  hasSAPAccess,
   hasWebsitesAccess,
   hasMobileAppsAccess,
   hasApplicationsAccess,
@@ -61,47 +53,6 @@ export interface DashboardTileParamProps {
   toggles?: ReactNode;
   toggleCallback?: (index: number) => void;
   sectionLabel?: string;
-}
-
-function getPlatformsTitle() {
-  let numPlatformsAvailable = 0;
-  if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (hasPCFAccess) numPlatformsAvailable++;
-  if (hasVSphereAccess) numPlatformsAvailable++;
-  if (hasOpenStackAccess) numPlatformsAvailable++;
-  if (hasPHMCAccess) numPlatformsAvailable++;
-  if (hasPowerVcAccess) numPlatformsAvailable++;
-  if (hasZHMCAccess) numPlatformsAvailable++;
-  if (hasSAPAccess) numPlatformsAvailable++;
-  if (numPlatformsAvailable > 1) {
-    return t('in-plg:welcomepage.component.platformWidget.platforms');
-  }
-
-  if (hasPCFAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.cloudFoundry');
-  }
-  if (hasVSphereAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.vsphere');
-  }
-  if (hasOpenStackAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.openstack');
-  }
-  if (hasPHMCAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.ibmp');
-  }
-  if (hasPowerVcAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.powervcRegion');
-  }
-  if (hasSAPAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.sap');
-  }
-  if (hasZHMCAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.ibmz');
-  }
-  if (hasKubernetesAccess) {
-    return t('in-plg:welcomepage.component.platformWidget.kubernetes');
-  }
-  return '';
 }
 
 const syntheticArray = [
@@ -153,7 +104,7 @@ const widgetData = [
   },
   {
     key: 'platformsWidget',
-    label: getPlatformsTitle(),
+    label: t('in-plg:welcomepage.component.platformWidget.platforms'),
     icon: 'lib_actions_reorder',
     widget: PlatformWidget
   },
@@ -191,19 +142,15 @@ const tableEntryArray: any[] = widgetData
       (ele.key === 'syntheticWidget' && hasSyntheticsAccess) ||
       (ele.key === 'dashboardWidget' && !playwithEnabled)
   )
-  .map((ele, index) => {
-    itemIds.push({ id: index.toString() });
+  .map(ele => {
+    itemIds.push({ id: ele.key });
     return ele;
   });
 
-interface PageContentProps {
-  enableQuickLinkForAgentAndUser: boolean;
-}
-
-export default function PageContent({ enableQuickLinkForAgentAndUser }: PageContentProps) {
+export default function PageContent() {
   return (
     <div className={locals.dashboardTilesWrapper}>
-      <QuickLinks enableQuickLinkForAgentAndUser={enableQuickLinkForAgentAndUser} />
+      <QuickLinks />
       <RenderTable />
     </div>
   );
@@ -212,9 +159,16 @@ export default function PageContent({ enableQuickLinkForAgentAndUser }: PageCont
 function filterItems(orderedItems: WidgetOrdering[]): WidgetOrdering[] {
   return orderedItems.filter(({ id }: { id: string }) => {
     if (
-      (id === '3' && !hasWebsitesAccess) ||
-      (id === '4' && !hasMobileAppsAccess) ||
-      (id === '6' && !hasApplicationsAccess)
+      (id === 'incidentsWidget' && playwithEnabled) ||
+      (id === 'dashboardWidget' && playwithEnabled) ||
+      (id === 'websitesWidget' && !hasWebsitesAccess) ||
+      (id === 'mobileListWidget' && !hasMobileAppsAccess) ||
+      (id === 'businessMonitoringWidget' && !hasBizOpsAccess) ||
+      (id === 'applicationWidget' && !hasApplicationsAccess) ||
+      (id === 'platformsWidget' && !hasAPlatformAccess) ||
+      (id === 'infrastructureWidget' && !hasInfrastructureAccess) ||
+      (id === 'syntheticWidget' && !hasSyntheticsAccess) ||
+      (id === 'eventsWidget' && !hasEventsAccess)
     ) {
       return false;
     }
@@ -239,8 +193,17 @@ function getOrderedItems(settings: UiSettings | null | undefined): WidgetOrderin
 
 function RenderTable() {
   const storedSettings: UiSettings | null | undefined = useObservable(settings$, []);
+  const getOrdered = useMemo(() => getOrderedItems(storedSettings), [storedSettings]);
 
-  const [internalItemOrder, setItemOrder] = useState(filterItems(getOrderedItems(storedSettings)));
+  const itemOrder = useMemo(() => {
+    return filterItems(getOrdered);
+  }, [getOrdered]);
+
+  const [internalItemOrder, setItemOrder] = useState<WidgetOrdering[]>(itemOrder);
+
+  useEffect(() => {
+    setItemOrder(itemOrder);
+  }, [itemOrder]);
 
   const setNewItemOrder = (items: WidgetOrdering[]) => {
     setSingle(settingsKey, { ordering: items.map(({ id }: { id: string }, i: number) => ({ id, x: 0, y: i * 10 })) });
@@ -264,7 +227,7 @@ function RenderTable() {
         {provided => (
           <div ref={provided.innerRef} className={locals.draggableItemWrapper}>
             {internalItemOrder.map((_config: WidgetOrdering, index: number) => {
-              const ele = tableEntryArray[+_config.id];
+              const ele = tableEntryArray.find(item => item.key == _config.id);
               if (!ele) {
                 return null;
               }

@@ -459,7 +459,8 @@
       "logMessagesDescription": "There were no log messages retrieved for the selected time range.",
       "endpointsTitle": "No endpoints available",
       "endpointsDescription": "There were no endpoints retrieved for the selected time range."
-    }
+    },
+    "idCannotBeBlank": "{{entity}} Id cannot be blank"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "The service is not in the current application.",

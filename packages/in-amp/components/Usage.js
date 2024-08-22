@@ -29,7 +29,13 @@ export default function UsageWithAccountInfo() {
   );
 }
 
-function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedMetrics, hasSyntheticAddons }) {
+function Usage({
+  unitSelectorOptions,
+  getCurrentTenantOption,
+  canShowAggregatedMetrics,
+  hasSyntheticAddon,
+  hasLoggingAddon
+}) {
   const initialState =
     (canShowAggregatedMetrics ? aggregatedState : getCurrentTenantOption(unitSelectorOptions)?.value) ??
     aggregatedState;
@@ -75,7 +81,8 @@ function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedM
         to={to}
         tenantUnit={tenantUnit}
         showAggregatedMetrics={showAggregatedMetrics}
-        hasSyntheticAddons={hasSyntheticAddons}
+        hasSyntheticAddon={hasSyntheticAddon}
+        hasLoggingAddon={hasLoggingAddon}
         presentation={presentation}
       />
 
