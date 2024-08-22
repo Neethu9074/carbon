@@ -120,7 +120,8 @@
     "title_dashboard": "Custom dashboards",
     "title_automation": "Automation",
     "title_agents": "Agents",
-    "title_access_control": "Access control"
+    "title_access_control": "Access control",
+    "subHeadline_syntheticMonitoring": "{{ quantityOfAreas }} plus inherited tests."
   },
   "headingSection": {
     "title": "Role and access scope",
