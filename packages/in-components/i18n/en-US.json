@@ -39,7 +39,8 @@
       "itemMsg": "+{{leftCount}} more {{moreMsg}}"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "Retry"
+      "retryButtonLabel": "Retry",
+      "openList": "Open list"
     },
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} more Releases",
