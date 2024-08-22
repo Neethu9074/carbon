@@ -81,8 +81,57 @@ export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData
   return allHaveValidLabel ? transformLabeledData(data) : dataSorted;
 }
 
+enum Month {
+  January = 1,
+  February,
+  March,
+  April,
+  May,
+  June,
+  July,
+  August,
+  September,
+  October,
+  November,
+  December
+}
+
+const milisecondsInMonth = {
+  [Month.January]: 31 * 86400000,
+  [Month.February]: 28 * 86400000,
+  [Month.March]: 31 * 86400000,
+  [Month.April]: 30 * 86400000,
+  [Month.May]: 31 * 86400000,
+  [Month.June]: 30 * 86400000,
+  [Month.July]: 31 * 86400000,
+  [Month.August]: 31 * 86400000,
+  [Month.September]: 30 * 86400000,
+  [Month.October]: 31 * 86400000,
+  [Month.November]: 30 * 86400000,
+  [Month.December]: 31 * 86400000
+};
+
+function getMonthMilliseconds(month: Month): number {
+  return milisecondsInMonth[month];
+}
+
 export function generateQuery(numMonths: number, groupingTag?: TagNames): any {
   const currentTimestamp = Date.now();
+  const currentDate = new Date(currentTimestamp);
+  const currentMonth = currentDate.getMonth() + 1;
+
+  let totalMilliseconds = 0;
+
+  for (let i = 0; i < numMonths; i++) {
+    let month = currentMonth - i;
+
+    if (month <= 0) {
+      month += 12;
+    }
+
+    totalMilliseconds += getMonthMilliseconds(month as Month);
+  }
+
   const query = {
     subscriptionId: 44,
     metrics: {
@@ -119,7 +168,7 @@ export function generateQuery(numMonths: number, groupingTag?: TagNames): any {
         resultType: 'SINGLE_NUMBER',
         timeConfig: {
           to: currentTimestamp,
-          windowSize: 2592000000 * numMonths,
+          windowSize: totalMilliseconds,
           focusedMoment: currentTimestamp,
           autoRefresh: false
         }
