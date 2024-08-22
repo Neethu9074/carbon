@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 :local {
@@ -9,14 +9,14 @@
     min-width: 18rem;
     margin-bottom: 0.6rem;
     border: 1px solid var(--ids-color-option-neutral-400);
+    &:hover {
+      background-color: var(--ids-color-option-neutral-200);
+      cursor: pointer;
+    }
   }
 
   .titleSection {
     padding: 0.5rem 0 1rem 0;
-  }
-
-  .page {
-    padding: 0;
   }
 
   .cardBody {
@@ -27,13 +27,8 @@
     padding: 1rem 1rem 0.5rem 1rem !important;
   }
 
-  .toggle,
-  .cardText {
-    padding: 1rem;
-  }
-
-  .title {
-    font-size: 1rem !important;
+  .toggle {
+    padding: 0 1rem 1rem 1rem !important;
   }
 
   .marginRight {
@@ -55,21 +50,17 @@
     margin: var(--cds-layout-density-padding-inline-local) !important;
   }
 
+  .card {
+    min-width: 18rem;
+    border: 1px solid var(--ids-color-option-neutral-400);
+    padding: 0 !important;
+  }
+
   .cardFooter {
     margin-top: 4rem;
   }
 
-  .card {
-    padding: 0 !important;
-  }
-
-  .card:hover {
-    background-color: var(--ids-color-option-neutral-200);
-    cursor: pointer;
-  }
-
-  .configureIntegration {
-    padding: 1rem;
-    color: var(--cds-link-primary);
+  .cardButton {
+    width: 100%;
   }
 }

@@ -359,6 +359,23 @@
       },
       "customPayload": {
         "unknownTag": "Unknown tag: {{tagName}}"
+      },
+      "integrations": {
+        "configureIntegration": "Configure integration",
+        "database": {
+          "database": "Database",
+          "dbIntegrations": "Database integrations",
+          "dbIntegrationsDescription": "Connect your database management solutions and configure them to meet your needs.",
+          "dbIntegrationsTooltip": "Toggle is disabled due to a missing configuration. Click the tile and complete the form to enable this feature.",
+          "dbIntegrationsTooltipApiError": "Toggle is disabled due to an API connection issue. Wait for reconnection or reload the page to enable this feature.",
+          "dbMarlin": "DB Marlin",
+          "dbMarlinInstance": "DB Marlin Instance",
+          "dbMarlinExampleForAnInternalInstance": "Enter the URL for your DB Marlin instance, for example <strong>https://team.dbmarlin.com</strong> or <strong>http://192.168.1.128:443</strong> for an internal instance.",
+          "configureDbMarlin": "Configure DB Marlin",
+          "configureDbMarlinDescription": "This will enable a link to the configured DB Marlin instance for compatible queries on Call Details pages",
+          "configureYourDbMarlinSettings": "Configure your DB Marlin settings",
+          "failedToLoadDbMarlinConfiguration": "Failed to load DB Marlin configuration."
+        }
       }
     },
     "retentionPeriod": {
@@ -389,7 +406,7 @@
     },
     "integrations": {
       "integrations": "Integrations",
-      "logIntegrations": "Log Integrations",
+      "logIntegrations": "Log integrations",
       "logIntegrationsDescription": "Connect your log management solutions and configure them to meet your needs.",
       "logIntegrationsTooltip": "Toggle is disabled due to a missing configuration. Click the tile and complete the form to enable this feature.",
       "logIntegrationsTooltipApiError": "Toggle is disabled due to an API connection issue. Wait for reconnection or reload the page to enable this feature.",
@@ -399,6 +416,7 @@
       "toastSuccessTitle": "Integration saved",
       "toastErrorTitle": "Integration not saved",
       "toastSuccessMessage": "Your {{integrationType}} Integration has been saved and enabled.",
+      "toastErrorMessage": "Your {{integrationType}} Integration could not be saved and enabled.",
       "integerationEnabled": "Your {{integrationType}} Integration has been enabled.",
       "integerationDisabled": "Your {{integrationType}} Integration has been disabled.",
       "integrationConfigurationFailed": "{{error}}",
@@ -891,7 +909,7 @@
     "cancel": "Cancel",
     "loadingApiToken": "Loading API token…",
     "failedToLoadApiToken": "Failed to load API token.",
-    "saving": "Saving…",
+    "saving": "Saving...",
     "general": "General",
     "apiTokens": "API Tokens",
     "personalApiTokens": "Personal API Tokens",
