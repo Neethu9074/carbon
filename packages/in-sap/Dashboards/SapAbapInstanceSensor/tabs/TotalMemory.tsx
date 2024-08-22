@@ -167,6 +167,10 @@ export default function TotalMemory({ snapshotId, timeConfig }: TotalMemoryProps
         memoryStats
       };
     })
+    .filter((row: TotalMemoryRow) => {
+      const userValue = row.memoryStats.get('account');
+      return typeof userValue === 'string' && userValue !== 'UNKNOWN';
+    })
     .filter(function (rows: TotalMemoryRow) {
       if (taskType == null) {
         return rows;

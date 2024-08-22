@@ -24,10 +24,10 @@ export default function Fiori({ data }: { data: SnapshotData }) {
   return (
     <Fragment>
       <Row>
-        <Col lg={6}>
+        <Col lg={4}>
           <FioriServices snapshotId={snapshotId} />
         </Col>
-        <Col lg={6}>
+        <Col lg={4}>
           <FioriEntities snapshotId={snapshotId} />
         </Col>
       </Row>

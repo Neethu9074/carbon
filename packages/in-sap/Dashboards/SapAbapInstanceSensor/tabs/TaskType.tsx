@@ -12,6 +12,10 @@ export const taskTypeMap = [
     label: t('in-sap:dashboards.rfc')
   },
   {
+    value: 'DIALOG',
+    label: t('in-sap:dashboards.dialog')
+  },
+  {
     value: 'HTTP',
     label: t('in-sap:dashboards.http')
   },

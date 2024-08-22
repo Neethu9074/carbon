@@ -13,7 +13,7 @@ import { useObservable } from '@instana/hooks';
 import InfraMetricKpiCard from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InfraMetricKpiCardSap';
 // @ts-expect-error needs TS migration
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { number, kiloBytes, percentage, percentagePlain } from 'in-services/formatters/number';
+import { number, kiloBytes, percentage, percentagePlain, millis } from 'in-services/formatters/number';
 import CombinedMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/CombinedMetrics';
 import AbapShortDumps from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/AbapShortDumps';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -391,6 +391,68 @@ export default function Summary({ data }: { data: SnapshotData }) {
               // @ts-expect-error Module needs to be translated to TS
               colors: [[themes.default.ids.color.option.red['700']], [themes.default.ids.color.option.orange['500']]],
               formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title={t('in-sap:dashboards.workLoadOverview')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'workLoadStats.dialogResponseTime',
+                'workLoadStats.updateResponseTime',
+                'workLoadStats.enqueueResponseTime',
+                'workLoadStats.bckgrdResponseTime',
+                'workLoadStats.spoolResponseTime',
+                'workLoadStats.update2ResponseTime',
+                'workLoadStats.rfcResponseTime'
+              ],
+              labels: [
+                t('in-sap:dashboards.dialogRespTime'),
+                t('in-sap:dashboards.updateRespTime'),
+                t('in-sap:dashboards.enqueueRespTime'),
+                t('in-sap:dashboards.bckgrdRespTime'),
+                t('in-sap:dashboards.spoolRespTime'),
+                t('in-sap:dashboards.update2RespTime'),
+                t('in-sap:dashboards.rfcRespTime')
+              ],
+              type: 'line',
+              formatter: millis.detailed
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-sap:dashboards.avgWorkLoadOverview')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'workLoadStats.avgDialogResponseTime',
+                'workLoadStats.avgUpdateResponseTime',
+                'workLoadStats.avgEnqueueResponseTime',
+                'workLoadStats.avgBckgrdResponseTime',
+                'workLoadStats.avgSpoolResponseTime',
+                'workLoadStats.avgUpdate2ResponseTime',
+                'workLoadStats.avgRfcResponseTime'
+              ],
+              labels: [
+                t('in-sap:dashboards.dialogRespTime'),
+                t('in-sap:dashboards.updateRespTime'),
+                t('in-sap:dashboards.enqueueRespTime'),
+                t('in-sap:dashboards.bckgrdRespTime'),
+                t('in-sap:dashboards.spoolRespTime'),
+                t('in-sap:dashboards.update2RespTime'),
+                t('in-sap:dashboards.rfcRespTime')
+              ],
+              type: 'line',
+              formatter: millis.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
