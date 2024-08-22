@@ -7,7 +7,6 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { just } from '@instana/observables';
 
 import InstanaServiceToCloudfoundryApplicationButton from 'in-cloudfoundry/commonComponents/InstanaServiceToCloudfoundryApplicationButton';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -17,6 +16,7 @@ import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
+import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
 import { serviceDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { serviceDashboard, summaryTab } from 'in-applications/navigation/paths';
@@ -26,12 +26,14 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import getService from 'in-applications/subscriptions/getService';
 import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
+import { servicesList } from 'in-applications/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
@@ -39,7 +41,6 @@ import { createGroupBy } from 'in-analyze/navigation/paths';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { boundaryScopes } from 'in-applications/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { error } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
@@ -68,6 +69,7 @@ export default function ServiceDashboard({ location }) {
     location,
     onBoundaryStateChange: setUrlState
   };
+  const { createHref } = useNavigation();
 
   const missingBoundaryScope = props.applicationId && !props.boundaryScope;
   function getBoundaryScope([id, _missingBoundaryScope]) {
@@ -81,6 +83,17 @@ export default function ServiceDashboard({ location }) {
 
   const showAlertButton = role.canConfigureApplicationSmartAlerts;
 
+  if (!serviceId) {
+    return (
+      <InvalidUrlAlert
+        href={createHref({ ...location, pathname: servicesList })}
+        description={t('in-applications:dashboards.idNotPresent', {
+          id: 'Service ID'
+        })}
+        linkText={t('in-applications:linkViewAllServices')}
+      />
+    );
+  }
   return (
     <>
       <ViewTrackingMeta
@@ -94,27 +107,14 @@ export default function ServiceDashboard({ location }) {
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
-        result$={
-          props.serviceId
-            ? getService({
-                id: props.serviceId,
-                filter: {
-                  application: props.applicationId,
-                  service: props.serviceId,
-                  timeConfig
-                }
-              })
-            : just(
-                error([
-                  {
-                    message: t('in-applications:dashboards.idCannotBeBlank', {
-                      entity: 'Service'
-                    }),
-                    code: 'CLIENT'
-                  }
-                ])
-              )
-        }
+        result$={getService({
+          id: props.serviceId,
+          filter: {
+            application: props.applicationId,
+            service: props.serviceId,
+            timeConfig
+          }
+        })}
         props={props}
       />
 

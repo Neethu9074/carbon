@@ -17,10 +17,12 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import ServiceContextIcon from 'in-applications/components/ServiceContext/ServiceContextIcon';
+import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
 import { endpointDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { endpointDashboard, summaryTab } from 'in-applications/navigation/paths';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
+import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -37,7 +39,6 @@ import { createGroupBy } from 'in-analyze/navigation/paths';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { boundaryScopes } from 'in-applications/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { error } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
@@ -55,6 +56,7 @@ const urlStateDefinition = {
 export default function EndpointDashboard({ location }) {
   const [{ appId, serviceId, endpointId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
 
   const props = {
     applicationId: appId,
@@ -90,7 +92,7 @@ export default function EndpointDashboard({ location }) {
     id: props.endpointId,
     filter: { timeConfig }
   };
-  const endpoint = useObservable(getEndpoint(getEndpointParams), [props.endpointId]);
+  const endpoint = useObservable(props.endpointId ? getEndpoint(getEndpointParams) : just(null), [props.endpointId]);
   if (!props.serviceId) {
     props.serviceId = endpoint?.data?.serviceId;
   }
@@ -101,7 +103,22 @@ export default function EndpointDashboard({ location }) {
       : () => true;
 
   const showAlertButton = role.canConfigureApplicationSmartAlerts;
-
+  if (!endpointId) {
+    return (
+      <InvalidUrlAlert
+        href={getLinkToServiceDashboard({
+          applicationId: props.applicationId,
+          serviceId: props.serviceId,
+          boundaryScope: props.boundaryScope,
+          tab: '/endpoints'
+        })}
+        description={t('in-applications:dashboards.idNotPresent', {
+          id: 'Endpoint ID'
+        })}
+        linkText={t('in-applications:linkViewAllEndpoints')}
+      />
+    );
+  }
   return (
     <>
       <ViewTrackingMeta
@@ -113,20 +130,7 @@ export default function EndpointDashboard({ location }) {
       />
 
       <TabView
-        result$={
-          props.endpointId
-            ? getEndpoint(getEndpointParams)
-            : just(
-                error([
-                  {
-                    message: t('in-applications:dashboards.idCannotBeBlank', {
-                      entity: 'Endpoint'
-                    }),
-                    code: 'CLIENT'
-                  }
-                ])
-              )
-        }
+        result$={getEndpoint(getEndpointParams)}
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
