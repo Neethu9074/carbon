@@ -403,7 +403,7 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticCertificateCheckEnabled',
     instanaCtlKey: 'feature.synthetic.certificate.check.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'syntheticRbacLimitedTPEnabled',
