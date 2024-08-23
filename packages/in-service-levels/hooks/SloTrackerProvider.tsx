@@ -40,7 +40,7 @@ import {
 // eslint-disable-next-line no-restricted-imports
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 // eslint-disable-next-line no-restricted-imports
-import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { SliType } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import { CreateSloDialogMode } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { ProductArea } from 'in-services/tracking/productAreas';
 import { PageName } from 'in-services/tracking/pageNames';
