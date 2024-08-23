@@ -17,7 +17,6 @@ interface FileMonitoringDashboardProps {
 }
 const FileMonitoringDashboard: React.FC<FileMonitoringDashboardProps> = ({ snapshot, timeConfig }) => {
   const snapshotId = snapshot.get('id');
-  //    const data = snapshot.get('data');
   return (
     <div>
       <Situations snapshotId={snapshotId} timeConfig={timeConfig} />

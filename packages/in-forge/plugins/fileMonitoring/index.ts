@@ -13,10 +13,9 @@ import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.fileMonitoring,
-
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
-    label: t('in-forge:plugins.FileMonitoring.FileSystem')
+    label: t('in-forge:plugins.fileMonitoring.fileSystem')
   }
 });

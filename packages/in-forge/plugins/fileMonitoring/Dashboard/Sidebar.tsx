@@ -20,7 +20,7 @@ const FileMonitoringSidebar = ({ snapshot }: FileMonitoringProps) => {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>{t('in-forge:plugins.FileMonitoring.FileSystem')}</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.fileMonitoring.fileSystem')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

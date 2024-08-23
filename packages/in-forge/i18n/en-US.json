@@ -819,6 +819,7 @@
   "pluginName_remoteHost_1": "Remote Hosts",
   "pluginName_remoteHost_2": "Remote Hosts",
   "pluginName_remoteHost": "Remote Host",
+  "pluginName_fileMonitoring": "File Monitoring",
   "pluginName_httpd_plural": "Apache HTTPds",
   "pluginName_httpd_0": "Apache HTTPds",
   "pluginName_httpd_1": "Apache HTTPds",
@@ -8272,30 +8273,29 @@
       "httpRequests": "HTTP Requests",
       "device": "Device"
     },
-    "FileMonitoring": {
+    "fileMonitoring": {
       "dashboard": {
-        "name": "Situation",
-        "path": "path",
-        "pollingInterval": "polling Interval",
-        "severity": "severity",
-        "issueTriggered": "issueTriggered"
+        "name": "Monitor",
+        "path": "Path",
+        "pollingInterval": "Polling Interval (Seconds)",
+        "severity": "Severity",
+        "issueTriggered": "Issue Triggered"
       },
-      "FileSystem": "File Monitoring",
-      "Situations": "Situations",
+      "fileSystem": "File Monitoring",
+      "monitors": "Monitors",
       "host": "Host",
       "user": "User",
-      "group": "Group",
-      "maxOpenFiles":"Max Open Files"
+      "group": "Group"
     },
-    "FileMonitoringCondition": {
+    "fileMonitoringCondition": {
       "dashboard": {
         "attribute": "Attribute",
         "operator": "Operator",
         "reference": "reference",
         "actual": "Actual"
       },
-      "FileSystemCondition": "File Monitoring Condition",
-      "Conditions": "Condition",
+      "fileSystemCondition": "File Monitoring Condition",
+      "conditions": "Condition",
       "path": "Path",
       "interval":"Interval"
     },

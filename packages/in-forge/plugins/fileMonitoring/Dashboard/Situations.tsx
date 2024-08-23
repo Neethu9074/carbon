@@ -23,52 +23,58 @@ interface SituationsRow {
   key: string;
   snapshotId: string;
   timeConfig: string;
-  Situation: Map<string, number>;
+  monitor: any;
 }
 
 const cols = [
   {
-    title: t('in-forge:plugins.FileMonitoring.name'),
+    title: t('in-forge:plugins.fileMonitoring.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row: SituationsRow) {
-        return row.Situation.get('name');
+        return row.monitor.get('name');
       }
     }
   },
   {
-    title: t('in-forge:plugins.FileMonitoring.path'),
+    title: t('in-forge:plugins.fileMonitoring.dashboard.path'),
     type: 'string',
     typeArgs: {
       getValue(row: SituationsRow) {
-        return row.Situation.get('path');
+        return row.monitor.get('path');
       }
     }
   },
   {
-    title: t('in-forge:plugins.FileMonitoring.pollingInterval'),
-    type: 'string',
+    title: t('in-forge:plugins.fileMonitoring.dashboard.pollingInterval'),
+    type: 'number',
     typeArgs: {
+      getContent(value: number) {
+        return value;
+      },
       getValue(row: SituationsRow) {
-        return row.Situation.get('pollingInterval');
+        return row.monitor.get('interval');
       }
     }
   },
   {
-    title: t('in-forge:plugins.FileMonitoring.severity'),
+    title: t('in-forge:plugins.fileMonitoring.dashboard.severity'),
     type: 'string',
     typeArgs: {
       getValue(row: SituationsRow) {
-        return row.Situation.get('severity');
+        return row.monitor.get('severity');
       }
     }
   },
   {
-    title: t('in-forge:plugins.FileMonitoring.issueTriggered'),
+    title: t('in-forge:plugins.fileMonitoring.dashboard.issueTriggered'),
     type: 'string',
     typeArgs: {
+      getContent(value: string) {
+        return value;
+      },
       getValue(row: SituationsRow) {
-        return row.Situation.get('issueTriggered');
+        return row.monitor.get('issueTriggered') === 1 ? 'Yes' : 'No';
       }
     }
   }
@@ -76,38 +82,33 @@ const cols = [
 
 const Situations: React.FC<SituationsProps> = ({ snapshotId, timeConfig }) => {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'monitors'), [snapshotId]);
-
   if (!data) {
     return null;
   }
-
   const monitorData = (data as SnapshotData).get('raw_payload');
-
-  const rows: SituationsRow[] = monitorData
+  const rows: SituationsRow[] = [];
+  monitorData
     .keySeq()
     .toArray()
     .map((key: string) => {
-      const Situation = monitorData.get(key);
-      return {
-        key: String(key),
-        snapshotId,
-        timeConfig,
-        Situation
-      };
+      if (key !== 'itemIds') {
+        monitorData.get(key).forEach((monitor: any) => {
+          const monitorId = monitor.get('monitorId');
+          const situationEntry: any = {
+            key: monitorId,
+            snapshotId,
+            timeConfig,
+            monitor
+          };
+          rows.push(situationEntry);
+        });
+      }
     });
-
   if (rows.length === 0) {
     return null;
   }
 
-  return (
-    <Table
-      withoutPadding
-      cardTitle={t('in-forge:plugins.FileMonitoring.dashboard.Situations')}
-      cols={cols}
-      rows={rows}
-    />
-  );
+  return <Table withoutPadding cardTitle={t('in-forge:plugins.fileMonitoring.monitors')} cols={cols} rows={rows} />;
 };
 
 export default Situations;
