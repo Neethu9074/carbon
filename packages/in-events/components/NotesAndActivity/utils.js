@@ -42,8 +42,12 @@ export function validTextEntry(text) {
 export function noteNameAndTimeFormat(myBubble, note, date, type) {
   // const typeExt = type === 'external_note' || type === 'external_change';
   const typeNote = type === 'note';
+  const aiGen = type === 'ai_generated'
+
   if (myBubble && typeNote) {
     return `${t('in-events:notes.you')}: ${date}`;
+  } else if (aiGen) {
+    return `watsonx | ${date}`;
   } else if (typeNote) {
     return `${note?.author} | ${date}`;
   } else {

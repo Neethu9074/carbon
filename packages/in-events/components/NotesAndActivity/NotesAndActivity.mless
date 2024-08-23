@@ -6,12 +6,13 @@
 
 :local {
   .notes {
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
-    width: 20rem;
+    width: 22rem;
     // New header size
-    top: 55.97px;
+    margin-top: 0.75rem;
+    height: calc(100% - 15rem);
     right: 0;
     border: 1px solid var(--ids-color-option-neutral-300);
     background-color: var(--cds-layer-01);
@@ -19,7 +20,7 @@
 
   .notesHeaderWrapper {
     // same as the notes width - right padding in the header - left padding in notes
-    width: calc(20rem - 1.5rem - 15px);
+    width: calc(22.5rem - 1.5rem - 15px);
   }
 
   .headerWrapper {
@@ -39,6 +40,8 @@
   .quickActionWrapper {
     display: flex;
     padding: 15px;
+    box-shadow: 0 10px 30px -20px gray;
+    z-index: 10;
   }
 
   .quickActionsHeader {
@@ -55,14 +58,14 @@
   }
 
   .quickActionButtonContents {
-    display: contents;
-    gap: 1rem;
+    display: block;
+    padding-right: 10px;
   }
 
   .actionsButton {
     border-radius: 25px 25px 25px 25px;
     height: 0px;
-    padding-bottom: 15px;
+    padding-inline-end: 20px;
   }
 
   .closedNotesWrapper {
@@ -83,17 +86,19 @@
     fill: #595959;
   }
 
-  .addNoteButton {
-    width: 100%;
+  .aiIcon {
+    fill: white;
+    background-color: var(--cds-chat-avatar-user);;
+    border-radius: 25px 25px 25px 25px;
+  }
+  
+  .aiIconSlug {
+    border: 1px solid black;
   }
 
   .noteButtonWrapper {
     width: 50%;
     display: inline-flex;
-  }
-
-  .quickActionButtonWrapper {
-    padding-bottom: 5px;
   }
 
   .loading {
@@ -107,14 +112,15 @@
     overflow: auto;
     display: flex;
     flex-direction: column-reverse;
+    height: 100%;
   }
 
   .notesPresentHeight {
-    height: calc(100vh - 31.5rem);
+    height: calc(100vh - 32.25rem);
   }
 
   .notesEmptyHeight {
-    height: calc(100vh - 26.75rem);
+    height: calc(100vh - 29.75rem);
   }
 
   .bubble {
@@ -181,15 +187,16 @@
 
   .commentInputWrapperNotes {
     display: inline-flex;
-    align-items: center;
 
     .commentInputIcon {
       position: absolute;
       right: 0;
+      fill: blue;
     }
     :global(.cds--text-area) {
       border: none;
       padding: 15px 35px 15px 10px;
+      resize: none;
     }
     :global(.carbonIconButton) {
       display: flex;
