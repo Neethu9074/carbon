@@ -6,8 +6,8 @@
 import React from 'react';
 
 import { PaginatedResult, Result, SliConfigurationWithLastUpdated } from '@instana/types';
+import { IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { SvgIcon } from '@instana/components';
 
 import {
   isApplicationSliConfig,
@@ -132,7 +132,12 @@ const columnDefinitions: ColumnDefinition<SliConfiguration, InternalSliListProps
       return (
         <div className={locals.controls}>
           <Tooltip content={t('in-custom-dashboards:widgets.slo.sliList.viewCloneSliConfig')}>
-            <SvgIcon type="lib_actions_edit" className={locals.iconButton} onClick={() => onEdit(item)} />
+            <IconButton
+              kind="primary"
+              type="lib_actions_edit"
+              className={locals.iconButton}
+              onClick={() => onEdit(item)}
+            />
           </Tooltip>
         </div>
       );
@@ -150,7 +155,8 @@ const columnDefinitions: ColumnDefinition<SliConfiguration, InternalSliListProps
       return (
         <div className={locals.controls}>
           <Tooltip content={t('in-custom-dashboards:widgets.slo.sliList.delSliConfig')}>
-            <SvgIcon
+            <IconButton
+              kind="primary"
               type="lib_actions_delete"
               className={locals.iconButton}
               onClick={() => {
