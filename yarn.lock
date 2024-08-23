@@ -2944,9 +2944,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:4.16.0, @instana/components@npm:^4.16.0":
-  version: 4.16.0
-  resolution: "@instana/components@npm:4.16.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.16.0.tgz"
+"@instana/components@npm:4.20.0, @instana/components@npm:^4.20.0":
+  version: 4.20.0
+  resolution: "@instana/components@npm:4.20.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.20.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.62.1
@@ -2966,7 +2966,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 1323959539f7b3e47d2707a16fcd35db9c815587cd044ce4c8e3f30aaee3e0ca20d650bdfcb35e916e0bbe165b1763028c6e49a9fcac08293e443e89dade1ba9
+  checksum: 94f0cd2a6c6e9bb9e36ef6185cc38261e7e89f6cddb7a6ea75f0ae5b21600e35981c6816daee791d2e0cef14bc433805fb354985ebabc4d1eac8c30fd844c66b
   languageName: node
   linkType: hard
 
@@ -3071,11 +3071,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:4.1.15":
-  version: 4.1.15
-  resolution: "@instana/legacy@npm:4.1.15::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.1.15.tgz"
+"@instana/legacy@npm:4.1.19":
+  version: 4.1.19
+  resolution: "@instana/legacy@npm:4.1.19::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.1.19.tgz"
   dependencies:
-    "@instana/components": ^4.16.0
+    "@instana/components": ^4.20.0
     "@instana/design-tokens": ^1.27.3
     "@instana/format-date": ^1.6.7
     "@instana/format-numbers": ^1.5.5
@@ -3087,7 +3087,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: f8d4814959479f7cca82e707d1b33bb316d23fb047c37a6bd302a39d4d7aab93d95b2c8f42400aa15b49050e793b1dc9bc1f98465135dcab08217076ba871244
+  checksum: 70da359f31012f33b28e0f620c43cbe87a46700206e6fe1702fe85600a2da9f75123c09b7d0640d40afbc3d5e71a530900c6d66b091a66edc30b3c7f9a99650e
   languageName: node
   linkType: hard
 
@@ -3124,10 +3124,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/types@npm:1.281.524":
-  version: 1.281.524
-  resolution: "@instana/types@npm:1.281.524::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.281.524.tgz"
-  checksum: 2e544e810ebb81f36f2774fa14ec47306ff02f9e7e5c63916937c04abaabf57c63e934ab77440afe5e1921d07a6c34c0a04572240590f6a633dd12d9075c82dd
+"@instana/types@npm:1.282.56":
+  version: 1.282.56
+  resolution: "@instana/types@npm:1.282.56::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.282.56.tgz"
+  checksum: 19b2d4bc55a072ac80cf8c1b49c299994d768a12e6d1399765184c613cbf395521300d9cb3eb2fe2c2f72f1e493e9d9318a81facd14eca46441507a24db8bd31
   languageName: node
   linkType: hard
 
@@ -22997,7 +22997,7 @@ __metadata:
     "@codemirror/state": 6.2.0
     "@codemirror/theme-one-dark": ^6.0.0
     "@codemirror/view": 6.6.0
-    "@instana/components": 4.16.0
+    "@instana/components": 4.20.0
     "@instana/design-tokens": 1.27.3
     "@instana/eslint-config-commons": 1.2.3
     "@instana/format-date": 1.6.7
@@ -23006,12 +23006,12 @@ __metadata:
     "@instana/i18n": ^1.4.1
     "@instana/i18n-react": 1.5.7
     "@instana/import-sort-style-simon": 1.3.2
-    "@instana/legacy": 4.1.15
+    "@instana/legacy": 4.1.19
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.6.1
     "@instana/pseudo-translation": ^1.3.1
     "@instana/roemitter": ^1.3.2
-    "@instana/types": 1.281.524
+    "@instana/types": 1.282.56
     "@instana/utils": ^1.3.1
     "@lezer/common": ^1.0.2
     "@lezer/generator": ^1.5.0

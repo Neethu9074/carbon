@@ -156,7 +156,7 @@ module.exports = {
   syntheticMultiAppEnabled: true,
   carbonFileUploaderEnabled: true,
   syntheticMultiWebMobileEnabled: true,
-  assistMeEnabled: true,
+  assistmeEnabled: true,
   userProfileMenuEnabled: false,
   unitForInfraMetricsEnabled: true,
   applicationSmartAlertDialogView: true,

@@ -85,37 +85,43 @@ const ApiToken = (props: MatchParams): any => {
   const [state, setState] = useState(initialState);
   const { goToPath } = useNavigation();
 
-  const loadApiToken = useCallback((id: string): void => {
-    setState(prevState => ({
-      ...prevState,
-      loading: true,
-      error: false,
-      message: t('in-settings:tabs.loadingApiToken'),
-      form: null,
-      apiToken: null
-    }));
-
-    const result$ = getApiToken(id);
-    result$.once((apiToken: ApiTokenProps) => {
+  const loadApiToken = useCallback(
+    (id: string): void => {
       setState(prevState => ({
         ...prevState,
-        loading: false,
+        loading: true,
         error: false,
-        message: null,
-        apiToken,
-        form: createForm(apiToken)
+        message: t('in-settings:tabs.loadingApiToken'),
+        form: null,
+        apiToken: null
       }));
-    });
 
-    result$.errors().once(() => {
-      setState(prevState => ({
-        ...prevState,
-        loading: false,
-        error: true,
-        message: t('in-settings:tabs.failedToLoadApiToken')
-      }));
-    });
-  }, []);
+      const result$ = getApiToken(id);
+      result$.once((apiToken: ApiTokenProps) => {
+        const token = props.match.params.duplicateFrom
+          ? { ...apiToken, name: t('in-settings:tabs.duplicateTokenName', { apiTokenName: apiToken.name }) }
+          : apiToken;
+        setState(prevState => ({
+          ...prevState,
+          loading: false,
+          error: false,
+          message: null,
+          token,
+          form: createForm(token)
+        }));
+      });
+
+      result$.errors().once(() => {
+        setState(prevState => ({
+          ...prevState,
+          loading: false,
+          error: true,
+          message: t('in-settings:tabs.failedToLoadApiToken')
+        }));
+      });
+    },
+    [props.match.params.duplicateFrom]
+  );
 
   const initialize = useCallback(() => {
     if (props.match.params.id == 'new') {
@@ -126,6 +132,12 @@ const ApiToken = (props: MatchParams): any => {
         createNewToken: true,
         loading: false
       }));
+    } else if (props.match.params.duplicateFrom) {
+      setState(currentState => ({
+        ...currentState,
+        createNewToken: true
+      }));
+      loadApiToken(props.match.params.duplicateFrom);
     } else {
       setState(prevState => ({
         ...prevState,
@@ -133,7 +145,7 @@ const ApiToken = (props: MatchParams): any => {
       }));
       loadApiToken(props.match.params.id);
     }
-  }, [props.match.params.id, loadApiToken]);
+  }, [props.match.params.id, props.match.params.duplicateFrom, loadApiToken]);
 
   useEffect(() => {
     if (apiTokenDialogEnabled) {

@@ -16,6 +16,7 @@ import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
+import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
 import { serviceDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { serviceDashboard, summaryTab } from 'in-applications/navigation/paths';
@@ -25,12 +26,14 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import getService from 'in-applications/subscriptions/getService';
 import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
+import { servicesList } from 'in-applications/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
@@ -66,6 +69,7 @@ export default function ServiceDashboard({ location }) {
     location,
     onBoundaryStateChange: setUrlState
   };
+  const { createHref } = useNavigation();
 
   const missingBoundaryScope = props.applicationId && !props.boundaryScope;
   function getBoundaryScope([id, _missingBoundaryScope]) {
@@ -79,6 +83,17 @@ export default function ServiceDashboard({ location }) {
 
   const showAlertButton = role.canConfigureApplicationSmartAlerts;
 
+  if (!serviceId) {
+    return (
+      <InvalidUrlAlert
+        href={createHref({ ...location, pathname: servicesList })}
+        description={t('in-applications:dashboards.idNotPresent', {
+          id: 'Service ID'
+        })}
+        linkText={t('in-applications:linkViewAllServices')}
+      />
+    );
+  }
   return (
     <>
       <ViewTrackingMeta

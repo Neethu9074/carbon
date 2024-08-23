@@ -85,7 +85,12 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
       </Row>
       <Row>
         <Col lg={4}>
-          <IndicatorChart indicator={configuration.indicator} entity={configuration.entity} />
+          <IndicatorChart
+            entity={configuration.entity}
+            indicator={configuration.indicator}
+            timeWindow={configuration.timeWindow}
+            createdDate={configuration.createdDate}
+          />
         </Col>
         <Col lg={4}>
           <ErrorBudgetChart configuration={configuration} />

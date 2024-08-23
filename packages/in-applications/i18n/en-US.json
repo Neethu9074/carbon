@@ -122,6 +122,7 @@
   "messageSuccessfullySaved": "Successfully saved.",
   "messageErrorOccurred": "An error occurred, please try again.",
   "messageWaitForChanges": "It may take some time for your changes to apply.",
+  "linkViewAllApplications": "View all applications",
   "linkViewAllServices": "View all services",
   "linkViewAllEndpoints": "View all endpoints",
   "lineViewInAnalyze": "View in Analyze",
@@ -459,7 +460,9 @@
       "logMessagesDescription": "There were no log messages retrieved for the selected time range.",
       "endpointsTitle": "No endpoints available",
       "endpointsDescription": "There were no endpoints retrieved for the selected time range."
-    }
+    },
+    "pageCannotBeFound": "Page cannot be found",
+    "idNotPresent":"{{id}} is not present in the URL."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "The service is not in the current application.",

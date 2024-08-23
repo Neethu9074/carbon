@@ -21,6 +21,13 @@ const getAllSyntheticTestsForEntitySelection = createResultSubscriptionFactory<
   eventId: 'getAllSyntheticTestsForEntitySelection'
 });
 
+const getAllSyntheticCredentialsForEntitySelection = createResultSubscriptionFactory<
+  GroupPermissionEntitiesQuery,
+  Result<GroupPermissionEntity[]>
+>({
+  eventId: 'getAllSyntheticCredentialsForEntitySelection'
+});
+
 export default getAllSyntheticTestsForEntitySelection;
 
 interface QueryParams {
@@ -35,6 +42,22 @@ export function getAllSyntheticTestsForEntitySelectionWithDefaults({
   timeConfig
 }: QueryParams) {
   return getAllSyntheticTestsForEntitySelection({
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      timeConfig
+    }
+  });
+}
+
+export function getAllSyntheticCredentialsForEntitySelectionWithDefaults({
+  orderBy = 'name',
+  orderDirection = 'ASC',
+  timeConfig
+}: QueryParams) {
+  return getAllSyntheticCredentialsForEntitySelection({
     order: {
       by: orderBy,
       direction: orderDirection

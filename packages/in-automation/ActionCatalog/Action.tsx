@@ -49,13 +49,13 @@ import {
 } from 'in-automation/ActionCatalog/shared';
 import { createActionTracker, editActionTracker, copyAIGenaratedActionTracker } from 'in-automation/tracker';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import { actionDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import useNavigateToActionCatalog from './useNavigateToActionCatalog';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ActionForm from 'in-automation/ActionCatalog/ActionForm';

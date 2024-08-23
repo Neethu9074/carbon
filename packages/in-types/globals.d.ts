@@ -69,7 +69,13 @@ export interface User {
   preferredName: string;
 }
 
+interface ReportingData {
+  hasEntities: boolean;
+  hostCount: number;
+  serverlessCount: number;
+}
 declare interface InstanaGlobals {
+  reportingData?: ReportingData;
   user?: User;
   settings?: UiSettings;
   numberLocale?: FormatLocaleDefinition;

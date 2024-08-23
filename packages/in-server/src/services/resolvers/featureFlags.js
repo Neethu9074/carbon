@@ -151,8 +151,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'assistMeEnabled',
-    instanaCtlKey: 'feature.assistMe.enabled',
+    uiClientKey: 'assistmeEnabled',
+    instanaCtlKey: 'feature.assistme.enabled',
     defaultValue: false
   },
   {
@@ -408,7 +408,7 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticCertificateCheckEnabled',
     instanaCtlKey: 'feature.synthetic.certificate.check.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'syntheticRbacLimitedTPEnabled',

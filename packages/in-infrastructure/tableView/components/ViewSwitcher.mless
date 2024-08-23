@@ -11,8 +11,18 @@
     align-items: flex-end;
   }
   .betaPill {
-    background-color: var(--ids-color-option-neutral-200);
-    color: var(--ids-color-option-neutral-700);
+    /*
+      The beta-badge is implemented as a blue pill.
+      This is rendered here in g100 - theme which is not 100% supported by
+      our carbon pill.
+
+      To adopt the coloring so that it works well in g100 theme, the
+      design tokens will be adjusted until there is a way to configure
+      it in the ui-foundation package
+    */
+    --cds-tag-background-blue: var(--ids-color-option-neutral-200);
+    --cds-tag-color-blue: var(--ids-color-option-neutral-700);
+
     margin-left: 0.5rem;
   }
 }

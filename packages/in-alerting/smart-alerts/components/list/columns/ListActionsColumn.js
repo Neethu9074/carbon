@@ -97,7 +97,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
             </MoreMenuButton>
           )}
-          {handleEditNew && handleEditNew(config)}
+          {handleEditNew && !builtIn && handleEditNew(config)}
           {handleClone && (
             <MoreMenuButton
               icon="lib_actions_copy"
@@ -109,7 +109,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
             </MoreMenuButton>
           )}
-          {handleCloneNew && handleCloneNew(config)}
+          {handleCloneNew && !builtIn && handleCloneNew(config)}
           {!builtIn && handleDelete && (
             <MoreMenuButton
               icon="lib_actions_delete"

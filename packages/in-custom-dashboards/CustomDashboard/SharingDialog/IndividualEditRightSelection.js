@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Ul, Li, ColumnizedContent, KeyValue, SvgIcon, Button, Select } from '@instana/components';
+import { Ul, Li, ColumnizedContent, KeyValue, IconButton, Button, Select } from '@instana/components';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
@@ -40,7 +40,12 @@ const columnDefinitions = [
             { fullName: user.fullName }
           )}
         >
-          <SvgIcon className={locals.delete} type="lib_actions_delete" onClick={() => removeEditor(user.id)} />
+          <IconButton
+            kind="primary"
+            className={locals.delete}
+            type="lib_actions_delete"
+            onClick={() => removeEditor(user.id)}
+          />
         </Tooltip>
       );
     }

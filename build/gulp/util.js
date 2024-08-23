@@ -57,7 +57,7 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     mixpanelToken: 'd77cf014d1859ac6ebf349b214579823',
     featureFlags: require(paths.featureFlags),
     configuration: { maxAllowedAlertingConfigurations: 200 },
-
+    segmentKey: 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
     agentEndpoint: 'ingress-pink-saas.instana.rocks',
     agentEndpointPort: 443,
     serverlessEndpoint: 'https://serverless-pink-saas.instana.rocks',

@@ -38,8 +38,9 @@ export default function ErrorBudgetChart({
   configuration,
   title
 }: ErrorBudgetChartProps) {
-  const { indicator, entity, lastUpdated } = configuration;
+  const { indicator, entity, createdDate, timeWindow } = configuration;
 
+  const missingDataIndicator = timeWindow.type === 'fixed' ? timeWindow.startTimestamp : createdDate;
   const sloZoomInAction = useSloZoomInAction();
   const granularity = calculateSloGranularity(timeConfig);
 
@@ -58,7 +59,7 @@ export default function ErrorBudgetChart({
 
   const formatter = indicator.type === 'timeBased' ? minutes.fixedCompact : number.compact;
   const renderer = useLineWithMissingDataIndicatorRenderer({
-    firstCollectedMetricTimestamp: lastUpdated
+    firstCollectedMetricTimestamp: missingDataIndicator
   });
 
   const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);

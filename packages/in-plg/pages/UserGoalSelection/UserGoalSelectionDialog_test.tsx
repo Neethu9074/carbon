@@ -60,14 +60,14 @@ describe('in-plg/pages/UserGoalSelectionDialog', () => {
     expect(segmentTrackingFunc).toHaveBeenLastCalledWith('User goal: Other goal', ctaClicked, value);
   });
 
-  test('should instrument the goal selection colse to segment', () => {
+  test('should instrument the close action of goal selection to the segment', () => {
     const { container } = render(<UserGoalSelectionDialog />);
     const closeButton = container.querySelector('.legacyIconButton button');
     fireEvent.click(closeButton as any);
     expect(segmentTrackingFunc).toHaveBeenLastCalledWith(GOAL_SELECTION.SEGMENT_MESSAGE.CLOSE, ctaClicked);
   });
 
-  test('should instrument the goal selection skip to segment', () => {
+  test('should instrument the skip action of goal selection to the segment', () => {
     render(<UserGoalSelectionDialog />);
     const skipButton = screen.getByText(t('in-plg:userGoalSelectionDialog.skip'));
     fireEvent.click(skipButton as any);

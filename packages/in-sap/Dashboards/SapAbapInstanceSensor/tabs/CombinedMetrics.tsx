@@ -78,6 +78,10 @@ export default function CombinedMetrics({ snapshotId, timeConfig }: UserStatsPro
         timeConfig,
         userStats
       };
+    })
+    .filter((row: UserStatsRow) => {
+      const userValue = row.userStats.get('account');
+      return typeof userValue === 'string' && userValue !== 'UNKNOWN';
     });
 
   function getDetails(row: UserStatsRow) {

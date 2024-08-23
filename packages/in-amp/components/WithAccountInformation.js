@@ -32,13 +32,15 @@ function WithAccountInformation({ children, environments }) {
   // Do not show aggregated metrics, based on feature flag
   const canShowAggregatedMetrics = !onPremLicenseInformationEnabled && containsPaidLicenses(environments);
   const unitSelectorOptions = environments.map(mapEnvironmentToComboBoxItem);
-  const hasSyntheticAddons = syntheticAddons(environments);
+  const hasSyntheticAddon = syntheticAddons(environments);
+  const hasLoggingAddon = loggingAddons(environments);
 
   return children({
     getCurrentTenantOption,
     unitSelectorOptions,
     canShowAggregatedMetrics,
-    hasSyntheticAddons
+    hasSyntheticAddon,
+    hasLoggingAddon
   });
 }
 
@@ -53,6 +55,16 @@ function syntheticAddons(licenses) {
   }
   return false;
 }
+
+function loggingAddons(licenses) {
+  return licenses.some(
+    licObj =>
+      licObj?.activeLicenses?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0) ||
+      licObj?.expiredLicenses?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0) ||
+      licObj?.queuedLicense?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0)
+  );
+}
+
 function getCurrentTenantOption(unitSelectorOptions) {
   return (
     unitSelectorOptions.find(({ value }) => value.tenant === config.tenant && value.unit === config.tenantUnit) ??
