@@ -10,8 +10,9 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 
 import { Stack, SvgIcon, Typography, Checkbox, Button } from '@instana/components';
-import { ApiGroup } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { ApiGroup } from '@instana/types';
+
 import {
   FieldsProps,
   OnChangeProps,
@@ -370,7 +371,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                 {(form as any).map((invite: MapForm<any>, index: number) => (
                   <Row key={index} className={locals.emailAndGroupRow}>
                     {(invite.get('email') as Field<string>).map((field: Field<string>) => (
-                      <Col xs={9}>
+                      <Col xs={8}>
                         <Fields helpText={index === 0 ? t('in-settings:ShareAndInviteDialogBox.emailAddress') : null}>
                           <Input
                             value={field.value}
@@ -397,15 +398,12 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                       </Col>
                     ))}
                     {(invite.get('groupId') as Field<string>).map((field: Field<string>) => (
-                      <Col xs={3}>
+                      <Col xs={4}>
                         <Fields
                           helpText={index === 0 ? t('in-settings:ShareAndInviteDialogBox.group') : null}
                           helpTextIcon={
                             index === 0 ? (
-                              <Tooltip
-                                content={t('in-settings:ShareAndInviteDialogBox.groupToolTip')}
-                                align="topMiddle"
-                              >
+                              <Tooltip content={t('in-settings:ShareAndInviteDialogBox.groupToolTip')} align="auto">
                                 <SvgIcon size="xxs" type="lib_help_error_info_outline" />
                               </Tooltip>
                             ) : null
