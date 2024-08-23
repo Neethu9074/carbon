@@ -23,6 +23,20 @@
       "copied": "Copied!",
       "showMore": "Show more",
       "showLess": "Show less"
+    },
+    "menu": {
+      "sideNavigation": "Side navigation"
+    },
+    "carbonTabs": {
+      "tabs": "Tabs"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "data table toolbar"
+      },
+      "tableTabs": {
+        "listOfTabs": "List of tabs"
+      }
     }
   },
   "formatDate": {
