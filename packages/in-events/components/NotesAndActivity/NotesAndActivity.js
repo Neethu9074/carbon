@@ -166,19 +166,15 @@ export function NotesAndActivity(props) {
           </div>
         ) : (
           <>
-            <div className={locals.inputSection}>
-              {notesExist && (
-                <div className={locals.searchNotes}>
-                  <CarbonSearch
-                    placeholder="Search notes and activity"
-                    onChange={e => {
-                      setSearchInput(e?.target?.value);
-                    }}
-                  />
-                </div>
-              )}
-              <QuickActions />
-            </div>
+            {notesExist && (
+              <CarbonSearch
+                placeholder="Search notes and activity"
+                onChange={e => {
+                  setSearchInput(e?.target?.value);
+                }}
+              />
+            )}
+            <QuickActions />
             <CommentList notes={filteredNotes} preferredName={user.preferredName} notesExist={notesExist} />
             <CommentInput note={note} user={user} setNote={setNote} incidentId={incidentId} />
           </>
@@ -226,7 +222,6 @@ export function CommentList(props) {
         [locals.notesEmptyHeight]: !notesExist
       })}
     >
-      {notes?.length == 0 && <EmptyState notesExist={notesExist} />}
       {notes &&
         notes.map((entry, i) => {
           // Using i to iterate helps us traverse backwards that way notes are displayed
@@ -276,6 +271,30 @@ export function ChatBubble(props) {
   );
 }
 
+// Main view that gives an overview for this side panel
+// Gives the user the options to add a note or generate a summary
+export function QuickActions() {
+  return (
+    <div className={locals.quickActionWrapper}>
+      <SvgIcon className={locals.questionIcon} type="lib_help_error_help_circle" />
+      <div>
+        <div className={locals.quickActionsHeader}>{t('in-events:notes.summarizeIncident')}</div>
+        <div className={locals.quickActionsDescription}>{t('in-events:notes.summarizeIncidentDescription')}</div>
+        <div className={locals.quickActionButtonWrapper}>
+          <CarbonButton
+            kind={'tertiary'}
+            className={locals.actionsButton}
+            size={'sm'}
+            renderIcon={() => <SvgIcon type="lib_generate_ai" color="currentColor" />}
+          >
+            <div className={locals.quickActionButtonContents}>{t('in-events:notes.generateSummary')}</div>
+          </CarbonButton>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Handle the note submission
 // Requires the incidentID, note, user, and setNote function
 // Dont allow the annotateEvent call if note is empty
@@ -304,38 +323,4 @@ export function handleSubmitNote(incidentId, note, user, setNote) {
     }
     track(EVENT_NOTES_SUBMIT, { incidentId, author: userName });
   }
-}
-
-// Basic empty state for notes
-export function EmptyState(props) {
-  const { notesExist } = props;
-  return (
-    <div className={locals.emptyWrapper}>
-      <h3 className={locals.emptyHeader}>
-        {(notesExist && 'No notes given then search!') || t('in-events:notes.noNotes')}
-      </h3>
-      <p className={locals.emptyInfo}>
-        {(notesExist && 'Update search criteria') || t('in-events:notes.noNotesDetails')}
-      </p>
-    </div>
-  );
-}
-
-// Main view that gives an overview for this side panel
-// Gives the user the options to add a note or generate a summary
-export function QuickActions() {
-  return (
-    <>
-      <div className={locals.quickActionsHeader}>{t('in-events:notes.quickActions')}</div>
-      <div className={locals.quickActionsDescription}>{t('in-events:notes.quickActionsDescription')}</div>
-      <div className={locals.quickActionButtonWrapper}>
-        <CarbonButton kind={'tertiary'} className={locals.actionsButton} size={'sm'}>
-          <div className={locals.quickActionButtonContents}>
-            {t('in-events:notes.generateSummary')}
-            <SvgIcon type="lib_infra_ai" />
-          </div>
-        </CarbonButton>
-      </div>
-    </>
-  );
 }

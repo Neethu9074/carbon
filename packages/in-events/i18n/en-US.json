@@ -248,8 +248,8 @@
     "noNotesDetails": "Get started by adding a note for your team.",
     "cancel": "Cancel",
     "typeSomething": "Type something...",
-    "quickActions": "Quick actions",
-    "quickActionsDescription": "Share and view notes with your team. As well as seeing the overall activity related to this incident.",
+    "summarizeIncident": "Summarize this incident?",
+    "summarizeIncidentDescription": "Try summarizing this incident, to help you and your team gain a quick understanding of what has happened.",
     "generateSummary": "Generate a summary",
     "addComment": "Add a comment"
   }

@@ -32,6 +32,15 @@
     color: var(--cds-text-primary);
   }
 
+  .questionIcon {
+    padding-right: 10px;
+  }
+
+  .quickActionWrapper {
+    display: flex;
+    padding: 15px;
+  }
+
   .quickActionsHeader {
     font-weight: 600;
     font-size: 14px;
@@ -45,14 +54,8 @@
     padding-bottom: 15px;
   }
 
-  .searchNotes {
-    padding-bottom: 15px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--ids-color-option-neutral-300);
-  }
-
   .quickActionButtonContents {
-    display: inline-flex;
+    display: contents;
     gap: 1rem;
   }
 
@@ -99,17 +102,11 @@
     padding: 10rem;
   }
 
-  .inputSection {
-    border-bottom: 1px solid var(--ids-color-option-neutral-300);
-    padding: 15px;
-  }
-
   .notesSection {
     padding: 0px 15px 35px 15px;
     overflow: auto;
     display: flex;
     flex-direction: column-reverse;
-    background-image: linear-gradient(white 80%, #77a2fb52);
   }
 
   .notesPresentHeight {
