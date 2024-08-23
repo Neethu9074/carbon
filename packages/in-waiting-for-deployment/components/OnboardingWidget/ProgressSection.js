@@ -6,13 +6,14 @@
 import React from 'react';
 
 import ProgressInformation from 'in-waiting-for-deployment/components/OnboardingWidget/ProgressInformation';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from './ProgressSection.mless';
 
 export default function ProgressSection(props) {
   return (
-    <div className={locals.section}>
+    <div className={carbonButtonEnabled ? locals.carbonSection : locals.section}>
       <div className={locals.leftContent}>
         <div>{getText(props)}</div>
       </div>

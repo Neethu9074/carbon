@@ -37,7 +37,7 @@ export default function Issue({ issue, getIssueLink }) {
           size="s"
           className={classNames({
             [locals.icon]: true,
-            [locals.iconWarning]: !(severity > 5)
+            [locals.iconWarning]: !(severity > 5) && severity !== 0
           })}
         />
         {issue.problem.problemText}

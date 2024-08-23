@@ -184,7 +184,8 @@ export const eventAndAlertCapabilities: Array<CapabilityType> = [
 export const mixedCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
   Capability.CAN_CONFIGURE_RELEASES,
-  Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION
+  Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION,
+  Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT
 ];
 
 export const logCapabilities: Array<CapabilityType> = [

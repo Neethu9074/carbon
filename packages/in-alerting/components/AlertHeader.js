@@ -234,7 +234,7 @@ export default function AlertHeader({
                   />
                 </Tooltip>
               )}
-              {displayTearSheetActions && (
+              {!alertConfig?.builtIn && displayTearSheetActions && (
                 <Tooltip content={getButtonName(t('in-alerting:components.alertHeaderEditTooltip'))} delay={500}>
                   <IconButton
                     kind="primaryv2"
@@ -244,7 +244,7 @@ export default function AlertHeader({
                   />
                 </Tooltip>
               )}
-              {displayTearSheetActions && (
+              {!alertConfig?.builtIn && displayTearSheetActions && (
                 <Tooltip content={getButtonName(t('in-alerting:components.alertHeaderDuplicateTooltip'))} delay={500}>
                   <IconButton
                     kind="primaryv2"

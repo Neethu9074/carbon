@@ -26,6 +26,7 @@ import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/Ro
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
 import { clickSyntheticMonitoringTabInApplicationsTracker } from 'in-synthetics/tracker';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
@@ -37,6 +38,8 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { applicationsList } from 'in-applications/navigation/paths';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { alertsCategory } from 'in-applications/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -49,7 +52,6 @@ import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { error } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -78,6 +80,7 @@ export default function ApplicationDashboard({ location }: { location: Location 
     }).map(result => result?.data),
     [appId, timeConfig, boundaryScope]
   );
+  const { createHref } = useNavigation();
 
   const canConfigureApplications = useObservable(
     role?.canConfigureApplications
@@ -99,6 +102,18 @@ export default function ApplicationDashboard({ location }: { location: Location 
     onBoundaryStateChange: setUrlState,
     endpointTypes
   };
+
+  if (!appId) {
+    return (
+      <InvalidUrlAlert
+        href={createHref({ ...location, pathname: applicationsList })}
+        description={t('in-applications:dashboards.idNotPresent', {
+          id: 'Application ID'
+        })}
+        linkText={t('in-applications:linkViewAllApplications')}
+      />
+    );
+  }
   return (
     <>
       <ViewTrackingMeta
@@ -113,20 +128,7 @@ export default function ApplicationDashboard({ location }: { location: Location 
         location={location}
         tabs={getApplicationTabs(canConfigureApplications)}
         props={tabViewProps}
-        result$={
-          tabViewProps.applicationId
-            ? getApplication({ id: tabViewProps.applicationId })
-            : just(
-                error([
-                  {
-                    message: t('in-applications:dashboards.idCannotBeBlank', {
-                      entity: 'Application'
-                    }),
-                    code: 'CLIENT'
-                  }
-                ])
-              )
-        }
+        result$={getApplication({ id: tabViewProps.applicationId })}
         withProps={({ result }) => ({
           applicationName: get(result, ['data', 'label'])
         })}

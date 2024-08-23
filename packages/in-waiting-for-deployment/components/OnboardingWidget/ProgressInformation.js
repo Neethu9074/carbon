@@ -6,9 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Button } from '@instana/components';
 
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from './ProgressInformation.mless';
@@ -44,13 +44,19 @@ export default function ProgressInformation({ getRedirectButtonProperties, isBac
         </div>
       </div>
 
-      <Button
-        style={{ opacity: buttonProps.disabled ? 0.5 : 1 }}
-        className={locals.goToInstanceButton}
-        kind="secondary"
-        icon="lib_arrow_expand_right"
-        {...buttonProps}
-      />
+      {carbonButtonEnabled ? (
+        <div className={locals.goToInstanceButtonCarbon}>
+          <Button kind="tertiary" darkTheme icon="lib_arrow_expand_right" {...buttonProps} />
+        </div>
+      ) : (
+        <Button
+          style={{ opacity: buttonProps.disabled ? 0.5 : 1 }}
+          className={locals.goToInstanceButton}
+          kind="secondary"
+          icon="lib_arrow_expand_right"
+          {...buttonProps}
+        />
+      )}
     </div>
   );
 }

@@ -855,5 +855,49 @@ export default [
     category: [t('in-forge:plugins.sapAbapInstanceSensor.systemLogErrors')],
     min: 0,
     formatter: number.compact
+  },
+  {
+    metrics: [
+      'workLoadStats.dialogResponseTime',
+      'workLoadStats.updateResponseTime',
+      'workLoadStats.spoolResponseTime',
+      'workLoadStats.bckgrdResponseTime',
+      'workLoadStats.enqueueResponseTime',
+      'workLoadStats.update2ResponseTime',
+      'workLoadStats.rfcResponseTime'
+    ],
+    labels: [
+      t('in-sap:dashboards.dialogRespTime'),
+      t('in-sap:dashboards.updateRespTime'),
+      t('in-sap:dashboards.spoolRespTime'),
+      t('in-sap:dashboards.bckgrdRespTime'),
+      t('in-sap:dashboards.enqueueRespTime'),
+      t('in-sap:dashboards.update2RespTime'),
+      t('in-sap:dashboards.rfcRespTime')
+    ],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metrics: [
+      'workLoadStats.avgDialogResponseTime',
+      'workLoadStats.avgUpdateResponseTime',
+      'workLoadStats.avgSpoolResponseTime',
+      'workLoadStats.avgBckgrdResponseTime',
+      'workLoadStats.avgEnqueueResponseTime',
+      'workLoadStats.avgUpdate2ResponseTime',
+      'workLoadStats.avgRfcResponseTime'
+    ],
+    labels: [
+      t('in-sap:dashboards.dialogRespTime'),
+      t('in-sap:dashboards.updateRespTime'),
+      t('in-sap:dashboards.spoolRespTime'),
+      t('in-sap:dashboards.bckgrdRespTime'),
+      t('in-sap:dashboards.enqueueRespTime'),
+      t('in-sap:dashboards.update2RespTime'),
+      t('in-sap:dashboards.rfcRespTime')
+    ],
+    min: 0,
+    formatter: millis.detailed
   }
 ];

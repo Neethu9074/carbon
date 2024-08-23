@@ -31,7 +31,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { assistMeEnabled } from 'in-services/featureFlags';
+import { assistmeEnabled } from 'in-services/featureFlags';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 import { invitedUserJoined } from 'in-settings/tracker';
 import { isLoading } from 'in-services/util/result';
@@ -171,7 +171,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
               <div className={locals.verticalLine} />
             </>
           )}
-          {assistMeEnabled && <AssistMe />}
+          {assistmeEnabled && <AssistMe />}
         </>
       )}
     </Stack>

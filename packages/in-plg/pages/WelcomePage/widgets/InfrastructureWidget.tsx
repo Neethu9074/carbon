@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { List } from 'immutable';
 
 import { Link, Typography, IconButton, TableTabs, TableTab } from '@instana/components';
@@ -85,7 +85,7 @@ function Toggles({
 }
 
 export default function InfrastructureWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: InfraProps) {
-  const [selectedType, setSelectedType] = useState('host');
+  const [selectedType, setSelectedType] = useState(sessionStorage.getItem('selectedInfraType') || 'host');
   const { location, createHref } = useNavigation();
   const getDashboardLink = useGetDashboardLink();
   const maxItemsInTable = 5;
@@ -96,6 +96,10 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
     { value: 'docker', label: 'Containers', index: 1 },
     { value: 'process', label: 'Processes', index: 2 }
   ];
+
+  useEffect(() => {
+    sessionStorage.setItem('selectedInfraType', selectedType);
+  }, [selectedType]);
 
   setOrDeleteMatrixKey(fullListViewLocation, physicalTablePath, 'plugin', selectedType);
 

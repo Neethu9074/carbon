@@ -598,7 +598,6 @@
     "systemLogStatistics": "System Log Statistics",
     "component": "Component",
     "logCount": "Count",
-    "severity": "Severity",
     "logCount": "Count",
     "rfcState":"RFC State",
     "functionModule": "Function Module",
@@ -639,7 +638,19 @@
     "spoolError": "Spool Error",
     "rfcSource": "RFC Source",
     "count": "Count",
-    "upTime": "Uptime"
+    "upTime": "Uptime",
+    "dialog": "Dialog",
+    "workLoadOverview" : "Workload Response Time",
+    "avgWorkLoadOverview": "Workload Response Time per step",
+    "dialogRespTime": "Dialog",
+    "updateRespTime" : "Update",
+    "spoolRespTime": "Spool",
+    "bckgrdRespTime": "Background",
+    "enqueueRespTime": "Enqueue",
+    "update2RespTime": "Update2",
+    "rfcRespTime": "RFC"
+
+
   },
   "viewAllEntityName_unknownEntity_plural": "all",
   "viewAllEntityName_unknownEntity_0": "all",

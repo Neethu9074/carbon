@@ -123,6 +123,9 @@ export const teamSettingsAccessLog = `${audit}/accessLog`;
 
 // integrations
 const integrations = `${teamSettings}/integrations`;
+// database integrations
+export const teamSettingsIntegrationsDatabase = `${integrations}/database`;
+export const teamSettingsIntegrationsDatabaseDbMarlin = `${teamSettingsIntegrationsDatabase}/dbMarlinConfiguration`;
 // logging integrations (from 2024-07)
 export const teamSettingsIntegrationsLogging = `${integrations}/logging`;
 export const teamSettingsIntegrationsLoggingCoralogix = `${teamSettingsIntegrationsLogging}/coralogixConfiguration`;

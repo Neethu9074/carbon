@@ -39,7 +39,7 @@ const localisationStrings = {
   configureIntegrations: t('in-settings:tabs.integrations.configureIntegrations')
 };
 
-export default function Integrations() {
+export default function LogIntegrations() {
   const { goToPath } = useNavigation();
   const isCancelled = useRef(false);
 

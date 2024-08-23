@@ -75,7 +75,8 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD: 'CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD',
   CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS: 'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
   CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS: 'CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS',
-  CAN_CONFIGURE_LOG_MANAGEMENT: 'CAN_CONFIGURE_LOG_MANAGEMENT',
+  CAN_CONFIGURE_LOG_MANAGEMENT: 'CAN_CONFIGURE_DATABASE_MANAGEMENT',
+  CAN_CONFIGURE_DATABASE_MANAGEMENT: 'CAN_CONFIGURE_LOG_MANAGEMENT',
   CAN_CONFIGURE_RELEASES: 'CAN_CONFIGURE_RELEASES',
   CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS: 'CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS',
   CAN_CONFIGURE_USERS: 'CAN_CONFIGURE_USERS',
@@ -492,6 +493,14 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     label: t('in-stores:permissionCanConfigureReleasesLabel'),
     description: t('in-stores:permissionCanConfigureReleasesDescription'),
     category: t('in-stores:permissionCanConfigureReleasesCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT,
+    keyForApiTokenApi: 'canConfigureDatabaseManagement',
+    label: t('in-stores:permissionCanConfigureDatabaseManagementLabel'),
+    description: t('in-stores:permissionCanConfigureDatabaseManagementDescription'),
+    category: t('in-stores:permissionCanConfigureDatabaseManagementCategory'),
     isOwnerPermission: false
   },
   [Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS]: {

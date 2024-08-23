@@ -12,7 +12,8 @@ import {
   teamSettingsIntegrationsLoggingHumio,
   teamSettingsAccessControlGroups,
   teamSettingsAlertingCustomPayloadConfiguration,
-  teamSettingsAlertingMaintenanceConfigurations
+  teamSettingsAlertingMaintenanceConfigurations,
+  teamSettingsIntegrationsDatabase
 } from 'in-settings/navigation/paths';
 import { productOwnerPermissions } from 'in-stores/permission';
 import { role } from 'in-stores/user';
@@ -29,6 +30,7 @@ export function roleHasAnyTeamPermissions() {
     role.canViewAuditLog ||
     role.canConfigureLogRetentionPeriod ||
     role.canConfigureLogManagement ||
+    role.canConfigureDatabaseManagement ||
     role.canViewLogVolume ||
     role.canDeleteLogs
   );
@@ -61,6 +63,9 @@ export function findFirstPermittedTeamPage() {
   }
   if (role.canConfigureLogManagement) {
     return teamSettingsIntegrationsLoggingHumio;
+  }
+  if (role.canConfigureDatabaseManagement) {
+    return teamSettingsIntegrationsDatabase;
   }
 }
 

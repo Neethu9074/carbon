@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { get } from 'lodash';
 
 import { LocationListItem, TestResultListItem, VersionedConfig } from '@instana/types';
@@ -86,7 +86,7 @@ export default function SyntheticMonitoringWidget({
   widgetLabel,
   dashboardTileProps
 }: SyntheticProps) {
-  const [selectedType, setSelectedType] = useState('test');
+  const [selectedType, setSelectedType] = useState(sessionStorage.getItem('selectedSyntheticType') || 'test');
   const { location, createHref, createHrefToPath } = useNavigation();
 
   const toggles = [
@@ -94,6 +94,10 @@ export default function SyntheticMonitoringWidget({
     { value: syntheticArrayOptions.location, label: 'Locations', index: 1, icon: 'lib_synthetic_location' },
     { value: syntheticArrayOptions.smartalerts, label: 'Smart Alerts', index: 2, icon: 'lib_alerts_alert' }
   ];
+
+  useEffect(() => {
+    sessionStorage.setItem('selectedSyntheticType', selectedType);
+  }, [selectedType]);
 
   /**
    * The function generates label which can be used as a placeholder text.

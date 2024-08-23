@@ -61,16 +61,6 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.severity'),
-    type: 'string',
-    sortable: true,
-    typeArgs: {
-      getValue(row: SystemLogStatsRow) {
-        return row.systemLogStats.get('severity');
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.messageId'),
     type: 'string',
     typeArgs: {
@@ -135,6 +125,9 @@ export default function SystemLogStats({ snapshotId, timeConfig }: SystemLogStat
       };
     });
 
+  const rowSev1: SystemLogStatsRow[] = rows.filter(row => Number(row.systemLogStats.get('severity')) === 1);
+  const rowSev2: SystemLogStatsRow[] = rows.filter(row => Number(row.systemLogStats.get('severity')) === 2);
+
   function getDetails(row: SystemLogStatsRow) {
     return (
       <div>
@@ -158,14 +151,30 @@ export default function SystemLogStats({ snapshotId, timeConfig }: SystemLogStat
     );
   }
   return (
-    <Table
-      withoutPadding
-      cardTitle={t('in-sap:dashboards.systemLogStatistics')}
-      cols={cols}
-      rows={rows}
-      initialSortColumn={0}
-      initialSortDirection="asc"
-      getRowDetails={getDetails}
-    />
+    <DashboardSection title={t('in-sap:dashboards.systemLogStatistics')}>
+      {rowSev1.length !== 0 && (
+        <Table
+          withoutPadding
+          cardTitle={t('in-sap:dashboards.severity1')}
+          cols={cols}
+          rows={rowSev1}
+          initialSortColumn={5}
+          initialSortDirection="desc"
+          getRowDetails={getDetails}
+        />
+      )}
+
+      {rowSev2.length !== 0 && (
+        <Table
+          withoutPadding
+          cardTitle={t('in-sap:dashboards.severity2')}
+          cols={cols}
+          rows={rowSev2}
+          initialSortColumn={5}
+          initialSortDirection="desc"
+          getRowDetails={getDetails}
+        />
+      )}
+    </DashboardSection>
   );
 }

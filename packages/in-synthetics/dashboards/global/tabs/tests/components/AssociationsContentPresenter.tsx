@@ -16,28 +16,45 @@ import { useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import { useGenerateLinkToWebsite } from 'in-websites/navigation/paths';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
-import { TestResultListItem } from 'in-types';
 
 import locals from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions.mless';
 
 interface Props {
-  item?: TestResultListItem;
   applicationIds: string[];
   applicationLabels: string[];
+  websiteIds: string[];
+  websiteLabels: string[];
+  mobileAppIds: string[];
+  mobileAppLabels: string[];
   shouldDisplayLink: boolean | undefined;
 }
 
-const ApplicationsContentPresenter = ({ item, applicationIds, applicationLabels, shouldDisplayLink }: Props) => {
-  const websiteLabels = item?.testResultCommonProperties.testCommonProperties?.getWebsiteLabels || [];
-  const mobileAppsLabels = item?.testResultCommonProperties.testCommonProperties?.mobileApplicationLabels || [];
+const AssociationsContentPresenter = ({
+  applicationIds,
+  applicationLabels,
+  websiteIds,
+  websiteLabels,
+  mobileAppIds,
+  mobileAppLabels,
+  shouldDisplayLink
+}: Props) => {
   const numberOfAssociations: number = syntheticMultiWebMobileEnabled
-    ? applicationLabels.length + websiteLabels.length + mobileAppsLabels.length
+    ? applicationLabels.length + websiteLabels.length + mobileAppLabels.length
     : applicationLabels.length;
 
   if (numberOfAssociations !== 0) {
     return (
       <Overlay
-        props={{ item, applicationIds, applicationLabels, shouldDisplayLink, numberOfAssociations }}
+        props={{
+          applicationIds,
+          applicationLabels,
+          websiteIds,
+          websiteLabels,
+          mobileAppIds,
+          mobileAppLabels,
+          shouldDisplayLink,
+          numberOfAssociations
+        }}
         content={Content}
         align="auto"
       >
@@ -69,9 +86,12 @@ const ApplicationsContentPresenter = ({ item, applicationIds, applicationLabels,
 };
 
 interface ContentProps {
-  item: TestResultListItem | undefined;
   applicationIds: string[];
   applicationLabels: string[];
+  websiteIds: string[];
+  websiteLabels: string[];
+  mobileAppIds: string[];
+  mobileAppLabels: string[];
   shouldDisplayLink?: boolean;
   close: () => void;
   numberOfAssociations: number;
@@ -93,16 +113,20 @@ const Content = (props: ContentProps) => {
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
   const getLinkToWebsiteDashboard = useGenerateLinkToWebsite();
   const getLinkToMobileAppDashboard = useGenerateLinkToMobileApp();
-  const { item, applicationIds, applicationLabels, close, shouldDisplayLink = true, numberOfAssociations } = props;
+  const {
+    applicationIds,
+    applicationLabels,
+    websiteIds,
+    websiteLabels,
+    mobileAppIds,
+    mobileAppLabels,
+    close,
+    shouldDisplayLink = true,
+    numberOfAssociations
+  } = props;
   const appsMap = constructAssociationsMap(applicationLabels, applicationIds);
-
-  // New feature
-  const websiteLabels = item?.testResultCommonProperties.testCommonProperties?.getWebsiteLabels || [];
-  const websiteIds = item?.testResultCommonProperties.testCommonProperties?.websiteIds || [];
-  const mobileAppsLabels = item?.testResultCommonProperties.testCommonProperties?.mobileApplicationLabels || [];
-  const mobileAppsIds = item?.testResultCommonProperties.testCommonProperties?.mobileApplicationIds || [];
   const websiteMap = constructAssociationsMap(websiteLabels, websiteIds);
-  const mobileAppsMap = constructAssociationsMap(mobileAppsLabels, mobileAppsIds);
+  const mobileAppsMap = constructAssociationsMap(mobileAppLabels, mobileAppIds);
 
   const filterLabels = ['Applications', 'Websites', 'Mobile Apps'];
   const [activeLabel, setActiveLabel] = useState(filterLabels[0]);
@@ -155,9 +179,13 @@ const Content = (props: ContentProps) => {
               const websiteId = websiteMap?.get(label);
               return (
                 <Li key={generateUniqueShortId()} className={locals.issue}>
-                  <Link inline ellipsis href={getLinkToWebsiteDashboard(websiteId)}>
+                  {shouldDisplayLink ? (
+                    <Link inline ellipsis href={getLinkToWebsiteDashboard(websiteId)}>
+                      <span className={locals.label}>{label}</span>
+                    </Link>
+                  ) : (
                     <span className={locals.label}>{label}</span>
-                  </Link>
+                  )}
                 </Li>
               );
             })
@@ -168,20 +196,24 @@ const Content = (props: ContentProps) => {
     if (activeLabel === 'Mobile Apps') {
       return (
         <Ul className={locals.associationsList}>
-          {mobileAppsLabels.length === 0 ? (
+          {mobileAppLabels.length === 0 ? (
             <Li className={locals.issue}>
               <span className={locals.label}>
                 {t('in-synthetics:dashboard.testList.multiMobileDialog.noMobileAppsAssociated')}
               </span>
             </Li>
           ) : (
-            mobileAppsLabels.map(label => {
+            mobileAppLabels.map(label => {
               const mobileAppId = mobileAppsMap?.get(label);
               return (
                 <Li key={generateUniqueShortId()} className={locals.issue}>
-                  <Link inline ellipsis href={getLinkToMobileAppDashboard(mobileAppId)}>
+                  {shouldDisplayLink ? (
+                    <Link inline ellipsis href={getLinkToMobileAppDashboard(mobileAppId)}>
+                      <span className={locals.label}>{label}</span>
+                    </Link>
+                  ) : (
                     <span className={locals.label}>{label}</span>
-                  </Link>
+                  )}
                 </Li>
               );
             })
@@ -255,4 +287,4 @@ const Content = (props: ContentProps) => {
   );
 };
 
-export default ApplicationsContentPresenter;
+export default AssociationsContentPresenter;
