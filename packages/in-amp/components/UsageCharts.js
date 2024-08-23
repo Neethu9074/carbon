@@ -136,7 +136,6 @@ export default function UsageCharts({
       'bytes_ingested_eum_website'
     );
   }
-
   // APM Chart Y1 definition
   const apmChartY1 = isCumulativeTimeRange
     ? {
@@ -165,7 +164,6 @@ export default function UsageCharts({
         labels: [t('in-amp:components.usageCharts.apmHosts'), t('in-amp:components.usageCharts.purchased')],
         colors: [carbonAlert.blue70, carbonAlert.red60]
       };
-
   // IQM Chart Y1 definition
   const iqmChartsY1 = isCumulativeTimeRange
     ? {
@@ -194,6 +192,30 @@ export default function UsageCharts({
         labels: [t('in-amp:components.usageCharts.iqmHosts'), t('in-amp:components.usageCharts.purchased')],
         colors: [carbonAlert.blue70, carbonAlert.red60]
       };
+
+  // Logging Addon Chart Y1 and Y2 definitions
+  const LoggingAddonChartY1 = isCumulativeTimeRange
+    ? {
+        ...tenantUnit,
+        metrics: showTrendLine ? ['logging_trend_line', 'logging_cumulative'] : ['logging_cumulative'],
+        labels: showTrendLine
+          ? [t('in-amp:components.usageCharts.trendLine'), t('in-amp:components.usageCharts.consumedUnits')]
+          : [t('in-amp:components.usageCharts.consumedUnits')],
+        colors: showTrendLine ? [carbonAlert.gray60, '#17A1E6'] : ['#17A1E6']
+      }
+    : {
+        ...tenantUnit,
+        metrics: ['logging_total'],
+        labels: [t('in-amp:components.usageCharts.consumedUnits')],
+        colors: ['#17A1E6']
+      };
+
+  const LoggingAddonChartY2 = {
+    ...tenantUnit,
+    metrics: ['licensed_logging'],
+    labels: [t('in-amp:components.usageCharts.resourceUnits')],
+    colors: [carbonAlert.red60]
+  };
 
   return (
     <>
@@ -315,18 +337,8 @@ export default function UsageCharts({
                     timeRange={timeRange}
                     to={to}
                     showAggregatedMetrics={showAggregatedMetrics}
-                    y1={{
-                      ...tenantUnit,
-                      metrics: ['logging_total'],
-                      labels: [t('in-amp:components.usageCharts.consumedUnits')],
-                      colors: ['#17A1E6']
-                    }}
-                    y2={{
-                      ...tenantUnit,
-                      metrics: ['licensed_logging'],
-                      labels: [t('in-amp:components.usageCharts.resourceUnits')],
-                      colors: [carbonAlert.red60]
-                    }}
+                    y1={LoggingAddonChartY1}
+                    y2={LoggingAddonChartY2}
                   />
                 </Card>
               </Col>
