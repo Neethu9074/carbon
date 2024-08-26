@@ -300,8 +300,8 @@
     "labelExpandButtonForContent": "Expand button for content"
   },
   "featureFeedback": {
-    "labelPublicPreview": "Public Preview",
-    "labelPrivatePreview": "Private Preview",
+    "labelPublicPreview": "Preview",
+    "labelPrivatePreview": "Preview",
     "linkLabelYouCanSendUsFeedback": "You can send us feedback"
   },
   "geoHeatMap": {

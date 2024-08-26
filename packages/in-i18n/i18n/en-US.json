@@ -37,6 +37,10 @@
       "tableTabs": {
         "listOfTabs": "List of tabs"
       }
+    },
+    "pill": {
+      "privatePreview": "Preview",
+      "publicPreview": "Preview"
     }
   },
   "formatDate": {
