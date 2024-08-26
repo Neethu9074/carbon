@@ -30,6 +30,8 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './RetentionPeriod.mless';
+// eslint-disable-next-line no-restricted-imports
+import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
 
 const localisationStrings = {
   retentionPeriod: t('in-settings:tabs.retentionPeriod.retentionPeriod'),
@@ -113,7 +115,7 @@ export default function RententionPeriod() {
             <SubViewHeaderComponent>{localisationStrings.retentionPeriod}</SubViewHeaderComponent>
             <Typography variant="body-regular">
               {localisationStrings.aboutRetentionPeriod}
-              <Link external href="">
+              <Link external href={analyzeDocs.logs}>
                 {/* add in link when it has been supplied */}
                 {localisationStrings.learnMore}
               </Link>

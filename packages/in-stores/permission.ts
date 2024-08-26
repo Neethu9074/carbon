@@ -18,7 +18,9 @@ import {
   powervcEnabled,
   infraSmartAlertsEnabled,
   logSmartAlertsEnabled,
-  manuallyCloseEventEnabled
+  manuallyCloseEventEnabled,
+  logVolumePageEnabled,
+  logRetentionPageEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -762,6 +764,18 @@ export function getProductPermissions(): Array<ProductPermission> {
   if (!logSmartAlertsEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return keyForGroupApi !== Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS;
+    });
+  }
+
+  if (!logVolumePageEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return keyForGroupApi !== Capability.CAN_VIEW_LOG_VOLUME;
+    });
+  }
+
+  if (!logRetentionPageEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return keyForGroupApi !== Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD;
     });
   }
 
