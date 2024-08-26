@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { startCase } from 'lodash';
 
-import { Link, Stack, Typography, Button, ButtonGroup } from '@instana/components';
+import { Link, Stack, Typography, Button, ButtonGroup, Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
@@ -45,7 +45,6 @@ import { formatDateTime } from 'in-services/formatters/date';
 import List from 'in-settings/components/List';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration.mless';
@@ -192,6 +191,37 @@ const filteringMWList = (element, mwTypeView) => {
   return element.state === 'FINISHED' || element.state === 'UNSCHEDULED';
 };
 
+export function RecurrentMaintenanceWindowStatusCell({ state, paused }) {
+  {
+    let mwStatusLabel = state;
+    if ((mwStatusLabel === 'ACTIVE' || mwStatusLabel === 'SCHEDULED') && paused) {
+      mwStatusLabel = 'PAUSED';
+    }
+
+    const pillType = () => {
+      switch (mwStatusLabel) {
+        case 'ACTIVE':
+          return 'green';
+        case 'FINISHED':
+        case 'EXPIRED':
+          return 'gray';
+        case 'PAUSED':
+          return 'yellow';
+        case 'SCHEDULED':
+          return 'blue';
+        case 'UNSCHEDULED':
+          return 'purple';
+      }
+      return 'gray';
+    };
+    const mwStatusLabelText = t('in-settings:maintenanceWindow.status', {
+      context: mwStatusLabel.toLowerCase?.()
+    });
+
+    return <Pill type={pillType()}>{mwStatusLabelText}</Pill>;
+  }
+}
+
 const columnDefinitions = [
   {
     id: 'name',
@@ -311,31 +341,10 @@ const columnDefinitions = [
     ellipsis: true,
     getValue: entity => (entity.paused ? 'PAUSED' : entity.state),
     getContent: function Content(entity) {
-      if (!entity.state) return;
-      let mwStatusLabel = entity.state;
-      if ((mwStatusLabel === 'ACTIVE' || mwStatusLabel === 'SCHEDULED') && entity.paused) {
-        mwStatusLabel = 'PAUSED';
-      }
+      const { paused, state } = entity;
+      if (!state) return;
 
-      const mwColor = () => {
-        if (mwStatusLabel === 'ACTIVE') return themes.default.ids.color.option.green['500'];
-        if (mwStatusLabel === 'FINISHED' || mwStatusLabel === 'EXPIRED')
-          return themes.default.ids.color.option.neutral['500'];
-        if (mwStatusLabel === 'PAUSED') return themes.default.ids.color.option.yellow['500'];
-        if (mwStatusLabel === 'SCHEDULED') return themes.default.ids.color.option.blue['500'];
-        if (mwStatusLabel === 'UNSCHEDULED') return themes.default.ids.color.option['deep-purple']['500'];
-        return themes.default.ids.color.option.neutral['800'];
-      };
-      const mwStatusLabelText = t('in-settings:maintenanceWindow.status', { context: mwStatusLabel.toLowerCase() });
-      return (
-        <Pill color={mwColor()}>
-          {
-            <Typography variant="body-small" onDark={mwStatusLabel !== 'PAUSED'}>
-              {mwStatusLabelText}
-            </Typography>
-          }
-        </Pill>
-      );
+      return <RecurrentMaintenanceWindowStatusCell state={state} paused={paused} />;
     }
   }
 ];

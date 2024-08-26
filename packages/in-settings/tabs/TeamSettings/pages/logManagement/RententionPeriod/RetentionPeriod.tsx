@@ -189,14 +189,14 @@ function RetentionPeriodDialog({
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     //We can modify this to make any test case
-    if (!payload.reasonForChange || ![7, 20, 30, 60, 90].includes(payload.retentionDays)) {
+    if (!payload.reasonForChange || ![30, 60, 90].includes(payload.retentionDays)) {
       return 400;
     }
 
     return 200;
   };
 
-  const daysDropdownValues = [7, 20, 30, 60, 90];
+  const daysDropdownValues = [30, 60, 90];
 
   const {
     reasonInputValue,
@@ -291,7 +291,7 @@ function RetentionPeriodDialog({
 
   return (
     <Dialog className={locals.modalTitle} title={localisationStrings.modalTitle} onClose={closeConfirmationDialog}>
-      <section className={locals.confirmationDialogContent}>
+      <section className={locals.confirmationDialogContent} data-testid="logRetentionDialog">
         <Typography variant="body-regular">
           {localisationStrings.retentionDialogDescription.split('\n').map((line, index) => (
             <span key={index}>

@@ -64,7 +64,7 @@ export default function HealthIndicatorPresenter({
           size="s"
           className={classNames({
             [locals.icon]: true,
-            [locals.iconWarning]: !(maxSeverity > 5)
+            [locals.iconWarning]: !(maxSeverity > 5) && maxSeverity !== 0
           })}
         />
       </Tooltip>

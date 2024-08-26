@@ -12,9 +12,7 @@
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "复原",
     "alertHeaderRestoreDeleteTooltip": "删除",
     "alertHeaderEditTooltip": "编辑",
-    "alertHeaderEditTooltipNew": "编辑（新建）",
     "alertHeaderDuplicateTooltip": "复制",
-    "alertHeaderDuplicateTooltipNew": "复制（新建）",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "请确认",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "确定要除去警报 <strong>{{alertConfigName}}</strong> 吗？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
@@ -43,12 +41,15 @@
     "chart": {
       "alertingChartLabelThreshold": "阈值",
       "alertingChartLabelViolations": "违例",
+      "alertingChartLabelWarningThreshold": "警告阈值",
+      "alertingChartLabelCriticalThreshold": "关键阈值",
       "alertingChartLabelForecast": "预测",
       "alertingChartLabelUpperBound": "上限",
       "alertingChartLabelLowerBound": "下限",
       "alertingChartMessageInvalidFilterQuery": "过滤器查询无效。",
       "alertingChartMessageEmptyApplicationSelection": "未选择应用程序。",
       "chartAlertsLaneErrorMessage": "无法装入警告",
+      "chartAlertsLaneErrorMessageForTearSheet": "请输入有效的“触发后”数字 ",
       "chartAlertsPreviewLanePresenterAlertsLabel": "警报",
       "chartAlertsPreviewLanePresenterNoAlertsLabel": "无警报",
       "chartAlertsPreviewLanePresenterTooltip": "警报：{{count}}",
@@ -165,7 +166,11 @@
             "description": "针对此应用程序透视图单独发出警报",
             "globalDescription": "对每个应用程序透视图单独发出警报",
             "tearSheetSelectionText": "按应用程序分组",
-            "tearSheetDescription": "根据一个组的阈值对与过滤器匹配的调用进行评估。 发生违例时，将针对整个应用程序透视图发送单一警报通知。 "
+            "tearSheetDescription": "与过滤器匹配的调用将对照 {{count}} 个应用程序的阈值进行评估。 如果发生延迟违例，就会针对整个应用程序透视图发出警报通知。",
+            "tearSheetDescription_plural": "与过滤器匹配的调用将根据 {{count}} 个应用程序的阈值进行评估。 如果发生延迟违例，就会针对整个应用程序透视图发出警报通知。",
+            "tearSheetDescription_0": "与过滤器匹配的调用将根据 {{count}} 个应用程序的阈值进行评估。 如果发生延迟违例，就会针对整个应用程序透视图发出警报通知。",
+            "tearSheetDescription_1": "与过滤器匹配的调用将根据 {{count}} 个应用程序的阈值进行评估。 如果发生延迟违例，就会针对整个应用程序透视图发出警报通知。",
+            "tearSheetDescription_2": "与过滤器匹配的调用将根据 {{count}} 个应用程序的阈值进行评估。 如果发生延迟违例，就会针对整个应用程序透视图发出警报通知。 "
           },
           "evaluationTypePERAPSERVICE": {
             "selectionText": "此应用程序透视图的每个服务",
@@ -175,7 +180,11 @@
             "description": "针对此应用程序透视图的每个服务单独发出警报",
             "globalDescription": "针对每个应用程序透视图上下文中的每个服务单独发出警报",
             "tearSheetSelectionText": "按服务分组",
-            "tearSheetDescription": "根据八个组的阈值对与过滤器匹配的调用进行评估 - 每个服务对应一个组，并具有其自己的阈值。 当某个组存在违例时，将针对该组发送警报通知。"
+            "tearSheetDescription": "与过滤器匹配的调用将根据 {{count}} 个服务的阈值进行评估 - 每个服务一次调用而且每个服务都有自己的阈值。 当某个组发生延迟违例时，就会针对该组发送警报通知。",
+            "tearSheetDescription_plural": "与过滤器匹配的调用将根据 {{count}} 个服务的阈值进行评估 - 每个服务一次调用而且每个服务都有自己的阈值。 当某个组发生延迟违例时，就会针对该组发送警报通知。",
+            "tearSheetDescription_0": "与过滤器匹配的调用将根据 {{count}} 个服务的阈值进行评估 - 每个服务一次调用而且每个服务都有自己的阈值。 当某个组发生延迟违例时，就会针对该组发送警报通知。",
+            "tearSheetDescription_1": "与过滤器匹配的调用将根据 {{count}} 个服务的阈值进行评估 - 每个服务一次调用而且每个服务都有自己的阈值。 当某个组发生延迟违例时，就会针对该组发送警报通知。",
+            "tearSheetDescription_2": "与过滤器匹配的调用将根据 {{count}} 个服务的阈值进行评估 - 每个服务一次调用而且每个服务都有自己的阈值。 当某个组发生延迟违例时，就会针对该组发送警报通知。"
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "此应用程序透视图的每个端点",
@@ -185,7 +194,11 @@
             "description": "针对此应用程序透视图的每个端点单独发出警报",
             "globalDescription": "针对每个应用程序透视图上下文中的每个端点单独发出警报",
             "tearSheetSelectionText": "按端点分组",
-            "tearSheetDescription": "根据四十七个组的阈值对与过滤器匹配的调用进行评估 - 每个端点对应一个组，并具有其自己的阈值。 当某个组存在违例时，将针对该组发送警报通知。"
+            "tearSheetDescription": "与过滤器匹配的调用将根据 {{count}} 个端点的阈值进行评估 - 每个端点一次调用而且每个端点都有自己的阈值。 当某个组发生延迟违例时，就会针对该组发送警报通知。",
+            "tearSheetDescription_plural": "与过滤器匹配的调用将根据 {{count}} 个端点的阈值进行评估 - 每个端点一次调用而且每个端点都有自己的阈值。 当某个组发生延迟违例时，就会针对该组发送警报通知。",
+            "tearSheetDescription_0": "与过滤器匹配的调用将根据 {{count}} 个端点的阈值进行评估 - 每个端点一次调用而且每个端点都有自己的阈值。 当某个组发生延迟违例时，就会针对该组发送警报通知。",
+            "tearSheetDescription_1": "与过滤器匹配的调用将根据 {{count}} 个端点的阈值进行评估 - 每个端点一次调用而且每个端点都有自己的阈值。 当某个组发生延迟违例时，就会针对该组发送警报通知。",
+            "tearSheetDescription_2": "与过滤器匹配的调用将根据 {{count}} 个端点的阈值进行评估 - 每个端点一次调用而且每个端点都有自己的阈值。 当某个组发生延迟违例时，就会针对该组发送警报通知。"
           }
         },
         "inboundOutboundCalls": {
@@ -265,6 +278,9 @@
             "label": "有效内容",
             "title": "定制有效内容"
           }
+        },
+        "staticOrAdaptiveSwitch": {
+          "description": "避免对错误的指标使用自适应阈值，因为这些阈值可能无法触发针对逐渐增加的错误的警报。"
         }
       },
       "chart": {
@@ -288,8 +304,8 @@
           "name": "慢速调用",
           "headline": "慢速调用的自动警报",
           "text": "当调用此应用程序透视图的所选服务和端点的速度低于正常速度时，接收警报。",
-          "tearSheetHeadline": "调用计数的警报",
-          "tearSheetDescription": "当调用此应用程序透视图的所选服务和端点的速度比阈值慢时自动发出警报。"
+          "tearSheetHeadline": "针对性能较差的调用的自动警报",
+          "tearSheetDescription": "当调用此应用程序透视图的所选服务和端点的速度比阈值慢时，就会收到警报。"
         },
         "errors": {
           "name": "错误调用数",
@@ -301,6 +317,7 @@
         "logs": {
           "name": "日志",
           "headline": "错误和警告日志的自动警报",
+          "tearSheetHeadline": "针对错误和警告日志的自动警报",
           "text": "当出现给定错误和警告日志消息的调用数大于预期值时，将会收到警报。",
           "metricLabel": "调用数",
           "incompleteRuleMessage": "请选择“日志消息”以查看此警报的触发时间"
@@ -311,24 +328,24 @@
           "text": "每当匹配 HTTP 状态码的出现频率超出正常值时，接收警报。",
           "incompleteRuleMessage": "请选择“状态码”以查看此警报的触发时间",
           "tearSheetHeadline": "HTTP 状态码的自动警报",
-          "tearSheetDescription": "当匹配的 HTTP 状态码出现的频率高于阈值时接收警报。"
+          "tearSheetDescription": "当匹配的 HTTP 状态码出现的频率高于阈值时，就会收到警报。"
         },
         "throughput": {
           "name": "吞吐量",
           "headline": "调用计数的自动警报",
           "text": "此应用程序透视图的所选服务和端点的调用数异常低或异常高时自动发出警报。",
           "metricLabel": "调用数",
-          "tearSheetHeadline": "页面浏览量的自动警报",
-          "tearSheetDescription": "当此应用程序透视图的所选服务和端点的调用数异常低或高时自动发出警报。"
+          "tearSheetHeadline": "针对吞吐量的自动警报",
+          "tearSheetDescription": "当针对此应用程序透视图的所选服务和端点的调用次数异常高或异常低时，就会收到警报。"
         },
         "simpleMode": {
           "unexpectedDrop": {
-            "name": "调用数异常低",
+            "name": "调用次数较低",
             "headline": "调用数异常低时自动发出警报",
             "text": "当与可用的过往数据相比，调用数显著低于预期时，接收警报。这可能指示此应用程序上游存在问题或应用程序的用户流量下降。"
           },
           "unexpectedlyHighNumber": {
-            "name": "调用数异常高",
+            "name": "调用次数较高",
             "headline": "调用数异常高时自动发出警报",
             "text": "当与可用的过往数据相比，调用数显著高于预期时，接收警报。这可能指示攻击或机器人向应用程序生成过多请求。"
           }
@@ -351,14 +368,22 @@
           "throughputLow": "调用数异常低"
         },
         "descriptionPlaceholder": {
-          "errorRate_higherThan": "错误调用率高于 {{valueRoundedToDecimals}}%。",
-          "errorRate_higherEqual": "错误调用率高于或等于 {{valueRoundedToDecimals}}%。",
-          "errorRate_lowerThan": "错误调用率低于 {{valueRoundedToDecimals}}%。",
-          "errorRate_lowerEqual": "错误调用率低于或等于 {{valueRoundedToDecimals}}%。",
-          "errorCount_higherThan": "错误调用数高于 {{valueRoundedToDecimals}}。",
-          "errorCount_higherEqual": "错误调用数大于或等于 {{valueRoundedToDecimals}}。",
-          "errorCount_lowerThan": "错误调用数小于 {{valueRoundedToDecimals}}。",
-          "errorCount_lowerEqual": "错误调用数小于或等于 {{valueRoundedToDecimals}}。",
+          "errorRateStaticThreshold_higherThan": "错误调用率高于 {{valueRoundedToDecimals}}%。",
+          "errorRateStaticThreshold_higherEqual": "错误调用率高于或等于 {{valueRoundedToDecimals}}%。",
+          "errorRateStaticThreshold_lowerThan": "错误调用率低于 {{valueRoundedToDecimals}}%。",
+          "errorRateStaticThreshold_lowerEqual": "错误调用率低于或等于 {{valueRoundedToDecimals}}%。",
+          "errorRateDefault_higherThan": "错误调用率高于预期。",
+          "errorRateDefault_higherEqual": "错误调用率高于或等于预期。",
+          "errorRateDefault_lowerThan": "错误调用率低于预期。",
+          "errorRateDefault_lowerEqual": "错误调用率低于或等于预期。",
+          "errorCountStaticThreshold_higherThan": "错误调用数高于 {{valueRoundedToDecimals}}。",
+          "errorCountStaticThreshold_higherEqual": "错误调用数大于或等于 {{valueRoundedToDecimals}}。",
+          "errorCountStaticThreshold_lowerThan": "错误调用数小于 {{valueRoundedToDecimals}}。",
+          "errorCountStaticThreshold_lowerEqual": "错误调用数小于或等于 {{valueRoundedToDecimals}}。",
+          "errorCountDefault_higherThan": "错误调用次数高于预期。",
+          "errorCountDefault_higherEqual": "错误调用次数高于或等于预期。",
+          "errorCountDefault_lowerThan": "错误调用次数低于预期。",
+          "errorCountDefault_lowerEqual": "错误调用次数低于或等于预期。",
           "slownessStaticThreshold_slowerThan": "基于等待时间 ({{aggregationText}})，调用时间超过 {{thresholdValue}} 毫秒。",
           "slownessStaticThreshold_slowEqual": "基于等待时间 ({{aggregationText}})，调用时间超出或等于 {{thresholdValue}} 毫秒。",
           "slownessStaticThreshold_below": "基于等待时间 ({{aggregationText}})，调用时间在 {{thresholdValue}} 毫秒以下。",
@@ -443,7 +468,6 @@
         "thresholdFormBaselineIsEmpty": "基线为空"
       },
       "simple": {
-        "simpleAlertStep1Headline": "选择要针对其发出警报的问题",
         "simpleAlertStep2Headline": "您希望在何处触发警报？",
         "step1Title": "步骤 1：选择警报",
         "step2Title": "步骤 2：选择作用域",
@@ -451,9 +475,7 @@
       },
       "components": {
         "createSmartAlert": "添加智能警报",
-        "createSmartAlertNew": "添加智能警报（新增）",
         "createGlobalSmartAlert": "添加全局智能警报",
-        "createGlobalSmartAlertNew": "添加全局智能警报（新增）",
         "provideLogMessageSelectLogMessage": "选择日志消息",
         "provideLogMessageLogLevel": "日志级别",
         "provideLogMessageErrorMessage": "错误消息",
@@ -470,9 +492,8 @@
         "getSubtitleForStaticWeeklySeasonality": "静态每周季节性：{{metricLabel}}",
         "getSubtitleForAdaptiveThreshold": "自适应阈值：{{metricLabel}}",
         "labelActionButtonEdit": "编辑",
-        "labelActionButtonEditNew": "编辑（新建）",
+        "labelNew": "（新）",
         "labelActionButtonDuplicate": "复制",
-        "labelActionButtonDuplicateNew": "复制（新建）",
         "labelActionButtonDelete": "删除",
         "labelAlertFilters": "过滤器",
         "labelConfirm": "请确认",
@@ -502,14 +523,33 @@
         "eventsCriticalIcon": "事件关键图标"
       },
       "tearSheet": {
-        "step1Title": "选取警报模板",
+        "step1Title": "选择模板",
         "step2Title": "定义作用域",
         "step3Title": "定义分组",
         "step4Title": "定义何时收到警报",
-        "step5Title": "定义警报属性和通道",
+        "alertHeadline": "选择您希望收到警报的内容",
+        "step5Title": "定义警报属性",
+        "step6Title": "定义警报通道",
         "grouping": {
           "title": "组调用",
-          "description": "将单独对每个组中的调用进行评估"
+          "description": "分组功能允许用户按组配置调用。 组内的每次调用都是集体配置的，但会单独进行评估。",
+          "groupByApplication": "{{count}} 个应用程序",
+          "groupByApplication_plural": "{{count}} 个应用程序",
+          "groupByApplication_0": "{{count}} 个应用程序",
+          "groupByApplication_1": "{{count}} 个应用程序",
+          "groupByApplication_2": "{{count}} 个应用程序",
+          "groupByServices": "{{count}} 个服务",
+          "groupByServices_plural": "{{count}} 个服务",
+          "groupByServices_0": "{{count}} 个服务",
+          "groupByServices_1": "{{count}} 个服务",
+          "groupByServices_2": "{{count}} 个服务",
+          "groupByEndpoint": "{{count}} 个端点",
+          "groupByEndpoint_plural": "{{count}} 个端点",
+          "groupByEndpoint_0": "{{count}} 个端点",
+          "groupByEndpoint_1": "{{count}} 个端点",
+          "groupByEndpoint_2": "{{count}} 个端点",
+          "groupbyDescription": "基于过去 24 小时内进行的调用",
+          "noData": "没有分组依据数据可用。"
         },
         "callsInScope": {
           "title": "选择作用域中的调用 ",
@@ -517,9 +557,10 @@
         },
         "includeHiddenCalls": {
           "title": "包含隐藏的调用（可选） ",
-          "description": "隐藏的调用不会显示在内置仪表板中。"
+          "description": "内部调用与综合调用不会出现在内置的仪表板中，默认情况下被排除在外"
         },
-        "serviceEndPointSelection": "针对所选调用的服务或端点",
+        "serviceEndPointSelection": "针对所选类型的调用的服务或端点",
+        "serviceEndPointSelectionDescription": "选择您希望收到警报的服务。",
         "AlertPropertiesTitle": "要为此警报设置哪些属性？",
         "AlertChannelTitle": "您希望在何处收到警报通知？",
         "inboundOutboundCalls": {
@@ -548,7 +589,17 @@
         },
         "threshold": {
           "title": "设置违例阈值的值",
-          "description": "选择度量值、违例阈值和时间窗口以评估违例。"
+          "description": "选择一个指标、违例阈值和时间窗口以评估违例情况。",
+          "thresholdValue": "阈值",
+          "thresholdDescription": {
+            "static": "将应用常量阈值，并且该值不会随时间变化。",
+            "staticDaily": "应用基于每日历史数据的与时间相关的阈值，该阈值不会自动更改。",
+            "staticWeekly": "应用基于每周历史数据的与时间相关的阈值，该阈值不会自动更改。"
+          },
+          "metricLabel": "{{metricLabel}} 延迟百分位数",
+          "minLatency": "最小延迟",
+          "maxLatency": "最大延迟",
+          "meanLatency": "平均延迟"
         },
         "timeThreshold": {
           "title": "设置违例何时触发警报",
@@ -557,10 +608,15 @@
         "staticOrAdaptive": {
           "config": {
             "adaptive": {
-              "description": "将应用会自动适应底层度量值更改的阈值。"
+              "description": "将应用会自动适应底层度量值更改的阈值。",
+              "label": "自适应",
+              "adaptiveNotSupportedForEndPoint": "按端点分组时不支持自适应阈值。",
+              "adaptiveNotSupportedForBluePrint": "所选蓝图 {{bluePrint}} 不支持自适应阈值。",
+              "notSupported": "不受支持"
             },
             "static": {
-              "description": "将应用常量阈值，并且该值不会随时间变化。"
+              "description": "将应用常量阈值，并且该值不会随时间变化。",
+              "label": "静态"
             }
           }
         },
@@ -570,13 +626,30 @@
         },
         "alertProperties": {
           "previewTitle": "警报预览"
-        }
+        },
+        "alertChannelList": {
+          "title": "警报通道数 ({{channelCount}})",
+          "description": "选择该警报的收件人",
+          "searchPlaceholder": "搜索",
+          "clearAll": "全部清除"
+        },
+        "editFilters": "编辑过滤器",
+        "invalidFilters": "无效的过滤器",
+        "invalidFilterWarning": "您选择的某些过滤器不支持自适应阈值。 高亮显示的过滤器将被弃用。",
+        "editAdaptiveThreshold": {
+          "title": "编辑自适应阈值过滤器",
+          "description": "确保所有过滤器都支持自适应阈值。"
+        },
+        "filterWithInvalidAdaptiveThreshold": "具有自适应阈值的过滤器 "
       }
     },
     "details": {
       "header": "详细信息",
       "thresholdTypeTitle": "阈值类型",
       "metricTitle": "度量值",
+      "threshold": "阈值",
+      "warningThresholdLabel": "警告",
+      "criticalThresholdLabel": "严重",
       "entityTitle": "作用域",
       "titleBuiltInIndicator": "内置"
     },
@@ -670,11 +743,14 @@
       "ruleStatusCodeValueOption508": "508（检测到循环）",
       "ruleStatusCodeValueOption510": "510（未扩展）",
       "ruleStatusCodeValueOption511": "511（需要网络认证）",
-      "ruleStatusCodeValueOption599": "599（网络连接错误）"
+      "ruleStatusCodeValueOption599": "599（网络连接错误）",
+      "warningThresholdValidator": "对于 < 和 <= 运算符，警告阈值应大于临界阈值。",
+      "criticalThresholdValidator": "对于 > 和 >= 运算符，临界阈值应大于警告阈值。"
     },
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "取消",
+        "proceedTitle": "继续",
         "previousTitle": "上一步",
         "sharedListTooltip": "{{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
@@ -785,7 +861,11 @@
         "alertPropertiesAlertLevel": "警报级别",
         "alertPropertiesTriggersIncident": "触发事件",
         "alertPropertiesDescription": "描述",
+        "warningAlertPreviewLabel": "警告阈值预览",
+        "criticalAlertPreviewLabel": "关键阈值预览",
+        "alertPreviewMissingThresholdInfo": "无可用预览。 请选择至少一个阈值以查看预览。",
         "alertPropertiesAlertProperties": "警报属性",
+        "groupingPlaceholdersMissingTooltip": "配置组以访问占位符选项",
         "buttonSave": "保存",
         "buttonCreate": "创建",
         "buttonMigrate": "迁移",
@@ -799,6 +879,9 @@
         "sensitivitySliderValueLabel_1": "{{count}} 个标准差",
         "sensitivitySliderValueLabel_2": "{{count}} 个标准差",
         "labelThreshold": "阈值",
+        "multiThresholdAlertNotificationInfo": "您输入任一阈值都会触发警报通知。",
+        "warningThresholdLabel": "警告",
+        "criticalThresholdLabel": "严重",
         "labelSensitivity": "敏感度",
         "staticThresholdTypeOptionsTooltip": "“静态每日/每周阈值”是基于历史数据的时间相关阈值。 此阈值不会自动更改，可以根据需要手动重新计算。",
         "thresholdTypeOptionStaticThreshold": "静态阈值",
@@ -843,62 +926,6 @@
           }
         }
       },
-      "alertsHub": {
-        "title": "警报中心",
-        "introText": "欢迎来到警报配置中心。您可以在此处设置警报预期。",
-        "readMore": "阅读更多信息…",
-        "websites": {
-          "title": "Web 站点",
-          "description0": "要设置警报，请导航至要对其设置警报的 Web 站点，然后使用右下方的“添加智能警报”按钮。",
-          "stats": "目前，您具有 $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} })，位于 $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }) 上。",
-          "alerts": "{{count}} 个 Web 站点智能警报",
-          "alerts_plural": "{{count}} 个 Web 站点智能警报",
-          "alerts_0": "{{count}} 个 Web 站点智能警报",
-          "alerts_1": "{{count}} 个 Web 站点智能警报",
-          "alerts_2": "{{count}} 个 Web 站点智能警报",
-          "websites": "{{count}} 个 Web 站点",
-          "websites_plural": "{{count}} 个 Web 站点",
-          "websites_0": "{{count}} 个 Web 站点",
-          "websites_1": "{{count}} 个 Web 站点",
-          "websites_2": "{{count}} 个 Web 站点",
-          "button0": "Web 站点"
-        },
-        "applications": {
-          "title": "应用程序",
-          "description0": "您只能为特定应用程序设置智能警报，或设置应用于多个应用程序的智能警报。",
-          "stats": "目前，您具有 $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) 和 $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} })。",
-          "gsa": "{{count}} 个全局智能警报",
-          "gsa_plural": "{{count}} 个全局智能警报",
-          "gsa_0": "{{count}} 个全局智能警报",
-          "gsa_1": "{{count}} 个全局智能警报",
-          "gsa_2": "{{count}} 个全局智能警报",
-          "rsa": "{{count}} 个定期智能警报",
-          "rsa_plural": "{{count}} 个定期智能警报",
-          "rsa_0": "{{count}} 个常规智能警报",
-          "rsa_1": "{{count}} 个常规智能警报",
-          "rsa_2": "{{count}} 个常规智能警报",
-          "button0": "智能警报"
-        },
-        "infrastructure": {
-          "title": "基础架构和平台",
-          "description0": "基础架构和平台的警报采用我们的两步工作流程。",
-          "description1": "1) 针对特定条件定义事件。您可以使用内置事件或创建自己的定制事件。",
-          "description2": "2) 接下来，在发生特定事件时警报会向您发出提醒。",
-          "stats": "目前，您具有 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) 和 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} })。",
-          "events": "{{count}} 个定制事件",
-          "events_plural": "{{count}} 个定制事件",
-          "events_0": "{{count}} 个定制事件",
-          "events_1": "{{count}} 个定制事件",
-          "events_2": "{{count}} 个定制事件",
-          "alerts": "{{count}} 个警报",
-          "alerts_plural": "{{count}} 个警报",
-          "alerts_0": "{{count}} 个警报",
-          "alerts_1": "{{count}} 个警报",
-          "alerts_2": "{{count}} 个警报",
-          "button0": "警报",
-          "button1": "事件"
-        }
-      },
       "utils": {
         "aggregationTextP25": "第 25 个",
         "aggregationTextP50": "第 50 个",
@@ -912,6 +939,23 @@
         "labelConfirm": "请确认",
         "labelConfirmRemoveConfig": "确定要除去警报 <strong>{{configName}}</strong> 吗？",
         "labelRemove": "除去"
+      },
+      "tearSheet": {
+        "timeThreshold": {
+          "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "当违例存在一段时间时",
+          "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "违例以随机时间间隔发生",
+          "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "违例持续存在",
+          "timeThresholdConfigTimeThresholdLabelTraceImpact": "当最小数量的跟踪受影响时",
+          "granularity": {
+            "description": "调用以 {{granularity}} 分钟为时间窗口发出；每 {{granularity}} 分钟，针对此窗口计算一次指标值"
+          },
+          "triggerAlert": "触发警报",
+          "triggerAfter": "触发后",
+          "tracesImpacted": "个跟踪受到影响",
+          "outOfConsecutiveEvaluations": "个（共  个）",
+          "persistenceType": "持久类型",
+          "numberOfConsecutiveViolationsPostLabel": "连续 {{granularity}} 分钟时间窗口有违例"
+        }
       }
     },
     "websites": {
@@ -977,10 +1021,10 @@
         "customEventBlueprintConfigText": "每当发生特定定制事件的频率高于或低于应有的频率时收到警报。",
         "customEventBlueprintConfigIncompleteRuleMessage": "请选择定制事件以查看何时触发此警报",
         "customEventBlueprintConfigMetricLabel": "出现次数",
-        "simpleModeBlueprintConfigsUnexpectedDropName": "页面加载数异常低",
+        "simpleModeBlueprintConfigsUnexpectedDropName": "页面加载次数较少",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "页面加载数异常低时自动发出警报",
         "simpleModeBlueprintConfigsUnexpectedDropText": "当与可用的过往数据相比，页面加载数显著低于预期时，接收警报。",
-        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "页面加载数异常高",
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "页面加载次数较多",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline": "页面加载数异常高时自动发出警报",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "当与可用的过往数据相比，页面加载数显著高于预期时，接收警报。这可能指示攻击或机器人向 Web 站点生成过多请求。"
       },
@@ -1042,8 +1086,7 @@
     },
     "migration": {
       "migrateButton": "迁移到智能警报",
-      "migrateButtonNew": "迁移到智能警报（新增）",
-      "migrateButtonTooltip": "尽可能打开预先填充了当前事件中已迁移值的“智能警报配置”对话框。 请仔细检查结果！",
+      "migrateButtonTooltip": "打开一个智能警报配置，其中预先填充了来自当前事件的最可能准确的迁移值。 请仔细检查结果！",
       "markAsMigratedButton": "标记为已迁移",
       "markAsMigratedButtonTooltip": "将事件标记为已迁移。如果您已配置将替换此事件的智能警报，请使用此方法。",
       "markAsMigratedButtonConfirmationTitle": "请确认",
@@ -1180,10 +1223,10 @@
         "customEventBlueprintConfigText": "每当发生特定定制事件的频率高于或低于应有的频率时收到警报。",
         "customEventBlueprintConfigIncompleteRuleMessage": "请选择定制事件以查看何时触发此警报",
         "statusCodeBlueprintConfigIncompleteRuleMessage": "请选择“状态码”以查看此警报的触发时间",
-        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "视图数意外低",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "查看次数较少",
         "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "异常低的视图数的自动警报",
         "simpleModeBlueprintConfigsViewsUnexpectedDropText": "与可用过去数据相比，当视图数显著低于预期视图数时，将收到警报。",
-        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "会话数意外低",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "会话次数较少",
         "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "异常低的会话数的自动警报",
         "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "与可用过去数据相比，当会话数显著低于预期会话数时，将收到警报。"
       },
@@ -1389,11 +1432,10 @@
           "label": "有效内容",
           "title": "定制有效内容"
         },
-        "thresholdValue": "阈值",
         "valueMappings": "所选度量的数字值对应于以下字符串值："
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "请提供大于或等于 0 的数字",
+        "selectAtLeastOneThreshold": "请提供至少一个阈值的值。",
         "noMetricSelected": "未选择度量"
       },
       "count": "计数",
@@ -1548,6 +1590,17 @@
         "title": "",
         "title_ERROR_BUDGET": "使用的错误预算",
         "title_SERVICE_LEVELS_OBJECTIVE": "状态"
+      },
+      "messages": {
+        "successTitle": "",
+        "successTitle_NEW": "已成功创建 SLO 智能警报",
+        "successTitle_EDIT": "已成功更新 SLO 智能警报",
+        "successContent": "",
+        "successContent_NEW": "已创建 SLO 智能警报“{{name}}”。",
+        "successContent_EDIT": "已更新 SLO 智能警报“{{name}}” 。",
+        "failedTitle": "",
+        "failedTitle_NEW": "创建此 SLO 智能警报时出现问题",
+        "failedTitle_EDIT": "更新此 SLO 智能警报时出现问题"
       }
     }
   }

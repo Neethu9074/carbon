@@ -111,6 +111,7 @@
       "summary": {
         "logs": "로그",
         "analyzeLogs": "분석으로 보기",
+        "logsCardDescription": "이는 미리보기입니다. 분석에서 모든 로그를 확인하십시오.",
         "correspondingMobileAppActivity": "해당하는 모바일 앱 활동",
         "hideMobileAppInformation": "모바일 앱 정보 숨기기",
         "showMobileAppInformation": "모바일 앱 정보 표시",

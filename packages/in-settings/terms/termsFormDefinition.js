@@ -47,6 +47,12 @@ export default function termsFormDefinition(userSettings) {
       createField({
         value: userSettings ? userSettings.testingGroup : ''
       })
+    )
+    .put(
+      'showUserGoalSelection',
+      createField({
+        value: false
+      })
     );
 
   form = addDynamicRoleField(form, userSettings);

@@ -165,8 +165,6 @@
     "sloNamePlaceholder": "名前の入力",
     "sloNameCopyTemplate": "{{name}}(のコピー)",
     "tagsLabel": "タグ (オプション)",
-    "tagsPlaceholder": "タグの入力",
-    "tagsCreateLabel": "作成: {{tag}}",
     "messages": {
       "creationSuccessfulTitle": "SLO 構成が正常に作成されました",
       "creationSuccessfulContent": "SLO 構成 \"{{name}}\" が作成されました。",
@@ -269,6 +267,9 @@
     }
   },
   "sloDashboard": {
+    "header": {
+      "created_at": "作成日: {{creationDay}} at {{creationTime}}"
+    },
     "tabs": {
       "summaryLabel": "サマリー",
       "configurationLabel": "構成",

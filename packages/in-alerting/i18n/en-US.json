@@ -1324,6 +1324,12 @@
         "customEventInputPlaceholder": "Paste a custom event name or select one from the list of events",
         "searchCustomEventButtonLabel": "Select Custom Event"
       },
+      "more": "+{{count}} more",
+      "more_plural": "+{{count}} more",
+      "more_0": "+{{count}} more",
+      "more_1": "+{{count}} more",
+      "more_2": "+{{count}} more",
+      "viewMore": "+View More",
       "advanced": { "thresholdValue": "Threshold Value" },
       "components": { "provideStatusCodeStatusCode": "Status Code" },
       "form": {

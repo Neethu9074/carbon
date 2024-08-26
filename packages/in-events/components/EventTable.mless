@@ -8,8 +8,6 @@
     cursor: pointer;
     fill: var(--ids-color-option-neutral-500);
     display: block;
-    margin: 0 0 0 0.5rem;
-
     &:hover {
       fill: var(--ids-color-option-neutral-700);
     }
@@ -17,5 +15,16 @@
 
   .icon {
     margin-right: 0.5rem;
+  }
+
+  .centerAlignLink {
+    display: flex;
+    align-items: center;
+  }
+
+  .incidentHeader {
+    background: var(--cds-layer);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 }

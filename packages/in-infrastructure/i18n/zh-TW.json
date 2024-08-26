@@ -74,7 +74,8 @@
     "restartCount": "重新啟動計數",
     "kubernetesLabels": "Kubernetes 標籤",
     "podmanAnnotations": "Podman 註釋",
-    "metricExplosion": "此儀表板可能不會顯示所有度量值，因為僅儲存 {{numberOfMetrics}}"
+    "metricExplosionBeeInstana": "此儀表板可能不會顯示所有度量值，因為僅儲存 {{numberOfMetrics}}",
+    "metricExplosion": "此儀表板可能不會顯示所有度量，因為僅儲存了 {{numberOfMetrics}} 個高解析度度量。 若要檢視其他度量，請使用分析基礎架構或自訂儀表板。"
   },
   "explore": {
     "analyzeInfrastructure": "分析基礎架構",
@@ -94,7 +95,8 @@
       "maximumNumberOfMembers": "此查詢有太多結果。 請使用限制性較強的過濾器來縮小搜尋範圍，或縮小時間範圍，然後再試一次。",
       "generalError": "發生非預期的錯誤。"
     },
-    "entityTypes": "實體類型 {{count, parenthesis}}"
+    "entityTypes": "實體類型 {{count, parenthesis}}",
+    "relatedInstances": "分析實例"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "顯示整個現行時間範圍的計數和平均值。",

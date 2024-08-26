@@ -151,8 +151,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'assistMeEnabled',
-    instanaCtlKey: 'feature.assistMe.enabled',
+    uiClientKey: 'assistmeEnabled',
+    instanaCtlKey: 'feature.assistme.enabled',
     defaultValue: false
   },
   {
@@ -408,7 +408,7 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticCertificateCheckEnabled',
     instanaCtlKey: 'feature.synthetic.certificate.check.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'syntheticRbacLimitedTPEnabled',
@@ -754,5 +754,10 @@ module.exports = exports = [
     uiClientKey: 'applicationSmartAlertDialogView',
     instanaCtlKey: 'application.smart.alerts.dialog.view',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'increaseAggregationEnabled',
+    instanaCtlKey: 'feature.increase.aggregation.enabled',
+    defaultValue: false
   }
 ];

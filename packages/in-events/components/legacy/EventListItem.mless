@@ -18,6 +18,7 @@
 
     display: flex;
     align-items: stretch;
+    justify-content: space-between;
 
     &:first-child {
       .line {
@@ -55,7 +56,6 @@
 
   .time {
     top: 1rem;
-    right: 0.625rem;
     text-decoration: underline;
   }
 

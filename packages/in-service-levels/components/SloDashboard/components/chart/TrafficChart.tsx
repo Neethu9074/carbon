@@ -19,6 +19,7 @@ import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports -- We cant specifically allow parts of a otherwise restricted package
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
+import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
 import {
   copyFirstBucketOfSubsequentDataSeries,
   findMinMetricValue
@@ -34,7 +35,6 @@ import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import { calculateTrafficGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
-import lineRenderer from 'in-components/Chart/renderer/line';
 import { number } from 'in-services/formatters/number';
 
 interface TrafficChartProps {
@@ -42,7 +42,9 @@ interface TrafficChartProps {
 }
 
 export default function TrafficChart({ configuration }: TrafficChartProps) {
-  const { entity } = configuration;
+  const { entity, createdDate, timeWindow } = configuration;
+
+  const missingDataIndicator = timeWindow.type === 'fixed' ? timeWindow.startTimestamp : createdDate;
 
   const sloZoomInAction = useSloZoomInAction();
   const tagFilterExpression = useBasicTagFilterExpression({ entity });
@@ -58,6 +60,9 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
   );
 
   const label = getMetricLabels(entity);
+  const renderer = useLineWithMissingDataIndicatorRenderer({
+    firstCollectedMetricTimestamp: missingDataIndicator
+  });
   const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);
 
   return (
@@ -77,7 +82,7 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
           labels: timeWindows.map(() => label),
           colors: timeWindowColors,
           formatter: number.compact,
-          renderer: lineRenderer
+          renderer
         },
         granularity,
         timeConfig,

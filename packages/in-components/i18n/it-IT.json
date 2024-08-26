@@ -64,10 +64,6 @@
   "touchedMessages": {
     "withPath": "{{message}} (in <codeWithClass>{{path}}</codeWithClass>)"
   },
-  "gravatar": {
-    "avatarUrlAlt": "Avatar per {{email}} da gravatar.com.",
-    "avatarNullAlt": "Avatar fallback per {{email}}."
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "Note sulla release"
   },
@@ -124,6 +120,7 @@
     "tagListNoTagsDefined": "Non vi sono tag definiti",
     "tagListShowAll": "Mostra tutti i tag (altri {{num}})"
   },
+  "copyToClipboard": "Appunti",
   "copyToClipboardPressToCopy": "Premere CTRL+C / CMD+C per copiare.",
   "copyToClipboardCopied": "Copiato.",
   "reloadUiDialogTitle": "È disponibile la nuova versione dell'interfaccia utente",
@@ -300,7 +297,8 @@
     "labelExpandButtonForContent": "Pulsante Espandi per il contenuto"
   },
   "featureFeedback": {
-    "labelBETA": "BETA",
+    "labelPublicPreview": "Anteprima pubblica",
+    "labelPrivatePreview": "Anteprima privata",
     "linkLabelYouCanSendUsFeedback": "È possibile inviare un feedback"
   },
   "geoHeatMap": {
@@ -389,9 +387,9 @@
     "labelLoadingData": "Caricamento dei dati"
   },
   "mainNavigation": {
+    "skipToMainContent": "Passa al contenuto principale",
     "viewSwitcherLabelSettings": "Impostazioni",
     "viewSwitcherLabelMore": "Altro",
-    "viewSwitcherLabelTenants": "Tenant",
     "viewSwitcherLabelAgents": "Agent",
     "viewSwitcherLabelReleaseNotes": "Note sulla release",
     "viewSwitcherLabelDocumentation": "Documentazione",
@@ -415,10 +413,15 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Piattaforme",
-    "viewSwitcherButtonSignOut": "Disconnetti",
     "viewSwitcherCustomDashboards": "Dashboard personalizzati",
+    "viewSwitcherButtonSignOut": "Disconnetti",
+    "viewSwitcherLabelTenants": "Tenant",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nuova versione dell'interfaccia utente Instana disponibile",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "Ricarica per aggiornare"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "Ricarica per aggiornare",
+    "profileMenu_profileLink": "Profilo",
+    "profileMenu_unitName_tenantName": "Nome unità - Nome tenant",
+    "profileMenu_switchUnitOrTenant": "Cambia unità o tenant",
+    "profileMenu_logOut": "Disconnetti"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Seleziona metriche",
@@ -439,6 +442,7 @@
     "aggregation_MAX": "max",
     "aggregation_DISTINCTCOUNT": "conteggio distinto",
     "aggregation_SUM": "somma",
+    "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "distribuzione",
     "aggregation_PERSECOND": "al secondo",
     "labelFilterEmptyValue": "Filtra valori vuoti"
@@ -831,5 +835,9 @@
     "notice": "Questa unità tenant è stata migrata in una nuova regione. L'unità a cui si sta attualmente accedendo contiene solo dati cronologici.",
     "goToNewLocationLabel": "Vai alla nuova ubicazione",
     "exploreDataLabel": "Esplora dati cronologici"
+  },
+  "creatableTagSelect": {
+    "placeholder": "Immettere i tag",
+    "createLabel": "Crea: {{tag}}"
   }
 }

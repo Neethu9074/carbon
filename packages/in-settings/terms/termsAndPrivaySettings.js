@@ -31,6 +31,7 @@ export function formUserSettingsObject(form) {
     productTips: form.get('productTips').value,
     role: form.get('role').value,
     testingGroup: form.get('testingGroup').value,
-    dynamicRole: form.get('dynamicRole') ? form.get('dynamicRole').value : ''
+    dynamicRole: form.get('dynamicRole') ? form.get('dynamicRole').value : '',
+    showUserGoalSelection: form.get('showUserGoalSelection').value
   });
 }

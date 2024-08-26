@@ -1,5 +1,10 @@
 {
   "components": {
+    "expandableGroup": {
+      "tooltipShowContent": "コンテンツの表示",
+      "tooltipHideContent": "コンテンツの非表示",
+      "labelExpandButtonForContent": "コンテンツの展開ボタン"
+    },
     "list": {
       "loadMore": "さらにロード",
       "toggleExtraContent": "追加コンテンツの切り替え",
@@ -49,6 +54,7 @@
   "forms": {
     "actions": {
       "save": "保存",
+      "saveIntegration": "保存して有効にする",
       "cancel": "キャンセル",
       "create": "作成",
       "delete": "削除",
@@ -83,6 +89,7 @@
   "aggregation_MAX": "最大",
   "aggregation_DISTINCT_COUNT": "個別の数",
   "aggregation_SUM": "合計",
+  "aggregation_INCREASE": "増加",
   "aggregation_DISTRIBUTION": "分布",
   "aggregation_PER_SECOND": "秒当たり"
 }

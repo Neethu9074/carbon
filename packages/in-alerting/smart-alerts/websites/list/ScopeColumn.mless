@@ -19,6 +19,15 @@
     margin-right: 1rem;
   }
 
+  .pageNames {
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .viewMore {
+    margin-left: 1rem;
+  }
+
   .divider:after {
     content: '/';
     margin-left: 0.5rem;
@@ -27,5 +36,9 @@
 
   .filterIcon {
     fill: var(--ids-color-option-neutral-700);
+  }
+
+  :global(.cds--popover-container) {
+    display: flex;
   }
 }

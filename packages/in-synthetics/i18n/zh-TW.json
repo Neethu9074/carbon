@@ -10,7 +10,8 @@
         "step1": "步驟 1：選取類型",
         "step2": "步驟 2：要求詳細資料",
         "step3": "步驟 3：排程",
-        "step4": "步驟 4：提供詳細資料"
+        "step4": "步驟 4：提供詳細資料",
+        "step5": "步驟 5: 關聯"
       },
       "selectTest": {
         "title": "您要建立何種類型的綜合測試"
@@ -40,6 +41,7 @@
         "labelDescription": "說明",
         "labelFrequency": "頻率（分鐘）",
         "labelFrequencyHour": "頻率（小時）",
+        "labelApplication": "選取應用程式",
         "labelApplications": "選取應用程式"
       },
       "bluePrint": {
@@ -239,7 +241,34 @@
           "inputPortNumber": "埠",
           "failureConfigLabel": "失敗配置",
           "failureConfigText": "當憑證有效性還剩 <certificateValidityDays/> 天到期時，測試將會失敗。"
-        }
+        },
+        "associationsLabel": "關聯",
+        "applicationsTitle": "關聯：選取要與此綜合測試相關聯的應用程式",
+        "applicationsDescription": "將綜合測試與應用程式相關聯將為所有有權存取該應用程式的使用者授予存取權限。",
+        "associationsTitle": "關聯：選取要與此綜合測試相關聯的實體",
+        "associationsDescription": "將綜合測試與應用程式、網站或行動應用程式相關聯，可以向所有有權存取這些實體的使用者授予存取權限。"
+      },
+      "associations": {
+        "applicationsTitle": "選取要與此綜合測試相關聯的應用程式",
+        "applicationsDescription": "將綜合測試與應用程式相關聯將為所有有權存取該應用程式的使用者授予存取權限。",
+        "associationsTitle": "選取要與此綜合測試相關聯的實體",
+        "associationsDescription": "將綜合測試與應用程式、網站或行動應用程式相關聯，可以向所有有權存取這些實體的使用者授予存取權限。",
+        "applicationsButtonLabel": "選取應用程式",
+        "websitesButtonLabel": "選取網站",
+        "mobileAppsButtonLabel": "選取行動式應用程式",
+        "entityName": "名稱",
+        "noDataAvailable": {
+          "message": "{{component}} 無法使用"
+        },
+        "addApplications": "新增 {{count}} 個應用程式",
+        "addApplication": "新增應用程式",
+        "addWebsites": "新增 {{count}} 個網站",
+        "addWebsite": "新增網站",
+        "addMobileApps": "新增 {{count}} 個行動應用程式",
+        "addMobileApp": "新增行動應用程式",
+        "applicationsTableTitle": "應用程式",
+        "websitesTableTitle": "網站",
+        "mobileAppsTableTitle": "行動應用程式"
       }
     },
     "httpMethods": {
@@ -371,7 +400,25 @@
         "tlsInstructions": "如果您想要啟用 Redis TLS，則需要具有 X.509 憑證金鑰組（`tls.crt`、`tls.key`）及 CA 主要憑證檔 (`ca.crt`)。\n\n如果您沒有金鑰/憑證檔案，也可以使用 openssl 指令來產生新的檔案，請參閱下列範例：",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "提供金鑰/憑證檔案之後，請使用 kubectl 指令來建立密鑰。",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}} 個關聯",
+        "singleAssociationTitle": "{{number}} 個關聯"
+      },
+      "multiAppDialog": {
+        "filterLabel": "應用程式",
+        "singleAppHeader": "{{ number }} 個關聯",
+        "multiAppHeader": "{{ number }} 個關聯",
+        "singleAppSpan": "{{ number }} 個關聯的應用程式",
+        "multiAppSpan": "{{ number }} 個關聯的應用程式",
+        "noApplicationsAssociated": "沒有相關聯的應用程式"
+      },
+      "multiWebDialog": {
+        "filterLabel": "網站",
+        "noWebsitesAssociated": "沒有相關聯的網站。"
+      },
+      "multiMobileDialog": {
+        "filterLabel": "行動式應用程式",
+        "noMobileAppsAssociated": "沒有相關聯的行動應用程式。"
       },
       "testLabel": "名稱",
       "status": "狀態",
@@ -388,7 +435,7 @@
       "latency": "延遲",
       "locationLabel": "位置",
       "locations": "{{totalLocations}} 個位置",
-      "applicationLabel": "應用程式",
+      "applicationLabel": "關聯",
       "health": "性能",
       "action": "動作",
       "labelConfirmRemoveTest": "您確定要移除 <strong>{{testLabel}}</strong> 測試嗎？",
@@ -470,7 +517,7 @@
       "certificateValid": "是",
       "certificateNotValid": "否",
       "daysRemaining": "前次執行 - 剩餘天數",
-      "dateOfExpiry": "前次執行 - 到期日期",
+      "timeOfExpiry": "上次執行 - 到期時間",
       "smallerTimeFrameTitle": "此時間範圍沒有結果",
       "smallerTimeFrameDescription": "請選取一個較長的時間範圍，以查看「SSL 憑證檢查」測試的結果。"
     },
@@ -613,8 +660,8 @@
       },
       "sslCertificate": {
         "daysRemaining": "剩餘天數",
-        "dateOfIssue": "發行日期",
-        "dateOfExpiry": "到期日期"
+        "timeOfIssue": "發出時間",
+        "timeOfExpiry": "到期時間"
       },
       "failedRunErrorTypeTitle": "錯誤類型"
     },
@@ -696,7 +743,14 @@
       "port": "埠",
       "daysRemaining": "失敗配置",
       "day": "當憑證有效性剩下 {{daysRemainingCheck}} 天到期時，測試將失敗",
-      "days": "當憑證有效性剩下 {{daysRemainingCheck}} 天到期時，測試將失敗"
+      "days": "當憑證有效性剩下 {{daysRemainingCheck}} 天到期時，測試將失敗",
+      "associations": "關聯",
+      "associatedApplications": "相關聯的應用程式",
+      "noApplicationsAssociated": "沒有相關聯的應用程式",
+      "associatedWebsites": "相關聯的網站",
+      "noWebsitesAssociated": "沒有相關聯的網站",
+      "associatedMobileApps": "相關聯的行動應用程式",
+      "noMobileAppAssociated": "沒有相關聯的行動應用程式"
     }
   }
 }

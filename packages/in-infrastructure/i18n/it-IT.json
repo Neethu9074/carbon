@@ -74,7 +74,8 @@
     "restartCount": "Conteggio riavvii",
     "kubernetesLabels": "Etichette Kubernetes",
     "podmanAnnotations": "Annotazioni Podman",
-    "metricExplosion": "Questo dashboard non può visualizzare tutte le metriche poiché solo {{numberOfMetrics}} sono state archiviate"
+    "metricExplosionBeeInstana": "Questo dashboard non può visualizzare tutte le metriche poiché solo {{numberOfMetrics}} sono state archiviate",
+    "metricExplosion": "Questo dashboard potrebbe non visualizzare tutte le metriche poiché sono state memorizzate solo {{numberOfMetrics}} metriche ad alta risoluzione. Per visualizzare altre metriche, utilizzare Analizza infrastruttura o un dashboard personalizzato."
   },
   "explore": {
     "analyzeInfrastructure": "Analizza infrastruttura",
@@ -94,7 +95,8 @@
       "maximumNumberOfMembers": "Questa query ha troppi risultati. Delimitare la ricerca utilizzando un filtro più restrittivo oppure abbreviare l'intervallo di tempo e ripetere l'operazione.",
       "generalError": "Si è verificato un errore non previsto."
     },
-    "entityTypes": "Tipi di entità {{count, parenthesis}}"
+    "entityTypes": "Tipi di entità {{count, parenthesis}}",
+    "relatedInstances": "Analizza istanze"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Mostra i conteggi e le medie della finestra temporale corrente.",

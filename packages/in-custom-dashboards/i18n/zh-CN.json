@@ -163,6 +163,7 @@
       "metricsFormComponent": {
         "metric": "指标",
         "selectMetric": "选择指标",
+        "unit": "单元",
         "aggregation": "汇总",
         "crossSeriesAggregation": "使用 SUM 进行跨系列聚集",
         "crossSeriesAggregationHelp": "通常，跨系列聚集与跨时间聚集（用于将数据点组合到单个存储区中的方法）相同。 启用此切换开关后，我们将对跨数据系列的存储区求和，而不是使用指定的聚集。",
@@ -474,8 +475,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "端点",
-        "allEndpoints": "所有端点",
-        "loading": "<loading>"
+        "allEndpoints": "所有端点"
       },
       "goodBadEventsForm": {
         "goodEvents": "良性事件",
@@ -512,7 +512,6 @@
       },
       "servicesSelectBox": {
         "service": "服务",
-        "loading": "<loading>",
         "allServices": "所有服务"
       },
       "sliFormPresenter": {
@@ -718,7 +717,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "阈值配置",
-        "thresholdLabel": "阈值"
+        "thresholdLabel": "阈值",
+        "ms": "ms"
       },
       "entityInfo": {
         "tooltip": "未知 Apdex",

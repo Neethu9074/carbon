@@ -39,7 +39,7 @@ const localisationStrings = {
   configureIntegrations: t('in-settings:tabs.integrations.configureIntegrations')
 };
 
-export default function Integrations() {
+export default function LogIntegrations() {
   const { goToPath } = useNavigation();
   const isCancelled = useRef(false);
 
@@ -94,7 +94,7 @@ export default function Integrations() {
         <section className={locals.toast}>
           <Typography variant="heading-200">{t('in-settings:tabs.integrations.toastErrorTitle')}</Typography>
           <Typography variant="heading-200">
-            {t('in-settings:tabs.integrations.integerationConfigurationFailed', { error: message })}
+            {t('in-settings:tabs.integrations.integrationConfigurationFailed', { error: message })}
           </Typography>
         </section>
       );

@@ -1,5 +1,10 @@
 {
   "components": {
+    "expandableGroup": {
+      "tooltipShowContent": "컨텐츠 표시",
+      "tooltipHideContent": "컨텐츠 숨기기",
+      "labelExpandButtonForContent": "컨텐츠에 대한 단추 펼치기"
+    },
     "list": {
       "loadMore": "추가 로드",
       "toggleExtraContent": "추가 컨텐츠 전환",
@@ -49,6 +54,7 @@
   "forms": {
     "actions": {
       "save": "저장",
+      "saveIntegration": "저장 및 사용",
       "cancel": "취소",
       "create": "작성",
       "delete": "삭제",
@@ -83,6 +89,7 @@
   "aggregation_MAX": "최대",
   "aggregation_DISTINCT_COUNT": "고유 개수",
   "aggregation_SUM": "합계",
+  "aggregation_INCREASE": "증가",
   "aggregation_DISTRIBUTION": "분포",
   "aggregation_PER_SECOND": "초당"
 }

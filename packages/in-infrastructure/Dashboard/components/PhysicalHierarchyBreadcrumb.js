@@ -14,6 +14,7 @@ import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { nonServicePlugins } from 'in-forge/constants';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
+import { plugins } from 'in-forge/constants';
 import decamelize from 'in-sdk/decamelize';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -44,7 +45,7 @@ export default connectTo(
             className={className}
             href={asLink && getDashboardLink(snapshotId)}
             label={getPluginName(plugin, 1) ?? decamelize(rawPlugin)}
-            icon={getIconType(snapshot)}
+            icon={snapshot?.get('plugin') === plugins.oTelDatabase ? getIconByPlugin(snapshot) : getIconType(snapshot)}
             isActive={isActive}
             healthInfo={healthInfo}
           >
@@ -55,3 +56,19 @@ export default connectTo(
     );
   }
 );
+function getIconByPlugin(snapshot) {
+  const data = snapshot?.get('data');
+  const database = data?.get('resource.db.system')?.toLowerCase();
+  switch (database) {
+    case 'db2':
+      return 'lib_infra_db2Database';
+    case 'mysql':
+      return 'lib_infra_mySqlDatabase';
+    case 'mongodb':
+      return 'lib_infra_mongoDb';
+    case 'informix':
+      return 'lib_infra_informix';
+    default:
+      return getIconType(snapshot);
+  }
+}

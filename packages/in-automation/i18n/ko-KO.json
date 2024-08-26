@@ -75,7 +75,7 @@
   "duplicate": "중복",
   "theValueMustNotBeBlank": "값은 공백이 아니어야 합니다.",
   "tags": "태그",
-  "noTagsConfigured": "구성된 태그 없음",
+  "tagsLabel": "태그(선택 사항)",
   "value": "값",
   "type": "유형",
   "automationPoliciesWithCount": "자동화 정책({{count}}개)",
@@ -92,7 +92,7 @@
   "actions": "조치",
   "actionsWithCount": "조치({{count}}개)",
   "titleUrl": "URL",
-  "generateWithAI": "AI를 사용하여 생성",
+  "generateWithWatsonx": "watsonx로 생성",
   "AISlugContent": "AI를 사용하여 이 컨텐츠를 생성함",
   "createPolicyWithName": "{{actionName}} 조치 보기 및 정책 작성",
   "viewActionCreatePolicy": "조치 보기 및 정책 작성",
@@ -297,7 +297,12 @@
     "taskUrl": "작업 URL",
     "output": "출력",
     "user": "사용자",
-    "apiToken": "API 토큰"
+    "apiToken": "API 토큰",
+    "deleteTooltip": "조치 인스턴스 {{id}} 삭제",
+    "deleteDialog": {
+      "success": "조치 인스턴스가 삭제되었습니다.",
+      "failure": "조치 인스턴스를 삭제하는 데 실패했습니다."
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "조사"

@@ -38,7 +38,7 @@ const getInitialFormState = () => {
     .put(
       'retentionPeriod',
       createField({
-        value: '7'
+        value: '30'
       })
     );
 };

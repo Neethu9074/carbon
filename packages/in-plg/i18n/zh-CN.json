@@ -10,20 +10,26 @@
   "buyNowDialog": {
     "title": "根据您的使用情况灵活计费",
     "cancelbtn": "取消",
-    "subHeadingPart1": "现在，使用 PayPerUse 选项，您只需",
-    "subHeadingPart2": "按使用量付费。",
+    "subHeading": "现在通过使用 PayPerUse 选项，您只需按使用量付费。",
     "sidePanelTitle": "还不确定是否需要预订？",
-    "sidePanelDescription": "我们将帮助您找到最适合您的选择。",
-    "mainBodyTitle1": "PayPerUse 简介",
+    "sidePanelDescription": "我们在此帮助您找到最适合自己的选项。",
+    "mainBodyTitle1": "利用 IBM Instana Observability 执行自动化、上下文和智能操作",
     "mainBodyDescription1": "我们行业领先的一秒粒度和全面的请求跟踪功能可确保不会漏检任何问题。 利用用户友好的仪表板和用于发出定制警报的 SmartAlerts™，获得对应用程序代码、Kubernetes 容器和微服务的全栈可视性。 Instana 已无缝集成到 AWS 中，支持 300 多种技术，能够为 Amazon AWS 上的容器化应用程序提供无忧性能监控。",
-    "mainBodyTitle2": "IBM Instana Observability PayPerUse 定价信息",
-    "mainBodyDescription2": "我们的 PayPerUse 层可以为您提供灵活的功能，并以您的企业所能承受的价格提供所需的功能。 从提供所需产品功能的“标准”或“基本”选项中进行选择。",
-    "listTitle1": "单元",
-    "listTitle2": "开销",
-    "listUnit1": "包括基础架构监控 + 跟踪 + EUM + 合成器在内的全面可观察性",
-    "listUnit2": "仅基础架构监控",
-    "listCost1": "0.12 美元/单位",
-    "listCost2": "0.03 美元/单位"
+    "mainBodyTitle2": "PayPerUse 简介",
+    "mainBodyDescription2": "我们的 PayPerUse 层级旨在为您带来更大的灵活性，通过 Standard 和 Essential 选项提供功能和价值，以满足您的业务需求。 您将在每月月底根据使用量收到账单。",
+    "listTitle1": "数据包",
+    "listTitle2": "描述",
+    "listTitle3": "价格",
+    "listUnit1": "Standard MVS† 小时",
+    "listUnit2": "Essential MVS† 小时 ",
+    "listDescription1": "包括基础架构监控 + 跟踪 + EUM + 合成器在内的全面可观察性",
+    "listDescription2": "仅基础架构监控",
+    "listCost1": "$0.12",
+    "listCost2": "$0.03",
+    "learnMore": "在 ",
+    "serviceDescription": "“服务说明”中了解更多信息。",
+    "mvs": "†管理虚拟服务器 (MVS) 是 Instana 用于授予许可的一种度量单位。 在 ",
+    "here": "此处了解有关 MVS 的更多信息。"
   },
   "licenseBanner": {
     "requestQuoteBtn": "请求报价",
@@ -78,6 +84,7 @@
       "step5": "步骤 5： ",
       "download": "下载",
       "clusterName": "集群名称",
+      "applicationRuntime": "应用程序运行时",
       "agentZoneOptional": "代理程序区域（可选）",
       "networkRequirements": "网络要求",
       "toInstallAndRunAnAgentCompleteTheFollowingSteps": "要安装和运行代理程序，请完成以下步骤。",
@@ -287,6 +294,7 @@
       "vmwareTanzuNetworkLink": "VMware Tanzu 网络链接",
       "reviewThePrerequisites": "查看先决条件",
       "installingTheInstanaAgent": "安装 Instana 代理程序",
+      "installingAndConfiguringMicroservicesApplicationsMonitoring": "安装和配置微服务应用程序监控",
       "addTileToOpsManagerAndConfigureIt": "将磁贴添加到 Ops Manager 并对其进行配置",
       "addInstanaApplicationMonitoring": "将“Instana Microservices Application Monitoring”磁贴添加到 Ops Manager，并将以下内容应用于该磁贴的“后端配置”选项卡。",
       "nameYourVmwareFoundation": "命名 VMware Tanzu Foundation",
@@ -355,6 +363,7 @@
           "linux64BitAmd": "Linux（64 位 - AMD）",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
           "linux64BitPowerPcLittleEndian": "Linux（64 位 - PowerPC Little Endian）",
+          "linuxS390XJdkNotIncluded": "Linux（64 位 - s390x），不包括 JDK",
           "linuxS390X": "Linux (64Bit - s390x)",
           "linuxX8664": "Linux (64Bit - x86_64)",
           "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
@@ -422,7 +431,13 @@
     },
     "azure": {
       "installingAgentOnAks": "在 Aks 上安装代理程序",
-      "configureAfterInstall": "安装后配置代理程序"
+      "configureAfterInstall": "安装后配置代理程序",
+      "referenceToAzureContainerAppsDocumentation": "在 Azure Container Apps 中部署的 Go 应用程序需要手动检测，以便收集跟踪数据。 请按照 <azureContainerAppsDoc>Azure Container Apps Go 文档</azureContainerAppsDoc>中的说明进行操作。",
+      "selectAzureContainerAppsRuntime": "选择 Azure Container Apps 运行时",
+      "reviewPrerequisitesAndConfigureContainerApps": "查看先决条件并配置 Azure Container Apps 以进行跟踪。",
+      "containerAppSetEnvironmentVariables": "在创建 Azure Container Apps 时设置以下环境变量。",
+      "monitoringAzure": "使用 Azure 代理程序监控和检测 Microsoft Azure",
+      "monitoringAzureContainerApps": "监控 Azure Container Apps"
     },
     "gcp": {
       "dockerBuild": "Docker 构建",
@@ -450,9 +465,12 @@
     "heading": "欢迎使用 Instana",
     "foldableTileTitle": "开始吧！",
     "viewAll": "查看所有",
-    "search": "搜索",
-    "addMore": "添加",
     "UrlShortener": "URL 缩写程序",
+    "addMore": "添加",
+    "collapsibleButton": {
+      "showOnboardingTasks": "显示加入任务",
+      "hideOnboardingTasks": "隐藏上线任务"
+    },
     "startIntegrating": {
       "title": "开始集成数据",
       "description": "通过安装代理程序启动 Instana 设置和无缝数据集成。",
@@ -496,16 +514,20 @@
     "component": {
       "applicationWidget": {
         "label": "应用程序",
-        "addLabel": "添加应用程序",
         "name": "名称",
         "calls": "调用数",
+        "scope": "作用域",
         "latency": "等待时间",
         "erroneousCallRate": "错误调用率",
         "openCreationDialog": "打开创建对话框",
-        "health": "运行状况"
+        "health": "运行状况",
+        "searchPlaceholderLabel": "应用程序",
+        "addButtonLabel": "应用程序",
+        "viewAllLabel": "应用程序"
       },
       "eventWidget": {
         "label": "事件",
+        "viewAllLabel": "事件",
         "incidents": "事件",
         "critical": "严重",
         "warning": "警告",
@@ -529,14 +551,27 @@
         "namespaces": "名称空间",
         "pods": "pod",
         "health": "运行状况",
-        "platform": "平台"
+        "vMs": "虚拟机",
+        "systems": "系统",
+        "instances": "实例数",
+        "partitions": "分区",
+        "memoryLimit": "内存限制",
+        "adapters": "适配器",
+        "vios": "Virtual I/O Server",
+        "memoryUsage": "内存使用率",
+        "cpuUsage": "CPU 使用率",
+        "esXiHosts": "ESXi 主机",
+        "searchPlaceholderLabel": "平台",
+        "viewAllLabel": "平台"
       },
       "bizopsWidget": {
         "label": "业务监视",
         "name": "名称",
         "activities": "活动",
-        "count": "计数",
-        "health": "运行状况"
+        "views": "视图数",
+        "health": "运行状况",
+        "searchPlaceholderLabel": "业务流程",
+        "viewAllLabel": "业务流程"
       },
       "incidentsWidget": {
         "label": "事件",
@@ -545,39 +580,52 @@
         "on": "ON",
         "started": "已启动",
         "end": "结束",
-        "health": "状态"
+        "health": "状态",
+        "searchPlaceholderLabel": "事件",
+        "viewAllLabel": "事件"
       },
       "websitesWidget": {
         "label": "Web 站点",
         "name": "名称",
         "pageViews": "页面浏览量",
         "onLoadTimes": "OnLoad 时间",
-        "addLabel": "添加 Web 站点",
-        "health": "运行状况"
+        "health": "运行状况",
+        "searchPlaceholderLabel": "网站",
+        "addButtonLabel": "Web 站点",
+        "viewAllLabel": "网站"
       },
       "mobileAppsWidget": {
         "label": "移动应用程序",
         "name": "名称",
         "sessions": "会话",
         "views": "视图数",
-        "addLabel": "添加移动应用程序",
-        "health": "运行状况"
+        "health": "运行状况",
+        "searchPlaceholderLabel": "移动应用",
+        "addButtonLabel": "移动应用",
+        "viewAllLabel": "移动应用"
       },
       "infrastructureWidget": {
         "label": "基础架构",
         "mean": "平均值",
         "name": "名称",
         "os": "操作系统",
+        "zones": "区域",
+        "hosts": "主机",
         "technologies": "技术",
         "cpuNum": "CPU 数",
         "cpuUsage": "CPU 使用率",
         "created": "创建时间",
         "started": "已启动",
-        "health": "运行状况"
+        "health": "运行状况",
+        "hostSearchPlaceholderLabel": "主机",
+        "hostViewAllLabel": "主机",
+        "containersSearchPlaceholderLabel": "容器",
+        "containersViewAllLabel": "容器",
+        "processesSearchPlaceholderLabel": "流程",
+        "processesViewAllLabel": "流程"
       },
       "syntheticWidget": {
         "label": "合成监视",
-        "addLabel": "添加合成监控",
         "na": "不适用",
         "name": "名称",
         "type": "Type",
@@ -586,14 +634,25 @@
         "lastTestRunOn": "上次测试运行时间",
         "version": "版本",
         "timeThreshold": "时间阈值",
-        "testsApplied": "已应用的测试"
+        "testsApplied": "已应用的测试",
+        "health": "运行状况",
+        "testSearchPlaceholderLabel": "合成测试",
+        "testAddButtonLabel": "合成测试",
+        "testViewAllLabel": "合成测试",
+        "locationsSearchPlaceholderLabel": "合成位置",
+        "locationsViewAllLabel": "合成位置",
+        "smartalertsSearchPlaceholderLabel": "合成智能警报",
+        "smartalertsAddButtonLabel": "合成智能警报",
+        "smartalertsViewAllLabel": "合成智能警报"
       },
       "dashboardWidget": {
         "label": "我的定制仪表板",
         "name": "名称",
         "owner": "所有者",
         "permissions": "许可权",
-        "addLabel": "添加仪表板"
+        "searchPlaceholderLabel": "仪表板",
+        "addButtonLabel": "仪表板",
+        "viewAllLabel": "仪表板"
       }
     },
     "noData": {
@@ -608,17 +667,26 @@
       },
       "websitesWidget": {
         "header": "无 Web 站点",
-        "description": "添加 Web 站点并开始收集数据",
+        "description": "收集网站数据，了解用户的数字体验。",
         "buttonName": "添加 Web 站点"
       },
       "mobileListWidget": {
         "header": "无移动应用程序",
-        "description": "添加移动应用程序并开始收集数据。",
+        "description": "收集移动应用数据，了解用户的数字体验。",
         "buttonName": "添加移动应用程序"
       },
       "infrastructureWidget": {
-        "header": "无主机、容器或流程",
-        "description": "在此处查找已部署的代理程序的结果。"
+        "description": "部署代理程序以在此查看详细信息。<br>从 <linkToAgents>代理程序</linkToAgents>页面开始操作。",
+        "link": "代理",
+        "hosts": {
+          "header": "无主机"
+        },
+        "docker": {
+          "header": "无容器"
+        },
+        "process": {
+          "header": "无流程"
+        }
       },
       "platformsWidget": {
         "header": "无平台",
@@ -626,7 +694,7 @@
       },
       "businessMonitoringWidget": {
         "header": "无业务流程",
-        "description": "启用 IBM Business Automation Workflow 或配置 Instana，以从业务流程捕获业务数据并进行存储。"
+        "description": "配置 Instana，从业务流程中捕获并存储数据。"
       },
       "syntheticWidget": {
         "test": {
@@ -636,18 +704,36 @@
         },
         "location": {
           "header": "无合成位置",
-          "description": "配置合成位置以按特定连续时间间隔运行。"
+          "description": "配置将运行合成测试的合成位置。"
         },
         "smartalerts": {
-          "header": "无合成智能警告",
-          "description": "将合成智能警告配置为按照特定连续时间间隔运行。",
-          "buttonName": "添加合成智能警告"
+          "header": "无合成智能警报",
+          "description": "为合成配置智能警报，以便在针对某个位置的测试失败时发送警报。",
+          "buttonName": "添加合成智能警报"
         }
+      },
+      "eventsWidget": {
+        "header": "无事件",
+        "description": "可能没有要显示的事件或事故，或者您可能需要先设置数据。"
       },
       "dashboardWidget": {
         "header": "无定制仪表板",
         "description": "创建您自己的定制仪表板。",
         "buttonName": "创建定制仪表板"
+      }
+    },
+    "quickLinks": {
+      "iconDescriptions": {
+        "settings": "设置",
+        "user": "用户",
+        "externalLink": "外部链接",
+        "resultNew": "结果 - 新"
+      },
+      "buttonNames": {
+        "deployAgent": "部署代理程序",
+        "addUser": "添加用户",
+        "documentation": "IBM 文档",
+        "releaseNotes": "发行说明"
       }
     },
     "ariaLabel": {
@@ -696,5 +782,13 @@
       "configuringAndMonitoring": "配置和监视",
       "customDashboard": "定制仪表板"
     }
+  },
+  "userGoalSelectionDialog": {
+    "title": "您的目标是什么？",
+    "description": "欢迎使用 Instana！ 通过分享您对于本次试用的主要目标，帮助我们打造更出色的体验。 选择所有适用项。",
+    "skip": "跳过",
+    "done": "完成",
+    "otherGoalPlaceholder": "例如，获得整个环境的可视性",
+    "otherGoalToAccomplish": "您还想实现哪些其他目标？"
   }
 }

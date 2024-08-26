@@ -182,7 +182,7 @@ router.get('/', async (req, res) => {
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const injectWalkMeScript =
       clientConfig.featureFlags?.playwithEnabled || clientConfig.featureFlags?.playWithReleaseEnabled;
-    const isAssistMeEnabled = clientConfig.featureFlags?.assistMeEnabled;
+    const isAssistMeEnabled = clientConfig.featureFlags?.assistmeEnabled;
     res.set('Content-Security-Policy', getCsp(nonce, isAssistMeEnabled, injectWalkMeScript));
     res.send(
       compiledTemplate({

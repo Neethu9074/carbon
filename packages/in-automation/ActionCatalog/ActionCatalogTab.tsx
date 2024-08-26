@@ -9,12 +9,12 @@ import React, { useState } from 'react';
 import { Card, Spacer, Stack } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
 
+import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import useActions, { useUserActions, useAIActions } from 'in-automation/ActionCatalog/useActions';
 import { aiGenaratedActionsTabClickTracker } from 'in-automation/tracker';
 import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import ActionCatalog from 'in-automation/ActionCatalog/ActionCatalog';
-import useNavigateToActionCatalog from './useNavigateToActionCatalog';
 import { actionCatalog } from 'in-automation/navigation/paths';
 import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { Col, Row } from 'in-components/layout/Grid/Grid';

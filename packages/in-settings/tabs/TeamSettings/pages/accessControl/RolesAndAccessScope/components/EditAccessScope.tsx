@@ -10,6 +10,10 @@ import React, { useState } from 'react';
 import { PermissionSet, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
+import {
+  getAllSyntheticCredentialsForEntitySelectionWithDefaults,
+  getAllSyntheticTestsForEntitySelectionWithDefaults
+} from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
 import PermissionSectionSyntheticMonitoring from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionSyntheticMonitoring';
 import PermissionSectionBusinessMonitoring from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionBusinessMonitoring';
 import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
@@ -26,7 +30,6 @@ import {
   AreaRoleWithContributor,
   ProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { getAllSyntheticTestsForEntitySelectionWithDefaults } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
 import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import PermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
@@ -286,6 +289,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
               addButtonLabel={t('in-settings:PermissionSection.addButton_syntheticTests')}
               roleTooltipText={<Trans i18nKey="in-settings:permissionScope.roleTooltip_synthetics" />}
               observable={() => getAllSyntheticTestsForEntitySelectionWithDefaults({ timeConfig })}
+              syntheticCredentials={() => getAllSyntheticCredentialsForEntitySelectionWithDefaults({ timeConfig })}
               icon="lib_synthetic"
               extractId={({ id }) => id}
               extractName={({ name }) => name}

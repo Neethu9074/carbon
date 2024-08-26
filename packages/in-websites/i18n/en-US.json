@@ -765,7 +765,8 @@
         "sizesTechnicalLabelAtMost": "At most {{max}}px (inclusive)"
       },
       "synthetic": {
-        "tabLabel": "Synthetic Monitoring"
+        "tabLabel": "Synthetic Monitoring",
+        "noDataTitle": "No synthetic tests are associated with this website."
       },
       "indexLabelSummary": "Summary",
       "indexLabelSpeed": "Speed",

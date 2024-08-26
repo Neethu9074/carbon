@@ -4,78 +4,133 @@
  * Copyright IBM Corp. 2024
  */
 
-import { LabeledMetricResult, MetricResult, Result, TimeConfig } from '@instana/types';
+import { LabeledMetricResult, Result, TimeConfig } from '@instana/types';
 import { just } from '@instana/observables';
 
-interface RetentionPeriodData {
-  days90: number;
-  days60: number;
-  days30: number;
-  days20: number;
-  days7: number;
-}
+// eslint-disable-next-line no-restricted-imports
+import { LogVolumeData, MonthlyRetentionData, RetentionPeriodData, TagNames } from './types';
+// eslint-disable-next-line no-restricted-imports
+import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 
-interface MonthlyRetentionData {
-  month: string;
-  year: number;
-  totalVolumeGB: number;
-  retentionPeriods: RetentionPeriodData;
-}
+export const DEFAULT_NO_GROUPING_VALUE = 'NO_GROUPING';
 
-export function transformData(dataResult: MetricResult[]): MonthlyRetentionData[] | null {
-  const dataMap: Record<string, RetentionPeriodData> = {};
-
-  if (!dataResult || dataResult?.length === 0) return null;
-
-  const data: MonthlyRetentionData[] = [];
-
+export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData[] | null {
+  const dataMap: Record<string, Record<string, RetentionPeriodData>> = {};
+  if (!dataResult || dataResult.length === 0) return null;
   for (const point of dataResult) {
     if (!point.values) continue;
+
+    const hasLabel = 'label' in point;
+    const label = hasLabel ? (point as LabeledMetricResult).label : DEFAULT_NO_GROUPING_VALUE;
+
     for (const value of point.values) {
-      const label = value[0];
+      const retentionDays = value[0];
       const timestamp = value[1];
       const volumeGB = value[2];
+      const volumeRU = value[3];
 
       const date = new Date(timestamp * 1000);
       const month = date.toLocaleString('en-US', { month: 'long' });
       const yearValue = date.getFullYear();
       const monthYearKey = `${month}-${yearValue}`;
 
-      if (!dataMap[monthYearKey]) {
-        dataMap[monthYearKey] = { days90: 0, days60: 0, days30: 0, days20: 0, days7: 0 };
+      if (!dataMap[label]) {
+        dataMap[label] = {};
       }
 
-      if (label === 7) {
-        dataMap[monthYearKey].days7 += +volumeGB.toFixed(2);
-      } else if (label === 20) {
-        dataMap[monthYearKey].days20 += +volumeGB.toFixed(2);
-      } else if (label === 30) {
-        dataMap[monthYearKey].days30 += +volumeGB.toFixed(2);
-      } else if (label === 60) {
-        dataMap[monthYearKey].days60 += +volumeGB.toFixed(2);
-      } else if (label === 90) {
-        dataMap[monthYearKey].days90 += +volumeGB.toFixed(2);
+      if (!dataMap[label][monthYearKey]) {
+        dataMap[label][monthYearKey] = { days90: { gb: 0, ru: 0 }, days60: { gb: 0, ru: 0 }, days30: { gb: 0, ru: 0 } };
+      }
+
+      if (retentionDays === 30) {
+        dataMap[label][monthYearKey].days30.gb += +volumeGB.toFixed(2);
+        dataMap[label][monthYearKey].days30.ru += +volumeRU.toFixed(2);
+      } else if (retentionDays === 60) {
+        dataMap[label][monthYearKey].days60.gb += +volumeGB.toFixed(2);
+        dataMap[label][monthYearKey].days60.ru += +volumeRU.toFixed(2);
+      } else if (retentionDays === 90) {
+        dataMap[label][monthYearKey].days90.gb += +volumeGB.toFixed(2);
+        dataMap[label][monthYearKey].days90.ru += +volumeRU.toFixed(2);
       }
     }
   }
 
-  for (const [monthYearKey, retentionData] of Object.entries(dataMap)) {
-    const [month, yearValue] = monthYearKey.split('-');
-    const totalGB =
-      retentionData.days7 + retentionData.days20 + retentionData.days30 + retentionData.days60 + retentionData.days90;
-    data.push({
-      month,
-      year: parseInt(yearValue, 10),
-      totalVolumeGB: +totalGB.toFixed(2),
-      retentionPeriods: retentionData
-    });
-  }
+  const data: MonthlyRetentionData[] = [];
 
-  return data.sort((a, b) => +new Date(`${a.year}-${a.month}-01`) - +new Date(`${b.year}-${b.month}-01`)).reverse();
+  for (const [label, months] of Object.entries(dataMap)) {
+    for (const [monthYearKey, retentionData] of Object.entries(months)) {
+      const [month, yearValue] = monthYearKey.split('-');
+      const totalGB = retentionData.days30.gb + retentionData.days60.gb + retentionData.days90.gb;
+      const totalRU = retentionData.days30.ru + retentionData.days60.ru + retentionData.days90.ru;
+
+      data.push({
+        label,
+        month,
+        year: parseInt(yearValue, 10),
+        totalVolume: { gb: +totalGB.toFixed(2), ru: +totalRU.toFixed(2) },
+        retentionPeriods: retentionData
+      });
+    }
+  }
+  const dataSorted = data
+    .sort((a, b) => +new Date(`${a.year}-${a.month}-01`) - +new Date(`${b.year}-${b.month}-01`))
+    .reverse();
+  const allHaveValidLabel = dataSorted.every(
+    item => item.label !== undefined && item.label !== DEFAULT_NO_GROUPING_VALUE
+  );
+  return allHaveValidLabel ? transformLabeledData(data) : dataSorted;
 }
 
-export function generateQuery(numMonths: number): any {
+enum Month {
+  January = 1,
+  February,
+  March,
+  April,
+  May,
+  June,
+  July,
+  August,
+  September,
+  October,
+  November,
+  December
+}
+
+const milisecondsInMonth = {
+  [Month.January]: 31 * 86400000,
+  [Month.February]: 28 * 86400000,
+  [Month.March]: 31 * 86400000,
+  [Month.April]: 30 * 86400000,
+  [Month.May]: 31 * 86400000,
+  [Month.June]: 30 * 86400000,
+  [Month.July]: 31 * 86400000,
+  [Month.August]: 31 * 86400000,
+  [Month.September]: 30 * 86400000,
+  [Month.October]: 31 * 86400000,
+  [Month.November]: 30 * 86400000,
+  [Month.December]: 31 * 86400000
+};
+
+function getMonthMilliseconds(month: Month): number {
+  return milisecondsInMonth[month];
+}
+
+export function generateQuery(numMonths: number, groupingTag?: TagNames): any {
   const currentTimestamp = Date.now();
+  const currentDate = new Date(currentTimestamp);
+  const currentMonth = currentDate.getMonth() + 1;
+
+  let totalMilliseconds = 0;
+
+  for (let i = 0; i < numMonths; i++) {
+    let month = currentMonth - i;
+
+    if (month <= 0) {
+      month += 12;
+    }
+
+    totalMilliseconds += getMonthMilliseconds(month as Month);
+  }
 
   const query = {
     subscriptionId: 44,
@@ -102,7 +157,7 @@ export function generateQuery(numMonths: number): any {
           {
             by: {
               groupbyTag: 'retention_days',
-              groupbyTagSecondLevelKey: ''
+              groupbyTagSecondLevelKey: groupingTag
             },
             direction: 'DESC',
             includeOthers: false,
@@ -113,7 +168,7 @@ export function generateQuery(numMonths: number): any {
         resultType: 'SINGLE_NUMBER',
         timeConfig: {
           to: currentTimestamp,
-          windowSize: 2592000000 * numMonths,
+          windowSize: totalMilliseconds,
           focusedMoment: currentTimestamp,
           autoRefresh: false
         }
@@ -134,30 +189,6 @@ const getRandomGB = () => {
 export const getLogVolume = (timeConfig: TimeConfig) => {
   return just<Result<LabeledMetricResult[]>>({
     data: [
-      {
-        id: 'y1-0',
-        values: [[getFirstDayOfMonthTimestamp(timeConfig.to!), getRandomGB()]],
-        label: '7 days',
-        resultPrecisionDetails: {
-          resultPrecision: 'PRECISION_FULL'
-        },
-        adjustedTimeframe: {
-          windowSize: 2592000000,
-          to: timeConfig.to!
-        }
-      },
-      {
-        id: 'y1-1',
-        values: [[getFirstDayOfMonthTimestamp(timeConfig.to!), getRandomGB()]],
-        label: '20 days',
-        resultPrecisionDetails: {
-          resultPrecision: 'PRECISION_FULL'
-        },
-        adjustedTimeframe: {
-          windowSize: 2592000000,
-          to: timeConfig.to!
-        }
-      },
       {
         id: 'y1-2',
         values: [[getFirstDayOfMonthTimestamp(timeConfig.to!), getRandomGB()]],
@@ -188,15 +219,92 @@ export const generateEmptyData = (numEntries: number) => {
   for (let i = 0; i < numEntries; i++) {
     data.push({
       month: 'August',
-      totalVolumeGB: 1,
+      totalVolume: { gb: 1, ru: 1 },
       retentionPeriods: {
-        days90: 0,
-        days60: 0,
-        days30: 0,
-        days20: 0,
-        days7: 0
-      }
+        days90: { gb: 1, ru: 1 },
+        days60: { gb: 1, ru: 1 },
+        days30: { gb: 1, ru: 1 }
+      },
+      year: 2024
     });
   }
   return data;
 };
+
+export function transformLabeledData(data: any[]) {
+  const finalResult = data.reduce((result, current) => {
+    const { month, year, retentionPeriods, label } = current;
+
+    let monthYear = result.find((item: any) => item.month === month && item.year === year);
+
+    if (!monthYear) {
+      monthYear = {
+        month,
+        year,
+        totalVolume: { gb: 0, ru: 0 },
+        retentionPeriods: {
+          days90: [],
+          days60: [],
+          days30: []
+        },
+        partialSums: {
+          days90: { gb: 0, ru: 0 },
+          days60: { gb: 0, ru: 0 },
+          days30: { gb: 0, ru: 0 }
+        }
+      };
+      result.push(monthYear);
+    }
+
+    monthYear.totalVolume.gb += current.totalVolume.gb;
+    monthYear.totalVolume.ru += current.totalVolume.ru;
+
+    Object.keys(retentionPeriods).forEach(period => {
+      const periodData = monthYear.retentionPeriods[period].find((p: any) => p.label === label);
+      const volumeGB = retentionPeriods[period].gb;
+      const volumeRU = retentionPeriods[period].ru;
+
+      if (periodData) {
+        periodData.volumeGB += +volumeGB.toFixed(2);
+        periodData.volumeRU += +volumeRU.toFixed(2);
+      } else {
+        monthYear.retentionPeriods[period].push({
+          label,
+          volumeGB,
+          volumeRU
+        });
+      }
+
+      monthYear.partialSums[period].gb += +volumeGB.toFixed(2);
+      monthYear.partialSums[period].ru += +volumeRU.toFixed(2);
+    });
+
+    return result;
+  }, []);
+  return roundDataValues(finalResult);
+}
+
+function roundDataValues(data: any): any[] {
+  return data.map((item: any) => {
+    const roundedPartialSums = Object.fromEntries(
+      Object.entries(item.partialSums).map(([key, value]: [string, any]) => [
+        key,
+        {
+          gb: Math.round(value.gb * 100) / 100,
+          ru: Math.round(value.ru * 100) / 100
+        }
+      ])
+    );
+
+    const roundedTotalVolume = {
+      gb: Math.round(item.totalVolume.gb * 100) / 100,
+      ru: Math.round(item.totalVolume.ru * 100) / 100
+    };
+
+    return {
+      ...item,
+      totalVolume: roundedTotalVolume,
+      partialSums: roundedPartialSums
+    };
+  });
+}

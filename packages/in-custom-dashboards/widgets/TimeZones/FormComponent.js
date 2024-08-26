@@ -6,7 +6,7 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, { useMemo } from 'react';
 
-import { SvgIcon, Ul, Li, Stack, StackItem, Button, Select } from '@instana/components';
+import { SvgIcon, Ul, Li, Stack, StackItem, Button, IconButton, Select } from '@instana/components';
 import { getIntlDateFormatter } from '@instana/format-date';
 
 // eslint-disable-next-line no-restricted-imports
@@ -118,7 +118,8 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
                           </HorizontalFlexWrapper>
 
                           <HorizontalFlexWrapper className={locals.right}>
-                            <SvgIcon
+                            <IconButton
+                              kind="primary"
                               aria-label={t('in-custom-dashboards:widgets.timezone.formComp.removeTimeZone')}
                               className={locals.removeButton}
                               type="lib_actions_delete"

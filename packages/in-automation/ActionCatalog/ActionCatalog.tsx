@@ -29,7 +29,7 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import useActionCatalogFilterUrlState from 'in-automation/ActionCatalog/useActionCatalogFilterUrlState';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import useNavigateToActionDetails from 'in-automation/ActionCatalog/useNavigateToActionDetails';
+import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
 import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
@@ -86,7 +86,7 @@ export default function ActionCatalog({
       searchPlaceholder={t('in-automation:searchActions')}
       searchMaxWidth={180}
       onRowClick={item => {
-        navigateToActionDetails(item, false);
+        navigateToActionDetails(item.id, false);
         if (!isUserActions) viewAIGenaratedActionTracker({ actionName: item.name });
       }}
       cardTitle={
@@ -162,7 +162,7 @@ const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): Co
             {role?.canConfigureAutomationActions && (
               <>
                 {isUserActions && (
-                  <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToActionDetails(action, false)}>
+                  <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToActionDetails(action.id, false)}>
                     {t('in-automation:edit')}
                   </MoreMenuButton>
                 )}
@@ -170,7 +170,7 @@ const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): Co
                   disabled={isAnsible(action.type)}
                   icon="lib_actions_copy"
                   onClick={() => {
-                    navigateToActionDetails(action, true);
+                    navigateToActionDetails(action.id, true);
                     if (!isUserActions)
                       clickCopyAIGenaratedActionTracker({
                         actionName: action.name

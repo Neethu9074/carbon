@@ -10,20 +10,26 @@
   "buyNowDialog": {
     "title": "사용량에 따른 유연한 청구",
     "cancelbtn": "취소",
-    "subHeadingPart1": "이제 PayPerUse 옵션을 사용하면",
-    "subHeadingPart2": "사용한 만큼만 요금이 청구됩니다.",
+    "subHeading": "이제 PayPerUse 옵션을 사용하면 사용한 만큼만 요금이 청구됩니다.",
     "sidePanelTitle": "구독을 원하는지 여부는 여전히 확실하지 않습니까?",
     "sidePanelDescription": "완벽한 옵션을 찾을 수 있도록 도와드리겠습니다.",
-    "mainBodyTitle1": "PayPerUse 소개",
+    "mainBodyTitle1": "IBM Instana Observability를 통한 자동화, 컨텍스트 및 인텔리전트 조치",
     "mainBodyDescription1": "업계를 선도하는 1초 단위의 세분성과 포괄적인 요청 추적을 통해 문제가 발견되지 않도록 보장합니다. 맞춤형 경보를 위한 SmartAlerts™ 및 사용자 친화적인 대시보드를 사용하여 애플리케이션 코드, Kubernetes 컨테이너 및 마이크로서비스 전체에 대한 전체 스택 가시성을 확보하십시오. AWS에 완벽하게 통합된 Instana는 300개 이상의 기술을 지원하여 Amazon AWS의 컨테이너화된 애플리케이션에 대한 걱정 없는 성능 모니터링을 제공합니다.",
-    "mainBodyTitle2": "IBM Instana Observability PayPerUse 가격 책정 정보",
-    "mainBodyDescription2": "유연성을 제공하도록 설계된 PayPerUse 계층은 비즈니스에서 지원할 수 있는 가격으로 필요한 기능을 제공합니다. 필요한 제품 기능을 제공하는 표준 또는 필수 옵션에서 선택하십시오.",
-    "listTitle1": "단위",
-    "listTitle2": "비용",
-    "listUnit1": "인프라 모니터링+추적+EUM+합성이 포함된 전체 관찰 가능성",
-    "listUnit2": "인프라 모니터링 전용",
-    "listCost1": "$0.12 /단위",
-    "listCost2": "$0.03 /단위"
+    "mainBodyTitle2": "PayPerUse 소개",
+    "mainBodyDescription2": "유연성을 제공하도록 설계된 PayPerUse 계층은 비즈니스 요구사항을 충족하는 Standard 및 Essential 옵션으로 기능과 가치를 제공합니다. 사용량에 따라 매월 말에 요금이 청구됩니다.",
+    "listTitle1": "패키지",
+    "listTitle2": "설명",
+    "listTitle3": "가격",
+    "listUnit1": "Standard MVS† 시간",
+    "listUnit2": "Essential MVS† 시간 ",
+    "listDescription1": "인프라 모니터링+추적+EUM+합성이 포함된 전체 관찰 가능성",
+    "listDescription2": "인프라 모니터링 전용",
+    "listCost1": "$0.12",
+    "listCost2": "$0.03",
+    "learnMore": "자세히 알아보기 ",
+    "serviceDescription": "서비스 설명입니다.",
+    "mvs": "†MVS(Managed Virtual Server)는 Instana 라이센스를 부여할 수 있는 측정 단위입니다. MVS에 대해 자세히 알아보기 ",
+    "here": "여기"
   },
   "licenseBanner": {
     "requestQuoteBtn": "견적 요청",
@@ -78,6 +84,7 @@
       "step5": "5단계: ",
       "download": "다운로드",
       "clusterName": "클러스터 이름",
+      "applicationRuntime": "애플리케이션 런타임",
       "agentZoneOptional": "에이전트 구역(선택사항)",
       "networkRequirements": "네트워크 요구사항",
       "toInstallAndRunAnAgentCompleteTheFollowingSteps": "에이전트를 설치하고 실행하려면 다음 단계를 완료하십시오.",
@@ -287,6 +294,7 @@
       "vmwareTanzuNetworkLink": "VMware Tanzu 네트워크 링크",
       "reviewThePrerequisites": "전제조건 검토",
       "installingTheInstanaAgent": "Instana 에이전트 설치",
+      "installingAndConfiguringMicroservicesApplicationsMonitoring": "마이크로서비스 애플리케이션 모니터링 설치 및 구성",
       "addTileToOpsManagerAndConfigureIt": "Ops Manager에 타일을 추가하고 이를 구성하십시오.",
       "addInstanaApplicationMonitoring": "\"Instana Microservices 애플리케이션 모니터링\" 타일을 Ops Manager에 추가하고 타일의 \"백엔드 구성\" 탭에 다음을 적용하십시오.",
       "nameYourVmwareFoundation": "VMware Tanzu 기반의 이름을 지정하십시오.",
@@ -355,6 +363,7 @@
           "linux64BitAmd": "Linux(64Bit - AMD)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
           "linux64BitPowerPcLittleEndian": "Linux(64비트 - PowerPC Little Endian)",
+          "linuxS390XJdkNotIncluded": "Linux(64Bit - s390x) JDK 미포함",
           "linuxS390X": "Linux (64Bit - s390x)",
           "linuxX8664": "Linux (64Bit - x86_64)",
           "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
@@ -422,7 +431,13 @@
     },
     "azure": {
       "installingAgentOnAks": "Ks에 에이전트 설치",
-      "configureAfterInstall": "설치 후 에이전트 구성"
+      "configureAfterInstall": "설치 후 에이전트 구성",
+      "referenceToAzureContainerAppsDocumentation": "추적 데이터를 수집하려면 Azure 컨테이너 앱에 배치된 Go 애플리케이션을 수동으로 계측해야 합니다. <azureContainerAppsDoc>Azure 컨테이너 앱 Go 문서</azureContainerAppsDoc>의 지시사항을 따르십시오.",
+      "selectAzureContainerAppsRuntime": "Azure 컨테이너 앱 런타임 선택",
+      "reviewPrerequisitesAndConfigureContainerApps": "전제조건을 검토하고 추적을 위해 Azure 컨테이너 앱을 구성하십시오.",
+      "containerAppSetEnvironmentVariables": "Azure 컨테이너 앱을 작성하는 동안 다음 환경 변수를 설정하십시오.",
+      "monitoringAzure": "Azure 에이전트를 사용하여 Microsoft Azure 모니터링 및 계측",
+      "monitoringAzureContainerApps": "Azure 컨테이너 앱 모니터링"
     },
     "gcp": {
       "dockerBuild": "Docker 빌드",
@@ -450,9 +465,12 @@
     "heading": "Instana 시작",
     "foldableTileTitle": "시작합니다.",
     "viewAll": "모두 보기",
-    "search": "검색",
-    "addMore": "추가",
     "UrlShortener": "URL 단축기",
+    "addMore": "추가",
+    "collapsibleButton": {
+      "showOnboardingTasks": "온보딩 태스크 표시",
+      "hideOnboardingTasks": "온보딩 작업 숨기기"
+    },
     "startIntegrating": {
       "title": "데이터 통합 시작",
       "description": "에이전트를 설치하여 Instana 설정 및 원활한 데이터 통합을 시작하십시오.",
@@ -496,16 +514,20 @@
     "component": {
       "applicationWidget": {
         "label": "애플리케이션",
-        "addLabel": "애플리케이션 추가",
         "name": "이름",
         "calls": "호출",
+        "scope": "범위",
         "latency": "대기 시간",
         "erroneousCallRate": "잘못된 호출 비율",
         "openCreationDialog": "작성 대화 상자 열기",
-        "health": "상태"
+        "health": "상태",
+        "searchPlaceholderLabel": "애플리케이션",
+        "addButtonLabel": "애플리케이션",
+        "viewAllLabel": "애플리케이션"
       },
       "eventWidget": {
         "label": "이벤트",
+        "viewAllLabel": "이벤트",
         "incidents": "인시던트",
         "critical": "Critical",
         "warning": "경고",
@@ -529,14 +551,27 @@
         "namespaces": "네임스페이스",
         "pods": "팟(Pod)",
         "health": "상태",
-        "platform": "플랫폼"
+        "vMs": "VM",
+        "systems": "시스템",
+        "instances": "인스턴스",
+        "partitions": "파티션",
+        "memoryLimit": "메모리\n한계",
+        "adapters": "어댑터",
+        "vios": "Virtual I/O Server",
+        "memoryUsage": "메모리 사용량",
+        "cpuUsage": "CPU 사용량",
+        "esXiHosts": "ESXi 호스트",
+        "searchPlaceholderLabel": "플랫폼",
+        "viewAllLabel": "플랫폼"
       },
       "bizopsWidget": {
         "label": "비즈니스 모니터링",
         "name": "이름",
         "activities": "활동",
-        "count": "개수",
-        "health": "상태"
+        "views": "보기",
+        "health": "상태",
+        "searchPlaceholderLabel": "비즈니스 프로세스",
+        "viewAllLabel": "비즈니스 프로세스"
       },
       "incidentsWidget": {
         "label": "인시던트",
@@ -545,39 +580,52 @@
         "on": "On",
         "started": "시작됨",
         "end": "종료",
-        "health": "상태"
+        "health": "상태",
+        "searchPlaceholderLabel": "인시던트",
+        "viewAllLabel": "인시던트"
       },
       "websitesWidget": {
         "label": "웹 사이트",
         "name": "이름",
         "pageViews": "페이지 보기 수",
         "onLoadTimes": "OnLoad 시간",
-        "addLabel": "웹 사이트 추가",
-        "health": "상태"
+        "health": "상태",
+        "searchPlaceholderLabel": "웹 사이트",
+        "addButtonLabel": "웹 사이트",
+        "viewAllLabel": "웹 사이트"
       },
       "mobileAppsWidget": {
         "label": "모바일 앱",
         "name": "이름",
         "sessions": "세션",
         "views": "보기",
-        "addLabel": "모바일 앱 추가",
-        "health": "상태"
+        "health": "상태",
+        "searchPlaceholderLabel": "모바일 앱",
+        "addButtonLabel": "모바일 앱(mobile app)",
+        "viewAllLabel": "모바일 앱"
       },
       "infrastructureWidget": {
         "label": "인프라",
         "mean": "평균",
         "name": "이름",
         "os": "OS",
+        "zones": "구역",
+        "hosts": "호스트",
         "technologies": "기술",
         "cpuNum": "CPU 수",
         "cpuUsage": "CPU 사용량",
         "created": "작성일시",
         "started": "시작됨",
-        "health": "상태"
+        "health": "상태",
+        "hostSearchPlaceholderLabel": "호스트",
+        "hostViewAllLabel": "호스트",
+        "containersSearchPlaceholderLabel": "containers",
+        "containersViewAllLabel": "containers",
+        "processesSearchPlaceholderLabel": "프로세스",
+        "processesViewAllLabel": "프로세스"
       },
       "syntheticWidget": {
         "label": "합성 모니터링",
-        "addLabel": "합성 모니터링 추가",
         "na": "해당사항 없음",
         "name": "이름",
         "type": "유형",
@@ -586,14 +634,25 @@
         "lastTestRunOn": "마지막 테스트 실행 시간",
         "version": "버전",
         "timeThreshold": "시간 임계값",
-        "testsApplied": "적용된 테스트 수"
+        "testsApplied": "적용된 테스트 수",
+        "health": "상태",
+        "testSearchPlaceholderLabel": "합성 테스트",
+        "testAddButtonLabel": "합성 테스트",
+        "testViewAllLabel": "합성 테스트",
+        "locationsSearchPlaceholderLabel": "합성 위치",
+        "locationsViewAllLabel": "합성 위치",
+        "smartalertsSearchPlaceholderLabel": "합성 스마트 경보",
+        "smartalertsAddButtonLabel": "합성 스마트 경보",
+        "smartalertsViewAllLabel": "합성 스마트 경보"
       },
       "dashboardWidget": {
         "label": "내 사용자 정의 대시보드",
         "name": "이름",
         "owner": "소유자",
         "permissions": "권한",
-        "addLabel": "대시보드 추가"
+        "searchPlaceholderLabel": "대시보드",
+        "addButtonLabel": "대시보드",
+        "viewAllLabel": "대시보드"
       }
     },
     "noData": {
@@ -608,17 +667,26 @@
       },
       "websitesWidget": {
         "header": "웹 사이트 없음",
-        "description": "웹 사이트 추가 및 데이터 수집 시작",
+        "description": "웹 사이트 데이터를 수집하여 사용자의 디지털 경험을 이해합니다.",
         "buttonName": "웹 사이트 추가"
       },
       "mobileListWidget": {
         "header": "모바일 앱 없음",
-        "description": "모바일 애플리케이션을 추가하고 데이터 수집을 시작하십시오.",
+        "description": "모바일 앱 데이터를 수집하여 사용자의 디지털 경험을 이해합니다.",
         "buttonName": "모바일 애플리케이션 추가"
       },
       "infrastructureWidget": {
-        "header": "호스트, 컨테이너 또는 프로세스 없음",
-        "description": "여기에서 배치된 에이전트의 결과를 찾으십시오."
+        "description": "여기에서 자세한 내용을 보려면 에이전트를 배치하십시오.<br><linkToAgents>에이전트</linkToAgents> 페이지에서 시작하십시오.",
+        "link": "에이전트",
+        "hosts": {
+          "header": "호스트 없음"
+        },
+        "docker": {
+          "header": "컨테이너 없음"
+        },
+        "process": {
+          "header": "프로세스 없음"
+        }
       },
       "platformsWidget": {
         "header": "플랫폼 없음",
@@ -626,7 +694,7 @@
       },
       "businessMonitoringWidget": {
         "header": "비즈니스 프로세스 없음",
-        "description": "IBM Business Automation Workflow를 사용으로 설정하거나 비즈니스 프로세스에서 비즈니스 데이터를 캡처하고 저장하도록 Instana를 구성하십시오."
+        "description": "비즈니스 프로세스에서 데이터를 캡처하고 저장하도록 Instana를 구성하십시오."
       },
       "syntheticWidget": {
         "test": {
@@ -636,18 +704,36 @@
         },
         "location": {
           "header": "합성 위치 없음",
-          "description": "특정 연속 간격으로 실행되도록 합성 위치를 구성하십시오."
+          "description": "합성 테스트가 실행될 합성 위치를 구성하십시오."
         },
         "smartalerts": {
           "header": "합성 스마트 경보 없음",
-          "description": "특정한 연속 간격으로 실행되도록 합성 스마트 경보를 구성하십시오.",
+          "description": "위치에 대한 테스트가 실패할 경우 경보를 보내도록 합성에 대한 스마트 경보를 구성하십시오.",
           "buttonName": "합성 스마트 경보 추가"
         }
+      },
+      "eventsWidget": {
+        "header": "이벤트 없음",
+        "description": "표시할 이벤트나 인시던트가 없거나 먼저 데이터를 설정해야 할 수 있습니다."
       },
       "dashboardWidget": {
         "header": "사용자 정의 대시보드 없음",
         "description": "사용자 정의 대시보드를 작성하십시오.",
         "buttonName": "사용자 정의 대시보드 작성"
+      }
+    },
+    "quickLinks": {
+      "iconDescriptions": {
+        "settings": "설정",
+        "user": "사용자",
+        "externalLink": "외부 링크",
+        "resultNew": "새로운 결과"
+      },
+      "buttonNames": {
+        "deployAgent": "에이전트 배치",
+        "addUser": "사용자 추가",
+        "documentation": "IBM 문서",
+        "releaseNotes": "릴리스 정보"
       }
     },
     "ariaLabel": {
@@ -696,5 +782,13 @@
       "configuringAndMonitoring": "구성 및 모니터링",
       "customDashboard": "사용자 정의 대시보드"
     }
+  },
+  "userGoalSelectionDialog": {
+    "title": "목표가 무엇입니까?",
+    "description": "Instana에 오신 것을 환영합니다! 이 평가판의 주요 목표를 공유하여 더 나은 경험을 제공할 수 있도록 도와주십시오. 해당되는 항목을 모두 선택하십시오.",
+    "skip": "건너뛰기",
+    "done": "완료",
+    "otherGoalPlaceholder": "예를 들어, 내 환경 전반에 대한 가시성 확보",
+    "otherGoalToAccomplish": "달성하려는 또 다른 목표는 무엇입니까?"
   }
 }

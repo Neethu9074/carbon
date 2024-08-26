@@ -10,8 +10,9 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 
 import { Stack, SvgIcon, Typography, Checkbox, Button } from '@instana/components';
-import { ApiGroup } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { ApiGroup } from '@instana/types';
+
 import {
   FieldsProps,
   OnChangeProps,
@@ -69,6 +70,7 @@ import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { defaultRoleId, fallbackRoleId, role } from 'in-stores/user';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import TextArea from 'in-components/form/TextArea/TextArea';
 import { close } from 'in-components/DialogPresenter/store';
@@ -370,7 +372,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                 {(form as any).map((invite: MapForm<any>, index: number) => (
                   <Row key={index} className={locals.emailAndGroupRow}>
                     {(invite.get('email') as Field<string>).map((field: Field<string>) => (
-                      <Col xs={9}>
+                      <Col xs={8}>
                         <Fields helpText={index === 0 ? t('in-settings:ShareAndInviteDialogBox.emailAddress') : null}>
                           <Input
                             value={field.value}
@@ -397,15 +399,12 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                       </Col>
                     ))}
                     {(invite.get('groupId') as Field<string>).map((field: Field<string>) => (
-                      <Col xs={3}>
+                      <Col xs={4}>
                         <Fields
                           helpText={index === 0 ? t('in-settings:ShareAndInviteDialogBox.group') : null}
                           helpTextIcon={
                             index === 0 ? (
-                              <Tooltip
-                                content={t('in-settings:ShareAndInviteDialogBox.groupToolTip')}
-                                align="topMiddle"
-                              >
+                              <Tooltip content={t('in-settings:ShareAndInviteDialogBox.groupToolTip')} align="auto">
                                 <SvgIcon size="xxs" type="lib_help_error_info_outline" />
                               </Tooltip>
                             ) : null
@@ -461,7 +460,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                 <Col xs={9}>
                   <Button
                     icon="lib_openclose_add_circle_outline"
-                    iconSize="xs"
+                    iconSize={carbonButtonEnabled ? 's' : 'xs'}
                     kind="action"
                     onClick={() => {
                       addUserInviteAndShareModal();
@@ -477,7 +476,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                   <Col xs={3}>
                     <Button
                       icon="lib_openclose_add_circle_outline"
-                      iconSize="xs"
+                      iconSize={carbonButtonEnabled ? 's' : 'xs'}
                       kind="action"
                       href={createHrefToPath(teamSettingsAccessControlGroupNew)}
                       onClick={() => {

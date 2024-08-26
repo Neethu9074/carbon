@@ -111,6 +111,7 @@
       "summary": {
         "logs": "Log",
         "analyzeLogs": "Visualizza in Analizza",
+        "logsCardDescription": "Si tratta di un'anteprima, per visualizzare tutti i log in analisi",
         "correspondingMobileAppActivity": "Attività app mobile corrispondente",
         "hideMobileAppInformation": "Nascondi informazioni sull'app mobile",
         "showMobileAppInformation": "Mostra informazioni sull'app mobile",

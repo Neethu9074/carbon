@@ -4,16 +4,16 @@
  * Copyright IBM Corp. 2023
  */
 
-// @ts-expect-error module need to be translated to TS
+// @ts-expect-error Promise loader module need to be translated to TS
 import BusinessPerspectiveSummary from 'promise-loader?global,bizops!in-bizops/dashboards/perspectives/BusinessPerspectiveSummary';
-// @ts-expect-error module need to be translated to TS
+// @ts-expect-error Promise loader module need to be translated to TS
 import BusinessPerspectivesList from 'promise-loader?global,bizops!in-bizops/lists/businessPerspectives/BusinessPerspectivesList';
-// @ts-expect-error module need to be translated to TS
-import BusinessProcessesList from 'promise-loader?global,bizops!in-bizops/lists/businessProcess/BusinessProcessList';
-// @ts-expect-error
+// @ts-expect-error Promise loader module need to be translated to TS
 import BusinessActivitySummaryDashboard from 'promise-loader?global,bizops!in-bizops/dashboards/activity/BusinessActivitySummary';
-//@ts-expect-error
+// @ts-expect-error Promise loader module need to be translated to TS
 import BusinessProcessSummaryDashboard from 'promise-loader?global,bizops!in-bizops/dashboards/summary/BusinessProcessSummary';
+// @ts-expect-error Promise loader module need to be translated to TS
+import BusinessProcessesList from 'promise-loader?global,bizops!in-bizops/lists/businessProcess/BusinessProcessList';
 import { Route } from 'react-router-dom';
 import React from 'react';
 

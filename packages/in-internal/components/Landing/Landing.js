@@ -539,6 +539,13 @@ export default connectTo(
                       href={createHref({ ...location, pathname: '/internal/thisUnit/eum' })}
                       description={t('in-internal:components.landing.eumDescription')}
                     />
+                    <LinkListItem
+                      // needs i18n...:
+                      label="Feature Flags"
+                      href={createHref({ ...location, pathname: '/internal/featureflags' })}
+                      // needs i18n...:
+                      description="the feature flags available for this tenant unit."
+                    />
                   </LinkList>
                 </Card>
               </Col>

@@ -64,10 +64,6 @@
   "touchedMessages": {
     "withPath": "{{message}}（位于 <codeWithClass>{{path}}</codeWithClass>)"
   },
-  "gravatar": {
-    "avatarUrlAlt": "来自 gravatar.com 的 {{email}} 头像。",
-    "avatarNullAlt": "{{email}} 的后备头像。"
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "发行说明"
   },
@@ -124,6 +120,7 @@
     "tagListNoTagsDefined": "未定义标记",
     "tagListShowAll": "显示所有标记（其他 {{num}} 个）"
   },
+  "copyToClipboard": "剪贴板·",
   "copyToClipboardPressToCopy": "按 CTRL+C/CMD+C 进行复制！",
   "copyToClipboardCopied": "已复制！",
   "reloadUiDialogTitle": "新用户界面版本可用",
@@ -300,7 +297,8 @@
     "labelExpandButtonForContent": "展开内容按钮"
   },
   "featureFeedback": {
-    "labelBETA": "BETA",
+    "labelPublicPreview": "公共预览",
+    "labelPrivatePreview": "私有预览",
     "linkLabelYouCanSendUsFeedback": "您可以向我们发送反馈"
   },
   "geoHeatMap": {
@@ -389,9 +387,9 @@
     "labelLoadingData": "正在加载数据"
   },
   "mainNavigation": {
+    "skipToMainContent": "跳至主内容",
     "viewSwitcherLabelSettings": "设置",
     "viewSwitcherLabelMore": "更多",
-    "viewSwitcherLabelTenants": "租户",
     "viewSwitcherLabelAgents": "代理程序",
     "viewSwitcherLabelReleaseNotes": "发行说明",
     "viewSwitcherLabelDocumentation": "文档",
@@ -415,10 +413,15 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "平台",
-    "viewSwitcherButtonSignOut": "注销",
     "viewSwitcherCustomDashboards": "定制仪表板",
+    "viewSwitcherButtonSignOut": "注销",
+    "viewSwitcherLabelTenants": "租户",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Instana UI 存在可用的新版本",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "重新加载以更新"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "重新加载以更新",
+    "profileMenu_profileLink": "概要文件",
+    "profileMenu_unitName_tenantName": "单位名称 - 租户名称",
+    "profileMenu_switchUnitOrTenant": "切换单位或租户",
+    "profileMenu_logOut": "注销"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "选择指标",
@@ -439,6 +442,7 @@
     "aggregation_MAX": "最大值",
     "aggregation_DISTINCTCOUNT": "不同项计数",
     "aggregation_SUM": "总和",
+    "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "分发",
     "aggregation_PERSECOND": "每秒",
     "labelFilterEmptyValue": "过滤空值"
@@ -831,5 +835,9 @@
     "notice": "此租户单元已迁移到新的区域。 您当前正在访问的单元仅包含历史数据。",
     "goToNewLocationLabel": "转至新位置",
     "exploreDataLabel": "浏览历史数据"
+  },
+  "creatableTagSelect": {
+    "placeholder": "输入标记",
+    "createLabel": "创建：{{tag}}"
   }
 }

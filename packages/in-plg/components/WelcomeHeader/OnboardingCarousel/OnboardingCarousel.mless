@@ -38,9 +38,7 @@
       overflow-x: scroll;
       padding-inline-start: 1.5rem;
       padding-inline-end: 1.5rem;
-      &::-webkit-scrollbar {
-        display: none; /* For hiding scroll tab in safari */
-      }
+      scrollbar-width: none;
     }
   }
 

@@ -64,10 +64,6 @@
   "touchedMessages": {
     "withPath": "{{message}}(<codeWithClass>{{path}}</codeWithClass>에서)"
   },
-  "gravatar": {
-    "avatarUrlAlt": "gravatar.com의 {{email}}에 대한 아바타.",
-    "avatarNullAlt": "{{email}}에 대한 폴백 아바타."
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "릴리스 정보"
   },
@@ -124,6 +120,7 @@
     "tagListNoTagsDefined": "정의된 태그가 없음",
     "tagListShowAll": "모든 태그 표시({{num}}개 더 표시)"
   },
+  "copyToClipboard": "클립보드",
   "copyToClipboardPressToCopy": "복사하려면 CTRL+C/CMD+C를 누르십시오!",
   "copyToClipboardCopied": "복사됨!",
   "reloadUiDialogTitle": "새 사용자 인터페이스 버전 사용 가능",
@@ -300,7 +297,8 @@
     "labelExpandButtonForContent": "컨텐츠에 대한 단추 펼치기"
   },
   "featureFeedback": {
-    "labelBETA": "베타",
+    "labelPublicPreview": "공개 미리보기",
+    "labelPrivatePreview": "비공개 미리보기",
     "linkLabelYouCanSendUsFeedback": "피드백을 보낼 수 있습니다."
   },
   "geoHeatMap": {
@@ -389,9 +387,9 @@
     "labelLoadingData": "데이터 로드 중"
   },
   "mainNavigation": {
+    "skipToMainContent": "기본 컨텐츠로 건너뛰기",
     "viewSwitcherLabelSettings": "설정",
     "viewSwitcherLabelMore": "계속",
-    "viewSwitcherLabelTenants": "테넌트",
     "viewSwitcherLabelAgents": "에이전트",
     "viewSwitcherLabelReleaseNotes": "릴리스 정보",
     "viewSwitcherLabelDocumentation": "문서",
@@ -415,10 +413,15 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "플랫폼",
-    "viewSwitcherButtonSignOut": "로그아웃",
     "viewSwitcherCustomDashboards": "사용자 정의 대시보드",
+    "viewSwitcherButtonSignOut": "로그아웃",
+    "viewSwitcherLabelTenants": "테넌트",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "새 Instana UI 버전 사용 가능",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "업데이트하기 위해 다시 로드"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "업데이트하기 위해 다시 로드",
+    "profileMenu_profileLink": "프로파일",
+    "profileMenu_unitName_tenantName": "단위 이름 - 테넌트 이름",
+    "profileMenu_switchUnitOrTenant": "단위 또는 테넌트 전환",
+    "profileMenu_logOut": "로그아웃"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "메트릭 선택",
@@ -439,6 +442,7 @@
     "aggregation_MAX": "최대",
     "aggregation_DISTINCTCOUNT": "구별 계수",
     "aggregation_SUM": "합",
+    "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "분포",
     "aggregation_PERSECOND": "초당",
     "labelFilterEmptyValue": "비어 있는 값 필터링"
@@ -831,5 +835,9 @@
     "notice": "이 테넌트 단위가 새 영역으로 마이그레이션되었습니다. 현재 액세스 중인 단위에는 히스토리 데이터만 포함되어 있습니다.",
     "goToNewLocationLabel": "새 위치로 이동",
     "exploreDataLabel": "히스토리 데이터 탐색"
+  },
+  "creatableTagSelect": {
+    "placeholder": "태그 입력",
+    "createLabel": "작성: {{tag}}"
   }
 }

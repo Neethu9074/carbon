@@ -6,10 +6,11 @@
 
 import React from 'react';
 
-import { teamSettingsIntegrationsLogging } from 'in-settings/navigation/paths';
-// @ts-ignore
+// @ts-expect-error needs migration
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
+import { teamSettingsIntegrationsLogging } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { t } from 'in-i18n';
 
 import locals from './Integrations.mless';
 
@@ -18,7 +19,8 @@ export default function IntegrationsBreadcrumb() {
 
   return (
     <Breadcrumb className={locals.breadcrumb} onClick={() => goToPath(teamSettingsIntegrationsLogging)}>
-      <span>Integrations</span> /
+      <span className={locals.breadcrumbLink}>{t('in-settings:tabs.integrations.logIntegrations')}</span>
+      <span> /</span>
     </Breadcrumb>
   );
 }

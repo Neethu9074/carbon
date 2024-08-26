@@ -44,7 +44,7 @@ import {
   testAIGenaratedActionTracker
 } from 'in-automation/tracker';
 import { ResolvedDynamicParamValue, resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
-import useNavigateToActionHistory from 'in-automation/RunActionDialog/useNavigateToActionHistory';
+import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from 'in-types';
 import { refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';

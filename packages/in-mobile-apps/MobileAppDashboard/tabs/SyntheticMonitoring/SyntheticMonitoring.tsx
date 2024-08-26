@@ -26,6 +26,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
+import getServerTableDescription from 'in-synthetics/utils/getServerTableDescription';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -46,8 +47,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     columnDefinitions: columnDefinitions.filter(
       column => !['applicationLabels', 'applicationLabel'].includes(column.id)
     ),
-    title: t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle'),
-    description: t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')
+    title: t('in-mobile-apps:dashboard.noDataAvailable.syntheticMonitoring.title'),
+    description: getServerTableDescription('mobile apps')
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, syntheticTypesUrlParameter, locationsUrlParameter],
   columnDefinitions: columnDefinitions.filter(column => !['applicationLabels', 'applicationLabel'].includes(column.id)),

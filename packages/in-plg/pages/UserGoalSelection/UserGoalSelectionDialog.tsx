@@ -4,17 +4,19 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import classNames from 'classnames';
 
 import { Card, Checkbox, DashboardButton, Stack, SvgIcon, Typography } from '@instana/components';
 
-import { carbonTileEnabled, carbonCheckboxEnabled } from 'in-services/featureFlags';
-import { GOALS, TOGGLER } from 'in-plg/pages/UserGoalSelection/utils/consts';
+import { UserSettings, userSettings as userSettingsGlobal } from 'in-services/userSettings/globals';
+import { GOAL_SELECTION, GOALS, TOGGLER } from 'in-plg/pages/UserGoalSelection/utils/consts';
+import { carbonCheckboxEnabled, carbonTileEnabled } from 'in-services/featureFlags';
 import OtherGoalField from 'in-plg/pages/UserGoalSelection/OtherGoalField';
+import { close as dialogClose } from 'in-components/DialogPresenter/store';
 import { segmentTrackingFunc } from 'in-plg/utils/Segment/segment';
 import { UserGoal } from 'in-plg/pages/UserGoalSelection/types';
-import { close } from 'in-components/DialogPresenter/store';
+import { saveUserSettings } from 'in-services/userSettings';
 import { DialogContent } from 'in-plg/components/Dialog';
 import { CTA_CLICKED } from 'in-services/util/constants';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -41,7 +43,7 @@ const UserGoalSelectionDialog = () => {
           {t('in-plg:userGoalSelectionDialog.title')}
         </Typography>
       }
-      onClose={close}
+      onClose={closeHandler}
       withoutBodyPadding
     >
       <div className={locals.dalogContentWrapper} data-testid="user-goal-selection">
@@ -80,11 +82,12 @@ const UserGoalSelectionDialog = () => {
           {showOtherGoal ? <OtherGoalField setOtherGoal={setOtherGoal} /> : null}
         </DialogContent>
         <Stack distribution="spaceBetween" direction="horizontal">
-          <DashboardButton kind="ghost" size="xl" className={locals.actionButton} onClick={close}>
+          <DashboardButton kind="ghost" size="xl" className={locals.actionButton} onClick={skipHandler}>
             {t('in-plg:userGoalSelectionDialog.skip')}
           </DashboardButton>
 
           <DashboardButton
+            disabled={!selectedGoals.length}
             kind="primary"
             size="xl"
             className={locals.actionButton}
@@ -132,4 +135,22 @@ function goalSetHandler(
       return prevSelectedGoals.filter((preGoal: UserGoal) => preGoal.id !== goal.id);
     }
   });
+}
+
+function skipHandler() {
+  segmentTrackingFunc(GOAL_SELECTION.SEGMENT_MESSAGE.SKIP, CTA_CLICKED);
+  close();
+}
+
+function closeHandler() {
+  segmentTrackingFunc(GOAL_SELECTION.SEGMENT_MESSAGE.CLOSE, CTA_CLICKED);
+  close();
+}
+
+function close() {
+  const userSettings = Object.freeze({ ...userSettingsGlobal, showUserGoalSelection: false });
+  saveUserSettings(userSettings, savedBackendSettings => {
+    window.instana.termsAndPrivacySettings = savedBackendSettings as UserSettings;
+  });
+  dialogClose();
 }

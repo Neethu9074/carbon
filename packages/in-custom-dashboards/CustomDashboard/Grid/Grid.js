@@ -10,7 +10,7 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import classNames from 'classnames';
 
-import { Card, Message, SvgIcon } from '@instana/components';
+import { Card, IconButton, Message, SvgIcon } from '@instana/components';
 
 import {
   breakpoints,
@@ -236,8 +236,9 @@ function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onCopyWidget,
       {zoomWidgetEnabled && (
         <Tooltip content={t('in-forge:plugins.docker.dashboard.zoomTooltip')}>
           <div>
-            <SvgIcon
-              size={carbonMoreMenuEnabled ? 'xs' : 's'}
+            <IconButton
+              kind="action"
+              size={carbonMoreMenuEnabled ? 'compact' : 'normal'}
               className={locals.zoom}
               type="lib_actions_maximize"
               onClick={() => onZoomWidget(widget.id)}

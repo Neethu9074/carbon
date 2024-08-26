@@ -111,6 +111,7 @@
       "summary": {
         "logs": "日志",
         "analyzeLogs": "查看分析",
+        "logsCardDescription": "这是预览，请在分析中查看所有日志",
         "correspondingMobileAppActivity": "相应的移动应用程序活动",
         "hideMobileAppInformation": "隐藏移动应用程序信息",
         "showMobileAppInformation": "显示移动应用程序信息",

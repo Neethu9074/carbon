@@ -66,7 +66,7 @@ export default function ViewSwitcher({ selectedEventType }) {
           <SecondLevelNavigationItem href={href} label={label} isActive={isActive} key={i} />
         ))}
       </SecondLevelNavigation>
-      <SearchBar style={{ maxWidth: 'calc(100% - 30rem)' }} theme="light" />
+      <SearchBar style={{ maxWidth: 'calc(100% - 30rem)', padding: '0.5rem 0' }} theme="light" />
     </div>
   );
 }

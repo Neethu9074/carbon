@@ -11,7 +11,7 @@ import {
 import { Renderer, RenderProps } from 'in-components/Chart/renderer/types';
 import renderer from 'in-components/Chart/renderer/Renderer';
 
-interface LineWithMissingDataIndicatorProps {
+export interface RenderWithMissingDataIndicatorProps {
   /**
    * Timestamp at which data collection for the rendered metrics has started.
    * If this timestamp is within the rendered time window the chart will be greyed out up to this timestamp.
@@ -21,7 +21,7 @@ interface LineWithMissingDataIndicatorProps {
 
 function createLineWithMissingDataIndicatorRenderer({
   firstCollectedMetricTimestamp = 0
-}: LineWithMissingDataIndicatorProps): Renderer {
+}: RenderWithMissingDataIndicatorProps): Renderer {
   return {
     id: 'lineWithMissingDataIndicator',
     render: ({ color, scale, config, dataSeries, metricId }: RenderProps) => {
@@ -34,7 +34,7 @@ function createLineWithMissingDataIndicatorRenderer({
   };
 }
 
-export function useLineWithMissingDataIndicatorRenderer(props: LineWithMissingDataIndicatorProps) {
+export function useLineWithMissingDataIndicatorRenderer(props: RenderWithMissingDataIndicatorProps) {
   return createLineWithMissingDataIndicatorRenderer(props);
 }
 

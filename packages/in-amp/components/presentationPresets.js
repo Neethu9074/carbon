@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 const presets = [
@@ -14,7 +15,11 @@ const presets = [
   {
     presentation: 'cumulative',
     label: t('in-amp:components.presentationPresets.cumulative'),
-    isDisabled: timeRange => 'this_month' !== timeRange && 'last_month' !== timeRange
+    isDisabled: timeRange => {
+      // Disable cumulated setting for on-premise scenarios
+      if (onPremLicenseInformationEnabled) return true;
+      else return 'this_month' !== timeRange && 'last_month' !== timeRange;
+    }
   }
 ];
 

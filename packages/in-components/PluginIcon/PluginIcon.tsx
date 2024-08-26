@@ -9,7 +9,13 @@ import { Size } from '@instana/components/types/components/SvgIcon/types';
 import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 
-import { isWebsitePlugin, isSyntheticPlugin, isMobileAppPlugin, isLogPlugin } from 'in-forge/plugins/pluginTypes';
+import {
+  isWebsitePlugin,
+  isSyntheticPlugin,
+  isMobileAppPlugin,
+  isLogPlugin,
+  isOtelDatabasePlugin
+} from 'in-forge/plugins/pluginTypes';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import { capitalize } from 'in-services/formatters/string';
 import { SnapshotMap } from 'in-components/EntityLink';
@@ -57,6 +63,26 @@ function getIconType(snapshot?: SnapshotMap, plugin?: string): string {
       return 'lib_application_logging';
     }
   }
+  if (isOtelDatabasePlugin(plugin || (snapshot?.get('plugin') as string))) {
+    return dataBaseIcon(snapshot, plugin);
+  }
 
   return getInfraIconType(snapshot ?? plugin!);
+}
+
+function dataBaseIcon(snapshot?: SnapshotMap, plugin?: string): string {
+  const data = snapshot?.get('data') as Map<string, unknown>;
+  const database = (data?.get('resource.db.system') as string)?.toLowerCase();
+  switch (database) {
+    case 'db2':
+      return 'lib_infra_db2Database';
+    case 'mysql':
+      return 'lib_infra_mySqlDatabase';
+    case 'mongodb':
+      return 'lib_infra_mongoDb';
+    case 'informix':
+      return 'lib_infra_informix';
+    default:
+      return getInfraIconType(snapshot ?? plugin!);
+  }
 }

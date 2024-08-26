@@ -27,7 +27,8 @@ export function renderMissingDataIndicator(config: RenderConfig, endTimestamp: n
   const endX = config.xScaleBackBuffer.getRange(endTimestamp);
   const startY = config.markerPaneHeight - borderWidth;
   const height = config.height - config.markerPaneHeight - config.timeAxisHeight + borderWidth;
-
+  // Set globalAlpha to 0.25 for better transparency
+  config.backBufferCtx.globalAlpha = 0.25;
   config.backBufferCtx.fillRect(0, startY, endX, height);
   config.backBufferCtx.lineTo(0, endX);
 

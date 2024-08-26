@@ -5,8 +5,8 @@
 
 /* eslint-disable import/no-deprecated */
 
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { createMapForm, createField } from 'formalistic';
-import React, { Fragment } from 'react';
 
 import { Typography } from '@instana/components';
 import { createLogger } from '@instana/logger';
@@ -15,6 +15,7 @@ import IntegrationsBreadcumb from 'in-settings/tabs/TeamSettings/pages/integrati
 import { callToastFlyout } from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/utils';
 import SplunkForm from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Splunk/SplunkForm';
 import { teamSettingsIntegrationsLoggingSplunk } from 'in-settings/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { integrationKey } from 'in-integrations/logging/splunk/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -22,7 +23,6 @@ import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { get, save } from 'in-integrations/logging/api';
 import { isBlank } from 'in-services/util/string';
-import { goToPath } from 'in-stores/navigation';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
@@ -33,135 +33,60 @@ const block = 'in-ui-config';
 
 const logger = createLogger('splunkConfig');
 
-export default class Splunk extends React.Component {
-  static displayName = 'Splunk';
+const Splunk = () => {
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState(t('in-settings:tabs.loading'));
+  const [form, setForm] = useState(null);
+  const { goToPath } = useNavigation();
+  const [isFormSave, setIsFormSave] = useState(false);
+  const responseSubscriptionRef = useRef(null);
+  const errorSubscriptionRef = useRef(null);
 
-  state = {
-    loading: true,
-    error: false,
-    message: t('in-settings:tabs.loading'),
-    integration: null,
-    form: null
-  };
+  const disposeAsyncAction = useCallback(() => {
+    if (responseSubscriptionRef.current) {
+      responseSubscriptionRef.current.dispose();
+      responseSubscriptionRef.current = null;
+    }
 
-  componentDidMount() {
-    this.loadConfiguration();
-  }
+    if (errorSubscriptionRef.current) {
+      errorSubscriptionRef.current.dispose();
+      errorSubscriptionRef.current = null;
+    }
+  }, []);
 
-  loadConfiguration = id => {
-    this.disposeAsyncAction();
-    this.setState({
-      loading: true,
-      error: false,
-      message: t('in-settings:tabs.loading'),
-      id: id,
-      form: null,
-      integration: null
-    });
+  const loadConfiguration = useCallback(() => {
+    disposeAsyncAction();
+    setLoading(true);
+    setMessage(t('in-settings:tabs.loading'));
+    setForm(null);
 
     const result$ = get();
 
-    this.responseSubscription = result$.once(integrations => {
+    responseSubscriptionRef.current = result$.once(integrations => {
       const integration = integrations.find(i => i.type === integrationKey);
-      this.setState({
-        loading: false,
-        error: false,
-        message: null,
-        integration,
-        form: createForm(integration)
-      });
+      setLoading(false);
+      setMessage(null);
+      setForm(createForm(integration));
     });
 
-    this.errorSubscription = result$.errors().once(() => {
-      this.setState({
-        loading: false,
-        error: true,
-        message: t('in-settings:tabs.failedToLoadSplunkConfiguration')
-      });
+    errorSubscriptionRef.current = result$.errors().once(() => {
+      setLoading(false);
+      setMessage(t('in-settings:tabs.failedToLoadSplunkConfiguration'));
     });
-  };
+  }, [disposeAsyncAction]);
 
-  componentWillUnmount() {
-    this.disposeAsyncAction();
-    if (this.suspendNavigation) this.suspendNavigation();
-    window.removeEventListener('beforeunload', this.handleBeforeUnload);
-  }
+  useEffect(() => {
+    loadConfiguration();
+    return () => disposeAsyncAction();
+  }, [loadConfiguration, disposeAsyncAction]);
 
-  disposeAsyncAction = () => {
-    if (this.responseSubscription) {
-      this.responseSubscription.dispose();
-    }
+  const saveIntegrationForm = useCallback(() => {
+    const result$ = save(form.toJS());
+    disposeAsyncAction();
+    setLoading(true);
+    setMessage(t('in-settings:tabs.saving'));
 
-    if (this.errorSubscription) {
-      this.errorSubscription.dispose();
-    }
-  };
-
-  render() {
-    const { form, message, loading } = this.state;
-    const enabled = form ? form.get('enabled').value : null;
-
-    return (
-      <section className={locals.page}>
-        <Title title={t('in-settings:tabs.configureSplunk')} />
-        <IntegrationsBreadcumb />
-        <SubViewHeader>{t('in-settings:tabs.configureYourSplunkSettings')}</SubViewHeader>
-        {form && (
-          <form onSubmit={this.onSubmit}>
-            <Fragment>
-              <div style={{ marginBottom: '1rem' }}>
-                <Heading text={t('in-settings:tabs.showSplunkLinkOnHostsContainersAndPods')} htmlFor="splunk-enabled" />
-              </div>
-              <SectionLine />
-            </Fragment>
-
-            <SplunkForm
-              form={form}
-              onChange={this.onChange}
-              areFieldsBlank={areFieldsBlank(form)}
-              disabled={!enabled}
-            />
-
-            <SaveCancel
-              form={form}
-              message={message}
-              loading={loading}
-              hasCancelButton={false}
-              saveEnabled={!areFieldsBlank(form)}
-              type="integration"
-            />
-          </form>
-        )}
-      </section>
-    );
-  }
-
-  onChange = (fieldName, value) => {
-    const updatedForm = this.state.form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
-    this.setState({
-      form: updatedForm
-    });
-  };
-
-  onSubmit = e => {
-    e.preventDefault();
-
-    if (!this.state.form.hierarchyValid) {
-      this.setState({
-        form: this.state.form.setTouched(true, { recurse: true })
-      });
-      return;
-    }
-
-    const result$ = save(this.state.form.toJS());
-    this.disposeAsyncAction();
-    this.setState({
-      loading: true,
-      error: false,
-      message: t('in-settings:tabs.saving')
-    });
-
-    this.responseSubscription = result$.once(() => {
+    responseSubscriptionRef.current = result$.once(() => {
       refresh();
       const content = (
         <section>
@@ -172,32 +97,85 @@ export default class Splunk extends React.Component {
         </section>
       );
       callToastFlyout('success', content);
-      this.setState({
-        loading: false
-      });
+      setLoading(false);
       goToPath(teamSettingsIntegrationsLoggingSplunk);
     });
 
-    this.errorSubscription = result$.errors().once(error => {
-      const message = t('in-settings:tabs.failedToSaveConfiguration', { err: error.message });
-      logger.error(message, error);
+    errorSubscriptionRef.current = result$.errors().once(error => {
+      const errorMessage = t('in-settings:tabs.failedToSaveConfiguration', { err: error.message });
+      logger.error(errorMessage, error);
       const content = (
         <section>
           <Typography variant="heading-200">{t('in-settings:tabs.integrations.toastErrorTitle')}</Typography>
           <Typography variant="body-regular">
-            {t('in-settings:tabs.integrations.integerationConfigurationFailed', { error: message })}
+            {t('in-settings:tabs.integrations.integrationConfigurationFailed', { error: errorMessage })}
           </Typography>
         </section>
       );
       callToastFlyout('error', content);
-      this.setState({
-        loading: false,
-        error: true,
-        message
-      });
+      setLoading(false);
+      setMessage(errorMessage);
+    });
+  }, [disposeAsyncAction, form, goToPath]);
+
+  useEffect(() => {
+    if (isFormSave) {
+      saveIntegrationForm();
+      setIsFormSave(false);
+    }
+  }, [isFormSave, saveIntegrationForm]);
+
+  const onChange = (fieldName, value) => {
+    setForm(prevForm => prevForm.updateIn([fieldName], field => field.setValue(value).setTouched(true)));
+  };
+
+  const onSubmit = e => {
+    e.preventDefault();
+
+    if (!form.hierarchyValid) {
+      setForm(prevForm => prevForm.setTouched(true, { recurse: true }));
+      return;
+    }
+    setForm(prevForm => {
+      const updatedForm = prevForm.updateIn(['enabled'], field =>
+        field.value ? field : field.setValue(true).setTouched(true)
+      );
+      setIsFormSave(true);
+      return updatedForm;
     });
   };
-}
+
+  const enabled = form ? form.get('enabled').value : null;
+
+  return (
+    <section className={locals.page}>
+      <Title title={t('in-settings:tabs.configureSplunk')} />
+      <IntegrationsBreadcumb />
+      <SubViewHeader>{t('in-settings:tabs.configureYourSplunkSettings')}</SubViewHeader>
+      {form && (
+        <form onSubmit={onSubmit}>
+          <div style={{ marginBottom: '1rem' }}>
+            <Heading text={t('in-settings:tabs.showSplunkLinkOnHostsContainersAndPods')} htmlFor="splunk-enabled" />
+          </div>
+          <SectionLine />
+
+          <SplunkForm form={form} onChange={onChange} areFieldsBlank={areFieldsBlank(form)} disabled={!enabled} />
+
+          <SaveCancel
+            form={form}
+            message={message}
+            loading={loading}
+            hasCancelButton={false}
+            saveEnabled={!areFieldsBlank(form)}
+            type="integration"
+          />
+        </form>
+      )}
+    </section>
+  );
+};
+
+export default Splunk;
 
 function createForm(integration) {
   return createMapForm()
