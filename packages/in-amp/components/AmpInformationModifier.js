@@ -8,11 +8,13 @@ import React from 'react';
 
 import { Stack, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Dropdown } from '@instana/components';
 
 import { getAccountAsResultObservable, getActiveLicensesAsResultObservable } from 'in-amp/api/account';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import PresentationSelection from 'in-amp/components/PresentationSelection';
 import DropdownButton from 'in-components/Button/DropdownButton';
+import { carbonDropdownEnabled } from 'in-services/featureFlags';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
 import { t } from 'in-i18n';
 
@@ -70,21 +72,33 @@ export default function AmpInformationModifier({
         />
         <Stack direction="horizontal" distribution="spaceBetween">
           {unitSelectorOptions && (
-            <ComboBoxBehavior
-              align="bottomRight"
-              value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
-              options={unitSelectorOptions}
-              onChange={setTenantUnit}
-              disableAutomaticOptionSorting
-            >
-              {({ elementProps, isOpen }) => (
-                <DropdownButton {...elementProps} kind="secondary" expanded={isOpen}>
-                  {tenantUnit.label}
-                </DropdownButton>
+            <>
+              {carbonDropdownEnabled ? (
+                <Dropdown
+                  items={unitSelectorOptions}
+                  size="md"
+                  value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
+                  onChange={setTenantUnit}
+                  className={locals.unitSelector}
+                />
+              ) : (
+                <ComboBoxBehavior
+                  align="bottomRight"
+                  value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
+                  options={unitSelectorOptions}
+                  onChange={setTenantUnit}
+                  disableAutomaticOptionSorting
+                >
+                  {({ elementProps, isOpen }) => (
+                    <DropdownButton {...elementProps} kind="secondary" expanded={isOpen}>
+                      {tenantUnit.label}
+                    </DropdownButton>
+                  )}
+                </ComboBoxBehavior>
               )}
-            </ComboBoxBehavior>
+            </>
           )}
-          <div>
+          <div className={locals.ampTimeSelectionWrapper}>
             <AmpTimeSelection
               windowSize={windowSize}
               setWindowSize={setWindowSize}
