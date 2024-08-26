@@ -6,7 +6,10 @@
 
 import React, { useEffect } from 'react';
 
-import DeprecatedCustomEventsPopUp, { ShowNotification } from 'in-events/components/DeprecatedCustomEventsPopUp';
+import DeprecatedCustomEventsPopUp, {
+  showNotification,
+  useLinkToDeprecatedCustomEvents
+} from 'in-events/components/DeprecatedCustomEventsPopUp';
 import MessageFlyout from 'in-components/MessageFlyout';
 
 export default {
@@ -14,8 +17,10 @@ export default {
 };
 
 export const Default = () => {
+  const hrefLink = useLinkToDeprecatedCustomEvents();
+
   useEffect(() => {
-    ShowNotification(1337);
+    showNotification(1337, hrefLink);
   });
 
   return (

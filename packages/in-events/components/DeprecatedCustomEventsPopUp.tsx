@@ -39,9 +39,18 @@ const recurringIntervalDuration = days.toMillis(7);
 // localStorage.setItem('nextReminderAfter', 9)
 const localStorageKey = 'nextReminderAfter';
 
+export function useLinkToDeprecatedCustomEvents() {
+  const { location, createHref } = useNavigation();
+  location.pathname = teamSettingsAlertingEvents;
+  setOrDeleteMatrixKey(location, events, 'type', deprecatedValue);
+
+  return createHref(location);
+}
+
 export default function DeprecatedCustomEventsPopUp() {
   const legacyAlertConfigStats = useObservable(getLegacyAlertConfigStats, []) ?? pendingResult;
   const storedAlarmTime = storedAlarmTimeOrNull();
+  const hrefLink = useLinkToDeprecatedCustomEvents();
 
   useEffect(() => {
     const deprecatedCustomEventsExist = legacyAlertConfigStats?.data?.deprecatedCustomEvents > 0;
@@ -50,21 +59,18 @@ export default function DeprecatedCustomEventsPopUp() {
         setReminder(calculateNextOccurrence(initialDelay));
       } else {
         if (timeExpired()) {
-          ShowNotification(legacyAlertConfigStats.data.deprecatedCustomEvents);
+          showNotification(legacyAlertConfigStats.data.deprecatedCustomEvents, hrefLink);
           const deprecatedCustomEvents = legacyAlertConfigStats?.data?.deprecatedCustomEvents;
           applicationsAlertingShowMigrationNotification({ deprecatedCustomEvents });
         }
       }
     }
-  }, [legacyAlertConfigStats, storedAlarmTime /* trigger, when localStorage was changed */]);
+  }, [legacyAlertConfigStats, storedAlarmTime /* trigger, when localStorage was changed */, hrefLink]);
 
   return null;
 }
 
-export function ShowNotification(deprecatedCustomEvents: number) {
-  const { location, createHref } = useNavigation();
-  location.pathname = teamSettingsAlertingEvents;
-  setOrDeleteMatrixKey(location, events, 'type', deprecatedValue);
+export function showNotification(deprecatedCustomEvents: number, hrefLink: string) {
   const id = 'deprecatedCustomEventsInfo';
   const message: Message = {
     type: 'warning',
@@ -93,7 +99,7 @@ export function ShowNotification(deprecatedCustomEvents: number) {
           />
         </p>
         <Link
-          href={createHref(location)}
+          href={hrefLink}
           onClick={() => applicationsAlertingMigrationNotificationEvents({ deprecatedCustomEvents })}
         >
           {t('in-events:deprecatedCustomEventGlobalPopup.affectedEventsLink')}
