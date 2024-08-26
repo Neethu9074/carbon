@@ -93,6 +93,8 @@ function InnerList({
   columnDefinitions,
   tableActions = {},
   onCreateNew,
+  onSearch,
+  onFilter,
   labelNew,
   pathNew,
   newButtonDisabledTooltipMessage = () => null,
@@ -172,11 +174,19 @@ function InnerList({
         entities = entities.filter(filter);
       });
     }
-    if (!isBlank(queryState) && searchAttributes.length > 0) {
-      entities = entities.filter(entity =>
-        searchAttributes.reduce(filterReducer.bind(null, queryState, entity), false)
-      );
+
+    if (!isBlank(queryState)) {
+      if (onFilter) {
+        // Filter using custom filter logic function
+        entities = onFilter(entities);
+      } else if (searchAttributes.length > 0) {
+        // Filter using default filter mechanism based on specified search attributes
+        entities = entities.filter(entity =>
+          searchAttributes.reduce(filterReducer.bind(null, queryState, entity), false)
+        );
+      }
     }
+
     entities =
       customSortEntities?.({ entities, columnDefinitions, orderByState, orderDirectionState }) ??
       sortEntities(entities, columnDefinitions, orderByState, orderDirectionState);
@@ -225,6 +235,10 @@ function InnerList({
           if (boundedPath) {
             setState({ query, page: 1 });
             setState({ page });
+          }
+          if (onSearch) {
+            // Call onSearch handler with selected search query
+            onSearch(query);
           }
         }}
         columnDefinitions={addTableActions({
@@ -300,7 +314,7 @@ function selectLeftHeader(
     : null;
 }
 
-function filterReducer(query, entity, foundMatch, searchAttribute) {
+export function filterReducer(query, entity, foundMatch, searchAttribute) {
   if (foundMatch) {
     // we already know that this entity matches from another searchAttribute
     return true;
@@ -778,6 +792,8 @@ List.propTypes = {
   noDataMessage: PropTypes.string,
   onCreateNew: PropTypes.func,
   onRowClick: PropTypes.func,
+  onSearch: PropTypes.func,
+  onFilter: PropTypes.func,
   initialOrderBy: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   initalOrderDir: PropTypes.oneOf(['ASC', 'DESC']),
   orderByState: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
