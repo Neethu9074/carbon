@@ -117,12 +117,11 @@ export default function LogVolumeDetails({
                                     ?.filter(
                                       (item: { label: string; volumeGB: number; volumeRU: number }) => item.volumeGB > 0
                                     )
-                                    .map(({ label, volumeGB, volumeRU }, index: number) => (
+                                    .map(({ label, volumeGB }, index: number) => (
                                       <React.Fragment key={`${days}_${index}`}>
                                         <div key={label + index} className={locals.logVolumeCategories}>
                                           <span className={locals.tableLabel}>{label}</span>
                                           <span className={locals.tableGB}>{volumeGB} GB</span>
-                                          <span className={locals.tableRU}>{volumeRU} RU</span>
                                         </div>
                                       </React.Fragment>
                                     ))}
