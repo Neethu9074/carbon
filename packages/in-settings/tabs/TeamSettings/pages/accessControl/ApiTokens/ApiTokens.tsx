@@ -154,7 +154,7 @@ export default function ApiTokens() {
     setFilteredTokenId('');
     setSearchQuery(query);
     // Only search for token id if query matches token length (API call will fail in other cases)
-    if (query?.length === 22) {
+    if (query?.length === 16 || query?.length === 22) {
       const getTokenIdObsvervable = getTokenIdByAccessGrantingToken(query);
       getTokenIdObsvervable.once(data => {
         setFilteredTokenId(data);
