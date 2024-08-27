@@ -14,6 +14,7 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { PageTrackerProps } from 'in-services/tracking/segment/types';
 import { customRealmName } from 'in-services/util/constants';
 import { config } from 'in-services/config';
+import { user } from 'in-stores/user';
 
 let productPlanType: string;
 let userId: string;
@@ -28,13 +29,19 @@ const usePageTracker = ({ productArea, pageRootName }: PageTrackerProps) => {
     if (!segment) {
       return;
     }
+
     const url = window.location.href;
     const { tenantUnitId, tenantId, tenantUnit, tenant, activeLicenseType } = config;
+    if (!tenantUnitId) {
+      return;
+    }
+
     const path = location.pathname;
     const userSelfDefinedRole =
       window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
     productPlanType = getLicenseTypeForSegment(activeLicenseType);
-    userId = customRealmName + '-' + config.tenantUnitId;
+    // @ts-expect-error not types available...
+    userId = customRealmName + '-' + user?.id;
     segment.page('Page Viewed', {
       UT30: ut30,
       instanceId: tenantUnitId,
