@@ -30,7 +30,7 @@ export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData
       const volumeRU = value[3] ?? 0;
 
       const date = new Date(timestamp * 1000);
-      const month = date.toLocaleString('en-US', { month: 'long' });
+      const month = date.toLocaleString('en-US', { month: 'long', timeZone: 'UTC' });
       const yearValue = date.getFullYear();
       const monthYearKey = `${month}-${yearValue}`;
 
