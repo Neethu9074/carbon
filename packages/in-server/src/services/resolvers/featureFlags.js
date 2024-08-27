@@ -563,7 +563,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMoreMenuEnabled',
     instanaCtlKey: 'feature.carbon.more.menu.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonLoadingSkeletonFeatureEnabled',
