@@ -27,7 +27,8 @@ import {
   INCIDENT_SUMMARIZATION_SKIP,
   EVENT_RCA_ANALYZE_CLICK,
   EVENT_RCA_ENTITY_CLICK,
-  EVENT_RCA_ASSOCIATED_EVENTS_CLICK
+  EVENT_RCA_ASSOCIATED_EVENTS_CLICK,
+  EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK
 } from 'in-services/tracking/tracking';
 
 export const helpfulRCASuggestionTracker = (e: Object) => track(EVENT_RCA_SUGGESTION_HELPFUL, e);
@@ -40,6 +41,7 @@ export const RCAFeedbackSubmitTracker = (e: Object) => track(EVENT_RCA_FEEDBACK_
 export const RCAClickThroughToAnalyze = (e: Object) => track(EVENT_RCA_ANALYZE_CLICK, e);
 export const RCAClickThroughToEntity = (e: Object) => track(EVENT_RCA_ENTITY_CLICK, e);
 export const RCAAssociatedEventsClick = (e: Object) => track(EVENT_RCA_ASSOCIATED_EVENTS_CLICK, e);
+export const RCATraceLogsClick = (e: Object) => track(EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK, e);
 
 export const eventFeedbackSubmitTracker = (e: Object) => track(EVENT_FEEDBACK_SUBMIT, e);
 export const eventFeedbackClosedManuallyTracker = (e: Object) => track(EVENT_FEEDBACK_CLOSED_MANUALLY, e);

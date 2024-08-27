@@ -7,7 +7,17 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { List, Map } from 'immutable';
 
-import { Button, Link, LoadingSkeleton, Spacer, Stack, SvgIcon, Typography } from '@instana/components';
+import {
+  Button,
+  Card,
+  IconButton,
+  Link,
+  LoadingSkeleton,
+  Spacer,
+  Stack,
+  SvgIcon,
+  Typography
+} from '@instana/components';
 import { Observable, combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -22,22 +32,33 @@ import {
   useGenerateLinkToDashboard,
   useGenerateLinkToAnalyzePage
 } from 'in-events/components/util/rootCauseUtil';
+import {
+  expandedRCAEventCardTracker,
+  RCAAssociatedEventsClick,
+  RCAClickThroughToAnalyze,
+  RCAClickThroughToEntity,
+  RCATraceLogsClick
+} from 'in-events/tracker';
 //@ts-expect-error
 import { SnapshotData, getPhysicalHierarchy, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import { getStackForInfrastructure } from 'in-components/Stack/subscriptions/getStack';
-import { RCAClickThroughToAnalyze, RCAClickThroughToEntity } from 'in-events/tracker';
+import { Application, Endpoint, ServiceLabel, Snapshot, TimeConfig } from 'in-types';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
-import { Application, Endpoint, ServiceLabel, TimeConfig } from 'in-types';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
+//@ts-expect-error
+import { getEvent } from 'in-stores/events';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
+import RootCauseDashboard from './RootCauseDashboardProps';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { setTimeConfig } from 'in-stores/time/config';
+import { EventOrMap } from 'in-events/types';
+import EventListItem from './EventListItem';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
@@ -49,6 +70,8 @@ interface RootCauseEntityDetailsParams {
   probabilityScore: number;
   relatedAPID: string | null;
   incidentTimeWindow: TimeConfig;
+  associatedEvents: List<string>;
+  latestSnapshot: Snapshot;
 }
 
 export default function RootCauseEntityDetails({
@@ -58,7 +81,9 @@ export default function RootCauseEntityDetails({
   explainabilityMetadata,
   probabilityScore,
   relatedAPID,
-  incidentTimeWindow
+  incidentTimeWindow,
+  associatedEvents,
+  latestSnapshot
 }: RootCauseEntityDetailsParams) {
   /*
     These query state variables hold on to the necessary observable queries that will later get used by our data state variables.
@@ -328,6 +353,18 @@ export default function RootCauseEntityDetails({
           {t('in-applications:buttonAnalyzeCalls')}
         </Button>
       </Stack>
+
+      <div className={locals.sectionLine} />
+      <TraceLogs
+        nonInfraServiceLabelInformation={nonInfraServiceLabelInformation}
+        infraServiceLabelInformation={infraServiceLabelInfromation}
+        relatedApplicationInformation={relatedApplicationInformation}
+        rcaEntityType={rcaEntityType}
+        entityData={entityData}
+        incidentTimeWindow={incidentTimeWindow}
+      />
+      <div className={locals.sectionLine} />
+      <AssociatedEvents associatedEvents={associatedEvents} latestSnapshot={latestSnapshot} />
     </div>
   );
 }
@@ -678,4 +715,111 @@ function ServiceLink({ serviceID, serviceLabel, relatedAPID }: any) {
 
   const linkToService = useGenerateLinkToDashboard('service', serviceID, location, relatedAPID);
   return <MoreMenuButton href={linkToService}>{serviceLabel}</MoreMenuButton>;
+}
+
+interface RootCauseTraceLogsProps {
+  nonInfraServiceLabelInformation: ServiceLabel | null;
+  infraServiceLabelInformation: ServiceLabel[];
+  relatedApplicationInformation: Application | null | undefined;
+  rcaEntityType: string;
+  entityData: SnapshotData;
+  incidentTimeWindow: TimeConfig;
+}
+
+function TraceLogs({
+  nonInfraServiceLabelInformation,
+  infraServiceLabelInformation,
+  relatedApplicationInformation,
+  rcaEntityType,
+  entityData,
+  incidentTimeWindow
+}: RootCauseTraceLogsProps) {
+  const [expanded, setExpanded] = useState<boolean>(true);
+
+  return (
+    <Card
+      leftHeaderContent={<Typography variant="body-bold">{t('in-events:RCA.relatedMessagesAndLogsLabel')}</Typography>}
+      onHeaderBackgroundClicked={() => {
+        RCATraceLogsClick({ expanded: !expanded });
+        setExpanded(!expanded);
+      }}
+      headerClassName={locals.traceLogsCardHeader}
+      rightHeaderContent={
+        <IconButton color="black" type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="compact" />
+      }
+      className={locals.associatedEventsCard}
+      hasMarginBottom={expanded}
+      useMaxAvailableHeight={false}
+    >
+      {expanded && entityData !== null && (
+        <RootCauseDashboard
+          applicationBoundaryScope="ALL"
+          serviceId={nonInfraServiceLabelInformation?.id || infraServiceLabelInformation[0]?.id}
+          serviceName={nonInfraServiceLabelInformation?.label || infraServiceLabelInformation[0]?.label}
+          applicationId={relatedApplicationInformation?.id}
+          applicationName={relatedApplicationInformation?.label}
+          endpointId={rcaEntityType === 'endpoint' ? entityData.steadyId : undefined}
+          endpointName={rcaEntityType === 'endpoint' ? entityData.label : undefined}
+          timeConfig={incidentTimeWindow}
+        />
+      )}
+    </Card>
+  );
+}
+
+interface AssociatedEventsProps {
+  associatedEvents: List<string>;
+  latestSnapshot: Snapshot;
+}
+
+function AssociatedEvents({ associatedEvents, latestSnapshot }: AssociatedEventsProps) {
+  const [associatedEventsObservables, setAssociatedEventsObservables] = useState<Observable<EventOrMap[]> | null>(null);
+  const [expanded, setExpanded] = useState<boolean>(false);
+
+  const associatedEventsData = useObservable(associatedEventsObservables, [associatedEventsObservables]);
+
+  useEffect(() => {
+    setAssociatedEventsObservables(combineLatest(associatedEvents.toArray().map(getEvent)));
+  }, [associatedEvents]);
+
+  if (!associatedEventsData) return <LoadingIndicator />;
+
+  return (
+    <Card
+      leftHeaderContent={
+        <Typography variant="body-bold">
+          {t('in-events:RCA.relatedEventsLabel', {
+            number_of_events: Array.isArray(associatedEventsData) ? associatedEventsData.length : 0
+          })}
+        </Typography>
+      }
+      onHeaderBackgroundClicked={() => {
+        RCAAssociatedEventsClick({ expanded: !expanded });
+        setExpanded(!expanded);
+      }}
+      headerClassName={locals.associatedEventsCardHeader}
+      rightHeaderContent={
+        <IconButton color="black" type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="compact" />
+      }
+      className={locals.associatedEventsCard}
+      hasMarginBottom={expanded}
+      useMaxAvailableHeight={false}
+    >
+      {expanded &&
+        associatedEventsData?.map((_event: EventOrMap) => (
+          <div onClick={expandedRCAEventCardTracker}>
+            <EventListItem
+              key={_event.get('id') as string}
+              triggeringProblemId={
+                associatedEventsData.length > 0 ? (associatedEventsData[0].get('id') as string) : undefined
+              }
+              event={_event}
+              latestSnapshot={latestSnapshot}
+              setBackground={themes.default.ids.color.option['deep-purple'][500]}
+              setIconColor={themes.default.ids.color.option.white}
+            />
+          </div>
+        ))}
+    </Card>
+  );
 }
