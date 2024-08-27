@@ -453,7 +453,18 @@
       "reviewPrerequisitesAndConfigureContainerApps": "Review the prerequisites and configure your Azure Container Apps for tracing.",
       "containerAppSetEnvironmentVariables": "Set the following environment variables while creating an Azure Container App.",
       "monitoringAzure": "Monitoring and instrumenting Microsoft Azure with Azure agent",
-      "monitoringAzureContainerApps": "Monitoring Azure Container Apps"
+      "monitoringAzureContainerApps": "Monitoring Azure Container Apps",
+      "selectAzureAppServiceRuntime": "Select Azure App Service runtime.",
+      "nodejs": {
+        "reviewPrerequisitesAndInstallAppService": "Review the prerequisites and Install the collector.",
+        "monitoringAppService": "Monitoring Azure App Service for Node.js",
+        "referenceAppServiceDocumentationContent": "Review the prerequisites and follow the installation guide for installing collector. For detailed instructions, refer to the <azureAppServiceDoc>documentation</azureAppServiceDoc>.",
+        "activatingAppService": "Activating the collector.",
+        "appName": "App Name",
+        "resourceGroupName": "Resource Group Name",
+        "activatingAppServiceContent": "Example Azure CLI command for an ECMAScript module application using Node.js v18.19 or later:",
+        "activatingAppServiceNote": "Please update the NODE_OPTIONS value to match the correct setting for your configuration. Refer to the <azureAppServiceEnableCollectorDoc>documentation</azureAppServiceEnableCollectorDoc> for the guidance."
+      }
     },
     "gcp": {
       "dockerBuild": "Docker build",
