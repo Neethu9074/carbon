@@ -8,7 +8,6 @@ import { Field as FormField } from 'formalistic';
 import { MapForm } from 'formalistic';
 
 import {
-  ApplicationAlertConfigWithMetadata,
   EventSpecificationInfo,
   Policy,
   Trigger,
@@ -20,21 +19,24 @@ import {
   TypeConfigurationType,
   ParameterValue,
   WebsiteAlertConfigWithMetadata,
-  GlobalApplicationsAlertConfigWithMetadata,
   MobileAppAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
   Result,
   ServiceLevelsAlertConfigWithMetadata
 } from 'in-types';
+import {
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 
 export type Triggers = {
   customEvent: Result<EventSpecificationInfo[]>;
   builtinEvent: Result<EventSpecificationInfo[]>;
-  applicationSmartAlert: Result<ApplicationAlertConfigWithMetadata[]>;
+  applicationSmartAlert: Result<ApplicationSmartAlertConfigWithMetadata[]>;
   websiteSmartAlert: Result<WebsiteAlertConfigWithMetadata[]>;
-  globalApplicationSmartAlert: Result<GlobalApplicationsAlertConfigWithMetadata[]>;
+  globalApplicationSmartAlert: Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>;
   mobileAppSmartAlert: Result<MobileAppAlertConfigWithMetadata[]>;
   infraSmartAlert: Result<InfraSmartAlertConfigWithMetadata[]>;
   logSmartAlert: Result<LogAlertConfigWithMetadata[]>;
@@ -75,9 +77,9 @@ type NewActionConfiguration = Omit<ActionConfiguration, 'action'> & {
 
 export type TriggerSpecification =
   | EventSpecificationInfo
-  | ApplicationAlertConfigWithMetadata
+  | ApplicationSmartAlertConfigWithMetadata
   | WebsiteAlertConfigWithMetadata
-  | GlobalApplicationsAlertConfigWithMetadata
+  | GlobalApplicationsSmartAlertConfigWithMetadata
   | MobileAppAlertConfigWithMetadata
   | InfraSmartAlertConfigWithMetadata
   | SyntheticAlertConfigWithMetadata
@@ -87,13 +89,13 @@ export type TriggerSpecification =
 export const isEventSpecification = (item?: TriggerSpecification): item is EventSpecificationInfo =>
   (item as EventSpecificationInfo)?.type !== undefined;
 
-export const isApplicationSmartAlert = (item?: TriggerSpecification): item is ApplicationAlertConfigWithMetadata =>
-  (item as ApplicationAlertConfigWithMetadata)?.applicationId !== undefined;
+export const isApplicationSmartAlert = (item?: TriggerSpecification): item is ApplicationSmartAlertConfigWithMetadata =>
+  (item as ApplicationSmartAlertConfigWithMetadata)?.applicationId !== undefined;
 
 export const isGlobalApplicationSmartAlert = (
   item?: TriggerSpecification
-): item is GlobalApplicationsAlertConfigWithMetadata =>
-  (item as GlobalApplicationsAlertConfigWithMetadata)?.applicationIds !== undefined;
+): item is GlobalApplicationsSmartAlertConfigWithMetadata =>
+  (item as GlobalApplicationsSmartAlertConfigWithMetadata)?.applicationIds !== undefined;
 
 export const isMobileAppSmartAlert = (item?: TriggerSpecification): item is MobileAppAlertConfigWithMetadata =>
   (item as MobileAppAlertConfigWithMetadata)?.mobileAppId !== undefined;

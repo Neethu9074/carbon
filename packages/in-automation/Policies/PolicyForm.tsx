@@ -39,9 +39,7 @@ import {
 } from 'in-automation/Policies/types';
 import {
   Action,
-  ApplicationAlertConfigWithMetadata,
   EventSpecificationInfo,
-  GlobalApplicationsAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
   MobileAppAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata,
@@ -49,6 +47,10 @@ import {
   TriggerType,
   WebsiteAlertConfigWithMetadata
 } from 'in-types';
+import {
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -468,7 +470,7 @@ const triggerDescriptionColumn: ColumnDefinition<TriggerSpecification> = {
 };
 
 const appFilterAppliedColumn: ColumnDefinition<
-  ApplicationAlertConfigWithMetadata | GlobalApplicationsAlertConfigWithMetadata
+  ApplicationSmartAlertConfigWithMetadata | GlobalApplicationsSmartAlertConfigWithMetadata
 > = {
   id: 'filterApplied',
   label: t('in-automation:policies.filterApplied'),
