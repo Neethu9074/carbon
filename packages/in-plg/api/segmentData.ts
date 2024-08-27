@@ -29,7 +29,7 @@ export interface segmentData {
 export function triggerSegmentEvent(data: segmentData) {
   const result$ = sendSegmentEvent(data);
   const logger = createLogger('/in-plg/components/BuyNowDialog/BuyNowDialog');
-  result$.once(error => {
-    logger.error(`Failed to send segment event : ${error}`, error);
+  result$.errors().once(error => {
+    logger.error(`Failed to send ${data?.type} cta event : ${error}`, error);
   });
 }
