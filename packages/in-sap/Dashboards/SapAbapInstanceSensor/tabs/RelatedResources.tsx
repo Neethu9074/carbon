@@ -15,7 +15,7 @@ import { getHumanReadablePluginName } from 'in-sap/Dashboards/tables/getHumanRea
 // @ts-expect-error needs TS migration
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 // @ts-expect-error needs TS migration
-import { getSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
+import { GetSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
 import getInstanceRelatedResourcesListsForSensors from 'in-sap/subscriptions/getInstanceRelatedResourcesListsForSensors';
 // @ts-expect-error needs TS migration
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
@@ -41,7 +41,7 @@ const columnDefinitions: ColDefinition[] = [
     id: 'label',
     label: t('in-sap:name'),
     getContent(item) {
-      return getSpecificDashboard(item, matrixPrefix, systemSnapshotId);
+      return <GetSpecificDashboard value={item} matrixPrefix={matrixPrefix} systemSnapshotId={systemSnapshotId} />;
     }
   },
   {

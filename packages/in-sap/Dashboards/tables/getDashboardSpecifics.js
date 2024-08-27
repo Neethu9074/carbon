@@ -7,20 +7,20 @@
 import React from 'react';
 
 import {
-  getAbapInstanceDashboard,
-  getAbapCentralInstanceDashboard,
-  getSapDbInstanceDashboard,
-  getSapDbmsDashboard,
-  getSapDbTenantDashboard,
-  getSapHanaDashboard,
-  getSapJavaCentralInstanceDashboard,
-  getSapJavaInstanceDashboard,
-  getAbapSystemDashboard,
-  getSapJavaSystemDashboard,
-  getSapHanaSystemDashboard,
-  getSapWebDispatcherDashboard,
-  getSapAbapInstanceSensorDashboard,
-  getSapAbapSystemSensorDashboard
+  useAbapInstanceDashboard,
+  useAbapCentralInstanceDashboard,
+  useSapDbInstanceDashboard,
+  useSapDbmsDashboard,
+  useSapDbTenantDashboard,
+  useSapHanaDashboard,
+  useSapJavaCentralInstanceDashboard,
+  useSapJavaInstanceDashboard,
+  useAbapSystemDashboard,
+  useSapJavaSystemDashboard,
+  useSapHanaSystemDashboard,
+  useSapWebDispatcherDashboard,
+  useSapAbapInstanceSensorDashboard,
+  useSapAbapSystemSensorDashboard
 } from 'in-sap/navigation/paths';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
@@ -32,14 +32,28 @@ const DashboardLink = ({ label, id }) => {
   return <EntityLink label={label} href={href} />;
 };
 
-export const getSpecificDashboard = function (value, matrixPrefix, systemSnapshotId) {
+export const GetSpecificDashboard = function ({value, matrixPrefix, systemSnapshotId}) {
+  const getAbapCentralInstanceDashboard = useAbapCentralInstanceDashboard;
+  const getAbapInstanceDashboard = useAbapInstanceDashboard;
+  const getAbapSystemDashboard = useAbapSystemDashboard;
+  const getSapJavaSystemDashboard = useSapJavaSystemDashboard;
+  const getSapJavaInstanceDashboard = useSapJavaInstanceDashboard;
+  const getSapJavaCentralInstanceDashboard = useSapJavaCentralInstanceDashboard;
+  const getSapHanaSystemDashboard = useSapHanaSystemDashboard;
+  const getSapWebDispatcherDashboard = useSapWebDispatcherDashboard;
+  const getSapDbmsDashboard = useSapDbmsDashboard;
+  const getSapHanaDashboard = useSapHanaDashboard;
+  const getSapDbTenantDashboard = useSapDbTenantDashboard;
+  const getSapDbInstanceDashboard = useSapDbInstanceDashboard;
+  const getSapAbapInstanceSensorDashboard = useSapAbapInstanceSensorDashboard;
+  const getSapAbapSystemSensorDashboard = useSapAbapSystemSensorDashboard;
   switch (value.pluginName) {
     case plugins.abapInstance:
       if (value.label.includes('Central'))
         return (
           <EntityLink
             label={value.label}
-            href$={getAbapCentralInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
+            href={getAbapCentralInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
             icon={getIconType(value.pluginName)}
           />
         );
@@ -47,7 +61,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
         return (
           <EntityLink
             label={value.label}
-            href$={getAbapInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
+            href={getAbapInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
             icon={getIconType(value.pluginName)}
           />
         );
@@ -55,7 +69,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
       return (
         <EntityLink
           label={value.label}
-          href$={getSapDbInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          href={getSapDbInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
           icon={getIconType(value.pluginName)}
         />
       );
@@ -63,7 +77,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
       return (
         <EntityLink
           label={value.label}
-          href$={getSapDbmsDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          href={getSapDbmsDashboard(value.id, matrixPrefix, systemSnapshotId)}
           icon={getIconType(value.pluginName)}
         />
       );
@@ -71,7 +85,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
       return (
         <EntityLink
           label={value.label}
-          href$={getSapDbTenantDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          href={getSapDbTenantDashboard(value.id, matrixPrefix, systemSnapshotId)}
           icon={getIconType(value.pluginName)}
         />
       );
@@ -79,7 +93,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
       return (
         <EntityLink
           label={value.label}
-          href$={getSapHanaDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          href={getSapHanaDashboard(value.id, matrixPrefix, systemSnapshotId)}
           icon={getIconType(value.pluginName)}
         />
       );
@@ -88,7 +102,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
         return (
           <EntityLink
             label={value.label}
-            href$={getSapJavaCentralInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
+            href={getSapJavaCentralInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
             icon={getIconType(value.pluginName)}
           />
         );
@@ -96,7 +110,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
         return (
           <EntityLink
             label={value.label}
-            href$={getSapJavaInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
+            href={getSapJavaInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
             icon={getIconType(value.pluginName)}
           />
         );
@@ -104,7 +118,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
       return (
         <EntityLink
           label={value.label}
-          href$={getSapHanaSystemDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          href={getSapHanaSystemDashboard(value.id, matrixPrefix, systemSnapshotId)}
           icon={getIconType(value.pluginName)}
         />
       );
@@ -112,7 +126,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
       return (
         <EntityLink
           label={value.label}
-          href$={getSapWebDispatcherDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          href={getSapWebDispatcherDashboard(value.id, matrixPrefix, systemSnapshotId)}
           icon={getIconType(value.pluginName)}
         />
       );
@@ -120,7 +134,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
       return (
         <EntityLink
           label={value.label}
-          href$={getSapJavaSystemDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          href={getSapJavaSystemDashboard(value.id, matrixPrefix, systemSnapshotId)}
           icon={getIconType(value.pluginName)}
         />
       );
@@ -128,7 +142,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
       return (
         <EntityLink
           label={value.label}
-          href$={getAbapSystemDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          href={getAbapSystemDashboard(value.id, matrixPrefix, systemSnapshotId)}
           icon={getIconType(value.pluginName)}
         />
       );
@@ -136,7 +150,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
       return (
         <EntityLink
           label={value.label}
-          href$={getSapAbapInstanceSensorDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          href={getSapAbapInstanceSensorDashboard(value.id, matrixPrefix, systemSnapshotId)}
           icon={getIconType(value.pluginName)}
         />
       );
@@ -144,7 +158,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
       return (
         <EntityLink
           label={value.label}
-          href$={getSapAbapSystemSensorDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          href={getSapAbapSystemSensorDashboard(value.id, matrixPrefix, systemSnapshotId)}
           icon={getIconType(value.pluginName)}
         />
       );
