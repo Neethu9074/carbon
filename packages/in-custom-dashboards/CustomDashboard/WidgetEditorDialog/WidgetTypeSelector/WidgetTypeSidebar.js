@@ -5,8 +5,6 @@
 
 import React from 'react';
 
-import { Pill } from '@instana/components';
-
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { enabledWidgets } from 'in-custom-dashboards/widgets';
 
@@ -18,19 +16,14 @@ export default function WidgetTypeSidebar({ form, onChangeType }) {
   return (
     <SideNavigation>
       {' '}
-      {enabledWidgets.map(({ type, label, badge }) => (
+      {enabledWidgets.map(({ type, label, isBeta }) => (
         <SideNavigationItem
           key={type}
           omitEmptyIcon
-          label={
-            <span className={locals.label}>
-              {label}
-
-              {badge?.content && <Pill kind="primary">{badge.content}</Pill>}
-            </span>
-          }
+          label={<span className={locals.label}>{label}</span>}
           isActive={selectedType === type}
           onClick={() => onChangeType(type)}
+          isBeta={isBeta}
         />
       ))}{' '}
     </SideNavigation>
