@@ -8,7 +8,6 @@ import React from 'react';
 import { ApplicationBoundaryScope, LogMessageItem, OrderDirection, Result, TimeConfig } from '@instana/types';
 import { Button, Link, Pill } from '@instana/components';
 
-/* eslint-disable react/no-unused-prop-types */
 //@ts-expect-error Needs TS migration
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 //@ts-expect-error Needs TS migration
@@ -36,26 +35,19 @@ import locals from 'in-logging/components/Dashboards/components/MessagesTable.ml
 const pathSegment = '/logMessages';
 const matrixPrefix = 'log.';
 
-interface RootCauseLogMessageTableProps {
-  applicationId?: string;
-  serviceId?: string;
-  endpointId?: string;
+interface ColumnDefinitionProps extends TableProps<LogMessageItem> {
   boundaryScope: ApplicationBoundaryScope;
   timeConfig?: TimeConfig;
   applicationName: string;
   serviceName: string;
   endpointName: string;
-  result?: Result<LogMessageItem>;
-  query?: string;
-}
-
-interface AdditionalProps extends RootCauseLogMessageTableProps, TableProps<LogMessageItem> {
   columnDefinitions: ColumnDefinition<LogMessageItem>[];
   orderBy: string;
   orderDirection: OrderDirection;
+  result?: Result<LogMessageItem>;
 }
 
-const columnDefinitions: ColumnDefinition<LogMessageItem, AdditionalProps>[] = [
+const columnDefinitions: ColumnDefinition<LogMessageItem, ColumnDefinitionProps>[] = [
   {
     id: 'logLevel',
     width: '4.5rem',
@@ -135,6 +127,17 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
+interface RootCauseLogMessageTableProps {
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string;
+  boundaryScope: ApplicationBoundaryScope;
+  timeConfig?: TimeConfig;
+  applicationName: string;
+  serviceName: string;
+  endpointName: string;
+}
+
 export default function RootCauseLogMessagesTable({
   applicationId,
   serviceId,
@@ -158,7 +161,7 @@ export default function RootCauseLogMessagesTable({
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
       cardTitle={t('in-events:RCA:traceLogs')}
-      rightHeader={({ query }: { query: string }) => (
+      rightHeader={(headerProps: { query: string }) => (
         <AnalyzeTraceLogsButton
           groupByTagName="log.message"
           applicationName={applicationName}
@@ -166,7 +169,7 @@ export default function RootCauseLogMessagesTable({
           endpointName={endpointName}
           className={locals.analyzeButton}
           boundaryScope={boundaryScope}
-          query={query}
+          query={headerProps.query}
           includeInternal
           includeSynthetic
           timeConfig={timeConfig}
@@ -235,8 +238,13 @@ function getTableData({
   });
 }
 
-interface MessageProps extends RootCauseLogMessageTableProps {
+interface MessageProps {
   message: string;
+  applicationName: string;
+  serviceName: string;
+  endpointName: string;
+  boundaryScope: ApplicationBoundaryScope;
+  timeConfig?: TimeConfig;
 }
 function Message({ message, applicationName, serviceName, endpointName, boundaryScope, timeConfig }: MessageProps) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();

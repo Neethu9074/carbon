@@ -8,7 +8,6 @@ import React from 'react';
 import { ApplicationBoundaryScope, ErrorMessageItem, OrderDirection, Result, TimeConfig } from '@instana/types';
 import { Button, Link } from '@instana/components';
 
-/* eslint-disable react/no-unused-prop-types */
 //@ts-expect-error Needs TS migration
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 //@ts-expect-error Needs TS migration
@@ -34,26 +33,19 @@ import locals from 'in-logging/components/Dashboards/components/MessagesTable.ml
 const pathSegment = '/errorMessages';
 const matrixPrefix = 'error.';
 
-interface RootCauseErrorMessageTableProps {
-  applicationId?: string;
-  serviceId?: string;
-  endpointId?: string;
+interface ColumnDefinitionProps extends TableProps<ErrorMessageItem> {
   boundaryScope: ApplicationBoundaryScope;
   timeConfig?: TimeConfig;
   applicationName: string;
   serviceName: string;
   endpointName: string;
-  result?: Result<ErrorMessageItem>;
-  query?: string;
-}
-
-interface AdditionalProps extends RootCauseErrorMessageTableProps, TableProps<ErrorMessageItem> {
   columnDefinitions: ColumnDefinition<ErrorMessageItem>[];
   orderBy: string;
   orderDirection: OrderDirection;
+  result?: Result<ErrorMessageItem>;
 }
 
-const columnDefinitions: ColumnDefinition<ErrorMessageItem, AdditionalProps>[] = [
+const columnDefinitions: ColumnDefinition<ErrorMessageItem, ColumnDefinitionProps>[] = [
   {
     id: 'errorMessage',
     label: t('in-applications:labelErrorMessage'),
@@ -115,6 +107,17 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
+interface RootCauseErrorMessageTableProps {
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string;
+  boundaryScope: ApplicationBoundaryScope;
+  timeConfig?: TimeConfig;
+  applicationName: string;
+  serviceName: string;
+  endpointName: string;
+}
+
 export default function RootCauseErrorMessagesTable({
   applicationId,
   serviceId,
@@ -138,7 +141,7 @@ export default function RootCauseErrorMessagesTable({
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
       cardTitle={t('in-events:RCA:errorMessages')}
-      rightHeader={({ query }: { query: string }) => (
+      rightHeader={(headerProps: { query: string }) => (
         <AnalyzeErrorMessagesButton
           groupByTagName="call.error.message"
           applicationName={applicationName}
@@ -146,7 +149,7 @@ export default function RootCauseErrorMessagesTable({
           endpointName={endpointName}
           className={locals.analyzeButton}
           boundaryScope={boundaryScope}
-          query={query}
+          query={headerProps.query}
           includeInternal
           includeSynthetic
           timeConfig={timeConfig}
@@ -215,8 +218,13 @@ function getTableData({
   });
 }
 
-interface MessageProps extends RootCauseErrorMessageTableProps {
+interface MessageProps {
   message: string;
+  applicationName: string;
+  serviceName: string;
+  endpointName: string;
+  boundaryScope: ApplicationBoundaryScope;
+  timeConfig?: TimeConfig;
 }
 function Message({ message, applicationName, serviceName, endpointName, boundaryScope, timeConfig }: MessageProps) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
