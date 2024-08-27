@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -46,11 +46,11 @@ export default function ExpandableGroup({
                   : t('in-components:expandableGroup.tooltipShowContent')
               }
             >
-              <SvgIcon
+              <IconButton
+                kind="action"
                 className={locals.expandIcon}
                 type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
                 aria-label={t('in-components:expandableGroup.labelExpandButtonForContent')}
-                tabIndex={0}
                 onClick={() => {
                   onToggle?.(!isExpanded);
                   setIsExpanded(!isExpanded);

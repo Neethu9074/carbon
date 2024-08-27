@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
 
 import { t } from 'in-i18n';
 
@@ -48,7 +48,7 @@ export default function Header({ openIssuesResult, maxIssuesToShow, eventType, c
   return (
     <h1 className={locals.header}>
       <div className={locals.title}>{title}</div>
-      <SvgIcon type="lib_openclose_cancel" size="l" className={locals.close} onClick={close} />
+      <IconButton kind="action" type="lib_openclose_cancel" size="xl" className={locals.close} onClick={close} />
     </h1>
   );
 }

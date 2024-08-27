@@ -5,8 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Card } from '@instana/components';
+import { IconButton, Card } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -42,7 +41,8 @@ export default function ExpandableCard({
             : t('in-components:expandableCard.tooltipShowMore'))
         }
       >
-        <SvgIcon
+        <IconButton
+          kind="action"
           className={locals.icon}
           type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
           onClick={() => {
@@ -53,7 +53,6 @@ export default function ExpandableCard({
             }
             setExpanded(!expanded);
           }}
-          size="s"
         />
       </Tooltip>
     </div>
