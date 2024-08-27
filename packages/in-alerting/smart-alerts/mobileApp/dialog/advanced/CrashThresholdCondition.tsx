@@ -19,6 +19,8 @@ import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/cons
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import Dropdown from 'in-alerting/components/Dropdown';
 
+import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+
 interface CrashThresholdConditionProps {
   form: MapForm<any>;
   blueprintConfig: MobileAppBlueprint;
@@ -49,6 +51,7 @@ export default function CrashThresholdCondition({
         <Dropdown
           value={metricName}
           items={ruleMetricNameOptions.crash}
+          className={locals.dropdownxxlg}
           onChange={value => {
             updateForm(form.updateIn(['rule', 'metricName'], f => (f as Field<any>).setValue(value).setTouched(true)));
           }}

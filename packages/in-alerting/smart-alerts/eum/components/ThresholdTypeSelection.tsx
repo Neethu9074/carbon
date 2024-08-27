@@ -51,7 +51,7 @@ export default function ThresholdTypeSelection({
       ) : (
         <Dropdown
           value={thresholdComboBoxValue as string}
-          className={locals.dropdownlg}
+          className={locals.dropdownxlg}
           items={options}
           onChange={newThresholdTypeWithSeasonality => {
             if (eumType === websiteEum) {
@@ -70,7 +70,12 @@ export default function ThresholdTypeSelection({
         <Stack space="xxsmall" align="center" direction="horizontal">
           {options.length > 1 && thresholdType !== ADAPTIVE_BASELINE && <ThresholdTypesHelp />}
           {thresholdType === HISTORIC_BASELINE && (
-            <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
+            <RecalculateBaselineButton
+              updateForm={updateForm}
+              editMode={editMode}
+              form={form}
+              className={locals.recalButtonWidth}
+            />
           )}
         </Stack>
       </>

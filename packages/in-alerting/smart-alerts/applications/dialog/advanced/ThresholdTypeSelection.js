@@ -44,7 +44,7 @@ export default function ThresholdTypeSelection({
         <span>{options[0].label}</span>
       ) : (
         <Dropdown
-          className={locals.dropdownlg}
+          className={locals.dropdownxlg}
           value={thresholdComboBoxValue}
           items={options}
           onChange={newThresholdTypeWithSeasonality => {
