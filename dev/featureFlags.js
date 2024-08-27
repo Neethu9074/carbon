@@ -109,6 +109,7 @@ module.exports = {
   sloSmartAlertsEnabled: true,
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
+  customDashboardsExportPdfWidget: true,
   infraSmartAlertsEnabled: true,
   syntheticCustomDashboardEnabled: true,
   rcaUIEnabled: true,
