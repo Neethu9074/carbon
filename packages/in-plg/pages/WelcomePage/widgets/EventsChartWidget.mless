@@ -12,7 +12,11 @@
 
   .eventsChartBottomSection {
     width: 100%;
-    padding: 0.5rem 0 0.5rem 1rem;
     border-block-start: 1px solid var(--cds-layer-active-01);
+  }
+
+  .viewAllButtonArrowIcon {
+    margin-left: 0.5rem;
+    align-self: center;
   }
 }
