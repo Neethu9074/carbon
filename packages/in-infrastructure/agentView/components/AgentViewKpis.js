@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { emptyList } from 'in-services/fixedImmutables';
 import TwoValueBar from 'in-components/TwoValueBar';
@@ -14,12 +15,15 @@ import { t } from 'in-i18n';
 import locals from './AgentViewKpis.mless';
 
 export default function AgentViewKpis({ agentSnapshotsResult }) {
-  if (
-    !agentSnapshotsResult ||
-    agentSnapshotsResult.getIn(['progress', 'loading']) ||
-    agentSnapshotsResult.getIn(['errors']).length > 0
-  ) {
+  if (!agentSnapshotsResult || agentSnapshotsResult.getIn(['progress', 'loading'])) {
     return <LoadingIndicator type="dark" />;
+  }
+  if (agentSnapshotsResult.getIn(['errors']).length > 0) {
+    return (
+      <ErroneousResultPresenter
+        errors={[{ message: t('in-infrastructure:agentView.anErrorOccurredPleaseTryAgain') }]}
+      />
+    );
   }
   const agentSnapshots = agentSnapshotsResult.getIn(['data']);
 
