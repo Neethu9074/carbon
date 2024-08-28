@@ -50,6 +50,7 @@ function getHighlightedTimeframeUrl$(highlightedTimeframe, location, createHref)
       autoRefresh: false
     });
     delete location.query[highlightedTimeframeQueryKey];
+
     return createHref({ ...location });
   });
 }
