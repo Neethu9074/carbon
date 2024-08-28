@@ -8,10 +8,10 @@ import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 
+import { bizopsPerspectivesEnabled, bizopsStandardInclusionEnabled } from 'in-services/featureFlags';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { bizopsPerspectivesEnabled } from 'in-services/featureFlags';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { clickBizopsTabsTracker } from 'in-bizops/tracker';
 import * as paths from 'in-bizops/navigation/paths';
@@ -31,7 +31,7 @@ export default function ViewSwitcher() {
 
   const hostCount = window.instana?.reportingData?.hostCount;
   let perspectivesDisabled = undefined;
-  if (typeof hostCount === 'number' && hostCount < 1) {
+  if (bizopsStandardInclusionEnabled && typeof hostCount === 'number' && hostCount < 1) {
     perspectivesDisabled = true;
   }
 
