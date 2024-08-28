@@ -1,5 +1,8 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "Main navigation"
+    },
     "expandableGroup": {
       "tooltipShowContent": "Show content",
       "tooltipHideContent": "Hide content",
