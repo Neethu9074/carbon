@@ -12,7 +12,7 @@ export function getNotes(event) {
   const notes =
     (event?.get('journals') || event?.get('notesUiObjects'))
       ?.toArray()
-      .filter(x => x && x.get('type') == 'note')
+      .filter(x => x && (x.get('type') == 'note' || x.get('type') == 'external_note'))
       .map(x => {
         return {
           type: x.get('type'),
@@ -42,7 +42,7 @@ export function validTextEntry(text) {
 export function noteNameAndTimeFormat(myBubble, note, date, type) {
   // const typeExt = type === 'external_note' || type === 'external_change';
   const typeNote = type === 'note';
-  const aiGen = type === 'ai_generated'
+  const aiGen = type === 'ai_generated';
 
   if (myBubble && typeNote) {
     return `${t('in-events:notes.you')}: ${date}`;
@@ -51,19 +51,20 @@ export function noteNameAndTimeFormat(myBubble, note, date, type) {
   } else if (typeNote) {
     return `${note?.author} | ${date}`;
   } else {
-    return (
-      <>
-        {`${note?.origin} | ${note?.label}`}
-        <div style={{ paddingTop: '.25rem' }}>{`${note?.author} | ${date}`}</div>
-      </>
-    );
+    // return (
+    //   <>
+    //     {`${note?.origin} | ${note?.label}`}
+    //     <div style={{ paddingTop: '.25rem' }}>{`${note?.author} | ${date}`}</div>
+    //   </>
+    // );
+    return <>{`${note?.origin} | ${date}`}</>;
   }
 }
 
 // Filters through the notes to make sure a notes includes
 // the search input in either the author name or contents
 export function filterSearchNotes(notes, input) {
-  const result = notes.filter(note => {
+  const result = notes?.filter(note => {
     const author = note?.author?.toLowerCase() || '';
     const contents = note?.contents?.toLowerCase() || '';
     // Flatten the array of arrays down
@@ -80,7 +81,7 @@ export function filterSearchNotes(notes, input) {
 
 export function createDataString(data) {
   var dataString = [];
-  data.map(entry => {
+  data?.map(entry => {
     // There are three index values but only first and last are used
     // Key
     const entryOne = entry[0] || '';

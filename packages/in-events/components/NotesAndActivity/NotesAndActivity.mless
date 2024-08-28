@@ -9,7 +9,7 @@
     position: fixed;
     display: flex;
     flex-direction: column;
-    width: 22rem;
+    width: 26rem;
     // New header size
     margin-top: 0.75rem;
     height: calc(100% - 15rem);
@@ -20,17 +20,21 @@
 
   .notesHeaderWrapper {
     // same as the notes width - right padding in the header - left padding in notes
-    width: calc(22.5rem - 1.5rem - 15px);
+    width: calc(26rem - 1.5rem - 15px);
   }
 
   .headerWrapper {
-    display: inline-flex;
+    display: flex;
     justify-content: space-between;
-    gap: 0.5rem;
     font-weight: 600;
     font-size: 16px;
     line-height: 28px;
     color: var(--cds-text-primary);
+  }
+
+  .tagIconWrapper {
+    display: inline-flex;
+    gap: 0.5rem;
   }
 
   .questionIcon {
@@ -86,19 +90,18 @@
     fill: #595959;
   }
 
-  .aiIcon {
-    fill: white;
-    background-color: var(--cds-chat-avatar-user);;
-    border-radius: 25px 25px 25px 25px;
-  }
-  
-  .aiIconSlug {
-    border: 1px solid black;
+  .snowIcon {
+    fill: green;
   }
 
-  .noteButtonWrapper {
-    width: 50%;
-    display: inline-flex;
+  .aiIcon {
+    fill: white;
+    background-color: var(--cds-chat-avatar-user);
+    border-radius: 25px 25px 25px 25px;
+  }
+
+  .aiIconSlug {
+    border: 1px solid black;
   }
 
   .loading {
@@ -115,19 +118,12 @@
     height: 100%;
   }
 
-  .notesPresentHeight {
-    height: calc(100vh - 32.25rem);
-  }
-
-  .notesEmptyHeight {
-    height: calc(100vh - 29.75rem);
-  }
-
   .bubble {
     padding: 10px 15px 10px 15px;
     margin-top: 10px;
     margin-left: 30px;
     white-space: pre-wrap;
+    line-height: normal;
   }
 
   .myBubble {
@@ -138,6 +134,16 @@
   .otherBubble {
     background: var(--cds-chat-bubble-agent, #e0e0e0);
     border-radius: 0px 8px 8px 8px;
+  }
+
+  .aiGenBubble {
+    padding: 0px;
+    line-height: 1.5;
+  }
+
+  .aiSumGen {
+    font-weight: 700;
+    padding-bottom: 5px;
   }
 
   .ext {
@@ -159,30 +165,14 @@
     padding-top: 5px;
     padding-left: 5px;
     color: var(--cds-text-secondary);
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
   }
 
-  .emptyWrapper {
-    padding-left: 15px;
-    padding-right: 15px;
-    position: relative;
-  }
-
-  .emptyHeader {
-    font-size: var(--cds-heading-03-font-size, 1.25rem);
-    font-weight: var(--cds-heading-03-font-weight, 400);
-    line-height: var(--cds-heading-03-line-height, 1.4);
-    letter-spacing: var(--cds-heading-03-letter-spacing, 0);
-    padding-bottom: 0.5rem;
-    margin: 0;
-  }
-
-  .emptyInfo {
-    font-size: var(--cds-body-01-font-size, 0.875rem);
-    font-weight: var(--cds-body-01-font-weight, 400);
-    line-height: var(--cds-body-01-line-height, 1.42857);
-    letter-spacing: var(--cds-body-01-letter-spacing, 0.16px);
-    padding-bottom: 1rem;
-    color: var(--cds-text-secondary, #525252);
+  .myChatEntryInfo {
+    padding-top: 5px;
+    color: var(--cds-text-secondary);
   }
 
   .commentInputWrapperNotes {
