@@ -39,7 +39,8 @@
       "itemMsg": "+{{leftCount}} more {{moreMsg}}"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "Retry"
+      "retryButtonLabel": "Retry",
+      "openList": "Open list"
     },
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} more Releases",
@@ -299,8 +300,8 @@
     "labelExpandButtonForContent": "Expand button for content"
   },
   "featureFeedback": {
-    "labelPublicPreview": "Public Preview",
-    "labelPrivatePreview": "Private Preview",
+    "labelPublicPreview": "Preview",
+    "labelPrivatePreview": "Preview",
     "linkLabelYouCanSendUsFeedback": "You can send us feedback"
   },
   "geoHeatMap": {

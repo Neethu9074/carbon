@@ -156,6 +156,10 @@ export default function DatabaseHitList({ snapshotId, timeConfig }: DatabaseHitL
         dataStats
       };
     })
+    .filter((row: DatabaseHitListRow) => {
+      const userValue = row.dataStats.get('account');
+      return typeof userValue === 'string' && userValue !== 'UNKNOWN';
+    })
     .filter(function (rows: DatabaseHitListRow) {
       if (taskType == null) {
         return rows;

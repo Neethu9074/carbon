@@ -65,7 +65,7 @@ export default function Filters({
           }
           placeholder={t('in-synthetics:dashboard.testList.associationLabel')}
           isMulti
-          options={syntheticMultiWebMobileEnabled ? getAssociationLabels() : getApplicationLabels(result)}
+          options={syntheticMultiWebMobileEnabled ? getAssociationLabels(result) : getApplicationLabels(result)}
           className={locals.filter}
         />
       )}
@@ -161,19 +161,42 @@ function getApplicationLabels(result: Result<SyntheticTest[]> | undefined) {
   return applicationLabelOptions;
 }
 
-function getAssociationLabels() {
-  return [
-    {
-      label: association.applications,
-      value: 'applications'
-    },
-    {
-      label: association.websites,
-      value: 'websites'
-    },
-    {
-      label: association.mobileApps,
-      value: 'mobileApps'
+function getAssociationLabels(result: Result<SyntheticTest[]> | undefined) {
+  const associationLabels: Option[] = [];
+  let showApplications = false;
+  let showWebsites = false;
+  let showMobileApplications = false;
+
+  if (syntheticMultiWebMobileEnabled && !result?.progress?.loading) {
+    result?.data?.forEach(function (item: SyntheticTest) {
+      if (!showApplications && (item.applications ?? []).length! > 0) {
+        showApplications = true;
+      }
+      if (!showWebsites && (item.websites ?? []).length > 0) {
+        showWebsites = true;
+      }
+      if (!showMobileApplications && (item.mobileApps ?? []).length > 0) {
+        showMobileApplications = true;
+      }
+    });
+    if (showApplications) {
+      associationLabels.push({
+        label: association.applications,
+        value: 'applications'
+      });
     }
-  ] as Option[];
+    if (showWebsites) {
+      associationLabels.push({
+        label: association.websites,
+        value: 'websites'
+      });
+    }
+    if (showMobileApplications) {
+      associationLabels.push({
+        label: association.mobileApps,
+        value: 'mobileApps'
+      });
+    }
+  }
+  return associationLabels;
 }

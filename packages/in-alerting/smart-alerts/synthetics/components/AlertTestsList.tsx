@@ -169,18 +169,26 @@ function columnDefinitions(hasRowNavigation: boolean): Array<ColumnDefinition<Sy
 
 function applicationLabel(): ColumnDefinition<SyntheticTest> {
   return {
-    id: 'applicationLabel',
+    id: syntheticMultiAppEnabled ? 'associationLabels' : 'applicationLabel',
     label: t('in-synthetics:dashboard.testList.associationLabel'),
     defaultOrderDirection: 'ASC',
     getContent(item: SyntheticTest) {
-      const applicationLabels = item.applicationLabels ?? [];
-      const applicationIds = item.applications || [];
-
       if (syntheticMultiAppEnabled) {
+        const applicationLabels = item.applicationLabels ?? [];
+        const applicationIds = item.applications ?? [];
+        const websiteLabels = item.websiteLabels ?? [];
+        const websiteIds = item.websites ?? [];
+        const mobileAppLabels = item.mobileAppLabels ?? [];
+        const mobileAppIds = item.mobileApps ?? [];
+
         return (
           <AssociationsContentPresenter
             applicationIds={applicationIds}
             applicationLabels={applicationLabels}
+            websiteIds={websiteIds}
+            websiteLabels={websiteLabels}
+            mobileAppIds={mobileAppIds}
+            mobileAppLabels={mobileAppLabels}
             shouldDisplayLink={false}
           />
         );

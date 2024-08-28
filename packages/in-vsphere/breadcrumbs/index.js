@@ -23,7 +23,7 @@ export function HostBreadcrumbs(props) {
 
   return [
     <HomeViewBreadcrumb />,
-    datacenterId && <DatacenterBreadcrumb {...props} href$={getVsphereDatacenterDashboard(datacenterId)} />,
+    datacenterId && <DatacenterBreadcrumb {...props} href={getVsphereDatacenterDashboard(datacenterId)} />,
     hostId && <HostBreadcrumb {...props} />
   ];
 }

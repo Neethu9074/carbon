@@ -24,6 +24,7 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import Filters from 'in-websites/WebsiteDashboard/tabs/Resources/Filters';
 import changeExplanation from 'in-websites/emptyListExplanation';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { ms, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
@@ -139,7 +140,13 @@ export default function Resources({ timeConfig, tagFilters, websiteId, resourceT
 
   const resourcesListRightHeader = (
     <Fragment>
-      <Button disabled={!analyzeHref} kind="secondary" href={analyzeHref} style={{ marginRight: '0.5rem' }}>
+      <Button
+        disabled={!analyzeHref}
+        kind="secondary"
+        href={analyzeHref}
+        style={{ marginRight: '0.5rem' }}
+        {...(carbonButtonEnabled ? { size: 'compact' } : {})}
+      >
         {t('in-websites:websiteDashboard.tabs.resources.resourcesButtonAnalyzeResources')}
       </Button>
 

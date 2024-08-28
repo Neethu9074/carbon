@@ -151,8 +151,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'assistMeEnabled',
-    instanaCtlKey: 'feature.assistMe.enabled',
+    uiClientKey: 'assistmeEnabled',
+    instanaCtlKey: 'feature.assistme.enabled',
     defaultValue: false
   },
   {
@@ -408,7 +408,7 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticCertificateCheckEnabled',
     instanaCtlKey: 'feature.synthetic.certificate.check.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'syntheticRbacLimitedTPEnabled',
@@ -428,6 +428,11 @@ module.exports = exports = [
   {
     uiClientKey: 'thresholdCustomDashboardsEnabled',
     instanaCtlKey: 'feature.threshold.custom.dashboards.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'customDashboardsExportPdfWidget',
+    instanaCtlKey: 'feature.custom.dashboards.export.pdf.widget.enabled',
     defaultValue: false
   },
   {
@@ -518,7 +523,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonContentSwitcherEnabled',
     instanaCtlKey: 'feature.carbon.content.switcher.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonPillEnabled',
@@ -558,7 +563,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMoreMenuEnabled',
     instanaCtlKey: 'feature.carbon.more.menu.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonLoadingSkeletonFeatureEnabled',
@@ -608,6 +613,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMenuEnabled',
     instanaCtlKey: 'feature.carbon.menu.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonDropdownEnabled',
+    instanaCtlKey: 'feature.carbon.dropdown.enabled',
     defaultValue: false
   },
   {
@@ -668,7 +678,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonTabsEnabled',
     instanaCtlKey: 'feature.carbon.tabs.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'automationActionInstanceFeedbackEnabled',

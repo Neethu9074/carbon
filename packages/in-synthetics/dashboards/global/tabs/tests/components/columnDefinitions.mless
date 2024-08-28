@@ -21,6 +21,8 @@
   .label {
     font-weight: var(--ids-font-weight-option-heading-400);
     margin-bottom: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .okayIcon {

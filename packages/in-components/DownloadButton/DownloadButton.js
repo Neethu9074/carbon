@@ -6,7 +6,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
 
 import './DownloadButton.less';
 
@@ -35,7 +35,7 @@ export default class extends React.Component {
 
     return (
       <div className={buttonClass}>
-        <SvgIcon
+        <IconButton
           className={`${block}__icon`}
           type="lib_actions_download"
           color="#6b8088"

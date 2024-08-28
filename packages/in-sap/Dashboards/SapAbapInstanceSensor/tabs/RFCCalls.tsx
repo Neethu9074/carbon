@@ -141,6 +141,10 @@ export default function RFCCalls({ snapshotId, timeConfig }: RFCCallsProps) {
         timeConfig,
         rfcDetails
       };
+    })
+    .filter((row: RFCCallsRow) => {
+      const userValue = row.rfcDetails.get('account');
+      return typeof userValue === 'string' && userValue !== 'UNKNOWN';
     });
 
   function getDetails(row: RFCCallsRow) {

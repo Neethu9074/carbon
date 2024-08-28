@@ -18,15 +18,22 @@ interface Props {
 }
 
 const AssociationsContent = ({ item, shouldDisplayLink = true }: Props) => {
-  const applicationLabels = item?.testResultCommonProperties?.testCommonProperties?.applicationLabels || [];
-  const applicationIds = item?.testResultCommonProperties?.testCommonProperties?.applicationIds || [];
-
   if (syntheticMultiAppEnabled) {
+    const applicationLabels = item?.testResultCommonProperties?.testCommonProperties?.applicationLabels ?? [];
+    const applicationIds = item?.testResultCommonProperties?.testCommonProperties?.applicationIds ?? [];
+    const websiteLabels = item?.testResultCommonProperties.testCommonProperties?.getWebsiteLabels ?? [];
+    const websiteIds = item?.testResultCommonProperties.testCommonProperties?.websiteIds ?? [];
+    const mobileAppLabels = item?.testResultCommonProperties.testCommonProperties?.mobileApplicationLabels ?? [];
+    const mobileAppsIds = item?.testResultCommonProperties.testCommonProperties?.mobileApplicationIds ?? [];
+
     return (
       <AssociationsContentPresenter
-        item={item}
         applicationIds={applicationIds}
         applicationLabels={applicationLabels}
+        websiteIds={websiteIds}
+        websiteLabels={websiteLabels}
+        mobileAppIds={mobileAppsIds}
+        mobileAppLabels={mobileAppLabels}
         shouldDisplayLink={shouldDisplayLink}
       />
     );
@@ -34,6 +41,7 @@ const AssociationsContent = ({ item, shouldDisplayLink = true }: Props) => {
 
   const applicationLabel = item.testResultCommonProperties?.testCommonProperties?.applicationLabel ?? '';
   const applicationId = item.testResultCommonProperties?.testCommonProperties?.applicationId ?? '';
+
   return (
     <ApplicationLabelContent
       applicationId={applicationId}

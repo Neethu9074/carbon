@@ -6,10 +6,9 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
+import { PreviewPill, Spacer } from '@instana/components';
 import { Disposable, on } from '@instana/observables';
-import { Spacer } from '@instana/components';
 
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { scrollIntoView } from 'in-services/util/dom';
 
 import locals from './SideNav.mless';
@@ -61,12 +60,12 @@ export default class SideNav extends React.Component<SideNavProps> {
     const { addRightSeparator, className, addLeftSeparator, navItems, renderPreIcon, renderPostIcon } = this.props;
     const setItemSelected = (i: number) => this.setState({ itemSelected: i });
     const getPreviewBadge = (isPrivatePreview: boolean | undefined) => {
-      if (isPrivatePreview === undefined) return <PreviewBadge />;
+      if (isPrivatePreview === undefined) return <PreviewPill />;
 
       if (isPrivatePreview) {
-        return <PreviewBadge privatePreview />;
+        return <PreviewPill privatePreview />;
       }
-      return <PreviewBadge />;
+      return <PreviewPill />;
     };
 
     return (

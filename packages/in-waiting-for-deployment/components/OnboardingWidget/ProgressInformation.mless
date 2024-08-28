@@ -16,6 +16,12 @@
 
     width: 12.5rem;
   }
+  .goToInstanceButtonCarbon {
+    margin-left: 1rem;
+    :global(.cds--g90) {
+      background-color: transparent;
+    }
+  }
 
   .stepsWithProgressBar {
     display: flex;

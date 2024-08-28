@@ -29,7 +29,7 @@ export const VsphereHostLink = ({ item }) => {
 
   const getVsphereHostDashboard = useVspehereEntityLink('host', { datacenterId });
 
-  return <EntityLink label={item.label} href$={getVsphereHostDashboard(item.id)} icon="lib_linux" />;
+  return <EntityLink label={item.label} href={getVsphereHostDashboard(item.id)} icon="lib_linux" />;
 };
 
 const columnDefinitions = [

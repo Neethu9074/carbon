@@ -6,10 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { PreviewPill, SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
-
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 
 import locals from './SideNavigation.mless';
 
@@ -35,7 +33,7 @@ export function SideNavigationItem({ isActive, href$, href, onClick, icon, omitE
       >
         {(icon || !omitEmptyIcon) && <SvgIcon className={locals.icon} type={icon} />}
         {label}
-        {isBeta && <PreviewBadge />}
+        {isBeta && <PreviewPill />}
       </div>
     </Link>
   );

@@ -21,10 +21,15 @@
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.5rem;
+    margin-bottom: 0.5rem;
     // allow beta badge placed besides the title
     display: flex;
     align-items: center;
     gap: 1rem;
+  }
+
+  .header {
+    margin-bottom: 0;
   }
 
   .button {

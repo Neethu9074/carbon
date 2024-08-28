@@ -6,7 +6,8 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import {
   menuContent$,
@@ -93,7 +94,7 @@ export default connectTo(
               }
             }}
           >
-            <SvgIcon className={`${block}__icon`} type={type} />
+            <IconButton className={`${block}__icon`} color={themes.default.ids.color.option.white} type={type} />
           </div>
         </Tooltip>
       );

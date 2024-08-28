@@ -10,6 +10,7 @@ import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import OnboardingCarousel from 'in-plg/components/WelcomeHeader/OnboardingCarousel/OnboardingCarousel';
+import { AccountActivationProp } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
 import WelcomeToolbar, { UrlShortener } from 'in-plg/components/WelcomeHeader/toolbar/WelcomeToolbar';
 import { playwithEnabled, shareAndInviteEnabled } from 'in-services/featureFlags';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
@@ -19,9 +20,10 @@ import locals from 'in-plg/components/WelcomeHeader/WelcomeHeader.mless';
 
 interface WelcomeHeaderProps {
   onboardingHeaderEnabled: boolean;
+  accountActivationData: AccountActivationProp;
 }
 
-export default function WelcomeHeader({ onboardingHeaderEnabled }: WelcomeHeaderProps) {
+export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivationData }: WelcomeHeaderProps) {
   const username = onboardingHeaderEnabled
     ? `, ${user?.fullName ?? ''}!`
     : !playwithEnabled
@@ -35,7 +37,7 @@ export default function WelcomeHeader({ onboardingHeaderEnabled }: WelcomeHeader
       data-testid="header"
     >
       <WelcomeToolbar title={headerTitle} shareAndInviteEnabled={shareAndInviteEnabled} />
-      {onboardingHeaderEnabled && <OnboardingCarousel />}
+      {onboardingHeaderEnabled && <OnboardingCarousel accountActivationData={accountActivationData} />}
     </div>
   );
 }

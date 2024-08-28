@@ -18,7 +18,9 @@ import {
   powervcEnabled,
   infraSmartAlertsEnabled,
   logSmartAlertsEnabled,
-  manuallyCloseEventEnabled
+  manuallyCloseEventEnabled,
+  logVolumePageEnabled,
+  logRetentionPageEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -75,7 +77,8 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD: 'CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD',
   CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS: 'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
   CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS: 'CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS',
-  CAN_CONFIGURE_LOG_MANAGEMENT: 'CAN_CONFIGURE_LOG_MANAGEMENT',
+  CAN_CONFIGURE_LOG_MANAGEMENT: 'CAN_CONFIGURE_DATABASE_MANAGEMENT',
+  CAN_CONFIGURE_DATABASE_MANAGEMENT: 'CAN_CONFIGURE_LOG_MANAGEMENT',
   CAN_CONFIGURE_RELEASES: 'CAN_CONFIGURE_RELEASES',
   CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS: 'CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS',
   CAN_CONFIGURE_USERS: 'CAN_CONFIGURE_USERS',
@@ -494,6 +497,14 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     category: t('in-stores:permissionCanConfigureReleasesCategory'),
     isOwnerPermission: false
   },
+  [Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT,
+    keyForApiTokenApi: 'canConfigureDatabaseManagement',
+    label: t('in-stores:permissionCanConfigureDatabaseManagementLabel'),
+    description: t('in-stores:permissionCanConfigureDatabaseManagementDescription'),
+    category: t('in-stores:permissionCanConfigureDatabaseManagementCategory'),
+    isOwnerPermission: false
+  },
   [Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS,
     keyForApiTokenApi: 'canConfigureServiceLevelIndicators',
@@ -753,6 +764,18 @@ export function getProductPermissions(): Array<ProductPermission> {
   if (!logSmartAlertsEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return keyForGroupApi !== Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS;
+    });
+  }
+
+  if (!logVolumePageEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return keyForGroupApi !== Capability.CAN_VIEW_LOG_VOLUME;
+    });
+  }
+
+  if (!logRetentionPageEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return keyForGroupApi !== Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD;
     });
   }
 

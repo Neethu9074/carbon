@@ -7,17 +7,6 @@
 import { useObservable } from '@instana/hooks';
 
 import {
-  ApplicationAlertConfigWithMetadata,
-  EventSpecificationInfo,
-  GlobalApplicationsAlertConfigWithMetadata,
-  LogAlertConfigWithMetadata,
-  MobileAppAlertConfigWithMetadata,
-  Result,
-  ServiceLevelsAlertConfigWithMetadata,
-  SyntheticAlertConfigWithMetadata,
-  WebsiteAlertConfigWithMetadata
-} from 'in-types';
-import {
   getEventSpecifications,
   getApplicationSmartAlertConfigs,
   getWebsiteSmartAlertConfigs,
@@ -28,6 +17,19 @@ import {
   getSyntheticSmartAlertConfigs,
   getSloSmartAlertConfigs
 } from 'in-automation/api';
+import {
+  EventSpecificationInfo,
+  LogAlertConfigWithMetadata,
+  MobileAppAlertConfigWithMetadata,
+  Result,
+  ServiceLevelsAlertConfigWithMetadata,
+  SyntheticAlertConfigWithMetadata,
+  WebsiteAlertConfigWithMetadata
+} from 'in-types';
+import {
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Triggers } from 'in-automation/Policies/types';
@@ -38,12 +40,12 @@ export default function useTriggers(): Triggers {
     useObservable(getEventSpecifications, []) ?? (pendingResult as Result<EventSpecificationInfo[]>);
   const applicationSmartAlert =
     useObservable(getApplicationSmartAlertConfigs, []) ??
-    (pendingResult as Result<ApplicationAlertConfigWithMetadata[]>);
+    (pendingResult as Result<ApplicationSmartAlertConfigWithMetadata[]>);
   const websiteSmartAlert =
     useObservable(getWebsiteSmartAlertConfigs, []) ?? (pendingResult as Result<WebsiteAlertConfigWithMetadata[]>);
   const globalApplicationSmartAlert =
     useObservable(getGlobalApplicationSmartAlertConfigs, []) ??
-    (pendingResult as Result<GlobalApplicationsAlertConfigWithMetadata[]>);
+    (pendingResult as Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>);
   const mobileAppSmartAlert =
     useObservable(getMobileAppSmartAlertConfigs, []) ?? (pendingResult as Result<MobileAppAlertConfigWithMetadata[]>);
   const infraSmartAlert =

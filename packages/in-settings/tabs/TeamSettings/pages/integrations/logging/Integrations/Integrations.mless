@@ -43,9 +43,10 @@
   .breadcrumb {
     font-size: var(--ids-font-size-option-body-regular);
     padding: 0 !important;
-    span {
-      color: var(--cds-link-primary);
-    }
+  }
+
+  .breadcrumbLink {
+    color: var(--cds-link-primary);
   }
 
   .skeleton {

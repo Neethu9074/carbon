@@ -9,10 +9,11 @@ import { createLogger } from '@instana/logger';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http/http';
+import { user } from 'in-stores/user';
 
 const baseUrl = '/api/tracking/intentToPurchase';
 
-export function sendSegmentEvent(data: segmentData): Observable<segmentData> {
+export function sendSegmentEvent(data: segmentWithMetaData): Observable<segmentWithMetaData> {
   return http<segmentData>({
     method: 'POST',
     maxRetries: 3,
@@ -26,10 +27,17 @@ export interface segmentData {
   type?: string;
 }
 
+export interface segmentWithMetaData {
+  type?: string;
+  altUserId?: string;
+}
+
 export function triggerSegmentEvent(data: segmentData) {
-  const result$ = sendSegmentEvent(data);
+  //@ts-expect-error
+  const withMetaData = { ...data, altUserId: user?.id };
+  const result$ = sendSegmentEvent(withMetaData);
   const logger = createLogger('/in-plg/components/BuyNowDialog/BuyNowDialog');
-  result$.once(error => {
-    logger.error(`Failed to send segment event : ${error}`, error);
+  result$.errors().once(error => {
+    logger.error(`Failed to send ${data?.type} cta event : ${error}`, error);
   });
 }

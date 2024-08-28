@@ -10,10 +10,12 @@ import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error missing a type definition for it
 import { getAccountAsResultObservable } from 'in-amp/api/account';
-import { AccountInfo } from 'in-plg/pages/WelcomePage/widgets/types/AccountInfoTypeDefinition';
+import { AccountInfo, Activation } from 'in-plg/pages/WelcomePage/widgets/types/AccountInfoTypeDefinition';
+
+export type AccountActivationProp = Activation | null | undefined;
 
 export default function useGetAccountActivation() {
-  const [activation, setActivation] = useState<{}>();
+  const [activation, setActivation] = useState<AccountActivationProp>(null);
   const accountInfo: AccountInfo | null | undefined = useObservable(getAccountAsResultObservable, []);
 
   useEffect(() => {
