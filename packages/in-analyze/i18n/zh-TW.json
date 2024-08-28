@@ -312,7 +312,6 @@
   "resultHeaderTooltip": "查詢時間範圍已捨入至最接近的整分鐘，以便讓此視圖能更快載入。",
   "components": {
     "analyzeHeader": {
-      "beta": "測試版",
       "analytics": "分析"
     },
     "filterBar": {

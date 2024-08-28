@@ -312,7 +312,6 @@
   "resultHeaderTooltip": "L'intervallo di tempo della query è stato arrotondato al minuto intero più vicino per consentire di caricare questa vista più rapidamente.",
   "components": {
     "analyzeHeader": {
-      "beta": "BETA",
       "analytics": "Analitica"
     },
     "filterBar": {

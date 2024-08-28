@@ -312,7 +312,6 @@
   "resultHeaderTooltip": "이 보기를 더 빨리 로드할 수 있도록 조회 시간 범위가 가장 근접한 분 단위로 반올림되었습니다.",
   "components": {
     "analyzeHeader": {
-      "beta": "베타",
       "analytics": "분석"
     },
     "filterBar": {
