@@ -253,6 +253,7 @@ function DeleteLogsDialog({
               hasError={!!dateTimeValidationMessage}
               value={timeInputValue as string}
               onChange={e => setTimeInputValue(e)}
+              fullWidth
             />
           </Label>
         </section>

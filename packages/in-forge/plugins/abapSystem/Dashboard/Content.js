@@ -6,9 +6,10 @@
 
 import React from 'react';
 
-import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
+import { useAbapSystemDashboard } from 'in-sap/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function SystemDashboard({ snapshot }) {
-  return <RedirectWithHash to$={getAbapSystemDashboard(snapshot.get('id'))} />;
+  const href = useAbapSystemDashboard(snapshot.get('id'));
+  return <RedirectWithHash href={href} />;
 }

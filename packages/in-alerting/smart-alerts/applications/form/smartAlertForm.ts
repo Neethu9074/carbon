@@ -5,14 +5,12 @@
 
 import { createField, createMapForm, MapForm } from 'formalistic';
 
+import {
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 // @ts-expect-error file needs to be converted
 import { isEntitySelectionValid, titleValidator } from 'in-alerting/smart-alerts/applications/form/formUtils';
-import {
-  ApplicationAlertConfigWithMetadata,
-  GlobalApplicationsAlertConfigWithMetadata,
-  ThresholdType,
-  ThresholdConfigUnion
-} from 'in-types';
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { PER_AP } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
@@ -24,6 +22,7 @@ import { MAX_LONG_STRING_LENGTH, MAX_LABEL_LENGTH } from 'in-alerting/formFieldL
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { ThresholdType, ThresholdConfigUnion } from 'in-types';
 import { boundaryScopes } from 'in-applications/constants';
 import { t } from 'in-i18n';
 
@@ -43,9 +42,9 @@ export interface UiExtraData {
   builtIn?: boolean;
 }
 
-interface OptionalGlobalApplicationsAlertConfig extends Partial<GlobalApplicationsAlertConfigWithMetadata> {}
+interface OptionalGlobalApplicationsAlertConfig extends Partial<GlobalApplicationsSmartAlertConfigWithMetadata> {}
 
-interface OptionalIndividualApplicationAlertConfig extends Partial<ApplicationAlertConfigWithMetadata> {}
+interface OptionalIndividualApplicationAlertConfig extends Partial<ApplicationSmartAlertConfigWithMetadata> {}
 
 /**
  * Type that is used when creating an AP Smart Alert config (e.g. via floating button), where depending on the dashboard context

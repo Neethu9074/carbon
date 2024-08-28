@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
-import { SvgIcon, IconButton, Checkbox, Button } from '@instana/components';
+import { SvgIcon, IconButton, Checkbox, Button, PreviewPill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { createLogger } from '@instana/logger';
 import { create } from '@instana/observables';
@@ -19,7 +19,6 @@ import { noop, stopPropagationAndPreventDefault } from 'in-services/util/functio
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { listSuccess, loading } from 'in-services/util/result';
 import Delete from 'in-settings/components/actions/Delete';
 import { identity } from 'in-services/util/function';
@@ -704,14 +703,14 @@ export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableAct
     } else if (inSelectListDialog || !totalHits) {
       return (
         <div>
-          {entityName} {isBeta && <PreviewBadge />}
+          {entityName} {isBeta && <PreviewPill />}
         </div>
       );
     } else {
       const getHeaderFunction = defaultHeaderWithCount(entityName);
       return (
         <div>
-          {getHeaderFunction(totalHits, filteredHits)} {isBeta && <PreviewBadge />}
+          {getHeaderFunction(totalHits, filteredHits)} {isBeta && <PreviewPill />}
         </div>
       );
     }

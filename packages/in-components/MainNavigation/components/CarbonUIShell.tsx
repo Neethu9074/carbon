@@ -495,9 +495,9 @@ function SloDashboard() {
       id="main-nav-slo-dashboard"
       label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
       icon="lib_service_level"
-      infoTag={t('in-components:featureFeedback.labelPublicPreview')}
       isActive={matchLocation(isSloView)}
       href={createHrefToPath(serviceLevelsOverview)}
+      isBeta
     />
   );
 }

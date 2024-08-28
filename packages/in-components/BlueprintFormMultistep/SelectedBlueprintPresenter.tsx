@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
+import { PreviewPill } from '@instana/components';
 
 import locals from './SelectedBlueprintPresenter.mless';
 
@@ -21,7 +21,7 @@ export default function SelectedBlueprintPresenter({ title, description, isBeta,
     <div className={locals.container}>
       <h2 className={locals.headline}>
         <span>{title}</span>
-        {isBeta && <PreviewBadge />}
+        {isBeta && <PreviewPill />}
       </h2>
       {description && <p className={locals.description}>{description}</p>}
       {children}

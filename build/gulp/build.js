@@ -152,6 +152,7 @@ function writeTryBuildServerConfigFile(cb) {
       butlerUrl: 'https://test-instana.pink.instana.rocks',
       tenant: 'instana',
       tenantUnit: 'test',
+      tenantUnitId: 'fake_tenantUnitId',
       region: 'us-west-2',
       environment: 'saas',
       butlerDomain: 'test-fullstack-0-us-west-2.instana.io'

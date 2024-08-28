@@ -11,5 +11,5 @@ import RedirectWithHash from 'in-components/RedirectWithHash';
 export default function VsphereDatacenterDashboard({ snapshot }) {
   const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');
 
-  return <RedirectWithHash to$={getVsphereDatacenterDashboard(snapshot.get('id'))} />;
+  return <RedirectWithHash href={getVsphereDatacenterDashboard(snapshot.get('id'))} />;
 }

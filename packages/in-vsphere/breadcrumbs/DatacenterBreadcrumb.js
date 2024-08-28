@@ -27,7 +27,7 @@ export default connectTo(
       <>
         {datacenter && (
           <Breadcrumb
-            href$={getVsphereDatacenterDashboard(datacenter.id)}
+            href={getVsphereDatacenterDashboard(datacenter.id)}
             label={t('in-vsphere:breadcrumbs.vSphereDatacenter')}
             icon="lib_vsphere_datacenter"
           >

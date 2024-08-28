@@ -7,10 +7,9 @@
 import React, { useState } from 'react';
 import invariant from 'invariant';
 
-import { RadioButton, Stack } from '@instana/components';
+import { PreviewPill, RadioButton, Stack } from '@instana/components';
 
 import AlertTypography from 'in-alerting/components/AlertTypography';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { t } from 'in-i18n';
 
 import locals from './Menu.mless';
@@ -52,7 +51,7 @@ export default function Menu<T extends MenuItem>({ items, onItemClick, initialIt
                   color={itemSelected.type !== item.type ? 'color700' : ''}
                   content={
                     <>
-                      {item.name} {item.isBeta && <PreviewBadge />}
+                      {item.name} {item.isBeta && <PreviewPill />}
                     </>
                   }
                   noMargin

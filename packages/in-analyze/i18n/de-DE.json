@@ -312,7 +312,6 @@
   "resultHeaderTooltip": "Die Abfragezeitspanne wurde auf die nächste volle Minute gerundet, damit diese Ansicht schneller geladen werden kann.",
   "components": {
     "analyzeHeader": {
-      "beta": "BETA",
       "analytics": "Analyse"
     },
     "filterBar": {

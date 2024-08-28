@@ -11,6 +11,7 @@ import { getHumanReadablePluginName } from 'in-sap/Dashboards/tables/getHumanRea
 import { getSapDbInstanceListsWithDefaults } from 'in-sap/subscriptions/getSapDbInstanceLists';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import { useDashboardForEntity, sapDbInstanceList } from 'in-sap/navigation/paths';
 import SapNoDataNotification from 'in-sap/lists/components/SapNoDataNotification';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
@@ -19,9 +20,7 @@ import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import { productAreas } from 'in-services/tracking/productAreas';
-import { getDashboardForEntity } from 'in-sap/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { sapDbInstanceList } from 'in-sap/navigation/paths';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { timeConfig$ } from 'in-stores/time/config';
 import EntityLink from 'in-components/EntityLink';
@@ -32,18 +31,17 @@ import { t } from 'in-i18n';
 const pathSegment = sapDbInstanceList;
 const matrixPrefix = 'sapdbinstancelist.';
 
+function SapLabelContent({ item }) {
+  const href = useDashboardForEntity(item.id, item.pluginName, item.label);
+  return <EntityLink icon={getIconType(item.pluginName)} label={item.label} href={href} />;
+}
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-sap:name'),
     getContent(item) {
-      return (
-        <EntityLink
-          icon={getIconType(item.pluginName)}
-          label={item.label}
-          href$={getDashboardForEntity(item.id, item.pluginName, item.label)}
-        />
-      );
+      return <SapLabelContent item={item} />;
     }
   },
   {

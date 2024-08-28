@@ -35,4 +35,8 @@
   .checkIcon {
     fill: var(--ids-color-option-green-500);
   }
+
+  .activationDropdown {
+    min-width: 12rem;
+  }
 }

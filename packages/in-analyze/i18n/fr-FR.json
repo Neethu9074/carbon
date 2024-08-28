@@ -312,7 +312,6 @@
   "resultHeaderTooltip": "La période d'interrogation a été arrondie à la minute la plus proche pour permettre à cette vue de se charger plus rapidement.",
   "components": {
     "analyzeHeader": {
-      "beta": "BÊTA",
       "analytics": "Analyse"
     },
     "filterBar": {

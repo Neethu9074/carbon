@@ -12,6 +12,7 @@ import LinuxElasticComputing from 'in-plg/pages/onboarding/AgentList/Linux/Linux
 import GoogleCloudRun from 'in-plg/pages/onboarding/AgentList/GoogleCloudPlatform/GoogleCloudRun';
 import KubernetesOperator from 'in-plg/pages/onboarding/AgentList/Kubernetes/KubernetesOperator';
 import OpenshiftOperator from 'in-plg/pages/onboarding/AgentList/Openshift/OpenshiftOperator';
+import AzureAppService from 'in-plg/pages/onboarding/AgentList/Azure/AppService/AppService';
 import WindowsZipArchive from 'in-plg/pages/onboarding/AgentList/Windows/WindowsZipArchive';
 import InstanaAwsSensor from 'in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor';
 import LinuxAutomatic from 'in-plg/pages/onboarding/AgentList/Linux/LinuxAutomatic';
@@ -360,6 +361,21 @@ export function getEntriesForFreeTrial() {
         label: t('in-waiting-for-deployment:content.azureContainerApps'),
         keyWords: 'azurecontainerapps',
         Content: AzureContainerApps
+      }
+    },
+    {
+      id: 'azure_app_service',
+      title: 'Microsoft Azure - Azure App Service',
+      pageName: 'Microsoft Azure > Azure App Service', // tracking data
+      label: t('in-waiting-for-deployment:content.azure'),
+      icon: 'lib_azure',
+      iconColor: '#3178CD',
+      fullLabel: t('in-waiting-for-deployment:content.microsoftAzure'),
+      category: t('in-waiting-for-deployment:content.platform'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.azureAppService'),
+        keyWords: 'azureappservice',
+        Content: AzureAppService
       }
     },
     {

@@ -22,6 +22,10 @@ interface PreviewBadgeProps {
 }
 
 /**
+ * @deprecated please use `PreviewPill` from `@instana/components`
+ *
+ * @todo remove, when every usage is moved to `@instana/components`
+ *
  * PreviewBadge is used to display a public or private preview pill to any existing feature
  * @param {string} className - Optional custom class name for badge, avoid using if possible
  * @param {boolean} privatePreview - Optional flag to switch between public or private preview labelling

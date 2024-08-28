@@ -312,7 +312,6 @@
   "resultHeaderTooltip": "El rango de tiempo de la consulta se ha redondeado hasta el minuto completo más próximo para permitir que esta vista se cargue más rápidamente.",
   "components": {
     "analyzeHeader": {
-      "beta": "BETA",
       "analytics": "Analíticas"
     },
     "filterBar": {

@@ -6,7 +6,8 @@
 import React, { LegacyRef } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
@@ -36,7 +37,7 @@ export default function HealthIndicatorPresenter({
   if (openIssues === 0) {
     return (
       <Tooltip content={tooltipLabel} delay={500}>
-        <SvgIcon type="lib_uncheck" className={locals.okayIcon} size="s" />
+        <IconButton type="lib_uncheck" color={themes.default.ids.color.option.green[500]} className={locals.okayIcon} />
       </Tooltip>
     );
   }
@@ -58,10 +59,9 @@ export default function HealthIndicatorPresenter({
       ref={refSetter}
     >
       <Tooltip content={tooltipLabel} delay={500}>
-        <SvgIcon
+        <IconButton
           type={type}
           color={color}
-          size="s"
           className={classNames({
             [locals.icon]: true,
             [locals.iconWarning]: !(maxSeverity > 5) && maxSeverity !== 0

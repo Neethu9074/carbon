@@ -13,7 +13,6 @@ import {
   Event,
   ActionMatch,
   EventSpecificationInfo,
-  ApplicationAlertConfigWithMetadata,
   ActionInstance,
   Policy,
   TagCatalog,
@@ -23,11 +22,14 @@ import {
   WebsiteAlertConfigWithMetadata,
   MobileAppAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
-  GlobalApplicationsAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata,
   ActionType
 } from 'in-types';
+import {
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
@@ -774,7 +776,7 @@ export function getEventSpecifications() {
 }
 
 export function getApplicationSmartAlertConfigs() {
-  return http<ApplicationAlertConfigWithMetadata[]>({
+  return http<ApplicationSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     url: apiEndpoint.APPLICATION,
@@ -792,7 +794,7 @@ export function getWebsiteSmartAlertConfigs() {
 }
 
 export function getGlobalApplicationSmartAlertConfigs() {
-  return http<GlobalApplicationsAlertConfigWithMetadata[]>({
+  return http<GlobalApplicationsSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     url: apiEndpoint.APPLICATION_GLOBAL,
@@ -864,7 +866,7 @@ export function getCustomEventSpecification(id: string) {
 }
 
 export function getApplicationSmartAlertConfig(id: string) {
-  return http<ApplicationAlertConfigWithMetadata>({
+  return http<ApplicationSmartAlertConfigWithMetadata>({
     method: 'GET',
     url: `${apiEndpoint.APPLICATION}/${encodeURIComponent(id)}`,
     maxRetries: 3,
@@ -873,7 +875,7 @@ export function getApplicationSmartAlertConfig(id: string) {
 }
 
 export function getGlobalApplicationSmartAlertConfig(id: string) {
-  return http<ApplicationAlertConfigWithMetadata>({
+  return http<ApplicationSmartAlertConfigWithMetadata>({
     method: 'GET',
     url: `${apiEndpoint.APPLICATION_GLOBAL}/${encodeURIComponent(id)}`,
     maxRetries: 3,

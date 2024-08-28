@@ -5,7 +5,6 @@
 
 import {
   AggregationType,
-  ApplicationAlertConfig,
   ApplicationAlertRule,
   HistoricBaselineConfig,
   HistoricBaselineData,
@@ -32,6 +31,7 @@ import {
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
+import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
@@ -62,10 +62,10 @@ interface BluePrintBase {
   readonly getAlertsPreviewRequest: () => typeof getApplicationMetricsAlertPreview;
   readonly getThresholdSuggestionRequest: () => typeof getApplicationMetricsThresholdSuggestion;
   readonly thresholdDefaults: { readonly operator: ThresholdOperator };
-  readonly enrichWithDefaultThresholdValues: (alertConfig: ApplicationAlertConfig) => ApplicationAlertConfig;
+  readonly enrichWithDefaultThresholdValues: (alertConfig: ApplicationSmartAlertConfig) => ApplicationSmartAlertConfig;
 
   readonly getEntityTagFilterFormModel: (
-    alertConfig: ApplicationAlertConfig,
+    alertConfig: ApplicationSmartAlertConfig,
     applicationId: string,
     applicationName?: string,
     serviceId?: string,
@@ -74,7 +74,7 @@ interface BluePrintBase {
 
   readonly getRuleTagFilterFormModel: (alertRule: ApplicationAlertRule) => FormModelElement[];
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
-    alertConfig: ApplicationAlertConfig,
+    alertConfig: ApplicationSmartAlertConfig,
     timeConfig: FixedTimeConfig,
     adaptiveBaselineInfo?: Record<string, number>
   ) => FormModelElement[];
@@ -125,7 +125,7 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   isBeta: false,
   enrichWithDefaultThresholdValues: enrichWithDefaultThresholdValuesForBaselines,
   getEntityTagFilterFormModel: (
-    alertConfig: ApplicationAlertConfig,
+    alertConfig: ApplicationSmartAlertConfig,
     applicationId: string,
     applicationName?: string,
     serviceId?: string,
@@ -365,7 +365,7 @@ function getStatusCodeFormModel(alertRule: StatusCodeApplicationAlertRule): Form
 }
 
 function getExtraSlownessAnalyzeLinkTagFilterFormModel(
-  alertConfig: ApplicationAlertConfig,
+  alertConfig: ApplicationSmartAlertConfig,
   timeConfig: FixedTimeConfig,
   adaptiveBaselineInfo = {}
 ): FormModelElement[] {
@@ -389,7 +389,7 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(
   return [tagFilter('call.latency', toTagFilterNumberOperator(alertConfig.threshold.operator), value)];
 }
 
-function enrichWithDefaultStaticThresholdValues(alertConfig: ApplicationAlertConfig): ApplicationAlertConfig {
+function enrichWithDefaultStaticThresholdValues(alertConfig: ApplicationSmartAlertConfig): ApplicationSmartAlertConfig {
   const { threshold } = alertConfig;
   return {
     ...alertConfig,
@@ -405,7 +405,9 @@ function enrichWithDefaultStaticThresholdValues(alertConfig: ApplicationAlertCon
   };
 }
 
-function enrichWithDefaultThresholdValuesForBaselines(alertConfig: ApplicationAlertConfig): ApplicationAlertConfig {
+function enrichWithDefaultThresholdValuesForBaselines(
+  alertConfig: ApplicationSmartAlertConfig
+): ApplicationSmartAlertConfig {
   const { threshold } = alertConfig;
   return {
     ...alertConfig,

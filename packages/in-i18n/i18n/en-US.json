@@ -1,5 +1,8 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "Main navigation"
+    },
     "expandableGroup": {
       "tooltipShowContent": "Show content",
       "tooltipHideContent": "Hide content",
@@ -37,6 +40,10 @@
       "tableTabs": {
         "listOfTabs": "List of tabs"
       }
+    },
+    "pill": {
+      "privatePreview": "Preview",
+      "publicPreview": "Preview"
     }
   },
   "formatDate": {

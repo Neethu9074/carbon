@@ -27,10 +27,10 @@ export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData
       const retentionDays = value[0];
       const timestamp = value[1];
       const volumeGB = value[2];
-      const volumeRU = value[3];
+      const volumeRU = value[3] ?? 0;
 
       const date = new Date(timestamp * 1000);
-      const month = date.toLocaleString('en-US', { month: 'long' });
+      const month = date.toLocaleString('en-US', { month: 'long', timeZone: 'UTC' });
       const yearValue = date.getFullYear();
       const monthYearKey = `${month}-${yearValue}`;
 
@@ -262,7 +262,7 @@ export function transformLabeledData(data: any[]) {
     Object.keys(retentionPeriods).forEach(period => {
       const periodData = monthYear.retentionPeriods[period].find((p: any) => p.label === label);
       const volumeGB = retentionPeriods[period].gb;
-      const volumeRU = retentionPeriods[period].ru;
+      const volumeRU = retentionPeriods[period].ru ?? 0;
 
       if (periodData) {
         periodData.volumeGB += +volumeGB.toFixed(2);
