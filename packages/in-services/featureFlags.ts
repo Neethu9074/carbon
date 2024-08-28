@@ -78,6 +78,7 @@ export const carbonMenuEnabled = isFeatureFlagEnabled('carbonMenuEnabled', false
 export const carbonDropdownEnabled = isFeatureFlagEnabled('carbonDropdownEnabled', false);
 export const carbonInputEnabled = isFeatureFlagEnabled('carbonInputEnabled');
 export const carbonComboBoxEnabled = isFeatureFlagEnabled('carbonComboBoxEnabled');
+export const carbonCodeEnabled = isFeatureFlagEnabled('carbonCodeEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');

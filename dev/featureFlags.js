@@ -162,5 +162,6 @@ module.exports = {
   userProfileMenuEnabled: false,
   unitForInfraMetricsEnabled: true,
   applicationSmartAlertDialogView: true,
-  increaseAggregationEnabled: false
+  increaseAggregationEnabled: false,
+  carbonCodeEnabled: true
 };
