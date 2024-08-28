@@ -86,6 +86,6 @@
   }
 
   .recalButtonWidth {
-    width: 130px;
+    width: 8.125rem;
   }
 }

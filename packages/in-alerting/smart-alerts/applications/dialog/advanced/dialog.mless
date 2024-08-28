@@ -1,25 +1,25 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2024
  * (c) Copyright Instana Inc.
  */
 
 :local {
   .dropdownsm {
-    min-width: 107px;
+    min-width: 6.75rem;
   }
   .dropdownmd {
-    min-width: 135px;
+    min-width: 8.5rem;
   }
   .dropdownlg {
-    min-width: 185px;
+    min-width: 11.5rem;
   }
   .dropdownxlg {
-    min-width: 221px;
+    min-width: 13.875rem;
   }
   .dropdownxxlg {
-    min-width: 250px;
+    min-width: 15.625rem;
   }
   .recalButtonWidth {
-    width: 130px;
+    width: 8.125rem;
   }
 }
