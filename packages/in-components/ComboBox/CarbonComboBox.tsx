@@ -19,11 +19,9 @@ export default function ComboBox({ ...props }: ComboBoxProps): JSX.Element {
   };
   const shouldFilterItem = (input: any) => {
     const { inputValue, item, itemToString } = input;
-    const result =
-      inputValue && inputValue !== '' && item && props.options
-        ? itemToString(item).toLowerCase().includes(inputValue.toLowerCase())
-        : true;
-    return result;
+    return inputValue && inputValue !== '' && item
+      ? itemToString(item).toLowerCase().includes(inputValue.toLowerCase())
+      : true;
   };
   const cprops: CarbonComboBoxProps = {
     ...props,
