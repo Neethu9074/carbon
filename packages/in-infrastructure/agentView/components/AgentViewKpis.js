@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { emptyList } from 'in-services/fixedImmutables';
 import TwoValueBar from 'in-components/TwoValueBar';
 import KpiCard from 'in-components/KpiCard/KpiCard';
@@ -12,7 +13,16 @@ import { t } from 'in-i18n';
 
 import locals from './AgentViewKpis.mless';
 
-export default function AgentViewKpis({ agentSnapshots }) {
+export default function AgentViewKpis({ agentSnapshotsResult }) {
+  if (
+    !agentSnapshotsResult ||
+    agentSnapshotsResult.getIn(['progress', 'loading']) ||
+    agentSnapshotsResult.getIn(['errors']).length > 0
+  ) {
+    return <LoadingIndicator type="dark" />;
+  }
+  const agentSnapshots = agentSnapshotsResult.getIn(['data']);
+
   return (
     <div className={locals.row}>
       <KpiCard title={t('in-infrastructure:agentView.totalAgents')}>
