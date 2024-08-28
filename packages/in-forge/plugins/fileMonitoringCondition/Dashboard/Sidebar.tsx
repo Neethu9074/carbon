@@ -20,7 +20,7 @@ const FileMonitoringConditionSidebar = ({ snapshot }: FileMonitoringConditionPro
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>{t('in-forge:plugins.FileMonitoringCondition.FileSystem')}</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.fileMonitoringCondition.fileMonitorCondition')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

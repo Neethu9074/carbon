@@ -6,24 +6,17 @@
 
 import React from 'react';
 
-import { TimeConfig } from '@instana/types';
-
 import Conditions from 'in-forge/plugins/fileMonitoringCondition/Dashboard/Conditions';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 
 interface FileMonitoringConditionDashboardProps {
   snapshot: SnapshotData;
-  timeConfig: TimeConfig;
 }
-const FileMonitoringConditionDashboard: React.FC<FileMonitoringConditionDashboardProps> = ({
-  snapshot,
-  timeConfig
-}) => {
+const FileMonitoringConditionDashboard: React.FC<FileMonitoringConditionDashboardProps> = ({ snapshot }) => {
   const snapshotId = snapshot.get('id');
-  // const data = snapshot.get('data');
   return (
     <div>
-      <Conditions snapshotId={snapshotId} timeConfig={timeConfig} />
+      <Conditions snapshotId={snapshotId} />
     </div>
   );
 };

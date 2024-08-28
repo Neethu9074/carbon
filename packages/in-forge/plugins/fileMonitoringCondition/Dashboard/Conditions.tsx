@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
@@ -16,86 +15,67 @@ import { t } from 'in-i18n';
 
 interface ConditionsProps {
   snapshotId: string;
-  timeConfig: TimeConfig;
 }
 
 // Define the interface for the row data
 interface ConditionsRow {
-  key: string;
-  snapshotId: string;
-  timeConfig: TimeConfig;
-  condition: {
-    id: string;
-    attribute: string;
-    operator: string;
-    reference: string;
-    actual: string;
-  };
+  key: any;
+  condition: any;
 }
 
 // Define columns for the table
 const cols = [
   {
-    title: t('in-forge:plugins.FileMonitoringCondition.attribute'),
+    title: t('in-forge:plugins.fileMonitoringCondition.dashboard.attribute'),
     type: 'string',
     typeArgs: {
       getValue(row: ConditionsRow) {
-        return row.condition.attribute;
+        return row.condition.get('fileMetric') || row.condition.get('filePath');
       }
     }
   },
   {
-    title: t('in-forge:plugins.FileMonitoringCondition.operator'),
+    title: t('in-forge:plugins.fileMonitoringCondition.dashboard.operator'),
     type: 'string',
     typeArgs: {
       getValue(row: ConditionsRow) {
-        return row.condition.operator;
+        return row.condition.get('operator');
       }
     }
   },
   {
-    title: t('in-forge:plugins.FileMonitoringCondition.reference'),
+    title: t('in-forge:plugins.fileMonitoringCondition.dashboard.reference'),
     type: 'string',
     typeArgs: {
       getValue(row: ConditionsRow) {
-        return row.condition.reference;
+        return row.condition.get('referenceValue');
       }
     }
   },
   {
-    title: t('in-forge:plugins.FileMonitoringCondition.actual'),
+    title: t('in-forge:plugins.fileMonitoringCondition.dashboard.actual'),
     type: 'string',
     typeArgs: {
       getValue(row: ConditionsRow) {
-        return row.condition.actual;
+        return row.condition.get('actualValue');
       }
     }
   }
 ];
 
-const Conditions: React.FC<ConditionsProps> = ({ snapshotId, timeConfig }) => {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'monitors'), [snapshotId]);
-
+const Conditions: React.FC<ConditionsProps> = ({ snapshotId }) => {
+  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'conditions'), [snapshotId]);
   if (!data) {
     return null;
   }
-
-  const monitorData = (data as SnapshotData).get('data');
-
+  const monitorData = (data as SnapshotData).get('raw_payload');
   // Flatten the conditions from each monitor into rows
-  const rows: ConditionsRow[] = monitorData
-    .keySeq()
-    .toArray()
-    .flatMap((key: string) => {
-      const monitor = monitorData.get(key);
-      const conditions = monitor.conditions || [];
-      return conditions.map((condition: any) => ({
-        key: `${key}-${condition.id}`,
-        snapshotId,
-        timeConfig,
-        condition
-      }));
-    });
+  const rows: ConditionsRow[] = monitorData.toArray().flatMap((condition: any) => {
+    return {
+      key: `${condition}`,
+      condition
+    };
+  });
 
   if (rows.length === 0) {
     return null;
@@ -104,7 +84,7 @@ const Conditions: React.FC<ConditionsProps> = ({ snapshotId, timeConfig }) => {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.FileMonitoringCondition.dashboard.Conditions')}
+      cardTitle={t('in-forge:plugins.fileMonitoringCondition.conditions')}
       cols={cols}
       rows={rows}
     />

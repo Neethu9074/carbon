@@ -4,5 +4,5 @@
  * Copyright IBM Corp. 2023
  */
 
-import Details from 'in-forge/plugins/fileMonitoring/Dashboard/Sidebar';
+import Details from 'in-forge/plugins/fileMonitoringCondition/Dashboard/Sidebar';
 export default Details;

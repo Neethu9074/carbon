@@ -13,10 +13,9 @@ import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.fileMonitoringCondition,
-
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
-    label: t('in-forge:plugins.fileMonitoringCondition.FileSystem')
+    label: t('in-forge:plugins.fileMonitoringCondition.fileMonitorCondition')
   }
 });

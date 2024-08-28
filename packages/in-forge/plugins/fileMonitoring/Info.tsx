@@ -16,7 +16,6 @@ export default function FileMonitoringInfo({ snapshot }: { snapshot: SnapshotDat
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.fileMonitoring.host')}>{data.get('host')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.fileMonitoring.user')}>{data.get('user')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.fileMonitoring.group')}>{data.get('group')}</DescriptionItem>
     </DescriptionList>
   );

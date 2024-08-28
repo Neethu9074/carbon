@@ -820,6 +820,7 @@
   "pluginName_remoteHost_2": "Remote Hosts",
   "pluginName_remoteHost": "Remote Host",
   "pluginName_fileMonitoring": "File Monitoring",
+  "pluginName_fileMonitoringCondition": "File Monitor Condition",
   "pluginName_httpd_plural": "Apache HTTPds",
   "pluginName_httpd_0": "Apache HTTPds",
   "pluginName_httpd_1": "Apache HTTPds",
@@ -8284,20 +8285,21 @@
       "fileSystem": "File Monitoring",
       "monitors": "Monitors",
       "host": "Host",
-      "user": "User",
-      "group": "Group"
+      "group": "Group",
+      "numberOfMonitors": "Number Of Monitors"
     },
     "fileMonitoringCondition": {
       "dashboard": {
         "attribute": "Attribute",
         "operator": "Operator",
-        "reference": "reference",
+        "reference": "Reference",
         "actual": "Actual"
       },
-      "fileSystemCondition": "File Monitoring Condition",
-      "conditions": "Condition",
+      "fileMonitorCondition": "File Monitoring Condition",
+      "numberOfConditions": "Number of conditions",
+      "conditions": "Conditions",
       "path": "Path",
-      "interval":"Interval"
+      "interval":"Interval (seconds)"
     },
     "finagleApplicationContainer": {
       "dashboard": {

@@ -42,6 +42,7 @@ import './ibmDataPowerQueueManager';
 import './phmcSharedProcessorPool';
 import './redisEnterpriseDatabase';
 import './azureApplicationGateway';
+import './fileMonitoringCondition';
 import './tuxedoAppTuxedoService';
 import './crystalRuntimePlatform';
 import './googleCloudPubSubTopic';

@@ -535,6 +535,7 @@ export const fullyQualifiedPlugins = {
   entityStatisticsMember: 'com.instana.forge.selfmonitoring.filler.EntityStatisticsMember',
   etcd: 'com.instana.forge.infrastructure.cache.etcd.Etcd',
   fileMonitoring: 'com.instana.forge.infrastructure.os.filemonitoring.FileMonitoring',
+  fileMonitoringCondition: 'com.instana.forge.infrastructure.os.filemonitoring.FileMonitoringCondition',
   finagleApplicationContainer: 'com.instana.forge.infrastructure.application.finagle.FinagleApplicationContainer',
   f5: 'com.instana.forge.infrastructure.loadbalancer.F5',
   garden: 'com.instana.forge.infrastructure.virtualization.garden.Garden',
