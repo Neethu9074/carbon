@@ -156,7 +156,7 @@ function calculateMaxValueIndependetMetrics(
   filteredDataSeries: Set<string>
 ): number {
   if (metrics.length === 0) {
-    return 1;
+    return 0;
   }
 
   const maxValues = metrics.map((metric, i) =>
@@ -171,7 +171,8 @@ interface MinMax {
   maxValue: number;
 }
 
-function getMinMaxValueForDataSeries(dataSeries: MetricDataSeries): MinMax {
+// To support negative values in charts
+export function getMinMaxValueForDataSeries(dataSeries: MetricDataSeries): MinMax {
   const values = dataSeries.map(dataPoint => dataPoint[1]);
   const minValue = values.length > 0 ? Math.min(...values) : 0;
   const maxValue = values.length > 0 ? Math.max(...values) : 1;
