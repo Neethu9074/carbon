@@ -60,6 +60,7 @@ const Rule = forwardRef(function Rule(
                 className={locals.icon}
                 type="lib_actions_edit"
                 onClick={isInstanaDefaultRule ? null : () => onEdit()}
+                buttonType="button"
               />
               {onRemove && (
                 <IconButton
@@ -67,6 +68,7 @@ const Rule = forwardRef(function Rule(
                   className={locals.icon}
                   type="lib_actions_delete"
                   onClick={isInstanaDefaultRule ? null : () => onRemove()}
+                  buttonType="button"
                 />
               )}
             </>
@@ -84,6 +86,7 @@ const Rule = forwardRef(function Rule(
               className={locals.icon}
               type={expand ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
               onClick={() => setExpand(!expand)}
+              buttonType="button"
             />
           ) : (
             <div className={locals.iconPlaceholder} />
