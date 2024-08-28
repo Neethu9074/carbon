@@ -6,14 +6,13 @@
 
 import React, { ReactNode } from 'react';
 
-import { Typography } from '@instana/components';
+import { PreviewPill, Typography } from '@instana/components';
 
 import {
   LimitableProductArea,
   ProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import Label from 'in-components/form/Label/Label';
 import { t } from 'in-i18n';
 
@@ -38,7 +37,7 @@ export const ConfigurationSummary = ({
 }: ConfigurationSummaryProps) => {
   const getBadgeByProductArea = () => {
     if (syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS) {
-      return <PreviewBadge privatePreview />;
+      return <PreviewPill privatePreview />;
     }
     return null;
   };

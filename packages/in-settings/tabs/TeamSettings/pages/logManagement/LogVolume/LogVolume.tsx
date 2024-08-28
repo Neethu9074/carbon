@@ -104,6 +104,7 @@ function LogVolume() {
                 </CarbonLayer>
               </Li>
               <GroupingConfiguratorSection
+                data-testid="groupingConfiguration"
                 value={groupValue}
                 onChange={onChangeGroup}
                 GroupingConfigurator={LogVolumeGroupingConfigurator}
@@ -118,7 +119,7 @@ function LogVolume() {
             {data?.length === 0 && !progress.loading ? (
               hasError(result as Result<any>) ? (
                 <section className={locals.stateContainer}>
-                  <div className={locals.noLogVolumeData}>
+                  <div data-testid="logVolumeDataError" className={locals.noLogVolumeData}>
                     <SvgIcon type="lib_help_error_error_circle" size="xxxl" />
                     <Typography variant="body-bold">{t('in-settings:tabs.logVolume.logVolumeErrorTitle')}</Typography>
                     <Typography variant="body-regular">{t('in-settings:tabs.logVolume.logVolumeErrorInfo')}</Typography>

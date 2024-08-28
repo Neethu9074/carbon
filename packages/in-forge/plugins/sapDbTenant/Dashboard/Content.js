@@ -6,9 +6,10 @@
 
 import React from 'react';
 
-import { getSapDbTenantDashboard } from 'in-sap/navigation/paths';
+import { useSapDbTenantDashboard } from 'in-sap/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function SapDbTenantDashboard({ snapshot }) {
-  return <RedirectWithHash to$={getSapDbTenantDashboard(snapshot.get('id'))} />;
+  const href = useSapDbTenantDashboard(snapshot.get('id'));
+  return <RedirectWithHash href={href} />;
 }

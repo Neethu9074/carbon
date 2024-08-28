@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { IconButton, Button } from '@instana/components';
 
 import { ua2FacetedSearchFilterClosedTracker, ua2FacetedSearchFilterOpenedTracker } from 'in-components/tracker';
 import ExpandableCard from './ExpandableCardWithSubtitle';
@@ -34,7 +33,7 @@ function GroupByHeaderButton({ tracker, tag, title, dataSource, linkToGroupedVie
       dataSource
     });
   };
-  const icon = <SvgIcon type={'lib_group_by'} size={'xs'} />;
+  const icon = <IconButton type={'lib_group_by'} kind="action" size="compact" />;
   return (
     <HeaderButton
       icon={icon}
@@ -55,7 +54,7 @@ function UngroupHeaderButton({ linkToUngroupedView, tag, dataSource, tracker }) 
       dataSource
     });
   };
-  const icon = <SvgIcon type={'lib_ungroup'} size={'xs'} />;
+  const icon = <IconButton type={'lib_ungroup'} kind="action" size="compact" />;
   return (
     <HeaderButton
       icon={icon}

@@ -15,7 +15,13 @@ import {
   LimitedAccessScopeType,
   PermissionsUnion
 } from 'in-stores/permission';
-import { infraSmartAlertsEnabled, logSmartAlertsEnabled, syntheticsEnabled } from 'in-services/featureFlags';
+import {
+  infraSmartAlertsEnabled,
+  logRetentionPageEnabled,
+  logSmartAlertsEnabled,
+  logVolumePageEnabled,
+  syntheticsEnabled
+} from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
 
 // The area roles (not to be confused with the normal groups) are used
@@ -192,9 +198,9 @@ export const logCapabilities: Array<CapabilityType> = [
   Capability.CAN_VIEW_LOGS,
   Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
   Capability.CAN_DELETE_LOGS,
-  Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD,
-  Capability.CAN_VIEW_LOG_VOLUME,
-  ...(logSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS] : [])
+  ...(logSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS] : []),
+  ...(logVolumePageEnabled ? [Capability.CAN_VIEW_LOG_VOLUME] : []),
+  ...(logRetentionPageEnabled ? [Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD] : [])
 ];
 
 export const customDashboardCapabilities: Array<CapabilityType> = [

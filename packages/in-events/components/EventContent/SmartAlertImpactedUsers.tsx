@@ -6,12 +6,13 @@
 
 import React, { useMemo } from 'react';
 
-import { ApplicationAlertConfig, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 import { just } from '@instana/observables';
 
 // @ts-ignore
 import { getEnrichedAnalyzeTagFilterFormModel } from 'in-events/components/AnalyzeApplicationEventButton';
+import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { joinExpressions, FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -29,7 +30,7 @@ import { minutes } from 'in-services/time';
 export interface SmartAlertImpactedUsersProps {
   event: EventOrMap;
   snapshot?: SnapshotData;
-  alertConfig?: ApplicationAlertConfig;
+  alertConfig?: ApplicationSmartAlertConfig;
   eventEntity?: any;
 }
 
@@ -99,7 +100,7 @@ function getImpactedTimeConfigFromEvent(event: EventOrMap): TimeConfig {
 function createFilterExpressionsForAppAlert(
   event: EventOrMap,
   timeConfig: TimeConfig,
-  alertConfig?: ApplicationAlertConfig,
+  alertConfig?: ApplicationSmartAlertConfig,
   eventEntity?: any
 ) {
   const entityType = event.get('entityType');

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link, PreviewPill } from '@instana/components';
 
 // @ts-expect-error migrate to TS
 import AnalyzeDataSourceSelector from 'in-analyze/components/AnalyzeHeader/AnalyzeDataSourceSelector';
@@ -21,7 +21,6 @@ import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Label from 'in-analyze/components/AnalyzeHeader/Label';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
@@ -80,7 +79,7 @@ export default function AnalyzeHeader({
 
     return (
       <div className={locals.metaInformation}>
-        {beta && <PreviewBadge />}
+        {beta && <PreviewPill />}
         {docsLink && (
           <Link onClick={handleTracking} external href={docsLink}>
             {linkLabel}

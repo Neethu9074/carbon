@@ -21,6 +21,8 @@ import Dropdown from 'in-alerting/components/Dropdown';
 import { Option } from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
+import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+
 interface StatusCodeThresholdConditionProps {
   form: MapForm<any>;
   blueprintConfig: MobileAppBluePrint | WebsiteBluePrint;
@@ -57,6 +59,7 @@ export default function StatusCodeThresholdCondition({
         <Dropdown
           value={metricName}
           items={ruleMetricNameOptions.statusCode}
+          className={locals.dropdownlg}
           onChange={value => {
             updateForm(form.updateIn(['rule', 'metricName'], f => (f as Field<any>).setValue(value).setTouched(true)));
           }}

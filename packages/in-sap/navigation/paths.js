@@ -5,7 +5,7 @@
  */
 
 import { hostId as matrixHostId, systemSnapShotPrefix } from 'in-sap/navigation/matrix';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { systemPrefix } from 'in-sap/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -52,14 +52,15 @@ export const sapDbTenantDashboardFullyQualified = `${sap}${sapDbTenantDashboard}
 export const sapDbInstanceDashboardFullyQualified = `${sap}${sapDbInstanceDashboard}`;
 export const abapCentralInstanceDashboardFullyQualified = `${sap}${abapCentralInstanceDashboard}`;
 export const sapJavaCentralInstanceDashboardFullyQualified = `${sap}${sapJavaCentralInstanceDashboard}`;
+export const summaryTab = '/summary';
 
-export function getAbapSystemDashboard(
+export function useAbapSystemDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: abapSystemDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -74,13 +75,13 @@ export function getAbapSystemDashboard(
   });
 }
 
-export function getAbapInstanceDashboard(
+export function useAbapInstanceDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: abapInstanceDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -95,13 +96,13 @@ export function getAbapInstanceDashboard(
   });
 }
 
-export function getAbapCentralInstanceDashboard(
+export function useAbapCentralInstanceDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: abapCentralInstanceDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -116,13 +117,13 @@ export function getAbapCentralInstanceDashboard(
   });
 }
 
-export function getSapJavaCentralInstanceDashboard(
+export function useSapJavaCentralInstanceDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: sapJavaCentralInstanceDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -137,13 +138,13 @@ export function getSapJavaCentralInstanceDashboard(
   });
 }
 
-export function getSapDbmsDashboard(
+export function useSapDbmsDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: sapDbmsDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -158,13 +159,13 @@ export function getSapDbmsDashboard(
   });
 }
 
-export function getSapHanaDashboard(
+export function useSapHanaDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: sapHanaDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -179,13 +180,13 @@ export function getSapHanaDashboard(
   });
 }
 
-export function getSapJavaSystemDashboard(
+export function useSapJavaSystemDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: sapJavaSystemDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -200,13 +201,13 @@ export function getSapJavaSystemDashboard(
   });
 }
 
-export function getSapHanaSystemDashboard(
+export function useSapHanaSystemDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: sapHanaSystemDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -221,13 +222,13 @@ export function getSapHanaSystemDashboard(
   });
 }
 
-export function getSapWebDispatcherDashboard(
+export function useSapWebDispatcherDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: sapWebDispatcherDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -242,13 +243,13 @@ export function getSapWebDispatcherDashboard(
   });
 }
 
-export function getSapJavaInstanceDashboard(
+export function useSapJavaInstanceDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: sapJavaInstanceDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -263,13 +264,13 @@ export function getSapJavaInstanceDashboard(
   });
 }
 
-export function getSapDbTenantDashboard(
+export function useSapDbTenantDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: sapDbTenantDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -284,13 +285,13 @@ export function getSapDbTenantDashboard(
   });
 }
 
-export function getSapDbInstanceDashboard(
+export function useSapDbInstanceDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: sapDbInstanceDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -305,13 +306,13 @@ export function getSapDbInstanceDashboard(
   });
 }
 
-export function getSapAbapInstanceSensorDashboard(
+export function useSapAbapInstanceSensorDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: sapAbapInstanceSensorDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -326,13 +327,13 @@ export function getSapAbapInstanceSensorDashboard(
   });
 }
 
-export function getSapAbapSystemSensorDashboard(
+export function useSapAbapSystemSensorDashboard(
   hostId,
   matrixPrefix,
   systemSnapshotId,
   { tab, tabMatrix, timeConfig } = emptyObject
 ) {
-  return getDashboard({
+  return useNavigateToDashboard({
     base: sapAbapSystemSensorDashboardFullyQualified,
     tab,
     tabMatrix,
@@ -346,38 +347,53 @@ export function getSapAbapSystemSensorDashboard(
     systemSnapShotPrefix: systemSnapShotPrefix
   });
 }
-export function getDashboardForEntity(snapshotId, plugin, label) {
+export function useDashboardForEntity(snapshotId, plugin, label) {
+  const abapCentralInstanceDashboard = useAbapCentralInstanceDashboard(snapshotId);
+  const abapInstanceDashboard = useAbapInstanceDashboard(snapshotId);
+  const abapSystemDashboard = useAbapSystemDashboard(snapshotId);
+  const sapJavaSystemDashboard = useSapJavaSystemDashboard(snapshotId);
+  const sapJavaInstanceDashboard = useSapJavaInstanceDashboard(snapshotId);
+  const sapJavaCentralInstanceDashboard = useSapJavaCentralInstanceDashboard(snapshotId);
+  const sapHanaSystemDashboard = useSapHanaSystemDashboard(snapshotId);
+  const sapWebDispatcherDashboard = useSapWebDispatcherDashboard(snapshotId);
+  const sapDbmsDashboard = useSapDbmsDashboard(snapshotId);
+  const sapHanaDashboard = useSapHanaDashboard(snapshotId);
+  const sapDbTenantDashboard = useSapDbTenantDashboard(snapshotId);
+  const sapDbInstanceDashboard = useSapDbInstanceDashboard(snapshotId);
+  const sapAbapInstanceSensorDashboard = useSapAbapInstanceSensorDashboard(snapshotId);
+  const sapAbapSystemSensorDashboard = useSapAbapSystemSensorDashboard(snapshotId);
+
   switch (plugin) {
     case plugins.abapInstance:
-      if (label && label.includes('Central')) return getAbapCentralInstanceDashboard(snapshotId);
-      else return getAbapInstanceDashboard(snapshotId);
+      if (label && label.includes('Central')) return abapCentralInstanceDashboard;
+      else return abapInstanceDashboard;
     case plugins.abapSystem:
-      return getAbapSystemDashboard(snapshotId);
+      return abapSystemDashboard;
     case plugins.sapJavaSystem:
-      return getSapJavaSystemDashboard(snapshotId);
+      return sapJavaSystemDashboard;
     case plugins.sapJavaInstance:
-      if (label && label.includes('Central')) return getSapJavaCentralInstanceDashboard(snapshotId);
-      return getSapJavaInstanceDashboard(snapshotId);
+      if (label && label.includes('Central')) return sapJavaCentralInstanceDashboard;
+      return sapJavaInstanceDashboard;
     case plugins.sapHanaSystem:
-      return getSapHanaSystemDashboard(snapshotId);
+      return sapHanaSystemDashboard;
     case plugins.sapWebDispatcher:
-      return getSapWebDispatcherDashboard(snapshotId);
+      return sapWebDispatcherDashboard;
     case plugins.sapDbms:
-      return getSapDbmsDashboard(snapshotId);
+      return sapDbmsDashboard;
     case plugins.sapHanaPlatform:
-      return getSapHanaDashboard(snapshotId);
+      return sapHanaDashboard;
     case plugins.sapDbTenant:
-      return getSapDbTenantDashboard(snapshotId);
+      return sapDbTenantDashboard;
     case plugins.sapDbInstance:
-      return getSapDbInstanceDashboard(snapshotId);
+      return sapDbInstanceDashboard;
     case plugins.sapAbapInstanceSensor:
-      return getSapAbapInstanceSensorDashboard(snapshotId);
+      return sapAbapInstanceSensorDashboard;
     case plugins.sapAbapSystemSensor:
-      return getSapAbapSystemSensorDashboard(snapshotId);
+      return sapAbapSystemSensorDashboard;
   }
 }
 
-function getDashboard({
+function useNavigateToDashboard({
   base,
   tab = '/summary',
   tabMatrix = {},
@@ -391,21 +407,42 @@ function getDashboard({
   systemSnapShotPrefix,
   paramsCallback
 }) {
-  return getModifiedUrlStream(params => {
-    params.pathname = `${base}${tab}`;
+  const { location, createHref } = useNavigation();
+  location.pathname = `${base}${tab}`;
 
-    setOrDeleteMatrixKey(params, matrixSegment, matrixParam, id);
-    setOrDeleteMatrixKey(params, matrixSegment, systemPrefix, prefix);
-    setOrDeleteMatrixKey(params, matrixSegment, systemSnapShotPrefix, prefixSnapshot);
+  setOrDeleteMatrixKey(location, matrixSegment, matrixParam, id);
+  setOrDeleteMatrixKey(location, matrixSegment, systemPrefix, prefix);
+  setOrDeleteMatrixKey(location, matrixSegment, systemSnapShotPrefix, prefixSnapshot);
+
+  if (timeConfig != null) {
+    setTimeConfig(location, timeConfig);
+  }
+
+  location.matrix[tab] = tabMatrix;
+
+  if (paramsCallback) {
+    paramsCallback(location);
+  }
+
+  return createHref(location);
+}
+
+export const useNavigateToAbapSystemDashboard = () => {
+  const { createHref, location } = useNavigation();
+
+  return (id, prefix, prefixSnapshot, { tab = summaryTab, tabMatrix = {}, timeConfig } = emptyObject) => {
+    location.pathname = abapSystemDashboardFullyQualified + tab;
+
+    setOrDeleteMatrixKey(location, abapSystemDashboard, matrixHostId, id);
+    setOrDeleteMatrixKey(location, abapSystemDashboard, systemPrefix, prefix);
+    setOrDeleteMatrixKey(location, abapSystemDashboard, systemSnapShotPrefix, prefixSnapshot);
 
     if (timeConfig != null) {
-      setTimeConfig(params, timeConfig);
+      setTimeConfig(location, timeConfig);
     }
 
-    params.matrix[tab] = tabMatrix;
+    location.matrix[tab] = tabMatrix;
 
-    if (paramsCallback) {
-      paramsCallback(params);
-    }
-  });
-}
+    return createHref(location);
+  };
+};

@@ -9,7 +9,7 @@ import React from 'react';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
-import { getSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
+import { GetSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { percentage, number, percentagePlain } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -52,7 +52,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-sap:name'),
     getContent(item) {
-      return getSpecificDashboard(item, matrixPrefix, systemSnapshotId);
+      return <GetSpecificDashboard value={item} matrixPrefix={matrixPrefix} systemSnapshotId={systemSnapshotId} />;
     }
   },
   {

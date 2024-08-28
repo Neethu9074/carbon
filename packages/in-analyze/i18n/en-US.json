@@ -312,7 +312,6 @@
   "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
   "components": {
     "analyzeHeader": {
-      "beta": "BETA",
       "analytics": "Analytics"
     },
     "filterBar": {

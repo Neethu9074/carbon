@@ -75,6 +75,7 @@ export const carbonTileEnabled = isFeatureFlagEnabled('carbonTileEnabled');
 export const carbonPaginationEnabled = isFeatureFlagEnabled('carbonPaginationEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const carbonMenuEnabled = isFeatureFlagEnabled('carbonMenuEnabled', false);
+export const carbonDropdownEnabled = isFeatureFlagEnabled('carbonDropdownEnabled', false);
 export const carbonInputEnabled = isFeatureFlagEnabled('carbonInputEnabled');
 export const carbonComboBoxEnabled = isFeatureFlagEnabled('carbonComboBoxEnabled');
 
@@ -152,7 +153,9 @@ export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
 export const customWidgetEventsTableEnabled = isFeatureFlagEnabled('customWidgetEventsTableEnabled');
 export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled('customWidgetTableInfraDataSourceEnabled');
 
+// Custom Dashboards
 export const thresholdCustomDashboardsEnabled = isFeatureFlagEnabled('thresholdCustomDashboardsEnabled');
+export const customDashboardsExportPdfWidget = isFeatureFlagEnabled('customDashboardsExportPdfWidget');
 
 // Infrastructure Smart Alerts
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');

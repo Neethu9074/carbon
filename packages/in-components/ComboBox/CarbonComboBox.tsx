@@ -17,11 +17,18 @@ export default function ComboBox({ ...props }: ComboBoxProps): JSX.Element {
   const itemToElement = (item: any) => {
     return props.components.Option({ data: item, getValue: () => {} });
   };
+  const shouldFilterItem = (input: any) => {
+    const { inputValue, item, itemToString } = input;
+    return inputValue && inputValue !== '' && item
+      ? itemToString(item).toLowerCase().includes(inputValue.toLowerCase())
+      : true;
+  };
   const cprops: CarbonComboBoxProps = {
     ...props,
     placeholder: props.placeholder ? props.placeholder : t('in-components:comboBox.placeholderSelect'),
     value: selopt as Option,
-    itemToElement: props.components?.Option ? itemToElement : undefined
+    itemToElement: props.components?.Option ? itemToElement : undefined,
+    shouldFilterItem: shouldFilterItem
   };
   return <CarbonComboBox {...cprops} />;
 }

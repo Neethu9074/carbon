@@ -55,7 +55,7 @@ import { usePowervcRegionDashboard } from 'in-powervc/navigation/paths';
 import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
-import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
+import { useNavigateToAbapSystemDashboard } from 'in-sap/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
@@ -90,6 +90,8 @@ export default function PlatformsTopList({ config }) {
   const getApplicationDashboardLink = useNavigateToApplicationDashboard();
 
   const getClusterDashboardLink = useNavigateToClusterDashboard();
+
+  const getAbapSystemDashboard = useNavigateToAbapSystemDashboard();
 
   return (
     <TopListWidget

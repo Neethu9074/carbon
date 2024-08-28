@@ -7,8 +7,9 @@
   .headerButton {
     position: relative;
     background: transparent;
-    right: -1rem;
+    right: -1.5rem;
     padding: 0;
+    align-items: center;
     border: none;
 
     svg {

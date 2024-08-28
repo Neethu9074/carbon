@@ -5,11 +5,10 @@
 
 import React from 'react';
 
-import { ApplicationAlertConfig } from '@instana/types';
-
 import alertEvaluationTypes, {
   PER_AP
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { t } from 'in-i18n';
 
@@ -17,7 +16,7 @@ export default function EvaluationTypeColumn({
   config,
   isGlobalSmartAlertConfig
 }: {
-  config: ApplicationAlertConfig;
+  config: ApplicationSmartAlertConfig;
   isGlobalSmartAlertConfig: boolean;
 }) {
   const { evaluationType = PER_AP } = config;

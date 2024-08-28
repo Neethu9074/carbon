@@ -8,12 +8,12 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import { boundaryScopes } from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/config';
-import { ApplicationAlertConfig } from 'in-types';
+import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls.mless';
 
 interface Props {
-  alertConfig: ApplicationAlertConfig;
+  alertConfig: ApplicationSmartAlertConfig;
 }
 
 export default function ReadOnlyInboundOutboundCalls({ alertConfig }: Props) {

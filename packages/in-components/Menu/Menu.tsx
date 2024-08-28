@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
 
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
+import { PreviewPill } from '@instana/components';
 
 import locals from './Menu.mless';
 
@@ -58,7 +58,7 @@ export default function Menu<T extends MenuItem>({
             }}
           >
             {item.name}
-            {item.isBeta && <PreviewBadge />}
+            {item.isBeta && <PreviewPill />}
           </li>
         ))}
       </ul>

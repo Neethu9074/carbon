@@ -6,10 +6,9 @@
 
 import React from 'react';
 
-import { Spacer, Stack } from '@instana/components';
+import { PreviewPill, Spacer, Stack } from '@instana/components';
 
 import AlertTypography from 'in-alerting/components/AlertTypography';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 
 import locals from './SelectedBlueprintPresenter.mless';
 
@@ -24,13 +23,10 @@ export default function SelectedBlueprintPresenter({ title, description, isBeta,
   return (
     <Stack>
       <div className={locals.wrapper}>
-        <AlertTypography variant={'heading-200'} color={'color900'} content={title} noMargin>
-          {isBeta && (
-            <span className={locals.leftPadding}>
-              <PreviewBadge />
-            </span>
-          )}
-        </AlertTypography>
+        <div className={locals.title}>
+          <AlertTypography variant={'heading-200'} color={'color900'} content={title} noMargin />
+          {isBeta && <PreviewPill />}
+        </div>
 
         <Spacer vertical="normal" />
         <AlertTypography variant={'body-large'} color={'color600'} content={description} noMargin />
