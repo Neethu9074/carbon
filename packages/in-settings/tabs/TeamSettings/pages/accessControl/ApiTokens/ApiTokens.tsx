@@ -163,20 +163,32 @@ export default function ApiTokens() {
   };
 
   /**
-   * Custom filter function that either filters on on internal id (found for a access token) or
-   * normal search based on specified search attributes. This replaces the default search logic
+   * Custom filter function that performs normal search based on specified search attributes
+   * and adds results from full token search. This replaces the default search logic
    * of the List component.
    * @param {entities: ApiTokenProps[]} entities to filter
    * @returns filtered entities
    */
   const onFilter = (entities: ApiTokenProps[]) => {
-    // Either search for full token or do default search
-    if (filteredTokenId !== '' && entities) {
-      return entities.filter((entity: ApiTokenProps) => entity.internalId === filteredTokenId);
-    }
+    let filteredEntities: ApiTokenProps[] = [];
 
     // Default search based on search attributes
-    return entities.filter(entity => searchAttributes.reduce(filterReducer.bind(null, searchQuery, entity), false));
+    filteredEntities = entities.filter(entity =>
+      searchAttributes.reduce(filterReducer.bind(null, searchQuery, entity), false)
+    );
+
+    // Add results for full token search
+    if (filteredTokenId !== '' && entities) {
+      filteredEntities.push(
+        ...entities.filter(
+          (entity: ApiTokenProps) =>
+            entity.internalId === filteredTokenId &&
+            !filteredEntities.some((elem: ApiTokenProps) => elem.internalId === filteredTokenId) // prevent duplicate results
+        )
+      );
+    }
+
+    return filteredEntities;
   };
 
   return (

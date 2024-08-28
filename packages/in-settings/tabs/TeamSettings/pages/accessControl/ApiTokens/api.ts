@@ -30,6 +30,7 @@ export function getTokenIdByAccessGrantingToken(token: string): Observable<any> 
     headers: getCsrfHeader(),
     maxRetries: 0,
     url: `/api/settings/api-tokens/getTokenIdByAccessGrantingToken`,
+    treat400AsError: false,
     data: { query: token }
   }).map(response => response.body);
 }
