@@ -84,6 +84,7 @@ export default function SyntheticEventContent({ event, snapshot, reload }: Props
                   <SyntheticsAlertconfigButton alertConfig={alertConfig} />
                   <AnalyzeSyntheticEventButton
                     testId={syntheticTestId}
+                    locationId={locationId}
                     locationLabel={locationLabel}
                     timeConfig={analyzeTimeConfig}
                     syntheticTestLabel={syntheticTestLabel}
@@ -107,6 +108,7 @@ export default function SyntheticEventContent({ event, snapshot, reload }: Props
                 <SyntheticsAlertconfigButton alertConfig={alertConfig} />
                 <AnalyzeSyntheticEventButton
                   testId={syntheticTestId}
+                  locationId={locationId}
                   locationLabel={locationLabel}
                   timeConfig={analyzeTimeConfig}
                   syntheticTestLabel={syntheticTestLabel}
