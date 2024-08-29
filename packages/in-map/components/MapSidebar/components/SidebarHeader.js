@@ -5,6 +5,9 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
+import { useGoToGraph } from 'in-stores/navigation/paths/dashboardPaths';
 import { getLabel, getShowZoneInSidebarHeader } from 'in-sdk/snapshot';
 import ZoneTag from 'in-map/components/MapSidebar/components/ZoneTag';
 import { shorten } from 'in-services/util/string';
@@ -17,10 +20,13 @@ export default function SidebarHeader({ snapshot }) {
   const plugin = snapshot.get('plugin');
   const entityType = getPluginName(plugin, 1);
 
+  const graphHref = useGoToGraph(snapshot.get('id'));
   return (
     <div className={locals.sidebarHeader}>
       <div className={locals.entity}>
-        <PluginIcon className={locals.entityIcon} snapshot={snapshot} />
+        <Link href={graphHref}>
+          <PluginIcon className={locals.entityIcon} snapshot={snapshot} />
+        </Link>
         <div>
           <h2 className={locals.entityLabel}>{shorten(getLabel(snapshot) || '', 128)}</h2>
           <div className={locals.typeIdWrapper}>
