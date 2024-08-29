@@ -6,7 +6,7 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, RadioButton, Checkbox } from '@instana/components';
+import { SvgIcon, RadioButton, Checkbox, PreviewPill } from '@instana/components';
 
 import { carbonRadioButtonEnabled, carbonCheckboxEnabled } from 'in-services/featureFlags';
 import FeatureFeedback from 'in-components/FeatureFeedback';
@@ -24,6 +24,7 @@ interface OptionBoxProps {
   onChange: (checked: boolean) => void;
   asRadioButton?: boolean;
   className?: string;
+  isBeta?: boolean;
 }
 
 const OptionBoxWithRef = forwardRef(function OptionBox(
@@ -36,7 +37,8 @@ const OptionBoxWithRef = forwardRef(function OptionBox(
     onChange,
     asRadioButton,
     className,
-    featureFeedbackLink
+    featureFeedbackLink,
+    isBeta
   }: OptionBoxProps,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
@@ -57,9 +59,14 @@ const OptionBoxWithRef = forwardRef(function OptionBox(
         ) : (
           <div className={locals.title}>{title}</div>
         )}
-        {(description || featureFeedbackLink) && (
+        {(description || featureFeedbackLink || isBeta) && (
           <div className={locals.description}>
             {description}
+            {isBeta && (
+              <div className={locals.space}>
+                <PreviewPill />
+              </div>
+            )}
             {featureFeedbackLink && (
               <div className={locals.betaBadge}>
                 <FeatureFeedback href={featureFeedbackLink} />

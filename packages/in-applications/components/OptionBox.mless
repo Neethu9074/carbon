@@ -47,4 +47,8 @@
       width: max-content;
     }
   }
+
+  .space {
+    margin-top: 0.5rem;
+  }
 }
