@@ -55,6 +55,7 @@ import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import { getEvent } from 'in-stores/events';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
 import RootCauseDashboard from './RootCauseDashboardProps';
+import { rcaLogsEnabled } from 'in-services/featureFlags';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { setTimeConfig } from 'in-stores/time/config';
 import { EventOrMap } from 'in-events/types';
@@ -353,16 +354,19 @@ export default function RootCauseEntityDetails({
           {t('in-applications:buttonAnalyzeCalls')}
         </Button>
       </Stack>
-
-      <div className={locals.sectionLine} />
-      <TraceLogs
-        nonInfraServiceLabelInformation={nonInfraServiceLabelInformation}
-        infraServiceLabelInformation={infraServiceLabelInfromation}
-        relatedApplicationInformation={relatedApplicationInformation}
-        rcaEntityType={rcaEntityType}
-        entityData={entityData}
-        incidentTimeWindow={incidentTimeWindow}
-      />
+      {rcaLogsEnabled ? (
+        <>
+          <div className={locals.sectionLine} />
+          <TraceLogs
+            nonInfraServiceLabelInformation={nonInfraServiceLabelInformation}
+            infraServiceLabelInformation={infraServiceLabelInfromation}
+            relatedApplicationInformation={relatedApplicationInformation}
+            rcaEntityType={rcaEntityType}
+            entityData={entityData}
+            incidentTimeWindow={incidentTimeWindow}
+          />
+        </>
+      ) : undefined}
       <div className={locals.sectionLine} />
       <AssociatedEvents associatedEvents={associatedEvents} latestSnapshot={latestSnapshot} />
     </div>
