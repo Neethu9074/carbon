@@ -35,7 +35,8 @@ import {
   APDEX_MANAGEMENT_CREATE_FINISH,
   APDEX_MANAGEMENT_EDIT_START,
   APDEX_MANAGEMENT_EDIT_FINISH,
-  APDEX_MANAGEMENT_DELETE
+  APDEX_MANAGEMENT_DELETE,
+  SLO2_WIDGET_EDIT_START
 } from 'in-services/tracking/eventNames';
 // eslint-disable-next-line no-restricted-imports
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
@@ -108,10 +109,15 @@ export const apdexWidgetTrackers = {
   [APDEX_MANAGEMENT_DELETE]: (e: ApdexTrackingEventPayload) => track(APDEX_MANAGEMENT_DELETE, e)
 } as const;
 
+export const sloWidgetTrackers = {
+  [SLO2_WIDGET_EDIT_START]: (e: SloTrackingMeta) => track(SLO2_WIDGET_EDIT_START, e)
+} as const;
+
 const allSloTracker = { ...sliWidgetTrackers, ...sloTrackers, ...apdexWidgetTrackers };
 
 export type SloTrackers = typeof sloTrackers;
 export type SliWidgetTrackers = typeof sliWidgetTrackers;
+export type SloWidgetTrackers = typeof sloWidgetTrackers;
 export type ApdexWidgetTrackers = typeof apdexWidgetTrackers;
 export type AllSloTrackers = typeof allSloTracker;
 
@@ -124,7 +130,7 @@ export function trackSloEvent<EVENT extends keyof AllSloTrackers>(
 
 export const trackerContext = createContext({} as SloTrackerProviderProps);
 
-type SloTrackersUnion = SloTrackers | SliWidgetTrackers | ApdexWidgetTrackers;
+type SloTrackersUnion = SloTrackers | SliWidgetTrackers | ApdexWidgetTrackers | SloWidgetTrackers;
 interface SloTrackerProviderProps {
   trackers: SloTrackersUnion;
   meta: SloTrackingMeta;

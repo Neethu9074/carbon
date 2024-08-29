@@ -11,7 +11,7 @@ export { createForm } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import { t } from 'in-i18n';
 
 export const type = 'slo';
-export const label = t('in-custom-dashboards:widgets.slo.slo');
+export const label = t('in-custom-dashboards:widgets.slo.sloLegacy');
 export const minimumWidth = 6;
 export const minimumHeight = 18;
 export const enabled = true;

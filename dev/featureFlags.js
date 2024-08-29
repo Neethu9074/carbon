@@ -108,6 +108,7 @@ module.exports = {
   sloV2Enabled: true,
   sloEnabled: true,
   sloSmartAlertsEnabled: true,
+  sloRebornWidgetEnabled: true,
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
   customDashboardsExportPdfWidget: true,
