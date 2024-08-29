@@ -4,14 +4,17 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Map } from 'immutable';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
+import getFileMonitoringConditionForSystem from 'in-forge/plugins/fileMonitoring/subscriptions/getFileMonitoringConditionForSystem';
 // @ts-expect-error needs TS migration
-import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { getSnapshots } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
+import { timeConfig$ } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
 interface SituationsProps {
@@ -22,17 +25,17 @@ interface SituationsProps {
 interface SituationsRow {
   key: string;
   snapshotId: string;
-  timeConfig: string;
-  monitor: any;
+  timeConfig: TimeConfig;
+  monitorData: Map<string, string | number>;
 }
 
 const cols = [
   {
     title: t('in-forge:plugins.fileMonitoring.dashboard.name'),
-    type: 'string',
+    type: 'snapshotLink',
     typeArgs: {
-      getValue(row: SituationsRow) {
-        return row.monitor.get('name');
+      getSnapshotId(row: SituationsRow) {
+        return row.key;
       }
     }
   },
@@ -41,7 +44,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: SituationsRow) {
-        return row.monitor.get('path');
+        return row.monitorData.get('path');
       }
     }
   },
@@ -53,7 +56,7 @@ const cols = [
         return value;
       },
       getValue(row: SituationsRow) {
-        return row.monitor.get('interval');
+        return row.monitorData.get('interval');
       }
     }
   },
@@ -62,7 +65,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: SituationsRow) {
-        return row.monitor.get('severity');
+        return row.monitorData.get('severity');
       }
     }
   },
@@ -74,41 +77,40 @@ const cols = [
         return value;
       },
       getValue(row: SituationsRow) {
-        return row.monitor.get('issueTriggered') === 1 ? 'Yes' : 'No';
+        return row.monitorData.get('issueTriggered') === 1 ? 'Yes' : 'No';
       }
     }
   }
 ];
 
-const Situations: React.FC<SituationsProps> = ({ snapshotId, timeConfig }) => {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'monitors'), [snapshotId]);
-  if (!data) {
+const Monitors = ({ snapshotId, timeConfig }: SituationsProps) => {
+  const snapShotDetails: any = useObservable(
+    () =>
+      timeConfig$
+        .flatMap(timeConfig => getFileMonitoringConditionForSystem({ snapshotId, timeConfig }))
+        .flatMap(getSnapshots),
+    [snapshotId, timeConfig]
+  );
+  if (!snapShotDetails) {
     return null;
   }
-  const monitorData = (data as SnapshotData).get('raw_payload');
-  const rows: SituationsRow[] = [];
-  monitorData
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      if (key !== 'itemIds') {
-        monitorData.get(key).forEach((monitor: any) => {
-          const monitorId = monitor.get('monitorId');
-          const situationEntry: any = {
-            key: monitorId,
-            snapshotId,
-            timeConfig,
-            monitor
-          };
-          rows.push(situationEntry);
-        });
-      }
+  const rows = snapShotDetails
+    .map((entry: Map<string, Object>) => {
+      return {
+        id: entry.get('id'),
+        data: entry.get('data')
+      };
+    })
+    .map((monitor: any) => {
+      return {
+        key: monitor.id,
+        snapshotId: snapshotId,
+        monitorData: monitor.data,
+        timeConfig
+      };
     });
-  if (rows.length === 0) {
-    return null;
-  }
 
   return <Table withoutPadding cardTitle={t('in-forge:plugins.fileMonitoring.monitors')} cols={cols} rows={rows} />;
 };
 
-export default Situations;
+export default Monitors;

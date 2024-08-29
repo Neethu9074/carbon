@@ -8,7 +8,7 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
-import Situations from 'in-forge/plugins/fileMonitoring/Dashboard/Situations';
+import Monitors from 'in-forge/plugins/fileMonitoring/Dashboard/Monitors';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 
 interface FileMonitoringDashboardProps {
@@ -19,7 +19,7 @@ const FileMonitoringDashboard: React.FC<FileMonitoringDashboardProps> = ({ snaps
   const snapshotId = snapshot.get('id');
   return (
     <div>
-      <Situations snapshotId={snapshotId} timeConfig={timeConfig} />
+      <Monitors snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 };

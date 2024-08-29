@@ -71,8 +71,9 @@ const Conditions: React.FC<ConditionsProps> = ({ snapshotId }) => {
   const monitorData = (data as SnapshotData).get('raw_payload');
   // Flatten the conditions from each monitor into rows
   const rows: ConditionsRow[] = monitorData.toArray().flatMap((condition: any) => {
+    const conditionKey = condition.get('fileMetric') || condition.get('filePath');
     return {
-      key: `${condition}`,
+      key: `${conditionKey}`,
       condition
     };
   });
