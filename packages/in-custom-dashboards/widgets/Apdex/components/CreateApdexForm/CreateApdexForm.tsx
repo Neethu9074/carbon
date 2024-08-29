@@ -16,7 +16,7 @@ import {
 } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
 import CreateWebsiteApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateWebsiteApdexForm';
 // eslint-disable-next-line import/no-deprecated
-import { getField } from 'in-custom-dashboards/widgets/Slo/form';
+import { getField } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import { APDEX_MANAGEMENT_CREATE_FINISH, APDEX_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
 import useCreateApdexForm from 'in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexForm';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
