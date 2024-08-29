@@ -8299,7 +8299,8 @@
       "numberOfConditions": "Number of conditions",
       "conditions": "Conditions",
       "path": "Path",
-      "interval":"Interval (seconds)"
+      "interval":"Interval (seconds)",
+      "issueTriggered": "Issue Triggered"
     },
     "finagleApplicationContainer": {
       "dashboard": {
