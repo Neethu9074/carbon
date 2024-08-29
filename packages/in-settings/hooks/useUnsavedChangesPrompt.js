@@ -37,7 +37,6 @@ const useUnsavedChangesPrompt = () => {
         navigate();
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showModal, nextLocation, history]);
 
   const handleModalConfirmation = () => {

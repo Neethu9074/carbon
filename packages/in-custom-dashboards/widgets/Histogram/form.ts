@@ -6,13 +6,9 @@
 
 import { createField, createMapForm } from 'formalistic';
 
-import {
-  metricConfigurationPath,
-  formatterPath,
-  formatterSelectedPath
-} from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 // @ts-expect-error
 import { createForm as createMetricConfigurationForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import { metricConfigurationPath, formatterPath, formatterSelectedPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { defaultFormatter, allFormatterIds } from 'in-stores/metric/formatters';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';

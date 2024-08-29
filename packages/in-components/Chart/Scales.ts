@@ -79,9 +79,9 @@ export function calculateAxisMinMax(axisName: string, axis: Axis | undefined, fi
   }
 
   const metrics = axis.metrics || [];
-  const maxValue = (
-    axis.valuesDependOnEachOther ? calculateMaxValueForStackedMetrics : calculateMaxValueIndependetMetrics
-  )(axisName, axis, metrics, filteredDataSeries);
+  const maxValue = (axis.valuesDependOnEachOther
+    ? calculateMaxValueForStackedMetrics
+    : calculateMaxValueIndependetMetrics)(axisName, axis, metrics, filteredDataSeries);
 
   if (axis.getMax != null) {
     // @ts-expect-error The return value seems to not be used anywhere, so the function return type really should be void. However, it seems safer to avoid breaking things by not refactoring this
