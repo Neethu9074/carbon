@@ -12,7 +12,7 @@ import { SyntheticTest } from '@instana/types';
 import Associations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Associations';
 
 jest.mock('in-services/featureFlags', () => ({
-  get syntheticMultiWebMobileEnabled() {
+  get syntheticRbacLimitedEnabled() {
     return false;
   }
 }));

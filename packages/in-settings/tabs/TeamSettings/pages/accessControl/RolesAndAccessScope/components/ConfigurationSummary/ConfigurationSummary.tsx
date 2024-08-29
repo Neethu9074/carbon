@@ -12,7 +12,7 @@ import {
   LimitableProductArea,
   ProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import Label from 'in-components/form/Label/Label';
 import { t } from 'in-i18n';
 
@@ -36,7 +36,7 @@ export const ConfigurationSummary = ({
   productArea
 }: ConfigurationSummaryProps) => {
   const getBadgeByProductArea = () => {
-    if (syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS) {
+    if (syntheticRbacLimitedEnabled && productArea === ProductArea.SYNTHETICS) {
       return <PreviewPill privatePreview />;
     }
     return null;

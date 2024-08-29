@@ -12,8 +12,8 @@ import { SyntheticTest } from '@instana/types/typeDefinitions';
 import { Button, Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { syntheticMultiAppEnabled, syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -66,7 +66,7 @@ const Associations = ({ test }: Props) => {
   };
 
   const getPrivatePreviewBadge = () => {
-    if (syntheticMultiAppEnabled) {
+    if (syntheticRbacLimitedEnabled) {
       return (
         <Stack direction="horizontal" gap="xxsmall">
           {t('in-synthetics:dashboard.configuration.associations')}
@@ -109,7 +109,7 @@ const Associations = ({ test }: Props) => {
           {loadMoreEntities('applications')}
         </LightCard>
       </Row>
-      {syntheticMultiWebMobileEnabled && (
+      {syntheticRbacLimitedEnabled && (
         <>
           <Row>
             <LightCard

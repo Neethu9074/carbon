@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { playwithEnabled, syntheticMultiWebMobileEnabled, websiteUserBreakdownEnabled } from 'in-services/featureFlags';
+import { playwithEnabled, syntheticRbacLimitedEnabled, websiteUserBreakdownEnabled } from 'in-services/featureFlags';
 import SyntheticMonitoring from 'in-websites/WebsiteDashboard/tabs/SyntheticMonitoring/SyntheticMonitoring';
 import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Configuration';
 import Geography from 'in-websites/WebsiteDashboard/tabs/Geography/Geography';
@@ -71,7 +71,7 @@ export const websiteTabs = [
     component: Pages,
     websiteOnly: true
   },
-  syntheticMultiWebMobileEnabled && {
+  syntheticRbacLimitedEnabled && {
     label: t('in-websites:websiteDashboard.tabs.synthetic.tabLabel'),
     path: `${websitePathFullyQualified}/synthetics`,
     component: SyntheticMonitoring,

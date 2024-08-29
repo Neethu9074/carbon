@@ -138,13 +138,7 @@ export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticI
 export const syntheticCertificateCheckEnabled = isFeatureFlagEnabled('syntheticCertificateCheckEnabled');
 
 // Synthetic RBAC Limited Access feature flag
-export const syntheticRbacLimitedTPEnabled = isFeatureFlagEnabled('syntheticRbacLimitedTPEnabled');
-
-// Synthetic Multi App Support feature flag
-export const syntheticMultiAppEnabled = isFeatureFlagEnabled('syntheticMultiAppEnabled');
-
-// Synthetic Multi Websites and Mobile Apps feature flag
-export const syntheticMultiWebMobileEnabled = isFeatureFlagEnabled('syntheticMultiWebMobileEnabled');
+export const syntheticRbacLimitedEnabled = isFeatureFlagEnabled('syntheticRbacLimitedEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(

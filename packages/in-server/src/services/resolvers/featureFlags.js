@@ -416,8 +416,8 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'syntheticRbacLimitedTPEnabled',
-    instanaCtlKey: 'feature.synthetic.rbac.limited.tp.enabled',
+    uiClientKey: 'syntheticRbacLimitedEnabled',
+    instanaCtlKey: 'feature.synthetic.rbac.limited.enabled',
     defaultValue: false
   },
   {
@@ -738,16 +738,6 @@ module.exports = exports = [
   {
     uiClientKey: 'preAggregatedMetricsQueryEnabled',
     instanaCtlKey: 'feature.pre.aggregated.metrics.query.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticMultiAppEnabled',
-    instanaCtlKey: 'feature.synthetic.multi.app.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticMultiWebMobileEnabled',
-    instanaCtlKey: 'feature.synthetic.multi.web.mobile.enabled',
     defaultValue: false
   },
   {

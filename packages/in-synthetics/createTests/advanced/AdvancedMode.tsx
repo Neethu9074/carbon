@@ -12,13 +12,9 @@ import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import {
-  syntheticCertificateCheckEnabled,
-  syntheticMultiAppEnabled,
-  syntheticMultiWebMobileEnabled
-} from 'in-services/featureFlags';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
+import { syntheticCertificateCheckEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import SSLCertificateConfiguration from 'in-synthetics/createTests/advanced/SSLCertificateConfiguration';
 import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/BrowserSimpleConfiguration';
 import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePrintSelectionSection';
@@ -182,7 +178,7 @@ const AdvancedMode = ({
   };
 
   const getPrivatePreviewBadge = () => {
-    if (syntheticMultiAppEnabled) {
+    if (syntheticRbacLimitedEnabled) {
       return (
         <Stack direction="horizontal" distribution="spaceBetween" align="center">
           {t('in-synthetics:dialog.createTest.advancedMode.applicationsTitle')}
@@ -223,7 +219,7 @@ const AdvancedMode = ({
       valid: true,
       content: <IdentifySection form={form} updateForm={updateForm} applications={applications} />
     },
-    syntheticMultiWebMobileEnabled
+    syntheticRbacLimitedEnabled
       ? {
           scrollId: '6',
           label: t('in-synthetics:dialog.createTest.advancedMode.associationsLabel'),
@@ -237,8 +233,8 @@ const AdvancedMode = ({
           label: t('in-synthetics:dialog.createTest.advancedMode.associationsLabel'),
           title: getPrivatePreviewBadge(),
           subTitle: t('in-synthetics:dialog.createTest.advancedMode.applicationsDescription'),
-      isBeta: syntheticMultiAppEnabled,
-      isPrivatePreview: true,
+          isBeta: syntheticRbacLimitedEnabled,
+          isPrivatePreview: true,
           valid: true,
           content: <ApplicationsSection form={form} updateForm={updateForm} applications={applications} />
         },
@@ -262,7 +258,7 @@ const AdvancedMode = ({
 
   const getRenderSections = (value: number) => {
     if (value >= 1) {
-      return syntheticMultiAppEnabled
+      return syntheticRbacLimitedEnabled
         ? [mainSection, switchTestTypeSection, ...commonSections]
         : [
             mainSection,

@@ -53,7 +53,7 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import Divider from 'in-components/workspace/Divider/Divider';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -277,7 +277,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
 
   const getCredentialsSelectionSection = () => {
     if (
-      syntheticMultiWebMobileEnabled &&
+      syntheticRbacLimitedEnabled &&
       productArea === ProductArea.SYNTHETICS &&
       role === AreaRole.OWNER &&
       (permissions.includes(Capability.CAN_USE_SYNTHETIC_CREDENTIALS) ||

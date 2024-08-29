@@ -13,7 +13,7 @@ import {
   AreaRoleWithContributor
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getConfigurationSummaryMsg } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
-import { syntheticRbacLimitedTPEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { t, Trans } from 'in-i18n';
 
 describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary/getConfigurationSummaryMsg', () => {
@@ -200,7 +200,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       const productContext = productArea.toLowerCase();
       const scopeContext = scope.toLowerCase();
       if (
-        syntheticRbacLimitedTPEnabled &&
+        syntheticRbacLimitedEnabled &&
         productArea === ProductArea.SYNTHETICS &&
         scope === ScopedPermissionItem.LIMITED_ACCESS
       ) {

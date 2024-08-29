@@ -15,7 +15,7 @@ import {
   ProductAreaType,
   AreaRoleWithContributor
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { syntheticMultiWebMobileEnabled, syntheticRbacLimitedTPEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { Capability } from 'in-stores/permission';
 import { t, Trans } from 'in-i18n';
 
@@ -71,11 +71,11 @@ export const getConfigurationSummaryMsg = (
 
     // Specific access level message for Synthetic Monitoring limited access only
     if (
-      syntheticRbacLimitedTPEnabled &&
+      syntheticRbacLimitedEnabled &&
       productArea === ProductArea.SYNTHETICS &&
       scope === ScopedPermissionItem.LIMITED_ACCESS
     ) {
-      accessLevelMessage = syntheticMultiWebMobileEnabled
+      accessLevelMessage = syntheticRbacLimitedEnabled
         ? role === AreaRole.OWNER &&
           (permissions!.includes(Capability.CAN_USE_SYNTHETIC_CREDENTIALS) ||
             permissions!.includes(Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS))

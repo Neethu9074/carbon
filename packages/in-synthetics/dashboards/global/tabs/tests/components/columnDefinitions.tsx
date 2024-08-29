@@ -24,7 +24,7 @@ import { clickSyntheticMonitoringTestTracker } from 'in-synthetics/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import HealthDot from 'in-components/health/HealthDot';
@@ -269,7 +269,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
     }
   },
   {
-    id: syntheticMultiAppEnabled ? 'associationLabels' : 'applicationLabel',
+    id: syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
     label: t('in-synthetics:dashboard.testList.associationLabel'),
     defaultOrderDirection: 'ASC',
     getContent: function Content(item: TestResultListItem) {

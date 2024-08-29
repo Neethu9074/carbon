@@ -5,8 +5,6 @@
  */
 
 import { ScopedPermissionItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
-import hasEmptyElements from 'in-synthetics/utils/hasEmptyElements';
 
 export const enum Access {
   ACCESS_MATCH,
@@ -59,23 +57,4 @@ export const hasAccess = (
 
   // No access scope found, test should not be listed here.
   return Access.NO_ACCESS;
-};
-
-export const hasNoInheritedEntities = (parsedSupplementary: any) => {
-  return syntheticMultiWebMobileEnabled
-    ? parsedSupplementary?.applications?.length === 0 &&
-        parsedSupplementary?.websites?.length === 0 &&
-        parsedSupplementary?.mobileApps?.length === 0
-    : parsedSupplementary?.applications?.length === 0;
-};
-
-export const inheritedEntitiesHaveEmptyElements = (parsedSupplementary: any) => {
-  return syntheticMultiWebMobileEnabled
-    ? parsedSupplementary?.applications?.length > 0 &&
-        hasEmptyElements(parsedSupplementary?.applications) &&
-        parsedSupplementary?.websites?.length > 0 &&
-        hasEmptyElements(parsedSupplementary?.websites) &&
-        parsedSupplementary?.mobileApps?.length > 0 &&
-        hasEmptyElements(parsedSupplementary?.mobileApps)
-    : parsedSupplementary?.applications?.length > 0 && hasEmptyElements(parsedSupplementary?.applications);
 };

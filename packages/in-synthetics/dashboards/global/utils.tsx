@@ -9,7 +9,7 @@ import React from 'react';
 import { Result, SyntheticTest } from '@instana/types';
 
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
-import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { PresenterProps } from 'in-synthetics/utils/constants';
 
 export const useFilterHeader = (isFilterAllowed: boolean, syntheticTests: Result<SyntheticTest[]>, setFilter: any) => {
@@ -22,7 +22,7 @@ export const useFilterHeader = (isFilterAllowed: boolean, syntheticTests: Result
         setFilter: setFilter,
         syntheticTypes: syntheticTypes,
         locationIds: locationIds,
-        ...(syntheticMultiWebMobileEnabled ? { entityIds: entityIds } : { applicationIds: applicationIds })
+        ...(syntheticRbacLimitedEnabled ? { entityIds: entityIds } : { applicationIds: applicationIds })
       };
       return <Filters {...filterProps} />;
     }

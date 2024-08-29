@@ -13,7 +13,7 @@ import { TextArea } from '@instana/components';
 import { apiScriptTest, apiSimpleTest, browserScriptTest, browserSimpleTest } from 'in-synthetics/utils/constants';
 import ApplicationsSection from 'in-synthetics/createTests/wizard/ApplicationsSection';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Section from 'in-synthetics/createTests/wizard/Section';
 import FormGroup from 'in-components/form/FormGroup';
@@ -91,7 +91,7 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, 
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
-      {!syntheticMultiAppEnabled && (
+      {!syntheticRbacLimitedEnabled && (
         <ApplicationsSection form={form} updateForm={updateForm} applications={applications} />
       )}
     </Section>
