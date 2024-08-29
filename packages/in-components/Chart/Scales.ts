@@ -52,6 +52,7 @@ export default class Scales {
     if (!axis || !scale) {
       return;
     }
+
     scale.setRangeTo(this.config.markerPaneHeight);
     scale.setRangeFrom(this.config.height! - this.config.timeAxisHeight);
 
@@ -70,6 +71,7 @@ export function calculateAxisMinMax(axisName: string, axis: Axis | undefined, fi
   if (!axis) {
     return;
   }
+
   axis.minValue = axis.min ?? 0;
   if (axis.max != null) {
     // @ts-expect-error The return value seems to not be used anywhere, so the function return type really should be void. However, it seems safer to avoid breaking things by not refactoring this
@@ -98,7 +100,6 @@ function increaseMaxValueForHumanReadability(axis?: Axis): void {
   if (!axis) {
     return;
   }
-
   const strategy = getTickStrategyByFormatter(get(axis, ['formatter', 0, 'detailed']));
   axis.maxValue = strategy.roundMaxValueToNextHighestHumanFriendlyValue(axis.maxValue);
 }
@@ -155,15 +156,17 @@ function calculateMaxValueIndependetMetrics(
   metrics: MetricDataSeries[],
   filteredDataSeries: Set<string>
 ): number {
-  if (metrics.length === 0) {
-    return 0;
+  let maxValue = 0;
+  for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
+    const isIgnoredIndex = filteredDataSeries.has(`${axisName}-${iMetric}`);
+    if (isIgnoredIndex) {
+      continue;
+    }
+
+    const minMax = getMinMaxValueForDataSeries(metrics[iMetric]);
+    maxValue = Math.max(maxValue, minMax.maxValue);
   }
-
-  const maxValues = metrics.map((metric, i) =>
-    filteredDataSeries.has(`${axisName}-${i}`) ? 0 : getMinMaxValueForDataSeries(metric).maxValue
-  );
-
-  return Math.max(...maxValues);
+  return maxValue;
 }
 
 interface MinMax {
@@ -171,11 +174,15 @@ interface MinMax {
   maxValue: number;
 }
 
-// To support negative values in charts
-export function getMinMaxValueForDataSeries(dataSeries: MetricDataSeries): MinMax {
-  const values = dataSeries.map(dataPoint => dataPoint[1]);
-  const minValue = values.length > 0 ? Math.min(...values) : 0;
-  const maxValue = values.length > 0 ? Math.max(...values) : 1;
-
+function getMinMaxValueForDataSeries(dataSeries: MetricDataSeries): MinMax {
+  let minValue = Number.MAX_VALUE;
+  let maxValue = 0;
+  for (let i = 0; i < dataSeries.length; i++) {
+    const dataPoint = dataSeries[i];
+    if (dataPoint) {
+      maxValue = Math.max(maxValue, dataPoint[1]);
+      minValue = Math.min(minValue, dataPoint[1]);
+    }
+  }
   return { minValue, maxValue };
 }

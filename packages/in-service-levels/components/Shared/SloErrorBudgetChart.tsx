@@ -66,7 +66,7 @@ export default function ErrorBudgetChart({
   });
   const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);
   const filteredData = filterMetricValuesByTime(metrics, timeConfig);
-  const minValue = calculateYMinBuffer(filteredData);
+  const { yMin, yMax } = calculateYMinBuffer(filteredData);
 
   return (
     <ResultAwareChart
@@ -78,7 +78,8 @@ export default function ErrorBudgetChart({
         y1: {
           metricIds: timeWindows.map((_, index) => `timeWindows${index}`),
           metrics: filteredData,
-          min: minValue,
+          min: yMin,
+          max: yMax,
           renderAllTickLabels: true,
           labels: timeWindows.map(() => sloMetrics.remainingBudget.label),
           colors: timeWindowColors,
@@ -107,12 +108,12 @@ function calculateYMinBuffer(filteredData: MetricDataPoint[][]) {
   const bufferPercentage = 0.1;
   // Fixed minimum buffer value to ensure some space even for small ranges
   const fixedBuffer = 5;
-
+  const negativeBufferFactor = 1.5;
   let buffer = Math.abs(range * bufferPercentage);
 
   buffer = Math.max(buffer, fixedBuffer);
 
   const yMin = minYValue < 0 ? minYValue - buffer : minYValue;
-
-  return yMin;
+  const yMax = maxYValue > 0 ? maxYValue + buffer : maxYValue + buffer * negativeBufferFactor;
+  return { yMin, yMax };
 }
