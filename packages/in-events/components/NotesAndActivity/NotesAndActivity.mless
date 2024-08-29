@@ -131,17 +131,12 @@
     border-radius: 8px 0px 8px 8px;
   }
 
-  .otherBubble {
-    background: var(--cds-chat-bubble-agent, #e0e0e0);
-    border-radius: 0px 8px 8px 8px;
-  }
-
   .aiGenBubble {
     padding: 0px;
     line-height: 1.5;
   }
 
-  .aiSumGen {
+  .bubbleContentsHeader {
     font-weight: 700;
     padding-bottom: 5px;
   }

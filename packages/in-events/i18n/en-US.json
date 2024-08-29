@@ -240,17 +240,16 @@
     "openNotes": "Open notes and activity",
     "closeNotes": "Close notes and activity",
     "notesActivity": "Notes and activity",
-    "techPreview": "Tech preview",
-    "incidentNotes": "Incident notes",
-    "addNote": "Add note",
+    "techPreview": "Private preview",
     "you": "You",
-    "noNotes": "No notes added yet",
-    "noNotesDetails": "Get started by adding a note for your team.",
-    "cancel": "Cancel",
-    "typeSomething": "Type something...",
     "summarizeIncident": "Summarize this incident?",
     "summarizeIncidentDescription": "Try summarizing this incident, to help you and your team gain a quick understanding of what has happened.",
     "generateSummary": "Generate a summary",
-    "addComment": "Add a comment"
+    "searchNotes": "Search notes and activity",
+    "addComment": "Add comment",
+    "notesLabelText": "Add incident notes",
+    "sumGenerated": "Summary generated:",
+    "addNotesFor": "Add notes for this incident",
+    "tryAddingNotes": "Try adding notes to help you and your team gain a quick understanding of what has happened."
   }
 }

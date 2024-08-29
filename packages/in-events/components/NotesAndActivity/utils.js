@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
-
 import { t } from 'in-i18n';
 
 export function getNotes(event) {
@@ -45,19 +43,13 @@ export function noteNameAndTimeFormat(myBubble, note, date, type) {
   const aiGen = type === 'ai_generated';
 
   if (myBubble && typeNote) {
-    return `${t('in-events:notes.you')}: ${date}`;
+    return `${t('in-events:notes.you')} ${date}`;
   } else if (aiGen) {
-    return `watsonx | ${date}`;
+    return `watsonx ${date}`;
   } else if (typeNote) {
-    return `${note?.author} | ${date}`;
+    return `${note?.author} ${date}`;
   } else {
-    // return (
-    //   <>
-    //     {`${note?.origin} | ${note?.label}`}
-    //     <div style={{ paddingTop: '.25rem' }}>{`${note?.author} | ${date}`}</div>
-    //   </>
-    // );
-    return <>{`${note?.origin} | ${date}`}</>;
+    return `${note?.origin} ${date}`;
   }
 }
 

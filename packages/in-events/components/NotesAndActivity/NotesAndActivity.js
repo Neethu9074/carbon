@@ -22,8 +22,8 @@ import {
 // Using Carbon tooltip would cause mismatch in design on the page
 // since tooltip is used in many places on this page
 import Tooltip from 'in-components/Tooltip';
-import { EVENT_NOTES_SUBMIT, EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { getNotes, validTextEntry, noteNameAndTimeFormat, filterSearchNotes, createDataString } from './utils';
+import { EVENT_NOTES_SUBMIT, EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
@@ -70,8 +70,10 @@ export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
 }
 
 export function NotesAndActivity(props) {
+  // Flag determines if the customer has "generate summary" capability
   const aiFlagEnabled = true;
   const { event, displayNotes, setDisplayNotes } = props;
+  // Extract the notes from the event
   const notes = getNotes(event);
   const incidentId = event?.get('id');
   const eventType = event?.get('type');
@@ -79,7 +81,6 @@ export function NotesAndActivity(props) {
   const loading = event == undefined;
 
   // Boolean to control when the notes section is opened
-  // const [displayNotes, setDisplayNotes] = useState(false);
   // Current value of the typed out note
   const [note, setNote] = useState('');
   const [searchInput, setSearchInput] = useState('');
@@ -111,66 +112,77 @@ export function NotesAndActivity(props) {
   }
 
   // TESTING PURPOSES ONLY
-  // notes.push({
-  //     type: "external_note",
-  //     id: "note-12345",
-  //     parent: "vQ9n1JcfTXKZC-5DsY_74Q",
-  //     timestamp: 1692892800000,
-  //     updated: 0,
-  //     author: "johndoe",
-  //     metadata: {
-  //       apiToken: "iid-valid-api-token",
-  //       createdBy: "johndoe",
-  //       priority: "High",
-  //       userId: null
-  //     },
-  //     origin: "ServiceNow",
-  //     internal: true,
-  //     label: "Work Notes",
-  //     contents: "This is an internal note regarding the issue."
-  // });
-  // notes.push({
-  //   type: 'ai_generated',
-  //   id: 'QNxHX2JGRWG5OayzLX3dgadfadsfadsg',
-  //   parent: 'SIqsdfetSR2mFBzafaqKNVy1GQ',
-  //   timestamp: 1722957105978,
-  //   updated: 0,
-  //   author: 'Denton Zan',
-  //   metadata: {},
-  //   contents: "traffic related problem(s) has been observed, which is: The system has encountered an error rate that is at least 0% and as high as 500%, specifically with status code 442 and 500, indicating a significant server-side issue."
-  // });
-  // notes.push({
-  //   type: 'external_note',
-  //   id: 'QNxHX2JGRWG5OayzLX3dgg',
-  //   parent: 'SIqmHetSR2mFBzqKNVy1GQ',
-  //   timestamp: 1722957105978,
-  //   updated: 0,
-  //   author: 'Quinn T.',
-  //   metadata: {},
-  //   origin: 'ServiceNow',
-  //   internal: false,
-  //   label: 'Additional comments',
-  //   contents: 'This is an external_note that has been brought to you by.... SERVICE NOW!'
-  // });
-  // notes.push({
-  //   type: 'external_field_change',
-  //   id: 'QNxHX2JGRWG5OayzLX3dgg',
-  //   parent: 'SIqmHetSR2mFBzqKNVy1GQ',
-  //   timestamp: 1722957105978,
-  //   updated: 0,
-  //   author: 'Denton Zan',
-  //   metadata: {},
-  //   origin: 'ServiceNow',
-  //   label: 'Field changes',
-  //   data: [
-  //     ['Priority', '0', '1 - Critical'],
-  //     ['Incident state', 'opened', 'In progress'],
-  //     ['Opened by', '', 'ITIL User']
-  //   ]
-  // });
+  notes.push({
+    type: 'external_note',
+    id: 'note-12345',
+    parent: 'vQ9n1JcfTXKZC-5DsY_74Q',
+    timestamp: 1692892800000,
+    updated: 0,
+    author: 'Jaydon Blue',
+    metadata: {
+      apiToken: 'iid-valid-api-token',
+      createdBy: 'Jaydon Blue',
+      priority: 'High',
+      userId: null
+    },
+    origin: 'ServiceNow',
+    internal: true,
+    label: 'Work Notes',
+    contents: 'This is an internal note regarding the issue.'
+  });
+  notes.push({
+    type: 'ai_generated',
+    id: 'QNxHX2JGRWG5OayzLX3dgadfadsfadsg',
+    parent: 'SIqsdfetSR2mFBzafaqKNVy1GQ',
+    timestamp: 1722957105978,
+    updated: 0,
+    author: 'Denton Zan',
+    metadata: {},
+    contents:
+      'traffic related problem(s) has been observed, which is: The system has encountered an error rate that is at least 0% and as high as 500%, specifically with status code 442 and 500, indicating a significant server-side issue.'
+  });
+  notes.push({
+    author: 'Steve Sarkisian',
+    contents: "Hey this is Coach Sark! Just wanted to let you know I'm looking into this incident!",
+    id: 'a8s9d0fuds89afjds9af',
+    parent: 'aklsdfjasfjasdfdas',
+    timestamp: 1724956897828,
+    type: 'note',
+    updated: 0
+  });
+  notes.push({
+    type: 'external_note',
+    id: 'QNxHX2JGRWG5OayzLX3dgg',
+    parent: 'SIqmHetSR2mFBzqKNVy1GQ',
+    timestamp: 1722957105978,
+    updated: 0,
+    author: 'Quinn Ewers',
+    metadata: {},
+    origin: 'ServiceNow',
+    internal: false,
+    label: 'Additional comments',
+    contents: 'This is an external_note that has been brought to you by.... SERVICE NOW!'
+  });
+  notes.push({
+    type: 'external_field_change',
+    id: 'QNxHX2JGRWG5OayzLX3dgg',
+    parent: 'SIqmHetSR2mFBzqKNVy1GQ',
+    timestamp: 1722957105978,
+    updated: 0,
+    author: 'Denton Zan',
+    metadata: {},
+    origin: 'ServiceNow',
+    label: 'Field changes',
+    data: [
+      ['Priority', '0', '1 - Critical'],
+      ['Incident state', 'opened', 'In progress'],
+      ['Opened by', '', 'ITIL User']
+    ]
+  });
   // ^^^^^^^^^^^^^^^^^^^^^^^TESTING PURPOSES ONLY
 
   const filteredNotes = filterSearchNotes(notes, searchInput.toLowerCase());
+
   return (
     <CarbonLayer className={locals.notesHeaderWrapper}>
       <div className={locals.headerWrapper}>
@@ -204,7 +216,7 @@ export function NotesAndActivity(props) {
           <>
             {openSearch && (
               <CarbonSearch
-                placeholder="Search notes and activity"
+                placeholder={t('in-events:notes.searchNotes')}
                 onChange={e => {
                   setSearchInput(e?.target?.value);
                 }}
@@ -230,10 +242,10 @@ export function CommentInput(props) {
     <div className={locals.commentInputWrapperNotes}>
       <CarbonTextArea
         rows={3}
-        placeholder={'Add comment'}
+        placeholder={t('in-events:notes.addComment')}
         value={note}
         id="incidentNotes"
-        labelText="add incident notes"
+        labelText={t('in-events:notes.notesLabelText')}
         hideLabel
         onChange={e => {
           // Updates notes when Shift + Enter is not hit
@@ -283,6 +295,12 @@ export function CommentList(props) {
           const aiGen = type === 'ai_generated';
           const serviceNow = note.origin === 'ServiceNow';
           const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
+          const iconType =
+            (!aiGen && serviceNow && 'lib_snow_icon') ||
+            (!aiGen && !serviceNow && 'lib_user_avatar_filled_alt') ||
+            'lib_ai_slug';
+          const iconSize = (aiGen && 'regular') || 'sm';
+          const iconViewBox = (serviceNow && '0 0 24 24') || (aiGen && '4 4 24 24') || '0 0 30 30';
           return (
             <div key={note.id}>
               <div
@@ -293,14 +311,14 @@ export function CommentList(props) {
               >
                 {!myBubble && (
                   <SvgIcon
-                    type={(!aiGen && 'lib_user_avatar_filled_alt') || 'lib_ai_slug'}
-                    size={(!aiGen && 'regular') || 'sm'}
+                    type={iconType}
+                    size={iconSize}
+                    viewBox={iconViewBox}
                     className={classNames({
                       [locals.userIcon]: !aiGen,
                       [locals.snowIcon]: serviceNow,
                       [locals.aiIcon]: aiGen && !serviceNow
                     })}
-                    viewBox={(aiGen && '4 4 24 24') || '0 0 32 32'}
                   />
                 )}
                 <div className={(!myBubble && locals.chatEntryInfo) || locals.myChatEntryInfo}>
@@ -312,7 +330,7 @@ export function CommentList(props) {
               </div>
               <ChatBubble
                 noteObj={note}
-                text={note.contents}
+                contents={note.contents}
                 data={note.data || note.metadata}
                 myBubble={myBubble}
                 type={type}
@@ -324,33 +342,44 @@ export function CommentList(props) {
   );
 }
 
-// Individual chat bubble that has differing colors based on
-// if the text is from me or someone else
+// Individual chat bubble that has differing colors and stylings based on
+// if the text is from me or someone else, ai generated, or external source
 export function ChatBubble(props) {
-  const { myBubble, text, data, type, noteObj } = props;
-  // Currently we have 3 types of bubbles
+  const { myBubble, contents, data, type, noteObj } = props;
+  // Currently we have 4 types of bubbles
+  const note = type === 'note';
   const extNote = type === 'external_note';
   const extChange = type === 'external_field_change';
-  const note = type === 'note';
   const aiGen = type === 'ai_generated';
   return (
     <div
       className={classNames({
         [locals.myBubble]: myBubble && note,
-        [locals.otherBubble]: !myBubble && note,
-        [locals.ext]: extNote || extChange,
+        [locals.ext]: extNote || extChange || (!myBubble && note),
         [locals.bubble]: true,
         [locals.aiGenBubble]: aiGen
       })}
     >
-      {aiGen && <div className={locals.aiSumGen}>{'Summary generated:'}</div>}
-      {extNote && (
+      {note && contents}
+      {aiGen && (
         <>
-          <div className={locals.aiSumGen}>{`${noteObj?.label}`}</div>
-          {`${noteObj.author}: `}
+          <div className={locals.bubbleContentsHeader}>{t('in-events:notes.sumGenerated')}</div>
+          {contents}
         </>
       )}
-      {text ? text : createDataString(data)}
+      {extNote && (
+        <>
+          <div className={locals.bubbleContentsHeader}>{`${noteObj?.label}`}</div>
+          {`${noteObj.author}: `}
+          {contents}
+        </>
+      )}
+      {extChange && (
+        <>
+          <div className={locals.bubbleContentsHeader}>{noteObj?.label}</div>
+          {createDataString(data)}
+        </>
+      )}
     </div>
   );
 }
@@ -359,14 +388,14 @@ export function ChatBubble(props) {
 // Gives the user the options to add a note or generate a summary
 export function QuickActions(props) {
   const { aiFlagEnabled } = props;
-  const header = (aiFlagEnabled && t('in-events:notes.summarizeIncident')) || 'Add notes for this incident';
+  const header = (aiFlagEnabled && t('in-events:notes.summarizeIncident')) || t('in-events:notes.addNotesFor');
   const description =
-    (aiFlagEnabled && t('in-events:notes.summarizeIncidentDescription')) ||
-    'Try adding notes to help you and your team gain a quick understanding of what has happened.';
+    (aiFlagEnabled && t('in-events:notes.summarizeIncidentDescription')) || t('in-events:notes.tryAddingNotes');
   const summary = aiFlagEnabled && t('in-events:notes.generateSummary');
+  const svgIconType = (aiFlagEnabled && 'lib_help_error_help_circle') || 'lib_actions_edit';
   return (
     <div className={locals.quickActionWrapper}>
-      <SvgIcon className={locals.questionIcon} type="lib_help_error_help_circle" />
+      <SvgIcon className={locals.questionIcon} type={svgIconType} />
       <div>
         <div className={locals.quickActionsHeader}>{header}</div>
         <div className={locals.quickActionsDescription}>{description}</div>
