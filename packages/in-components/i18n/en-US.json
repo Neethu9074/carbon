@@ -593,8 +593,8 @@
     "loadingData": "Loading Data"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "New version of Instana available",
-    "buttonReloadToUpdate": "Reload to update"
+    "newVersionOfInstanaAvailable": "There is an update to the Instana UI",
+    "buttonReloadToUpdate": "Refresh your browser to load it."
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "Calls",
