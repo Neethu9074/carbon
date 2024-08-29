@@ -108,7 +108,7 @@ describe.only('in-i18n/translations', function () {
     const unusedKeyMap = [...namespaceKeysMappingFromLanguageFile].reduce(
       (result, [namespace, keysFromLanguageFile]) => {
         const usedTranslationKeys = namespaceKeysMappingFromI18nKeys.get(namespace) || [];
-        const nestedKeys = nestedKeysMap.get(namespace) || [];
+        const nestedKeys = nestedKeysMap.get(namespace) ?? [];
         const unusedKey = difference(keysFromLanguageFile, usedTranslationKeys, nestedKeys);
 
         return unusedKey.length > 0 ? result.set(namespace, unusedKey) : result;
