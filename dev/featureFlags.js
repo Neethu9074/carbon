@@ -160,5 +160,6 @@ module.exports = {
   userProfileMenuEnabled: false,
   unitForInfraMetricsEnabled: true,
   applicationSmartAlertDialogView: true,
+  extrapolateMissingStackedAreaValues: false,
   increaseAggregationEnabled: false
 };
