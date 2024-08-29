@@ -22623,10 +22623,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"three@npm:^0.113.0":
-  version: 0.113.2
-  resolution: "three@npm:0.113.2"
-  checksum: c308c01ac9d163bced9c6c3aa466b502d6634cb7447e665e2225efc5b4d039783b03015fd522f4f9cc0b2c45e3e80c739e19c868cb1681b16a48b46e5a441b22
+"three@npm:^0.167.1":
+  version: 0.167.1
+  resolution: "three@npm:0.167.1"
+  checksum: 4500a7eb16dc9143f0e71b11c4886d003f31cd8e4cd4e755a045afbcdce0f3f9cec47ab1c9d00eb45fa2bb3ace6ef17b105eee93b90b15b43f0af1139db8741d
   languageName: node
   linkType: hard
 
@@ -23331,7 +23331,7 @@ __metadata:
     style-loader: ^3.3.1
     terser: ^5.3.2
     terser-webpack-plugin: ^4.2.2
-    three: ^0.113.0
+    three: ^0.167.1
     transition-hook: ^1.5.2
     typescript: ^5.1.5
     use-resize-observer: ^6.1.0
