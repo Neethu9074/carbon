@@ -9,7 +9,13 @@ import React from 'react';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
-import { createPolicyTracker, editPolicyTracker, createPolicyFromAIActionTracker } from 'in-automation/tracker';
+import {
+  createPolicyTracker,
+  editPolicyTracker,
+  createPolicyFromAIActionTracker,
+  TrackingFunction,
+  useSegmentTracker
+} from 'in-automation/tracker';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { PolicyFormBody, PolicyFormFooter, PolicyFormHeader } from 'in-automation/Policies/PolicyForm';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
@@ -19,15 +25,18 @@ import usePolicyForm, { getPolicyFromForm } from 'in-automation/Policies/usePoli
 import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getActions, saveNewPolicy, savePolicy } from 'in-automation/api';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isAIActionCopy } from 'in-automation/ActionCatalog/shared';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { all as allStatus } from 'in-hooks/utils/fetchStatus';
 import SectionLine from 'in-settings/components/SectionLine';
 import useTriggers from 'in-automation/Policies/useTriggers';
+import { pageNames } from 'in-services/tracking/pageNames';
 import usePolicy from 'in-automation/Policies/usePolicy';
 import Form from 'in-components/form/binding/Form';
 import { Action, Error, Policy } from 'in-types';
@@ -86,8 +95,13 @@ function PolicyDetails({ id, isNew, isCopy }: PolicyDetailsProps) {
   const [form, setForm] = usePolicyForm(policy, actions, triggers);
   const navigateToPolicies = useNavigateToPolicies();
 
+  const { createPolicyTrackerSegment, editPolicyTrackerSegment } = useSegmentTracker();
+
+  // Set values for tracking data
+  setViewTrackingDataValues(productAreas.automation, pageNames.automation_policies);
+
   const [submitStatus, doSubmit] = useFormSubmission<SubmitPayload, Policy>(({ form, id, isNew }) =>
-    save(form, id, isNew, triggers, actions)
+    save(form, id, isNew, triggers, actions, createPolicyTrackerSegment, editPolicyTrackerSegment)
   );
 
   let content: JSX.Element;
@@ -153,13 +167,25 @@ function save(
   id: string | null,
   isNew: boolean,
   triggers: Triggers | undefined,
-  actions: Action[] | undefined
+  actions: Action[] | undefined,
+  createPolicyTrackerSegment: TrackingFunction,
+  editPolicyTrackerSegment: TrackingFunction
 ) {
   const policy = getPolicyFromForm(form);
   // this is to findout if action is copied from ai generated action
   const selectedAction = actions?.find(
     action => action.id === policy.typeConfigurations[0].runnable.runConfiguration.actions[0].action.id
   );
+
+  const trackerDetailsSegment = {
+    actionName: selectedAction?.name,
+    actionType: selectedAction?.type,
+    policyName: policy.name,
+    policyType: isManual(policy) && isAutomatic(policy) ? 'both' : isManual(policy) ? 'manual' : 'automatic',
+    aiOriginated: isAIActionCopy(selectedAction!) ? true : false,
+    // @ts-expect-error
+    triggerName: triggers?.[policy.trigger.type]?.data.find(({ id }) => id === policy.trigger.id)?.name
+  };
 
   const trackerDetails = {
     name: policy.name,
@@ -171,6 +197,8 @@ function save(
     type: isManual(policy) && isAutomatic(policy) ? 'both' : isManual(policy) ? 'manual' : 'automatic'
   };
   if (isNew) {
+    createPolicyTrackerSegment(trackerDetailsSegment);
+
     if (isAIActionCopy(selectedAction!)) {
       createPolicyFromAIActionTracker({
         fromRecommendedActioncard: false,
@@ -181,6 +209,8 @@ function save(
     }
     return saveNewPolicy(policy);
   } else {
+    editPolicyTrackerSegment(trackerDetailsSegment);
+
     if (isAIActionCopy(selectedAction!)) {
       createPolicyFromAIActionTracker({
         fromRecommendedActioncard: false,

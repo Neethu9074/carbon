@@ -47,7 +47,13 @@ import {
   isAIAction,
   isAIActionCopy
 } from 'in-automation/ActionCatalog/shared';
-import { createActionTracker, editActionTracker, copyAIGenaratedActionTracker } from 'in-automation/tracker';
+import {
+  createActionTracker,
+  editActionTracker,
+  copyAIGenaratedActionTracker,
+  useSegmentTracker,
+  TrackingFunction
+} from 'in-automation/tracker';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
@@ -56,14 +62,17 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ActionForm from 'in-automation/ActionCatalog/ActionForm';
 import { Label } from 'in-automation/ActionCatalog/FieldsTable';
 import SectionLine from 'in-settings/components/SectionLine';
 import useEntityForm from 'in-settings/hooks/useEntityForm';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
+import { pageNames } from 'in-services/tracking/pageNames';
 import Section from 'in-settings/components/Section';
 import { Action, ActionType, Field } from 'in-types';
 import useUrlState from 'in-hooks/useUrlState';
@@ -109,6 +118,7 @@ interface ActionDetailsProps {
 
 function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
   const navigateToActionCatalog = useNavigateToActionCatalog();
+  const { createActionTrackerSegment, editActionTrackerSegment } = useSegmentTracker();
   const entityFormParam = {
     entityId: id,
     createDefaultEntity: createAction,
@@ -117,7 +127,8 @@ function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
       getAction(actionId).map(action =>
         isCopy ? { ...action, name: t('in-automation:copyOf', { name: action.name }) } : action
       ),
-    saveEntity: (entity: ActionFormEntity, form: MapForm<any>) => save(form, id, isNew, entity, isCopy),
+    saveEntity: (entity: ActionFormEntity, form: MapForm<any>) =>
+      save(form, id, isNew, entity, isCopy, createActionTrackerSegment, editActionTrackerSegment),
     openEntities: () => navigateToActionCatalog()
   };
   const { entity, form, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
@@ -204,9 +215,26 @@ const ActionFormHeader = ({ isNew, entity }: ActionFormHeaderProps) => {
 };
 
 // TODO: Check built in
-function save(form: MapForm<any>, id: string | null, isNew: boolean, entity: ActionFormEntity | null, isCopy: boolean) {
+function save(
+  form: MapForm<any>,
+  id: string | null,
+  isNew: boolean,
+  entity: ActionFormEntity | null,
+  isCopy: boolean,
+  createActionTrackerSegment: TrackingFunction,
+  editActionTrackerSegment: TrackingFunction
+) {
+  // Set values for tracking data
+  setViewTrackingDataValues(productAreas.automation, pageNames.automation_action_catalog);
+
   const actionSpecification = getActionSpecification(form, entity);
   if (isNew) {
+    createActionTrackerSegment({
+      actionName: actionSpecification.name,
+      actionType: actionSpecification.type,
+      aiOriginated: isAIAction(entity!) || isAIActionCopy(entity!) ? true : false
+    });
+
     createActionTracker({
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
@@ -227,6 +255,12 @@ function save(form: MapForm<any>, id: string | null, isNew: boolean, entity: Act
     }
     return saveNewAction(actionSpecification);
   } else {
+    editActionTrackerSegment({
+      actionName: actionSpecification.name,
+      actionType: actionSpecification.type,
+      aiOriginated: isAIAction(entity!) || isAIActionCopy(entity!) ? true : false
+    });
+
     editActionTracker({
       actionType: actionSpecification.type,
       actionName: actionSpecification.name

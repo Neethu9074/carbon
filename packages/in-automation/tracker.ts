@@ -31,9 +31,8 @@ import {
   AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION,
   AUTOMATION_ACTION_HISTORY_INSTANCE_DELETE
 } from 'in-services/tracking/tracking';
-import { eventTracker } from 'in-services/tracking/segment/EventTracker';
-import { EventTrackerProps } from 'in-services/tracking/segment/types';
-import { STARTED_PROCESS } from 'in-services/util/constants';
+import { CREATED_OBJECT, STARTED_PROCESS, UPDATED_OBJECT } from 'in-services/util/constants';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 
 export const runActionTracker = (e: Object) => track(AUTOMATION_ACTION_RUN, e);
 export const createActionTracker = (e: Object) => track(AUTOMATION_ACTION_CREATE, e);
@@ -66,22 +65,47 @@ export const clickTurboLinkForDetailsTracker = (e: Object) => track(AUTOMATION_C
 export const viewTurboActionTracker = (e: Object) => track(AUTOMATION_VIEW_TURBO_ACTION, e);
 
 // Segment trackers
+export type TrackingFunction = (optionalPayloadData?: Object) => void;
+export function useSegmentTracker(): {
+  createActionTrackerSegment: TrackingFunction;
+  editActionTrackerSegment: TrackingFunction;
+  runActionTrackerSegment: TrackingFunction;
+  testActionTrackerSegment: TrackingFunction;
+  createPolicyTrackerSegment: TrackingFunction;
+  editPolicyTrackerSegment: TrackingFunction;
+} {
+  const { unstable_trackEvent } = useSegmentTracking();
 
-// Action run from an event occurrence.
-// Action run from either the Automation Policies table or the Recommended Actions table.
-export const runActionTrackerSegment = (e: EventTrackerProps['data']) => {
-  const data = {
-    processType: AUTOMATION_ACTION_RUN,
-    ...e
-  };
-  eventTracker({ data, segmentEventName: STARTED_PROCESS });
-};
+  function createActionTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(CREATED_OBJECT, { objectType: AUTOMATION_ACTION_CREATE }, customData);
+  }
 
-// Action tested from the Action Catalog
-export const testActionTrackerSegment = (e: EventTrackerProps['data']) => {
-  const data = {
-    processType: AUTOMATION_TEST_ACTION_RUN,
-    ...e
+  function editActionTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(UPDATED_OBJECT, { objectType: AUTOMATION_ACTION_EDIT }, customData);
+  }
+
+  function runActionTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(STARTED_PROCESS, { processType: AUTOMATION_ACTION_RUN }, customData);
+  }
+
+  function testActionTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(STARTED_PROCESS, { processType: AUTOMATION_TEST_ACTION_RUN }, customData);
+  }
+
+  function createPolicyTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(CREATED_OBJECT, { objectType: AUTOMATION_POLICY_CREATE }, customData);
+  }
+
+  function editPolicyTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(UPDATED_OBJECT, { objectType: AUTOMATION_POLICY_EDIT }, customData);
+  }
+
+  return {
+    createActionTrackerSegment,
+    editActionTrackerSegment,
+    runActionTrackerSegment,
+    testActionTrackerSegment,
+    createPolicyTrackerSegment,
+    editPolicyTrackerSegment
   };
-  eventTracker({ data, segmentEventName: STARTED_PROCESS });
-};
+}
