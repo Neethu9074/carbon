@@ -130,7 +130,8 @@ export default class GlobeScene {
   render(renderer) {
     renderer.render(this.scene, this.camera);
 
-    this.inverse.getInverse(this.camera.matrixWorld);
+    this.inverse.copy(this.camera.matrixWorldInverse);
+
     this.camera.projection.multiplyMatrices(this.camera.projectionMatrix, this.inverse);
     this.camera.getWorldDirection(this.camera.lookAt);
   }

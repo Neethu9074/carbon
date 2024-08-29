@@ -48,7 +48,7 @@ export default class OrthographicCameraWrapper {
     camera.updateProjectionMatrix();
 
     // sets INVERSE to camera.matrixWorld^-1
-    this.inverse.getInverse(camera.matrixWorld);
+    this.inverse.copy(camera.matrixWorldInverse);
 
     // sets the projection matrix
     camera.projection.multiplyMatrices(camProjectionMat, this.inverse);
@@ -75,9 +75,7 @@ export default class OrthographicCameraWrapper {
 
     this.updateCameraFromSize();
 
-    getServiceLocators(this.serviceLocatorUid)
-      .sceneServiceLocator.getScene()
-      .requestRendering();
+    getServiceLocators(this.serviceLocatorUid).sceneServiceLocator.getScene().requestRendering();
   }
 
   setPosition(x, y) {
