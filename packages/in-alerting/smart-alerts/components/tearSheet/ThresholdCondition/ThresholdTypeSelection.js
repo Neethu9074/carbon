@@ -47,6 +47,7 @@ export default function ThresholdTypeSelection({
           <span className={locals.label} />
           <Stack direction="vertical" gap="small" align="start">
             <Select
+              data-testid="thresholdType"
               value={thresholdComboBoxValue}
               items={options}
               onChange={e => {
