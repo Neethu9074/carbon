@@ -27,6 +27,8 @@ export default function Explanation() {
 
       <p className={locals.text}>{t('in-components:graphView.explanationP2')}</p>
 
+      <p className={locals.text}>{t('in-components:graphView.explanationP3')}</p>
+
       <p className={locals.text}>
         <Trans
           i18nKey="in-components:graphView.explanationLink"
