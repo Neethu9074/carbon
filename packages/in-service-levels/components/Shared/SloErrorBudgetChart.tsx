@@ -66,7 +66,7 @@ export default function ErrorBudgetChart({
   });
   const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);
   const filteredData = filterMetricValuesByTime(metrics, timeConfig);
-  const { yMin, yMax } = calculateYMinBuffer(filteredData);
+  const { yMin, yMax } = calculateYScaleBuffer(filteredData);
 
   return (
     <ResultAwareChart
@@ -99,7 +99,7 @@ export default function ErrorBudgetChart({
   );
 }
 
-function calculateYMinBuffer(filteredData: MetricDataPoint[][]) {
+function calculateYScaleBuffer(filteredData: MetricDataPoint[][]) {
   const minYValue = findMinMetricValue(filteredData.flat(1));
   const maxYValue = findMaxMetricValue(filteredData.flat(1));
   const range = maxYValue - minYValue;
