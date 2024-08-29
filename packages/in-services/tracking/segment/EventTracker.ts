@@ -39,6 +39,7 @@ export const eventTracker = ({ data, segmentEventName }: EventTrackerProps) => {
       productPlanType: productPlanType,
       productTitle: productTitle,
       url: url,
+      altUserId: userId,
       roles: [userSelfDefinedRole],
       'user.bluemixId': userId
     };
