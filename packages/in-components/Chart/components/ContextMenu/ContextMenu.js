@@ -22,10 +22,7 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './ContextMenu.mless';
 
-// import { minutes } from 'in-services/time';
-
 const { isEscape } = keyCodes;
-// const MAX_ZOOM_LEVEL = minutes.toMillis(1);
 
 export default class extends React.Component {
   static displayName = 'ContextMenu';
@@ -76,11 +73,6 @@ export default class extends React.Component {
             }
           };
         }
-        // if (config.getHref$) {
-        //   const originalGetHref$ = config.getHref$;
-        //   config.getHref$ = () =>
-        //     originalGetHref$(getHighlightedTimeConfig(highlightedTimeframe), this.getStrippedConfig());
-        // }
         return config;
       });
 
@@ -277,25 +269,6 @@ function getNonFilteredMetricsForaxis(axisName, axis, filteredDataSeries) {
     .map(label => axis.labels.indexOf(label))
     .map(i => (axis.metricIds || axis.labels)[i]);
 }
-
-// function getHighlightedTimeConfig(highlightedTimeframe) {
-//   const from = highlightedTimeframe[0];
-//   let to = highlightedTimeframe[1];
-//   let windowSize = to - from;
-
-//   if (windowSize <= MAX_ZOOM_LEVEL) {
-//     windowSize = MAX_ZOOM_LEVEL;
-//   }
-
-//   const highlightedTimeConfig = {
-//     windowSize,
-//     to,
-//     focusedMoment: to,
-//     clearHighlightedTimeframe: true
-//   };
-
-//   return highlightedTimeConfig;
-// }
 
 // exporting for test
 export function sortByPrimaryAction(i1, i2, primaryContextMenuAction) {
