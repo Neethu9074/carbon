@@ -84,18 +84,16 @@ export const valueColumnDefinition = {
     if (type === staticType) {
       return (
         <FormGroup withoutBottomMargin>
-          <Tooltip content={value} align="bottomMiddle" delay={500}>
-            <Input
-              disabled={!enabled}
-              className={locals.colValue}
-              value={value}
-              hasError={!valueField?.valid && valueField?.touched}
-              onChange={({ target }) => {
-                onChange(['value'], (f: Item) => (f as Field<string>).setValue(target.value).setTouched(true));
-              }}
-              maxLength={512}
-            />
-          </Tooltip>
+          <Input
+            disabled={!enabled}
+            className={locals.colValue}
+            value={value}
+            hasError={!valueField?.valid && valueField?.touched}
+            onChange={({ target }) => {
+              onChange(['value'], (f: Item) => (f as Field<string>).setValue(target.value).setTouched(true));
+            }}
+            maxLength={512}
+          />
           <TouchedMessages field={valueField} />
         </FormGroup>
       );
@@ -146,26 +144,20 @@ export const keyColumnDefinition = {
 
     return (
       <FormGroup withoutBottomMargin>
-        <Tooltip
-          content={value ? t('in-alerting:components.customPayload.customWithColon') + value : ''}
-          align="bottomMiddle"
-          delay={500}
-        >
-          <HorizontalFlexWrapper className={locals.colName}>
-            <span className={locals.prefix}>{t('in-alerting:components.customPayload.customWithColon')}</span>
-            <Input
-              disabled={!enabled}
-              className={locals.key}
-              value={value}
-              hasError={!valueField?.valid && valueField?.touched}
-              onChange={({ target }) => {
-                onChange(['key'], (f: Item) => (f as Field<string>).setValue(target.value).setTouched(true));
-              }}
-              maxLength={128}
-              autoFocus={Boolean(item.get('id').value)}
-            />
-          </HorizontalFlexWrapper>
-        </Tooltip>
+        <HorizontalFlexWrapper className={locals.colName}>
+          <span className={locals.prefix}>{t('in-alerting:components.customPayload.customWithColon')}</span>
+          <Input
+            disabled={!enabled}
+            className={locals.key}
+            value={value}
+            hasError={!valueField?.valid && valueField?.touched}
+            onChange={({ target }) => {
+              onChange(['key'], (f: Item) => (f as Field<string>).setValue(target.value).setTouched(true));
+            }}
+            maxLength={128}
+            autoFocus={Boolean(item.get('id').value)}
+          />
+        </HorizontalFlexWrapper>
         <TouchedMessages field={item.get('key')} />
       </FormGroup>
     );
