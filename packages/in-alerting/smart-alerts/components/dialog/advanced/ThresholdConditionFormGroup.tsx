@@ -9,7 +9,6 @@ import classNames from 'classnames';
 import { SvgIcon } from '@instana/components';
 
 import AlertTypography from 'in-alerting/components/AlertTypography';
-import { carbonDropdownEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup.mless';
@@ -47,7 +46,15 @@ export default function ThresholdConditionFormGroup({
           {isTearSheet ? <AlertTypography variant="body-regular" color="color900" content={label} /> : label}
         </span>
       )}
-      <div className={classNames({ [locals.extraGap]: carbonDropdownEnabled, [locals.content]: true })}>{children}</div>
+      <div
+        className={classNames({
+          [locals.content]: true,
+          [locals.extraGap]: !isTearSheet,
+          [locals.alignStart]: isTearSheet
+        })}
+      >
+        {children}
+      </div>
     </div>
   );
 }

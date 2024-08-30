@@ -46,7 +46,7 @@ export default function ThresholdValueFormGroupForStaticThreshold({
         updateForm={updateForm}
         metricUnitPostfix={metricUnitPostfix}
         percentageMetric={percentageMetric}
-        isSmall={hasSmallInputField || isTearSheet}
+        isSmall={hasSmallInputField}
         isTearSheet={isTearSheet}
       />
       {isTearSheet && <Spacer horizontal="normal" />}

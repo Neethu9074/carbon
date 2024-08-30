@@ -87,5 +87,6 @@
 
   .recalButtonWidth {
     width: 8.125rem;
+    font-size: var(--ids-font-size-option-body-small);
   }
 }

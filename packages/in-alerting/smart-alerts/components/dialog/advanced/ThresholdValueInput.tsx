@@ -4,6 +4,7 @@
  */
 
 import { Field, MapForm } from 'formalistic';
+import classNames from 'classnames';
 import { isNaN } from 'lodash';
 import React from 'react';
 
@@ -76,7 +77,7 @@ export default function ThresholdValueInput({
         min={min}
         step={parseInt(step) ?? 1}
         {...props}
-        className={isSmall && locals.narrowControl}
+        className={classNames({ [locals.narrowControl]: isSmall, [locals.inputMd]: props.isTearSheet })}
         onValueChange={onValueChange}
         value={value ?? ''}
         hasError={hasError}
