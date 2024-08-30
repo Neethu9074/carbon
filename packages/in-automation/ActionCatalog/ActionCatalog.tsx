@@ -11,7 +11,8 @@ import { Button, Spacer, Stack, Typography } from '@instana/components';
 import {
   viewAIGenaratedActionTracker,
   clickCopyAIGenaratedActionTracker,
-  clickTestAIGenaratedActionTracker
+  clickTestAIGenaratedActionTracker,
+  useSegmentTracker
 } from 'in-automation/tracker';
 import {
   createTagsUrlParameter,
@@ -78,6 +79,7 @@ export default function ActionCatalog({
 
   const navigateToActionDetails = useNavigateToActionDetails();
   const columnDefinitions: ColumnDefinition<Action>[] = getColumnDefinitions({ isUserActions: isUserActions });
+  const { viewAIGenaratedActionTrackerSegment } = useSegmentTracker();
   return (
     <ServerTablePresenter<Action, ServerTablePresenterProps<Action>>
       onChange={setServerTableUrlState}
@@ -87,7 +89,10 @@ export default function ActionCatalog({
       searchMaxWidth={180}
       onRowClick={item => {
         navigateToActionDetails(item.id, false);
-        if (!isUserActions) viewAIGenaratedActionTracker({ actionName: item.name });
+        if (!isUserActions) {
+          viewAIGenaratedActionTrackerSegment({ actionName: item.name, actionType: item.type });
+          viewAIGenaratedActionTracker({ actionName: item.name });
+        }
       }}
       cardTitle={
         paginatedActions?.progress.loading

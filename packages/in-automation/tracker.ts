@@ -73,8 +73,13 @@ export function useSegmentTracker(): {
   testActionTrackerSegment: TrackingFunction;
   createPolicyTrackerSegment: TrackingFunction;
   editPolicyTrackerSegment: TrackingFunction;
+  actionHistoryTrackerSegment: TrackingFunction;
+  actionHistoryInstanceViewTrackerSegment: TrackingFunction;
+  aiGenaratedActionsTabClickTrackerSegment: TrackingFunction;
+  viewAIGenaratedActionTrackerSegment: TrackingFunction;
+  recommendedActionsTabClickTrackerSegment: TrackingFunction;
 } {
-  const { unstable_trackEvent } = useSegmentTracking();
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
 
   function createActionTrackerSegment(customData?: Object): void {
     unstable_trackEvent(CREATED_OBJECT, { objectType: AUTOMATION_ACTION_CREATE }, customData);
@@ -100,12 +105,36 @@ export function useSegmentTracker(): {
     unstable_trackEvent(UPDATED_OBJECT, { objectType: AUTOMATION_POLICY_EDIT }, customData);
   }
 
+  function actionHistoryTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_ACTION_HISTORY_VIEW, customData);
+  }
+  function actionHistoryInstanceViewTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW, customData);
+  }
+
+  function aiGenaratedActionsTabClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_CLICK_AI_GENERATED_ACTIONS_TAB, customData);
+  }
+
+  function viewAIGenaratedActionTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_VIEW_AI_GENERATED_ACTION, customData);
+  }
+
+  function recommendedActionsTabClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK, customData);
+  }
+
   return {
     createActionTrackerSegment,
     editActionTrackerSegment,
     runActionTrackerSegment,
     testActionTrackerSegment,
     createPolicyTrackerSegment,
-    editPolicyTrackerSegment
+    editPolicyTrackerSegment,
+    actionHistoryTrackerSegment,
+    actionHistoryInstanceViewTrackerSegment,
+    aiGenaratedActionsTabClickTrackerSegment,
+    viewAIGenaratedActionTrackerSegment,
+    recommendedActionsTabClickTrackerSegment
   };
 }
