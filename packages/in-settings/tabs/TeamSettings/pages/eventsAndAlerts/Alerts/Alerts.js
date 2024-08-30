@@ -137,14 +137,15 @@ function defaultRightHeader(enabled, setEnabled) {
           pathNew={teamSettingsAlertingAlertNew}
         />
       }
-      <ComboBox
-        name="filter-state"
-        value={enabled}
-        options={enabledOptions}
-        onChange={e => (e ? setEnabled(e.value) : setEnabled(null))}
-        placeholder={t('in-settings:tabs.state')}
-        className={locals.stateDropdown}
-      />
+      <div className={locals.stateDropdown}>
+        <ComboBox
+          name="filter-state"
+          value={enabled}
+          options={enabledOptions}
+          onChange={e => (e ? setEnabled(e.value) : setEnabled(null))}
+          placeholder={t('in-settings:tabs.state')}
+        />
+      </div>
     </Fragment>
   );
 }

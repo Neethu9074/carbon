@@ -20,6 +20,7 @@ export function getHistoricMetric(props: {
   metric: string;
   timeConfig: TimeConfig;
   windowForLatest?: number;
+  rollup?: number;
 }): Observable<any>;
 
 export function getTimeWindowBasedMetricAggregation(props: {
@@ -27,10 +28,12 @@ export function getTimeWindowBasedMetricAggregation(props: {
   metric: string;
   timeWindowAggregation?: string;
   timeConfig?: TimeConfig;
+  rollup?: number;
 }): Observable<any>;
 
 export function getMetricForFocusedMoment(props: {
   snapshotId: string;
   metric: string;
   windowForLatest?: number;
+  rollup?: number;
 }): Observable<any>;

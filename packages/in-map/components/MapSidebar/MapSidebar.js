@@ -32,7 +32,7 @@ export default connectTo(
     }
 
     return (
-      <div className={locals.mapSidebar}>
+      <div className={locals.mapSidebar} role="region">
         <MapSidebarHeader snapshot={snapshot} timeConfig={timeConfig} />
         <SidebarBreadcrumb snapshotId={snapshot.get('id')} />
         <div

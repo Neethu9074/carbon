@@ -70,6 +70,7 @@ export const pageNames = Object.freeze({
   compute_instances: 'Compute Instances',
   hypervisors: 'Hypervisors',
   event: 'Event',
+  event_generate_with_watsonx: 'Event > Generate With watsonx',
   events: 'Events',
   infra_explore: 'Infra Explore',
   regions: 'Regions',
@@ -120,7 +121,10 @@ export const pageNames = Object.freeze({
   service_levels: 'Service Levels',
   service_level_objective: 'Service Level Objective',
   slo_summary: 'Service Level Objective > Summary',
-  slo_config: 'Service Level Objective > Configuration'
+  slo_config: 'Service Level Objective > Configuration',
+  automation_action_catalog: 'Automation > Action Catalog',
+  automation_action_history: 'Automation > Action History',
+  automation_policies: 'Automation > Policies'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];

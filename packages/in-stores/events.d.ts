@@ -16,6 +16,7 @@ export const openEventsAtServerTime$: Observable<any>;
 type Kind = keyof typeof ButtonKinds;
 
 export function getDesignLibraryColorBySeverity(severity: number, fallback?: string): string;
+export function getDesignLibrarySeverityIcon(severity: number): string;
 
 export function getButtonKindBySeverity(severity: number, fallback?: Kind): Kind;
 

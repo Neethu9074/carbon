@@ -9,72 +9,114 @@ import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { getApplicationsWithDefaults } from 'in-alerting/smart-alerts/applications/tearSheet/subscriptions/getApplications';
+import { getSingleNumberMetricId, getSparkChartTimeSeriesMetricId } from 'in-components/AnalyzeView/metrics';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
-import { getSingleNumberMetricId } from 'in-components/AnalyzeView/metrics';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 
-const defaultSelectableFields = [{ type: 'metric', metricId: 'latency', aggregationId: 'MEAN' }];
-
-const fields = [...defaultSelectableFields];
+export const defaultSelectableFields = [{ type: 'metric', metricId: 'latency', aggregationId: 'MEAN' }];
+export const fields = [...defaultSelectableFields];
+export const WINDOW_SIZE = 86400000;
+export const timeConfig = {
+  to: Date.now(),
+  focusedMoment: Date.now(),
+  autoRefresh: false, // analyse calls are not supported in Live mode, so setting autoRefresh as false
+  windowSize: WINDOW_SIZE
+};
 
 export default function useAlertingGroupsByEvaluationType(
   includeInternal,
   includeSynthetic,
   tagFilterExpression,
   evaluationType,
-  isTagFilterFormModelValid
+  isTagFilterFormModelValid,
+  applications,
+  granularity
 ) {
-  const timeConfig = { ...useTimeConfig(), to: Date.now(), focusedMoment: Date.now() };
+  const isApplicationExists = Boolean(Object.keys(applications).length > 0);
   const metricDefinitionByEvaluationType = getMetricDefinitionByEvaluationType(evaluationType);
   const backendMetrics = useStableObjectInstance(
-    fields
-      .filter(({ type }) => type === metricType)
-      .reduce((accumulator, metric) => {
-        const backendMetric = {
-          metric: metric.metricId,
-          aggregation: metric.aggregationId
-        };
-        accumulator[getSingleNumberMetricId(metric)] = backendMetric;
-        return accumulator;
-      }, {})
+    isApplicationExists &&
+      fields
+        .filter(({ type }) => type === metricType)
+        .reduce((accumulator, metric) => {
+          const backendMetric = {
+            metric: metric.metricId,
+            aggregation: metric.aggregationId
+          };
+          accumulator[getSingleNumberMetricId(metric)] = backendMetric;
+          accumulator[getSparkChartTimeSeriesMetricId(metric)] = {
+            ...backendMetric,
+            granularity
+          };
+          return accumulator;
+        }, {})
+  );
+  const { totalHits, awaitingData, errors } = useCursorPagination(
+    ({ cursor }) => {
+      return (
+        isTagFilterFormModelValid &&
+        isApplicationExists &&
+        getData({
+          includeInternal,
+          includeSynthetic,
+          tagFilterExpression,
+          timeConfig,
+          metrics: backendMetrics,
+          cursor,
+          metricDefinitionByEvaluationType,
+          evaluationType,
+          granularity
+        })
+      );
+    },
+    [backendMetrics, evaluationType, tagFilterExpression, timeConfig, includeInternal, includeSynthetic, granularity]
   );
 
-  const { totalHits, awaitingData } = useCursorPagination(
-    ({ cursor }) =>
-      isTagFilterFormModelValid &&
-      getData({
-        includeInternal,
-        includeSynthetic,
-        tagFilterExpression,
-        timeConfig,
-        metrics: backendMetrics,
-        cursor,
-        metricDefinitionByEvaluationType
-      }),
-    [backendMetrics, evaluationType]
-  );
-
-  if (awaitingData) {
+  if (!isApplicationExists) {
+    return 0;
+  } else if (errors?.length > 0) {
+    return errors;
+  } else if (awaitingData) {
     return 'loading';
   }
   return totalHits ?? 0;
 }
 
-function getData({
+export function getData({
   tagFilterExpression,
   includeInternal,
   includeSynthetic,
   timeConfig,
   metrics,
   cursor,
-  metricDefinitionByEvaluationType
+  metricDefinitionByEvaluationType,
+  evaluationType,
+  pagination,
+  granularity
 }) {
+  if (evaluationType === PER_AP) {
+    const order = {
+      by: 'applicationLabel',
+      direction: 'ASC'
+    };
+
+    return getApplicationsWithDefaults({
+      timeConfig,
+      page: pagination?.page ?? 1,
+      pageSize: pagination?.pageSize ?? 5,
+      orderBy: order.by,
+      orderDirection: order.direction,
+      contextScope: 'NONE',
+      tagFilterExpression,
+      granularity
+    });
+  }
+
   return getCallGroups({
-    tagFilterExpression: toBackendQueryModel(tagFilterExpression),
+    tagFilterExpression,
     group: {
       groupbyTag: metricDefinitionByEvaluationType.groupbyTag,
       groupbyTagEntity: metricDefinitionByEvaluationType.groupbyTagEntity

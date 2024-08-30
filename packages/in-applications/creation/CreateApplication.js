@@ -6,7 +6,7 @@
 import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { createNewApplicationConfig, getApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';

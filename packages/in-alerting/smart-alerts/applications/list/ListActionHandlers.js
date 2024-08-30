@@ -16,11 +16,16 @@ import {
   disableAlertConfig,
   enableAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
+import {
+  applicationSmartAlertFullScreenDesignEnabled,
+  applicationSmartAlertDialogView
+} from 'in-services/featureFlags';
 import TearSheetButtonWithLink from 'in-alerting/smart-alerts/applications/components/TearSheetButtonWithLink';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { trackAlertDeleteConfirm } from 'in-alerting/smart-alerts/components/tracker';
+import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t, Trans } from 'in-i18n';
@@ -97,41 +102,57 @@ function openSmartAlertDialog(config, isGlobalSmartAlertConfig, isCopy = false) 
 }
 
 export function actionHandlers(isGlobalSmartAlertConfig) {
+  const editAction = {
+    ...(applicationSmartAlertFullScreenDesignEnabled && {
+      handleEditNew: function (config) {
+        const { created, id } = config;
+        return (
+          <TearSheetButtonWithLink
+            buttonIcon="lib_actions_edit"
+            buttonName={getButtonName(t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit'))}
+            isGlobal={isGlobalSmartAlertConfig}
+            alertId={id}
+            alertConfigCreated={created}
+            editMode
+          />
+        );
+      }
+    }),
+    ...(applicationSmartAlertDialogView && {
+      handleEdit: function (config) {
+        handleEdit(config, isGlobalSmartAlertConfig);
+      }
+    })
+  };
+
+  const duplicateAction = {
+    ...(applicationSmartAlertFullScreenDesignEnabled && {
+      handleCloneNew: function (config) {
+        const { created, id } = config;
+        return (
+          <TearSheetButtonWithLink
+            buttonIcon="lib_actions_copy"
+            buttonName={getButtonName(t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate'))}
+            isGlobal={isGlobalSmartAlertConfig}
+            alertId={id}
+            alertConfigCreated={created}
+            duplicateMode
+          />
+        );
+      }
+    }),
+    ...(applicationSmartAlertDialogView && {
+      handleClone: function (config) {
+        handleClone(config, isGlobalSmartAlertConfig);
+      }
+    })
+  };
+
   return {
-    handleClone: function (config) {
-      handleClone(config, isGlobalSmartAlertConfig);
-    },
-    handleCloneNew: function (config) {
-      const { created, id } = config;
-      return (
-        <TearSheetButtonWithLink
-          buttonIcon="lib_actions_copy"
-          buttonName={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicateNew')}
-          isGlobal={isGlobalSmartAlertConfig}
-          alertId={id}
-          alertConfigCreated={created}
-          duplicateMode
-        />
-      );
-    },
+    ...editAction,
+    ...duplicateAction,
     handleDelete: function (id, setIsSaving, configName) {
       handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig);
-    },
-    handleEdit: function (config) {
-      handleEdit(config, isGlobalSmartAlertConfig);
-    },
-    handleEditNew: function (config) {
-      const { created, id } = config;
-      return (
-        <TearSheetButtonWithLink
-          buttonIcon="lib_actions_edit"
-          buttonName={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEditNew')}
-          isGlobal={isGlobalSmartAlertConfig}
-          alertId={id}
-          alertConfigCreated={created}
-          editMode
-        />
-      );
     },
     handleToggleEnabled: function (enabled, id, setIsSaving) {
       handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig);

@@ -7,23 +7,22 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import ServiceContextIcon from 'in-applications/components/ServiceContext/ServiceContextIcon';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
 import { endpointDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { endpointDashboard, summaryTab } from 'in-applications/navigation/paths';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
+import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -45,8 +44,6 @@ import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton.mless';
-
 const urlStateDefinition = {
   bind: [
     endpointDashboardUrlParameters.applicationId,
@@ -59,6 +56,7 @@ const urlStateDefinition = {
 export default function EndpointDashboard({ location }) {
   const [{ appId, serviceId, endpointId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
 
   const props = {
     applicationId: appId,
@@ -94,7 +92,7 @@ export default function EndpointDashboard({ location }) {
     id: props.endpointId,
     filter: { timeConfig }
   };
-  const endpoint = useObservable(getEndpoint(getEndpointParams), [props.endpointId]);
+  const endpoint = useObservable(props.endpointId ? getEndpoint(getEndpointParams) : just(null), [props.endpointId]);
   if (!props.serviceId) {
     props.serviceId = endpoint?.data?.serviceId;
   }
@@ -105,7 +103,22 @@ export default function EndpointDashboard({ location }) {
       : () => true;
 
   const showAlertButton = role.canConfigureApplicationSmartAlerts;
-
+  if (!endpointId) {
+    return (
+      <InvalidUrlAlert
+        href={getLinkToServiceDashboard({
+          applicationId: props.applicationId,
+          serviceId: props.serviceId,
+          boundaryScope: props.boundaryScope,
+          tab: '/endpoints'
+        })}
+        description={t('in-applications:dashboards.idNotPresent', {
+          id: 'Endpoint ID'
+        })}
+        linkText={t('in-applications:linkViewAllEndpoints')}
+      />
+    );
+  }
   return (
     <>
       <ViewTrackingMeta
@@ -125,42 +138,14 @@ export default function EndpointDashboard({ location }) {
         props={props}
       />
 
-      {showAlertButton && !applicationSmartAlertFullScreenDesignEnabled && (
-        <FloatingActionButtons>
-          <CreateSmartAlert
-            serviceId={props.serviceId}
-            endpointId={props.endpointId}
-            applicationId={props.applicationId}
-            location={location}
-            boundaryScope={props.boundaryScope}
-          />
-        </FloatingActionButtons>
-      )}
-      {showAlertButton && applicationSmartAlertFullScreenDesignEnabled && props.applicationId && (
-        <FloatingActionButtons>
-          <FloatingActionButtonMenu>
-            <span className={locals.floatingBtnMenu}>
-              <CreateSmartAlert
-                serviceId={props.serviceId}
-                endpointId={props.endpointId}
-                applicationId={props.applicationId}
-                location={location}
-                boundaryScope={props.boundaryScope}
-              />
-            </span>
-
-            <CreateSmartAlertButton
-              isGlobal={false}
-              buttonName={t('in-alerting:smartAlerts.applications.components.createSmartAlertNew')}
-              isFloatingButton
-              isMenuItem
-              boundaryScope={props.boundaryScope}
-              serviceId={props.serviceId}
-              endpointId={props.endpointId}
-              applicationId={props.applicationId}
-            />
-          </FloatingActionButtonMenu>
-        </FloatingActionButtons>
+      {showAlertButton && props.applicationId && (
+        <CreateSmartAlert
+          serviceId={props.serviceId}
+          endpointId={props.endpointId}
+          applicationId={props.applicationId}
+          location={location}
+          boundaryScope={props.boundaryScope}
+        />
       )}
 
       <Footer />

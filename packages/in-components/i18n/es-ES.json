@@ -64,10 +64,6 @@
   "touchedMessages": {
     "withPath": "{{message}} (en <codeWithClass>{{path}}</codeWithClass>)"
   },
-  "gravatar": {
-    "avatarUrlAlt": "Avatar para {{email}} de gravatar.com.",
-    "avatarNullAlt": "Avatar de reserva para {{email}}."
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "Notas del release"
   },
@@ -124,6 +120,7 @@
     "tagListNoTagsDefined": "No hay códigos definidos",
     "tagListShowAll": "Mostrar todos los códigos ({{num}} más)"
   },
+  "copyToClipboard": "Portapapeles",
   "copyToClipboardPressToCopy": "¡Pulse CTRL+C / CMD+C para copiar!",
   "copyToClipboardCopied": "¡Copiado!",
   "reloadUiDialogTitle": "Hay una nueva versión de la interfaz de usuario disponible",
@@ -300,7 +297,8 @@
     "labelExpandButtonForContent": "Ampliar botón para contenido"
   },
   "featureFeedback": {
-    "labelBETA": "BETA",
+    "labelPublicPreview": "Vista previa pública",
+    "labelPrivatePreview": "Vista previa privada",
     "linkLabelYouCanSendUsFeedback": "Usted puede enviarnos sus comentarios"
   },
   "geoHeatMap": {
@@ -389,9 +387,9 @@
     "labelLoadingData": "Cargando datos"
   },
   "mainNavigation": {
+    "skipToMainContent": "Saltar al contenido principal",
     "viewSwitcherLabelSettings": "Valores",
     "viewSwitcherLabelMore": "Más",
-    "viewSwitcherLabelTenants": "Arrendatarios",
     "viewSwitcherLabelAgents": "Agentes.",
     "viewSwitcherLabelReleaseNotes": "Notas del release",
     "viewSwitcherLabelDocumentation": "Documentación",
@@ -415,10 +413,15 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Plataformas",
-    "viewSwitcherButtonSignOut": "Cerrar sesión",
     "viewSwitcherCustomDashboards": "Paneles de control personalizados",
+    "viewSwitcherButtonSignOut": "Cerrar sesión",
+    "viewSwitcherLabelTenants": "Arrendatarios",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nueva versión de la IU de Instana",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "Volver a cargar para actualizar"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "Volver a cargar para actualizar",
+    "profileMenu_profileLink": "Perfil",
+    "profileMenu_unitName_tenantName": "Nombre de la unidad - Nombre del arrendatario",
+    "profileMenu_switchUnitOrTenant": "Cambiar de unidad o de arrendatario",
+    "profileMenu_logOut": "Cerrar sesión"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Seleccionar métricas",
@@ -439,6 +442,7 @@
     "aggregation_MAX": "máx",
     "aggregation_DISTINCTCOUNT": "recuento distinto",
     "aggregation_SUM": "suma",
+    "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "distribución",
     "aggregation_PERSECOND": "por segundo",
     "labelFilterEmptyValue": "Filtrar valores vacíos"
@@ -831,5 +835,9 @@
     "notice": "Esta unidad de arrendatario se ha migrado a una nueva región. La unidad a la que está accediendo actualmente solo contiene datos históricos.",
     "goToNewLocationLabel": "Ir a la nueva ubicación",
     "exploreDataLabel": "Explorar datos históricos"
+  },
+  "creatableTagSelect": {
+    "placeholder": "Especificar etiquetas",
+    "createLabel": "Crear: {{tag}}"
   }
 }

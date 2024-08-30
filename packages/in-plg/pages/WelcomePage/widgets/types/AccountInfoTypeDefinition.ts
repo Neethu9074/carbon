@@ -9,5 +9,46 @@ export interface AccountInfo {
 }
 
 interface AccountInfoData {
-  activation: Object;
+  activation: Activation;
 }
+
+/**
+ * firstAgentInstalled = fa
+ *
+ * tracingReported = tr
+ *
+ * additionalUserInvited = au
+ *
+ * threeAgentsInstalled = ai
+ *
+ * twoApplicationPerspectivesCreated = ap
+ *
+ * oneAlertSetUpAndActivated = sas
+ *
+ * oneWebsiteMonitored = w
+ *
+ * fiveUsers = u
+ */
+export type Activation = {
+  [key: string]: {
+    c?: ActivationStatus;
+    fs?: ActivationStatus;
+    fa?: ActivationStatus;
+    tr?: ActivationStatus;
+    au?: ActivationStatus;
+    ai?: ActivationStatus;
+    ap?: ActivationStatus;
+    as?: ActivationStatus;
+    sas?: ActivationStatus;
+    w?: ActivationStatus;
+    u?: ActivationStatus;
+    piq?: ActivationStatus;
+    pia?: ActivationStatus;
+    pii?: ActivationStatus;
+  };
+};
+
+type ActivationStatus = {
+  status: boolean;
+  timestamp: number;
+};

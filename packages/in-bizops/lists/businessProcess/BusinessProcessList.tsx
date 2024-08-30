@@ -7,9 +7,8 @@
 import React, { useState } from 'react';
 
 import { MetricConfiguration, OrderDirection, TagCatalog, TagFilterExpression, TimeConfig } from '@instana/types';
-import { Card, SvgIcon } from '@instana/components';
+import { Card, SvgIcon, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
 
 // @ts-expect-error Module needs to be translated to TS
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -17,16 +16,18 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 // @ts-expect-error Module needs to be translated to TS
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
-import { BusinessProcessQueryBuilder } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
+import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
+import { bizopsPerspectivesEnabled, bizopsStandardInclusionEnabled } from 'in-services/featureFlags';
+import BizOpsEmptyTableState from 'in-bizops/lists/businessProcess/components/BizOpsEmptyTableState';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { processColumnDefinitions } from 'in-bizops/lists/businessProcess/columnDefinitions';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import getBusinessProcessList from 'in-bizops/subscriptions/getBusinessProcessList';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { bizopsPerspectivesEnabled } from 'in-services/featureFlags';
 import { businessProcessPath } from 'in-bizops/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -43,6 +44,7 @@ import locals from './BusinessProcessList.mless';
 
 const pathSegment = businessProcessPath;
 const matrixPrefix = '';
+const hostCount = window.instana?.reportingData?.hostCount;
 
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
@@ -61,58 +63,101 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 export default function BizOpsList() {
   const timeConfig = useTimeConfig();
 
+  // Properly creating the URL for the Deploy Agent button
+  const { createHref, location } = useNavigation();
+  const agentInstallationPath = '/agents/installation';
+  location.pathname = agentInstallationPath;
+
   const [queryTagFilter, setQueryTagFilter] = useState([]);
   const tagCatalog = useObservable(getBusinessMonitoringTagCatalog(), []);
+
+  const CustomServerTableWithUrlState = createServerTableWithUrlState({
+    Renderer: BizOpsEmptyTableState({
+      columnDefinitions: processColumnDefinitions,
+      href: createHref(location)
+    }),
+    paginationResettingUrlParameters: [...timeConfigUrlParameters],
+    columnDefinitions: processColumnDefinitions,
+    defaultOrderBy: 'process_name',
+    defaultOrderDirection: 'ASC',
+    pathSegment,
+    matrixPrefix
+  });
 
   function onClear() {
     setQueryTagFilter([]);
   }
 
+  function DeployAgentButton() {
+    if (typeof hostCount === 'number' && hostCount > 0) {
+      return null;
+    }
+    return (
+      <Button kind="action" href={createHref(location)} className={locals.button} icon="lib_actions_settings">
+        {t('in-bizops:processes.deployAgent')}
+      </Button>
+    );
+  }
+
   return (
-    <Sticky header={<ViewSwitcher />}>
-      <LeftRightPadding>
-        <Title title={t('in-bizops:lists.pageTitle')} />
-        <ViewTrackingMeta
-          data={{
-            productArea: productAreas.bizops,
-            pageRootName: pageNames.bizops_processes
-          }}
-        />
-        {bizopsPerspectivesEnabled && (
-          <Card className={locals.queryCard}>
-            <div className={locals.querySection}>
-              <label className={locals.queryLabel}>
-                <SvgIcon type={'lib_actions_filter'} />
-                <span className={locals.queryText}>Filter</span>
-              </label>
-              <div className={locals.processQueryBuilder}>
-                <BusinessProcessQueryBuilder
-                  value={queryTagFilter}
-                  onChange={(tagFilterExpression: any) => {
-                    setQueryTagFilter(tagFilterExpression);
-                  }}
-                />
-              </div>
-              {tagCatalog?.data && isQueryValid(tagCatalog?.data, queryTagFilter) && (
-                <div className={locals.clearButton}>
-                  <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={onClear}>
-                    {t('in-components:queryBuilder.workspaceButtonClear')}
-                  </Button>
+    <div className={locals.processList}>
+      <Sticky header={<ViewSwitcher />}>
+        <LeftRightPadding>
+          <Title title={t('in-bizops:lists.pageTitle')} />
+          <ViewTrackingMeta
+            data={{
+              productArea: productAreas.bizops,
+              pageRootName: pageNames.bizops_processes
+            }}
+          />
+          {bizopsPerspectivesEnabled && (
+            <Card className={locals.queryCard}>
+              <div className={locals.querySection}>
+                <label className={locals.queryLabel}>
+                  <SvgIcon type={'lib_actions_filter'} />
+                  <span className={locals.queryText}>Filter</span>
+                </label>
+                <div className={locals.processQueryBuilder}>
+                  <BusinessProcessQueryBuilder
+                    value={queryTagFilter}
+                    onChange={(tagFilterExpression: any) => {
+                      setQueryTagFilter(tagFilterExpression);
+                    }}
+                  />
                 </div>
-              )}
-            </div>
-          </Card>
-        )}
-        <ServerTableWithUrlState
-          get={getBusinessProcessListData}
-          timeConfig={timeConfig}
-          cardTitle={t('in-bizops:lists.cardTitle')}
-          queryTagFilter={queryTagFilter}
-          tagCatalog={tagCatalog?.data}
-        />
-      </LeftRightPadding>
-      <Footer />
-    </Sticky>
+                {tagCatalog?.data && isQueryValid(tagCatalog?.data, queryTagFilter) && (
+                  <div className={locals.clearButton}>
+                    <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={onClear}>
+                      {t('in-components:queryBuilder.workspaceButtonClear')}
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </Card>
+          )}
+          {bizopsStandardInclusionEnabled && typeof hostCount === 'number' && hostCount < 1 ? (
+            <CustomServerTableWithUrlState
+              get={getBusinessProcessListData}
+              timeConfig={timeConfig}
+              cardTitle={t('in-bizops:lists.cardTitle')}
+              queryTagFilter={queryTagFilter}
+              tagCatalog={tagCatalog?.data}
+              rightHeader={DeployAgentButton}
+            />
+          ) : (
+            <ServerTableWithUrlState
+              get={getBusinessProcessListData}
+              timeConfig={timeConfig}
+              cardTitle={t('in-bizops:lists.cardTitle')}
+              queryTagFilter={queryTagFilter}
+              tagCatalog={tagCatalog?.data}
+              rightHeader={DeployAgentButton}
+            />
+          )}
+        </LeftRightPadding>
+        <Footer />
+      </Sticky>
+    </div>
   );
 }
 

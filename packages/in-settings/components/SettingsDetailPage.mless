@@ -6,5 +6,6 @@
 :local {
   .settingsDetailPage {
     padding: 0 1rem;
+    background: var(--cds-layer);
   }
 }

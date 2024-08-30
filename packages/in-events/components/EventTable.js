@@ -6,11 +6,9 @@
 import React, { useEffect, useState } from 'react';
 import { findIndex } from 'lodash';
 
-import { Stack, SvgIcon, Typography, Pill } from '@instana/components';
+import { Stack, Typography, Pill, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { Link } from '@instana/components';
 import { on } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import {
   eventFeedbackClosedManuallyTracker,
@@ -21,13 +19,14 @@ import {
   eventFeedbackSubmitTracker
 } from 'in-events/tracker';
 import { getKubernetesProblemText, getKubernetesProblemTextReplacement } from './EventContent/KubernetesEventContent';
+import { NotesAndActivity, OpenNotesAndActivity } from 'in-events/components/NotesAndActivity/NotesAndActivity';
 import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { NotesAndActivity } from 'in-events/components/NotesAndActivity/NotesAndActivity';
 import { eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -42,7 +41,6 @@ import EventIcon from 'in-events/components/EventIcon';
 import { eventId } from 'in-events/navigation/matrix';
 import { isLoading } from 'in-services/util/result';
 import tabs from 'in-events/components/tabs/index';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './EventTable.mless';
@@ -144,6 +142,13 @@ function Header(props) {
       />
     );
   }
+
+  const isIncident = getEventType(props.result.data) === EVENT_TYPES.INCIDENT;
+
+  if (isIncident) {
+    return <IncidentHeader event={props.result.data} timeConfig={props.timeConfig} />;
+  }
+
   return (
     <DashboardHeader
       event={props.result.data}
@@ -160,11 +165,48 @@ function Header(props) {
   );
 }
 
+const IncidentHeader = ({ event, timeConfig }) => {
+  const { location, createHref } = useNavigation();
+  setOrDeleteMatrixKey(location, eventsPath, eventId, null);
+  const [displayNotes, setDisplayNotes] = useState(false);
+
+  return (
+    <LeftRightPadding className={locals.incidentHeader}>
+      <Stack gap="disabled">
+        <Stack direction="horizontal" distribution="spaceBetween" align="center">
+          <Stack align="center" direction="horizontal">
+            {renderIcon(event, timeConfig, 's')}
+            <Typography noMargin variant="heading-300">
+              {getLabelText(event)}
+            </Typography>
+          </Stack>
+          <Stack align="center" direction="horizontal">
+            {notesAndActivityEnabled && (
+              <OpenNotesAndActivity event={event} displayNotes={displayNotes} setDisplayNotes={setDisplayNotes} />
+            )}
+            <IconButton
+              href={createHref(location)}
+              type="lib_openclose_cancel"
+              iconDescription={t('in-events:tooltipCloseEventDetail')}
+              isWrapperedByTooltip
+              align="left"
+              size="normal"
+            />
+            {notesAndActivityEnabled && (
+              <NotesAndActivity event={event} displayNotes={displayNotes} setDisplayNotes={setDisplayNotes} />
+            )}
+          </Stack>
+        </Stack>
+      </Stack>
+    </LeftRightPadding>
+  );
+};
+
 function renderMetaInformation({ event }) {
   return <TriggeredMarker event={event} />;
 }
 
-function FeedbackComponents({ eventData }) {
+export function FeedbackComponents({ eventData, textVariant = 'body-regular' }) {
   const tup = 'thumbsUp';
   const tdown = 'thumbsDown';
   const [feedbackState, setFeedbackState] = useState('');
@@ -200,57 +242,53 @@ function FeedbackComponents({ eventData }) {
   }, [feedbackState]);
 
   return (
-    <Stack direction="horizontal" gap="xxsmall" distribution="center" align="center">
-      {feedbackState === '' ? (
-        <Typography variant="body-regular" align="center">
-          {t('in-events:eventHelpfulText')}
-        </Typography>
-      ) : (
-        <Typography variant="body-regular" align="center">
-          {t('in-events:thankYouForYourFeedback')}
-        </Typography>
-      )}
+    <Stack direction="horizontal" gap="xxsmall" distribution="spaceBetween" align="center">
+      <Typography variant={textVariant} align="center">
+        {feedbackState === '' ? t('in-events:eventHelpfulText') : t('in-events:thankYouForYourFeedback')}
+      </Typography>
 
-      <Button
-        kind="subtle"
-        // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
-        //TODO: Find an alternative to this (i.e. bring in a filled in thumbs up icon)
-        style={feedbackState === tup ? { background: themes.default.ids.color.option.neutral['300'] } : undefined}
-        size="compact"
-        icon={'lib_thumbs_up'}
-        iconSize="s"
-        onClick={() => {
-          eventFeedbackPositiveTracker({
-            eventID: location.matrix[eventsPath]?.eventId,
-            eventType: location.matrix[eventsPath]?.view
-          });
-          if (feedbackState === tup) {
-            setFeedbackState('');
-          } else {
-            setFeedbackState(tup);
-          }
-        }}
-      />
-      <Button
-        kind="subtle"
-        // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
-        //TODO: Find an alternative to this (i.e. bring in a filled in thumbs down icon)
-        style={feedbackState === tdown ? { background: themes.default.ids.color.option.neutral['300'] } : undefined}
-        size="compact"
-        iconSize="s"
-        icon={'lib_thumbs_down'}
-        onClick={() => {
-          eventFeedbackNegativeTracker({
-            eventID: location.matrix[eventsPath]?.eventId,
-            eventType: location.matrix[eventsPath]?.view
-          });
-          if (feedbackState === tdown) {
-            setFeedbackState('');
-          } else {
-            setFeedbackState(tdown);
-          }
-        }}
-      />
+      <Stack direction="horizontal" align="center" gap="xxsmall">
+        <IconButton
+          kind="subtle"
+          // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
+          //TODO: Find an alternative to this (i.e. bring in a filled in thumbs up icon)
+          color={feedbackState === tup ? themes.default.ids.color.option.neutral['300'] : undefined}
+          size="compact"
+          type="lib_thumbs_up"
+          iconSize="s"
+          onClick={() => {
+            eventFeedbackPositiveTracker({
+              eventID: location.matrix[eventsPath]?.eventId,
+              eventType: location.matrix[eventsPath]?.view
+            });
+            if (feedbackState === tup) {
+              setFeedbackState('');
+            } else {
+              setFeedbackState(tup);
+            }
+          }}
+        />
+        <IconButton
+          kind="subtle"
+          // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
+          //TODO: Find an alternative to this (i.e. bring in a filled in thumbs down icon)
+          color={feedbackState === tdown ? themes.default.ids.color.option.neutral['300'] : undefined}
+          size="compact"
+          iconSize="s"
+          type="lib_thumbs_down"
+          onClick={() => {
+            eventFeedbackNegativeTracker({
+              eventID: location.matrix[eventsPath]?.eventId,
+              eventType: location.matrix[eventsPath]?.view
+            });
+            if (feedbackState === tdown) {
+              setFeedbackState('');
+            } else {
+              setFeedbackState(tdown);
+            }
+          }}
+        />
+      </Stack>
     </Stack>
   );
 }
@@ -262,17 +300,13 @@ function TimeSelection({ event }) {
   return (
     <Stack direction="horizontal">
       {eventFeedbackEnabled && event && <FeedbackComponents eventData={event} />}
-
-      <Link href={createHref(location)}>
-        <Tooltip content={t('in-events:tooltipCloseEventDetail')}>
-          <SvgIcon
-            className={locals.closeIcon}
-            aria-label={t('in-events:tooltipCloseEventDetail')}
-            type="lib_openclose_cancel"
-          />
-        </Tooltip>
-      </Link>
-      {notesAndActivityEnabled && <NotesAndActivity event={event} />}
+      <IconButton
+        href={createHref(location)}
+        type="lib_openclose_cancel"
+        iconDescription={t('in-events:tooltipCloseEventDetail')}
+        isWrapperedByTooltip
+        align="left"
+      />
     </Stack>
   );
 }
@@ -288,13 +322,13 @@ function hasServiceImpact(event) {
   return isAppDataEntityType(entityType);
 }
 
-function renderIcon(event, timeConfig) {
+function renderIcon(event, timeConfig, size = 'l') {
   return (
     <EventIcon
       className={locals.icon}
       event={event}
       tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)}
-      size="l"
+      size={size}
     />
   );
 }

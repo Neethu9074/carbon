@@ -165,8 +165,6 @@
     "sloNamePlaceholder": "Immettere il nome",
     "sloNameCopyTemplate": "Copia di {{name}}",
     "tagsLabel": "Tag (facoltativo)",
-    "tagsPlaceholder": "Immettere i tag",
-    "tagsCreateLabel": "Crea: {{tag}}",
     "messages": {
       "creationSuccessfulTitle": "La configurazione SLO è stata creata correttamente",
       "creationSuccessfulContent": "La configurazione SLO \"{{name}}\" è stata creata.",
@@ -269,6 +267,9 @@
     }
   },
   "sloDashboard": {
+    "header": {
+      "created_at": "Creato il: {{creationDay}} alle {{creationTime}}"
+    },
     "tabs": {
       "summaryLabel": "Riepilogo",
       "configurationLabel": "Configurazione",

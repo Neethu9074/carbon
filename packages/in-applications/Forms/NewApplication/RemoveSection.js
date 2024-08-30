@@ -6,8 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { get } from 'lodash';
 
-import { Card, Checkbox } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Card, Checkbox, Button } from '@instana/components';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';

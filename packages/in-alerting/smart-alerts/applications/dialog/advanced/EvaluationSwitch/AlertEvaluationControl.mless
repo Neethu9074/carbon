@@ -44,8 +44,11 @@
     }
   }
 
-  .tearsheetOptions {
-    align-items: center;
-    color: var(--ids-color-option-neutral-900);
+  .tearSheetOptions {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: flex-start;
+    padding-top: 1.5rem;
   }
 }

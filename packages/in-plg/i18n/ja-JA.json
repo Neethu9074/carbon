@@ -10,20 +10,26 @@
   "buyNowDialog": {
     "title": "使用量に基づく柔軟な請求",
     "cancelbtn": "キャンセル",
-    "subHeadingPart1": "PayPerUseオプションを使用すると、",
-    "subHeadingPart2": "使用分に対してのみ請求されます。",
+    "subHeading": "PayPerUse オプションを使用すると、使用した分だけ課金されます。",
     "sidePanelTitle": "サブスクリプションするかどうかお悩みですか?",
-    "sidePanelDescription": "ぜひご相談ください。最適なオプションを見つけるお手伝いをします。",
-    "mainBodyTitle1": "PayPerUseのご紹介",
+    "sidePanelDescription": "お客様に最適なオプションを見つけるお手伝いをいたします。",
+    "mainBodyTitle1": "IBM Instana Observability による自動化、コンテキスト、インテリジェントなアクション",
     "mainBodyDescription1": "業界最高レベルの1秒単位の細分性と包括的な要求トレースにより、問題が検知を逃れることはありません。 使いやすいダッシュボードとカスタマイズされたアラート発行に対応するSmartAlerts™を使用して、アプリケーション・コード、Kubernetesコンテナ、マイクロサービス全体をフルスタックで可視化します。 AWSとのシームレスな統合により、Instanaは300を超えるテクノロジーをサポートし、Amazon AWS上のコンテナ化されたアプリケーションに対して心配のないパフォーマンス・モニタリングを行います。",
-    "mainBodyTitle2": "IBM Instana Observability PayPerUseの価格設定情報",
-    "mainBodyDescription2": "当社のPayPerUseティアは柔軟性を考慮して設定されています。必要とされる機能をお客様のビジネスが対応できる価格でご提供します。 必要な製品機能を提供する「Standard」または「Essential」のオプションから選択してください。",
-    "listTitle1": "ユニット",
-    "listTitle2": "コスト",
-    "listUnit1": "インフラストラクチャーのモニターを含む完全な可観測性 + トレース + EUM + シンセティックが含まれます",
-    "listUnit2": "インフラストラクチャーのモニターのみ",
-    "listCost1": "$0.12 / ユニット",
-    "listCost2": "$0.03 / ユニット"
+    "mainBodyTitle2": "PayPerUseのご紹介",
+    "mainBodyDescription2": "PayPerUse の階層は、お客様のビジネス ニーズを満たすスタンダードとエッセンシャルのオプションで、機能と価値を提供します。 毎月末に使用量に応じて請求されます。",
+    "listTitle1": "パッケージ",
+    "listTitle2": "説明",
+    "listTitle3": "価格",
+    "listUnit1": "標準 MVS† 時間",
+    "listUnit2": "エッセンシャル MVS† 時間 ",
+    "listDescription1": "インフラストラクチャーのモニターを含む完全な可観測性 + トレース + EUM + シンセティックが含まれます",
+    "listDescription2": "インフラストラクチャーのモニターのみ",
+    "listCost1": "$0.12",
+    "listCost2": "$0.03",
+    "learnMore": "詳細については、 ",
+    "serviceDescription": "サービスの説明。",
+    "mvs": "†管理対象仮想サーバー (MVS) は、Instana のライセンス交付を受けるための測定単位です。 MVS についてもっと知る ",
+    "here": "ここ。"
   },
   "licenseBanner": {
     "requestQuoteBtn": "見積もり依頼",
@@ -78,6 +84,7 @@
       "step5": "ステップ 5: ",
       "download": "ダウンロード",
       "clusterName": "クラスター名",
+      "applicationRuntime": "アプリケーション・ランタイム",
       "agentZoneOptional": "エージェント・ゾーン (オプション)",
       "networkRequirements": "ネットワーク要件",
       "toInstallAndRunAnAgentCompleteTheFollowingSteps": "エージェントをインストールして実行するには、以下の手順を実行します。",
@@ -287,8 +294,7 @@
       "vmwareTanzuNetworkLink": "VMware Tanzu ネットワーク・リンク",
       "reviewThePrerequisites": "前提条件の確認",
       "installingTheInstanaAgent": "Instana エージェントのインストール",
-      "vmwareTanzuDocumentation": "VMware Tanzu の資料",
-      "vmwareTanzuNetwork": "VMware Tanzu ネットワーク",
+      "installingAndConfiguringMicroservicesApplicationsMonitoring": "マイクロサービス・アプリケーションのモニタリングのインストールと設定",
       "addTileToOpsManagerAndConfigureIt": "タイルを Ops Manager に追加して構成します",
       "addInstanaApplicationMonitoring": "「Instana Microservices Application Monitoring」タイルを Ops Manager に追加し、タイルの「バックエンド構成」タブに以下を適用します。",
       "nameYourVmwareFoundation": "VMware Tanzu ファウンデーションの名前を指定します",
@@ -357,6 +363,7 @@
           "linux64BitAmd": "Linux (64Bit - AMD)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
           "linux64BitPowerPcLittleEndian": "Linux (64 ビット - PowerPC リトル・エンディアン)",
+          "linuxS390XJdkNotIncluded": "Linux (64Bit - s390x) JDK は含まれません",
           "linuxS390X": "Linux (64Bit - s390x)",
           "linuxX8664": "Linux (64Bit - x86_64)",
           "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
@@ -424,7 +431,13 @@
     },
     "azure": {
       "installingAgentOnAks": "Aks へのエージェントのインストール",
-      "configureAfterInstall": "インストール後のエージェントの構成"
+      "configureAfterInstall": "インストール後のエージェントの構成",
+      "referenceToAzureContainerAppsDocumentation": "Azure コンテナ アプリにデプロイされた Go アプリケーションは、トレース・データを収集するために手動でインスツルメンテーションする必要があります。 <azureContainerAppsDoc>Azure Container Apps Go documentation</azureContainerAppsDoc> の指示に従ってください。",
+      "selectAzureContainerAppsRuntime": "Azure Container Apps ランタイムを選択します",
+      "reviewPrerequisitesAndConfigureContainerApps": "前提条件を確認し、Azure Container Apps をトレース用に設定します。",
+      "containerAppSetEnvironmentVariables": "Azure コンテナアプリを作成する際に、以下の環境変数を設定します。",
+      "monitoringAzure": "Azure エージェントによる Microsoft Azure の監視とインストルメンテーション",
+      "monitoringAzureContainerApps": "モニタリング Azure コンテナ・アプリ"
     },
     "gcp": {
       "dockerBuild": "Docker ビルド",
@@ -452,9 +465,12 @@
     "heading": "Instanaへようこそ",
     "foldableTileTitle": "開始しましょう。",
     "viewAll": "すべて表示",
-    "search": "検索",
-    "addMore": "追加",
     "UrlShortener": "URL 短縮形",
+    "addMore": "追加",
+    "collapsibleButton": {
+      "showOnboardingTasks": "オンボーディング・タスクの表示",
+      "hideOnboardingTasks": "オンボーディング・タスクの非表示"
+    },
     "startIntegrating": {
       "title": "データの統合を始める",
       "description": "エージェントをインストールすることで、Instanaのセットアップとシームレスなデータ統合を開始します。",
@@ -498,20 +514,24 @@
     "component": {
       "applicationWidget": {
         "label": "アプリケーション",
-        "addLabel": "アプリケーションの追加",
         "name": "名前",
         "calls": "呼び出し",
+        "scope": "範囲",
         "latency": "待ち時間",
         "erroneousCallRate": "エラーのある呼び出し率",
         "openCreationDialog": "作成ダイアログを開く",
-        "health": "正常性"
+        "health": "正常性",
+        "searchPlaceholderLabel": "アプリケーション",
+        "addButtonLabel": "アプリケーション",
+        "viewAllLabel": "アプリケーション"
       },
       "eventWidget": {
         "label": "イベント",
+        "viewAllLabel": "イベント",
         "incidents": "インシデント",
         "critical": "クリティカル",
         "warning": "警告",
-        "viewEvents": "イベントの表示"
+        "viewEvents": "イベントを表示する"
       },
       "platformWidget": {
         "platforms": "プラットフォーム",
@@ -531,14 +551,27 @@
         "namespaces": "名前空間",
         "pods": "ポッド数",
         "health": "正常性",
-        "platform": "プラットフォーム"
+        "vMs": "VM",
+        "systems": "システム",
+        "instances": "インスタンス",
+        "partitions": "パーティション",
+        "memoryLimit": "メモリー制限",
+        "adapters": "アダプター",
+        "vios": "Virtual I/O Server",
+        "memoryUsage": "メモリー使用量",
+        "cpuUsage": "CPU 使用率",
+        "esXiHosts": "ESXi ホスト",
+        "searchPlaceholderLabel": "プラットフォーム",
+        "viewAllLabel": "プラットフォーム"
       },
       "bizopsWidget": {
         "label": "ビジネス・モニタリング",
         "name": "名前",
         "activities": "アクティビティー",
-        "count": "数",
-        "health": "正常性"
+        "views": "ビュー",
+        "health": "正常性",
+        "searchPlaceholderLabel": "ビジネス・プロセス",
+        "viewAllLabel": "ビジネス・プロセス"
       },
       "incidentsWidget": {
         "label": "インシデント",
@@ -547,39 +580,52 @@
         "on": "オン",
         "started": "開始済み",
         "end": "語末",
-        "health": "状況"
+        "health": "状況",
+        "searchPlaceholderLabel": "インシデント",
+        "viewAllLabel": "インシデント"
       },
       "websitesWidget": {
         "label": "Web サイト",
         "name": "名前",
         "pageViews": "ページ・ビュー",
         "onLoadTimes": "OnLoad 回",
-        "addLabel": "Web サイトの追加",
-        "health": "正常性"
+        "health": "正常性",
+        "searchPlaceholderLabel": "Webサイト",
+        "addButtonLabel": "Web サイト",
+        "viewAllLabel": "Webサイト"
       },
       "mobileAppsWidget": {
-        "label": "モバイル・アプリケーション",
+        "label": "モバイル・アプリ",
         "name": "名前",
         "sessions": "セッション数",
         "views": "ビュー",
-        "addLabel": "モバイル・アプリケーションの追加",
-        "health": "正常性"
+        "health": "正常性",
+        "searchPlaceholderLabel": "モバイル・アプリケーション",
+        "addButtonLabel": "モバイル・アプリ",
+        "viewAllLabel": "モバイル・アプリケーション"
       },
       "infrastructureWidget": {
         "label": "インフラストラクチャー",
         "mean": "平均値",
         "name": "名前",
         "os": "OS",
+        "zones": "ゾーン",
+        "hosts": "ホスト",
         "technologies": "テクノロジー",
         "cpuNum": "CPU の数",
         "cpuUsage": "CPU 使用率",
         "created": "作成日",
         "started": "開始済み",
-        "health": "正常性"
+        "health": "正常性",
+        "hostSearchPlaceholderLabel": "ホスト",
+        "hostViewAllLabel": "ホスト",
+        "containersSearchPlaceholderLabel": "コンテナー",
+        "containersViewAllLabel": "コンテナー",
+        "processesSearchPlaceholderLabel": "プロセス",
+        "processesViewAllLabel": "プロセス"
       },
       "syntheticWidget": {
         "label": "シンセティック・モニタリング",
-        "addLabel": "シンセティック・モニタリングの追加",
         "na": "該当なし",
         "name": "名前",
         "type": "タイプ",
@@ -588,14 +634,25 @@
         "lastTestRunOn": "最終テスト実行日",
         "version": "バージョン",
         "timeThreshold": "時間しきい値",
-        "testsApplied": "適用されるテスト"
+        "testsApplied": "適用されるテスト",
+        "health": "正常性",
+        "testSearchPlaceholderLabel": "シンセティック・テスト",
+        "testAddButtonLabel": "シンセティック・テスト",
+        "testViewAllLabel": "シンセティック・テスト",
+        "locationsSearchPlaceholderLabel": "合成ロケ地",
+        "locationsViewAllLabel": "合成ロケ地",
+        "smartalertsSearchPlaceholderLabel": "合成スマート・アラート",
+        "smartalertsAddButtonLabel": "合成スマート・アラート",
+        "smartalertsViewAllLabel": "合成スマート・アラート"
       },
       "dashboardWidget": {
         "label": "マイ・カスタム・ダッシュボード",
         "name": "名前",
         "owner": "所有者",
         "permissions": "権限",
-        "addLabel": "ダッシュボードの追加"
+        "searchPlaceholderLabel": "ダッシュボード",
+        "addButtonLabel": "ダッシュボード",
+        "viewAllLabel": "ダッシュボード"
       }
     },
     "noData": {
@@ -610,17 +667,26 @@
       },
       "websitesWidget": {
         "header": "Web サイトなし",
-        "description": "Web サイトの追加とデータ収集の開始",
+        "description": "ウェブサイト・データを収集し、ユーザーのデジタル体験を理解する。",
         "buttonName": "Web サイトの追加"
       },
       "mobileListWidget": {
         "header": "モバイル・アプリがありません",
-        "description": "モバイル・アプリケーションを追加し、データの収集を開始します。",
+        "description": "モバイルアプリのデータを収集し、ユーザーのデジタル体験を理解する。",
         "buttonName": "モバイル・アプリケーションの追加"
       },
       "infrastructureWidget": {
-        "header": "ホスト、コンテナー、またはプロセスがありません",
-        "description": "デプロイされたエージェントの結果をここで見つけます。"
+        "description": "ここで詳細を表示するには、エージェントを展開します。<br>エージェント <linkToAgents>Agents</linkToAgents> ページで開始します。",
+        "link": "エージェント",
+        "hosts": {
+          "header": "ホストがありません"
+        },
+        "docker": {
+          "header": "容器なし"
+        },
+        "process": {
+          "header": "プロセスがありません"
+        }
       },
       "platformsWidget": {
         "header": "プラットフォームなし",
@@ -628,7 +694,7 @@
       },
       "businessMonitoringWidget": {
         "header": "ビジネス・プロセスがありません",
-        "description": "IBM Business Automation Workflow を有効にするか、Instana を構成してビジネス・プロセスからビジネス・データを収集して保管します。"
+        "description": "お客様のビジネス・プロセスからデータを取得し、保存するように Instana を設定します。"
       },
       "syntheticWidget": {
         "test": {
@@ -637,19 +703,37 @@
           "buttonName": "シンセティック・テストの追加"
         },
         "location": {
-          "header": "シンセティック・ロケーションがありません",
-          "description": "特定の連続した間隔で実行するようにシンセティック・ロケーションを構成します。"
+          "header": "合成ロケーションなし",
+          "description": "合成テストを実行する合成ロケーションを設定します。"
         },
         "smartalerts": {
-          "header": "ノー・シンセティック・スマートルツ",
-          "description": "特定の連続した間隔で実行するように、シンセティック・スマート・バーツを構成します。",
-          "buttonName": "合成スマート・バーツの追加"
+          "header": "合成スマート・アラートなし",
+          "description": "ロケーションのテストが失敗した場合にアラートを送信するように、合成のスマート・アラートを設定します。",
+          "buttonName": "合成スマート・アラートの追加"
         }
+      },
+      "eventsWidget": {
+        "header": "イベントなし",
+        "description": "表示するイベントやインシデントがない場合や、最初にデータを設定する必要がある場合があります。"
       },
       "dashboardWidget": {
         "header": "カスタム・ダッシュボードがありません",
         "description": "独自のカスタム・ダッシュボードを作成します。",
         "buttonName": "カスタム・ダッシュボードの作成"
+      }
+    },
+    "quickLinks": {
+      "iconDescriptions": {
+        "settings": "設定",
+        "user": "ユーザー",
+        "externalLink": "外部リンク",
+        "resultNew": "結果 新規"
+      },
+      "buttonNames": {
+        "deployAgent": "エージェントのデプロイ",
+        "addUser": "ユーザーの追加",
+        "documentation": "IBM 資料",
+        "releaseNotes": "リリース情報"
       }
     },
     "ariaLabel": {
@@ -698,5 +782,13 @@
       "configuringAndMonitoring": "構成およびモニタリング",
       "customDashboard": "カスタム・ダッシュボード"
     }
+  },
+  "userGoalSelectionDialog": {
+    "title": "あなたの目標は何ですか？",
+    "description": "Instana へようこそ。 このトライアルの主な目標をお聞かせいただき、より良い体験の提供にご協力ください。 該当するものをすべて選択します。",
+    "skip": "スキップ",
+    "done": "完了",
+    "otherGoalPlaceholder": "例えば、自分の環境全体を可視化する",
+    "otherGoalToAccomplish": "他に達成しようとしている目標を達成しようとしていますか?"
   }
 }

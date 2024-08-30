@@ -62,6 +62,7 @@ export default function AlertDetails() {
         getAllowedPlaceholders={getAllowedPlaceholders}
         isGlobalSmartAlert
         canConfigureGlobalAlertConfigs={role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope}
+        hideAlertIcon
       />
     </LeftRightPadding>
   );

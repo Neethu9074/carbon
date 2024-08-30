@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { ThresholdConfigUnion, InfraAlertRuleUnion, PredictiveTrigger } from '@instana/types';
-import { Card } from '@instana/components';
 
 import {
   infraAlertsDetailsPath,
@@ -33,6 +32,8 @@ import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
 
+import locals from './Alerts.mless';
+
 export default function Alerts() {
   const handlers = role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope ? actionHandlers : {};
 
@@ -48,7 +49,7 @@ export default function Alerts() {
 
   return (
     <>
-      <Card size="l">
+      <div className={locals.wrapper}>
         <AlertBaseList<InfraSmartAlertConfigWithMetadata>
           extraColumnDefinitions={getColumnDefinitions()}
           actionHandlers={handlers}
@@ -58,8 +59,9 @@ export default function Alerts() {
           sortOptions={sortOptions}
           alertsTab={infraSmartAlerts}
           renderName={replaceTitlePlaceholdersWithMarkup}
+          hideAlertIcon
         />
-      </Card>
+      </div>
       <Footer />
     </>
   );

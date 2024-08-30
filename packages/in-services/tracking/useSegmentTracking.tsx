@@ -1,0 +1,65 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { track as trackingV1 } from 'in-services/tracking/tracking';
+import { CTA_CLICKED } from 'in-services/util/constants';
+
+export type CtaTrackingFunction = (ctaEvent: string, optionalPayloadData?: Object) => void;
+export type UnstableTrackingFunction = (segmentEventName: string, eventData: Object, customData?: Object) => void;
+
+export function useSegmentTracking(): {
+  trackCta: CtaTrackingFunction;
+  unstable_trackEvent: UnstableTrackingFunction;
+} {
+  const location = useLocation();
+
+  function trackCta(ctaEvent: string, customData?: Object): void {
+    const { pageRootName, productArea } = getViewTrackingMetaData();
+    if (pageRootName && productArea) {
+      const data = {
+        ['custom.payload']: customData,
+        path: location.pathname,
+        parentPageName: pageRootName,
+        parentPageCategory: productArea,
+        CTA: ctaEvent
+      };
+      eventTracker({ segmentEventName: CTA_CLICKED, data });
+    }
+
+    /*
+     * As discussed, we will always send the info to the old mixpanel tracking.
+     * It will be removed soon.
+     */
+    trackingV1(ctaEvent, customData);
+  }
+
+  /**
+   * This is a suggestion, if you start planning to use this function, please reach out
+   * to figure out if all requirements will be fulfilled for your purpose.
+   *
+   * Open questions:
+   * Should it also send data to mixpanel? Will is use different options for that, and
+   * would need an additional function parameter for that?
+   */
+  function unstable_trackEvent(segmentEventName: string, eventData: Object, customData?: Object): void {
+    const { pageRootName, productArea } = getViewTrackingMetaData();
+    if (pageRootName && productArea) {
+      const data = {
+        ['custom.payload']: customData,
+        ...eventData,
+        path: location.pathname,
+        parentPageName: pageRootName,
+        parentPageCategory: productArea
+      };
+      eventTracker({ segmentEventName, data });
+    }
+  }
+
+  return { trackCta, unstable_trackEvent };
+}

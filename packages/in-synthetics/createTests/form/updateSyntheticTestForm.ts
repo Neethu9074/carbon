@@ -20,7 +20,7 @@ import { regExpValidator, statusCodeValidator } from 'in-synthetics/createTests/
 import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { minValidator } from 'in-services/validators/number';
@@ -96,15 +96,26 @@ export function updateForm(savedState: Record<string, any>) {
         value: savedState?.customProperties ?? {}
       })
     );
-
-  if (syntheticMultiAppEnabled) {
-    return updateTestForm.put(
-      'applications',
-      createField({
-        value: savedState?.applications ?? [],
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, arrayValidator)
-      })
-    );
+  if (syntheticRbacLimitedEnabled) {
+    return updateTestForm
+      .put(
+        'applications',
+        createField({
+          value: savedState?.applications ?? []
+        })
+      )
+      .put(
+        'websites',
+        createField({
+          value: savedState?.websites ?? []
+        })
+      )
+      .put(
+        'mobileApps',
+        createField({
+          value: savedState?.mobileApps ?? []
+        })
+      );
   }
   return updateTestForm.put(
     'applicationId',

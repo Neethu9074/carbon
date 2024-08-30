@@ -7,7 +7,7 @@ import { Property } from 'csstype';
 import React from 'react';
 
 import { AggregationType, BoundaryScope, FilterInterface, TimeConfig } from '@instana/types';
-import { AdjustedTimeframe, ThresholdOperator } from '@instana/types/typeDefinitions';
+import { ThresholdOperator } from '@instana/types/typeDefinitions';
 import { DateFormatterInput, DateFormatterOutput } from '@instana/format-date';
 import { Observable } from '@instana/observables';
 
@@ -33,6 +33,7 @@ export interface Metric {
   metric: string;
   timeShift?: TimeShiftOffset | TimeShift;
   aggregation?: AggregationType;
+  unit?: string;
 }
 
 export interface ChartedMetricsConfig {
@@ -188,7 +189,6 @@ export interface AxisConfiguration {
   companionMetrics?: MetricDataSeries[];
   companionMetricConfigs?: CompanionMetricConfig[];
 
-  adjustedTimeframes?: AdjustedTimeframe[];
   lastValue?: boolean;
 }
 

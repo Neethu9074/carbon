@@ -6,8 +6,8 @@
 import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
-import { Link, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
 import {
   defaultInfraExploreViewParams,
@@ -15,33 +15,30 @@ import {
 } from 'in-infrastructure/navigation/paths';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
+import { carbonButtonEnabled, playwithEnabled } from 'in-services/featureFlags';
 import ViewSwitcher from 'in-infrastructure/tableView/components/ViewSwitcher';
 import TypeSelector from 'in-infrastructure/Explore/components/TypeSelector';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
-import { playwithEnabled } from 'in-services/featureFlags';
 import Dashboard from 'in-infrastructure/Dashboard';
 import { noop } from 'in-services/util/function';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 
-import locals from './InfraAnalyticsBeta.mless';
-
 function ButtonLine() {
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
   return (
-    <div className={locals.analyzeInfrastructure}>
-      <Link
-        className={locals.analyzeInfrastructureLink}
-        href={getLinkToInfraEntityExplore(defaultInfraExploreViewParams)}
-      >
-        <SvgIcon type="lib_analyze_inverted" className={locals.analyzeInfrastructureIcon} />
-        {t('in-infrastructure:explore.analyzeInfrastructure')}
-      </Link>
-    </div>
+    <Button
+      kind={carbonButtonEnabled ? 'secondary' : 'primary'}
+      icon="lib_analyze_inverted"
+      href={getLinkToInfraEntityExplore(defaultInfraExploreViewParams)}
+      {...(carbonButtonEnabled ? { darkTheme: true } : {})}
+    >
+      {t('in-infrastructure:explore.analyzeInfrastructure')}
+    </Button>
   );
 }
 

@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { StackTraceItem } from '@instana/types';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import ShowCodeButton from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/ShowCodeButton';
 import { SnapshotData } from 'in-stores/snapshot';
@@ -45,7 +45,7 @@ export default function StackTracePresentation({
   return (
     <>
       {noCodeLinkMessage && (
-        <Tooltip content={noCodeLinkMessage} align="topMiddle">
+        <Tooltip content={noCodeLinkMessage} align="auto">
           <div>
             <ListContent isOnline={isOnline} snapshot={snapshot} stackTrace={stackTrace} noPadding={noPadding} />
           </div>

@@ -399,7 +399,8 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "重要な情報",
+        "crashesLabelErrorMessage": "Location",
+        "crashesLabelErrorType": "エラー・タイプ",
         "crashesLabelOccurrences": "発生件数",
         "crashesLabelAffectedUsers": "影響を受けたユーザー",
         "crashesButtonAnalyzeCrashes": "クラッシュの分析",

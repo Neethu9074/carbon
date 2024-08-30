@@ -19,7 +19,9 @@ import { getValueRoundedToDecimals } from 'in-alerting/smart-alerts/components/u
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { MAX_LABEL_LENGTH } from 'in-alerting/formFieldLengths';
 import { operators } from 'in-analyze/applicationFilter';
+import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 const operatorDescriptionContextValues = {
@@ -106,16 +108,26 @@ export function getDescriptionPlaceholder(form) {
 
   switch (alertType) {
     case 'errors': {
-      const thresholdValue = thresholdForm.get('value').value;
       const metricName = ruleForm.get('metricName').value;
       const percentageMetric = isPercentageMetric(metricName);
+      if (thresholdType === STATIC_THRESHOLD) {
+        const thresholdValue = thresholdForm.get('value').value;
+        return t(
+          percentageMetric
+            ? 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorRateStaticThreshold'
+            : 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorCountStaticThreshold',
+          {
+            context: getHigherOrLowerOperatorContext(thresholdOperator),
+            valueRoundedToDecimals: getValueRoundedToDecimals(thresholdValue, percentageMetric)
+          }
+        );
+      }
       return t(
         percentageMetric
-          ? 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorRate'
-          : 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorCount',
+          ? 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorRateDefault'
+          : 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorCountDefault',
         {
-          context: getHigherOrLowerOperatorContext(thresholdOperator),
-          valueRoundedToDecimals: getValueRoundedToDecimals(thresholdValue, percentageMetric)
+          context: getHigherOrLowerOperatorContext(thresholdOperator)
         }
       );
     }
@@ -308,4 +320,27 @@ export function isValidChartViewEntitySelection(evaluationType, chartViewEntityS
 
 export function isPercentageMetric(metricName) {
   return metricName === 'callRate' || metricName === 'errors';
+}
+
+export function titleValidator() {
+  return value => {
+    if (typeof value === 'string' && value.length > MAX_LABEL_LENGTH) {
+      return [
+        {
+          severity: 'error',
+          message: t('in-services:validators.valueMustBeShorterThanMaxLengthCharacters', {
+            maxLength: MAX_LABEL_LENGTH
+          })
+        }
+      ];
+    } else if (value == null || (typeof value === 'string' && isBlank(value))) {
+      return [
+        {
+          severity: 'error',
+          message: t('in-services:validators.theValueMustNotBeBlank')
+        }
+      ];
+    }
+    return null;
+  };
 }

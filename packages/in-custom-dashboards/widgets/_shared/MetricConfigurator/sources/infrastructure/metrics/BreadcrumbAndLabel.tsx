@@ -13,11 +13,12 @@ import locals from './BreadcrumbAndLabel.mless';
 interface Props {
   className?: string,
   path: string[];
+  pathLabels?: JSX.Element[];
   label: React.ReactNode;
   hasChildren?: boolean;
 }
 
-export default function BreadcrumbAndLabel({ className, path, label, hasChildren }: Props) {
+export default function BreadcrumbAndLabel({ className, path, pathLabels = [], label, hasChildren }: Props) {
   if (hasChildren) {
     return <div className={className}>{label}</div>;
   }
@@ -26,7 +27,7 @@ export default function BreadcrumbAndLabel({ className, path, label, hasChildren
     <div className={className}>
       {path.map((part, i) => (
         <span className={locals.path} key={i}>
-          {part}
+          {pathLabels[i] || part}
           <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
         </span>
       ))}

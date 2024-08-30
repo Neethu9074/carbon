@@ -20,7 +20,7 @@ import useServerTableUrlState, {
 import SelectAIActionsDialogPresenter from 'in-automation/AutomationCard/GenerateAIDialog/SelectAIActionsDialogPresenter';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import CreatePolicyDialogPresenter from 'in-automation/AutomationCard/CreatePolicy/CreatePolicyDialogPresenter';
-import useNavigateToActionDetails from 'in-automation/ActionCatalog/useNavigateToActionDetails';
+import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
@@ -63,7 +63,9 @@ const getActionColumn = (
           icon="lib_actions_play"
           onClick={e => {
             stopPropagationAndPreventDefault(e);
-            addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+            addActiveDialog(
+              <RunActionDialog action={action} volatileId={volatileId} event={event} setActiveKey={setActiveKey} />
+            );
           }}
           noAutoMargin
         >
@@ -141,7 +143,7 @@ export default function RecommendedActions({
 
   const handleRowClick = (action: ScoredAction) => {
     if (!isExternal(action.type)) {
-      navigateToActionDetails(action, false);
+      navigateToActionDetails(action.id, false);
     }
   };
   return (

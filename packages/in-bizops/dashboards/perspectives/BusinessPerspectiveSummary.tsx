@@ -20,6 +20,8 @@ import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
+import locals from './BusinessPerspectiveSummary.mless';
+
 export default function BusinessPerspectiveSummary() {
   const location: Location = useLocation();
   const timeConfig = useTimeConfig();
@@ -41,7 +43,7 @@ export default function BusinessPerspectiveSummary() {
   };
 
   return (
-    <>
+    <div className={locals.perspectiveSummaryDiv}>
       <ViewTrackingMeta
         data={{
           productArea: productAreas.bizops,
@@ -55,7 +57,7 @@ export default function BusinessPerspectiveSummary() {
         tabs={tabs}
         tabChangeTracker={clickBizopsProcessTabsTracker}
       />
-    </>
+    </div>
   );
 }
 

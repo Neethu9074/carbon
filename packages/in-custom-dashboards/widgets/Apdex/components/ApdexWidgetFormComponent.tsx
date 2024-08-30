@@ -17,17 +17,17 @@ import {
   setFieldValue
 } from 'in-custom-dashboards/widgets/Apdex/form';
 import { APDEX_MANAGEMENT_EXIT, APDEX_MANAGEMENT_VIEW, APDEX_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
-import { SloTrackerProvider, apdexWidgetTrackers, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 // eslint-disable-next-line import/no-deprecated
-import { getField } from 'in-custom-dashboards/widgets/Slo/form';
+import { getField } from 'in-custom-dashboards/widgets/SloLegacy/form';
+import { SloTrackerProvider, apdexWidgetTrackers, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import ConfigurationSelector from 'in-custom-dashboards/widgets/Apdex/components/ConfigurationSelector';
+import ApplicationSelector from 'in-custom-dashboards/widgets/SloLegacy/components/ApplicationSelector';
 import { ApdexEntityTypes, AvailableEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import useApdexFormSideEffects from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexFormSideEffects';
 import EntityTypeSelector from 'in-custom-dashboards/widgets/Apdex/components/EntityTypeSelector';
 import { SlideInViewConfig } from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/types';
-import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
+import WebsiteSelector from 'in-custom-dashboards/widgets/SloLegacy/components/WebsiteSelector';
 import ApdexManageList from 'in-custom-dashboards/widgets/Apdex/components/ApdexManageList';
-import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import Sections from 'in-components/workspace/Sections/Sections';
 import { productAreas } from 'in-services/tracking/productAreas';
 import Section from 'in-components/workspace/Section/Section';

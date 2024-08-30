@@ -6,8 +6,9 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useRef } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateBaselineButton.mless';
@@ -16,8 +17,14 @@ interface RecalculateBaselineButtonProps {
   updateForm: (form: MapForm<any>) => void;
   editMode?: boolean;
   form: MapForm<any>;
+  className?: string;
 }
-export default function RecalculateBaselineButton({ updateForm, editMode, form }: RecalculateBaselineButtonProps) {
+export default function RecalculateBaselineButton({
+  updateForm,
+  editMode,
+  form,
+  className
+}: RecalculateBaselineButtonProps) {
   const isRecalculated = useRef(false);
 
   if (!editMode) {
@@ -27,7 +34,9 @@ export default function RecalculateBaselineButton({ updateForm, editMode, form }
   return (
     <div className={locals.buttonWrapper}>
       <Button
-        kind="secondaryDarker"
+        size={carbonButtonEnabled ? 'compact' : 'normal'}
+        kind={carbonButtonEnabled ? 'tertiary' : 'secondaryDarker'}
+        className={className}
         onClick={() => {
           isRecalculated.current = true;
           updateForm(

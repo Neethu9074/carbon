@@ -23,7 +23,10 @@ const matrixTestId = 'testId';
 const matrixTestLabel = 'testLabel';
 const matrixStatus = 'status';
 const matrixLocationLabels = 'locationLabels';
+const matrixLocationDisplayLabels = 'locationDisplayLabels';
+const matrixLocationIds = 'locationIds';
 
+export const globalSyntheticsPath = '/#/syntheticTests';
 const summaryTab = '/summary';
 export const resultsTab = '/results';
 export const alertsTab = '/alerts';
@@ -71,13 +74,21 @@ function useDashboard(basePath: string, tab: string) {
       testLabel: string,
       timeConfig?: TimeConfig,
       failedStatusFilter?: boolean,
-      locationLabelFilters?: string[]
+      locationLabelFilters?: string[],
+      locationIds?: string
     ) => {
       const clonedLocation = cloneLocation(location);
 
       clonedLocation.pathname = `${basePath}${tab}`;
       setOrDeleteMatrixKey(clonedLocation, basePath, matrixTestId, testId);
       setOrDeleteMatrixKey(clonedLocation, basePath, matrixTestLabel, testLabel);
+      setOrDeleteMatrixKey(
+        clonedLocation,
+        basePath,
+        matrixLocationDisplayLabels,
+        locationLabelFilters?.join(',') || ''
+      );
+      setOrDeleteMatrixKey(clonedLocation, basePath, matrixLocationIds, locationIds);
 
       if (timeConfig != null) {
         setTimeConfig(clonedLocation, timeConfig);

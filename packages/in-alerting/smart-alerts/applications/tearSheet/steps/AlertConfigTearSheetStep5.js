@@ -16,7 +16,6 @@ import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smar
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
-import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/tearSheet/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
 import AlertTypography from 'in-alerting/components/AlertTypography';
@@ -96,14 +95,6 @@ export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, 
           />
         </div>
       </>
-
-      <TearSheetStepContentWrapper
-        headline={t('in-alerting:smartAlerts.applications.tearSheet.AlertChannelTitle')}
-        description={t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.description')}
-        isFullWidth
-      >
-        <ConfigureAlertChannel form={form} onChange={onChange} numberOfAlertChannelListRows={7} />
-      </TearSheetStepContentWrapper>
     </>
   );
 }

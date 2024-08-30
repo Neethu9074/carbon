@@ -53,7 +53,8 @@
     "javaRuntime": "Java Runtime",
     "status": "Status",
     "agentDetails": "Agent Details",
-    "totalAgents": "Total Agents"
+    "totalAgents": "Total Agents",
+    "anErrorOccurredPleaseTryAgain": "An error occurred, please try again."
   },
   "dashboard": {
     "comparisonTable": "Comparison Table",
@@ -75,7 +76,7 @@
     "kubernetesLabels": "Kubernetes Labels",
     "podmanAnnotations": "Podman Annotations",
     "metricExplosionBeeInstana": "This dashboard may not display all metrics as only {{numberOfMetrics}} were stored",
-    "metricExplosion": "This dashboard may not display all metrics as only {{numberOfMetrics}} high resolution metrics were stored. To see more metrics, use 2 hours or greater time-range (10 second rollup) and try again."
+    "metricExplosion": "This dashboard may not display all metrics as only {{numberOfMetrics}} high resolution metrics were stored. To view additional metrics, use Analyze Infrastructure or a custom dashboard."
   },
   "explore": {
     "analyzeInfrastructure": "Analyze Infrastructure",

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Link, Pill, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -12,26 +12,22 @@ import { UserResult } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
-import { getCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
+import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import useGetCustomDashboardPermissions from 'in-plg/pages/WelcomePage/widgets/hooks/useGetCustomDashboardPermissions';
 //@ts-expect-error doesn't contain type file
 import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 // @ts-expect-error needs ts migration
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
-//@ts-expect-error doesn't contain type file
-import connectTo from 'in-hoc/connectTo';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { playwithEnabled, welcomePageV2Enabled } from 'in-services/featureFlags';
 import { getCustomDashboards, getUsers } from 'in-custom-dashboards/api';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { timeConfig$ } from 'in-stores/time/config';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { role } from 'in-stores/user';
 
-export default connectTo(() => ({
-  timeConfig: timeConfig$
-}))(function DashboardWidget({
+export default function DashboardWidget({
   config,
   widgetLabel,
   dashboardTileProps,
@@ -59,11 +55,15 @@ export default connectTo(() => ({
     ];
   };
 
+  const { location, createHref } = useNavigation();
+  const connectToLocation = { ...location, pathname: viewPathFullyQualified };
+
   const columnDefinitions: ColumnDefinitionItem[] = [
     {
       key: 'name',
       getContent({ item }) {
-        return <Link href={getCustomDashboardLink(item.id)}>{item.title}</Link>;
+        setOrDeleteMatrixKey(connectToLocation, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, item.id);
+        return <Link href={createHref(connectToLocation)}>{item.title}</Link>;
       }
     },
     {
@@ -102,6 +102,7 @@ export default connectTo(() => ({
       {...generalProps}
       query=""
       hasAddMore={!playwithEnabled}
+      tableType="dashboardWidget"
       //@ts-expect-error canCreatePublicCustomDashboards doesn't exist on type role
       hasAddPermission={role?.canCreatePublicCustomDashboards}
       isDashboardWidget
@@ -113,16 +114,25 @@ export default connectTo(() => ({
       addData={addNewDashboard}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
+      searchPlaceholderLabel={t('in-plg:welcomepage.component.dashboardWidget.searchPlaceholderLabel')}
+      addButtonLabel={t('in-plg:welcomepage.component.dashboardWidget.addButtonLabel')}
+      viewAllLabel={t('in-plg:welcomepage.component.dashboardWidget.viewAllLabel')}
     />
   );
-});
+}
 
 function DashboardPermission({ id }: { id: string }) {
-  const permission: string = useGetCustomDashboardPermissions(id);
+  const [dashboardPermission, setDashboardPermission] = useState('');
 
+  const permissionResult: string | null = useGetCustomDashboardPermissions(id);
+  useEffect(() => {
+    if (permissionResult) {
+      setDashboardPermission(permissionResult);
+    }
+  }, [permissionResult]);
   return (
     <Pill kind="info" type="gray">
-      {permission}
+      {dashboardPermission}
     </Pill>
   );
 }

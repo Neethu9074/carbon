@@ -4,11 +4,15 @@
  * Copyright IBM Corp. 2024
  */
 
+import { ThresholdSuggestionResponse } from '@instana/types/typeDefinitions';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { Result, GetInfraMetricsThresholdSuggestionQuery } from 'in-types';
-import { MetricDataSeries } from 'in-applications/subscriptions/types';
 
-export default createResultSubscriptionFactory<GetInfraMetricsThresholdSuggestionQuery, Result<MetricDataSeries>>({
+export default createResultSubscriptionFactory<
+  GetInfraMetricsThresholdSuggestionQuery,
+  Result<ThresholdSuggestionResponse>
+>({
   eventId: 'getInfraMetricsThresholdSuggestion',
   memoizeFor: 1000,
   trackSubscriptionStatistics: true

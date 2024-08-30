@@ -7,13 +7,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from '@instana/legacy';
+import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
 import AlertChannelSelectListTearsheet from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelSelectListTearsheet';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
+import { channelListLoading$ } from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelsList';
 import AlertChannelCreation from 'in-alerting/smart-alerts/components/dialog/AlertChannelCreation';
 import AlertChannelsList from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelsList';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Dialog from 'in-components/Dialog/Dialog';
 import { role } from 'in-stores/user';
@@ -22,11 +25,22 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/components/tearSheet/ConfigureAlertChannel.mless';
 
 export default function ConfigureAlertChannel({ form, onChange, numberOfAlertChannelListRows = 5 }) {
-  const [, setCreateDialogOpen] = useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+
+  const entityResult = useObservable(() => {
+    // update channel list whenever dialog is closed.
+    if (!createDialogOpen) {
+      return getAlertChannelsInfosMutable().startWith(null);
+    }
+    return undefined;
+  }, [createDialogOpen]);
+  channelListLoading$.emit(entityResult?.length ?? undefined);
+
   return (
     <>
       <AlertChannelSelectListTearsheet
         listComponent={AlertChannelsList}
+        entityResult={entityResult}
         selectedChannels={form.get('alertChannelIds').value ?? []}
         onSelectionUpdate={selectedIds => {
           onChange(['alertChannelIds'], field => field.setValue(selectedIds).setTouched(true));
@@ -50,9 +64,9 @@ export default function ConfigureAlertChannel({ form, onChange, numberOfAlertCha
                     <AlertChannelCreation
                       onCancel={() => {
                         close();
-                        setCreateDialogOpen(false);
                       }}
                       isTearsheet
+                      setCreateDialogOpen={setCreateDialogOpen}
                     />
                   </Dialog>
                 );

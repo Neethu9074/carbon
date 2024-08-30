@@ -5,7 +5,7 @@
 
 import React, { useEffect } from 'react';
 
-import { keyCodes, Stack } from '@instana/components';
+import { keyCodes, PreviewPill, Stack } from '@instana/components';
 
 import sources, { isBetaSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
@@ -15,7 +15,6 @@ import InputInSection from 'in-components/form/Input/InputInSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -44,7 +43,8 @@ export default function MetricConfigurator({
   maxGrouping,
   displayDFQ = true,
   withLastValue = false,
-  withEmptyValueFilterSection
+  withEmptyValueFilterSection,
+  withUnit = false
 }) {
   const sourceField = form.get('source');
   const label = form.get('label')?.value;
@@ -90,7 +90,7 @@ export default function MetricConfigurator({
   const additionalDataSourceSelectorContent = (
     <Stack inline direction="horizontal">
       <LeftRightPadding>
-        {isBetaSource(sourceField.value) && <BetaBadge />}
+        {isBetaSource(sourceField.value) && <PreviewPill />}
         <TouchedMessages field={sourceField} />
       </LeftRightPadding>
     </Stack>
@@ -170,6 +170,7 @@ export default function MetricConfigurator({
         displayDFQ={displayDFQ}
         withLastValue={withLastValue}
         withEmptyValueFilterSection={withEmptyValueFilterSection}
+        withUnit={withUnit}
       />
     );
   }

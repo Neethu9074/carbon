@@ -6,9 +6,8 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
-import { SvgIcon, Pill, Select } from '@instana/components';
+import { Pill, Select, Button, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { Button } from '@instana/legacy';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
 import { customServiceMappingTagKeys, getTagType } from 'in-applications/tags';
@@ -165,7 +164,8 @@ class BasicDialog extends React.Component {
 
                   {serviceConfiguration.get('matchSpecification').size > 1 && (
                     <Tooltip content={t('in-applications:forms.customService.tooltipRemoveCondition')}>
-                      <SvgIcon
+                      <IconButton
+                        kind="action"
                         className={locals.removeMatchRuleIcon}
                         type="lib_openclose_cancel"
                         onClick={() =>

@@ -11,8 +11,11 @@ import FrontEndErrorLogs from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Fron
 import BackEndErrorLogs from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/BackEndErrorLogs';
 import FioriCallMetric from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/FioriCallMetric';
 import FioriPageVisit from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/FioriPageVisit';
+import FioriServices from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/FioriServices';
+import FioriEntities from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/FioriEntities';
 import GatewayStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/GatewayStats';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export default function Fiori({ data }: { data: SnapshotData }) {
@@ -20,6 +23,14 @@ export default function Fiori({ data }: { data: SnapshotData }) {
   const snapshotId = data.id;
   return (
     <Fragment>
+      <Row>
+        <Col lg={4}>
+          <FioriServices snapshotId={snapshotId} />
+        </Col>
+        <Col lg={4}>
+          <FioriEntities snapshotId={snapshotId} />
+        </Col>
+      </Row>
       <FioriCallMetric snapshotId={snapshotId} timeConfig={timeConfig} />
       <FioriPageVisit snapshotId={snapshotId} timeConfig={timeConfig} />
       <GatewayConnections snapshotId={snapshotId} />

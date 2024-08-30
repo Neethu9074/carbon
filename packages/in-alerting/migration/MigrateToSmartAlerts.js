@@ -5,9 +5,8 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { Stack, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import {
   applicationsAlertingDeprecatedEventConfirmMigrated,
@@ -15,11 +14,15 @@ import {
   applicationsAlertingDeprecatedEventMigrateStarted,
   applicationsAlertingDeprecatedEventMigrateFinished
 } from 'in-alerting/smart-alerts/applications/tracker';
+import {
+  applicationSmartAlertFullScreenDesignEnabled,
+  applicationSmartAlertDialogView
+} from 'in-services/featureFlags';
 import getAlertConfigFromLegacyEvent from 'in-alerting/migration/subscriptions/getAlertConfigFromLegacyEvent';
 import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
-import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
+import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -65,6 +68,7 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
     <Stack direction="horizontal" gap="xsmall">
       <Tooltip content={t('in-alerting:smartAlerts.migration.markAsMigratedButtonTooltip')} delay={500}>
         <Button
+          noAutoMargin
           kind="secondary"
           onClick={() => showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSuccess)}
           icon={disablingEvent ? 'lib_actions_loading' : undefined}
@@ -73,30 +77,35 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
           {t('in-alerting:smartAlerts.migration.markAsMigratedButton')}
         </Button>
       </Tooltip>
-      <Tooltip content={t('in-alerting:smartAlerts.migration.migrateButtonTooltip')} delay={500}>
-        <Button
-          kind="primaryv2"
-          onClick={() =>
-            doMigration(eventSpecificationId, setMigrating, migrationInProgress, setMigrationInProgress, onSuccess)
-          }
-          icon={migrating ? 'lib_actions_loading' : undefined}
-          iconSpinning={migrating}
-          // TODO unfortunately when we disable the button, which would be the right thing to do here after the user clicks the
-          //      button, then the wrapping tooltip get stuck and does not disappear anymore. Consequently, the following line
-          //      can be included as soon as that misbehaviour of the tooltip is resolved.
-          // disabled={migrationInProgress}
-        >
-          {t('in-alerting:smartAlerts.migration.migrateButton')}
-        </Button>
-      </Tooltip>
+      {applicationSmartAlertDialogView && (
+        <Tooltip content={t('in-alerting:smartAlerts.migration.migrateButtonTooltip')} delay={500} align="bottomRight">
+          <Button
+            kind="primaryv2"
+            noAutoMargin
+            onClick={() =>
+              doMigration(eventSpecificationId, setMigrating, migrationInProgress, setMigrationInProgress, onSuccess)
+            }
+            icon={migrating ? 'lib_actions_loading' : undefined}
+            iconSpinning={migrating}
+            // TODO unfortunately when we disable the button, which would be the right thing to do here after the user clicks the
+            //      button, then the wrapping tooltip get stuck and does not disappear anymore. Consequently, the following line
+            //      can be included as soon as that misbehaviour of the tooltip is resolved.
+            // disabled={migrationInProgress}
+          >
+            {t('in-alerting:smartAlerts.migration.migrateButton')}
+          </Button>
+        </Tooltip>
+      )}
       {applicationSmartAlertFullScreenDesignEnabled && (
-        <CreateSmartAlertButton
-          isGlobal={isGlobalSmartAlertConfig}
-          isFloatingButton={false}
-          buttonName={t('in-alerting:smartAlerts.migration.migrateButtonNew')}
-          isMigrate
-          eventSpecificationId={eventSpecificationId}
-        />
+        <Tooltip content={t('in-alerting:smartAlerts.migration.migrateButtonTooltip')} delay={500} align="bottomRight">
+          <CreateSmartAlertButton
+            isGlobal={isGlobalSmartAlertConfig}
+            isFloatingButton={false}
+            buttonName={getButtonName(t('in-alerting:smartAlerts.migration.migrateButton'))}
+            isMigrate
+            eventSpecificationId={eventSpecificationId}
+          />
+        </Tooltip>
       )}
     </Stack>
   );

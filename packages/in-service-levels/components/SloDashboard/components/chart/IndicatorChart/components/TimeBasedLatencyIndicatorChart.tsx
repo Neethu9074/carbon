@@ -7,6 +7,7 @@
 import React from 'react';
 
 import {
+  DateAsNumber,
   isApplicationSloEntity,
   isWebsiteSloEntity,
   LatencyBlueprintIndicator,
@@ -21,11 +22,8 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import {
-  lineWithThreshold,
-  thresholdMetricId
-} from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
-import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
+import { useLineWithThresholdAndMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThresholdAndMissingDataIndicator';
+import { thresholdMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
@@ -45,11 +43,17 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { millis } from 'in-services/formatters/number';
 
 const metricId = 'latency';
+interface TimeBasedLatencyIndicatorChartProps {
+  entity: SloEntityUnion;
+  indicator: LatencyBlueprintIndicator;
+  missingDataIndicator?: DateAsNumber;
+}
 
 export default function TimeBasedLatencyIndicatorChart({
   entity,
-  indicator
-}: IndicatorChartProps<LatencyBlueprintIndicator>) {
+  indicator,
+  missingDataIndicator
+}: TimeBasedLatencyIndicatorChartProps) {
   const { threshold } = indicator;
 
   const sloZoomInAction = useSloZoomInAction();
@@ -77,6 +81,10 @@ export default function TimeBasedLatencyIndicatorChart({
     ? applicationMetrics.latency.label
     : websiteMetrics.beaconDuration.label;
 
+  const renderer = useLineWithThresholdAndMissingDataIndicatorRenderer({
+    firstCollectedMetricTimestamp: missingDataIndicator
+  });
+
   return (
     <ResultAwareChart
       config={{
@@ -96,7 +104,7 @@ export default function TimeBasedLatencyIndicatorChart({
           labels: [...timeWindows.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
           colors: [...timeWindowColors, themes.default.ids.color.option.red['500']],
           formatter: millis.compact,
-          renderer: lineWithThreshold
+          renderer
         },
         timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />

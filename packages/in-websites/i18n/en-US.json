@@ -348,12 +348,20 @@
   "trackingSnippet": {
     "trackingSnippetPresenterLabelTrackSessions": "Tracking session",
     "trackingSnippetPresenterTooltip": "Learn more about session tracking and the privacy implications.",
-    "trackingSnippetSRITooltip": "Subresource Integrity (SRI) is a security feature that ensures browsers can verify the resources they fetch. Disabling it might cause security issues. If you decide to disable it, ensure that you are in a secure network environment.",
+    "trackingSnippetSRITooltip": "Subresource Integrity (SRI) is a security feature that ensures browsers can verify the resources they fetch.",
     "trackingSnippetPresenterLabelSRI": "Enable Subresource Integrity (SRI)",
     "trackingSnippetPresenterLabelAgentVersion": "Agent version",
     "trackingSnippetPresenterToggleYes": "Yes",
     "trackingSnippetPresenterToggleNo": "No",
-    "trackingSnippetPresenterAgentVersion": "Version"
+    "trackingSnippetPresenterAgentVersion": "Version",
+    "trackingSnippetPresenterCancelModal": "Cancel",
+    "trackingSnippetPresenterEnableModal": "Enable",
+    "trackingSnippetPresenterEnablingModalTitle": "Enable Subresource Integrity (SRI)",
+    "trackingSnippetPresenterEnablingModalBody": "Enabling SRI is recommended for security. Ensure that you have selected the latest agent version from the dropdown.",
+    "trackingSnippetPresenterDisableModal": "Disable",
+    "trackingSnippetPresenterDisablingModalTitle": "Are you sure you want to disable Subresource Integrity (SRI)?",
+    "trackingSnippetPresenterDisablingModalFirstLine": "Disabling SRI might cause security issues.",
+    "trackingSnippetPresenterDisablingModalBody": "If you decide to disable it, ensure that you are in a secure network environment. When SRI is disabled, the tracking script defaults to the latest JavaScript agent version but will not be able to ensure that browsers can verify the resources they fetch. "
   },
   "websitesList": {
     "viewSwitcherLabelWebsitesAndMobileApps": "Websites & mobile apps",
@@ -485,6 +493,7 @@
         "configurationRenameTitle": "Rename website",
         "configurationRenameButton": "Rename",
         "configurationTrackingScriptTitle": "Agent tracking script",
+        "configurationUserAgentVersion": "Your current agent version is <strong>{{agentVersion}}</strong>.",
         "saved": "Saved",
         "ipMasking": {
           "title": "IP masking",
@@ -754,6 +763,10 @@
         "sizesTechnicalLabelBetween": "Between {{min}}px and {{max}}px (inclusive)",
         "sizesTechnicalLabelAtLeast": "At least {{min}}px (inclusive)",
         "sizesTechnicalLabelAtMost": "At most {{max}}px (inclusive)"
+      },
+      "synthetic": {
+        "tabLabel": "Synthetic Monitoring",
+        "noDataTitle": "No synthetic tests are associated with this website."
       },
       "indexLabelSummary": "Summary",
       "indexLabelSpeed": "Speed",

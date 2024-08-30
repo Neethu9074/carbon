@@ -23,7 +23,7 @@ import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/val
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { minValidator } from 'in-services/validators/number';
@@ -141,13 +141,26 @@ export function createForm(
         value: savedState?.customProperties ?? {}
       })
     );
-  if (syntheticMultiAppEnabled) {
-    return createTestForm.put(
-      'applications',
-      createField({
-        value: savedState?.applications ?? []
-      })
-    );
+  if (syntheticRbacLimitedEnabled) {
+    return createTestForm
+      .put(
+        'applications',
+        createField({
+          value: savedState?.applications ?? []
+        })
+      )
+      .put(
+        'websites',
+        createField({
+          value: savedState?.websites ?? []
+        })
+      )
+      .put(
+        'mobileApps',
+        createField({
+          value: savedState?.mobileApps ?? []
+        })
+      );
   }
   return createTestForm;
 }

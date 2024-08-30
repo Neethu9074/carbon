@@ -9,14 +9,17 @@ import React, { useState } from 'react';
 import { Card, Spacer, Stack } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
 
+import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import useActions, { useUserActions, useAIActions } from 'in-automation/ActionCatalog/useActions';
-import { aiGenaratedActionsTabClickTracker } from 'in-automation/tracker';
+import { aiGenaratedActionsTabClickTracker, useSegmentTracker } from 'in-automation/tracker';
+import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import ActionCatalog from 'in-automation/ActionCatalog/ActionCatalog';
-import useNavigateToActionCatalog from './useNavigateToActionCatalog';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { actionCatalog } from 'in-automation/navigation/paths';
 import AISlugIcon from 'in-automation/components/AISlugIcon';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { t } from 'in-i18n';
 
@@ -29,6 +32,7 @@ interface AutomationCardButtonGroupProps {
   aiGeneratedActionsCount?: number | undefined;
 }
 export default function ActionCatalogTab() {
+  setViewTrackingDataValues(productAreas.automation, pageNames.automation_action_catalog);
   return (
     <AutomationTabs>
       <ActionCatalogTabsCard />
@@ -43,6 +47,7 @@ function AutomationCardButtonGroup({
   aiGeneratedActionsCount
 }: AutomationCardButtonGroupProps) {
   const navigateToActionCatalog = useNavigateToActionCatalog();
+  const { aiGenaratedActionsTabClickTrackerSegment } = useSegmentTracker();
   const buttonProps = [
     {
       text:
@@ -64,6 +69,7 @@ function AutomationCardButtonGroup({
       onClick: () => {
         setActiveKey('aiGeneratedActions');
         navigateToActionCatalog('ai');
+        aiGenaratedActionsTabClickTrackerSegment();
         aiGenaratedActionsTabClickTracker();
       }
     }

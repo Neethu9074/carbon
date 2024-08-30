@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React, { useState } from 'react';
@@ -19,13 +20,14 @@ import { t } from 'in-i18n';
 export default function SelectBarOverlayBehavior(props) {
   const { upsertTagFilter, removeTagFilter, pluralLabel, tag, close, itemLabelRenderer = identity } = props;
   const tagFilters = props.tagFilters.filter(f => f.name !== props.tag || f.operator !== 'EQUALS');
-  const queryNotBlank = isNotBlank(props.query);
+  const [query, setQuery] = useState('');
+  const queryNotBlank = isNotBlank(query);
   const filterSuggestionsClientSide = props.filterSuggestionsClientSide === true;
 
   if (!filterSuggestionsClientSide && queryNotBlank) {
     tagFilters.push({
       name: props.tag,
-      stringValue: props.query,
+      stringValue: query,
       operator: 'CONTAINS'
     });
   }
@@ -42,9 +44,8 @@ export default function SelectBarOverlayBehavior(props) {
         return timeout(800).flatMap(() => props.getSuggestions(getSuggestionsConfig));
       }
       return props.getSuggestions(getSuggestionsConfig);
-    }, [props.getSuggestions, queryNotBlank, filterSuggestionsClientSide]) ?? pendingResult;
+    }, [props.getSuggestions, queryNotBlank, filterSuggestionsClientSide, query]) ?? pendingResult;
 
-  const [query, setQuery] = useState('');
   // query, loading, onQueryChange, selectedItem, items, onSelectItem
   let items = emptyArray;
   if (result.data) {

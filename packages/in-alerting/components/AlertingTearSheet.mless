@@ -5,6 +5,10 @@
  */
 
 :local {
+  .outerContainer {
+    background: var(--cds-layer);
+  }
+
   .container {
     display: grid;
     height: calc(100vh - 8rem); // removing height of the carbon header (3rem)+ page header (5 rem)
@@ -13,7 +17,6 @@
     grid-template-areas:
       'sidebar content'
       'sidebar footer';
-    background: var(--ids-color-option-white);
   }
   .containerWithMsg {
     height: calc(

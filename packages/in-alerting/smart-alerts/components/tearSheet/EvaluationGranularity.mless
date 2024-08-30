@@ -13,5 +13,9 @@
     align-items: start;
     grid-template-columns: 15% 85%;
     padding-top: 1.5rem;
+
+    & > div > div {
+      padding: 0px 1.5rem !important;
+    }
   }
 }

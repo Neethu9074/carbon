@@ -6,17 +6,18 @@
 
 import React from 'react';
 
+import { number, bytes, percentagePlainTwoDecimalPlaces, seconds, millis } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { number, bytes, percentagePlainTwoDecimalPlaces } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 export default function zCicsDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
+  const isSummaryTypeREGN = snapshot.getIn(['data', 'CICSplex_Region_Overview.summary_type']) == 'REGN';
 
   return (
     <div>
@@ -45,11 +46,24 @@ export default function zCicsDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label={t('in-forge:plugins.zCics.aids')}>
           <MetricValue snapshotId={snapshotId} metric="CICSplex_Region_Overview.aids" formatter={number.compact} />
         </KpiKeyValue>
+      </KpiSection>
+      <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.zCics.ices')}>
           <MetricValue snapshotId={snapshotId} metric="CICSplex_Region_Overview.ices" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.zCics.sos')}>
-          {snapshot.getIn(['data', 'CICSplex_Region_Overview.sos'])}
+        <KpiKeyValue label={t('in-forge:plugins.zCics.totalTimesSos')}>
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="CICSplex_Region_Overview.total_times_sos"
+            formatter={number.compact}
+          />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.zCics.maxTasksReached')}>
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="CICSplex_Region_Overview.times_at_limit"
+            formatter={number.compact}
+          />
         </KpiKeyValue>
       </KpiSection>
       <Columize>
@@ -127,6 +141,55 @@ export default function zCicsDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       </Columize>
+      {isSummaryTypeREGN ? (
+        <div>
+          <Columize>
+            <DashboardSection title={t('in-forge:plugins.zCics.averageResponseTimeMs')}>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  metrics: ['CICSplex_Region_Overview.average_response_time_ms'],
+                  labels: [t('in-forge:plugins.zCics.averageResponseTimeMs')],
+                  formatter: millis.fixedCompact,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+            <DashboardSection title={t('in-forge:plugins.zCics.averageTimeUsingCpu')}>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  metrics: ['CICSplex_Region_Overview.average_time_using_cpu'],
+                  labels: [t('in-forge:plugins.zCics.averageTimeUsingCpu')],
+                  formatter: seconds.fixedCompact,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+          </Columize>
+
+          <DashboardSection title={t('in-forge:plugins.zCics.numberOfAbendedTransactions')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['CICSplex_Region_Overview.number_of_abended_transactions'],
+                labels: [t('in-forge:plugins.zCics.numberOfAbendedTransactions')],
+                formatter: number.compact,
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        </div>
+      ) : null}
     </div>
   );
 }

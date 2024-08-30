@@ -12,8 +12,8 @@ import { Card } from '@instana/components';
 //@ts-expect-error
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { number, bytes, millis, seconds } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { number, bytes } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
 import { t } from 'in-i18n';
@@ -28,6 +28,47 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
 
   return (
     <div>
+      <DashboardSection>
+        <Row verticallyStretchColumns>
+          <Col lg={6}>
+            <Card title={t('in-forge:plugins.ibmInfosphereCdcSubscription.latency')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: seconds.fixedCompact,
+                  metrics: ['sourceLatency', 'targetLatency'],
+                  labels: [
+                    t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceEngine'),
+                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetApply')
+                  ],
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          </Col>
+          <Col lg={6}>
+            <Card title={t('in-forge:plugins.ibmInfosphereCdcSubscription.networkLatency')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: millis.compact,
+                  metrics: ['sourceNetworkLatency', 'targetNetworkLatency'],
+                  labels: [
+                    t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceNetwork'),
+                    t('in-forge:plugins.ibmInfosphereCdcSubscription.targetNetwork')
+                  ],
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          </Col>
+        </Row>
+      </DashboardSection>
+
       <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceEngine')}>
         <Chart
           snapshotId={snapshotId}
@@ -98,6 +139,61 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
           </Col>
         </Row>
       </DashboardSection>
+
+      <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.rows')}>
+        <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceEngine')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: ['sourceRowsDerivedCols', 'sourceRowsCallingSource', 'sourceRowsUserExits'],
+              labels: [
+                t('in-forge:plugins.ibmInfosphereCdcSubscription.rowsEvaluatingDerivedCols'),
+                t('in-forge:plugins.ibmInfosphereCdcSubscription.rowsCallingDatabase'),
+                t('in-forge:plugins.ibmInfosphereCdcSubscription.rowsCallingUserExits')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.targetEngine')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: ['targetRowsExpressions', 'targetRowsCallingTarget', 'targetRowsUserExits'],
+              labels: [
+                t('in-forge:plugins.ibmInfosphereCdcSubscription.rowsEvaluatingExpressions'),
+                t('in-forge:plugins.ibmInfosphereCdcSubscription.rowsCallingDatabase'),
+                t('in-forge:plugins.ibmInfosphereCdcSubscription.rowsCallingUserExits')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </DashboardSection>
+
+      <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.mbcsConversions')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: bytes.compact,
+            metrics: ['sourceMbcs', 'targetMbcs'],
+            labels: [
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceEngine'),
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.targetEngine')
+            ],
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+
       <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.logParser')}>
         <Chart
           snapshotId={snapshotId}
@@ -129,10 +225,79 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
             ],
             type: 'line'
           }}
-          y2={{
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+
+      <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.communications')}>
+        <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.source')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: ['sourceMissResponse', 'keepAliveSent', 'commByteSent'],
+              labels: [
+                t('in-forge:plugins.ibmInfosphereCdcSubscription.missingRoundTripResponse'),
+                t('in-forge:plugins.ibmInfosphereCdcSubscription.keepAliveSent'),
+                t('in-forge:plugins.ibmInfosphereCdcSubscription.bytesSent')
+              ],
+              type: 'line'
+            }}
+            y2={{
+              formatter: bytes.compact,
+              metrics: ['commSourceBytes'],
+              labels: [t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceCommunicationsBytesProcessed')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.target')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: ['targetMissResponse', 'keepAliveReceived', 'commByteReceived'],
+              labels: [
+                t('in-forge:plugins.ibmInfosphereCdcSubscription.missingRoundTripResponse'),
+                t('in-forge:plugins.ibmInfosphereCdcSubscription.keepAliveReceived'),
+                t('in-forge:plugins.ibmInfosphereCdcSubscription.bytesReceived')
+              ],
+              type: 'line'
+            }}
+            y2={{
+              formatter: bytes.compact,
+              metrics: ['commTargetBytes'],
+              labels: [t('in-forge:plugins.ibmInfosphereCdcSubscription.targetCommunicationsBytesProcessed')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </DashboardSection>
+
+      <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.threadCpu')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
             formatter: number.compact,
-            metrics: ['logThreadCpu'],
-            labels: [t('in-forge:plugins.ibmInfosphereCdcSubscription.threadCpu')],
+            metrics: [
+              'sourceEngineThreadCpu',
+              'targetEngineThreadCpu',
+              'targetApplyThreadCpu',
+              'logThreadCpu',
+              'logParserThreadCpu'
+            ],
+            labels: [
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceEngine'),
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.targetEngine'),
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.targetApply'),
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.logReader'),
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.logParser')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

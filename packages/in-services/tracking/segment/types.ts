@@ -29,4 +29,6 @@ interface DataProps {
   parentPageCategory: string;
   path: string;
   CTA?: string;
+  objectType?: string;
+  processType?: string;
 }

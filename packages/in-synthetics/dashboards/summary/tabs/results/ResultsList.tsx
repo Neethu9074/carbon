@@ -145,14 +145,6 @@ let columnDefinitions: ColumnDefinition<TestResultListItem>[] = [
   }
 ];
 
-const urlStateDefinition = {
-  bind: resultsFilterUrlStateDefinition.bind,
-  reducer: (prevState: ResultsFilterState, { status, locationLabels }: ResultsCurrentState) => ({
-    status: status || prevState.status,
-    locationLabels: locationLabels || prevState.locationLabels
-  })
-};
-
 const daysRemainingColumnContent = (item: TestResultListItem) => {
   const daysRemaining = get(item, ['metrics', 'synthetic.customMetrics.daysRemaining', 0, 1]);
   return <span className={locals.metricLabel}>{daysRemaining}</span>;
@@ -170,8 +162,18 @@ export default function ResultsList({ test }: ResultListProps) {
   const isSSLCertificate = testType === 'SSLCertificate';
   const locationDisplayLabels: string[] =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels')?.split(',') ?? [];
-  const defaultOrderBy: string = getMatrixParameter(location, syntheticsDashboard, 'selectedMetric') ?? 'response_time';
-  const defaultOrderDirection: string = defaultOrderBy === 'status' ? 'ASC' : 'DESC';
+  const selectedMetric = getMatrixParameter(location, syntheticsDashboard, 'selectedMetric');
+  const defaultOrderBy: string = !selectedMetric || selectedMetric === 'response_time' ? 'response_time' : 'start_time';
+  const defaultOrderDirection: string = 'DESC';
+
+  const urlStateDefinition = {
+    bind: resultsFilterUrlStateDefinition(selectedMetric!).bind,
+    reducer: (prevState: ResultsFilterState, { status, locationLabels }: ResultsCurrentState) => ({
+      status: status || prevState.status,
+      locationLabels: locationLabels || prevState.locationLabels
+    })
+  };
+
   const [{ status, locationLabels }, setFilter] = useUrlState(urlStateDefinition);
 
   const rightHeader = (
@@ -202,7 +204,10 @@ export default function ResultsList({ test }: ResultListProps) {
       title: t('in-synthetics:dashboard.noDataAvailable.resultsTitle'),
       description: t('in-synthetics:dashboard.noDataAvailable.resultsDescription')
     }),
-    paginationResettingUrlParameters: [...timeConfigUrlParameters, resultsFilterUrlStateDefinition.bind],
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      resultsFilterUrlStateDefinition(selectedMetric!).bind
+    ],
     columnDefinitions: columnDefinitionsBasedOnType,
     defaultOrderBy,
     defaultOrderDirection,

@@ -7,7 +7,7 @@ import React, { Fragment, useState } from 'react';
 
 import { Card, Link, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import {
   showMobileAppDetailsInTraceView,

@@ -5,22 +5,6 @@
  */
 
 :local {
-  .container {
-    display: grid;
-    grid-template-columns: 39% 0.5% 50%;
-    grid-template-rows: min-content auto;
-    grid-column-gap: 2rem;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    padding: 1.5rem 0rem 0 0.75rem;
-    align-items: start;
-  }
-
-  .seperator {
-    border-right: 1px solid var(--ids-color-option-neutral-300);
-    height: 100%;
-  }
   .borderBox {
     border: 1px solid var(--ids-color-option-neutral-300);
     padding: 0.75rem;

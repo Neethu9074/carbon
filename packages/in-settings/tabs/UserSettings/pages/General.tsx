@@ -5,10 +5,9 @@
 
 import React from 'react';
 
-import { getThemeOverride, Link, setThemeOverride, Spacer, Stack, Toggle } from '@instana/components';
+import { getThemeOverride, Link, setThemeOverride, Spacer, Stack, Toggle, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { Select } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { t, Trans, supportedLanguages, activeLanguage, collationLanguage } from 'in-i18n';

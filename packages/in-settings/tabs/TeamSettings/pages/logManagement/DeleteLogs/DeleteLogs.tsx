@@ -7,10 +7,9 @@
 import React, { SetStateAction, useState } from 'react';
 
 import { DeleteLogsResult } from '@instana/types/typeDefinitions';
+import { SvgIcon, Typography, Button } from '@instana/components';
 import { DateFormatterOutput } from '@instana/format-date';
-import { SvgIcon, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { Button } from '@instana/legacy';
 
 import {
   logManagementDeleteLogsClickedTracker,
@@ -22,7 +21,6 @@ import { ModalNotification } from 'in-settings/tabs/TeamSettings/pages/logManage
 import useDeleteLogsForm from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/useDeleteLogsForm';
 import { DeletionTable } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeletionTable';
 import { NotificationState } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/types';
-import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -72,7 +70,7 @@ export default function DeleteLogs() {
 
   return (
     <>
-      <SettingsDetailPage className={locals.page}>
+      <section className={locals.page}>
         <Title title={localisationStrings.deleteLogs} />
         <section className={locals.titleSection}>
           <div>
@@ -86,7 +84,7 @@ export default function DeleteLogs() {
         <main>
           <DeletionTable isDeleting={isDeleting} />
         </main>
-      </SettingsDetailPage>
+      </section>
       {showConfirmation && (
         <DeleteLogsDialog
           setShowConfirmation={setShowConfirmation}
@@ -170,7 +168,7 @@ function DeleteLogsDialog({
           type: 'info',
           icon: 'lib_help_error_info_outline',
           content: (
-            <section className={locals.toast}>
+            <section data-testid="logDeletionSuccesToast" className={locals.toast}>
               <Typography variant="heading-200">{localisationStrings.toastSuccessTitle}</Typography>
               <Typography variant="body-regular">{localisationStrings.toastSuccessMessage}</Typography>
             </section>
@@ -201,7 +199,7 @@ function DeleteLogsDialog({
           type,
           icon,
           content: (
-            <section className={locals.toast}>
+            <section data-testid="logDeletionErrorToast" className={locals.toast}>
               <Typography variant="heading-200">{heading}</Typography>
               <Typography variant="body-regular">{message}</Typography>
             </section>
@@ -215,17 +213,17 @@ function DeleteLogsDialog({
 
   const ConfirmationButtons = (
     <>
-      <Button kind="secondary" onClick={() => closeConfirmationDialog()}>
+      <Button data-testid="deleteLogsCancelButton" kind="secondary" onClick={() => closeConfirmationDialog()}>
         {localisationStrings.cancel}
       </Button>
-      <Button onClick={handleSubmit} kind="danger">
+      <Button data-testid="deleteLogsConfirmButton" onClick={handleSubmit} kind="danger">
         {localisationStrings.deleteLogs}
       </Button>
     </>
   );
 
   const LoadingButton = (
-    <Button disabled kind="danger" className={locals.loadingButton}>
+    <Button data-testid="deleteLogsLoadingButton" disabled kind="danger" className={locals.loadingButton}>
       <SvgIcon color={themes.default.ids.color.option.blue['500']} spinning type="lib_actions_loading" />
       {localisationStrings.deleteLogs}
     </Button>
@@ -251,9 +249,11 @@ function DeleteLogsDialog({
           <Label htmlFor="deletionUntilTime">
             {localisationStrings.deletionUntilTime}
             <TimeInput
+              disabled={isDeleting}
               hasError={!!dateTimeValidationMessage}
               value={timeInputValue as string}
               onChange={e => setTimeInputValue(e)}
+              fullWidth
             />
           </Label>
         </section>

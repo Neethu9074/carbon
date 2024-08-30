@@ -8,13 +8,16 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 
-import { ApplicationAlertConfigWithMetadata, GlobalApplicationsAlertConfigWithMetadata } from '@instana/types';
 import { createLogger } from '@instana/logger';
 
 import {
   enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError,
   EnrichedError
 } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import {
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import {
   createGlobalAlertConfig,
   updateGlobalAlertConfig
@@ -104,8 +107,8 @@ export default function AlertConfigTearSheet() {
       <AlertConfigTearSheetContent
         alertConfig={
           applicationSmartAlertConfig as unknown as
-            | GlobalApplicationsAlertConfigWithMetadata
-            | ApplicationAlertConfigWithMetadata
+            | GlobalApplicationsSmartAlertConfigWithMetadata
+            | ApplicationSmartAlertConfigWithMetadata
         }
         scopeMigrationDetails={scopeMigrationDetails}
         location={location}
@@ -119,7 +122,7 @@ export type ScopeMigrationDetailsType = {
   query?: string;
 };
 interface AlertConfigTearSheetContentProps {
-  alertConfig: GlobalApplicationsAlertConfigWithMetadata | ApplicationAlertConfigWithMetadata;
+  alertConfig: GlobalApplicationsSmartAlertConfigWithMetadata | ApplicationSmartAlertConfigWithMetadata;
   scopeMigrationDetails?: ScopeMigrationDetailsType;
   location: Location;
 }
@@ -137,7 +140,7 @@ function AlertConfigTearSheetContent({
   const duplicateFrom = (alertConfig as any)?.duplicateFrom;
 
   const [form, setForm] = useState(() =>
-    createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert)
+    createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert, true)
   );
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
@@ -159,7 +162,7 @@ function AlertConfigTearSheetContent({
   }, [migrationMode]);
 
   useEffect(() => {
-    setForm(createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert));
+    setForm(createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert, true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editMode]);
 

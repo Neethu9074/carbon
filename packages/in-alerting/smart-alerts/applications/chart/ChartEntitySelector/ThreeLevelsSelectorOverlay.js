@@ -12,7 +12,6 @@ import { SearchInput } from '@instana/components';
 import useLazyLoadingOfNodeChildren from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/useLazyLoadingOfNodeChildren';
 import EntityItemNode from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntityItemNode';
 import SlideInView, { ListHeader, NoHeader } from 'in-components/SlideInView/SlideInView';
-import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
@@ -398,7 +397,7 @@ function Loading({ loading }) {
 }
 
 ThreeLevelsSelectorOverlay.propTypes = {
-  options: nodeArrayPropType.isRequired,
+  options: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
   onQueryChange: PropTypes.func.isRequired

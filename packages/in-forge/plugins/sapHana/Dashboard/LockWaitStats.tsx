@@ -9,9 +9,14 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
+// @ts-expect-error Module needs to be translated to TS
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, millis } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -107,7 +112,42 @@ export default function LockWaitStatsList({ snapshotId, timeConfig }: LockWaitSt
         lockWaitStats
       };
     });
-
+  function getDetails(row: LockWaitStatsRow) {
+    return (
+      <div>
+        <Columize>
+          <DashboardSection>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: [`lockWaitStats.${row.key}.totalLockWaits`],
+                labels: [t('in-forge:plugins.sapHana.dashboard.totalLockWaits')],
+                type: 'line',
+                formatter: number.compact
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+          <DashboardSection>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: [`lockWaitStats.${row.key}.totalLockWaitTime`],
+                labels: [t('in-forge:plugins.sapHana.dashboard.totalLockWaitTime')],
+                type: 'line',
+                formatter: millis.detailed
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        </Columize>
+      </div>
+    );
+  }
   return (
     <Table
       withoutPadding
@@ -115,6 +155,7 @@ export default function LockWaitStatsList({ snapshotId, timeConfig }: LockWaitSt
       cols={cols}
       rows={rows}
       initialSortColumn={3}
+      getRowDetails={getDetails}
       initialSortDirection="desc"
     />
   );

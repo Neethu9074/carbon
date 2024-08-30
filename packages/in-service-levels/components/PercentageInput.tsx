@@ -14,6 +14,8 @@ interface PercentageInputProps {
   hasError?: boolean;
   decimalPrecision?: number;
   className?: string;
+  min?: number;
+  max?: number;
 }
 
 export default function PercentageInput({
@@ -22,7 +24,9 @@ export default function PercentageInput({
   onChange,
   decimalPrecision = 4,
   hasError,
-  className
+  className,
+  min = 0,
+  max = 100
 }: PercentageInputProps) {
   const displayValue = formatNumber(value, decimalPrecision);
 
@@ -44,8 +48,8 @@ export default function PercentageInput({
         onChange(newValue);
       }}
       hasError={hasError}
-      min="0"
-      max="100"
+      min={min}
+      max={max}
       step={getStepSize(displayValue)}
     />
   );
@@ -73,6 +77,11 @@ function round(value: number | string, decimals: number): number {
 }
 
 function truncate(value: number, digitsDecimalPrecision: number): number {
-  const trucatedNumber = value.toString().slice(0, value.toString().indexOf('.') + (digitsDecimalPrecision + 1));
-  return Number.parseFloat(trucatedNumber);
+  const stringValue = value.toString();
+  const dotPosition = stringValue.indexOf('.');
+
+  if (dotPosition === -1) return Number.parseFloat(stringValue);
+
+  const truncatedNumber = stringValue.slice(0, dotPosition + (digitsDecimalPrecision + 1));
+  return Number.parseFloat(truncatedNumber);
 }

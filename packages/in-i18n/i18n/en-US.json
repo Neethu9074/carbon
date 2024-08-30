@@ -1,5 +1,13 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "Main navigation"
+    },
+    "expandableGroup": {
+      "tooltipShowContent": "Show content",
+      "tooltipHideContent": "Hide content",
+      "labelExpandButtonForContent": "Expand button for content"
+    },
     "list": {
       "loadMore": "Load More",
       "toggleExtraContent": "Toggle extra content",
@@ -11,13 +19,35 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "Load More"
-      }
+      },
+      "dataTable": "Data table"
+    },
+    "tableSkeleton": {
+      "sampleTable": "Sample table"
     },
     "code": {
       "copy": "Copy",
       "copied": "Copied!",
       "showMore": "Show more",
       "showLess": "Show less"
+    },
+    "menu": {
+      "sideNavigation": "Side navigation"
+    },
+    "carbonTabs": {
+      "tabs": "Tabs"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "data table toolbar"
+      },
+      "tableTabs": {
+        "listOfTabs": "List of tabs"
+      }
+    },
+    "pill": {
+      "privatePreview": "Preview",
+      "publicPreview": "Preview"
     }
   },
   "formatDate": {
@@ -49,6 +79,7 @@
   "forms": {
     "actions": {
       "save": "Save",
+      "saveIntegration": "Save and enable",
       "cancel": "Cancel",
       "create": "Create",
       "delete": "Delete",
@@ -83,6 +114,7 @@
   "aggregation_MAX": "max",
   "aggregation_DISTINCT_COUNT": "distinct count",
   "aggregation_SUM": "sum",
+  "aggregation_INCREASE": "increase",
   "aggregation_DISTRIBUTION": "distribution",
   "aggregation_PER_SECOND": "per second"
 }

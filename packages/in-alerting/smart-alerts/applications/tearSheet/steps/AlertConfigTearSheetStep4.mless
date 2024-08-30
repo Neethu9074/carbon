@@ -10,8 +10,12 @@
     grid-column-gap: 1rem;
     grid-row-gap: 0.5rem;
     width: 100%;
-    align-items: center;
+    align-items: flex-start;
     padding-top: 1.5rem;
+  }
+
+  .alignCenter {
+    align-items: center;
   }
 
   .container60_40 {
@@ -54,7 +58,7 @@
   }
 
   .longLabel {
-    width: 9.5rem;
+    width: 10rem;
   }
 
   .content {
@@ -79,5 +83,10 @@
   .seperator {
     border-right: 1px solid var(--ids-color-option-neutral-300);
     height: 100%;
+  }
+
+  .recalButtonWidth {
+    width: 8.125rem;
+    font-size: var(--ids-font-size-option-body-small);
   }
 }

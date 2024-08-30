@@ -7,12 +7,12 @@
     "trialExpirationPopUpDescription": "Data collection has ended. You can continue using the product for another 7 days. After 7 days, you will not be able to access the trial. If you plan to purchase the product, we can retain your data for another 2 weeks.",
     "trialExpirationPopUpDescriptionAfterSevenDays": "Thanks for exploring Instana! You have reached the end of your trial and can no longer access the product."
   },
-  "buyNowDialog":{
+  "buyNowDialog": {
     "title": "Flexible billing based on your usage",
     "cancelbtn": "Cancel",
     "subHeading": "Now with the PayPerUse option, you’ll only be billed for what you use.",
     "sidePanelTitle": "Still not sure if you want a subscription?",
-    "sidePanelDescription": "We’re here to help find the perfect option for you." ,
+    "sidePanelDescription": "We’re here to help find the perfect option for you.",
     "mainBodyTitle1": "Automation, context and intelligent action with IBM Instana Observability",
     "mainBodyDescription1": "Our industry-leading, one-second granularity and comprehensive request tracing guarantee that no issue escapes detection. Gain full-stack visibility across application code, Kubernetes containers, and microservices with user-friendly dashboards and SmartAlerts™ for tailored alerting. Seamlessly integrated into AWS, Instana supports over 300 technologies, providing worry-free performance monitoring for containerized applications on Amazon AWS.",
     "mainBodyTitle2": "Introducing PayPerUse",
@@ -30,7 +30,7 @@
     "serviceDescription": "Service description.",
     "mvs": "†Managed Virtual Server (MVS) is a unit of measure by which Instana can be licensed. Learn more about MVS ",
     "here": "here."
-   },
+  },
   "licenseBanner": {
     "requestQuoteBtn": "Request a quote",
     "buyNow": "Buy now",
@@ -39,7 +39,7 @@
     "alreadyHaveLicense": "Already have a license? Activate it on <linkToDocker>Docker</linkToDocker> or <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Get answers",
     "share": "Share",
-    "shareTooltip":"Share this page with colleagues and invite them to collaborate in Instana.",
+    "shareTooltip": "Share this page with colleagues and invite them to collaborate in Instana.",
     "titleDetail": {
       "trial": "Trial",
       "sandboxTrial": "Sandbox trial"
@@ -47,8 +47,8 @@
   },
   "playwithinstana": {
     "content": "Ready to monitor your own environment",
-    "bookdemo": " Book a demo",
-    "freetrial": " Free trial",
+    "bookdemo": " Book a live demo",
+    "freetrial": " Try it Free",
     "taketour": " Take a tour"
   },
   "agentDetails": {
@@ -294,8 +294,7 @@
       "vmwareTanzuNetworkLink": "VMware Tanzu network link",
       "reviewThePrerequisites": "Review the prerequisites",
       "installingTheInstanaAgent": "Installing the Instana Agent",
-      "vmwareTanzuDocumentation": "VMware Tanzu documentation",
-      "vmwareTanzuNetwork": "VMware Tanzu network",
+      "installingAndConfiguringMicroservicesApplicationsMonitoring": "Installing and configuring microservices applications monitoring",
       "addTileToOpsManagerAndConfigureIt": "Add the tile to Ops Manager and configure it",
       "addInstanaApplicationMonitoring": "Add the \"Instana Microservices Application Monitoring\" tile to your Ops Manager and apply the following to the \"Backend configuration\" tab of the tile.",
       "nameYourVmwareFoundation": "Name your VMware Tanzu foundation",
@@ -364,6 +363,7 @@
           "linux64BitAmd": "Linux (64Bit - AMD)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
           "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC Little Endian)",
+          "linuxS390XJdkNotIncluded": "Linux (64Bit - s390x) JDK not included",
           "linuxS390X": "Linux (64Bit - s390x)",
           "linuxX8664": "Linux (64Bit - x86_64)",
           "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
@@ -406,6 +406,22 @@
         "configurationParameters": "Configuration Parameters"
       }
     },
+    "ibmi": {
+      "ibmi": "IBM i",
+      "os": "OS",
+      "archiveTarGz": "Archive (tar.gz)",
+      "archive": {
+        "selectTheAgentPackagingMode": "Step 1: Select the agent packaging mode",
+        "selecTthePlatformArchitecture": "Step 2: Select the platform architecture",
+        "platformArchitecture": "Platform architecture",
+        "beforeYouInstall": "Before you Install",
+        "installingManually": "Installing Manually",
+        "startingTheAgent": "Starting the Agent",
+        "agentOptions": {
+          "ibmi64Bit": "IBM i"
+        }
+      }
+    },
     "openshift": {
       "documentLinks": {
         "installOperatorByUsingOlm": "Installing Operator by using OLM",
@@ -437,7 +453,18 @@
       "reviewPrerequisitesAndConfigureContainerApps": "Review the prerequisites and configure your Azure Container Apps for tracing.",
       "containerAppSetEnvironmentVariables": "Set the following environment variables while creating an Azure Container App.",
       "monitoringAzure": "Monitoring and instrumenting Microsoft Azure with Azure agent",
-      "monitoringAzureContainerApps": "Monitoring Azure Container Apps"
+      "monitoringAzureContainerApps": "Monitoring Azure Container Apps",
+      "selectAzureAppServiceRuntime": "Select Azure App Service runtime.",
+      "nodejs": {
+        "reviewPrerequisitesAndInstallAppService": "Review the prerequisites and Install the collector.",
+        "monitoringAppService": "Monitoring Azure App Service for Node.js",
+        "referenceAppServiceDocumentationContent": "Review the prerequisites and follow the installation guide for installing collector. For detailed instructions, refer to the <azureAppServiceDoc>documentation</azureAppServiceDoc>.",
+        "activatingAppService": "Activating the collector.",
+        "appName": "App Name",
+        "resourceGroupName": "Resource Group Name",
+        "activatingAppServiceContent": "Example Azure CLI command for an ECMAScript module application using Node.js v18.19 or later:",
+        "activatingAppServiceNote": "Please update the NODE_OPTIONS value to match the correct setting for your configuration. Refer to the <azureAppServiceEnableCollectorDoc>documentation</azureAppServiceEnableCollectorDoc> for the guidance."
+      }
     },
     "gcp": {
       "dockerBuild": "Docker build",
@@ -499,7 +526,7 @@
     "smartAlerts": {
       "title": "Get alerted",
       "description": "Configure alerts easily with predefined blueprints for both simple and advanced customization.",
-      "buttonName": "Set up smart alerts"
+      "buttonName": "Set up Smart Alerts"
     },
     "startMonitoring": {
       "title": "Monitor your environment",
@@ -514,21 +541,24 @@
     "component": {
       "applicationWidget": {
         "label": "Applications",
-        "addLabel": "Add application",
         "name": "Name",
         "calls": "Calls",
         "scope": "Scope",
         "latency": "Latency",
         "erroneousCallRate": "Erroneous call rate",
-        "openCreationDialog": "Open Creation Dialog",
-        "health": "Health"
+        "openCreationDialog": "Open creation dialog",
+        "health": "Health",
+        "searchPlaceholderLabel": "applications",
+        "addButtonLabel": "application",
+        "viewAllLabel": "applications"
       },
       "eventWidget": {
         "label": "Events",
+        "viewAllLabel": "events",
         "incidents": "Incidents",
         "critical": "Critical",
         "warning": "Warning",
-        "viewEvents": "View Events"
+        "viewEvents": "View events"
       },
       "platformWidget": {
         "platforms": "Platforms",
@@ -540,7 +570,6 @@
         "powervcRegion": "PowerVC Region",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
-        "kubernetes": "Kubernetes",
         "gke": "Google Kubernetes Engine",
         "eks": "Amazon Elastic Kubernetes Service",
         "name": "Name",
@@ -548,79 +577,114 @@
         "namespaces": "Namespaces",
         "pods": "Pods",
         "health": "Health",
-        "platform": "Platform"
-
+        "vMs": "VMs",
+        "systems": "Systems",
+        "instances": "Instances",
+        "partitions": "Partitions",
+        "memoryLimit": "Memory Limit",
+        "adapters": "Adapters",
+        "vios": "Virtual I/O Server",
+        "memoryUsage": "Memory Usage",
+        "cpuUsage": "CPU Usage",
+        "esXiHosts": "ESXi Host",
+        "searchPlaceholderLabel": "platforms",
+        "viewAllLabel": "platforms"
       },
       "bizopsWidget": {
-        "label": "Business Monitoring",
+        "label": "Business monitoring",
         "name": "Name",
         "activities": "Activities",
         "views": "Views",
-        "health": "Health"
+        "health": "Health",
+        "searchPlaceholderLabel": "business processes",
+        "viewAllLabel": "business processes"
       },
       "incidentsWidget": {
         "label": "Incidents",
         "active": "active",
         "title": "Title",
         "on": "On",
-        "started": "Started",
+        "started": "Start",
         "end": "End",
-        "health": "Status"
+        "severity": "Severity",
+        "searchPlaceholderLabel": "incidents",
+        "viewAllLabel": "incidents"
       },
       "websitesWidget": {
         "label": "Websites",
         "name": "Name",
         "pageViews": "Page views",
         "onLoadTimes": "OnLoad times",
-        "addLabel": "Add website",
-        "health": "Health"
+        "health": "Health",
+        "searchPlaceholderLabel": "websites",
+        "addButtonLabel": "website",
+        "viewAllLabel": "websites"
       },
       "mobileAppsWidget": {
-        "label": "Mobile Apps",
+        "label": "Mobile apps",
         "name": "Name",
         "sessions": "Sessions",
         "views": "Views",
-        "addLabel": "Add mobile app",
-        "health": "Health"
+        "health": "Health",
+        "searchPlaceholderLabel": "mobile apps",
+        "addButtonLabel": "mobile app",
+        "viewAllLabel": "mobile apps"
       },
       "infrastructureWidget": {
         "label": "Infrastructure",
         "mean": "mean",
         "name": "Name",
         "os": "OS",
+        "zones": "Zones",
+        "hosts": "Hosts",
         "technologies": "Technologies",
         "cpuNum": "Number of CPUs",
-        "cpuUsage": "CPU Usage",
+        "cpuUsage": "CPU usage",
         "created": "Created",
         "started": "Started",
-        "health": "Health"
+        "health": "Health",
+        "hostSearchPlaceholderLabel": "hosts",
+        "hostViewAllLabel": "hosts",
+        "containersSearchPlaceholderLabel": "containers",
+        "containersViewAllLabel": "containers",
+        "processesSearchPlaceholderLabel": "processes",
+        "processesViewAllLabel": "processes"
       },
       "syntheticWidget": {
-        "label": "Synthetic Monitoring",
-        "addLabel": "Add synthetic monitoring",
+        "label": "Synthetic monitoring",
         "na": "N/A",
         "name": "Name",
         "type": "Type",
-        "successRate": "Success Rate",
+        "successRate": "Success rate",
         "latency": "Latency",
         "lastTestRunOn": "Last test run on",
         "version": "Version",
         "timeThreshold": "Time threshold",
         "testsApplied": "Tests applied",
-        "health": "Health"
+        "health": "Health",
+        "testSearchPlaceholderLabel": "synthetic tests",
+        "testAddButtonLabel": "synthetic test",
+        "testViewAllLabel": "synthetic tests",
+        "locationsSearchPlaceholderLabel": "synthetic locations",
+        "locationsViewAllLabel": "synthetic locations",
+        "smartalertsSearchPlaceholderLabel": "synthetic Smart Alerts",
+        "smartalertsAddButtonLabel": "synthetic Smart Alert",
+        "smartalertsViewAllLabel": "synthetic Smart Alerts"
       },
       "dashboardWidget": {
         "label": "My custom dashboards",
         "name": "Name",
         "owner": "Owner",
         "permissions": "Permissions",
-        "addLabel": "Add dashboard"
+        "searchPlaceholderLabel": "dashboards",
+        "addButtonLabel": "dashboard",
+        "viewAllLabel": "dashboards"
       }
     },
     "noData": {
       "applicationWidget": {
         "header": "No applications",
-        "description": "Create your own perspective on the services you want to observe.",
+        "description": "Create your own application perspective on the services you want to observe.",
         "buttonName": "Create application perspective"
       },
       "incidentsWidget": {
@@ -629,46 +693,73 @@
       },
       "websitesWidget": {
         "header": "No websites",
-        "description": "Add websites and start to collect data",
+        "description": "Collect website data to understand your user's digital experience.",
         "buttonName": "Add website"
       },
       "mobileListWidget": {
         "header": "No mobiles apps",
-        "description": "Add mobile applications and start to collect data.",
+        "description": "Collect mobile app data to understand your user's digital experience.",
         "buttonName": "Add mobile applications"
       },
       "infrastructureWidget": {
-        "header": "No hosts, containers or processes",
-        "description": "Find the result of the deployed agent here."
+        "description": "Deploy an agent to see the details here.<br>Get started on the <linkToAgents>Agents</linkToAgents> page.",
+        "link": "Agents",
+        "hosts": {
+          "header": "No hosts"
+        },
+        "docker": {
+          "header": "No containers"
+        },
+        "process": {
+          "header": "No processes"
+        }
       },
       "platformsWidget": {
         "header": "No platforms",
-        "description": "Find all installed platforms here."
+        "description": "There are no platforms to display yet."
       },
       "businessMonitoringWidget": {
         "header": "No business processes",
-        "description": "Enable the IBM Business Automation Workflow or configure Instana to capture and store business data from business processes."
+        "description": "Configure Instana to capture and store data from your business procesess."
       },
       "syntheticWidget": {
         "test": {
-          "header": "No Synthetic tests",
-          "description": "Configure Synthetic tests to run at specific continuous intervals.",
+          "header": "No synthetic tests",
+          "description": "Configure synthetic tests to run at specific continuous intervals.",
           "buttonName": "Add Synthetic test"
         },
         "location": {
-          "header": "No Synthetic location",
-          "description": "Configure Synthetic location to run at specific continuous intervals."
+          "header": "No synthetic locations",
+          "description": "Configure a synthetic location where your synthetic tests will run."
         },
         "smartalerts": {
-          "header": "No Synthetic smartalerts",
-          "description": "Configure Synthetic smartalerts to run at specific continuous intervals.",
-          "buttonName": "Add Synthetic smartalerts"
+          "header": "No synthetic Smart Alerts",
+          "description": "Configure Smart Alerts for synthetics to send an alert if the test for a location fails.",
+          "buttonName": "Add Synthetic smart alerts"
         }
+      },
+      "eventsWidget": {
+        "header": "No events",
+        "description": "There may be no events or incidents to display or you may need to set up data first."
       },
       "dashboardWidget": {
         "header": "No custom dashboards",
         "description": "Create your own custom dashboard.",
         "buttonName": "Create custom dashboard"
+      }
+    },
+    "quickLinks": {
+      "iconDescriptions": {
+        "settings": "Settings",
+        "user": "User",
+        "externalLink": "External Link",
+        "resultNew": "Result New"
+      },
+      "buttonNames": {
+        "deployAgent": "Deploy agent",
+        "addUser": "Add user",
+        "documentation": "IBM documentation",
+        "releaseNotes": "Release notes"
       }
     },
     "ariaLabel": {
@@ -685,37 +776,45 @@
   },
   "assistme": {
     "dataSearchContext": {
-    "gettingStarted": "getting started",
-    "websites": "websites",
-    "mobileApps":"mobile app",
-    "businessMonitoring": "business monitoring",
-    "application":"application",
-    "smartAlerts": "smart alerts",
-    "infrastructureMap": "map",
-    "cloudFoundry": "monitoring cloud foundry",
-    "powerHmc": " monitoring IBM power",
-    "kubernetes":"kubernetes",
-    "sap": "monitoring SAP",
-    "synthetic": "synthetic monitoring",
-    "syntheticAlerts": "synthetic alerts",
-    "syntheticPop":"synthetic PoP",
-    "serviceLevel": "service level",
-    "installAgent": "install agent",
-    "analyzeCalls": "analyzing traces and calls",
-    "settingsTab": "managing user access",
-    "userSettings": "user settings",
-    "authSettings": "configuring authentication",
-    "auditLogs": "viewing audit logs",
-    "automation": "managing actions",
-    "customEvents":"defining custom events",
-    "configuringAlerts": "configuring alerts",
-    "alertChannel": "alert channels",
-    "maintenanceWindow":"scheduling",
-    "customPayload": "custom payload",
-    "eventsPage": "managing events",
-    "logManagement": "logging",
-    "configuringAndMonitoring":"configuring and monitoring",
-    "customDashboard": "custom dashboard"
+      "gettingStarted": "getting started",
+      "websites": "websites",
+      "mobileApps": "mobile app",
+      "businessMonitoring": "business monitoring",
+      "application": "application",
+      "smartAlerts": "smart alerts",
+      "infrastructureMap": "map",
+      "cloudFoundry": "monitoring cloud foundry",
+      "powerHmc": " monitoring IBM power",
+      "kubernetes": "kubernetes",
+      "sap": "monitoring SAP",
+      "synthetic": "synthetic monitoring",
+      "syntheticAlerts": "synthetic alerts",
+      "syntheticPop": "synthetic PoP",
+      "serviceLevel": "service level",
+      "installAgent": "install agent",
+      "analyzeCalls": "analyzing traces and calls",
+      "settingsTab": "managing user access",
+      "userSettings": "user settings",
+      "authSettings": "configuring authentication",
+      "auditLogs": "viewing audit logs",
+      "automation": "managing actions",
+      "customEvents": "defining custom events",
+      "configuringAlerts": "configuring alerts",
+      "alertChannel": "alert channels",
+      "maintenanceWindow": "scheduling",
+      "customPayload": "custom payload",
+      "eventsPage": "managing events",
+      "logManagement": "logging",
+      "configuringAndMonitoring": "configuring and monitoring",
+      "customDashboard": "custom dashboard"
     }
+  },
+  "userGoalSelectionDialog": {
+    "title": "What are your goals?",
+    "description": "Welcome to Instana! Help us provide a better experience by sharing your primary goals for this trial. Select all that apply.",
+    "skip": "Skip",
+    "done": "Done",
+    "otherGoalPlaceholder": "For example, Gain visibility across my environment",
+    "otherGoalToAccomplish": "What other goals are you trying to accomplish?"
   }
 }

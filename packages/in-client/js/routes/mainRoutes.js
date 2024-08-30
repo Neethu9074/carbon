@@ -92,8 +92,7 @@ export default (
     {hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {integrationRoutes}
     {customDashboardsRoutes}
-    {welcomePageV2Enabled && welcomePageRoutes}
-    {!welcomePageV2Enabled && cockpitRoutes}
+    {welcomePageV2Enabled ? welcomePageRoutes : cockpitRoutes}
     {profilingRoutes}
     {loggingRoutes}
     {deepLinkRoutes}

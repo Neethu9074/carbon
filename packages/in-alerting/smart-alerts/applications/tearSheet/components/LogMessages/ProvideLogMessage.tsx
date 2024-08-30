@@ -88,7 +88,7 @@ export default function ProvideLogMessage({ form, updateForm }: ProvideLogMessag
           <FormGroup>
             <DebouncedTextArea
               name={'ruleMessage'}
-              rows="3"
+              rows={3}
               value={field.value}
               onValueChange={(value: string) => {
                 updateForm(

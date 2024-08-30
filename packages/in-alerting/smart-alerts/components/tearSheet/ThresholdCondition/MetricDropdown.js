@@ -20,6 +20,7 @@ export default function MetricDropdown({ alertType, updateForm, form, blueprintC
     return (
       <Select
         value={metricName}
+        id="metric-selector"
         onChange={e => {
           updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(e.target.value).setTouched(true)));
         }}
@@ -44,6 +45,7 @@ export default function MetricDropdown({ alertType, updateForm, form, blueprintC
       <Select
         value={metricName}
         items={ruleMetricNameOptions.statusCode}
+        id="metric-selector"
         onChange={e => {
           updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(e.target.value).setTouched(true)));
         }}
@@ -61,6 +63,7 @@ export default function MetricDropdown({ alertType, updateForm, form, blueprintC
     return (
       <Select
         value={getAggregationValue(form)}
+        id="metric-selector"
         items={getAggregationOptions(form)}
         onChange={e => {
           updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(e.target.value).setTouched(true)));

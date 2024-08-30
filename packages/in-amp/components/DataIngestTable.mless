@@ -4,7 +4,13 @@
  */
 
 :local {
-  .rightAlign {
-    text-align: right;
+  .consumptionOverview {
+    th,
+    td {
+      padding: 0 0.9rem;
+    }
+    section {
+      display: none;
+    }
   }
 }

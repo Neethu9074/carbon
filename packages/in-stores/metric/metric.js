@@ -6,11 +6,15 @@
 
 import { just } from '@instana/observables';
 
-import { beeInstanaInfraMetricsEnabled, highResolutionInfrastructureMetricsEnabled } from 'in-services/featureFlags';
+import {
+  beeInstanaInfraMetricsEnabled,
+  highResolutionInfrastructureMetricsEnabled,
+  increaseAggregationEnabled
+} from 'in-services/featureFlags';
+import { fixateTimeConfig, timeConfig$, timeConfigShiftedForIngestion } from 'in-stores/time/config';
 import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricAggregation';
 import createLatestMetricsObservable from 'in-subscription/latestMetrics';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
-import { fixateTimeConfig, timeConfig$ } from 'in-stores/time/config';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { days, hours, minutes, seconds } from 'in-services/time';
 import createMetricsObservable from 'in-subscription/metrics';
@@ -30,12 +34,13 @@ export const aggregationLabels = {
   MAX: t('aggregation', { context: 'MAX' }),
   DISTINCT_COUNT: t('aggregation', { context: 'DISTINCT_COUNT' }),
   SUM: t('aggregation', { context: 'SUM' }),
+  ...(increaseAggregationEnabled && { INCREASE: t('in-stores:metric.metric', { context: 'INCREASE' }) }),
   DISTRIBUTION: t('aggregation', { context: 'DISTRIBUTION' }),
   PER_SECOND: t('aggregation', { context: 'PER_SECOND' })
 };
 
 export function hasIcon(aggregation) {
-  return aggregation !== 'PER_SECOND';
+  return aggregation !== 'PER_SECOND' || aggregation !== 'INCREASE';
 }
 
 export const aggregationIcons = {
@@ -132,8 +137,8 @@ function resolveTimeConfigAndRollup(createFn) {
   return ({ timeConfig, rollup, ...rest }) =>
     resolveTimeConfig(timeConfig).flatMap(timeConfig =>
       createFn({
-        timeConfig,
-        rollup: resolveRollup(rollup, timeConfig),
+        timeConfig: timeConfigShiftedForIngestion(timeConfig),
+        rollup: getInfraGranularity(timeConfig, rollup),
         ...rest
       })
     );
@@ -147,11 +152,6 @@ function resolveTimeConfig(timeConfig) {
   }
 }
 
-function resolveRollup(rollup, timeConfig) {
-  const nonBeeInstantRollup = rollup || getInfraGranularity(timeConfig);
-  return nonBeeInstantRollup;
-}
-
 export const getMetric = memoize(
   ({ snapshotId, metric, timeWindowAggregation, forceTimeWindowAggregation, timeConfig, rollup, windowForLatest }) => {
     if (!timeWindowAggregation) {
@@ -161,17 +161,13 @@ export const getMetric = memoize(
     return showAggregations$
       .flatMap(showAggregations => {
         if (showAggregations || forceTimeWindowAggregation) {
-          return getTimeWindowBasedMetricAggregation({
-            snapshotId: snapshotId,
-            metric: metric,
-            timeWindowAggregation: timeWindowAggregation
-          });
+          return getTimeWindowBasedMetricAggregation({ snapshotId, metric, rollup, timeWindowAggregation });
         }
 
         if (timeConfig) {
           return getHistoricMetric({ snapshotId, metric, timeConfig, rollup, windowForLatest }).map(v => v[1]);
         }
-        return getMetricForFocusedMoment({ snapshotId, metric, windowForLatest }).map(v => v[1]);
+        return getMetricForFocusedMoment({ snapshotId, metric, rollup, windowForLatest }).map(v => v[1]);
       })
       .distinct();
   },
@@ -186,29 +182,18 @@ export const getMetric = memoize(
 );
 
 export const getMetricForFocusedMoment = memoize(
-  ({ snapshotId, metric, windowForLatest }) => {
-    return getLatestMetrics({
-      snapshotId,
-      metric,
-      windowForLatest
-    });
+  ({ snapshotId, metric, windowForLatest, rollup }) => {
+    return getLatestMetrics({ snapshotId, metric, rollup, windowForLatest });
   },
   ({ snapshotId, metric }) => snapshotId + metric,
   500
 );
 
 export function getHistoricMetric({ snapshotId, metric, timeConfig, rollup, windowForLatest }) {
-  let rollup$;
-  if (arguments.length == 3 || rollup == undefined || rollup == null) {
-    rollup$ = getInfraGranularity(timeConfig);
-  } else {
-    rollup$ = rollup;
-  }
-
   return getLatestMetrics({
     snapshotId,
     metric,
-    rollup: rollup$,
+    rollup,
     timeConfig,
     windowForLatest
   });
@@ -278,22 +263,20 @@ export function getPixelAwareRollupSize(timeConfig, pixels) {
   return getInfraGranularity(timeConfig, MINIMUM_INFRA_GRANULARITY, maxNumberOfDataPoints);
 }
 
-export function getTimeWindowBasedMetricAggregation({ snapshotId, metric, timeWindowAggregation, timeConfig }) {
+export function getTimeWindowBasedMetricAggregation({ snapshotId, metric, rollup, timeWindowAggregation, timeConfig }) {
   return timeConfig
-    ? getTimeWindowMetricAggregationSubscription(timeConfig, snapshotId, metric, timeWindowAggregation)
+    ? getTimeWindowMetricAggregationSubscription(timeConfig, snapshotId, metric, rollup, timeWindowAggregation)
     : timeConfig$.flatMap(_timeConfig =>
-        getTimeWindowMetricAggregationSubscription(_timeConfig, snapshotId, metric, timeWindowAggregation)
+        getTimeWindowMetricAggregationSubscription(_timeConfig, snapshotId, metric, rollup, timeWindowAggregation)
       );
 }
 
-function getTimeWindowMetricAggregationSubscription(timeConfig, snapshotId, metric, timeWindowAggregation) {
-  const rollup = getInfraGranularity(timeConfig);
-
+function getTimeWindowMetricAggregationSubscription(timeConfig, snapshotId, metric, rollup, timeWindowAggregation) {
   return createTimeWindowMetricAggregation({
     snapshotId,
     metric,
     timeConfig,
-    rollup,
+    rollup: getInfraGranularity(timeConfig, rollup),
     timeWindowAggregation
   });
 }

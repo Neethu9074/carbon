@@ -52,7 +52,7 @@ export default function TopActivities({ businessProcessId, businessProcessName }
   const timeConfig = useTimeConfig();
   return (
     <TopListWithUrlState
-      metrics={['call_latency', 'call_count', 'erroneous_call_rate']}
+      metrics={['callLatency', 'callCount', 'erroneousCallRate']}
       title={t('in-bizops:dashboards.summary.widgets.topActivities')}
       labels={labels}
       formatters={[millis.fixedCompact, number.compact, percentage.detailed]}
@@ -125,15 +125,15 @@ function getList({ businessProcessId, timeConfig, selectedMetric }: GetListProps
   return getBusinessActivities({
     dataType: 'ACTIVITY',
     metrics: {
-      call_latency: {
+      callLatency: {
         metric: 'call_latency',
         aggregation: 'MEAN'
       },
-      call_count: {
+      callCount: {
         metric: 'call_count',
         aggregation: 'SUM'
       },
-      erroneous_call_rate: {
+      erroneousCallRate: {
         metric: 'erroneous_call_rate',
         aggregation: 'SUM'
       }

@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
 
-  "ignorePaths":  ["**/packages/**", "**/node_modules/**", "**/storybook/**"],
+  "ignorePaths":  ["**/packages/**", "**/node_modules/**"],
 
   "extends": [
     "helpers:disableTypesNodeMajor"

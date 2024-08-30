@@ -9,7 +9,7 @@ import React from 'react';
 
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import {
   track,
@@ -73,15 +73,9 @@ export default connectTo(
   },
   function AgentView({ agentSnapshotsResult, accountConfig }) {
     const unitKeys = useObservable(getUnitKeys(), []) ?? '{agentKey:AGENT_KEY,downloadKey:DOWNLOAD_KEY}';
-    if (
-      !accountConfig ||
-      !agentSnapshotsResult ||
-      agentSnapshotsResult.getIn(['progress', 'loading']) ||
-      agentSnapshotsResult.getIn(['errors']).length > 0
-    ) {
+    if (!accountConfig) {
       return <LoadingIndicator type="dark" />;
     }
-    const agentSnapshots = agentSnapshotsResult.getIn(['data']);
 
     return (
       <>
@@ -136,7 +130,6 @@ export default connectTo(
                       }
                     ]}
                     renderButtonLine={renderButtonLine}
-                    agentSnapshots={agentSnapshots}
                   />
                   <DashboardHeaderModule withBottomBorder>
                     <SearchBar style={{ maxWidth: 'calc(100% - 5rem)' }} theme="light" />
@@ -145,9 +138,9 @@ export default connectTo(
               }
             >
               <LeftRightPadding>
-                <AgentViewKpis agentSnapshots={agentSnapshots} />
+                <AgentViewKpis agentSnapshotsResult={agentSnapshotsResult} />
                 <AgentsPresenceChart />
-                <AgentsTable agentSnapshots={agentSnapshots} />
+                <AgentsTable agentSnapshotsResult={agentSnapshotsResult} />
               </LeftRightPadding>
             </Sticky>
           </Route>

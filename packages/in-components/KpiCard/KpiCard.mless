@@ -8,7 +8,6 @@
 :local {
   .wrapper {
     padding: 0.625rem 1rem;
-    .ellipsis();
     position: relative;
     border-radius: var(--ids-border-radius-option-large);
   }
@@ -50,9 +49,9 @@
 
     min-height: 1.9rem;
 
-    color: var(--ids-color-option-neutral-700);
+    color: var(--cds-text-primary);
     font-size: 1rem;
-    font-weight: 200;
+    font-weight: 600;
   }
 
   .flexTooltip {
@@ -91,11 +90,19 @@
   }
 
   .major {
-    font-size: 2.375rem;
+    font-size: 1.5rem;
+
+    &.bigMajor {
+      font-size: 2.375rem;
+    }
   }
 
   .minor {
-    font-size: 1.5rem;
+    font-size: 1rem;
+
+    &.bigMinor {
+      font-size: 1.5rem;
+    }
   }
 
   .companion {
@@ -103,6 +110,7 @@
     font-size: 1rem;
     font-weight: 200;
     padding-left: 1rem;
+    display: inline-block;
   }
 
   .actions {
@@ -112,6 +120,13 @@
 
   .titleText {
     .ellipsis();
+    width: 100%;
+  }
+
+  .contentText {
+    .ellipsis();
+    width: 100%;
+    display: block;
   }
 
   .hidden {

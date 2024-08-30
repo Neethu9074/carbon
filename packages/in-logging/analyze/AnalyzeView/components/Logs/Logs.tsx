@@ -191,7 +191,12 @@ function CustomHeaderActions({ orderBy, setOrder }: HeaderActionProps) {
     orderBy.direction === 'ASC' ? t('in-logging:sorting.oldest') : t('in-logging:sorting.mostRecent');
 
   return (
-    <Button icon={sortingIcon} kind="secondary" onClick={sortingButtonClickHandle}>
+    <Button
+      data-testid={`sortLogsButton-${orderBy.direction}`}
+      icon={sortingIcon}
+      kind="secondary"
+      onClick={sortingButtonClickHandle}
+    >
       {sortingButtonLabel}
     </Button>
   );

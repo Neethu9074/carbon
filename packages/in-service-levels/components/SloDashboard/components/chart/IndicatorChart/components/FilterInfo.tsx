@@ -11,12 +11,12 @@ import {
   isApplicationSloEntity,
   isWebsiteSloEntity,
   ServiceLevelIndicatorUnion,
+  SloEntityUnion,
   WebsiteSloEntity
 } from '@instana/types';
 import { Spacer, Stack, SvgIcon, Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import { QueryBuilderComponent as QueryBuilderComponentType } from 'in-components/QueryBuilder';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
@@ -25,7 +25,10 @@ import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFil
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import Tooltip from 'in-components/Tooltip';
 
-type FilterInfoProps = Pick<IndicatorChartProps<ServiceLevelIndicatorUnion>, 'entity' | 'indicator'>;
+interface FilterInfoProps {
+  entity: SloEntityUnion;
+  indicator: ServiceLevelIndicatorUnion;
+}
 export default function FilterInfo({ entity, indicator }: FilterInfoProps) {
   let content = undefined;
   if (isApplicationSloEntity(entity)) {

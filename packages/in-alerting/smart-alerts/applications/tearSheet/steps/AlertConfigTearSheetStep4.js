@@ -5,6 +5,7 @@
  */
 
 import React, { useMemo } from 'react';
+import classNames from 'classnames';
 
 import { Message, IconButton, Spacer } from '@instana/components';
 
@@ -78,7 +79,6 @@ export default function AlertConfigTearSheetStep4(props) {
       alertType
     );
   }, [applications, boundaryScope, thresholdType, alertType]);
-
   return (
     <>
       <div className={locals.container60_40}>
@@ -86,7 +86,7 @@ export default function AlertConfigTearSheetStep4(props) {
           headline={t('in-alerting:smartAlerts.applications.tearSheet.threshold.title')}
           description={t('in-alerting:smartAlerts.applications.tearSheet.threshold.description')}
         >
-          <div className={locals.container}>
+          <div className={classNames({ [locals.container]: true, [locals.alignCenter]: true })}>
             <span className={locals.label}>
               <AlertTypography
                 variant="body-regular"
@@ -101,25 +101,27 @@ export default function AlertConfigTearSheetStep4(props) {
               blueprintConfig={blueprintConfig}
             />
           </div>
-          {blueprintConfig?.baselineEnabled && (
-            <div className={locals.container} id="selectType">
-              <span className={locals.longLabel}>
-                <AlertTypography
-                  variant="body-regular"
-                  color="color900"
-                  content={t('in-alerting:smartAlerts.details.thresholdTypeTitle')}
-                />
-              </span>
 
-              <StaticOrAdaptiveSwitch
-                form={form}
-                setForm={updateForm}
-                onThresholdTypeChange={onThresholdTypeChange}
-                isTearSheet
+          <div className={classNames({ [locals.container]: true, [locals.alignStart]: true })} id="selectType">
+            <span className={locals.longLabel}>
+              <AlertTypography
+                variant="body-regular"
+                color="color900"
+                content={t('in-alerting:smartAlerts.details.thresholdTypeTitle')}
               />
-            </div>
-          )}
-          {!isTagFilterFormModelValid && tagFilterExpression && (
+            </span>
+
+            <StaticOrAdaptiveSwitch
+              form={form}
+              setForm={updateForm}
+              onThresholdTypeChange={onThresholdTypeChange}
+              isTearSheet
+              isDisabled={!blueprintConfig?.baselineEnabled}
+              bluePrint={blueprintConfig.name}
+            />
+          </div>
+
+          {isTagFilterFormModelValid === false && tagFilterExpression && thresholdType === ADAPTIVE_BASELINE && (
             <div className={locals.filterSection}>
               <Message
                 type="warning"
@@ -146,7 +148,8 @@ export default function AlertConfigTearSheetStep4(props) {
               />
             </div>
           )}
-
+          {thresholdType === HISTORIC_BASELINE && <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />}
+          {thresholdType === ADAPTIVE_BASELINE && <AdaptiveBaselineErrorMessage thresholdResult={thresholdResult} />}
           {!ruleComplete ? (
             <>
               <Spacer vertical="xsmall" />
@@ -168,8 +171,6 @@ export default function AlertConfigTearSheetStep4(props) {
               renderThroughput={props => <ThroughputThresholdCondition {...props} />}
             />
           )}
-          {thresholdType === HISTORIC_BASELINE && <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />}
-          {thresholdType === ADAPTIVE_BASELINE && <AdaptiveBaselineErrorMessage thresholdResult={thresholdResult} />}
           <EvaluationGranularity
             form={form}
             updateForm={updateForm}

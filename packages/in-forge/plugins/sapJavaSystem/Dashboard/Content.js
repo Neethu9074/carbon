@@ -6,9 +6,10 @@
 
 import React from 'react';
 
-import { getSapJavaSystemDashboard } from 'in-sap/navigation/paths';
+import { useSapJavaSystemDashboard } from 'in-sap/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function SystemDashboard({ snapshot }) {
-  return <RedirectWithHash to$={getSapJavaSystemDashboard(snapshot.get('id'))} />;
+  const href = useSapJavaSystemDashboard(snapshot.get('id'));
+  return <RedirectWithHash href={href} />;
 }

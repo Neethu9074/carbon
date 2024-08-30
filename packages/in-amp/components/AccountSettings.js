@@ -46,7 +46,9 @@ function render({ form }) {
         <div>
           <SubViewHeader>{form.get('name').value}</SubViewHeader>
           {form.get('companyDomains').map(field => (
-            <span className={locals.domains}>{field.value.join(', ')}</span>
+            <span className={locals.domains}>
+              {(field.value ?? [t('in-amp:components.accountSettings.unknownDomain')]).join(', ')}
+            </span>
           ))}
         </div>
       </div>

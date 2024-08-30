@@ -6,10 +6,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button, PreviewPill } from '@instana/components';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/BlueprintDescription.mless';
@@ -37,10 +36,10 @@ export function BlueprintText({ config }) {
 
   return (
     <div>
-      <h3 className={locals.headline}>
-        <span>{headline}</span>
-        {isBeta && <BetaBadge />}
-      </h3>
+      <div className={locals.headline}>
+        <h3 className={locals.header}>{headline}</h3>
+        {isBeta && <PreviewPill />}
+      </div>
       <DangerousHtmlPresenter className={locals.text} html={text} />
     </div>
   );

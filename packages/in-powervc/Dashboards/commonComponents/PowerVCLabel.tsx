@@ -18,7 +18,7 @@ export type PowerVcItem = {
 const PowerVCLabel = ({ item }: { item: PowerVcItem }) => {
   const getPowervcRegionDashboard = usePowervcRegionDashboard();
 
-  return <EntityLink label={item.label} href$={getPowervcRegionDashboard(item.id)} />;
+  return <EntityLink label={item.label} href={getPowervcRegionDashboard(item.id)} />;
 };
 
 export default PowerVCLabel;

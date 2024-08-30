@@ -108,12 +108,12 @@ export default function Timing({
           <StackItem>
             <Stack direction="vertical" gap="medium">
               <StackItem>
-                <HorizontalFlexWrapper className={locals.labelWithTooltip}>
+                <HorizontalFlexWrapper className={classNames(locals.labelWithTooltip, locals.bottomSpace)}>
                   <Label htmlFor={`maintenance-start-startTime`} hasError={!windowForm.valid && windowForm.touched}>
                     {t('in-settings:tabs.startTime')}
                   </Label>
                   <Tooltip content={<DescriptionTextWithCurrentTimeZone />} align="rightTop">
-                    <SvgIcon type="lib_help_error_info_outline" color="#2D4048" />
+                    <SvgIcon size="xs" type="lib_help_error_info_outline" color="#2D4048" />
                   </Tooltip>
                 </HorizontalFlexWrapper>
                 <Input
@@ -152,10 +152,10 @@ export default function Timing({
             </Stack>
           </StackItem>
           <StackItem>
-            <HorizontalFlexWrapper className={locals.labelWithTooltip}>
+            <HorizontalFlexWrapper className={classNames(locals.labelWithTooltip, locals.bottomSpace)}>
               <Label htmlFor={`maintenance-duration`}>{t('in-settings:tabs.duration')}</Label>
               <Tooltip content={t('in-settings:maintenanceWindow.durationTooltipText')} align="rightTop">
-                <SvgIcon type="lib_help_error_info_outline" color="#2D4048" />
+                <SvgIcon size="xs" type="lib_help_error_info_outline" color="#2D4048" />
               </Tooltip>
             </HorizontalFlexWrapper>
             <HorizontalFlexWrapper className={locals.gap}>

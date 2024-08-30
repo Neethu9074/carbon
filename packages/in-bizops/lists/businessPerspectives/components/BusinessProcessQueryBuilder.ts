@@ -4,12 +4,15 @@
  * Copyright IBM Corp. 2024
  */
 
+import { TimeConfig } from '@instana/types';
+
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import getBizOpsTagSuggestions from 'in-bizops/subscriptions/getBizOpsTagSuggestions';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
 import { GetBizOpsTagSuggestionQuery } from 'in-bizops/utils/types';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 
-export const BusinessProcessQueryBuilder = createQueryBuilder({
+const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
   getTagCatalog: getBusinessMonitoringTagCatalog,
   getSuggestions: params => {
     const { tagFilterExpression, tagName, timeConfig, propose, key, value, entity } = params;
@@ -24,4 +27,8 @@ export const BusinessProcessQueryBuilder = createQueryBuilder({
     };
     return getBizOpsTagSuggestions(query);
   }
-}).QueryBuilder;
+});
+
+export default QueryBuilder;
+export const isQueryValid = ([tagFilterExpression, timeConfig]: [FormModelElement[], TimeConfig]) =>
+  isQueryValidInternal(tagFilterExpression, timeConfig);

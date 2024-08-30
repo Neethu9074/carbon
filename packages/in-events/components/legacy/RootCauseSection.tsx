@@ -34,6 +34,7 @@ import {
   helpfulRCASuggestionTracker,
   unhelpfulRCASuggestionTracker
 } from 'in-events/tracker';
+import { ExplainabilityKeys, ProbableCauseType } from 'in-events/components/util/rootCauseUtil';
 import RootCauseEntityDetails from 'in-events/components/legacy/RootCauseEntityDetails';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
@@ -41,6 +42,7 @@ import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 //@ts-expect-error
 import { getEvent } from 'in-stores/events';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -57,34 +59,6 @@ interface RootCauseSectionProps {
   incidentHasRCAProperty: boolean;
   latestSnapshot: Snapshot;
 }
-// Typescript Probable Root Cause Reference
-type ProbableCauseSnapshotKeys = 'entityID' | 'explainability' | 'probFailure' | 'events';
-interface ProbableCauseSnapshotValues {
-  entityID: Map<string, string>;
-  explainability: List<Map<ExplainabilityKeys, ExplainabilityValues[ExplainabilityKeys]>>;
-  probFailure: number;
-  events: List<string>;
-}
-
-type ProbableCauseType = Map<ProbableCauseSnapshotKeys, ProbableCauseSnapshotValues[ProbableCauseSnapshotKeys]>;
-
-export type ExplainabilityKeys =
-  | 'percentageFailedNotThroughRC'
-  | 'numCallsInAggregationNotThroughRC'
-  | 'incoming'
-  | 'relevantSnapshotID'
-  | 'numCallsInAggregationThroughRC'
-  | 'connectedServiceId'
-  | 'percentageFailedThroughRC';
-export interface ExplainabilityValues {
-  percentageFailedNotThroughRC: number;
-  numCallsInAggregationNotThroughRC: number;
-  incoming: boolean;
-  relevantSnapshotID: string;
-  numCallsInAggregationThroughRC: number;
-  connectedServiceId: string;
-  percentageFailedThroughRC: number;
-}
 
 export default function RootCauseSection({
   title,
@@ -96,9 +70,22 @@ export default function RootCauseSection({
     ? ['metadata', 'rootCause', 'currentRootCause']
     : ['metadata', 'rootCause'];
 
-  const rootCauseSnapshotMap = (incident.getIn(rootCauseSnapshotPath, Map()) as Map<string, ProbableCauseType>).sort(
-    (a, b) => (b.get('probFailure') as number) - (a.get('probFailure') as number)
-  );
+  const rootCauseSnapshotMap = (incident.getIn(rootCauseSnapshotPath, Map()) as Map<string, ProbableCauseType>)
+    .sort((a, b) => (b.get('probFailure') as number) - (a.get('probFailure') as number))
+    .filter(rootCauseEntity => {
+      // Filtering out entities with no erroneous rate through the identified root cause
+      if (!rootCauseEntity) return false;
+
+      const explainabilityMetadata = rootCauseEntity.get('explainability') as List<
+        Map<string, string | number | boolean>
+      >;
+      const aggreagatedInfo = explainabilityMetadata.find(service => service?.get('connectedServiceId') === 'all');
+
+      if (aggreagatedInfo.get('percentageFailedThroughRC') === 0) {
+        return false;
+      }
+      return true;
+    });
 
   const rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray();
 
@@ -134,7 +121,11 @@ export default function RootCauseSection({
               if (!rootCause) return;
 
               return (
-                <CarbonTabPanel className={locals.tabPanel} style={{ background: themes.default.cds.field['02'] }}>
+                <CarbonTabPanel
+                  key={rcaSnapshotID}
+                  className={locals.tabPanel}
+                  style={{ background: themes.default.cds.field['02'] }}
+                >
                   <RootCauseEntityDetails
                     relatedAPID={
                       (incident.get('metadata') as Map<string, string>).has('app20ApplicationId')
@@ -187,9 +178,7 @@ function ProbableRootCauseCard({ title, children, incident }: ProbableRootCauseC
           leftHeaderContent={
             <Stack direction="horizontal" gap="xxsmall">
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-                <Pill type="blue" className={locals.techPreviewPill}>
-                  {t('in-events:RCA.publicPreview')}
-                </Pill>
+                <PreviewBadge className={locals.techPreviewPill} />
               </Tooltip>
               <Pill type="purple" className={locals.rcaAIPill}>
                 {t('in-events:RCA.AIGenBadgeText')}

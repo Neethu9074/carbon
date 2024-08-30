@@ -114,6 +114,10 @@ export default function HttpMetricsStats({ snapshotId, timeConfig }: HttpMetricP
         timeConfig,
         http
       };
+    })
+    .filter((row: HttpRow) => {
+      const userValue = row.http.get('account');
+      return typeof userValue === 'string' && userValue !== 'UNKNOWN';
     });
 
   function getDetails(row: HttpRow) {

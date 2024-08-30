@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { savingMessage as entityFormSavingMessage } from 'in-hoc/entityForm';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -25,17 +25,22 @@ export default function SaveCancel({
   cancelButtonLabel = t('forms.actions.cancel'),
   onClickCancelButton,
   hasSaveButton = true,
-  hasCancelButton = true
+  hasCancelButton = true,
+  type = ''
 }) {
   const saving = loading && message === entityFormSavingMessage;
-  const saveButtonLabel = isCreate ? t('forms.actions.create') : t('forms.actions.save');
+  const saveButtonLabel = isCreate
+    ? t('forms.actions.create')
+    : type == 'integration'
+    ? t('forms.actions.saveIntegration')
+    : t('forms.actions.save');
   const savingStateName = t('forms.states.saving');
   return (
     <Fragment>
       <Section className={locals.line}>
         <SectionLine withMarginBottom={false} />
       </Section>
-      <Section className={locals.saveCancelRow}>
+      <Section className={type !== 'integration' ? locals.saveCancelRow : locals.saveButtonIntegrationContainer}>
         {hasCancelButton && (
           <Button kind="subtle" className={locals.button} onClick={onClickCancelButton || (() => goToPath(listPath))}>
             {cancelButtonLabel}
@@ -43,9 +48,9 @@ export default function SaveCancel({
         )}
         {hasSaveButton && (
           <Button
-            kind="create"
+            kind={type !== "integration" ? "create" : "info"}
             type="submit"
-            className={locals.button}
+            className={type !== 'integration' ? locals.button : locals.integrationButton}
             disabled={(!form.hierarchyValid && form.touched) || loading || saving || !saveEnabled}
             icon={saving ? 'lib_actions_loading' : null}
             iconSpinning

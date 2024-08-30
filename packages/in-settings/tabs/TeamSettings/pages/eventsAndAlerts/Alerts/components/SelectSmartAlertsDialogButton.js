@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { List } from 'immutable';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import SelectSmartAlertDialog from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SelectSmartAlertDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';

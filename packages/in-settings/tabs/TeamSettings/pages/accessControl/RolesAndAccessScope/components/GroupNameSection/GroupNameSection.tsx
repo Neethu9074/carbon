@@ -34,16 +34,16 @@ export default function GroupNameSection({ value, setValue }: GroupNameSectionPr
       <Typography variant="heading-300" component="h3">
         {t('in-settings:groupSection.title')}
       </Typography>
-      <Label className={locals.label}>
+      <Label className={locals.label} htmlFor="group-name">
         {t('in-settings:groupSection.label')}
-        <Input
-          id="group-name"
-          onChange={e => setValue(e.target.value)}
-          value={value ?? ''}
-          style={{ width: '100%' }}
-          ref={groupNameInputRef}
-        />
       </Label>
+      <Input
+        id="group-name"
+        className={locals.groupName}
+        onChange={e => setValue(e.target.value)}
+        value={value ?? ''}
+        ref={groupNameInputRef}
+      />
     </section>
   );
 }

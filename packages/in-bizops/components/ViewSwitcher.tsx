@@ -8,10 +8,10 @@ import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 
+import { bizopsPerspectivesEnabled, bizopsStandardInclusionEnabled } from 'in-services/featureFlags';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { bizopsPerspectivesEnabled } from 'in-services/featureFlags';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { clickBizopsTabsTracker } from 'in-bizops/tracker';
 import * as paths from 'in-bizops/navigation/paths';
@@ -29,6 +29,12 @@ export default function ViewSwitcher() {
     showHistoricDataWarning: false
   };
 
+  const hostCount = window.instana?.reportingData?.hostCount;
+  let perspectivesDisabled = undefined;
+  if (bizopsStandardInclusionEnabled && typeof hostCount === 'number' && hostCount < 1) {
+    perspectivesDisabled = true;
+  }
+
   return (
     <>
       <DashboardHeader {...dashboardHeaderProps} />
@@ -38,7 +44,6 @@ export default function ViewSwitcher() {
             href={createHrefToPath(paths.businessProcessPath)}
             label={t('in-bizops:labelBizOps')}
             isActive={isProcessesActive && !isPerspectivesActive}
-            icon={'lib_bizops'}
             onClick={() => {
               clickBizopsTabsTracker({ tab: 'Processes' });
             }}
@@ -48,7 +53,7 @@ export default function ViewSwitcher() {
               href={createHrefToPath(paths.businessPerspectivesPath)}
               label={t('in-bizops:labelPerspectives')}
               isActive={isPerspectivesActive && !isProcessesActive}
-              icon={'lib_bizops'}
+              isDisabled={perspectivesDisabled}
               onClick={() => {
                 clickBizopsTabsTracker({ tab: 'Perspectives' });
               }}

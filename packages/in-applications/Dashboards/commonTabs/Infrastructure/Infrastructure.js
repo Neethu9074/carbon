@@ -40,7 +40,7 @@ import { useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { usePowervcRegionDashboard } from 'in-powervc/navigation/paths';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
-import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
+import { useAbapSystemDashboard } from 'in-sap/navigation/paths';
 import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
@@ -310,6 +310,7 @@ function WithPhmcPhysicalContext({ children, phmc }) {
 }
 
 function WithSapPhysicalContext({ children, sap }) {
+  const getAbapSystemDashboard = useAbapSystemDashboard;
   return (
     <div className={locals.linkWithMetaEntities}>
       {children}

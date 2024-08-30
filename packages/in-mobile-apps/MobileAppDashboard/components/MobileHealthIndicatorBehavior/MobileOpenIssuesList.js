@@ -8,7 +8,7 @@ import React from 'react';
 
 import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
 import getMobileHealthInfo from 'in-mobile-apps/subscriptions/getMobileHealthInfo';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { mapData } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
@@ -34,22 +34,23 @@ export default connectTo(
       if (inContentArea) return <div style={{ maxWidth }}>{children}</div>;
       return <>{children}</>;
     }
+    const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+    const useIssueLink = eventId =>
+      getEventsViewFilteredBy({
+        eventId,
+        eventTypeFilter: 'issue'
+      });
 
     return (
       <WithMaxWidthWhenInContentArea>
         <OpenIssuesListPresenter
           close={close}
           openIssuesResult={openIssuesResult}
-          analyzeLink$={getEventsViewFilteredBy({
+          analyzeLink={getEventsViewFilteredBy({
             eventId,
             eventTypeFilter: 'issue'
           })}
-          getIssueLink={eventId =>
-            getEventsViewFilteredBy({
-              eventId,
-              eventTypeFilter: 'issue'
-            })
-          }
+          getIssueLink={useIssueLink}
         />
       </WithMaxWidthWhenInContentArea>
     );

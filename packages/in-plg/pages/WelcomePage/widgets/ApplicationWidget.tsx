@@ -7,48 +7,66 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link, Stack, Typography } from '@instana/components';
-import { EntityHealthInfo } from '@instana/types';
+import { IconButton, Link, Stack, Typography } from '@instana/components';
+import { EntityHealthInfo, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
+import {
+  ApplicationProps,
+  ColumnDefinitionItem,
+  GetApplicationsWithDefaultsProps
+} from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error doesn't contain type file
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 //@ts-expect-error doesn't contain type file
 import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
-import { ApplicationProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+//@ts-expect-error doesn't contain type file
+import { application as applicationType } from 'in-cockpit/starredItems/types';
 //@ts-expect-error
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-cockpit/starredItems';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
-//@ts-expect-error doesn't contain type file
-import connectTo from 'in-hoc/connectTo';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { applicationsList } from 'in-applications/navigation/paths';
+import getMetrics from 'in-applications/subscriptions/getMetrics';
 import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
-import { hasApplicationsAccess } from 'in-stores/permission';
+import { hasError, isLoading } from 'in-services/util/result';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
-import { playwithEnabled } from 'in-services/featureFlags';
 import { getTimeConfig } from 'in-stores/time/config';
-import { timeConfig$ } from 'in-stores/time/config';
 import { role } from 'in-stores/user';
 
-function getApplicationData(params: any) {
+function getApplicationData(params: GetApplicationsWithDefaultsProps) {
   return getApplicationsWithDefaults(params);
 }
 
-export default connectTo(() => ({
-  timeConfig: timeConfig$
-}))(function ApplicationWidget({
+function handleFavoriteClick(id: string, item: any, isFavourite: boolean) {
+  if (!id && !item) return;
+  if (isFavourite) {
+    remove({ id: id, type: applicationType });
+  } else {
+    add({
+      id: item?.application?.id,
+      label: item?.application?.label,
+      type: applicationType
+    });
+  }
+}
+
+export default function ApplicationWidget({
   config,
   timeConfig,
   applicationId,
@@ -80,6 +98,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.applicationWidget.health'),
         key: 'health'
+      },
+      {
+        key: 'favourite',
+        header: ''
       }
     ];
   };
@@ -122,6 +144,73 @@ export default connectTo(() => ({
     return null;
   }
 
+  function getItem(id: string, timeConfig: TimeConfig) {
+    const granularity = getSparkChartGranularity(timeConfig);
+
+    return getApplication({ id }).flatMap((applicationResult: any) => {
+      if (isLoading(applicationResult) || hasError(applicationResult)) {
+        return just(applicationResult);
+      } else {
+        return getMetrics({
+          filter: {
+            timeConfig,
+            application: id,
+            includeInternalCalls: false,
+            includeSyntheticCalls: false,
+            useLongTermDataOnly: false,
+            applicationBoundaryScope: applicationResult.data.boundaryScope
+          },
+          metrics: {
+            services: {
+              metric: 'services',
+              aggregation: 'DISTINCT_COUNT'
+            },
+            calls: {
+              metric: 'calls',
+              aggregation: 'SUM',
+              granularity
+            },
+            callsAgg: {
+              metric: 'calls',
+              aggregation: 'SUM'
+            },
+            latencyAgg: {
+              metric: 'latency',
+              aggregation: 'MEAN'
+            },
+            latency: {
+              metric: 'latency',
+              aggregation: 'MEAN',
+              granularity
+            },
+            errorsAgg: {
+              metric: 'errors',
+              aggregation: 'MEAN'
+            },
+            errors: {
+              metric: 'errors',
+              aggregation: 'MEAN',
+              granularity
+            }
+          }
+        }).map(metricResult => {
+          if (isLoading(metricResult) || hasError(metricResult)) {
+            return metricResult;
+          } else {
+            return {
+              application: {
+                ...applicationResult.data
+              },
+              metrics: { ...metricResult.data },
+              mainKpiValue: get(metricResult.data, ['callsAgg', 0, 1]),
+              time: metricResult.time
+            };
+          }
+        });
+      }
+    });
+  }
+
   const columnDefinitions: ColumnDefinitionItem[] = [
     {
       key: 'name',
@@ -141,7 +230,7 @@ export default connectTo(() => ({
     },
     {
       key: 'calls',
-      getContent({ item, result }) {
+      getContent({ item, timeConfig, result }) {
         return (
           <Stack direction="horizontal" align="center">
             <SparkChart
@@ -209,6 +298,25 @@ export default connectTo(() => ({
           />
         );
       }
+    },
+    {
+      key: 'favourite',
+      getContent({ id, item, isDisabled = false, isFavourite = false }) {
+        return (
+          <IconButton
+            type={
+              isFavourite
+                ? 'lib_actions_favorite_filled'
+                : item?.pinned
+                ? 'lib_actions_favorite_filled'
+                : 'lib_actions_favorite'
+            }
+            onClick={() => handleFavoriteClick(id, item, isFavourite)}
+            iconSize="xs"
+            disabled={isDisabled}
+          />
+        );
+      }
     }
   ];
 
@@ -222,15 +330,21 @@ export default connectTo(() => ({
   return (
     <DatatableWrapper
       {...generalProps}
+      tableType="applicationWidget"
+      pinnedItemTypes={[applicationType]}
       getItems={getApplicationData}
+      getItem={getItem}
       hasAddPermission={role?.canConfigureApplications}
-      hasAddMore={hasApplicationsAccess && !playwithEnabled}
+      hasAddMore={role?.canConfigureApplications}
       viewAll
       addMore={addNewApplications}
       addData={addNewApplications}
       href={createHrefToPath(applicationsList)}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
+      searchPlaceholderLabel={t('in-plg:welcomepage.component.applicationWidget.searchPlaceholderLabel')}
+      addButtonLabel={t('in-plg:welcomepage.component.applicationWidget.addButtonLabel')}
+      viewAllLabel={t('in-plg:welcomepage.component.applicationWidget.viewAllLabel')}
     />
   );
-});
+}

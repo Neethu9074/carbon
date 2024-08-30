@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
-import { Li } from '@instana/components';
+import { Li, Button } from '@instana/components';
 
 import ContributionFilterDropdown, {
   showContributionFilterDropdown

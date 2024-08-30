@@ -36,7 +36,7 @@ const cols = [
       getValue(row) {
         return row.sharedStoragePool.get('numOfReads');
       },
-      getContent: number.compact
+      getContent: number.perSecond.compact
     }
   },
   {
@@ -46,7 +46,7 @@ const cols = [
       getValue(row) {
         return row.sharedStoragePool.get('numOfWrites');
       },
-      getContent: number.compact
+      getContent: number.perSecond.compact
     }
   },
   {
@@ -56,7 +56,7 @@ const cols = [
       getValue(row) {
         return row.sharedStoragePool.get('readBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.compact
     }
   },
   {
@@ -66,7 +66,7 @@ const cols = [
       getValue(row) {
         return row.sharedStoragePool.get('writeBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.compact
     }
   },
   {
@@ -76,7 +76,7 @@ const cols = [
       getValue(row) {
         return row.sharedStoragePool.get('transmittedBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.compact
     }
   },
   {
@@ -140,7 +140,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number,
+                formatter: number.perSecond.compact,
                 metrics: [
                   'sharedStoragePools.' + row.key + '.numOfReads',
                   'sharedStoragePools.' + row.key + '.numOfReads'
@@ -157,7 +157,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: bytes.compact,
+                formatter: bytes.perSecond.compact,
                 metrics: [
                   'sharedStoragePools.' + row.key + '.readBytes',
                   'sharedStoragePools.' + row.key + '.writeBytes',

@@ -16,11 +16,13 @@ import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/Simpl
 import RequestResponseStep from 'in-synthetics/createTests/wizard/RequestResponseStep';
 import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
 import BasicDetailsStep from 'in-synthetics/createTests/wizard/BasicDetailsStep';
+import AssociationsStep from 'in-synthetics/createTests/wizard/AssociationsStep';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { GroupPermissionEntity, Error as ScriptError, Result } from 'in-types';
 import SelectTestStep from 'in-synthetics/createTests/wizard/SelectTestStep';
+import { Code, Script, SliderState } from 'in-synthetics/utils/constants';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { noop, pendingResult } from 'in-services/fixedObjects';
-import { Code, Script } from 'in-synthetics/utils/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from 'in-synthetics/createTests/wizard/WizardModeContainer.mless';
@@ -42,6 +44,7 @@ interface WizardModeContainerProps {
   isStepDisabled: (step: number) => boolean | undefined;
   selectedBlueprint: BluePrint;
   setSelectedBlueprint: (item: BluePrint) => void;
+  setSliderState: (state: SliderState) => void;
 }
 
 const WizardModeContainer = ({
@@ -60,13 +63,14 @@ const WizardModeContainer = ({
   isSaving,
   isStepDisabled,
   selectedBlueprint,
-  setSelectedBlueprint
+  setSelectedBlueprint,
+  setSliderState
 }: WizardModeContainerProps) => {
   const timeConfig = useTimeConfig();
   const applications: Result<GroupPermissionEntity[]> =
     useObservable<any, []>(() => getAllApplicationsForEntitySelectionWithDefaults({ timeConfig }), []) ?? pendingResult;
 
-  const stepConfigs = Object.freeze([
+  const basicStepConfigs = [
     {
       title: t('in-synthetics:dialog.createTest.titles.step1')
     },
@@ -78,8 +82,13 @@ const WizardModeContainer = ({
     },
     {
       title: t('in-synthetics:dialog.createTest.titles.step4')
+    },
+    {
+      title: t('in-synthetics:dialog.createTest.titles.step5')
     }
-  ]);
+  ];
+  const stepConfigs = Object.freeze(syntheticRbacLimitedEnabled ? basicStepConfigs : basicStepConfigs.slice(0, 4));
+
   const [script, setScript] = useState<Script>({ name: '', text: '', extension: 'js' });
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
@@ -131,6 +140,15 @@ const WizardModeContainer = ({
                   form={form}
                   updateForm={updateForm}
                   applications={applications}
+                />
+              );
+            case 4:
+              return (
+                <AssociationsStep
+                  form={form}
+                  updateForm={updateForm}
+                  applications={applications}
+                  setSliderState={setSliderState}
                 />
               );
             default:

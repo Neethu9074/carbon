@@ -29,7 +29,7 @@ export default connectTo(
     if (!hostId) return null;
 
     return (
-      <Breadcrumb href$={getVsphereHostDashboard(hostId)} label={t('in-vsphere:breadcrumbs.esXiHost')} icon="lib_linux">
+      <Breadcrumb href={getVsphereHostDashboard(hostId)} label={t('in-vsphere:breadcrumbs.esXiHost')} icon="lib_linux">
         {label}
       </Breadcrumb>
     );

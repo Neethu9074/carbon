@@ -6,13 +6,12 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Pill } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { clickAddAlertChannelMenuTracker, clickAddAlertChannelTracker } from 'in-settings/tracker';
 import configs from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { goToAlertChannelView } from 'in-settings/navigation/paths';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import MultiButton from 'in-components/MultiButton';
 import { t } from 'in-i18n';
 
@@ -50,14 +49,12 @@ function AlertChannelButton({ type, className }) {
         {configs[type].label}
         {configs[type].isAlpha && (
           <div className={locals.betaBadge}>
-            <Pill type="blue" className={locals.betaBadge}>
-              {t('in-settings:general.alphaLabel')}
-            </Pill>
+            <PreviewBadge privatePreview />
           </div>
         )}
         {configs[type].isBeta && (
           <div className={locals.betaBadge}>
-            <BetaBadge />
+            <PreviewBadge />
           </div>
         )}
       </Button>

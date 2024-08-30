@@ -12,6 +12,7 @@ import LinuxElasticComputing from 'in-plg/pages/onboarding/AgentList/Linux/Linux
 import GoogleCloudRun from 'in-plg/pages/onboarding/AgentList/GoogleCloudPlatform/GoogleCloudRun';
 import KubernetesOperator from 'in-plg/pages/onboarding/AgentList/Kubernetes/KubernetesOperator';
 import OpenshiftOperator from 'in-plg/pages/onboarding/AgentList/Openshift/OpenshiftOperator';
+import AzureAppService from 'in-plg/pages/onboarding/AgentList/Azure/AppService/AppService';
 import WindowsZipArchive from 'in-plg/pages/onboarding/AgentList/Windows/WindowsZipArchive';
 import InstanaAwsSensor from 'in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor';
 import LinuxAutomatic from 'in-plg/pages/onboarding/AgentList/Linux/LinuxAutomatic';
@@ -25,6 +26,7 @@ import VmwareTanzu from 'in-plg/pages/onboarding/AgentList/Vmware/VmwareTanzu';
 import AwsLambda from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/AwsLambda';
 import Openshift from 'in-plg/pages/onboarding/AgentList/Openshift/Openshift';
 import WindowsEC2 from 'in-plg/pages/onboarding/AgentList/Windows/WindowsEC2';
+import IBMiArchive from 'in-plg/pages/onboarding/AgentList/IBMi/IBMiArchive';
 import AwsEc2Linux from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Linux';
 import CfAndBosh from 'in-plg/pages/onboarding/AgentList/Bosh/CfAndBosh';
 import Docker from 'in-plg/pages/onboarding/AgentList/Docker/Docker';
@@ -199,6 +201,19 @@ export function getEntriesForFreeTrial() {
       }
     },
     {
+      id: 'ibmi_archive_tar',
+      title: 'IBM i - Archive (tar.gz)',
+      pageName: 'IBMi > Archive (tar.gz)', // tracking data
+      label: t('in-plg:agentDetails.ibmi.ibmi'),
+      icon: 'lib_infra_ibmIOs',
+      category: t('in-plg:agentDetails.ibmi.os'),
+      subTechnology: {
+        label: t('in-plg:agentDetails.ibmi.archiveTarGz'),
+        keyWords: 'ibmimanualtarball',
+        Content: IBMiArchive
+      }
+    },
+    {
       id: 'linux_ec2',
       title: 'Linux - AWS Elastic Computing (EC2)',
       pageName: 'Linux > AWS Elastic Computing (EC2)', // tracking data
@@ -346,6 +361,21 @@ export function getEntriesForFreeTrial() {
         label: t('in-waiting-for-deployment:content.azureContainerApps'),
         keyWords: 'azurecontainerapps',
         Content: AzureContainerApps
+      }
+    },
+    {
+      id: 'azure_app_service',
+      title: 'Microsoft Azure - Azure App Service',
+      pageName: 'Microsoft Azure > Azure App Service', // tracking data
+      label: t('in-waiting-for-deployment:content.azure'),
+      icon: 'lib_azure',
+      iconColor: '#3178CD',
+      fullLabel: t('in-waiting-for-deployment:content.microsoftAzure'),
+      category: t('in-waiting-for-deployment:content.platform'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.azureAppService'),
+        keyWords: 'azureappservice',
+        Content: AzureAppService
       }
     },
     {

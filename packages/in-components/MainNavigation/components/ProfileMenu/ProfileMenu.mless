@@ -1,0 +1,25 @@
+:local {
+  .profileMenu {
+    padding: 1rem 0;
+
+    &_label {
+      color: var(--cds-text-secondary);
+    }
+
+    &_header {
+      padding: 0rem 1rem;
+    }
+
+    &_unitTenantSection {
+      padding: 0rem 1rem;
+    }
+  }
+
+  :global(.cds--header-panel) {
+    height: fit-content;
+    max-height: calc(100vh - 3rem);
+    transform: translate(0);
+    transition: unset;
+    overflow: auto;
+  }
+}

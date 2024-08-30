@@ -21,6 +21,8 @@ import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
 
+import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+
 export default function ErrorRateThresholdCondition({
   form,
   updateForm,
@@ -50,6 +52,7 @@ export default function ErrorRateThresholdCondition({
         ) : (
           <>
             <Dropdown
+              className={locals.dropdownmd}
               value={metricName}
               items={ruleMetricNameOptions.errors}
               onChange={value => {

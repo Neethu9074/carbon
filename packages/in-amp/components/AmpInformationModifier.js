@@ -6,10 +6,15 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Message, Stack } from '@instana/components';
+import { Stack, Message } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+import { Dropdown } from '@instana/components';
 
+import { getAccountAsResultObservable, getActiveLicensesAsResultObservable } from 'in-amp/api/account';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
+import PresentationSelection from 'in-amp/components/PresentationSelection';
 import DropdownButton from 'in-components/Button/DropdownButton';
+import { carbonDropdownEnabled } from 'in-services/featureFlags';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
 import { t } from 'in-i18n';
 
@@ -25,9 +30,27 @@ export default function AmpInformationModifier({
   setTenantUnit,
   timeRange,
   setTimeRange,
-  setTo
+  setTo,
+  presentation,
+  setPresentation
 }) {
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
+  const licenseObservableResult = useObservable(getActiveLicensesAsResultObservable(1, 60000), []);
+  const accountObservableResult = useObservable(getAccountAsResultObservable(), []);
+  const fupOverride = accountObservableResult?.data?.fupOverride;
+
+  //Check whether limitedDataUsage flag is set for active paid licenses
+  let limitedDataUsageCheck = false;
+  const licenses = licenseObservableResult?.data?.items;
+  if (licenses) {
+    const paidLicenses = licenses.filter(eachLicense => eachLicense?.license?.paid);
+    if (paidLicenses.length > 0) {
+      limitedDataUsageCheck = paidLicenses.every(
+        eachLicense => eachLicense?.license?.licenseSpecs?.limitedDataUsage === true
+      );
+    }
+  }
+  const showFupMessage = limitedDataUsageCheck && !fupOverride;
 
   return (
     <div
@@ -36,39 +59,75 @@ export default function AmpInformationModifier({
         [locals.buttonHeaderReverse]: !unitSelectorOptions
       })}
     >
-      {unitSelectorOptions && (
-        <Stack>
-          {showAggregatedMetrics && (
-            <Message
-              className={locals.message}
-              withIcon
-              title={t(
-                'in-amp:components.ampInformationModifier.customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense'
+      <Stack>
+        <Message
+          type="neutral"
+          dismissible
+          title={
+            showFupMessage
+              ? t('in-amp:components.fairUsePolicyMessage.title')
+              : t('in-amp:components.fairUsePolicyNotActive.title')
+          }
+          fullInlineWidth
+        />
+        <Stack direction="horizontal" distribution="spaceBetween">
+          {unitSelectorOptions && (
+            <>
+              {carbonDropdownEnabled ? (
+                <Dropdown
+                  items={unitSelectorOptions}
+                  size="md"
+                  value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
+                  onChange={setTenantUnit}
+                  className={locals.unitSelector}
+                />
+              ) : (
+                <ComboBoxBehavior
+                  align="bottomRight"
+                  value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
+                  options={unitSelectorOptions}
+                  onChange={setTenantUnit}
+                  disableAutomaticOptionSorting
+                >
+                  {({ elementProps, isOpen }) => (
+                    <DropdownButton {...elementProps} kind="secondary" expanded={isOpen}>
+                      {tenantUnit.label}
+                    </DropdownButton>
+                  )}
+                </ComboBoxBehavior>
               )}
-            />
+            </>
           )}
-          <ComboBoxBehavior
-            align="bottomRight"
-            value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
-            options={unitSelectorOptions}
-            onChange={setTenantUnit}
-            disableAutomaticOptionSorting
-          >
-            {({ elementProps, isOpen }) => (
-              <DropdownButton {...elementProps} kind="secondary" expanded={isOpen}>
-                {tenantUnit.label}
-              </DropdownButton>
+          <div className={locals.ampTimeSelectionWrapper}>
+            <AmpTimeSelection
+              windowSize={windowSize}
+              setWindowSize={setWindowSize}
+              timeRange={timeRange}
+              setTimeRange={setTimeRange}
+              setTo={setTo}
+              presentation={presentation}
+              setPresentation={setPresentation}
+            />
+            {presentation && (
+              <PresentationSelection
+                presentation={presentation}
+                setPresentation={setPresentation}
+                timeRange={timeRange}
+              />
             )}
-          </ComboBoxBehavior>
+          </div>
         </Stack>
-      )}
-      <AmpTimeSelection
-        windowSize={windowSize}
-        setWindowSize={setWindowSize}
-        timeRange={timeRange}
-        setTimeRange={setTimeRange}
-        setTo={setTo}
-      />
+        {unitSelectorOptions && showAggregatedMetrics && (
+          <Message
+            className={locals.message}
+            withIcon
+            title={t(
+              'in-amp:components.ampInformationModifier.customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense'
+            )}
+            fullInlineWidth
+          />
+        )}
+      </Stack>
     </div>
   );
 }

@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Spacer, Typography } from '@instana/components';
+import { Spacer, Typography, IconButton } from '@instana/components';
 import { create } from '@instana/observables';
 
 import {
@@ -20,9 +20,13 @@ import {
   actionStatusesUrlParameter,
   getActorType
 } from 'in-automation/components/ActionHistory/constants';
+import {
+  actionHistoryInstanceDeleteTracker,
+  actionHistoryInstanceViewTracker,
+  useSegmentTracker
+} from 'in-automation/tracker';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { actionHistoryInstanceDeleteTracker, actionHistoryInstanceViewTracker } from 'in-automation/tracker';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import ActionInstanceDetail from 'in-automation/components/ActionHistory/ActionInstanceDetail';
@@ -40,7 +44,6 @@ import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
-import IconButton from 'in-components/IconButton/IconButton';
 import { deleteActionInstance } from 'in-automation/api';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -146,6 +149,7 @@ const deleteColumn: ColumnDefinition<ActionInstance> = {
     return (
       <Tooltip content={t('in-automation:actionHistory.deleteTooltip')} delay={500}>
         <IconButton
+          kind="action"
           type="lib_actions_delete"
           onClick={e => {
             stopPropagationAndPreventDefault(e);
@@ -298,6 +302,7 @@ export function GetActionInstanceListData({
 export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
   const [{ types, actionStatuses }, setFilter] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
+  const { actionHistoryInstanceViewTrackerSegment } = useSegmentTracker();
   return (
     <ServerTableWithUrlState
       get={GetActionInstanceListData}
@@ -313,6 +318,10 @@ export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
       }
       onRowClick={(row: ActionInstance) => {
         addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
+        actionHistoryInstanceViewTrackerSegment({
+          actionInstanceId: row.actionInstanceId,
+          actionName: row.actionName
+        });
         actionHistoryInstanceViewTracker({
           actionInstanceId: row.actionInstanceId,
           actionName: row.actionName

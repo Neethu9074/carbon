@@ -10,9 +10,9 @@ import { interval } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import SloViolationsChart from 'in-internal/components/SloViolationsChart';
 import { getSnapshots, getPhysicalHierarchy } from 'in-stores/snapshot';
@@ -155,6 +155,12 @@ const Event = connect(({ event }) => ({
   const metric = fullEvent && fullEvent.getIn(['metadata', 'metrics', 0, 'metricName']);
   const snapshotId = fullEvent && fullEvent.getIn(['metadata', 'metrics', 0, 'snapshotId']);
 
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+  const linkHref = getEventsViewFilteredBy({
+    query: onlySlosQuery,
+    eventId: event.id,
+    eventTypeFilter: 'issue'
+  });
   return (
     <div className={locals.event}>
       <SvgIcon
@@ -182,15 +188,7 @@ const Event = connect(({ event }) => ({
           }
         />
       )}
-
-      <Link
-        className={locals.title}
-        href={getEventsViewFilteredBy({
-          query: onlySlosQuery,
-          eventId: event.id,
-          eventTypeFilter: 'issue'
-        })}
-      >
+      <Link className={locals.title} href={linkHref}>
         {event.title}
       </Link>
     </div>

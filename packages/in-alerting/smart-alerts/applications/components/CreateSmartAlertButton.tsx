@@ -7,36 +7,35 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 
 import locals from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton.mless';
 
 export default function CreateSmartAlertButton({
   isGlobal,
   buttonName,
-  isFloatingButton,
   isMigrate = false,
-  isMenuItem = false,
   boundaryScope,
   defaultBoundaryScope,
   serviceId,
   applicationId,
   endpointId,
-  eventSpecificationId
+  eventSpecificationId,
+  renderAsSimpleButton = false
 }: {
   isGlobal: boolean;
   buttonName: string;
-  isFloatingButton?: boolean;
   isMigrate?: boolean;
-  isMenuItem?: boolean;
   boundaryScope?: string;
   defaultBoundaryScope?: string;
   serviceId?: string;
   applicationId?: string;
   endpointId?: string;
   eventSpecificationId?: string;
+  renderAsSimpleButton?: boolean;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
   const createSmartAlertPath = getLinkToCreateSmartAlert({
@@ -48,14 +47,15 @@ export default function CreateSmartAlertButton({
     endpointId: endpointId,
     eventSpecificationId: eventSpecificationId
   });
+
   return (
     <Button
       className={classNames({
-        [locals.floatingButton]: isFloatingButton,
-        [locals.menuItem]: isMenuItem
+        [locals.button]: renderAsSimpleButton,
+        [locals.btnPadding]: renderAsSimpleButton && !carbonButtonEnabled
       })}
       icon="lib_alerts_create"
-      kind={isFloatingButton ? 'primaryv2' : 'secondaryDarker'}
+      kind={'primaryv2'}
       href={createSmartAlertPath}
     >
       {buttonName}

@@ -34,7 +34,7 @@ const parameters = [
   },
   {
     key: 'webhookUrl',
-    label: t('in-settings:tabs.webhookUrl')
+    label: t('in-settings:tabs.workflowWebhookUrl')
   }
 ];
 
@@ -53,7 +53,7 @@ export default {
   createDetails(alertChannel) {
     return (
       <DescriptionList inComponents>
-        <DescriptionItem inComponents title={t('in-settings:tabs.webhookUrl')}>
+        <DescriptionItem inComponents title={t('in-settings:tabs.workflowWebhookUrl')}>
           {alertChannel.get('webhookUrl')}
         </DescriptionItem>
       </DescriptionList>
@@ -121,7 +121,7 @@ function Form({ form, onChange }) {
       {form.get('webhookUrl').map(field => (
         <FormGroup>
           <Label htmlFor="webhookUrl" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.webhookUrl')}
+            {t('in-settings:tabs.workflowWebhookUrl')}
           </Label>
           <Input
             className={`${block}__input`}

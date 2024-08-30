@@ -13,7 +13,6 @@ import {
   Event,
   ActionMatch,
   EventSpecificationInfo,
-  ApplicationAlertConfigWithMetadata,
   ActionInstance,
   Policy,
   TagCatalog,
@@ -23,10 +22,14 @@ import {
   WebsiteAlertConfigWithMetadata,
   MobileAppAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
-  GlobalApplicationsAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
-  ServiceLevelsAlertConfigWithMetadata
+  ServiceLevelsAlertConfigWithMetadata,
+  ActionType
 } from 'in-types';
+import {
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
@@ -48,6 +51,15 @@ export function getActions() {
     method: 'GET',
     maxRetries: 3,
     url: actionUrl,
+    mapToResultObject: true
+  });
+}
+
+export function getActionTags() {
+  return http<{ tags: string[] }>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${actionUrl}/tags`,
     mapToResultObject: true
   });
 }
@@ -533,7 +545,7 @@ const createTimeoutField = (value: string): Field => ({
 
 export function createAction(
   name: string = t('in-automation:newAction'),
-  type: string = DOC_LINK_TYPE,
+  type: ActionType = DOC_LINK_TYPE,
   description: string = '',
   fields: Field[] = [createDocLinkField('')],
   tags: string[] = []
@@ -680,8 +692,16 @@ export function getPolicies() {
   return http<Policy[]>({
     method: 'GET',
     maxRetries: 3,
-    headers: getCsrfHeader(),
     url: policiesUrl,
+    mapToResultObject: true
+  });
+}
+
+export function getPolicyTags() {
+  return http<{ tags: string[] }>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${policiesUrl}/tags`,
     mapToResultObject: true
   });
 }
@@ -690,7 +710,6 @@ export function getPolicy(id: string) {
   return http<Policy>({
     method: 'GET',
     maxRetries: 3,
-    headers: getCsrfHeader(),
     url: `${policiesUrl}/${id}`,
     mapToResultObject: true
   });
@@ -757,7 +776,7 @@ export function getEventSpecifications() {
 }
 
 export function getApplicationSmartAlertConfigs() {
-  return http<ApplicationAlertConfigWithMetadata[]>({
+  return http<ApplicationSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     url: apiEndpoint.APPLICATION,
@@ -775,7 +794,7 @@ export function getWebsiteSmartAlertConfigs() {
 }
 
 export function getGlobalApplicationSmartAlertConfigs() {
-  return http<GlobalApplicationsAlertConfigWithMetadata[]>({
+  return http<GlobalApplicationsSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     url: apiEndpoint.APPLICATION_GLOBAL,
@@ -847,7 +866,7 @@ export function getCustomEventSpecification(id: string) {
 }
 
 export function getApplicationSmartAlertConfig(id: string) {
-  return http<ApplicationAlertConfigWithMetadata>({
+  return http<ApplicationSmartAlertConfigWithMetadata>({
     method: 'GET',
     url: `${apiEndpoint.APPLICATION}/${encodeURIComponent(id)}`,
     maxRetries: 3,
@@ -856,7 +875,7 @@ export function getApplicationSmartAlertConfig(id: string) {
 }
 
 export function getGlobalApplicationSmartAlertConfig(id: string) {
-  return http<ApplicationAlertConfigWithMetadata>({
+  return http<ApplicationSmartAlertConfigWithMetadata>({
     method: 'GET',
     url: `${apiEndpoint.APPLICATION_GLOBAL}/${encodeURIComponent(id)}`,
     maxRetries: 3,

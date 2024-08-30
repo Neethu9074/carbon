@@ -64,10 +64,21 @@
   }
 
   .listHeight {
-    max-height: 20.5rem;
-    height: 20.5rem;
+    height: 20.25rem;
+  }
+  .list {
+    max-height: 20.25rem;
     overflow: auto;
     border: 1px solid var(--ids-color-option-neutral-300);
+  }
+
+  .carbonVariant {
+    .listHeight {
+      height: 19.5rem;
+    }
+    .list {
+      max-height: 19.5rem;
+    }
   }
 
   .grid {

@@ -4,10 +4,12 @@
  */
 
 import React, { LegacyRef } from 'react';
+import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
-import { getDesignLibraryColorBySeverity } from 'in-stores/events';
+import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -35,12 +37,14 @@ export default function HealthIndicatorPresenter({
   if (openIssues === 0) {
     return (
       <Tooltip content={tooltipLabel} delay={500}>
-        <SvgIcon type="lib_check" className={locals.okayIcon} />
+        <IconButton type="lib_uncheck" color={themes.default.ids.color.option.green[500]} className={locals.okayIcon} />
       </Tooltip>
     );
   }
 
   const color = active ? '#031F29' : getDesignLibraryColorBySeverity(maxSeverity);
+  const type = getDesignLibrarySeverityIcon(maxSeverity);
+
   return (
     <a
       href=""
@@ -55,7 +59,14 @@ export default function HealthIndicatorPresenter({
       ref={refSetter}
     >
       <Tooltip content={tooltipLabel} delay={500}>
-        <SvgIcon type="lib_help_error_warning" color={color} className={locals.icon} />
+        <IconButton
+          type={type}
+          color={color}
+          className={classNames({
+            [locals.icon]: true,
+            [locals.iconWarning]: !(maxSeverity > 5) && maxSeverity !== 0
+          })}
+        />
       </Tooltip>
     </a>
   );

@@ -9,42 +9,25 @@ import React from 'react';
 
 import { KeyValue, Link, Message, MessageTypes, Typography } from '@instana/components';
 import { Observable, create } from '@instana/observables';
-import { useObservable } from '@instana/hooks';
-import { Result } from '@instana/types';
 
 import { MessageContentModernDesign } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
-//@ts-expect-error TS migration
-import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
-//@ts-expect-error TS migration
-import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
-//@ts-expect-error TS migration
-import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
 import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
-import { disableInvitesWithIdpEnabled, shareAndInviteEnabled } from 'in-services/featureFlags';
 import { getUsersAsResultObservable, removeUserFromTenant, UserResult } from 'in-api/users';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
 import { USER_INVITE, track } from 'in-services/tracking/tracking';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { emptyObject } from 'in-services/fixedObjects';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import { noop } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
 
-export interface ConfigProps {
-  activated: boolean;
-}
-
 export default function Users() {
-  const isSamlConfigured: Result<ConfigProps> | undefined | null = useObservable(getSamlConfig, []);
-  const isLdapConfigured: Result<ConfigProps> | undefined | null = useObservable(getLdapConfig, []);
-  const isOidcConfigured: Result<ConfigProps> | undefined | null = useObservable(getOidcConfig, []);
-
-  const isAnyIDPActive =
-    disableInvitesWithIdpEnabled &&
-    (isSamlConfigured?.data?.activated || isLdapConfigured?.data?.activated || isOidcConfigured?.data?.activated);
+  const isAnyIDPActive = useIsAnyIdPActive();
 
   function customDialogMessage({ fullName }: UserResult) {
     return (
@@ -78,7 +61,11 @@ export default function Users() {
             : () => {
                 track(USER_INVITE, emptyObject);
                 addActiveDialog(
-                  shareAndInviteEnabled ? <DeferredShareAndInviteDialogBox hideShare /> : <InviteUserDialog />
+                  shareAndInviteEnabled ? (
+                    <DeferredShareAndInviteDialogBox inviteOnly permissionToShowInvite />
+                  ) : (
+                    <InviteUserDialog />
+                  )
                 );
               }
         }

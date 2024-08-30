@@ -54,6 +54,15 @@ const cols = [
     }
   },
   {
+    title: t('in-sap:dashboards.taskType'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: UserListRow) {
+        return row.userStats.get('TASKTYPE');
+      }
+    }
+  },
+  {
     title: t('in-sap:dashboards.responseTime'),
     type: 'metric',
     typeArgs: {
@@ -137,6 +146,10 @@ export default function UserList({ snapshotId, timeConfig }: UserListProps) {
         timeConfig,
         userStats
       };
+    })
+    .filter((row: UserListRow) => {
+      const userValue = row.userStats.get('account');
+      return typeof userValue === 'string' && userValue !== 'UNKNOWN';
     })
     .filter(function (rows: UserListRow) {
       if (user == null) {

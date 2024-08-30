@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Menu } from '@instana/components';
+
 import {
   getSimpleModeBlueprintConfig,
   simpleModeBlueprintConfigs
@@ -18,7 +20,6 @@ import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blue
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
-import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
 export default function SimpleAlertConfigDialogStep1({
@@ -41,7 +42,7 @@ export default function SimpleAlertConfigDialogStep1({
       : simpleModeBlueprintConfigs.filter(config => config.type !== 'logs');
 
   return (
-    <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.applications.simple.simpleAlertStep1Headline')}>
+    <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.applications.tearSheet.alertHeadline')}>
       <Menu
         items={blueprintConfigList}
         onItemClick={item => {

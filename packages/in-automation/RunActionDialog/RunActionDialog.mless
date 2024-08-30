@@ -13,9 +13,6 @@
   }
   .dialog {
     width: 65%;
-    > div > div > div {
-      width: 95%;
-    }
   }
   .actionDescriptionMargin dt {
     margin-bottom: 0.25rem;

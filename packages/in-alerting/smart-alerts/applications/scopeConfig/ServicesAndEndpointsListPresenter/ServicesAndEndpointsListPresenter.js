@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useMemo, useReducer, useState } from 'react';
+import { secondsToMilliseconds } from 'date-fns';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
@@ -75,7 +76,9 @@ export default function ServicesAndEndpointsListPresenter({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [applicationsSelection]);
 
-  const [timeTo] = useState(Date.now());
+  const minute = secondsToMilliseconds(60);
+  const to = new Date().getTime() + minute * 30;
+  const [timeTo] = useState(to);
   const location = useLocation();
 
   const timeConfigWithFixedFocussedMoment = useMemo(

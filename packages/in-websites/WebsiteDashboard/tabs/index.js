@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { playwithEnabled, syntheticRbacLimitedEnabled, websiteUserBreakdownEnabled } from 'in-services/featureFlags';
+import SyntheticMonitoring from 'in-websites/WebsiteDashboard/tabs/SyntheticMonitoring/SyntheticMonitoring';
 import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Configuration';
-import { playwithEnabled, websiteUserBreakdownEnabled } from 'in-services/featureFlags';
 import Geography from 'in-websites/WebsiteDashboard/tabs/Geography/Geography';
 import CustomEvents from 'in-websites/WebsiteDashboard/tabs/CustomEvents';
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
@@ -68,6 +69,12 @@ export const websiteTabs = [
     label: t('in-websites:websiteDashboard.tabs.indexLabelPages'),
     path: `${websitePathFullyQualified}/pages`,
     component: Pages,
+    websiteOnly: true
+  },
+  syntheticRbacLimitedEnabled && {
+    label: t('in-websites:websiteDashboard.tabs.synthetic.tabLabel'),
+    path: `${websitePathFullyQualified}/synthetics`,
+    component: SyntheticMonitoring,
     websiteOnly: true
   },
   {

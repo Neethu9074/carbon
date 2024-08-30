@@ -111,6 +111,7 @@
       "summary": {
         "logs": "Registros",
         "analyzeLogs": "Ver en análisis",
+        "logsCardDescription": "Esta es una vista previa, vea todos los registros en analizar",
         "correspondingMobileAppActivity": "Actividad de aplicación móvil correspondiente",
         "hideMobileAppInformation": "Ocultar información de aplicación móvil",
         "showMobileAppInformation": "Mostrar información de aplicación móvil",
@@ -311,7 +312,6 @@
   "resultHeaderTooltip": "El rango de tiempo de la consulta se ha redondeado hasta el minuto completo más próximo para permitir que esta vista se cargue más rápidamente.",
   "components": {
     "analyzeHeader": {
-      "beta": "BETA",
       "analytics": "Analíticas"
     },
     "filterBar": {

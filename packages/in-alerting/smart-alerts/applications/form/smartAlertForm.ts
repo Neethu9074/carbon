@@ -6,13 +6,11 @@
 import { createField, createMapForm, MapForm } from 'formalistic';
 
 import {
-  ApplicationAlertConfigWithMetadata,
-  GlobalApplicationsAlertConfigWithMetadata,
-  ThresholdType,
-  ThresholdConfigUnion
-} from 'in-types';
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 // @ts-expect-error file needs to be converted
-import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { isEntitySelectionValid, titleValidator } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { PER_AP } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
@@ -20,10 +18,11 @@ import createRuleForm, { defaultAlertRule } from 'in-alerting/smart-alerts/appli
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
-import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
+import { MAX_LONG_STRING_LENGTH, MAX_LABEL_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { ThresholdType, ThresholdConfigUnion } from 'in-types';
 import { boundaryScopes } from 'in-applications/constants';
 import { t } from 'in-i18n';
 
@@ -43,9 +42,9 @@ export interface UiExtraData {
   builtIn?: boolean;
 }
 
-interface OptionalGlobalApplicationsAlertConfig extends Partial<GlobalApplicationsAlertConfigWithMetadata> {}
+interface OptionalGlobalApplicationsAlertConfig extends Partial<GlobalApplicationsSmartAlertConfigWithMetadata> {}
 
-interface OptionalIndividualApplicationAlertConfig extends Partial<ApplicationAlertConfigWithMetadata> {}
+interface OptionalIndividualApplicationAlertConfig extends Partial<ApplicationSmartAlertConfigWithMetadata> {}
 
 /**
  * Type that is used when creating an AP Smart Alert config (e.g. via floating button), where depending on the dashboard context
@@ -59,7 +58,8 @@ type CreateApplicationAlertConfig = (OptionalGlobalApplicationsAlertConfig | Opt
 export function createSmartAlertForm(
   alertConfig: CreateApplicationAlertConfig,
   editMode?: boolean,
-  isGlobalSmartAlert?: boolean
+  isGlobalSmartAlert?: boolean,
+  isTearSheet?: boolean
 ): MapForm<any> {
   const {
     applicationId,
@@ -90,7 +90,7 @@ export function createSmartAlertForm(
     items: {
       name: createField({
         value: name ?? '',
-        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
+        validator: isTearSheet ? titleValidator() : stringMaxLengthValidator(MAX_LABEL_LENGTH)
       }),
       description: createField({
         value: description ?? '',

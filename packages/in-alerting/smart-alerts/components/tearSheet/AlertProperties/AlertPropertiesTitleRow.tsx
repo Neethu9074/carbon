@@ -7,7 +7,7 @@
 import { MapForm, Item, Field } from 'formalistic';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button, Stack } from '@instana/components';
 
 //@ts-expect-error TS migration
 import DebouncedInput from 'in-components/form/Input/DebouncedInput';
@@ -16,6 +16,7 @@ import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
 import AlertTypography from 'in-alerting/components/AlertTypography';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import { stopPropagation } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
@@ -33,65 +34,71 @@ export default function AlertPropertiesTitleRow({
   getTitlePlaceholder,
   placeholders
 }: AlertPropertiesTitleRowProps) {
+  const hasError = !form.get('name').valid && form.get('name').touched;
   return (
-    <div className={locals.titleRowContainer}>
-      <label>
-        <AlertTypography
-          variant={'body-regular'}
-          color={'color900'}
-          content={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesTitle')}
-          noMargin
+    <Stack gap="xxsmall">
+      <div className={locals.titleRowContainer}>
+        <label>
+          <AlertTypography
+            variant={'body-regular'}
+            color={'color900'}
+            content={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesTitle')}
+            noMargin
+          />
+        </label>
+
+        <DebouncedInput
+          name="name"
+          id="name"
+          delay={300}
+          hasError={hasError}
+          type="text"
+          onValueChange={(targetValue: string) => {
+            onChange(['name'], field => (field as Field<string>).setValue(targetValue || '').setTouched(true));
+          }}
+          value={form.get('name').value}
+          placeholder={getTitlePlaceholder(form)}
         />
-      </label>
 
-      <DebouncedInput
-        name="name"
-        id="name"
-        delay={300}
-        type="text"
-        onValueChange={(targetValue: string) => {
-          onChange(['name'], field => (field as Field<string>).setValue(targetValue || '').setTouched(true));
-        }}
-        value={form.get('name').value}
-        placeholder={getTitlePlaceholder(form)}
-        isTearSheet
-      />
-
-      {placeholders.length > 0 && (
-        <MoreMenu
-          renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
-            <Button
-              kind="action"
-              icon="lib_openclose_add"
-              ref={ref}
-              onClick={e => {
-                stopPropagation(e);
-                toggle();
-              }}
-              size="compact"
-              className={locals.btnWidth100}
-            >
-              {t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertyInsertPlaceholderLabel')}
-            </Button>
-          )}
-        >
-          {placeholders.map(({ template }) => {
-            return (
-              <MoreMenuButton
-                onClick={insertPlaceholderText(form.get('name').value, template, onChange)}
-                key={template}
+        {placeholders.length > 0 && (
+          <MoreMenu
+            renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
+              <Button
+                kind="action"
+                icon="lib_openclose_add"
+                ref={ref}
+                onClick={e => {
+                  stopPropagation(e);
+                  toggle();
+                }}
+                size="compact"
+                className={locals.btnWidth100}
               >
-                {template}
-              </MoreMenuButton>
-            );
-          })}
-        </MoreMenu>
-      )}
-    </div>
+                {t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertyInsertPlaceholderLabel')}
+              </Button>
+            )}
+          >
+            {placeholders.map(({ template }) => {
+              return (
+                <MoreMenuButton
+                  onClick={insertPlaceholderText(form.get('name').value, template, onChange)}
+                  key={template}
+                >
+                  {template}
+                </MoreMenuButton>
+              );
+            })}
+          </MoreMenu>
+        )}
+      </div>
+      <div className={locals.titleValidation}>
+        <TouchedMessages field={form.get('name')} />
+      </div>
+    </Stack>
   );
 }
 
-function insertPlaceholderText(
+export function insertPlaceholderText(
   value: string,
   placeholderString: string,
   onChange: (path: string[], updater: (item: Item) => Item) => void

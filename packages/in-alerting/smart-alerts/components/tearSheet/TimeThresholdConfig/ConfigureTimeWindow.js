@@ -23,7 +23,8 @@ export default function ConfigureTimeWindow({
   min = 1,
   maxTimeWindow = 12,
   step = 1,
-  hasError,
+  hasErrorViolations,
+  hasErrorTimeWindow,
   type = 'number',
   onChangeViolations,
   violations,
@@ -33,7 +34,16 @@ export default function ConfigureTimeWindow({
     <AlertThresholdConfigItemContainer
       noIcon
       isTearSheet
-      isFiveColumnInTearSheet={timeThresholdType === timeThresholdTypes.violationsInPeriod}
+      isColumns3WithError={timeThresholdType !== timeThresholdTypes.violationsInPeriod && hasErrorTimeWindow}
+      isTSFiveColumn={
+        timeThresholdType === timeThresholdTypes.violationsInPeriod && !hasErrorViolations && !hasErrorTimeWindow
+      }
+      isTSColumn5WithErrorOn1stField={
+        timeThresholdType === timeThresholdTypes.violationsInPeriod && hasErrorViolations && !hasErrorTimeWindow
+      }
+      isTSColumn5WithErrorOnBothField={
+        timeThresholdType === timeThresholdTypes.violationsInPeriod && hasErrorViolations && hasErrorTimeWindow
+      }
     >
       <AlertTypography variant={'body-regular'} color={'color900'} content={label} noMargin />
 
@@ -42,6 +52,7 @@ export default function ConfigureTimeWindow({
           <DebouncedInput
             delay={300}
             id="violationCount"
+            data-testid="violationCountInput"
             name="violationCountInput"
             type={type}
             min={min}
@@ -54,6 +65,7 @@ export default function ConfigureTimeWindow({
               onChangeViolations(value);
             }}
             value={violations}
+            hasError={hasErrorViolations}
             pure={false}
           />
           <AlertTypography
@@ -68,6 +80,7 @@ export default function ConfigureTimeWindow({
         delay={300}
         id="timeWindow"
         name="timeWindowInput"
+        data-testid="timeWindowInput"
         type={type}
         min={min}
         max={maxTimeWindow}
@@ -79,7 +92,7 @@ export default function ConfigureTimeWindow({
           onChange(value * granularity);
         }}
         value={timeThresholdTimeWindow / granularity ?? ''}
-        hasError={hasError}
+        hasError={hasErrorTimeWindow}
         pure={false}
       />
 
@@ -108,7 +121,8 @@ ConfigureTimeWindow.propTypes = {
   min: PropTypes.number,
   maxTimeWindow: PropTypes.number,
   step: PropTypes.number,
-  hasError: PropTypes.bool,
+  hasErrorViolations: PropTypes.bool,
+  hasErrorTimeWindow: PropTypes.bool,
   type: PropTypes.string,
   onChangeViolations: PropTypes.func,
   violations: PropTypes.number,

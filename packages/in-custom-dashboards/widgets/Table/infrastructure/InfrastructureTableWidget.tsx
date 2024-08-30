@@ -46,6 +46,7 @@ export interface MetricItem {
   regex: boolean;
   lastValue?: boolean;
   required?: boolean;
+  unit?: string;
 }
 
 export default function InfrastructureTableWidget(props: TableWidgetProps) {
@@ -119,7 +120,8 @@ function InfrastructureTable(props: TableWidgetProps) {
     // @ts-expect-error
     tagFilterExpression,
     type,
-    query: catalogQuery.debouncedValue
+    query: catalogQuery.debouncedValue,
+    withHierarchy: false
   });
 
   const backendGroupBy = useMemo(() => toBackendGroupBy(groupBy), [groupBy]);
@@ -265,7 +267,8 @@ function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
       metricLabel,
       regex,
       lastValue,
-      required
+      required,
+      unit
     }) => ({
       aggregation,
       crossSeriesAggregation,
@@ -276,7 +279,8 @@ function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
       isFormatterSelected,
       regex,
       lastValue,
-      required
+      required,
+      unit
     })
   );
 

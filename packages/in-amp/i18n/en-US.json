@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "Account Settings",
+      "unknownDomain": "Unknown Domain",
       "billingAddress": "Billing Address",
       "country": "Country",
       "state": "State",
@@ -27,6 +28,12 @@
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "There has been no active paid license in the past 30 days."
     },
+    "fairUsePolicyMessage": {
+      "title": "This account is subject to Fair Use Policy. See data usage in charts below."
+    },
+    "fairUsePolicyNotActive": {
+      "title": "Fair Use Policy is not active."
+    },
     "restrictedUsage": {
       "accountUsage": "Account Usage"
     },
@@ -44,16 +51,15 @@
       "entitledNumberOfMVS": "Entitled Number of MVS",
       "actualAverage": "Actual Average Configured Number of MVS",
       "onDemandNumber": "On-Demand number of MVS",
-      "willBeBilledMonthlyMVS": "will be billed monthly as on-demand MVS",
       "dataIngestFairUseEntitlement": "Data Ingest fair-use entitlement per MVS",
       "totalDataIngestFairUseEntitlement": "Total Data Ingest fair-use entitlement",
       "dataIngestAddOnEntitlement": "Data Ingest Add-on entitlement",
       "totalAmountPurchased": "Total amount purchased via extra data-ingest add-on",
-      "dataIngestEntitlementFromOnDemand": "Data Ingest Fair-Use Entitlement from On-Demand MVS",
+      "dataIngestEntitlementFromOnDemand": "Data Ingest fair-Use Entitlement from On-Demand MVS",
       "totalDataIngestEntitlement": "Total Data Ingest Entitlement",
       "actualDataIngest": "Actual Data-Ingest",
       "onDemandDataIngest": "On-Demand Data-Ingest",
-      "willBeBilledMonthlyIngest": "will be billed monthly as on-demand data ingest"
+      "noData": "No data"
     },
     "timePresets": {
       "last7Days": "Last 7 days",
@@ -61,6 +67,10 @@
       "last365Days": "Last 365 days",
       "thisMonth": "This Month",
       "lastMonth": "Last Month"
+    },
+    "presentationPresets": {
+      "distinct": "Distinct values",
+      "cumulative": "Cumulated values"
     },
     "usages": {
       "allPaidUnitsAggregated": "All paid units (aggregated)",
@@ -75,12 +85,24 @@
       "purchased": "Purchased",
       "essentials": "Essentials",
       "iqmHosts": "IQM Hosts",
-      "syntheticPops":"Synthetic Managed PoPs",
-      "resourceUnits":"Resource Units",
-      "consumedUnits":"Consumed Units",
-      "addons":"Add-ons",
-      "dataUsageHelperText" : "Amount of bytes sent through agents separated by category in the chosen timeframe.",
-      "helperText": "Number of resource units consumed by each type of action. Units are calculated with a factor of 0.025 for simple tests, 0.042 for API tests, and 1.000 for browser tests."
+      "syntheticPops": "Synthetic Managed PoPs",
+      "logging" : "Logs in context",
+      "resourceUnits": "Entitled resource units",
+      "consumedUnits": "Consumed resource units",
+      "infrastructure": "Infrastructure",
+      "synthetics": "Synthetics",
+      "traces": "Traces",
+      "eumMobile": "EUM Mobile",
+      "eumWebsite": "EUM Website",
+      "addons": "Add-ons",
+      "trendLine": "Trendline",
+      "dataUsage": "Data usage",
+      "dataUsageHelperText": "Amount of bytes sent through agents separated by category in the chosen timeframe.",
+      "syntheticsHelperText": "Number of resource units consumed by each type of action. Units are calculated with a factor of 0.025 for simple tests, 0.042 for API tests, and 1.000 for browser tests.",
+      "loggingHelperText" : {
+        "saas": "Number of resource units (RU) consumed by logs in context.<br><br>Resource units are calculated based on how long ingested data is retained:<br>• 1 GB of data retained for 30 days consumes 1 RU.<br>• 1 GB of data retained for 60 days consumes 1.2 RUs.<br>• 1 GB of data retained for 90 days consumes 1.4 RUs.",
+        "onprem" : "Number of resource units (RU) consumed by logs in context.<br><br>Resource units are calculated based on how much data is ingested. 1 GB of ingested data consumes 1 RU."
+      }
     },
     "activationAdoption": {
       "activationAdoption": "Activation & Adoption",

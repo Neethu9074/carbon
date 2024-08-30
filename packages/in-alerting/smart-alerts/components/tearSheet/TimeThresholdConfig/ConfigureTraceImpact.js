@@ -9,6 +9,7 @@ import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 import AlertTypography from 'in-alerting/components/AlertTypography';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
@@ -16,7 +17,7 @@ import locals from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThre
 
 export default function ConfigureTraceImpact({ form, onChange }) {
   const timeThresholdForm = form.get('timeThreshold');
-
+  const hasError = !timeThresholdForm.get('requests').valid && timeThresholdForm.get('requests').touched;
   return (
     <>
       <AlertThresholdConfigItemContainer isTearSheet noIcon>
@@ -34,6 +35,7 @@ export default function ConfigureTraceImpact({ form, onChange }) {
               min="1"
               name="requests"
               value={value}
+              hasError={hasError}
               onChange={e =>
                 onChange(['timeThreshold', 'requests'], field =>
                   field.setValue(e.target.value !== '' ? Math.abs(e.target.value) : '').setTouched(true)
@@ -50,6 +52,13 @@ export default function ConfigureTraceImpact({ form, onChange }) {
           noMargin
         />
       </AlertThresholdConfigItemContainer>
+      <div className={locals.traceImpactValidationContainer}>
+        {timeThresholdForm.containsKey('requests') && (
+          <div className={locals.traceImpactValidation}>
+            <TouchedMessages field={timeThresholdForm.get('requests')} />
+          </div>
+        )}
+      </div>
     </>
   );
 }

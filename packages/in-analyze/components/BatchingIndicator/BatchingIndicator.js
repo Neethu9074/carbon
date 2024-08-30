@@ -20,16 +20,18 @@ export default function BatchingIndicator({ batchCount, tooltipContent, tooltipA
 
   return (
     <Tooltip content={tooltipContent} align={tooltipAlign}>
-      <Pill
-        type="gray"
-        kind="lighter"
-        className={classNames({
-          [locals.pill]: true,
-          [locals.noTopPosition]: noTopPosition
-        })}
-      >
-        {number.compact(batchCount)}
-      </Pill>
+      <div>
+        <Pill
+          type="gray"
+          kind="lighter"
+          className={classNames({
+            [locals.pill]: true,
+            [locals.noTopPosition]: noTopPosition
+          })}
+        >
+          {number.compact(batchCount)}
+        </Pill>
+      </div>
     </Tooltip>
   );
 }

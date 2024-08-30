@@ -10,11 +10,11 @@ import React, { useMemo } from 'react';
 
 import { Checkbox, RadioButton, SearchInput } from '@instana/components';
 import { GroupPermissionEntity, Result } from '@instana/types';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { t } from 'in-i18n';
 
@@ -59,13 +59,7 @@ export default function ApplicationsSection({ form, updateForm, applications }: 
   }
 
   let header = (
-    <SearchInput
-      className={locals.rightHeader}
-      maxWidth="140"
-      query={searchInput}
-      placeholder=""
-      onChange={q => setSearchInput(q)}
-    />
+    <SearchInput className={locals.rightHeader} maxWidth="140" query={searchInput} onChange={q => setSearchInput(q)} />
   );
 
   const loadMoreApplications = () => {
@@ -81,7 +75,7 @@ export default function ApplicationsSection({ form, updateForm, applications }: 
   };
 
   const renderApplications = () => {
-    if (syntheticMultiAppEnabled) {
+    if (syntheticRbacLimitedEnabled) {
       return (
         <div>
           {filteredApplications
@@ -150,7 +144,7 @@ export default function ApplicationsSection({ form, updateForm, applications }: 
     <ExpandableLightCard
       className={locals.container}
       title={
-        syntheticMultiAppEnabled
+        syntheticRbacLimitedEnabled
           ? t('in-synthetics:dialog.createTest.basicDetails.labelApplications')
           : t('in-synthetics:dialog.createTest.basicDetails.labelApplication')
       }

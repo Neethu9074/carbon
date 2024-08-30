@@ -13,9 +13,9 @@ import {
   metricsPath,
   useChartFormatterDragAndDropFormSideEffects
 } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
+import { getMetricId, getMetricLabel, getMetricUnit } from 'in-custom-dashboards/widgets/Chart/util';
 import ColorConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/ColorConfigurator';
 import { refreshDFQ$ } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
-import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Header from 'in-components/workspace/Header';
@@ -73,6 +73,22 @@ export const columnDefinitions = [
     }
   },
   {
+    x: 'unitPill',
+    forceMinimumWidth: true,
+    verticallyCenter: true,
+    shrink: false,
+    getContent({ metricForm }) {
+      return (
+        <div className={locals.pillWrapper}>
+          <Pill size="lg" kind="info">
+            {getMetricUnit(metricForm.toJS())}
+          </Pill>
+        </div>
+      );
+    }
+  },
+  {
+    x: 'colorConfigurator',
     forceMinimumWidth: true,
     verticallyCenter: true,
     shrink: false,
@@ -121,13 +137,16 @@ export function MetricsForAxis({
   startIndex,
   getShortMetricKey,
   isColorConfiguratorEnabled = true,
+  withUnitPill = false,
   helpText = t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.dragDropDataset2Axes')
 }) {
   const axisForm = form.get(axisName);
   const metricsForm = axisForm.get(metricsPath);
 
   const showHelpText = metricsForm.size === 0;
-  const columnsDefinitions = isColorConfiguratorEnabled ? columnDefinitions : columnDefinitions.slice(0, -1);
+  const columnsDefinitions = columnDefinitions
+    .filter(({ x }) => x !== 'colorConfigurator' || isColorConfiguratorEnabled)
+    .filter(({ x }) => x !== 'unitPill' || withUnitPill);
 
   return (
     <Stack gap="normal">
@@ -148,21 +167,26 @@ export function MetricsForAxis({
                 index={indexInAxis}
               >
                 {provided => (
-                  <Ul ref={provided.innerRef} {...provided.draggableProps}>
-                    <Li noAlternatingBg className={locals.draggableItem}>
-                      <ColumnizedContent
-                        columnDefinitions={columnsDefinitions}
-                        axisName={axisName}
-                        metricForm={metricForm}
-                        form={form}
-                        onChange={onChange}
-                        indexInAxis={indexInAxis}
-                        index={startIndex + indexInAxis}
-                        dragHandleProps={provided.dragHandleProps}
-                        getShortMetricKey={getShortMetricKey}
-                      />
-                    </Li>
-                  </Ul>
+                  <div ref={provided.innerRef} {...provided.draggableProps}>
+                    <Ul>
+                      <Li noAlternatingBg className={locals.draggableItem}>
+                        <ColumnizedContent
+                          columnDefinitions={getFilteredColumnDefinitionsForSource(
+                            columnsDefinitions,
+                            metricForm.toJS()?.source
+                          )}
+                          axisName={axisName}
+                          metricForm={metricForm}
+                          form={form}
+                          onChange={onChange}
+                          indexInAxis={indexInAxis}
+                          index={startIndex + indexInAxis}
+                          dragHandleProps={provided.dragHandleProps}
+                          getShortMetricKey={getShortMetricKey}
+                        />
+                      </Li>
+                    </Ul>
+                  </div>
                 )}
               </Draggable>
             ))}
@@ -174,4 +198,8 @@ export function MetricsForAxis({
       </Droppable>
     </Stack>
   );
+}
+
+function getFilteredColumnDefinitionsForSource(columnsDefinitions, source) {
+  return columnsDefinitions.filter(({ x }) => x !== 'unitPill' || source === 'INFRASTRUCTURE_METRICS');
 }

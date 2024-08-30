@@ -83,6 +83,15 @@
   .lastRow {
     border-bottom: none;
   }
+
+  .loadMore {
+    border-bottom: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 0;
+  }
 }
 
 :global {

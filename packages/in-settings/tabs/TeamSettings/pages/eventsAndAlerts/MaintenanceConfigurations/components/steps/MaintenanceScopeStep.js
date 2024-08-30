@@ -20,10 +20,11 @@ import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import { syntheticsFilterForMaintenanceWindowsEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
+import { carbonComboBoxEnabled } from 'in-services/featureFlags';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import IconLabel from 'in-alerting/components/IconLabel';
 import FormGroup from 'in-components/form/FormGroup';
 import ComboBox from 'in-components/ComboBox';
@@ -62,21 +63,37 @@ export default function MaintenanceScopeStep(props) {
       value: 'dfq',
       label: t('in-settings:tabs.selectedEntitiesDynamicFocusQuery')
     });
-    // Im sorry, I have sinned and not provided a string to the label property. Forgive me TypeScript gods (required for beta tag)
-    if (syntheticsFilterForMaintenanceWindowsEnabled)
+    if (syntheticsFilterForMaintenanceWindowsEnabled) {
+      // Im sorry, I have sinned and not provided a string to the label property. Forgive me TypeScript gods (required for beta tag)
       options.push({
         value: 'synthetic',
-        label: (
+        label: carbonComboBoxEnabled ? (
+          t('in-settings:tabs.syntheticTests')
+        ) : (
           <Stack direction="horizontal" distribution="spaceBetween" align="center">
             {t('in-settings:tabs.syntheticTests')}
-            <BetaBadge />
+            <PreviewBadge />
           </Stack>
         )
       });
+    }
     options.push({ value: 'all', label: t('in-settings:tabs.allAvailableEntities') });
 
     return options;
   };
+
+  // Provide a custom render rather than breaking typescript
+  function Option(props) {
+    const { data: option } = props;
+    if (option.value !== 'synthetic') return option.label;
+    return (
+      <Stack direction="horizontal" distribution="spaceBetween" align="center">
+        {t('in-settings:tabs.syntheticTests')}
+        <PreviewBadge className={locals.previewBadge} />
+      </Stack>
+    );
+  }
+
   return (
     <FormGroup className={locals.mwWrapper}>
       <div className={locals.inputContainer}>
@@ -96,6 +113,7 @@ export default function MaintenanceScopeStep(props) {
                   setForm(updatedForm);
                 }
               }}
+              components={carbonComboBoxEnabled ? { Option } : undefined}
             />
             <TouchedMessages field={field} />
             {form.get('applyOn').value === 'all' && (

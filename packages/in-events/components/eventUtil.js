@@ -35,6 +35,10 @@ export function isAgentMonitoringIssueEvent(event) {
   return event.hasIn(['metadata', 'agent_monitoring_issue']);
 }
 
+export function isCveIssueEvent(event) {
+  return event.hasIn(['metadata', 'cve_issue']);
+}
+
 export function isIbmMqFileTransferIssueEvent(event) {
   return event.hasIn(['metadata', 'ibmMqFileTransfer']);
 }

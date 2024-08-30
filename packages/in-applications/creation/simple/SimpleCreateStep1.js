@@ -5,12 +5,13 @@
 
 import React from 'react';
 
+import { Menu } from '@instana/components';
+
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import { applicationCreationSelectedBlueprint } from 'in-applications/creation/tracker';
 import { blueprintConfig } from 'in-applications/creation/data/blueprintConfig';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
 import locals from './SimpleCreateStep1.mless';

@@ -16,19 +16,24 @@ if (isRequiringInstanaRocks()) {
 if (serverConfig.mixpanelToken) {
   allowedScriptOrigins.push('https://cdn.mxpnl.com');
 }
-allowedScriptOrigins.push('https://cdn.walkme.com');
-allowedScriptOrigins.push('https://playerserver.walkme.com');
-allowedScriptOrigins.push('https://ec.walkme.com');
 
 if (serverConfig.appcuesId) {
   allowedScriptOrigins.push('https://fast.appcues.com');
 }
 
-const allowedScriptOriginsForTrialOrNotForResaleUser = [...allowedScriptOrigins, 'https://www.ibm.com'];
+const allowedScriptOriginsWalkMe = [
+  ...allowedScriptOrigins,
+  'https://cdn.walkme.com',
+  'https://playerserver.walkme.com',
+  'https://ec.walkme.com'
+];
+const allowedScriptOriginsAssistMe = [...allowedScriptOriginsWalkMe, 'https://www.ibm.com'];
 
-exports.getCsp = (nonce, isAssistMeEnabled) => {
-  if (isAssistMeEnabled) {
-    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsForTrialOrNotForResaleUser.join(' ')}`;
+exports.getCsp = (nonce, isAssistMeEnabled, injectWalkMeScript) => {
+  if (injectWalkMeScript) {
+    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(' ')}`;
+  } else if (isAssistMeEnabled) {
+    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsAssistMe.join(' ')}`;
   } else {
     return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOrigins.join(' ')}`;
   }

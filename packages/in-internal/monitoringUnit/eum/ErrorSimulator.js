@@ -6,7 +6,7 @@
 /* eslint-disable no-console */
 import React, { Fragment, useState } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { t } from 'in-i18n';
 

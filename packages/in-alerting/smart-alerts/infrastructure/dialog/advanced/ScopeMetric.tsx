@@ -6,7 +6,7 @@
 
 import React, { useMemo, useRef, useState } from 'react';
 import { MapForm, Field, Item } from 'formalistic';
-import { isEmpty, escapeRegExp } from 'lodash';
+import { escapeRegExp } from 'lodash';
 
 //@ts-expect-error
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
@@ -15,11 +15,11 @@ import {
   getLabelForRegex,
   getPathForRegex
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/formStateManagement';
-//@ts-expect-error
-import { toOptions } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import { regexValidationError } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
+import { toOptions } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 //@ts-expect-error
 import { getMetricPathAndLabel } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
+import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import ValidationMessages from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
@@ -28,6 +28,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
 import { emptyArray } from 'in-services/fixedObjects';
+import { getPluginName } from 'in-sdk/pluginName';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
@@ -39,7 +40,7 @@ interface ScopeMetricProps {
 }
 interface Node {
   metric: string;
-  parentType: string;
+  levelType: string;
   label: string;
   parentLabels: string[];
 }
@@ -49,10 +50,14 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
   const entityTypeField = form.get('rule').get('entityType');
   const metricLabelField = form.get('hiddenFields').get('metricLabel');
   const metricPathField = form.get('hiddenFields').get('metricPath');
+  const aggregation = form.get('rule')?.get('aggregation').value;
+
   const metric = metricField?.value;
   const entityType = entityTypeField?.value;
   let metricLabel = metricLabelField?.value;
   let metricPath = metricPathField?.value;
+  const getMetricLabel = useGetMetricLabel(entityType, metric, aggregation);
+  const entityLabel = getPluginName(entityType, 1);
   const backendQueryModel = EMPTY_EXPRESSION;
   const catalogQuery = useDebouncedValue('', noop, 800);
   const initialRegex = useRef('');
@@ -61,27 +66,37 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
     type: selectedType,
-    query: metric && !metricPath ? metric : catalogQuery.debouncedValue
+    query: metric && !metricPath ? metric : catalogQuery.debouncedValue,
+    context: 'SMART_ALERTS',
+    withHierarchy: true
   });
 
+  // Setting metric label & path for regex option
   if (isRegex && (metricLabel == null || metricPath == null)) {
     metricLabel = getLabelForRegex(metric);
     metricPath = getPathForRegex(metric);
   }
 
+  //Generating options tree from metric catelog
   const options = useMemo(
     () => (metric && !metricPath && metricCatalog?.data?.tree ? toOptions(metricCatalog?.data?.tree, []) : emptyArray),
     [metricCatalog, metric, metricPath]
   );
 
+  //Recursive function call to construct metric path and label object from options tree.
   const metricPathAndLabel = useMemo(
     () => (!metricPath && options.length ? getMetricPathAndLabel(options, metric, entityType) : {}),
     [options, metric, entityType, metricPath]
   );
 
-  if (!metricLabel && !metricPath?.length && !isEmpty(metricPathAndLabel)) {
-    metricLabel = metricPathAndLabel.label;
-    metricPath = metricPathAndLabel.path;
+  // Updating metric path and label in edit scenario
+  if (metric && !metricLabel && !metricPath?.length) {
+    metricLabel = metricPathAndLabel?.label ?? getMetricLabel;
+    metricPath =
+      metricPathAndLabel?.path && metricPathAndLabel?.path.length > 0
+        ? metricPathAndLabel?.path
+        : ['Others', entityLabel];
+
     updateFormField({
       updateForm,
       form,
@@ -99,19 +114,7 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
       ((metricLabelField && !metricLabel) || !metricPath || metricPath.length == 0) && metricCatalog.progress.loading
   };
   const stableMetricCatalog = catalogQuery.value === catalogQuery.debouncedValue ? metricCatalog : pendingResult;
-  const onMetricChange = (metricObj: Node, form: MapForm<any>, updateForm: (form: MapForm<any>) => void) => {
-    if (metric !== metricObj.metric) {
-      updateFormField({
-        updateForm,
-        form,
-        metricLabel: metricObj.label,
-        metricPath: metricObj.parentLabels,
-        metric: metricObj.metric,
-        entityType: metricObj.parentType,
-        clearGroupFilter: entityType == metricObj.parentType ? false : true
-      });
-    }
-  };
+  const onMetricChange = onMetricChangeMethod();
 
   const onRegexChange = (regex: string) => {
     if (!isRegex) {
@@ -155,15 +158,6 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
     }
   };
 
-  const onTypeChange = (type: string) => {
-    updateFormField({
-      updateForm,
-      form,
-      entityType: type,
-      clearGroupFilter: true
-    });
-  };
-
   return (
     <>
       <TypeAndMetricConfigurator
@@ -171,7 +165,7 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
         metricCatalog={stableMetricCatalog.data}
         loading={stableMetricCatalog.progress.loading}
         errors={stableMetricCatalog.errors}
-        onMetricChange={(metricObj: Node) => onMetricChange(metricObj, form, updateForm)}
+        onMetricChange={(metricObj: Node) => onMetricChange(metricObj, form, updateForm, metric, entityType)}
         query={catalogQuery.value}
         onQueryChange={catalogQuery.onChange}
         selectMetric={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.metric.selectMetric')}
@@ -183,7 +177,7 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
         backendQueryModel={backendQueryModel}
         SelectorOverlay={MetricSelectionCategoryOverlay}
         type={entityTypeField?.value}
-        onTypeChange={onTypeChange}
+        onTypeChange={onTypeChange(form, updateForm)}
         onSelectType={onSelectType}
       />
       <TouchedMessages field={metricField} />
@@ -247,4 +241,37 @@ function updateFormField({
   }
 
   updateForm(updatedForm);
+}
+
+function onMetricChangeMethod() {
+  return (
+    metricObj: Node,
+    form: MapForm<any>,
+    updateForm: (form: MapForm<any>) => void,
+    metric: string,
+    entityType: string
+  ) => {
+    if (metric !== metricObj.metric) {
+      updateFormField({
+        updateForm,
+        form,
+        metricLabel: metricObj.label,
+        metricPath: metricObj.parentLabels,
+        metric: metricObj.metric,
+        entityType: metricObj.levelType,
+        clearGroupFilter: entityType == metricObj.levelType ? false : true
+      });
+    }
+  };
+}
+
+function onTypeChange(form: MapForm<any>, updateForm: (form: MapForm<any>) => void) {
+  return (type: string) => {
+    updateFormField({
+      updateForm,
+      form,
+      entityType: type,
+      clearGroupFilter: true
+    });
+  };
 }

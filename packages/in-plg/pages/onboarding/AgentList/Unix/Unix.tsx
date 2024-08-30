@@ -6,8 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack, Typography, KeyValue, RadioButton } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Typography, KeyValue, RadioButton, Button } from '@instana/components';
 
 import { getPlatformArchitectures, supportViewData } from 'in-plg/pages/onboarding/AgentList/Unix/Data';
 import { DropDown, getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
@@ -16,6 +15,7 @@ import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAg
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 const agentModeOptions = [
@@ -49,6 +49,7 @@ export default function Unix({
           icon="lib_actions_download"
           iconSize="s"
           kind="action"
+          {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
         >
           {''}
         </Button>

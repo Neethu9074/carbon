@@ -12,9 +12,7 @@
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restore",
     "alertHeaderRestoreDeleteTooltip": "Delete",
     "alertHeaderEditTooltip": "Edit",
-    "alertHeaderEditTooltipNew": "Edit (New)",
     "alertHeaderDuplicateTooltip": "Duplicate",
-    "alertHeaderDuplicateTooltipNew": "Duplicate (New)",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Please Confirm",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Are you sure you want to remove the alert <strong>{{alertConfigName}}</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remove",
@@ -43,6 +41,8 @@
     "chart": {
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",
+      "alertingChartLabelWarningThreshold": "Warning Threshold",
+      "alertingChartLabelCriticalThreshold": "Critical Threshold",
       "alertingChartLabelForecast": "Forecast",
       "alertingChartLabelUpperBound": "Upper Bound",
       "alertingChartLabelLowerBound": "Lower Bound",
@@ -166,11 +166,11 @@
             "description": "Alert individually for this Application Perspective",
             "globalDescription": "Alert individually per Application Perspective",
             "tearSheetSelectionText": "Group by application",
-            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} application. When there is a violation, a single alert notification gets sent for this entire application perspective.",
-            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When there is a violation, a single alert notification gets sent for this entire application perspective. ",
-            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When there is a violation, a single alert notification gets sent for this entire application perspective. ",
-            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When there is a violation, a single alert notification gets sent for this entire application perspective. ",
-            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When there is a violation, a single alert notification gets sent for this entire application perspective. "
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} application. When the latency is violated, a single alert notification is sent for this entire application perspective.",
+            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When the latency is violated, a single alert notification is sent for this entire application perspective.",
+            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When the latency is violated, a single alert notification is sent for this entire application perspective.",
+            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When the latency is violated, a single alert notification is sent for this entire application perspective.",
+            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When the latency is violated, a single alert notification is sent for this entire application perspective. "
           },
           "evaluationTypePERAPSERVICE": {
             "selectionText": "per Service for this Application Perspective",
@@ -180,11 +180,11 @@
             "description": "Alert individually per Service for this Application Perspective",
             "globalDescription": "Alert individually per Service in the context of each Application Perspective",
             "tearSheetSelectionText": "Group by service",
-            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} service - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When there is a violation for a group, an alert notification is sent for that group."
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} service - one for each service, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group."
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "per Endpoint for this Application Perspective",
@@ -194,11 +194,11 @@
             "description": "Alert individually per Endpoint for this Application Perspective",
             "globalDescription": "Alert individually per Endpoint in the context of each Application Perspective",
             "tearSheetSelectionText": "Group by endpoint",
-            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} endpoint - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group.",
-            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When there is a violation for a group, an alert notification is sent for that group."
+            "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} endpoint - one for each endpoint, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_0": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_1": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
+            "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group."
           }
         },
         "inboundOutboundCalls": {
@@ -278,6 +278,9 @@
             "label": "Payloads",
             "title": "Custom Payload"
           }
+        },
+        "staticOrAdaptiveSwitch": {
+          "description": "Avoid using adaptive thresholds for error metrics, as they may not trigger alerts for gradually increasing errors."
         }
       },
       "chart": {
@@ -301,8 +304,8 @@
           "name": "Slow Calls",
           "headline": "Automatic Alerts for Slow Calls",
           "text": "Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual.",
-          "tearSheetHeadline": "Alerts for calls count",
-          "tearSheetDescription": "Automatic alerts when calls to selected services and endpoints of this Application Perspective are slower than the threshold."
+          "tearSheetHeadline": "Automatic alerts for slow calls",
+          "tearSheetDescription": "Receive an alert when calls to selected services and endpoints of this application perspective are slower than the threshold."
         },
         "errors": {
           "name": "Erroneous Calls",
@@ -314,6 +317,7 @@
         "logs": {
           "name": "Logs",
           "headline": "Automatic Alerts for Error and Warning Logs",
+          "tearSheetHeadline": "Automatic alerts for error and warning logs",
           "text": "Receive an alert when the number of calls with given error and warning log messages is higher than expected.",
           "metricLabel": "Calls",
           "incompleteRuleMessage": "Please select a Log Message to see when this alert triggers"
@@ -324,24 +328,24 @@
           "text": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
           "incompleteRuleMessage": "Please select a Status Code to see when this alert triggers",
           "tearSheetHeadline": "Automatic alerts for HTTP status codes",
-          "tearSheetDescription": "Receive an alert when matching HTTP Status Codes occur more often than the threshold."
+          "tearSheetDescription": "Receive an alert when matching HTTP status codes occur more often than the threshold."
         },
         "throughput": {
           "name": "Throughput",
           "headline": "Automatic Alerts for Calls Count",
           "text": "Automatic alerts on anomalously low or high number of calls for selected services and endpoints of this Application Perspective.",
           "metricLabel": "Calls",
-          "tearSheetHeadline": "Automatic alerts for page views",
-          "tearSheetDescription": "Automatic alerts on an unusually low or high number of calls for selected services and endpoints of this Application Perspective."
+          "tearSheetHeadline": "Automatic alerts for throughput",
+          "tearSheetDescription": "Receive an alert when the number of calls is unusually high or low for selected services and endpoints of this application perspective."
         },
         "simpleMode": {
           "unexpectedDrop": {
-            "name": "Unexpectedly Low Number of Calls",
+            "name": "Low Number of Calls",
             "headline": "Automatic Alerts on Anomalously Low Number of Calls",
             "text": "Receive an alert when the number of calls is significantly lower than expected compared to the available past data. This might be an indication of a problem upstream of this application or a drop in the user traffic to the application."
           },
           "unexpectedlyHighNumber": {
-            "name": "Unexpectedly High Number of Calls",
+            "name": "High Number of Calls",
             "headline": "Automatic Alerts on Anomalously High Number of Calls",
             "text": "Receive an alert when the number of calls is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the application."
           }
@@ -364,14 +368,22 @@
           "throughputLow": "Number of calls is anomalously low"
         },
         "descriptionPlaceholder": {
-          "errorRate_higherThan": "The erroneous call rate is higher than {{valueRoundedToDecimals}}%.",
-          "errorRate_higherEqual": "The erroneous call rate is higher or equal to {{valueRoundedToDecimals}}%.",
-          "errorRate_lowerThan": "The erroneous call rate is lower than {{valueRoundedToDecimals}}%.",
-          "errorRate_lowerEqual": "The erroneous call rate is lower or equal to {{valueRoundedToDecimals}}%.",
-          "errorCount_higherThan": "The number of erroneous calls is higher than {{valueRoundedToDecimals}}.",
-          "errorCount_higherEqual": "The number of erroneous calls is higher or equal to {{valueRoundedToDecimals}}.",
-          "errorCount_lowerThan": "The number of erroneous calls is lower than {{valueRoundedToDecimals}}.",
-          "errorCount_lowerEqual": "The number of erroneous calls is lower or equal to {{valueRoundedToDecimals}}.",
+          "errorRateStaticThreshold_higherThan": "The erroneous call rate is higher than {{valueRoundedToDecimals}}%.",
+          "errorRateStaticThreshold_higherEqual": "The erroneous call rate is higher or equal to {{valueRoundedToDecimals}}%.",
+          "errorRateStaticThreshold_lowerThan": "The erroneous call rate is lower than {{valueRoundedToDecimals}}%.",
+          "errorRateStaticThreshold_lowerEqual": "The erroneous call rate is lower or equal to {{valueRoundedToDecimals}}%.",
+          "errorRateDefault_higherThan": "The erroneous call rate is higher than expected.",
+          "errorRateDefault_higherEqual": "The erroneous call rate is higher or equal to expected.",
+          "errorRateDefault_lowerThan": "The erroneous call rate is lower than expected.",
+          "errorRateDefault_lowerEqual": "The erroneous call rate is lower or equal to expected.",
+          "errorCountStaticThreshold_higherThan": "The number of erroneous calls is higher than {{valueRoundedToDecimals}}.",
+          "errorCountStaticThreshold_higherEqual": "The number of erroneous calls is higher or equal to {{valueRoundedToDecimals}}.",
+          "errorCountStaticThreshold_lowerThan": "The number of erroneous calls is lower than {{valueRoundedToDecimals}}.",
+          "errorCountStaticThreshold_lowerEqual": "The number of erroneous calls is lower or equal to {{valueRoundedToDecimals}}.",
+          "errorCountDefault_higherThan": "The number of erroneous calls is higher than expected.",
+          "errorCountDefault_higherEqual": "The number of erroneous calls is higher or equal to expected.",
+          "errorCountDefault_lowerThan": "The number of erroneous calls is lower than expected.",
+          "errorCountDefault_lowerEqual": "The number of erroneous calls is lower or equal to expected.",
           "slownessStaticThreshold_slowerThan": "Calls are slower than {{thresholdValue}} ms based on latency ({{aggregationText}}).",
           "slownessStaticThreshold_slowEqual": "Calls are slower or equal to {{thresholdValue}} ms based on latency ({{aggregationText}}).",
           "slownessStaticThreshold_below": "Calls are below {{thresholdValue}} ms based on latency ({{aggregationText}}).",
@@ -456,7 +468,6 @@
         "thresholdFormBaselineIsEmpty": "baseline is empty"
       },
       "simple": {
-        "simpleAlertStep1Headline": "Choose the issue that you want to be alerted on",
         "simpleAlertStep2Headline": "Where do you want the alert to trigger?",
         "step1Title": "Step 1: Select Alert",
         "step2Title": "Step 2: Select Scope",
@@ -464,9 +475,7 @@
       },
       "components": {
         "createSmartAlert": "Add Smart Alert",
-        "createSmartAlertNew": "Add Smart Alert (New)",
         "createGlobalSmartAlert": "Add Global Smart Alert",
-        "createGlobalSmartAlertNew": "Add Global Smart Alert (New)",
         "provideLogMessageSelectLogMessage": "Select Log Message",
         "provideLogMessageLogLevel": "Log Level",
         "provideLogMessageErrorMessage": "Error Message",
@@ -483,9 +492,8 @@
         "getSubtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
         "getSubtitleForAdaptiveThreshold": "Adaptive Threshold, {{metricLabel}}",
         "labelActionButtonEdit": "Edit",
-        "labelActionButtonEditNew": "Edit (New)",
+        "labelNew": "(New)",
         "labelActionButtonDuplicate": "Duplicate",
-        "labelActionButtonDuplicateNew": "Duplicate (New)",
         "labelActionButtonDelete": "Delete",
         "labelAlertFilters": "Filters",
         "labelConfirm": "Please Confirm",
@@ -515,19 +523,34 @@
         "eventsCriticalIcon": "Events critical icon"
       },
       "tearSheet": {
-        "step1Title": "Pick an alert template",
+        "step1Title": "Pick a template",
         "step2Title": "Define the scope",
         "step3Title": "Define grouping",
         "step4Title": "Define when to get alerted",
-        "step5Title": "Define alert properties and channels",
+        "alertHeadline": "Choose what you want to be alerted on",
+        "step5Title": "Define alert properties",
+        "step6Title": "Define alert channels",
         "grouping": {
           "title": "Group calls",
-          "description": "Calls in each group are evaluated separately",
-          "groupByApplication": "applications",
-          "groupByServices": "services",
-          "groupByEndpoint": "endpoints",
+          "description": "Grouping allows users to configure calls in groups. Each call within the group is configured collectively but evaluated individually.",
+          "groupByApplication": "{{count}} Application",
+          "groupByApplication_plural": "{{count}} Applications",
+          "groupByApplication_0": "{{count}} Applications",
+          "groupByApplication_1": "{{count}} Applications",
+          "groupByApplication_2": "{{count}} Applications",
+          "groupByServices": "{{count}} Service",
+          "groupByServices_plural": "{{count}} Services",
+          "groupByServices_0": "{{count}} Services",
+          "groupByServices_1": "{{count}} Services",
+          "groupByServices_2": "{{count}} Services",
+          "groupByEndpoint": "{{count}} Endpoint",
+          "groupByEndpoint_plural": "{{count}} Endpoints",
+          "groupByEndpoint_0": "{{count}} Endpoints",
+          "groupByEndpoint_1": "{{count}} Endpoints",
+          "groupByEndpoint_2": "{{count}} Endpoints",
           "groupbyDescription": "Based on calls made in the last 24 hours",
-          "noData": "No groupby data available."
+          "noData": "No groupby data available.",
+          "groupByDataFailed": "Something went wrong. Could not retrieve group by data. Reason : {{reason}}"
         },
         "callsInScope": {
           "title": "Choose calls in scope ",
@@ -535,9 +558,10 @@
         },
         "includeHiddenCalls": {
           "title": "Include hidden calls (optional) ",
-          "description": "Hidden calls do not appear in built-in dashboards."
+          "description": "Internal and synthetic calls do not appear in built-in dashboards and are excluded by default"
         },
-        "serviceEndPointSelection": "Services or endpoints for selected calls",
+        "serviceEndPointSelection": "Services or endpoints for selected type of calls",
+        "serviceEndPointSelectionDescription": "Select the services you want to be alerted on.",
         "AlertPropertiesTitle": "What properties do you want to set for this alert?",
         "AlertChannelTitle": "Where do you want to be notified for alert?",
         "inboundOutboundCalls": {
@@ -566,9 +590,13 @@
         },
         "threshold": {
           "title": "Set a value for the violation threshold",
-          "description": "Choose metric, violation threshold and time window to evaluate the violation.",
+          "description": "Select a metric, violation threshold and time window to evaluate the violation.",
           "thresholdValue": "Threshold value",
-          "thresholdType": "Threshold Type",
+          "thresholdDescription": {
+            "static": "A constant threshold value is applied and it does not change over time.",
+            "staticDaily": "A time-dependent threshold value based on daily historical data is applied and it does not change automatically.",
+            "staticWeekly": "A time-dependent threshold value based on weekly historical data is applied and it does not change automatically."
+          },
           "metricLabel": "{{metricLabel}} percentile latency",
           "minLatency": "Minimum latency",
           "maxLatency": "Maximum latency",
@@ -582,7 +610,10 @@
           "config": {
             "adaptive": {
               "description": "A threshold value that automatically adapts to the changes of the underlying metric is applied.",
-              "label": "Adaptive"
+              "label": "Adaptive",
+              "adaptiveNotSupportedForEndPoint": "An adaptive threshold is not supported when grouping by endpoints.",
+              "adaptiveNotSupportedForBluePrint": "An adaptive threshold is not supported for selected blueprint : {{bluePrint}}.",
+              "notSupported": "Not Supported"
             },
             "static": {
               "description": "A constant threshold value is applied and it does not change over time.",
@@ -617,6 +648,9 @@
       "header": "Details",
       "thresholdTypeTitle": "Threshold Type",
       "metricTitle": "Metric",
+      "threshold": "Threshold",
+      "warningThresholdLabel": "Warning",
+      "criticalThresholdLabel": "Critical",
       "entityTitle": "Scope",
       "titleBuiltInIndicator": "Built-in"
     },
@@ -710,7 +744,9 @@
       "ruleStatusCodeValueOption508": "508 (Loop Detected)",
       "ruleStatusCodeValueOption510": "510 (Not Extended)",
       "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
-      "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)"
+      "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
+      "warningThresholdValidator": "Warning threshold should be greater than critical threshold for < and <= operators.",
+      "criticalThresholdValidator": "Critical threshold should be greater than warning threshold for > and >= operators."
     },
     "components": {
       "smartAlertDialog": {
@@ -733,6 +769,7 @@
         "selectAlertChannelButton": "Select Alert Channels",
         "createAlertChannelTitle": "Create Alert Channel",
         "alertChannelCreatedSuccess": "Alert channel created",
+        "alertChannelCreatedSuccessDescription": "The alert channel was successfully created.",
         "alertChannelSelectTypeTitle": "Alert Channel type",
         "addChannel": "Add {{count}} Channel",
         "addChannel_plural": "Add {{count}} Channels",
@@ -826,7 +863,11 @@
         "alertPropertiesAlertLevel": "Alert Level",
         "alertPropertiesTriggersIncident": "Triggers Incident",
         "alertPropertiesDescription": "Description",
+        "warningAlertPreviewLabel": "Warning preview",
+        "criticalAlertPreviewLabel": "Critical preview",
+        "alertPreviewMissingThresholdInfo": "No preview available. Please select at least one threshold value to see the preview.",
         "alertPropertiesAlertProperties": "Alert Properties",
+        "alertPreviewDefaultTitle": "Notification title",
         "groupingPlaceholdersMissingTooltip": "Configure group(s) to access placeholder options",
         "buttonSave": "Save",
         "buttonCreate": "Create",
@@ -841,6 +882,9 @@
         "sensitivitySliderValueLabel_1": "{{count}} standard deviations",
         "sensitivitySliderValueLabel_2": "{{count}} standard deviations",
         "labelThreshold": "Threshold",
+        "multiThresholdAlertNotificationInfo": "Your input of either threshold value triggers an alert notification.",
+        "warningThresholdLabel": "Warning",
+        "criticalThresholdLabel": "Critical",
         "labelSensitivity": "Sensitivity",
         "staticThresholdTypeOptionsTooltip": "A Static Daily / Weekly Threshold is a time dependent threshold based on historical data. The threshold does not change automatically and can be manually recalculated if required.",
         "thresholdTypeOptionStaticThreshold": "Static Threshold",
@@ -854,6 +898,11 @@
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create Smart Alert",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create Global Smart Alert",
         "alertConfigDialogPresenterTitleMigrateAlert": "Migrate to Smart Alert",
+        "alertConfigTearSheetEditAlert_Local": "Edit an application Smart Alert",
+        "alertConfigTearSheetEditAlert_Global": "Edit an application global Smart Alert",
+        "alertConfigTearSheetCreateNewAlert_Local": "Create an application Smart Alert",
+        "alertConfigTearSheetCreateNewAlert_Global": "Create an application global Smart Alert",
+        "alertConfigTearSheetMigrateAlert": "Migrate to application Smart Alert",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Switch to Advanced Mode",
         "simpleAlertConfigDialogStep3Headline": "Who should get the alerts?",
         "Loading": "Loading…",
@@ -980,10 +1029,10 @@
         "customEventBlueprintConfigText": "Receive an alert every time a specific custom event occurs more or less often than it should.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Please select a custom event to see when this alert triggers",
         "customEventBlueprintConfigMetricLabel": "Occurrences",
-        "simpleModeBlueprintConfigsUnexpectedDropName": "Unexpectedly Low Number of Page Loads",
+        "simpleModeBlueprintConfigsUnexpectedDropName": "Low Number of Page Loads",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Automatic Alerts on Anomalously Low Number of Page Loads",
         "simpleModeBlueprintConfigsUnexpectedDropText": "Receive an alert when the number of Page Loads is significantly lower than expected compared to the available past data.",
-        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "Unexpectedly High Number of Page Loads",
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "High Number of Page Loads",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline": "Automatic Alerts on Anomalously High Number of Page Loads",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "Receive an alert when the number of Page Loads is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the website."
       },
@@ -1045,8 +1094,7 @@
     },
     "migration": {
       "migrateButton": "Migrate to Smart Alert",
-      "migrateButtonNew": "Migrate to Smart Alert (New)",
-      "migrateButtonTooltip": "Opens a Smart Alert config dialog pre–filled with the migrated values from the current event to the best extent we can. Please double check the result carefully!",
+      "migrateButtonTooltip": "Opens a Smart Alert config pre–filled with the migrated values from the current event to the best extent we can. Please double check the result carefully!",
       "markAsMigratedButton": "Mark as migrated",
       "markAsMigratedButtonTooltip": "Marks the Event as migrated. Please use this in case you have already configured a Smart Alert which will replace this Event.",
       "markAsMigratedButtonConfirmationTitle": "Please Confirm",
@@ -1183,10 +1231,10 @@
         "customEventBlueprintConfigText": "Receive an alert every time a specific custom event occurs more or less often than it should.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Please select a custom event to see when this alert triggers",
         "statusCodeBlueprintConfigIncompleteRuleMessage": "Please select a Status Code to see when this alert triggers",
-        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "Unexpectedly Low Number of Views",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "Low Number of Views",
         "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "Automatic Alerts on Anomalously Low Number of Views",
         "simpleModeBlueprintConfigsViewsUnexpectedDropText": "Receive an alert when the number of Views is significantly lower than expected compared to the available past data.",
-        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "Unexpectedly Low Number of Sessions",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "Low Number of Sessions",
         "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "Automatic Alerts on Anomalously Low Number of Sessions",
         "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "Receive an alert when the number of Sessions is significantly lower than expected compared to the available past data."
       },
@@ -1279,6 +1327,12 @@
         "customEventInputPlaceholder": "Paste a custom event name or select one from the list of events",
         "searchCustomEventButtonLabel": "Select Custom Event"
       },
+      "more": "+{{count}} more",
+      "more_plural": "+{{count}} more",
+      "more_0": "+{{count}} more",
+      "more_1": "+{{count}} more",
+      "more_2": "+{{count}} more",
+      "viewMore": "+View More",
       "advanced": { "thresholdValue": "Threshold Value" },
       "components": { "provideStatusCodeStatusCode": "Status Code" },
       "form": {
@@ -1388,11 +1442,10 @@
           "label": "Payloads",
           "title": "Custom Payload"
         },
-        "thresholdValue": "Threshold Value",
         "valueMappings": "The numeric values of the selected metric correspond to the following string values:"
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
+        "selectAtLeastOneThreshold": "Please provide value for at least one of the thresholds.",
         "noMetricSelected": "No metric selected"
       },
       "count": "Count",

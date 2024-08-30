@@ -41,6 +41,10 @@
     cursor: pointer;
   }
 
+  .pillWrapper {
+    padding: 0 1rem;
+  }
+
   .minMax {
     display: flex;
     justify-content: stretch;

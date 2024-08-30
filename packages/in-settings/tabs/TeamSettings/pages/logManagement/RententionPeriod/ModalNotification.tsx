@@ -7,8 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon, Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Typography, Button } from '@instana/components';
 
 import { t } from 'in-i18n';
 

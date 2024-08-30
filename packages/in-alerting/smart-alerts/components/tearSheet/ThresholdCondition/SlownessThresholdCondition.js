@@ -43,7 +43,6 @@ export default function SlownessThresholdCondition({
         editMode={editMode}
         thresholdTypeOptions={thresholdTypeOptions}
         isGlobalSmartAlert={isGlobalSmartAlert}
-        blueprintConfig={blueprintConfig}
       />
 
       <div className={locals.container}>

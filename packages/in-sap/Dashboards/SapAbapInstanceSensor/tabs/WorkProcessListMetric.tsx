@@ -10,11 +10,10 @@ import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error Module needs to be translated to TS
-import workProcessStatus from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/workProcessStatus.js';
-// @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { workProcessStatusMap } from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/WorkProcessStatus';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table';
@@ -132,8 +131,8 @@ const cols = [
 
 export default function WorkProcessListMetric({ snapshotId, timeConfig }: WorkProcessProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'workprocessList'), [snapshotId]);
-
-  const [{ wpStatus }, setPhase] = useState(workProcessStatus);
+  // @ts-expect-error Module needs to be translated to TS
+  const [{ wpStatus }, setPhase] = useState(workProcessStatusMap);
 
   const rightHeader = (
     <ComboBox
@@ -143,7 +142,7 @@ export default function WorkProcessListMetric({ snapshotId, timeConfig }: WorkPr
       className={locals.filter}
       // @ts-expect-error Module needs to be translated to TS
       onChange={t => setPhase({ wpStatus: t ? t.value : null })}
-      options={workProcessStatus}
+      options={workProcessStatusMap}
     />
   );
 

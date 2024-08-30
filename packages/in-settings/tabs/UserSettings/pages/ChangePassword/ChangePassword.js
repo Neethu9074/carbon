@@ -20,7 +20,6 @@ import FormGroup from 'in-components/form/FormGroup';
 import Section from 'in-settings/components/Section';
 import HelpText from 'in-components/form/HelpText';
 import Title from 'in-components/Title/Title';
-import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
 import locals from './ChangePassword.mless';
@@ -73,9 +72,6 @@ function InputField({ label, fieldName, autoFocus, form, setForm }) {
   const field = form.get(fieldName);
   return (
     <FormGroup>
-      <Label htmlFor={fieldName} hasError={!field.valid && field.touched}>
-        {label}
-      </Label>
       <ShowHideInputField
         id={fieldName}
         value={field.value}
@@ -83,8 +79,9 @@ function InputField({ label, fieldName, autoFocus, form, setForm }) {
           setForm(form.updateIn([fieldName], field => field.setValue(e.target.value || '').setTouched(true)))
         }
         autoComplete="off"
-        hasError={!field.valid && field.touched}
         autoFocus={autoFocus}
+        labelText={label}
+        invalid={!field.valid && field.touched}
       />
       <TouchedMessages field={field} />
     </FormGroup>

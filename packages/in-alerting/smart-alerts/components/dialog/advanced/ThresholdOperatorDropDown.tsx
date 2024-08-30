@@ -4,6 +4,7 @@
  */
 
 import { Field, MapForm } from 'formalistic';
+import classNames from 'classnames';
 import React from 'react';
 
 import { Select } from '@instana/components';
@@ -15,6 +16,8 @@ import {
 import { findEntryByValue } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { Option } from 'in-components/ComboBox/ComboBox';
 import Dropdown from 'in-alerting/components/Dropdown';
+
+import locals from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown.mless';
 
 interface ThresholdOperatorDropDownProps {
   form: MapForm<any>;
@@ -49,6 +52,7 @@ export function ThresholdOperatorDropDown({
           );
         }
       }}
+      className={classNames({ [locals.thresholdTypeMinnWidth]: isTearSheet })}
     >
       {options.map(items => {
         return (

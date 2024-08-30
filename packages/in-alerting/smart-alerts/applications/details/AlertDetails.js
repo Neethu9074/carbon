@@ -35,13 +35,16 @@ import {
   alertId as alertIdParam,
   alertsCategory as alertsCategoryMatrixParam
 } from 'in-applications/navigation/matrix';
+import {
+  applicationSmartAlertDialogView,
+  applicationSmartAlertFullScreenDesignEnabled
+} from 'in-services/featureFlags';
 import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
-import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { role } from 'in-stores/user';
 
@@ -80,7 +83,9 @@ function GlobalAlertDetails(props) {
       canConfigureGlobalAlertConfigs={role.canConfigureGlobalApplicationSmartAlerts}
       canConfigureIndividualAlertConfigs={role.canConfigureApplicationSmartAlerts}
       isGlobalSmartAlert
-      displayTearSheetActions
+      displayTearSheetActions={applicationSmartAlertFullScreenDesignEnabled}
+      displayEditAction={applicationSmartAlertDialogView}
+      displayDuplicateAction={applicationSmartAlertDialogView}
     />
   );
 }
@@ -107,7 +112,9 @@ function IndividualAlertDetails(props) {
       renderAlertConfiguration={renderAlertConfiguration}
       canConfigureGlobalAlertConfigs={role.canConfigureGlobalApplicationSmartAlerts}
       canConfigureIndividualAlertConfigs={role.canConfigureApplicationSmartAlerts}
-      displayTearSheetActions
+      displayTearSheetActions={applicationSmartAlertFullScreenDesignEnabled}
+      displayEditAction={applicationSmartAlertDialogView}
+      displayDuplicateAction={applicationSmartAlertDialogView}
     />
   );
 }
@@ -137,7 +144,3 @@ function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, isGlo
 function renderAlertConfiguration({ alertConfig, isGlobalSmartAlert }) {
   return <AlertConfiguration alertConfig={alertConfig} isGlobalSmartAlert={isGlobalSmartAlert} />;
 }
-
-AlertDetails.propTypes = {
-  location: propTypeLocation
-};

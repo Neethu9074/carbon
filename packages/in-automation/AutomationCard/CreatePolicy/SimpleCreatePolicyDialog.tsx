@@ -9,19 +9,20 @@ import React, { useState } from 'react';
 
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
+import { createPolicyFromRecommendedActionsTracker, useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { CreatePolicyStep } from 'in-automation/AutomationCard/CreatePolicy/CreatePolicyStep';
 import ViewActionStep from 'in-automation/AutomationCard/CreatePolicy/ViewActionStep';
-import { createPolicyFromRecommendedActionsTracker } from 'in-automation/tracker';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
+import { isAIActionCopy } from 'in-automation/ActionCatalog/shared';
 import { refresh } from 'in-automation/AutomationCard/usePolicies';
-import { Tag } from 'in-automation/ActionCatalog/TagsTable';
+import { hasError, isLoading } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
+import { Event, Error, Policy, Result } from 'in-types';
 import { saveNewPolicy } from 'in-automation/api';
 import { ScoredAction } from 'in-automation/api';
 import { noop } from 'in-services/fixedObjects';
-import { Event, Error } from 'in-types';
 import { Trans, t } from 'in-i18n';
 
 import locals from 'in-automation/AutomationCard/GenerateAIDialog/SelectAIActionsDialogPresenter.mless';
@@ -32,7 +33,7 @@ type PolicyFormItems = {
   name: FormField<string>;
   policyName: FormField<string>;
   policyDescription: FormField<string>;
-  policyTags: FormField<Tag[]>;
+  policyTags: FormField<string[]>;
 };
 
 export type PolicyForm = MapForm<PolicyFormItems>;
@@ -46,9 +47,10 @@ interface SimpleAIDialogProps {
 export default function SimpleCreatePolicyDialog({ selectedAction, event, setActiveKey }: SimpleAIDialogProps) {
   const [simpleModeStep, setSimpleModeStep] = useState(0);
   const [form, updateForm] = useState(createNewPolicyFormDefinition(selectedAction));
+  const { createPolicyTrackerSegment } = useSegmentTracker();
 
   const handleCreatePolicy = () => {
-    createPolicy({ form, event, selectedAction, setActiveKey });
+    createPolicy({ form, event, selectedAction, setActiveKey }, createPolicyTrackerSegment);
   };
   return (
     <div className={locals.container}>
@@ -78,16 +80,30 @@ export default function SimpleCreatePolicyDialog({ selectedAction, event, setAct
   );
 }
 type handleCreatePolicyProps = SimpleAIDialogProps & { form: PolicyForm };
-const createPolicy = ({ form, event, selectedAction, setActiveKey }: handleCreatePolicyProps) => {
+const createPolicy = (
+  { form, event, selectedAction, setActiveKey }: handleCreatePolicyProps,
+  createPolicyTrackerSegment: TrackingFunction
+) => {
   const policyDetails = {
     name: form.get('policyName').value,
     description: form.get('policyDescription').value,
-    tags: form.get('policyTags').value.map((tag: Tag) => tag.value)
+    tags: form.get('policyTags').value
   };
   const policy = createBasePolicy(event, selectedAction, policyDetails);
 
-  saveNewPolicy(policy).once(
-    () => {
+  const onSuccessHandler = (data: Result<Policy>) => {
+    const errored = hasError(data);
+    if (errored) {
+      onCreateFailed(data?.errors[0]);
+    } else {
+      createPolicyTrackerSegment({
+        actionName: selectedAction.name,
+        actionType: selectedAction.type,
+        policyName: policy.name,
+        policyType: 'manual',
+        aiOriginated: isAIActionCopy(selectedAction!) ? true : false,
+        triggerName: event.problem?.problemText
+      });
       createPolicyFromRecommendedActionsTracker({
         name: policy.name,
         triggerName: event.problem?.problemText,
@@ -97,11 +113,19 @@ const createPolicy = ({ form, event, selectedAction, setActiveKey }: handleCreat
       refresh();
       setActiveKey('automationPolicies');
       onCreateSuccess(policy.name);
-    },
-    error => {
-      onCreateFailed(error);
     }
-  );
+  };
+
+  const onErrorHandler = (data: Result<Policy>) => {
+    const errored = hasError(data);
+    if (errored) {
+      onCreateFailed(data?.errors[0]);
+    }
+  };
+
+  saveNewPolicy(policy)
+    .filter(result => !isLoading(result))
+    .once(onSuccessHandler, onErrorHandler);
 };
 
 const stepConfigs = Object.freeze([
@@ -114,7 +138,6 @@ const stepConfigs = Object.freeze([
 ]);
 
 export function createNewPolicyFormDefinition(action: ScoredAction) {
-  const policyTags: Tag[] = [];
   const form: PolicyForm = createMapForm({
     items: {
       name: createField({
@@ -130,19 +153,7 @@ export function createNewPolicyFormDefinition(action: ScoredAction) {
         validator: notBlankValidator
       }),
       policyTags: createField({
-        value: policyTags,
-        validator: tags => {
-          const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || tag.value === '', false);
-          if (hasBlankTags) {
-            return [
-              {
-                severity: 'error',
-                message: t('in-automation:theValueMustNotBeBlank')
-              }
-            ];
-          }
-          return null;
-        }
+        value: [] as string[]
       })
     }
   });
@@ -168,7 +179,7 @@ function onCreateFailed(error: Error) {
   addMessage(
     {
       type: 'danger',
-      timeout: 3000,
+      timeout: 5000,
       title: t('in-automation:policies.createDialog.failure.title'),
       content: (
         <Trans i18nKey="in-automation:policies.createDialog.failure.content" values={{ errorMessage: error.message }} />

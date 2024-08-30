@@ -101,6 +101,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'cveIssueEnabled',
+    instanaCtlKey: 'feature.cve.issues.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'routeIdOverPathTplEnabled',
     instanaCtlKey: 'feature.route.id.over.path.tpl.enabled',
     defaultValue: false
@@ -148,6 +153,11 @@ module.exports = exports = [
   {
     uiClientKey: 'segmentAnalyticsEnabled',
     instanaCtlKey: 'feature.segment.analytics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'assistmeEnabled',
+    instanaCtlKey: 'feature.assistme.enabled',
     defaultValue: false
   },
   {
@@ -261,6 +271,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'sloRebornWidgetEnabled',
+    instanaCtlKey: 'feature.slo.reborn.widget.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
     instanaCtlKey: 'feature.application.smart.alerts.logs.blueprint.enabled',
     defaultValue: false
@@ -323,12 +338,22 @@ module.exports = exports = [
   {
     uiClientKey: 'businessObservabilityEnabled',
     instanaCtlKey: 'feature.business.observability.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'bizopsPerspectivesEnabled',
     instanaCtlKey: 'feature.bizops.perspectives.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'bizopsGenAIEnabled',
+    instanaCtlKey: 'feature.bizops.genAI.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'bizopsStandardInclusionEnabled',
+    instanaCtlKey: 'feature.bizops.standard.inclusion.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
@@ -393,11 +418,11 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticCertificateCheckEnabled',
     instanaCtlKey: 'feature.synthetic.certificate.check.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
-    uiClientKey: 'syntheticRbacLimitedTPEnabled',
-    instanaCtlKey: 'feature.synthetic.rbac.limited.tp.enabled',
+    uiClientKey: 'syntheticRbacLimitedEnabled',
+    instanaCtlKey: 'feature.synthetic.rbac.limited.enabled',
     defaultValue: false
   },
   {
@@ -413,6 +438,11 @@ module.exports = exports = [
   {
     uiClientKey: 'thresholdCustomDashboardsEnabled',
     instanaCtlKey: 'feature.threshold.custom.dashboards.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'customDashboardsExportPdfWidget',
+    instanaCtlKey: 'feature.custom.dashboards.export.pdf.widget.enabled',
     defaultValue: false
   },
   {
@@ -503,7 +533,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonContentSwitcherEnabled',
     instanaCtlKey: 'feature.carbon.content.switcher.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonPillEnabled',
@@ -513,7 +543,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMessageEnabled',
     instanaCtlKey: 'feature.carbon.message.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonButtonEnabled',
@@ -543,22 +573,22 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMoreMenuEnabled',
     instanaCtlKey: 'feature.carbon.more.menu.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonLoadingSkeletonFeatureEnabled',
     instanaCtlKey: 'feature.carbon.loading.skeleton.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonLoadingSpinnerEnabled',
     instanaCtlKey: 'feature.carbon.loading.spinner.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonDescriptionListEnabled',
     instanaCtlKey: 'feature.carbon.description.list.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonTooltipEnabled',
@@ -596,8 +626,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonDropdownEnabled',
+    instanaCtlKey: 'feature.carbon.dropdown.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonInputEnabled',
     instanaCtlKey: 'feature.carbon.input.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonComboBoxEnabled',
+    instanaCtlKey: 'feature.carbon.combobox.enabled',
     defaultValue: false
   },
   {
@@ -633,7 +673,7 @@ module.exports = exports = [
   {
     uiClientKey: 'shareAndInviteEnabled',
     instanaCtlKey: 'feature.share.and.invite.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'serviceNowAutoCloseAndCustomPayloadsEnabled',
@@ -648,7 +688,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonTabsEnabled',
     instanaCtlKey: 'feature.carbon.tabs.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'automationActionInstanceFeedbackEnabled',
@@ -678,12 +718,12 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonStepProgressBarEnabled',
     instanaCtlKey: 'feature.carbon.stepprogressbar.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonHorizontalIndicatorEnabled',
     instanaCtlKey: 'feature.carbon.horizontalindicator.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
@@ -706,8 +746,33 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticMultiAppEnabled',
-    instanaCtlKey: 'feature.synthetic.multi.app.enabled',
+    uiClientKey: 'carbonFileUploaderEnabled',
+    instanaCtlKey: 'feature.carbon.fileuploader.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'userProfileMenuEnabled',
+    instanaCtlKey: 'feature.user.profileMenu.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'unitForInfraMetricsEnabled',
+    instanaCtlKey: 'feature.unit.for.infra.metrics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'applicationSmartAlertDialogView',
+    instanaCtlKey: 'application.smart.alerts.dialog.view',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'increaseAggregationEnabled',
+    instanaCtlKey: 'feature.increase.aggregation.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonCodeEnabled',
+    instanaCtlKey: 'feature.carbon.code.enabled',
     defaultValue: false
   }
 ];

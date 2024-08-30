@@ -4,21 +4,31 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { List } from 'immutable';
 
-import { Link, Typography } from '@instana/components';
-import { combineLatest } from '@instana/observables';
-import { EntityHealthInfo } from '@instana/types';
+import { Link, Typography, IconButton, TableTabs, TableTab } from '@instana/components';
+import { EntityHealthInfo, TimeConfig } from '@instana/types';
+import { combineLatest, just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 //@ts-expect-error doesn't contain type file
+import { host as hostType, container as containerType, process as processType } from 'in-cockpit/starredItems/types';
+import {
+  InfraProps,
+  StarredItemWithIdsType,
+  SyntheticInfraColumn,
+  ToggleType
+} from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+//@ts-expect-error doesn't contain type file
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
 //@ts-expect-error doesn't contain type file
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
-import { InfraProps, SyntheticInfraColumn } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import DatatableWrapper, { getFlattenedIds } from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-cockpit/starredItems';
 //@ts-expect-error doesn't contain type file
 import { getMetric } from 'in-stores/metric';
 //@ts-expect-error doesn't contain type file
@@ -27,59 +37,120 @@ import search from 'in-subscription/search';
 import { getLabel } from 'in-sdk/snapshot';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
-import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+//@ts-expect-error doesn't contain type file
+import { getZone } from 'in-stores/zone';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { formatDateTime } from 'in-services/formatters/date';
 import { percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
 import { SnapshotMap } from 'in-components/EntityLink';
 import { getIconTypeCallback } from 'in-sdk/iconType';
-import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 
-export default connectTo(() => ({
-  timeConfig: timeConfig$
-}))(function InfrastructureWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: InfraProps) {
-  const [infraType, setInfraType] = useState(0);
+function handleFavoriteClick(id: string, item: any, isFavourite: boolean, type: string) {
+  if (!id && !item) return;
+  if (isFavourite) {
+    remove({ id: id || item?.snapshot?.get('id'), type });
+  } else {
+    add({
+      id: item.snapshotId || item?.snapshot?.get('id'),
+      label: getLabel(item?.snapshot),
+      type: type
+    });
+  }
+}
+
+function Toggles({
+  toggles,
+  selectedType,
+  setSelectedType
+}: {
+  toggles: ToggleType[];
+  selectedType: string;
+  setSelectedType: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  return (
+    <TableTabs selectedIndex={toggles.filter(toggle => toggle.value === selectedType).map(toggle => toggle.index)[0]}>
+      {toggles?.length > 0 &&
+        toggles.map(toggle => (
+          <TableTab
+            key={toggle.index}
+            isDisabled={false}
+            label={toggle.label}
+            onClick={() => setSelectedType(toggle.value)}
+          />
+        ))}
+    </TableTabs>
+  );
+}
+
+export default function InfrastructureWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: InfraProps) {
+  const [selectedType, setSelectedType] = useState(sessionStorage.getItem('selectedInfraType') || 'host');
   const { location, createHref } = useNavigation();
   const getDashboardLink = useGetDashboardLink();
+  const maxItemsInTable = 5;
   const fullListViewLocation = { ...location, pathname: physicalTablePath };
 
-  const infrastructureToogleArray: string[] = [];
-
-  const infrastructureArray = [
-    { value: 'host', label: 'Hosts' },
-    { value: 'docker', label: 'Containers' },
-    { value: 'process', label: 'Processes' }
+  const toggles = [
+    { value: 'host', label: 'Hosts', index: 0 },
+    { value: 'docker', label: 'Containers', index: 1 },
+    { value: 'process', label: 'Processes', index: 2 }
   ];
-  infrastructureArray.map(ele => {
-    infrastructureToogleArray.push(ele.label);
-  });
 
-  const infraTypeValue = infrastructureArray[infraType]?.value;
+  useEffect(() => {
+    sessionStorage.setItem('selectedInfraType', selectedType);
+  }, [selectedType]);
 
-  setOrDeleteMatrixKey(fullListViewLocation, physicalTablePath, 'plugin', infraTypeValue);
+  setOrDeleteMatrixKey(fullListViewLocation, physicalTablePath, 'plugin', selectedType);
 
-  function setToogle(index: number) {
-    setInfraType(index);
-  }
+  /**
+   * The function generates label which can be used as a placeholder text.
+   * @returns The label for the placeholder.
+   */
+  const getPlaceholderLabel = (): string | null => {
+    if (selectedType === 'host') {
+      return t('in-plg:welcomepage.component.infrastructureWidget.hostSearchPlaceholderLabel');
+    }
+    if (selectedType === 'docker') {
+      return t('in-plg:welcomepage.component.infrastructureWidget.containersSearchPlaceholderLabel');
+    }
+    return t('in-plg:welcomepage.component.infrastructureWidget.processesSearchPlaceholderLabel');
+  };
+
+  /**
+   * The function generates label which can be used as a placeholder text.
+   * @returns The label for the placeholder.
+   */
+  const getViewAllLabel = (): string | null => {
+    if (selectedType === 'host') {
+      return t('in-plg:welcomepage.component.infrastructureWidget.hostViewAllLabel');
+    }
+    if (selectedType === 'docker') {
+      return t('in-plg:welcomepage.component.infrastructureWidget.containersViewAllLabel');
+    }
+    return t('in-plg:welcomepage.component.infrastructureWidget.processesViewAllLabel');
+  };
 
   dashboardTileProps = {
     ...dashboardTileProps,
-    toggles: infrastructureToogleArray,
-    toggleCallback: index => setToogle(index)
+    toggles: <Toggles toggles={toggles} selectedType={selectedType} setSelectedType={setSelectedType} />
   };
 
   const getHeaders = () => {
-    if (infraTypeValue === 'host') {
+    if (selectedType === 'host') {
       return [
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.name'),
           key: 'name'
+        },
+        {
+          header: t('in-plg:welcomepage.component.infrastructureWidget.zones'),
+          key: 'zones'
         },
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.technologies'),
@@ -100,14 +171,22 @@ export default connectTo(() => ({
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.health'),
           key: 'health'
+        },
+        {
+          key: 'favourite',
+          header: ''
         }
       ];
     }
-    if (infraTypeValue === 'docker') {
+    if (selectedType === 'docker') {
       return [
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.name'),
           key: 'name'
+        },
+        {
+          header: t('in-plg:welcomepage.component.infrastructureWidget.hosts'),
+          key: 'hosts'
         },
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.technologies'),
@@ -128,6 +207,10 @@ export default connectTo(() => ({
         {
           header: t('in-plg:welcomepage.component.infrastructureWidget.health'),
           key: 'health'
+        },
+        {
+          key: 'favourite',
+          header: ''
         }
       ];
     }
@@ -135,6 +218,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.infrastructureWidget.name'),
         key: 'name'
+      },
+      {
+        header: t('in-plg:welcomepage.component.infrastructureWidget.hosts'),
+        key: 'hosts'
       },
       {
         header: t('in-plg:welcomepage.component.infrastructureWidget.technologies'),
@@ -147,11 +234,23 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.infrastructureWidget.health'),
         key: 'health'
+      },
+      {
+        key: 'favourite',
+        header: ''
       }
     ];
   };
 
-  function getItems({ query, infraType, timeConfig }: any) {
+  interface getItemsType {
+    query: string;
+    infraType: string;
+    timeConfig: TimeConfig;
+    pinnedItemIdsByType: StarredItemWithIdsType;
+  }
+
+  function getItems({ query, infraType, timeConfig, pinnedItemIdsByType }: getItemsType) {
+    const pinnedIds = getFlattenedIds(pinnedItemIdsByType, getPinnedItemType());
     return search({
       query,
       timeConfig,
@@ -171,10 +270,13 @@ export default connectTo(() => ({
         .throttle(1000)
         .flatMap(snapshotIdsWithMetrics =>
           combineLatest(
-            snapshotIdsWithMetrics.map(snapshotIdWithMetric => {
-              //@ts-expect-error
+            snapshotIdsWithMetrics.map((snapshotIdWithMetric: any, i: number) => {
+              //return only minimal data when item count exceeds the max item in table
+              if (i >= maxItemsInTable && pinnedIds?.indexOf(snapshotIdWithMetric.snapshotId) === -1) {
+                return just(snapshotIdWithMetric);
+              }
+
               return getSnapshot(snapshotIdWithMetric?.snapshotId).map(snapshot => ({
-                //@ts-expect-error
                 ...snapshotIdWithMetric,
                 snapshot
               }));
@@ -208,7 +310,7 @@ export default connectTo(() => ({
   }
 
   const SparkChartWithMetricValue = connectTo(
-    ({ snapshotId, metric, aggregation }: any) => ({
+    ({ snapshotId, metric, aggregation }: { snapshotId: string; metric: string; aggregation: string }) => ({
       horizontalMetricValue: getMetric({
         snapshotId,
         metric,
@@ -235,6 +337,12 @@ export default connectTo(() => ({
               {getLabel(item.snapshot)}
             </Link>
           );
+        }
+      },
+      {
+        key: 'zones',
+        getContent({ item }) {
+          return <GetZonesAndHosts getSnapshotId={() => getZone(item.snapshot.get('id'))} />;
         }
       },
       {
@@ -284,6 +392,25 @@ export default connectTo(() => ({
             />
           );
         }
+      },
+      {
+        key: 'favourite',
+        getContent({ id, item, isDisabled = false, isFavourite = false }) {
+          return (
+            <IconButton
+              type={
+                isFavourite
+                  ? 'lib_actions_favorite_filled'
+                  : item?.pinned
+                  ? 'lib_actions_favorite_filled'
+                  : 'lib_actions_favorite'
+              }
+              onClick={() => handleFavoriteClick(id, item, isFavourite, hostType)}
+              iconSize="xs"
+              disabled={isDisabled}
+            />
+          );
+        }
       }
     ],
     docker: [
@@ -299,6 +426,12 @@ export default connectTo(() => ({
               {getLabel(item.snapshot)}
             </Link>
           );
+        }
+      },
+      {
+        key: 'hosts',
+        getContent({ item }) {
+          return <GetZonesAndHosts getSnapshotId={() => getHostSnapshotId(item.snapshot)} />;
         }
       },
       {
@@ -350,6 +483,25 @@ export default connectTo(() => ({
             />
           );
         }
+      },
+      {
+        key: 'favourite',
+        getContent({ id, item, isDisabled = false, isFavourite = false }) {
+          return (
+            <IconButton
+              type={
+                isFavourite
+                  ? 'lib_actions_favorite_filled'
+                  : item?.pinned
+                  ? 'lib_actions_favorite_filled'
+                  : 'lib_actions_favorite'
+              }
+              onClick={() => handleFavoriteClick(id, item, isFavourite, containerType)}
+              iconSize="xs"
+              disabled={isDisabled}
+            />
+          );
+        }
       }
     ],
     process: [
@@ -365,6 +517,12 @@ export default connectTo(() => ({
               {getLabel(item.snapshot)}
             </Link>
           );
+        }
+      },
+      {
+        key: 'hosts',
+        getContent({ item }) {
+          return <GetZonesAndHosts getSnapshotId={() => getHostSnapshotId(item.snapshot)} />;
         }
       },
       {
@@ -398,6 +556,25 @@ export default connectTo(() => ({
             />
           );
         }
+      },
+      {
+        key: 'favourite',
+        getContent({ id, item, isDisabled = false, isFavourite = false }) {
+          return (
+            <IconButton
+              type={
+                isFavourite
+                  ? 'lib_actions_favorite_filled'
+                  : item?.pinned
+                  ? 'lib_actions_favorite_filled'
+                  : 'lib_actions_favorite'
+              }
+              onClick={() => handleFavoriteClick(id, item, isFavourite, processType)}
+              iconSize="xs"
+              disabled={isDisabled}
+            />
+          );
+        }
       }
     ]
   };
@@ -416,22 +593,55 @@ export default connectTo(() => ({
     return plugin;
   }
 
+  function getItem(id: string, timeConfig: TimeConfig, selectedType: string) {
+    return getSnapshot(id, timeConfig).flatMap(snapshot =>
+      getMetricForType(snapshot.get('id'), selectedType).map((mainKpiValue: string) => ({ snapshot, mainKpiValue }))
+    );
+  }
+
   const generalProps = {
     ...config,
     timeConfig,
-    columnDefinitions: columnDefinitions[infraTypeValue],
+    getItem: (id: string, timeConfig: TimeConfig) => getItem(id, timeConfig, selectedType),
+    columnDefinitions: columnDefinitions[selectedType],
     headers: getHeaders()
   };
 
+  const getPinnedItemType = () => {
+    if (selectedType === 'host') {
+      return [hostType];
+    }
+    if (selectedType === 'docker') {
+      return [containerType];
+    }
+    return [processType];
+  };
+
+  const pinnedTypes = getPinnedItemType();
+
+  const GetZonesAndHosts = connectTo(
+    ({ getSnapshotId }: any) => ({
+      snapshot: getSnapshotId().flatMap(getSnapshot)
+    }),
+
+    function GetZonesAndHosts({ snapshot }: any) {
+      return <Typography variant="body-regular">{getLabel(snapshot)}</Typography>;
+    }
+  );
+
   return (
     <DatatableWrapper
+      tableType="infrastructureWidget"
       {...generalProps}
-      infraType={infraTypeValue}
+      infraType={selectedType}
       getItems={getItems}
       viewAll
       href={createHref(fullListViewLocation)}
-      label={widgetLabel}
+      label={`${widgetLabel}.${selectedType}`}
       dashboardTileProps={dashboardTileProps}
+      pinnedItemTypes={pinnedTypes}
+      searchPlaceholderLabel={getPlaceholderLabel()}
+      viewAllLabel={getViewAllLabel()}
     />
   );
-});
+}

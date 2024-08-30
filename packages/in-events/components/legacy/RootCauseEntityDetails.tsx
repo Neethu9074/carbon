@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { List, Map } from 'immutable';
 
 import { Button, Link, LoadingSkeleton, Spacer, Stack, SvgIcon, Typography } from '@instana/components';
@@ -13,44 +13,33 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t, Trans } from '@instana/i18n-react';
 
+import {
+  ExplainabilityKeys,
+  ExplainabilityValues,
+  extractAggregatedErrorRateFromExplainability,
+  getIconForRCADisplay,
+  isServiceLabelValidToDisplayInRCA,
+  useGenerateLinkToDashboard,
+  useGenerateLinkToAnalyzePage
+} from 'in-events/components/util/rootCauseUtil';
 //@ts-expect-error
 import { SnapshotData, getPhysicalHierarchy, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
-import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { APPLICATION, ENDPOINT, SERVICE, entityTypes, operators } from 'in-analyze/applicationFilter';
+import { getStackForInfrastructure } from 'in-components/Stack/subscriptions/getStack';
 import { RCAClickThroughToAnalyze, RCAClickThroughToEntity } from 'in-events/tracker';
-import { Location, MatrixParameters, Parameters } from 'in-stores/navigation/types';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import { Application, Endpoint, ServiceLabel, TimeConfig } from 'in-types';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { useLinkToAnalyze } from 'in-applications/navigation/paths';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
+import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { setTimeConfig } from 'in-stores/time/config';
 
 import locals from 'in-events/components/legacy/EventList.mless';
-
-export type ExplainabilityKeys =
-  | 'percentageFailedNotThroughRC'
-  | 'numCallsInAggregationNotThroughRC'
-  | 'incoming'
-  | 'relevantSnapshotID'
-  | 'numCallsInAggregationThroughRC'
-  | 'connectedServiceId'
-  | 'percentageFailedThroughRC';
-export interface ExplainabilityValues {
-  percentageFailedNotThroughRC: number;
-  numCallsInAggregationNotThroughRC: number;
-  incoming: boolean;
-  relevantSnapshotID: string;
-  numCallsInAggregationThroughRC: number;
-  connectedServiceId: string;
-  percentageFailedThroughRC: number;
-}
 
 interface RootCauseEntityDetailsParams {
   rcaSnapshotID: string;
@@ -62,10 +51,6 @@ interface RootCauseEntityDetailsParams {
   incidentTimeWindow: TimeConfig;
 }
 
-const endpointIDURLParameter = 'endpointId';
-const serviceIDURLParameter = 'serviceId';
-const appIDURLParameter = 'appId';
-
 export default function RootCauseEntityDetails({
   rcaSnapshotID,
   rcaEntityType,
@@ -75,14 +60,43 @@ export default function RootCauseEntityDetails({
   relatedAPID,
   incidentTimeWindow
 }: RootCauseEntityDetailsParams) {
+  /*
+    These query state variables hold on to the necessary observable queries that will later get used by our data state variables.
+    These can be dynamic based on the given type of entity hence why they are state vars
+  */
+
+  // Generic query observable variable that gets information on a given endpoint/servce/infra/app set by the useEffect below
   const [entityQuery, setEntityQuery] = useState<
     Observable<SnapshotData> | Observable<Endpoint | undefined> | Observable<ServiceLabel | undefined> | null
   >(null);
+
+  // Used only for infra entities to set physical hierarchy query
   const [hierarchyQuery, setHierarchyQuery] = useState<Observable<List<string>> | null>(null);
+
+  // Time window variable used for generating links to analyze page and sending query for entity, can be re-set by our infra query
   const [timeWindow, setTimeWindow] = useState(incidentTimeWindow);
+
+  // Service query observable variable that gets service label information that a given entity belongs to
   const [serviceQuery, setServiceQuery] = useState<Observable<ServiceLabel | undefined> | null>(null);
+
+  // Used to make a app stack query for infrastructure entities
+  const [stackQuery, setStackQuery] = useState<Observable<any> | null>(null);
+
   const { location } = useNavigation();
 
+  /*
+    These are data variables that maintain the result of the above query variables
+  */
+
+  // Holds the result of our entity observable
+  const entityData = useObservable(entityQuery, [entityQuery]) ?? null;
+
+  // Holds the result of our service label observable
+  const nonInfraServiceLabelInformation = useObservable(serviceQuery, [serviceQuery]) ?? null;
+
+  const [infraServiceLabelInfromation, setInfraServiceLabelInfromation] = useState<ServiceLabel[]>([]);
+
+  // Holds the result of our related application perspective observable
   const relatedApplicationInformation = useObservable(
     relatedAPID
       ? getApplication({ id: relatedAPID })
@@ -91,7 +105,7 @@ export default function RootCauseEntityDetails({
       : null,
     [rcaSnapshotID]
   );
-
+  // Holds the result of our physical hierarchy query
   const hierarchySnapshots = useObservable(() => {
     if (hierarchyQuery) {
       return hierarchyQuery.flatMap(item =>
@@ -107,9 +121,10 @@ export default function RootCauseEntityDetails({
     }
   }, [timeWindow, hierarchyQuery]);
 
-  const entityData = useObservable(entityQuery, [entityQuery]) ?? null;
-  const serviceLabelInformation = useObservable(serviceQuery, [serviceQuery]) ?? null;
+  // Holds the result of our infra entity stack query
+  const entityStackData = useObservable(stackQuery, [stackQuery]) ?? null;
 
+  // This useEffect sets the entity query state variables + necessary infrastructure query variables
   useEffect(() => {
     if (rcaEntityType === 'infrastructure' || rcaEntityType === 'process') {
       // Need to get snapshot versions first and then retrieve appropriate snapshot
@@ -131,6 +146,7 @@ export default function RootCauseEntityDetails({
                 getPhysicalHierarchy({ snapshotId: rcaSnapshotID, timeConfig: timeConfigFromSnapVersion })
               );
               setEntityQuery(getSnapshot(rcaSnapshotID, timeConfigFromSnapVersion));
+              setStackQuery(getStackForInfrastructure({ id: rcaSnapshotID, timeConfig: timeConfigFromSnapVersion }));
             }
           }
         })
@@ -156,8 +172,8 @@ export default function RootCauseEntityDetails({
     }
   }, [rcaSnapshotID, rcaEntityType, location]);
 
+  // This useEffect will set the service label query variable
   useEffect(() => {
-    //what about when service query returns null and service id exists?
     if (
       !serviceQuery &&
       rcaEntityType !== 'infrastructure' &&
@@ -170,26 +186,54 @@ export default function RootCauseEntityDetails({
           .map(data => data.data)
           .throttle(250)
       );
+    } else if (
+      !serviceQuery &&
+      (rcaEntityType === 'infrastructure' || rcaEntityType === 'process') &&
+      entityStackData &&
+      !entityStackData.progress.loading &&
+      entityStackData.data
+    ) {
+      entityStackData.data.application.groups.map((appStackItem: any) => {
+        if (appStackItem.type === 'service' && appStackItem.itemCount >= 1) {
+          setInfraServiceLabelInfromation(appStackItem.items);
+        }
+      });
     }
-  }, [entityData, rcaSnapshotID, serviceQuery, rcaEntityType]);
+  }, [entityData, rcaSnapshotID, serviceQuery, rcaEntityType, entityStackData]);
 
-  const urlForEntity = useGenerateLinksForEntity(
+  /*
+    The following hooks generate the necessary links for the analyze page and dashboard pages
+  */
+
+  // Generates link to analysis page
+  const urlForAnalysisPage = useGenerateLinkToAnalyzePage(
     rcaEntityType,
     rcaSnapshotID,
     relatedApplicationInformation,
     entityData,
     incidentTimeWindow,
-    serviceLabelInformation
+    nonInfraServiceLabelInformation
   );
-  // Generate links to dashboards
-  const linkToEntity = useGenerateLinkToDashboard(rcaEntityType, rcaSnapshotID, location, relatedAPID);
-  if (!entityData || !rcaSnapshotID) return <LoadingIndicator />;
+  // Generate links to dashboard page for given entity
+  const linkToEntityDashboard = useGenerateLinkToDashboard(rcaEntityType, rcaSnapshotID, location, relatedAPID);
 
+  // If no snapshot ID just don't display RCA
+  if (!rcaSnapshotID) return null;
+
+  // If no entity data yet return loading indicator
+  if (!entityData) return <LoadingIndicator />;
+
+  /*
+    The following are variables for extracing values for explainability
+  */
+
+  // Aggregated error percentage of calls going through our root cause entity
   const rcaErrorPercent = extractAggregatedErrorRateFromExplainability(
     explainabilityMetadata,
     'percentageFailedThroughRC'
   );
 
+  // Aggregated error percentage of calls from same services above not going through root cause entity
   const notThroughRCAErrorPercent = extractAggregatedErrorRateFromExplainability(
     explainabilityMetadata,
     'percentageFailedNotThroughRC'
@@ -209,25 +253,28 @@ export default function RootCauseEntityDetails({
               <EntityPath
                 relatedApplicationInformation={relatedApplicationInformation}
                 entityInformation={entityData}
-                serviceLabelInformation={serviceLabelInformation}
+                serviceLabelInformation={nonInfraServiceLabelInformation}
                 entityType={rcaEntityType}
                 originalID={rcaSnapshotID}
               />
             )}
             {entityData !== null &&
               hierarchySnapshots &&
+              !entityStackData?.progress.loading &&
               (rcaEntityType === 'infrastructure' || rcaEntityType === 'process') && (
-                <NonAppDataEntityPath
+                <InfrastructureVisualHierarchy
                   relatedApplicationInformation={relatedApplicationInformation}
                   hierarchySnapshots={hierarchySnapshots}
                   entityInformation={entityData}
-                  serviceLabelInformation={serviceLabelInformation}
+                  serviceLabelInformation={infraServiceLabelInfromation}
                   entityId={entityID}
                   entityType={rcaEntityType}
                   originalID={rcaSnapshotID}
                 />
               )}
-            {entityData === null && <LoadingSkeleton className={locals.loadingEntity} />}
+            {(entityData === null ||
+              ((rcaEntityType === 'infrastructure' || rcaEntityType === 'process') &&
+                entityStackData?.progress.loading)) && <LoadingSkeleton className={locals.loadingEntity} />}
           </Stack>
           <AIProbabilityBadge probabilityScore={probabilityScore} loading={entityData === null} />
         </Stack>
@@ -238,13 +285,14 @@ export default function RootCauseEntityDetails({
               i18nKey="in-events:RCA.evidenceTextFailed"
               components={{
                 //@ts-expect-error
-                linkToEntity: <Link href={linkToEntity} />,
-                entityIcon:
-                  rcaEntityType !== 'infrastructure' && rcaEntityType !== 'process' ? (
-                    <SvgIcon type={getIcon(rcaEntityType)} color={themes.default.cds.link.primary} size="xs" />
-                  ) : (
-                    <PluginIcon plugin={entityTypeName} color={themes.default.cds.link.primary} size="xs" />
-                  )
+                linkToEntity: <Link href={linkToEntityDashboard} />,
+                entityIcon: (
+                  <SvgIcon
+                    type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
+                    color={themes.default.cds.link.primary}
+                    size="xs"
+                  />
+                )
               }}
               values={{
                 root_cause_entity_type: entityTypeName,
@@ -258,13 +306,13 @@ export default function RootCauseEntityDetails({
               notThroughRCAErrorPercent={notThroughRCAErrorPercent}
               rootCauseEntityType={entityTypeName}
               rootCauseEntityName={Map.isMap(entityData) ? entityData?.get('label') : entityData?.label}
-              linkToEntity={linkToEntity}
+              linkToEntity={linkToEntityDashboard}
               entityIcon={
-                rcaEntityType !== 'infrastructure' && rcaEntityType !== 'process' ? (
-                  <SvgIcon type={getIcon(rcaEntityType)} color={themes.default.cds.link.primary} size="xs" />
-                ) : (
-                  <PluginIcon plugin={entityTypeName} color={themes.default.cds.link.primary} size="xs" />
-                )
+                <SvgIcon
+                  type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
+                  color={themes.default.cds.link.primary}
+                  size="xs"
+                />
               }
             />
           </Stack>
@@ -272,9 +320,9 @@ export default function RootCauseEntityDetails({
         <Button
           kind="primary"
           icon="lib_application_call"
-          href={urlForEntity}
+          href={urlForAnalysisPage}
           size="compact"
-          onClick={() => RCAClickThroughToAnalyze({ urlForEntity: urlForEntity })}
+          onClick={() => RCAClickThroughToAnalyze({ urlForEntity: urlForAnalysisPage })}
           className={locals.analyzeButton}
         >
           {t('in-applications:buttonAnalyzeCalls')}
@@ -306,7 +354,6 @@ function FailedText({
   };
 
   if (notThroughRCAErrorPercent < rcaErrorPercent) {
-    //return t('in-events:RCA.evidenceTextNotFailedLower', translationDataObject);
     return (
       <Trans
         i18nKey="in-events:RCA.evidenceTextNotFailedLower"
@@ -317,7 +364,6 @@ function FailedText({
       />
     );
   } else if (notThroughRCAErrorPercent === rcaErrorPercent) {
-    //return t('in-events:RCA.evidenceTextNotFailedSame', translationDataObject);
     return (
       <Trans
         i18nKey="in-events:RCA.evidenceTextNotFailedSame"
@@ -328,7 +374,6 @@ function FailedText({
       />
     );
   } else {
-    //return t('in-events:RCA.evidenceTextNotFailedHigher', translationDataObject);
     return (
       <Trans
         i18nKey="in-events:RCA.evidenceTextNotFailedHigher"
@@ -338,23 +383,6 @@ function FailedText({
         parent="span"
       />
     );
-  }
-}
-
-function extractAggregatedErrorRateFromExplainability(
-  explainabilityMetadata: List<Map<ExplainabilityKeys, ExplainabilityValues[ExplainabilityKeys]>>,
-  error_rate_key: ExplainabilityKeys
-) {
-  if (!explainabilityMetadata) return 0;
-
-  const aggreagatedInfo = explainabilityMetadata.find(service => service?.get('connectedServiceId') === 'all');
-  let errorPercentage = aggreagatedInfo.get(error_rate_key) as number;
-
-  if (typeof errorPercentage === 'number') {
-    errorPercentage = errorPercentage * 100;
-    return errorPercentage;
-  } else {
-    return NaN;
   }
 }
 
@@ -386,8 +414,6 @@ function EntityPath({
 
   // Generate links to dashboards
   const linkToEntity = useGenerateLinkToDashboard(entityType, originalID, location, relatedAPID);
-  const linkToAP = useGenerateLinkToDashboard('application', relatedAPID, location, null);
-  const linkToService = useGenerateLinkToDashboard('service', relatedServiceID, location, relatedAPID);
 
   return (
     <Stack gap="xsmall">
@@ -399,69 +425,53 @@ function EntityPath({
         </Typography>
         <Link href={linkToEntity} onClick={() => RCAClickThroughToEntity({ mainEntity: true, entityType: entityType })}>
           <Stack direction="horizontal" gap="xsmall" align="center">
-            <SvgIcon type={getIcon(entityType)} color={themes.default.cds.link.primary} />
+            <SvgIcon type={getIconForRCADisplay(entityType)} color={themes.default.cds.link.primary} />
             {entityLabel}
           </Stack>
         </Link>
       </Stack>
-      {relatedServiceLabel && isServiceLabelValid(relatedServiceLabel) && (
-        <Stack direction="horizontal" gap="xsmall" align="center">
-          <Spacer horizontal="small" />
-          <div>
-            <div className={locals.infraLineDown} />
-            <div className={locals.infraLineRight} />
-          </div>
-          <Typography variant="body-small">{'In service: '}</Typography>
-          <Link
-            href={linkToService}
-            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'service' })}
-          >
-            <Stack direction="horizontal" gap="xsmall" align="center">
-              <SvgIcon type={getIcon('service')} color={themes.default.cds.link.primary} />
-              <Typography variant="body-small" component="a">
-                {relatedServiceLabel}
-              </Typography>
-            </Stack>
-          </Link>
-        </Stack>
+      {relatedServiceLabel && relatedServiceID && isServiceLabelValidToDisplayInRCA(relatedServiceLabel) && (
+        <EntityDisplay
+          entityType="service"
+          entityID={relatedServiceID}
+          entityLabel={relatedServiceLabel}
+          relatedAPID={relatedAPID}
+          displayLabel={t('in-events:RCA.inService')}
+          renderIcon={<SvgIcon type={getIconForRCADisplay('service')} color={themes.default.cds.link.primary} />}
+        />
       )}
-      {relatedAPlabel && (
-        <Stack direction="horizontal" gap="xsmall" align="center">
-          <Spacer horizontal="small" />
-          <div>
-            <div className={locals.infraLineDown} />
-            <div className={locals.infraLineRight} />
-          </div>
-
-          <Typography variant="body-small">{'As part of application perspective: '}</Typography>
-          <Link
-            href={linkToAP}
-            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'Application perspective' })}
-          >
-            <Stack direction="horizontal" gap="xsmall" align="center">
-              <SvgIcon type={getIcon('application')} color={themes.default.cds.link.primary} size="s" />
-              <Typography variant="body-small" component="a">
-                {relatedAPlabel}
-              </Typography>
-            </Stack>
-          </Link>
-        </Stack>
+      {relatedAPlabel && relatedAPID && (
+        <EntityDisplay
+          entityType="application"
+          entityID={relatedAPID}
+          entityLabel={relatedAPlabel}
+          relatedAPID={null}
+          displayLabel={t('in-events:RCA.asPartOfApplicationPerspective')}
+          renderIcon={
+            <SvgIcon type={getIconForRCADisplay('application')} color={themes.default.cds.link.primary} size="s" />
+          }
+        />
       )}
     </Stack>
   );
 }
 
-interface NonAppDataEntityPathProps {
+interface InfrastructureVisualHierarchyProps {
   relatedApplicationInformation: Application | null | undefined;
   entityInformation: SnapshotData;
   originalID: string;
   hierarchySnapshots: SnapshotData[] | null | undefined;
-  serviceLabelInformation: ServiceLabel | null | undefined;
+  serviceLabelInformation: ServiceLabel[] | null | undefined;
   entityId: Map<string, string>;
   entityType: string;
 }
+interface RelevantSnapshotData {
+  label: string;
+  pluginType: string;
+  id: string;
+}
 
-function NonAppDataEntityPath({
+function InfrastructureVisualHierarchy({
   relatedApplicationInformation,
   hierarchySnapshots,
   entityInformation,
@@ -469,34 +479,63 @@ function NonAppDataEntityPath({
   serviceLabelInformation,
   entityId,
   entityType
-}: NonAppDataEntityPathProps) {
+}: InfrastructureVisualHierarchyProps) {
   const { location } = useNavigation();
 
+  let hostDataFromHierarchy: RelevantSnapshotData | null = null;
+  let podDataFromHierarchy: RelevantSnapshotData | null = null;
+  let containerDContainerFromHierarchy: RelevantSnapshotData | null = null;
+
+  let firstServiceLabel = '',
+    firstServiceID = '';
+
   // Pulling out labels
-  const hostLabel = hierarchySnapshots
-    ?.map(
-      snapshot =>
-        snapshot.get('plugin') === 'host' && {
-          label: snapshot.get('label'),
-          pluginType: snapshot.get('plugin'),
-          id: snapshot.get('id')
-        }
-    )
-    .pop();
-  const relatedServiceLabel = serviceLabelInformation?.label;
+  hierarchySnapshots?.forEach(snapshot => {
+    const relevantSnapshotData = {
+      label: snapshot.get('label'),
+      pluginType: snapshot.get('plugin'),
+      id: snapshot.get('id')
+    };
+    if (relevantSnapshotData.pluginType === 'host') {
+      hostDataFromHierarchy = relevantSnapshotData;
+    } else if (relevantSnapshotData.pluginType === 'kubernetesPod' && !podDataFromHierarchy) {
+      podDataFromHierarchy = relevantSnapshotData;
+    } else if (relevantSnapshotData.pluginType === 'containerd' && !containerDContainerFromHierarchy) {
+      containerDContainerFromHierarchy = relevantSnapshotData;
+    }
+  });
+
+  if (serviceLabelInformation && serviceLabelInformation.length > 0) {
+    firstServiceLabel = serviceLabelInformation[0].label;
+    firstServiceID = serviceLabelInformation[0].id;
+  }
+
+  const AdditionalServices = () => {
+    return (
+      <Stack direction="horizontal" gap="xsmall" align="center">
+        <Typography variant="body-small">{`+ ${serviceLabelInformation?.length} services`}</Typography>
+        <MoreMenu icon="lib_openclose_add_box" size="compact">
+          {serviceLabelInformation?.map(service => (
+            <ServiceLink serviceID={service.id} serviceLabel={service.label} relatedAPID={relatedAPID} />
+          ))}
+        </MoreMenu>
+      </Stack>
+    );
+  };
+
   const relatedAPlabel = relatedApplicationInformation?.label;
   const entityLabel = Map.isMap(entityInformation) ? entityInformation?.get('label') : entityInformation?.label;
 
   // Pulling out IDs for service and APs
   const relatedAPID = relatedApplicationInformation ? relatedApplicationInformation.id : null;
-  const relatedHostID = hostLabel ? hostLabel.id : null;
-  const relatedServiceID = serviceLabelInformation ? serviceLabelInformation.id : null;
+  const relatedHostID = hostDataFromHierarchy ? (hostDataFromHierarchy as RelevantSnapshotData).id : null;
+  const relatedPodID = podDataFromHierarchy ? (podDataFromHierarchy as RelevantSnapshotData).id : null;
+  const relatedContainerdID = containerDContainerFromHierarchy
+    ? (containerDContainerFromHierarchy as RelevantSnapshotData).id
+    : null;
 
   // Generate links to dashboards
   const linkToEntity = useGenerateLinkToDashboard(entityType, originalID, location, relatedAPID);
-  const linkToHostOfEntity = useGenerateLinkToDashboard('infrastructure', relatedHostID, location, relatedAPID);
-  const linkToService = useGenerateLinkToDashboard('service', relatedServiceID, location, relatedAPID);
-  const linkToAP = useGenerateLinkToDashboard('application', relatedAPID, location, null);
 
   const pluginToShortPluginName = translateFullyQualifiedPluginToShortPluginName(entityId.get('pluginId')) || 'entity';
   return (
@@ -518,311 +557,125 @@ function NonAppDataEntityPath({
           </Stack>
         </Link>
       </Stack>
-      {hostLabel && (
-        <Stack direction="horizontal" gap="xsmall" align="center">
-          <Spacer horizontal="small" />
-          <div>
-            <div className={locals.infraLineDown} />
-            <div className={locals.infraLineRight} />
-          </div>
-          <Typography variant="body-small">{'Runs on: '}</Typography>
-          <Link
-            href={linkToHostOfEntity}
-            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'host' })}
-          >
-            <Stack direction="horizontal" gap="xsmall" align="center">
-              <PluginIcon plugin={hostLabel.pluginType} color={themes.default.cds.link.primary} />
-              <Typography variant="body-small" component="a">
-                {hostLabel.label}
-              </Typography>
-            </Stack>
-          </Link>
-        </Stack>
+      {hostDataFromHierarchy && relatedHostID && (
+        <EntityDisplay
+          entityType="infrastructure"
+          entityID={relatedHostID}
+          entityLabel={(hostDataFromHierarchy as RelevantSnapshotData).label}
+          relatedAPID={relatedAPID}
+          displayLabel={t('in-events:RCA.runsOn')}
+          renderIcon={
+            <PluginIcon
+              plugin={(hostDataFromHierarchy as RelevantSnapshotData).pluginType}
+              color={themes.default.cds.link.primary}
+            />
+          }
+        />
       )}
-      {relatedServiceLabel && isServiceLabelValid(relatedServiceLabel) && (
-        <Stack direction="horizontal" gap="xsmall" align="center">
-          <Spacer horizontal="small" />
-          <div>
-            <div className={locals.infraLineDown} />
-            <div className={locals.infraLineRight} />
-          </div>
-          <Typography variant="body-small">{'In service: '}</Typography>
-          <Link
-            href={linkToService}
-            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'service' })}
-          >
-            <Stack direction="horizontal" gap="xsmall" align="center">
-              <SvgIcon type={getIcon('service')} color={themes.default.cds.link.primary} />
-              <Typography variant="body-small" component="a">
-                {relatedServiceLabel}
-              </Typography>
-            </Stack>
-          </Link>
-        </Stack>
+      {podDataFromHierarchy && relatedPodID && (
+        <EntityDisplay
+          entityType="infrastructure"
+          entityID={relatedPodID}
+          entityLabel={(podDataFromHierarchy as RelevantSnapshotData).label}
+          relatedAPID={relatedAPID}
+          displayLabel={t('in-events:RCA.runningIn')}
+          renderIcon={
+            <PluginIcon
+              plugin={(podDataFromHierarchy as RelevantSnapshotData).pluginType}
+              color={themes.default.cds.link.primary}
+            />
+          }
+        />
       )}
-      {relatedAPlabel && (
-        <Stack direction="horizontal" gap="xsmall" align="center">
-          <Spacer horizontal="small" />
-          <div>
-            <div className={locals.infraLineDown} />
-            <div className={locals.infraLineRight} />
-          </div>
-          <Typography variant="body-small">{'As part of application: '}</Typography>
-          <Link
-            href={linkToAP}
-            onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: 'Application perspective' })}
-          >
-            <Stack direction="horizontal" gap="xsmall" align="center">
-              <SvgIcon type={getIcon('application')} color={themes.default.cds.link.primary} size="s" />
-              <Typography variant="body-small" component="a">
-                {relatedAPlabel}
-              </Typography>
-            </Stack>
-          </Link>
-        </Stack>
+      {containerDContainerFromHierarchy && relatedContainerdID && (
+        <EntityDisplay
+          entityType="infrastructure"
+          entityID={relatedContainerdID}
+          entityLabel={(containerDContainerFromHierarchy as RelevantSnapshotData).label}
+          relatedAPID={relatedAPID}
+          displayLabel={t('in-events:RCA.runningIn')}
+          renderIcon={
+            <PluginIcon
+              plugin={(containerDContainerFromHierarchy as RelevantSnapshotData).pluginType}
+              color={themes.default.cds.link.primary}
+            />
+          }
+        />
+      )}
+      {firstServiceLabel && firstServiceID && isServiceLabelValidToDisplayInRCA(firstServiceLabel) && (
+        <EntityDisplay
+          entityType="service"
+          entityID={firstServiceID}
+          entityLabel={firstServiceLabel}
+          relatedAPID={relatedAPID}
+          displayLabel={t('in-events:RCA.inService')}
+          renderIcon={<SvgIcon type={getIconForRCADisplay('service')} color={themes.default.cds.link.primary} />}
+          testing={serviceLabelInformation && serviceLabelInformation?.length > 1 ? AdditionalServices() : undefined}
+        />
+      )}
+      {relatedAPlabel && relatedAPID && (
+        <EntityDisplay
+          entityType="application"
+          entityID={relatedAPID}
+          entityLabel={relatedAPlabel}
+          relatedAPID={null}
+          displayLabel={t('in-events:RCA.asPartOfApplicationPerspective')}
+          renderIcon={
+            <SvgIcon type={getIconForRCADisplay('application')} color={themes.default.cds.link.primary} size="s" />
+          }
+        />
       )}
     </Stack>
   );
 }
 
-/* Utils for building links with TFEs for analytics page */
-
-function getIcon(entityType: string): string {
-  if (entityType === 'infrastructure') {
-    return 'lib_infrastructure';
-  } else if (entityType === 'process') {
-    return 'lib_infra_process';
-  } else if (entityType === 'endpoint') {
-    return 'lib_infra_endpoint';
-  } else if (entityType === 'service') {
-    return 'lib_infra_service';
-  } else if (entityType === 'application') {
-    return 'lib_application';
-  } else {
-    return 'lib_infra_unknownIcon';
-  }
+interface InfraEntityDisplayProps {
+  entityType: string;
+  entityID: string;
+  entityLabel: string;
+  relatedAPID: string | null;
+  displayLabel: string;
+  renderIcon: ReactElement;
+  testing?: ReactElement;
 }
 
-function useGenerateLinksForEntity(
-  entityType: string,
-  originalID: string,
-  relatedApplicationInformation: Application | null | undefined,
-  entityInformation: SnapshotData | null,
-  incidentTimeWindow: TimeConfig,
-  serviceLabelInformation: ServiceLabel | null
-): string | undefined {
-  const getLinkToApplicationAnalyze = useLinkToAnalyze();
+function EntityDisplay({
+  entityType,
+  entityID,
+  entityLabel,
+  relatedAPID,
+  displayLabel,
+  renderIcon,
+  testing
+}: InfraEntityDisplayProps) {
+  const { location } = useNavigation();
 
-  //Convert entity information to json if it comes in as a map in case of getSnapshot
-  if (entityInformation && Map.isMap(entityInformation)) entityInformation = entityInformation.toJS();
+  const linkToEntity = useGenerateLinkToDashboard(entityType, entityID, location, relatedAPID);
 
-  if (relatedApplicationInformation && relatedApplicationInformation && entityInformation) {
-    return getLinkToApplicationAnalyze({
-      serviceName: entityType === 'service' ? entityInformation?.label : undefined,
-      boundaryScope: 'ALL',
-      facets: { 'call.erroneous': [true] },
-      formModel:
-        entityType !== 'application' && entityType !== 'service'
-          ? generateFormModelForLinkToEntity(
-              entityType,
-              entityInformation,
-              originalID,
-              serviceLabelInformation,
-              relatedApplicationInformation.label,
-              entityType === 'endpoint' ? entityInformation?.label : undefined
-            ) || undefined
-          : undefined,
-      timeConfig: incidentTimeWindow
-    });
-  } else if (entityInformation) {
-    if (entityType !== 'application') {
-      return getLinkToApplicationAnalyze({
-        boundaryScope: 'ALL',
-        facets: { 'call.erroneous': [true] },
-        formModel:
-          generateNonSmartAlertFormModelForLinkToEntity(
-            entityType,
-            entityInformation,
-            originalID,
-            serviceLabelInformation
-          ) || undefined,
-        timeConfig: incidentTimeWindow
-      });
-    } else if (entityType === 'application') {
-      return getLinkToApplicationAnalyze({
-        boundaryScope: 'ALL',
-        applicationName: entityInformation.label,
-        facets: { 'call.erroneous': [true] },
-        timeConfig: incidentTimeWindow
-      });
-    }
-  }
-  return undefined;
+  return (
+    <Stack direction="horizontal" gap="xsmall" align="center">
+      <Spacer horizontal="small" />
+      <div>
+        <div className={locals.infraLineDown} />
+        <div className={locals.infraLineRight} />
+      </div>
+      <Typography variant="body-small">{displayLabel}</Typography>
+      <Link href={linkToEntity} onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: entityType })}>
+        <Stack direction="horizontal" gap="xsmall" align="center">
+          {renderIcon}
+          <Typography variant="body-small" component="a">
+            {entityLabel}
+          </Typography>
+        </Stack>
+      </Link>
+      {testing}
+    </Stack>
+  );
 }
 
-function useGenerateLinkToDashboard(
-  entityType: string,
-  originalID: string | null | undefined,
-  location: Location,
-  relatedAPID: string | null
-) {
-  const { createHref } = useNavigation();
-  const query = { ...location.query };
-  const matrixParam = {} as MatrixParameters;
-  let pathname = '';
+function ServiceLink({ serviceID, serviceLabel, relatedAPID }: any) {
+  const { location } = useNavigation();
 
-  if (!originalID) return undefined;
-
-  if (entityType === 'infrastructure' || entityType === 'process') {
-    query[snapshotIdUrlParameter.name] = originalID;
-    pathname = '/physical/dashboard';
-  } else if (entityType === 'endpoint') {
-    pathname = '/endpoint/summary';
-    matrixParam['/endpoint'] = buildMatrixParam(endpointIDURLParameter, originalID, relatedAPID);
-  } else if (entityType === 'service') {
-    pathname = '/service/summary';
-    matrixParam['/service'] = buildMatrixParam(serviceIDURLParameter, originalID, relatedAPID);
-    //query[serviceIDURLParameter] = originalID;
-  } else if (entityType === 'application') {
-    pathname = '/application/summary';
-    matrixParam['/application'] = buildMatrixParam(appIDURLParameter, originalID, null);
-  }
-
-  if (pathname !== '') {
-    return createHref({
-      ...location,
-      pathname,
-      query,
-      matrix: matrixParam
-    });
-  }
-  return undefined;
-}
-
-function buildMatrixParam(
-  entityURLParameterType: string,
-  originalEntityID: string,
-  relatedAPID: string | null
-): Parameters {
-  const builtMatrixParam = { [entityURLParameterType]: originalEntityID };
-
-  if (relatedAPID) {
-    builtMatrixParam[appIDURLParameter] = relatedAPID;
-  }
-
-  return builtMatrixParam;
-}
-
-function isServiceLabelValid(label: string) {
-  return label !== 'UNKNOWN' && label !== 'Unspecified';
-}
-
-function generateNonSmartAlertFormModelForLinkToEntity(
-  entityType: string,
-  entityInformation: SnapshotData,
-  originalID: string,
-  serviceLabelInformation: ServiceLabel | null
-): FormModelElement[] | null {
-  let initialFormModel = null;
-
-  if (serviceLabelInformation && serviceLabelInformation.label && isServiceLabelValid(serviceLabelInformation.label)) {
-    initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
-      'service.name',
-      serviceLabelInformation.label,
-      null
-    );
-  }
-  const isInfrastructureAProcess =
-    entityInformation && entityInformation.plugin && entityInformation.plugin === 'process';
-
-  if (entityType === 'infrastructure' && !isInfrastructureAProcess) {
-    initialFormModel = getTagFilterForSourceOrDestinationAndCombine('host.snapshotId', originalID, initialFormModel);
-  } else if (entityType === 'process' || isInfrastructureAProcess) {
-    initialFormModel = getTagFilterForSourceOrDestinationAndCombine('process.snapshotId', originalID, initialFormModel);
-  } else if (entityType === 'endpoint') {
-    initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
-      ENDPOINT.name,
-      entityInformation.label,
-      initialFormModel
-    );
-  } else if (entityType === 'service') {
-    initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
-      SERVICE.name,
-      entityInformation.label,
-      initialFormModel
-    );
-  }
-
-  return initialFormModel;
-}
-
-function generateFormModelForLinkToEntity(
-  entityType: string,
-  entityInformation: SnapshotData,
-  originalID: string,
-  serviceLabelInformation: ServiceLabel | null,
-  applicationLabel: string | null,
-  endpointLabel: string | null
-): FormModelElement[] | null {
-  let initialFormModel = null;
-  if (applicationLabel) {
-    initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
-      APPLICATION.name,
-      applicationLabel,
-      initialFormModel
-    );
-  }
-  if (endpointLabel) {
-    initialFormModel = getTagFilterForSourceOrDestinationAndCombine(ENDPOINT.name, endpointLabel, initialFormModel);
-  }
-  if (serviceLabelInformation && serviceLabelInformation.label && isServiceLabelValid(serviceLabelInformation.label)) {
-    initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
-      'service.name',
-      serviceLabelInformation.label,
-      null
-    );
-  }
-
-  // Todo: cleanup after rca rework in backend that differentiates between process and infra
-  const isInfrastructureAProcess =
-    entityInformation && entityInformation.plugin && entityInformation.plugin === 'process';
-
-  if (entityType === 'infrastructure' && !isInfrastructureAProcess) {
-    initialFormModel = getTagFilterForSourceOrDestinationAndCombine('host.snapshotId', originalID, initialFormModel);
-  } else if (entityType === 'process' || isInfrastructureAProcess) {
-    initialFormModel = getTagFilterForSourceOrDestinationAndCombine('process.snapshotId', originalID, initialFormModel);
-  }
-  return initialFormModel;
-}
-
-function getTagFilterForSourceOrDestinationAndCombine(
-  name: string,
-  value: string,
-  initialVal: FormModelElement[] | null
-): FormModelElement[] {
-  const filterToJoin = joinExpressions({
-    logicalOperator: 'OR',
-    expressions: [
-      {
-        type: 'TAG_FILTER',
-        name: name,
-        value: value,
-        operator: operators.EQUALS,
-        entity: entityTypes.SOURCE
-      },
-      {
-        type: 'TAG_FILTER',
-        name: name,
-        value: value,
-        operator: operators.EQUALS,
-        entity: entityTypes.DESTINATION
-      }
-    ]
-  });
-
-  if (initialVal) {
-    return joinExpressions({ logicalOperator: 'AND', expressions: [initialVal, filterToJoin] });
-  } else {
-    return filterToJoin;
-  }
+  const linkToService = useGenerateLinkToDashboard('service', serviceID, location, relatedAPID);
+  return <MoreMenuButton href={linkToService}>{serviceLabel}</MoreMenuButton>;
 }

@@ -6,9 +6,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { Menu } from '@instana/components';
+
 import { BlueprintDescription, BlueprintText } from 'in-alerting/smart-alerts/components/dialog/BlueprintDescription';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/BlueprintSelection.mless';

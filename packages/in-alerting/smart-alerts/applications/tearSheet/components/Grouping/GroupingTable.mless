@@ -13,7 +13,6 @@
   .groupLabel {
     display: flex;
     align-items: center;
-
     margin-bottom: 0.25rem;
   }
 
@@ -52,14 +51,22 @@
   }
 
   .tableContainer {
-    min-height: 23rem;
-    height: 23rem;
+    min-height: 22.25rem;
+    height: 22.25rem;
     overflow: auto;
+  }
+
+  .carbonVariant {
+    .tableContainer {
+      min-height: 22.55rem;
+      height: 22.55rem;
+    }
   }
 
   .wrapper {
     border: 1px solid var(--ids-color-option-neutral-400);
     padding: 0.5rem;
+    width: 100%;
   }
 
   .block {
@@ -71,5 +78,9 @@
     width: 10rem;
     height: 1rem;
     display: block;
+  }
+
+  .groupTableWrapper {
+    width: 100%;
   }
 }

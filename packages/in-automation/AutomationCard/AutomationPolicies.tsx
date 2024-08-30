@@ -32,14 +32,19 @@ import {
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import {
+  runActionTracker,
+  createBulkPoliciesTracker,
+  useSegmentTracker,
+  TrackingFunction
+} from 'in-automation/tracker';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { actionNameColumn as policyActionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
 import { NewPolicy, TriggerSpecification, isManual as isManualPolicy } from 'in-automation/Policies/types';
-import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
+import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNavigateToPolicyDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { refresh, usePaginatedPolicies } from 'in-automation/AutomationCard/usePolicies';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import { runActionTracker, createBulkPoliciesTracker } from 'in-automation/tracker';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { saveBulkPolicies, deletePolicy, ScoredAction } from 'in-automation/api';
 import { close, addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -122,10 +127,30 @@ function onCreateFailed(error: Error) {
   );
 }
 
-function onCreate(policies: NewPolicy[], actionNames: string[], triggerName?: string) {
+function onCreate(
+  policies: NewPolicy[],
+  actionNames: string[],
+  policyActionMapping: Map<string, ScoredAction>,
+  createPolicyTrackerSegment: TrackingFunction,
+  triggerName?: string
+) {
   saveBulkPolicies(policies).once(
     () => {
       onCreateSuccess(policies.length);
+
+      // Track each policy created
+      policies.forEach(policy => {
+        const action = policyActionMapping.get(policy.name);
+        createPolicyTrackerSegment({
+          actionName: action!.name,
+          actionType: action!.type,
+          policyName: policy.name,
+          policyType: 'manual',
+          aiOriginated: isAIActionCopy(action!) ? true : false,
+          triggerName: triggerName ?? ''
+        });
+      });
+
       createBulkPoliciesTracker({
         triggerName: triggerName ?? '',
         actionNames
@@ -162,6 +187,7 @@ function showConfirmationDialog(policy: Policy) {
 const getExecuteColumn = (
   volatileId: VolatileId,
   event: Event,
+  runActionTrackerSegment: TrackingFunction,
   setActiveKey?: SetActiveKey
 ): ColumnDefinition<Policy> => ({
   id: 'execute',
@@ -183,6 +209,16 @@ const getExecuteColumn = (
           href={value}
           onClick={e => {
             e.stopPropagation();
+
+            // Track documentation action launched
+            runActionTrackerSegment({
+              actionName: action.name,
+              actionType: action.type,
+              policyName: item.name,
+              policyType: 'manual',
+              aiOriginated: false
+            });
+
             runActionTracker({
               actionType: action.type,
               actionName: action.name,
@@ -225,6 +261,16 @@ const getExecuteColumn = (
           onClick={e => {
             e.stopPropagation();
             addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+
+            // Track manual action viewed
+            runActionTrackerSegment({
+              actionName: action.name,
+              actionType: action.type,
+              policyName: item.name,
+              policyType: 'manual',
+              aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+            });
+
             runActionTracker({
               actionType: action.type,
               aIGeneratedAction: isAIAction(action) || isAIActionCopy(action),
@@ -352,16 +398,21 @@ function SelectActionsDialog({ event, actions, trigger }: SelectActionsDialogPro
     setServerTableUrlState
   });
 
-  function onSubmit() {
+  function onSubmit(createPolicyTrackerSegment: TrackingFunction) {
     const selectedActions = selectedIds
       .map(id => actions.data!.find(action => id === action.id))
       .filter((action): action is ScoredAction => !!action);
 
-    const policies = selectedActions.map(action => createBasePolicy(event, action));
+    let policyActionMapping = new Map<string, ScoredAction>();
+    const policies = selectedActions.map(action => {
+      let policy = createBasePolicy(event, action);
+      policyActionMapping.set(policy.name, action);
+      return policy;
+    });
     const triggerName = trigger.data?.name;
     const actionNames = selectedActions.map(({ name }) => name);
 
-    onCreate(policies, actionNames, triggerName);
+    onCreate(policies, actionNames, policyActionMapping, createPolicyTrackerSegment, triggerName);
   }
 
   function onChange(action: ScoredAction) {
@@ -393,6 +444,8 @@ function SelectActionsDialog({ event, actions, trigger }: SelectActionsDialogPro
     aiEngineColumn,
     scoreColumn
   ];
+
+  const { createPolicyTrackerSegment } = useSegmentTracker();
 
   return (
     <Dialog title={t('in-automation:policies.createPolicies')} onClose={close} withoutBodyPadding>
@@ -428,7 +481,7 @@ function SelectActionsDialog({ event, actions, trigger }: SelectActionsDialogPro
       <Spacer vertical="small" />
       <FormFooter>
         <CancelButton onClick={close} />
-        <Button kind="primary" disabled={selectedIds.length === 0} onClick={onSubmit}>
+        <Button kind="primary" disabled={selectedIds.length === 0} onClick={() => onSubmit(createPolicyTrackerSegment)}>
           {t('in-automation:policies.createPolicies')}
         </Button>
       </FormFooter>
@@ -513,8 +566,9 @@ export default function AutomationPolicies({
   const totalHits = paginatedPolicies?.data?.totalHits;
 
   const columnDefinitionsToShow = [...columnDefinitions];
+  const { runActionTrackerSegment } = useSegmentTracker();
   if (role?.canRunAutomationActions) {
-    columnDefinitionsToShow.push(getExecuteColumn(volatileId, event, setActiveKey));
+    columnDefinitionsToShow.push(getExecuteColumn(volatileId, event, runActionTrackerSegment, setActiveKey));
   }
   if (role?.canConfigureAutomationPolicies) {
     columnDefinitionsToShow.push(deleteColumn);
@@ -533,7 +587,7 @@ export default function AutomationPolicies({
         </Typography>
       }
       onChange={setServerTableUrlState}
-      onRowClick={policy => navigateToPolicyDetails(policy)}
+      onRowClick={policy => navigateToPolicyDetails(policy.id)}
       orderBy={orderBy}
       orderDirection={orderDirection}
       page={page}

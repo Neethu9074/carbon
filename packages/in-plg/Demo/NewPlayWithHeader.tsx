@@ -11,19 +11,16 @@ import React from 'react';
 
 import { LicenseBannerButton, Typography } from '@instana/components';
 
+//@ts-expect-error missing typescript migration
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import {
-  track,
   PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED,
   PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED
 } from 'in-services/tracking/tracking';
-//@ts-expect-error missing typescript migration
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { eventTracker } from 'in-services/tracking/segment/EventTracker';
-import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { shareAndInviteEnabled } from 'in-services/featureFlags';
-import { CTA_CLICKED } from 'in-services/util/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
@@ -50,7 +47,7 @@ const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteD
 
 export default function NewPlayWithHeader() {
   const location = useLocation();
-  const path = location.pathname;
+  const { trackCta } = useSegmentTracking();
   return (
     <div className={classNames(locals.newPlayWithInstana)}>
       <span className={classNames(locals.message)}>
@@ -64,17 +61,7 @@ export default function NewPlayWithHeader() {
         target="_blank"
         href="https://www.ibm.com/account/reg/us-en/signup?formid=urx-52345&utm_source=playwith"
         onClick={() => {
-          const { pageRootName, productArea } = getViewTrackingMetaData();
-          if (pageRootName && productArea) {
-            const data = {
-              parentPageName: pageRootName,
-              parentPageCategory: productArea,
-              CTA: PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED,
-              path
-            };
-            eventTracker({ data, segmentEventName: CTA_CLICKED });
-          }
-          track(PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED, getPageType(location.pathname));
+          trackCta(PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED, getPageType(location.pathname));
         }}
         icon="lib_arrow_short_right"
       >
@@ -84,16 +71,16 @@ export default function NewPlayWithHeader() {
         id="schedule_demo"
         kind="ghost"
         target="_blank"
-        href="https://www.instana.com/schedule-demo/"
+        href="https://www.ibm.com/account/reg/us-en/signup?formid=DEMO-automateinstana&utm_source=playwith"
         onClick={() => {
-          track(PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED, getPageType(location.pathname));
+          trackCta(PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED, getPageType(location.pathname));
         }}
       >
         {t('in-plg:playwithinstana.bookdemo')}
       </LicenseBannerButton>
       {shareAndInviteEnabled && (
         <>
-          <Tooltip align="bottomMiddle" content={t('in-plg:licenseBanner.shareTooltip')}>
+          <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
             <LicenseBannerButton
               id="shareButton"
               kind="ghost"

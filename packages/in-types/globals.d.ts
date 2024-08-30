@@ -65,8 +65,17 @@ export interface User {
   email: string;
   role?: Role;
   tenants: Tenant[];
+  fullName: string;
+  preferredName: string;
+}
+
+interface ReportingData {
+  hasEntities: boolean;
+  hostCount: number;
+  serverlessCount: number;
 }
 declare interface InstanaGlobals {
+  reportingData?: ReportingData;
   user?: User;
   settings?: UiSettings;
   numberLocale?: FormatLocaleDefinition;

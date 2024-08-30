@@ -15,6 +15,7 @@ export const mockEmptyPermissionsSet = {
   permissions: [],
   websiteIds: [],
   businessPerspectiveIds: [],
+  syntheticCredentialKeys: [],
   syntheticTestIds: []
 };
 
@@ -62,6 +63,7 @@ const mockPermissionsWithLimitedAccess = [
   'CAN_CONFIGURE_TEAMS',
   'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
   'CAN_CONFIGURE_LOG_MANAGEMENT',
+  'CAN_CONFIGURE_DATABASE_MANAGEMENT',
   'LIMITED_PHMC_SCOPE',
   'LIMITED_POWERVC_SCOPE',
   'LIMITED_SAP_SCOPE',
@@ -123,6 +125,7 @@ const mockPermissionsWithFullAccess = [
   'CAN_CONFIGURE_TEAMS',
   'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
   'CAN_CONFIGURE_LOG_MANAGEMENT',
+  'CAN_CONFIGURE_DATABASE_MANAGEMENT',
   'CAN_CONFIGURE_APPLICATIONS',
   'ACCESS_AUTOMATION'
 ];
@@ -190,7 +193,8 @@ export const mockPermissionsSetWithData = {
   ],
   syntheticTestIds: [],
   businessPerspectiveIds: [],
-  permissions: mockPermissionsWithLimitedAccess
+  permissions: mockPermissionsWithLimitedAccess,
+  syntheticCredentialKeys: []
 };
 
 export const mockPermissionsSetWithFullAccessData = {

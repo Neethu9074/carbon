@@ -8,11 +8,11 @@ import { keyBy } from 'lodash';
 
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { AdditionalHeaders, Authen, NewAction } from 'in-automation/api';
-import { Action, Field } from 'in-types';
+import { Action, ActionType, Field } from 'in-types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export const getType = (type: string) => {
+export const getType = (type: ActionType) => {
   if (isDocLink(type)) {
     return t('in-automation:ActionCatalog.docLink');
   } else if (isScript(type)) {
@@ -36,7 +36,7 @@ export const getType = (type: string) => {
   }
 };
 
-export const getHelpTextType = (type: string) => {
+export const getHelpTextType = (type: ActionType) => {
   if (isDocLink(type)) {
     return t('in-automation:ActionCatalog.docLinkHelpText');
   } else if (isScript(type)) {
@@ -273,25 +273,25 @@ export function getJiraOpenTicketFields(action: Action | NewAction): JiraOpenFie
   return { summary, body, labels, assignee, issue_type };
 }
 
-export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
-export const isManual = (type?: string) => type === MANUAL_TYPE;
-export const isScript = (type?: string) => type === SCRIPT_TYPE;
-export const isWebhook = (type?: string) => type === WEBHOOK_TYPE;
-export const isExternal = (type?: string) => type === EXTERNAL_TYPE;
-export const isAnsible = (type?: string) => type === ANSIBlE_TYPE;
-export const isGithub = (type?: string) => type === GITHUB_TYPE;
-export const isGitlab = (type?: string) => type === GITLAB_TYPE;
-export const isJira = (type?: string) => type === JIRA_TYPE;
+export const isDocLink = (type?: ActionType) => type === DOC_LINK_TYPE;
+export const isManual = (type?: ActionType) => type === MANUAL_TYPE;
+export const isScript = (type?: ActionType) => type === SCRIPT_TYPE;
+export const isWebhook = (type?: ActionType) => type === WEBHOOK_TYPE;
+export const isExternal = (type?: ActionType) => type === EXTERNAL_TYPE;
+export const isAnsible = (type?: ActionType) => type === ANSIBlE_TYPE;
+export const isGithub = (type?: ActionType) => type === GITHUB_TYPE;
+export const isGitlab = (type?: ActionType) => type === GITLAB_TYPE;
+export const isJira = (type?: ActionType) => type === JIRA_TYPE;
 
-export const DOC_LINK_TYPE = 'doc_link';
-export const MANUAL_TYPE = 'MANUAL';
-export const SCRIPT_TYPE = 'SCRIPT';
-export const WEBHOOK_TYPE = 'HTTP';
-export const EXTERNAL_TYPE = 'EXTERNAL';
-export const ANSIBlE_TYPE = 'ANSIBLE';
-export const GITHUB_TYPE = 'GITHUB';
-export const GITLAB_TYPE = 'GITLAB';
-export const JIRA_TYPE = 'JIRA';
+export const DOC_LINK_TYPE: ActionType = 'DOC_LINK';
+export const MANUAL_TYPE: ActionType = 'MANUAL';
+export const SCRIPT_TYPE: ActionType = 'SCRIPT';
+export const WEBHOOK_TYPE: ActionType = 'HTTP';
+export const EXTERNAL_TYPE: ActionType = 'EXTERNAL';
+export const ANSIBlE_TYPE: ActionType = 'ANSIBLE';
+export const GITHUB_TYPE: ActionType = 'GITHUB';
+export const GITLAB_TYPE: ActionType = 'GITLAB';
+export const JIRA_TYPE: ActionType = 'JIRA';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);

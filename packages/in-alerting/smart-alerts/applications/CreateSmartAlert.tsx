@@ -5,10 +5,18 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 //@ts-expect-error need migration
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
+import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
+import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
+import { isDialogAndTearSheetEnabled } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { alertsTabListFullyQualified } from 'in-applications/navigation/paths';
@@ -28,7 +36,10 @@ interface GenerateAlertConfigProps {
   endpointId?: string;
   boundaryScope?: string;
   includeSynthetic?: boolean;
+  renderAsFloatingButton?: boolean;
 }
+
+const showDialogAndTearSheetButton = isDialogAndTearSheetEnabled();
 
 export default function CreateSmartAlert({
   applicationId,
@@ -43,9 +54,88 @@ export default function CreateSmartAlert({
     return null;
   }
 
+  // Show floating button if both dialog and tearsheet are enabled.
+  if (showDialogAndTearSheetButton) {
+    return (
+      <FloatingActionButtons>
+        <FloatingActionButtonMenu>
+          <CreateSmartAlertDialog
+            applicationId={applicationId}
+            location={location}
+            boundaryScope={urlBoundaryScope}
+            defaultBoundaryScope={defaultBoundaryScope}
+            includeSynthetic={includeSynthetic}
+            serviceId={serviceId}
+            endpointId={endpointId}
+          />
+          <CreateSmartAlertButton
+            isGlobal={false}
+            buttonName={getButtonName(t('in-alerting:smartAlerts.applications.components.createSmartAlert'))}
+            boundaryScope={urlBoundaryScope}
+            defaultBoundaryScope={defaultBoundaryScope}
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+          />
+        </FloatingActionButtonMenu>
+      </FloatingActionButtons>
+    );
+  }
+
+  // Show button to add smart alert if tearSheet view is enabled.
+  if (applicationSmartAlertFullScreenDesignEnabled) {
+    return (
+      <FloatingActionButtons>
+        <CreateSmartAlertButton
+          isGlobal={false}
+          buttonName={getButtonName(t('in-alerting:smartAlerts.applications.components.createSmartAlert'))}
+          boundaryScope={urlBoundaryScope}
+          defaultBoundaryScope={defaultBoundaryScope}
+          applicationId={applicationId}
+          renderAsSimpleButton
+          serviceId={serviceId}
+          endpointId={endpointId}
+        />
+      </FloatingActionButtons>
+    );
+  }
+
+  // by default, display the button for adding a smart alert.
   return (
-    <FloatingActionButton
+    <FloatingActionButtons>
+      <CreateSmartAlertDialog
+        applicationId={applicationId}
+        location={location}
+        boundaryScope={urlBoundaryScope}
+        defaultBoundaryScope={defaultBoundaryScope}
+        includeSynthetic={includeSynthetic}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        renderAsFloatingButton={false}
+      />
+    </FloatingActionButtons>
+  );
+}
+
+function CreateSmartAlertDialog({
+  applicationId,
+  boundaryScope: urlBoundaryScope,
+  defaultBoundaryScope,
+  includeSynthetic,
+  serviceId,
+  endpointId,
+  location,
+  renderAsFloatingButton = true
+}: CreateSmartAlertProps) {
+  if (!applicationId) {
+    return null;
+  }
+  const FloatingButtonComponent = renderAsFloatingButton ? Button : FloatingActionButton;
+
+  return (
+    <FloatingButtonComponent
       icon="lib_alerts_create"
+      kind={'primaryv2'}
       onClick={() => {
         addActiveDialog(
           <AlertConfigDialog
@@ -68,10 +158,9 @@ export default function CreateSmartAlert({
         );
         trackStartCreate();
       }}
-      withBoxShadow
     >
       {t('in-alerting:smartAlerts.applications.components.createSmartAlert')}
-    </FloatingActionButton>
+    </FloatingButtonComponent>
   );
 }
 

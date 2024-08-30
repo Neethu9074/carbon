@@ -154,9 +154,10 @@ export const dataSourceConstants = {
       latency: ['P25', 'P50', 'P95', 'SUM', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MIN', 'MAX', 'DISTRIBUTION'],
       erroneousCalls: ['SUM', 'PER_SECOND'],
       errors: ['MEAN'],
-      'call.metric': ['SUM', 'MEAN', 'MIN', 'MAX']
+      'call.metric': ['SUM', 'MEAN', 'MIN', 'MAX'],
+      'call.meta_metrics': ['SUM', 'MIN', 'MEAN', 'MAX']
     },
-    supportedCustomMetrics: ['call.metric'],
+    supportedCustomMetrics: ['call.metric', 'call.meta_metrics'],
     latencyTag: 'call.latency',
     getData: getCalls,
     getGroupData: getCallGroups,

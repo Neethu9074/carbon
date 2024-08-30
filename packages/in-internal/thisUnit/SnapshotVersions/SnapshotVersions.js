@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import diff from 'deep-diff';
 
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import createSnapshotVersionsInTimeframeObservable from 'in-subscription/snapshotVersionsInTimeframe';
 import VersionTimeline from 'in-components/VersionTimeline';

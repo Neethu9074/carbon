@@ -5,14 +5,14 @@
 
 import React from 'react';
 
+import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { ApplicationAlertConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch.mless';
 
 interface Props {
-  alertConfig: ApplicationAlertConfig;
+  alertConfig: ApplicationSmartAlertConfig;
 }
 
 export default function ReadOnlyIncludeInternalOrSyntheticCallsSwitch({ alertConfig }: Props) {

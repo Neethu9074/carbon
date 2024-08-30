@@ -5,7 +5,7 @@
 
 import React, { forwardRef } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 export default forwardRef(function ImageButton({ children, iconType, iconSize, onClick, disabled }, ref) {
   return (

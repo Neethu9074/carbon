@@ -9,7 +9,6 @@ import classNames from 'classnames';
 import { CarbonLayer } from '@instana/components';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Header from 'in-components/Dialog/Header';
 
 import locals from './Dialog.mless';
@@ -48,32 +47,32 @@ export default function Dialog({
     <div
       className={classNames({
         [locals.wrapper]: true,
-        [locals.cursorDefault]: doNotCloseOnOutsideClick,
-        [locals.shareAndInvite]: shareAndInviteEnabled
+        [locals.cursorDefault]: doNotCloseOnOutsideClick
       })}
       onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose(e))}
     >
       <section className={classNames(locals.dialog, className)} onClick={stopPropagation}>
-        {!headless && (
-          <Header
-            icon={titleIconType}
-            onIconClick={onTitleIconClick}
-            title={title}
-            renderCustomCloseBehaviour={renderCustomCloseBehaviour}
-            onClose={onClose}
-            closeTooltip={closeTooltip}
-            addScrollShadow={scrollshadow}
-          />
-        )}
-        <CarbonLayer
-          level={1}
-          className={classNames(locals.body, locals.withRoundedBottomBorder, {
-            [locals.withoutPadding]: withoutBodyPadding,
-            [locals.showOverflow]: showOverflow
-          })}
-          onScroll={(e: { currentTarget: { scrollTop: number } }) => setScrollshadow(e.currentTarget?.scrollTop > 0)}
-        >
-          {children}
+        <CarbonLayer>
+          {!headless && (
+            <Header
+              icon={titleIconType}
+              onIconClick={onTitleIconClick}
+              title={title}
+              renderCustomCloseBehaviour={renderCustomCloseBehaviour}
+              onClose={onClose}
+              closeTooltip={closeTooltip}
+              addScrollShadow={scrollshadow}
+            />
+          )}
+          <div
+            className={classNames(locals.body, locals.withRoundedBottomBorder, {
+              [locals.withoutPadding]: withoutBodyPadding,
+              [locals.showOverflow]: showOverflow
+            })}
+            onScroll={(e: { currentTarget: { scrollTop: number } }) => setScrollshadow(e.currentTarget?.scrollTop > 0)}
+          >
+            {children}
+          </div>
         </CarbonLayer>
       </section>
     </div>

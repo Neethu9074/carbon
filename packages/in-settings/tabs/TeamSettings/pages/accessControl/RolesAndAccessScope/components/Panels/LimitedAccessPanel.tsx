@@ -8,10 +8,9 @@ import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
 import { PermissionSet, ScopeBinding, Result, OrderDirection } from '@instana/types';
-import { Stack, StackItem, SvgIcon, Typography } from '@instana/components';
+import { Stack, StackItem, SvgIcon, Typography, Button } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
-import { Button } from '@instana/legacy';
 
 import {
   AreaRole,
@@ -42,18 +41,24 @@ import {
   PermissionSectionProps
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
 import EntityTableCellWithOverflow from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTableCellWithOverflow';
+import {
+  getField,
+  getScopeFromProductArea,
+  updateFormField
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
 import SelectEntitiesForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/SelectEntitiesForm';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
-import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import Divider from 'in-components/workspace/Divider/Divider';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { Capability } from 'in-stores/permission';
 import { noop } from 'in-services/fixedObjects';
 import { Trans, t } from 'in-i18n';
 
@@ -74,6 +79,7 @@ interface LimitedAccessPanelProps<I extends Object, FORM_TYPE extends MapFormIte
   productArea: LimitableProductArea;
   setValid?: (isValid: boolean) => void;
   editMode?: boolean;
+  syntheticCredentials?: () => Observable<Result<I[]>>;
 }
 
 export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends MapFormItems>({
@@ -91,11 +97,20 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   setShowSubSlide,
   setSubSlideConfig,
   setValid,
-  editMode
+  editMode,
+  syntheticCredentials
 }: LimitedAccessPanelProps<I, FORM_TYPE>) {
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const scopeBindings = permissionSetField?.value[entityPermissionKey] ?? [];
+  const applicationScopeBindings = permissionSetField?.value['applicationIds'] ?? [];
+  const websiteScopeBindings = permissionSetField?.value['websiteIds'] ?? [];
+  const mobileAppScopeBindings = permissionSetField?.value['mobileAppIds'] ?? [];
+  const syntheticCredentialKeys = permissionSetField?.value['syntheticCredentialKeys'] ?? [];
+  const permissions = permissionSetField?.value['permissions'] ?? [];
+  const applicationsAccessScope = getScopeFromProductArea(ProductArea.APPLICATION, permissionSetField?.value!);
+  const websitesAccessScope = getScopeFromProductArea(ProductArea.WEBSITE, permissionSetField?.value!);
+  const mobileAppsAccessScope = getScopeFromProductArea(ProductArea.MOBILE_APP, permissionSetField?.value!);
   const isAppWithContributorFeature = entityPermissionKey === 'applicationIds';
   const isContributor = isAppWithContributorFeature && role === AreaRoleWithContributor.CONTRIBUTOR;
   const isAppContributionFilterConfigured =
@@ -104,6 +119,9 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   const restrictedApplicationToolTipText = (
     <Trans i18nKey="in-settings:permissionScope.applicationCreatedUsingContributionFilter" />
   );
+  const selectedApplicationIds = getFilteredScopeIds(applicationScopeBindings, isAppWithContributorFeature);
+  const selectedWebsiteIds = getFilteredScopeIds(websiteScopeBindings);
+  const selectedMobileAppIds = getFilteredScopeIds(mobileAppScopeBindings);
   const selectedIds = getFilteredScopeIds(scopeBindings); // All ids with valid scopeId (includes ids with contributor access)
   const selectedEntities = useSelectedEntities({
     selectedIds: isAppWithContributorFeature
@@ -112,6 +130,14 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
     extractId,
     extractName,
     observable,
+    orderDirection
+  });
+  const selectedCredentials = getFilteredScopeIds(syntheticCredentialKeys);
+  const selectedSyntheticCredential: FetchedState<I[]> = useSelectedEntities({
+    selectedIds: selectedCredentials,
+    extractId,
+    extractName,
+    observable: syntheticCredentials!,
     orderDirection
   });
 
@@ -158,13 +184,39 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
     updatePermissionSet({ ...permissionSet, [entityPermissionKey]: entityScopeBindings });
   };
 
+  const updateCredentialIds = (credentialIds: string[]) => {
+    const permissionSet = permissionSetField?.value;
+    if (!permissionSet) return;
+
+    if (!credentialIds) {
+      return updatePermissionSet({ ...permissionSet, ['syntheticCredentialKeys']: [] });
+    }
+
+    const keepedScopes = syntheticCredentialKeys.filter(({ scopeId }) => scopeId && credentialIds.includes(scopeId));
+    const newScopes = credentialIds.map(id => ({ scopeId: id, scopeRoleId: ScopeRoles.Owner }));
+
+    updatePermissionSet({
+      ...permissionSet,
+      ['syntheticCredentialKeys']: keepedScopes.concat(newScopes)
+    });
+  };
+
+  const removeCredentialsFromPermissionSet = (credentialId: string) => {
+    const permissionSet = permissionSetField?.value;
+    if (!permissionSet) return;
+
+    const credentialScopeBindings = syntheticCredentialKeys.filter(({ scopeId }) => scopeId !== credentialId);
+    updatePermissionSet({ ...permissionSet, ['syntheticCredentialKeys']: credentialScopeBindings });
+  };
+
   const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
     productArea,
     ScopedPermissionItem.LIMITED_ACCESS,
-    role
+    role,
+    permissionSetField?.value['permissions'] ?? []
   );
 
-  const columnDefinition: Array<ColumnDefinition<I>> = [
+  const getColumnDefinition = (context: string): Array<ColumnDefinition<I>> => [
     {
       id: 'name',
       label: t('in-settings:selectEntityDialog.nameColumnHead'),
@@ -187,7 +239,9 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
         ) : (
           <SvgIcon
             aria-label={t('in-settings:PermissionSection.deleteButton', { name })}
-            onClick={() => removeEntitiesFromPermissionSet(id)}
+            onClick={() =>
+              context === 'tests' ? removeEntitiesFromPermissionSet(id) : removeCredentialsFromPermissionSet(id)
+            }
             type="lib_openclose_remove_circle_outline"
             color={themes.default.ids.color.option.teal[500]}
           />
@@ -219,6 +273,67 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
         {...(entityPermissionKey === 'applicationIds' ? { options: AreaRolesWithContributor } : {})}
       />
     );
+  };
+
+  const getCredentialsSelectionSection = () => {
+    if (
+      syntheticRbacLimitedEnabled &&
+      productArea === ProductArea.SYNTHETICS &&
+      role === AreaRole.OWNER &&
+      (permissions.includes(Capability.CAN_USE_SYNTHETIC_CREDENTIALS) ||
+        permissions.includes(Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS))
+    ) {
+      return (
+        <>
+          <StackItem>
+            <Button
+              kind="action"
+              onClick={() => {
+                setSubSlideConfig({
+                  title: t('in-settings:PermissionSection.addButton_syntheticCredentials'),
+                  content: (
+                    <SelectEntitiesForm
+                      preselectedIds={selectedCredentials}
+                      observable={syntheticCredentials!}
+                      extractId={extractId}
+                      extractName={extractName}
+                      onClickCancel={() => setShowSubSlide(false)}
+                      onClickSave={ids => {
+                        updateCredentialIds(ids);
+                        setShowSubSlide(false);
+                      }}
+                      productArea={productArea}
+                      selectedApplicationIds={selectedApplicationIds}
+                      applicationsAccessScope={applicationsAccessScope}
+                      selectedWebsiteIds={selectedWebsiteIds}
+                      websitesAccessScope={websitesAccessScope}
+                      selectedMobileAppIds={selectedMobileAppIds}
+                      mobileAppsAccessScope={mobileAppsAccessScope}
+                      context={'syntheticCredentials'}
+                    />
+                  )
+                });
+                setShowSubSlide(true);
+              }}
+              icon="lib_openclose_add_circle_outline"
+            >
+              {t('in-settings:PermissionSection.addButton_syntheticCredentials')}
+            </Button>
+          </StackItem>
+          <EntityTable
+            fetchedConfigState={selectedSyntheticCredential}
+            query=""
+            orderBy="name"
+            orderDirection={orderDirection}
+            onClickItem={noop}
+            onChange={({ orderDirection: dir }) => setOrderDirection(dir ?? orderDirection)}
+            columnDefinition={getColumnDefinition('credentials')}
+            paginated
+          />
+        </>
+      );
+    }
+    return null;
   };
 
   return (
@@ -277,6 +392,13 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
                     setShowSubSlide(false);
                   }}
                   productArea={productArea}
+                  selectedApplicationIds={selectedApplicationIds}
+                  applicationsAccessScope={applicationsAccessScope}
+                  selectedWebsiteIds={selectedWebsiteIds}
+                  websitesAccessScope={websitesAccessScope}
+                  selectedMobileAppIds={selectedMobileAppIds}
+                  mobileAppsAccessScope={mobileAppsAccessScope}
+                  context={'syntheticTests'}
                 />
               )
             });
@@ -294,9 +416,10 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
         orderDirection={orderDirection}
         onClickItem={noop}
         onChange={({ orderDirection: dir }) => setOrderDirection(dir ?? orderDirection)}
-        columnDefinition={columnDefinition}
+        columnDefinition={getColumnDefinition('tests')}
         paginated
       />
+      {getCredentialsSelectionSection()}
     </Stack>
   );
 }

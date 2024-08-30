@@ -94,6 +94,18 @@ const cols = [
     }
   },
   {
+    title: t('in-sap:dashboards.rfcSource'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: RFCCallsRow) {
+        return row.rfcDetails.get('target');
+      },
+      getContent(args: any) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
     title: t('in-sap:dashboards.calls'),
     type: 'metric',
     typeArgs: {
@@ -129,6 +141,10 @@ export default function RFCCalls({ snapshotId, timeConfig }: RFCCallsProps) {
         timeConfig,
         rfcDetails
       };
+    })
+    .filter((row: RFCCallsRow) => {
+      const userValue = row.rfcDetails.get('account');
+      return typeof userValue === 'string' && userValue !== 'UNKNOWN';
     });
 
   function getDetails(row: RFCCallsRow) {

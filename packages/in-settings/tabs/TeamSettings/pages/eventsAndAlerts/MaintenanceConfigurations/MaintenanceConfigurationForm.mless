@@ -67,4 +67,11 @@
   .gap {
     gap: 1rem;
   }
+  .bottomSpace {
+    padding-bottom: 0.5rem;
+  }
+  .previewBadge {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }

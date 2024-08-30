@@ -5,8 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Select } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Select, Button } from '@instana/components';
 
 import { getContextForDropwizard } from 'in-internal/monitoringUnit/dataRetrieval';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';

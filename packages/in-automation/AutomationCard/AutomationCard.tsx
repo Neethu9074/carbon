@@ -13,10 +13,10 @@ import useScoredActions, {
   useUserRecommendedScoredActions,
   useAIRecommendedScoredActions
 } from 'in-automation/AutomationCard/useScoredActions';
+import { recommendedActionsTabClickTracker, useSegmentTracker } from 'in-automation/tracker';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
-import { recommendedActionsTabClickTracker } from 'in-automation/tracker';
 import usePolicies from 'in-automation/AutomationCard/usePolicies';
 import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
@@ -43,6 +43,7 @@ function AutomationCardButtonGroup({
   recommendedActionsCount,
   actionHistoryCount
 }: AutomationCardButtonGroupProps) {
+  const { recommendedActionsTabClickTrackerSegment } = useSegmentTracker();
   const buttonProps = [
     {
       text:
@@ -60,6 +61,7 @@ function AutomationCardButtonGroup({
       key: 'recommendedActions',
       onClick: () => {
         setActiveKey('recommendedActions');
+        recommendedActionsTabClickTrackerSegment();
         recommendedActionsTabClickTracker();
       }
     },

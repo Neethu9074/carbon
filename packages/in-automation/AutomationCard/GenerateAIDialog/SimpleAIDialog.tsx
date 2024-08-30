@@ -11,25 +11,33 @@ import { isEmpty } from 'lodash';
 import { generateUniqueShortId } from '@instana/utils';
 import { Link } from '@instana/components';
 
+import {
+  createPolicyFromAIActionTracker,
+  copyAIGenaratedActionTracker,
+  useSegmentTracker,
+  TrackingFunction
+} from 'in-automation/tracker';
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { isScript, isManual, isDocLink, getTimeoutFromFields } from 'in-automation/ActionCatalog/shared';
 import { createScriptFields, createManualField, saveNewAction, saveNewPolicy } from 'in-automation/api';
-import { createPolicyFromAIActionTracker, copyAIGenaratedActionTracker } from 'in-automation/tracker';
 import { putScriptField, putManualField } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import { CreatePolicyStep } from 'in-automation/AutomationCard/GenerateAIDialog/CreatePolicyStep';
 import { CopyActionStep } from 'in-automation/AutomationCard/GenerateAIDialog/CopyActionStep';
 import SelectActionStep from 'in-automation/AutomationCard/GenerateAIDialog/SelectActionStep';
-import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionDetails';
+import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
+import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { refresh } from 'in-automation/AutomationCard/usePolicies';
-import { Result, Event, Field, Error, Action } from 'in-types';
-import { Tag } from 'in-automation/ActionCatalog/TagsTable';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { Result, Event, Field, Error, Policy } from 'in-types';
+import { hasError, isLoading } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { ScoredAction } from 'in-automation/api';
 import { noop } from 'in-services/fixedObjects';
 import { Trans, t } from 'in-i18n';
@@ -41,16 +49,15 @@ export type SetSelectedAIAction = (action: ScoredAction) => void;
 type AIActionFormItems = {
   name: FormField<string>;
   description: FormField<string>;
-  type: FormField<string>;
   manualContent?: FormField<string>;
   script?: FormField<string>;
   subtype?: FormField<string>;
   timeout: FormField<string>;
   parameters: FormField<MappedParameter[]>;
-  tags: FormField<Tag[]>;
+  tags: FormField<string[]>;
   policyName: FormField<string>;
   policyDescription: FormField<string>;
-  policyTags: FormField<Tag[]>;
+  policyTags: FormField<string[]>;
 };
 
 export type AIActionForm = MapForm<AIActionFormItems>;
@@ -76,8 +83,15 @@ export default function SimpleAIDialog({
     return createNewAIActionFormDefinition(selectedAIAction);
   });
 
+  const { createActionTrackerSegment, createPolicyTrackerSegment } = useSegmentTracker();
+
   const handleCreatePolicy = () => {
-    createPolicy({ form, event, setActiveKey, setActionError });
+    // We can't get to onCreate without a selectedAIAction, so we can safely non-null assert
+    createPolicy(
+      { form, event, setActiveKey, setActionError, selectedAIAction: selectedAIAction! },
+      createActionTrackerSegment,
+      createPolicyTrackerSegment
+    );
   };
 
   return (
@@ -132,12 +146,23 @@ interface createPolicyProps {
   setActiveKey: SetActiveKey;
   setActionError: (err: string) => void;
   form: AIActionForm;
+  selectedAIAction: ScoredAction;
 }
 
-const createPolicy = ({ form, event, setActiveKey, setActionError }: createPolicyProps) => {
-  const action = getActionSpecification(form);
+const createPolicy = (
+  { form, event, setActiveKey, setActionError, selectedAIAction }: createPolicyProps,
+  createActionTrackerSegment: TrackingFunction,
+  createPolicyTrackerSegment: TrackingFunction
+) => {
+  const action = getActionSpecification(form, selectedAIAction);
   saveNewAction(action).once(
     res => {
+      setViewTrackingDataValues(productAreas.events, pageNames.event_generate_with_watsonx);
+      createActionTrackerSegment({
+        actionName: action.name,
+        actionType: action.type,
+        aiOriginated: true
+      });
       copyAIGenaratedActionTracker({
         actionType: action.type,
         actionName: action.name,
@@ -146,12 +171,23 @@ const createPolicy = ({ form, event, setActiveKey, setActionError }: createPolic
       const policyDetails = {
         name: form.get('policyName').value,
         description: form.get('policyDescription').value,
-        tags: form.get('policyTags').value.map(tag => tag.value)
+        tags: form.get('policyTags').value
       };
       const policy = createBasePolicy(event, res, policyDetails);
 
-      saveNewPolicy(policy).once(
-        () => {
+      const onSuccessHandler = (data: Result<Policy>) => {
+        const errored = hasError(data);
+        if (errored) {
+          onCreateFailed(data?.errors[0]);
+        } else {
+          createPolicyTrackerSegment({
+            actionName: action.name,
+            actionType: action.type,
+            policyName: policy.name,
+            policyType: 'manual',
+            aiOriginated: true,
+            triggerName: event.problem?.problemText
+          });
           createPolicyFromAIActionTracker({
             name: policy.name,
             triggerName: event.problem?.problemText,
@@ -162,11 +198,19 @@ const createPolicy = ({ form, event, setActiveKey, setActionError }: createPolic
           refresh();
           setActiveKey('automationPolicies');
           onCreateSuccess(policy.name, res.id);
-        },
-        error => {
-          onCreateFailed(error);
         }
-      );
+      };
+
+      const onErrorHandler = (data: Result<Policy>) => {
+        const errored = hasError(data);
+        if (errored) {
+          onCreateFailed(data?.errors[0]);
+        }
+      };
+
+      saveNewPolicy(policy)
+        .filter(result => !isLoading(result))
+        .once(onSuccessHandler, onErrorHandler);
     },
     actionErrors => {
       if (
@@ -196,8 +240,6 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
   const mappedParams = parameters.map(parameter => ({ id: generateUniqueShortId(), value: parameter }));
   const timeout = action?.fields ? getTimeoutFromFields(action.fields).value : '';
   const tags = action?.tags ?? [];
-  const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
-  const policyTags: Tag[] = [];
   let form: AIActionForm = createMapForm({
     items: {
       name: createField({
@@ -206,10 +248,6 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
       }),
       description: createField({
         value: action?.description ?? '',
-        validator: notBlankValidator
-      }),
-      type: createField({
-        value: action?.type ?? '',
         validator: notBlankValidator
       }),
       parameters: createField({
@@ -223,18 +261,7 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
         }
       }),
       tags: createField({
-        value: mappedTags,
-        validator: tags => {
-          if (hasBlankTags(tags)) {
-            return [
-              {
-                severity: 'error',
-                message: t('in-automation:theValueMustNotBeBlank')
-              }
-            ];
-          }
-          return null;
-        }
+        value: tags
       }),
       policyName: createField({
         value: '',
@@ -245,19 +272,7 @@ export function createNewAIActionFormDefinition(action: ScoredAction | null) {
         validator: notBlankValidator
       }),
       policyTags: createField({
-        value: policyTags,
-        validator: tags => {
-          const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || tag.value === '', false);
-          if (hasBlankTags) {
-            return [
-              {
-                severity: 'error',
-                message: t('in-automation:theValueMustNotBeBlank')
-              }
-            ];
-          }
-          return null;
-        }
+        value: [] as string[]
       })
     }
   });
@@ -281,7 +296,7 @@ function SuccessContent({ name, actionId }: { name: string; actionId: string }) 
         />
       </p>
 
-      <Link external href={hrefToActionDetails({ id: actionId } as Action)}>
+      <Link external href={hrefToActionDetails(actionId)}>
         {t('in-automation:simpleAIDialog.policy.success.link')}
       </Link>
     </div>
@@ -297,10 +312,10 @@ function onCreateSuccess(name: string, actionId: string) {
   });
   close();
 }
-function getActionSpecification(form: AIActionForm) {
+function getActionSpecification(form: AIActionForm, selectedAIAction: ScoredAction) {
   const name = form.get('name').value;
   const description = form.get('description').value;
-  const type = form.get('type').value;
+  const type = selectedAIAction?.type;
   const parameters = form.get('parameters').value;
   const timeout = form.get('timeout').value;
   const tags = form.get('tags').value;
@@ -319,7 +334,7 @@ function getActionSpecification(form: AIActionForm) {
     description,
     fields,
     type,
-    tags: tags.map(tag => tag.value),
+    tags,
     inputParameters,
     metadata: { readOnly: false, builtIn: false, sensorImported: false, aiOriginated: true } // add aiOriginated flag to indicates that these are copied from OOTB AI action.
   };
@@ -329,7 +344,7 @@ function onCreateFailed(error: Error) {
   addMessage(
     {
       type: 'danger',
-      timeout: 3000,
+      timeout: 5000,
       title: t('in-automation:policies.createDialog.failure.title'),
       content: (
         <Trans i18nKey="in-automation:policies.createDialog.failure.content" values={{ errorMessage: error.message }} />
@@ -343,22 +358,17 @@ function onCreateFailed(error: Error) {
 const isStepDisabled = (step: number, form: AIActionForm, selectedAIAction: ScoredAction | null) => {
   const name = form.get('name').value;
   const description = form.get('description').value;
-  const type = form.get('type').value;
+  const type = selectedAIAction?.type;
   const content = form.get('manualContent')?.value;
   const script = form.get('script')?.value;
-  const tags = form.get('tags')?.value;
 
   if (step === 0) return selectedAIAction !== null;
   if (step === 1) {
     return (
-      !(isEmpty(name) || isEmpty(description) || isEmpty(type) || hasBlankTags(tags)) &&
+      !(isEmpty(name) || isEmpty(description) || isEmpty(type)) &&
       !(isManual(type) && isEmpty(content)) &&
       !(isScript(type) && isEmpty(script))
     );
   }
   return true;
-};
-
-const hasBlankTags = (tags: Tag[]): boolean => {
-  return tags.reduce((hasBlank, tag) => hasBlank || tag.value === '', false);
 };

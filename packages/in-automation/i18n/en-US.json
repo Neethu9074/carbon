@@ -75,7 +75,7 @@
   "duplicate": "Duplicate",
   "theValueMustNotBeBlank": "The value must not be blank.",
   "tags": "Tags",
-  "noTagsConfigured": "No Tags Configured",
+  "tagsLabel": "Tags (optional)",
   "value": "Value",
   "type": "Type",
   "automationPoliciesWithCount": "Automation Policies ({{count}})",

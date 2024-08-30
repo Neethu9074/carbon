@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link, PreviewPill } from '@instana/components';
 
 // @ts-expect-error migrate to TS
 import AnalyzeDataSourceSelector from 'in-analyze/components/AnalyzeHeader/AnalyzeDataSourceSelector';
@@ -25,7 +25,6 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Label from 'in-analyze/components/AnalyzeHeader/Label';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { pageNames } from 'in-services/tracking/pageNames';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { clickedDocsLink } from 'in-analyze/tracker';
 import Title from 'in-components/Title/Title';
 import { t } from 'in-i18n';
@@ -80,7 +79,7 @@ export default function AnalyzeHeader({
 
     return (
       <div className={locals.metaInformation}>
-        {beta && <BetaBadge />}
+        {beta && <PreviewPill />}
         {docsLink && (
           <Link onClick={handleTracking} external href={docsLink}>
             {linkLabel}

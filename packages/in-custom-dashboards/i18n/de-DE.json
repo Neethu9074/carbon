@@ -163,6 +163,7 @@
       "metricsFormComponent": {
         "metric": "Messwert",
         "selectMetric": "Messwert auswählen",
+        "unit": "Einheit",
         "aggregation": "Aggregation",
         "crossSeriesAggregation": "SUM für die serienübergreifende Aggregation verwenden",
         "crossSeriesAggregationHelp": "Normalerweise ist die serienübergreifende Aggregation mit der zeitübergreifenden Aggregation identisch (die Methode, die zum Kombinieren von Datenpunkten in einem einzelnen Bucket verwendet wird). Wenn diese Umschaltfläche aktiviert ist, werden die Buckets über die Datenserie hinweg summiert, anstatt die angegebene Aggregation zu verwenden.",
@@ -474,8 +475,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Endpunkt",
-        "allEndpoints": "Alle Endpunkte",
-        "loading": "<loading>"
+        "allEndpoints": "Alle Endpunkte"
       },
       "goodBadEventsForm": {
         "goodEvents": "Fehlerfreie Ereignisse",
@@ -512,7 +512,6 @@
       },
       "servicesSelectBox": {
         "service": "Service",
-        "loading": "<loading>",
         "allServices": "Alle Services"
       },
       "sliFormPresenter": {
@@ -718,7 +717,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Schwellenwertkonfiguration",
-        "thresholdLabel": "Schwellenwert"
+        "thresholdLabel": "Schwellenwert",
+        "ms": "Millisekunden"
       },
       "entityInfo": {
         "tooltip": "Unbekannter Apdex",

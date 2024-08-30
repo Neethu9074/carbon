@@ -14,7 +14,7 @@ import AlertsLaneTooltipContent from 'in-components/Chart/markerLanes/AlertsLane
 import EventDurationIndicator from 'in-components/Chart/markerLanes/AlertsLane/EventDurationIndicator';
 import { alertsLaneAlertsPropType } from 'in-components/Chart/markerLanes/AlertsLane/constants';
 import TwoIconsLaneItem from 'in-components/Chart/markerLanes/MarkerLane/TwoIconsLaneItem';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
@@ -61,7 +61,6 @@ function AlertListCallout({ iconConfig, eventData, timeConfig }) {
     ...incidents.map(incident => ({ ...incident, iconType: 'lib_events_incident' })),
     ...smartAlerts.map(incident => ({ ...incident, iconType: 'lib_events_critical' }))
   ].sort((a, b) => a.start - b.start);
-
   return (
     <Ul className={locals.list}>
       {enahncedAndSortedEvents.map(({ name, start, eventId, iconType }, index) => {
@@ -82,8 +81,15 @@ function AlertListCallout({ iconConfig, eventData, timeConfig }) {
 }
 
 function ListItem({ start, iconConfig, name, iconType, ...remainingProps }) {
+  const { eventId, timeConfig } = remainingProps;
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+  const href = getEventsViewFilteredBy({
+    eventId,
+    timeConfig
+  });
+
   return (
-    <Li className={locals.listItem} href$={getLinkToEventsList(remainingProps)}>
+    <Li className={locals.listItem} href={href}>
       <SvgIcon type={iconType} color={iconConfig.color} />
       <div style={{ marginLeft: '12px' }}>
         <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>
@@ -93,12 +99,6 @@ function ListItem({ start, iconConfig, name, iconType, ...remainingProps }) {
   );
 }
 
-function getLinkToEventsList({ eventId, timeConfig }) {
-  return getEventsViewFilteredBy({
-    eventId,
-    timeConfig
-  });
-}
 AlertsLanePresenter.propTypes = {
   alerts: PropTypes.arrayOf(alertsLaneAlertsPropType),
   isClustered: PropTypes.bool

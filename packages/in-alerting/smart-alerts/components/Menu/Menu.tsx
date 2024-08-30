@@ -5,13 +5,11 @@
  */
 
 import React, { useState } from 'react';
-import classNames from 'classnames';
 import invariant from 'invariant';
 
-import { RadioButton } from '@instana/components';
+import { PreviewPill, RadioButton, Stack } from '@instana/components';
 
 import AlertTypography from 'in-alerting/components/AlertTypography';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { t } from 'in-i18n';
 
 import locals from './Menu.mless';
@@ -24,18 +22,12 @@ export interface MenuItem {
 }
 
 export interface MenuProps<T extends MenuItem> {
-  addRightSeparator?: boolean;
   items: T[] | readonly T[];
   onItemClick: (item: T) => any;
   initialItemSelected: MenuItem;
 }
 
-export default function Menu<T extends MenuItem>({
-  addRightSeparator = false,
-  items,
-  onItemClick,
-  initialItemSelected
-}: MenuProps<T>) {
+export default function Menu<T extends MenuItem>({ items, onItemClick, initialItemSelected }: MenuProps<T>) {
   validateInitialItemSelected(initialItemSelected, items);
 
   const [itemSelected, setItemSelected] = useState(() => {
@@ -43,13 +35,8 @@ export default function Menu<T extends MenuItem>({
   });
 
   return (
-    <nav
-      className={classNames({
-        [locals.container]: true,
-        [locals.rightSeparator]: addRightSeparator
-      })}
-    >
-      <ul className={locals.list}>
+    <div className={locals.container}>
+      <Stack direction="horizontal" gap="large">
         {items.map((item, i) => (
           <span className={locals.checkboxLabel} key={i}>
             <RadioButton
@@ -64,7 +51,7 @@ export default function Menu<T extends MenuItem>({
                   color={itemSelected.type !== item.type ? 'color700' : ''}
                   content={
                     <>
-                      {item.name} {item.isBeta && <BetaBadge />}
+                      {item.name} {item.isBeta && <PreviewPill />}
                     </>
                   }
                   noMargin
@@ -75,11 +62,12 @@ export default function Menu<T extends MenuItem>({
                 setItemSelected(item);
                 onItemClick(item);
               }}
+              carbonVariant
             />
           </span>
         ))}
-      </ul>
-    </nav>
+      </Stack>
+    </div>
   );
 }
 

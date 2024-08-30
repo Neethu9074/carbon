@@ -1652,6 +1652,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.14.0":
+  version: 7.25.4
+  resolution: "@babel/runtime@npm:7.25.4"
+  dependencies:
+    regenerator-runtime: ^0.14.0
+  checksum: 5c2aab03788e77f1f959d7e6ce714c299adfc9b14fb6295c2a17eb7cad0dd9c2ebfb2d25265f507f68c43d5055c5cd6f71df02feb6502cea44b68432d78bcbbe
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.19.0":
   version: 7.20.1
   resolution: "@babel/runtime@npm:7.20.1"
@@ -1786,76 +1795,107 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@carbon/feature-flags@npm:^0.19.0":
-  version: 0.19.0
-  resolution: "@carbon/feature-flags@npm:0.19.0"
+"@carbon/colors@npm:^11.24.0":
+  version: 11.24.0
+  resolution: "@carbon/colors@npm:11.24.0"
   dependencies:
-    "@ibm/telemetry-js": ^1.2.1
-  checksum: f03aafca3b5aa419fb402510a5f6be48dbad3ee2bff916b03a9dd385bec65b8b1b8da7982f4e4a31844c0eb5e7198228becee3854c021be9d44ac4e98f01e5c6
+    "@ibm/telemetry-js": ^1.5.0
+  checksum: 8110320420798b6a40ffb93d0c15089e731208eb930f7c0b02cc387cef8eb42be43bd5aff0b3f29ff51921004381bf43fcad9d98fce89d9cb90f9fe9d6062459
   languageName: node
   linkType: hard
 
-"@carbon/grid@npm:^11.22.0":
-  version: 11.22.0
-  resolution: "@carbon/grid@npm:11.22.0"
+"@carbon/feature-flags@npm:^0.20.0":
+  version: 0.20.0
+  resolution: "@carbon/feature-flags@npm:0.20.0"
   dependencies:
-    "@carbon/layout": ^11.21.0
-    "@ibm/telemetry-js": ^1.2.1
-  checksum: 4efd8d12019ebdf9890245dbe6b081efe017acbce24c8af0a69a77eaf3e1796e268e8bca0efbdde08556d74c2da00b8bfe6b2379272131ab2ba340eab594aa93
+    "@ibm/telemetry-js": ^1.5.0
+  checksum: e3ec53c3f9f3bc67cc3abec9dcb164058b1d40ab7bb6a2f6210776b9ebc82a0cde187cfc2d95692d9cabbaace82b15d4dbf46efb2a584e806d014ff860bf21d6
   languageName: node
   linkType: hard
 
-"@carbon/icon-helpers@npm:^10.47.0":
-  version: 10.47.0
-  resolution: "@carbon/icon-helpers@npm:10.47.0"
+"@carbon/feature-flags@npm:^0.21.0":
+  version: 0.21.0
+  resolution: "@carbon/feature-flags@npm:0.21.0"
   dependencies:
-    "@ibm/telemetry-js": ^1.2.1
-  checksum: 26b3e8409bacd215df93e10039f1f9d54336ce811c8d640a778fbeafc3c489a18f8ba8018eb350957c5839b38d3013088dafbf6cc6339d1c69bd6bfb1b31fa39
+    "@ibm/telemetry-js": ^1.5.0
+  checksum: 0628b3ba9d894ad2e56946a9ecee0a19a187df0799995f84838dbe7cff2893a43746ab2afcb066dbe0c2341ee20a2063c92cbd4618264490176a2358851b0fad
   languageName: node
   linkType: hard
 
-"@carbon/icons-react@npm:11.39.0, @carbon/icons-react@npm:^11.39.0":
-  version: 11.39.0
-  resolution: "@carbon/icons-react@npm:11.39.0"
+"@carbon/grid@npm:^11.25.0":
+  version: 11.25.0
+  resolution: "@carbon/grid@npm:11.25.0"
   dependencies:
-    "@carbon/icon-helpers": ^10.47.0
-    "@ibm/telemetry-js": ^1.2.1
+    "@carbon/layout": ^11.24.0
+    "@ibm/telemetry-js": ^1.5.0
+  checksum: 0afb876f4ff918138c7117e5d7dece3469d36c420f5359a3950e007fca081db075b83224137c3d1b6267c41cad96b7eddb4c6380143db3bfb682efca21d109ca
+  languageName: node
+  linkType: hard
+
+"@carbon/icon-helpers@npm:^10.49.0, @carbon/icon-helpers@npm:^10.50.0":
+  version: 10.50.0
+  resolution: "@carbon/icon-helpers@npm:10.50.0"
+  dependencies:
+    "@ibm/telemetry-js": ^1.5.0
+  checksum: 702182335866cfea25df020156cc4dcdc754a226de3e526f5328846a18bc1a58c826e2c4f635a54bff5f28ea03ce8103a8dd65d7848c7cb83867a5c7fe36fc08
+  languageName: node
+  linkType: hard
+
+"@carbon/icons-react@npm:11.45.0":
+  version: 11.45.0
+  resolution: "@carbon/icons-react@npm:11.45.0"
+  dependencies:
+    "@carbon/icon-helpers": ^10.49.0
+    "@ibm/telemetry-js": ^1.5.0
     prop-types: ^15.7.2
   peerDependencies:
     react: ">=16"
-  checksum: eab94e21d8f27063c2b4cb113872a472009cc091e54c8deb073abcec9a2c7079d761c2c93f051ff75dd7577e46297a34b18fe99f8446b710735ef3f22c2808e7
+  checksum: 9e2649e9145b9c4e8ace91d4a3c5e7b6e0c9566cdc228cb7191127f36b8810af6f14a4c8fa891132c019df8cab9e7e13e9b91524a392cf331b2a11eb2dfd3001
   languageName: node
   linkType: hard
 
-"@carbon/layout@npm:^11.21.0":
-  version: 11.21.0
-  resolution: "@carbon/layout@npm:11.21.0"
+"@carbon/icons-react@npm:^11.45.0":
+  version: 11.46.0
+  resolution: "@carbon/icons-react@npm:11.46.0"
   dependencies:
-    "@ibm/telemetry-js": ^1.2.1
-  checksum: 7aeb621fafe968dbfbc2b1dc6aaf9111d6d4edca682336616523145e125322a2b01e7c1e3c323852f5392c3346eecf6a4ecd1aa7019cc968eed8f3f3a3659233
+    "@carbon/icon-helpers": ^10.50.0
+    "@ibm/telemetry-js": ^1.5.0
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ">=16"
+  checksum: 6ed9c030d083a2ca240dbabf3b030e0a7ba30e319766b79d253af7b5dd92d7d71ce10cc533aa63edf062298d6e101ad0138893e1a1164f3a23bf163da2dce438
   languageName: node
   linkType: hard
 
-"@carbon/motion@npm:^11.17.0":
-  version: 11.17.0
-  resolution: "@carbon/motion@npm:11.17.0"
+"@carbon/layout@npm:^11.23.0, @carbon/layout@npm:^11.24.0":
+  version: 11.24.0
+  resolution: "@carbon/layout@npm:11.24.0"
   dependencies:
-    "@ibm/telemetry-js": ^1.2.1
-  checksum: 9efa5e359bd0958af99a44a6a37cc3dbb434422f2ea1d9f4b1bf4e14c0ff79be242db2cf0f0912a0f49aadb2991bc5e77903e0e711efc0dc49ca538e4e335da2
+    "@ibm/telemetry-js": ^1.5.0
+  checksum: 31328dc6811221106df3486f76d560833c79c4dca280ce4977ce7dbaeded368245bc61ccd730b9139caa99c875ff2852d4f37ea326f4d6ffd145717a5cf78b65
   languageName: node
   linkType: hard
 
-"@carbon/react@npm:1.55.0":
-  version: 1.55.0
-  resolution: "@carbon/react@npm:1.55.0"
+"@carbon/motion@npm:^11.20.0":
+  version: 11.20.0
+  resolution: "@carbon/motion@npm:11.20.0"
+  dependencies:
+    "@ibm/telemetry-js": ^1.5.0
+  checksum: 44707d39b09d391d05903c526a185377d357702892eb8c88bc59dada5d95842b882b4cd96c54dca99c77dae8b4aef4919892ce754f90bb946a58be338c6b5534
+  languageName: node
+  linkType: hard
+
+"@carbon/react@npm:1.62.1":
+  version: 1.62.1
+  resolution: "@carbon/react@npm:1.62.1"
   dependencies:
     "@babel/runtime": ^7.18.3
-    "@carbon/feature-flags": ^0.19.0
-    "@carbon/icons-react": ^11.39.0
-    "@carbon/layout": ^11.21.0
-    "@carbon/styles": ^1.55.0
+    "@carbon/feature-flags": ^0.20.0
+    "@carbon/icons-react": ^11.45.0
+    "@carbon/layout": ^11.23.0
+    "@carbon/styles": ^1.61.0
     "@floating-ui/react": ^0.26.0
-    "@ibm/telemetry-js": ^1.2.1
+    "@ibm/telemetry-js": ^1.5.0
     classnames: 2.5.1
     copy-to-clipboard: ^3.3.1
     downshift: 8.5.0
@@ -1870,59 +1910,58 @@ __metadata:
     react-is: ^18.2.0
     tabbable: ^6.2.0
     use-resize-observer: ^6.0.0
-    wicg-inert: ^3.1.1
     window-or-global: ^1.0.1
   peerDependencies:
     react: ^16.8.6 || ^17.0.1 || ^18.2.0
     react-dom: ^16.8.6 || ^17.0.1 || ^18.2.0
     sass: ^1.33.0
-  checksum: 34551c2c4b8beebeec84754dd789437d64c7517ce3452fcf0d948e8ab8746069533b0231056c790ded895f1ecabc5f7c1977e776c911eeb653647aa2ffb526cc
+  checksum: 5dbbdbdd2d025927eb1e2934bd3ccb25a9defad296141c76a3e4cb6278c5d19c9cda4fe3d1b748a5656215f0252c88ea31cee9f9d61e15e680cbe71b3a302f1d
   languageName: node
   linkType: hard
 
-"@carbon/styles@npm:^1.55.0":
-  version: 1.55.0
-  resolution: "@carbon/styles@npm:1.55.0"
+"@carbon/styles@npm:^1.61.0":
+  version: 1.62.0
+  resolution: "@carbon/styles@npm:1.62.0"
   dependencies:
-    "@carbon/colors": ^11.21.0
-    "@carbon/feature-flags": ^0.19.0
-    "@carbon/grid": ^11.22.0
-    "@carbon/layout": ^11.21.0
-    "@carbon/motion": ^11.17.0
-    "@carbon/themes": ^11.34.0
-    "@carbon/type": ^11.26.0
+    "@carbon/colors": ^11.24.0
+    "@carbon/feature-flags": ^0.21.0
+    "@carbon/grid": ^11.25.0
+    "@carbon/layout": ^11.24.0
+    "@carbon/motion": ^11.20.0
+    "@carbon/themes": ^11.38.0
+    "@carbon/type": ^11.29.0
     "@ibm/plex": 6.0.0-next.6
-    "@ibm/telemetry-js": ^1.2.1
+    "@ibm/telemetry-js": ^1.5.0
   peerDependencies:
     sass: ^1.33.0
   peerDependenciesMeta:
     sass:
       optional: true
-  checksum: 9ec695a0e573d4ce3ae08fbf373c29a61d1485036c18c22293647c6c539d189be7b70b732581607cec4f289438cf4ce046795ea97e9607c4e04599368f99e161
+  checksum: e2c6218cff55ad513bcefe3ef0e239800e5159beba1d4458e301a6e3f77c02002851637eefac06f9fa369f64129c37cf651c53c0f1d1c00cd9820468de9a83b5
   languageName: node
   linkType: hard
 
-"@carbon/themes@npm:^11.34.0":
-  version: 11.34.0
-  resolution: "@carbon/themes@npm:11.34.0"
+"@carbon/themes@npm:^11.38.0":
+  version: 11.38.0
+  resolution: "@carbon/themes@npm:11.38.0"
   dependencies:
-    "@carbon/colors": ^11.21.0
-    "@carbon/layout": ^11.21.0
-    "@carbon/type": ^11.26.0
-    "@ibm/telemetry-js": ^1.2.1
+    "@carbon/colors": ^11.24.0
+    "@carbon/layout": ^11.24.0
+    "@carbon/type": ^11.29.0
+    "@ibm/telemetry-js": ^1.5.0
     color: ^4.0.0
-  checksum: 7091be148ec33bcde1b4e1105c9e241350581c568dce0bd87014e56f63d92d4df4785cdbdbc1647262165f8b8102aa20c9b13040b100d334793164281a83ab1f
+  checksum: ac4aafe4ffd958b4d80505953be831069106799cde936d29d77e4369aabd2c6cf390ba6a23e9fc00c06bb4574d3f90d50a20b47c48663d0af62e8a0f4616235c
   languageName: node
   linkType: hard
 
-"@carbon/type@npm:^11.26.0":
-  version: 11.26.0
-  resolution: "@carbon/type@npm:11.26.0"
+"@carbon/type@npm:^11.29.0":
+  version: 11.29.0
+  resolution: "@carbon/type@npm:11.29.0"
   dependencies:
-    "@carbon/grid": ^11.22.0
-    "@carbon/layout": ^11.21.0
-    "@ibm/telemetry-js": ^1.2.1
-  checksum: 60aaed6c77b603cc9dc4705db3940895b15466e5c3aa06718329e4a3ddd6c9388370f1df646af73b7c0f201fdabf851d0b9a12ce165863e5f39c80738a396044
+    "@carbon/grid": ^11.25.0
+    "@carbon/layout": ^11.24.0
+    "@ibm/telemetry-js": ^1.5.0
+  checksum: 2e7ebfe1c1b7b2b9f2f730287ea9e182bf2ac8b001f428c483fbb6b11b07b55b12ce6d28cfd0ae6d68a6dd6b8ba96ae6ed2a5c296c9aab4f3a620d1dd6eb5f47
   languageName: node
   linkType: hard
 
@@ -2905,15 +2944,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:4.0.0, @instana/components@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@instana/components@npm:4.0.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.0.0.tgz"
+"@ibm/telemetry-js@npm:^1.5.0":
+  version: 1.6.0
+  resolution: "@ibm/telemetry-js@npm:1.6.0"
+  bin:
+    ibmtelemetry: dist/collect.js
+  checksum: 882ed2b770d393e2c9197b1d1d5b5859e1aee1da183a2e4b754fdc491b8fd74ba3e0bbfaa0202e971273c92403c09fdab44345aa76862189c8811e7f478dd832
+  languageName: node
+  linkType: hard
+
+"@instana/components@npm:4.22.1, @instana/components@npm:^4.22.1":
+  version: 4.22.1
+  resolution: "@instana/components@npm:4.22.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.22.1.tgz"
   dependencies:
-    "@carbon/icons-react": 11.39.0
-    "@carbon/react": 1.55.0
+    "@carbon/icons-react": 11.45.0
+    "@carbon/react": 1.62.1
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1
-    "@instana/design-tokens": ^1.27.1
+    "@instana/design-tokens": ^1.27.3
     "@instana/format-date": ^1.6.7
     "@instana/format-numbers": ^1.5.5
     "@instana/hooks": ^1.11.7
@@ -2927,17 +2975,17 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: e532c68bb3df02f28dd433fadb73d0a7c0873e9d3286f0fcfde61dd0ad1ff92c719aa8737271f13194d555fa42dcb4949d6311fbcb8be982430508ee7da59b48
+  checksum: 8907753b4cc30c60210ec06b78235512052dd6b1fd15120d3c269ec2c21f736a0ec6f9957869306ce181050688c673e2ea256cf950a4f70730b57d01f2174f52
   languageName: node
   linkType: hard
 
-"@instana/design-tokens@npm:1.27.1, @instana/design-tokens@npm:^1.27.1":
-  version: 1.27.1
-  resolution: "@instana/design-tokens@npm:1.27.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fdesign-tokens%2F-%2F%40instana%2Fdesign-tokens-1.27.1.tgz"
+"@instana/design-tokens@npm:1.27.3, @instana/design-tokens@npm:^1.27.3":
+  version: 1.27.3
+  resolution: "@instana/design-tokens@npm:1.27.3::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fdesign-tokens%2F-%2F%40instana%2Fdesign-tokens-1.27.3.tgz"
   dependencies:
     tslib: ^2.4.1
     typescript: ^5.1.5
-  checksum: 9976808d380f48527378d4e16d10fca3e1c4b10bf2adc7cc4c9023fca2828c78b5bb1c360826492d80922e273bc1093511825f3218927011eec0dae7505309b5
+  checksum: 9b93a30c66cfc74f06220630ed13071511dfeb405d1a3f5746c807622faae5d128c5797bf12c3509ba4231275d30a1ed4068abe598a0181374b7f5886ac917f0
   languageName: node
   linkType: hard
 
@@ -3032,12 +3080,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:4.0.0":
-  version: 4.0.0
-  resolution: "@instana/legacy@npm:4.0.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.0.0.tgz"
+"@instana/legacy@npm:4.1.22":
+  version: 4.1.22
+  resolution: "@instana/legacy@npm:4.1.22::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.1.22.tgz"
   dependencies:
-    "@instana/components": ^4.0.0
-    "@instana/design-tokens": ^1.27.1
+    "@instana/components": ^4.22.1
+    "@instana/design-tokens": ^1.27.3
     "@instana/format-date": ^1.6.7
     "@instana/format-numbers": ^1.5.5
     "@instana/hooks": ^1.11.7
@@ -3048,7 +3096,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 35226d9c731144f3991bd63398c26369001f497a5af1094c9973536850fba93c3b9cb5dcb75ca569507ef24f3239ddac1b7e9942fe8508ed3b0bda30f85cd1a5
+  checksum: e6d438f4bea2549dbde7f6db05746e4bdbbc581bf2bd542e27ace667db1ca8ab7a530fab18d01ce1d2a4ffc54f1c188f9bc1349b45617ea781ca65ea7743e376
   languageName: node
   linkType: hard
 
@@ -3085,10 +3133,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/types@npm:1.278.436":
-  version: 1.278.436
-  resolution: "@instana/types@npm:1.278.436::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.278.436.tgz"
-  checksum: f88e4a83c6fe56b28ab455632aa68fb555c6022fd51a91183a8b9c2ec1baba7df6687d4a21a648879dc4b0a24d5de514be90a3e75f44c3f819da87f56b273397
+"@instana/types@npm:1.282.525":
+  version: 1.282.525
+  resolution: "@instana/types@npm:1.282.525::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.282.525.tgz"
+  checksum: 0678ecab44e90df39ed5ed2d01406c67c0c9705401324c8e228bdf6287d2b7ce8c89e6dbd7245e35e929962fbbd66c8ae55620c45c1d1995daaaffde5968e2f4
   languageName: node
   linkType: hard
 
@@ -5630,6 +5678,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/dom-to-image@npm:^2.6.7":
+  version: 2.6.7
+  resolution: "@types/dom-to-image@npm:2.6.7"
+  checksum: aecdd8bb06b23026ea169fd567f66f4dc19843efc9b8fc96464a86c670eaab4b7a58408f8b6aeec42d115c001a2b2a0935b19960d980d8ae84148017f731a68e
+  languageName: node
+  linkType: hard
+
 "@types/dompurify@npm:^3.0.2":
   version: 3.0.2
   resolution: "@types/dompurify@npm:3.0.2"
@@ -5949,6 +6004,13 @@ __metadata:
   version: 6.9.7
   resolution: "@types/qs@npm:6.9.7"
   checksum: 7fd6f9c25053e9b5bb6bc9f9f76c1d89e6c04f7707a7ba0e44cc01f17ef5284adb82f230f542c2d5557d69407c9a40f0f3515e8319afd14e1e16b5543ac6cdba
+  languageName: node
+  linkType: hard
+
+"@types/raf@npm:^3.4.0":
+  version: 3.4.3
+  resolution: "@types/raf@npm:3.4.3"
+  checksum: 70b0d8ce4ed1fdd60abbee8ff2a572bd2947bd764691f98ef948748375f5012db7ee39a037dd063cfbbb52c0b7479bec68111bbb95ce5de023ec581794c9b85f
   languageName: node
   linkType: hard
 
@@ -7971,6 +8033,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"base64-arraybuffer@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "base64-arraybuffer@npm:1.0.2"
+  checksum: 15e6400d2d028bf18be4ed97702b11418f8f8779fb8c743251c863b726638d52f69571d4cc1843224da7838abef0949c670bde46936663c45ad078e89fee5c62
+  languageName: node
+  linkType: hard
+
 "base64-js@npm:^1.3.1":
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
@@ -8307,6 +8376,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"btoa@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "btoa@npm:1.2.1"
+  bin:
+    btoa: bin/btoa.js
+  checksum: afbf004fb1b1d530e053ffa66ef5bd3878b101c59d808ac947fcff96810b4452abba2b54be687adadea2ba9efc7af48b04228742789bf824ef93f103767e690c
+  languageName: node
+  linkType: hard
+
 "buffer-alloc-unsafe@npm:^1.1.0":
   version: 1.1.0
   resolution: "buffer-alloc-unsafe@npm:1.1.0"
@@ -8585,9 +8663,25 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001272, caniuse-lite@npm:^1.0.30001274, caniuse-lite@npm:^1.0.30001280, caniuse-lite@npm:^1.0.30001517, caniuse-lite@npm:^1.0.30001587":
-  version: 1.0.30001640
-  resolution: "caniuse-lite@npm:1.0.30001640"
-  checksum: ec492d8d1e11d1c55e0f5c0f218229369dc0a4bd1b5d0a579a6435865fe8f4c84bde7e816a844cce1b9cdd97f5a85b6dac5599639fabcdb0c4c5bd039e46cbfd
+  version: 1.0.30001653
+  resolution: "caniuse-lite@npm:1.0.30001653"
+  checksum: 289cf06c26a46f3e6460ccd5feffa788ab0ab35d306898c48120c65cfb11959bfa560e9f739393769b4fd01150c69b0747ad3ad5ec3abf3dfafd66df3c59254e
+  languageName: node
+  linkType: hard
+
+"canvg@npm:^3.0.6":
+  version: 3.0.10
+  resolution: "canvg@npm:3.0.10"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@types/raf": ^3.4.0
+    core-js: ^3.8.3
+    raf: ^3.4.1
+    regenerator-runtime: ^0.13.7
+    rgbcolor: ^1.0.1
+    stackblur-canvas: ^2.0.0
+    svg-pathdata: ^6.0.3
+  checksum: 2cfd86bcb9b56b43a97745cc672e696169b4c09e8850fb4f27bec5ebf173179d16feb594224d643a32f1ce01e47b55d44e0058419114d48d34f12c2452c65927
   languageName: node
   linkType: hard
 
@@ -9559,6 +9653,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"core-js@npm:^3.6.0, core-js@npm:^3.8.3":
+  version: 3.38.1
+  resolution: "core-js@npm:3.38.1"
+  checksum: 55703c2f6fcd537e47a5cc83e9dc9884efef61861bbefb4a96a8c95e87956db980ce314628465dd49f14e626c5e633b9e3433f3e4a1f628404a14da420eb2556
+  languageName: node
+  linkType: hard
+
 "core-util-is@npm:~1.0.0":
   version: 1.0.3
   resolution: "core-util-is@npm:1.0.3"
@@ -9664,6 +9765,15 @@ __metadata:
   version: 0.0.4
   resolution: "css-color-names@npm:0.0.4"
   checksum: 9c6106320430a9da3a13daab8d8b4def39113edbfb68042444585d9a214af5fd5cb384b9be45124bc75f88261d461b517e00e278f4d2e0ab5a619b182f9f0e2d
+  languageName: node
+  linkType: hard
+
+"css-line-break@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "css-line-break@npm:2.1.0"
+  dependencies:
+    utrie: ^1.0.2
+  checksum: 37b1fe632b03be7a287cd394cef8b5285666343443125c510df9cfb6a4734a2c71e154ec8f7bbff72d7c339e1e5872989b1c52d86162aed27d6cc114725bb4d0
   languageName: node
   linkType: hard
 
@@ -10458,6 +10568,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dom-to-image@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "dom-to-image@npm:2.6.0"
+  checksum: 0d1f450b776d36f3ec982783d2a3898baaa3697f135ed0a9c70085db6bc5ac6def02f5ed7affc6acb92ef4fb3248905fabec915fed541994383d317260f784a2
+  languageName: node
+  linkType: hard
+
 "domelementtype@npm:1":
   version: 1.3.1
   resolution: "domelementtype@npm:1.3.1"
@@ -10487,6 +10604,13 @@ __metadata:
   dependencies:
     domelementtype: ^2.2.0
   checksum: ad782fef984eca5a6fdd4ce70b90c38aff335ae4d6a51223ac82bd371b6674614efdcfff2dbb1126a7395634357906781f179e4ec028c7c578bb7f2beef8a4a5
+  languageName: node
+  linkType: hard
+
+"dompurify@npm:^2.2.0":
+  version: 2.5.6
+  resolution: "dompurify@npm:2.5.6"
+  checksum: 1d329fe79928aa86c61539b758bdbc53df58dd90bdc5b74032a2a3a22a436e84178d8f6ad8b022c8f6fac46b26d6e7e553c0cd131a37ed5105bbed6bf87be226
   languageName: node
   linkType: hard
 
@@ -12177,6 +12301,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fflate@npm:^0.4.8":
+  version: 0.4.8
+  resolution: "fflate@npm:0.4.8"
+  checksum: 29d8cbe44d5e7f53e7f5a160ac7f9cc025480c7b3bfd85c5f898cbe20dfa2dad4732daa534982664bf30b35896a90af44ea33ede5d94c5ffd1b8b0c0a0a56ca2
+  languageName: node
+  linkType: hard
+
 "figures@npm:^1.3.5":
   version: 1.7.0
   resolution: "figures@npm:1.7.0"
@@ -12892,10 +13023,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fuzzysort@npm:^2.0.0":
-  version: 2.0.4
-  resolution: "fuzzysort@npm:2.0.4"
-  checksum: 5c498ec452ffc75c4368c52a7c4a490fc4d4129d94eab5f892d7e69d91ee3057259d9ab6924f14cca21f5731e7d91912e6c01669b40ef9b2165924e4b8e65fb5
+"fuse.js@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "fuse.js@npm:7.0.0"
+  checksum: d15750efec1808370c0cae92ec9473aa7261c59bca1f15f1cf60039ba6f804b8f95340b5cabd83a4ef55839c1034764856e0128e443921f072aa0d8a20e4cacf
   languageName: node
   linkType: hard
 
@@ -13826,6 +13957,16 @@ __metadata:
   dependencies:
     void-elements: 3.1.0
   checksum: 334fdebd4b5c355dba8e95284cead6f62bf865a2359da2759b039db58c805646350016d2017875718bc3c4b9bf81a0d11be5ee0cf4774a3a5a7b97cde21cfd67
+  languageName: node
+  linkType: hard
+
+"html2canvas@npm:^1.0.0-rc.5":
+  version: 1.4.1
+  resolution: "html2canvas@npm:1.4.1"
+  dependencies:
+    css-line-break: ^2.1.0
+    text-segmentation: ^1.0.3
+  checksum: c134324af57f3262eecf982e436a4843fded3c6cf61954440ffd682527e4dd350e0c2fafd217c0b6f9a455fe345d0c67b4505689796ab160d4ca7c91c3766739
   languageName: node
   linkType: hard
 
@@ -16045,6 +16186,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jspdf@npm:^2.5.1":
+  version: 2.5.1
+  resolution: "jspdf@npm:2.5.1"
+  dependencies:
+    "@babel/runtime": ^7.14.0
+    atob: ^2.1.2
+    btoa: ^1.2.1
+    canvg: ^3.0.6
+    core-js: ^3.6.0
+    dompurify: ^2.2.0
+    fflate: ^0.4.8
+    html2canvas: ^1.0.0-rc.5
+  dependenciesMeta:
+    canvg:
+      optional: true
+    core-js:
+      optional: true
+    dompurify:
+      optional: true
+    html2canvas:
+      optional: true
+  checksum: 9ecdccc50678cd780f0995157618630ca0da65576835983232d48001aab0b29e51af765e078808526d5e5e2e1ebf3cee460e03eaf590f875d160f2e0cb614a1e
+  languageName: node
+  linkType: hard
+
 "jsx-ast-utils@npm:^2.4.1 || ^3.0.0":
   version: 3.2.1
   resolution: "jsx-ast-utils@npm:3.2.1"
@@ -17243,23 +17409,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:^0.5.1":
-  version: 0.5.6
-  resolution: "mkdirp@npm:0.5.6"
-  dependencies:
-    minimist: ^1.2.6
-  bin:
-    mkdirp: bin/cmd.js
-  checksum: 0c91b721bb12c3f9af4b77ebf73604baf350e64d80df91754dc509491ae93bf238581e59c7188360cec7cb62fc4100959245a42cfe01834efedc5e9d068376c2
-  languageName: node
-  linkType: hard
-
 "mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4":
   version: 1.0.4
   resolution: "mkdirp@npm:1.0.4"
   bin:
     mkdirp: bin/cmd.js
   checksum: a96865108c6c3b1b8e1d5e9f11843de1e077e57737602de1b82030815f311be11f96f09cce59bd5b903d0b29834733e5313f9301e3ed6d6f6fba2eae0df4298f
+  languageName: node
+  linkType: hard
+
+"mkdirp@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "mkdirp@npm:3.0.1"
+  bin:
+    mkdirp: dist/cjs/src/bin.js
+  checksum: 972deb188e8fb55547f1e58d66bd6b4a3623bf0c7137802582602d73e6480c1c2268dcbafbfb1be466e00cc7e56ac514d7fd9334b7cf33e3e2ab547c16f83a8d
   languageName: node
   linkType: hard
 
@@ -20230,7 +20394,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regenerator-runtime@npm:^0.13.11, regenerator-runtime@npm:^0.13.4":
+"regenerator-runtime@npm:^0.13.11, regenerator-runtime@npm:^0.13.4, regenerator-runtime@npm:^0.13.7":
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
   checksum: 27481628d22a1c4e3ff551096a683b424242a216fee44685467307f14d58020af1e19660bf2e26064de946bad7eff28950eae9f8209d55723e2d9351e632bbb4
@@ -20702,7 +20866,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:^2.2.8, rimraf@npm:^2.5.4, rimraf@npm:^2.6.2":
+"rgbcolor@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "rgbcolor@npm:1.0.1"
+  checksum: bd062ac007a3e979e2f83dc69feb3cc4f9bca7d8631899548394160e30c47e4f7e52b31aa3f66a69061ad56e899e812ec52f5c33686c085d72c9b3d22faed1c8
+  languageName: node
+  linkType: hard
+
+"rimraf@npm:^2.2.8, rimraf@npm:^2.5.4":
   version: 2.7.1
   resolution: "rimraf@npm:2.7.1"
   dependencies:
@@ -21724,6 +21895,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"stackblur-canvas@npm:^2.0.0":
+  version: 2.7.0
+  resolution: "stackblur-canvas@npm:2.7.0"
+  checksum: 05b37ef9f1ba3aac2a1dda2f2c078cacd0668426ef689dbbfac7e90c79ef05e8dfad8e0d8474a1cc52776c5810e224ef163cbee2ec52f0a320dec8352ab2dece
+  languageName: node
+  linkType: hard
+
 "static-extend@npm:^0.1.1":
   version: 0.1.2
   resolution: "static-extend@npm:0.1.2"
@@ -22195,6 +22373,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"svg-pathdata@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "svg-pathdata@npm:6.0.3"
+  checksum: f0e55be50c654be5d259d70945ed7e5354bf78e51c6039b4045d9f7c49d703a0c33dda36751815aec2824d046c417c35226e7491246ffff3e9164735ea428446
+  languageName: node
+  linkType: hard
+
 "svgo@npm:^0.7.0":
   version: 0.7.2
   resolution: "svgo@npm:0.7.2"
@@ -22422,6 +22607,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"text-segmentation@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "text-segmentation@npm:1.0.3"
+  dependencies:
+    utrie: ^1.0.2
+  checksum: 2e24632d59567c55ab49ac324815e2f7a8043e63e26b109636322ac3e30692cee8679a448fd5d0f0598a345f407afd0e34ba612e22524cf576d382d84058c013
+  languageName: node
+  linkType: hard
+
 "text-table@npm:^0.2.0":
   version: 0.2.0
   resolution: "text-table@npm:0.2.0"
@@ -22429,10 +22623,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"three@npm:^0.113.0":
-  version: 0.113.2
-  resolution: "three@npm:0.113.2"
-  checksum: c308c01ac9d163bced9c6c3aa466b502d6634cb7447e665e2225efc5b4d039783b03015fd522f4f9cc0b2c45e3e80c739e19c868cb1681b16a48b46e5a441b22
+"three@npm:^0.167.1":
+  version: 0.167.1
+  resolution: "three@npm:0.167.1"
+  checksum: 4500a7eb16dc9143f0e71b11c4886d003f31cd8e4cd4e755a045afbcdce0f3f9cec47ab1c9d00eb45fa2bb3ace6ef17b105eee93b90b15b43f0af1139db8741d
   languageName: node
   linkType: hard
 
@@ -22960,8 +23154,8 @@ __metadata:
     "@codemirror/state": 6.2.0
     "@codemirror/theme-one-dark": ^6.0.0
     "@codemirror/view": 6.6.0
-    "@instana/components": 4.0.0
-    "@instana/design-tokens": 1.27.1
+    "@instana/components": 4.22.1
+    "@instana/design-tokens": 1.27.3
     "@instana/eslint-config-commons": 1.2.3
     "@instana/format-date": 1.6.7
     "@instana/format-numbers": ^1.4.1
@@ -22969,12 +23163,12 @@ __metadata:
     "@instana/i18n": ^1.4.1
     "@instana/i18n-react": 1.5.7
     "@instana/import-sort-style-simon": 1.3.2
-    "@instana/legacy": 4.0.0
+    "@instana/legacy": 4.1.22
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.6.1
     "@instana/pseudo-translation": ^1.3.1
     "@instana/roemitter": ^1.3.2
-    "@instana/types": 1.278.436
+    "@instana/types": 1.282.525
     "@instana/utils": ^1.3.1
     "@lezer/common": ^1.0.2
     "@lezer/generator": ^1.5.0
@@ -22990,6 +23184,7 @@ __metadata:
     "@types/d3-format": ^1.4.2
     "@types/deep-diff": ^1.0.2
     "@types/deep-freeze-strict": ^1.1.0
+    "@types/dom-to-image": ^2.6.7
     "@types/dompurify": ^3.0.2
     "@types/enzyme": ^3.10.12
     "@types/ineum": ^216.0.0
@@ -23041,6 +23236,7 @@ __metadata:
     deep-freeze-strict: ^1.1.1
     del: ^2.0.2
     detect-port-alt: ^1.1.6
+    dom-to-image: ^2.6.0
     dompurify: ^2.4.3
     downshift: ^3.2.12
     enzyme: ^3.11.0
@@ -23063,7 +23259,7 @@ __metadata:
     fork-ts-checker-webpack-plugin: ^6.5.3
     formalistic: ^2.0.0
     framer-motion: ^3.3.0
-    fuzzysort: ^2.0.0
+    fuse.js: ^7.0.0
     glob: ^7.1.3
     gulp: ^4.0.2
     gulp-cssnano: ^2.1.3
@@ -23084,6 +23280,7 @@ __metadata:
     jest-simple-dot-reporter: ^1.0.5
     js-yaml: ^3.12.0
     json-loader: ^0.5.7
+    jspdf: ^2.5.1
     jszip: ^3.10.1
     koijs: ^0.2.0
     less: ^3.9.0
@@ -23096,7 +23293,7 @@ __metadata:
     markdown-loader: ^6.0.0
     mime-db: ^1.52.0
     mini-css-extract-plugin: ^2.9.0
-    mkdirp: ^0.5.1
+    mkdirp: ^3.0.1
     moment-timezone: ^0.5.43
     opn: 3.0.3
     postcss: ^8.4.1
@@ -23126,7 +23323,6 @@ __metadata:
     react-select: ^4.3.1
     react-select-async-paginate: ~0.5
     react-test-renderer: ^17
-    rimraf: ^2.6.2
     rrule: ^2.7.1
     semver: ^5.3.0
     sinon: ^13.0.1
@@ -23135,7 +23331,7 @@ __metadata:
     style-loader: ^3.3.1
     terser: ^5.3.2
     terser-webpack-plugin: ^4.2.2
-    three: ^0.113.0
+    three: ^0.167.1
     transition-hook: ^1.5.2
     typescript: ^5.1.5
     use-resize-observer: ^6.1.0
@@ -23512,6 +23708,15 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: c81095493225ecfc28add49c106ca4f09cdf56bc66731aa8dabc2edbbccb1e1bfe2de6a115e5c6a380d3ea166d1636410b62ef216bb07b3feb1cfde1d95d5080
+  languageName: node
+  linkType: hard
+
+"utrie@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "utrie@npm:1.0.2"
+  dependencies:
+    base64-arraybuffer: ^1.0.2
+  checksum: c96fbb7d4d8855a154327da0b18e39b7511cc70a7e4bcc3658e24f424bb884312d72b5ba777500b8858e34d365dc6b1a921dc5ca2f0d341182519c6b78e280a5
   languageName: node
   linkType: hard
 
@@ -24097,13 +24302,6 @@ __metadata:
   bin:
     node-which: bin/which.js
   checksum: f17e84c042592c21e23c8195108cff18c64050b9efb8459589116999ea9da6dd1509e6a1bac3aeebefd137be00fabbb61b5c2bc0aa0f8526f32b58ee2f545651
-  languageName: node
-  linkType: hard
-
-"wicg-inert@npm:^3.1.1":
-  version: 3.1.2
-  resolution: "wicg-inert@npm:3.1.2"
-  checksum: 538c5cb7f240915a4c17741c644b135040764c6d8a05853099f2f342c95ce2645e6cf7c4f729775013dbc218e0da04b3f943875eba6ed4b38ff9dd431465d391
   languageName: node
   linkType: hard
 

@@ -14,6 +14,7 @@ import {
 import { getAreaRoleFromPermissionSet } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { getScopeFromProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { hasSyntheticsAccess, LimitedAccessScope, LimitedAccessScopeType } from 'in-stores/permission';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 type ProductAreaWithSyntheticData = Extract<ProductAreaType, 'SYNTHETICS'>;
@@ -47,6 +48,15 @@ const dataMap: Record<ProductAreaWithSyntheticData, dataMapItem> = {
   }
 };
 
+const getSubColumnHeadlineText = (quantity: number) => {
+  if (syntheticRbacLimitedEnabled) {
+    return t('in-settings:productAreas.subHeadline_syntheticMonitoring', {
+      quantityOfAreas: quantity
+    });
+  }
+  return quantity;
+};
+
 export const getSyntheticAreaData = ({ area, permissionsSet }: getAreaDataProps): AreaData => {
   const areaItemData = dataMap[area];
   const areaItemIds = permissionsSet[areaItemData.itemIdKey] ?? [];
@@ -69,7 +79,7 @@ export const getSyntheticAreaData = ({ area, permissionsSet }: getAreaDataProps)
   } else {
     areaColumnHeadline = t('in-settings:productAreas.role_permissions', {
       context: areaRole?.toLowerCase(),
-      quantityOfAreas: hasFullAreaAccess ? t('in-settings:general.all') : areaItemIds.length
+      quantityOfAreas: hasFullAreaAccess ? t('in-settings:general.all') : getSubColumnHeadlineText(areaItemIds.length)
     });
   }
 

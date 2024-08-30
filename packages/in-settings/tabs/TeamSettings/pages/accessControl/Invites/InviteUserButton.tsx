@@ -6,13 +6,13 @@
 import React from 'react';
 
 import { createLogger } from '@instana/logger';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import InviteUserDialog, {
   InviteSentState,
-  UserInvite,
   UserSentStateStatus
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
+import { UserInvite } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox_interfaces';
 import { createInviteForm } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteForm';
 import { teamSettingsAccessControlInvites } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -98,9 +98,6 @@ export function onDoInviteUser(
         goToPath(teamSettingsAccessControlInvites);
       }
     }
-    setTimeout(() => {
-      setMessage(null);
-    }, 5000);
   });
   invitationResult$.errors().once((error: any) => {
     setMessage({

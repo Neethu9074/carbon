@@ -9,11 +9,19 @@
     align-items: center;
     grid-template-columns: 15% 50% 31%;
     grid-gap: 1rem;
+
+    > div input::placeholder {
+      opacity: 0.5;
+    }
   }
   .btnWidth100 {
     width: 100%;
     > button {
       width: 100%;
     }
+  }
+  .titleValidation {
+    padding-left: 15%;
+    margin-left: 1rem;
   }
 }

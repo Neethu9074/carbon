@@ -6,14 +6,14 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Card, Message, Spacer, Stack } from '@instana/components';
+import { Card, Message, Spacer, Stack, Button } from '@instana/components';
 import { Disposable } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import ApiResponseList, { ApiTestResponse } from 'in-internal/thisUnit/WsApiTester/ApiResponseList';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import useUrlState, { Options } from 'in-hooks/useUrlState';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
@@ -162,7 +162,7 @@ function ApiTesterActions({ onSubmit, onDisconnect }: ApiTesterActionsProps) {
       <Button kind="primary" onClick={onSubmit}>
         {t('in-internal:thisUnit.wsApiTester.subscribeButtonLabel')}
       </Button>
-      <Button kind="warning" onClick={onDisconnect}>
+      <Button kind={carbonButtonEnabled ? 'secondary' : 'warning'} onClick={onDisconnect}>
         {t('in-internal:thisUnit.wsApiTester.disconnectButtonLabel')}
       </Button>
     </Stack>

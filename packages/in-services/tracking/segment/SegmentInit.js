@@ -7,18 +7,16 @@
 import { AnalyticsBrowser } from '@segment/analytics-next';
 
 import { segmentAnalyticsEnabled } from 'in-services/featureFlags';
-import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
 import { customRealmName } from 'in-services/util/constants';
-import { config } from 'in-services/config';
+import { user } from 'in-stores/user';
 
 let analytics = null;
 
 export function Segment() {
-  if (!ampCompanyInfoEnabled) return null;
   if (!segmentAnalyticsEnabled) return null;
   if (analytics === null) {
     analytics = AnalyticsBrowser.load({ writeKey: window.instana.config.segmentKey });
-    const userId = customRealmName + '-' + config.tenantUnitId;
+    const userId = customRealmName + '-' + user.id;
     analytics.identify(userId);
   }
   return analytics;

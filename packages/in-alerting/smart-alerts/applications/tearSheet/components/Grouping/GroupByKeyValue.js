@@ -8,10 +8,10 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { LoadingSkeleton, KeyValue } from '@instana/components';
+import { just } from '@instana/observables';
 
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
-import getApplication from 'in-applications/subscriptions/getApplication';
 import connect from 'in-hoc/connectTo';
 
 import locals from './GroupingTable.mless';
@@ -19,7 +19,7 @@ import locals from './GroupingTable.mless';
 export default connect(({ id, groupbyTag }) => {
   const observables = {};
   if (groupbyTag === 'application.id') {
-    observables.label = getApplication({ id }).map(getLabel);
+    observables.label = just(id);
   }
   if (groupbyTag === 'service.id') {
     observables.label = getServiceLabel({ id }).map(getLabel);
@@ -45,11 +45,11 @@ function GroupByKeyValue({ label, groupbyTag }) {
   );
 }
 
-function getLabel(result) {
+export function getLabel(result) {
   return get(result, ['data', 'label'], null);
 }
 
-function getByTitle(groupbyTag) {
+export function getByTitle(groupbyTag) {
   if (groupbyTag === 'application.id') {
     return 'Application.name';
   }

@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { useLinkToWebsite } from 'in-websites/navigation/paths';

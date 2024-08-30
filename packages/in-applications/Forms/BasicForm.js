@@ -5,9 +5,8 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Spacer, SvgIcon } from '@instana/components';
+import { Spacer, SvgIcon, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';

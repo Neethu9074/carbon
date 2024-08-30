@@ -6,7 +6,7 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { handleChangeTagFilterExpressionChange } from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import { t } from 'in-i18n';

@@ -66,8 +66,8 @@ export function AlertEvaluationControlPresenter({
         <LabelDescriptionWithIcon
           label={alertEvaluationTypes[type].tearSheetSelectionText}
           description={
-            evaluationCount?.[evaluationType]
-              ? alertEvaluationTypes[type].tearSheetDescription(evaluationCount[type])
+            evaluationCount?.[type]
+              ? alertEvaluationTypes[type].tearSheetDescription(getEvaluationCount(evaluationCount[type]))
               : alertEvaluationTypes[type].tearSheetDescription(0)
           }
         >
@@ -80,6 +80,7 @@ export function AlertEvaluationControlPresenter({
       checked={type === evaluationType}
       onChange={() => setEvaluationType(type)}
       disabled={disabled}
+      carbonVariant
     />
   );
 
@@ -94,7 +95,7 @@ export function AlertEvaluationControlPresenter({
         />
       )}
 
-      <div className={classNames({ [locals.options]: !tearSheetView, [locals.tearsheetOptions]: tearSheetView })}>
+      <div className={classNames({ [locals.options]: !tearSheetView, [locals.tearSheetOptions]: tearSheetView })}>
         {Object.keys(alertEvaluationTypes).map(evalType => {
           const type = evalType as AlertEvaluationType;
           const notAvailableWithAdaptiveThreshold =
@@ -125,4 +126,11 @@ export function AlertEvaluationControlPresenter({
       </div>
     </div>
   );
+}
+
+function getEvaluationCount(evaluationCount: any) {
+  if (evaluationCount === 'loading' || evaluationCount?.[0]?.message) {
+    return '-';
+  }
+  return evaluationCount;
 }

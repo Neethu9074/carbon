@@ -52,16 +52,18 @@ export default function InlineEditorRow({
         <div className={locals.column}>
           {avatar}
           {isEditMode ? (
-            <InlineEditorInput
-              inputValue={inputValue}
-              onInputChange={onInputChange}
-              onClickSave={onClickSave}
-              onClickCancel={() => {
-                onClickCancel?.();
-                setEditMode(false);
-              }}
-              hasError={hasError}
-            />
+            <div className={locals.inputEditSection}>
+              <InlineEditorInput
+                inputValue={inputValue}
+                onInputChange={onInputChange}
+                onClickSave={onClickSave}
+                onClickCancel={() => {
+                  onClickCancel?.();
+                  setEditMode(false);
+                }}
+                hasError={hasError}
+              />
+            </div>
           ) : (
             <InlineEditorReadonly
               label={label}

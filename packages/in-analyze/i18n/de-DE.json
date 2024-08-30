@@ -111,6 +111,7 @@
       "summary": {
         "logs": "Protokolle",
         "analyzeLogs": "In Analyse anzeigen",
+        "logsCardDescription": "Dies ist eine Vorschau, alle Protokolle sind in \"analyze\" zu sehen",
         "correspondingMobileAppActivity": "Entsprechende Aktivität in der mobilen App",
         "hideMobileAppInformation": "Informationen der mobilen App ausblenden",
         "showMobileAppInformation": "Informationen der mobilen App anzeigen",
@@ -311,7 +312,6 @@
   "resultHeaderTooltip": "Die Abfragezeitspanne wurde auf die nächste volle Minute gerundet, damit diese Ansicht schneller geladen werden kann.",
   "components": {
     "analyzeHeader": {
-      "beta": "BETA",
       "analytics": "Analyse"
     },
     "filterBar": {

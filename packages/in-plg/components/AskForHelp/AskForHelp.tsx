@@ -7,12 +7,12 @@
 import { createField, createMapForm, Field, UpdatedMapForm, MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Stack, KeyValue } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, KeyValue, Button } from '@instana/components';
 
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import { sendInvitations } from 'in-api/users';
@@ -102,6 +102,7 @@ const AskForHelp: React.FC<AskForHelpProps> = ({ agentKey, isRestricted = false 
                   <Button
                     icon={isInvitingUser ? 'lib_actions_loading' : undefined}
                     iconSpinning={isInvitingUser}
+                    size={carbonButtonEnabled ? 'compact' : 'normal'}
                     kind="action"
                     type="submit"
                     noAutoMargin
@@ -124,7 +125,11 @@ const AskForHelp: React.FC<AskForHelpProps> = ({ agentKey, isRestricted = false 
               value={<Input className={locals.input} disabled type="text" defaultValue={agentKey ? agentKey : ''} />}
               withGap
             />
-            <CopyToClipboardButton kind="action" getText={() => agentKey ?? ''} />
+            <CopyToClipboardButton
+              size={carbonButtonEnabled ? 'compact' : 'normal'}
+              kind="action"
+              getText={() => agentKey ?? ''}
+            />
           </Stack>
         </Stack>
       </form>

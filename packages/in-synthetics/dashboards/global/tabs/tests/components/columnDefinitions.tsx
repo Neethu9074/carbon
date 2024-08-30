@@ -13,17 +13,18 @@ import { themes } from '@instana/design-tokens';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import AssociationsContent from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsContent';
 import ListActionsColumn from 'in-synthetics/dashboards/global/tabs/tests/components/ListActionsColumn';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { meanLatencyFixed, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
-import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import { clickSyntheticMonitoringTestTracker } from 'in-synthetics/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import HealthDot from 'in-components/health/HealthDot';
@@ -61,31 +62,6 @@ export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: numb
     to: resultTime,
     focusedMoment: resultTime
   };
-}
-
-function ApplicationLabelContent({ item }: { item: TestResultListItem }) {
-  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
-  const applicationLabel = item.testResultCommonProperties?.testCommonProperties?.applicationLabel;
-  const applicationId = item.testResultCommonProperties?.testCommonProperties?.applicationId;
-
-  if (applicationLabel != null && applicationLabel !== '') {
-    return (
-      <HorizontalFlexWrapper>
-        <SvgIcon type={'lib_application_invert'} />
-        <div>
-          <Link href={applicationId && getLinkToApplicationDashboard({ applicationId })}>
-            <span className={locals.label}>{applicationLabel}</span>
-          </Link>
-        </div>
-      </HorizontalFlexWrapper>
-    );
-  }
-
-  return (
-    <div>
-      <span className={locals.label}>{''}</span>
-    </div>
-  );
 }
 
 function TestLabelContent({ item }: { item: TestResultListItem }) {
@@ -293,11 +269,11 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
     }
   },
   {
-    id: 'applicationLabel',
-    label: t('in-synthetics:dashboard.testList.applicationLabel'),
+    id: syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
+    label: t('in-synthetics:dashboard.testList.associationLabel'),
     defaultOrderDirection: 'ASC',
-    getContent(item: TestResultListItem) {
-      return <ApplicationLabelContent item={item} />;
+    getContent: function Content(item: TestResultListItem) {
+      return <AssociationsContent item={item} />;
     }
   },
   {
@@ -312,7 +288,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
       if (severity == 0) {
         return (
           <div>
-            <SvgIcon type="lib_check" className={locals.okayIcon} />
+            <SvgIcon type="lib_uncheck" className={locals.okayIcon} size="s" />
           </div>
         );
       } else {
@@ -321,8 +297,9 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
             <div>
               <SvgIcon
                 type="lib_help_error_warning"
+                size="s"
                 color={themes.default.ids.color.option.yellow['500']}
-                className={locals.icon}
+                className={locals.iconWarning}
               />
             </div>
           );

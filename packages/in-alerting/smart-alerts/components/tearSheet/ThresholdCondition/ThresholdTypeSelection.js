@@ -7,18 +7,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Select } from '@instana/components';
+import { Select, Stack } from '@instana/components';
 
 import {
   filterThresholdTypeOptionsForEvaluationType,
   getOptionsFilterForThresholdTyp
 } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
-import { tearSheetStaticOrAdaptiveThresholds } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/config';
-import { staticOrAdaptiveThresholds as types } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/config';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateBaselineButton';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
-import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
@@ -29,69 +28,70 @@ export default function ThresholdTypeSelection({
   updateForm,
   editMode,
   isGlobalSmartAlert,
-  thresholdTypeOptions,
-  blueprintConfig
+  thresholdTypeOptions
 }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const evaluationType = form.get('evaluationType').value;
+  const seasonality = form.get('threshold')?.get('seasonality')?.value;
   const options = filterThresholdTypeOptionsForEvaluationType(
     thresholdTypeOptions,
     evaluationType,
     isGlobalSmartAlert
   ).filter(getOptionsFilterForThresholdTyp(thresholdType));
-
   const thresholdComboBoxValue = getThresholdComboBoxValue(form);
-  const currentType = thresholdType === ADAPTIVE_BASELINE ? types.adaptive : types.static;
-  const { description, label } = tearSheetStaticOrAdaptiveThresholds.info[currentType];
 
   return (
     <>
-      {options.length === 1 ? (
-        <>
-          {!blueprintConfig?.baselineEnabled && (
-            <div className={locals.container}>
-              <span className={locals.label}>
-                <AlertTypography
-                  variant="body-regular"
-                  color="color900"
-                  content={t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdType')}
-                />
-              </span>
-              <AlertTypography variant="body-bold" content={label} color={'teal500'}>
-                <div>
-                  <AlertTypography variant="body-small" content={description} color={'color700'} />
-                </div>
-              </AlertTypography>
-            </div>
-          )}
-        </>
-      ) : (
+      {options.length > 1 && (
         <div className={locals.container}>
           <span className={locals.label} />
-          <Select
-            value={thresholdComboBoxValue}
-            items={options}
-            onChange={e => {
-              onThresholdTypeChange(e.target.value, form, updateForm);
-            }}
-            useFullWidth
-            wrapperClassName={locals.fullWidth}
-          >
-            {options.map(items => {
-              return (
-                <option key={items.value} value={items.value}>
-                  {items.label}
-                </option>
-              );
-            })}
-          </Select>
+          <Stack direction="vertical" gap="small" align="start">
+            <Select
+              data-testid="thresholdType"
+              value={thresholdComboBoxValue}
+              items={options}
+              onChange={e => {
+                onThresholdTypeChange(e.target.value, form, updateForm);
+              }}
+              useFullWidth
+              wrapperClassName={locals.fullWidth}
+            >
+              {options.map(items => {
+                return (
+                  <option key={items.value} value={items.value}>
+                    {items.label}
+                  </option>
+                );
+              })}
+            </Select>
+            <AlertTypography
+              variant="body-small"
+              color="color700"
+              content={getThresholdDescription(seasonality ?? thresholdType)}
+            />
+          </Stack>
           {thresholdType === HISTORIC_BASELINE && (
-            <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
+            <RecalculateBaselineButton
+              updateForm={updateForm}
+              editMode={editMode}
+              form={form}
+              className={locals.recalButtonWidth}
+            />
           )}
         </div>
       )}
     </>
   );
+}
+
+function getThresholdDescription(threshold) {
+  if (threshold === STATIC_THRESHOLD) {
+    return t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdDescription.static');
+  } else if (threshold === DAILY) {
+    return t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdDescription.staticDaily');
+  } else if (threshold === WEEKLY) {
+    return t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdDescription.staticWeekly');
+  }
 }
 
 ThresholdTypeSelection.propTypes = {
@@ -104,6 +104,5 @@ ThresholdTypeSelection.propTypes = {
       label: PropTypes.string.isRequired
     })
   ).isRequired,
-  updateForm: PropTypes.func.isRequired,
-  blueprintConfig: PropTypes.object.isRequired
+  updateForm: PropTypes.func.isRequired
 };

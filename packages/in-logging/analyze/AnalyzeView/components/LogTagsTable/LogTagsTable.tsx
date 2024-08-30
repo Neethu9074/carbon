@@ -13,6 +13,7 @@ import { filterTag, groupAndSortTags } from 'in-logging/analyze/AnalyzeView/comp
 import { TagEntry, TagGroupHeader } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/Tag';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { hasError, isLoading } from 'in-services/util/result';
 import { capitalize } from 'in-services/formatters/string';
@@ -23,23 +24,24 @@ import { logsPath } from 'in-logging/navigation/paths';
 import getLog from 'in-logging/subscriptions/getLog';
 import { useScrollIntoView } from 'in-logging/hooks';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { mutateUrl } from 'in-stores/navigation';
 import decamelize from 'in-sdk/decamelize';
 import { LogTag } from 'in-types';
 
 const LogTagsTable = ({ item, selectedId, onSelectTagHref, getHrefToGroupedView }: LogTagsTableProps) => {
   const timeConfig = useTimeConfig();
+  const { location } = useNavigation();
+
   const internalFilteringTagCatalogResult =
-    useObservable(() => getTagCatalog({ useCase: 'FILTERING', forceIncludeInternalTags: true }), [
-      getTagCatalog,
-      timeConfig
-    ]) ?? pendingResult;
+    useObservable(
+      () => getTagCatalog({ useCase: 'FILTERING', forceIncludeInternalTags: true }),
+      [getTagCatalog, timeConfig]
+    ) ?? pendingResult;
 
   const groupingTagCatalogResult =
-    useObservable(() => getTagCatalog({ useCase: 'GROUPING', forceIncludeInternalTags: true }), [
-      getTagCatalog,
-      timeConfig
-    ]) ?? pendingResult;
+    useObservable(
+      () => getTagCatalog({ useCase: 'GROUPING', forceIncludeInternalTags: true }),
+      [getTagCatalog, timeConfig]
+    ) ?? pendingResult;
 
   const tagToLabelMap: Map<string, string> = useMemo(
     () =>
@@ -60,9 +62,7 @@ const LogTagsTable = ({ item, selectedId, onSelectTagHref, getHrefToGroupedView 
   const scrollCondition = logResult.data && selectedId === item.itemId;
 
   const ref = useScrollIntoView([logResult.data], scrollCondition, () => {
-    mutateUrl(location => {
-      setTimeout(() => setOrDeleteMatrixKey(location, logsPath, 'selectedId', null));
-    });
+    setTimeout(() => setOrDeleteMatrixKey(location, logsPath, 'selectedId', null));
   });
 
   if (!logResult || isLoading(logResult)) {
@@ -77,7 +77,7 @@ const LogTagsTable = ({ item, selectedId, onSelectTagHref, getHrefToGroupedView 
   const mapTags = (tags: LogTag[]) =>
     tags.map(tag => {
       const uniqueTagName = tag.key ? `${tag.name}-${tag.key}` : tag.name ?? '';
-      if(tag.stringValue === 'null') return null
+      if (tag.stringValue === 'null') return null;
       return (
         <TagEntry
           key={uniqueTagName}

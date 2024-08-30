@@ -39,9 +39,7 @@ import {
 } from 'in-automation/Policies/types';
 import {
   Action,
-  ApplicationAlertConfigWithMetadata,
   EventSpecificationInfo,
-  GlobalApplicationsAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
   MobileAppAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata,
@@ -49,6 +47,10 @@ import {
   TriggerType,
   WebsiteAlertConfigWithMetadata
 } from 'in-types';
+import {
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -68,33 +70,34 @@ import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/list/col
 import { EntityType, EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
+import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNavigateToPolicyDetails';
 import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
 import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
 import { descriptionColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
-import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
 import useMobileAppLabel from 'in-alerting/smart-alerts/mobileApp/hooks/useMobileAppLabel';
 import SyntheticsScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import InfraScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
+import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
 import MobileAppScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
+import CreatableTagSelect from 'in-components/CreatableTagSelect/CreatableTagSelect';
 import WebsiteScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
+import { hasError, isLoading, listSuccess, success } from 'in-services/util/result';
 import SloAppliedColumn from 'in-alerting/smart-alerts/slo/list/SloAppliedColumn';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import useNavigateToPolicies from 'in-automation/Policies/useNavigateToPolicies';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import LogScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm';
-import { hasError, listSuccess, success } from 'in-services/util/result';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
@@ -105,7 +108,7 @@ import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import TagsTable from 'in-automation/ActionCatalog/TagsTable';
+import usePolicyTags from 'in-automation/hooks/usePolicyTags';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { merge } from 'in-services/util/resultMerger';
@@ -201,6 +204,8 @@ function DetailsSection({
 }) {
   const name = form.get('name');
   const description = form.get('description');
+  const tags = form.get('tags');
+  const availableTags = usePolicyTags();
 
   return (
     <>
@@ -251,17 +256,23 @@ function DetailsSection({
           </HelpText>
         </FormGroup>
       ))}
-      <FormGroup>
-        <TagsTable
-          form={form}
-          setForm={setForm}
-          isEditable={role?.canConfigureAutomationPolicies}
-          onChange={(fieldName, value) =>
-            //@ts-expect-error
-            setForm(form => form!.updateIn([fieldName], item => item.setValue(value).setTouched(true)))
-          }
-        />
-      </FormGroup>
+      {tags.map(field => (
+        <FormGroup>
+          <Label htmlFor="policy-tags" hasError={!field.valid && field.touched}>
+            {t('in-automation:tagsLabel')}
+          </Label>
+          <CreatableTagSelect
+            id="policy-tags"
+            isLoading={isLoading(availableTags)}
+            tags={availableTags.data}
+            value={field.value}
+            onChange={newTags =>
+              setForm(form => form!.updateIn(['tags'], item => item.setValue(newTags).setTouched(true)))
+            }
+            disabled={!role?.canConfigureAutomationActions}
+          />
+        </FormGroup>
+      ))}
     </>
   );
 }
@@ -393,7 +404,7 @@ function CopyPolicyLink({ isNew, policy }: { isNew: boolean; policy: PolicyFormE
 
   return (
     <Tooltip content={t('in-automation:duplicate')} delay={500}>
-      <Link ellipsis onClick={() => navigateToPolicyDetails(policy, true)}>
+      <Link ellipsis onClick={() => navigateToPolicyDetails(policy.id, true)}>
         <IconButton id={`copy_${policy.id}`} buttonType="button" kind="primaryv2" type="lib_actions_copy" />
       </Link>
     </Tooltip>
@@ -459,7 +470,7 @@ const triggerDescriptionColumn: ColumnDefinition<TriggerSpecification> = {
 };
 
 const appFilterAppliedColumn: ColumnDefinition<
-  ApplicationAlertConfigWithMetadata | GlobalApplicationsAlertConfigWithMetadata
+  ApplicationSmartAlertConfigWithMetadata | GlobalApplicationsSmartAlertConfigWithMetadata
 > = {
   id: 'filterApplied',
   label: t('in-automation:policies.filterApplied'),

@@ -13,6 +13,7 @@ import { Observable } from '@instana/observables';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { carbonTooltipEnabled } from 'in-services/featureFlags';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
 import { ResultPrecision } from 'in-types';
@@ -55,6 +56,8 @@ export interface KpiCardProps {
   tooltipContent?: React.ReactNode;
   majorClass?: string;
   minorClass?: string;
+  disableHeaderTooltip?: boolean;
+  bigNumbers?: boolean;
 }
 
 export default function KpiCard({
@@ -76,7 +79,9 @@ export default function KpiCard({
   resultPrecision,
   tooltipContent,
   majorClass,
-  minorClass
+  minorClass,
+  disableHeaderTooltip = false,
+  bigNumbers
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
@@ -93,9 +98,15 @@ export default function KpiCard({
   let content;
   let major = value;
   if (raw) {
-    content = <span className={classNames(locals.minor, valuesClassName)}>{formattedValue}</span>;
+    content = (
+      <span className={classNames(locals.minor, valuesClassName, { [locals.bigMinor]: bigNumbers })}>
+        {formattedValue}
+      </span>
+    );
   } else if (children) {
-    content = <span className={classNames(locals.minor, valuesClassName)}>{children}</span>;
+    content = (
+      <span className={classNames(locals.minor, valuesClassName, { [locals.bigMinor]: bigNumbers })}>{children}</span>
+    );
   } else {
     let minor = null;
     if (value === undefined || value === null) {
@@ -112,13 +123,26 @@ export default function KpiCard({
 
     content = (
       <>
-        <span className={classNames(locals.major, majorClass)} style={{ color: color }}>
+        <span
+          className={classNames(locals.major, majorClass, { [locals.bigMajor]: bigNumbers })}
+          style={{ color: color }}
+          title={major}
+        >
           {major}
         </span>
-        {minor && <span className={classNames(locals.minor, minorClass)}>{minor}</span>}
+        {minor && (
+          <span className={classNames(locals.minor, minorClass, { [locals.bigMinor]: bigNumbers })}>{minor}</span>
+        )}
       </>
     );
   }
+
+  content = (
+    <>
+      {content}
+      {companionValue && <span className={locals.companion}>{companionValue}</span>}
+    </>
+  );
 
   return (
     <Card
@@ -141,9 +165,13 @@ export default function KpiCard({
         })}
         ref={ref}
       >
-        <Tooltip content={title} align="auto">
+        {disableHeaderTooltip ? (
           <span className={locals.titleText}>{title}</span>
-        </Tooltip>
+        ) : (
+          <Tooltip content={title} align={carbonTooltipEnabled ? 'auto' : 'bottomLeft'} overflowEllipsis>
+            <span className={locals.titleText}>{title}</span>
+          </Tooltip>
+        )}
         <div className={locals.flexTooltip}>
           {hasApproximateData && (
             <MultiLineToolTipIcon withMargin lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
@@ -157,7 +185,11 @@ export default function KpiCard({
             })}
           >
             <Tooltip content={iconAction.text} overwriteBlock>
-              <Link href={iconAction.href$ ?? iconAction.href} onClick={iconAction.onClick}>
+              <Link
+                href={iconAction.href$ ?? iconAction.href}
+                aria-label={iconAction.text}
+                onClick={iconAction.onClick}
+              >
                 <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
               </Link>
             </Tooltip>
@@ -176,13 +208,12 @@ export default function KpiCard({
         {actions && <div className={locals.actions}>{actions}</div>}
       </div>
       {tooltipContent ? (
-        <Tooltip content={tooltipContent} align="rightBottom">
-          <span className={locals.titleText}>{content}</span>
+        <Tooltip content={tooltipContent} align="rightBottom" overflowEllipsis>
+          <span className={locals.contentText}>{content}</span>
         </Tooltip>
       ) : (
-        <span className={locals.titleText}> {content}</span>
+        <span className={locals.contentText}> {content}</span>
       )}
-      {companionValue && <span className={locals.companion}>{companionValue}</span>}
     </Card>
   );
 }

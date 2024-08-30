@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { MobileAppAlertConfig } from '@instana/types';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import {
   getBlueprintConfig,

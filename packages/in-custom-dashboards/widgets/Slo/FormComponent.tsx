@@ -6,18 +6,18 @@
 
 import React from 'react';
 
-import SloFormComponent, { FormComponentProps } from 'in-custom-dashboards/widgets/Slo/components/SloFormComponent';
-import { SloTrackerProvider, sliWidgetTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { SloTrackerProvider, sloWidgetTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
 
-export default function FormComponent(props: FormComponentProps) {
+export default function FormComponent() {
   return (
     <SloTrackerProvider
-      trackers={sliWidgetTrackers}
+      trackers={sloWidgetTrackers}
       meta={{ productArea: productAreas.custom_dashboard, pageName: pageNames.custom_dashboard }}
     >
-      <SloFormComponent {...props} />
+      {/* TODO: The component that handles the form must be implemented here. */}
+      <div style={{ backgroundColor: 'magenta', width: '100%', height: '100%', minHeight: 100, minWidth: 100 }} />
     </SloTrackerProvider>
   );
 }

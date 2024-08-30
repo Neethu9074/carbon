@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Stack } from '@instana/components';
 
@@ -27,7 +27,12 @@ export default function Charting(props) {
     props;
 
   let metricAggregations;
-
+  const [cachedMetrics, setCachedMetrics] = useState([]);
+  useEffect(() => {
+    if (!(chartedMetrics.length && chartedMetrics[0].secondLevelMetricId == '')) {
+      setCachedMetrics(chartedMetrics);
+    }
+  }, [chartedMetrics]);
   if (chartedMetricsTemplate != null) {
     metricAggregations =
       chartedMetricsTemplate.metrics?.map(metric => ({
@@ -74,9 +79,9 @@ export default function Charting(props) {
   return (
     <>
       <Configurator {...props} />
-      {chartedMetrics?.length > 0 && (
+      {cachedMetrics?.length > 0 && (
         <Stack direction="horizontal" gap="none">
-          {chartedMetrics.map(metricConfig => {
+          {cachedMetrics.map(metricConfig => {
             const chartProps = {
               ...props,
               title: getChartTitle(metricConfig),
@@ -84,7 +89,7 @@ export default function Charting(props) {
                 metricAggregations?.find(agg => agg.metricId === metricConfig.metricId)?.aggregations?.length > 1,
               onAggregationChange: change => {
                 let changedMetrics = {
-                  metrics: chartedMetrics?.map(metric => {
+                  metrics: cachedMetrics?.map(metric => {
                     if (metric.metricId === metricConfig.metricId) {
                       metric.aggregationId = change;
                     }

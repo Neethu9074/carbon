@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { SupportDownloadStateDialog } from 'in-forge/plugins/instanaAgent/Dashboard/SupportDownloadStateDialog';
 import { track, AGENT_PROFILER_CLICKED, AGENT_SUPPORT_INFO_CLICKED } from 'in-services/tracking/tracking';

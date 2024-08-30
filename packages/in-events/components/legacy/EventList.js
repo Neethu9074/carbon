@@ -3,55 +3,51 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
+import { Card, Pagination as CarbonPagination, Button } from '@instana/components';
+import { combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { Card } from '@instana/components';
 
+import {
+  carbonPaginationEnabled,
+  manuallyCloseEventEnabled,
+  incidentSummarizationEnabled,
+  incidentSummarizationTimelineEnabled,
+  eventFeedbackEnabled
+} from 'in-services/featureFlags';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import LegacyRootCauseSection from 'in-events/components/legacy/LegacyRootCauseSection';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
+import { EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import RootCauseSection from 'in-events/components/legacy/RootCauseSection';
+import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
+import { pageNumberUrlParameter } from '../../navigation/urlParameters';
 import EventListItem from 'in-events/components/legacy/EventListItem';
-import { getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
-import { emptyList } from 'in-services/fixedImmutables';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { rcaUIEnabled } from 'in-services/featureFlags';
+import { emptyList } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
+import EventDetailsKPIs from '../EventDetailsKPIs';
+import { FeedbackComponents } from '../EventTable';
 import Pagination from 'in-components/Pagination';
 import { getEventType } from 'in-stores/events';
+import useUrlState from 'in-hooks/useUrlState';
 import { getEvent } from 'in-stores/events';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './EventList.mless';
 
-export default function IncidentEventList({
-  incident,
-  recentEvents,
-  pageState,
-  setPageURLState,
-  latestSnapshot,
-  snapshot,
-  expandedEventOnClickInTimeline,
-  setExpandedEventOnClickInTimeline,
-  highlightEventOnHover
-}) {
+export default function IncidentEventList({ incident, latestSnapshot, snapshot }) {
   const triggeringEvent = useObservable(getEvent(incident.getIn(['triggeringEvent'], '')), [incident]) ?? null;
-  const relatedEvents = incident
-    .get('recentEvents', emptyList)
-    .sort(
-      (a, b) =>
-        incident.getIn(['issueOrderMap', a], Number.MAX_SAFE_INTEGER) -
-        incident.getIn(['issueOrderMap', b], Number.MAX_SAFE_INTEGER)
-    )
-    .toArray()
-    .filter(issue => issue !== incident.getIn(['triggeringEvent'], ''));
+  const triggeringEventId = triggeringEvent?.get('id') || '';
 
   const oldRootCausePropertyCheck =
     incident.hasIn(['metadata', 'probableRootCause']) && !incident.getIn(['metadata', 'probableRootCause']).isEmpty();
@@ -66,15 +62,30 @@ export default function IncidentEventList({
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 
   const eventType = getEventType(incident);
-  const pageSize = 10;
   const rootCauseHasOldSnapshotMetadata = incident.hasIn([
     'metadata',
     'rootCause',
     'probableRootCauseSnapshotMetadata'
   ]);
-  if (!triggeringEvent) return <ListRow title={t('in-events:titleTriggerEvent')} />;
+
+  // const [highlightEventOnHover, setHighlightEventOnHover] = useState('');
+
+  if (!triggeringEvent) return <LoadingIndicator />;
   return (
     <>
+      <Row withoutSideMargin>
+        <Col xs>
+          <Card>
+            {eventFeedbackEnabled && incident && <FeedbackComponents eventData={incident} textVariant="body-large" />}
+          </Card>
+        </Col>
+      </Row>
+      {/* Event Details KPIs */}
+      <EventDetailsKPIs event={incident} isIncident />
+
+      {/* Triggered event */}
+      <TriggeringEvent incident={incident} triggeringEvent={triggeringEvent} latestSnapshot={latestSnapshot} />
+      {/* RCA */}
       {incidentHasRCAProperty && rcaUIEnabled && rootCauseHasOldSnapshotMetadata && (
         <LegacyRootCauseSection
           title={t('in-events:RCA.titlePRCA')}
@@ -93,33 +104,17 @@ export default function IncidentEventList({
         />
       )}
 
-      <ListRow
-        title={t('in-events:titleTriggerEvent')}
-        events={[triggeringEvent]}
-        triggeringProblemId={triggeringProblemId}
-        latestSnapshot={latestSnapshot}
-        expandedEventOnClickInTimeline={expandedEventOnClickInTimeline}
-        setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-        highlightEventOnHover={highlightEventOnHover}
+      {/* Related events */}
+      <RelatedEvents
         incident={incident}
-      />
-      <PaginatedListRow
-        currentSetOfEvents={recentEvents.filter(e => e.get('id') !== triggeringEvent.get('id'))}
-        title={t('in-events:titleRelatedEvents', {
-          eventCount: relatedEvents.length
-        })}
-        currentPage={pageState}
-        numPages={Math.ceil(relatedEvents.length / pageSize)}
-        onChange={({ page }) => {
-          setPageURLState({ relatedEventsPage: page });
-        }}
         triggeringProblemId={triggeringProblemId}
         latestSnapshot={latestSnapshot}
-        expandedEventOnClickInTimeline={expandedEventOnClickInTimeline}
-        setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-        highlightEventOnHover={highlightEventOnHover}
+        triggeringEventId={triggeringEventId}
       />
+
+      {/* Automations */}
       <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
+      {/* Business impact */}
       <ImpactedBusinessProcesses
         eventType={eventType}
         entityType={incident?.get('entityType', undefined)}
@@ -129,81 +124,213 @@ export default function IncidentEventList({
   );
 }
 
-function PaginatedListRow({
-  triggeringProblemId,
-  currentSetOfEvents,
-  title,
-  currentPage,
-  numPages,
-  onChange,
-  latestSnapshot,
-  expandedEventOnClickInTimeline,
-  setExpandedEventOnClickInTimeline,
-  highlightEventOnHover
-}) {
-  if (!currentSetOfEvents) return <LoadingIndicator />;
-
-  return (
-    <Row withoutSideMargin>
-      <Col xs>
-        <Card title={title}>
-          {currentSetOfEvents?.map(_event => (
-            <EventListItem
-              key={_event.get('id')}
-              triggeringProblemId={triggeringProblemId}
-              event={_event}
-              latestSnapshot={latestSnapshot}
-              expandedFromTimeline={expandedEventOnClickInTimeline === _event.get('id')}
-              setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-              highlightEventOnHover={highlightEventOnHover === _event.get('id')}
-            />
-          ))}
-          <Pagination currentPage={currentPage} numPages={numPages} onChange={page => onChange({ page })} />
-        </Card>
-      </Col>
-    </Row>
-  );
-}
-
-function ListRow({
-  title,
-  events,
-  triggeringProblemId,
-  latestSnapshot,
-  expandedEventOnClickInTimeline,
-  setExpandedEventOnClickInTimeline,
-  highlightEventOnHover,
-  incident
-}) {
+const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }) => {
+  const colourForCard = getTriggeringEventCardColor(incident);
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
   const header = renderTriggeringEventHeader(incident, canCloseManually, timeConfig);
-  let colourForCard = getTriggeringEventCardColor(incident);
 
   return (
     <Row withoutSideMargin>
       <Col xs>
-        {title === t('in-events:titleTriggerEvent') && colourForCard && (
-          <div className={locals.cardIndicator} style={{ background: colourForCard }} />
-        )}
-        <Card title={title} header={header}>
-          {!events && <LoadingIndicator />}
-          {events?.map(_event => (
-            <EventListItem
-              key={_event.get('id')}
-              triggeringProblemId={triggeringProblemId}
-              event={_event}
-              latestSnapshot={latestSnapshot}
-              expandedFromTimeline={expandedEventOnClickInTimeline === _event.get('id')}
-              setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-              highlightEventOnHover={highlightEventOnHover === _event.get('id')}
-            />
-          ))}
+        {colourForCard && <div className={locals.cardIndicator} style={{ background: colourForCard }} />}
+        <Card title={t('in-events:titleTriggerEvent')} rightHeaderContent={header}>
+          <Row>
+            <Col xs>
+              {!triggeringEvent && <LoadingIndicator />}
+              <EventListItem
+                triggeringProblemId={incident.getIn(['problem', 'id'])}
+                event={triggeringEvent}
+                latestSnapshot={latestSnapshot}
+              />
+            </Col>
+          </Row>
         </Card>
       </Col>
     </Row>
   );
+};
+
+const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeringEventId }) => {
+  const [changesAreVisible, setChangesAreVisible] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // recent events
+  const allRecentEvents = incident
+    .get('recentEvents', emptyList)
+    .sort(
+      (a, b) =>
+        incident.getIn(['issueOrderMap', a], Number.MAX_SAFE_INTEGER) -
+        incident.getIn(['issueOrderMap', b], Number.MAX_SAFE_INTEGER)
+    )
+    .filter(_eid => _eid !== triggeringEventId)
+    .toArray();
+
+  const totalRecentEvents = allRecentEvents.length;
+
+  // START related events pagination
+
+  const [{ relatedEventsPage }, setPageURLState] = useUrlState({
+    bind: [pageNumberUrlParameter],
+    replaceHistory: false
+  });
+
+  const onPageChange = ({ page }) => setPageURLState({ relatedEventsPage: page });
+
+  const currentPage = eventsPath && relatedEventsPage ? relatedEventsPage : 1;
+  const pageSize = 5;
+  const paginatedRecentEventIds = allRecentEvents?.slice(pageSize * (currentPage - 1), pageSize * currentPage);
+  const paginatedRecentEventsRaw =
+    useObservable(combineLatest(paginatedRecentEventIds.map(getEvent)).throttle(250), [incident]) ?? null;
+
+  const paginatedRecentEvents = paginatedRecentEventsRaw?.filter(event => {
+    if (!changesAreVisible && getEventType(event) === EVENT_TYPES.CHANGE) {
+      return false;
+    }
+    return true;
+  });
+
+  const [expandedEventOnClickInTimeline, setExpandedEventOnClickInTimeline] = useState('');
+  const numPages = Math.ceil(totalRecentEvents / pageSize);
+
+  // END related events pagination
+
+  const [highlightEventOnHover, setHighlightEventOnHover] = useState('');
+
+  if (allRecentEvents.length === 0) {
+    return <RelatedEventsEmptyState />;
+  }
+
+  // should be displayed if incident summarization feature is disabled OR incident summarization feature and timeline with summarization is enabled
+  const shouldTimelineBeDisplayed =
+    !incidentSummarizationEnabled || (incidentSummarizationEnabled && incidentSummarizationTimelineEnabled) || false;
+
+  if (!paginatedRecentEvents) return <LoadingIndicator />;
+
+  return (
+    <Row withoutSideMargin>
+      <Col xs>
+        <Card
+          title={t('in-events:titleRelatedEvents', {
+            eventCount: totalRecentEvents
+          })}
+          rightHeaderContent={
+            <IncidentSummarizationHeader
+              recentEvents={paginatedRecentEventsRaw}
+              changesAreVisible={changesAreVisible}
+              setChangesAreVisible={setChangesAreVisible}
+              isExpanded={isExpanded}
+              setIsExpanded={setIsExpanded}
+            />
+          }
+        >
+          <>
+            {shouldTimelineBeDisplayed && (
+              <PopulationChart
+                incidentId={incident.get('id')}
+                recentEvents={paginatedRecentEvents}
+                changesAreVisible={changesAreVisible}
+                setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
+                setHighlightEventOnHover={setHighlightEventOnHover}
+              />
+            )}
+            {paginatedRecentEvents?.map(_event => (
+              <EventListItem
+                key={_event.get('id')}
+                triggeringProblemId={triggeringProblemId}
+                event={_event}
+                latestSnapshot={latestSnapshot}
+                expandedFromTimeline={expandedEventOnClickInTimeline === _event.get('id')}
+                setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
+                highlightEventOnHover={highlightEventOnHover === _event.get('id')}
+              />
+            ))}
+            {carbonPaginationEnabled && totalRecentEvents > pageSize ? (
+              <CarbonPagination
+                currentPage={currentPage}
+                totalItems={totalRecentEvents}
+                pageSize={pageSize}
+                pageSizes={[pageSize]}
+                onChange={data => {
+                  onPageChange({ page: data.page });
+                }}
+              />
+            ) : (
+              <Pagination currentPage={currentPage} numPages={numPages} onChange={page => onPageChange({ page })} />
+            )}
+          </>
+        </Card>
+      </Col>
+    </Row>
+  );
+};
+
+const RelatedEventsEmptyState = () => (
+  <Row withoutSideMargin>
+    <Col xs>
+      <Card
+        title={t('in-events:titleRelatedEvents', {
+          eventCount: 0
+        })}
+      >
+        <NoDataAvailable text={t('in-events:noRelatedEvents')} />
+      </Card>
+    </Col>
+  </Row>
+);
+
+// TODO: Move this to its own component
+const IncidentSummarizationHeader = ({
+  recentEvents,
+  changesAreVisible,
+  setChangesAreVisible,
+  isExpanded,
+  setIsExpanded
+}) => {
+  const numChanges = getNumberOfChanges(recentEvents);
+
+  return (
+    <>
+      {shouldRenderExpandButton(recentEvents, numChanges) && (
+        <Button type="button" kind={isExpanded ? 'primaryv2' : 'secondary'} onClick={() => setIsExpanded(!isExpanded)}>
+          {isExpanded
+            ? t('in-events:buttonCollapse')
+            : t('in-events:buttonExpandEvents', { eventsLength: recentEvents.length })}
+        </Button>
+      )}
+      {numChanges > 0 && (
+        <Button
+          type="button"
+          kind={changesAreVisible ? 'primaryv2' : 'secondary'}
+          onClick={() => setChangesAreVisible(!changesAreVisible)}
+        >
+          {changesAreVisible ? t('in-events:buttonHideChanges') : t('in-events:buttonShowChanges')}
+        </Button>
+      )}
+    </>
+  );
+};
+
+const shouldRenderExpandButton = (recentEvents, changesAreVisible, numChanges) => {
+  return recentEvents && recentEvents.length - (!changesAreVisible ? numChanges : 0) > 5;
+};
+
+function getNumberOfChanges(recentEvents) {
+  if (!recentEvents) {
+    return 0;
+  }
+
+  let counter = 0;
+  for (let i = 0, length = recentEvents.length; i < length; i++) {
+    const event = recentEvents[i];
+    if (getEventType(event) === EVENT_TYPES.CHANGE) {
+      counter++;
+    }
+  }
+  return counter;
 }
+
+// END: IncidentSummarizationHeader
 
 function getTriggeringEventCardColor(incident) {
   const incidentSeverity = incident ? incident.getIn(['problem', 'severity'], 5) : null;

@@ -4,16 +4,9 @@
  */
 
 import React, { ReactNode } from 'react';
-import { find, map } from 'lodash';
+import { find } from 'lodash';
 
-import {
-  AdjustedTimeframe,
-  MetricResult,
-  Result,
-  TagFilter,
-  TimeConfig,
-  UnifiedMetricConfigurationUnion
-} from '@instana/types';
+import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfigurationUnion } from '@instana/types';
 
 import { getTimeShiftLabel, hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
@@ -154,9 +147,7 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfigurationUn
     value = dataPoint.values[0][1];
   }
 
-  const lastValueTooltipContent =
-    config.metricConfiguration.lastValue &&
-    getLastValueTooltipLabel(map(result.data, ({ adjustedTimeframe }) => adjustedTimeframe).pop() as AdjustedTimeframe);
+  const lastValueTooltipContent = config.metricConfiguration.lastValue && getLastValueTooltipLabel(timeConfig);
 
   // We are using the [0] selector as in this aspect we assume multiple results have the same value
   // Example Mean Latency receive a "Companion", which we assume have the same resultPrecision as it's parent.
@@ -193,6 +184,7 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfigurationUn
       resultPrecision={resultPrecisions}
       raw={raw}
       tooltipContent={lastValueTooltipContent}
+      bigNumbers
     />
   );
 }

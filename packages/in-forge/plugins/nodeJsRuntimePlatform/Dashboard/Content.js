@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Link, Button } from '@instana/components';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import HealthchecksTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HealthchecksTable';
@@ -260,7 +259,7 @@ function getInitializedTooLateHint(snapshot, isInternalVisible, monitoringIssues
         i18nKey="in-forge:plugins.nodeJsRuntimePlatform.itSeemsYouHaveInitializedTheInstanaCollectorPackageTooLate"
         components={{
           installLink: <Link external href="https://ibm.biz/install-nodejs-pkg" />,
-          pitfallsLink: <Link external href="https://ibm.biz/nodejs-common-pitfalls" />
+          pitfallsLink: <Link external href="https://ibm.biz/nodejs-review-common-installation-considerations" />
         }}
       />
     </DashboardNotification>

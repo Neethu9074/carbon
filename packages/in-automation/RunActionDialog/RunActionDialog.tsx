@@ -36,9 +36,16 @@ import RunActionContent, {
   TRIGGERING_HOST_IP,
   TRIGGERING_HOST_IP_OPTION
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
+import {
+  runActionTracker,
+  testActionTracker,
+  testAIGenaratedActionTracker,
+  useSegmentTracker,
+  TrackingFunction
+} from 'in-automation/tracker';
 import { ResolvedDynamicParamValue, resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
-import { runActionTracker, testActionTracker, testAIGenaratedActionTracker } from 'in-automation/tracker';
-import useNavigateToActionHistory from 'in-automation/RunActionDialog/useNavigateToActionHistory';
+import { isManual as isManualPolicy, isAutomatic as isAutomaticPolicy } from 'in-automation/Policies/types';
+import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from 'in-types';
 import { refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
@@ -99,6 +106,7 @@ export default function RunActionDialog({
     policy,
     executePolicy
   });
+  const { runActionTrackerSegment, testActionTrackerSegment } = useSegmentTracker();
   return (
     <Dialog
       className={locals.dialog}
@@ -136,20 +144,24 @@ export default function RunActionDialog({
               form={form}
               setActiveKey={setActiveKey}
               onSave={() =>
-                onSave({
-                  form,
-                  setForm,
-                  setIsSaving,
-                  action,
-                  agentSnapShots,
-                  setError,
-                  setActionInstanceId,
-                  event,
-                  policy,
-                  handleSave,
-                  executePolicy,
-                  test
-                })
+                onSave(
+                  {
+                    form,
+                    setForm,
+                    setIsSaving,
+                    action,
+                    agentSnapShots,
+                    setError,
+                    setActionInstanceId,
+                    event,
+                    policy,
+                    handleSave,
+                    executePolicy,
+                    test
+                  },
+                  runActionTrackerSegment,
+                  testActionTrackerSegment
+                )
               }
             />
           )}
@@ -300,20 +312,24 @@ interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   test?: boolean;
 }
 
-function onSave({
-  form,
-  setForm,
-  setIsSaving,
-  action,
-  agentSnapShots,
-  setError,
-  setActionInstanceId,
-  event,
-  policy,
-  handleSave,
-  executePolicy,
-  test
-}: OnSaveParams) {
+function onSave(
+  {
+    form,
+    setForm,
+    setIsSaving,
+    action,
+    agentSnapShots,
+    setError,
+    setActionInstanceId,
+    event,
+    policy,
+    handleSave,
+    executePolicy,
+    test
+  }: OnSaveParams,
+  runActionTrackerSegment: TrackingFunction,
+  testActionTrackerSegment: TrackingFunction
+) {
   // when user have single turbonomic agent we just show it as static text and run action. we do not have any form.valid case in that scenario.
   // when user have multiple turbonomic agents, we show dropdown with agents and, we have to execute below code in that scenario.
   if (!form?.hierarchyValid && !(isExternal(action.type) && agentSnapShots?.data?.online.length === 1)) {
@@ -321,25 +337,6 @@ function onSave({
     return;
   }
   setIsSaving(true);
-  if (test) {
-    if (isAIAction(action) || isAIActionCopy(action)) {
-      testAIGenaratedActionTracker({
-        actionType: action.type,
-        actionName: action.name
-      });
-    } else {
-      testActionTracker({
-        actionType: action.type,
-        actionName: action.name
-      });
-    }
-  } else {
-    runActionTracker({
-      actionType: action.type,
-      actionName: action.name,
-      aIGeneratedAction: isAIAction(action) || isAIActionCopy(action)
-    });
-  }
 
   const targetAgent = form?.get('targetAgent') as Field<string>;
   const parameters = form?.get('parameters') as MapForm<any>;
@@ -426,6 +423,8 @@ function onSave({
   };
   const timeout = getTimeoutFromFields(action.fields).value;
 
+  // If 'policy' exists then this dialog is being used to edit the action configuration for a policy.
+  // An action is not being run, but rather the action configuration is being saved.
   if (policy) {
     if (isEmpty(selectedVolatileId) && targetAgent.value !== '') {
       // @ts-expect-error
@@ -435,6 +434,8 @@ function onSave({
       hostsLimit.value && hostsLimit.value.length > 0 ? [...allInputParameters, hostsLimit] : allInputParameters;
     return handleSave?.(params, selectedVolatileId);
   }
+
+  // Run the action
   if (
     isScript(action.type) ||
     isGithub(action.type) ||
@@ -478,6 +479,54 @@ function onSave({
       policyId: executePolicyId
     }).once(handleActionResponse);
   }
+
+  // Track an action was either tested or run
+  if (test) {
+    testActionTrackerSegment({
+      actionName: action.name,
+      actionType: action.type,
+      aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+    });
+
+    if (isAIAction(action) || isAIActionCopy(action)) {
+      testAIGenaratedActionTracker({
+        actionType: action.type,
+        actionName: action.name
+      });
+    } else {
+      testActionTracker({
+        actionType: action.type,
+        actionName: action.name
+      });
+    }
+  } else {
+    // Set policyType when running an action via a policy
+    let policyType;
+    if (executePolicy) {
+      policyType =
+        isManualPolicy(executePolicy) && isAutomaticPolicy(executePolicy)
+          ? 'both'
+          : isManualPolicy(executePolicy)
+          ? 'manual'
+          : 'automatic';
+    } else {
+      policyType = '';
+    }
+
+    runActionTrackerSegment({
+      actionName: action.name,
+      actionType: action.type,
+      policyName: executePolicy?.name ?? '',
+      policyType,
+      aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+    });
+
+    runActionTracker({
+      actionType: action.type,
+      actionName: action.name,
+      aIGeneratedAction: isAIAction(action) || isAIActionCopy(action)
+    });
+  }
 }
 
 interface RunActionFooterProps {
@@ -507,7 +556,13 @@ function RunActionFooter({
   if (error || actionInstanceId) {
     return (
       <>
-        <CancelButton isSaving={isSaving} onClick={close}>
+        <CancelButton
+          isSaving={isSaving}
+          onClick={() => {
+            close();
+            refreshHistory();
+          }}
+        >
           {t('in-automation:close')}
         </CancelButton>
         <Button

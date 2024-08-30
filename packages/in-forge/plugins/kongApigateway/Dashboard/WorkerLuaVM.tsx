@@ -48,12 +48,18 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.kongApigateway.allocatedBytes'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: LatencyRow) {
-        return row.latency.get('bytes');
+      getSnapshotId(row: LatencyRow) {
+        return row.snapshotId;
       },
-      getContent: bytesTwoDecimalPlaces
+      getMetricName(row: LatencyRow) {
+        return `memoryWorkersLuaVmsBytes.${row.key}.bytes`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
 ];

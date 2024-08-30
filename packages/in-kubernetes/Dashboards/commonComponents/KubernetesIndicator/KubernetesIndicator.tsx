@@ -39,5 +39,11 @@ export default function KubernetesIndicator({ result }: Props) {
     clusterDistribution
   });
 
+  const hasIconTypeAndLabel = iconType && entityLabel;
+
+  if (!hasIconTypeAndLabel) {
+    return null;
+  }
+
   return <EntityWithTypeAndIcon iconType={iconType} label={entityLabel} />;
 }

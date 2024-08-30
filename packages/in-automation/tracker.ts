@@ -31,6 +31,8 @@ import {
   AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION,
   AUTOMATION_ACTION_HISTORY_INSTANCE_DELETE
 } from 'in-services/tracking/tracking';
+import { CREATED_OBJECT, STARTED_PROCESS, UPDATED_OBJECT } from 'in-services/util/constants';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 
 export const runActionTracker = (e: Object) => track(AUTOMATION_ACTION_RUN, e);
 export const createActionTracker = (e: Object) => track(AUTOMATION_ACTION_CREATE, e);
@@ -61,3 +63,78 @@ export const clickTestAIGenaratedActionTracker = (e: object) => track(AUTOMATION
 //turbo trackers
 export const clickTurboLinkForDetailsTracker = (e: Object) => track(AUTOMATION_CLICK_TURBO_LINK_FOR_DETAILS, e);
 export const viewTurboActionTracker = (e: Object) => track(AUTOMATION_VIEW_TURBO_ACTION, e);
+
+// Segment trackers
+export type TrackingFunction = (optionalPayloadData?: Object) => void;
+export function useSegmentTracker(): {
+  createActionTrackerSegment: TrackingFunction;
+  editActionTrackerSegment: TrackingFunction;
+  runActionTrackerSegment: TrackingFunction;
+  testActionTrackerSegment: TrackingFunction;
+  createPolicyTrackerSegment: TrackingFunction;
+  editPolicyTrackerSegment: TrackingFunction;
+  actionHistoryTrackerSegment: TrackingFunction;
+  actionHistoryInstanceViewTrackerSegment: TrackingFunction;
+  aiGenaratedActionsTabClickTrackerSegment: TrackingFunction;
+  viewAIGenaratedActionTrackerSegment: TrackingFunction;
+  recommendedActionsTabClickTrackerSegment: TrackingFunction;
+} {
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
+
+  function createActionTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(CREATED_OBJECT, { objectType: AUTOMATION_ACTION_CREATE }, customData);
+  }
+
+  function editActionTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(UPDATED_OBJECT, { objectType: AUTOMATION_ACTION_EDIT }, customData);
+  }
+
+  function runActionTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(STARTED_PROCESS, { processType: AUTOMATION_ACTION_RUN }, customData);
+  }
+
+  function testActionTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(STARTED_PROCESS, { processType: AUTOMATION_TEST_ACTION_RUN }, customData);
+  }
+
+  function createPolicyTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(CREATED_OBJECT, { objectType: AUTOMATION_POLICY_CREATE }, customData);
+  }
+
+  function editPolicyTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(UPDATED_OBJECT, { objectType: AUTOMATION_POLICY_EDIT }, customData);
+  }
+
+  function actionHistoryTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_ACTION_HISTORY_VIEW, customData);
+  }
+  function actionHistoryInstanceViewTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW, customData);
+  }
+
+  function aiGenaratedActionsTabClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_CLICK_AI_GENERATED_ACTIONS_TAB, customData);
+  }
+
+  function viewAIGenaratedActionTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_VIEW_AI_GENERATED_ACTION, customData);
+  }
+
+  function recommendedActionsTabClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK, customData);
+  }
+
+  return {
+    createActionTrackerSegment,
+    editActionTrackerSegment,
+    runActionTrackerSegment,
+    testActionTrackerSegment,
+    createPolicyTrackerSegment,
+    editPolicyTrackerSegment,
+    actionHistoryTrackerSegment,
+    actionHistoryInstanceViewTrackerSegment,
+    aiGenaratedActionsTabClickTrackerSegment,
+    viewAIGenaratedActionTrackerSegment,
+    recommendedActionsTabClickTrackerSegment
+  };
+}

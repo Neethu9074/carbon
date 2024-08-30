@@ -58,6 +58,7 @@ export default function UsageChart({ windowSize, timeRange, to, showAggregatedMe
           type: 'TIME_SERIES',
           granularity: getGranularity(windowSize)
         }}
+        bulkRequest
       />
     </UsageTimeConfigContextModification>
   );

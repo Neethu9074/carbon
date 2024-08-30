@@ -5,12 +5,13 @@
 
 import React from 'react';
 
-import { ButtonGroup, SearchInput } from '@instana/components';
+import { ButtonGroup, SearchInput, Pagination as CarbonPagination } from '@instana/components';
 import { Card } from '@instana/components';
 
 import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';
 import { createStore } from 'in-sdk/components/dashboard/Table/stores/content';
 import Row from 'in-sdk/components/dashboard/Table/components/Row';
+import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { shallowEquals } from 'in-services/util/object';
 import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
@@ -197,15 +198,26 @@ export default class Table extends React.Component {
             <tbody>{rows}</tbody>
           </table>
           {showPagination ? (
-            <div className={locals.paginationWrapper}>
-              <Pagination
-                onChange={newPage => this.store.setPage(newPage - 1)}
-                currentPage={(data.page || 0) + 1}
-                numPages={data.pageCount}
-              />
-            </div>
+            carbonPaginationEnabled ? (
+              <>
+                <CarbonPagination
+                  currentPage={(data.page || 0) + 1}
+                  totalItems={this.props.rows?.length}
+                  pageSize={this.props.maxItemsPerPage ?? 10}
+                  pageSizes={[this.props.maxItemsPerPage ?? 10]}
+                  onChange={p => this.store.setPage(p.page - 1)}
+                />
+              </>
+            ) : (
+              <div className={locals.paginationWrapper}>
+                <Pagination
+                  onChange={newPage => this.store.setPage(newPage - 1)}
+                  currentPage={(data.page || 0) + 1}
+                  numPages={data.pageCount}
+                />
+              </div>
+            )
           ) : null}
-
           {this.props.bottomContent ? <div className={locals.bottomContent}>{this.props.bottomContent}</div> : null}
         </Card>
       </div>

@@ -18,6 +18,7 @@ const defaultValue = {
     permissions: [],
     websiteIds: [],
     businessPerspectiveIds: [],
+    syntheticCredentialKeys: [],
     syntheticTestIds: []
   }
 };

@@ -7,8 +7,6 @@
 import { createField, createMapForm } from 'formalistic';
 import { useEffect, useState } from 'react';
 
-import { generateUniqueShortId } from '@instana/utils';
-
 import {
   AUTOMATIC,
   ApplyOn,
@@ -52,7 +50,7 @@ function parsePolicy(policy: PolicyFormEntity) {
     applyOn: typeConfiguration?.condition?.query ? scopeDfq : scopeAll,
     query: typeConfiguration?.condition?.query ?? '',
     inputParameterValues: typeConfiguration.runnable.runConfiguration.actions[0].inputParameterValues ?? [],
-    tags: policy.tags?.map(tag => ({ value: tag, id: generateUniqueShortId() })) ?? []
+    tags: policy.tags ?? []
   };
 }
 
@@ -60,7 +58,7 @@ export function getPolicyFromForm(form: PolicyForm) {
   const policySpecification: NewPolicy = {
     name: form.get('name').value,
     description: form.get('description').value,
-    tags: form.get('tags').value.map(tag => tag.value),
+    tags: form.get('tags').value,
     trigger: {
       type: form.get('triggerType').value,
       id: form.get('triggerId').value
@@ -123,19 +121,7 @@ function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[],
         validator: notBlankValidator
       }),
       tags: createField({
-        value: tags,
-        validator: tags => {
-          const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || tag.value === '', false);
-          if (hasBlankTags) {
-            return [
-              {
-                severity: 'error',
-                message: t('in-automation:theValueMustNotBeBlank')
-              }
-            ];
-          }
-          return null;
-        }
+        value: tags
       }),
 
       action: createMapForm({

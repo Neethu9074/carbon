@@ -19,6 +19,7 @@ import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/ale
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrapper';
+import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { zeroFillAndClipMetric } from 'in-alerting/components/Chart/chartUtils';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
@@ -132,14 +133,12 @@ export function getY1(
   threshold,
   eventBasedAdaptiveBaseline,
   viewConfig,
-  displayPredictions = false
+  displayPredictions = false,
+  thresholdColor = carbonAlert.red60
 ) {
-  let chartColors = [carbonCategorical.cyan50, carbonAlert.red60];
-
+  let chartColors = [carbonCategorical.cyan50, thresholdColor];
   let metricIds = [metricName, 'threshold'];
-
-  let legendColors = [carbonCategorical.cyan50, carbonAlert.red60, getColorWithTransparency(carbonAlert.red60).c50];
-
+  let legendColors = [carbonCategorical.cyan50, thresholdColor, getColorWithTransparency(thresholdColor).c50];
   let iconTypes = ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_actions_stop', 'lib_actions_stop'];
 
   let excludedLabelsFromLegend = [];
@@ -219,6 +218,73 @@ export function getY1(
       sensitivity: threshold.deviationFactor,
       fromTime
     });
+  }
+}
+
+export function getY1ForMultiThreshold(
+  metricName,
+  metricLabel,
+  formatter,
+  renderer,
+  granularity,
+  operator,
+  warningThreshold,
+  criticalThreshold
+) {
+  let metricIds = [metricName];
+  let chartColors = [carbonCategorical.cyan50];
+  let legendColors = [carbonCategorical.cyan50];
+  let iconTypes = ['lib_legend_line_chart'];
+  let labels = [metricLabel];
+
+  if (!isEmpty(warningThreshold)) {
+    metricIds.push('warningThreshold');
+    chartColors.push(carbonCategorical.yellow50);
+    labels.push(t('in-alerting:components.chart.alertingChartLabelWarningThreshold'));
+    iconTypes.push('lib_legend_threshold');
+    legendColors.push(carbonCategorical.yellow50);
+  }
+
+  if (!isEmpty(criticalThreshold)) {
+    metricIds.push('criticalThreshold');
+    chartColors.push(carbonCategorical.red50);
+    labels.push(t('in-alerting:components.chart.alertingChartLabelCriticalThreshold'));
+    iconTypes.push('lib_legend_threshold');
+    legendColors.push(carbonCategorical.red50);
+  }
+
+  return {
+    colors: chartColors,
+    metricIds: metricIds,
+    nonToggleableSeries: new Map([
+      [metricName, null],
+      ['warningThreshold', null],
+      ['criticalThreshold', null]
+    ]),
+    labels,
+    excludedLabelsFromLegend: [],
+    tooltipFormatter: value => {
+      return value < 0 || value === null ? valueMissingPlaceholder : formatter.detailed(value);
+    },
+    formatter: value => formatter.detailed(value),
+    renderer,
+    icons: {
+      types: iconTypes,
+      colors: legendColors
+    },
+    thresholdGranularity: granularity,
+    lineWidth: 1.75,
+
+    // used as additional data:
+    operator: operator,
+    warningThresholdValue: warningThreshold,
+    criticalThresholdValue: criticalThreshold,
+    getMax: computeMax
+  };
+
+  function computeMax(metricsMaxValue) {
+    const maxThresholdValue = Math.max(warningThreshold ?? 0, criticalThreshold ?? 0);
+    return maxThresholdValue >= metricsMaxValue ? Math.max(metricsMaxValue, maxThresholdValue * 1.2) : metricsMaxValue;
   }
 }
 

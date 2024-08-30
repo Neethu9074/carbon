@@ -1,0 +1,61 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import React from 'react';
+
+import { Stack } from '@instana/components';
+import { t } from '@instana/i18n-react';
+
+// @ts-expect-error no declaration file
+import { showReleaseNotes } from 'in-stores/releaseNotes';
+import { QuickLinkButton } from 'in-plg/pages/WelcomePage/quickLinks/QuickLinkButton';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { playwithEnabled } from 'in-services/featureFlags';
+import { role } from 'in-stores/user';
+
+import locals from 'in-plg/pages/WelcomePage/quickLinks/QuickLinks.mless';
+
+export const QuickLinks = () => {
+  const { createHrefToPath } = useNavigation();
+  return (
+    <div className={locals.quickLinksWrapperStyle}>
+      <Stack gap="disabled" direction="horizontal">
+        {!playwithEnabled && role?.canConfigureAgents && (
+          <QuickLinkButton
+            icon="lib_actions_settings"
+            iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.settings')}
+            buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.deployAgent')}
+            href={createHrefToPath('/agents/installation')}
+          />
+        )}
+        {!playwithEnabled && role?.canConfigureUsers && (
+          <QuickLinkButton
+            icon="lib_actions_user"
+            iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.user')}
+            buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.addUser')}
+            href={createHrefToPath('/config/team/accessControl/users')}
+          />
+        )}
+        <QuickLinkButton
+          icon="lib_views_external_link"
+          iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.externalLink')}
+          buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.documentation')}
+          onClick={() => {
+            window.open('https://www.ibm.com/docs/en/obi/current', '_blank', 'noreferrer');
+          }}
+        />
+        <QuickLinkButton
+          icon="lib_actions_result_new"
+          iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.resultNew')}
+          buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.releaseNotes')}
+          onClick={() => {
+            showReleaseNotes();
+          }}
+        />
+      </Stack>
+    </div>
+  );
+};

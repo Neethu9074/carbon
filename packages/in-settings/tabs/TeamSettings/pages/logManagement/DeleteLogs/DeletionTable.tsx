@@ -6,15 +6,22 @@
 
 import React from 'react';
 
+import {
+  LoadingSkeleton,
+  SvgIcon,
+  Typography,
+  TableSkeleton as CarbonTableSkeleton,
+  DataTable as CarbonDataTable
+} from '@instana/components';
 import { Table, TableLoadingSkeletonRows, Tbody, Td, Th, Thead, Tr } from '@instana/legacy';
 import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result } from '@instana/types';
-import { LoadingSkeleton, SvgIcon, Typography } from '@instana/components';
 import { formatDate } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
 
 import getDeleteLogsHistory from 'in-logging/subscriptions/getDeleteLogsHistory';
 import { siPrefixCompact } from 'in-stores/metric/formatters';
 import { hasError, isLoading } from 'in-services/util/result';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
@@ -41,12 +48,98 @@ export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
     failed: t('in-settings:tabs.deleteLogs.failed'),
     inProgress: t('in-settings:tabs.deleteLogs.inProgress')
   };
+
+  if (carbonTableEnabled) {
+    let carbonRows = [];
+    let carbonHeaders: Array<{ key: string; header: string }>;
+
+    const getCarbonDataRows = () => {
+      carbonRows = deletionHistoryResult.data?.deletions
+        .slice()
+        .sort((a: DeleteLogsHistoryItem, b: DeleteLogsHistoryItem) => b.timestamp - a.timestamp)
+        .map((item: DeleteLogsHistoryItem, i: number) => ({
+          id: i,
+          [localisationStrings.deletionDate]: timestampToLocaleDate(item.timestamp),
+          [localisationStrings.reason]: item.reason,
+          [localisationStrings.numberOfLogs]:
+            item.deletedLineCount !== null ? (
+              siPrefixCompact.formatter(item.deletedLineCount)
+            ) : (
+              <LoadingSkeleton className={locals.skeleton} />
+            ),
+          [localisationStrings.triggered]: item.triggeredByUser
+        }));
+      return carbonRows;
+    };
+
+    carbonHeaders = [
+      {
+        key: localisationStrings.deletionDate,
+        header: localisationStrings.deletionDate
+      },
+      {
+        key: localisationStrings.reason,
+        header: localisationStrings.reason
+      },
+      {
+        key: localisationStrings.numberOfLogs,
+        header: localisationStrings.numberOfLogs
+      },
+      {
+        key: localisationStrings.triggered,
+        header: localisationStrings.triggered
+      }
+    ];
+
+    if (deletionHistoryResult.data) carbonRows = getCarbonDataRows();
+
+    return (
+      <section>
+        <Typography variant={'heading-200'}>{localisationStrings.summary}</Typography>
+        {/* render skeleton table */}
+        {isLoading(deletionHistoryResult) && (
+          <CarbonTableSkeleton headers={carbonHeaders} columnCount={4} rowCount={3} />
+        )}
+        {/* render data table */}
+        {deletionHistoryResult.data && (
+          <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+        )}
+        {/* render noData table */}
+        {deletionHistoryResult.data?.deletions.length === 0 && (
+          <div className={locals.emptyTable}>
+            <CarbonDataTable headers={carbonHeaders} rows={[]} />
+            <section className={locals.stateContainer}>
+              <div data-testid="deletionTableEmpty" className={locals.emptyState}>
+                <SvgIcon type={'lib_help_error_info_outline'} size="xxxl" />
+                <Typography variant={'body-bold'}>{localisationStrings.noData}</Typography>
+                <Typography variant={'body-regular'}>{localisationStrings.noDataInfo}</Typography>
+              </div>
+            </section>
+          </div>
+        )}
+        {/* render errorInfo table */}
+        {hasError(deletionHistoryResult) && (
+          <div className={locals.emptyTable}>
+            <CarbonDataTable headers={carbonHeaders} rows={[]} />
+            <section className={locals.stateContainer}>
+              <div data-testid={'deletionTableErrorMessage'} className={locals.emptyState}>
+                <SvgIcon type={'lib_help_error_error_circle'} size="xxxl" />
+                <Typography variant={'body-bold'}>{localisationStrings.wrong}</Typography>
+                <Typography variant={'body-regular'}>{localisationStrings.errorInfo}</Typography>
+              </div>
+            </section>
+          </div>
+        )}
+      </section>
+    );
+  }
+
   const getDataRows = () => {
     return deletionHistoryResult.data?.deletions
       .slice()
       .sort((a: DeleteLogsHistoryItem, b: DeleteLogsHistoryItem) => b.timestamp - a.timestamp)
       .map((item: DeleteLogsHistoryItem, i: number) => (
-        <Tr key={i}>
+        <Tr data-testid="deleteLogsHistoryRow" key={i}>
           <Td>{timestampToLocaleDate(item.timestamp)}</Td>
           <Td>{item.reason}</Td>
           <Td>
@@ -60,6 +153,7 @@ export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
         </Tr>
       ));
   };
+
   return (
     <section>
       <Typography variant={'heading-200'}>{localisationStrings.summary}</Typography>

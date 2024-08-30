@@ -10,20 +10,26 @@
   "buyNowDialog": {
     "title": "Faturamento flexível baseado em seu uso",
     "cancelbtn": "Cancelar",
-    "subHeadingPart1": "Agora, com a opção PayPerUse, você só será",
-    "subHeadingPart2": "cobrado pelo que você usa.",
+    "subHeading": "Agora, com a opção PayPerUse, você só será cobrado pelo que usar.",
     "sidePanelTitle": "Ainda não tem certeza se você quer uma assinatura?",
-    "sidePanelDescription": "Estamos aqui para ajudá-lo a encontrar a opção perfeita para você.",
-    "mainBodyTitle1": "Introdução ao PayPerUse",
+    "sidePanelDescription": "Estamos aqui para ajudar a encontrar a opção perfeita para você.",
+    "mainBodyTitle1": "Automação, contexto e ação inteligente com o IBM Instana Observability",
     "mainBodyDescription1": "Nossa granularidade de um segundo líder do setor e nosso rastreamento de solicitação abrangente garantem que nenhum problema escape à detecção. Obtenha visibilidade de pilha completa no código do aplicativo, contêineres do Kubernetes, microsserviços com painéis fáceis e simples e SmartAlerts™ para alertas customizados. Perfeitamente integrado à AWS, o Instana suporta mais de 300 tecnologias, fornecendo monitoramento de desempenho sem preocupações para aplicativos conteinerizados no Amazon AWS.",
-    "mainBodyTitle2": "Informações de precificação do IBM Instana Observability PayPerUse",
-    "mainBodyDescription2": "Projetadas para oferecer flexibilidade, nossas camadas do PayPerUse fornecem a função de que você precisa no preço que sua empresa pode suportar. Selecione entre as opções Standard ou Essential que oferecem os recursos do produto necessários.",
-    "listTitle1": "Unidades",
-    "listTitle2": "Custo",
-    "listUnit1": "Full Observability com Infrastructure Monitoring + Tracing + EUM + Synthetics inclusos",
-    "listUnit2": "Apenas Infrastructure Monitoring",
-    "listCost1": "$0,12 / unidade",
-    "listCost2": "$0,03 / unidade"
+    "mainBodyTitle2": "Introdução ao PayPerUse",
+    "mainBodyDescription2": "Projetadas para oferecer flexibilidade, nossas camadas PayPerUse oferecem função e valor com opções Standard e Essential para atender às necessidades dos seus negócios. Você será cobrado no final de cada mês com base no uso.",
+    "listTitle1": "Pacote",
+    "listTitle2": "Descrição",
+    "listTitle3": "Preço",
+    "listUnit1": "Hora do Standard MVS†",
+    "listUnit2": "Hora do Essential MVS† ",
+    "listDescription1": "Full Observability com Infrastructure Monitoring + Tracing + EUM + Synthetics inclusos",
+    "listDescription2": "Apenas Infrastructure Monitoring",
+    "listCost1": "$0.12",
+    "listCost2": "$0.03",
+    "learnMore": "Saiba mais na ",
+    "serviceDescription": "Descrição do Serviço.",
+    "mvs": "†Managed Virtual Server (MVS) é uma unidade de medida pela qual o Instana pode ser licenciado. Saiba mais sobre o MVS ",
+    "here": "aqui."
   },
   "licenseBanner": {
     "requestQuoteBtn": "Solicitar uma cotação",
@@ -78,6 +84,7 @@
       "step5": "Etapa 5: ",
       "download": "Download",
       "clusterName": "Nome do cluster",
+      "applicationRuntime": "Tempo de execução do aplicativo",
       "agentZoneOptional": "Zona do agente (opcional)",
       "networkRequirements": "Requisitos de rede",
       "toInstallAndRunAnAgentCompleteTheFollowingSteps": "Para instalar e executar um agente, conclua as etapas a seguir.",
@@ -287,8 +294,7 @@
       "vmwareTanzuNetworkLink": "Link de rede do VMware Tanzu",
       "reviewThePrerequisites": "Revisar os pré-requisitos",
       "installingTheInstanaAgent": "Instalando o agente Instana",
-      "vmwareTanzuDocumentation": "Documentação do VMware Tanzu",
-      "vmwareTanzuNetwork": "Rede do VMware Tanzu",
+      "installingAndConfiguringMicroservicesApplicationsMonitoring": "Instalação e configuração do monitoramento de aplicativos de microsserviços",
       "addTileToOpsManagerAndConfigureIt": "Inclua o ladrilho no Ops Manager e configure-o",
       "addInstanaApplicationMonitoring": "Inclua o ladrilho \"Instana Microservices Application Monitoring\" em seu Ops Manager e aplique o seguinte à guia \"Configuração de backend\" do ladrilho.",
       "nameYourVmwareFoundation": "Nomeie sua base do VMware Tanzu",
@@ -357,6 +363,7 @@
           "linux64BitAmd": "Linux (64 Bits - AMD)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
           "linux64BitPowerPcLittleEndian": "Linux (64 bits - PowerPC Little Endian)",
+          "linuxS390XJdkNotIncluded": "Linux (64Bit - s390x) JDK não incluído",
           "linuxS390X": "Linux (64Bit - s390x)",
           "linuxX8664": "Linux (64Bit - x86_64)",
           "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
@@ -424,7 +431,13 @@
     },
     "azure": {
       "installingAgentOnAks": "Instalando um agente em Aks",
-      "configureAfterInstall": "Configurando o agente após a instalação"
+      "configureAfterInstall": "Configurando o agente após a instalação",
+      "referenceToAzureContainerAppsDocumentation": "O aplicativo Go implantado no Azure Container Apps precisa ser instrumentado manualmente para coletar dados de rastreio. Siga as instruções da documentação do <azureContainerAppsDoc>Azure Container Apps Go</azureContainerAppsDoc>.",
+      "selectAzureContainerAppsRuntime": "Selecione Tempo de execução do Azure Container Apps",
+      "reviewPrerequisitesAndConfigureContainerApps": "Revise os pré-requisitos e configure seu Azure Container Apps para rastreio.",
+      "containerAppSetEnvironmentVariables": "Configure as variáveis de ambiente a seguir ao criar um Azure Container App.",
+      "monitoringAzure": "Monitoramento e instrumentação do Microsoft Azure com o agente Azure",
+      "monitoringAzureContainerApps": "Monitoramento do Azure Container Apps"
     },
     "gcp": {
       "dockerBuild": "Construção do Docker",
@@ -452,9 +465,12 @@
     "heading": "Bem-vindo ao Instana",
     "foldableTileTitle": "Vamos começar.",
     "viewAll": "Visualizar todos",
-    "search": "Procura",
-    "addMore": "Incluir",
     "UrlShortener": "Encurtador de URL",
+    "addMore": "Incluir",
+    "collapsibleButton": {
+      "showOnboardingTasks": "Mostrar tarefas de integração",
+      "hideOnboardingTasks": "Ocultar tarefas de integração"
+    },
     "startIntegrating": {
       "title": "Iniciar integração de dados",
       "description": "Inicie a configuração do Instana e a integração de dados sem interrupções instalando um agente.",
@@ -498,20 +514,24 @@
     "component": {
       "applicationWidget": {
         "label": "Aplicativos",
-        "addLabel": "Incluir aplicativo",
         "name": "Nome",
         "calls": "Chamadas",
+        "scope": "Escopo",
         "latency": "Latência",
         "erroneousCallRate": "Taxa de chamada errônea",
         "openCreationDialog": "Abrir diálogo de criação",
-        "health": "Funcionamento"
+        "health": "Funcionamento",
+        "searchPlaceholderLabel": "aplicativos",
+        "addButtonLabel": "aplicativo",
+        "viewAllLabel": "aplicativos"
       },
       "eventWidget": {
         "label": "Eventos",
+        "viewAllLabel": "eventos",
         "incidents": "Incidentes",
         "critical": "Crítico",
         "warning": "Aviso",
-        "viewEvents": "Eventos de visualização"
+        "viewEvents": "Visualizar eventos"
       },
       "platformWidget": {
         "platforms": "Plataformas",
@@ -531,14 +551,27 @@
         "namespaces": "Namespaces",
         "pods": "Pods",
         "health": "Funcionamento",
-        "platform": "Plataforma"
+        "vMs": "MVs",
+        "systems": "Systems",
+        "instances": "Instâncias",
+        "partitions": "Partições",
+        "memoryLimit": "Limite de memória",
+        "adapters": "Adaptadores",
+        "vios": "Virtual I/O Server",
+        "memoryUsage": "Uso de memória",
+        "cpuUsage": "Uso de CPU",
+        "esXiHosts": "Host ESXi",
+        "searchPlaceholderLabel": "Plataformas",
+        "viewAllLabel": "Plataformas"
       },
       "bizopsWidget": {
         "label": "Monitoramento de negócios",
         "name": "Nome",
         "activities": "Atividades",
-        "count": "Contagem",
-        "health": "Funcionamento"
+        "views": "Visualizações",
+        "health": "Funcionamento",
+        "searchPlaceholderLabel": "processos de negócios",
+        "viewAllLabel": "processos de negócios"
       },
       "incidentsWidget": {
         "label": "Incidentes",
@@ -547,55 +580,79 @@
         "on": "ON",
         "started": "Iniciado",
         "end": "Terminar",
-        "health": "Status"
+        "health": "Status",
+        "searchPlaceholderLabel": "incidentes",
+        "viewAllLabel": "incidentes"
       },
       "websitesWidget": {
         "label": "Websites",
         "name": "Nome",
         "pageViews": "Visualizações de página",
         "onLoadTimes": "OnLoad vezes",
-        "addLabel": "Incluir website",
-        "health": "Funcionamento"
+        "health": "Funcionamento",
+        "searchPlaceholderLabel": "websites",
+        "addButtonLabel": "website",
+        "viewAllLabel": "websites"
       },
       "mobileAppsWidget": {
-        "label": "Aplicativos móveis",
+        "label": "Apps móveis",
         "name": "Nome",
         "sessions": "Sessões",
         "views": "Visualizações",
-        "addLabel": "Incluir app móvel",
-        "health": "Funcionamento"
+        "health": "Funcionamento",
+        "searchPlaceholderLabel": "aplicativos móveis",
+        "addButtonLabel": "app móvel",
+        "viewAllLabel": "aplicativos móveis"
       },
       "infrastructureWidget": {
         "label": "Infraestrutura",
         "mean": "média",
         "name": "Nome",
         "os": "S.O.",
+        "zones": "Zones",
+        "hosts": "Hosts",
         "technologies": "Tecnologias",
         "cpuNum": "Número de CPUs",
         "cpuUsage": "Uso de CPU",
         "created": "Criado em",
         "started": "Iniciado",
-        "health": "Funcionamento"
+        "health": "Funcionamento",
+        "hostSearchPlaceholderLabel": "hosts",
+        "hostViewAllLabel": "hosts",
+        "containersSearchPlaceholderLabel": "contêineres",
+        "containersViewAllLabel": "contêineres",
+        "processesSearchPlaceholderLabel": "processos",
+        "processesViewAllLabel": "processos"
       },
       "syntheticWidget": {
         "label": "Monitoramento sintético",
-        "addLabel": "Incluir monitoramento sintético",
         "na": "N/D",
         "name": "Nome",
         "type": "Tipo",
-        "successRate": "Taxa de sucesso",
+        "successRate": "Pontuação de sucesso",
         "latency": "Latência",
         "lastTestRunOn": "Última execução de teste em",
         "version": "Versão",
         "timeThreshold": "Limite de tempo",
-        "testsApplied": "Testes aplicados"
+        "testsApplied": "Testes aplicados",
+        "health": "Funcionamento",
+        "testSearchPlaceholderLabel": "testes sintéticos",
+        "testAddButtonLabel": "teste sintético",
+        "testViewAllLabel": "testes sintéticos",
+        "locationsSearchPlaceholderLabel": "locais sintéticos",
+        "locationsViewAllLabel": "locais sintéticos",
+        "smartalertsSearchPlaceholderLabel": "Smart Alerts sintéticos",
+        "smartalertsAddButtonLabel": "Smart Alert sintético",
+        "smartalertsViewAllLabel": "Smart Alerts sintéticos"
       },
       "dashboardWidget": {
         "label": "Meus painéis customizados",
         "name": "Nome",
         "owner": "Proprietário",
         "permissions": "Permissões",
-        "addLabel": "Incluir painel"
+        "searchPlaceholderLabel": "painéis",
+        "addButtonLabel": "dashboard",
+        "viewAllLabel": "painéis"
       }
     },
     "noData": {
@@ -610,17 +667,26 @@
       },
       "websitesWidget": {
         "header": "Nenhum website",
-        "description": "Inclua websites e comece a coletar dados",
+        "description": "Colete dados do site para entender a experiência digital do usuário.",
         "buttonName": "Incluir website"
       },
       "mobileListWidget": {
         "header": "Nenhum aplicativo móvel",
-        "description": "Inclua aplicativos móveis e comece a coletar dados.",
+        "description": "Colete dados de aplicativos móveis para entender a experiência digital do usuário.",
         "buttonName": "Incluir aplicativos móveis"
       },
       "infrastructureWidget": {
-        "header": "Nenhum host, contêiner ou processo",
-        "description": "Localize o resultado do agente implementado aqui."
+        "description": "Implemente um agente para ver os detalhes aqui.<br>Comece na página <linkToAgents>Agentes</linkToAgents>.",
+        "link": "Agentes",
+        "hosts": {
+          "header": "Nenhum host"
+        },
+        "docker": {
+          "header": "Nenhum contêiner"
+        },
+        "process": {
+          "header": "Nenhum processo"
+        }
       },
       "platformsWidget": {
         "header": "Nenhuma plataforma",
@@ -628,7 +694,7 @@
       },
       "businessMonitoringWidget": {
         "header": "Nenhum processo de negócios",
-        "description": "Ative o IBM Business Automation Workflow ou configure o Instana para capturar e armazenar dados de negócios de processos de negócios."
+        "description": "Configure o Instana para capturar e armazenar dados de seus processos de negócios."
       },
       "syntheticWidget": {
         "test": {
@@ -638,18 +704,36 @@
         },
         "location": {
           "header": "Nenhum local sintético",
-          "description": "Configure o local sintético para executar em intervalos contínuos específicos."
+          "description": "Configure um local sintético onde seus testes sintéticos serão executados."
         },
         "smartalerts": {
-          "header": "Nenhum smartalert sintético",
-          "description": "Configure smartalerts sintéticos para executar em intervalos contínuos específicos.",
-          "buttonName": "Incluir smartalerts sintéticos"
+          "header": "Nenhum Smart Alert sintético",
+          "description": "Configure o Smart Alerts para sintéticos para enviar um alerta se o teste de um local falhar.",
+          "buttonName": "Incluir Smart Alerts sintéticos"
         }
+      },
+      "eventsWidget": {
+        "header": "Nenhum evento",
+        "description": "Talvez não haja eventos ou incidentes a serem exibidos ou talvez você precise configurar os dados primeiro."
       },
       "dashboardWidget": {
         "header": "Nenhum painel customizado",
         "description": "Crie seu próprio painel customizado.",
         "buttonName": "Criar painel customizado"
+      }
+    },
+    "quickLinks": {
+      "iconDescriptions": {
+        "settings": "Configurações",
+        "user": "Usuário",
+        "externalLink": "Link externo",
+        "resultNew": "Resultado novo"
+      },
+      "buttonNames": {
+        "deployAgent": "Implementar agente",
+        "addUser": "Incluir usuário",
+        "documentation": "Documentação IBM",
+        "releaseNotes": "Notas sobre a liberação"
       }
     },
     "ariaLabel": {
@@ -698,5 +782,13 @@
       "configuringAndMonitoring": "configurando e monitorando",
       "customDashboard": "painel customizado"
     }
+  },
+  "userGoalSelectionDialog": {
+    "title": "Quais são suas metas?",
+    "description": "Bem-vindo ao Instana! Ajude-nos a proporcionar uma experiência melhor, compartilhando suas principais metas para esta avaliação. Selecione todas as opções que se aplicam.",
+    "skip": "Ignorar",
+    "done": "Concluído",
+    "otherGoalPlaceholder": "Por exemplo, Ganhar visibilidade em meu ambiente",
+    "otherGoalToAccomplish": "Que outras metas você está tentando alcançar?"
   }
 }

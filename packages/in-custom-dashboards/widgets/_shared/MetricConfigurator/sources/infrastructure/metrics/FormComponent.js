@@ -7,12 +7,13 @@ import React, { useEffect, useState } from 'react';
 
 import { Spacer, Stack, Toggle } from '@instana/components';
 
-import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay';
 import {
   autoFormatterTimeSeriesEnabled,
   lastValueForNonTimeSeriesWidgetEnabled,
-  multiGroupTimeSeriesEnabled
+  multiGroupTimeSeriesEnabled,
+  unitForInfraMetricsEnabled
 } from 'in-services/featureFlags';
+import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import { regexValidationError } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
 import { formCallbacks } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/formStateManagement';
@@ -28,8 +29,11 @@ import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricCo
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
+import { unitPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { getUiMetricsValueByBackendType } from 'in-services/formatters/backendFormatter';
+import { getMetricUnitByBackendType, getUnitByFormatter } from 'in-stores/metric/units';
+import { defaultFormatter, getFormatterIdByFn } from 'in-stores/metric/formatters';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import QueryBuilder from 'in-infrastructure/Explore/components/QueryBuilder';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
@@ -39,7 +43,6 @@ import TypeAndMetricConfigurator from './TypeAndMetricConfigurator';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
-import { defaultFormatter } from 'in-stores/metric/formatters';
 import { getFormatterId } from 'in-stores/metric/formatters';
 import HelpAction from 'in-components/workspace/HelpAction';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
@@ -64,6 +67,7 @@ export default function FormComponent({
   thresholdConfiguration,
   withGrouping = true,
   withFiltering = true,
+  withUnit = false,
   type: baseType,
   isTypePrefilled = false,
   withAggregationInMetrics = true,
@@ -73,6 +77,7 @@ export default function FormComponent({
 }) {
   const typeField = form.get('type');
   const metricField = form.get('metric');
+  const unitField = form.get('unit');
   const aggregationField = form.get('aggregation');
   const crossSeriesAggregationField = form.get('crossSeriesAggregation');
   const allowedCrossSeriesAggregations = form.get('allowedCrossSeriesAggregations');
@@ -121,7 +126,8 @@ export default function FormComponent({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
     type: isTypePrefilled ? type : selectedType,
-    query: catalogQuery.debouncedValue
+    query: catalogQuery.debouncedValue,
+    withHierarchy: !isTypePrefilled
   });
 
   const kpiDefinitions = getKpiDefinitions(type);
@@ -130,6 +136,13 @@ export default function FormComponent({
   const uiMetricFormatter = formatterBackendType
     ? getUiMetricsValueByBackendType(formatterBackendType)
     : getFormatterId(metricMetadatas?.[metric]?.formatter);
+
+  const preSelectedUnit = unitForInfraMetricsEnabled
+    ? formatterBackendType
+      ? getMetricUnitByBackendType(formatterBackendType)
+      : getUnitByFormatter(getFormatterIdByFn(metricMetadatas?.[metric]?.formatter))
+    : undefined;
+
   const metricDefaultFormatter =
     isFormatterSelected || (metric && formatter !== defaultFormatter.id) ? formatter : uiMetricFormatter;
 
@@ -139,6 +152,7 @@ export default function FormComponent({
     setIsRegex,
     onRegexChange,
     setAggregation,
+    setUnit,
     setIsSumCrossSeriesAggregation,
     setIsLastValue,
     onTypeChange
@@ -182,6 +196,14 @@ export default function FormComponent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMultiGroup]);
 
+  // Update metric unit with pre-selected one
+  useEffect(() => {
+    if (preSelectedUnit) {
+      onChange([], form => form.updateIn([unitPath], field => field.setValue(preSelectedUnit?.id).setTouched(true)));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [preSelectedUnit, metricMetadatas]);
+
   const metricMetadata = {
     metric,
     label: metricLabelField?.value,
@@ -219,6 +241,10 @@ export default function FormComponent({
             onSelectType={onSelectType}
             backendQueryModel={backendQueryModel}
             SelectorOverlay={MetricSelectionCategoryOverlay}
+            withUnit={unitForInfraMetricsEnabled && withUnit}
+            onUnitChange={e => setUnit(e.target.value)}
+            preSelectedUnit={preSelectedUnit}
+            unitField={unitField}
           />
           <TouchedMessages field={metricField} />
           <ValidationMessages form={form} category={regexValidationError} />

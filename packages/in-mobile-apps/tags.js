@@ -77,7 +77,7 @@ export const defaultGroupings = {
     groupbyTag: 'mobileBeacon.customEvent.name'
   },
   crash: {
-    groupbyTag: 'mobileBeacon.crash.keyInformation'
+    groupbyTag: 'mobileBeacon.crash.groupLabel'
   }
 };
 
@@ -127,7 +127,7 @@ export const availableGroupingTags = {
     'mobileBeacon.error.message',
     'mobileBeacon.error.type',
     'mobileBeacon.stackTrace',
-    'mobileBeacon.crash.keyInformation'
+    'mobileBeacon.crash.groupLabel'
   ].sort()
 };
 

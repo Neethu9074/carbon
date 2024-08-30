@@ -6,8 +6,9 @@
 import { Field, MapForm, Item } from 'formalistic';
 import React, { ChangeEvent } from 'react';
 
-import { Result, SyntheticLocation } from '@instana/types/typeDefinitions';
 import { Li, Message, ScrollBox, Stack, Checkbox } from '@instana/components';
+import { Result, SyntheticLocation } from '@instana/types/typeDefinitions';
+import { FileInputButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -24,7 +25,6 @@ import BrowserSimpleTestSection from 'in-synthetics/createTests/wizard/BrowserSi
 import ApiSimpleTestSection from 'in-synthetics/createTests/wizard/ApiSimpleTestSection';
 import InlineTabNavigation from 'in-components/InlineTabNavigation/InlineTabNavigation';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import FileInputButton from 'in-components/form/FileInputButton/FileInputButton';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import Section, { SubTitle } from 'in-synthetics/createTests/wizard/Section';

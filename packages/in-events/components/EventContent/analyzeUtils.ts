@@ -4,14 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import {
-  TimeConfig,
-  WebsiteAlertConfig,
-  MobileAppAlertConfig,
-  ApplicationAlertConfig,
-  GlobalApplicationsAlertConfig
-} from 'in-types';
+import { GlobalApplicationsSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
+import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import { TimeConfig, WebsiteAlertConfig, MobileAppAlertConfig } from 'in-types';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { fixateTimeConfig } from 'in-stores/time/config';
 import { EventOrMap } from 'in-events/types';
@@ -19,8 +15,8 @@ import { EventOrMap } from 'in-events/types';
 type AnySmartAlertConfig =
   | WebsiteAlertConfig
   | MobileAppAlertConfig
-  | ApplicationAlertConfig
-  | GlobalApplicationsAlertConfig
+  | ApplicationSmartAlertConfig
+  | GlobalApplicationsSmartAlertConfig
   | InfraSmartAlertConfig;
 
 export function getSmartAlertAnalyzeTimeConfig(event: EventOrMap, alertConfig: AnySmartAlertConfig) {

@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';

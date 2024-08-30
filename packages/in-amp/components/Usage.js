@@ -29,12 +29,28 @@ export default function UsageWithAccountInfo() {
   );
 }
 
-function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedMetrics, hasSyntheticAddons }) {
+function Usage({
+  unitSelectorOptions,
+  getCurrentTenantOption,
+  canShowAggregatedMetrics,
+  hasSyntheticAddon,
+  hasLoggingAddon
+}) {
   const initialState =
     (canShowAggregatedMetrics ? aggregatedState : getCurrentTenantOption(unitSelectorOptions)?.value) ??
     aggregatedState;
-  const { windowSize, setWindowSize, tenantUnit, setTenantUnit, timeRange, setTimeRange, to, setTo } =
-    useAmpUrlInformation(initialState);
+  const {
+    windowSize,
+    setWindowSize,
+    tenantUnit,
+    setTenantUnit,
+    timeRange,
+    setTimeRange,
+    to,
+    setTo,
+    presentation,
+    setPresentation
+  } = useAmpUrlInformation(initialState);
 
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
   if (canShowAggregatedMetrics) {
@@ -55,6 +71,8 @@ function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedM
         timeRange={timeRange}
         setTimeRange={setTimeRange}
         setTo={setTo}
+        presentation={presentation}
+        setPresentation={setPresentation}
       />
 
       <UsageCharts
@@ -63,7 +81,9 @@ function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedM
         to={to}
         tenantUnit={tenantUnit}
         showAggregatedMetrics={showAggregatedMetrics}
-        hasSyntheticAddons={hasSyntheticAddons}
+        hasSyntheticAddon={hasSyntheticAddon}
+        hasLoggingAddon={hasLoggingAddon}
+        presentation={presentation}
       />
 
       <Row>

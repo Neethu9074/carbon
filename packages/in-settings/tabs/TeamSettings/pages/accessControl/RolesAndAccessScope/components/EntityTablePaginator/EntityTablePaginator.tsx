@@ -6,7 +6,7 @@
 
 import React, { MouseEvent } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { t } from 'in-i18n';
 

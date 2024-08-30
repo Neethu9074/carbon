@@ -50,7 +50,7 @@ export default function SimpleAlertConfigDialogChart({
   const thresholdType = form.get('threshold').get('type').value;
 
   return (
-    <Stack direction="vertical">
+    <Stack>
       <ChartViewConfigurator
         onChartViewConfigChange={onChartViewConfigChange}
         chartViewConfigs={chartViewConfigs}

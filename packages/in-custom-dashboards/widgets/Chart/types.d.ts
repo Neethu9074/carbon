@@ -37,6 +37,7 @@ type Axis = Partial<Pick<AxisConfiguration, AxisParams>> & {
   renderer?: string;
   colorMapper?: (id: string, label: string) => string | null;
   reverseOrder?: boolean;
+  formatterSelected?: boolean;
 };
 
 type MetricParams = 'metric' | 'source' | 'aggregation';
@@ -50,6 +51,7 @@ export interface Metric extends BaseMetric {
   metricLabel?: string;
   defaultDisabled?: boolean;
   grouping?: Grouping[];
+  unit?: string;
 
   // other properties may be sent to the backend
   [k: string]: any;
@@ -64,6 +66,7 @@ interface UnifiedMetricsChartProps extends BaseChartConfig {
   snapshotId?: string;
   hasActionlane?: boolean;
   hasButtonInActionslane?: boolean;
+  bulkRequest?: boolean;
   onApproximateDataChange?: (hasApproximateData: boolean) => void;
   onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
 }

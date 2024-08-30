@@ -13,9 +13,10 @@ import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation
 import { isViewWithRouteParam } from 'in-components/layout/SideNavigationAndContent/routing';
 import SidebarContainer from 'in-components/layout/SidebarContainer/SidebarContainer';
 import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
-import { getModifiedUrlStream, isView } from 'in-stores/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
+import { isView } from 'in-stores/navigation';
 import Footer from 'in-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -73,26 +74,29 @@ export default function SideNavigationAndContent(props) {
 }
 
 function SideNavigationPane({ navigationTree, hasIcons, ...otherProps }) {
+  const { location, createHref } = useNavigation();
   return (
     <Fragment>
       {navigationTree.map((subTree, idx) => (
         <SideNavigation title={subTree.title} key={idx}>
-          {subTree.pages.map(page => (
-            <SideNavigationItemWithActiveFlag
-              href$={getModifiedUrlStream(params => {
-                params.pathname = page.path;
-              })}
-              onClick={scrollToTopSmoothly}
-              key={page.path}
-              icon={page.icon}
-              omitEmptyIcon={!hasIcons}
-              label={page.label ? page.label : page.renderLabel(otherProps)}
-              path={page.path}
-              isBeta={Boolean(page.isBeta)}
-              subPages={page.subPages}
-              {...otherProps}
-            />
-          ))}
+          {subTree.pages.map(page => {
+            location.pathname = page.path;
+            const targetNavigationLink = createHref({ ...location });
+            return (
+              <SideNavigationItemWithActiveFlag
+                href={targetNavigationLink}
+                onClick={scrollToTopSmoothly}
+                key={page.path}
+                icon={page.icon}
+                omitEmptyIcon={!hasIcons}
+                label={page.label ? page.label : page.renderLabel(otherProps)}
+                path={page.path}
+                isBeta={Boolean(page.isBeta)}
+                subPages={page.subPages}
+                {...otherProps}
+              />
+            );
+          })}
         </SideNavigation>
       ))}
     </Fragment>

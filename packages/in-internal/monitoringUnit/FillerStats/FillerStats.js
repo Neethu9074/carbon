@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import FillerStatsRow, { DROPWIZARD_STATS } from 'in-internal/monitoringUnit/FillerStats/FillerStatsRow';
 import { getSnapshotFromPhysicalHierarchyByPlugin } from 'in-stores/snapshot';

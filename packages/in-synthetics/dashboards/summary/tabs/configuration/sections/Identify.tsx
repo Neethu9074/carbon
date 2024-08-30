@@ -5,14 +5,13 @@
  */
 
 import React, { useState } from 'react';
-import classNames from 'classnames';
 
 import { KeyValue, SearchInput, Checkbox } from '@instana/components';
 import { SyntheticTest } from '@instana/types/typeDefinitions';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 
@@ -31,7 +30,6 @@ const Identify = ({ test }: Props) => {
       className={locals.rightHeader}
       maxWidth={140}
       query={searchInput}
-      placeholder=""
       onChange={q => setSearchInput(q)}
     />
   );
@@ -58,37 +56,7 @@ const Identify = ({ test }: Props) => {
         </Col>
       </Row>
       <Row>
-        {syntheticMultiAppEnabled ? (
-          <LightCard
-            className={locals.lastConfigRow}
-            title={t('in-synthetics:dashboard.configuration.associations')}
-            darkFrame
-            framed
-          >
-            <LightCard
-              className={locals.lastConfigRow}
-              title={t('in-synthetics:dashboard.configuration.associatedApplications')}
-              darkFrame
-              framed
-            >
-              {test.applicationLabels?.length === 0 || test.applicationLabels === undefined
-                ? t('in-synthetics:dashboard.configuration.noApplicationsAssociated')
-                : test.applicationLabels.map((application, index) => {
-                    return (
-                      <Row
-                        key={index}
-                        className={classNames({
-                          [locals.configRow]: true,
-                          [locals.lastRow]: index === test.applicationLabels?.length! - 1
-                        })}
-                      >
-                        <Col xs={12}>{application}</Col>
-                      </Row>
-                    );
-                  })}
-            </LightCard>
-          </LightCard>
-        ) : (
+        {!syntheticRbacLimitedEnabled && (
           <LightCard
             className={locals.lastConfigRow}
             header={header}

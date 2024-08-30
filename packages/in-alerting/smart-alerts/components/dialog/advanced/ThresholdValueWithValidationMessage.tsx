@@ -4,7 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
-import { MapForm } from 'formalistic';
+import { Field, MapForm } from 'formalistic';
+import classNames from 'classnames';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
@@ -25,10 +26,14 @@ export interface ThresholdValueInputWithValidationMessageProps {
   metricUnitPostfix: string;
   isSmall?: boolean;
   isTearSheet?: boolean;
+  thresholdField?: Field<any>;
+  getUpdatedForm?: (targetValue: number | null) => MapForm<any>;
+  isMultiThreshold?: boolean;
+  id?: string;
 }
 
 export default function ThresholdValueInputWithValidationMessage(props: ThresholdValueInputWithValidationMessageProps) {
-  const thresholdField = props.form?.get('threshold')?.get('value');
+  const { thresholdField = props.form?.get('threshold')?.get('value') } = props;
   const metricId = props.form.get('rule')?.get('metricName')?.value ?? undefined;
   const plugin = props.form.get('rule')?.get('entityType')?.value ?? undefined;
 
@@ -41,8 +46,13 @@ export default function ThresholdValueInputWithValidationMessage(props: Threshol
   }, [plugin, metricId]);
 
   const valueMappings = builtInMetricsForPlugin?.metricMetadata?.valueMappings;
+
   return (
-    <div className={locals.thresholdValueWithValidationMessage}>
+    <div
+      className={classNames({
+        [locals.multiThresholdValueWithValidationMessage]: props.isMultiThreshold
+      })}
+    >
       <div className={locals.toolTip}>
         <ThresholdValueInput {...props} />
         {valueMappings && (

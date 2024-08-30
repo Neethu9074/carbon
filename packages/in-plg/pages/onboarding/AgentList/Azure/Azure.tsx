@@ -114,6 +114,7 @@ const Azure = ({
                 <FormInputPlg
                   onChange={value => setClusterName(value)}
                   placeholder={t('in-waiting-for-deployment:content.clusterNameEGProd')}
+                  maxLength={65}
                 />
               }
               withGap

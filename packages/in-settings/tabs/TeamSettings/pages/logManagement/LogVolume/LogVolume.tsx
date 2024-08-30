@@ -6,21 +6,26 @@
 
 import React, { useState } from 'react';
 
-import { combineLatest, just } from '@instana/observables';
-import { Li, SvgIcon, Ul } from '@instana/components';
+import { CarbonLayer, Li, SvgIcon, Ul, Typography } from '@instana/components';
+import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
+import { Result } from '@instana/types';
 
-import {
-  generateQueries,
-  getLogVolume,
-  transformData
-} from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
+// eslint-disable-next-line no-restricted-imports
+import LogVolumeGroupingConfigurator from './workspaces/LogVolumeGroupingConfigurator';
+import { generateQuery, transformData } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
 import LogVolumeDetails from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/LogVolumeDetails';
-import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+// eslint-disable-next-line no-restricted-imports
+import { TagNames, TagObject } from './types';
+import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import SectionLine from 'in-settings/components/SectionLine';
+import { ua2GroupChangedTracker } from 'in-applications/tracker';
+import { dataSource } from 'in-applications/navigation/matrix';
 import Select from 'in-components/form/Select/Select';
+import { hasError } from 'in-services/util/result';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 
@@ -31,52 +36,113 @@ const localisationStrings = {
   timeRange: t('in-settings:tabs.logVolume.timeRange')
 };
 
+const defaultProps = {
+  backendQueryModel: {
+    type: 'EXPRESSION',
+    logicalOperator: 'AND',
+    elements: []
+  }
+};
+
+const DEFAULT_TAG_NAME: TagNames = '';
+
 function LogVolume() {
   const [timePeriod, setTimePeriod] = useState<number>(1);
+  const [groupingTag, setGroupingTag] = useState<TagNames>(DEFAULT_TAG_NAME);
+  const [groupValue, setGroupValue] = useState<TagObject | null>(null);
+  const [expandedRetention, setExpandedRetention] = useState({});
 
   const result = useObservable(
-    ([timePeriod]) => {
-      return combineLatest(
-        generateQueries(timePeriod).map(query => getLogVolume(query.metrics['y1-0'].timeConfig))
-      ).flatMap(data => just(data.flatMap(({ data = [] }) => data)));
+    ([timePeriod, groupingTag]: [number, TagNames]) => {
+      return combineLatest([getUnifiedMetrics(generateQuery(timePeriod, groupingTag))]).map(([result]) => ({
+        progress: result?.progress || false,
+        data: result?.data || [],
+        errors: result?.errors || []
+      }));
     },
-    [timePeriod]
+    [timePeriod, groupingTag]
   );
 
-  const logVolumeData = result && transformData(result);
+  const { progress, data } = result || { progress: { loading: false }, data: [] };
+  const logVolumeData = result && transformData(data);
+
+  const handleUpdateExpandedRetention = (newState: any) => {
+    setExpandedRetention(newState);
+  };
+
+  const onChangeGroup = (param: TagObject | null) => {
+    const newTag = param ? param.groupbyTag : DEFAULT_TAG_NAME;
+    setGroupValue(param);
+    setGroupingTag(newTag);
+    handleUpdateExpandedRetention({});
+  };
   return (
     <>
-      <SettingsDetailPage className={locals.page}>
+      <section className={locals.page}>
         <Title title={localisationStrings.logVolume} />
         <section className={locals.titleSection}>
           <SubViewHeader>{localisationStrings.logVolume}</SubViewHeader>
-          <SectionLine />
         </section>
         <main>
           <section>
             <Ul>
               <Li>
-                <div className={locals.timeRange}>
-                  <Label htmlFor="timeRange">
-                    <SvgIcon type="lib_datetime_date" />
-                    {localisationStrings.timeRange}
-                  </Label>
-                  <Select name="timeRange" value={timePeriod} onChange={e => setTimePeriod(+e.target.value)}>
-                    {[1, 3, 6, 9, 12].map(months => (
-                      <option value={months}>
-                        {t('in-settings:tabs.logVolume.months', { context: String(months) })}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
+                <CarbonLayer>
+                  <div className={locals.timeRange}>
+                    <Label htmlFor="timeRange">
+                      <SvgIcon type="lib_datetime_date" />
+                      {localisationStrings.timeRange}
+                    </Label>
+                    <Select name="timeRange" value={timePeriod} onChange={e => setTimePeriod(+e.target.value)}>
+                      {[1, 3, 6, 9, 12].map(months => (
+                        <option key={months} value={months}>
+                          {t('in-settings:tabs.logVolume.months', { context: String(months) })}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                </CarbonLayer>
               </Li>
+              <GroupingConfiguratorSection
+                data-testid="groupingConfiguration"
+                value={groupValue}
+                onChange={onChangeGroup}
+                GroupingConfigurator={LogVolumeGroupingConfigurator}
+                tagFilterExpression={defaultProps.backendQueryModel || toBackendQueryModel([])}
+                tracking={{
+                  onGroupAdded: group => ua2GroupChangedTracker({ dataSource, tagName: group.groupbyTag })
+                }}
+              />
             </Ul>
           </section>
           <section>
-            <LogVolumeDetails data={logVolumeData} />
+            {data?.length === 0 && !progress.loading ? (
+              hasError(result as Result<any>) ? (
+                <section className={locals.stateContainer}>
+                  <div data-testid="logVolumeDataError" className={locals.noLogVolumeData}>
+                    <SvgIcon type="lib_help_error_error_circle" size="xxxl" />
+                    <Typography variant="body-bold">{t('in-settings:tabs.logVolume.logVolumeErrorTitle')}</Typography>
+                    <Typography variant="body-regular">{t('in-settings:tabs.logVolume.logVolumeErrorInfo')}</Typography>
+                  </div>
+                </section>
+              ) : (
+                <div data-testid="noLogVolumeData" className={locals.noLogVolumeData}>
+                  <SvgIcon type="lib_help_error_info_outline" size="xxxl" />
+                  <Typography variant="body-bold"> {t('in-settings:tabs.logVolume.noLogVolumeData')}</Typography>
+                </div>
+              )
+            ) : (
+              <LogVolumeDetails
+                data={logVolumeData}
+                progress={progress}
+                timePeriod={timePeriod}
+                expandedRetention={expandedRetention}
+                handleUpdateExpandedRetention={handleUpdateExpandedRetention}
+              />
+            )}
           </section>
         </main>
-      </SettingsDetailPage>
+      </section>
     </>
   );
 }

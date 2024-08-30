@@ -1,10 +1,10 @@
 {
   "shortcuts": {
-    "help": "Algumas funções importantes da Instana podem ser ativadas usando atalhos de teclado.\n\n - `c` : centralizando o mapa\n - `f` : aberto e focando na barra de procura\n - `esc` : fechar a barra lateral/painel atualmente visível\n - `shift + ?` : abrir o diálogo de ajuda para atalhos",
+    "help": "Algumas funções importantes do Instana podem ser ativadas usando atalhos de teclado.\n\n - `c` : centralizar o mapa\n - `f` : abrir e focar a barra de procura\n - `esc` : fechar a barra lateral / o painel atualmente visível\n - `shift + ?` : abrir o diálogo de ajuda para atalhos",
     "shortcuts": "Atalhos"
   },
   "formatters": {
-    "yes": "Sim",
+    "yes": "True",
     "no": "Não",
     "byteUnits_B": "{{num}} B",
     "byteUnits_kiB": "{{num}} kiB",
@@ -15,6 +15,14 @@
     "byteUnits_EiB": "{{num}} EiB",
     "byteUnits_ZiB": "{{num}} ZiB",
     "byteUnits_YiB": "{{num}} YiB",
+    "byteUnits_kB": "{{num}} kB",
+    "byteUnits_MB": "{{num}} MB",
+    "byteUnits_GB": "{{num}} GB",
+    "byteUnits_TB": "{{num}} TB",
+    "byteUnits_PB": "{{num}} PB",
+    "byteUnits_EB": "{{num}} EB",
+    "byteUnits_ZB": "{{num}} ZB",
+    "byteUnits_YB": "{{num}} YB",
     "perSec": "{{num}}/s",
     "perSec2": "{{num}}/s",
     "noActivity": "Sem atividade",

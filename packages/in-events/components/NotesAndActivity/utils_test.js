@@ -79,6 +79,41 @@ describe('getNotes', () => {
       }
     ];
     expect(getNotes(event)).toEqual(expectedNotes);
+    const event1 = Immutable.fromJS({
+      journals: [
+        {
+          type: 'note',
+          id: 'note1',
+          parent: 'event1',
+          timestamp: 1717523244282,
+          author: 'user1',
+          metadata: {},
+          contents: 'This is a test note.',
+          updated: false
+        },
+        {
+          type: 'note',
+          id: 'note2',
+          parent: 'event1',
+          timestamp: 1717523244282,
+          author: 'user2',
+          metadata: {},
+          contents: 'This is another test note.',
+          updated: true
+        },
+        {
+          type: 'NOTnote',
+          id: 'note2',
+          parent: 'event1',
+          timestamp: 1717523244282,
+          author: 'user2',
+          metadata: {},
+          contents: 'This is another test note.',
+          updated: true
+        }
+      ]
+    });
+    expect(getNotes(event1)).toEqual(expectedNotes);
   });
 
   it('returns an array even if note type is not found', () => {

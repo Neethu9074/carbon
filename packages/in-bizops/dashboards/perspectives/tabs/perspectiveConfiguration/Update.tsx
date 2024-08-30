@@ -8,18 +8,9 @@ import { useHistory } from 'react-router';
 import React, { useState } from 'react';
 import { isEqual } from 'lodash';
 
-import {
-  Card,
-  Typography,
-  FormGroup,
-  Spacer,
-  Button,
-  CarbonLayer,
-  CarbonTextInput,
-  CarbonTextArea
-} from '@instana/components';
+import { Card, Typography, FormGroup, Spacer, Button, CarbonTextInput, CarbonTextArea } from '@instana/components';
 
-import { BusinessProcessQueryBuilder } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
+import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
 import createNewPerspectiveForm from 'in-bizops/lists/businessPerspectives/creation/createNewPerspectiveForm';
 import { businessPerspectiveConfigPath, businessPerspectiveDashboard } from 'in-bizops/navigation/paths';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -109,41 +100,39 @@ export function Update({ perspective, updateCount, setUpdateCount, perspectiveId
         </Typography>
 
         <FormGroup className={local.formGroup}>
-          <CarbonLayer>
-            <CarbonTextInput
-              labelText={t('in-bizops:dashboards.perspectives.configuration.perspectiveName')}
-              id="perspectiveName"
-              value={nameField.value}
-              enableCounter
-              maxCount={MAX_NAME_SIZE}
-              onChange={(e: any) =>
-                updateForm(
-                  form.updateIn(['perspectiveName'], field => field.setValue(e.target.value || '').setTouched(true))
-                )
-              }
-              autoComplete="off"
-              warn={nameField.touched && !nameField.valid}
-              warnText={nameField.messages[0]?.message}
-            />
-            <Spacer vertical="normal" />
+          <CarbonTextInput
+            labelText={t('in-bizops:dashboards.perspectives.configuration.perspectiveName')}
+            id="perspectiveName"
+            value={nameField.value}
+            enableCounter
+            maxCount={MAX_NAME_SIZE}
+            onChange={(e: any) =>
+              updateForm(
+                form.updateIn(['perspectiveName'], field => field.setValue(e.target.value || '').setTouched(true))
+              )
+            }
+            autoComplete="off"
+            warn={nameField.touched && !nameField.valid}
+            warnText={nameField.messages[0]?.message}
+          />
+          <Spacer vertical="normal" />
 
-            <CarbonTextArea
-              id="perspectiveDescription"
-              labelText={t('in-bizops:dashboards.perspectives.configuration.perspectiveDescription')}
-              enableCounter
-              maxCount={MAX_DESCRIPTION_SIZE}
-              value={descriptionField.value}
-              onChange={(e: any) =>
-                updateForm(
-                  form.updateIn(['perspectiveDescription'], field =>
-                    field.setValue(e.target.value || '').setTouched(true)
-                  )
+          <CarbonTextArea
+            id="perspectiveDescription"
+            labelText={t('in-bizops:dashboards.perspectives.configuration.perspectiveDescription')}
+            enableCounter
+            maxCount={MAX_DESCRIPTION_SIZE}
+            value={descriptionField.value}
+            onChange={(e: any) =>
+              updateForm(
+                form.updateIn(['perspectiveDescription'], field =>
+                  field.setValue(e.target.value || '').setTouched(true)
                 )
-              }
-              warn={descriptionField.touched && !descriptionField.valid}
-              warnText={descriptionField.messages[0]?.message}
-            />
-          </CarbonLayer>
+              )
+            }
+            warn={descriptionField.touched && !descriptionField.valid}
+            warnText={descriptionField.messages[0]?.message}
+          />
         </FormGroup>
 
         <Typography variant="body-regular">

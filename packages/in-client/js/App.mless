@@ -20,6 +20,11 @@
     .print();
   }
 
+  @page {
+    size: 8.5in 11in;
+    margin: 0.25in;
+  }
+
   @media print {
     * {
       -webkit-print-color-adjust: exact;

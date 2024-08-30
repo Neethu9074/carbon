@@ -36,6 +36,7 @@ export const teamSettingsAccessControlGroupEdit = `${accessControl}/groups/:id`;
 export const teamSettingsAccessControlGroupNew = `${accessControl}/groups/new`;
 export const teamSettingsAccessControlGroups = `${accessControl}/groups`;
 export const teamSettingsAccessControlApiTokenEdit = `${accessControl}/apiTokens/:id`;
+export const teamSettingsAccessControlApiTokenDuplicate = `${accessControl}/apiTokens/new/:duplicateFrom`;
 export const teamSettingsAccessControlApiTokenNew = `${accessControl}/apiTokens/new`;
 export const teamSettingsAccessControlApiTokens = `${accessControl}/apiTokens`;
 
@@ -102,14 +103,15 @@ export const teamSettingsAlertingIntegrationEdit = `${alerting}/integrations/:id
 export const teamSettingsAlertingIntegrationNew = `${alerting}/integrations/new`;
 export const teamSettingsAlertingIntegrations = `${alerting}/integrations`;
 
+// legacy logging integration paths (until 2024-07)
 export const logManagement = `${teamSettings}/logManagement`;
-const integrations = '/integrations';
+const legacyIntegrations = '/integrations';
 export const teamSettingsLogManagementRetentionPeriod = `${logManagement}/retentionPeriod`;
-export const teamSettingsLogManagementIntegrations = `${logManagement}${integrations}`;
-export const teamSettingsLogManagementCoralogix = `${logManagement}${integrations}/coralogixConfiguration`;
+export const teamSettingsLogManagementIntegrations = `${logManagement}${legacyIntegrations}`;
+export const teamSettingsLogManagementCoralogix = `${logManagement}${legacyIntegrations}/coralogixConfiguration`;
 export const teamSettingsLogManagementDeleteLogs = `${logManagement}/deleteLogs`;
 export const teamSettingsLogManagementLogVolume = `${logManagement}/logVolume`;
-export const teamSettingsLogManagementLogDna = `${logManagement}/logdnaConfiguration`;
+export const teamSettingsLogManagementMezmo = `${logManagement}/mezmoConfiguration`;
 export const teamSettingsLogManagementSplunk = `${logManagement}/splunkConfiguration`;
 export const teamSettingsLogManagementHumio = `${logManagement}/humioConfiguration`;
 export const teamSettingsLogManagementElk = `${logManagement}/elkConfiguration`;
@@ -118,6 +120,19 @@ export const audit = `${teamSettings}/audit`;
 export const teamSettingsActionLog = `${audit}/actionlog`;
 export const teamSettingsActionLogRetention = `${audit}/actionlog/retention`;
 export const teamSettingsAccessLog = `${audit}/accessLog`;
+
+// integrations
+const integrations = `${teamSettings}/integrations`;
+// database integrations
+export const teamSettingsIntegrationsDatabase = `${integrations}/database`;
+export const teamSettingsIntegrationsDatabaseDbMarlin = `${teamSettingsIntegrationsDatabase}/dbMarlinConfiguration`;
+// logging integrations (from 2024-07)
+export const teamSettingsIntegrationsLogging = `${integrations}/logging`;
+export const teamSettingsIntegrationsLoggingCoralogix = `${teamSettingsIntegrationsLogging}/coralogixConfiguration`;
+export const teamSettingsIntegrationsLoggingMezmo = `${teamSettingsIntegrationsLogging}/mezmoConfiguration`;
+export const teamSettingsIntegrationsLoggingSplunk = `${teamSettingsIntegrationsLogging}/splunkConfiguration`;
+export const teamSettingsIntegrationsLoggingHumio = `${teamSettingsIntegrationsLogging}/humioConfiguration`;
+export const teamSettingsIntegrationsLoggingElk = `${teamSettingsIntegrationsLogging}/elkConfiguration`;
 
 // config migration
 export const migSettings = `${settingsPath}/migration`;

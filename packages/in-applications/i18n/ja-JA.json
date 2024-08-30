@@ -246,7 +246,8 @@
     "dataSource_calls_plural": "{{formattedCount}} 回の呼び出し",
     "dataSource_traces": "{{formattedCount}} 個のトレース",
     "dataSource_traces_plural": "{{formattedCount}} 個のトレース",
-    "analyzeCallsOfThisTrace": "このトレースの呼び出しの分析"
+    "analyzeCallsOfThisTrace": "このトレースの呼び出しの分析",
+    "noAvailableCustomMetrics": "利用可能なカスタム・メトリクスはありません"
   },
   "creation": {
     "newAP": "新規アプリケーション・パースペクティブ",
@@ -629,7 +630,8 @@
     "calls_latency": "待ち時間",
     "calls_erroneousCalls": "エラーのある呼び出し数",
     "calls_errors": "エラーのある呼び出し率",
-    "calls_call_metric": "数値呼び出しメトリック",
+    "calls_call_metric": "カスタム通話メトリクス",
+    "calls_call_meta_metrics": "メタ測定基準",
     "traces_calls": "トレース",
     "traces_traces": "トレース",
     "traces_latency": "待ち時間",

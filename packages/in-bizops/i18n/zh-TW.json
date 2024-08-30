@@ -20,19 +20,25 @@
     "unnamedService": "（未命名服務）"
   },
   "perspectives": {
-    "newPerspective": "新視景",
+    "newPerspective": "建立視景",
     "lists": {
       "perspectives": "商業視景",
       "descriptionLabel": "說明",
       "numberProcessesLabel": "處理程序數目"
     },
+    "processesLiveList": {
+      "title": "符合的業務流程",
+      "empty": "新增過濾器以建置您的商業視景",
+      "invalidQuery": "您的查詢無效",
+      "noMatchedProcesses": "未找到符合的業務流程",
+      "loadingStateLabel": "正在載入流程"
+    },
     "dialog": {
       "title": "新建商業視景",
-      "processesLiveListTitle": "商業程序",
       "stepOne": {
-        "progressBarTitle": "指定商業視景",
-        "headline": "新增過濾器以建置您的商業視景",
-        "queryBuilderTitle": "商業程序的標籤"
+        "progressBarTitle": "步驟 1：過濾業務流程以建立您的業務視景",
+        "headline": "過濾業務流程以建立您的業務視景",
+        "queryBuilderTitle": "商業程序"
       },
       "stepTwo": {
         "progressBarTitle": "步驟 2：提供詳細資料",
@@ -42,7 +48,13 @@
       }
     },
     "errorMessages": {
-      "businessPerspectiveNameMustNotBeBlank": "「商業視景」名稱不得為空白"
+      "tagFilterExpressionMustNotBeEmpty": "業務視景必須至少有一個過濾器",
+      "createOperationFailed": "建立作業失敗",
+      "unableToCreatePerspective": "我們無法建立您的業務視景。 請重試。"
+    },
+    "successMessages": {
+      "businessPerspectiveCreated": "業務視景已建立",
+      "perspectiveWasSuccessfullyCreated": "\"{{perspectiveName}}\" 已順利建立。"
     }
   },
   "navigation": {
@@ -86,6 +98,7 @@
       }
     },
     "perspectives": {
+      "pageTitleDefault": "業務視景",
       "processes": {
         "tabLabel": "商業程序"
       },
@@ -93,7 +106,7 @@
         "tabLabel": "配置",
         "loadingText": "正在載入資料",
         "updateCardLabel": "更新商業視景",
-        "stepOneHeader": "1. 編輯名稱及說明",
+        "stepOneHeader": "1. 編輯名稱和說明",
         "perspectiveName": "視景名稱",
         "perspectiveDescription": "說明",
         "stepTwoHeader": "2. 編輯過濾器",
@@ -101,7 +114,12 @@
         "removeCardLabel": "移除商業視景",
         "removePerspectiveDisclaimer": "如果您不想再使用這個商業視景，請按一下「移除商業視景」。",
         "removePerspectiveCheckbox": "我瞭解此動作無法復原",
-        "removePerspectiveButton": "移除商業視景"
+        "removePerspectiveButton": "移除商業視景",
+        "businessPerspectiveDeleted": "業務視景已移除",
+        "businessPerspectiveDeletedDetails": "\"{{perspectiveName}}\" 已順利移除。",
+        "businessPerspectiveUpdated": "業務視景已更新",
+        "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" 已編輯，且您的變更已儲存。",
+        "error": "錯誤"
       }
     }
   }

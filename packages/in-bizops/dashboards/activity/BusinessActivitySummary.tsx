@@ -61,7 +61,7 @@ export default function BusinessActivitySummary() {
   };
 
   return (
-    <>
+    <div className={locals.activitySummaryDiv}>
       <ViewTrackingMeta
         data={{
           productArea: productAreas.bizops,
@@ -75,7 +75,7 @@ export default function BusinessActivitySummary() {
         props={props}
         tabChangeTracker={clickBizopsProcessActivityTabsTracker}
       />
-    </>
+    </div>
   );
 }
 

@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon, Pill } from '@instana/components';
+import { SvgIcon, Pill, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
@@ -299,7 +299,8 @@ function CallInformation(props) {
       >
         <HorizontalLine depth={depth} marginLeft={marginLeft} lineWidth={lineWidth} isOrphan={call.isOrphan} />
         {hasChildren && (
-          <SvgIcon
+          <IconButton
+            kind="primary"
             className={locals.expandIcon}
             type={isExpanded ? 'lib_openclose_remove_box' : 'lib_openclose_add_box'}
             aria-label={t('in-analyze:traceDetail.components.callTree.expandButtonForRow')}
@@ -327,9 +328,11 @@ function CallInformation(props) {
             themeStyle="light"
             content={`This call is batched and represents ${call.batchSize} individual calls.`}
           >
-            <Pill className={locals.batchSizeIndicator} kind="lighter">
-              {call.batchSize}
-            </Pill>
+            <div>
+              <Pill className={locals.batchSizeIndicator} kind="lighter">
+                {call.batchSize}
+              </Pill>
+            </div>
           </Tooltip>
         )}
         {!isUnknownTypeSpan(call) && call.endpoint && (

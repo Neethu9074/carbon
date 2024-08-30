@@ -122,6 +122,7 @@
   "messageSuccessfullySaved": "Successfully saved.",
   "messageErrorOccurred": "An error occurred, please try again.",
   "messageWaitForChanges": "It may take some time for your changes to apply.",
+  "linkViewAllApplications": "View all applications",
   "linkViewAllServices": "View all services",
   "linkViewAllEndpoints": "View all endpoints",
   "lineViewInAnalyze": "View in Analyze",
@@ -246,7 +247,8 @@
     "dataSource_calls_plural": "{{formattedCount}} Calls",
     "dataSource_traces": "{{formattedCount}} Trace",
     "dataSource_traces_plural": "{{formattedCount}} Traces",
-    "analyzeCallsOfThisTrace": "Analyze Calls of this Trace"
+    "analyzeCallsOfThisTrace": "Analyze Calls of this Trace",
+    "noAvailableCustomMetrics": "No available custom metrics"
   },
   "creation": {
     "newAP": "New Application Perspective",
@@ -458,7 +460,9 @@
       "logMessagesDescription": "There were no log messages retrieved for the selected time range.",
       "endpointsTitle": "No endpoints available",
       "endpointsDescription": "There were no endpoints retrieved for the selected time range."
-    }
+    },
+    "pageCannotBeFound": "Page cannot be found",
+    "idNotPresent":"{{id}} is not present in the URL."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "The service is not in the current application.",
@@ -629,7 +633,8 @@
     "calls_latency": "Latency",
     "calls_erroneousCalls": "Erroneous Calls",
     "calls_errors": "Erroneous Calls Rate",
-    "calls_call_metric": "Numeric call metrics",
+    "calls_call_metric": "Custom call metrics",
+    "calls_call_meta_metrics": "Meta metrics",
     "traces_calls": "Traces",
     "traces_traces": "Traces",
     "traces_latency": "Latency",

@@ -6,8 +6,7 @@
 import { Field } from 'formalistic';
 import React from 'react';
 
-import { Toggle } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Toggle, Button } from '@instana/components';
 
 // @ts-expect-error needs migration to typescript
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList';

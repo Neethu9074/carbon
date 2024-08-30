@@ -5,10 +5,6 @@
 
 :local {
   .buttonHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
     margin-bottom: 1rem;
   }
 
@@ -19,5 +15,14 @@
   .message {
     border: none;
     background: none;
+  }
+
+  .unitSelector {
+    min-width: 15rem;
+  }
+
+  .ampTimeSelectionWrapper {
+    display: inline-flex;
+    gap: 1rem;
   }
 }

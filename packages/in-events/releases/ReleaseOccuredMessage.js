@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Link } from '@instana/components';
 
 import { removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -32,7 +31,7 @@ export default function ReleaseOccurredMessage({ release }) {
         </p>
       </div>
       <div className={locals.controls}>
-        <Stack direction="horizontal" gap="disabled" wrap>
+        <Stack direction="vertical" wrap>
           <FocusTimeToReleaseButton release={release} />
           <FollowReleaseLiveButton release={release} />
         </Stack>
@@ -48,9 +47,14 @@ function FocusTimeToReleaseButton({ release }) {
   setTimeConfig(location, { to, windowSize });
 
   return (
-    <Button href={createHref(location)} kind="action" onClick={() => removeMessage(release.id)}>
+    <Link
+      href={createHref(location)}
+      onClick={() => {
+        removeMessage(release.id);
+      }}
+    >
       {t('in-events:buttonFocusTimeToRelease')}
-    </Button>
+    </Link>
   );
 }
 
@@ -59,8 +63,8 @@ function FollowReleaseLiveButton({ release }) {
   setTimeConfig(location, { autoRefresh: true });
 
   return (
-    <Button href={createHref(location)} kind="action" onClick={() => removeMessage(release.id)}>
+    <Link href={createHref(location)} onClick={() => removeMessage(release.id)}>
       {t('in-events:buttonFollowReleaseLive')}
-    </Button>
+    </Link>
   );
 }
