@@ -163,5 +163,6 @@ module.exports = {
   unitForInfraMetricsEnabled: true,
   applicationSmartAlertDialogView: true,
   increaseAggregationEnabled: false,
-  carbonCodeEnabled: true
+  carbonCodeEnabled: true,
+  carbonSliderEnabled: true
 };
