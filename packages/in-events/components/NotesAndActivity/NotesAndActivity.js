@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import {
@@ -85,6 +85,7 @@ export function NotesAndActivity(props) {
   const [note, setNote] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const [openSearch, setOpenSearch] = useState(false);
+  const [displayQuickStart, setDisplayQuickStart] = useState(true);
 
   function toggleSidePanel() {
     setDisplayNotes(!displayNotes);
@@ -112,73 +113,73 @@ export function NotesAndActivity(props) {
   }
 
   // TESTING PURPOSES ONLY
-  notes.push({
-    type: 'external_note',
-    id: 'note-12345',
-    parent: 'vQ9n1JcfTXKZC-5DsY_74Q',
-    timestamp: 1692892800000,
-    updated: 0,
-    author: 'Jaydon Blue',
-    metadata: {
-      apiToken: 'iid-valid-api-token',
-      createdBy: 'Jaydon Blue',
-      priority: 'High',
-      userId: null
-    },
-    origin: 'ServiceNow',
-    internal: true,
-    label: 'Work Notes',
-    contents: 'This is an internal note regarding the issue.'
-  });
-  notes.push({
-    type: 'ai_generated',
-    id: 'QNxHX2JGRWG5OayzLX3dgadfadsfadsg',
-    parent: 'SIqsdfetSR2mFBzafaqKNVy1GQ',
-    timestamp: 1722957105978,
-    updated: 0,
-    author: 'Denton Zan',
-    metadata: {},
-    contents:
-      'traffic related problem(s) has been observed, which is: The system has encountered an error rate that is at least 0% and as high as 500%, specifically with status code 442 and 500, indicating a significant server-side issue.'
-  });
-  notes.push({
-    author: 'Steve Sarkisian',
-    contents: "Hey this is Coach Sark! Just wanted to let you know I'm looking into this incident!",
-    id: 'a8s9d0fuds89afjds9af',
-    parent: 'aklsdfjasfjasdfdas',
-    timestamp: 1724956897828,
-    type: 'note',
-    updated: 0
-  });
-  notes.push({
-    type: 'external_note',
-    id: 'QNxHX2JGRWG5OayzLX3dgg',
-    parent: 'SIqmHetSR2mFBzqKNVy1GQ',
-    timestamp: 1722957105978,
-    updated: 0,
-    author: 'Quinn Ewers',
-    metadata: {},
-    origin: 'ServiceNow',
-    internal: false,
-    label: 'Additional comments',
-    contents: 'This is an external_note that has been brought to you by.... SERVICE NOW!'
-  });
-  notes.push({
-    type: 'external_field_change',
-    id: 'QNxHX2JGRWG5OayzLX3dgg',
-    parent: 'SIqmHetSR2mFBzqKNVy1GQ',
-    timestamp: 1722957105978,
-    updated: 0,
-    author: 'Denton Zan',
-    metadata: {},
-    origin: 'ServiceNow',
-    label: 'Field changes',
-    data: [
-      ['Priority', '0', '1 - Critical'],
-      ['Incident state', 'opened', 'In progress'],
-      ['Opened by', '', 'ITIL User']
-    ]
-  });
+  // notes.push({
+  //   type: 'external_note',
+  //   id: 'note-123fddf45',
+  //   parent: 'vQ9n1JcfTXKZC-5DsY_74Q',
+  //   timestamp: 1692892800000,
+  //   updated: 0,
+  //   author: 'Jaydon Blue',
+  //   metadata: {
+  //     apiToken: 'iid-valid-api-token',
+  //     createdBy: 'Jaydon Blue',
+  //     priority: 'High',
+  //     userId: null
+  //   },
+  //   origin: 'ServiceNow',
+  //   internal: true,
+  //   label: 'Work Notes',
+  //   contents: 'This is an internal note regarding the issue.'
+  // });
+  // notes.push({
+  //   type: 'ai_generated',
+  //   id: 'QNxHdd2JGRWG5OayzLX3dgadfadsfadsg',
+  //   parent: 'SIqsdfetSR2mFBzafaqKNVy1GQ',
+  //   timestamp: 1722957105978,
+  //   updated: 0,
+  //   author: 'Denton Zan',
+  //   metadata: {},
+  //   contents:
+  //     'traffic related problem(s) has been observed, which is: The system has encountered an error rate that is at least 0% and as high as 500%, specifically with status code 442 and 500, indicating a significant server-side issue.'
+  // });
+  // notes.push({
+  //   author: 'Steve Sarkisian',
+  //   contents: "Hey this is Coach Sark! Just wanted to let you know I'm looking into this incident!",
+  //   id: 'a8s9d0fuds89afjds9af',
+  //   parent: 'aklsdfjasfjasdfdas',
+  //   timestamp: 1724956897828,
+  //   type: 'note',
+  //   updated: 0
+  // });
+  // notes.push({
+  //   type: 'external_note',
+  //   id: 'QNxaHX2JGRWG5OayzLX3dgg',
+  //   parent: 'SIqmHetSR2mFBzqKNVy1GQ',
+  //   timestamp: 1722957105978,
+  //   updated: 0,
+  //   author: 'Quinn Ewers',
+  //   metadata: {},
+  //   origin: 'ServiceNow',
+  //   internal: false,
+  //   label: 'Additional comments',
+  //   contents: 'This is an external_note that has been brought to you by.... SERVICE NOW!'
+  // });
+  // notes.push({
+  //   type: 'external_field_change',
+  //   id: 'QNxHX2JGRWG5OayzLX3ddgg',
+  //   parent: 'SIqmHetSR2mFBzqKNVy1GQ',
+  //   timestamp: 1722957105978,
+  //   updated: 0,
+  //   author: 'Denton Zan',
+  //   metadata: {},
+  //   origin: 'ServiceNow',
+  //   label: 'Field changes',
+  //   data: [
+  //     ['Priority', '0', '1 - Critical'],
+  //     ['Incident state', 'opened', 'In progress'],
+  //     ['Opened by', '', 'ITIL User']
+  //   ]
+  // });
   // ^^^^^^^^^^^^^^^^^^^^^^^TESTING PURPOSES ONLY
 
   const filteredNotes = filterSearchNotes(notes, searchInput.toLowerCase());
@@ -222,8 +223,13 @@ export function NotesAndActivity(props) {
                 }}
               />
             )}
-            <QuickActions aiFlagEnabled={aiFlagEnabled} />
-            <CommentList notes={filteredNotes} preferredName={user.preferredName} />
+            <QuickActions aiFlagEnabled={aiFlagEnabled} displayQuickStart={displayQuickStart} />
+            <CommentList
+              notes={filteredNotes}
+              preferredName={user.preferredName}
+              displayQuickStart={displayQuickStart}
+              setDisplayQuickStart={setDisplayQuickStart}
+            />
             <CommentInput note={note} user={user} setNote={setNote} incidentId={incidentId} />
           </>
         )}
@@ -278,12 +284,35 @@ export function CommentInput(props) {
 }
 
 export function CommentList(props) {
-  const { notes, preferredName } = props;
+  const { notes, preferredName, setDisplayQuickStart, displayQuickStart } = props;
+
+  // This adds in the scroll wheel event listener to determine the percentage
+  // of the scroll height so we know if we need to collapse and expand the quick actions
+  useEffect(() => {
+    if (notes) {
+      const noteSection = document.getElementById('notesSection');
+      noteSection.addEventListener('scroll', event => {
+        const scrollHeight = event?.target?.scrollHeight;
+        const scrollTop = event?.target?.scrollTop;
+        const clientHeight = event?.target?.clientHeight;
+        const percentage = Math.round((scrollTop / (scrollHeight - clientHeight)) * -100);
+        // If we scroll up 50% then collapse the quick actions
+        if (percentage > 50 && displayQuickStart) {
+          setDisplayQuickStart(false);
+        } else if (percentage < 10 && !displayQuickStart) {
+          setDisplayQuickStart(true);
+        }
+      });
+    }
+  }, [notes, displayQuickStart, setDisplayQuickStart]);
+
   return (
     <div
       className={classNames({
         [locals.notesSection]: true
       })}
+      id="notesSection"
+      tabIndex={'-1'}
     >
       {notes &&
         notes.map((entry, i) => {
@@ -321,7 +350,12 @@ export function CommentList(props) {
                     })}
                   />
                 )}
-                <div className={(!myBubble && locals.chatEntryInfo) || locals.myChatEntryInfo}>
+                <div
+                  className={classNames({
+                    [locals.chatEntryInfo]: !myBubble,
+                    [locals.myChatEntryInfo]: myBubble
+                  })}
+                >
                   {noteNameAndTimeFormat(myBubble, note, date, type)}
                   {aiGen && (
                     <SvgIcon type={'lib_ai_slug'} className={locals.aiIconSlug} size="xs" viewBox={'4 4 24 24'} />
@@ -387,18 +421,29 @@ export function ChatBubble(props) {
 // Main view that gives an overview for this side panel
 // Gives the user the options to add a note or generate a summary
 export function QuickActions(props) {
-  const { aiFlagEnabled } = props;
+  const { aiFlagEnabled, displayQuickStart } = props;
   const header = (aiFlagEnabled && t('in-events:notes.summarizeIncident')) || t('in-events:notes.addNotesFor');
   const description =
     (aiFlagEnabled && t('in-events:notes.summarizeIncidentDescription')) || t('in-events:notes.tryAddingNotes');
   const summary = aiFlagEnabled && t('in-events:notes.generateSummary');
   const svgIconType = (aiFlagEnabled && 'lib_help_error_help_circle') || 'lib_actions_edit';
   return (
-    <div className={locals.quickActionWrapper}>
-      <SvgIcon className={locals.questionIcon} type={svgIconType} />
+    <div
+      className={classNames({
+        [locals.quickActionWrapper]: true,
+        [locals.extraPadding]: !displayQuickStart,
+        [locals.transitionDown]: displayQuickStart
+      })}
+    >
+      {displayQuickStart && <SvgIcon className={locals.questionIcon} type={svgIconType} />}
+
       <div>
-        <div className={locals.quickActionsHeader}>{header}</div>
-        <div className={locals.quickActionsDescription}>{description}</div>
+        {displayQuickStart && (
+          <>
+            <div className={locals.quickActionsHeader}>{header}</div>
+            <div className={locals.quickActionsDescription}>{description}</div>
+          </>
+        )}
         {aiFlagEnabled && (
           <CarbonButton
             kind={'tertiary'}
