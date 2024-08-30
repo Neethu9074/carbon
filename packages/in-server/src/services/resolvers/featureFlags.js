@@ -101,6 +101,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'cveIssueEnabled',
+    instanaCtlKey: 'feature.cve.issues.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'routeIdOverPathTplEnabled',
     instanaCtlKey: 'feature.route.id.over.path.tpl.enabled',
     defaultValue: false

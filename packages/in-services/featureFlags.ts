@@ -22,6 +22,7 @@ export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabl
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
 export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitoringIssuesEnabled');
+export const cveIssueEnabled = isFeatureFlagEnabled('cveIssueEnabled');
 export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');

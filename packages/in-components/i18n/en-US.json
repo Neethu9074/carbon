@@ -356,6 +356,30 @@
     "labelWarning": "Warning",
     "labelCritical": "Critical"
   },
+  "vulnerabilities": {
+    "eventType_issue": "vulnerabilities",
+    "eventType_issue_plural": "vulnerabilities",
+    "eventType_issue_0": "vulnerabilities",
+    "eventType_issue_1": "vulnerabilities",
+    "eventType_issue_2": "vulnerabilities",
+    "openIssuesListPresenterActionsViewIssues": "View vulnerabilities",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "View {{openIssueCount}} vulnerabilities",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Loading Open vulnerabilities…",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Failed To Load Open vulnerabilities",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} Open vulnerabilities",
+    "noVulnerabilities": "No Vulnerabilities",
+    "openVulnerabilities": "{{count}} Vulnerability",
+    "openVulnerabilities_plural": "{{count}} Vulnerabilities",
+    "openVulnerabilities_0": "{{count}} Vulnerabilities",
+    "openVulnerabilities_1": "{{count}} Vulnerability",
+    "openVulnerabilities_2": "{{count}} Vulnerabilities",
+    "noIncidents": "No Incidents",
+    "openIncidents": "{{count}} Incident",
+    "openIncidents_plural": "{{count}} Incidents",
+    "openIncidents_0": "{{count}} Incidents",
+    "openIncidents_1": "{{count}} Incident",
+    "openIncidents_2": "{{count}} Incidents"
+  },
   "inlineTabNavigation": {
     "labelSelectTab": "Select tab"
   },

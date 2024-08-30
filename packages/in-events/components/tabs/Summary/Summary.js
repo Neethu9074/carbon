@@ -13,6 +13,7 @@ import {
   isEntityVerificationEvent,
   isHostAvailabilityEvent,
   isAgentMonitoringIssueEvent,
+  isCveIssueEvent,
   isApplicationSmartAlertEvent,
   isWebsiteSmartAlertEvent,
   isInfraSmartAlertEvent,
@@ -47,6 +48,7 @@ import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProc
 import MobileEventContent from 'in-events/components/EventContent/MobileEventContent';
 import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
+import CveIssueDescription from 'in-events/components/legacy/CveIssueDescription';
 import LogsEventContent from 'in-events/components/EventContent/LogEventContent';
 import SloEventContent from 'in-events/components/EventContent/SloEventContent';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -188,6 +190,8 @@ const EventContent = connectTo(
                   timeConfig={timeConfig}
                   className="in-event-view-event-content"
                 />
+              ) : isCveIssueEvent(event) ? (
+                <CveIssueDescription event={event} />
               ) : (
                 <ProblemDescription fixSuggestion={fixSuggestion} />
               )}

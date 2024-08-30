@@ -9,8 +9,10 @@ import { trackAnalyzeInfrastructureButtonClicked as trackAnalyzeRelatedInstances
 import DashboardHeaderButtonSection from 'in-infrastructure/Dashboard/components/DashboardHeaderButtonSection';
 import AnalyzeRelatedInstancesButton from 'in-infrastructure/components/AnalyzeRelatedInstancesButton';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
+import { analyzeRelatedInstancesButtonEnabled, cveIssueEnabled } from 'in-services/featureFlags';
+import EntityCveIndicator from 'in-components/EntityCveIndicator/EntityHealthIndicatorBehavior';
 import DashboardBreadcrumb from 'in-infrastructure/Dashboard/components/DashboardBreadcrumb';
-import { analyzeRelatedInstancesButtonEnabled } from 'in-services/featureFlags';
+import CveIndicatorButtonPresenter from 'in-components/health/CveIndicatorButtonPresenter';
 import PluginBadge from 'in-infrastructure/Dashboard/components/PluginBadge';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import { getRelatedInstancesTagFilterCallback } from 'in-sdk/tagFilter';
@@ -59,6 +61,14 @@ function renderButtonLine(props) {
         snapshotId={snapshot.get('id')}
         timeConfig={timeConfig}
       />
+
+      {cveIssueEnabled && isContainer(snapshot) && (
+        <EntityCveIndicator
+          IndicatorPresenter={CveIndicatorButtonPresenter}
+          snapshotId={snapshot.get('id')}
+          timeConfig={timeConfig}
+        />
+      )}
 
       {![plugins.instanaAgent].includes(snapshot.get('plugin')) && (
         <ContextGuide
@@ -114,4 +124,10 @@ function getSnapshotIdTagFilter(snapshot) {
   } else {
     return [{ name: 'process.snapshotId', value: id, operator: 'EQUALS' }];
   }
+}
+
+function isContainer(snapshot) {
+  const plugin = snapshot.get('plugin');
+  const containerPlugins = ['docker', 'crio', 'garden', 'containerd', 'awsEcsContainer'];
+  return containerPlugins.includes(plugin);
 }
