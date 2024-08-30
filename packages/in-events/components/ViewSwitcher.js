@@ -9,7 +9,7 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/compo
 import { useObservable } from '@instana/hooks';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import { agentMonitoringIssuesEnabled, playwithEnabled } from 'in-services/featureFlags';
+import { agentMonitoringIssuesEnabled, cveIssueEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import * as eventTypeLabels from 'in-events/eventTypeLabels';
@@ -56,6 +56,14 @@ export default function ViewSwitcher({ selectedEventType }) {
       href: createHref(location),
       label: eventTypeLabels.agent_monitoring_issue,
       isActive: selectedEventType === 'agent_monitoring_issue'
+    });
+  }
+  if (cveIssueEnabled && !playwithEnabled) {
+    setOrDeleteMatrixKey(location, eventsPath, 'view', 'cve_issue');
+    tabs.push({
+      href: createHref(location),
+      label: eventTypeLabels.cve_issue,
+      isActive: selectedEventType === 'cve_issue'
     });
   }
 

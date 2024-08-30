@@ -16,6 +16,7 @@ import {
 } from 'in-stores/events';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
+import { formatDate } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -26,10 +27,13 @@ import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 export default function EventDetailsKPIs({ event, isIncident }) {
+  const eventType = getEventType(event);
   if (isIncident) {
     return <IncidentKPIs event={event} />;
   }
-
+  if (eventType === EVENT_TYPES.CVE_ISSUE) {
+    return <CveKPIs event={event} />;
+  }
   return <EventKPIs event={event} />;
 }
 
@@ -79,6 +83,27 @@ const IncidentKPIs = ({ event }) => {
     </Row>
   );
 };
+function CveKPIs({ event }) {
+  const reportedDate = formatDate(event.get('start'));
+  const cvssScore = event.getIn(['metadata', 'cve', 'cvssScore']);
+  const cveSeverity = event.getIn(['metadata', 'cve', 'severity']);
+  return (
+    <Row withoutSideMargin>
+      <Col xs>
+        <KpiCard title={t('in-events:titleReported')} value={reportedDate} raw />
+      </Col>
+      <Col xs>
+        <KpiCard title={t('in-events:titleState')} value={event.get('state')} raw />
+      </Col>
+      <Col xs>
+        <KpiCard title={t('in-events:titleCvssScore')} value={cvssScore} raw />
+      </Col>
+      <Col xs>
+        <KpiCard title={t('in-events:titleCveSeverity')} value={cveSeverity} raw />
+      </Col>
+    </Row>
+  );
+}
 
 export const Ended = connectTo(
   ({ event }) => {
