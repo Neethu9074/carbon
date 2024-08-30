@@ -769,6 +769,7 @@
         "selectAlertChannelButton": "Select Alert Channels",
         "createAlertChannelTitle": "Create Alert Channel",
         "alertChannelCreatedSuccess": "Alert channel created",
+        "alertChannelCreatedSuccessDescription": "The alert channel was successfully created.",
         "alertChannelSelectTypeTitle": "Alert Channel type",
         "addChannel": "Add {{count}} Channel",
         "addChannel_plural": "Add {{count}} Channels",
