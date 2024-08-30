@@ -446,6 +446,7 @@
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "New version of Instana UI available",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Reload to update",
     "profileMenu_profileLink": "Profile",
+    "profileMenu_tooltip": "Profile menu",
     "profileMenu_unitName_tenantName": "Unit name - Tenant name",
     "profileMenu_switchUnitOrTenant": "Switch unit or tenant",
     "profileMenu_logOut": "Log out"

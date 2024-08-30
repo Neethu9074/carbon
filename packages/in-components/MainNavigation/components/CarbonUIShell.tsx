@@ -643,13 +643,14 @@ function HeaderContent({ expanded, onClickSideNavExpand }: HeaderContentProps) {
       {playwithEnabled || playWithReleaseEnabled ? <AsyncComponent component={NewPlayWithHeader} /> : null}
       <AsyncComponent component={NotificationBarSticky} />
       {userProfileMenuEnabled && !playwithEnabled && (
-        <div id="profileMenu-switcher" className={local.header_profileMenu}>
+        <div id="profileMenu-switcher">
           <HeaderGlobalAction
             onClick={onClickSideNavExpand}
-            aria-label="Profile menu"
+            aria-label={t('in-components:mainNavigation.profileMenu_tooltip')}
             aria-expanded={expanded}
             isActive={expanded}
             aria-haspopup="true"
+            tooltipAlignment="end"
           >
             <UserIcon size="s" color="var(--cds-icon-secondary)" />
           </HeaderGlobalAction>
