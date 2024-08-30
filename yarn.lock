@@ -2953,9 +2953,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:4.22.0, @instana/components@npm:^4.22.0":
-  version: 4.22.0
-  resolution: "@instana/components@npm:4.22.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.22.0.tgz"
+"@instana/components@npm:4.22.1, @instana/components@npm:^4.22.1":
+  version: 4.22.1
+  resolution: "@instana/components@npm:4.22.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.22.1.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.62.1
@@ -2975,7 +2975,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: deb3cc1d898e077619cc93056bd6abbd1e0b433f82c31d267669108ded58982f61cd84258ee35ad5fddb59169f413a7ccb15553d9a0cf10061ce6deea9ab7151
+  checksum: 8907753b4cc30c60210ec06b78235512052dd6b1fd15120d3c269ec2c21f736a0ec6f9957869306ce181050688c673e2ea256cf950a4f70730b57d01f2174f52
   languageName: node
   linkType: hard
 
@@ -3080,11 +3080,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:4.1.21":
-  version: 4.1.21
-  resolution: "@instana/legacy@npm:4.1.21::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.1.21.tgz"
+"@instana/legacy@npm:4.1.22":
+  version: 4.1.22
+  resolution: "@instana/legacy@npm:4.1.22::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.1.22.tgz"
   dependencies:
-    "@instana/components": ^4.22.0
+    "@instana/components": ^4.22.1
     "@instana/design-tokens": ^1.27.3
     "@instana/format-date": ^1.6.7
     "@instana/format-numbers": ^1.5.5
@@ -3096,7 +3096,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: c90f0b30bfd3a24c97a15e179a2b2d8b39fb79df3dec7d464bc7a6d7b601fa802fb1ca604cbe1edda0725caa978b297f9400f2320d8a28befa6858ed7f100c7e
+  checksum: e6d438f4bea2549dbde7f6db05746e4bdbbc581bf2bd542e27ace667db1ca8ab7a530fab18d01ce1d2a4ffc54f1c188f9bc1349b45617ea781ca65ea7743e376
   languageName: node
   linkType: hard
 
@@ -23154,7 +23154,7 @@ __metadata:
     "@codemirror/state": 6.2.0
     "@codemirror/theme-one-dark": ^6.0.0
     "@codemirror/view": 6.6.0
-    "@instana/components": 4.22.0
+    "@instana/components": 4.22.1
     "@instana/design-tokens": 1.27.3
     "@instana/eslint-config-commons": 1.2.3
     "@instana/format-date": 1.6.7
@@ -23163,7 +23163,7 @@ __metadata:
     "@instana/i18n": ^1.4.1
     "@instana/i18n-react": 1.5.7
     "@instana/import-sort-style-simon": 1.3.2
-    "@instana/legacy": 4.1.21
+    "@instana/legacy": 4.1.22
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.6.1
     "@instana/pseudo-translation": ^1.3.1
