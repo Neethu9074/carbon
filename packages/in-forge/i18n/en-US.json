@@ -8290,7 +8290,7 @@
     },
     "fileMonitoringCondition": {
       "dashboard": {
-        "attribute": "Attribute",
+        "attribute": "Condition type",
         "operator": "Operator",
         "reference": "Reference",
         "actual": "Actual"
@@ -8300,7 +8300,8 @@
       "conditions": "Conditions",
       "path": "Path",
       "interval":"Interval (seconds)",
-      "issueTriggered": "Issue Triggered"
+      "issueTriggered": "Issue Triggered",
+      "nb": "All conditions must be met for the issue to trigger"
     },
     "finagleApplicationContainer": {
       "dashboard": {
