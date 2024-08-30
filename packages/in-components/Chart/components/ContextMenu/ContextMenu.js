@@ -19,12 +19,13 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
-import { minutes } from 'in-services/time';
 
 import locals from './ContextMenu.mless';
 
+// import { minutes } from 'in-services/time';
+
 const { isEscape } = keyCodes;
-const MAX_ZOOM_LEVEL = minutes.toMillis(1);
+// const MAX_ZOOM_LEVEL = minutes.toMillis(1);
 
 export default class extends React.Component {
   static displayName = 'ContextMenu';
@@ -44,8 +45,7 @@ export default class extends React.Component {
       },
       {
         ...zoomInAction,
-        getHrefWithLocation$: (location, createHref) =>
-          zoomInAction.getHighlightedTimeframeUrl$(highlightedTimeframe, location, createHref)
+        getHref$: (location, createHref) => zoomInAction.getHref$(highlightedTimeframe, location, createHref)
       },
       {
         ...downloadJSONAction,
@@ -76,11 +76,11 @@ export default class extends React.Component {
             }
           };
         }
-        if (config.getHref$) {
-          const originalGetHref$ = config.getHref$;
-          config.getHref$ = () =>
-            originalGetHref$(getHighlightedTimeConfig(highlightedTimeframe), this.getStrippedConfig());
-        }
+        // if (config.getHref$) {
+        //   const originalGetHref$ = config.getHref$;
+        //   config.getHref$ = () =>
+        //     originalGetHref$(getHighlightedTimeConfig(highlightedTimeframe), this.getStrippedConfig());
+        // }
         return config;
       });
 
@@ -242,20 +242,30 @@ export default class extends React.Component {
 }
 
 function createIconButton(config) {
-  const button = (
+  if (config.label) {
+    return (
+      <Tooltip content={config.label}>
+        <IconButton config={config} />
+      </Tooltip>
+    );
+  }
+  return <IconButton config={config} />;
+}
+
+function IconButton(props) {
+  const { location, createHref } = useNavigation();
+  const { config } = props;
+
+  return (
     <Button
       className={locals.contextMenuOpenButton}
-      href$={config.getHref$ && config.getHref$()}
+      href$={config.getHref$ && config.getHref$(location, createHref)}
       onClick={config.onClick}
       kind="secondary"
     >
       <SvgIcon className={locals.contextMenuOpenButtonIcon} type={config.icon} />
     </Button>
   );
-  if (config.label) {
-    return <Tooltip content={config.label}>{button}</Tooltip>;
-  }
-  return button;
 }
 
 function getNonFilteredMetricsForaxis(axisName, axis, filteredDataSeries) {
@@ -268,24 +278,24 @@ function getNonFilteredMetricsForaxis(axisName, axis, filteredDataSeries) {
     .map(i => (axis.metricIds || axis.labels)[i]);
 }
 
-function getHighlightedTimeConfig(highlightedTimeframe) {
-  const from = highlightedTimeframe[0];
-  let to = highlightedTimeframe[1];
-  let windowSize = to - from;
+// function getHighlightedTimeConfig(highlightedTimeframe) {
+//   const from = highlightedTimeframe[0];
+//   let to = highlightedTimeframe[1];
+//   let windowSize = to - from;
 
-  if (windowSize <= MAX_ZOOM_LEVEL) {
-    windowSize = MAX_ZOOM_LEVEL;
-  }
+//   if (windowSize <= MAX_ZOOM_LEVEL) {
+//     windowSize = MAX_ZOOM_LEVEL;
+//   }
 
-  const highlightedTimeConfig = {
-    windowSize,
-    to,
-    focusedMoment: to,
-    clearHighlightedTimeframe: true
-  };
+//   const highlightedTimeConfig = {
+//     windowSize,
+//     to,
+//     focusedMoment: to,
+//     clearHighlightedTimeframe: true
+//   };
 
-  return highlightedTimeConfig;
-}
+//   return highlightedTimeConfig;
+// }
 
 // exporting for test
 export function sortByPrimaryAction(i1, i2, primaryContextMenuAction) {
@@ -301,20 +311,14 @@ export function sortByPrimaryAction(i1, i2, primaryContextMenuAction) {
 function ContextMenuButton(props) {
   const { buttonConfig } = props;
   const { location, createHref } = useNavigation();
-  const { icon, getHref, label, getHref$, getHrefWithLocation$, onClick } = buttonConfig;
+  const { icon, getHref, label, getHref$, onClick } = buttonConfig;
   return (
     <Button
       className={locals.button}
       kind="secondary"
       size="compact"
       icon={icon}
-      {...(typeof getHref === 'string'
-        ? { href: getHref }
-        : buttonConfig.getHref$
-        ? { href$: getHref$() }
-        : getHrefWithLocation$
-        ? { href$: getHrefWithLocation$(location, createHref) }
-        : {})}
+      {...(typeof getHref === 'string' ? { href: getHref } : getHref$ ? { href$: getHref$(location, createHref) } : {})}
       onClick={onClick}
     >
       {label}
