@@ -140,7 +140,7 @@ export default function RootCauseErrorMessagesTable({
       endpointName={endpointName}
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
-      cardTitle={t('in-events:RCA:errorMessages')}
+      cardTitle={t('in-events:RCA.errorMessages')}
       rightHeader={(headerProps: { query: string }) => (
         <AnalyzeErrorMessagesButton
           groupByTagName="call.error.message"

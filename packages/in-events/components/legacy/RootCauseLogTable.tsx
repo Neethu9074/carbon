@@ -160,7 +160,7 @@ export default function RootCauseLogMessagesTable({
       endpointName={endpointName}
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
-      cardTitle={t('in-events:RCA:traceLogs')}
+      cardTitle={t('in-events:RCA.traceLogs')}
       rightHeader={(headerProps: { query: string }) => (
         <AnalyzeTraceLogsButton
           groupByTagName="log.message"
