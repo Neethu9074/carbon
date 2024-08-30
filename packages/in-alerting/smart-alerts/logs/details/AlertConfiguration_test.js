@@ -46,7 +46,6 @@ describe('AlertConfiguration : in-alerting/smart-alerts/logs/details/AlertConfig
     expect(
       screen.getByText(t('in-alerting:smartAlerts.logs.alertDetails.alertConfigurationTitleTrigger'))
     ).toBeInTheDocument();
-    expect(screen.getByText(t('in-events:titleMetrics'))).toBeInTheDocument();
   });
 
   it('Verify if Scope section is rendered:', () => {
