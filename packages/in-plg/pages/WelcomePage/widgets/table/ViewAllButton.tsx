@@ -29,7 +29,7 @@ export default function ViewAllButton({ href, viewLabel, isTableEmpty = false }:
           href={href}
           ariaLabel={viewLabel}
           iconDescription={viewLabel}
-          disabled={!isTableEmpty}
+          disabled={isTableEmpty}
         >
           {viewLabel}
         </DashboardButton>
