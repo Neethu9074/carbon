@@ -193,8 +193,11 @@ function createTagFilterExpressionForAnalysis(
   const isInfrastructureAProcess =
     entityInformation && entityInformation.plugin && entityInformation.plugin === 'process';
 
-  addValueToTagFilterExpressionIfItExists('host.snapshotId', originalID, !isInfrastructureAProcess);
-  addValueToTagFilterExpressionIfItExists('process.snapshotId', originalID, isInfrastructureAProcess);
+  // for endpoints with no AP context, we do not want to add the host.snapshotId or the process.snapshotId
+  if (entityType !== 'endpoint') {
+    addValueToTagFilterExpressionIfItExists('host.snapshotId', originalID, !isInfrastructureAProcess);
+    addValueToTagFilterExpressionIfItExists('process.snapshotId', originalID, isInfrastructureAProcess);
+  }
   addValueToTagFilterExpressionIfItExists(ENDPOINT.name, entityInformation.label, entityType === 'endpoint');
   addValueToTagFilterExpressionIfItExists(SERVICE.name, entityInformation.label, entityType === 'service');
 
