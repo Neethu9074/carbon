@@ -6,7 +6,7 @@
 /* global require:false */
 import {
   AmbientLight,
-  SphereBufferGeometry,
+  SphereGeometry,
   PerspectiveCamera,
   Scene,
   Mesh,
@@ -39,10 +39,7 @@ export default class GlobeScene {
     const scene = (this.scene = new Scene());
     scene.add(camera);
 
-    const globe = (this.globe = new Mesh(
-      new SphereBufferGeometry(0.5, 75, 75),
-      new MeshBasicMaterial({ color: 0x000000 })
-    ));
+    const globe = (this.globe = new Mesh(new SphereGeometry(0.5, 75, 75), new MeshBasicMaterial({ color: 0x000000 })));
     globe.renderOrder = 2;
     require([
       'in-websites/WebsiteDashboard/components/GlobeView/textures/diffuse.jpg',
@@ -133,7 +130,8 @@ export default class GlobeScene {
   render(renderer) {
     renderer.render(this.scene, this.camera);
 
-    this.inverse.getInverse(this.camera.matrixWorld);
+    this.inverse.copy(this.camera.matrixWorldInverse);
+
     this.camera.projection.multiplyMatrices(this.camera.projectionMatrix, this.inverse);
     this.camera.getWorldDirection(this.camera.lookAt);
   }

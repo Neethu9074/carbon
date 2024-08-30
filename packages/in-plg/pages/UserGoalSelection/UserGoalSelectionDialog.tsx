@@ -10,11 +10,11 @@ import classNames from 'classnames';
 import { Card, Checkbox, DashboardButton, Stack, SvgIcon, Typography } from '@instana/components';
 
 import { UserSettings, userSettings as userSettingsGlobal } from 'in-services/userSettings/globals';
+import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { GOAL_SELECTION, GOALS, TOGGLER } from 'in-plg/pages/UserGoalSelection/utils/consts';
 import { carbonCheckboxEnabled, carbonTileEnabled } from 'in-services/featureFlags';
-import OtherGoalField from 'in-plg/pages/UserGoalSelection/OtherGoalField';
 import { close as dialogClose } from 'in-components/DialogPresenter/store';
-import { segmentTrackingFunc } from 'in-plg/utils/Segment/segment';
+import OtherGoalField from 'in-plg/pages/UserGoalSelection/OtherGoalField';
 import { UserGoal } from 'in-plg/pages/UserGoalSelection/types';
 import { saveUserSettings } from 'in-services/userSettings';
 import { DialogContent } from 'in-plg/components/Dialog';
@@ -28,11 +28,22 @@ const UserGoalSelectionDialog = () => {
   const [selectedGoals, setSelectedGoals] = useState<UserGoal[]>([]);
   const [showOtherGoal, setShowOtherGoal] = useState<boolean>(false);
   const [otherGoal, setOtherGoal] = useState<string>('');
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
 
   const isGoalSelected = (goal: UserGoal) => selectedGoals.some(selectedGoal => selectedGoal.id === goal.id);
   const goalSelectHandler = (goal: UserGoal) => {
     const checked: boolean = !isGoalSelected(goal);
     goalSetHandler(checked, goal, setShowOtherGoal, setOtherGoal, setSelectedGoals);
+  };
+
+  const skipHandler = () => {
+    trackCta(GOAL_SELECTION.SEGMENT_MESSAGE.SKIP);
+    close();
+  };
+
+  const closeHandler = () => {
+    trackCta(GOAL_SELECTION.SEGMENT_MESSAGE.CLOSE);
+    close();
   };
 
   return (
@@ -92,7 +103,7 @@ const UserGoalSelectionDialog = () => {
             size="xl"
             className={locals.actionButton}
             onClick={() => {
-              submitHandler(selectedGoals, otherGoal);
+              submitHandler(selectedGoals, otherGoal, trackCta, unstable_trackEvent);
             }}
           >
             {t('in-plg:userGoalSelectionDialog.done')}
@@ -105,14 +116,18 @@ const UserGoalSelectionDialog = () => {
 
 export default UserGoalSelectionDialog;
 
-function submitHandler(selectedGoals: UserGoal[], otherGoal: string) {
+function submitHandler(
+  selectedGoals: UserGoal[],
+  otherGoal: string,
+  trackCta: CtaTrackingFunction,
+  unstable_trackEvent: Function
+) {
   selectedGoals.forEach(goal => {
     if (goal.type == TOGGLER) {
-      if (!otherGoal) return;
-      segmentTrackingFunc(`User goal: Other goal`, CTA_CLICKED, otherGoal);
+      unstable_trackEvent(CTA_CLICKED, { CTA: `User goal: Other goal`, message: otherGoal });
       return;
     }
-    segmentTrackingFunc(`User goal: ${goal.text}`, CTA_CLICKED);
+    trackCta(`User goal: ${goal.text}`);
   });
   close();
 }
@@ -135,16 +150,6 @@ function goalSetHandler(
       return prevSelectedGoals.filter((preGoal: UserGoal) => preGoal.id !== goal.id);
     }
   });
-}
-
-function skipHandler() {
-  segmentTrackingFunc(GOAL_SELECTION.SEGMENT_MESSAGE.SKIP, CTA_CLICKED);
-  close();
-}
-
-function closeHandler() {
-  segmentTrackingFunc(GOAL_SELECTION.SEGMENT_MESSAGE.CLOSE, CTA_CLICKED);
-  close();
 }
 
 function close() {

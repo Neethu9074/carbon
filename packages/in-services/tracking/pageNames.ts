@@ -70,6 +70,7 @@ export const pageNames = Object.freeze({
   compute_instances: 'Compute Instances',
   hypervisors: 'Hypervisors',
   event: 'Event',
+  event_generate_with_watsonx: 'Event > Generate With watsonx',
   events: 'Events',
   infra_explore: 'Infra Explore',
   regions: 'Regions',

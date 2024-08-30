@@ -11,9 +11,9 @@ import { ApdexConfiguration } from '@instana/types';
 import {
   ApplicationFilterWidgetConfigInfoItem,
   WebsiteFilterWidgetConfigInfoItem
-} from 'in-custom-dashboards/widgets/Slo/components/WidgetConfigInfo/FilterWidgetConfigInfoItem';
-import WidgetConfigInfoItem from 'in-custom-dashboards/widgets/Slo/components/WidgetConfigInfo/WidgetConfigInfoItem';
-import WidgetConfigInfo from 'in-custom-dashboards/widgets/Slo/components/WidgetConfigInfo';
+} from 'in-custom-dashboards/widgets/SloLegacy/components/WidgetConfigInfo/FilterWidgetConfigInfoItem';
+import WidgetConfigInfoItem from 'in-custom-dashboards/widgets/SloLegacy/components/WidgetConfigInfo/WidgetConfigInfoItem';
+import WidgetConfigInfo from 'in-custom-dashboards/widgets/SloLegacy/components/WidgetConfigInfo';
 import { latencyDetailed } from 'in-stores/metric/formatters';
 import { t } from 'in-i18n';
 

@@ -5,8 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { SvgIcon, Pagination as CarbonPagination, SearchInput } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Pagination as CarbonPagination, SearchInput, Button } from '@instana/components';
 
 import convertToScopes from 'in-components/time/TimeSelectionDialogPresenter/convertToScopes';
 import ReleaseScope from 'in-components/time/TimeSelectionDialogPresenter/ReleaseScope';

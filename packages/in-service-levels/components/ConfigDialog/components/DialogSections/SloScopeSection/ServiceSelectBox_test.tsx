@@ -29,7 +29,7 @@ const serviceB: ServiceItem = {
 };
 
 type Wrapper = ReturnType<typeof mount>;
-describe('in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox', () => {
+describe('in-custom-dashboards/widgets/SloLegacy/sli/ServiceSelectBox', () => {
   let getServices$: Subject<Result<any>>;
   beforeEach(() => {
     jest.resetModules();

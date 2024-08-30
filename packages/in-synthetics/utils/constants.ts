@@ -25,7 +25,7 @@ import {
 } from 'in-types';
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
-import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { TableActions } from 'in-settings/components/List';
 import { Options } from 'in-hooks/useUrlState';
@@ -390,7 +390,7 @@ export const filterLocationTypesUrlStateDefinition = {
   bind: [locationTypesUrlParameter]
 } as Options<UrlState>;
 
-export const filterUrlStateDefinition = syntheticMultiWebMobileEnabled
+export const filterUrlStateDefinition = syntheticRbacLimitedEnabled
   ? ({
       bind: [syntheticTypesUrlParameter, locationsUrlParameter, entityIdsUrlParameter]
     } as Options<UrlState>)

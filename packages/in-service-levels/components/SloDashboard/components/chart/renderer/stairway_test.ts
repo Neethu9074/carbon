@@ -14,7 +14,7 @@ jest.mock('in-components/Chart/renderer/point', () => ({
   drawPoint: jest.fn()
 }));
 
-describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
+describe('in-custom-dashboards/widgets/SloLegacy/renderer/stairway', () => {
   const config = {
     xScaleBackBuffer: createScale(),
     backBufferCtx: {

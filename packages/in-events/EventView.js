@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { get } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
@@ -25,6 +25,7 @@ import { spreadTimeConfig, concatQueries } from 'in-events/utils';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import RedirectWithHash from 'in-components/RedirectWithHash';
+import getRawCVEEvents from 'in-subscription/getRawCVEEvents';
 import ViewSwitcher from 'in-events/components/ViewSwitcher';
 import * as eventTypeLabels from 'in-events/eventTypeLabels';
 import EventsChart from 'in-events/components/EventsChart';
@@ -112,29 +113,43 @@ function EventView(props) {
 
 function EventViewComponent(props) {
   const { eventType, staticTimeConfigToUseForTable, orderBy, orderDirection, query, eventId, timeConfig } = props;
-  const tableProps = useCursorPagination(
+  const fetchEvents = useCallback(
     ({ cursor }) =>
-      getRawEvents({
-        timeConfig: staticTimeConfigToUseForTable || timeConfig,
-        query: concatQueries(query, eventType),
-        pagination: {
-          cursor,
-          retrievalSize: 30
-        },
-        order: {
-          by: orderBy,
-          direction: orderDirection
-        }
-      }),
-    [
-      eventType,
-      query,
-      orderBy,
-      orderDirection,
-      eventType,
-      ...spreadTimeConfig(staticTimeConfigToUseForTable, timeConfig)
-    ]
+      eventType === 'cve_issue'
+        ? getRawCVEEvents({
+            timeConfig: staticTimeConfigToUseForTable || timeConfig,
+            query: concatQueries(query, eventType),
+            pagination: {
+              cursor,
+              retrievalSize: 30
+            },
+            order: {
+              by: orderBy,
+              direction: orderDirection
+            }
+          })
+        : getRawEvents({
+            timeConfig: staticTimeConfigToUseForTable || timeConfig,
+            query: concatQueries(query, eventType),
+            pagination: {
+              cursor,
+              retrievalSize: 30
+            },
+            order: {
+              by: orderBy,
+              direction: orderDirection
+            }
+          }),
+    [eventType, query, orderBy, orderDirection, staticTimeConfigToUseForTable, timeConfig]
   );
+  const tableProps = useCursorPagination(fetchEvents, [
+    eventType,
+    query,
+    orderBy,
+    orderDirection,
+    eventType,
+    ...spreadTimeConfig(staticTimeConfigToUseForTable, timeConfig)
+  ]);
   return (
     <Sticky
       header={

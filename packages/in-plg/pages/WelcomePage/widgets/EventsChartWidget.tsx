@@ -107,7 +107,7 @@ export default function EventsChartWidget({
                       name: 'showEvents',
                       icon: 'lib_events_inverted',
                       label: t('in-plg:welcomepage.component.eventWidget.viewEvents'),
-                      getHref$: (highlightedTime: any) =>
+                      getHref$: (highlightedTime: TimeConfig) =>
                         getEventsViewFilteredBy({
                           timeConfig: highlightedTime
                         })

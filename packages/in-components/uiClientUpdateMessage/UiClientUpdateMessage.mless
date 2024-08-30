@@ -10,12 +10,6 @@
     font-weight: var(--ids-font-size-option-body-regular);
   }
 
-  .title {
-    font-size: var(--ids-font-size-option-heading-200);
-    font-weight: 600;
-    margin-top: 0.75rem;
-  }
-
   .controls {
     margin-left: -0.625rem;
   }

@@ -75,6 +75,8 @@ export default function EventRow({
   const eventType = getEventType(event);
   const isChangeEvent = eventType === EVENT_TYPES.CHANGE;
 
+  const cvssScore = event.metadata?.cve.cvssScore;
+
   const timeScaleStart = timeScale.getRange(start);
   const timeScaleEnd = timeScale.getRange(end);
 
@@ -84,55 +86,101 @@ export default function EventRow({
 
   return (
     <Tr key={event.id} size="compact" active={active} onClick={isPreview ? undefined : onClick}>
-      <Td>
-        <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
-      </Td>
-      {isDisplayColumn(headers, 'title') && (
-        <Td>
-          <div
-            className={classNames({
-              [locals.smallColumn]: smallColumn,
-              [locals.title]: true
-            })}
-            title={event.title}
-          >
-            {event.title}
-          </div>
-        </Td>
-      )}
-      {isDisplayColumn(headers, 'entityLabel') && (
-        <Td>
-          <OnEntity rawEvent={event} smallColumn={smallColumn} />
-        </Td>
-      )}
-      {isDisplayColumn(headers, 'started') && (
-        <Td>
-          <span className={locals.text}>{formatDisplayDateTime(start, headers, isPreview)}</span>
-        </Td>
-      )}
-      {isDisplayColumn(headers, 'ended') && (
-        <Td>
-          <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start, headers, isPreview)}</span>
-        </Td>
-      )}
-      {isDisplayColumn(headers, 'timeline') && (
-        <Td>
-          <div className={locals.timelineWrapper}>
-            <div style={{ left, width }} className={locals.line} />
-          </div>
-        </Td>
-      )}
-      {canCloseManually && isDisplayColumn(headers, 'state') && (
-        <Td>
-          <span className={locals.text}>{getStateBadge(event)}</span>
-        </Td>
-      )}
-      {headers && isDisplayColumn(headers, 'duration') && (
-        <Td>
-          <span className={locals.text}>
-            <Duration event={event} listView />
-          </span>
-        </Td>
+      {/* Conditional rendering based on eventType */}
+      {event.type === 'cve_issue' ? (
+        // Custom rendering logic for cve_issue
+        <>
+          <Td>
+            <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+          </Td>
+          {isDisplayColumn(headers, 'title') && (
+            <Td>
+              <div
+                className={classNames({
+                  [locals.smallColumn]: smallColumn,
+                  [locals.title]: true
+                })}
+                title={event.title}
+              >
+                {event.title}
+              </div>
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'entityLabel') && (
+            <Td>
+              <OnEntity rawEvent={event} smallColumn={smallColumn} />
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'started') && (
+            <Td>
+              <span className={locals.text}>{formatDisplayDateTime(start, headers, isPreview)}</span>
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'cvssScore') && (
+            <Td>
+              <span className={locals.text}>{cvssScore}</span>
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'state') && (
+            <Td>
+              <span className={locals.text}>{getStateBadge(event)}</span>
+            </Td>
+          )}
+        </>
+      ) : (
+        // Default rendering logic
+        <>
+          <Td>
+            <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+          </Td>
+          {isDisplayColumn(headers, 'title') && (
+            <Td>
+              <div
+                className={classNames({
+                  [locals.smallColumn]: smallColumn,
+                  [locals.title]: true
+                })}
+                title={event.title}
+              >
+                {event.title}
+              </div>
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'entityLabel') && (
+            <Td>
+              <OnEntity rawEvent={event} smallColumn={smallColumn} />
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'started') && (
+            <Td>
+              <span className={locals.text}>{formatDisplayDateTime(start, headers, isPreview)}</span>
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'ended') && (
+            <Td>
+              <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start, headers, isPreview)}</span>
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'timeline') && (
+            <Td>
+              <div className={locals.timelineWrapper}>
+                <div style={{ left, width }} className={locals.line} />
+              </div>
+            </Td>
+          )}
+          {canCloseManually && isDisplayColumn(headers, 'state') && (
+            <Td>
+              <span className={locals.text}>{getStateBadge(event)}</span>
+            </Td>
+          )}
+          {headers && isDisplayColumn(headers, 'duration') && (
+            <Td>
+              <span className={locals.text}>
+                <Duration event={event} listView />
+              </span>
+            </Td>
+          )}
+        </>
       )}
     </Tr>
   );

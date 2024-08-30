@@ -19,6 +19,11 @@ export default function ComboBox({ ...props }: ComboBoxProps): JSX.Element {
   };
   const shouldFilterItem = (input: any) => {
     const { inputValue, item, itemToString } = input;
+    const selopt =
+      props.value !== null && props.value !== undefined
+        ? props.options?.find(e => e.value === props.value)
+        : props.value;
+    if (inputValue === itemToString(selopt)) return true;
     return inputValue && inputValue !== '' && item
       ? itemToString(item).toLowerCase().includes(inputValue.toLowerCase())
       : true;

@@ -8,7 +8,6 @@
 :local {
   .carbon {
     margin: 0 0 1rem;
-    padding-bottom: 1rem;
     flex-direction: column;
   }
 

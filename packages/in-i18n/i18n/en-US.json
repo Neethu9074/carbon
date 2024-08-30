@@ -19,7 +19,11 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "Load More"
-      }
+      },
+      "dataTable": "Data table"
+    },
+    "tableSkeleton": {
+      "sampleTable": "Sample table"
     },
     "code": {
       "copy": "Copy",

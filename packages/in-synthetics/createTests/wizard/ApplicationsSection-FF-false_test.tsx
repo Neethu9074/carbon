@@ -14,12 +14,12 @@ import ApplicationsSection from 'in-synthetics/createTests/wizard/ApplicationsSe
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 
 jest.mock('in-services/featureFlags', () => ({
-  get syntheticMultiAppEnabled() {
+  get syntheticRbacLimitedEnabled() {
     return false;
   }
 }));
 
-describe('ApplicationsSection when syntheticMultiAppEnabled is false', () => {
+describe('ApplicationsSection when syntheticRbacLimitedEnabled is false', () => {
   const form = createForm(true, getSimpleBlueprintConfig()[0]);
   const updateForm = jest.fn();
 

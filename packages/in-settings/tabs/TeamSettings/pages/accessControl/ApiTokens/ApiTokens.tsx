@@ -10,20 +10,21 @@ import { IconButton, Link } from '@instana/components';
 import { createLogger } from '@instana/logger';
 
 import {
+  getApiTokens,
+  deleteApiToken,
+  createApiToken,
+  getTokenIdByAccessGrantingToken
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
+import {
   getEntityHref,
   getEntityIdView,
   teamSettingsAccessControlApiTokens,
   teamSettingsAccessControlApiTokenNew
 } from 'in-settings/navigation/paths';
-import {
-  getApiTokens,
-  deleteApiToken,
-  createApiToken
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
 import TenantInfoBanner from 'in-settings/tabs/TeamSettings/components/TenantInfoBanner/TenantInfoBanner';
 import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
-import List, { defaultHeaderWithCount } from 'in-settings/components/List';
+import List, { defaultHeaderWithCount, filterReducer } from 'in-settings/components/List';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { fromNow, formatDateTime } from 'in-services/formatters/date';
 import { apiTokenDialogEnabled } from 'in-services/featureFlags';
@@ -38,6 +39,10 @@ const logger = createLogger('ApiTokens');
 
 export default function ApiTokens() {
   const { goToPath } = useNavigation();
+  const [filteredTokenId, setFilteredTokenId] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const searchAttributes = ['name', 'id', 'internalId', 'accessGrantingToken', 'createdBy'];
+
   const columnDefinitions = [
     {
       id: 'name',
@@ -139,6 +144,53 @@ export default function ApiTokens() {
       }
     }
   ];
+
+  /**
+   * Retrieve token internal id for a complete access token string
+   * @param {query: string} entered search query
+   * @returns void
+   */
+  const onSearch = (query: string) => {
+    setFilteredTokenId('');
+    setSearchQuery(query);
+    // Only search for token id if query matches token length (API call will fail in other cases)
+    if (query?.length === 16 || query?.length === 22) {
+      const getTokenIdObsvervable = getTokenIdByAccessGrantingToken(query);
+      getTokenIdObsvervable.once(data => {
+        setFilteredTokenId(data);
+      });
+    }
+  };
+
+  /**
+   * Custom filter function that performs normal search based on specified search attributes
+   * and adds results from full token search. This replaces the default search logic
+   * of the List component.
+   * @param {entities: ApiTokenProps[]} entities to filter
+   * @returns filtered entities
+   */
+  const onFilter = (entities: ApiTokenProps[]) => {
+    let filteredEntities: ApiTokenProps[] = [];
+
+    // Default search based on search attributes
+    filteredEntities = entities.filter(entity =>
+      searchAttributes.reduce(filterReducer.bind(null, searchQuery, entity), false)
+    );
+
+    // Add results for full token search
+    if (filteredTokenId !== '' && entities) {
+      filteredEntities.push(
+        ...entities.filter(
+          (entity: ApiTokenProps) =>
+            entity.internalId === filteredTokenId &&
+            !filteredEntities.some((elem: ApiTokenProps) => elem.internalId === filteredTokenId) // prevent duplicate results
+        )
+      );
+    }
+
+    return filteredEntities;
+  };
+
   return (
     <>
       <TenantInfoBanner>
@@ -155,9 +207,10 @@ export default function ApiTokens() {
         tableActions={tableActions}
         loadEntities={() => getApiTokens()}
         initialOrderBy="name"
+        onSearch={onSearch}
+        onFilter={onFilter}
         onCreateNew={() => onCreateNew(goToPath)}
         labelNew={t('in-settings:tabs.newApiToken')}
-        searchAttributes={['name', 'id', 'internalId', 'accessGrantingToken', 'createdBy']}
         searchPlaceholder={t('in-settings:components.search')}
         noDataMessage={t('in-settings:tabs.noApiToken')}
         // @ts-expect-error

@@ -9,6 +9,8 @@ import { get } from 'lodash';
 
 import { themes } from '@instana/design-tokens';
 
+// eslint-disable-next-line no-restricted-imports
+import { carbonAlert } from 'in-themes/chartColors';
 import createTotalRawEventsSubscription from 'in-subscription/totalRawEventsCount';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createHealthInfoSubscription from 'in-subscription/healthInfo';
@@ -135,13 +137,23 @@ export function getNearestEvent(events, timestamp, maxDistance = Number.MAX_VALU
 
 export function getColor({ event, timeConfig, defaultColor }) {
   const isImmutableObject = !!event.get;
-  const severity = isImmutableObject
-    ? event.getIn(['problem', 'severity'], 0)
-    : get(event, ['problem', 'severity'], event.severity || 0);
+  const isCVEEvent = isImmutableObject ? event.getIn(['metadata', 'cve']) : event.metadata?.cve;
+
+  let color;
+  if (isCVEEvent) {
+    const severity = isImmutableObject
+      ? event.getIn(['metadata', 'cve', 'severity'], '')
+      : get(event, ['metadata', 'cve', 'severity'], event.metadata.cve?.severity || '');
+    color = getColorBySeverity(severity, { defaultColor, isCVE: true });
+  } else {
+    const severity = isImmutableObject
+      ? event.getIn(['problem', 'severity'], 0)
+      : get(event, ['problem', 'severity'], event.severity || 0);
+    color = getColorBySeverity(severity, { defaultColor });
+  }
   const start = isImmutableObject ? event.get('start') : event.start;
   const end = isImmutableObject ? event.get('end') : event.end;
   const state = isImmutableObject ? event.get('state') : event.state;
-  const color = getColorBySeverity(severity, { defaultColor });
 
   if (isEventOpenAtFocusedMoment(start, end, state, timeConfig)) {
     return color;
@@ -168,6 +180,14 @@ export const healthColors = [
 ];
 
 export function getColorBySeverity(severity, params = {}) {
+  if (params.isCVE) {
+    const cveSeverityMap = {
+      Low: carbonAlert.yellow30,
+      Warning: carbonAlert.orange40,
+      Critical: carbonAlert.red60
+    };
+    return cveSeverityMap[severity] || params.defaultColor;
+  }
   if (severity > 0 && severity <= 1) {
     // 0.51 -> 5.1
     severity = severity * 10;
@@ -207,7 +227,9 @@ export const EVENT_TYPES = {
   CHANGE: 0,
   ISSUE_WARNING: 1,
   ISSUE_CRITICAL: 2,
-  INCIDENT: 4
+  INCIDENT: 4,
+  CVE_ISSUE: 5,
+  AGENT_MONITORING_ISSUE: 6
 };
 
 export function getIcon(eventType) {
@@ -218,6 +240,8 @@ export function getIcon(eventType) {
       return 'lib_events_critical';
     case EVENT_TYPES.INCIDENT:
       return 'lib_events_incident';
+    case EVENT_TYPES.CVE_ISSUE:
+      return 'lib_events_cve';
     default:
       return 'lib_events_change';
   }
@@ -225,16 +249,41 @@ export function getIcon(eventType) {
 
 export function getEventSeverityLabel(event) {
   const isImmutableObject = !!event.get;
-  const severity = isImmutableObject
-    ? event.getIn(['problem', 'severity'], 0)
-    : get(event, ['problem', 'severity'], event.severity || 0);
-  switch (severity) {
-    case 5:
-      return t('in-events:labelWarning');
-    case 10:
-      return t('in-events:labelCritical');
-    default:
-      return '';
+  const eventType = isImmutableObject
+    ? event.getIn(['problem', 'type'], '')
+    : get(event, ['problem', 'type'], event.type || '');
+
+  let severity;
+  if (eventType === 'cve_issue') {
+    severity = isImmutableObject
+      ? event.getIn(['metadata', 'cve', 'severity'], '')
+      : get(event, ['metadata', 'cve', 'severity'], event.metadata?.cve.severity || '');
+  } else {
+    severity = isImmutableObject
+      ? event.getIn(['problem', 'severity'], 0)
+      : get(event, ['problem', 'severity'], event.severity || 0);
+  }
+
+  if (eventType === 'cve_issue') {
+    switch (severity) {
+      case 'Critical':
+        return t('in-events:labelCritical');
+      case 'Warning':
+        return t('in-events:labelWarning');
+      case 'Low':
+        return t('in-events:labelLow');
+      default:
+        return '';
+    }
+  } else {
+    switch (severity) {
+      case 5:
+        return t('in-events:labelWarning');
+      case 10:
+        return t('in-events:labelCritical');
+      default:
+        return '';
+    }
   }
 }
 
@@ -289,6 +338,9 @@ export function getEventType(event) {
     case 'change':
       return EVENT_TYPES.CHANGE;
     case 'agent_monitoring_issue': // can be handled just as any other issue in the UI
+      return EVENT_TYPES.AGENT_MONITORING_ISSUE;
+    case 'cve_issue':
+      return EVENT_TYPES.CVE_ISSUE;
     case 'issue': {
       const severity = isImmutableObject
         ? event.getIn(['problem', 'severity'], 0)

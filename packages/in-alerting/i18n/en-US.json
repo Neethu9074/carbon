@@ -549,7 +549,8 @@
           "groupByEndpoint_1": "{{count}} Endpoints",
           "groupByEndpoint_2": "{{count}} Endpoints",
           "groupbyDescription": "Based on calls made in the last 24 hours",
-          "noData": "No groupby data available."
+          "noData": "No groupby data available.",
+          "groupByDataFailed": "Something went wrong. Could not retrieve group by data. Reason : {{reason}}"
         },
         "callsInScope": {
           "title": "Choose calls in scope ",
@@ -768,6 +769,7 @@
         "selectAlertChannelButton": "Select Alert Channels",
         "createAlertChannelTitle": "Create Alert Channel",
         "alertChannelCreatedSuccess": "Alert channel created",
+        "alertChannelCreatedSuccessDescription": "The alert channel was successfully created.",
         "alertChannelSelectTypeTitle": "Alert Channel type",
         "addChannel": "Add {{count}} Channel",
         "addChannel_plural": "Add {{count}} Channels",
@@ -865,6 +867,7 @@
         "criticalAlertPreviewLabel": "Critical preview",
         "alertPreviewMissingThresholdInfo": "No preview available. Please select at least one threshold value to see the preview.",
         "alertPropertiesAlertProperties": "Alert Properties",
+        "alertPreviewDefaultTitle": "Notification title",
         "groupingPlaceholdersMissingTooltip": "Configure group(s) to access placeholder options",
         "buttonSave": "Save",
         "buttonCreate": "Create",

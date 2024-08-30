@@ -12,7 +12,7 @@ import { Stack, Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line import/no-deprecated -- Existing usage of deprecated code, this component will be removed in the future
-import { getField } from 'in-custom-dashboards/widgets/Slo/form';
+import { getField } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import {
   apdexEntityKey,
   boundaryScopeKey,

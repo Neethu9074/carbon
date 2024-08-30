@@ -14,7 +14,6 @@ import ThresholdValueInput from 'in-alerting/smart-alerts/components/dialog/adva
 import { MetricDefinition, getBuiltInMetricDefinition } from 'in-api/infraCatalog';
 import HelpAction from 'in-components/workspace/HelpAction/HelpAction';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { carbonInputEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/ThresholdCondition.mless';
@@ -37,7 +36,6 @@ export default function ThresholdValueInputWithValidationMessage(props: Threshol
   const { thresholdField = props.form?.get('threshold')?.get('value') } = props;
   const metricId = props.form.get('rule')?.get('metricName')?.value ?? undefined;
   const plugin = props.form.get('rule')?.get('entityType')?.value ?? undefined;
-  const isTearSheet = props?.isTearSheet ?? false;
 
   const builtInMetricsForPlugin = useObservable<MetricDefinition, [string | undefined, string | undefined]>(() => {
     if (plugin && metricId) {
@@ -48,12 +46,10 @@ export default function ThresholdValueInputWithValidationMessage(props: Threshol
   }, [plugin, metricId]);
 
   const valueMappings = builtInMetricsForPlugin?.metricMetadata?.valueMappings;
-  const hasError = thresholdField?.hierarchyTouched && thresholdField?.valid === false;
 
   return (
     <div
       className={classNames({
-        [locals.topPaddingInput]: isTearSheet && hasError && !carbonInputEnabled,
         [locals.multiThresholdValueWithValidationMessage]: props.isMultiThreshold
       })}
     >

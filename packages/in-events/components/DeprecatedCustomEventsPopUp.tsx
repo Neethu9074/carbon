@@ -19,8 +19,8 @@ import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/ge
 import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { addMessage, Message, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { tryGet, trySet } from 'in-services/localStorage';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
@@ -39,9 +39,18 @@ const recurringIntervalDuration = days.toMillis(7);
 // localStorage.setItem('nextReminderAfter', 9)
 const localStorageKey = 'nextReminderAfter';
 
+export function useLinkToDeprecatedCustomEvents() {
+  const { location, createHref } = useNavigation();
+  location.pathname = teamSettingsAlertingEvents;
+  setOrDeleteMatrixKey(location, events, 'type', deprecatedValue);
+
+  return createHref(location);
+}
+
 export default function DeprecatedCustomEventsPopUp() {
   const legacyAlertConfigStats = useObservable(getLegacyAlertConfigStats, []) ?? pendingResult;
   const storedAlarmTime = storedAlarmTimeOrNull();
+  const hrefLink = useLinkToDeprecatedCustomEvents();
 
   useEffect(() => {
     const deprecatedCustomEventsExist = legacyAlertConfigStats?.data?.deprecatedCustomEvents > 0;
@@ -50,18 +59,18 @@ export default function DeprecatedCustomEventsPopUp() {
         setReminder(calculateNextOccurrence(initialDelay));
       } else {
         if (timeExpired()) {
-          showNotification(legacyAlertConfigStats.data.deprecatedCustomEvents);
+          showNotification(legacyAlertConfigStats.data.deprecatedCustomEvents, hrefLink);
           const deprecatedCustomEvents = legacyAlertConfigStats?.data?.deprecatedCustomEvents;
           applicationsAlertingShowMigrationNotification({ deprecatedCustomEvents });
         }
       }
     }
-  }, [legacyAlertConfigStats, storedAlarmTime /* trigger, when localStorage was changed */]);
+  }, [legacyAlertConfigStats, storedAlarmTime /* trigger, when localStorage was changed */, hrefLink]);
 
   return null;
 }
 
-export function showNotification(deprecatedCustomEvents: number) {
+export function showNotification(deprecatedCustomEvents: number, hrefLink: string) {
   const id = 'deprecatedCustomEventsInfo';
   const message: Message = {
     type: 'warning',
@@ -90,10 +99,7 @@ export function showNotification(deprecatedCustomEvents: number) {
           />
         </p>
         <Link
-          href={getModifiedUrlStream(location => {
-            location.pathname = teamSettingsAlertingEvents;
-            setOrDeleteMatrixKey(location, events, 'type', deprecatedValue);
-          })}
+          href={hrefLink}
           onClick={() => applicationsAlertingMigrationNotificationEvents({ deprecatedCustomEvents })}
         >
           {t('in-events:deprecatedCustomEventGlobalPopup.affectedEventsLink')}

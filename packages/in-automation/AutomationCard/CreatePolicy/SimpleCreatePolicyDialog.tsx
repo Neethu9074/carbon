@@ -9,12 +9,13 @@ import React, { useState } from 'react';
 
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
+import { createPolicyFromRecommendedActionsTracker, useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { CreatePolicyStep } from 'in-automation/AutomationCard/CreatePolicy/CreatePolicyStep';
 import ViewActionStep from 'in-automation/AutomationCard/CreatePolicy/ViewActionStep';
-import { createPolicyFromRecommendedActionsTracker } from 'in-automation/tracker';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
+import { isAIActionCopy } from 'in-automation/ActionCatalog/shared';
 import { refresh } from 'in-automation/AutomationCard/usePolicies';
 import { hasError, isLoading } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
@@ -46,9 +47,10 @@ interface SimpleAIDialogProps {
 export default function SimpleCreatePolicyDialog({ selectedAction, event, setActiveKey }: SimpleAIDialogProps) {
   const [simpleModeStep, setSimpleModeStep] = useState(0);
   const [form, updateForm] = useState(createNewPolicyFormDefinition(selectedAction));
+  const { createPolicyTrackerSegment } = useSegmentTracker();
 
   const handleCreatePolicy = () => {
-    createPolicy({ form, event, selectedAction, setActiveKey });
+    createPolicy({ form, event, selectedAction, setActiveKey }, createPolicyTrackerSegment);
   };
   return (
     <div className={locals.container}>
@@ -78,7 +80,10 @@ export default function SimpleCreatePolicyDialog({ selectedAction, event, setAct
   );
 }
 type handleCreatePolicyProps = SimpleAIDialogProps & { form: PolicyForm };
-const createPolicy = ({ form, event, selectedAction, setActiveKey }: handleCreatePolicyProps) => {
+const createPolicy = (
+  { form, event, selectedAction, setActiveKey }: handleCreatePolicyProps,
+  createPolicyTrackerSegment: TrackingFunction
+) => {
   const policyDetails = {
     name: form.get('policyName').value,
     description: form.get('policyDescription').value,
@@ -91,6 +96,14 @@ const createPolicy = ({ form, event, selectedAction, setActiveKey }: handleCreat
     if (errored) {
       onCreateFailed(data?.errors[0]);
     } else {
+      createPolicyTrackerSegment({
+        actionName: selectedAction.name,
+        actionType: selectedAction.type,
+        policyName: policy.name,
+        policyType: 'manual',
+        aiOriginated: isAIActionCopy(selectedAction!) ? true : false,
+        triggerName: event.problem?.problemText
+      });
       createPolicyFromRecommendedActionsTracker({
         name: policy.name,
         triggerName: event.problem?.problemText,

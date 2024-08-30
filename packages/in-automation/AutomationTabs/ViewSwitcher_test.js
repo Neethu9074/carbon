@@ -7,8 +7,8 @@
 import { render, fireEvent } from '@testing-library/react';
 import React from 'react';
 
+import { actionHistoryTracker, useSegmentTracker } from 'in-automation/tracker';
 import * as NavigationHooks from 'in-stores/navigation/hooks/useNavigation';
-import { actionHistoryTracker } from 'in-automation/tracker';
 import ViewSwitcher from './ViewSwitcher';
 import { t } from 'in-i18n';
 
@@ -19,11 +19,13 @@ jest.mock('in-stores/navigation/hooks/useNavigation', () => ({
   useNavigation: jest.fn()
 }));
 jest.mock('in-automation/tracker', () => ({
-  actionHistoryTracker: jest.fn()
+  actionHistoryTracker: jest.fn(),
+  useSegmentTracker: jest.fn()
 }));
 
 const mockMatchLocation = jest.fn();
 const mockCreateHrefToPath = jest.fn();
+const mockActionHistoryTrackerSegment = jest.fn();
 
 beforeEach(() => {
   // Reset all implementations
@@ -31,6 +33,7 @@ beforeEach(() => {
   actionHistoryTracker.mockClear();
   mockMatchLocation.mockReset();
   mockCreateHrefToPath.mockReset();
+  mockActionHistoryTrackerSegment.mockReset();
 
   // Setup default implementations
   NavigationHooks.useNavigation.mockImplementation(() => ({
@@ -38,9 +41,14 @@ beforeEach(() => {
     createHrefToPath: mockCreateHrefToPath
   }));
 
+  useSegmentTracker.mockImplementation(() => ({
+    actionHistoryTrackerSegment: mockActionHistoryTrackerSegment
+  }));
+
   // Example paths
   mockMatchLocation.mockImplementation(path => path === 'expectedActivePath');
   mockCreateHrefToPath.mockImplementation(path => `href-${path}`);
+  mockActionHistoryTrackerSegment.mockImplementation();
 });
 
 // Test cases
@@ -58,5 +66,6 @@ describe('ViewSwitcher Component', () => {
     const actionHistoryLink = getByText('in-automation:actionHistory.actionHistory');
     fireEvent.click(actionHistoryLink);
     expect(actionHistoryTracker).toHaveBeenCalled();
+    expect(mockActionHistoryTrackerSegment).toHaveBeenCalled();
   });
 });

@@ -20,9 +20,13 @@ import {
   actionStatusesUrlParameter,
   getActorType
 } from 'in-automation/components/ActionHistory/constants';
+import {
+  actionHistoryInstanceDeleteTracker,
+  actionHistoryInstanceViewTracker,
+  useSegmentTracker
+} from 'in-automation/tracker';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { actionHistoryInstanceDeleteTracker, actionHistoryInstanceViewTracker } from 'in-automation/tracker';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import ActionInstanceDetail from 'in-automation/components/ActionHistory/ActionInstanceDetail';
@@ -298,6 +302,7 @@ export function GetActionInstanceListData({
 export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
   const [{ types, actionStatuses }, setFilter] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
+  const { actionHistoryInstanceViewTrackerSegment } = useSegmentTracker();
   return (
     <ServerTableWithUrlState
       get={GetActionInstanceListData}
@@ -313,6 +318,10 @@ export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
       }
       onRowClick={(row: ActionInstance) => {
         addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
+        actionHistoryInstanceViewTrackerSegment({
+          actionInstanceId: row.actionInstanceId,
+          actionName: row.actionName
+        });
         actionHistoryInstanceViewTracker({
           actionInstanceId: row.actionInstanceId,
           actionName: row.actionName

@@ -22,6 +22,7 @@ export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabl
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
 export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitoringIssuesEnabled');
+export const cveIssueEnabled = isFeatureFlagEnabled('cveIssueEnabled');
 export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');
@@ -78,6 +79,7 @@ export const carbonMenuEnabled = isFeatureFlagEnabled('carbonMenuEnabled', false
 export const carbonDropdownEnabled = isFeatureFlagEnabled('carbonDropdownEnabled', false);
 export const carbonInputEnabled = isFeatureFlagEnabled('carbonInputEnabled');
 export const carbonComboBoxEnabled = isFeatureFlagEnabled('carbonComboBoxEnabled');
+export const carbonCodeEnabled = isFeatureFlagEnabled('carbonCodeEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
@@ -105,6 +107,7 @@ export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true)
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
 export const sloSmartAlertsEnabled = isFeatureFlagEnabled('sloSmartAlertsEnabled', true);
+export const sloRebornWidgetEnabled = isFeatureFlagEnabled('sloRebornWidgetEnabled', false);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
@@ -136,13 +139,7 @@ export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticI
 export const syntheticCertificateCheckEnabled = isFeatureFlagEnabled('syntheticCertificateCheckEnabled');
 
 // Synthetic RBAC Limited Access feature flag
-export const syntheticRbacLimitedTPEnabled = isFeatureFlagEnabled('syntheticRbacLimitedTPEnabled');
-
-// Synthetic Multi App Support feature flag
-export const syntheticMultiAppEnabled = isFeatureFlagEnabled('syntheticMultiAppEnabled');
-
-// Synthetic Multi Websites and Mobile Apps feature flag
-export const syntheticMultiWebMobileEnabled = isFeatureFlagEnabled('syntheticMultiWebMobileEnabled');
+export const syntheticRbacLimitedEnabled = isFeatureFlagEnabled('syntheticRbacLimitedEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(

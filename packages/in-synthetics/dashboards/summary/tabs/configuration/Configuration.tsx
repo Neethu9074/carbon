@@ -13,13 +13,9 @@ import { Trans, t } from '@instana/i18n-react';
 import { Button } from '@instana/components';
 
 import EditConfigurationDialogPresenter from 'in-synthetics/dashboards/summary/tabs/configuration/actions/EditConfigurationDialogPresenter';
-import {
-  syntheticCertificateCheckEnabled,
-  syntheticMultiAppEnabled,
-  syntheticMultiWebMobileEnabled
-} from 'in-services/featureFlags';
 import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CustomProperties from 'in-synthetics/dashboards/summary/tabs/configuration/sections/CustomProperties';
+import { syntheticCertificateCheckEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import ConfigSection from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Configuration';
 import Associations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Associations';
 import Locations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Locations';
@@ -264,7 +260,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
       <Locations test={test.data} />
       <Schedule test={test.data} />
       <Identify test={test.data} />
-      {(syntheticMultiAppEnabled || syntheticMultiWebMobileEnabled) && <Associations test={test.data} />}
+      {(syntheticRbacLimitedEnabled || syntheticRbacLimitedEnabled) && <Associations test={test.data} />}
       <CustomProperties test={test.data} />
     </Card>
   );

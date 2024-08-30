@@ -11,10 +11,11 @@ import { track as trackingV1 } from 'in-services/tracking/tracking';
 import { CTA_CLICKED } from 'in-services/util/constants';
 
 export type CtaTrackingFunction = (ctaEvent: string, optionalPayloadData?: Object) => void;
+export type UnstableTrackingFunction = (segmentEventName: string, eventData: Object, customData?: Object) => void;
 
 export function useSegmentTracking(): {
   trackCta: CtaTrackingFunction;
-  unstable_trackEvent: (segmentEventName: string, eventData: Object, customData?: Object) => void;
+  unstable_trackEvent: UnstableTrackingFunction;
 } {
   const location = useLocation();
 

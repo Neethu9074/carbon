@@ -58,16 +58,15 @@ export default function ConfigureAlertChannel({ form, onChange, numberOfAlertCha
                     title={t('in-alerting:smartAlerts.components.smartAlertDialog.createAlertChannelTitle')}
                     onClose={() => {
                       close();
-                      setCreateDialogOpen(false);
                     }}
                     className={locals.channelDialogWidth}
                   >
                     <AlertChannelCreation
                       onCancel={() => {
                         close();
-                        setCreateDialogOpen(false);
                       }}
                       isTearsheet
+                      setCreateDialogOpen={setCreateDialogOpen}
                     />
                   </Dialog>
                 );

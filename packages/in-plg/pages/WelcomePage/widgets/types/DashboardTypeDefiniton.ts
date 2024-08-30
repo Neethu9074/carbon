@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+import { ContextScope, OrderDirection, Progress, TagFilter, TagFilterExpression, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
-import { TimeConfig } from '@instana/types';
 
 import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 
@@ -99,4 +99,58 @@ export interface ColumnDefinitionItem {
 
 export interface SyntheticInfraColumn {
   [key: string]: ColumnDefinitionItem[];
+}
+
+export interface ToggleType {
+  index: number;
+  icon?: string;
+  label: string;
+  value: string;
+}
+
+export interface GetTestSummaryList {
+  timeConfig: TimeConfig;
+  orderBy: string;
+  orderDirection: OrderDirection;
+  page: number;
+  pageSize: number;
+  query: string;
+  progress: Progress;
+  context?: string;
+  appId?: string;
+  websiteId?: string;
+  mobileAppId?: string;
+  syntheticTypes?: string[];
+  locationIds?: string[];
+  applicationIds?: string[];
+  entityIds?: string[];
+  associations?: Record<string, string[]>;
+  mobileAppIds?: string[];
+  excludeIds?: string[];
+}
+
+export type GetLocationData = {
+  timeConfig: TimeConfig;
+  orderBy: string;
+  orderDirection: OrderDirection;
+  progress: Progress;
+  page: number;
+  pageSize: number;
+  query: string;
+  locationTypes?: string[];
+};
+
+export interface GetApplicationsWithDefaultsProps {
+  timeConfig: TimeConfig;
+  query: string;
+  page: number;
+  pageSize: number;
+  orderBy: string;
+  orderDirection: OrderDirection;
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string;
+  contextScope: ContextScope;
+  tagFilters?: TagFilter[];
+  tagFilterExpression?: TagFilterExpression;
 }

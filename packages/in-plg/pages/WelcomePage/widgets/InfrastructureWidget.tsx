@@ -16,11 +16,16 @@ import { t } from '@instana/i18n-react';
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 //@ts-expect-error doesn't contain type file
 import { host as hostType, container as containerType, process as processType } from 'in-cockpit/starredItems/types';
+import {
+  InfraProps,
+  StarredItemWithIdsType,
+  SyntheticInfraColumn,
+  ToggleType
+} from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error doesn't contain type file
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
 //@ts-expect-error doesn't contain type file
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
-import { InfraProps, SyntheticInfraColumn } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import DatatableWrapper, { getFlattenedIds } from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 //@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-cockpit/starredItems';
@@ -65,9 +70,9 @@ function Toggles({
   selectedType,
   setSelectedType
 }: {
-  toggles: any[];
+  toggles: ToggleType[];
   selectedType: string;
-  setSelectedType: any;
+  setSelectedType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <TableTabs selectedIndex={toggles.filter(toggle => toggle.value === selectedType).map(toggle => toggle.index)[0]}>
@@ -237,7 +242,14 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
     ];
   };
 
-  function getItems({ query, infraType, timeConfig, pinnedItemIdsByType }: any) {
+  interface getItemsType {
+    query: string;
+    infraType: string;
+    timeConfig: TimeConfig;
+    pinnedItemIdsByType: StarredItemWithIdsType;
+  }
+
+  function getItems({ query, infraType, timeConfig, pinnedItemIdsByType }: getItemsType) {
     const pinnedIds = getFlattenedIds(pinnedItemIdsByType, getPinnedItemType());
     return search({
       query,
@@ -298,7 +310,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
   }
 
   const SparkChartWithMetricValue = connectTo(
-    ({ snapshotId, metric, aggregation }: any) => ({
+    ({ snapshotId, metric, aggregation }: { snapshotId: string; metric: string; aggregation: string }) => ({
       horizontalMetricValue: getMetric({
         snapshotId,
         metric,
@@ -583,7 +595,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
 
   function getItem(id: string, timeConfig: TimeConfig, selectedType: string) {
     return getSnapshot(id, timeConfig).flatMap(snapshot =>
-      getMetricForType(snapshot.get('id'), selectedType).map((mainKpiValue: any) => ({ snapshot, mainKpiValue }))
+      getMetricForType(snapshot.get('id'), selectedType).map((mainKpiValue: string) => ({ snapshot, mainKpiValue }))
     );
   }
 

@@ -33,8 +33,8 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import SelectItemForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/SelectItemForm';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
-import { syntheticMultiAppEnabled, syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
@@ -143,7 +143,7 @@ export default function SelectEntitiesForm<I extends Object>({
   const getRightHeader = (productArea: LimitableProductArea | undefined, context?: string) => {
     if (!productArea) return null;
 
-    if ((syntheticMultiAppEnabled || syntheticMultiWebMobileEnabled) && productArea === ProductArea.SYNTHETICS) {
+    if (syntheticRbacLimitedEnabled && productArea === ProductArea.SYNTHETICS) {
       const testAPFilters =
         context === 'syntheticTests'
           ? [
@@ -175,17 +175,17 @@ export default function SelectEntitiesForm<I extends Object>({
 
   const getLeftHeader = (context?: string) => {
     if (
-      (syntheticMultiAppEnabled || syntheticMultiWebMobileEnabled) &&
+      syntheticRbacLimitedEnabled &&
       productArea === ProductArea.SYNTHETICS &&
       (syntheticFilter === inheritedAccessFilter || syntheticFilter === inheritedCredentialsFilter)
     ) {
       return (
         <Stack direction="horizontal" distribution="spaceBetween" align="center">
           {context === 'syntheticTests'
-            ? syntheticMultiWebMobileEnabled
+            ? syntheticRbacLimitedEnabled
               ? t('in-settings:selectEntityDialog.syntheticTableSubHeaderWebMobile')
               : t('in-settings:selectEntityDialog.syntheticTableSubHeader')
-            : syntheticMultiWebMobileEnabled
+            : syntheticRbacLimitedEnabled
             ? t('in-settings:selectEntityDialog.syntheticTableSubHeaderWebMobileForCredentials')
             : null}
         </Stack>
@@ -198,7 +198,7 @@ export default function SelectEntitiesForm<I extends Object>({
     if (!productArea) return false;
 
     if (
-      (syntheticMultiAppEnabled || syntheticMultiWebMobileEnabled) &&
+      syntheticRbacLimitedEnabled &&
       productArea === ProductArea.SYNTHETICS &&
       (syntheticFilter === inheritedAccessFilter || syntheticFilter === inheritedCredentialsFilter)
     ) {
@@ -320,7 +320,7 @@ function useSelectEntities<I>({
   );
 
   // Synthetics only filter.
-  if ((syntheticMultiAppEnabled || syntheticMultiAppEnabled) && productArea === ProductArea.SYNTHETICS) {
+  if (syntheticRbacLimitedEnabled && productArea === ProductArea.SYNTHETICS) {
     filteredEntities = filterBySyntheticTests(
       preselectedIds,
       filteredEntities,
@@ -449,9 +449,9 @@ function filterBySyntheticTests<I>(
       !syntheticAccess;
 
     if (type === inheritedAccessFilter || type === inheritedCredentialsFilter) {
-      return syntheticMultiWebMobileEnabled ? isEntityInherited : applicationAccess;
+      return syntheticRbacLimitedEnabled ? isEntityInherited : applicationAccess;
     } else {
-      return syntheticMultiWebMobileEnabled ? !isEntityInherited : !applicationAccess;
+      return syntheticRbacLimitedEnabled ? !isEntityInherited : !applicationAccess;
     }
   });
 
@@ -507,7 +507,7 @@ function getColumnDefinition<I extends Object>({
         const isSelected = selectedIds.includes(id);
 
         if (
-          (syntheticMultiAppEnabled || syntheticMultiWebMobileEnabled) &&
+          syntheticRbacLimitedEnabled &&
           productArea === ProductArea.SYNTHETICS &&
           (syntheticFilter === inheritedAccessFilter || syntheticFilter === inheritedCredentialsFilter)
         ) {

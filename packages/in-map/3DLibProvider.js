@@ -9,14 +9,12 @@ import {
   BufferGeometry as ThreeBufferGeometry,
   Color as ThreeColor,
   DoubleSide as ThreeDoubleSide,
-  Geometry as ThreeGeometry,
   Group as ThreeGroup,
   ImageLoader as ThreeImageLoader,
   Line as ThreeLine,
   LinearFilter as ThreeLinearFilter,
   LineSegments as ThreeLineSegments,
   Loader as ThreeLoader,
-  Math as ThreeMath,
   Matrix4 as ThreeMatrix4,
   Mesh as ThreeMesh,
   MeshBasicMaterial as ThreeMeshBasicMaterial,
@@ -24,7 +22,7 @@ import {
   Object3D as ThreeObject3D,
   OrthographicCamera as ThreeOrthographicCamera,
   PerspectiveCamera as ThreePerspectiveCamera,
-  PlaneBufferGeometry as ThreePlaneBufferGeometry,
+  PlaneGeometry as ThreePlaneGeometry,
   PointLight as ThreePointLight,
   Points as ThreePoints,
   RawShaderMaterial as ThreeRawShaderMaterial,
@@ -32,7 +30,7 @@ import {
   Scene as ThreeScene,
   RepeatWrapping as ThreeRepeatWrapping,
   BoxGeometry as ThreeBoxGeometry,
-  SphereBufferGeometry as ThreeSphereBufferGeometry,
+  SphereGeometry as ThreeSphereGeometry,
   Texture as ThreeTexture,
   Vector2 as ThreeVector2,
   Vector3 as ThreeVector3,
@@ -40,9 +38,7 @@ import {
   WebGLRenderer as ThreeWebGLRenderer
 } from 'three';
 
-export const Geometry = ThreeGeometry;
 export const Loader = ThreeLoader;
-export const Math = ThreeMath;
 export const Vector4 = ThreeVector4;
 
 export const AmbientLight = ThreeAmbientLight;
@@ -60,13 +56,13 @@ export const MeshBasicMaterial = ThreeMeshBasicMaterial;
 export const Object3D = ThreeObject3D;
 export const OrthographicCamera = ThreeOrthographicCamera;
 export const PerspectiveCamera = ThreePerspectiveCamera;
-export const PlaneBufferGeometry = ThreePlaneBufferGeometry;
+export const PlaneBufferGeometry = ThreePlaneGeometry;
 export const PointLight = ThreePointLight;
 export const Points = ThreePoints;
 export const RawShaderMaterial = ThreeRawShaderMaterial;
 export const Raycaster = ThreeRaycaster;
 export const Scene = ThreeScene;
-export const SphereBufferGeometry = ThreeSphereBufferGeometry;
+export const SphereGeometry = ThreeSphereGeometry;
 export const Texture = ThreeTexture;
 export const Vector3 = ThreeVector3;
 export const Vector2 = ThreeVector2;

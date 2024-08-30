@@ -15,16 +15,23 @@ import { t } from 'in-i18n';
 
 interface Props {
   testId: string;
+  locationId: string;
   locationLabel: string;
   timeConfig: TimeConfig;
   syntheticTestLabel: string;
 }
 
-export default function AnalyzeSyntheticEventButton({ testId, locationLabel, timeConfig, syntheticTestLabel }: Props) {
+export default function AnalyzeSyntheticEventButton({
+  testId,
+  locationId,
+  locationLabel,
+  timeConfig,
+  syntheticTestLabel
+}: Props) {
   const getSyntheticTestResultDashboard = useSyntheticTestResultDashboard();
 
   const linkToUA = urlWithoutQueryParameter(
-    getSyntheticTestResultDashboard(testId, syntheticTestLabel, timeConfig, true, [locationLabel])
+    getSyntheticTestResultDashboard(testId, syntheticTestLabel, timeConfig, true, [locationLabel], locationId)
   );
 
   return (
