@@ -14,10 +14,10 @@ import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'i
 import ConfigureIdPInfoMessage from 'in-settings/tabs/AuthSettings/pages/indentityProviders/ConfigureIdPInfoMessage';
 import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { disableInvitesWithIdpEnabled, carbonButtonEnabled } from 'in-services/featureFlags';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
-import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -279,7 +279,7 @@ function CopyableText({ title, form, fieldName }) {
 
       <div className={locals.flexWrapper}>
         <Input className={locals.input} readOnly type="text" id={fieldName} value={field.value} autoComplete="off" />
-        <CopyToClipboardButton getText={() => field.value} />
+        <CopyToClipboardButton size={carbonButtonEnabled ? 'compact' : 'normal'} getText={() => field.value} />
       </div>
     </FormGroup>
   ));

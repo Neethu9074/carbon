@@ -6,10 +6,9 @@
 import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import { HorizontalIndicator, SvgIcon } from '@instana/components';
+import { HorizontalIndicator, SvgIcon, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
 
 import { PresentedLaneProps } from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
