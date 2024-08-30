@@ -9,12 +9,11 @@ import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { getApplicationsWithDefaults } from 'in-alerting/smart-alerts/applications/tearSheet/subscriptions/getApplications';
 import { getSingleNumberMetricId, getSparkChartTimeSeriesMetricId } from 'in-components/AnalyzeView/metrics';
-import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
-import { getSparkChartGranularity } from 'in-applications/metrics';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 
 export const defaultSelectableFields = [{ type: 'metric', metricId: 'latency', aggregationId: 'MEAN' }];
@@ -32,43 +31,55 @@ export default function useAlertingGroupsByEvaluationType(
   includeSynthetic,
   tagFilterExpression,
   evaluationType,
-  isTagFilterFormModelValid
+  isTagFilterFormModelValid,
+  applications,
+  granularity
 ) {
+  const isApplicationExists = Boolean(Object.keys(applications).length > 0);
   const metricDefinitionByEvaluationType = getMetricDefinitionByEvaluationType(evaluationType);
-  const sparkChartGranularity = getSparkChartGranularity(timeConfig);
   const backendMetrics = useStableObjectInstance(
-    fields
-      .filter(({ type }) => type === metricType)
-      .reduce((accumulator, metric) => {
-        const backendMetric = {
-          metric: metric.metricId,
-          aggregation: metric.aggregationId
-        };
-        accumulator[getSingleNumberMetricId(metric)] = backendMetric;
-        accumulator[getSparkChartTimeSeriesMetricId(metric)] = {
-          ...backendMetric,
-          granularity: sparkChartGranularity
-        };
-        return accumulator;
-      }, {})
+    isApplicationExists &&
+      fields
+        .filter(({ type }) => type === metricType)
+        .reduce((accumulator, metric) => {
+          const backendMetric = {
+            metric: metric.metricId,
+            aggregation: metric.aggregationId
+          };
+          accumulator[getSingleNumberMetricId(metric)] = backendMetric;
+          accumulator[getSparkChartTimeSeriesMetricId(metric)] = {
+            ...backendMetric,
+            granularity
+          };
+          return accumulator;
+        }, {})
   );
-  const { totalHits, awaitingData } = useCursorPagination(
-    ({ cursor }) =>
-      isTagFilterFormModelValid &&
-      getData({
-        includeInternal,
-        includeSynthetic,
-        tagFilterExpression,
-        timeConfig,
-        metrics: backendMetrics,
-        cursor,
-        metricDefinitionByEvaluationType,
-        evaluationType
-      }),
-    [backendMetrics, evaluationType, tagFilterExpression, timeConfig, includeInternal, includeSynthetic]
+  const { totalHits, awaitingData, errors } = useCursorPagination(
+    ({ cursor }) => {
+      return (
+        isTagFilterFormModelValid &&
+        isApplicationExists &&
+        getData({
+          includeInternal,
+          includeSynthetic,
+          tagFilterExpression,
+          timeConfig,
+          metrics: backendMetrics,
+          cursor,
+          metricDefinitionByEvaluationType,
+          evaluationType,
+          granularity
+        })
+      );
+    },
+    [backendMetrics, evaluationType, tagFilterExpression, timeConfig, includeInternal, includeSynthetic, granularity]
   );
 
-  if (awaitingData) {
+  if (!isApplicationExists) {
+    return 0;
+  } else if (errors?.length > 0) {
+    return errors;
+  } else if (awaitingData) {
     return 'loading';
   }
   return totalHits ?? 0;
@@ -83,7 +94,8 @@ export function getData({
   cursor,
   metricDefinitionByEvaluationType,
   evaluationType,
-  pagination
+  pagination,
+  granularity
 }) {
   if (evaluationType === PER_AP) {
     const order = {
@@ -98,7 +110,8 @@ export function getData({
       orderBy: order.by,
       orderDirection: order.direction,
       contextScope: 'NONE',
-      tagFilterExpression
+      tagFilterExpression,
+      granularity
     });
   }
 
