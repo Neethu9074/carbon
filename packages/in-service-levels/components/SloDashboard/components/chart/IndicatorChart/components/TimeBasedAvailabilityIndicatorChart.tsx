@@ -25,7 +25,7 @@ import { t } from '@instana/i18n-react';
 import { useLineWithThresholdAndMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThresholdAndMissingDataIndicator';
 import {
   copyFirstBucketOfSubsequentDataSeries,
-  filterMetricValuesByTime
+  filterMetricValuesWithinTimeWindow
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import { thresholdMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 // @ts-expect-error needs migration
@@ -84,7 +84,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
     ? applicationMetrics.errorRate.label
     : websiteMetrics.beaconErrorRate.label;
 
-  const filteredData = filterMetricValuesByTime(metricValues, timeConfig);
+  const filteredData = filterMetricValuesWithinTimeWindow(metricValues, timeConfig);
 
   const renderer = useLineWithThresholdAndMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: missingDataIndicator

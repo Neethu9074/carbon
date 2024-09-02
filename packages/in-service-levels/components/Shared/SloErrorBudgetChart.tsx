@@ -10,9 +10,8 @@ import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
 import {
   copyFirstBucketOfSubsequentDataSeries,
-  filterMetricValuesByTime,
-  findMaxMetricValue,
-  findMinMetricValue
+  filterMetricValuesWithinTimeWindow,
+  findMinMaxMetricValues
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
 // @ts-expect-error needs migration
@@ -65,7 +64,7 @@ export default function ErrorBudgetChart({
     firstCollectedMetricTimestamp: missingDataIndicator
   });
   const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);
-  const filteredData = filterMetricValuesByTime(metrics, timeConfig);
+  const filteredData = filterMetricValuesWithinTimeWindow(metrics, timeConfig);
   const { yMin, yMax } = calculateYScaleBuffer(filteredData);
 
   return (
@@ -100,20 +99,24 @@ export default function ErrorBudgetChart({
 }
 
 function calculateYScaleBuffer(filteredData: MetricDataPoint[][]) {
-  const minYValue = findMinMetricValue(filteredData.flat(1));
-  const maxYValue = findMaxMetricValue(filteredData.flat(1));
+  const { min: minYValue, max: maxYValue } = findMinMaxMetricValues(filteredData.flat(1));
   const range = maxYValue - minYValue;
 
-  // Percentage-based buffer (10% of the data range)
-  const bufferPercentage = 0.1;
-  // Fixed minimum buffer value to ensure some space even for small ranges
-  const fixedBuffer = 5;
+  const maxRangeThreshold = 100;
+
+  // Different percentage for small ranges and larger ranges
+  const smallRangeBufferPercentage = 0.15;
+  const largeRangeBufferPercentage = 0.1;
+  const bufferPercentage = range < maxRangeThreshold ? smallRangeBufferPercentage : largeRangeBufferPercentage;
+
+  // Adjusted fixed minimum buffer value
+  const fixedBuffer = range < maxRangeThreshold ? 10 : 5;
+  const buffer = Math.max(Math.abs(range * bufferPercentage), fixedBuffer);
+
   const negativeBufferFactor = 1.5;
-  let buffer = Math.abs(range * bufferPercentage);
 
-  buffer = Math.max(buffer, fixedBuffer);
-
-  const yMin = minYValue < 0 ? minYValue - buffer : minYValue;
+  const yMin = minYValue < 0 ? minYValue - buffer * negativeBufferFactor : minYValue - buffer;
   const yMax = maxYValue > 0 ? maxYValue + buffer : maxYValue + buffer * negativeBufferFactor;
+
   return { yMin, yMax };
 }
