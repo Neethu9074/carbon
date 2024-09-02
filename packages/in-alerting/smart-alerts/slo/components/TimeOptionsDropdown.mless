@@ -6,6 +6,6 @@
 
 :local {
   .dropdownContainer {
-    width: 6rem;
+    width: 9rem;
   }
 }

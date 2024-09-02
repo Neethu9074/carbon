@@ -6,7 +6,11 @@
 
 import { ValidationResult } from 'formalistic';
 
+import { SloAlertBurnRateTimeWindowsFields } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
+import { isSloAlertDurationUnit } from 'in-alerting/smart-alerts/slo/components/TimeOptionsDropdown';
 import { isSloAlertOperator } from 'in-alerting/smart-alerts/slo/components/OperatorDropdown';
+import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import { calculateTimeWindowInMilliseconds } from 'in-alerting/smart-alerts/slo/form/utils';
 import { t } from 'in-i18n';
 
 export function noEmptySloIds(sloIds: string[]): ValidationResult {
@@ -42,5 +46,47 @@ export function noInvalidOperator(operator: string): ValidationResult {
       }
     ];
   }
+  return undefined;
+}
+
+export function noInvalidDurationUnit(durationUnit: string): ValidationResult {
+  if (!isSloAlertDurationUnit(durationUnit)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-alerting:smartAlerts.slo.validators.noInvalidDurationUnit')
+      }
+    ];
+  }
+  return undefined;
+}
+
+export function burnRateFormValidator(form: SloAlertBurnRateTimeWindowsFields): ValidationResult {
+  const shortTimeWindowDurationField = form.shortTimeWindow.getIn(['duration']);
+  const shortTimeWindowDurationUnitField = form.shortTimeWindow.getIn(['durationType']);
+  const longTimeWindowDurationField = form.longTimeWindow.getIn(['duration']);
+  const longTimeWindowDurationUnitField = form.longTimeWindow.getIn(['durationType']);
+
+  if (!isFieldValid(shortTimeWindowDurationField) || !isFieldValid(longTimeWindowDurationField)) return undefined;
+
+  const longTimeWindowDurationInMilliseconds = calculateTimeWindowInMilliseconds(
+    longTimeWindowDurationField.value,
+    longTimeWindowDurationUnitField.value
+  );
+  const shortTimeWindowDurationInMilliseconds = calculateTimeWindowInMilliseconds(
+    shortTimeWindowDurationField.value,
+    shortTimeWindowDurationUnitField.value
+  );
+
+  if (shortTimeWindowDurationInMilliseconds > longTimeWindowDurationInMilliseconds) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-alerting:smartAlerts.slo.advancedModeContainer.burnRateShortWindowLongerThanLongWindowError'),
+        path: '$.burnRateTimeWindows.longTimeWindow'
+      }
+    ];
+  }
+
   return undefined;
 }
