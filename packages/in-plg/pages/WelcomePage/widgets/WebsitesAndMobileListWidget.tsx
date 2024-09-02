@@ -42,7 +42,6 @@ import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { hasError, isLoading } from 'in-services/util/result';
-import { playwithEnabled } from 'in-services/featureFlags';
 import DatatableWrapper from './DatatableWrapper';
 import { role } from 'in-stores/user';
 
@@ -368,8 +367,9 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
         tableType="websitesWidget"
         viewAll
         //@ts-expect-error canConfigureEumApplications type is not available in role definition
-        hasAddPermission={role?.canConfigureEumApplications}
-        hasAddMore={hasWebsitesAccess && !playwithEnabled}
+        hasAddPermission={hasWebsitesAccess && role?.canConfigureEumApplications}
+        //@ts-expect-error canConfigureEumApplications type is not available in role definition
+        hasAddMore={hasWebsitesAccess && role?.canConfigureEumApplications}
         addMore={addNewWebsite}
         addData={addNewWebsite}
         href={createHrefToPath(websiteMonitoringPath)}
@@ -389,8 +389,8 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
       getItem={getMobileAppById}
       tableType="mobileListWidget"
       viewAll
-      hasAddPermission={role?.canConfigureMobileAppMonitoring}
-      hasAddMore={hasMobileAppsAccess && !playwithEnabled}
+      hasAddPermission={hasMobileAppsAccess && role?.canConfigureMobileAppMonitoring}
+      hasAddMore={hasMobileAppsAccess && role?.canConfigureMobileAppMonitoring}
       addMore={addNewMobileApp}
       addData={addNewMobileApp}
       href={createHrefToPath(mobileAppMonitoringPath)}
