@@ -20,14 +20,14 @@ const FileMonitoringConditionDashboard: React.FC<FileMonitoringConditionDashboar
   const data = snapshot.get('data');
   return (
     <div>
+      <DashboardNotification type="info">
+        {t('in-forge:plugins.fileMonitoringCondition.conditionNotification')}
+      </DashboardNotification>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.fileMonitoringCondition.issueTriggered')}>
           {data.get('issueTriggered') === 1 ? 'Yes' : 'No'}
         </KpiKeyValue>
       </KpiSection>
-      <DashboardNotification type="info">
-        {t('in-forge:plugins.fileMonitoringCondition.conditionNotification')}
-      </DashboardNotification>
       <Conditions snapshotId={snapshotId} />
     </div>
   );
