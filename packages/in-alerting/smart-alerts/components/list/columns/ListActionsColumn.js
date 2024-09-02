@@ -116,7 +116,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
             <MoreMenuButton
               icon="lib_actions_delete"
               onClick={() => {
-                handleDelete(id, setIsMoreMenuSaving, name);
+                handleDelete(id, setIsMoreMenuSaving, name, trackCta);
                 trackCta(ALERTING_DELETE_TRIGGER, config);
               }}
             >

@@ -8,19 +8,20 @@ import React from 'react';
 import { TagCatalog, TagFilter, TimeConfig } from '@instana/types';
 
 import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
-import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
-import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { alertsTabListFullyQualified } from 'in-websites/navigation/paths';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useWebsiteError from 'in-websites/hooks/useWebsiteError';
 import useWebsite from 'in-websites/hooks/useWebsite';
@@ -51,6 +52,7 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
   const [website, websiteStatus] = useWebsite(websiteId);
 
   const websiteError = useWebsiteError(websiteId, errorId as string, timeConfig);
+  const { trackCta } = useSegmentTracking();
 
   if (!tagCatalog || websiteStatus !== 'resolved') {
     return null;
@@ -84,7 +86,7 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
             startWithSimpleMode
           />
         );
-        trackStartCreate();
+        trackCta(ALERTING_CREATE);
       }}
       withBoxShadow
     >
