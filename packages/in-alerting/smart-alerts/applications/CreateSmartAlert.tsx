@@ -18,11 +18,12 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { alertsTabListFullyQualified } from 'in-applications/navigation/paths';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
 
@@ -127,6 +128,7 @@ function CreateSmartAlertDialog({
   location,
   renderAsFloatingButton = true
 }: CreateSmartAlertProps) {
+  const { trackCta } = useSegmentTracking();
   if (!applicationId) {
     return null;
   }
@@ -156,7 +158,7 @@ function CreateSmartAlertDialog({
             startWithSimpleMode
           />
         );
-        trackStartCreate();
+        trackCta(ALERTING_CREATE);
       }}
     >
       {t('in-alerting:smartAlerts.applications.components.createSmartAlert')}
