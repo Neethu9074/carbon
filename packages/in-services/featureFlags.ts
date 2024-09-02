@@ -283,4 +283,3 @@ export const carbonFileUploaderEnabled = isFeatureFlagEnabled('carbonFileUploade
 export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabled', false);
 export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetricsEnabled', false);
 export const increaseAggregationEnabled = isFeatureFlagEnabled('increaseAggregationEnabled', false);
-export const carbonSliderEnabled = isFeatureFlagEnabled('carbonSliderEnabled', true);

@@ -52,7 +52,7 @@ export default function TimeThresholdSection() {
                 timeWindowField.setValue(value as number).setTouched(true)
               )
             }
-            valueLabelFormat={val => `${millisecondsToMinutes(val)} min`}
+            valueLabelDisplay="off"
           />
           {!isTimeWindowFieldValid &&
             timeWindowField.messages.map(({ message }, index) => (
@@ -71,7 +71,7 @@ export default function TimeThresholdSection() {
             onChange={(_event, value) =>
               onChange(['timeThreshold', 'expiry'], () => expiryField.setValue(value as number).setTouched(true))
             }
-            valueLabelFormat={val => `${millisecondsToMinutes(val)} min`}
+            valueLabelDisplay="off"
           />
           {!isExpiryFieldValid &&
             expiryField.messages.map(({ message }, index) => (

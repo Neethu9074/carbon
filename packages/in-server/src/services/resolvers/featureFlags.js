@@ -774,10 +774,5 @@ module.exports = exports = [
     uiClientKey: 'carbonCodeEnabled',
     instanaCtlKey: 'feature.carbon.code.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'carbonSliderEnabled',
-    instanaCtlKey: 'feature.carbon.slider.enabled',
-    defaultValue: true
   }
 ];

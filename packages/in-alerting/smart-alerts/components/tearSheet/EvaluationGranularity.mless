@@ -7,7 +7,6 @@
 :local {
   .description {
     padding-left: 2rem;
-    margin-top: 1rem;
   }
   .granularityContainer {
     display: grid;

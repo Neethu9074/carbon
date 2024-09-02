@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+// eslint-disable-next-line no-restricted-imports
+import Tooltip from '@mui/material/Tooltip';
 import { composeValidators, createField, createMapForm } from 'formalistic';
 import { startOfDay, subDays, getTime as getTimestamp } from 'date-fns';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -67,7 +69,10 @@ export default function CustomTime({ timeConfig, onChange }) {
 
     return (
       <DebouncedDistinctSlider
-        valueLabelFormat={val => `${formatDateShort(val)} ${formatTimeWithoutSeconds(val)}`}
+        valueLabelDisplay="auto"
+        components={{
+          ValueLabel: TimeSliderTooltip
+        }}
         marks={tickPositions}
         min={tickPositions[0].value}
         max={tickPositions[tickPositions.length - 1].value}
@@ -84,6 +89,24 @@ export default function CustomTime({ timeConfig, onChange }) {
           setForm(updateForm);
         }}
       />
+    );
+  }
+
+  function TimeSliderTooltip({ value, children, open }) {
+    return (
+      <Tooltip
+        open={open}
+        placement="top"
+        title={
+          <span>
+            {formatDateShort(value)}
+            <br />
+            {formatTimeWithoutSeconds(value)}
+          </span>
+        }
+      >
+        {children}
+      </Tooltip>
     );
   }
 

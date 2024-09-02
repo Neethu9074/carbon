@@ -6,8 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { DistinctSlider, Toggle } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Toggle } from '@instana/components';
 
 import {
   isTroubleshootingModeEnabled$,
@@ -24,6 +24,8 @@ import SectionLine from 'in-settings/components/SectionLine';
 import Footer from 'in-components/Footer';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
+
+import locals from './UiConfig.mless';
 
 export default function UiConfigAdvancedPage() {
   const [settings, saveSetting] = useSettingsEditor();
@@ -71,16 +73,16 @@ export default function UiConfigAdvancedPage() {
 
         <HorizontalFormGroup>
           <Heading text={t('in-settings:tabs.zoomAndPanningSpeed')} htmlFor="zoom-speed" />
-          <div>
-            <DistinctSlider
-              id="zoom-speed"
-              min={0.1}
-              max={20}
-              step={0.1}
-              value={settings['map_scrollSpeed']}
-              onChange={(_, val) => saveSetting('map_scrollSpeed', val)}
-            />
-          </div>
+          <input
+            type="range"
+            id="zoom-speed"
+            min={0.1}
+            max={20}
+            step={0.1}
+            className={locals.slider}
+            value={settings['map_scrollSpeed']}
+            onChange={e => saveSetting('map_scrollSpeed', e.target.value)}
+          />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup>
@@ -90,16 +92,16 @@ export default function UiConfigAdvancedPage() {
             })}
             htmlFor="packing_x_direction"
           />
-          <div>
-            <DistinctSlider
-              id="packing_x_direction"
-              min={1}
-              max={10}
-              step={1}
-              value={settings['map_packingXSpace']}
-              onChange={(_, val) => saveSetting('map_packingXSpace', val)}
-            />
-          </div>
+          <input
+            type="range"
+            id="packing_x_direction"
+            min={1}
+            max={10}
+            step={1}
+            className={locals.slider}
+            value={settings['map_packingXSpace']}
+            onChange={e => saveSetting('map_packingXSpace', Number(e.target.value))}
+          />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup>
@@ -109,16 +111,16 @@ export default function UiConfigAdvancedPage() {
             })}
             htmlFor="packing_y_direction"
           />
-          <div>
-            <DistinctSlider
-              id="packing_y_direction"
-              min={1}
-              max={10}
-              step={1}
-              value={settings['map_packingYSpace']}
-              onChange={(_, val) => saveSetting('map_packingYSpace', val)}
-            />
-          </div>
+          <input
+            type="range"
+            id="packing_y_direction"
+            min={1}
+            max={10}
+            step={1}
+            className={locals.slider}
+            value={settings['map_packingYSpace']}
+            onChange={e => saveSetting('map_packingYSpace', Number(e.target.value))}
+          />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup>
@@ -152,16 +154,16 @@ export default function UiConfigAdvancedPage() {
             })}
             htmlFor="packing_x_direction"
           />
-          <div>
-            <DistinctSlider
-              id="packing_x_direction"
-              min={1}
-              max={10}
-              step={1}
-              value={settings['map_packingXSpace']}
-              onChange={(_, value) => saveSetting('map_packingXSpace', value)}
-            />
-          </div>
+          <input
+            type="range"
+            id="packing_x_direction"
+            min={1}
+            max={10}
+            step={1}
+            className={locals.slider}
+            value={settings['map_packingXSpace']}
+            onChange={e => saveSetting('map_packingXSpace', Number(e.target.value))}
+          />
         </HorizontalFormGroup>
         <HorizontalFormGroup>
           <Heading
@@ -170,16 +172,16 @@ export default function UiConfigAdvancedPage() {
             })}
             htmlFor="packing_y_direction"
           />
-          <div>
-            <DistinctSlider
-              id="packing_y_direction"
-              min={1}
-              max={10}
-              step={1}
-              value={settings['map_packingYSpace']}
-              onChange={(_, value) => saveSetting('map_packingYSpace', value)}
-            />
-          </div>
+          <input
+            type="range"
+            id="packing_y_direction"
+            min={1}
+            max={10}
+            step={1}
+            className={locals.slider}
+            value={settings['map_packingYSpace']}
+            onChange={e => saveSetting('map_packingYSpace', Number(e.target.value))}
+          />
         </HorizontalFormGroup>
       </div>
 
