@@ -26,7 +26,6 @@ import AlertConfiguration from 'in-alerting/smart-alerts/synthetics/details/Aler
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { successObservable } from 'in-services/util/result';
 
-const tracking = {};
 const timeConfig = {
   windowSize: 12345678
 };
@@ -62,7 +61,6 @@ export const Default = () => {
       restoreConfig={restoreAlertConfigVersion}
       renderSmartAlertDialog={() => undefined}
       renderAlertConfiguration={({ alertConfig }) => <AlertConfiguration alertConfig={alertConfig} />}
-      tracking={tracking}
     />
   );
 };

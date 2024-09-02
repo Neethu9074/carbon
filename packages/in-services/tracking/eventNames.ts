@@ -455,6 +455,7 @@ export const ALERTING_DELETE_TRIGGER = 'smartalert.delete.clicked';
 export const ALERTING_DELETE_CONFIRM = 'smartalert.deleted.confirmed';
 export const ALERTING_PAUSED = 'smartalert.paused';
 export const ALERTING_RESUMED = 'smartalert.resumed';
+export const ALERTING_REVISION_CHANGED = 'smartalert.revision.changed';
 export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
 
 // Business Monitoring Tracking

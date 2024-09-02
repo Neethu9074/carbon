@@ -9,13 +9,14 @@ import PropTypes from 'prop-types';
 import { IconButton } from '@instana/components';
 
 import {
-  trackAlertDeleteTrigger,
-  trackAlertEdit,
-  trackAlertPaused,
-  trackAlertResumed,
-  trackAlertCloneTrigger
-} from 'in-alerting/smart-alerts/components/tracker';
+  ALERTING_DELETE_TRIGGER,
+  ALERTING_EDIT,
+  ALERTING_PAUSED,
+  ALERTING_RESUMED,
+  ALERTING_CLONE_TRIGGER
+} from 'in-services/tracking/eventNames';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import { stopPropagation } from 'in-services/util/function';
 import { playwithEnabled } from 'in-services/featureFlags';
@@ -29,6 +30,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
   const { builtIn, enabled, id, name } = config;
   const [isSaving, setIsSaving] = useState(false);
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
+  const { trackCta } = useSegmentTracking(); // For segment tracking
 
   const hasSecondaryActions = handleEdit || handleClone || handleDelete;
 
@@ -56,9 +58,9 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
                 stopPropagation(e);
                 handleToggleEnabled(enabled, id, setIsSaving);
                 if (enabled) {
-                  trackAlertPaused(config);
+                  trackCta(ALERTING_PAUSED, config);
                 } else {
-                  trackAlertResumed(config);
+                  trackCta(ALERTING_RESUMED, config);
                 }
               }}
             />
@@ -91,7 +93,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
               iconSpinning={isMoreMenuSaving}
               onClick={() => {
                 handleEdit(config);
-                trackAlertEdit(config);
+                trackCta(ALERTING_EDIT, config);
               }}
             >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
@@ -102,7 +104,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
             <MoreMenuButton
               icon="lib_actions_copy"
               onClick={() => {
-                trackAlertCloneTrigger(config);
+                trackCta(ALERTING_CLONE_TRIGGER, config);
                 handleClone(config);
               }}
             >
@@ -115,7 +117,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
               icon="lib_actions_delete"
               onClick={() => {
                 handleDelete(id, setIsMoreMenuSaving, name);
-                trackAlertDeleteTrigger(config);
+                trackCta(ALERTING_DELETE_TRIGGER, config);
               }}
             >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
