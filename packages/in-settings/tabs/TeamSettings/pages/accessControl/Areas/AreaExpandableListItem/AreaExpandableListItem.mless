@@ -32,6 +32,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    :global(.keyValue-value) {
+      max-width: 25vw;
+    }
   }
 
   .secondColumnContainer {
