@@ -13,6 +13,7 @@ import { TimeConfig } from '@instana/types';
 import getFileMonitoringConditionForSystem from 'in-forge/plugins/fileMonitoring/subscriptions/getFileMonitoringConditionForSystem';
 // @ts-expect-error needs TS migration
 import { getSnapshots } from 'in-stores/snapshot';
+import { seconds } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { t } from 'in-i18n';
@@ -53,7 +54,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getContent(value: number) {
-        return value;
+        return seconds.fixedCompact(value);
       },
       getValue(row: SituationsRow) {
         return row.monitorData.get('interval');

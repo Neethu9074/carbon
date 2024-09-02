@@ -8278,7 +8278,7 @@
       "dashboard": {
         "monitor": "Monitor",
         "path": "Path",
-        "pollingInterval": "Polling interval (seconds)",
+        "pollingInterval": "Polling interval",
         "severity": "Severity",
         "issueTriggered": "Issue triggered"
       },
