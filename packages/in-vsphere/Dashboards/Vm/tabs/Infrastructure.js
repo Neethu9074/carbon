@@ -20,7 +20,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-vsphere:dashboards.name'),
     sortable: false,
-    getContent: item => <PhysicalDashboardEntityLink item={item} />
+    getContent: (item, { timeConfig }) => <PhysicalDashboardEntityLink item={item} timeConfig={timeConfig} />
   }
 ];
 
