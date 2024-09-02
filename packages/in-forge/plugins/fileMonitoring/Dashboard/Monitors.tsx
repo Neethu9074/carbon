@@ -31,7 +31,7 @@ interface SituationsRow {
 
 const cols = [
   {
-    title: t('in-forge:plugins.fileMonitoring.dashboard.name'),
+    title: t('in-forge:plugins.fileMonitoring.dashboard.monitor'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row: SituationsRow) {

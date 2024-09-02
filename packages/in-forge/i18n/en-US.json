@@ -8276,32 +8276,32 @@
     },
     "fileMonitoring": {
       "dashboard": {
-        "name": "Monitor",
+        "monitor": "Monitor",
         "path": "Path",
-        "pollingInterval": "Polling Interval (Seconds)",
+        "pollingInterval": "Polling interval (seconds)",
         "severity": "Severity",
-        "issueTriggered": "Issue Triggered"
+        "issueTriggered": "Issue triggered"
       },
-      "fileSystem": "File Monitoring",
+      "fileSystem": "File monitoring",
       "monitors": "Monitors",
       "host": "Host",
       "group": "Group",
-      "numberOfMonitors": "Number Of Monitors"
+      "numberOfMonitors": "Number of monitors"
     },
     "fileMonitoringCondition": {
       "dashboard": {
-        "attribute": "Condition type",
+        "conditionType": "Condition type",
         "operator": "Operator",
         "reference": "Reference",
         "actual": "Actual"
       },
-      "fileMonitorCondition": "File Monitoring Condition",
+      "fileMonitorCondition": "File monitoring condition",
       "numberOfConditions": "Number of conditions",
       "conditions": "Conditions",
       "path": "Path",
       "interval":"Interval (seconds)",
       "issueTriggered": "Issue Triggered",
-      "nb": "All conditions must be met for the issue to trigger"
+      "conditionNotification": "All conditions must be met for the issue to trigger"
     },
     "finagleApplicationContainer": {
       "dashboard": {

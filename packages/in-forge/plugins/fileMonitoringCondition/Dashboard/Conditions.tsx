@@ -26,7 +26,7 @@ interface ConditionsRow {
 // Define columns for the table
 const cols = [
   {
-    title: t('in-forge:plugins.fileMonitoringCondition.dashboard.attribute'),
+    title: t('in-forge:plugins.fileMonitoringCondition.dashboard.conditionType'),
     type: 'string',
     typeArgs: {
       getValue(row: ConditionsRow) {

@@ -25,7 +25,9 @@ const FileMonitoringConditionDashboard: React.FC<FileMonitoringConditionDashboar
           {data.get('issueTriggered') === 1 ? 'Yes' : 'No'}
         </KpiKeyValue>
       </KpiSection>
-      <DashboardNotification type="info">{t('in-forge:plugins.fileMonitoringCondition.nb')}</DashboardNotification>
+      <DashboardNotification type="info">
+        {t('in-forge:plugins.fileMonitoringCondition.conditionNotification')}
+      </DashboardNotification>
       <Conditions snapshotId={snapshotId} />
     </div>
   );
