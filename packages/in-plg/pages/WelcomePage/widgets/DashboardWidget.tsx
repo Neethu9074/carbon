@@ -20,12 +20,11 @@ import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widg
 // @ts-expect-error needs ts migration
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
-import { playwithEnabled, welcomePageV2Enabled } from 'in-services/featureFlags';
 import { getCustomDashboards, getUsers } from 'in-custom-dashboards/api';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { role } from 'in-stores/user';
+import { welcomePageV2Enabled } from 'in-services/featureFlags';
 
 export default function DashboardWidget({
   config,
@@ -101,10 +100,9 @@ export default function DashboardWidget({
     <DatatableWrapper
       {...generalProps}
       query=""
-      hasAddMore={!playwithEnabled}
       tableType="dashboardWidget"
-      //@ts-expect-error canCreatePublicCustomDashboards doesn't exist on type role
-      hasAddPermission={role?.canCreatePublicCustomDashboards}
+      hasAddPermission
+      hasAddMore
       isDashboardWidget
       maxItems={maxItems}
       viewAll={viewAll}
@@ -130,9 +128,9 @@ function DashboardPermission({ id }: { id: string }) {
       setDashboardPermission(permissionResult);
     }
   }, [permissionResult]);
-  return (
+  return dashboardPermission ? (
     <Pill kind="info" type="gray">
       {dashboardPermission}
     </Pill>
-  );
+  ) : null;
 }
