@@ -18,16 +18,16 @@ interface AlertThresholdInfosProps {
 }
 
 export default function AlertThresholdInfos({ threshold, rule }: AlertThresholdInfosProps) {
-  const { alertType } = rule;
+  const { metric } = rule;
   const { value, operator } = threshold;
-  const thresholdValue = percentageUpToTwoDecimalPlaces(value);
+  const thresholdValue = metric === 'BURN_RATE' ? value : percentageUpToTwoDecimalPlaces(value);
 
   return (
     <Stack direction="horizontal" gap="large">
       <KeyValue
         label={t('in-alerting:smartAlerts.slo.details.blueprintLabel')}
         value={t('in-alerting:smartAlerts.slo.details.thresholdInfo', {
-          context: alertType,
+          context: metric,
           operator,
           percentage: thresholdValue
         })}
