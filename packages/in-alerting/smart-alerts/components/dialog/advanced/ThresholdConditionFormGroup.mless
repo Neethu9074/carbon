@@ -58,6 +58,14 @@
     align-items: center;
   }
 
+  .extraGap {
+    column-gap: 0.5rem;
+  }
+
+  .alignStart {
+    align-items: flex-start;
+  }
+
   .icon {
     justify-self: center;
     fill: var(--ids-color-option-neutral-600);

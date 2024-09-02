@@ -40,7 +40,7 @@ export default function EvaluationGranularity({ form, updateForm, oneMinuteGranu
           onChange={value => {
             onChangeGranularity(minutes.toMillis(value));
           }}
-          valueLabelDisplay="off"
+          valueLabelFormat={val => `${val} min`}
         />
         <div className={locals.description}>
           <AlertTypography

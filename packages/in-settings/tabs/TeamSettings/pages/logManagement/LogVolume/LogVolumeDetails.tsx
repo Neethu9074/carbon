@@ -87,7 +87,7 @@ export default function LogVolumeDetails({
                         ))}
                     </Ul>
                   ) : (
-                    <div>
+                    <div data-testid="groupingDropdown">
                       <Ul className={locals.logVolumeItems}>
                         {(['days30', 'days60', 'days90'] as const)
                           .filter(days => retentionPeriods[days] && partialSums && partialSums[days].gb > 0)

@@ -312,7 +312,6 @@
   "resultHeaderTooltip": "照会の時刻範囲は、このビューをより迅速にロードするために直近の 1 分に切り上げられています。",
   "components": {
     "analyzeHeader": {
-      "beta": "ベータ",
       "analytics": "分析"
     },
     "filterBar": {

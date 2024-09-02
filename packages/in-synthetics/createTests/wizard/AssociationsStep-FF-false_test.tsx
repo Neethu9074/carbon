@@ -14,7 +14,7 @@ import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestFo
 import AssociationsStep from 'in-synthetics/createTests/wizard/AssociationsStep';
 
 jest.mock('in-services/featureFlags', () => ({
-  get syntheticMultiWebMobileEnabled() {
+  get syntheticRbacLimitedEnabled() {
     return false;
   }
 }));

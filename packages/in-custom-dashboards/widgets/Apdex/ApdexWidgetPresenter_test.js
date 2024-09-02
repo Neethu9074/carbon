@@ -8,7 +8,7 @@ import { shallow } from 'enzyme';
 import React from 'react';
 
 import useApdexWidgetTimeConfig from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetTimeConfig';
-import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
+import useMonitoredEntity from 'in-custom-dashboards/widgets/SloLegacy/hooks/useMonitoredEntity';
 import ApdexWidgetPresenter from 'in-custom-dashboards/widgets/Apdex/ApdexWidgetPresenter';
 import useApdexMetrics from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics';
 import ApdexWidget from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidget';
@@ -18,7 +18,7 @@ jest.mock('in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetTimeConfig', (
   __esModule: true,
   default: jest.fn(() => {})
 }));
-jest.mock('in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity', () => {
+jest.mock('in-custom-dashboards/widgets/SloLegacy/hooks/useMonitoredEntity', () => {
   const { resultToFetchedStateResponse } = jest.requireActual('in-hooks/utils/resultToFetchedStateResponse');
   const { success } = jest.requireActual('in-services/util/result');
   return {

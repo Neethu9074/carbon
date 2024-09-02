@@ -6,8 +6,8 @@
 /* global require:false */
 import { create } from '@instana/observables';
 
-import { LinearFilter, Texture, SphereBufferGeometry, Mesh, MeshBasicMaterial } from 'in-map/3DLibProvider';
 import countryMap from 'in-websites/WebsiteDashboard/components/GlobeView/components/countryConfig.json';
+import { LinearFilter, Texture, SphereGeometry, Mesh, MeshBasicMaterial } from 'in-map/3DLibProvider';
 import getHeatMapColor, { lightGreenToDarkGreenRgb } from 'in-themes/heatMapColors';
 import { copyCanvasIntoShort } from 'in-components/Chart/canvas';
 import { rgbToHex } from 'in-services/formatters/color';
@@ -93,10 +93,7 @@ export default class HeatMapGlobe {
     canvas.height = 2048;
     this.ctx = canvas.getContext('2d');
 
-    const globe = (this.globe = new Mesh(
-      new SphereBufferGeometry(0.5, 75, 75),
-      new MeshBasicMaterial({ color: 0xffffff })
-    ));
+    const globe = (this.globe = new Mesh(new SphereGeometry(0.5, 75, 75), new MeshBasicMaterial({ color: 0xffffff })));
     globe.renderOrder = 2;
   }
 

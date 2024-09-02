@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Button } from '@instana/components';
 
 import { uiNeedsRefresh$ } from 'in-services/uiClientVersion';
 import connectTo from 'in-hoc/connectTo';

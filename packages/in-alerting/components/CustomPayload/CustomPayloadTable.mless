@@ -8,6 +8,9 @@
 :local {
   .row {
     vertical-align: top;
+    & > td {
+      vertical-align: top;
+    }
   }
 
   .colName {

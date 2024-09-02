@@ -13,8 +13,8 @@ import { t } from '@instana/i18n-react';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import { useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
-import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import { useGenerateLinkToWebsite } from 'in-websites/navigation/paths';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 
 import locals from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions.mless';
@@ -38,7 +38,7 @@ const AssociationsContentPresenter = ({
   mobileAppLabels,
   shouldDisplayLink
 }: Props) => {
-  const numberOfAssociations: number = syntheticMultiWebMobileEnabled
+  const numberOfAssociations: number = syntheticRbacLimitedEnabled
     ? applicationLabels.length + websiteLabels.length + mobileAppLabels.length
     : applicationLabels.length;
 
@@ -231,7 +231,7 @@ const Content = (props: ContentProps) => {
     return t('in-synthetics:dashboard.testList.popDialog.associationsTitle', { number: numberOfAssociations });
   };
 
-  if (syntheticMultiWebMobileEnabled) {
+  if (syntheticRbacLimitedEnabled) {
     return (
       <Card
         title={getCardTitle()}

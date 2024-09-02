@@ -101,6 +101,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'cveIssueEnabled',
+    instanaCtlKey: 'feature.cve.issues.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'routeIdOverPathTplEnabled',
     instanaCtlKey: 'feature.route.id.over.path.tpl.enabled',
     defaultValue: false
@@ -266,6 +271,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'sloRebornWidgetEnabled',
+    instanaCtlKey: 'feature.slo.reborn.widget.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
     instanaCtlKey: 'feature.application.smart.alerts.logs.blueprint.enabled',
     defaultValue: false
@@ -328,7 +338,7 @@ module.exports = exports = [
   {
     uiClientKey: 'businessObservabilityEnabled',
     instanaCtlKey: 'feature.business.observability.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'bizopsPerspectivesEnabled',
@@ -411,8 +421,8 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'syntheticRbacLimitedTPEnabled',
-    instanaCtlKey: 'feature.synthetic.rbac.limited.tp.enabled',
+    uiClientKey: 'syntheticRbacLimitedEnabled',
+    instanaCtlKey: 'feature.synthetic.rbac.limited.enabled',
     defaultValue: false
   },
   {
@@ -616,6 +626,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonDropdownEnabled',
+    instanaCtlKey: 'feature.carbon.dropdown.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonInputEnabled',
     instanaCtlKey: 'feature.carbon.input.enabled',
     defaultValue: false
@@ -731,16 +746,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticMultiAppEnabled',
-    instanaCtlKey: 'feature.synthetic.multi.app.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticMultiWebMobileEnabled',
-    instanaCtlKey: 'feature.synthetic.multi.web.mobile.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'carbonFileUploaderEnabled',
     instanaCtlKey: 'feature.carbon.fileuploader.enabled',
     defaultValue: false
@@ -764,5 +769,15 @@ module.exports = exports = [
     uiClientKey: 'increaseAggregationEnabled',
     instanaCtlKey: 'feature.increase.aggregation.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonCodeEnabled',
+    instanaCtlKey: 'feature.carbon.code.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonSliderEnabled',
+    instanaCtlKey: 'feature.carbon.slider.enabled',
+    defaultValue: true
   }
 ];

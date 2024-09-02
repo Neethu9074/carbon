@@ -10,13 +10,13 @@ import { Stack, Typography } from '@instana/components';
 
 import AssociationsCommonSection from 'in-synthetics/createTests/wizard/AssociationsCommonSection';
 import ApplicationsSection from 'in-synthetics/createTests/wizard/ApplicationsSection';
-import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { AssociationsStepProps } from 'in-synthetics/utils/constants';
 import Section from 'in-synthetics/createTests/wizard/Section';
 import { t } from 'in-i18n';
 
 export default function AssociationsStep({ form, updateForm, applications, setSliderState }: AssociationsStepProps) {
-  return syntheticMultiWebMobileEnabled ? (
+  return syntheticRbacLimitedEnabled ? (
     <Section headingText={t('in-synthetics:dialog.createTest.associations.associationsTitle')}>
       <Stack gap="normal">
         <Typography variant={'body-regular'}>

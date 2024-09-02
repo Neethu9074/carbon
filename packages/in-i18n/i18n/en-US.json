@@ -1,5 +1,8 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "Main navigation"
+    },
     "expandableGroup": {
       "tooltipShowContent": "Show content",
       "tooltipHideContent": "Hide content",
@@ -16,7 +19,11 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "Load More"
-      }
+      },
+      "dataTable": "Data table"
+    },
+    "tableSkeleton": {
+      "sampleTable": "Sample table"
     },
     "code": {
       "copy": "Copy",

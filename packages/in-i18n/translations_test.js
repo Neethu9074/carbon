@@ -87,6 +87,49 @@ describe.only('in-i18n/translations', function () {
       );
     }
   });
+
+  it('Each ui-foundation translation key in en-US file is being used', () => {
+    const namespaceKeysMappingFromI18nKeys = new Map();
+    const namespaceKeysMappingFromLanguageFile = new Map();
+
+    const { languagesMap, nestedKeysMap } = getLanguagesAndNestedKeys();
+
+    for (const [namespace, languageFile] of languagesMap.entries()) {
+      namespaceKeysMappingFromLanguageFile.set(namespace, languageFileToKeyList(languageFile));
+    }
+
+    for (const i18nKey of i18nKeys) {
+      const { namespace, propPath } = extractNameSpaceAndPropPath(i18nKey);
+      const existingKeysForNameSpace = namespaceKeysMappingFromI18nKeys.get(namespace) || [];
+
+      namespaceKeysMappingFromI18nKeys.set(namespace, [...existingKeysForNameSpace, propPath]);
+    }
+
+    const unusedKeyMap = [...namespaceKeysMappingFromLanguageFile].reduce(
+      (result, [namespace, keysFromLanguageFile]) => {
+        const usedTranslationKeys = namespaceKeysMappingFromI18nKeys.get(namespace) || [];
+        const nestedKeys = nestedKeysMap.get(namespace) ?? [];
+        const unusedKey = difference(keysFromLanguageFile, usedTranslationKeys, nestedKeys);
+
+        return unusedKey.length > 0 ? result.set(namespace, unusedKey) : result;
+      },
+      new Map()
+    );
+
+    verifyUiFoundationKeys(unusedKeyMap);
+
+    if (unusedKeyMap.size > 0) {
+      const keysAsString = JSON.stringify(Object.fromEntries(unusedKeyMap), null, 2);
+      const message = `The following keys from the translation file are not being used in the respective js file(s):\n${keysAsString}`;
+
+      if (process.env.UI_FOUNDATION_FAIL_UNUSED_I18_KEYS === 'true') {
+        throw new Error(message);
+      } else {
+        //eslint-disable-next-line no-console
+        console.warn(message);
+      }
+    }
+  });
 });
 
 function extractNameSpaceAndPropPath(i18nKey) {
@@ -288,6 +331,45 @@ function ignorePluralsAndContext(jsonTree) {
 function removeUiFoundationKey(unusedKeysByNamespaceMap) {
   const keys = unusedKeysByNamespaceMap.get('in-i18n');
   const withoutUiFoundationKeys = keys.filter(key => !key.startsWith('components.') && !key.startsWith('formatDate.'));
+  unusedKeysByNamespaceMap.set('in-i18n', withoutUiFoundationKeys);
+  if (withoutUiFoundationKeys.length === 0) {
+    unusedKeysByNamespaceMap.delete('in-i18n');
+  }
+}
+
+/**
+ * Verify ui-foundation i18n keys.
+ *
+ * Translation keys for the ui-foundation packages are defined in:
+ * ui-client > packages > in-i18n
+ *
+ * This function identifies unused ui-foundation keys.
+ *
+ * The main aim is to catch keys in ui-foundation/components.
+ * Additional legacy checks have been temporary added for now which will be deprecated in the future.
+ *
+ */
+function verifyUiFoundationKeys(unusedKeysByNamespaceMap) {
+  const keys = unusedKeysByNamespaceMap.get('in-i18n');
+
+  const instanaPackagePath = `${__dirname}/../../node_modules/@instana`;
+  const utf8Encoding = { encoding: 'utf8' };
+
+  const uiFoundationComponent = fs.readFileSync(`${instanaPackagePath}/components/esm/index.js`, utf8Encoding);
+  const uiFoundationLegacy = fs.readFileSync(`${instanaPackagePath}/legacy/esm/index.js`, utf8Encoding);
+  const uiFoundationFormatDate = fs.readFileSync(`${instanaPackagePath}/format-date/esm/apis.js`, utf8Encoding);
+
+  const withoutUiFoundationKeys = keys.filter(key => {
+    if (key.startsWith('components.') || key.startsWith('formatDate.')) {
+      const componentExists = uiFoundationComponent.includes(`'${key}'`);
+      const legacyExists = uiFoundationLegacy.includes(`'${key}'`);
+      const formatDateExists = uiFoundationFormatDate.includes(`'${key}'`);
+
+      if (!componentExists && !legacyExists && !formatDateExists) return true;
+      else return false;
+    }
+    return true;
+  });
   unusedKeysByNamespaceMap.set('in-i18n', withoutUiFoundationKeys);
   if (withoutUiFoundationKeys.length === 0) {
     unusedKeysByNamespaceMap.delete('in-i18n');

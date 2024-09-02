@@ -8,6 +8,7 @@
 // in-services/featureFlags
 module.exports = {
   agentMonitoringIssuesEnabled: true,
+  cveIssueEnabled: true,
   businessObservabilityEnabled: true,
   bizopsPerspectivesEnabled: true,
   bizopsGenAIEnabled: true,
@@ -57,6 +58,7 @@ module.exports = {
   carbonContentSwitcherEnabled: true,
   carbonButtonEnabled: true,
   carbonMenuEnabled: true,
+  carbonDropdownEnabled: true,
   notesAndActivityEnabled: true,
   carbonLoadingSkeletonFeatureEnabled: true,
   carbonLoadingSpinnerEnabled: true,
@@ -107,6 +109,7 @@ module.exports = {
   sloV2Enabled: true,
   sloEnabled: true,
   sloSmartAlertsEnabled: true,
+  sloRebornWidgetEnabled: true,
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
   customDashboardsExportPdfWidget: true,
@@ -125,7 +128,7 @@ module.exports = {
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   syntheticCertificateCheckEnabled: true,
-  syntheticRbacLimitedTPEnabled: true,
+  syntheticRbacLimitedEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
@@ -154,12 +157,12 @@ module.exports = {
   maxMetricsLimitForBeeinstanaEnabled: true,
   serverSideInfraTagSearchEnabled: true,
   preAggregatedMetricsQueryEnabled: false,
-  syntheticMultiAppEnabled: true,
   carbonFileUploaderEnabled: true,
-  syntheticMultiWebMobileEnabled: true,
   assistmeEnabled: true,
   userProfileMenuEnabled: false,
   unitForInfraMetricsEnabled: true,
   applicationSmartAlertDialogView: true,
-  increaseAggregationEnabled: false
+  increaseAggregationEnabled: false,
+  carbonCodeEnabled: true,
+  carbonSliderEnabled: true
 };

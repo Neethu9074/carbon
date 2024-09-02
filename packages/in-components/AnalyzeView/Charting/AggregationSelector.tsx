@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 // @ts-expect-error
@@ -47,6 +47,7 @@ export default function AggregationSelector({ aggregations, selectedAggregation,
           kind="subtle"
           size="compact"
           icon="lib_arrow_drop_down"
+          iconSize="xs"
           className={locals.aggregation}
         >
           <span>{aggregationLabels[selectedAggregation]}</span>

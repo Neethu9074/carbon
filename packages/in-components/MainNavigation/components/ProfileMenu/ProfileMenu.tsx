@@ -33,7 +33,9 @@ interface ProfileMenuProps {
 export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }: ProfileMenuProps): JSX.Element {
   const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
 
-  const signOut = () => {
+  const signOut = (event: MouseEvent) => {
+    event.preventDefault();
+
     const form = document.createElement('form');
     form.method = 'post';
     form.action = '/auth/signOut';
@@ -76,10 +78,9 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
           <SwitcherDivider />
           {tenantSwitcherEnabled ? (
             <SwitcherItem
-              onClick={() => {
-                window.open(tenantSwitcherLink, '_blank');
-                onClickSideNavExpand();
-              }}
+              target="_blank"
+              href={tenantSwitcherLink}
+              onClick={onClickSideNavExpand}
               aria-label={t('in-components:mainNavigation.profileMenu_switchUnitOrTenant')}
             >
               <Stack direction="horizontal" gap="xsmall" align="center">
@@ -91,7 +92,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
             </SwitcherItem>
           ) : null}
           {tenantSwitcherEnabled && <SwitcherDivider />}
-          <SwitcherItem onClick={() => signOut()} aria-label={t('in-components:mainNavigation.profileMenu_logOut')}>
+          <SwitcherItem href="#" onClick={signOut} aria-label={t('in-components:mainNavigation.profileMenu_logOut')}>
             <Stack direction="horizontal" gap="xsmall" align="center">
               <SvgIcon type="lib_log_out" size="xs" color="white" />
               <Typography variant="label-02" onDark>

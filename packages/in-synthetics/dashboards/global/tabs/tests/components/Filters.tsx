@@ -9,7 +9,7 @@ import React, { Fragment } from 'react';
 import { Result, SyntheticTest } from '@instana/types';
 
 import { association, FilterSectionProps } from 'in-synthetics/utils/constants';
-import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
@@ -54,18 +54,16 @@ export default function Filters({
       />
       {!isAssociationsContext && (
         <ComboBox
-          value={syntheticMultiWebMobileEnabled ? entityIds : applicationIds}
+          value={syntheticRbacLimitedEnabled ? entityIds : applicationIds}
           onChange={t =>
             Array.isArray(t) &&
             setFilter(
-              syntheticMultiWebMobileEnabled
-                ? { entityIds: t.map(a => a.value) }
-                : { applicationIds: t.map(a => a.value) }
+              syntheticRbacLimitedEnabled ? { entityIds: t.map(a => a.value) } : { applicationIds: t.map(a => a.value) }
             )
           }
           placeholder={t('in-synthetics:dashboard.testList.associationLabel')}
           isMulti
-          options={syntheticMultiWebMobileEnabled ? getAssociationLabels(result) : getApplicationLabels(result)}
+          options={syntheticRbacLimitedEnabled ? getAssociationLabels(result) : getApplicationLabels(result)}
           className={locals.filter}
         />
       )}
@@ -167,7 +165,7 @@ function getAssociationLabels(result: Result<SyntheticTest[]> | undefined) {
   let showWebsites = false;
   let showMobileApplications = false;
 
-  if (syntheticMultiWebMobileEnabled && !result?.progress?.loading) {
+  if (!result?.progress?.loading) {
     result?.data?.forEach(function (item: SyntheticTest) {
       if (!showApplications && (item.applications ?? []).length! > 0) {
         showApplications = true;

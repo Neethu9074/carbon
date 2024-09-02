@@ -23,6 +23,8 @@ import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 
+import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+
 export default function StatusCodeThresholdCondition({
   form,
   updateForm,
@@ -52,6 +54,7 @@ export default function StatusCodeThresholdCondition({
             <Dropdown
               value={metricName}
               items={ruleMetricNameOptions.statusCode}
+              className={locals.dropdownmd}
               onChange={value => {
                 updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
               }}

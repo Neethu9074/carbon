@@ -189,6 +189,7 @@ export default function AlertHeader({
             <Tooltip content={t('in-alerting:components.alertHeaderRestoreRevisionTooltip')}>
               <IconButton
                 kind="primaryv2"
+                data-testid="restroreConfigButton"
                 type="lib_actions_revert"
                 iconSpinning={isRestoring}
                 onClick={() => openRestoreConfirmationDialog(alertRevision, doRestore)}
@@ -207,6 +208,7 @@ export default function AlertHeader({
               >
                 <IconButton
                   kind="primaryv2"
+                  data-testid="statusToggleButton"
                   type={
                     isToggling ? 'lib_actions_loading' : alertConfig.enabled ? 'lib_actions_pause' : 'lib_actions_play'
                   }
@@ -221,13 +223,20 @@ export default function AlertHeader({
               </Tooltip>
               {displayEditAction && (
                 <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')} delay={500}>
-                  <IconButton alignment="right" kind="primaryv2" type="lib_actions_edit" onClick={openDialog} />
+                  <IconButton
+                    data-testid="editConfigButton"
+                    alignment="right"
+                    kind="primaryv2"
+                    type="lib_actions_edit"
+                    onClick={openDialog}
+                  />
                 </Tooltip>
               )}
               {displayDuplicateAction && (
                 <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltip')} delay={500}>
                   <IconButton
                     kind="primaryv2"
+                    data-testid="duplicateConfigButton"
                     type="lib_actions_copy"
                     onClick={() => openDialog({ isCopy: true })}
                     alignment="right"
@@ -238,6 +247,7 @@ export default function AlertHeader({
                 <Tooltip content={getButtonName(t('in-alerting:components.alertHeaderEditTooltip'))} delay={500}>
                   <IconButton
                     kind="primaryv2"
+                    data-testid="editConfigButtonTearsheet"
                     type="lib_actions_edit"
                     onClick={() => goToPath(editSmartAlertPath.slice(2))}
                     alignment="right"
@@ -248,6 +258,7 @@ export default function AlertHeader({
                 <Tooltip content={getButtonName(t('in-alerting:components.alertHeaderDuplicateTooltip'))} delay={500}>
                   <IconButton
                     kind="primaryv2"
+                    data-testid="duplicateConfigButtonTearsheet"
                     type="lib_actions_copy"
                     onClick={() => goToPath(duplicateSmartAlertPath.slice(2))}
                     alignment="right"
@@ -258,6 +269,7 @@ export default function AlertHeader({
                 <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')} delay={500}>
                   <IconButton
                     kind="primaryv2"
+                    data-testid="deleteConfigButton"
                     type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
                     iconSpinning={isDeleting}
                     onClick={() => {

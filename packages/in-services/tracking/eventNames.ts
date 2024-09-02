@@ -371,6 +371,9 @@ export const SLI_MANAGEMENT_EDIT_START = 'sli.v2.management.edit.start';
 export const SLI_MANAGEMENT_EDIT_FINISH = 'sli.v2.management.edit.finish';
 export const SLI_MANAGEMENT_DELETE = 'sli.v2.management.delete';
 
+// SLO Reborn Widget
+export const SLO2_WIDGET_EDIT_START = 'slo2.widget.edit.start';
+
 // Service Levels
 export const SLO_LIST_VIEW = 'slo.list.view';
 export const SLO_SUMMARY_VIEW = 'slo.summary.view';

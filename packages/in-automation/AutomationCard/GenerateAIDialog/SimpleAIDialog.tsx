@@ -11,11 +11,16 @@ import { isEmpty } from 'lodash';
 import { generateUniqueShortId } from '@instana/utils';
 import { Link } from '@instana/components';
 
+import {
+  createPolicyFromAIActionTracker,
+  copyAIGenaratedActionTracker,
+  useSegmentTracker,
+  TrackingFunction
+} from 'in-automation/tracker';
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { isScript, isManual, isDocLink, getTimeoutFromFields } from 'in-automation/ActionCatalog/shared';
 import { createScriptFields, createManualField, saveNewAction, saveNewPolicy } from 'in-automation/api';
-import { createPolicyFromAIActionTracker, copyAIGenaratedActionTracker } from 'in-automation/tracker';
 import { putScriptField, putManualField } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import { CreatePolicyStep } from 'in-automation/AutomationCard/GenerateAIDialog/CreatePolicyStep';
 import { CopyActionStep } from 'in-automation/AutomationCard/GenerateAIDialog/CopyActionStep';
@@ -23,13 +28,16 @@ import SelectActionStep from 'in-automation/AutomationCard/GenerateAIDialog/Sele
 import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
+import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { refresh } from 'in-automation/AutomationCard/usePolicies';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { Result, Event, Field, Error, Policy } from 'in-types';
 import { hasError, isLoading } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { ScoredAction } from 'in-automation/api';
 import { noop } from 'in-services/fixedObjects';
 import { Trans, t } from 'in-i18n';
@@ -75,9 +83,15 @@ export default function SimpleAIDialog({
     return createNewAIActionFormDefinition(selectedAIAction);
   });
 
+  const { createActionTrackerSegment, createPolicyTrackerSegment } = useSegmentTracker();
+
   const handleCreatePolicy = () => {
     // We can't get to onCreate without a selectedAIAction, so we can safely non-null assert
-    createPolicy({ form, event, setActiveKey, setActionError, selectedAIAction: selectedAIAction! });
+    createPolicy(
+      { form, event, setActiveKey, setActionError, selectedAIAction: selectedAIAction! },
+      createActionTrackerSegment,
+      createPolicyTrackerSegment
+    );
   };
 
   return (
@@ -135,10 +149,20 @@ interface createPolicyProps {
   selectedAIAction: ScoredAction;
 }
 
-const createPolicy = ({ form, event, setActiveKey, setActionError, selectedAIAction }: createPolicyProps) => {
+const createPolicy = (
+  { form, event, setActiveKey, setActionError, selectedAIAction }: createPolicyProps,
+  createActionTrackerSegment: TrackingFunction,
+  createPolicyTrackerSegment: TrackingFunction
+) => {
   const action = getActionSpecification(form, selectedAIAction);
   saveNewAction(action).once(
     res => {
+      setViewTrackingDataValues(productAreas.events, pageNames.event_generate_with_watsonx);
+      createActionTrackerSegment({
+        actionName: action.name,
+        actionType: action.type,
+        aiOriginated: true
+      });
       copyAIGenaratedActionTracker({
         actionType: action.type,
         actionName: action.name,
@@ -156,6 +180,14 @@ const createPolicy = ({ form, event, setActiveKey, setActionError, selectedAIAct
         if (errored) {
           onCreateFailed(data?.errors[0]);
         } else {
+          createPolicyTrackerSegment({
+            actionName: action.name,
+            actionType: action.type,
+            policyName: policy.name,
+            policyType: 'manual',
+            aiOriginated: true,
+            triggerName: event.problem?.problemText
+          });
           createPolicyFromAIActionTracker({
             name: policy.name,
             triggerName: event.problem?.problemText,

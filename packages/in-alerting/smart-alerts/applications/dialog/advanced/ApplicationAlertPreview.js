@@ -18,7 +18,7 @@ export function ApplicationAlertPreview({ form, applicationLabel, evaluationType
   return (
     <AlertPreview
       form={form}
-      renderHeadline={() => <ApplicationAlertPreviewHeadline form={form} />}
+      renderHeadline={() => <ApplicationAlertPreviewHeadline form={form} isTearSheet={isTearSheet} />}
       getDescriptionPlaceholder={getDescriptionPlaceholder}
       entityLabel={entityLabel}
       entityIconType={entityIconType}

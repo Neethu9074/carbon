@@ -24,6 +24,17 @@ export function getApiToken(id: string): Observable<any> {
   }).map(response => response.body);
 }
 
+export function getTokenIdByAccessGrantingToken(token: string): Observable<any> {
+  return http({
+    method: 'POST',
+    headers: getCsrfHeader(),
+    maxRetries: 0,
+    url: `/api/settings/api-tokens/getTokenIdByAccessGrantingToken`,
+    treat400AsError: false,
+    data: { query: token }
+  }).map(response => response.body);
+}
+
 export function unmaskApiToken(id: string): Observable<any> {
   return http({
     method: 'GET',

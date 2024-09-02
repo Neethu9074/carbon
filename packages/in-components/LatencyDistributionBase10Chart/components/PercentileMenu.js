@@ -7,8 +7,7 @@ import classNames from 'classnames';
 import { List } from 'immutable';
 import React from 'react';
 
-import { Checkbox } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Checkbox, Button } from '@instana/components';
 
 import { latencyPercentileMenuClickedTracker } from 'in-analyze/tracker';
 import Overlay from 'in-components/overlays/Overlay';

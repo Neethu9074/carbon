@@ -148,6 +148,7 @@ export default function ServiceOrEndpointSelection({
   const searchResult = useCursorPagination(queryEntity, [query, evaluationType]);
   const isSearchLoading = !searchResult || isLoading(searchResult);
   const queryOptions = isSearchLoading ? loadingOptions : searchResultsToListItems(searchResult, evaluationType);
+  const isOptionExists = checkOptionsExists(isQuery ? queryOptions : options);
 
   return (
     <Overlay
@@ -176,7 +177,7 @@ export default function ServiceOrEndpointSelection({
             onClick={toggle}
             expanded={isOpen}
             className={locals.labelWithGap}
-            disabled={applicationIds.length === 0}
+            disabled={applicationIds.length === 0 || isOptionExists}
           >
             {isTearSheet ? (
               // in case of tearSheet ,
@@ -213,4 +214,10 @@ function DropDownButtonLabel({ isServiceLevel }) {
     return t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewForService');
   }
   return t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewForEndpoint');
+}
+
+function checkOptionsExists(options) {
+  // this is to disable the dropdown to select AP/service/endpoint doesnt have any data
+  const noChildren = options.map(node => !node.children || node.children.length === 0);
+  return !noChildren.every(children => children === false);
 }

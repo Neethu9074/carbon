@@ -9,13 +9,12 @@ import classNames from 'classnames';
 import { Record } from 'immutable';
 
 import { SyntheticTest } from '@instana/types/typeDefinitions';
-import { Button, Stack } from '@instana/components';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { syntheticMultiAppEnabled, syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
@@ -65,21 +64,10 @@ const Associations = ({ test }: Props) => {
     );
   };
 
-  const getPrivatePreviewBadge = () => {
-    if (syntheticMultiAppEnabled) {
-      return (
-        <Stack direction="horizontal" gap="xxsmall">
-          {t('in-synthetics:dashboard.configuration.associations')}
-          <PreviewBadge privatePreview />
-        </Stack>
-      );
-    }
-    return t('in-synthetics:dashboard.configuration.associations');
-  };
   return (
     <ExpandableLightCard
       className={locals.expandableCard}
-      title={getPrivatePreviewBadge()}
+      title={t('in-synthetics:dashboard.configuration.associations')}
       darkFrame
       useMaxAvailableHeight
       openByDefault
@@ -109,7 +97,7 @@ const Associations = ({ test }: Props) => {
           {loadMoreEntities('applications')}
         </LightCard>
       </Row>
-      {syntheticMultiWebMobileEnabled && (
+      {syntheticRbacLimitedEnabled && (
         <>
           <Row>
             <LightCard

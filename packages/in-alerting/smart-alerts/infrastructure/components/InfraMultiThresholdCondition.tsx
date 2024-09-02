@@ -50,7 +50,7 @@ export default function InfraMultiThresholdCondition({
     <div className={locals.gridWrapper}>
       <SvgIcon className={locals.icon} type="lib_alerting_threshold_icon" />
       <span className={locals.label}>{t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold')}</span>
-      <div>
+      <div className={locals.infraThresholdOperatorWrapper}>
         <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
         <span>{thresholdType[0].label}</span>
       </div>

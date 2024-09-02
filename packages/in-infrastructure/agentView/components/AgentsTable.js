@@ -143,8 +143,16 @@ export default connectTo(
     timeConfig: timeConfig$,
     isInternalVisible: isInternalVisible$
   },
-  function AgentViewAgentsTable({ agentSnapshots, timeConfig, isInternalVisible }) {
+  function AgentViewAgentsTable({ agentSnapshotsResult, timeConfig, isInternalVisible }) {
     const showDetailedAgentStatus = agentMonitoringIssuesEnabled || isInternalVisible;
+    if (
+      !agentSnapshotsResult ||
+      agentSnapshotsResult.getIn(['progress', 'loading']) ||
+      agentSnapshotsResult.getIn(['errors']).length > 0
+    ) {
+      return null;
+    }
+    const agentSnapshots = agentSnapshotsResult.getIn(['data']);
 
     const rows = [];
     agentSnapshots?.get('online', emptyList).forEach(snapshot => {

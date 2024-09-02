@@ -11,8 +11,8 @@ import { themes } from '@instana/design-tokens';
 import { Message } from '@instana/components';
 
 import useApdexRetentionPeriodCheck from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexRetentionPeriodCheck';
+import ChartMarkerLanes from 'in-custom-dashboards/widgets/SloLegacy/components/ChartMarkerLanes';
 import useApdexLineRenderer from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexLineRenderer';
-import ChartMarkerLanes from 'in-custom-dashboards/widgets/Slo/components/ChartMarkerLanes';
 import { ContextMenuConfig, MetricDataSeries } from 'in-components/Chart/types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';

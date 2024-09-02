@@ -9,7 +9,7 @@ import Configuration from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/
 // @ts-expect-error Could not find a declaration file for module
 import Geography from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/Geography';
 import SyntheticMonitoring from 'in-mobile-apps/MobileAppDashboard/tabs/SyntheticMonitoring/SyntheticMonitoring';
-import { mobileAppCrashBeaconEnabled, syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
+import { mobileAppCrashBeaconEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import CustomEvents from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents';
 import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests';
 import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
@@ -58,7 +58,7 @@ export const mobileAppTabs: Array<MobileAppTab> = [
     path: `${mobileAppPathFullyQualified}/customEvents`,
     component: CustomEvents
   },
-  syntheticMultiWebMobileEnabled && {
+  syntheticRbacLimitedEnabled && {
     label: t('in-mobile-apps:dashboard.tabs.syntheticMonitoringLabel'),
     path: `${mobileAppPathFullyQualified}/synthetics`,
     component: SyntheticMonitoring,

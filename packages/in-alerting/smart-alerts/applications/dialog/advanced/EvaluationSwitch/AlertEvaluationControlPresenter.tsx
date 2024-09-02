@@ -67,7 +67,7 @@ export function AlertEvaluationControlPresenter({
           label={alertEvaluationTypes[type].tearSheetSelectionText}
           description={
             evaluationCount?.[type]
-              ? alertEvaluationTypes[type].tearSheetDescription(evaluationCount[type])
+              ? alertEvaluationTypes[type].tearSheetDescription(getEvaluationCount(evaluationCount[type]))
               : alertEvaluationTypes[type].tearSheetDescription(0)
           }
         >
@@ -126,4 +126,11 @@ export function AlertEvaluationControlPresenter({
       </div>
     </div>
   );
+}
+
+function getEvaluationCount(evaluationCount: any) {
+  if (evaluationCount === 'loading' || evaluationCount?.[0]?.message) {
+    return '-';
+  }
+  return evaluationCount;
 }

@@ -14,7 +14,7 @@ import { Button } from '@instana/components';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { t } from 'in-i18n';
 
@@ -75,7 +75,7 @@ export default function ApplicationsSection({ form, updateForm, applications }: 
   };
 
   const renderApplications = () => {
-    if (syntheticMultiAppEnabled) {
+    if (syntheticRbacLimitedEnabled) {
       return (
         <div>
           {filteredApplications
@@ -144,7 +144,7 @@ export default function ApplicationsSection({ form, updateForm, applications }: 
     <ExpandableLightCard
       className={locals.container}
       title={
-        syntheticMultiAppEnabled
+        syntheticRbacLimitedEnabled
           ? t('in-synthetics:dialog.createTest.basicDetails.labelApplications')
           : t('in-synthetics:dialog.createTest.basicDetails.labelApplication')
       }
