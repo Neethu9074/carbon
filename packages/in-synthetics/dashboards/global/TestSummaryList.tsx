@@ -60,12 +60,13 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
 import CreateSyntheticTest from 'in-synthetics/createTests/CreateSyntheticTest';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useFilterHeader } from 'in-synthetics/dashboards/global/utils';
 import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -140,6 +141,7 @@ const TestSummaryList = () => {
   const [{ syntheticTypes, locationIds, applicationIds, entityIds }, setFilter] = useUrlState(urlStateDefinition);
   const storedDialogAlarm = storedAlarmTimeOrNull();
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
+  const { trackCta } = useSegmentTracking();
   if (syntheticRbacLimitedEnabled && !syntheticTests?.progress?.loading) {
     syntheticTests?.data?.forEach(function (item: SyntheticTest) {
       if (item?.applications) {
@@ -171,7 +173,7 @@ const TestSummaryList = () => {
   }, [storedDialogAlarm]);
 
   const showSADialog = () => {
-    trackStartCreate();
+    trackCta(ALERTING_CREATE);
     return addActiveDialog(<CreateSmartAlertDialog />);
   };
 
