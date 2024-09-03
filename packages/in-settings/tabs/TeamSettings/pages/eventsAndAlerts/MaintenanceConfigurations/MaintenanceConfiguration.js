@@ -16,9 +16,15 @@ import {
   getMaintenanceConfig,
   saveMaintenanceConfig
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/api';
+import {
+  SETTINGS_MAINTENANCE_WINDOW_CANCEL,
+  SETTINGS_MAINTENANCE_WINDOW_EDIT,
+  SETTINGS_MAINTENANCE_WINDOW_NEW
+} from 'in-services/tracking/eventNames';
 import MaintenanceConfigurationForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm';
+import { maintenanceWindowCTATracker } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/tracker';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
-import { cancelMaintenanceWindowTracker, submitMaintenanceWindowTracker } from 'in-settings/tracker';
+import { cancelMaintenanceWindowTracker, submitMaintenanceWindowTracker } from 'in-settings/tracker.ts';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -102,6 +108,10 @@ const Form = entityForm(function MaintenanceForm(props) {
         listPath={teamSettingsAlertingMaintenanceConfigurations}
         onClickCancelButton={() => {
           cancelMaintenanceWindowTracker();
+          maintenanceWindowCTATracker(
+            SETTINGS_MAINTENANCE_WINDOW_CANCEL,
+            teamSettingsAlertingMaintenanceConfigurations
+          );
           goToPath(teamSettingsAlertingMaintenanceConfigurations);
         }}
       />
@@ -126,6 +136,12 @@ function save(config, form, isNew) {
     mwID: config ? config.get('id') : null,
     name: form && form.get('name') && form.get('name').value ? form.get('name').value : null
   }); //Mixpanel tracking
+
+  //maintenanceWindowObjectModification(isNew ? CREATED_OBJECT : UPDATED_OBJECT, location.pathname, 'legacy');
+  maintenanceWindowCTATracker(
+    isNew ? SETTINGS_MAINTENANCE_WINDOW_NEW : SETTINGS_MAINTENANCE_WINDOW_EDIT,
+    location.pathname
+  );
   return saveMaintenanceConfig(
     createMaintenanceConfig(
       config ? config.get('id') : null,

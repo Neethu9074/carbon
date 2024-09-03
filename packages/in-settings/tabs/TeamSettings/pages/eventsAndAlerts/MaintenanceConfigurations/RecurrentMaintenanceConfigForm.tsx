@@ -22,9 +22,17 @@ import { themes } from '@instana/design-tokens';
 import { Button } from '@instana/components';
 
 import {
+  SETTINGS_MAINTENANCE_WINDOW_ADVANCED,
+  SETTINGS_MAINTENANCE_WINDOW_CANCEL,
+  SETTINGS_MAINTENANCE_WINDOW_EDIT,
+  SETTINGS_MAINTENANCE_WINDOW_NEW,
+  SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_ONE,
+  SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_TWO,
+  SETTINGS_MAINTENANCE_WINDOW_SIMPLE
+} from 'in-services/tracking/eventNames';
+import {
   advancedModeMaintenanceWindowTracker,
   cancelMaintenanceWindowTracker,
-  editMaintenanceWindowTracker,
   nextStepOneMaintenanceWindowTracker,
   nextStepTwoMaintenanceWindowTracker,
   simpleModeMaintenanceWindowTracker,
@@ -45,6 +53,7 @@ import {
   setPartsToUTCDate,
   subtractDurationFromGivenTime
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
+import { maintenanceWindowCTATracker } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/tracker';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useEntityForm, { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
@@ -203,6 +212,7 @@ function RecurrentMaintenanceForm({
   setSimpleMode
 }: RecurrentMaintenanceFormProps) {
   const [slideInViewVisible, setSlideInViewVisible] = useState(false);
+  const { location } = useNavigation();
   if (!form || loading || !entity) return <LoadingIndicator size="regular" />;
   const footer = simpleMode ? (
     <DialogFooter
@@ -224,8 +234,18 @@ function RecurrentMaintenanceForm({
                 kind="primary"
                 onClick={() => {
                   if (step === 1) {
+                    maintenanceWindowCTATracker(
+                      SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_ONE,
+                      location.pathname,
+                      form.get('id')
+                    );
                     nextStepOneMaintenanceWindowTracker({ id: form.get('id') });
                   } else {
+                    maintenanceWindowCTATracker(
+                      SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_TWO,
+                      location.pathname,
+                      form.get('id')
+                    );
                     nextStepTwoMaintenanceWindowTracker({ id: form.get('id') });
                   }
                   setStep(step + 1);
@@ -256,6 +276,7 @@ function RecurrentMaintenanceForm({
       primaryActionDisabled={!form.hierarchyValid || validateStep(form, stepConfigs, step)}
       onSecondaryActionClick={() => {
         cancelMaintenanceWindowTracker({});
+        maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_CANCEL, location.pathname);
         onClose();
       }}
       secondaryActionText={t('in-components:blueprintFormMultistep.buttonCancel')}
@@ -274,6 +295,7 @@ function RecurrentMaintenanceForm({
         onSlideInViewTitleClick={() => setSlideInViewVisible(!slideInViewVisible)}
         onClose={() => {
           cancelMaintenanceWindowTracker({});
+          maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_CANCEL, location.pathname);
           onClose();
         }}
         renderCustomCloseBehaviour={() => (
@@ -282,8 +304,10 @@ function RecurrentMaintenanceForm({
               const newMode = !simpleMode;
               if (simpleMode) {
                 advancedModeMaintenanceWindowTracker({});
+                maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_ADVANCED, location.pathname);
               } else {
                 simpleModeMaintenanceWindowTracker({});
+                maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_SIMPLE, location.pathname);
               }
               setSimpleMode(newMode);
             }}
@@ -449,7 +473,7 @@ function save(
     form && form.get('name') && (form.get('name') as Field<string>).value
       ? (form.get('name') as Field<string>).value
       : null;
-  // Mixpanel tracking
+
   submitMaintenanceWindowTracker({
     windowStart: windowStart || null,
     query,
@@ -460,6 +484,11 @@ function save(
     isSimple
   });
 
+  //maintenanceWindowObjectModification(isNew ? CREATED_OBJECT : UPDATED_OBJECT, location.pathname, scheduling.type);
+  maintenanceWindowCTATracker(
+    isNew ? SETTINGS_MAINTENANCE_WINDOW_NEW : SETTINGS_MAINTENANCE_WINDOW_EDIT,
+    isSimple ? 'simple_mode' : 'advanced_mode'
+  );
   return saveMaintenanceConfigV2(
     createMaintenanceConfigV2(
       config ? config.id : '',
@@ -591,14 +620,6 @@ function createForm(config: MaintenanceConfigV2, isCreate: boolean): MapForm<any
   } else {
     //@ts-expect-error-next-line
     form = putTagFilterExpressionFields(form, false);
-  }
-
-  if (!isCreate) {
-    editMaintenanceWindowTracker({
-      mwID: config.id,
-      name: config.name || null,
-      type: config.scheduling.type
-    });
   }
 
   return form;
