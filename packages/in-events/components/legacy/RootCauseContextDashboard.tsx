@@ -13,7 +13,7 @@ import RootCauseErrorMessagesTable from './RootCauseErrorTable';
 import RootCauseLogMessagesTable from './RootCauseLogTable';
 import { t } from 'in-i18n';
 
-interface RootCauseDashboardProps {
+interface RootCauseContextDashboardProps {
   applicationBoundaryScope: ApplicationBoundaryScope;
   serviceId?: string;
   serviceName: any;
@@ -24,7 +24,7 @@ interface RootCauseDashboardProps {
   timeConfig: TimeConfig;
 }
 
-export default function RootCauseDashboard({
+export default function RootCauseContextDashboard({
   applicationBoundaryScope,
   applicationId,
   applicationName,
@@ -33,7 +33,7 @@ export default function RootCauseDashboard({
   endpointId,
   endpointName,
   timeConfig
-}: RootCauseDashboardProps) {
+}: RootCauseContextDashboardProps) {
   const [configsCategory, setConfigsCategory] = useState('errorMessages');
   const leftHeaderContent = (
     <ButtonGroup

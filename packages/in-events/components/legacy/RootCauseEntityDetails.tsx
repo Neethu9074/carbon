@@ -32,15 +32,9 @@ import {
   useGenerateLinkToDashboard,
   useGenerateLinkToAnalyzePage
 } from 'in-events/components/util/rootCauseUtil';
-import {
-  expandedRCAEventCardTracker,
-  RCAAssociatedEventsClick,
-  RCAClickThroughToAnalyze,
-  RCAClickThroughToEntity,
-  RCATraceLogsClick
-} from 'in-events/tracker';
 //@ts-expect-error
 import { SnapshotData, getPhysicalHierarchy, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
+import { RCAClickThroughToAnalyze, RCAClickThroughToEntity, RCATraceLogsClick } from 'in-events/tracker';
 import { getStackForInfrastructure } from 'in-components/Stack/subscriptions/getStack';
 import { Application, Endpoint, ServiceLabel, Snapshot, TimeConfig } from 'in-types';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
@@ -49,17 +43,14 @@ import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import RootCauseContextDashboard from './RootCauseContextDashboard';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
-//@ts-expect-error
-import { getEvent } from 'in-stores/events';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
-import RootCauseDashboard from './RootCauseDashboardProps';
+import AssociatedEvents from './RootCauseAssociatedEvents';
 import { rcaLogsEnabled } from 'in-services/featureFlags';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { setTimeConfig } from 'in-stores/time/config';
-import { EventOrMap } from 'in-events/types';
-import EventListItem from './EventListItem';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
@@ -756,7 +747,7 @@ function TraceLogs({
       useMaxAvailableHeight={false}
     >
       {expanded && entityData !== null && (
-        <RootCauseDashboard
+        <RootCauseContextDashboard
           applicationBoundaryScope="ALL"
           serviceId={nonInfraServiceLabelInformation?.id || infraServiceLabelInformation[0]?.id}
           serviceName={nonInfraServiceLabelInformation?.label || infraServiceLabelInformation[0]?.label}
@@ -767,63 +758,6 @@ function TraceLogs({
           timeConfig={incidentTimeWindow}
         />
       )}
-    </Card>
-  );
-}
-
-interface AssociatedEventsProps {
-  associatedEvents: List<string>;
-  latestSnapshot: Snapshot;
-}
-
-function AssociatedEvents({ associatedEvents, latestSnapshot }: AssociatedEventsProps) {
-  const [associatedEventsObservables, setAssociatedEventsObservables] = useState<Observable<EventOrMap[]> | null>(null);
-  const [expanded, setExpanded] = useState<boolean>(false);
-
-  const associatedEventsData = useObservable(associatedEventsObservables, [associatedEventsObservables]);
-
-  useEffect(() => {
-    setAssociatedEventsObservables(combineLatest(associatedEvents.toArray().map(getEvent)));
-  }, [associatedEvents]);
-
-  if (!associatedEventsData) return <LoadingIndicator />;
-
-  return (
-    <Card
-      leftHeaderContent={
-        <Typography variant="body-bold">
-          {t('in-events:RCA.relatedEventsLabel', {
-            number_of_events: Array.isArray(associatedEventsData) ? associatedEventsData.length : 0
-          })}
-        </Typography>
-      }
-      onHeaderBackgroundClicked={() => {
-        RCAAssociatedEventsClick({ expanded: !expanded });
-        setExpanded(!expanded);
-      }}
-      headerClassName={locals.associatedEventsCardHeader}
-      rightHeaderContent={
-        <IconButton color="black" type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="compact" />
-      }
-      className={locals.associatedEventsCard}
-      hasMarginBottom={expanded}
-      useMaxAvailableHeight={false}
-    >
-      {expanded &&
-        associatedEventsData?.map((_event: EventOrMap) => (
-          <div onClick={expandedRCAEventCardTracker}>
-            <EventListItem
-              key={_event.get('id') as string}
-              triggeringProblemId={
-                associatedEventsData.length > 0 ? (associatedEventsData[0].get('id') as string) : undefined
-              }
-              event={_event}
-              latestSnapshot={latestSnapshot}
-              setBackground={themes.default.ids.color.option['deep-purple'][500]}
-              setIconColor={themes.default.ids.color.option.white}
-            />
-          </div>
-        ))}
     </Card>
   );
 }
