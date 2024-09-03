@@ -61,6 +61,9 @@ pipeline {
             sh "./build/ci-shared-tools/scripts/setup.bash"
           }
 
+          // Check if running on backend-jenkins
+          println "isBackendJenkins = ${isBackendJenkins}"
+
           isDeliveryBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isDeliveryBranch.js") == 'true'
           isLTSRBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isLTSRBranch.js") == 'true'
           latestReleaseBranch = getLatestReleaseBranch()
