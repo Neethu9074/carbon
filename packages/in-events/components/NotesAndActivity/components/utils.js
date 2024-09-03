@@ -1,0 +1,57 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import { t } from 'in-i18n';
+
+// Simple function to check if text is not empty
+export function validTextEntry(text) {
+  if (text?.trim() == '' || !text) {
+    return false;
+  }
+  return true;
+}
+
+// We want to display "You" instead of the user name if its
+// your chat bubble
+// Append date to end of text
+export function noteNameAndTimeFormat(myBubble, note, date, type) {
+  const typeNote = type === 'note';
+  const aiGen = type === 'ai_generated';
+
+  if (myBubble && typeNote) {
+    return `${t('in-events:notes.you')} ${date}`;
+  } else if (aiGen) {
+    return `watsonx ${date}`;
+  } else if (typeNote) {
+    return `${note?.author} ${date}`;
+  } else {
+    return `${note?.origin} ${date}`;
+  }
+}
+
+// Convert an array of arrays to determine before and after values
+// of type 'external_field_change'
+//
+// Sample input expected:
+// [
+//   ['Priority', '0', '1 - Critical'],
+//   ['Incident state', 'opened', 'In progress'],
+//   ['Opened by', '', 'ITIL User']
+// ]
+export function createDataString(data) {
+  var dataString = [];
+  data?.map(entry => {
+    // There are three index values but only first and last are used
+    // 0 - Key
+    const entryOne = entry[0] || '';
+    // 1 - Old Value
+    // 2 - New Value
+    const entryThree = entry[2] || '';
+    const entryString = `${entryOne}: ${entryThree}\n`;
+    dataString.push(entryString);
+  });
+  return dataString;
+}

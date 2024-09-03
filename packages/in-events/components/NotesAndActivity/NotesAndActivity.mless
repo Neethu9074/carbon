@@ -5,19 +5,6 @@
  */
 
 :local {
-  .notes {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    width: 26rem;
-    // New header size
-    margin-top: 0.75rem;
-    height: calc(100% - 15rem);
-    right: 0;
-    border: 1px solid var(--ids-color-option-neutral-300);
-    background-color: var(--cds-layer-01);
-  }
-
   .notesHeaderWrapper {
     // same as the notes width - right padding in the header - left padding in notes
     width: calc(26rem - 1.5rem - 15px);
@@ -32,56 +19,22 @@
     color: var(--cds-text-primary);
   }
 
+  .notes {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 26rem;
+    // New header size
+    margin-top: 0.75rem;
+    height: calc(100% - 15rem);
+    right: 0;
+    border: 1px solid var(--ids-color-option-neutral-300);
+    background-color: var(--cds-layer-01);
+  }
+
   .tagIconWrapper {
     display: inline-flex;
     gap: 0.5rem;
-  }
-
-  .questionIcon {
-    padding-right: 10px;
-  }
-
-  .quickActionWrapper {
-    display: flex;
-    padding: 15px 15px 0px 15px;
-    z-index: 10;
-  }
-
-  .transitionDown {
-    margin-top: -40px;
-    padding-top: 60px;
-    transition: margin-top linear 0.25s;
-  }
-
-  .extraPadding {
-    padding-left: 50px;
-    padding-top: 80px;
-    margin-top: -60px;
-    transition: margin-top linear 0.25s;
-  }
-
-  .quickActionsHeader {
-    font-weight: 600;
-    font-size: 14px;
-    padding-bottom: 10px;
-  }
-
-  .quickActionsDescription {
-    font-weight: 400;
-    font-size: 12px;
-    color: grey;
-    padding-bottom: 15px;
-  }
-
-  .quickActionButtonContents {
-    display: block;
-    padding-right: 10px;
-  }
-
-  .actionsButton {
-    border-radius: 25px 25px 25px 25px;
-    height: 0px;
-    padding-inline-end: 20px;
   }
 
   .closedNotesWrapper {
@@ -96,109 +49,10 @@
 
   .notesIcon {
     padding-top: 5px;
-  }
-
-  .userIcon {
-    fill: #595959;
-  }
-
-  .snowIcon {
-    fill: green;
-  }
-
-  .aiIcon {
-    fill: white;
-    background-color: var(--cds-chat-avatar-user);
-    border-radius: 25px 25px 25px 25px;
-  }
-
-  .aiIconSlug {
-    border: 1px solid black;
+    z-index: 100;
   }
 
   .loading {
-    height: 75vh;
-    display: flex;
-    padding: 10rem;
-  }
-
-  .notesSection {
-    padding: 0px 15px 35px 15px;
-    overflow: auto;
-    display: flex;
-    flex-direction: column-reverse;
-    height: 100%;
-    -webkit-mask-image: linear-gradient(transparent, black 10%);
-  }
-
-  .bubble {
-    padding: 10px 15px 10px 15px;
-    margin-top: 10px;
-    margin-left: 30px;
-    white-space: pre-wrap;
-    line-height: normal;
-  }
-
-  .myBubble {
-    background: var(--cds-chat-bubble-user, #edf5ff);
-    border-radius: 8px 0px 8px 8px;
-  }
-
-  .aiGenBubble {
-    padding: 0px;
-    line-height: 1.5;
-  }
-
-  .bubbleContentsHeader {
-    font-weight: 700;
-    padding-bottom: 5px;
-  }
-
-  .ext {
-    background: var(--cds-field-01, #e0e0e0);
-    border-radius: 0px 8px 8px 8px;
-    border: 1px solid black;
-  }
-
-  .chatEntry {
-    display: flex;
-    padding-top: 25px;
-  }
-
-  .myChatEntry {
-    justify-content: flex-end;
-  }
-
-  .chatEntryInfo {
-    padding-top: 5px;
-    padding-left: 5px;
-    color: var(--cds-text-secondary);
-    display: inline-flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .myChatEntryInfo {
-    padding-top: 5px;
-    color: var(--cds-text-secondary);
-  }
-
-  .commentInputWrapperNotes {
-    display: inline-flex;
-
-    .commentInputIcon {
-      position: absolute;
-      right: 0;
-      fill: blue;
-    }
-    :global(.cds--text-area) {
-      border: none;
-      padding: 15px 35px 15px 10px;
-      resize: none;
-    }
-    :global(.carbonIconButton) {
-      display: flex;
-      align-items: center;
-    }
+    padding: 80% 0px 0px 50%;
   }
 }

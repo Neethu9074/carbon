@@ -4,13 +4,20 @@
  * Copyright IBM Corp. 2024
  */
 
-import { t } from 'in-i18n';
-
+// Function to filter through and take in notes Object
+// eventObj: journals || notesUiObjects
+// Types:
+// - note
+// - external_note
+// - external_field_change
 export function getNotes(event) {
   const notes =
     (event?.get('journals') || event?.get('notesUiObjects'))
       ?.toArray()
-      .filter(x => x && (x.get('type') == 'note' || x.get('type') == 'external_note'))
+      .filter(
+        x =>
+          x && (x.get('type') == 'note' || x.get('type') == 'external_note' || x.get('type') == 'external_field_change')
+      )
       .map(x => {
         return {
           type: x.get('type'),
@@ -24,33 +31,6 @@ export function getNotes(event) {
         };
       }) || [];
   return notes;
-}
-
-// Simple function to check if text is not empty
-export function validTextEntry(text) {
-  if (text?.trim() == '' || !text) {
-    return false;
-  }
-  return true;
-}
-
-// We want to display "You" instead of the user name if its
-// your chat bubble
-// Append date to end of text
-export function noteNameAndTimeFormat(myBubble, note, date, type) {
-  // const typeExt = type === 'external_note' || type === 'external_change';
-  const typeNote = type === 'note';
-  const aiGen = type === 'ai_generated';
-
-  if (myBubble && typeNote) {
-    return `${t('in-events:notes.you')} ${date}`;
-  } else if (aiGen) {
-    return `watsonx ${date}`;
-  } else if (typeNote) {
-    return `${note?.author} ${date}`;
-  } else {
-    return `${note?.origin} ${date}`;
-  }
 }
 
 // Filters through the notes to make sure a notes includes
@@ -69,20 +49,4 @@ export function filterSearchNotes(notes, input) {
   });
 
   return result;
-}
-
-export function createDataString(data) {
-  var dataString = [];
-  data?.map(entry => {
-    // There are three index values but only first and last are used
-    // Key
-    const entryOne = entry[0] || '';
-    // Before Change
-    // const entryTwo = entry[1] || ''
-    // After Change
-    const entryThree = entry[2] || '';
-    const entryString = `${entryOne}: ${entryThree}\n`;
-    dataString.push(entryString);
-  });
-  return dataString;
 }
