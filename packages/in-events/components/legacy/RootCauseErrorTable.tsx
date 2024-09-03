@@ -116,6 +116,7 @@ interface RootCauseErrorMessageTableProps {
   applicationName: string;
   serviceName: string;
   endpointName: string;
+  cardTitle: JSX.Element;
 }
 
 export default function RootCauseErrorMessagesTable({
@@ -126,7 +127,8 @@ export default function RootCauseErrorMessagesTable({
   timeConfig,
   applicationName,
   serviceName,
-  endpointName
+  endpointName,
+  cardTitle
 }: RootCauseErrorMessageTableProps) {
   return (
     <ServerTableWithUrlState
@@ -140,7 +142,7 @@ export default function RootCauseErrorMessagesTable({
       endpointName={endpointName}
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
-      cardTitle={t('in-events:RCA.errorMessages')}
+      cardTitle={cardTitle}
       rightHeader={(headerProps: { query: string }) => (
         <AnalyzeErrorMessagesButton
           groupByTagName="call.error.message"

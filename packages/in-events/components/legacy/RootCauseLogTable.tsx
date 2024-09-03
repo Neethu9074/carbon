@@ -136,6 +136,7 @@ interface RootCauseLogMessageTableProps {
   applicationName: string;
   serviceName: string;
   endpointName: string;
+  cardTitle: JSX.Element;
 }
 
 export default function RootCauseLogMessagesTable({
@@ -146,7 +147,8 @@ export default function RootCauseLogMessagesTable({
   timeConfig,
   applicationName,
   serviceName,
-  endpointName
+  endpointName,
+  cardTitle
 }: RootCauseLogMessageTableProps) {
   return (
     <ServerTableWithUrlState
@@ -160,7 +162,7 @@ export default function RootCauseLogMessagesTable({
       endpointName={endpointName}
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
-      cardTitle={t('in-events:RCA.traceLogs')}
+      cardTitle={cardTitle}
       rightHeader={(headerProps: { query: string }) => (
         <AnalyzeTraceLogsButton
           groupByTagName="log.message"

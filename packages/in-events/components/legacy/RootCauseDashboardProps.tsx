@@ -4,11 +4,14 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
+
+import { ButtonGroup } from '@instana/components';
 
 import { ApplicationBoundaryScope, TimeConfig } from 'in-types';
 import RootCauseErrorMessagesTable from './RootCauseErrorTable';
 import RootCauseLogMessagesTable from './RootCauseLogTable';
+import { t } from 'in-i18n';
 
 interface RootCauseDashboardProps {
   applicationBoundaryScope: ApplicationBoundaryScope;
@@ -31,28 +34,57 @@ export default function RootCauseDashboard({
   endpointName,
   timeConfig
 }: RootCauseDashboardProps) {
+  const [configsCategory, setConfigsCategory] = useState('errorMessages');
+  const leftHeaderContent = (
+    <ButtonGroup
+      segmented
+      buttonPropsList={[
+        {
+          text: t('in-events:RCA.errorMessages'),
+          key: 'errorMessages',
+          onClick() {
+            setConfigsCategory('errorMessages');
+          }
+        },
+        {
+          text: t('in-events:RCA.traceLogs'),
+          key: 'traceLogs',
+          onClick() {
+            setConfigsCategory('traceLogs');
+          }
+        }
+      ]}
+      activeKey={(configsCategory as string) || 'traceLogs'}
+    />
+  );
   return (
     <Fragment>
-      <RootCauseErrorMessagesTable
-        boundaryScope={applicationBoundaryScope}
-        applicationId={applicationId}
-        applicationName={applicationName}
-        serviceId={serviceId}
-        serviceName={serviceName}
-        endpointId={endpointId}
-        endpointName={endpointName}
-        timeConfig={timeConfig}
-      />
-      <RootCauseLogMessagesTable
-        boundaryScope={applicationBoundaryScope}
-        applicationId={applicationId}
-        applicationName={applicationName}
-        serviceId={serviceId}
-        serviceName={serviceName}
-        endpointId={endpointId}
-        endpointName={endpointName}
-        timeConfig={timeConfig}
-      />
+      {configsCategory === 'errorMessages' && (
+        <RootCauseErrorMessagesTable
+          boundaryScope={applicationBoundaryScope}
+          applicationId={applicationId}
+          applicationName={applicationName}
+          serviceId={serviceId}
+          serviceName={serviceName}
+          endpointId={endpointId}
+          endpointName={endpointName}
+          timeConfig={timeConfig}
+          cardTitle={leftHeaderContent}
+        />
+      )}
+      {configsCategory === 'traceLogs' && (
+        <RootCauseLogMessagesTable
+          boundaryScope={applicationBoundaryScope}
+          applicationId={applicationId}
+          applicationName={applicationName}
+          serviceId={serviceId}
+          serviceName={serviceName}
+          endpointId={endpointId}
+          endpointName={endpointName}
+          timeConfig={timeConfig}
+          cardTitle={leftHeaderContent}
+        />
+      )}
     </Fragment>
   );
 }
