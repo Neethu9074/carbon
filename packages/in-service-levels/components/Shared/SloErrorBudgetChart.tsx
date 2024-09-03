@@ -98,25 +98,25 @@ export default function ErrorBudgetChart({
   );
 }
 
-function calculateYScaleBuffer(filteredData: MetricDataPoint[][]) {
+export function calculateYScaleBuffer(filteredData: MetricDataPoint[][]): { yMin: number; yMax: number } {
   const { min: minYValue, max: maxYValue } = findMinMaxMetricValues(filteredData.flat(1));
   const range = maxYValue - minYValue;
 
   const maxRangeThreshold = 100;
-
-  // Different percentage for small ranges and larger ranges
   const smallRangeBufferPercentage = 0.15;
   const largeRangeBufferPercentage = 0.1;
-  const bufferPercentage = range < maxRangeThreshold ? smallRangeBufferPercentage : largeRangeBufferPercentage;
+  const smallRangeFixedBuffer = 10;
+  const largeRangeFixedBuffer = 5;
 
-  // Adjusted fixed minimum buffer value
-  const fixedBuffer = range < maxRangeThreshold ? 10 : 5;
+  // Adjusts the buffer proportionally to the data range, making sure that the buffer scales with larger or smaller ranges.
+  const bufferPercentage = range < maxRangeThreshold ? smallRangeBufferPercentage : largeRangeBufferPercentage;
+  // Provides a baseline buffer to ensure there is always a minimum amount of space around the data.
+  const fixedBuffer = range < maxRangeThreshold ? smallRangeFixedBuffer : largeRangeFixedBuffer;
+
   const buffer = Math.max(Math.abs(range * bufferPercentage), fixedBuffer);
 
-  const negativeBufferFactor = 1.5;
-
-  const yMin = minYValue < 0 ? minYValue - buffer * negativeBufferFactor : minYValue - buffer;
-  const yMax = maxYValue > 0 ? maxYValue + buffer : maxYValue + buffer * negativeBufferFactor;
+  const yMin = minYValue <= 0 ? minYValue : minYValue - buffer;
+  const yMax = maxYValue + buffer;
 
   return { yMin, yMax };
 }
