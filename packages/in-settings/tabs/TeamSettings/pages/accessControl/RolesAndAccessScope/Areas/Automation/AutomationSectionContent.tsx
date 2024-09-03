@@ -6,20 +6,27 @@
 
 import React, { useContext } from 'react';
 
+import { Typography } from '@instana/components';
+
 import { AutomationSubListSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Automation/AutomationSubListSection';
 import { getAutomationAreaData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getAutomationAreaData';
+import {
+  ProductArea,
+  ScopedPermissionItem
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
-import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { getScopeFromProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { t } from 'in-i18n';
 
 export const AutomationSectionContent = () => {
+  const productArea = ProductArea.AUTOMATION;
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const { areaColumnHeadline, isDisabled } = getAutomationAreaData({
-    area: ProductArea.AUTOMATION,
+    area: productArea,
     permissionsSet
   });
-
+  const scope = getScopeFromProductArea(productArea, permissionsSet);
   return (
     <AreaExpandableListItem
       iconType="lib_automation"
@@ -27,6 +34,11 @@ export const AutomationSectionContent = () => {
       firstColumnLabel={t('in-settings:productAreas.title_automation')}
       subList={<AutomationSubListSection />}
       disabled={isDisabled}
-    />
+    >
+      {/* TODO check with dedsign about this message */}
+      {scope === ScopedPermissionItem.LIMITED_ACCESS && (
+        <Typography variant="body-small">{t('in-settings:productAreas.automationContentMessage')}</Typography>
+      )}
+    </AreaExpandableListItem>
   );
 };

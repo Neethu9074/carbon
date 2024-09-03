@@ -114,7 +114,8 @@ export const PermissionAreas = Object.freeze<Array<keyof PermissionSet>>([
   'websiteIds',
   'mobileAppIds',
   'infraDfqFilter',
-  'syntheticTestIds'
+  'syntheticTestIds',
+  'actionFilter'
 ]);
 
 // These are the standard options to select source specific permission types

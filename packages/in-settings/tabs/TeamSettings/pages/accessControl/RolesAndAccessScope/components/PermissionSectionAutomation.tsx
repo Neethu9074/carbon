@@ -5,10 +5,9 @@
  */
 
 import { MapFormItems } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { SvgIcon, Typography } from '@instana/components';
-import { PermissionSet } from 'in-types';
 
 import {
   getAreaRoleFromPermissionSet,
@@ -21,8 +20,10 @@ import {
   AreaRoleWithCustomType,
   ProductArea,
   ScopedPermissionItem,
+  ScopedPermissionItems,
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import AutomationAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/AutomationPanel/AutomationPanel';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -34,8 +35,8 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
+import { PermissionSet } from 'in-types';
 import { t } from 'in-i18n';
-import AutomationAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/AutomationPanel/AutomationPanel';
 
 export interface PermissionSectionAutomationProps<FORM_TYPE extends MapFormItems>
   extends SlideControlProps<SubSlideConfig>,
@@ -51,20 +52,29 @@ export default function PermissionSectionAutomation<FORM_TYPE extends MapFormIte
   setForm
 }: PermissionSectionAutomationProps<FORM_TYPE>) {
   const productArea = ProductArea.AUTOMATION;
+  const entityPermissionKey = 'actionFilter';
   const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
   const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
   const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;
+  const [initalActionFilter] = useState(permissionSetField?.value[entityPermissionKey]);
   const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     if (!permissionSet || role === 'CUSTOM') return;
 
-    const newPermissionSet = updatePermissionSetForLimitableProductArea(
+    const restPermissionSet = updatePermissionSetForLimitableProductArea(
       permissionSet,
       productArea,
       limitation,
       selected
     );
+
+    const newActionFilter =
+      limitation === ScopedPermissionItem.LIMITED_ACCESS ? initalActionFilter : { scopeId: '', scopeRoleId: '-1' };
+    const newPermissionSet = {
+      ...restPermissionSet,
+      [entityPermissionKey]: newActionFilter
+    };
 
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
   };
@@ -81,24 +91,21 @@ export default function PermissionSectionAutomation<FORM_TYPE extends MapFormIte
         </Typography>
       </TabSelectHeader>
       <TabSelectMenu>
-        {[ScopedPermissionItem.ACCESS_ALL, ScopedPermissionItem.NO_ACCESS].map(context => (
+        {ScopedPermissionItems.map(context => (
           <TabSelectItem key={context} forId={context} withRadioButton>
             {t('in-settings:permissionScope.selection', { context: context.toLowerCase() })}
           </TabSelectItem>
         ))}
       </TabSelectMenu>
       <TabSelectPanels>
-        <TabSelectPanel key={ScopedPermissionItem.ACCESS_ALL} id={ScopedPermissionItem.ACCESS_ALL}>
-          <AutomationAccessPanel
-            form={form}
-            setForm={setForm}
-            scopedPermissionItem={ScopedPermissionItem.ACCESS_ALL}
-            role={role}
-          />
-        </TabSelectPanel>
-        <TabSelectPanel key={ScopedPermissionItem.NO_ACCESS} id={ScopedPermissionItem.NO_ACCESS}>
-          <NoAccessPanel productArea={productArea} />
-        </TabSelectPanel>
+        {ScopedPermissionItems.map(context => (
+          <TabSelectPanel key={context} id={context}>
+            {(context === ScopedPermissionItem.ACCESS_ALL || context === ScopedPermissionItem.LIMITED_ACCESS) && (
+              <AutomationAccessPanel form={form} setForm={setForm} scopedPermissionItem={context} role={role} />
+            )}
+            {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel productArea={productArea} />}
+          </TabSelectPanel>
+        ))}
       </TabSelectPanels>
     </TabSelect>
   );

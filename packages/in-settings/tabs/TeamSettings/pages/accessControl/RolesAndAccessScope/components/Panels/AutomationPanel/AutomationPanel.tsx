@@ -5,9 +5,10 @@
  */
 
 import { MapFormItems } from 'formalistic';
+import { parse, stringify } from 'qs';
 import React from 'react';
 
-import { SvgIcon, Stack, StackItem, Typography, Checkbox } from '@instana/components';
+import { SvgIcon, Stack, StackItem, Typography, Checkbox, Label } from '@instana/components';
 import { PermissionSet } from '@instana/types';
 
 import {
@@ -17,8 +18,21 @@ import {
   automationAdditionalCapabilities,
   automationViewCapabilities,
   ProductArea,
+  ScopedPermissionItem,
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import {
+  DOC_LINK_TYPE,
+  GITHUB_TYPE,
+  SCRIPT_TYPE,
+  WEBHOOK_TYPE,
+  MANUAL_TYPE,
+  GITLAB_TYPE,
+  JIRA_TYPE,
+  ANSIBlE_TYPE,
+  EXTERNAL_TYPE,
+  getType
+} from 'in-automation/ActionCatalog/shared';
 import {
   ConfigurationSummary,
   getConfigurationSummaryMsg
@@ -30,12 +44,30 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
+import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
+import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import { productPermissionsObject } from 'in-stores/permission';
+import useActionTags from 'in-automation/hooks/useActionTags';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './AutomationPanel.mless';
 
+const typeOptions = [
+  DOC_LINK_TYPE,
+  GITHUB_TYPE,
+  SCRIPT_TYPE,
+  WEBHOOK_TYPE,
+  MANUAL_TYPE,
+  GITLAB_TYPE,
+  JIRA_TYPE,
+  ANSIBlE_TYPE,
+  EXTERNAL_TYPE
+].map(type => ({
+  value: type,
+  label: getType(type)
+}));
 interface AutomationAccessPanelProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
   scopedPermissionItem: ScopedPermissionType;
   role: AreaRoleWithCustomType | undefined;
@@ -50,11 +82,19 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
   const productArea = ProductArea.AUTOMATION;
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
+  const entityPermissionKey = 'actionFilter';
 
+  const actionTags = useActionTags();
+  const actionTagOptions = (actionTags.data ?? []).map(tag => ({ value: tag, label: tag }));
   const capabilities =
     role === 'OWNER' ? automationAdditionalCapabilities : role === 'VIEWER' ? automationViewCapabilities : [];
 
+  const actionFilter = permissionSetField?.value[entityPermissionKey]?.scopeId ?? '';
+  const { tags = [], type = [] } = parse(actionFilter, { comma: true }) as { tags?: string[]; type?: string[] };
   const areaPermissions = capabilities.map(capability => productPermissionsObject[capability]);
+  const updatePermissionSet = (permissionSet: PermissionSet) => {
+    setForm(updateFormField(form, 'permissionSet', permissionSet, true));
+  };
   const updatePermission = (value: string) => {
     if (!permissionSet) return;
 
@@ -63,7 +103,31 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
       ? permissionSet.permissions.filter(permission => permission !== value)
       : [...permissionSet.permissions, value];
 
-    setForm(updateFormField(form, 'permissionSet', { ...permissionSet, permissions: newPermissions }, true));
+    updatePermissionSet({ ...permissionSet, permissions: newPermissions });
+  };
+
+  const updateTags = (tags: string[]) => {
+    if (!permissionSet) return;
+    const restPermissionSet = updatePermissionSetForLimitableProductArea(
+      permissionSet,
+      productArea,
+      scopedPermissionItem
+    );
+    const actionFilter = stringify({ tags, type }, { encode: false, arrayFormat: 'comma' });
+    const actionScope = { scopeId: actionFilter ? actionFilter : undefined, scopeRoleId: '-1' };
+    updatePermissionSet({ ...restPermissionSet, [entityPermissionKey]: actionScope });
+  };
+
+  const updateType = (type: string[]) => {
+    if (!permissionSet) return;
+    const restPermissionSet = updatePermissionSetForLimitableProductArea(
+      permissionSet,
+      productArea,
+      scopedPermissionItem
+    );
+    const actionFilter = stringify({ tags, type }, { encode: false, arrayFormat: 'comma' });
+    const actionScope = { scopeId: actionFilter ? actionFilter : undefined, scopeRoleId: '-1' };
+    updatePermissionSet({ ...restPermissionSet, [entityPermissionKey]: actionScope });
   };
 
   const onChangeRole = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
@@ -76,7 +140,7 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
       selected
     );
 
-    setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
+    updatePermissionSet(newPermissionSet);
   };
 
   const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
@@ -123,6 +187,60 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
           </StackItem>
         </Stack>
       </ConfigurationSummary>
+      {scopedPermissionItem === ScopedPermissionItem.LIMITED_ACCESS && (
+        <Stack direction="vertical">
+          <StackItem>
+            <Typography variant="body-regular" component="div">
+              {t('in-settings:PermissionSection.automationFilterUse')}
+            </Typography>
+          </StackItem>
+          <StackItem>
+            <FormGroup>
+              <Label htmlFor="automation-action-type-filter">
+                {t('in-settings:PermissionSection.automationActionTypeHeader')}
+              </Label>
+              <ComboBox
+                id="automation-action-type-filter"
+                isMulti
+                options={typeOptions}
+                value={type}
+                onChange={types => {
+                  if (!types) {
+                    updateType([]);
+                  } else if (hasMultipleValuesSelected(types)) {
+                    updateType(types.map(option => option.value));
+                  } else {
+                    updateType([types.value]);
+                  }
+                }}
+              />
+              <TouchedMessages field={permissionSetField} />
+            </FormGroup>
+          </StackItem>
+          <StackItem>
+            <FormGroup>
+              <Label htmlFor="automation-tag-filter">{t('in-settings:PermissionSection.automationTagHeader')}</Label>
+              {/* TODO check if we need to allow this to be creatable */}
+              <ComboBox
+                id="automation-tag-filter"
+                isMulti
+                options={actionTagOptions}
+                value={tags}
+                onChange={tags => {
+                  if (!tags) {
+                    updateTags([]);
+                  } else if (hasMultipleValuesSelected(tags)) {
+                    updateTags(tags.map(option => option.value));
+                  } else {
+                    updateTags([tags.value]);
+                  }
+                }}
+              />
+              <TouchedMessages field={permissionSetField} />
+            </FormGroup>
+          </StackItem>
+        </Stack>
+      )}
     </Stack>
   );
 }

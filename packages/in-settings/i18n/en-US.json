@@ -68,6 +68,7 @@
     "allApplications": "All applications",
     "allActions": "All actions",
     "allWebsites": "All websites",
+    "automationContentMessage": "Actions matched by the following filter",
     "allMobileApps": "All mobile apps",
     "businessMonitoringAccessAllMessage": "All business processes",
     "kubernetes": "Kubernetes",
@@ -144,6 +145,9 @@
     "addButton_applications": "Select applications",
     "descriptionLimitedAccess_applications": "Select the role and add applications below to grant access.",
     "descriptionAccessAll_applications": "All applications can be accessed with the selected role.",
+    "automationFilterUse": "Use the filters below to grant access to automation actions.",
+    "automationActionTypeHeader": "Action type",
+    "automationTagHeader": "Tag",
     "deleteButton": "Remove {{name}} from list",
     "infrastructureDfqHeader": "Dynamic focus query (DFQ)",
     "infrastructureDfqUse": "In addition, you can use the dynamic focus query below to grant access to infrastructure.",
@@ -297,7 +301,7 @@
         "access_level": "Access all the automation actions and policies with the selected access type and any additional permissions."
       },
       "limited_access": {
-        "access_level": "Access only the listed automation actions and policies with the selected access type and any additional permissions."
+        "access_level": "Access specific automation actions with the selected action type or tags."
       },
       "role_permissions_owner": "Create, configure, view, delete automation actions and view action history.",
       "role_permissions_viewer": "View automation actions, policies and history."
@@ -473,7 +477,7 @@
       "days_60": "60 days retention",
       "days_90": "90 days retention",
       "noLogVolumeData": "No data to show",
-      "logVolumeErrorTitle":"Something went wrong",
+      "logVolumeErrorTitle": "Something went wrong",
       "logVolumeErrorInfo": "We are unable to retrieve data from the database"
     },
     "failedToSaveConfig": "Failed to save config: {{err}}",
