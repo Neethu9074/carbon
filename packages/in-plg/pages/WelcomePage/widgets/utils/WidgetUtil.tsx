@@ -121,6 +121,8 @@ export const getItemId = (item: any, widgetName?: string) => {
       return item?.isKubernetes ? item.cluster.id : item.id;
     case 'businessMonitoringWidget':
       return item?.businessProcess?.definitionId;
+    case 'dashboardWidget':
+      return item?.id;
     default:
       return null;
   }

@@ -28,3 +28,6 @@ export const mobileApp = 'MOBILE_APP';
 
 // Business Monitoring
 export const businessProcess = 'BUSINESS_PROCESS';
+
+//Custom dashboard
+export const customDashboard = 'CUSTOM_DASHBOARD';
