@@ -111,6 +111,7 @@ export const pageNames = Object.freeze({
   events_all: 'All',
   local_alerts: 'Local Alert Details',
   logs: 'Logs',
+  log_smart_alerts: 'Log Smart Alerts',
   global_alerts: 'Global Alert Details',
   instances: 'Instances',
   deployment_summary: 'Deployment > Summary',
