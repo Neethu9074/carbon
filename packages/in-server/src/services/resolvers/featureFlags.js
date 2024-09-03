@@ -476,6 +476,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'rcaLogsEnabled',
+    instanaCtlKey: 'feature.rca.logs.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'eventFeedbackEnabled',
     instanaCtlKey: 'feature.event.feedback.enabled',
     defaultValue: true
