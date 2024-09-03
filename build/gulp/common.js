@@ -22,8 +22,8 @@ exports.copyFavicon = copyFavicon;
 exports.copyAppleTouchIcon = copyAppleTouchIcon;
 exports.writeBuildInfo = writeBuildInfo;
 
-function clean() {
-  return del(paths.targetDir);
+async function clean() {
+  return await del(paths.targetDir);
 }
 
 function ensureTargetDirStructureExists(cb) {
