@@ -44,8 +44,9 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
-import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
+import ComboBox, { hasMultipleValuesSelected, Options } from 'in-components/ComboBox/ComboBox';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import { productPermissionsObject } from 'in-stores/permission';
 import useActionTags from 'in-automation/hooks/useActionTags';
@@ -68,6 +69,8 @@ const typeOptions = [
   value: type,
   label: getType(type)
 }));
+
+const mapToOption = (value: string) => ({ value, label: value });
 interface AutomationAccessPanelProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
   scopedPermissionItem: ScopedPermissionType;
   role: AreaRoleWithCustomType | undefined;
@@ -90,7 +93,10 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
     role === 'OWNER' ? automationAdditionalCapabilities : role === 'VIEWER' ? automationViewCapabilities : [];
 
   const actionFilter = permissionSetField?.value[entityPermissionKey]?.scopeId ?? '';
-  const { tags = [], type = [] } = parse(actionFilter, { comma: true }) as { tags?: string[]; type?: string[] };
+  const { tags = [], type = [] } = parse(actionFilter, { comma: true }) as {
+    tags?: string[] | string;
+    type?: string[] | string;
+  };
   const areaPermissions = capabilities.map(capability => productPermissionsObject[capability]);
   const updatePermissionSet = (permissionSet: PermissionSet) => {
     setForm(updateFormField(form, 'permissionSet', permissionSet, true));
@@ -221,18 +227,16 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
             <FormGroup>
               <Label htmlFor="automation-tag-filter">{t('in-settings:PermissionSection.automationTagHeader')}</Label>
               {/* TODO check if we need to allow this to be creatable */}
-              <ComboBox
+              <CreatableComboBox
                 id="automation-tag-filter"
                 isMulti
                 options={actionTagOptions}
-                value={tags}
-                onChange={tags => {
+                value={Array.isArray(tags) ? tags.map(mapToOption) : [tags].map(mapToOption)}
+                onChange={(tags: Options) => {
                   if (!tags) {
                     updateTags([]);
                   } else if (hasMultipleValuesSelected(tags)) {
                     updateTags(tags.map(option => option.value));
-                  } else {
-                    updateTags([tags.value]);
                   }
                 }}
               />
