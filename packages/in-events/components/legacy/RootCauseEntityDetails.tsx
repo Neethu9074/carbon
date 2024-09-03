@@ -738,7 +738,7 @@ function TraceLogs({
         RCATraceLogsClick({ expanded: !expanded });
         setExpanded(!expanded);
       }}
-      headerClassName={locals.traceLogsCardHeader}
+      headerClassName={locals.associatedEventsCardHeader}
       rightHeaderContent={
         <IconButton color="black" type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="compact" />
       }
