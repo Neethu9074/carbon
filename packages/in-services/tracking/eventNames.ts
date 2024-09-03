@@ -249,10 +249,6 @@ export const SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT = 'settings.alert.customPayloa
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM = 'settings.alert.customPayload.addItem';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM = 'settings.alert.customPayload.editItem';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM = 'settings.alert.customPayload.removeItem';
-export const SETTINGS_ALERT_HUB_WEBSITES_CLICK = 'settings.alertHub.websites.click';
-export const SETTINGS_ALERT_HUB_SMART_ALERTS_CLICK = 'settings.alertHub.smartAlerts.click';
-export const SETTINGS_ALERT_HUB_ALERTS_CLICK = 'settings.alertHub.alerts.click';
-export const SETTINGS_ALERT_HUB_EVENTS_CLICK = 'settings.alertHub.events.click';
 
 //Events
 export const SETTINGS_EVENT_VIEW = 'settings.event.view.clicked';
