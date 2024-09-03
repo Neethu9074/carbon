@@ -293,6 +293,7 @@ import './awsLambda';
 import './memcached';
 import './vsphereVM';
 import './zooKeeper';
+import './snowflake';
 import './otelHost';
 import './activeMQ';
 import './apmProxy';

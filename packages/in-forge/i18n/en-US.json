@@ -1604,6 +1604,11 @@
   "pluginName_service_1": "Services",
   "pluginName_service_2": "Services",
   "pluginName_service": "Service",
+  "pluginName_snowflake_plural": "Snowflakes",
+  "pluginName_snowflake_0": "Snowflakes",
+  "pluginName_snowflake_1": "Snowflakes",
+  "pluginName_snowflake_2": "Snowflakes",
+  "pluginName_snowflake": "Snowflake",
   "pluginName_solr_plural": "Solr Nodes",
   "pluginName_solr_0": "Solr Nodes",
   "pluginName_solr_1": "Solr Nodes",
@@ -9495,6 +9500,26 @@
       "service": "Service",
       "allCallsSecond": "All Calls/Second",
       "allCallsAvgLatency": "All Calls Avg. Latency"
+    },
+    "snowflake": {
+      "connectErrorIssueDescription": "Agent could not connect to snowflake. Connection failed with error: <code>{{error}}</code>",
+      "troubleshootingDocs": "Troubleshooting docs",
+      "snowflake": "Snowflake",
+      "account": "Account",
+      "region": "Region",
+      "organization": "Organization",
+      "version": "Version",
+      "dashboard": {
+        "creditUsagePerHour": "Credit usage per hour",
+        "totalStorageBytes": "Total storage bytes",
+        "averageBytesScanned": "Average bytes scanned",
+        "totalQueries": "Total queries",
+        "warehouseName": "Warehouse name",
+        "compute": "Compute",
+        "cloudServices": "Cloud services",
+        "total": "Total",
+        "warehouseUsage": "Warehouse usage"
+      }
     },
     "solr": {
       "dashboard": {

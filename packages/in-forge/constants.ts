@@ -312,6 +312,7 @@ export const nonServicePlugins = {
   rocketMqTopic: 'rocketMqTopic',
   rubyRuntimePlatform: 'rubyRuntimePlatform',
   sapHana: 'sapHana',
+  snowflake: 'snowflake',
   solr: 'solr',
   solrCloudCluster: 'solrCloudCluster',
   sparkApplication: 'sparkApplication',
@@ -744,6 +745,7 @@ export const fullyQualifiedPlugins = {
   rubyRuntimePlatform: 'com.instana.forge.infrastructure.runtime.ruby.RubyRuntimePlatform',
   sapHana: 'com.instana.forge.infrastructure.database.saphana.SapHana',
   service: 'com.instana.forge.application.Service',
+  snowflake: 'com.instana.forge.infrastructure.database.snowflake.Snowflake',
   solr: 'com.instana.forge.infrastructure.database.solr.Solr',
   solrCloudCluster: 'com.instana.forge.infrastructure.database.solr.SolrCloudCluster',
   springbootApplicationContainer:
