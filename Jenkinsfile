@@ -249,9 +249,9 @@ pipeline {
                     // Enable only for the develop branch for now
                     // Other delivery branches will use 'K8s Deploy'
                     if (branchName == 'develop') {
-                      deployInstana(branchName, instanaImageVersion, null, 'pink', 'instana', 'test')
+                      deployInstana(branchName, instanaImageVersion, null, 'pink', 'instana', 'test', isBackendJenkins)
                     } else if (branchName == latestReleaseBranch) {
-                      deployInstana(branchName, instanaImageVersion, null, 'magenta', 'instana', 'release')
+                      deployInstana(branchName, instanaImageVersion, null, 'magenta', 'instana', 'release', isBackendJenkins)
                     }
                   }
                 }
@@ -391,7 +391,7 @@ def waitForStableBackendVersions(branchName) {
   }
 }
 
-def deployInstana(branchName, version, globalEnvironment, environment, tenant, unit) {
+def deployInstana(branchName, version, globalEnvironment, environment, tenant, unit, isBackendJenkins) {
   try {
 
     def configDir = "/mnt/efs/data/instanactl/dev-jenkins-config"
