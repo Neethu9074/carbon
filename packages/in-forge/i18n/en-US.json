@@ -819,6 +819,8 @@
   "pluginName_remoteHost_1": "Remote Hosts",
   "pluginName_remoteHost_2": "Remote Hosts",
   "pluginName_remoteHost": "Remote Host",
+  "pluginName_fileMonitoring": "File Monitoring",
+  "pluginName_fileMonitoringCondition": "File Monitor Condition",
   "pluginName_httpd_plural": "Apache HTTPds",
   "pluginName_httpd_0": "Apache HTTPds",
   "pluginName_httpd_1": "Apache HTTPds",
@@ -8271,6 +8273,35 @@
       "cpuUsage": "CPU Usage",
       "httpRequests": "HTTP Requests",
       "device": "Device"
+    },
+    "fileMonitoring": {
+      "dashboard": {
+        "monitor": "Monitor",
+        "path": "Path",
+        "pollingInterval": "Polling interval",
+        "severity": "Severity",
+        "issueTriggered": "Issue triggered"
+      },
+      "fileSystem": "File monitoring",
+      "monitors": "Monitors",
+      "host": "Host",
+      "group": "Group",
+      "numberOfMonitors": "Number of monitors"
+    },
+    "fileMonitoringCondition": {
+      "dashboard": {
+        "conditionType": "Condition type",
+        "operator": "Operator",
+        "reference": "Reference",
+        "actual": "Actual"
+      },
+      "fileMonitorCondition": "File monitoring condition",
+      "numberOfConditions": "Number of conditions",
+      "conditions": "Conditions",
+      "path": "Path",
+      "interval":"Interval (seconds)",
+      "issueTriggered": "Issue Triggered",
+      "conditionNotification": "All conditions must be met for the issue to trigger"
     },
     "finagleApplicationContainer": {
       "dashboard": {
