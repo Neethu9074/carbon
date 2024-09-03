@@ -19,7 +19,8 @@ import {
   automationViewCapabilities,
   ProductArea,
   ScopedPermissionItem,
-  ScopedPermissionType
+  ScopedPermissionType,
+  ScopeRoles
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import {
   DOC_LINK_TYPE,
@@ -120,7 +121,8 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
       scopedPermissionItem
     );
     const actionFilter = stringify({ tags, type }, { encode: false, arrayFormat: 'comma' });
-    const actionScope = { scopeId: actionFilter ? actionFilter : undefined, scopeRoleId: '-1' };
+    const scopeRoleId = role === 'OWNER' ? ScopeRoles.Owner : ScopeRoles.Viewer;
+    const actionScope = { scopeId: actionFilter ? actionFilter : undefined, scopeRoleId };
     updatePermissionSet({ ...restPermissionSet, [entityPermissionKey]: actionScope });
   };
 
@@ -132,7 +134,8 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
       scopedPermissionItem
     );
     const actionFilter = stringify({ tags, type }, { encode: false, arrayFormat: 'comma' });
-    const actionScope = { scopeId: actionFilter ? actionFilter : undefined, scopeRoleId: '-1' };
+    const scopeRoleId = role === 'OWNER' ? ScopeRoles.Owner : ScopeRoles.Viewer;
+    const actionScope = { scopeId: actionFilter ? actionFilter : undefined, scopeRoleId };
     updatePermissionSet({ ...restPermissionSet, [entityPermissionKey]: actionScope });
   };
 
@@ -226,7 +229,6 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
           <StackItem>
             <FormGroup>
               <Label htmlFor="automation-tag-filter">{t('in-settings:PermissionSection.automationTagHeader')}</Label>
-              {/* TODO check if we need to allow this to be creatable */}
               <CreatableComboBox
                 id="automation-tag-filter"
                 isMulti

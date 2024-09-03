@@ -172,5 +172,13 @@ function enrich(permissionSet: any, group: any) {
     ...permissionSet.syntheticTestIds,
     ...group.permissionSet.syntheticTestIds
   ]);
-  // TODO: check if we need to handle actionFilter here
+
+  if (group.permissionSet.actionFilter?.scopeId) {
+    if (permissionSet.actionFilter.scopeId) {
+      permissionSet.actionFilter.scopeId = permissionSet.actionFilter.scopeId.concat(' OR ');
+    }
+    permissionSet.actionFilter.scopeId = permissionSet.actionFilter.scopeId.concat(
+      group.permissionSet.actionFilter.scopeId.trim()
+    );
+  }
 }

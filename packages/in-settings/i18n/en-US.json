@@ -146,6 +146,7 @@
     "descriptionLimitedAccess_applications": "Select the role and add applications below to grant access.",
     "descriptionAccessAll_applications": "All applications can be accessed with the selected role.",
     "automationFilterUse": "Use the filters below to grant access to automation actions.",
+    "automationFilter_mayNotBeBlank": "Both values must not be blank.",
     "automationActionTypeHeader": "Action type",
     "automationTagHeader": "Tag",
     "deleteButton": "Remove {{name}} from list",

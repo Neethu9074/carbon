@@ -5,7 +5,8 @@
  */
 
 import { createField, createMapForm, Field, Item, MapForm, notBlankValidator, ValidationResult } from 'formalistic';
-import { isUndefined } from 'lodash';
+import { isEmpty, isUndefined } from 'lodash';
+import { parse } from 'qs';
 
 import { PermissionSet } from '@instana/types';
 
@@ -58,6 +59,23 @@ export function contributionFilterNameValidator(name: string | null | undefined)
 
 export function dfqFilterValidator(permissionSet: PermissionSet | undefined): ValidationResult {
   if (isUndefined(permissionSet?.infraDfqFilter.scopeId)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:PermissionSection.infrastructureDfq_mayNotBeBlank')
+      }
+    ];
+  }
+  return null;
+}
+
+export function actionFilterValidator(permissionSet: PermissionSet | undefined): ValidationResult {
+  const scopeId = permissionSet?.actionFilter?.scopeId ?? '';
+  const { tags = [], type = [] } = parse(scopeId, { comma: true }) as {
+    tags?: string[] | string;
+    type?: string[] | string;
+  };
+  if (isEmpty(tags) && isEmpty(type)) {
     return [
       {
         severity: 'error',
