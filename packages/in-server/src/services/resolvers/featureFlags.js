@@ -353,7 +353,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsStandardInclusionEnabled',
     instanaCtlKey: 'feature.bizops.standard.inclusion.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
