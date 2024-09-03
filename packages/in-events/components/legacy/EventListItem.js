@@ -125,10 +125,13 @@ export default function EventListItem({
 function TimeIndicator({ event, isTriggeringEvent }) {
   const { location, createHref } = useNavigation();
   const { windowSize } = useTimeConfig();
-
   return (
     <div className={locals.timeIndicator}>
-      <Link href={createHref(getEventViewWithTimeFocusedAt(event.get('start'), windowSize, location, event.get('id')))}>
+      <Link
+        href={createHref(
+          getEventViewWithTimeFocusedAt(event.get('start'), windowSize, location, event.get('id'), event.get('type'))
+        )}
+      >
         <span className={classNames({ [locals.time]: true, [locals.triggeringTime]: isTriggeringEvent })}>
           {formatTime(event.get('start'))}
         </span>
@@ -196,7 +199,7 @@ function isApplicationSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'applicationId']);
 }
 
-function getEventViewWithTimeFocusedAt(moment, windowSize, location, eventId) {
+function getEventViewWithTimeFocusedAt(moment, windowSize, location, eventId, eventType) {
   location.query[urlQueryKeys.to] = moment;
   location.query[urlQueryKeys.focusedMoment] = moment;
   location.query[urlQueryKeys.windowSize] = windowSize;
@@ -206,7 +209,8 @@ function getEventViewWithTimeFocusedAt(moment, windowSize, location, eventId) {
       ...location.matrix,
       [eventsPath]: {
         ...location.matrix[eventsPath],
-        eventId: eventId
+        eventId: eventId,
+        view: eventType
       }
     },
     query: {
