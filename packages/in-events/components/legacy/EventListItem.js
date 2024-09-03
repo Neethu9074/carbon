@@ -22,6 +22,7 @@ import EventListItemContent from 'in-events/components/legacy/EventListItemConte
 import { isMobileAppSmartAlertEvent } from 'in-events/components/eventUtil';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { isAppDataEntityType } from 'in-services/entityUtils';
 import { formatTime } from 'in-services/formatters/date';
 import Marker from 'in-events/components/legacy/Marker';
@@ -127,7 +128,7 @@ function TimeIndicator({ event, isTriggeringEvent }) {
 
   return (
     <div className={locals.timeIndicator}>
-      <Link href={createHref(getCurrentViewWithTimeFocusedAt(event.get('start'), windowSize, location))}>
+      <Link href={createHref(getEventViewWithTimeFocusedAt(event.get('start'), windowSize, location, event.get('id')))}>
         <span className={classNames({ [locals.time]: true, [locals.triggeringTime]: isTriggeringEvent })}>
           {formatTime(event.get('start'))}
         </span>
@@ -195,12 +196,19 @@ function isApplicationSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'applicationId']);
 }
 
-function getCurrentViewWithTimeFocusedAt(moment, windowSize, location) {
+function getEventViewWithTimeFocusedAt(moment, windowSize, location, eventId) {
   location.query[urlQueryKeys.to] = moment;
   location.query[urlQueryKeys.focusedMoment] = moment;
   location.query[urlQueryKeys.windowSize] = windowSize;
   return {
     ...location,
+    matrix: {
+      ...location.matrix,
+      [eventsPath]: {
+        ...location.matrix[eventsPath],
+        eventId: eventId
+      }
+    },
     query: {
       ...location.query,
       [urlQueryKeys.to]: moment,
