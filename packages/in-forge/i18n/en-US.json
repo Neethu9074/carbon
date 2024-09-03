@@ -11717,6 +11717,13 @@
       "version": "Version"
     },
     "ibmInfosphereCdcSubscription": {
+      "dashboard": {
+        "singleScrape": "Single scrape",
+        "transactionHistogram": "Transaction histogram",
+        "garbageCollection": "Garbage collection",
+        "databaseWorkload": "Database workload",
+        "memory": "Memory"
+      },
       "ibmInfosphereSubscription": "Subscription",
       "subscriptionName": "Name",
       "sourceDatastore": "Source Datastore",
@@ -11783,7 +11790,21 @@
       "rowsCallingSourceDatabase": "Rows calling Source Database",
       "rowsCallingTargetDatabase": "Rows calling Target Database",
       "rowsCallingUserExitsSource": "Source rows calling user exits",
-      "rowsCallingUserExitsTarget": "Target rows calling user exits"
+      "rowsCallingUserExitsTarget": "Target rows calling user exits",
+      "zeroToHalf": "0 to 1/2X",
+      "halfToOne": "1/2X to X",
+      "oneToTwo": "X to 2X",
+      "twoToFour": "2X to 4X",
+      "fourToEight": "4X to 8X",
+      "moreThanEight": "8X and larger",
+      "garbageCollection": "Garbage collections",
+      "garbageCollectionCPU": "Garbage collection CPU time",
+      "totalTransactions": "Total transactions",
+      "inscopeTransactions": "In scope transactions",
+      "freeMem": "Free memory",
+      "maxMem": "Maximum memory",
+      "totalMem": "Total memory",
+      "globalMem": "Global memory manager"
     },
     "ibmMqChannel": {
       "dashboard": {
