@@ -771,6 +771,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'extrapolateMissingStackedAreaValues',
+    instanaCtlKey: 'feature.charts.extrapolateMissingStackedAreaValues',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'increaseAggregationEnabled',
     instanaCtlKey: 'feature.increase.aggregation.enabled',
     defaultValue: false

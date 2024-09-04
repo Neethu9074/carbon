@@ -25,14 +25,13 @@ import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 //@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-cockpit/starredItems';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
-import { playwithEnabled, welcomePageV2Enabled } from 'in-services/featureFlags';
 import { getCustomDashboards, getUsers } from 'in-custom-dashboards/api';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { welcomePageV2Enabled } from 'in-services/featureFlags';
 import { getCustomDashboard } from 'in-custom-dashboards/api';
 import { hasError, isLoading } from 'in-services/util/result';
-import { role } from 'in-stores/user';
 
 export default function DashboardWidget({
   config,
@@ -154,11 +153,10 @@ export default function DashboardWidget({
     <DatatableWrapper
       {...generalProps}
       query=""
-      hasAddMore={!playwithEnabled}
       pinnedItemTypes={[customDashboardType]}
       tableType="dashboardWidget"
-      //@ts-expect-error canCreatePublicCustomDashboards doesn't exist on type role
-      hasAddPermission={role?.canCreatePublicCustomDashboards}
+      hasAddPermission
+      hasAddMore
       isDashboardWidget
       maxItems={maxItems}
       viewAll={viewAll}
@@ -185,9 +183,9 @@ function DashboardPermission({ id }: { id: string }) {
       setDashboardPermission(permissionResult);
     }
   }, [permissionResult]);
-  return (
+  return dashboardPermission ? (
     <Pill kind="info" type="gray">
       {dashboardPermission}
     </Pill>
-  );
+  ) : null;
 }

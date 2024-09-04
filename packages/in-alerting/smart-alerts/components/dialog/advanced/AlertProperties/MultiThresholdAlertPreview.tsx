@@ -53,7 +53,7 @@ export function MultiThresholdAlertPreview({ form, getDescriptionPlaceholder }: 
           })}
         >
           <Stack gap="xsmall">
-            <Pill kind="primary" type="blue" className={locals.previewPill}>
+            <Pill kind="primary" type="high-contrast">
               {t('in-alerting:smartAlerts.components.smartAlertDialog.warningAlertPreviewLabel')}
             </Pill>
             <AlertPreview
@@ -75,7 +75,7 @@ export function MultiThresholdAlertPreview({ form, getDescriptionPlaceholder }: 
           })}
         >
           <Stack gap="xsmall">
-            <Pill kind="primary" type="blue" className={locals.previewPill}>
+            <Pill kind="primary" type="high-contrast">
               {t('in-alerting:smartAlerts.components.smartAlertDialog.criticalAlertPreviewLabel')}
             </Pill>
             <AlertPreview
