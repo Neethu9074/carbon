@@ -11,9 +11,13 @@ export default function convert(call) {
   }
 
   const type = call.name;
+  const data = {
+    ...call.data,
+    databaseIntegrations: call.databaseIntegrations
+  };
   const fakedSpan = {
     name: type,
-    data: call.data
+    data: data
   };
 
   return fromJS(fakedSpan);
