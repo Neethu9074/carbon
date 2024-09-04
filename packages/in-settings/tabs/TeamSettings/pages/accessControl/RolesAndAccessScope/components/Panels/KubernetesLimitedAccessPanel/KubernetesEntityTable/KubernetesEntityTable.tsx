@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { GroupPermissionEntity, OrderDirection, PermissionSet, Result } from '@instana/types';
-import { Stack, SvgIcon, Typography } from '@instana/components';
+import { IconButton, Stack, SvgIcon, Typography } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 
@@ -94,7 +94,8 @@ export default function _KubernetesEntityTable<FORM_TYPE extends MapFormItems>({
       useMinimumAmountOfHorizontalSpace: true,
       getContent(it) {
         return (
-          <SvgIcon
+          <IconButton
+            kind="primary"
             aria-label={t('in-settings:PermissionSection.deleteButton', { name: it.name })}
             onClick={() => removeOneEntity(entityType, form, setForm, permissionSetField!!.value, it.id)}
             type="lib_openclose_remove_circle_outline"
