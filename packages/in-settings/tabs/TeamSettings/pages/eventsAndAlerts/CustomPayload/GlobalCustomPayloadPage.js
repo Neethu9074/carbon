@@ -12,17 +12,17 @@ import { Message } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
+  SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM,
+  SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM,
+  SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM,
+  SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT
+} from 'in-services/tracking/tracking';
+import {
   deleteItemColumnDefinition,
   valueColumnDefinition,
   keyColumnDefinition,
   typeColumnDefinition
 } from 'in-alerting/components/CustomPayload/customPayloadColumnDefinitions';
-import {
-  addItemAlertCustomPayloadTracker,
-  editAlertCustomPayloadTracker,
-  removeItemAlertCustomPayloadTracker,
-  submitAlertCustomPayloadTracker
-} from 'in-settings/tracker';
 import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
   getGlobalCustomPayloadAsResultObservable,
@@ -37,14 +37,18 @@ import { createNewFormEntry, createForm } from 'in-alerting/components/CustomPay
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import CustomPayloadTable from 'in-alerting/components/CustomPayload/CustomPayloadTable';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { carbonMessageEnabled } from 'in-services/featureFlags';
 import { isLoading, hasError } from 'in-services/util/result';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
+import { pageNames } from 'in-services/tracking/pageNames';
 import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
@@ -98,8 +102,17 @@ export function GlobalCustomPayload(props) {
 
   const enabled = canConfigureGlobalAlertPayload && !storing && !hasError(result) && !isLoading(result);
 
+  const { trackCta } = useSegmentTracking();
+
   return (
     <SettingsDetailPage>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.settings,
+          pageRootName: pageNames.custom_payload,
+          pagePath: location?.pathname
+        }}
+      />
       <Title title={t('in-settings:tabs.configureCustomPayloadForAlerts')} />
       <SubViewHeader>{t('in-settings:tabs.configureCustomPayload')}</SubViewHeader>
       <Section>
@@ -125,20 +138,23 @@ export function GlobalCustomPayload(props) {
           {t('in-settings:tabs.youAreNotPermittedToEditCustomPayloads')}
         </Message>
       )}
-      <form onSubmit={onSubmit}>
+      <form onSubmit={e => onSubmit(e, trackCta)}>
         <CustomPayloadTable
           getRowIndex={getRowIndex}
           TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
           columnDefinitions={columnDefinitions}
           isSearchable={false}
-          addRow={addRow}
-          deleteRow={deleteRow}
+          addRow={() => {
+            trackCta(SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM);
+            addRow();
+          }}
+          deleteRow={payloadField => deleteRow(payloadField, trackCta)}
           updateIn={updateIn}
           result={mergeResultWithPayloadForm(form, result)}
           customPayloadForm={form}
           canConfigureAlertPayload={canConfigureGlobalAlertPayload}
           enabled={enabled}
-          trackChange={editAlertCustomPayloadTracker}
+          trackChange={trackCta(SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM)}
           suggestionsAlignedLeft
         />
 
@@ -175,21 +191,22 @@ export function GlobalCustomPayload(props) {
 
   function addRow() {
     setForm(form.push(createNewFormEntry()).setTouched(true));
-    addItemAlertCustomPayloadTracker({});
   }
 
-  function deleteRow(payloadField) {
+  function deleteRow(payloadField, trackCta) {
     const entryPosition = getRowIndex(payloadField);
 
     if (entryPosition >= 0) {
       setForm(form.remove(entryPosition).setTouched(true));
-      removeItemAlertCustomPayloadTracker({
-        type: payloadField.get('type').value
+      trackCta(SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM, {
+        type: payloadField.get('type').value,
+        name: payloadField.get('key').value,
+        id: payloadField.get('id').value
       });
     }
   }
 
-  function onSubmit(event) {
+  function onSubmit(event, trackCta) {
     event.preventDefault();
 
     setForm(form.setTouched(true, { recurse: true }));
@@ -200,7 +217,7 @@ export function GlobalCustomPayload(props) {
     const fields = form.toJS().map(toServerItemModel);
     save({ fields });
 
-    submitAlertCustomPayloadTracker({
+    trackCta(SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT, {
       itemTypes: uniqBy(fields.map(f => f.type)).join(', ')
     });
   }

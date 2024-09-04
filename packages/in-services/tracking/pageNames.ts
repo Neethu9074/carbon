@@ -125,7 +125,8 @@ export const pageNames = Object.freeze({
   slo_config: 'Service Level Objective > Configuration',
   automation_action_catalog: 'Automation > Action Catalog',
   automation_action_history: 'Automation > Action History',
-  automation_policies: 'Automation > Policies'
+  automation_policies: 'Automation > Policies',
+  custom_payload: 'Custom Payload'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];
