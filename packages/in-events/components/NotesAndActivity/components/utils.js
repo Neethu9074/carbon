@@ -55,3 +55,12 @@ export function createDataString(data) {
   });
   return dataString;
 }
+
+export function getSummary(metadata) {
+  var dataString = [];
+  metadata?.map(entry => {
+    const entitySummary = `${entry.entitySummary}\n`;
+    dataString.push(entitySummary);
+  });
+  return dataString;
+}

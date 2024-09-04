@@ -145,9 +145,20 @@ export function NotesAndActivity(props) {
   //   timestamp: 1722957105978,
   //   updated: 0,
   //   author: 'Denton Zan',
-  //   metadata: {},
-  //   contents:
-  //     'traffic related problem(s) has been observed, which is: The system has encountered an error rate that is at least 0% and as high as 500%, specifically with status code 442 and 500, indicating a significant server-side issue.'
+  //   metadata: [
+  //     {
+  //       entityLabel: 'saas_instana_release_events_es7_20246',
+  //       entityName: 'Service',
+  //       entitySummary:
+  //         'The adaptive baseline configuration may lead to issues with network connectivity and cause unexpected reboots on certain devices.'
+  //     },
+  //     {
+  //       entityLabel: 'All Services',
+  //       entityName: 'Application',
+  //       entitySummary:
+  //         'There may be an issue with too many calls resulting in status code 442 and potentially others in the 5xx range.'
+  //     }
+  //   ]
   // });
   // notes.push({
   //   author: 'Steve Sarkisian',
@@ -189,6 +200,7 @@ export function NotesAndActivity(props) {
   // });
   // ^^^^^^^^^^^^^^^^^^^^^^^TESTING PURPOSES ONLY
 
+  const emptyList = notes?.length === 0;
   const filteredNotes = filterSearchNotes(notes, searchInput.toLowerCase());
 
   return (
@@ -231,6 +243,7 @@ export function NotesAndActivity(props) {
               />
             )}
             {aiFlagEnabled && <QuickActions displayQuickStart={displayQuickStart} />}
+            {!aiFlagEnabled && emptyList && <EmptyState />}
             <CommentList
               notes={filteredNotes}
               preferredName={user.preferredName}
@@ -242,5 +255,15 @@ export function NotesAndActivity(props) {
         )}
       </div>
     </CarbonLayer>
+  );
+}
+
+// Basic empty state for notes
+export function EmptyState() {
+  return (
+    <div className={locals.emptyWrapper}>
+      <h3 className={locals.emptyHeader}>{t('in-events:notes.noActivity')}</h3>
+      <p className={locals.emptyInfo}>{t('in-events:notes.noActivityDetails')}</p>
+    </div>
   );
 }

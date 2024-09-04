@@ -55,4 +55,19 @@
   .loading {
     padding: 80% 0px 0px 50%;
   }
+
+  .emptyWrapper {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 10rem;
+  }
+
+  .emptyHeader {
+    font-size: 24px;
+    font-weight: 400;
+  }
+
+  .emptyInfo {
+    line-height: 1rem;
+  }
 }

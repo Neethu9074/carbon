@@ -10,8 +10,8 @@ import classNames from 'classnames';
 import { SvgIcon } from '@instana/components';
 
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
+import { noteNameAndTimeFormat, createDataString, getSummary } from './utils';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
-import { noteNameAndTimeFormat, createDataString } from './utils';
 import { t } from 'in-i18n';
 
 import locals from './CommentList.mless';
@@ -116,6 +116,7 @@ export function ChatBubble(props) {
   const extNote = type === 'external_note';
   const extChange = type === 'external_field_change';
   const aiGen = type === 'ai_generated';
+  const summary = aiGen && getSummary(noteObj?.metadata);
   return (
     <div
       className={classNames({
@@ -129,7 +130,14 @@ export function ChatBubble(props) {
       {aiGen && (
         <>
           <div className={locals.bubbleContentsHeader}>{t('in-events:notes.sumGenerated')}</div>
-          {contents}
+          {summary.map(entity => {
+            return (
+              <div className={locals.summaryList}>
+                {`- `}
+                <div>{entity}</div>
+              </div>
+            );
+          })}
         </>
       )}
       {extNote && (

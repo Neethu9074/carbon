@@ -272,6 +272,8 @@
     "searchNotes": "Search notes and activity",
     "addComment": "Add comment",
     "notesLabelText": "Add incident notes",
-    "sumGenerated": "Summary generated:"
+    "sumGenerated": "Summary generated:",
+    "noActivity": "No activity yet",
+    "noActivityDetails": "There are no notes or activity to show yet. Use the Add comment field to share knowledge or an update for this incident with your team."
   }
 }

@@ -4,25 +4,76 @@
  * Copyright IBM Corp. 2024
  */
 
+import Immutable from 'immutable';
 import { shallow } from 'enzyme';
 import React from 'react';
 
-// import { CommentInput } from 'in-events/components/NotesAndActivity/components/CommentInput';
-// import { QuickActions } from 'in-events/components/NotesAndActivity/components/QuickActions';
-import { CommentList, ChatBubble } from 'in-events/components/NotesAndActivity/components/CommentList';
+import { IconButton, CarbonTag, CarbonSearch, CarbonInlineLoading, CarbonLayer } from '@instana/components';
 
-// import { SvgIcon } from '@instana/components';
+import { CommentInput } from 'in-events/components/NotesAndActivity/components/CommentInput';
+import { QuickActions } from 'in-events/components/NotesAndActivity/components/QuickActions';
+import { CommentList } from 'in-events/components/NotesAndActivity/components/CommentList';
+import { NotesAndActivity } from 'in-events/components/NotesAndActivity/NotesAndActivity';
 
-// import locals from './NotesAndActivity.mless';
-
-describe('ChatBubble', () => {
+describe('NotesAndActivity', () => {
   it('renders without errors', () => {
-    shallow(<ChatBubble />);
+    shallow(<NotesAndActivity />);
   });
-});
 
-describe('CommentList', () => {
-  it('renders without errors', () => {
-    shallow(<CommentList />);
+  it('renders a general case for NotesAndActivity for empty list', () => {
+    const event = Immutable.fromJS({
+      type: 'incident',
+      id: 'myID123',
+      notesUiObjects: []
+    });
+
+    const wrapper = shallow(<NotesAndActivity event={event} displayNotes setDisplayNotes={() => {}} />);
+
+    expect(wrapper.find(CarbonLayer)).toHaveLength(1);
+    expect(wrapper.find(CarbonTag)).toHaveLength(1);
+    expect(wrapper.find(IconButton)).toHaveLength(2);
+    expect(wrapper.find(CarbonInlineLoading)).toHaveLength(0);
+    expect(wrapper.find(CarbonSearch)).toHaveLength(0);
+    expect(wrapper.find(CommentList)).toHaveLength(1);
+    expect(wrapper.find(CommentInput)).toHaveLength(1);
+    expect(wrapper.find(QuickActions)).toHaveLength(1);
+  });
+
+  it('renders a general case for NotesAndActivity', () => {
+    const event = Immutable.fromJS({
+      type: 'incident',
+      id: 'myID123',
+      notesUiObjects: [
+        {
+          type: 'external_note',
+          id: 'note-12345',
+          parent: 'bZn54ySOQaGEyt9Ls2eZ3g',
+          timestamp: 1692892800000,
+          updated: 0,
+          author: 'johndoe',
+          metadata: {
+            apiToken: 'iid-valid-api-token',
+            createdBy: 'johndoe',
+            priority: 'High',
+            userId: null
+          },
+          origin: '',
+          internal: true,
+          label: 'Work Notes',
+          contents: 'This is an internal note regarding the test'
+        }
+      ]
+    });
+
+    const wrapper = shallow(<NotesAndActivity event={event} displayNotes setDisplayNotes={() => {}} />);
+
+    expect(wrapper.find(CarbonLayer)).toHaveLength(1);
+    expect(wrapper.find(CarbonTag)).toHaveLength(1);
+    expect(wrapper.find(IconButton)).toHaveLength(2);
+    expect(wrapper.find(CarbonInlineLoading)).toHaveLength(0);
+    expect(wrapper.find(CarbonSearch)).toHaveLength(0);
+    expect(wrapper.find(CommentList)).toHaveLength(1);
+    expect(wrapper.find(CommentInput)).toHaveLength(1);
+    expect(wrapper.find(QuickActions)).toHaveLength(1);
   });
 });
