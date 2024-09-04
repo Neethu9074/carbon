@@ -64,7 +64,14 @@ export default function LogVolumeDetails({
                   <span>{totalVolume.gb} GB</span>
                 </div>
                 <div className={locals.tableRU}>
-                  <span>{Math.ceil(totalVolume.ru)} RU</span>
+                  <Tooltip
+                    content={t('in-settings:tabs.logVolume.ruTooltip', {
+                      groupingTag: groupingTag && capitalize(groupingTag)
+                    })}
+                    align="mousePosition"
+                  >
+                    <span>{`${Math.ceil(totalVolume.ru)} RU`}</span>
+                  </Tooltip>
                 </div>
               </Li>
               <div>
@@ -84,7 +91,9 @@ export default function LogVolumeDetails({
                               </span>
                               <span className={locals.tableGB}>{(retentionPeriods[days] as VolumeUnits).gb} GB</span>
                               <span className={locals.tableRU}>
-                                {Math.round((retentionPeriods[days] as VolumeUnits).ru)} RU
+                                {(retentionPeriods[days] as VolumeUnits).ru < 1
+                                  ? '<1 RU'
+                                  : `${Math.round((retentionPeriods[days] as VolumeUnits).ru)} RU`}
                               </span>
                             </div>
                           </Li>
@@ -103,7 +112,9 @@ export default function LogVolumeDetails({
                                 </span>
                                 <span className={locals.tableGB}>{partialSums && partialSums[days].gb} GB</span>
                                 <span className={locals.tableRU}>
-                                  {partialSums && Math.round(partialSums[days].ru)} RU
+                                  {partialSums && partialSums[days].ru < 1
+                                    ? '<1 RU'
+                                    : partialSums && `${Math.round(partialSums[days].ru)} RU`}
                                 </span>
                                 <span className={locals.collapseRow}>
                                   <SvgIcon
