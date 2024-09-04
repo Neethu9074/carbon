@@ -20,6 +20,7 @@ export interface ServerTableUrlState {
   orderDirection: OrderDirection;
   page: number;
   pageSize: number;
+  pageSizes?: number[];
   query: string;
   disabledColumns: string[];
   enabledColumns: string[];
@@ -33,6 +34,7 @@ interface UrlStateParams {
   defaultOrderBy: string;
   defaultOrderDirection?: OrderDirection;
   defaultPageSize?: number;
+  defaultPageSizes?: number[];
   defaultQuery?: string;
   defaultDisabledColumns?: readonly string[];
 
@@ -46,6 +48,7 @@ export default function useServerTableUrlState({
   defaultOrderBy,
   defaultOrderDirection,
   defaultPageSize,
+  defaultPageSizes,
   defaultQuery,
   defaultDisabledColumns,
   paginationResettingUrlParameters
@@ -59,6 +62,7 @@ export default function useServerTableUrlState({
         defaultOrderBy,
         defaultOrderDirection,
         defaultPageSize,
+        defaultPageSizes,
         defaultQuery,
         defaultDisabledColumns,
         paginationResettingUrlParameters
@@ -70,6 +74,7 @@ export default function useServerTableUrlState({
       defaultOrderBy,
       defaultOrderDirection,
       defaultPageSize,
+      defaultPageSizes,
       defaultQuery,
       defaultDisabledColumns,
       paginationResettingUrlParameters
@@ -86,6 +91,7 @@ function createUrlStateDefinition({
   defaultOrderBy,
   defaultOrderDirection = 'ASC',
   defaultPageSize = 20,
+  defaultPageSizes = [20, 40, 60, 80, 100],
   defaultQuery = '',
   defaultDisabledColumns,
   paginationResettingUrlParameters
@@ -117,6 +123,14 @@ function createUrlStateDefinition({
         as: 'pageSize',
         initialState: defaultPageSize,
         parser: intParser
+      },
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}pageSizes`,
+        as: 'pageSizes',
+        initialState: defaultPageSizes,
+        parser: buildJsonParser([]),
+        serializer: buildJsonSerializer()
       },
       {
         path: pathSegment,

@@ -17,8 +17,6 @@ import {
   teamSettingsAccessControlInvites,
   teamSettingsAccessControlUserEdit,
   teamSettingsAccessControlUsers,
-  teamSettingsAccessLog,
-  teamSettingsActionLog,
   teamSettingsAlertingAlertChannelEdit,
   teamSettingsAlertingAlertChannelEditDetails,
   teamSettingsAlertingAlertChannelNew,
@@ -43,20 +41,23 @@ import {
   teamSettingsIntegrationsLoggingHumio,
   teamSettingsIntegrationsLoggingMezmo,
   teamSettingsIntegrationsLoggingSplunk,
-  teamSettingsActionLogRetention,
   teamSettingsIntegrationsDatabase,
-  teamSettingsIntegrationsDatabaseDbMarlin
+  teamSettingsIntegrationsDatabaseDbMarlin,
+  teamSettingsAudit,
+  teamSettingsActionLog,
+  teamSettingsAccessLog,
+  teamSettingsActionLogRetention
 } from 'in-settings/navigation/paths';
 import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
 import RecurrentMaintenanceWindowFormPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
+import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
+import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
+import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import {
   recurrentMaintenanceWindowEnabled,
   logRetentionPageEnabled,
   logVolumePageEnabled
 } from 'in-services/featureFlags';
-import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
-import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
-import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import RetentionPeriodPage from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
@@ -79,14 +80,13 @@ import HumioPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
-import AccessLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AccessLog/AccessLog';
-import ActionLogPage from 'in-settings/tabs/TeamSettings/pages/audit/ActionLog/ActionLog';
-import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import GroupsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Groups';
+import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import GroupPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Elk/Elk';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
+import AuditTrailPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditTrail';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
 import { apiTokenDialogEnabled } from 'in-services/featureFlags';
@@ -333,20 +333,23 @@ function navigationTreeForRole(role, isAnyIDPActive) {
       title: t('in-settings:tabs.audit'),
       pages: [
         {
-          path: teamSettingsActionLog,
-          label: t('in-settings:tabs.actionLog'),
-          component: ActionLogPage,
+          path: teamSettingsAudit,
+          label: t('in-settings:tabs.auditTrail'),
+          component: AuditTrailPage,
           subPages: [
             {
+              path: teamSettingsActionLog,
+              component: AuditTrailPage
+            },
+            {
               path: teamSettingsActionLogRetention,
-              component: ActionLogPage
+              component: AuditTrailPage
+            },
+            {
+              path: teamSettingsAccessLog,
+              component: AuditTrailPage
             }
           ]
-        },
-        {
-          path: teamSettingsAccessLog,
-          label: t('in-settings:tabs.accessLog'),
-          component: AccessLogPage
         }
       ]
     });

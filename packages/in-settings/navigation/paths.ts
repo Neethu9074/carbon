@@ -116,10 +116,10 @@ export const teamSettingsLogManagementSplunk = `${logManagement}/splunkConfigura
 export const teamSettingsLogManagementHumio = `${logManagement}/humioConfiguration`;
 export const teamSettingsLogManagementElk = `${logManagement}/elkConfiguration`;
 
-export const audit = `${teamSettings}/audit`;
-export const teamSettingsActionLog = `${audit}/actionlog`;
-export const teamSettingsActionLogRetention = `${audit}/actionlog/retention`;
-export const teamSettingsAccessLog = `${audit}/accessLog`;
+export const teamSettingsAudit = `${teamSettings}/audit`;
+export const teamSettingsActionLog = `${teamSettingsAudit}/actionlog`;
+export const teamSettingsActionLogRetention = `${teamSettingsAudit}/actionlog/retention`;
+export const teamSettingsAccessLog = `${teamSettingsAudit}/accessLog`;
 
 // integrations
 const integrations = `${teamSettings}/integrations`;

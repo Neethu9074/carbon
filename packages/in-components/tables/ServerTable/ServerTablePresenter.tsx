@@ -40,6 +40,7 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   query?: string;
   page: number;
   pageSize: number;
+  pageSizes?: Array<number>;
   result?: Result<PaginatedResult<ItemType>> | Nullish;
   renderPagination?: (p: TableState) => React.ReactNode;
   fixedLayout?: boolean;
@@ -69,6 +70,7 @@ export default function ServerTablePresenter<
     orderBy,
     orderDirection,
     pageSize,
+    pageSizes,
     getRowProps,
     onRowClick,
     renderPagination,
@@ -100,13 +102,13 @@ export default function ServerTablePresenter<
   const result = props.result ?? (pendingResult as Result<PaginatedResult<ItemType>>);
   const { availableColumns, visibleColumns, optionalColumns, onColumnChecked } = filterColumns(props);
   let body = null;
-
+  let defaultPageSize = pageSizes?.[0] ?? pageSize;
   if (carbonTableEnabled) {
     let carbonHeaders: Array<any> = [];
 
     const debounceOnChange = debounce((searchInput: string) => {
       if (searchInput !== undefined) {
-        onChange({ query: searchInput, orderBy, orderDirection, page: 1, pageSize });
+        onChange({ query: searchInput, orderBy, orderDirection, page: 1, pageSize, pageSizes });
       }
     }, 500);
 
@@ -198,7 +200,7 @@ export default function ServerTablePresenter<
             } else if (sortState.sortDirection === 'ASC') {
               orderDirection = 'DESC';
             }
-            onChange({ query, orderBy, orderDirection, page: 1, pageSize });
+            onChange({ query, orderBy, orderDirection, page: 1, pageSize, pageSizes });
           }}
           searchText={query}
           isSearchEnabled={isSearchable}
@@ -229,14 +231,14 @@ export default function ServerTablePresenter<
           {/* Carbon Table */}
           {body}
           {/* Pagination */}
-          {result.data && result.data.totalHits > result.data.pageSize ? (
+          {result.data && result.data.totalHits > defaultPageSize ? (
             <CarbonPagination
               currentPage={page}
               totalItems={result?.data?.totalHits}
               pageSize={pageSize}
-              pageSizes={[pageSize]}
+              pageSizes={pageSizes ?? [pageSize]}
               onChange={data => {
-                onChange({ query, orderBy, orderDirection, page: data.page, pageSize });
+                onChange({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
               }}
             />
           ) : null}
@@ -318,7 +320,7 @@ export default function ServerTablePresenter<
   }
 
   let pagination = null;
-  if (result.data && result.data.totalHits > result.data.pageSize) {
+  if (result.data && result.data.totalHits > defaultPageSize) {
     const numPages = Math.ceil(result.data.totalHits / result.data.pageSize);
     const totalItems = result.data.totalHits;
     pagination = renderPagination ? (
@@ -329,6 +331,7 @@ export default function ServerTablePresenter<
         orderDirection,
         onChange,
         pageSize,
+        pageSizes,
         query,
         orderBy
       })
@@ -339,9 +342,9 @@ export default function ServerTablePresenter<
             currentPage={page}
             totalItems={result.data.totalHits}
             pageSize={result.data.pageSize}
-            pageSizes={[result.data.pageSize]}
+            pageSizes={pageSizes ?? [result.data.pageSize]}
             onChange={(data: { page: number; pageSize: number }) => {
-              return onChange({ query, orderBy, orderDirection, page: data.page, pageSize });
+              return onChange({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
             }}
           />
         ) : (

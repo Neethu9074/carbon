@@ -166,7 +166,8 @@
         "selfTime": "Self Time",
         "networkTime": "Network Time",
         "waitingTime": "Waiting Time",
-        "latency": "Latency"
+        "latency": "Latency",
+        "findSQL" : "Find SQL in {{type}}"
       },
       "callTree": {
         "expandButtonForRow": "Expand all Sub Calls",

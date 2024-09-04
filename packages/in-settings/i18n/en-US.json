@@ -478,6 +478,7 @@
       "groupingTagTootip": "{{groupingTag}} information not available",
       "ruTooltip": "Resource units (RU) are calculated based on the volume of logs ingested and the retention period. Any amount of ingested data consumes a minimum of 1 RU"
     },
+    "auditTrail": "Audit trail",
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",
     "IdPMetadataLargerThanTwoMega": "IdP Metadata file can't be larger than 2 megabytes",
@@ -950,8 +951,8 @@
     "permissions": "Permissions",
     "filterPermissions": "Filter Permissions…",
     "addUserToAGroup": "Select group to add",
-    "actionLog": "Action Log",
-    "accessLog": "Access Log",
+    "actionLog": "Action log",
+    "accessLog": "Access log",
     "actionLogUnits": "Action log is for <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "alertChannel": "Alert Channel",
     "unknownAlertChannel": "Unknown Alert Channel",
