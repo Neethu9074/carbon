@@ -187,74 +187,58 @@ export default class Table extends React.Component {
     if (carbonTableEnabled) {
       let carbonHeaders = [];
       carbonHeaders = cols.map((item, i) => ({
-        key: item?.id || i,
+        id: i,
+        key: item.title,
         header: item.title,
-        getContent: item.getContent,
-        getMetricName: item.getMetricName,
-        getSnapshotId: item.getSnapshotId,
-        getTimeWindowAggregation: item.getTimeWindowAggregation,
-        getValue: item.getValue,
-        isSortable: data.sortColumnIndex === i ? data.sortColumnIndex : false,
-        sortDirection: data.sortColumnIndex === i ? data.sortDirection : 'NONE'
+        isSortable: true,
+        sortDirection: data.sortColumnIndex === i ? data.sortDirection.toUpperCase() : 'NONE'
       }));
       let carbonRows = [];
 
       if (data.rows.length === 0) {
         return (
-          <div className={locals.emptyTable}>
-            <CarbonDataTable
-              headers={carbonHeaders}
-              rows={[]}
-              filterRows={value => {
-                this.setState({ filter: value?.target?.value });
-                this.store.setFilter(value?.target?.value);
-              }}
-              searchText={this.state.filter}
-            />
-            <EmptyContent
-              cols={cols?.length}
-              size="compact"
-              renderNoDataAvailable={() => (
-                <NoDataAvailable text={t('in-kubernetes:dashboards.noComponentStatusDataAvailable')} height={80} />
-              )}
-              noDataMessage={t('in-kubernetes:dashboards.noComponentStatusDataAvailable')}
-            />
+          <div className={locals.tableContainer}>
+            <Card title={this.props.cardTitle} header={header} withoutPadding={this.props.withoutPadding}>
+              {this.props.explanation}
+              <div className={locals.emptyTable}>
+                <CarbonDataTable
+                  headers={carbonHeaders}
+                  rows={[]}
+                  filterRows={value => {
+                    this.setState({ filter: value?.target?.value });
+                    this.store.setFilter(value?.target?.value);
+                  }}
+                  searchText={this.state.filter}
+                />
+                <EmptyContent
+                  cols={cols?.length}
+                  size="compact"
+                  renderNoDataAvailable={() => (
+                    <NoDataAvailable text={t('in-kubernetes:dashboards.noComponentStatusDataAvailable')} height={80} />
+                  )}
+                  noDataMessage={t('in-kubernetes:dashboards.noComponentStatusDataAvailable')}
+                />
+              </div>
+            </Card>
           </div>
         );
       } else {
         for (let i = 0, length = data.rows.length; i < length; i++) {
           const rowData = data.rows[i];
 
-          let onClick;
-          if (this.props.onRowClick) {
-            onClick = (row, e, rowIndex) => this.props.onRowClick(row, e, data.rows, rowIndex);
+          let carbonRow = {};
+          carbonRow['id'] = rowData.key;
+          rowData.columns.map((column, i) => {
+            // get column header name and assign value to that
+            carbonRow[carbonHeaders[i]['header']] = column.value ?? '-';
+          });
+          if (this.props.getRowDetails != null) {
+            carbonRow['expanded'] = this.props.getRowDetails(rowData.rowConfig);
           }
-
-          const selected = rowData.rowConfig.isSelected;
-
-          carbonRows.push(
-            <Row
-              key={rowData.key}
-              row={rowData}
-              cellClassName={cellElement}
-              toggleRowDetails={toggleRowDetails}
-              rowIndex={i}
-              onClick={onClick}
-              selected={selected}
-            />
-          );
-
-          if (rowData.expanded) {
-            carbonRows.push(
-              <tr key={`${rowData.key}--expanded`}>
-                <td className={expandedCellElement} colSpan={colCount}>
-                  {this.props.getRowDetails(rowData.rowConfig)}
-                </td>
-              </tr>
-            );
-          }
+          carbonRows.push(carbonRow);
         }
       }
+
       return (
         <div className={locals.tableContainer}>
           <Card title={this.props.cardTitle} header={header} withoutPadding={this.props.withoutPadding}>
@@ -276,7 +260,9 @@ export default class Table extends React.Component {
                 } else if (sortState.sortDirection === 'ASC') {
                   orderDirection = 'DESC';
                 }
-                this.store.setSort(orderBy, orderDirection);
+                let columnIndex = carbonHeaders.findIndex(x => x.header === orderBy);
+
+                this.store.setSort(columnIndex, orderDirection.toLowerCase());
                 // onChange({ query, orderBy, orderDirection, page: 1, pageSize });
               }}
               searchText={this.state.filter}
