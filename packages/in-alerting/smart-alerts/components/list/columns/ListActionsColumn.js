@@ -47,12 +47,13 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
   return (
     <HorizontalFlexWrapper className={locals.actions}>
       {handleToggleEnabled && !playwithEnabled && (
-        <Tooltip content={getTooltipForAction()} delay={500}>
+        <Tooltip content={getTooltipForAction(config.readOnly)} delay={500}>
           <div className={locals.separator}>
             <IconButton
               kind="primaryv2"
               type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
               iconSpinning={isSaving}
+              disabled={config.readOnly}
               onClick={e => {
                 e.preventDefault();
                 stopPropagation(e);
@@ -68,7 +69,8 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
         </Tooltip>
       )}
 
-      {hasSecondaryActions && !playwithEnabled && (
+      {hasSecondaryActions && !playwithEnabled && config.readOnly && <div className={locals.readOnlySeparator} />}
+      {hasSecondaryActions && !playwithEnabled && !config.readOnly && (
         <MoreMenu
           renderInteractiveElement={({ ref, toggle }) => (
             <div className={locals.separator}>
@@ -128,7 +130,11 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
     </HorizontalFlexWrapper>
   );
 
-  function getTooltipForAction() {
+  function getTooltipForAction(isReadOnly = false) {
+    if (isReadOnly) {
+      return t('in-alerting:smartAlerts.applications.inventory.noPermissionGlobalSmartAlertEdit');
+    }
+
     if (isSaving) {
       return '';
     }
@@ -142,7 +148,8 @@ ListActionsColumn.propTypes = {
     enabled: PropTypes.bool.isRequired,
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    builtIn: PropTypes.bool
+    builtIn: PropTypes.bool,
+    readOnly: PropTypes.bool
   }).isRequired,
   isLoading: PropTypes.bool,
   actionHandlers: PropTypes.shape({
