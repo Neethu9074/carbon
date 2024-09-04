@@ -83,7 +83,7 @@ describe('calculateYScaleBuffer', () => {
     expect(result.yMax).toBe(255);
   });
 
-  it('yMin must be min when the range(difference between max and min) is exactly 0', () => {
+  it('yMin must be min with some buffer when the range(difference between max and min) is exactly 0', () => {
     // Given
     const data: MetricDataPoint[] = [
       [1622556000000, 200],
