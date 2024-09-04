@@ -165,5 +165,6 @@ module.exports = {
   applicationSmartAlertDialogView: true,
   increaseAggregationEnabled: false,
   carbonCodeEnabled: true,
-  extrapolateMissingStackedAreaValues: false
+  extrapolateMissingStackedAreaValues: false,
+  nutanixEnabled: true
 };

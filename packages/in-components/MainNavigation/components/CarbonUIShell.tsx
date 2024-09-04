@@ -42,7 +42,8 @@ import {
   hasSAPAccess,
   hasSloAccess,
   hasInfrastructureAnalyzeAccess,
-  hasAutomationAccess
+  hasAutomationAccess,
+  hasNutanixAccess
 } from 'in-stores/permission';
 import {
   bizopsPerspectivesEnabled,
@@ -102,6 +103,7 @@ import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { actionCatalogFullyQualified, isAutomationView } from 'in-automation/navigation/paths';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
+import { nutanixClusterListFullyQualified, nutanix } from 'in-nutanix/navigation/paths';
 import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
@@ -286,16 +288,6 @@ function platformsContent(
         isActive={matchLocation(cloudfoundry)}
       />
     ) : null,
-    hasOpenStackAccess && !playwithEnabled ? (
-      <MenuItem
-        {...optionalProps}
-        id="main-nav-openstack"
-        key="main-nav-openstack"
-        label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
-        href={createHrefToPath(regionListFullyQualified)}
-        isActive={matchLocation(openstack)}
-      />
-    ) : null,
     hasPHMCAccess && !playwithEnabled ? (
       <MenuItem
         {...optionalProps}
@@ -326,6 +318,16 @@ function platformsContent(
         isActive={matchLocation(ibmz)}
       />
     ) : null,
+    hasOpenStackAccess && !playwithEnabled ? (
+      <MenuItem
+        {...optionalProps}
+        id="main-nav-openstack"
+        key="main-nav-openstack"
+        label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
+        href={createHrefToPath(regionListFullyQualified)}
+        isActive={matchLocation(openstack)}
+      />
+    ) : null,
     hasKubernetesAccess ? (
       <MenuItem
         {...optionalProps}
@@ -334,6 +336,16 @@ function platformsContent(
         label={t('in-components:mainNavigation.viewSwitcherLabelKubernetes')}
         href={createHrefToPath(kubernetesClusterList)}
         isActive={matchLocation(kubernetes)}
+      />
+    ) : null,
+    hasNutanixAccess && !playwithEnabled ? (
+      <MenuItem
+        {...optionalProps}
+        id="main-nav-nutanix"
+        key="main-nav-nutanix"
+        label={t('in-components:mainNavigation.viewSwitcherLabelNutanix')}
+        href={createHrefToPath(nutanixClusterListFullyQualified)}
+        isActive={matchLocation(nutanix)}
       />
     ) : null,
     hasSAPAccess && !playwithEnabled ? (

@@ -784,5 +784,10 @@ module.exports = exports = [
     uiClientKey: 'carbonCodeEnabled',
     instanaCtlKey: 'feature.carbon.code.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'nutanixEnabled',
+    instanaCtlKey: 'feature.nutanix.enabled',
+    defaultValue: false
   }
 ];

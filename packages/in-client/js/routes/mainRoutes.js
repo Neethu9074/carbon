@@ -52,6 +52,7 @@ import cockpitRoutes from 'in-cockpit/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
 import powervcRoutes from 'in-powervc/navigation/routes';
 import welcomePageRoutes from 'in-plg/navigation/routes';
+import nutanixRoutes from 'in-nutanix/navigation/routes';
 import bizopsRoutes from 'in-bizops/navigation/routes';
 import eventRoutes from 'in-events/navigation/routes';
 import deepLinkRoutes from 'in-client/js/deepLink';
@@ -96,6 +97,7 @@ export default (
     {profilingRoutes}
     {loggingRoutes}
     {deepLinkRoutes}
+    {nutanixRoutes}
 
     {/* The landing page must be the very last item as it dynamically redirects */}
     <Route path="/" component={LandingPage} />

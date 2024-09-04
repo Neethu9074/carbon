@@ -21,6 +21,7 @@ export const productAreas = Object.freeze({
   vsphere: 'Platforms - vSphere',
   openstack: 'Platforms - Openstack',
   ibmpower: 'Platforms - IBM Power HMC',
+  nutanix: 'Platforms - Nutanix',
   sap: 'Platforms - SAP',
   custom_dashboard: 'Custom Dashboard',
   agents: 'Agents',

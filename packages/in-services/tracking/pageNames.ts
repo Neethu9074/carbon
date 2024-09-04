@@ -126,7 +126,11 @@ export const pageNames = Object.freeze({
   automation_action_catalog: 'Automation > Action Catalog',
   automation_action_history: 'Automation > Action History',
   automation_policies: 'Automation > Policies',
-  custom_payload: 'Custom Payload'
+  custom_payload: 'Custom Payload',
+  nutanix_vm: 'Nutanix VM',
+  nutanix_host: 'Nutanix Host',
+  nutanix_clusters: 'Nutanix Clusters',
+  nutanix: 'Nutanix'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];

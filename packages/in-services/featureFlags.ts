@@ -86,6 +86,7 @@ export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicatio
 export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled');
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
+export const nutanixEnabled = isFeatureFlagEnabled('nutanixEnabled');
 
 // SmartAlerts & AP Alert Migration related feature flags
 export const builtInGlobalApplicationSmartAlertsEnabled = isFeatureFlagEnabled(
