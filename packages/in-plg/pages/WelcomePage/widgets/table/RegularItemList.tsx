@@ -10,6 +10,7 @@ import { DashboardTableRow as Row, DashboardTableCell as Cell } from '@instana/c
 import { TimeConfig } from '@instana/types';
 
 import { ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import { DEFAULT_NUMBER_SKELETON_ROWS } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 import LoadingTableList from 'in-plg/pages/WelcomePage/widgets/table/LoadingTableList';
 import { getItemId } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
@@ -33,6 +34,7 @@ export default function RegularItemList({
   widgetName
 }: RegItemListProps) {
   if (!result || isLoading(result)) {
+    numSkeletonRows = favIds ? DEFAULT_NUMBER_SKELETON_ROWS - favIds.length : DEFAULT_NUMBER_SKELETON_ROWS;
     return <LoadingTableList numSkeletonRows={numSkeletonRows} numSkeletonColumns={columnDefinitions.length} />;
   }
   if (hasError(result)) {
