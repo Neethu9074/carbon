@@ -13825,6 +13825,7 @@
     },
     "tibcoASDataGrid": {
       "label": "Tibco AS Data Grid",
+      "gridId": "Grid Id",
       "nodes": "Nodes",
       "proxies": "Proxies",
       "name": "Name",
