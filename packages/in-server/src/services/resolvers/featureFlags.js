@@ -273,7 +273,7 @@ module.exports = exports = [
   {
     uiClientKey: 'sloRebornWidgetEnabled',
     instanaCtlKey: 'feature.slo.reborn.widget.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
