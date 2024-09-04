@@ -15,7 +15,8 @@ import {
   manuallyCloseEventEnabled,
   incidentSummarizationEnabled,
   incidentSummarizationTimelineEnabled,
-  eventFeedbackEnabled
+  eventFeedbackEnabled,
+  businessObservabilityEnabled
 } from 'in-services/featureFlags';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import LegacyRootCauseSection from 'in-events/components/legacy/LegacyRootCauseSection';
@@ -115,11 +116,13 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       {/* Automations */}
       <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
       {/* Business impact */}
-      <ImpactedBusinessProcesses
-        eventType={eventType}
-        entityType={incident?.get('entityType', undefined)}
-        entityId={incident?.get('entityId', undefined)}
-      />
+      {businessObservabilityEnabled && (
+        <ImpactedBusinessProcesses
+          eventType={eventType}
+          entityType={incident?.get('entityType', undefined)}
+          entityId={incident?.get('entityId', undefined)}
+        />
+      )}
     </>
   );
 }
