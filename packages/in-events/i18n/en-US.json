@@ -272,8 +272,6 @@
     "searchNotes": "Search notes and activity",
     "addComment": "Add comment",
     "notesLabelText": "Add incident notes",
-    "sumGenerated": "Summary generated:",
-    "addNotesFor": "Add notes for this incident",
-    "tryAddingNotes": "Try adding notes to help you and your team gain a quick understanding of what has happened."
+    "sumGenerated": "Summary generated:"
   }
 }

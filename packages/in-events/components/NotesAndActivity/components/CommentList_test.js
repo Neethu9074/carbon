@@ -19,8 +19,13 @@ describe('ChatBubble', () => {
   });
 
   it('renders the text in a div with the correct class name', () => {
-    const wrapper = shallow(<ChatBubble contents="Hello" type="note" />);
+    const wrapper = shallow(<ChatBubble myBubble contents="Hello" data={[]} type="note" noteObj={{}} />);
+    expect(wrapper.find(`div.${locals.bubble}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.bubble}`).text()).toEqual('Hello');
+    expect(wrapper.find(`div.${locals.ext}`)).toHaveLength(0);
+    expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(0);
+    expect(wrapper.find(`div.${locals.myBubble}`)).toHaveLength(1);
+    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(0);
   });
 
   it('renders the text in a div with the correct class name when myBubble is true', () => {
@@ -37,7 +42,12 @@ describe('ChatBubble', () => {
         }}
       />
     );
+    expect(wrapper.find(`div.${locals.bubble}`)).toHaveLength(1);
+    expect(wrapper.find(`div.${locals.myBubble}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.myBubble}`).text()).toEqual('Hello');
+    expect(wrapper.find(`div.${locals.ext}`)).toHaveLength(0);
+    expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(0);
+    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(0);
   });
 
   it('renders the text in a div with the correct class name when myBubble is false', () => {
@@ -55,7 +65,13 @@ describe('ChatBubble', () => {
         }}
       />
     );
+    expect(wrapper.find(`div.${locals.ext}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.ext}`).text()).toEqual('Ext NoteJohn Doe: Hello');
+    expect(wrapper.find(`div.${locals.bubble}`)).toHaveLength(1);
+    expect(wrapper.find(`div.${locals.myBubble}`)).toHaveLength(0);
+    expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(0);
+    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(1);
+    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).text()).toEqual('Ext Note');
   });
 
   it('renders the text in a div with the correct class name for ai_generation', () => {
@@ -73,9 +89,16 @@ describe('ChatBubble', () => {
         }}
       />
     );
+
+    expect(wrapper.find(`div.${locals.ext}`)).toHaveLength(0);
+    expect(wrapper.find(`div.${locals.bubble}`)).toHaveLength(1);
+    expect(wrapper.find(`div.${locals.myBubble}`)).toHaveLength(0);
+    expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.aiGenBubble}`).text()).toEqual(
       'Summary generated:This is an ai generated message'
     );
+    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(1);
+    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).text()).toEqual('Summary generated:');
   });
 
   it('renders the text in a div with the correct class name for external_field_change', () => {
@@ -98,7 +121,14 @@ describe('ChatBubble', () => {
         }}
       />
     );
+
+    expect(wrapper.find(`div.${locals.ext}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.ext}`).text()).toEqual('Updated Status');
+    expect(wrapper.find(`div.${locals.bubble}`)).toHaveLength(1);
+    expect(wrapper.find(`div.${locals.myBubble}`)).toHaveLength(0);
+    expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(0);
+    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(1);
+    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).text()).toEqual('Updated Status');
   });
 });
 

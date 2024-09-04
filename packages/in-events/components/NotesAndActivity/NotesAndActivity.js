@@ -230,7 +230,7 @@ export function NotesAndActivity(props) {
                 }}
               />
             )}
-            <QuickActions aiFlagEnabled={aiFlagEnabled} displayQuickStart={displayQuickStart} />
+            {aiFlagEnabled && <QuickActions displayQuickStart={displayQuickStart} />}
             <CommentList
               notes={filteredNotes}
               preferredName={user.preferredName}

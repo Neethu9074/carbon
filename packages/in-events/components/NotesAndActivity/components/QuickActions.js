@@ -17,12 +17,7 @@ import locals from './QuickActions.mless';
 // Main view that gives an overview for this side panel
 // Gives the user the options to add a note or generate a summary
 export function QuickActions(props) {
-  const { aiFlagEnabled, displayQuickStart } = props;
-  const header = (aiFlagEnabled && t('in-events:notes.summarizeIncident')) || t('in-events:notes.addNotesFor');
-  const description =
-    (aiFlagEnabled && t('in-events:notes.summarizeIncidentDescription')) || t('in-events:notes.tryAddingNotes');
-  const summary = aiFlagEnabled && t('in-events:notes.generateSummary');
-  const svgIconType = (aiFlagEnabled && 'lib_help_error_help_circle') || 'lib_actions_edit';
+  const { displayQuickStart } = props;
   return (
     <div
       className={classNames({
@@ -33,27 +28,25 @@ export function QuickActions(props) {
     >
       {displayQuickStart && (
         <div>
-          <SvgIcon type={svgIconType} />
+          <SvgIcon type={'lib_help_error_help_circle'} />
         </div>
       )}
       <div>
         {displayQuickStart && (
           <>
-            <div className={locals.quickActionsHeader}>{header}</div>
-            <div className={locals.quickActionsDescription}>{description}</div>
+            <div className={locals.quickActionsHeader}>{t('in-events:notes.summarizeIncident')}</div>
+            <div className={locals.quickActionsDescription}>{t('in-events:notes.summarizeIncidentDescription')}</div>
           </>
         )}
-        {aiFlagEnabled && (
-          <CarbonButton
-            kind={'tertiary'}
-            className={locals.actionsButton}
-            size={'sm'}
-            renderIcon={() => <SvgIcon type="lib_generate_ai" color="currentColor" size="xs" />}
-            // onClick={() => handleAIGenerateNote()}
-          >
-            <div className={locals.quickActionButtonContents}>{summary}</div>
-          </CarbonButton>
-        )}
+        <CarbonButton
+          kind={'tertiary'}
+          className={locals.actionsButton}
+          size={'sm'}
+          renderIcon={() => <SvgIcon type="lib_generate_ai" color="currentColor" size="xs" />}
+          // onClick={() => handleAIGenerateNote()}
+        >
+          <div className={locals.quickActionButtonContents}>{t('in-events:notes.generateSummary')}</div>
+        </CarbonButton>
       </div>
     </div>
   );
