@@ -29,10 +29,7 @@ export default function PostgresSpanDetailView({ span }) {
           <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
         </Di>
       ) : null}
-      {databaseIntegrations &&
-        databaseIntegrations.map(integration => {
-          return <ExternalIntegrationLink integration={integration} />;
-        })}
+      {databaseIntegrations && <ExternalIntegrationLink integrations={databaseIntegrations} />}
     </Dl>
   );
 }

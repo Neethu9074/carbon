@@ -12,20 +12,22 @@ import { t } from 'in-i18n';
 
 import locals from './ExternalIntegrationLink.mless';
 
-interface Props {
-  integration: {
-    url: string;
-    type: string;
-  };
+interface Integration {
+  url: string;
+  type: string;
 }
 
-const ExternalIntegrationLink = ({ integration }: Props) => {
+const ExternalIntegrationLink = ({ integrations }: { integrations: Integration[] }) => {
   return (
-    <Button href={integration.url} target="_blank" kind="subtle" className={locals.marginBottom}>
-      {t('in-analyze:traceDetail.components.callDetails.findSQL', {
-        type: integration.type
-      })}
-    </Button>
+    <>
+      {integrations.map((integration: Integration) => (
+        <Button href={integration.url} target="_blank" kind="subtle" className={locals.marginBottom}>
+          {t('in-analyze:traceDetail.components.callDetails.findSQL', {
+            type: integration.type
+          })}
+        </Button>
+      ))}
+    </>
   );
 };
 export default ExternalIntegrationLink;

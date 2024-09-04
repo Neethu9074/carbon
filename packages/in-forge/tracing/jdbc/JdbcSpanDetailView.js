@@ -26,10 +26,7 @@ export default function JdbcSpanDetailView({ span }) {
             <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         )}
-        {databaseIntegrations &&
-          databaseIntegrations.map(integration => {
-            return <ExternalIntegrationLink integration={integration} />;
-          })}
+        {databaseIntegrations && <ExternalIntegrationLink integrations={databaseIntegrations} />}
         {connection && (
           <Di title={t('in-forge:tracing.jdbc.titleConnection')} verticalDisplay>
             <Code softWrap code={connection} showLineNumbers={false} />
