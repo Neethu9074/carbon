@@ -422,12 +422,90 @@ export function StackedArea() {
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
+          title: 'extrapolateMissingMetrics: not set',
           timeConfig: generateTimeframe(oneMinute),
           y1: {
             renderer: Renderer.stackedArea,
             labels: ['1', '2', '3', '4', '5'],
             metricIds: [],
-            metrics: generateMultipleMetricsWithGaps(5, 30, 10, oneMinute)
+            metrics: generateMultipleMetricsWithGaps(5, 30, 10, oneMinute, true)
+          }
+        }}
+      />
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          title: 'extrapolateMissingMetrics: true',
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.stackedArea,
+            labels: ['1', '2', '3', '4', '5'],
+            metricIds: [],
+            extrapolateMissingMetrics: true,
+            metrics: generateMultipleMetricsWithGaps(5, 30, 10, oneMinute, true)
+          }
+        }}
+      />
+    </>
+  );
+}
+export function StackedAreaNonUniformGaps() {
+  const labels = ['blue', 'green', 'purple', 'red', 'other', 'another'];
+  const twolabels = labels.slice(0, 2);
+  const threelabels = labels.slice(0, 3);
+  return (
+    <>
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          title: 'Two lines, Extrapolate=false',
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.stackedArea,
+            labels: twolabels,
+            metricIds: [],
+            metrics: generateMultipleMetricsWithGaps(twolabels.length, 30, 10, oneMinute, true)
+          }
+        }}
+      />
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          title: 'Two lines, Extrapolate=true',
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.stackedArea,
+            labels: twolabels,
+            metricIds: [],
+            extrapolateMissingMetrics: true,
+            metrics: generateMultipleMetricsWithGaps(twolabels.length, 30, 10, oneMinute, true)
+          }
+        }}
+      />
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          title: 'Three lines, Extrapolate=false',
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.stackedArea,
+            labels: threelabels,
+            metricIds: [],
+            metrics: generateMultipleMetricsWithGaps(threelabels.length, 30, 10, oneMinute, true)
+          }
+        }}
+      />
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          title: 'Three lines, Extrapolate=true',
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.stackedArea,
+            labels: threelabels,
+            metricIds: [],
+            extrapolateMissingMetrics: true,
+            metrics: generateMultipleMetricsWithGaps(threelabels.length, 30, 10, oneMinute, true)
           }
         }}
       />
@@ -895,10 +973,10 @@ export function Points() {
   );
 }
 
-function generateMultipleMetricsWithGaps(numSeries, numMetrics, maxValue, windowSize) {
+function generateMultipleMetricsWithGaps(numSeries, numMetrics, maxValue, windowSize, nonUniform = false) {
   const series = [];
   for (let i = 0; i < numSeries; i++) {
-    series[i] = generateMetricsWithGaps(numMetrics, maxValue, windowSize);
+    series[i] = generateMetricsWithGaps(numMetrics, maxValue, windowSize, nonUniform, i);
   }
   return series;
 }
@@ -911,9 +989,28 @@ function generateMultipleMetrics(numSeries, numMetrics, maxValue, windowSize) {
   return series;
 }
 
-function generateMetricsWithGaps(numMetrics, maxValue, windowSize) {
+function shiftMetrics(metrics) {
+  let temp = metrics[0][1];
+  for (let i = 1; i < metrics.length; i++) {
+    metrics[i - 1][1] = metrics[i][1];
+  }
+  metrics[metrics.length - 1][1] = temp;
+  return metrics;
+}
+
+function generateMetricsWithGaps(numMetrics, maxValue, windowSize, nonUniform = false, whichSeries) {
   const metrics = generateMetrics(numMetrics, maxValue, windowSize);
-  return metrics.slice(0, 5).concat(metrics.slice(10, 15)).concat(metrics.slice(23, 25)).concat(metrics.slice(27, 30));
+  const slicedMetrics = metrics
+    .slice(0, 5)
+    .concat(metrics.slice(10, 15))
+    .concat(metrics.slice(23, 25))
+    .concat(metrics.slice(27, 30));
+  const shiftGaps = nonUniform === true && whichSeries % 2 === 0;
+  if (shiftGaps) {
+    return shiftMetrics(slicedMetrics);
+  } else {
+    return metrics;
+  }
 }
 
 function generateTimeframe(windowSize) {

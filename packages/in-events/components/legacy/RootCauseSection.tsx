@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { List, Map } from 'immutable';
 
 import {
@@ -19,18 +19,14 @@ import {
   Stack,
   Typography
 } from '@instana/components';
-import { Observable, combineLatest } from '@instana/observables';
 import { Snapshot, TimeConfig } from '@instana/types';
 import { themes } from '@instana/design-tokens';
-import { useObservable } from '@instana/hooks';
 
 import {
-  RCAAssociatedEventsClick,
   RCAFeedbackClosedManuallyTracker,
   RCAFeedbackNextTracker,
   RCAFeedbackSkipTracker,
   RCAFeedbackSubmitTracker,
-  expandedRCAEventCardTracker,
   helpfulRCASuggestionTracker,
   unhelpfulRCASuggestionTracker
 } from 'in-events/tracker';
@@ -39,12 +35,8 @@ import RootCauseEntityDetails from 'in-events/components/legacy/RootCauseEntityD
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
-import EventListItem from 'in-events/components/legacy/EventListItem';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
-//@ts-expect-error
-import { getEvent } from 'in-stores/events';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { minutes } from 'in-services/time/time';
@@ -145,12 +137,9 @@ export default function RootCauseSection({
                     }
                     probabilityScore={rootCause.get('probFailure') as number}
                     incidentTimeWindow={getIncidentTimeConfig(incident)}
-                    key={idx}
-                  />
-                  <div className={locals.sectionLine} /> {/* SectionLine component has too big of a bottom margin :( */}
-                  <AssociatedEvents
                     associatedEvents={rootCause.get('events') as List<string>}
                     latestSnapshot={latestSnapshot}
+                    key={idx}
                   />
                 </CarbonTabPanel>
               );
@@ -194,63 +183,6 @@ function ProbableRootCauseCard({ title, children, incident }: ProbableRootCauseC
         </Card>
       </Col>
     </Row>
-  );
-}
-
-interface AssociatedEventsProps {
-  associatedEvents: List<string>;
-  latestSnapshot: Snapshot;
-}
-
-function AssociatedEvents({ associatedEvents, latestSnapshot }: AssociatedEventsProps) {
-  const [associatedEventsObservables, setAssociatedEventsObservables] = useState<Observable<EventOrMap[]> | null>(null);
-  const [expanded, setExpanded] = useState<boolean>(false);
-
-  const associatedEventsData = useObservable(associatedEventsObservables, [associatedEventsObservables]);
-
-  useEffect(() => {
-    setAssociatedEventsObservables(combineLatest(associatedEvents.toArray().map(getEvent)));
-  }, [associatedEvents]);
-
-  if (!associatedEventsData) return <LoadingIndicator />;
-
-  return (
-    <Card
-      leftHeaderContent={
-        <Typography variant="body-bold">
-          {t('in-events:RCA.relatedEventsLabel', {
-            number_of_events: Array.isArray(associatedEventsData) ? associatedEventsData.length : 0
-          })}
-        </Typography>
-      }
-      onHeaderBackgroundClicked={() => {
-        RCAAssociatedEventsClick({ expanded: !expanded });
-        setExpanded(!expanded);
-      }}
-      headerClassName={locals.associatedEventsCardHeader}
-      rightHeaderContent={
-        <IconButton color="black" type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="compact" />
-      }
-      className={locals.associatedEventsCard}
-      hasMarginBottom={expanded}
-      useMaxAvailableHeight={false}
-    >
-      {expanded &&
-        associatedEventsData?.map((_event: EventOrMap) => (
-          <div onClick={expandedRCAEventCardTracker}>
-            <EventListItem
-              key={_event.get('id') as string}
-              triggeringProblemId={
-                associatedEventsData.length > 0 ? (associatedEventsData[0].get('id') as string) : undefined
-              }
-              event={_event}
-              latestSnapshot={latestSnapshot}
-              setBackground={themes.default.ids.color.option['deep-purple'][500]}
-              setIconColor={themes.default.ids.color.option.white}
-            />
-          </div>
-        ))}
-    </Card>
   );
 }
 

@@ -9,10 +9,6 @@ import {
   SETTINGS_ROLE_SUBMIT,
   SETTINGS_ROLE_OPEN_SUBMIT_FORM,
   SETTINGS_EVENT_VIEW,
-  SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT,
-  SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM,
-  SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM,
-  SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM,
   SETTINGS_EVENT_SUBMIT,
   SETTINGS_EVENT_OPEN_SUBMIT_FORM,
   SETTINGS_EVENT_ENABLE,
@@ -93,11 +89,6 @@ export const clickTestAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_
 export const clickAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_CLICK, e);
 export const deleteAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_DELETE, e);
 export const editAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_EDIT, e);
-
-export const submitAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT, e);
-export const addItemAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM, e);
-export const editAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM, e);
-export const removeItemAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM, e);
 
 export const submitEventTracker = (e: Object) => track(SETTINGS_EVENT_SUBMIT, e);
 export const openEventSubmitFormTracker = (e: Object) => track(SETTINGS_EVENT_OPEN_SUBMIT_FORM, e);

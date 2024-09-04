@@ -41,7 +41,7 @@ interface createOrSaveAlertProps {
   isSimpleMode: boolean;
   eumType: string;
   duplicateFrom?: string;
-  trackCta?: CtaTrackingFunction; // TODO remove optional once mobile app is integrated
+  trackCta: CtaTrackingFunction;
 }
 
 export function createOrSaveAlert({

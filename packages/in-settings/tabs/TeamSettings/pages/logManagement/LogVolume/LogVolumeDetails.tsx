@@ -64,7 +64,7 @@ export default function LogVolumeDetails({
                   <span>{totalVolume.gb} GB</span>
                 </div>
                 <div className={locals.tableRU}>
-                  <span>{totalVolume.ru} RU</span>
+                  <span>{Math.ceil(totalVolume.ru)} RU</span>
                 </div>
               </Li>
               <div>
@@ -83,7 +83,9 @@ export default function LogVolumeDetails({
                                 {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
                               </span>
                               <span className={locals.tableGB}>{(retentionPeriods[days] as VolumeUnits).gb} GB</span>
-                              <span className={locals.tableRU}>{(retentionPeriods[days] as VolumeUnits).ru} RU</span>
+                              <span className={locals.tableRU}>
+                                {Math.round((retentionPeriods[days] as VolumeUnits).ru)} RU
+                              </span>
                             </div>
                           </Li>
                         ))}
@@ -100,7 +102,9 @@ export default function LogVolumeDetails({
                                   {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
                                 </span>
                                 <span className={locals.tableGB}>{partialSums && partialSums[days].gb} GB</span>
-                                <span className={locals.tableRU}>{partialSums && partialSums[days].ru} RU</span>
+                                <span className={locals.tableRU}>
+                                  {partialSums && Math.round(partialSums[days].ru)} RU
+                                </span>
                                 <span className={locals.collapseRow}>
                                   <SvgIcon
                                     type={

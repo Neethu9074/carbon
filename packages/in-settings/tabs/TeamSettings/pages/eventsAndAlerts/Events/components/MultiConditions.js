@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Stack, SvgIcon, Pill, RadioButton, Button } from '@instana/components';
+import { Stack, SvgIcon, Pill, RadioButton, IconButton, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import { putMetricDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
@@ -150,10 +150,12 @@ export function MultiConditions({
               <Stack direction="horizontal" gap="xsmall" align="center">
                 <div className={locals.conditionWrapper}>{conditionForm}</div>
                 <Tooltip content={rulesForm.size === 1 && 'There needs to be at least one condition.'} delay={500}>
-                  <SvgIcon
+                  <IconButton
+                    kind="primary"
                     aria-label="delete"
                     className={classNames({
-                      [locals.disabledDelete]: buttonDisabled
+                      [locals.disabledDelete]: buttonDisabled,
+                      [locals.deleteButton]: true
                     })}
                     color={buttonDisabled ? '#86cff3' : themes.default.ids.color.option.blue['400']}
                     type="lib_actions_delete"

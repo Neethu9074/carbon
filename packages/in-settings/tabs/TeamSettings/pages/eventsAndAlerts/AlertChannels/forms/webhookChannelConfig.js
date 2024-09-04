@@ -7,7 +7,7 @@ import { createMapForm, createField, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { List } from 'immutable';
 
-import { SvgIcon, DescriptionList, DescriptionItem, Button } from '@instana/components';
+import { DescriptionList, DescriptionItem, IconButton, Button } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -345,7 +345,8 @@ function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
               </Col>
             </Row>
 
-            <SvgIcon
+            <IconButton
+              kind="primary"
               className={locals.removeButton}
               type="lib_actions_delete"
               onClick={() => !disabled && removeHeader(form, onChange, i)}

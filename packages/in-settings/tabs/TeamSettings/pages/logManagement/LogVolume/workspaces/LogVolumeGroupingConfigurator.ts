@@ -56,7 +56,7 @@ export const groupTags = {
     },
     {
       type: 'TAG',
-      label: 'Kubernetes deployement Name',
+      label: 'Kubernetes deployment Name',
       icon: 'lib_kubernetes_cluster',
       tagName: 'kubernetes_deployment_name',
       isGroupingTag: true,
@@ -112,7 +112,7 @@ export const groupTags = {
     },
     {
       name: 'kubernetes_deployment_name',
-      label: 'Kubernetes deployement Name',
+      label: 'Kubernetes deployment Name',
       type: 'STRING',
       description: null,
       canApplyToSource: false,

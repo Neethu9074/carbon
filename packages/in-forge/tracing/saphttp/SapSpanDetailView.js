@@ -32,7 +32,7 @@ export function SapSpanDetailViewDescriptionList({ span }) {
       <Di title={t('in-forge:tracing.sap.rollOutTime')}>{span.getIn(['data', 'sap', 'rollOutTime'])}</Di>
       <Di title={t('in-forge:tracing.sap.queueTime')}>{span.getIn(['data', 'sap', 'queueTime'])}</Di>
       <Di title={t('in-forge:tracing.sap.rollWaitTime')}>{span.getIn(['data', 'sap', 'rollWaitTime'])}</Di>
-      <ErrorDescriptionItem error={span.getIn(['data', 'sap', 'error'])} />
+      <ErrorDescriptionItem error={span.getIn(['data', 'sap', 'errorMessage'])} />
     </>
   );
 }

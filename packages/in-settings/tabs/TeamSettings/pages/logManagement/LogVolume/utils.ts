@@ -48,13 +48,13 @@ export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData
 
       if (retentionDays === 30) {
         dataMap[label][monthYearKey].days30.gb += +volumeGB.toFixed(2);
-        dataMap[label][monthYearKey].days30.ru += +volumeRU.toFixed(2);
+        dataMap[label][monthYearKey].days30.ru += +volumeRU;
       } else if (retentionDays === 60) {
         dataMap[label][monthYearKey].days60.gb += +volumeGB.toFixed(2);
-        dataMap[label][monthYearKey].days60.ru += +volumeRU.toFixed(2);
+        dataMap[label][monthYearKey].days60.ru += +volumeRU;
       } else if (retentionDays === 90) {
         dataMap[label][monthYearKey].days90.gb += +volumeGB.toFixed(2);
-        dataMap[label][monthYearKey].days90.ru += +volumeRU.toFixed(2);
+        dataMap[label][monthYearKey].days90.ru += +volumeRU;
       }
     }
   }
@@ -71,7 +71,7 @@ export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData
         label,
         month,
         year: parseInt(yearValue, 10),
-        totalVolume: { gb: +totalGB.toFixed(2), ru: +totalRU.toFixed(2) },
+        totalVolume: { gb: +totalGB.toFixed(2), ru: +totalRU },
         retentionPeriods: retentionData
       });
     }
@@ -277,7 +277,7 @@ export function transformLabeledData(data: any[]) {
 
       if (periodData) {
         periodData.volumeGB += +volumeGB.toFixed(2);
-        periodData.volumeRU += +volumeRU.toFixed(2);
+        periodData.volumeRU += +volumeRU;
       } else {
         monthYear.retentionPeriods[period].push({
           label: label === UNCATEGORIZED_LABEL ? NDash : label,
@@ -287,7 +287,7 @@ export function transformLabeledData(data: any[]) {
       }
 
       monthYear.partialSums[period].gb += +volumeGB.toFixed(2);
-      monthYear.partialSums[period].ru += +volumeRU.toFixed(2);
+      monthYear.partialSums[period].ru += +volumeRU;
     });
 
     return result;
@@ -302,14 +302,14 @@ function roundDataValues(data: any): any[] {
         key,
         {
           gb: Math.round(value.gb * 100) / 100,
-          ru: Math.round(value.ru * 100) / 100
+          ru: value.ru
         }
       ])
     );
 
     const roundedTotalVolume = {
       gb: Math.round(item.totalVolume.gb * 100) / 100,
-      ru: Math.round(item.totalVolume.ru * 100) / 100
+      ru: item.totalVolume.ru
     };
 
     return {

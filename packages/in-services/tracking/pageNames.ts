@@ -111,6 +111,7 @@ export const pageNames = Object.freeze({
   events_all: 'All',
   local_alerts: 'Local Alert Details',
   logs: 'Logs',
+  log_smart_alerts: 'Log Smart Alerts',
   global_alerts: 'Global Alert Details',
   instances: 'Instances',
   deployment_summary: 'Deployment > Summary',
@@ -124,7 +125,8 @@ export const pageNames = Object.freeze({
   slo_config: 'Service Level Objective > Configuration',
   automation_action_catalog: 'Automation > Action Catalog',
   automation_action_history: 'Automation > Action History',
-  automation_policies: 'Automation > Policies'
+  automation_policies: 'Automation > Policies',
+  custom_payload: 'Custom Payload'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];

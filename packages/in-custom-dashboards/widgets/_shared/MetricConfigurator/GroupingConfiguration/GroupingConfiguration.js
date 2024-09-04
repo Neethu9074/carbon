@@ -24,7 +24,7 @@ export default function GroupingConfiguration({
   tagFilterExpressionField,
   onByChange,
   onDirectionChange,
-  onIncludeOthersChange,
+  onIncludeOthersChange = () => {},
   tagCatalog,
   GroupingConfigurator,
   hasError,
@@ -109,7 +109,7 @@ GroupingConfiguration.propTypes = {
   }),
   onByChange: PropTypes.func.isRequired,
   onDirectionChange: PropTypes.func.isRequired,
-  onIncludeOthersChange: PropTypes.func.isRequired,
+  onIncludeOthersChange: PropTypes.func,
   tagCatalog: PropTypes.object,
   tagFilterExpressionField: PropTypes.shape({
     valid: PropTypes.any,

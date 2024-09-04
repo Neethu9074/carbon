@@ -273,7 +273,7 @@ module.exports = exports = [
   {
     uiClientKey: 'sloRebornWidgetEnabled',
     instanaCtlKey: 'feature.slo.reborn.widget.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
@@ -353,7 +353,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsStandardInclusionEnabled',
     instanaCtlKey: 'feature.bizops.standard.inclusion.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
@@ -474,6 +474,11 @@ module.exports = exports = [
     uiClientKey: 'rcaUIEnabled',
     instanaCtlKey: 'feature.rca.ui.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'rcaLogsEnabled',
+    instanaCtlKey: 'feature.rca.logs.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'eventFeedbackEnabled',
@@ -764,6 +769,11 @@ module.exports = exports = [
     uiClientKey: 'applicationSmartAlertDialogView',
     instanaCtlKey: 'application.smart.alerts.dialog.view',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'extrapolateMissingStackedAreaValues',
+    instanaCtlKey: 'feature.charts.extrapolateMissingStackedAreaValues',
+    defaultValue: false
   },
   {
     uiClientKey: 'increaseAggregationEnabled',

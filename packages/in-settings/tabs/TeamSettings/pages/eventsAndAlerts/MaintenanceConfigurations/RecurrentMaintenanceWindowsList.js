@@ -21,6 +21,13 @@ import {
   switchToScheduledMaintenanceWindowsTabTracker
 } from 'in-settings/tracker';
 import {
+  SETTINGS_MAINTENANCE_WINDOW_EDIT,
+  SETTINGS_MAINTENANCE_WINDOW_NEW,
+  SETTINGS_MAINTENANCE_WINDOW_PAUSE,
+  SETTINGS_MAINTENANCE_WINDOW_REMOVE,
+  SETTINGS_MAINTENANCE_WINDOW_RESUME
+} from 'in-services/tracking/eventNames';
+import {
   pauseMaintenanceConfig,
   resumeMaintenanceConfig,
   getMaintenanceConfigsMutableV2,
@@ -29,6 +36,7 @@ import {
 import RecurrentMaintenanceConfigForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
 import FeedbackDialog from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/FeedbackDialog';
 import { getEndAndTimeDurationOfWindow } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
+import { maintenanceWindowCTATracker } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/tracker';
 import {
   getEntityIdView,
   teamSettingsAlertingMaintenanceConfigurations,
@@ -40,6 +48,7 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { formatDateTime } from 'in-services/formatters/date';
 import List from 'in-settings/components/List';
@@ -58,6 +67,7 @@ export default function RecurrentMaintenanceWindowsList(props) {
   const [mwTypeView, setMwTypeView] = useState('ACTIVE');
   const [numbers, setNumbers] = useState({ active: 0, scheduled: 0, expired: 0 });
   const [settings, saveSetting] = useSettingsEditor();
+  const { location } = useNavigation();
 
   useEffect(() => {
     let initialNumState = { active: 0, scheduled: 0, expired: 0 };
@@ -94,6 +104,8 @@ export default function RecurrentMaintenanceWindowsList(props) {
           type: entity.scheduling.type,
           currentState: entity.state
         });
+        // Sending type of maintenance window deleted
+        maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_REMOVE, location.pathname, entity.scheduling.type);
         setSaved(true);
         return deleteMaintenanceConfigV2(entity.id);
       }
@@ -109,9 +121,21 @@ export default function RecurrentMaintenanceWindowsList(props) {
         };
         if (entity.paused) {
           resumeMaintenanceWindowTracker(entityEventObject);
+          maintenanceWindowCTATracker(
+            SETTINGS_MAINTENANCE_WINDOW_RESUME,
+            location.pathname,
+            undefined,
+            entityEventObject
+          );
           return resumeMaintenanceConfig(entity.id);
         } else {
           pauseMaintenanceWindowTracker(entityEventObject);
+          maintenanceWindowCTATracker(
+            SETTINGS_MAINTENANCE_WINDOW_PAUSE,
+            location.pathname,
+            undefined,
+            entityEventObject
+          );
           return pauseMaintenanceConfig(entity.id);
         }
       },
@@ -175,9 +199,13 @@ export default function RecurrentMaintenanceWindowsList(props) {
         }}
         getDetailsHref={entity => {
           editMaintenanceWindowTracker();
+          maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_EDIT, location.pathname);
           return getEntityHref(teamSettingsAlertingMaintenanceConfigurations, entity.id);
         }}
-        trackEvent={newMaintenanceWindowTracker}
+        trackEvent={() =>
+          maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_NEW, location.pathname) &&
+          newMaintenanceWindowTracker()
+        }
         searchAttributes={['name', 'query', getStartAsString, getEndAsString, 'state']}
         extraFilters={recurrentMaintenanceWindowsTabsEnabled ? [element => filteringMWList(element, mwTypeView)] : []}
       />
