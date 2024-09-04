@@ -5,9 +5,8 @@
 
 import React, { ReactNode, useEffect, useState } from 'react';
 
-import { Message, Stack } from '@instana/components';
+import { Message, Stack, Button } from '@instana/components';
 import { TagCatalog } from '@instana/types';
-import { Button } from '@instana/legacy';
 
 import {
   GetSuggestionLabel,

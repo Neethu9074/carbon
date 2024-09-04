@@ -11,6 +11,8 @@ import { Link } from '@instana/components';
 
 import { role } from 'in-stores/user';
 
+export const DEFAULT_NUMBER_SKELETON_ROWS = 5;
+
 export function getNoDataHeader(label: string) {
   switch (label) {
     case 'applicationWidget':
@@ -121,6 +123,8 @@ export const getItemId = (item: any, widgetName?: string) => {
       return item?.isKubernetes ? item.cluster.id : item.id;
     case 'businessMonitoringWidget':
       return item?.businessProcess?.definitionId;
+    case 'dashboardWidget':
+      return item?.id;
     default:
       return null;
   }

@@ -27,6 +27,7 @@ import connectTo from 'in-hoc/connectTo';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import ViewAllButton from 'in-plg/pages/WelcomePage/widgets/table/ViewAllButton';
 import { playwithEnabled } from 'in-services/featureFlags';
+import { pendingResult } from 'in-services/fixedObjects';
 import RegularItemList from './table/RegularItemList';
 import { timeConfig$ } from 'in-stores/time/config';
 import { t } from 'in-i18n';
@@ -95,12 +96,10 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const header = dashboardTileProps?.header ?? '';
   let hits = 0;
   let hasContent = false;
-  let result = useObservable(getItems({ timeConfig, query, infraType, syntheticType, pageSize: 5 }), [
-    timeConfig,
-    query,
-    infraType,
-    syntheticType
-  ]);
+  let result = useObservable(
+    getItems({ timeConfig, query, infraType, syntheticType, pageSize: 5 }).startWith(pendingResult),
+    [timeConfig, query, infraType, syntheticType]
+  );
 
   const favIds = getFlattenedIds(pinnedItemIdsByType, pinnedItemTypes) ?? [];
   let numberOfRegularItemsToShow: number;

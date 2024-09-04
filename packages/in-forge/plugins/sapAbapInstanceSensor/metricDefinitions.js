@@ -899,5 +899,12 @@ export default [
     ],
     min: 0,
     formatter: millis.detailed
+  },
+  {
+    metrics: [getDynamicMetricMatch('updateErrorStats', 'noVariableMsgPart', t('in-sap:dashboards.noVariableMsgPart'))],
+    labels: [t('in-sap:dashboards.noVariableMsgPart')],
+    category: [t('in-sap:dashboards.updateError')],
+    min: 0,
+    formatter: number.compact
   }
 ];

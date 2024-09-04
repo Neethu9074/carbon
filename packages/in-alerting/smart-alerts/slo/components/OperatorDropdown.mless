@@ -5,8 +5,7 @@
  */
 
 :local {
-  .dropdown {
-    display: inline-block;
-    min-width: 12rem;
+  .dropdownContainer {
+    width: 6rem;
   }
 }

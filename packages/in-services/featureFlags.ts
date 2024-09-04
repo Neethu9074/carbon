@@ -250,6 +250,7 @@ export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', f
 export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
 
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', true);
+export const rcaLogsEnabled = isFeatureFlagEnabled('rcaLogsEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
 export const incidentSummarizationTimelineEnabled = isFeatureFlagEnabled('incidentSummarizationTimelineEnabled', true);
@@ -283,3 +284,4 @@ export const carbonFileUploaderEnabled = isFeatureFlagEnabled('carbonFileUploade
 export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabled', false);
 export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetricsEnabled', false);
 export const increaseAggregationEnabled = isFeatureFlagEnabled('increaseAggregationEnabled', false);
+export const extrapolateMissingStackedAreaValuesEnabled = isFeatureFlagEnabled('extrapolateMissingStackedAreaValues');

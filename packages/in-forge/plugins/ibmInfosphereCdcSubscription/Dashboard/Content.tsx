@@ -14,6 +14,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number, bytes, millis, seconds } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
 import { t } from 'in-i18n';
@@ -67,6 +68,132 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
             </Card>
           </Col>
         </Row>
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.dashboard.memory')}>
+        <Columize>
+          <Card title={t('in-forge:plugins.ibmInfosphereCdcSubscription.source')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: bytes.compact,
+                metrics: [
+                  'sourceDatastoreFreeMemory',
+                  'sourceDatastoreMaxMemory',
+                  'sourceDatastoreTotalMemory',
+                  'sourceDatastoreGlobalMemory'
+                ],
+                labels: [
+                  t('in-forge:plugins.ibmInfosphereCdcSubscription.freeMem'),
+                  t('in-forge:plugins.ibmInfosphereCdcSubscription.maxMem'),
+                  t('in-forge:plugins.ibmInfosphereCdcSubscription.totalMem'),
+                  t('in-forge:plugins.ibmInfosphereCdcSubscription.globalMem')
+                ],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+          <Card title={t('in-forge:plugins.ibmInfosphereCdcSubscription.target')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: bytes.compact,
+                metrics: [
+                  'targetDatastoreFreeMemory',
+                  'targetDatastoreMaxMemory',
+                  'targetDatastoreTotalMemory',
+                  'targetDatastoreGlobalMemory'
+                ],
+                labels: [
+                  t('in-forge:plugins.ibmInfosphereCdcSubscription.freeMem'),
+                  t('in-forge:plugins.ibmInfosphereCdcSubscription.maxMem'),
+                  t('in-forge:plugins.ibmInfosphereCdcSubscription.totalMem'),
+                  t('in-forge:plugins.ibmInfosphereCdcSubscription.globalMem')
+                ],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Columize>
+      </DashboardSection>
+      <DashboardSection>
+        <Row verticallyStretchColumns>
+          <Col lg={6}>
+            <Card
+              title={t('in-forge:plugins.ibmInfosphereCdcSubscription.dashboard.databaseWorkload')}
+              useMaxAvailableHeight
+            >
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: number.compact,
+                  metrics: ['dbTotalTransaction', 'dbInscopeTransaction'],
+                  labels: [
+                    t('in-forge:plugins.ibmInfosphereCdcSubscription.totalTransactions'),
+                    t('in-forge:plugins.ibmInfosphereCdcSubscription.inscopeTransactions')
+                  ],
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          </Col>
+          <Col lg={6}>
+            <Card
+              title={t('in-forge:plugins.ibmInfosphereCdcSubscription.dashboard.garbageCollection')}
+              useMaxAvailableHeight
+            >
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: number.compact,
+                  metrics: ['sourceDatastoreGarbageCount'],
+                  labels: [t('in-forge:plugins.ibmInfosphereCdcSubscription.garbageCollection')],
+                  type: 'line'
+                }}
+                y2={{
+                  formatter: millis.compact,
+                  metrics: ['sourceDatastoreGarbageCPU'],
+                  labels: [t('in-forge:plugins.ibmInfosphereCdcSubscription.garbageCollectionCPU')],
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          </Col>
+        </Row>
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.dashboard.transactionHistogram')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: [
+              'histogramZeroToHalfX',
+              'histogramHalfToOneX',
+              'histogramOneToTwoX',
+              'histogramTwoToFourX',
+              'histogramFourToEightX',
+              'histogramEightXPlus'
+            ],
+            labels: [
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.zeroToHalf'),
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.halfToOne'),
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.oneToTwo'),
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.twoToFour'),
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.fourToEight'),
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.moreThanEight')
+            ],
+            type: 'line',
+            formatter: number.compact
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
       </DashboardSection>
 
       <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceEngine')}>
@@ -299,6 +426,23 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
               t('in-forge:plugins.ibmInfosphereCdcSubscription.logParser')
             ],
             type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.ibmInfosphereCdcSubscription.dashboard.singleScrape')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['scrapeDiskWrites', 'scrapeDiskReads', 'scrapeDiskSize'],
+            labels: [
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.diskWrites'),
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.diskReads'),
+              t('in-forge:plugins.ibmInfosphereCdcSubscription.diskSize')
+            ],
+            type: 'line',
+            formatter: bytes.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />

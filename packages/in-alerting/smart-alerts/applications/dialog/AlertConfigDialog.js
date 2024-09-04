@@ -21,12 +21,13 @@ import { useLinkToAlertConfig, useLinkToGlobalAlertConfigWithoutAPDashboard } fr
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
-import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
+import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t } from 'in-i18n';
 
@@ -52,6 +53,7 @@ export default function AlertConfigDialog({
   const [messages, setMessages] = useState([]);
   const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
   const getLinkToAlertConfig = useLinkToAlertConfig();
+  const { trackCta } = useSegmentTracking(); // For segment tracking
 
   useEffect(() => {
     if (migrationMode) {
@@ -91,7 +93,8 @@ export default function AlertConfigDialog({
               getLinkToGlobalAlertConfigWithoutAPDashboard,
               getLinkToAlertConfig,
               simpleMode,
-              duplicateFrom
+              duplicateFrom,
+              trackCta
             });
           }}
         />
@@ -110,7 +113,8 @@ export default function AlertConfigDialog({
       getLinkToGlobalAlertConfigWithoutAPDashboard,
       getLinkToAlertConfig,
       simpleMode,
-      duplicateFrom
+      duplicateFrom,
+      trackCta
     });
   };
 
@@ -151,7 +155,8 @@ function createOrSaveAlert({
   getLinkToGlobalAlertConfigWithoutAPDashboard,
   getLinkToAlertConfig,
   simpleMode,
-  duplicateFrom
+  duplicateFrom,
+  trackCta
 }) {
   setIsSaving(true);
   // remove existing error messages:
@@ -180,7 +185,7 @@ function createOrSaveAlert({
       config => {
         onClose(config);
         showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
-        trackAlertUpdated(alertConfig);
+        trackCta(ALERTING_UPDATED, { ...alertConfig, dialogMode: 'Advanced' });
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
@@ -198,7 +203,7 @@ function createOrSaveAlert({
 
         showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
         const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
-        trackAlertSaved(newConfig, simpleMode);
+        trackCta(ALERTING_SAVED, { ...newConfig, dialogMode: simpleMode ? 'Simple' : 'Advanced' });
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

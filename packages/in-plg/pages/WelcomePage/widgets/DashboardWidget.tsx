@@ -6,26 +6,32 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Link, Pill, Typography } from '@instana/components';
+import { IconButton, Link, Pill, Typography } from '@instana/components';
+import { CustomDashboard, Result, UserResult } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { UserResult } from '@instana/types';
+import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
 import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
+//@ts-expect-error doesn't contain type file
+import { customDashboard as customDashboardType } from 'in-cockpit/starredItems/types';
 import useGetCustomDashboardPermissions from 'in-plg/pages/WelcomePage/widgets/hooks/useGetCustomDashboardPermissions';
 //@ts-expect-error doesn't contain type file
 import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 // @ts-expect-error needs ts migration
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-cockpit/starredItems';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
-import { playwithEnabled, welcomePageV2Enabled } from 'in-services/featureFlags';
 import { getCustomDashboards, getUsers } from 'in-custom-dashboards/api';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { role } from 'in-stores/user';
+import { welcomePageV2Enabled } from 'in-services/featureFlags';
+import { getCustomDashboard } from 'in-custom-dashboards/api';
+import { hasError, isLoading } from 'in-services/util/result';
 
 export default function DashboardWidget({
   config,
@@ -51,6 +57,10 @@ export default function DashboardWidget({
       {
         header: t('in-plg:welcomepage.component.dashboardWidget.permissions'),
         key: 'permissions'
+      },
+      {
+        key: 'favourite',
+        header: ''
       }
     ];
   };
@@ -83,8 +93,50 @@ export default function DashboardWidget({
       getContent({ item }) {
         return <DashboardPermission id={item.id} />;
       }
+    },
+    {
+      key: 'favourite',
+      getContent({ id, item, isDisabled = false, isFavourite = false }) {
+        return (
+          <IconButton
+            type={
+              isFavourite
+                ? 'lib_actions_favorite_filled'
+                : item?.pinned
+                ? 'lib_actions_favorite_filled'
+                : 'lib_actions_favorite'
+            }
+            onClick={() => handleFavoriteClick(id, item, isFavourite)}
+            iconSize="xs"
+            disabled={isDisabled}
+          />
+        );
+      }
     }
   ];
+
+  function handleFavoriteClick(id: string, item: CustomDashboard, isFavourite: boolean) {
+    if (!id && !item) return;
+    if (isFavourite) {
+      remove({ id: id, type: customDashboardType });
+    } else {
+      add({
+        id: item?.id,
+        label: item?.title,
+        type: customDashboardType
+      });
+    }
+  }
+
+  function getItem(id: string) {
+    return getCustomDashboard(id).map((dashboardResult: Result<CustomDashboard>) => {
+      if (isLoading(dashboardResult) || hasError(dashboardResult)) {
+        return just(dashboardResult);
+      } else {
+        return dashboardResult;
+      }
+    });
+  }
 
   const generalProps = {
     ...config,
@@ -101,10 +153,10 @@ export default function DashboardWidget({
     <DatatableWrapper
       {...generalProps}
       query=""
-      hasAddMore={!playwithEnabled}
+      pinnedItemTypes={[customDashboardType]}
       tableType="dashboardWidget"
-      //@ts-expect-error canCreatePublicCustomDashboards doesn't exist on type role
-      hasAddPermission={role?.canCreatePublicCustomDashboards}
+      hasAddPermission
+      hasAddMore
       isDashboardWidget
       maxItems={maxItems}
       viewAll={viewAll}
@@ -112,6 +164,7 @@ export default function DashboardWidget({
       getItems={getCustomDashboards}
       addMore={addNewDashboard}
       addData={addNewDashboard}
+      getItem={getItem}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
       searchPlaceholderLabel={t('in-plg:welcomepage.component.dashboardWidget.searchPlaceholderLabel')}
@@ -130,9 +183,9 @@ function DashboardPermission({ id }: { id: string }) {
       setDashboardPermission(permissionResult);
     }
   }, [permissionResult]);
-  return (
+  return dashboardPermission ? (
     <Pill kind="info" type="gray">
       {dashboardPermission}
     </Pill>
-  );
+  ) : null;
 }

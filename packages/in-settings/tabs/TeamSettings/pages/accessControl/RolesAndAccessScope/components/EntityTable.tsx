@@ -86,6 +86,7 @@ export default function EntityTable<ITEM_CONFIG extends ListItem>({
       columnDefinitions={columnDefinition}
       renderPagination={() => hasMorePages && <EntityTablePaginator loadMore={loadMore} />}
       isSearchable={isSearchable}
+      searchWidth={'8.75rem'}
       {...restProps}
     />
   );

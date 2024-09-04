@@ -17,11 +17,13 @@ interface AlertTypeColumnProps {
 }
 
 export default function AlertTypeColumn({ config }: AlertTypeColumnProps) {
+  const isBurnRateAlert = config.rule.metric === 'BURN_RATE';
   return (
     <DefaultCell
-      title={t('in-alerting:smartAlerts.slo.alertList.title', { context: config.rule.alertType })}
+      title={t('in-alerting:smartAlerts.slo.alertList.title', { context: config.rule.metric })}
       subtitle={t('in-alerting:smartAlerts.slo.alertList.threshold', {
-        value: percentage.detailed(config.threshold.value)
+        value: isBurnRateAlert ? config.threshold.value : percentage.detailed(config.threshold.value),
+        context: config.rule.metric
       })}
     />
   );

@@ -116,6 +116,7 @@ module.exports = {
   infraSmartAlertsEnabled: true,
   syntheticCustomDashboardEnabled: true,
   rcaUIEnabled: true,
+  rcaLogsEnabled: false,
   eventFeedbackEnabled: true,
   incidentSummarizationEnabled: false,
   incidentSummarizationTimelineEnabled: true,
@@ -163,5 +164,6 @@ module.exports = {
   unitForInfraMetricsEnabled: true,
   applicationSmartAlertDialogView: true,
   increaseAggregationEnabled: false,
-  carbonCodeEnabled: true
+  carbonCodeEnabled: true,
+  extrapolateMissingStackedAreaValues: false
 };

@@ -20,6 +20,7 @@ import { createOrSaveAlert } from 'in-alerting/smart-alerts/infrastructure/compo
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useGetAlertConfigLink } from 'in-infrastructure/navigation/paths';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import { InfraAlertConfig, VersionedConfig } from 'in-types';
@@ -49,6 +50,8 @@ export default function AlertConfigDialog({
   const [isSimpleMode, setIsSimpleMode] = useState(startWithSimpleMode);
   const getLinkToAlertConfig = useGetAlertConfigLink();
 
+  const { trackCta } = useSegmentTracking();
+
   return (
     <AlertConfigDialogWithThreshold
       updateForm={updateForm}
@@ -68,6 +71,7 @@ export default function AlertConfigDialog({
           setMessages,
           toAlertConfig,
           isSimpleMode,
+          trackCta,
           duplicateFrom
         });
       }}

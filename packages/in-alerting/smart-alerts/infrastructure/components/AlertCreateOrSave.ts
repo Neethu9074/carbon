@@ -15,8 +15,9 @@ import {
   createAlertConfig
 } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
-import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
+import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { InfraAlertConfig } from 'in-types';
 
 interface createOrSaveAlertProps {
@@ -29,6 +30,7 @@ interface createOrSaveAlertProps {
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
   toAlertConfig: (form: MapForm<any>) => Readonly<InfraAlertConfig>;
   isSimpleMode: boolean;
+  trackCta: CtaTrackingFunction;
   duplicateFrom?: string;
 }
 
@@ -42,6 +44,7 @@ export function createOrSaveAlert({
   setMessages,
   toAlertConfig,
   isSimpleMode,
+  trackCta,
   duplicateFrom
 }: createOrSaveAlertProps) {
   setIsSaving(true);
@@ -67,7 +70,7 @@ export function createOrSaveAlert({
       updatedAlertConfig => {
         onClose(updatedAlertConfig);
         showSuccessMessage(updatedAlertConfig.name, editMode);
-        trackAlertUpdated(updatedAlertConfig);
+        trackCta(ALERTING_UPDATED, { ...updatedAlertConfig });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
@@ -82,7 +85,7 @@ export function createOrSaveAlert({
         const href = getLinkToAlertConfig(createAlertConfig.id);
         showSuccessMessage(createAlertConfig.name, editMode, false, href);
         const newConfig = duplicateFrom ? { ...createAlertConfig, cloneFromId: duplicateFrom } : createAlertConfig;
-        trackAlertSaved(newConfig, isSimpleMode);
+        trackCta(ALERTING_SAVED, { ...newConfig, dialogMode: isSimpleMode ? 'Simple' : 'Advanced' });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));

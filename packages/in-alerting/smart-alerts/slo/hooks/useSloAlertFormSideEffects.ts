@@ -6,9 +6,12 @@
 
 import { t } from '@instana/i18n-react';
 
-import { getSloAlertOperatorContext } from 'in-alerting/smart-alerts/slo/components/OperatorDropdown';
+import {
+  SloAlertForm,
+  createUnvalidatedSloBurnRateTimeWindowsForm,
+  createValidatedSloBurnRateTimeWindowsForm
+} from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import useFormSideEffects, { CHANGE_TYPES, Effect } from 'in-hooks/useFormSideEffects';
-import { SloAlertForm } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import { percentageUpToTwoDecimalPlaces } from 'in-services/formatters/number';
 
 function resetSelectedSloIds(form: SloAlertForm): SloAlertForm {
@@ -20,32 +23,43 @@ function resetSelectedSloIds(form: SloAlertForm): SloAlertForm {
 }
 
 function updateThresholdOperator(form: SloAlertForm): SloAlertForm {
-  const alertType = form.getIn(['rule', 'alertType']).value;
+  const alertMetricValue = form.getIn(['rule', 'metric']).value;
 
   return form.updateIn(['operator'], operatorField =>
-    operatorField.setValue(alertType === 'ERROR_BUDGET' ? '>=' : '<=')
+    operatorField.setValue(alertMetricValue === 'STATUS' ? '<=' : '>=')
   );
 }
 
-function updateMetricType(form: SloAlertForm): SloAlertForm {
-  const alertType = form.getIn(['rule', 'alertType']).value;
+function updateAlertType(form: SloAlertForm): SloAlertForm {
+  const alertMetric = form.getIn(['rule', 'metric']).value;
 
-  return form.updateIn(['rule', 'metric'], metricField =>
-    metricField.setValue(alertType === 'ERROR_BUDGET' ? 'BURNED_PERCENTAGE' : 'STATUS')
+  return form.updateIn(['rule', 'alertType'], metricField =>
+    metricField.setValue(alertMetric === 'STATUS' ? 'SERVICE_LEVELS_OBJECTIVE' : 'ERROR_BUDGET')
   );
+}
+
+function updateBurnRateTimeWindowsForm(form: SloAlertForm): SloAlertForm {
+  const alertMetricValue = form.getIn(['rule', 'metric']).value;
+  const burnRateFormReplacement =
+    alertMetricValue === 'BURN_RATE'
+      ? createValidatedSloBurnRateTimeWindowsForm()
+      : createUnvalidatedSloBurnRateTimeWindowsForm();
+
+  return form.put('burnRateTimeWindows', burnRateFormReplacement);
 }
 
 export function updateSloAlertNameAndDescription(form: SloAlertForm): SloAlertForm {
-  const alertType = form.getIn(['rule', 'alertType']).value;
+  const metric = form.getIn(['rule', 'metric']).value;
+  const thresholdFormValue = form.getIn(['threshold']).value;
   const operator = form.getIn(['operator']).value;
-  const threshold = percentageUpToTwoDecimalPlaces(form.getIn(['threshold']).value ?? 0);
-  const operatorContext = getSloAlertOperatorContext(operator);
+  const threshold =
+    metric === 'BURN_RATE' ? thresholdFormValue : percentageUpToTwoDecimalPlaces(form.getIn(['threshold']).value ?? 0);
 
   let updatedForm = form;
 
   if (!form.get('name').touched) {
     const titlePlaceholder = t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesTitlePlaceholder', {
-      context: alertType
+      context: metric
     });
     updatedForm = updatedForm.updateIn(['name'], nameField => nameField.setValue(titlePlaceholder));
   }
@@ -54,9 +68,9 @@ export function updateSloAlertNameAndDescription(form: SloAlertForm): SloAlertFo
     const descriptionPlaceholder = t(
       'in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesDescriptionPlaceholder',
       {
-        context: alertType,
+        context: metric,
         percentage: threshold,
-        operator: operatorContext
+        operator
       }
     );
     updatedForm = updatedForm.updateIn(['description'], descriptionField =>
@@ -73,8 +87,8 @@ const formSideEffects: Effect<SloAlertForm>[] = [
     effects: [resetSelectedSloIds]
   },
   {
-    path: ['rule', 'alertType'],
-    effects: [updateMetricType, updateThresholdOperator, updateSloAlertNameAndDescription]
+    path: ['rule', 'metric'],
+    effects: [updateAlertType, updateThresholdOperator, updateSloAlertNameAndDescription, updateBurnRateTimeWindowsForm]
   },
   {
     path: ['threshold'],
