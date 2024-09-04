@@ -15,7 +15,7 @@ const config = {
   name: 'zoomIn',
   icon: 'lib_datetime_time',
   label: t('in-components:chart.chartZoomInLabel'),
-  getHighlightedTimeframeUrl$,
+  getHref$: getHighlightedTimeframeUrl$,
   onClick: ({ chartMetrics }) => chartZoomInTracker({ chartMetrics }),
   allowClickPropagationAndDefault: true
 };
@@ -50,7 +50,7 @@ function getHighlightedTimeframeUrl$(highlightedTimeframe, location, createHref)
       autoRefresh: false
     });
     delete location.query[highlightedTimeframeQueryKey];
-    
+
     return createHref({ ...location });
   });
 }
