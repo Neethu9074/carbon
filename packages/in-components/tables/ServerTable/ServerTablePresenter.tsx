@@ -272,7 +272,12 @@ export default function ServerTablePresenter<
         onMouseEnter={onRowMouseEnter}
         onMouseLeave={onRowMouseLeave}
         getRowProps={getRowProps}
-        onRowClick={onRowClick}
+        onRowClick={(data, e) => {
+          if (onRowClick) {
+            e.preventDefault();
+            onRowClick(data, e);
+          }
+        }}
       />
     ));
   }
