@@ -15,6 +15,7 @@ import PluginIcon from 'in-components/PluginIcon';
 import { getPluginName } from 'in-sdk/pluginName';
 
 import locals from './SidebarHeader.mless';
+import { graphViewFromInfraMapEnabled } from 'in-services/featureFlags';
 
 export default function SidebarHeader({ snapshot }) {
   const plugin = snapshot.get('plugin');
@@ -24,9 +25,7 @@ export default function SidebarHeader({ snapshot }) {
   return (
     <div className={locals.sidebarHeader}>
       <div className={locals.entity}>
-        <Link href={graphHref}>
-          <PluginIcon className={locals.entityIcon} snapshot={snapshot} />
-        </Link>
+        <Icon snapshot={snapshot} graphHref={graphHref} />
         <div>
           <h2 className={locals.entityLabel}>{shorten(getLabel(snapshot) || '', 128)}</h2>
           <div className={locals.typeIdWrapper}>
@@ -38,4 +37,15 @@ export default function SidebarHeader({ snapshot }) {
       </div>
     </div>
   );
+}
+
+function Icon({ snapshot, graphHref }) {
+  if (graphViewFromInfraMapEnabled) {
+    return (
+      <Link href={graphHref}>
+        <PluginIcon className={locals.entityIcon} snapshot={snapshot} />
+      </Link>
+    );
+  }
+  return <PluginIcon className={locals.entityIcon} snapshot={snapshot} />;
 }

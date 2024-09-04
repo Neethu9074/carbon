@@ -283,6 +283,8 @@ export const carbonFileUploaderEnabled = isFeatureFlagEnabled('carbonFileUploade
 export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabled', false);
 export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetricsEnabled', false);
 export const increaseAggregationEnabled = isFeatureFlagEnabled('increaseAggregationEnabled', false);
+export const graphViewFromAboutInstanaEnabled = isFeatureFlagEnabled('graphViewFromAboutInstanaEnabled', false);
+export const graphViewFromInfraMapEnabled = isFeatureFlagEnabled('graphViewFromInfraMapEnabled', false);
 export const extrapolateMissingStackedAreaValuesEnabled = isFeatureFlagEnabled('extrapolateMissingStackedAreaValues');
 export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
   'automationActionAiGenerationUnitEnabled',

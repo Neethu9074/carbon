@@ -20,6 +20,7 @@ import { build } from 'in-services/config';
 import { t, Trans } from 'in-i18n';
 
 import locals from './AboutInstanaDialog.mless';
+import { graphViewFromAboutInstanaEnabled } from 'in-services/featureFlags';
 
 export default function AboutInstanaDialog() {
   const uiBackendVersion = useObservable(getUiBackendVersion(), []);
@@ -166,15 +167,17 @@ export default function AboutInstanaDialog() {
           </Li>
         </Ul>
 
-        <Button
-          kind="primaryv2"
-          onClick={() => {
-            goToPath(graphPath);
-            close();
-          }}
-        >
-          {t('in-components:aboutInstanaDialog.buttonGraphShowcase')}
-        </Button>
+        {graphViewFromAboutInstanaEnabled && (
+          <Button
+            kind="primaryv2"
+            onClick={() => {
+              goToPath(graphPath);
+              close();
+            }}
+          >
+            {t('in-components:aboutInstanaDialog.buttonGraphShowcase')}
+          </Button>
+        )}
       </Stack>
     </Dialog>
   );

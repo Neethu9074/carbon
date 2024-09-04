@@ -165,6 +165,8 @@ module.exports = {
   applicationSmartAlertDialogView: true,
   increaseAggregationEnabled: false,
   carbonCodeEnabled: true,
+  graphViewFromAboutInstanaEnabled: true,
+  graphViewFromInfraMapEnabled: true,
   extrapolateMissingStackedAreaValues: false,
   nutanixEnabled: true,
   automationActionAiGenerationUnitEnabled: true
