@@ -15,7 +15,6 @@ import { getAuditLog, getAuditLogEndpoint } from 'in-api/auditLog';
 import { success, loading } from 'in-services/util/result';
 import ServerTable from 'in-components/tables/ServerTable';
 import { toHtml } from 'in-services/formatters/markdown';
-import Title from 'in-components/Title/Title';
 import config from 'in-services/config';
 import { Trans, t } from 'in-i18n';
 
@@ -95,7 +94,6 @@ export default function ActionLog() {
           values={{ tenantUnit: config.tenantUnit, tenant: config.tenant }}
         />
       </TenantInfoBanner>
-      <Title title={t('in-settings:tabs.actionLog')} />
       <ServerTable
         get={({ query, page, pageSize }) =>
           getAuditLog(calcOffset(page, pageSize), query, pageSize).map(({ entries, total }) =>

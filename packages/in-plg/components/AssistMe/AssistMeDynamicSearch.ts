@@ -7,7 +7,7 @@
 import {
   userSettings,
   authSettings,
-  audit,
+  teamSettingsAudit,
   accessControl,
   teamSettingsAlertingMaintenanceConfigurations,
   teamSettingsAlertingEvents,
@@ -110,7 +110,7 @@ const SEARCH_WORD_MAP = {
   [teamSettingsAlertingMaintenanceConfigurations]: t('in-plg:assistme.dataSearchContext.maintenanceWindow'),
   [teamSettingsAlertingCustomPayloadConfiguration]: t('in-plg:assistme.dataSearchContext.customPayload'),
   [logManagement]: t('in-plg:assistme.dataSearchContext.logManagement'),
-  [audit]: t('in-plg:assistme.dataSearchContext.auditLogs'),
+  [teamSettingsAudit]: t('in-plg:assistme.dataSearchContext.auditLogs'),
   [authSettings]: t('in-plg:assistme.dataSearchContext.authSettings'),
   [agentsPath]: t('in-plg:assistme.dataSearchContext.installAgent'),
   [customDashboardsPath]: t('in-plg:assistme.dataSearchContext.customDashboard')

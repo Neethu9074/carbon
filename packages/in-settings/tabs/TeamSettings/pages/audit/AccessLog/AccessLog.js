@@ -12,7 +12,6 @@ import { fromNow, formatDateTime } from 'in-services/formatters/date';
 import { getAccessLog, getAccessLogEndpoint } from 'in-api/auditLog';
 import { success, loading } from 'in-services/util/result';
 import ServerTable from 'in-components/tables/ServerTable';
-import Title from 'in-components/Title/Title';
 import { t } from 'in-i18n';
 
 const PAGE_SIZE = 15;
@@ -55,36 +54,33 @@ export default function AccessLog() {
   const endpoint = getAccessLogEndpoint();
 
   return (
-    <>
-      <Title title={t('in-settings:tabs.actionLog')} />
-      <ServerTable
-        get={({ query, page, pageSize }) =>
-          getAccessLog(calcOffset(page, pageSize), query, pageSize).map(({ entries, total }) =>
-            entries
-              ? success(
-                  {
-                    items: entries,
-                    totalHits: total,
-                    pageSize
-                  },
-                  Date.now()
-                )
-              : loading
-          )
-        }
-        getResettingProps={() => ['query']}
-        defaultPageSize={PAGE_SIZE}
-        columnDefinitions={columnDefinitions}
-        rightHeader={({ query, page, pageSize }) => (
-          <AuditLogDownloadView
-            offset={calcOffset(page, pageSize)}
-            pageSize={pageSize}
-            query={query}
-            endpoint={endpoint}
-          />
-        )}
-        getRowProps={() => ({ size: 'compact' })}
-      />
-    </>
+    <ServerTable
+      get={({ query, page, pageSize }) =>
+        getAccessLog(calcOffset(page, pageSize), query, pageSize).map(({ entries, total }) =>
+          entries
+            ? success(
+                {
+                  items: entries,
+                  totalHits: total,
+                  pageSize
+                },
+                Date.now()
+              )
+            : loading
+        )
+      }
+      getResettingProps={() => ['query']}
+      defaultPageSize={PAGE_SIZE}
+      columnDefinitions={columnDefinitions}
+      rightHeader={({ query, page, pageSize }) => (
+        <AuditLogDownloadView
+          offset={calcOffset(page, pageSize)}
+          pageSize={pageSize}
+          query={query}
+          endpoint={endpoint}
+        />
+      )}
+      getRowProps={() => ({ size: 'compact' })}
+    />
   );
 }
