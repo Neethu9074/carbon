@@ -40,6 +40,7 @@ export interface TableState {
   orderDirection: OrderDirection;
   onChange: (s: Partial<TableState>) => void;
   pageSize: number;
+  pageSizes?: Array<number>;
   query?: string;
   orderBy: string;
   disabledColumns?: string[];
