@@ -14,17 +14,21 @@ import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 
 interface Props {
   item: TestResultListItem;
-  shouldDisplayLink?: boolean;
 }
 
-const AssociationsContent = ({ item, shouldDisplayLink = true }: Props) => {
+const AssociationsContent = ({ item }: Props) => {
+  const applicationIdsCanBeLinked =
+    item?.testResultCommonProperties?.testCommonProperties?.accessScopeApplicationIds ?? [];
   if (syntheticRbacLimitedEnabled) {
     const applicationLabels = item?.testResultCommonProperties?.testCommonProperties?.applicationLabels ?? [];
     const applicationIds = item?.testResultCommonProperties?.testCommonProperties?.applicationIds ?? [];
-    const websiteLabels = item?.testResultCommonProperties.testCommonProperties?.getWebsiteLabels ?? [];
-    const websiteIds = item?.testResultCommonProperties.testCommonProperties?.websiteIds ?? [];
-    const mobileAppLabels = item?.testResultCommonProperties.testCommonProperties?.mobileApplicationLabels ?? [];
-    const mobileAppsIds = item?.testResultCommonProperties.testCommonProperties?.mobileApplicationIds ?? [];
+    const websiteLabels = item?.testResultCommonProperties?.testCommonProperties?.getWebsiteLabels ?? [];
+    const websiteIds = item?.testResultCommonProperties?.testCommonProperties?.websiteIds ?? [];
+    const mobileAppLabels = item?.testResultCommonProperties?.testCommonProperties?.mobileApplicationLabels ?? [];
+    const mobileAppsIds = item?.testResultCommonProperties?.testCommonProperties?.mobileApplicationIds ?? [];
+    const websiteIdsCanBeLinked = item?.testResultCommonProperties?.testCommonProperties?.accessScopeWebsiteIds ?? [];
+    const mobileAppIdsCanBeLinked =
+      item?.testResultCommonProperties?.testCommonProperties?.accessScopeMobileApplicationIds ?? [];
 
     return (
       <AssociationsContentPresenter
@@ -34,13 +38,16 @@ const AssociationsContent = ({ item, shouldDisplayLink = true }: Props) => {
         websiteLabels={websiteLabels}
         mobileAppIds={mobileAppsIds}
         mobileAppLabels={mobileAppLabels}
-        shouldDisplayLink={shouldDisplayLink}
+        applicationIdsCanBeLinked={applicationIdsCanBeLinked}
+        websiteIdsCanBeLinked={websiteIdsCanBeLinked}
+        mobileAppIdsCanBeLinked={mobileAppIdsCanBeLinked}
       />
     );
   }
 
   const applicationLabel = item.testResultCommonProperties?.testCommonProperties?.applicationLabel ?? '';
   const applicationId = item.testResultCommonProperties?.testCommonProperties?.applicationId ?? '';
+  const shouldDisplayLink = applicationIdsCanBeLinked.includes(applicationId);
 
   return (
     <ApplicationLabelContent
