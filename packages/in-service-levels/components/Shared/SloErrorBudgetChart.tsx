@@ -107,11 +107,12 @@ export function calculateYScaleBuffer(filteredData: MetricDataPoint[][]): { yMin
   const largeRangeBufferPercentage = 0.1;
   const smallRangeFixedBuffer = 10;
   const largeRangeFixedBuffer = 5;
+  const isShortRange = range < maxRangeThreshold;
 
   // Adjusts the buffer proportionally to the data range, making sure that the buffer scales with larger or smaller ranges.
-  const bufferPercentage = range < maxRangeThreshold ? smallRangeBufferPercentage : largeRangeBufferPercentage;
+  const bufferPercentage = isShortRange ? smallRangeBufferPercentage : largeRangeBufferPercentage;
   // Provides a baseline buffer to ensure there is always a minimum amount of space around the data.
-  const fixedBuffer = range < maxRangeThreshold ? smallRangeFixedBuffer : largeRangeFixedBuffer;
+  const fixedBuffer = isShortRange ? smallRangeFixedBuffer : largeRangeFixedBuffer;
 
   const buffer = Math.max(Math.abs(range * bufferPercentage), fixedBuffer);
 

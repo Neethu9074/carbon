@@ -8,82 +8,94 @@ import { calculateYScaleBuffer } from 'in-service-levels/components/Shared/SloEr
 import { MetricDataPoint } from 'in-components/Chart/types';
 
 describe('calculateYScaleBuffer', () => {
-  it('should correctly calculate yMin and yMax for positive values with a short range', () => {
+  it('should correctly calculate yMin and yMax for positive metrics below a range of 100', () => {
+    // Given
+    const data: MetricDataPoint[] = [
+      [1622556000000, 50],
+      [1622559600000, 90],
+      [1622569600000, 70],
+      [1622549600000, 100]
+    ];
+    // When
+    const result = calculateYScaleBuffer([data]);
+    // Then
+    expect(result.yMin).toBe(40);
+    expect(result.yMax).toBe(110);
+  });
+
+  it('should correctly calculate yMin and yMax for positive metrics above a range of 100', () => {
     // Given
     const data: MetricDataPoint[] = [
       [1622556000000, 100],
-      [1622559600000, 150]
+      [1622559600000, 250],
+      [1622569600000, 350],
+      [1622549600000, 400]
     ];
     // When
     const result = calculateYScaleBuffer([data]);
     // Then
-    expect(result.yMin).toBe(90);
-    expect(result.yMax).toBe(160);
+    expect(result.yMin).toBe(70);
+    expect(result.yMax).toBe(430);
   });
 
-  it('should correctly calculate yMin and yMax for positive values with a large range', () => {
+  it('should correctly calculate yMin and yMax for negative metrics above a range of 100', () => {
     // Given
     const data: MetricDataPoint[] = [
-      [1622556000000, 100],
-      [1622559600000, 250]
+      [1622556000000, -300],
+      [1622559600000, -150],
+      [1622569600000, -50],
+      [1622549600000, -10]
     ];
     // When
     const result = calculateYScaleBuffer([data]);
     // Then
-    expect(result.yMin).toBe(85);
-    expect(result.yMax).toBe(265);
-  });
-
-  it('should correctly calculate yMin and yMax for negative values with a large range', () => {
-    // Given
-    const data: MetricDataPoint[] = [
-      [1622556000000, -100],
-      [1622559600000, -150]
-    ];
-    // When
-    const result = calculateYScaleBuffer([data]);
-    // Then
-    expect(result.yMin).toBe(-150);
-    expect(result.yMax).toBe(-90);
+    expect(result.yMin).toBe(-300);
+    expect(result.yMax).toBe(19);
   });
 
   it('yMin should be 0 if min is 0', () => {
     // Given
     const data: MetricDataPoint[] = [
       [1622556000000, 10],
-      [1622559600000, 0]
+      [1622559600000, 20],
+      [1622559600000, 0],
+      [1622559600000, 8]
     ];
     // When
     const result = calculateYScaleBuffer([data]);
     // Then
     expect(result.yMin).toBe(0);
-    expect(result.yMax).toBe(20);
+    expect(result.yMax).toBe(30);
   });
 
   it('yMin must be the highest -y value if min is negative', () => {
     // Given
     const data: MetricDataPoint[] = [
       [1622556000000, 200],
-      [1622559600000, -150]
+      [1622559600000, -150],
+      [1622569600000, -250],
+      [1622549600000, -350]
     ];
     // When
     const result = calculateYScaleBuffer([data]);
     // Then
-    expect(result.yMin).toBe(-150);
-    expect(result.yMax).toBe(235);
+    expect(result.yMin).toBe(-350);
+    expect(result.yMax).toBe(255);
   });
 
-  it('should handle a case where range is too small', () => {
+  it('yMin must be min when the range(difference between max and min) is exactly 0', () => {
     // Given
     const data: MetricDataPoint[] = [
       [1622556000000, 200],
-      [1622559600000, 205]
+      [1622559600000, 200],
+      [1622569600000, 200],
+      [1622549600000, 200]
     ];
     // When
     const result = calculateYScaleBuffer([data]);
     // Then
 
     expect(result.yMin).toBe(190);
-    expect(result.yMax).toBe(215);
+    expect(result.yMax).toBe(210);
   });
 });
