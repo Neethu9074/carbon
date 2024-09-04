@@ -474,7 +474,8 @@
       "days_90": "90 days retention",
       "noLogVolumeData": "No data to show",
       "logVolumeErrorTitle":"Something went wrong",
-      "logVolumeErrorInfo": "We are unable to retrieve data from the database"
+      "logVolumeErrorInfo": "We are unable to retrieve data from the database",
+      "groupingTagTootip": "{{groupingTag}} information not available"
     },
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",
