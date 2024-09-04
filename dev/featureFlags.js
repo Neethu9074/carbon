@@ -128,7 +128,6 @@ module.exports = {
   disableInvitesWithIdpEnabled: false,
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
-  syntheticCertificateCheckEnabled: true,
   syntheticRbacLimitedEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,

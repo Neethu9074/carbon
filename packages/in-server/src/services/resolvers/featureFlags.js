@@ -416,11 +416,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticCertificateCheckEnabled',
-    instanaCtlKey: 'feature.synthetic.certificate.check.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'syntheticRbacLimitedEnabled',
     instanaCtlKey: 'feature.synthetic.rbac.limited.enabled',
     defaultValue: false

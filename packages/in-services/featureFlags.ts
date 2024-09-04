@@ -136,9 +136,6 @@ export const syntheticCustomDashboardEnabled = isFeatureFlagEnabled('syntheticCu
 // Synthetic Instana Hosted PoP feature flag
 export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticInstanaHostedPoPEnabled');
 
-// Synthetic Certificate Check Enabled feature flag
-export const syntheticCertificateCheckEnabled = isFeatureFlagEnabled('syntheticCertificateCheckEnabled');
-
 // Synthetic RBAC Limited Access feature flag
 export const syntheticRbacLimitedEnabled = isFeatureFlagEnabled('syntheticRbacLimitedEnabled');
 
