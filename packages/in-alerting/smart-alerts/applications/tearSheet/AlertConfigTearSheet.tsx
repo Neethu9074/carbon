@@ -36,10 +36,11 @@ import AlertingPageHeader from 'in-alerting/smart-alerts/components/pageHeaderTe
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import useGetSmartAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetSmartAlertConfig';
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
+import { useSegmentTracking, CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
-import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
+import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -97,6 +98,8 @@ export default function AlertConfigTearSheet() {
     applicationIds,
     applicationMode
   );
+  //function for segment tracking
+  const { trackCta } = useSegmentTracking();
 
   if (alertConfigErrors?.length) {
     return <ErroneousResultPresenter errors={[...alertConfigErrors]} />;
@@ -112,6 +115,7 @@ export default function AlertConfigTearSheet() {
         }
         scopeMigrationDetails={scopeMigrationDetails}
         location={location}
+        trackCta={trackCta}
       />
     );
   }
@@ -125,12 +129,14 @@ interface AlertConfigTearSheetContentProps {
   alertConfig: GlobalApplicationsSmartAlertConfigWithMetadata | ApplicationSmartAlertConfigWithMetadata;
   scopeMigrationDetails?: ScopeMigrationDetailsType;
   location: Location;
+  trackCta: CtaTrackingFunction;
 }
 
 function AlertConfigTearSheetContent({
   alertConfig,
   scopeMigrationDetails,
-  location
+  location,
+  trackCta
 }: AlertConfigTearSheetContentProps) {
   const { migrationMode, editMode, isGlobalSmartAlert, eventSpecificationId, cancelTearSheet } = useMemo(() => {
     return getAlertingUrlParameters(location);
@@ -189,7 +195,8 @@ function AlertConfigTearSheetContent({
               navigateToGlobalAlertConfigWithoutAPDashboard,
               navigateToAlertConfig,
               duplicateFrom,
-              eventSpecificationId
+              eventSpecificationId,
+              trackCta
             });
           }}
         />
@@ -207,7 +214,8 @@ function AlertConfigTearSheetContent({
       navigateToGlobalAlertConfigWithoutAPDashboard,
       navigateToAlertConfig,
       duplicateFrom,
-      eventSpecificationId
+      eventSpecificationId,
+      trackCta
     });
   };
 
@@ -254,6 +262,7 @@ interface CreateOrSaveAlertProps {
   navigateToAlertConfig: (alertConfigId: string, alertConfigVersion: number, applicationId: string) => void;
   duplicateFrom?: string;
   eventSpecificationId?: string;
+  trackCta: CtaTrackingFunction;
 }
 
 function createOrSaveAlert({
@@ -267,7 +276,8 @@ function createOrSaveAlert({
   navigateToGlobalAlertConfigWithoutAPDashboard,
   navigateToAlertConfig,
   duplicateFrom,
-  eventSpecificationId
+  eventSpecificationId,
+  trackCta
 }: CreateOrSaveAlertProps) {
   setIsSaving(true);
   // remove existing error messages:
@@ -297,7 +307,7 @@ function createOrSaveAlert({
       config => {
         //Uncomment this if success message is needed while editing.
         //showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
-        trackAlertUpdated(alertConfig);
+        trackCta(ALERTING_UPDATED, { ...alertConfig });
         return isEffectivelyGlobalSmartAlert
           ? navigateToGlobalAlertConfigWithoutAPDashboard(alertConfig.id)
           : alertConfigApplicationId &&
@@ -313,7 +323,7 @@ function createOrSaveAlert({
     (isEffectivelyGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
       config => {
         const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
-        trackAlertSaved(newConfig, false);
+        trackCta(ALERTING_SAVED, { ...newConfig });
         if (migrationMode && eventSpecificationId)
           disableMigratedCustomEventSpecification(eventSpecificationId, config.id).once();
         // redirect user to details page

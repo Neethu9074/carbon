@@ -10,6 +10,8 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 
 import locals from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton.mless';
@@ -47,6 +49,7 @@ export default function CreateSmartAlertButton({
     endpointId: endpointId,
     eventSpecificationId: eventSpecificationId
   });
+  const { trackCta } = useSegmentTracking();
 
   return (
     <Button
@@ -57,6 +60,9 @@ export default function CreateSmartAlertButton({
       icon="lib_alerts_create"
       kind={'primaryv2'}
       href={createSmartAlertPath}
+      onClick={() => {
+        trackCta(ALERTING_CREATE);
+      }}
     >
       {buttonName}
     </Button>

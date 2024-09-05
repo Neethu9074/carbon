@@ -55,6 +55,7 @@ export default function Alert({
   getAllowedPlaceholders = () => [],
   displayEditAction = true,
   displayTearSheetActions = false,
+  getLinkToEditOrDuplicateSmartAlertTearSheet,
   displayDuplicateAction = true,
   canConfigureGlobalAlertConfigs = false,
   canConfigureIndividualAlertConfigs = false,
@@ -153,6 +154,7 @@ export default function Alert({
           }}
           displayEditAction={displayEditAction}
           displayTearSheetActions={displayTearSheetActions}
+          getLinkToEditOrDuplicateSmartAlertTearSheet={getLinkToEditOrDuplicateSmartAlertTearSheet}
           displayDuplicateAction={displayDuplicateAction}
           hideAlertIcon={hideAlertIcon}
         />
@@ -205,6 +207,7 @@ Alert.propTypes = {
   getAllowedPlaceholders: PropTypes.func,
   displayEditAction: PropTypes.bool,
   displayTearSheetActions: PropTypes.bool,
+  getLinkToEditOrDuplicateSmartAlertTearSheet: PropTypes.func,
   displayDuplicateAction: PropTypes.bool,
   canConfigureGlobalAlertConfigs: PropTypes.bool,
   canConfigureIndividualAlertConfigs: PropTypes.bool,

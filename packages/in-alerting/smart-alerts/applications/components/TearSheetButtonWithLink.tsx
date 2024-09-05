@@ -7,6 +7,9 @@
 import React from 'react';
 
 import { useSmartAlertCreateUrl as useSmartAlertEditUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
+import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
+import { ALERTING_EDIT, ALERTING_CLONE_TRIGGER } from 'in-services/tracking/eventNames';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 //@ts-expect-error
 import { MoreMenuButton } from 'in-components/MoreMenu';
 
@@ -20,6 +23,7 @@ interface TearSheetLinkProps {
   alertConfigCreated: number;
   duplicateMode?: string;
   editMode?: string;
+  alertConfig?: AlertConfigType;
 }
 
 export default function TearSheetButtonWithLink({
@@ -29,7 +33,8 @@ export default function TearSheetButtonWithLink({
   alertId,
   alertConfigCreated,
   duplicateMode,
-  editMode
+  editMode,
+  alertConfig
 }: TearSheetLinkProps) {
   const getLinkToEditSmartAlert = useSmartAlertEditUrl();
   const editSmartAlertPath = getLinkToEditSmartAlert({
@@ -39,6 +44,7 @@ export default function TearSheetButtonWithLink({
     duplicateMode: duplicateMode,
     editMode: editMode
   });
+  const { trackCta } = useSegmentTracking();
   return (
     <MoreMenuButton
       icon={buttonIcon}
@@ -47,6 +53,13 @@ export default function TearSheetButtonWithLink({
       title={buttonName}
       role="button"
       className={locals.button}
+      onClick={() => {
+        if (editMode) {
+          trackCta(ALERTING_EDIT, { ...alertConfig });
+        } else {
+          trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfig });
+        }
+      }}
     >
       {buttonName}
     </MoreMenuButton>
