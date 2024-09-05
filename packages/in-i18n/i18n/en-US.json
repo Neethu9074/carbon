@@ -16,7 +16,11 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "Load More"
-      }
+      },
+      "dataTable": "Data table",
+      "expandHeader": "Expand row",
+      "expandRow": "Toggle expand row"
+
     },
     "code": {
       "copy": "Copy",

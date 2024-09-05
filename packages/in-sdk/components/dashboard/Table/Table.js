@@ -232,7 +232,7 @@ export default class Table extends React.Component {
             // get column header name and assign value to that
             carbonRow[carbonHeaders[i]['header']] = column.value ?? '-';
           });
-          if (this.props.getRowDetails != null) {
+          if (this.props.getRowDetails != undefined) {
             carbonRow['expanded'] = this.props.getRowDetails(rowData.rowConfig);
           }
           carbonRows.push(carbonRow);
@@ -267,6 +267,7 @@ export default class Table extends React.Component {
               }}
               searchText={this.state.filter}
               isSearchEnabled
+              isExpandable={this.props.getRowDetails !== undefined ? true : false}
             />
             {showPagination ? (
               carbonPaginationEnabled ? (
