@@ -25,7 +25,8 @@ import {
   hasEventsAccess,
   hasSAPAccess,
   hasSloAccess,
-  hasAutomationAccess
+  hasAutomationAccess,
+  hasNutanixAccess
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
@@ -97,7 +98,7 @@ export default (
     {profilingRoutes}
     {loggingRoutes}
     {deepLinkRoutes}
-    {nutanixRoutes}
+    {hasNutanixAccess && nutanixRoutes}
 
     {/* The landing page must be the very last item as it dynamically redirects */}
     <Route path="/" component={LandingPage} />

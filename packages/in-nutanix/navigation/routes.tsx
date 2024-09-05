@@ -5,7 +5,7 @@
  */
 
 // @ts-expect-error promis-loader cause failures when importing in typescript
-import NutanixcMainView from 'promise-loader?global,nutanix!in-nutanix/NutanixMainView';
+import NutanixMainView from 'promise-loader?global,nutanix!in-nutanix/NutanixMainView';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
@@ -15,10 +15,10 @@ import { nutanix, nutanixClusterListFullyQualified } from 'in-nutanix/navigation
 
 export default [
   <Route key="NutanixClusterDashboard" path={nutanixClusterListFullyQualified}>
-    {renderAsyncRouteChildren(NutanixcMainView)}
+    {renderAsyncRouteChildren(NutanixMainView)}
   </Route>,
 
   <Route key="nutanixMainView" path={nutanix}>
-    {renderAsyncRouteChildren(NutanixcMainView)}
+    {renderAsyncRouteChildren(NutanixMainView)}
   </Route>
 ];
