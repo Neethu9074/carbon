@@ -11,8 +11,12 @@ import { just } from '@instana/observables';
 import { LogVolumeData, MonthlyRetentionData, RetentionPeriodData, TagNames } from './types';
 // eslint-disable-next-line no-restricted-imports
 import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
+// eslint-disable-next-line no-restricted-imports
+import { groupTags } from './workspaces/LogVolumeGroupingConfigurator';
 
 export const DEFAULT_NO_GROUPING_VALUE = 'NO_GROUPING';
+const UNCATEGORIZED_LABEL = 'UNCATEGORIZED';
+export const NDash = '-';
 
 export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData[] | null {
   const dataMap: Record<string, Record<string, RetentionPeriodData>> = {};
@@ -96,9 +100,9 @@ enum Month {
   December
 }
 
-const milisecondsInMonth = {
+const millisecondsInMonth = (year: number) => ({
   [Month.January]: 31 * 86400000,
-  [Month.February]: 28 * 86400000,
+  [Month.February]: (isLeapYear(year) ? 29 : 28) * 86400000,
   [Month.March]: 31 * 86400000,
   [Month.April]: 30 * 86400000,
   [Month.May]: 31 * 86400000,
@@ -109,16 +113,22 @@ const milisecondsInMonth = {
   [Month.October]: 31 * 86400000,
   [Month.November]: 30 * 86400000,
   [Month.December]: 31 * 86400000
-};
+});
 
-function getMonthMilliseconds(month: Month): number {
-  return milisecondsInMonth[month];
+function getMonthMilliseconds(month: Month, year: number): number {
+  return millisecondsInMonth(year)[month];
+}
+
+function isLeapYear(year: number): boolean {
+  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 }
 
 export function generateQuery(numMonths: number, groupingTag?: TagNames): any {
   const currentTimestamp = Date.now();
   const currentDate = new Date(currentTimestamp);
   const currentMonth = currentDate.getMonth() + 1;
+
+  let currentYear = currentDate.getFullYear();
 
   let totalMilliseconds = 0;
 
@@ -127,9 +137,10 @@ export function generateQuery(numMonths: number, groupingTag?: TagNames): any {
 
     if (month <= 0) {
       month += 12;
+      currentYear -= 1;
     }
 
-    totalMilliseconds += getMonthMilliseconds(month as Month);
+    totalMilliseconds += getMonthMilliseconds(month as Month, currentYear);
   }
 
   const query = {
@@ -269,7 +280,7 @@ export function transformLabeledData(data: any[]) {
         periodData.volumeRU += +volumeRU;
       } else {
         monthYear.retentionPeriods[period].push({
-          label,
+          label: label === UNCATEGORIZED_LABEL ? NDash : label,
           volumeGB,
           volumeRU
         });
@@ -307,4 +318,9 @@ function roundDataValues(data: any): any[] {
       partialSums: roundedPartialSums
     };
   });
+}
+
+export function getLabelByName(name: string) {
+  const tag = groupTags.tags.find(tag => tag.name === name);
+  return tag ? tag.label : null;
 }

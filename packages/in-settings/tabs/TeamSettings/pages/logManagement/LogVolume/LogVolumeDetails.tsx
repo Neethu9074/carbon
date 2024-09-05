@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { HorizontalIndicator, Li, LoadingSkeleton, Ul, SvgIcon } from '@instana/components';
+import { HorizontalIndicator, Li, LoadingSkeleton, Ul, SvgIcon, Tooltip } from '@instana/components';
 
 import {
   LogVolumeData,
@@ -14,7 +14,8 @@ import {
   VolumeUnits
 } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/types';
 // eslint-disable-next-line no-restricted-imports
-import { generateEmptyData } from './utils';
+import { generateEmptyData, NDash } from './utils';
+import { capitalize } from 'in-services/formatters/string';
 import { t } from 'in-i18n';
 
 import locals from './LogVolumeDetails.mless';
@@ -24,6 +25,7 @@ export default function LogVolumeDetails({
   progress,
   timePeriod,
   expandedRetention,
+  groupingTag,
   handleUpdateExpandedRetention
 }: LogVolumeDetailsProps) {
   const { loading: isLoading } = progress;
@@ -62,7 +64,14 @@ export default function LogVolumeDetails({
                   <span>{totalVolume.gb} GB</span>
                 </div>
                 <div className={locals.tableRU}>
-                  <span>{Math.ceil(totalVolume.ru)} RU</span>
+                  <Tooltip
+                    content={t('in-settings:tabs.logVolume.ruTooltip', {
+                      groupingTag: groupingTag && capitalize(groupingTag)
+                    })}
+                    align="mousePosition"
+                  >
+                    <span>{`${Math.ceil(totalVolume.ru)} RU`}</span>
+                  </Tooltip>
                 </div>
               </Li>
               <div>
@@ -82,7 +91,9 @@ export default function LogVolumeDetails({
                               </span>
                               <span className={locals.tableGB}>{(retentionPeriods[days] as VolumeUnits).gb} GB</span>
                               <span className={locals.tableRU}>
-                                {Math.round((retentionPeriods[days] as VolumeUnits).ru)} RU
+                                {(retentionPeriods[days] as VolumeUnits).ru < 1
+                                  ? '<1 RU'
+                                  : `${Math.round((retentionPeriods[days] as VolumeUnits).ru)} RU`}
                               </span>
                             </div>
                           </Li>
@@ -101,7 +112,9 @@ export default function LogVolumeDetails({
                                 </span>
                                 <span className={locals.tableGB}>{partialSums && partialSums[days].gb} GB</span>
                                 <span className={locals.tableRU}>
-                                  {partialSums && Math.round(partialSums[days].ru)} RU
+                                  {partialSums && partialSums[days].ru < 1
+                                    ? '<1 RU'
+                                    : partialSums && `${Math.round(partialSums[days].ru)} RU`}
                                 </span>
                                 <span className={locals.collapseRow}>
                                   <SvgIcon
@@ -124,7 +137,18 @@ export default function LogVolumeDetails({
                                     .map(({ label, volumeGB }, index: number) => (
                                       <React.Fragment key={`${days}_${index}`}>
                                         <div key={label + index} className={locals.logVolumeCategories}>
-                                          <span className={locals.tableLabel}>{label}</span>
+                                          {label === NDash ? (
+                                            <Tooltip
+                                              content={t('in-settings:tabs.logVolume.groupingTagTootip', {
+                                                groupingTag: groupingTag && capitalize(groupingTag)
+                                              })}
+                                              align="mousePosition"
+                                            >
+                                              <span className={locals.tableLabel}>{label}</span>
+                                            </Tooltip>
+                                          ) : (
+                                            <span className={locals.tableLabel}>{label}</span>
+                                          )}
                                           <span className={locals.tableGB}>{volumeGB} GB</span>
                                         </div>
                                       </React.Fragment>
