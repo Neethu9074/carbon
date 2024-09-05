@@ -1,5 +1,7 @@
 #!groovy
 
+@Library('instana-ci') _
+
 // define global vars for use in later stages
 def branchName          = env.BRANCH_NAME
 def isDeliveryBranch    = null
@@ -16,6 +18,9 @@ def latestReleaseBranch = null
 def backendComponents   = null
 def uiClientComponents  = null
 def backendRepoPath     = null
+// Check if this job is running on "backend-jenkins"
+// Call out to the shared library https://github.ibm.com/instana/jenkins
+def isBackendJenkins = isBackendJenkins()
 
 void setBuildStatus(String message, String state) {
   def commitSha = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -56,10 +61,13 @@ pipeline {
             sh "./build/ci-shared-tools/scripts/setup.bash"
           }
 
+          // Check if running on backend-jenkins
+          println "isBackendJenkins = ${isBackendJenkins}"
+
           isDeliveryBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isDeliveryBranch.js") == 'true'
           isLTSRBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isLTSRBranch.js") == 'true'
           latestReleaseBranch = getLatestReleaseBranch()
-          instanaUiClientVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getVersion.js ui-client ${branchName} 0")
+          instanaUiClientVersion = sh(returnStdout: true, script: "ci-shared-tools component-versions get-version ui-client ${branchName} 0").trim()
           majorReleaseVersion = instanaUiClientVersion.tokenize('.')[1].toInteger()
           gitCommitId         = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           gitCommitAuthor     = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
@@ -222,6 +230,7 @@ pipeline {
       }
     }
 
+<<<<<<< HEAD
     stage('Deploy and SonarQube') {
       parallel {
         stage('Deploy') {
@@ -240,6 +249,22 @@ pipeline {
                       deployInstana(branchName, instanaImageVersion, null, 'magenta', 'instana', 'release')
                     }
                   }
+=======
+    stage('Deploy') {
+      steps {
+        // This lock is shared with the backend pipeline as well so as only to allow
+        // one deploy per deployable branch at a time
+        lock(resource: "deploy-instana-${branchName}", inversePrecedence: true) {
+          timeout(time: 30, unit: 'MINUTES') {
+            timestamps {
+              script {
+                // Enable only for the develop branch for now
+                // Other delivery branches will use 'K8s Deploy'
+                if (branchName == 'develop') {
+                  deployInstana(branchName, instanaImageVersion, null, 'pink', 'instana', 'test', isBackendJenkins)
+                } else if (branchName == latestReleaseBranch) {
+                  deployInstana(branchName, instanaImageVersion, null, 'magenta', 'instana', 'release', isBackendJenkins)
+>>>>>>> release-275
                 }
               }
             }
@@ -377,12 +402,39 @@ def waitForStableBackendVersions(branchName) {
   }
 }
 
-def deployInstana(branchName, version, globalEnvironment, environment, tenant, unit) {
+def deployInstana(branchName, version, globalEnvironment, environment, tenant, unit, isBackendJenkins) {
   try {
+
+    def configDir = "/mnt/efs/data/instanactl/dev-jenkins-config"
+
+    //setup all the prerequisites instanactl needs to run on backend-jenkins
+    if (isBackendJenkins) {
+      configDir = "${WORKSPACE}/config"
+      withCredentials([string(credentialsId: 'INSTANACTL_GIT_AUTH_TOKEN', variable: 'INSTANACTL_GIT_AUTH_TOKEN'),
+                       string(credentialsId: 'instanactl-vault-key', variable: 'KEY')]) {
+        sh "mkdir -p ${configDir}"
+        sh "curl -H 'Accept: application/vnd.github.v3.raw' https://${INSTANACTL_GIT_AUTH_TOKEN}:@api.github.ibm.com/repos/instana/infrastructure/contents/instanactl/scripts/config/1-global.hcl -o ${configDir}/1-global.hcl"
+        sh "curl -H 'Accept: application/vnd.github.v3.raw' https://${INSTANACTL_GIT_AUTH_TOKEN}:@api.github.ibm.com/repos/instana/infrastructure/contents/instanactl/scripts/config/${environment}.hcl -o ${configDir}/${environment}.hcl"
+
+        if (globalEnvironment != null) {
+          sh "curl -H 'Accept: application/vnd.github.v3.raw' https://${INSTANACTL_GIT_AUTH_TOKEN}:@api.github.ibm.com/repos/instana/infrastructure/contents/instanactl/scripts/config/${globalEnvironment}.hcl -o ${configDir}/${globalEnvironment}.hcl"
+        }
+
+        sh "curl -H 'Accept: application/vnd.github.v3.raw' https://${INSTANACTL_GIT_AUTH_TOKEN}:@api.github.ibm.com/repos/instana/infrastructure/contents/instanactl/scripts/config/vault-test.properties.enc -o ${configDir}/vault-test.properties.enc"
+        sh "openssl enc -d -aes-256-cbc -md md5 -in ${configDir}/vault-test.properties.enc -out ${configDir}/vault-test.properties -k \"${KEY}\""
+      } // withCredentials
+      withCredentials([aws(credentialsId: "eks-developer-creds")]) {
+        env.INSTANACTL_VAULT="${configDir}/vault-test.properties"
+        env.INSTANACTL_CONFIG="${configDir}/config.hcl"
+        env.KUBECONFIG="${WORKSPACE}/kube.conf"
+        sh "aws eks update-kubeconfig --name k8s-infra-us-west-2 --region us-west-2 --alias instana-${environment} --kubeconfig=${env.KUBECONFIG}"
+      } // withCredentials
+    }
+
     if (globalEnvironment != null) {
       println "Updating global environment ${globalEnvironment}"
-      sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' /mnt/efs/data/instanactl/dev-jenkins-config/${globalEnvironment}.hcl"
-      sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' /mnt/efs/data/instanactl/dev-jenkins-config/${globalEnvironment}.hcl"
+      sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${globalEnvironment}.hcl"
+      sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${globalEnvironment}.hcl"
       sh "instanactl --deployment ${globalEnvironment} global migrate --branch=${branchName}"
       sh "instanactl --deployment ${globalEnvironment} global update --version=${version} --branch=${branchName}"
     }
@@ -394,8 +446,8 @@ def deployInstana(branchName, version, globalEnvironment, environment, tenant, u
       sh "instanactl --deployment ${environment} tenantunit update ${tenant} ${unit} --version ${version} --branch ${branchName}"
     } else {
       println "Updating all tenant units in ${environment}"
-      sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' /mnt/efs/data/instanactl/dev-jenkins-config/${environment}.hcl"
-      sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' /mnt/efs/data/instanactl/dev-jenkins-config/${environment}.hcl"
+      sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${environment}.hcl"
+      sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${environment}.hcl"
       sh "instanactl --deployment ${environment} tenantunit list"
       sh "instanactl --deployment ${environment} upgrade --version=${version} --branch=${branchName}"
     }
