@@ -116,12 +116,31 @@ export default function ServerTablePresenter<
       debounceOnChange(searchInputText);
     };
 
+    const getEllipsisValue = (ellipsis: string | boolean | undefined, width: string | number | undefined) => {
+      if (typeof ellipsis === 'string' || width !== 'undefined') {
+        ellipsis = true;
+      }
+      return ellipsis;
+    };
+
+    const getWidthValue = (ellipsis: string | boolean | undefined, width: string | number | undefined) => {
+      if (typeof ellipsis === 'string') {
+        width = ellipsis;
+      } else if (typeof width === 'number') {
+        width = width + 'vw';
+      }
+      return width;
+    };
+
     carbonHeaders = visibleColumns.map((item, i) => ({
       key: item?.id || i,
       header: item?.label,
       isSortable: item.sortable ?? true,
       getContent: item.getContent,
-      sortDirection: item?.id === orderBy ? (orderDirection === 'ASC' ? 'ASC' : 'DESC') : 'NONE'
+      sortDirection: item?.id === orderBy ? (orderDirection === 'ASC' ? 'ASC' : 'DESC') : 'NONE',
+      noWrap: item.noWrap ?? false,
+      ellipsis: getEllipsisValue(item.ellipsis, item.width),
+      width: getWidthValue(item.ellipsis, item.width)
     }));
 
     let header;
@@ -175,8 +194,28 @@ export default function ServerTablePresenter<
       // when api has returned data
       const carbonRows = result.data!.items.map((item: ItemType, index: number) => {
         let value = { id: item.id ?? String(index) };
-        carbonHeaders.map(({ key, getContent }) => {
-          const pair = { [key]: <>{getContent(item, props, key)}</> };
+        carbonHeaders.map(({ key, getContent, ellipsis, width, noWrap }) => {
+          let pair;
+          if (typeof ellipsis !== 'boolean') {
+            width = ellipsis;
+            ellipsis = true;
+          }
+          if (ellipsis) {
+            pair = {
+              [key]: (
+                <div style={{ maxWidth: width, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                  {getContent(item, props, key)}
+                </div>
+              )
+            };
+          } else if (noWrap) {
+            // when noWrap is true but ellipsis is not set
+            pair = {
+              [key]: <div style={{ whiteSpace: 'nowrap' }}>{getContent(item, props, key)}</div>
+            };
+          } else {
+            pair = { [key]: <>{getContent(item, props, key)}</> };
+          }
           value = { ...value, ...pair };
           return value;
         });
