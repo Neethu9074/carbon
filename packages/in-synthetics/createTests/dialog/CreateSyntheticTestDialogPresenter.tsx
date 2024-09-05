@@ -6,6 +6,7 @@
 
 import React, { SetStateAction, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
+import classNames from 'classnames';
 
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
@@ -301,7 +302,12 @@ const CreateSyntheticTestDialogPresenter = ({
       removeBottomPaddingWhenFooterIsShown
       doNotCloseOnOutsideClick
     >
-      <div className={simpleMode ? locals.simpleDialog : locals.advancedDialog}>
+      <div
+        className={classNames({
+          [locals.simpleDialog]: true,
+          [locals.advancedDialog]: !simpleMode
+        })}
+      >
         {simpleMode ? (
           <WizardModeContainer
             form={form}
