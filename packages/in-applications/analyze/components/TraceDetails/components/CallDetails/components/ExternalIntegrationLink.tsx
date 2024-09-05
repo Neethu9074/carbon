@@ -21,7 +21,7 @@ const ExternalIntegrationLink = ({ integrations }: { integrations: Integration[]
   return (
     <>
       {integrations.map((integration: Integration) => (
-        <Button href={integration.url} target="_blank" kind="subtle" className={locals.marginBottom}>
+        <Button href={integration.url} target="_blank" kind="action" className={locals.marginBottom}>
           {t('in-analyze:traceDetail.components.callDetails.findSQL', {
             type: integration.type
           })}
