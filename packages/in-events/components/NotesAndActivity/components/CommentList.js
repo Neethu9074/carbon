@@ -24,6 +24,8 @@ export function CommentList(props) {
   useEffect(() => {
     if (notes) {
       const noteSection = document.getElementById('notesSection');
+      // Event listener is cleaned up automatically when the side panel is closed
+      // because the `notesSection` dom element gets removed
       noteSection.addEventListener('scroll', event => {
         const scrollHeight = event?.target?.scrollHeight;
         const scrollTop = event?.target?.scrollTop;
@@ -91,13 +93,7 @@ export function CommentList(props) {
                   {aiGen && <AIPopover />}
                 </div>
               </div>
-              <ChatBubble
-                noteObj={note}
-                contents={note.contents}
-                data={note.data || note.metadata}
-                myBubble={myBubble}
-                type={type}
-              />
+              <ChatBubble noteObj={note} contents={note.contents} data={note?.data} myBubble={myBubble} type={type} />
             </div>
           );
         })}

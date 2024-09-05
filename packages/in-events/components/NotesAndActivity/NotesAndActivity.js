@@ -77,22 +77,6 @@ export function NotesAndActivity(props) {
   const [openSearch, setOpenSearch] = useState(false);
   const [displayQuickStart, setDisplayQuickStart] = useState(true);
 
-  function toggleSidePanel() {
-    setDisplayNotes(!displayNotes);
-    const { pageRootName, productArea } = getViewTrackingMetaData();
-    if (pageRootName && productArea) {
-      const data = {
-        parentPageName: pageRootName,
-        parentPageCategory: productArea,
-        CTA: EVENT_SIDE_PANEL_CLICK,
-        path: location.hash
-      };
-      eventTracker({ data, segmentEventName: CTA_CLICKED });
-    }
-
-    track(EVENT_SIDE_PANEL_CLICK, { incidentId });
-  }
-
   // We ONLY want to display Notes and Activity for incidents
   if (eventType != 'incident') {
     return null;
@@ -113,7 +97,10 @@ export function NotesAndActivity(props) {
           <CarbonTag type="blue">{t('in-events:notes.techPreview')}</CarbonTag>
           <IconButton
             kind="action"
-            onClick={() => setOpenSearch(!openSearch)}
+            onClick={() => {
+              setOpenSearch(!openSearch);
+              setSearchInput('');
+            }}
             type={'lib_actions_search'}
             size="compact"
             className={locals.notesIcon}
@@ -121,7 +108,7 @@ export function NotesAndActivity(props) {
           <Tooltip content={t('in-events:notes.closeNotes')}>
             <IconButton
               kind="action"
-              onClick={() => toggleSidePanel()}
+              onClick={() => toggleSidePanel(setDisplayNotes, displayNotes, incidentId)}
               type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'}
               size="compact"
               className={locals.notesIcon}
@@ -161,11 +148,28 @@ export function NotesAndActivity(props) {
 }
 
 // Basic empty state for notes
-export function EmptyState() {
+function EmptyState() {
   return (
     <div className={locals.emptyWrapper}>
       <h3 className={locals.emptyHeader}>{t('in-events:notes.noActivity')}</h3>
       <p className={locals.emptyInfo}>{t('in-events:notes.noActivityDetails')}</p>
     </div>
   );
+}
+
+// Open the side panel and track the activity click
+function toggleSidePanel(setDisplayNotes, displayNotes, incidentId) {
+  setDisplayNotes(!displayNotes);
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  if (pageRootName && productArea) {
+    const data = {
+      parentPageName: pageRootName,
+      parentPageCategory: productArea,
+      CTA: EVENT_SIDE_PANEL_CLICK,
+      path: location.hash
+    };
+    eventTracker({ data, segmentEventName: CTA_CLICKED });
+  }
+
+  track(EVENT_SIDE_PANEL_CLICK, { incidentId });
 }

@@ -44,12 +44,13 @@ export function noteNameAndTimeFormat(myBubble, note, date, type) {
 export function createDataString(data) {
   var dataString = [];
   data?.map(entry => {
+    const entryArray = entry?._tail?.array;
     // There are three index values but only first and last are used
     // 0 - Key
-    const entryOne = entry[0] || '';
+    const entryOne = entryArray[0] || '';
     // 1 - Old Value
     // 2 - New Value
-    const entryThree = entry[2] || '';
+    const entryThree = entryArray[2] || '';
     const entryString = `${entryOne}: ${entryThree}\n`;
     dataString.push(entryString);
   });

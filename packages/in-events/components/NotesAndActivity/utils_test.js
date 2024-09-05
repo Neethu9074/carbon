@@ -238,11 +238,11 @@ describe('filterSearchNotes', () => {
       {
         id: 15,
         authors: 'Denton V',
-        data: [
+        data: Immutable.fromJS([
           ['Priority', '0', '1 - Critical'],
           ['Incident state', 'opened', 'In progress'],
           ['Opened by', '', 'ITIL User']
-        ]
+        ])
       },
       { id: 2, author: 'Jane Doe', contents: 'Another test note' },
       { id: 3, author: 'John Doe', contents: 'Yet another test note' }
@@ -253,11 +253,11 @@ describe('filterSearchNotes', () => {
       {
         id: 15,
         authors: 'Denton V',
-        data: [
+        data: Immutable.fromJS([
           ['Priority', '0', '1 - Critical'],
           ['Incident state', 'opened', 'In progress'],
           ['Opened by', '', 'ITIL User']
-        ]
+        ])
       }
     ]);
   });
@@ -268,11 +268,11 @@ describe('filterSearchNotes', () => {
       {
         id: 15,
         authors: 'Denton V',
-        data: [
+        data: Immutable.fromJS([
           ['Priority', '0', '1 - Critical'],
           ['Incident state', 'opened', 'In progress'],
           ['Opened by', '', 'ITIL User']
-        ]
+        ])
       },
       { id: 2, author: 'Jane Doe', contents: 'Another test note' },
       { id: 3, author: 'John Doe', contents: 'Yet another test note' }

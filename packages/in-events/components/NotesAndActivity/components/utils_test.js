@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+import Immutable from 'immutable';
+
 import {
   validTextEntry,
   noteNameAndTimeFormat,
@@ -58,20 +60,24 @@ describe('createDataString', () => {
   });
 
   test('createDataString general cases', () => {
-    const result = createDataString([
-      ['Priority', '0', '1 - Critical'],
-      ['Incident state', 'opened', 'In progress'],
-      ['Opened by', '', 'ITIL User']
-    ]);
+    const result = createDataString(
+      Immutable.fromJS([
+        ['Priority', '0', '1 - Critical'],
+        ['Incident state', 'opened', 'In progress'],
+        ['Opened by', '', 'ITIL User']
+      ])
+    );
     expect(result).toEqual(['Priority: 1 - Critical\n', 'Incident state: In progress\n', 'Opened by: ITIL User\n']);
   });
 
   test('createDataString unexpected cases', () => {
-    const result = createDataString([
-      ['Priority', '0', '1 - Critical', 'test'],
-      ['Incident state', 'opened'],
-      ['Opened by', '', 'ITIL User']
-    ]);
+    const result = createDataString(
+      Immutable.fromJS([
+        ['Priority', '0', '1 - Critical', 'test'],
+        ['Incident state', 'opened'],
+        ['Opened by', '', 'ITIL User']
+      ])
+    );
     expect(result).toEqual(['Priority: 1 - Critical\n', 'Incident state: \n', 'Opened by: ITIL User\n']);
   });
 });

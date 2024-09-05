@@ -94,9 +94,7 @@ describe('ChatBubble', () => {
     expect(wrapper.find(`div.${locals.bubble}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.myBubble}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(1);
-    expect(wrapper.find(`div.${locals.aiGenBubble}`).text()).toEqual(
-      'Summary generated:This is an ai generated message'
-    );
+    expect(wrapper.find(`div.${locals.aiGenBubble}`).text()).toEqual('Summary generated:');
     expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).text()).toEqual('Summary generated:');
   });

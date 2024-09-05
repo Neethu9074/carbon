@@ -27,7 +27,10 @@ export function getNotes(event) {
           author: x.get('author'),
           metadata: x.get('metadata'),
           contents: x.get('contents'),
-          updated: x.get('updated')
+          updated: x.get('updated'),
+          data: x.get('data'),
+          label: x.get('label'),
+          origin: x.get('origin')
         };
       }) || [];
   return notes;
@@ -35,17 +38,27 @@ export function getNotes(event) {
 
 // Filters through the notes to make sure a notes includes
 // the search input in either the author name or contents
+// Searches through:
+// - author
+// - origin
+// - contents
+// - data
 export function filterSearchNotes(notes, input) {
   const result = notes?.filter(note => {
+    const dataString = [];
     const author = note?.author?.toLowerCase() || '';
     const contents = note?.contents?.toLowerCase() || '';
-    // Flatten the array of arrays down
-    const data = note?.data?.flat(1) || [];
-    // Loop through the data and see the input is found
-    // The created boolean area is checked in the next step to see
-    // At least one true exists
-    const dataBools = data.map(e => e.toLowerCase().includes(input));
-    return author.includes(input) || contents.includes(input) || dataBools.includes(true);
+    const origin = note?.origin?.toLowerCase() || '';
+    // Go through the data and extract all the values
+    note?.data?.map(entry => {
+      const entryArray = entry?._tail?.array;
+      dataString.push(entryArray);
+    });
+    // flatten to one long string for ease of searching through data
+    const searchableData = dataString.flat(1).join().toLowerCase();
+    return (
+      author.includes(input) || contents.includes(input) || origin.includes(input) || searchableData.includes(input)
+    );
   });
 
   return result;

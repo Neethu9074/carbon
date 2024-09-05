@@ -380,7 +380,7 @@ export function generateJournalSummary(note) {
   const obj = http({
     method: 'POST',
     maxRetries: 3,
-    url: `/api/journals/ai/summary/${note.id}`,
+    url: `/api/journal/ai-summary/${note.id}`,
     headers: getCsrfHeader()
   });
   return obj.map(response => fromJS(response.body)).once();
