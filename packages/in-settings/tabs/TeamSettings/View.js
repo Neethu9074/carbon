@@ -5,6 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import {
   teamSettings,
   teamSettingsAccessControlApiTokenDuplicate,
@@ -92,10 +94,11 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { isAddonUserCached } from 'in-logging/api/licence';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-function navigationTreeForRole(role, isAnyIDPActive) {
+function navigationTreeForRole(role, isAnyIDPActive, isAddonUser) {
   const navigationTree = [];
 
   if (role.canConfigureUsers || role.canConfigureTeams || role.canConfigureApiTokens) {
@@ -305,11 +308,11 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     if (role.canDeleteLogs) {
       pages.push(deleteLogsPage);
     }
-    if (role.canConfigureLogRetentionPeriod && logRetentionPageEnabled) {
+    if (role.canConfigureLogRetentionPeriod && logRetentionPageEnabled && isAddonUser) {
       pages.unshift(retentionPeriodPage);
     }
 
-    if (role.canViewLogVolume && logVolumePageEnabled) {
+    if (role.canViewLogVolume && logVolumePageEnabled && isAddonUser) {
       pages.push(logVolumePage);
     }
 
@@ -411,7 +414,9 @@ function navigationTreeForRole(role, isAnyIDPActive) {
 }
 
 export default function View(props) {
+  const isLoggingAddonUser = useObservable(isAddonUserCached, []);
   const isAnyIDPActive = useIsAnyIdPActive();
+
   return (
     <Fragment>
       <ViewTrackingMeta
@@ -422,7 +427,7 @@ export default function View(props) {
       />
 
       <StickySidebarNavigationAndContent
-        navigationTree={navigationTreeForRole(role, isAnyIDPActive)}
+        navigationTree={navigationTreeForRole(role, isAnyIDPActive, isLoggingAddonUser)}
         redirectToDefaultPage={findFirstPermittedTeamPage()}
         redirectFrom={teamSettings}
         NotFoundPage={NotFoundPage}
