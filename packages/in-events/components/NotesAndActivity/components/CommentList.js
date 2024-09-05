@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, CarbonPopover, CarbonPopoverContent, IconButton } from '@instana/components';
 
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { noteNameAndTimeFormat, createDataString, getSummary } from './utils';
@@ -88,9 +88,7 @@ export function CommentList(props) {
                   })}
                 >
                   {noteNameAndTimeFormat(myBubble, note, date, type)}
-                  {aiGen && (
-                    <SvgIcon type={'lib_ai_slug'} className={locals.aiIconSlug} size="xs" viewBox={'4 4 24 24'} />
-                  )}
+                  {aiGen && <AIPopover />}
                 </div>
               </div>
               <ChatBubble
@@ -153,6 +151,73 @@ export function ChatBubble(props) {
           {createDataString(data)}
         </>
       )}
+    </div>
+  );
+}
+
+export function AIPopover() {
+  const [showPop, setShowPop] = useState(false);
+  return (
+    <CarbonPopover open={showPop} align={'bottom-end'} caret>
+      <SvgIcon
+        type={'lib_ai_slug'}
+        className={locals.aiIconSlug}
+        size="xs"
+        viewBox={'4 4 24 24'}
+        onClick={() => {
+          setShowPop(!showPop);
+        }}
+      />
+      <CarbonPopoverContent className={locals.popoverContent}>
+        <div className={locals.popupClose}>
+          <IconButton
+            type={'lib_openclose_cancel'}
+            size="compact"
+            onClick={() => {
+              setShowPop(!showPop);
+            }}
+          />
+        </div>
+        <AIExplainedContent />
+      </CarbonPopoverContent>
+    </CarbonPopover>
+  );
+}
+
+// Static Function that renders the text content within the popover
+// that is explaining the AI being used
+export function AIExplainedContent() {
+  return (
+    <div className={locals.popOverWrapper}>
+      <div className={locals.popupDescription}>
+        {t('in-events:notes.aiExplained')}
+        <div className={locals.popSumTitle}>{t('in-events:notes.summary')}</div>
+        <div>{t('in-events:notes.summaryDescription')}</div>
+      </div>
+      <div>
+        <div className={locals.dataTypesHeader}>{t('in-events:notes.dataTypes')}</div>
+        <div className={locals.bullet}>
+          {'- '}
+          <div>
+            <b>{`${t('in-events:notes.triggeringEvent')}: `}</b>
+            {t('in-events:notes.triggeringEventDesc')}
+          </div>
+        </div>
+        <div className={locals.bullet}>
+          {'- '}
+          <div>
+            <b>{`${t('in-events:notes.relatedEvents')}: `}</b>
+            {t('in-events:notes.relatedEventsDesc')}
+          </div>
+        </div>
+        <div className={locals.bullet}>
+          {'- '}
+          <div>
+            <b>{`${t('in-events:notes.affectedEntities')}: `}</b>
+            {t('in-events:notes.affectedEntitiesDesc')}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

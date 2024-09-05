@@ -274,6 +274,16 @@
     "notesLabelText": "Add incident notes",
     "sumGenerated": "Summary generated:",
     "noActivity": "No activity yet",
-    "noActivityDetails": "There are no notes or activity to show yet. Use the Add comment field to share knowledge or an update for this incident with your team."
+    "noActivityDetails": "There are no notes or activity to show yet. Use the Add comment field to share knowledge or an update for this incident with your team.",
+    "aiExplained": "AI explained",
+    "summary": "Summarization",
+    "summaryDescription": "To generate an incident summary we send incident and associated event data to watsonx. Watsonx then processes this data using an AI model which returns a concise summary of the broader incident.",
+    "dataTypes": "Data types used",
+    "triggeringEvent": "Triggering event",
+    "triggeringEventDesc": "We use the title and description to frame the summary.",
+    "relatedEvents": "Related events",
+    "relatedEventsDesc": "We use the titles, descriptions and associated actions.",
+    "affectedEntities": "Affected entities",
+    "affectedEntitiesDesc": "We use entity data to inform the summary."
   }
 }
