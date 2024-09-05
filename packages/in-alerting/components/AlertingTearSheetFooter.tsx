@@ -23,7 +23,6 @@ interface AlertingTearSheetFooterProps {
   isSaving: boolean;
   form: MapForm<any>;
   setForm: (form: MapForm<any>) => void;
-  migrationMode?: boolean;
   additionalValidationCheck: boolean;
 }
 
@@ -35,7 +34,6 @@ export default function AlertingTearSheetFooter({
   step,
   stepConfigs,
   setForm,
-  migrationMode,
   additionalValidationCheck
 }: AlertingTearSheetFooterProps) {
   //function for segment tracking
@@ -99,7 +97,7 @@ export default function AlertingTearSheetFooter({
                   }}
                   disabled={isLastStep && isSaving}
                 >
-                  {getSaveButtonLabel(action.label, isLastStep, migrationMode)}
+                  {isLastStep ? action.label : t('in-components:blueprintFormMultistep.buttonNext')}
                 </SaveButton>
               )}
             </span>
@@ -108,11 +106,4 @@ export default function AlertingTearSheetFooter({
       )}
     </div>
   );
-}
-
-export function getSaveButtonLabel(defaultLabel: string, isLastStep: boolean, migrationMode?: boolean) {
-  if (isLastStep) {
-    return migrationMode ? t('in-alerting:smartAlerts.components.smartAlertDialog.buttonMigrate') : defaultLabel;
-  }
-  return t('in-components:blueprintFormMultistep.buttonNext');
 }
