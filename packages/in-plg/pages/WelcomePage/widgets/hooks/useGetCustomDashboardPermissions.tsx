@@ -4,28 +4,27 @@
  * Copyright IBM Corp. 2024
  */
 
-import { useState, useEffect } from 'react';
-
 import { useObservable } from '@instana/hooks';
 
 import { getCustomDashboard } from 'in-custom-dashboards/api';
 
-export default function useGetCustomDashboardPermissions(id: string) {
-  const [permission, setPermission] = useState<string | null>(null);
+export default function useGetCustomDashboardPermissions(id: string, annotations: Array<string>) {
   const result = useObservable(getCustomDashboard(id), [id]);
 
-  useEffect(() => {
-    if (result?.data?.accessRules) {
-      for (const item of result.data.accessRules || []) {
-        if (item.accessType === 'READ' && item.relationType === 'GLOBAL') {
-          setPermission('Shared');
-          break;
-        } else {
-          setPermission('Private');
-        }
+  if (result && !result?.progress?.loading && result?.data?.accessRules) {
+    if (result.data.accessRules.length === 0) {
+      if (annotations?.includes('SHARED')) {
+        return 'Shared';
+      } else {
+        return 'Private';
       }
     }
-  }, [result, id]);
-
-  return permission;
+    const hasGlobalRelation = result.data.accessRules.some(item => item.relationType === 'GLOBAL');
+    if (hasGlobalRelation) {
+      return 'Shared';
+    } else {
+      return 'Private';
+    }
+  }
+  return null;
 }

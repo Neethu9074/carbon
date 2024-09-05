@@ -43,7 +43,6 @@ export default function DashboardWidget({
   // @ts-ignore
   const users = useObservable(getUsers, []) ?? null;
   const { createHrefToPath } = useNavigation();
-
   const getHeaders = () => {
     return [
       {
@@ -91,7 +90,7 @@ export default function DashboardWidget({
     {
       key: 'permissions',
       getContent({ item }) {
-        return <DashboardPermission id={item.id} />;
+        return <DashboardPermission id={item.id} annotations={item.annotations} />;
       }
     },
     {
@@ -174,13 +173,14 @@ export default function DashboardWidget({
   );
 }
 
-function DashboardPermission({ id }: { id: string }) {
+function DashboardPermission({ id, annotations }: { id: string; annotations: Array<string> }) {
   const [dashboardPermission, setDashboardPermission] = useState('');
-
-  const permissionResult: string | null = useGetCustomDashboardPermissions(id);
+  const permissionResult: string | null = useGetCustomDashboardPermissions(id, annotations);
   useEffect(() => {
     if (permissionResult) {
       setDashboardPermission(permissionResult);
+    } else {
+      setDashboardPermission('');
     }
   }, [permissionResult]);
   return dashboardPermission ? (
