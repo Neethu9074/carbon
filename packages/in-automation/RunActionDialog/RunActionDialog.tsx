@@ -48,11 +48,11 @@ import { isManual as isManualPolicy, isAutomatic as isAutomaticPolicy } from 'in
 import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from 'in-types';
-import { refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
+import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
-import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
+import { refresh } from 'in-automation/AutomationCard/useScoredActions';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { Option, Options } from 'in-components/ComboBox/ComboBox';
@@ -74,7 +74,6 @@ interface RunActionDialogProps {
   policy?: NewPolicy;
   executePolicy?: Policy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
-  setActiveKey?: SetActiveKey;
 }
 
 export default function RunActionDialog({
@@ -84,8 +83,7 @@ export default function RunActionDialog({
   test,
   policy,
   handleSave,
-  executePolicy,
-  setActiveKey
+  executePolicy
 }: RunActionDialogProps) {
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
@@ -142,7 +140,6 @@ export default function RunActionDialog({
               isSaving={isSaving}
               noTurboAgents={noTurboAgents}
               form={form}
-              setActiveKey={setActiveKey}
               onSave={() =>
                 onSave(
                   {
@@ -409,7 +406,7 @@ function onSave(
     } else {
       setActionInstanceId(response.actionInstanceId);
       if (isExternal(action.type)) {
-        refreshScoredActions();
+        refresh();
       }
     }
   };
@@ -538,7 +535,6 @@ interface RunActionFooterProps {
   test?: boolean;
   policy?: NewPolicy;
   noTurboAgents?: boolean;
-  setActiveKey?: SetActiveKey;
 }
 
 function RunActionFooter({
@@ -549,8 +545,7 @@ function RunActionFooter({
   onSave,
   test,
   policy,
-  noTurboAgents = false,
-  setActiveKey
+  noTurboAgents = false
 }: RunActionFooterProps) {
   const navigateToActionHistory = useNavigateToActionHistory();
   if (error || actionInstanceId) {
@@ -572,7 +567,7 @@ function RunActionFooter({
               navigateToActionHistory(actionInstanceId);
             } else {
               refreshHistory();
-              if (setActiveKey) setActiveKey('actionHistory');
+              setActiveKey('actionHistory');
             }
 
             close();

@@ -5,30 +5,17 @@
  */
 
 :local {
-  .actionDescriptionMargin dt {
-    margin-bottom: 0.25rem;
-  }
-
   .manualContentMarkdown {
     background: var(--ids-color-option-neutral-50);
     display: flex;
     justify-content: space-between;
   }
-  .actionModalFontSize {
-    font-size: 0.8rem;
-    font-weight: 400;
-  }
 
   .codeBlock {
     padding: 1rem;
-    ol,
-    ul {
-      list-style-type: revert;
-      margin: 0;
-      padding: 1.2rem;
-      li {
-        margin-bottom: 0.5rem;
-      }
+    word-break: break-word;
+    *:not(#copyActionButton) {
+      all: revert;
     }
   }
 }

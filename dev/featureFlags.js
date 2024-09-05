@@ -166,5 +166,6 @@ module.exports = {
   increaseAggregationEnabled: false,
   carbonCodeEnabled: true,
   extrapolateMissingStackedAreaValues: false,
-  nutanixEnabled: true
+  nutanixEnabled: true,
+  automationActionAiGenerationUnitEnabled: true
 };

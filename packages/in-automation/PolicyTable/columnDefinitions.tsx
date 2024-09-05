@@ -47,7 +47,7 @@ export const nameColumn: ColumnDefinition<Policy> = {
 
 export const actionNameColumn: ColumnDefinition<Policy> = {
   id: 'actionName',
-  label: t('in-automation:policies.actionName'),
+  label: t('in-automation:actionName'),
   getContent: item => (
     <Tooltip
       content={item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name}

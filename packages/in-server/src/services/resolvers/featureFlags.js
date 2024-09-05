@@ -789,5 +789,10 @@ module.exports = exports = [
     uiClientKey: 'nutanixEnabled',
     instanaCtlKey: 'feature.nutanix.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'automationActionAiGenerationUnitEnabled',
+    instanaCtlKey: 'feature.automation.action.ai.generation.unit.enabled',
+    defaultValue: false
   }
 ];

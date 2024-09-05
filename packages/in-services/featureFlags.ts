@@ -284,3 +284,7 @@ export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabl
 export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetricsEnabled', false);
 export const increaseAggregationEnabled = isFeatureFlagEnabled('increaseAggregationEnabled', false);
 export const extrapolateMissingStackedAreaValuesEnabled = isFeatureFlagEnabled('extrapolateMissingStackedAreaValues');
+export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
+  'automationActionAiGenerationUnitEnabled',
+  false
+);

@@ -263,6 +263,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "Confirm",
+    "secondaryDialogLabelCancel": "Cancel",
     "promptPresenterLabelConfirm": "Confirm"
   },
   "draggableItemSelector": {
