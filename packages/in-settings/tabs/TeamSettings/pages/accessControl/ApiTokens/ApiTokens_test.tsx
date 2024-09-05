@@ -26,9 +26,6 @@ jest.mock('in-settings/hooks/useTenantUnitsInfo', () => ({
   useTenantUnitsInfo: jest.fn()
 }));
 jest.mock('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api');
-jest.mock('in-services/featureFlags', () => ({
-  apiTokenDialogEnabled: true
-}));
 
 const mockGoToPath = jest.fn();
 jest.mock('in-stores/navigation/hooks/useNavigation', () => ({
@@ -68,11 +65,12 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
   interface MockConfig {
     readonly amount: number;
     readonly errors?: Error[];
+    readonly delay?: number;
     readonly first?: ApiTokenProps;
   }
 
   // @ts-expect-error
-  const mockGet = ({ amount, errors = null, first = null }: MockConfig) => {
+  const mockGet = ({ amount, errors = null, delay = null, first = null }: MockConfig) => {
     const res = create();
     res.emit({ errors: null, progress: { loading: false } });
 
@@ -88,11 +86,15 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
       if (errors) {
         res.emit({ errors, progress: { loading: false } });
       } else {
-        res.emit(data);
+        res.emit({ errors: null, progress: { loading: false }, data });
       }
     };
 
-    sendResult();
+    if (delay) {
+      setTimeout(sendResult, delay);
+    } else {
+      sendResult();
+    }
     // @ts-expect-error jest api apparently not supported by TS
     getApiTokens.mockReturnValue(res);
   };

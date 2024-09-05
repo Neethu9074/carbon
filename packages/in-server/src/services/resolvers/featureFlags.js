@@ -461,9 +461,9 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'apiTokenDialogEnabled',
-    instanaCtlKey: 'feature.apitoken.dialog.enabled',
-    defaultValue: true
+    uiClientKey: 'apiTokenExpirationEnabled',
+    instanaCtlKey: 'feature.apitoken.expiration.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'regexMetricSelectionEnabled',

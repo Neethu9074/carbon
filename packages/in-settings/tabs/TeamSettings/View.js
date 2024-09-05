@@ -5,6 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import {
   teamSettings,
   teamSettingsAccessControlApiTokenDuplicate,
@@ -73,7 +75,6 @@ import DeleteLogsPage from 'in-settings/tabs/TeamSettings/pages/logManagement/De
 import DbMarlin from 'in-settings/tabs/TeamSettings/pages/integrations/database/DbMarlin/DbMarlin';
 import LogVolumePage from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/LogVolume';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
-import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import SplunkPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Splunk/Splunk';
 import MezmoPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Mezmo/Mezmo';
 import HumioPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Humio/Humio';
@@ -89,15 +90,15 @@ import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Us
 import AuditTrailPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditTrail';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
-import { apiTokenDialogEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { isAddonUserCached } from 'in-logging/api/licence';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-function navigationTreeForRole(role, isAnyIDPActive) {
+function navigationTreeForRole(role, isAnyIDPActive, isAddonUser) {
   const navigationTree = [];
 
   if (role.canConfigureUsers || role.canConfigureTeams || role.canConfigureApiTokens) {
@@ -147,27 +148,20 @@ function navigationTreeForRole(role, isAnyIDPActive) {
         path: teamSettingsAccessControlApiTokens,
         label: t('in-settings:tabs.apiTokens'),
         component: ApiTokensPage,
-        subPages: apiTokenDialogEnabled
-          ? [
-              {
-                path: teamSettingsAccessControlApiTokenEdit,
-                component: ApiTokenFormDialog
-              },
-              {
-                path: teamSettingsAccessControlApiTokenNew,
-                component: ApiTokenFormDialog
-              },
-              {
-                path: teamSettingsAccessControlApiTokenDuplicate,
-                component: ApiTokenFormDialog
-              }
-            ]
-          : [
-              {
-                path: teamSettingsAccessControlApiTokenEdit,
-                component: ApiTokenPage
-              }
-            ]
+        subPages: [
+          {
+            path: teamSettingsAccessControlApiTokenEdit,
+            component: ApiTokenFormDialog
+          },
+          {
+            path: teamSettingsAccessControlApiTokenNew,
+            component: ApiTokenFormDialog
+          },
+          {
+            path: teamSettingsAccessControlApiTokenDuplicate,
+            component: ApiTokenFormDialog
+          }
+        ]
       });
     }
 
@@ -314,11 +308,11 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     if (role.canDeleteLogs) {
       pages.push(deleteLogsPage);
     }
-    if (role.canConfigureLogRetentionPeriod && logRetentionPageEnabled) {
+    if (role.canConfigureLogRetentionPeriod && logRetentionPageEnabled && isAddonUser) {
       pages.unshift(retentionPeriodPage);
     }
 
-    if (role.canViewLogVolume && logVolumePageEnabled) {
+    if (role.canViewLogVolume && logVolumePageEnabled && isAddonUser) {
       pages.push(logVolumePage);
     }
 
@@ -420,7 +414,9 @@ function navigationTreeForRole(role, isAnyIDPActive) {
 }
 
 export default function View(props) {
+  const isLoggingAddonUser = useObservable(isAddonUserCached, []);
   const isAnyIDPActive = useIsAnyIdPActive();
+
   return (
     <Fragment>
       <ViewTrackingMeta
@@ -431,7 +427,7 @@ export default function View(props) {
       />
 
       <StickySidebarNavigationAndContent
-        navigationTree={navigationTreeForRole(role, isAnyIDPActive)}
+        navigationTree={navigationTreeForRole(role, isAnyIDPActive, isLoggingAddonUser)}
         redirectToDefaultPage={findFirstPermittedTeamPage()}
         redirectFrom={teamSettings}
         NotFoundPage={NotFoundPage}
