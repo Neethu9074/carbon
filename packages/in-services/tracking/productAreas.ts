@@ -10,6 +10,7 @@ export const productAreas = Object.freeze({
   applications: 'Applications',
   infrastructure: 'Infrastructure',
   synthetic_monitoring: 'Synthetic Monitoring',
+  logging: 'Logging',
   analytics: 'Analytics',
   events: 'Events',
   slo: 'Service Level Objectives',

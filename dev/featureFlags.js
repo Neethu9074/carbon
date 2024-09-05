@@ -152,6 +152,7 @@ module.exports = {
   carbonPaginationEnabled: true,
   carbonTableEnabled: false,
   logVolumePageEnabled: true,
+  logHomepageEnabled: true,
   carbonHorizontalIndicatorEnabled: true,
   analyzeRelatedInstancesButtonEnabled: true,
   maxMetricsLimitForBeeinstanaEnabled: true,

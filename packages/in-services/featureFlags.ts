@@ -53,6 +53,7 @@ export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
+export const logHomepageEnabled = isFeatureFlagEnabled('logHomepageEnabled');
 export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');

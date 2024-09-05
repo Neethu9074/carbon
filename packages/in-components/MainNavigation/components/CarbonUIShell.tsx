@@ -47,6 +47,8 @@ import {
 } from 'in-stores/permission';
 import {
   bizopsPerspectivesEnabled,
+  loggingEnabled,
+  logHomepageEnabled,
   playwithEnabled,
   playWithReleaseEnabled,
   tenantSwitcherEnabled,
@@ -66,6 +68,12 @@ import {
   infraSmartAlerts,
   settingsPath
 } from 'in-stores/navigation/paths/mainPaths';
+import {
+  isAnalyzeView as isLogsAnalyzeView,
+  isLoggingView,
+  loggingDashboardPath,
+  logsPathWithDataSource
+} from 'in-logging/navigation/paths';
 import {
   applicationsList,
   isApplicationsView,
@@ -96,7 +104,6 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 // @ts-expect-error no declaration file
 import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
-import { isAnalyzeView as isLogsAnalyzeView, logsPathWithDataSource } from 'in-logging/navigation/paths';
 import { isBizOpsView, businessPerspectivesPath, businessProcessPath } from 'in-bizops/navigation/paths';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
@@ -514,6 +521,23 @@ function SloDashboard() {
   );
 }
 
+function Logging() {
+  const { matchLocation, createHrefToPath } = useNavigation();
+
+  if (!loggingEnabled || !role?.canViewLogs || !logHomepageEnabled) {
+    return null;
+  }
+  return (
+    <MenuItem
+      id="main-nav-logging"
+      label={t('in-components:mainNavigation.viewSwitcherLabelLogs')}
+      icon="lib_application_logging"
+      isActive={matchLocation(isLoggingView)}
+      href={createHrefToPath(loggingDashboardPath)}
+    />
+  );
+}
+
 function Synthetics() {
   const { matchLocation, createHrefToPath } = useNavigation();
 
@@ -744,6 +768,7 @@ export default function CarbonUIShell() {
       <Infrastructure />
       <MenuItem isDivider />
       {welcomePageV2Enabled && <CustomDashboards />}
+      <Logging />
       <Synthetics />
       <Analyze />
       <Incidents />
