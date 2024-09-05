@@ -31,10 +31,6 @@ jest.mock('in-stores/navigation/hooks/useNavigation', () => ({
 
 jest.mock('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api');
 
-jest.mock('in-services/featureFlags', () => ({
-  apiTokenDialogEnabled: true
-}));
-
 const mockHistoryPush = jest.fn();
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
