@@ -53,6 +53,21 @@ describe('calculateYScaleBuffer', () => {
     expect(result.yMax).toBe(19);
   });
 
+  it('should correctly calculate yMin and yMax for a combination of positive and negative values', () => {
+    // Given
+    const data: MetricDataPoint[] = [
+      [1622556000000, 200],
+      [1622559600000, -150],
+      [1622569600000, 50],
+      [1622549600000, -350]
+    ];
+    // When
+    const result = calculateYScaleBuffer([data]);
+    // Then
+    expect(result.yMin).toBe(-350);
+    expect(result.yMax).toBe(255);
+  });
+
   it('yMin should be 0 if min is 0', () => {
     // Given
     const data: MetricDataPoint[] = [
@@ -66,21 +81,6 @@ describe('calculateYScaleBuffer', () => {
     // Then
     expect(result.yMin).toBe(0);
     expect(result.yMax).toBe(30);
-  });
-
-  it('yMin must be the highest -y value if min is negative', () => {
-    // Given
-    const data: MetricDataPoint[] = [
-      [1622556000000, 200],
-      [1622559600000, -150],
-      [1622569600000, -250],
-      [1622549600000, -350]
-    ];
-    // When
-    const result = calculateYScaleBuffer([data]);
-    // Then
-    expect(result.yMin).toBe(-350);
-    expect(result.yMax).toBe(255);
   });
 
   it('yMin must be min with some buffer when the range(difference between max and min) is exactly 0', () => {
