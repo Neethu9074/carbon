@@ -63,7 +63,7 @@ export function DeprecatedCustomEventWarning({ event, isIncident }: Props) {
     Boolean(showBanner) && (
       <Row withoutSideMargin>
         <Col xs>
-          <Message type="warning" withIcon>
+          <Message type="warning" withIcon fullInlineWidth>
             <MessageContentModernDesign>
               <Trans
                 i18nKey="in-events:deprecatedCustomEventWarning"

@@ -13,7 +13,7 @@ interface CodeProps {
   onChange: (value: string) => void;
   readOnly?: boolean;
   lineNumbers?: boolean;
-
+  lineWrapping?: boolean;
   // This is derived from usage, it might not actually be supported
   hasError?: boolean;
 }

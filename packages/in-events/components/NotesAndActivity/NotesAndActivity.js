@@ -104,23 +104,6 @@ export function NotesAndActivity(props) {
 
   // TESTING PURPOSES ONLY
   // notes.push({
-  //   type: "external_note",
-  //   id: "note-12345",
-  //   parent: "bZn54ySOQaGEyt9Ls2eZ3g",
-  //   timestamp: 1692892800000,
-  //   updated: 0,
-  //   author: "johndoe",
-  //   metadata: {
-  //     apiToken: "iid-valid-api-token",
-  //     createdBy: "johndoe",
-  //     priority: "High",
-  //     userId: null
-  //   },
-  //   origin: "",
-  //   internal: true,
-  //   label: "Work Notes",
-  //   contents: "This is an internal note regarding the test"})
-  // notes.push({
   //   type: 'external_note',
   //   id: 'note-123fddf45',
   //   parent: 'vQ9n1JcfTXKZC-5DsY_74Q',

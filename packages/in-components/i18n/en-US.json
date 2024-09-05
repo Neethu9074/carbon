@@ -263,6 +263,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "Confirm",
+    "secondaryDialogLabelCancel": "Cancel",
     "promptPresenterLabelConfirm": "Confirm"
   },
   "draggableItemSelector": {
@@ -427,6 +428,7 @@
     "viewSwitcherlabelInfrastructure": "Infrastructure",
     "viewSwitcherLabelApplications": "Applications",
     "viewSwitcherLabelSlo": "Service Levels",
+    "viewSwitcherLabelLogs": "Logs",
     "viewSwitcherLabelAnalytics": "Analytics",
     "viewSwitcherLabelWebsitesAndMobileApps": "Websites & Mobile Apps",
     "viewSwitcherLabelWebsites": "Websites",
@@ -443,6 +445,7 @@
     "viewSwitcherCustomDashboards": "Custom Dashboards",
     "viewSwitcherButtonSignOut": "Sign Out",
     "viewSwitcherLabelTenants": "Tenants",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "New version of Instana UI available",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Reload to update",
     "profileMenu_profileLink": "Profile",

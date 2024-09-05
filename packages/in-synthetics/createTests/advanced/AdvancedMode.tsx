@@ -13,7 +13,6 @@ import { t } from '@instana/i18n-react';
 
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
-import { syntheticCertificateCheckEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import SSLCertificateConfiguration from 'in-synthetics/createTests/advanced/SSLCertificateConfiguration';
 import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/BrowserSimpleConfiguration';
 import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePrintSelectionSection';
@@ -26,6 +25,7 @@ import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleS
 import IdentifySection from 'in-synthetics/createTests/advanced/IdentifySection';
 import ScriptsSection from 'in-synthetics/createTests/advanced/ScriptsSection';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -69,7 +69,7 @@ const AdvancedMode = ({
     }
   };
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
-    getAdvancedBlueprintConfig(syntheticCertificateCheckEnabled)[getSelectedBlueprintIndex()]
+    getAdvancedBlueprintConfig()[getSelectedBlueprintIndex()]
   );
   const timeConfig = useTimeConfig();
   const applications: Result<GroupPermissionEntity[]> =

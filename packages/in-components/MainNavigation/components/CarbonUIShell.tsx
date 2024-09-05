@@ -42,10 +42,13 @@ import {
   hasSAPAccess,
   hasSloAccess,
   hasInfrastructureAnalyzeAccess,
-  hasAutomationAccess
+  hasAutomationAccess,
+  hasNutanixAccess
 } from 'in-stores/permission';
 import {
   bizopsPerspectivesEnabled,
+  loggingEnabled,
+  logHomepageEnabled,
   playwithEnabled,
   playWithReleaseEnabled,
   tenantSwitcherEnabled,
@@ -65,6 +68,12 @@ import {
   infraSmartAlerts,
   settingsPath
 } from 'in-stores/navigation/paths/mainPaths';
+import {
+  isAnalyzeView as isLogsAnalyzeView,
+  isLoggingView,
+  loggingDashboardPath,
+  logsPathWithDataSource
+} from 'in-logging/navigation/paths';
 import {
   applicationsList,
   isApplicationsView,
@@ -95,13 +104,13 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 // @ts-expect-error no declaration file
 import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
-import { isAnalyzeView as isLogsAnalyzeView, logsPathWithDataSource } from 'in-logging/navigation/paths';
 import { isBizOpsView, businessPerspectivesPath, businessProcessPath } from 'in-bizops/navigation/paths';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { actionCatalogFullyQualified, isAutomationView } from 'in-automation/navigation/paths';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
+import { nutanixClusterListFullyQualified, nutanix } from 'in-nutanix/navigation/paths';
 import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
@@ -286,16 +295,6 @@ function platformsContent(
         isActive={matchLocation(cloudfoundry)}
       />
     ) : null,
-    hasOpenStackAccess && !playwithEnabled ? (
-      <MenuItem
-        {...optionalProps}
-        id="main-nav-openstack"
-        key="main-nav-openstack"
-        label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
-        href={createHrefToPath(regionListFullyQualified)}
-        isActive={matchLocation(openstack)}
-      />
-    ) : null,
     hasPHMCAccess && !playwithEnabled ? (
       <MenuItem
         {...optionalProps}
@@ -326,6 +325,16 @@ function platformsContent(
         isActive={matchLocation(ibmz)}
       />
     ) : null,
+    hasOpenStackAccess && !playwithEnabled ? (
+      <MenuItem
+        {...optionalProps}
+        id="main-nav-openstack"
+        key="main-nav-openstack"
+        label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
+        href={createHrefToPath(regionListFullyQualified)}
+        isActive={matchLocation(openstack)}
+      />
+    ) : null,
     hasKubernetesAccess ? (
       <MenuItem
         {...optionalProps}
@@ -334,6 +343,16 @@ function platformsContent(
         label={t('in-components:mainNavigation.viewSwitcherLabelKubernetes')}
         href={createHrefToPath(kubernetesClusterList)}
         isActive={matchLocation(kubernetes)}
+      />
+    ) : null,
+    hasNutanixAccess && !playwithEnabled ? (
+      <MenuItem
+        {...optionalProps}
+        id="main-nav-nutanix"
+        key="main-nav-nutanix"
+        label={t('in-components:mainNavigation.viewSwitcherLabelNutanix')}
+        href={createHrefToPath(nutanixClusterListFullyQualified)}
+        isActive={matchLocation(nutanix)}
       />
     ) : null,
     hasSAPAccess && !playwithEnabled ? (
@@ -498,6 +517,23 @@ function SloDashboard() {
       isActive={matchLocation(isSloView)}
       href={createHrefToPath(serviceLevelsOverview)}
       isBeta
+    />
+  );
+}
+
+function Logging() {
+  const { matchLocation, createHrefToPath } = useNavigation();
+
+  if (!loggingEnabled || !role?.canViewLogs || !logHomepageEnabled) {
+    return null;
+  }
+  return (
+    <MenuItem
+      id="main-nav-logging"
+      label={t('in-components:mainNavigation.viewSwitcherLabelLogs')}
+      icon="lib_application_logging"
+      isActive={matchLocation(isLoggingView)}
+      href={createHrefToPath(loggingDashboardPath)}
     />
   );
 }
@@ -732,6 +768,7 @@ export default function CarbonUIShell() {
       <Infrastructure />
       <MenuItem isDivider />
       {welcomePageV2Enabled && <CustomDashboards />}
+      <Logging />
       <Synthetics />
       <Analyze />
       <Incidents />

@@ -45,8 +45,8 @@ import ApplicationsTopList from 'in-cockpit/Cockpit/components/ApplicationsTopLi
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { createAsyncComponent } from 'in-components/routing/createAsyncComponent';
-import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { carbonButtonEnabled, playwithEnabled } from 'in-services/featureFlags';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import PlatformsTopList from 'in-cockpit/Cockpit/components/PlatformsTopList';
 import EventChartCard from 'in-cockpit/Cockpit/components/EventChartCard';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';

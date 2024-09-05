@@ -453,6 +453,8 @@ export const ALERTING_PAUSED = 'smartalert.paused';
 export const ALERTING_RESUMED = 'smartalert.resumed';
 export const ALERTING_REVISION_CHANGED = 'smartalert.revision.changed';
 export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
+//This is only available for tearsheets(To track from which step users closed the form)
+export const ALERTING_CANCEL_CLICKED = 'smartalert.cancel.clicked';
 
 // Business Monitoring Tracking
 export const BIZOPS_TABS_CLICK = 'bizops.tabs.click';

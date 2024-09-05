@@ -41,7 +41,6 @@ export interface AlertingTearSheetProps {
   isSaving: boolean;
   children: ReactNode;
   form: MapForm<any>;
-  migrationMode?: boolean;
   additionalValidationCheck: boolean;
   headerWithMsg: boolean;
   setForm: (form: MapForm<any>) => void;
@@ -61,7 +60,6 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
     additionalValidationCheck,
     setForm,
     headerWithMsg,
-    migrationMode,
     sideNavigationEnabled
   } = props;
 
@@ -101,7 +99,6 @@ export default function AlertingTearSheet(props: AlertingTearSheetProps) {
                 step={step}
                 stepConfigs={stepConfigs}
                 setForm={setForm}
-                migrationMode={migrationMode}
                 additionalValidationCheck={additionalValidationCheck}
               />
             </div>

@@ -189,7 +189,9 @@ function applicationLabel(): ColumnDefinition<SyntheticTest> {
             websiteLabels={websiteLabels}
             mobileAppIds={mobileAppIds}
             mobileAppLabels={mobileAppLabels}
-            shouldDisplayLink={false}
+            applicationIdsCanBeLinked={[]}
+            websiteIdsCanBeLinked={[]}
+            mobileAppIdsCanBeLinked={[]}
           />
         );
       }

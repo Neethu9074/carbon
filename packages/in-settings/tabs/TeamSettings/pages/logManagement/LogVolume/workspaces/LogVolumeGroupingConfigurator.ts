@@ -9,7 +9,7 @@ import { just } from '@instana/observables';
 import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
 
 // needs to be changed to get data from backend later, after GA
-const groupTags = {
+export const groupTags = {
   tagTree: [
     {
       type: 'TAG',

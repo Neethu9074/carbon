@@ -54,5 +54,11 @@
   "host": "Host",
   "fileOnHost": "on",
   "file": "File",
-  "logExpiration": "Retained Until"
+  "logExpiration": "Retained Until",
+  "dashboard": {
+    "summary": "Summary",
+    "smartAlerts": "Smart Alerts",
+    "deleteLogs": "Delete Logs",
+    "configuration": "Configuration"
+  }
 }

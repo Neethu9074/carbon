@@ -43,16 +43,18 @@ export const getTriggerIdFromEvent = (event: Event): string => event?.metadata?.
 export const createBasePolicy = (
   event: Event,
   action: Action,
-  policyData?: { name: string; description: string; tags: string[] }
+  { name, description, tags }: { name: string; description: string; tags: string[] } = {
+    name: `Policy_${action.name}_${action.id}`,
+    description: action.description ?? `Description for ${action.name}`,
+    tags: []
+  }
 ): NewPolicy => {
-  const initialName = policyData?.name ?? `Policy_${action.name}_${action.id}`;
-  // make sure name is  no longer than 127 characters
-  const name = initialName.slice(0, 127);
+  const trimmedName = name.slice(0, 127);
 
   return {
-    name,
-    description: policyData?.description ?? action.description ?? `Description for ${action.name}`,
-    tags: policyData?.tags ?? [],
+    name: trimmedName,
+    description,
+    tags,
     trigger: {
       type: getTriggerTypeFromEvent(event),
       id: getTriggerIdFromEvent(event)

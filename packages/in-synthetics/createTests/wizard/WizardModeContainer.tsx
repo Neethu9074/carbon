@@ -11,7 +11,6 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
-// @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import RequestResponseStep from 'in-synthetics/createTests/wizard/RequestResponseStep';
 import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
@@ -87,7 +86,7 @@ const WizardModeContainer = ({
       title: t('in-synthetics:dialog.createTest.titles.step5')
     }
   ];
-  const stepConfigs = Object.freeze(syntheticRbacLimitedEnabled ? basicStepConfigs : basicStepConfigs.slice(0, 4));
+  const stepConfigs = syntheticRbacLimitedEnabled ? basicStepConfigs : basicStepConfigs.slice(0, 4);
 
   const [script, setScript] = useState<Script>({ name: '', text: '', extension: 'js' });
   const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -159,7 +158,7 @@ const WizardModeContainer = ({
         simpleModeStep={simpleModeStep}
         isSaving={isSaving}
         additionalStepCheck={(step: number) => {
-          return step !== 0 ? isStepDisabled(step) : true;
+          return step !== 0 ? isStepDisabled(step) ?? true : true;
         }}
         onStepChanged={noop}
       />

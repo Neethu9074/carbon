@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
@@ -26,14 +26,7 @@ import locals from 'in-alerting/smart-alerts/components/tearSheet/ConfigureAlert
 
 export default function ConfigureAlertChannel({ form, onChange, numberOfAlertChannelListRows = 5 }) {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
-
-  const entityResult = useObservable(() => {
-    // update channel list whenever dialog is closed.
-    if (!createDialogOpen) {
-      return getAlertChannelsInfosMutable().startWith(null);
-    }
-    return undefined;
-  }, [createDialogOpen]);
+  const entityResult = useGetChannlelist(createDialogOpen);
   channelListLoading$.emit(entityResult?.length ?? undefined);
 
   return (
@@ -83,6 +76,20 @@ export default function ConfigureAlertChannel({ form, onChange, numberOfAlertCha
       <TouchedMessages field={form.get('alertChannelIds')} />
     </>
   );
+}
+
+function useGetChannlelist(createDialogOpen) {
+  const oldData = useMemo(() => {
+    return getAlertChannelsInfosMutable().startWith(null);
+  }, []);
+
+  return useObservable(() => {
+    // update channel list whenever dialog is closed.
+    if (!createDialogOpen) {
+      return getAlertChannelsInfosMutable().startWith(null);
+    }
+    return oldData;
+  }, [createDialogOpen]);
 }
 
 ConfigureAlertChannel.propTypes = {

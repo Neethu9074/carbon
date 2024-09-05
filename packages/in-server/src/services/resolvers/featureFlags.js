@@ -211,6 +211,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'logHomepageEnabled',
+    instanaCtlKey: 'feature.log.homepage.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'enableTroubleshootingMode',
     instanaCtlKey: 'feature.troubleshooting.mode.enabled',
     defaultValue: false
@@ -414,11 +419,6 @@ module.exports = exports = [
     uiClientKey: 'syntheticInstanaHostedPoPEnabled',
     instanaCtlKey: 'feature.synthetic.instana.hosted.pop.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticCertificateCheckEnabled',
-    instanaCtlKey: 'feature.synthetic.certificate.check.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'syntheticRbacLimitedEnabled',
@@ -783,6 +783,16 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonCodeEnabled',
     instanaCtlKey: 'feature.carbon.code.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'nutanixEnabled',
+    instanaCtlKey: 'feature.nutanix.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'automationActionAiGenerationUnitEnabled',
+    instanaCtlKey: 'feature.automation.action.ai.generation.unit.enabled',
     defaultValue: false
   }
 ];

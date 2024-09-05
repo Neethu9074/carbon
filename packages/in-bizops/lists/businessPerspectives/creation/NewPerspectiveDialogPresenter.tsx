@@ -9,7 +9,6 @@ import { MapForm } from 'formalistic';
 
 import { useObservable } from '@instana/hooks';
 
-// @ts-expect-error Need to translate file to TS
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { NewPerspectiveFormStepOne } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveFormStepOne';
 import { NewPerspectiveFormStepTwo } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveFormStepTwo';

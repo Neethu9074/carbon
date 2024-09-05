@@ -9,11 +9,12 @@ import PropTypes from 'prop-types';
 
 import { Message, Spacer, Pill, IconButton, Button } from '@instana/components';
 
-import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
+import { ALERTING_EDIT, ALERTING_CLONE_TRIGGER } from 'in-services/tracking/eventNames';
 import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import RevisionDropdown from 'in-alerting/components/RevisionDropdown';
@@ -44,20 +45,23 @@ export default function AlertHeader({
   onConfigDeleteTrigger,
   displayEditAction,
   displayTearSheetActions,
+  getLinkToEditOrDuplicateSmartAlertTearSheet,
   displayDuplicateAction,
   isGlobalSmartAlert = false,
   hideAlertIcon = false
 }) {
   const { goToPath, createHrefToPath } = useNavigation();
+  const { trackCta } = useSegmentTracking();
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
 
-  const getLinkToDuplicateSmartAlert = useSmartAlertTearSheetUrl();
-  const duplicateSmartAlertPath = getLinkToDuplicateSmartAlert({
-    isGlobal: isGlobalSmartAlert,
-    alertId: alertConfig.id,
-    alertConfigCreated: alertConfig.created,
-    duplicateMode: true
-  });
+  const duplicateSmartAlertPath =
+    displayTearSheetActions &&
+    getLinkToEditOrDuplicateSmartAlertTearSheet({
+      isGlobal: isGlobalSmartAlert,
+      alertId: alertConfig.id,
+      alertConfigCreated: alertConfig.created,
+      duplicateMode: true
+    });
 
   const alertRevision =
     extendedAlertConfigVersions.find(({ created }) => alertConfig.created === created) ?? alertConfig;
@@ -70,13 +74,14 @@ export default function AlertHeader({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
 
-  const getLinkToEditSmartAlert = useSmartAlertTearSheetUrl();
-  const editSmartAlertPath = getLinkToEditSmartAlert({
-    isGlobal: isGlobalSmartAlert,
-    alertId: alertConfig.id,
-    alertConfigCreated: alertConfig.created,
-    editMode: true
-  });
+  const editSmartAlertPath =
+    displayTearSheetActions &&
+    getLinkToEditOrDuplicateSmartAlertTearSheet({
+      isGlobal: isGlobalSmartAlert,
+      alertId: alertConfig.id,
+      alertConfigCreated: alertConfig.created,
+      editMode: true
+    });
   const doToggleEnabled = () => {
     setIsToggling(true);
 
@@ -249,7 +254,10 @@ export default function AlertHeader({
                     kind="primaryv2"
                     data-testid="editConfigButtonTearsheet"
                     type="lib_actions_edit"
-                    onClick={() => goToPath(editSmartAlertPath.slice(2))}
+                    onClick={() => {
+                      trackCta(ALERTING_EDIT, { ...alertConfig });
+                      goToPath(editSmartAlertPath.slice(2));
+                    }}
                     alignment="right"
                   />
                 </Tooltip>
@@ -260,7 +268,10 @@ export default function AlertHeader({
                     kind="primaryv2"
                     data-testid="duplicateConfigButtonTearsheet"
                     type="lib_actions_copy"
-                    onClick={() => goToPath(duplicateSmartAlertPath.slice(2))}
+                    onClick={() => {
+                      trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfig });
+                      goToPath(duplicateSmartAlertPath.slice(2));
+                    }}
                     alignment="right"
                   />
                 </Tooltip>
@@ -377,6 +388,7 @@ AlertHeader.propTypes = {
   onConfigDeleteTrigger: PropTypes.func,
   displayEditAction: PropTypes.bool,
   displayTearSheetActions: PropTypes.bool,
+  getLinkToEditOrDuplicateSmartAlertTearSheet: PropTypes.func,
   displayDuplicateAction: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool,
   hideAlertIcon: PropTypes.bool

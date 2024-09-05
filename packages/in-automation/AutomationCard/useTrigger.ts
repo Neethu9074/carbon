@@ -9,8 +9,7 @@ import { useObservable } from '@instana/hooks';
 
 import {
   getApplicationSmartAlertConfig,
-  getBuiltInEventSpecification,
-  getCustomEventSpecification,
+  getEventSpecification,
   getGlobalApplicationSmartAlertConfig,
   getInfraSmartAlertConfig,
   getLogSmartAlertConfig,
@@ -33,9 +32,8 @@ function getTrigger(event: Event): () => Observable<Result<TriggerSpecification>
   const triggerType = getTriggerTypeFromEvent(event);
   switch (triggerType) {
     case 'builtinEvent':
-      return () => getBuiltInEventSpecification(triggerId);
     case 'customEvent':
-      return () => getCustomEventSpecification(triggerId);
+      return () => getEventSpecification(triggerId);
     case 'applicationSmartAlert':
       return () => getApplicationSmartAlertConfig(triggerId);
     case 'websiteSmartAlert':

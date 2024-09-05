@@ -128,7 +128,6 @@ module.exports = {
   disableInvitesWithIdpEnabled: false,
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
-  syntheticCertificateCheckEnabled: true,
   syntheticRbacLimitedEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
@@ -153,6 +152,7 @@ module.exports = {
   carbonPaginationEnabled: true,
   carbonTableEnabled: false,
   logVolumePageEnabled: true,
+  logHomepageEnabled: true,
   carbonHorizontalIndicatorEnabled: true,
   analyzeRelatedInstancesButtonEnabled: true,
   maxMetricsLimitForBeeinstanaEnabled: true,
@@ -165,5 +165,7 @@ module.exports = {
   applicationSmartAlertDialogView: true,
   increaseAggregationEnabled: false,
   carbonCodeEnabled: true,
-  extrapolateMissingStackedAreaValues: false
+  extrapolateMissingStackedAreaValues: false,
+  nutanixEnabled: true,
+  automationActionAiGenerationUnitEnabled: true
 };

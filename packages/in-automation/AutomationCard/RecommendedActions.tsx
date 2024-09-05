@@ -6,34 +6,34 @@
 
 import React, { useState } from 'react';
 
-import { Button, Spacer, Stack, Typography, IconButton } from '@instana/components';
+import { Button, IconButton, Spacer, Stack, Typography } from '@instana/components';
 
 import {
-  nameColumn,
   aiEngineColumn,
-  scoreColumn,
-  descriptionColumn
+  descriptionColumn,
+  nameColumn,
+  scoreColumn
 } from 'in-automation/ActionTable/columnDefinitions';
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import SelectAIActionsDialogPresenter from 'in-automation/AutomationCard/GenerateAIDialog/SelectAIActionsDialogPresenter';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import CreatePolicyDialogPresenter from 'in-automation/AutomationCard/CreatePolicy/CreatePolicyDialogPresenter';
+import GenerateAIActionDialog from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIActionDialog';
+import CreatePolicyDialog from 'in-automation/AutomationCard/CreatePolicyDialog/CreatePolicyDialog';
 import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
+import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { generateAIButtonClickTracker } from 'in-automation/tracker';
+import { TriggerSpecification } from 'in-automation/Policies/types';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import { isExternal } from 'in-automation/ActionCatalog/shared';
-import { VolatileId, Event, Result } from 'in-types';
+import { Event, Result, VolatileId } from 'in-types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { mapData } from 'in-services/util/result';
 import { ScoredAction } from 'in-automation/api';
@@ -43,16 +43,18 @@ import { t } from 'in-i18n';
 const pathSegment = '/recommendedActions';
 const matrixPrefix = '';
 
-const getActionColumn = (
-  volatileId: VolatileId,
-  event: Event,
-  setActiveKey: SetActiveKey
-): ColumnDefinition<ScoredAction> => ({
+interface RecommendedActionsTableProps extends ServerTablePresenterProps<ScoredAction> {
+  volatileId: VolatileId;
+  event: Event;
+  trigger: Result<TriggerSpecification>;
+}
+
+const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps> = {
   id: 'action',
   label: '',
   sortable: false,
   width: 8,
-  getContent(action) {
+  getContent(action, { volatileId, event, trigger }) {
     const isManualExternal =
       action?.metadata?.ai && action?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' && isExternal(action.type);
     if (isManualExternal) {
@@ -63,9 +65,7 @@ const getActionColumn = (
           icon="lib_actions_play"
           onClick={e => {
             stopPropagationAndPreventDefault(e);
-            addActiveDialog(
-              <RunActionDialog action={action} volatileId={volatileId} event={event} setActiveKey={setActiveKey} />
-            );
+            addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
           }}
           noAutoMargin
         >
@@ -81,127 +81,46 @@ const getActionColumn = (
           type="lib_openclose_add_circle_outline"
           onClick={e => {
             stopPropagationAndPreventDefault(e);
-            addActiveDialog(
-              <CreatePolicyDialogPresenter selectedAction={action} event={event} setActiveKey={setActiveKey} />
-            );
+            addActiveDialog(<CreatePolicyDialog trigger={trigger} action={action} event={event} />);
           }}
         />
       </Tooltip>
     );
   }
-});
+};
 
-const columnDefinitions: ColumnDefinition<ScoredAction>[] = [
-  nameColumn,
-  descriptionColumn,
-  tagsColumn as ColumnDefinition<ScoredAction>,
+const columnDefinitions: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>[] = [
+  nameColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
+  descriptionColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
+  tagsColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
   aiEngineColumn,
-  scoreColumn
+  scoreColumn,
+  actionColumn
 ];
 
-interface RecommendedActionsProps {
-  volatileId: VolatileId;
-  event: Event;
-  recommendedActions: Result<ScoredAction[]>;
-  aiRecommendedScoredActions: Result<ScoredAction[]>;
-  setActiveKey: SetActiveKey;
-}
-
-export default function RecommendedActions({
-  volatileId,
+function GenerateAIActionButton({
   event,
-  setActiveKey,
-  recommendedActions,
-  aiRecommendedScoredActions
-}: RecommendedActionsProps) {
-  const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
-    pathSegment,
-    matrixPrefix,
-    defaultOrderBy: 'score',
-    defaultOrderDirection: 'DESC',
-    defaultPageSize: 7
-  });
-  const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
-  const navigateToActionDetails = useNavigateToActionDetails();
-  const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => aiEngine))];
-  const availableTags = [...new Set(recommendedActions.data?.flatMap(({ tags }) => tags ?? []))];
-
-  const { filteredActions, types, setTypes, aiEngine, setAiEngine, tags, setTags } = useFilters({
-    recommendedActions,
-    setServerTableUrlState
-  });
-
-  const result = usePaginatedScoredActions({
-    actions: filteredActions,
-    serverTableUrlState,
-    setServerTableUrlState
-  });
-
-  const totalHits = result?.data?.totalHits;
-
-  const triggerType = getTriggerTypeFromEvent(event);
-
-  const handleRowClick = (action: ScoredAction) => {
-    if (!isExternal(action.type)) {
-      navigateToActionDetails(action.id, false);
-    }
-  };
+  trigger,
+  ootbRecommendedActions
+}: {
+  event: Event;
+  trigger: Result<TriggerSpecification>;
+  ootbRecommendedActions: Result<ScoredAction[]>;
+}) {
+  if (!role?.canConfigureAutomationActions) return null;
   return (
-    <ServerTablePresenter<ScoredAction, ServerTablePresenterProps<ScoredAction>>
-      columnDefinitions={[...columnDefinitions, getActionColumn(volatileId, event, setActiveKey)]}
-      fixedLayout
-      leftHeader={
-        <Typography variant="heading-300">
-          {result?.progress.loading
-            ? t('in-automation:recommendedActions')
-            : t('in-automation:recommendedActionsWithCount', { count: totalHits })}
-        </Typography>
-      }
-      onChange={setServerTableUrlState}
-      orderBy={orderBy}
-      orderDirection={orderDirection}
-      searchMaxWidth={180}
-      page={page}
-      pageSize={pageSize}
-      query={query}
-      result={result}
-      rightHeader={
-        <>
-          <Stack direction="horizontal">
-            {/* show start with watsonx button for built in events only and when actions count is greater than 0> */}
-            {role?.canConfigureAutomationPolicies &&
-              aiRecommendedScoredActions &&
-              !aiRecommendedScoredActions.progress.loading &&
-              aiRecommendedScoredActions?.data &&
-              aiRecommendedScoredActions?.data?.length > 0 &&
-              triggerType === 'builtinEvent' && (
-                <Button
-                  kind="action"
-                  onClick={() => {
-                    generateAIButtonClickTracker({ eventName: event.problem?.problemText });
-                    addActiveDialog(
-                      <SelectAIActionsDialogPresenter
-                        aiRecommendedScoredActions={aiRecommendedScoredActions}
-                        event={event}
-                        setActiveKey={setActiveKey}
-                      />
-                    );
-                  }}
-                  icon="lib_launch_ai"
-                >
-                  {t('in-automation:generateWithWatsonx')}
-                </Button>
-              )}
-            <TypeFilter type={types} setType={params => setTypes({ types: params.types })} showExternal />
-            <AiEngineFilter availableAiEngines={availableAiEngines} aiEngine={aiEngine} setAiEngine={setAiEngine} />
-            <TagsFilter availableTags={availableTags} tags={tags} setTags={setTags} />
-            <Spacer horizontal="small" />
-          </Stack>
-        </>
-      }
-      searchPlaceholder={t('in-automation:searchActions')}
-      onRowClick={!role?.canConfigureAutomationPolicies ? handleRowClick : undefined}
-    />
+    <Button
+      kind="action"
+      onClick={() => {
+        // TODO: tracker
+        addActiveDialog(
+          <GenerateAIActionDialog event={event} trigger={trigger} ootbRecommendedActions={ootbRecommendedActions} />
+        );
+      }}
+      icon="lib_launch_ai"
+    >
+      {t('in-automation:generateWithWatsonx')}
+    </Button>
   );
 }
 
@@ -264,4 +183,91 @@ function useFilters({
       setServerTableUrlState({ page: 1, query: '' });
     }
   };
+}
+
+interface RecommendedActionsProps {
+  volatileId: VolatileId;
+  event: Event;
+  recommendedActions: Result<ScoredAction[]>;
+  trigger: Result<TriggerSpecification>;
+  ootbRecommendedActions: Result<ScoredAction[]>;
+}
+
+export default function RecommendedActions({
+  volatileId,
+  event,
+  recommendedActions,
+  trigger,
+  ootbRecommendedActions
+}: RecommendedActionsProps) {
+  const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
+    pathSegment,
+    matrixPrefix,
+    defaultOrderBy: 'score',
+    defaultOrderDirection: 'DESC',
+    defaultPageSize: 7
+  });
+  const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
+  const navigateToActionDetails = useNavigateToActionDetails();
+  const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => aiEngine))];
+  const availableTags = [...new Set(recommendedActions.data?.flatMap(({ tags }) => tags ?? []))];
+
+  const { filteredActions, types, setTypes, aiEngine, setAiEngine, tags, setTags } = useFilters({
+    recommendedActions,
+    setServerTableUrlState
+  });
+
+  const result = usePaginatedScoredActions({
+    actions: filteredActions,
+    serverTableUrlState,
+    setServerTableUrlState
+  });
+
+  const totalHits = result?.data?.totalHits;
+
+  const handleRowClick = (action: ScoredAction) => {
+    if (!isExternal(action.type)) {
+      navigateToActionDetails(action.id, false);
+    }
+  };
+  const showOotbActions =
+    getTriggerTypeFromEvent(event) === 'builtinEvent' && (ootbRecommendedActions.data?.length ?? 0) > 0;
+
+  return (
+    <ServerTablePresenter<ScoredAction, RecommendedActionsTableProps>
+      columnDefinitions={columnDefinitions}
+      volatileId={volatileId}
+      event={event}
+      trigger={trigger}
+      fixedLayout
+      leftHeader={
+        <Typography variant="heading-300">
+          {result?.progress.loading
+            ? t('in-automation:recommendedActions')
+            : t('in-automation:recommendedActionsWithCount', { count: totalHits })}
+        </Typography>
+      }
+      onChange={setServerTableUrlState}
+      orderBy={orderBy}
+      orderDirection={orderDirection}
+      searchMaxWidth={180}
+      page={page}
+      pageSize={pageSize}
+      query={query}
+      result={result}
+      rightHeader={
+        <Stack direction="horizontal">
+          {(showOotbActions || automationActionAiGenerationUnitEnabled) && (
+            <GenerateAIActionButton event={event} trigger={trigger} ootbRecommendedActions={ootbRecommendedActions} />
+          )}
+          <TypeFilter type={types} setType={params => setTypes({ types: params.types })} showExternal />
+          <AiEngineFilter availableAiEngines={availableAiEngines} aiEngine={aiEngine} setAiEngine={setAiEngine} />
+          <TagsFilter availableTags={availableTags} tags={tags} setTags={setTags} />
+          <Spacer horizontal="small" />
+        </Stack>
+      }
+      searchPlaceholder={t('in-automation:searchActions')}
+      onRowClick={!role?.canConfigureAutomationPolicies ? handleRowClick : undefined}
+    />
+  );
 }

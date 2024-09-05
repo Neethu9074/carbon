@@ -47,7 +47,12 @@ export const MessageContentModernDesign: FunctionComponent = ({ children }) => {
 
 export default function LegacyAppdataEventInfoMessage({ migrated, saved, disallowed, deleted }: Props) {
   return (
-    <Message type={!deleted && !migrated && saved && !disallowed ? 'warning' : 'neutral'} withIcon small>
+    <Message
+      type={!deleted && !migrated && saved && !disallowed ? 'warning' : 'neutral'}
+      withIcon
+      small
+      fullInlineWidth
+    >
       <MessageContentModernDesign>
         <TransContent migrated={migrated} saved={saved} disallowed={disallowed} deleted={deleted} />
       </MessageContentModernDesign>

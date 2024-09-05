@@ -53,6 +53,7 @@ export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
+export const logHomepageEnabled = isFeatureFlagEnabled('logHomepageEnabled');
 export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
@@ -86,6 +87,7 @@ export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicatio
 export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled');
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
+export const nutanixEnabled = isFeatureFlagEnabled('nutanixEnabled');
 
 // SmartAlerts & AP Alert Migration related feature flags
 export const builtInGlobalApplicationSmartAlertsEnabled = isFeatureFlagEnabled(
@@ -134,9 +136,6 @@ export const syntheticCustomDashboardEnabled = isFeatureFlagEnabled('syntheticCu
 
 // Synthetic Instana Hosted PoP feature flag
 export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticInstanaHostedPoPEnabled');
-
-// Synthetic Certificate Check Enabled feature flag
-export const syntheticCertificateCheckEnabled = isFeatureFlagEnabled('syntheticCertificateCheckEnabled');
 
 // Synthetic RBAC Limited Access feature flag
 export const syntheticRbacLimitedEnabled = isFeatureFlagEnabled('syntheticRbacLimitedEnabled');
@@ -285,3 +284,7 @@ export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabl
 export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetricsEnabled', false);
 export const increaseAggregationEnabled = isFeatureFlagEnabled('increaseAggregationEnabled', false);
 export const extrapolateMissingStackedAreaValuesEnabled = isFeatureFlagEnabled('extrapolateMissingStackedAreaValues');
+export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
+  'automationActionAiGenerationUnitEnabled',
+  false
+);
