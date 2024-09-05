@@ -9,7 +9,13 @@ import React from 'react';
 
 import { SvgIcon, CarbonButton } from '@instana/components';
 
-// import { annotateEvent } from 'in-stores/events';
+import { EVENT_AI_GENERATE_SUBMIT } from 'in-services/tracking/eventNames';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { generateJournalSummary } from 'in-stores/events';
+import { CTA_CLICKED } from 'in-services/util/constants';
+import { track } from 'in-services/tracking/trackers';
+import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './QuickActions.mless';
@@ -17,7 +23,7 @@ import locals from './QuickActions.mless';
 // Main view that gives an overview for this side panel
 // Gives the user the options to add a note or generate a summary
 export function QuickActions(props) {
-  const { displayQuickStart } = props;
+  const { displayQuickStart, incidentId } = props;
   return (
     <div
       className={classNames({
@@ -43,7 +49,7 @@ export function QuickActions(props) {
           className={locals.actionsButton}
           size={'sm'}
           renderIcon={() => <SvgIcon type="lib_generate_ai" color="currentColor" size="xs" />}
-          // onClick={() => handleAIGenerateNote()}
+          onClick={() => handleAIGenerateNote(incidentId)}
         >
           <div className={locals.quickActionButtonContents}>{t('in-events:notes.generateSummary')}</div>
         </CarbonButton>
@@ -52,24 +58,19 @@ export function QuickActions(props) {
   );
 }
 
-// export function handleAIGenerateNote() {
-//   // Dont fire off a new note without there being something written
-//   const newNote = {
-//     incidentId: incidentId,
-//     author: userName,
-//     action: 'create',
-//     contents: note
-//   };
-//   annotateEvent(newNote);
-//   const { pageRootName, productArea } = getViewTrackingMetaData();
-//   if (pageRootName && productArea) {
-//     const data = {
-//       parentPageName: pageRootName,
-//       parentPageCategory: productArea,
-//       CTA: EVENT_AI_GENERATE_SUBMIT,
-//       path: location.hash
-//     };
-//     eventTracker({ data, segmentEventName: CTA_CLICKED });
-//   }
-//   track(EVENT_AI_GENERATE_SUBMIT, { incidentId, author: userName });
-// }
+// Handle the button click for ai generation
+// Track the clicks
+export function handleAIGenerateNote(incidentId) {
+  generateJournalSummary(incidentId);
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  if (pageRootName && productArea) {
+    const data = {
+      parentPageName: pageRootName,
+      parentPageCategory: productArea,
+      CTA: EVENT_AI_GENERATE_SUBMIT,
+      path: location.hash
+    };
+    eventTracker({ data, segmentEventName: CTA_CLICKED });
+  }
+  track(EVENT_AI_GENERATE_SUBMIT, { incidentId, author: user.preferredName });
+}

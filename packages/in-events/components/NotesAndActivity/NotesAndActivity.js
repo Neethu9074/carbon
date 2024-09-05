@@ -144,7 +144,7 @@ export function NotesAndActivity(props) {
                 }}
               />
             )}
-            {aiFlagEnabled && <QuickActions displayQuickStart={displayQuickStart} />}
+            {aiFlagEnabled && <QuickActions displayQuickStart={displayQuickStart} incidentId={incidentId} />}
             {!aiFlagEnabled && emptyList && <EmptyState />}
             <CommentList
               notes={filteredNotes}

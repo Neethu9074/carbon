@@ -374,3 +374,14 @@ export function annotateEvent(note) {
   });
   return obj.map(response => fromJS(response.body)).once();
 }
+
+// Trigger an ai summary generation for the particular noteID
+export function generateJournalSummary(note) {
+  const obj = http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/journals/ai/summary/${note.id}`,
+    headers: getCsrfHeader()
+  });
+  return obj.map(response => fromJS(response.body)).once();
+}
