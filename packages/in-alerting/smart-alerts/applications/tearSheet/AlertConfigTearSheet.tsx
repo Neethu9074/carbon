@@ -19,6 +19,11 @@ import {
   GlobalApplicationsSmartAlertConfigWithMetadata
 } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import {
+  ALERTING_SAVED,
+  ALERTING_UPDATED,
+  APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_FINISHED
+} from 'in-services/tracking/eventNames';
+import {
   createGlobalAlertConfig,
   updateGlobalAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
@@ -40,7 +45,6 @@ import { useSegmentTracking, CtaTrackingFunction } from 'in-services/tracking/us
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
-import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -305,8 +309,6 @@ function createOrSaveAlert({
     const alertConfigApplicationId = isEffectivelyGlobalSmartAlert ? null : Object.keys(alertConfig.applications)[0];
     (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
       config => {
-        //Uncomment this if success message is needed while editing.
-        //showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
         trackCta(ALERTING_UPDATED, { ...alertConfig });
         return isEffectivelyGlobalSmartAlert
           ? navigateToGlobalAlertConfigWithoutAPDashboard(alertConfig.id)
@@ -323,9 +325,14 @@ function createOrSaveAlert({
     (isEffectivelyGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
       config => {
         const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
-        trackCta(ALERTING_SAVED, { ...newConfig });
-        if (migrationMode && eventSpecificationId)
+
+        if (migrationMode && eventSpecificationId) {
+          trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_FINISHED, { ...newConfig, eventSpecificationId });
           disableMigratedCustomEventSpecification(eventSpecificationId, config.id).once();
+        } else {
+          trackCta(ALERTING_SAVED, { ...newConfig });
+        }
+
         // redirect user to details page
         return isEffectivelyGlobalSmartAlert
           ? navigateToGlobalAlertConfigWithoutAPDashboard(config.id)

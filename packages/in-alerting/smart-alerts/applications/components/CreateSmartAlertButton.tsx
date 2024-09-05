@@ -9,9 +9,12 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import {
+  ALERTING_CREATE,
+  APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_STARTED
+} from 'in-services/tracking/eventNames';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 
 import locals from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton.mless';
@@ -61,7 +64,11 @@ export default function CreateSmartAlertButton({
       kind={'primaryv2'}
       href={createSmartAlertPath}
       onClick={() => {
-        trackCta(ALERTING_CREATE);
+        if (isMigrate) {
+          trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_STARTED, { eventSpecificationId });
+        } else {
+          trackCta(ALERTING_CREATE);
+        }
       }}
     >
       {buttonName}
