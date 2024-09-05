@@ -9,6 +9,8 @@ import React from 'react';
 
 import { AlertingFooterActions, AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingTearSheet';
 import { CancelButton, PreviousButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { ALERTING_CANCEL_CLICKED } from 'in-services/tracking/eventNames';
 import { t } from 'in-i18n';
 
 import locals from './AlertingTearSheetFooter.mless';
@@ -36,9 +38,13 @@ export default function AlertingTearSheetFooter({
   migrationMode,
   additionalValidationCheck
 }: AlertingTearSheetFooterProps) {
+  //function for segment tracking
+  const { trackCta } = useSegmentTracking();
   const leftAction = actions.filter((action: AlertingFooterActions) => action.isLeftAlign);
   const rightAction = actions.filter((action: AlertingFooterActions) => !action.isLeftAlign);
   const isLastStep = step === stepConfigs.length - 1;
+  const stepTitle = stepConfigs[step]?.title;
+  const formConfig = form.toJS();
 
   return (
     <div className={locals.formFooter}>
@@ -47,7 +53,13 @@ export default function AlertingTearSheetFooter({
           {leftAction.map(
             (action: AlertingFooterActions) =>
               action.kind === 'ghost' && (
-                <CancelButton key={action.label} href={action.href}>
+                <CancelButton
+                  key={action.label}
+                  href={action.href}
+                  onClick={() => {
+                    trackCta(ALERTING_CANCEL_CLICKED, { cancelClickedStep: stepTitle, ...formConfig });
+                  }}
+                >
                   {action.label}
                 </CancelButton>
               )
