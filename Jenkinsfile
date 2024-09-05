@@ -230,7 +230,6 @@ pipeline {
       }
     }
 
-<<<<<<< HEAD
     stage('Deploy and SonarQube') {
       parallel {
         stage('Deploy') {
@@ -244,27 +243,11 @@ pipeline {
                     // Enable only for the develop branch for now
                     // Other delivery branches will use 'K8s Deploy'
                     if (branchName == 'develop') {
-                      deployInstana(branchName, instanaImageVersion, null, 'pink', 'instana', 'test')
+                      deployInstana(branchName, instanaImageVersion, null, 'pink', 'instana', 'test', isBackendJenkins)
                     } else if (branchName == latestReleaseBranch) {
-                      deployInstana(branchName, instanaImageVersion, null, 'magenta', 'instana', 'release')
+                      deployInstana(branchName, instanaImageVersion, null, 'magenta', 'instana', 'release', isBackendJenkins)
                     }
                   }
-=======
-    stage('Deploy') {
-      steps {
-        // This lock is shared with the backend pipeline as well so as only to allow
-        // one deploy per deployable branch at a time
-        lock(resource: "deploy-instana-${branchName}", inversePrecedence: true) {
-          timeout(time: 30, unit: 'MINUTES') {
-            timestamps {
-              script {
-                // Enable only for the develop branch for now
-                // Other delivery branches will use 'K8s Deploy'
-                if (branchName == 'develop') {
-                  deployInstana(branchName, instanaImageVersion, null, 'pink', 'instana', 'test', isBackendJenkins)
-                } else if (branchName == latestReleaseBranch) {
-                  deployInstana(branchName, instanaImageVersion, null, 'magenta', 'instana', 'release', isBackendJenkins)
->>>>>>> release-275
                 }
               }
             }
