@@ -289,7 +289,8 @@ function onClose() {
   close();
 }
 
-function CloseDialogConfirmation() {
+function CloseDialogConfirmation({ step }: { step: number }) {
+  const { AIActionLeaveGenerateDialogTrackerSegment } = useSegmentTracker();
   return (
     <ConfirmationDialog
       header={
@@ -312,18 +313,19 @@ function CloseDialogConfirmation() {
       secondaryButtonLabel={t('in-automation:GenerateAIActionDialog.cancelButtonLabel')}
       onSubmit={() => {
         close();
+        AIActionLeaveGenerateDialogTrackerSegment({ step: step });
         onClose();
       }}
     />
   );
 }
 
-function useOnCancel() {
+function useOnCancel(step: number) {
   const generatedAction = useGeneratedAction();
 
   return () => {
     if (generatedAction) {
-      return addActiveDialog(<CloseDialogConfirmation />);
+      return addActiveDialog(<CloseDialogConfirmation step={step} />);
     } else {
       onClose();
     }
@@ -466,7 +468,7 @@ export default function GenerateAIActionDialog({
 }: GenerateAIActionDialogProps) {
   const [step, setStep] = useState(0);
   const [form, setForm] = useGenerateAIActionForm({ trigger, event });
-  const onCancel = useOnCancel();
+  const onCancel = useOnCancel(step);
   const generatedAction = useGeneratedAction();
   const { selectNextPromptStepClickTrackerSegment, selectNextCustomizeActionStepClickTrackerSegment } =
     useSegmentTracker();

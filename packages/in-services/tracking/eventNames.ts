@@ -445,6 +445,7 @@ export const AUTOMATION_AI_SELECT_NEXT_PROMPT_STEP_CLICK = 'automation.ai.select
 export const AUTOMATION_AI_SELECT_NEXT_CUSTOMIZE_ACTION_STEP_CLICK =
   'automation.ai.select.next.customize.action.step.click';
 export const AUTOMATION_AI_ACTION_CONTENT_MODIFIED = 'automation.ai.action.content.modified';
+export const AUTOMATION_AI_LEAVE_GENERATE_DIALOG = 'automation.ai.leave.generate.dialog';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 

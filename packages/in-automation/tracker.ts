@@ -33,7 +33,8 @@ import {
   AUTOMATION_GENERATE_AI_ACTION_CLICK_PROMPT_STEP,
   AUTOMATION_AI_SELECT_NEXT_PROMPT_STEP_CLICK,
   AUTOMATION_AI_SELECT_NEXT_CUSTOMIZE_ACTION_STEP_CLICK,
-  AUTOMATION_AI_ACTION_CONTENT_MODIFIED
+  AUTOMATION_AI_ACTION_CONTENT_MODIFIED,
+  AUTOMATION_AI_LEAVE_GENERATE_DIALOG
 } from 'in-services/tracking/tracking';
 import { CREATED_OBJECT, STARTED_PROCESS, UPDATED_OBJECT } from 'in-services/util/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -88,6 +89,7 @@ export function useSegmentTracker(): {
   selectNextPromptStepClickTrackerSegment: TrackingFunction;
   selectNextCustomizeActionStepClickTrackerSegment: TrackingFunction;
   AIActionContentModifiedTrackerSegment: TrackingFunction;
+  AIActionLeaveGenerateDialogTrackerSegment: TrackingFunction;
 } {
   const { trackCta, unstable_trackEvent } = useSegmentTracking();
 
@@ -157,8 +159,13 @@ export function useSegmentTracker(): {
   function selectNextCustomizeActionStepClickTrackerSegment(customData?: Object): void {
     trackCta(AUTOMATION_AI_SELECT_NEXT_CUSTOMIZE_ACTION_STEP_CLICK, customData);
   }
+
   function AIActionContentModifiedTrackerSegment(customData?: Object): void {
     trackCta(AUTOMATION_AI_ACTION_CONTENT_MODIFIED, customData);
+  }
+
+  function AIActionLeaveGenerateDialogTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_LEAVE_GENERATE_DIALOG, customData);
   }
 
   return {
@@ -178,6 +185,7 @@ export function useSegmentTracker(): {
     generateAIClickPromptStepTrackerSegment,
     selectNextPromptStepClickTrackerSegment,
     selectNextCustomizeActionStepClickTrackerSegment,
-    AIActionContentModifiedTrackerSegment
+    AIActionContentModifiedTrackerSegment,
+    AIActionLeaveGenerateDialogTrackerSegment
   };
 }
