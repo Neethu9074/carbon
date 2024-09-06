@@ -6,9 +6,8 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useRef } from 'react';
 
-import { Button } from '@instana/components';
+import { IconButton } from '@instana/components';
 
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateBaselineButton.mless';
@@ -17,14 +16,8 @@ interface RecalculateBaselineButtonProps {
   updateForm: (form: MapForm<any>) => void;
   editMode?: boolean;
   form: MapForm<any>;
-  className?: string;
 }
-export default function RecalculateBaselineButton({
-  updateForm,
-  editMode,
-  form,
-  className
-}: RecalculateBaselineButtonProps) {
+export default function RecalculateBaselineButton({ updateForm, editMode, form }: RecalculateBaselineButtonProps) {
   const isRecalculated = useRef(false);
 
   if (!editMode) {
@@ -33,10 +26,11 @@ export default function RecalculateBaselineButton({
 
   return (
     <div className={locals.buttonWrapper}>
-      <Button
-        size={carbonButtonEnabled ? 'compact' : 'normal'}
-        kind={carbonButtonEnabled ? 'tertiary' : 'secondaryDarker'}
-        className={className}
+      <IconButton
+        type="lib_actions_refresh"
+        size={'compact'}
+        kind={'primary'}
+        align={'top-end'}
         onClick={() => {
           isRecalculated.current = true;
           updateForm(
@@ -50,9 +44,9 @@ export default function RecalculateBaselineButton({
           );
         }}
         disabled={isRecalculated.current || !form?.get('threshold').get('baseline')?.touched}
-      >
-        {t('in-alerting:smartAlerts.components.smartAlertDialog.buttonRecalculateBaseline')}
-      </Button>
+        iconDescription={t('in-alerting:smartAlerts.components.smartAlertDialog.buttonRecalculateBaseline')}
+        isWrapperedByTooltip
+      />
     </div>
   );
 }

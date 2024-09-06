@@ -19,7 +19,4 @@
   .dropdownxxlg {
     min-width: 15.625rem;
   }
-  .recalButtonWidth {
-    width: 8.125rem;
-  }
 }
