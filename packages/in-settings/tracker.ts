@@ -58,6 +58,11 @@ import {
   UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK,
   UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK
 } from 'in-services/tracking/tracking';
+// Import Segment tracker files
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { EventTrackerProps } from 'in-services/tracking/segment/types';
+import { CTA_CLICKED } from 'in-services/util/constants';
 
 export const submitInviteUserTracker = (e: Object) => track(SETTINGS_USER_INVITE_SUBMIT, e);
 export const shareAndInviteSubmitTracker = (e: Object) => track(SHARE_AND_INVITE_SUBMIT, e);
@@ -125,3 +130,31 @@ export const switchToExpiredMaintenanceWindowsTabTracker = (e: Object) =>
   track(SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB, e);
 export const maintenanceWindowFeedbackSubmitTracker = (e: Object) =>
   track(SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT, e);
+
+// Segment trackers
+
+interface AlertChannelCTATrackingType {
+  EVENT_NAME: string;
+  path?: string;
+  channel?: string;
+  additionalLabel?: string;
+}
+
+// Common function using CTA_CLICKED.
+export const alertChannelCTATrackerSegment = ({
+  EVENT_NAME,
+  path,
+  channel,
+  additionalLabel
+}: AlertChannelCTATrackingType) => {
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  const data = {
+    CTA: EVENT_NAME,
+    channel: channel,
+    parentPageName: pageRootName,
+    parentPageCategory: productArea,
+    path: path,
+    label: additionalLabel
+  } as EventTrackerProps['data'];
+  eventTracker({ data, segmentEventName: CTA_CLICKED });
+};

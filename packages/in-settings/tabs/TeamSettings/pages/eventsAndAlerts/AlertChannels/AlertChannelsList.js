@@ -10,11 +10,13 @@ import { Link } from '@instana/components';
 
 import { getEntityHref, getEntityIdView, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
+import { clickAlertChannelTracker, alertChannelCTATrackerSegment } from 'in-settings/tracker';
 import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
+import { SETTINGS_ALERT_CHANNEL_CLICK } from 'in-services/tracking/eventNames';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import { clickAlertChannelTracker } from 'in-settings/tracker';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -39,6 +41,8 @@ export default function AlertChannelsList({
   inSelectListDialog = false,
   getHeader = defaultGetHeader(inSelectListDialog, tableActions)
 }) {
+  const { location } = useNavigation();
+
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}
@@ -65,6 +69,12 @@ export default function AlertChannelsList({
                 alertChannelName: entity.name ?? '',
                 alertChannelId: entity.id ?? '',
                 alertChannelKind: entity.kind ?? ''
+              });
+              alertChannelCTATrackerSegment({
+                EVENT_NAME: SETTINGS_ALERT_CHANNEL_CLICK,
+                channel: entity.kind ?? '',
+                path: location.pathname,
+                additionalLabel: entity.id ?? ''
               });
               return getEntityHref(teamSettingsAlertingAlertChannels, entity.id);
             }
