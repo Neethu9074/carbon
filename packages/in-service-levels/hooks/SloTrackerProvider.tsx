@@ -57,7 +57,7 @@ interface SloTrackingEventPayload extends SloTrackingMeta {
   mode: CreateSloDialogMode;
   entityType: SloEntity['type'];
   blueprint: BlueprintType;
-  indicatorType: ServiceLevelIndicatorType;
+  indicatorType?: ServiceLevelIndicatorType;
   timeWindowType: TimeWindow['type'];
 }
 

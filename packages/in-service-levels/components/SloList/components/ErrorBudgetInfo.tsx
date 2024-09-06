@@ -60,7 +60,7 @@ export default function ErrorBudgetInfo({ configuration, remainingErrorBudget }:
   );
 }
 
-function formatRemainingBudget(indicatorType: ServiceLevelIndicatorType, remainingErrorBudget?: number) {
+function formatRemainingBudget(indicatorType?: ServiceLevelIndicatorType, remainingErrorBudget?: number) {
   if (remainingErrorBudget == null) return valueMissingPlaceholder;
   return indicatorType === 'eventBased'
     ? number.compact(remainingErrorBudget)

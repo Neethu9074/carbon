@@ -73,7 +73,7 @@ type ThresholdFieldValidator = (value: number | undefined) => ValidationResult;
 const commonThresholdValidator = composeAndShortCircuitOnError(inputNotUndefinedValidator, numericValidator);
 export function createThresholdFieldValidator(
   blueprint: CustomBlueprintType,
-  type: ServiceLevelIndicatorType
+  type?: ServiceLevelIndicatorType
 ): ThresholdFieldValidator | undefined {
   if (!blueprint) return undefined;
 
@@ -85,6 +85,8 @@ export function createThresholdFieldValidator(
     case 'availability':
       if (type === 'eventBased') return undefined;
       return composeAndShortCircuitOnError(commonThresholdValidator, positiveNumberValidator, maxValidator(100));
+    case 'traffic':
+      throw new Error('Missing traffic case in createThresholdFieldValidator.');
   }
 }
 
