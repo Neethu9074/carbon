@@ -308,7 +308,6 @@ export default function ServerTablePresenter<
       // within a clickable row is clicked. Otherwise, the two click events cancel each other out
       // and the checkbox is not ticked. This is not required for Alert Channel and potential
       // other pages, so some funny Carbon event handling happening behind the scenes.
-      // Putting this in to fix Create Policies but may needs investigation.
       if (data.id && data.metadata && data.aiEngine) {
         e.preventDefault();
       }
@@ -330,7 +329,6 @@ export default function ServerTablePresenter<
             onRowClick(data, e);
           }
         }}
-        // onRowClick={onRowClick}
       />
     ));
   }
