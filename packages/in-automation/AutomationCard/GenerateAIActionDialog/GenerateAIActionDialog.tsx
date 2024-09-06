@@ -15,14 +15,15 @@ import useGenerateAIActionForm, {
   getActionFromForm
 } from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIActionForm';
 import {
+  copyAIGenaratedActionTracker,
+  createPolicyFromAIActionTracker,
+  useSegmentTracker,
+  TrackingFunction
+} from 'in-automation/tracker';
+import {
   setGeneratedAction,
   useGeneratedAction
 } from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/PromptStep';
-import {
-  copyAIGenaratedActionTracker,
-  createPolicyFromAIActionTracker,
-  useSegmentTracker
-} from 'in-automation/tracker';
 import { setSelectedAction } from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/SelectActionStep';
 import CreatePolicyStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/CreatePolicyStep';
 import ReviewActionStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/ReviewActionStep';
@@ -36,6 +37,7 @@ import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonG
 import { refresh as refreshPolicies } from 'in-automation/AutomationCard/usePolicies';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
+import { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -47,8 +49,8 @@ import { error, hasError, isLoading } from 'in-services/util/result';
 import { TriggerSpecification } from 'in-automation/Policies/types';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { productAreas } from 'in-services/tracking/productAreas';
-import { noop, pendingResult } from 'in-services/fixedObjects';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { pendingResult } from 'in-services/fixedObjects';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
@@ -90,28 +92,69 @@ function additionalStepCheck(step: number, form: GenerateAIActionForm) {
   return true;
 }
 
+function onStepChange(
+  oldStep: number,
+  newStep: number,
+  selectNextPromptStepClickTrackerSegment: TrackingFunction,
+  generatedAction?: Result<AIActionContent> | null
+) {
+  if (oldStep === 0 && newStep === 1) {
+    const liveAIGeneration = generatedAction ? true : false;
+    selectNextPromptStepClickTrackerSegment({ liveAIGeneration });
+    return true;
+  }
+  return true;
+}
+
 function useOnSubmit() {
-  const { createActionTrackerSegment, createPolicyTrackerSegment } = useSegmentTracker();
+  const { createActionTrackerSegment, createPolicyTrackerSegment, AIActionContentModifiedTrackerSegment } =
+    useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
 
   function onSubmit({
     both,
     form,
     setForm,
-    event
+    event,
+    generatedAction
   }: {
     both: boolean;
     form: GenerateAIActionForm;
     setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
     event: Event;
+    generatedAction?: Result<AIActionContent> | null;
   }) {
+    const liveAIGeneration = generatedAction ? true : false;
+    const actionContent = form.get('action').get('content').value;
+    const aiGeneratedContent = form.get('action').get('aiGeneratedContent').value;
+    const userChangedAIGeneratedContent = actionContent === aiGeneratedContent;
+
     function trackAction() {
       setViewTrackingDataValues(productAreas.events, pageNames.event_generate_with_watsonx);
       createActionTrackerSegment({
         actionName: action.name,
         actionType: action.type,
-        aiOriginated: true
+        aiOriginated: true,
+        createActionAndPolicyButtonClicked: both,
+        liveAIGeneration,
+        userChangedAIGeneratedContent
       });
+      if (userChangedAIGeneratedContent && liveAIGeneration) {
+        const promptForm = form.get('prompt');
+        const eventName = promptForm.get('eventName').value;
+        const eventDescription = promptForm.get('eventDescription').value;
+        const eventEntityType = promptForm.get('eventEntityType').value;
+        AIActionContentModifiedTrackerSegment({
+          actionContent,
+          aiGeneratedContent,
+          prompt: {
+            eventName,
+            eventDescription,
+            eventEntityType
+          }
+        });
+      }
+
       copyAIGenaratedActionTracker({
         actionType: action.type,
         actionName: action.name,
@@ -203,11 +246,13 @@ function useOnSubmit() {
 function useActionNameExists({
   setStep,
   form,
-  setForm
+  setForm,
+  selectNextCustomizeActionStepClickTrackerSegment
 }: {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   form: GenerateAIActionForm;
   setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
+  selectNextCustomizeActionStepClickTrackerSegment: TrackingFunction;
 }) {
   const [actionNameExists, setActionNameExists] = useState<boolean | null>(null);
   return {
@@ -227,6 +272,7 @@ function useActionNameExists({
             setActionNameExists(exists);
             if (!exists) setStep(2);
           } else {
+            selectNextCustomizeActionStepClickTrackerSegment({ actionName: name, actionType: type });
             setActionNameExists(false);
             setStep(2);
           }
@@ -421,11 +467,15 @@ export default function GenerateAIActionDialog({
   const [step, setStep] = useState(0);
   const [form, setForm] = useGenerateAIActionForm({ trigger, event });
   const onCancel = useOnCancel();
+  const generatedAction = useGeneratedAction();
+  const { selectNextPromptStepClickTrackerSegment, selectNextCustomizeActionStepClickTrackerSegment } =
+    useSegmentTracker();
   const { result, onSubmit } = useOnSubmit();
   const { actionNameExists, checkActionNameExists, clearActionNameExists } = useActionNameExists({
     form,
     setForm,
-    setStep
+    setStep,
+    selectNextCustomizeActionStepClickTrackerSegment
   });
 
   const isSaving = (result && isLoading(result)) ?? false;
@@ -444,10 +494,12 @@ export default function GenerateAIActionDialog({
             form,
             isSaving,
             checkActionNameExists,
-            submit: both => onSubmit({ both, form, setForm, event })
+            submit: both => onSubmit({ both, form, setForm, event, generatedAction })
           })}
           form={form}
-          onStepChanged={noop}
+          onStepChanged={(oldStep, nextStep) =>
+            onStepChange(oldStep, nextStep, selectNextPromptStepClickTrackerSegment, generatedAction)
+          }
           formId={formId}
           onClose={onCancel}
           updateForm={setForm}

@@ -18,6 +18,7 @@ import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/g
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import TextArea from 'in-components/form/TextArea/TextArea';
@@ -124,11 +125,13 @@ function PromptInputs({
 function generateAIActionForm({
   form,
   setForm,
-  event
+  event,
+  generateAIClickPromptStepTrackerSegment
 }: {
   form: GenerateAIActionForm;
   setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
   event: Event;
+  generateAIClickPromptStepTrackerSegment: TrackingFunction;
 }) {
   const promptForm = form.get('prompt');
   const eventName = promptForm.get('eventName').value;
@@ -149,6 +152,11 @@ function generateAIActionForm({
     .once(
       res => {
         setGeneratedAction(res);
+        // tracker tracks prompt inpput and output
+        generateAIClickPromptStepTrackerSegment({
+          generateAIActionPayload,
+          resultContent: res.data?.content!
+        });
         setForm(form =>
           form
             .updateIn(['action', 'name'], item => item.setValue(`Action generated for ${eventName}`).setTouched(false))
@@ -180,6 +188,7 @@ function GenerateButton({
   const generatedAction = useGeneratedAction();
   const promptForm = form.get('prompt');
 
+  const { generateAIClickPromptStepTrackerSegment } = useSegmentTracker();
   return (
     <Button
       kind="tertiary"
@@ -187,12 +196,11 @@ function GenerateButton({
         (!promptForm.hierarchyValid && promptForm.hierarchyTouched) || (!!generatedAction && isLoading(generatedAction))
       }
       onClick={() => {
-        // TODO: Tracker
         if (!promptForm.hierarchyValid) {
           setForm(form.updateIn(['prompt'], promptForm => promptForm.setTouched(true, { recurse: true })));
           return;
         }
-        generateAIActionForm({ form, setForm, event });
+        generateAIActionForm({ form, setForm, event, generateAIClickPromptStepTrackerSegment });
       }}
       icon="lib_launch_ai"
     >

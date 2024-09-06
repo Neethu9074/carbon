@@ -430,7 +430,6 @@ export const AUTOMATION_POLICY_EDIT = 'automation.policy.edit';
 export const AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK = 'automation.recommended.actions.tab.click';
 export const AUTOMATION_CREATE_POLICY_FROM_RECOMMENDED_ACTIONS = 'automation.create.policy.from.recommended.actions';
 export const AUTOMATION_TEST_ACTION_RUN = 'automation.test.action.run';
-export const AUTOMATION_GENERATE_AI_BUTTON_CLICK = 'automation.generate.ai.button.click';
 export const AUTOMATION_CREATE_AI_ACTION_POLICY = 'automation.create.ai.action.policy';
 export const AUTOMATION_CLICK_AI_GENERATED_ACTIONS_TAB = 'automation.click.ai.generated.actions.tab';
 export const AUTOMATION_COPY_AI_GENERATED_ACTION = 'automation.copy.ai.generated.action';
@@ -438,6 +437,14 @@ export const AUTOMATION_VIEW_AI_GENERATED_ACTION = 'automation.view.ai.generated
 export const AUTOMATION_TEST_AI_GENERATED_ACTION = 'automation.test.ai.generated.action';
 export const AUTOMATION_CLICK_COPY_AI_GENERATED_ACTION = 'automation.click.copy.ai.generated.action';
 export const AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION = 'automation.click.test.ai.generated.action';
+// live ai events
+export const AUTOMATION_GENERATE_AI_BUTTON_CLICK = 'automation.generate.ai.button.click';
+export const AUTOMATION_GENERATE_AI_ACTION_CLICK_PROMPT_STEP = 'automation.ai.generate.ai.action.click_prompt_step';
+export const AUTOMATION_AI_SELECT_OOTB_ACTION_CLICK = 'automation.ai.select.ootb.action.click';
+export const AUTOMATION_AI_SELECT_NEXT_PROMPT_STEP_CLICK = 'automation.ai.select.next.prompt.step.click';
+export const AUTOMATION_AI_SELECT_NEXT_CUSTOMIZE_ACTION_STEP_CLICK =
+  'automation.ai.select.next.customize.action.step.click';
+export const AUTOMATION_AI_ACTION_CONTENT_MODIFIED = 'automation.ai.action.content.modified';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 
