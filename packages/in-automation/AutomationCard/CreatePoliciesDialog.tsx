@@ -249,7 +249,10 @@ export default function CreatePoliciesDialog({ event, actions, trigger }: Create
           searchPlaceholder={t('in-automation:searchActions')}
           onChange={setServerTableUrlState}
           page={page}
-          onRowClick={onSelect}
+          onRowClick={(data, e) => {
+            e.preventDefault();
+            onSelect(data);
+          }}
           searchMaxWidth={180}
           pageSize={pageSize}
           result={result}
@@ -268,7 +271,6 @@ export default function CreatePoliciesDialog({ event, actions, trigger }: Create
           orderBy={orderBy}
           orderDirection={orderDirection}
           fixedLayout
-          preventEventPropagation
         />
       </LeftRightPadding>
       <Spacer vertical="small" />

@@ -55,7 +55,6 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   scopeNotification?: React.ReactNode;
   resultPrecision?: ResultPrecision;
   shadowless?: boolean;
-  preventEventPropagation?: boolean;
 }
 
 export default function ServerTablePresenter<
@@ -98,8 +97,7 @@ export default function ServerTablePresenter<
     // events
     onChange = noop,
     onRowMouseEnter = noop,
-    onRowMouseLeave = noop,
-    preventEventPropagation
+    onRowMouseLeave = noop
   } = props;
   const result = props.result ?? (pendingResult as Result<PaginatedResult<ItemType>>);
   const { availableColumns, visibleColumns, optionalColumns, onColumnChecked } = filterColumns(props);
@@ -315,12 +313,7 @@ export default function ServerTablePresenter<
         onMouseEnter={onRowMouseEnter}
         onMouseLeave={onRowMouseLeave}
         getRowProps={getRowProps}
-        onRowClick={(data, e) => {
-          if (onRowClick) {
-            if (preventEventPropagation) e.preventDefault();
-            onRowClick(data, e);
-          }
-        }}
+        onRowClick={onRowClick}
       />
     ));
   }
