@@ -192,7 +192,7 @@ pipeline {
             timestamps {
               script {
                 if (isDeliveryBranch || isLTSRBranch) {
-                  instanaImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getInstanaImageVersion.js ${branchName}").trim() + "-0"
+                  instanaImageVersion = sh(returnStdout: true, script: "ci-shared-tools component-versions get-instana-image-version ${branchName}").trim() + "-0"
                   buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaUiClientVersion, instanaImageVersion)
                 }
               }
