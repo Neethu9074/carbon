@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { TYPE_NOTE, TYPE_AI_SUMMARY } from '../utils';
 import { t } from 'in-i18n';
 
 // Simple function to check if text is not empty
@@ -18,8 +19,8 @@ export function validTextEntry(text) {
 // your chat bubble
 // Append date to end of text
 export function noteNameAndTimeFormat(myBubble, note, date, type) {
-  const typeNote = type === 'note';
-  const aiGen = type === 'ai_generated';
+  const typeNote = type === TYPE_NOTE;
+  const aiGen = type === TYPE_AI_SUMMARY;
 
   if (myBubble && typeNote) {
     return `${t('in-events:notes.you')} ${date}`;
@@ -51,7 +52,7 @@ export function createDataString(data) {
     // 1 - Old Value
     // 2 - New Value
     const entryThree = entryArray[2] || '';
-    const entryString = `${entryOne}: ${entryThree}\n`;
+    const entryString = `${entryOne.charAt(0).toUpperCase() + entryOne.slice(1)}: ${entryThree}\n`;
     dataString.push(entryString);
   });
   return dataString;

@@ -4,19 +4,29 @@
  * Copyright IBM Corp. 2024
  */
 
-// Function to filter through and take in notes Object
-// eventObj: journals || notesUiObjects
 // Types:
 // - note
 // - external_note
 // - external_field_change
+// - ai_summary
+export const TYPE_NOTE = 'note';
+export const TYPE_EXT_NOTE = 'external_note';
+export const TYPE_EXT_F_CHANGE = 'external_field_change';
+export const TYPE_AI_SUMMARY = 'ai_summary';
+
+// Function to filter through and take in notes Object
+// eventObj: journals || notesUiObjects
 export function getNotes(event) {
   const notes =
     (event?.get('journals') || event?.get('notesUiObjects'))
       ?.toArray()
       .filter(
         x =>
-          x && (x.get('type') == 'note' || x.get('type') == 'external_note' || x.get('type') == 'external_field_change')
+          x &&
+          (x.get('type') == TYPE_NOTE ||
+            x.get('type') == TYPE_EXT_NOTE ||
+            x.get('type') == TYPE_EXT_F_CHANGE ||
+            x.get('type') == TYPE_AI_SUMMARY)
       )
       .map(x => {
         return {

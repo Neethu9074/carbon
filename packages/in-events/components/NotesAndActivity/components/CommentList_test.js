@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import Immutable from 'immutable';
 import { shallow } from 'enzyme';
 import React from 'react';
 
@@ -74,12 +75,12 @@ describe('ChatBubble', () => {
     expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).text()).toEqual('Ext Note');
   });
 
-  it('renders the text in a div with the correct class name for ai_generation', () => {
+  it('renders the text in a div with the correct class name for ai_summary', () => {
     const wrapper = shallow(
       <ChatBubble
         contents="This is an ai generated message"
         myBubble={false}
-        type="ai_generated"
+        type="ai_summary"
         noteObj={{
           author: 'John Doe',
           type: 'external_note',
@@ -111,22 +112,25 @@ describe('ChatBubble', () => {
           contents: 'This is an ai generated message',
           timestamp: 1717523244282,
           label: 'Updated Status',
+          metadata: Immutable.fromJS({
+            updatedBy: 'josh'
+          }),
           data: [
             ['Priority', '0', '1 - Critical'],
-            ['Incident state', 'opened', 'In progress'],
-            ['Opened by', '', 'ITIL User']
+            ['incident state', 'opened', 'In progress'],
+            ['opened by', '', 'ITIL User']
           ]
         }}
       />
     );
 
     expect(wrapper.find(`div.${locals.ext}`)).toHaveLength(1);
-    expect(wrapper.find(`div.${locals.ext}`).text()).toEqual('Updated Status');
+    expect(wrapper.find(`div.${locals.ext}`).text()).toEqual('Updated Status(updated by josh)');
     expect(wrapper.find(`div.${locals.bubble}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.myBubble}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(1);
-    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).text()).toEqual('Updated Status');
+    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).text()).toEqual('Updated Status(updated by josh)');
   });
 });
 

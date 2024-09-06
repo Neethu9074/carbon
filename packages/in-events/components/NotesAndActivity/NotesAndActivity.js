@@ -108,7 +108,12 @@ export function NotesAndActivity(props) {
           <Tooltip content={t('in-events:notes.closeNotes')}>
             <IconButton
               kind="action"
-              onClick={() => toggleSidePanel(setDisplayNotes, displayNotes, incidentId)}
+              onClick={() => {
+                setSearchInput('');
+                setOpenSearch(false);
+                setDisplayNotes(!displayNotes);
+                toggleSidePanel(incidentId);
+              }}
               type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'}
               size="compact"
               className={locals.notesIcon}
@@ -126,6 +131,7 @@ export function NotesAndActivity(props) {
             {openSearch && (
               <CarbonSearch
                 placeholder={t('in-events:notes.searchNotes')}
+                labelText={t('in-events:notes.searchNotes')}
                 onChange={e => {
                   setSearchInput(e?.target?.value);
                 }}
@@ -158,8 +164,7 @@ function EmptyState() {
 }
 
 // Open the side panel and track the activity click
-function toggleSidePanel(setDisplayNotes, displayNotes, incidentId) {
-  setDisplayNotes(!displayNotes);
+function toggleSidePanel(incidentId) {
   const { pageRootName, productArea } = getViewTrackingMetaData();
   if (pageRootName && productArea) {
     const data = {

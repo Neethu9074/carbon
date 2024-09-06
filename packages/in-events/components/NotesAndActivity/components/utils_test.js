@@ -45,7 +45,7 @@ describe('noteNameAndTimeFormat', () => {
     expect(noteNameAndTimeFormat(true, note, '2024-06-04, 19:41:28', 'external_note')).toEqual(
       'LegendOfDragoon 2024-06-04, 19:41:28'
     );
-    expect(noteNameAndTimeFormat(false, note, '2024-06-04, 19:41:28', 'ai_generated')).toEqual(
+    expect(noteNameAndTimeFormat(false, note, '2024-06-04, 19:41:28', 'ai_summary')).toEqual(
       'watsonx 2024-06-04, 19:41:28'
     );
   });

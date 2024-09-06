@@ -376,11 +376,11 @@ export function annotateEvent(note) {
 }
 
 // Trigger an ai summary generation for the particular noteID
-export function generateJournalSummary(note) {
+export function generateJournalSummary(incidentId) {
   const obj = http({
     method: 'POST',
     maxRetries: 3,
-    url: `/api/journal/ai-summary/${note.id}`,
+    url: `/api/journal/ai-summary/${incidentId}`,
     headers: getCsrfHeader()
   });
   return obj.map(response => fromJS(response.body)).once();

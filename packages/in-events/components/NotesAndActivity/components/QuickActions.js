@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import { SvgIcon, CarbonButton } from '@instana/components';
 
@@ -23,6 +23,10 @@ import locals from './QuickActions.mless';
 // Main view that gives an overview for this side panel
 // Gives the user the options to add a note or generate a summary
 export function QuickActions(props) {
+  // To prevent multiple clicks of the generate summary button
+  // add a enable boolean thats set to false on click and re enabled
+  // after 5 seconds have passed
+  const [enableAISummary, setEnableAISummary] = useState(true);
   const { displayQuickStart, incidentId } = props;
   return (
     <div
@@ -48,8 +52,16 @@ export function QuickActions(props) {
           kind={'tertiary'}
           className={locals.actionsButton}
           size={'sm'}
-          renderIcon={() => <SvgIcon type="lib_generate_ai" color="currentColor" size="xs" />}
-          onClick={() => handleAIGenerateNote(incidentId)}
+          disabled={!enableAISummary}
+          renderIcon={() => (
+            <SvgIcon
+              type={(!enableAISummary && 'lib_actions_loading') || 'lib_generate_ai'}
+              color="currentColor"
+              size="xs"
+              spinning={!enableAISummary}
+            />
+          )}
+          onClick={() => handleAIGenerateNote(incidentId, setEnableAISummary)}
         >
           <div className={locals.quickActionButtonContents}>{t('in-events:notes.generateSummary')}</div>
         </CarbonButton>
@@ -60,7 +72,8 @@ export function QuickActions(props) {
 
 // Handle the button click for ai generation
 // Track the clicks
-export function handleAIGenerateNote(incidentId) {
+export function handleAIGenerateNote(incidentId, setEnableAISummary) {
+  setEnableAISummary(false);
   generateJournalSummary(incidentId);
   const { pageRootName, productArea } = getViewTrackingMetaData();
   if (pageRootName && productArea) {
@@ -73,4 +86,8 @@ export function handleAIGenerateNote(incidentId) {
     eventTracker({ data, segmentEventName: CTA_CLICKED });
   }
   track(EVENT_AI_GENERATE_SUBMIT, { incidentId, author: user.preferredName });
+  // WAIT 5 seconds and then  enable the button to be clicked again
+  setTimeout(() => {
+    setEnableAISummary(true);
+  }, 5000);
 }

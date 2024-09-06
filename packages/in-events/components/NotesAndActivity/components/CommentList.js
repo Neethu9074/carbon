@@ -10,9 +10,10 @@ import classNames from 'classnames';
 import { SvgIcon, CarbonPopover, CarbonPopoverContent, IconButton } from '@instana/components';
 
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
+import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
 import { noteNameAndTimeFormat, createDataString, getSummary } from './utils';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 import locals from './CommentList.mless';
 
@@ -31,10 +32,13 @@ export function CommentList(props) {
         const scrollTop = event?.target?.scrollTop;
         const clientHeight = event?.target?.clientHeight;
         const percentage = Math.round((scrollTop / (scrollHeight - clientHeight)) * -100);
+        // We only want to allow the transitional effects whenever the scroll
+        // difference is greater than 200.
+        const difference = scrollHeight - clientHeight;
         // If we scroll up 50% then collapse the quick actions
-        if (percentage > 50 && displayQuickStart) {
+        if (percentage > 50 && displayQuickStart && difference > 200) {
           setDisplayQuickStart(false);
-        } else if (percentage < 10 && !displayQuickStart) {
+        } else if (percentage < 10 && !displayQuickStart && difference > 130) {
           setDisplayQuickStart(true);
         }
       });
@@ -56,13 +60,13 @@ export function CommentList(props) {
           const note = notes[notes.length - i - 1];
           const myBubble = note.author == preferredName;
           const type = note.type;
-          const aiGen = type === 'ai_generated';
+          const aiSum = type === TYPE_AI_SUMMARY;
           const serviceNow = note.origin === 'ServiceNow';
           const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
           const iconType =
-            (!aiGen && serviceNow && 'lib_snow_icon') || (!aiGen && !serviceNow && 'lib_actions_user') || 'lib_ai_slug';
-          const iconSize = (aiGen && 'regular') || (!aiGen && !serviceNow && 'xs') || 'sm';
-          const iconViewBox = (serviceNow && '0 0 24 24') || (aiGen && '4 4 24 24') || '0 0 16 16';
+            (!aiSum && serviceNow && 'lib_snow_icon') || (!aiSum && !serviceNow && 'lib_actions_user') || 'lib_ai_slug';
+          const iconSize = (aiSum && 'regular') || (!aiSum && !serviceNow && 'xs') || 'sm';
+          const iconViewBox = (serviceNow && '0 0 24 24') || (aiSum && '4 4 24 24') || '0 0 16 16';
           return (
             <div key={note.id}>
               <div
@@ -77,9 +81,9 @@ export function CommentList(props) {
                     size={iconSize}
                     viewBox={iconViewBox}
                     className={classNames({
-                      [locals.userIcon]: !aiGen && !serviceNow,
+                      [locals.userIcon]: !aiSum && !serviceNow,
                       [locals.snowIcon]: serviceNow,
-                      [locals.aiIcon]: aiGen && !serviceNow
+                      [locals.aiIcon]: aiSum && !serviceNow
                     })}
                   />
                 )}
@@ -90,7 +94,7 @@ export function CommentList(props) {
                   })}
                 >
                   {noteNameAndTimeFormat(myBubble, note, date, type)}
-                  {aiGen && <AIPopover />}
+                  {aiSum && <AIPopover />}
                 </div>
               </div>
               <ChatBubble noteObj={note} contents={note.contents} data={note?.data} myBubble={myBubble} type={type} />
@@ -106,22 +110,23 @@ export function CommentList(props) {
 export function ChatBubble(props) {
   const { myBubble, contents, data, type, noteObj } = props;
   // Currently we have 4 types of bubbles
-  const note = type === 'note';
-  const extNote = type === 'external_note';
-  const extChange = type === 'external_field_change';
-  const aiGen = type === 'ai_generated';
-  const summary = aiGen && getSummary(noteObj?.metadata);
+  const note = type === TYPE_NOTE;
+  const extNote = type === TYPE_EXT_NOTE;
+  const extChange = type === TYPE_EXT_F_CHANGE;
+  const updatedBy = (extChange && noteObj?.metadata?.get('updatedBy')) || '';
+  const aiSum = type === TYPE_AI_SUMMARY;
+  const summary = aiSum && getSummary(noteObj?.metadata);
   return (
     <div
       className={classNames({
         [locals.myBubble]: myBubble && note,
         [locals.ext]: extNote || extChange || (!myBubble && note),
         [locals.bubble]: true,
-        [locals.aiGenBubble]: aiGen
+        [locals.aiGenBubble]: aiSum
       })}
     >
       {note && contents}
-      {aiGen && (
+      {aiSum && (
         <>
           <div className={locals.bubbleContentsHeader}>{t('in-events:notes.sumGenerated')}</div>
           {summary.map(entity => {
@@ -143,8 +148,11 @@ export function ChatBubble(props) {
       )}
       {extChange && (
         <>
-          <div className={locals.bubbleContentsHeader}>{noteObj?.label}</div>
-          {createDataString(data)}
+          <div className={locals.bubbleContentsHeader}>
+            {noteObj?.label}
+            <div style={{ fontWeight: 400 }}>{t('in-events:notes.updatedBy', { name: updatedBy })}</div>
+          </div>
+          {createDataString(data, updatedBy)}
         </>
       )}
     </div>
@@ -195,22 +203,19 @@ export function AIExplainedContent() {
         <div className={locals.bullet}>
           {'- '}
           <div>
-            <b>{`${t('in-events:notes.triggeringEvent')}: `}</b>
-            {t('in-events:notes.triggeringEventDesc')}
+            <Trans i18nKey={'in-events:notes.triggeringEvent'} />
           </div>
         </div>
         <div className={locals.bullet}>
           {'- '}
           <div>
-            <b>{`${t('in-events:notes.relatedEvents')}: `}</b>
-            {t('in-events:notes.relatedEventsDesc')}
+            <Trans i18nKey={'in-events:notes.relatedEvents'} />
           </div>
         </div>
         <div className={locals.bullet}>
           {'- '}
           <div>
-            <b>{`${t('in-events:notes.affectedEntities')}: `}</b>
-            {t('in-events:notes.affectedEntitiesDesc')}
+            <Trans i18nKey={'in-events:notes.affectedEntities'} />
           </div>
         </div>
       </div>
