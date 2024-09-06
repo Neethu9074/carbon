@@ -120,7 +120,7 @@ describe('controls', () => {
     onMouseUp.emit(true);
     controls.update();
 
-    const deltaY = controls.poi.rotation.toVector3().y - (5 * Math.PI) / 180;
+    const deltaY = controls.poi.rotation.y - (5 * Math.PI) / 180;
     expect(deltaY < 0.000001).to.equal(true);
 
     controls.dispose();

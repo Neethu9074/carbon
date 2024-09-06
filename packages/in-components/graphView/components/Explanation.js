@@ -8,8 +8,8 @@ import React from 'react';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { physicalPath } from 'in-stores/navigation/paths/mainPaths';
-import { goToPath } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
 import { Trans } from 'in-i18n';
 import { t } from 'in-i18n';
@@ -17,6 +17,7 @@ import { t } from 'in-i18n';
 import locals from './Explanation.mless';
 
 export default function Explanation() {
+  const { createHrefToPath } = useNavigation();
   return (
     <div className={locals.wrapper}>
       <Lettering className={locals.lettering} />
@@ -45,7 +46,7 @@ export default function Explanation() {
       </p>
 
       <p className={locals.text}>
-        <Button onClick={() => goToPath(physicalPath)}>{t('in-components:graphView.closeBtn')}</Button>
+        <Button href={createHrefToPath(physicalPath)}>{t('in-components:graphView.closeBtn')}</Button>
       </p>
     </div>
   );

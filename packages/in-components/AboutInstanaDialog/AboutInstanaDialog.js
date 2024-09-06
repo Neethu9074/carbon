@@ -9,21 +9,22 @@ import { ColumnizedContent, Ul, Li, KeyValue, Button, Stack } from '@instana/com
 import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
+import { graphViewFromAboutInstanaEnabled } from 'in-services/featureFlags';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { graphPath } from 'in-stores/navigation/paths/mainPaths';
 import { close } from 'in-components/DialogPresenter/store';
 import { instanaRegion } from 'in-services/config';
 import Dialog from 'in-components/Dialog/Dialog';
-import { goToPath } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
 import { build } from 'in-services/config';
 import { t, Trans } from 'in-i18n';
 
 import locals from './AboutInstanaDialog.mless';
-import { graphViewFromAboutInstanaEnabled } from 'in-services/featureFlags';
 
 export default function AboutInstanaDialog() {
   const uiBackendVersion = useObservable(getUiBackendVersion(), []);
+  const { createHrefToPath } = useNavigation();
   return (
     <Dialog onClose={close} title={<Lettering className={locals.lettering} />}>
       <Stack align="center" space="medium">
@@ -168,13 +169,7 @@ export default function AboutInstanaDialog() {
         </Ul>
 
         {graphViewFromAboutInstanaEnabled && (
-          <Button
-            kind="primaryv2"
-            onClick={() => {
-              goToPath(graphPath);
-              close();
-            }}
-          >
+          <Button kind="primaryv2" href={createHrefToPath(graphPath)} onClick={() => close()}>
             {t('in-components:aboutInstanaDialog.buttonGraphShowcase')}
           </Button>
         )}
