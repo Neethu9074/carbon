@@ -67,6 +67,8 @@ export function CommentList(props) {
             (!aiSum && serviceNow && 'lib_snow_icon') || (!aiSum && !serviceNow && 'lib_actions_user') || 'lib_ai_slug';
           const iconSize = (aiSum && 'regular') || (!aiSum && !serviceNow && 'xs') || 'sm';
           const iconViewBox = (serviceNow && '0 0 24 24') || (aiSum && '4 4 24 24') || '0 0 16 16';
+          // Display the icon if its not my chat message OR if its AI Summary
+          const displayIcon = !myBubble || aiSum;
           return (
             <div key={note.id}>
               <div
@@ -75,7 +77,7 @@ export function CommentList(props) {
                   [locals.chatEntry]: true
                 })}
               >
-                {!myBubble && (
+                {displayIcon && (
                   <SvgIcon
                     type={iconType}
                     size={iconSize}
@@ -89,7 +91,7 @@ export function CommentList(props) {
                 )}
                 <div
                   className={classNames({
-                    [locals.chatEntryInfo]: !myBubble,
+                    [locals.chatEntryInfo]: displayIcon,
                     [locals.myChatEntryInfo]: myBubble
                   })}
                 >
@@ -115,7 +117,7 @@ export function ChatBubble(props) {
   const extChange = type === TYPE_EXT_F_CHANGE;
   const updatedBy = (extChange && noteObj?.metadata?.get('updatedBy')) || '';
   const aiSum = type === TYPE_AI_SUMMARY;
-  const summary = aiSum && getSummary(noteObj?.metadata);
+  const summary = aiSum && getSummary(noteObj?.data);
   return (
     <div
       className={classNames({
@@ -162,7 +164,7 @@ export function ChatBubble(props) {
 export function AIPopover() {
   const [showPop, setShowPop] = useState(false);
   return (
-    <CarbonPopover open={showPop} align={'bottom-end'} caret>
+    <CarbonPopover open={showPop} align={'bottom-end'} caret autoAlign>
       <SvgIcon
         type={'lib_ai_slug'}
         className={locals.aiIconSlug}

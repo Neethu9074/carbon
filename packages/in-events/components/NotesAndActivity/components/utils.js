@@ -58,9 +58,9 @@ export function createDataString(data) {
   return dataString;
 }
 
-export function getSummary(metadata) {
+export function getSummary(data) {
   var dataString = [];
-  metadata?.map(entry => {
+  data?.map(entry => {
     const entitySummary = `${entry.entitySummary}\n`;
     dataString.push(entitySummary);
   });

@@ -86,6 +86,29 @@ export function NotesAndActivity(props) {
     return <></>;
   }
 
+  notes.push({
+    type: 'ai_summary',
+    id: 'QNxHdd2JGRWG5OayzLX3dgadfadsfadsg',
+    parent: 'SIqsdfetSR2mFBzafaqKNVy1GQ',
+    timestamp: 1722957105978,
+    updated: 0,
+    author: 'Josh King',
+    data: [
+      {
+        entityLabel: 'saas_instana_release_events_es7_20246',
+        entityName: 'Service',
+        entitySummary:
+          'The adaptive baseline configuration may lead to issues with network connectivity and cause unexpected reboots on certain devices.'
+      },
+      {
+        entityLabel: 'All Services',
+        entityName: 'Application',
+        entitySummary:
+          'There may be an issue with too many calls resulting in status code 442 and potentially others in the 5xx range.'
+      }
+    ]
+  });
+
   const emptyList = notes?.length === 0;
   const filteredNotes = filterSearchNotes(notes, searchInput.toLowerCase());
 
