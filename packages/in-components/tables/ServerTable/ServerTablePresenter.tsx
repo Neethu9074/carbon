@@ -55,6 +55,7 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   scopeNotification?: React.ReactNode;
   resultPrecision?: ResultPrecision;
   shadowless?: boolean;
+  preventEventPropagation?: boolean;
 }
 
 export default function ServerTablePresenter<
@@ -97,7 +98,8 @@ export default function ServerTablePresenter<
     // events
     onChange = noop,
     onRowMouseEnter = noop,
-    onRowMouseLeave = noop
+    onRowMouseLeave = noop,
+    preventEventPropagation
   } = props;
   const result = props.result ?? (pendingResult as Result<PaginatedResult<ItemType>>);
   const { availableColumns, visibleColumns, optionalColumns, onColumnChecked } = filterColumns(props);
@@ -303,16 +305,6 @@ export default function ServerTablePresenter<
       />
     );
   } else {
-    const checkPreventDefault = (data: any, e: React.MouseEvent) => {
-      // Need to prevent bubbling up the event for Create Policies page when the embedded checkbox
-      // within a clickable row is clicked. Otherwise, the two click events cancel each other out
-      // and the checkbox is not ticked. This is not required for Alert Channel and potential
-      // other pages, so some funny Carbon event handling happening behind the scenes.
-      if (data.id && data.metadata && data.aiEngine) {
-        e.preventDefault();
-      }
-    };
-
     body = result.data!.items.map((item, i) => (
       <Row
         key={item.id || i}
@@ -325,7 +317,7 @@ export default function ServerTablePresenter<
         getRowProps={getRowProps}
         onRowClick={(data, e) => {
           if (onRowClick) {
-            checkPreventDefault(data, e);
+            if (preventEventPropagation) e.preventDefault();
             onRowClick(data, e);
           }
         }}

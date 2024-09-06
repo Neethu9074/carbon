@@ -268,6 +268,7 @@ export default function CreatePoliciesDialog({ event, actions, trigger }: Create
           orderBy={orderBy}
           orderDirection={orderDirection}
           fixedLayout
+          preventEventPropagation
         />
       </LeftRightPadding>
       <Spacer vertical="small" />
