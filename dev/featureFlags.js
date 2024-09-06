@@ -68,7 +68,7 @@ module.exports = {
   carbonRadioButtonEnabled: true,
   carbonCheckboxEnabled: true,
   carbonComboBoxEnabled: true,
-  carbonDateInputEnable: false,
+  carbonDateInputEnabled: true,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,
