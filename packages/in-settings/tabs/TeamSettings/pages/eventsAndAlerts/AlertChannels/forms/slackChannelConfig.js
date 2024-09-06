@@ -6,7 +6,7 @@
 import { createMapForm, createField } from 'formalistic';
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from '@instana/components';
+import { DescriptionList, DescriptionItem, Toggle } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import { notBlankValidator } from 'in-services/validators/string';
@@ -22,6 +22,7 @@ const block = 'in-alert-channel-config-form';
 
 const name = 'SLACK';
 const label = t('in-settings:tabs.slack');
+const emojiRenderingDescription = 'Render Emoji';
 
 const parameters = [
   {
@@ -43,6 +44,10 @@ const parameters = [
   {
     key: 'channel',
     label: t('in-settings:tabs.channel')
+  },
+  {
+    key: 'emojiRendering',
+    label: emojiRenderingDescription
   }
 ];
 
@@ -58,6 +63,7 @@ export default {
     alertChannel.webhookUrl = '';
     alertChannel.iconUrl = '';
     alertChannel.channel = '';
+    alertChannel.emojiRendering = false;
   },
 
   createDetails(alertChannel) {
@@ -71,6 +77,9 @@ export default {
         </DescriptionItem>
         <DescriptionItem inComponents title={t('in-settings:tabs.channel')}>
           {alertChannel.get('channel')}
+        </DescriptionItem>
+        <DescriptionItem inComponents title={emojiRenderingDescription}>
+          {alertChannel.get('emojiRendering')}
         </DescriptionItem>
       </DescriptionList>
     );
@@ -109,6 +118,12 @@ export default {
         createField({
           value: alertChannel ? alertChannel.get('channel') : ''
         })
+      )
+      .put(
+        'emojiRendering',
+        createField({
+          value: alertChannel ? alertChannel.get('emojiRendering') : false
+        })
       );
   },
 
@@ -119,7 +134,8 @@ export default {
       name: form.get('name').value,
       webhookUrl: form.get('webhookUrl').value,
       iconUrl: form.get('iconUrl').value,
-      channel: form.get('channel').value
+      channel: form.get('channel').value,
+      emojiRendering: form.get('emojiRendering').value
     };
   },
 
@@ -196,6 +212,25 @@ function Form({ form, onChange }) {
             onChange={e => onChange('channel', e.target.value)}
           />
           <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+
+      {form.get('emojiRendering').map(field => (
+        <FormGroup>
+          {/* <Input
+            className={`${block}__input`}
+            id="emojiRendering"
+            type="checkbox"
+            checked={field.value}
+            onChange={e => onChange('emojiRendering', e.target.checked)}
+          /> */}
+          <Toggle
+            labelA="No"
+            labelB="Yes"
+            labelText={emojiRenderingDescription}
+            checked={field.value}
+            onToggle={() => onChange('emojiRendering', !field.value)}
+          />
         </FormGroup>
       ))}
     </fieldset>
