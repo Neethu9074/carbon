@@ -33,6 +33,7 @@ import Details from 'in-kubernetes/Dashboards/Namespace/tabs/Details';
 import PersistentVolumes from '../../Cluster/tabs/PersistentVolumes';
 import Pods from 'in-kubernetes/Dashboards/Namespace/tabs/Pods';
 import SummaryWithoutTimeShift from './SummaryWithoutTimeShift';
+import { getTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
 export default [
@@ -137,7 +138,10 @@ export default [
     }
 ].filter(Boolean);
 
-function getCounterComponent({ namespaceId, tab, timeConfig }, valueExtractor) {
+function getCounterComponent({ result, tab, location }, valueExtractor) {
+  const namespaceId = result?.data?.id;
+  const timeConfig = getTimeConfig(location);
+
   return (
     <NamespaceTab namespaceId={namespaceId} label={tab.label} timeConfig={timeConfig} valueExtractor={valueExtractor} />
   );
