@@ -375,6 +375,7 @@
           "configureDbMarlin": "Configure DBmarlin",
           "configureDbMarlinDescription": "When enabled, the following configuration adds a link to DBmarlin in the call details for compatible calls.",
           "configureYourDbMarlinSettings": "Configure your DBmarlin settings",
+          "testDbMarlinInstance": "To test your DBmarlin link, go to",
           "failedToLoadDbMarlinConfiguration": "Failed to load DBmarlin configuration."
         }
       }

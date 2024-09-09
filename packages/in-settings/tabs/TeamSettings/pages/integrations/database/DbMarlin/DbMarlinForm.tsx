@@ -6,10 +6,13 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import { IntegrationForm, IntegrationFormPath } from 'in-settings/tabs/TeamSettings/pages/integrations/database/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
+import { isBlank } from 'in-services/util/string';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t, Trans } from 'in-i18n';
@@ -23,6 +26,9 @@ interface DbMarlinFormProps {
 }
 
 export default function DbMarlinForm({ form, onChange, disabled }: DbMarlinFormProps) {
+  const dbMarlinUrl = form.get('url').value;
+  const isUrlBlank = isBlank(dbMarlinUrl);
+
   return (
     <fieldset>
       {form.get('url').map(field => (
@@ -44,6 +50,16 @@ export default function DbMarlinForm({ form, onChange, disabled }: DbMarlinFormP
           </HelpText>
         </FormGroup>
       ))}
+      {!isUrlBlank && (
+        <FormGroup className={locals.urlTest}>
+          <Label>
+            <strong>{t('in-settings:tabs.team.integrations.database.testDbMarlinInstance')}</strong>
+          </Label>
+          <Link size="sm" href={dbMarlinUrl} external>
+            {dbMarlinUrl}
+          </Link>
+        </FormGroup>
+      )}
     </fieldset>
   );
 }
