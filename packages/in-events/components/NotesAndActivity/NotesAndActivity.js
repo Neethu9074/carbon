@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import { SvgIcon, CarbonTag, CarbonLayer, CarbonInlineLoading, IconButton, CarbonSearch } from '@instana/components';
 
@@ -76,6 +77,7 @@ export function NotesAndActivity(props) {
   const [searchInput, setSearchInput] = useState('');
   const [openSearch, setOpenSearch] = useState(false);
   const [displayQuickStart, setDisplayQuickStart] = useState(true);
+  const [stretchOverlay, setStretchOverlay] = useState(false);
 
   // We ONLY want to display Notes and Activity for incidents
   if (eventType != 'incident') {
@@ -85,29 +87,6 @@ export function NotesAndActivity(props) {
   if (!displayNotes) {
     return <></>;
   }
-
-  notes.push({
-    type: 'ai_summary',
-    id: 'QNxHdd2JGRWG5OayzLX3dgadfadsfadsg',
-    parent: 'SIqsdfetSR2mFBzafaqKNVy1GQ',
-    timestamp: 1722957105978,
-    updated: 0,
-    author: 'Josh King',
-    data: [
-      {
-        entityLabel: 'saas_instana_release_events_es7_20246',
-        entityName: 'Service',
-        entitySummary:
-          'The adaptive baseline configuration may lead to issues with network connectivity and cause unexpected reboots on certain devices.'
-      },
-      {
-        entityLabel: 'All Services',
-        entityName: 'Application',
-        entitySummary:
-          'There may be an issue with too many calls resulting in status code 442 and potentially others in the 5xx range.'
-      }
-    ]
-  });
 
   const emptyList = notes?.length === 0;
   const filteredNotes = filterSearchNotes(notes, searchInput.toLowerCase());
@@ -144,7 +123,12 @@ export function NotesAndActivity(props) {
           </Tooltip>
         </div>
       </div>
-      <div className={locals.notes}>
+      <div
+        className={classNames({
+          [locals.notes]: true,
+          [locals.stretch]: stretchOverlay
+        })}
+      >
         {loading ? (
           <div className={locals.loading}>
             <CarbonInlineLoading />
@@ -160,6 +144,18 @@ export function NotesAndActivity(props) {
                 }}
               />
             )}
+            <IconButton
+              kind="primary"
+              onClick={() => {
+                setStretchOverlay(!stretchOverlay);
+              }}
+              type={(stretchOverlay && 'lib_actions_minimize') || 'lib_actions_maximize'}
+              size="compact"
+              className={classNames({
+                [locals.expandIcon]: true,
+                [locals.expandIconSearch]: openSearch
+              })}
+            />
             {aiFlagEnabled && <QuickActions displayQuickStart={displayQuickStart} incidentId={incidentId} />}
             {!aiFlagEnabled && emptyList && <EmptyState />}
             <CommentList

@@ -31,6 +31,10 @@
     background-color: var(--cds-layer-01);
   }
 
+  .stretch {
+    width: 50rem;
+  }
+
   .tagIconWrapper {
     display: inline-flex;
     gap: 0.5rem;
@@ -68,5 +72,15 @@
 
   .emptyInfo {
     line-height: 1rem;
+  }
+
+  .expandIcon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .expandIconSearch {
+    top: 2.5rem;
   }
 }

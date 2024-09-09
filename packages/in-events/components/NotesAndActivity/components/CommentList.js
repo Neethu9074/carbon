@@ -145,7 +145,7 @@ export function ChatBubble(props) {
         <>
           <div className={locals.bubbleContentsHeader}>{`${noteObj?.label}`}</div>
           {`${noteObj.author}: `}
-          {contents}
+          <div style={{ wordWrap: 'break-word' }}>{contents}</div>
         </>
       )}
       {extChange && (

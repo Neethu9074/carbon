@@ -31,7 +31,7 @@ describe('NotesAndActivity', () => {
 
     expect(wrapper.find(CarbonLayer)).toHaveLength(1);
     expect(wrapper.find(CarbonTag)).toHaveLength(1);
-    expect(wrapper.find(IconButton)).toHaveLength(2);
+    expect(wrapper.find(IconButton)).toHaveLength(3);
     expect(wrapper.find(CarbonInlineLoading)).toHaveLength(0);
     expect(wrapper.find(CarbonSearch)).toHaveLength(0);
     expect(wrapper.find(CommentList)).toHaveLength(1);
@@ -69,7 +69,7 @@ describe('NotesAndActivity', () => {
 
     expect(wrapper.find(CarbonLayer)).toHaveLength(1);
     expect(wrapper.find(CarbonTag)).toHaveLength(1);
-    expect(wrapper.find(IconButton)).toHaveLength(2);
+    expect(wrapper.find(IconButton)).toHaveLength(3);
     expect(wrapper.find(CarbonInlineLoading)).toHaveLength(0);
     expect(wrapper.find(CarbonSearch)).toHaveLength(0);
     expect(wrapper.find(CommentList)).toHaveLength(1);

@@ -48,7 +48,7 @@ export function createDataString(data) {
     const entryArray = entry?._tail?.array;
     // There are three index values but only first and last are used
     // 0 - Key
-    const entryOne = entryArray[0] || '';
+    const entryOne = entryArray[0]?.replace('_', ' ') || '';
     // 1 - Old Value
     // 2 - New Value
     const entryThree = entryArray[2] || '';
@@ -61,7 +61,8 @@ export function createDataString(data) {
 export function getSummary(data) {
   var dataString = [];
   data?.map(entry => {
-    const entitySummary = `${entry.entitySummary}\n`;
+    const props = Object.fromEntries(entry);
+    const entitySummary = `${props.entitySummary}\n`;
     dataString.push(entitySummary);
   });
   return dataString;
