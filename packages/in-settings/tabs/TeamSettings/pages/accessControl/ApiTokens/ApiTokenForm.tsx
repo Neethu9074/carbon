@@ -143,18 +143,21 @@ function ConfirmationDialog({ onChange }: { onChange: () => void }) {
       doNotCloseOnOutsideClick
       onClose={close}
     >
-      <p>{t('in-settings:tabs.youAreAssigningThisApiTokenOwnerPermissions')}</p>
-
-      <Button
-        kind="primary"
-        className={locals.confirmationDialogButton}
-        onClick={() => {
-          onChange();
-          close();
-        }}
-      >
-        Yes, I understand
-      </Button>
+      <p className={locals.confirmationDialogMessage}>
+        {t('in-settings:tabs.youAreAssigningThisApiTokenOwnerPermissions')}
+      </p>
+      <div>
+        <Button
+          kind="primary"
+          className={locals.confirmationDialogButton}
+          onClick={() => {
+            onChange();
+            close();
+          }}
+        >
+          {t('in-settings:tabs.yesIUnderstand')}
+        </Button>
+      </div>
     </Dialog>
   );
 }
