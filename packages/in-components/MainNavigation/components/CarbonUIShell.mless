@@ -13,11 +13,4 @@
       height: 100%;
     }
   }
-  .header {
-    &_profileMenu {
-      :global(.cds--popover-container span) {
-        display: none;
-      }
-    }
-  }
 }

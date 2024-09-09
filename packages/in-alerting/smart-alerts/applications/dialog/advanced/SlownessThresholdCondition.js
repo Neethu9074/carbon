@@ -27,6 +27,8 @@ import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
 
+import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+
 export default function SlownessThresholdCondition({
   form,
   updateForm,
@@ -55,6 +57,7 @@ export default function SlownessThresholdCondition({
           <>
             <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>
             <Dropdown
+              className={locals.dropdownsm}
               value={getAggregationValue(form)}
               items={getAggregationOptions(form)}
               onChange={value => {

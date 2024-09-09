@@ -5,10 +5,11 @@
 
 import React, { useState } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import TagFilter from 'in-components/Tags/TagList/components/TagFilter';
 import getFilterableTags from 'in-subscription/getFilterableTags';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { filteredTags$ } from 'in-stores/search/keywords/tags';
 import { number } from 'in-services/formatters/number';
 import { emptySet } from 'in-services/fixedImmutables';
@@ -79,9 +80,17 @@ function TagListWithMaxLengthRestriction({ tags }) {
       {tags}
 
       {actualNumberOfTags > maxTagsPerCollection && !showAll && (
-        <Button className={locals.button} size="compact" onClick={() => setShowAll(true)}>
-          {t('in-components:tags.tagListShowAll', { num: number.compact(actualNumberOfTags - maxTagsPerCollection) })}
-        </Button>
+        <div className={carbonButtonEnabled ? locals.carbonButton : undefined}>
+          <Button
+            kind={carbonButtonEnabled ? 'tertiary' : 'primary'}
+            {...(carbonButtonEnabled ? { darkTheme: true } : {})}
+            className={locals.button}
+            size="compact"
+            onClick={() => setShowAll(true)}
+          >
+            {t('in-components:tags.tagListShowAll', { num: number.compact(actualNumberOfTags - maxTagsPerCollection) })}
+          </Button>
+        </div>
       )}
     </>
   );

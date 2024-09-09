@@ -143,14 +143,12 @@ export default function AddScriptDialogContent({
                       : t('in-synthetics:dialog.createTest.advancedMode.configStep.uploadFileDescription')}
                   </DescriptionText>
                 </div>
-                <>
-                  <FileInputButton
-                    accept={isBrowser ? 'text/javascript,.zip,.side' : 'text/javascript,.zip'}
-                    onChange={onFileUpload}
-                  />
-                  {script.errorMessage && <SaveError>{script.errorMessage}</SaveError>}
-                </>
               </HorizontalFlexWrapper>
+              <FileInputButton
+                accept={isBrowser ? 'text/javascript,.zip,.side' : 'text/javascript,.zip'}
+                onChange={onFileUpload}
+              />
+              {script.errorMessage && <SaveError>{script.errorMessage}</SaveError>}
               {script.extension === 'zip' && (
                 <FormGroup className={locals.fileName}>
                   <Label htmlFor="fileName">

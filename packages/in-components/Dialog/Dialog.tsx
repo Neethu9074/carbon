@@ -9,7 +9,6 @@ import classNames from 'classnames';
 import { CarbonLayer } from '@instana/components';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Header from 'in-components/Dialog/Header';
 
 import locals from './Dialog.mless';
@@ -48,8 +47,7 @@ export default function Dialog({
     <div
       className={classNames({
         [locals.wrapper]: true,
-        [locals.cursorDefault]: doNotCloseOnOutsideClick,
-        [locals.shareAndInvite]: shareAndInviteEnabled
+        [locals.cursorDefault]: doNotCloseOnOutsideClick
       })}
       onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose(e))}
     >

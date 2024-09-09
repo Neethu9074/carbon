@@ -13,7 +13,7 @@ import AssociationsContent from 'in-synthetics/dashboards/global/tabs/tests/comp
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import HealthDot from 'in-components/health/HealthDot';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -147,12 +147,12 @@ export const columnDefinitions: ColumnDefinition<TestResultListItemId>[] = [
     }
   },
   {
-    id: syntheticMultiAppEnabled ? 'associationLabels' : 'applicationLabel',
+    id: syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
     label: t('in-synthetics:dashboard.testList.associationLabel'),
     defaultOrderDirection: 'ASC',
     width: '20%',
     getContent(item: TestResultListItemId) {
-      return <AssociationsContent item={item} shouldDisplayLink={false} />;
+      return <AssociationsContent item={item} />;
     }
   }
 ];

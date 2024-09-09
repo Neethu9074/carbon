@@ -6,7 +6,9 @@
 
 import React from 'react';
 
-import { DashboardTableRow as Row, DashboardTableCell as Cell, Link } from '@instana/components';
+import { DashboardTableRow as Row, DashboardTableCell as Cell, DashboardButton } from '@instana/components';
+
+import locals from './ViewAllButton.mless';
 
 interface ViewAllButtonProps {
   href?: string;
@@ -18,21 +20,19 @@ export default function ViewAllButton({ href, viewLabel, isTableEmpty = false }:
   return (
     <Row className="viewAllTableRow">
       <Cell className="viewAllTableCell">
-        {isTableEmpty && (
-          <Link
-            style={{ color: 'var(--cds-text-on-color-disabled)' }}
-            href={href}
-            linkIconType="lib_arrow_right"
-            disabled={isTableEmpty}
-          >
-            {viewLabel}
-          </Link>
-        )}
-        {!isTableEmpty && (
-          <Link href={href} linkIconType="lib_arrow_right" disabled={isTableEmpty}>
-            {viewLabel}
-          </Link>
-        )}
+        <DashboardButton
+          size="md"
+          kind="ghost"
+          iconSize="xs"
+          icon="lib_arrow_right"
+          iconStyle={locals.viewAllButtonArrowIcon}
+          href={href}
+          ariaLabel={viewLabel}
+          iconDescription={viewLabel}
+          disabled={isTableEmpty}
+        >
+          {viewLabel}
+        </DashboardButton>
       </Cell>
     </Row>
   );

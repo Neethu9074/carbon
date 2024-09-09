@@ -24,9 +24,10 @@ import {
   WebsiteAlertConfig,
   WebsiteAlertConfigWithMetadata
 } from 'in-types';
-import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
+import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 
 interface createOrSaveAlertProps {
   form: MapForm<any>;
@@ -40,6 +41,7 @@ interface createOrSaveAlertProps {
   isSimpleMode: boolean;
   eumType: string;
   duplicateFrom?: string;
+  trackCta: CtaTrackingFunction;
 }
 
 export function createOrSaveAlert({
@@ -53,7 +55,8 @@ export function createOrSaveAlert({
   toAlertConfig,
   isSimpleMode,
   eumType,
-  duplicateFrom
+  duplicateFrom,
+  trackCta
 }: createOrSaveAlertProps) {
   setIsSaving(true);
 
@@ -81,7 +84,7 @@ export function createOrSaveAlert({
       updatedAlertConfig => {
         onClose(updatedAlertConfig);
         showSuccessMessage(updatedAlertConfig.name, editMode);
-        trackAlertUpdated(updatedAlertConfig);
+        trackCta?.(ALERTING_UPDATED, { ...updatedAlertConfig, dialogMode: 'Advanced' });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
@@ -108,7 +111,7 @@ export function createOrSaveAlert({
               );
         showSuccessMessage(createAlertConfig.name, editMode, false, href);
         const newConfig = duplicateFrom ? { ...createAlertConfig, cloneFromId: duplicateFrom } : createAlertConfig;
-        trackAlertSaved(newConfig, isSimpleMode);
+        trackCta?.(ALERTING_SAVED, { ...newConfig, dialogMode: isSimpleMode ? 'Simple' : 'Advanced' });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));

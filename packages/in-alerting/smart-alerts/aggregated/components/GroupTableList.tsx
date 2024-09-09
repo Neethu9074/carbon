@@ -79,6 +79,8 @@ export default function GroupTableList({
             isSearchable={false}
             defaultPageSize={retrievalSize}
             defaultOrderDirection={order && order.direction}
+            orderBy={order?.by}
+            orderDirection={order?.direction}
             onRowClick={(item: GroupItem) => {
               setSelectedMetricGroup('label' in item ? item?.label : '' || 'tags' in item ? item?.tags : '');
             }}

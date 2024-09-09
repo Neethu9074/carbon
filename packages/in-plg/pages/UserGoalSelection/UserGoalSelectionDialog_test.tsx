@@ -11,22 +11,25 @@ import { t } from '@instana/i18n-react';
 
 import UserGoalSelectionDialog from 'in-plg/pages/UserGoalSelection/UserGoalSelectionDialog';
 import { GOAL_SELECTION } from 'in-plg/pages/UserGoalSelection/utils/consts';
-import { segmentTrackingFunc } from 'in-plg/utils/Segment/segment';
+
+const { useSegmentTracking } = require('in-services/tracking/useSegmentTracking');
 
 jest.mock('in-components/DialogPresenter/store', () => ({
   close: jest.fn()
 }));
 
-jest.mock('in-plg/utils/Segment/segment', () => ({
-  __esModule: true,
-  segmentTrackingFunc: jest.fn(() => ({
-    activeLicense: 'selfService'
-  }))
-}));
+jest.mock('in-services/tracking/useSegmentTracking');
+
+useSegmentTracking.mockReturnValue({
+  unstable_trackEvent: jest.fn(),
+  trackCta: jest.fn()
+});
 
 const ctaClicked = 'CTA Clicked';
 
 describe('in-plg/pages/UserGoalSelectionDialog', () => {
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
+
   test('should show dialog', () => {
     render(<UserGoalSelectionDialog />);
     screen.findByText('What are your goals?');
@@ -40,10 +43,7 @@ describe('in-plg/pages/UserGoalSelectionDialog', () => {
     fireEvent.click(checkbox as any);
     fireEvent.click(doneButton as any);
 
-    expect(segmentTrackingFunc).toHaveBeenCalledWith(
-      'User goal: Improve website and API performance management',
-      ctaClicked
-    );
+    expect(trackCta).toHaveBeenCalledWith('User goal: Improve website and API performance management');
   });
 
   test('should display other goal input field and send its value to segment', () => {
@@ -57,20 +57,20 @@ describe('in-plg/pages/UserGoalSelectionDialog', () => {
     const doneButton = screen.getByText('Done');
     fireEvent.click(doneButton as any);
     expect(textArea).toBeInTheDocument();
-    expect(segmentTrackingFunc).toHaveBeenLastCalledWith('User goal: Other goal', ctaClicked, value);
+    expect(unstable_trackEvent).toHaveBeenLastCalledWith(ctaClicked, { CTA: 'User goal: Other goal', message: value });
   });
 
   test('should instrument the close action of goal selection to the segment', () => {
     const { container } = render(<UserGoalSelectionDialog />);
     const closeButton = container.querySelector('.legacyIconButton button');
     fireEvent.click(closeButton as any);
-    expect(segmentTrackingFunc).toHaveBeenLastCalledWith(GOAL_SELECTION.SEGMENT_MESSAGE.CLOSE, ctaClicked);
+    expect(trackCta).toHaveBeenLastCalledWith(GOAL_SELECTION.SEGMENT_MESSAGE.CLOSE);
   });
 
   test('should instrument the skip action of goal selection to the segment', () => {
     render(<UserGoalSelectionDialog />);
     const skipButton = screen.getByText(t('in-plg:userGoalSelectionDialog.skip'));
     fireEvent.click(skipButton as any);
-    expect(segmentTrackingFunc).toHaveBeenLastCalledWith(GOAL_SELECTION.SEGMENT_MESSAGE.SKIP, ctaClicked);
+    expect(trackCta).toHaveBeenLastCalledWith(GOAL_SELECTION.SEGMENT_MESSAGE.SKIP);
   });
 });

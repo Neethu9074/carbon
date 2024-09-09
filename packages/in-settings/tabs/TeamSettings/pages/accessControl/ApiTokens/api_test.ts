@@ -57,12 +57,13 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api', () =
     const apiResponse = [createToken(), createToken()];
     mockHttp(apiResponse, true);
 
-    const getApiTokensResult$ = getApiTokens();
+    const getApiTokensResult$ = getApiTokens('');
 
-    expect(http).toHaveBeenCalledWith(expect.objectContaining({ url: `/api/settings/api-tokens` }));
     getApiTokensResult$.once(resp => {
       expect(resp).toEqual(apiResponse);
     });
+
+    expect(http).toHaveBeenCalledWith(expect.objectContaining({ url: `/api/settings/api-tokens` }));
   });
 
   it('should call http function with params and return response when calling getApiToken() with params', async () => {

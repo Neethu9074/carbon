@@ -13,6 +13,7 @@ import {
   isEntityVerificationEvent,
   isHostAvailabilityEvent,
   isAgentMonitoringIssueEvent,
+  isCveIssueEvent,
   isApplicationSmartAlertEvent,
   isWebsiteSmartAlertEvent,
   isInfraSmartAlertEvent,
@@ -25,13 +26,17 @@ import {
   isLogSmartAlertEvent,
   hasManualCloseFields
 } from 'in-events/components/eventUtil';
+import {
+  manuallyCloseEventEnabled,
+  eumImpactedUsersForAppAlertEnabled,
+  businessObservabilityEnabled
+} from 'in-services/featureFlags';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
-import { manuallyCloseEventEnabled, eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
 import IncidentContent from 'in-events/components/tabs/Summary/IncidentDetailPage/IncidentContent';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
@@ -47,6 +52,7 @@ import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProc
 import MobileEventContent from 'in-events/components/EventContent/MobileEventContent';
 import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
+import CveIssueDescription from 'in-events/components/legacy/CveIssueDescription';
 import LogsEventContent from 'in-events/components/EventContent/LogEventContent';
 import SloEventContent from 'in-events/components/EventContent/SloEventContent';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -188,6 +194,8 @@ const EventContent = connectTo(
                   timeConfig={timeConfig}
                   className="in-event-view-event-content"
                 />
+              ) : isCveIssueEvent(event) ? (
+                <CveIssueDescription event={event} />
               ) : (
                 <ProblemDescription fixSuggestion={fixSuggestion} />
               )}
@@ -276,11 +284,13 @@ const EventContent = connectTo(
         {isIssue && hasEventSpec && (
           <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
         )}
-        <ImpactedBusinessProcesses
-          eventType={eventType}
-          entityType={event?.get('entityType', undefined)}
-          entityId={event?.get('entityId', undefined)}
-        />
+        {businessObservabilityEnabled && (
+          <ImpactedBusinessProcesses
+            eventType={eventType}
+            entityType={event?.get('entityType', undefined)}
+            entityId={event?.get('entityId', undefined)}
+          />
+        )}
       </>
     );
   }

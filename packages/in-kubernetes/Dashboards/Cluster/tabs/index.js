@@ -33,6 +33,7 @@ import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
 import { controlPlaneEnabled } from 'in-services/featureFlags';
 import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
+import { getTimeConfig } from 'in-stores/time/config';
 import Summary from './Summary';
 import { t } from 'in-i18n';
 
@@ -161,6 +162,8 @@ export default [
   }
 ].filter(Boolean);
 
-function getCounterComponent({ clusterId, tab, timeConfig }, valueExtractor) {
+function getCounterComponent({ result, tab, location }, valueExtractor) {
+  const clusterId = result?.data?.id;
+  const timeConfig = getTimeConfig(location);
   return <ClusterTab clusterId={clusterId} label={tab.label} timeConfig={timeConfig} valueExtractor={valueExtractor} />;
 }

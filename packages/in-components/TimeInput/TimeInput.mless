@@ -10,7 +10,7 @@
   }
 
   .timeInput {
-    width: 3.4375rem;
+    width: 4.5rem;
   }
 
   .fullWidth {

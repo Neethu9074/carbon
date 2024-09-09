@@ -46,7 +46,15 @@ export default function ThresholdConditionFormGroup({
           {isTearSheet ? <AlertTypography variant="body-regular" color="color900" content={label} /> : label}
         </span>
       )}
-      <div className={locals.content}>{children}</div>
+      <div
+        className={classNames({
+          [locals.content]: true,
+          [locals.extraGap]: !isTearSheet,
+          [locals.alignStart]: isTearSheet
+        })}
+      >
+        {children}
+      </div>
     </div>
   );
 }

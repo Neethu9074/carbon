@@ -7,14 +7,7 @@
 import React, { Dispatch, ReactNode, SetStateAction, useMemo, useState } from 'react';
 import { Item, MapForm, MapPath } from 'formalistic';
 
-import {
-  AdaptiveBaselineData,
-  ApplicationAlertConfig,
-  HistoricBaselineData,
-  Result,
-  StaticThresholdData,
-  TimeConfig
-} from '@instana/types';
+import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -38,6 +31,7 @@ import {
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 //@ts-expect-error
 import { channelListLoading$ } from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelsList';
+import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/applications/hooks/useAlertConfigValidation';
 import AlertingTearSheet, { AlertingFooterActions } from 'in-alerting/components/AlertingTearSheet';
@@ -83,7 +77,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
 
   useCalculateThresholdOnBackendSignalEmitter(form);
 
-  const alertConfigWithFormModel = form.toJS() as unknown as ApplicationAlertConfig;
+  const alertConfigWithFormModel = form.toJS() as unknown as ApplicationSmartAlertConfig;
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
   const blueprintConfigList =
@@ -103,7 +97,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
 }
 
 export interface TearSheetWithQueryValidationProps extends AlertConfigTearSheetWithThresholdProps {
-  alertConfigWithFormModel: ApplicationAlertConfig;
+  alertConfigWithFormModel: ApplicationSmartAlertConfig;
   blueprintConfig: BluePrint;
   blueprintConfigList: any;
 }
@@ -166,7 +160,13 @@ function SmartAlertConfigTearSheetWithQueryValidation({
   });
 
   //@ts-expect-error
-  const actions: AlertingFooterActions[] = getFooterActions(editMode, backOrCancel, cancelTearSheet, handleSubmit);
+  const actions: AlertingFooterActions[] = getFooterActions(
+    backOrCancel,
+    cancelTearSheet,
+    handleSubmit,
+    editMode,
+    migrationMode
+  );
 
   const navItems = useAlertConfigValidation(
     stepConfigs,
@@ -186,7 +186,6 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       isSaving={isSaving}
       formId={FORM_ID}
       form={form}
-      migrationMode={migrationMode}
       headerWithMsg={headerWithMsg}
       additionalValidationCheck={additionalValidationCheck(step, isTagFilterFormModelValid, channelListLoading)}
       setForm={updateForm}

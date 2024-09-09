@@ -26,7 +26,7 @@ export default connectTo(
 
     return (
       <Breadcrumb
-        href$={getVsphereHostDashboard(vmId)}
+        href={getVsphereHostDashboard(vmId)}
         label={t('in-vsphere:breadcrumbs.vSphereVm')}
         icon="lib_vsphere_vm"
       >

@@ -17,10 +17,10 @@ import urlValidator, {
 } from 'in-synthetics/createTests/validators/urlValidator';
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
 import { regExpValidator, statusCodeValidator } from 'in-synthetics/createTests/validators/configValidators';
-import { syntheticMultiAppEnabled, syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { minValidator } from 'in-services/validators/number';
@@ -96,7 +96,7 @@ export function updateForm(savedState: Record<string, any>) {
         value: savedState?.customProperties ?? {}
       })
     );
-  if (syntheticMultiWebMobileEnabled) {
+  if (syntheticRbacLimitedEnabled) {
     return updateTestForm
       .put(
         'applications',
@@ -116,15 +116,6 @@ export function updateForm(savedState: Record<string, any>) {
           value: savedState?.mobileApps ?? []
         })
       );
-  }
-  if (syntheticMultiAppEnabled) {
-    return updateTestForm.put(
-      'applications',
-      createField({
-        value: savedState?.applications ?? [],
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, arrayValidator)
-      })
-    );
   }
   return updateTestForm.put(
     'applicationId',

@@ -9,7 +9,8 @@ import {
   AvailabilityBlueprintIndicator,
   CustomBlueprintIndicator,
   LatencyBlueprintIndicator,
-  ServiceLevelIndicatorUnion
+  ServiceLevelIndicatorUnion,
+  TrafficBlueprintIndicator
 } from '@instana/types';
 
 import { SloTimeWindowTypes, timeAggregationOptions } from 'in-service-levels/constants';
@@ -38,6 +39,12 @@ export function isCustomBlueprintIndicator(
   indicator: ServiceLevelIndicatorUnion
 ): indicator is CustomBlueprintIndicator {
   return indicator.blueprint === 'custom';
+}
+
+export function isTrafficBlueprintIndicator(
+  indicator: ServiceLevelIndicatorUnion
+): indicator is TrafficBlueprintIndicator {
+  return indicator.blueprint === 'traffic';
 }
 
 export function isAvailableTimeWindowType(timeWindowType: any): timeWindowType is AvailableTimeWindowTypes {

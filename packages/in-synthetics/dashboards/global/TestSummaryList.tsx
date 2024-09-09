@@ -60,12 +60,13 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
 import CreateSyntheticTest from 'in-synthetics/createTests/CreateSyntheticTest';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useFilterHeader } from 'in-synthetics/dashboards/global/utils';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -87,7 +88,7 @@ const urlStateDefinition: Options<FilterState> = {
       syntheticTypes: syntheticTypes || prevState.syntheticTypes,
       locationIds: locationIds || prevState.locationIds
     };
-    return syntheticMultiWebMobileEnabled
+    return syntheticRbacLimitedEnabled
       ? { ...commonUrlStateProps, entityIds: entityIds || prevState.entityIds }
       : { ...commonUrlStateProps, applicationIds: applicationIds || prevState.applicationIds };
   }
@@ -103,7 +104,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     ...timeConfigUrlParameters,
     syntheticTypesUrlParameter,
     locationsUrlParameter,
-    syntheticMultiWebMobileEnabled ? entityIdsUrlParameter : applicationsUrlParameter
+    syntheticRbacLimitedEnabled ? entityIdsUrlParameter : applicationsUrlParameter
   ],
   columnDefinitions: columnDefinitions,
   defaultOrderBy: 'successRate',
@@ -140,7 +141,8 @@ const TestSummaryList = () => {
   const [{ syntheticTypes, locationIds, applicationIds, entityIds }, setFilter] = useUrlState(urlStateDefinition);
   const storedDialogAlarm = storedAlarmTimeOrNull();
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
-  if (syntheticMultiWebMobileEnabled && !syntheticTests?.progress?.loading) {
+  const { trackCta } = useSegmentTracking();
+  if (syntheticRbacLimitedEnabled && !syntheticTests?.progress?.loading) {
     syntheticTests?.data?.forEach(function (item: SyntheticTest) {
       if (item?.applications) {
         item.applications.forEach(id => allApplicationIds.add(id));
@@ -171,7 +173,7 @@ const TestSummaryList = () => {
   }, [storedDialogAlarm]);
 
   const showSADialog = () => {
-    trackStartCreate();
+    trackCta(ALERTING_CREATE);
     return addActiveDialog(<CreateSmartAlertDialog />);
   };
 
@@ -355,7 +357,7 @@ export const getTestSummaryListData = ({
   addFilter(locationIds, locationIdTagName, EQUALS, locationTagFilterExpression);
   addFilter(applicationIds, applicationIdTagName, EQUALS, appTagFilterExpression);
   addFilter(excludeIds, testIdTagName, NOT_EQUAL, testFilterExpression);
-  if (syntheticMultiWebMobileEnabled && entityIds.length !== 0 && Array.isArray(entityIds)) {
+  if (syntheticRbacLimitedEnabled && entityIds.length !== 0 && Array.isArray(entityIds)) {
     entityIds.forEach(value => {
       switch (value) {
         case 'applications':
@@ -382,7 +384,7 @@ export const getTestSummaryListData = ({
   baseTagFilterExpression.elements.push(
     typeTagFilterExpression,
     locationTagFilterExpression,
-    syntheticMultiWebMobileEnabled ? associationsTagFilterExpression : appTagFilterExpression,
+    syntheticRbacLimitedEnabled ? associationsTagFilterExpression : appTagFilterExpression,
     testFilterExpression
   );
 

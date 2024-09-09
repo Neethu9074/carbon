@@ -312,7 +312,6 @@
   "resultHeaderTooltip": "O intervalo de tempo de consulta foi arredondado para o minuto completo mais próximo para permitir que essa visualização seja carregada mais rapidamente.",
   "components": {
     "analyzeHeader": {
-      "beta": "BETA",
       "analytics": "Análise de dados"
     },
     "filterBar": {

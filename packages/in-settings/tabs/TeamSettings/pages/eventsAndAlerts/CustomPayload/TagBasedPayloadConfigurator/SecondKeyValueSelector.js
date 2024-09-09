@@ -60,7 +60,7 @@ function RenderInputField({
 
   return (
     <>
-      <Tooltip content={inputValue} align="bottomMiddle" delay={500}>
+      <Tooltip content={inputValue} align="bottomMiddle" delay={500} overwriteBlock>
         <div className={locals.inputFillSpace}>
           <Input
             {...remainingInputProps}
@@ -74,6 +74,7 @@ function RenderInputField({
             })}
             {...getInputProps({ onFocus: openMenu })}
             autoFocus={autoFocus}
+            carbonVariant={false}
           />
         </div>
       </Tooltip>

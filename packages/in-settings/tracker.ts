@@ -8,25 +8,7 @@ import {
   SETTINGS_USER_INVITE_SUBMIT,
   SETTINGS_ROLE_SUBMIT,
   SETTINGS_ROLE_OPEN_SUBMIT_FORM,
-  SETTINGS_ALERT_SUBMIT,
-  SETTINGS_ALERT_TOGGLE,
-  SETTINGS_ALERT_DELETE,
-  SETTINGS_ALERT_HUB_WEBSITES_CLICK,
-  SETTINGS_ALERT_HUB_SMART_ALERTS_CLICK,
-  SETTINGS_ALERT_HUB_ALERTS_CLICK,
-  SETTINGS_ALERT_HUB_EVENTS_CLICK,
-  SETTINGS_ALERT_OPEN_SUBMIT_FORM,
   SETTINGS_EVENT_VIEW,
-  SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT,
-  SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM,
-  SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM,
-  SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM,
-  SETTINGS_EVENT_SUBMIT,
-  SETTINGS_EVENT_OPEN_SUBMIT_FORM,
-  SETTINGS_EVENT_ENABLE,
-  SETTINGS_EVENT_DISABLE,
-  SETTINGS_EVENT_DELETED,
-  SETTINGS_EVENT_DELETE_TRIGGER,
   SETTINGS_MAINTENANCE_WINDOW_NEW,
   SETTINGS_MAINTENANCE_WINDOW_REMOVE,
   SETTINGS_MAINTENANCE_WINDOW_EDIT,
@@ -70,6 +52,11 @@ import {
   UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK,
   UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK
 } from 'in-services/tracking/tracking';
+// Import Segment tracker files
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { EventTrackerProps } from 'in-services/tracking/segment/types';
+import { CTA_CLICKED } from 'in-services/util/constants';
 
 export const submitInviteUserTracker = (e: Object) => track(SETTINGS_USER_INVITE_SUBMIT, e);
 export const shareAndInviteSubmitTracker = (e: Object) => track(SHARE_AND_INVITE_SUBMIT, e);
@@ -92,11 +79,6 @@ export const unitOnboardingBringYourTeamClick = () => track(UNIT_ONBOARDING_BRIN
 export const submitRoleTracker = (e: Object) => track(SETTINGS_ROLE_SUBMIT, e);
 export const openRoleSubmitFormTracker = (e: Object) => track(SETTINGS_ROLE_OPEN_SUBMIT_FORM, e);
 
-export const submitAlertTracker = (e: Object) => track(SETTINGS_ALERT_SUBMIT, e);
-export const openAlertSubmitFormTracker = (e: Object) => track(SETTINGS_ALERT_OPEN_SUBMIT_FORM, e);
-export const toggleAlertTracker = (e: Object) => track(SETTINGS_ALERT_TOGGLE, e);
-export const deleteAlertTracker = (e: Object) => track(SETTINGS_ALERT_DELETE, e);
-
 // Maintained by Team Alert Response
 export const createAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_CREATE, e);
 export const openAlertChannelSubmitFormTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_OPEN_SUBMIT_FORM, e);
@@ -107,23 +89,7 @@ export const clickAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHAN
 export const deleteAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_DELETE, e);
 export const editAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_EDIT, e);
 
-export const submitAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT, e);
-export const addItemAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM, e);
-export const editAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM, e);
-export const removeItemAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM, e);
-
-export const alertHubWebsiteClickTracker = (e: Object) => track(SETTINGS_ALERT_HUB_WEBSITES_CLICK, e);
-export const alertHubSmartAlertsClickTracker = (e: Object) => track(SETTINGS_ALERT_HUB_SMART_ALERTS_CLICK, e);
-export const alertHubAlertsClickTracker = (e: Object) => track(SETTINGS_ALERT_HUB_ALERTS_CLICK, e);
-export const alertsHubEventsClickTracker = (e: Object) => track(SETTINGS_ALERT_HUB_EVENTS_CLICK, e);
-
-export const submitEventTracker = (e: Object) => track(SETTINGS_EVENT_SUBMIT, e);
-export const openEventSubmitFormTracker = (e: Object) => track(SETTINGS_EVENT_OPEN_SUBMIT_FORM, e);
 export const viewEventTracker = (e: Object) => track(SETTINGS_EVENT_VIEW, e);
-export const trackerEventEnabled = (e: Object) => track(SETTINGS_EVENT_ENABLE, e);
-export const trackerEventDisabled = (e: Object) => track(SETTINGS_EVENT_DISABLE, e);
-export const trackerEventDeleted = (e: Object) => track(SETTINGS_EVENT_DELETED, e);
-export const trackerEventDeleteTrigger = (e: Object) => track(SETTINGS_EVENT_DELETE_TRIGGER, e);
 
 export const logManagementDeleteLogsClickedTracker = (e: Object) =>
   track(SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_CLICKED, e);
@@ -152,3 +118,31 @@ export const switchToExpiredMaintenanceWindowsTabTracker = (e: Object) =>
   track(SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB, e);
 export const maintenanceWindowFeedbackSubmitTracker = (e: Object) =>
   track(SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT, e);
+
+// Segment trackers
+
+interface AlertChannelCTATrackingType {
+  EVENT_NAME: string;
+  path?: string;
+  channel?: string;
+  additionalLabel?: string;
+}
+
+// Common function using CTA_CLICKED.
+export const alertChannelCTATrackerSegment = ({
+  EVENT_NAME,
+  path,
+  channel,
+  additionalLabel
+}: AlertChannelCTATrackingType) => {
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  const data = {
+    CTA: EVENT_NAME,
+    channel: channel,
+    parentPageName: pageRootName,
+    parentPageCategory: productArea,
+    path: path,
+    label: additionalLabel
+  } as EventTrackerProps['data'];
+  eventTracker({ data, segmentEventName: CTA_CLICKED });
+};

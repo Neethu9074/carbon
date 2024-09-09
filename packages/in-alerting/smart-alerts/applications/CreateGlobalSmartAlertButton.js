@@ -21,15 +21,17 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import { alertsList, alertsTabListFullyQualified } from 'in-applications/navigation/paths';
 import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import FloatingActionButton from 'in-components/FloatingActionButton';
+import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { propTypeLocation } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 const showDialogAndTearSheetButton = isDialogAndTearSheetEnabled();
 
 export default function CreateGlobalSmartAlertButton({ renderAsSimpleButton, location }) {
+  const { trackCta } = useSegmentTracking();
   const buttonProps = {
     icon: 'lib_alerts_create',
     // i18n: primaryv2 is an internal technical name, no translation needed
@@ -48,7 +50,7 @@ export default function CreateGlobalSmartAlertButton({ renderAsSimpleButton, loc
           }}
         />
       );
-      trackStartCreate();
+      trackCta(ALERTING_CREATE);
     }
   };
 

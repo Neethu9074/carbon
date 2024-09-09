@@ -5,8 +5,9 @@
  */
 
 :local {
-  .leftPadding {
-    padding-left: 0.25rem;
+  .title {
+    display: inline-flex;
+    gap: 0.25rem;
   }
 
   .wrapper {

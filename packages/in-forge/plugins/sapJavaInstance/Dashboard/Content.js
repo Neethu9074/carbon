@@ -5,17 +5,17 @@
  */
 
 import React from 'react';
-import { getSapJavaCentralInstanceDashboard } from 'in-sap/navigation/paths';
-import { getSapJavaInstanceDashboard } from 'in-sap/navigation/paths';
+
+import { useSapJavaInstanceDashboard, useSapJavaCentralInstanceDashboard } from 'in-sap/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function SystemDashboard({ snapshot }) {
-
   const data = snapshot.get('data');
+  const hrefCentral = useSapJavaCentralInstanceDashboard(snapshot.get('id'));
+  const href = useSapJavaInstanceDashboard(snapshot.get('id'));
   if (data.get('name').includes('Central')) {
-    return <RedirectWithHash to$={getSapJavaCentralInstanceDashboard(snapshot.get('id'))} />;
+    return <RedirectWithHash href={hrefCentral} />;
   } else {
-    return <RedirectWithHash to$={getSapJavaInstanceDashboard(snapshot.get('id'))} />;
+    return <RedirectWithHash href={href} />;
   }
-
 }

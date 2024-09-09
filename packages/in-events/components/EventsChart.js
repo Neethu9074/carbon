@@ -45,6 +45,9 @@ export default function EventsChart({ timeConfig, query, eventType }) {
   if (eventType && eventType === 'agent_monitoring_issue') {
     getAgentMonitoringConfigs(labels, metricIds, colors, metricsConfiguration, granularity, query);
   }
+  if (eventType === 'cve_issue') {
+    getCveIssueConfigss(labels, metricIds, colors, metricsConfiguration, granularity, query);
+  }
 
   return (
     <div ref={ref}>
@@ -126,6 +129,24 @@ function getAgentMonitoringConfigs(labels, metrics, colors, metricsConfiguration
   };
   metricsConfiguration.agent_monitoring_issue_warning = {
     query: getQueryWithEventTypeFilter('event.type:agent_monitoring_issue event.severity:5', query),
+    granularity
+  };
+}
+
+function getCveIssueConfigss(labels, metrics, colors, metricsConfiguration, granularity, query) {
+  labels.push(t('in-events:labelCritical'), t('in-events:labelWarning'), t('in-events:labelLow'));
+  metrics.push('cve_issue_Critical', 'cve_issue_Warning', 'cve_issue_Low');
+  colors.push(carbonAlert.red60, carbonAlert.orange40, carbonAlert.yellow30);
+  metricsConfiguration.cve_issue_Critical = {
+    query: getQueryWithEventTypeFilter('event.type:cve_issue event.cve.severity:Critical', query),
+    granularity
+  };
+  metricsConfiguration.cve_issue_Warning = {
+    query: getQueryWithEventTypeFilter('event.type:cve_issue event.cve.severity:Warning', query),
+    granularity
+  };
+  metricsConfiguration.cve_issue_Low = {
+    query: getQueryWithEventTypeFilter('event.type:cve_issue event.cve.severity:Low', query),
     granularity
   };
 }

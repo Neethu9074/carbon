@@ -26,4 +26,8 @@
   .topPaddingInput {
     padding-top: 1.75rem;
   }
+
+  .inputMd {
+    width: 9rem;
+  }
 }

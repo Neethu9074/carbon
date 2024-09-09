@@ -11,7 +11,7 @@ import { SyntheticTest } from '@instana/types/typeDefinitions';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 
@@ -56,7 +56,7 @@ const Identify = ({ test }: Props) => {
         </Col>
       </Row>
       <Row>
-        {!syntheticMultiAppEnabled && (
+        {!syntheticRbacLimitedEnabled && (
           <LightCard
             className={locals.lastConfigRow}
             header={header}

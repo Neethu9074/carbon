@@ -13,7 +13,6 @@ import {
   Event,
   ActionMatch,
   EventSpecificationInfo,
-  ApplicationAlertConfigWithMetadata,
   ActionInstance,
   Policy,
   TagCatalog,
@@ -23,11 +22,15 @@ import {
   WebsiteAlertConfigWithMetadata,
   MobileAppAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
-  GlobalApplicationsAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata,
-  ActionType
+  ActionType,
+  ActionNameExists
 } from 'in-types';
+import {
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
@@ -111,7 +114,18 @@ export function saveNewAction(actionSpecification: NewAction) {
     url: actionUrl,
     headers: getCsrfHeader(),
     data: actionSpecification
-  }).map(response => response.body);
+  });
+}
+
+export function saveNewActionResult(actionSpecification: NewAction) {
+  return http<Action>({
+    method: 'POST',
+    maxRetries: 3,
+    url: actionUrl,
+    headers: getCsrfHeader(),
+    data: actionSpecification,
+    mapToResultObject: true
+  });
 }
 
 export function saveAction(actionSpecification: NewAction, id: string) {
@@ -774,7 +788,7 @@ export function getEventSpecifications() {
 }
 
 export function getApplicationSmartAlertConfigs() {
-  return http<ApplicationAlertConfigWithMetadata[]>({
+  return http<ApplicationSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     url: apiEndpoint.APPLICATION,
@@ -792,7 +806,7 @@ export function getWebsiteSmartAlertConfigs() {
 }
 
 export function getGlobalApplicationSmartAlertConfigs() {
-  return http<GlobalApplicationsAlertConfigWithMetadata[]>({
+  return http<GlobalApplicationsSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     url: apiEndpoint.APPLICATION_GLOBAL,
@@ -845,26 +859,19 @@ export function getSyntheticSmartAlertConfigs() {
   });
 }
 
-export function getBuiltInEventSpecification(id: string) {
-  return http<EventSpecificationInfo>({
-    method: 'GET',
-    url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(id)}`,
+export function getEventSpecification(id: string) {
+  return http<EventSpecificationInfo[]>({
+    method: 'POST',
+    url: `/api/events/settings/event-specifications/infos`,
     maxRetries: 3,
-    mapToResultObject: true
-  });
-}
-
-export function getCustomEventSpecification(id: string) {
-  return http<EventSpecificationInfo>({
-    method: 'GET',
-    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(id)}`,
-    maxRetries: 3,
-    mapToResultObject: true
-  });
+    mapToResultObject: true,
+    data: [id],
+    headers: getCsrfHeader()
+  }).map(res => mapData(res, data => data?.[0]));
 }
 
 export function getApplicationSmartAlertConfig(id: string) {
-  return http<ApplicationAlertConfigWithMetadata>({
+  return http<ApplicationSmartAlertConfigWithMetadata>({
     method: 'GET',
     url: `${apiEndpoint.APPLICATION}/${encodeURIComponent(id)}`,
     maxRetries: 3,
@@ -873,7 +880,7 @@ export function getApplicationSmartAlertConfig(id: string) {
 }
 
 export function getGlobalApplicationSmartAlertConfig(id: string) {
-  return http<ApplicationAlertConfigWithMetadata>({
+  return http<ApplicationSmartAlertConfigWithMetadata>({
     method: 'GET',
     url: `${apiEndpoint.APPLICATION_GLOBAL}/${encodeURIComponent(id)}`,
     maxRetries: 3,
@@ -955,4 +962,17 @@ export function deleteActionInstance(id: string, createdDate: number) {
       from: createdDate - minutes.toMillis(10)
     }
   }).map(response => response.body);
+}
+
+export function getActionNameExists(name: string, type: ActionType) {
+  return http<ActionNameExists>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${actionUrl}/names/exists`,
+    queryParams: {
+      name,
+      type
+    },
+    mapToResultObject: true
+  });
 }

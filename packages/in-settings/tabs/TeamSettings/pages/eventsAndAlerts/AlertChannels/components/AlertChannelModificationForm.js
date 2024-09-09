@@ -14,6 +14,8 @@ import { Pill } from '@instana/components';
 
 import AlertChannelTestButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
+import { createAlertChannelTracker, alertChannelCTATrackerSegment } from 'in-settings/tracker';
+import { SETTINGS_ALERT_CHANNEL_CREATE } from 'in-services/tracking/eventNames';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { savingMessage as entityFormSavingMessage } from 'in-hoc/entityForm';
@@ -21,7 +23,6 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { createAlertChannelTracker } from 'in-settings/tracker';
 import SectionLine from 'in-settings/components/SectionLine';
 import FeatureFeedback from 'in-components/FeatureFeedback';
 import Notification from 'in-components/form/Notification';
@@ -207,6 +208,12 @@ function getConfig(alertChannel) {
 
 export function save(alertChannel, form) {
   createAlertChannelTracker({ alertChannelType: form.get('kind').value, alertChannelName: form.get('name').value });
+  // Todo - modernize
+  alertChannelCTATrackerSegment({
+    EVENT_NAME: SETTINGS_ALERT_CHANNEL_CREATE,
+    path: '',
+    channel: form.get('kind').value
+  });
   return saveAlertChannel(fromJS(getConfig(alertChannel).createEntity(alertChannel, form)));
 }
 

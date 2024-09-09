@@ -15,10 +15,10 @@ import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/inden
 import { defaultIdpType, idpTypes } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/idpTypes';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { carbonButtonEnabled, disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
-import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -383,7 +383,7 @@ function CopyableText({ title, form, fieldName }) {
 
       <div className={locals.flexWrapper}>
         <Input className={locals.input} readOnly type="text" id={fieldName} value={field.value} autoComplete="off" />
-        <CopyToClipboardButton getText={() => field.value} />
+        <CopyToClipboardButton size={carbonButtonEnabled ? 'compact' : 'normal'} getText={() => field.value} />
       </div>
     </FormGroup>
   ));

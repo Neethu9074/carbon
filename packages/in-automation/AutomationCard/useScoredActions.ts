@@ -23,7 +23,7 @@ interface UseScoredActionsParams {
 }
 
 const refreshSignal = create().emit(true);
-export function refreshScoredActions() {
+export function refresh() {
   timeout(1000).once(() => refreshSignal.emit(true));
 }
 

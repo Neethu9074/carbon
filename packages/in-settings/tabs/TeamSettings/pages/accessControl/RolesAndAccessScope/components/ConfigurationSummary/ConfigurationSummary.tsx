@@ -8,12 +8,6 @@ import React, { ReactNode } from 'react';
 
 import { Typography } from '@instana/components';
 
-import {
-  LimitableProductArea,
-  ProductArea
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import Label from 'in-components/form/Label/Label';
 import { t } from 'in-i18n';
 
@@ -25,7 +19,6 @@ export interface ConfigurationSummaryProps {
   noAccess?: boolean;
   children?: ReactNode;
   noAccessMsg?: string;
-  productArea?: LimitableProductArea;
 }
 
 export const ConfigurationSummary = ({
@@ -33,16 +26,8 @@ export const ConfigurationSummary = ({
   accessLevelMsg,
   noAccess,
   children,
-  noAccessMsg,
-  productArea
+  noAccessMsg
 }: ConfigurationSummaryProps) => {
-  const getBadgeByProductArea = () => {
-    if (syntheticMultiAppEnabled && productArea === ProductArea.SYNTHETICS) {
-      return <PreviewBadge privatePreview />;
-    }
-    return null;
-  };
-
   return (
     <div>
       <Typography variant="heading-200" component="h2">
@@ -58,7 +43,6 @@ export const ConfigurationSummary = ({
           <div className={locals.accessLevel}>
             <Label className={locals.label}>
               {t('in-settings:permissionScope.selection', { context: accessLevelType?.toLocaleLowerCase() })}
-              {getBadgeByProductArea()}
             </Label>
             <Typography variant="body-regular" component="div">
               {accessLevelMsg}

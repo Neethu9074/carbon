@@ -88,7 +88,7 @@ const mockDisplayedTags2 = [
 
 const mockHiddenTags2: TagsType = [];
 
-describe('in-custom-dashboards/widgets/Slo/components/TagsList/utils', () => {
+describe('in-custom-dashboards/widgets/SloLegacy/components/TagsList/utils', () => {
   describe('getTagsThatFitIntoMaxWidth', () => {
     it('returns correct values for different target widths', () => {
       expect(getTagsThatFitIntoMaxWidth(mockTags, mockTargetWidth1)).toEqual({

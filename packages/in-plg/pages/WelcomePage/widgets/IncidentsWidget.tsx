@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { Link, Typography } from '@instana/components';
-import { TimeConfig } from '@instana/types';
+import { RawEvent, TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
@@ -79,7 +79,7 @@ export default connectTo(() => ({
     return formatDateTime(timestamp);
   }
 
-  function getEndValue(item: any) {
+  function getEndValue(item: RawEvent) {
     const eventType = getEventType(item);
     const isChangeEvent = eventType === EVENT_TYPES.CHANGE;
     const end = item.end || Date.now();

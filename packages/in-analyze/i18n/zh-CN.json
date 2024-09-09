@@ -312,7 +312,6 @@
   "resultHeaderTooltip": "查询时间范围已四舍五入到最接近的整分钟，以便更快速地装入此视图。",
   "components": {
     "analyzeHeader": {
-      "beta": "BETA",
       "analytics": "分析"
     },
     "filterBar": {

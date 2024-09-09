@@ -11,6 +11,7 @@ import classNames from 'classnames';
 import { LogItem, LogMessageItem, LogTag } from '@instana/types';
 import { SpanExcerpt } from '@instana/types/typeDefinitions';
 import { Stack, Typography } from '@instana/components';
+import { ExpandableGroup } from '@instana/components';
 
 // @ts-expect-error not yet migrated to typescript
 import SidebarTagList from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SidebarTagList';
@@ -28,7 +29,6 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 import { isLogItem } from 'in-logging/analyze/AnalyzeView/utils';
-import ExpandableGroup from 'in-components/ExpandableGroup';
 import { SPAN_STACK_TRACE } from 'in-logging/queryBuilder';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';

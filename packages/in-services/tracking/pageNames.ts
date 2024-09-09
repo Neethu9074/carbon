@@ -70,6 +70,7 @@ export const pageNames = Object.freeze({
   compute_instances: 'Compute Instances',
   hypervisors: 'Hypervisors',
   event: 'Event',
+  event_generate_with_watsonx: 'Event > Generate With watsonx',
   events: 'Events',
   infra_explore: 'Infra Explore',
   regions: 'Regions',
@@ -110,6 +111,7 @@ export const pageNames = Object.freeze({
   events_all: 'All',
   local_alerts: 'Local Alert Details',
   logs: 'Logs',
+  log_smart_alerts: 'Log Smart Alerts',
   global_alerts: 'Global Alert Details',
   instances: 'Instances',
   deployment_summary: 'Deployment > Summary',
@@ -123,7 +125,12 @@ export const pageNames = Object.freeze({
   slo_config: 'Service Level Objective > Configuration',
   automation_action_catalog: 'Automation > Action Catalog',
   automation_action_history: 'Automation > Action History',
-  automation_policies: 'Automation > Policies'
+  automation_policies: 'Automation > Policies',
+  custom_payload: 'Custom Payload',
+  nutanix_vm: 'Nutanix VM',
+  nutanix_host: 'Nutanix Host',
+  nutanix_clusters: 'Nutanix Clusters',
+  nutanix: 'Nutanix'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];

@@ -84,4 +84,9 @@
     border-right: 1px solid var(--ids-color-option-neutral-300);
     height: 100%;
   }
+
+  .recalButtonWidth {
+    width: 8.125rem;
+    font-size: var(--ids-font-size-option-body-small);
+  }
 }

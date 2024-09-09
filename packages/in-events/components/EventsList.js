@@ -100,11 +100,31 @@ function List(props) {
             [locals.widgetCard]: isCustomDashboard
           })}
         >
-          <Table fixedLayout={!isCustomDashboard}>
+          <Table fixedLayout={!isCustomDashboard && eventType !== 'cve_issue'}>
             <Thead>
               <Tr size="compact">
                 <Th useMinimumAmountOfHorizontalSpace />
-                {isDenseList ? (
+                {eventType === 'cve_issue' ? (
+                  <>
+                    {isDisplayColumn(headers, 'title') && (
+                      <SortableColumn {...props} technicalName="problem.problemText" sortable={!isPreview}>
+                        {t('in-events:headerVulnerability')}
+                      </SortableColumn>
+                    )}
+                    {isDisplayColumn(headers, 'entityLabel') && <Th>{t('in-events:headerReportedOn')}</Th>}
+                    {isDisplayColumn(headers, 'started') && (
+                      <SortableColumn {...props} technicalName="start" sortable={!isPreview}>
+                        {t('in-events:headerReportedDate')}
+                      </SortableColumn>
+                    )}
+                    {isDisplayColumn(headers, 'cvssScore') && <Th>{t('in-events:headerCvssScore')}</Th>}
+                    {isDisplayColumn(headers, 'state') && (
+                      <SortableColumn {...props} technicalName="state" sortable={!isPreview}>
+                        {t('in-events:headerStatus')}
+                      </SortableColumn>
+                    )}
+                  </>
+                ) : isDenseList ? (
                   <SortableColumn {...props} technicalName="start">
                     {t('in-events:headerStarted')}
                   </SortableColumn>

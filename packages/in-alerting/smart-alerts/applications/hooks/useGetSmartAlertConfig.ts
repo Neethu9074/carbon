@@ -4,10 +4,14 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ApplicationAlertConfigWithMetadata, GlobalApplicationsAlertConfigWithMetadata, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Result } from '@instana/types';
 
+import {
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { getGlobalAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 
@@ -19,7 +23,7 @@ export default function useGetSmartAlertConfig(
   duplicateMode: boolean
 ) {
   const alertConfigInEditMode:
-    | Observable<Result<GlobalApplicationsAlertConfigWithMetadata | ApplicationAlertConfigWithMetadata>>
+    | Observable<Result<GlobalApplicationsSmartAlertConfigWithMetadata | ApplicationSmartAlertConfigWithMetadata>>
     | undefined =
     alertConfigId && alertConfigCreated && (editMode || duplicateMode)
       ? isGlobalSmartAlert

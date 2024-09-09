@@ -249,10 +249,6 @@ export const SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT = 'settings.alert.customPayloa
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM = 'settings.alert.customPayload.addItem';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM = 'settings.alert.customPayload.editItem';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM = 'settings.alert.customPayload.removeItem';
-export const SETTINGS_ALERT_HUB_WEBSITES_CLICK = 'settings.alertHub.websites.click';
-export const SETTINGS_ALERT_HUB_SMART_ALERTS_CLICK = 'settings.alertHub.smartAlerts.click';
-export const SETTINGS_ALERT_HUB_ALERTS_CLICK = 'settings.alertHub.alerts.click';
-export const SETTINGS_ALERT_HUB_EVENTS_CLICK = 'settings.alertHub.events.click';
 
 //Events
 export const SETTINGS_EVENT_VIEW = 'settings.event.view.clicked';
@@ -371,6 +367,9 @@ export const SLI_MANAGEMENT_EDIT_START = 'sli.v2.management.edit.start';
 export const SLI_MANAGEMENT_EDIT_FINISH = 'sli.v2.management.edit.finish';
 export const SLI_MANAGEMENT_DELETE = 'sli.v2.management.delete';
 
+// SLO Reborn Widget
+export const SLO2_WIDGET_EDIT_START = 'slo2.widget.edit.start';
+
 // Service Levels
 export const SLO_LIST_VIEW = 'slo.list.view';
 export const SLO_SUMMARY_VIEW = 'slo.summary.view';
@@ -452,7 +451,10 @@ export const ALERTING_DELETE_TRIGGER = 'smartalert.delete.clicked';
 export const ALERTING_DELETE_CONFIRM = 'smartalert.deleted.confirmed';
 export const ALERTING_PAUSED = 'smartalert.paused';
 export const ALERTING_RESUMED = 'smartalert.resumed';
+export const ALERTING_REVISION_CHANGED = 'smartalert.revision.changed';
 export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
+//This is only available for tearsheets(To track from which step users closed the form)
+export const ALERTING_CANCEL_CLICKED = 'smartalert.cancel.clicked';
 
 // Business Monitoring Tracking
 export const BIZOPS_TABS_CLICK = 'bizops.tabs.click';
@@ -496,6 +498,7 @@ export const EVENT_RCA_FEEDBACK_SKIP = 'event.rca.feedback.skip';
 export const EVENT_RCA_ANALYZE_CLICK = 'event.rca.analyze.click';
 export const EVENT_RCA_ENTITY_CLICK = 'event.rca.entity.click';
 export const EVENT_RCA_ASSOCIATED_EVENTS_CLICK = 'event.rca.associated_events.click';
+export const EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK = 'event.rca.trace_and_error_logs.click';
 
 // Events Page Feedback Tracking
 export const EVENT_FEEDBACK_SUBMIT = 'event.feedback.submit';

@@ -76,9 +76,8 @@ describe('AutomationCard', () => {
     jest.doMock('in-services/featureFlags', () => ({
       actionAutomationEnabled: false
     }));
-    const { default: AutomationCardWrapper } = require('./AutomationCard');
 
-    render(<AutomationCardWrapper {...props} />);
+    render(<AutomationCard {...props} />);
     expect(screen.queryByText('anything')).toBeNull();
   });
 });

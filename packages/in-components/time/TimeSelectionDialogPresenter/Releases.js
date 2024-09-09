@@ -5,8 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { SvgIcon, Pagination as CarbonPagination, SearchInput } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Pagination as CarbonPagination, SearchInput, Button } from '@instana/components';
 
 import convertToScopes from 'in-components/time/TimeSelectionDialogPresenter/convertToScopes';
 import ReleaseScope from 'in-components/time/TimeSelectionDialogPresenter/ReleaseScope';
@@ -101,10 +100,18 @@ export default function Presets({ timeConfig, onChange, closeOverlay }) {
     <div className={locals.wrapper}>
       <ServerTable
         get={({ page, pageSize, query, orderBy, orderDirection }) =>
-          getReleasesWithDefaults({ timeConfig: releaseTimeConfig, page, pageSize, query, orderBy, orderDirection })
+          getReleasesWithDefaults({
+            timeConfig: releaseTimeConfig,
+            page,
+            pageSize,
+            query,
+            orderBy,
+            orderDirection
+          })
         }
         getResettingProps={() => ['query']}
         defaultPageSize={5}
+        defaultPageSizes={[5]}
         columnDefinitions={columnDefinitions}
         getRowProps={() => ({ size: 'compact' })}
         onRowClick={({ start }) => {
@@ -134,15 +141,25 @@ function RightHeader({ query, onChange, orderBy, orderDirection, pageSize }) {
   );
 }
 
-function renderPagination({ page, totalItems, numPages, onChange, query, orderBy, orderDirection, pageSize }) {
+function renderPagination({
+  page,
+  totalItems,
+  numPages,
+  onChange,
+  query,
+  orderBy,
+  orderDirection,
+  pageSize,
+  pageSizes
+}) {
   return carbonPaginationEnabled && totalItems > 0 ? (
     <CarbonPagination
       currentPage={page}
       totalItems={totalItems}
       pageSize={pageSize}
-      pageSizes={[pageSize]}
+      pageSizes={pageSizes ?? [pageSize]}
       onChange={data => {
-        return onChange({ query, orderBy, orderDirection, page: data.page, pageSize });
+        return onChange({ query, orderBy, orderDirection, page: data.page, pageSize, pageSizes });
       }}
     />
   ) : (

@@ -13,6 +13,7 @@ import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
 import { getPoliciesForTrigger } from 'in-automation/api';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Event, Policy, Result } from 'in-types';
+import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 
 interface UsePoliciesParams {
   event: Event;
@@ -27,8 +28,17 @@ export default function usePolicies({ event }: UsePoliciesParams) {
   const triggerId = getTriggerIdFromEvent(event);
   const triggerType = getTriggerTypeFromEvent(event);
   const result =
-    useObservable(() => refreshSignal.flatMap(() => getPoliciesForTrigger(triggerId, triggerType)), []) ??
-    (pendingResult as Result<Policy[]>);
+    useObservable(
+      () =>
+        refreshSignal
+          .flatMap(() => getPoliciesForTrigger(triggerId, triggerType))
+          .tap(policies => {
+            if (policies?.data?.length === 0) {
+              setActiveKey('recommendedActions');
+            }
+          }),
+      []
+    ) ?? (pendingResult as Result<Policy[]>);
   return result;
 }
 

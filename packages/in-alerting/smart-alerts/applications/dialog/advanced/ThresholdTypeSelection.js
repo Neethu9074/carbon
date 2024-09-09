@@ -19,6 +19,8 @@ import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/d
 import { ThresholdTypesHelp } from 'in-alerting/smart-alerts/components/dialog/ThresholdTypesHelp';
 import Dropdown from 'in-alerting/components/Dropdown';
 
+import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+
 export default function ThresholdTypeSelection({
   form,
   updateForm,
@@ -42,6 +44,7 @@ export default function ThresholdTypeSelection({
         <span>{options[0].label}</span>
       ) : (
         <Dropdown
+          className={locals.dropdownxlg}
           value={thresholdComboBoxValue}
           items={options}
           onChange={newThresholdTypeWithSeasonality => {
@@ -50,10 +53,15 @@ export default function ThresholdTypeSelection({
         />
       )}
       <Spacer vertical size="xxsmall" />
-      <Stack space="xxsmall" align="center" direction="horizontal">
+      <Stack space="xsmall" align="center" direction="horizontal">
         {options.length > 1 && showThresholdsHint && thresholdType !== ADAPTIVE_BASELINE && <ThresholdTypesHelp />}
         {thresholdType === HISTORIC_BASELINE && (
-          <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
+          <RecalculateBaselineButton
+            updateForm={updateForm}
+            editMode={editMode}
+            form={form}
+            className={locals.recalButtonWidth}
+          />
         )}
       </Stack>
     </>

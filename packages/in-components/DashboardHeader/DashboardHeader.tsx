@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { LoadingSkeleton, SvgIcon } from '@instana/components';
+import { LoadingSkeleton, PreviewPill, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { Link } from '@instana/components';
 
@@ -14,7 +14,6 @@ import { Link } from '@instana/components';
 import UrlShortener from 'in-components/DashboardHeader/UrlShortener/UrlShortener';
 import MigratedTenantBanner from 'in-components/MigratedTenantBanner/MigratedTenantBanner';
 import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Nullish, Result } from 'in-types';
@@ -183,7 +182,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
                 <span className={locals.label}>{label}</span>
               ))}
             {renderMetaInformation && renderMetaInformation(props)}
-            {isBeta && <PreviewBadge />}
+            {isBeta && <PreviewPill />}
           </div>
           <div className={locals.rightContent}>
             {!hideUrlShortener && !shareAndInviteEnabled && <UrlShortener darkTheme={theme === themes.dark} />}

@@ -15,8 +15,8 @@ import ApplicationLabelContent from 'in-synthetics/dashboards/global/tabs/tests/
 import List, { ColumnDefinition, leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
-import { syntheticMultiAppEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getTestsAsResultObservable } from 'in-synthetics/api';
 import { Result, SyntheticTest } from 'in-types';
@@ -169,11 +169,11 @@ function columnDefinitions(hasRowNavigation: boolean): Array<ColumnDefinition<Sy
 
 function applicationLabel(): ColumnDefinition<SyntheticTest> {
   return {
-    id: syntheticMultiAppEnabled ? 'associationLabels' : 'applicationLabel',
+    id: syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
     label: t('in-synthetics:dashboard.testList.associationLabel'),
     defaultOrderDirection: 'ASC',
     getContent(item: SyntheticTest) {
-      if (syntheticMultiAppEnabled) {
+      if (syntheticRbacLimitedEnabled) {
         const applicationLabels = item.applicationLabels ?? [];
         const applicationIds = item.applications ?? [];
         const websiteLabels = item.websiteLabels ?? [];
@@ -189,7 +189,9 @@ function applicationLabel(): ColumnDefinition<SyntheticTest> {
             websiteLabels={websiteLabels}
             mobileAppIds={mobileAppIds}
             mobileAppLabels={mobileAppLabels}
-            shouldDisplayLink={false}
+            applicationIdsCanBeLinked={[]}
+            websiteIdsCanBeLinked={[]}
+            mobileAppIdsCanBeLinked={[]}
           />
         );
       }

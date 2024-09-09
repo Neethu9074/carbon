@@ -56,6 +56,7 @@ export default function NewPlayWithHeader() {
         </Typography>
       </span>
       <LicenseBannerButton
+        className={classNames(locals.bannerButton)}
         id="free_trial"
         kind="primary"
         target="_blank"
@@ -63,18 +64,20 @@ export default function NewPlayWithHeader() {
         onClick={() => {
           trackCta(PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED, getPageType(location.pathname));
         }}
-        icon="lib_arrow_short_right"
+        icon="lib_arrow_up_right"
       >
         {t('in-plg:playwithinstana.freetrial')}
       </LicenseBannerButton>
       <LicenseBannerButton
+        className={classNames(locals.bannerButton)}
         id="schedule_demo"
         kind="ghost"
         target="_blank"
-        href="https://www.instana.com/schedule-demo/"
+        href="https://www.ibm.com/account/reg/us-en/signup?formid=DEMO-automateinstana&utm_source=playwith"
         onClick={() => {
           trackCta(PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED, getPageType(location.pathname));
         }}
+        icon="lib_demo"
       >
         {t('in-plg:playwithinstana.bookdemo')}
       </LicenseBannerButton>

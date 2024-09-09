@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { UserSettings } from 'in-services/userSettings/globals';
 
 type GoalType = 'toggler';
@@ -23,4 +24,9 @@ export interface UsageInfo {
 
 export interface ExtendedUserSettings extends UserSettings {
   showUserGoalSelection?: boolean;
+}
+
+export interface SegmentTracking {
+  trackCta: CtaTrackingFunction;
+  unstable_trackEvent: Function;
 }

@@ -19,7 +19,7 @@ const usageTimePresets = [
   {
     timeRange: 'last_30_days',
     windowSize: days.toMillis(30),
-    to: getTime(subDays(startOfDay(new Date()), 1)),
+    to: getTime(startOfDay(new Date())),
     label: t('in-amp:components.timePresets.last30Days')
   },
   {

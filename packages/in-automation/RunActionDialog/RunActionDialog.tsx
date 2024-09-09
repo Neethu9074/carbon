@@ -38,28 +38,27 @@ import RunActionContent, {
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import {
   runActionTracker,
-  runActionTrackerSegment,
   testActionTracker,
-  testActionTrackerSegment,
-  testAIGenaratedActionTracker
+  testAIGenaratedActionTracker,
+  useSegmentTracker,
+  TrackingFunction
 } from 'in-automation/tracker';
 import { ResolvedDynamicParamValue, resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
+import { isManual as isManualPolicy, isAutomatic as isAutomaticPolicy } from 'in-automation/Policies/types';
 import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from 'in-types';
-import { refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
+import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
-import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
+import { refresh } from 'in-automation/AutomationCard/useScoredActions';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { Option, Options } from 'in-components/ComboBox/ComboBox';
-import { productAreas } from 'in-services/tracking/productAreas';
 import { hasError, isLoading } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { pageNames } from 'in-services/tracking/pageNames';
 import { NewPolicy } from 'in-automation/Policies/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -75,7 +74,6 @@ interface RunActionDialogProps {
   policy?: NewPolicy;
   executePolicy?: Policy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
-  setActiveKey?: SetActiveKey;
 }
 
 export default function RunActionDialog({
@@ -85,8 +83,7 @@ export default function RunActionDialog({
   test,
   policy,
   handleSave,
-  executePolicy,
-  setActiveKey
+  executePolicy
 }: RunActionDialogProps) {
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
@@ -107,6 +104,7 @@ export default function RunActionDialog({
     policy,
     executePolicy
   });
+  const { runActionTrackerSegment, testActionTrackerSegment } = useSegmentTracker();
   return (
     <Dialog
       className={locals.dialog}
@@ -142,22 +140,25 @@ export default function RunActionDialog({
               isSaving={isSaving}
               noTurboAgents={noTurboAgents}
               form={form}
-              setActiveKey={setActiveKey}
               onSave={() =>
-                onSave({
-                  form,
-                  setForm,
-                  setIsSaving,
-                  action,
-                  agentSnapShots,
-                  setError,
-                  setActionInstanceId,
-                  event,
-                  policy,
-                  handleSave,
-                  executePolicy,
-                  test
-                })
+                onSave(
+                  {
+                    form,
+                    setForm,
+                    setIsSaving,
+                    action,
+                    agentSnapShots,
+                    setError,
+                    setActionInstanceId,
+                    event,
+                    policy,
+                    handleSave,
+                    executePolicy,
+                    test
+                  },
+                  runActionTrackerSegment,
+                  testActionTrackerSegment
+                )
               }
             />
           )}
@@ -308,20 +309,24 @@ interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   test?: boolean;
 }
 
-function onSave({
-  form,
-  setForm,
-  setIsSaving,
-  action,
-  agentSnapShots,
-  setError,
-  setActionInstanceId,
-  event,
-  policy,
-  handleSave,
-  executePolicy,
-  test
-}: OnSaveParams) {
+function onSave(
+  {
+    form,
+    setForm,
+    setIsSaving,
+    action,
+    agentSnapShots,
+    setError,
+    setActionInstanceId,
+    event,
+    policy,
+    handleSave,
+    executePolicy,
+    test
+  }: OnSaveParams,
+  runActionTrackerSegment: TrackingFunction,
+  testActionTrackerSegment: TrackingFunction
+) {
   // when user have single turbonomic agent we just show it as static text and run action. we do not have any form.valid case in that scenario.
   // when user have multiple turbonomic agents, we show dropdown with agents and, we have to execute below code in that scenario.
   if (!form?.hierarchyValid && !(isExternal(action.type) && agentSnapShots?.data?.online.length === 1)) {
@@ -401,7 +406,7 @@ function onSave({
     } else {
       setActionInstanceId(response.actionInstanceId);
       if (isExternal(action.type)) {
-        refreshScoredActions();
+        refresh();
       }
     }
   };
@@ -475,12 +480,9 @@ function onSave({
   // Track an action was either tested or run
   if (test) {
     testActionTrackerSegment({
-      action: action.name,
+      actionName: action.name,
       actionType: action.type,
-      features: isAIAction(action) || isAIActionCopy(action) ? 'aiGenerated' : '',
-      parentPageName: pageNames.automation_action_catalog,
-      parentPageCategory: productAreas.automation,
-      path: location?.hash
+      aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
     });
 
     if (isAIAction(action) || isAIActionCopy(action)) {
@@ -495,15 +497,25 @@ function onSave({
       });
     }
   } else {
+    // Set policyType when running an action via a policy
+    let policyType;
+    if (executePolicy) {
+      policyType =
+        isManualPolicy(executePolicy) && isAutomaticPolicy(executePolicy)
+          ? 'both'
+          : isManualPolicy(executePolicy)
+          ? 'manual'
+          : 'automatic';
+    } else {
+      policyType = '';
+    }
+
     runActionTrackerSegment({
-      action: action.name,
+      actionName: action.name,
       actionType: action.type,
-      agentName: executePolicy?.name ?? '',
-      agentId: executePolicy?.id ?? '',
-      features: isAIAction(action) || isAIActionCopy(action) ? 'aiGenerated' : '',
-      parentPageName: pageNames.event,
-      parentPageCategory: productAreas.events,
-      path: location?.hash
+      policyName: executePolicy?.name ?? '',
+      policyType,
+      aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
     });
 
     runActionTracker({
@@ -523,7 +535,6 @@ interface RunActionFooterProps {
   test?: boolean;
   policy?: NewPolicy;
   noTurboAgents?: boolean;
-  setActiveKey?: SetActiveKey;
 }
 
 function RunActionFooter({
@@ -534,8 +545,7 @@ function RunActionFooter({
   onSave,
   test,
   policy,
-  noTurboAgents = false,
-  setActiveKey
+  noTurboAgents = false
 }: RunActionFooterProps) {
   const navigateToActionHistory = useNavigateToActionHistory();
   if (error || actionInstanceId) {
@@ -557,7 +567,7 @@ function RunActionFooter({
               navigateToActionHistory(actionInstanceId);
             } else {
               refreshHistory();
-              if (setActiveKey) setActiveKey('actionHistory');
+              setActiveKey('actionHistory');
             }
 
             close();

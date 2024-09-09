@@ -263,6 +263,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "Confirm",
+    "secondaryDialogLabelCancel": "Cancel",
     "promptPresenterLabelConfirm": "Confirm"
   },
   "draggableItemSelector": {
@@ -356,6 +357,30 @@
     "labelWarning": "Warning",
     "labelCritical": "Critical"
   },
+  "vulnerabilities": {
+    "eventType_issue": "vulnerabilities",
+    "eventType_issue_plural": "vulnerabilities",
+    "eventType_issue_0": "vulnerabilities",
+    "eventType_issue_1": "vulnerabilities",
+    "eventType_issue_2": "vulnerabilities",
+    "openIssuesListPresenterActionsViewIssues": "View vulnerabilities",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "View {{openIssueCount}} vulnerabilities",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Loading Open vulnerabilities…",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Failed To Load Open vulnerabilities",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} Open vulnerabilities",
+    "noVulnerabilities": "No Vulnerabilities",
+    "openVulnerabilities": "{{count}} Vulnerability",
+    "openVulnerabilities_plural": "{{count}} Vulnerabilities",
+    "openVulnerabilities_0": "{{count}} Vulnerabilities",
+    "openVulnerabilities_1": "{{count}} Vulnerability",
+    "openVulnerabilities_2": "{{count}} Vulnerabilities",
+    "noIncidents": "No Incidents",
+    "openIncidents": "{{count}} Incident",
+    "openIncidents_plural": "{{count}} Incidents",
+    "openIncidents_0": "{{count}} Incidents",
+    "openIncidents_1": "{{count}} Incident",
+    "openIncidents_2": "{{count}} Incidents"
+  },
   "inlineTabNavigation": {
     "labelSelectTab": "Select tab"
   },
@@ -403,6 +428,7 @@
     "viewSwitcherlabelInfrastructure": "Infrastructure",
     "viewSwitcherLabelApplications": "Applications",
     "viewSwitcherLabelSlo": "Service Levels",
+    "viewSwitcherLabelLogs": "Logs",
     "viewSwitcherLabelAnalytics": "Analytics",
     "viewSwitcherLabelWebsitesAndMobileApps": "Websites & Mobile Apps",
     "viewSwitcherLabelWebsites": "Websites",
@@ -419,9 +445,11 @@
     "viewSwitcherCustomDashboards": "Custom Dashboards",
     "viewSwitcherButtonSignOut": "Sign Out",
     "viewSwitcherLabelTenants": "Tenants",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "New version of Instana UI available",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Reload to update",
     "profileMenu_profileLink": "Profile",
+    "profileMenu_tooltip": "Profile menu",
     "profileMenu_unitName_tenantName": "Unit name - Tenant name",
     "profileMenu_switchUnitOrTenant": "Switch unit or tenant",
     "profileMenu_logOut": "Log out"
@@ -593,8 +621,8 @@
     "loadingData": "Loading Data"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "New version of Instana available",
-    "buttonReloadToUpdate": "Reload to update"
+    "newVersionOfInstanaAvailable": "There is an update to the Instana UI",
+    "buttonReloadToUpdate": "Refresh your browser to load it."
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "Calls",

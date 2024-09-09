@@ -8,13 +8,21 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 
-import { ApplicationAlertConfigWithMetadata, GlobalApplicationsAlertConfigWithMetadata } from '@instana/types';
 import { createLogger } from '@instana/logger';
 
 import {
   enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError,
   EnrichedError
 } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import {
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
+import {
+  ALERTING_SAVED,
+  ALERTING_UPDATED,
+  APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_FINISHED
+} from 'in-services/tracking/eventNames';
 import {
   createGlobalAlertConfig,
   updateGlobalAlertConfig
@@ -33,8 +41,8 @@ import AlertingPageHeader from 'in-alerting/smart-alerts/components/pageHeaderTe
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import useGetSmartAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetSmartAlertConfig';
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
+import { useSegmentTracking, CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
-import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
@@ -94,6 +102,8 @@ export default function AlertConfigTearSheet() {
     applicationIds,
     applicationMode
   );
+  //function for segment tracking
+  const { trackCta } = useSegmentTracking();
 
   if (alertConfigErrors?.length) {
     return <ErroneousResultPresenter errors={[...alertConfigErrors]} />;
@@ -104,11 +114,12 @@ export default function AlertConfigTearSheet() {
       <AlertConfigTearSheetContent
         alertConfig={
           applicationSmartAlertConfig as unknown as
-            | GlobalApplicationsAlertConfigWithMetadata
-            | ApplicationAlertConfigWithMetadata
+            | GlobalApplicationsSmartAlertConfigWithMetadata
+            | ApplicationSmartAlertConfigWithMetadata
         }
         scopeMigrationDetails={scopeMigrationDetails}
         location={location}
+        trackCta={trackCta}
       />
     );
   }
@@ -119,15 +130,17 @@ export type ScopeMigrationDetailsType = {
   query?: string;
 };
 interface AlertConfigTearSheetContentProps {
-  alertConfig: GlobalApplicationsAlertConfigWithMetadata | ApplicationAlertConfigWithMetadata;
+  alertConfig: GlobalApplicationsSmartAlertConfigWithMetadata | ApplicationSmartAlertConfigWithMetadata;
   scopeMigrationDetails?: ScopeMigrationDetailsType;
   location: Location;
+  trackCta: CtaTrackingFunction;
 }
 
 function AlertConfigTearSheetContent({
   alertConfig,
   scopeMigrationDetails,
-  location
+  location,
+  trackCta
 }: AlertConfigTearSheetContentProps) {
   const { migrationMode, editMode, isGlobalSmartAlert, eventSpecificationId, cancelTearSheet } = useMemo(() => {
     return getAlertingUrlParameters(location);
@@ -186,7 +199,8 @@ function AlertConfigTearSheetContent({
               navigateToGlobalAlertConfigWithoutAPDashboard,
               navigateToAlertConfig,
               duplicateFrom,
-              eventSpecificationId
+              eventSpecificationId,
+              trackCta
             });
           }}
         />
@@ -204,7 +218,8 @@ function AlertConfigTearSheetContent({
       navigateToGlobalAlertConfigWithoutAPDashboard,
       navigateToAlertConfig,
       duplicateFrom,
-      eventSpecificationId
+      eventSpecificationId,
+      trackCta
     });
   };
 
@@ -251,6 +266,7 @@ interface CreateOrSaveAlertProps {
   navigateToAlertConfig: (alertConfigId: string, alertConfigVersion: number, applicationId: string) => void;
   duplicateFrom?: string;
   eventSpecificationId?: string;
+  trackCta: CtaTrackingFunction;
 }
 
 function createOrSaveAlert({
@@ -264,7 +280,8 @@ function createOrSaveAlert({
   navigateToGlobalAlertConfigWithoutAPDashboard,
   navigateToAlertConfig,
   duplicateFrom,
-  eventSpecificationId
+  eventSpecificationId,
+  trackCta
 }: CreateOrSaveAlertProps) {
   setIsSaving(true);
   // remove existing error messages:
@@ -292,9 +309,7 @@ function createOrSaveAlert({
     const alertConfigApplicationId = isEffectivelyGlobalSmartAlert ? null : Object.keys(alertConfig.applications)[0];
     (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
       config => {
-        //Uncomment this if success message is needed while editing.
-        //showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
-        trackAlertUpdated(alertConfig);
+        trackCta(ALERTING_UPDATED, { ...alertConfig });
         return isEffectivelyGlobalSmartAlert
           ? navigateToGlobalAlertConfigWithoutAPDashboard(alertConfig.id)
           : alertConfigApplicationId &&
@@ -310,9 +325,14 @@ function createOrSaveAlert({
     (isEffectivelyGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
       config => {
         const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
-        trackAlertSaved(newConfig, false);
-        if (migrationMode && eventSpecificationId)
+
+        if (migrationMode && eventSpecificationId) {
+          trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_FINISHED, { ...newConfig, eventSpecificationId });
           disableMigratedCustomEventSpecification(eventSpecificationId, config.id).once();
+        } else {
+          trackCta(ALERTING_SAVED, { ...newConfig });
+        }
+
         // redirect user to details page
         return isEffectivelyGlobalSmartAlert
           ? navigateToGlobalAlertConfigWithoutAPDashboard(config.id)

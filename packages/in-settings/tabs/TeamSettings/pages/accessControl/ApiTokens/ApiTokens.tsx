@@ -5,9 +5,8 @@
 
 import React, { useState } from 'react';
 
-import { generateUniqueShortId } from '@instana/utils';
+import { create, Observable } from '@instana/observables';
 import { IconButton, Link } from '@instana/components';
-import { createLogger } from '@instana/logger';
 
 import {
   getEntityHref,
@@ -18,15 +17,16 @@ import {
 import {
   getApiTokens,
   deleteApiToken,
-  createApiToken
+  getTokenIdByAccessGrantingToken
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
 import TenantInfoBanner from 'in-settings/tabs/TeamSettings/components/TenantInfoBanner/TenantInfoBanner';
 import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
-import List, { defaultHeaderWithCount } from 'in-settings/components/List';
+import List, { defaultHeaderWithCount, filterReducer } from 'in-settings/components/List';
+import { getApiTokenStatus } from 'in-settings/components/ApiTokenExpiration/utils';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { fromNow, formatDateTime } from 'in-services/formatters/date';
-import { apiTokenDialogEnabled } from 'in-services/featureFlags';
+import { apiTokenExpirationEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import config from 'in-services/config';
@@ -34,10 +34,32 @@ import { Trans, t } from 'in-i18n';
 
 import locals from './ApiTokens.mless';
 
-const logger = createLogger('ApiTokens');
+const loadEntities = (): Observable<ApiTokenProps[]> => {
+  const observer = create<ApiTokenProps[]>();
+  getApiTokens([]).subscribe(next => {
+    if (next.progress?.loading) return;
+    if (next.data) {
+      observer.emit(next.data);
+    } else if (next.errors) {
+      observer.emitError(next.errors);
+    }
+  });
+  return observer;
+};
 
 export default function ApiTokens() {
   const { goToPath } = useNavigation();
+  const [filteredTokenId, setFilteredTokenId] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const searchAttributes = [
+    'name',
+    'id',
+    'internalId',
+    'accessGrantingToken',
+    'createdBy',
+    ...(apiTokenExpirationEnabled ? [(entity: any) => getApiTokenStatus(entity?.expiresOn)] : [])
+  ];
+
   const columnDefinitions = [
     {
       id: 'name',
@@ -83,6 +105,19 @@ export default function ApiTokens() {
         );
       }
     },
+    ...(apiTokenExpirationEnabled
+      ? [
+          {
+            id: 'expiresOn',
+            label: t('in-settings:tabs.tokenStatus'),
+            ellipsis: true,
+            useMinimumAmountOfHorizontalSpace: true,
+            getContent({ expiresOn }: ApiTokenProps) {
+              return getApiTokenStatus(expiresOn);
+            }
+          }
+        ]
+      : []),
     {
       id: 'createdOn',
       label: t('in-settings:tabs.tokenCreated'),
@@ -139,6 +174,53 @@ export default function ApiTokens() {
       }
     }
   ];
+
+  /**
+   * Retrieve token internal id for a complete access token string
+   * @param {query: string} entered search query
+   * @returns void
+   */
+  const onSearch = (query: string) => {
+    setFilteredTokenId('');
+    setSearchQuery(query);
+    // Only search for token id if query matches token length (API call will fail in other cases)
+    if (query?.length === 16 || query?.length === 22) {
+      const getTokenIdObsvervable = getTokenIdByAccessGrantingToken(query);
+      getTokenIdObsvervable.once(data => {
+        setFilteredTokenId(data);
+      });
+    }
+  };
+
+  /**
+   * Custom filter function that performs normal search based on specified search attributes
+   * and adds results from full token search. This replaces the default search logic
+   * of the List component.
+   * @param {entities: ApiTokenProps[]} entities to filter
+   * @returns filtered entities
+   */
+  const onFilter = (entities: ApiTokenProps[]) => {
+    let filteredEntities: ApiTokenProps[] = [];
+
+    // Default search based on search attributes
+    filteredEntities = entities.filter(entity =>
+      searchAttributes.reduce(filterReducer.bind(null, searchQuery, entity), false)
+    );
+
+    // Add results for full token search
+    if (filteredTokenId !== '' && entities) {
+      filteredEntities.push(
+        ...entities.filter(
+          (entity: ApiTokenProps) =>
+            entity.internalId === filteredTokenId &&
+            !filteredEntities.some((elem: ApiTokenProps) => elem.internalId === filteredTokenId) // prevent duplicate results
+        )
+      );
+    }
+
+    return filteredEntities;
+  };
+
   return (
     <>
       <TenantInfoBanner>
@@ -153,14 +235,15 @@ export default function ApiTokens() {
         getEntityName={getEntityName}
         columnDefinitions={columnDefinitions}
         tableActions={tableActions}
-        loadEntities={() => getApiTokens()}
+        loadEntities={() => loadEntities()}
         initialOrderBy="name"
+        onSearch={onSearch}
+        onFilter={onFilter}
         onCreateNew={() => onCreateNew(goToPath)}
         labelNew={t('in-settings:tabs.newApiToken')}
-        searchAttributes={['name', 'id', 'internalId', 'accessGrantingToken', 'createdBy']}
         searchPlaceholder={t('in-settings:components.search')}
         noDataMessage={t('in-settings:tabs.noApiToken')}
-        // @ts-expect-error
+        //@ts-expect-error
         getDetailsHref={(entity: any) => {
           getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId);
         }}
@@ -194,23 +277,7 @@ function getEntityName(entity: ApiTokenProps) {
 }
 
 function onCreateNew(goToPath: Function) {
-  if (apiTokenDialogEnabled) {
-    goToPath(teamSettingsAccessControlApiTokenNew);
-  } else {
-    const accessGrantingToken = generateUniqueShortId();
-    const saveResult$ = createApiToken({
-      accessGrantingToken,
-      internalId: generateUniqueShortId(),
-      name: t('in-settings:tabs.newApiToken')
-    });
-    // Note: The backend will overwrite the end-user provided IDs during creation.
-    saveResult$.once((savedApiToken: ApiTokenProps) =>
-      goToPath(getEntityHref(teamSettingsAccessControlApiTokens, savedApiToken.internalId || savedApiToken.id))
-    );
-    saveResult$.errors().once((error: any) => {
-      logger.error(`Failed to save new API token: ${error.message}`, error);
-    });
-  }
+  goToPath(teamSettingsAccessControlApiTokenNew);
 }
 
 const customSortEntities = ({
@@ -222,21 +289,29 @@ const customSortEntities = ({
   orderByState: keyof ApiTokenProps;
   orderDirectionState: 'ASC' | 'DESC';
 }): ApiTokenProps[] => {
-  return entities.sort((a, b) => {
-    if (a[orderByState] === null) return 1;
-    if (b[orderByState] === null) return -1;
-    if (orderByState === 'lastUsedOn' || orderByState === 'createdOn') {
+  return entities?.slice().sort((a, b) => {
+    const orderByState1 = a[orderByState];
+    const orderByState2 = b[orderByState];
+
+    if (orderByState1 === null || orderByState1 === undefined) return 1;
+    if (orderByState2 === null || orderByState2 === undefined) return -1;
+
+    if (
+      orderByState === 'lastUsedOn' ||
+      orderByState === 'createdOn' ||
+      (apiTokenExpirationEnabled && orderByState === 'expiresOn')
+    ) {
       return orderDirectionState === 'ASC'
         ? Number(a[orderByState]) - Number(b[orderByState])
         : Number(b[orderByState]) - Number(a[orderByState]);
-    }
-    if (orderByState === 'createdBy') {
+    } else if (orderByState === 'createdBy') {
       return orderDirectionState === 'ASC'
         ? compareIgnoreCase(a.createdBy ?? '', b.createdBy ?? '')
         : compareIgnoreCase(b.createdBy ?? '', a.createdBy ?? '');
     }
+
     return orderDirectionState === 'ASC'
-      ? compareIgnoreCase(a[orderByState].toString(), b[orderByState].toString())
-      : compareIgnoreCase(b[orderByState].toString(), a[orderByState].toString());
+      ? compareIgnoreCase(orderByState1.toString(), orderByState2.toString())
+      : compareIgnoreCase(orderByState2.toString(), orderByState1.toString());
   });
 };

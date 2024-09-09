@@ -14,6 +14,8 @@ import OutboundTransactionalRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSenso
 import OutboundQueueRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/OutboundQueueRfcInfo';
 import InboundQueueRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InboundQueueRfcInfo';
 import HttpMetricsStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/HttpMetricsStats';
+import SpoolMetricStat from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/SpoolMetricStat';
+import RfcErrorLogs from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RfcErrorLogs';
 import RFCCallsMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RFCCalls';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import SpoolError from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/SpoolError';
@@ -136,8 +138,10 @@ export default function SecurityEssentials({ data }: { data: SnapshotData }) {
         </Card>
       </div>
       <SpoolError snapshotId={snapshotId} />
+      <SpoolMetricStat snapshotId={snapshotId} timeConfig={timeConfig} />
       <UserList snapshotId={snapshotId} timeConfig={timeConfig} />
       <RFCCallsMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
+      <RfcErrorLogs snapshotId={snapshotId} timeConfig={timeConfig} />
       <OutboundTransactionalRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />
       <InboundQueueRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />
       <OutboundQueueRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />

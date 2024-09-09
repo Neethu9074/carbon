@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import {
   OPEN_BRACKET,
@@ -16,6 +16,7 @@ import {
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from './ConjunctionsAndBrackets.mless';
@@ -35,7 +36,7 @@ export default function ConjunctionsAndBrackets({
       <div>
         <Button
           size="compact"
-          kind="secondary"
+          kind={carbonButtonEnabled ? 'action' : 'secondary'}
           onClick={e => {
             stopPropagationAndPreventDefault(e);
             onChange({
@@ -49,7 +50,7 @@ export default function ConjunctionsAndBrackets({
         {!withoutOrConjunction && (
           <Button
             size="compact"
-            kind="secondary"
+            kind={carbonButtonEnabled ? 'action' : 'secondary'}
             onClick={e => {
               stopPropagationAndPreventDefault(e);
               onChange({
@@ -66,7 +67,7 @@ export default function ConjunctionsAndBrackets({
         <div>
           <Button
             size="compact"
-            kind="secondary"
+            kind={carbonButtonEnabled ? 'action' : 'secondary'}
             onClick={e => {
               stopPropagationAndPreventDefault(e);
               onChange({ type: OPEN_BRACKET });
@@ -76,7 +77,7 @@ export default function ConjunctionsAndBrackets({
           </Button>
           <Button
             size="compact"
-            kind="secondary"
+            kind={carbonButtonEnabled ? 'action' : 'secondary'}
             onClick={e => {
               stopPropagationAndPreventDefault(e);
               onChange({ type: CLOSE_BRACKET });

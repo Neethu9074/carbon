@@ -1,112 +1,39 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
 
-import useMetricAlignedWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useMetricAlignedWidgetTimeConfig';
-import { ensureConfigBackwardCompatibility, SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/form';
-import useSliConfigWithPreview from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview';
-import useWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig';
-import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
-import useSloMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloMetrics';
-import Widget from 'in-custom-dashboards/widgets/Slo/components/widget/Widget';
-import { calculateSloGranularity } from 'in-service-levels/utils/time';
-import { all as allStatus } from 'in-hooks/utils/fetchStatus';
-import { all as allProgress } from 'in-hooks/utils/progress';
+import { SloWidget } from 'in-custom-dashboards/widgets/Slo/components/SloWidget';
+import { SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/types';
 
-interface SloWidgetPresenterProps {
+export interface SloWidgetPresenterProps {
   actions: React.ReactNode;
   config: SloWidgetConfiguration;
-  isPreview?: boolean;
-  title: string;
-  isInModal?: boolean;
   dragHandle: React.ReactNode;
+  isPreview?: boolean;
+  isInModal?: boolean;
+  title: string;
 }
 
 export default function SloWidgetPresenter({
   actions,
   config,
+  dragHandle,
   isPreview,
-  title,
   isInModal,
-  dragHandle
+  title
 }: SloWidgetPresenterProps) {
-  const {
-    slo,
-    entityId,
-    entityType,
-    sliConfigId,
-    timeWindowType,
-    timeWindowDuration,
-    timeWindowDurationUnit,
-    timeWindowStart
-  } = ensureConfigBackwardCompatibility(config);
-
-  const isRolling = timeWindowType === 'rolling';
-  const isFixed = timeWindowType === 'fixed';
-
-  const ensuredTimeWindowDuration = timeWindowDuration ?? 1;
-  const ensuredTimeWindowDurationUnit = timeWindowDurationUnit ?? 'weeks';
-
-  const timeWindowStartDate = timeWindowStart?.date;
-  const timeWindowStartTime = timeWindowStart?.time;
-
-  const timeWindowConfig = useWidgetTimeConfig({
-    isPreview,
-    isRolling,
-    isFixed,
-    timeWindowDuration: ensuredTimeWindowDuration,
-    timeWindowDurationUnit: ensuredTimeWindowDurationUnit,
-    timeWindowStartDate,
-    timeWindowStartTime
-  });
-  const { timeConfig } = timeWindowConfig;
-
-  const [sliConfiguration, sliConfigurationStatus, , sliConfigurationProgress] = useSliConfigWithPreview(
-    sliConfigId,
-    isPreview
-  );
-
-  const [entity, entityStatus, , entityProgress] = useMonitoredEntity({ entityId, entityType });
-
-  const granularity = calculateSloGranularity(timeConfig);
-  const [sloMetrics, sloMetricsStatus, sloMetricsError, sloMetricsProgress] = useSloMetrics({
-    slo,
-    sliId: sliConfigId,
-    timeConfig,
-    granularity,
-    isPreview
-  });
-
-  const [firstMetric] = sloMetrics ?? [];
-  const chartGranularity = firstMetric?.granularity || granularity;
-
-  const chartTimeWindowConfig = useMetricAlignedWidgetTimeConfig(timeWindowConfig, firstMetric);
-
-  const unifiedStatus = allStatus(sliConfigurationStatus, entityStatus, sloMetricsStatus);
-  const unifiedProgress = allProgress(sliConfigurationProgress, entityProgress, sloMetricsProgress);
-
   return (
-    <Widget
-      title={title}
-      entityType={entityType}
-      entity={entity}
-      sliConfiguration={sliConfiguration}
-      slo={slo}
-      sloMetrics={sloMetrics}
-      granularity={chartGranularity}
-      timeWindowType={timeWindowType}
-      timeWindowConfig={chartTimeWindowConfig}
-      status={unifiedStatus}
-      progress={unifiedProgress}
-      errors={sloMetricsError}
+    <SloWidget
       actions={actions}
+      config={config}
       dragHandle={dragHandle}
       isPreview={isPreview}
       isInModal={isInModal}
-      disableZooming={isFixed || isRolling}
+      title={title}
     />
   );
 }

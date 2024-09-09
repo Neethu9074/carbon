@@ -117,7 +117,7 @@ export const productAreaTrackingNames = Object.freeze({
   website: pageNames.websites,
   mobileApp: pageNames.mobile_apps,
   profiles: pageNames.profiles,
-  logs: pageNames.local_alerts,
+  logs: pageNames.log_smart_alerts,
   infrastructure: pageNames.infrastructure
 } as const);
 

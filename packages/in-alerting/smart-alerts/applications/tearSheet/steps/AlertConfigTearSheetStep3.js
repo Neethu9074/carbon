@@ -13,19 +13,13 @@ import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
-import {
-  createTagFilterExpression,
-  OPERATOR_OR,
-  toBackendQueryModel
-} from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useAlertingGroupsByEvaluationType from 'in-alerting/smart-alerts/applications/tearSheet/hooks/useAlertingGroupsByEvaluationType';
 import AlertEvaluationControl from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/AlertEvaluationControl';
-import { boundaryScopes } from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/config';
+import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import GroupingTable from 'in-alerting/smart-alerts/applications/tearSheet/components/Grouping/GroupingTable';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
-import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { toTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { t } from 'in-i18n';
 
 import locals from './AlertConfigTearSheetStep3.mless';
@@ -33,38 +27,48 @@ import locals from './AlertConfigTearSheetStep3.mless';
 export default function AlertConfigTearSheetStep3(props) {
   const { form, updateForm, isGlobalSmartAlert, isTagFilterFormModelValid } = props;
 
+  const tagFilterExpression = form.get('tagFilterExpression').value;
   const includeInternal = form.get('includeInternal').value;
   const includeSynthetic = form.get('includeSynthetic').value;
   const evaluationType = form.get('evaluationType').value;
   const evaluationGroupByCount = form.get('hiddenFields').get('evaluationGroupByCount').value;
   const applications = form.get('applications').value;
   const boundaryScope = form.get('boundaryScope').value;
+  const granularity = form.get('granularity').value;
 
   const groupByTagFilterExpression = useMemo(() => {
-    return getTagFilterExpression(applications, boundaryScope);
-  }, [applications, boundaryScope]);
+    return getTagFilterExpression(applications, boundaryScope, tagFilterExpression);
+  }, [applications, boundaryScope, tagFilterExpression]);
 
   const groupByPER_AP = useAlertingGroupsByEvaluationType(
     includeInternal,
     includeSynthetic,
     groupByTagFilterExpression,
     PER_AP,
-    isTagFilterFormModelValid
+    isTagFilterFormModelValid,
+    applications,
+    granularity
   );
   const groupByPER_AP_SERVICE = useAlertingGroupsByEvaluationType(
     includeInternal,
     includeSynthetic,
     groupByTagFilterExpression,
     PER_AP_SERVICE,
-    isTagFilterFormModelValid
+    isTagFilterFormModelValid,
+    applications,
+    granularity
   );
   const groupByPER_AP_ENDPOINT = useAlertingGroupsByEvaluationType(
     includeInternal,
     includeSynthetic,
     groupByTagFilterExpression,
     PER_AP_ENDPOINT,
-    isTagFilterFormModelValid
+    isTagFilterFormModelValid,
+    applications,
+    granularity
   );
+
+  const isApplicationExists = Boolean(Object.keys(applications).length > 0);
 
   useEffect(() => {
     updateForm(
@@ -106,6 +110,8 @@ export default function AlertConfigTearSheetStep3(props) {
           updateForm={updateForm}
           pagination={pagination}
           setPagination={setPagination}
+          isApplicationExists={isApplicationExists}
+          granularity={granularity}
         />
       </Stack>
     </TearSheetStepContentWrapper>
@@ -122,19 +128,48 @@ export function RenderGroupByContent({
   form,
   updateForm,
   pagination,
-  setPagination
+  setPagination,
+  isApplicationExists,
+  granularity
 }) {
   if (!isTagFilterFormModelValid) {
     return (
       <div className={locals.borderBox}>
-        <Message withIcon>{t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery')}</Message>
+        <Message withIcon fullInlineWidth>
+          {t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery')}
+        </Message>
+      </div>
+    );
+  }
+
+  if (!isApplicationExists) {
+    return (
+      <div className={locals.borderBox}>
+        <Message withIcon fullInlineWidth>
+          {t('in-alerting:components.chart.alertingChartMessageEmptyApplicationSelection')}
+        </Message>
+      </div>
+    );
+  }
+
+  if (evaluationGroupByCount?.[evaluationType]?.[0]?.message) {
+    const errorMessage = evaluationGroupByCount[evaluationType]?.[0]?.message;
+    return (
+      <div className={locals.borderBox}>
+        <Message withIcon fullInlineWidth>
+          {t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupByDataFailed', {
+            reason: errorMessage
+          })}
+        </Message>
       </div>
     );
   }
 
   return evaluationGroupByCount[evaluationType] === 0 ? (
     <div className={locals.borderBox}>
-      <Message withIcon>{t('in-alerting:smartAlerts.applications.tearSheet.grouping.noData')}</Message>
+      <Message withIcon fullInlineWidth>
+        {t('in-alerting:smartAlerts.applications.tearSheet.grouping.noData')}
+      </Message>
     </div>
   ) : (
     <GroupingTable
@@ -146,27 +181,17 @@ export function RenderGroupByContent({
       updateForm={updateForm}
       pagination={pagination}
       setPagination={setPagination}
+      granularity={granularity}
     />
   );
 }
 
-export function getTagFilterExpression(applications, boundaryScope) {
-  if (!applications) {
-    return toBackendQueryModel([]);
-  }
-  const applicationArray = applications && Object.values(applications);
-
-  let allCallsScope = boundaryScope === boundaryScopes.all;
-
-  const toTagFilterExpression = applicationArray.map(application =>
-    toTagFilter({
-      name: allCallsScope ? 'application.id' : 'boundary.application.id',
-      operator: EQUALS,
-      entity: allCallsScope ? DESTINATION : NOT_APPLICABLE,
-      type: 'TAG_FILTER',
-      value: application.applicationId
+export function getTagFilterExpression(applications, boundaryScope, tagFilterExpression) {
+  const queryTagFilterExpression = toBackendQueryModel(
+    joinExpressions({
+      expressions: [tagFilterExpression, getEntitySelectionAsTagFilterFormModel(applications, boundaryScope)]
     })
   );
 
-  return createTagFilterExpression(OPERATOR_OR, toTagFilterExpression);
+  return queryTagFilterExpression;
 }

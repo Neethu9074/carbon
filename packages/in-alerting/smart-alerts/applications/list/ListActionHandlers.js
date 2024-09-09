@@ -114,6 +114,7 @@ export function actionHandlers(isGlobalSmartAlertConfig) {
             alertId={id}
             alertConfigCreated={created}
             editMode
+            alertConfig={config}
           />
         );
       }
@@ -137,6 +138,7 @@ export function actionHandlers(isGlobalSmartAlertConfig) {
             alertId={id}
             alertConfigCreated={created}
             duplicateMode
+            alertConfig={config}
           />
         );
       }

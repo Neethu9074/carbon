@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ApplicationAlertConfigWithMetadata } from '@instana/types';
-
 import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam,
@@ -17,6 +15,7 @@ import {
   applicationDashboard,
   globalAlertDetails
 } from 'in-applications/navigation/paths';
+import { ApplicationSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { isCategoryLocal } from 'in-alerting/smart-alerts/components/list/constants';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
@@ -29,10 +28,12 @@ import { Location } from 'in-stores/navigation/types';
  */
 export function createRowLinkLocation(configsCategory: string) {
   const additionalMatrixKeys = isCategoryLocal(configsCategory)
-    ? (config: ApplicationAlertConfigWithMetadata) => [{ key: applicationIdMatrixParam, value: config.applicationId }]
-    : (_config: ApplicationAlertConfigWithMetadata) => [];
+    ? (config: ApplicationSmartAlertConfigWithMetadata) => [
+        { key: applicationIdMatrixParam, value: config.applicationId }
+      ]
+    : (_config: ApplicationSmartAlertConfigWithMetadata) => [];
 
-  return (config: ApplicationAlertConfigWithMetadata, location: Location) => {
+  return (config: ApplicationSmartAlertConfigWithMetadata, location: Location) => {
     const isGlobalAlertsPage = location?.pathname === alertsTab;
 
     const pathname = isGlobalAlertsPage ? globalAlertDetails : alertsTabDetailsFullyQualified;

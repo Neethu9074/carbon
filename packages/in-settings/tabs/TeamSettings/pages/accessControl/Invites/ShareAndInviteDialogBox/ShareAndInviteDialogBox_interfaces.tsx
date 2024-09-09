@@ -7,6 +7,7 @@
 import { ListForm, MapForm, Path } from 'formalistic';
 
 import { UserSentState } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { Location } from 'in-stores/navigation/types';
 
 export interface FieldsProps {
@@ -77,6 +78,7 @@ export interface OnSubmitProps {
     >
   >;
   setInvitationResult: React.Dispatch<React.SetStateAction<UserInvite[]>>;
+  trackCta: CtaTrackingFunction;
 }
 
 export interface OnRemoveProps {

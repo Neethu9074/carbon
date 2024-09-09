@@ -22,4 +22,10 @@
   .button {
     display: block;
   }
+
+  .carbonButton {
+    :global(.cds--g90) {
+      background-color: transparent;
+    }
+  }
 }

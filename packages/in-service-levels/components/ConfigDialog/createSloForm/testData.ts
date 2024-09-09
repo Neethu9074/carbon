@@ -39,7 +39,7 @@ export const testWebsiteForm: SloForm = createMapForm({
         blueprint: createField<BlueprintType>({ value: 'latency' }),
         goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
         threshold: createField<number | undefined>({ value: 55 }),
-        type: createField<ServiceLevelIndicatorType>({ value: 'eventBased' })
+        type: createField<ServiceLevelIndicatorType | undefined>({ value: 'eventBased' })
       }
     }),
     scope: createMapForm({
@@ -91,7 +91,7 @@ export const testApplicationForm: SloForm = createMapForm({
         blueprint: createField<BlueprintType>({ value: defaultBlueprint }),
         goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
         threshold: createField<number | undefined>({ value: 66 }),
-        type: createField<ServiceLevelIndicatorType>({ value: 'timeBased' })
+        type: createField<ServiceLevelIndicatorType | undefined>({ value: 'timeBased' })
       }
     }),
     scope: createMapForm({

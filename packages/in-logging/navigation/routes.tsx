@@ -8,13 +8,26 @@ import SmartAlertDetailsView from 'promise-loader?global,logging!!in-alerting/sm
 //@ts-expect-error needs TS migration
 import AnalyzeView from 'promise-loader?global,logging!in-logging/analyze/AnalyzeView/AnalyzeView';
 //@ts-expect-error
+import LoggingDashboardWrapper from 'promise-loader?global,logging!in-logging/dashboard/LoggingDashboardWrapper';
+//@ts-expect-error needs TS migration
+import DeleteLogs from 'promise-loader?global,logging!in-logging/dashboard/DeleteLogs';
+//@ts-expect-error
 import SmartAlertList from 'promise-loader?global,logging!in-alerting/smart-alerts/logs/Alerts';
+//@ts-expect-error
+import SmartAlerts from 'promise-loader?global,logging!in-logging/dashboard/SmartAlerts';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
+import {
+  alertDetailsFullyQualifiedPath,
+  alertsFullyQualifiedPath,
+  loggingDashboardPath,
+  logsPath,
+  dashboardSmartAlertsPath,
+  dashboardDeletePath
+} from 'in-logging/navigation/paths';
 //@ts-expect-error needs TS migration
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { alertDetailsFullyQualifiedPath, alertsFullyQualifiedPath, logsPath } from 'in-logging/navigation/paths';
 
 export default [
   <Route key="logsSmartAlertDetails" path={alertDetailsFullyQualifiedPath}>
@@ -25,5 +38,14 @@ export default [
   </Route>,
   <Route key="logsAnalyze" path={logsPath}>
     {renderAsyncRouteChildren(AnalyzeView)}
+  </Route>,
+  <Route key="loggingDashboardAlerts" path={dashboardSmartAlertsPath}>
+    {renderAsyncRouteChildren(SmartAlerts)}
+  </Route>,
+  <Route key="loggingDashboardDelete" path={dashboardDeletePath}>
+    {renderAsyncRouteChildren(DeleteLogs)}
+  </Route>,
+  <Route key="loggingDashboard" path={loggingDashboardPath}>
+    {renderAsyncRouteChildren(LoggingDashboardWrapper)}
   </Route>
 ];

@@ -9,7 +9,7 @@ import { just } from '@instana/observables';
 import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
 
 // needs to be changed to get data from backend later, after GA
-const groupTags = {
+export const groupTags = {
   tagTree: [
     {
       type: 'TAG',
@@ -56,7 +56,7 @@ const groupTags = {
     },
     {
       type: 'TAG',
-      label: 'Kubernetes deployement Name',
+      label: 'Kubernetes deployment Name',
       icon: 'lib_kubernetes_cluster',
       tagName: 'kubernetes_deployment_name',
       isGroupingTag: true,
@@ -112,7 +112,7 @@ const groupTags = {
     },
     {
       name: 'kubernetes_deployment_name',
-      label: 'Kubernetes deployement Name',
+      label: 'Kubernetes deployment Name',
       type: 'STRING',
       description: null,
       canApplyToSource: false,

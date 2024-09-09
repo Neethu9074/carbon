@@ -15,12 +15,13 @@ import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/da
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
-import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { alertsTabListFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { Location } from 'in-stores/navigation/types';
@@ -46,6 +47,7 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters }: 
   const boundedAlertQueryBuilder = getQueryBuilderForBeaconType(beaconType);
 
   const tagCatalog = useTagCatalog(boundedAlertQueryBuilder.getTagCatalog);
+  const { trackCta } = useSegmentTracking();
 
   const alertConfig = generateAlertConfig(mobileAppId, tagFilters, tagCatalog, blueprintConfig, customEventName);
   return (
@@ -66,7 +68,7 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters }: 
             startWithSimpleMode
           />
         );
-        trackStartCreate();
+        trackCta(ALERTING_CREATE);
       }}
       withBoxShadow
     >

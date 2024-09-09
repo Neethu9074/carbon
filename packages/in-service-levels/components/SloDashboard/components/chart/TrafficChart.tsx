@@ -22,7 +22,7 @@ import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/c
 import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
 import {
   copyFirstBucketOfSubsequentDataSeries,
-  findMinMetricValue
+  findMinMaxMetricValues
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
@@ -64,6 +64,7 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
     firstCollectedMetricTimestamp: missingDataIndicator
   });
   const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);
+  const { min } = findMinMaxMetricValues(metrics.flat(1));
 
   return (
     <ResultAwareChart
@@ -77,7 +78,7 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
         y1: {
           metrics,
           metricIds: timeWindows.map((_, index) => `timeWindows${index}`),
-          min: findMinMetricValue(metrics.flat(1)),
+          min,
           renderAllTickLabels: true,
           labels: timeWindows.map(() => label),
           colors: timeWindowColors,

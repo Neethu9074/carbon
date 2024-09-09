@@ -18,6 +18,8 @@ import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
 
+import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+
 export default function ThroughputThresholdCondition({
   form,
   updateForm,
@@ -39,6 +41,7 @@ export default function ThroughputThresholdCondition({
         <Dropdown
           value={metricName}
           items={ruleMetricNameOptions.throughput}
+          className={locals.dropdownmd}
           onChange={value => {
             updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
           }}

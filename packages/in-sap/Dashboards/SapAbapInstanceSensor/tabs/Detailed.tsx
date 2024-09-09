@@ -6,8 +6,10 @@
 
 import React from 'react';
 
+import UserConfigurationChanges from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UserConfigurationChanges';
 import WorkProcessListMetric from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/WorkProcessListMetric';
 import DBConnectionProvider from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DBConnectionProvider';
+import SystemConfiguration from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/SystemConfiguration';
 import FileSystemMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/FileSystemMetrics';
 import DiskSummaryStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DiskSummaryStats';
 import BufferStatistics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/BufferStatistics';
@@ -17,6 +19,7 @@ import SystemLogStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/SystemL
 import LockEntryList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/LockEntryList';
 import JobDetails from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/JobDetailsMetric';
 import RequestQueue from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RequestQueue';
+import UpdateError from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UpdateError';
 import TotalMemory from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TotalMemory';
 import DumpStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DumpStats';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
@@ -37,8 +40,11 @@ export default function Detailed({ data }: { data: SnapshotData }) {
       <DBConnectionProvider snapshotId={snapshotId} timeConfig={timeConfig} />
       <DatabaseHitList snapshotId={snapshotId} timeConfig={timeConfig} />
       <FileSystemMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
+      <UpdateError snapshotId={snapshotId} timeConfig={timeConfig} />
       <DumpStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <SystemLogStats snapshotId={snapshotId} timeConfig={timeConfig} />
+      <SystemConfiguration snapshotId={snapshotId} timeConfig={timeConfig} />
+      <UserConfigurationChanges snapshotId={snapshotId} timeConfig={timeConfig} />
       <LockEntryList snapshotId={snapshotId} />
     </>
   );

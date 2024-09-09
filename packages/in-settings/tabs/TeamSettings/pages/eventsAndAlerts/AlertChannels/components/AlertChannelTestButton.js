@@ -9,7 +9,8 @@ import React from 'react';
 import { Button, Message, Stack } from '@instana/components';
 
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
-import { clickTestAlertChannelTracker } from 'in-settings/tracker';
+import { clickTestAlertChannelTracker, alertChannelCTATrackerSegment } from 'in-settings/tracker';
+import { SETTINGS_ALERT_CHANNEL_TEST_CLICK } from 'in-services/tracking/eventNames';
 import { alertChannelTest } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
 import { t } from 'in-i18n';
@@ -37,7 +38,13 @@ export default class extends React.Component {
         testError: true,
         testMessage: 'Invalid form configuration'
       });
-      return;
+      // Todo - modernize
+      alertChannelCTATrackerSegment({
+        EVENT_NAME: SETTINGS_ALERT_CHANNEL_TEST_CLICK,
+        path: '',
+        channel: this.props.alertChannel.get('kind'),
+        additionalLabel: this.props.alertChannel.get('id')
+      });
     }
 
     const successMessage = 'Alerting Channel was successfully triggered, please check the channel!';
@@ -61,6 +68,12 @@ export default class extends React.Component {
           testError: this.state.errorResponse || this.state.error,
           testMessage: this.state.message
         });
+        alertChannelCTATrackerSegment({
+          EVENT_NAME: SETTINGS_ALERT_CHANNEL_TEST_CLICK,
+          path: '',
+          channel: this.props.alertChannel.get('kind'),
+          additionalLabel: this.props.alertChannel.get('id')
+        });
       },
       error => {
         this.setState({
@@ -72,6 +85,12 @@ export default class extends React.Component {
           alertChannelLabel: this.props.alertChannel.get('kind'),
           testError: this.state.errorResponse || this.state.error,
           testMessage: this.state.message
+        });
+        alertChannelCTATrackerSegment({
+          EVENT_NAME: SETTINGS_ALERT_CHANNEL_TEST_CLICK,
+          path: '',
+          channel: this.props.alertChannel.get('kind'),
+          additionalLabel: this.props.alertChannel.get('id')
         });
       }
     );

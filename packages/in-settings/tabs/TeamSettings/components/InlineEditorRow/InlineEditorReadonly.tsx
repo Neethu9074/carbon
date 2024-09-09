@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
 
 import locals from './InlineEditorRow.mless';
 
@@ -24,7 +24,9 @@ export default function InlineEditorReadonly({ label, extra, onEnterEditMode, ca
   return (
     <>
       <span className={locals.readonlyLabel}>{label}</span>
-      {canEdit && <SvgIcon type="lib_actions_edit" className={locals.editIcon} onClick={onEnterEditMode} />}
+      {canEdit && (
+        <IconButton kind="action" type="lib_actions_edit" className={locals.editIcon} onClick={onEnterEditMode} />
+      )}
       {extra && <span className={locals.readonlyExtra}>{extra}</span>}
     </>
   );

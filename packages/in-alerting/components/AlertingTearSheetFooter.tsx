@@ -9,6 +9,8 @@ import React from 'react';
 
 import { AlertingFooterActions, AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingTearSheet';
 import { CancelButton, PreviousButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { ALERTING_CANCEL_CLICKED } from 'in-services/tracking/eventNames';
 import { t } from 'in-i18n';
 
 import locals from './AlertingTearSheetFooter.mless';
@@ -21,7 +23,6 @@ interface AlertingTearSheetFooterProps {
   isSaving: boolean;
   form: MapForm<any>;
   setForm: (form: MapForm<any>) => void;
-  migrationMode?: boolean;
   additionalValidationCheck: boolean;
 }
 
@@ -33,12 +34,15 @@ export default function AlertingTearSheetFooter({
   step,
   stepConfigs,
   setForm,
-  migrationMode,
   additionalValidationCheck
 }: AlertingTearSheetFooterProps) {
+  //function for segment tracking
+  const { trackCta } = useSegmentTracking();
   const leftAction = actions.filter((action: AlertingFooterActions) => action.isLeftAlign);
   const rightAction = actions.filter((action: AlertingFooterActions) => !action.isLeftAlign);
   const isLastStep = step === stepConfigs.length - 1;
+  const stepTitle = stepConfigs[step]?.title;
+  const formConfig = form.toJS();
 
   return (
     <div className={locals.formFooter}>
@@ -47,7 +51,13 @@ export default function AlertingTearSheetFooter({
           {leftAction.map(
             (action: AlertingFooterActions) =>
               action.kind === 'ghost' && (
-                <CancelButton key={action.label} href={action.href}>
+                <CancelButton
+                  key={action.label}
+                  href={action.href}
+                  onClick={() => {
+                    trackCta(ALERTING_CANCEL_CLICKED, { cancelClickedStep: stepTitle, ...formConfig });
+                  }}
+                >
                   {action.label}
                 </CancelButton>
               )
@@ -87,7 +97,7 @@ export default function AlertingTearSheetFooter({
                   }}
                   disabled={isLastStep && isSaving}
                 >
-                  {getSaveButtonLabel(action.label, isLastStep, migrationMode)}
+                  {isLastStep ? action.label : t('in-components:blueprintFormMultistep.buttonNext')}
                 </SaveButton>
               )}
             </span>
@@ -96,11 +106,4 @@ export default function AlertingTearSheetFooter({
       )}
     </div>
   );
-}
-
-export function getSaveButtonLabel(defaultLabel: string, isLastStep: boolean, migrationMode?: boolean) {
-  if (isLastStep) {
-    return migrationMode ? t('in-alerting:smartAlerts.components.smartAlertDialog.buttonMigrate') : defaultLabel;
-  }
-  return t('in-components:blueprintFormMultistep.buttonNext');
 }

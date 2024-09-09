@@ -187,13 +187,15 @@ type MetricAggregationTuple = [string, AggregationType];
 const applicationChartMetrics: Record<BlueprintType, MetricAggregationTuple> = Object.freeze({
   latency: ['latency', 'DISTRIBUTION'],
   availability: ['calls', 'SUM'],
-  custom: ['calls', 'SUM']
+  custom: ['calls', 'SUM'],
+  traffic: ['calls', 'SUM']
 });
 
 const websiteChartMetrics: Record<BlueprintType, MetricAggregationTuple> = Object.freeze({
   latency: ['beaconDuration', 'MEAN'],
   availability: ['beaconErrorRate', 'MEAN'],
-  custom: ['beaconErrorRate', 'MEAN']
+  custom: ['beaconErrorRate', 'MEAN'],
+  traffic: ['beaconCount', 'SUM']
 });
 
 interface UpdateLocationForEntityProps {

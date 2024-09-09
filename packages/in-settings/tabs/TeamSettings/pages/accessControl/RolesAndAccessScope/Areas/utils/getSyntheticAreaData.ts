@@ -14,7 +14,7 @@ import {
 import { getAreaRoleFromPermissionSet } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { getScopeFromProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { hasSyntheticsAccess, LimitedAccessScope, LimitedAccessScopeType } from 'in-stores/permission';
-import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 type ProductAreaWithSyntheticData = Extract<ProductAreaType, 'SYNTHETICS'>;
@@ -49,7 +49,7 @@ const dataMap: Record<ProductAreaWithSyntheticData, dataMapItem> = {
 };
 
 const getSubColumnHeadlineText = (quantity: number) => {
-  if (syntheticMultiWebMobileEnabled) {
+  if (syntheticRbacLimitedEnabled) {
     return t('in-settings:productAreas.subHeadline_syntheticMonitoring', {
       quantityOfAreas: quantity
     });

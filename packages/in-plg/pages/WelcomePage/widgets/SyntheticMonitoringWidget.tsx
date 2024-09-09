@@ -22,12 +22,18 @@ import {
   syntheticLocationPath
 } from 'in-synthetics/navigation/paths';
 import {
+  SyntheticProps,
+  SyntheticInfraColumn,
+  ToggleType,
+  GetTestSummaryList,
+  GetLocationData
+} from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import {
   alertId as alertIdMatrixParam,
   alertCreated as alertCreatedMatrixParam
 } from 'in-synthetics/navigation/matrix';
 //@ts-expect-error doesn't contain type file
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { SyntheticProps, SyntheticInfraColumn } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import { getResolvedTimeConfig } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import CreateSyntheticTestDialog from 'in-synthetics/createTests/dialog/CreateSyntheticTestDialog';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
@@ -60,9 +66,9 @@ function Toggles({
   selectedType,
   setSelectedType
 }: {
-  toggles: any[];
+  toggles: ToggleType[];
   selectedType: string;
-  setSelectedType: any;
+  setSelectedType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <TableTabs selectedIndex={toggles.filter(toggle => toggle.value === selectedType).map(toggle => toggle.index)[0]}>
@@ -146,7 +152,7 @@ export default function SyntheticMonitoringWidget({
     toggles: <Toggles toggles={toggles} selectedType={selectedType} setSelectedType={setSelectedType} />
   };
 
-  function getData(params: any) {
+  function getData(params: GetTestSummaryList | GetLocationData) {
     if (selectedType === syntheticArrayOptions.test) {
       return getTestSummaryListData(params);
     } else if (selectedType === syntheticArrayOptions.location) {

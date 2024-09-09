@@ -18,13 +18,17 @@
 
   transition: background 0.25s ease-in-out;
 
-  svg.in-control__icon {
-    fill: #fff;
+  .in-control__icon {
+    box-shadow: none;
+    border: none;
+    outline: none;
   }
   &:hover,
   &--active {
-    svg.in-control__icon {
-      fill: #2d4048;
+    .in-control__icon {
+      svg {
+        fill: #2d4048 !important;
+      }
     }
   }
 

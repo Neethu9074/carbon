@@ -15,13 +15,17 @@ import { t } from '@instana/i18n-react';
 
 //@ts-expect-error
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
+import {
+  ApplicationProps,
+  ColumnDefinitionItem,
+  GetApplicationsWithDefaultsProps
+} from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error doesn't contain type file
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 //@ts-expect-error doesn't contain type file
 import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
 //@ts-expect-error doesn't contain type file
 import { application as applicationType } from 'in-cockpit/starredItems/types';
-import { ApplicationProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 //@ts-expect-error doesn't contain type file
@@ -45,7 +49,7 @@ import { boundaryScopes } from 'in-applications/constants';
 import { getTimeConfig } from 'in-stores/time/config';
 import { role } from 'in-stores/user';
 
-function getApplicationData(params: any) {
+function getApplicationData(params: GetApplicationsWithDefaultsProps) {
   return getApplicationsWithDefaults(params);
 }
 

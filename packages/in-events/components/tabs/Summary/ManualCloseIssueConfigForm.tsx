@@ -157,6 +157,7 @@ function save(
   const config: ManualCloseInfo = {
     closeTimestamp,
     muteAlerts: false,
+    disableEvent: false,
     reasonForClosing,
     username
   };

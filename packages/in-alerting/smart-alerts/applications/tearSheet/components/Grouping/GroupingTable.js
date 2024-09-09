@@ -37,7 +37,6 @@ import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
 import AlertTypography from 'in-alerting/components/AlertTypography';
-import { getSparkChartGranularity } from 'in-applications/metrics';
 import { meanLatencyFixed } from 'in-services/formatters/number';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { noResultObservable } from 'in-services/util/result';
@@ -55,9 +54,9 @@ export default function GroupingTable({
   form,
   updateForm,
   pagination,
-  setPagination
+  setPagination,
+  granularity
 }) {
-  const sparkChartGranularity = getSparkChartGranularity(timeConfig);
   const metricDefinitionByEvaluationType = getMetricDefinitionByEvaluationType(evaluationType);
 
   const [prevItems, setPrevItems] = useState([]);
@@ -74,7 +73,7 @@ export default function GroupingTable({
         accumulator[getSingleNumberMetricId(metric)] = backendMetric;
         accumulator[getSparkChartTimeSeriesMetricId(metric)] = {
           ...backendMetric,
-          granularity: sparkChartGranularity
+          granularity
         };
         return accumulator;
       }, {})
@@ -134,7 +133,8 @@ export default function GroupingTable({
         cursor,
         metricDefinitionByEvaluationType,
         evaluationType,
-        pagination
+        pagination,
+        granularity
       });
     },
     [
@@ -230,7 +230,7 @@ export default function GroupingTable({
                             f
                             progress={progress}
                             timeConfig={timeConfig}
-                            sparkChartGranularity={sparkChartGranularity}
+                            sparkChartGranularity={granularity}
                           />
                         </div>
                       ) : (
@@ -240,7 +240,7 @@ export default function GroupingTable({
                           f
                           progress={progress}
                           timeConfig={timeConfig}
-                          sparkChartGranularity={sparkChartGranularity}
+                          sparkChartGranularity={granularity}
                         />
                       )}
                     </div>

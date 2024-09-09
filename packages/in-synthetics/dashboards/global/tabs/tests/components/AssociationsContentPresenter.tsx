@@ -13,8 +13,8 @@ import { t } from '@instana/i18n-react';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import { useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
-import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
 import { useGenerateLinkToWebsite } from 'in-websites/navigation/paths';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 
 import locals from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions.mless';
@@ -26,7 +26,9 @@ interface Props {
   websiteLabels: string[];
   mobileAppIds: string[];
   mobileAppLabels: string[];
-  shouldDisplayLink: boolean | undefined;
+  applicationIdsCanBeLinked: string[];
+  websiteIdsCanBeLinked: string[];
+  mobileAppIdsCanBeLinked: string[];
 }
 
 const AssociationsContentPresenter = ({
@@ -36,9 +38,11 @@ const AssociationsContentPresenter = ({
   websiteLabels,
   mobileAppIds,
   mobileAppLabels,
-  shouldDisplayLink
+  applicationIdsCanBeLinked,
+  websiteIdsCanBeLinked,
+  mobileAppIdsCanBeLinked
 }: Props) => {
-  const numberOfAssociations: number = syntheticMultiWebMobileEnabled
+  const numberOfAssociations: number = syntheticRbacLimitedEnabled
     ? applicationLabels.length + websiteLabels.length + mobileAppLabels.length
     : applicationLabels.length;
 
@@ -52,8 +56,10 @@ const AssociationsContentPresenter = ({
           websiteLabels,
           mobileAppIds,
           mobileAppLabels,
-          shouldDisplayLink,
-          numberOfAssociations
+          numberOfAssociations,
+          applicationIdsCanBeLinked,
+          websiteIdsCanBeLinked,
+          mobileAppIdsCanBeLinked
         }}
         content={Content}
         align="auto"
@@ -92,9 +98,11 @@ interface ContentProps {
   websiteLabels: string[];
   mobileAppIds: string[];
   mobileAppLabels: string[];
-  shouldDisplayLink?: boolean;
   close: () => void;
   numberOfAssociations: number;
+  applicationIdsCanBeLinked: string[];
+  websiteIdsCanBeLinked: string[];
+  mobileAppIdsCanBeLinked: string[];
 }
 
 const constructAssociationsMap = (associationLabels: string[], associationIds: string[]) => {
@@ -121,8 +129,10 @@ const Content = (props: ContentProps) => {
     mobileAppIds,
     mobileAppLabels,
     close,
-    shouldDisplayLink = true,
-    numberOfAssociations
+    numberOfAssociations,
+    applicationIdsCanBeLinked,
+    websiteIdsCanBeLinked,
+    mobileAppIdsCanBeLinked
   } = props;
   const appsMap = constructAssociationsMap(applicationLabels, applicationIds);
   const websiteMap = constructAssociationsMap(websiteLabels, websiteIds);
@@ -151,7 +161,7 @@ const Content = (props: ContentProps) => {
               const applicationId = appsMap?.get(label);
               return (
                 <Li key={generateUniqueShortId()} className={locals.issue}>
-                  {shouldDisplayLink ? (
+                  {applicationIdsCanBeLinked.includes(applicationId) ? (
                     <Link ellipsis inline href={getLinkToApplicationDashboard({ applicationId })}>
                       <span className={locals.label}>{label}</span>
                     </Link>
@@ -179,7 +189,7 @@ const Content = (props: ContentProps) => {
               const websiteId = websiteMap?.get(label);
               return (
                 <Li key={generateUniqueShortId()} className={locals.issue}>
-                  {shouldDisplayLink ? (
+                  {websiteIdsCanBeLinked.includes(websiteId) ? (
                     <Link inline ellipsis href={getLinkToWebsiteDashboard(websiteId)}>
                       <span className={locals.label}>{label}</span>
                     </Link>
@@ -207,7 +217,7 @@ const Content = (props: ContentProps) => {
               const mobileAppId = mobileAppsMap?.get(label);
               return (
                 <Li key={generateUniqueShortId()} className={locals.issue}>
-                  {shouldDisplayLink ? (
+                  {mobileAppIdsCanBeLinked.includes(mobileAppId) ? (
                     <Link inline ellipsis href={getLinkToMobileAppDashboard(mobileAppId)}>
                       <span className={locals.label}>{label}</span>
                     </Link>
@@ -231,7 +241,7 @@ const Content = (props: ContentProps) => {
     return t('in-synthetics:dashboard.testList.popDialog.associationsTitle', { number: numberOfAssociations });
   };
 
-  if (syntheticMultiWebMobileEnabled) {
+  if (syntheticRbacLimitedEnabled) {
     return (
       <Card
         title={getCardTitle()}
@@ -272,7 +282,7 @@ const Content = (props: ContentProps) => {
           const applicationId = appsMap?.get(applicationLabel);
           return (
             <li key={generateUniqueShortId()} className={locals.issue}>
-              {shouldDisplayLink ? (
+              {applicationIdsCanBeLinked.includes(applicationId) ? (
                 <Link href={getLinkToApplicationDashboard({ applicationId })}>
                   <span className={locals.label}>{applicationLabel}</span>
                 </Link>

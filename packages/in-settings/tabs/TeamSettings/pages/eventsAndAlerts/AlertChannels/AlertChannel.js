@@ -23,9 +23,11 @@ import {
 import { useGetAlertConfigLink as useGetServiceLevelAlertConfigLink } from 'in-service-levels/navigation/path';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { useGetAlertConfigLink as useGetInfraAlertConfigLink } from 'in-infrastructure/navigation/paths';
+import { alertChannelCTATrackerSegment, editAlertChannelTracker } from 'in-settings/tracker';
 import { createAlertChannel, getAlertChannel, saveAlertChannel } from 'in-api/alertChannels';
 import { useLinkToGlobalAlertConfigWithoutDashboard } from 'in-synthetics/navigation/paths';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { SETTINGS_ALERT_CHANNEL_EDIT } from 'in-services/tracking/eventNames';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getAlertsForAlertChannelId } from 'in-api/alertingConfiguration';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -36,7 +38,6 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import DescriptionText from 'in-components/form/DescriptionText';
-import { editAlertChannelTracker } from 'in-settings/tracker';
 import SectionLine from 'in-settings/components/SectionLine';
 import Notification from 'in-components/form/Notification';
 import { toTitleCase } from 'in-services/util/string';
@@ -124,6 +125,7 @@ function filterAlertConfigBasedOnRoles(alertConfigResponse) {
 
 const AlertChannelForm = entityForm(function AlertChannelForm(props) {
   const { entity, form, entityId, message, error, loading } = props;
+  const { location } = useNavigation();
   if (!entity || !form) {
     return <LoadingIndicator />;
   }
@@ -163,13 +165,18 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
             title={t('in-settings:tabs.properties')}
             header={
               <Link
-                onClick={() =>
+                onClick={() => {
                   editAlertChannelTracker({
                     alertChannelType: entity.get('kind') ?? '',
                     alertChannelId: entity.get('id') ?? '',
                     alertChannelName: entity.get('name') ?? ''
-                  })
-                }
+                  });
+                  alertChannelCTATrackerSegment({
+                    EVENT_NAME: SETTINGS_ALERT_CHANNEL_EDIT,
+                    path: location.pathname,
+                    channel: entity.get('kind') ?? ''
+                  });
+                }}
                 href={getModifyAlertChannelUrl(entity.get('kind'), entityId)}
               >
                 <SvgIcon type={'lib_actions_edit'} size="s" color="#40535b" />

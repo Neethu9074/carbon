@@ -56,7 +56,7 @@ import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error doesn't contain type file
-import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
+import { useNavigateToAbapSystemDashboard } from 'in-sap/navigation/paths';
 //@ts-expect-error doesn't contain type file
 import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import getAbapSystem, { getAbapSystemListsWithDefaults } from 'in-sap/subscriptions/getAbapSystemLists';
@@ -241,6 +241,7 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
   const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');
   const getPowervcRegionDashboard = usePowervcRegionDashboard();
   const getIbmpPhmcDashboard = useIbmpPhmcDashboard();
+  const getAbapSystemDashboard = useNavigateToAbapSystemDashboard()
 
   function getId(item: any) {
     return item.isKubernetes ? item.cluster.id : item.id;

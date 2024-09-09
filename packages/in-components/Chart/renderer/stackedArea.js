@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { extrapolateMissingStackedAreaValuesEnabled } from 'in-services/featureFlags';
 import { calculateMetricMap } from 'in-components/Chart/renderer/utils';
 import { drawCircleWithLine } from './utils';
 
@@ -10,7 +11,8 @@ export default {
   render: ({ metrics, colors, colors100, scale, config, axis }) => {
     let metricMap = {};
     if (!axis.calculateStackDifferences) {
-      metricMap = calculateMetricMap(metrics);
+      const extrapolateMissing = extrapolateMissingStackedAreaValuesEnabled || axis.extrapolateMissingMetrics;
+      metricMap = calculateMetricMap(metrics, extrapolateMissing);
     }
     for (let iMetric = metrics.length - 1; iMetric >= 0; iMetric--) {
       renderDataSeries(config, colors[iMetric], colors100[iMetric], metrics[iMetric], metricMap, scale);

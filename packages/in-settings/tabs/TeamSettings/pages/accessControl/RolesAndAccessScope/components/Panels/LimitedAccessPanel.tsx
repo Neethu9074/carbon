@@ -7,8 +7,8 @@
 import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
+import { IconButton, Stack, StackItem, SvgIcon, Button, Typography } from '@instana/components';
 import { PermissionSet, ScopeBinding, Result, OrderDirection } from '@instana/types';
-import { Stack, StackItem, SvgIcon, Typography, Button } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 
@@ -53,7 +53,7 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { syntheticMultiWebMobileEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import Divider from 'in-components/workspace/Divider/Divider';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -237,7 +237,8 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
             <SvgIcon type="lib_help_error_info_outline" />
           </Tooltip>
         ) : (
-          <SvgIcon
+          <IconButton
+            kind="primary"
             aria-label={t('in-settings:PermissionSection.deleteButton', { name })}
             onClick={() =>
               context === 'tests' ? removeEntitiesFromPermissionSet(id) : removeCredentialsFromPermissionSet(id)
@@ -277,7 +278,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
 
   const getCredentialsSelectionSection = () => {
     if (
-      syntheticMultiWebMobileEnabled &&
+      syntheticRbacLimitedEnabled &&
       productArea === ProductArea.SYNTHETICS &&
       role === AreaRole.OWNER &&
       (permissions.includes(Capability.CAN_USE_SYNTHETIC_CREDENTIALS) ||
@@ -339,11 +340,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   return (
     <Stack direction="vertical">
       <StackItem>
-        <ConfigurationSummary
-          accessLevelType={ScopedPermissionItem.LIMITED_ACCESS}
-          accessLevelMsg={accessLevelMessage}
-          productArea={productArea}
-        >
+        <ConfigurationSummary accessLevelType={ScopedPermissionItem.LIMITED_ACCESS} accessLevelMsg={accessLevelMessage}>
           {isContributor && isAppContributionFilterConfigured ? <ContributorFilterWarning /> : null}
           <RoleSelectionSection />
           {entityPermissionKey === 'syntheticTestIds' ? (

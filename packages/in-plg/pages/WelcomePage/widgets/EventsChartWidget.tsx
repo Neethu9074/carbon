@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { DashboardTile, Link, NoDataTile, Stack } from '@instana/components';
+import { DashboardButton, DashboardTile, NoDataTile, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error file needs to be converted
@@ -44,10 +44,12 @@ export default function EventsChartWidget({
     }),
     []
   );
-  let isNoDataAvailable = false;
+  let isNoDataAvailable = true;
   if (tableData) {
     isNoDataAvailable = !tableData.progress.loading && tableData.data.items.length === 0;
   }
+
+  const viewLabel = `${t('in-plg:welcomepage.viewAll')} ${t('in-plg:welcomepage.component.eventWidget.viewAllLabel')}`;
   return (
     <section aria-label={sectionLabel} role="region">
       <DashboardTile
@@ -107,7 +109,7 @@ export default function EventsChartWidget({
                       name: 'showEvents',
                       icon: 'lib_events_inverted',
                       label: t('in-plg:welcomepage.component.eventWidget.viewEvents'),
-                      getHref$: (highlightedTime: any) =>
+                      getHref$: (highlightedTime: TimeConfig) =>
                         getEventsViewFilteredBy({
                           timeConfig: highlightedTime
                         })
@@ -120,11 +122,19 @@ export default function EventsChartWidget({
           </Stack>
         </div>
         <div className={locals.eventsChartBottomSection}>
-          <Link
-            disabled={isNoDataAvailable}
+          <DashboardButton
+            size="md"
+            kind="ghost"
+            iconSize="xs"
+            icon="lib_arrow_right"
+            iconStyle={locals.viewAllButtonArrowIcon}
             href={EventsfullListViewHref ? EventsfullListViewHref : '/#/events'}
-            linkIconType="lib_arrow_right"
-          >{`${t('in-plg:welcomepage.viewAll')} ${t('in-plg:welcomepage.component.eventWidget.viewAllLabel')}`}</Link>
+            ariaLabel={viewLabel}
+            iconDescription={viewLabel}
+            disabled={isNoDataAvailable}
+          >
+            {viewLabel}
+          </DashboardButton>
         </div>
       </DashboardTile>
     </section>

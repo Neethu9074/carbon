@@ -29,6 +29,7 @@ export default function SimpleModeContainer(props: SimpleModeContainerProps) {
         (renderer, idx) =>
           step === idx && (
             <div className={locals.scrollWrapper} key={idx}>
+              {/* @ts-expect-error */}
               <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />
               <div className={locals.minStableHeight}>
                 {

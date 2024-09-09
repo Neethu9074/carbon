@@ -14,7 +14,11 @@ import { Result } from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
 import LogVolumeGroupingConfigurator from './workspaces/LogVolumeGroupingConfigurator';
-import { generateQuery, transformData } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
+import {
+  generateQuery,
+  getLabelByName,
+  transformData
+} from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
 import LogVolumeDetails from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/LogVolumeDetails';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -49,6 +53,7 @@ const DEFAULT_TAG_NAME: TagNames = '';
 function LogVolume() {
   const [timePeriod, setTimePeriod] = useState<number>(1);
   const [groupingTag, setGroupingTag] = useState<TagNames>(DEFAULT_TAG_NAME);
+  const [groupingTagLabel, setGroupingTaglabel] = useState<string | null>(DEFAULT_TAG_NAME);
   const [groupValue, setGroupValue] = useState<TagObject | null>(null);
   const [expandedRetention, setExpandedRetention] = useState({});
 
@@ -72,8 +77,10 @@ function LogVolume() {
 
   const onChangeGroup = (param: TagObject | null) => {
     const newTag = param ? param.groupbyTag : DEFAULT_TAG_NAME;
+    const newTagLabel = param ? getLabelByName(param.groupbyTag) : DEFAULT_TAG_NAME;
     setGroupValue(param);
     setGroupingTag(newTag);
+    setGroupingTaglabel(newTagLabel);
     handleUpdateExpandedRetention({});
   };
   return (
@@ -137,6 +144,7 @@ function LogVolume() {
                 progress={progress}
                 timePeriod={timePeriod}
                 expandedRetention={expandedRetention}
+                groupingTag={groupingTagLabel}
                 handleUpdateExpandedRetention={handleUpdateExpandedRetention}
               />
             )}
