@@ -185,16 +185,14 @@ export default class Table extends React.Component {
     );
 
     if (carbonTableEnabled) {
-      let carbonHeaders = [];
-      carbonHeaders = cols.map((item, i) => ({
+      const carbonHeaders = cols.map((item, i) => ({
         id: i,
         key: item.title,
         header: item.title,
         isSortable: true,
         sortDirection: data.sortColumnIndex === i ? data.sortDirection.toUpperCase() : 'NONE'
       }));
-      let carbonRows = [];
-
+      const carbonRows = [];
       if (data.rows.length === 0) {
         return (
           <div className={locals.tableContainer}>
@@ -225,8 +223,7 @@ export default class Table extends React.Component {
       } else {
         for (let i = 0, length = data.rows.length; i < length; i++) {
           const rowData = data.rows[i];
-
-          let carbonRow = {};
+          const carbonRow = {};
           carbonRow['id'] = rowData.key;
           rowData.columns.map((column, i) => {
             // get column header name and assign value to that
