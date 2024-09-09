@@ -264,14 +264,16 @@ export default function Pods(props) {
   const [{ phase }, setPhase] = useUrlState(urlStateDefinition);
 
   const rightHeader = (
-    <ComboBox
-      placeholder={t('in-kubernetes:dashboards.placeholderPhase')}
-      value={phase}
-      isSearchable={false}
-      onChange={t => setPhase({ phase: t ? t.value : null })}
-      options={podPhases}
-      className={locals.filter}
-    />
+    <div className={locals.spacing}>
+      <ComboBox
+        placeholder={t('in-kubernetes:dashboards.placeholderPhase')}
+        value={phase}
+        isSearchable={false}
+        onChange={t => setPhase({ phase: t ? t.value : null })}
+        options={podPhases}
+        className={locals.filter}
+      />
+    </div>
   );
 
   return (
