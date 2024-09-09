@@ -20,6 +20,7 @@ import { WorkloadTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/StatefulSet/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/StatefulSet/tabs/Details';
+import { getTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
 export default [
@@ -65,7 +66,9 @@ export default [
   }
 ].filter(Boolean);
 
-function getCounterComponent({ workloadControllerId, tab, timeConfig }, valueExtractor) {
+function getCounterComponent({ result, tab, location }, valueExtractor) {
+  const workloadControllerId = result?.data?.id;
+  const timeConfig = getTimeConfig(location);
   return (
     <WorkloadTab
       workloadControllerId={workloadControllerId}
