@@ -9,12 +9,6 @@ import {
   SETTINGS_ROLE_SUBMIT,
   SETTINGS_ROLE_OPEN_SUBMIT_FORM,
   SETTINGS_EVENT_VIEW,
-  SETTINGS_EVENT_SUBMIT,
-  SETTINGS_EVENT_OPEN_SUBMIT_FORM,
-  SETTINGS_EVENT_ENABLE,
-  SETTINGS_EVENT_DISABLE,
-  SETTINGS_EVENT_DELETED,
-  SETTINGS_EVENT_DELETE_TRIGGER,
   SETTINGS_MAINTENANCE_WINDOW_NEW,
   SETTINGS_MAINTENANCE_WINDOW_REMOVE,
   SETTINGS_MAINTENANCE_WINDOW_EDIT,
@@ -95,13 +89,7 @@ export const clickAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHAN
 export const deleteAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_DELETE, e);
 export const editAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_EDIT, e);
 
-export const submitEventTracker = (e: Object) => track(SETTINGS_EVENT_SUBMIT, e);
-export const openEventSubmitFormTracker = (e: Object) => track(SETTINGS_EVENT_OPEN_SUBMIT_FORM, e);
 export const viewEventTracker = (e: Object) => track(SETTINGS_EVENT_VIEW, e);
-export const trackerEventEnabled = (e: Object) => track(SETTINGS_EVENT_ENABLE, e);
-export const trackerEventDisabled = (e: Object) => track(SETTINGS_EVENT_DISABLE, e);
-export const trackerEventDeleted = (e: Object) => track(SETTINGS_EVENT_DELETED, e);
-export const trackerEventDeleteTrigger = (e: Object) => track(SETTINGS_EVENT_DELETE_TRIGGER, e);
 
 export const logManagementDeleteLogsClickedTracker = (e: Object) =>
   track(SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_CLICKED, e);

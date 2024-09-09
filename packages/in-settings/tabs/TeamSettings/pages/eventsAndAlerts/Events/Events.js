@@ -36,21 +36,22 @@ import {
   setCustomEventSpecificationsEnabled
 } from 'in-api/eventSpecifications';
 import {
+  SETTINGS_EVENT_OPEN_SUBMIT_FORM,
+  SETTINGS_EVENT_DISABLE,
+  SETTINGS_EVENT_ENABLE,
+  SETTINGS_EVENT_DELETED,
+  SETTINGS_EVENT_VIEW
+} from 'in-services/tracking/tracking';
+import {
   smartAlertMigrationDocs,
   MessageContentModernDesign
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
-import {
-  openEventSubmitFormTracker,
-  viewEventTracker,
-  trackerEventEnabled,
-  trackerEventDisabled,
-  trackerEventDeleted
-} from 'in-settings/tracker';
 import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
 import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { applicationsAlertingShowDeprecationBanner } from 'in-alerting/smart-alerts/applications/tracker';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import List, { CreateNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -97,7 +98,7 @@ const urlStateBinding = {
 
 export default function Events({
   setTitle = true,
-  tableActions = defaultTableActions,
+  tableActions = undefined,
   loadEntities,
   noDataMessage,
   hiddenIds,
@@ -107,7 +108,7 @@ export default function Events({
   onRowClick,
   hasRowNavigation = true,
   inSelectListDialog = false,
-  getHeader = defaultGetHeader(inSelectListDialog, tableActions),
+  getHeader = undefined,
   /**
    * 1. Removes filter items for deprecated/migrated events
    * 2. Filters out deprecated/migrated events
@@ -130,21 +131,25 @@ export default function Events({
 
   const loadEvents = useLoadEventsFunction(withoutAppDataLegacyEvents, loadEntities);
   adjustTypeOptions(withoutAppDataLegacyEvents);
+  const { trackCta } = useSegmentTracking();
+
+  const tableDefaultActions = tableActions ?? getDefaultTableActions(trackCta);
+  const header = getHeader ?? defaultGetHeader(inSelectListDialog, tableDefaultActions);
 
   return (
     <>
       {legacyAlertConfigStats.data?.deprecatedCustomEvents > 0 && <CustomEventDeprecatedWarning />}
       <List
         title={setTitle ? t('in-settings:tabs.events') : null}
-        getHeader={getHeader}
+        getHeader={header}
         getEntityName={getEntityName}
         columnDefinitions={columnDefinitions(hasRowNavigation)}
-        tableActions={tableActions}
+        tableActions={tableDefaultActions}
         loadEntities={loadEvents}
         noDataMessage={noDataMessage}
         pageSize={pageSize}
         initialOrderBy="name"
-        rightHeader={getRightHeader()}
+        rightHeader={getRightHeader(trackCta)}
         isSearchable={isSearchable}
         searchAttributes={['name', 'description', getEntityType]}
         extraFilters={createFilters(hiddenIds, type, severity, entityType, enabled)}
@@ -159,17 +164,17 @@ export default function Events({
     </>
   );
 
-  function getRightHeader() {
-    return !inSelectListDialog ? rightHeader ?? defaultRightHeader() : inSelectListDialogRightHeader();
+  function getRightHeader(trackCta) {
+    return !inSelectListDialog ? rightHeader ?? defaultRightHeader(trackCta) : inSelectListDialogRightHeader();
   }
 
-  function defaultRightHeader() {
+  function defaultRightHeader(trackCta) {
     return (
       <Fragment>
         {
           <CreateNewEntityButton
             labelNew={t('in-settings:tabs.newEvent')}
-            trackEvent={openEventSubmitFormTracker}
+            trackEvent={() => trackCta(SETTINGS_EVENT_OPEN_SUBMIT_FORM)}
             pathNew={teamSettingsAlertingEventCustomNew}
           />
         }
@@ -250,6 +255,7 @@ function combineAndSortByLabel(array1, array2) {
 }
 
 export function EventName({ entity, hasRowNavigation }) {
+  const { trackCta } = useSegmentTracking();
   const { name } = entity;
   const icon = getIcon(entity, themes);
 
@@ -271,7 +277,7 @@ export function EventName({ entity, hasRowNavigation }) {
               href={getEntityIdView(getDetailsPath(entity), entity.id)}
               ellipsis
               onClick={() =>
-                viewEventTracker({
+                trackCta(SETTINGS_EVENT_VIEW, {
                   eventDefinitionType: entity.type,
                   entityType: entity.entityType,
                   type: entity.triggering ? 'Incident' : 'None',
@@ -336,32 +342,34 @@ function columnDefinitions(hasRowNavigation) {
   ];
 }
 
-const defaultTableActions = {
-  toggleEnabled: {
-    get: isEnabled,
-    disabled: entity => entity.migrated,
-    toggle: entity => {
-      if (entity.enabled) {
-        trackerEventDisabled(entity);
-      } else {
-        trackerEventEnabled(entity);
+function getDefaultTableActions(trackCta) {
+  return {
+    toggleEnabled: {
+      get: isEnabled,
+      disabled: entity => entity.migrated,
+      toggle: entity => {
+        if (entity.enabled) {
+          trackCta(SETTINGS_EVENT_DISABLE, { ...entity });
+        } else {
+          trackCta(SETTINGS_EVENT_ENABLE, { ...entity });
+        }
+        if (isBuiltInRule(entity)) {
+          return setBuiltInEventSpecificationsEnabled(entity.id, !entity.enabled);
+        } else {
+          return setCustomEventSpecificationsEnabled(entity.id, !entity.enabled);
+        }
       }
-      if (isBuiltInRule(entity)) {
-        return setBuiltInEventSpecificationsEnabled(entity.id, !entity.enabled);
-      } else {
-        return setCustomEventSpecificationsEnabled(entity.id, !entity.enabled);
-      }
-    }
-  },
-  delete: {
-    deleteEntity: entity => {
-      const deletion$ = deleteCustomEventSpecification(entity.id);
-      deletion$.once(() => trackerEventDeleted(entity));
-      return deletion$;
     },
-    deleteProtection: entity => isBuiltInRule(entity)
-  }
-};
+    delete: {
+      deleteEntity: entity => {
+        const deletion$ = deleteCustomEventSpecification(entity.id);
+        deletion$.once(() => trackCta(SETTINGS_EVENT_DELETED, { ...entity }));
+        return deletion$;
+      },
+      deleteProtection: entity => isBuiltInRule(entity)
+    }
+  };
+}
 
 function isEnabled(entity) {
   return entity.enabled;
