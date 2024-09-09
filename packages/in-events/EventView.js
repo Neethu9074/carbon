@@ -7,6 +7,7 @@ import React, { useMemo, useCallback } from 'react';
 import { get } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import {
   eventIdUrlParameter,
@@ -30,6 +31,7 @@ import ViewSwitcher from 'in-events/components/ViewSwitcher';
 import * as eventTypeLabels from 'in-events/eventTypeLabels';
 import EventsChart from 'in-events/components/EventsChart';
 import EventTable from 'in-events/components/EventTable';
+import { pendingResult } from 'in-services/fixedObjects';
 import { eventsPath } from 'in-events/navigation/paths';
 import getRawEvents from 'in-subscription/getRawEvents';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -44,11 +46,16 @@ export default function LegacyEventViewMigration(props) {
   const query = get(props, ['location', 'query']);
   const eventId = getMatrixParameter(props.location, eventsPath, 'eventId');
 
-  const eventObservable = getEvent(eventId ?? '').map(data => ({
-    data,
-    errors: [],
-    progress: { percentage: null, loading: false }
-  }));
+  let eventObservable;
+  if (eventId) {
+    eventObservable = getEvent(eventId ?? '').map(data => ({
+      data,
+      errors: [],
+      progress: { percentage: null, loading: false }
+    }));
+  } else {
+    eventObservable = just(pendingResult);
+  }
   const timeConfig = getTimeConfig(props.location);
 
   const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();

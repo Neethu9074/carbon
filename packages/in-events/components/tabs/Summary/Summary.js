@@ -72,7 +72,6 @@ import EventChart from 'in-events/components/EventChart';
 import { emptyList } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
-import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -112,189 +111,186 @@ export default function Summary(props) {
   );
 }
 
-const EventContent = connectTo(
-  ({ event, latestSnapshot }) => ({
-    snapshot: getSnapshot(event.get('entityId'), getTimeConfigForSnapshotRetrieval(event, latestSnapshot)).startWith(
-      null
-    )
-  }),
-  function EventContent({ event, latestSnapshot, snapshot, reload }) {
-    const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
+function EventContent({ event, latestSnapshot, reload }) {
+  const entityID = event.get('entityId');
+  const snapshot = useObservable(getSnapshot(entityID, getTimeConfigForSnapshotRetrieval(event, latestSnapshot)), [
+    entityID
+  ]);
+  const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
 
-    if (isWebsiteSmartAlertEvent(event)) {
-      return <WebsiteEventContent event={event} snapshot={snapshot} reload={reload} />;
-    }
+  if (!snapshot || (snapshot && snapshot.loading)) return <LoadingIndicator size="xxxl" />;
 
-    if (isApplicationSmartAlertEvent(event)) {
-      return <ApplicationEventContent event={event} snapshot={snapshot} reload={reload} />;
-    }
+  if (isWebsiteSmartAlertEvent(event)) {
+    return <WebsiteEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    // TODO: Confirm support
-    if (isKubernetesEvent(event)) {
-      return <KubernetesEventContent event={event} timeConfig={timeConfig} reload={reload} />;
-    }
+  if (isApplicationSmartAlertEvent(event)) {
+    return <ApplicationEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    if (isInfraSmartAlertEvent(event)) {
-      return <InfraEventContent event={event} snapshot={snapshot} reload={reload} />;
-    }
+  // TODO: Confirm support
+  if (isKubernetesEvent(event)) {
+    return <KubernetesEventContent event={event} timeConfig={timeConfig} reload={reload} />;
+  }
 
-    if (isSyntheticSmartAlertEvent(event)) {
-      return <SyntheticEventContent event={event} snapshot={snapshot} reload={reload} />;
-    }
+  if (isInfraSmartAlertEvent(event)) {
+    return <InfraEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    if (isMobileAppSmartAlertEvent(event)) {
-      return <MobileEventContent event={event} snapshot={snapshot} reload={reload} />;
-    }
+  if (isSyntheticSmartAlertEvent(event)) {
+    return <SyntheticEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    if (isSloSmartAlertEvent(event)) {
-      return <SloEventContent event={event} snapshot={snapshot} />;
-    }
+  if (isMobileAppSmartAlertEvent(event)) {
+    return <MobileEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    if (isLogSmartAlertEvent(event)) {
-      return <LogsEventContent event={event} snapshot={snapshot} reload={reload} />;
-    }
+  if (isSloSmartAlertEvent(event)) {
+    return <SloEventContent event={event} snapshot={snapshot} />;
+  }
 
-    if (isEntityCountVerificationEvent(event)) {
-      return <EntityCountVerificationEventContent event={event} snapshot={snapshot} reload={reload} />;
-    }
+  if (isLogSmartAlertEvent(event)) {
+    return <LogsEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    const eventType = getEventType(event);
-    const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
-    const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
-    const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
+  if (isEntityCountVerificationEvent(event)) {
+    return <EntityCountVerificationEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const eventType = getEventType(event);
+  const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
+  const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
+  const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
 
-    const pillContent = hasManualCloseFields(event) ? (
-      <Pill type="green">{t('in-events:stateManuallyClosed')}</Pill>
-    ) : undefined;
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
 
-    return (
-      <>
-        <ViewTrackingMeta
-          data={{
-            productArea: productAreas.events,
-            pageRootName: pageNames.event
-          }}
-        />
-        <Row withoutSideMargin>
-          <Col xs>
-            <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent}>
-              <EntityWithParentInformation
-                entityId={event.get('entityId')}
-                entityType={event.get('entityType')}
-                metadata={event.get('metadata')}
+  const pillContent = hasManualCloseFields(event) ? (
+    <Pill type="green">{t('in-events:stateManuallyClosed')}</Pill>
+  ) : undefined;
+
+  return (
+    <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.events,
+          pageRootName: pageNames.event
+        }}
+      />
+      <Row withoutSideMargin>
+        <Col xs>
+          <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent}>
+            <EntityWithParentInformation
+              entityId={entityID}
+              entityType={event.get('entityType')}
+              metadata={event.get('metadata')}
+              timeConfig={timeConfig}
+              linkTimeConfig={getTimeConfigFromEvent(event)}
+            />
+            <SubEntityInformation event={event} />
+            {isAgentMonitoringIssueEvent(event) ? (
+              <AgentMonitoringIssueDescription
+                event={event}
                 timeConfig={timeConfig}
-                linkTimeConfig={getTimeConfigFromEvent(event)}
+                className="in-event-view-event-content"
               />
-              <SubEntityInformation event={event} />
-              {isAgentMonitoringIssueEvent(event) ? (
-                <AgentMonitoringIssueDescription
-                  event={event}
-                  timeConfig={timeConfig}
-                  className="in-event-view-event-content"
-                />
-              ) : isCveIssueEvent(event) ? (
-                <CveIssueDescription event={event} />
-              ) : (
-                <ProblemDescription fixSuggestion={fixSuggestion} />
-              )}
-              {canCloseManually && hasManualCloseFields(event) ? (
-                <div>
-                  <ManualCloseDescription event={event} />
-                  <DescriptionButtons>
-                    <ManualCloseIssueButton
-                      event={event}
-                      reload={reload}
-                      iconComponent={
-                        <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
-                      }
-                    />
-                    <EventSpecificationLink event={event.toJS()} />
-                    <AnalyzeIssueCallsButton event={event} />
-                  </DescriptionButtons>
-                </div>
-              ) : (
+            ) : isCveIssueEvent(event) ? (
+              <CveIssueDescription event={event} />
+            ) : (
+              <ProblemDescription fixSuggestion={fixSuggestion} />
+            )}
+            {canCloseManually && hasManualCloseFields(event) ? (
+              <div>
+                <ManualCloseDescription event={event} />
                 <DescriptionButtons>
-                  {canCloseManually && (
-                    <ManualCloseIssueButton
-                      event={event}
-                      reload={reload}
-                      iconComponent={
-                        <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
-                      }
-                    />
-                  )}
+                  <ManualCloseIssueButton
+                    event={event}
+                    reload={reload}
+                    iconComponent={
+                      <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+                    }
+                  />
                   <EventSpecificationLink event={event.toJS()} />
                   <AnalyzeIssueCallsButton event={event} />
                 </DescriptionButtons>
-              )}
+              </div>
+            ) : (
+              <DescriptionButtons>
+                {canCloseManually && (
+                  <ManualCloseIssueButton
+                    event={event}
+                    reload={reload}
+                    iconComponent={
+                      <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+                    }
+                  />
+                )}
+                <EventSpecificationLink event={event.toJS()} />
+                <AnalyzeIssueCallsButton event={event} />
+              </DescriptionButtons>
+            )}
+          </Card>
+        </Col>
+      </Row>
+      {eumImpactedUsersForAppAlertEnabled && (
+        <Row withoutSideMargin>
+          <Col xs>
+            <SmartAlertImpactedUsers event={event} snapshot={snapshot} />
+          </Col>
+        </Row>
+      )}
+      {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
+        <Row withoutSideMargin>
+          <Col xs>
+            <Card
+              title={isEntityVerificationEvent(event) ? t('in-events:titleLastProcess') : t('in-events:titleLastHost')}
+            >
+              <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
             </Card>
           </Col>
         </Row>
-        {eumImpactedUsersForAppAlertEnabled && (
-          <Row withoutSideMargin>
-            <Col xs>
-              <SmartAlertImpactedUsers event={event} snapshot={snapshot} />
-            </Col>
-          </Row>
-        )}
-        {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
-          <Row withoutSideMargin>
-            <Col xs>
-              <Card
-                title={
-                  isEntityVerificationEvent(event) ? t('in-events:titleLastProcess') : t('in-events:titleLastHost')
-                }
-              >
-                <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
-              </Card>
-            </Col>
-          </Row>
-        ) : (
-          <>
-            {hasAtLeastOneMetric(event) && (
-              <Row withoutSideMargin>
-                <Col xs>
-                  <Card title={t('in-events:titleMetrics')}>
-                    <EventChart event={event} />
-                  </Card>
-                </Col>
-              </Row>
-            )}
-            {hasMetric(event, 'cpu.user') && (
-              <Row withoutSideMargin>
-                <Col xs>
-                  <ProcessContent snapshot={snapshot} timeConfig={timeConfig} />
-                </Col>
-              </Row>
-            )}
-          </>
-        )}
-        {isIssue && isIbmMqFileTransferIssueEvent(event) && (
-          <Row withoutSideMargin>
-            <Col xs>
-              <IbmMqFileTransferMetadataTable
-                ibmMqFileTransferMetadata={event?.getIn(['metadata', 'ibmMqFileTransfer'], emptyList)?.toJS() ?? []}
-              />
-            </Col>
-          </Row>
-        )}
+      ) : (
+        <>
+          {hasAtLeastOneMetric(event) && (
+            <Row withoutSideMargin>
+              <Col xs>
+                <Card title={t('in-events:titleMetrics')}>
+                  <EventChart event={event} />
+                </Card>
+              </Col>
+            </Row>
+          )}
+          {hasMetric(event, 'cpu.user') && (
+            <Row withoutSideMargin>
+              <Col xs>
+                <ProcessContent snapshot={snapshot} timeConfig={timeConfig} />
+              </Col>
+            </Row>
+          )}
+        </>
+      )}
+      {isIssue && isIbmMqFileTransferIssueEvent(event) && (
+        <Row withoutSideMargin>
+          <Col xs>
+            <IbmMqFileTransferMetadataTable
+              ibmMqFileTransferMetadata={event?.getIn(['metadata', 'ibmMqFileTransfer'], emptyList)?.toJS() ?? []}
+            />
+          </Col>
+        </Row>
+      )}
 
-        {isIssue && hasEventSpec && (
-          <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
-        )}
-        {businessObservabilityEnabled && (
-          <ImpactedBusinessProcesses
-            eventType={eventType}
-            entityType={event?.get('entityType', undefined)}
-            entityId={event?.get('entityId', undefined)}
-          />
-        )}
-      </>
-    );
-  }
-);
+      {isIssue && hasEventSpec && (
+        <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
+      )}
+      {businessObservabilityEnabled && (
+        <ImpactedBusinessProcesses
+          eventType={eventType}
+          entityType={event?.get('entityType', undefined)}
+          entityId={event?.get('entityId', undefined)}
+        />
+      )}
+    </>
+  );
+}
 
 function ProcessContent({ snapshot, timeConfig }) {
   if (!snapshot || (snapshot.progress && snapshot.progress.loading)) {

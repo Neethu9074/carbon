@@ -132,6 +132,8 @@
   "headerReportedDate": "Reported Date",
   "headerAffectedApp": "Affected Applications",
   "headerCvssScore": "CVSS Score",
+  "unidentifiedEntity": "Unidentified Entity",
+  "unidentifiedEntityTooltip": "There was an error retrieving information about this entity. You can visit the entity's dashboard by clicking the 'Unidentified Entity' link for more details.",
   "headerStatus": "Status",
   "eventHelpfulText": "Was this event helpful?",
   "thankYouForYourFeedback": "Thank you for your feedback!",
