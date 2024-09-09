@@ -5,6 +5,7 @@
 
 import { queryKey as highlightedTimeframeQueryKey } from 'in-stores/highlightedTimeframe';
 import { setTimeConfig, timeConfig$ } from 'in-stores/time/config';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import { chartZoomInTracker } from 'in-components/tracker';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { minutes } from 'in-services/time';
@@ -21,8 +22,8 @@ const config = {
 };
 export default config;
 
-function getHighlightedTimeframeUrl$(highlightedTimeframe, location, createHref) {
-  return timeConfig$.map(originalTimeConfig => {
+function getHighlightedTimeframeUrl$(highlightedTimeframe) {
+  return timeConfig$.flatMap(originalTimeConfig => {
     if (!highlightedTimeframe) {
       return alwaysNull;
     }
@@ -43,14 +44,14 @@ function getHighlightedTimeframeUrl$(highlightedTimeframe, location, createHref)
       timeConfig.focusedMoment = to;
     }
 
-    setTimeConfig(location, {
-      windowSize,
-      to,
-      focusedMoment: to,
-      autoRefresh: false
+    return getModifiedUrlStream(location => {
+      setTimeConfig(location, {
+        windowSize,
+        to,
+        focusedMoment: to,
+        autoRefresh: false
+      });
+      delete location.query[highlightedTimeframeQueryKey];
     });
-    delete location.query[highlightedTimeframeQueryKey];
-
-    return createHref({ ...location });
   });
 }

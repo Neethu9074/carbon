@@ -15,6 +15,7 @@ import { deploymentDashboardFullyQualified } from 'in-kubernetes/navigation/path
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Deployment/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/Deployment/tabs/Details';
+import { getTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
 export default [
@@ -54,7 +55,9 @@ export default [
   }
 ].filter(Boolean);
 
-function getCounterComponent({ deploymentId, tab, timeConfig }, valueExtractor) {
+function getCounterComponent({ result, tab, location }, valueExtractor) {
+  const deploymentId = result?.data?.id;
+  const timeConfig = getTimeConfig(location);
   return (
     <WorkloadTab
       workloadControllerId={deploymentId}
