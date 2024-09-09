@@ -25,6 +25,7 @@ import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import { ServiceTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Summary from 'in-kubernetes/Dashboards/Service/tabs/Summary/Summary';
 import Details from 'in-kubernetes/Dashboards/Service/tabs/Details';
+import { getTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
 export default [
@@ -108,6 +109,8 @@ export default [
   }
 ].filter(Boolean);
 
-function getCounterComponent({ serviceId, tab, timeConfig }, valueExtractor) {
+function getCounterComponent({ result, tab, location }, valueExtractor) {
+  const serviceId = result?.data?.id;
+  const timeConfig = getTimeConfig(location);
   return <ServiceTab serviceId={serviceId} label={tab.label} timeConfig={timeConfig} valueExtractor={valueExtractor} />;
 }
