@@ -48,11 +48,9 @@ export default function ApiTokenForm({ form, onChange, disabled, createNewToken,
     <fieldset data-testid="apitokenform" disabled={disabled}>
       {!createNewToken
         ? form.get('accessGrantingToken').map((field: Field<string>) => (
-            <FormGroup noFlex>
-              <Label className={locals.apiTokenLabel} id="api-token-accessGrantingToken">
-                {field.value}
-              </Label>
-              <Tooltip align="topRight" content={t('in-settings:tabs.copyApiTokenToClipboard')}>
+            <FormGroup className={locals.apiTokenAccessTokenContainer}>
+              <Label id="api-token-accessGrantingToken">{field.value}</Label>
+              <Tooltip align="rightMiddle" content={t('in-settings:tabs.copyApiTokenToClipboard')}>
                 <AsyncTokenCopyButton
                   internalId={form.get('internalId').value}
                   token={form.get('accessGrantingToken').value}
