@@ -13,4 +13,8 @@
       height: 100%;
     }
   }
+
+  :global(#profileMenu-switcher button svg) {
+    top: 1px;
+  }
 }
