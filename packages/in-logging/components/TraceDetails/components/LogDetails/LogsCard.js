@@ -6,6 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { ExpandableGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
@@ -30,7 +31,6 @@ import { joinExpressions } from 'in-components/QueryBuilder/transformation/formM
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import ExpandableGroup from 'in-components/ExpandableGroup';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import getLogs from 'in-logging/subscriptions/getLogs';
