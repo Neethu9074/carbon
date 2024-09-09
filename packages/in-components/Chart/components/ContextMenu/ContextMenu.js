@@ -15,15 +15,15 @@ import downloadJSONAction from 'in-components/Chart/components/ContextMenu/actio
 import downloadCSVAction from 'in-components/Chart/components/ContextMenu/actions/downloadCSV';
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
+import { minutes } from 'in-services/time';
 
 import locals from './ContextMenu.mless';
 
 const { isEscape } = keyCodes;
-
+const MAX_ZOOM_LEVEL = minutes.toMillis(1);
 export default class extends React.Component {
   static displayName = 'ContextMenu';
 
@@ -42,7 +42,7 @@ export default class extends React.Component {
       },
       {
         ...zoomInAction,
-        getHref$: (location, createHref) => zoomInAction.getHref$(highlightedTimeframe, location, createHref)
+        getHref$: () => zoomInAction.getHref$(highlightedTimeframe)
       },
       {
         ...downloadJSONAction,
@@ -72,6 +72,11 @@ export default class extends React.Component {
               originalOnClick(this.getStrippedConfig());
             }
           };
+        }
+        if (config.getHref$) {
+          const originalGetHref$ = config.getHref$;
+          config.getHref$ = () =>
+            originalGetHref$(getHighlightedTimeConfig(highlightedTimeframe), this.getStrippedConfig());
         }
         return config;
       });
@@ -129,6 +134,12 @@ export default class extends React.Component {
       return null;
     }
 
+    const buttonProps = {
+      className: locals.button,
+      kind: 'secondary',
+      size: 'compact'
+    };
+
     const leftAligned = this.isLeftAligned();
     const barWidthInPx = xScale.getRangeArea(chart.config.granularity);
 
@@ -152,7 +163,19 @@ export default class extends React.Component {
               }}
             >
               {contextMenuButtons.slice(immediatelyOpenContextMenu ? 0 : 1).map((buttonConfig, index) => (
-                <ContextMenuButton buttonConfig={buttonConfig} key={index} />
+                <Button
+                  key={index}
+                  {...buttonProps}
+                  icon={buttonConfig.icon}
+                  {...(typeof buttonConfig.getHref === 'string'
+                    ? { href: buttonConfig.getHref }
+                    : buttonConfig.getHref$
+                    ? { href$: buttonConfig.getHref$() }
+                    : {})}
+                  onClick={buttonConfig.onClick}
+                >
+                  {buttonConfig.label}
+                </Button>
               ))}
             </div>
           )}
@@ -234,30 +257,20 @@ export default class extends React.Component {
 }
 
 function createIconButton(config) {
-  if (config.label) {
-    return (
-      <Tooltip content={config.label}>
-        <IconButton config={config} />
-      </Tooltip>
-    );
-  }
-  return <IconButton config={config} />;
-}
-
-function IconButton(props) {
-  const { location, createHref } = useNavigation();
-  const { config } = props;
-
-  return (
+  const button = (
     <Button
       className={locals.contextMenuOpenButton}
-      href$={config.getHref$ && config.getHref$(location, createHref)}
+      href$={config.getHref$ && config.getHref$()}
       onClick={config.onClick}
       kind="secondary"
     >
       <SvgIcon className={locals.contextMenuOpenButtonIcon} type={config.icon} />
     </Button>
   );
+  if (config.label) {
+    return <Tooltip content={config.label}>{button}</Tooltip>;
+  }
+  return button;
 }
 
 function getNonFilteredMetricsForaxis(axisName, axis, filteredDataSeries) {
@@ -270,6 +283,25 @@ function getNonFilteredMetricsForaxis(axisName, axis, filteredDataSeries) {
     .map(i => (axis.metricIds || axis.labels)[i]);
 }
 
+function getHighlightedTimeConfig(highlightedTimeframe) {
+  const from = highlightedTimeframe[0];
+  let to = highlightedTimeframe[1];
+  let windowSize = to - from;
+
+  if (windowSize <= MAX_ZOOM_LEVEL) {
+    windowSize = MAX_ZOOM_LEVEL;
+  }
+
+  const highlightedTimeConfig = {
+    windowSize,
+    to,
+    focusedMoment: to,
+    clearHighlightedTimeframe: true
+  };
+
+  return highlightedTimeConfig;
+}
+
 // exporting for test
 export function sortByPrimaryAction(i1, i2, primaryContextMenuAction) {
   if (i1.name === primaryContextMenuAction) {
@@ -279,22 +311,4 @@ export function sortByPrimaryAction(i1, i2, primaryContextMenuAction) {
     return 1;
   }
   return 0;
-}
-
-function ContextMenuButton(props) {
-  const { buttonConfig } = props;
-  const { location, createHref } = useNavigation();
-  const { icon, getHref, label, getHref$, onClick } = buttonConfig;
-  return (
-    <Button
-      className={locals.button}
-      kind="secondary"
-      size="compact"
-      icon={icon}
-      {...(typeof getHref === 'string' ? { href: getHref } : getHref$ ? { href$: getHref$(location, createHref) } : {})}
-      onClick={onClick}
-    >
-      {label}
-    </Button>
-  );
 }
