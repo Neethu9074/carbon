@@ -66,6 +66,9 @@ export function getHealthInfo(snapshotId, timeConfig) {
 }
 
 export function getEvent(eventId) {
+  if (!eventId) {
+    return alwaysNull;
+  }
   return createEventObservable({ eventId });
 }
 
