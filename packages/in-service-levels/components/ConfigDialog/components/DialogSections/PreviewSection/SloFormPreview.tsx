@@ -11,15 +11,10 @@ import { Stack, Typography } from '@instana/components';
 import SloFormMissingDataPreview from 'in-service-levels/components/ConfigDialog/components/DialogSections/PreviewSection/SloFormMissingDataPreview';
 import SloConfigPreview from 'in-service-levels/components/ConfigDialog/components/DialogSections/PreviewSection/SloConfigPreview';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { SloFormSideEffectsReturnType } from 'in-service-levels/hooks/useSloFormSideEffects';
 import { t } from 'in-i18n';
 
-interface SloFormPreviewProps {
-  updateForm: SloFormSideEffectsReturnType;
-}
-
-export default function SloFormPreview({ updateForm }: SloFormPreviewProps) {
-  const { form } = useContext(SloFormContext);
+export default function SloFormPreview() {
+  const { form, setForm } = useContext(SloFormContext);
 
   const isFormValid = form.hierarchyValid;
   const isNameFieldValid = form.getIn(['nameTags', 'name']).valid;
@@ -38,7 +33,7 @@ export default function SloFormPreview({ updateForm }: SloFormPreviewProps) {
             {t('in-service-levels:createSloDialog.previewSection.dataInfo')}
           </Typography>
         )}
-        {shouldShowPreview ? <SloConfigPreview /> : <SloFormMissingDataPreview updateForm={updateForm} />}
+        {shouldShowPreview ? <SloConfigPreview /> : <SloFormMissingDataPreview updateForm={setForm} />}
       </Stack>
     </section>
   );

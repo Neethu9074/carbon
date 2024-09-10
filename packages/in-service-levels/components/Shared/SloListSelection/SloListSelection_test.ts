@@ -19,21 +19,21 @@ import {
   selectedSLO,
   selectedSloData,
   sloData
-} from 'in-alerting/smart-alerts/slo/components/SloListSelection/mockData';
-import { usePaginatedSloList } from 'in-alerting/smart-alerts/slo/components/SloListSelection/hooks/usePaginatedSloList';
-import { useSelectedIds } from 'in-alerting/smart-alerts/slo/components/SloListSelection/hooks/useSelectedIds';
-import { useSloList } from 'in-alerting/smart-alerts/slo/components/SloListSelection/SloListSelection';
+} from 'in-service-levels/components/Shared/SloListSelection/mockData';
+import { useSloList } from 'in-service-levels/components/Shared/SloListSelection/SloListSelection';
+import usePaginatedSloList from 'in-service-levels/hooks/usePaginatedSloList';
+import useSelectedIds from 'in-service-levels/hooks/useSelectedIds';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 
 jest.mock('in-hooks/useDebouncedValue');
-jest.mock('in-alerting/smart-alerts/slo/components/SloListSelection/hooks/useSelectedIds');
-jest.mock('in-alerting/smart-alerts/slo/components/SloListSelection/hooks/usePaginatedSloList');
+jest.mock('in-service-levels/hooks/useSelectedIds');
+jest.mock('in-service-levels/hooks/usePaginatedSloList');
 
 const mockUseDebouncedValue = useDebouncedValue as jest.MockedFunction<typeof useDebouncedValue>;
 const mockUsePaginatedSloList = usePaginatedSloList as jest.MockedFunction<typeof usePaginatedSloList>;
 const mockUseSelectedIds = useSelectedIds as jest.MockedFunction<typeof useSelectedIds>;
 
-describe('in-alerting/smart-alerts/slo/components/SloListSelection', () => {
+describe('in-service-levels/components/Shared/SloListSelection', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });

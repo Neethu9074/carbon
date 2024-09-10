@@ -435,6 +435,18 @@
       }
     },
     "slo": {
+      "v2Form": {
+        "headline": "Select a Service Level Objective",
+        "subheading": "Select and existing SLO or click \"Add new SLO\" to create a new one",
+        "addSloButtonLabel": "Add new SLO",
+        "chartTypeSelectionLabel": "Chart type",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "Indicator chart",
+        "chartTypeOption_ERROR_BUDGET": "Error budget chart",
+        "validators": {
+          "notBlankSloValidator": "Please choose a SLO configuration from the list."
+        }
+      },
       "demo": {
         "title": "SLO Title",
         "sliName": "Example Sli",

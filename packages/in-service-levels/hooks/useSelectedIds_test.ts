@@ -6,13 +6,13 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
-import { useSelectedIds } from 'in-alerting/smart-alerts/slo/components/SloListSelection/hooks/useSelectedIds';
 import { getAllSloConfigurations } from 'in-service-levels/api/configuration';
+import useSelectedIds from 'in-service-levels/hooks/useSelectedIds';
 
 jest.mock('in-service-levels/api/configuration');
 const mockGetSloConfigurations = getAllSloConfigurations as jest.MockedFunction<typeof getAllSloConfigurations>;
 
-describe('in-alerting/smart-alerts/slo/components/SloListSelection/hooks/useSelectedIds', () => {
+describe('in-service-levels/hooks/useSelectedIds', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });

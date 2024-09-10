@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
-import { UseBufferedSloDataResult } from 'in-alerting/smart-alerts/slo/components/SloListSelection/hooks/usePaginatedSloList';
-import { SloData } from 'in-alerting/smart-alerts/slo/components/SloListSelection/SloListSelection';
+import { SloData } from 'in-service-levels/components/Shared/SloListSelection/SloListSelection';
+import { UseBufferedSloDataResult } from 'in-service-levels/hooks/usePaginatedSloList';
 import { FetchedState } from 'in-hooks/utils/types';
 
 export const selectedSLO = {

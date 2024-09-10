@@ -11,16 +11,13 @@ import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
-import {
-  SloData,
-  sloConfigsToSloData
-} from 'in-alerting/smart-alerts/slo/components/SloListSelection/SloListSelection';
+import { SloData, sloConfigsToSloData } from 'in-service-levels/components/Shared/SloListSelection/SloListSelection';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { getAllSloConfigurations } from 'in-service-levels/api/configuration';
 import { FetchedState } from 'in-hooks/utils/types';
 import { success } from 'in-services/util/result';
 
-export function useSelectedIds(sloIds: string[]): FetchedState<SloData[]> {
+export default function useSelectedIds(sloIds: string[]): FetchedState<SloData[]> {
   const existingData = useRef<Result<PaginatedResult<ServiceLevelObjectiveConfiguration>>>();
 
   const data = useObservable(() => {
