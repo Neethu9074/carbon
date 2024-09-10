@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { SvgIcon, IconButton, DescriptionList, DescriptionItem, Checkbox } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
-import { serviceNowAutoCloseAndCustomPayloadsEnabled } from 'in-services/featureFlags';
+import { serviceNowAutoCloseAndCustomPayloadsEnabled, carbonInputEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Label from 'in-components/form/Label';
@@ -185,7 +185,7 @@ function Form({ form, onChange }) {
             </div>
             <div className={`${tooltip_class}__help-icon`}>
               <Tooltip content={t('in-settings:tabs.serviceNowUsernameTooltip')} align="rightTop">
-                <SvgIcon type="lib_help_error_info_outline" color="#2D4048" />
+                <SvgIcon type="lib_help_error_info_outline" color="#2D4048" size="xs" />
               </Tooltip>
             </div>
           </div>
@@ -210,7 +210,7 @@ function Form({ form, onChange }) {
           <div className={`${block}__input_with_icon`}>
             <Input
               id="password"
-              className={`${block}__input`}
+              className={!carbonInputEnabled && `${block}__input`}
               type={showPassword ? 'text' : 'password'}
               placeholder={'*******************'}
               value={field.value}
@@ -218,23 +218,25 @@ function Form({ form, onChange }) {
               hasError={!field.valid && field.touched}
               maxLength={256}
             />
-            <Tooltip
-              content={
-                showPassword ? t('in-settings:tabs.hidePasswordTooltip') : t('in-settings:tabs.showPasswordTooltip')
-              }
-            >
-              <IconButton
-                kind="info"
-                type={showPassword ? 'lib_views_hide' : 'lib_views_show'}
-                onClick={e => {
-                  e.preventDefault();
-                  setShowPassword(!showPassword);
-                }}
-                iconSize="xs"
-                alignment="right"
-                className="icon_button"
-              />
-            </Tooltip>
+            {!carbonInputEnabled && (
+              <Tooltip
+                content={
+                  showPassword ? t('in-settings:tabs.hidePasswordTooltip') : t('in-settings:tabs.showPasswordTooltip')
+                }
+              >
+                <IconButton
+                  kind="info"
+                  type={showPassword ? 'lib_views_hide' : 'lib_views_show'}
+                  onClick={e => {
+                    e.preventDefault();
+                    setShowPassword(!showPassword);
+                  }}
+                  iconSize="xs"
+                  alignment="right"
+                  className="icon_button"
+                />
+              </Tooltip>
+            )}
           </div>
           <TouchedMessages field={field} />
         </FormGroup>
