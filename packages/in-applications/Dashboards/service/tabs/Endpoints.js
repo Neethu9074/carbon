@@ -72,6 +72,8 @@ const columnDefinitions = [
   {
     id: 'endpointLabel',
     label: t('in-applications:labelName'),
+    widthInAbsoluteUnit: true,
+    width: '25vw',
     getContent(item, { applicationId, serviceId, boundaryScope, syntheticCalls }) {
       return (
         <EndpointLabelContent
@@ -86,6 +88,7 @@ const columnDefinitions = [
   },
   {
     id: 'Type',
+    label: t('in-applications:labelTypes'),
     sortable: false,
     getContent(item) {
       return <Badge color={getColor(item.endpoint.type)}>{item.endpoint.type}</Badge>;
@@ -93,6 +96,7 @@ const columnDefinitions = [
   },
   {
     id: 'Technology',
+    label: t('in-applications:labelTechnologies'),
     sortable: false,
     getContent(item) {
       return <TechnologyIndicatorList technologies={item.endpoint.technologies} />;
@@ -174,6 +178,8 @@ const columnDefinitions = [
   {
     id: 'maxSeverity',
     label: t('in-applications:labelHealth'),
+    widthInAbsoluteUnit: true,
+    width: '5rem',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, applicationId, serviceId, timeConfig }) {
       const openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
@@ -197,6 +203,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
+    fixedLayout: true,
     title: t('in-applications:dashboards.noDataAvailable.endpointsTitle'),
     description: t('in-applications:dashboards.noDataAvailable.endpointsDescription')
   }),
