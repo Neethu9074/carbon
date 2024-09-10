@@ -19,8 +19,11 @@ import AbapShortDumps from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/AbapSho
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { capitalizeValue } from 'in-components/Capitalize/Capitalize';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { SnapshotData, getSnapshot } from 'in-stores/snapshot';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import KpiCard from './KpiCardSap';
@@ -37,6 +40,12 @@ export default function Summary({ data }: { data: SnapshotData }) {
 
   return (
     <Fragment>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.sap,
+          pageRootName: pageNames.abap_instance_summary
+        }}
+      />
       <Row>
         <Col lg={3}>
           <KpiCard
