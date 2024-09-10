@@ -82,7 +82,6 @@ export const carbonComboBoxEnabled = isFeatureFlagEnabled('carbonComboBoxEnabled
 export const carbonCodeEnabled = isFeatureFlagEnabled('carbonCodeEnabled');
 export const carbonDateInputEnabled = isFeatureFlagEnabled('carbonDateInputEnabled');
 export const carbonExpandableGroupEnabled = isFeatureFlagEnabled('carbonExpandableGroupEnabled');
-export const carbonDateInputEnabled = isFeatureFlagEnabled('carbonDateInputEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
