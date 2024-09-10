@@ -83,4 +83,9 @@
   .expandIconSearch {
     top: 2.5rem;
   }
+
+  .flexMarginLeft {
+    margin-left: auto;
+    display: flex;
+  }
 }

@@ -15,6 +15,14 @@ import { QuickActions } from 'in-events/components/NotesAndActivity/components/Q
 import { CommentList } from 'in-events/components/NotesAndActivity/components/CommentList';
 import { NotesAndActivity } from 'in-events/components/NotesAndActivity/NotesAndActivity';
 
+jest.mock('in-services/featureFlags');
+
+jest.mock('in-services/featureFlags', () => ({
+  get incidentSummarizationEnabled() {
+    return true;
+  }
+}));
+
 describe('NotesAndActivity', () => {
   it('renders without errors', () => {
     shallow(<NotesAndActivity />);

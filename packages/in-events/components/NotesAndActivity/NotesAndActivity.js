@@ -19,6 +19,7 @@ import { CommentList } from 'in-events/components/NotesAndActivity/components/Co
 import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { incidentSummarizationEnabled } from 'in-services/featureFlags';
 import { CTA_CLICKED } from 'in-services/util/constants';
 import { getNotes, filterSearchNotes } from './utils';
 import { track } from 'in-services/tracking/trackers';
@@ -61,8 +62,6 @@ export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
 }
 
 export function NotesAndActivity(props) {
-  // Flag determines if the customer has "generate summary" capability
-  const aiFlagEnabled = true;
   const { event, displayNotes, setDisplayNotes } = props;
   // Extract the notes from the event
   const notes = getNotes(event);
@@ -152,12 +151,15 @@ export function NotesAndActivity(props) {
               type={(stretchOverlay && 'lib_actions_minimize') || 'lib_actions_maximize'}
               size="compact"
               className={classNames({
-                [locals.expandIcon]: true,
-                [locals.expandIconSearch]: openSearch
+                [locals.expandIcon]: incidentSummarizationEnabled,
+                [locals.expandIconSearch]: openSearch,
+                [locals.flexMarginLeft]: !incidentSummarizationEnabled
               })}
             />
-            {aiFlagEnabled && <QuickActions displayQuickStart={displayQuickStart} incidentId={incidentId} />}
-            {!aiFlagEnabled && emptyList && <EmptyState />}
+            {incidentSummarizationEnabled && (
+              <QuickActions displayQuickStart={displayQuickStart} incidentId={incidentId} />
+            )}
+            {!incidentSummarizationEnabled && emptyList && <EmptyState />}
             <CommentList
               notes={filteredNotes}
               preferredName={user.preferredName}
