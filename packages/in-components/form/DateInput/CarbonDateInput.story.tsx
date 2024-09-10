@@ -12,12 +12,12 @@ export default {
   component: CarbonDateInput
 };
 
-export const CarbonDateInputExample = () => {
+export const CarbonDateInputDefault = () => {
   const [value, setValue] = useState(null);
   return (
     <div style={{ margin: '1rem', width: '25rem' }}>
       Date Input
-      <div style={{ margin: '1rem' }}>Date input Legacy</div>
+      <div style={{ margin: '1rem' }}>Date input Carbon</div>
       <CarbonDateInput
         value={value}
         onChange={(t: any) => {
