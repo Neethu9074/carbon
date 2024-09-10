@@ -43,6 +43,7 @@ interface TabViewProps<TabData, TabProps extends {}, ExtensionProps extends {}> 
    * with the AdditionalDashboardHeader component first.
    */
   additionalHeader?: ReactNode;
+  warnMessage?: JSX.Element;
 }
 
 export default function TabView<TabData, TabProps extends {} = {}, ExtensionProps extends {} = {}>({
@@ -58,7 +59,8 @@ export default function TabView<TabData, TabProps extends {} = {}, ExtensionProp
   withoutBreadcrumb = false,
   tabChangeTracker,
   withProps: customWithPropsExtension,
-  additionalHeader
+  additionalHeader,
+  warnMessage
 }: TabViewProps<TabData, TabProps, ExtensionProps>) {
   const isInternalVisible = useObservable(isInternalVisible$, []);
   const isTroubleshootingModeEnabled = useObservable(isTroubleshootingModeEnabled$, []);
@@ -99,6 +101,8 @@ export default function TabView<TabData, TabProps extends {} = {}, ExtensionProp
           </div>
         }
       >
+        <div>{warnMessage}</div>
+
         <Switch
           tabs={filteredTabs}
           result={result}

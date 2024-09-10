@@ -493,7 +493,7 @@
         "configurationRenameTitle": "Rename website",
         "configurationRenameButton": "Rename",
         "configurationTrackingScriptTitle": "Agent tracking script",
-        "configurationUserAgentVersion": "Your current agent version is <strong>{{agentVersion}}</strong>.",
+        "configurationUserAgentVersion": "Your current agent version is {{agentVersion}}.",
         "saved": "Saved",
         "ipMasking": {
           "title": "IP masking",
@@ -820,6 +820,8 @@
     "websiteDashboardTitleWebsite": "Website",
     "websiteDashboardButtonAnalyzePageLoads": "Analyze page loads",
     "websiteDashboardButtonAnalyzePageTransitions": "Analyze page transitions",
+    "websiteDashboardWarnOldAgentVersion": "<strong>You are using version {{currentVersion}} of the Instana website agent which is outdated</strong>. Update it to the latest version, {{latestVersion}}, in the <configTab>Configuration tab.</configTab>",
+    "websiteDashboardWarnDeprecatedAgentVersion": "<strong>The version of the Instana website agent {{currentVersion}}, will be deprecated on {{deprecationDate}}.</strong> Update it to the latest version, {{latestVersion}}, in the <configTab>Configuration tab.</configTab>",
     "noDataAvailable": {
       "pagesTitle": "No pages available",
       "pagesDescription": "There were no pages retrieved for the selected time range.",
