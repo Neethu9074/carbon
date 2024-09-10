@@ -30,7 +30,7 @@
 
   .CodeWithAISlug {
     display: inline-flex;
-    background-color: var(--cds-field);
+    background-color: var(--cds-layer);
     div {
       &:nth-child(2) {
         margin-top: 0.5rem;
