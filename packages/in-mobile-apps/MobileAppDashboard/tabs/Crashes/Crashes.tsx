@@ -42,13 +42,13 @@ interface OriginLabelProp {
 
 function OriginLabel({ item, mobileAppId, viewId }: OriginLabelProp) {
   const getLinkToMobileAppCrash = useLinkToCrash();
-  let label = item.name;
+  let label = item?.name;
   try {
     label = String(JSON.parse(label));
   } catch (e) {
     // ignore
   }
-  let errLocationLabel = label.split('\n')[0];
+  let errLocationLabel = label?.split('\n')[0];
 
   return (
     <Link
@@ -87,8 +87,8 @@ const columnDefinitions = [
     id: 'errorType',
     label: t('in-mobile-apps:dashboard.tabs.crashes.crashesLabelErrorType'),
     getContent: (item: MobileAppPaginatedBeaconGroupsItem) => {
-      let errorTypeLabel = item.name.replace(/^"|"$/g, '').split('\\n')[1];
-      errorTypeLabel = errorTypeLabel.length ? errorTypeLabel : 'Not available';
+      let errorTypeLabel = item?.name?.replace(/^"|"$/g, '')?.split('\\n')[1];
+      errorTypeLabel = errorTypeLabel?.length ? errorTypeLabel : 'Not available';
       return <>{errorTypeLabel}</>;
     }
   },
@@ -97,8 +97,8 @@ const columnDefinitions = [
     label: t('in-mobile-apps:dashboard.tabs.crashes.crashesLabelLowestAppVersion'),
     getContent: (item: MobileAppPaginatedBeaconGroupsItem) => {
       let lowestAppVersion =
-        item.metrics.lowestAppVersionNumber[0][1] > 0
-          ? convertAppVersionNumberToAppVersionString(BigInt(item.metrics.lowestAppVersionNumber[0][1].toString()))
+        item?.metrics?.lowestAppVersionNumber[0][1] > 0
+          ? convertAppVersionNumberToAppVersionString(BigInt(item?.metrics?.lowestAppVersionNumber[0][1].toString()))
           : 'Not available';
       return <>{lowestAppVersion}</>;
     }
@@ -108,8 +108,8 @@ const columnDefinitions = [
     label: t('in-mobile-apps:dashboard.tabs.crashes.crashesLabelHighestAppVersion'),
     getContent: (item: MobileAppPaginatedBeaconGroupsItem) => {
       let highestAppVersion =
-        item.metrics.highestAppVersionNumber[0][1] > 0
-          ? convertAppVersionNumberToAppVersionString(BigInt(item.metrics.highestAppVersionNumber[0][1].toString()))
+        item?.metrics?.highestAppVersionNumber[0][1] > 0
+          ? convertAppVersionNumberToAppVersionString(BigInt(item?.metrics?.highestAppVersionNumber[0][1].toString()))
           : 'Not available';
       return <>{highestAppVersion}</>;
     }
@@ -128,8 +128,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
-          metrics={item.metrics.crashes}
-          metric={item.metrics.crashesAgg}
+          metrics={item?.metrics?.crashes}
+          metric={item?.metrics?.crashesAgg}
           tooltipFormatter={number.compact}
         />
       );
@@ -149,8 +149,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
-          metrics={item.metrics.uniqueUsersOrSessions}
-          metric={item.metrics.uniqueUsersOrSessionsAgg}
+          metrics={item?.metrics?.uniqueUsersOrSessions}
+          metric={item?.metrics?.uniqueUsersOrSessionsAgg}
           tooltipFormatter={number.compact}
         />
       );
