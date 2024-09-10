@@ -13,7 +13,7 @@
     display: inline-flex;
     div {
       &:nth-child(1) {
-        width: 95%;
+        margin-right: 1rem;
         height: 450px;
         overflow-y: auto;
         background-color: var(--cds-field);
@@ -24,6 +24,17 @@
         position: relative;
         right: 4rem;
         top: 0.5rem;
+      }
+    }
+  }
+
+  .CodeWithAISlug {
+    display: inline-flex;
+    background-color: var(--cds-field);
+    div {
+      &:nth-child(2) {
+        margin-top: 0.5rem;
+        margin-right: 0.5rem;
       }
     }
   }

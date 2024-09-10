@@ -74,7 +74,7 @@ interface UseGenerateAIActionFormParams {
 function createGenerateAIActionForm({ trigger, event }: UseGenerateAIActionFormParams) {
   const { name, description = '' } = trigger.data!;
   const defaultActionName = `AI generated action for ${name}`;
-  const defaultActionDescription = description;
+  const defaultActionDescription = `This resolves event with ${description}`;
   const entityType = event.plugin;
 
   const form: GenerateAIActionForm = createMapForm({
