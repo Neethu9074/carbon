@@ -16,8 +16,17 @@ import {
   eventFeedbackNextTracker,
   eventFeedbackPositiveTracker,
   eventFeedbackSkipTracker,
-  eventFeedbackSubmitTracker
+  eventFeedbackSubmitTracker,
+  eventFeedbackSegmentTracker
 } from 'in-events/tracker';
+import {
+  EVENT_FEEDBACK_NEGATIVE,
+  EVENT_FEEDBACK_POSITIVE,
+  EVENT_FEEDBACK_SKIP,
+  EVENT_FEEDBACK_NEXT,
+  EVENT_FEEDBACK_SUBMIT,
+  EVENT_FEEDBACK_CLOSED_MANUALLY
+} from 'in-services/tracking/tracking';
 import { getKubernetesProblemText, getKubernetesProblemTextReplacement } from './EventContent/KubernetesEventContent';
 import { NotesAndActivity, OpenNotesAndActivity } from 'in-events/components/NotesAndActivity/NotesAndActivity';
 import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
@@ -231,10 +240,38 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular' }) 
       addActiveDialog(
         <EventFeedbackDialog
           stepConfig={eventStepConfig}
-          closedManuallyTracker={eventFeedbackClosedManuallyTracker}
-          nextStepTracker={eventFeedbackNextTracker}
-          skipStepTracker={eventFeedbackSkipTracker}
-          submitTracker={eventFeedbackSubmitTracker}
+          closedManuallyTracker={instrumentationEventProperties => {
+            eventFeedbackSegmentTracker(
+              EVENT_FEEDBACK_CLOSED_MANUALLY,
+              location?.pathname,
+              JSON.stringify(instrumentationEventProperties)
+            );
+            eventFeedbackClosedManuallyTracker(instrumentationEventProperties);
+          }}
+          nextStepTracker={instrumentationEventProperties => {
+            eventFeedbackSegmentTracker(
+              EVENT_FEEDBACK_NEXT,
+              location?.pathname,
+              JSON.stringify(instrumentationEventProperties)
+            );
+            eventFeedbackNextTracker(instrumentationEventProperties);
+          }}
+          skipStepTracker={instrumentationEventProperties => {
+            eventFeedbackSegmentTracker(
+              EVENT_FEEDBACK_SKIP,
+              location?.pathname,
+              JSON.stringify(instrumentationEventProperties)
+            );
+            eventFeedbackSkipTracker(instrumentationEventProperties);
+          }}
+          submitTracker={instrumentationEventProperties => {
+            eventFeedbackSegmentTracker(
+              EVENT_FEEDBACK_SUBMIT,
+              location?.pathname,
+              JSON.stringify(instrumentationEventProperties)
+            );
+            eventFeedbackSubmitTracker(instrumentationEventProperties);
+          }}
           eventData={eventData}
         />
       );
@@ -257,10 +294,16 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular' }) 
           type="lib_thumbs_up"
           iconSize="s"
           onClick={() => {
-            eventFeedbackPositiveTracker({
+            const instrumentationEventProperties = {
               eventID: location.matrix[eventsPath]?.eventId,
               eventType: location.matrix[eventsPath]?.view
-            });
+            };
+            eventFeedbackSegmentTracker(
+              EVENT_FEEDBACK_POSITIVE,
+              location?.pathname,
+              JSON.stringify(instrumentationEventProperties)
+            );
+            eventFeedbackPositiveTracker(instrumentationEventProperties);
             if (feedbackState === tup) {
               setFeedbackState('');
             } else {
@@ -277,10 +320,16 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular' }) 
           iconSize="s"
           type="lib_thumbs_down"
           onClick={() => {
-            eventFeedbackNegativeTracker({
+            const instrumentationEventProperties = {
               eventID: location.matrix[eventsPath]?.eventId,
               eventType: location.matrix[eventsPath]?.view
-            });
+            };
+            eventFeedbackSegmentTracker(
+              EVENT_FEEDBACK_NEGATIVE,
+              location?.pathname,
+              JSON.stringify(instrumentationEventProperties)
+            );
+            eventFeedbackNegativeTracker(instrumentationEventProperties);
             if (feedbackState === tdown) {
               setFeedbackState('');
             } else {

@@ -30,6 +30,10 @@ import {
   EVENT_RCA_ASSOCIATED_EVENTS_CLICK,
   EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK
 } from 'in-services/tracking/tracking';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { EventTrackerProps } from 'in-services/tracking/segment/types';
+import { CTA_CLICKED } from 'in-services/util/constants';
 
 export const helpfulRCASuggestionTracker = (e: Object) => track(EVENT_RCA_SUGGESTION_HELPFUL, e);
 export const unhelpfulRCASuggestionTracker = (e: Object) => track(EVENT_RCA_SUGGESTION_UNHELPFUL, e);
@@ -57,3 +61,35 @@ export const incidentSummarizationFeedbackClosedManuallyTracker = (e: Object) =>
   track(INCIDENT_SUMMARIZATION_CLOSED_MANUALLY, e);
 export const incidentSummarizationFeedbackNextTracker = (e: Object) => track(INCIDENT_SUMMARIZATION_NEXT, e);
 export const incidentSummarizationFeedbackSkipTracker = (e: Object) => track(INCIDENT_SUMMARIZATION_SKIP, e);
+
+export function rootCauseAnalysisSegmentTracker(eventName: string, path: string, label?: string) {
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  if (pageRootName && productArea) {
+    const data = {
+      parentPageName: pageRootName,
+      parentPageCategory: productArea,
+      CTA: eventName,
+      channel: 'root cause analysis',
+      path: path,
+      label: label
+    } as EventTrackerProps['data'];
+
+    eventTracker({ data, segmentEventName: CTA_CLICKED });
+  }
+}
+
+export function eventFeedbackSegmentTracker(eventName: string, path: string, label?: string) {
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  if (pageRootName && productArea) {
+    const data = {
+      parentPageName: pageRootName,
+      parentPageCategory: productArea,
+      CTA: eventName,
+      channel: 'event feedback',
+      path: path,
+      label: label
+    } as EventTrackerProps['data'];
+
+    eventTracker({ data, segmentEventName: CTA_CLICKED });
+  }
+}

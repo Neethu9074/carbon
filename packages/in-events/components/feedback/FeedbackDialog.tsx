@@ -14,8 +14,15 @@ import {
   eventFeedbackClosedManuallyTracker,
   eventFeedbackNextTracker,
   eventFeedbackSkipTracker,
-  eventFeedbackSubmitTracker
+  eventFeedbackSubmitTracker,
+  eventFeedbackSegmentTracker
 } from 'in-events/tracker';
+import {
+  EVENT_FEEDBACK_SUBMIT,
+  EVENT_FEEDBACK_SKIP,
+  EVENT_FEEDBACK_NEXT,
+  EVENT_FEEDBACK_CLOSED_MANUALLY
+} from 'in-services/tracking/tracking';
 import { FeedbackConfigEventForm, saveEventFeedbackForm } from 'in-events/components/feedback/api';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
@@ -50,7 +57,17 @@ export default function FeedbackDialog() {
       form.setTouched(true, { recurse: true });
       return;
     }
-    save(form, location, eventFeedbackSubmitTracker);
+
+    const instrumentation = (instrumentationEventProperties: Object) => {
+      eventFeedbackSegmentTracker(
+        EVENT_FEEDBACK_SUBMIT,
+        location?.pathname,
+        JSON.stringify(instrumentationEventProperties)
+      );
+      eventFeedbackSubmitTracker(instrumentationEventProperties);
+    };
+
+    save(form, location, instrumentation);
   };
 
   useEffect(() => {
@@ -73,20 +90,34 @@ export default function FeedbackDialog() {
         !form.hierarchyValid || (currentStepConfig.validateStep && currentStepConfig.validateStep(form))
       }
       onPrimaryActionClick={() => {
-        eventFeedbackNextTracker({
+        const instrumentationEventProperties = {
           stepTitle: currentStepConfig.title,
           eventID: location.matrix[eventsPath]?.eventId,
           eventType: location.matrix[eventsPath]?.view
-        });
+        };
+        eventFeedbackSegmentTracker(
+          EVENT_FEEDBACK_NEXT,
+          location?.pathname,
+          JSON.stringify(instrumentationEventProperties)
+        );
+        eventFeedbackNextTracker(instrumentationEventProperties);
         nextStep();
       }}
       secondaryActionText={t('in-events:feedback.skip')}
       onSecondaryActionClick={() => {
-        eventFeedbackSkipTracker({
+        const instrumentationEventProperties = {
           stepTitle: currentStepConfig.title,
           eventID: location.matrix[eventsPath]?.eventId,
           eventType: location.matrix[eventsPath]?.view
-        });
+        };
+
+        eventFeedbackSegmentTracker(
+          EVENT_FEEDBACK_SKIP,
+          location?.pathname,
+          JSON.stringify(instrumentationEventProperties)
+        );
+        eventFeedbackSkipTracker(instrumentationEventProperties);
+
         nextStep();
       }}
     />
@@ -100,13 +131,19 @@ export default function FeedbackDialog() {
           const id = form.get('id').value;
 
           const contactMe = form.get('contactMe').value;
-          eventFeedbackClosedManuallyTracker({
+          const instrumentationEventProperties = {
             id,
             thingsWentWrong,
             contactMe,
             eventID: location.matrix[eventsPath]?.eventId,
             eventType: location.matrix[eventsPath]?.view
-          });
+          };
+          eventFeedbackSegmentTracker(
+            EVENT_FEEDBACK_CLOSED_MANUALLY,
+            location?.pathname,
+            JSON.stringify(instrumentationEventProperties)
+          );
+          eventFeedbackClosedManuallyTracker(instrumentationEventProperties);
           close();
         }}
         footer={footer}

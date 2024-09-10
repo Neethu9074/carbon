@@ -16,6 +16,7 @@ import {
   Card,
   IconButton,
   Pill,
+  PreviewPill,
   Stack,
   Typography
 } from '@instana/components';
@@ -28,15 +29,24 @@ import {
   RCAFeedbackSkipTracker,
   RCAFeedbackSubmitTracker,
   helpfulRCASuggestionTracker,
+  rootCauseAnalysisSegmentTracker,
   unhelpfulRCASuggestionTracker
 } from 'in-events/tracker';
+import {
+  EVENT_RCA_SUGGESTION_HELPFUL,
+  EVENT_RCA_SUGGESTION_UNHELPFUL,
+  EVENT_RCA_FEEDBACK_NEXT,
+  EVENT_FEEDBACK_SKIP,
+  EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
+  EVENT_RCA_FEEDBACK_SUBMIT
+} from 'in-services/tracking/tracking';
 import { ExplainabilityKeys, ProbableCauseType } from 'in-events/components/util/rootCauseUtil';
 import RootCauseEntityDetails from 'in-events/components/legacy/RootCauseEntityDetails';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { minutes } from 'in-services/time/time';
@@ -167,7 +177,7 @@ function ProbableRootCauseCard({ title, children, incident }: ProbableRootCauseC
           leftHeaderContent={
             <Stack direction="horizontal" gap="xxsmall">
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-                <PreviewBadge className={locals.techPreviewPill} />
+                <PreviewPill className={locals.techPreviewPill} />
               </Tooltip>
               <Pill type="purple" className={locals.rcaAIPill}>
                 {t('in-events:RCA.AIGenBadgeText')}
@@ -215,6 +225,8 @@ function FeedbackComponent({ incident }: FeedbackComponentProps) {
   const [thumbsDown, setThumbsDown] = useState(false);
   const [thumbsUp, setThumbsUp] = useState(false);
 
+  const { location } = useNavigation();
+
   return (
     <Stack direction="horizontal" gap="small" align="center">
       {thumbsDown || thumbsUp ? (
@@ -229,6 +241,7 @@ function FeedbackComponent({ incident }: FeedbackComponentProps) {
         iconSize="xs"
         onClick={() => {
           helpfulRCASuggestionTracker({});
+          rootCauseAnalysisSegmentTracker(EVENT_RCA_SUGGESTION_HELPFUL, location?.pathname);
           setThumbsUp(true);
         }}
       />
@@ -239,13 +252,26 @@ function FeedbackComponent({ incident }: FeedbackComponentProps) {
         iconSize="xs"
         onClick={() => {
           unhelpfulRCASuggestionTracker({});
+          rootCauseAnalysisSegmentTracker(EVENT_RCA_SUGGESTION_UNHELPFUL, location?.pathname);
           addActiveDialog(
             <EventFeedbackDialog
               stepConfig={rcaStepConfig}
-              nextStepTracker={RCAFeedbackNextTracker}
-              skipStepTracker={RCAFeedbackSkipTracker}
-              closedManuallyTracker={RCAFeedbackClosedManuallyTracker}
-              submitTracker={RCAFeedbackSubmitTracker}
+              nextStepTracker={() => {
+                rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_NEXT, location?.pathname);
+                RCAFeedbackNextTracker({});
+              }}
+              skipStepTracker={() => {
+                rootCauseAnalysisSegmentTracker(EVENT_FEEDBACK_SKIP, location?.pathname);
+                RCAFeedbackSkipTracker({});
+              }}
+              closedManuallyTracker={() => {
+                rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_CLOSED_MANUALLY, location?.pathname);
+                RCAFeedbackClosedManuallyTracker({});
+              }}
+              submitTracker={() => {
+                rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_SUBMIT, location?.pathname);
+                RCAFeedbackSubmitTracker({});
+              }}
               submitMetadata={{ incident }}
             />
           );

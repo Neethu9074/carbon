@@ -19,14 +19,24 @@ import {
   RCAFeedbackSubmitTracker,
   expandedRCAEventCardTracker,
   helpfulRCASuggestionTracker,
+  rootCauseAnalysisSegmentTracker,
   unhelpfulRCASuggestionTracker
 } from 'in-events/tracker';
+import {
+  EVENT_RCA_SUGGESTION_HELPFUL,
+  EVENT_RCA_SUGGESTION_UNHELPFUL,
+  EVENT_RCA_FEEDBACK_NEXT,
+  EVENT_RCA_FEEDBACK_SKIP,
+  EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
+  EVENT_RCA_FEEDBACK_SUBMIT
+} from 'in-services/tracking/tracking';
 // @ts-expect-error
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig.tsx';
 import LegacyRootCauseEntityDetails from 'in-events/components/legacy/LegacyRootCauseEntityDetails';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 //@ts-expect-error
@@ -176,7 +186,12 @@ export default function LegacyRootCauseSection({
           darkFrame
         >
           {eventsRelatedToEntity?.map((_event: EventOrMap) => (
-            <div onClick={expandedRCAEventCardTracker}>
+            <div
+              onClick={() => {
+                rootCauseAnalysisSegmentTracker(EVENT_RCA_SUGGESTION_HELPFUL, location?.pathname);
+                expandedRCAEventCardTracker({});
+              }}
+            >
               <EventListItem
                 key={_event.get('id') as string}
                 triggeringProblemId={
@@ -202,20 +217,36 @@ function FeedbackComponent({
   snapshotMetadata,
   currentEntity
 }: FeedbackComponentProps) {
+  const { location } = useNavigation();
+
   useEffect(() => {
     if (feedbackState[currentEntity] && feedbackState[currentEntity].thumbsDown) {
       addActiveDialog(
         <EventFeedbackDialog
           stepConfig={rcaStepConfig}
-          nextStepTracker={RCAFeedbackNextTracker}
-          skipStepTracker={RCAFeedbackSkipTracker}
-          closedManuallyTracker={RCAFeedbackClosedManuallyTracker}
-          submitTracker={RCAFeedbackSubmitTracker}
+          nextStepTracker={() => {
+            rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_NEXT, location?.pathname);
+            RCAFeedbackNextTracker({});
+          }}
+          skipStepTracker={() => {
+            rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_SKIP, location?.pathname);
+            RCAFeedbackSkipTracker({});
+          }}
+          closedManuallyTracker={() => {
+            rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_CLOSED_MANUALLY, location?.pathname);
+            RCAFeedbackClosedManuallyTracker({});
+          }}
+          submitTracker={() => {
+            rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_SUBMIT, location?.pathname);
+            RCAFeedbackSubmitTracker({});
+          }}
           submitMetadata={extractFeedbackMetadataFromIncident(incident, snapshotMetadata)}
         />
       );
     }
-  }, [feedbackState, incident, snapshotMetadata, currentEntity]);
+  }, [feedbackState, incident, snapshotMetadata, currentEntity, location]);
+
+  // const { location } = useNavigation();
 
   return (
     <Stack direction="horizontal" gap="small" align="center">
@@ -231,6 +262,7 @@ function FeedbackComponent({
         iconSize="xs"
         onClick={() => {
           helpfulRCASuggestionTracker({});
+          rootCauseAnalysisSegmentTracker(EVENT_RCA_SUGGESTION_HELPFUL, location?.pathname);
           if (feedbackState[currentEntity]?.thumbsUp) {
             setFeedbackState({ ...feedbackState, [currentEntity]: defaultFeedbackState });
           } else {
@@ -245,6 +277,7 @@ function FeedbackComponent({
         iconSize="xs"
         onClick={() => {
           unhelpfulRCASuggestionTracker({});
+          rootCauseAnalysisSegmentTracker(EVENT_RCA_SUGGESTION_UNHELPFUL, location?.pathname);
           if (feedbackState[currentEntity]?.thumbsDown) {
             setFeedbackState({ ...feedbackState, [currentEntity]: defaultFeedbackState });
           } else {

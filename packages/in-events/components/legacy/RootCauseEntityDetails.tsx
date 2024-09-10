@@ -32,9 +32,19 @@ import {
   useGenerateLinkToDashboard,
   useGenerateLinkToAnalyzePage
 } from 'in-events/components/util/rootCauseUtil';
+import {
+  RCAClickThroughToAnalyze,
+  RCAClickThroughToEntity,
+  RCATraceLogsClick,
+  rootCauseAnalysisSegmentTracker
+} from 'in-events/tracker';
+import {
+  EVENT_RCA_ANALYZE_CLICK,
+  EVENT_RCA_ENTITY_CLICK,
+  EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK
+} from 'in-services/tracking/tracking';
 //@ts-expect-error
 import { SnapshotData, getPhysicalHierarchy, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
-import { RCAClickThroughToAnalyze, RCAClickThroughToEntity, RCATraceLogsClick } from 'in-events/tracker';
 import { getStackForInfrastructure } from 'in-components/Stack/subscriptions/getStack';
 import { Application, Endpoint, ServiceLabel, Snapshot, TimeConfig } from 'in-types';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
@@ -339,7 +349,15 @@ export default function RootCauseEntityDetails({
           icon="lib_application_call"
           href={urlForAnalysisPage}
           size="compact"
-          onClick={() => RCAClickThroughToAnalyze({ urlForEntity: urlForAnalysisPage })}
+          onClick={() => {
+            const instrumentationEventProperties = { urlForEntity: urlForAnalysisPage };
+            RCAClickThroughToAnalyze(instrumentationEventProperties);
+            rootCauseAnalysisSegmentTracker(
+              EVENT_RCA_ANALYZE_CLICK,
+              location?.pathname,
+              JSON.stringify(instrumentationEventProperties)
+            );
+          }}
           className={locals.analyzeButton}
         >
           {t('in-applications:buttonAnalyzeCalls')}
@@ -446,7 +464,6 @@ function EntityPath({
 
   // Generate links to dashboards
   const linkToEntity = useGenerateLinkToDashboard(entityType, originalID, location, relatedAPID);
-
   return (
     <Stack gap="xsmall">
       <Stack gap="xsmall">
@@ -455,7 +472,18 @@ function EntityPath({
             entity_type: entityType ? entityType.charAt(0).toUpperCase() + entityType.slice(1).toLowerCase() : 'Entity'
           })}
         </Typography>
-        <Link href={linkToEntity} onClick={() => RCAClickThroughToEntity({ mainEntity: true, entityType: entityType })}>
+        <Link
+          href={linkToEntity}
+          onClick={() => {
+            const instrumentationEventProperties = { mainEntity: true, entityType: entityType };
+            rootCauseAnalysisSegmentTracker(
+              EVENT_RCA_ENTITY_CLICK,
+              location?.pathname,
+              JSON.stringify(instrumentationEventProperties)
+            );
+            RCAClickThroughToEntity(instrumentationEventProperties);
+          }}
+        >
           <Stack direction="horizontal" gap="xsmall" align="center">
             <SvgIcon type={getIconForRCADisplay(entityType)} color={themes.default.cds.link.primary} />
             {entityLabel}
@@ -579,7 +607,19 @@ function InfrastructureVisualHierarchy({
               pluginToShortPluginName.charAt(0).toUpperCase() + pluginToShortPluginName.slice(1).toLowerCase()
           })}
         </Typography>
-        <Link href={linkToEntity} onClick={() => RCAClickThroughToEntity({ mainEntity: true, entityType: entityType })}>
+        <Link
+          href={linkToEntity}
+          onClick={() => {
+            const instrumentationEventProperties = { mainEntity: true, entityType: entityType };
+            rootCauseAnalysisSegmentTracker(
+              EVENT_RCA_ENTITY_CLICK,
+              location?.pathname,
+              JSON.stringify(instrumentationEventProperties)
+            );
+
+            RCAClickThroughToEntity(instrumentationEventProperties);
+          }}
+        >
           <Stack direction="horizontal" gap="xsmall" align="center">
             <PluginIcon
               plugin={pluginToShortPluginName !== 'entity' ? pluginToShortPluginName : ''}
@@ -692,7 +732,19 @@ function EntityDisplay({
         <div className={locals.infraLineRight} />
       </div>
       <Typography variant="body-small">{displayLabel}</Typography>
-      <Link href={linkToEntity} onClick={() => RCAClickThroughToEntity({ mainEntity: false, entityType: entityType })}>
+      <Link
+        href={linkToEntity}
+        onClick={() => {
+          const instrumentationEventProperties = { mainEntity: false, entityType: entityType };
+          rootCauseAnalysisSegmentTracker(
+            EVENT_RCA_ENTITY_CLICK,
+            location?.pathname,
+            JSON.stringify(instrumentationEventProperties)
+          );
+
+          RCAClickThroughToEntity(instrumentationEventProperties);
+        }}
+      >
         <Stack direction="horizontal" gap="xsmall" align="center">
           {renderIcon}
           <Typography variant="body-small" component="a">
@@ -735,7 +787,13 @@ function TraceLogs({
     <Card
       leftHeaderContent={<Typography variant="body-bold">{t('in-events:RCA.relatedMessagesAndLogsLabel')}</Typography>}
       onHeaderBackgroundClicked={() => {
-        RCATraceLogsClick({ expanded: !expanded });
+        const instrumentationEventProperties = { expanded: !expanded };
+        rootCauseAnalysisSegmentTracker(
+          EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK,
+          location?.pathname,
+          JSON.stringify(instrumentationEventProperties)
+        );
+        RCATraceLogsClick(instrumentationEventProperties);
         setExpanded(!expanded);
       }}
       headerClassName={locals.associatedEventsCardHeader}
