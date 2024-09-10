@@ -148,10 +148,6 @@ export function useSegmentTracker(): {
     trackCta(AUTOMATION_GENERATE_AI_ACTION_CLICK_PROMPT_STEP, customData);
   }
 
-  // function selectOotbActionClickTrackerSegment(customData?: Object): void {
-  //   trackCta(AUTOMATION_AI_SELECT_OOTB_ACTION_CLICK, customData);
-  // }
-
   function selectNextPromptStepClickTrackerSegment(customData?: Object): void {
     trackCta(AUTOMATION_AI_SELECT_NEXT_PROMPT_STEP_CLICK, customData);
   }

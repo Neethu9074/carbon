@@ -440,7 +440,6 @@ export const AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION = 'automation.click.test.
 // live ai events
 export const AUTOMATION_GENERATE_AI_BUTTON_CLICK = 'automation.generate.ai.button.click';
 export const AUTOMATION_GENERATE_AI_ACTION_CLICK_PROMPT_STEP = 'automation.ai.generate.ai.action.click_prompt_step';
-export const AUTOMATION_AI_SELECT_OOTB_ACTION_CLICK = 'automation.ai.select.ootb.action.click';
 export const AUTOMATION_AI_SELECT_NEXT_PROMPT_STEP_CLICK = 'automation.ai.select.next.prompt.step.click';
 export const AUTOMATION_AI_SELECT_NEXT_CUSTOMIZE_ACTION_STEP_CLICK =
   'automation.ai.select.next.customize.action.step.click';
