@@ -6,7 +6,7 @@
 import React, { ReactElement, MouseEvent } from 'react';
 import { Item } from 'formalistic';
 
-import { Button, ButtonKinds, ButtonTypes } from '@instana/legacy';
+import { Button, ButtonKinds, ButtonTypes } from '@instana/components';
 
 import { t } from 'in-i18n';
 
