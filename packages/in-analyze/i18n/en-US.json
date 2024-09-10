@@ -159,6 +159,7 @@
         "cacheInteraction": "Cache Interaction",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana does not monitor the {{location}} of this call",
         "tags": "Tags",
+        "metrics": "Metrics",
         "loading": "Loading call details.",
         "labelError": "Unexpected error",
         "retryError": "Call details could not be loaded.",
