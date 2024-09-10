@@ -7,29 +7,22 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import {
-  SvgIcon,
-  CarbonButton,
-  CarbonTag,
-  CarbonTextArea,
-  CarbonLayer,
-  CarbonInlineLoading,
-  IconButton
-} from '@instana/components';
+import { SvgIcon, CarbonTag, CarbonLayer, CarbonInlineLoading, IconButton, CarbonSearch } from '@instana/components';
 
 // Not using Carbon tooltip since tooltip has not been migrated
 // Using Carbon tooltip would cause mismatch in design on the page
 // since tooltip is used in many places on this page
 import Tooltip from 'in-components/Tooltip';
-import { EVENT_NOTES_SUBMIT, EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
-import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
-import { getNotes, validTextEntry, noteNameAndTimeFormat } from './utils';
+import { CommentInput } from 'in-events/components/NotesAndActivity/components/CommentInput';
+import { QuickActions } from 'in-events/components/NotesAndActivity/components/QuickActions';
+import { CommentList } from 'in-events/components/NotesAndActivity/components/CommentList';
+import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
-import { dateFormat, timeFormat } from 'in-services/formatters/date';
+import { incidentSummarizationEnabled } from 'in-services/featureFlags';
 import { CTA_CLICKED } from 'in-services/util/constants';
+import { getNotes, filterSearchNotes } from './utils';
 import { track } from 'in-services/tracking/trackers';
-import { annotateEvent } from 'in-stores/events';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -70,6 +63,7 @@ export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
 
 export function NotesAndActivity(props) {
   const { event, displayNotes, setDisplayNotes } = props;
+  // Extract the notes from the event
   const notes = getNotes(event);
   const incidentId = event?.get('id');
   const eventType = event?.get('type');
@@ -77,25 +71,12 @@ export function NotesAndActivity(props) {
   const loading = event == undefined;
 
   // Boolean to control when the notes section is opened
-  // const [displayNotes, setDisplayNotes] = useState(false);
   // Current value of the typed out note
   const [note, setNote] = useState('');
-
-  function toggleSidePanel() {
-    setDisplayNotes(!displayNotes);
-    const { pageRootName, productArea } = getViewTrackingMetaData();
-    if (pageRootName && productArea) {
-      const data = {
-        parentPageName: pageRootName,
-        parentPageCategory: productArea,
-        CTA: EVENT_SIDE_PANEL_CLICK,
-        path: location.hash
-      };
-      eventTracker({ data, segmentEventName: CTA_CLICKED });
-    }
-
-    track(EVENT_SIDE_PANEL_CLICK, { incidentId });
-  }
+  const [searchInput, setSearchInput] = useState('');
+  const [openSearch, setOpenSearch] = useState(false);
+  const [displayQuickStart, setDisplayQuickStart] = useState(true);
+  const [stretchOverlay, setStretchOverlay] = useState(false);
 
   // We ONLY want to display Notes and Activity for incidents
   if (eventType != 'incident') {
@@ -106,49 +87,82 @@ export function NotesAndActivity(props) {
     return <></>;
   }
 
+  const emptyList = notes?.length === 0;
+  const filteredNotes = filterSearchNotes(notes, searchInput.toLowerCase());
+
   return (
-    <CarbonLayer className={locals.notesHeaderWrapper}>
+    <CarbonLayer>
       <div className={locals.headerWrapper}>
         {t('in-events:notes.notesActivity')}
         <CarbonTag type="blue">{t('in-events:notes.techPreview')}</CarbonTag>
-        <Tooltip content={t('in-events:notes.closeNotes')}>
+        <div className={locals.tagIconWrapper}>
           <IconButton
             kind="action"
-            onClick={() => toggleSidePanel()}
-            type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'}
+            onClick={() => {
+              setStretchOverlay(!stretchOverlay);
+            }}
+            type={(stretchOverlay && 'lib_actions_minimize') || 'lib_actions_maximize'}
             size="compact"
             className={locals.notesIcon}
           />
-        </Tooltip>
+          <IconButton
+            kind="action"
+            onClick={() => {
+              setOpenSearch(!openSearch);
+              setSearchInput('');
+            }}
+            type={'lib_actions_search'}
+            size="compact"
+            className={locals.notesIcon}
+          />
+          <Tooltip content={t('in-events:notes.closeNotes')}>
+            <IconButton
+              kind="action"
+              onClick={() => {
+                setSearchInput('');
+                setOpenSearch(false);
+                setDisplayNotes(!displayNotes);
+                toggleSidePanel(incidentId);
+              }}
+              type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'}
+              size="compact"
+              className={locals.notesIcon}
+            />
+          </Tooltip>
+        </div>
       </div>
-      <div className={locals.notes}>
+      <div
+        className={classNames({
+          [locals.notes]: true,
+          [locals.stretch]: stretchOverlay
+        })}
+      >
         {loading ? (
           <div className={locals.loading}>
             <CarbonInlineLoading />
           </div>
         ) : (
           <>
-            <div className={locals.inputSection}>
-              <CarbonTextArea
-                labelText={t('in-events:notes.incidentNotes')}
-                hideLabel
-                rows={5}
-                id="incidentNotes"
-                placeholder={t('in-events:notes.typeSomething')}
-                value={note}
+            {openSearch && (
+              <CarbonSearch
+                placeholder={t('in-events:notes.searchNotes')}
+                labelText={t('in-events:notes.searchNotes')}
                 onChange={e => {
-                  setNote(e?.target?.value);
+                  setSearchInput(e?.target?.value);
                 }}
               />
-              <CarbonButton
-                onClick={() => handleSubmitNote(incidentId, note, user, setNote)}
-                className={locals.addNoteButton}
-                size={'md'}
-              >
-                {t('in-events:notes.addNote')}
-              </CarbonButton>
-            </div>
-            <CommentList notes={notes} preferredName={user.preferredName} />
+            )}
+            {incidentSummarizationEnabled && (
+              <QuickActions displayQuickStart={displayQuickStart} incidentId={incidentId} />
+            )}
+            {!incidentSummarizationEnabled && emptyList && <EmptyState />}
+            <CommentList
+              notes={filteredNotes}
+              preferredName={user.preferredName}
+              displayQuickStart={displayQuickStart}
+              setDisplayQuickStart={setDisplayQuickStart}
+            />
+            <CommentInput note={note} user={user} setNote={setNote} incidentId={incidentId} />
           </>
         )}
       </div>
@@ -156,90 +170,28 @@ export function NotesAndActivity(props) {
   );
 }
 
-export function CommentList(props) {
-  const { notes, preferredName } = props;
-  return (
-    <div className={locals.notesSection}>
-      {notes?.length == 0 && <EmptyState />}
-      {notes &&
-        notes.map((entry, i) => {
-          // Using i to iterate helps us traverse backwards that way notes are displayed
-          // with the newest note at the top, oldest at the bottom
-          const note = notes[notes.length - i - 1];
-          const myBubble = note.author == preferredName;
-          const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
-          return (
-            <div key={note.id}>
-              <div
-                className={classNames({
-                  [locals.myChatEntry]: myBubble,
-                  [locals.chatEntry]: true
-                })}
-              >
-                {!myBubble && <SvgIcon type={'lib_user_avatar_filled_alt'} size="sm" className={locals.userIcon} />}
-                <div className={locals.chatEntryInfo}>{noteNameAndTimeFormat(myBubble, note, date)}</div>
-              </div>
-              <ChatBubble user={note.author} text={note.contents} myBubble={myBubble} />
-            </div>
-          );
-        })}
-    </div>
-  );
-}
-
-// Individual chat bubble that has differing colors based on
-// if the text is from me or someone else
-export function ChatBubble(props) {
-  const { myBubble, text } = props;
-  return (
-    <div
-      className={classNames({
-        [locals.myBubble]: myBubble,
-        [locals.otherBubble]: !myBubble,
-        [locals.bubble]: true
-      })}
-    >
-      {text}
-    </div>
-  );
-}
-
-// Handle the note submission
-// Requires the incidentID, note, user, and setNote function
-// Dont allow the annotateEvent call if note is empty
-// Once you submit the event clear the note value with SetNote
-export function handleSubmitNote(incidentId, note, user, setNote) {
-  const userName = user.preferredName;
-  // Dont fire off a new note without there being something written
-  if (validTextEntry(note)) {
-    const newNote = {
-      incidentId: incidentId,
-      author: userName,
-      action: 'create',
-      contents: note
-    };
-    annotateEvent(newNote);
-    setNote('');
-    const { pageRootName, productArea } = getViewTrackingMetaData();
-    if (pageRootName && productArea) {
-      const data = {
-        parentPageName: pageRootName,
-        parentPageCategory: productArea,
-        CTA: EVENT_NOTES_SUBMIT,
-        path: location.hash
-      };
-      eventTracker({ data, segmentEventName: CTA_CLICKED });
-    }
-    track(EVENT_NOTES_SUBMIT, { incidentId, author: userName });
-  }
-}
-
 // Basic empty state for notes
-export function EmptyState() {
+function EmptyState() {
   return (
     <div className={locals.emptyWrapper}>
-      <h3 className={locals.emptyHeader}>{t('in-events:notes.noNotes')}</h3>
-      <p className={locals.emptyInfo}>{t('in-events:notes.noNotesDetails')}</p>
+      <h3 className={locals.emptyHeader}>{t('in-events:notes.noActivity')}</h3>
+      <p className={locals.emptyInfo}>{t('in-events:notes.noActivityDetails')}</p>
     </div>
   );
+}
+
+// Open the side panel and track the activity click
+function toggleSidePanel(incidentId) {
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  if (pageRootName && productArea) {
+    const data = {
+      parentPageName: pageRootName,
+      parentPageCategory: productArea,
+      CTA: EVENT_SIDE_PANEL_CLICK,
+      path: location.hash
+    };
+    eventTracker({ data, segmentEventName: CTA_CLICKED });
+  }
+
+  track(EVENT_SIDE_PANEL_CLICK, { incidentId });
 }

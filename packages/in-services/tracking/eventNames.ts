@@ -510,6 +510,7 @@ export const EVENT_FEEDBACK_NEGATIVE = 'event.feedback.negative';
 
 // Event Enrichment Tracking
 export const EVENT_NOTES_SUBMIT = 'event.notes.submit';
+export const EVENT_AI_GENERATE_SUBMIT = 'event.ai.generate.submit';
 export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
 
 // Incident Summarization Feedback Tracking

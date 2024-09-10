@@ -6,7 +6,7 @@
 
 import Immutable from 'immutable';
 
-import { getNotes, validTextEntry, noteNameAndTimeFormat } from 'in-events/components/NotesAndActivity/utils';
+import { getNotes, filterSearchNotes } from 'in-events/components/NotesAndActivity/utils';
 
 describe('getNotes', () => {
   it('returns an empty array if the event is falsy', () => {
@@ -36,6 +36,26 @@ describe('getNotes', () => {
         },
         {
           type: 'note',
+          id: 'note2',
+          parent: 'event1',
+          timestamp: 1717523244282,
+          author: 'user2',
+          metadata: {},
+          contents: 'This is another test note.',
+          updated: true
+        },
+        {
+          type: 'external_note',
+          id: 'note1',
+          parent: 'event1',
+          timestamp: 1717523244282,
+          author: 'user1',
+          metadata: {},
+          contents: 'This is a test note.',
+          updated: false
+        },
+        {
+          type: 'external_field_change',
           id: 'note2',
           parent: 'event1',
           timestamp: 1717523244282,
@@ -76,6 +96,26 @@ describe('getNotes', () => {
         metadata: Immutable.fromJS({}),
         contents: 'This is another test note.',
         updated: true
+      },
+      {
+        type: 'external_note',
+        id: 'note1',
+        parent: 'event1',
+        timestamp: 1717523244282,
+        author: 'user1',
+        metadata: Immutable.fromJS({}),
+        contents: 'This is a test note.',
+        updated: false
+      },
+      {
+        type: 'external_field_change',
+        id: 'note2',
+        parent: 'event1',
+        timestamp: 1717523244282,
+        author: 'user2',
+        metadata: Immutable.fromJS({}),
+        contents: 'This is another test note.',
+        updated: true
       }
     ];
     expect(getNotes(event)).toEqual(expectedNotes);
@@ -93,6 +133,26 @@ describe('getNotes', () => {
         },
         {
           type: 'note',
+          id: 'note2',
+          parent: 'event1',
+          timestamp: 1717523244282,
+          author: 'user2',
+          metadata: {},
+          contents: 'This is another test note.',
+          updated: true
+        },
+        {
+          type: 'external_note',
+          id: 'note1',
+          parent: 'event1',
+          timestamp: 1717523244282,
+          author: 'user1',
+          metadata: {},
+          contents: 'This is a test note.',
+          updated: false
+        },
+        {
+          type: 'external_field_change',
           id: 'note2',
           parent: 'event1',
           timestamp: 1717523244282,
@@ -135,32 +195,96 @@ describe('getNotes', () => {
   });
 });
 
-describe('validTextEntry', () => {
-  it('undefined and null checks should return false', () => {
-    expect(validTextEntry(null)).toEqual(false);
-    expect(validTextEntry(undefined)).toEqual(false);
+describe('filterSearchNotes', () => {
+  test('should return an empty array if no notes are provided', () => {
+    const result = filterSearchNotes([], 'test');
+    expect(result).toEqual([]);
   });
 
-  it('empty string returns false', () => {
-    expect(validTextEntry('')).toEqual(false);
-    expect(validTextEntry('      ')).toEqual(false);
+  test('should return an full array if no input is provided', () => {
+    const note = [{ id: 1, author: 'John Doe', contents: 'Test note' }];
+    const result = filterSearchNotes(note, '');
+    expect(result).toEqual(note);
   });
 
-  it('general cases should return true', () => {
-    expect(validTextEntry('  s    ')).toEqual(true);
-    expect(validTextEntry('this should be valid')).toEqual(true);
+  test('should return an array of notes that match the input (contents)', () => {
+    const notes = [
+      { id: 1, author: 'John Doe', contents: 'Test note' },
+      { id: 2, author: 'Jane Doe', contents: 'Another test note' },
+      { id: 3, author: 'John Doe', contents: 'Yet another test note' }
+    ];
+
+    const result = filterSearchNotes(notes, 'test');
+    expect(result).toEqual(notes);
   });
-});
 
-describe('noteNameAndTimeFormat', () => {
-  it('undefined checks, nothing crashes', () => {
-    expect(noteNameAndTimeFormat(undefined)).toEqual('undefined | undefined');
+  test('should return an array of notes that match the input round 2 (contents)', () => {
+    const notes = [
+      { id: 1, author: 'John Doe', contents: 'Test note' },
+      { id: 2, author: 'Jane Doe', contents: 'Another test note' },
+      { id: 3, author: 'John Doe', contents: 'Yet another test note' }
+    ];
+
+    const result = filterSearchNotes(notes, 'another');
+    expect(result).toEqual([
+      { id: 2, author: 'Jane Doe', contents: 'Another test note' },
+      { id: 3, author: 'John Doe', contents: 'Yet another test note' }
+    ]);
   });
 
-  const note = { author: 'dart' };
+  test('should return an array of notes that match the input round 3 (data)', () => {
+    const notes = [
+      { id: 1, author: 'John Doe', contents: 'Test note' },
+      {
+        id: 15,
+        authors: 'Denton V',
+        data: Immutable.fromJS([
+          ['Priority', '0', '1 - Critical'],
+          ['Incident state', 'opened', 'In progress'],
+          ['Opened by', '', 'ITIL User']
+        ])
+      },
+      { id: 2, author: 'Jane Doe', contents: 'Another test note' },
+      { id: 3, author: 'John Doe', contents: 'Yet another test note' }
+    ];
 
-  it('general cases', () => {
-    expect(noteNameAndTimeFormat(false, note, '2024-06-04, 19:41:28')).toEqual('dart | 2024-06-04, 19:41:28');
-    expect(noteNameAndTimeFormat(true, note, '2024-06-04, 19:41:28')).toEqual('You | 2024-06-04, 19:41:28');
+    const result = filterSearchNotes(notes, 'progress');
+    expect(result).toEqual([
+      {
+        id: 15,
+        authors: 'Denton V',
+        data: Immutable.fromJS([
+          ['Priority', '0', '1 - Critical'],
+          ['Incident state', 'opened', 'In progress'],
+          ['Opened by', '', 'ITIL User']
+        ])
+      }
+    ]);
+  });
+
+  test('should return an array of notes that match the input round 4 (author)', () => {
+    const notes = [
+      { id: 1, author: 'John Doe', contents: 'Test note' },
+      {
+        id: 15,
+        authors: 'Denton V',
+        data: Immutable.fromJS([
+          ['Priority', '0', '1 - Critical'],
+          ['Incident state', 'opened', 'In progress'],
+          ['Opened by', '', 'ITIL User']
+        ])
+      },
+      { id: 2, author: 'Jane Doe', contents: 'Another test note' },
+      { id: 3, author: 'John Doe', contents: 'Yet another test note' }
+    ];
+
+    const expectedResult = [
+      { id: 1, author: 'John Doe', contents: 'Test note' },
+      { id: 2, author: 'Jane Doe', contents: 'Another test note' },
+      { id: 3, author: 'John Doe', contents: 'Yet another test note' }
+    ];
+
+    const result = filterSearchNotes(notes, 'doe');
+    expect(result).toEqual(expectedResult);
   });
 });
