@@ -152,7 +152,7 @@ function generateAIActionForm({
     .once(
       res => {
         setGeneratedAction(res);
-        // tracker tracks prompt inpput and output
+        // tracker tracks prompt input and output
         generateAIClickPromptStepTrackerSegment({
           generateAIActionPayload,
           resultContent: res.data?.content!

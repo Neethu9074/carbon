@@ -110,19 +110,17 @@ function useOnSubmit() {
   const { createActionTrackerSegment, createPolicyTrackerSegment, AIActionContentModifiedTrackerSegment } =
     useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
-
+  const generatedAction = useGeneratedAction();
   function onSubmit({
     both,
     form,
     setForm,
-    event,
-    generatedAction
+    event
   }: {
     both: boolean;
     form: GenerateAIActionForm;
     setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
     event: Event;
-    generatedAction?: Result<AIActionContent> | null;
   }) {
     const liveAIGeneration = generatedAction ? true : false;
     const actionContent = form.get('action').get('content').value;
@@ -246,15 +244,14 @@ function useOnSubmit() {
 function useActionNameExists({
   setStep,
   form,
-  setForm,
-  selectNextCustomizeActionStepClickTrackerSegment
+  setForm
 }: {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   form: GenerateAIActionForm;
   setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
-  selectNextCustomizeActionStepClickTrackerSegment: TrackingFunction;
 }) {
   const [actionNameExists, setActionNameExists] = useState<boolean | null>(null);
+  const { selectNextCustomizeActionStepClickTrackerSegment } = useSegmentTracker();
   return {
     checkActionNameExists: () => {
       if (!form.get('action').hierarchyValid || !form.get('action').valid) {
@@ -470,14 +467,12 @@ export default function GenerateAIActionDialog({
   const [form, setForm] = useGenerateAIActionForm({ trigger, event });
   const onCancel = useOnCancel(step);
   const generatedAction = useGeneratedAction();
-  const { selectNextPromptStepClickTrackerSegment, selectNextCustomizeActionStepClickTrackerSegment } =
-    useSegmentTracker();
+  const { selectNextPromptStepClickTrackerSegment } = useSegmentTracker();
   const { result, onSubmit } = useOnSubmit();
   const { actionNameExists, checkActionNameExists, clearActionNameExists } = useActionNameExists({
     form,
     setForm,
-    setStep,
-    selectNextCustomizeActionStepClickTrackerSegment
+    setStep
   });
 
   const isSaving = (result && isLoading(result)) ?? false;
@@ -496,7 +491,7 @@ export default function GenerateAIActionDialog({
             form,
             isSaving,
             checkActionNameExists,
-            submit: both => onSubmit({ both, form, setForm, event, generatedAction })
+            submit: both => onSubmit({ both, form, setForm, event })
           })}
           form={form}
           onStepChanged={(oldStep, nextStep) =>
