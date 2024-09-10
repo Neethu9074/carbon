@@ -32,6 +32,8 @@ import RegularItemList from './table/RegularItemList';
 import { timeConfig$ } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
+import locals from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper.mless';
+
 interface AggregatedItems {
   [key: string]: string[];
 }
@@ -210,7 +212,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const filteredArrayExcludingViewAllButton = dataArray.filter(item => item.key !== 'viewAllButton');
 
   return (
-    <section aria-label={`${header}`} role="region">
+    <section className={locals.dataTableWrapper} aria-label={`${header}`} role="region">
       <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
         <DashboardTable
           header={`${header}`}
