@@ -91,11 +91,20 @@ export function NotesAndActivity(props) {
   const filteredNotes = filterSearchNotes(notes, searchInput.toLowerCase());
 
   return (
-    <CarbonLayer className={locals.notesHeaderWrapper}>
+    <CarbonLayer>
       <div className={locals.headerWrapper}>
         {t('in-events:notes.notesActivity')}
+        <CarbonTag type="blue">{t('in-events:notes.techPreview')}</CarbonTag>
         <div className={locals.tagIconWrapper}>
-          <CarbonTag type="blue">{t('in-events:notes.techPreview')}</CarbonTag>
+          <IconButton
+            kind="action"
+            onClick={() => {
+              setStretchOverlay(!stretchOverlay);
+            }}
+            type={(stretchOverlay && 'lib_actions_minimize') || 'lib_actions_maximize'}
+            size="compact"
+            className={locals.notesIcon}
+          />
           <IconButton
             kind="action"
             onClick={() => {
@@ -143,19 +152,6 @@ export function NotesAndActivity(props) {
                 }}
               />
             )}
-            <IconButton
-              kind="primary"
-              onClick={() => {
-                setStretchOverlay(!stretchOverlay);
-              }}
-              type={(stretchOverlay && 'lib_actions_minimize') || 'lib_actions_maximize'}
-              size="compact"
-              className={classNames({
-                [locals.expandIcon]: incidentSummarizationEnabled,
-                [locals.expandIconSearch]: openSearch,
-                [locals.flexMarginLeft]: !incidentSummarizationEnabled
-              })}
-            />
             {incidentSummarizationEnabled && (
               <QuickActions displayQuickStart={displayQuickStart} incidentId={incidentId} />
             )}
