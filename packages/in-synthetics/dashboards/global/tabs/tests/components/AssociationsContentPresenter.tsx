@@ -14,7 +14,6 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import { useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { useGenerateLinkToWebsite } from 'in-websites/navigation/paths';
-import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 
 import locals from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions.mless';
@@ -42,9 +41,7 @@ const AssociationsContentPresenter = ({
   websiteIdsCanBeLinked,
   mobileAppIdsCanBeLinked
 }: Props) => {
-  const numberOfAssociations: number = syntheticRbacLimitedEnabled
-    ? applicationLabels.length + websiteLabels.length + mobileAppLabels.length
-    : applicationLabels.length;
+  const numberOfAssociations: number = applicationLabels.length + websiteLabels.length + mobileAppLabels.length;
 
   if (numberOfAssociations !== 0) {
     return (
@@ -241,59 +238,24 @@ const Content = (props: ContentProps) => {
     return t('in-synthetics:dashboard.testList.popDialog.associationsTitle', { number: numberOfAssociations });
   };
 
-  if (syntheticRbacLimitedEnabled) {
-    return (
-      <Card
-        title={getCardTitle()}
-        rightHeaderContent={<SvgIcon type="lib_openclose_cancel" size="s" onClick={close} />}
-        isScrollable
-      >
-        <Stack>
-          <ButtonGroup
-            buttonPropsList={filterLabels.map((label, index) => ({
-              text: filterLabelsReferences[index],
-              key: label,
-              onClick: () => setActiveLabel(label)
-            }))}
-            activeKey={activeLabel}
-          />
-          {renderFilteredList()}
-        </Stack>
-      </Card>
-    );
-  }
-
   return (
-    <section>
-      <h1 className={locals.overlayHeader}>
-        <div className={locals.title}>
-          {applicationLabels.length === 1
-            ? t('in-synthetics:dashboard.testList.multiAppDialog.singleAppSpan', {
-                number: applicationLabels?.length
-              })
-            : t('in-synthetics:dashboard.testList.multiAppDialog.multiAppSpan', {
-                number: applicationLabels?.length
-              })}
-        </div>
-        <SvgIcon type="lib_openclose_cancel" size="l" onClick={close} />
-      </h1>
-      <ol className={locals.issues}>
-        {applicationLabels?.map(applicationLabel => {
-          const applicationId = appsMap?.get(applicationLabel);
-          return (
-            <li key={generateUniqueShortId()} className={locals.issue}>
-              {applicationIdsCanBeLinked.includes(applicationId) ? (
-                <Link href={getLinkToApplicationDashboard({ applicationId })}>
-                  <span className={locals.label}>{applicationLabel}</span>
-                </Link>
-              ) : (
-                <span className={locals.label}>{applicationLabel}</span>
-              )}
-            </li>
-          );
-        })}
-      </ol>
-    </section>
+    <Card
+      title={getCardTitle()}
+      rightHeaderContent={<SvgIcon type="lib_openclose_cancel" size="s" onClick={close} />}
+      isScrollable
+    >
+      <Stack>
+        <ButtonGroup
+          buttonPropsList={filterLabels.map((label, index) => ({
+            text: filterLabelsReferences[index],
+            key: label,
+            onClick: () => setActiveLabel(label)
+          }))}
+          activeKey={activeLabel}
+        />
+        {renderFilteredList()}
+      </Stack>
+    </Card>
   );
 };
 

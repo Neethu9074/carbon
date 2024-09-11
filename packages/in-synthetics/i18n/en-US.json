@@ -408,8 +408,6 @@
         "filterLabel": "Applications",
         "singleAppHeader": "{{ number }} Association",
         "multiAppHeader": "{{ number }} Associations",
-        "singleAppSpan": "{{ number }} Associated Application",
-        "multiAppSpan": "{{ number }} Associated Applications",
         "noApplicationsAssociated": "No applications associated"
       },
       "multiWebDialog": {
