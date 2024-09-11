@@ -256,21 +256,37 @@ function FeedbackComponent({ incident }: FeedbackComponentProps) {
           addActiveDialog(
             <EventFeedbackDialog
               stepConfig={rcaStepConfig}
-              nextStepTracker={() => {
-                rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_NEXT, location?.pathname);
-                RCAFeedbackNextTracker({});
+              nextStepTracker={instrumentationInfo => {
+                rootCauseAnalysisSegmentTracker(
+                  EVENT_RCA_FEEDBACK_NEXT,
+                  location?.pathname,
+                  JSON.stringify(instrumentationInfo)
+                );
+                RCAFeedbackNextTracker(instrumentationInfo);
               }}
-              skipStepTracker={() => {
-                rootCauseAnalysisSegmentTracker(EVENT_FEEDBACK_SKIP, location?.pathname);
-                RCAFeedbackSkipTracker({});
+              skipStepTracker={instrumentationInfo => {
+                rootCauseAnalysisSegmentTracker(
+                  EVENT_FEEDBACK_SKIP,
+                  location?.pathname,
+                  JSON.stringify(instrumentationInfo)
+                );
+                RCAFeedbackSkipTracker(instrumentationInfo);
               }}
-              closedManuallyTracker={() => {
-                rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_CLOSED_MANUALLY, location?.pathname);
-                RCAFeedbackClosedManuallyTracker({});
+              closedManuallyTracker={instrumentationInfo => {
+                rootCauseAnalysisSegmentTracker(
+                  EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
+                  location?.pathname,
+                  JSON.stringify(instrumentationInfo)
+                );
+                RCAFeedbackClosedManuallyTracker(instrumentationInfo);
               }}
-              submitTracker={() => {
-                rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_SUBMIT, location?.pathname);
-                RCAFeedbackSubmitTracker({});
+              submitTracker={instrumentationInfo => {
+                rootCauseAnalysisSegmentTracker(
+                  EVENT_RCA_FEEDBACK_SUBMIT,
+                  location?.pathname,
+                  JSON.stringify(instrumentationInfo)
+                );
+                RCAFeedbackSubmitTracker(instrumentationInfo);
               }}
               submitMetadata={{ incident }}
             />
