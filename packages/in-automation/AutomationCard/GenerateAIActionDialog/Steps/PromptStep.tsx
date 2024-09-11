@@ -160,7 +160,9 @@ function generateAIActionForm({
         setForm(form =>
           form
             .updateIn(['action', 'name'], item => item.setValue(`Action generated for ${eventName}`).setTouched(false))
-            .updateIn(['action', 'description'], item => item.setValue(eventDescription).setTouched(false))
+            .updateIn(['action', 'description'], item =>
+              item.setValue(`This resolves event with ${eventDescription}`).setTouched(false)
+            )
             .updateIn(['action', 'content'], item => item.setValue(res.data?.content!))
             .updateIn(['action', 'tags'], item => item.setValue(['watsonx']).setTouched(true))
             .updateIn(['action', 'type'], item => item.setValue('MANUAL').setTouched(true))
@@ -234,7 +236,7 @@ function ActionPreview() {
   if (isLoading(generatedAction))
     return <LoadingIndicator text={t('in-automation:GenerateAIActionDialog.watsonxLoadingContent')} />;
   if (hasError(generatedAction)) return <ErroneousResultPresenter errors={generatedAction.errors} />;
-  return <ManualActionContent content={createManualField(generatedAction.data?.content!)} />;
+  return <ManualActionContent content={createManualField(generatedAction.data?.content!)} withAISlug />;
 }
 
 export default function PromptStep({
