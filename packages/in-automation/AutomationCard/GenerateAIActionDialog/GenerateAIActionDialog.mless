@@ -30,6 +30,7 @@
 
   .CodeWithAISlug {
     display: inline-flex;
+    justify-content: space-between;
     background-color: var(--cds-layer);
     div {
       &:nth-child(2) {
