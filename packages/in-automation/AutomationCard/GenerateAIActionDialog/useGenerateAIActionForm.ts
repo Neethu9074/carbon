@@ -12,6 +12,7 @@ import { ActionType, Event, Field, Result } from '@instana/types';
 import { NewAction, createManualField, createScriptFields } from 'in-automation/api';
 import { isManual, isScript } from 'in-automation/ActionCatalog/shared';
 import { TriggerSpecification } from 'in-automation/Policies/types';
+import { getPluginName } from 'in-sdk/pluginName';
 
 type GenerateAIActionFormItems = {
   prompt: MapForm<{
@@ -72,10 +73,10 @@ interface UseGenerateAIActionFormParams {
 }
 
 function createGenerateAIActionForm({ trigger, event }: UseGenerateAIActionFormParams) {
-  const { name, description = '' } = trigger.data!;
+  const { name = '', description = '' } = trigger.data!;
   const defaultActionName = `AI generated action for ${name}`;
   const defaultActionDescription = `This resolves event with ${description}`;
-  const entityType = event.plugin;
+  const entityType = getPluginName(event.plugin) ?? '';
 
   const form: GenerateAIActionForm = createMapForm({
     items: {

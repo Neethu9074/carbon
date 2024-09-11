@@ -109,7 +109,7 @@ function GenerateAIActionButton({
   ootbRecommendedActions: Result<ScoredAction[]>;
 }) {
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
-  const { name } = trigger.data!;
+  const { name = '' } = trigger.data!;
   if (!role?.canConfigureAutomationActions) return null;
   return (
     <Button
