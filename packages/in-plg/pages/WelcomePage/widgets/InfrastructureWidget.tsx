@@ -90,7 +90,7 @@ function Toggles({
 }
 
 export default function InfrastructureWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: InfraProps) {
-  const [selectedType, setSelectedType] = useState(sessionStorage.getItem('selectedInfraType') || 'host');
+  const [selectedType, setSelectedType] = useState(localStorage.getItem('selectedInfraType') ?? 'host');
   const { location, createHref } = useNavigation();
   const getDashboardLink = useGetDashboardLink();
   const maxItemsInTable = 5;
@@ -103,7 +103,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
   ];
 
   useEffect(() => {
-    sessionStorage.setItem('selectedInfraType', selectedType);
+    localStorage.setItem('selectedInfraType', selectedType);
   }, [selectedType]);
 
   setOrDeleteMatrixKey(fullListViewLocation, physicalTablePath, 'plugin', selectedType);

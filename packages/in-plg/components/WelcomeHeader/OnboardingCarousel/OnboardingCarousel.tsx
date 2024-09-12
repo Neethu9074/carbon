@@ -23,10 +23,7 @@ export default function OnboardingCarousel({
   //we cannot provide correct type for activationData as the json object keys are dynamic
   const [activationData, setActivationData] = useState<any>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isExpanded, setIsExpanded] = useState(() => {
-    const savedState = sessionStorage.getItem('expandedState');
-    return savedState !== null ? JSON.parse(savedState) : true;
-  });
+  const [isExpanded, setIsExpanded] = useState((localStorage.getItem('expandedState') as unknown as boolean) ?? true);
 
   const [isLeftDisabled, setIsLeftDisabled] = useState(false);
   const [isRightDisabled, setIsRightDisabled] = useState(false);
@@ -102,7 +99,7 @@ export default function OnboardingCarousel({
   }, [checkScrollPosition, preventMouseScroll]);
 
   useEffect(() => {
-    sessionStorage.setItem('expandedState', JSON.stringify(isExpanded));
+    localStorage.setItem('expandedState', isExpanded.toString());
   }, [isExpanded]);
 
   return (
