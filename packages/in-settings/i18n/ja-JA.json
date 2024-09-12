@@ -120,7 +120,8 @@
     "title_dashboard": "カスタム・ダッシュボード",
     "title_automation": "自動化",
     "title_agents": "エージェント",
-    "title_access_control": "アクセス制御"
+    "title_access_control": "アクセス制御",
+    "subHeadline_syntheticMonitoring": "{{ quantityOfAreas }} と継承されたテスト。"
   },
   "headingSection": {
     "title": "役割とアクセス権の範囲",
@@ -168,7 +169,8 @@
     "contributionFilter_name": "名前",
     "contributionFilter_name_mayNotBeBlank": "コントリビューション・フィルター名をブランクにすることはできません。",
     "contributionFilter_name_mustNotBeLargerThan128Characters": "コントリビューション・フィルター名は 128 文字以下でなければなりません。",
-    "contributionFilter_name_alreadyUsed": "コントリビューション・フィルター名は既に使用されています。"
+    "contributionFilter_name_alreadyUsed": "コントリビューション・フィルター名は既に使用されています。",
+    "addButton_syntheticCredentials": "合成資格情報を選択する"
   },
   "selectItemForm": {
     "doneButton": "完了"
@@ -176,10 +178,13 @@
   "selectEntityDialog": {
     "nameColumnHead": "名前",
     "contributionFilterColumnHead": "コントリビューション・フィルター",
-    "syntheticAllTestsAccess": "すべてのテスト",
-    "syntheticInheritedAccess": "継承されたアクセス権",
+    "syntheticAllTestsAccess": "選択可能なテスト",
+    "syntheticInheritedAccess": "継承テスト",
     "syntheticTableSubHeader": "以下の合成テストは、このグループのメンバーが関連するアプリケーションにアクセスできるため、すでにアクセス可能です。",
-    "syntheticTableSubHeaderWebMobile": "以下の合成テストは、関連するアプリケーション、ウェブサイト、モバイルアプリケーションにアクセスできるため、このグループのメンバーはすでにアクセスできます。"
+    "syntheticTableSubHeaderWebMobile": "以下の合成テストは、関連するアプリケーション、ウェブサイト、モバイルアプリケーションにアクセスできるため、このグループのメンバーはすでにアクセスできます。",
+    "syntheticSelectableCredentialsAccess": "選択可能な資格情報",
+    "syntheticInheritedCredentialsAccess": "継承された資格情報",
+    "syntheticTableSubHeaderWebMobileForCredentials": "以下の合成資格情報は、関連するアプリケーション、Web サイト、およびモバイル・アプリケーションにアクセスできるため、このグループのメンバーはすでにアクセスできます。"
   },
   "permissionScope": {
     "access_level": "アクセス・レベル",
@@ -271,7 +276,8 @@
       "limited_access": {
         "access_level": "選択したアクセス・タイプおよび追加の権限を使用して、リストされたシンセティック・テストのみにアクセスします",
         "access_level_tp": "ユーザーがアクセスできるアプリケーションに関連するすべての合成テストにアクセスできる。 次のリストを使用して、追加の合成テストへのアクセスを許可することができます。",
-        "access_level_web_mobile": "ユーザーがアクセスできるアプリケーション、Web サイト、モバイル・アプリケーションに関連するすべての合成テストへのアクセス。 次のリストを使用して、追加の合成テストへのアクセスを許可することができます。"
+        "access_level_web_mobile": "ユーザーがアクセスできるアプリケーション、Web サイト、モバイル・アプリケーションに関連するすべての合成テストへのアクセス。 次のリストを使用して、追加の合成テストへのアクセスを許可することができます。",
+        "access_level_tests_credentials": "ユーザがアクセスするアプリケーション、Web サイト、モバイル・アプリケーションに関連するすべての合成テストおよび資格情報にアクセスします。 以下のリストを使用して、追加の合成テストおよび資格情報へのアクセスを許可できます。"
       },
       "role_permissions_owner": "シンセティック・テストを作成、構成、表示、および削除します。",
       "role_permissions_viewer": "シンセティック・テストとその構成を表示します。"
@@ -354,6 +360,23 @@
       },
       "customPayload": {
         "unknownTag": "不明なタグ: {{tagName}}"
+      },
+      "integrations": {
+        "configureIntegration": "統合の構成",
+        "database": {
+          "database": "データベース",
+          "dbIntegrations": "データベース統合",
+          "dbIntegrationsDescription": "データベース管理ソリューションを接続し、ニーズに合わせて設定します。",
+          "dbIntegrationsTooltip": "設定がないため、トグルが無効になっています。 この機能を有効にするには、タイルをクリックし、フォームに記入してください。",
+          "dbIntegrationsTooltipApiError": "API接続の問題により、トグルが無効になっています。 この機能を有効にするには、再接続を待つか、ページを再読み込みしてください。",
+          "dbMarlin": "DBmarlin",
+          "dbMarlinInstance": "DBmarlin インスタンス",
+          "dbMarlinExampleForAnInternalInstance": "DBmarlin インスタンスの URL を入力します。例えば、<strong>https://team.dbmarlin.com</strong> または内部インスタンスの場合は <strong>http://192.168.1.128:443</strong> です。",
+          "configureDbMarlin": "DBmarlin の設定",
+          "configureDbMarlinDescription": "以下の設定を有効にすると、互換性のあるコールのコールの詳細に DBmarlin へのリンクが追加されます。",
+          "configureYourDbMarlinSettings": "DBmarlin の設定を行う",
+          "failedToLoadDbMarlinConfiguration": "DBmarlin 設定のロードに失敗しました。"
+        }
       }
     },
     "retentionPeriod": {
@@ -394,10 +417,14 @@
       "toastSuccessTitle": "保存された統合",
       "toastErrorTitle": "統合が保存されない",
       "toastSuccessMessage": "{{integrationType}} インテグレーションが保存され、有効になりました。",
+      "toastErrorMessage": "{{integrationType}} 統合を保存および有効にできませんでした。",
       "integerationEnabled": "{{integrationType}} インテグレーションが有効になりました。",
       "integerationDisabled": "{{integrationType}} インテグレーションが無効になりました。",
-      "integerationConfigurationFailed": "{{error}}",
-      "configureIntegrations": "統合の構成"
+      "integrationConfigurationFailed": "{{error}}",
+      "configureIntegrations": "統合の構成",
+      "unsavedModalContent": "本当に変更を破棄したいのですか？",
+      "unsavedModalDiscard": "破棄",
+      "unsavedModalCancel": "キャンセル"
     },
     "deleteLogs": {
       "deleteLogs": "ログの削除",
@@ -442,12 +469,16 @@
       "months_6": "過去6カ月",
       "months_9": "過去9カ月",
       "months_12": "過去12カ月",
-      "days_7": "7日",
-      "days_20": "20日",
-      "days_30": "30 日",
-      "days_60": "60 日",
-      "days_90": "90 日"
+      "days_30": "30 日間保持",
+      "days_60": "60 日間保持",
+      "days_90": "90 日間保持",
+      "noLogVolumeData": "表示するデータがありません",
+      "logVolumeErrorTitle": "何らかの問題が発生しました",
+      "logVolumeErrorInfo": "データベースからデータを取得できません",
+      "groupingTagTootip": "{{groupingTag}} 情報がありません",
+      "ruTooltip": "リソース・ユニット (RU) は、取り込まれたログの量と保存期間に基づいて計算されます。 インジェストされたデータは、最低 1 RU を消費します"
     },
+    "auditTrail": "監査証跡",
     "failedToSaveConfig": "構成の保存に失敗しました: {{err}}",
     "IdPMetadataRequired": "IdP メタデータ・ファイルが必要です",
     "IdPMetadataLargerThanTwoMega": "IdPメタデータファイルは2メガバイト以上になってはなりません。",
@@ -489,8 +520,6 @@
     "youCanOnlyAddOneItem": "項目は 1 つしか追加できません。",
     "youCanAddAtMostLimitItems": "追加できる項目は {{limit}} 個までです。",
     "pleaseNarrowDownYourSelectionByUsingTheFilters": "追加できる項目は {{limit}} 個までです。 フィルターを使用して選択内容を絞り込んでください。",
-    "apiTokenIs": "API トークン: {{apiTokenName}}",
-    "apiToken": "API トークン",
     "failedToSaveApiToken": "API トークンの保存に失敗しました: {{err}}",
     "failedToCreatePersonalApiToken": "個人用 API トークンの作成に失敗しました。",
     "failedToUpdatePersonalApiToken": "個人用 API トークンの更新に失敗しました。",
@@ -501,11 +530,26 @@
     "editApiToken": "API トークンの編集",
     "editPersonalApiToken": "個人用 API トークンの編集",
     "personalApiTokenNameDescription": "トークンの表示名",
+    "apiTokenExpiration": "有効期限",
+    "apiTokenExpiryDate": "有効期限日付",
+    "apiTokenExpiryTime": "有効期限時刻",
+    "apiTokenExpirationOptions": {
+      "thirtyDays": "30 日間",
+      "sixtyDays": "60 日間",
+      "ninetyDays": "90 日間",
+      "oneYear": "1 年間",
+      "custom": "カスタム",
+      "never": "なし"
+    },
+    "apiTokenHintTextForNeverExpires": "このトークンに有効期限はありません。",
+    "apiTokenHintTextForExpiration": "このトークンは {{expiryDate}} UTC {{expiryTime}} UTC {{utcOffSet}} の後に失効します。",
     "displayName": "表示名",
     "personalApiTokenDescription": "この個人用 API トークンは、API に対する認証に使用できるように権限を継承します。",
     "apiTokenDescription": "このユニット固有の API トークンは、API トークン構成の許可を持つ任意のユーザーまたは任意の API トークンによって表示/変更できます。",
     "noApiToken": "API トークンなし",
     "newApiToken": "新規 API トークン",
+    "apiTokenDuplicate": "重複",
+    "duplicateTokenName": "{{apiTokenName}} の重複",
     "apiTokenUnits": "API トークンは、<strong>{{tenantUnit}}-{{tenant}}</strong> に使用できます",
     "noPersonalApiTokens": "個人用 API トークンなし",
     "newPersonalApiToken": "新規個人用 API トークン",
@@ -882,21 +926,27 @@
     "cancel": "キャンセル",
     "loadingApiToken": "API トークンをロードしています…",
     "failedToLoadApiToken": "API トークンのロードに失敗しました。",
-    "saving": "保存しています…",
+    "saving": "保存中...",
     "general": "一般",
     "apiTokens": "API トークン",
     "personalApiTokens": "個人用 API トークン",
     "token": "トークン",
     "tokenLastUsed": "最終使用",
+    "tokenStatus": "状況",
+    "tokenActive": "アクティブ",
+    "tokenActiveUntil": "{{dateTime}} まで有効",
+    "tokenExpiredOn": "有効期限は {{dateTime}} まで",
     "tokenCreated": "作成日",
     "tokenCreatedBy": "作成者",
+    "tokenValidationPleaseEnterTimeInFuture": "未来の日付または時間を入力します",
     "unknownLabel": "不明",
     "copyApiTokenToClipboard": "API トークンをクリップボードにコピー",
     "inviteUserToGroup": "追加するユーザーの選択",
     "applications": "アプリケーション",
     "infrastructure": "インフラストラクチャー",
     "ownerPermissions": "所有者権限",
-    "youAreAssigningThisApiTokenOwnerPermissions": "この API トークンに所有者権限を割り当てます。",
+    "youAreAssigningThisApiTokenOwnerPermissions": "この API トークンの所有者権限を付与することで、ユーザーはこの領域でこのAPIトークンを使用したアイテムの作成、編集、削除ができるようになります。",
+    "yesIUnderstand": "はい、分かります",
     "savingGroup": "グループを保存しています",
     "groupSuccessfullySaved": "グループが正常に保存されました。",
     "groups": "グループ",

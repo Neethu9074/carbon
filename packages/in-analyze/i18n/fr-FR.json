@@ -166,7 +166,8 @@
         "selfTime": "Temps auto",
         "networkTime": "Temps réseau",
         "waitingTime": "Temps d'attente",
-        "latency": "Temps d'attente"
+        "latency": "Temps d'attente",
+        "findSQL": "Trouver SQL dans {{type}}"
       },
       "callTree": {
         "expandButtonForRow": "Développer tous les sous-appels",

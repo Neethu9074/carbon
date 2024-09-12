@@ -38,7 +38,8 @@
       "itemMsg": "+{{leftCount}}개 {{moreMsg}} 추가"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "재시도"
+      "retryButtonLabel": "재시도",
+      "openList": "목록 열기"
     },
     "chartReleasesLanePresenterReleasesLabel": "릴리스",
     "chartReleasesLanePresenterTooltip": "{{len}}개 추가 릴리스",
@@ -260,6 +261,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "확인",
+    "secondaryDialogLabelCancel": "취소",
     "promptPresenterLabelConfirm": "확인"
   },
   "draggableItemSelector": {
@@ -297,8 +299,8 @@
     "labelExpandButtonForContent": "컨텐츠에 대한 단추 펼치기"
   },
   "featureFeedback": {
-    "labelPublicPreview": "공개 미리보기",
-    "labelPrivatePreview": "비공개 미리보기",
+    "labelPublicPreview": "미리보기",
+    "labelPrivatePreview": "미리보기",
     "linkLabelYouCanSendUsFeedback": "피드백을 보낼 수 있습니다."
   },
   "geoHeatMap": {
@@ -353,6 +355,30 @@
     "labelWarning": "경고",
     "labelCritical": "심각"
   },
+  "vulnerabilities": {
+    "eventType_issue": "취약성",
+    "eventType_issue_plural": "취약성",
+    "eventType_issue_0": "취약성",
+    "eventType_issue_1": "취약성",
+    "eventType_issue_2": "취약성",
+    "openIssuesListPresenterActionsViewIssues": "취약성 보기",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "{{openIssueCount}} 취약성 보기",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "미해결 취약점 로드 중...",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "열린 취약점 로드 실패",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}}개 미해결 취약점",
+    "noVulnerabilities": "취약점 없음",
+    "openVulnerabilities": "{{count}}개 취약점",
+    "openVulnerabilities_plural": "{{count}}개 취약점",
+    "openVulnerabilities_0": "{{count}}개 취약점",
+    "openVulnerabilities_1": "{{count}}개 취약점",
+    "openVulnerabilities_2": "{{count}}개 취약점",
+    "noIncidents": "인시던트 없음",
+    "openIncidents": "{{count}}개 인시던트",
+    "openIncidents_plural": "{{count}}개 인시던트",
+    "openIncidents_0": "{{count}}개 인시던트",
+    "openIncidents_1": "{{count}}개 인시던트",
+    "openIncidents_2": "{{count}}개 인시던트"
+  },
   "inlineTabNavigation": {
     "labelSelectTab": "탭 선택"
   },
@@ -400,6 +426,7 @@
     "viewSwitcherlabelInfrastructure": "인프라",
     "viewSwitcherLabelApplications": "애플리케이션",
     "viewSwitcherLabelSlo": "서비스 레벨",
+    "viewSwitcherLabelLogs": "로그",
     "viewSwitcherLabelAnalytics": "분석",
     "viewSwitcherLabelWebsitesAndMobileApps": "웹 사이트 및 모바일 앱",
     "viewSwitcherLabelWebsites": "웹 사이트",
@@ -416,9 +443,11 @@
     "viewSwitcherCustomDashboards": "사용자 정의 대시보드",
     "viewSwitcherButtonSignOut": "로그아웃",
     "viewSwitcherLabelTenants": "테넌트",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "새 Instana UI 버전 사용 가능",
     "newUiClientVersionAvailableButtonReloadToUpdate": "업데이트하기 위해 다시 로드",
     "profileMenu_profileLink": "프로파일",
+    "profileMenu_tooltip": "프로파일 메뉴",
     "profileMenu_unitName_tenantName": "단위 이름 - 테넌트 이름",
     "profileMenu_switchUnitOrTenant": "단위 또는 테넌트 전환",
     "profileMenu_logOut": "로그아웃"
@@ -590,8 +619,8 @@
     "loadingData": "데이터 로드 중"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "새 Instana 버전 사용 가능",
-    "buttonReloadToUpdate": "업데이트하기 위해 다시 로드"
+    "newVersionOfInstanaAvailable": "Instana UI가 업데이트됨",
+    "buttonReloadToUpdate": "로드하려면 브라우저를 새로 고치십시오."
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "호출",

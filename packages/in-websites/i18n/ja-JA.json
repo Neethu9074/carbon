@@ -765,7 +765,8 @@
         "sizesTechnicalLabelAtMost": "{{max}}px 以下"
       },
       "synthetic": {
-        "tabLabel": "シンセティック・モニタリング"
+        "tabLabel": "シンセティック・モニタリング",
+        "noDataTitle": "この Web サイトに関連する合成テストはありません。"
       },
       "indexLabelSummary": "サマリー",
       "indexLabelSpeed": "速度",

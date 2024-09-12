@@ -48,6 +48,7 @@ function PathTemplateRule({ form, setValue }) {
       align="topMiddle"
       themeStyle="light"
       content={t('in-applications:forms.tooltipExtractsEndpointsAsSpecified')}
+      overwriteBlock
     >
       <ExtractionRule
         rule={{
@@ -68,6 +69,7 @@ function FirstParameterRule({ form, setValue }) {
       align="topMiddle"
       themeStyle="light"
       content={t('in-applications:forms.tooltipExtractsEndpointsOnFirstPath')}
+      overwriteBlock
     >
       <ExtractionRule
         rule={{
@@ -88,6 +90,7 @@ function RouteIdRule() {
       align="topMiddle"
       themeStyle="light"
       content={t('in-applications:forms.tooltipExtractsEndpointsOnRouteId')}
+      overwriteBlock
     >
       <ExtractionRule
         rule={{ query: t('in-applications:forms.ruleRouteId'), enabled: true }}
@@ -277,6 +280,7 @@ export default function CustomEndpointMappingDialog({ location }) {
                               t('in-applications:forms.tooltipEndpointCallsNotMatch'),
                               t('in-applications:forms.tooltipEndpointFallbackRule')
                             ]}
+                            overwriteBlock
                           >
                             <UnspecifiedExtractionRule />
                           </Tooltip>

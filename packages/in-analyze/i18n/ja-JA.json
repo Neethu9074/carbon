@@ -166,7 +166,8 @@
         "selfTime": "セルフタイム",
         "networkTime": "ネットワーク時間",
         "waitingTime": "待機時間",
-        "latency": "待ち時間"
+        "latency": "待ち時間",
+        "findSQL": "{{type}} で SQL を検索します"
       },
       "callTree": {
         "expandButtonForRow": "すべてのサブ呼び出しを展開",

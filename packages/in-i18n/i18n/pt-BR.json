@@ -1,5 +1,8 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "Navegação principal"
+    },
     "expandableGroup": {
       "tooltipShowContent": "Mostrar conteúdo",
       "tooltipHideContent": "Ocultar conteúdo",
@@ -16,13 +19,35 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "Carregar mais"
-      }
+      },
+      "dataTable": "Tabela de dados"
+    },
+    "tableSkeleton": {
+      "sampleTable": "Tabela de amostra"
     },
     "code": {
       "copy": "Copiar",
       "copied": "Copiado!",
       "showMore": "Mostrar mais",
       "showLess": "Mostrar menos"
+    },
+    "menu": {
+      "sideNavigation": "Navegação do site"
+    },
+    "carbonTabs": {
+      "tabs": "Guias"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "barra de ferramentas da tabela de dados"
+      },
+      "tableTabs": {
+        "listOfTabs": "Lista de guias"
+      }
+    },
+    "pill": {
+      "privatePreview": "Visualizar",
+      "publicPreview": "Visualizar"
     }
   },
   "formatDate": {

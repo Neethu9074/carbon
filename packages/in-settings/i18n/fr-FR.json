@@ -120,7 +120,8 @@
     "title_dashboard": "Tableaux de bord personnalisés",
     "title_automation": "Automatisation",
     "title_agents": "Agents",
-    "title_access_control": "Contrôle d'accès"
+    "title_access_control": "Contrôle d'accès",
+    "subHeadline_syntheticMonitoring": "{{ quantityOfAreas }} plus les tests hérités."
   },
   "headingSection": {
     "title": "Rôle et portée d'accès",
@@ -168,7 +169,8 @@
     "contributionFilter_name": "Nom",
     "contributionFilter_name_mayNotBeBlank": "Le nom du filtre de contribution ne doit pas être vide.",
     "contributionFilter_name_mustNotBeLargerThan128Characters": "Le nom du filtre de contribution ne doit pas dépasser 128 caractères.",
-    "contributionFilter_name_alreadyUsed": "Le nom du filtre de contribution est déjà utilisé."
+    "contributionFilter_name_alreadyUsed": "Le nom du filtre de contribution est déjà utilisé.",
+    "addButton_syntheticCredentials": "Sélectionner les données d'identification synthétiques"
   },
   "selectItemForm": {
     "doneButton": "Terminé"
@@ -176,10 +178,13 @@
   "selectEntityDialog": {
     "nameColumnHead": "Nom",
     "contributionFilterColumnHead": "Filtre de contribution",
-    "syntheticAllTestsAccess": "Tous les tests",
-    "syntheticInheritedAccess": "Accès hérité",
+    "syntheticAllTestsAccess": "Tests sélectionnables",
+    "syntheticInheritedAccess": "Tests hérités",
     "syntheticTableSubHeader": "Les tests synthétiques suivants sont déjà accessibles aux membres de ce groupe car ils ont accès aux applications associées.",
-    "syntheticTableSubHeaderWebMobile": "Les tests synthétiques suivants sont déjà accessibles aux membres de ce groupe car ils ont accès aux applications, sites Web et applications mobiles associés."
+    "syntheticTableSubHeaderWebMobile": "Les tests synthétiques suivants sont déjà accessibles aux membres de ce groupe car ils ont accès aux applications, sites Web et applications mobiles associés.",
+    "syntheticSelectableCredentialsAccess": "Données d'identification sélectionnables",
+    "syntheticInheritedCredentialsAccess": "Données d'identification héritées",
+    "syntheticTableSubHeaderWebMobileForCredentials": "Les données d'identification synthétiques suivantes sont déjà accessibles aux membres de ce groupe car elles ont accès aux applications, sites web et applications mobiles associés."
   },
   "permissionScope": {
     "access_level": "Niveau d'accès",
@@ -271,7 +276,8 @@
       "limited_access": {
         "access_level": "N'accéder qu'aux tests synthétiques répertoriés avec le type d'accès sélectionné et des droits supplémentaires",
         "access_level_tp": "Accès à tous les tests synthétiques associés aux applications auxquelles les utilisateurs ont accès. Vous pouvez utiliser la liste ci-dessous pour donner accès à des tests synthétiques supplémentaires.",
-        "access_level_web_mobile": "Accès à tous les tests synthétiques associés aux applications, sites Web et applications mobiles auxquels les utilisateurs ont accès. Vous pouvez utiliser la liste ci-dessous pour donner accès à des tests synthétiques supplémentaires."
+        "access_level_web_mobile": "Accès à tous les tests synthétiques associés aux applications, sites Web et applications mobiles auxquels les utilisateurs ont accès. Vous pouvez utiliser la liste ci-dessous pour donner accès à des tests synthétiques supplémentaires.",
+        "access_level_tests_credentials": "Accédez à tous les tests synthétiques et identifiants associés aux applications, aux sites web et aux applications mobiles auxquels les utilisateurs ont accès. Vous pouvez utiliser les listes ci-dessous pour accorder l'accès à des tests synthétiques et à des informations d'identification supplémentaires."
       },
       "role_permissions_owner": "Créez, configurez, affichez et supprimez des tests synthétiques.",
       "role_permissions_viewer": "Affichez les tests synthétiques et leur configuration."
@@ -354,6 +360,23 @@
       },
       "customPayload": {
         "unknownTag": "Balise inconnue : {{tagName}}"
+      },
+      "integrations": {
+        "configureIntegration": "Configurer l'intégration",
+        "database": {
+          "database": "Base de données",
+          "dbIntegrations": "Intégration de bases de données",
+          "dbIntegrationsDescription": "Connectez vos solutions de gestion de base de données et configurez-les en fonction de vos besoins.",
+          "dbIntegrationsTooltip": "La bascule est désactivée en raison d'une configuration manquante. Cliquez sur la vignette et remplissez le formulaire pour activer cette fonctionnalité.",
+          "dbIntegrationsTooltipApiError": "La bascule est désactivée en raison d'un problème de connexion à l'API. Attendez la reconnexion ou rechargez la page pour activer cette fonction.",
+          "dbMarlin": "DBmarlin",
+          "dbMarlinInstance": "Instance DBmarlin",
+          "dbMarlinExampleForAnInternalInstance": "Entrez l'URL de votre instance DBmarlin, par exemple <strong>https://team.dbmarlin.com</strong> ou <strong>http://192.168.1.128:443</strong> pour une instance interne.",
+          "configureDbMarlin": "Configurer DBmarlin",
+          "configureDbMarlinDescription": "Lorsqu'elle est activée, la configuration suivante ajoute un lien vers DBmarlin dans les détails de l'appel pour les appels compatibles.",
+          "configureYourDbMarlinSettings": "Configurez vos paramètres de DBmarlin",
+          "failedToLoadDbMarlinConfiguration": "Échec du chargement de la configuration de DBmarlin."
+        }
       }
     },
     "retentionPeriod": {
@@ -394,10 +417,14 @@
       "toastSuccessTitle": "Intégration sauvegardée",
       "toastErrorTitle": "Intégration non sauvegardée",
       "toastSuccessMessage": "Votre intégration {{integrationType}} a été sauvegardée et activée.",
+      "toastErrorMessage": "Votre intégration {{integrationType}} n'a pas pu être sauvegardée et activée.",
       "integerationEnabled": "Votre intégration {{integrationType}} a été activée.",
       "integerationDisabled": "Votre intégration {{integrationType}} a été désactivée.",
-      "integerationConfigurationFailed": "{{error}}",
-      "configureIntegrations": "Configurer l'intégration"
+      "integrationConfigurationFailed": "{{error}}",
+      "configureIntegrations": "Configurer l'intégration",
+      "unsavedModalContent": "Êtes-vous sûr de vouloir annuler vos modifications ?",
+      "unsavedModalDiscard": "Annuler",
+      "unsavedModalCancel": "Annuler"
     },
     "deleteLogs": {
       "deleteLogs": "Supprimer les journaux",
@@ -442,12 +469,16 @@
       "months_6": "6 derniers mois",
       "months_9": "9 derniers mois",
       "months_12": "12 derniers mois",
-      "days_7": "7 jours",
-      "days_20": "20 jours",
-      "days_30": "30 jours",
-      "days_60": "60 jours",
-      "days_90": "90 jours"
+      "days_30": "30 jours de rétention",
+      "days_60": "60 jours de rétention",
+      "days_90": "90 jours de rétention",
+      "noLogVolumeData": "Aucune donnée à afficher",
+      "logVolumeErrorTitle": "Un problème est survenu",
+      "logVolumeErrorInfo": "Impossible d'extraire les données de la base de données",
+      "groupingTagTootip": "Informations {{groupingTag}} non disponibles",
+      "ruTooltip": "Les unités de ressources (UR) sont calculées en fonction du volume de journaux ingérés et de la période de rétention. Toute quantité de données ingérées consomme au minimum 1 UR"
     },
+    "auditTrail": "Pistes d'audit",
     "failedToSaveConfig": "Échec de la sauvegarde de la configuration : {{err}}",
     "IdPMetadataRequired": "Le fichier de métadonnées de fournisseur d'identité est requis",
     "IdPMetadataLargerThanTwoMega": "La taille du fichier de métadonnées de fournisseur d'identité ne peut pas être supérieure à 2 mégaoctets",
@@ -489,8 +520,6 @@
     "youCanOnlyAddOneItem": "Vous ne pouvez ajouter qu'un seul élément.",
     "youCanAddAtMostLimitItems": "Vous pouvez ajouter au plus {{limit}} éléments.",
     "pleaseNarrowDownYourSelectionByUsingTheFilters": "Vous pouvez ajouter au plus {{limit}} éléments. Limitez votre sélection en utilisant les filtres.",
-    "apiTokenIs": "Jeton d'API : {{apiTokenName}}",
-    "apiToken": "Jeton d'API",
     "failedToSaveApiToken": "Echec de la sauvegarde du jeton d'API : {{err}}",
     "failedToCreatePersonalApiToken": "Echec de la création du jeton d'API personnel.",
     "failedToUpdatePersonalApiToken": "Echec de la mise à jour du jeton d'API personnel.",
@@ -501,11 +530,26 @@
     "editApiToken": "Editer le jeton d'API",
     "editPersonalApiToken": "Editer le jeton d'API personnel",
     "personalApiTokenNameDescription": "Nom d'affichage du jeton",
+    "apiTokenExpiration": "Expiration",
+    "apiTokenExpiryDate": "Date d'expiration",
+    "apiTokenExpiryTime": "Heure d'expiration",
+    "apiTokenExpirationOptions": {
+      "thirtyDays": "30 jours",
+      "sixtyDays": "60 jours",
+      "ninetyDays": "90 jours",
+      "oneYear": "1 an",
+      "custom": "Personnalisé",
+      "never": "Jamais"
+    },
+    "apiTokenHintTextForNeverExpires": "Ce jeton n'expire jamais.",
+    "apiTokenHintTextForExpiration": "Ce jeton expire après {{expiryDate}} à {{expiryTime}} UTC{{utcOffSet}}.",
     "displayName": "Afficher le nom",
     "personalApiTokenDescription": "Ce jeton d'API personnel hérite de vos droits d'accès afin que vous puissiez vous authentifier auprès de l'API.",
     "apiTokenDescription": "Ce jeton d'API propre à l'unité peut être affiché/modifié par n'importe qui ou n'importe quel jeton d'API disposant du droit de configuration des jetons d'API.",
     "noApiToken": "Aucun jeton d'API",
     "newApiToken": "Nouveau jeton d'API",
+    "apiTokenDuplicate": "Dupliquer",
+    "duplicateTokenName": "Duplicata de {{apiTokenName}}",
     "apiTokenUnits": "Des jetons d'API peuvent être utilisés pour <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "noPersonalApiTokens": "Aucun jeton d'API personnel",
     "newPersonalApiToken": "Nouveau jeton d'API personnel",
@@ -882,21 +926,27 @@
     "cancel": "Annuler",
     "loadingApiToken": "Chargement du jeton d'API en cours",
     "failedToLoadApiToken": "Échec du chargement du jeton d'API.",
-    "saving": "Sauvegarde en cours...",
+    "saving": "Enregistrement...",
     "general": "Général",
     "apiTokens": "Jetons d'API",
     "personalApiTokens": "Jetons d'API personnels",
     "token": "Jeton",
     "tokenLastUsed": "Dernière utilisation",
+    "tokenStatus": "Statut",
+    "tokenActive": "Actif",
+    "tokenActiveUntil": "Actif jusqu'au {{dateTime}}",
+    "tokenExpiredOn": "Expiré le {{dateTime}}",
     "tokenCreated": "Créé",
     "tokenCreatedBy": "Créé par",
+    "tokenValidationPleaseEnterTimeInFuture": "Veuillez saisir une date ou une heure future",
     "unknownLabel": "Inconnu",
     "copyApiTokenToClipboard": "Copier le jeton API dans le presse-papiers",
     "inviteUserToGroup": "Sélectionner l'utilisateur à ajouter",
     "applications": "Applications",
     "infrastructure": "Infrastructure",
     "ownerPermissions": "Autorisations du propriétaire",
-    "youAreAssigningThisApiTokenOwnerPermissions": "Vous affectez des autorisations de propriétaire à ce jeton d'API.",
+    "youAreAssigningThisApiTokenOwnerPermissions": "L'attribution de permissions à ce propriétaire de jeton d'API permettra aux utilisateurs de créer, modifier ou supprimer des éléments avec ce jeton dans cette zone.",
+    "yesIUnderstand": "Oui, je comprends",
     "savingGroup": "Sauvegarde du groupe",
     "groupSuccessfullySaved": "Le groupe a été sauvegardé.",
     "groups": "Groupes",

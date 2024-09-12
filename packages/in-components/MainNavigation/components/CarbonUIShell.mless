@@ -14,6 +14,11 @@
     }
   }
 
+  :global(.cds--side-nav__navigation .cds--tag--blue) {
+    --cds-tag-background-blue: #0043ce;
+    --cds-tag-color-blue: #d0e2ff;
+   }
+
   :global(#profileMenu-switcher button svg) {
     top: 1px;
   }

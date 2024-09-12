@@ -484,6 +484,7 @@
       "inventory": {
         "noData": "Keine Smart Alerts konfiguriert. Klicken Sie auf die Schaltfläche unten, um Ihren ersten Smart Alert zu konfigurieren.",
         "noPersmissionToCreateGlobalSmartAlert": "Sie verfügen nicht über die Berechtigung zum Konfigurieren von Smart Alerts. Wenden Sie sich an Ihren Administrator.",
+        "noPermissionGlobalSmartAlertEdit": "Sie haben nicht die Berechtigung, diese Aktion durchzuführen",
         "labelGlobalSmartAlertsList": "Smart Alerts für globale Anwendungen ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Smart Alerts für individuelle Anwendungen ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -549,7 +550,8 @@
           "groupByEndpoint_1": "{{count}} Endpunkte",
           "groupByEndpoint_2": "{{count}} Endpunkte",
           "groupbyDescription": "Basierend auf den Aufrufen der letzten 24 Stunden",
-          "noData": "Es sind keine Daten für die Gruppierung verfügbar."
+          "noData": "Es sind keine Daten für die Gruppierung verfügbar.",
+          "groupByDataFailed": "Es ist ein Fehler aufgetreten. Die Daten der Gruppe nach konnten nicht abgerufen werden. Grund : {{reason}}"
         },
         "callsInScope": {
           "title": "Aufrufe im Bereich auswählen ",
@@ -610,8 +612,8 @@
             "adaptive": {
               "description": "Es wird ein Schwellenwert angewendet, der automatisch an die Änderungen der zugrunde liegenden Metrik angepasst wird.",
               "label": "Adaptiv",
-              "adaptiveNotSupportedForEndPoint": "Adaptiver Schwellenwert wird bei der Gruppierung nach Endpunkten nicht unterstützt.",
-              "adaptiveNotSupportedForBluePrint": "Adaptiver Schwellenwert wird für den ausgewählten Blueprint nicht unterstützt: {{bluePrint}}.",
+              "adaptiveNotSupportedForEndPoint": "Ein adaptiver Schwellenwert wird bei der Gruppierung nach Endpunkten nicht unterstützt.",
+              "adaptiveNotSupportedForBluePrint": "Ein adaptiver Schwellenwert wird für den ausgewählten Blueprint nicht unterstützt: {{bluePrint}}.",
               "notSupported": "Nicht unterstützt"
             },
             "static": {
@@ -768,6 +770,7 @@
         "selectAlertChannelButton": "Alertkanäle auswählen",
         "createAlertChannelTitle": "Alertkanal erstellen",
         "alertChannelCreatedSuccess": "Alertkanal erstellt",
+        "alertChannelCreatedSuccessDescription": "Der Alertkanal wurde erfolgreich erstellt.",
         "alertChannelSelectTypeTitle": "Alertkanaltyp",
         "addChannel": "{{count}} Kanal hinzufügen",
         "addChannel_plural": "{{count}} Kanäle hinzufügen",
@@ -865,6 +868,7 @@
         "criticalAlertPreviewLabel": "Kritische Vorschau",
         "alertPreviewMissingThresholdInfo": "Keine Vorschau verfügbar. Bitte wählen Sie mindestens einen Schwellenwert aus, um die Vorschau zu sehen.",
         "alertPropertiesAlertProperties": "Alerteigenschaften",
+        "alertPreviewDefaultTitle": "Benachrichtigungstitel",
         "groupingPlaceholdersMissingTooltip": "Konfigurieren Sie die Gruppe(n) für den Zugriff auf Platzhalteroptionen",
         "buttonSave": "Speichern",
         "buttonCreate": "Erstellen",
@@ -895,6 +899,11 @@
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Smart Alert erstellen",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Globalen Smart Alert erstellen",
         "alertConfigDialogPresenterTitleMigrateAlert": "Auf Smart Alert migrieren",
+        "alertConfigTearSheetEditAlert_Local": "Bearbeiten einer Anwendung Smart Alert",
+        "alertConfigTearSheetEditAlert_Global": "Bearbeiten einer globalen Smart Alert-Anwendung",
+        "alertConfigTearSheetCreateNewAlert_Local": "Erstellen einer Anwendung Smart Alert",
+        "alertConfigTearSheetCreateNewAlert_Global": "Erstellen einer globalen Smart Alert-Anwendung",
+        "alertConfigTearSheetMigrateAlert": "Umstellung auf die Anwendung Smart Alert",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Zum erweiterten Modus wechseln",
         "simpleAlertConfigDialogStep3Headline": "Wer sollte die Alerts bekommen?",
         "Loading": "Ladevorgang läuft...",
@@ -1319,6 +1328,12 @@
         "customEventInputPlaceholder": "Fügen Sie den Namen eines angepassten Ereignisses ein oder wählen Sie einen aus der Ereignisliste aus.",
         "searchCustomEventButtonLabel": "Wählen Sie ein angepasstes Ereignis aus"
       },
+      "more": "+{{count}} weitere",
+      "more_plural": "+{{count}} weitere",
+      "more_0": "+{{count}} weitere",
+      "more_1": "+{{count}} weitere",
+      "more_2": "+{{count}} weitere",
+      "viewMore": "+Mehr anzeigen",
       "advanced": {
         "thresholdValue": "Schwellenwert"
       },
@@ -1520,16 +1535,15 @@
     },
     "slo": {
       "components": {
-        "operatorDropdown": "",
-        "operatorDropdown_more": "mehr als",
-        "operatorDropdown_more-or-equal": "mehr als oder gleich",
-        "operatorDropdown_less": "kleiner als",
-        "operatorDropdown_less-or-equal": "kleiner-gleich"
+        "timeOptionsDropdown_minute": "Minuten",
+        "timeOptionsDropdown_hour": "Stunden",
+        "timeOptionsDropdown_day": "Tage"
       },
       "validators": {
         "noEmptySloIds": "Wählen Sie mindestens ein SLO aus.",
         "notLessThanOrEqualToZero": "Legen Sie einen Wert fest, der größer als 0 ist.",
-        "noInvalidOperator": "Wählen Sie einen Operator aus der Liste aus."
+        "noInvalidOperator": "Wählen Sie einen Operator aus der Liste aus.",
+        "noInvalidDurationUnit": "Bitte wählen Sie eine Laufzeiteinheit aus der Liste."
       },
       "advancedModeContainer": {
         "stepLabel": "",
@@ -1548,31 +1562,47 @@
         "stepTitle_customPayload": "Angepasste Nutzdaten",
         "selectSloHeadline": "SLOs auswählen",
         "blueprintSectionTitle": "Blueprint auswählen",
+        "blueprint_slo_not_selected": "Bitte wählen Sie mindestens einen SLO aus, um fortzufahren.",
         "blueprint": "",
-        "blueprint_SERVICE_LEVELS_OBJECTIVE": "Status",
-        "blueprint_ERROR_BUDGET": "Fehlerbudget",
+        "blueprint_STATUS": "Status",
+        "blueprint_BURNED_PERCENTAGE": "Fehlerbudget",
+        "blueprint_BURN_RATE": "Verbrennungsrate",
         "blueprintDescription": "",
-        "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "Einen Alert empfangen, wenn der SLO-Status unter einen Schwellenwert fällt.",
-        "blueprintDescription_ERROR_BUDGET": "Einen Alert empfangen, wenn ein Prozentsatz des Fehlerbudgets verbraucht ist.",
+        "blueprintDescription_STATUS": "Einen Alert empfangen, wenn der SLO-Status unter einen Schwellenwert fällt.",
+        "blueprintDescription_BURNED_PERCENTAGE": "Einen Alert empfangen, wenn ein Prozentsatz des Fehlerbudgets verbraucht ist.",
+        "blueprintDescription_BURN_RATE": "Die Verbrennungsrate ist ein Wert, der angibt, wie schnell Ihr Fehlerbudget im Verhältnis zur Ziellänge Ihres SLOs verbraucht wird.",
+        "burnRateShortWindowTitle": "Kurzes Alarmierungsfenster",
+        "burnRateShortWindowDescription": "Diese Warnungen werden ausgelöst, wenn die Fehlerquote den Schwellenwert über einen kürzeren Zeitraum hinweg schneller überschreitet. Dies kann helfen, eine plötzliche Fehlerspitze oder Ausfallzeiten aufgrund eines kritischen Fehlers zu erfassen.",
+        "burnRateDescription": "Benachrichtigen Sie mich, wenn die Verbrennungsrate <1/> <2/> beträgt.",
+        "burnRateLongWindowTitle": "Langes Alarmfenster",
+        "burnRateLongWindowDescription": "Diese Warnungen werden ausgelöst, wenn die Fehlerquote über einen längeren Zeitraum hinweg den Schwellenwert überschreitet. Auf diese Weise lassen sich Probleme erkennen, die sich im Laufe der Zeit angesammelt haben und die in Zukunft zu Problemen führen könnten, wenn sie nicht behoben werden.",
+        "burnRateShortWindowLongerThanLongWindowError": "Das kurze Fenster kann das lange Fenster nicht überschreiten. Bitte passen Sie einen der beiden Werte an.",
+        "burnRateTimeWindowTooLongError": "Das Alarmfenster kann das Zeitfenster eines ausgewählten SLO nicht überschreiten. Bitte überprüfen Sie die folgende SLO: {{value}}.",
         "thresholdTitle": "Schwellenwert: Wann möchten Sie benachrichtigt werden?",
         "thresholdInputDescription": "",
-        "thresholdInputDescription_ERROR_BUDGET": "Wenn <1/> <2/> Prozent des Fehlerbudgets verbraucht sind",
-        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "Wenn der SLO-Status <1/> <2/> Prozent ist",
+        "thresholdInputDescription_BURNED_PERCENTAGE": "Wenn <1/> <2/> Prozent des Fehlerbudgets verbraucht sind",
+        "thresholdInputDescription_STATUS": "Wenn der SLO-Status <1/> <2/> Prozent ist",
+        "thresholdInputDescription_BURN_RATE": "Bewerten Sie die letzte <1/> des SLO.",
         "timeThresholdType_gracePeriod": "Wenn die Bedingung über einen angegebenen Zeitraum bestehen bleibt",
         "timeThresholdTypeTitle_gracePeriod": "Alert bei Verletzung der Bedingung für aufeinanderfolgende $t (in-components:time.minutes, {\"count\": {{minutes}} })",
         "timeThresholdTypeTitle_cooldownPeriod": "Mindestens $t (in-components:time.minutes, {\"count\": {{minutes}} }) muss verstrichen sein, damit das Ereignis beendet wird",
         "alertProperties_entityLabel": "SLO-Name",
-        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO-Status ist niedrig",
-        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO-Status ist $t (in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\") {{percentage}}.",
-        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Verbleibendes Fehlerbudget ist niedrig",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Verbraucht $t (in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\"}) {{percentage}} des Fehlerbudgets.",
+        "alertPropertiesTitlePlaceholder": "",
+        "alertPropertiesTitlePlaceholder_STATUS": "SLO-Status ist niedrig",
+        "alertPropertiesDescriptionPlaceholder_STATUS": "Der SLO-Status ist {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURN_RATE": "Verbrennungsrate wird überschritten",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "Die Verbrennungsrate des SLO ist {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "Verbleibendes Fehlerbudget ist niedrig",
+        "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "Verbraucht {{operator}} {{percentage}} des Fehlerbudgets.",
         "alertPropertiesIncidentWarning": "Vorfälle gelten nur für Service-Level-Ziele, die Anwendungen zugeordnet sind."
       },
       "details": {
         "alertConfigurationTitle": "Alertkonfiguration",
         "sloHeader": "SLOs",
-        "thresholdInfo_ERROR_BUDGET": "Wenn $t (in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\"}) {{percentage}} Prozent des Fehlerbudgets konsumiert werden",
-        "thresholdInfo_SERVICE_LEVELS_OBJECTIVE": "Wenn SLO-Status $t (in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\"}) {{percentage}} Prozent",
+        "thresholdInfo": "",
+        "thresholdInfo_BURN_RATE": "Wenn die Verbrennungsrate {{operator}} {{percentage}}",
+        "thresholdInfo_BURNED_PERCENTAGE": "Wenn {{operator}} {{percentage}} Prozent des Fehlerbudgets verbraucht sind",
+        "thresholdInfo_STATUS": "Wenn SLO-Status {{operator}} {{percentage}} Prozent ist",
         "timeThresholdHeader": "$t (in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t (in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t (in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
@@ -1581,6 +1611,9 @@
       },
       "alertList": {
         "threshold": "Schwellenwert: {{value}}",
+        "threshold_BURN_RATE": "Verbrennungsrate: {{value}}",
+        "threshold_BURNED_PERCENTAGE": "Schwellenwert: {{value}}",
+        "threshold_STATUS": "Schwellenwert: {{value}}",
         "sloApplied": "SLOs angewendet",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLOs",
@@ -1588,8 +1621,9 @@
         "sloCount_1": "{{count}} SLOs",
         "sloCount_2": "{{count}} SLOs",
         "title": "",
-        "title_ERROR_BUDGET": "Fehlerbudget verbraucht",
-        "title_SERVICE_LEVELS_OBJECTIVE": "Status"
+        "title_BURN_RATE": "Verbrennungsrate",
+        "title_BURNED_PERCENTAGE": "Fehlerbudget verbraucht",
+        "title_STATUS": "Status"
       },
       "messages": {
         "successTitle": "",

@@ -215,6 +215,10 @@ export default function ScopeConfig({
 }
 
 function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFilterBySelectionState, tearSheetView }) {
+  // search in the GSA is not working, so temporarily hiding this from the UI,
+  // and once the issue with the search is fixed, `hideSearchInput` can be removed and enable the search.
+  const hideSearchInput = true;
+
   return (
     <HorizontalFlexWrapper className={locals.alignRight}>
       <HorizontalFlexWrapper>
@@ -239,9 +243,11 @@ function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFi
         />
         {!tearSheetView && <Spacer horizontal="xsmall" />}
       </HorizontalFlexWrapper>
-      <div className={locals.lightCardHeaderControlsSearchInputWrapper}>
-        <ServicesAndEndpointsSearchInput onChange={query => setSearchQuery(query)} />
-      </div>
+      {!hideSearchInput && (
+        <div className={locals.lightCardHeaderControlsSearchInputWrapper}>
+          <ServicesAndEndpointsSearchInput onChange={query => setSearchQuery(query)} />
+        </div>
+      )}
     </HorizontalFlexWrapper>
   );
 }

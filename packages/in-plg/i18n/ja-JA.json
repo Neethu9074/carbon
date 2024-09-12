@@ -47,8 +47,8 @@
   },
   "playwithinstana": {
     "content": "独自の環境をモニターする準備ができました",
-    "bookdemo": " デモを予約する",
-    "freetrial": " 無料トライアル",
+    "bookdemo": " ライブデモを予約する",
+    "freetrial": " 無料でお試しください",
     "taketour": " ツアーの実行"
   },
   "agentDetails": {
@@ -406,6 +406,22 @@
         "configurationParameters": "構成パラメーター"
       }
     },
+    "ibmi": {
+      "ibmi": "IBM i",
+      "os": "OS",
+      "archiveTarGz": "アーカイブ (tar.gz)",
+      "archive": {
+        "selectTheAgentPackagingMode": "ステップ 1: エージェント・パッケージ化モードの選択",
+        "selecTthePlatformArchitecture": "ステップ 2: プラットフォーム・アーキテクチャーの選択",
+        "platformArchitecture": "プラットフォームのアーキテクチャー",
+        "beforeYouInstall": "インストールする前に",
+        "installingManually": "手動でのインストール",
+        "startingTheAgent": "エージェントの開始",
+        "agentOptions": {
+          "ibmi64Bit": "IBM i"
+        }
+      }
+    },
     "openshift": {
       "documentLinks": {
         "installOperatorByUsingOlm": "OLM を使用した Operator のインストール",
@@ -437,7 +453,18 @@
       "reviewPrerequisitesAndConfigureContainerApps": "前提条件を確認し、Azure Container Apps をトレース用に設定します。",
       "containerAppSetEnvironmentVariables": "Azure コンテナアプリを作成する際に、以下の環境変数を設定します。",
       "monitoringAzure": "Azure エージェントによる Microsoft Azure の監視とインストルメンテーション",
-      "monitoringAzureContainerApps": "モニタリング Azure コンテナ・アプリ"
+      "monitoringAzureContainerApps": "モニタリング Azure コンテナ・アプリ",
+      "selectAzureAppServiceRuntime": "Azure App Service ランタイムを選択します。",
+      "nodejs": {
+        "reviewPrerequisitesAndInstallAppService": "前提条件を確認して、コレクタをインストールします。",
+        "monitoringAppService": "Azure App Service for Node.js を監視する",
+        "referenceAppServiceDocumentationContent": "前提条件を確認し、インストール・ガイドに従ってコレクタをインス トールします。 詳しい説明は、<azureAppServiceDoc>ドキュメント</azureAppServiceDoc>を参照してください。",
+        "activatingAppService": "コレクターの起動",
+        "appName": "アプリケーション名",
+        "resourceGroupName": "リソース・グループ名",
+        "activatingAppServiceContent": "Azure CLI コマンドの例 Node.js v18.19 以降を使用する ECMAScript モジュール・アプリケーション:",
+        "activatingAppServiceNote": "NODE_OPTIONS の値を更新して、構成に合った正しい設定にしてください。 ガイダンスについては、<azureAppServiceEnableCollectorDoc>ドキュメント</azureAppServiceEnableCollectorDoc>を参照してください。"
+      }
     },
     "gcp": {
       "dockerBuild": "Docker ビルド",
@@ -543,7 +570,6 @@
         "powervcRegion": "PowerVC リージョン",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
-        "kubernetes": "Kubernetes",
         "gke": "Google Kubernetes Engine",
         "eks": "Amazon Elastic Kubernetes Service",
         "name": "名前",
@@ -578,9 +604,9 @@
         "active": "アクティブ",
         "title": "役職",
         "on": "オン",
-        "started": "開始済み",
+        "started": "開始",
         "end": "語末",
-        "health": "状況",
+        "severity": "重大度",
         "searchPlaceholderLabel": "インシデント",
         "viewAllLabel": "インシデント"
       },
@@ -658,7 +684,7 @@
     "noData": {
       "applicationWidget": {
         "header": "アプリケーションはありません",
-        "description": "監視するサービスに関する独自の視点を作成します。",
+        "description": "観察したいサービスについて、独自のアプリケーション・パースペクティブを作成します。",
         "buttonName": "アプリケーション・パースペクティブの作成"
       },
       "incidentsWidget": {
@@ -690,7 +716,7 @@
       },
       "platformsWidget": {
         "header": "プラットフォームなし",
-        "description": "インストールされているすべてのプラットフォームがここにあります。"
+        "description": "表示するプラットフォームはまだない。"
       },
       "businessMonitoringWidget": {
         "header": "ビジネス・プロセスがありません",

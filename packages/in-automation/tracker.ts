@@ -29,7 +29,12 @@ import {
   AUTOMATION_TEST_AI_GENERATED_ACTION,
   AUTOMATION_CLICK_COPY_AI_GENERATED_ACTION,
   AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION,
-  AUTOMATION_ACTION_HISTORY_INSTANCE_DELETE
+  AUTOMATION_ACTION_HISTORY_INSTANCE_DELETE,
+  AUTOMATION_GENERATE_AI_ACTION_CLICK_PROMPT_STEP,
+  AUTOMATION_AI_SELECT_NEXT_PROMPT_STEP_CLICK,
+  AUTOMATION_AI_SELECT_NEXT_CUSTOMIZE_ACTION_STEP_CLICK,
+  AUTOMATION_AI_ACTION_CONTENT_MODIFIED,
+  AUTOMATION_AI_LEAVE_GENERATE_DIALOG
 } from 'in-services/tracking/tracking';
 import { CREATED_OBJECT, STARTED_PROCESS, UPDATED_OBJECT } from 'in-services/util/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -78,6 +83,13 @@ export function useSegmentTracker(): {
   aiGenaratedActionsTabClickTrackerSegment: TrackingFunction;
   viewAIGenaratedActionTrackerSegment: TrackingFunction;
   recommendedActionsTabClickTrackerSegment: TrackingFunction;
+  actionHistoryInstanceDeleteTrackerSegment: TrackingFunction;
+  generateAIButtonClickTrackerSegment: TrackingFunction;
+  generateAIClickPromptStepTrackerSegment: TrackingFunction;
+  selectNextPromptStepClickTrackerSegment: TrackingFunction;
+  selectNextCustomizeActionStepClickTrackerSegment: TrackingFunction;
+  AIActionContentModifiedTrackerSegment: TrackingFunction;
+  AIActionLeaveGenerateDialogTrackerSegment: TrackingFunction;
 } {
   const { trackCta, unstable_trackEvent } = useSegmentTracking();
 
@@ -124,6 +136,34 @@ export function useSegmentTracker(): {
     trackCta(AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK, customData);
   }
 
+  function actionHistoryInstanceDeleteTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_ACTION_HISTORY_INSTANCE_DELETE, customData);
+  }
+
+  function generateAIButtonClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_GENERATE_AI_BUTTON_CLICK, customData);
+  }
+
+  function generateAIClickPromptStepTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_GENERATE_AI_ACTION_CLICK_PROMPT_STEP, customData);
+  }
+
+  function selectNextPromptStepClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_SELECT_NEXT_PROMPT_STEP_CLICK, customData);
+  }
+
+  function selectNextCustomizeActionStepClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_SELECT_NEXT_CUSTOMIZE_ACTION_STEP_CLICK, customData);
+  }
+
+  function AIActionContentModifiedTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_ACTION_CONTENT_MODIFIED, customData);
+  }
+
+  function AIActionLeaveGenerateDialogTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_LEAVE_GENERATE_DIALOG, customData);
+  }
+
   return {
     createActionTrackerSegment,
     editActionTrackerSegment,
@@ -135,6 +175,13 @@ export function useSegmentTracker(): {
     actionHistoryInstanceViewTrackerSegment,
     aiGenaratedActionsTabClickTrackerSegment,
     viewAIGenaratedActionTrackerSegment,
-    recommendedActionsTabClickTrackerSegment
+    recommendedActionsTabClickTrackerSegment,
+    actionHistoryInstanceDeleteTrackerSegment,
+    generateAIButtonClickTrackerSegment,
+    generateAIClickPromptStepTrackerSegment,
+    selectNextPromptStepClickTrackerSegment,
+    selectNextCustomizeActionStepClickTrackerSegment,
+    AIActionContentModifiedTrackerSegment,
+    AIActionLeaveGenerateDialogTrackerSegment
   };
 }

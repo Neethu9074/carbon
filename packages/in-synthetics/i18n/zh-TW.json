@@ -245,13 +245,13 @@
         "associationsLabel": "關聯",
         "applicationsTitle": "關聯：選取要與此綜合測試相關聯的應用程式",
         "applicationsDescription": "將綜合測試與應用程式相關聯將為所有有權存取該應用程式的使用者授予存取權限。",
-        "associationsTitle": "關聯：選取要與此綜合測試相關聯的實體",
+        "associationsTitle": "關聯：選取您要與此綜合測試相關聯的項目",
         "associationsDescription": "將綜合測試與應用程式、網站或行動應用程式相關聯，可以向所有有權存取這些實體的使用者授予存取權限。"
       },
       "associations": {
         "applicationsTitle": "選取要與此綜合測試相關聯的應用程式",
         "applicationsDescription": "將綜合測試與應用程式相關聯將為所有有權存取該應用程式的使用者授予存取權限。",
-        "associationsTitle": "選取要與此綜合測試相關聯的實體",
+        "associationsTitle": "選取您要與此綜合測試相關聯的項目",
         "associationsDescription": "將綜合測試與應用程式、網站或行動應用程式相關聯，可以向所有有權存取這些實體的使用者授予存取權限。",
         "applicationsButtonLabel": "選取應用程式",
         "websitesButtonLabel": "選取網站",
@@ -265,7 +265,7 @@
         "addWebsites": "新增 {{count}} 個網站",
         "addWebsite": "新增網站",
         "addMobileApps": "新增 {{count}} 個行動應用程式",
-        "addMobileApp": "新增行動應用程式",
+        "addMobileApp": "新增行動式應用程式",
         "applicationsTableTitle": "應用程式",
         "websitesTableTitle": "網站",
         "mobileAppsTableTitle": "行動應用程式"
@@ -336,7 +336,7 @@
         "datacentersSubtitle": "在其中一個可用的資料中心啟動 Instana 受管理位置。 如需相關資訊，請參閱<linkDatacenters>使用 Instana 管理的 PoP</linkDatacenters>。",
         "confirmationDialog": {
           "headline": "正在部署位置",
-          "message": "我們正在下列資料中心設定您的新位置。 請耐心等候我們為您自動部署此項目。 完成時，您可以在「位置」標籤中找到新的位置。 <strong>每一個選取的資料中心最多可能需要 10 分鐘。</strong>",
+          "message": "我們正在下列資料中心設定您的新位置。 請耐心等候我們為您自動部署此項目。 完成時，您可以在「位置」標籤中找到新的位置。 <strong>對於每個選取的資料中心，此部署可能需要花費數分鐘的時間。</strong>",
           "table": {
             "heads": {
               "datacenterCode": "資料中心代碼",
@@ -351,7 +351,7 @@
         },
         "deactivateDatacenter": {
           "title": "取消啟動位置",
-          "deactivateMessage": "您確定要取消啟動位置 <strong>{{locationDisplayLabel}}</strong> 嗎？<br/><br/>取消啟動位置可能需要 10 分鐘。 請耐心等候我們為您取消供應此項目。 完成此作業後，位置狀態將為「離線」。<br/>",
+          "deactivateMessage": "您確定要取消啟動位置 <strong>{{locationDisplayLabel}}</strong> 嗎？<br/><br/>停用位置可能需要花費幾分鐘的時間。 請耐心等候我們為您取消供應此項目。 完成此作業後，位置狀態將為「離線」。<br/>",
           "warningMessage": "取消啟動未刪除。 該位置將可用，並且可以再次啟動。 若要完全移除受管理位置，請在位置狀態變更為「離線」時刪除該位置。",
           "activeStatus": "作用中",
           "deactivateButton": "取消啟動"
@@ -435,7 +435,7 @@
       "latency": "延遲",
       "locationLabel": "位置",
       "locations": "{{totalLocations}} 個位置",
-      "applicationLabel": "關聯",
+      "associationLabel": "關聯",
       "health": "性能",
       "action": "動作",
       "labelConfirmRemoveTest": "您確定要移除 <strong>{{testLabel}}</strong> 測試嗎？",

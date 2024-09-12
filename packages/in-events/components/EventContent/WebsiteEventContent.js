@@ -28,6 +28,7 @@ import { isApproximatePrecision } from 'in-events/components/util/metricResultUt
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
@@ -49,7 +50,7 @@ export default function WebsiteEventContent({ event, snapshot, reload }) {
   const [metricResultPrecision, setMetricResultPrecision] = useState();
 
   if (!eventEntity || !alertConfig) {
-    return null;
+    return <LoadingIndicator size="xxxl" />;
   }
 
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');

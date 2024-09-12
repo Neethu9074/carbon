@@ -1,5 +1,8 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "主要導覽"
+    },
     "expandableGroup": {
       "tooltipShowContent": "顯示內容",
       "tooltipHideContent": "隱藏內容",
@@ -16,13 +19,35 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "載入更多"
-      }
+      },
+      "dataTable": "資料表"
+    },
+    "tableSkeleton": {
+      "sampleTable": "範例表格"
     },
     "code": {
       "copy": "複製",
       "copied": "已複製！",
       "showMore": "顯示更多",
       "showLess": "顯示簡略資訊"
+    },
+    "menu": {
+      "sideNavigation": "側邊導覽"
+    },
+    "carbonTabs": {
+      "tabs": "標籤"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "資料表工具列"
+      },
+      "tableTabs": {
+        "listOfTabs": "標籤清單"
+      }
+    },
+    "pill": {
+      "privatePreview": "預覽",
+      "publicPreview": "預覽"
     }
   },
   "formatDate": {

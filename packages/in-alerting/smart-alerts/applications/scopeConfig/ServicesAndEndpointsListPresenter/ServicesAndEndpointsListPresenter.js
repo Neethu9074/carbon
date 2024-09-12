@@ -124,6 +124,13 @@ export function ServicesAndEndpointsSearchInput({ query = '', onChange }) {
     500
   );
 
+  // search in the GSA is not working, so temporarily hiding this from the UI,
+  // and once the issue with the search is fixed, `hideSearchInput` can be removed and enable the search.
+  const hideSearchInput = true;
+  if (hideSearchInput) {
+    return null;
+  }
+
   return (
     <SearchInput
       onChange={debouncedOnChange}

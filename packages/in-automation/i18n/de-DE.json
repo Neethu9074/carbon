@@ -5,6 +5,7 @@
   "test": "Test",
   "recommendedActionsWithCount": "Empfohlene Aktionen ({{count}})",
   "recommendedActions": "Empfohlene Aktionen",
+  "actionName": "Aktionsname",
   "validVaultParameter": "Als optional markierte Vaultparameter müssen entweder beide leer oder beide nicht leer sein.",
   "newAction": "Neue Aktion",
   "runAction": "Aktion ausführen",
@@ -96,32 +97,63 @@
   "AISlugContent": "Zum Generieren dieses Inhalts wurde KI verwendet",
   "createPolicyWithName": "Aktion {{actionName}} anzeigen und Richtlinie erstellen",
   "viewActionCreatePolicy": "Aktion anzeigen und Richtlinie erstellen",
-  "simpleAIDialog": {
-    "Step1Headline": "Beginnen Sie mit einer von watsonx generierten Aktion, um eine neue Aktion und Automationsrichtlinie für dieses Ereignis zu erstellen.",
-    "Step2Headline": "Geben Sie Details zum Erstellen einer neuen Aktion an.",
-    "Step3Headline": "Geben Sie Details zum Erstellen einer neuen Automationsrichtlinie an.",
-    "step1Title": "Schritt 1: Generierte Aktion auswählen",
+  "titleScriptContentReadOnly": "Inhalt (nur Lesen)",
+  "GenerateAIActionDialog": {
+    "actionConfiguration": "Aktionskonfiguration",
+    "actionDetails": "Aktionsdetails",
+    "Step1HeadlineSelectAction": "Beginnen Sie mit einer eingebauten Aktion, die von watsonx erzeugt wurde, um eine neue Aktion für dieses Ereignis zu erstellen.",
+    "Step1HeadlinePrompt": "Erzeugen Sie eine manuelle Aktion mit watsonx auf der Grundlage von Ereignisname, Beschreibung und Entitätstyp.",
+    "Step2Headline": "Geben Sie die Details der Aktion an oder nehmen Sie Änderungen vor, bevor Sie sie im Aktionskatalog speichern.",
+    "Step3Headline": "Optional können Sie zusammen mit der Aktion auch eine Automatisierungsrichtlinie erstellen. Sie können diesen Schritt auch zu einem späteren Zeitpunkt durchführen.",
+    "step1Title": "Schritt 1: Erzeugen oder Auswählen einer Aktion",
+    "step1TitleGenerateAction": "Schritt 1: Erzeugen einer Aktion",
     "step2Title": "Schritt 2: Aktion anpassen",
-    "step3Title": "Schritt 3: Richtlinie erstellen",
+    "step3Title": "Schritt 3: Richtlinie erstellen (optional)",
     "policyDetails": "Richtliniendetails",
-    "policyText": "Für den folgenden Aktions-und Ereignisauslöser wird eine neue Richtlinie erstellt:",
     "policy": {
       "success": {
-        "title": "Aktion und Richtlinie erstellt",
-        "content": "Eine neue Aktion wurde zum Katalog hinzugefügt und eine neue Richtlinie {{name}} wurde erstellt",
-        "link": "Aktionslink"
+        "title": "Richtlinie wurde erstellt.",
+        "content": "Richtlinie <Link>\"{{name}}\"</Link> wurde erfolgreich erstellt."
       }
-    }
+    },
+    "action": {
+      "success": {
+        "title": "Aktion wurde erfolgreich erstellt.",
+        "content": "Aktion <Link>\"{{name}}\"</Link> wurde erfolgreich erstellt."
+      }
+    },
+    "generateAction": "Aktion generieren",
+    "closeDialogDescription": " Sind Sie sicher, dass Sie diese Seite verlassen möchten?",
+    "closeDialogSubDescription": "Wenn Sie diese Seite verlassen, werden die von Ihnen eingegebenen oder ausgewählten Informationen nicht gespeichert.",
+    "liveGeneration": "Live-Erzeugung",
+    "builtinActions": "Eingebaute Aktionen ({{count}})",
+    "eventName": "Ereignisname",
+    "eventDescription": "Ereignisbeschreibung",
+    "eventEntityType": "Entitätstyp Ereignis",
+    "noDataAvailableLive": "Füllen Sie die Eingabefelder aus und klicken Sie auf die Schaltfläche <strong>Aktion erzeugen</strong>, um den Inhalt zu erhalten.",
+    "noDataAvailableSelectAction": "Treffen Sie eine Auswahl, um den Inhalt zu sehen.",
+    "watsonxLoadingContent": "watsonx erzeugt Inhalte",
+    "confirmButtonLabel": "Seite verlassen",
+    "cancelButtonLabel": "Auf der Seite bleiben",
+    "noResultsYet": "Noch keine Ergebnisse",
+    "next": "Weiter",
+    "createActionAndPolicy": "Maßnahmen und Politik gestalten",
+    "createAction": "Maßnahme erstellen",
+    "nameExists": "Es existiert bereits eine Aktion mit Name: {{name}}, und Typ: {{type}}",
+    "failedToGenerateAction": "Aktion konnte nicht erzeugt werden.",
+    "failedToCreateActionPolicy": "Es wurde versäumt, Maßnahmen und Strategien zu entwickeln.",
+    "failedToCreateAction": "Aktion konnte nicht erstellt werden."
   },
-  "SimpleCreatePolicyDialog": {
+  "CreatePolicyDialog": {
     "Step1Headline": "Empfohlene Aktion anzeigen und Automationsrichtlinie für dieses Ereignis erstellen.",
     "Step2Headline": "Geben Sie Details zum Erstellen einer neuen Automationsrichtlinie an.",
     "step1Title": "Schritt 1: Empfohlene Aktion anzeigen",
     "step2Title": "Schritt 2: Richtlinie erstellen",
+    "actionDetails": "Aktionsdetails",
     "policy": {
       "success": {
         "title": "Richtlinie wird erstellt",
-        "successContentForuserAction": "Eine neue Richtlinie {{name}} wurde erstellt"
+        "content": "Richtlinie \"{{name}}\" wurde erfolgreich erstellt."
       }
     }
   },
@@ -149,7 +181,7 @@
     "showsUpInTheListOfActions": "Wird in der Liste der Aktionen angezeigt. Sollte eindeutig und aussagekräftig sein.",
     "showsUpInTheActionDescription": "Wird in der Aktionsbeschreibung angezeigt. Sollte so beschreibend wie möglich sein.",
     "docLinkDescription": "Die URL verweist auf Dokumentation, die Sie bei der Korrektur unterstützen kann.",
-    "manualContentDescription": "Geben Sie hier Anweisungen für die manuelle Aktion ein.",
+    "manualContentDescription": "Bei der Bearbeitung können Sie die Liste mit Hilfe von Markdown um Schritte ergänzen.",
     "manual": "Manuell",
     "confidence_low": "Niedrig",
     "body": "Hauptteil (optional)",
@@ -312,7 +344,6 @@
     "policiesWithCount": "Richtlinien ({{count}})",
     "newPolicy": "Neue Richtlinie",
     "selectEventTrigger": "Ereignisauslöser auswählen",
-    "actionName": "Aktionsname",
     "eventTrigger": "Ereignistrigger",
     "unknownPolicy": "Unbekannte Richtlinie",
     "policy": "Richtlinie",

@@ -38,7 +38,8 @@
       "itemMsg": "+{{leftCount}} mais {{moreMsg}}"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "Tentar novamente"
+      "retryButtonLabel": "Tentar novamente",
+      "openList": "Abrir lista"
     },
     "chartReleasesLanePresenterReleasesLabel": "Liberações",
     "chartReleasesLanePresenterTooltip": "+{{len}} mais liberações",
@@ -260,6 +261,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "Confirmar",
+    "secondaryDialogLabelCancel": "Cancelar",
     "promptPresenterLabelConfirm": "Confirmar"
   },
   "draggableItemSelector": {
@@ -297,8 +299,8 @@
     "labelExpandButtonForContent": "Botão Expandir para conteúdo"
   },
   "featureFeedback": {
-    "labelPublicPreview": "Visualização pública",
-    "labelPrivatePreview": "Visualização privada",
+    "labelPublicPreview": "Visualizar",
+    "labelPrivatePreview": "Visualizar",
     "linkLabelYouCanSendUsFeedback": "É possível nos enviar um feedback"
   },
   "geoHeatMap": {
@@ -353,6 +355,30 @@
     "labelWarning": "Aviso",
     "labelCritical": "Crítico"
   },
+  "vulnerabilities": {
+    "eventType_issue": "vulnerabilidades",
+    "eventType_issue_plural": "vulnerabilidades",
+    "eventType_issue_0": "vulnerabilidades",
+    "eventType_issue_1": "vulnerabilidades",
+    "eventType_issue_2": "vulnerabilidades",
+    "openIssuesListPresenterActionsViewIssues": "Visualizar vulnerabilidades",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "Visualizar {{openIssueCount}} vulnerabilidades",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Carregando vulnerabilidades abertas...",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Falha ao carregar vulnerabilidades abertas",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} Vulnerabilidades abertas",
+    "noVulnerabilities": "Sem vulnerabilidades",
+    "openVulnerabilities": "{{count}} vulnerabilidades",
+    "openVulnerabilities_plural": "{{count}} vulnerabilidades",
+    "openVulnerabilities_0": "{{count}} vulnerabilidades",
+    "openVulnerabilities_1": "{{count}} vulnerabilidades",
+    "openVulnerabilities_2": "{{count}} vulnerabilidades",
+    "noIncidents": "Sem incidentes",
+    "openIncidents": "{{count}} Incidente",
+    "openIncidents_plural": "{{count}} Incidentes",
+    "openIncidents_0": "{{count}} Incidentes",
+    "openIncidents_1": "{{count}} Incidente",
+    "openIncidents_2": "{{count}} Incidentes"
+  },
   "inlineTabNavigation": {
     "labelSelectTab": "Selecionar guia"
   },
@@ -400,6 +426,7 @@
     "viewSwitcherlabelInfrastructure": "Infraestrutura",
     "viewSwitcherLabelApplications": "Aplicativos",
     "viewSwitcherLabelSlo": "Níveis de serviço",
+    "viewSwitcherLabelLogs": "Logs",
     "viewSwitcherLabelAnalytics": "Análise de dados",
     "viewSwitcherLabelWebsitesAndMobileApps": "Websites e aplicativos móveis",
     "viewSwitcherLabelWebsites": "Websites",
@@ -416,9 +443,11 @@
     "viewSwitcherCustomDashboards": "Painéis customizados",
     "viewSwitcherButtonSignOut": "Sair",
     "viewSwitcherLabelTenants": "Locatários",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nova versão da IU da Instana disponível",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Recarregue para atualizar",
     "profileMenu_profileLink": "Perfil",
+    "profileMenu_tooltip": "Menu de perfil",
     "profileMenu_unitName_tenantName": "Nome da unidade - Nome do locatário",
     "profileMenu_switchUnitOrTenant": "Alternar unidade ou locatário",
     "profileMenu_logOut": "Efetuar logout"
@@ -590,8 +619,8 @@
     "loadingData": "Carregando dados"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "Nova versão da Instana disponível",
-    "buttonReloadToUpdate": "Recarregue para atualizar"
+    "newVersionOfInstanaAvailable": "Há uma atualização na interface do usuário do Instana",
+    "buttonReloadToUpdate": "Atualize seu navegador para carregá-lo."
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "Chamadas",

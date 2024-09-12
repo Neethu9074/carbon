@@ -7,6 +7,8 @@
 import InfraExploreView from 'promise-loader?global,infrastructure!in-infrastructure/Explore/Explore';
 // @ts-expect-error module need to be translated to TS
 import TableView from 'promise-loader?global,infrastructure!in-infrastructure/tableView/TableView';
+// @ts-expect-error module need to be translated to TS
+import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
 //@ts-expect-error
 import SmartAlertDetailsView from 'promise-loader?global,infrastructure!in-infrastructure/smartAlertView/AlertDetailsView';
 //@ts-expect-error
@@ -18,9 +20,15 @@ import React from 'react';
 
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+import {
+  containerPath,
+  graphPath,
+  physicalPath,
+  tablePath,
+  infraSmartAlerts
+} from 'in-stores/navigation/paths/mainPaths';
 // @ts-expect-error module need to be translated to TS
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
-import { containerPath, physicalPath, tablePath, infraSmartAlerts } from 'in-stores/navigation/paths/mainPaths';
 import { infraAlertDetailsFullyQualifiedPath } from 'in-stores/navigation/paths/mainPaths';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
@@ -44,6 +52,9 @@ const infrastructureRoutes = [
   </Route>,
   <Route key="infraTable" path={tablePath}>
     {renderAsyncRouteChildren(TableView)}
+  </Route>,
+  <Route key="infraGraph" path={graphPath}>
+    {renderAsyncRouteChildren(GraphView)}
   </Route>
 ];
 if (hasInfrastructureAnalyzeAccess) {

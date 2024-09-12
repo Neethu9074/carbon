@@ -166,7 +166,8 @@
         "selfTime": "自计时",
         "networkTime": "网络时间",
         "waitingTime": "等待时间",
-        "latency": "等待时间"
+        "latency": "等待时间",
+        "findSQL": "在 {{type}} 中查找 SQL"
       },
       "callTree": {
         "expandButtonForRow": "展开所有子调用",

@@ -53,7 +53,8 @@
     "javaRuntime": "Java 執行時期",
     "status": "狀態",
     "agentDetails": "代理程式詳細資料",
-    "totalAgents": "代理程式總計"
+    "totalAgents": "代理程式總計",
+    "anErrorOccurredPleaseTryAgain": "發生錯誤，請重試。"
   },
   "dashboard": {
     "comparisonTable": "對照表",

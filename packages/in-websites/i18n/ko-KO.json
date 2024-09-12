@@ -765,7 +765,8 @@
         "sizesTechnicalLabelAtMost": "최대 {{max}}px(포함)"
       },
       "synthetic": {
-        "tabLabel": "합성 모니터링"
+        "tabLabel": "합성 모니터링",
+        "noDataTitle": "이 웹 사이트와 연관된 합성 테스트가 없습니다."
       },
       "indexLabelSummary": "요약",
       "indexLabelSpeed": "속도",

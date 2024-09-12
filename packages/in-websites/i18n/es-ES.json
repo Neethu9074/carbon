@@ -765,7 +765,8 @@
         "sizesTechnicalLabelAtMost": "Como máximo {{max}} px (incluido)"
       },
       "synthetic": {
-        "tabLabel": "Supervisión sintética"
+        "tabLabel": "Supervisión sintética",
+        "noDataTitle": "No hay pruebas sintéticas asociadas a este sitio web."
       },
       "indexLabelSummary": "Resumen",
       "indexLabelSpeed": "Velocidad",

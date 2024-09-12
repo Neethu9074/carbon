@@ -54,5 +54,11 @@
   "host": "Host",
   "fileOnHost": "act",
   "file": "Archivo",
-  "logExpiration": "Retenido hasta"
+  "logExpiration": "Retenido hasta",
+  "dashboard": {
+    "summary": "Resumen",
+    "smartAlerts": "Alertas inteligentes",
+    "deleteLogs": "Suprimir registros",
+    "configuration": "Configuración"
+  }
 }
