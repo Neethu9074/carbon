@@ -791,6 +791,16 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'graphViewFromAboutInstanaEnabled',
+    instanaCtlKey: 'feature.graph.view.from.about.instana.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'graphViewFromInfraMap',
+    instanaCtlKey: 'feature.graph.view.from.infra.map.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'nutanixEnabled',
     instanaCtlKey: 'feature.nutanix.enabled',
     defaultValue: false
