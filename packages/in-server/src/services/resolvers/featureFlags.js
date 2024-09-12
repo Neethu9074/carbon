@@ -796,7 +796,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'graphViewFromInfraMap',
+    uiClientKey: 'graphViewFromInfraMapEnabled',
     instanaCtlKey: 'feature.graph.view.from.infra.map.enabled',
     defaultValue: false
   },
