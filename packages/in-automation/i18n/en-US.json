@@ -5,6 +5,8 @@
   "test": "Test",
   "recommendedActionsWithCount": "Recommended Actions ({{count}})",
   "recommendedActions": "Recommended Actions",
+  "recommendedOptimizationsWithCount": "Recommended resource optimizations ({{count}})",
+  "recommendedOptimizations": "Recommended resource optimizations",
   "actionName": "Action Name",
   "validVaultParameter": "Vault parameters marked as optional must be either both blank or both not blank.",
   "newAction": "New Action",
