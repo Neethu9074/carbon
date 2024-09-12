@@ -47,8 +47,8 @@
   },
   "playwithinstana": {
     "content": "Pronto a monitorare il tuo ambiente",
-    "bookdemo": " Prenota una demo",
-    "freetrial": " Versione di prova gratuita",
+    "bookdemo": " Prenota una demo live",
+    "freetrial": " Prova gratuitamente",
     "taketour": " Segui un tour"
   },
   "agentDetails": {
@@ -406,6 +406,22 @@
         "configurationParameters": "Parametri di configurazione"
       }
     },
+    "ibmi": {
+      "ibmi": "IBM i",
+      "os": "Sistemi operativi",
+      "archiveTarGz": "Archivio (tar.gz)",
+      "archive": {
+        "selectTheAgentPackagingMode": "Passo 1: selezionare la modalità di impacchettamento dell'agent",
+        "selecTthePlatformArchitecture": "Passo 2: selezionare l'architettura della piattaforma",
+        "platformArchitecture": "Architettura della piattaforma",
+        "beforeYouInstall": "Prima di effettuare l'installazione",
+        "installingManually": "Installazione manuale",
+        "startingTheAgent": "Avvio dell'agent",
+        "agentOptions": {
+          "ibmi64Bit": "IBM i"
+        }
+      }
+    },
     "openshift": {
       "documentLinks": {
         "installOperatorByUsingOlm": "Installazione dell'operatore utilizzando OLM",
@@ -437,7 +453,18 @@
       "reviewPrerequisitesAndConfigureContainerApps": "Esaminare i prerequisiti e configurare le applicazioni contenitore di Azure per il tracciamento.",
       "containerAppSetEnvironmentVariables": "Impostare le seguenti variabili d'ambiente durante la creazione di un'applicazione contenitore di Azure.",
       "monitoringAzure": "Monitoraggio e strumentazione di Microsoft Azure con l'agente Azure",
-      "monitoringAzureContainerApps": "Monitoraggio delle applicazioni contenitore di Azure"
+      "monitoringAzureContainerApps": "Monitoraggio delle applicazioni contenitore di Azure",
+      "selectAzureAppServiceRuntime": "Selezionare il runtime Azure App Service.",
+      "nodejs": {
+        "reviewPrerequisitesAndInstallAppService": "Riesaminare i prerequisiti e installare il programma di raccolta.",
+        "monitoringAppService": "Monitoraggio di Azure App Service per Node.js",
+        "referenceAppServiceDocumentationContent": "Riesaminare i prerequisiti e seguire la guida all'installazione per installare il programma di raccolta. Per istruzioni dettagliate, fare riferimento alla <azureAppServiceDoc>documentazione</azureAppServiceDoc>.",
+        "activatingAppService": "Attivazione del programma di raccolta.",
+        "appName": "Nome app",
+        "resourceGroupName": "Nome gruppo di risorse",
+        "activatingAppServiceContent": "Esempio di comando CLI Azure per un'applicazione con modulo ECMAScript che utilizza Node.js v18.19 o successivo:",
+        "activatingAppServiceNote": "Aggiornare il valore NODE_OPTIONS in modo che corrisponda all'impostazione corretta per la propria configurazione. Per istruzioni, fare riferimento alla <azureAppServiceEnableCollectorDoc>documentazione</azureAppServiceEnableCollectorDoc>."
+      }
     },
     "gcp": {
       "dockerBuild": "Build docker",
@@ -499,7 +526,7 @@
     "smartAlerts": {
       "title": "Ricevi avvisi",
       "description": "Configura facilmente gli avvisi con progetti predefiniti per una personalizzazione sia semplice che avanzata.",
-      "buttonName": "Configura gli smart alert"
+      "buttonName": "Configura avvisi smart"
     },
     "startMonitoring": {
       "title": "Monitora l'ambiente",
@@ -543,7 +570,6 @@
         "powervcRegion": "Regione PowerVC",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
-        "kubernetes": "Kubernetes",
         "gke": "Google Kubernetes Engine",
         "eks": "Amazon Elastic Kubernetes Service",
         "name": "Nome",
@@ -578,9 +604,9 @@
         "active": "attivo",
         "title": "Titolo",
         "on": "Attivo",
-        "started": "Avviato",
+        "started": "Avvia",
         "end": "Fine",
-        "health": "Stato",
+        "severity": "Gravità",
         "searchPlaceholderLabel": "incidenti",
         "viewAllLabel": "incidenti"
       },
@@ -658,7 +684,7 @@
     "noData": {
       "applicationWidget": {
         "header": "Nessuna applicazione",
-        "description": "Creare la propria prospettiva sui servizi che si desidera osservare.",
+        "description": "Creare la propria prospettiva dell'applicazione sui servizi che si desidera osservare.",
         "buttonName": "Crea prospettiva dell'applicazione"
       },
       "incidentsWidget": {
@@ -690,7 +716,7 @@
       },
       "platformsWidget": {
         "header": "Nessuna piattaforma",
-        "description": "Tutte le piattaforme installate sono disponibili qui."
+        "description": "Non ci sono ancora piattaforme da visualizzare."
       },
       "businessMonitoringWidget": {
         "header": "Nessun processo di business",

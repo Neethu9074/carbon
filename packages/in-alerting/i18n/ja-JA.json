@@ -484,6 +484,7 @@
       "inventory": {
         "noData": "スマート・アラートが構成されていません。 下のボタンをクリックして最初のスマート・アラートを構成してください。",
         "noPersmissionToCreateGlobalSmartAlert": "スマート・アラートを構成する権限がありません。 管理者にお問い合わせください。",
+        "noPermissionGlobalSmartAlertEdit": "このアクションを実行する権限がありません",
         "labelGlobalSmartAlertsList": "グローバル・アプリケーション・スマート・アラート ({{numberOfAlerts}} 個)",
         "labelSmartAlertsList": "アプリケーション・スマート・アラート ({{numberOfAlerts}} 個)",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -549,7 +550,8 @@
           "groupByEndpoint_1": "{{count}} エンドポイント",
           "groupByEndpoint_2": "{{count}} エンドポイント",
           "groupbyDescription": "過去 24 時間以内に発信された通話に基づきます",
-          "noData": "グループ分けのデータはない。"
+          "noData": "グループ分けのデータはない。",
+          "groupByDataFailed": "何らかの問題が発生しました。 データでグループを取得することができません。 理由: {{reason}}"
         },
         "callsInScope": {
           "title": "スコープ内の呼び出しの選択 ",
@@ -610,8 +612,8 @@
             "adaptive": {
               "description": "基礎となるメトリックの変化に自動的に適応するしきい値が適用されます。",
               "label": "適応",
-              "adaptiveNotSupportedForEndPoint": "適応しきい値は、エンドポイントでグループ化する場合はサポートされません。",
-              "adaptiveNotSupportedForBluePrint": "選択された Blueprint に適応しきい値がサポートされていません: {{bluePrint}}。",
+              "adaptiveNotSupportedForEndPoint": "適応しきい値は、エンドポイントでグループ化する場合にはサポートされません。",
+              "adaptiveNotSupportedForBluePrint": "選択されたブループリント: {{bluePrint}} で適応しきい値がサポートされていません。",
               "notSupported": "未サポート"
             },
             "static": {
@@ -768,6 +770,7 @@
         "selectAlertChannelButton": "アラート・チャネルの選択",
         "createAlertChannelTitle": "アラート・チャネルの作成",
         "alertChannelCreatedSuccess": "アラート・チャネルが作成されました",
+        "alertChannelCreatedSuccessDescription": "アラート・チャンネルは正常に作成されました。",
         "alertChannelSelectTypeTitle": "アラート・チャネルのタイプ",
         "addChannel": "{{count}} 個のチャネルを追加",
         "addChannel_plural": "{{count}} 個のチャネルを追加",
@@ -865,6 +868,7 @@
         "criticalAlertPreviewLabel": "クリティカル・プレビュー",
         "alertPreviewMissingThresholdInfo": "使用可能なプレビューがありません。 プレビューを表示するには、少なくとも 1 つのしきい値を選択してください。",
         "alertPropertiesAlertProperties": "アラートのプロパティー",
+        "alertPreviewDefaultTitle": "通知タイトル",
         "groupingPlaceholdersMissingTooltip": "プレースホルダ・オプションにアクセスするグループを設定する",
         "buttonSave": "保存",
         "buttonCreate": "作成",
@@ -895,6 +899,11 @@
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "スマート・アラートの作成",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "グローバル・スマート・アラートの作成",
         "alertConfigDialogPresenterTitleMigrateAlert": "スマート・アラートへのマイグレーション",
+        "alertConfigTearSheetEditAlert_Local": "アプリケーションのスマート・アラートの編集",
+        "alertConfigTearSheetEditAlert_Global": "アプリケーションのグローバル・スマート・アラートの編集",
+        "alertConfigTearSheetCreateNewAlert_Local": "アプリケーションのスマート・アラートの作成",
+        "alertConfigTearSheetCreateNewAlert_Global": "アプリケーションのグローバル・スマート・アラートの作成",
+        "alertConfigTearSheetMigrateAlert": "アプリケーション・スマート・アラートへの移行",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "拡張モードに切り替える",
         "simpleAlertConfigDialogStep3Headline": "だれがアラートを受け取りますか?",
         "Loading": "ロード中…",
@@ -1319,6 +1328,12 @@
         "customEventInputPlaceholder": "カスタム・イベント名を貼り付けるか、イベントのリストからカスタム・イベント名を選択します",
         "searchCustomEventButtonLabel": "カスタム・イベントの選択"
       },
+      "more": "+{count} 件",
+      "more_plural": "+{count} 件",
+      "more_0": "+{count} 件",
+      "more_1": "+{count} 件",
+      "more_2": "+{count} 件",
+      "viewMore": "+詳細を表示",
       "advanced": {
         "thresholdValue": "しきい値"
       },
@@ -1520,16 +1535,15 @@
     },
     "slo": {
       "components": {
-        "operatorDropdown": "",
-        "operatorDropdown_more": "次の値より大きい",
-        "operatorDropdown_more-or-equal": "次の値以上",
-        "operatorDropdown_less": "より小さい",
-        "operatorDropdown_less-or-equal": "次以下"
+        "timeOptionsDropdown_minute": "分",
+        "timeOptionsDropdown_hour": "時間",
+        "timeOptionsDropdown_day": "日数"
       },
       "validators": {
         "noEmptySloIds": "少なくとも1つのSLOを選択してください。",
         "notLessThanOrEqualToZero": "0より大きい値を設定してください。",
-        "noInvalidOperator": "リストから演算子を選択してください。"
+        "noInvalidOperator": "リストから演算子を選択してください。",
+        "noInvalidDurationUnit": "期間単位をリストから選択します。"
       },
       "advancedModeContainer": {
         "stepLabel": "",
@@ -1548,31 +1562,47 @@
         "stepTitle_customPayload": "カスタム・ペイロード",
         "selectSloHeadline": "SLOの選択",
         "blueprintSectionTitle": "ブループリントの選択",
+        "blueprint_slo_not_selected": "少なくとも 1 つの SLO を選択します。",
         "blueprint": "",
-        "blueprint_SERVICE_LEVELS_OBJECTIVE": "状況",
-        "blueprint_ERROR_BUDGET": "エラー予算",
+        "blueprint_STATUS": "状況",
+        "blueprint_BURNED_PERCENTAGE": "エラー予算",
+        "blueprint_BURN_RATE": "燃焼率",
         "blueprintDescription": "",
-        "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "SLO状況がしきい値を下回った場合にアラートを受け取ります。",
-        "blueprintDescription_ERROR_BUDGET": "エラー・バジェットの一定の割合が消費された場合にアラートを受け取ります。",
+        "blueprintDescription_STATUS": "SLO状況がしきい値を下回った場合にアラートを受け取ります。",
+        "blueprintDescription_BURNED_PERCENTAGE": "エラー・バジェットの一定の割合が消費された場合にアラートを受け取ります。",
+        "blueprintDescription_BURN_RATE": "燃焼率は、SLO の目標長に対して、エラー・バジェットがどの程度の速さで消費されるかを示す値です。",
+        "burnRateShortWindowTitle": "短いアラート・ウィンドウ",
+        "burnRateShortWindowDescription": "これらのアラートは、エラーレートが短時間でしきい値を超えた場合にトリガーされます。 これにより、重大なバグによるエラーの突然の急増やダウンタイムを捉えることができます。",
+        "burnRateDescription": "燃焼率が <1/> <2/> になったら通知します。",
+        "burnRateLongWindowTitle": "長いアラート・ウィンドウ",
+        "burnRateLongWindowDescription": "これらのアラートは、エラー率がしきい値を超える期間が長くなるとトリガーされます。 これにより、時間の経過とともに蓄積され、対処しないと将来問題を引き起こす可能性のある問題を特定できます。",
+        "burnRateShortWindowLongerThanLongWindowError": "短いウインドウがロング・ウインドウを超えることはできません。 どちらかの値を調整してください。",
+        "burnRateTimeWindowTooLongError": "アラート・ウィンドウは、選択した SLO の時間ウィンドウを超えることはできません。 次のSLOをチェックしてください: {{value}}。",
         "thresholdTitle": "しきい値: いつアラートを受け取りますか?",
         "thresholdInputDescription": "",
-        "thresholdInputDescription_ERROR_BUDGET": "エラー・バジェットの <1/> <2/> パーセントが消費された場合",
-        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "SLO状況が <1/> <2/> パーセントである場合",
+        "thresholdInputDescription_BURNED_PERCENTAGE": "エラー・バジェットの <1/> <2/> パーセントが消費された場合",
+        "thresholdInputDescription_STATUS": "SLO状況が <1/> <2/> パーセントである場合",
+        "thresholdInputDescription_BURN_RATE": "SLO の最後の <1/> を評価します。",
         "timeThresholdType_gracePeriod": "状態が指定された時間以上続く場合",
         "timeThresholdTypeTitle_gracePeriod": "連続する $t (in-components:time.minutes, {\"count\": {{minutes}} }) の条件に違反した場合のアラート",
         "timeThresholdTypeTitle_cooldownPeriod": "イベントが終了するには、少なくとも $t(in-components:time.minutes, {\"count\": {{minutes}} }) が経過している必要があります。",
         "alertProperties_entityLabel": "SLO名",
-        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO状況が低くなっています",
-        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO状況は $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} です。",
-        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "残りのエラー・バジェットが少なくなっています",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "エラー・バジェットの $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} を消費しました。",
+        "alertPropertiesTitlePlaceholder": "",
+        "alertPropertiesTitlePlaceholder_STATUS": "SLO状況が低くなっています",
+        "alertPropertiesDescriptionPlaceholder_STATUS": "SLO のステータスは {{operator}} {{percentage}} です。",
+        "alertPropertiesTitlePlaceholder_BURN_RATE": "燃焼速度超過",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "SLO の燃焼率は {{operator}} {{percentage}} です。",
+        "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "残りのエラー・バジェットが少なくなっています",
+        "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "エラー予算の {{operator}} {{percentage}} を消費しました。",
         "alertPropertiesIncidentWarning": "インシデントは、SLOが関連付けられたアプリケーションにのみ適用されます"
       },
       "details": {
         "alertConfigurationTitle": "アラートの構成",
         "sloHeader": "SLO",
-        "thresholdInfo_ERROR_BUDGET": "エラー・バジェットの $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} パーセントを消費した場合",
-        "thresholdInfo_SERVICE_LEVELS_OBJECTIVE": "SLO状況が $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} パーセントである場合",
+        "thresholdInfo": "",
+        "thresholdInfo_BURN_RATE": "燃焼率が {{operator}} の場合 {{percentage}}",
+        "thresholdInfo_BURNED_PERCENTAGE": "{{operator}} {{percentage}} エラー予算のパーセントが消費されたとき",
+        "thresholdInfo_STATUS": "SLO のステータスが {{operator}} {{percentage}} パーセントの場合",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
@@ -1581,6 +1611,9 @@
       },
       "alertList": {
         "threshold": "しきい値: {{value}}",
+        "threshold_BURN_RATE": "燃焼率: {{value}}",
+        "threshold_BURNED_PERCENTAGE": "しきい値: {{value}}",
+        "threshold_STATUS": "しきい値: {{value}}",
         "sloApplied": "SLOを適用済み",
         "sloCount": "{{count}} 個のSLO",
         "sloCount_plural": "{{count}} 個のSLO",
@@ -1588,8 +1621,9 @@
         "sloCount_1": "{{count}} 個のSLO",
         "sloCount_2": "{{count}} 個のSLO",
         "title": "",
-        "title_ERROR_BUDGET": "エラー・バジェットが消費されました",
-        "title_SERVICE_LEVELS_OBJECTIVE": "状況"
+        "title_BURN_RATE": "燃焼率",
+        "title_BURNED_PERCENTAGE": "エラー・バジェットが消費されました",
+        "title_STATUS": "状況"
       },
       "messages": {
         "successTitle": "",

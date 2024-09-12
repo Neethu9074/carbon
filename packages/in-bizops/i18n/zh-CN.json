@@ -19,6 +19,9 @@
     "unnamedActivity": "（未命名的活动）{{activityType}}",
     "unnamedService": "(未命名服务)"
   },
+  "processes": {
+    "deployAgent": "部署代理程序"
+  },
   "perspectives": {
     "newPerspective": "创建透视图",
     "lists": {

@@ -765,7 +765,8 @@
         "sizesTechnicalLabelAtMost": "Höchstens {{max}} px (einschließlich)"
       },
       "synthetic": {
-        "tabLabel": "Überwachung der synthetischen Transaktionen"
+        "tabLabel": "Überwachung der synthetischen Transaktionen",
+        "noDataTitle": "Mit dieser Website sind keine synthetischen Tests verbunden."
       },
       "indexLabelSummary": "Zusammenfassung",
       "indexLabelSpeed": "Geschwindigkeit",

@@ -47,8 +47,8 @@
   },
   "playwithinstana": {
     "content": "Pronto para monitorar seu próprio ambiente",
-    "bookdemo": " Agendar uma demo",
-    "freetrial": " Avaliação grátis",
+    "bookdemo": " Agende uma demonstração ao vivo",
+    "freetrial": " Experimente Grátis",
     "taketour": " Faça um tour"
   },
   "agentDetails": {
@@ -406,6 +406,22 @@
         "configurationParameters": "Parâmetros de configuração"
       }
     },
+    "ibmi": {
+      "ibmi": "IBM i",
+      "os": "S.O.",
+      "archiveTarGz": "Archive (tar.gz)",
+      "archive": {
+        "selectTheAgentPackagingMode": "Etapa 1: selecione o modo de empacotamento do agente",
+        "selecTthePlatformArchitecture": "Etapa 2: selecione a arquitetura da plataforma",
+        "platformArchitecture": "Arquitetura da plataforma",
+        "beforeYouInstall": "Antes de instalar",
+        "installingManually": "Instalando manualmente",
+        "startingTheAgent": "Iniciando o Agente",
+        "agentOptions": {
+          "ibmi64Bit": "IBM i"
+        }
+      }
+    },
     "openshift": {
       "documentLinks": {
         "installOperatorByUsingOlm": "Instalando o operador usando OLM",
@@ -437,7 +453,18 @@
       "reviewPrerequisitesAndConfigureContainerApps": "Revise os pré-requisitos e configure seu Azure Container Apps para rastreio.",
       "containerAppSetEnvironmentVariables": "Configure as variáveis de ambiente a seguir ao criar um Azure Container App.",
       "monitoringAzure": "Monitoramento e instrumentação do Microsoft Azure com o agente Azure",
-      "monitoringAzureContainerApps": "Monitoramento do Azure Container Apps"
+      "monitoringAzureContainerApps": "Monitoramento do Azure Container Apps",
+      "selectAzureAppServiceRuntime": "Selecione o tempo de execução do Azure App Service.",
+      "nodejs": {
+        "reviewPrerequisitesAndInstallAppService": "Revise os pré-requisitos e instale o coletor.",
+        "monitoringAppService": "Monitoramento do Azure App Service para Node.js",
+        "referenceAppServiceDocumentationContent": "Revise os pré-requisitos e siga o guia de instalação para instalar o coletor. Para obter instruções detalhadas, consulte a <azureAppServiceDoc>documentação</azureAppServiceDoc>.",
+        "activatingAppService": "Ativando o coletor.",
+        "appName": "Nome do aplicativo",
+        "resourceGroupName": "Nome do Grupo de recursos",
+        "activatingAppServiceContent": "Exemplo de comando da CLI do Azure para um aplicativo de módulo ECMAScript usando o Node.js v18.19 ou mais recente:",
+        "activatingAppServiceNote": "Atualize o valor de NODE_OPTIONS para que corresponda à configuração correta de sua configuração. Consulte a <azureAppServiceEnableCollectorDoc>documentação</azureAppServiceEnableCollectorDoc> para obter orientação."
+      }
     },
     "gcp": {
       "dockerBuild": "Construção do Docker",
@@ -543,7 +570,6 @@
         "powervcRegion": "Região PowerVC",
         "sap": "SAP",
         "ibmz": "HMC do IBM Z",
-        "kubernetes": "Kubernetes",
         "gke": "Google Kubernetes Engine",
         "eks": "Amazon Elastic Kubernetes Service",
         "name": "Nome",
@@ -578,9 +604,9 @@
         "active": "ativo",
         "title": "Título",
         "on": "ON",
-        "started": "Iniciado",
+        "started": "Início",
         "end": "Terminar",
-        "health": "Status",
+        "severity": "Gravidade",
         "searchPlaceholderLabel": "incidentes",
         "viewAllLabel": "incidentes"
       },
@@ -658,7 +684,7 @@
     "noData": {
       "applicationWidget": {
         "header": "Nenhum aplicativo",
-        "description": "Crie sua própria perspectiva sobre os serviços que deseja observar.",
+        "description": "Crie sua própria perspectiva de aplicativo sobre os serviços que deseja observar.",
         "buttonName": "Criar perspectiva de aplicativo"
       },
       "incidentsWidget": {
@@ -690,7 +716,7 @@
       },
       "platformsWidget": {
         "header": "Nenhuma plataforma",
-        "description": "Localize todas as plataformas instaladas aqui."
+        "description": "Ainda não há plataformas a serem exibidas."
       },
       "businessMonitoringWidget": {
         "header": "Nenhum processo de negócios",

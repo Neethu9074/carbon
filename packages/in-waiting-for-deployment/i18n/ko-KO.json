@@ -40,6 +40,7 @@
     "microsoftAzure": "Microsoft Azure",
     "azureKubernetesServiceAks": "AKS(Azure Kubernetes Service)",
     "azureContainerApps": "Azure 컨테이너 앱",
+    "azureAppService": "Azure App Service",
     "googleCloud": "Google Cloud",
     "googleCloudPlatform": "Google Cloud Platform",
     "googleComputeEngineGceLinux": "GCE(Google Compute Engine) - Linux",

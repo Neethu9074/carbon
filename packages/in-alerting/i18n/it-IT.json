@@ -484,6 +484,7 @@
       "inventory": {
         "noData": "Non è stato configurato nessun avviso smart. Fare clic sul pulsante indicato di seguito per configurare il primo avviso smart.",
         "noPersmissionToCreateGlobalSmartAlert": "Non si dispone dell'autorizzazione per configurare gli avvisi smart. Contattare l'amministratore.",
+        "noPermissionGlobalSmartAlertEdit": "Non si dispone dell'autorizzazione per eseguire questa azione",
         "labelGlobalSmartAlertsList": "Avvisi smart applicazione globali ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Avvisi smart applicazione ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -549,7 +550,8 @@
           "groupByEndpoint_1": "{{count}} endpoint",
           "groupByEndpoint_2": "{{count}} endpoint",
           "groupbyDescription": "In base alle chiamate effettuate nelle ultime 24 ore",
-          "noData": "Non sono disponibili dati groupby."
+          "noData": "Non sono disponibili dati groupby.",
+          "groupByDataFailed": "Si è verificato un errore. Impossibile richiamare i dati di raggruppamento. Motivo: {{reason}}"
         },
         "callsInScope": {
           "title": "Scegli chiamate nell'ambito ",
@@ -610,8 +612,8 @@
             "adaptive": {
               "description": "Viene applicato un valore di soglia che si adatta automaticamente alle modifiche della metrica sottostante.",
               "label": "Adattivo",
-              "adaptiveNotSupportedForEndPoint": "La soglia adattiva non è supportata quando si raggruppa per endpoint.",
-              "adaptiveNotSupportedForBluePrint": "La soglia adattiva non è supportata per il blueprint selezionato: {{bluePrint}}.",
+              "adaptiveNotSupportedForEndPoint": "Una soglia adattiva non è supportata quando si raggruppa per endpoint.",
+              "adaptiveNotSupportedForBluePrint": "Una soglia adattiva non è supportata per il blueprint selezionato: {{bluePrint}}.",
               "notSupported": "Non supportato"
             },
             "static": {
@@ -768,6 +770,7 @@
         "selectAlertChannelButton": "Seleziona canali di avviso",
         "createAlertChannelTitle": "Crea canale di avviso",
         "alertChannelCreatedSuccess": "Canale di avviso creato",
+        "alertChannelCreatedSuccessDescription": "Il canale di avviso è stato creato correttamente.",
         "alertChannelSelectTypeTitle": "Tipo di canale di avviso",
         "addChannel": "Aggiungi {{count}} canale",
         "addChannel_plural": "Aggiungi {{count}} canali",
@@ -865,6 +868,7 @@
         "criticalAlertPreviewLabel": "Anteprima critica",
         "alertPreviewMissingThresholdInfo": "Nessuna anteprima disponibile. Selezionare almeno un valore di soglia per visualizzare l'anteprima.",
         "alertPropertiesAlertProperties": "Proprietà avviso",
+        "alertPreviewDefaultTitle": "Titolo notifica",
         "groupingPlaceholdersMissingTooltip": "Configurare i gruppi per accedere alle opzioni dei segnaposto",
         "buttonSave": "Salva",
         "buttonCreate": "Crea",
@@ -895,6 +899,11 @@
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Crea avviso smart",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Crea avviso smart globale",
         "alertConfigDialogPresenterTitleMigrateAlert": "Migra ad avviso smart",
+        "alertConfigTearSheetEditAlert_Local": "Modifica un avviso smart di applicazione",
+        "alertConfigTearSheetEditAlert_Global": "Modifica un avviso smart di applicazione globale",
+        "alertConfigTearSheetCreateNewAlert_Local": "Crea un avviso smart di applicazione",
+        "alertConfigTearSheetCreateNewAlert_Global": "Crea un avviso smart di applicazione globale",
+        "alertConfigTearSheetMigrateAlert": "Migra a avviso smart di applicazione",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Passa alla modalità avanzata",
         "simpleAlertConfigDialogStep3Headline": "Chi deve ricevere gli avvisi?",
         "Loading": "Caricamento…",
@@ -1319,6 +1328,12 @@
         "customEventInputPlaceholder": "Incollare un nome evento personalizzato o selezionarne uno dall'elenco degli eventi",
         "searchCustomEventButtonLabel": "Seleziona evento personalizzato"
       },
+      "more": "+{{count}} altri",
+      "more_plural": "+{{count}} altri",
+      "more_0": "+{{count}} altri",
+      "more_1": "+{{count}} altri",
+      "more_2": "+{{count}} altri",
+      "viewMore": "+Visualizza altro",
       "advanced": {
         "thresholdValue": "Valore soglia"
       },
@@ -1520,16 +1535,15 @@
     },
     "slo": {
       "components": {
-        "operatorDropdown": "",
-        "operatorDropdown_more": "superiore a",
-        "operatorDropdown_more-or-equal": "superiore o uguale a",
-        "operatorDropdown_less": "minore di",
-        "operatorDropdown_less-or-equal": "minore di o uguale a"
+        "timeOptionsDropdown_minute": "Minuti",
+        "timeOptionsDropdown_hour": "Ore",
+        "timeOptionsDropdown_day": "Giorni"
       },
       "validators": {
         "noEmptySloIds": "Selezionare almeno uno SLO.",
         "notLessThanOrEqualToZero": "Impostare un valore maggiore di 0.",
-        "noInvalidOperator": "Selezionare un operatore dall'elenco."
+        "noInvalidOperator": "Selezionare un operatore dall'elenco.",
+        "noInvalidDurationUnit": "Selezionare un'unità di durata dall'elenco."
       },
       "advancedModeContainer": {
         "stepLabel": "",
@@ -1548,31 +1562,47 @@
         "stepTitle_customPayload": "Payload personalizzato",
         "selectSloHeadline": "Seleziona SLO",
         "blueprintSectionTitle": "Seleziona blueprint",
+        "blueprint_slo_not_selected": "Selezionare almeno uno SLO per continuare.",
         "blueprint": "",
-        "blueprint_SERVICE_LEVELS_OBJECTIVE": "Stato",
-        "blueprint_ERROR_BUDGET": "Budget di errore",
+        "blueprint_STATUS": "Stato",
+        "blueprint_BURNED_PERCENTAGE": "Budget di errore",
+        "blueprint_BURN_RATE": "Velocità di combustione",
         "blueprintDescription": "",
-        "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "Ricevere un avviso quando lo stato SLO scende al di sotto di una soglia.",
-        "blueprintDescription_ERROR_BUDGET": "Ricevere un avviso quando viene utilizzata una percentuale del budget di errore.",
+        "blueprintDescription_STATUS": "Ricevere un avviso quando lo stato SLO scende al di sotto di una soglia.",
+        "blueprintDescription_BURNED_PERCENTAGE": "Ricevere un avviso quando viene utilizzata una percentuale del budget di errore.",
+        "blueprintDescription_BURN_RATE": "La velocità di combustione è un valore che indica la velocità di consumo del budget degli errori rispetto alla lunghezza obiettivo dello SLO.",
+        "burnRateShortWindowTitle": "Finestra di avviso breve",
+        "burnRateShortWindowDescription": "Questi avvisi verranno attivati quando il tasso di errore supera la soglia più velocemente in un periodo più breve. Questo può aiutare a catturare un improvviso picco di errori o di inattività dovuto a un bug critico.",
+        "burnRateDescription": "Inviami una notifica quando la velocità di combustione è <1/> <2/>.",
+        "burnRateLongWindowTitle": "Finestra di avviso lunga",
+        "burnRateLongWindowDescription": "Questi avvisi verranno attivati quando il tasso di errore supera la soglia in un periodo di tempo più lungo. Questo aiuta a identificare i problemi che si sono accumulati nel tempo e che, se non affrontati, potrebbero causare problemi in futuro.",
+        "burnRateShortWindowLongerThanLongWindowError": "La finestra breve non può superare la finestra lunga. Adeguare uno dei due valori.",
+        "burnRateTimeWindowTooLongError": "La finestra di avviso non può superare la finestra temporale di uno SLO selezionato. Controllare il seguente SLO: {{value}}.",
         "thresholdTitle": "Soglia: quando si desidera essere avvisati?",
         "thresholdInputDescription": "",
-        "thresholdInputDescription_ERROR_BUDGET": "Quando viene utilizzata una percentuale del budget di errori di <1/> <2/> percento",
-        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "Quando lo stato SLO è <1/> <2/> percento",
+        "thresholdInputDescription_BURNED_PERCENTAGE": "Quando viene utilizzata una percentuale del budget di errori di <1/> <2/> percento",
+        "thresholdInputDescription_STATUS": "Quando lo stato SLO è <1/> <2/> percento",
+        "thresholdInputDescription_BURN_RATE": "Valutare l'ultimo <1/> dello SLO.",
         "timeThresholdType_gracePeriod": "Quando la condizione persiste per un periodo di tempo specificato",
         "timeThresholdTypeTitle_gracePeriod": "Avviso quando la condizione viene violata per $t consecutivi (in-components:time.minutes, {\"count\": {{minutes}} })",
         "timeThresholdTypeTitle_cooldownPeriod": "Deve essere trascorso un tempo di almeno $t(in-components:time.minutes, {\"count\": {{minutes}} }) perché l'evento termini",
         "alertProperties_entityLabel": "Nome-SLO",
-        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "Lo stato SLO è basso",
-        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "Lo stato SLO è $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}.",
-        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "Il budget di errori rimanente è basso",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Utilizzata la percentuale di $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} del budget di errori.",
+        "alertPropertiesTitlePlaceholder": "",
+        "alertPropertiesTitlePlaceholder_STATUS": "Lo stato SLO è basso",
+        "alertPropertiesDescriptionPlaceholder_STATUS": "Lo stato dello SLO è {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURN_RATE": "La velocità di combustione è stata superata",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "La velocità di combustione dello SLO è {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "Il budget di errori rimanente è basso",
+        "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "Consumato {{operator}} {{percentage}} del budget degli errori.",
         "alertPropertiesIncidentWarning": "Gli incidenti si possono applicare solo agli SLO associati alle applicazioni"
       },
       "details": {
         "alertConfigurationTitle": "Configurazione avviso",
         "sloHeader": "SLO",
-        "thresholdInfo_ERROR_BUDGET": "Quando viene utilizzata una percentuale di $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} percento del budget di errori",
-        "thresholdInfo_SERVICE_LEVELS_OBJECTIVE": "Quando lo stato SLO è $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} percento",
+        "thresholdInfo": "",
+        "thresholdInfo_BURN_RATE": "Quando la velocità di combustione è {{operator}} {{percentage}}",
+        "thresholdInfo_BURNED_PERCENTAGE": "Quando {{operator}} {{percentage}} percento del budget degli errori è stato consumato",
+        "thresholdInfo_STATUS": "Quando lo stato SLO è {{operator}} {{percentage}} percento",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
@@ -1581,6 +1611,9 @@
       },
       "alertList": {
         "threshold": "Soglia: {{value}}",
+        "threshold_BURN_RATE": "Velocità di combustione: {{value}}",
+        "threshold_BURNED_PERCENTAGE": "Soglia: {{value}}",
+        "threshold_STATUS": "Soglia: {{value}}",
         "sloApplied": "SLO applicati",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLO",
@@ -1588,8 +1621,9 @@
         "sloCount_1": "{{count}} SLO",
         "sloCount_2": "{{count}} SLO",
         "title": "",
-        "title_ERROR_BUDGET": "Budget di errori utilizzato",
-        "title_SERVICE_LEVELS_OBJECTIVE": "Stato"
+        "title_BURN_RATE": "Velocità di combustione",
+        "title_BURNED_PERCENTAGE": "Budget di errori utilizzato",
+        "title_STATUS": "Stato"
       },
       "messages": {
         "successTitle": "",

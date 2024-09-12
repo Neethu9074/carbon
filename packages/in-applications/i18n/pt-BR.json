@@ -122,6 +122,7 @@
   "messageSuccessfullySaved": "Salvo com sucesso.",
   "messageErrorOccurred": "Ocorreu um erro, tente novamente.",
   "messageWaitForChanges": "Pode levar algum tempo para que suas mudanças se apliquem.",
+  "linkViewAllApplications": "Visualizar todos os aplicativos",
   "linkViewAllServices": "Visualizar todos os serviços",
   "linkViewAllEndpoints": "Visualizar todos os terminais",
   "lineViewInAnalyze": "Visualizar na análise",
@@ -459,7 +460,9 @@
       "logMessagesDescription": "Não houve nenhuma mensagem de log recuperada para o intervalo de tempo selecionado.",
       "endpointsTitle": "Nenhum terminal disponível",
       "endpointsDescription": "Não houve nenhum terminal recuperado para o intervalo de tempo selecionado."
-    }
+    },
+    "pageCannotBeFound": "A página não pode ser localizada",
+    "idNotPresent": "{{id}} não está presente na URL."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "O serviço não está no aplicativo atual.",

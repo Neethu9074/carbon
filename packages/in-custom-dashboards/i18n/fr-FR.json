@@ -616,6 +616,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Vous devez configurer au moins une expression de filtre.",
       "timeBased": "En fonction du temps",
       "eventBased": "En fonction des événements",
+      "sloLegacy": "Objectifs du niveau de service existants",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Application",

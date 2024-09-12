@@ -38,7 +38,8 @@
       "itemMsg": "+{{leftCount}} altri {{moreMsg}}"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "Riprova"
+      "retryButtonLabel": "Riprova",
+      "openList": "Apri elenco"
     },
     "chartReleasesLanePresenterReleasesLabel": "Release",
     "chartReleasesLanePresenterTooltip": "+{{len}} altre release",
@@ -260,6 +261,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "Conferma",
+    "secondaryDialogLabelCancel": "Annulla",
     "promptPresenterLabelConfirm": "Conferma"
   },
   "draggableItemSelector": {
@@ -297,8 +299,8 @@
     "labelExpandButtonForContent": "Pulsante Espandi per il contenuto"
   },
   "featureFeedback": {
-    "labelPublicPreview": "Anteprima pubblica",
-    "labelPrivatePreview": "Anteprima privata",
+    "labelPublicPreview": "Anteprima",
+    "labelPrivatePreview": "Anteprima",
     "linkLabelYouCanSendUsFeedback": "È possibile inviare un feedback"
   },
   "geoHeatMap": {
@@ -353,6 +355,30 @@
     "labelWarning": "Avvertenza",
     "labelCritical": "Critico"
   },
+  "vulnerabilities": {
+    "eventType_issue": "vulnerabilità",
+    "eventType_issue_plural": "vulnerabilità",
+    "eventType_issue_0": "vulnerabilità",
+    "eventType_issue_1": "vulnerabilità",
+    "eventType_issue_2": "vulnerabilità",
+    "openIssuesListPresenterActionsViewIssues": "Visualizza vulnerabilità",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "Visualizza {{openIssueCount}} vulnerabilità",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Caricamento delle vulnerabilità aperte...",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Caricamento delle vulnerabilità aperte non riuscito",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} vulnerabilità aperte",
+    "noVulnerabilities": "Nessuna vulnerabilità",
+    "openVulnerabilities": "{{count}} vulnerabilità",
+    "openVulnerabilities_plural": "{{count}} vulnerabilità",
+    "openVulnerabilities_0": "{{count}} vulnerabilità",
+    "openVulnerabilities_1": "{{count}} vulnerabilità",
+    "openVulnerabilities_2": "{{count}} vulnerabilità",
+    "noIncidents": "Nessun incidente",
+    "openIncidents": "{{count}}Incidenti",
+    "openIncidents_plural": "{{count}} Incidenti",
+    "openIncidents_0": "{{count}} Incidenti",
+    "openIncidents_1": "{{count}}Incidenti",
+    "openIncidents_2": "{{count}} Incidenti"
+  },
   "inlineTabNavigation": {
     "labelSelectTab": "Seleziona scheda"
   },
@@ -400,6 +426,7 @@
     "viewSwitcherlabelInfrastructure": "Infrastruttura",
     "viewSwitcherLabelApplications": "Applicazioni",
     "viewSwitcherLabelSlo": "Livelli di Servizio",
+    "viewSwitcherLabelLogs": "Log",
     "viewSwitcherLabelAnalytics": "Analitica",
     "viewSwitcherLabelWebsitesAndMobileApps": "Siti web & App per dispositivi mobili",
     "viewSwitcherLabelWebsites": "Siti web",
@@ -416,9 +443,11 @@
     "viewSwitcherCustomDashboards": "Dashboard personalizzati",
     "viewSwitcherButtonSignOut": "Disconnetti",
     "viewSwitcherLabelTenants": "Tenant",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nuova versione dell'interfaccia utente Instana disponibile",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Ricarica per aggiornare",
     "profileMenu_profileLink": "Profilo",
+    "profileMenu_tooltip": "Menu profilo",
     "profileMenu_unitName_tenantName": "Nome unità - Nome tenant",
     "profileMenu_switchUnitOrTenant": "Cambia unità o tenant",
     "profileMenu_logOut": "Disconnetti"
@@ -590,8 +619,8 @@
     "loadingData": "Caricamento dei dati"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "Nuova versione di Instana disponibile",
-    "buttonReloadToUpdate": "Ricarica per aggiornare"
+    "newVersionOfInstanaAvailable": "C'è un aggiornamento dell'interfaccia utente di Instana",
+    "buttonReloadToUpdate": "Aggiornare il browser per caricarlo."
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "Chiamate",

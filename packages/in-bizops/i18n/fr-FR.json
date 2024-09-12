@@ -19,6 +19,9 @@
     "unnamedActivity": "(Activité sans nom) {{activityType}}",
     "unnamedService": "(Service sans nom)"
   },
+  "processes": {
+    "deployAgent": "Déployer l'agent"
+  },
   "perspectives": {
     "newPerspective": "Créer une perspective",
     "lists": {

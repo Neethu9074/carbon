@@ -120,7 +120,8 @@
     "title_dashboard": "사용자 정의 대시보드",
     "title_automation": "자동화",
     "title_agents": "에이전트",
-    "title_access_control": "액세스 제어"
+    "title_access_control": "액세스 제어",
+    "subHeadline_syntheticMonitoring": "{{ quantityOfAreas }}에 상속된 테스트를 더합니다."
   },
   "headingSection": {
     "title": "역할 및 액세스 범위",
@@ -168,7 +169,8 @@
     "contributionFilter_name": "이름",
     "contributionFilter_name_mayNotBeBlank": "컨트리뷰션 필터 이름은 공백이 아니어야 합니다.",
     "contributionFilter_name_mustNotBeLargerThan128Characters": "컨트리뷰션 필터 이름은 128자 이하여야 합니다.",
-    "contributionFilter_name_alreadyUsed": "컨트리뷰션 필터 이름이 이미 사용되었습니다."
+    "contributionFilter_name_alreadyUsed": "컨트리뷰션 필터 이름이 이미 사용되었습니다.",
+    "addButton_syntheticCredentials": "합성 신임 정보 선택"
   },
   "selectItemForm": {
     "doneButton": "완료"
@@ -176,10 +178,13 @@
   "selectEntityDialog": {
     "nameColumnHead": "이름",
     "contributionFilterColumnHead": "컨트리뷰션 필터",
-    "syntheticAllTestsAccess": "모두 테스트",
-    "syntheticInheritedAccess": "상속된 액세스",
+    "syntheticAllTestsAccess": "선택 가능한 테스트",
+    "syntheticInheritedAccess": "상속된 테스트",
     "syntheticTableSubHeader": "이 그룹의 멤버는 관련 애플리케이션에 대한 액세스 권한이 있으므로 다음 합성 테스트에 이미 액세스할 수 있습니다.",
-    "syntheticTableSubHeaderWebMobile": "이 그룹의 멤버는 관련 애플리케이션, 웹사이트 및 모바일 애플리케이션에 대한 액세스 권한이 있으므로 다음 합성 테스트에 이미 액세스할 수 있습니다."
+    "syntheticTableSubHeaderWebMobile": "이 그룹의 멤버는 관련 애플리케이션, 웹사이트 및 모바일 애플리케이션에 대한 액세스 권한이 있으므로 다음 합성 테스트에 이미 액세스할 수 있습니다.",
+    "syntheticSelectableCredentialsAccess": "선택 가능한 신임 정보",
+    "syntheticInheritedCredentialsAccess": "상속된 신임 정보",
+    "syntheticTableSubHeaderWebMobileForCredentials": "이 그룹의 멤버는 관련 애플리케이션, 웹사이트 및 모바일 애플리케이션에 대한 액세스 권한이 있으므로 다음 합성 신임 정보에 이미 액세스할 수 있습니다."
   },
   "permissionScope": {
     "access_level": "액세스 레벨",
@@ -271,7 +276,8 @@
       "limited_access": {
         "access_level": "선택된 액세스 유형 및 추가 권한이 있는 나열된 합성 테스트에만 액세스",
         "access_level_tp": "사용자가 액세스 권한이 있는 애플리케이션과 관련된 모든 합성 테스트에 액세스합니다. 아래 목록을 사용하여 추가 합성 테스트에 대한 액세스 권한을 부여할 수 있습니다.",
-        "access_level_web_mobile": "사용자가 액세스할 수 있는 애플리케이션, 웹사이트 및 모바일 애플리케이션과 관련된 모든 합성 테스트에 액세스합니다. 아래 목록을 사용하여 추가 합성 테스트에 대한 액세스 권한을 부여할 수 있습니다."
+        "access_level_web_mobile": "사용자가 액세스할 수 있는 애플리케이션, 웹사이트 및 모바일 애플리케이션과 관련된 모든 합성 테스트에 액세스합니다. 아래 목록을 사용하여 추가 합성 테스트에 대한 액세스 권한을 부여할 수 있습니다.",
+        "access_level_tests_credentials": "사용자가 액세스할 수 있는 애플리케이션, 웹사이트 및 모바일 애플리케이션과 연관된 모든 합성 테스트 및 신임 정보에 액세스합니다. 아래 목록을 사용하여 추가 합성 테스트 및 신임 정보에 대한 액세스 권한을 부여할 수 있습니다."
       },
       "role_permissions_owner": "합성 테스트를 작성, 구성, 보기 및 삭제합니다.",
       "role_permissions_viewer": "합성 테스트 및 해당 구성을 봅니다."
@@ -354,6 +360,23 @@
       },
       "customPayload": {
         "unknownTag": "알 수 없는 태그: {{tagName}}"
+      },
+      "integrations": {
+        "configureIntegration": "통합 구성",
+        "database": {
+          "database": "데이터베이스",
+          "dbIntegrations": "데이터베이스 통합",
+          "dbIntegrationsDescription": "데이터베이스 관리 솔루션을 연결하고 필요에 맞게 구성하십시오.",
+          "dbIntegrationsTooltip": "구성이 누락되어 토글이 사용 안함으로 설정되었습니다. 타일을 클릭하고 양식을 작성하여 이 기능을 사용하도록 설정하십시오.",
+          "dbIntegrationsTooltipApiError": "API 연결 문제로 인해 토글이 사용 안함으로 설정되었습니다. 이 기능을 사용으로 설정하려면 다시 연결될 때까지 기다리거나 페이지를 새로 고치십시오.",
+          "dbMarlin": "DBmarlin",
+          "dbMarlinInstance": "DBmarlin 인스턴스",
+          "dbMarlinExampleForAnInternalInstance": "DBmarlin 인스턴스의 URL을 입력하십시오(예: 내부 인스턴스의 경우 <strong>https://team.dbmarlin.com</strong> 또는 <strong>http://192.168.1.128:443</strong>).",
+          "configureDbMarlin": "DBmarlin 구성",
+          "configureDbMarlinDescription": "다음 구성을 활성화하면 호환 통화에 대한 통화 세부 정보에 DBmarlin 링크가 추가됩니다.",
+          "configureYourDbMarlinSettings": "DBmarlin 설정 구성",
+          "failedToLoadDbMarlinConfiguration": "DBmarlin 구성을 로드하는 데 실패했습니다."
+        }
       }
     },
     "retentionPeriod": {
@@ -394,10 +417,14 @@
       "toastSuccessTitle": "통합 저장됨",
       "toastErrorTitle": "통합이 저장되지 않음",
       "toastSuccessMessage": "{{integrationType}} 통합이 저장되고 활성화되었습니다.",
+      "toastErrorMessage": "{{integrationType}} 통합을 저장하고 활성화하지 못했습니다.",
       "integerationEnabled": "{{integrationType}} 통합이 활성화되었습니다.",
       "integerationDisabled": "{{integrationType}} 통합이 비활성화되었습니다.",
-      "integerationConfigurationFailed": "{{error}}",
-      "configureIntegrations": "통합 구성"
+      "integrationConfigurationFailed": "{{error}}",
+      "configureIntegrations": "통합 구성",
+      "unsavedModalContent": "변경사항을 정말 삭제하시겠습니까?",
+      "unsavedModalDiscard": "삭제",
+      "unsavedModalCancel": "취소"
     },
     "deleteLogs": {
       "deleteLogs": "로그 삭제",
@@ -442,12 +469,16 @@
       "months_6": "지난 6개월",
       "months_9": "지난 9개월",
       "months_12": "지난 12개월",
-      "days_7": "7일",
-      "days_20": "20일",
-      "days_30": "30일",
-      "days_60": "60일",
-      "days_90": "90일"
+      "days_30": "30일 보존",
+      "days_60": "60일 보존",
+      "days_90": "90일 보존",
+      "noLogVolumeData": "표시할 데이터 없음",
+      "logVolumeErrorTitle": "문제가 발생함",
+      "logVolumeErrorInfo": "데이터베이스에서 데이터를 검색할 수 없음",
+      "groupingTagTootip": "{{groupingTag}} 정보를 사용할 수 없음",
+      "ruTooltip": "리소스 단위(RU)는 수집된 로그의 양과 보존 기간에 따라 계산됩니다. 수집된 데이터의 양에 관계없이 최소 1 RU를 소비합니다."
     },
+    "auditTrail": "감사 추적",
     "failedToSaveConfig": "구성을 저장하는 데 실패함: {{err}}",
     "IdPMetadataRequired": "IdP 메타데이터 파일이 필요합니다.",
     "IdPMetadataLargerThanTwoMega": "IdP 메타데이터 파일은 2MB를 초과할 수 없습니다.",
@@ -489,8 +520,6 @@
     "youCanOnlyAddOneItem": "하나의 항목만 추가할 수 있습니다.",
     "youCanAddAtMostLimitItems": "최대 {{limit}}개 항목을 추가할 수 있습니다.",
     "pleaseNarrowDownYourSelectionByUsingTheFilters": "최대 {{limit}}개 항목을 추가할 수 있습니다. 필터를 사용하여 선택 범위를 좁히십시오.",
-    "apiTokenIs": "API 토큰: {{apiTokenName}}",
-    "apiToken": "API 토큰",
     "failedToSaveApiToken": "API 토큰을 저장하는 데 실패함: {{err}}",
     "failedToCreatePersonalApiToken": "개인 API 토큰을 작성하는 데 실패했습니다.",
     "failedToUpdatePersonalApiToken": "개인 API 토큰을 업데이트하는 데 실패했습니다.",
@@ -501,11 +530,26 @@
     "editApiToken": "API 토큰 편집",
     "editPersonalApiToken": "개인 API 토큰 편집",
     "personalApiTokenNameDescription": "토큰의 표시 이름",
+    "apiTokenExpiration": "만기",
+    "apiTokenExpiryDate": "만료 날짜",
+    "apiTokenExpiryTime": "만료 시간",
+    "apiTokenExpirationOptions": {
+      "thirtyDays": "30일",
+      "sixtyDays": "60일",
+      "ninetyDays": "90일",
+      "oneYear": "1년",
+      "custom": "사용자 정의",
+      "never": "수행 안함"
+    },
+    "apiTokenHintTextForNeverExpires": "이 토큰은 만료되지 않습니다.",
+    "apiTokenHintTextForExpiration": "이 토큰은 {{expiryDate}} 이후 {{expiryTime}} UTC{{utcOffSet}}에 만료됩니다.",
     "displayName": "표시 이름",
     "personalApiTokenDescription": "이 개인 API 토큰은 API를 인증하는 데 사용할 수 있도록 사용자의 권한을 상속합니다.",
     "apiTokenDescription": "이 단위 특정 API 토큰은 API 토큰 구성에 대한 권한이 있는 모든 사용자 또는 모든 API 토큰에 의해 보기/수정될 수 있습니다.",
     "noApiToken": "API 토큰 없음",
     "newApiToken": "새 API 토큰",
+    "apiTokenDuplicate": "중복",
+    "duplicateTokenName": "{{apiTokenName}}과(와) 중복됨",
     "apiTokenUnits": "<strong>{{tenantUnit}}-{{tenant}}</strong>에 API 토큰을 사용할 수 있음",
     "noPersonalApiTokens": "개인 API 토큰 없음",
     "newPersonalApiToken": "새 개인 API 토큰",
@@ -882,21 +926,27 @@
     "cancel": "취소",
     "loadingApiToken": "API 토큰 로드 중…",
     "failedToLoadApiToken": "API 토큰을 로드하는 데 실패했습니다.",
-    "saving": "저장 중…",
+    "saving": "저장 중...",
     "general": "일반",
     "apiTokens": "API 토큰",
     "personalApiTokens": "개인 API 토큰",
     "token": "토큰",
     "tokenLastUsed": "마지막으로 사용됨",
+    "tokenStatus": "상태",
+    "tokenActive": "활성",
+    "tokenActiveUntil": "{{dateTime}}까지 활성",
+    "tokenExpiredOn": "{{dateTime}}에 만료됨",
     "tokenCreated": "작성일시",
     "tokenCreatedBy": "작성자",
+    "tokenValidationPleaseEnterTimeInFuture": "향후 날짜 또는 시간 입력",
     "unknownLabel": "알 수 없음",
     "copyApiTokenToClipboard": "클립보드에 API 토큰 복사",
     "inviteUserToGroup": "추가할 사용자 선택",
     "applications": "애플리케이션",
     "infrastructure": "인프라",
     "ownerPermissions": "소유자 권한",
-    "youAreAssigningThisApiTokenOwnerPermissions": "이 API 토큰 소유자 권한을 지정하는 중입니다.",
+    "youAreAssigningThisApiTokenOwnerPermissions": "이 API 토큰 소유자 권한을 지정하면 사용자는 이 영역에서 해당 토큰으로 항목을 작성, 편집 또는 삭제할 수 있습니다.",
+    "yesIUnderstand": "예, 이해합니다.",
     "savingGroup": "그룹 저장 중",
     "groupSuccessfullySaved": "그룹이 저장되었습니다.",
     "groups": "그룹",

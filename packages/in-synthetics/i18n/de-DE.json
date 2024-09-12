@@ -245,13 +245,13 @@
         "associationsLabel": "Zuordnen",
         "applicationsTitle": "Zuordnen: Wählen Sie die Anwendungen aus, die mit diesem synthetischen Test verknüpft werden sollen",
         "applicationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung gewährt allen Benutzern Zugriffsrechte, die Zugriff auf diese Anwendung haben.",
-        "associationsTitle": "Zuordnen: Wählen Sie die Einheiten aus, die mit diesem synthetischen Test verknüpft werden sollen",
+        "associationsTitle": "Zuordnen: Wählen Sie aus, was Sie mit diesem synthetischen Test verknüpfen möchten",
         "associationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Entitäten haben, Zugriffsrechte."
       },
       "associations": {
         "applicationsTitle": "Wählen Sie die Anwendungen aus, die mit diesem synthetischen Test verknüpft werden sollen",
         "applicationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung gewährt allen Benutzern Zugriffsrechte, die Zugriff auf diese Anwendung haben.",
-        "associationsTitle": "Wählen Sie die Entitäten aus, die mit diesem synthetischen Test verknüpft werden sollen",
+        "associationsTitle": "Wählen Sie aus, was Sie mit diesem synthetischen Test verknüpfen möchten",
         "associationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Entitäten haben, Zugriffsrechte.",
         "applicationsButtonLabel": "Anwendungen auswählen",
         "websitesButtonLabel": "Websites auswählen",
@@ -265,7 +265,7 @@
         "addWebsites": "{{count}} Websites hinzufügen",
         "addWebsite": "Website hinzufügen",
         "addMobileApps": "{{count}} Mobile Apps hinzufügen",
-        "addMobileApp": "Mobile Apps hinzufügen",
+        "addMobileApp": "Mobile App hinzufügen",
         "applicationsTableTitle": "Anwendung(en)",
         "websitesTableTitle": "Website(s)",
         "mobileAppsTableTitle": "Mobile App(s)"
@@ -336,7 +336,7 @@
         "datacentersSubtitle": "Aktivieren Sie ein Exemplar einer verwalteten Position in einem der verfügbaren Rechenzentren. Weitere Informationen finden Sie unter <linkDatacenters>Instanziiertes PoP</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Standorte werden implementiert",
-          "message": "Wir richten Ihre neuen Standorte in den folgenden Rechenzentren ein. Bitte haben Sie etwas Geduld, während wir dies automatisch für Sie bereitstellen. Wenn dies abgeschlossen ist, können Sie Ihre neuen Standorte auf der Registerkarte \"Standorte\" finden. <strong>Dies kann bis zu 10 Minuten für jedes ausgewählte Rechenzentrum dauern.</strong>",
+          "message": "Wir richten Ihre neuen Standorte in den folgenden Rechenzentren ein. Bitte haben Sie etwas Geduld, während wir dies automatisch für Sie bereitstellen. Wenn dies abgeschlossen ist, können Sie Ihre neuen Standorte auf der Registerkarte \"Standorte\" finden. <strong>Diese Bereitstellung kann für jedes ausgewählte Rechenzentrum einige Minuten dauern.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Rechenzentrumscode",
@@ -351,7 +351,7 @@
         },
         "deactivateDatacenter": {
           "title": "Position deaktivieren",
-          "deactivateMessage": "Möchten Sie die Position <strong>{{locationDisplayLabel}}</strong> wirklich deaktivieren?<br/><br/>Die Inaktivierung einer Position kann bis zu 10 Minuten dauern. Bitte haben Sie Geduld, während wir die Bereitstellung für Sie zurücknehmen. Wenn dieser Vorgang abgeschlossen ist, lautet der Standortstatus \"Offline\".<br/>",
+          "deactivateMessage": "Möchten Sie die Position <strong>{{locationDisplayLabel}}</strong> wirklich deaktivieren?<br/><br/>Die Deaktivierung eines Standorts kann einige Minuten dauern. Bitte haben Sie Geduld, während wir die Bereitstellung für Sie zurücknehmen. Wenn dieser Vorgang abgeschlossen ist, lautet der Standortstatus \"Offline\".<br/>",
           "warningMessage": "Die Inaktivierung wird nicht gelöscht. Die Position ist verfügbar und kann wieder aktiviert werden. Um den verwalteten Standort vollständig zu löschen, löschen Sie den Standort, sobald sich sein Status in \"Offline\" ändert.",
           "activeStatus": "Aktiv",
           "deactivateButton": "Deaktivieren"
@@ -435,7 +435,7 @@
       "latency": "Latenzzeit",
       "locationLabel": "Standort",
       "locations": "{{totalLocations}} Positionen",
-      "applicationLabel": "Zuordnungen",
+      "associationLabel": "Zuordnungen",
       "health": "Status",
       "action": "Aktion",
       "labelConfirmRemoveTest": "Soll der Test <strong>{{testLabel}}</strong> wirklich entfernt werden?",

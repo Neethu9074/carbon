@@ -122,6 +122,7 @@
   "messageSuccessfullySaved": "La sauvegarde a abouti.",
   "messageErrorOccurred": "Une erreur s'est produite. Veuillez réessayer.",
   "messageWaitForChanges": "L'application de vos modifications peut prendre un certain temps.",
+  "linkViewAllApplications": "Voir toutes les applications",
   "linkViewAllServices": "Afficher tous les services",
   "linkViewAllEndpoints": "Afficher tous les noeuds finaux",
   "lineViewInAnalyze": "Afficher dans l'analyse",
@@ -459,7 +460,9 @@
       "logMessagesDescription": "Aucun message de journal n'a été extrait pour la période sélectionnée",
       "endpointsTitle": "Aucun noeud final disponible",
       "endpointsDescription": "Aucun noeud final n'a été extrait pour la période sélectionnée"
-    }
+    },
+    "pageCannotBeFound": "Page introuvable",
+    "idNotPresent": "{{id}} n'est pas présent dans l'URL."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "Le service n'est pas dans l'application en cours.",

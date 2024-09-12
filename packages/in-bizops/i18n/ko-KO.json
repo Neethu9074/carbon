@@ -19,6 +19,9 @@
     "unnamedActivity": "(이름 지정되지 않은 활동){{activityType}}",
     "unnamedService": "(이름 지정되지 않은 서비스)"
   },
+  "processes": {
+    "deployAgent": "에이전트 배치"
+  },
   "perspectives": {
     "newPerspective": "관점 작성",
     "lists": {

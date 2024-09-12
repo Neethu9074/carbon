@@ -54,5 +54,11 @@
   "host": "Host",
   "fileOnHost": "em",
   "file": "Arquivo",
-  "logExpiration": "Retido até"
+  "logExpiration": "Retido até",
+  "dashboard": {
+    "summary": "Resumo",
+    "smartAlerts": "Alertas inteligentes",
+    "deleteLogs": "Excluir logs",
+    "configuration": "Configuração"
+  }
 }
