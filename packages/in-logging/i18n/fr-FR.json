@@ -54,5 +54,11 @@
   "host": "Hôte",
   "fileOnHost": "sur",
   "file": "Fichier",
-  "logExpiration": "Conservé jusqu'au"
+  "logExpiration": "Conservé jusqu'au",
+  "dashboard": {
+    "summary": "Récapitulatif",
+    "smartAlerts": "Alertes intelligentes",
+    "deleteLogs": "Supprimer les journaux",
+    "configuration": "Configuration"
+  }
 }

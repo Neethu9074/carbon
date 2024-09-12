@@ -819,6 +819,16 @@
   "pluginName_remoteHost_1": "远程主机",
   "pluginName_remoteHost_2": "远程主机",
   "pluginName_remoteHost": "远程主机",
+  "pluginName_fileMonitoring": "文件监控",
+  "pluginName_fileMonitoring_plural": "文件监控",
+  "pluginName_fileMonitoring_0": "文件监控",
+  "pluginName_fileMonitoring_1": "文件监控",
+  "pluginName_fileMonitoring_2": "文件监控",
+  "pluginName_fileMonitoringCondition": "文件监控条件",
+  "pluginName_fileMonitoringCondition_plural": "文件监控条件",
+  "pluginName_fileMonitoringCondition_0": "文件监控条件",
+  "pluginName_fileMonitoringCondition_1": "文件监控条件",
+  "pluginName_fileMonitoringCondition_2": "文件监控条件",
   "pluginName_httpd_plural": "Apache HTTPd",
   "pluginName_httpd_0": "Apache HTTPd",
   "pluginName_httpd_1": "Apache HTTPd",
@@ -1594,6 +1604,11 @@
   "pluginName_service_1": "服务",
   "pluginName_service_2": "服务",
   "pluginName_service": "服务",
+  "pluginName_snowflake_plural": "Snowflakes",
+  "pluginName_snowflake_0": "Snowflakes",
+  "pluginName_snowflake_1": "Snowflakes",
+  "pluginName_snowflake_2": "Snowflakes",
+  "pluginName_snowflake": "Snowflake",
   "pluginName_solr_plural": "Solr 节点",
   "pluginName_solr_0": "Solr 节点",
   "pluginName_solr_1": "Solr 节点",
@@ -7069,7 +7084,8 @@
       "labelMaxUsage": "最大使用量",
       "labelRSS": "RSS",
       "labelCache": "高速缓存",
-      "labelMemoryWorkingSet": "内存工作集使用率 [0,100]",
+      "labelMemoryUsedPercentage": "内存使用率百分比",
+      "labelMemoryWorkingSet": "内存工作集使用率百分比",
       "labelActiveAnonymous": "活动匿名",
       "labelActiveCache": "活动高速缓存",
       "labelInactiveAnonymous": "不活动匿名",
@@ -7110,7 +7126,7 @@
       "totalTime": "总时间",
       "kernelTime": "内核时间",
       "userTime": "用户时间",
-      "totalNormalized": "规范化总数 [0,100]",
+      "totalNormalized": "总规范化百分比",
       "cpu": "CPU",
       "throttlingCount": "调速计数",
       "throttlingTime": "调速时间",
@@ -8261,6 +8277,35 @@
       "httpRequests": "HTTP 请求数",
       "device": "设备"
     },
+    "fileMonitoring": {
+      "dashboard": {
+        "monitor": "监视器",
+        "path": "路径",
+        "pollingInterval": "轮询时间间隔",
+        "severity": "严重性",
+        "issueTriggered": "已触发问题"
+      },
+      "fileSystem": "文件监控",
+      "monitors": "监视器",
+      "host": "主机",
+      "group": "组",
+      "numberOfMonitors": "监视器数"
+    },
+    "fileMonitoringCondition": {
+      "dashboard": {
+        "conditionType": "条件类型",
+        "operator": "运算符",
+        "reference": "参考",
+        "actual": "实际"
+      },
+      "fileMonitorCondition": "文件监控条件",
+      "numberOfConditions": "条件数",
+      "conditions": "条件",
+      "path": "路径",
+      "interval": "时间间隔（秒）",
+      "issueTriggered": "已触发问题",
+      "conditionNotification": "必须满足所有条件才能触发问题"
+    },
     "finagleApplicationContainer": {
       "dashboard": {
         "finagle": "Finagle"
@@ -9265,10 +9310,10 @@
         "ratingMedium": "中等",
         "ratingHigh": "高级",
         "totalCpuUtilization": "总 CPU 利用率",
-        "diskUsage": "磁盘使用情况",
-        "dataSize": "数据大小",
-        "logSize": "日志大小",
-        "traceSize": "跟踪大小",
+        "diskUsage": "按类型划分的磁盘使用情况",
+        "dataSize": "数据",
+        "logSize": "日志",
+        "traceSize": "跟踪",
         "sessions": "会话数",
         "total": "总计",
         "idle": "空闲",
@@ -9373,7 +9418,32 @@
         "physicalMemory": "物理内存",
         "freeMemory": "字节量/秒内存",
         "utilisationRatio": "HANA 内存使用率",
-        "hostUsedPhysicalMemoryRatio": "主机内存使用率"
+        "hostUsedPhysicalMemoryRatio": "主机内存使用率",
+        "eventTime": "事件时间",
+        "eventName": "事件名称",
+        "eventDetail": "事件详细信息",
+        "systemActive": "系统处于活动状态",
+        "systemStatus": "系统状态",
+        "hostStatus": "主机状态",
+        "hostActive": "主机活动状态",
+        "serviceStatus": "服务状态",
+        "databaseName": "数据库名称",
+        "systemEventStats": "系统事件",
+        "errorMsg": "错误消息",
+        "diskUsagePercentage": "磁盘使用率百分比",
+        "diskUsageSummary": "磁盘使用情况摘要",
+        "usage": "用法",
+        "archiveLogBackupStats": "归档日志备份",
+        "systemId": "系统标识",
+        "sourceDatabaseName": "源数据库",
+        "destinationPath": "目标路径",
+        "userLockStats": "用户锁",
+        "userMode": "用户方式",
+        "deactivationTime": "停用时间",
+        "userId": "用户标识",
+        "schedulerJobStats": "调度程序作业",
+        "schedulerJobName": "作业名",
+        "endTime": "结束时间"
       },
       "systemId": "系统标识",
       "databaseName": "数据库名称",
@@ -9419,6 +9489,26 @@
       "service": "服务",
       "allCallsSecond": "所有调用数/秒",
       "allCallsAvgLatency": "所有调用平均等待时间"
+    },
+    "snowflake": {
+      "connectErrorIssueDescription": "代理程序无法连接到 snowflake。 连接失败，发生错误: <code>{{error}}</code>",
+      "troubleshootingDocs": "故障诊断文档",
+      "snowflake": "Snowflake",
+      "account": "帐户",
+      "region": "区域",
+      "organization": "组织",
+      "version": "版本",
+      "dashboard": {
+        "creditUsagePerHour": "每小时的积分使用情况",
+        "totalStorageBytes": "总存储字节数",
+        "averageBytesScanned": "平均已扫描字节数",
+        "totalQueries": "查询总数",
+        "warehouseName": "仓库名称",
+        "compute": "计算",
+        "cloudServices": "云服务",
+        "total": "总计",
+        "warehouseUsage": "仓库使用情况"
+      }
     },
     "solr": {
       "dashboard": {
@@ -11613,6 +11703,13 @@
       "version": "版本"
     },
     "ibmInfosphereCdcSubscription": {
+      "dashboard": {
+        "singleScrape": "单提取",
+        "transactionHistogram": "事务直方图",
+        "garbageCollection": "垃圾回收",
+        "databaseWorkload": "数据库工作负载",
+        "memory": "内存"
+      },
       "ibmInfosphereSubscription": "订购",
       "subscriptionName": "名称",
       "sourceDatastore": "源数据存储",
@@ -11679,7 +11776,21 @@
       "rowsCallingSourceDatabase": "调用源数据库的行",
       "rowsCallingTargetDatabase": "调用目标数据库的行",
       "rowsCallingUserExitsSource": "调用用户出口的源行",
-      "rowsCallingUserExitsTarget": "调用用户出口的目标行"
+      "rowsCallingUserExitsTarget": "调用用户出口的目标行",
+      "zeroToHalf": "0 至 1/2X",
+      "halfToOne": "1/2X 至 X",
+      "oneToTwo": "X 到 2X",
+      "twoToFour": "2X 至 4X",
+      "fourToEight": "4X 至 8X",
+      "moreThanEight": "8X 及更大",
+      "garbageCollection": "垃圾回收",
+      "garbageCollectionCPU": "垃圾回收 CPU 时间",
+      "totalTransactions": "事务总数",
+      "inscopeTransactions": "范围内事务",
+      "freeMem": "可用内存",
+      "maxMem": "最大内存",
+      "totalMem": "总内存",
+      "globalMem": "全局内存管理器"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -13696,6 +13807,7 @@
     },
     "tibcoASDataGrid": {
       "label": "Tibco AS 数据网格",
+      "gridId": "网格标识",
       "nodes": "节点数",
       "proxies": "代理数",
       "name": "名称",

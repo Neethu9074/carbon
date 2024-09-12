@@ -228,6 +228,7 @@
     "delete": "刪除",
     "update": "更新",
     "operations": "作業",
+    "nameTooltip": "儲存器的主機沒有安裝 Instana Agent。 如需相關資訊，請參閱我們的說明文件",
     "noDataAvailable": {
       "servicesTitle": "沒有可用的服務",
       "servicesDescription": "所選的時間範圍內未擷取到任何的服務。",

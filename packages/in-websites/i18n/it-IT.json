@@ -765,7 +765,8 @@
         "sizesTechnicalLabelAtMost": "Al massimo {{max}}px (inclusi)"
       },
       "synthetic": {
-        "tabLabel": "Monitoraggio sintetico"
+        "tabLabel": "Monitoraggio sintetico",
+        "noDataTitle": "A questo sito web non sono associati test sintetici."
       },
       "indexLabelSummary": "Riepilogo",
       "indexLabelSpeed": "Velocità",

@@ -53,7 +53,8 @@
     "javaRuntime": "Java ランタイム",
     "status": "状況",
     "agentDetails": "エージェントの詳細",
-    "totalAgents": "エージェントの総数"
+    "totalAgents": "エージェントの総数",
+    "anErrorOccurredPleaseTryAgain": "エラーが発生しました。再試行してください。"
   },
   "dashboard": {
     "comparisonTable": "比較表",

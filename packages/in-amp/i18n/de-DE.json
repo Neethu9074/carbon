@@ -86,8 +86,9 @@
       "essentials": "Allgemeine Informationen",
       "iqmHosts": "IQM-Hosts",
       "syntheticPops": "Synthetische verwaltete PoPs",
-      "resourceUnits": "Ressourceneinheiten",
-      "consumedUnits": "Verbrauchte Einheiten",
+      "logging": "Logs im Kontext",
+      "resourceUnits": "Berechtigte Ressourceneinheiten",
+      "consumedUnits": "Verbrauchte Ressourceneinheiten",
       "infrastructure": "Infrastruktur",
       "synthetics": "Synthetics",
       "traces": "Traces",
@@ -95,8 +96,13 @@
       "eumWebsite": "EUM-Website",
       "addons": "Add-ons",
       "trendLine": "Trendkurve",
+      "dataUsage": "Datennutzung",
       "dataUsageHelperText": "Menge der über Agenten gesendeten Bytes im gewählten Zeitraum, getrennt nach Kategorien.",
-      "helperText": "Anzahl der Ressourceneinheiten, die von jedem Aktionstyp verbraucht werden. Einheiten werden mit dem Faktor 0.025 für einfache Tests, 0.042 für API-Tests und 1.000 für Browsertests berechnet."
+      "syntheticsHelperText": "Anzahl der Ressourceneinheiten, die von jedem Aktionstyp verbraucht werden. Einheiten werden mit dem Faktor 0.025 für einfache Tests, 0.042 für API-Tests und 1.000 für Browsertests berechnet.",
+      "loggingHelperText": {
+        "saas": "Anzahl der Ressourceneinheiten (RU), die von den Protokollen im Kontext verbraucht werden.<br><br>Die Ressourceneinheiten werden auf der Grundlage der Aufbewahrungsdauer der aufgenommenen Daten berechnet:<br>- 1 GB an Daten, die 30 Tage lang aufbewahrt werden, verbrauchen 1 RU.<br>- 1 GB an Daten, die 60 Tage lang aufbewahrt werden, verbrauchen 1.2 Ressourceneinheiten.<br>• 1 GB an Daten, die 90 Tage lang aufbewahrt werden, verbrauchen 1.4 Ressourceneinheiten.",
+        "onprem": "Anzahl der Ressourceneinheiten (RU), die von Protokollen im Kontext verbraucht werden.<br><br>Ressourceneinheiten werden auf der Grundlage der aufgenommenen Datenmenge berechnet. 1 GB an aufgenommenen Daten verbraucht 1 Ressourceneinheit."
+      }
     },
     "activationAdoption": {
       "activationAdoption": "Aktivierung und Umsetzung",

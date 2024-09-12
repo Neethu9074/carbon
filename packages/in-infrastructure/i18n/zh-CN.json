@@ -53,7 +53,8 @@
     "javaRuntime": "Java 运行时",
     "status": "状态",
     "agentDetails": "代理程序详细信息",
-    "totalAgents": "代理程序总数"
+    "totalAgents": "代理程序总数",
+    "anErrorOccurredPleaseTryAgain": "发生错误，请重试。"
   },
   "dashboard": {
     "comparisonTable": "比较表",

@@ -120,7 +120,8 @@
     "title_dashboard": "Paneles de control personalizados",
     "title_automation": "Automatización",
     "title_agents": "Agentes",
-    "title_access_control": "Control de accesos"
+    "title_access_control": "Control de accesos",
+    "subHeadline_syntheticMonitoring": "{{ quantityOfAreas }} más pruebas heredadas."
   },
   "headingSection": {
     "title": "Rol y ámbito de acceso",
@@ -168,7 +169,8 @@
     "contributionFilter_name": "Nombre",
     "contributionFilter_name_mayNotBeBlank": "El nombre del filtro de contribución no debe estar en blanco.",
     "contributionFilter_name_mustNotBeLargerThan128Characters": "El nombre del filtro de contribución no debe tener más de 128 caracteres.",
-    "contributionFilter_name_alreadyUsed": "El nombre de filtro de contribución ya se utiliza."
+    "contributionFilter_name_alreadyUsed": "El nombre de filtro de contribución ya se utiliza.",
+    "addButton_syntheticCredentials": "Seleccionar credenciales sintéticas"
   },
   "selectItemForm": {
     "doneButton": "Hecho"
@@ -176,10 +178,13 @@
   "selectEntityDialog": {
     "nameColumnHead": "Nombre",
     "contributionFilterColumnHead": "Filtro de contribución",
-    "syntheticAllTestsAccess": "Todas las pruebas",
-    "syntheticInheritedAccess": "Acceso heredado",
+    "syntheticAllTestsAccess": "Pruebas seleccionables",
+    "syntheticInheritedAccess": "Pruebas heredadas",
     "syntheticTableSubHeader": "Los miembros de este grupo ya pueden acceder a las siguientes pruebas sintéticas porque tienen acceso a las aplicaciones asociadas.",
-    "syntheticTableSubHeaderWebMobile": "Los miembros de este grupo ya pueden acceder a las siguientes pruebas sintéticas porque tienen acceso a las aplicaciones, sitios web y aplicaciones móviles asociadas."
+    "syntheticTableSubHeaderWebMobile": "Los miembros de este grupo ya pueden acceder a las siguientes pruebas sintéticas porque tienen acceso a las aplicaciones, sitios web y aplicaciones móviles asociadas.",
+    "syntheticSelectableCredentialsAccess": "Credenciales seleccionables",
+    "syntheticInheritedCredentialsAccess": "Credenciales heredadas",
+    "syntheticTableSubHeaderWebMobileForCredentials": "Los miembros de este grupo ya pueden acceder a las siguientes credenciales sintéticas porque tienen acceso a las aplicaciones, sitios web y aplicaciones móviles asociadas."
   },
   "permissionScope": {
     "access_level": "Nivel de acceso",
@@ -271,7 +276,8 @@
       "limited_access": {
         "access_level": "Acceder solo a las pruebas sintéticas mostradas con el tipo de acceso seleccionado y los permisos adicionales",
         "access_level_tp": "Acceso a todas las pruebas sintéticas asociadas a las aplicaciones a las que tienen acceso los usuarios. Puede utilizar la siguiente lista para conceder acceso a pruebas sintéticas adicionales.",
-        "access_level_web_mobile": "Acceso a todas las pruebas sintéticas asociadas a las aplicaciones, sitios web y aplicaciones móviles a las que tienen acceso los usuarios. Puede utilizar la siguiente lista para conceder acceso a pruebas sintéticas adicionales."
+        "access_level_web_mobile": "Acceso a todas las pruebas sintéticas asociadas a las aplicaciones, sitios web y aplicaciones móviles a las que tienen acceso los usuarios. Puede utilizar la siguiente lista para conceder acceso a pruebas sintéticas adicionales.",
+        "access_level_tests_credentials": "Acceda a todas las pruebas sintéticas y credenciales asociadas a las aplicaciones, sitios web y aplicaciones móviles a las que tienen acceso los usuarios. Puede utilizar las listas siguientes para conceder acceso a credenciales y pruebas sintéticas adicionales."
       },
       "role_permissions_owner": "Crear, configurar, ver y suprimir pruebas sintéticas.",
       "role_permissions_viewer": "Ver pruebas sintéticas y su configuración."
@@ -354,6 +360,23 @@
       },
       "customPayload": {
         "unknownTag": "Etiqueta desconocida: {{tagName}}"
+      },
+      "integrations": {
+        "configureIntegration": "Configuración de la integración de",
+        "database": {
+          "database": "Base de datos",
+          "dbIntegrations": "Integración de bases de datos",
+          "dbIntegrationsDescription": "Conecte sus soluciones de gestión de bases de datos y configúrelas de modo que satisfagan sus necesidades.",
+          "dbIntegrationsTooltip": "La conmutación está inhabilitada porque falta una configuración. Pulse el mosaico y cumplimente el formulario para habilitar esta función.",
+          "dbIntegrationsTooltipApiError": "La conmutación está inhabilitada debido a un problema de conexión con la API. Espere a la reconexión o vuelva a cargar la página para habilitar esta función.",
+          "dbMarlin": "DBmarlin",
+          "dbMarlinInstance": "Instancia de DBmarlin",
+          "dbMarlinExampleForAnInternalInstance": "Introduzca el URL de su instancia de DBmarlin, por ejemplo <strong>https://team.dbmarlin.com</strong> o <strong>http://192.168.1.128:443</strong> para una instancia interna.",
+          "configureDbMarlin": "Configurar DBmarlin",
+          "configureDbMarlinDescription": "Cuando está activada, la siguiente configuración añade un enlace a DBmarlin en los detalles de la llamada para las llamadas compatibles.",
+          "configureYourDbMarlinSettings": "Configure los valores de DBmarlin",
+          "failedToLoadDbMarlinConfiguration": "Error al cargar la configuración de DBmarlin."
+        }
       }
     },
     "retentionPeriod": {
@@ -394,10 +417,14 @@
       "toastSuccessTitle": "Integración guardada",
       "toastErrorTitle": "Integración no guardada",
       "toastSuccessMessage": "Su integración {{integrationType}} se ha guardado y habilitado.",
+      "toastErrorMessage": "Su integración {{integrationType}} no se ha podido guardar ni habilitar.",
       "integerationEnabled": "Su integración {{integrationType}} se ha habilitado.",
       "integerationDisabled": "Su integración {{integrationType}} se ha inhabilitado.",
-      "integerationConfigurationFailed": "{{error}}",
-      "configureIntegrations": "Configurar integración"
+      "integrationConfigurationFailed": "{{error}}",
+      "configureIntegrations": "Configurar integración",
+      "unsavedModalContent": "¿Está seguro de que desea descartar los cambios?",
+      "unsavedModalDiscard": "Descartar",
+      "unsavedModalCancel": "Cancelar"
     },
     "deleteLogs": {
       "deleteLogs": "Suprimir registros",
@@ -442,12 +469,16 @@
       "months_6": "Últimos 6 meses",
       "months_9": "Últimos 9 meses",
       "months_12": "Últimos 12 meses",
-      "days_7": "7 días",
-      "days_20": "20 días",
-      "days_30": "30 días",
-      "days_60": "60 días",
-      "days_90": "90 días"
+      "days_30": "30 días de retención",
+      "days_60": "60 días de retención",
+      "days_90": "90 días de retención",
+      "noLogVolumeData": "No hay datos que mostrar",
+      "logVolumeErrorTitle": "Se ha producido un error",
+      "logVolumeErrorInfo": "No se pueden recuperar datos de la base de datos",
+      "groupingTagTootip": "{{groupingTag}} información no disponible",
+      "ruTooltip": "Las unidades de recursos (RU) se calculan en función del volumen de registros ingeridos y del periodo de retención. Cualquier cantidad de datos ingeridos consume un mínimo de 1 RU"
     },
+    "auditTrail": "Seguimiento de auditoría",
     "failedToSaveConfig": "No se ha podido guardar la configuración: {{err}}",
     "IdPMetadataRequired": "Se necesita el archivo de metadatos de IdP",
     "IdPMetadataLargerThanTwoMega": "El archivo de metadatos de IdP no puede tener más de 2 megabytes",
@@ -489,8 +520,6 @@
     "youCanOnlyAddOneItem": "Sólo puede añadir un elemento.",
     "youCanAddAtMostLimitItems": "Puede añadir como máximo {{limit}} elementos.",
     "pleaseNarrowDownYourSelectionByUsingTheFilters": "Puede añadir como máximo {{limit}} elementos. Reduzca su selección utilizando los filtros.",
-    "apiTokenIs": "Señal de API: {{apiTokenName}}",
-    "apiToken": "Señal de API",
     "failedToSaveApiToken": "No se ha podido guardar la señal de API: {{err}}",
     "failedToCreatePersonalApiToken": "No se ha podido crear el token de API personal.",
     "failedToUpdatePersonalApiToken": "No se ha podido actualizar el token de API personal.",
@@ -501,11 +530,26 @@
     "editApiToken": "Editar token de API",
     "editPersonalApiToken": "Editar token de API personal",
     "personalApiTokenNameDescription": "Nombre de visualización del token",
+    "apiTokenExpiration": "Caducidad",
+    "apiTokenExpiryDate": "Fecha de caducidad",
+    "apiTokenExpiryTime": "Hora de caducidad",
+    "apiTokenExpirationOptions": {
+      "thirtyDays": "30 días",
+      "sixtyDays": "60 días",
+      "ninetyDays": "90 días",
+      "oneYear": "1 año",
+      "custom": "Personalizar",
+      "never": "Never"
+    },
+    "apiTokenHintTextForNeverExpires": "Esta señal nunca caduca.",
+    "apiTokenHintTextForExpiration": "Esta señal caduca después de {{expiryDate}} a las {{expiryTime}} UTC{{utcOffSet}}.",
     "displayName": "Nombre de visualización",
     "personalApiTokenDescription": "Este token de API personal hereda los permisos para poder autenticarse en el API.",
     "apiTokenDescription": "Este token de API específico de unidad puede ser visto/modificado por cualquiera o por cualquier token de API con permiso para la configuración de tokens de API.",
     "noApiToken": "Sin tokens de API",
     "newApiToken": "Nueva señal de API",
+    "apiTokenDuplicate": "Duplicado",
+    "duplicateTokenName": "Duplicado de {{apiTokenName}}",
     "apiTokenUnits": "Los tokens de API se pueden utilizar para <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "noPersonalApiTokens": "No hay ningún token de API personal",
     "newPersonalApiToken": "Nueva señal de API personal",
@@ -882,21 +926,27 @@
     "cancel": "Cancelar",
     "loadingApiToken": "Cargando señal de API...",
     "failedToLoadApiToken": "No se ha podido cargar la señal de API.",
-    "saving": "Guardando…",
+    "saving": "Guardando...",
     "general": "General",
     "apiTokens": "Señales de API",
     "personalApiTokens": "Señales de API personales",
     "token": "Señal",
     "tokenLastUsed": "Última utilización",
+    "tokenStatus": "Estado",
+    "tokenActive": "Activo",
+    "tokenActiveUntil": "Activo hasta {{dateTime}}",
+    "tokenExpiredOn": "Caducó el {{dateTime}}",
     "tokenCreated": "Creado",
     "tokenCreatedBy": "Creado por",
+    "tokenValidationPleaseEnterTimeInFuture": "Introduzca una fecha u hora en el futuro",
     "unknownLabel": "Desconocido",
     "copyApiTokenToClipboard": "Copiar señal de API en el portapapeles",
     "inviteUserToGroup": "Seleccione el usuario que se añade",
     "applications": "Aplicaciones",
     "infrastructure": "Infraestructura",
     "ownerPermissions": "Permisos del propietario",
-    "youAreAssigningThisApiTokenOwnerPermissions": "Está asignando estos permisos de propietario de señal de API.",
+    "youAreAssigningThisApiTokenOwnerPermissions": "La asignación de permisos de propietario a esta señal de API permitirá a los usuarios crear, editar o suprimir elementos con ella en esta área.",
+    "yesIUnderstand": "Sí, entiendo",
     "savingGroup": "Guardando grupo",
     "groupSuccessfullySaved": "Grupo guardado correctamente.",
     "groups": "Grupos",

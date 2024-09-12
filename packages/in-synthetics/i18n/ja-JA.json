@@ -245,13 +245,13 @@
         "associationsLabel": "アソシエイト",
         "applicationsTitle": "関連付け: この合成テストに関連付けるアプリケーションを選択します",
         "applicationsDescription": "合成テストをアプリケーションに関連付けると、そのアプリケーションにアクセスできるすべてのユーザーにアクセ ス権が付与されます。",
-        "associationsTitle": "関連付け: この合成テストに関連付けるエンティティを選択する",
+        "associationsTitle": "関連付け: この合成テストに関連付けたいものを選択します",
         "associationsDescription": "合成テストをアプリケーション、ウェブサイト、またはモバイルアプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザーにアクセス権が付与されます。"
       },
       "associations": {
         "applicationsTitle": "この合成テストに関連付けるアプリケーションを選択する",
         "applicationsDescription": "合成テストをアプリケーションに関連付けると、そのアプリケーションにアクセスできるすべてのユーザーにアクセ ス権が付与されます。",
-        "associationsTitle": "この合成テストに関連付けるエンティティを選択する",
+        "associationsTitle": "この合成テストに関連付けたいものを選択します",
         "associationsDescription": "合成テストをアプリケーション、ウェブサイト、またはモバイルアプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザーにアクセス権が付与されます。",
         "applicationsButtonLabel": "アプリケーションの選択",
         "websitesButtonLabel": "Web サイトの選択",
@@ -265,7 +265,7 @@
         "addWebsites": "{{count}} ウェブサイトの追加",
         "addWebsite": "Web サイトの追加",
         "addMobileApps": "{{count}} モバイルアプリの追加",
-        "addMobileApp": "モバイルアプリの追加",
+        "addMobileApp": "モバイル・アプリケーションの追加",
         "applicationsTableTitle": "アプリケーション (複数可)",
         "websitesTableTitle": "ウェブサイト",
         "mobileAppsTableTitle": "モバイルアプリ"
@@ -336,7 +336,7 @@
         "datacentersSubtitle": "使用可能なデータ・センターのいずれかで Instana 管理ロケーションをアクティブ化します。 詳しくは、<linkDatacenters>Instana でホストされる PoP</linkDatacenters> を参照してください。 ",
         "confirmationDialog": {
           "headline": "ロケーションをデプロイしています",
-          "message": "以下のデータ・センターで新しいロケーションをセットアップしています。 これを自動デプロイする間、しばらくお待ちください。 これが完了すると、新しいロケーションが「ロケーション」タブに表示されます。 <strong>これには、選択したデータ・センターごとに最大 10 分かかる場合があります。</strong>",
+          "message": "以下のデータ・センターで新しいロケーションをセットアップしています。 これを自動デプロイする間、しばらくお待ちください。 これが完了すると、新しいロケーションが「ロケーション」タブに表示されます。 <strong>この展開には、選択したデータセンターごとに数分かかることがあります。</strong>",
           "table": {
             "heads": {
               "datacenterCode": "データ・センター・コード",
@@ -351,7 +351,7 @@
         },
         "deactivateDatacenter": {
           "title": "ロケーションの非アクティブ化",
-          "deactivateMessage": "ロケーション <strong>{{locationDisplayLabel}}</strong> を非アクティブにしますか?<br/><br/>ロケーションの非アクティブ化には最大 10 分かかる場合があります。 これをプロビジョン解除するまで、しばらくお待ちください。 これが完了すると、ロケーションのステータスは「オフライン」になります。<br/>",
+          "deactivateMessage": "ロケーション <strong>{{locationDisplayLabel}}</strong> を非アクティブにしますか?<br/><br/> ロケーションの停止には数分かかります。 これをプロビジョン解除するまで、しばらくお待ちください。 これが完了すると、ロケーションのステータスは「オフライン」になります。<br/>",
           "warningMessage": "非アクティブ化は削除されません。 ロケーションは使用可能になり、再度アクティブ化することができます。 管理対象ロケーションを完全に削除するには、ロケーションのステータスが「オフライン」に変更されたら、そのロケーションを削除します。",
           "activeStatus": "アクティブ",
           "deactivateButton": "非アクティブ"
@@ -435,7 +435,7 @@
       "latency": "待ち時間",
       "locationLabel": "ロケーション",
       "locations": "{{totalLocations}} カ所のロケーション",
-      "applicationLabel": "関連付け",
+      "associationLabel": "関連付け",
       "health": "正常性",
       "action": "アクション",
       "labelConfirmRemoveTest": "<strong>{{testLabel}}</strong> テストを削除してもよろしいですか。",

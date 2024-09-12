@@ -616,6 +616,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "至少需要配置一個過濾表示式。",
       "timeBased": "時間型",
       "eventBased": "事件型",
+      "sloLegacy": "SLO 舊版",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "應用程式",

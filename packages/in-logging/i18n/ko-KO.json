@@ -54,5 +54,11 @@
   "host": "호스트",
   "fileOnHost": "켜짐",
   "file": "파일",
-  "logExpiration": "보유 기한"
+  "logExpiration": "보유 기한",
+  "dashboard": {
+    "summary": "요약",
+    "smartAlerts": "스마트 경보",
+    "deleteLogs": "로그 삭제",
+    "configuration": "구성"
+  }
 }

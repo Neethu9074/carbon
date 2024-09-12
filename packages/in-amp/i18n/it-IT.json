@@ -86,8 +86,9 @@
       "essentials": "Essentials",
       "iqmHosts": "Host IQM",
       "syntheticPops": "PoPs sintetici gestiti",
-      "resourceUnits": "Unità risorsa",
-      "consumedUnits": "Unità utilizzate",
+      "logging": "Log nel contesto",
+      "resourceUnits": "Unità di risorse autorizzate",
+      "consumedUnits": "Unità di risorse consumate",
       "infrastructure": "Infrastruttura",
       "synthetics": "Synthetics",
       "traces": "Tracce",
@@ -95,8 +96,13 @@
       "eumWebsite": "Sito web dell'EUM",
       "addons": "Componenti aggiuntivi",
       "trendLine": "Linea di tendenza",
+      "dataUsage": "Utilizzo dei dati",
       "dataUsageHelperText": "Quantità di byte inviati attraverso gli agenti, separati per categoria, nell'intervallo di tempo scelto.",
-      "helperText": "Numero di unità di risorse utilizzate da ciascun tipo di azione. Le unità vengono calcolate con un fattore di 0.025 per test semplici, 0.042 per test API e 1.000 per test browser."
+      "syntheticsHelperText": "Numero di unità di risorse utilizzate da ciascun tipo di azione. Le unità vengono calcolate con un fattore di 0.025 per test semplici, 0.042 per test API e 1.000 per test browser.",
+      "loggingHelperText": {
+        "saas": "Numero di unità di risorse (RU) consumate dai log nel contesto.<br><br>Le unità di risorse sono calcolate in base al tempo di conservazione dei dati inseriti:<br>• 1 GB di dati conservati per 30 giorni consuma 1 RU.<br>• 1 GB di dati conservati per 60 giorni consuma 1,2 RU.<br>• 1 GB di dati conservati per 90 giorni consuma 1,4 RU.",
+        "onprem": "Numero di unità di risorse (RU) consumate dai log nel contesto.<br><br>Le unità di risorse sono calcolate in base alla quantità di dati inseriti. 1 GB di dati inseriti consuma 1 RU."
+      }
     },
     "activationAdoption": {
       "activationAdoption": "Attivazione & Adozione",

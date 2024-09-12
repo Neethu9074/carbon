@@ -5,6 +5,7 @@
   "test": "测试",
   "recommendedActionsWithCount": "建议的操作 ({{count}})",
   "recommendedActions": "建议的操作",
+  "actionName": "操作名称",
   "validVaultParameter": "标记为可选的保险库文件参数必须同时为空白或同时为非空白。",
   "newAction": "新建操作",
   "runAction": "运行操作",
@@ -96,32 +97,63 @@
   "AISlugContent": "使用 AI 生成了此内容",
   "createPolicyWithName": "查看操作 {{actionName}} 并创建策略",
   "viewActionCreatePolicy": "查看操作并创建策略",
-  "simpleAIDialog": {
-    "Step1Headline": "首先执行 watsonx 生成的操作，为该事件创建新的操作和自动化策略。",
-    "Step2Headline": "指定详细信息以创建新操作。",
-    "Step3Headline": "指定详细信息以创建新自动化策略。",
-    "step1Title": "步骤 1：选择生成的操作",
+  "titleScriptContentReadOnly": "内容（只读）",
+  "GenerateAIActionDialog": {
+    "actionConfiguration": "操作配置",
+    "actionDetails": "操作详细信息",
+    "Step1HeadlineSelectAction": "从 watsonx 生成的内置操作开始，为该事件创建一个新操作。",
+    "Step1HeadlinePrompt": "根据事件名称、描述和实体类型，使用 watsonx 生成手动操作。",
+    "Step2Headline": "在保存到操作目录之前，指定操作详细信息或进行更改。",
+    "Step3Headline": "（可选）您可以在创建操作的同时创建自动化策略。 您也可以稍后再完成此步骤。",
+    "step1Title": "步骤 1：生成或选择操作",
+    "step1TitleGenerateAction": "步骤 1：生成操作",
     "step2Title": "步骤 2：定制操作",
-    "step3Title": "步骤 3：创建策略",
+    "step3Title": "步骤 3：创建策略（可选）",
     "policyDetails": "策略详细信息",
-    "policyText": "将为以下操作和事件触发器创建新策略：",
     "policy": {
       "success": {
-        "title": "已创建操作和策略",
-        "content": "已在目录中添加新操作，并且已创建新策略 {{name}}",
-        "link": "操作链接"
+        "title": "已成功创建策略。",
+        "content": "已成功创建策略<Link>“{{name}}”</Link>。"
       }
-    }
+    },
+    "action": {
+      "success": {
+        "title": "已成功创建操作。",
+        "content": "已成功创建操作<Link>“{{name}}”</Link>。"
+      }
+    },
+    "generateAction": "生成操作",
+    "closeDialogDescription": " 确定要从此页面离开吗？",
+    "closeDialogSubDescription": "如果您离开此页面，将不会保存您输入或选择的任何信息。",
+    "liveGeneration": "实时生成",
+    "builtinActions": "内置操作（{{count}} 个）",
+    "eventName": "事件名称",
+    "eventDescription": "事件描述",
+    "eventEntityType": "事件实体类型",
+    "noDataAvailableLive": "填写提示字段并单击<strong>生成操作</strong>按钮以获取内容。",
+    "noDataAvailableSelectAction": "进行选择以查看内容。",
+    "watsonxLoadingContent": "watsonx 正在生成内容",
+    "confirmButtonLabel": "离开页面",
+    "cancelButtonLabel": "停留在页面上",
+    "noResultsYet": "尚无结果",
+    "next": "下一步",
+    "createActionAndPolicy": "创建操作和策略",
+    "createAction": "创建操作",
+    "nameExists": "已存在名称为 {{name}} 且类型为 {{type}} 的操作",
+    "failedToGenerateAction": "生成操作失败。",
+    "failedToCreateActionPolicy": "创建操作和策略失败。",
+    "failedToCreateAction": "创建操作失败。"
   },
-  "SimpleCreatePolicyDialog": {
+  "CreatePolicyDialog": {
     "Step1Headline": "查看建议的操作，并为此事件创建自动化策略。",
     "Step2Headline": "指定详细信息以创建新自动化策略。",
     "step1Title": "步骤 1：查看建议的操作",
     "step2Title": "步骤 2：创建策略",
+    "actionDetails": "操作详细信息",
     "policy": {
       "success": {
         "title": "已创建策略",
-        "successContentForuserAction": "已创建新策略 {{name}}"
+        "content": "已成功创建策略“{{name}}”。"
       }
     }
   },
@@ -149,7 +181,7 @@
     "showsUpInTheListOfActions": "显示在操作列表中。 应该唯一且有意义。",
     "showsUpInTheActionDescription": "显示在操作描述中。 应尽可能具有描述性。",
     "docLinkDescription": "可帮助修复的文档的 URL。",
-    "manualContentDescription": "请在此处输入手动操作的指示信息。",
+    "manualContentDescription": "如果要进行编辑，您可以使用 markdown 将步骤添加到列表中。",
     "manual": "手动",
     "confidence_low": "低",
     "body": "主体（可选）",
@@ -312,7 +344,6 @@
     "policiesWithCount": "策略（{{count}} 个）",
     "newPolicy": "新策略",
     "selectEventTrigger": "选择事件触发器",
-    "actionName": "操作名称",
     "eventTrigger": "事件触发器",
     "unknownPolicy": "未知策略",
     "policy": "策略",

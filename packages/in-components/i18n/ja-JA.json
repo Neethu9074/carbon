@@ -38,7 +38,8 @@
       "itemMsg": "さらに {{leftCount}} 件の {{moreMsg}}"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "再試行"
+      "retryButtonLabel": "再試行",
+      "openList": "リストを開く"
     },
     "chartReleasesLanePresenterReleasesLabel": "リリース",
     "chartReleasesLanePresenterTooltip": "さらに {{len}} 件のリリース",
@@ -260,6 +261,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "確認",
+    "secondaryDialogLabelCancel": "キャンセル",
     "promptPresenterLabelConfirm": "確認"
   },
   "draggableItemSelector": {
@@ -297,8 +299,8 @@
     "labelExpandButtonForContent": "コンテンツの展開ボタン"
   },
   "featureFeedback": {
-    "labelPublicPreview": "公開プレビュー",
-    "labelPrivatePreview": "プライベート・プレビュー",
+    "labelPublicPreview": "プレビュー",
+    "labelPrivatePreview": "プレビュー",
     "linkLabelYouCanSendUsFeedback": "フィードバックをお送りください"
   },
   "geoHeatMap": {
@@ -353,6 +355,30 @@
     "labelWarning": "警告",
     "labelCritical": "クリティカル"
   },
+  "vulnerabilities": {
+    "eventType_issue": "脆弱性",
+    "eventType_issue_plural": "脆弱性",
+    "eventType_issue_0": "脆弱性",
+    "eventType_issue_1": "脆弱性",
+    "eventType_issue_2": "脆弱性",
+    "openIssuesListPresenterActionsViewIssues": "脆弱性を見る",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "{{openIssueCount}} 脆弱性を見る",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "オープンな脆弱性をロードしています…",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "ロードに失敗したオープンな脆弱性",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} オープンな脆弱性",
+    "noVulnerabilities": "脆弱性なし",
+    "openVulnerabilities": "{{count}} 脆弱性",
+    "openVulnerabilities_plural": "{{count}} 脆弱性",
+    "openVulnerabilities_0": "{{count}} 脆弱性",
+    "openVulnerabilities_1": "{{count}} 脆弱性",
+    "openVulnerabilities_2": "{{count}} 脆弱性",
+    "noIncidents": "インシデントなし",
+    "openIncidents": "{{count}} 個のインシデント",
+    "openIncidents_plural": "{{count}} 個のインシデント",
+    "openIncidents_0": "{{count}} 個のインシデント",
+    "openIncidents_1": "{{count}} 個のインシデント",
+    "openIncidents_2": "{{count}} 個のインシデント"
+  },
   "inlineTabNavigation": {
     "labelSelectTab": "タブの選択"
   },
@@ -400,6 +426,7 @@
     "viewSwitcherlabelInfrastructure": "インフラストラクチャー",
     "viewSwitcherLabelApplications": "アプリケーション",
     "viewSwitcherLabelSlo": "サービス・レベル",
+    "viewSwitcherLabelLogs": "Logs",
     "viewSwitcherLabelAnalytics": "分析",
     "viewSwitcherLabelWebsitesAndMobileApps": "Web サイトおよびモバイル・アプリケーション",
     "viewSwitcherLabelWebsites": "Web サイト",
@@ -416,9 +443,11 @@
     "viewSwitcherCustomDashboards": "カスタム・ダッシュボード",
     "viewSwitcherButtonSignOut": "サインアウト",
     "viewSwitcherLabelTenants": "テナント",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "新規バージョンの Instana UI が使用可能です",
     "newUiClientVersionAvailableButtonReloadToUpdate": "再ロードして更新",
     "profileMenu_profileLink": "プロファイル",
+    "profileMenu_tooltip": "プロファイル・メニュー",
     "profileMenu_unitName_tenantName": "ユニット名 - テナント名",
     "profileMenu_switchUnitOrTenant": "スイッチ・ユニットまたはテナント",
     "profileMenu_logOut": "ログアウト"
@@ -590,8 +619,8 @@
     "loadingData": "データのロード中"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "新規バージョンの Instana が使用可能です",
-    "buttonReloadToUpdate": "再ロードして更新"
+    "newVersionOfInstanaAvailable": "インスタナの UI にアップデートがありました",
+    "buttonReloadToUpdate": "ブラウザを更新して読み込みます。"
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "呼び出し",

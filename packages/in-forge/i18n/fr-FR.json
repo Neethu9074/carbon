@@ -819,6 +819,16 @@
   "pluginName_remoteHost_1": "Hôtes distants",
   "pluginName_remoteHost_2": "Hôtes distants",
   "pluginName_remoteHost": "Hôte distant",
+  "pluginName_fileMonitoring": "Surveillance des fichiers",
+  "pluginName_fileMonitoring_plural": "Surveillance des fichiers",
+  "pluginName_fileMonitoring_0": "Surveillance des fichiers",
+  "pluginName_fileMonitoring_1": "Surveillance des fichiers",
+  "pluginName_fileMonitoring_2": "Surveillance des fichiers",
+  "pluginName_fileMonitoringCondition": "Condition du moniteur de fichiers",
+  "pluginName_fileMonitoringCondition_plural": "Conditions du moniteur de fichiers",
+  "pluginName_fileMonitoringCondition_0": "Conditions du moniteur de fichiers",
+  "pluginName_fileMonitoringCondition_1": "Conditions du moniteur de fichiers",
+  "pluginName_fileMonitoringCondition_2": "Conditions du moniteur de fichiers",
   "pluginName_httpd_plural": "Apache HTTPd",
   "pluginName_httpd_0": "Apache HTTPd",
   "pluginName_httpd_1": "Apache HTTPd",
@@ -1594,6 +1604,11 @@
   "pluginName_service_1": "Service",
   "pluginName_service_2": "Services",
   "pluginName_service": "Service",
+  "pluginName_snowflake_plural": "Snowflakes",
+  "pluginName_snowflake_0": "Snowflakes",
+  "pluginName_snowflake_1": "Snowflakes",
+  "pluginName_snowflake_2": "Snowflakes",
+  "pluginName_snowflake": "Snowflake",
   "pluginName_solr_plural": "Nœuds Solr",
   "pluginName_solr_0": "Nœud Solr",
   "pluginName_solr_1": "Nœud Solr",
@@ -7069,7 +7084,8 @@
       "labelMaxUsage": "Utilisations max",
       "labelRSS": "RSS",
       "labelCache": "Cache",
-      "labelMemoryWorkingSet": "Utilisation de la mémoire active [0,100]",
+      "labelMemoryUsedPercentage": "% d'utilisation de la mémoire",
+      "labelMemoryWorkingSet": "% d'utilisation de la mémoire active",
       "labelActiveAnonymous": "Anonyme actif",
       "labelActiveCache": "Cache actif",
       "labelInactiveAnonymous": "Anonyme inactif",
@@ -7110,7 +7126,7 @@
       "totalTime": "Temps total",
       "kernelTime": "Temps noyau",
       "userTime": "Temps utilisateur",
-      "totalNormalized": "Total normalisés [0,100]",
+      "totalNormalized": "% total normalisé",
       "cpu": "UC",
       "throttlingCount": "Nombre de régulations",
       "throttlingTime": "Durée de régulation",
@@ -8261,6 +8277,35 @@
       "httpRequests": "Demandes HTTP",
       "device": "Appareil"
     },
+    "fileMonitoring": {
+      "dashboard": {
+        "monitor": "Surveillance",
+        "path": "Chemin",
+        "pollingInterval": "Intervalle d'interrogation",
+        "severity": "Gravité",
+        "issueTriggered": "Problème déclenché"
+      },
+      "fileSystem": "Surveillance des fichiers",
+      "monitors": "Moniteurs",
+      "host": "Hôte",
+      "group": "Groupe",
+      "numberOfMonitors": "Nombre de moniteurs"
+    },
+    "fileMonitoringCondition": {
+      "dashboard": {
+        "conditionType": "Type de condition",
+        "operator": "Opérateur",
+        "reference": "Compte de référence",
+        "actual": "Réelle"
+      },
+      "fileMonitorCondition": "Condition de surveillance des fichiers",
+      "numberOfConditions": "Nombre de conditions",
+      "conditions": "Conditions",
+      "path": "Chemin",
+      "interval": "Intervalle (secondes)",
+      "issueTriggered": "Problème déclenché",
+      "conditionNotification": "Toutes les conditions doivent être réunies pour que le problème soit déclenché"
+    },
     "finagleApplicationContainer": {
       "dashboard": {
         "finagle": "Finagle"
@@ -9265,10 +9310,10 @@
         "ratingMedium": "Moyen",
         "ratingHigh": "Élevé",
         "totalCpuUtilization": "Total d'utilisation de l'UC",
-        "diskUsage": "Utilisation du disque",
-        "dataSize": "Taille des données",
-        "logSize": "Taille du journal",
-        "traceSize": "Taille de trace",
+        "diskUsage": "Utilisation du disque par type",
+        "dataSize": "Données",
+        "logSize": "Journal",
+        "traceSize": "Trace",
         "sessions": "Sessions",
         "total": "Total",
         "idle": "Inactif",
@@ -9373,7 +9418,32 @@
         "physicalMemory": "Mémoire physique",
         "freeMemory": "Mémoire disponible",
         "utilisationRatio": "Utilisation de la mémoire HANA",
-        "hostUsedPhysicalMemoryRatio": "Utilisation de la mémoire hôte"
+        "hostUsedPhysicalMemoryRatio": "Utilisation de la mémoire hôte",
+        "eventTime": "Heure de l'événement",
+        "eventName": "Nom de l'événement",
+        "eventDetail": "Détail d'événement",
+        "systemActive": "Système actif",
+        "systemStatus": "Statut du système",
+        "hostStatus": "Etat de l'hôte",
+        "hostActive": "État actif de l'hôte",
+        "serviceStatus": "Statut du service",
+        "databaseName": "Nom de la base de données",
+        "systemEventStats": "Evénements système",
+        "errorMsg": "Message d'erreur",
+        "diskUsagePercentage": "Pourcentage d'utilisation du disque",
+        "diskUsageSummary": "Synthèse de l'utilisation du disque",
+        "usage": "Utilisation",
+        "archiveLogBackupStats": "Sauvegarde du journal d'archivage",
+        "systemId": "ID de système",
+        "sourceDatabaseName": "Base de données source",
+        "destinationPath": "Chemin de destination",
+        "userLockStats": "Verrous utilisateur",
+        "userMode": "Mode utilisateur",
+        "deactivationTime": "Temps de désactivation",
+        "userId": "ID utilisateur",
+        "schedulerJobStats": "Tâches du planificateur",
+        "schedulerJobName": "Nom du travail",
+        "endTime": "Heure de fin"
       },
       "systemId": "ID de système",
       "databaseName": "Nom de base de données",
@@ -9419,6 +9489,26 @@
       "service": "Service",
       "allCallsSecond": "Tous les appels/seconde",
       "allCallsAvgLatency": "Temps d'attente moyen de tous les appels"
+    },
+    "snowflake": {
+      "connectErrorIssueDescription": "L'agent n'a pas pu se connecter à Snowflake. La connexion a échoué avec l'erreur suivante : <code>{{error}}</code>",
+      "troubleshootingDocs": "Documentation sur le traitement des incidents",
+      "snowflake": "Snowflake",
+      "account": "Compte",
+      "region": "Région",
+      "organization": "Organisation",
+      "version": "Version",
+      "dashboard": {
+        "creditUsagePerHour": "Utilisation des crédits par heure",
+        "totalStorageBytes": "Nombre total d'octets de stockage",
+        "averageBytesScanned": "Nombre moyen d'octets analysés",
+        "totalQueries": "Nombre total de requêtes",
+        "warehouseName": "Nom de l'entrepôt de données",
+        "compute": "Calcul",
+        "cloudServices": "Services cloud",
+        "total": "Total",
+        "warehouseUsage": "Utilisation de l'entrepôt"
+      }
     },
     "solr": {
       "dashboard": {
@@ -11613,6 +11703,13 @@
       "version": "Version"
     },
     "ibmInfosphereCdcSubscription": {
+      "dashboard": {
+        "singleScrape": "Lecture simple",
+        "transactionHistogram": "Histogramme des transactions",
+        "garbageCollection": "Récupération de place",
+        "databaseWorkload": "Charge de travail de la base de données",
+        "memory": "Mémoire"
+      },
       "ibmInfosphereSubscription": "Abonnement",
       "subscriptionName": "Nom",
       "sourceDatastore": "Magasin de données source",
@@ -11679,7 +11776,21 @@
       "rowsCallingSourceDatabase": "Lignes appelant la base de données source",
       "rowsCallingTargetDatabase": "Lignes appelant la base de données cible",
       "rowsCallingUserExitsSource": "Lignes sources appelant des exits utilisateur",
-      "rowsCallingUserExitsTarget": "Lignes cibles appelant des exits utilisateur"
+      "rowsCallingUserExitsTarget": "Lignes cibles appelant des exits utilisateur",
+      "zeroToHalf": "0 à 1/2X",
+      "halfToOne": "1/2X à X",
+      "oneToTwo": "X à 2X",
+      "twoToFour": "2X à 4X",
+      "fourToEight": "4X à 8X",
+      "moreThanEight": "8X et supérieur",
+      "garbageCollection": "Récupérations de place",
+      "garbageCollectionCPU": "Temps CPU de la récupération de place",
+      "totalTransactions": "Nombre total de transactions",
+      "inscopeTransactions": "Transactions comprises dans la portée",
+      "freeMem": "Mémoire libre",
+      "maxMem": "Mémoire maximale",
+      "totalMem": "Mémoire totale",
+      "globalMem": "Gestionnaire de mémoire globale"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -13696,6 +13807,7 @@
     },
     "tibcoASDataGrid": {
       "label": "Grille de données Tibco AS",
+      "gridId": "Id de la grille",
       "nodes": "Noeuds",
       "proxies": "Proxies",
       "name": "Nom",

@@ -54,5 +54,11 @@
   "host": "Host",
   "fileOnHost": "su",
   "file": "File",
-  "logExpiration": "Conservato fino a"
+  "logExpiration": "Conservato fino a",
+  "dashboard": {
+    "summary": "Riepilogo",
+    "smartAlerts": "Avvisi smart",
+    "deleteLogs": "Elimina log",
+    "configuration": "Configurazione"
+  }
 }
