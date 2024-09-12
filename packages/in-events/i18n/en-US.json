@@ -267,7 +267,8 @@
     "closeNotes": "Close notes and activity",
     "notesActivity": "Notes and activity",
     "techPreview": "Private preview",
-    "you": "You",
+    "you": "You {{date}}",
+    "watsonx": "watsonx {{date}}",
     "summarizeIncident": "Summarize this incident?",
     "summarizeIncidentDescription": "Try summarizing this incident, to help you and your team gain a quick understanding of what has happened.",
     "generateSummary": "Generate a summary",
@@ -284,6 +285,8 @@
     "triggeringEvent": "<strong>Triggering event</strong>: We use the title and description to frame the summary.",
     "relatedEvents": "<strong>Related events</strong>: We use the titles, descriptions and associated actions.",
     "affectedEntities": "<strong>Affected entities</strong>: We use entity data to inform the summary.",
-    "updatedBy": "(updated by {{name}})"
+    "updatedBy": "(updated by {{name}})",
+    "showAll": "Show all",
+    "collapse": "Collapse"
   }
 }
