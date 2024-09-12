@@ -32,6 +32,7 @@ import InfraAlertConfigButton from 'in-events/components/InfraAlertConfigButton'
 import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
@@ -71,7 +72,7 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
 
   if (!alertConfig) {
-    return null;
+    return <LoadingIndicator size="xxxl" />;
   }
 
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');

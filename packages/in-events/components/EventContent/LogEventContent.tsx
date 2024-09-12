@@ -26,6 +26,7 @@ import LogScopePath from 'in-alerting/smart-alerts/logs/components/LogScopePath'
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AnalyzeLogEventButton from 'in-events/components/AnalyzeLogEventButton';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -59,7 +60,7 @@ export default function LogEventContent({ event, snapshot, reload }: Props) {
   const tagCatalog = useTagCatalog('SMART_ALERTS');
 
   if (!alertConfig || !tagCatalog) {
-    return null;
+    return <LoadingIndicator size="xxxl" />;
   }
 
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
