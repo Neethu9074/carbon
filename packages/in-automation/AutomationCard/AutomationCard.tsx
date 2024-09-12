@@ -13,6 +13,7 @@ import useScoredActions, {
   useAIRecommendedScoredActions
 } from 'in-automation/AutomationCard/useScoredActions';
 import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
+import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
@@ -38,37 +39,51 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
   const recommendedActions = useUserRecommendedScoredActions({ actions: userActions, policies });
   const ootbRecommendedActions = useAIRecommendedScoredActions({ actions: ootbActions, policies });
   return (
-    <Row withoutSideMargin>
-      <Col xs>
-        <Card>
-          <AutomationCardButtonGroup
-            policyCount={policies?.data?.length}
-            recommendedActionsCount={recommendedActions?.data?.length}
-            actionHistoryCount={historyCount}
-          />
-          {(activeKey === 'automationPolicies' || activeKey === 'recommendedActions') && <Spacer vertical="small" />}
-          {activeKey === 'automationPolicies' && (
-            <AutomationPolicies
-              volatileId={volatileId}
-              event={event}
-              actions={userActions}
-              policies={policies}
-              trigger={trigger}
-            />
-          )}
-          {activeKey === 'recommendedActions' && (
-            <RecommendedActions
+    <>
+      <Row withoutSideMargin>
+        <Col xs>
+          <Card>
+            <RecommendedOptimizations
               event={event}
               volatileId={volatileId}
               trigger={trigger}
-              recommendedActions={recommendedActions}
-              ootbRecommendedActions={ootbRecommendedActions}
+              recommendedOptimizations={recommendedActions}
             />
-          )}
-          {activeKey === 'actionHistory' && <ActionHistoryTable eventId={event.id} />}
-        </Card>
-      </Col>
-    </Row>
+          </Card>
+        </Col>
+      </Row>
+      <Row withoutSideMargin>
+        <Col xs>
+          <Card>
+            <AutomationCardButtonGroup
+              policyCount={policies?.data?.length}
+              recommendedActionsCount={recommendedActions?.data?.length}
+              actionHistoryCount={historyCount}
+            />
+            {(activeKey === 'automationPolicies' || activeKey === 'recommendedActions') && <Spacer vertical="small" />}
+            {activeKey === 'automationPolicies' && (
+              <AutomationPolicies
+                volatileId={volatileId}
+                event={event}
+                actions={userActions}
+                policies={policies}
+                trigger={trigger}
+              />
+            )}
+            {activeKey === 'recommendedActions' && (
+              <RecommendedActions
+                event={event}
+                volatileId={volatileId}
+                trigger={trigger}
+                recommendedActions={recommendedActions}
+                ootbRecommendedActions={ootbRecommendedActions}
+              />
+            )}
+            {activeKey === 'actionHistory' && <ActionHistoryTable eventId={event.id} />}
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 }
 
