@@ -13,8 +13,6 @@ import { useObservable } from '@instana/hooks';
 import {
   carbonPaginationEnabled,
   manuallyCloseEventEnabled,
-  incidentSummarizationEnabled,
-  incidentSummarizationTimelineEnabled,
   eventFeedbackEnabled,
   businessObservabilityEnabled
 } from 'in-services/featureFlags';
@@ -204,10 +202,6 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
     return <RelatedEventsEmptyState />;
   }
 
-  // should be displayed if incident summarization feature is disabled OR incident summarization feature and timeline with summarization is enabled
-  const shouldTimelineBeDisplayed =
-    !incidentSummarizationEnabled || (incidentSummarizationEnabled && incidentSummarizationTimelineEnabled) || false;
-
   if (!paginatedRecentEvents) return <LoadingIndicator />;
 
   return (
@@ -228,15 +222,13 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
           }
         >
           <>
-            {shouldTimelineBeDisplayed && (
-              <PopulationChart
-                incidentId={incident.get('id')}
-                recentEvents={paginatedRecentEvents}
-                changesAreVisible={changesAreVisible}
-                setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-                setHighlightEventOnHover={setHighlightEventOnHover}
-              />
-            )}
+            <PopulationChart
+              incidentId={incident.get('id')}
+              recentEvents={paginatedRecentEvents}
+              changesAreVisible={changesAreVisible}
+              setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
+              setHighlightEventOnHover={setHighlightEventOnHover}
+            />
             {paginatedRecentEvents?.map(_event => (
               <EventListItem
                 key={_event.get('id')}

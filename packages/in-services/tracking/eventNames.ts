@@ -520,14 +520,6 @@ export const EVENT_NOTES_SUBMIT = 'event.notes.submit';
 export const EVENT_AI_GENERATE_SUBMIT = 'event.ai.generate.submit';
 export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
 
-// Incident Summarization Feedback Tracking
-export const INCIDENT_SUMMARIZATION_HELPFUL = 'incident.summarization.feedback.helpful';
-export const INCIDENT_SUMMARIZATION_UNHELPFUL = 'incident.summarization.feedback.unhelpful';
-export const INCIDENT_SUMMARIZATION_SUBMIT = 'incident.summarization.feedback.submit';
-export const INCIDENT_SUMMARIZATION_CLOSED_MANUALLY = 'incident.summarization.feedback.manually';
-export const INCIDENT_SUMMARIZATION_NEXT = 'incident.summarization.feedback.next';
-export const INCIDENT_SUMMARIZATION_SKIP = 'incident.summarization.feedback.skip';
-
 // Flow Map Tracking (services and endpoints)
 export const FLOW_MAP_CLICK = 'flowmap.click';
 export const FLOW_MAP_CLICK_CALLS = 'flowmap.click.calls';

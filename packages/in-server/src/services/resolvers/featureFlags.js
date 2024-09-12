@@ -491,11 +491,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'incidentSummarizationTimelineEnabled',
-    instanaCtlKey: 'feature.incident.summarization.timeline.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'manuallyCloseEventEnabled',
     instanaCtlKey: 'feature.manually.close.event.enabled',
     defaultValue: true
