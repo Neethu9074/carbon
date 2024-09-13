@@ -10,7 +10,4 @@
     width: 100%;
     .ellipsis();
   }
-  .pillExtaMargin {
-    margin-top: 0.3rem;
-  }
 }

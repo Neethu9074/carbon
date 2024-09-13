@@ -16,6 +16,7 @@ import {
   Card,
   IconButton,
   Pill,
+  PreviewPill,
   Stack,
   Typography
 } from '@instana/components';
@@ -36,7 +37,6 @@ import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constan
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { minutes } from 'in-services/time/time';
@@ -62,9 +62,14 @@ export default function RootCauseSection({
     ? ['metadata', 'rootCause', 'currentRootCause']
     : ['metadata', 'rootCause'];
 
-  const rootCauseSnapshotMap = (incident.getIn(rootCauseSnapshotPath, Map()) as Map<string, ProbableCauseType>)
-    .sort((a, b) => (b.get('probFailure') as number) - (a.get('probFailure') as number))
-    .filter(rootCauseEntity => {
+  const rootCauseSnapshotMap = (
+    incident.getIn(rootCauseSnapshotPath, Map()) as Map<string, ProbableCauseType> | List<ProbableCauseType>
+  )
+    .sort(
+      (a: ProbableCauseType, b: ProbableCauseType) =>
+        (b.get('probFailure') as number) - (a.get('probFailure') as number)
+    )
+    .filter((rootCauseEntity: ProbableCauseType | undefined) => {
       // Filtering out entities with no erroneous rate through the identified root cause
       if (!rootCauseEntity) return false;
 
@@ -79,7 +84,20 @@ export default function RootCauseSection({
       return true;
     });
 
-  const rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray();
+  let rootCauseSnapshots: [string, ProbableCauseType][] = [];
+  if (List.isList(rootCauseSnapshotMap)) {
+    rootCauseSnapshots = rootCauseSnapshotMap
+      .map((rootCause: ProbableCauseType | undefined) => {
+        if (!rootCause) return;
+        const id = rootCause?.get('snapshotId');
+
+        return [id, rootCause];
+      })
+      .toArray() as [string, ProbableCauseType][];
+  } else if (Map.isMap(rootCauseSnapshotMap)) {
+    // legacy where we had a map of snapshot Ids with respective root cause directly
+    rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray() as [string, ProbableCauseType][];
+  }
 
   if (!incidentHasRCAProperty || rootCauseSnapshotMap.size <= 0) return null;
   return (
@@ -90,7 +108,7 @@ export default function RootCauseSection({
             {rootCauseSnapshots.map(([rcaSnapshotID, rootCause], idx) => {
               if (!rootCause) return;
 
-              const probFailureValue = rootCause.get('probFailure');
+              const probFailureValue = rootCause.get('probFailure') as number;
 
               let probText: string | undefined = undefined;
               if (probFailureValue >= 0.7) {
@@ -167,7 +185,7 @@ function ProbableRootCauseCard({ title, children, incident }: ProbableRootCauseC
           leftHeaderContent={
             <Stack direction="horizontal" gap="xxsmall">
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-                <PreviewBadge className={locals.techPreviewPill} />
+                <PreviewPill className={locals.techPreviewPill} />
               </Tooltip>
               <Pill type="purple" className={locals.rcaAIPill}>
                 {t('in-events:RCA.AIGenBadgeText')}

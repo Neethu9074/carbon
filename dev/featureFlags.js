@@ -120,7 +120,6 @@ module.exports = {
   rcaLogsEnabled: false,
   eventFeedbackEnabled: true,
   incidentSummarizationEnabled: true,
-  incidentSummarizationTimelineEnabled: true,
   manuallyCloseEventEnabled: true,
   apiTokenExpirationEnabled: false,
   regexMetricSelectionEnabled: true,

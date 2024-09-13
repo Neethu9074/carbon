@@ -12,7 +12,6 @@ export default interface ContentProps {
   title: string;
   label: string;
   icon: string;
-  iconColor?: string;
   fullLabel?: string;
   category?: string;
   Content?: (props: OnboardingProps) => JSX.Element;

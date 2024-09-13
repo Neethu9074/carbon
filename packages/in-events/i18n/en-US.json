@@ -18,7 +18,6 @@
   "titleLastHost": "Last host",
   "titleLastKnownHost": "Last Known Host",
   "titleLastKnownProcess": "Last Known Process",
-  "titleIncidentTriggeredBy": "Incident triggered by:",
   "titleAnalyzeCustomEvents": "Analyze Custom Events",
   "titleAnalyzeCrash": "Analyze Crashes",
   "titleAnalyzeHTTPRequests": "Analyze HTTP Requests",
@@ -221,15 +220,6 @@
     "errorMessages": "Trace Error Messages",
     "analyzeErrors": "Analyze Errors",
     "analyzeTraceLogs": "Analyze Trace Logs"
-  },
-  "incidentSummarization": {
-    "incidentSummaryTitle": "Incident Summary",
-    "errorTitle": "No summarization found",
-    "errorDescription": "No summarization could be created for this event",
-    "summarizationHelpfulText": "Was this summarization helpful?",
-    "alertChannelTableTitle": "Alert Channels Associated with Incident",
-    "noDataAlertChannels": "No alert channels could be associated with this incident",
-    "actionText": "In the past <strong>{{timeWindow}} {{timeWindowFormat}}</strong> days, for Event Configuration <strong>{{eventSpecId}}</strong> associated with the incident, <strong>{{actionStats}}</strong> action(s) were run of type - <strong>ANSIBLE/SCRIPT/HTTP</strong>"
   },
   "feedback": {
     "skip": "Skip",

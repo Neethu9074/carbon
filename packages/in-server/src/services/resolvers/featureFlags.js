@@ -278,7 +278,7 @@ module.exports = exports = [
   {
     uiClientKey: 'sloRebornWidgetEnabled',
     instanaCtlKey: 'feature.slo.reborn.widget.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
@@ -489,11 +489,6 @@ module.exports = exports = [
     uiClientKey: 'incidentSummarizationEnabled',
     instanaCtlKey: 'feature.incident.summarization.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'incidentSummarizationTimelineEnabled',
-    instanaCtlKey: 'feature.incident.summarization.timeline.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'manuallyCloseEventEnabled',
