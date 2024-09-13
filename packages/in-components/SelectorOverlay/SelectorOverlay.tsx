@@ -115,7 +115,7 @@ export default function SelectorOverlay({
   );
 }
 
-function findFocusedNode(options: Options[]) {
+function findFocusedNode(options: Options[]): Options | undefined {
   if (
     options.length != 1 ||
     !options[0].children ||
@@ -125,8 +125,11 @@ function findFocusedNode(options: Options[]) {
   ) {
     return undefined;
   }
-  if (options[0].children?.length > 1) {
-    return options[0];
+  if (options[0].children?.length != 1) {
+    return undefined;
+  }
+  if (options[0].children?.length == 1) {
+    return options[0].children[0];
   }
   return findFocusedNode(options[0].children);
 }
