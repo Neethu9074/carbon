@@ -24,7 +24,7 @@ export default function OnboardingCarousel({
   const [activationData, setActivationData] = useState<any>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState((localStorage.getItem('expandedState') as unknown as boolean) ?? true);
-
+  const [isScrollDisabled, setIsScrollDisabled] = useState(false);
   const [isLeftDisabled, setIsLeftDisabled] = useState(false);
   const [isRightDisabled, setIsRightDisabled] = useState(false);
   const collapsibleButton = {
@@ -73,6 +73,21 @@ export default function OnboardingCarousel({
     }
   }, []);
 
+  const toggleVisibility = () => {
+    setIsScrollDisabled(true);
+    window.removeEventListener('scroll', handleScroll);
+    setIsExpanded((prev: boolean) => !prev);
+    setTimeout(() => {
+      setIsScrollDisabled(false);
+    }, 100);
+  };
+
+  const handleScroll = useCallback(() => {
+    if (!isScrollDisabled) {
+      setIsExpanded(false);
+    }
+  }, [isScrollDisabled]);
+
   useEffect(() => {
     const resizeHandler = () => {
       checkScrollPosition();
@@ -102,6 +117,13 @@ export default function OnboardingCarousel({
     localStorage.setItem('expandedState', isExpanded.toString());
   }, [isExpanded]);
 
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
+
   return (
     activationData &&
     activation !== null && (
@@ -127,7 +149,7 @@ export default function OnboardingCarousel({
                 className={locals.hideButton}
                 icon={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
                 iconSize={SvgIconSizes.s}
-                onClick={() => setIsExpanded(!isExpanded)}
+                onClick={toggleVisibility}
               >
                 {isExpanded ? collapsibleButton?.hideOnboardingTasks : collapsibleButton?.showOnboardingTasks}
               </DashboardButton>
