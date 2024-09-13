@@ -141,7 +141,7 @@ export function ChatBubble(props) {
         [locals.aiGenBubble]: aiSum
       })}
     >
-      {note && contents}
+      {note && contents && <div style={{ wordWrap: 'break-word' }}>{contents}</div>}
       {aiSum && (
         <>
           <div className={locals.bubbleContentsHeader}>{t('in-events:notes.sumGenerated')}</div>
