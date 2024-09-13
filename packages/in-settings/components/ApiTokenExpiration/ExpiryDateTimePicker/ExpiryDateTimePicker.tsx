@@ -4,40 +4,35 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { Dispatch, SetStateAction } from 'react';
-import { Field } from 'formalistic';
+import { Field, MapForm } from 'formalistic';
+import React from 'react';
 
 import { FormGroup, Label, Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { FormProp, StateProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import { updateExpiresOnFormField } from 'in-settings/components/ApiTokenExpiration/utils';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import DateInput from 'in-components/form/DateInput/DateInput';
 import TimeInput from 'in-components/TimeInput/TimeInput';
 
 export interface ExpiryDateTimePickerProps {
-  form: FormProp;
-  setState?: Dispatch<SetStateAction<StateProps>>;
+  form: MapForm<any>;
+  setForm: (form: MapForm<any>) => void;
 }
 
-export default function ExpiryDateTimePicker({ form, setState }: ExpiryDateTimePickerProps) {
+export default function ExpiryDateTimePicker({ form, setForm }: ExpiryDateTimePickerProps) {
   const dateInput = form.get('customTokenExpiry').get('date').value;
   const timeInput = form.get('customTokenExpiry').get('time').value;
 
   const onChangeExpirationDateTime = (e: string, inputValue: string) => {
     let dateTime: number;
 
-    if (!setState) {
-      return;
-    }
-
     if (inputValue === 'date') {
       dateTime = new Date(`${e} ${timeInput}`).getTime();
     } else {
       dateTime = new Date(`${dateInput} ${e}`).getTime();
     }
-    let updatedForm = form.updateIn(['customTokenExpiry', inputValue], (f: Field<string>) =>
+    let updatedForm = form.updateIn(['customTokenExpiry', inputValue], f =>
       (f as Field<string>).setValue(e as string).setTouched(true)
     );
 
@@ -45,10 +40,7 @@ export default function ExpiryDateTimePicker({ form, setState }: ExpiryDateTimeP
       updatedForm = updateExpiresOnFormField(updatedForm, dateTime);
     }
 
-    setState(prevState => ({
-      ...prevState,
-      form: updatedForm
-    }));
+    setForm(updatedForm);
   };
   return (
     <Stack direction="horizontal" gap="normal">
@@ -94,7 +86,8 @@ export default function ExpiryDateTimePicker({ form, setState }: ExpiryDateTimeP
               placeholder="00:00"
               hasError={(!field.valid && field.touched) || !form.get('customTokenExpiry').valid}
               value={timeInput}
-              onChange={e => onChangeExpirationDateTime(e as string, 'time')}
+              onChange={e => onChangeExpirationDateTime(e, 'time')}
+              fullWidth
             />
             <TouchedMessages field={field} />
           </FormGroup>

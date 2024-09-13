@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Dispatch, SetStateAction } from 'react';
-import { Field } from 'formalistic';
+import { Field, MapForm } from 'formalistic';
+import React from 'react';
 
 import { Toggle, Button } from '@instana/components';
 
@@ -12,7 +12,6 @@ import { Toggle, Button } from '@instana/components';
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList';
 import ExpirationDateDropdown from 'in-settings/components/ApiTokenExpiration/ExpirationDateDropdown/ExpirationDateDropdown';
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
-import { FormProp, StateProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import { ProductPermission, apiTokenPermissions, productOwnerPermissions } from 'in-stores/permission';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -34,16 +33,16 @@ interface ProductPermissionProps extends ProductPermission {
 }
 
 interface ApiTokenFormProps {
-  form: FormProp;
+  form: MapForm<any>;
   onChange: (fieldName: string, val: any) => void;
   disabled?: boolean;
   createNewToken?: boolean;
-  setState?: Dispatch<SetStateAction<StateProps>>;
+  setForm: (form: MapForm<any>) => void;
 }
 
 const permissionsForList = apiTokenPermissions.filter(permission => !permission.isOwnerPermission);
 
-export default function ApiTokenForm({ form, onChange, disabled, createNewToken, setState }: ApiTokenFormProps) {
+export default function ApiTokenForm({ form, onChange, disabled, createNewToken, setForm }: ApiTokenFormProps) {
   return (
     <fieldset data-testid="apitokenform" disabled={disabled}>
       {!createNewToken
@@ -77,9 +76,7 @@ export default function ApiTokenForm({ form, onChange, disabled, createNewToken,
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
-      {apiTokenExpirationEnabled && (
-        <ExpirationDateDropdown id="api-token-expiration" form={form} setState={setState} />
-      )}
+      {apiTokenExpirationEnabled && <ExpirationDateDropdown id="api-token-expiration" form={form} setForm={setForm} />}
       <Row>
         <Col lg>
           <FormGroup>

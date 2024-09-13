@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { Dispatch, SetStateAction } from 'react';
-import { Field } from 'formalistic';
+import { Field, MapForm } from 'formalistic';
+import React from 'react';
 
 import { FormGroup, Label, Select, Spacer } from '@instana/components';
 
@@ -19,7 +19,6 @@ import {
 } from 'in-settings/components/ApiTokenExpiration/utils';
 import { expirationOptions } from 'in-settings/components/ApiTokenExpiration/ExpirationDateDropdown/expirationOptions';
 import ExpiryDateTimePicker from 'in-settings/components/ApiTokenExpiration/ExpiryDateTimePicker/ExpiryDateTimePicker';
-import { FormProp, StateProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { formatDate, formatTime } from 'in-services/formatters/date';
 import { days } from 'in-services/time';
@@ -27,12 +26,12 @@ import { t } from 'in-i18n';
 
 export interface ExpirationDateDropdownProps {
   id: string;
-  form: FormProp;
-  setState?: Dispatch<SetStateAction<StateProps>>;
+  form: MapForm<any>;
+  setForm: (form: MapForm<any>) => void;
 }
 const getUtcOffset = (date: number | Date) => formatDateWithActiveLanguage(date, 'xx');
 
-export default function ExpirationDateDropdown({ form, id, setState }: ExpirationDateDropdownProps) {
+export default function ExpirationDateDropdown({ form, id, setForm }: ExpirationDateDropdownProps) {
   const expiresOn = form.get('expiresOn')?.value;
   const selectedExpiry = (form.get('expiryOption') as Field<ExpiryOptionType>)?.value;
 
@@ -45,10 +44,6 @@ export default function ExpirationDateDropdown({ form, id, setState }: Expiratio
   const onChangeExpirationOptions = (selectedExpiry: ExpiryOptionType) => {
     let updatedForm = form.updateIn(['expiryOption'], (f: Field<ExpiryOptionType>) => f.setValue(selectedExpiry));
 
-    if (!setState) {
-      return;
-    }
-
     if (selectedExpiry === 'Custom') {
       updatedForm = addFormForExpiryTimeStamp(updatedForm);
     } else if (selectedExpiry === 'Never') {
@@ -59,10 +54,7 @@ export default function ExpirationDateDropdown({ form, id, setState }: Expiratio
       updatedForm = updateExpiresOnFormField(updatedForm, addDays(Number(selectedExpiry)));
     }
 
-    setState(prevState => ({
-      ...prevState,
-      form: updatedForm
-    }));
+    setForm(updatedForm);
   };
 
   const getExpirationHintText = () => {
@@ -106,7 +98,7 @@ export default function ExpirationDateDropdown({ form, id, setState }: Expiratio
 
       {selectedExpiry === 'Custom' && (
         <>
-          <ExpiryDateTimePicker form={form} setState={setState} />
+          <ExpiryDateTimePicker form={form} setForm={setForm} />
           <DescriptionTextWithCurrentTimeZone />
         </>
       )}

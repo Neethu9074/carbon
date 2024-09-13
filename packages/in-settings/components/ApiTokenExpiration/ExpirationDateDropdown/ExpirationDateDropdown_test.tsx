@@ -23,7 +23,7 @@ describe('in-settings/components/ApiTokenExpiration/ExpirationDateDropdown/Expir
   };
   const props = {
     form: createForm(createToken),
-    setState: jest.fn(),
+    setForm: jest.fn(),
     id: 'mockId'
   };
   it('renders the dropdown menu', () => {
