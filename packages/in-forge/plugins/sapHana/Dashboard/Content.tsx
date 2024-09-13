@@ -33,8 +33,11 @@ import UserLockStatsList from 'in-forge/plugins/sapHana/Dashboard/UserLockStats'
 import NetworkStatsList from 'in-forge/plugins/sapHana/Dashboard/NetworkStats';
 import BackupStatsList from 'in-forge/plugins/sapHana/Dashboard/BackupStats';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { pageNames } from 'in-services/tracking/pageNames';
 import AlertsTable from './AlertsTable';
 import { t } from 'in-i18n';
 
@@ -51,6 +54,12 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
 
   return (
     <div>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.infrastructure,
+          pageRootName: pageNames.sap_hana
+        }}
+      />
       <Columize>
         <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.totalCpuUtilization')}>
           <Chart

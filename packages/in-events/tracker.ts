@@ -19,12 +19,6 @@ import {
   EVENT_RCA_FEEDBACK_SKIP,
   EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
   EVENT_RCA_FEEDBACK_SUBMIT,
-  INCIDENT_SUMMARIZATION_HELPFUL,
-  INCIDENT_SUMMARIZATION_UNHELPFUL,
-  INCIDENT_SUMMARIZATION_SUBMIT,
-  INCIDENT_SUMMARIZATION_CLOSED_MANUALLY,
-  INCIDENT_SUMMARIZATION_NEXT,
-  INCIDENT_SUMMARIZATION_SKIP,
   EVENT_RCA_ANALYZE_CLICK,
   EVENT_RCA_ENTITY_CLICK,
   EVENT_RCA_ASSOCIATED_EVENTS_CLICK,
@@ -53,14 +47,6 @@ export const eventFeedbackNextTracker = (e: Object) => track(EVENT_FEEDBACK_NEXT
 export const eventFeedbackSkipTracker = (e: Object) => track(EVENT_FEEDBACK_SKIP, e);
 export const eventFeedbackPositiveTracker = (e: Object) => track(EVENT_FEEDBACK_POSITIVE, e);
 export const eventFeedbackNegativeTracker = (e: Object) => track(EVENT_FEEDBACK_NEGATIVE, e);
-
-export const incidentSummarizationFeedbackHelpfulTracker = (e: Object) => track(INCIDENT_SUMMARIZATION_HELPFUL, e);
-export const incidentSummarizationFeedbackUnhelpfulTracker = (e: Object) => track(INCIDENT_SUMMARIZATION_UNHELPFUL, e);
-export const incidentSummarizationFeedbackSubmitTracker = (e: Object) => track(INCIDENT_SUMMARIZATION_SUBMIT, e);
-export const incidentSummarizationFeedbackClosedManuallyTracker = (e: Object) =>
-  track(INCIDENT_SUMMARIZATION_CLOSED_MANUALLY, e);
-export const incidentSummarizationFeedbackNextTracker = (e: Object) => track(INCIDENT_SUMMARIZATION_NEXT, e);
-export const incidentSummarizationFeedbackSkipTracker = (e: Object) => track(INCIDENT_SUMMARIZATION_SKIP, e);
 
 export function rootCauseAnalysisSegmentTracker(eventName: string, path: string, label?: string) {
   const { pageRootName, productArea } = getViewTrackingMetaData();

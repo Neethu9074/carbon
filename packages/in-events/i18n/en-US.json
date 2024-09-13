@@ -18,7 +18,6 @@
   "titleLastHost": "Last host",
   "titleLastKnownHost": "Last Known Host",
   "titleLastKnownProcess": "Last Known Process",
-  "titleIncidentTriggeredBy": "Incident triggered by:",
   "titleAnalyzeCustomEvents": "Analyze Custom Events",
   "titleAnalyzeCrash": "Analyze Crashes",
   "titleAnalyzeHTTPRequests": "Analyze HTTP Requests",
@@ -132,6 +131,8 @@
   "headerReportedDate": "Reported Date",
   "headerAffectedApp": "Affected Applications",
   "headerCvssScore": "CVSS Score",
+  "unidentifiedEntity": "Unidentified Entity",
+  "unidentifiedEntityTooltip": "There was an error retrieving information about this entity. You can visit the entity's dashboard by clicking the 'Unidentified Entity' link for more details.",
   "headerStatus": "Status",
   "eventHelpfulText": "Was this event helpful?",
   "thankYouForYourFeedback": "Thank you for your feedback!",
@@ -220,15 +221,6 @@
     "analyzeErrors": "Analyze Errors",
     "analyzeTraceLogs": "Analyze Trace Logs"
   },
-  "incidentSummarization": {
-    "incidentSummaryTitle": "Incident Summary",
-    "errorTitle": "No summarization found",
-    "errorDescription": "No summarization could be created for this event",
-    "summarizationHelpfulText": "Was this summarization helpful?",
-    "alertChannelTableTitle": "Alert Channels Associated with Incident",
-    "noDataAlertChannels": "No alert channels could be associated with this incident",
-    "actionText": "In the past <strong>{{timeWindow}} {{timeWindowFormat}}</strong> days, for Event Configuration <strong>{{eventSpecId}}</strong> associated with the incident, <strong>{{actionStats}}</strong> action(s) were run of type - <strong>ANSIBLE/SCRIPT/HTTP</strong>"
-  },
   "feedback": {
     "skip": "Skip",
     "descriptionUnpleasant": {
@@ -264,12 +256,27 @@
     "openNotes": "Open notes and activity",
     "closeNotes": "Close notes and activity",
     "notesActivity": "Notes and activity",
-    "techPreview": "Tech preview",
-    "incidentNotes": "Incident notes",
-    "addNote": "Add note",
-    "you": "You",
-    "noNotes": "No notes added yet",
-    "noNotesDetails": "Get started by adding a note for your team.",
-    "typeSomething": "Type something..."
+    "techPreview": "Private preview",
+    "you": "You {{date}}",
+    "watsonx": "watsonx {{date}}",
+    "summarizeIncident": "Summarize this incident?",
+    "summarizeIncidentDescription": "Try summarizing this incident, to help you and your team gain a quick understanding of what has happened.",
+    "generateSummary": "Generate a summary",
+    "searchNotes": "Search notes and activity",
+    "addComment": "Add comment",
+    "notesLabelText": "Add incident notes",
+    "sumGenerated": "Summary generated:",
+    "noActivity": "No activity yet",
+    "noActivityDetails": "There are no notes or activity to show yet. Use the Add comment field to share knowledge or an update for this incident with your team.",
+    "aiExplained": "AI explained",
+    "summary": "Summarization",
+    "summaryDescription": "To generate an incident summary we send incident and associated event data to watsonx. Watsonx then processes this data using an AI model which returns a concise summary of the broader incident.",
+    "dataTypes": "Data types used",
+    "triggeringEvent": "<strong>Triggering event</strong>: We use the title and description to frame the summary.",
+    "relatedEvents": "<strong>Related events</strong>: We use the titles, descriptions and associated actions.",
+    "affectedEntities": "<strong>Affected entities</strong>: We use entity data to inform the summary.",
+    "updatedBy": "(updated by {{name}})",
+    "showAll": "Show all",
+    "collapse": "Collapse"
   }
 }

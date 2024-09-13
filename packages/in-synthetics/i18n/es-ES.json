@@ -245,13 +245,13 @@
         "associationsLabel": "Asociado",
         "applicationsTitle": "Asociar: Seleccione las aplicaciones que desea asociar a esta prueba sintética",
         "applicationsDescription": "Al asociar una prueba sintética a una aplicación, se conceden derechos de acceso a todos los usuarios que tienen acceso a esa aplicación.",
-        "associationsTitle": "Asociar: Seleccione las entidades que desea asociar a esta prueba sintética",
+        "associationsTitle": "Asociar: Seleccione lo que desea asociar a esta prueba sintética",
         "associationsDescription": "Al asociar una prueba sintética a una aplicación, el sitio web o aplicación móvil otorga derechos de acceso a todos los usuarios que tienen acceso a esas entidades."
       },
       "associations": {
         "applicationsTitle": "Seleccione las aplicaciones que desea asociar a esta prueba sintética",
         "applicationsDescription": "Al asociar una prueba sintética a una aplicación, se conceden derechos de acceso a todos los usuarios que tienen acceso a esa aplicación.",
-        "associationsTitle": "Seleccione las entidades que desea asociar a esta prueba sintética",
+        "associationsTitle": "Seleccione lo que desea asociar a esta prueba sintética",
         "associationsDescription": "Al asociar una prueba sintética a una aplicación, el sitio web o aplicación móvil otorga derechos de acceso a todos los usuarios que tienen acceso a esas entidades.",
         "applicationsButtonLabel": "Seleccionar aplicaciones",
         "websitesButtonLabel": "Seleccionar sitios web",
@@ -265,7 +265,7 @@
         "addWebsites": "Añadir {{count}} sitios web",
         "addWebsite": "Añadir sitio web",
         "addMobileApps": "Añadir {{count}} aplicaciones móviles",
-        "addMobileApp": "Añadir aplicaciones móviles",
+        "addMobileApp": "Añadir aplicación móvil",
         "applicationsTableTitle": "Aplicaciones",
         "websitesTableTitle": "Sitios web",
         "mobileAppsTableTitle": "Aplicaciones móviles"
@@ -336,7 +336,7 @@
         "datacentersSubtitle": "Active una ubicación gestionada por Instana en uno de los centros de datos disponibles. Para obtener más información, consulte <linkDatacenters>Utilización de un PoP alojado en Instana</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Las ubicaciones se están desplegando",
-          "message": "Estamos configurando sus nuevas ubicaciones en los siguientes centros de datos. Tenga paciencia mientras se realiza el despliegue automáticamente. Cuando haya terminado, podrá encontrar las nuevas ubicaciones en la pestaña de ubicaciones. <strong>Esto puede tardar hasta 10 minutos para cada centro de datos seleccionado.</strong>",
+          "message": "Estamos configurando sus nuevas ubicaciones en los siguientes centros de datos. Tenga paciencia mientras se realiza el despliegue automáticamente. Cuando haya terminado, podrá encontrar las nuevas ubicaciones en la pestaña de ubicaciones. <strong>Este despliegue puede llevar unos minutos para cada centro de datos seleccionado.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Código de centro de datos",
@@ -351,7 +351,7 @@
         },
         "deactivateDatacenter": {
           "title": "Desactivar ubicación",
-          "deactivateMessage": "¿Seguro que desea desactivar la ubicación <strong>{{locationDisplayLabel}}</strong>?<br/><br/>La desactivación de una ubicación puede tardar hasta 10 minutos. Tenga paciencia mientras nosotros lo desactivamos por usted. Cuando finalice, el estado de la ubicación será Fuera de línea.<br/>",
+          "deactivateMessage": "¿Seguro que desea desactivar la ubicación <strong>{{locationDisplayLabel}}</strong>?<br/><br/>La desactivación de una ubicación puede tardar unos minutos. Tenga paciencia mientras nosotros lo desactivamos por usted. Cuando finalice, el estado de la ubicación será Fuera de línea.<br/>",
           "warningMessage": "La desactivación no se está suprimiendo. La ubicación estará disponible y se podrá activar de nuevo. Para eliminar completamente la ubicación gestionada, suprima la ubicación una vez que su estado cambie a Fuera de línea.",
           "activeStatus": "Activo",
           "deactivateButton": "Desactivar"
@@ -435,7 +435,7 @@
       "latency": "Latencia",
       "locationLabel": "Ubicación",
       "locations": "{{totalLocations}} ubicaciones",
-      "applicationLabel": "Asociaciones",
+      "associationLabel": "Asociaciones",
       "health": "Estado",
       "action": "Acción",
       "labelConfirmRemoveTest": "¿Seguro que desea eliminar la prueba <strong>{{testLabel}}</strong>?",

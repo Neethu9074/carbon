@@ -19,6 +19,9 @@
     "unnamedActivity": "(名前なしアクティビティー) {{activityType}}",
     "unnamedService": "(無名サービス)"
   },
+  "processes": {
+    "deployAgent": "エージェントのデプロイ"
+  },
   "perspectives": {
     "newPerspective": "パースペクティブを作る",
     "lists": {

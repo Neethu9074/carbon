@@ -5,18 +5,18 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
+import { Field, Item } from 'formalistic';
 
 import { PaginatedResult, ServiceLevelObjectiveConfiguration, SloEntityType, SloEntityUnion } from '@instana/types';
 import { HorizontalIndicator, Typography, SearchInput } from '@instana/components';
 import { Progress } from '@instana/components/types/util/dataRetrieval';
 
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
-import { usePaginatedSloList } from 'in-alerting/smart-alerts/slo/components/SloListSelection/hooks/usePaginatedSloList';
-import { useSelectedIds } from 'in-alerting/smart-alerts/slo/components/SloListSelection/hooks/useSelectedIds';
 import SloTableSelection from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection';
-import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
+import usePaginatedSloList from 'in-service-levels/hooks/usePaginatedSloList';
+import useSelectedIds from 'in-service-levels/hooks/useSelectedIds';
 import Sections from 'in-components/workspace/Sections/Sections';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { t } from 'in-i18n';
@@ -31,19 +31,24 @@ export interface SloData {
 }
 const DEFAULT_ENTITY_TYPE: SloEntityType = 'application';
 
-export default function SloListSelection() {
-  const { form, onChange } = useSloAlertFormContext();
-  const sloIdsField = form.getIn(['sloIds']);
-  const entityTypeField = form.getIn(['entityType']);
+interface SloListSelectionProps {
+  sloIdsField: Field<string[]> | Field<string>;
+  entityTypeField: Field<SloEntityType | undefined>;
+  onChange: (i: Item) => void;
+}
+
+export default function SloListSelection({ sloIdsField, entityTypeField, onChange }: SloListSelectionProps) {
+  const multiSelect = isMultiSelect(sloIdsField);
+  const sloIdArray = multiSelect ? sloIdsField.value : [sloIdsField.value];
   const entityType = entityTypeField.value ?? DEFAULT_ENTITY_TYPE;
-  const initiallySelectedIds = useRef(sloIdsField.value);
+  const initiallySelectedIds = useRef(sloIdArray);
   const initialEntityType = useRef(entityType);
   if (initialEntityType.current !== entityType) {
     initialEntityType.current = entityType;
     initiallySelectedIds.current = [];
   }
   const initiallyAndCurrentlySelectedIds = Array.from(
-    new Set([...initiallySelectedIds.current, ...sloIdsField.value])
+    new Set([...initiallySelectedIds.current, ...sloIdArray])
   ) as string[];
   const { loadMore, query, selected, setQuery, sloList, page, totalHits, progress } = useSloList(
     initiallyAndCurrentlySelectedIds,
@@ -55,12 +60,16 @@ export default function SloListSelection() {
   const isSloIdsFieldValid = isFieldValid(sloIdsField);
 
   const onSelectSlo = (sloData: SloData) => {
+    if (!multiSelect) {
+      return onChange(sloIdsField.setValue(sloData.id).setTouched(true));
+    }
+
     const currentIds = sloIdsField.value;
     const isAlreadySelected = currentIds.includes(sloData.id);
 
     const updatedIds = isAlreadySelected ? currentIds.filter(id => sloData.id !== id) : [...currentIds, sloData.id];
 
-    onChange(['sloIds'], () => sloIdsField.setValue(updatedIds).setTouched(true));
+    onChange(sloIdsField.setValue(updatedIds).setTouched(true));
   };
 
   const selectedIds = selected.map(({ id }) => id);
@@ -69,10 +78,10 @@ export default function SloListSelection() {
     ({ id }) => !initiallySelectedIds.current.includes(id)
   );
   const filteredList = sloList.filter(({ id }) => !selectedIds.includes(id));
-  const sortedList = [
+  const sortedList = removeAmbiguousItems([
     ...initiallySelectedSlos,
     ...sortedSloDataByLabel([...selectedSlosWithoutInitiallySelectedSlos, ...filteredList])
-  ];
+  ]);
 
   return (
     <>
@@ -92,13 +101,14 @@ export default function SloListSelection() {
           columns={['label']}
           onChange={onSelectSlo}
           progress={{ loading: false }}
-          selectedIds={sloIdsField.value}
+          selectedIds={multiSelect ? sloIdsField.value : [sloIdsField.value]}
           canLoadMore={canLoadMore}
           disabled={false}
           hasError={!isSloIdsFieldValid}
           itemList={sortedList}
           loadMore={loadMore}
           skeletonRows={sortedList.length ? sortedList.length : 3}
+          asRadioButton={!multiSelect}
         />
         {!isSloIdsFieldValid &&
           sloIdsField.messages.map(({ message, path }, index) => (
@@ -163,4 +173,13 @@ export function useSloList(selectedIds: string[], entityType: SloEntityType): Us
     sloList,
     ...rawData
   };
+}
+
+function isMultiSelect(sloIdsField: Field<string[]> | Field<string>): sloIdsField is Field<string[]> {
+  return typeof sloIdsField.value !== 'string';
+}
+
+function removeAmbiguousItems(sloData: Array<SloData>): Array<SloData> {
+  const uniqueSet = new Set(sloData.map(slo => JSON.stringify(slo)));
+  return Array.from(uniqueSet).map(sloJson => JSON.parse(sloJson) as SloData);
 }

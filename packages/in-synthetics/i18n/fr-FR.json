@@ -245,13 +245,13 @@
         "associationsLabel": "Associer",
         "applicationsTitle": "Associer : Sélectionnez les applications à associer à ce test synthétique",
         "applicationsDescription": "L'association d'un test synthétique à une application donne des droits d'accès à tous les utilisateurs qui ont accès à cette application.",
-        "associationsTitle": "Associer : Sélectionner les entités à associer à ce test synthétique",
+        "associationsTitle": "Associer : Sélectionnez les éléments que vous souhaitez associer à ce test synthétique",
         "associationsDescription": "L'association d'un test synthétique à une application, un site Web ou une application mobile donne des droits d'accès à tous les utilisateurs qui ont accès à ces entités."
       },
       "associations": {
         "applicationsTitle": "Sélectionnez les applications à associer à ce test synthétique",
         "applicationsDescription": "L'association d'un test synthétique à une application donne des droits d'accès à tous les utilisateurs qui ont accès à cette application.",
-        "associationsTitle": "Sélectionnez les entités à associer à ce test synthétique",
+        "associationsTitle": "Sélectionnez les éléments que vous souhaitez associer à ce test synthétique",
         "associationsDescription": "L'association d'un test synthétique à une application, un site Web ou une application mobile donne des droits d'accès à tous les utilisateurs qui ont accès à ces entités.",
         "applicationsButtonLabel": "Sélection d'applications",
         "websitesButtonLabel": "Sélectionner des sites Web",
@@ -265,7 +265,7 @@
         "addWebsites": "Ajouter {{count}} sites Web",
         "addWebsite": "Ajouter un site Web",
         "addMobileApps": "Ajouter {{count}} applications mobiles",
-        "addMobileApp": "Ajouter des applications mobiles",
+        "addMobileApp": "Ajouter une application mobile",
         "applicationsTableTitle": "Application(s)",
         "websitesTableTitle": "Site(s) Web",
         "mobileAppsTableTitle": "Application(s) mobile(s)"
@@ -336,7 +336,7 @@
         "datacentersSubtitle": "Activez un emplacement géré Instana dans l'un des centres de données disponibles. Pour plus d'informations, voir <linkDatacenters>Utilisation d'un PoP hébergé par Instana</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Des emplacements sont en cours de déploiement",
-          "message": "Nous configurons vos nouveaux emplacements dans les centres de données suivants. Veuillez patienter pendant que nous le déployons automatiquement pour vous. Lorsque cette opération est terminée, vous pouvez trouver vos nouveaux emplacements dans l'onglet Emplacements. <strong>Cette opération peut prendre jusqu'à 10 minutes pour chaque centre de données sélectionné.</strong>",
+          "message": "Nous configurons vos nouveaux emplacements dans les centres de données suivants. Veuillez patienter pendant que nous le déployons automatiquement pour vous. Lorsque cette opération est terminée, vous pouvez trouver vos nouveaux emplacements dans l'onglet Emplacements. <strong>Ce déploiement peut prendre quelques minutes pour chaque centre de données sélectionné.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Code du centre de données",
@@ -351,7 +351,7 @@
         },
         "deactivateDatacenter": {
           "title": "Désactiver l'emplacement",
-          "deactivateMessage": "Voulez-vous vraiment désactiver l'emplacement <strong>{{locationDisplayLabel}}</strong> ?<br/><br/>La désactivation d'un emplacement peut prendre jusqu'à 10 minutes. Veuillez patienter pendant l'annulation de l'accès. Une fois l'opération terminée, le statut de l'emplacement sera Hors ligne.<br/>",
+          "deactivateMessage": "Voulez-vous vraiment désactiver l'emplacement <strong>{{locationDisplayLabel}}</strong> ?<br/><br/> La désactivation d'un lieu peut prendre quelques minutes. Veuillez patienter pendant l'annulation de l'accès. Une fois l'opération terminée, le statut de l'emplacement sera Hors ligne.<br/>",
           "warningMessage": "La désactivation n'équivaut pas à une suppression. L'emplacement sera disponible et pourra être réactivé. Pour retirer complètement l'emplacement géré, supprimez l'emplacement une fois que son statut est Hors ligne.",
           "activeStatus": "Actif",
           "deactivateButton": "Désactiver"
@@ -435,7 +435,7 @@
       "latency": "Temps d'attente",
       "locationLabel": "Emplacement",
       "locations": "{{totalLocations}} emplacements",
-      "applicationLabel": "Associations",
+      "associationLabel": "Associations",
       "health": "Intégrité",
       "action": "Action",
       "labelConfirmRemoveTest": "Voulez-vous vraiment supprimer le test <strong>{{testLabel}}</strong>  ?",

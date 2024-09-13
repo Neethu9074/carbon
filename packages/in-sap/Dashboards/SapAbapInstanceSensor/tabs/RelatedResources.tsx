@@ -24,6 +24,9 @@ import Badge from 'in-components/tables/ServerTable/components/Badge';
 import { timeConfig$, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
+import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { t } from 'in-i18n';
 
 const pathSegment = '/abapinstance';
@@ -94,7 +97,17 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function RelatedResources(props: any) {
   systemSnapshotId = props.hostId;
-  return <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} hostId={systemSnapshotId} />;
+  return (
+    <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.sap,
+          pageRootName: pageNames.abap_instance_related_resources
+        }}
+      />
+      <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} hostId={systemSnapshotId} />
+    </>
+  );
 }
 
 function getTableData({

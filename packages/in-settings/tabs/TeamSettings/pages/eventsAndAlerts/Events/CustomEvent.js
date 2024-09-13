@@ -40,11 +40,14 @@ import {
   hideAppDataLegacyEventsEnabled
 } from 'in-services/featureFlags';
 import LegacyAppdataEventInfoMessage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import {
+  SETTINGS_EVENT_SUBMIT,
+  SETTINGS_EVENT_VIEW,
+  APPLICATIONS_ALERTING_DEPRECATED_EVENT_OPEN
+} from 'in-services/tracking/tracking';
 import { entityCountDetection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
-import { applicationsAlertingDeprecatedEventOpen } from 'in-alerting/smart-alerts/applications/tracker';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
-import { SETTINGS_EVENT_SUBMIT, SETTINGS_EVENT_VIEW } from 'in-services/tracking/tracking';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
@@ -393,10 +396,12 @@ const formToRuleMapper =
   };
 
 function TrackingLegacyAppdataEventInfoMessage({ migrated, saved, disallowed, deleted }) {
+  const { trackCta } = useSegmentTracking();
   useEffect(() => {
     if (!deleted) {
-      applicationsAlertingDeprecatedEventOpen();
+      trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_OPEN);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleted]);
 
   return <LegacyAppdataEventInfoMessage migrated={migrated} saved={saved} disallowed={disallowed} deleted={deleted} />;

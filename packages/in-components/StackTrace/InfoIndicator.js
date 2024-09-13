@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
 
@@ -19,7 +19,9 @@ export default function InfoIndicator({ href, href$, children, target, external 
           ?
         </Link>
       ) : (
-        <span className={locals.indicator}>?</span>
+        <div className={locals.icon}>
+          <SvgIcon type="lib_infra_unknownIcon" size="s" />
+        </div>
       )}
     </Tooltip>
   );

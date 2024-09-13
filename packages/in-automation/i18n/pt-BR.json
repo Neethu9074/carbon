@@ -5,6 +5,7 @@
   "test": "Testar",
   "recommendedActionsWithCount": "Ações recomendadas ({{count}})",
   "recommendedActions": "Ações recomendadas",
+  "actionName": "Nome da Ação",
   "validVaultParameter": "Os parâmetros da área segura marcados como opcionais devem estar ambos em branco ou ambos não em branco.",
   "newAction": "Nova ação",
   "runAction": "Executar a ação",
@@ -96,32 +97,63 @@
   "AISlugContent": "A IA foi usada para gerar este conteúdo",
   "createPolicyWithName": "Visualizar ação {{actionName}} e criar política",
   "viewActionCreatePolicy": "Visualizar ação e criar política",
-  "simpleAIDialog": {
-    "Step1Headline": "Inicie com uma ação gerada por watsonx para criar uma nova ação e política de automação para este evento.",
-    "Step2Headline": "Especifique os detalhes para criar uma nova ação.",
-    "Step3Headline": "Especifique os detalhes para criar uma nova política de automação.",
-    "step1Title": "Etapa 1: Selecionar uma ação gerada",
+  "titleScriptContentReadOnly": "Conteúdo (somente leitura)",
+  "GenerateAIActionDialog": {
+    "actionConfiguration": "Configuração da ação",
+    "actionDetails": "Detalhes da ação",
+    "Step1HeadlineSelectAction": "Comece com uma ação integrada gerada pelo watsonx  para criar uma nova ação para esse evento.",
+    "Step1HeadlinePrompt": "Gere uma ação manual com o watsonx com base no nome do evento, na descrição e no tipo de entidade.",
+    "Step2Headline": "Especifique os detalhes da ação ou mude antes de salvá-la no catálogo de ações.",
+    "Step3Headline": "Opcionalmente, é possível criar uma política de automação junto com a ação. Também é possível concluir essa etapa em um momento posterior.",
+    "step1Title": "Etapa 1: gerar ou selecionar uma ação",
+    "step1TitleGenerateAction": "Etapa 1: gerar uma ação",
     "step2Title": "Etapa 2: Customizar ação",
-    "step3Title": "Etapa 3: Criar política",
+    "step3Title": "Etapa 3: criar política (opcional)",
     "policyDetails": "Detalhes da política",
-    "policyText": "Uma nova política será criada para a ação e o acionador de evento a seguir:",
     "policy": {
       "success": {
-        "title": "Ação e política criadas",
-        "content": "Uma nova ação foi incluída no catálogo e uma nova política {{name}} foi criada",
-        "link": "Link de ação"
+        "title": "A política foi criada com sucesso.",
+        "content": "A política <Link>\"{{name}}\"</Link> foi criada com sucesso."
       }
-    }
+    },
+    "action": {
+      "success": {
+        "title": "A ação foi criada com sucesso.",
+        "content": "A ação <Link>\"{{name}}\"</Link> foi criada com sucesso."
+      }
+    },
+    "generateAction": "Gerar ação",
+    "closeDialogDescription": " Tem certeza de que deseja navegar para fora desta página?",
+    "closeDialogSubDescription": "Se você sair desta página, as informações inseridas ou selecionadas não serão salvas.",
+    "liveGeneration": "Geração em tempo real",
+    "builtinActions": "Ações integradas ({{count}})",
+    "eventName": "Nome do evento",
+    "eventDescription": "Descrição do evento",
+    "eventEntityType": "Tipo de entidade de evento",
+    "noDataAvailableLive": "Preencha os campos de solicitação e clique no botão <strong>Gerar ação</strong> para obter o conteúdo.",
+    "noDataAvailableSelectAction": "Selecione para ver o conteúdo.",
+    "watsonxLoadingContent": "O watsonx está gerando conteúdo",
+    "confirmButtonLabel": "Sair da página",
+    "cancelButtonLabel": "Permanecer na página",
+    "noResultsYet": "Nenhum resultado ainda",
+    "next": "Avançar",
+    "createActionAndPolicy": "Criar ações e políticas",
+    "createAction": "Criar ação",
+    "nameExists": "Já existe uma ação com o nome: {{name}} e o tipo: {{type}}",
+    "failedToGenerateAction": "Falha ao gerar a ação.",
+    "failedToCreateActionPolicy": "Falha ao criar ações e políticas.",
+    "failedToCreateAction": "Falha ao criar a ação."
   },
-  "SimpleCreatePolicyDialog": {
+  "CreatePolicyDialog": {
     "Step1Headline": "Visualize a ação recomendada e crie a política de automação para este evento.",
     "Step2Headline": "Especifique os detalhes para criar uma nova política de automação.",
     "step1Title": "Etapa 1: Visualizar ação recomendada",
     "step2Title": "Etapa 2: Criar política",
+    "actionDetails": "Detalhes da ação",
     "policy": {
       "success": {
         "title": "A política é criada",
-        "successContentForuserAction": "Uma nova política {{name}} foi criada"
+        "content": "A política \"{{name}}\" foi criada com sucesso."
       }
     }
   },
@@ -149,7 +181,7 @@
     "showsUpInTheListOfActions": "Aparece na lista de ações. Deve ser exclusivo e significativo.",
     "showsUpInTheActionDescription": "Aparece na descrição da ação. Deve ser o mais descritivo possível.",
     "docLinkDescription": "A URL para documentação que pode ajudar com a correção.",
-    "manualContentDescription": "Insira as instruções para a ação manual aqui.",
+    "manualContentDescription": "Se estiver editando, é possível usar a redução de preço para incluir etapas na lista.",
     "manual": "Manual",
     "confidence_low": "Baixa",
     "body": "Corpo (opcional)",
@@ -312,7 +344,6 @@
     "policiesWithCount": "Políticas ({{count}})",
     "newPolicy": "Nova política",
     "selectEventTrigger": "Selecionar acionador de evento",
-    "actionName": "Nome da Ação",
     "eventTrigger": "Acionador de evento",
     "unknownPolicy": "Política desconhecida",
     "policy": "Política",

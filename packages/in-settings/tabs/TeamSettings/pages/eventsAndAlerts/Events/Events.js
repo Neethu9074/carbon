@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
 import { Spacer, Message } from '@instana/components';
@@ -22,6 +22,11 @@ import {
   migratedValue,
   needsMigrationAction
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import {
+  MessageContentModernDesign,
+  smartAlertMigrationUrl,
+  onLinkClickForSegmentTracking
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import {
   getEntityHref,
   getEntityIdView,
@@ -42,13 +47,8 @@ import {
   SETTINGS_EVENT_DELETED,
   SETTINGS_EVENT_VIEW
 } from 'in-services/tracking/tracking';
-import {
-  smartAlertMigrationDocs,
-  MessageContentModernDesign
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
 import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
-import { applicationsAlertingShowDeprecationBanner } from 'in-alerting/smart-alerts/applications/tracker';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import List, { CreateNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -225,9 +225,12 @@ export default function Events({
 }
 
 function CustomEventDeprecatedWarning() {
-  useEffect(() => {
-    applicationsAlertingShowDeprecationBanner();
-  }, []);
+  const { trackCta } = useSegmentTracking();
+  const smartAlertMigrationDocs = (
+    <Link href={smartAlertMigrationUrl} onClick={() => onLinkClickForSegmentTracking(trackCta)} external>
+      &nbsp;
+    </Link>
+  );
   return (
     <Message type="warning" withIcon fullInlineWidth>
       <MessageContentModernDesign>

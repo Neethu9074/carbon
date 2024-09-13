@@ -484,6 +484,7 @@
       "inventory": {
         "noData": "Nenhum Alerta inteligente configurado. Clique no botão abaixo para configurar seu primeiro alerta inteligente.",
         "noPersmissionToCreateGlobalSmartAlert": "Você não tem a permissão para configurar alertas inteligentes. Entre em contato com o administrador.",
+        "noPermissionGlobalSmartAlertEdit": "Você não tem permissão para executar essa ação",
         "labelGlobalSmartAlertsList": "Alertas inteligentes de aplicativos globais ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Alertas inteligentes de aplicativos ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -549,7 +550,8 @@
           "groupByEndpoint_1": "{{count}} Endpoints",
           "groupByEndpoint_2": "{{count}} Endpoints",
           "groupbyDescription": "Com base nas chamadas feitas nas últimas 24 horas",
-          "noData": "Não há dados de agrupamento disponíveis."
+          "noData": "Não há dados de agrupamento disponíveis.",
+          "groupByDataFailed": "Ocorreu um problema. Não foi possível recuperar o grupo por dados. Motivo: {{reason}}"
         },
         "callsInScope": {
           "title": "Escolher chamadas no escopo ",
@@ -610,8 +612,8 @@
             "adaptive": {
               "description": "Um valor limite que se adapta automaticamente às mudanças da métrica subjacente é aplicado.",
               "label": "Adaptável",
-              "adaptiveNotSupportedForEndPoint": "O limite adaptável não é suportado quando agrupado por endpoints.",
-              "adaptiveNotSupportedForBluePrint": "O limite adaptável não é suportado para o blueprint selecionado: {{bluePrint}}.",
+              "adaptiveNotSupportedForEndPoint": "Não há suporte para um limite adaptável ao agrupar por terminais.",
+              "adaptiveNotSupportedForBluePrint": "Um limite adaptável não é suportado para o blueprint selecionado: {{bluePrint}}.",
               "notSupported": "Não suportado"
             },
             "static": {
@@ -768,6 +770,7 @@
         "selectAlertChannelButton": "Selecionar canais de alerta",
         "createAlertChannelTitle": "Criar canal de alerta",
         "alertChannelCreatedSuccess": "Canal de alerta criado",
+        "alertChannelCreatedSuccessDescription": "O canal de alerta foi criado com sucesso.",
         "alertChannelSelectTypeTitle": "Tipo de canal de alerta",
         "addChannel": "Incluir {{count}} canal",
         "addChannel_plural": "Incluir {{count}} canais",
@@ -865,6 +868,7 @@
         "criticalAlertPreviewLabel": "Visualização crítica",
         "alertPreviewMissingThresholdInfo": "Nenhuma visualização disponível. Selecione pelo menos um valor de limite para ver a visualização.",
         "alertPropertiesAlertProperties": "Propriedades de alerta",
+        "alertPreviewDefaultTitle": "Título da notificação",
         "groupingPlaceholdersMissingTooltip": "Configurar grupo(s) para acessar opções de item temporário",
         "buttonSave": "Salvar",
         "buttonCreate": "Criar",
@@ -895,6 +899,11 @@
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Criar alerta Inteligente",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Criar alerta inteligente global",
         "alertConfigDialogPresenterTitleMigrateAlert": "Migrar para o Smart Alert",
+        "alertConfigTearSheetEditAlert_Local": "Editar um aplicativo Smart Alert",
+        "alertConfigTearSheetEditAlert_Global": "Editar um aplicativo Smart Alert global",
+        "alertConfigTearSheetCreateNewAlert_Local": "Criar um aplicativo Smart Alert",
+        "alertConfigTearSheetCreateNewAlert_Global": "Criar um aplicativo Smart Alert global",
+        "alertConfigTearSheetMigrateAlert": "Migrar para o aplicativo Smart Alert",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Alternar para o modo avançado",
         "simpleAlertConfigDialogStep3Headline": "Quem deve receber os alertas?",
         "Loading": "Carregando…",
@@ -1319,6 +1328,12 @@
         "customEventInputPlaceholder": "Cole um nome de evento customizado ou selecione um na lista de eventos",
         "searchCustomEventButtonLabel": "Selecionar um evento customizado"
       },
+      "more": "+{{count}} mais",
+      "more_plural": "+{{count}} mais",
+      "more_0": "+{{count}} mais",
+      "more_1": "+{{count}} mais",
+      "more_2": "+{{count}} mais",
+      "viewMore": "+Visualizar mais",
       "advanced": {
         "thresholdValue": "Valor do limite"
       },
@@ -1520,16 +1535,15 @@
     },
     "slo": {
       "components": {
-        "operatorDropdown": "",
-        "operatorDropdown_more": "maior que",
-        "operatorDropdown_more-or-equal": "maior que ou igual a",
-        "operatorDropdown_less": "menor que",
-        "operatorDropdown_less-or-equal": "menor que ou igual à"
+        "timeOptionsDropdown_minute": "Minutos",
+        "timeOptionsDropdown_hour": "Horas",
+        "timeOptionsDropdown_day": "Dias"
       },
       "validators": {
         "noEmptySloIds": "Considere selecionar pelo menos um SLO.",
         "notLessThanOrEqualToZero": "Considere configurar um valor maior que 0.",
-        "noInvalidOperator": "Selecione um operador na lista."
+        "noInvalidOperator": "Selecione um operador na lista.",
+        "noInvalidDurationUnit": "Selecione uma unidade de duração na lista."
       },
       "advancedModeContainer": {
         "stepLabel": "",
@@ -1548,31 +1562,47 @@
         "stepTitle_customPayload": "Carga útil customizada",
         "selectSloHeadline": "Selecionar SLOs",
         "blueprintSectionTitle": "Selecionar blueprint",
+        "blueprint_slo_not_selected": "Selecione pelo menos um SLO para continuar.",
         "blueprint": "",
-        "blueprint_SERVICE_LEVELS_OBJECTIVE": "Status",
-        "blueprint_ERROR_BUDGET": "Orçamento errado",
+        "blueprint_STATUS": "Status",
+        "blueprint_BURNED_PERCENTAGE": "Orçamento errado",
+        "blueprint_BURN_RATE": "Taxa de queima",
         "blueprintDescription": "",
-        "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "Receba um alerta quando o status de SLO estiver abaixo de um limite.",
-        "blueprintDescription_ERROR_BUDGET": "Receba um alerta quando uma porcentagem do orçamento de erro for consumida.",
+        "blueprintDescription_STATUS": "Receba um alerta quando o status de SLO estiver abaixo de um limite.",
+        "blueprintDescription_BURNED_PERCENTAGE": "Receba um alerta quando uma porcentagem do orçamento de erro for consumida.",
+        "blueprintDescription_BURN_RATE": "A taxa de queima é um valor que indica a rapidez com que o orçamento de erros é consumido em relação ao comprimento de destino do SLO.",
+        "burnRateShortWindowTitle": "Janela de alerta curta",
+        "burnRateShortWindowDescription": "Esses alertas serão acionados quando a taxa de erro exceder o limite mais rapidamente em um período mais curto. Isso pode ajudar a capturar um aumento repentino de erros ou tempo de inatividade devido a um erro crítico.",
+        "burnRateDescription": "Notifique-me quando a taxa de queima for <1/> <2/>.",
+        "burnRateLongWindowTitle": "Janela de alerta longa",
+        "burnRateLongWindowDescription": "Esses alertas serão acionados quando a taxa de erro exceder o limite em um período de tempo mais longo. Isso ajuda a identificar problemas acumulados ao longo do tempo que podem causar problemas no futuro se não forem resolvidos.",
+        "burnRateShortWindowLongerThanLongWindowError": "A janela curta não pode exceder a janela longa. Ajuste qualquer um dos valores.",
+        "burnRateTimeWindowTooLongError": "A janela de alerta não pode exceder a janela de tempo de um SLO selecionado. Verifique o seguinte SLO: {{value}}.",
         "thresholdTitle": "Limite: quando deseja ser alertado?",
         "thresholdInputDescription": "",
-        "thresholdInputDescription_ERROR_BUDGET": "Quando <1/> <2/> por cento do orçamento de erro é consumido",
-        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "Quando o status de SLO é <1/> <2/> por cento",
+        "thresholdInputDescription_BURNED_PERCENTAGE": "Quando <1/> <2/> por cento do orçamento de erro é consumido",
+        "thresholdInputDescription_STATUS": "Quando o status de SLO é <1/> <2/> por cento",
+        "thresholdInputDescription_BURN_RATE": "Avalie o último <1/> do SLO.",
         "timeThresholdType_gracePeriod": "Quando a condição persistir por uma quantidade especificada de tempo",
         "timeThresholdTypeTitle_gracePeriod": "Alertar quando a condição for violada para $t (in-components:time.minutes, {\"count\": {{minutes}} }) consecutivos",
         "timeThresholdTypeTitle_cooldownPeriod": "Pelo menos $t(in-components:time.minutes, {\"count\": {{minutes}} }) devem ter passado para o evento terminar",
         "alertProperties_entityLabel": "SLO-name",
-        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "Status de SLO é baixo",
-        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "O status de SLO é $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}.",
-        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "O orçamento de erro restante é baixo",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "$t(in-alerting:smartAlerts.slo.components.operatorDropdown consumido, {\"context\": \"{{operator}}\" }) {{percentage}} do orçamento de erro.",
+        "alertPropertiesTitlePlaceholder": "",
+        "alertPropertiesTitlePlaceholder_STATUS": "Status de SLO é baixo",
+        "alertPropertiesDescriptionPlaceholder_STATUS": "O status de SLO é {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURN_RATE": "A taxa de queima foi excedida",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "A taxa de queima de SLO é {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "O orçamento de erro restante é baixo",
+        "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "Consumiu {{operator}} {{percentage}} do orçamento de erros.",
         "alertPropertiesIncidentWarning": "Incidentes são aplicáveis apenas a SLOs associados a aplicativos"
       },
       "details": {
         "alertConfigurationTitle": "Configuração de alerta",
         "sloHeader": "SLOs",
-        "thresholdInfo_ERROR_BUDGET": "Quando $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} por cento do orçamento de erro é consumido",
-        "thresholdInfo_SERVICE_LEVELS_OBJECTIVE": "Quando o status de SLO for $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} por cento",
+        "thresholdInfo": "",
+        "thresholdInfo_BURN_RATE": "Quando a taxa de queima é {{operator}} {{percentage}}",
+        "thresholdInfo_BURNED_PERCENTAGE": "Quando {{operator}} {{percentage}} por cento do orçamento de erro é consumido",
+        "thresholdInfo_STATUS": "Quando o status de SLO for {{operator}} {{percentage}} por cento",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
@@ -1581,6 +1611,9 @@
       },
       "alertList": {
         "threshold": "Limite: {{value}}",
+        "threshold_BURN_RATE": "Taxa de queima: {{value}}",
+        "threshold_BURNED_PERCENTAGE": "Limite: {{value}}",
+        "threshold_STATUS": "Limite: {{value}}",
         "sloApplied": "SLOs aplicados",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLOs",
@@ -1588,8 +1621,9 @@
         "sloCount_1": "{{count}} SLOs",
         "sloCount_2": "{{count}} SLOs",
         "title": "",
-        "title_ERROR_BUDGET": "Orçamento de erro consumido",
-        "title_SERVICE_LEVELS_OBJECTIVE": "Status"
+        "title_BURN_RATE": "Taxa de queima",
+        "title_BURNED_PERCENTAGE": "Orçamento de erro consumido",
+        "title_STATUS": "Status"
       },
       "messages": {
         "successTitle": "",

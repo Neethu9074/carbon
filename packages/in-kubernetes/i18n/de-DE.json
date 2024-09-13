@@ -228,6 +228,7 @@
     "delete": "Löschen",
     "update": "Aktualisieren!",
     "operations": "Operationen",
+    "nameTooltip": "Auf dem Host des Containers ist kein Instana-Agent installiert. Siehe unsere Dokumentation für weitere Informationen",
     "noDataAvailable": {
       "servicesTitle": "Keine Services verfügbar",
       "servicesDescription": "Es wurden keine Services für den ausgewählten Zeitbereich abgerufen.",

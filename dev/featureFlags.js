@@ -119,8 +119,7 @@ module.exports = {
   rcaUIEnabled: true,
   rcaLogsEnabled: false,
   eventFeedbackEnabled: true,
-  incidentSummarizationEnabled: false,
-  incidentSummarizationTimelineEnabled: true,
+  incidentSummarizationEnabled: true,
   manuallyCloseEventEnabled: true,
   apiTokenExpirationEnabled: false,
   regexMetricSelectionEnabled: true,
@@ -166,6 +165,8 @@ module.exports = {
   applicationSmartAlertDialogView: true,
   increaseAggregationEnabled: false,
   carbonCodeEnabled: true,
+  graphViewFromAboutInstanaEnabled: true,
+  graphViewFromInfraMapEnabled: true,
   extrapolateMissingStackedAreaValues: false,
   nutanixEnabled: true,
   automationActionAiGenerationUnitEnabled: true

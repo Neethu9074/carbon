@@ -819,6 +819,16 @@
   "pluginName_remoteHost_1": "遠端主機",
   "pluginName_remoteHost_2": "遠端主機",
   "pluginName_remoteHost": "遠端主機",
+  "pluginName_fileMonitoring": "檔案監視",
+  "pluginName_fileMonitoring_plural": "檔案監視",
+  "pluginName_fileMonitoring_0": "檔案監視",
+  "pluginName_fileMonitoring_1": "檔案監視",
+  "pluginName_fileMonitoring_2": "檔案監視",
+  "pluginName_fileMonitoringCondition": "檔案監視條件",
+  "pluginName_fileMonitoringCondition_plural": "檔案監視條件",
+  "pluginName_fileMonitoringCondition_0": "檔案監視條件",
+  "pluginName_fileMonitoringCondition_1": "檔案監視條件",
+  "pluginName_fileMonitoringCondition_2": "檔案監視條件",
   "pluginName_httpd_plural": "Apache HTTPd",
   "pluginName_httpd_0": "Apache HTTPd",
   "pluginName_httpd_1": "Apache HTTPd",
@@ -1594,6 +1604,11 @@
   "pluginName_service_1": "服務",
   "pluginName_service_2": "服務",
   "pluginName_service": "服務",
+  "pluginName_snowflake_plural": "Snowflakes",
+  "pluginName_snowflake_0": "Snowflakes",
+  "pluginName_snowflake_1": "Snowflakes",
+  "pluginName_snowflake_2": "Snowflakes",
+  "pluginName_snowflake": "Snowflake",
   "pluginName_solr_plural": "Solr 節點",
   "pluginName_solr_0": "Solr 節點",
   "pluginName_solr_1": "Solr 節點",
@@ -7069,7 +7084,8 @@
       "labelMaxUsage": "用量上限",
       "labelRSS": "RSS",
       "labelCache": "快取",
-      "labelMemoryWorkingSet": "記憶體工作集用量 [0,100]",
+      "labelMemoryUsedPercentage": "記憶體用量百分比",
+      "labelMemoryWorkingSet": "記憶體工作集用量百分比",
       "labelActiveAnonymous": "作用中匿名",
       "labelActiveCache": "作用中快取",
       "labelInactiveAnonymous": "非作用中匿名",
@@ -7110,7 +7126,7 @@
       "totalTime": "時間總計",
       "kernelTime": "核心時間",
       "userTime": "使用者時間",
-      "totalNormalized": "正規化總計 [0,100]",
+      "totalNormalized": "總標準化百分比",
       "cpu": "CPU",
       "throttlingCount": "節流控制計數",
       "throttlingTime": "節流控制時間",
@@ -8261,6 +8277,35 @@
       "httpRequests": "HTTP 要求",
       "device": "裝置"
     },
+    "fileMonitoring": {
+      "dashboard": {
+        "monitor": "監視者",
+        "path": "路徑",
+        "pollingInterval": "輪詢間隔",
+        "severity": "嚴重性",
+        "issueTriggered": "觸發問題"
+      },
+      "fileSystem": "檔案監視",
+      "monitors": "監視器",
+      "host": "主機",
+      "group": "群組",
+      "numberOfMonitors": "監視器數目"
+    },
+    "fileMonitoringCondition": {
+      "dashboard": {
+        "conditionType": "條件類型",
+        "operator": "運算子",
+        "reference": "參照",
+        "actual": "實際"
+      },
+      "fileMonitorCondition": "檔案監視條件",
+      "numberOfConditions": "條件數目",
+      "conditions": "條件",
+      "path": "路徑",
+      "interval": "間隔（秒）",
+      "issueTriggered": "觸發問題",
+      "conditionNotification": "必須符合所有條件才能觸發問題"
+    },
     "finagleApplicationContainer": {
       "dashboard": {
         "finagle": "Finagle"
@@ -9265,10 +9310,10 @@
         "ratingMedium": "中",
         "ratingHigh": "高",
         "totalCpuUtilization": "總 CPU 使用率",
-        "diskUsage": "磁碟用量",
-        "dataSize": "資料大小",
-        "logSize": "日誌大小",
-        "traceSize": "追蹤大小",
+        "diskUsage": "依類型的磁碟用量",
+        "dataSize": "日期",
+        "logSize": "日誌",
+        "traceSize": "追蹤",
         "sessions": "階段作業",
         "total": "總計",
         "idle": "閒置",
@@ -9373,7 +9418,32 @@
         "physicalMemory": "實體記憶體",
         "freeMemory": "可用記憶體",
         "utilisationRatio": "HANA 記憶體用量",
-        "hostUsedPhysicalMemoryRatio": "主機記憶體用量"
+        "hostUsedPhysicalMemoryRatio": "主機記憶體用量",
+        "eventTime": "事件時間",
+        "eventName": "事件名稱",
+        "eventDetail": "事件明細",
+        "systemActive": "系統作用中",
+        "systemStatus": "系統狀態",
+        "hostStatus": "主機狀態",
+        "hostActive": "主機作用中狀態",
+        "serviceStatus": "服務狀態",
+        "databaseName": "資料庫名稱",
+        "systemEventStats": "系統事件",
+        "errorMsg": "錯誤訊息",
+        "diskUsagePercentage": "磁碟用量百分比",
+        "diskUsageSummary": "磁碟用量摘要",
+        "usage": "用量",
+        "archiveLogBackupStats": "保存日誌備份",
+        "systemId": "系統 ID",
+        "sourceDatabaseName": "來源資料庫",
+        "destinationPath": "目的地路徑",
+        "userLockStats": "使用者鎖定",
+        "userMode": "使用者模式",
+        "deactivationTime": "停用時間",
+        "userId": "使用者 ID",
+        "schedulerJobStats": "排程器工作",
+        "schedulerJobName": "工作名稱",
+        "endTime": "結束時間"
       },
       "systemId": "系統 ID",
       "databaseName": "資料庫名稱",
@@ -9419,6 +9489,26 @@
       "service": "服務",
       "allCallsSecond": "所有呼叫數/秒",
       "allCallsAvgLatency": "所有呼叫平均延遲時間"
+    },
+    "snowflake": {
+      "connectErrorIssueDescription": "代理程式無法連線到 Snowflake。 連線失敗，錯誤為：<code>{{error}}</code>",
+      "troubleshootingDocs": "疑難排解文件",
+      "snowflake": "Snowflake",
+      "account": "帳戶",
+      "region": "地區",
+      "organization": "組織",
+      "version": "版本",
+      "dashboard": {
+        "creditUsagePerHour": "每小時使用點數",
+        "totalStorageBytes": "總儲存位元組",
+        "averageBytesScanned": "平均掃描位元組",
+        "totalQueries": "查詢總計",
+        "warehouseName": "倉儲名稱",
+        "compute": "運算",
+        "cloudServices": "雲端服務",
+        "total": "總計",
+        "warehouseUsage": "倉儲用量"
+      }
     },
     "solr": {
       "dashboard": {
@@ -11613,6 +11703,13 @@
       "version": "版本"
     },
     "ibmInfosphereCdcSubscription": {
+      "dashboard": {
+        "singleScrape": "單刮",
+        "transactionHistogram": "交易直方圖",
+        "garbageCollection": "記憶體回收",
+        "databaseWorkload": "資料庫工作量",
+        "memory": "記憶體"
+      },
       "ibmInfosphereSubscription": "訂閱",
       "subscriptionName": "名稱",
       "sourceDatastore": "來源資料儲存庫",
@@ -11679,7 +11776,21 @@
       "rowsCallingSourceDatabase": "呼叫來源資料庫的橫列數",
       "rowsCallingTargetDatabase": "呼叫目標資料庫的橫列數",
       "rowsCallingUserExitsSource": "呼叫使用者結束程式的來源橫列數",
-      "rowsCallingUserExitsTarget": "呼叫使用者結束程式的目標橫列數"
+      "rowsCallingUserExitsTarget": "呼叫使用者結束程式的目標橫列數",
+      "zeroToHalf": "0 至 1/2X",
+      "halfToOne": "1/2X 至 X",
+      "oneToTwo": "X 到 2X",
+      "twoToFour": "2X 至 4X",
+      "fourToEight": "4X 至 8X",
+      "moreThanEight": "8X 以及更大",
+      "garbageCollection": "記憶體回收",
+      "garbageCollectionCPU": "記憶體回收 CPU 時間",
+      "totalTransactions": "交易總數",
+      "inscopeTransactions": "交易範圍內",
+      "freeMem": "可用記憶體",
+      "maxMem": "記憶體上限",
+      "totalMem": "記憶體總計",
+      "globalMem": "廣域記憶體管理程式"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -13696,6 +13807,7 @@
     },
     "tibcoASDataGrid": {
       "label": "Tibco AS 資料網格",
+      "gridId": "網格 ID",
       "nodes": "節點",
       "proxies": "Proxy",
       "name": "名稱",

@@ -9,7 +9,8 @@ import React, { FunctionComponent } from 'react';
 import { Message } from '@instana/components';
 import { Link } from '@instana/components';
 
-import { applicationsAlertingMigrationBannerDocs } from 'in-alerting/smart-alerts/applications/tracker';
+import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { APPLICATIONS_ALERTING_MIGRATION_BANNER_DOCS } from 'in-services/tracking/tracking';
 import { Trans } from 'in-i18n';
 
 import locals from './LegacyAppdataEventInfoMessage.mless';
@@ -24,15 +25,9 @@ interface Props {
 export const smartAlertMigrationUrl =
   'https://ibm.biz/alerts-custom-events#why-are-some-custom-events-marked-as-deprecated';
 
-const onLinkClick = () => {
-  applicationsAlertingMigrationBannerDocs({});
+export const onLinkClickForSegmentTracking = (trackCta: CtaTrackingFunction) => {
+  trackCta(APPLICATIONS_ALERTING_MIGRATION_BANNER_DOCS);
 };
-
-export const smartAlertMigrationDocs = (
-  <Link href={smartAlertMigrationUrl} onClick={onLinkClick} external>
-    &nbsp;
-  </Link>
-);
 
 /** Temporary wrapper to achieve the new design of the Message component, before
  * it is available in our design system:
@@ -61,6 +56,13 @@ export default function LegacyAppdataEventInfoMessage({ migrated, saved, disallo
 }
 
 function TransContent({ migrated, saved, disallowed, deleted }: Props) {
+  const { trackCta } = useSegmentTracking();
+  const smartAlertMigrationDocs = (
+    <Link href={smartAlertMigrationUrl} onClick={() => onLinkClickForSegmentTracking(trackCta)} external>
+      &nbsp;
+    </Link>
+  );
+
   if (deleted) {
     return <Trans i18nKey="in-settings:tabs.deletedEventMessage" />;
   }

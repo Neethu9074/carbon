@@ -53,7 +53,8 @@
     "javaRuntime": "Java Runtime",
     "status": "Status",
     "agentDetails": "Detalhes do agente",
-    "totalAgents": "Total de agentes"
+    "totalAgents": "Total de agentes",
+    "anErrorOccurredPleaseTryAgain": "Ocorreu um erro, tente novamente."
   },
   "dashboard": {
     "comparisonTable": "Tabela de comparação",

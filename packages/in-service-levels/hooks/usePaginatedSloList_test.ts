@@ -8,15 +8,15 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import { PaginatedResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
 
-import { usePaginatedSloList } from 'in-alerting/smart-alerts/slo/components/SloListSelection/hooks/usePaginatedSloList';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
+import usePaginatedSloList from 'in-service-levels/hooks/usePaginatedSloList';
 import { FetchedState } from 'in-hooks/utils/types';
 
 jest.mock('in-service-levels/hooks/useSloConfigurations');
 
 const mockUseConfigurations = useSloConfigurations as jest.MockedFunction<typeof useSloConfigurations>;
 
-describe('in-alerting/smart-alerts/slo/components/SloListSelection/hooks/usePaginatedSloList', () => {
+describe('in-service-levels/hooks/usePaginatedSloList', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });

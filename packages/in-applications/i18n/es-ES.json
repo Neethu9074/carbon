@@ -122,6 +122,7 @@
   "messageSuccessfullySaved": "Guardado correctamente.",
   "messageErrorOccurred": "Se ha producido un error, inténtelo de nuevo.",
   "messageWaitForChanges": "Los cambios pueden tardar algún tiempo en aplicarse.",
+  "linkViewAllApplications": "Ver todas las aplicaciones",
   "linkViewAllServices": "Ver todos los servicios",
   "linkViewAllEndpoints": "Ver todos los puntos finales",
   "lineViewInAnalyze": "Ver en Analizar",
@@ -459,7 +460,9 @@
       "logMessagesDescription": "No se han recuperado mensajes de registro para el rango de tiempo seleccionado.",
       "endpointsTitle": "No hay puntos finales disponibles",
       "endpointsDescription": "No se han recuperado puntos finales para el rango de tiempo seleccionado."
-    }
+    },
+    "pageCannotBeFound": "No se encuentra la página",
+    "idNotPresent": "{{id}} no está presente en el URL."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "El servicio no está en la aplicación actual.",

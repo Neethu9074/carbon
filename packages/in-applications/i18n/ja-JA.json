@@ -122,6 +122,7 @@
   "messageSuccessfullySaved": "正常に保存されました。",
   "messageErrorOccurred": "エラーが発生しました。再試行してください。",
   "messageWaitForChanges": "変更が適用されるまでしばらく時間がかかる場合があります。",
+  "linkViewAllApplications": "すべてのアプリケーションを見る",
   "linkViewAllServices": "すべてのサービスを表示",
   "linkViewAllEndpoints": "すべてのエンドポイントを表示",
   "lineViewInAnalyze": "分析で表示",
@@ -459,7 +460,9 @@
       "logMessagesDescription": "選択された時刻範囲で取得されたログ・メッセージはありません。",
       "endpointsTitle": "表示可能なエンドポイントがありません",
       "endpointsDescription": "選択された時刻範囲で取得されたエンドポイントはありません。"
-    }
+    },
+    "pageCannotBeFound": "ページが見つからない",
+    "idNotPresent": "{{id}} が URL に存在しません。"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "サービスが現在のアプリケーションにありません。",

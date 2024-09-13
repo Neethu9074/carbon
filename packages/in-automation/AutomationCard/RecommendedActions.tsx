@@ -33,7 +33,9 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { TriggerSpecification } from 'in-automation/Policies/types';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import { isExternal } from 'in-automation/ActionCatalog/shared';
+import { useSegmentTracker } from 'in-automation/tracker';
 import { Event, Result, VolatileId } from 'in-types';
+import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { mapData } from 'in-services/util/result';
 import { ScoredAction } from 'in-automation/api';
@@ -107,12 +109,16 @@ function GenerateAIActionButton({
   trigger: Result<TriggerSpecification>;
   ootbRecommendedActions: Result<ScoredAction[]>;
 }) {
+  const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
+  const { name = '' } = trigger.data!;
   if (!role?.canConfigureAutomationActions) return null;
   return (
     <Button
       kind="action"
       onClick={() => {
-        // TODO: tracker
+        generateAIButtonClickTrackerSegment({
+          eventName: name
+        });
         addActiveDialog(
           <GenerateAIActionDialog event={event} trigger={trigger} ootbRecommendedActions={ootbRecommendedActions} />
         );
@@ -257,7 +263,7 @@ export default function RecommendedActions({
       result={result}
       rightHeader={
         <Stack direction="horizontal">
-          {(showOotbActions || automationActionAiGenerationUnitEnabled) && (
+          {(showOotbActions || automationActionAiGenerationUnitEnabled) && !isLoading(trigger) && (
             <GenerateAIActionButton event={event} trigger={trigger} ootbRecommendedActions={ootbRecommendedActions} />
           )}
           <TypeFilter type={types} setType={params => setTypes({ types: params.types })} showExternal />

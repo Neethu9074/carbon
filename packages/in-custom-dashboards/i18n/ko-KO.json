@@ -616,6 +616,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "하나 이상의 필터 표현식을 구성해야 합니다.",
       "timeBased": "시간 기반",
       "eventBased": "이벤트 기반",
+      "sloLegacy": "SLO 레거시",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "애플리케이션",

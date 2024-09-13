@@ -166,7 +166,8 @@
         "selfTime": "자가 시간",
         "networkTime": "네트워크 시간",
         "waitingTime": "대기 시간",
-        "latency": "대기 시간"
+        "latency": "대기 시간",
+        "findSQL": "{{type}}에서 SQL 찾기"
       },
       "callTree": {
         "expandButtonForRow": "모든 하위 호출 펼치기",

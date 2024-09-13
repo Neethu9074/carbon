@@ -69,11 +69,9 @@ export default function ApiTokens() {
       useMinimumAmountOfHorizontalSpace: true,
       getContent(entity: ApiTokenProps) {
         return (
-          <Tooltip content={entity.name} align="auto" delay={500}>
-            <Link href={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId)} ellipsis>
-              {entity.name}
-            </Link>
-          </Tooltip>
+          <Link href={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId)} ellipsis>
+            {entity.name}
+          </Link>
         );
       }
     },
@@ -95,7 +93,7 @@ export default function ApiTokens() {
         return (
           <span>
             {lastUsedOn ? (
-              <Tooltip content={`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} align="topLeft" delay={500}>
+              <Tooltip content={`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} align="auto" delay={500}>
                 <span> {`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} </span>
               </Tooltip>
             ) : (
@@ -127,7 +125,7 @@ export default function ApiTokens() {
         return (
           <span>
             {createdOn ? (
-              <Tooltip content={`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} align="topLeft" delay={500}>
+              <Tooltip content={`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} align="auto" delay={500}>
                 <span> {`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} </span>
               </Tooltip>
             ) : (
@@ -146,7 +144,7 @@ export default function ApiTokens() {
         return (
           <span>
             {createdBy ? (
-              <Tooltip content={createdBy} align="topLeft" delay={500}>
+              <Tooltip content={createdBy} align="auto" delay={500}>
                 <span>{createdBy}</span>
               </Tooltip>
             ) : (

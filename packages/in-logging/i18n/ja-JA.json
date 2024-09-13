@@ -54,5 +54,11 @@
   "host": "ホスト",
   "fileOnHost": "オン",
   "file": "ファイル",
-  "logExpiration": "保存期限"
+  "logExpiration": "保存期限",
+  "dashboard": {
+    "summary": "サマリー",
+    "smartAlerts": "スマート・アラート",
+    "deleteLogs": "ログの削除",
+    "configuration": "構成"
+  }
 }

@@ -6,7 +6,7 @@
 
 import React, { SetStateAction, useState, useEffect } from 'react';
 
-import { Card, HorizontalIndicator, Input, Link, LoadingSkeleton, Typography, Button } from '@instana/components';
+import { HorizontalIndicator, Input, Link, LoadingSkeleton, Typography, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Progress } from '@instana/types';
 
@@ -16,12 +16,16 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/MockHelpers';
 import useRetentionPeriodForm from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/useRetentionPeriodForm';
 // eslint-disable-next-line no-restricted-imports
+import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
+// eslint-disable-next-line no-restricted-imports
 import { ModalNotification, NotificationState } from './ModalNotification';
 import { getEntityIdView, teamSettingsActionLogRetention } from 'in-settings/navigation/paths';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import Select from 'in-components/form/Select/Select';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import Label from 'in-components/form/Label/Label';
 import Dialog from 'in-components/Dialog/Dialog';
 import Title from 'in-components/Title/Title';
@@ -30,8 +34,6 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './RetentionPeriod.mless';
-// eslint-disable-next-line no-restricted-imports
-import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
 
 const localisationStrings = {
   retentionPeriod: t('in-settings:tabs.retentionPeriod.retentionPeriod'),
@@ -116,7 +118,6 @@ export default function RententionPeriod() {
             <Typography variant="body-regular">
               {localisationStrings.aboutRetentionPeriod}
               <Link external href={analyzeDocs.logs}>
-                {/* add in link when it has been supplied */}
                 {localisationStrings.learnMore}
               </Link>
             </Typography>
@@ -127,19 +128,18 @@ export default function RententionPeriod() {
         </section>
         <main>
           {!isLoading ? (
-            <Card className={locals.card}>
-              <div className={locals.title}>
-                <span>{localisationStrings.currentRetentionPeriod}</span>
-              </div>
-              <div className={locals.body}>
-                <p className={locals.retentionContent}>
-                  <span data-testid="retentionValue" className={locals.number}>
-                    {retentionValue}
-                  </span>{' '}
-                  {localisationStrings.days}
-                </p>
-              </div>
-            </Card>
+            <KpiGridRow sizes={[3]}>
+              <KpiCard title={localisationStrings.currentRetentionPeriod}>
+                <div className={locals.body}>
+                  <p className={locals.retentionContent}>
+                    <span data-testid="retentionValue" className={locals.number}>
+                      {retentionValue}
+                    </span>
+                    {localisationStrings.days}
+                  </p>
+                </div>
+              </KpiCard>
+            </KpiGridRow>
           ) : (
             <>
               <HorizontalIndicator className={locals.loadingIndicator} progress={progress} />

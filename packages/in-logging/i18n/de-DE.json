@@ -54,5 +54,11 @@
   "host": "Host",
   "fileOnHost": "ein",
   "file": "Datei",
-  "logExpiration": "Beibehalten bis"
+  "logExpiration": "Beibehalten bis",
+  "dashboard": {
+    "summary": "Zusammenfassung",
+    "smartAlerts": "Smart Alerts",
+    "deleteLogs": "Protokolle löschen",
+    "configuration": "Konfiguration"
+  }
 }

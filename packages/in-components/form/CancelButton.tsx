@@ -5,7 +5,7 @@
 
 import React, { ReactElement } from 'react';
 
-import { Button, ButtonProps } from '@instana/legacy';
+import { Button, ButtonProps } from '@instana/components';
 
 import { t } from 'in-i18n';
 

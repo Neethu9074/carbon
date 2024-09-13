@@ -120,7 +120,8 @@
     "title_dashboard": "自訂儀表板",
     "title_automation": "自動化",
     "title_agents": "代理程式",
-    "title_access_control": "存取控制"
+    "title_access_control": "存取控制",
+    "subHeadline_syntheticMonitoring": "{{ quantityOfAreas }} 加上繼承的測試。"
   },
   "headingSection": {
     "title": "角色及存取範圍",
@@ -168,7 +169,8 @@
     "contributionFilter_name": "名稱",
     "contributionFilter_name_mayNotBeBlank": "要素項過濾器名稱不得為空白。",
     "contributionFilter_name_mustNotBeLargerThan128Characters": "要素項過濾器名稱不得大於 128 個字元。",
-    "contributionFilter_name_alreadyUsed": "已使用要素項過濾器名稱。"
+    "contributionFilter_name_alreadyUsed": "已使用要素項過濾器名稱。",
+    "addButton_syntheticCredentials": "選取綜合認證"
   },
   "selectItemForm": {
     "doneButton": "完成"
@@ -176,10 +178,13 @@
   "selectEntityDialog": {
     "nameColumnHead": "名稱",
     "contributionFilterColumnHead": "貢獻度過濾器",
-    "syntheticAllTestsAccess": "所有測試數",
-    "syntheticInheritedAccess": "已繼承的存取權",
+    "syntheticAllTestsAccess": "可選取的測試",
+    "syntheticInheritedAccess": "繼承測試",
     "syntheticTableSubHeader": "此群組的成員已經可以存取以下綜合測試，因為他們可以存取關聯的應用程式。",
-    "syntheticTableSubHeaderWebMobile": "此群組的成員已經可以存取以下綜合測試，因為他們可以存取關聯的應用程式、網站和行動應用程式。"
+    "syntheticTableSubHeaderWebMobile": "此群組的成員已經可以存取以下綜合測試，因為他們可以存取關聯的應用程式、網站和行動應用程式。",
+    "syntheticSelectableCredentialsAccess": "可選取的認證",
+    "syntheticInheritedCredentialsAccess": "繼承的認證",
+    "syntheticTableSubHeaderWebMobileForCredentials": "由於此群組的成員可以存取相關的應用程式、網站和行動應用程式，因此他們已經可以存取下列綜合認證。"
   },
   "permissionScope": {
     "access_level": "存取權層次",
@@ -271,7 +276,8 @@
       "limited_access": {
         "access_level": "僅使用選取的存取權類型及任何其他許可權來存取列出的綜合測試",
         "access_level_tp": "存取與使用者有權存取的應用程式關聯的所有綜合測試。 您可以使用下面的清單來授予對其他綜合測試的存取權。",
-        "access_level_web_mobile": "存取與使用者有權存取的應用程式、網站和行動應用程式相關的所有綜合測試。 您可以使用下面的清單來授予對其他綜合測試的存取權。"
+        "access_level_web_mobile": "存取與使用者有權存取的應用程式、網站和行動應用程式相關的所有綜合測試。 您可以使用下面的清單來授予對其他綜合測試的存取權。",
+        "access_level_tests_credentials": "存取與使用者可存取的應用程式、網站和行動應用程式相關的所有綜合測試和認證。 您可以使用下列清單來授與其他綜合測試和認證的存取權。"
       },
       "role_permissions_owner": "建立、配置、檢視及刪除綜合測試。",
       "role_permissions_viewer": "檢視綜合測試及其配置。"
@@ -354,6 +360,23 @@
       },
       "customPayload": {
         "unknownTag": "不明標籤：{{tagName}}"
+      },
+      "integrations": {
+        "configureIntegration": "配置整合",
+        "database": {
+          "database": "Database",
+          "dbIntegrations": "資料庫整合",
+          "dbIntegrationsDescription": "連接您的資料庫管理解決方案，並配置它們以滿足您的需求。",
+          "dbIntegrationsTooltip": "由於遺漏配置，切換被停用。 按一下圖磚並填寫表單以啟用此功能。",
+          "dbIntegrationsTooltipApiError": "由於 API 連線問題，切換已停用。 等待重新連線或重新載入頁面以啟用此功能。",
+          "dbMarlin": "DBmarlin",
+          "dbMarlinInstance": "DBmarlin 實例",
+          "dbMarlinExampleForAnInternalInstance": "輸入 DBmarlin 實例的 URL，例如：<strong>https://team.dbmarlin.com</strong> 或 <strong>http://192.168.1.128:443</strong>（針對內部實例）。",
+          "configureDbMarlin": "配置 DBmarlin",
+          "configureDbMarlinDescription": "啟用後，對於相容的呼叫，下列配置會在呼叫詳細資料中新增 DBmarlin 的鏈結。",
+          "configureYourDbMarlinSettings": "配置您的 DBmarlin 設定",
+          "failedToLoadDbMarlinConfiguration": "載入 DBmarlin 配置失敗。"
+        }
       }
     },
     "retentionPeriod": {
@@ -394,10 +417,14 @@
       "toastSuccessTitle": "整合已儲存",
       "toastErrorTitle": "整合未儲存",
       "toastSuccessMessage": "您的 {{integrationType}} 整合已儲存並啟用。",
+      "toastErrorMessage": "您的 {{integrationType}} 整合無法儲存和啟用。",
       "integerationEnabled": "您的 {{integrationType}} 整合已啟用。",
       "integerationDisabled": "您的 {{integrationType}} 整合已停用。",
-      "integerationConfigurationFailed": "{{error}}",
-      "configureIntegrations": "配置整合"
+      "integrationConfigurationFailed": "{{error}}",
+      "configureIntegrations": "配置整合",
+      "unsavedModalContent": "您確定要捨棄您的變更嗎？",
+      "unsavedModalDiscard": "捨棄",
+      "unsavedModalCancel": "取消"
     },
     "deleteLogs": {
       "deleteLogs": "刪除日誌",
@@ -442,12 +469,16 @@
       "months_6": "過去 6 個月",
       "months_9": "過去 9 個月",
       "months_12": "過去 12 個月",
-      "days_7": "7 天",
-      "days_20": "20 天",
-      "days_30": "30 天",
-      "days_60": "60 天",
-      "days_90": "90 天"
+      "days_30": "保留 30 天",
+      "days_60": "保留 60 天",
+      "days_90": "保留 90 天",
+      "noLogVolumeData": "沒有資料可顯示",
+      "logVolumeErrorTitle": "出了一些問題",
+      "logVolumeErrorInfo": "我們無法從資料庫中擷取資料",
+      "groupingTagTootip": "不提供 {{groupingTag}} 資訊",
+      "ruTooltip": "資源單位 (RU) 是根據汲取的日誌數量和保留期間計算出來的。 任何數量的汲取資料至少耗用 1 RU"
     },
+    "auditTrail": "審核追蹤",
     "failedToSaveConfig": "無法儲存配置：{{err}}",
     "IdPMetadataRequired": "需要 IdP meta 資料檔",
     "IdPMetadataLargerThanTwoMega": "IdP meta 資料檔不能大於 2 MB",
@@ -489,8 +520,6 @@
     "youCanOnlyAddOneItem": "您只能新增一個項目。",
     "youCanAddAtMostLimitItems": "您最多可以新增 {{limit}} 個項目。",
     "pleaseNarrowDownYourSelectionByUsingTheFilters": "您最多可以新增 {{limit}} 個項目。請使用過濾器來縮小您的選擇範圍。",
-    "apiTokenIs": "API 記號：{{apiTokenName}}",
-    "apiToken": "API 記號",
     "failedToSaveApiToken": "無法儲存 API 記號：{{err}}",
     "failedToCreatePersonalApiToken": "無法建立個人 API 記號。",
     "failedToUpdatePersonalApiToken": "無法更新個人 API 記號。",
@@ -501,11 +530,26 @@
     "editApiToken": "編輯 API 記號",
     "editPersonalApiToken": "編輯個人 API 記號",
     "personalApiTokenNameDescription": "記號的顯示名稱",
+    "apiTokenExpiration": "到期",
+    "apiTokenExpiryDate": "到期日",
+    "apiTokenExpiryTime": "到期時間",
+    "apiTokenExpirationOptions": {
+      "thirtyDays": "30 天",
+      "sixtyDays": "60 天",
+      "ninetyDays": "90 天",
+      "oneYear": "1 年",
+      "custom": "自訂",
+      "never": "Never"
+    },
+    "apiTokenHintTextForNeverExpires": "此記號永不過期。",
+    "apiTokenHintTextForExpiration": "此記號在 {{expiryDate}} {{expiryTime}} UTC{{utcOffSet}} 後過期。",
     "displayName": "顯示名稱",
     "personalApiTokenDescription": "這個個人 API 記號會繼承您的許可權，以便您可以使用來向 API 進行鑑別。",
     "apiTokenDescription": "任何人或任何具有 API 記號配置許可權的 API 記號都可以看到/修改此單元特定的 API 記號。",
     "noApiToken": "無 API 記號",
     "newApiToken": "新建 API 記號",
+    "apiTokenDuplicate": "抄寫",
+    "duplicateTokenName": "重複的 {{apiTokenName}}",
     "apiTokenUnits": "API 記號可用於 <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "noPersonalApiTokens": "無個人 API 記號",
     "newPersonalApiToken": "新建個人 API 記號",
@@ -888,15 +932,21 @@
     "personalApiTokens": "個人 API 記號",
     "token": "記號",
     "tokenLastUsed": "前次使用",
+    "tokenStatus": "狀態",
+    "tokenActive": "作用中",
+    "tokenActiveUntil": "在 {{dateTime}} 前為作用中",
+    "tokenExpiredOn": "已於 {{dateTime}} 過期",
     "tokenCreated": "已建立",
     "tokenCreatedBy": "建立者",
+    "tokenValidationPleaseEnterTimeInFuture": "請輸入未來的日期或時間",
     "unknownLabel": "不明",
     "copyApiTokenToClipboard": "將 API 記號複製到剪貼簿",
     "inviteUserToGroup": "選取要新增的使用者",
     "applications": "應用程式",
     "infrastructure": "基礎架構",
     "ownerPermissions": "擁有者權限",
-    "youAreAssigningThisApiTokenOwnerPermissions": "您正在指派擁有者權限給這個 API 記號。",
+    "youAreAssigningThisApiTokenOwnerPermissions": "指派此 API 記號擁有者許可權將容許使用者在此區域中使用此 API 記號建立、編輯或刪除項目。",
+    "yesIUnderstand": "是的，我明白",
     "savingGroup": "正在儲存群組",
     "groupSuccessfullySaved": "已順利儲存群組。",
     "groups": "群組",

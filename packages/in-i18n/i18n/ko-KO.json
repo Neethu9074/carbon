@@ -1,5 +1,8 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "기본 탐색"
+    },
     "expandableGroup": {
       "tooltipShowContent": "컨텐츠 표시",
       "tooltipHideContent": "컨텐츠 숨기기",
@@ -16,13 +19,35 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "추가 로드"
-      }
+      },
+      "dataTable": "데이터 테이블"
+    },
+    "tableSkeleton": {
+      "sampleTable": "샘플 테이블"
     },
     "code": {
       "copy": "복사",
       "copied": "복사됨!",
       "showMore": "자세히 표시",
       "showLess": "간략히 보기"
+    },
+    "menu": {
+      "sideNavigation": "사이드 탐색"
+    },
+    "carbonTabs": {
+      "tabs": "탭"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "데이터 테이블 도구 모음"
+      },
+      "tableTabs": {
+        "listOfTabs": "탭 목록"
+      }
+    },
+    "pill": {
+      "privatePreview": "미리보기",
+      "publicPreview": "미리보기"
     }
   },
   "formatDate": {

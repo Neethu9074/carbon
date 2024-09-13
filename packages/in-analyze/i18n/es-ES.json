@@ -166,7 +166,8 @@
         "selfTime": "Tiempo personal",
         "networkTime": "Tiempo de red",
         "waitingTime": "Tiempo en espera",
-        "latency": "Latencia"
+        "latency": "Latencia",
+        "findSQL": "Buscar SQL en {{type}}"
       },
       "callTree": {
         "expandButtonForRow": "Expandir todas las subllamadas",

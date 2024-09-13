@@ -122,6 +122,7 @@
   "messageSuccessfullySaved": "已順利儲存。",
   "messageErrorOccurred": "發生錯誤，請重試。",
   "messageWaitForChanges": "可能需要一些時間來套用您的變更。",
+  "linkViewAllApplications": "檢視所有應用程式",
   "linkViewAllServices": "檢視所有服務",
   "linkViewAllEndpoints": "檢視所有端點",
   "lineViewInAnalyze": "在分析中檢視",
@@ -459,7 +460,9 @@
       "logMessagesDescription": "所選的時間範圍內未擷取到任何的日誌訊息。",
       "endpointsTitle": "沒有可用的端點",
       "endpointsDescription": "所選的時間範圍內未擷取到任何的端點。"
-    }
+    },
+    "pageCannotBeFound": "無法找到頁面",
+    "idNotPresent": "{{id}} 在 URL 中不存在。"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "服務不在現行應用程式中。",

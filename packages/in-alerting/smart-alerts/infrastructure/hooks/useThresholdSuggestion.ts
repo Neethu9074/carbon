@@ -100,10 +100,11 @@ function resolveThresholdRequest(
     rule: { metricName, aggregation, entityType, crossSeriesAggregation, regex },
     threshold: { operator, type },
     granularity,
-    tagFilterExpression
+    tagFilterExpression,
+    groupBy
   } = alertConfigWithFormModel;
 
-  if (shouldSkipFetchingThresholdSuggestion(isValid, alertConfigWithFormModel)) {
+  if (shouldSkipFetchingThresholdSuggestion(isValid, alertConfigWithFormModel) || groupBy?.length > 0) {
     return empty;
   }
 

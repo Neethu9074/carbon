@@ -26,11 +26,14 @@ import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScore
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
+import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { ScoredAction } from 'in-automation/api';
 import { createStore } from 'in-stores/store';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
+
+import locals from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIActionDialog.mless';
 
 const pathSegment = '/recommendedActions';
 const matrixPrefix = '';
@@ -179,7 +182,10 @@ function ScriptSection({ action }: { action: ScoredAction }) {
       <ActionName name={action.name} />
       <FormGroup>
         <Label>{t('in-automation:titleScriptContentReadOnly')}</Label>
-        <Code withExpandButton withoutCopyButton code={plaintextScript} lang={'bash'} softWrap />
+        <div className={locals.CodeWithAISlug}>
+          <Code withExpandButton withoutCopyButton code={plaintextScript} lang={'bash'} softWrap />
+          <AISlugIcon />
+        </div>
       </FormGroup>
     </>
   );
@@ -211,6 +217,7 @@ function ActionPreview() {
         <ManualActionContent
           content={getManualContentFromFields(selectedAction.fields)}
           actionName={selectedAction.name}
+          withAISlug
         />
       );
     default:

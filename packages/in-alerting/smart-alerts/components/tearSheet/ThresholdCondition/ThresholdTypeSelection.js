@@ -71,12 +71,7 @@ export default function ThresholdTypeSelection({
             />
           </Stack>
           {thresholdType === HISTORIC_BASELINE && (
-            <RecalculateBaselineButton
-              updateForm={updateForm}
-              editMode={editMode}
-              form={form}
-              className={locals.recalButtonWidth}
-            />
+            <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
           )}
         </div>
       )}

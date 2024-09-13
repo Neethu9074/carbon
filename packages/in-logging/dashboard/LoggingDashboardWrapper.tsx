@@ -14,6 +14,7 @@ import { dashboardConfigurationPath, dashboardDeletePath, dashboardSmartAlertsPa
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { logsPathWithDataSource } from 'in-logging/navigation/paths';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { role } from 'in-stores/user';
 
@@ -70,12 +71,15 @@ function LoggingDashboardWrapper(props: Props) {
   );
 }
 
-// placeholders
 function ButtonLine() {
+  const { createHrefToPath } = useNavigation();
+  const goToLogs = createHrefToPath(logsPathWithDataSource);
+
   return (
-    <section>
-      <Button>Incidents</Button>
-      <Button>Analyze Logs</Button>
+    <section className={locals.headerButtonsContainer}>
+      <Button kind="primary" icon="lib_application_logging" href={goToLogs}>
+        {t('in-logging:dashboard.analyzeLogs')}
+      </Button>
     </section>
   );
 }

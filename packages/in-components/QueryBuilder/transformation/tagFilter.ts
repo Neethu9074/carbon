@@ -13,7 +13,7 @@ import {
   ENDS_WITH,
   NOT_ENDS_WITH
 } from 'in-components/QueryBuilder/tagFilter/operators';
-import { KEY_VALUE_PAIR, BOOLEAN, NUMBER } from 'in-components/QueryBuilder/tagFilter/types';
+import { KEY_NUMBER_PAIR, KEY_VALUE_PAIR, BOOLEAN, NUMBER } from 'in-components/QueryBuilder/tagFilter/types';
 import { STRING_MAX_LENGTH } from 'in-components/QueryBuilder/tagFilter/constraints';
 import { TagCatalog, TagFilter, TagFilterEntity, TagFilterOperator } from 'in-types';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -26,7 +26,7 @@ const logger = createLogger('in-components/QueryBuilder/transformation/tagFilter
 export const type = 'TAG_FILTER';
 
 type TagFilterLike = Pick<TagFilter, 'type' | 'name' | 'operator'> &
-  Partial<Pick<TagFilter, 'key' | 'value' | 'entity'>> & {tagDefinition?: MinimalTagDefinition};
+  Partial<Pick<TagFilter, 'key' | 'value' | 'entity'>> & { tagDefinition?: MinimalTagDefinition };
 
 export function toTagFilter(tagFilterLike: TagFilterLike): TagFilter {
   const { name, key, value, operator, entity, tagDefinition } = tagFilterLike;
@@ -148,6 +148,16 @@ export function tagFilter(
   entity: TagFilterEntity = NOT_APPLICABLE,
   tagDefinition?: MinimalTagDefinition
 ): TagFilter {
+  if (tagDefinition?.type === KEY_NUMBER_PAIR) {
+    return {
+      type,
+      name,
+      operator,
+      entity,
+      stringValue: key + '=',
+      numberValue: value
+    };
+  }
   return {
     type,
     name,

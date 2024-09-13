@@ -22,7 +22,10 @@ import RequestQueue from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RequestQu
 import UpdateError from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UpdateError';
 import TotalMemory from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TotalMemory';
 import DumpStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DumpStats';
+import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { pageNames } from 'in-services/tracking/pageNames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export default function Detailed({ data }: { data: SnapshotData }) {
@@ -30,6 +33,12 @@ export default function Detailed({ data }: { data: SnapshotData }) {
   const snapshotId = data.id;
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.sap,
+          pageRootName: pageNames.abap_instance_system_overview
+        }}
+      />
       <WorkProcessListMetric snapshotId={snapshotId} timeConfig={timeConfig} />
       <TopProcessList snapshotId={snapshotId} timeConfig={timeConfig} props={data} />
       <RequestQueue snapshotId={snapshotId} timeConfig={timeConfig} />

@@ -6,7 +6,7 @@
 import React, { ReactElement } from 'react';
 import { Item } from 'formalistic';
 
-import { ButtonKinds } from '@instana/legacy';
+import { ButtonKinds } from '@instana/components';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { close } from 'in-components/DialogPresenter/store';

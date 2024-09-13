@@ -875,6 +875,7 @@
         "buttonMigrate": "Migrate",
         "selectedBlueprint": "Selected Blueprint",
         "buttonRecalculateBaseline": "Recalculate Baseline",
+        "buttonRecalculateBaselineDisabled": "Recalculate Baseline (disabled)",
         "sensitivitySliderLow": "low",
         "sensitivitySliderHigh": "high",
         "sensitivitySliderValueLabel": "{{count}} standard deviation",

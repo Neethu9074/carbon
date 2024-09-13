@@ -484,6 +484,7 @@
       "inventory": {
         "noData": "未配置任何智慧型警示。按下面的按鈕來配置您的第一個智慧型警示。",
         "noPersmissionToCreateGlobalSmartAlert": "您沒有配置智慧型警示的權限。請與管理者聯絡。",
+        "noPermissionGlobalSmartAlertEdit": "您沒有執行此動作的權限",
         "labelGlobalSmartAlertsList": "廣域智慧型警示 ({{numberOfAlerts}})",
         "labelSmartAlertsList": "應用程式智慧型警示 ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -549,7 +550,8 @@
           "groupByEndpoint_1": "{{count}} 個端點",
           "groupByEndpoint_2": "{{count}} 個端點",
           "groupbyDescription": "根據過去 24 小時內進行的呼叫",
-          "noData": "沒有可用的分組資料。"
+          "noData": "沒有可用的分組資料。",
+          "groupByDataFailed": "發生錯誤。 無法擷取群組資料。 原因：{{reason}}"
         },
         "callsInScope": {
           "title": "選擇範圍中的呼叫 ",
@@ -611,7 +613,7 @@
               "description": "會套用自動適應基礎度量值變更的臨界值。",
               "label": "調適性",
               "adaptiveNotSupportedForEndPoint": "按端點分組時不支援自適應臨界值。",
-              "adaptiveNotSupportedForBluePrint": "所選藍圖不支援自適應臨界值：{{bluePrint}}。",
+              "adaptiveNotSupportedForBluePrint": "選取的藍圖不支援自適應臨界值：{{bluePrint}}。",
               "notSupported": "不支援"
             },
             "static": {
@@ -768,6 +770,7 @@
         "selectAlertChannelButton": "選取警示通道",
         "createAlertChannelTitle": "建立警示通道",
         "alertChannelCreatedSuccess": "已建立警示通道",
+        "alertChannelCreatedSuccessDescription": "警示通道已成功建立。",
         "alertChannelSelectTypeTitle": "警示通道類型",
         "addChannel": "新增 {{count}} 個通道",
         "addChannel_plural": "新增 {{count}} 個通道",
@@ -865,6 +868,7 @@
         "criticalAlertPreviewLabel": "重要預覽",
         "alertPreviewMissingThresholdInfo": "沒有可用的預覽。 請至少選取一個臨界值才能查看預覽。",
         "alertPropertiesAlertProperties": "警示內容",
+        "alertPreviewDefaultTitle": "通知標題",
         "groupingPlaceholdersMissingTooltip": "配置群組以存取位置保留元選項",
         "buttonSave": "儲存",
         "buttonCreate": "建立",
@@ -895,6 +899,11 @@
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "建立智慧型警示",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "建立廣域智慧型警示",
         "alertConfigDialogPresenterTitleMigrateAlert": "移轉至智慧型警示",
+        "alertConfigTearSheetEditAlert_Local": "編輯應用程式智慧型警示",
+        "alertConfigTearSheetEditAlert_Global": "編輯應用程式廣域智慧型警示",
+        "alertConfigTearSheetCreateNewAlert_Local": "建立應用程式智慧型警示",
+        "alertConfigTearSheetCreateNewAlert_Global": "建立應用程式廣域智慧型警示",
+        "alertConfigTearSheetMigrateAlert": "移轉至應用程式智慧型警示",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "切換至進階模式",
         "simpleAlertConfigDialogStep3Headline": "誰應該取得警示？",
         "Loading": "載入中...",
@@ -1319,6 +1328,12 @@
         "customEventInputPlaceholder": "貼上自訂事件名稱或從事件清單中選取一個",
         "searchCustomEventButtonLabel": "選取自訂事件"
       },
+      "more": "+{{count}} 個以上",
+      "more_plural": "+{{count}} 個以上",
+      "more_0": "+{{count}} 個以上",
+      "more_1": "+{{count}} 個以上",
+      "more_2": "+{{count}} 個以上",
+      "viewMore": "+ 檢視更多",
       "advanced": {
         "thresholdValue": "臨界值"
       },
@@ -1520,16 +1535,15 @@
     },
     "slo": {
       "components": {
-        "operatorDropdown": "",
-        "operatorDropdown_more": "超過",
-        "operatorDropdown_more-or-equal": "大於或等於",
-        "operatorDropdown_less": "小於",
-        "operatorDropdown_less-or-equal": "小於或等於"
+        "timeOptionsDropdown_minute": "分鐘",
+        "timeOptionsDropdown_hour": "小時",
+        "timeOptionsDropdown_day": "天數"
       },
       "validators": {
         "noEmptySloIds": "請至少選取一個 SLO。",
         "notLessThanOrEqualToZero": "請設定大於 0 的值。",
-        "noInvalidOperator": "請從清單中選取運算子。"
+        "noInvalidOperator": "請從清單中選取運算子。",
+        "noInvalidDurationUnit": "請從清單中選取持續時間單位。"
       },
       "advancedModeContainer": {
         "stepLabel": "",
@@ -1548,31 +1562,47 @@
         "stepTitle_customPayload": "自訂有效負載",
         "selectSloHeadline": "選取 SLO",
         "blueprintSectionTitle": "選取藍圖",
+        "blueprint_slo_not_selected": "請至少選取一個 SLO 以繼續。",
         "blueprint": "",
-        "blueprint_SERVICE_LEVELS_OBJECTIVE": "狀態",
-        "blueprint_ERROR_BUDGET": "錯誤預算",
+        "blueprint_STATUS": "狀態",
+        "blueprint_BURNED_PERCENTAGE": "錯誤預算",
+        "blueprint_BURN_RATE": "消耗率",
         "blueprintDescription": "",
-        "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "當 SLO 狀態低於臨界值時接收警示。",
-        "blueprintDescription_ERROR_BUDGET": "當已耗用某個百分比的錯誤預算時接收警示。",
+        "blueprintDescription_STATUS": "當 SLO 狀態低於臨界值時接收警示。",
+        "blueprintDescription_BURNED_PERCENTAGE": "當已耗用某個百分比的錯誤預算時接收警示。",
+        "blueprintDescription_BURN_RATE": "消耗率是一個數值，表示相對於 SLO 的目標長度，誤差預算消耗的速度。",
+        "burnRateShortWindowTitle": "短時間警示視窗",
+        "burnRateShortWindowDescription": "當錯誤率在較短時間內較快超過臨界值時，就會觸發警示。 這有助於擷取因重要錯誤而突然激增的錯誤或停機時間。",
+        "burnRateDescription": "當消耗率為 <1/> <2/> 時通知我。",
+        "burnRateLongWindowTitle": "長警示視窗",
+        "burnRateLongWindowDescription": "當錯誤率在較長時間內超過臨界值時，就會觸發警示。 這有助於找出隨著時間的推移而累積的問題，如果不加以處理，可能會在未來造成問題。",
+        "burnRateShortWindowLongerThanLongWindowError": "短視窗不能超過長視窗。 請調整任一數值。",
+        "burnRateTimeWindowTooLongError": "警示視窗不能超過所選取 SLO 的時間視窗。 請檢查下列 SLO：{{value}}。",
         "thresholdTitle": "臨界值：何時要收到警示？",
         "thresholdInputDescription": "",
-        "thresholdInputDescription_ERROR_BUDGET": "當已耗用 <1/> <2/> 百分比的錯誤預算時",
-        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "當 SLO 狀態 <1/> <2/> 存在時",
+        "thresholdInputDescription_BURNED_PERCENTAGE": "當已耗用 <1/> <2/> 百分比的錯誤預算時",
+        "thresholdInputDescription_STATUS": "當 SLO 狀態 <1/> <2/> 存在時",
+        "thresholdInputDescription_BURN_RATE": "評估 SLO 的最後一個 <1/>。",
         "timeThresholdType_gracePeriod": "當條件持續存在超過指定的時間量時",
         "timeThresholdTypeTitle_gracePeriod": "當連續 $t(in-components:time.minutes, {\"count\": {{minutes}} }) 違反條件時發出警示",
         "timeThresholdTypeTitle_cooldownPeriod": "至少必須已經過 $t(in-components:time.minutes, {\"count\": {{minutes}} }) 事件才會結束",
         "alertProperties_entityLabel": "SLO 名稱",
-        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 狀態偏低",
-        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "SLO 狀態為 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}。",
-        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "剩餘錯誤預算偏低",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "已耗用 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} 的錯誤預算。",
+        "alertPropertiesTitlePlaceholder": "",
+        "alertPropertiesTitlePlaceholder_STATUS": "SLO 狀態偏低",
+        "alertPropertiesDescriptionPlaceholder_STATUS": "SLO 狀態為 {{operator}} {{percentage}}。",
+        "alertPropertiesTitlePlaceholder_BURN_RATE": "消耗率已超過",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "SLO 的消耗率為 {{operator}} {{percentage}}。",
+        "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "剩餘錯誤預算偏低",
+        "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "已耗用 {{operator}} {{percentage}} 錯誤預算。",
         "alertPropertiesIncidentWarning": "發生事件僅適用於與應用程式相關聯的 SLO"
       },
       "details": {
         "alertConfigurationTitle": "警示配置",
         "sloHeader": "SLO",
-        "thresholdInfo_ERROR_BUDGET": "當已耗用 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} 百分比的錯誤預算時",
-        "thresholdInfo_SERVICE_LEVELS_OBJECTIVE": "當 SLO 狀態為 $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} 百分比時",
+        "thresholdInfo": "",
+        "thresholdInfo_BURN_RATE": "消耗率為 {{operator}} {{percentage}} 時",
+        "thresholdInfo_BURNED_PERCENTAGE": "當 {{operator}} 已耗用 {{percentage}} 百分比的錯誤預算時",
+        "thresholdInfo_STATUS": "當 SLO 狀態為 {{operator}} {{percentage}} 百分比時",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
@@ -1581,6 +1611,9 @@
       },
       "alertList": {
         "threshold": "臨界值：{{value}}",
+        "threshold_BURN_RATE": "消耗率：{{value}}",
+        "threshold_BURNED_PERCENTAGE": "臨界值：{{value}}",
+        "threshold_STATUS": "臨界值：{{value}}",
         "sloApplied": "已套用 SLO",
         "sloCount": "{{count}} 個 SLO",
         "sloCount_plural": "{{count}} 個 SLO",
@@ -1588,8 +1621,9 @@
         "sloCount_1": "{{count}} 個 SLO",
         "sloCount_2": "{{count}} 個 SLO",
         "title": "",
-        "title_ERROR_BUDGET": "耗用的錯誤預算",
-        "title_SERVICE_LEVELS_OBJECTIVE": "狀態"
+        "title_BURN_RATE": "消耗率",
+        "title_BURNED_PERCENTAGE": "耗用的錯誤預算",
+        "title_STATUS": "狀態"
       },
       "messages": {
         "successTitle": "",

@@ -55,6 +55,7 @@ export default function SpanDetails({ call, span }) {
       </Dl>
       <SpanForgeDetails key={call.id} span={convertedSpan} />
       <CustomTags span={convertedSpan} />
+      {isInternalVisible && <CustomMetrics span={convertedSpan} />}
     </Fragment>
   );
 }
@@ -86,6 +87,27 @@ function CustomTags({ span }) {
         </Dl>
       )}
       <Card title={t('in-analyze:traceDetail.components.callDetails.tags')} hasMarginBottom>
+        <SidebarTagList tags={tags} />
+      </Card>
+    </>
+  );
+}
+
+function CustomMetrics({ span }) {
+  let custom = span.getIn(['data', 'sdk', 'custom', 'metrics']);
+  if (!custom || custom.isEmpty()) {
+    return null;
+  }
+
+  let tags = flatten(expandNestedSerializedJson(custom.toJS()));
+  tags = Object.keys(tags).map(key => ({
+    name: key,
+    value: String(tags[key])
+  }));
+
+  return (
+    <>
+      <Card title={t('in-analyze:traceDetail.components.callDetails.metrics')} hasMarginBottom>
         <SidebarTagList tags={tags} />
       </Card>
     </>

@@ -13,7 +13,7 @@ import {
   SloData,
   SloListPageSize,
   resultToSloData
-} from 'in-alerting/smart-alerts/slo/components/SloListSelection/SloListSelection';
+} from 'in-service-levels/components/Shared/SloListSelection/SloListSelection';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 
 export interface UseBufferedSloDataProps extends Pick<PaginatedResult<any>, 'page'> {
@@ -27,7 +27,11 @@ export interface UseBufferedSloDataResult extends Pick<PaginatedResult<any>, 'pa
   progress: Progress;
 }
 
-export function usePaginatedSloList({ page, query, entityType }: UseBufferedSloDataProps): UseBufferedSloDataResult {
+export default function usePaginatedSloList({
+  page,
+  query,
+  entityType
+}: UseBufferedSloDataProps): UseBufferedSloDataResult {
   const [sloList, setSloList] = useState<SloData[]>([]);
   const [data, , , progress] = useSloConfigurations({
     page,
