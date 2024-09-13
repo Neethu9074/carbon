@@ -9,11 +9,11 @@ import React, { useState } from 'react';
 import { Button, IconButton, Spacer, Stack, Typography } from '@instana/components';
 
 import {
-  aiEngineColumn,
-  descriptionColumn,
+  actionCategoryColumn,
   nameColumn,
-  scoreColumn
-} from 'in-automation/ActionTable/columnDefinitions';
+  typesColumn,
+  impactedServicesColumn
+} from 'in-automation/ResourceOptimization/columnDefinitions';
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
@@ -25,7 +25,6 @@ import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilte
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { TriggerSpecification } from 'in-automation/Policies/types';
 import { TagsFilter } from 'in-automation/components/tableFilters';
@@ -88,10 +87,9 @@ const actionColumn: ColumnDefinition<ScoredAction, RecommendedOptimizationsTable
 
 const columnDefinitions: ColumnDefinition<ScoredAction, RecommendedOptimizationsTableProps>[] = [
   nameColumn as ColumnDefinition<ScoredAction, RecommendedOptimizationsTableProps>,
-  descriptionColumn as ColumnDefinition<ScoredAction, RecommendedOptimizationsTableProps>,
-  tagsColumn as ColumnDefinition<ScoredAction, RecommendedOptimizationsTableProps>,
-  aiEngineColumn,
-  scoreColumn,
+  typesColumn,
+  impactedServicesColumn,
+  actionCategoryColumn as ColumnDefinition<ScoredAction, RecommendedOptimizationsTableProps>,
   actionColumn
 ];
 
