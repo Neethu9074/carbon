@@ -69,13 +69,23 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
   const onChangeRole = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     if (!permissionSet || selected === 'CUSTOM') return;
 
-    const newPermissionSet = updatePermissionSetForLimitableProductArea(
+    const restPermissionSet = updatePermissionSetForLimitableProductArea(
       permissionSet,
       productArea,
       limitation,
       selected
     );
 
+    const permissions =
+      selected === 'VIEWER'
+        ? //@ts-expect-error
+          restPermissionSet.permissions.filter(permission => !automationOwnerCapabilities.includes(permission))
+        : restPermissionSet.permissions;
+
+    const newPermissionSet: PermissionSet = {
+      ...restPermissionSet,
+      permissions
+    };
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
   };
 
