@@ -15,6 +15,7 @@ import {
   AreaRoles,
   AreaRoleWithCustomType,
   automationAdditionalCapabilities,
+  automationOwnerCapabilities,
   automationViewCapabilities,
   ProductArea,
   ScopedPermissionType
