@@ -21,11 +21,10 @@ export function validTextEntry(text) {
 export function noteNameAndTimeFormat(myBubble, note, date, type) {
   const typeNote = type === TYPE_NOTE;
   const aiGen = type === TYPE_AI_SUMMARY;
-
   if (myBubble && typeNote) {
-    return `${t('in-events:notes.you')} ${date}`;
+    return `${t('in-events:notes.you', { date: date })}`;
   } else if (aiGen) {
-    return `watsonx ${date}`;
+    return `${t('in-events:notes.watsonx', { date: date })}`;
   } else if (typeNote) {
     return `${note?.author} ${date}`;
   } else {
