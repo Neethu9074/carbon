@@ -1,5 +1,8 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "メイン・ナビゲーション"
+    },
     "expandableGroup": {
       "tooltipShowContent": "コンテンツの表示",
       "tooltipHideContent": "コンテンツの非表示",
@@ -16,13 +19,35 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "さらにロード"
-      }
+      },
+      "dataTable": "データ・テーブ"
+    },
+    "tableSkeleton": {
+      "sampleTable": "サンプル表"
     },
     "code": {
       "copy": "コピー",
       "copied": "コピーされました",
       "showMore": "さらに表示",
       "showLess": "少なく表示"
+    },
+    "menu": {
+      "sideNavigation": "サイド・ナビゲーション"
+    },
+    "carbonTabs": {
+      "tabs": "タブ"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "データ・テーブル・ツールバー"
+      },
+      "tableTabs": {
+        "listOfTabs": "タブのリスト"
+      }
+    },
+    "pill": {
+      "privatePreview": "プレビュー",
+      "publicPreview": "プレビュー"
     }
   },
   "formatDate": {

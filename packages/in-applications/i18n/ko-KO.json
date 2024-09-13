@@ -122,6 +122,7 @@
   "messageSuccessfullySaved": "저장되었습니다.",
   "messageErrorOccurred": "오류가 발생했습니다. 다시 시도하십시오.",
   "messageWaitForChanges": "변경사항을 적용하는 데 다소 시간이 걸릴 수 있습니다.",
+  "linkViewAllApplications": "모든 애플리케이션 보기",
   "linkViewAllServices": "모든 서비스 보기",
   "linkViewAllEndpoints": "모든 엔드포인트 보기",
   "lineViewInAnalyze": "분석으로 보기",
@@ -459,7 +460,9 @@
       "logMessagesDescription": "선택한 시간 범위에 대해 검색된 로그 메시지가 없습니다.",
       "endpointsTitle": "사용 가능한 엔드포인트가 없음",
       "endpointsDescription": "선택한 시간 범위에 대해 검색된 엔드포인트가 없습니다."
-    }
+    },
+    "pageCannotBeFound": "페이지를 찾을 수 없음",
+    "idNotPresent": "{{id}}이(가) URL에 없습니다."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "현재 애플리케이션에 서비스가 없습니다.",

@@ -1,5 +1,8 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "Hauptnavigation"
+    },
     "expandableGroup": {
       "tooltipShowContent": "Inhalt anzeigen",
       "tooltipHideContent": "Inhalt ausblenden",
@@ -16,13 +19,35 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "Mehr laden"
-      }
+      },
+      "dataTable": "Datentabelle"
+    },
+    "tableSkeleton": {
+      "sampleTable": "Beispieltabelle"
     },
     "code": {
       "copy": "Copy",
       "copied": "Kopiert!",
       "showMore": "Erweitern",
       "showLess": "Reduzieren"
+    },
+    "menu": {
+      "sideNavigation": "Seitennavigation"
+    },
+    "carbonTabs": {
+      "tabs": "Registerkarten"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "Symbolleiste für Datentabelle"
+      },
+      "tableTabs": {
+        "listOfTabs": "Liste der Registerkarten"
+      }
+    },
+    "pill": {
+      "privatePreview": "Vorschau",
+      "publicPreview": "Vorschau"
     }
   },
   "formatDate": {

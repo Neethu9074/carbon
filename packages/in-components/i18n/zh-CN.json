@@ -38,7 +38,8 @@
       "itemMsg": "+其他 {{leftCount}} 条{{moreMsg}}"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "重试"
+      "retryButtonLabel": "重试",
+      "openList": "打开列表"
     },
     "chartReleasesLanePresenterReleasesLabel": "版本",
     "chartReleasesLanePresenterTooltip": "+其他 {{len}} 个版本",
@@ -260,6 +261,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "确认",
+    "secondaryDialogLabelCancel": "取消",
     "promptPresenterLabelConfirm": "确认"
   },
   "draggableItemSelector": {
@@ -297,8 +299,8 @@
     "labelExpandButtonForContent": "展开内容按钮"
   },
   "featureFeedback": {
-    "labelPublicPreview": "公共预览",
-    "labelPrivatePreview": "私有预览",
+    "labelPublicPreview": "预览",
+    "labelPrivatePreview": "预览",
     "linkLabelYouCanSendUsFeedback": "您可以向我们发送反馈"
   },
   "geoHeatMap": {
@@ -353,6 +355,30 @@
     "labelWarning": "警告",
     "labelCritical": "严重"
   },
+  "vulnerabilities": {
+    "eventType_issue": "漏洞",
+    "eventType_issue_plural": "漏洞",
+    "eventType_issue_0": "漏洞",
+    "eventType_issue_1": "漏洞",
+    "eventType_issue_2": "漏洞",
+    "openIssuesListPresenterActionsViewIssues": "查看漏洞",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "查看 {{openIssueCount}} 个漏洞",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "正在装入未解决漏洞…",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "未能装入未解决漏洞",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 个未解决漏洞",
+    "noVulnerabilities": "无漏洞",
+    "openVulnerabilities": "{{count}} 个漏洞",
+    "openVulnerabilities_plural": "{{count}} 个漏洞",
+    "openVulnerabilities_0": "{{count}} 个漏洞",
+    "openVulnerabilities_1": "{{count}} 个漏洞",
+    "openVulnerabilities_2": "{{count}} 个漏洞",
+    "noIncidents": "无事件",
+    "openIncidents": "{{count}} 个突发事件",
+    "openIncidents_plural": "{{count}} 个突发事件",
+    "openIncidents_0": "{{count}} 个突发事件",
+    "openIncidents_1": "{{count}} 个突发事件",
+    "openIncidents_2": "{{count}} 个突发事件"
+  },
   "inlineTabNavigation": {
     "labelSelectTab": "选择选项卡"
   },
@@ -400,6 +426,7 @@
     "viewSwitcherlabelInfrastructure": "基础架构",
     "viewSwitcherLabelApplications": "应用程序",
     "viewSwitcherLabelSlo": "服务级别",
+    "viewSwitcherLabelLogs": "日志",
     "viewSwitcherLabelAnalytics": "分析",
     "viewSwitcherLabelWebsitesAndMobileApps": "Web 站点和移动应用程序",
     "viewSwitcherLabelWebsites": "Web 站点",
@@ -416,9 +443,11 @@
     "viewSwitcherCustomDashboards": "定制仪表板",
     "viewSwitcherButtonSignOut": "注销",
     "viewSwitcherLabelTenants": "租户",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Instana UI 存在可用的新版本",
     "newUiClientVersionAvailableButtonReloadToUpdate": "重新加载以更新",
     "profileMenu_profileLink": "概要文件",
+    "profileMenu_tooltip": "概要文件菜单",
     "profileMenu_unitName_tenantName": "单位名称 - 租户名称",
     "profileMenu_switchUnitOrTenant": "切换单位或租户",
     "profileMenu_logOut": "注销"
@@ -590,8 +619,8 @@
     "loadingData": "正在加载数据"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "Instana 存在可用的新版本",
-    "buttonReloadToUpdate": "重新加载以更新"
+    "newVersionOfInstanaAvailable": "Instana UI 有一个更新",
+    "buttonReloadToUpdate": "刷新浏览器以进行加载。"
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "调用数",

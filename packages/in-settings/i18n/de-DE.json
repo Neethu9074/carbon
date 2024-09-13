@@ -120,7 +120,8 @@
     "title_dashboard": "Benutzerdefinierte Dashboards",
     "title_automation": "Automation",
     "title_agents": "Agenten",
-    "title_access_control": "Zugriffssteuerung"
+    "title_access_control": "Zugriffssteuerung",
+    "subHeadline_syntheticMonitoring": "{{ quantityOfAreas }} plus vererbte Tests."
   },
   "headingSection": {
     "title": "Rolle und Zugriffsbereich",
@@ -168,7 +169,8 @@
     "contributionFilter_name": "Name",
     "contributionFilter_name_mayNotBeBlank": "Der Name des Beitragsfilters darf nicht leer sein.",
     "contributionFilter_name_mustNotBeLargerThan128Characters": "Der Name des Beitragsfilters darf nicht länger als 128 Zeichen sein.",
-    "contributionFilter_name_alreadyUsed": "Der Beitragsfiltername wird bereits verwendet."
+    "contributionFilter_name_alreadyUsed": "Der Beitragsfiltername wird bereits verwendet.",
+    "addButton_syntheticCredentials": "Synthetische Berechtigungsnachweise auswählen"
   },
   "selectItemForm": {
     "doneButton": "Erledigt"
@@ -176,10 +178,13 @@
   "selectEntityDialog": {
     "nameColumnHead": "Name",
     "contributionFilterColumnHead": "Filter für Beiträge",
-    "syntheticAllTestsAccess": "Alle Tests",
-    "syntheticInheritedAccess": "Übernommener Zugriff",
+    "syntheticAllTestsAccess": "Wählbare Tests",
+    "syntheticInheritedAccess": "Vererbte Tests",
     "syntheticTableSubHeader": "Die folgenden synthetischen Tests sind für die Mitglieder dieser Gruppe bereits zugänglich, da sie Zugriff auf die entsprechenden Anwendungen haben.",
-    "syntheticTableSubHeaderWebMobile": "Die folgenden synthetischen Tests sind für die Mitglieder dieser Gruppe bereits zugänglich, da sie Zugriff auf die entsprechenden Anwendungen, Websites und mobilen Anwendungen haben."
+    "syntheticTableSubHeaderWebMobile": "Die folgenden synthetischen Tests sind für die Mitglieder dieser Gruppe bereits zugänglich, da sie Zugriff auf die entsprechenden Anwendungen, Websites und mobilen Anwendungen haben.",
+    "syntheticSelectableCredentialsAccess": "Wählbare Berechtigungsnachweise",
+    "syntheticInheritedCredentialsAccess": "Vererbte Berechtigungsnachweise",
+    "syntheticTableSubHeaderWebMobileForCredentials": "Die folgenden synthetischen Zugangsdaten sind für die Mitglieder dieser Gruppe bereits zugänglich, da sie Zugang zu den zugehörigen Anwendungen, Websites und mobilen Anwendungen haben."
   },
   "permissionScope": {
     "access_level": "Zugriffsebene",
@@ -271,7 +276,8 @@
       "limited_access": {
         "access_level": "Nur auf die aufgelisteten synthetischen Tests mit dem ausgewählten Zugriffstyp und weiteren Berechtigungen zugreifen",
         "access_level_tp": "Zugriff auf alle synthetischen Tests, die mit den Anwendungen verbunden sind, auf die die Benutzer Zugriff haben. Sie können die nachstehende Liste verwenden, um Zugriff auf weitere synthetische Tests zu gewähren.",
-        "access_level_web_mobile": "Zugriff auf alle synthetischen Tests im Zusammenhang mit Anwendungen, Websites und mobilen Anwendungen, auf die die Nutzer Zugriff haben. Sie können die nachstehende Liste verwenden, um Zugriff auf weitere synthetische Tests zu gewähren."
+        "access_level_web_mobile": "Zugriff auf alle synthetischen Tests im Zusammenhang mit Anwendungen, Websites und mobilen Anwendungen, auf die die Nutzer Zugriff haben. Sie können die nachstehende Liste verwenden, um Zugriff auf weitere synthetische Tests zu gewähren.",
+        "access_level_tests_credentials": "Zugriff auf alle synthetischen Tests und Anmeldeinformationen, die mit Anwendungen, Websites und mobilen Anwendungen verbunden sind, auf die die Benutzer Zugriff haben. Sie können die nachstehenden Listen verwenden, um den Zugang zu weiteren synthetischen Tests und Berechtigungsnachweisen zu gewähren."
       },
       "role_permissions_owner": "Synthetische Tests erstellen, konfigurieren, anzeigen und löschen.",
       "role_permissions_viewer": "Synthetische Tests und ihre Konfiguration anzeigen."
@@ -354,6 +360,23 @@
       },
       "customPayload": {
         "unknownTag": "Unbekannter Tag: {{tagName}}"
+      },
+      "integrations": {
+        "configureIntegration": "Integration konfigurieren",
+        "database": {
+          "database": "Datenbank",
+          "dbIntegrations": "Datenbank-Integrationen",
+          "dbIntegrationsDescription": "Verbinden Sie Ihre Datenbankverwaltungslösungen und konfigurieren Sie sie entsprechend Ihren Anforderungen.",
+          "dbIntegrationsTooltip": "Toggle ist aufgrund einer fehlenden Konfiguration deaktiviert. Klicken Sie auf die Kachel und füllen Sie das Formular aus, um diese Funktion zu aktivieren.",
+          "dbIntegrationsTooltipApiError": "Toggle ist aufgrund eines API-Verbindungsproblems deaktiviert. Warten Sie auf die Wiederherstellung der Verbindung oder laden Sie die Seite neu, um diese Funktion zu aktivieren.",
+          "dbMarlin": "DBmarlin",
+          "dbMarlinInstance": "DBmarlin-Instanz",
+          "dbMarlinExampleForAnInternalInstance": "Geben Sie die URL für Ihre DBmarlin-Instanz ein, zum Beispiel <strong>https://team.dbmarlin.com</strong> oder <strong>http://192.168.1.128:443</strong> für eine interne Instanz.",
+          "configureDbMarlin": "DBmarlin konfigurieren",
+          "configureDbMarlinDescription": "Wenn aktiviert, fügt die folgende Konfiguration einen Link zu DBmarlin in den Anrufdetails für kompatible Anrufe hinzu.",
+          "configureYourDbMarlinSettings": "Konfigurieren Sie Ihre DBmarlin-Einstellungen",
+          "failedToLoadDbMarlinConfiguration": "DBmarlin-Konfiguration konnte nicht geladen werden."
+        }
       }
     },
     "retentionPeriod": {
@@ -394,10 +417,14 @@
       "toastSuccessTitle": "Gespeicherte Integration",
       "toastErrorTitle": "Integration nicht gespeichert",
       "toastSuccessMessage": "Ihre {{integrationType}} Integration wurde gespeichert und aktiviert.",
+      "toastErrorMessage": "Ihre {{integrationType}} Integration konnte nicht gespeichert und aktiviert werden.",
       "integerationEnabled": "Ihre {{integrationType}} Integration wurde aktiviert.",
       "integerationDisabled": "Ihre {{integrationType}} Integration wurde deaktiviert.",
-      "integerationConfigurationFailed": "{{error}}",
-      "configureIntegrations": "Integration konfigurieren"
+      "integrationConfigurationFailed": "{{error}}",
+      "configureIntegrations": "Integration konfigurieren",
+      "unsavedModalContent": "Sind Sie sicher, dass Sie Ihre Änderungen verwerfen wollen?",
+      "unsavedModalDiscard": "Verwerfen",
+      "unsavedModalCancel": "Abbrechen"
     },
     "deleteLogs": {
       "deleteLogs": "Protokolle löschen",
@@ -442,12 +469,16 @@
       "months_6": "Letzte 6 Monate",
       "months_9": "Letzte 9 Monate",
       "months_12": "Letzte 12 Monate",
-      "days_7": "7 Tage",
-      "days_20": "20 Tage",
-      "days_30": "30 Tage",
-      "days_60": "60 Tage",
-      "days_90": "90 Tage"
+      "days_30": "30 Tage Aufbewahrung",
+      "days_60": "60 Tage Aufbewahrung",
+      "days_90": "90 Tage Aufbewahrung",
+      "noLogVolumeData": "Keine Daten vorhanden, die angezeigt werden können",
+      "logVolumeErrorTitle": "Ein Fehler ist aufgetreten.",
+      "logVolumeErrorInfo": "Daten können nicht aus der Datenbank abgerufen werden",
+      "groupingTagTootip": "{{groupingTag}} Informationen nicht verfügbar",
+      "ruTooltip": "Die Ressourceneinheiten werden auf der Grundlage des Volumens der aufgenommenen Protokolle und der Aufbewahrungsfrist berechnet. Jede Menge an aufgenommenen Daten verbraucht mindestens 1 Ressourceneinheit"
     },
+    "auditTrail": "Prüfprotokoll",
     "failedToSaveConfig": "Fehler beim Speichern der Konfiguration: {{err}}",
     "IdPMetadataRequired": "IdP-Metadatendatei ist erforderlich",
     "IdPMetadataLargerThanTwoMega": "IdP-Metadatendatei darf nicht größer als 2 Megabyte sein",
@@ -489,8 +520,6 @@
     "youCanOnlyAddOneItem": "Sie können nur ein Element hinzufügen.",
     "youCanAddAtMostLimitItems": "Sie können höchstens {{limit}} Elemente hinzufügen.",
     "pleaseNarrowDownYourSelectionByUsingTheFilters": "Sie können höchstens {{limit}} Elemente hinzufügen. Verwenden Sie die Filter, um Ihre Auswahl einzugrenzen.",
-    "apiTokenIs": "API-Token: {{apiTokenName}}",
-    "apiToken": "API-Token",
     "failedToSaveApiToken": "Fehler beim Speichern des API-Tokens: {{err}}",
     "failedToCreatePersonalApiToken": "Erstellen des persönlichen API-Tokens fehlgeschlagen.",
     "failedToUpdatePersonalApiToken": "Das persönliche API-Token konnte nicht aktualisiert werden.",
@@ -501,11 +530,26 @@
     "editApiToken": "API-Token bearbeiten",
     "editPersonalApiToken": "Persönliches API-Token bearbeiten",
     "personalApiTokenNameDescription": "Anzeigename für das Token",
+    "apiTokenExpiration": "Ablauf",
+    "apiTokenExpiryDate": "Ablaufdatum",
+    "apiTokenExpiryTime": "Ablaufzeit",
+    "apiTokenExpirationOptions": {
+      "thirtyDays": "30 Tage",
+      "sixtyDays": "60 Tage",
+      "ninetyDays": "90 Tage",
+      "oneYear": "1 Jahr",
+      "custom": "Angepasst",
+      "never": "Niemals"
+    },
+    "apiTokenHintTextForNeverExpires": "Dieser Token läuft nie ab.",
+    "apiTokenHintTextForExpiration": "Dieses Token läuft nach {{expiryDate}} um {{expiryTime}} UTC{{utcOffSet}} ab.",
     "displayName": "Anzeigename",
     "personalApiTokenDescription": "Dieses persönliche API-Token übernimmt Ihre Berechtigungen, sodass Sie es für die Authentifizierung bei der API verwenden können.",
     "apiTokenDescription": "Dieses einheitenspezifische API-Token kann von jedem oder einem beliebigen API-Token mit der Berechtigung für die API-Tokenkonfiguration angezeigt/geändert werden.",
     "noApiToken": "Keine API-Token",
     "newApiToken": "Neues API-Token",
+    "apiTokenDuplicate": "Duplikat",
+    "duplicateTokenName": "Duplikat von {{apiTokenName}}",
     "apiTokenUnits": "API-Tokens können für <strong>{{tenantUnit}}verwendet werden-{{tenant}}</strong>",
     "noPersonalApiTokens": "Keine persönlichen API-Tokens",
     "newPersonalApiToken": "Neues persönliches API-Token",
@@ -888,15 +932,21 @@
     "personalApiTokens": "Persönliche API-Tokens",
     "token": "Token",
     "tokenLastUsed": "Zuletzt verwendet",
+    "tokenStatus": "Status",
+    "tokenActive": "Aktiv",
+    "tokenActiveUntil": "Aktiv bis {{dateTime}}",
+    "tokenExpiredOn": "Abgelaufen am {{dateTime}}",
     "tokenCreated": "Erstellt",
     "tokenCreatedBy": "Erstellt von",
+    "tokenValidationPleaseEnterTimeInFuture": "Bitte geben Sie ein Datum oder eine Uhrzeit in der Zukunft ein",
     "unknownLabel": "Unbekannt",
     "copyApiTokenToClipboard": "API-Token in die Zwischenablage kopieren",
     "inviteUserToGroup": "Hinzuzufügenden Benutzer auswählen",
     "applications": "Anwendungen",
     "infrastructure": "Infrastruktur",
     "ownerPermissions": "Eigentümerberechtigungen",
-    "youAreAssigningThisApiTokenOwnerPermissions": "Sie ordnen diesem API-Token Eigentümerberechtigungen zu.",
+    "youAreAssigningThisApiTokenOwnerPermissions": "Wenn Sie diesem API-Token die Berechtigung des Eigentümers zuweisen, können Benutzer mit diesem Token in diesem Bereich Elemente erstellen, bearbeiten oder löschen.",
+    "yesIUnderstand": "Ja, ich verstehe",
     "savingGroup": "Gruppe wird gespeichert",
     "groupSuccessfullySaved": "Gruppe wurde erfolgreich gespeichert.",
     "groups": "Gruppen",

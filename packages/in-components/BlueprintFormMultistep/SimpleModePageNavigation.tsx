@@ -90,7 +90,6 @@ export default function SimpleModePageNavigation<FORM_TYPE extends MapFormItems>
 
   return (
     <>
-      {/* @ts-expect-error */}
       <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />
 
       <form onSubmit={e => handleSubmit(e, step)} className={locals.form} id={formId}>

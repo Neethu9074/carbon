@@ -5,6 +5,7 @@
   "test": "Test",
   "recommendedActionsWithCount": "Actions recommandées ({{count}})",
   "recommendedActions": "Actions recommandées",
+  "actionName": "Nom d'action",
   "validVaultParameter": "Les paramètres de coffre marqués comme facultatifs doivent être soit tous les deux vides, soit tous les deux non vides.",
   "newAction": "Nouvelle action",
   "runAction": "Exécuter l'action",
@@ -96,32 +97,63 @@
   "AISlugContent": "L'IA a été utilisée pour générer ce contenu",
   "createPolicyWithName": "Afficher l'action {{actionName}} et créer la règle",
   "viewActionCreatePolicy": "Afficher l'action et créer la règle",
-  "simpleAIDialog": {
-    "Step1Headline": "Commencez par une action générée par watsonx pour créer une nouvelle règle d'action et d'automatisation pour cet événement.",
-    "Step2Headline": "Spécifiez les détails pour créer une nouvelle action.",
-    "Step3Headline": "Spécifiez les détails pour créer une règle d'automatisation.",
-    "step1Title": "Etape 1: Sélectionnez une action générée",
+  "titleScriptContentReadOnly": "Contenu (lecture seule)",
+  "GenerateAIActionDialog": {
+    "actionConfiguration": "Configuration d'action",
+    "actionDetails": "Détails de l'action",
+    "Step1HeadlineSelectAction": "Commencez par une action intégrée générée par watsonx pour créer une nouvelle action pour cet événement.",
+    "Step1HeadlinePrompt": "Générez une action manuelle avec watsonx basée sur le nom de l'événement, de la description et du type d'entité.",
+    "Step2Headline": "Spécifiez les détails de l'action ou apportez des modifications avant de l'enregistrer dans le catalogue d'actions.",
+    "Step3Headline": "(Facultatif) Vous pouvez créer une politique d'automatisation en même temps que l'action. Vous pouvez également effectuer cette étape ultérieurement.",
+    "step1Title": "Étape 1 : Générer ou sélectionner une action",
+    "step1TitleGenerateAction": "Étape 1 : Générer une action",
     "step2Title": "Etape 2 : Personnalisez l'action",
-    "step3Title": "Etape 3 : Créez une règle",
+    "step3Title": "Étape 3 : Créer une politique (facultatif)",
     "policyDetails": "Détails de la politique",
-    "policyText": "Une nouvelle règle sera créée pour l'action et le déclencheur d'événement suivants :",
     "policy": {
       "success": {
-        "title": "Action et règle créées",
-        "content": "Une nouvelle action a été ajoutée dans le catalogue et une nouvelle stratégie {{name}} a été créée",
-        "link": "Lien d'action"
+        "title": "La création de la règle a abouti.",
+        "content": "La politique <Link>\"{{name}}\"</Link> a été créée."
       }
-    }
+    },
+    "action": {
+      "success": {
+        "title": "L'action a été créée.",
+        "content": "L'action <Link>\"{{name}}\"</Link> a été créée."
+      }
+    },
+    "generateAction": "Générer une action",
+    "closeDialogDescription": " Voulez-vous vraiment quitter cette page ?",
+    "closeDialogSubDescription": "Si vous quittez cette page, les informations que vous avez entrées ou sélectionnées ne seront pas sauvegardées.",
+    "liveGeneration": "Génération en direct",
+    "builtinActions": "Actions intégrées ({{count}})",
+    "eventName": "Nom de l'événement",
+    "eventDescription": "Description de l'événement",
+    "eventEntityType": "Type d'entité d'événement",
+    "noDataAvailableLive": "Complétez les zones de l'invite et cliquez sur le bouton <strong>Générer une action</strong> pour obtenir le contenu.",
+    "noDataAvailableSelectAction": "Effectuez une sélection pour afficher le contenu.",
+    "watsonxLoadingContent": "watsonx génère du contenu",
+    "confirmButtonLabel": "Quitter la page",
+    "cancelButtonLabel": "Rester sur la page",
+    "noResultsYet": "Aucun résultat pour le moment",
+    "next": "Suivant",
+    "createActionAndPolicy": "Créer des actions et une politique",
+    "createAction": "Créer une action",
+    "nameExists": "Une action existe déjà sous le nom : {{name}} et le type : {{type}}",
+    "failedToGenerateAction": "Échec de génération de l'action.",
+    "failedToCreateActionPolicy": "Échec de la création des actions et de la politique.",
+    "failedToCreateAction": "Échec de la création de l'action."
   },
-  "SimpleCreatePolicyDialog": {
+  "CreatePolicyDialog": {
     "Step1Headline": "Afficher l'action recommandée et créer une règle d'automatisation pour cet événement",
     "Step2Headline": "Spécifiez les détails pour créer une règle d'automatisation.",
     "step1Title": "Etape 1: Affichez l'action recommandée",
     "step2Title": "Etape 2 : Créez une règle",
+    "actionDetails": "Détails de l'action",
     "policy": {
       "success": {
         "title": "La règle est créée",
-        "successContentForuserAction": "Une nouvelle règle {{name}} a été créée"
+        "content": "La création de la règle \"{{name}}\" a abouti."
       }
     }
   },
@@ -149,7 +181,7 @@
     "showsUpInTheListOfActions": "S'affiche dans la liste des actions. Doit être unique et descriptif.",
     "showsUpInTheActionDescription": "S'affiche dans la description de l'action. Doit être aussi descriptif que possible.",
     "docLinkDescription": "URL d'accès à la documentation pouvant aider à la résolution.",
-    "manualContentDescription": "Entrez des instructions pour l'action manuelle ici.",
+    "manualContentDescription": "En cas d'édition, vous pouvez utiliser la méthode Markdown pour ajouter des étapes à la liste.",
     "manual": "Manuel",
     "confidence_low": "Faible",
     "body": "Corps (facultatif)",
@@ -312,7 +344,6 @@
     "policiesWithCount": "Stratégies ({{count}})",
     "newPolicy": "Nouvelle stratégie",
     "selectEventTrigger": "Sélectionner un déclencheur d'événement",
-    "actionName": "Nom d'action",
     "eventTrigger": "Déclencheur d'événement",
     "unknownPolicy": "Politique inconnue",
     "policy": "Règle",

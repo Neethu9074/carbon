@@ -4,13 +4,30 @@
  * Copyright IBM Corp. 2024
  */
 
-import { t } from 'in-i18n';
+// Types:
+// - note
+// - external_note
+// - external_field_change
+// - ai_summary
+export const TYPE_NOTE = 'note';
+export const TYPE_EXT_NOTE = 'external_note';
+export const TYPE_EXT_F_CHANGE = 'external_field_change';
+export const TYPE_AI_SUMMARY = 'ai_summary';
 
+// Function to filter through and take in notes Object
+// eventObj: journals || notesUiObjects
 export function getNotes(event) {
   const notes =
     (event?.get('journals') || event?.get('notesUiObjects'))
       ?.toArray()
-      .filter(x => x && x.get('type') == 'note')
+      .filter(
+        x =>
+          x &&
+          (x.get('type') == TYPE_NOTE ||
+            x.get('type') == TYPE_EXT_NOTE ||
+            x.get('type') == TYPE_EXT_F_CHANGE ||
+            x.get('type') == TYPE_AI_SUMMARY)
+      )
       .map(x => {
         return {
           type: x.get('type'),
@@ -20,27 +37,39 @@ export function getNotes(event) {
           author: x.get('author'),
           metadata: x.get('metadata'),
           contents: x.get('contents'),
-          updated: x.get('updated')
+          updated: x.get('updated'),
+          data: x.get('data'),
+          label: x.get('label'),
+          origin: x.get('origin')
         };
       }) || [];
   return notes;
 }
 
-// Simple function to check if text is not empty
-export function validTextEntry(text) {
-  if (text?.trim() == '' || !text) {
-    return false;
-  }
-  return true;
-}
+// Filters through the notes to make sure a notes includes
+// the search input in either the author name or contents
+// Searches through:
+// - author
+// - origin
+// - contents
+// - data
+export function filterSearchNotes(notes, input) {
+  const result = notes?.filter(note => {
+    const dataString = [];
+    const author = note?.author?.toLowerCase() || '';
+    const contents = note?.contents?.toLowerCase() || '';
+    const origin = note?.origin?.toLowerCase() || '';
+    // Go through the data and extract all the values
+    note?.data?.map(entry => {
+      const entryArray = entry?._tail?.array;
+      dataString.push(entryArray);
+    });
+    // flatten to one long string for ease of searching through data
+    const searchableData = dataString.flat(1).join().toLowerCase();
+    return (
+      author.includes(input) || contents.includes(input) || origin.includes(input) || searchableData.includes(input)
+    );
+  });
 
-// We want to display "You" in stead of youre user name if its
-// your chat bubble
-// Append date to end of text
-export function noteNameAndTimeFormat(myBubble, note, date) {
-  if (myBubble) {
-    return `${t('in-events:notes.you')} | ${date}`;
-  } else {
-    return `${note?.author} | ${date}`;
-  }
+  return result;
 }

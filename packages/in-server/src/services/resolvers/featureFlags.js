@@ -278,7 +278,7 @@ module.exports = exports = [
   {
     uiClientKey: 'sloRebornWidgetEnabled',
     instanaCtlKey: 'feature.slo.reborn.widget.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
@@ -489,11 +489,6 @@ module.exports = exports = [
     uiClientKey: 'incidentSummarizationEnabled',
     instanaCtlKey: 'feature.incident.summarization.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'incidentSummarizationTimelineEnabled',
-    instanaCtlKey: 'feature.incident.summarization.timeline.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'manuallyCloseEventEnabled',
@@ -788,6 +783,16 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonCodeEnabled',
     instanaCtlKey: 'feature.carbon.code.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'graphViewFromAboutInstanaEnabled',
+    instanaCtlKey: 'feature.graph.view.from.about.instana.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'graphViewFromInfraMapEnabled',
+    instanaCtlKey: 'feature.graph.view.from.infra.map.enabled',
     defaultValue: false
   },
   {

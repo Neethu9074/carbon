@@ -11,6 +11,7 @@ import { Field } from '@instana/types';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import AISlugIcon from 'in-automation/components/AISlugIcon';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { toHtml } from 'in-services/formatters/markdown';
 import { t } from 'in-i18n';
@@ -20,11 +21,13 @@ import locals from './ManualActionContent.mless';
 export default function ManualActionContent({
   content,
   addCopyButton = false,
-  actionName
+  actionName,
+  withAISlug = false
 }: {
   content: Field;
   addCopyButton?: boolean;
   actionName?: string;
+  withAISlug?: boolean;
 }) {
   let plaintextContent = content.value;
   if (content.encoding === 'base64') {
@@ -53,6 +56,11 @@ export default function ManualActionContent({
                 </span>
               )}
             </CopyToClipboard>
+          )}
+          {withAISlug && (
+            <div className={locals.aiSlug}>
+              <AISlugIcon />
+            </div>
           )}
         </div>
       </FormGroup>

@@ -245,13 +245,13 @@
         "associationsLabel": "关联",
         "applicationsTitle": "关联：选择要与此合成测试关联的应用程序",
         "applicationsDescription": "将合成测试与某个应用程序关联起来，就会向所有有权访问该应用程序的用户授予访问权限。",
-        "associationsTitle": "关联：选择要与此合成测试关联的实体",
+        "associationsTitle": "关联：选择要与此合成测试关联的内容",
         "associationsDescription": "将合成测试与某个应用程序、网站或移动应用关联起来，就会向所有有权访问这些实体的用户授予访问权限。"
       },
       "associations": {
         "applicationsTitle": "选择与此合成测试关联的应用程序",
         "applicationsDescription": "将合成测试与某个应用程序关联起来，就会向所有有权访问该应用程序的用户授予访问权限。",
-        "associationsTitle": "选择与此合成测试关联的实体",
+        "associationsTitle": "选择要与此合成测试关联的内容",
         "associationsDescription": "将合成测试与某个应用程序、网站或移动应用关联起来，就会向所有有权访问这些实体的用户授予访问权限。",
         "applicationsButtonLabel": "选择应用程序",
         "websitesButtonLabel": "选择网站",
@@ -265,7 +265,7 @@
         "addWebsites": "添加 {{count}} 个网站",
         "addWebsite": "添加 Web 站点",
         "addMobileApps": "添加 {{count}} 个移动应用",
-        "addMobileApp": "添加移动应用",
+        "addMobileApp": "添加移动应用程序",
         "applicationsTableTitle": "应用程序",
         "websitesTableTitle": "网站",
         "mobileAppsTableTitle": "移动应用"
@@ -336,7 +336,7 @@
         "datacentersSubtitle": "在其中一个可用数据中心内激活 Instana 受管位置。 有关更多信息，请参阅 <linkDatacenters>使用 Instana 托管的 PoP</linkDatacenters>。",
         "confirmationDialog": {
           "headline": "正在部署位置",
-          "message": "我们正在以下数据中心为您设置新位置。 请耐心等待，我们将为您自动部署位置。 完成此操作后，可以在“位置”选项卡中找到新位置。 <strong>对于每个选定的数据中心，这可能需要最多 10 分钟时间。</strong>",
+          "message": "我们正在以下数据中心为您设置新位置。 请耐心等待，我们将为您自动部署位置。 完成此操作后，可以在“位置”选项卡中找到新位置。 <strong>对于每个选定的数据中心，此部署需要几分钟。</strong>",
           "table": {
             "heads": {
               "datacenterCode": "数据中心代码",
@@ -351,7 +351,7 @@
         },
         "deactivateDatacenter": {
           "title": "取消激活位置",
-          "deactivateMessage": "确定要取消激活位置 <strong>{{locationDisplayLabel}}</strong> 吗?<br/><br/>取消激活某个位置可能最多需要 10 分钟时间。 请耐心等待我们为您取消供应。 完成此操作后，位置状态将为“脱机”。<br/>",
+          "deactivateMessage": "确定要取消激活位置 <strong>{{locationDisplayLabel}}</strong> 吗?<br/><br/>取消激活某个位置可能需要几分钟。 请耐心等待我们为您取消供应。 完成此操作后，位置状态将为“脱机”。<br/>",
           "warningMessage": "未删除取消激活。 该位置将可用，并且可以再次激活。 要完全除去受管位置，请在该位置的状态更改为“脱机”后再删除该位置。",
           "activeStatus": "活动",
           "deactivateButton": "停用"
@@ -435,7 +435,7 @@
       "latency": "等待时间",
       "locationLabel": "位置",
       "locations": "{{totalLocations}} 个位置",
-      "applicationLabel": "关联",
+      "associationLabel": "关联",
       "health": "运行状况",
       "action": "操作",
       "labelConfirmRemoveTest": "确定要除去 <strong>{{testLabel}}</strong> 测试吗？",

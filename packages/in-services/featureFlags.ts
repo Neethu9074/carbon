@@ -110,7 +110,7 @@ export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true)
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
 export const sloSmartAlertsEnabled = isFeatureFlagEnabled('sloSmartAlertsEnabled', true);
-export const sloRebornWidgetEnabled = isFeatureFlagEnabled('sloRebornWidgetEnabled', false);
+export const sloRebornWidgetEnabled = isFeatureFlagEnabled('sloRebornWidgetEnabled', true);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
@@ -253,7 +253,6 @@ export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', true);
 export const rcaLogsEnabled = isFeatureFlagEnabled('rcaLogsEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
-export const incidentSummarizationTimelineEnabled = isFeatureFlagEnabled('incidentSummarizationTimelineEnabled', true);
 export const manuallyCloseEventEnabled = isFeatureFlagEnabled('manuallyCloseEventEnabled', true);
 
 export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
@@ -284,6 +283,8 @@ export const carbonFileUploaderEnabled = isFeatureFlagEnabled('carbonFileUploade
 export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabled', true);
 export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetricsEnabled', false);
 export const increaseAggregationEnabled = isFeatureFlagEnabled('increaseAggregationEnabled', false);
+export const graphViewFromAboutInstanaEnabled = isFeatureFlagEnabled('graphViewFromAboutInstanaEnabled', false);
+export const graphViewFromInfraMapEnabled = isFeatureFlagEnabled('graphViewFromInfraMapEnabled', false);
 export const extrapolateMissingStackedAreaValuesEnabled = isFeatureFlagEnabled('extrapolateMissingStackedAreaValues');
 export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
   'automationActionAiGenerationUnitEnabled',

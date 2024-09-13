@@ -616,6 +616,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Al menos una expresión de filtro debe estar configurada.",
       "timeBased": "Basado en tiempo",
       "eventBased": "Basada en sucesos",
+      "sloLegacy": "Legado de SLO",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Aplicación",

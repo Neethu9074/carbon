@@ -5,13 +5,14 @@
  */
 
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { createField, createMapForm } from 'formalistic';
 
+import ExpirationDateDropdown from 'in-settings/components/ApiTokenExpiration/ExpirationDateDropdown/ExpirationDateDropdown';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { PersonalApiToken, savePersonalApiToken } from 'in-settings/tabs/UserSettings/api/personalApiToken';
+import { createPersonalApiTokenForm } from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/form';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { apiTokenExpirationEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
-import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import CancelButton from 'in-components/form/CancelButton';
 import Label from 'in-components/form/Label/Label';
@@ -37,9 +38,7 @@ interface Props {
  * @returns instance of component
  */
 export default function EditPersonalApiToken({ onClose, current }: Props) {
-  const [form, setForm] = useState(
-    createMapForm().put('name', createField({ value: current.name, validator: notBlankValidator }))
-  );
+  const [form, setForm] = useState(createPersonalApiTokenForm(current));
   const [isUpdating, setUpdating] = useState<boolean>(false);
   const [errors, setErrors] = useState<Error[] | undefined>();
 
@@ -53,7 +52,8 @@ export default function EditPersonalApiToken({ onClose, current }: Props) {
 
     savePersonalApiToken({
       ...current,
-      name: form.toJS()['name']
+      name: form.toJS()['name'],
+      expiresOn: form.toJS()['expiresOn']
     }).once(
       () => {
         setUpdating(false);
@@ -100,6 +100,10 @@ export default function EditPersonalApiToken({ onClose, current }: Props) {
             <TouchedMessages field={field} />
           </FormGroup>
         ))}
+        {apiTokenExpirationEnabled && (
+          <ExpirationDateDropdown id="api-token-expiration" form={form} setForm={setForm} />
+        )}
+
         <Actions>
           <CancelButton onClick={onClose} isSaving={isUpdating} />
           <SaveButton isSaving={isUpdating} disabled={!form.hierarchyValid || !form.hierarchyTouched} kind="primary">

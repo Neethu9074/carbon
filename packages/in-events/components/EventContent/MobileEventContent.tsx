@@ -31,6 +31,7 @@ import { isApproximatePrecision } from 'in-events/components/util/metricResultUt
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
 import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
@@ -58,7 +59,7 @@ export default function MobileEventContent({ event, snapshot, reload }: Props) {
   const alertConfig = useMobileAppEventAlertConfig(event);
   const [metricResultPrecision, setMetricResultPrecision] = useState<string>('');
   if (!eventEntity || !alertConfig) {
-    return null;
+    return <LoadingIndicator size="xxxl" />;
   }
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const { tagFilterExpression, rule } = alertConfig;

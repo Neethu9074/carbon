@@ -15,6 +15,7 @@ import useSloAlertConfig from 'in-alerting/smart-alerts/slo/hooks/useSloAlertCon
 import SloScopePath from 'in-alerting/smart-alerts/slo/components/SloScopePath';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AnalyzeSloEventButton from 'in-events/components/AnalyzeSloEventButton';
 import useSloConfiguration from 'in-service-levels/hooks/useSloConfiguration';
 import SloAlertConfigButton from 'in-events/components/SloAlertConfigButton';
@@ -43,7 +44,7 @@ export default function SloEventContent({ event, snapshot }: SloEventContentProp
   const [alertConfig] = useSloAlertConfig({ id: configId });
   const [sloConfig] = useSloConfiguration(sloId);
 
-  if (!alertConfig || !sloConfig) return <></>;
+  if (!alertConfig || !sloConfig) return <LoadingIndicator size="xxxl" />;
 
   const boundaryScope = isApplicationSloEntity(sloConfig.entity) ? sloConfig.entity.boundaryScope : undefined;
 

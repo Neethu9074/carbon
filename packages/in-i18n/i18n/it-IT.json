@@ -1,5 +1,8 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "Navigazione principale"
+    },
     "expandableGroup": {
       "tooltipShowContent": "Mostra contenuto",
       "tooltipHideContent": "Nascondi contenuto",
@@ -16,13 +19,35 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "Carica altro"
-      }
+      },
+      "dataTable": "Tabella dati"
+    },
+    "tableSkeleton": {
+      "sampleTable": "Tabella di esempio"
     },
     "code": {
       "copy": "Copia",
       "copied": "Copiato.",
       "showMore": "Mostra altro",
       "showLess": "Mostra meno"
+    },
+    "menu": {
+      "sideNavigation": "Navigazione laterale"
+    },
+    "carbonTabs": {
+      "tabs": "Schede"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "barra degli strumenti della tabella dati"
+      },
+      "tableTabs": {
+        "listOfTabs": "Elenco di schede"
+      }
+    },
+    "pill": {
+      "privatePreview": "Anteprima",
+      "publicPreview": "Anteprima"
     }
   },
   "formatDate": {

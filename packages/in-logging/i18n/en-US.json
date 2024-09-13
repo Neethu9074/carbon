@@ -59,6 +59,7 @@
     "summary": "Summary",
     "smartAlerts": "Smart Alerts",
     "deleteLogs": "Delete Logs",
-    "configuration": "Configuration"
+    "configuration": "Configuration",
+    "analyzeLogs": "Analyze Logs"
   }
 }

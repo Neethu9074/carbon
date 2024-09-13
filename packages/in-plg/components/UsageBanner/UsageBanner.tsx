@@ -6,6 +6,7 @@
 
 // @ts-expect-error
 import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
+import { useHistory } from 'react-router';
 import React, { useEffect } from 'react';
 
 import { Link, LicenseBannerButton, SvgIcon, Stack } from '@instana/components';
@@ -23,17 +24,19 @@ import {
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 //@ts-expect-error missing typescript migration
 import { getQueuedLicensesAsResultObservable } from 'in-amp/api/account';
+import { SHARE_AND_INVITE_INVITEE_JOINED } from 'in-services/tracking/eventNames';
 import { countryCode, editionID, languageCode } from 'in-plg/utils/constants';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { BuyNowDialog } from 'in-plg/components/BuyNowDialog/BuyNowDialog';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { assistmeEnabled } from 'in-services/featureFlags';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
-import { invitedUserJoined } from 'in-settings/tracker';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip';
 import { role, user } from 'in-stores/user';
@@ -48,6 +51,9 @@ interface UsageBannerProps {
 
 export function UsageBanner({ message }: UsageBannerProps) {
   const location = useLocation();
+  const history = useHistory();
+  const { createHref } = useNavigation();
+  const { trackCta } = useSegmentTracking();
   //@ts-expect-error
   const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesAsResultObservable(1, 5), []);
   const { activeLicense, remainingDays, content } = message;
@@ -68,12 +74,18 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
 
   useEffect(() => {
-    if (Object.prototype.hasOwnProperty.call(location.query, 'invitedby')) {
-      invitedUserJoined({
+    const invitedByKey = 'invitedBy';
+    if (Object.prototype.hasOwnProperty.call(location.query, invitedByKey)) {
+      trackCta(SHARE_AND_INVITE_INVITEE_JOINED, {
         invitedby: location.query.invitedby,
         // @ts-expect-error The User type needs to be updated.
         invitee: decodeURIComponent(user?.fullName).replace(/\+/g, ' ')
       });
+      let locationString = createHref(location);
+      if (locationString.includes(`&${invitedByKey}=`)) locationString = locationString.split(`&${invitedByKey}=`)[0];
+      if (locationString.includes(`?${invitedByKey}=`)) locationString = locationString.split(`?${invitedByKey}=`)[0];
+      locationString = locationString.replace('/#/', '/');
+      history.push(locationString);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

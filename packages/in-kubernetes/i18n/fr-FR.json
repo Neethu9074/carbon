@@ -228,6 +228,7 @@
     "delete": "Supprimer",
     "update": "Mettre à jour",
     "operations": "Opérations",
+    "nameTooltip": "Un Agent Instana n'est pas installé sur l'hôte du conteneur. Pour plus d'informations, voir notre documentation.",
     "noDataAvailable": {
       "servicesTitle": "Aucun service disponible",
       "servicesDescription": "Aucun service n'a été extrait pour la période sélectionnée",

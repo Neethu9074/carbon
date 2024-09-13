@@ -53,7 +53,8 @@
     "javaRuntime": "Entorno de ejecución de Java",
     "status": "Estado",
     "agentDetails": "Detalles del agente",
-    "totalAgents": "Total de agentes"
+    "totalAgents": "Total de agentes",
+    "anErrorOccurredPleaseTryAgain": "Se ha producido un error, inténtelo de nuevo."
   },
   "dashboard": {
     "comparisonTable": "Tabla de comparación",

@@ -616,6 +616,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Es muss mindestens ein Filterausdruck konfiguriert werden.",
       "timeBased": "Zeitbasiert",
       "eventBased": "Ereignisbasiert",
+      "sloLegacy": "SLO-Erbe",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Anwendung",

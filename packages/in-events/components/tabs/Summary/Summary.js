@@ -118,8 +118,6 @@ function EventContent({ event, latestSnapshot, reload }) {
   ]);
   const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
 
-  if (!snapshot || (snapshot && snapshot.loading)) return <LoadingIndicator size="xxxl" />;
-
   if (isWebsiteSmartAlertEvent(event)) {
     return <WebsiteEventContent event={event} snapshot={snapshot} reload={reload} />;
   }

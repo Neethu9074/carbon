@@ -75,8 +75,8 @@
     "restartCount": "Restart Count",
     "kubernetesLabels": "Kubernetes Labels",
     "podmanAnnotations": "Podman Annotations",
-    "metricExplosionBeeInstana": "This dashboard may not display all metrics as only {{numberOfMetrics}} were stored",
-    "metricExplosion": "This dashboard may not display all metrics as only {{numberOfMetrics}} high resolution metrics were stored. To view additional metrics, use Analyze Infrastructure or a custom dashboard."
+    "metricExplosionBeeInstana": "This dashboard may not display all metrics since a maximum of {{numberOfMetrics}} metrics are captured at any given time.",
+    "metricExplosion": "This dashboard may not display all metrics since a maximum of {{numberOfMetrics}} high resolution metrics are captured at any given time. To view additional metrics, use Analyze Infrastructure or a custom dashboard."
   },
   "explore": {
     "analyzeInfrastructure": "Analyze Infrastructure",

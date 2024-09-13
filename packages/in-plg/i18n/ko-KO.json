@@ -47,8 +47,8 @@
   },
   "playwithinstana": {
     "content": "자체 환경을 모니터링할 준비가 되었습니다.",
-    "bookdemo": " 데모 예약",
-    "freetrial": " 무료 평가판",
+    "bookdemo": " 라이브 데모 예약",
+    "freetrial": " 무료 사용",
     "taketour": " 둘러보기"
   },
   "agentDetails": {
@@ -406,6 +406,22 @@
         "configurationParameters": "구성 매개변수"
       }
     },
+    "ibmi": {
+      "ibmi": "IBM i",
+      "os": "OS",
+      "archiveTarGz": "아카이브(tar.gz)",
+      "archive": {
+        "selectTheAgentPackagingMode": "1단계: 에이전트 패키징 모드 선택",
+        "selecTthePlatformArchitecture": "2단계: 플랫폼 아키텍처 선택",
+        "platformArchitecture": "플랫폼 아키텍처",
+        "beforeYouInstall": "설치하기 전에",
+        "installingManually": "수동으로 설치",
+        "startingTheAgent": "에이전트 시작",
+        "agentOptions": {
+          "ibmi64Bit": "IBM i"
+        }
+      }
+    },
     "openshift": {
       "documentLinks": {
         "installOperatorByUsingOlm": "OLM을 사용하여 운영자 설치",
@@ -437,7 +453,18 @@
       "reviewPrerequisitesAndConfigureContainerApps": "전제조건을 검토하고 추적을 위해 Azure 컨테이너 앱을 구성하십시오.",
       "containerAppSetEnvironmentVariables": "Azure 컨테이너 앱을 작성하는 동안 다음 환경 변수를 설정하십시오.",
       "monitoringAzure": "Azure 에이전트를 사용하여 Microsoft Azure 모니터링 및 계측",
-      "monitoringAzureContainerApps": "Azure 컨테이너 앱 모니터링"
+      "monitoringAzureContainerApps": "Azure 컨테이너 앱 모니터링",
+      "selectAzureAppServiceRuntime": "Azure App Service 런타임을 선택하십시오.",
+      "nodejs": {
+        "reviewPrerequisitesAndInstallAppService": "필수 구성 요소를 검토하고 콜렉터를 설치하십시오.",
+        "monitoringAppService": "Azure App Service for Node.js 모니터링",
+        "referenceAppServiceDocumentationContent": "전제조건을 검토하고 콜렉터 설치를 위한 설치 안내서를 따르십시오. 자세한 지시사항은 <azureAppServiceDoc>문서</azureAppServiceDoc>를 참조하십시오.",
+        "activatingAppService": "콜렉터 활성화 중.",
+        "appName": "앱 이름",
+        "resourceGroupName": "자원 그룹\n이름",
+        "activatingAppServiceContent": "Node.js v18.19 이상을 사용하는 ECMAScript 모듈 애플리케이션에 대한 Azure CLI 명령 예:",
+        "activatingAppServiceNote": "구성에 맞는 올바른 설정에 맞게 NODE_OPTIONS 값을 업데이트하십시오. 지침은 해당 <azureAppServiceEnableCollectorDoc>문서</azureAppServiceEnableCollectorDoc>를 참조하십시오."
+      }
     },
     "gcp": {
       "dockerBuild": "Docker 빌드",
@@ -543,7 +570,6 @@
         "powervcRegion": "PowerVC 영역",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
-        "kubernetes": "Kubernetes",
         "gke": "Google Kubernetes Engine",
         "eks": "Amazon Elastic Kubernetes Service",
         "name": "이름",
@@ -578,9 +604,9 @@
         "active": "활성",
         "title": "제목",
         "on": "On",
-        "started": "시작됨",
+        "started": "시작",
         "end": "종료",
-        "health": "상태",
+        "severity": "심각도(Severity)",
         "searchPlaceholderLabel": "인시던트",
         "viewAllLabel": "인시던트"
       },
@@ -690,7 +716,7 @@
       },
       "platformsWidget": {
         "header": "플랫폼 없음",
-        "description": "여기서 설치된 모든 플랫폼을 찾으십시오."
+        "description": "아직 표시할 플랫폼이 없습니다."
       },
       "businessMonitoringWidget": {
         "header": "비즈니스 프로세스 없음",
