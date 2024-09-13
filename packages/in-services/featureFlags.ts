@@ -110,7 +110,7 @@ export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true)
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
 export const sloSmartAlertsEnabled = isFeatureFlagEnabled('sloSmartAlertsEnabled', true);
-export const sloRebornWidgetEnabled = isFeatureFlagEnabled('sloRebornWidgetEnabled', false);
+export const sloRebornWidgetEnabled = isFeatureFlagEnabled('sloRebornWidgetEnabled', true);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
