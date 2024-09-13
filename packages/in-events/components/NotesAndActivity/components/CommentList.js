@@ -12,7 +12,13 @@ import { SvgIcon, CarbonPopover, CarbonPopoverContent, IconButton, CarbonButton 
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
 import { noteNameAndTimeFormat, createDataString, getSummary } from './utils';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
+import { EVENT_AI_SHOW_MORE } from 'in-services/tracking/eventNames';
+import { CTA_CLICKED } from 'in-services/util/constants';
+import { track } from 'in-services/tracking/trackers';
+import { user } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './CommentList.mless';
@@ -118,10 +124,9 @@ export function ChatBubble(props) {
   const extChange = type === TYPE_EXT_F_CHANGE;
   const updatedBy = (extChange && noteObj?.metadata?.get('updatedBy')) || '';
   const aiSum = type === TYPE_AI_SUMMARY;
-
   // Calculate the AI Summary
-  const sumData = noteObj?.data;
-  const subArray = (arr, i = 0, n = 1) => arr.slice(i, n);
+  const sumData = noteObj?.data || [];
+  const subArray = (arr, i = 0, n = 1) => arr?.slice(i, n);
   const firstFive = aiSum && subArray(sumData, 0, 5);
   const last = aiSum && subArray(sumData, 5, sumData.length);
   const summaryStart = aiSum && getSummary(firstFive);
@@ -161,6 +166,7 @@ export function ChatBubble(props) {
             <CarbonButton
               size="sm"
               onClick={() => {
+                handleShowMore(noteObj?.id);
                 setShowAll(!showAll);
               }}
               kind="ghost"
@@ -252,4 +258,18 @@ export function AIExplainedContent() {
       </div>
     </div>
   );
+}
+
+function handleShowMore(id) {
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  if (pageRootName && productArea) {
+    const data = {
+      parentPageName: pageRootName,
+      parentPageCategory: productArea,
+      CTA: EVENT_AI_SHOW_MORE,
+      path: location.hash
+    };
+    eventTracker({ data, segmentEventName: CTA_CLICKED });
+  }
+  track(EVENT_AI_SHOW_MORE, { id, author: user.preferredName });
 }

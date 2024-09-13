@@ -119,7 +119,7 @@ module.exports = {
   rcaUIEnabled: true,
   rcaLogsEnabled: false,
   eventFeedbackEnabled: true,
-  incidentSummarizationEnabled: false,
+  incidentSummarizationEnabled: true,
   incidentSummarizationTimelineEnabled: true,
   manuallyCloseEventEnabled: true,
   apiTokenExpirationEnabled: false,
