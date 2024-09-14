@@ -128,7 +128,7 @@ export function ChatBubble(props) {
   const sumData = noteObj?.data || [];
   const subArray = (arr, i = 0, n = 1) => arr?.slice(i, n);
   const firstFive = aiSum && subArray(sumData, 0, 5);
-  const last = aiSum && subArray(sumData, 5, sumData.length);
+  const last = aiSum && subArray(sumData, 5, sumData.size);
   const summaryStart = aiSum && getSummary(firstFive);
   const summaryEnd = aiSum && getSummary(last);
 
