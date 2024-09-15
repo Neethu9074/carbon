@@ -69,7 +69,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
 
   const track = useSloTrackers();
   useEffect(() => {
-    track(SLO_WIDGET_EDIT_START, {});
+    track(SLO_WIDGET_EDIT_START, undefined);
   }, [track]);
 
   const entityIdField = form.get(entityId) as Field<string>;

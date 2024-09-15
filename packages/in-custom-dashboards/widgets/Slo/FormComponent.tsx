@@ -34,10 +34,14 @@ export default function FormComponent({
   const updateForm = useSloWidgetFormSideEffects(form, updatedForm => originalOnChange([], () => updatedForm));
 
   useEffect(() => {
-    trackSloEvent(SLO2_WIDGET_EDIT_START, {
-      productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
-    });
+    trackSloEvent(
+      SLO2_WIDGET_EDIT_START,
+      {
+        productArea: productAreas.custom_dashboard,
+        pageName: pageNames.custom_dashboard
+      },
+      undefined
+    );
   }, []);
 
   const entityTypeField = form.getIn(['entityType']);
