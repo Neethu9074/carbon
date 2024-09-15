@@ -16,6 +16,7 @@ import {
   AreaRoles,
   AreaRoleWithCustomType,
   automationAdditionalCapabilities,
+  automationOwnerCapabilities,
   automationViewCapabilities,
   ProductArea,
   ScopedPermissionItem,
@@ -49,7 +50,7 @@ import ComboBox, { hasMultipleValuesSelected, Options } from 'in-components/Comb
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
-import { productPermissionsObject } from 'in-stores/permission';
+import { CapabilityType, productPermissionsObject } from 'in-stores/permission';
 import useActionTags from 'in-automation/hooks/useActionTags';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -142,12 +143,24 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
   const onChangeRole = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     if (!permissionSet || selected === 'CUSTOM') return;
 
-    const newPermissionSet = updatePermissionSetForLimitableProductArea(
+    const restPermissionSet = updatePermissionSetForLimitableProductArea(
       permissionSet,
       productArea,
       limitation,
       selected
     );
+
+    const permissions =
+      selected === 'VIEWER'
+        ? restPermissionSet.permissions.filter(
+            permission => !automationOwnerCapabilities.includes(permission as CapabilityType)
+          )
+        : restPermissionSet.permissions;
+
+    const newPermissionSet: PermissionSet = {
+      ...restPermissionSet,
+      permissions
+    };
 
     updatePermissionSet(newPermissionSet);
   };

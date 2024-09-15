@@ -236,10 +236,15 @@ export const accessControlCapabilities: Array<CapabilityType> = [
 export const automationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS];
 
 export const automationViewCapabilities: Array<CapabilityType> = [Capability.CAN_RUN_AUTOMATION_ACTIONS];
-export const automationAdditionalCapabilities: Array<CapabilityType> = [
-  ...automationViewCapabilities,
+
+export const automationOwnerCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_AUTOMATION_POLICIES,
   Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY
+];
+
+export const automationAdditionalCapabilities: Array<CapabilityType> = [
+  ...automationViewCapabilities,
+  ...automationOwnerCapabilities
 ];
 
 export const unionGlobalCapabilities: Array<CapabilityType> = [
