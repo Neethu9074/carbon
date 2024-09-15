@@ -55,11 +55,14 @@ export const getAutomationAreaData = ({ area, permissionsSet }: getAreaDataProps
   let areaColumnHeadline = '';
   if (areaAccessScope === ScopedPermissionItem.NO_ACCESS) {
     areaColumnHeadline = t('in-settings:productAreas.no_access');
+  } else if (areaAccessScope === ScopedPermissionItem.LIMITED_ACCESS) {
+    areaColumnHeadline = t('in-settings:productAreas.role_permissions_limited', {
+      context: areaRole?.toLowerCase()
+    });
   } else {
     areaColumnHeadline = t('in-settings:productAreas.role_permissions', {
       context: areaRole?.toLowerCase(),
-      // TODO: check what we wanna display here
-      quantityOfAreas: hasFullAreaAccess ? t('in-settings:general.all') : 'Limited'
+      quantityOfAreas: t('in-settings:general.all')
     });
   }
 

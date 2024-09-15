@@ -35,7 +35,6 @@ export const AutomationSectionContent = () => {
       subList={<AutomationSubListSection />}
       disabled={isDisabled}
     >
-      {/* TODO check with dedsign about this message */}
       {scope === ScopedPermissionItem.LIMITED_ACCESS && (
         <Typography variant="body-small">{t('in-settings:productAreas.automationContentMessage')}</Typography>
       )}

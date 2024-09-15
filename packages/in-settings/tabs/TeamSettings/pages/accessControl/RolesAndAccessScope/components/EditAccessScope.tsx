@@ -14,22 +14,24 @@ import {
   getAllSyntheticCredentialsForEntitySelectionWithDefaults,
   getAllSyntheticTestsForEntitySelectionWithDefaults
 } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
-import PermissionSectionSyntheticMonitoring from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionSyntheticMonitoring';
-import PermissionSectionBusinessMonitoring from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionBusinessMonitoring';
-import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
 import {
   getAreaRoleFromPermissionSet,
   getField,
+  getScopeFromProductArea,
   updateFormField
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import PermissionSectionSyntheticMonitoring from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionSyntheticMonitoring';
+import PermissionSectionBusinessMonitoring from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionBusinessMonitoring';
+import {
+  AreaRoleWithContributor,
+  ProductArea,
+  ScopedPermissionItem
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
 import PermissionSectionAutomation from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionAutomation';
 // @ts-expect-error not migrated to typescript yet
 import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import PlatformsEditSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection';
-import {
-  AreaRoleWithContributor,
-  ProductArea
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import PermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
@@ -372,6 +374,13 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
   // Filter out areas the user does not have permissions for
   navItems = hasAPlatformAccess ? navItems : navItems.filter(it => it.scrollId !== '7-platforms');
 
+  const isValidActionFilter = () => {
+    const limitedPermission = permissionSetField?.value
+      ? getScopeFromProductArea(ProductArea.AUTOMATION, permissionSetField.value)
+      : ScopedPermissionItem.ACCESS_ALL;
+    if (limitedPermission !== 'LIMITED_ACCESS') return true;
+    return form.get('actionFilter').hierarchyValid;
+  };
   return (
     <ConfigDialog
       showSubSlide={showSubSlide}
@@ -389,7 +398,8 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
         !form.hierarchyTouched ||
         !permissionSetField?.hierarchyValid ||
         isBlank((form.get('name') as Field<string>).value) ||
-        !isValidContributionFilter
+        !isValidContributionFilter ||
+        !isValidActionFilter()
       }
       noHeader
       noDivider

@@ -9,7 +9,7 @@ import { parse, stringify } from 'qs';
 import React from 'react';
 
 import { SvgIcon, Stack, StackItem, Typography, Checkbox, Label } from '@instana/components';
-import { PermissionSet } from '@instana/types';
+import { PermissionSet, ScopeBinding } from '@instana/types';
 
 import {
   AreaRole,
@@ -48,9 +48,9 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
 import ComboBox, { hasMultipleValuesSelected, Options } from 'in-components/ComboBox/ComboBox';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { CapabilityType, productPermissionsObject } from 'in-stores/permission';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
-import { CapabilityType, productPermissionsObject } from 'in-stores/permission';
 import useActionTags from 'in-automation/hooks/useActionTags';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -88,13 +88,14 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
   const entityPermissionKey = 'actionFilter';
+  const actionFilterField = getField<ScopeBinding>(form, entityPermissionKey);
 
   const actionTags = useActionTags();
   const actionTagOptions = (actionTags.data ?? []).map(tag => ({ value: tag, label: tag }));
   const capabilities =
     role === 'OWNER' ? automationAdditionalCapabilities : role === 'VIEWER' ? automationViewCapabilities : [];
 
-  const actionFilter = permissionSetField?.value[entityPermissionKey]?.scopeId ?? '';
+  const actionFilter = actionFilterField?.value?.scopeId ?? '';
   const { tags = [], type = [] } = parse(actionFilter, { comma: true }) as {
     tags?: string[] | string;
     type?: string[] | string;
@@ -102,6 +103,9 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
   const areaPermissions = capabilities.map(capability => productPermissionsObject[capability]);
   const updatePermissionSet = (permissionSet: PermissionSet) => {
     setForm(updateFormField(form, 'permissionSet', permissionSet, true));
+  };
+  const updateActionFilter = (actionFilter: ScopeBinding) => {
+    setForm(updateFormField(form, entityPermissionKey, actionFilter, true));
   };
   const updatePermission = (value: string) => {
     if (!permissionSet) return;
@@ -116,28 +120,19 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
 
   const updateTags = (tags: string[]) => {
     if (!permissionSet) return;
-    const restPermissionSet = updatePermissionSetForLimitableProductArea(
-      permissionSet,
-      productArea,
-      scopedPermissionItem
-    );
+
     const actionFilter = stringify({ tags, type }, { encode: false, arrayFormat: 'comma' });
     const scopeRoleId = role === 'OWNER' ? ScopeRoles.Owner : ScopeRoles.Viewer;
     const actionScope = { scopeId: actionFilter ? actionFilter : undefined, scopeRoleId };
-    updatePermissionSet({ ...restPermissionSet, [entityPermissionKey]: actionScope });
+    updateActionFilter(actionScope);
   };
 
   const updateType = (type: string[]) => {
     if (!permissionSet) return;
-    const restPermissionSet = updatePermissionSetForLimitableProductArea(
-      permissionSet,
-      productArea,
-      scopedPermissionItem
-    );
     const actionFilter = stringify({ tags, type }, { encode: false, arrayFormat: 'comma' });
     const scopeRoleId = role === 'OWNER' ? ScopeRoles.Owner : ScopeRoles.Viewer;
     const actionScope = { scopeId: actionFilter ? actionFilter : undefined, scopeRoleId };
-    updatePermissionSet({ ...restPermissionSet, [entityPermissionKey]: actionScope });
+    updateActionFilter(actionScope);
   };
 
   const onChangeRole = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
@@ -157,12 +152,18 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
           )
         : restPermissionSet.permissions;
 
+    const scopeRoleId = selected === 'OWNER' ? ScopeRoles.Owner : ScopeRoles.Viewer;
+
+    const newActionFilter = { ...restPermissionSet.actionFilter, scopeRoleId };
     const newPermissionSet: PermissionSet = {
       ...restPermissionSet,
-      permissions
+      permissions,
+      actionFilter: newActionFilter
     };
 
-    updatePermissionSet(newPermissionSet);
+    let updatedForm = updateFormField(form, 'permissionSet', newPermissionSet, true);
+    updatedForm = updateFormField(updatedForm, entityPermissionKey, newActionFilter, true);
+    setForm(updatedForm);
   };
 
   const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
@@ -236,7 +237,7 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
                   }
                 }}
               />
-              <TouchedMessages field={permissionSetField} />
+              <TouchedMessages field={actionFilterField} />
             </FormGroup>
           </StackItem>
           <StackItem>
@@ -255,7 +256,7 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
                   }
                 }}
               />
-              <TouchedMessages field={permissionSetField} />
+              <TouchedMessages field={actionFilterField} />
             </FormGroup>
           </StackItem>
         </Stack>

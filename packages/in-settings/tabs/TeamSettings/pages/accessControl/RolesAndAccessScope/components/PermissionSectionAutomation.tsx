@@ -35,7 +35,7 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
-import { PermissionSet } from 'in-types';
+import { PermissionSet, ScopeBinding } from 'in-types';
 import { t } from 'in-i18n';
 
 export interface PermissionSectionAutomationProps<FORM_TYPE extends MapFormItems>
@@ -55,10 +55,11 @@ export default function PermissionSectionAutomation<FORM_TYPE extends MapFormIte
   const entityPermissionKey = 'actionFilter';
   const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
+  const actionFilterField = getField<ScopeBinding>(form, entityPermissionKey);
   const permissionSet = permissionSetField?.value;
   const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
   const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;
-  const [initalActionFilter] = useState(permissionSetField?.value[entityPermissionKey]);
+  const [initalActionFilter] = useState(actionFilterField?.value);
   const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     if (!permissionSet || role === 'CUSTOM') return;
 
@@ -70,13 +71,17 @@ export default function PermissionSectionAutomation<FORM_TYPE extends MapFormIte
     );
 
     const newActionFilter =
-      limitation === ScopedPermissionItem.LIMITED_ACCESS ? initalActionFilter : { scopeId: '', scopeRoleId: '-1' };
-    const newPermissionSet = {
-      ...restPermissionSet,
-      [entityPermissionKey]: newActionFilter
-    };
+      limitation === ScopedPermissionItem.LIMITED_ACCESS
+        ? initalActionFilter
+        : { scopeId: undefined, scopeRoleId: '-1' };
 
-    setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
+    let updatedForm = updateFormField(form, entityPermissionKey, newActionFilter, true);
+    const newPermissionSet: PermissionSet = {
+      ...restPermissionSet,
+      actionFilter: newActionFilter
+    };
+    updatedForm = updateFormField(updatedForm, 'permissionSet', newPermissionSet, true);
+    setForm(updatedForm);
   };
 
   return (

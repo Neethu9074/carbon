@@ -28,7 +28,6 @@ export function AutomationSubListSection() {
 
   return (
     <Ul>
-      {/* TODO format this nicely */}
       {scopeId && (
         <Li>
           <Typography variant="body-regular">{scopeId}</Typography>
