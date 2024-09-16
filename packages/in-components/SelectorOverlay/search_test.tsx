@@ -162,6 +162,29 @@ const vehicleRepairHistory: MetricOptions[] = [
   }
 ];
 
+const messageCounts: MetricOptions[] = [
+  {
+    type: 'METRIC',
+    label: 'Message count',
+    description: 'Kubernetes Namespace Message Count',
+    levelType: 'namespace',
+    badge: undefined,
+    metric: 'message_count',
+    children: [],
+    parentLabels: ['Kubernetes', 'Namespace']
+  },
+  {
+    type: 'METRIC',
+    label: 'Message count',
+    description: 'Kubernetes Pod Message Count',
+    levelType: 'pod',
+    badge: undefined,
+    metric: 'message_count',
+    children: [],
+    parentLabels: ['Kubernetes', 'Pod']
+  }
+];
+
 describe('in-components/SelectorOverlay/useSearch', () => {
   it('should filter by label', async () => {
     await act(async () => {
@@ -240,6 +263,28 @@ describe('in-components/SelectorOverlay/useSearch', () => {
       expect(current.map(o => o.label)).toEqual(
         expect.arrayContaining(['Prometheus histogram vehicle_repair_history'])
       );
+    });
+  });
+
+  it('should return message count metrics', async () => {
+    await act(async () => {
+      const {
+        result: { current }
+      } = renderHook(() => useSearch(messageCounts, 'message count'));
+      expect(current.map(o => o.parentLabels)).toEqual(
+        expect.arrayContaining([
+          ['Kubernetes', 'Pod'],
+          ['Kubernetes', 'Namespace']
+        ])
+      );
+    });
+  });
+  it('should return item matching all terms', async () => {
+    await act(async () => {
+      const {
+        result: { current }
+      } = renderHook(() => useSearch(messageCounts, 'pod message count'));
+      expect(current.map(o => o.parentLabels)).toEqual(expect.arrayContaining([['Kubernetes', 'Pod']]));
     });
   });
 });

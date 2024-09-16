@@ -10,6 +10,7 @@ import { ColumnizedContent, ColumnizedDefinition, KeyValue, Li, ListGroup, SvgIc
 import { themes } from '@instana/design-tokens';
 
 import { BreadcrumbAndLabel } from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
+import { getKey } from 'in-components/SelectorOverlay/search';
 import { TagWithPath } from 'in-services/tags/tagCatalog';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { TagType } from 'in-types';
@@ -216,7 +217,7 @@ export default function SelectorNode({
       <ListGroup label={node.label} height={height} sticky>
         {node.children.map(node => (
           <SelectorNode
-            key={nodeKey(node as Options)}
+            key={getKey(node as Options)}
             node={node as Options}
             focusNode={focusNode}
             onChange={onChange}
@@ -233,16 +234,6 @@ export default function SelectorNode({
     }
     return <Item node={node} onClick={() => focusNode(node)} columnDefinitions={columnDefinitions} />;
   }
-}
-
-export function nodeKey(node: Options) {
-  if (node.children && node.children.length > 0) {
-    return node.levelType ?? node.label;
-  }
-  if (node.type === 'APPLICATION' || node.type === 'SERVICE' || node.type === 'ENDPOINT') {
-    return node.label ?? null;
-  }
-  return node.type === 'TAG' ? node.tagName : node.metric;
 }
 
 export interface ItemProps {
