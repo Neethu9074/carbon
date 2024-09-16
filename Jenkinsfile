@@ -248,10 +248,10 @@ pipeline {
                   script {
                     // Enable only for the develop branch for now
                     // Other delivery branches will use 'K8s Deploy'
-                    if (branchName == 'develop') {
-                      deployInstana(branchName, instanaImageVersion, null, 'pink', 'instana', 'test', isBackendJenkins)
+                    if (branchName == 'develop' || branchName == 'fix-bej-deploy') { // TODO: fix before merging
+                      deployInstana(branchName, gitCommitId, instanaImageVersion, null, 'pink', 'instana', 'test', isBackendJenkins)
                     } else if (branchName == latestReleaseBranch) {
-                      deployInstana(branchName, instanaImageVersion, null, 'magenta', 'instana', 'release', isBackendJenkins)
+                      deployInstana(branchName, gitCommitId, instanaImageVersion, null, 'magenta', 'instana', 'release', isBackendJenkins)
                     }
                   }
                 }
@@ -391,7 +391,7 @@ def waitForStableBackendVersions(branchName) {
   }
 }
 
-def deployInstana(branchName, version, globalEnvironment, environment, tenant, unit, isBackendJenkins) {
+def deployInstana(branchName, gitCommitId, version, globalEnvironment, environment, tenant, unit, isBackendJenkins) {
   try {
 
     def configDir = "/mnt/efs/data/instanactl/dev-jenkins-config"
@@ -411,39 +411,77 @@ def deployInstana(branchName, version, globalEnvironment, environment, tenant, u
 
         sh "curl -H 'Accept: application/vnd.github.v3.raw' https://${INSTANACTL_GIT_AUTH_TOKEN}:@api.github.ibm.com/repos/instana/infrastructure/contents/instanactl/scripts/config/vault-test.properties.enc -o ${configDir}/vault-test.properties.enc"
         sh "openssl enc -d -aes-256-cbc -md md5 -in ${configDir}/vault-test.properties.enc -out ${configDir}/vault-test.properties -k \"${KEY}\""
+        withCredentials([aws(credentialsId: "eks-developer-creds")]) {
+          env.INSTANACTL_VAULT="${configDir}/vault-test.properties"
+          env.INSTANACTL_CONFIG="${configDir}/config.hcl"
+          env.KUBECONFIG="${WORKSPACE}/kube.conf"
+          sh """
+            aws eks update-kubeconfig --name k8s-infra-us-west-2 --region us-west-2 --alias instana-${environment} --kubeconfig=${env.KUBECONFIG}
+            kubectl config set-context instana-${environment} --namespace instana-${environment}
+            """
+          if (globalEnvironment != null) {
+            sh """
+              aws eks update-kubeconfig --name k8s-infra-us-west-2 --region us-west-2 --alias instana-${globalEnvironment} --kubeconfig=${env.KUBECONFIG}
+              kubectl config set-context instana-${globalEnvironment} --namespace instana-${globalEnvironment}
+              echo "Updating global environment ${globalEnvironment}"
+              sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${globalEnvironment}.hcl
+              sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${globalEnvironment}.hcl
+              kubectl config use-context instana-${globalEnvironment}
+              instanactl --deployment ${globalEnvironment} check --version ${version} --branch ${branchName}
+              instanactl --deployment ${globalEnvironment} global migrate --branch=${branchName}
+              instanactl --deployment ${globalEnvironment} global update --version=${version} --branch=${branchName}
+              """
+          }
+          sh "kubectl config use-context instana-${environment}"
+          if (tenant != null && unit != null) {
+            sh """
+              echo "Updating tenant unit ${tenant}-${unit} in ${environment}"
+              instanactl --deployment ${environment} check --version ${version} --branch ${branchName}
+              instanactl --deployment ${environment} core migrate --branch ${branchName}
+              instanactl --deployment ${environment} core update --version ${version} --branch ${branchName}
+              instanactl --deployment ${environment} tenantunit migrate ${tenant} ${unit} --branch ${branchName}
+              instanactl --deployment ${environment} tenantunit update ${tenant} ${unit} --version ${version} --branch ${branchName}
+              """
+          } else {
+            sh """
+              echo "Updating all tenant units in ${environment}"
+              sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${environment}.hcl
+              sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${environment}.hcl
+              instanactl --deployment ${environment} tenantunit list
+              instanactl --deployment ${environment} check --version ${version} --branch ${branchName}
+              instanactl --deployment ${environment} upgrade --version=${version} --branch=${branchName}
+              """
+          }
+        } // withCredentials eks-developer-creds
       } // withCredentials
-      withCredentials([aws(credentialsId: "eks-developer-creds")]) {
-        env.INSTANACTL_VAULT="${configDir}/vault-test.properties"
-        env.INSTANACTL_CONFIG="${configDir}/config.hcl"
-        env.KUBECONFIG="${WORKSPACE}/kube.conf"
-        sh "aws eks update-kubeconfig --name k8s-infra-us-west-2 --region us-west-2 --alias instana-${environment} --kubeconfig=${env.KUBECONFIG}"
-      } // withCredentials
-    }
-
-    if (globalEnvironment != null) {
-      println "Updating global environment ${globalEnvironment}"
-      sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${globalEnvironment}.hcl"
-      sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${globalEnvironment}.hcl"
-      sh "instanactl --deployment ${globalEnvironment} global migrate --branch=${branchName}"
-      sh "instanactl --deployment ${globalEnvironment} global update --version=${version} --branch=${branchName}"
-    }
-    if (tenant != null && unit != null) {
-      println "Updating tenant unit ${tenant}-${unit} in ${environment}"
-      sh "instanactl --deployment ${environment} core migrate --branch ${branchName}"
-      sh "instanactl --deployment ${environment} core update --version ${version} --branch ${branchName}"
-      sh "instanactl --deployment ${environment} tenantunit migrate ${tenant} ${unit} --branch ${branchName}"
-      sh "instanactl --deployment ${environment} tenantunit update ${tenant} ${unit} --version ${version} --branch ${branchName}"
-    } else {
-      println "Updating all tenant units in ${environment}"
-      sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${environment}.hcl"
-      sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${environment}.hcl"
-      sh "instanactl --deployment ${environment} tenantunit list"
-      sh "instanactl --deployment ${environment} upgrade --version=${version} --branch=${branchName}"
-    }
+    } else {  // dev-Jenkins only
+      if (globalEnvironment != null) {
+        println "Updating global environment ${globalEnvironment}"
+        sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${globalEnvironment}.hcl"
+        sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${globalEnvironment}.hcl"
+        sh "instanactl --deployment ${globalEnvironment} check --version ${version} --branch ${branchName}"
+        sh "instanactl --deployment ${globalEnvironment} global migrate --branch=${branchName}"
+        sh "instanactl --deployment ${globalEnvironment} global update --version=${version} --branch=${branchName}"
+      }
+      if (tenant != null && unit != null) {
+        println "Updating tenant unit ${tenant}-${unit} in ${environment}"
+        sh "instanactl --deployment ${environment} check --version ${version} --branch ${branchName}"
+        sh "instanactl --deployment ${environment} core migrate --branch ${branchName}"
+        sh "instanactl --deployment ${environment} core update --version ${version} --branch ${branchName}"
+        sh "instanactl --deployment ${environment} tenantunit migrate ${tenant} ${unit} --branch ${branchName}"
+        sh "instanactl --deployment ${environment} tenantunit update ${tenant} ${unit} --version ${version} --branch ${branchName}"
+      } else {
+        println "Updating all tenant units in ${environment}"
+        sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${environment}.hcl"
+        sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${environment}.hcl"
+        sh "instanactl --deployment ${environment} tenantunit list"
+        sh "instanactl --deployment ${environment} check --version ${version} --branch ${branchName}"
+        sh "instanactl --deployment ${environment} upgrade --version=${version} --branch=${branchName}"
+      }
+    } // isBackendJenkins or dev-Jenkins
     notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully deployed ${version} to deployment:*${environment}* \n\n${currentBuild.description}")
   } catch(e) {
     notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Deployment of ${version} to deployment:*${environment}* failed \n\n${currentBuild.description}")
-    notifyGeneralBuildFailure(branchName)
     throw e
   }
 }
