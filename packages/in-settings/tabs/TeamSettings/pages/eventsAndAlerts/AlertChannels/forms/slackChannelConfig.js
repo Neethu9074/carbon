@@ -6,7 +6,7 @@
 import { createMapForm, createField } from 'formalistic';
 import React from 'react';
 
-import { DescriptionList, DescriptionItem, Toggle } from '@instana/components';
+import { DescriptionList, DescriptionItem, Stack, SvgIcon, Toggle, Tooltip, Typography } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import { notBlankValidator } from 'in-services/validators/string';
@@ -22,7 +22,6 @@ const block = 'in-alert-channel-config-form';
 
 const name = 'SLACK';
 const label = t('in-settings:tabs.slack');
-const emojiRenderingDescription = 'Render Emoji';
 
 const parameters = [
   {
@@ -47,7 +46,7 @@ const parameters = [
   },
   {
     key: 'emojiRendering',
-    label: emojiRenderingDescription
+    label: t('in-settings:tabs.displayEmojis')
   }
 ];
 
@@ -78,7 +77,7 @@ export default {
         <DescriptionItem inComponents title={t('in-settings:tabs.channel')}>
           {alertChannel.get('channel')}
         </DescriptionItem>
-        <DescriptionItem inComponents title={emojiRenderingDescription}>
+        <DescriptionItem inComponents title={t('in-settings:tabs.displayEmojis')}>
           {alertChannel.get('emojiRendering')}
         </DescriptionItem>
       </DescriptionList>
@@ -207,7 +206,7 @@ function Form({ form, onChange }) {
             className={`${block}__input`}
             id="channel"
             type="text"
-            placeholder={t('in-settings:tabs.channelName')}
+            placeholder={t('in-settings:tabs.alertChannelName')}
             value={field.value}
             onChange={e => onChange('channel', e.target.value)}
           />
@@ -217,17 +216,17 @@ function Form({ form, onChange }) {
 
       {form.get('emojiRendering').map(field => (
         <FormGroup>
-          {/* <Input
-            className={`${block}__input`}
-            id="emojiRendering"
-            type="checkbox"
-            checked={field.value}
-            onChange={e => onChange('emojiRendering', e.target.checked)}
-          /> */}
           <Toggle
             labelA="No"
             labelB="Yes"
-            labelText={emojiRenderingDescription}
+            labelText={
+              <Tooltip align={'rightMiddle'} delay={'500'} content={t('in-settings:tabs.displayEmojisInfo')}>
+                <Stack direction="horizontal" gap="xsmall">
+                  <Typography variant="body-regular">{t('in-settings:tabs.displayEmojis')}</Typography>
+                  <SvgIcon type="lib_help_error_info_outline" />
+                </Stack>
+              </Tooltip>
+            }
             checked={field.value}
             onToggle={() => onChange('emojiRendering', !field.value)}
           />
