@@ -7,7 +7,6 @@
 import React, { useState } from 'react';
 
 import { Button, Spacer, Stack, Typography, IconButton } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 
 import {
   nameColumn,
@@ -33,12 +32,12 @@ import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { generateAIButtonClickTracker } from 'in-automation/tracker';
-import { mapData, successObservable } from 'in-services/util/result';
 import { TagsFilter } from 'in-automation/components/tableFilters';
-import { ScoredAction, getActionFilter } from 'in-automation/api';
-import { pendingResult } from 'in-services/fixedObjects';
+import useActionFilter from 'in-automation/hooks/useActionFilter';
 import { VolatileId, Event, Result } from 'in-types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { mapData } from 'in-services/util/result';
+import { ScoredAction } from 'in-automation/api';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -93,19 +92,6 @@ const getActionColumn = (
   }
 });
 
-function useHasAccessToManual() {
-  const actionFilter = useActionFilter();
-  return actionFilter.data === 'all' ? true : actionFilter.data?.types.includes(MANUAL_TYPE) ?? false;
-}
-function useActionFilter() {
-  return (
-    useObservable<Result<'all'> | Result<{ types: string[]; tags: string[] }>, []>(() => {
-      if (!role?.limitedAutomationScope) return successObservable('all');
-      return getActionFilter();
-    }, []) ?? (pendingResult as Result<{ types: string[]; tags: string[] }>)
-  );
-}
-
 const columnDefinitions: ColumnDefinition<ScoredAction>[] = [
   nameColumn,
   descriptionColumn,
@@ -113,6 +99,11 @@ const columnDefinitions: ColumnDefinition<ScoredAction>[] = [
   aiEngineColumn,
   scoreColumn
 ];
+
+function useHasAccessToManual() {
+  const actionFilter = useActionFilter();
+  return actionFilter.data === 'all' ? true : actionFilter.data?.types.includes(MANUAL_TYPE) ?? false;
+}
 
 interface RecommendedActionsProps {
   volatileId: VolatileId;
