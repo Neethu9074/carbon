@@ -120,10 +120,9 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
 
   const updateTags = (tags: string[]) => {
     if (!permissionSet) return;
-
     const actionFilter = stringify({ tags, type }, { encode: false, arrayFormat: 'comma' });
     const scopeRoleId = role === 'OWNER' ? ScopeRoles.Owner : ScopeRoles.Viewer;
-    const actionScope = { scopeId: actionFilter ? actionFilter : undefined, scopeRoleId };
+    const actionScope = { scopeId: actionFilter, scopeRoleId };
     updateActionFilter(actionScope);
   };
 
@@ -131,7 +130,7 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
     if (!permissionSet) return;
     const actionFilter = stringify({ tags, type }, { encode: false, arrayFormat: 'comma' });
     const scopeRoleId = role === 'OWNER' ? ScopeRoles.Owner : ScopeRoles.Viewer;
-    const actionScope = { scopeId: actionFilter ? actionFilter : undefined, scopeRoleId };
+    const actionScope = { scopeId: actionFilter, scopeRoleId };
     updateActionFilter(actionScope);
   };
 
