@@ -248,8 +248,8 @@ pipeline {
                   script {
                     // Enable only for the develop branch for now
                     // Other delivery branches will use 'K8s Deploy'
-                    if (branchName == 'develop' || branchName == 'fix-bej-deploy') { // TODO: fix before merging
-                      deployInstana(branchName, gitCommitId, "1.283.898-0", null, 'pink', 'instana', 'test', isBackendJenkins)
+                    if (branchName == 'develop') {
+                      deployInstana(branchName, gitCommitId, instanaImageVersion, null, 'pink', 'instana', 'test', isBackendJenkins)
                     } else if (branchName == latestReleaseBranch) {
                       deployInstana(branchName, gitCommitId, instanaImageVersion, null, 'magenta', 'instana', 'release', isBackendJenkins)
                     }
