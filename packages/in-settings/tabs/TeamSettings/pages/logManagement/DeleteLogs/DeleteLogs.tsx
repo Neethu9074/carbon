@@ -6,8 +6,8 @@
 
 import React, { SetStateAction, useState } from 'react';
 
+import { SvgIcon, Typography, Button, Card, Link } from '@instana/components';
 import { DeleteLogsResult } from '@instana/types/typeDefinitions';
-import { SvgIcon, Typography, Button } from '@instana/components';
 import { DateFormatterOutput } from '@instana/format-date';
 import { themes } from '@instana/design-tokens';
 
@@ -17,11 +17,12 @@ import {
   logManagementDeleteLogsSubmittedTracker,
   logManagementDeleteLogsSuccessTracker
 } from 'in-settings/tracker';
+// eslint-disable-next-line no-restricted-imports
+import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
 import { ModalNotification } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/ModalNotification';
 import useDeleteLogsForm from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/useDeleteLogsForm';
 import { DeletionTable } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeletionTable';
 import { NotificationState } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/types';
-import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -32,7 +33,6 @@ import Dialog from 'in-components/Dialog/Dialog';
 import TimeInput from 'in-components/TimeInput';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import Title from 'in-components/Title';
 import { user } from 'in-stores/user';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
@@ -56,7 +56,8 @@ const localisationStrings = {
   toastErrorTitle: t('in-settings:tabs.deleteLogs.toastErrorTitle'),
   toastErrorMessage: t('in-settings:tabs.deleteLogs.toastErrorMessage'),
   toastNoLogsMessage: t('in-settings:tabs.deleteLogs.toastNoLogsMessage'),
-  warning: t('in-settings:tabs.deleteLogs.warning')
+  warning: t('in-settings:tabs.deleteLogs.warning'),
+  learnMore: t('in-settings:tabs.deleteLogs.learnMore')
 };
 
 export default function DeleteLogs() {
@@ -70,21 +71,37 @@ export default function DeleteLogs() {
 
   return (
     <>
-      <section className={locals.page}>
-        <Title title={localisationStrings.deleteLogs} />
-        <section className={locals.titleSection}>
-          <div>
-            <SubViewHeaderComponent>{localisationStrings.deleteLogs}</SubViewHeaderComponent>
-            <Typography variant={'body-regular'}>{localisationStrings.info}</Typography>
-          </div>
-          <Button className={locals.deleteLogsButton} onClick={openConfirmationDialog} kind="danger">
+      <Card
+        size="s"
+        title={localisationStrings.deleteLogs}
+        className={locals.deleteLogsWrapper}
+        rightHeaderContent={
+          <Button
+            className={locals.deleteLogsButton}
+            onClick={openConfirmationDialog}
+            kind="danger"
+            icon="lib_actions_delete"
+          >
             {localisationStrings.deleteLogs}
           </Button>
+        }
+      >
+        <section className={locals.page}>
+          <section className={locals.titleSection}>
+            <div>
+              <Typography variant={'body-regular'}>
+                {localisationStrings.info}
+                <Link external href={`${analyzeDocs.logs}#deleting-logs`}>
+                  {localisationStrings.learnMore}
+                </Link>
+              </Typography>
+            </div>
+          </section>
+          <main>
+            <DeletionTable isDeleting={isDeleting} />
+          </main>
         </section>
-        <main>
-          <DeletionTable isDeleting={isDeleting} />
-        </main>
-      </section>
+      </Card>
       {showConfirmation && (
         <DeleteLogsDialog
           setShowConfirmation={setShowConfirmation}
