@@ -205,7 +205,7 @@ export default function MaintenanceConfigurationForm(props) {
   );
 }
 
-const DescriptionTextWithCurrentTimeZone = connectTo(
+export const DescriptionTextWithCurrentTimeZone = connectTo(
   () => ({
     href: getEntityIdView(userSettingsGeneral),
     asUtc: getSetting$('formatTimestampsAsUtc')

@@ -6,7 +6,9 @@
 :local {
   .filter {
     z-index: 4;
-    margin-right: 0.5rem;
     height: 2rem;
+  }
+  .spacing {
+    margin-right: 0.5rem;
   }
 }

@@ -15,7 +15,6 @@ import { Button } from '@instana/components';
 import EditConfigurationDialogPresenter from 'in-synthetics/dashboards/summary/tabs/configuration/actions/EditConfigurationDialogPresenter';
 import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CustomProperties from 'in-synthetics/dashboards/summary/tabs/configuration/sections/CustomProperties';
-import { syntheticCertificateCheckEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import ConfigSection from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Configuration';
 import Associations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Associations';
 import Locations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Locations';
@@ -26,6 +25,7 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailabl
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import Header from 'in-components/workspace/Header/Header';
@@ -168,18 +168,15 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
     );
   };
 
-  const disableEditAction = (testType: string, featureFlag: boolean): boolean => {
+  const disableEditAction = (testType: string): boolean => {
     const syntheticTestTypes: string[] = [
       'HTTPAction',
       'HTTPScript',
       'BrowserScript',
       'WebpageScript',
-      'WebpageAction'
+      'WebpageAction',
+      'SSLCertificate'
     ];
-    // SSLCertificate is separate because the featureFlag is part of the condition.
-    if (testType === 'SSLCertificate' && featureFlag) {
-      return false;
-    }
 
     // Disable if test type is not in the list of supported test types.
     if (syntheticTestTypes.indexOf(testType) !== -1) {
@@ -190,7 +187,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   };
 
   const getEditTooltipContent = (testType: string) => {
-    if (disableEditAction(testType, syntheticCertificateCheckEnabled)) {
+    if (disableEditAction(testType)) {
       return t('in-synthetics:dashboard.configuration.configurationUnsupported');
     } else {
       return t('in-synthetics:dashboard.configuration.configurationEditAction');
@@ -205,7 +202,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
           <IconButton
             type="lib_actions_edit"
             kind="primary"
-            disabled={disableEditAction(currentTestType, syntheticCertificateCheckEnabled)}
+            disabled={disableEditAction(currentTestType)}
             onClick={() => openEditConfigDialog(test)}
           />
         </Tooltip>

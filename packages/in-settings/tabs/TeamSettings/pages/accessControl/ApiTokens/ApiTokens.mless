@@ -24,9 +24,18 @@
     margin-top: 2rem;
   }
 
-  .apiTokenLabel {
+  .confirmationDialogMessage {
+    max-width: 32rem;
+  }
+
+  .apiTokenAccessTokenContainer {
+    flex-direction: row;
+  }
+
+  .apiTokenAccessTokenContainer label {
     font-size: 1.25rem;
     font-weight: 600;
+    margin-top: 1rem;
   }
 
   .message {

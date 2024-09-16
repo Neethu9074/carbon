@@ -6,7 +6,7 @@
 import React, { ReactElement } from 'react';
 import { Item } from 'formalistic';
 
-import { ButtonKinds } from '@instana/legacy';
+import { ButtonKinds } from '@instana/components';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { close } from 'in-components/DialogPresenter/store';
@@ -23,6 +23,7 @@ export interface Props {
   headerIcon?: string;
   description?: string | ReactElement;
   confirmButtonLabel?: string;
+  secondaryButtonLabel?: string;
   confirmButtonKind?: keyof typeof ButtonKinds;
   onSubmit: () => void;
   field?: Item;
@@ -43,12 +44,16 @@ export default function ConfirmationDialog({
   field,
   isSaving,
   errors,
+  secondaryButtonLabel = t('in-components:dialog.secondaryDialogLabelCancel'),
   confirmButtonAutoFocus,
   onClose = close
 }: Props) {
   const customButtons = (
     <>
-      <CancelButton onClick={onClose} isSaving={isSaving} />
+      <CancelButton onClick={onClose} isSaving={isSaving}>
+        {secondaryButtonLabel}
+      </CancelButton>
+
       <SaveButton form={field} isSaving={isSaving} kind={confirmButtonKind} autoFocus={confirmButtonAutoFocus}>
         {confirmButtonLabel}
       </SaveButton>

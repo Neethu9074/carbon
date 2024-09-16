@@ -123,7 +123,8 @@
     height: 0.063rem;
     width: 100%;
     background: var(--ids-color-option-neutral-300);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.75rem;
   }
   .analyzeButton {
     width: fit-content;

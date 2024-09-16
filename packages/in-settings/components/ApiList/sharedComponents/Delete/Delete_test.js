@@ -31,7 +31,8 @@ describe('in-settings/components/ApiList/sharedComponents/Delete', () => {
     // When
     render(<Delete tooltipContent="tooltipTest" />);
 
-    const deleteIcon = screen.queryByTestId('deleteIcon');
+    const deleteIcon = document.getElementsByClassName('iconButton')[0];
+    // console.log(document.getElementsByClassName('iconButton')[0])
     fireEvent.mouseEnter(deleteIcon);
 
     // Then
@@ -43,7 +44,7 @@ describe('in-settings/components/ApiList/sharedComponents/Delete', () => {
     // When
     render(<Delete />);
 
-    const deleteIcon = screen.queryByTestId('deleteIcon');
+    const deleteIcon = document.getElementsByClassName('iconButton')[0];
     fireEvent.mouseEnter(deleteIcon);
 
     // Then
@@ -68,7 +69,7 @@ describe('in-settings/components/ApiList/sharedComponents/Delete', () => {
 
     // When
     render(<Delete disabled doDelete={doDelete} />);
-    const deleteIcon = screen.queryByTestId('deleteIcon');
+    const deleteIcon = document.getElementsByClassName('iconButton')[0];
     fireEvent.click(deleteIcon);
 
     // Then
@@ -82,7 +83,7 @@ describe('in-settings/components/ApiList/sharedComponents/Delete', () => {
 
     // When
     render(<Delete doDelete={doDelete} skipDialog />);
-    const deleteIcon = screen.queryByTestId('deleteIcon');
+    const deleteIcon = document.getElementsByClassName('iconButton')[0];
     fireEvent.click(deleteIcon);
 
     // Then
@@ -96,7 +97,7 @@ describe('in-settings/components/ApiList/sharedComponents/Delete', () => {
 
     // When
     render(<Delete doDelete={doDelete} />);
-    const deleteIcon = screen.queryByTestId('deleteIcon');
+    const deleteIcon = document.getElementsByClassName('iconButton')[0];
     fireEvent.click(deleteIcon);
 
     // Then

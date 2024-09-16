@@ -66,6 +66,9 @@ export function getHealthInfo(snapshotId, timeConfig) {
 }
 
 export function getEvent(eventId) {
+  if (!eventId) {
+    return alwaysNull;
+  }
   return createEventObservable({ eventId });
 }
 
@@ -371,6 +374,17 @@ export function annotateEvent(note) {
       currentId: note.currentId || undefined,
       metadata: note.metadata || undefined
     }
+  });
+  return obj.map(response => fromJS(response.body)).once();
+}
+
+// Trigger an ai summary generation for the particular noteID
+export function generateJournalSummary(incidentId) {
+  const obj = http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/journal/ai-summary/${incidentId}`,
+    headers: getCsrfHeader()
   });
   return obj.map(response => fromJS(response.body)).once();
 }

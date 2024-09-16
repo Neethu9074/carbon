@@ -122,6 +122,7 @@
   "messageSuccessfullySaved": "Salvataggio eseguito correttamente.",
   "messageErrorOccurred": "Si è verificato un errore, riprovare.",
   "messageWaitForChanges": "L'applicazione delle modifiche apportate potrebbe richiedere un po' di tempo.",
+  "linkViewAllApplications": "Visualizza tutte le applicazioni",
   "linkViewAllServices": "Visualizza tutti i servizi",
   "linkViewAllEndpoints": "Visualizza tutti gli endpoint",
   "lineViewInAnalyze": "Visualizza in Analizza",
@@ -459,7 +460,9 @@
       "logMessagesDescription": "Non è stato richiamato alcun messaggio di log per l'intervallo di tempo selezionato.",
       "endpointsTitle": "Nessun endpoint disponibile",
       "endpointsDescription": "Non è stato richiamato alcun endpoint per l'intervallo di tempo selezionato."
-    }
+    },
+    "pageCannotBeFound": "Impossibile trovare la pagina",
+    "idNotPresent": "{{id}} non è presente nell'URL."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "Il servizio non si trova nell'applicazione corrente.",

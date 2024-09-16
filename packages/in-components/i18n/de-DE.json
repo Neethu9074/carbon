@@ -38,7 +38,8 @@
       "itemMsg": "+{{leftCount}} weitere {{moreMsg}}"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "Wiederholen"
+      "retryButtonLabel": "Wiederholen",
+      "openList": "Liste öffnen"
     },
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} weitere Releases",
@@ -260,6 +261,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "Bestätigen",
+    "secondaryDialogLabelCancel": "Abbrechen",
     "promptPresenterLabelConfirm": "Bestätigen"
   },
   "draggableItemSelector": {
@@ -297,8 +299,8 @@
     "labelExpandButtonForContent": "Erweiterungsschaltfläche für Inhalt"
   },
   "featureFeedback": {
-    "labelPublicPreview": "Öffentlich zugängliche Vorschau",
-    "labelPrivatePreview": "Private Vorschau",
+    "labelPublicPreview": "Vorschau",
+    "labelPrivatePreview": "Vorschau",
     "linkLabelYouCanSendUsFeedback": "Sie können uns Feedback senden"
   },
   "geoHeatMap": {
@@ -353,6 +355,30 @@
     "labelWarning": "Warnung",
     "labelCritical": "Kritisch"
   },
+  "vulnerabilities": {
+    "eventType_issue": "Sicherheitslücken",
+    "eventType_issue_plural": "Sicherheitslücken",
+    "eventType_issue_0": "Sicherheitslücken",
+    "eventType_issue_1": "Sicherheitslücken",
+    "eventType_issue_2": "Sicherheitslücken",
+    "openIssuesListPresenterActionsViewIssues": "Sicherheitslücken anzeigen",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "Ansicht {{openIssueCount}} Schwachstellen",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Laden Offene Sicherheitslücken...",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Offene Schwachstellen konnten nicht geladen werden",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} Offene Schwachstellen",
+    "noVulnerabilities": "Keine Schwachstellen",
+    "openVulnerabilities": "{{count}} Schwachstelle",
+    "openVulnerabilities_plural": "{{count}} Schwachstellen",
+    "openVulnerabilities_0": "{{count}} Schwachstellen",
+    "openVulnerabilities_1": "{{count}} Schwachstelle",
+    "openVulnerabilities_2": "{{count}} Schwachstellen",
+    "noIncidents": "Keine Vorfälle",
+    "openIncidents": "{{count}} Vorfall",
+    "openIncidents_plural": "{{count}} Vorfälle",
+    "openIncidents_0": "{{count}} Vorfälle",
+    "openIncidents_1": "{{count}} Vorfall",
+    "openIncidents_2": "{{count}} Vorfälle"
+  },
   "inlineTabNavigation": {
     "labelSelectTab": "Registerkarte auswählen"
   },
@@ -400,6 +426,7 @@
     "viewSwitcherlabelInfrastructure": "Infrastruktur",
     "viewSwitcherLabelApplications": "Anwendungen",
     "viewSwitcherLabelSlo": "Service-Level",
+    "viewSwitcherLabelLogs": "Protokolle",
     "viewSwitcherLabelAnalytics": "Analyse",
     "viewSwitcherLabelWebsitesAndMobileApps": "Websites und mobile Apps",
     "viewSwitcherLabelWebsites": "Websites",
@@ -416,9 +443,11 @@
     "viewSwitcherCustomDashboards": "Angepasste Dashboards",
     "viewSwitcherButtonSignOut": "Abmelden",
     "viewSwitcherLabelTenants": "Tenants",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Neue Version der Instana-Benutzerschnittstelle verfügbar",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Erneut laden zum Aktualisieren",
     "profileMenu_profileLink": "Profil",
+    "profileMenu_tooltip": "Profilmenü",
     "profileMenu_unitName_tenantName": "Einheitenname - Nutzername",
     "profileMenu_switchUnitOrTenant": "Einheit oder Nutzer wechseln",
     "profileMenu_logOut": "Abmelden"
@@ -590,8 +619,8 @@
     "loadingData": "Daten werden geladen"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "Neue Version von Instana verfügbar",
-    "buttonReloadToUpdate": "Erneut laden zum Aktualisieren"
+    "newVersionOfInstanaAvailable": "Es gibt ein Update für die Instana Benutzeroberfläche",
+    "buttonReloadToUpdate": "Aktualisieren Sie Ihren Browser, um sie zu laden."
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "Aufrufe",

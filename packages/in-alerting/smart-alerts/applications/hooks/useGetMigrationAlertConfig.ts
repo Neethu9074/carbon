@@ -14,7 +14,14 @@ export default function useGetMigrationAlertConfig(
   migrationMode: boolean,
   isGlobalSmartAlert: boolean
 ) {
-  const fetchMigrationConfig = useObservable(migrationMode && doMigrationInTearSheet(eventSpecificationId), []);
+  const fetchMigrationConfig = useObservable(migrationMode && doMigrationInTearSheet(eventSpecificationId), [
+    migrationMode,
+    eventSpecificationId
+  ]);
+
+  if (!migrationMode) {
+    return {};
+  }
   //@ts-expect-error
   const { globalApplicationsAlertConfig, applicationAlertConfig, scopeMigrationDetails } = fetchMigrationConfig ?? {};
   const migrateAlertConfig = isGlobalSmartAlert ? globalApplicationsAlertConfig : applicationAlertConfig;

@@ -23,7 +23,8 @@ import {
 import {
   actionHistoryInstanceDeleteTracker,
   actionHistoryInstanceViewTracker,
-  useSegmentTracker
+  useSegmentTracker,
+  TrackingFunction
 } from 'in-automation/tracker';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -144,7 +145,9 @@ const deleteColumn: ColumnDefinition<ActionInstance> = {
   id: 'delete',
   sortable: false,
   width: 5,
-  getContent(row: ActionInstance) {
+  getContent: function Content(row) {
+    const { actionHistoryInstanceDeleteTrackerSegment } = useSegmentTracker();
+
     if (!isStatusFinished(row.status)) return null;
     return (
       <Tooltip content={t('in-automation:actionHistory.deleteTooltip')} delay={500}>
@@ -153,7 +156,7 @@ const deleteColumn: ColumnDefinition<ActionInstance> = {
           type="lib_actions_delete"
           onClick={e => {
             stopPropagationAndPreventDefault(e);
-            showConfirmationDialog(row);
+            showConfirmationDialog(row, actionHistoryInstanceDeleteTrackerSegment);
           }}
         />
       </Tooltip>
@@ -165,7 +168,10 @@ if (role?.canDeleteAutomationActionHistory) {
   columnDefinitions.push(deleteColumn);
 }
 
-function showConfirmationDialog(actionInstance: ActionInstance) {
+function showConfirmationDialog(
+  actionInstance: ActionInstance,
+  actionHistoryInstanceDeleteTrackerSegment: TrackingFunction
+) {
   const { actionInstanceId = '', createdDate } = actionInstance;
   addActiveDialog(
     <ConfirmationDialog
@@ -178,13 +184,17 @@ function showConfirmationDialog(actionInstance: ActionInstance) {
       confirmButtonLabel={t('in-automation:deleteDialog.delete')}
       onSubmit={() => {
         close();
-        onDelete(actionInstance, createdDate);
+        onDelete(actionInstance, createdDate, actionHistoryInstanceDeleteTrackerSegment);
       }}
     />
   );
 }
 
-function onDelete(actionInstance: ActionInstance, createdDate: number) {
+function onDelete(
+  actionInstance: ActionInstance,
+  createdDate: number,
+  actionHistoryInstanceDeleteTrackerSegment: TrackingFunction
+) {
   const { actionInstanceId = '' } = actionInstance;
   deleteActionInstance(actionInstanceId, createdDate).once(
     res => {
@@ -192,6 +202,13 @@ function onDelete(actionInstance: ActionInstance, createdDate: number) {
         onDeleteSuccess();
         refresh();
         actionHistoryInstanceDeleteTracker({
+          actionName: actionInstance.actionName,
+          actionType: actionInstance.type,
+          metadata: actionInstance.metadata,
+          actionInstanceId
+        });
+
+        actionHistoryInstanceDeleteTrackerSegment({
           actionName: actionInstance.actionName,
           actionType: actionInstance.type,
           metadata: actionInstance.metadata,
@@ -302,11 +319,12 @@ export function GetActionInstanceListData({
 export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
   const [{ types, actionStatuses }, setFilter] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
-  const { actionHistoryInstanceViewTrackerSegment } = useSegmentTracker();
+  const { actionHistoryInstanceViewTrackerSegment, actionHistoryInstanceDeleteTrackerSegment } = useSegmentTracker();
   return (
     <ServerTableWithUrlState
       get={GetActionInstanceListData}
       timeConfig={timeConfig}
+      actionHistoryInstanceDeleteTrackerSegment={actionHistoryInstanceDeleteTrackerSegment}
       rightHeader={<Filters setFilter={setFilter} types={types} actionStatuses={actionStatuses} />}
       title={t('in-automation:actionHistory.actionHistory')}
       showHeaderCount

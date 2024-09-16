@@ -7,6 +7,7 @@
 import { createField, createMapForm, Field, ListForm, MapForm, MapPath } from 'formalistic';
 
 import {
+  AlertingDurationUnitType,
   CustomPayloadFieldUnion,
   ErrorBudgetAlertMetric,
   ServiceLevelsAlertConfig,
@@ -20,11 +21,13 @@ import {
 import {
   noEmptySloIds,
   noInvalidOperator,
-  notLessThanOrEqualToZero
+  notLessThanOrEqualToZero,
+  noInvalidDurationUnit
 } from 'in-alerting/smart-alerts/slo/form/validators';
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { isServiceLevelAlertConfigWithMetaData } from 'in-alerting/smart-alerts/slo/types';
 import { defaultSloAlertConfig } from 'in-alerting/smart-alerts/slo/data/sloAlertConfig';
+import { burnRateFormValidator } from 'in-alerting/smart-alerts/slo/form/validators';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { notBlankValidator } from 'in-services/validators/string';
 
@@ -32,12 +35,21 @@ export type SloAlertRuleFormFields = {
   alertType: Field<ServiceLevelsAlertRuleUnion['alertType']>;
   metric: Field<ErrorBudgetAlertMetric | ServiceLevelsObjectiveAlertMetric>;
 };
+export type SloAlertFormTimeWindowFields = {
+  duration: Field<number>;
+  durationType: Field<AlertingDurationUnitType>;
+};
+export type SloAlertBurnRateTimeWindowsFields = {
+  longTimeWindow: MapForm<SloAlertFormTimeWindowFields>;
+  shortTimeWindow: MapForm<SloAlertFormTimeWindowFields>;
+};
 export type SloAlertTimeThresholdFields = {
   expiry: Field<number>;
   timeWindow: Field<number>;
 };
 export type SloAlertFormFields = {
   entityType: Field<SloEntityType | undefined>;
+  burnRateTimeWindows: MapForm<SloAlertBurnRateTimeWindowsFields>;
   sloIds: Field<string[]>;
   rule: MapForm<SloAlertRuleFormFields>;
   threshold: Field<number | undefined>;
@@ -67,6 +79,93 @@ export function createSloAlertRuleForm(alertConfig: ServiceLevelsAlertConfig): M
   });
 }
 
+export function createUnvalidatedLongTimeWindowForm(
+  alertConfig?: ServiceLevelsAlertConfig
+): MapForm<SloAlertFormTimeWindowFields> {
+  return createMapForm({
+    items: {
+      duration: createField({
+        value: alertConfig?.burnRateTimeWindows?.longTimeWindow?.duration ?? 0
+      }),
+      durationType: createField({
+        value: alertConfig?.burnRateTimeWindows?.longTimeWindow?.durationType ?? 'minute'
+      })
+    }
+  });
+}
+
+export function createValidatedLongTimeWindowForm(
+  alertConfig?: ServiceLevelsAlertConfig
+): MapForm<SloAlertFormTimeWindowFields> {
+  return createMapForm({
+    items: {
+      duration: createField({
+        value: alertConfig?.burnRateTimeWindows?.longTimeWindow?.duration ?? 0,
+        validator: notLessThanOrEqualToZero
+      }),
+      durationType: createField({
+        value: alertConfig?.burnRateTimeWindows?.longTimeWindow?.durationType ?? 'minute',
+        validator: noInvalidDurationUnit
+      })
+    }
+  });
+}
+
+export function createUnvalidatedShortTimeWindowForm(
+  alertConfig?: ServiceLevelsAlertConfig
+): MapForm<SloAlertFormTimeWindowFields> {
+  return createMapForm({
+    items: {
+      duration: createField({
+        value: alertConfig?.burnRateTimeWindows?.shortTimeWindow?.duration ?? 0
+      }),
+      durationType: createField({
+        value: alertConfig?.burnRateTimeWindows?.shortTimeWindow?.durationType ?? 'minute'
+      })
+    }
+  });
+}
+
+export function createValidatedShortTimeWindowForm(
+  alertConfig?: ServiceLevelsAlertConfig
+): MapForm<SloAlertFormTimeWindowFields> {
+  return createMapForm({
+    items: {
+      duration: createField({
+        value: alertConfig?.burnRateTimeWindows?.shortTimeWindow?.duration ?? 0,
+        validator: notLessThanOrEqualToZero
+      }),
+      durationType: createField({
+        value: alertConfig?.burnRateTimeWindows?.shortTimeWindow?.durationType ?? 'minute',
+        validator: noInvalidDurationUnit
+      })
+    }
+  });
+}
+
+export function createUnvalidatedSloBurnRateTimeWindowsForm(
+  alertConfig?: ServiceLevelsAlertConfig
+): MapForm<SloAlertBurnRateTimeWindowsFields> {
+  return createMapForm({
+    items: {
+      shortTimeWindow: createUnvalidatedShortTimeWindowForm(alertConfig),
+      longTimeWindow: createUnvalidatedLongTimeWindowForm(alertConfig)
+    }
+  });
+}
+
+export function createValidatedSloBurnRateTimeWindowsForm(
+  alertConfig?: ServiceLevelsAlertConfig
+): MapForm<SloAlertBurnRateTimeWindowsFields> {
+  return createMapForm({
+    items: {
+      shortTimeWindow: createValidatedShortTimeWindowForm(alertConfig),
+      longTimeWindow: createValidatedLongTimeWindowForm(alertConfig)
+    },
+    validator: burnRateFormValidator
+  });
+}
+
 export function createSloAlertTimeThresholdForm(
   alertConfig: ServiceLevelsAlertConfig
 ): MapForm<SloAlertTimeThresholdFields> {
@@ -89,12 +188,16 @@ export function createSloAlertForm(
   entityType?: SloEntityType
 ): SloAlertForm {
   const id = isServiceLevelAlertConfigWithMetaData(alertConfig) ? alertConfig.id : '';
+  const isBurnRateBlueprint = alertConfig.rule.metric === 'BURN_RATE';
   const form = createMapForm<SloAlertFormFields>({
     items: {
       entityType: createField({
         value: entityType,
         validator: notBlankValidator
       }),
+      burnRateTimeWindows: isBurnRateBlueprint
+        ? createValidatedSloBurnRateTimeWindowsForm(alertConfig)
+        : createUnvalidatedSloBurnRateTimeWindowsForm(alertConfig),
       sloIds: createField({
         value: alertConfig.sloIds,
         validator: noEmptySloIds

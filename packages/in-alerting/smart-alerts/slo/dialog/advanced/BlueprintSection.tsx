@@ -15,31 +15,35 @@ import TabSelect, {
   TabSelectPanel,
   TabSelectPanels
 } from 'in-components/TabSelect';
+import BurnRateBlueprintSectionPanel from 'in-alerting/smart-alerts/slo/components/BurnRateBlueprintSectionPanel';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
+import BlueprintSectionPanel from 'in-alerting/smart-alerts/slo/components/BlueprintSectionPanel';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import OperatorDropdown from 'in-alerting/smart-alerts/slo/components/OperatorDropdown';
-import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import PercentageInput from 'in-service-levels/components/PercentageInput';
-import { SloAlertTypes } from 'in-alerting/smart-alerts/slo/types';
+import { SloAlertMetricTypes } from 'in-alerting/smart-alerts/slo/types';
 import { Trans, t } from 'in-i18n';
 
-import locals from './BlueprintSection.mless';
+import locals from 'in-alerting/smart-alerts/slo/dialog/advanced/BlueprintSection.mless';
 
 export default function BlueprintSection() {
   const { form, onChange } = useSloAlertFormContext();
 
-  const alertTypeField = form.getIn(['rule', 'alertType']);
+  const alertMetricField = form.getIn(['rule', 'metric']);
   const thresholdField = form.getIn(['threshold']);
   const operatorField = form.getIn(['operator']);
 
   const isThresholdFieldValid = isFieldValid(thresholdField);
 
+  const alertMetricFieldValue = alertMetricField.value;
+
   return (
     <TabSelect
-      activePanelId={alertTypeField.value}
-      onChange={newAlertType =>
-        onChange(['rule', 'alertType'], () => alertTypeField.setValue(newAlertType).setTouched(true))
-      }
+      activePanelId={alertMetricFieldValue}
+      onChange={newAlertType => {
+        if (alertMetricField.value === newAlertType) return;
+        onChange(['rule', 'metric'], () => alertMetricField.setValue(newAlertType).setTouched(true));
+      }}
     >
       <TabSelectHeader>
         <Typography variant="heading-200" noWrap noMargin>
@@ -47,110 +51,84 @@ export default function BlueprintSection() {
         </Typography>
       </TabSelectHeader>
       <TabSelectMenu>
-        <TabSelectItem<SloAlertTypes> forId="ERROR_BUDGET">
+        <TabSelectItem<SloAlertMetricTypes> forId="BURNED_PERCENTAGE">
           {t('in-alerting:smartAlerts.slo.advancedModeContainer.blueprint', {
-            context: 'ERROR_BUDGET'
+            context: 'BURNED_PERCENTAGE'
           })}
         </TabSelectItem>
-        <TabSelectItem<SloAlertTypes> forId="SERVICE_LEVELS_OBJECTIVE">
+        <TabSelectItem<SloAlertMetricTypes> forId="BURN_RATE">
           {t('in-alerting:smartAlerts.slo.advancedModeContainer.blueprint', {
-            context: 'SERVICE_LEVELS_OBJECTIVE'
+            context: 'BURN_RATE'
+          })}
+        </TabSelectItem>
+        <TabSelectItem<SloAlertMetricTypes> forId="STATUS">
+          {t('in-alerting:smartAlerts.slo.advancedModeContainer.blueprint', {
+            context: 'STATUS'
           })}
         </TabSelectItem>
       </TabSelectMenu>
       <TabSelectPanels>
-        <TabSelectPanel<SloAlertTypes> id="ERROR_BUDGET">
-          <BlueprintSectionPanel alertType="ERROR_BUDGET">
+        <TabSelectPanel<SloAlertMetricTypes> id="BURNED_PERCENTAGE">
+          <BlueprintSectionPanel>
             <Typography variant="body-regular" component="div" noMargin>
-              <Trans
-                i18nKey="in-alerting:smartAlerts.slo.advancedModeContainer.thresholdInputDescription"
-                tOptions={{ context: 'ERROR_BUDGET' }}
-              >
-                When
-                <OperatorDropdown
-                  value={operatorField.value}
-                  onChange={operator => onChange(['operator'], () => operatorField.setValue(operator).setTouched(true))}
-                />
-                <PercentageInput
-                  id="slo-alerting-threshold"
-                  value={thresholdField.value}
-                  onChange={value => onChange(['threshold'], () => thresholdField.setValue(value).setTouched(true))}
-                  hasError={!isThresholdFieldValid}
-                  decimalPrecision={2}
-                  className={locals.percentageInput}
-                />
-                percent of error budget is consumed
-              </Trans>
+              <Stack gap="normal" direction="horizontal" align="center">
+                <Trans
+                  i18nKey="in-alerting:smartAlerts.slo.advancedModeContainer.thresholdInputDescription"
+                  tOptions={{ context: 'BURNED_PERCENTAGE' }}
+                >
+                  When
+                  <OperatorDropdown
+                    value={operatorField.value}
+                    onChange={operator =>
+                      onChange(['operator'], () => operatorField.setValue(operator).setTouched(true))
+                    }
+                  />
+                  <PercentageInput
+                    id="slo-alerting-threshold"
+                    value={thresholdField.value}
+                    onChange={value => onChange(['threshold'], () => thresholdField.setValue(value).setTouched(true))}
+                    hasError={!isThresholdFieldValid}
+                    decimalPrecision={2}
+                    className={locals.percentageInput}
+                  />
+                  percent of error budget is consumed
+                </Trans>
+              </Stack>
             </Typography>
           </BlueprintSectionPanel>
         </TabSelectPanel>
-        <TabSelectPanel<SloAlertTypes> id="SERVICE_LEVELS_OBJECTIVE">
-          <BlueprintSectionPanel alertType="SERVICE_LEVELS_OBJECTIVE">
+        <TabSelectPanel<SloAlertMetricTypes> id="BURN_RATE">
+          <BurnRateBlueprintSectionPanel />
+        </TabSelectPanel>
+        <TabSelectPanel<SloAlertMetricTypes> id="STATUS">
+          <BlueprintSectionPanel>
             <Typography variant="body-regular" component="div" noMargin>
-              <Trans
-                i18nKey="in-alerting:smartAlerts.slo.advancedModeContainer.thresholdInputDescription"
-                tOptions={{ context: 'SERVICE_LEVELS_OBJECTIVE' }}
-              >
-                When SLO target is
-                <OperatorDropdown
-                  value={operatorField.value}
-                  onChange={operator => onChange(['operator'], () => operatorField.setValue(operator).setTouched(true))}
-                />
-                <PercentageInput
-                  id="slo-alerting-threshold"
-                  value={thresholdField.value}
-                  onChange={value => onChange(['threshold'], () => thresholdField.setValue(value).setTouched(true))}
-                  hasError={!isThresholdFieldValid}
-                  decimalPrecision={2}
-                  className={locals.percentageInput}
-                />
-              </Trans>
+              <Stack gap="normal" direction="horizontal" align="center">
+                <Trans
+                  i18nKey="in-alerting:smartAlerts.slo.advancedModeContainer.thresholdInputDescription"
+                  tOptions={{ context: 'STATUS' }}
+                >
+                  When SLO target is
+                  <OperatorDropdown
+                    value={operatorField.value}
+                    onChange={operator =>
+                      onChange(['operator'], () => operatorField.setValue(operator).setTouched(true))
+                    }
+                  />
+                  <PercentageInput
+                    id="slo-alerting-threshold"
+                    value={thresholdField.value}
+                    onChange={value => onChange(['threshold'], () => thresholdField.setValue(value).setTouched(true))}
+                    hasError={!isThresholdFieldValid}
+                    decimalPrecision={2}
+                    className={locals.percentageInput}
+                  />
+                </Trans>
+              </Stack>
             </Typography>
           </BlueprintSectionPanel>
         </TabSelectPanel>
       </TabSelectPanels>
     </TabSelect>
-  );
-}
-
-interface BlueprintSectionPanelProps {
-  alertType: SloAlertTypes;
-}
-
-function BlueprintSectionPanel({ alertType, children }: React.PropsWithChildren<BlueprintSectionPanelProps>) {
-  const { form } = useSloAlertFormContext();
-
-  const thresholdField = form.getIn(['threshold']);
-  const operatorField = form.getIn(['operator']);
-  const isThresholdFieldValid = isFieldValid(thresholdField);
-  const isOperatorFieldValid = isFieldValid(operatorField);
-
-  return (
-    <Stack gap="xsmall">
-      <Typography variant="heading-200" component="h2" noMargin>
-        {t('in-alerting:smartAlerts.slo.advancedModeContainer.blueprint', {
-          context: alertType
-        })}
-      </Typography>
-      <Typography variant="body-small" component="p">
-        {t('in-alerting:smartAlerts.slo.advancedModeContainer.blueprintDescription', {
-          context: alertType
-        })}
-      </Typography>
-      <Typography variant="heading-200" component="p" noMargin>
-        {t('in-alerting:smartAlerts.slo.advancedModeContainer.thresholdTitle')}
-      </Typography>
-      <Stack gap="normal" direction="horizontal" align="center">
-        {children}
-      </Stack>
-      {!isThresholdFieldValid &&
-        thresholdField.messages.map(({ message }, index) => (
-          <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
-        ))}
-      {!isOperatorFieldValid &&
-        operatorField.messages.map(({ message }, index) => (
-          <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
-        ))}
-    </Stack>
   );
 }

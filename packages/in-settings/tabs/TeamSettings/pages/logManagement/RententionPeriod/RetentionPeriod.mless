@@ -72,16 +72,7 @@
     justify-content: flex-start;
     align-items: baseline;
   }
-  .card {
-    max-width: fit-content;
-    padding-top: 0.625rem;
-    padding-bottom: 0.625rem;
-    margin-bottom: 0.6rem;
-    padding-right: 10rem;
-    box-shadow: var(--ids-shadow-option-subtle);
-  }
 
-  .title,
   .body {
     color: var(--ids-color-option-neutral-700);
     font-size: 1rem;

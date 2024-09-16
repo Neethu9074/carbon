@@ -53,6 +53,7 @@ export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
+export const logHomepageEnabled = isFeatureFlagEnabled('logHomepageEnabled');
 export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
@@ -80,12 +81,14 @@ export const carbonDropdownEnabled = isFeatureFlagEnabled('carbonDropdownEnabled
 export const carbonInputEnabled = isFeatureFlagEnabled('carbonInputEnabled');
 export const carbonComboBoxEnabled = isFeatureFlagEnabled('carbonComboBoxEnabled');
 export const carbonCodeEnabled = isFeatureFlagEnabled('carbonCodeEnabled');
+export const carbonExpandableGroupEnabled = isFeatureFlagEnabled('carbonExpandableGroupEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
 export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled');
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
+export const nutanixEnabled = isFeatureFlagEnabled('nutanixEnabled');
 
 // SmartAlerts & AP Alert Migration related feature flags
 export const builtInGlobalApplicationSmartAlertsEnabled = isFeatureFlagEnabled(
@@ -107,12 +110,12 @@ export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true)
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
 export const sloSmartAlertsEnabled = isFeatureFlagEnabled('sloSmartAlertsEnabled', true);
-export const sloRebornWidgetEnabled = isFeatureFlagEnabled('sloRebornWidgetEnabled', false);
+export const sloRebornWidgetEnabled = isFeatureFlagEnabled('sloRebornWidgetEnabled', true);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
 
-export const apiTokenDialogEnabled = isFeatureFlagEnabled('apiTokenDialogEnabled', true);
+export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', false);
 
 export const disableInvitesWithIdpEnabled = isFeatureFlagEnabled('disableInvitesWithIdpEnabled', true);
 
@@ -134,9 +137,6 @@ export const syntheticCustomDashboardEnabled = isFeatureFlagEnabled('syntheticCu
 
 // Synthetic Instana Hosted PoP feature flag
 export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticInstanaHostedPoPEnabled');
-
-// Synthetic Certificate Check Enabled feature flag
-export const syntheticCertificateCheckEnabled = isFeatureFlagEnabled('syntheticCertificateCheckEnabled');
 
 // Synthetic RBAC Limited Access feature flag
 export const syntheticRbacLimitedEnabled = isFeatureFlagEnabled('syntheticRbacLimitedEnabled');
@@ -250,9 +250,9 @@ export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', f
 export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
 
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', true);
+export const rcaLogsEnabled = isFeatureFlagEnabled('rcaLogsEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
-export const incidentSummarizationTimelineEnabled = isFeatureFlagEnabled('incidentSummarizationTimelineEnabled', true);
 export const manuallyCloseEventEnabled = isFeatureFlagEnabled('manuallyCloseEventEnabled', true);
 
 export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
@@ -280,6 +280,13 @@ export const maxMetricsLimitForBeeinstanaEnabled = isFeatureFlagEnabled('maxMetr
 export const serverSideInfraTagSearchEnabled = isFeatureFlagEnabled('serverSideInfraTagSearchEnabled', false);
 export const preAggregatedMetricsQueryEnabled = isFeatureFlagEnabled('preAggregatedMetricsQueryEnabled', false);
 export const carbonFileUploaderEnabled = isFeatureFlagEnabled('carbonFileUploaderEnabled', false);
-export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabled', false);
+export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabled', true);
 export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetricsEnabled', false);
 export const increaseAggregationEnabled = isFeatureFlagEnabled('increaseAggregationEnabled', false);
+export const graphViewFromAboutInstanaEnabled = isFeatureFlagEnabled('graphViewFromAboutInstanaEnabled', false);
+export const graphViewFromInfraMapEnabled = isFeatureFlagEnabled('graphViewFromInfraMapEnabled', false);
+export const extrapolateMissingStackedAreaValuesEnabled = isFeatureFlagEnabled('extrapolateMissingStackedAreaValues');
+export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
+  'automationActionAiGenerationUnitEnabled',
+  false
+);

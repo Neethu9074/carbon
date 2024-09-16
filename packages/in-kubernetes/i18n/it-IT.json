@@ -228,6 +228,7 @@
     "delete": "Elimina",
     "update": "Aggiorna",
     "operations": "Operazioni",
+    "nameTooltip": "L'host del contenitore non ha un agent Instana installato. Per ulteriori informazioni, consultare la documentazione",
     "noDataAvailable": {
       "servicesTitle": "Nessun servizio disponibile",
       "servicesDescription": "Non è stato richiamato alcun servizio per l'intervallo di tempo selezionato.",

@@ -6,14 +6,14 @@
 import React, { forwardRef } from 'react';
 import { Item } from 'formalistic';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SaveButton from 'in-components/form/SaveButton';
 
 import locals from './DialogFooter.mless';
 
-interface DialogFooterBasicProps {
+interface DialogFooterProps {
   form?: Item;
   /**
    * to enable browser default form submitting even
@@ -25,19 +25,10 @@ interface DialogFooterBasicProps {
   saving?: boolean;
   secondaryActionText: string | React.ReactElement;
   onPrimaryActionClick?: () => void;
+  primaryActionText?: string | React.ReactElement;
+  renderCustomSaveAction?: () => React.ReactElement;
 }
 
-interface DialogFooterWithCustomSaveActionProps extends DialogFooterBasicProps {
-  renderCustomSaveAction: () => JSX.Element;
-  primaryActionText?: never;
-}
-
-interface DialogFooterWithDefaultSaveActionProps extends DialogFooterBasicProps {
-  renderCustomSaveAction?: never;
-  primaryActionText: string | React.ReactElement;
-}
-
-export type DialogFooterProps = DialogFooterWithCustomSaveActionProps | DialogFooterWithDefaultSaveActionProps;
 export default forwardRef<HTMLElement, DialogFooterProps>(function DialogFooter(
   {
     form,

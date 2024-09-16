@@ -34,8 +34,8 @@
     "menu": {
       "sideNavigation": "Side navigation"
     },
-    "carbonTabs": {
-      "tabs": "Tabs"
+    "tabsNavigation": {
+      "pageNavigation": "Page navigation"
     },
     "plg": {
       "dashboardTable": {
@@ -88,7 +88,8 @@
       "previous": "Previous"
     },
     "states": {
-      "saving": "Saving…"
+      "saving": "Saving…",
+      "loading": "Loading…"
     }
   },
   "language_en-US": "English",

@@ -7,9 +7,8 @@ import { createMapForm, createField } from 'formalistic';
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
-import { Stack, StackItem } from '@instana/components';
+import { Stack, StackItem, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { Button } from '@instana/legacy';
 
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';

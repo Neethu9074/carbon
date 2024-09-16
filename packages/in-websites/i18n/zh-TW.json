@@ -765,7 +765,8 @@
         "sizesTechnicalLabelAtMost": "最多 {{max}}px（含）"
       },
       "synthetic": {
-        "tabLabel": "綜合監視"
+        "tabLabel": "綜合監視",
+        "noDataTitle": "本網站不提供任何綜合測試。"
       },
       "indexLabelSummary": "摘要",
       "indexLabelSpeed": "速度",

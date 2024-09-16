@@ -44,7 +44,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Kubernetes > Helm Chart', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.helmChart'),
@@ -58,7 +57,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Kubernetes > Operator', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.operator'),
@@ -72,7 +70,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Kubernetes > Yaml', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.yaml'),
@@ -86,7 +83,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Kubernetes > Azure Kubernetes Service (AKS)', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
@@ -100,7 +96,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Kubernetes > AWS Elastic Kubernetes Service (EKS)', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.awsElasticKubernetesServiceEks'),
@@ -114,7 +109,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Openshift > Operator', // tracking data
       label: t('in-waiting-for-deployment:content.openShift'),
       icon: 'lib_openshift',
-      iconColor: '#DA2430',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.operator'),
@@ -128,7 +122,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Openshift > Helm Chart', // tracking data
       label: t('in-waiting-for-deployment:content.openShift'),
       icon: 'lib_openshift',
-      iconColor: '#DA2430',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.helmChart'),
@@ -142,7 +135,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Openshift > YAML', // tracking data
       label: t('in-waiting-for-deployment:content.openShift'),
       icon: 'lib_openshift',
-      iconColor: '#DA2430',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.yaml'),
@@ -156,7 +148,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Docker', // tracking data
       label: t('in-waiting-for-deployment:content.docker'),
       icon: 'lib_container_docker',
-      iconColor: '#2D6DD0',
       category: t('in-waiting-for-deployment:content.platform'),
       keyWords: 'dockercontainer',
       Content: Docker
@@ -339,7 +330,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Microsoft Azure > Azure Kubernetes Service (AKS)', // tracking data
       label: t('in-waiting-for-deployment:content.azure'),
       icon: 'lib_azure',
-      iconColor: '#3178CD',
       fullLabel: t('in-waiting-for-deployment:content.microsoftAzure'),
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
@@ -354,7 +344,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Microsoft Azure > Azure Container Apps', // tracking data
       label: t('in-waiting-for-deployment:content.azure'),
       icon: 'lib_azure',
-      iconColor: '#3178CD',
       fullLabel: t('in-waiting-for-deployment:content.microsoftAzure'),
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
@@ -369,7 +358,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Microsoft Azure > Azure App Service', // tracking data
       label: t('in-waiting-for-deployment:content.azure'),
       icon: 'lib_azure',
-      iconColor: '#3178CD',
       fullLabel: t('in-waiting-for-deployment:content.microsoftAzure'),
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {

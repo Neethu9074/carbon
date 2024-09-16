@@ -5,29 +5,28 @@
 
 import React, { useState } from 'react';
 
-import { generateUniqueShortId } from '@instana/utils';
+import { create, Observable } from '@instana/observables';
 import { IconButton, Link } from '@instana/components';
-import { createLogger } from '@instana/logger';
 
-import {
-  getApiTokens,
-  deleteApiToken,
-  createApiToken,
-  getTokenIdByAccessGrantingToken
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import {
   getEntityHref,
   getEntityIdView,
   teamSettingsAccessControlApiTokens,
   teamSettingsAccessControlApiTokenNew
 } from 'in-settings/navigation/paths';
+import {
+  getApiTokens,
+  deleteApiToken,
+  getTokenIdByAccessGrantingToken
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
 import TenantInfoBanner from 'in-settings/tabs/TeamSettings/components/TenantInfoBanner/TenantInfoBanner';
 import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import List, { defaultHeaderWithCount, filterReducer } from 'in-settings/components/List';
+import { getApiTokenStatus } from 'in-settings/components/ApiTokenExpiration/utils';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { fromNow, formatDateTime } from 'in-services/formatters/date';
-import { apiTokenDialogEnabled } from 'in-services/featureFlags';
+import { apiTokenExpirationEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import config from 'in-services/config';
@@ -35,13 +34,31 @@ import { Trans, t } from 'in-i18n';
 
 import locals from './ApiTokens.mless';
 
-const logger = createLogger('ApiTokens');
+const loadEntities = (): Observable<ApiTokenProps[]> => {
+  const observer = create<ApiTokenProps[]>();
+  getApiTokens([]).subscribe(next => {
+    if (next.progress?.loading) return;
+    if (next.data) {
+      observer.emit(next.data);
+    } else if (next.errors) {
+      observer.emitError(next.errors);
+    }
+  });
+  return observer;
+};
 
 export default function ApiTokens() {
   const { goToPath } = useNavigation();
   const [filteredTokenId, setFilteredTokenId] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const searchAttributes = ['name', 'id', 'internalId', 'accessGrantingToken', 'createdBy'];
+  const searchAttributes = [
+    'name',
+    'id',
+    'internalId',
+    'accessGrantingToken',
+    'createdBy',
+    ...(apiTokenExpirationEnabled ? [(entity: any) => getApiTokenStatus(entity?.expiresOn)] : [])
+  ];
 
   const columnDefinitions = [
     {
@@ -52,11 +69,9 @@ export default function ApiTokens() {
       useMinimumAmountOfHorizontalSpace: true,
       getContent(entity: ApiTokenProps) {
         return (
-          <Tooltip content={entity.name} align="auto" delay={500}>
-            <Link href={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId)} ellipsis>
-              {entity.name}
-            </Link>
-          </Tooltip>
+          <Link href={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId)} ellipsis>
+            {entity.name}
+          </Link>
         );
       }
     },
@@ -78,7 +93,7 @@ export default function ApiTokens() {
         return (
           <span>
             {lastUsedOn ? (
-              <Tooltip content={`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} align="topLeft" delay={500}>
+              <Tooltip content={`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} align="auto" delay={500}>
                 <span> {`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} </span>
               </Tooltip>
             ) : (
@@ -88,6 +103,19 @@ export default function ApiTokens() {
         );
       }
     },
+    ...(apiTokenExpirationEnabled
+      ? [
+          {
+            id: 'expiresOn',
+            label: t('in-settings:tabs.tokenStatus'),
+            ellipsis: true,
+            useMinimumAmountOfHorizontalSpace: true,
+            getContent({ expiresOn }: ApiTokenProps) {
+              return getApiTokenStatus(expiresOn);
+            }
+          }
+        ]
+      : []),
     {
       id: 'createdOn',
       label: t('in-settings:tabs.tokenCreated'),
@@ -97,7 +125,7 @@ export default function ApiTokens() {
         return (
           <span>
             {createdOn ? (
-              <Tooltip content={`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} align="topLeft" delay={500}>
+              <Tooltip content={`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} align="auto" delay={500}>
                 <span> {`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} </span>
               </Tooltip>
             ) : (
@@ -116,7 +144,7 @@ export default function ApiTokens() {
         return (
           <span>
             {createdBy ? (
-              <Tooltip content={createdBy} align="topLeft" delay={500}>
+              <Tooltip content={createdBy} align="auto" delay={500}>
                 <span>{createdBy}</span>
               </Tooltip>
             ) : (
@@ -205,7 +233,7 @@ export default function ApiTokens() {
         getEntityName={getEntityName}
         columnDefinitions={columnDefinitions}
         tableActions={tableActions}
-        loadEntities={() => getApiTokens()}
+        loadEntities={() => loadEntities()}
         initialOrderBy="name"
         onSearch={onSearch}
         onFilter={onFilter}
@@ -213,7 +241,7 @@ export default function ApiTokens() {
         labelNew={t('in-settings:tabs.newApiToken')}
         searchPlaceholder={t('in-settings:components.search')}
         noDataMessage={t('in-settings:tabs.noApiToken')}
-        // @ts-expect-error
+        //@ts-expect-error
         getDetailsHref={(entity: any) => {
           getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId);
         }}
@@ -247,23 +275,7 @@ function getEntityName(entity: ApiTokenProps) {
 }
 
 function onCreateNew(goToPath: Function) {
-  if (apiTokenDialogEnabled) {
-    goToPath(teamSettingsAccessControlApiTokenNew);
-  } else {
-    const accessGrantingToken = generateUniqueShortId();
-    const saveResult$ = createApiToken({
-      accessGrantingToken,
-      internalId: generateUniqueShortId(),
-      name: t('in-settings:tabs.newApiToken')
-    });
-    // Note: The backend will overwrite the end-user provided IDs during creation.
-    saveResult$.once((savedApiToken: ApiTokenProps) =>
-      goToPath(getEntityHref(teamSettingsAccessControlApiTokens, savedApiToken.internalId || savedApiToken.id))
-    );
-    saveResult$.errors().once((error: any) => {
-      logger.error(`Failed to save new API token: ${error.message}`, error);
-    });
-  }
+  goToPath(teamSettingsAccessControlApiTokenNew);
 }
 
 const customSortEntities = ({
@@ -275,21 +287,29 @@ const customSortEntities = ({
   orderByState: keyof ApiTokenProps;
   orderDirectionState: 'ASC' | 'DESC';
 }): ApiTokenProps[] => {
-  return entities.sort((a, b) => {
-    if (a[orderByState] === null) return 1;
-    if (b[orderByState] === null) return -1;
-    if (orderByState === 'lastUsedOn' || orderByState === 'createdOn') {
+  return entities?.slice().sort((a, b) => {
+    const orderByState1 = a[orderByState];
+    const orderByState2 = b[orderByState];
+
+    if (orderByState1 === null || orderByState1 === undefined) return 1;
+    if (orderByState2 === null || orderByState2 === undefined) return -1;
+
+    if (
+      orderByState === 'lastUsedOn' ||
+      orderByState === 'createdOn' ||
+      (apiTokenExpirationEnabled && orderByState === 'expiresOn')
+    ) {
       return orderDirectionState === 'ASC'
         ? Number(a[orderByState]) - Number(b[orderByState])
         : Number(b[orderByState]) - Number(a[orderByState]);
-    }
-    if (orderByState === 'createdBy') {
+    } else if (orderByState === 'createdBy') {
       return orderDirectionState === 'ASC'
         ? compareIgnoreCase(a.createdBy ?? '', b.createdBy ?? '')
         : compareIgnoreCase(b.createdBy ?? '', a.createdBy ?? '');
     }
+
     return orderDirectionState === 'ASC'
-      ? compareIgnoreCase(a[orderByState].toString(), b[orderByState].toString())
-      : compareIgnoreCase(b[orderByState].toString(), a[orderByState].toString());
+      ? compareIgnoreCase(orderByState1.toString(), orderByState2.toString())
+      : compareIgnoreCase(orderByState2.toString(), orderByState1.toString());
   });
 };

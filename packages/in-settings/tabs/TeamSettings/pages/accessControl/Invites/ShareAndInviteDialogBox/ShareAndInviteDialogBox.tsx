@@ -579,7 +579,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
               type="submit"
               disabled={disableSendButton}
               className={classNames({
-                [locals.saveButton]: true,
+                [locals.saveButton]: !carbonButtonEnabled,
                 [locals.buttonDisabled]: disableSendButton
               })}
             >

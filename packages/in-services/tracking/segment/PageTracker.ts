@@ -56,6 +56,7 @@ const usePageTracker = ({ productArea, pageRootName }: PageTrackerProps) => {
       productPlanType: productPlanType,
       productTitle: productTitle,
       url: url,
+      altUserId: userId,
       roles: [userSelfDefinedRole],
       'user.bluemixId': userId
     });

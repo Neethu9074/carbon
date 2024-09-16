@@ -47,8 +47,8 @@
   },
   "playwithinstana": {
     "content": "Preparado para supervisar su propio entorno",
-    "bookdemo": " Reservar una demo",
-    "freetrial": " Prueba gratuita",
+    "bookdemo": " Reserve una demostración en directo",
+    "freetrial": " Pruébelo gratis",
     "taketour": " Realice una visita guiada"
   },
   "agentDetails": {
@@ -406,6 +406,22 @@
         "configurationParameters": "Parámetros de configuración"
       }
     },
+    "ibmi": {
+      "ibmi": "IBM i",
+      "os": "SO",
+      "archiveTarGz": "Archivo (tar.gz)",
+      "archive": {
+        "selectTheAgentPackagingMode": "Paso 1: Seleccione la modalidad de empaquetado del agente",
+        "selecTthePlatformArchitecture": "Paso 2: Seleccione la arquitectura de plataforma",
+        "platformArchitecture": "Arquitectura de la plataforma",
+        "beforeYouInstall": "Antes de la instalación",
+        "installingManually": "Instalación manual",
+        "startingTheAgent": "Inicio del agente",
+        "agentOptions": {
+          "ibmi64Bit": "IBM i"
+        }
+      }
+    },
     "openshift": {
       "documentLinks": {
         "installOperatorByUsingOlm": "Instalación del operador utilizando OLM",
@@ -437,7 +453,18 @@
       "reviewPrerequisitesAndConfigureContainerApps": "Revise los requisitos previos y configure su Azure Container Apps para el seguimiento.",
       "containerAppSetEnvironmentVariables": "Establezca las siguientes variables de entorno cuando cree un Azure Container App.",
       "monitoringAzure": "Supervisión e instrumentación de Microsoft Azure con agente de Azure",
-      "monitoringAzureContainerApps": "Supervisión de Azure Container Apps"
+      "monitoringAzureContainerApps": "Supervisión de Azure Container Apps",
+      "selectAzureAppServiceRuntime": "Seleccione el tiempo de ejecución de Azure App Service.",
+      "nodejs": {
+        "reviewPrerequisitesAndInstallAppService": "Revise los requisitos previos e instale el recopilador.",
+        "monitoringAppService": "Supervisión de Azure App Service for Node.js",
+        "referenceAppServiceDocumentationContent": "Revise los requisitos previos y siga la guía de instalación para instalar el recopilador. Para obtener instrucciones detalladas, consulte la <azureAppServiceDoc>documentación</azureAppServiceDoc>.",
+        "activatingAppService": "Activación del recopilador.",
+        "appName": "Nombre de aplicación",
+        "resourceGroupName": "Nombre del\ngrupo de recursos",
+        "activatingAppServiceContent": "Ejemplo de mandato de la CLI de Azure para una aplicación de módulo ECMAScript que utilice Node.js v18.19 o posterior:",
+        "activatingAppServiceNote": "Por favor, actualice el valor NODE_OPTIONS para que coincida con el valor correcto para su configuración. Consulte la <azureAppServiceEnableCollectorDoc>documentación</azureAppServiceEnableCollectorDoc> para obtener orientación."
+      }
     },
     "gcp": {
       "dockerBuild": "Compilación de Docker",
@@ -543,7 +570,6 @@
         "powervcRegion": "Región de PowerVC",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
-        "kubernetes": "Kubernetes",
         "gke": "Google Kubernetes Engine",
         "eks": "Amazon Elastic Kubernetes Service",
         "name": "Nombre",
@@ -578,9 +604,9 @@
         "active": "activo",
         "title": "Título",
         "on": "Activar",
-        "started": "Iniciado",
+        "started": "Iniciar",
         "end": "Fin",
-        "health": "Estado",
+        "severity": "Gravedad",
         "searchPlaceholderLabel": "Incidencias",
         "viewAllLabel": "Incidencias"
       },
@@ -658,7 +684,7 @@
     "noData": {
       "applicationWidget": {
         "header": "Sin aplicaciones",
-        "description": "Cree su propia perspectiva sobre los servicios que desea observar.",
+        "description": "Cree su propia perspectiva de aplicación sobre los servicios que desea observar.",
         "buttonName": "Crear perspectiva de aplicación"
       },
       "incidentsWidget": {
@@ -690,7 +716,7 @@
       },
       "platformsWidget": {
         "header": "Sin plataformas",
-        "description": "Aquí encontrará todas las plataformas instaladas."
+        "description": "Aún no hay plataformas que mostrar."
       },
       "businessMonitoringWidget": {
         "header": "No hay procesos empresariales",

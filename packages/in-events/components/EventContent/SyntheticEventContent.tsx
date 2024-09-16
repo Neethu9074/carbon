@@ -24,6 +24,7 @@ import { locationIdTagName, statusTagName, testIdTagName } from 'in-synthetics/t
 import { TimeConfig, TagFilterExpressionElementUnion, TagFilter } from 'in-types';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 // @ts-expect-error
 import EventIcon from 'in-events/components/EventIcon';
@@ -49,7 +50,7 @@ export default function SyntheticEventContent({ event, snapshot, reload }: Props
   const alertConfig = useSyntheticEventAlertConfig(event);
 
   if (!alertConfig) {
-    return null;
+    return <LoadingIndicator size="xxxl" />;
   }
 
   const { tagFilterExpression } = alertConfig;

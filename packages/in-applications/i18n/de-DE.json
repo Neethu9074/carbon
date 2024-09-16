@@ -122,6 +122,7 @@
   "messageSuccessfullySaved": "Erfolgreich gespeichert.",
   "messageErrorOccurred": "Es ist ein Fehler aufgetreten. Versuchen Sie es erneut.",
   "messageWaitForChanges": "Es kann einige Zeit dauern, bis Ihre Änderungen wirksam werden.",
+  "linkViewAllApplications": "Alle Anwendungen anzeigen",
   "linkViewAllServices": "Alle Services anzeigen",
   "linkViewAllEndpoints": "Alle Endpunkte anzeigen",
   "lineViewInAnalyze": "In Analyse anzeigen",
@@ -459,7 +460,9 @@
       "logMessagesDescription": "Für den ausgewählten Zeitbereich wurden keine Protokollnachrichten abgerufen.",
       "endpointsTitle": "Keine Endpunkte verfügbar",
       "endpointsDescription": "Für den ausgewählten Zeitbereich wurden keine Endpunkte abgerufen."
-    }
+    },
+    "pageCannotBeFound": "Seite kann nicht gefunden werden",
+    "idNotPresent": "{{id}} ist in der URL nicht vorhanden."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "Der Service befindet sich nicht in der aktuellen Anwendung.",

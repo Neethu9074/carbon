@@ -121,7 +121,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
   const track = useSloTrackers();
 
   useEffect(() => {
-    track(SLO_LIST_VIEW, {});
+    track(SLO_LIST_VIEW, undefined);
   }, [track]);
 
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = useServerTableUrlState({

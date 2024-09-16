@@ -7,9 +7,8 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import AlertingTearSheetFooter, { getSaveButtonLabel } from 'in-alerting/components/AlertingTearSheetFooter';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
-import { t } from 'in-i18n';
+import AlertingTearSheetFooter from 'in-alerting/components/AlertingTearSheetFooter';
 
 const alertConfig = {
   threshold: {
@@ -20,20 +19,6 @@ const alertConfig = {
 const form = createSmartAlertForm(alertConfig, false, false);
 
 describe('in-alerting/components/AlertingTearSheetFooter', () => {
-  it('test migration button text', () => {
-    expect(getSaveButtonLabel('Save', true, true)).toBe(
-      t('in-alerting:smartAlerts.components.smartAlertDialog.buttonMigrate')
-    );
-  });
-
-  it('Test last step button text', () => {
-    expect(getSaveButtonLabel('Save', true, false)).toBe('Save');
-  });
-
-  it('Test the button text for every step but the last one.', () => {
-    expect(getSaveButtonLabel('Save', false, false)).toBe('Next');
-  });
-
   it('renders correctly with no actions', () => {
     const wrapper = shallow(
       <AlertingTearSheetFooter
@@ -44,7 +29,6 @@ describe('in-alerting/components/AlertingTearSheetFooter', () => {
         step={0}
         stepConfigs={[]}
         setForm={jest.fn()}
-        migrationMode={false}
         additionalValidationCheck={false}
       />
     );
@@ -83,7 +67,6 @@ describe('in-alerting/components/AlertingTearSheetFooter', () => {
         step={0}
         stepConfigs={[]}
         setForm={jest.fn()}
-        migrationMode={false}
         additionalValidationCheck
       />
     );

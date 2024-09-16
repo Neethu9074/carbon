@@ -8,13 +8,14 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
 import { joinExpressions, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
+import { APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE } from 'in-services/tracking/tracking';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { containsTagName } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
@@ -37,6 +38,7 @@ export default function AnalyzeApplicationEventButton({
   endpointId,
   adaptiveBaselineInfo = {}
 }) {
+  const { trackCta } = useSegmentTracking();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   const linkToUA = getLinkToUnboundAnalytics(
@@ -67,7 +69,7 @@ export default function AnalyzeApplicationEventButton({
       <Button
         kind="primary"
         icon="lib_application_call"
-        onClick={() => applicationsAlertingEventDetailsGoToAnalyze()}
+        onClick={() => trackCta(APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE)}
         href={linkToUA}
         disabled={linkDisabled}
       >

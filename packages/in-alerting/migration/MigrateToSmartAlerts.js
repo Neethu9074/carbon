@@ -9,11 +9,11 @@ import { Stack, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
-  applicationsAlertingDeprecatedEventConfirmMigrated,
-  applicationsAlertingDeprecatedEventMarkMigrated,
-  applicationsAlertingDeprecatedEventMigrateStarted,
-  applicationsAlertingDeprecatedEventMigrateFinished
-} from 'in-alerting/smart-alerts/applications/tracker';
+  APPLICATIONS_ALERTING_DEPRECATED_EVENT_MARK_MIGRATED,
+  APPLICATIONS_ALERTING_DEPRECATED_EVENT_CONFIRM_MIGRATED,
+  APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_STARTED,
+  APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_FINISHED
+} from 'in-services/tracking/tracking';
 import {
   applicationSmartAlertFullScreenDesignEnabled,
   applicationSmartAlertDialogView
@@ -24,6 +24,7 @@ import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/Aler
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
 import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -64,13 +65,15 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
     };
   }, []);
 
+  const { trackCta } = useSegmentTracking();
+
   return (
     <Stack direction="horizontal" gap="xsmall">
       <Tooltip content={t('in-alerting:smartAlerts.migration.markAsMigratedButtonTooltip')} delay={500}>
         <Button
           noAutoMargin
           kind="secondary"
-          onClick={() => showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSuccess)}
+          onClick={() => showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSuccess, trackCta)}
           icon={disablingEvent ? 'lib_actions_loading' : undefined}
           iconSpinning={disablingEvent}
         >
@@ -83,7 +86,14 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
             kind="primaryv2"
             noAutoMargin
             onClick={() =>
-              doMigration(eventSpecificationId, setMigrating, migrationInProgress, setMigrationInProgress, onSuccess)
+              doMigration(
+                eventSpecificationId,
+                setMigrating,
+                migrationInProgress,
+                setMigrationInProgress,
+                onSuccess,
+                trackCta
+              )
             }
             icon={migrating ? 'lib_actions_loading' : undefined}
             iconSpinning={migrating}
@@ -111,17 +121,17 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
   );
 }
 
-function showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSuccess) {
-  applicationsAlertingDeprecatedEventMarkMigrated({
-    eventSpecificationId
-  });
+function showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSuccess, trackCta) {
+  trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_MARK_MIGRATED, { eventSpecificationId });
+
   addActiveDialog(
     <ConfirmationDialog
       header={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationTitle')}
       description={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationDescription')}
       confirmButtonLabel={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationConfirmLabel')}
       onSubmit={() => {
-        applicationsAlertingDeprecatedEventConfirmMigrated({ eventSpecificationId });
+        trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_CONFIRM_MIGRATED, { eventSpecificationId });
+
         handleDisableCustomEvent({ setPendingState: setDisablingEvent, onSuccess, eventSpecificationId });
         close();
       }}
@@ -129,7 +139,14 @@ function showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSu
   );
 }
 
-function doMigration(eventSpecificationId, setMigrating, migrationInProgress, setMigrationInProgress, onSuccess) {
+function doMigration(
+  eventSpecificationId,
+  setMigrating,
+  migrationInProgress,
+  setMigrationInProgress,
+  onSuccess,
+  trackCta
+) {
   if (migrationInProgress) {
     return;
   }
@@ -149,7 +166,8 @@ function doMigration(eventSpecificationId, setMigrating, migrationInProgress, se
           onSuccess,
           globalSmartAlert,
           config,
-          scopeMigrationDetails
+          scopeMigrationDetails,
+          trackCta
         });
       },
       () => setMigrationInProgress(false)
@@ -169,9 +187,11 @@ function showSmartAlertDialog({
   eventSpecificationId,
   setMigrating,
   setMigrationInProgress,
-  onSuccess
+  onSuccess,
+  trackCta
 }) {
-  applicationsAlertingDeprecatedEventMigrateStarted({ eventSpecificationId });
+  trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_STARTED, { eventSpecificationId });
+
   if (config) {
     addActiveDialog(
       <AlertConfigDialog
@@ -187,7 +207,7 @@ function showSmartAlertDialog({
               applicationAlertConfigId
             });
           }
-          applicationsAlertingDeprecatedEventMigrateFinished({ eventSpecificationId });
+          trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_FINISHED, { eventSpecificationId });
           setMigrationInProgress(false);
           close();
         }}

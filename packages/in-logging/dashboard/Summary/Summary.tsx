@@ -1,0 +1,80 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import React from 'react';
+
+import { IconButton, Tooltip } from '@instana/components';
+
+// eslint-disable-next-line no-restricted-imports
+// eslint-disable-next-line no-restricted-imports
+import RetentionPeriodDashboard from './RetentionPeriod/RetentionPeriodDashboard';
+import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/Charts/LogsDistributionChartSection';
+// eslint-disable-next-line no-restricted-imports
+import LogVolumeDashboard from './LogVolume/LogVolumeDashboard';
+// @ts-ignore
+import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
+import { LoggingAnalyzeContextWrapper } from 'in-logging/analyze/AnalyzeView/LoggingAnalyzeContext';
+import { loggingDashboardPath, logsPathWithDataSource } from 'in-logging/navigation/paths';
+import { dataSourceConfigurations } from 'in-logging/analyze/AnalyzeView/utils/constants';
+import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
+import { getMetricTemplates } from 'in-applications/api/metricTemplates';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import StateManagement from 'in-components/AnalyzeView/StateManagement';
+import { logIdMatrixParameter } from 'in-logging/navigation/matrix';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
+import { getTagCatalog } from 'in-logging/api/catalog';
+import { t } from 'in-i18n';
+
+import locals from './Summary.mless';
+
+export default function Summary() {
+  const { createHrefToPath } = useNavigation();
+  const goToLogs = createHrefToPath(logsPathWithDataSource);
+
+  const iconWithTooltip = (
+    <Tooltip content={t('in-logging:dashboard.analyzeLogs')} align="leftMiddle">
+      <IconButton kind="subtle" type={'lib_analyze'} href={goToLogs} />
+    </Tooltip>
+  );
+
+  const contentToRender = (
+    <div className={locals.dashboardContainer}>
+      <div className={locals.dashboardCards}>
+        <KpiGridRow sizes={[3, 3]}>
+          <RetentionPeriodDashboard />
+          <LogVolumeDashboard />
+        </KpiGridRow>
+      </div>
+
+      <StateManagement
+        path={loggingDashboardPath}
+        defaultDataSource="logs"
+        dataSourceParameter={logIdMatrixParameter}
+        getTagCatalog={getTagCatalog}
+        getMetricTemplates={getMetricTemplates}
+        dataSourceConfigurations={dataSourceConfigurations}
+      >
+        {(opts: any) => (
+          <LoggingAnalyzeContextWrapper>
+            <LogsDistributionChartSection
+              {...opts}
+              disableClose={false}
+              hideRenderer
+              showHeader
+              rightHeaderContent={iconWithTooltip}
+            />
+          </LoggingAnalyzeContextWrapper>
+        )}
+      </StateManagement>
+    </div>
+  );
+
+  return (
+    <LoggingDashboardWrapper>
+      <HeightRestrictedView render={() => contentToRender} />
+    </LoggingDashboardWrapper>
+  );
+}

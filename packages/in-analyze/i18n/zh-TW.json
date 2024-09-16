@@ -166,7 +166,8 @@
         "selfTime": "自我時間",
         "networkTime": "網路時間",
         "waitingTime": "等待時間",
-        "latency": "延遲"
+        "latency": "延遲",
+        "findSQL": "在 {{type}} 中尋找 SQL"
       },
       "callTree": {
         "expandButtonForRow": "展開所有子呼叫",

@@ -819,6 +819,16 @@
   "pluginName_remoteHost_1": "リモート・ホスト",
   "pluginName_remoteHost_2": "リモート・ホスト",
   "pluginName_remoteHost": "リモート・ホスト",
+  "pluginName_fileMonitoring": "ファイル・モニター",
+  "pluginName_fileMonitoring_plural": "ファイル・モニター",
+  "pluginName_fileMonitoring_0": "ファイル・モニター",
+  "pluginName_fileMonitoring_1": "ファイル・モニター",
+  "pluginName_fileMonitoring_2": "ファイル・モニター",
+  "pluginName_fileMonitoringCondition": "ファイル・モニター条件",
+  "pluginName_fileMonitoringCondition_plural": "ファイル・モニター条件",
+  "pluginName_fileMonitoringCondition_0": "ファイル・モニター条件",
+  "pluginName_fileMonitoringCondition_1": "ファイル・モニター条件",
+  "pluginName_fileMonitoringCondition_2": "ファイル・モニター条件",
   "pluginName_httpd_plural": "Apache HTTPd",
   "pluginName_httpd_0": "Apache HTTPd",
   "pluginName_httpd_1": "Apache HTTPd",
@@ -1594,6 +1604,11 @@
   "pluginName_service_1": "サービス",
   "pluginName_service_2": "サービス",
   "pluginName_service": "サービス",
+  "pluginName_snowflake_plural": "Snowflakes",
+  "pluginName_snowflake_0": "Snowflakes",
+  "pluginName_snowflake_1": "Snowflakes",
+  "pluginName_snowflake_2": "Snowflakes",
+  "pluginName_snowflake": "Snowflake",
   "pluginName_solr_plural": "Solr ノード",
   "pluginName_solr_0": "Solr ノード",
   "pluginName_solr_1": "Solr ノード",
@@ -7069,7 +7084,8 @@
       "labelMaxUsage": "最大使用量",
       "labelRSS": "RSS",
       "labelCache": "キャッシュ",
-      "labelMemoryWorkingSet": "メモリー実効ページ・セット使用量 [0,100]",
+      "labelMemoryUsedPercentage": "メモリー使用率",
+      "labelMemoryWorkingSet": "メモリ・ワーキング・セットの使用率",
       "labelActiveAnonymous": "アクティブ匿名",
       "labelActiveCache": "アクティブ・キャッシュ",
       "labelInactiveAnonymous": "非アクティブ匿名",
@@ -7110,7 +7126,7 @@
       "totalTime": "合計時間",
       "kernelTime": "カーネル時間",
       "userTime": "ユーザー時間",
-      "totalNormalized": "正規化の合計 [0,100]",
+      "totalNormalized": "正規化率",
       "cpu": "CPU",
       "throttlingCount": "スロットル・カウント",
       "throttlingTime": "スロットル時間",
@@ -8261,6 +8277,35 @@
       "httpRequests": "HTTP 要求数",
       "device": "デバイス"
     },
+    "fileMonitoring": {
+      "dashboard": {
+        "monitor": "モニター",
+        "path": "パス",
+        "pollingInterval": "ポーリング間隔",
+        "severity": "重大度",
+        "issueTriggered": "問題発生"
+      },
+      "fileSystem": "ファイル・モニター",
+      "monitors": "モニター数",
+      "host": "ホスト",
+      "group": "グループ",
+      "numberOfMonitors": "モニターの数"
+    },
+    "fileMonitoringCondition": {
+      "dashboard": {
+        "conditionType": "条件タイプ",
+        "operator": "オペレーター",
+        "reference": "参照",
+        "actual": "実績"
+      },
+      "fileMonitorCondition": "ファイル監視条件",
+      "numberOfConditions": "条件の数",
+      "conditions": "条件",
+      "path": "パス",
+      "interval": "間隔 (秒)",
+      "issueTriggered": "問題発生",
+      "conditionNotification": "問題が発生するには、すべての条件が満たされている必要があります"
+    },
     "finagleApplicationContainer": {
       "dashboard": {
         "finagle": "Finagle"
@@ -9265,10 +9310,10 @@
         "ratingMedium": "中",
         "ratingHigh": "高",
         "totalCpuUtilization": "合計 CPU 使用率",
-        "diskUsage": "ディスク使用状況",
-        "dataSize": "データ・サイズ",
-        "logSize": "ログ・サイズ",
-        "traceSize": "トレース・サイズ",
+        "diskUsage": "タイプ別のディスク使用量",
+        "dataSize": "データ",
+        "logSize": "ログ",
+        "traceSize": "トレース",
         "sessions": "セッション",
         "total": "合計",
         "idle": "アイドル",
@@ -9373,7 +9418,32 @@
         "physicalMemory": "物理メモリー",
         "freeMemory": "空きメモリー",
         "utilisationRatio": "HANAメモリー使用量",
-        "hostUsedPhysicalMemoryRatio": "ホスト・メモリー使用量"
+        "hostUsedPhysicalMemoryRatio": "ホスト・メモリー使用量",
+        "eventTime": "イベント時刻",
+        "eventName": "イベント名",
+        "eventDetail": "イベントの詳細",
+        "systemActive": "システム・アクティブ",
+        "systemStatus": "システム状況",
+        "hostStatus": "ホスト状況",
+        "hostActive": "ホスト・アクティブ・ステータス",
+        "serviceStatus": "サービス状況",
+        "databaseName": "データベース名",
+        "systemEventStats": "システム・イベント",
+        "errorMsg": "エラー・メッセージ",
+        "diskUsagePercentage": "ディスク使用率",
+        "diskUsageSummary": "ディスク使用の要約",
+        "usage": "使用法",
+        "archiveLogBackupStats": "アーカイブ・ログのバックアップ",
+        "systemId": "システム ID",
+        "sourceDatabaseName": "ソース・データベース",
+        "destinationPath": "宛先パス",
+        "userLockStats": "ユーザー・ロック",
+        "userMode": "ユーザー・モード",
+        "deactivationTime": "非アクティブ化時間",
+        "userId": "ユーザー ID",
+        "schedulerJobStats": "スケジューラー・ジョブ",
+        "schedulerJobName": "ジョブ名",
+        "endTime": "終了時刻"
       },
       "systemId": "システム ID",
       "databaseName": "データベース名",
@@ -9419,6 +9489,26 @@
       "service": "サービス",
       "allCallsSecond": "呼び出し数/秒 (すべての呼び出し)",
       "allCallsAvgLatency": "すべての呼び出しの平均 待ち時間"
+    },
+    "snowflake": {
+      "connectErrorIssueDescription": "エージェントは snowflake に接続できませんでした。 接続がエラーで失敗しました: <code>{{error}}</code>",
+      "troubleshootingDocs": "トラブルシューティング資料",
+      "snowflake": "Snowflake",
+      "account": "アカウント",
+      "region": "リージョン",
+      "organization": "組織",
+      "version": "バージョン",
+      "dashboard": {
+        "creditUsagePerHour": "1 時間あたりのクレジット使用量",
+        "totalStorageBytes": "ストレージの総バイト数",
+        "averageBytesScanned": "平均スキャン・バイト数",
+        "totalQueries": "合計照会数",
+        "warehouseName": "倉庫名",
+        "compute": "コンピュート",
+        "cloudServices": "クラウド・サービス",
+        "total": "合計",
+        "warehouseUsage": "倉庫の使用状況"
+      }
     },
     "solr": {
       "dashboard": {
@@ -11613,6 +11703,13 @@
       "version": "バージョン"
     },
     "ibmInfosphereCdcSubscription": {
+      "dashboard": {
+        "singleScrape": "シングル・スクレイプ",
+        "transactionHistogram": "トランザクション・ヒストグラム",
+        "garbageCollection": "ガーベッジ・コレクション",
+        "databaseWorkload": "データベースのワークロード",
+        "memory": "メモリー"
+      },
       "ibmInfosphereSubscription": "サブスクリプション",
       "subscriptionName": "名前",
       "sourceDatastore": "ソース・データストア",
@@ -11679,7 +11776,21 @@
       "rowsCallingSourceDatabase": "ソース・データベースを呼び出す行",
       "rowsCallingTargetDatabase": "ターゲット・データベースを呼び出す行",
       "rowsCallingUserExitsSource": "ユーザー終了を呼び出すソース行",
-      "rowsCallingUserExitsTarget": "ユーザー終了を呼び出すターゲット行"
+      "rowsCallingUserExitsTarget": "ユーザー終了を呼び出すターゲット行",
+      "zeroToHalf": "0 まで 1/2X",
+      "halfToOne": "1/2X から X まで",
+      "oneToTwo": "X から 2X まで",
+      "twoToFour": "2X から 4X まで",
+      "fourToEight": "4X から 8X まで",
+      "moreThanEight": "8X 以上",
+      "garbageCollection": "ガベージ・コレクション数",
+      "garbageCollectionCPU": "ガベージ・コレクション CPU 時間",
+      "totalTransactions": "合計トランザクション",
+      "inscopeTransactions": "範囲内のトランザクション",
+      "freeMem": "メモリー解放",
+      "maxMem": "最大メモリー",
+      "totalMem": "合計メモリー",
+      "globalMem": "グローバル・メモリー・マネージャー"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -13696,6 +13807,7 @@
     },
     "tibcoASDataGrid": {
       "label": "Tibco AS Data Grid",
+      "gridId": "グリッド ID",
       "nodes": "ノード",
       "proxies": "プロキシー",
       "name": "名前",

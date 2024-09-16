@@ -34,7 +34,8 @@ import {
   getGitlabFields,
   getJiraFields,
   JIRA_OPERATIONS,
-  isDocLink
+  isDocLink,
+  getManualContentFromFields
 } from 'in-automation/ActionCatalog/shared';
 import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -116,7 +117,7 @@ export default function RunActionDialogContent({
     );
   }
   if (isManual(action.type)) {
-    return <ManualActionContent action={action} />;
+    return <ManualActionContent content={getManualContentFromFields(action.fields)} addCopyButton />;
   }
 
   if (isExternal(action.type)) {
@@ -350,7 +351,9 @@ export function MetadataActionContent({
       {isDocLink(action.type) && <DocActionContent action={action} />}
       {isWebhook(action.type) && <WebhookActionContent action={action} />}
       {isGithub(action.type) && <GithubActionContent action={action} />}
-      {isManual(action.type) && <ManualActionContent action={action} />}
+      {isManual(action.type) && (
+        <ManualActionContent content={getManualContentFromFields(action.fields)} addCopyButton />
+      )}
       {isGitlab(action.type) && <GitlabActionContent action={action} />}
       {isJira(action.type) && <JiraActionContent action={action} />}
       {isAnsible(action.type) && viewRecommendedAction && <AnsibleActionMetadata action={action} />}

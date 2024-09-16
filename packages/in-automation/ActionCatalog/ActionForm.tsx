@@ -92,6 +92,7 @@ import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
 import CreatableTagSelect from 'in-components/CreatableTagSelect';
 import useActionFilter from 'in-automation/hooks/useActionFilter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { carbonInputEnabled } from 'in-services/featureFlags';
 import useActionTags from 'in-automation/hooks/useActionTags';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -1469,18 +1470,20 @@ const SecuredInput = ({
         maxLength={256}
       />
       <Spacer horizontal="xsmall" />
-      <Tooltip content={showPassword ? tooltipTranslation[fieldKey][0] : tooltipTranslation[fieldKey][1]}>
-        <IconButton
-          buttonType="button"
-          kind="info"
-          type={showPassword ? 'lib_views_hide' : 'lib_views_show'}
-          onClick={() => {
-            setShowPassword(showPassword => !showPassword);
-          }}
-          iconSize="xs"
-          alignment="right"
-        />
-      </Tooltip>
+      {!carbonInputEnabled && (
+        <Tooltip content={showPassword ? tooltipTranslation[fieldKey][0] : tooltipTranslation[fieldKey][1]}>
+          <IconButton
+            buttonType="button"
+            kind="info"
+            type={showPassword ? 'lib_views_hide' : 'lib_views_show'}
+            onClick={() => {
+              setShowPassword(showPassword => !showPassword);
+            }}
+            iconSize="xs"
+            alignment="right"
+          />
+        </Tooltip>
+      )}
     </HorizontalFlexWrapper>
   );
 };

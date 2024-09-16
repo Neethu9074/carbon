@@ -20,13 +20,11 @@ import locals from 'in-plg/components/Card/AgentCatalogCard.mless';
 export default function AgentCatalogCard({
   title,
   icon,
-  iconColor,
   content,
   href
 }: {
   title: string;
   icon: string;
-  iconColor?: string;
   content?: string;
   href: string;
 }) {
@@ -41,7 +39,7 @@ export default function AgentCatalogCard({
       case 'cloud_foundry_icon':
         return <CloudFoundryIcon />;
       default:
-        return <SvgIcon type={icon} color={iconColor} />;
+        return <SvgIcon type={icon} />;
     }
   };
 

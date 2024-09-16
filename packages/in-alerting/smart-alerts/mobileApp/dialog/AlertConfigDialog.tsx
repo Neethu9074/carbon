@@ -15,6 +15,7 @@ import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/use
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/eum/components/AlertCreateOrSave';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
 import { eumType } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { MobileAppAlertConfig, VersionedConfig } from 'in-types';
@@ -43,6 +44,7 @@ export default function AlertConfigDialog({
   const [messages, setMessages] = useState<EnrichedError[]>([]);
   const [isSimpleMode, setIsSimpleMode] = useState(startWithSimpleMode);
   const getLinkToAlertConfig = useGetAlertConfigLink();
+  const { trackCta } = useSegmentTracking();
 
   return (
     <AlertConfigDialogWithThreshold
@@ -64,7 +66,8 @@ export default function AlertConfigDialog({
           toAlertConfig,
           isSimpleMode,
           eumType,
-          duplicateFrom
+          duplicateFrom,
+          trackCta
         });
       }}
       onClose={() => {

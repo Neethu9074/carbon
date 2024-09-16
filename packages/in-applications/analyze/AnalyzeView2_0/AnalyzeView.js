@@ -6,6 +6,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { sortBy } from 'lodash';
 
+import { Typography } from '@instana/components';
+
 import {
   alreadyConvertedAnalyticsWithHiddenTagsLocation,
   isAnalyticsWithHiddenTagsLocation
@@ -320,8 +322,8 @@ function getUngroupedView(dataSource) {
       ColumnContent(item) {
         const type = typePerDataSource[dataSource];
         return (
-          <>
-            {latencyFixed.compact(item[type].duration)}
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <Typography variant="body-regular">{latencyFixed.compact(item[type].duration)}</Typography>
             <BatchingIndicator
               batchCount={item[type].batchCount}
               tooltipContent={t('in-applications:analyze.listBatchLatencyTooltip', {
@@ -330,7 +332,7 @@ function getUngroupedView(dataSource) {
               })}
               noTopPosition
             />
-          </>
+          </div>
         );
       },
       hasRawValue({ metricDefinition }) {

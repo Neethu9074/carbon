@@ -616,6 +616,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "必须至少配置一个过滤表达式。",
       "timeBased": "基于时间",
       "eventBased": "基于事件",
+      "sloLegacy": "SLO 原有项",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "应用程序",

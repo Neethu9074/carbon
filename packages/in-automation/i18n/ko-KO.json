@@ -5,6 +5,7 @@
   "test": "테스트",
   "recommendedActionsWithCount": "권장 조치 ({{count}})",
   "recommendedActions": "권장 조치",
+  "actionName": "조치 이름",
   "validVaultParameter": "선택 사항으로 표시된 Vault 매개변수는 둘 다 비어 있거나 둘 다 비어 있지 않아야 합니다.",
   "newAction": "새 조치",
   "runAction": "조치 실행",
@@ -96,32 +97,63 @@
   "AISlugContent": "AI를 사용하여 이 컨텐츠를 생성함",
   "createPolicyWithName": "{{actionName}} 조치 보기 및 정책 작성",
   "viewActionCreatePolicy": "조치 보기 및 정책 작성",
-  "simpleAIDialog": {
-    "Step1Headline": "watsonx에서 생성된 조치로 시작하여 이 이벤트에 대한 새 조치 및 자동화 정책을 작성하십시오.",
-    "Step2Headline": "새 조치를 작성하기 위한 세부사항을 지정하십시오.",
-    "Step3Headline": "새 자동화 정책을 작성하기 위한 세부사항을 지정하십시오.",
-    "step1Title": "1단계: 생성된 조치 선택",
+  "titleScriptContentReadOnly": "컨텐츠(읽기 전용)",
+  "GenerateAIActionDialog": {
+    "actionConfiguration": "조치 구성",
+    "actionDetails": "조치 세부사항",
+    "Step1HeadlineSelectAction": "이 이벤트에 대한 새 조치를 생성하려면 watsonx에서 생성된 기본 제공 조치로 시작하십시오.",
+    "Step1HeadlinePrompt": "이벤트 이름, 설명 및 엔티티 유형에 따라 watsonx로 수동 조치를 생성하십시오.",
+    "Step2Headline": "조치 카탈로그에 저장하기 전에 조치 세부사항을 지정하거나 변경하십시오.",
+    "Step3Headline": "선택사항으로 조치와 함께 자동화 정책을 작성할 수 있습니다. 이 단계는 나중에 완료할 수도 있습니다.",
+    "step1Title": "1단계: 조치 생성 또는 선택",
+    "step1TitleGenerateAction": "1단계: 조치 생성",
     "step2Title": "2단계: 조치 사용자 정의",
-    "step3Title": "3단계: Policy 작성",
+    "step3Title": "3단계: 정책 작성(선택사항)",
     "policyDetails": "정책 세부사항",
-    "policyText": "다음 조치 및 이벤트 트리거에 대해 새 정책이 작성됩니다.",
     "policy": {
       "success": {
-        "title": "조치 및 정책이 작성됨",
-        "content": "새 조치가 카탈로그에 추가되었으며 새 정책 {{name}}이(가) 작성됨",
-        "link": "액션 링크"
+        "title": "정책이 작성되었습니다.",
+        "content": "<Link>\"{{name}}\"</Link> 정책이 작성되었습니다."
       }
-    }
+    },
+    "action": {
+      "success": {
+        "title": "액션이 작성되었습니다.",
+        "content": "<Link>\"{{name}}\"</Link> 조치가 작성되었습니다."
+      }
+    },
+    "generateAction": "조치 생성",
+    "closeDialogDescription": " 이 페이지에서 나가시겠습니까?",
+    "closeDialogSubDescription": "이 페이지를 나가면 입력하거나 선택한 모든 정보가 저장되지 않습니다.",
+    "liveGeneration": "라이브 생성",
+    "builtinActions": "기본 제공 조치({{count}}개)",
+    "eventName": "이벤트 이름",
+    "eventDescription": "이벤트 설명",
+    "eventEntityType": "이벤트 엔티티 유형",
+    "noDataAvailableLive": "프롬프트 필드를 채우고 <strong>조치 생성</strong> 단추를 클릭하여 컨텐츠를 가져오십시오.",
+    "noDataAvailableSelectAction": "컨텐츠를 보려면 선택하십시오.",
+    "watsonxLoadingContent": "watsonx가 컨텐츠를 생성 중입니다.",
+    "confirmButtonLabel": "페이지 나가기",
+    "cancelButtonLabel": "페이지 유지",
+    "noResultsYet": "아직 결과 없음",
+    "next": "다음",
+    "createActionAndPolicy": "조치 및 정책 작성",
+    "createAction": "조치 작성",
+    "nameExists": "이름: {{name}}, 유형: {{type}}의 조치가 이미 있음",
+    "failedToGenerateAction": "조치를 생성하는 데 실패했습니다.",
+    "failedToCreateActionPolicy": "조치 및 정책을 작성하는 데 실패했습니다.",
+    "failedToCreateAction": "조치를 작성하지 못했습니다."
   },
-  "SimpleCreatePolicyDialog": {
+  "CreatePolicyDialog": {
     "Step1Headline": "권장 조치를 보고 이 이벤트에 대한 자동화 정책을 작성하십시오.",
     "Step2Headline": "새 자동화 정책을 작성하기 위한 세부사항을 지정하십시오.",
     "step1Title": "1단계: 권장 조치 보기",
     "step2Title": "2단계: 정책 작성",
+    "actionDetails": "조치 세부사항",
     "policy": {
       "success": {
         "title": "정책이 작성됨",
-        "successContentForuserAction": "새 정책 {{name}}이(가) 작성됨"
+        "content": "\"{{name}}\" 정책이 작성되었습니다."
       }
     }
   },
@@ -149,7 +181,7 @@
     "showsUpInTheListOfActions": "조치 목록에 표시됩니다. 고유하며 의미가 있어야 합니다.",
     "showsUpInTheActionDescription": "조치 설명에 표시됩니다. 가능한 한 구체적이어야 합니다.",
     "docLinkDescription": "문제 해결에 도움이 되는 문서의 URL입니다.",
-    "manualContentDescription": "여기에 수동 조치에 대한 지시사항을 입력하십시오.",
+    "manualContentDescription": "편집하는 경우 마크다운을 사용하여 목록에 단계를 추가할 수 있습니다.",
     "manual": "수동",
     "confidence_low": "낮음",
     "body": "본문(선택사항)",
@@ -312,7 +344,6 @@
     "policiesWithCount": "정책({{count}}개)",
     "newPolicy": "새 정책",
     "selectEventTrigger": "이벤트 트리거 선택",
-    "actionName": "조치 이름",
     "eventTrigger": "이벤트 트리거",
     "unknownPolicy": "알 수 없는 정책",
     "policy": "정책",

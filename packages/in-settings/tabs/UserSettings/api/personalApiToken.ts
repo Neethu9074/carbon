@@ -32,6 +32,7 @@ export interface PersonalApiToken {
   readonly userId: string;
   readonly createdOn?: DateFormatterInput;
   readonly lastUsedOn?: DateFormatterInput;
+  readonly expiresOn?: DateFormatterInput;
 }
 
 export const getPersonalApiTokensOfUserAsResultObservable = memoize(

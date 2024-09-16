@@ -9,18 +9,20 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import { useLinkToAlertConfig, useLinkToGlobalAlertConfigWithAPDashboard } from 'in-applications/navigation/paths';
-import { applicationsAlertingEventDetailsViewEditConfig } from 'in-alerting/smart-alerts/applications/tracker';
+import { APPLICATIONS_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG } from 'in-services/tracking/tracking';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { t } from 'in-i18n';
 
 export default function ApplicationAlertConfigButton({ applicationId, alertConfig, isGlobalSmartAlert }) {
   const getLinkToGlobalAlertConfigWithAPDashboard = useLinkToGlobalAlertConfigWithAPDashboard();
   const getLinkToAlertConfig = useLinkToAlertConfig();
+  const { trackCta } = useSegmentTracking();
 
   return (
     <Button
       kind="secondary"
       onClick={() => {
-        applicationsAlertingEventDetailsViewEditConfig({ id: alertConfig.id });
+        trackCta(APPLICATIONS_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG, { id: alertConfig.id });
       }}
       href={(isGlobalSmartAlert ? getLinkToGlobalAlertConfigWithAPDashboard : getLinkToAlertConfig)(
         alertConfig.id,

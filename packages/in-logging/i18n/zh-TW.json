@@ -54,5 +54,11 @@
   "host": "主機",
   "fileOnHost": "於",
   "file": "檔案",
-  "logExpiration": "保留截止時間"
+  "logExpiration": "保留截止時間",
+  "dashboard": {
+    "summary": "摘要",
+    "smartAlerts": "智慧型警示",
+    "deleteLogs": "刪除日誌",
+    "configuration": "配置"
+  }
 }

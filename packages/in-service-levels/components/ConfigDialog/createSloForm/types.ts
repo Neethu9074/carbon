@@ -68,7 +68,7 @@ export type SloIndicatorFields = {
   blueprint: Field<BlueprintType>;
   goodEventsFilter: Field<FormModelElement[]>;
   threshold: Field<number | undefined>;
-  type: Field<ServiceLevelIndicatorType>;
+  type: Field<ServiceLevelIndicatorType | undefined>;
 };
 
 export type SloObjectiveFields = {

@@ -7,10 +7,15 @@
 import {
   ServiceLevelsAlertConfig,
   ServiceLevelsAlertConfigWithMetadata,
-  ServiceLevelsAlertRuleUnion
+  ServiceLevelsAlertRuleUnion,
+  ServiceLevelsObjectiveAlertMetric,
+  ErrorBudgetAlertMetric,
+  AlertingDurationUnitType
 } from '@instana/types';
 
 export type SloAlertTypes = ServiceLevelsAlertRuleUnion['alertType'];
+export type SloAlertMetricTypes = ErrorBudgetAlertMetric | ServiceLevelsObjectiveAlertMetric;
+export type SloAlertDurationUnitTypes = Extract<AlertingDurationUnitType, 'minute' | 'hour' | 'day'>;
 
 export function isServiceLevelAlertConfigWithMetaData(
   sloAlertConfig: ServiceLevelsAlertConfig | ServiceLevelsAlertConfigWithMetadata

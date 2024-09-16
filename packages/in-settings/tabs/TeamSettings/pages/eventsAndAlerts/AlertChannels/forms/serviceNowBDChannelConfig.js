@@ -7,10 +7,10 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Collapsible, IconButton, DescriptionList, DescriptionItem, Checkbox } from '@instana/components';
+import { Collapsible, IconButton, DescriptionList, DescriptionItem, RadioButton } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
-import { serviceNowAdvancedEnabled } from 'in-services/featureFlags';
+import { serviceNowAdvancedEnabled, carbonInputEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Label from 'in-components/form/Label';
@@ -44,12 +44,8 @@ const parameters = [
     label: t('in-settings:tabs.password')
   },
   {
-    key: 'autoCloseIncidents',
-    label: t('in-settings:tabs.autoCloseIncidentsBD')
-  },
-  {
-    key: 'resolutionOfIncident',
-    label: t('in-settings:tabs.resolutionOfIncident')
+    key: 'intermediateTable',
+    label: t('in-settings:tabs.intermediateTable')
   }
 ];
 
@@ -69,8 +65,7 @@ export default {
     alertChannel.serviceNowUrl = '';
     alertChannel.username = '';
     alertChannel.password = '';
-    alertChannel.autoCloseIncidents = true;
-    alertChannel.resolutionOfIncident = true;
+    alertChannel.intermediateTable = true;
   },
 
   createDetails(alertChannel) {
@@ -135,15 +130,16 @@ export default {
         })
       )
       .put(
-        'autoCloseIncidents',
+        'intermediateTable',
         createField({
-          value: alertChannel ? alertChannel.get('autoCloseIncidents') : true
-        })
-      )
-      .put(
-        'resolutionOfIncident',
-        createField({
-          value: alertChannel ? alertChannel.get('resolutionOfIncident') : true
+          value: alertChannel
+            ? alertChannel.get('autoCloseIncidents') ||
+              alertChannel.get('resolutionOfIncident') ||
+              alertChannel.get('enableSendInstanaNotes') ||
+              alertChannel.get('manuallyClosedIncidents') ||
+              alertChannel.get('enableSendServiceNowWorkNotes') ||
+              alertChannel.get('enableSendServiceNowActivities')
+            : false
         })
       );
     return mapForm;
@@ -159,8 +155,12 @@ export default {
       serviceNowUrl: form.get('serviceNowUrl').value,
       username: form.get('username').value,
       password: form.get('password').value,
-      autoCloseIncidents: form.get('autoCloseIncidents').value,
-      resolutionOfIncident: form.get('resolutionOfIncident').value
+      autoCloseIncidents: form.get('intermediateTable').value,
+      resolutionOfIncident: form.get('intermediateTable').value,
+      enableSendInstanaNotes: form.get('intermediateTable').value,
+      manuallyClosedIncidents: form.get('intermediateTable').value,
+      enableSendServiceNowWorkNotes: form.get('intermediateTable').value,
+      enableSendServiceNowActivities: form.get('intermediateTable').value
     };
   },
 
@@ -169,6 +169,7 @@ export default {
 
 function Form({ form, onChange }) {
   const [showPassword, setShowPassword] = useState(false);
+  const [propagate, setPropagate] = useState(form?.get('intermediateTable')?.value);
 
   return (
     <fieldset>
@@ -233,7 +234,7 @@ function Form({ form, onChange }) {
           <div className={`${block}__input_with_icon`}>
             <Input
               id="password"
-              className={`${block}__input`}
+              className={!carbonInputEnabled && `${block}__input`}
               type={showPassword ? 'text' : 'password'}
               placeholder={'*******************'}
               value={field.value}
@@ -241,23 +242,25 @@ function Form({ form, onChange }) {
               hasError={!field.valid && field.touched}
               maxLength={256}
             />
-            <Tooltip
-              content={
-                showPassword ? t('in-settings:tabs.hidePasswordTooltip') : t('in-settings:tabs.showPasswordTooltip')
-              }
-            >
-              <IconButton
-                kind="info"
-                type={showPassword ? 'lib_views_hide' : 'lib_views_show'}
-                onClick={e => {
-                  e.preventDefault();
-                  setShowPassword(!showPassword);
-                }}
-                iconSize="xs"
-                alignment="right"
-                className="icon_button"
-              />
-            </Tooltip>
+            {!carbonInputEnabled && (
+              <Tooltip
+                content={
+                  showPassword ? t('in-settings:tabs.hidePasswordTooltip') : t('in-settings:tabs.showPasswordTooltip')
+                }
+              >
+                <IconButton
+                  kind="info"
+                  type={showPassword ? 'lib_views_hide' : 'lib_views_show'}
+                  onClick={e => {
+                    e.preventDefault();
+                    setShowPassword(!showPassword);
+                  }}
+                  iconSize="xs"
+                  alignment="right"
+                  className="icon_button"
+                />
+              </Tooltip>
+            )}
           </div>
           <TouchedMessages field={field} />
         </FormGroup>
@@ -268,32 +271,35 @@ function Form({ form, onChange }) {
           <Collapsible.Content>
             <div className={`${block}__advanced_content`}>
               <Trans i18nKey="in-settings:tabs.advancedIntro" />
-              <section id="sendSection">
-                <Label for="sendSection">{t('in-settings:tabs.sendTitle')}</Label>
-                {form.get('autoCloseIncidents').map(field => (
+              <section id="advanced">
+                <Label htmlFor="advanced">{t('in-settings:tabs.eventProps')}</Label>
+                {form.get('intermediateTable').map(field => (
                   <FormGroup className={block}>
-                    <Checkbox
-                      label={t('in-settings:tabs.autoCloseIncidentsBD')}
-                      id="autoCloseIncidents"
-                      checked={field.value}
-                      onChange={e => onChange('autoCloseIncidents', e.target.checked)}
-                      size="larger"
+                    <RadioButton
+                      label={t('in-settings:tabs.propIncidentTable')}
+                      id="intermediateTable"
+                      checked={propagate}
+                      onChange={() => {
+                        setPropagate(!propagate);
+                        onChange('intermediateTable', !propagate);
+                      }}
                     />
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))}
-              </section>
-              <section id="receiveSection">
-                <Label for="receiveSection">{t('in-settings:tabs.receiveTitle')}</Label>
-                {form.get('resolutionOfIncident').map(field => (
-                  <FormGroup className={block}>
-                    <Checkbox
-                      label={t('in-settings:tabs.resolutionOfIncident')}
-                      id="resolutionOfIncident"
-                      checked={field.value}
-                      onChange={e => onChange('resolutionOfIncident', e.target.checked)}
-                      size="larger"
+                    <div style={{ marginLeft: '1.9rem' }} className={`${block}__field_help_text`}>
+                      {t('in-settings:tabs.propIncidentTableDesc')}
+                    </div>
+                    <br />
+                    <RadioButton
+                      label={t('in-settings:tabs.restIncidentTable')}
+                      id="intermediateTableRestrict"
+                      checked={!propagate}
+                      onChange={() => {
+                        setPropagate(!propagate);
+                        onChange('intermediateTable', !propagate);
+                      }}
                     />
+                    <div style={{ marginLeft: '1.9rem' }} className={`${block}__field_help_text`}>
+                      {t('in-settings:tabs.restIncidentTableDesc')}
+                    </div>
                     <TouchedMessages field={field} />
                   </FormGroup>
                 ))}

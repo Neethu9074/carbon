@@ -13,9 +13,8 @@ import { useObservable } from '@instana/hooks';
 import {
   carbonPaginationEnabled,
   manuallyCloseEventEnabled,
-  incidentSummarizationEnabled,
-  incidentSummarizationTimelineEnabled,
-  eventFeedbackEnabled
+  eventFeedbackEnabled,
+  businessObservabilityEnabled
 } from 'in-services/featureFlags';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import LegacyRootCauseSection from 'in-events/components/legacy/LegacyRootCauseSection';
@@ -115,11 +114,13 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       {/* Automations */}
       <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
       {/* Business impact */}
-      <ImpactedBusinessProcesses
-        eventType={eventType}
-        entityType={incident?.get('entityType', undefined)}
-        entityId={incident?.get('entityId', undefined)}
-      />
+      {businessObservabilityEnabled && (
+        <ImpactedBusinessProcesses
+          eventType={eventType}
+          entityType={incident?.get('entityType', undefined)}
+          entityId={incident?.get('entityId', undefined)}
+        />
+      )}
     </>
   );
 }
@@ -201,10 +202,6 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
     return <RelatedEventsEmptyState />;
   }
 
-  // should be displayed if incident summarization feature is disabled OR incident summarization feature and timeline with summarization is enabled
-  const shouldTimelineBeDisplayed =
-    !incidentSummarizationEnabled || (incidentSummarizationEnabled && incidentSummarizationTimelineEnabled) || false;
-
   if (!paginatedRecentEvents) return <LoadingIndicator />;
 
   return (
@@ -225,15 +222,13 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
           }
         >
           <>
-            {shouldTimelineBeDisplayed && (
-              <PopulationChart
-                incidentId={incident.get('id')}
-                recentEvents={paginatedRecentEvents}
-                changesAreVisible={changesAreVisible}
-                setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-                setHighlightEventOnHover={setHighlightEventOnHover}
-              />
-            )}
+            <PopulationChart
+              incidentId={incident.get('id')}
+              recentEvents={paginatedRecentEvents}
+              changesAreVisible={changesAreVisible}
+              setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
+              setHighlightEventOnHover={setHighlightEventOnHover}
+            />
             {paginatedRecentEvents?.map(_event => (
               <EventListItem
                 key={_event.get('id')}

@@ -44,13 +44,14 @@ export interface ExplainabilityValues {
 }
 
 // Typescript Probable Root Cause Reference
-export type ProbableCauseSnapshotKeys = 'entityID' | 'explainability' | 'probFailure' | 'events';
+export type ProbableCauseSnapshotKeys = 'entityID' | 'explainability' | 'probFailure' | 'events' | 'snapshotId';
 
 export interface ProbableCauseSnapshotValues {
   entityID: Map<string, string>;
   explainability: List<Map<ExplainabilityKeys, ExplainabilityValues[ExplainabilityKeys]>>;
   probFailure: number;
   events: List<string>;
+  snapshotId?: string;
 }
 
 export type ProbableCauseType = Map<ProbableCauseSnapshotKeys, ProbableCauseSnapshotValues[ProbableCauseSnapshotKeys]>;
@@ -193,8 +194,11 @@ function createTagFilterExpressionForAnalysis(
   const isInfrastructureAProcess =
     entityInformation && entityInformation.plugin && entityInformation.plugin === 'process';
 
-  addValueToTagFilterExpressionIfItExists('host.snapshotId', originalID, !isInfrastructureAProcess);
-  addValueToTagFilterExpressionIfItExists('process.snapshotId', originalID, isInfrastructureAProcess);
+  // for endpoints with no AP context, we do not want to add the host.snapshotId or the process.snapshotId
+  if (entityType === 'infrastructure') {
+    addValueToTagFilterExpressionIfItExists('host.snapshotId', originalID, !isInfrastructureAProcess);
+    addValueToTagFilterExpressionIfItExists('process.snapshotId', originalID, isInfrastructureAProcess);
+  }
   addValueToTagFilterExpressionIfItExists(ENDPOINT.name, entityInformation.label, entityType === 'endpoint');
   addValueToTagFilterExpressionIfItExists(SERVICE.name, entityInformation.label, entityType === 'service');
 

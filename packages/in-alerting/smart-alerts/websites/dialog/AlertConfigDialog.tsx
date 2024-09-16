@@ -19,6 +19,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/eum/components/AlertCreateOrSave';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { eumType } from 'in-alerting/smart-alerts/websites/constants';
 import { useGetAlertConfigLink } from 'in-websites/navigation/paths';
 
@@ -45,6 +46,7 @@ export default function AlertConfigDialog({
   const [isSimpleMode, setIsSimpleMode] = useState(startWithSimpleMode);
 
   const websiteLabel = useWebsiteLabel(form.get('websiteId')?.value);
+  const { trackCta } = useSegmentTracking();
 
   const getLinkToAlertConfig = useGetAlertConfigLink();
   const duplicateFrom = alertConfig?.duplicateFrom;
@@ -60,7 +62,8 @@ export default function AlertConfigDialog({
       toAlertConfig,
       isSimpleMode,
       eumType,
-      duplicateFrom
+      duplicateFrom,
+      trackCta
     });
   };
 

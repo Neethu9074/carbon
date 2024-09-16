@@ -38,7 +38,8 @@
       "itemMsg": "+{{leftCount}} 個以上的 {{moreMsg}}"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "重試"
+      "retryButtonLabel": "重試",
+      "openList": "開啟清單"
     },
     "chartReleasesLanePresenterReleasesLabel": "版本",
     "chartReleasesLanePresenterTooltip": "+{{len}} 個以上的版本",
@@ -260,6 +261,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "確認",
+    "secondaryDialogLabelCancel": "取消",
     "promptPresenterLabelConfirm": "確認"
   },
   "draggableItemSelector": {
@@ -297,8 +299,8 @@
     "labelExpandButtonForContent": "內容的展開按鈕"
   },
   "featureFeedback": {
-    "labelPublicPreview": "公開預覽",
-    "labelPrivatePreview": "私人預覽",
+    "labelPublicPreview": "預覽",
+    "labelPrivatePreview": "預覽",
     "linkLabelYouCanSendUsFeedback": "您可以傳送意見給我們"
   },
   "geoHeatMap": {
@@ -353,6 +355,30 @@
     "labelWarning": "警告",
     "labelCritical": "重大"
   },
+  "vulnerabilities": {
+    "eventType_issue": "漏洞",
+    "eventType_issue_plural": "漏洞",
+    "eventType_issue_0": "漏洞",
+    "eventType_issue_1": "漏洞",
+    "eventType_issue_2": "漏洞",
+    "openIssuesListPresenterActionsViewIssues": "檢視漏洞",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "檢視 {{openIssueCount}} 個漏洞",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "載入開啟的漏洞…",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "無法載入開啟的漏洞",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 個開啟的漏洞",
+    "noVulnerabilities": "無漏洞",
+    "openVulnerabilities": "{{count}} 個漏洞",
+    "openVulnerabilities_plural": "{{count}} 個漏洞",
+    "openVulnerabilities_0": "{{count}} 個漏洞",
+    "openVulnerabilities_1": "{{count}} 個漏洞",
+    "openVulnerabilities_2": "{{count}} 個漏洞",
+    "noIncidents": "無發生事件",
+    "openIncidents": "{{count}} 個事故",
+    "openIncidents_plural": "{{count}} 個事故",
+    "openIncidents_0": "{{count}} 個事故",
+    "openIncidents_1": "{{count}} 個事故",
+    "openIncidents_2": "{{count}} 個事故"
+  },
   "inlineTabNavigation": {
     "labelSelectTab": "選取標籤"
   },
@@ -400,6 +426,7 @@
     "viewSwitcherlabelInfrastructure": "基礎架構",
     "viewSwitcherLabelApplications": "應用程式",
     "viewSwitcherLabelSlo": "服務水準",
+    "viewSwitcherLabelLogs": "日誌",
     "viewSwitcherLabelAnalytics": "分析",
     "viewSwitcherLabelWebsitesAndMobileApps": "網站和行動式應用程式",
     "viewSwitcherLabelWebsites": "網站",
@@ -416,9 +443,11 @@
     "viewSwitcherCustomDashboards": "自訂儀表板",
     "viewSwitcherButtonSignOut": "登出",
     "viewSwitcherLabelTenants": "租戶",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "有新的 Instana 使用者介面版本可用",
     "newUiClientVersionAvailableButtonReloadToUpdate": "重新載入以更新",
     "profileMenu_profileLink": "設定",
+    "profileMenu_tooltip": "設定檔功能表",
     "profileMenu_unitName_tenantName": "單位名稱 - 租戶名稱",
     "profileMenu_switchUnitOrTenant": "切換單位或租戶",
     "profileMenu_logOut": "登出"
@@ -590,8 +619,8 @@
     "loadingData": "正在載入資料"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "有新的 Instana 版本可用",
-    "buttonReloadToUpdate": "重新載入以更新"
+    "newVersionOfInstanaAvailable": "Instana UI 有更新",
+    "buttonReloadToUpdate": "重新整理瀏覽器以將其載入。"
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "呼叫",

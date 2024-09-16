@@ -5,6 +5,7 @@
   "test": "テスト",
   "recommendedActionsWithCount": "推奨アクション ({{count}})",
   "recommendedActions": "推奨アクション",
+  "actionName": "アクション名",
   "validVaultParameter": "オプションとしてマークされたボールト・パラメーターは、両方ともブランクであるか、あるいは両方ともブランクではない必要があります。",
   "newAction": "新規アクション",
   "runAction": "アクションの実行",
@@ -96,32 +97,63 @@
   "AISlugContent": "このコンテンツを生成するためにAIが使用されました",
   "createPolicyWithName": "アクション {{actionName}} の表示およびポリシーの作成",
   "viewActionCreatePolicy": "アクションの表示およびポリシーの作成",
-  "simpleAIDialog": {
-    "Step1Headline": "このイベントの新規アクションおよび自動化ポリシーを作成するには、watsonxによって生成されたアクションから始めます。",
-    "Step2Headline": "新規アクションを作成するための詳細を指定します。",
-    "Step3Headline": "新規自動化ポリシーを作成するための詳細を指定します。",
-    "step1Title": "ステップ1: 生成されたアクションの選択",
+  "titleScriptContentReadOnly": "コンテンツ (読み取り専用)",
+  "GenerateAIActionDialog": {
+    "actionConfiguration": "アクション構成",
+    "actionDetails": "アクションの詳細",
+    "Step1HeadlineSelectAction": "watsonx によって生成された組み込みアクションから、このイベント用の新しいアクションを作成します。",
+    "Step1HeadlinePrompt": "イベント名、説明、エンティティ・タイプに基づいて、watsonx で手動アクションを生成します。",
+    "Step2Headline": "アクション・カタログに保存する前に、アクションの詳細を指定したり、変更を加えたりします。",
+    "Step3Headline": "オプションで、アクションと一緒に自動化ポリシーを作成することができます。 このステップは後で完了することもできます。",
+    "step1Title": "ステップ 1: アクションの生成または選択",
+    "step1TitleGenerateAction": "ステップ 1: アクションの生成",
     "step2Title": "ステップ2: アクションのカスタマイズ",
-    "step3Title": "ステップ3: ポリシーの作成",
+    "step3Title": "ステップ 3: ポリシーの作成 (オプション)",
     "policyDetails": "ポリシーの詳細",
-    "policyText": "以下のアクションおよびイベント・トリガーのための新規ポリシーが作成されます。",
     "policy": {
       "success": {
-        "title": "アクションとポリシーが作成されました",
-        "content": "新規アクションがカタログに追加され、新規ポリシー {{name}} が作成されました",
-        "link": "アクション・リンク"
+        "title": "ポリシーが正常に作成されました。",
+        "content": "ポリシー <Link>\"{{name}}\"</Link> が正常に作成されました。"
       }
-    }
+    },
+    "action": {
+      "success": {
+        "title": "アクションは正常に作成されました。",
+        "content": "アクション <Link>\"{{name}}\"</Link> が正常に作成されました。"
+      }
+    },
+    "generateAction": "アクションの生成",
+    "closeDialogDescription": " このページから移動しますか?",
+    "closeDialogSubDescription": "このページを終了すると、入力または選択した情報は保存されません。",
+    "liveGeneration": "ライブ・ジェネレーション",
+    "builtinActions": "組み込みのアクション ({{count}})",
+    "eventName": "イベント名",
+    "eventDescription": "イベントの説明",
+    "eventEntityType": "イベント・エンティティ・タイプ",
+    "noDataAvailableLive": "プロンプトのフィールドに入力し、<strong>アクションの生成</strong> ボタンをクリックしてコンテンツを取得します。",
+    "noDataAvailableSelectAction": "コンテンツを表示するために選択します。",
+    "watsonxLoadingContent": "watsonx がコンテンツを生成している",
+    "confirmButtonLabel": "ページを離れる",
+    "cancelButtonLabel": "ページにとどまる",
+    "noResultsYet": "現時点で結果なし",
+    "next": "次へ",
+    "createActionAndPolicy": "アクションとポリシーを作成する",
+    "createAction": "アクション作成",
+    "nameExists": "アクションはすでに次の名前で存在します: {{name}}、およびタイプ: {{type}}",
+    "failedToGenerateAction": "アクションの生成に失敗しました。",
+    "failedToCreateActionPolicy": "アクションとポリシーの生成に失敗しました。",
+    "failedToCreateAction": "アクションの作成に失敗しました。"
   },
-  "SimpleCreatePolicyDialog": {
+  "CreatePolicyDialog": {
     "Step1Headline": "推奨アクションを表示し、このイベントの自動化ポリシーを作成します。",
     "Step2Headline": "新規自動化ポリシーを作成するための詳細を指定します。",
     "step1Title": "ステップ1: 推奨アクションの表示",
     "step2Title": "ステップ2: ポリシーの作成",
+    "actionDetails": "アクションの詳細",
     "policy": {
       "success": {
         "title": "ポリシーが作成されました",
-        "successContentForuserAction": "新規ポリシー {{name}} が作成されました"
+        "content": "ポリシー \"{{name}}\" が正常に作成されました。"
       }
     }
   },
@@ -149,7 +181,7 @@
     "showsUpInTheListOfActions": "アクションのリストに表示されます。 固有で、かつ意味のあるものでなければなりません。",
     "showsUpInTheActionDescription": "アクションの説明内に表示されます。 できるだけ分かりやすいものにする必要があります。",
     "docLinkDescription": "修復に役立つ可能性がある資料の URL。",
-    "manualContentDescription": "手動アクションの手順をここに入力します。",
+    "manualContentDescription": "編集する場合は、マーク・ダウンを使用してリストにステップを追加できます。",
     "manual": "手動",
     "confidence_low": "低",
     "body": "本文 (オプション)",
@@ -312,7 +344,6 @@
     "policiesWithCount": "ポリシー ({{count}})",
     "newPolicy": "新規ポリシー",
     "selectEventTrigger": "イベント・トリガーの選択",
-    "actionName": "アクション名",
     "eventTrigger": "イベント・トリガー",
     "unknownPolicy": "不明なポリシー",
     "policy": "policy",

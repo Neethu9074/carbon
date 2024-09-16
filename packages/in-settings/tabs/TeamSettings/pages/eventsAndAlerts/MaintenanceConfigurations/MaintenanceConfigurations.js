@@ -19,11 +19,18 @@ import {
   deleteMaintenanceConfig
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/api';
 import {
+  SETTINGS_MAINTENANCE_WINDOW_EDIT,
+  SETTINGS_MAINTENANCE_WINDOW_NEW,
+  SETTINGS_MAINTENANCE_WINDOW_REMOVE
+} from 'in-services/tracking/eventNames';
+import {
   editMaintenanceWindowTracker,
   newMaintenanceWindowTracker,
   removeMaintenanceWindowTracker
-} from 'in-settings/tracker';
+} from 'in-settings/tracker.ts';
+import { maintenanceWindowCTATracker } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/tracker';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toTitleCase } from 'in-services/util/string';
 import WithIcon from 'in-components/WithIcon';
@@ -33,6 +40,7 @@ import { t } from 'in-i18n';
 export default function MaintenanceWindows() {
   const getStartAsString = getFormattedDateTimeFromFirstWindow.bind(null, 'start');
   const getEndAsString = getFormattedDateTimeFromFirstWindow.bind(null, 'end');
+  const { location } = useNavigation();
   return (
     <List
       title={t('in-settings:tabs.maintenanceWindowConfigurations')}
@@ -44,7 +52,10 @@ export default function MaintenanceWindows() {
       initialOrderBy="name"
       labelNew={t('in-settings:tabs.scheduleMaintenanceWindow')}
       pathNew={teamSettingsAlertingMaintenanceConfigurationNew}
-      trackEvent={newMaintenanceWindowTracker}
+      trackEvent={() =>
+        maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_NEW, location?.pathname) &&
+        newMaintenanceWindowTracker()
+      }
       searchAttributes={['name', 'query', getStartAsString, getEndAsString, 'status']}
       getDetailsHref={entity => getEntityHref(teamSettingsAlertingMaintenanceConfigurations, entity.id)}
     />
@@ -60,7 +71,10 @@ const columnDefinitions = [
         <Tooltip content={entity.name} align="topLeft" delay={500}>
           <Link
             href={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}
-            onClick={() => editMaintenanceWindowTracker()}
+            onClick={() =>
+              maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_EDIT, location.pathname) &&
+              editMaintenanceWindowTracker()
+            }
           >
             <WithIcon icon="lib_actions_build_outline" iconColor={themes.default.ids.color.option.blue['500']} ellipsis>
               {entity.name}
@@ -117,6 +131,7 @@ const columnDefinitions = [
 const tableActions = {
   delete: {
     deleteEntity: entity => {
+      maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_REMOVE, location.pathname);
       removeMaintenanceWindowTracker({
         mwID: entity.id,
         name: entity.name || null

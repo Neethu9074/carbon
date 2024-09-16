@@ -484,6 +484,7 @@
       "inventory": {
         "noData": "No se ha configurado ninguna alerta inteligente. Pulse el botón siguien para configurar su primera alerta inteligente.",
         "noPersmissionToCreateGlobalSmartAlert": "No tiene el permiso para configurar alertas inteligentes. Póngase en contacto con su administrador.",
+        "noPermissionGlobalSmartAlertEdit": "No tiene permiso para realizar esta acción",
         "labelGlobalSmartAlertsList": "Alertas inteligentes de aplicación global ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Alertas inteligentes de aplicación ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -549,7 +550,8 @@
           "groupByEndpoint_1": "{{count}} puntos finales",
           "groupByEndpoint_2": "{{count}} puntos finales",
           "groupbyDescription": "En función de las llamadas realizadas en las últimas 24 horas",
-          "noData": "No se dispone de datos agrupados."
+          "noData": "No se dispone de datos agrupados.",
+          "groupByDataFailed": "Algo ha fallado. No se ha podido recuperar el grupo por datos. Motivo: {{reason}}"
         },
         "callsInScope": {
           "title": "Elegir llamadas en ámbito ",
@@ -610,8 +612,8 @@
             "adaptive": {
               "description": "Se aplica un valor de umbral que se adapta automáticamente a los cambios de la métrica subyacente.",
               "label": "Adaptable",
-              "adaptiveNotSupportedForEndPoint": "No se admite el umbral adaptativo al agrupar por puntos finales.",
-              "adaptiveNotSupportedForBluePrint": "El umbral adaptativo no es compatible con el plano seleccionado: {{bluePrint}}.",
+              "adaptiveNotSupportedForEndPoint": "No se admite un umbral adaptativo al agrupar por puntos finales.",
+              "adaptiveNotSupportedForBluePrint": "No se admite un umbral adaptativo para el blueprint seleccionado : {{bluePrint}}.",
               "notSupported": "No soportado"
             },
             "static": {
@@ -768,6 +770,7 @@
         "selectAlertChannelButton": "Seleccionar canales de alerta",
         "createAlertChannelTitle": "Crear canal de alerta",
         "alertChannelCreatedSuccess": "Canal de alerta creado",
+        "alertChannelCreatedSuccessDescription": "El canal de alerta se ha creado correctamente.",
         "alertChannelSelectTypeTitle": "Tipo de canal de alerta",
         "addChannel": "Añadir {{count}} canal",
         "addChannel_plural": "Añadir {{count}} canales",
@@ -865,6 +868,7 @@
         "criticalAlertPreviewLabel": "Vista previa crítica",
         "alertPreviewMissingThresholdInfo": "No hay ninguna vista previa disponible. Seleccione al menos un valor de umbral para ver la vista previa.",
         "alertPropertiesAlertProperties": "Propiedades de alerta",
+        "alertPreviewDefaultTitle": "Título de notificación",
         "groupingPlaceholdersMissingTooltip": "Configurar grupos para acceder a las opciones del marcador de posición",
         "buttonSave": "Guardar",
         "buttonCreate": "Crear",
@@ -895,6 +899,11 @@
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Crear alerta inteligente",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Crear alerta inteligente global",
         "alertConfigDialogPresenterTitleMigrateAlert": "Migrar a alerta inteligente",
+        "alertConfigTearSheetEditAlert_Local": "Editar una aplicación Alerta inteligente",
+        "alertConfigTearSheetEditAlert_Global": "Editar una aplicación global Alerta inteligente",
+        "alertConfigTearSheetCreateNewAlert_Local": "Crear una aplicación Alerta inteligente",
+        "alertConfigTearSheetCreateNewAlert_Global": "Crear una aplicación global Alerta inteligente",
+        "alertConfigTearSheetMigrateAlert": "Migrar a la aplicación Alerta inteligente",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Cambiar a modalidad avanzada",
         "simpleAlertConfigDialogStep3Headline": "¿Quién debe recibir las alertas?",
         "Loading": "Cargando…",
@@ -1319,6 +1328,12 @@
         "customEventInputPlaceholder": "Pegue un nombre de suceso personalizado o seleccione uno de la lista de sucesos",
         "searchCustomEventButtonLabel": "Seleccionar suceso personalizado"
       },
+      "more": "+{{count}} más",
+      "more_plural": "+{{count}} más",
+      "more_0": "+{{count}} más",
+      "more_1": "+{{count}} más",
+      "more_2": "+{{count}} más",
+      "viewMore": "+Ver más",
       "advanced": {
         "thresholdValue": "Valor de umbral"
       },
@@ -1520,16 +1535,15 @@
     },
     "slo": {
       "components": {
-        "operatorDropdown": "",
-        "operatorDropdown_more": "más que",
-        "operatorDropdown_more-or-equal": "más que o igual a",
-        "operatorDropdown_less": "menor que",
-        "operatorDropdown_less-or-equal": "menor o igual que"
+        "timeOptionsDropdown_minute": "Minutos",
+        "timeOptionsDropdown_hour": "Horas",
+        "timeOptionsDropdown_day": "Días"
       },
       "validators": {
         "noEmptySloIds": "Seleccione al menos un SLO.",
         "notLessThanOrEqualToZero": "Establezca un valor mayor que 0.",
-        "noInvalidOperator": "Seleccione un operador de la lista."
+        "noInvalidOperator": "Seleccione un operador de la lista.",
+        "noInvalidDurationUnit": "Seleccione una unidad de duración de la lista."
       },
       "advancedModeContainer": {
         "stepLabel": "",
@@ -1548,31 +1562,47 @@
         "stepTitle_customPayload": "Carga útil personalizada",
         "selectSloHeadline": "Seleccionar SLO",
         "blueprintSectionTitle": "Seleccionar Blueprint",
+        "blueprint_slo_not_selected": "Por favor, seleccione al menos un SLO para continuar.",
         "blueprint": "",
-        "blueprint_SERVICE_LEVELS_OBJECTIVE": "Estado",
-        "blueprint_ERROR_BUDGET": "Presupuesto de error",
+        "blueprint_STATUS": "Estado",
+        "blueprint_BURNED_PERCENTAGE": "Presupuesto de error",
+        "blueprint_BURN_RATE": "Tasa de consumo",
         "blueprintDescription": "",
-        "blueprintDescription_SERVICE_LEVELS_OBJECTIVE": "Recibir una alerta cuando el estado de SLO esté por debajo de un umbral.",
-        "blueprintDescription_ERROR_BUDGET": "Recibir una alerta cuando se consume un porcentaje del presupuesto de errores.",
+        "blueprintDescription_STATUS": "Recibir una alerta cuando el estado de SLO esté por debajo de un umbral.",
+        "blueprintDescription_BURNED_PERCENTAGE": "Recibir una alerta cuando se consume un porcentaje del presupuesto de errores.",
+        "blueprintDescription_BURN_RATE": "La tasa de consumo es un valor que indica la rapidez con la que se consume el presupuesto de errores en relación con la longitud objetivo de su SLO.",
+        "burnRateShortWindowTitle": "Ventana de alerta corta",
+        "burnRateShortWindowDescription": "Estas alertas se activarán cuando la tasa de error supere el umbral más rápidamente durante un periodo más corto. Esto puede ayudar a capturar un repentino pico de errores o tiempo de inactividad debido a un fallo crítico.",
+        "burnRateDescription": "Avísame cuando la tasa de consumo sea <1/> <2/>.",
+        "burnRateLongWindowTitle": "Ventana de alerta larga",
+        "burnRateLongWindowDescription": "Estas alertas se activarán cuando la tasa de errores supere el umbral durante un periodo de tiempo prolongado. Esto ayuda a identificar problemas acumulados a lo largo del tiempo que podrían causar problemas en el futuro si no se abordan.",
+        "burnRateShortWindowLongerThanLongWindowError": "La ventana corta no puede superar a la ventana larga. Por favor, ajuste cualquiera de los valores.",
+        "burnRateTimeWindowTooLongError": "La ventana de alerta no puede exceder la ventana de tiempo de un SLO seleccionado. Por favor, compruebe el siguiente SLO: {{value}}.",
         "thresholdTitle": "Umbral: ¿Cuándo desea que se le avise?",
         "thresholdInputDescription": "",
-        "thresholdInputDescription_ERROR_BUDGET": "Cuando se consume <1/> <2/> por ciento del presupuesto de errores",
-        "thresholdInputDescription_SERVICE_LEVELS_OBJECTIVE": "Cuando el estado de SLO es <1/> <2/> por ciento",
+        "thresholdInputDescription_BURNED_PERCENTAGE": "Cuando se consume <1/> <2/> por ciento del presupuesto de errores",
+        "thresholdInputDescription_STATUS": "Cuando el estado de SLO es <1/> <2/> por ciento",
+        "thresholdInputDescription_BURN_RATE": "Evalúe el último <1/> del SLO.",
         "timeThresholdType_gracePeriod": "Cuando la condición persiste durante un periodo de tiempo especificado",
         "timeThresholdTypeTitle_gracePeriod": "Alertar cuando se infrinja la condición para $t(in-components:time.minutes, consecutivos {\"count\": {{minutes}} })",
         "timeThresholdTypeTitle_cooldownPeriod": "Deben haber pasado al menos $t(in-components:time.minutes, {\"count\": {{minutes}} }) para que el suceso finalice",
         "alertProperties_entityLabel": "SLO-nombre",
-        "alertPropertiesTitlePlaceholder_SERVICE_LEVELS_OBJECTIVE": "El estado de SLO es bajo",
-        "alertPropertiesDescriptionPlaceholder_SERVICE_LEVELS_OBJECTIVE": "El estado de SLO es $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}}.",
-        "alertPropertiesTitlePlaceholder_ERROR_BUDGET": "El presupuesto de errores restante es bajo",
-        "alertPropertiesDescriptionPlaceholder_ERROR_BUDGET": "Se ha consumido $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} del presupuesto de error.",
+        "alertPropertiesTitlePlaceholder": "",
+        "alertPropertiesTitlePlaceholder_STATUS": "El estado de SLO es bajo",
+        "alertPropertiesDescriptionPlaceholder_STATUS": "El estado de SLO es {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURN_RATE": "Se supera la tasa de consumo",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "La tasa de consumo del SLO es {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "El presupuesto de errores restante es bajo",
+        "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "Se ha consumido {{operator}} {{percentage}} del presupuesto de errores.",
         "alertPropertiesIncidentWarning": "Las incidencias solo son aplicables a los SLO asociados a aplicaciones"
       },
       "details": {
         "alertConfigurationTitle": "Configuración de alertas",
         "sloHeader": "SLO",
-        "thresholdInfo_ERROR_BUDGET": "Cuando se consume $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} por ciento del presupuesto de errores",
-        "thresholdInfo_SERVICE_LEVELS_OBJECTIVE": "Cuando el estado de SLO es $t(in-alerting:smartAlerts.slo.components.operatorDropdown, {\"context\": \"{{operator}}\" }) {{percentage}} por ciento",
+        "thresholdInfo": "",
+        "thresholdInfo_BURN_RATE": "Cuando la tasa de consumo es {{operator}} {{percentage}}",
+        "thresholdInfo_BURNED_PERCENTAGE": "Cuando se consume {{operator}} {{percentage}} por ciento del presupuesto de errores",
+        "thresholdInfo_STATUS": "Cuando el estado de SLO es {{operator}} {{percentage}} por ciento",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
@@ -1581,6 +1611,9 @@
       },
       "alertList": {
         "threshold": "Umbral: {{value}}",
+        "threshold_BURN_RATE": "Tasa de consumo: {{value}}",
+        "threshold_BURNED_PERCENTAGE": "Umbral: {{value}}",
+        "threshold_STATUS": "Umbral: {{value}}",
         "sloApplied": "SLO aplicados",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLO",
@@ -1588,8 +1621,9 @@
         "sloCount_1": "{{count}} SLO",
         "sloCount_2": "{{count}} SLO",
         "title": "",
-        "title_ERROR_BUDGET": "Presupuesto de errores consumido",
-        "title_SERVICE_LEVELS_OBJECTIVE": "Estado"
+        "title_BURN_RATE": "Tasa de consumo",
+        "title_BURNED_PERCENTAGE": "Presupuesto de errores consumido",
+        "title_STATUS": "Estado"
       },
       "messages": {
         "successTitle": "",

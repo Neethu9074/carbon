@@ -70,12 +70,7 @@ export default function ThresholdTypeSelection({
         <Stack space="xxsmall" align="center" direction="horizontal">
           {options.length > 1 && thresholdType !== ADAPTIVE_BASELINE && <ThresholdTypesHelp />}
           {thresholdType === HISTORIC_BASELINE && (
-            <RecalculateBaselineButton
-              updateForm={updateForm}
-              editMode={editMode}
-              form={form}
-              className={locals.recalButtonWidth}
-            />
+            <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
           )}
         </Stack>
       </>

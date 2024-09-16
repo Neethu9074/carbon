@@ -47,7 +47,7 @@
   },
   "playwithinstana": {
     "content": "准备好监视您自己的环境",
-    "bookdemo": " 预定演示",
+    "bookdemo": " 预订实时演示",
     "freetrial": " 免费试用",
     "taketour": " 观看导览"
   },
@@ -406,6 +406,22 @@
         "configurationParameters": "配置参数"
       }
     },
+    "ibmi": {
+      "ibmi": "IBM i",
+      "os": "操作系统",
+      "archiveTarGz": "归档 (tar.gz)",
+      "archive": {
+        "selectTheAgentPackagingMode": "步骤 1：选择代理程序打包方式",
+        "selecTthePlatformArchitecture": "步骤 2：选择平台体系结构",
+        "platformArchitecture": "平台体系结构",
+        "beforeYouInstall": "安装之前",
+        "installingManually": "手动安装",
+        "startingTheAgent": "启动代理程序",
+        "agentOptions": {
+          "ibmi64Bit": "IBM i"
+        }
+      }
+    },
     "openshift": {
       "documentLinks": {
         "installOperatorByUsingOlm": "使用 OLM 安装操作程序",
@@ -437,7 +453,18 @@
       "reviewPrerequisitesAndConfigureContainerApps": "查看先决条件并配置 Azure Container Apps 以进行跟踪。",
       "containerAppSetEnvironmentVariables": "在创建 Azure Container Apps 时设置以下环境变量。",
       "monitoringAzure": "使用 Azure 代理程序监控和检测 Microsoft Azure",
-      "monitoringAzureContainerApps": "监控 Azure Container Apps"
+      "monitoringAzureContainerApps": "监控 Azure Container Apps",
+      "selectAzureAppServiceRuntime": "选择 Azure App Service 运行时。",
+      "nodejs": {
+        "reviewPrerequisitesAndInstallAppService": "查看先决条件并安装收集器。",
+        "monitoringAppService": "监控 Azure App Service for Node.js",
+        "referenceAppServiceDocumentationContent": "查看先决条件，并按照安装指南安装收集器。 有关详细说明，请参阅<azureAppServiceDoc>文档</azureAppServiceDoc>。",
+        "activatingAppService": "正在激活收集器。",
+        "appName": "应用程序名称",
+        "resourceGroupName": "资源组名称",
+        "activatingAppServiceContent": "使用 Node.js V18.19 或更高版本的 ECMAScript 模块应用程序的 Azure CLI 命令示例：",
+        "activatingAppServiceNote": "请更新 NODE_OPTIONS 值，使其符合您的配置的正确设置。 请参阅<azureAppServiceEnableCollectorDoc>文档</azureAppServiceEnableCollectorDoc>以获取指导。"
+      }
     },
     "gcp": {
       "dockerBuild": "Docker 构建",
@@ -543,7 +570,6 @@
         "powervcRegion": "PowerVC 区域",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
-        "kubernetes": "Kubernetes",
         "gke": "Google Kubernetes Engine",
         "eks": "Amazon Elastic Kubernetes Service",
         "name": "名称",
@@ -578,9 +604,9 @@
         "active": "活动",
         "title": "标题",
         "on": "ON",
-        "started": "已启动",
+        "started": "启动",
         "end": "结束",
-        "health": "状态",
+        "severity": "严重性",
         "searchPlaceholderLabel": "事件",
         "viewAllLabel": "事件"
       },
@@ -658,7 +684,7 @@
     "noData": {
       "applicationWidget": {
         "header": "无应用程序",
-        "description": "在要观察的服务上创建您自己的透视图。",
+        "description": "在要观察的服务上创建您自己的应用程序透视图。",
         "buttonName": "创建应用程序透视图"
       },
       "incidentsWidget": {
@@ -690,7 +716,7 @@
       },
       "platformsWidget": {
         "header": "无平台",
-        "description": "在此处查找所有已安装的平台。"
+        "description": "目前还没有平台可显示。"
       },
       "businessMonitoringWidget": {
         "header": "无业务流程",

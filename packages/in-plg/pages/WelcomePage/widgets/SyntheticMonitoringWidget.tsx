@@ -92,7 +92,7 @@ export default function SyntheticMonitoringWidget({
   widgetLabel,
   dashboardTileProps
 }: SyntheticProps) {
-  const [selectedType, setSelectedType] = useState(sessionStorage.getItem('selectedSyntheticType') || 'test');
+  const [selectedType, setSelectedType] = useState(localStorage.getItem('selectedSyntheticType') ?? 'test');
   const { location, createHref, createHrefToPath } = useNavigation();
 
   const toggles = [
@@ -102,7 +102,7 @@ export default function SyntheticMonitoringWidget({
   ];
 
   useEffect(() => {
-    sessionStorage.setItem('selectedSyntheticType', selectedType);
+    localStorage.setItem('selectedSyntheticType', selectedType);
   }, [selectedType]);
 
   /**

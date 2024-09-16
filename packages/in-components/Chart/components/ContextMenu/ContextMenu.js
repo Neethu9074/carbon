@@ -15,7 +15,6 @@ import downloadJSONAction from 'in-components/Chart/components/ContextMenu/actio
 import downloadCSVAction from 'in-components/Chart/components/ContextMenu/actions/downloadCSV';
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
@@ -25,7 +24,6 @@ import locals from './ContextMenu.mless';
 
 const { isEscape } = keyCodes;
 const MAX_ZOOM_LEVEL = minutes.toMillis(1);
-
 export default class extends React.Component {
   static displayName = 'ContextMenu';
 
@@ -44,8 +42,7 @@ export default class extends React.Component {
       },
       {
         ...zoomInAction,
-        getHrefWithLocation$: (location, createHref) =>
-          zoomInAction.getHighlightedTimeframeUrl$(highlightedTimeframe, location, createHref)
+        getHref$: () => zoomInAction.getHref$(highlightedTimeframe)
       },
       {
         ...downloadJSONAction,
@@ -137,6 +134,12 @@ export default class extends React.Component {
       return null;
     }
 
+    const buttonProps = {
+      className: locals.button,
+      kind: 'secondary',
+      size: 'compact'
+    };
+
     const leftAligned = this.isLeftAligned();
     const barWidthInPx = xScale.getRangeArea(chart.config.granularity);
 
@@ -160,7 +163,19 @@ export default class extends React.Component {
               }}
             >
               {contextMenuButtons.slice(immediatelyOpenContextMenu ? 0 : 1).map((buttonConfig, index) => (
-                <ContextMenuButton buttonConfig={buttonConfig} key={index} />
+                <Button
+                  key={index}
+                  {...buttonProps}
+                  icon={buttonConfig.icon}
+                  {...(typeof buttonConfig.getHref === 'string'
+                    ? { href: buttonConfig.getHref }
+                    : buttonConfig.getHref$
+                    ? { href$: buttonConfig.getHref$() }
+                    : {})}
+                  onClick={buttonConfig.onClick}
+                >
+                  {buttonConfig.label}
+                </Button>
               ))}
             </div>
           )}
@@ -296,28 +311,4 @@ export function sortByPrimaryAction(i1, i2, primaryContextMenuAction) {
     return 1;
   }
   return 0;
-}
-
-function ContextMenuButton(props) {
-  const { buttonConfig } = props;
-  const { location, createHref } = useNavigation();
-  const { icon, getHref, label, getHref$, getHrefWithLocation$, onClick } = buttonConfig;
-  return (
-    <Button
-      className={locals.button}
-      kind="secondary"
-      size="compact"
-      icon={icon}
-      {...(typeof getHref === 'string'
-        ? { href: getHref }
-        : buttonConfig.getHref$
-        ? { href$: getHref$() }
-        : getHrefWithLocation$
-        ? { href$: getHrefWithLocation$(location, createHref) }
-        : {})}
-      onClick={onClick}
-    >
-      {label}
-    </Button>
-  );
 }

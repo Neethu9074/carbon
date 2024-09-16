@@ -171,6 +171,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions,
+  defaultPageSizes: [20, 40, 60, 80, 100],
   defaultOrderBy: 'callsAgg',
   defaultOrderDirection: 'DESC',
   pathSegment,

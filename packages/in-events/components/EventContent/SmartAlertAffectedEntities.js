@@ -15,10 +15,11 @@ import {
   tagNamesToUseEndpointGrouping
 } from 'in-events/components/AnalyzeApplicationEventButton';
 import { containsTagName, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
+import { APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE } from 'in-services/tracking/tracking';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import AffectedEntities from 'in-events/components/AffectedEntities/AffectedEntities';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { isApplicationEntity } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { fixateTimeConfig } from 'in-stores/time/config';
@@ -38,6 +39,7 @@ export function SmartAlertAffectedEntities({
 }) {
   const { rule, includeInternal, includeSynthetic } = alertConfig;
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+  const { trackCta } = useSegmentTracking();
 
   if (rule.alertType === 'throughput') {
     // we don't show the affected services/endpoints list for this blueprint type, because there is no simple property
@@ -58,7 +60,7 @@ export function SmartAlertAffectedEntities({
 
   const renderLinkToAnalyzeAll = total => (
     <Link
-      onClick={() => applicationsAlertingEventDetailsGoToAnalyze()}
+      onClick={() => trackCta(APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE)}
       href={getLinkToUnboundAnalytics(
         {
           applicationId,

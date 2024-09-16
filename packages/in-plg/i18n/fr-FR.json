@@ -47,8 +47,8 @@
   },
   "playwithinstana": {
     "content": "Prêt à surveiller votre propre environnement",
-    "bookdemo": " Réservez une démo",
-    "freetrial": " Essai gratuit",
+    "bookdemo": " Réservez une démonstration en direct",
+    "freetrial": " Essayez-le gratuitement",
     "taketour": " Visite guidée"
   },
   "agentDetails": {
@@ -406,6 +406,22 @@
         "configurationParameters": "Paramètres de configuration"
       }
     },
+    "ibmi": {
+      "ibmi": "IBM i",
+      "os": "OS",
+      "archiveTarGz": "Archive (tar.gz)",
+      "archive": {
+        "selectTheAgentPackagingMode": "Étape 1 : sélectionnez le mode de package de l'agent",
+        "selecTthePlatformArchitecture": "Étape 2 : sélectionnez l'architecture de la plateforme",
+        "platformArchitecture": "Architecture de la plateforme",
+        "beforeYouInstall": "Avant de procéder à l'installation",
+        "installingManually": "Installation manuelle",
+        "startingTheAgent": "Démarrage de l'agent",
+        "agentOptions": {
+          "ibmi64Bit": "IBM i"
+        }
+      }
+    },
     "openshift": {
       "documentLinks": {
         "installOperatorByUsingOlm": "Installation de l'opérateur en utilisant OLM",
@@ -437,7 +453,18 @@
       "reviewPrerequisitesAndConfigureContainerApps": "Vérifiez les prérequis et configurez votre Azure Container Apps pour le traçage.",
       "containerAppSetEnvironmentVariables": "Définissez les variables d'environnement suivantes lors de la création d'Azure Container App.",
       "monitoringAzure": "Surveillance et instrumentation de Microsoft Azure avec l'agent Azure",
-      "monitoringAzureContainerApps": "Surveillance de Azure Container Apps"
+      "monitoringAzureContainerApps": "Surveillance de Azure Container Apps",
+      "selectAzureAppServiceRuntime": "Sélectionnez l'exécution d'Azure App Service.",
+      "nodejs": {
+        "reviewPrerequisitesAndInstallAppService": "Examinez les conditions préalables et installez le collecteur.",
+        "monitoringAppService": "Surveillance d'Azure App Service pour Node.js",
+        "referenceAppServiceDocumentationContent": "Passez en revue les conditions préalables et suivez le guide d'installation pour installer le collecteur. Pour obtenir des instructions détaillées, reportez-vous à la <azureAppServiceDoc>documentation</azureAppServiceDoc>.",
+        "activatingAppService": "Activation du collecteur.",
+        "appName": "Nom de l'application",
+        "resourceGroupName": "Nom du groupe de ressources",
+        "activatingAppServiceContent": "Exemple de commande CLI Azure pour une application de module ECMAScript utilisant Node.js v18.19 ou une version ultérieure :",
+        "activatingAppServiceNote": "Mettez à jour la valeur de NODE_OPTIONS pour qu'elle corresponde au paramètre correct de votre configuration. Reportez-vous à la <azureAppServiceEnableCollectorDoc>documentation</azureAppServiceEnableCollectorDoc> où vous trouverez des conseils."
+      }
     },
     "gcp": {
       "dockerBuild": "Version Docker",
@@ -499,7 +526,7 @@
     "smartAlerts": {
       "title": "Recevez des alertes",
       "description": "Configurez facilement des alertes avec des plans directeurs prédéfinis pour une personnalisation simple et avancée.",
-      "buttonName": "Configurez des alertes intelligentes"
+      "buttonName": "Configurez des Smart Alerts"
     },
     "startMonitoring": {
       "title": "Surveillez votre environnement",
@@ -543,7 +570,6 @@
         "powervcRegion": "Région PowerVC",
         "sap": "SAP",
         "ibmz": "Console HMC IBM Z",
-        "kubernetes": "Kubernetes",
         "gke": "Google Kubernetes Engine",
         "eks": "Amazon Elastic Kubernetes Service",
         "name": "Nom",
@@ -578,9 +604,9 @@
         "active": "actif",
         "title": "Titre",
         "on": "Activé",
-        "started": "Démarré",
+        "started": "Début",
         "end": "Fin",
-        "health": "Statut",
+        "severity": "Gravité",
         "searchPlaceholderLabel": "incidents",
         "viewAllLabel": "incidents"
       },
@@ -658,7 +684,7 @@
     "noData": {
       "applicationWidget": {
         "header": "Aucune application",
-        "description": "Créez votre propre perspective sur les services que vous souhaitez observer.",
+        "description": "Créez votre propre perspective de l'application pour les services que vous souhaitez observer.",
         "buttonName": "Créer une perspective d'application"
       },
       "incidentsWidget": {
@@ -690,7 +716,7 @@
       },
       "platformsWidget": {
         "header": "Aucune plateforme",
-        "description": "Recherchez toutes les plateformes installées ici."
+        "description": "Il n'y a pas encore de plateformes à afficher."
       },
       "businessMonitoringWidget": {
         "header": "Aucun processus technique",
@@ -707,7 +733,7 @@
           "description": "Configurez un emplacement synthétique où vos tests synthétiques seront exécutés."
         },
         "smartalerts": {
-          "header": "Aucune alerte synthétique intelligente",
+          "header": "Aucune Smart Alerts synthétique",
           "description": "Configurez Smart Alerts pour les données synthétiques afin d'envoyer une alerte si le test d'un emplacement échoue.",
           "buttonName": "Ajouter des alertes intelligentes synthétiques"
         }

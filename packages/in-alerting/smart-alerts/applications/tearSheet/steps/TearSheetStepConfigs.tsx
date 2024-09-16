@@ -18,6 +18,7 @@ import AlertConfigTearSheetStep5 from 'in-alerting/smart-alerts/applications/tea
 import AlertConfigTearSheetStep6 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep6';
 import AlertConfigTearSheetStep2 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep2';
 import AlertingTearSheetContent from 'in-alerting/components/AlertingTearSheetContent';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 export const stepConfigs = [
@@ -96,10 +97,11 @@ export const APStepRenderers = [
 ];
 
 export const getFooterActions = (
-  editMode: boolean | undefined,
   backOrCancel: (oldStep: number) => void,
-  cancelTearSheet: () => string,
-  handleSubmit: () => void
+  cancelTearSheet: () => string | Nullish,
+  handleSubmit: () => void,
+  editMode: boolean | undefined,
+  migrationMode: boolean | undefined
 ) => [
   {
     kind: 'ghost',
@@ -116,9 +118,17 @@ export const getFooterActions = (
   {
     kind: 'primary',
     isLeftAlign: false,
-    label: editMode
-      ? t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave')
-      : t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate'),
+    label: getButtonLabel(editMode, migrationMode),
     onClick: () => handleSubmit()
   }
 ];
+
+function getButtonLabel(editMode?: boolean, migrationMode?: boolean) {
+  if (migrationMode) {
+    return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonMigrate');
+  }
+  if (editMode) {
+    return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave');
+  }
+  return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate');
+}

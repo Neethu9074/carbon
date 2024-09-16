@@ -120,7 +120,8 @@
     "title_dashboard": "定制仪表板",
     "title_automation": "自动化",
     "title_agents": "代理",
-    "title_access_control": "访问控制"
+    "title_access_control": "访问控制",
+    "subHeadline_syntheticMonitoring": "{{ quantityOfAreas }} 加上继承测试。"
   },
   "headingSection": {
     "title": "角色和访问作用域",
@@ -168,7 +169,8 @@
     "contributionFilter_name": "名称",
     "contributionFilter_name_mayNotBeBlank": "添加项过滤器名称不得为空。",
     "contributionFilter_name_mustNotBeLargerThan128Characters": "添加项过滤器名称的长度不得超过 128 个字符。",
-    "contributionFilter_name_alreadyUsed": "已使用添加项过滤器名称。"
+    "contributionFilter_name_alreadyUsed": "已使用添加项过滤器名称。",
+    "addButton_syntheticCredentials": "选择合成凭证"
   },
   "selectItemForm": {
     "doneButton": "完成"
@@ -176,10 +178,13 @@
   "selectEntityDialog": {
     "nameColumnHead": "名称",
     "contributionFilterColumnHead": "添加项过滤器",
-    "syntheticAllTestsAccess": "所有测试",
-    "syntheticInheritedAccess": "继承的访问权",
+    "syntheticAllTestsAccess": "可选择的测试",
+    "syntheticInheritedAccess": "已继承测试",
     "syntheticTableSubHeader": "该组的成员已经有权访问以下合成测试，因为他们具有关联应用程序的访问权限。",
-    "syntheticTableSubHeaderWebMobile": "该组的成员已经有权访问以下合成测试，因为他们具有关联应用程序、网站和移动应用程序的访问权限。"
+    "syntheticTableSubHeaderWebMobile": "该组的成员已经有权访问以下合成测试，因为他们具有关联应用程序、网站和移动应用程序的访问权限。",
+    "syntheticSelectableCredentialsAccess": "可选择的凭证",
+    "syntheticInheritedCredentialsAccess": "已继承凭证",
+    "syntheticTableSubHeaderWebMobileForCredentials": "该组的成员已经有权访问以下合成凭证，因为他们具有关联应用程序、网站和移动应用程序的访问权限。"
   },
   "permissionScope": {
     "access_level": "访问级别",
@@ -271,7 +276,8 @@
       "limited_access": {
         "access_level": "仅访问具有所选访问权类型和任何其他许可权的所列合成测试",
         "access_level_tp": "与用户有权访问的应用程序关联的所有合成测试的访问权限。 您可以使用下面的列表，授予对其他合成测试的访问权限。",
-        "access_level_web_mobile": "与用户有权访问的应用程序、网站和移动应用程序关联的所有合成测试的访问权限。 您可以使用下面的列表，授予对其他合成测试的访问权限。"
+        "access_level_web_mobile": "与用户有权访问的应用程序、网站和移动应用程序关联的所有合成测试的访问权限。 您可以使用下面的列表，授予对其他合成测试的访问权限。",
+        "access_level_tests_credentials": "访问与用户有权访问的应用程序、网站和移动应用程序关联的所有合成测试和凭证。 您可以使用下面的列表，授予对其他合成测试和凭证的访问权限。"
       },
       "role_permissions_owner": "创建、配置、查看和删除合成测试。",
       "role_permissions_viewer": "查看合成测试及其配置。"
@@ -354,6 +360,23 @@
       },
       "customPayload": {
         "unknownTag": "未知标记：{{tagName}}"
+      },
+      "integrations": {
+        "configureIntegration": "配置  集成",
+        "database": {
+          "database": "数据库",
+          "dbIntegrations": "数据库集成",
+          "dbIntegrationsDescription": "连接数据库管理解决方案并进行配置，以满足您的需求。",
+          "dbIntegrationsTooltip": "由于缺少配置，开关被禁用。 单击磁贴并填写表单以启用此功能。",
+          "dbIntegrationsTooltipApiError": "由于 API 连接问题，开关被禁用。 等待重新连接或重新加载页面以启用此功能。",
+          "dbMarlin": "DBmarlin",
+          "dbMarlinInstance": "DBmarlin 实例",
+          "dbMarlinExampleForAnInternalInstance": "输入 DBmarlin 实例的 URL，例如 <strong>https://team.dbmarlin.com</strong> 或用于内部实例的 <strong>http://192.168.1.128:443</strong>。",
+          "configureDbMarlin": "配置 DBmarlin",
+          "configureDbMarlinDescription": "启用后，以下配置会在兼容调用的调用详细信息中添加指向 DBmarlin 的链接。",
+          "configureYourDbMarlinSettings": "配置您的 DBmarlin 设置",
+          "failedToLoadDbMarlinConfiguration": "未能装入 DBmarlin 配置。"
+        }
       }
     },
     "retentionPeriod": {
@@ -394,10 +417,14 @@
       "toastSuccessTitle": "集成已保存",
       "toastErrorTitle": "集成未保存",
       "toastSuccessMessage": "您的 {{integrationType}} 集成已保存并启用。",
+      "toastErrorMessage": "无法保存和启用您的 {{integrationType}} 集成。",
       "integerationEnabled": "您的 {{integrationType}} 集成已启用。",
       "integerationDisabled": "您的 {{integrationType}} 集成已禁用。",
-      "integerationConfigurationFailed": "{{error}}",
-      "configureIntegrations": "配置集成"
+      "integrationConfigurationFailed": "{{error}}",
+      "configureIntegrations": "配置集成",
+      "unsavedModalContent": "您确定要放弃所做更改吗？",
+      "unsavedModalDiscard": "废弃",
+      "unsavedModalCancel": "取消"
     },
     "deleteLogs": {
       "deleteLogs": "删除日志",
@@ -442,12 +469,16 @@
       "months_6": "过去 6 个月",
       "months_9": "过去 9 个月",
       "months_12": "过去 12 个月",
-      "days_7": "7 天",
-      "days_20": "20 天",
-      "days_30": "30 天",
-      "days_60": "60 天",
-      "days_90": "90 天"
+      "days_30": "30 天保留期",
+      "days_60": "60 天保留期",
+      "days_90": "90 天保留期",
+      "noLogVolumeData": "没有要显示的数据",
+      "logVolumeErrorTitle": "出错了！",
+      "logVolumeErrorInfo": "无法从数据库中检索数据",
+      "groupingTagTootip": "{{groupingTag}} 信息不可用",
+      "ruTooltip": "根据所采集的日志量和保留期来计算资源单位 (RU)。 任何所采集数据量将至少消耗 1 RU"
     },
+    "auditTrail": "审计跟踪",
     "failedToSaveConfig": "无法保存配置：{{err}}",
     "IdPMetadataRequired": "IdP 元数据文件是必需的",
     "IdPMetadataLargerThanTwoMega": "IdP 元数据文件不能大于 2 兆字节",
@@ -489,8 +520,6 @@
     "youCanOnlyAddOneItem": "您只能添加一项。",
     "youCanAddAtMostLimitItems": "最多可添加 {{limit}} 项。",
     "pleaseNarrowDownYourSelectionByUsingTheFilters": "最多可添加 {{limit}} 项。请使用过滤器缩小选择范围。",
-    "apiTokenIs": "API 令牌：{{apiTokenName}}",
-    "apiToken": "API 令牌",
     "failedToSaveApiToken": "未能保存 API 令牌：{{err}}",
     "failedToCreatePersonalApiToken": "未能创建个人 API 令牌。",
     "failedToUpdatePersonalApiToken": "未能更新个人 API 令牌。",
@@ -501,11 +530,26 @@
     "editApiToken": "编辑 API 令牌",
     "editPersonalApiToken": "编辑个人 API 令牌",
     "personalApiTokenNameDescription": "显示令牌的名称",
+    "apiTokenExpiration": "到期",
+    "apiTokenExpiryDate": "到期日期",
+    "apiTokenExpiryTime": "到期时间",
+    "apiTokenExpirationOptions": {
+      "thirtyDays": "30 天",
+      "sixtyDays": "60 天",
+      "ninetyDays": "90 天",
+      "oneYear": "1 年",
+      "custom": "定制",
+      "never": "Never"
+    },
+    "apiTokenHintTextForNeverExpires": "该令牌永不过期。",
+    "apiTokenHintTextForExpiration": "此令牌将在 {{expiryDate}} {{expiryTime}} UTC{{utcOffSet}} 后过期。",
     "displayName": "显示名称",
     "personalApiTokenDescription": "此个人 API 令牌将继承您的许可权，以便您可以用于向 API 进行认证。",
     "apiTokenDescription": "任何人或任何具有 API 令牌配置许可权的 API 令牌都可以查看/修改此特定于单元的 API 令牌。",
     "noApiToken": "无 API 令牌",
     "newApiToken": "新建 API 令牌",
+    "apiTokenDuplicate": "复制",
+    "duplicateTokenName": "{{apiTokenName}} 的重复项",
     "apiTokenUnits": "API 令牌可用于 <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "noPersonalApiTokens": "无个人 API 令牌",
     "newPersonalApiToken": "新建个人 API 令牌",
@@ -888,15 +932,21 @@
     "personalApiTokens": "个人 API 令牌",
     "token": "令牌",
     "tokenLastUsed": "上次使用时间",
+    "tokenStatus": "状态",
+    "tokenActive": "活动",
+    "tokenActiveUntil": "在 {{dateTime}} 前处于活动状态",
+    "tokenExpiredOn": "已于 {{dateTime}} 到期",
     "tokenCreated": "创建时间",
     "tokenCreatedBy": "创建者",
+    "tokenValidationPleaseEnterTimeInFuture": "请输入未来的日期或时间",
     "unknownLabel": "未知",
     "copyApiTokenToClipboard": "将 API 令牌复制到剪贴板",
     "inviteUserToGroup": "选择要添加的用户",
     "applications": "应用程序",
     "infrastructure": "基础架构",
     "ownerPermissions": "所有者许可权",
-    "youAreAssigningThisApiTokenOwnerPermissions": "您正在分配此 API 令牌所有者许可权。",
+    "youAreAssigningThisApiTokenOwnerPermissions": "分配此 API 令牌所有者许可权后，用户就可以在此区域中创建、编辑或删除项目。",
+    "yesIUnderstand": "是的，我明白",
     "savingGroup": "正在保存组",
     "groupSuccessfullySaved": "组已成功保存。",
     "groups": "组",

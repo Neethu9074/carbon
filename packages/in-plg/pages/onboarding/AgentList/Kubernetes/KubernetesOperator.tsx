@@ -108,7 +108,7 @@ const KubernetesOperator = ({
       '   env: {}',
       '   configuration_yaml: |',
       '    # You can leave this empty, or use this to configure your instana agent.',
-      '    # See https://docs.instana.io/setup_and_manage/host_agent/on/kubernetes/'
+      '    # See https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-kubernetes#operator-configuration'
     );
     return content;
   };
@@ -158,7 +158,7 @@ const KubernetesOperator = ({
                 components={{
                   documentation: (
                     <a
-                      href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-kubernetes#install-operator-manually"
+                      href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-kubernetes#install-the-operator-manually"
                       rel="noopener noreferrer"
                       target="_blank"
                     />

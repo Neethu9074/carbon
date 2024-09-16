@@ -41,6 +41,7 @@ export function createManualCloseInfo(
   return {
     closeTimestamp,
     muteAlerts: false,
+    disableEvent: false,
     reasonForClosing,
     username
   };

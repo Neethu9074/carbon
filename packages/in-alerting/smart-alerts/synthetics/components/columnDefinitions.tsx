@@ -152,7 +152,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItemId>[] = [
     defaultOrderDirection: 'ASC',
     width: '20%',
     getContent(item: TestResultListItemId) {
-      return <AssociationsContent item={item} shouldDisplayLink={false} />;
+      return <AssociationsContent item={item} />;
     }
   }
 ];

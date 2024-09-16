@@ -34,7 +34,10 @@ function NoDataAvailable(href: string) {
           <br />
           You need to deploy an agent first.
           <br />
-          For more information, read the <a href="#">documentation</a>
+          For more information, read the{' '}
+          <a href="https://www.ibm.com/docs/en/instana-observability/current?topic=instana-business-monitoring">
+            documentation
+          </a>
         </p>
       </div>
       <Button kind="primary" href={href} className={locals.bizopsDeployAgent}>

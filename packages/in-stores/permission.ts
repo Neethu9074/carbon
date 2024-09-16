@@ -20,7 +20,8 @@ import {
   logSmartAlertsEnabled,
   manuallyCloseEventEnabled,
   logVolumePageEnabled,
-  logRetentionPageEnabled
+  logRetentionPageEnabled,
+  nutanixEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -40,7 +41,8 @@ export const LimitedAccessScope = Object.freeze({
   LIMITED_PCF_SCOPE: 'LIMITED_PCF_SCOPE',
   LIMITED_OPENSTACK_SCOPE: 'LIMITED_OPENSTACK_SCOPE',
   LIMITED_SAP_SCOPE: 'LIMITED_SAP_SCOPE',
-  LIMITED_AUTOMATION_SCOPE: 'LIMITED_AUTOMATION_SCOPE'
+  LIMITED_AUTOMATION_SCOPE: 'LIMITED_AUTOMATION_SCOPE',
+  LIMITED_NUTANIX_SCOPE: 'LIMITED_NUTANIX_SCOPE'
 } as const);
 export type LimitedAccessScopeType = keyof typeof LimitedAccessScope;
 export const LimitedAccessScopes = Object.freeze(Object.values(LimitedAccessScope));
@@ -61,7 +63,8 @@ export const AreaPermission = Object.freeze({
   ACCESS_INFRASTRUCTURE_ANALYZE: 'ACCESS_INFRASTRUCTURE_ANALYZE',
   ACCESS_SAP: 'ACCESS_SAP',
   ACCESS_BIZOPS: 'ACCESS_BIZOPS',
-  ACCESS_AUTOMATION: 'ACCESS_AUTOMATION'
+  ACCESS_AUTOMATION: 'ACCESS_AUTOMATION',
+  ACCESS_NUTANIX: 'ACCESS_NUTANIX'
 } as const);
 export type AreaPermissionType = keyof typeof AreaPermission;
 export const AreaPermissions = Object.freeze(Object.values(AreaPermission));
@@ -77,8 +80,8 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD: 'CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD',
   CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS: 'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
   CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS: 'CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS',
-  CAN_CONFIGURE_LOG_MANAGEMENT: 'CAN_CONFIGURE_DATABASE_MANAGEMENT',
-  CAN_CONFIGURE_DATABASE_MANAGEMENT: 'CAN_CONFIGURE_LOG_MANAGEMENT',
+  CAN_CONFIGURE_LOG_MANAGEMENT: 'CAN_CONFIGURE_LOG_MANAGEMENT',
+  CAN_CONFIGURE_DATABASE_MANAGEMENT: 'CAN_CONFIGURE_DATABASE_MANAGEMENT',
   CAN_CONFIGURE_RELEASES: 'CAN_CONFIGURE_RELEASES',
   CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS: 'CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS',
   CAN_CONFIGURE_USERS: 'CAN_CONFIGURE_USERS',
@@ -186,6 +189,8 @@ export const hasOpenStackAccess =
   hasPermission(LimitedAccessScope.LIMITED_OPENSTACK_SCOPE, AreaPermission.ACCESS_OPENSTACK) && openstackEnabled;
 export const hasSAPAccess =
   hasPermission(LimitedAccessScope.LIMITED_SAP_SCOPE, AreaPermission.ACCESS_SAP) && sapEnabled;
+export const hasNutanixAccess =
+  hasPermission(LimitedAccessScope.LIMITED_NUTANIX_SCOPE, AreaPermission.ACCESS_NUTANIX) && nutanixEnabled;
 export const hasAPlatformAccess =
   hasVSphereAccess ||
   hasPHMCAccess ||
@@ -194,7 +199,8 @@ export const hasAPlatformAccess =
   hasPowerVcAccess ||
   hasOpenStackAccess ||
   hasKubernetesAccess ||
-  hasSAPAccess;
+  hasSAPAccess ||
+  hasNutanixAccess;
 
 export const hasCanCreateHeapDump =
   hasInfrastructureAccess && permissions.includes(InfrastructureCapability.CAN_CREATE_HEAP_DUMP);
@@ -212,6 +218,7 @@ export const amountPlatformAccesses = (() => {
   if (hasPowerVcAccess) count++;
   if (hasKubernetesAccess) count++;
   if (hasSAPAccess) count++;
+  if (hasNutanixAccess) count++;
   return count;
 })();
 

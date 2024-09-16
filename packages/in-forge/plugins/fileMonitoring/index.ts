@@ -1,0 +1,21 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import metricDefinitions from 'in-forge/plugins/fileMonitoring/metricDefinitions';
+//@ts-expect-error
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import kpiDefinitions from 'in-forge/plugins/fileMonitoring/kpiDefinitions';
+import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
+
+registerSnapshotDefinition({
+  plugin: plugins.fileMonitoring,
+  kpiDefinitions,
+  metricDefinitions,
+  technologyDescriptor: {
+    label: t('in-forge:plugins.fileMonitoring.fileSystem')
+  }
+});

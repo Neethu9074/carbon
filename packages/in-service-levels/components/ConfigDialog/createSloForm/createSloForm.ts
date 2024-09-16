@@ -59,8 +59,9 @@ interface CreateIndicatorThresholdFieldProps {
   value: number | undefined;
   touched?: boolean;
   blueprint: CustomBlueprintType;
-  indicatorType: ServiceLevelIndicatorType;
+  indicatorType?: ServiceLevelIndicatorType;
 }
+
 export function createIndicatorThresholdField({
   value,
   touched,

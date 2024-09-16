@@ -16,6 +16,7 @@ export default function Info({ snapshot }: { snapshot: SnapshotData }) {
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.tibcoASDataGrid.gridName')}>{data.get('gridName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.tibcoASDataGrid.gridId')}>{data.get('gridId')}</DescriptionItem>
     </DescriptionList>
   );
 }

@@ -16,6 +16,7 @@
 const Adapter = require('@wojtekmaj/enzyme-adapter-react-17');
 const Enzyme = require('enzyme');
 const chai = require('chai');
+require('babel-plugin-require-context-hook/register')();
 
 require('@testing-library/jest-dom');
 

@@ -228,6 +228,7 @@
     "delete": "削除",
     "update": "Update",
     "operations": "操作",
+    "nameTooltip": "コンテナのホストに Instana Agent がインストールされていません。 詳細については、ドキュメントをご覧ください",
     "noDataAvailable": {
       "servicesTitle": "表示可能なサービスがありません",
       "servicesDescription": "選択された時刻範囲で取得されたサービスはありません。",

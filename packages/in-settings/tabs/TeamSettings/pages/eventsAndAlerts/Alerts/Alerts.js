@@ -14,11 +14,16 @@ import {
   teamSettingsAlertingAlertNew,
   teamSettingsAlertingAlerts
 } from 'in-settings/navigation/paths';
+import {
+  SETTINGS_ALERT_OPEN_SUBMIT_FORM,
+  SETTINGS_ALERT_TOGGLE,
+  SETTINGS_ALERT_DELETE
+} from 'in-services/tracking/eventNames';
 import { parseQuery, scopeApplication, scopeDfq } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
-import { toggleAlertTracker, openAlertSubmitFormTracker, deleteAlertTracker } from 'in-settings/tracker';
 import List, { CreateNewEntityButton, defaultHeaderWithCount } from 'in-settings/components/List';
 import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { intersperse } from 'in-services/arrayUtils';
 import ComboBox from 'in-components/ComboBox';
@@ -37,13 +42,15 @@ const enabledOptions = Object.freeze([
 
 export default function Alerts() {
   const [enabled, setEnabled] = useState(null);
+  //function for segment tracking
+  const { trackCta } = useSegmentTracking();
   return (
     <List
       title={t('in-settings:tabs.alerts')}
       getHeader={defaultHeaderWithCount(t('in-settings:tabs.alerts'))}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
-      tableActions={tableActions}
+      tableActions={tableActions(trackCta)}
       loadEntities={getAlertingConfigsMutable}
       initialOrderBy="alertName"
       newButtonDisabledTooltipMessage={entities =>
@@ -53,11 +60,11 @@ export default function Alerts() {
             })
           : null
       }
-      rightHeader={defaultRightHeader(enabled, setEnabled)}
+      rightHeader={defaultRightHeader(enabled, setEnabled, trackCta)}
       searchAttributes={['alertName', renderTypesOrNumberOfEvents, scopeToString, concatChannelNames]}
       extraFilters={createFilters(enabled)}
       getDetailsHref={entity => getEntityHref(teamSettingsAlertingAlerts, entity.id)}
-      trackEvent={openAlertSubmitFormTracker}
+      trackEvent={() => trackCta(SETTINGS_ALERT_OPEN_SUBMIT_FORM)}
       noDataMessage={t('in-settings:tabs.noAlertConfigured')}
     />
   );
@@ -103,37 +110,39 @@ const columnDefinitions = [
   }
 ];
 
-const tableActions = {
-  delete: {
-    deleteEntity: entity => {
-      deleteAlertTracker({
-        alertID: entity.id || ''
-      });
-      return deleteAlertingConfig(entity.id);
+const tableActions = trackCta => {
+  return {
+    delete: {
+      deleteEntity: entity => {
+        trackCta(SETTINGS_ALERT_DELETE, {
+          alertID: entity.id || ''
+        });
+        return deleteAlertingConfig(entity.id);
+      }
+    },
+    toggleEnabled: {
+      get: isEnabled,
+      toggle: entity => {
+        trackCta(SETTINGS_ALERT_TOGGLE, {
+          alertName: entity.alertName,
+          alertChannelNames: entity.alertChannelNames,
+          numOfSelectedEvents: entity.eventFilteringConfiguration.ruleIds
+            ? entity.eventFilteringConfiguration.ruleIds.length
+            : 0
+        });
+        return setEnabled(entity, !isEnabled(entity));
+      }
     }
-  },
-  toggleEnabled: {
-    get: isEnabled,
-    toggle: entity => {
-      toggleAlertTracker({
-        alertName: entity.alertName,
-        alertChannelNames: entity.alertChannelNames,
-        numOfSelectedEvents: entity.eventFilteringConfiguration.ruleIds
-          ? entity.eventFilteringConfiguration.ruleIds.length
-          : 0
-      });
-      return setEnabled(entity, !isEnabled(entity));
-    }
-  }
+  };
 };
 
-function defaultRightHeader(enabled, setEnabled) {
+function defaultRightHeader(enabled, setEnabled, trackCta) {
   return (
     <Fragment>
       {
         <CreateNewEntityButton
           labelNew={t('in-settings:tabs.newAlert')}
-          trackEvent={openAlertSubmitFormTracker}
+          trackEvent={() => trackCta(SETTINGS_ALERT_OPEN_SUBMIT_FORM)}
           pathNew={teamSettingsAlertingAlertNew}
         />
       }

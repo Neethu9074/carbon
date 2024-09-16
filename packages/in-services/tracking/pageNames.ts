@@ -95,6 +95,13 @@ export const pageNames = Object.freeze({
   sap_db_instance: 'DB Instance',
   abap_system: 'Abap System',
   abap_instance: 'ABAP Instance',
+  abap_instance_summary: 'ABAP Instance > Summary',
+  abap_instance_system_overview: 'ABAP Instance > System Overview',
+  abap_instance_transactional_statistics: 'ABAP Instance > Transactional Statistics',
+  abap_instance_networks: 'ABAP Instance > Networks',
+  abap_instance_fiori: 'ABAP Instance > Fiori',
+  abap_instance_idoc: 'ABAP Instance > IDoc',
+  abap_instance_related_resources: 'ABAP Instance > Related Resources',
   sap_dbms: 'SAP DB2',
   sap_hana: 'SAP Hana',
   sap_db_tenant: 'DB Tenant',
@@ -111,6 +118,7 @@ export const pageNames = Object.freeze({
   events_all: 'All',
   local_alerts: 'Local Alert Details',
   logs: 'Logs',
+  log_smart_alerts: 'Log Smart Alerts',
   global_alerts: 'Global Alert Details',
   instances: 'Instances',
   deployment_summary: 'Deployment > Summary',
@@ -124,7 +132,12 @@ export const pageNames = Object.freeze({
   slo_config: 'Service Level Objective > Configuration',
   automation_action_catalog: 'Automation > Action Catalog',
   automation_action_history: 'Automation > Action History',
-  automation_policies: 'Automation > Policies'
+  automation_policies: 'Automation > Policies',
+  custom_payload: 'Custom Payload',
+  nutanix_vm: 'Nutanix VM',
+  nutanix_host: 'Nutanix Host',
+  nutanix_clusters: 'Nutanix Clusters',
+  nutanix: 'Nutanix'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];

@@ -245,13 +245,13 @@
         "associationsLabel": "Associar",
         "applicationsTitle": "Associar: selecione os aplicativos a serem associados a este teste sintético",
         "applicationsDescription": "A associação de um teste sintético a um aplicativo concede direitos de acesso a todos os usuários que têm acesso a esse aplicativo.",
-        "associationsTitle": "Associar: selecione as entidades a serem associadas a este teste sintético",
+        "associationsTitle": "Associar: selecione o que você deseja associar a esse teste sintético",
         "associationsDescription": "A associação de um teste sintético a um aplicativo, site ou aplicativo móvel concede direitos de acesso a todos os usuários que têm acesso a essas entidades."
       },
       "associations": {
         "applicationsTitle": "Selecione os aplicativos a serem associados a este teste sintético",
         "applicationsDescription": "A associação de um teste sintético a um aplicativo concede direitos de acesso a todos os usuários que têm acesso a esse aplicativo.",
-        "associationsTitle": "Selecione as entidades a serem associadas a este teste sintético",
+        "associationsTitle": "Selecione o que você deseja associar a esse teste sintético",
         "associationsDescription": "A associação de um teste sintético a um aplicativo, site ou aplicativo móvel concede direitos de acesso a todos os usuários que têm acesso a essas entidades.",
         "applicationsButtonLabel": "Selecionar aplicativos",
         "websitesButtonLabel": "Selecionar sites",
@@ -265,7 +265,7 @@
         "addWebsites": "Incluir {{count}} sites",
         "addWebsite": "Incluir website",
         "addMobileApps": "Incluir {{count}} aplicativos móveis",
-        "addMobileApp": "Incluir aplicativos móveis",
+        "addMobileApp": "Incluir aplicativo móvel",
         "applicationsTableTitle": "Aplicativo(s)",
         "websitesTableTitle": "Site(s)",
         "mobileAppsTableTitle": "Aplicativo(s) móvel(is)"
@@ -336,7 +336,7 @@
         "datacentersSubtitle": "Ative um local gerenciado pela Instana em um dos data centers disponíveis. Para obter mais informações, consulte <linkDatacenters>Usando um PoP hospedado pelo Instana</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Os locais estão sendo implementados",
-          "message": "Estamos configurando seus novos locais nos data centers a seguir. Seja paciente enquanto implementamos automaticamente isso para você. Quando isso for concluído, será possível localizar seus novos locais na guia de locais. <strong>Isso pode levar até 10 minutos para cada data center selecionado.</strong>",
+          "message": "Estamos configurando seus novos locais nos data centers a seguir. Seja paciente enquanto implementamos automaticamente isso para você. Quando isso for concluído, será possível localizar seus novos locais na guia de locais. <strong>Essa implementação pode levar alguns minutos para cada data center selecionado.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Código do data center",
@@ -351,7 +351,7 @@
         },
         "deactivateDatacenter": {
           "title": "Desativar local",
-          "deactivateMessage": "Tem certeza de que deseja desativar o local <strong>{{locationDisplayLabel}}</strong>?<br/><br/>Desativar um local pode demorar até 10 minutos. Aguarde enquanto removemos essa provisão para você. Quando isso for concluído, o status do local será Off-line.<br/>",
+          "deactivateMessage": "Tem certeza de que deseja desativar o local <strong>{{locationDisplayLabel}}</strong>?<br/><br/>A desativação de um local pode levar alguns minutos. Aguarde enquanto removemos essa provisão para você. Quando isso for concluído, o status do local será Off-line.<br/>",
           "warningMessage": "A desativação não está sendo excluída. O local estará disponível e poderá ser ativado novamente. Para remover completamente o local gerenciado, exclua o local quando seu status mudar para Off-line.",
           "activeStatus": "Ativo",
           "deactivateButton": "Desativar"
@@ -435,7 +435,7 @@
       "latency": "Latência",
       "locationLabel": "Local",
       "locations": "{{totalLocations}} locais",
-      "applicationLabel": "Associações",
+      "associationLabel": "Associações",
       "health": "Funcionamento",
       "action": "Ação",
       "labelConfirmRemoveTest": "Tem certeza de que deseja remover o teste <strong>{{testLabel}}</strong>?",

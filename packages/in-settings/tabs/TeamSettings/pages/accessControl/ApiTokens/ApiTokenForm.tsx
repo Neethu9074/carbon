@@ -3,18 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Field } from 'formalistic';
+import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import { Toggle, Button } from '@instana/components';
 
 // @ts-expect-error needs migration to typescript
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList';
+import ExpirationDateDropdown from 'in-settings/components/ApiTokenExpiration/ExpirationDateDropdown/ExpirationDateDropdown';
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
 import { ProductPermission, apiTokenPermissions, productOwnerPermissions } from 'in-stores/permission';
-import { FormProp } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { apiTokenExpirationEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -32,24 +33,23 @@ interface ProductPermissionProps extends ProductPermission {
 }
 
 interface ApiTokenFormProps {
-  form: FormProp;
+  form: MapForm<any>;
   onChange: (fieldName: string, val: any) => void;
   disabled?: boolean;
   createNewToken?: boolean;
+  setForm: (form: MapForm<any>) => void;
 }
 
 const permissionsForList = apiTokenPermissions.filter(permission => !permission.isOwnerPermission);
 
-export default function ApiTokenForm({ form, onChange, disabled, createNewToken }: ApiTokenFormProps) {
+export default function ApiTokenForm({ form, onChange, disabled, createNewToken, setForm }: ApiTokenFormProps) {
   return (
     <fieldset data-testid="apitokenform" disabled={disabled}>
       {!createNewToken
         ? form.get('accessGrantingToken').map((field: Field<string>) => (
-            <FormGroup noFlex>
-              <Label className={locals.apiTokenLabel} id="api-token-accessGrantingToken">
-                {field.value}
-              </Label>
-              <Tooltip align="topRight" content={t('in-settings:tabs.copyApiTokenToClipboard')}>
+            <FormGroup className={locals.apiTokenAccessTokenContainer}>
+              <Label id="api-token-accessGrantingToken">{field.value}</Label>
+              <Tooltip align="rightMiddle" content={t('in-settings:tabs.copyApiTokenToClipboard')}>
                 <AsyncTokenCopyButton
                   internalId={form.get('internalId').value}
                   token={form.get('accessGrantingToken').value}
@@ -76,7 +76,7 @@ export default function ApiTokenForm({ form, onChange, disabled, createNewToken 
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
-
+      {apiTokenExpirationEnabled && <ExpirationDateDropdown id="api-token-expiration" form={form} setForm={setForm} />}
       <Row>
         <Col lg>
           <FormGroup>
@@ -138,18 +138,21 @@ function ConfirmationDialog({ onChange }: { onChange: () => void }) {
       doNotCloseOnOutsideClick
       onClose={close}
     >
-      <p>{t('in-settings:tabs.youAreAssigningThisApiTokenOwnerPermissions')}</p>
-
-      <Button
-        kind="primary"
-        className={locals.confirmationDialogButton}
-        onClick={() => {
-          onChange();
-          close();
-        }}
-      >
-        Yes, I understand
-      </Button>
+      <p className={locals.confirmationDialogMessage}>
+        {t('in-settings:tabs.youAreAssigningThisApiTokenOwnerPermissions')}
+      </p>
+      <div>
+        <Button
+          kind="primary"
+          className={locals.confirmationDialogButton}
+          onClick={() => {
+            onChange();
+            close();
+          }}
+        >
+          {t('in-settings:tabs.yesIUnderstand')}
+        </Button>
+      </div>
     </Dialog>
   );
 }

@@ -12,8 +12,9 @@ import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/comp
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 
 function handleEdit(config: MobileAppAlertConfigWithMetadata) {
   openSmartAlertDialog(config);
@@ -35,8 +36,12 @@ function openSmartAlertDialog(config: MobileAppAlertConfigWithMetadata, isCopy =
 
 export const actionHandlers = {
   handleClone: (config: MobileAppAlertConfigWithMetadata) => handleClone(config),
-  handleDelete: (id: string, setIsSaving: (saving: boolean) => void, configName: string) =>
-    handleDelete(id, setIsSaving, configName, baseUrl.MOBILEAPP),
+  handleDelete: (
+    id: string,
+    setIsSaving: (saving: boolean) => void,
+    configName: string,
+    trackCta: CtaTrackingFunction
+  ) => handleDelete(id, setIsSaving, configName, baseUrl.MOBILEAPP, trackCta),
   handleEdit: (config: MobileAppAlertConfigWithMetadata) => handleEdit(config),
   handleToggleEnabled: (enabled: boolean, id: string, setIsSaving: (arg: boolean) => void) =>
     handleToggleEnabled(enabled, id, setIsSaving, baseUrl.MOBILEAPP)

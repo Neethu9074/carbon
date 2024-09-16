@@ -1,0 +1,9 @@
+:local {
+  .content {
+    padding: 0 1.5rem;
+  }
+  .headerButtonsContainer {
+    display: flex;
+    gap: 1rem;
+  }
+}

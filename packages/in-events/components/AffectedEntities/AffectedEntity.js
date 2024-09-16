@@ -9,7 +9,8 @@ import React from 'react';
 import { Link } from '@instana/components';
 import { Td, Tr } from '@instana/legacy';
 
-import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
+import { APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE } from 'in-services/tracking/tracking';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { formatDateTime } from 'in-services/formatters/date';
 import unwrapLink from 'in-stores/navigation/unwrapLink';
 import { number } from 'in-services/formatters/number';
@@ -18,12 +19,13 @@ import locals from 'in-events/components/AffectedEntities/AffectedEntity.mless';
 
 export function AffectedEntity({ item, createItemLink, children }) {
   const { href, href$ } = unwrapLink(createItemLink(item));
+  const { trackCta } = useSegmentTracking();
 
   return (
     <Tr size="compact">
       <Td className={locals.labelCell} ellipsis="50vw">
         <div className={locals.cell}>
-          <Link onClick={() => applicationsAlertingEventDetailsGoToAnalyze()} href={href$ ?? href}>
+          <Link onClick={() => trackCta(APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE)} href={href$ ?? href}>
             {item.name}
           </Link>
         </div>

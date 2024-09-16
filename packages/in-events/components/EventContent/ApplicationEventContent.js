@@ -13,6 +13,11 @@ import {
   alertingDialogItemPickerTimeframe as maxDurationMillis
 } from 'in-alerting/components/constants';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
+import {
+  manuallyCloseEventEnabled,
+  eumImpactedUsersForAppAlertEnabled,
+  businessObservabilityEnabled
+} from 'in-services/featureFlags';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
@@ -34,12 +39,12 @@ import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { hasManualCloseFields } from 'in-events/components/eventUtil';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { manuallyCloseEventEnabled, eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
 import { emptyMap } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -55,7 +60,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
   const [metricResultPrecision, setMetricResultPrecision] = useState();
 
   if (!eventEntity || !alertConfig) {
-    return null;
+    return <LoadingIndicator size="xxxl" />;
   }
 
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
@@ -203,11 +208,13 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
 
       {!isEndpointType && <AffectedEntitiesRow alertConfig={alertConfig} event={event} eventEntity={eventEntity} />}
       <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
-      <ImpactedBusinessProcesses
-        eventType={eventType}
-        entityType={event?.get('entityType', undefined)}
-        entityId={event?.get('entityId', undefined)}
-      />
+      {businessObservabilityEnabled && (
+        <ImpactedBusinessProcesses
+          eventType={eventType}
+          entityType={event?.get('entityType', undefined)}
+          entityId={event?.get('entityId', undefined)}
+        />
+      )}
     </>
   );
 }

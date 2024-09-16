@@ -9,13 +9,14 @@ import PropTypes from 'prop-types';
 import { IconButton } from '@instana/components';
 
 import {
-  trackAlertDeleteTrigger,
-  trackAlertEdit,
-  trackAlertPaused,
-  trackAlertResumed,
-  trackAlertCloneTrigger
-} from 'in-alerting/smart-alerts/components/tracker';
+  ALERTING_DELETE_TRIGGER,
+  ALERTING_EDIT,
+  ALERTING_PAUSED,
+  ALERTING_RESUMED,
+  ALERTING_CLONE_TRIGGER
+} from 'in-services/tracking/eventNames';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import { stopPropagation } from 'in-services/util/function';
 import { playwithEnabled } from 'in-services/featureFlags';
@@ -29,6 +30,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
   const { builtIn, enabled, id, name } = config;
   const [isSaving, setIsSaving] = useState(false);
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
+  const { trackCta } = useSegmentTracking(); // For segment tracking
 
   const hasSecondaryActions = handleEdit || handleClone || handleDelete;
 
@@ -45,20 +47,21 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
   return (
     <HorizontalFlexWrapper className={locals.actions}>
       {handleToggleEnabled && !playwithEnabled && (
-        <Tooltip content={getTooltipForAction()} delay={500}>
+        <Tooltip content={getTooltipForAction(config.readOnly)} delay={500}>
           <div className={locals.separator}>
             <IconButton
               kind="primaryv2"
               type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
               iconSpinning={isSaving}
+              disabled={config.readOnly}
               onClick={e => {
                 e.preventDefault();
                 stopPropagation(e);
                 handleToggleEnabled(enabled, id, setIsSaving);
                 if (enabled) {
-                  trackAlertPaused(config);
+                  trackCta(ALERTING_PAUSED, config);
                 } else {
-                  trackAlertResumed(config);
+                  trackCta(ALERTING_RESUMED, config);
                 }
               }}
             />
@@ -66,7 +69,8 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
         </Tooltip>
       )}
 
-      {hasSecondaryActions && !playwithEnabled && (
+      {hasSecondaryActions && !playwithEnabled && config.readOnly && <div className={locals.readOnlySeparator} />}
+      {hasSecondaryActions && !playwithEnabled && !config.readOnly && (
         <MoreMenu
           renderInteractiveElement={({ ref, toggle }) => (
             <div className={locals.separator}>
@@ -91,7 +95,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
               iconSpinning={isMoreMenuSaving}
               onClick={() => {
                 handleEdit(config);
-                trackAlertEdit(config);
+                trackCta(ALERTING_EDIT, config);
               }}
             >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
@@ -102,7 +106,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
             <MoreMenuButton
               icon="lib_actions_copy"
               onClick={() => {
-                trackAlertCloneTrigger(config);
+                trackCta(ALERTING_CLONE_TRIGGER, config);
                 handleClone(config);
               }}
             >
@@ -114,8 +118,8 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
             <MoreMenuButton
               icon="lib_actions_delete"
               onClick={() => {
-                handleDelete(id, setIsMoreMenuSaving, name);
-                trackAlertDeleteTrigger(config);
+                handleDelete(id, setIsMoreMenuSaving, name, trackCta);
+                trackCta(ALERTING_DELETE_TRIGGER, config);
               }}
             >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
@@ -126,7 +130,11 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
     </HorizontalFlexWrapper>
   );
 
-  function getTooltipForAction() {
+  function getTooltipForAction(isReadOnly = false) {
+    if (isReadOnly) {
+      return t('in-alerting:smartAlerts.applications.inventory.noPermissionGlobalSmartAlertEdit');
+    }
+
     if (isSaving) {
       return '';
     }
@@ -140,7 +148,8 @@ ListActionsColumn.propTypes = {
     enabled: PropTypes.bool.isRequired,
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    builtIn: PropTypes.bool
+    builtIn: PropTypes.bool,
+    readOnly: PropTypes.bool
   }).isRequired,
   isLoading: PropTypes.bool,
   actionHandlers: PropTypes.shape({

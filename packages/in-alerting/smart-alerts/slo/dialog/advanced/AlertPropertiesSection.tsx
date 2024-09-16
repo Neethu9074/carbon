@@ -19,7 +19,6 @@ import TriggersIncidentRow from 'in-alerting/smart-alerts/components/dialog/adva
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import AlertLevelRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertLevelRow';
-import { getSloAlertOperatorContext } from 'in-alerting/smart-alerts/slo/components/OperatorDropdown';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import { percentageUpToTwoDecimalPlaces } from 'in-services/formatters/number';
 import Sections from 'in-components/workspace/Sections';
@@ -30,23 +29,21 @@ export default function AlertPropertiesSection() {
   const { form, onChange } = useSloAlertFormContext();
 
   const alertConfigTitle = form.getIn(['name']).value;
-  const alertType = form.getIn(['rule', 'alertType']).value;
+  const alertMetric = form.getIn(['rule', 'metric']).value;
   const threshold = form.getIn(['threshold']).value;
   const operator = form.getIn(['operator']).value;
   const entityType = form.getIn(['entityType']).value;
 
-  const operatorContext = getSloAlertOperatorContext(operator);
-
   const showIncident = entityType === 'application';
   const titlePlaceholder = t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesTitlePlaceholder', {
-    context: alertType
+    context: alertMetric
   });
   const descriptionPlaceholder = t(
     'in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesDescriptionPlaceholder',
     {
-      context: alertType,
-      percentage: percentageUpToTwoDecimalPlaces(threshold ?? 0),
-      operator: operatorContext
+      context: alertMetric,
+      percentage: alertMetric === 'BURN_RATE' ? threshold : percentageUpToTwoDecimalPlaces(threshold ?? 0),
+      operator
     }
   );
   const previewTitle = alertConfigTitle ? alertConfigTitle : titlePlaceholder;

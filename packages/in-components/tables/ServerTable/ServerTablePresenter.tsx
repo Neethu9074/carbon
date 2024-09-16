@@ -40,6 +40,7 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   query?: string;
   page: number;
   pageSize: number;
+  pageSizes?: Array<number>;
   result?: Result<PaginatedResult<ItemType>> | Nullish;
   renderPagination?: (p: TableState) => React.ReactNode;
   fixedLayout?: boolean;
@@ -69,6 +70,7 @@ export default function ServerTablePresenter<
     orderBy,
     orderDirection,
     pageSize,
+    pageSizes,
     getRowProps,
     onRowClick,
     renderPagination,
@@ -100,13 +102,13 @@ export default function ServerTablePresenter<
   const result = props.result ?? (pendingResult as Result<PaginatedResult<ItemType>>);
   const { availableColumns, visibleColumns, optionalColumns, onColumnChecked } = filterColumns(props);
   let body = null;
-
+  let defaultPageSize = pageSizes?.[0] ?? pageSize;
   if (carbonTableEnabled) {
     let carbonHeaders: Array<any> = [];
 
     const debounceOnChange = debounce((searchInput: string) => {
       if (searchInput !== undefined) {
-        onChange({ query: searchInput, orderBy, orderDirection, page: 1, pageSize });
+        onChange({ query: searchInput, orderBy, orderDirection, page: 1, pageSize, pageSizes });
       }
     }, 500);
 
@@ -114,12 +116,31 @@ export default function ServerTablePresenter<
       debounceOnChange(searchInputText);
     };
 
+    const getEllipsisValue = (ellipsis: string | boolean | undefined, width: string | number | undefined) => {
+      if (typeof ellipsis === 'string' || width !== 'undefined') {
+        ellipsis = true;
+      }
+      return ellipsis;
+    };
+
+    const getWidthValue = (ellipsis: string | boolean | undefined, width: string | number | undefined) => {
+      if (typeof ellipsis === 'string') {
+        width = ellipsis;
+      } else if (typeof width === 'number') {
+        width = width + 'vw';
+      }
+      return width;
+    };
+
     carbonHeaders = visibleColumns.map((item, i) => ({
       key: item?.id || i,
       header: item?.label,
       isSortable: item.sortable ?? true,
       getContent: item.getContent,
-      sortDirection: item?.id === orderBy ? (orderDirection === 'ASC' ? 'ASC' : 'DESC') : 'NONE'
+      sortDirection: item?.id === orderBy ? (orderDirection === 'ASC' ? 'ASC' : 'DESC') : 'NONE',
+      noWrap: item.noWrap ?? false,
+      ellipsis: getEllipsisValue(item.ellipsis, item.width),
+      width: getWidthValue(item.ellipsis, item.width)
     }));
 
     let header;
@@ -173,8 +194,28 @@ export default function ServerTablePresenter<
       // when api has returned data
       const carbonRows = result.data!.items.map((item: ItemType, index: number) => {
         let value = { id: item.id ?? String(index) };
-        carbonHeaders.map(({ key, getContent }) => {
-          const pair = { [key]: <>{getContent(item, props, key)}</> };
+        carbonHeaders.map(({ key, getContent, ellipsis, width, noWrap }) => {
+          let pair;
+          if (typeof ellipsis !== 'boolean') {
+            width = ellipsis;
+            ellipsis = true;
+          }
+          if (ellipsis) {
+            pair = {
+              [key]: (
+                <div style={{ maxWidth: width, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                  {getContent(item, props, key)}
+                </div>
+              )
+            };
+          } else if (noWrap) {
+            // when noWrap is true but ellipsis is not set
+            pair = {
+              [key]: <div style={{ whiteSpace: 'nowrap' }}>{getContent(item, props, key)}</div>
+            };
+          } else {
+            pair = { [key]: <>{getContent(item, props, key)}</> };
+          }
           value = { ...value, ...pair };
           return value;
         });
@@ -198,7 +239,7 @@ export default function ServerTablePresenter<
             } else if (sortState.sortDirection === 'ASC') {
               orderDirection = 'DESC';
             }
-            onChange({ query, orderBy, orderDirection, page: 1, pageSize });
+            onChange({ query, orderBy, orderDirection, page: 1, pageSize, pageSizes });
           }}
           searchText={query}
           isSearchEnabled={isSearchable}
@@ -229,14 +270,14 @@ export default function ServerTablePresenter<
           {/* Carbon Table */}
           {body}
           {/* Pagination */}
-          {result.data && result.data.totalHits > result.data.pageSize ? (
+          {result.data && result.data.totalHits > defaultPageSize ? (
             <CarbonPagination
               currentPage={page}
               totalItems={result?.data?.totalHits}
               pageSize={pageSize}
-              pageSizes={[pageSize]}
+              pageSizes={pageSizes ?? [pageSize]}
               onChange={data => {
-                onChange({ query, orderBy, orderDirection, page: data.page, pageSize });
+                onChange({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
               }}
             />
           ) : null}
@@ -318,7 +359,7 @@ export default function ServerTablePresenter<
   }
 
   let pagination = null;
-  if (result.data && result.data.totalHits > result.data.pageSize) {
+  if (result.data && result.data.totalHits > defaultPageSize) {
     const numPages = Math.ceil(result.data.totalHits / result.data.pageSize);
     const totalItems = result.data.totalHits;
     pagination = renderPagination ? (
@@ -329,6 +370,7 @@ export default function ServerTablePresenter<
         orderDirection,
         onChange,
         pageSize,
+        pageSizes,
         query,
         orderBy
       })
@@ -339,9 +381,9 @@ export default function ServerTablePresenter<
             currentPage={page}
             totalItems={result.data.totalHits}
             pageSize={result.data.pageSize}
-            pageSizes={[result.data.pageSize]}
+            pageSizes={pageSizes ?? [result.data.pageSize]}
             onChange={(data: { page: number; pageSize: number }) => {
-              return onChange({ query, orderBy, orderDirection, page: data.page, pageSize });
+              return onChange({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
             }}
           />
         ) : (

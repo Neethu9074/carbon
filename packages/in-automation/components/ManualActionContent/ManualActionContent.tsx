@@ -4,57 +4,66 @@
  * Copyright IBM Corp. 2024
  */
 
-import classNames from 'classnames';
 import React from 'react';
 
-import { Spacer, IconButton, DescriptionItem } from '@instana/components';
-import { t } from '@instana/i18n-react';
+import { IconButton, Typography, FormGroup, Label } from '@instana/components';
+import { Field } from '@instana/types';
 
-import { getManualContentFromFields } from 'in-automation/ActionCatalog/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import AISlugIcon from 'in-automation/components/AISlugIcon';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { toHtml } from 'in-services/formatters/markdown';
-import { ScoredAction } from 'in-automation/api';
-import { Action } from 'in-types';
+import { t } from 'in-i18n';
 
-import locals from 'in-automation/components/ManualActionContent/ManualActionContent.mless';
+import locals from './ManualActionContent.mless';
 
 export default function ManualActionContent({
-  action,
-  addCopyButton = true
+  content,
+  addCopyButton = false,
+  actionName,
+  withAISlug = false
 }: {
-  action: Action | ScoredAction;
+  content: Field;
   addCopyButton?: boolean;
+  actionName?: string;
+  withAISlug?: boolean;
 }) {
-  const content = getManualContentFromFields(action.fields);
-  let contentText = content.value;
+  let plaintextContent = content.value;
   if (content.encoding === 'base64') {
-    contentText = atob(contentText);
+    plaintextContent = atob(plaintextContent);
   }
-  const htmlContent = toHtml(contentText, { breaks: true });
+  // We trim the content because markdown-it rendering breaks if theres leading whitespace
+  const htmlContent = toHtml(plaintextContent.trimStart(), { breaks: true });
 
   return (
     <>
-      <DescriptionItem
-        inComponents
-        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin, locals.manualContent)}
-        title={t('in-automation:ActionCatalog.content')}
-      >
-        <Spacer vertical="normal" />
+      {actionName && (
+        <FormGroup>
+          <Label>{t('in-automation:actionName')}</Label>
+          <Typography variant="heading-01">{actionName}</Typography>
+        </FormGroup>
+      )}
+      <FormGroup>
+        <Label>{t('in-automation:titleScriptContentReadOnly')}</Label>
         <div className={locals.manualContentMarkdown}>
           <DangerousHtmlPresenter html={htmlContent} className={locals.codeBlock} />
           {addCopyButton && (
-            <CopyToClipboard getText={() => contentText}>
+            <CopyToClipboard getText={() => plaintextContent}>
               {refSetter => (
-                <span ref={refSetter}>
+                <span id="copy_action_button" ref={refSetter}>
                   <IconButton onClick={stopPropagationAndPreventDefault} type="lib_actions_copy" />
                 </span>
               )}
             </CopyToClipboard>
           )}
+          {withAISlug && (
+            <div className={locals.aiSlug}>
+              <AISlugIcon />
+            </div>
+          )}
         </div>
-      </DescriptionItem>
+      </FormGroup>
     </>
   );
 }

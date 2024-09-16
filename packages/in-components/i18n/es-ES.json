@@ -38,7 +38,8 @@
       "itemMsg": "+{{leftCount}} más {{moreMsg}}"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "Reintento"
+      "retryButtonLabel": "Reintento",
+      "openList": "Abrir lista"
     },
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} más releases",
@@ -260,6 +261,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "Confirmar",
+    "secondaryDialogLabelCancel": "Cancelar",
     "promptPresenterLabelConfirm": "Confirmar"
   },
   "draggableItemSelector": {
@@ -297,8 +299,8 @@
     "labelExpandButtonForContent": "Ampliar botón para contenido"
   },
   "featureFeedback": {
-    "labelPublicPreview": "Vista previa pública",
-    "labelPrivatePreview": "Vista previa privada",
+    "labelPublicPreview": "Vista previa",
+    "labelPrivatePreview": "Vista previa",
     "linkLabelYouCanSendUsFeedback": "Usted puede enviarnos sus comentarios"
   },
   "geoHeatMap": {
@@ -353,6 +355,30 @@
     "labelWarning": "Aviso",
     "labelCritical": "Crítico"
   },
+  "vulnerabilities": {
+    "eventType_issue": "vulnerabilidades",
+    "eventType_issue_plural": "vulnerabilidades",
+    "eventType_issue_0": "vulnerabilidades",
+    "eventType_issue_1": "vulnerabilidades",
+    "eventType_issue_2": "vulnerabilidades",
+    "openIssuesListPresenterActionsViewIssues": "Ver vulnerabilidades",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "Ver {{openIssueCount}} vulnerabilidades",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Cargando vulnerabilidades abiertas..",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Error al cargar vulnerabilidades abiertas",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} vulnerabilidades abiertas",
+    "noVulnerabilities": "Sin vulnerabilidades",
+    "openVulnerabilities": "{{count}} vulnerabilidad",
+    "openVulnerabilities_plural": "{{count}} vulnerabilidades",
+    "openVulnerabilities_0": "{{count}} vulnerabilidades",
+    "openVulnerabilities_1": "{{count}} vulnerabilidad",
+    "openVulnerabilities_2": "{{count}} vulnerabilidades",
+    "noIncidents": "Sin incidencias",
+    "openIncidents": "{{count}} Incidencia",
+    "openIncidents_plural": "{{count}} Incidencias",
+    "openIncidents_0": "{{count}} Incidencias",
+    "openIncidents_1": "{{count}} Incidencia",
+    "openIncidents_2": "{{count}} Incidencias"
+  },
   "inlineTabNavigation": {
     "labelSelectTab": "Pestaña Seleccionar"
   },
@@ -400,6 +426,7 @@
     "viewSwitcherlabelInfrastructure": "Infraestructura",
     "viewSwitcherLabelApplications": "Aplicaciones",
     "viewSwitcherLabelSlo": "Niveles de servicio",
+    "viewSwitcherLabelLogs": "Registros",
     "viewSwitcherLabelAnalytics": "Analíticas",
     "viewSwitcherLabelWebsitesAndMobileApps": "Sitios web y aplicaciones móviles",
     "viewSwitcherLabelWebsites": "Sitios web",
@@ -416,9 +443,11 @@
     "viewSwitcherCustomDashboards": "Paneles de control personalizados",
     "viewSwitcherButtonSignOut": "Cerrar sesión",
     "viewSwitcherLabelTenants": "Arrendatarios",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nueva versión de la IU de Instana",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Volver a cargar para actualizar",
     "profileMenu_profileLink": "Perfil",
+    "profileMenu_tooltip": "Menú Perfil",
     "profileMenu_unitName_tenantName": "Nombre de la unidad - Nombre del arrendatario",
     "profileMenu_switchUnitOrTenant": "Cambiar de unidad o de arrendatario",
     "profileMenu_logOut": "Cerrar sesión"
@@ -590,8 +619,8 @@
     "loadingData": "Cargando datos"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "Nueva versión de Instana disponible",
-    "buttonReloadToUpdate": "Volver a cargar para actualizar"
+    "newVersionOfInstanaAvailable": "Hay una actualización de la interfaz de usuario de Instana",
+    "buttonReloadToUpdate": "Actualice su navegador para cargarlo."
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "Llamadas",

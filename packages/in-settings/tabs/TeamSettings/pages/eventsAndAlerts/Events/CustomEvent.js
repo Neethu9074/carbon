@@ -40,13 +40,18 @@ import {
   hideAppDataLegacyEventsEnabled
 } from 'in-services/featureFlags';
 import LegacyAppdataEventInfoMessage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import {
+  SETTINGS_EVENT_SUBMIT,
+  SETTINGS_EVENT_VIEW,
+  APPLICATIONS_ALERTING_DEPRECATED_EVENT_OPEN
+} from 'in-services/tracking/tracking';
 import { entityCountDetection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
-import { applicationsAlertingDeprecatedEventOpen } from 'in-alerting/smart-alerts/applications/tracker';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 // eslint-disable-next-line
 import { goToPath } from 'in-stores/navigation';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
@@ -57,8 +62,6 @@ import SectionLine from 'in-settings/components/SectionLine';
 import useEntityForm from 'in-settings/hooks/useEntityForm';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
-import { submitEventTracker } from 'in-settings/tracker';
-import { viewEventTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { getPluginName } from 'in-sdk/pluginName';
 import Title from 'in-components/Title/Title';
@@ -67,12 +70,13 @@ import { t } from 'in-i18n';
 
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
+  const { trackCta } = useSegmentTracking();
   const entityFormParam = {
     entityId,
     createDefaultEntity: createCustomThresholdBasedEventSpecification,
     createForm: event => createEventFormDefinition(event ?? createCustomThresholdBasedEventSpecification(), !entityId),
     getEntityFromApi: getCustomEventSpecificationMutable,
-    saveEntity: (event, form) => save(event, form),
+    saveEntity: (event, form) => save(event, form, trackCta),
     // eslint-disable-next-line
     openEntities: () => goToPath(teamSettingsAlertingEvents)
   };
@@ -80,7 +84,8 @@ export default function CustomEvent(props) {
   const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
     useEntityForm(entityFormParam);
   useEffect(() => {
-    if (entityId && entity) viewEventTracker({ entity, type: 'CUSTOM' });
+    if (entityId && entity) trackCta(SETTINGS_EVENT_VIEW, { entity, type: 'CUSTOM' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entity, entityId]);
 
   const errorLoading = error && !entity;
@@ -187,13 +192,13 @@ export default function CustomEvent(props) {
   );
 }
 
-function save(event, form) {
+function save(event, form, trackCta) {
   const isTriggering = form.get('triggering').value;
   const severity = Number(form.get('severity')?.value ?? 0);
   const entityType = form.get('entityType')?.value ?? null;
   const scopeType = form.get('applyOn')?.value ?? null;
 
-  submitEventTracker({
+  trackCta(SETTINGS_EVENT_SUBMIT, {
     scopeType,
     entityType,
     type: isTriggering ? 'Incident' : 'None',
@@ -391,10 +396,12 @@ const formToRuleMapper =
   };
 
 function TrackingLegacyAppdataEventInfoMessage({ migrated, saved, disallowed, deleted }) {
+  const { trackCta } = useSegmentTracking();
   useEffect(() => {
     if (!deleted) {
-      applicationsAlertingDeprecatedEventOpen();
+      trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_OPEN);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleted]);
 
   return <LegacyAppdataEventInfoMessage migrated={migrated} saved={saved} disallowed={disallowed} deleted={deleted} />;

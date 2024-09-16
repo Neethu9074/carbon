@@ -66,6 +66,15 @@
   "touchedMessages": {
     "withPath": "{{message}} (at <codeWithClass>{{path}}</codeWithClass>)"
   },
+  "graphView": {
+    "graphTitle": "Graph",
+    "explanationHeader": "Dynamic Graph Showcase",
+    "explanationP1": "The core technology powering Instana is what we call the Dynamic Graph. The Graph is a model of your application that understands all physical and logical dependencies of components. On the right you see the Dynamic Graph of your current environment!",
+    "explanationP2": "The Graph contains all the resources and their dependencies discovered automatically by the Instana Agent and Sensors such that the Graph is continuously kept up to date. Every node in the Graph is also continuously updated with state information like metrics, configuration data and a calculated health value based on semantical knowledge. This knowledge also analyses the dependencies in the graph to find logical groupings like services and applications to understand impact on that level and derive criticality of issues. The whole graph is persistent and you can go back and forth in time to leverage the knowledge of the graph for many operational use cases.",
+    "explanationP3": "You can filter the view on the right by selecting a resource on the Infrastructure Map and coming back to this page. After selecting a resource, a snapshotId parameter should be set in the URL which allows this filtering.",
+    "explanationLink": "<linkToBlog>Visit our blog</linkToBlog> for more information.",
+    "closeBtn": "Close Graph"
+  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "Release Notes"
   },
@@ -233,6 +242,7 @@
     "labelRegion": "Region",
     "labelTag": "Tag",
     "labelCommit": "Commit",
+    "buttonGraphShowcase": "Graph Showcase",
     "geo": {
       "title": "Geo Data",
       "description": "This product includes GeoLite2 data created by MaxMind, available from <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
@@ -263,6 +273,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "Confirm",
+    "secondaryDialogLabelCancel": "Cancel",
     "promptPresenterLabelConfirm": "Confirm"
   },
   "draggableItemSelector": {
@@ -427,6 +438,7 @@
     "viewSwitcherlabelInfrastructure": "Infrastructure",
     "viewSwitcherLabelApplications": "Applications",
     "viewSwitcherLabelSlo": "Service Levels",
+    "viewSwitcherLabelLogs": "Logs",
     "viewSwitcherLabelAnalytics": "Analytics",
     "viewSwitcherLabelWebsitesAndMobileApps": "Websites & Mobile Apps",
     "viewSwitcherLabelWebsites": "Websites",
@@ -443,6 +455,7 @@
     "viewSwitcherCustomDashboards": "Custom Dashboards",
     "viewSwitcherButtonSignOut": "Sign Out",
     "viewSwitcherLabelTenants": "Tenants",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "New version of Instana UI available",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Reload to update",
     "profileMenu_profileLink": "Profile",

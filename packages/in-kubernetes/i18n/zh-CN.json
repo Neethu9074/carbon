@@ -228,6 +228,7 @@
     "delete": "删除",
     "update": "更新",
     "operations": "操作",
+    "nameTooltip": "容器主机没有安装 Instana 代理程序。 有关更多信息，请参阅我们的文档",
     "noDataAvailable": {
       "servicesTitle": "无可用的服务",
       "servicesDescription": "在所选时间范围内未检索到任何服务。",

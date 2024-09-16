@@ -16,7 +16,6 @@ import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/cre
 import SelectedTestType from 'in-synthetics/createTests/advanced/SelectedTestType';
 import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { syntheticAdvancedCreateTestTypeSwitch } from 'in-synthetics/tracker';
-import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 
 import locals from 'in-synthetics/createTests/advanced/BluePrintSelectionSection.mless';
@@ -108,12 +107,11 @@ const SelectionMenu = ({
   return (
     <div
       className={classNames(locals.container, {
-        [locals.disabled]: isUpdateConfig,
-        [locals.testTypeGrid]: syntheticCertificateCheckEnabled
+        [locals.disabled]: isUpdateConfig
       })}
     >
       <Menu
-        items={getAdvancedBlueprintConfig(syntheticCertificateCheckEnabled)}
+        items={getAdvancedBlueprintConfig()}
         addRightSeparator
         onItemClick={item => {
           const isSSLCertificate = item.name === 'SSL Certificate';

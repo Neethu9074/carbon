@@ -265,7 +265,7 @@
         "addWebsites": "Add {{count}} Websites",
         "addWebsite": "Add Website",
         "addMobileApps": "Add {{count}} Mobile Apps",
-        "addMobileApp": "Add Mobile Apps",
+        "addMobileApp": "Add Mobile App",
         "applicationsTableTitle": "Application(s)",
         "websitesTableTitle": "Website(s)",
         "mobileAppsTableTitle": "Mobile App(s)"
@@ -408,8 +408,6 @@
         "filterLabel": "Applications",
         "singleAppHeader": "{{ number }} Association",
         "multiAppHeader": "{{ number }} Associations",
-        "singleAppSpan": "{{ number }} Associated Application",
-        "multiAppSpan": "{{ number }} Associated Applications",
         "noApplicationsAssociated": "No applications associated"
       },
       "multiWebDialog": {

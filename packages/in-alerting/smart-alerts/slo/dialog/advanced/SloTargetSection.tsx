@@ -4,15 +4,17 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Item } from 'formalistic';
 import React from 'react';
 
-import SloEntityTypeSelector from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTypeSelector';
-import SloListSelection from 'in-alerting/smart-alerts/slo/components/SloListSelection/SloListSelection';
+import SloListSelection from 'in-service-levels/components/Shared/SloListSelection/SloListSelection';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
+import SloEntityTypeSelector from 'in-service-levels/components/Shared/SloEntityTypeSelector';
 
 export default function SloTargetSection() {
   const { form, onChange } = useSloAlertFormContext();
 
+  const sloIdsField = form.getIn(['sloIds']);
   const entityTypeField = form.getIn(['entityType']);
 
   return (
@@ -25,7 +27,11 @@ export default function SloTargetSection() {
         disabled={entityTypeField.value == null}
       />
 
-      <SloListSelection />
+      <SloListSelection
+        entityTypeField={entityTypeField}
+        sloIdsField={sloIdsField}
+        onChange={(item: Item) => onChange(['sloIds'], () => item)}
+      />
     </>
   );
 }

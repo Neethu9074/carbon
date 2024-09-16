@@ -14,15 +14,20 @@ import OutboundTransactionalRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSenso
 import OutboundQueueRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/OutboundQueueRfcInfo';
 import InboundQueueRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InboundQueueRfcInfo';
 import HttpMetricsStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/HttpMetricsStats';
+import SpoolMetricStat from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/SpoolMetricStat';
+import RfcErrorLogs from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RfcErrorLogs';
 import RFCCallsMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RFCCalls';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import SpoolError from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/SpoolError';
 import UserInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs//UserInfo';
 import UserList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UserList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { number, millis } from 'in-services/formatters/number';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { pageNames } from 'in-services/tracking/pageNames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
@@ -33,6 +38,12 @@ export default function SecurityEssentials({ data }: { data: SnapshotData }) {
   const snapshotId = data.id;
   return (
     <Fragment>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.sap,
+          pageRootName: pageNames.abap_instance_transactional_statistics
+        }}
+      />
       <UserInfo snapshotId={snapshotId} timeConfig={timeConfig} />
       <Columize>
         <DashboardSection title={t('in-sap:dashboards.loginTypes')}>
@@ -136,8 +147,10 @@ export default function SecurityEssentials({ data }: { data: SnapshotData }) {
         </Card>
       </div>
       <SpoolError snapshotId={snapshotId} />
+      <SpoolMetricStat snapshotId={snapshotId} timeConfig={timeConfig} />
       <UserList snapshotId={snapshotId} timeConfig={timeConfig} />
       <RFCCallsMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
+      <RfcErrorLogs snapshotId={snapshotId} timeConfig={timeConfig} />
       <OutboundTransactionalRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />
       <InboundQueueRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />
       <OutboundQueueRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />

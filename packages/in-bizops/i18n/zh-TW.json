@@ -19,6 +19,9 @@
     "unnamedActivity": "（未命名活動）{{activityType}}",
     "unnamedService": "（未命名服務）"
   },
+  "processes": {
+    "deployAgent": "部署代理程式"
+  },
   "perspectives": {
     "newPerspective": "建立視景",
     "lists": {

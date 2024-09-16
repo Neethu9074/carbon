@@ -7,7 +7,7 @@ import React, { useCallback, useMemo, useRef } from 'react';
 import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import ActiveGroupingConfiguration from 'in-components/GroupingConfigurator/ActiveGroupingConfiguration';
 import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';

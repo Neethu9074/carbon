@@ -249,10 +249,6 @@ export const SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT = 'settings.alert.customPayloa
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM = 'settings.alert.customPayload.addItem';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM = 'settings.alert.customPayload.editItem';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM = 'settings.alert.customPayload.removeItem';
-export const SETTINGS_ALERT_HUB_WEBSITES_CLICK = 'settings.alertHub.websites.click';
-export const SETTINGS_ALERT_HUB_SMART_ALERTS_CLICK = 'settings.alertHub.smartAlerts.click';
-export const SETTINGS_ALERT_HUB_ALERTS_CLICK = 'settings.alertHub.alerts.click';
-export const SETTINGS_ALERT_HUB_EVENTS_CLICK = 'settings.alertHub.events.click';
 
 //Events
 export const SETTINGS_EVENT_VIEW = 'settings.event.view.clicked';
@@ -434,7 +430,6 @@ export const AUTOMATION_POLICY_EDIT = 'automation.policy.edit';
 export const AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK = 'automation.recommended.actions.tab.click';
 export const AUTOMATION_CREATE_POLICY_FROM_RECOMMENDED_ACTIONS = 'automation.create.policy.from.recommended.actions';
 export const AUTOMATION_TEST_ACTION_RUN = 'automation.test.action.run';
-export const AUTOMATION_GENERATE_AI_BUTTON_CLICK = 'automation.generate.ai.button.click';
 export const AUTOMATION_CREATE_AI_ACTION_POLICY = 'automation.create.ai.action.policy';
 export const AUTOMATION_CLICK_AI_GENERATED_ACTIONS_TAB = 'automation.click.ai.generated.actions.tab';
 export const AUTOMATION_COPY_AI_GENERATED_ACTION = 'automation.copy.ai.generated.action';
@@ -442,6 +437,14 @@ export const AUTOMATION_VIEW_AI_GENERATED_ACTION = 'automation.view.ai.generated
 export const AUTOMATION_TEST_AI_GENERATED_ACTION = 'automation.test.ai.generated.action';
 export const AUTOMATION_CLICK_COPY_AI_GENERATED_ACTION = 'automation.click.copy.ai.generated.action';
 export const AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION = 'automation.click.test.ai.generated.action';
+// live ai events
+export const AUTOMATION_GENERATE_AI_BUTTON_CLICK = 'automation.generate.ai.button.click';
+export const AUTOMATION_GENERATE_AI_ACTION_CLICK_PROMPT_STEP = 'automation.ai.generate.ai.action.click_prompt_step';
+export const AUTOMATION_AI_SELECT_NEXT_PROMPT_STEP_CLICK = 'automation.ai.select.next.prompt.step.click';
+export const AUTOMATION_AI_SELECT_NEXT_CUSTOMIZE_ACTION_STEP_CLICK =
+  'automation.ai.select.next.customize.action.step.click';
+export const AUTOMATION_AI_ACTION_CONTENT_MODIFIED = 'automation.ai.action.content.modified';
+export const AUTOMATION_AI_LEAVE_GENERATE_DIALOG = 'automation.ai.leave.generate.dialog';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 
@@ -455,7 +458,10 @@ export const ALERTING_DELETE_TRIGGER = 'smartalert.delete.clicked';
 export const ALERTING_DELETE_CONFIRM = 'smartalert.deleted.confirmed';
 export const ALERTING_PAUSED = 'smartalert.paused';
 export const ALERTING_RESUMED = 'smartalert.resumed';
+export const ALERTING_REVISION_CHANGED = 'smartalert.revision.changed';
 export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
+//This is only available for tearsheets(To track from which step users closed the form)
+export const ALERTING_CANCEL_CLICKED = 'smartalert.cancel.clicked';
 
 // Business Monitoring Tracking
 export const BIZOPS_TABS_CLICK = 'bizops.tabs.click';
@@ -499,6 +505,7 @@ export const EVENT_RCA_FEEDBACK_SKIP = 'event.rca.feedback.skip';
 export const EVENT_RCA_ANALYZE_CLICK = 'event.rca.analyze.click';
 export const EVENT_RCA_ENTITY_CLICK = 'event.rca.entity.click';
 export const EVENT_RCA_ASSOCIATED_EVENTS_CLICK = 'event.rca.associated_events.click';
+export const EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK = 'event.rca.trace_and_error_logs.click';
 
 // Events Page Feedback Tracking
 export const EVENT_FEEDBACK_SUBMIT = 'event.feedback.submit';
@@ -510,15 +517,9 @@ export const EVENT_FEEDBACK_NEGATIVE = 'event.feedback.negative';
 
 // Event Enrichment Tracking
 export const EVENT_NOTES_SUBMIT = 'event.notes.submit';
+export const EVENT_AI_GENERATE_SUBMIT = 'event.ai.generate.submit';
+export const EVENT_AI_SHOW_MORE = 'event.ai.show.more';
 export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
-
-// Incident Summarization Feedback Tracking
-export const INCIDENT_SUMMARIZATION_HELPFUL = 'incident.summarization.feedback.helpful';
-export const INCIDENT_SUMMARIZATION_UNHELPFUL = 'incident.summarization.feedback.unhelpful';
-export const INCIDENT_SUMMARIZATION_SUBMIT = 'incident.summarization.feedback.submit';
-export const INCIDENT_SUMMARIZATION_CLOSED_MANUALLY = 'incident.summarization.feedback.manually';
-export const INCIDENT_SUMMARIZATION_NEXT = 'incident.summarization.feedback.next';
-export const INCIDENT_SUMMARIZATION_SKIP = 'incident.summarization.feedback.skip';
 
 // Flow Map Tracking (services and endpoints)
 export const FLOW_MAP_CLICK = 'flowmap.click';

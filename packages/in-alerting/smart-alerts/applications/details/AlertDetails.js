@@ -35,6 +35,7 @@ import {
   alertId as alertIdParam,
   alertsCategory as alertsCategoryMatrixParam
 } from 'in-applications/navigation/matrix';
+import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import {
   applicationSmartAlertDialogView,
   applicationSmartAlertFullScreenDesignEnabled
@@ -86,6 +87,7 @@ function GlobalAlertDetails(props) {
       displayTearSheetActions={applicationSmartAlertFullScreenDesignEnabled}
       displayEditAction={applicationSmartAlertDialogView}
       displayDuplicateAction={applicationSmartAlertDialogView}
+      getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl()}
     />
   );
 }
@@ -115,6 +117,7 @@ function IndividualAlertDetails(props) {
       displayTearSheetActions={applicationSmartAlertFullScreenDesignEnabled}
       displayEditAction={applicationSmartAlertDialogView}
       displayDuplicateAction={applicationSmartAlertDialogView}
+      getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl()}
     />
   );
 }

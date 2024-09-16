@@ -44,6 +44,7 @@ export interface LogVolumeDetailsProps {
   timePeriod: number;
   expandedRetention: any;
   handleUpdateExpandedRetention: Function;
+  groupingTag: string | null;
 }
 
 export interface RetentionPeriodData {
@@ -57,7 +58,7 @@ export interface MonthlyRetentionData {
   year: number;
   totalVolume: VolumeUnits;
   retentionPeriods: RetentionPeriodData;
-  label?: string;
+  label: string;
 }
 
 export type TagNames =
