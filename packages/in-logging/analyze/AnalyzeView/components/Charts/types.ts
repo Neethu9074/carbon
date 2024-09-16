@@ -17,4 +17,5 @@ export interface LogsDistributionChartSectionProps extends UngroupedViewProps {
 
 export interface ChartProps extends UngroupedViewProps {
   metric: ChartedMetric;
+  rightHeaderContent?: any;
 }

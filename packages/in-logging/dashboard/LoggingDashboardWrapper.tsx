@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { Button, SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { dashboardConfigurationPath, dashboardDeletePath, dashboardSmartAlertsPath } from 'in-logging/navigation/paths';
+import { dashboardConfigurationPath, dashboardDeletePath, dashboardSmartAlertsPath, loggingDashboardPath } from 'in-logging/navigation/paths';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -42,9 +42,9 @@ function LoggingDashboardWrapper(props: Props) {
       <DashboardHeaderModule>
         <SecondLevelNavigation>
           <SecondLevelNavigationItem
-            href={createHref({ ...location, pathname: '/logging' })}
+            href={createHref({ ...location, pathname: loggingDashboardPath })}
             label={t('in-logging:dashboard.summary')}
-            isActive={matchLocation(path => path === '/logging')}
+            isActive={matchLocation(path => path === loggingDashboardPath)}
           />
           <SecondLevelNavigationItem
             href={createHref({ ...location, pathname: dashboardSmartAlertsPath })}
