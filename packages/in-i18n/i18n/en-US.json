@@ -34,8 +34,8 @@
     "menu": {
       "sideNavigation": "Side navigation"
     },
-    "carbonTabs": {
-      "tabs": "Tabs"
+    "tabsNavigation": {
+      "pageNavigation": "Page navigation"
     },
     "plg": {
       "dashboardTable": {
