@@ -162,11 +162,9 @@ function LabelServiceContent({ item, type }) {
 
   const label = item[type].service.label;
   return (
-    <Tooltip content={label} align="bottomLeft" delay={1000}>
-      <Link className={locals.link} href={getLinkToServiceDashboard({ serviceId: item[type].service.id })}>
-        {label}
-      </Link>
-    </Tooltip>
+    <Link className={locals.link} href={getLinkToServiceDashboard({ serviceId: item[type].service.id })}>
+      {label}
+    </Link>
   );
 }
 
@@ -210,26 +208,24 @@ function getColumnDefinitions(dataSource) {
       getContent(item, { getHrefToDetailId, groupLabel }) {
         const label = item[type].label;
         return (
-          <Tooltip content={label} align="bottomLeft" delay={1000} overwriteBlock caret={false}>
-            <div className={locals.batchedLine}>
-              <LinkToDetailPage
-                item={item}
-                dataSource={dataSource}
-                getHrefToDetailId={getHrefToDetailId}
-                linkLabel={label}
-                groupLabel={groupLabel}
-              />
-              <BatchingIndicator
-                batchCount={item[type].batchCount}
-                tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
-                  type: getTypeTextByCount(type, 1),
-                  batchCount: item[type].batchCount,
-                  types: getTypeTextByCount(type, item[type].batchCount)
-                })}
-                noTopPosition
-              />
-            </div>
-          </Tooltip>
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              item={item}
+              dataSource={dataSource}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={label}
+              groupLabel={groupLabel}
+            />
+            <BatchingIndicator
+              batchCount={item[type].batchCount}
+              tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
+                type: getTypeTextByCount(type, 1),
+                batchCount: item[type].batchCount,
+                types: getTypeTextByCount(type, item[type].batchCount)
+              })}
+              noTopPosition
+            />
+          </div>
         );
       }
     },
