@@ -145,23 +145,8 @@ export function ChatBubble(props) {
       {aiSum && (
         <>
           <div className={locals.bubbleContentsHeader}>{t('in-events:notes.sumGenerated')}</div>
-          {summaryStart.map(entity => {
-            return (
-              <div className={locals.summaryList}>
-                {`- `}
-                <div>{entity}</div>
-              </div>
-            );
-          })}
-          {showAll &&
-            summaryEnd.map(entity => {
-              return (
-                <div className={locals.summaryList}>
-                  {`- `}
-                  <div>{entity}</div>
-                </div>
-              );
-            })}
+          <SummaryEntry summaryList={summaryStart} />
+          {showAll && <SummaryEntry summaryList={summaryEnd} />}
           {summaryEnd.length > 0 && (
             <CarbonButton
               size="sm"
@@ -193,6 +178,24 @@ export function ChatBubble(props) {
         </>
       )}
     </div>
+  );
+}
+
+function SummaryEntry({ summaryList }) {
+  return (
+    <>
+      {summaryList.map(entity => {
+        return (
+          <div key={entity.label} className={locals.summaryList}>
+            {`- `}
+            <div>
+              <div style={{ fontWeight: '700' }}>{entity.label}</div>
+              {entity.summary}
+            </div>
+          </div>
+        );
+      })}
+    </>
   );
 }
 
@@ -239,19 +242,19 @@ export function AIExplainedContent() {
         <div className={locals.dataTypesHeader}>{t('in-events:notes.dataTypes')}</div>
         <div className={locals.bullet}>
           {'- '}
-          <div>
+          <div style={{ paddingLeft: '.5rem' }}>
             <Trans i18nKey={'in-events:notes.triggeringEvent'} />
           </div>
         </div>
         <div className={locals.bullet}>
           {'- '}
-          <div>
+          <div style={{ paddingLeft: '.5rem' }}>
             <Trans i18nKey={'in-events:notes.relatedEvents'} />
           </div>
         </div>
         <div className={locals.bullet}>
           {'- '}
-          <div>
+          <div style={{ paddingLeft: '.5rem' }}>
             <Trans i18nKey={'in-events:notes.affectedEntities'} />
           </div>
         </div>

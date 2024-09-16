@@ -61,8 +61,9 @@ export function getSummary(data) {
   var dataString = [];
   data?.map(entry => {
     const props = Object.fromEntries(entry);
+    const entityLabel = (props.entityLabel && props.entityLabel !== "" && props.entityLabel) || props.entityName;
     const entitySummary = `${props.entitySummary}\n`;
-    dataString.push(entitySummary);
+    dataString.push({ label: entityLabel, summary: entitySummary });
   });
   return dataString;
 }
