@@ -5,7 +5,7 @@
  */
 
 import { MapForm, Field as FormField } from 'formalistic';
-import React, { createContext } from 'react';
+import React, { createContext, useEffect } from 'react';
 
 import { themes } from '@instana/design-tokens';
 
@@ -58,15 +58,16 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import { actionDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
+import ActionForm, { onTypeChange } from 'in-automation/ActionCatalog/ActionForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
+import useActionFilter from 'in-automation/hooks/useActionFilter';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { productAreas } from 'in-services/tracking/productAreas';
-import ActionForm from 'in-automation/ActionCatalog/ActionForm';
 import { Label } from 'in-automation/ActionCatalog/FieldsTable';
 import SectionLine from 'in-settings/components/SectionLine';
 import useEntityForm from 'in-settings/hooks/useEntityForm';
@@ -119,6 +120,7 @@ interface ActionDetailsProps {
 function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
   const navigateToActionCatalog = useNavigateToActionCatalog();
   const { createActionTrackerSegment, editActionTrackerSegment } = useSegmentTracker();
+  const actionFilter = useActionFilter();
   const entityFormParam = {
     entityId: id,
     createDefaultEntity: createAction,
@@ -134,6 +136,12 @@ function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
   const { entity, form, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
     useEntityForm<ActionFormEntity>(entityFormParam);
   let content: JSX.Element;
+  useEffect(() => {
+    if (form && entity && actionFilter.data !== 'all' && !actionFilter.data?.types.includes(form.get('type').value)) {
+      onTypeChange(actionFilter.data?.types[0] as ActionType, entity!, onChange);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actionFilter.progress.loading]);
   const errorLoading = error && !entity;
   if (loading) {
     content = <LoadingIndicator size={'xl'} />;
@@ -166,7 +174,14 @@ function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
             </Section>
           ) : null}
 
-          <ActionForm isCreate={isCreate} form={form!} onChange={onChange} entity={entity!} setForm={setForm} />
+          <ActionForm
+            isCreate={isCreate}
+            form={form!}
+            onChange={onChange}
+            entity={entity!}
+            setForm={setForm}
+            actionFilter={actionFilter}
+          />
 
           <SaveCancel
             form={form!}

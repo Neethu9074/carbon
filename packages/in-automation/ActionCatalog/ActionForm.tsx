@@ -90,7 +90,6 @@ import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
 import CreatableTagSelect from 'in-components/CreatableTagSelect';
-import useActionFilter from 'in-automation/hooks/useActionFilter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { carbonInputEnabled } from 'in-services/featureFlags';
 import useActionTags from 'in-automation/hooks/useActionTags';
@@ -114,12 +113,19 @@ interface ActionFormProps {
   entity: ActionFormEntity;
   setForm: SetFormFunction;
   isCreate: boolean;
+  actionFilter: Result<'all'> | Result<{ tags: string[]; types: string[] }>;
 }
 
-export default function ActionForm({ form, setForm, onChange, entity: action, isCreate }: ActionFormProps) {
+export default function ActionForm({
+  form,
+  setForm,
+  onChange,
+  entity: action,
+  isCreate,
+  actionFilter
+}: ActionFormProps) {
   const type = (form.get('type') as Field<ActionType>).value;
   const showTimeoutSection = isScript(type) || isWebhook(type) || isAnsible(type);
-  const actionFilter = useActionFilter();
 
   return (
     <fieldset>
@@ -208,9 +214,7 @@ const MetaDataSection = ({
   form,
   onChange,
   actionFilter
-}: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange'> & {
-  actionFilter: Result<'all'> | Result<{ tags: string[]; types: string[] }>;
-}) => {
+}: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange' | 'actionFilter'>) => {
   const name = form.get('name') as Field<string>;
   const description = form.get('description') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -290,15 +294,78 @@ function filterTypes(actionFilter: Result<'all'> | Result<{ tags: string[]; type
   }
 }
 
+export function onTypeChange(type: ActionType, action: ActionFormEntity, onChange: OnEntityChange<ActionFormEntity>) {
+  onChange('type', type, updatedForm => {
+    // WILL NEED TO UPDATE THIS FOR NEW TYPES
+    const type = (updatedForm.get('type') as Field<ActionType>).value;
+    if (isDocLink(type)) {
+      updatedForm = removeScriptField(updatedForm);
+      updatedForm = removeWebhookFields(updatedForm);
+      updatedForm = removeGithubFields(updatedForm);
+      updatedForm = removeGitlabFields(updatedForm);
+      updatedForm = removeJiraFields(updatedForm);
+      updatedForm = removeManualContentField(updatedForm);
+      updatedForm = putDocLinkField(updatedForm, action);
+    } else if (isScript(type)) {
+      updatedForm = removeDocLinkField(updatedForm);
+      updatedForm = removeWebhookFields(updatedForm);
+      updatedForm = removeGithubFields(updatedForm);
+      updatedForm = removeGitlabFields(updatedForm);
+      updatedForm = removeJiraFields(updatedForm);
+      updatedForm = removeManualContentField(updatedForm);
+      updatedForm = putScriptField(updatedForm, action);
+    } else if (isWebhook(type)) {
+      updatedForm = removeDocLinkField(updatedForm);
+      updatedForm = removeScriptField(updatedForm);
+      updatedForm = removeGithubFields(updatedForm);
+      updatedForm = removeGitlabFields(updatedForm);
+      updatedForm = removeJiraFields(updatedForm);
+      updatedForm = removeManualContentField(updatedForm);
+      updatedForm = putWebhookFields(updatedForm, action);
+    } else if (isManual(type)) {
+      updatedForm = removeDocLinkField(updatedForm);
+      updatedForm = removeScriptField(updatedForm);
+      updatedForm = removeWebhookFields(updatedForm);
+      updatedForm = removeGitlabFields(updatedForm);
+      updatedForm = removeJiraFields(updatedForm);
+      updatedForm = removeGithubFields(updatedForm);
+      updatedForm = putManualField(updatedForm, action);
+    } else if (isGithub(type)) {
+      updatedForm = removeDocLinkField(updatedForm);
+      updatedForm = removeScriptField(updatedForm);
+      updatedForm = removeWebhookFields(updatedForm);
+      updatedForm = removeGitlabFields(updatedForm);
+      updatedForm = removeJiraFields(updatedForm);
+      updatedForm = removeManualContentField(updatedForm);
+      updatedForm = putGithubFields(updatedForm, action);
+    } else if (isGitlab(type)) {
+      updatedForm = removeDocLinkField(updatedForm);
+      updatedForm = removeScriptField(updatedForm);
+      updatedForm = removeWebhookFields(updatedForm);
+      updatedForm = removeGithubFields(updatedForm);
+      updatedForm = removeJiraFields(updatedForm);
+      updatedForm = removeManualContentField(updatedForm);
+      updatedForm = putGitlabFields(updatedForm, action);
+    } else if (isJira(type)) {
+      updatedForm = removeDocLinkField(updatedForm);
+      updatedForm = removeScriptField(updatedForm);
+      updatedForm = removeWebhookFields(updatedForm);
+      updatedForm = removeGithubFields(updatedForm);
+      updatedForm = removeGitlabFields(updatedForm);
+      updatedForm = removeManualContentField(updatedForm);
+      updatedForm = putJiraFields(updatedForm, action);
+    }
+    return updatedForm;
+  });
+}
+
 const TypeSection = ({
   form,
   onChange,
   entity: action,
   isCreate,
   actionFilter
-}: Pick<ActionFormProps, 'form' | 'onChange' | 'entity' | 'isCreate'> & {
-  actionFilter: Result<'all'> | Result<{ tags: string[]; types: string[] }>;
-}) => {
+}: Pick<ActionFormProps, 'form' | 'onChange' | 'entity' | 'isCreate' | 'actionFilter'>) => {
   const type = form.get('type') as Field<ActionType>;
   const isNotEditable = useContext(isNotEditableContext);
   const filteredTypes = filterTypes(actionFilter);
@@ -312,70 +379,7 @@ const TypeSection = ({
           <Select
             id="action-type"
             value={field.value}
-            onChange={e =>
-              onChange('type', e.target.value, updatedForm => {
-                // WILL NEED TO UPDATE THIS FOR NEW TYPES
-                const type = (updatedForm.get('type') as Field<ActionType>).value;
-                if (isDocLink(type)) {
-                  updatedForm = removeScriptField(updatedForm);
-                  updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeGitlabFields(updatedForm);
-                  updatedForm = removeJiraFields(updatedForm);
-                  updatedForm = removeManualContentField(updatedForm);
-                  updatedForm = putDocLinkField(updatedForm, action);
-                } else if (isScript(type)) {
-                  updatedForm = removeDocLinkField(updatedForm);
-                  updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeGitlabFields(updatedForm);
-                  updatedForm = removeJiraFields(updatedForm);
-                  updatedForm = removeManualContentField(updatedForm);
-                  updatedForm = putScriptField(updatedForm, action);
-                } else if (isWebhook(type)) {
-                  updatedForm = removeDocLinkField(updatedForm);
-                  updatedForm = removeScriptField(updatedForm);
-                  updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeGitlabFields(updatedForm);
-                  updatedForm = removeJiraFields(updatedForm);
-                  updatedForm = removeManualContentField(updatedForm);
-                  updatedForm = putWebhookFields(updatedForm, action);
-                } else if (isManual(type)) {
-                  updatedForm = removeDocLinkField(updatedForm);
-                  updatedForm = removeScriptField(updatedForm);
-                  updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGitlabFields(updatedForm);
-                  updatedForm = removeJiraFields(updatedForm);
-                  updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = putManualField(updatedForm, action);
-                } else if (isGithub(type)) {
-                  updatedForm = removeDocLinkField(updatedForm);
-                  updatedForm = removeScriptField(updatedForm);
-                  updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGitlabFields(updatedForm);
-                  updatedForm = removeJiraFields(updatedForm);
-                  updatedForm = removeManualContentField(updatedForm);
-                  updatedForm = putGithubFields(updatedForm, action);
-                } else if (isGitlab(type)) {
-                  updatedForm = removeDocLinkField(updatedForm);
-                  updatedForm = removeScriptField(updatedForm);
-                  updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeJiraFields(updatedForm);
-                  updatedForm = removeManualContentField(updatedForm);
-                  updatedForm = putGitlabFields(updatedForm, action);
-                } else if (isJira(type)) {
-                  updatedForm = removeDocLinkField(updatedForm);
-                  updatedForm = removeScriptField(updatedForm);
-                  updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeGitlabFields(updatedForm);
-                  updatedForm = removeManualContentField(updatedForm);
-                  updatedForm = putJiraFields(updatedForm, action);
-                }
-                return updatedForm;
-              })
-            }
+            onChange={e => onTypeChange(e.target.value as ActionType, action, onChange)}
             hasError={!field.valid && field.touched}
           >
             {filteredTypes.map(type => (
