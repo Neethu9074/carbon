@@ -804,5 +804,10 @@ module.exports = exports = [
     uiClientKey: 'automationActionAiGenerationUnitEnabled',
     instanaCtlKey: 'feature.automation.action.ai.generation.unit.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonSliderEnabled',
+    instanaCtlKey: 'feature.carbon.slider.enabled',
+    defaultValue: false
   }
 ];
