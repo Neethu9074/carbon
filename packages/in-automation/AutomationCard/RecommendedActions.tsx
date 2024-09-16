@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 
 import { Button, Spacer, Stack, Typography, IconButton } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import {
   nameColumn,
@@ -25,18 +26,19 @@ import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScore
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { MANUAL_TYPE, isExternal } from 'in-automation/ActionCatalog/shared';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { generateAIButtonClickTracker } from 'in-automation/tracker';
+import { mapData, successObservable } from 'in-services/util/result';
 import { TagsFilter } from 'in-automation/components/tableFilters';
-import { isExternal } from 'in-automation/ActionCatalog/shared';
+import { ScoredAction, getActionFilter } from 'in-automation/api';
+import { pendingResult } from 'in-services/fixedObjects';
 import { VolatileId, Event, Result } from 'in-types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { mapData } from 'in-services/util/result';
-import { ScoredAction } from 'in-automation/api';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -91,6 +93,19 @@ const getActionColumn = (
   }
 });
 
+function useHasAccessToManual() {
+  const actionFilter = useActionFilter();
+  return actionFilter.data === 'all' ? true : actionFilter.data?.types.includes(MANUAL_TYPE) ?? false;
+}
+function useActionFilter() {
+  return (
+    useObservable<Result<'all'> | Result<{ types: string[]; tags: string[] }>, []>(() => {
+      if (!role?.limitedAutomationScope) return successObservable('all');
+      return getActionFilter();
+    }, []) ?? (pendingResult as Result<{ types: string[]; tags: string[] }>)
+  );
+}
+
 const columnDefinitions: ColumnDefinition<ScoredAction>[] = [
   nameColumn,
   descriptionColumn,
@@ -126,6 +141,7 @@ export default function RecommendedActions({
   const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => aiEngine))];
   const availableTags = [...new Set(recommendedActions.data?.flatMap(({ tags }) => tags ?? []))];
 
+  const hasAccessToManual = useHasAccessToManual();
   const { filteredActions, types, setTypes, aiEngine, setAiEngine, tags, setTags } = useFilters({
     recommendedActions,
     setServerTableUrlState
@@ -146,6 +162,7 @@ export default function RecommendedActions({
       navigateToActionDetails(action.id, false);
     }
   };
+
   return (
     <ServerTablePresenter<ScoredAction, ServerTablePresenterProps<ScoredAction>>
       columnDefinitions={[...columnDefinitions, getActionColumn(volatileId, event, setActiveKey)]}
@@ -174,7 +191,8 @@ export default function RecommendedActions({
               !aiRecommendedScoredActions.progress.loading &&
               aiRecommendedScoredActions?.data &&
               aiRecommendedScoredActions?.data?.length > 0 &&
-              triggerType === 'builtinEvent' && (
+              triggerType === 'builtinEvent' &&
+              hasAccessToManual && (
                 <Button
                   kind="action"
                   onClick={() => {

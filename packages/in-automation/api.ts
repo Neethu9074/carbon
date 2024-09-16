@@ -958,3 +958,12 @@ export function deleteActionInstance(id: string, createdDate: number) {
     }
   }).map(response => response.body);
 }
+
+export function getActionFilter() {
+  return http<{ types: string[]; tags: string[] }>({
+    method: 'GET',
+    url: `${actionUrl}/rbacActionFilters`,
+    maxRetries: 3,
+    mapToResultObject: true
+  });
+}
