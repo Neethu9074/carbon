@@ -7,36 +7,19 @@
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { Card } from '@instana/components';
 
-import ContextAwareSloWidgetRightHeader from 'in-custom-dashboards/widgets/Slo/components/ContextAwareSloWidgetRightHeader';
-import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/components/chart/ErrorBudgetChart';
 import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummary';
-import SloWidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/SloWidgetLeftHeader';
 import useSloWidgetMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloWidgetMetrics';
-import { SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/types';
 import { getValueFromSingleValueMetric } from 'in-service-levels/utils/format';
 import { MetricDataPoint } from 'in-components/Chart/types';
 
-interface SloWidgetPresenterProps {
-  actions: React.ReactNode;
-  config: SloWidgetConfiguration;
-  dragHandle: React.ReactNode;
-  isPreview?: boolean;
-  title: string;
+interface SloErrorBudgetWidgetProps {
   sloConfig: ServiceLevelObjectiveConfiguration;
 }
 
-export default function SloWidget({
-  actions,
-  dragHandle,
-  config,
-  isPreview,
-  title,
-  sloConfig
-}: SloWidgetPresenterProps) {
+export default function SloErrorBudgetWidget({ sloConfig }: SloErrorBudgetWidgetProps) {
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const [metricResult, status] = useSloWidgetMetrics(sloConfig, timeConfig);
 
@@ -46,11 +29,7 @@ export default function SloWidget({
   const metricSli = getValueFromSingleValueMetric(statusMetric?.values as MetricDataPoint[]);
 
   return (
-    <Card
-      rightHeaderContent={<ContextAwareSloWidgetRightHeader actions={actions} dragHandle={dragHandle} />}
-      leftHeaderContent={<SloWidgetLeftHeader sloConfig={sloConfig} isPreview={isPreview} title={title} />}
-      useMaxAvailableHeight={false}
-    >
+    <>
       <SloChartSummary
         budgetSingleNumber={remainingBudgetNumber?.values as MetricDataPoint[]}
         fromTimestamp={sloConfig.timeWindow.type === 'fixed' ? sloConfig.timeWindow.startTimestamp : Date.now()}
@@ -66,12 +45,7 @@ export default function SloWidget({
         target={sloConfig.target}
         timeWindowType={sloConfig.timeWindow.type}
       />
-
-      {config.chartType === 'ERROR_BUDGET' ? (
-        <ErrorBudgetChart configuration={sloConfig} />
-      ) : (
-        <IndicatorChart entity={sloConfig.entity} indicator={sloConfig.indicator} timeWindow={sloConfig.timeWindow} />
-      )}
-    </Card>
+      <ErrorBudgetChart configuration={sloConfig} />
+    </>
   );
 }

@@ -4,10 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
-import useSloTimeWindowContext from "in-service-levels/hooks/useSloTimeWindowContext";
-import { getEntireTimeWindowConfigFromTimeWindows } from "in-service-levels/utils/time";
-import { TimeConfig } from "@instana/types";
-import useTimeConfig from "in-hooks/useTimeConfig";
+import { TimeConfig } from '@instana/types';
+
+import { getEntireTimeWindowConfigFromTimeWindows } from 'in-service-levels/utils/time';
+import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export default function useContextAwareSloTimeWindowConfig(): TimeConfig {
   const selectedTimeConfig = useTimeConfig();

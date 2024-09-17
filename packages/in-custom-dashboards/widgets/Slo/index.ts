@@ -15,7 +15,7 @@ import { t } from 'in-i18n';
 export const type = 'slo2';
 export const label = t('in-custom-dashboards:widgets.slo.slo');
 export const minimumWidth = 6;
-export const minimumHeight = 18;
+export const minimumHeight = 26;
 export const enabled = sloRebornWidgetEnabled;
 export const trackViews = sloRebornWidgetEnabled;
 export const badge = {

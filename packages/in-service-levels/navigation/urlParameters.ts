@@ -25,11 +25,24 @@ export const sloSmartAlertDetailsUrlParameters = {
   alertCreated: createSloUrlParameter('alertCreated', serviceLevelsAlertDetailsSegment)
 };
 
-export function setTimeWindowTypeUrlParameter(location: Location, timeWindowType: AvailableTimeWindowTypes) {
+export function setTimeWindowTypeUrlParameter(
+  location: Location,
+  timeWindowType: AvailableTimeWindowTypes,
+  timeWindowTypeParameterDefinition?: ParameterDefinition<string>
+): void {
+  if (!timeWindowTypeParameterDefinition) {
+    return setOrDeleteMatrixKey(
+      location,
+      defaultServiceLevelObjectiveUrlParameters.timeWindowType.path ?? '',
+      defaultServiceLevelObjectiveUrlParameters.timeWindowType.name,
+      timeWindowType
+    );
+  }
+
   setOrDeleteMatrixKey(
     location,
-    defaultServiceLevelObjectiveUrlParameters.timeWindowType.path ?? '',
-    defaultServiceLevelObjectiveUrlParameters.timeWindowType.name,
+    timeWindowTypeParameterDefinition.path ?? '',
+    timeWindowTypeParameterDefinition.name,
     timeWindowType
   );
 }
