@@ -90,7 +90,7 @@ export default function CallDetails(props) {
     cardContent = <ErroneousResultPresenter errors={callResult.errors} isRetryError={isRetryError(callResult)} />;
   } else {
     call = callResult.data;
-    const isBatched = call.batchSize > 1 ? true : false;
+    const isBatched = call.batchSize > 1;
     const waitingTime = hasOnlyExitSpan(call)
       ? null
       : call.duration - (call.minSelfTime || call.selfTime || 0) - (call.networkTime || 0);
@@ -112,7 +112,7 @@ export default function CallDetails(props) {
           : t('in-analyze:traceDetail.components.callDetails.selfTime'),
         duration: call.minSelfTime || call.selfTime,
         totalDuration: call.duration,
-        showDurationInpercent: isBatched ? false : true
+        showDurationInpercent: !isBatched
       },
       {
         label: t('in-analyze:traceDetail.components.callDetails.networkTime'),
