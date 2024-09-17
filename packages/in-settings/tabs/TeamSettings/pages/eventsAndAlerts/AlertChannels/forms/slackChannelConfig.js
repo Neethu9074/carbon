@@ -217,8 +217,8 @@ function Form({ form, onChange }) {
       {form.get('emojiRendering').map(field => (
         <FormGroup>
           <Toggle
-            labelA="No"
-            labelB="Yes"
+            labelA=t('in-services:formatters.no')
+            labelB=t('in-services:formatters.yes')
             labelText={
               <Tooltip align={'rightMiddle'} delay={'500'} content={t('in-settings:tabs.displayEmojisInfo')}>
                 <Stack direction="horizontal" gap="xsmall">
