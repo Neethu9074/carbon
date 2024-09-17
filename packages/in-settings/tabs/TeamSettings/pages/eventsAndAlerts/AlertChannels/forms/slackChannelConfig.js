@@ -6,7 +6,7 @@
 import { createMapForm, createField } from 'formalistic';
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from '@instana/components';
+import { DescriptionList, DescriptionItem, Stack, SvgIcon, Toggle, Tooltip, Typography } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import { notBlankValidator } from 'in-services/validators/string';
@@ -43,6 +43,10 @@ const parameters = [
   {
     key: 'channel',
     label: t('in-settings:tabs.channel')
+  },
+  {
+    key: 'emojiRendering',
+    label: t('in-settings:tabs.displayEmojis')
   }
 ];
 
@@ -58,6 +62,7 @@ export default {
     alertChannel.webhookUrl = '';
     alertChannel.iconUrl = '';
     alertChannel.channel = '';
+    alertChannel.emojiRendering = false;
   },
 
   createDetails(alertChannel) {
@@ -71,6 +76,9 @@ export default {
         </DescriptionItem>
         <DescriptionItem inComponents title={t('in-settings:tabs.channel')}>
           {alertChannel.get('channel')}
+        </DescriptionItem>
+        <DescriptionItem inComponents title={t('in-settings:tabs.displayEmojis')}>
+          {alertChannel.get('emojiRendering')}
         </DescriptionItem>
       </DescriptionList>
     );
@@ -109,6 +117,12 @@ export default {
         createField({
           value: alertChannel ? alertChannel.get('channel') : ''
         })
+      )
+      .put(
+        'emojiRendering',
+        createField({
+          value: alertChannel ? alertChannel.get('emojiRendering') : false
+        })
       );
   },
 
@@ -119,7 +133,8 @@ export default {
       name: form.get('name').value,
       webhookUrl: form.get('webhookUrl').value,
       iconUrl: form.get('iconUrl').value,
-      channel: form.get('channel').value
+      channel: form.get('channel').value,
+      emojiRendering: form.get('emojiRendering').value
     };
   },
 
@@ -191,11 +206,30 @@ function Form({ form, onChange }) {
             className={`${block}__input`}
             id="channel"
             type="text"
-            placeholder={t('in-settings:tabs.channelName')}
+            placeholder={t('in-settings:tabs.alertChannelName')}
             value={field.value}
             onChange={e => onChange('channel', e.target.value)}
           />
           <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+
+      {form.get('emojiRendering').map(field => (
+        <FormGroup>
+          <Toggle
+            labelA={t('in-services:formatters.no')}
+            labelB={t('in-services:formatters.yes')}
+            labelText={
+              <Tooltip align={'rightMiddle'} delay={'500'} content={t('in-settings:tabs.displayEmojisInfo')}>
+                <Stack direction="horizontal" gap="xsmall">
+                  <Typography variant="body-regular">{t('in-settings:tabs.displayEmojis')}</Typography>
+                  <SvgIcon type="lib_help_error_info_outline" />
+                </Stack>
+              </Tooltip>
+            }
+            checked={field.value}
+            onToggle={() => onChange('emojiRendering', !field.value)}
+          />
         </FormGroup>
       ))}
     </fieldset>
