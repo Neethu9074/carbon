@@ -7,6 +7,7 @@
 import { ThresholdOperator } from '@instana/types';
 
 import { convertToPercent } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { round } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { defaultFormatter } from 'in-stores/metric/formatters';
 
 export interface ThresholdProps {
@@ -27,9 +28,9 @@ export function getThreshold(thresholdProps?: ThresholdProps, formatter: string 
 
     const { operator, critical, warning } = thresholdProps;
 
-    const currentValue = formatter.startsWith('percentage') ? convertToPercent(value) : value;
-    const criticalValue = parseFloat(critical);
-    const warningValue = parseFloat(warning);
+    const currentValue = formatter.startsWith('percentage') ? convertToPercent(value) : round(value, 2, true);
+    const criticalValue = round(critical, 2, true);
+    const warningValue = round(warning, 2, true);
 
     const hasCriticalValue = critical !== '';
     const hasWarningValue = warning !== '';
