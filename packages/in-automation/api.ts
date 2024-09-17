@@ -977,8 +977,9 @@ export function getActionNameExists(name: string, type: ActionType) {
   });
 }
 
+export type ActionFilter = { types: string[]; tags: string[] };
 export function getActionFilter() {
-  return http<{ types: string[]; tags: string[] }>({
+  return http<ActionFilter>({
     method: 'GET',
     url: `${actionUrl}/rbacActionFilters`,
     maxRetries: 3,

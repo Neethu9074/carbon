@@ -98,6 +98,7 @@ import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { isLoading } from 'in-services/util/result';
+import { ActionFilter } from 'in-automation/api';
 import Code from 'in-components/form/Code/Code';
 import { ActionType, Result } from 'in-types';
 import Input from 'in-components/form/Input';
@@ -113,7 +114,7 @@ interface ActionFormProps {
   entity: ActionFormEntity;
   setForm: SetFormFunction;
   isCreate: boolean;
-  actionFilter: Result<'all'> | Result<{ tags: string[]; types: string[] }>;
+  actionFilter: Result<'all'> | Result<ActionFilter>;
 }
 
 export default function ActionForm({
@@ -197,16 +198,11 @@ const TimeoutSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCh
   );
 };
 
-function filterTags(
-  actionFilter: Result<'all'> | Result<{ tags: string[]; types: string[] }>,
-  availableTags: Result<string[]>
-) {
+function filterTags(actionFilter: Result<'all'> | Result<ActionFilter>, availableTags: Result<string[]>) {
   if (actionFilter.data === 'all') {
     return availableTags.data;
   } else {
-    return availableTags.data?.filter(tag =>
-      (actionFilter as Result<{ tags: string[]; types: string[] }>).data?.tags.includes(tag)
-    );
+    return availableTags.data?.filter(tag => (actionFilter as Result<ActionFilter>).data?.tags.includes(tag));
   }
 }
 
@@ -284,13 +280,11 @@ const MetaDataSection = ({
 };
 
 const typeOptions = [DOC_LINK_TYPE, SCRIPT_TYPE, WEBHOOK_TYPE, MANUAL_TYPE, GITHUB_TYPE, GITLAB_TYPE, JIRA_TYPE];
-function filterTypes(actionFilter: Result<'all'> | Result<{ tags: string[]; types: string[] }>) {
+function filterTypes(actionFilter: Result<'all'> | Result<ActionFilter>) {
   if (actionFilter.data === 'all') {
     return typeOptions;
   } else {
-    return typeOptions.filter(option =>
-      (actionFilter as Result<{ tags: string[]; types: string[] }>).data?.types.includes(option)
-    );
+    return typeOptions.filter(option => (actionFilter as Result<ActionFilter>).data?.types.includes(option));
   }
 }
 

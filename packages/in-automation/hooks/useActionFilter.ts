@@ -7,16 +7,16 @@
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
+import { ActionFilter, getActionFilter } from 'in-automation/api';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import { getActionFilter } from 'in-automation/api';
 import { role } from 'in-stores/user';
 
 export default function useActionFilter() {
   return (
-    useObservable<Result<'all'> | Result<{ types: string[]; tags: string[] }>, []>(() => {
+    useObservable<Result<'all'> | Result<ActionFilter>, []>(() => {
       if (!role?.limitedAutomationScope) return successObservable('all');
       return getActionFilter();
-    }, []) ?? (pendingResult as Result<{ types: string[]; tags: string[] }>)
+    }, []) ?? (pendingResult as Result<ActionFilter>)
   );
 }
