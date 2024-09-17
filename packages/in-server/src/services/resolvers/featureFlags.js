@@ -608,7 +608,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonSelectEnabled',
     instanaCtlKey: 'feature.carbon.select.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonPaginationEnabled',
