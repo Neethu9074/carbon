@@ -6,6 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { PreviewPill } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {
@@ -17,8 +18,6 @@ import {
   SETTINGS_ALERT_CHANNEL_ADD_CLICK,
   SETTINGS_ALERT_CHANNEL_ADD_MENU_CLICK
 } from 'in-services/tracking/eventNames';
-// eslint-disable-next-line import/no-deprecated
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import configs from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { goToAlertChannelView } from 'in-settings/navigation/paths';
@@ -73,12 +72,12 @@ function AlertChannelButton({ type, className }) {
         {configs[type].label}
         {configs[type].isAlpha && (
           <div className={locals.betaBadge}>
-            <PreviewBadge privatePreview />
+            <PreviewPill privatePreview />
           </div>
         )}
         {configs[type].isBeta && (
           <div className={locals.betaBadge}>
-            <PreviewBadge />
+            <PreviewPill />
           </div>
         )}
       </Button>
