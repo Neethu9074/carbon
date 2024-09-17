@@ -293,6 +293,17 @@ export const GITHUB_TYPE: ActionType = 'GITHUB';
 export const GITLAB_TYPE: ActionType = 'GITLAB';
 export const JIRA_TYPE: ActionType = 'JIRA';
 
+export const ACTION_TYPES: ActionType[] = [
+  DOC_LINK_TYPE,
+  GITHUB_TYPE,
+  SCRIPT_TYPE,
+  WEBHOOK_TYPE,
+  MANUAL_TYPE,
+  GITLAB_TYPE,
+  JIRA_TYPE,
+  ANSIBlE_TYPE,
+  EXTERNAL_TYPE
+];
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);
 export const OPEN = 'open';

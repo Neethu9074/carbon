@@ -16,7 +16,12 @@ import {
 import { CapabilitySubsection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { getAreaRoleFromPermissionSet } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import { ACTION_TYPES, getType } from 'in-automation/ActionCatalog/shared';
 import { t } from 'in-i18n';
+
+function formatScopeId(scopeId: string) {
+  return ACTION_TYPES.reduce((formattedScopeId, type) => formattedScopeId.split(type).join(getType(type)), scopeId);
+}
 
 export function AutomationSubListSection() {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
@@ -30,7 +35,7 @@ export function AutomationSubListSection() {
     <Ul>
       {scopeId && (
         <Li>
-          <Typography variant="body-regular">{scopeId}</Typography>
+          <Typography variant="body-regular">{formatScopeId(scopeId)}</Typography>
         </Li>
       )}
       <CapabilitySubsection

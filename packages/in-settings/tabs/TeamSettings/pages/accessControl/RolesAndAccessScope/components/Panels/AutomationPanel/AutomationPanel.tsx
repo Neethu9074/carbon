@@ -24,18 +24,6 @@ import {
   ScopeRoles
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import {
-  DOC_LINK_TYPE,
-  GITHUB_TYPE,
-  SCRIPT_TYPE,
-  WEBHOOK_TYPE,
-  MANUAL_TYPE,
-  GITLAB_TYPE,
-  JIRA_TYPE,
-  ANSIBlE_TYPE,
-  EXTERNAL_TYPE,
-  getType
-} from 'in-automation/ActionCatalog/shared';
-import {
   ConfigurationSummary,
   getConfigurationSummaryMsg
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
@@ -49,6 +37,7 @@ import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Rol
 import ComboBox, { hasMultipleValuesSelected, Options } from 'in-components/ComboBox/ComboBox';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { CapabilityType, productPermissionsObject } from 'in-stores/permission';
+import { getType, ACTION_TYPES } from 'in-automation/ActionCatalog/shared';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import useActionTags from 'in-automation/hooks/useActionTags';
@@ -57,17 +46,7 @@ import { t } from 'in-i18n';
 
 import locals from './AutomationPanel.mless';
 
-const typeOptions = [
-  DOC_LINK_TYPE,
-  GITHUB_TYPE,
-  SCRIPT_TYPE,
-  WEBHOOK_TYPE,
-  MANUAL_TYPE,
-  GITLAB_TYPE,
-  JIRA_TYPE,
-  ANSIBlE_TYPE,
-  EXTERNAL_TYPE
-].map(type => ({
+const typeOptions = ACTION_TYPES.map(type => ({
   value: type,
   label: getType(type)
 }));
