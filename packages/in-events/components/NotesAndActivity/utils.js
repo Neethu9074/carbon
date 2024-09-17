@@ -73,3 +73,13 @@ export function filterSearchNotes(notes, input) {
 
   return result;
 }
+
+export function getSummaryCount(notes) {
+  let count = 0;
+  notes?.filter(note => {
+    if (note?.type == TYPE_AI_SUMMARY) {
+      count++;
+    }
+  });
+  return count;
+}

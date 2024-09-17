@@ -23,11 +23,22 @@ import locals from './QuickActions.mless';
 // Main view that gives an overview for this side panel
 // Gives the user the options to add a note or generate a summary
 export function QuickActions(props) {
+  const { displayQuickStart, incidentId, summaryCount } = props;
   // To prevent multiple clicks of the generate summary button
   // add a enable boolean thats set to false on click and re enabled
   // after 5 seconds have passed
-  const [enableAISummary, setEnableAISummary] = useState(true);
-  const { displayQuickStart, incidentId } = props;
+  const [loadingSummary, setLoadingSummary] = useState(false);
+  const [thisSummaryCount, setThisSummaryCount] = useState(summaryCount);
+  // In order to WAIT for the summary to return we are looking at the summary count
+  // We know the summary count before the summary generation is clicked. Once clicked
+  // we start the loading spinner and ONLY turn it off once the summary count has increased
+  // when it increases then we know the summary is here.
+  if (loadingSummary) {
+    if (thisSummaryCount + 1 == summaryCount) {
+      setThisSummaryCount(summaryCount);
+      setLoadingSummary(false);
+    }
+  }
   return (
     <div
       className={classNames({
@@ -52,11 +63,11 @@ export function QuickActions(props) {
           kind={'tertiary'}
           className={locals.actionsButton}
           size={'sm'}
-          disabled={!enableAISummary}
+          disabled={loadingSummary}
           renderIcon={() => {
             return (
               <>
-                {enableAISummary ? (
+                {!loadingSummary ? (
                   <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" />
                 ) : (
                   <CarbonInlineLoading className={locals.generating} />
@@ -64,7 +75,11 @@ export function QuickActions(props) {
               </>
             );
           }}
-          onClick={() => handleAIGenerateNote(incidentId, setEnableAISummary)}
+          onClick={() => {
+            setThisSummaryCount(summaryCount);
+            setLoadingSummary(true);
+            handleAIGenerateNote(incidentId);
+          }}
         >
           <div className={locals.quickActionButtonContents}>{t('in-events:notes.generateSummary')}</div>
         </CarbonButton>
@@ -75,8 +90,7 @@ export function QuickActions(props) {
 
 // Handle the button click for ai generation
 // Track the clicks
-export function handleAIGenerateNote(incidentId, setEnableAISummary) {
-  setEnableAISummary(false);
+export function handleAIGenerateNote(incidentId) {
   generateJournalSummary(incidentId);
   const { pageRootName, productArea } = getViewTrackingMetaData();
   if (pageRootName && productArea) {
@@ -89,8 +103,4 @@ export function handleAIGenerateNote(incidentId, setEnableAISummary) {
     eventTracker({ data, segmentEventName: CTA_CLICKED });
   }
   track(EVENT_AI_GENERATE_SUBMIT, { incidentId, author: user.preferredName });
-  // WAIT 5 seconds and then  enable the button to be clicked again
-  setTimeout(() => {
-    setEnableAISummary(true);
-  }, 5000);
 }

@@ -20,8 +20,8 @@ import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { incidentSummarizationEnabled } from 'in-services/featureFlags';
+import { getNotes, filterSearchNotes, getSummaryCount } from './utils';
 import { CTA_CLICKED } from 'in-services/util/constants';
-import { getNotes, filterSearchNotes } from './utils';
 import { track } from 'in-services/tracking/trackers';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -153,7 +153,11 @@ export function NotesAndActivity(props) {
               />
             )}
             {incidentSummarizationEnabled && (
-              <QuickActions displayQuickStart={displayQuickStart} incidentId={incidentId} />
+              <QuickActions
+                displayQuickStart={displayQuickStart}
+                incidentId={incidentId}
+                summaryCount={getSummaryCount(notes)}
+              />
             )}
             {!incidentSummarizationEnabled && emptyList && <EmptyState />}
             <CommentList
