@@ -49,11 +49,11 @@ export default class GlobeView {
     const height = this.container.clientHeight;
 
     const backingStoreRatio =
-      this.renderer.context.webkitBackingStorePixelRatio ||
-      this.renderer.context.mozBackingStorePixelRatio ||
-      this.renderer.context.msBackingStorePixelRatio ||
-      this.renderer.context.oBackingStorePixelRatio ||
-      this.renderer.context.backingStorePixelRatio ||
+      this.renderer.webkitBackingStorePixelRatio ||
+      this.renderer.mozBackingStorePixelRatio ||
+      this.renderer.msBackingStorePixelRatio ||
+      this.renderer.oBackingStorePixelRatio ||
+      this.renderer.backingStorePixelRatio ||
       1;
     const devicePixelRatio = window.devicePixelRatio || 1;
     const ratio = devicePixelRatio / backingStoreRatio;
