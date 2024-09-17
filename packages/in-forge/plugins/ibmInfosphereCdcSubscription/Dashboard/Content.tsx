@@ -11,12 +11,14 @@ import { Card } from '@instana/components';
 
 //@ts-expect-error
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection/KpiSection';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number, bytes, millis, seconds } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
+import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 interface IbmInfosphereSubscriptionDashboardProps {
@@ -29,6 +31,22 @@ const IbmInfosphereSubscriptionDashboard = ({ snapshot, timeConfig }: IbmInfosph
 
   return (
     <div>
+      <KpiSection>
+        <KpiKeyValue label={t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceDatastoreTimeCheckMissed')}>
+          <MetricValue snapshotId={snapshotId} metric="sourceDatastoreTimeCheckMissed" formatter={number.compact} />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.ibmInfosphereCdcSubscription.sourceDatastoreNetworkError')}>
+          <MetricValue snapshotId={snapshotId} metric="sourceDatastoreNetworkError" formatter={number.compact} />
+        </KpiKeyValue>
+      </KpiSection>
+      <KpiSection>
+        <KpiKeyValue label={t('in-forge:plugins.ibmInfosphereCdcSubscription.targetDatastoreTimeCheckMissed')}>
+          <MetricValue snapshotId={snapshotId} metric="targetDatastoreTimeCheckMissed" formatter={number.compact} />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.ibmInfosphereCdcSubscription.targetDatastoreNetworkError')}>
+          <MetricValue snapshotId={snapshotId} metric="targetDatastoreNetworkError" formatter={number.compact} />
+        </KpiKeyValue>
+      </KpiSection>
       <DashboardSection>
         <Row verticallyStretchColumns>
           <Col lg={6}>

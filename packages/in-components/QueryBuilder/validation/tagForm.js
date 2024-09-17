@@ -250,7 +250,7 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
   result.tagDefinition = incomingTagDefinition;
   result.type = tagDefinition.type;
   result.allowedOperators = getAllowedOperators(tagDefinition, tagCatalog.source);
-  result.allowedTagNames = [tagDefinition.name]; // we re-build the form every time we change tags anyway, so for validation reasons, no need to have all the tags
+  result.allowedTagNames = [tagDefinition.name, ...(tagDefinition.aliases ?? [])];
   result.requiresEntity = tagDefinition.canApplyToSource || tagDefinition.canApplyToDestination;
   result.canApplyToDestination = tagDefinition.canApplyToDestination;
   result.operator = operator = operator ?? (result.allowedOperators && result.allowedOperators[0]) ?? EQUALS;
