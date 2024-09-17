@@ -13,12 +13,8 @@ import { Observable, combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
-import {
-  RCAAssociatedEventsClick,
-  expandedRCAEventCardTracker,
-  rootCauseAnalysisSegmentTracker
-} from 'in-events/tracker';
 import { EVENT_RCA_EXPANDED_CARD, EVENT_RCA_ASSOCIATED_EVENTS_CLICK } from 'in-services/tracking/tracking';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 //@ts-expect-error
 import { getEvent } from 'in-stores/events';
@@ -35,6 +31,9 @@ interface AssociatedEventsProps {
 }
 
 export default function AssociatedEvents({ associatedEvents, latestSnapshot }: AssociatedEventsProps) {
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
+  const { trackCta } = useSegmentTracking();
+
   const [associatedEventsObservables, setAssociatedEventsObservables] = useState<Observable<EventOrMap[]> | null>(null);
   const [expanded, setExpanded] = useState<boolean>(false);
 
@@ -57,12 +56,7 @@ export default function AssociatedEvents({ associatedEvents, latestSnapshot }: A
       }
       onHeaderBackgroundClicked={() => {
         const instrumentationEventProperties = { expanded: !expanded };
-        rootCauseAnalysisSegmentTracker(
-          EVENT_RCA_ASSOCIATED_EVENTS_CLICK,
-          location?.pathname,
-          JSON.stringify(instrumentationEventProperties)
-        );
-        RCAAssociatedEventsClick(instrumentationEventProperties);
+        trackCta(EVENT_RCA_ASSOCIATED_EVENTS_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
         setExpanded(!expanded);
       }}
       headerClassName={locals.associatedEventsCardHeader}
@@ -77,8 +71,7 @@ export default function AssociatedEvents({ associatedEvents, latestSnapshot }: A
         associatedEventsData?.map((_event: EventOrMap) => (
           <div
             onClick={() => {
-              rootCauseAnalysisSegmentTracker(EVENT_RCA_EXPANDED_CARD, location?.pathname);
-              expandedRCAEventCardTracker({});
+              trackCta(EVENT_RCA_EXPANDED_CARD, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
             }}
           >
             <EventListItem

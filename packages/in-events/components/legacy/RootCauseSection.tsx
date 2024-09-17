@@ -24,15 +24,6 @@ import { Snapshot, TimeConfig } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 
 import {
-  RCAFeedbackClosedManuallyTracker,
-  RCAFeedbackNextTracker,
-  RCAFeedbackSkipTracker,
-  RCAFeedbackSubmitTracker,
-  helpfulRCASuggestionTracker,
-  rootCauseAnalysisSegmentTracker,
-  unhelpfulRCASuggestionTracker
-} from 'in-events/tracker';
-import {
   EVENT_RCA_SUGGESTION_HELPFUL,
   EVENT_RCA_SUGGESTION_UNHELPFUL,
   EVENT_RCA_FEEDBACK_NEXT,
@@ -44,8 +35,8 @@ import { ExplainabilityKeys, ProbableCauseType } from 'in-events/components/util
 import RootCauseEntityDetails from 'in-events/components/legacy/RootCauseEntityDetails';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -240,10 +231,11 @@ interface FeedbackComponentProps {
 }
 
 function FeedbackComponent({ incident }: FeedbackComponentProps) {
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
+  const { trackCta } = useSegmentTracking();
+
   const [thumbsDown, setThumbsDown] = useState(false);
   const [thumbsUp, setThumbsUp] = useState(false);
-
-  const { location } = useNavigation();
 
   return (
     <Stack direction="horizontal" gap="small" align="center">
@@ -258,8 +250,7 @@ function FeedbackComponent({ incident }: FeedbackComponentProps) {
         type="lib_thumbs_up"
         iconSize="xs"
         onClick={() => {
-          helpfulRCASuggestionTracker({});
-          rootCauseAnalysisSegmentTracker(EVENT_RCA_SUGGESTION_HELPFUL, location?.pathname);
+          trackCta(EVENT_RCA_SUGGESTION_HELPFUL, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
           setThumbsUp(true);
         }}
       />
@@ -269,42 +260,25 @@ function FeedbackComponent({ incident }: FeedbackComponentProps) {
         type="lib_thumbs_down"
         iconSize="xs"
         onClick={() => {
-          unhelpfulRCASuggestionTracker({});
-          rootCauseAnalysisSegmentTracker(EVENT_RCA_SUGGESTION_UNHELPFUL, location?.pathname);
+          trackCta(EVENT_RCA_SUGGESTION_UNHELPFUL, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
           addActiveDialog(
             <EventFeedbackDialog
               stepConfig={rcaStepConfig}
-              nextStepTracker={instrumentationInfo => {
-                rootCauseAnalysisSegmentTracker(
-                  EVENT_RCA_FEEDBACK_NEXT,
-                  location?.pathname,
-                  JSON.stringify(instrumentationInfo)
-                );
-                RCAFeedbackNextTracker(instrumentationInfo);
+              nextStepTracker={instrumentationEventProperties => {
+                trackCta(EVENT_RCA_FEEDBACK_NEXT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
               }}
-              skipStepTracker={instrumentationInfo => {
-                rootCauseAnalysisSegmentTracker(
-                  EVENT_FEEDBACK_SKIP,
-                  location?.pathname,
-                  JSON.stringify(instrumentationInfo)
-                );
-                RCAFeedbackSkipTracker(instrumentationInfo);
+              skipStepTracker={instrumentationEventProperties => {
+                trackCta(EVENT_FEEDBACK_SKIP, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
               }}
-              closedManuallyTracker={instrumentationInfo => {
-                rootCauseAnalysisSegmentTracker(
+              closedManuallyTracker={instrumentationEventProperties => {
+                trackCta(
                   EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
-                  location?.pathname,
-                  JSON.stringify(instrumentationInfo)
+                  instrumentationEventProperties,
+                  SEGMENT_EVENT_PROPERTY_CHANNEL
                 );
-                RCAFeedbackClosedManuallyTracker(instrumentationInfo);
               }}
-              submitTracker={instrumentationInfo => {
-                rootCauseAnalysisSegmentTracker(
-                  EVENT_RCA_FEEDBACK_SUBMIT,
-                  location?.pathname,
-                  JSON.stringify(instrumentationInfo)
-                );
-                RCAFeedbackSubmitTracker(instrumentationInfo);
+              submitTracker={instrumentationEventProperties => {
+                trackCta(EVENT_RCA_FEEDBACK_SUBMIT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
               }}
               submitMetadata={{ incident }}
             />

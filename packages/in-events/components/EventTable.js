@@ -11,15 +11,6 @@ import { themes } from '@instana/design-tokens';
 import { on } from '@instana/observables';
 
 import {
-  eventFeedbackClosedManuallyTracker,
-  eventFeedbackNegativeTracker,
-  eventFeedbackNextTracker,
-  eventFeedbackPositiveTracker,
-  eventFeedbackSkipTracker,
-  eventFeedbackSubmitTracker,
-  eventFeedbackSegmentTracker
-} from 'in-events/tracker';
-import {
   EVENT_FEEDBACK_NEGATIVE,
   EVENT_FEEDBACK_POSITIVE,
   EVENT_FEEDBACK_SKIP,
@@ -33,6 +24,7 @@ import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/Navi
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -216,6 +208,8 @@ function renderMetaInformation({ event }) {
 }
 
 export function FeedbackComponents({ eventData, textVariant = 'body-regular' }) {
+  const { trackCta } = useSegmentTracking();
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'event feedback';
   const tup = 'thumbsUp';
   const tdown = 'thumbsDown';
   const [feedbackState, setFeedbackState] = useState('');
@@ -241,36 +235,16 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular' }) 
         <EventFeedbackDialog
           stepConfig={eventStepConfig}
           closedManuallyTracker={instrumentationEventProperties => {
-            eventFeedbackSegmentTracker(
-              EVENT_FEEDBACK_CLOSED_MANUALLY,
-              location?.pathname,
-              JSON.stringify(instrumentationEventProperties)
-            );
-            eventFeedbackClosedManuallyTracker(instrumentationEventProperties);
+            trackCta(EVENT_FEEDBACK_CLOSED_MANUALLY, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
           nextStepTracker={instrumentationEventProperties => {
-            eventFeedbackSegmentTracker(
-              EVENT_FEEDBACK_NEXT,
-              location?.pathname,
-              JSON.stringify(instrumentationEventProperties)
-            );
-            eventFeedbackNextTracker(instrumentationEventProperties);
+            trackCta(EVENT_FEEDBACK_NEXT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
           skipStepTracker={instrumentationEventProperties => {
-            eventFeedbackSegmentTracker(
-              EVENT_FEEDBACK_SKIP,
-              location?.pathname,
-              JSON.stringify(instrumentationEventProperties)
-            );
-            eventFeedbackSkipTracker(instrumentationEventProperties);
+            trackCta(EVENT_FEEDBACK_SKIP, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
           submitTracker={instrumentationEventProperties => {
-            eventFeedbackSegmentTracker(
-              EVENT_FEEDBACK_SUBMIT,
-              location?.pathname,
-              JSON.stringify(instrumentationEventProperties)
-            );
-            eventFeedbackSubmitTracker(instrumentationEventProperties);
+            trackCta(EVENT_FEEDBACK_SUBMIT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
           eventData={eventData}
         />
@@ -298,12 +272,7 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular' }) 
               eventID: location.matrix[eventsPath]?.eventId,
               eventType: location.matrix[eventsPath]?.view
             };
-            eventFeedbackSegmentTracker(
-              EVENT_FEEDBACK_POSITIVE,
-              location?.pathname,
-              JSON.stringify(instrumentationEventProperties)
-            );
-            eventFeedbackPositiveTracker(instrumentationEventProperties);
+            trackCta(EVENT_FEEDBACK_POSITIVE, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
             if (feedbackState === tup) {
               setFeedbackState('');
             } else {
@@ -324,12 +293,7 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular' }) 
               eventID: location.matrix[eventsPath]?.eventId,
               eventType: location.matrix[eventsPath]?.view
             };
-            eventFeedbackSegmentTracker(
-              EVENT_FEEDBACK_NEGATIVE,
-              location?.pathname,
-              JSON.stringify(instrumentationEventProperties)
-            );
-            eventFeedbackNegativeTracker(instrumentationEventProperties);
+            trackCta(EVENT_FEEDBACK_NEGATIVE, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
             if (feedbackState === tdown) {
               setFeedbackState('');
             } else {

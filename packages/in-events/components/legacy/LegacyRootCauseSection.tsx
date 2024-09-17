@@ -13,16 +13,6 @@ import { useObservable } from '@instana/hooks';
 import { Snapshot } from '@instana/types';
 
 import {
-  RCAFeedbackClosedManuallyTracker,
-  RCAFeedbackNextTracker,
-  RCAFeedbackSkipTracker,
-  RCAFeedbackSubmitTracker,
-  expandedRCAEventCardTracker,
-  helpfulRCASuggestionTracker,
-  rootCauseAnalysisSegmentTracker,
-  unhelpfulRCASuggestionTracker
-} from 'in-events/tracker';
-import {
   EVENT_RCA_SUGGESTION_HELPFUL,
   EVENT_RCA_SUGGESTION_UNHELPFUL,
   EVENT_RCA_FEEDBACK_NEXT,
@@ -36,6 +26,7 @@ import LegacyRootCauseEntityDetails from 'in-events/components/legacy/LegacyRoot
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -87,6 +78,9 @@ export default function LegacyRootCauseSection({
   incidentHasRCAProperty,
   latestSnapshot
 }: LegacyRootCauseSectionProps) {
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
+  const { trackCta } = useSegmentTracking();
+
   // Holds map of { snapshot_ID: [event_id, event_id] }
   const isLegacy = incident.hasIn(['metadata', 'probableRootCause']);
   const rcaSnapshotMap = useMemo(
@@ -188,8 +182,7 @@ export default function LegacyRootCauseSection({
           {eventsRelatedToEntity?.map((_event: EventOrMap) => (
             <div
               onClick={() => {
-                rootCauseAnalysisSegmentTracker(EVENT_RCA_SUGGESTION_HELPFUL, location?.pathname);
-                expandedRCAEventCardTracker({});
+                trackCta(EVENT_RCA_SUGGESTION_HELPFUL, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
               }}
             >
               <EventListItem
@@ -217,6 +210,9 @@ function FeedbackComponent({
   snapshotMetadata,
   currentEntity
 }: FeedbackComponentProps) {
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
+  const { trackCta } = useSegmentTracking();
+
   const { location } = useNavigation();
 
   useEffect(() => {
@@ -225,28 +221,22 @@ function FeedbackComponent({
         <EventFeedbackDialog
           stepConfig={rcaStepConfig}
           nextStepTracker={() => {
-            rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_NEXT, location?.pathname);
-            RCAFeedbackNextTracker({});
+            trackCta(EVENT_RCA_FEEDBACK_NEXT, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
           skipStepTracker={() => {
-            rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_SKIP, location?.pathname);
-            RCAFeedbackSkipTracker({});
+            trackCta(EVENT_RCA_FEEDBACK_SKIP, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
           closedManuallyTracker={() => {
-            rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_CLOSED_MANUALLY, location?.pathname);
-            RCAFeedbackClosedManuallyTracker({});
+            trackCta(EVENT_RCA_FEEDBACK_CLOSED_MANUALLY, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
           submitTracker={() => {
-            rootCauseAnalysisSegmentTracker(EVENT_RCA_FEEDBACK_SUBMIT, location?.pathname);
-            RCAFeedbackSubmitTracker({});
+            trackCta(EVENT_RCA_FEEDBACK_SUBMIT, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
           submitMetadata={extractFeedbackMetadataFromIncident(incident, snapshotMetadata)}
         />
       );
     }
-  }, [feedbackState, incident, snapshotMetadata, currentEntity, location]);
-
-  // const { location } = useNavigation();
+  }, [feedbackState, incident, snapshotMetadata, currentEntity, location, trackCta]);
 
   return (
     <Stack direction="horizontal" gap="small" align="center">
@@ -261,8 +251,7 @@ function FeedbackComponent({
         type="lib_thumbs_up"
         iconSize="xs"
         onClick={() => {
-          helpfulRCASuggestionTracker({});
-          rootCauseAnalysisSegmentTracker(EVENT_RCA_SUGGESTION_HELPFUL, location?.pathname);
+          trackCta(EVENT_RCA_SUGGESTION_HELPFUL, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
           if (feedbackState[currentEntity]?.thumbsUp) {
             setFeedbackState({ ...feedbackState, [currentEntity]: defaultFeedbackState });
           } else {
@@ -276,8 +265,7 @@ function FeedbackComponent({
         type="lib_thumbs_down"
         iconSize="xs"
         onClick={() => {
-          unhelpfulRCASuggestionTracker({});
-          rootCauseAnalysisSegmentTracker(EVENT_RCA_SUGGESTION_UNHELPFUL, location?.pathname);
+          trackCta(EVENT_RCA_SUGGESTION_UNHELPFUL, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
           if (feedbackState[currentEntity]?.thumbsDown) {
             setFeedbackState({ ...feedbackState, [currentEntity]: defaultFeedbackState });
           } else {

@@ -33,12 +33,6 @@ import {
   useGenerateLinkToAnalyzePage
 } from 'in-events/components/util/rootCauseUtil';
 import {
-  RCAClickThroughToAnalyze,
-  RCAClickThroughToEntity,
-  RCATraceLogsClick,
-  rootCauseAnalysisSegmentTracker
-} from 'in-events/tracker';
-import {
   EVENT_RCA_ANALYZE_CLICK,
   EVENT_RCA_ENTITY_CLICK,
   EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK
@@ -49,6 +43,7 @@ import { getStackForInfrastructure } from 'in-components/Stack/subscriptions/get
 import { Application, Endpoint, ServiceLabel, Snapshot, TimeConfig } from 'in-types';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -87,6 +82,9 @@ export default function RootCauseEntityDetails({
   associatedEvents,
   latestSnapshot
 }: RootCauseEntityDetailsParams) {
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
+  const { trackCta } = useSegmentTracking();
+
   /*
     These query state variables hold on to the necessary observable queries that will later get used by our data state variables.
     These can be dynamic based on the given type of entity hence why they are state vars
@@ -351,12 +349,7 @@ export default function RootCauseEntityDetails({
           size="compact"
           onClick={() => {
             const instrumentationEventProperties = { urlForEntity: urlForAnalysisPage };
-            RCAClickThroughToAnalyze(instrumentationEventProperties);
-            rootCauseAnalysisSegmentTracker(
-              EVENT_RCA_ANALYZE_CLICK,
-              location?.pathname,
-              JSON.stringify(instrumentationEventProperties)
-            );
+            trackCta(EVENT_RCA_ANALYZE_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
           className={locals.analyzeButton}
         >
@@ -451,6 +444,9 @@ function EntityPath({
   serviceLabelInformation,
   entityType
 }: EntityPathProps) {
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
+  const { trackCta } = useSegmentTracking();
+
   const { location } = useNavigation();
 
   // Pulling out labels
@@ -476,12 +472,7 @@ function EntityPath({
           href={linkToEntity}
           onClick={() => {
             const instrumentationEventProperties = { mainEntity: true, entityType: entityType };
-            rootCauseAnalysisSegmentTracker(
-              EVENT_RCA_ENTITY_CLICK,
-              location?.pathname,
-              JSON.stringify(instrumentationEventProperties)
-            );
-            RCAClickThroughToEntity(instrumentationEventProperties);
+            trackCta(EVENT_RCA_ENTITY_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
         >
           <Stack direction="horizontal" gap="xsmall" align="center">
@@ -540,6 +531,9 @@ function InfrastructureVisualHierarchy({
   entityId,
   entityType
 }: InfrastructureVisualHierarchyProps) {
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
+  const { trackCta } = useSegmentTracking();
+
   const { location } = useNavigation();
 
   let hostDataFromHierarchy: RelevantSnapshotData | null = null;
@@ -611,13 +605,7 @@ function InfrastructureVisualHierarchy({
           href={linkToEntity}
           onClick={() => {
             const instrumentationEventProperties = { mainEntity: true, entityType: entityType };
-            rootCauseAnalysisSegmentTracker(
-              EVENT_RCA_ENTITY_CLICK,
-              location?.pathname,
-              JSON.stringify(instrumentationEventProperties)
-            );
-
-            RCAClickThroughToEntity(instrumentationEventProperties);
+            trackCta(EVENT_RCA_ENTITY_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
         >
           <Stack direction="horizontal" gap="xsmall" align="center">
@@ -720,6 +708,9 @@ function EntityDisplay({
   renderIcon,
   testing
 }: InfraEntityDisplayProps) {
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
+  const { trackCta } = useSegmentTracking();
+
   const { location } = useNavigation();
 
   const linkToEntity = useGenerateLinkToDashboard(entityType, entityID, location, relatedAPID);
@@ -736,13 +727,7 @@ function EntityDisplay({
         href={linkToEntity}
         onClick={() => {
           const instrumentationEventProperties = { mainEntity: false, entityType: entityType };
-          rootCauseAnalysisSegmentTracker(
-            EVENT_RCA_ENTITY_CLICK,
-            location?.pathname,
-            JSON.stringify(instrumentationEventProperties)
-          );
-
-          RCAClickThroughToEntity(instrumentationEventProperties);
+          trackCta(EVENT_RCA_ENTITY_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
         }}
       >
         <Stack direction="horizontal" gap="xsmall" align="center">
@@ -781,6 +766,9 @@ function TraceLogs({
   entityData,
   incidentTimeWindow
 }: RootCauseTraceLogsProps) {
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
+  const { trackCta } = useSegmentTracking();
+
   const [expanded, setExpanded] = useState<boolean>(true);
 
   return (
@@ -788,12 +776,7 @@ function TraceLogs({
       leftHeaderContent={<Typography variant="body-bold">{t('in-events:RCA.relatedMessagesAndLogsLabel')}</Typography>}
       onHeaderBackgroundClicked={() => {
         const instrumentationEventProperties = { expanded: !expanded };
-        rootCauseAnalysisSegmentTracker(
-          EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK,
-          location?.pathname,
-          JSON.stringify(instrumentationEventProperties)
-        );
-        RCATraceLogsClick(instrumentationEventProperties);
+        trackCta(EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
         setExpanded(!expanded);
       }}
       headerClassName={locals.associatedEventsCardHeader}

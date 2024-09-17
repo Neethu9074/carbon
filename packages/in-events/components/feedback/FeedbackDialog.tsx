@@ -11,13 +11,6 @@ import { Stack, Typography } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import {
-  eventFeedbackClosedManuallyTracker,
-  eventFeedbackNextTracker,
-  eventFeedbackSkipTracker,
-  eventFeedbackSubmitTracker,
-  eventFeedbackSegmentTracker
-} from 'in-events/tracker';
-import {
   EVENT_FEEDBACK_SUBMIT,
   EVENT_FEEDBACK_SKIP,
   EVENT_FEEDBACK_NEXT,
@@ -25,6 +18,7 @@ import {
 } from 'in-services/tracking/tracking';
 import { FeedbackConfigEventForm, saveEventFeedbackForm } from 'in-events/components/feedback/api';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { stepConfigs } from 'in-events/components/feedback/stepConfig';
@@ -37,6 +31,9 @@ import { t } from 'in-i18n';
 import locals from 'in-events/components/feedback/Feedback.mless';
 
 export default function FeedbackDialog() {
+  const { trackCta } = useSegmentTracking();
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'event feedback';
+
   const [step, setStep] = useState<string>('start_0');
   const [form, setForm] = useState<MapForm<FeedbackConfigEventForm>>(createForm());
   const { location } = useNavigation();
@@ -59,12 +56,7 @@ export default function FeedbackDialog() {
     }
 
     const instrumentation = (instrumentationEventProperties: Object) => {
-      eventFeedbackSegmentTracker(
-        EVENT_FEEDBACK_SUBMIT,
-        location?.pathname,
-        JSON.stringify(instrumentationEventProperties)
-      );
-      eventFeedbackSubmitTracker(instrumentationEventProperties);
+      trackCta(EVENT_FEEDBACK_SUBMIT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
     };
 
     save(form, location, instrumentation);
@@ -95,12 +87,7 @@ export default function FeedbackDialog() {
           eventID: location.matrix[eventsPath]?.eventId,
           eventType: location.matrix[eventsPath]?.view
         };
-        eventFeedbackSegmentTracker(
-          EVENT_FEEDBACK_NEXT,
-          location?.pathname,
-          JSON.stringify(instrumentationEventProperties)
-        );
-        eventFeedbackNextTracker(instrumentationEventProperties);
+        trackCta(EVENT_FEEDBACK_NEXT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
         nextStep();
       }}
       secondaryActionText={t('in-events:feedback.skip')}
@@ -110,14 +97,7 @@ export default function FeedbackDialog() {
           eventID: location.matrix[eventsPath]?.eventId,
           eventType: location.matrix[eventsPath]?.view
         };
-
-        eventFeedbackSegmentTracker(
-          EVENT_FEEDBACK_SKIP,
-          location?.pathname,
-          JSON.stringify(instrumentationEventProperties)
-        );
-        eventFeedbackSkipTracker(instrumentationEventProperties);
-
+        trackCta(EVENT_FEEDBACK_SKIP, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
         nextStep();
       }}
     />
@@ -138,12 +118,7 @@ export default function FeedbackDialog() {
             eventID: location.matrix[eventsPath]?.eventId,
             eventType: location.matrix[eventsPath]?.view
           };
-          eventFeedbackSegmentTracker(
-            EVENT_FEEDBACK_CLOSED_MANUALLY,
-            location?.pathname,
-            JSON.stringify(instrumentationEventProperties)
-          );
-          eventFeedbackClosedManuallyTracker(instrumentationEventProperties);
+          trackCta(EVENT_FEEDBACK_CLOSED_MANUALLY, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
           close();
         }}
         footer={footer}
