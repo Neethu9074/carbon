@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonButton, CarbonInlineLoading } from '@instana/components';
+import { SvgIcon, CarbonButton, CarbonInlineLoading, HelpText } from '@instana/components';
 
 import { EVENT_AI_GENERATE_SUBMIT } from 'in-services/tracking/eventNames';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
@@ -25,20 +25,25 @@ import locals from './QuickActions.mless';
 export function QuickActions(props) {
   const { displayQuickStart, incidentId, summaryCount } = props;
   // To prevent multiple clicks of the generate summary button
-  // add a enable boolean thats set to false on click and re enabled
-  // after 5 seconds have passed
+  // add a enable boolean keeps track of the loading of the summary
   const [loadingSummary, setLoadingSummary] = useState(false);
+  // Record the current summary count in order to know when the summary has
+  // completed loading
   const [thisSummaryCount, setThisSummaryCount] = useState(summaryCount);
+  // SummaryTimeout keeps track of the timeout ID
+  const [summaryTimeout, setSummaryTimeout] = useState(0);
+  // Timeout message is displayed only after 2 mins
+  const [showTimeoutMessage, setShowTimeoutMessage] = useState(false);
   // In order to WAIT for the summary to return we are looking at the summary count
   // We know the summary count before the summary generation is clicked. Once clicked
   // we start the loading spinner and ONLY turn it off once the summary count has increased
-  // when it increases then we know the summary is here.
-  if (loadingSummary) {
-    if (thisSummaryCount + 1 == summaryCount) {
-      setThisSummaryCount(summaryCount);
-      setLoadingSummary(false);
-    }
+  if ((loadingSummary || showTimeoutMessage) && thisSummaryCount + 1 == summaryCount) {
+    setThisSummaryCount(summaryCount);
+    setLoadingSummary(false);
+    clearTimeout(summaryTimeout);
+    setShowTimeoutMessage(false);
   }
+
   return (
     <div
       className={classNames({
@@ -76,13 +81,24 @@ export function QuickActions(props) {
             );
           }}
           onClick={() => {
+            // Set the current summary count BEFORE generating the summary
             setThisSummaryCount(summaryCount);
+            // Start the loading spinner
             setLoadingSummary(true);
+            // Generate API Call
             handleAIGenerateNote(incidentId);
+            // Timeout is started for a max of 2 mins and then the
+            // spinner will terminate and we will show a timeout message
+            const id = setTimeout(() => {
+              setLoadingSummary(false);
+              setShowTimeoutMessage(true);
+            }, 120000); // 2 mins
+            setSummaryTimeout(id);
           }}
         >
           <div className={locals.quickActionButtonContents}>{t('in-events:notes.generateSummary')}</div>
         </CarbonButton>
+        {showTimeoutMessage && <HelpText>{t('in-events:notes.waitAFewMins')}</HelpText>}
       </div>
     </div>
   );

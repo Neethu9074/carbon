@@ -27,6 +27,7 @@
   }
 
   .notesSection {
+    position: relative;
     padding: 0rem 1rem 2.25rem 1rem;
     overflow: auto;
     display: flex;
@@ -92,10 +93,13 @@
   }
 
   .popoverContent {
-    width: 21rem;
-    height: 27rem;
+    width: 22rem;
     padding: 1rem;
     border: 1px solid var(--cds-ai-border-end);
+
+    :global(.cds--popover-caret) {
+      background-color: var(--cds-ai-border-end);
+    }
   }
 
   .popupClose {
@@ -105,7 +109,6 @@
   }
 
   .popOverWrapper {
-    font-size: 14px;
     color: var(--cds-text-secondary);
   }
 
@@ -118,7 +121,7 @@
   }
 
   .popSumTitle {
-    font-size: 24px;
+    font-size: 22px;
     color: black;
   }
 
@@ -130,5 +133,11 @@
   .bullet {
     display: inline-flex;
     line-height: 20px;
+  }
+
+  .aimodellink {
+    padding-top: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid var(--cds-border-subtle-00);
   }
 }

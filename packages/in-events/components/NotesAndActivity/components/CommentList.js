@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonPopover, CarbonPopoverContent, IconButton, CarbonButton } from '@instana/components';
+import { SvgIcon, CarbonPopover, CarbonPopoverContent, IconButton, CarbonButton, Link } from '@instana/components';
 
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
@@ -181,6 +181,7 @@ export function ChatBubble(props) {
   );
 }
 
+// Function to reduce duplicate code for looping through summary bullet points
 function SummaryEntry({ summaryList }) {
   return (
     <>
@@ -199,6 +200,8 @@ function SummaryEntry({ summaryList }) {
   );
 }
 
+// Basic function for the rendering of the AI Popover and its inner contents
+// Each AI Popover holds his own open state so they are independent of each other
 export function AIPopover() {
   const [showPop, setShowPop] = useState(false);
   return (
@@ -259,10 +262,17 @@ export function AIExplainedContent() {
           </div>
         </div>
       </div>
+      <div className={locals.aimodellink}>
+        <div>{t('in-events:notes.aiModel')}</div>
+        <Link linkIconType={'lib_views_external_link'} href="https://ibm.biz/granite-13b-chat-v2" external>
+          {t('in-events:notes.granite')}
+        </Link>
+      </div>
     </div>
   );
 }
 
+// We want to track the clicks done on the show more button
 function handleShowMore(id) {
   const { pageRootName, productArea } = getViewTrackingMetaData();
   if (pageRootName && productArea) {
