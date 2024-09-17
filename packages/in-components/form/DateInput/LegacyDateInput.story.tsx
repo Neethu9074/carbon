@@ -20,6 +20,7 @@ export const LegacyDateInputExample = () => {
       <div style={{ margin: '1rem' }}>Date input Legacy</div>
       <LegacyDateInput
         value={value}
+        placeholder="YYYY-MM-DD"
         onChange={(t: any) => {
           setValue(t);
         }}

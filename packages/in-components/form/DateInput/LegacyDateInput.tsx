@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import MomentLocaleUtils from 'react-day-picker/moment';
@@ -39,6 +40,7 @@ export interface DateInputProps {
    */
   fixedWidth?: boolean;
   hasError?: boolean;
+  placeholder?: string;
 }
 
 export default function DateInput(props: DateInputProps) {

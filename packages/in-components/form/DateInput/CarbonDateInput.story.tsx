@@ -6,21 +6,23 @@
 
 import React, { useState } from 'react';
 
-import { default as CarbonDateInput } from './CarbonDateInput';
+import CarbonDateInput, { DateInputValue, DateInputProps } from './CarbonDateInput';
 
 export default {
   component: CarbonDateInput
 };
 
-export const CarbonDateInputDefault = () => {
-  const [value, setValue] = useState(null);
+export const CarbonDateInputDefault = (args: DateInputProps) => {
+  const [value, setValue] = useState<DateInputValue>(null);
   return (
     <div style={{ margin: '1rem', width: '25rem' }}>
       Date Input
       <div style={{ margin: '1rem' }}>Date input Carbon</div>
       <CarbonDateInput
+        {...args}
+        placeholder="YYYY-MM-DD"
         value={value}
-        onChange={(t: any) => {
+        onChange={t => {
           setValue(t);
         }}
       />

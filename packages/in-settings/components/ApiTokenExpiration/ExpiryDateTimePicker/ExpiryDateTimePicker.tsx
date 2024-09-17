@@ -58,7 +58,6 @@ export default function ExpiryDateTimePicker({ form, setForm }: ExpiryDateTimePi
 
             <DateInput
               data-testid="apiTokenExpiryDate"
-              // @ts-expect-error ignoring  placeholder props
               placeholder="YYYY-MM-DD"
               hasError={(!field.valid && field.touched) || !form.get('customTokenExpiry').valid}
               value={dateInput}

@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -13,8 +14,12 @@ import { activeLanguage } from 'in-i18n';
 
 const dateFormat = 'Y-m-d';
 
-type DateInputValue = string | null | undefined;
-type DateInputOnChange = (s: DateInputValue) => void;
+export type DateInputValue = string | null | undefined;
+export type DateInputOnChange = (s: DateInputValue) => void;
+export type DateInputProps = Omit<CarbonDateInputProps, 'value' | 'onChange'> & {
+  value: DateInputValue;
+  onChange: DateInputOnChange;
+};
 
 export default function DateInput({
   ...props
@@ -24,23 +29,23 @@ export default function DateInput({
 }): JSX.Element {
   const { onChange, value, disabled, id, hasError, placeholder } = props;
 
-  const convertDateObj = (date: any) => {
+  const convertDateObj = (date: DateInputValue) => {
     return date ? formatDate(new Date(date)) : date;
   };
 
   const cprops: CarbonDateInputProps = {
-    id: id,
+    id,
     value: value === null ? undefined : value,
-    placeholder: placeholder,
-    disabled: disabled,
-    hasError: hasError,
+    placeholder,
+    disabled,
+    hasError,
     onChange: date => {
-      if (onChange) {
+      if (onChange && typeof date === 'string') {
         onChange(convertDateObj(date));
       }
     },
-    dateFormat: dateFormat,
-    locale: activeLanguage ? activeLanguage.split('-')[0] : undefined
+    dateFormat,
+    locale: activeLanguage?.split('-')[0]
   };
   return <CarbonDateInput {...cprops} />;
 }
