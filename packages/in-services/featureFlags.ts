@@ -290,3 +290,4 @@ export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
   'automationActionAiGenerationUnitEnabled',
   false
 );
+export const carbonSliderEnabled = isFeatureFlagEnabled('carbonSliderEnabled', false);

@@ -70,6 +70,13 @@ export default function SparkChartReactComponent(props: Props) {
   let sparkChart;
   if (loading) {
     sparkChart = <LoadingIndicator text="" width={width} height={height} />;
+  } else if (
+    noMetricsAvailable &&
+    !showNullValuesChartOnEmptyMetrics &&
+    !hideChartOnEmptyMetrics &&
+    horizontalMetricValue == null
+  ) {
+    sparkChart = <>-</>;
   } else if (noMetricsAvailable && !showNullValuesChartOnEmptyMetrics && !hideChartOnEmptyMetrics) {
     sparkChart = <NoDataAvailable className={locals.noData} width={width} height={height} />;
   } else {

@@ -44,6 +44,9 @@ export function enrichTagCatalog(tagCatalog: TagCatalog, source?: string): Enric
   const tagsWithPath = resolveTagsFromTree(tagCatalog.tagTree);
   const tagsByName = tagCatalog.tags.reduce((agg, tag) => {
     agg[tag.name] = { ...tag, path: tagsWithPath[tag.name] };
+    tag.aliases?.forEach(alias => {
+      agg[alias] = { ...tag, path: tagsWithPath[tag.name] };
+    });
     return agg;
   }, {} as TagsByName);
 

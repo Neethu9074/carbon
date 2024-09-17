@@ -11804,7 +11804,11 @@
       "freeMem": "Free memory",
       "maxMem": "Maximum memory",
       "totalMem": "Total memory",
-      "globalMem": "Global memory manager"
+      "globalMem": "Global memory manager",
+      "sourceDatastoreTimeCheckMissed": "Source Datastore Time Check Missed",
+      "sourceDatastoreNetworkError": "Source Datastore Network Error",
+      "targetDatastoreTimeCheckMissed": "Target Datastore Time Check Missed",
+      "targetDatastoreNetworkError": "Target Datastore Network Error"
     },
     "ibmMqChannel": {
       "dashboard": {

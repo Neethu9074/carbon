@@ -111,27 +111,48 @@ function mergeResultsForKey<T extends Options>(
   extractKey: (option: T) => string | undefined,
   intersect: boolean = false
 ) {
-  const result = new Map<string, FuseResult<T>>();
-  for (const previousResult of previous) {
-    const key = extractKey(previousResult.item);
-    if (key) {
-      result.set(key, previousResult);
+  let commonKeys: string[] = [];
+  if (intersect) {
+    commonKeys = current.map(result => extractKey(result.item)).filter(Boolean) as string[];
+    if (previous.length > 0) {
+      const previousKeys = previous.map(result => extractKey(result.item)).filter(Boolean) as string[];
+      commonKeys = commonKeys.filter(key => previousKeys.includes(key));
     }
   }
-  for (const currentResult of current) {
-    const key = extractKey(currentResult.item);
-    if (key) {
-      const previousResult = result.get(key);
-      if (previous.length == 0 || !intersect || previousResult) {
-        result.set(key, {
-          ...currentResult,
-          matches: mergeMatches(previousResult?.matches, currentResult.matches),
-          score: mergeScores(previousResult?.score, currentResult.score)
-        });
+
+  const resultMap = new Map<string, FuseResult<T>>();
+
+  function fillResultMapFrom(
+    resultArray: FuseResult<T>[],
+    callback: (key: string, result: FuseResult<T>) => void = (key, result) => resultMap.set(key, result)
+  ) {
+    for (const result of resultArray) {
+      const key = extractKey(result.item);
+      if (key && (!intersect || commonKeys.includes(key))) {
+        callback(key, result);
       }
     }
   }
-  return result;
+
+  if (previous.length === 0) {
+    fillResultMapFrom(current);
+  } else {
+    fillResultMapFrom(previous);
+    fillResultMapFrom(current, (key, result) => {
+      const previousResult = resultMap.get(key);
+      if (previousResult) {
+        resultMap.set(key, {
+          ...result,
+          matches: mergeMatches(previousResult?.matches, result.matches),
+          score: mergeScores(previousResult?.score, result.score)
+        });
+      } else {
+        resultMap.set(key, result);
+      }
+    });
+  }
+
+  return resultMap;
 }
 
 function mergeResults<T extends Options>(matchAllTokens: boolean) {
@@ -142,11 +163,14 @@ function mergeResults<T extends Options>(matchAllTokens: boolean) {
   };
 }
 
-function getKey(options: Options) {
+export function getKey(options: Options) {
+  if (options.children && options.children.length > 0) {
+    return options.levelType ?? options.label;
+  }
   if (options.type === 'APPLICATION' || options.type === 'SERVICE' || options.type === 'ENDPOINT') {
     return options.label ?? null;
   }
-  return options.type === 'TAG' ? options.tagName : options.metric;
+  return options.type === 'TAG' ? options.tagName : `${options.levelType}${options.metric}`;
 }
 
 function mergeScores(previousScore: number = DEFAULT_SCORE, currentScore: number = DEFAULT_SCORE) {
