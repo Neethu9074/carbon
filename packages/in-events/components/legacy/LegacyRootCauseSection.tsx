@@ -6,7 +6,7 @@
 import React, { useEffect, useMemo, useState, ReactNode } from 'react';
 import { List, Map } from 'immutable';
 
-import { Card, Stack, Typography, Pill, IconButton } from '@instana/components';
+import { Card, Stack, Typography, Pill, IconButton, PreviewPill } from '@instana/components';
 import { Observable, combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -406,9 +406,7 @@ function ProbableRootCauseCard({ title, incident, currentRCAEntity, children }: 
           leftHeaderContent={
             <Stack direction="horizontal" gap="xxsmall">
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-                <Pill type="blue" className={locals.techPreviewPill}>
-                  {t('in-events:notes.techPreview')}
-                </Pill>
+                <PreviewPill className={locals.techPreviewPill} />
               </Tooltip>
               <Pill type="purple" className={locals.rcaAIPill}>
                 {t('in-events:RCA.AIGenBadgeText')}

@@ -658,7 +658,7 @@ module.exports = exports = [
   {
     uiClientKey: 'logSmartAlertsEnabled',
     instanaCtlKey: 'feature.log.smart.alerts.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'applicationSmartAlertFullScreenDesignEnabled',
@@ -803,6 +803,11 @@ module.exports = exports = [
   {
     uiClientKey: 'automationActionAiGenerationUnitEnabled',
     instanaCtlKey: 'feature.automation.action.ai.generation.unit.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonSliderEnabled',
+    instanaCtlKey: 'feature.carbon.slider.enabled',
     defaultValue: false
   }
 ];

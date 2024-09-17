@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonTag, CarbonLayer, CarbonInlineLoading, IconButton, CarbonSearch } from '@instana/components';
+import { SvgIcon, CarbonLayer, CarbonInlineLoading, IconButton, CarbonSearch, PreviewPill } from '@instana/components';
 
 // Not using Carbon tooltip since tooltip has not been migrated
 // Using Carbon tooltip would cause mismatch in design on the page
@@ -94,7 +94,7 @@ export function NotesAndActivity(props) {
     <CarbonLayer>
       <div className={locals.headerWrapper}>
         {t('in-events:notes.notesActivity')}
-        <CarbonTag type="blue">{t('in-events:notes.techPreview')}</CarbonTag>
+        <PreviewPill />
         <div className={locals.tagIconWrapper}>
           <IconButton
             kind="action"

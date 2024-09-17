@@ -17,7 +17,7 @@ import {
   columnDefinitions,
   createGroupingTag,
   createTagFilter,
-  EntityHealthDot,
+  EntityHealthIcon,
   GetContentType,
   getSnapshotId,
   LogFilePathTag,
@@ -69,7 +69,7 @@ export function TagValue({
   return (
     <div className={locals.tagValue}>
       <div className={locals.tagLink}>
-        {entitySnapshotId && <EntityHealthDot snapshotId={entitySnapshotId} />}
+        {entitySnapshotId && <EntityHealthIcon snapshotId={entitySnapshotId} />}
         <ResolvedLink tag={tag} item={item} resolvedValue={resolvedValue} uniqueTagName={uniqueTagName} />
       </div>
       {isHovered && tag.key !== LOG_CUSTOM_KEY_APPLICATION_IDS && (

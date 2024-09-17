@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Card, Pagination as CarbonPagination, Button } from '@instana/components';
 import { combineLatest } from '@instana/observables';
@@ -48,15 +48,8 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
   const triggeringEvent = useObservable(getEvent(incident.getIn(['triggeringEvent'], '')), [incident]) ?? null;
   const triggeringEventId = triggeringEvent?.get('id') || '';
 
-  const oldRootCausePropertyCheck =
+  const incidentHasRCAProperty =
     incident.hasIn(['metadata', 'probableRootCause']) && !incident.getIn(['metadata', 'probableRootCause']).isEmpty();
-
-  const newRootCausePropertyCheck =
-    incident.hasIn(['metadata', 'rootCause']) && !incident.getIn(['metadata', 'rootCause']).isEmpty();
-  const incidentHasRCAProperty = useMemo(
-    () => oldRootCausePropertyCheck || newRootCausePropertyCheck,
-    [newRootCausePropertyCheck, oldRootCausePropertyCheck]
-  );
 
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 
@@ -94,13 +87,8 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
         />
       )}
 
-      {incidentHasRCAProperty && rcaUIEnabled && !rootCauseHasOldSnapshotMetadata && (
-        <RootCauseSection
-          title={t('in-events:RCA.titlePRCA')}
-          incident={incident}
-          latestSnapshot={latestSnapshot}
-          incidentHasRCAProperty={incidentHasRCAProperty}
-        />
+      {rcaUIEnabled && !rootCauseHasOldSnapshotMetadata && (
+        <RootCauseSection title={t('in-events:RCA.titlePRCA')} incident={incident} latestSnapshot={latestSnapshot} />
       )}
 
       {/* Related events */}

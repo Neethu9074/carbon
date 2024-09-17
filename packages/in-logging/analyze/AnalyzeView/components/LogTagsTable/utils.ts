@@ -127,3 +127,12 @@ export const getSnapshotId = (tag: LogTag, item: LogItem) => {
     return null;
   }
 };
+
+export function getIconBySeverity(severity: number) {
+  if (severity > 0) {
+    return 'lib_help_error_warning';
+  } else if (severity > 5) {
+    return 'lib_help_error_error_circle';
+  }
+  return 'lib_uncheck';
+}

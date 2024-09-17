@@ -6,7 +6,7 @@
 
 import React, { useMemo, useState } from 'react';
 
-import { Link, Stack } from '@instana/components';
+import { Link, PreviewPill, Stack } from '@instana/components';
 
 import Applications, {
   applicationSelectionTableActions,
@@ -20,7 +20,6 @@ import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import { syntheticsFilterForMaintenanceWindowsEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { carbonComboBoxEnabled } from 'in-services/featureFlags';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -72,7 +71,7 @@ export default function MaintenanceScopeStep(props) {
         ) : (
           <Stack direction="horizontal" distribution="spaceBetween" align="center">
             {t('in-settings:tabs.syntheticTests')}
-            <PreviewBadge />
+            <PreviewPill />
           </Stack>
         )
       });
@@ -89,7 +88,7 @@ export default function MaintenanceScopeStep(props) {
     return (
       <Stack direction="horizontal" distribution="spaceBetween" align="center">
         {t('in-settings:tabs.syntheticTests')}
-        <PreviewBadge className={locals.previewBadge} />
+        <PreviewPill className={locals.previewBadge} />
       </Stack>
     );
   }

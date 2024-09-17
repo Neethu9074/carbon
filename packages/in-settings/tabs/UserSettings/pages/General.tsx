@@ -5,7 +5,16 @@
 
 import React from 'react';
 
-import { getThemeOverride, Link, setThemeOverride, Spacer, Stack, Toggle, Button } from '@instana/components';
+import {
+  getThemeOverride,
+  Link,
+  setThemeOverride,
+  Spacer,
+  Stack,
+  Toggle,
+  Button,
+  DistinctSlider
+} from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { Select } from '@instana/components';
 
@@ -81,15 +90,16 @@ export default function UiConfigGeneralPage() {
           text={t('in-settings:tabs.tableRefreshRate', { refreshRate: settings['tables_refreshRate'] / 1000 })}
           htmlFor="table-refresh-rate"
         />
-        <input
-          type="range"
-          id="table-refresh-rate"
-          min={1000}
-          max={10000}
-          step={1000}
-          value={settings['tables_refreshRate']}
-          onChange={e => saveSetting('tables_refreshRate', e.target.value)}
-        />
+        <div>
+          <DistinctSlider
+            id="table-refresh-rate"
+            min={1}
+            max={10}
+            step={1}
+            value={Number(settings['tables_refreshRate']) / 1000}
+            onChange={(_, val) => saveSetting('tables_refreshRate', (val as number) * 1000)}
+          />
+        </div>
       </HorizontalFormGroup>
       <HorizontalFormGroup
         helpText={<span className={locals.warning}>{t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}</span>}

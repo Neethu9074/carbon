@@ -169,5 +169,6 @@ module.exports = {
   graphViewFromInfraMapEnabled: true,
   extrapolateMissingStackedAreaValues: false,
   nutanixEnabled: true,
-  automationActionAiGenerationUnitEnabled: true
+  automationActionAiGenerationUnitEnabled: true,
+  carbonSliderEnabled: true
 };
