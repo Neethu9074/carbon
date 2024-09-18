@@ -18,7 +18,6 @@ import { clusterBadgeName, isOpenshift } from 'in-kubernetes/clusterDistribution
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import EntityWithTypeAndIcon from 'in-components/EntityWithTypeAndIcon';
 import { clusterDashboard } from 'in-kubernetes/navigation/paths';
@@ -48,7 +47,7 @@ export default function ClusterDashboard({ location }) {
     timeConfig: getTimeConfig(location)
   };
 
-  const { k8sTabChange } = useSegmentTracker();
+  const { k8sTabChange, kubernetesTimeShiftSelectTracker } = useSegmentTracker();
 
   return (
     <>
@@ -66,7 +65,9 @@ export default function ClusterDashboard({ location }) {
           id: props.clusterId,
           timeConfig: props.timeConfig
         })}
-        HeaderComponent={Header}
+        HeaderComponent={props => (
+          <Header {...props} kubernetesTimeShiftSelectTracker={kubernetesTimeShiftSelectTracker} />
+        )}
         location={location}
         tabs={tabs}
         tabChangeTracker={e =>
@@ -116,13 +117,13 @@ function Header(props) {
   );
 }
 
-function renderButtonLineSecondary({ timeConfig, podId }) {
+function renderButtonLineSecondary({ timeConfig, podId, kubernetesTimeShiftSelectTracker }) {
   return (
     <>
       {beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled && (
         <TimeShiftDropdown
           onChange={offset =>
-            applicationTimeShiftSelectTracker({
+            kubernetesTimeShiftSelectTracker({
               area: 'pod',
               offset: getTimeShiftLabel({ offset: offset }),
               windowSize: timeConfig.windowSize,

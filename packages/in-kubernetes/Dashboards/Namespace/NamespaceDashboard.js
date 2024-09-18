@@ -44,6 +44,7 @@ export default function NamespaceDashboard({ location }) {
     viewPath: namespaceDashboard,
     timeConfig: getTimeConfig(location)
   };
+
   const { k8sTabChange, kubernetesTimeShiftSelectTracker } = useSegmentTracker();
 
   return (
