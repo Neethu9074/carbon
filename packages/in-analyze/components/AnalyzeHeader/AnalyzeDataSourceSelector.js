@@ -34,11 +34,14 @@ import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatal
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { analyzeViewSelected } from 'in-analyze/components/AnalyzeHeader/tracker';
+import {
+  ANALYZE_LOGGING_JUMP_TO_LOGS,
+} from 'in-services/tracking/tracking';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
 import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
-import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import unwrapLink from 'in-stores/navigation/unwrapLink';
@@ -49,7 +52,7 @@ import locals from './AnalyzeDataSourceSelector.mless';
 export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, formModel = emptyArray, close }) {
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
-
+  const {trackCta} = useSegmentTracking()
   const websiteTagCatalogs = {
     websiteTagCatalogPageLoad: useWebsiteTagCatalog('pageLoad'),
     websiteTagCatalogPageChange: useWebsiteTagCatalog('pageChange'),
@@ -81,7 +84,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         {
           dataSource: 'logs',
           getHref: generateLogsHref,
-          onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
+          onClickSideEffect: () => trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS,{ source: 'navigation' })
         }
       ]
     },

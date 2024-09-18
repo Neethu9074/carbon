@@ -10,7 +10,8 @@ import { Button, IconButton } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
+import { ANALYZE_LOGGING_JUMP_TO_LOGS } from 'in-services/tracking/eventNames';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { TagFilterExpression, TimeConfig } from 'in-types';
@@ -29,6 +30,7 @@ export default function AnalyzeLogsButton({ tagFilterExpression, timeConfig, isH
     tagFilterExpression: tagFilterExpression,
     timeConfig: timeConfig
   });
+  const { trackCta } = useSegmentTracking();
 
   if (carbonButtonEnabled) {
     return (
@@ -37,13 +39,18 @@ export default function AnalyzeLogsButton({ tagFilterExpression, timeConfig, isH
           type="lib_analyze"
           href={logsHref}
           kind="subtle"
-          onClick={() => jumpToLogs({ source: 'analyze logs' })}
+          onClick={() => trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS, { source: 'analyze logs' })}
         />
       </Tooltip>
     );
   }
   return (
-    <Button kind="subtle" icon="lib_analyze" href={logsHref} onClick={() => jumpToLogs({ source: 'analyze logs' })}>
+    <Button
+      kind="subtle"
+      icon="lib_analyze"
+      href={logsHref}
+      onClick={() => trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS, { source: 'analyze logs' })}
+    >
       {isHovered ? t('in-analyze:traceDetail.tabs.summary.analyzeLogs') : ''}
     </Button>
   );

@@ -157,35 +157,36 @@ export default function ServerTablePresenter<
       ) : undefined;
 
     // when api has returned data
-    const carbonRows = result.data?.items.map((item: ItemType, index: number) => {
-      let value = { id: item.id ?? String(index) };
-      carbonHeaders.map(({ key, getContent, ellipsis, width, noWrap }) => {
-        let pair;
-        if (typeof ellipsis !== 'boolean') {
-          width = ellipsis;
-          ellipsis = true;
-        }
-        if (ellipsis) {
-          pair = {
-            [key]: (
-              <div style={{ maxWidth: width, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-                {getContent(item, props, key)}
-              </div>
-            )
-          };
-        } else if (noWrap) {
-          // when noWrap is true but ellipsis is not set
-          pair = {
-            [key]: <div style={{ whiteSpace: 'nowrap' }}>{getContent(item, props, key)}</div>
-          };
-        } else {
-          pair = { [key]: <>{getContent(item, props, key)}</> };
-        }
-        value = { ...value, ...pair };
+    const carbonRows =
+      result.data?.items.map((item: ItemType, index: number) => {
+        let value = { id: item.id ?? String(index) };
+        carbonHeaders.map(({ key, getContent, ellipsis, width, noWrap }) => {
+          let pair;
+          if (typeof ellipsis !== 'boolean') {
+            width = ellipsis;
+            ellipsis = true;
+          }
+          if (ellipsis) {
+            pair = {
+              [key]: (
+                <div style={{ maxWidth: width, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                  {getContent(item, props, key)}
+                </div>
+              )
+            };
+          } else if (noWrap) {
+            // when noWrap is true but ellipsis is not set
+            pair = {
+              [key]: <div style={{ whiteSpace: 'nowrap' }}>{getContent(item, props, key)}</div>
+            };
+          } else {
+            pair = { [key]: <>{getContent(item, props, key)}</> };
+          }
+          value = { ...value, ...pair };
+          return value;
+        });
         return value;
-      });
-      return value;
-    }) || [];
+      }) || [];
 
     body = (
       <CarbonDataTable

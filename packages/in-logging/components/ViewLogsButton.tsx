@@ -17,7 +17,8 @@ import {
 import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { Config as BigNumberConfig } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { TagFilterExpressionElementUnion, UnifiedMetricConfigurationUnion } from 'in-types';
-import { customWidgetSeeInLogsClicked } from 'in-logging/analyze/AnalyzeView/tracker';
+import { ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED } from 'in-services/tracking/eventNames';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { carbonMoreMenuEnabled } from 'in-services/featureFlags';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { ChartConfig } from 'in-components/Chart/types';
@@ -33,6 +34,7 @@ export function ViewLogsButton({ config, className = '' }: { config: MetricsConf
 
   const link = useLinkToLogs({ tagFilterExpression: filters as FormModelElement[] });
 
+  const {trackCta} = useSegmentTracking()
   if (!isLogsWidget) return null;
 
   return (
@@ -41,7 +43,7 @@ export function ViewLogsButton({ config, className = '' }: { config: MetricsConf
         href={link}
         className={className}
         onClick={() =>
-          customWidgetSeeInLogsClicked({
+          trackCta(ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED,{
             source: `See logs in Analyze - Custom Dashboard`,
             navigationLink: link,
             filters

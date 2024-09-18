@@ -9,7 +9,8 @@ import React from 'react';
 import { Link } from '@instana/components';
 import { LogTag } from '@instana/types';
 
-import { logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
+import { ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED } from 'in-services/tracking/eventNames';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { t } from 'in-i18n';
 
 import locals from 'in-logging/analyze/AnalyzeView/components/LogTagsTable.mless';
@@ -25,6 +26,7 @@ export default function LogFilePathTag({
   resolvedLogTagName: string;
   tag: LogTag;
 }) {
+  const {trackCta} = useSegmentTracking()
   return (
     <span>
       <>
@@ -35,7 +37,7 @@ export default function LogFilePathTag({
         <Link
           className={locals.value}
           href={resolvedLink}
-          onClick={() => logMessageTagClicked({ tag: { name: tag.name, value: resolvedValue, key: tag.key } })}
+          onClick={() => trackCta(ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED,{ tag: { name: tag.name, value: resolvedValue, key: tag.key } })}
         >
           {resolvedLogTagName}
         </Link>

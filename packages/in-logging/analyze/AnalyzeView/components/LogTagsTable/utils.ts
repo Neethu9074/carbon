@@ -24,8 +24,12 @@ import {
   PROCESS_ID,
   restrictedTags
 } from 'in-logging/queryBuilder';
+import {
+  ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED,
+  ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED
+} from 'in-services/tracking/eventNames';
 import { ClickedTag, GroupedTags, GroupingTag } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
-import { filterAdded, groupAdded } from 'in-logging/analyze/AnalyzeView/tracker';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { capitalize } from 'in-services/formatters/string';
 import { LogItem, LogTag } from 'in-types';
 
@@ -79,12 +83,12 @@ export const groupAndSortTags = (tags: LogTag[]): GroupedTags => {
   return groupedTags;
 };
 
-export function trackFilterClick(tag: LogTag, value: string | number) {
-  filterAdded({ filter: createTag(value, tag.name, tag.key) });
+export function trackFilterClick(trackCTA: CtaTrackingFunction, tag: LogTag, value: string | number) {
+  trackCTA(ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED, { filter: createTag(value, tag.name, tag.key) });
 }
 
-export function trackGroupClick(group: string | number) {
-  groupAdded({ source: 'log message filter button', group });
+export function trackGroupClick(trackCTA: CtaTrackingFunction, group: string | number) {
+  trackCTA(ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED, { source: 'log message filter button', group });
 }
 
 export function createTag(value: string | number, name?: string, key?: string): ClickedTag {

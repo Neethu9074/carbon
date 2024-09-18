@@ -17,14 +17,15 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getResolvedTimeConfig, getSparkChartGranularity, TimeResult } from 'in-applications/metrics';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
+import { LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK } from 'in-services/tracking/eventNames';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { CONTAINS, EQUALS, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
-import { clickedAppPerspectiveLink } from 'in-logging/analyze/AnalyzeView/tracker';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { logPillColorMap } from 'in-logging/analyze/AnalyzeView/utils/constants';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
@@ -250,9 +251,9 @@ interface MessageProps {
 }
 function Message({ message, applicationName, serviceName, endpointName, boundaryScope, timeConfig }: MessageProps) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
-
+  const {trackCta} = useSegmentTracking()
   const trackLinkClick = () => {
-    clickedAppPerspectiveLink();
+    trackCta(LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK);
   };
 
   return (

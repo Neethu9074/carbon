@@ -14,7 +14,8 @@ import {
 } from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
-import { logsCallwithFilters } from '../tracker';
+import { ANALYZE_LOGGING_LOG_GETLOGS_FILTERS } from 'in-services/tracking/eventNames';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 
 export function getMetric({ numberOfLogs }: LogGroupItem) {
   return numberOfLogs;
@@ -30,14 +31,20 @@ export function isLogItem(log: any): log is LogItem {
 }
 export const defaultChartedMetrics = [{ metricId: 'logs_distribution', aggregationId: 'SUM' }];
 
-export const handleLogCallsWithFilters = ({
-  timeConfig,
-  tagFilterExpression
-}: {
-  timeConfig: TimeConfig;
-  tagFilterExpression: TagFilterExpression | TagFilterExpressionElementUnion;
-}) => {
-  logsCallwithFilters({ timeConfig, tags: extractTagNames(tagFilterExpression) });
+export const handleLogCallsWithFilters = (
+  trackCta: CtaTrackingFunction,
+  {
+    timeConfig,
+    tagFilterExpression
+  }: {
+    timeConfig: TimeConfig;
+    tagFilterExpression: TagFilterExpression | TagFilterExpressionElementUnion;
+  }
+) => {
+  trackCta(ANALYZE_LOGGING_LOG_GETLOGS_FILTERS, {
+    timeConfig,
+    tags: extractTagNames(tagFilterExpression)
+  });
 };
 
 function extractTagNames(expression: TagFilterExpressionElementUnion): string[] {
