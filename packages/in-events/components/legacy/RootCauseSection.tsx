@@ -37,12 +37,12 @@ import {
 } from 'in-events/tracker';
 import { ExplainabilityKeys, ProbableCauseType } from 'in-events/components/util/rootCauseUtil';
 import RootCauseEntityDetails from 'in-events/components/legacy/RootCauseEntityDetails';
+import { carbonButtonEnabled, rcaFailedStateEnabled } from 'in-services/featureFlags';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { useLinkToAnalyze } from 'in-applications/navigation/paths';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { minutes } from 'in-services/time/time';
@@ -103,7 +103,7 @@ export default function RootCauseSection({ title, incident, latestSnapshot }: Ro
     rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray() as [string, ProbableCauseType][];
   }
 
-  if (rootCauseSnapshotMap.size <= 0) {
+  if (rootCauseSnapshotMap.size <= 0 && rcaFailedStateEnabled) {
     let failedTextReason;
     let externalLink;
     let buttonText;
@@ -166,6 +166,8 @@ export default function RootCauseSection({ title, incident, latestSnapshot }: Ro
         </div>
       </ProbableRootCauseCard>
     );
+  } else if (rootCauseSnapshotMap.size <= 0 && !rcaFailedStateEnabled) {
+    return null;
   }
   return (
     <ProbableRootCauseCard title={title} incident={incident}>

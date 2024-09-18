@@ -117,6 +117,7 @@ module.exports = {
   syntheticCustomDashboardEnabled: true,
   rcaUIEnabled: true,
   rcaLogsEnabled: false,
+  rcaFailedStateEnabled: false,
   eventFeedbackEnabled: true,
   incidentSummarizationEnabled: true,
   manuallyCloseEventEnabled: true,
