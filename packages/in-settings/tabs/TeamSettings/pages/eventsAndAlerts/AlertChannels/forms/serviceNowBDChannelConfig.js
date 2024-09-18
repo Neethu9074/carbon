@@ -7,7 +7,7 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Collapsible, IconButton, DescriptionList, DescriptionItem, RadioButton } from '@instana/components';
+import { Collapsible, IconButton, DescriptionList, DescriptionItem, RadioButton, Link } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import { serviceNowAdvancedEnabled, carbonInputEnabled } from 'in-services/featureFlags';
@@ -298,7 +298,14 @@ function Form({ form, onChange }) {
                       }}
                     />
                     <div style={{ marginLeft: '1.9rem' }} className={`${block}__field_help_text`}>
-                      {t('in-settings:tabs.restIncidentTableDesc')}
+                      <Trans
+                        i18nKey="in-settings:tabs.restIncidentTableDesc"
+                        components={{
+                          documentationLink: (
+                            <Link external href="https://ibm.biz/servicenow-app-alert" style={{ fontSize: '12px' }} />
+                          )
+                        }}
+                      />
                     </div>
                     <TouchedMessages field={field} />
                   </FormGroup>
