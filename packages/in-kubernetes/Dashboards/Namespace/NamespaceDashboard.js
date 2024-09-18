@@ -18,7 +18,6 @@ import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matri
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
-import { kubernetesTimeShiftSelectTracker } from 'in-kubernetes/tracker';
 import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { NamespaceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
@@ -32,8 +31,8 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
-import { namespaceTabChange } from 'in-kubernetes/tracker';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { useSegmentTracker } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
@@ -45,6 +44,7 @@ export default function NamespaceDashboard({ location }) {
     viewPath: namespaceDashboard,
     timeConfig: getTimeConfig(location)
   };
+  const { k8sTabChange, kubernetesTimeShiftSelectTracker } = useSegmentTracker();
 
   return (
     <>
@@ -74,7 +74,9 @@ export default function NamespaceDashboard({ location }) {
           id: props.namespaceId,
           timeConfig: props.timeConfig
         })}
-        HeaderComponent={Header}
+        HeaderComponent={props => (
+          <Header {...props} kubernetesTimeShiftSelectTracker={kubernetesTimeShiftSelectTracker} />
+        )}
         location={location}
         tabs={tabs}
         filterTabByResult={result => {
@@ -83,7 +85,13 @@ export default function NamespaceDashboard({ location }) {
             else return !tab.path.endsWith('/deploymentconfigs');
           };
         }}
-        tabChangeTracker={namespaceTabChange}
+        tabChangeTracker={e => {
+          k8sTabChange({
+            ...e,
+            dashboard: 'namespace',
+            path: location.pathname
+          });
+        }}
         props={props}
         renderErrors={errors => (
           <CenterAlignmentColumn>
@@ -137,7 +145,7 @@ function renderButtonLine({ namespaceId, timeConfig, result }) {
   );
 }
 
-function renderButtonLineSecondary({ timeConfig, namespaceId }) {
+function renderButtonLineSecondary({ timeConfig, namespaceId, kubernetesTimeShiftSelectTracker }) {
   return (
     <>
       {beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled && (

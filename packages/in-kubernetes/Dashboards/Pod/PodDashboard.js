@@ -18,7 +18,6 @@ import { cronJobId as matrixCronJobId, podId as matrixPodId } from 'in-kubernete
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
-import { kubernetesTimeShiftSelectTracker, podTabChange } from 'in-kubernetes/tracker';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
@@ -36,6 +35,7 @@ import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { useSegmentTracker } from 'in-kubernetes/tracker';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
@@ -49,6 +49,8 @@ export default function PodDashboard({ location }) {
     viewPath: podDashboard,
     timeConfig: getTimeConfig(location)
   };
+
+  const { k8sTabChange, kubernetesTimeShiftSelectTracker } = useSegmentTracker();
 
   const { podId, timeConfig } = props;
 
@@ -93,10 +95,18 @@ export default function PodDashboard({ location }) {
           id: podId,
           timeConfig: timeConfig
         })}
-        HeaderComponent={Header}
+        HeaderComponent={props => (
+          <Header {...props} kubernetesTimeShiftSelectTracker={kubernetesTimeShiftSelectTracker} />
+        )}
         location={location}
         tabs={allTabs}
-        tabChangeTracker={podTabChange}
+        tabChangeTracker={e => {
+          k8sTabChange({
+            ...e,
+            dashboard: 'pod',
+            path: location.pathname
+          });
+        }}
         props={props}
         renderErrors={errors => (
           <CenterAlignmentColumn>
@@ -153,7 +163,7 @@ function renderButtonLine({ podId, timeConfig, result }) {
   );
 }
 
-function renderButtonLineSecondary({ timeConfig, podId, result }) {
+function renderButtonLineSecondary({ timeConfig, podId, result, kubernetesTimeShiftSelectTracker }) {
   const podName = result?.data?.label;
 
   return (

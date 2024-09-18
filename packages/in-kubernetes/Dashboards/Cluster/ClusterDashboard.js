@@ -34,8 +34,8 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { useSegmentTracker } from 'in-kubernetes/tracker';
 import BadgeList from 'in-components/BadgeList/BadgeList';
-import { clusterTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
@@ -47,6 +47,8 @@ export default function ClusterDashboard({ location }) {
     viewPath: clusterDashboard,
     timeConfig: getTimeConfig(location)
   };
+
+  const { k8sTabChange } = useSegmentTracker();
 
   return (
     <>
@@ -67,7 +69,13 @@ export default function ClusterDashboard({ location }) {
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
-        tabChangeTracker={clusterTabChange}
+        tabChangeTracker={e =>
+          k8sTabChange({
+            ...e,
+            dashboard: 'cluster',
+            path: location.pathname
+          })
+        }
         filterTabByResult={result => {
           return tab => {
             if (isOpenshift(get(result, ['data', 'clusterDistribution'], 'kubernetes'))) return true;
