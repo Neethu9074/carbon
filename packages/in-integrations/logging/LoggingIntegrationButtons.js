@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { CarbonMenuButton } from '@instana/components';
+
 import CoralogixButton, {
   shouldShowButton as showCoralogixButton
 } from 'in-integrations/logging/coralogix/CoralogixButton';
@@ -18,6 +20,7 @@ import { integrationKey as mezmoIntegrationKey } from 'in-integrations/logging/m
 import { integrationKey as humioIntegrationKey } from 'in-integrations/logging/humio/consts';
 import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
 import { integrationKey as elkIntegrationKey } from 'in-integrations/logging/elk/consts';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import MultiButton from 'in-components/MultiButton';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -48,6 +51,14 @@ export function LoggingIntegrationButtonsRenderer(props) {
     showMezmoButton(props) && mezmoIntegration && mezmoIntegration.enabled && <MezmoButton {...props} />,
     showSplunkButton(props) && splunkIntegration && splunkIntegration.enabled && <SplunkButton {...props} />
   ].filter(Boolean);
+
+  if (carbonButtonEnabled) {
+    return (
+      <CarbonMenuButton size="sm" label={t('in-integrations:logging.goToLogs')} kind="secondary">
+        {integrations}
+      </CarbonMenuButton>
+    );
+  }
 
   return (
     <MultiButton
