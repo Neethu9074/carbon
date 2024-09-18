@@ -5,9 +5,8 @@
 
 import React, { useEffect, useRef } from 'react';
 
-import { ColumnizedDefinition } from '@instana/components';
+import { ColumnizedDefinition, Button } from '@instana/components';
 import { TagFilter } from '@instana/types';
-import { Button } from '@instana/legacy';
 
 import {
   centerAlignedCopyColumn,
