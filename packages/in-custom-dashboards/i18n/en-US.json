@@ -436,6 +436,7 @@
     },
     "slo": {
       "general": {
+        "demoWidgetTitle": "Widget Title",
         "sloNotFound": "Slo Configuration Not Found"
       },
       "v2Form": {

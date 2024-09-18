@@ -77,7 +77,14 @@ export default function ShowCase() {
 
   return (
     <div className={locals.wrapper}>
-      <Card leftHeaderContent={<SloWidgetLeftHeader sloConfig={showCaseSloConfig} title={showCaseSloConfig.name} />}>
+      <Card
+        leftHeaderContent={
+          <SloWidgetLeftHeader
+            sloConfig={showCaseSloConfig}
+            title={t('in-custom-dashboards:widgets.slo.general.demoWidgetTitle')}
+          />
+        }
+      >
         <Stack>
           <SloChartSummary
             budgetSingleNumber={[[0, totalErrorBudget]]}
