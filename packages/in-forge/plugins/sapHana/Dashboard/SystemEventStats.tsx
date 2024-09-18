@@ -37,16 +37,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.eventTime'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: SystemEventStatsRow) {
-        return row.systemEventStats.get('eventTime');
-      },
-      getContent: formatDateTime
-    }
-  },
-  {
     title: t('in-forge:plugins.sapHana.dashboard.eventName'),
     type: 'string',
     typeArgs: {
@@ -56,29 +46,11 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.eventDetail'),
+    title: t('in-forge:plugins.sapHana.dashboard.serviceName'),
     type: 'string',
     typeArgs: {
       getValue(row: SystemEventStatsRow) {
-        return row.systemEventStats.get('eventDetail');
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.sapHana.dashboard.errorMsg'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: SystemEventStatsRow) {
-        return row.systemEventStats.get('errorMessage');
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.sapHana.dashboard.systemActive'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: SystemEventStatsRow) {
-        return row.systemEventStats.get('systemActive');
+        return row.systemEventStats.get('serviceName');
       }
     }
   },
@@ -92,24 +64,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.hostStatus'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: SystemEventStatsRow) {
-        return row.systemEventStats.get('hostStatus');
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.sapHana.dashboard.hostActive'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: SystemEventStatsRow) {
-        return row.systemEventStats.get('hostActive');
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.sapHana.dashboard.serviceStatus'),
     type: 'string',
     typeArgs: {
@@ -119,21 +73,13 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.databaseName'),
+    title: t('in-forge:plugins.sapHana.dashboard.eventTime'),
     type: 'string',
     typeArgs: {
       getValue(row: SystemEventStatsRow) {
-        return row.systemEventStats.get('databaseName');
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.sapHana.dashboard.serviceName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: SystemEventStatsRow) {
-        return row.systemEventStats.get('serviceName');
-      }
+        return row.systemEventStats.get('eventTime');
+      },
+      getContent: formatDateTime
     }
   }
 ];
@@ -164,7 +110,7 @@ export default function SystemEventStatsList({ snapshotId, timeConfig }: SystemE
       cardTitle={t('in-forge:plugins.sapHana.dashboard.systemEventStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={1}
+      initialSortColumn={5}
       initialSortDirection="desc"
     />
   );

@@ -64,15 +64,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.errorMsg'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: SchedulerJobsStatsRow) {
-        return row.schedulerJobsStats.get('errorMessage');
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.sapHana.dashboard.startTime'),
     type: 'string',
     typeArgs: {
@@ -93,7 +84,6 @@ const cols = [
     }
   }
 ];
-
 export default function SchedulerJobsStatsList({ snapshotId, timeConfig }: SchedulerJobsStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'schedulerJobStats'), [snapshotId]);
   if (!data) {
@@ -113,14 +103,13 @@ export default function SchedulerJobsStatsList({ snapshotId, timeConfig }: Sched
         schedulerJobsStats
       };
     });
-
   return (
     <Table
       withoutPadding
       cardTitle={t('in-forge:plugins.sapHana.dashboard.schedulerJobStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={5}
+      initialSortColumn={4}
       initialSortDirection="desc"
     />
   );

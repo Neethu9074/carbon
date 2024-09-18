@@ -11,9 +11,13 @@ import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+// @ts-expect-error needs TS migration
+import { formatSql } from 'in-forge/tracing/jdbc/sql';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection/DashboardSection';
 import { bytesTwoDecimalPlaces, millis } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import Table from 'in-sdk/components/dashboard/Table';
+import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
 interface ArchiveLogBackupStatsRow {
@@ -38,40 +42,12 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.systemId'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: ArchiveLogBackupStatsRow) {
-        return row.archiveLogBackupStats.get('systemId');
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.sapHana.dashboard.volumeId'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: ArchiveLogBackupStatsRow) {
-        return row.archiveLogBackupStats.get('volumeId');
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.sapHana.dashboard.entryType'),
     type: 'string',
     typeArgs: {
       getValue(row: ArchiveLogBackupStatsRow) {
         return row.archiveLogBackupStats.get('entryType');
       }
-    }
-  },
-  {
-    title: t('in-forge:plugins.sapHana.dashboard.startTime'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: ArchiveLogBackupStatsRow) {
-        return row.archiveLogBackupStats.get('startTime');
-      },
-      getContent: formatDateTime
     }
   },
   {
@@ -125,15 +101,50 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.destinationPath'),
+    title: t('in-forge:plugins.sapHana.dashboard.startTime'),
     type: 'string',
     typeArgs: {
       getValue(row: ArchiveLogBackupStatsRow) {
-        return row.archiveLogBackupStats.get('destinationPath');
-      }
+        return row.archiveLogBackupStats.get('startTime');
+      },
+      getContent: formatDateTime
     }
   }
 ];
+function getDetails(row: ArchiveLogBackupStatsRow) {
+  return (
+    <DashboardSection>
+      <label>{t('in-forge:plugins.sapHana.dashboard.destinationPath')} : </label>
+      <Code
+        code={formatSql(
+          row.archiveLogBackupStats.get('destinationPath') == null
+            ? ''
+            : row.archiveLogBackupStats.get('destinationPath')
+        )}
+        lang="bash"
+        softWrap
+      />
+      <label>{t('in-forge:plugins.sapHana.dashboard.systemId')} : </label>
+      <Code
+        code={formatSql(
+          row.archiveLogBackupStats.get('systemId') == null ? '' : row.archiveLogBackupStats.get('systemId')
+        )}
+        lang="bash"
+        softWrap
+        withExpandButton
+      />
+      <label>{t('in-forge:plugins.sapHana.dashboard.volumeId')} : </label>
+      <Code
+        code={formatSql(
+          row.archiveLogBackupStats.get('volumeId') == null ? '' : row.archiveLogBackupStats.get('volumeId')
+        )}
+        lang="bash"
+        softWrap
+        withExpandButton
+      />
+    </DashboardSection>
+  );
+}
 
 export default function ArchiveLogBackupStatsList({ snapshotId, timeConfig }: ArchiveLogBackupStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'archiveLogBackupStats'), [snapshotId]);
@@ -161,8 +172,9 @@ export default function ArchiveLogBackupStatsList({ snapshotId, timeConfig }: Ar
       cardTitle={t('in-forge:plugins.sapHana.dashboard.archiveLogBackupStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={4}
+      initialSortColumn={6}
       initialSortDirection="desc"
+      getRowDetails={getDetails}
     />
   );
 }

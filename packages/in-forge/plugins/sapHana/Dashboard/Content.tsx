@@ -13,7 +13,8 @@ import {
   bytesTwoDecimalPlaces,
   percentageZeroDecimalPlaces,
   millis,
-  percentage
+  percentage,
+  number
 } from 'in-services/formatters/number';
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -21,10 +22,12 @@ import ExpensiveStatementStatsList from 'in-forge/plugins/sapHana/Dashboard/Expe
 import GarbageCollectionStatsList from 'in-forge/plugins/sapHana/Dashboard/GarbageCollectionStats';
 import ArchiveLogBackupStatsList from 'in-forge/plugins/sapHana/Dashboard/ArchiveLogBackupStats';
 import AggregatedCacheStatsList from 'in-forge/plugins/sapHana/Dashboard/AggregatedCacheStats';
+import ActiveStatementStatsList from 'in-forge/plugins/sapHana/Dashboard/ActiveStatementStats';
 import ServiceDetailsStatsList from 'in-forge/plugins/sapHana/Dashboard/ServiceDetailsStats';
 import SchedulerJobsStatsList from 'in-forge/plugins/sapHana/Dashboard/SchedulerJobsStats';
 import SqlPlanCacheStatsList from 'in-forge/plugins/sapHana/Dashboard/SqlPlanCacheStats';
 import SystemEventStatsList from 'in-forge/plugins/sapHana/Dashboard/SystemEventStats';
+import TransactionStatsList from 'in-forge/plugins/sapHana/Dashboard/TransactionStats';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TableSizeStatsList from 'in-forge/plugins/sapHana/Dashboard/TableSizeStats';
@@ -118,6 +121,31 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.currentWorkloadRate')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.detailed,
+              metrics: [
+                'stats.currentStmtExecutionRate',
+                'stats.currentStmtCompilationRate',
+                'stats.currentUpdateTransactionRate',
+                'stats.currentRollbackRate',
+                'stats.currentCommitRate'
+              ],
+              labels: [
+                t('in-forge:plugins.sapHana.dashboard.statementExecutions'),
+                t('in-forge:plugins.sapHana.dashboard.statementCompilations'),
+                t('in-forge:plugins.sapHana.dashboard.updateTransactions'),
+                t('in-forge:plugins.sapHana.dashboard.rollbacks'),
+                t('in-forge:plugins.sapHana.dashboard.commits')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
         <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.requests')}>
           <Chart
             snapshotId={snapshot.get('id')}
@@ -190,14 +218,27 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.virtualMemory')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: bytesTwoDecimalPlaces,
+              metrics: ['stats.logicalMemory'],
+              labels: [t('in-forge:plugins.sapHana.dashboard.allocated')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
         <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.swapMemory')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               formatter: bytesTwoDecimalPlaces,
-              metrics: ['stats.freeSwapSpace', 'stats.usedSwapSpace'],
-              labels: [t('in-forge:plugins.sapHana.dashboard.free'), t('in-forge:plugins.sapHana.dashboard.used')],
+              metrics: ['stats.usedSwapSpace', 'stats.freeSwapSpace'],
+              labels: [t('in-forge:plugins.sapHana.dashboard.used'), t('in-forge:plugins.sapHana.dashboard.free')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -374,6 +415,7 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
       <ServiceDetailsStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <GarbageCollectionStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ExpensiveStatementStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <ActiveStatementStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <SqlPlanCacheStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <LockWaitStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <NetworkStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
@@ -384,6 +426,7 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
       <SystemEventStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <UserLockStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <SchedulerJobsStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <TransactionStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <AlertsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
